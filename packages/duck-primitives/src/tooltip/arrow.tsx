@@ -5,7 +5,7 @@ import { type ScopedProps, usePopperScope } from './tooltip'
 
 const ARROW_NAME = 'TooltipArrow'
 
-type TooltipArrowElement = React.ElementRef<typeof PopperPrimitive.PopperAnchor>
+type TooltipArrowElement = React.ComponentRef<typeof PopperPrimitive.PopperAnchor>
 type PopperArrowProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.PopperAnchor>
 export interface TooltipArrowProps extends PopperArrowProps {}
 

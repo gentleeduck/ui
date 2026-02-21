@@ -14,7 +14,7 @@ type ProgressState = 'indeterminate' | 'complete' | 'loading'
 type ProgressContextValue = { value: number | null; max: number }
 const [ProgressProvider, useProgressContext] = createProgressContext<ProgressContextValue>(PROGRESS_NAME)
 
-type ProgressElement = React.ElementRef<typeof Primitive.div>
+type ProgressElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 interface ProgressProps extends PrimitiveDivProps {
   value?: number | null | undefined

@@ -60,7 +60,7 @@ const RovingFocusGroup = React.forwardRef<RovingFocusGroupElement, RovingFocusGr
 
 RovingFocusGroup.displayName = GROUP_NAME
 
-type RovingFocusGroupImplElement = React.ElementRef<typeof Primitive.div>
+type RovingFocusGroupImplElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 interface RovingFocusGroupImplProps extends Omit<PrimitiveDivProps, 'dir'>, RovingFocusGroupOptions {
   currentTabStopId?: string | null

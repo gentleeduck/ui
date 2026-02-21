@@ -21,12 +21,12 @@ const DEFAULT_DELAY_DURATION = 700
 export const TOOLTIP_OPEN = 'tooltip.open'
 
 type TooltipProviderContextValue = {
-  isOpenDelayedRef: React.MutableRefObject<boolean>
+  isOpenDelayedRef: React.RefObject<boolean>
   delayDuration: number
   onOpen(): void
   onClose(): void
   onPointerInTransitChange(inTransit: boolean): void
-  isPointerInTransitRef: React.MutableRefObject<boolean>
+  isPointerInTransitRef: React.RefObject<boolean>
   disableHoverableContent: boolean
 }
 
@@ -98,7 +98,7 @@ TooltipProvider.displayName = PROVIDER_NAME
  * Tooltip
  * -----------------------------------------------------------------------------------------------*/
 
-type TooltipTriggerElement = React.ElementRef<'button'>
+type TooltipTriggerElement = React.ComponentRef<'button'>
 
 type TooltipContextValue = {
   contentId: string

@@ -50,7 +50,7 @@ function markGentleduckInWindow(): void {
 function createPrimitive<E extends Node>(node: E): PrimitiveComponent<E> {
   const Slot = createSlot(`Primitive.${node}`)
 
-  const PrimitiveNode = React.forwardRef<React.ElementRef<E>, PrimitivePropsWithRef<E>>(
+  const PrimitiveNode = React.forwardRef<React.ComponentRef<E>, PrimitivePropsWithRef<E>>(
     ({ asChild, ...primitiveProps }, forwardedRef) => {
       const Comp = (asChild ? Slot : node) as React.ElementType
 

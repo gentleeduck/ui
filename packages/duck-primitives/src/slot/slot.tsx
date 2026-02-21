@@ -1,16 +1,6 @@
 import * as React from 'react'
 import { composeRefs } from '../libs/compose-ref'
 
-/* -------------------------------------------------------------------------------------------------
- * Slot
- *
- * Enables component composition via the "asChild" pattern. When a Slot wraps
- * a Slottable child, it replaces the rendered element with the Slottable's
- * child while merging props (event handlers compose, styles/classNames merge).
- *
- * createSlot and createSlottable produce named instances for better debugging.
- * -----------------------------------------------------------------------------------------------*/
-
 interface SlotProps extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode
 }
@@ -23,10 +13,13 @@ interface SlotProps extends React.HTMLAttributes<HTMLElement> {
     const slottable = childrenArray.find(isSlottable)
 
     if (slottable) {
+      // the new element to render is the one passed as a child of `Slottable`
       const newElement = slottable.props.children
 
       const newChildren = childrenArray.map((child) => {
         if (child === slottable) {
+          // because the new element will be the one rendered, we are only interested
+          // in grabbing its children (`newElement.props.children`)
           if (React.Children.count(newElement) > 1) return React.Children.only(null)
           return React.isValidElement(newElement) ? (newElement.props as { children: React.ReactNode }).children : null
         } else {
@@ -54,24 +47,18 @@ interface SlotProps extends React.HTMLAttributes<HTMLElement> {
 
 const Slot = createSlot('Slot')
 
-/* -------------------------------------------------------------------------------------------------
- * SlotClone
- *
- * Internal component that clones its single child element, merging in the
- * slot's props and composing refs. Throws if given more than one child.
- * -----------------------------------------------------------------------------------------------*/
-
 interface SlotCloneProps {
   children: React.ReactNode
 }
 
 /* @__NO_SIDE_EFFECTS__ */ function createSlotClone(ownerName: string) {
-  const SlotClone = React.forwardRef<HTMLElement, SlotCloneProps>((props, forwardedRef) => {
+  const SlotClone = React.forwardRef<any, SlotCloneProps>((props, forwardedRef) => {
     const { children, ...slotProps } = props
 
     if (React.isValidElement(children)) {
-      const childrenRef = getElementRef(children)
+      const childrenRef = getComponentRef(children)
       const props = mergeProps(slotProps, children.props as AnyProps)
+      // do not pass ref to React.Fragment for React 19 compatibility
       if (children.type !== React.Fragment) {
         props.ref = forwardedRef ? composeRefs(forwardedRef, childrenRef) : childrenRef
       }
@@ -87,21 +74,16 @@ interface SlotCloneProps {
 
 /* -------------------------------------------------------------------------------------------------
  * Slottable
- *
- * Wrapper component that marks its children as the "slot target".
- * When placed inside a Slot, its child element replaces the Slot's element.
- * Identified via a symbol marker (__gentleduckId) rather than instanceof checks
- * to work across module boundaries.
  * -----------------------------------------------------------------------------------------------*/
 
-const SLOTTABLE_IDENTIFIER = Symbol('gentleduck.slottable')
+const SLOTTABLE_IDENTIFIER = Symbol('radix.slottable')
 
 interface SlottableProps {
   children: React.ReactNode
 }
 
 interface SlottableComponent extends React.FC<SlottableProps> {
-  __gentleduckId: symbol
+  __radixId: symbol
 }
 
 /* @__NO_SIDE_EFFECTS__ */ export function createSlottable(ownerName: string) {
@@ -109,15 +91,13 @@ interface SlottableComponent extends React.FC<SlottableProps> {
     return <>{children}</>
   }
   Slottable.displayName = `${ownerName}.Slottable`
-  Slottable.__gentleduckId = SLOTTABLE_IDENTIFIER
+  Slottable.__radixId = SLOTTABLE_IDENTIFIER
   return Slottable
 }
 
 const Slottable = createSlottable('Slottable')
 
-/* -------------------------------------------------------------------------------------------------
- * Helpers
- * -----------------------------------------------------------------------------------------------*/
+/* ---------------------------------------------------------------------------------------------- */
 
 type AnyProps = Record<string, any>
 
@@ -125,13 +105,13 @@ function isSlottable(child: React.ReactNode): child is React.ReactElement<Slotta
   return (
     React.isValidElement(child) &&
     typeof child.type === 'function' &&
-    '__gentleduckId' in child.type &&
-    child.type.__gentleduckId === SLOTTABLE_IDENTIFIER
+    '__radixId' in child.type &&
+    child.type.__radixId === SLOTTABLE_IDENTIFIER
   )
 }
 
-/** Merges slot props with child props. Handlers compose, styles/classNames merge. */
 function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
+  // all child props should override
   const overrideProps = { ...childProps }
 
   for (const propName in childProps) {
@@ -140,16 +120,21 @@ function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
 
     const isHandler = /^on[A-Z]/.test(propName)
     if (isHandler) {
+      // if the handler exists on both, we compose them
       if (slotPropValue && childPropValue) {
         overrideProps[propName] = (...args: unknown[]) => {
           const result = childPropValue(...args)
           slotPropValue(...args)
           return result
         }
-      } else if (slotPropValue) {
+      }
+      // but if it exists only on the slot, we use only this one
+      else if (slotPropValue) {
         overrideProps[propName] = slotPropValue
       }
-    } else if (propName === 'style') {
+    }
+    // if it's `style`, we merge them
+    else if (propName === 'style') {
       overrideProps[propName] = { ...slotPropValue, ...childPropValue }
     } else if (propName === 'className') {
       overrideProps[propName] = [slotPropValue, childPropValue].filter(Boolean).join(' ')
@@ -159,25 +144,29 @@ function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
   return { ...slotProps, ...overrideProps }
 }
 
-/**
- * Accesses a ReactElement's ref without triggering version-specific warnings.
- * React 18 DEV warns on element.props.ref, React 19 DEV warns on element.ref.
- */
-function getElementRef(element: React.ReactElement) {
+// Before React 19 accessing `element.props.ref` will throw a warning and suggest using `element.ref`
+// After React 19 accessing `element.ref` does the opposite.
+// https://github.com/facebook/react/pull/28348
+//
+// Access the ref using the method that doesn't yield a warning.
+function getComponentRef(element: React.ReactElement) {
+  // React <=18 in DEV
   let getter = Object.getOwnPropertyDescriptor(element.props, 'ref')?.get
   let mayWarn = getter && 'isReactWarning' in getter && getter.isReactWarning
   if (mayWarn) {
-    return (element as unknown as { ref?: React.Ref<unknown> }).ref
+    return (element as any).ref
   }
 
+  // React 19 in DEV
   getter = Object.getOwnPropertyDescriptor(element, 'ref')?.get
   mayWarn = getter && 'isReactWarning' in getter && getter.isReactWarning
   if (mayWarn) {
     return (element.props as { ref?: React.Ref<unknown> }).ref
   }
 
-  return (element.props as { ref?: React.Ref<unknown> }).ref || (element as unknown as { ref?: React.Ref<unknown> }).ref
+  // Not DEV
+  return (element.props as { ref?: React.Ref<unknown> }).ref || (element as any).ref
 }
 
-export { Slot, Slottable, Slot as Root }
+export { Slot, Slottable }
 export type { SlotProps }

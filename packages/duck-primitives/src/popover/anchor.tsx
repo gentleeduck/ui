@@ -11,7 +11,7 @@ export interface PopoverAnchorProps extends React.ComponentPropsWithRef<typeof P
  * When present, the trigger will not act as the positioning anchor.
  */
 export const PopoverAnchor = React.forwardRef<
-  React.ElementRef<typeof PopperPrimitive.PopperAnchor>,
+  React.ComponentRef<typeof PopperPrimitive.PopperAnchor>,
   ScopedProps<PopoverAnchorProps>
 >((props, forwardedRef) => {
   const { __scopePopover, ...anchorProps } = props

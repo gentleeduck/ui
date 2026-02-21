@@ -17,7 +17,7 @@ import { usePortalContext } from './portal'
 
 const CONTENT_NAME = 'PopoverContent'
 
-type PopoverContentElement = React.ElementRef<typeof PopperPrimitive.PopperContent>
+type PopoverContentElement = React.ComponentRef<typeof PopperPrimitive.PopperContent>
 type PopperContentProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.PopperContent>
 type FocusScopeProps = React.ComponentPropsWithoutRef<typeof FocusScope>
 type DismissableLayerProps = React.ComponentPropsWithoutRef<typeof DismissableLayer>

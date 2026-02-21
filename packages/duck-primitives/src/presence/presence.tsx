@@ -26,7 +26,7 @@ const Presence: React.FC<PresenceProps> = (props) => {
     typeof children === 'function' ? children({ present: presence.isPresent }) : React.Children.only(children)
   ) as React.ReactElement<{ ref?: React.Ref<HTMLElement> }>
 
-  const ref = useComposedRefs(presence.ref, getElementRef(child))
+  const ref = useComposedRefs(presence.ref, getComponentRef(child))
   const forceMount = typeof children === 'function'
   return forceMount || presence.isPresent ? React.cloneElement(child, { ref }) : null
 }
@@ -159,7 +159,7 @@ function getAnimationName(styles?: CSSStyleDeclaration) {
  * Accesses a ReactElement's ref without triggering version-specific warnings.
  * React 18 DEV warns on element.props.ref, React 19 DEV warns on element.ref.
  */
-function getElementRef(element: React.ReactElement<{ ref?: React.Ref<unknown> }>) {
+function getComponentRef(element: React.ReactElement<{ ref?: React.Ref<unknown> }>) {
   let getter = Object.getOwnPropertyDescriptor(element.props, 'ref')?.get
   let mayWarn = getter && 'isReactWarning' in getter && getter.isReactWarning
   if (mayWarn) {

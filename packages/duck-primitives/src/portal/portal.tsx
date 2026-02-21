@@ -13,7 +13,7 @@ import { Primitive } from '../primitive-elements'
 
 const PORTAL_NAME = 'Portal'
 
-type PortalElement = React.ElementRef<typeof Primitive.div>
+type PortalElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 interface PortalProps extends PrimitiveDivProps {
   /** The container element to portal into. Defaults to document.body. */

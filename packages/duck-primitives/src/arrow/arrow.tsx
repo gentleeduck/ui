@@ -11,7 +11,7 @@ import { Primitive } from '../primitive-elements'
 
 const NAME = 'Arrow'
 
-type ArrowElement = React.ElementRef<typeof Primitive.svg>
+type ArrowElement = React.ComponentRef<typeof Primitive.svg>
 type ArrowProps = React.ComponentPropsWithoutRef<typeof Primitive.svg>
 
 const Arrow = React.forwardRef<ArrowElement, ArrowProps>((props, forwardedRef) => {

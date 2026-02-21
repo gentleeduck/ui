@@ -10,7 +10,7 @@ import { type ScopedProps, useHoverCardContext, usePopperScope } from './hover-c
 
 const TRIGGER_NAME = 'HoverCardTrigger'
 
-type HoverCardTriggerElement = React.ElementRef<typeof Primitive.a>
+type HoverCardTriggerElement = React.ComponentRef<typeof Primitive.a>
 type PrimitiveLinkProps = React.ComponentPropsWithoutRef<typeof Primitive.a>
 export interface HoverCardTriggerProps extends PrimitiveLinkProps {}
 

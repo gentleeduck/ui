@@ -11,21 +11,22 @@ const CLOSE_NAME = 'PopoverClose'
 export interface PopoverCloseProps extends PopoverTriggerProps {}
 
 /** Button that closes the popover when clicked. */
-export const PopoverClose = React.forwardRef<React.ElementRef<typeof Primitive.button>, ScopedProps<PopoverCloseProps>>(
-  (props, forwardedRef) => {
-    const { __scopePopover, ...closeProps } = props
-    const context = usePopoverContext(CLOSE_NAME, __scopePopover)
+export const PopoverClose = React.forwardRef<
+  React.ComponentRef<typeof Primitive.button>,
+  ScopedProps<PopoverCloseProps>
+>((props, forwardedRef) => {
+  const { __scopePopover, ...closeProps } = props
+  const context = usePopoverContext(CLOSE_NAME, __scopePopover)
 
-    return (
-      <Primitive.button
-        type="button"
-        {...closeProps}
-        ref={forwardedRef}
-        // Compose the consumer onClick with the close handler so both fire in order
-        onClick={composeEventHandlers(closeProps.onClick, () => context.onOpenChange(false))}
-      />
-    )
-  },
-)
+  return (
+    <Primitive.button
+      type="button"
+      {...closeProps}
+      ref={forwardedRef}
+      // Compose the consumer onClick with the close handler so both fire in order
+      onClick={composeEventHandlers(closeProps.onClick, () => context.onOpenChange(false))}
+    />
+  )
+})
 
 PopoverClose.displayName = CLOSE_NAME

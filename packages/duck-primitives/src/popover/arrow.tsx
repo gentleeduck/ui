@@ -8,7 +8,7 @@ export interface PopoverArrowProps extends React.ComponentPropsWithRef<typeof Po
 
 /** Renders the popover arrow indicator. Delegates to PopperArrow for positioning. */
 export const PopoverArrow = React.forwardRef<
-  React.ElementRef<typeof PopperPrimitive.PopperAnchor>,
+  React.ComponentRef<typeof PopperPrimitive.PopperAnchor>,
   ScopedProps<PopoverArrowProps>
 >((props, forwardedRef) => {
   const { __scopePopover, ...arrowProps } = props
