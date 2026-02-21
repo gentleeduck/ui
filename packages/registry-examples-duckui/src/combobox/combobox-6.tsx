@@ -82,7 +82,7 @@ export default function ComboboxForm() {
                     </Button>
                   </FormControl>
                 </PopoverTrigger>
-                <PopoverContent className="w-[200px] p-0">
+                <PopoverContent className="w-[200px] min-w-auto p-0">
                   <Command>
                     <CommandInput className="h-9" placeholder="Search framework..." />
                     <CommandList>

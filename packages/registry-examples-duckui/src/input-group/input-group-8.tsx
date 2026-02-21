@@ -13,16 +13,16 @@ export default function InputGroupLabel() {
     <TooltipProvider>
       <div className="grid w-full max-w-sm gap-4">
         <InputGroup>
-          <InputGroupInput id="email" placeholder="shadcn" />
+          <InputGroupInput id="project" placeholder="my-project" />
           <InputGroupAddon>
-            <Label htmlFor="email">@</Label>
+            <Label htmlFor="project">/</Label>
           </InputGroupAddon>
         </InputGroup>
         <InputGroup>
-          <InputGroupInput id="email-2" placeholder="shadcn@vercel.com" />
+          <InputGroupInput id="workspace" placeholder="acme-workspace" />
           <InputGroupAddon align="block-start">
-            <Label className="text-foreground" htmlFor="email-2">
-              Email
+            <Label className="text-foreground" htmlFor="workspace">
+              Workspace
             </Label>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -31,7 +31,7 @@ export default function InputGroupLabel() {
                 </InputGroupButton>
               </TooltipTrigger>
               <TooltipContent>
-                <p>We&apos;ll use this to send you notifications</p>
+                <p>Workspace names must be unique across your organization</p>
               </TooltipContent>
             </Tooltip>
           </InputGroupAddon>

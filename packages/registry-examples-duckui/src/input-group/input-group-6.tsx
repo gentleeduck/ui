@@ -5,7 +5,7 @@ import {
   InputGroupText,
   InputGroupTextarea,
 } from '@gentleduck/registry-ui-duckui/input-group'
-import { IconBrandJavascript, IconCopy, IconCornerDownLeft, IconRefresh } from '@tabler/icons-react'
+import { IconCopy, IconCornerDownLeft, IconDatabase, IconRefresh } from '@tabler/icons-react'
 
 export default function InputGroupTextareaExample() {
   return (
@@ -14,18 +14,18 @@ export default function InputGroupTextareaExample() {
         <InputGroupTextarea
           className="min-h-[200px]"
           id="textarea-code-32"
-          placeholder="console.log('Hello, world!');"
+          placeholder="SELECT * FROM users WHERE active = true;"
         />
         <InputGroupAddon align="block-end" className="border-t">
-          <InputGroupText>Line 1, Column 1</InputGroupText>
+          <InputGroupText>Row 1, Col 1</InputGroupText>
           <InputGroupButton className="ml-auto" size="sm" variant="default">
-            Run <IconCornerDownLeft />
+            Execute <IconCornerDownLeft />
           </InputGroupButton>
         </InputGroupAddon>
         <InputGroupAddon align="block-start" className="border-b">
           <InputGroupText className="font-medium font-mono">
-            <IconBrandJavascript />
-            script.js
+            <IconDatabase />
+            production.sql
           </InputGroupText>
           <InputGroupButton className="ml-auto" size="icon-xs">
             <IconRefresh />

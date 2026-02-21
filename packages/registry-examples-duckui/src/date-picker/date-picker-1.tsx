@@ -23,7 +23,7 @@ export default function CalendarDemo() {
             <ChevronDownIcon />
           </Button>
         </PopoverTrigger>
-        <PopoverContent side="top" align="start" className="w-auto overflow-hidden p-0">
+        <PopoverContent side="top" align="start" className="min-w-auto overflow-hidden p-0">
           <Calendar
             captionLayout="dropdown"
             mode="single"

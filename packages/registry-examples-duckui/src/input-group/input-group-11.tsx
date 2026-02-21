@@ -10,11 +10,11 @@ export default function InputGroupCustom() {
         <Textarea
           className="field-sizing-content flex min-h-16 w-full resize-none rounded-md bg-transparent px-3 py-2.5 text-base outline-none transition-[color,box-shadow] md:text-sm"
           data-slot="input-group-control"
-          placeholder="Autoresize textarea..."
+          placeholder="Share your feedback..."
         />
         <InputGroupAddon align="block-end">
           <InputGroupButton className="ml-auto" size="sm" variant="default">
-            Submit
+            Send
           </InputGroupButton>
         </InputGroupAddon>
       </InputGroup>

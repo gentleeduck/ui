@@ -7,8 +7,8 @@ export default function ItemLink() {
       <Item asChild>
         <a href="#">
           <ItemContent>
-            <ItemTitle>Visit our documentation</ItemTitle>
-            <ItemDescription>Learn how to get started with our components.</ItemDescription>
+            <ItemTitle>API Reference</ItemTitle>
+            <ItemDescription>Explore endpoints, parameters, and response schemas.</ItemDescription>
           </ItemContent>
           <ItemActions>
             <ChevronRightIcon className="size-4" />
@@ -18,8 +18,8 @@ export default function ItemLink() {
       <Item asChild variant="outline">
         <a href="#" rel="noopener noreferrer" target="_blank">
           <ItemContent>
-            <ItemTitle>External resource</ItemTitle>
-            <ItemDescription>Opens in a new tab with security attributes.</ItemDescription>
+            <ItemTitle>Changelog - February 2026</ItemTitle>
+            <ItemDescription>See what shipped this month across all packages.</ItemDescription>
           </ItemContent>
           <ItemActions>
             <ExternalLinkIcon className="size-4" />

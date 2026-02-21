@@ -6,13 +6,13 @@ export default function KbdDemo() {
   return (
     <div className="flex w-full max-w-xs flex-col gap-6">
       <InputGroup>
-        <InputGroupInput placeholder="Search..." />
+        <InputGroupInput placeholder="Quick find..." />
         <InputGroupAddon>
           <SearchIcon />
         </InputGroupAddon>
         <InputGroupAddon align="inline-end">
-          <Kbd>⌘</Kbd>
-          <Kbd>K</Kbd>
+          <Kbd>Ctrl</Kbd>
+          <Kbd>/</Kbd>
         </InputGroupAddon>
       </InputGroup>
     </div>

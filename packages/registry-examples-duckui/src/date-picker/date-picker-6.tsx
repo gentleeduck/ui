@@ -64,7 +64,7 @@ export default function CalendarDemo() {
                     </Button>
                   </PopoverTrigger>
                 </FormControl>
-                <PopoverContent side="bottom" align="start" className="w-auto p-0">
+                <PopoverContent side="bottom" align="start" className="min-w-auto p-0">
                   <Calendar
                     captionLayout="dropdown"
                     disabled={(date) => date > new Date() || date < new Date('1900-01-01')}

@@ -50,7 +50,7 @@ export default function ComboboxPopover() {
             {selectedStatus ? selectedStatus.label : '+ Set status'}
           </Button>
         </PopoverTrigger>
-        <PopoverContent side="bottom" align="end" className="p-0">
+        <PopoverContent side="bottom" align="end" className="w-[210px] min-w-auto p-0">
           <Command>
             <CommandInput placeholder="Change status..." />
             <CommandList>

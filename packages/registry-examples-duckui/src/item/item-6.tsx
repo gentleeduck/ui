@@ -8,24 +8,24 @@ import {
 } from '@gentleduck/registry-ui-duckui/item'
 import Image from 'next/image'
 
-const music = [
+const articles = [
   {
-    album: 'Electric Nights',
-    artist: 'Neon Dreams',
-    duration: '3:45',
-    title: 'Midnight City Lights',
+    author: 'Dana Whitfield',
+    category: 'Engineering',
+    readTime: '6 min',
+    title: 'Building Accessible Components from Scratch',
   },
   {
-    album: 'Urban Stories',
-    artist: 'The Morning Brew',
-    duration: '4:05',
-    title: 'Coffee Shop Conversations',
+    author: 'Marcus Lee',
+    category: 'Design',
+    readTime: '4 min',
+    title: 'Color Systems That Scale Across Themes',
   },
   {
-    album: 'Binary Beats',
-    artist: 'Cyber Symphony',
-    duration: '3:30',
-    title: 'Digital Rain',
+    author: 'Priya Sharma',
+    category: 'DevOps',
+    readTime: '8 min',
+    title: 'Zero-Downtime Deployments with Blue-Green Strategy',
   },
 ]
 
@@ -33,26 +33,26 @@ export default function ItemImage() {
   return (
     <div className="flex w-full max-w-md flex-col gap-6">
       <ItemGroup className="gap-4">
-        {music.map((song) => (
-          <Item asChild key={song.title} role="listitem" variant="outline">
+        {articles.map((article) => (
+          <Item asChild key={article.title} role="listitem" variant="outline">
             <a href="#">
               <ItemMedia variant="image">
                 <Image
-                  alt={song.title}
+                  alt={article.title}
                   className="object-cover grayscale"
                   height={32}
-                  src={`https://avatar.vercel.sh/${song.title}`}
+                  src={`https://avatar.vercel.sh/${article.title}`}
                   width={32}
                 />
               </ItemMedia>
               <ItemContent>
                 <ItemTitle className="line-clamp-1">
-                  {song.title} - <span className="text-muted-foreground">{song.album}</span>
+                  {article.title} - <span className="text-muted-foreground">{article.category}</span>
                 </ItemTitle>
-                <ItemDescription>{song.artist}</ItemDescription>
+                <ItemDescription>{article.author}</ItemDescription>
               </ItemContent>
               <ItemContent className="flex-none text-center">
-                <ItemDescription>{song.duration}</ItemDescription>
+                <ItemDescription>{article.readTime}</ItemDescription>
               </ItemContent>
             </a>
           </Item>

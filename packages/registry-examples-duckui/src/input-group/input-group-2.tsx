@@ -1,35 +1,37 @@
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@gentleduck/registry-ui-duckui/input-group'
-import { CheckIcon, CreditCardIcon, InfoIcon, MailIcon, SearchIcon, StarIcon } from 'lucide-react'
+import { AtSignIcon, CheckCircleIcon, GlobeIcon, LinkIcon, PackageIcon, PhoneIcon } from 'lucide-react'
 
 export default function InputGroupIcon() {
   return (
     <div className="grid w-full max-w-sm gap-6">
       <InputGroup>
-        <InputGroupInput placeholder="Search..." />
+        <InputGroupInput placeholder="+1 (555) 000-0000" type="tel" />
         <InputGroupAddon>
-          <SearchIcon />
+          <PhoneIcon />
         </InputGroupAddon>
       </InputGroup>
       <InputGroup>
-        <InputGroupInput placeholder="Enter your email" type="email" />
+        <InputGroupInput placeholder="Enter tracking number" />
         <InputGroupAddon>
-          <MailIcon />
+          <PackageIcon />
         </InputGroupAddon>
       </InputGroup>
       <InputGroup>
-        <InputGroupInput placeholder="Card number" />
+        <InputGroupInput placeholder="Look up domain" />
         <InputGroupAddon>
-          <CreditCardIcon />
+          <GlobeIcon />
         </InputGroupAddon>
         <InputGroupAddon align="inline-end">
-          <CheckIcon />
+          <CheckCircleIcon />
         </InputGroupAddon>
       </InputGroup>
       <InputGroup>
-        <InputGroupInput placeholder="Card number" />
+        <InputGroupInput placeholder="username" />
+        <InputGroupAddon>
+          <AtSignIcon />
+        </InputGroupAddon>
         <InputGroupAddon align="inline-end">
-          <StarIcon />
-          <InfoIcon />
+          <LinkIcon />
         </InputGroupAddon>
       </InputGroup>
     </div>

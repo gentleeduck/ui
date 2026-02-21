@@ -62,14 +62,14 @@ export default function CalendarDemo() {
         <Popover onOpenChange={setOpen} open={open}>
           <PopoverTrigger asChild>
             <Button
-              className="absolute top-1/2 right-1 h-fit -translate-y-1/2 p-1 px-1.5 [&_svg]:w-4"
+              className="absolute top-1/2 right-1 h-fit w-2 -translate-y-1/2 p-1 px-1.5 [&_svg]:w-4"
               id="date-picker"
               variant="ghost">
               <CalendarIcon />
               <span className="sr-only">Select date</span>
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-auto overflow-hidden p-0" side="top" sideOffset={10}>
+          <PopoverContent className="min-w-auto overflow-hidden p-0" side="top" sideOffset={10}>
             <Calendar
               captionLayout="dropdown"
               mode="single"

@@ -8,7 +8,7 @@ import {
   ItemMedia,
   ItemTitle,
 } from '@gentleduck/registry-ui-duckui/item'
-import { Plus } from 'lucide-react'
+import { UserPlusIcon } from 'lucide-react'
 
 export default function ItemAvatar() {
   return (
@@ -16,52 +16,37 @@ export default function ItemAvatar() {
       <Item variant="outline">
         <ItemMedia>
           <Avatar
-            alt="a profile picture for wildduck2"
+            alt="profile picture for alexchen"
             className="size-10"
-            fallback="WD"
-            src="https://github.com/wildduck2.png"
+            fallback="AC"
+            src="https://avatar.vercel.sh/alexchen"
           />
         </ItemMedia>
         <ItemContent>
-          <ItemTitle>Wildduck</ItemTitle>
-          <ItemDescription>Last seen 5 months ago</ItemDescription>
+          <ItemTitle>Alex Chen</ItemTitle>
+          <ItemDescription>Frontend Engineer -- joined 3 weeks ago</ItemDescription>
         </ItemContent>
         <ItemActions>
-          <Button aria-label="Invite" className="rounded-full" size="icon-sm" variant="outline">
-            <Plus />
+          <Button aria-label="Follow" className="rounded-full" size="icon-sm" variant="outline">
+            <UserPlusIcon />
           </Button>
         </ItemActions>
       </Item>
       <Item variant="outline">
         <ItemMedia>
           <div className="flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
-            <Avatar
-              alt="@shadcn"
-              className="hidden sm:flex"
-              fallback="GD"
-              src="https://raw.githubusercontent.com/wildduck2/duck-starter-kit/15fbc61fb02cd21a873108b380ca12fe31f50099/apps/document-client/public/placeholder2.webp"
-            />
-            <Avatar
-              alt="@shadcn"
-              className="hidden sm:flex"
-              fallback="GD"
-              src="https://raw.githubusercontent.com/wildduck2/duck-starter-kit/15fbc61fb02cd21a873108b380ca12fe31f50099/apps/document-client/public/placeholder2.webp"
-            />
-            <Avatar
-              alt="@shadcn"
-              className="hidden sm:flex"
-              fallback="GD"
-              src="https://raw.githubusercontent.com/wildduck2/duck-starter-kit/15fbc61fb02cd21a873108b380ca12fe31f50099/apps/document-client/public/placeholder2.webp"
-            />
+            <Avatar alt="sara" className="hidden sm:flex" fallback="SM" src="https://avatar.vercel.sh/sara" />
+            <Avatar alt="omar" className="hidden sm:flex" fallback="OK" src="https://avatar.vercel.sh/omar" />
+            <Avatar alt="liwei" className="hidden sm:flex" fallback="LW" src="https://avatar.vercel.sh/liwei" />
           </div>
         </ItemMedia>
         <ItemContent>
-          <ItemTitle>No Team Members</ItemTitle>
-          <ItemDescription>Invite your team to collaborate on this project.</ItemDescription>
+          <ItemTitle>Design Review Group</ItemTitle>
+          <ItemDescription>3 reviewers awaiting your feedback on the mockups.</ItemDescription>
         </ItemContent>
         <ItemActions>
           <Button size="sm" variant="outline">
-            Invite
+            Review
           </Button>
         </ItemActions>
       </Item>

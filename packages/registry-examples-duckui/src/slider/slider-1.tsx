@@ -1,6 +1,5 @@
-import { cn } from '@gentleduck/libs/cn'
 import { Slider } from '@gentleduck/registry-ui-duckui/slider'
 
 export default function SliderDemo() {
-  return <Slider className={cn('w-[60%]')} defaultValue={[50]} max={100} />
+  return <Slider defaultValue={[75]} max={100} step={1} className="mx-auto w-full max-w-xs" />
 }

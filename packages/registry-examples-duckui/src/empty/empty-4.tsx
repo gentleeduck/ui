@@ -21,13 +21,13 @@ export default function EmptyAvatar() {
             src="https://github.com/wildduck2.png"
           />
         </EmptyMedia>
-        <EmptyTitle>User Offline</EmptyTitle>
+        <EmptyTitle>No Activity Yet</EmptyTitle>
         <EmptyDescription>
-          This user is currently offline. You can leave a message to notify them or try again later.
+          This account has no recent activity. Start a conversation or share an update to get things going.
         </EmptyDescription>
       </EmptyHeader>
       <EmptyContent>
-        <Button size="sm">Leave Message</Button>
+        <Button size="sm">Share Update</Button>
       </EmptyContent>
     </Empty>
   )

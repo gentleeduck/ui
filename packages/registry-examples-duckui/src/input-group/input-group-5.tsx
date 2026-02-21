@@ -12,7 +12,7 @@ export default function InputGroupTooltip() {
     <TooltipProvider>
       <div className="grid w-full max-w-sm gap-4">
         <InputGroup>
-          <InputGroupInput placeholder="Enter password" type="password" />
+          <InputGroupInput placeholder="Paste your SSH public key" />
           <InputGroupAddon align="inline-end">
             <Tooltip>
               <TooltipTrigger asChild>
@@ -21,13 +21,13 @@ export default function InputGroupTooltip() {
                 </InputGroupButton>
               </TooltipTrigger>
               <TooltipContent align="end" side="top">
-                <p>Password must be at least 8 characters</p>
+                <p>Starts with ssh-rsa, ssh-ed25519, or ecdsa-sha2</p>
               </TooltipContent>
             </Tooltip>
           </InputGroupAddon>
         </InputGroup>
         <InputGroup>
-          <InputGroupInput placeholder="Your email address" />
+          <InputGroupInput placeholder="https://hooks.example.com/events" />
           <InputGroupAddon align="inline-end">
             <Tooltip>
               <TooltipTrigger asChild>
@@ -36,13 +36,13 @@ export default function InputGroupTooltip() {
                 </InputGroupButton>
               </TooltipTrigger>
               <TooltipContent align="end" side="top">
-                <p>We&apos;ll use this to send you notifications</p>
+                <p>Webhook events are sent as POST requests</p>
               </TooltipContent>
             </Tooltip>
           </InputGroupAddon>
         </InputGroup>
         <InputGroup>
-          <InputGroupInput placeholder="Enter API key" />
+          <InputGroupInput placeholder="DATABASE_URL" />
           <Tooltip>
             <TooltipTrigger asChild>
               <InputGroupAddon>
@@ -52,7 +52,7 @@ export default function InputGroupTooltip() {
               </InputGroupAddon>
             </TooltipTrigger>
             <TooltipContent align="end" side="top">
-              <p>Click for help with API keys</p>
+              <p>Environment variables are encrypted at rest</p>
             </TooltipContent>
           </Tooltip>
         </InputGroup>

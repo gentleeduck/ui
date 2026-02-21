@@ -16,7 +16,7 @@ export default function InputGroupDropdown() {
   return (
     <div className="grid w-full max-w-sm gap-4">
       <InputGroup>
-        <InputGroupInput placeholder="Enter file name" />
+        <InputGroupInput placeholder="Enter commit message" />
         <InputGroupAddon align="inline-end">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -25,26 +25,26 @@ export default function InputGroupDropdown() {
               </InputGroupButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent side="bottom" align="end">
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuItem>Copy path</DropdownMenuItem>
-              <DropdownMenuItem>Open location</DropdownMenuItem>
+              <DropdownMenuItem>Amend last commit</DropdownMenuItem>
+              <DropdownMenuItem>Sign commit</DropdownMenuItem>
+              <DropdownMenuItem>View history</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </InputGroupAddon>
       </InputGroup>
       <InputGroup className="[--radius:1rem]">
-        <InputGroupInput placeholder="Enter search query" />
+        <InputGroupInput placeholder="Find components..." />
         <InputGroupAddon align="inline-end">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <InputGroupButton className="!pr-1.5 text-xs" variant="ghost">
-                Search In... <ChevronDownIcon className="size-3" />
+                Scope... <ChevronDownIcon className="size-3" />
               </InputGroupButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent side="bottom" align="end" className="[--radius:0.95rem]">
-              <DropdownMenuItem>Documentation</DropdownMenuItem>
-              <DropdownMenuItem>Blog Posts</DropdownMenuItem>
-              <DropdownMenuItem>Changelog</DropdownMenuItem>
+              <DropdownMenuItem>All Packages</DropdownMenuItem>
+              <DropdownMenuItem>UI Components</DropdownMenuItem>
+              <DropdownMenuItem>Primitives</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         </InputGroupAddon>

@@ -51,11 +51,11 @@ export default function ComboBoxResponsive() {
     return (
       <Popover onOpenChange={setOpen} open={open}>
         <PopoverTrigger asChild>
-          <Button className="w-[150px] justify-start" variant="outline">
+          <Button className="w-[200px] justify-start" variant="outline">
             {selectedStatus ? selectedStatus.label : '+ Set status'}
           </Button>
         </PopoverTrigger>
-        <PopoverContent side="bottom" align="start" className="w-[200px] p-0">
+        <PopoverContent side="bottom" align="start" className="w-[200px] min-w-auto p-0">
           <StatusList setOpen={setOpen} setSelectedStatus={setSelectedStatus} />
         </PopoverContent>
       </Popover>
@@ -65,7 +65,7 @@ export default function ComboBoxResponsive() {
   return (
     <Drawer onOpenChange={setOpen} open={open}>
       <DrawerTrigger asChild>
-        <Button className="w-[150px] justify-start" variant="outline">
+        <Button className="w-[200px] justify-start" variant="outline">
           {selectedStatus ? selectedStatus.label : '+ Set status'}
         </Button>
       </DrawerTrigger>

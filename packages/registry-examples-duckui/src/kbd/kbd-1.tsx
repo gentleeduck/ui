@@ -4,15 +4,15 @@ export default function KbdDemo() {
   return (
     <div className="flex flex-col items-center gap-4">
       <KbdGroup>
-        <Kbd>⌘</Kbd>
-        <Kbd>⇧</Kbd>
-        <Kbd>⌥</Kbd>
-        <Kbd>⌃</Kbd>
+        <Kbd>Ctrl</Kbd>
+        <Kbd>Shift</Kbd>
+        <Kbd>Alt</Kbd>
+        <Kbd>Fn</Kbd>
       </KbdGroup>
       <KbdGroup>
         <Kbd>Ctrl</Kbd>
         <span>+</span>
-        <Kbd>B</Kbd>
+        <Kbd>S</Kbd>
       </KbdGroup>
     </div>
   )
