@@ -2,6 +2,7 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import * as React from 'react'
+import { Textarea } from '../textarea'
 import type { JsonEditorViewProps } from './json-editor.types'
 
 export function JsonEditorView({
@@ -44,13 +45,13 @@ export function JsonEditorView({
           </div>
         ) : null}
 
-        <textarea
+        <Textarea
           className={cn(
             'w-full resize-y bg-transparent px-3 py-2 font-mono text-sm outline-none placeholder:text-muted-foreground focus-visible:ring-1 focus-visible:ring-ring',
             lineNumbers ? 'ps-14' : '',
           )}
           data-slot="json-editor-textarea"
-          onChange={(event) => onChange(event.target.value)}
+          onChange={(event) => onChange(event.currentTarget.value)}
           onKeyDown={onKeyDown}
           onScroll={(event) => onScroll?.(event.currentTarget.scrollTop)}
           placeholder={placeholder}

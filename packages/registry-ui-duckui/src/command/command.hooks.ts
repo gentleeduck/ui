@@ -162,6 +162,13 @@ export function useHandleKeyDown(props: {
       const n = itemsRef.current.length
       if (n === 0) return
 
+      // Sync currentRef with the currently highlighted item (may have changed via mouse hover)
+      const highlightedIdx = itemsRef.current.findIndex((item) => item.hasAttribute('aria-selected'))
+      if (highlightedIdx >= 0) {
+        currentRef.current = highlightedIdx
+        originalRef.current = highlightedIdx
+      }
+
       if (e.key === 'ArrowDown') {
         e.preventDefault()
         if (inSubMenuRef.current) return

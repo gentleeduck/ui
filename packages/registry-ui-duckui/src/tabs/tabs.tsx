@@ -19,13 +19,13 @@ export interface TabsContextProps {
 
 const TabsContext = React.createContext<TabsContextProps | null>(null)
 
-export interface TabsProps extends Omit<React.HTMLProps<HTMLDivElement>, 'defaultValue'> {
+export interface TabsProps extends Omit<React.HTMLProps<HTMLDivElement>, 'defaultValue' | 'ref'> {
   value?: string
   defaultValue?: string
   onValueChange?: (value: string) => void
 }
 
-function Tabs({ value, defaultValue, onValueChange, ...props }: TabsProps) {
+const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(({ value, defaultValue, onValueChange, ...props }, ref) => {
   const [activeItem, setActiveItem] = React.useState<string>(defaultValue ?? value ?? '')
 
   React.useEffect(() => {
@@ -34,13 +34,15 @@ function Tabs({ value, defaultValue, onValueChange, ...props }: TabsProps) {
 
   return (
     <TabsContext.Provider value={{ activeItem, setActiveItem }}>
-      <div {...props} aria-orientation="vertical" data-slot="tabs" duck-tabs="" role="tablist" />
+      <div {...props} aria-orientation="vertical" data-slot="tabs" duck-tabs="" ref={ref} role="tablist" />
     </TabsContext.Provider>
   )
-}
+})
+Tabs.displayName = 'Tabs'
 
-export interface TabsListProps extends React.HTMLProps<HTMLUListElement> {}
-const TabsList = ({ className, ref, ...props }: TabsListProps) => (
+export interface TabsListProps extends Omit<React.HTMLProps<HTMLUListElement>, 'ref'> {}
+
+const TabsList = React.forwardRef<HTMLUListElement, TabsListProps>(({ className, ...props }, ref) => (
   <ul
     className={cn(
       'inline-flex w-fit items-center justify-center gap-2 rounded-md bg-muted p-1 text-muted-foreground',
@@ -51,74 +53,65 @@ const TabsList = ({ className, ref, ...props }: TabsListProps) => (
     data-slot="tabs-list"
     duck-tabs-list=""
   />
-)
+))
+TabsList.displayName = 'TabsList'
 
-export interface TabsTriggerProps extends React.HTMLProps<HTMLLIElement> {
+export interface TabsTriggerProps extends Omit<React.HTMLProps<HTMLLIElement>, 'ref'> {
   value: string
   defaultChecked?: boolean
 }
 
-const TabsTrigger = ({
-  className,
-  children,
-  defaultChecked,
-  onClick,
-  value,
-  disabled,
-  ref,
-  ...props
-}: TabsTriggerProps) => {
-  const { setActiveItem, activeItem } = useTabs()
-  const isActive = value === activeItem
+const TabsTrigger = React.forwardRef<HTMLLIElement, TabsTriggerProps>(
+  ({ className, children, defaultChecked, onClick, value, disabled, ...props }, ref) => {
+    const { setActiveItem, activeItem } = useTabs()
+    const isActive = value === activeItem
 
-  React.useEffect(() => {
-    if (defaultChecked) setActiveItem(value)
-  }, [defaultChecked])
+    React.useEffect(() => {
+      if (defaultChecked) setActiveItem(value)
+    }, [defaultChecked])
 
-  return (
-    <li
-      aria-selected={isActive}
-      className={cn(
-        'relative inline-flex h-[29.04px] items-center justify-center whitespace-nowrap rounded-sm px-3 font-medium text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-        isActive && 'bg-background text-foreground shadow-sm',
-        disabled && 'pointer-events-none opacity-50',
-        className,
-      )}
-      data-value={value}
-      id={`tab-${value}`}
-      ref={ref}
-      {...props}
-      data-slot="tabs-trigger"
-      duck-tabs-trigger="">
-      <input
-        checked={isActive}
-        className="absolute inset-0 appearance-none rounded-md ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-        defaultChecked={defaultChecked}
-        disabled={disabled}
-        id={value}
-        name="tab"
-        onChange={() => setActiveItem(value)}
-        type="radio"
-        value={value}
-      />
-      <label className="flex items-center gap-2 font-medium" htmlFor={value}>
-        {children}
-      </label>
-    </li>
-  )
-}
+    return (
+      <li
+        aria-selected={isActive}
+        className={cn(
+          'relative inline-flex h-[29.04px] items-center justify-center whitespace-nowrap rounded-sm px-3 font-medium text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+          isActive && 'bg-background text-foreground shadow-sm',
+          disabled && 'pointer-events-none opacity-50',
+          className,
+        )}
+        data-value={value}
+        id={`tab-${value}`}
+        ref={ref}
+        {...props}
+        data-slot="tabs-trigger"
+        duck-tabs-trigger="">
+        <input
+          checked={isActive}
+          className="absolute inset-0 appearance-none rounded-md ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+          defaultChecked={defaultChecked}
+          disabled={disabled}
+          id={value}
+          name="tab"
+          onChange={() => setActiveItem(value)}
+          type="radio"
+          value={value}
+        />
+        <label className="flex items-center gap-2 font-medium" htmlFor={value}>
+          {children}
+        </label>
+      </li>
+    )
+  },
+)
+TabsTrigger.displayName = 'TabsTrigger'
 
-const TabsContent = ({
-  children,
-  forceMount = false,
-  className,
-  value,
-  ref,
-  ...props
-}: React.HTMLProps<HTMLDivElement> & {
-  value: string
-  forceMount?: boolean
-}) => {
+const TabsContent = React.forwardRef<
+  HTMLDivElement,
+  Omit<React.HTMLProps<HTMLDivElement>, 'ref'> & {
+    value: string
+    forceMount?: boolean
+  }
+>(({ children, forceMount = false, className, value, ...props }, ref) => {
   const { activeItem } = useTabs()
   const localRef = React.useRef<HTMLDivElement>(null)
 
@@ -133,7 +126,14 @@ const TabsContent = ({
       data-value={value}
       duck-tabs-content=""
       hidden={activeItem !== value}
-      ref={localRef}
+      ref={(node) => {
+        ;(localRef as React.RefObject<HTMLDivElement | null>).current = node
+        if (typeof ref === 'function') {
+          ref(node)
+        } else if (ref) {
+          ref.current = node
+        }
+      }}
       role="tabpanel"
       tabIndex={-1}
       {...props}
@@ -143,6 +143,7 @@ const TabsContent = ({
       </MountMinimal>
     </div>
   )
-}
+})
+TabsContent.displayName = 'TabsContent'
 
 export { Tabs, TabsList, TabsTrigger, TabsContent }

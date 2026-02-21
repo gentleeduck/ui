@@ -1,14 +1,12 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import type * as React from 'react'
+import * as React from 'react'
 
-function Progress({
-  className,
-  ref,
-  value,
-  ...props
-}: Omit<React.HTMLProps<HTMLDivElement>, 'value'> & { value: number }) {
+const Progress = React.forwardRef<
+  HTMLDivElement,
+  Omit<React.HTMLProps<HTMLDivElement>, 'value' | 'ref'> & { value: number }
+>(({ className, value, ...props }, ref) => {
   return (
     <div
       className={cn('relative h-4 w-full overflow-hidden rounded-full bg-secondary', className)}
@@ -25,6 +23,7 @@ function Progress({
       />
     </div>
   )
-}
+})
+Progress.displayName = 'Progress'
 
 export { Progress }

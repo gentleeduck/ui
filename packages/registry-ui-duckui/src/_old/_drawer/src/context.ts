@@ -13,7 +13,7 @@ interface DrawerContextValue {
   dismissible: boolean
   isOpen: boolean
   isDragging: boolean
-  keyboardIsOpen: React.MutableRefObject<boolean>
+  keyboardIsOpen: React.RefObject<boolean>
   snapPointsOffset: number[] | null
   snapPoints?: (number | string)[] | null
   activeSnapPointIndex?: number | null

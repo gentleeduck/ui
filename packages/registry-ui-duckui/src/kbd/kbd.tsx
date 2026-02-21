@@ -1,6 +1,7 @@
 import { cn } from '@gentleduck/libs/cn'
+import * as React from 'react'
 
-function Kbd({ className, ...props }: React.ComponentProps<'kbd'>) {
+const Kbd = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<'kbd'>>(({ className, ...props }, ref) => {
   return (
     <kbd
       className={cn(
@@ -9,13 +10,25 @@ function Kbd({ className, ...props }: React.ComponentProps<'kbd'>) {
         className,
       )}
       data-slot="kbd"
+      ref={ref}
       {...props}
     />
   )
-}
+})
+Kbd.displayName = 'Kbd'
 
-function KbdGroup({ className, ...props }: React.ComponentProps<'div'>) {
-  return <kbd className={cn('inline-flex items-center gap-1', className)} data-slot="kbd-group" {...props} />
-}
+const KbdGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <kbd
+        className={cn('inline-flex items-center gap-1', className)}
+        data-slot="kbd-group"
+        ref={ref as React.Ref<HTMLElement>}
+        {...props}
+      />
+    )
+  },
+)
+KbdGroup.displayName = 'KbdGroup'
 
 export { Kbd, KbdGroup }

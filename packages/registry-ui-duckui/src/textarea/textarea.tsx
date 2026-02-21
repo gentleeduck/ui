@@ -1,17 +1,21 @@
 import { cn } from '@gentleduck/libs/cn'
+import * as React from 'react'
 
-function Textarea({ className, ref, ...props }: React.HTMLProps<HTMLTextAreaElement>) {
-  return (
-    <textarea
-      className={cn(
-        'flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-base ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 md:text-sm',
-        className,
-      )}
-      data-slot="textarea"
-      ref={ref}
-      {...props}
-    />
-  )
-}
+const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <textarea
+        className={cn(
+          'field-sizing-content flex min-h-16 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 dark:disabled:bg-input/80',
+          className,
+        )}
+        data-slot="textarea"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+Textarea.displayName = 'Textarea'
 
 export { Textarea }

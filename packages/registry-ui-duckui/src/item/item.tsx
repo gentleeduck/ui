@@ -1,27 +1,45 @@
 import { cn } from '@gentleduck/libs/cn'
 import { Slot } from '@gentleduck/primitives/slot'
 import { cva, type VariantProps } from '@gentleduck/variants'
-import type * as React from 'react'
+import * as React from 'react'
 import { Separator } from '../separator'
 import { itemVariants } from './item.constants'
 
-function ItemGroup({ className, ...props }: React.ComponentProps<'div'>) {
+const ItemGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        className={cn('group/item-group flex flex-col', className)}
+        data-slot="item-group"
+        ref={ref}
+        role="list"
+        {...props}
+      />
+    )
+  },
+)
+ItemGroup.displayName = 'ItemGroup'
+
+const ItemSeparator = React.forwardRef<
+  React.ComponentRef<typeof Separator>,
+  React.ComponentPropsWithoutRef<typeof Separator>
+>(({ className, ...props }, ref) => {
   return (
-    <div className={cn('group/item-group flex flex-col', className)} data-slot="item-group" role="list" {...props} />
+    <Separator
+      className={cn('my-0', className)}
+      data-slot="item-separator"
+      orientation="horizontal"
+      ref={ref}
+      {...props}
+    />
   )
-}
+})
+ItemSeparator.displayName = 'ItemSeparator'
 
-function ItemSeparator({ className, ...props }: React.ComponentProps<typeof Separator>) {
-  return <Separator className={cn('my-0', className)} data-slot="item-separator" orientation="horizontal" {...props} />
-}
-
-function Item({
-  className,
-  variant = 'default',
-  size = 'default',
-  asChild = false,
-  ...props
-}: React.ComponentProps<'div'> & VariantProps<typeof itemVariants> & { asChild?: boolean }) {
+const Item = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<'div'> & VariantProps<typeof itemVariants> & { asChild?: boolean }
+>(({ className, variant = 'default', size = 'default', asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot : 'div'
   return (
     <Comp
@@ -29,10 +47,12 @@ function Item({
       data-size={size}
       data-slot="item"
       data-variant={variant}
+      ref={ref}
       {...props}
     />
   )
-}
+})
+Item.displayName = 'Item'
 
 const itemMediaVariants = cva(
   'flex shrink-0 items-center justify-center gap-2 group-has-[[data-slot=item-description]]/item:translate-y-0.5 group-has-[[data-slot=item-description]]/item:self-start [&_svg]:pointer-events-none',
@@ -50,78 +70,102 @@ const itemMediaVariants = cva(
   },
 )
 
-function ItemMedia({
-  className,
-  variant = 'default',
-  ...props
-}: React.ComponentProps<'div'> & VariantProps<typeof itemMediaVariants>) {
+const ItemMedia = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<'div'> & VariantProps<typeof itemMediaVariants>
+>(({ className, variant = 'default', ...props }, ref) => {
   return (
     <div
       className={cn(itemMediaVariants({ className, variant }))}
       data-slot="item-media"
       data-variant={variant}
+      ref={ref}
       {...props}
     />
   )
-}
+})
+ItemMedia.displayName = 'ItemMedia'
 
-function ItemContent({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      className={cn('flex flex-1 flex-col gap-1 [&+[data-slot=item-content]]:flex-none', className)}
-      data-slot="item-content"
-      {...props}
-    />
-  )
-}
+const ItemContent = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        className={cn('flex flex-1 flex-col gap-1 [&+[data-slot=item-content]]:flex-none', className)}
+        data-slot="item-content"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+ItemContent.displayName = 'ItemContent'
 
-function ItemTitle({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      className={cn('flex w-fit items-center gap-2 font-medium text-sm leading-snug', className)}
-      data-slot="item-title"
-      {...props}
-    />
-  )
-}
+const ItemTitle = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        className={cn('flex w-fit items-center gap-2 font-medium text-sm leading-snug', className)}
+        data-slot="item-title"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+ItemTitle.displayName = 'ItemTitle'
 
-function ItemDescription({ className, ...props }: React.ComponentProps<'p'>) {
-  return (
-    <p
-      className={cn(
-        'line-clamp-2 text-balance font-normal text-muted-foreground text-sm leading-normal',
-        '[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4',
-        className,
-      )}
-      data-slot="item-description"
-      {...props}
-    />
-  )
-}
+const ItemDescription = React.forwardRef<HTMLParagraphElement, React.ComponentPropsWithoutRef<'p'>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <p
+        className={cn(
+          'line-clamp-2 text-balance font-normal text-muted-foreground text-sm leading-normal',
+          '[&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4',
+          className,
+        )}
+        data-slot="item-description"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+ItemDescription.displayName = 'ItemDescription'
 
-function ItemActions({ className, ...props }: React.ComponentProps<'div'>) {
-  return <div className={cn('flex items-center gap-2', className)} data-slot="item-actions" {...props} />
-}
+const ItemActions = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
+  ({ className, ...props }, ref) => {
+    return <div className={cn('flex items-center gap-2', className)} data-slot="item-actions" ref={ref} {...props} />
+  },
+)
+ItemActions.displayName = 'ItemActions'
 
-function ItemHeader({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      className={cn('flex basis-full items-center justify-between gap-2', className)}
-      data-slot="item-header"
-      {...props}
-    />
-  )
-}
+const ItemHeader = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        className={cn('flex basis-full items-center justify-between gap-2', className)}
+        data-slot="item-header"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+ItemHeader.displayName = 'ItemHeader'
 
-function ItemFooter({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
-    <div
-      className={cn('flex basis-full items-center justify-between gap-2', className)}
-      data-slot="item-footer"
-      {...props}
-    />
-  )
-}
+const ItemFooter = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
+  ({ className, ...props }, ref) => {
+    return (
+      <div
+        className={cn('flex basis-full items-center justify-between gap-2', className)}
+        data-slot="item-footer"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+ItemFooter.displayName = 'ItemFooter'
 
 export {
   Item,

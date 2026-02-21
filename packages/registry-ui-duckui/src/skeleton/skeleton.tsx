@@ -1,15 +1,17 @@
 import { cn } from '@gentleduck/libs/cn'
-import type * as React from 'react'
+import * as React from 'react'
 
-function Skeleton({ className, ...props }: React.ComponentProps<'div'>) {
-  return (
+const Skeleton = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
     <div
+      ref={ref}
       aria-hidden="true"
       className={cn('animate-pulse rounded-md bg-muted', className)}
       {...props}
       data-slot="skeleton"
     />
-  )
-}
+  ),
+)
+Skeleton.displayName = 'Skeleton'
 
 export { Skeleton }

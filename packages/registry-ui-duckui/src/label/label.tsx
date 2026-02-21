@@ -1,11 +1,11 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import type * as React from 'react'
+import * as React from 'react'
 
-export interface LabelProps extends React.HTMLProps<HTMLLabelElement> {}
+export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {}
 
-function Label({ className, htmlFor, ref, ...props }: LabelProps) {
+const Label = React.forwardRef<HTMLLabelElement, LabelProps>(({ className, htmlFor, ...props }, ref) => {
   return (
     <label
       aria-label="label"
@@ -19,6 +19,7 @@ function Label({ className, htmlFor, ref, ...props }: LabelProps) {
       {...props}
     />
   )
-}
+})
+Label.displayName = 'Label'
 
 export { Label }

@@ -2,52 +2,56 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import * as SliderPrimitive from '@gentleduck/primitives/slider'
-import type * as React from 'react'
+import * as React from 'react'
 
-function Slider({ className, ref, ...props }: React.ComponentPropsWithRef<typeof SliderPrimitive.Root>) {
+function Slider({
+  className,
+  defaultValue,
+  orientation = 'horizontal',
+  value,
+  min = 0,
+  max = 100,
+  ...props
+}: React.ComponentProps<typeof SliderPrimitive.Root>) {
+  const _values = React.useMemo(
+    () => (Array.isArray(value) ? value : Array.isArray(defaultValue) ? defaultValue : [min, max]),
+    [value, defaultValue, min, max],
+  )
+
   return (
     <SliderPrimitive.Root
-      className={cn('relative flex w-full touch-none select-none items-center', className)}
       data-slot="slider"
-      ref={ref}
+      data-orientation={orientation}
+      defaultValue={defaultValue}
+      orientation={orientation}
+      value={value}
+      min={min}
+      max={max}
+      className={cn(
+        "relative flex w-full touch-none select-none items-center data-[orientation='vertical']:h-full data-[orientation='vertical']:min-h-40 data-[orientation='vertical']:w-auto data-[orientation='vertical']:flex-col data-disabled:opacity-50",
+        className,
+      )}
       {...props}>
       <SliderPrimitive.Track
-        className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary"
-        data-slot="track">
-        <SliderPrimitive.Range className="absolute h-full bg-primary" data-slot="range" />
+        data-orientation={orientation}
+        data-slot="slider-track"
+        className="relative grow overflow-hidden rounded-full bg-muted data-[orientation='horizontal']:h-1 data-[orientation='vertical']:h-full data-[orientation='horizontal']:w-full data-[orientation='vertical']:w-1">
+        <SliderPrimitive.Range
+          data-slot="slider-range"
+          data-orientation={orientation}
+          className="absolute select-none bg-primary data-[orientation='horizontal']:h-full data-[orientation='vertical']:w-full"
+        />
       </SliderPrimitive.Track>
-      <SliderPrimitive.Thumb
-        className="block h-5 w-5 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-        data-slot="thumb"
-        index={0}
-      />
-    </SliderPrimitive.Root>
-  )
-}
-function SliderRange({ className, ref, ...props }: React.ComponentPropsWithRef<typeof SliderPrimitive.Root>) {
-  return (
-    <SliderPrimitive.Root
-      className={cn('relative flex w-full touch-none select-none items-center', className)}
-      data-slot="slider-range"
-      ref={ref}
-      {...props}>
-      <SliderPrimitive.Track
-        className="relative h-2 w-full grow overflow-hidden rounded-full bg-secondary"
-        data-slot="track-range">
-        <SliderPrimitive.Range className="absolute h-full bg-primary" data-slot="range-range" />
-      </SliderPrimitive.Track>
-      <SliderPrimitive.Thumb
-        className="block size-4 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-        data-slot="thumb-range"
-        index={0}
-      />
-      <SliderPrimitive.Thumb
-        className="block size-4 rounded-full border-2 border-primary bg-background ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-        data-slot="thumb-range"
-        index={1}
-      />
+      {Array.from({ length: _values.length }, (_, index) => (
+        <SliderPrimitive.Thumb
+          data-orientation={orientation}
+          data-slot="slider-thumb"
+          key={index}
+          className="relative block size-3 shrink-0 select-none rounded-full border border-ring bg-white ring-ring/50 transition-[color,box-shadow] after:absolute after:-inset-2 hover:ring-3 focus-visible:outline-hidden focus-visible:ring-3 active:ring-3 disabled:pointer-events-none disabled:opacity-50"
+        />
+      ))}
     </SliderPrimitive.Root>
   )
 }
 
-export { Slider, SliderRange }
+export { Slider }

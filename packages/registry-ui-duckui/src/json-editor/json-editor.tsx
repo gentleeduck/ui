@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { Portal } from '@gentleduck/primitives/dialog'
+import { Portal } from '@gentleduck/primitives/portal'
 import { Maximize } from 'lucide-react'
 import * as React from 'react'
 import type { FieldValues } from 'react-hook-form'

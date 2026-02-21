@@ -1,24 +1,18 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { AnimVariants, checkersStylePattern } from '@gentleduck/motion/anim'
+import { checkersStylePattern } from '@gentleduck/motion/anim'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
-import type * as React from 'react'
+import * as React from 'react'
 
-function Switch({
-  className,
-  indicator,
-  checkedIndicator,
-  onChange,
-  onCheckedChange,
-  ref,
-  style,
-  ...props
-}: React.HTMLProps<HTMLInputElement> & {
-  indicator?: React.ReactElement
-  checkedIndicator?: React.ReactElement
-  onCheckedChange?: (checked: boolean) => void
-}) {
+const Switch = React.forwardRef<
+  HTMLInputElement,
+  Omit<React.HTMLProps<HTMLInputElement>, 'ref'> & {
+    indicator?: React.ReactElement
+    checkedIndicator?: React.ReactElement
+    onCheckedChange?: (checked: boolean) => void
+  }
+>(({ className, indicator, checkedIndicator, onChange, onCheckedChange, style, ...props }, ref) => {
   const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
     checkedIndicator,
     indicator,
@@ -41,7 +35,8 @@ function Switch({
                     : 'default',
             type: 'switch',
           }),
-          AnimVariants({ pseudo: 'animate' }),
+          'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+          '[&:before,&:after]:transition-gpu [&:before,&:after]:duration-[inherit] [&:before,&:after]:ease-[inherit] [&:before,&:after]:will-change-[inherit]',
 
           className,
         )}
@@ -59,6 +54,7 @@ function Switch({
       <SvgIndicator className="sr-only" />
     </>
   )
-}
+})
+Switch.displayName = 'Switch'
 
 export { Switch }

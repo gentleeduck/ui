@@ -1,52 +1,57 @@
 import { cn } from '@gentleduck/libs/cn'
-import { Slot } from '@gentleduck/primitives/slot'
+import { Slot, Slottable } from '@gentleduck/primitives/slot'
 import { Loader } from 'lucide-react'
-import type * as React from 'react'
+import * as React from 'react'
 import { buttonVariants } from './button.constants'
 import type { AnimationIconProps, ButtonProps } from './button.types'
 
 /**
  * Renders a customizable button component, supporting various styles and behaviors.
  */
-function Button({
-  children,
-  variant = 'default',
-  size = 'default',
-  border = 'default',
-  asChild,
-  className,
-  loading,
-  isCollapsed,
-  icon,
-  secondIcon,
-  type = 'button',
-  disabled,
-  ref,
-  ...props
-}: ButtonProps): React.JSX.Element {
-  const Component = (asChild ? Slot : 'button') as React.ElementType
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      children,
+      variant = 'default',
+      size = 'default',
+      border = 'default',
+      asChild,
+      className,
+      loading,
+      isCollapsed,
+      icon,
+      secondIcon,
+      type = 'button',
+      disabled,
+      ...props
+    },
+    ref,
+  ) => {
+    const Component = (asChild ? Slot : 'button') as React.ElementType
 
-  return (
-    <Component
-      data-slot="button"
-      {...props}
-      className={cn(
-        buttonVariants({
-          border,
-          className,
-          size: isCollapsed ? 'icon' : size,
-          variant,
-        }),
-      )}
-      disabled={loading ?? disabled}
-      ref={ref}
-      type={type}>
-      {loading ? <Loader className="animate-spin" /> : icon}
-      {!isCollapsed && children}
-      {!isCollapsed && secondIcon && secondIcon}
-    </Component>
-  )
-}
+    return (
+      <Component
+        data-slot="button"
+        {...props}
+        className={cn(
+          buttonVariants({
+            border,
+            className,
+            size: isCollapsed ? 'icon' : size,
+            variant,
+          }),
+        )}
+        disabled={loading ?? disabled}
+        ref={ref}
+        type={type}>
+        {loading ? <Loader className="animate-spin" /> : icon}
+        <Slottable>{!isCollapsed && children}</Slottable>
+        {!isCollapsed && secondIcon && secondIcon}
+      </Component>
+    )
+  },
+)
+Button.displayName = 'Button'
 
 /**
  * Renders an animation icon component.
@@ -68,5 +73,6 @@ function AnimationIcon({ children, animationIcon }: AnimationIconProps): React.J
     </>
   )
 }
+AnimationIcon.displayName = 'AnimationIcon'
 
 export { Button, AnimationIcon }

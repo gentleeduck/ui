@@ -7,7 +7,7 @@ export interface AvatarProps extends React.HTMLProps<HTMLImageElement> {
   fallback?: string
 }
 
-function Avatar({ className, fallback, alt, ref, ...props }: AvatarProps) {
+const Avatar = React.forwardRef<HTMLImageElement, AvatarProps>(({ className, fallback, alt, ...props }, ref) => {
   const [isValid, setIsValid] = React.useState(true)
 
   return (
@@ -34,7 +34,8 @@ function Avatar({ className, fallback, alt, ref, ...props }: AvatarProps) {
       )}
     </picture>
   )
-}
+})
+Avatar.displayName = 'Avatar'
 
 export interface AvatarGroupProps extends React.HTMLProps<HTMLDivElement> {
   imgs: React.HTMLProps<HTMLImageElement>[]
@@ -69,5 +70,6 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
     )
   },
 )
+AvatarGroup.displayName = 'AvatarGroup'
 
 export { Avatar, AvatarGroup }
