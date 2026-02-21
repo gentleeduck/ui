@@ -7,7 +7,7 @@ import { type ScopedProps, usePopperScope, useTooltipContext, useTooltipProvider
 
 const TRIGGER_NAME = 'TooltipTrigger'
 
-type TooltipTriggerElement = React.ElementRef<typeof Primitive.button>
+type TooltipTriggerElement = React.ComponentRef<typeof Primitive.button>
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
 export interface TooltipTriggerProps extends PrimitiveButtonProps {}
 

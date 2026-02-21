@@ -11,7 +11,7 @@ import { Primitive } from '../primitive-elements'
 
 const NAME = 'VisuallyHidden'
 
-type VisuallyHiddenElement = React.ElementRef<typeof Primitive.span>
+type VisuallyHiddenElement = React.ComponentRef<typeof Primitive.span>
 type PrimitiveSpanProps = React.ComponentPropsWithoutRef<typeof Primitive.span>
 interface VisuallyHiddenProps extends PrimitiveSpanProps {}
 

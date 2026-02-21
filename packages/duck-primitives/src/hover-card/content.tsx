@@ -16,7 +16,7 @@ let originalBodyUserSelect: string
 
 const CONTENT_NAME = 'HoverCardContent'
 
-type HoverCardContentImplElement = React.ElementRef<typeof PopperPrimitive.Content>
+type HoverCardContentImplElement = React.ComponentRef<typeof PopperPrimitive.Content>
 type DismissableLayerProps = React.ComponentPropsWithoutRef<typeof DismissableLayer>
 type PopperContentProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.Content>
 

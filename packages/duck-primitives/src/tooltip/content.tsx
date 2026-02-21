@@ -34,7 +34,7 @@ export const [VisuallyHiddenContentContextProvider, useVisuallyHiddenContentCont
  * TooltipContent
  * -----------------------------------------------------------------------------------------------*/
 
-type TooltipContentImplElement = React.ElementRef<typeof PopperPrimitive.PopperContent>
+type TooltipContentImplElement = React.ComponentRef<typeof PopperPrimitive.PopperContent>
 type DismissableLayerProps = React.ComponentPropsWithoutRef<typeof DismissableLayer>
 type PopperContentProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.PopperContent>
 

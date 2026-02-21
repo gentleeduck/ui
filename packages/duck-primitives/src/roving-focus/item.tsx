@@ -8,7 +8,7 @@ import { focusFirst, getFocusIntent, wrapArray } from './utils'
 
 const ITEM_NAME = 'RovingFocusGroupItem'
 
-type RovingFocusItemElement = React.ElementRef<typeof Primitive.span>
+type RovingFocusItemElement = React.ComponentRef<typeof Primitive.span>
 type PrimitiveSpanProps = React.ComponentPropsWithoutRef<typeof Primitive.span>
 interface RovingFocusGroupItemProps extends PrimitiveSpanProps {
   tabStopId?: string

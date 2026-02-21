@@ -22,8 +22,8 @@ type HoverCardContextValue = {
   onOpen(): void
   onClose(): void
   onDismiss(): void
-  hasSelectionRef: React.MutableRefObject<boolean>
-  isPointerDownOnContentRef: React.MutableRefObject<boolean>
+  hasSelectionRef: React.RefObject<boolean>
+  isPointerDownOnContentRef: React.RefObject<boolean>
 }
 
 export const [HoverCardProvider, useHoverCardContext] = createHoverCardContext<HoverCardContextValue>(HOVERCARD_NAME)

@@ -15,7 +15,7 @@ export interface PopoverTriggerProps extends React.ComponentPropsWithRef<typeof 
  * Wraps itself in a PopperAnchor unless a custom anchor is provided.
  */
 export const PopoverTrigger = React.forwardRef<
-  React.ElementRef<typeof Primitive.button>,
+  React.ComponentRef<typeof Primitive.button>,
   ScopedProps<PopoverTriggerProps>
 >((props, forwardedRef) => {
   const { __scopePopover, ...triggerProps } = props

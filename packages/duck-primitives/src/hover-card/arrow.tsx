@@ -8,7 +8,7 @@ import { type ScopedProps, usePopperScope } from './hover-card'
 
 const ARROW_NAME = 'HoverCardArrow'
 
-type HoverCardArrowElement = React.ElementRef<typeof PopperPrimitive.Arrow>
+type HoverCardArrowElement = React.ComponentRef<typeof PopperPrimitive.Arrow>
 type PopperArrowProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.Arrow>
 export interface HoverCardArrowProps extends PopperArrowProps {}
 
