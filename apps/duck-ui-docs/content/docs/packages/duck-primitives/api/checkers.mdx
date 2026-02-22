@@ -1,0 +1,87 @@
+---
+title: "Checkers"
+description: "Utilities for checkbox/radio indicator rendering."
+---
+
+```tsx
+import * as Checkers from '@gentleduck/primitives/checkers'
+```
+
+## Anatomy
+
+```tsx
+const { SvgIndicator, inputStyle, indicatorReady, checkedIndicatorReady } = Checkers.useSvgIndicator({
+  indicator: <svg />,
+  checkedIndicator: <svg />,
+})
+```
+
+---
+
+## Exports
+
+- `Checkers.useSvgIndicator`
+
+---
+
+## Example
+
+```tsx
+import { useSvgIndicator } from '@gentleduck/primitives/checkers'
+
+function CustomIndicatorInput() {
+  const { SvgIndicator, inputStyle } = useSvgIndicator({
+    indicator: <svg viewBox="0 0 16 16"><circle cx="8" cy="8" r="6" /></svg>,
+    checkedIndicator: <svg viewBox="0 0 16 16"><path d="M3 8l3 3 7-7" /></svg>,
+  })
+
+  return (
+    <>
+      <SvgIndicator />
+      <input style={inputStyle} />
+    </>
+  )
+}
+```
+
+---
+
+## API
+
+### `useSvgIndicator(options)`
+
+Builds mini SVG data URIs for unchecked/checked indicators and returns CSS custom-property styles plus hidden render nodes.
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `indicator` | `React.ReactNode` | -- | SVG-like node for unchecked state |
+| `checkedIndicator` | `React.ReactNode` | -- | SVG-like node for checked state |
+
+Returns:
+
+- `inputStyle`: `React.CSSProperties` with `--svg-off` / `--svg-on` CSS variables
+- `SvgIndicator`: hidden renderer component that captures SVG markup for conversion
+- `indicatorReady`: `boolean`
+- `checkedIndicatorReady`: `boolean`
+
+---
+
+## Styling contract
+
+The hook emits CSS variables so you can style one input with two indicator states.
+
+```css
+.checkbox {
+  background-image: var(--svg-off);
+}
+
+.checkbox[data-state='checked'] {
+  background-image: var(--svg-on);
+}
+```
+
+<Callout icon={<Lightbulb />}>
+
+This utility is intentionally low-level. It is best used inside design-system wrappers where input visuals are custom and behavior comes from primitives such as checkbox/radio components.
+
+</Callout>

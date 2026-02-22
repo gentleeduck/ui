@@ -1,0 +1,60 @@
+---
+title: "Arrow"
+description: "Reusable SVG arrow primitive used by popper-based components."
+---
+
+```tsx
+import * as Arrow from '@gentleduck/primitives/arrow'
+```
+
+## Anatomy
+
+```tsx
+<Arrow.Arrow />
+```
+
+---
+
+## Example
+
+```tsx
+import { Arrow } from '@gentleduck/primitives/arrow'
+
+function PopoverArrow() {
+  return <Arrow width={12} height={6} className="fill-popover" />
+}
+```
+
+### Custom shape with `asChild`
+
+```tsx
+<Arrow.Arrow asChild width={14} height={8}>
+  <svg viewBox="0 0 14 8">
+    <path d="M0 0h14L7 8z" />
+  </svg>
+</Arrow.Arrow>
+```
+
+---
+
+## API
+
+### `Arrow.Arrow`
+
+Renders an SVG arrow. By default, it renders a downward triangle polygon.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `width` | `number` | `10` | SVG width |
+| `height` | `number` | `5` | SVG height |
+| `asChild` | `boolean` | -- | Render as child element |
+| `children` | `React.ReactNode` | -- | Custom SVG contents when using `asChild` |
+| `...props` | `React.ComponentPropsWithoutRef<typeof Primitive.svg>` | -- | Native SVG props |
+
+---
+
+## Notes
+
+- `Arrow` is commonly used by `popover`, `tooltip`, and menu-like floating content.
+- If the arrow is decorative only, set `aria-hidden="true"` on the rendered element.
+- Because it renders an SVG element, it can be styled via `fill`, `stroke`, and CSS variables.

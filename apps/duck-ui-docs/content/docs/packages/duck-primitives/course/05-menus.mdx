@@ -1,11 +1,11 @@
 ---
-title: "Lesson 5: Menus and Navigation"
-description: "Build context menus, menubars, and understand keyboard navigation patterns."
+title: "Lesson 5: Menus, Dropdowns, and Selection"
+description: "Build context menus, dropdown menus, menubars, and select patterns with keyboard navigation."
 ---
 
 <Callout icon={<Lightbulb />}>
 
-**Lesson 5 of 8** -- Build right-click menus and desktop-style menubars with full keyboard navigation.
+**Lesson 5 of 8** -- Build right-click menus, action dropdowns, menubars, and select-style pickers with full keyboard support.
 
 </Callout>
 
@@ -182,9 +182,88 @@ Click "File" to open it. Then hover over "Edit" and it opens instantly. <Kbd>Arr
 
 ---
 
+## Dropdown menu
+
+Use Dropdown Menu for button-triggered action lists.
+
+```tsx
+import * as DropdownMenu from '@gentleduck/primitives/dropdown-menu'
+
+function Actions() {
+  return (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger className="px-3 py-1.5 border rounded text-sm">
+        Actions
+      </DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content className="bg-white border rounded-md p-1 shadow-lg min-w-[180px]">
+          <DropdownMenu.Item className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">
+            Rename
+          </DropdownMenu.Item>
+          <DropdownMenu.Item className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">
+            Duplicate
+          </DropdownMenu.Item>
+          <DropdownMenu.Separator className="h-px bg-gray-200 my-1" />
+          <DropdownMenu.Item className="px-3 py-1.5 rounded text-red-600 data-[highlighted]:bg-red-50">
+            Delete
+          </DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
+  )
+}
+```
+
+---
+
+## Select
+
+Use Select when the user must choose one value from a known set and the value should participate in forms.
+
+```tsx
+import * as Select from '@gentleduck/primitives/select'
+
+function ThemeSelect() {
+  return (
+    <Select.Root defaultValue="system" name="theme">
+      <Select.Trigger className="w-48 border rounded px-3 py-2">
+        <Select.Value placeholder="Choose theme" />
+        <Select.Icon />
+      </Select.Trigger>
+      <Select.Portal>
+        <Select.Content className="bg-white border rounded-md shadow-lg">
+          <Select.Viewport className="p-1">
+            <Select.Item value="light" className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">
+              <Select.ItemText>Light</Select.ItemText>
+              <Select.ItemIndicator>✓</Select.ItemIndicator>
+            </Select.Item>
+            <Select.Item value="dark" className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">
+              <Select.ItemText>Dark</Select.ItemText>
+              <Select.ItemIndicator>✓</Select.ItemIndicator>
+            </Select.Item>
+            <Select.Item value="system" className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">
+              <Select.ItemText>System</Select.ItemText>
+              <Select.ItemIndicator>✓</Select.ItemIndicator>
+            </Select.Item>
+          </Select.Viewport>
+        </Select.Content>
+      </Select.Portal>
+    </Select.Root>
+  )
+}
+```
+
+<Callout icon={<Lightbulb />}>
+
+`Menu`/`DropdownMenu` are action lists. `Select` is a value-selection control with form semantics.
+
+</Callout>
+
+---
+
 ## Keyboard navigation
 
-All menu primitives implement WAI-ARIA menu keyboard patterns:
+Menu-family primitives implement WAI-ARIA menu keyboard patterns:
 
 | Key | Action |
 | --- | --- |
@@ -195,6 +274,20 @@ All menu primitives implement WAI-ARIA menu keyboard patterns:
 | <Kbd>Enter</Kbd> / <Kbd>Space</Kbd> | Activate highlighted item |
 | <Kbd>Escape</Kbd> | Close menu |
 | Type a character | Jump to item starting with that letter |
+
+---
+
+## Select keyboard navigation
+
+| Key | Action |
+| --- | --- |
+| <Kbd>Space</Kbd> / <Kbd>Enter</Kbd> | Open select / choose highlighted option |
+| <Kbd>ArrowDown</Kbd> | Next option |
+| <Kbd>ArrowUp</Kbd> | Previous option |
+| <Kbd>Home</Kbd> | First option |
+| <Kbd>End</Kbd> | Last option |
+| Type text | Typeahead to matching option |
+| <Kbd>Escape</Kbd> | Close select |
 
 ---
 
@@ -216,7 +309,11 @@ When an item is focused via keyboard or hovered, it gets `data-highlighted`. Thi
 
 ## Exercise
 
-Build a file manager context menu with: Cut, Copy, Paste, a separator, a "View" submenu (Grid/List radio items), a "Show hidden files" checkbox item, and Delete.
+Build all three:
+
+1. A file manager context menu with Cut/Copy/Paste and a radio submenu.
+2. An action dropdown menu for Rename/Duplicate/Delete.
+3. A Select for choosing sort order (`name`, `date`, `size`) and bind it to form state.
 
 <Callout icon={<MapIcon />}>
 

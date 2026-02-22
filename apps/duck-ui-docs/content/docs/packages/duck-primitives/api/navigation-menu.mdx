@@ -1,0 +1,36 @@
+---
+title: "Navigation Menu"
+description: "Status page for the navigation-menu primitive entrypoint."
+---
+
+```tsx
+import * as NavigationMenu from '@gentleduck/primitives/navigation-menu'
+```
+
+## Status
+
+`@gentleduck/primitives/navigation-menu` is currently a reserved entrypoint.
+
+`packages/duck-primitives/src/navigation-menu/index.ts` is intentionally empty at the moment, so no stable public API is exported from this module yet.
+
+---
+
+## Current implementation state
+
+- `navigation-menu.tsx` exists in source but is not currently exported from the public module entrypoint.
+- This keeps the package surface stable while ongoing refactors continue.
+
+---
+
+## Recommended alternatives
+
+For now, use the higher-level component package or other menu primitives:
+
+- `@gentleduck/primitives/menu`
+- `@gentleduck/primitives/menubar`
+
+---
+
+## Migration note
+
+Avoid building production features against private source paths. Wait for a stable `navigation-menu` export in the public entrypoint before depending on it directly.
