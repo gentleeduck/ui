@@ -15,12 +15,10 @@ Hover cards provide progressive disclosure without commitment. They let users pr
 <MermaidDiagram chart={`graph TD
   HoverCard[HoverCard]
   HoverCard --> primitives["@gentleduck/primitives\n/hover-card"]:::internal
-  HoverCard --> motion["@gentleduck/motion"]:::internal
   HoverCard --> libs["@gentleduck/libs"]:::internal
   HoverCard --> Button["Button"]:::component
   primitives --> |"provides"| HoverTrigger["Hover Detection\n& Timing"]
   primitives --> |"provides"| Positioning["Floating UI\nPositioning"]
-  motion --> |"provides"| AnimVariants["Entry/Exit\nAnimations"]
   classDef external fill:#818cf8,stroke:#6366f1,color:#fff
   classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
   classDef component fill:#fb923c,stroke:#f97316,color:#fff
@@ -49,7 +47,7 @@ npx @gentleduck/cli add hover-card
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/primitives @gentleduck/libs @gentleduck/motion @gentleduck/variants  
+npm install @gentleduck/primitives @gentleduck/libs
 ```
 
 <Step>Add the `Button` component to your project.</Step>
@@ -100,6 +98,9 @@ Root wrapper that provides hover-card state and context. Wraps `HoverCardPrimiti
 | `defaultOpen` | `boolean` | `--` | Initial open state for uncontrolled usage |
 | `openDelay` | `number` | `700` | Delay before opening on hover/focus |
 | `closeDelay` | `number` | `300` | Delay before closing on pointer leave/blur |
+| `delayDuration` | `number` | -- | Alias for `openDelay`. If both are provided, `openDelay` takes precedence |
+| `skipDelayDuration` | `number` | -- | Reserved for future use (currently ignored) |
+| `placement` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` | Default side for `HoverCardContent` positioning |
 | `children` | `React.ReactNode` | `--` | HoverCard sub-components |
 | `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Root>` | -- | Additional props inherited from `HoverCard.Root`. |
 
@@ -123,8 +124,8 @@ The content displayed when the hover card is open. Wraps `HoverCardPrimitive.Con
 | `className` | `string` | `--` | Additional CSS classes to apply to the content container |
 | `children` | `React.ReactNode` | `--` | Content rendered inside the hover card |
 | `forceMount` | `boolean` | `--` | Keep content mounted for animation control |
-| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Preferred side relative to the trigger |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` | Preferred side relative to the trigger. Defaults to the `placement` value from `HoverCard` |
 | `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment on the chosen side |
-| `sideOffset` | `number` | `0` | Main-axis offset from trigger |
+| `sideOffset` | `number` | `4` | Main-axis offset from trigger |
 | `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
 | `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content> & React.HTMLProps<HTMLDivElement>` | -- | Additional props inherited from `HoverCard.Content` and standard content div props. |

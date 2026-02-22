@@ -15,12 +15,10 @@ Sheets are dialogs that slide in from the edge -- they maintain spatial context 
 <MermaidDiagram chart={`graph TD
   Sheet[Sheet]
   Sheet --> primitives["@gentleduck/primitives\n/sheet"]:::internal
-  Sheet --> motion["@gentleduck/motion"]:::internal
   Sheet --> variants["@gentleduck/variants"]:::internal
   Sheet --> libs["@gentleduck/libs"]:::internal
   primitives --> |"provides"| FocusTrap["Focus Trapping"]
   primitives --> |"provides"| Portal["Portal Rendering"]
-  motion --> |"provides"| SlideAnim["Slide-in\nAnimations"]
   variants --> |"provides"| SideVariant["Side Variants\n(top, right, bottom, left)"]
   classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
 `} />
@@ -48,7 +46,7 @@ npx @gentleduck/cli add sheet
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/primitives @gentleduck/libs @gentleduck/motion @gentleduck/variants
+npm install @gentleduck/primitives @gentleduck/libs @gentleduck/variants lucide-react
 ```
 
 <Step>Copy and paste the following code into your project.</Step>

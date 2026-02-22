@@ -2,9 +2,6 @@
 title: slider
 description: An input where the user selects a value from within a given range.
 component: true
-links:
-  doc: https://www.radix-ui.com/docs/primitives/components/slider
-  api: https://www.radix-ui.com/docs/primitives/components/slider#api-reference
 ---
 
 <ComponentPreview name="slider-1" description="A slider component." />
@@ -79,7 +76,19 @@ import { Slider } from "@/components/ui/slider"
 <Slider defaultValue={[33]} max={100} step={1} />
 ```
 
-<ComponentPreview name="slider-2" description="A slider component." />
+## Examples
+
+### Range
+
+<ComponentPreview name="slider-2" description="A range slider component." />
+
+### Horizontal
+
+<ComponentPreview name="slider-3" description="A horizontal slider component." />
+
+### Vertical
+
+<ComponentPreview name="slider-4" description="A vertical slider component." />
 
 ## Component Composition
 
@@ -93,66 +102,53 @@ import { Slider } from "@/components/ui/slider"
 
 ### Slider
 
-A single-thumb slider. Internally composes `SliderPrimitive.Root`, `SliderPrimitive.Track`, `SliderPrimitive.Range`, and `SliderPrimitive.Thumb`.
+A unified slider component that supports both single-thumb and multi-thumb (range) usage. Pass a single-element `defaultValue` array for a single thumb, or a multi-element array for a range slider. Internally composes `SliderPrimitive.Root`, `SliderPrimitive.Track`, `SliderPrimitive.Range`, and dynamically renders `SliderPrimitive.Thumb` elements based on the values array.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
-| `...props` | `React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>` | -- | Additional props inherited from `Slider.Root`. |
-
-### SliderRange
-
-A dual-thumb range slider. Internally composes `SliderPrimitive.Root`, `SliderPrimitive.Track`, `SliderPrimitive.Range`, and two `SliderPrimitive.Thumb` elements (index 0 and 1).
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names |
-| `...props` | `React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>` | -- | Additional props inherited from `Slider.Root`. |
+| `defaultValue` | `number[]` | `[min, max]` | Uncontrolled initial values |
+| `value` | `number[]` | -- | Controlled values array |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider orientation |
+| `min` | `number` | `0` | Minimum allowed value |
+| `max` | `number` | `100` | Maximum allowed value |
+| `...props` | `React.ComponentProps<typeof SliderPrimitive.Root>` | -- | All other props from `SliderPrimitive.Root` |
 
 ### Primitive Sub-components
 
-The following primitives are used internally by `Slider` and `SliderRange`:
+The following primitives are used internally by `Slider`:
 
 #### SliderPrimitive.Root
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `name` | `string` | -- | Name for form submission |
+| `disabled` | `boolean` | `false` | Disables the slider |
 | `min` | `number` | `0` | Minimum allowed value |
 | `max` | `number` | `100` | Maximum allowed value |
 | `step` | `number` | `1` | Increment step for values |
-| `value` | `number[]` | -- | Controlled values array (one or two values for range sliders) |
-| `defaultValue` | `number[]` | `[50]` | Uncontrolled initial values |
-| `onValueChange` | `(value: number[]) => void` | -- | Callback fired when slider values change |
+| `value` | `number[]` | -- | Controlled values array |
+| `defaultValue` | `number[]` | `[min]` | Uncontrolled initial values |
+| `onValueChange` | `(value: number[]) => void` | -- | Callback fired on every value change |
+| `onValueCommit` | `(value: number[]) => void` | -- | Callback fired when interaction ends (pointer up or key commit) |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider orientation |
-| `rtl` | `boolean` | `false` | Enables right-to-left layout support |
-| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'defaultValue'>` | -- | Additional props to spread to the content div |
+| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction for horizontal sliders |
+| `inverted` | `boolean` | `false` | Inverts the slider direction |
+| `minStepsBetweenThumbs` | `number` | `0` | Minimum number of steps between thumbs |
+| `form` | `string` | -- | Associates with a form element by ID |
 
 #### SliderPrimitive.Track
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div. |
+Renders a `<span>`. Accepts all standard span props.
 
 #### SliderPrimitive.Range
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div. |
+Renders a `<span>`. Accepts all standard span props.
 
 #### SliderPrimitive.Thumb
 
+Renders a `<span>`. The thumb index is auto-detected from render order.
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `index` | `number` | (required) | The index of the thumb in the `values` array |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
-
-### SliderContext & useSliderContext()
-
-* **`SliderContext`**: React context providing slider state and methods:
-
-  * `min`, `max`, `step`, `values`, `orientation`, `rtl`
-  * `trackRef` -- Ref to track element.
-  * `setValueAt(index, value)` -- Updates value for a specific thumb.
-  * `positionToValue(pos, rect)` -- Converts pointer position to slider value.
-
-* **`useSliderContext()`**: Hook for accessing `SliderContext`. Throws an error if used outside `SliderPrimitive.Root`.
+| `name` | `string` | -- | Optional name override for this thumb's hidden input |
