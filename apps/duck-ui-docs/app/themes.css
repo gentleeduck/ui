@@ -147,6 +147,7 @@
 .theme-teal .theme-container {
   --primary: var(--color-teal-600);
   --primary-foreground: var(--color-teal-50);
+  --ring: var(--color-teal-400);
   --chart-1: var(--color-teal-300);
   --chart-2: var(--color-teal-500);
   --chart-3: var(--color-teal-600);
@@ -159,6 +160,7 @@
   @variant dark {
     --primary: var(--color-teal-500);
     --primary-foreground: var(--color-teal-50);
+    --ring: var(--color-teal-900);
     --sidebar-primary: var(--color-teal-500);
     --sidebar-primary-foreground: var(--color-teal-50);
     --sidebar-ring: var(--color-teal-900);
