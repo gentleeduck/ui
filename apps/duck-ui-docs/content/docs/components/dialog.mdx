@@ -18,7 +18,6 @@ Dialogs demand attention and block interaction -- use them when the user *must* 
 <MermaidDiagram chart={`graph TD
   Dialog[Dialog]
   Dialog --> primitives["@gentleduck/primitives\n/dialog"]:::internal
-  Dialog --> motion["@gentleduck/motion"]:::internal
   Dialog --> hooks["@gentleduck/hooks"]:::internal
   Dialog --> libs["@gentleduck/libs"]:::internal
   Dialog --> lucide["lucide-react"]:::external
@@ -26,7 +25,6 @@ Dialogs demand attention and block interaction -- use them when the user *must* 
   primitives --> |"provides"| FocusTrap["Focus Trapping"]
   primitives --> |"provides"| Portal["Portal Rendering"]
   primitives --> |"provides"| EscDismiss["Escape Dismiss"]
-  motion --> |"provides"| AnimVariants["Entry/Exit\nAnimations"]
   hooks --> |"provides"| MediaQuery["useMediaQuery\n(Responsive)"]
 
   classDef external fill:#818cf8,stroke:#6366f1,color:#fff
@@ -56,7 +54,7 @@ npx @gentleduck/cli add dialog
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/primitives @gentleduck/libs @gentleduck/hooks @gentleduck/motion
+npm install @gentleduck/primitives @gentleduck/libs @gentleduck/hooks lucide-react
 ```
 
 <Step>Copy and paste the following code into your project.</Step>

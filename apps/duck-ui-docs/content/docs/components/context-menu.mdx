@@ -13,6 +13,24 @@ component: true
 
 Context menus are power-user shortcuts that surface relevant actions where the user already is. This implementation is built directly on the `@gentleduck/primitives/context-menu` primitives, so right-click behavior, keyboard interactions, and submenu semantics stay consistent.
 
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  ContextMenu[ContextMenu]
+  ContextMenu --> primitives["@gentleduck/primitives\n/context-menu"]:::internal
+  ContextMenu --> libs["@gentleduck/libs"]:::internal
+  ContextMenu --> lucide["lucide-react"]:::external
+
+  primitives --> |"wraps"| Menu["@gentleduck/primitives\n/menu"]:::internal
+  primitives --> |"provides"| RightClick["Right-click\nTrigger"]
+  primitives --> |"provides"| Dismiss["Click Outside\nDismiss"]
+  primitives --> |"provides"| A11y["ARIA\nAttributes"]
+  primitives --> |"provides"| Keyboard["Keyboard Nav\n& Focus"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -36,7 +54,7 @@ npx @gentleduck/cli add context-menu
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/libs @gentleduck/motion @gentleduck/primitives
+npm install @gentleduck/libs @gentleduck/primitives lucide-react
 ```
 
 <Step>Copy and paste the following code into your project.</Step>

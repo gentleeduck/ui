@@ -36,12 +36,12 @@ npx @gentleduck/cli add collapsible
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/libs @gentleduck/primitives 
+npm install @gentleduck/libs @gentleduck/primitives
 ```
 
 <Step>Add the `Button` component to your project.</Step>
 
-The `Cllapsible` component uses the [`Button`](/docs/components/button) component. Make sure you have it installed in your project.
+The `Collapsible` component uses the [`Button`](/docs/components/button) component. Make sure you have it installed in your project.
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -107,3 +107,22 @@ import {
 | --- | --- | --- | --- |
 | `forceMount` | `boolean` | `false` | When `true`, content is always mounted in the DOM regardless of open state |
 | `...props` | `React.HTMLProps<HTMLElement>` | -- | Additional props to spread to the section element |
+
+### useCollapsible
+
+Hook to access collapsible state from within a `Collapsible` tree. Throws if used outside a `Collapsible`.
+
+```tsx
+import { useCollapsible } from "@/components/ui/collapsible"
+
+const { open, onOpenChange } = useCollapsible()
+```
+
+| Return | Type | Description |
+| --- | --- | --- |
+| `open` | `boolean` | Current open state |
+| `onOpenChange` | `(open: boolean) => void` | Function to update open state |
+| `wrapperRef` | `React.RefObject<HTMLDivElement \| null>` | Ref to the root collapsible element |
+| `triggerRef` | `React.RefObject<HTMLButtonElement \| null>` | Ref to the trigger button |
+| `contentRef` | `React.RefObject<HTMLDivElement \| null>` | Ref to the content section |
+| `contentId` | `string` | Auto-generated ID linking trigger and content via `aria-controls` |
