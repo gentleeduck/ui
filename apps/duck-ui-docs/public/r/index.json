@@ -3,7 +3,8 @@
     "dependencies": [
       "@gentleduck/primitives",
       "@gentleduck/motion",
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "lucide-react"
     ],
     "files": [
       {
@@ -91,7 +92,7 @@
     ],
     "name": "alert-dialog",
     "registryDependencies": [
-      "dialog"
+      "button"
     ],
     "root_folder": "alert-dialog",
     "type": "registry:ui",
@@ -250,7 +251,8 @@
     "dependencies": [
       "@gentleduck/primitives",
       "@gentleduck/variants",
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "lucide-react"
     ],
     "files": [
       {
@@ -506,7 +508,8 @@
   {
     "dependencies": [
       "@gentleduck/libs",
-      "@gentleduck/primitives"
+      "@gentleduck/primitives",
+      "@gentleduck/motion"
     ],
     "files": [
       {
@@ -541,7 +544,8 @@
   {
     "dependencies": [
       "@gentleduck/vim",
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "lucide-react"
     ],
     "files": [
       {
@@ -642,7 +646,10 @@
   },
   {
     "dependencies": [
-      "@gentleduck/libs"
+      "@gentleduck/primitives",
+      "@gentleduck/motion",
+      "@gentleduck/libs",
+      "lucide-react"
     ],
     "files": [
       {
@@ -655,9 +662,7 @@
       }
     ],
     "name": "context-menu",
-    "registryDependencies": [
-      "dropdown-menu"
-    ],
+    "registryDependencies": [],
     "root_folder": "context-menu",
     "type": "registry:ui",
     "source": "/registry-ui-duckui/src/context-menu",
@@ -679,7 +684,8 @@
       "@gentleduck/primitives",
       "@gentleduck/motion",
       "@gentleduck/hooks",
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "lucide-react"
     ],
     "files": [
       {
@@ -696,6 +702,9 @@
       }
     ],
     "name": "dialog",
+    "registryDependencies": [
+      "drawer"
+    ],
     "root_folder": "dialog",
     "type": "registry:ui",
     "source": "/registry-ui-duckui/src/dialog",
@@ -752,24 +761,13 @@
   {
     "dependencies": [
       "@gentleduck/primitives",
+      "@gentleduck/motion",
       "@gentleduck/libs",
-      "@gentleduck/vim"
+      "lucide-react"
     ],
     "files": [
       {
-        "path": "dropdown-menu/dropdown-menu.hooks.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "dropdown-menu/dropdown-menu.libs.ts",
-        "type": "registry:ui"
-      },
-      {
         "path": "dropdown-menu/dropdown-menu.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "dropdown-menu/dropdown-menu.types.ts",
         "type": "registry:ui"
       },
       {
@@ -778,34 +776,14 @@
       }
     ],
     "name": "dropdown-menu",
-    "registryDependencies": [
-      "command",
-      "button",
-      "popover",
-      "radio-group"
-    ],
+    "registryDependencies": [],
     "root_folder": "dropdown-menu",
     "type": "registry:ui",
     "source": "/registry-ui-duckui/src/dropdown-menu",
     "tree": [
       {
-        "name": "dropdown-menu.hooks.ts",
-        "path": "dropdown-menu/dropdown-menu.hooks.ts",
-        "type": "file"
-      },
-      {
-        "name": "dropdown-menu.libs.ts",
-        "path": "dropdown-menu/dropdown-menu.libs.ts",
-        "type": "file"
-      },
-      {
         "name": "dropdown-menu.tsx",
         "path": "dropdown-menu/dropdown-menu.tsx",
-        "type": "file"
-      },
-      {
-        "name": "dropdown-menu.types.ts",
-        "path": "dropdown-menu/dropdown-menu.types.ts",
         "type": "file"
       },
       {
@@ -819,7 +797,10 @@
     "dependencies": [
       "@gentleduck/variants",
       "@gentleduck/libs",
-      "@radix-ui/react-navigation-menu"
+      "@gentleduck/primitives",
+      "@gentleduck/motion",
+      "@radix-ui/react-navigation-menu",
+      "lucide-react"
     ],
     "files": [
       {
@@ -883,6 +864,51 @@
       {
         "name": "react-hook.form.tsx",
         "path": "react-hook-form/react-hook.form.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "dependencies": [
+      "@gentleduck/libs",
+      "@tanstack/react-form",
+      "lucide-react"
+    ],
+    "files": [
+      {
+        "path": "tanstack-form/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "tanstack-form/tanstack-form.hooks.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "tanstack-form/tanstack-form.tsx",
+        "type": "registry:ui"
+      }
+    ],
+    "name": "tanstack-form",
+    "registryDependencies": [
+      "label"
+    ],
+    "root_folder": "tanstack-form",
+    "type": "registry:ui",
+    "source": "/registry-ui-duckui/src/tanstack-form",
+    "tree": [
+      {
+        "name": "index.ts",
+        "path": "tanstack-form/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "tanstack-form.hooks.ts",
+        "path": "tanstack-form/tanstack-form.hooks.ts",
+        "type": "file"
+      },
+      {
+        "name": "tanstack-form.tsx",
+        "path": "tanstack-form/tanstack-form.tsx",
         "type": "file"
       }
     ]
@@ -1027,7 +1053,10 @@
   },
   {
     "dependencies": [
-      "@gentleduck/libs"
+      "@gentleduck/primitives",
+      "@gentleduck/motion",
+      "@gentleduck/libs",
+      "lucide-react"
     ],
     "files": [
       {
@@ -1040,10 +1069,7 @@
       }
     ],
     "name": "menubar",
-    "registryDependencies": [
-      "button",
-      "dropdown-menu"
-    ],
+    "registryDependencies": [],
     "root_folder": "menubar",
     "type": "registry:ui",
     "source": "/registry-ui-duckui/src/menubar",
@@ -1278,7 +1304,9 @@
   {
     "dependencies": [
       "@gentleduck/primitives",
-      "@gentleduck/libs"
+      "@gentleduck/motion",
+      "@gentleduck/libs",
+      "lucide-react"
     ],
     "files": [
       {
@@ -1286,28 +1314,12 @@
         "type": "registry:ui"
       },
       {
-        "path": "select/select.hooks.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "select/select.libs.ts",
-        "type": "registry:ui"
-      },
-      {
         "path": "select/select.tsx",
-        "type": "registry:ui"
-      },
-      {
-        "path": "select/select.types.ts",
         "type": "registry:ui"
       }
     ],
     "name": "select",
-    "registryDependencies": [
-      "command",
-      "button",
-      "popover"
-    ],
+    "registryDependencies": [],
     "root_folder": "select",
     "type": "registry:ui",
     "source": "/registry-ui-duckui/src/select",
@@ -1318,23 +1330,8 @@
         "type": "file"
       },
       {
-        "name": "select.hooks.ts",
-        "path": "select/select.hooks.ts",
-        "type": "file"
-      },
-      {
-        "name": "select.libs.ts",
-        "path": "select/select.libs.ts",
-        "type": "file"
-      },
-      {
         "name": "select.tsx",
         "path": "select/select.tsx",
-        "type": "file"
-      },
-      {
-        "name": "select.types.ts",
-        "path": "select/select.types.ts",
         "type": "file"
       }
     ]
@@ -1375,7 +1372,8 @@
       "@gentleduck/primitives",
       "@gentleduck/libs",
       "@gentleduck/motion",
-      "@gentleduck/variants"
+      "@gentleduck/variants",
+      "lucide-react"
     ],
     "files": [
       {
@@ -1409,6 +1407,76 @@
       {
         "name": "sheet.tsx",
         "path": "sheet/sheet.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "dependencies": [
+      "@gentleduck/hooks",
+      "@gentleduck/libs",
+      "@gentleduck/primitives",
+      "@gentleduck/variants",
+      "lucide-react"
+    ],
+    "files": [
+      {
+        "path": "sidebar/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "sidebar/sidebar.constants.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "sidebar/sidebar.hooks.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "sidebar/sidebar.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "sidebar/sidebar.types.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "name": "sidebar",
+    "registryDependencies": [
+      "button",
+      "input",
+      "separator",
+      "sheet",
+      "skeleton",
+      "tooltip"
+    ],
+    "root_folder": "sidebar",
+    "type": "registry:ui",
+    "source": "/registry-ui-duckui/src/sidebar",
+    "tree": [
+      {
+        "name": "index.ts",
+        "path": "sidebar/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "sidebar.constants.ts",
+        "path": "sidebar/sidebar.constants.ts",
+        "type": "file"
+      },
+      {
+        "name": "sidebar.hooks.ts",
+        "path": "sidebar/sidebar.hooks.ts",
+        "type": "file"
+      },
+      {
+        "name": "sidebar.tsx",
+        "path": "sidebar/sidebar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar.types.ts",
+        "path": "sidebar/sidebar.types.ts",
         "type": "file"
       }
     ]
@@ -1480,7 +1548,8 @@
     "dependencies": [
       "sonner",
       "next-themes",
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "lucide-react"
     ],
     "files": [
       {
@@ -2034,6 +2103,7 @@
   {
     "dependencies": [
       "@gentleduck/libs",
+      "@gentleduck/primitives",
       "react-hook-form",
       "sonner",
       "lucide-react"
@@ -7223,6 +7293,16 @@
         "name": "slider-2.tsx",
         "path": "slider/slider-2.tsx",
         "type": "file"
+      },
+      {
+        "name": "slider-3.tsx",
+        "path": "slider/slider-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "slider-4.tsx",
+        "path": "slider/slider-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -7249,6 +7329,90 @@
       {
         "name": "slider-2.tsx",
         "path": "slider/slider-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "slider-3.tsx",
+        "path": "slider/slider-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "slider-4.tsx",
+        "path": "slider/slider-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "slider/slider-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "slider-3",
+    "registryDependencies": [
+      "slider"
+    ],
+    "root_folder": "slider",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/slider",
+    "tree": [
+      {
+        "name": "slider-1.tsx",
+        "path": "slider/slider-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "slider-2.tsx",
+        "path": "slider/slider-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "slider-3.tsx",
+        "path": "slider/slider-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "slider-4.tsx",
+        "path": "slider/slider-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "slider/slider-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "slider-4",
+    "registryDependencies": [
+      "slider"
+    ],
+    "root_folder": "slider",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/slider",
+    "tree": [
+      {
+        "name": "slider-1.tsx",
+        "path": "slider/slider-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "slider-2.tsx",
+        "path": "slider/slider-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "slider-3.tsx",
+        "path": "slider/slider-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "slider-4.tsx",
+        "path": "slider/slider-4.tsx",
         "type": "file"
       }
     ]
@@ -7336,6 +7500,16 @@
         "name": "sonner-3.tsx",
         "path": "sonner/sonner-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "sonner-4.tsx",
+        "path": "sonner/sonner-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sonner-5.tsx",
+        "path": "sonner/sonner-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -7368,6 +7542,16 @@
         "name": "sonner-3.tsx",
         "path": "sonner/sonner-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "sonner-4.tsx",
+        "path": "sonner/sonner-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sonner-5.tsx",
+        "path": "sonner/sonner-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -7399,6 +7583,100 @@
       {
         "name": "sonner-3.tsx",
         "path": "sonner/sonner-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sonner-4.tsx",
+        "path": "sonner/sonner-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sonner-5.tsx",
+        "path": "sonner/sonner-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "sonner/sonner-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "sonner-4",
+    "registryDependencies": [
+      "sonner"
+    ],
+    "root_folder": "sonner",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/sonner",
+    "tree": [
+      {
+        "name": "sonner-1.tsx",
+        "path": "sonner/sonner-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sonner-2.tsx",
+        "path": "sonner/sonner-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sonner-3.tsx",
+        "path": "sonner/sonner-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sonner-4.tsx",
+        "path": "sonner/sonner-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sonner-5.tsx",
+        "path": "sonner/sonner-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "sonner/sonner-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "sonner-5",
+    "registryDependencies": [
+      "sonner"
+    ],
+    "root_folder": "sonner",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/sonner",
+    "tree": [
+      {
+        "name": "sonner-1.tsx",
+        "path": "sonner/sonner-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sonner-2.tsx",
+        "path": "sonner/sonner-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sonner-3.tsx",
+        "path": "sonner/sonner-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sonner-4.tsx",
+        "path": "sonner/sonner-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sonner-5.tsx",
+        "path": "sonner/sonner-5.tsx",
         "type": "file"
       }
     ]
@@ -10979,6 +11257,11 @@
         "name": "popover-2.tsx",
         "path": "popover/popover-2.tsx",
         "type": "file"
+      },
+      {
+        "name": "popover-3.tsx",
+        "path": "popover/popover-3.tsx",
+        "type": "file"
       }
     ]
   },
@@ -11005,6 +11288,43 @@
       {
         "name": "popover-2.tsx",
         "path": "popover/popover-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "popover-3.tsx",
+        "path": "popover/popover-3.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "popover/popover-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "popover-3",
+    "registryDependencies": [
+      "popover"
+    ],
+    "root_folder": "popover",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/popover",
+    "tree": [
+      {
+        "name": "popover-1.tsx",
+        "path": "popover/popover-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "popover-2.tsx",
+        "path": "popover/popover-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "popover-3.tsx",
+        "path": "popover/popover-3.tsx",
         "type": "file"
       }
     ]

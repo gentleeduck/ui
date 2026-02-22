@@ -1,0 +1,34 @@
+{
+  "dependencies": [
+    "@gentleduck/libs",
+    "@tanstack/react-form",
+    "lucide-react"
+  ],
+  "files": [
+    {
+      "content": "export * from './tanstack-form'\nexport * from './tanstack-form.hooks'\n",
+      "path": "tanstack-form/index.ts",
+      "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    },
+    {
+      "content": "import { useField } from '@tanstack/react-form'\nimport React from 'react'\nimport { FormContext, FormItemContext } from './tanstack-form'\n\nexport function useFormContext() {\n  const formContext = React.useContext(FormContext)\n  if (!formContext) {\n    throw new Error('useFormContext should be used within <Form>')\n  }\n  return { ...formContext }\n}\n\n// Define a more generic return type that doesn't depend on specific TanStack types\nexport function useFormField() {\n  const { form } = useFormContext()\n  const fieldContext = React.useContext(FormItemContext)\n  if (!fieldContext) {\n    throw new Error('useFormField should be used within <FormItem>')\n  }\n\n  const field = useField({ form, name: fieldContext.name })\n\n  return {\n    error: field.state.meta.errors?.[0] as never as Error,\n    errors: field.state.meta.errors as never as Error[],\n    formDescriptionId: `${fieldContext.name}-form-item-description`,\n    formItemId: `${fieldContext.name}-form-item`,\n    formMessageId: `${fieldContext.name}-form-item-message`,\n    handleChange: field.handleChange,\n    state: field.state,\n  }\n}\n\nexport type Error = {\n  message: string\n  type: string\n  path: string[]\n}\n",
+      "path": "tanstack-form/tanstack-form.hooks.ts",
+      "target": "components/ui/tanstack-form.hooks.ts",
+      "type": "registry:ui"
+    },
+    {
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport type { ReactFormExtendedApi } from '@tanstack/react-form'\nimport { Field, type useForm } from '@tanstack/react-form'\nimport { Circle } from 'lucide-react'\nimport * as React from 'react'\nimport { Label } from '../label'\nimport { useFormField } from './tanstack-form.hooks'\n\nexport const FormItemContext = React.createContext<{\n  id: string\n  name: string\n} | null>(null)\n\nexport const FormContext = React.createContext<{\n  form: ReturnType<typeof useForm>\n} | null>(null)\n\nfunction Form<TForm extends ReactFormExtendedApi<any, any, any, any, any, any, any, any, any, any, any, any>>({\n  ref,\n  form,\n  ...props\n}: React.ComponentProps<'form'> & { form: TForm }) {\n  return (\n    <FormContext.Provider value={{ form }}>\n      <form {...props} data-slot=\"form\" ref={ref} />\n    </FormContext.Provider>\n  )\n}\n\nconst FormField = <\n  TForm extends ReactFormExtendedApi<any, any, any, any, any, any, any, any, any, any, any, any>,\n  TName extends React.ComponentProps<TForm['Field']>['name'],\n>({\n  name,\n  form,\n  ...props\n}: Omit<React.ComponentProps<typeof Field>, 'form' | 'name'> & {\n  form: TForm\n  name: TName\n}) => {\n  const id = React.useId()\n\n  return (\n    <FormItemContext.Provider value={{ id, name }}>\n      <Field form={form} name={name} {...props} data-slot=\"form-field\" />\n    </FormItemContext.Provider>\n  )\n}\n\nconst FormItem = ({ className, ref, ...props }: React.HTMLProps<HTMLDivElement>) => {\n  return <div className={cn('flex flex-col gap-2', className)} ref={ref} {...props} data-slot=\"form-item\" />\n}\n\nconst FormLabel = ({ className, htmlFor, ref, ...props }: React.ComponentPropsWithRef<typeof Label>) => {\n  const { formItemId, error } = useFormField()\n  return (\n    <Label\n      className={cn(error && 'text-destructive', className)}\n      data-slot=\"form-label\"\n      htmlFor={htmlFor ?? formItemId}\n      ref={ref}\n      {...props}\n    />\n  )\n}\n\nconst FormDescription = ({ className, ref, ...props }: React.HTMLProps<HTMLParagraphElement>) => {\n  const { formDescriptionId } = useFormField()\n\n  return (\n    <p\n      className={cn('text-muted-foreground text-sm', className)}\n      id={formDescriptionId}\n      ref={ref}\n      {...props}\n      data-slot=\"form-description\"\n    />\n  )\n}\n\nconst FormMessage = ({ className, children, ref, ...props }: React.HTMLProps<HTMLParagraphElement>) => {\n  const { error, formMessageId } = useFormField()\n  const body = error ? String(error.message) : children\n\n  if (!body) {\n    return null\n  }\n\n  return (\n    <p\n      className={cn('font-medium text-destructive text-sm', className)}\n      id={formMessageId}\n      ref={ref}\n      {...props}\n      data-slot=\"form-message\">\n      {body}\n    </p>\n  )\n}\n\nfunction FormMultiMessage({\n  className,\n  ref,\n  errors_keys,\n  ...props\n}: React.HTMLProps<HTMLDivElement> & {\n  errors_keys: string[]\n}) {\n  const { formMessageId, errors } = useFormField()\n\n  return (\n    <div\n      className={cn(\n        'overflow-hidden transition-all duration-300 ease-in-out',\n        errors.length ? 'my-1 max-h-[960px] opacity-100' : 'my-0 max-h-0 opacity-0',\n        className,\n      )}\n      data-slot=\"form-message\"\n      id={formMessageId}\n      ref={ref}\n      {...props}>\n      <ul className=\"flex flex-col items-start gap-1\">\n        {errors_keys.map((rule) => (\n          <li className=\"flex items-center gap-2 text-nowrap\" key={rule}>\n            <Circle\n              className={cn(\n                'size-3 transition-all duration-300 ease-in-out',\n                errors.length > 0 && errors.some((err) => err.message === rule)\n                  ? 'fill-red-500 stroke-red-500'\n                  : 'fill-green-500 stroke-green-500',\n              )}\n            />\n            <span\n              className={cn(\n                'text-nowrap text-sm transition-all duration-300 ease-in-out',\n                errors.length > 0 && errors.some((err) => err.message === rule) ? 'text-red-500' : 'text-green-500',\n              )}>\n              {rule}\n            </span>\n          </li>\n        ))}\n      </ul>\n    </div>\n  )\n}\n\nexport { Form, FormItem, FormLabel, FormDescription, FormMessage, FormMultiMessage, FormField }\n",
+      "path": "tanstack-form/tanstack-form.tsx",
+      "target": "components/ui/tanstack-form.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "tanstack-form",
+  "registryDependencies": [
+    "label"
+  ],
+  "root_folder": "tanstack-form",
+  "source": "/registry-ui-duckui/src/tanstack-form",
+  "type": "registry:ui"
+}
