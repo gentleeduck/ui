@@ -1,0 +1,62 @@
+---
+title: "Visibility Hidden"
+description: "Render content that is visually hidden but accessible to assistive technologies."
+---
+
+```tsx
+import * as VisuallyHidden from '@gentleduck/primitives/visibility-hidden'
+```
+
+## Anatomy
+
+```tsx
+<VisuallyHidden.Root>Accessible-only label</VisuallyHidden.Root>
+```
+
+---
+
+## Example
+
+```tsx
+import { VisuallyHidden } from '@gentleduck/primitives/visibility-hidden'
+
+function IconButtonLabel() {
+  return (
+    <button>
+      <svg aria-hidden viewBox="0 0 16 16" />
+      <VisuallyHidden>Open notifications</VisuallyHidden>
+    </button>
+  )
+}
+```
+
+### Icon-only button label
+
+```tsx
+<button>
+  <BellIcon aria-hidden />
+  <VisuallyHidden.Root>Open notifications</VisuallyHidden.Root>
+</button>
+```
+
+---
+
+## API
+
+### `VisuallyHidden` / `Root`
+
+Renders a visually hidden `<span>` using an accessibility-safe clipping pattern.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `asChild` | `boolean` | -- | Render as child element |
+| `style` | `React.CSSProperties` | -- | Additional inline styles merged after hidden defaults |
+| `...props` | `React.ComponentPropsWithoutRef<typeof Primitive.span>` | -- | Native span props |
+
+---
+
+## Accessibility guidance
+
+- Use this primitive when text must be available to assistive tech but not visible.
+- Prefer it for icon-only controls, additional context labels, and hidden headings.
+- Do not use it to hide interactive controls from visual users; use proper conditional rendering for that case.

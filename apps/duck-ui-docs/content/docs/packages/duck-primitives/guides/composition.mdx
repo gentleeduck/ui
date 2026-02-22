@@ -94,7 +94,7 @@ import * as DialogPrimitive from '@gentleduck/primitives/dialog'
 export const Dialog = DialogPrimitive.Root
 
 export const DialogContent = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Content>,
+  React.ComponentRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
   <DialogPrimitive.Portal>

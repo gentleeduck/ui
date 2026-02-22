@@ -32,7 +32,7 @@ export const DialogTrigger = DialogPrimitive.Trigger
 export const DialogPortal = DialogPrimitive.Portal
 
 export const DialogOverlay = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Overlay>,
+  React.ComponentRef<typeof DialogPrimitive.Overlay>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Overlay
@@ -48,7 +48,7 @@ export const DialogOverlay = React.forwardRef<
 DialogOverlay.displayName = 'DialogOverlay'
 
 export const DialogContent = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Content>,
+  React.ComponentRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => (
   <DialogPortal>
@@ -75,7 +75,7 @@ export const DialogContent = React.forwardRef<
 DialogContent.displayName = 'DialogContent'
 
 export const DialogTitle = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Title>,
+  React.ComponentRef<typeof DialogPrimitive.Title>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Title
@@ -87,7 +87,7 @@ export const DialogTitle = React.forwardRef<
 DialogTitle.displayName = 'DialogTitle'
 
 export const DialogDescription = React.forwardRef<
-  React.ElementRef<typeof DialogPrimitive.Description>,
+  React.ComponentRef<typeof DialogPrimitive.Description>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
 >(({ className, ...props }, ref) => (
   <DialogPrimitive.Description
@@ -187,7 +187,7 @@ export const Popover = PopoverPrimitive.Root
 export const PopoverTrigger = PopoverPrimitive.Trigger
 
 export const PopoverContent = React.forwardRef<
-  React.ElementRef<typeof PopoverPrimitive.Content>,
+  React.ComponentRef<typeof PopoverPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
 >(({ className, align = 'center', sideOffset = 8, ...props }, ref) => (
   <PopoverPrimitive.Portal>
@@ -224,7 +224,7 @@ export const Tooltip = TooltipPrimitive.Root
 export const TooltipTrigger = TooltipPrimitive.Trigger
 
 export const TooltipContent = React.forwardRef<
-  React.ElementRef<typeof TooltipPrimitive.Content>,
+  React.ComponentRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
 >(({ className, sideOffset = 6, ...props }, ref) => (
   <TooltipPrimitive.Portal>
@@ -242,6 +242,73 @@ export const TooltipContent = React.forwardRef<
 ))
 TooltipContent.displayName = 'TooltipContent'
 ```
+
+---
+
+## A styled Select
+
+```tsx title="components/ui/select.tsx"
+import * as SelectPrimitive from '@gentleduck/primitives/select'
+import { cn } from '../utils'
+
+export const Select = SelectPrimitive.Root
+export const SelectTrigger = React.forwardRef<
+  React.ComponentRef<typeof SelectPrimitive.Trigger>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.Trigger
+    ref={ref}
+    className={cn(
+      'inline-flex h-10 w-full items-center justify-between rounded-md border px-3 py-2 text-sm',
+      className
+    )}
+    {...props}
+  />
+))
+
+export const SelectContent = React.forwardRef<
+  React.ComponentRef<typeof SelectPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
+>(({ className, ...props }, ref) => (
+  <SelectPrimitive.Portal>
+    <SelectPrimitive.Content ref={ref} className={cn('rounded-md border bg-white shadow-lg', className)} {...props}>
+      <SelectPrimitive.Viewport className="p-1" />
+    </SelectPrimitive.Content>
+  </SelectPrimitive.Portal>
+))
+```
+
+---
+
+## A styled Slider
+
+```tsx title="components/ui/slider.tsx"
+import * as SliderPrimitive from '@gentleduck/primitives/slider'
+import { cn } from '../utils'
+
+export const Slider = React.forwardRef<
+  React.ComponentRef<typeof SliderPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
+>(({ className, ...props }, ref) => (
+  <SliderPrimitive.Root ref={ref} className={cn('relative flex w-full items-center', className)} {...props}>
+    <SliderPrimitive.Track className="relative h-1 w-full grow rounded-full bg-gray-200">
+      <SliderPrimitive.Range className="absolute h-full rounded-full bg-blue-600" />
+    </SliderPrimitive.Track>
+    {(props.value ?? props.defaultValue ?? [0]).map((_, index) => (
+      <SliderPrimitive.Thumb key={index} className="block size-4 rounded-full border bg-white shadow" />
+    ))}
+  </SliderPrimitive.Root>
+))
+```
+
+---
+
+## Sheet + accessibility helpers
+
+- Use `@gentleduck/primitives/sheet` when you want dialog behavior with sheet naming.
+- Use `@gentleduck/primitives/visibility-hidden` for labels in icon-only controls.
+- Use `@gentleduck/primitives/arrow` for consistent floating-surface arrows.
+- Use `@gentleduck/primitives/checkers` when custom checkbox/radio visual indicators need SVG data-URI rendering.
 
 ---
 
@@ -274,9 +341,13 @@ A typical design system built on duck-primitives:
 components/
   ui/
     dialog.tsx        # Dialog, DialogContent, DialogTitle, etc.
+    sheet.tsx         # Sheet wrappers (Dialog aliases)
     popover.tsx       # Popover, PopoverContent, etc.
     tooltip.tsx       # Tooltip, TooltipContent, etc.
+    select.tsx        # Select wrappers
+    slider.tsx        # Slider wrapper
     context-menu.tsx  # ContextMenu, etc.
+    dropdown-menu.tsx # DropdownMenu wrappers
     menubar.tsx       # Menubar, etc.
     alert-dialog.tsx  # AlertDialog, etc.
     progress.tsx      # Progress, ProgressIndicator
@@ -300,8 +371,8 @@ Across 8 lessons, you now know:
 5. Menu systems and keyboard navigation.
 6. Animation with Presence.
 7. Accessibility patterns and testing.
-8. Wrapping primitives into a design system.
+8. Wrapping primitives into a design system, including dialogs, menus, dropdowns, selects, sliders, and sheets.
 
 </Callout>
 
-You now have the knowledge to build a complete, accessible component library on top of duck-primitives.
+You now have the knowledge to build a complete, accessible component library on top of duck-primitives. For module-by-module depth, use the API reference pages for every primitive.
