@@ -115,6 +115,7 @@ const nextConfig: NextConfig = {
     '@gentleduck/registry-blocks-duckui',
     '@gentleduck/docs',
     '@gentleduck/lazy',
+    '@gentleduck/primitives',
   ],
   // rewrites: async () => {
   //   return [
