@@ -1,0 +1,235 @@
+---
+title: tanstack-form
+description: Form primitives built on TanStack Form for labels, descriptions, and validation messages.
+component: true
+links:
+  doc: https://tanstack.com/form/latest
+---
+
+TanStack Form gives you strongly typed field state and validation. This wrapper adds composable UI primitives so form fields stay consistent across your design system.
+
+## Philosophy
+
+The goal is to keep TanStack Form control while standardizing field structure:
+
+- `FormField` scopes field context (`id`, `name`).
+- `FormLabel`, `FormDescription`, and `FormMessage` read field state automatically.
+- `FormMultiMessage` supports checklist-style validation feedback.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Form[Form]
+  Form --> FormCtx[FormContext]
+  FormField[FormField] --> FieldCtx[FormItemContext]
+  FormField --> TanField["@tanstack/react-form Field"]:::external
+
+  FormLabel[FormLabel] --> Hook[useFormField]
+  FormDescription[FormDescription] --> Hook
+  FormMessage[FormMessage] --> Hook
+  FormMultiMessage[FormMultiMessage] --> Hook
+  Hook --> UseField["useField (TanStack)"]:::external
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+`} />
+
+## Anatomy
+
+```tsx showLineNumbers
+<Form form={form}>
+  <FormField form={form} name="email">
+    {(field) => (
+      <FormItem>
+        <FormLabel>Email</FormLabel>
+        {/* your input */}
+        <FormDescription>Used for account notifications.</FormDescription>
+        <FormMessage />
+      </FormItem>
+    )}
+  </FormField>
+</Form>
+```
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add tanstack-form
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/libs @tanstack/react-form lucide-react
+```
+
+<Step>Make sure you have the [`Label`](/docs/components/label) component installed in your project.</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource name="tanstack-form" title="components/ui/tanstack-form.tsx" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx showLineNumbers
+import { useForm } from "@tanstack/react-form"
+import { Input } from "@/components/ui/input"
+import {
+  Form,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/tanstack-form"
+```
+
+```tsx showLineNumbers
+const form = useForm({
+  defaultValues: { email: "" },
+  onSubmit: async ({ value }) => {
+    console.log(value)
+  },
+})
+
+<Form
+  form={form}
+  onSubmit={(event) => {
+    event.preventDefault()
+    event.stopPropagation()
+    form.handleSubmit()
+  }}>
+  <FormField
+    form={form}
+    name="email"
+    validators={{
+      onChange: ({ value }) => (!value ? "Email is required" : undefined),
+    }}>
+    {(field) => (
+      <FormItem>
+        <FormLabel>Email</FormLabel>
+        <Input
+          id={field.name}
+          name={field.name}
+          value={field.state.value}
+          onBlur={field.handleBlur}
+          onChange={(event) => field.handleChange(event.target.value)}
+        />
+        <FormDescription>We only use this for updates.</FormDescription>
+        <FormMessage />
+      </FormItem>
+    )}
+  </FormField>
+</Form>
+```
+
+## Multi-rule Feedback
+
+Use `FormMultiMessage` when a field has multiple password-style rules.
+
+```tsx showLineNumbers
+<FormMultiMessage
+  errors_keys={[
+    "At least 8 characters",
+    "Contains one uppercase letter",
+    "Contains one number",
+  ]}
+/>
+```
+
+Rules currently passing are shown as green; active errors are shown as red.
+
+## API Reference
+
+### Form
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `form` | `ReturnType<typeof useForm>` | -- | Required TanStack form instance |
+| `...props` | `React.ComponentProps<'form'>` | -- | Native form props |
+
+### FormField
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `form` | `ReturnType<typeof useForm>` | -- | Required TanStack form instance |
+| `name` | `TName` | -- | Field path in form values |
+| `...props` | `Field` props (excluding `form` and `name`) | -- | Forwarded to TanStack `Field` |
+
+### FormItem
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional wrapper classes |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Native div props |
+
+### FormLabel
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `htmlFor` | `string` | auto | Uses field-derived id when omitted |
+| `className` | `string` | -- | Additional classes |
+| `...props` | `Label` props | -- | Forwarded to `Label` |
+
+### FormDescription
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional classes |
+| `...props` | `React.HTMLProps<HTMLParagraphElement>` | -- | Native paragraph props |
+
+### FormMessage
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `children` | `React.ReactNode` | -- | Fallback message when no field error |
+| `className` | `string` | -- | Additional classes |
+| `...props` | `React.HTMLProps<HTMLParagraphElement>` | -- | Native paragraph props |
+
+### FormMultiMessage
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `errors_keys` | `string[]` | -- | Rule labels to render |
+| `className` | `string` | -- | Additional classes |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Native div props |
+
+### useFormContext
+
+Returns `{ form }` from `FormContext`. Throws if used outside `<Form>`.
+
+### useFormField
+
+Returns field metadata and state for the current `FormField` scope:
+
+- `error`, `errors`
+- `formItemId`, `formDescriptionId`, `formMessageId`
+- `state`, `handleChange`
+
+Throws if used outside `FormField` scope.
+
+## See also
+
+- [Input](/docs/components/input)
+- [React Hook Form](/docs/components/react-hook-form)
