@@ -1,0 +1,210 @@
+---
+title: sidebar
+description: A composable application sidebar system for desktop and mobile layouts.
+component: true
+---
+
+The Sidebar component is a layout system made from small primitives.
+
+It includes:
+
+- Desktop expand/collapse behavior.
+- Mobile behavior with `Sheet`.
+- Group and menu primitives for custom navigation structure.
+- Context helpers for state and toggling.
+
+## Philosophy
+
+The sidebar is a layout primitive built from small, composable pieces. Rather than a monolithic component with dozens of props, it exposes a hierarchy of sub-components (Provider, Header, Content, Footer, Group, Menu, MenuItem) that you assemble to match your application structure. Desktop and mobile behaviors are handled automatically -- desktop uses expand/collapse with a keyboard shortcut, mobile delegates to a Sheet overlay.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Sidebar[Sidebar]
+  Sidebar --> hooks["@gentleduck/hooks"]:::internal
+  Sidebar --> libs["@gentleduck/libs"]:::internal
+  Sidebar --> primitives["@gentleduck/primitives\n/slot"]:::internal
+  Sidebar --> variants["@gentleduck/variants"]:::internal
+  Sidebar --> lucide["lucide-react"]:::external
+
+  Sidebar --> Button["Button"]:::component
+  Sidebar --> Input["Input"]:::component
+  Sidebar --> Separator["Separator"]:::component
+  Sidebar --> Sheet["Sheet"]:::component
+  Sidebar --> Skeleton["Skeleton"]:::component
+  Sidebar --> Tooltip["Tooltip"]:::component
+
+  hooks --> |"provides"| Mobile["useIsMobile\n(Responsive)"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+  A[SidebarProvider] --> B[Sidebar]
+  A --> C[SidebarInset]
+  B --> D[SidebarHeader]
+  B --> E[SidebarContent]
+  B --> F[SidebarFooter]
+  B --> G[SidebarRail]
+  E --> H[SidebarGroup]
+  H --> I[SidebarGroupLabel]
+  H --> J[SidebarGroupAction]
+  H --> K[SidebarGroupContent]
+  K --> L[SidebarMenu]
+  L --> M[SidebarMenuItem]
+  M --> N[SidebarMenuButton]
+  M --> O[SidebarMenuAction]
+  M --> P[SidebarMenuBadge]
+  M --> Q[SidebarMenuSub]
+  Q --> R[SidebarMenuSubItem]
+  R --> S[SidebarMenuSubButton]
+  A --> T[SidebarTrigger]
+`} />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add sidebar
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/hooks @gentleduck/libs @gentleduck/primitives @gentleduck/variants lucide-react
+```
+
+<Step>Make sure these components are installed:</Step>
+
+- [Button](/docs/components/button)
+- [Input](/docs/components/input)
+- [Separator](/docs/components/separator)
+- [Sheet](/docs/components/sheet)
+- [Skeleton](/docs/components/skeleton)
+- [Tooltip](/docs/components/tooltip)
+
+<Step>Copy the sidebar files into your project:</Step>
+
+- `components/ui/sidebar.tsx`
+- `components/ui/sidebar.constants.ts`
+- `components/ui/sidebar.hooks.ts`
+- `components/ui/sidebar.types.ts`
+- `components/ui/index.ts` (export wiring)
+
+<Step>Update import paths to match your project structure.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarProvider,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
+```
+
+```tsx showLineNumbers
+<SidebarProvider>
+  <Sidebar>
+    <SidebarHeader />
+    <SidebarContent>
+      <SidebarGroup>
+        <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+        <SidebarGroupContent>
+          <SidebarMenu>
+            <SidebarMenuItem>
+              <SidebarMenuButton>Dashboard</SidebarMenuButton>
+            </SidebarMenuItem>
+          </SidebarMenu>
+        </SidebarGroupContent>
+      </SidebarGroup>
+    </SidebarContent>
+    <SidebarFooter />
+  </Sidebar>
+
+  <SidebarInset>
+    <header className="flex items-center gap-2 p-4">
+      <SidebarTrigger />
+      <h1>Page Content</h1>
+    </header>
+  </SidebarInset>
+</SidebarProvider>
+```
+
+Keyboard shortcut: `Cmd/Ctrl + B`.
+
+## API Reference
+
+### SidebarProvider
+
+- `defaultOpen?: boolean` (default `true`)
+- `open?: boolean`
+- `onOpenChange?: (open: boolean) => void`
+- `children: React.ReactNode`
+
+Provides sidebar state through context.
+
+### Sidebar
+
+- `side?: 'left' | 'right'` (default `'left'`)
+- `variant?: 'sidebar' | 'floating' | 'inset'` (default `'sidebar'`)
+- `collapsible?: 'offcanvas' | 'icon' | 'none'` (default `'offcanvas'`)
+
+Renders desktop and mobile behavior based on viewport and provider state.
+
+### Main Exports
+
+- Layout: `Sidebar`, `SidebarInset`, `SidebarHeader`, `SidebarContent`, `SidebarFooter`, `SidebarSeparator`
+- Grouping: `SidebarGroup`, `SidebarGroupLabel`, `SidebarGroupContent`, `SidebarGroupAction`
+- Menu: `SidebarMenu`, `SidebarMenuItem`, `SidebarMenuButton`, `SidebarMenuAction`, `SidebarMenuBadge`
+- Sub-menu: `SidebarMenuSub`, `SidebarMenuSubItem`, `SidebarMenuSubButton`
+- Helpers: `SidebarProvider`, `SidebarTrigger`, `SidebarRail`, `SidebarInput`, `useSidebar`
+
+### Constants
+
+- `SIDEBAR_COOKIE_NAME`
+- `SIDEBAR_COOKIE_MAX_AGE`
+- `SIDEBAR_WIDTH`
+- `SIDEBAR_WIDTH_MOBILE`
+- `SIDEBAR_WIDTH_ICON`
+- `SIDEBAR_KEYBOARD_SHORTCUT`
+- `sidebarMenuButtonVariants`
+
+## See Also
+
+- [Sheet](/docs/components/sheet)
+- [Navigation Menu](/docs/components/navigation-menu)
+- [Item](/docs/components/item)
