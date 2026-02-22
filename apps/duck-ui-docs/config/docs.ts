@@ -307,6 +307,21 @@ export const docsConfig: DocsConfig = {
                   title: 'Alert Dialog',
                 },
                 {
+                  href: '/docs/packages/duck-primitives/api/arrow',
+                  items: [],
+                  title: 'Arrow',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/checkers',
+                  items: [],
+                  title: 'Checkers',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/drawer',
+                  items: [],
+                  title: 'Drawer',
+                },
+                {
                   href: '/docs/packages/duck-primitives/api/popover',
                   items: [],
                   title: 'Popover',
@@ -332,14 +347,39 @@ export const docsConfig: DocsConfig = {
                   title: 'Context Menu',
                 },
                 {
+                  href: '/docs/packages/duck-primitives/api/dropdown-menu',
+                  items: [],
+                  title: 'Dropdown Menu',
+                },
+                {
                   href: '/docs/packages/duck-primitives/api/menubar',
                   items: [],
                   title: 'Menubar',
                 },
                 {
+                  href: '/docs/packages/duck-primitives/api/navigation-menu',
+                  items: [],
+                  title: 'Navigation Menu',
+                },
+                {
                   href: '/docs/packages/duck-primitives/api/progress',
                   items: [],
                   title: 'Progress',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/select',
+                  items: [],
+                  title: 'Select',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/slider',
+                  items: [],
+                  title: 'Slider',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/sheet',
+                  items: [],
+                  title: 'Sheet',
                 },
                 {
                   href: '/docs/packages/duck-primitives/api/slot',
@@ -382,9 +422,19 @@ export const docsConfig: DocsConfig = {
                   title: 'Mount',
                 },
                 {
+                  href: '/docs/packages/duck-primitives/api/layer',
+                  items: [],
+                  title: 'Layer',
+                },
+                {
                   href: '/docs/packages/duck-primitives/api/primitive-elements',
                   items: [],
                   title: 'Primitive Elements',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/visibility-hidden',
+                  items: [],
+                  title: 'Visibility Hidden',
                 },
               ],
             },
@@ -417,7 +467,7 @@ export const docsConfig: DocsConfig = {
                 {
                   href: '/docs/packages/duck-primitives/course/05-menus',
                   items: [],
-                  title: '05: Menus',
+                  title: '05: Menus + Select',
                 },
                 {
                   href: '/docs/packages/duck-primitives/course/06-animation',
@@ -699,6 +749,11 @@ export const docsConfig: DocsConfig = {
           title: 'Sheet',
         },
         {
+          href: '/docs/components/sidebar',
+          items: [],
+          title: 'Sidebar',
+        },
+        {
           href: '/docs/components/skeleton',
           items: [],
           title: 'Skeleton',
@@ -722,6 +777,11 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/table',
           items: [],
           title: 'Table',
+        },
+        {
+          href: '/docs/components/tanstack-form',
+          items: [],
+          title: 'TanStack Form',
         },
         {
           href: '/docs/components/tabs',
