@@ -11,26 +11,23 @@ component: true
 
 ## Philosophy
 
-Native selects are accessible but difficult to style consistently. This select keeps accessible interaction patterns while using a compositional approach (`Popover` + command-style keyboard handling) so trigger, content, and items remain fully customizable.
+Native selects are accessible but difficult to style consistently. This select builds on `@gentleduck/primitives/select` which provides full keyboard navigation, ARIA semantics, scroll management, and typeahead search. The wrapper adds design-system styling while the primitive handles all interaction logic.
 
 ## How It's Built
 
 <MermaidDiagram chart={`graph TD
   Select[Select]
-  Select --> primitives["@gentleduck/primitives\n/popover"]:::internal
+  Select --> primitives["@gentleduck/primitives\n/select"]:::internal
   Select --> libs["@gentleduck/libs"]:::internal
-  Select --> Button["Button"]:::component
   Select --> lucide["lucide-react"]:::external
 
   primitives --> |"provides"| Floating["Floating UI\nPositioning"]
   primitives --> |"provides"| Dismiss["Click Outside\nDismiss"]
-  Select --> |"reuses"| CommandHooks["Command's\nuseHandleKeyDown"]:::component
-  Select --> |"custom"| ScrollHook["useSelectScroll"]
-  Select --> |"uses"| Context["React Context"]
+  primitives --> |"provides"| A11y["ARIA\nAttributes"]
+  primitives --> |"provides"| Keyboard["Keyboard Nav\n& Typeahead"]
 
   classDef external fill:#818cf8,stroke:#6366f1,color:#fff
   classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
-  classDef component fill:#fb923c,stroke:#f97316,color:#fff
 `} />
 
 ## Installation
@@ -56,13 +53,8 @@ npx @gentleduck/cli add select
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/primitives  @gentleduck/libs
+npm install @gentleduck/primitives @gentleduck/libs lucide-react
 ```
-
-<Step>Add the `Command`, `Button` and `Popover` component to your project.</Step>
-
-The `Select` component uses the [`Command`](/components/command), [`Button`](/components/button)
-and [`Popover`](/components/popover) components. Make sure you have them installed in your project.
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -112,7 +104,7 @@ import {
 
 ### Form
 
-<ComponentPreview name="select-3" />
+<ComponentPreview name="select-3" description="A select component in a form." />
 
 ## Component Composition
 
@@ -132,101 +124,100 @@ import {
 
 ### Select
 
+The root component that manages open/closed state, value state, and provides context.
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string` | -- | Current selected value of the select component |
-| `defaultValue` | `string` | `''` | Uncontrolled initial value |
+| `value` | `string` | -- | Controlled selected value |
+| `defaultValue` | `string` | -- | Initial value (uncontrolled) |
 | `onValueChange` | `(value: string) => void` | -- | Callback fired when the selected value changes |
 | `open` | `boolean` | -- | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
 | `onOpenChange` | `(open: boolean) => void` | -- | Callback fired when dropdown open state changes |
-| `scrollable` | `boolean` | `false` | Enables scroll buttons and makes the dropdown content scrollable |
-
-### SelectWrapper
-
-Internal component managing refs, selection state, and event handlers. Uses `SelectContext` to expose state and refs. Handles initialization of items and groups, manages highlighting and selection.
+| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction for RTL support |
+| `name` | `string` | -- | Name attribute for native form submission |
+| `disabled` | `boolean` | -- | Disables the entire select |
+| `required` | `boolean` | -- | Marks the select as required for form validation |
+| `form` | `string` | -- | Associates the select with a form element by ID |
+| `autoComplete` | `string` | -- | Hint for browser autofill |
 
 ### SelectTrigger
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `customIndicator` | `React.ReactNode` | -- | Custom icon to display on the trigger instead of the default ChevronDown |
-| `className` | `string` | -- | Additional CSS class names |
-| `children` | `React.ReactNode` | -- | Trigger content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverTrigger>` | -- | Additional props inherited from `PopoverTrigger`. |
-
-### SelectContent
+Button that toggles the dropdown. Renders a styled `<button>` with a chevron icon.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
-| `children` | `React.ReactNode` | -- | Content to render inside the dropdown |
-| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Preferred side relative to the trigger |
-| `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment on the chosen side |
-| `sideOffset` | `number` | `4` | Main-axis offset from trigger |
-| `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverContent>` | -- | Additional props inherited from `PopoverContent`. |
+| `disabled` | `boolean` | -- | Disables the trigger |
 
-### SelectGroup
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names |
-| `children` | `React.ReactNode` | -- | Group content (typically `SelectLabel` and `SelectItem` elements) |
-| `...props` | `React.HTMLProps<HTMLUListElement>` | -- | Additional props to spread to the ul element |
+Sets `role="combobox"`, `aria-expanded`, `aria-controls`, `aria-autocomplete="none"`, and `data-state` automatically.
 
 ### SelectValue
 
+Renders the selected value text, or a placeholder when nothing is selected.
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `placeholder` | `string \| number` | -- | Text to show when no value is selected |
+| `placeholder` | `React.ReactNode` | `''` | Text shown when no value is selected |
+
+### SelectContent
+
+The dropdown content area. Handles positioning, focus management, keyboard navigation, and dismiss behavior.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `position` | `'item-aligned' \| 'popper'` | `'popper'` | Positioning strategy. `item-aligned` aligns selected item with trigger. `popper` uses floating positioning. |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Preferred side (popper position only) |
+| `sideOffset` | `number` | -- | Offset from trigger on the main axis |
+| `align` | `'start' \| 'center' \| 'end'` | `'start'` | Alignment on the cross axis |
+| `alignOffset` | `number` | -- | Offset on the cross axis |
+| `avoidCollisions` | `boolean` | `true` | Whether to flip to avoid viewport overflow |
+| `collisionPadding` | `number` | `10` | Padding from viewport edges |
 | `className` | `string` | -- | Additional CSS class names |
-| `children` | `React.ReactNode` | -- | Custom content to render |
-| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'placeholder'>` | -- | Additional props to spread to the content div |
+
+Exposes `data-state="open"` / `data-state="closed"` and `data-side` for CSS animation.
+
+### SelectGroup
+
+Groups related items together. Renders a `<div>` with `role="group"`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS class names |
 
 ### SelectLabel
 
+Label for a `SelectGroup`. Renders a `<div>` linked to its group via `aria-labelledby`.
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `htmlFor` | `string` | -- | ID of the associated input or control |
 | `className` | `string` | -- | Additional CSS class names |
-| `children` | `React.ReactNode` | -- | Label text content |
-| `...props` | `React.HTMLProps<HTMLLabelElement>` | -- | Additional props to spread to the label element |
 
 ### SelectItem
 
+An individual selectable item. Renders a `<div>` with `role="option"`.
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string` | (required) | The value representing this item |
-| `disabled` | `boolean` | -- | Whether the item is disabled |
+| `value` | `string` | (required) | The value representing this item. Must not be empty string. |
+| `disabled` | `boolean` | `false` | Whether the item is disabled |
+| `textValue` | `string` | -- | Optional text override for typeahead search |
 | `className` | `string` | -- | Additional CSS class names |
-| `children` | `React.ReactNode` | -- | Item content |
-| `...props` | `Omit<React.HTMLProps<HTMLLIElement>, 'value'>` | -- | Additional props to spread to the li element |
+
+Exposes `data-state="checked"` / `data-state="unchecked"`, `data-highlighted`, and `data-disabled`.
 
 ### SelectSeparator
 
+Visual separator between items. Renders a styled `<div>`.
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ### SelectScrollUpButton / SelectScrollDownButton
 
+Scroll navigation buttons that appear when content overflows the viewport.
+
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
-| `...props` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Additional props inherited from `Button`. |
-
-### SelectContext
-
-The context exposes:
-
-| Property | Type | Description |
-| --- | --- | --- |
-| `open` | `boolean` | Dropdown open state |
-| `value` | `string` | Current selected value |
-| `triggerRef` | `React.RefObject<HTMLButtonElement \| null>` | Ref to the trigger button |
-| `contentRef` | `React.RefObject<HTMLDivElement \| null>` | Ref to the scrollable dropdown content `<div>` |
-| `groupsRef` | `React.RefObject<HTMLUListElement[] \| null>` | Ref to groups `<ul>` elements |
-| `itemsRef` | `React.RefObject<HTMLLIElement[] \| null>` | Ref to the list of select items `<li>` |
-| `selectedItem` | `HTMLLIElement \| null` | Currently selected item DOM element |
-| `scrollable` | `boolean` | If the dropdown is scrollable |

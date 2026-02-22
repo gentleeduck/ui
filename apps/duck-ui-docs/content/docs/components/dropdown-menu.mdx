@@ -11,28 +11,24 @@ component: true
 
 ## Philosophy
 
-Dropdown menus are the Swiss Army knife of action UIs. They group related actions behind a single trigger, keeping interfaces clean while maintaining discoverability. Our implementation layers checkbox items, radio groups, sub-menus, and keyboard shortcuts into a composable system where each feature can be used independently.
+Dropdown menus are the Swiss Army knife of action UIs. They group related actions behind a single trigger, keeping interfaces clean while maintaining discoverability. Our implementation builds on `@gentleduck/primitives/dropdown-menu` which wraps the base Menu primitive, adding checkbox items, radio groups, sub-menus, and keyboard navigation. The wrapper adds design-system styling while the primitive handles all interaction logic.
 
 ## How It's Built
 
 <MermaidDiagram chart={`graph TD
   DropdownMenu[DropdownMenu]
-  DropdownMenu --> primitives["@gentleduck/primitives\n/popover"]:::internal
-  DropdownMenu --> vim["@gentleduck/vim"]:::internal
+  DropdownMenu --> primitives["@gentleduck/primitives\n/dropdown-menu"]:::internal
   DropdownMenu --> libs["@gentleduck/libs"]:::internal
-  DropdownMenu --> Button["Button"]:::component
-  DropdownMenu --> RadioGroup["RadioGroup"]:::component
   DropdownMenu --> lucide["lucide-react"]:::external
 
+  primitives --> |"wraps"| Menu["@gentleduck/primitives\n/menu"]:::internal
   primitives --> |"provides"| Floating["Floating UI\nPositioning"]
-  primitives --> |"provides"| FocusTrap["Focus Trapping"]
-  vim --> |"provides"| Shortcuts["Keyboard\nShortcuts"]
-  DropdownMenu --> |"adds"| SubMenus["Nested\nSub-menus"]
-  DropdownMenu --> |"adds"| CheckboxItems["Checkbox &\nRadio Items"]
+  primitives --> |"provides"| Dismiss["Click Outside\nDismiss"]
+  primitives --> |"provides"| A11y["ARIA\nAttributes"]
+  primitives --> |"provides"| Keyboard["Keyboard Nav\n& Focus"]
 
   classDef external fill:#818cf8,stroke:#6366f1,color:#fff
   classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
-  classDef component fill:#fb923c,stroke:#f97316,color:#fff
 `} />
 
 ## Installation
@@ -58,14 +54,8 @@ npx @gentleduck/cli add dropdown-menu
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/libs @gentleduck/primitives @gentleduck/vim
+npm install @gentleduck/primitives @gentleduck/libs lucide-react
 ```
-
-<Step>Add the `Command`, `Button`, `RadioGroup` and `Popover` components to your project.</Step>
-
-The `DropdownMenu` component uses the [`Command`](/components/command),
-[`Button`](/components/button), [`RadioGroup`](/components/radio-group) and
-[`Popover`](/components/popover) components. Make sure you have them installed in your project.
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -81,7 +71,7 @@ The `DropdownMenu` component uses the [`Command`](/components/command),
 
 ## Usage
 
-```tsx showLineNumbers
+```tsx
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -92,7 +82,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 ```
 
-```tsx showLineNumbers
+```tsx
 <DropdownMenu>
   <DropdownMenuTrigger>Open</DropdownMenuTrigger>
   <DropdownMenuContent>
@@ -144,56 +134,81 @@ import {
 
 ### DropdownMenu
 
-Root wrapper that provides dropdown state and context. Wraps Popover internally.
+The root component that manages open/closed state and provides context to all children.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children` | `React.ReactNode` | `--` | Dropdown sub-components (`DropdownMenuTrigger`, `DropdownMenuContent`) |
-| `defaultOpen` | `boolean` | `--` | Initial open state for uncontrolled usage |
-| `open` | `boolean` | `--` | Controlled open state |
-| `onOpenChange` | `(open: boolean) => void` | `--` | Callback when open state changes |
-| `modal` | `boolean` | `false` | Enables modal focus/interaction behavior |
-| `...props` | `React.ComponentPropsWithoutRef<typeof Popover>` | -- | Additional props inherited from `Popover`. |
+| `open` | `boolean` | -- | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
+| `onOpenChange` | `(open: boolean) => void` | -- | Callback when open state changes |
+| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction for RTL support |
+| `modal` | `boolean` | `true` | When true, interaction with outside elements is disabled and only menu content is visible to screen readers |
 
 ### DropdownMenuTrigger
 
-Button that toggles the dropdown menu open and closed.
+Button that toggles the dropdown menu. Renders a `<button>` with `aria-haspopup="menu"`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `asChild` | `boolean` | `--` | Use the child element as the trigger instead of wrapping in a button |
-| `className` | `string` | `--` | Additional CSS classes to apply |
-| `children` | `React.ReactNode` | `--` | Content rendered inside the trigger |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverTrigger>` | -- | Additional props inherited from `PopoverTrigger`. |
+| `asChild` | `boolean` | -- | Render as the child element instead of a `<button>` |
+| `disabled` | `boolean` | `false` | Disables the trigger |
+
+Sets `aria-expanded`, `aria-controls`, and `data-state` automatically.
 
 ### DropdownMenuContent
 
-Container for the menu items. Rendered inside a portal.
+The dropdown content area. Handles positioning, focus management, keyboard navigation, and dismiss behavior. Automatically wrapped in a `Portal`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `forceMount` | `boolean` | `--` | Keep content mounted for animation control |
 | `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Preferred side relative to the trigger |
-| `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment on the chosen side |
 | `sideOffset` | `number` | `4` | Main-axis offset from trigger |
-| `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverContent>` | -- | Additional props inherited from `PopoverContent`. |
+| `align` | `'start' \| 'center' \| 'end'` | `'start'` | Cross-axis alignment |
+| `alignOffset` | `number` | -- | Cross-axis offset |
+| `avoidCollisions` | `boolean` | `true` | Flip to avoid viewport overflow |
+| `collisionPadding` | `number` | -- | Padding from viewport edges |
+| `className` | `string` | -- | Additional CSS class names |
+
+Exposes `data-state="open"` / `data-state="closed"` and `data-side` for CSS animation.
+
+When using popper positioning, the following CSS custom properties are available:
+
+- `--gentleduck-dropdown-menu-content-transform-origin`
+- `--gentleduck-dropdown-menu-content-available-width`
+- `--gentleduck-dropdown-menu-content-available-height`
+- `--gentleduck-dropdown-menu-trigger-width`
+- `--gentleduck-dropdown-menu-trigger-height`
+
+### DropdownMenuGroup
+
+Groups related items together. Renders a `<div>` with `role="group"`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | -- | Additional CSS class names |
+
+### DropdownMenuLabel
+
+A non-interactive label for grouping menu items.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `inset` | `boolean` | -- | Adds start padding to align with items that have icons |
+| `className` | `string` | -- | Additional CSS class names |
 
 ### DropdownMenuItem
 
-An individual menu action item. Renders as a `Button` with `ghost` variant and `sm` size by default.
+An individual menu action item. Renders a `<div>` with `role="menuitem"`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `inset` | `boolean` | `--` | Adds left padding to align with items that have icons |
-| `disabled` | `boolean` | `--` | Prevents interaction and styles the item as disabled |
-| `variant` | `'default' \| 'destructive' \| 'outline' \| 'secondary' \| 'ghost' \| 'link' \| 'dashed' \| 'warning' \| 'nothing' \| 'expand_icon'` | `'ghost'` | Visual variant of the button |
-| `size` | `'default' \| 'sm' \| 'lg' \| 'icon' \| 'icon-sm' \| 'icon-lg'` | `'sm'` | Size of the button |
-| `asChild` | `boolean` | `--` | Render as child component using Slot |
-| `loading` | `boolean` | `--` | Shows a loading spinner |
-| `icon` | `React.ReactNode` | `--` | Primary icon to display |
-| `secondIcon` | `React.ReactNode` | `--` | Secondary icon |
-| `...props` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Additional props inherited from `Button`. |
+| `inset` | `boolean` | -- | Adds start padding to align with items that have icons |
+| `disabled` | `boolean` | -- | Prevents interaction and styles the item as disabled |
+| `onSelect` | `(event: Event) => void` | -- | Called when the item is selected via click or keyboard |
+| `textValue` | `string` | -- | Text override for typeahead search |
+| `className` | `string` | -- | Additional CSS class names |
+
+Exposes `data-highlighted` when focused and `data-disabled` when disabled.
 
 ### DropdownMenuCheckboxItem
 
@@ -201,9 +216,10 @@ A menu item with a toggleable checkbox indicator.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `checked` | `boolean` | `--` | Controlled checked state |
-| `onCheckedChange` | `(checked: boolean) => void` | `--` | Callback when checked state changes |
-| `...props` | `React.ComponentPropsWithoutRef<typeof DropdownMenuItem>` | -- | Additional props inherited from `DropdownMenuItem`. |
+| `checked` | `boolean \| 'indeterminate'` | -- | Controlled checked state |
+| `onCheckedChange` | `(checked: boolean) => void` | -- | Callback when checked state changes |
+| `disabled` | `boolean` | -- | Prevents interaction |
+| `className` | `string` | -- | Additional CSS class names |
 
 ### DropdownMenuRadioGroup
 
@@ -211,10 +227,8 @@ Groups radio items together for single-selection behavior.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string` | `--` | The currently selected radio value |
-| `onValueChange` | `(value: string) => void` | `--` | Callback when the selected value changes |
-| `defaultValue` | `string` | `--` | Initial value for uncontrolled usage |
-| `...props` | `React.ComponentPropsWithoutRef<typeof RadioGroup>` | -- | Additional props inherited from `RadioGroup`. |
+| `value` | `string` | -- | The currently selected radio value |
+| `onValueChange` | `(value: string) => void` | -- | Callback when the selected value changes |
 
 ### DropdownMenuRadioItem
 
@@ -223,62 +237,34 @@ A radio-selectable menu item. Must be used inside `DropdownMenuRadioGroup`.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `string` | (required) | The value representing this radio item |
-| `customIndicator` | `React.ReactNode` | `--` | Custom indicator element |
-| `...props` | `React.ComponentPropsWithoutRef<typeof RadioGroupItem>` | -- | Additional props inherited from `RadioGroupItem`. |
-
-### DropdownMenuLabel
-
-A non-interactive label for grouping menu items.
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `inset` | `boolean` | `--` | Adds left padding to align with inset menu items |
-| `htmlFor` | `string` | `--` | Associates the label with a form control by its `id` |
-| `className` | `string` | `--` | Additional CSS classes to apply |
-| `...props` | `React.HTMLProps<HTMLLabelElement>` | -- | Additional props to spread to the label element |
+| `disabled` | `boolean` | -- | Prevents interaction |
+| `className` | `string` | -- | Additional CSS class names |
 
 ### DropdownMenuSeparator
 
-A visual divider between groups of menu items.
+A visual divider between groups of menu items. Renders a styled `<div>`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional CSS classes to apply |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `className` | `string` | -- | Additional CSS class names |
 
 ### DropdownMenuShortcut
 
-Displays a keyboard shortcut hint next to a menu item and registers the key binding.
+Displays a keyboard shortcut hint next to a menu item.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `keys` | `string` (optional) | -- | Keyboard shortcut string (e.g. `"ctrl+K"`) |
-| `onKeysPressed` | `() => void` (optional) | -- | Callback invoked when the shortcut keys are pressed |
-| `colored` | `boolean` | `false` | Applies a muted background to the shortcut badge |
-| `...props` | `React.HTMLProps<HTMLElement>` | -- | Additional props to spread to the kbd element |
-
-### DropdownMenuGroup
-
-Groups related menu items together.
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional CSS classes to apply |
-| `children` | `React.ReactNode` | `--` | Menu items to render inside the group |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `className` | `string` | -- | Additional CSS class names |
 
 ### DropdownMenuSub
 
-Wrapper for a submenu. Creates a nested popover with hover activation.
+Wrapper for a submenu. Manages nested open state.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children` | `React.ReactNode` | `--` | Submenu trigger/content pair |
-| `defaultOpen` | `boolean` | `--` | Initial open state for uncontrolled usage |
-| `open` | `boolean` | `--` | Controlled open state |
-| `onOpenChange` | `(open: boolean) => void` | `--` | Callback when open state changes |
-| `modal` | `boolean` | `false` | Enables modal focus/interaction behavior |
-| `...props` | `React.ComponentPropsWithoutRef<typeof Popover>` | -- | Additional props inherited from `Popover`. |
+| `open` | `boolean` | -- | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
+| `onOpenChange` | `(open: boolean) => void` | -- | Callback when open state changes |
 
 ### DropdownMenuSubTrigger
 
@@ -286,17 +272,18 @@ Trigger element for a submenu. Displays a chevron icon indicating a nested menu.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `inset` | `boolean` | `false` | Adds left padding to align with inset menu items |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverTrigger>` | -- | Additional props inherited from `PopoverTrigger`. |
+| `inset` | `boolean` | -- | Adds start padding to align with inset menu items |
+| `disabled` | `boolean` | -- | Disables the trigger |
+| `className` | `string` | -- | Additional CSS class names |
 
 ### DropdownMenuSubContent
 
-Content container for a submenu.
+Content container for a submenu. Positioned to the side of the sub-trigger.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'right'` | Preferred side for the nested submenu |
-| `align` | `'start' \| 'center' \| 'end'` | `'start'` | Alignment on the chosen side |
-| `sideOffset` | `number` | `4` | Main-axis offset from trigger |
-| `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverContent>` | -- | Additional props inherited from `PopoverContent`. |
+| `sideOffset` | `number` | -- | Main-axis offset from trigger |
+| `alignOffset` | `number` | -- | Cross-axis offset |
+| `className` | `string` | -- | Additional CSS class names |
+
+Exposes the same `--gentleduck-dropdown-menu-*` CSS custom properties as `DropdownMenuContent`.

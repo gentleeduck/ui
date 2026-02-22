@@ -22,16 +22,13 @@ Popovers bridge the gap between tooltips (hover, no interaction) and dialogs (he
 <MermaidDiagram chart={`graph TD
   Popover[Popover]
   Popover --> primitives["@gentleduck/primitives\n/popover"]:::internal
-  Popover --> motion["@gentleduck/motion"]:::internal
   Popover --> libs["@gentleduck/libs"]:::internal
 
   primitives --> |"uses"| floatingUI["Floating UI"]:::external
   primitives --> |"provides"| Positioning["Collision-aware\nPositioning"]
   primitives --> |"provides"| FocusTrap["Focus Trapping"]
   primitives --> |"provides"| ClickOutside["Click Outside\nDismiss"]
-  motion --> |"provides"| AnimVariants["Entry/Exit\nAnimations"]
 
-  Popover -.- |"used by"| Select["Select"]:::component
   Popover -.- |"used by"| DropdownMenu["DropdownMenu"]:::component
   Popover -.- |"used by"| Combobox["Combobox"]:::component
   Popover -.- |"used by"| DatePicker["DatePicker"]:::component
@@ -64,7 +61,7 @@ npx @gentleduck/cli add popover
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/libs @gentleduck/primitives @gentleduck/motion
+npm install @gentleduck/libs @gentleduck/primitives
 ```
 
 <Step>Copy and paste the following code into your project.</Step>
@@ -95,6 +92,22 @@ import {
   <PopoverContent>Place content for the popover here.</PopoverContent>
 </Popover>
 ```
+
+## Examples
+
+### Sides
+
+<ComponentPreview
+  name="popover-2"
+  description="A popover with multple sides."
+/>
+
+### Form
+
+<ComponentPreview
+  name="popover-3"
+  description="A popover with form inputs for setting dimensions."
+/>
 
 ## Component Composition
 

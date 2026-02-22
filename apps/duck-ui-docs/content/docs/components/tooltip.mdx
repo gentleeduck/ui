@@ -28,13 +28,11 @@ Tooltips are the lightest touch of contextual help -- they appear on hover, requ
 <MermaidDiagram chart={`graph TD
   Tooltip[Tooltip]
   Tooltip --> primitives["@gentleduck/primitives\n/tooltip"]:::internal
-  Tooltip --> motion["@gentleduck/motion"]:::internal
   Tooltip --> libs["@gentleduck/libs"]:::internal
 
   primitives --> |"uses"| floatingUI["Floating UI"]:::external
   primitives --> |"provides"| Positioning["Smart Positioning\n(flip, shift, offset)"]
   primitives --> |"provides"| A11y["ARIA Attributes"]
-  motion --> |"provides"| AnimVariants["Direction-aware\nAnimations"]
   Tooltip --> |"exposes"| DataAttrs["data-state\ndata-side\nCSS hooks"]
 
   classDef external fill:#818cf8,stroke:#6366f1,color:#fff
@@ -65,7 +63,7 @@ npx @gentleduck/cli add tooltip
 <Step>Install dependencies:</Step>
 
 ```bash
-npm install @gentleduck/primitives @gentleduck/motion @gentleduck/variants @gentleduck/libs
+npm install @gentleduck/primitives @gentleduck/libs
 ```
 
 <Step>Copy the `Tooltip` component code into your project.</Step>
@@ -95,6 +93,13 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/comp
 ```
 
 ## Examples
+
+### Basic
+
+<ComponentPreview
+  name="tooltip-2"
+  description="A basic tooltip."
+/>
 
 ### Custom Trigger with `asChild`
 
