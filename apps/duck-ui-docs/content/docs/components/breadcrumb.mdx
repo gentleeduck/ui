@@ -221,6 +221,18 @@ It displays a dropdown on desktop and a drawer on mobile.
 />
 
 
+---
+
+### Responsive with Ellipsis
+
+A responsive breadcrumb that collapses intermediate items behind an ellipsis, displaying a dropdown on desktop and a drawer on mobile.
+
+<ComponentPreview
+  name="breadcrumb-7"
+  className="[&_.preview]:p-2"
+  description="A responsive breadcrumb with collapsible ellipsis."
+/>
+
 ## Component Composition
 
 <MermaidDiagram chart={`graph TD
@@ -274,7 +286,7 @@ It displays a dropdown on desktop and a drawer on mobile.
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Page content (rendered with `aria-current="page"`) |
-| `...props` | `React.HTMLProps<HTMLAnchorElement>` | -- | Additional props to spread to the a element |
+| `...props` | `React.ComponentPropsWithoutRef<'span'>` | -- | Additional props to spread to the span element |
 
 ### BreadcrumbSeparator
 
@@ -282,7 +294,7 @@ It displays a dropdown on desktop and a drawer on mobile.
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `<ChevronRight />` | Custom separator icon; defaults to a `ChevronRight` icon |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `...props` | `React.ComponentPropsWithoutRef<'li'>` | -- | Additional props to spread to the li element |
 
 ### BreadcrumbEllipsis
 
