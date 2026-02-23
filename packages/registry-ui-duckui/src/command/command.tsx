@@ -174,7 +174,7 @@ function CommandGroup({
       {...props}
       data-slot="command-group"
       duck-command-group="">
-      {heading && <h3 className="pb-1 pl-1 text-muted-foreground text-sm">{heading}</h3>}
+      {heading && <h3 className="ps-1 pb-1 text-muted-foreground text-sm">{heading}</h3>}
       {children}
     </div>
   )

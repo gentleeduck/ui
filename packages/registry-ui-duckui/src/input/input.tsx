@@ -7,7 +7,26 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
       <input
         type={type}
         className={cn(
-          'h-8 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base outline-none transition-colors file:inline-flex file:h-6 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 dark:disabled:bg-input/80',
+          // base
+          'h-8 w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base outline-none transition-colors',
+          // file
+          'file:inline-flex file:h-6 file:border-0 file:bg-transparent file:font-medium file:text-foreground file:text-sm',
+          // placeholder
+          'placeholder:text-muted-foreground',
+          // focus
+          'focus-visible:ring-1 focus-visible:ring-ring',
+          // disabled
+          'disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50',
+          // responsive
+          'md:text-sm',
+          // dark
+          // 'dark:bg-input/30 dark:disabled:bg-input/80',
+          // aria-invalid
+          'aria-invalid:border-destructive aria-invalid:text-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40',
+          // aria-disabled
+          'aria-disabled:pointer-events-none aria-disabled:opacity-50',
+          // aria-warning
+          'aria-warning:border-warning aria-warning:text-warning aria-warning:ring-warning/20 dark:aria-warning:border-warning/50 dark:aria-warning:ring-warning/40',
           className,
         )}
         ref={ref}
@@ -17,6 +36,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
     )
   },
 )
+
 Input.displayName = 'Input'
 
 export { Input }
