@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './dialog-1'\n\nexport default function DialogRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "dialog/dialog-3.tsx",
+      "target": "components/dialog-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "dialog-3",
+  "registryDependencies": [
+    "dialog"
+  ],
+  "root_folder": "dialog",
+  "source": "/registry-examples-duckui/src/dialog",
+  "type": "registry:example"
+}

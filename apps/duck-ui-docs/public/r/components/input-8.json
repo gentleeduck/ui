@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './input-1'\n\nexport default function InputRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "input/input-8.tsx",
+      "target": "components/input-8.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "input-8",
+  "registryDependencies": [
+    "input"
+  ],
+  "root_folder": "input",
+  "source": "/registry-examples-duckui/src/input",
+  "type": "registry:example"
+}

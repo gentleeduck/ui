@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './sheet-1'\n\nexport default function SheetRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "sheet/sheet-3.tsx",
+      "target": "components/sheet-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "sheet-3",
+  "registryDependencies": [
+    "sheet"
+  ],
+  "root_folder": "sheet",
+  "source": "/registry-examples-duckui/src/sheet",
+  "type": "registry:example"
+}

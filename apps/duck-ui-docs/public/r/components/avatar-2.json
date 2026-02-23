@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './avatar-1'\n\nexport default function AvatarRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "avatar/avatar-2.tsx",
+      "target": "components/avatar-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "avatar-2",
+  "registryDependencies": [
+    "avatar"
+  ],
+  "root_folder": "avatar",
+  "source": "/registry-examples-duckui/src/avatar",
+  "type": "registry:example"
+}

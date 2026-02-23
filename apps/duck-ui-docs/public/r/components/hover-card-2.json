@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './hover-card-1'\n\nexport default function HoverCardRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "hover-card/hover-card-2.tsx",
+      "target": "components/hover-card-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "hover-card-2",
+  "registryDependencies": [
+    "hover-card"
+  ],
+  "root_folder": "hover-card",
+  "source": "/registry-examples-duckui/src/hover-card",
+  "type": "registry:example"
+}

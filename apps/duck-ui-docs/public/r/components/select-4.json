@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './select-1'\n\nexport default function SelectRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "select/select-4.tsx",
+      "target": "components/select-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "select-4",
+  "registryDependencies": [
+    "select"
+  ],
+  "root_folder": "select",
+  "source": "/registry-examples-duckui/src/select",
+  "type": "registry:example"
+}

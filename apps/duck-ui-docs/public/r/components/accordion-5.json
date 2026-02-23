@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './accordion-1'\n\nexport default function AccordionRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "accordion/accordion-5.tsx",
+      "target": "components/accordion-5.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "accordion-5",
+  "registryDependencies": [
+    "accordion"
+  ],
+  "root_folder": "accordion",
+  "source": "/registry-examples-duckui/src/accordion",
+  "type": "registry:example"
+}

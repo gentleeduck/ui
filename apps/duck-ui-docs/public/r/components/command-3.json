@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './command-1'\n\nexport default function CommandRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "command/command-3.tsx",
+      "target": "components/command-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "command-3",
+  "registryDependencies": [
+    "command"
+  ],
+  "root_folder": "command",
+  "source": "/registry-examples-duckui/src/command",
+  "type": "registry:example"
+}

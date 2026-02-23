@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './scroll-area-1'\n\nexport default function ScrollAreaRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "scroll-area/scroll-area-3.tsx",
+      "target": "components/scroll-area-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "scroll-area-3",
+  "registryDependencies": [
+    "scroll-area"
+  ],
+  "root_folder": "scroll-area",
+  "source": "/registry-examples-duckui/src/scroll-area",
+  "type": "registry:example"
+}
