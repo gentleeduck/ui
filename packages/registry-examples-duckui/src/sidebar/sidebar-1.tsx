@@ -60,58 +60,58 @@ import * as React from 'react'
 
 const data = {
   user: {
-    name: 'shadcn',
-    email: 'm@example.com',
-    avatar: '/avatars/shadcn.jpg',
+    name: 'Alex Morgan',
+    email: 'alex@duckui.dev',
+    avatar: '/avatars/01.png',
   },
   teams: [
     {
-      name: 'Acme Inc',
+      name: 'Duck Labs',
       logo: GalleryVerticalEnd,
       plan: 'Enterprise',
     },
     {
-      name: 'Acme Corp.',
+      name: 'Pond Studio',
       logo: AudioWaveform,
       plan: 'Startup',
     },
     {
-      name: 'Evil Corp.',
+      name: 'Feather Works',
       logo: Command,
       plan: 'Free',
     },
   ],
   navMain: [
     {
-      title: 'Playground',
+      title: 'Workspace',
       url: '#',
       icon: SquareTerminal,
       isActive: true,
       items: [
-        { title: 'History', url: '#' },
-        { title: 'Starred', url: '#' },
-        { title: 'Settings', url: '#' },
+        { title: 'Overview', url: '#' },
+        { title: 'Favorites', url: '#' },
+        { title: 'Preferences', url: '#' },
       ],
     },
     {
-      title: 'Models',
+      title: 'Components',
       url: '#',
       icon: Bot,
       items: [
-        { title: 'Genesis', url: '#' },
-        { title: 'Explorer', url: '#' },
-        { title: 'Quantum', url: '#' },
+        { title: 'Primitives', url: '#' },
+        { title: 'Compositions', url: '#' },
+        { title: 'Patterns', url: '#' },
       ],
     },
     {
-      title: 'Documentation',
+      title: 'Resources',
       url: '#',
       icon: BookOpen,
       items: [
-        { title: 'Introduction', url: '#' },
-        { title: 'Get Started', url: '#' },
-        { title: 'Tutorials', url: '#' },
-        { title: 'Changelog', url: '#' },
+        { title: 'Getting Started', url: '#' },
+        { title: 'Guides', url: '#' },
+        { title: 'Examples', url: '#' },
+        { title: 'Releases', url: '#' },
       ],
     },
     {
@@ -119,17 +119,17 @@ const data = {
       url: '#',
       icon: Settings2,
       items: [
-        { title: 'General', url: '#' },
+        { title: 'Profile', url: '#' },
         { title: 'Team', url: '#' },
         { title: 'Billing', url: '#' },
-        { title: 'Limits', url: '#' },
+        { title: 'Usage', url: '#' },
       ],
     },
   ],
   projects: [
-    { name: 'Design Engineering', url: '#', icon: Frame },
-    { name: 'Sales & Marketing', url: '#', icon: PieChart },
-    { name: 'Travel', url: '#', icon: Map },
+    { name: 'Component Library', url: '#', icon: Frame },
+    { name: 'Landing Pages', url: '#', icon: PieChart },
+    { name: 'Documentation', url: '#', icon: Map },
   ],
 }
 
@@ -336,7 +336,7 @@ function NavUser({
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
               <Avatar className="h-8 w-8 rounded-lg">
                 <AvatarImage src={user.avatar} alt={user.name} />
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg">AM</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
@@ -355,7 +355,7 @@ function NavUser({
                 <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
                   <Avatar className="h-8 w-8 rounded-lg">
                     <AvatarImage src={user.avatar} alt={user.name} />
-                    <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                    <AvatarFallback className="rounded-lg">AM</AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
                     <span className="truncate font-medium">{user.name}</span>
