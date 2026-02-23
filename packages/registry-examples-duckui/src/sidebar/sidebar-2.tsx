@@ -25,21 +25,21 @@ import { Check, ChevronsUpDown, GalleryVerticalEnd, Home, Inbox, LayoutDashboard
 import * as React from 'react'
 
 const data = {
-  versions: ['1.0.0', '1.1.0', '2.0.0-beta'],
+  versions: ['3.2.0', '3.1.0', '3.0.0-rc'],
   navMain: [
     {
-      title: 'General',
+      title: 'Overview',
       items: [
-        { title: 'Dashboard', url: '#', icon: LayoutDashboard, isActive: true },
-        { title: 'Home', url: '#', icon: Home },
-        { title: 'Inbox', url: '#', icon: Inbox },
+        { title: 'Analytics', url: '#', icon: LayoutDashboard, isActive: true },
+        { title: 'Reports', url: '#', icon: Home },
+        { title: 'Notifications', url: '#', icon: Inbox },
       ],
     },
     {
-      title: 'Management',
+      title: 'Account',
       items: [
-        { title: 'Users', url: '#', icon: Users },
-        { title: 'Settings', url: '#', icon: Settings },
+        { title: 'Profile', url: '#', icon: Users },
+        { title: 'Preferences', url: '#', icon: Settings },
       ],
     },
   ],

@@ -14,9 +14,9 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
               <div className="flex h-8 w-8 items-center justify-center rounded-md">
                 <GalleryVerticalEnd className="size-6" />
               </div>
-              <span className="sr-only">Acme Inc.</span>
+              <span className="sr-only">Duck UI</span>
             </a>
-            <h1 className="font-bold text-xl">Welcome to Acme Inc.</h1>
+            <h1 className="font-bold text-xl">Welcome to Duck UI</h1>
             <div className="text-center text-sm">
               Don&apos;t have an account?{' '}
               <a className="underline underline-offset-4" href="#placeholder">

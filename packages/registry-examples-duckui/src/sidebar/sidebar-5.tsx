@@ -21,18 +21,18 @@ import * as React from 'react'
 const data = {
   navMain: [
     {
-      title: 'General',
+      title: 'Main',
       items: [
-        { title: 'Dashboard', url: '#', icon: LayoutDashboard, isActive: true },
-        { title: 'Home', url: '#', icon: Home },
-        { title: 'Inbox', url: '#', icon: Inbox },
+        { title: 'Feed', url: '#', icon: LayoutDashboard, isActive: true },
+        { title: 'Explore', url: '#', icon: Home },
+        { title: 'Bookmarks', url: '#', icon: Inbox },
       ],
     },
     {
-      title: 'Management',
+      title: 'System',
       items: [
-        { title: 'Users', url: '#', icon: Users },
-        { title: 'Settings', url: '#', icon: Settings },
+        { title: 'Logs', url: '#', icon: Users },
+        { title: 'Config', url: '#', icon: Settings },
       ],
     },
   ],
