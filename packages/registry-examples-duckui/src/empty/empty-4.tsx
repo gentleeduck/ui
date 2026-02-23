@@ -1,4 +1,4 @@
-import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui-duckui/avatar'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Empty,
@@ -14,12 +14,10 @@ export default function EmptyAvatar() {
     <Empty>
       <EmptyHeader>
         <EmptyMedia variant="default">
-          <Avatar
-            alt="a profile picture for wildduck2"
-            className="size-12"
-            fallback="WD"
-            src="https://github.com/wildduck2.png"
-          />
+          <Avatar className="size-12">
+            <AvatarImage alt="a profile picture for wildduck2" src="https://github.com/wildduck2.png" />
+            <AvatarFallback>WD</AvatarFallback>
+          </Avatar>
         </EmptyMedia>
         <EmptyTitle>No Activity Yet</EmptyTitle>
         <EmptyDescription>

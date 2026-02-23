@@ -1,4 +1,4 @@
-import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui-duckui/avatar'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Item,
@@ -39,7 +39,10 @@ export default function ItemGroupExample() {
           <React.Fragment key={contact.name}>
             <Item>
               <ItemMedia>
-                <Avatar alt={contact.name} fallback={contact.name.charAt(0)} src={contact.avatar} />
+                <Avatar>
+                  <AvatarImage alt={contact.name} src={contact.avatar} />
+                  <AvatarFallback>{contact.name.charAt(0)}</AvatarFallback>
+                </Avatar>
               </ItemMedia>
               <ItemContent className="gap-1">
                 <ItemTitle>{contact.name}</ItemTitle>

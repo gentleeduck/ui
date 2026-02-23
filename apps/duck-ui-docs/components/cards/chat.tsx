@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui-duckui/avatar'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Card, CardContent, CardFooter, CardHeader } from '@gentleduck/registry-ui-duckui/card'
 import {
@@ -85,7 +85,10 @@ export function CardsChat() {
       <Card>
         <CardHeader className="flex flex-row items-center">
           <div className="flex items-center gap-4">
-            <Avatar alt="S" className="border" src="/avatars/01.png"></Avatar>
+            <Avatar className="border">
+              <AvatarImage alt="S" src="/avatars/01.png" />
+              <AvatarFallback>S</AvatarFallback>
+            </Avatar>
             <div className="flex flex-col gap-0.5">
               <p className="font-medium text-sm leading-none">Sofia Davis</p>
               <p className="text-muted-foreground text-xs">m@example.com</p>
@@ -176,7 +179,10 @@ export function CardsChat() {
 
                       return setSelectedUsers([...users].filter((u) => [...selectedUsers, user].includes(u)))
                     }}>
-                    <Avatar alt={user.name[0]} className="border" src={user.avatar}></Avatar>
+                    <Avatar className="border">
+                      <AvatarImage alt={user.name[0]} src={user.avatar} />
+                      <AvatarFallback>{user.name[0]}</AvatarFallback>
+                    </Avatar>
                     <div className="ml-2">
                       <p className="font-medium text-sm leading-none">{user.name}</p>
                       <p className="text-muted-foreground text-sm">{user.email}</p>
@@ -191,11 +197,10 @@ export function CardsChat() {
             {selectedUsers.length > 0 ? (
               <div className="flex -space-x-2 overflow-hidden">
                 {selectedUsers.map((user) => (
-                  <Avatar
-                    alt={user.name[0]}
-                    className="inline-block border"
-                    key={user.email}
-                    src={user.avatar}></Avatar>
+                  <Avatar className="inline-block border" key={user.email}>
+                    <AvatarImage alt={user.name[0]} src={user.avatar} />
+                    <AvatarFallback>{user.name[0]}</AvatarFallback>
+                  </Avatar>
                 ))}
               </div>
             ) : (

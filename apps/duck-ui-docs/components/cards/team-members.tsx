@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui-duckui/avatar'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui-duckui/card'
 import {
@@ -65,7 +65,10 @@ export function CardsTeamMembers() {
         {teamMembers.map((member) => (
           <div className="flex items-center justify-between gap-4" key={member.name}>
             <div className="flex items-center gap-4">
-              <Avatar alt={member.name.charAt(0)} className="border" src={member.avatar}></Avatar>
+              <Avatar className="border">
+                <AvatarImage alt={member.name.charAt(0)} src={member.avatar} />
+                <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
+              </Avatar>
               <div className="flex flex-col gap-0.5">
                 <p className="font-medium text-sm leading-none">{member.name}</p>
                 <p className="text-muted-foreground text-xs">{member.email}</p>

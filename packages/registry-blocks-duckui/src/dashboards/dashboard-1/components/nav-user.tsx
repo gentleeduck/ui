@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui-duckui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,7 +32,10 @@ export function NavUser({
             <SidebarMenuButton
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
               size="lg">
-              <Avatar alt={user.name} className="h-8 w-8 rounded-lg" fallback="WD" src={user.avatar} />
+              <Avatar className="h-8 w-8 rounded-lg">
+                <AvatarImage alt={user.name} src={user.avatar} />
+                <AvatarFallback className="rounded-lg">WD</AvatarFallback>
+              </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
                 <span className="truncate text-muted-foreground text-xs">{user.email}</span>
@@ -47,7 +50,10 @@ export function NavUser({
             sideOffset={4}>
             <DropdownMenuLabel className="p-0 font-normal">
               <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                <Avatar alt={user.name} className="h-8 w-8 rounded-lg" fallback="WD" src={user.avatar} />
+                <Avatar className="h-8 w-8 rounded-lg">
+                  <AvatarImage alt={user.name} src={user.avatar} />
+                  <AvatarFallback className="rounded-lg">WD</AvatarFallback>
+                </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user.name}</span>
                   <span className="truncate text-muted-foreground text-xs">{user.email}</span>

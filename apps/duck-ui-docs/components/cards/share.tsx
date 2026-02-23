@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui-duckui/avatar'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui-duckui/card'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
@@ -54,7 +54,10 @@ export function CardsShare() {
             {people.map((person) => (
               <div className="flex items-center justify-between gap-4" key={person.email}>
                 <div className="flex items-center gap-4">
-                  <Avatar alt={person.name.charAt(0)} src={person.avatar}></Avatar>
+                  <Avatar>
+                    <AvatarImage alt={person.name.charAt(0)} src={person.avatar} />
+                    <AvatarFallback>{person.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
                   <div>
                     <p className="font-medium text-sm leading-none">{person.name}</p>
                     <p className="text-muted-foreground text-sm">{person.email}</p>
