@@ -38,7 +38,6 @@ const data = {
           url: '#',
         },
         {
-          isActive: true,
           title: 'Data Fetching',
           url: '#',
         },
@@ -48,6 +47,7 @@ const data = {
         },
         {
           title: 'Caching',
+          isActive: true,
           url: '#',
         },
         {

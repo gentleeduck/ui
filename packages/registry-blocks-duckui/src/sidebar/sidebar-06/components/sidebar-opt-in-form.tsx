@@ -7,8 +7,8 @@ export function SidebarOptInForm() {
     <Card className="shadow-none">
       <form>
         <CardHeader className="p-4 pb-0">
-          <CardTitle className="text-sm">Subscribe to our newsletter</CardTitle>
-          <CardDescription>Opt-in to receive updates and news about the sidebar.</CardDescription>
+          <CardTitle className="text-sm">Newsletter</CardTitle>
+          <CardDescription>Get the latest updates.</CardDescription>
         </CardHeader>
         <CardContent className="grid gap-2.5 p-4">
           <SidebarInput placeholder="Email" type="email" />
