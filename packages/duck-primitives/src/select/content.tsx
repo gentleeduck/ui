@@ -6,7 +6,6 @@ import * as ReactDOM from 'react-dom'
 import { RemoveScroll } from 'react-remove-scroll'
 import { DismissableLayer } from '../dismissable-layer'
 import { FocusScope } from '../focus-scope'
-import { useCallbackRef } from '../hooks/use-callback-ref'
 import { useFocusGuards } from '../hooks/use-focus-guard'
 import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { clamp } from '../libs/clamp'
@@ -281,7 +280,8 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, SelectConte
         selectedItemText={selectedItemText}
         position={position}
         isPositioned={isPositioned}
-        searchRef={searchRef}>
+        searchRef={searchRef}
+        allowTextPortal={context.open}>
         <RemoveScroll as={Slot} allowPinchZoom>
           <FocusScope
             asChild

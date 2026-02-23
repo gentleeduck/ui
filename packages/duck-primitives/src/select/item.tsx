@@ -11,7 +11,6 @@ import {
   type ScopedProps,
   SELECTION_KEYS,
   SelectItemContextProvider,
-  SelectNativeOptionsProvider,
   useSelectContentContext,
   useSelectContext,
   useSelectItemContext,
@@ -167,8 +166,13 @@ export const SelectItemText = React.forwardRef<SelectItemTextElement, ScopedProp
       <>
         <Primitive.span id={itemContext.textId} {...itemTextProps} ref={composedRefs} />
 
-        {/* Portal the select item text into the trigger value node */}
-        {itemContext.isSelected && context.valueNode && !context.valueNodeHasChildren
+        {/* Portal the select item text into the trigger value node.
+           Skip when allowTextPortal is false (content is animating out) to avoid
+           duplicating the portal that the fragment copy already provides. */}
+        {itemContext.isSelected &&
+        context.valueNode &&
+        !context.valueNodeHasChildren &&
+        contentContext.allowTextPortal !== false
           ? ReactDOM.createPortal(itemTextProps.children, context.valueNode)
           : null}
       </>
