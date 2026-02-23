@@ -43,4 +43,36 @@ const AvatarFallback = React.forwardRef<
 ))
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
 
-export { Avatar, AvatarImage, AvatarFallback }
+export interface AvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+  imgs: { src?: string; alt?: string; fallback?: string; id?: string }[]
+  maxVisible?: number
+}
+
+const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
+  ({ imgs, maxVisible = 3, className, ...props }, ref) => {
+    const visibleImgs = imgs.slice(0, maxVisible)
+    const overflowCount = imgs.length > maxVisible ? imgs.length - maxVisible : 0
+
+    return (
+      <div className={cn('flex items-center -space-x-5', className)} ref={ref} {...props}>
+        {visibleImgs.map((img) => (
+          <Avatar className={cn('border-2 border-border')} key={img.id}>
+            <AvatarImage alt={img.alt?.slice(0, 2)} src={img.src} />
+            <AvatarFallback>{img.fallback?.slice(0, 2) ?? img.alt?.slice(0, 2)}</AvatarFallback>
+          </Avatar>
+        ))}
+
+        {overflowCount > 0 && (
+          <div className="relative z-10 inline-block">
+            <div className="flex size-10 items-center justify-center rounded-full bg-primary font-medium text-primary-foreground text-sm ring-2 ring-background">
+              +{overflowCount}
+            </div>
+          </div>
+        )}
+      </div>
+    )
+  },
+)
+AvatarGroup.displayName = 'AvatarGroup'
+
+export { Avatar, AvatarImage, AvatarFallback, AvatarGroup }
