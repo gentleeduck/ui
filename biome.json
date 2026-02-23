@@ -26,7 +26,7 @@
       "!**/generated.root-owned",
       "!**/old_*",
       "!packages/___",
-      "./apps/docs/__ui_registry__/**",
+      "!./apps/docs/__ui_registry__/**",
       "!packages/_oldstuff_refactor",
       "!packages/benchmark",
       "!packages/duck-orm-skitch"
@@ -56,7 +56,7 @@
       "!**/generated.root-owned/**",
       "!**/old_*/**",
       "!packages/___/**",
-      "./apps/docs/__ui_registry__/**",
+      "!./apps/docs/__ui_registry__/**",
       "!packages/_oldstuff_refactor/**",
       "!packages/benchmark/**",
       "!packages/duck-orm-skitch/**"

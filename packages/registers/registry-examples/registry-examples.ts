@@ -423,11 +423,4 @@ export const registry_examples: RegistryEntry[] = [
     root_folder: 'upload',
     type: 'registry:example',
   },
-  {
-    files: [],
-    name: 'duck-table-examples',
-    registryDependencies: ['duck-table'],
-    root_folder: 'duck-table',
-    type: 'registry:example',
-  },
 ]
