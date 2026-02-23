@@ -186,8 +186,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 <SidebarMenuItem>
                   <CollapsibleTrigger asChild>
                     <SidebarMenuButton>
-                      {item.title} <Plus className="ml-auto group-data-[state=open]/collapsible:hidden" />
-                      <Minus className="ml-auto group-data-[state=closed]/collapsible:hidden" />
+                      {item.title} <Plus className="ml-auto group-data-[open=true]/collapsible:hidden" />
+                      <Minus className="ml-auto group-data-[open=false]/collapsible:hidden" />
                     </SidebarMenuButton>
                   </CollapsibleTrigger>
                   {item.items?.length ? (
