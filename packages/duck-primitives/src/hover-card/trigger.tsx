@@ -24,6 +24,7 @@ export const HoverCardTrigger = React.forwardRef<HoverCardTriggerElement, HoverC
       <PopperPrimitive.Anchor asChild {...popperScope}>
         <Primitive.a
           data-state={context.open ? 'open' : 'closed'}
+          dir={context.dir}
           {...triggerProps}
           ref={forwardedRef}
           onPointerEnter={composeEventHandlers(props.onPointerEnter, excludeTouch(context.onOpen))}

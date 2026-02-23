@@ -3,7 +3,13 @@ import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
-import { type ScopedProps, useCollection, useSelectContentContext, useSelectViewportContext } from './select'
+import {
+  type ScopedProps,
+  useCollection,
+  useSelectContentContext,
+  useSelectContext,
+  useSelectViewportContext,
+} from './select'
 
 const SCROLL_UP_BUTTON_NAME = 'SelectScrollUpButton'
 
@@ -99,6 +105,7 @@ interface SelectScrollButtonImplProps extends React.ComponentPropsWithRef<typeof
 const SelectScrollButtonImpl = React.forwardRef<HTMLDivElement, ScopedProps<SelectScrollButtonImplProps>>(
   (props, forwardedRef) => {
     const { __scopeSelect, onAutoScroll, ...scrollIndicatorProps } = props
+    const context = useSelectContext('SelectScrollButton', __scopeSelect)
     const contentContext = useSelectContentContext('SelectScrollButton', __scopeSelect)
     const autoScrollTimerRef = React.useRef<number | null>(null)
     const getItems = useCollection(__scopeSelect)
@@ -126,6 +133,7 @@ const SelectScrollButtonImpl = React.forwardRef<HTMLDivElement, ScopedProps<Sele
     return (
       <Primitive.div
         aria-hidden
+        dir={context.dir}
         {...scrollIndicatorProps}
         ref={forwardedRef}
         style={{ flexShrink: 0, ...scrollIndicatorProps.style }}

@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
 
-import type { ScopedProps } from './menu'
+import { type ScopedProps, useMenuRootContext } from './menu'
 
 const LABEL_NAME = 'MenuLabel'
 
@@ -13,7 +13,8 @@ interface MenuLabelProps extends PrimitiveDivProps {}
 const MenuLabel = React.forwardRef<MenuLabelElement, MenuLabelProps>(
   (props: ScopedProps<MenuLabelProps>, forwardedRef) => {
     const { __scopeMenu, ...labelProps } = props
-    return <Primitive.div {...labelProps} ref={forwardedRef} />
+    const rootContext = useMenuRootContext(LABEL_NAME, __scopeMenu)
+    return <Primitive.div dir={rootContext.dir} {...labelProps} ref={forwardedRef} />
   },
 )
 

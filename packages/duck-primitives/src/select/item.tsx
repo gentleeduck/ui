@@ -72,6 +72,7 @@ export const SelectItem = React.forwardRef<SelectItemElement, ScopedProps<Select
         <Primitive.div
           role="option"
           aria-labelledby={textId}
+          dir={context.dir}
           data-highlighted={isFocused ? '' : undefined}
           // `isFocused` caveat fixes stuttering in VoiceOver
           aria-selected={isSelected && isFocused}
@@ -164,7 +165,7 @@ export const SelectItemText = React.forwardRef<SelectItemTextElement, ScopedProp
 
     return (
       <>
-        <Primitive.span id={itemContext.textId} {...itemTextProps} ref={composedRefs} />
+        <Primitive.span id={itemContext.textId} dir={context.dir} {...itemTextProps} ref={composedRefs} />
 
         {/* Portal the select item text into the trigger value node.
            Skip when allowTextPortal is false (content is animating out) to avoid
@@ -190,8 +191,11 @@ export interface SelectItemIndicatorProps extends React.ComponentPropsWithRef<ty
 export const SelectItemIndicator = React.forwardRef<SelectItemIndicatorElement, ScopedProps<SelectItemIndicatorProps>>(
   (props, forwardedRef) => {
     const { __scopeSelect, ...itemIndicatorProps } = props
+    const context = useSelectContext(ITEM_INDICATOR_NAME, __scopeSelect)
     const itemContext = useSelectItemContext(ITEM_INDICATOR_NAME, __scopeSelect)
-    return itemContext.isSelected ? <Primitive.span aria-hidden {...itemIndicatorProps} ref={forwardedRef} /> : null
+    return itemContext.isSelected ? (
+      <Primitive.span aria-hidden dir={context.dir} {...itemIndicatorProps} ref={forwardedRef} />
+    ) : null
   },
 )
 

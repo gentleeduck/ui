@@ -44,6 +44,7 @@ const DialogOverlayImpl = React.forwardRef<DialogOverlayImplElement, DialogOverl
       <RemoveScroll as={Slot} allowPinchZoom shards={[context.contentRef]}>
         <Primitive.div
           data-state={getState(context.open)}
+          dir={context.dir}
           {...overlayProps}
           ref={forwardedRef}
           style={{ pointerEvents: 'auto', ...overlayProps.style }}

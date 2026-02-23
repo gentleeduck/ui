@@ -21,6 +21,7 @@ export const PopoverClose = React.forwardRef<
   return (
     <Primitive.button
       type="button"
+      dir={context.dir}
       {...closeProps}
       ref={forwardedRef}
       // Compose the consumer onClick with the close handler so both fire in order
