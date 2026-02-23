@@ -1,6 +1,7 @@
 'use client'
 
 import { CopyButton } from '@duck-docs/components/copy-button'
+import { Icons } from '@duck-docs/components/icons'
 import { useRegistryIndex } from '@duck-docs/context'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
@@ -36,17 +37,22 @@ export function ComponentPreview({
 
   const Preview = React.useMemo(() => {
     if (!registryIndex) {
-      return <p className="text-muted-foreground text-sm">Registry index is not configured for this docs app.</p>
+      return (
+        <div className="flex h-full w-full items-center justify-center text-muted-foreground text-sm">
+          Registry index is not configured for this docs app.
+        </div>
+      )
     }
 
     const Component = registryIndex[name]?.component
 
     if (!Component) {
       return (
-        <p className="text-muted-foreground text-sm">
-          Component <code className="relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">{name}</code>{' '}
+        <div className="flex h-full w-full items-center justify-center text-muted-foreground text-sm">
+          Component{' '}
+          <code className="relative mx-1 rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">{name}</code>{' '}
           not found in registry.
-        </p>
+        </div>
       )
     }
 
@@ -103,7 +109,15 @@ export function ComponentPreview({
               'items-start': align === 'start',
             })}
             duck-preview="">
-            {Preview}
+            <React.Suspense
+              fallback={
+                <div className="flex h-full w-full items-center justify-center gap-2 text-muted-foreground text-sm">
+                  <Icons.spinner className="h-4 w-4 animate-spin" />
+                  Loading...
+                </div>
+              }>
+              {Preview}
+            </React.Suspense>
           </div>
         </TabsContent>
         <TabsContent

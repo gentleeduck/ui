@@ -1,5 +1,6 @@
 'use client'
 
+import { Icons } from '@duck-docs/components/icons'
 import { cn } from '@gentleduck/libs/cn'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
@@ -14,7 +15,12 @@ interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
 /** NOTE: the props are not used */
 export function ComponentSource({ children, className, ...props }: ComponentSourceProps) {
   if (!children.length) {
-    return children
+    return (
+      <div className="flex h-24 w-full items-center justify-center gap-2 rounded-md border border-border bg-muted/40 text-muted-foreground text-sm">
+        <Icons.spinner className="h-4 w-4 animate-spin" />
+        Loading...
+      </div>
+    )
   }
 
   const defaultValue = String((children[0] as any).props.children[0].props.__rawString__)
