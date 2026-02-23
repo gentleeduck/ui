@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
 
-import type { ScopedProps } from './menu'
+import { type ScopedProps, useMenuRootContext } from './menu'
 
 const GROUP_NAME = 'MenuGroup'
 
@@ -13,7 +13,8 @@ interface MenuGroupProps extends PrimitiveDivProps {}
 const MenuGroup = React.forwardRef<MenuGroupElement, MenuGroupProps>(
   (props: ScopedProps<MenuGroupProps>, forwardedRef) => {
     const { __scopeMenu, ...groupProps } = props
-    return <Primitive.div role="group" {...groupProps} ref={forwardedRef} />
+    const rootContext = useMenuRootContext(GROUP_NAME, __scopeMenu)
+    return <Primitive.div role="group" dir={rootContext.dir} {...groupProps} ref={forwardedRef} />
   },
 )
 

@@ -34,6 +34,7 @@ export const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTri
           // commonly anchors and the anchor `type` attribute signifies MIME type.
           aria-describedby={context.open ? context.contentId : undefined}
           data-state={context.stateAttribute}
+          dir={context.dir}
           {...triggerProps}
           ref={composedRefs}
           onPointerMove={composeEventHandlers(props.onPointerMove, (event) => {

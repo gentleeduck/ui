@@ -7,6 +7,7 @@ import {
   Collection,
   type ScopedProps,
   useSelectContentContext,
+  useSelectContext,
   useSelectViewportContext,
 } from './select'
 
@@ -21,6 +22,7 @@ export interface SelectViewportProps extends React.ComponentPropsWithRef<typeof 
 export const SelectViewport = React.forwardRef<SelectViewportElement, SelectViewportProps>(
   (props: ScopedProps<SelectViewportProps>, forwardedRef) => {
     const { __scopeSelect, nonce, ...viewportProps } = props
+    const context = useSelectContext(VIEWPORT_NAME, __scopeSelect)
     const contentContext = useSelectContentContext(VIEWPORT_NAME, __scopeSelect)
     const viewportContext = useSelectViewportContext(VIEWPORT_NAME, __scopeSelect)
     const composedRefs = useComposedRefs(forwardedRef, contentContext.onViewportChange)
@@ -38,6 +40,7 @@ export const SelectViewport = React.forwardRef<SelectViewportElement, SelectView
           <Primitive.div
             data-gentleduck-select-viewport=""
             role="presentation"
+            dir={context.dir}
             {...viewportProps}
             ref={composedRefs}
             style={{

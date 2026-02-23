@@ -2,7 +2,7 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
 
-import type { ScopedProps } from './menu'
+import { type ScopedProps, useMenuRootContext } from './menu'
 
 const SEPARATOR_NAME = 'MenuSeparator'
 
@@ -13,7 +13,16 @@ interface MenuSeparatorProps extends PrimitiveDivProps {}
 const MenuSeparator = React.forwardRef<MenuSeparatorElement, MenuSeparatorProps>(
   (props: ScopedProps<MenuSeparatorProps>, forwardedRef) => {
     const { __scopeMenu, ...separatorProps } = props
-    return <Primitive.div role="separator" aria-orientation="horizontal" {...separatorProps} ref={forwardedRef} />
+    const rootContext = useMenuRootContext(SEPARATOR_NAME, __scopeMenu)
+    return (
+      <Primitive.div
+        role="separator"
+        aria-orientation="horizontal"
+        dir={rootContext.dir}
+        {...separatorProps}
+        ref={forwardedRef}
+      />
+    )
   },
 )
 

@@ -30,6 +30,7 @@ export const SelectValue = React.forwardRef<SelectValueElement, SelectValueProps
       <Primitive.span
         {...valueProps}
         ref={composedRefs}
+        dir={context.dir}
         // we don't want events from the portalled `SelectValue` children to bubble
         // through the item they came from
         style={{ pointerEvents: 'none' }}>

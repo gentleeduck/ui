@@ -17,6 +17,7 @@ export const DialogClose = React.forwardRef<DialogCloseElement, DialogCloseProps
     return (
       <Primitive.button
         type="button"
+        dir={context.dir}
         {...closeProps}
         ref={forwardedRef}
         onClick={composeEventHandlers(props.onClick, () => context.onOpenChange(false))}

@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
-import { type ScopedProps, useSelectGroupContext } from './select'
+import { type ScopedProps, useSelectContext, useSelectGroupContext } from './select'
 
 const LABEL_NAME = 'SelectLabel'
 
@@ -11,8 +11,9 @@ export interface SelectLabelProps extends React.ComponentPropsWithRef<typeof Pri
 export const SelectLabel = React.forwardRef<SelectLabelElement, SelectLabelProps>(
   (props: ScopedProps<SelectLabelProps>, forwardedRef) => {
     const { __scopeSelect, ...labelProps } = props
+    const context = useSelectContext(LABEL_NAME, __scopeSelect)
     const groupContext = useSelectGroupContext(LABEL_NAME, __scopeSelect)
-    return <Primitive.div id={groupContext.id} {...labelProps} ref={forwardedRef} />
+    return <Primitive.div id={groupContext.id} dir={context.dir} {...labelProps} ref={forwardedRef} />
   },
 )
 

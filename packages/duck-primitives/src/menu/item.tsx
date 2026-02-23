@@ -84,6 +84,7 @@ MenuItem.displayName = ITEM_NAME
 const MenuItemImpl = React.forwardRef<MenuItemImplElement, MenuItemImplProps>(
   (props: ScopedProps<MenuItemImplProps>, forwardedRef) => {
     const { __scopeMenu, disabled = false, textValue, ...itemProps } = props
+    const rootContext = useMenuRootContext(ITEM_NAME, __scopeMenu)
     const contentContext = useMenuContentContext(ITEM_NAME, __scopeMenu)
     const rovingFocusGroupScope = useRovingFocusGroupScope(__scopeMenu)
     const ref = React.useRef<HTMLDivElement>(null)
@@ -107,6 +108,7 @@ const MenuItemImpl = React.forwardRef<MenuItemImplElement, MenuItemImplProps>(
             data-highlighted={isFocused ? '' : undefined}
             aria-disabled={disabled || undefined}
             data-disabled={disabled ? '' : undefined}
+            dir={rootContext.dir}
             {...itemProps}
             ref={composedRefs}
             /**

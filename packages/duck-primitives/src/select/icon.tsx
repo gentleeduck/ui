@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
-import type { ScopedProps } from './select'
+import { type ScopedProps, useSelectContext } from './select'
 
 const ICON_NAME = 'SelectIcon'
 
@@ -11,8 +11,9 @@ export interface SelectIconProps extends React.ComponentPropsWithRef<typeof Prim
 export const SelectIcon = React.forwardRef<SelectIconElement, SelectIconProps>(
   (props: ScopedProps<SelectIconProps>, forwardedRef) => {
     const { __scopeSelect, children, ...iconProps } = props
+    const context = useSelectContext(ICON_NAME, __scopeSelect)
     return (
-      <Primitive.span aria-hidden {...iconProps} ref={forwardedRef}>
+      <Primitive.span aria-hidden dir={context.dir} {...iconProps} ref={forwardedRef}>
         {children || '\u25BC'}
       </Primitive.span>
     )

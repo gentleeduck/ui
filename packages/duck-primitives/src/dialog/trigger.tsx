@@ -23,6 +23,7 @@ export const DialogTrigger = React.forwardRef<DialogTriggerElement, DialogTrigge
         aria-expanded={context.open}
         aria-controls={context.contentId}
         data-state={getState(context.open)}
+        dir={context.dir}
         {...triggerProps}
         ref={composedTriggerRef}
         onClick={composeEventHandlers(props.onClick, context.onOpenToggle)}

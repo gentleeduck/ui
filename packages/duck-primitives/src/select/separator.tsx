@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
-import type { ScopedProps } from './select'
+import { type ScopedProps, useSelectContext } from './select'
 
 const SEPARATOR_NAME = 'SelectSeparator'
 
@@ -11,7 +11,8 @@ export interface SelectSeparatorProps extends React.ComponentPropsWithRef<typeof
 export const SelectSeparator = React.forwardRef<SelectSeparatorElement, SelectSeparatorProps>(
   (props: ScopedProps<SelectSeparatorProps>, forwardedRef) => {
     const { __scopeSelect, ...separatorProps } = props
-    return <Primitive.div aria-hidden {...separatorProps} ref={forwardedRef} />
+    const context = useSelectContext(SEPARATOR_NAME, __scopeSelect)
+    return <Primitive.div aria-hidden dir={context.dir} {...separatorProps} ref={forwardedRef} />
   },
 )
 
