@@ -538,6 +538,7 @@ const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElem
         onScrollButtonChange={handleScrollButtonChange}>
         <div
           ref={setContentWrapper}
+          dir={context.dir}
           style={{
             display: 'flex',
             flexDirection: 'column',
