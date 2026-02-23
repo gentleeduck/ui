@@ -58,7 +58,11 @@ export default function TableRtlDemo() {
   return (
     <div dir="rtl">
       <Table>
-        <TableCaption>{'\u0642\u0627\u0626\u0645\u0629 \u0628\u0641\u0648\u0627\u062A\u064A\u0631\u0643 \u0627\u0644\u0623\u062E\u064A\u0631\u0629.'}</TableCaption>
+        <TableCaption>
+          {
+            '\u0642\u0627\u0626\u0645\u0629 \u0628\u0641\u0648\u0627\u062A\u064A\u0631\u0643 \u0627\u0644\u0623\u062E\u064A\u0631\u0629.'
+          }
+        </TableCaption>
         <TableHeader>
           <TableRow>
             <TableHead className="w-[100px]">{'\u0627\u0644\u0641\u0627\u062A\u0648\u0631\u0629'}</TableHead>

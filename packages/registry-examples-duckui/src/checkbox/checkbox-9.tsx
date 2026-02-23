@@ -15,9 +15,7 @@ export default function CheckboxRtlDemo() {
           <Checkbox defaultChecked id="terms-2" />
           <div className="grid gap-2">
             <Label htmlFor="terms-2">قبول الشروط والاحكام</Label>
-            <p className="text-muted-foreground text-sm">
-              بالنقر على هذا المربع، فانك توافق على الشروط والاحكام.
-            </p>
+            <p className="text-muted-foreground text-sm">بالنقر على هذا المربع، فانك توافق على الشروط والاحكام.</p>
           </div>
         </div>
         <div className="flex items-start gap-3">
