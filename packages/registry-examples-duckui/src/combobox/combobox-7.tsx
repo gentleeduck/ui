@@ -42,37 +42,35 @@ export default function ComboboxRtlDemo() {
   const [value, setValue] = React.useState('')
 
   return (
-    <div dir="rtl">
-      <Popover onOpenChange={setOpen} open={open}>
-        <PopoverTrigger asChild>
-          <Button aria-expanded={open} className="w-[240px] justify-between" role="combobox" variant="outline">
-            {value ? frameworks.find((framework) => framework.value === value)?.label : '...اختر اطار العمل'}
-            <ChevronsUpDown className="opacity-50" />
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-[230px] min-w-auto p-0">
-          <Command>
-            <CommandInput className="h-9" placeholder="...ابحث عن اطار العمل" />
-            <CommandList>
-              <CommandEmpty>لم يتم العثور على اطار عمل.</CommandEmpty>
-              <CommandGroup>
-                {frameworks.map((framework) => (
-                  <CommandItem
-                    key={framework.value}
-                    onSelect={(currentValue) => {
-                      setValue(currentValue === value ? '' : currentValue)
-                      setOpen(false)
-                    }}
-                    value={framework.value}>
-                    {framework.label}
-                    <Check className={cn('ml-auto', value === framework.value ? 'opacity-100' : 'opacity-0')} />
-                  </CommandItem>
-                ))}
-              </CommandGroup>
-            </CommandList>
-          </Command>
-        </PopoverContent>
-      </Popover>
-    </div>
+    <Popover dir="rtl" onOpenChange={setOpen} open={open}>
+      <PopoverTrigger asChild>
+        <Button aria-expanded={open} className="w-[240px] justify-between" role="combobox" variant="outline">
+          {value ? frameworks.find((framework) => framework.value === value)?.label : '...اختر اطار العمل'}
+          <ChevronsUpDown className="opacity-50" />
+        </Button>
+      </PopoverTrigger>
+      <PopoverContent className="w-[230px] min-w-auto p-0">
+        <Command>
+          <CommandInput className="h-9" placeholder="...ابحث عن اطار العمل" />
+          <CommandList>
+            <CommandEmpty>لم يتم العثور على اطار عمل.</CommandEmpty>
+            <CommandGroup>
+              {frameworks.map((framework) => (
+                <CommandItem
+                  key={framework.value}
+                  onSelect={(currentValue) => {
+                    setValue(currentValue === value ? '' : currentValue)
+                    setOpen(false)
+                  }}
+                  value={framework.value}>
+                  {framework.label}
+                  <Check className={cn('ml-auto', value === framework.value ? 'opacity-100' : 'opacity-0')} />
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </PopoverContent>
+    </Popover>
   )
 }

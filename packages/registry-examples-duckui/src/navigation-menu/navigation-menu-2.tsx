@@ -49,64 +49,62 @@ const components: { title: string; href: string; description: string }[] = [
 
 export default function NavigationMenuRtlDemo() {
   return (
-    <div dir="rtl">
-      <NavigationMenu>
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>البدء</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="flex gap-3 p-6">
-                <NavigationMenuLink asChild className="w-[350px] rounded-md bg-muted">
-                  <a
-                    className="flex h-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                    href="/">
-                    <Image
-                      alt="Logo"
-                      className="object-contain"
-                      height={100}
-                      src="https://zpgqhogoevbgpxustvmo.supabase.co/storage/v1/object/public/produc_imgs/duckui%20(1).png"
-                      width={100}
-                    />
-                    <div className="mt-4 mb-2 font-medium text-lg">duck/ui</div>
-                    <p className="text-muted-foreground text-sm leading-tight">
-                      مكونات مصممة بعناية يمكنك نسخها ولصقها في تطبيقاتك. سهلة الوصول. قابلة للتخصيص. مفتوحة المصدر.
-                    </p>
-                  </a>
-                </NavigationMenuLink>
-                <div className="flex flex-col gap-2">
-                  <ListItem href="/docs" title="مقدمة">
-                    مكونات قابلة لاعادة الاستخدام مبنية باستخدام Radix UI و Tailwind CSS.
-                  </ListItem>
-                  <ListItem href="/docs/installation" title="التثبيت">
-                    كيفية تثبيت التبعيات وهيكلة تطبيقك.
-                  </ListItem>
-                  <ListItem href="/docs/primitives/typography" title="الخطوط">
-                    انماط العناوين والفقرات والقوائم...الخ
-                  </ListItem>
-                </div>
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>المكونات</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className="grid w-[500px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[500px]">
-                {components.map((component) => (
-                  <ListItem href={component.href} key={component.title} title={component.title}>
-                    {component.description}
-                  </ListItem>
-                ))}
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <Link href="/docs" legacyBehavior passHref>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()}>التوثيق</NavigationMenuLink>
-            </Link>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
-    </div>
+    <NavigationMenu dir="rtl">
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>البدء</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="flex gap-3 p-6">
+              <NavigationMenuLink asChild className="w-[350px] rounded-md bg-muted">
+                <a
+                  className="flex h-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
+                  href="/">
+                  <Image
+                    alt="Logo"
+                    className="object-contain"
+                    height={100}
+                    src="https://zpgqhogoevbgpxustvmo.supabase.co/storage/v1/object/public/produc_imgs/duckui%20(1).png"
+                    width={100}
+                  />
+                  <div className="mt-4 mb-2 font-medium text-lg">duck/ui</div>
+                  <p className="text-muted-foreground text-sm leading-tight">
+                    مكونات مصممة بعناية يمكنك نسخها ولصقها في تطبيقاتك. سهلة الوصول. قابلة للتخصيص. مفتوحة المصدر.
+                  </p>
+                </a>
+              </NavigationMenuLink>
+              <div className="flex flex-col gap-2">
+                <ListItem href="/docs" title="مقدمة">
+                  مكونات قابلة لاعادة الاستخدام مبنية باستخدام Radix UI و Tailwind CSS.
+                </ListItem>
+                <ListItem href="/docs/installation" title="التثبيت">
+                  كيفية تثبيت التبعيات وهيكلة تطبيقك.
+                </ListItem>
+                <ListItem href="/docs/primitives/typography" title="الخطوط">
+                  انماط العناوين والفقرات والقوائم...الخ
+                </ListItem>
+              </div>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>المكونات</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[500px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[500px]">
+              {components.map((component) => (
+                <ListItem href={component.href} key={component.title} title={component.title}>
+                  {component.description}
+                </ListItem>
+              ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <Link href="/docs" legacyBehavior passHref>
+            <NavigationMenuLink className={navigationMenuTriggerStyle()}>التوثيق</NavigationMenuLink>
+          </Link>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
   )
 }
 
