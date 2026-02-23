@@ -1,4 +1,4 @@
-import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui-duckui/avatar'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Item,
@@ -15,12 +15,10 @@ export default function ItemAvatar() {
     <div className="flex w-full max-w-lg flex-col gap-6">
       <Item variant="outline">
         <ItemMedia>
-          <Avatar
-            alt="profile picture for alexchen"
-            className="size-10"
-            fallback="AC"
-            src="https://avatar.vercel.sh/alexchen"
-          />
+          <Avatar className="size-10">
+            <AvatarImage alt="profile picture for alexchen" src="https://avatar.vercel.sh/alexchen" />
+            <AvatarFallback>AC</AvatarFallback>
+          </Avatar>
         </ItemMedia>
         <ItemContent>
           <ItemTitle>Alex Chen</ItemTitle>
@@ -35,9 +33,18 @@ export default function ItemAvatar() {
       <Item variant="outline">
         <ItemMedia>
           <div className="flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
-            <Avatar alt="sara" className="hidden sm:flex" fallback="SM" src="https://avatar.vercel.sh/sara" />
-            <Avatar alt="omar" className="hidden sm:flex" fallback="OK" src="https://avatar.vercel.sh/omar" />
-            <Avatar alt="liwei" className="hidden sm:flex" fallback="LW" src="https://avatar.vercel.sh/liwei" />
+            <Avatar className="hidden sm:flex">
+              <AvatarImage alt="sara" src="https://avatar.vercel.sh/sara" />
+              <AvatarFallback>SM</AvatarFallback>
+            </Avatar>
+            <Avatar className="hidden sm:flex">
+              <AvatarImage alt="omar" src="https://avatar.vercel.sh/omar" />
+              <AvatarFallback>OK</AvatarFallback>
+            </Avatar>
+            <Avatar className="hidden sm:flex">
+              <AvatarImage alt="liwei" src="https://avatar.vercel.sh/liwei" />
+              <AvatarFallback>LW</AvatarFallback>
+            </Avatar>
           </div>
         </ItemMedia>
         <ItemContent>

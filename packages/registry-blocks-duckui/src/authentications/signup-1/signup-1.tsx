@@ -1,6 +1,6 @@
 'use client'
 import { cn } from '@gentleduck/libs/cn'
-import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui-duckui/avatar'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
@@ -62,7 +62,10 @@ export default function signup_1({ className }: { className?: string }) {
         {/* Upload */}
         <div className="flex items-start gap-4">
           <div className="size-[100px] shrink-0 overflow-hidden rounded-xl bg-muted">
-            <Avatar alt="WD" height={100} src="/avatars/06.png" width={100} />
+            <Avatar className="size-[100px] rounded-xl">
+              <AvatarImage alt="WD" src="/avatars/06.png" />
+              <AvatarFallback className="rounded-xl">WD</AvatarFallback>
+            </Avatar>
           </div>
           <div className="flex flex-col gap-2">
             <h3 className="font-medium text-lg">Profile Picture</h3>

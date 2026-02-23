@@ -1,6 +1,6 @@
 'use client'
 
-import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui-duckui/avatar'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   DropdownMenu,
@@ -43,12 +43,10 @@ export default function ItemDropdown() {
             <DropdownMenuItem className="p-0" key={workspace.name}>
               <Item className="w-full p-2" size="sm">
                 <ItemMedia>
-                  <Avatar
-                    alt={workspace.name}
-                    className="size-8"
-                    fallback={workspace.name.charAt(0)}
-                    src={workspace.avatar}
-                  />
+                  <Avatar className="size-8">
+                    <AvatarImage alt={workspace.name} src={workspace.avatar} />
+                    <AvatarFallback>{workspace.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
                 </ItemMedia>
                 <ItemContent className="gap-0.5">
                   <ItemTitle>{workspace.name}</ItemTitle>

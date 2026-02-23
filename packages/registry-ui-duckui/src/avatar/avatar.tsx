@@ -1,75 +1,46 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import * as AvatarPrimitive from '@gentleduck/primitives/avatar'
 import * as React from 'react'
 
-export interface AvatarProps extends React.HTMLProps<HTMLImageElement> {
-  fallback?: string
-}
+const Avatar = React.forwardRef<
+  React.ComponentRef<typeof AvatarPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
+>(({ className, ...props }, ref) => (
+  <AvatarPrimitive.Root
+    ref={ref}
+    data-slot="avatar"
+    className={cn('relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full', className)}
+    {...props}
+  />
+))
+Avatar.displayName = AvatarPrimitive.Root.displayName
 
-const Avatar = React.forwardRef<HTMLImageElement, AvatarProps>(({ className, fallback, alt, ...props }, ref) => {
-  const [isValid, setIsValid] = React.useState(true)
+const AvatarImage = React.forwardRef<
+  React.ComponentRef<typeof AvatarPrimitive.Image>,
+  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
+>(({ className, ...props }, ref) => (
+  <AvatarPrimitive.Image
+    ref={ref}
+    data-slot="avatar-img"
+    className={cn('aspect-square h-full w-full', className)}
+    {...props}
+  />
+))
+AvatarImage.displayName = AvatarPrimitive.Image.displayName
 
-  return (
-    <picture className={cn('relative size-10 shrink-0 overflow-hidden rounded-full', className)} data-slot="avatar">
-      <img
-        ref={ref}
-        {...props}
-        alt={alt}
-        className={'relative flex h-full w-full shrink-0 overflow-hidden object-cover text-transparent'}
-        data-slot="avatar-img"
-        height={'100%'}
-        onError={() => setIsValid(false)}
-        onLoad={() => setIsValid(true)}
-        width={'100%'}
-      />
-      {!isValid && (
-        <span
-          aria-label={alt}
-          className="absolute inset-0 flex h-full w-full items-center justify-center bg-muted"
-          data-slot="avatar-fallback"
-          role="img">
-          {fallback?.slice(0, 2)}
-        </span>
-      )}
-    </picture>
-  )
-})
-Avatar.displayName = 'Avatar'
+const AvatarFallback = React.forwardRef<
+  React.ComponentRef<typeof AvatarPrimitive.Fallback>,
+  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
+>(({ className, ...props }, ref) => (
+  <AvatarPrimitive.Fallback
+    ref={ref}
+    data-slot="avatar-fallback"
+    className={cn('flex h-full w-full items-center justify-center rounded-full bg-muted', className)}
+    {...props}
+  />
+))
+AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
 
-export interface AvatarGroupProps extends React.HTMLProps<HTMLDivElement> {
-  imgs: React.HTMLProps<HTMLImageElement>[]
-  maxVisible?: number
-}
-
-const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
-  ({ imgs, maxVisible = 3, className, ...props }, ref) => {
-    const visibleImgs = imgs.slice(0, maxVisible)
-    const overflowCount = imgs.length > maxVisible ? imgs.length - maxVisible : 0
-
-    return (
-      <div className={cn('flex items-center -space-x-5', className)} ref={ref} {...props}>
-        {visibleImgs.map(({ className, alt, ...props }) => (
-          <Avatar
-            alt={alt?.slice(0, 2)}
-            className={cn('border-2 border-border', className)}
-            key={props.id}
-            {...props}
-          />
-        ))}
-
-        {/* Display overflow count if necessary */}
-        {overflowCount > 0 && (
-          <div className="relative z-10 inline-block">
-            <div className="flex size-10 items-center justify-center rounded-full bg-primary font-medium text-primary-foreground text-sm ring-2 ring-background">
-              +{overflowCount}
-            </div>
-          </div>
-        )}
-      </div>
-    )
-  },
-)
-AvatarGroup.displayName = 'AvatarGroup'
-
-export { Avatar, AvatarGroup }
+export { Avatar, AvatarImage, AvatarFallback }

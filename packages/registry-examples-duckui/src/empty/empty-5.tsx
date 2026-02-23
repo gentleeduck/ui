@@ -1,4 +1,4 @@
-import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'
+import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui-duckui/avatar'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
   Empty,
@@ -16,9 +16,18 @@ export default function EmptyAvatarGroup() {
       <EmptyHeader>
         <EmptyMedia>
           <div className="flex -space-x-2 *:data-[slot=avatar]:size-12 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
-            <Avatar alt="collaborator 1" fallback="AL" src="https://github.com/wildduck2.png" />
-            <Avatar alt="collaborator 2" fallback="JR" src="https://github.com/wildduck2.png" />
-            <Avatar alt="collaborator 3" fallback="SK" src="https://github.com/wildduck2.png" />
+            <Avatar>
+              <AvatarImage alt="collaborator 1" src="https://github.com/wildduck2.png" />
+              <AvatarFallback>AL</AvatarFallback>
+            </Avatar>
+            <Avatar>
+              <AvatarImage alt="collaborator 2" src="https://github.com/wildduck2.png" />
+              <AvatarFallback>JR</AvatarFallback>
+            </Avatar>
+            <Avatar>
+              <AvatarImage alt="collaborator 3" src="https://github.com/wildduck2.png" />
+              <AvatarFallback>SK</AvatarFallback>
+            </Avatar>
           </div>
         </EmptyMedia>
         <EmptyTitle>No Collaborators</EmptyTitle>
