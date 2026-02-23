@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './switch-1'\n\nexport default function SwitchRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "switch/switch-3.tsx",
+      "target": "components/switch-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "switch-3",
+  "registryDependencies": [
+    "switch"
+  ],
+  "root_folder": "switch",
+  "source": "/registry-examples-duckui/src/switch",
+  "type": "registry:example"
+}

@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './json-editor-1'\n\nexport default function JsonEditorRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "json-editor/json-editor-4.tsx",
+      "target": "components/json-editor-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "json-editor-4",
+  "registryDependencies": [
+    "json-editor"
+  ],
+  "root_folder": "json-editor",
+  "source": "/registry-examples-duckui/src/json-editor",
+  "type": "registry:example"
+}

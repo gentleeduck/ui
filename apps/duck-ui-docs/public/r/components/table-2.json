@@ -1,17 +1,17 @@
 {
   "files": [
     {
-      "content": "",
-      "path": "duck-table/table-2.tsx",
+      "content": "'use client'\n\nimport BaseDemo from './table-1'\n\nexport default function TableRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "table/table-2.tsx",
       "target": "components/table-2.tsx",
       "type": "registry:example"
     }
   ],
   "name": "table-2",
   "registryDependencies": [
-    "duck-table"
+    "table"
   ],
-  "root_folder": "duck-table",
-  "source": "/registry-examples-duckui/src/duck-table",
+  "root_folder": "table",
+  "source": "/registry-examples-duckui/src/table",
   "type": "registry:example"
 }

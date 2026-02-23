@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './slider-1'\n\nexport default function SliderRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "slider/slider-5.tsx",
+      "target": "components/slider-5.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "slider-5",
+  "registryDependencies": [
+    "slider"
+  ],
+  "root_folder": "slider",
+  "source": "/registry-examples-duckui/src/slider",
+  "type": "registry:example"
+}

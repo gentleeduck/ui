@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './chart-1'\n\nexport default function ChartRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "chart/chart-8.tsx",
+      "target": "components/chart-8.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "chart-8",
+  "registryDependencies": [
+    "chart"
+  ],
+  "root_folder": "chart",
+  "source": "/registry-examples-duckui/src/chart",
+  "type": "registry:example"
+}

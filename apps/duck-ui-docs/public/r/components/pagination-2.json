@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './pagination-1'\n\nexport default function PaginationRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "pagination/pagination-2.tsx",
+      "target": "components/pagination-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "pagination-2",
+  "registryDependencies": [
+    "pagination"
+  ],
+  "root_folder": "pagination",
+  "source": "/registry-examples-duckui/src/pagination",
+  "type": "registry:example"
+}

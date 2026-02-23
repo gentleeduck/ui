@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './textarea-1'\n\nexport default function TextareaRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "textarea/textarea-8.tsx",
+      "target": "components/textarea-8.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "textarea-8",
+  "registryDependencies": [
+    "textarea"
+  ],
+  "root_folder": "textarea",
+  "source": "/registry-examples-duckui/src/textarea",
+  "type": "registry:example"
+}

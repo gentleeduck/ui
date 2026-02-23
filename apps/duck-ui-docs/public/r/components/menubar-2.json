@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './menubar-1'\n\nexport default function MenubarRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "menubar/menubar-2.tsx",
+      "target": "components/menubar-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "menubar-2",
+  "registryDependencies": [
+    "menubar"
+  ],
+  "root_folder": "menubar",
+  "source": "/registry-examples-duckui/src/menubar",
+  "type": "registry:example"
+}

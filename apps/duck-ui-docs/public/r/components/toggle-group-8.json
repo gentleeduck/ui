@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './toggle-group-1'\n\nexport default function ToggleGroupRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "toggle-group/toggle-group-8.tsx",
+      "target": "components/toggle-group-8.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "toggle-group-8",
+  "registryDependencies": [
+    "toggle-group"
+  ],
+  "root_folder": "toggle-group",
+  "source": "/registry-examples-duckui/src/toggle-group",
+  "type": "registry:example"
+}

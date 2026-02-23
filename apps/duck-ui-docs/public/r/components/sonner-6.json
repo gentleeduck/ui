@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './sonner-1'\n\nexport default function SonnerRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "sonner/sonner-6.tsx",
+      "target": "components/sonner-6.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "sonner-6",
+  "registryDependencies": [
+    "sonner"
+  ],
+  "root_folder": "sonner",
+  "source": "/registry-examples-duckui/src/sonner",
+  "type": "registry:example"
+}

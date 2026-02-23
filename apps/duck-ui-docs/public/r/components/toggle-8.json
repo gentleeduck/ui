@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './toggle-1'\n\nexport default function ToggleRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "toggle/toggle-8.tsx",
+      "target": "components/toggle-8.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "toggle-8",
+  "registryDependencies": [
+    "toggle"
+  ],
+  "root_folder": "toggle",
+  "source": "/registry-examples-duckui/src/toggle",
+  "type": "registry:example"
+}

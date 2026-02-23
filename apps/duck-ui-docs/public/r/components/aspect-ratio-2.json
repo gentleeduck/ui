@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './aspect-ratio-1'\n\nexport default function AspectRatioRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "aspect-ratio/aspect-ratio-2.tsx",
+      "target": "components/aspect-ratio-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "aspect-ratio-2",
+  "registryDependencies": [
+    "aspect-ratio"
+  ],
+  "root_folder": "aspect-ratio",
+  "source": "/registry-examples-duckui/src/aspect-ratio",
+  "type": "registry:example"
+}

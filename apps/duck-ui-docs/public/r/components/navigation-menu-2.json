@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './navigation-menu-1'\n\nexport default function NavigationMenuRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "navigation-menu/navigation-menu-2.tsx",
+      "target": "components/navigation-menu-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "navigation-menu-2",
+  "registryDependencies": [
+    "navigation-menu"
+  ],
+  "root_folder": "navigation-menu",
+  "source": "/registry-examples-duckui/src/navigation-menu",
+  "type": "registry:example"
+}

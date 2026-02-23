@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './tabs-1'\n\nexport default function TabsRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "tabs/tabs-2.tsx",
+      "target": "components/tabs-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "tabs-2",
+  "registryDependencies": [
+    "tabs"
+  ],
+  "root_folder": "tabs",
+  "source": "/registry-examples-duckui/src/tabs",
+  "type": "registry:example"
+}

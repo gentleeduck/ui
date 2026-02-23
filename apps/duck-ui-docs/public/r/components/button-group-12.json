@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './button-group-1'\n\nexport default function ButtonGroupRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "button-group/button-group-12.tsx",
+      "target": "components/button-group-12.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "button-group-12",
+  "registryDependencies": [
+    "button-group"
+  ],
+  "root_folder": "button-group",
+  "source": "/registry-examples-duckui/src/button-group",
+  "type": "registry:example"
+}

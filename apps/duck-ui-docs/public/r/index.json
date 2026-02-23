@@ -7990,6 +7990,38 @@
         "name": "progress-1.tsx",
         "path": "progress/progress-1.tsx",
         "type": "file"
+      },
+      {
+        "name": "progress-2.tsx",
+        "path": "progress/progress-2.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "progress/progress-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "progress-2",
+    "registryDependencies": [
+      "progress"
+    ],
+    "root_folder": "progress",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/progress",
+    "tree": [
+      {
+        "name": "progress-1.tsx",
+        "path": "progress/progress-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "progress-2.tsx",
+        "path": "progress/progress-2.tsx",
+        "type": "file"
       }
     ]
   },
@@ -8507,6 +8539,11 @@
         "name": "skeleton-2.tsx",
         "path": "skeleton/skeleton-2.tsx",
         "type": "file"
+      },
+      {
+        "name": "skeleton-3.tsx",
+        "path": "skeleton/skeleton-3.tsx",
+        "type": "file"
       }
     ]
   },
@@ -8533,6 +8570,43 @@
       {
         "name": "skeleton-2.tsx",
         "path": "skeleton/skeleton-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "skeleton-3.tsx",
+        "path": "skeleton/skeleton-3.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "skeleton/skeleton-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "skeleton-3",
+    "registryDependencies": [
+      "skeleton"
+    ],
+    "root_folder": "skeleton",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/skeleton",
+    "tree": [
+      {
+        "name": "skeleton-1.tsx",
+        "path": "skeleton/skeleton-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "skeleton-2.tsx",
+        "path": "skeleton/skeleton-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "skeleton-3.tsx",
+        "path": "skeleton/skeleton-3.tsx",
         "type": "file"
       }
     ]
@@ -10662,6 +10736,38 @@
         "name": "aspect-ratio-1.tsx",
         "path": "aspect-ratio/aspect-ratio-1.tsx",
         "type": "file"
+      },
+      {
+        "name": "aspect-ratio-2.tsx",
+        "path": "aspect-ratio/aspect-ratio-2.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "aspect-ratio/aspect-ratio-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "aspect-ratio-2",
+    "registryDependencies": [
+      "aspect-ratio"
+    ],
+    "root_folder": "aspect-ratio",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/aspect-ratio",
+    "tree": [
+      {
+        "name": "aspect-ratio-1.tsx",
+        "path": "aspect-ratio/aspect-ratio-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "aspect-ratio-2.tsx",
+        "path": "aspect-ratio/aspect-ratio-2.tsx",
+        "type": "file"
       }
     ]
   },
@@ -10706,6 +10812,11 @@
       {
         "name": "typography-14.tsx",
         "path": "typography/typography-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-15.tsx",
+        "path": "typography/typography-15.tsx",
         "type": "file"
       },
       {
@@ -10794,6 +10905,11 @@
         "type": "file"
       },
       {
+        "name": "typography-15.tsx",
+        "path": "typography/typography-15.tsx",
+        "type": "file"
+      },
+      {
         "name": "typography-2.tsx",
         "path": "typography/typography-2.tsx",
         "type": "file"
@@ -10876,6 +10992,11 @@
       {
         "name": "typography-14.tsx",
         "path": "typography/typography-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-15.tsx",
+        "path": "typography/typography-15.tsx",
         "type": "file"
       },
       {
@@ -10964,6 +11085,11 @@
         "type": "file"
       },
       {
+        "name": "typography-15.tsx",
+        "path": "typography/typography-15.tsx",
+        "type": "file"
+      },
+      {
         "name": "typography-2.tsx",
         "path": "typography/typography-2.tsx",
         "type": "file"
@@ -11046,6 +11172,11 @@
       {
         "name": "typography-14.tsx",
         "path": "typography/typography-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-15.tsx",
+        "path": "typography/typography-15.tsx",
         "type": "file"
       },
       {
@@ -11134,6 +11265,101 @@
         "type": "file"
       },
       {
+        "name": "typography-15.tsx",
+        "path": "typography/typography-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-2.tsx",
+        "path": "typography/typography-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-3.tsx",
+        "path": "typography/typography-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-4.tsx",
+        "path": "typography/typography-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-5.tsx",
+        "path": "typography/typography-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-6.tsx",
+        "path": "typography/typography-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-7.tsx",
+        "path": "typography/typography-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-8.tsx",
+        "path": "typography/typography-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-9.tsx",
+        "path": "typography/typography-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "typography/typography-15.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "typography-15",
+    "registryDependencies": [],
+    "root_folder": "typography",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/typography",
+    "tree": [
+      {
+        "name": "typography-1.tsx",
+        "path": "typography/typography-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-10.tsx",
+        "path": "typography/typography-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-11.tsx",
+        "path": "typography/typography-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-12.tsx",
+        "path": "typography/typography-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-13.tsx",
+        "path": "typography/typography-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-14.tsx",
+        "path": "typography/typography-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-15.tsx",
+        "path": "typography/typography-15.tsx",
+        "type": "file"
+      },
+      {
         "name": "typography-2.tsx",
         "path": "typography/typography-2.tsx",
         "type": "file"
@@ -11216,6 +11442,11 @@
       {
         "name": "typography-14.tsx",
         "path": "typography/typography-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-15.tsx",
+        "path": "typography/typography-15.tsx",
         "type": "file"
       },
       {
@@ -11304,6 +11535,11 @@
         "type": "file"
       },
       {
+        "name": "typography-15.tsx",
+        "path": "typography/typography-15.tsx",
+        "type": "file"
+      },
+      {
         "name": "typography-2.tsx",
         "path": "typography/typography-2.tsx",
         "type": "file"
@@ -11386,6 +11622,11 @@
       {
         "name": "typography-14.tsx",
         "path": "typography/typography-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-15.tsx",
+        "path": "typography/typography-15.tsx",
         "type": "file"
       },
       {
@@ -11474,6 +11715,11 @@
         "type": "file"
       },
       {
+        "name": "typography-15.tsx",
+        "path": "typography/typography-15.tsx",
+        "type": "file"
+      },
+      {
         "name": "typography-2.tsx",
         "path": "typography/typography-2.tsx",
         "type": "file"
@@ -11556,6 +11802,11 @@
       {
         "name": "typography-14.tsx",
         "path": "typography/typography-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-15.tsx",
+        "path": "typography/typography-15.tsx",
         "type": "file"
       },
       {
@@ -11644,6 +11895,11 @@
         "type": "file"
       },
       {
+        "name": "typography-15.tsx",
+        "path": "typography/typography-15.tsx",
+        "type": "file"
+      },
+      {
         "name": "typography-2.tsx",
         "path": "typography/typography-2.tsx",
         "type": "file"
@@ -11729,6 +11985,11 @@
         "type": "file"
       },
       {
+        "name": "typography-15.tsx",
+        "path": "typography/typography-15.tsx",
+        "type": "file"
+      },
+      {
         "name": "typography-2.tsx",
         "path": "typography/typography-2.tsx",
         "type": "file"
@@ -11811,6 +12072,11 @@
       {
         "name": "typography-14.tsx",
         "path": "typography/typography-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "typography-15.tsx",
+        "path": "typography/typography-15.tsx",
         "type": "file"
       },
       {
@@ -14592,6 +14858,11 @@
         "name": "chart-7.tsx",
         "path": "chart/chart-7.tsx",
         "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
       }
     ]
   },
@@ -14643,6 +14914,11 @@
       {
         "name": "chart-7.tsx",
         "path": "chart/chart-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
         "type": "file"
       }
     ]
@@ -14696,6 +14972,11 @@
         "name": "chart-7.tsx",
         "path": "chart/chart-7.tsx",
         "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
       }
     ]
   },
@@ -14747,6 +15028,11 @@
       {
         "name": "chart-7.tsx",
         "path": "chart/chart-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
         "type": "file"
       }
     ]
@@ -14800,6 +15086,11 @@
         "name": "chart-7.tsx",
         "path": "chart/chart-7.tsx",
         "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
       }
     ]
   },
@@ -14852,6 +15143,11 @@
         "name": "chart-7.tsx",
         "path": "chart/chart-7.tsx",
         "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
       }
     ]
   },
@@ -14903,6 +15199,68 @@
       {
         "name": "chart-7.tsx",
         "path": "chart/chart-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "chart/chart-8.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "chart-8",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/chart",
+    "tree": [
+      {
+        "name": "chart-1.tsx",
+        "path": "chart/chart-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-2.tsx",
+        "path": "chart/chart-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-3.tsx",
+        "path": "chart/chart-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-4.tsx",
+        "path": "chart/chart-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-5.tsx",
+        "path": "chart/chart-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-6.tsx",
+        "path": "chart/chart-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-7.tsx",
+        "path": "chart/chart-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
         "type": "file"
       }
     ]
@@ -16308,6 +16666,11 @@
         "name": "empty-6.tsx",
         "path": "empty/empty-6.tsx",
         "type": "file"
+      },
+      {
+        "name": "empty-7.tsx",
+        "path": "empty/empty-7.tsx",
+        "type": "file"
       }
     ]
   },
@@ -16354,6 +16717,11 @@
       {
         "name": "empty-6.tsx",
         "path": "empty/empty-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-7.tsx",
+        "path": "empty/empty-7.tsx",
         "type": "file"
       }
     ]
@@ -16402,6 +16770,11 @@
         "name": "empty-6.tsx",
         "path": "empty/empty-6.tsx",
         "type": "file"
+      },
+      {
+        "name": "empty-7.tsx",
+        "path": "empty/empty-7.tsx",
+        "type": "file"
       }
     ]
   },
@@ -16448,6 +16821,11 @@
       {
         "name": "empty-6.tsx",
         "path": "empty/empty-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-7.tsx",
+        "path": "empty/empty-7.tsx",
         "type": "file"
       }
     ]
@@ -16496,6 +16874,11 @@
         "name": "empty-6.tsx",
         "path": "empty/empty-6.tsx",
         "type": "file"
+      },
+      {
+        "name": "empty-7.tsx",
+        "path": "empty/empty-7.tsx",
+        "type": "file"
       }
     ]
   },
@@ -16542,6 +16925,63 @@
       {
         "name": "empty-6.tsx",
         "path": "empty/empty-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-7.tsx",
+        "path": "empty/empty-7.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "empty/empty-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "empty-7",
+    "registryDependencies": [
+      "empty"
+    ],
+    "root_folder": "empty",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/empty",
+    "tree": [
+      {
+        "name": "empty-1.tsx",
+        "path": "empty/empty-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-2.tsx",
+        "path": "empty/empty-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-3.tsx",
+        "path": "empty/empty-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-4.tsx",
+        "path": "empty/empty-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-5.tsx",
+        "path": "empty/empty-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-6.tsx",
+        "path": "empty/empty-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "empty-7.tsx",
+        "path": "empty/empty-7.tsx",
         "type": "file"
       }
     ]

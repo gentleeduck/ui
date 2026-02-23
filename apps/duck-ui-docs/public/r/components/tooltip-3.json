@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './tooltip-1'\n\nexport default function TooltipRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "tooltip/tooltip-3.tsx",
+      "target": "components/tooltip-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "tooltip-3",
+  "registryDependencies": [
+    "tooltip"
+  ],
+  "root_folder": "tooltip",
+  "source": "/registry-examples-duckui/src/tooltip",
+  "type": "registry:example"
+}

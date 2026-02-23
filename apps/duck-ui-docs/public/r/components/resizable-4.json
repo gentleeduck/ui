@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './resizable-1'\n\nexport default function ResizableRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "resizable/resizable-4.tsx",
+      "target": "components/resizable-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "resizable-4",
+  "registryDependencies": [
+    "resizable"
+  ],
+  "root_folder": "resizable",
+  "source": "/registry-examples-duckui/src/resizable",
+  "type": "registry:example"
+}

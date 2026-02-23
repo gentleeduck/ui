@@ -69,13 +69,19 @@ const _Accordion1 = dynamic(() => import('@gentleduck/registry-examples-duckui/a
 const _Accordion2 = dynamic(() => import('@gentleduck/registry-examples-duckui/accordion/accordion-2'), { ssr: false })
 const _Accordion3 = dynamic(() => import('@gentleduck/registry-examples-duckui/accordion/accordion-3'), { ssr: false })
 const _Accordion4 = dynamic(() => import('@gentleduck/registry-examples-duckui/accordion/accordion-4'), { ssr: false })
+const _Accordion5 = dynamic(() => import('@gentleduck/registry-examples-duckui/accordion/accordion-5'), { ssr: false })
 const _Alert1 = dynamic(() => import('@gentleduck/registry-examples-duckui/alert/alert-1'), { ssr: false })
 const _Alert2 = dynamic(() => import('@gentleduck/registry-examples-duckui/alert/alert-2'), { ssr: false })
 const _Alert3 = dynamic(() => import('@gentleduck/registry-examples-duckui/alert/alert-3'), { ssr: false })
+const _Alert4 = dynamic(() => import('@gentleduck/registry-examples-duckui/alert/alert-4'), { ssr: false })
 const _AlertDialog1 = dynamic(() => import('@gentleduck/registry-examples-duckui/alert-dialog/alert-dialog-1'), {
   ssr: false,
 })
+const _AlertDialog2 = dynamic(() => import('@gentleduck/registry-examples-duckui/alert-dialog/alert-dialog-2'), {
+  ssr: false,
+})
 const _Avatar1 = dynamic(() => import('@gentleduck/registry-examples-duckui/avatar/avatar-1'), { ssr: false })
+const _Avatar2 = dynamic(() => import('@gentleduck/registry-examples-duckui/avatar/avatar-2'), { ssr: false })
 const _Badge1 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-1'), { ssr: false })
 const _Badge2 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-2'), { ssr: false })
 const _Badge3 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-3'), { ssr: false })
@@ -84,6 +90,7 @@ const _Badge5 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge
 const _Badge6 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-6'), { ssr: false })
 const _Badge7 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-7'), { ssr: false })
 const _Badge8 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-8'), { ssr: false })
+const _Badge9 = dynamic(() => import('@gentleduck/registry-examples-duckui/badge/badge-9'), { ssr: false })
 const _Button1 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-1'), { ssr: false })
 const _Button10 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-10'), { ssr: false })
 const _Button11 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-11'), { ssr: false })
@@ -96,6 +103,7 @@ const _Button17 = dynamic(() => import('@gentleduck/registry-examples-duckui/but
 const _Button18 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-18'), { ssr: false })
 const _Button19 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-19'), { ssr: false })
 const _Button2 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-2'), { ssr: false })
+const _Button20 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-20'), { ssr: false })
 const _Button3 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-3'), { ssr: false })
 const _Button4 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-4'), { ssr: false })
 const _Button5 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-5'), { ssr: false })
@@ -127,12 +135,18 @@ const _Breadcrumb7 = dynamic(() => import('@gentleduck/registry-examples-duckui/
 const _Breadcrumb8 = dynamic(() => import('@gentleduck/registry-examples-duckui/breadcrumb/breadcrumb-8'), {
   ssr: false,
 })
+const _Breadcrumb9 = dynamic(() => import('@gentleduck/registry-examples-duckui/breadcrumb/breadcrumb-9'), {
+  ssr: false,
+})
 const _Dialog1 = dynamic(() => import('@gentleduck/registry-examples-duckui/dialog/dialog-1'), { ssr: false })
 const _Dialog2 = dynamic(() => import('@gentleduck/registry-examples-duckui/dialog/dialog-2'), { ssr: false })
+const _Dialog3 = dynamic(() => import('@gentleduck/registry-examples-duckui/dialog/dialog-3'), { ssr: false })
 const _Command1 = dynamic(() => import('@gentleduck/registry-examples-duckui/command/command-1'), { ssr: false })
 const _Command2 = dynamic(() => import('@gentleduck/registry-examples-duckui/command/command-2'), { ssr: false })
+const _Command3 = dynamic(() => import('@gentleduck/registry-examples-duckui/command/command-3'), { ssr: false })
 const _Card1 = dynamic(() => import('@gentleduck/registry-examples-duckui/card/card-1'), { ssr: false })
 const _Card2 = dynamic(() => import('@gentleduck/registry-examples-duckui/card/card-2'), { ssr: false })
+const _Card3 = dynamic(() => import('@gentleduck/registry-examples-duckui/card/card-3'), { ssr: false })
 const _Calendar1 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-1'), { ssr: false })
 const _Calendar2 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-2'), { ssr: false })
 const _Calendar3 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-3'), { ssr: false })
@@ -141,13 +155,18 @@ const _Calendar5 = dynamic(() => import('@gentleduck/registry-examples-duckui/ca
 const _Calendar6 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-6'), { ssr: false })
 const _Calendar7 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-7'), { ssr: false })
 const _Calendar8 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-8'), { ssr: false })
+const _Calendar9 = dynamic(() => import('@gentleduck/registry-examples-duckui/calendar/calendar-9'), { ssr: false })
 const _Drawer1 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-1'), { ssr: false })
 const _Drawer2 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-2'), { ssr: false })
 const _Drawer3 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-3'), { ssr: false })
 const _Drawer4 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-4'), { ssr: false })
 const _Drawer5 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-5'), { ssr: false })
 const _Drawer6 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-6'), { ssr: false })
+const _Drawer7 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-7'), { ssr: false })
 const _HoverCard1 = dynamic(() => import('@gentleduck/registry-examples-duckui/hover-card/hover-card-1'), {
+  ssr: false,
+})
+const _HoverCard2 = dynamic(() => import('@gentleduck/registry-examples-duckui/hover-card/hover-card-2'), {
   ssr: false,
 })
 const _Input1 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-1'), { ssr: false })
@@ -157,13 +176,19 @@ const _Input4 = dynamic(() => import('@gentleduck/registry-examples-duckui/input
 const _Input5 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-5'), { ssr: false })
 const _Input6 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-6'), { ssr: false })
 const _Input7 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-7'), { ssr: false })
+const _Input8 = dynamic(() => import('@gentleduck/registry-examples-duckui/input/input-8'), { ssr: false })
 const _Label1 = dynamic(() => import('@gentleduck/registry-examples-duckui/label/label-1'), { ssr: false })
 const _Label2 = dynamic(() => import('@gentleduck/registry-examples-duckui/label/label-2'), { ssr: false })
+const _Label3 = dynamic(() => import('@gentleduck/registry-examples-duckui/label/label-3'), { ssr: false })
 const _Progress1 = dynamic(() => import('@gentleduck/registry-examples-duckui/progress/progress-1'), { ssr: false })
+const _Progress2 = dynamic(() => import('@gentleduck/registry-examples-duckui/progress/progress-2'), { ssr: false })
 const _RadioGroup1 = dynamic(() => import('@gentleduck/registry-examples-duckui/radio-group/radio-group-1'), {
   ssr: false,
 })
 const _RadioGroup2 = dynamic(() => import('@gentleduck/registry-examples-duckui/radio-group/radio-group-2'), {
+  ssr: false,
+})
+const _RadioGroup3 = dynamic(() => import('@gentleduck/registry-examples-duckui/radio-group/radio-group-3'), {
   ssr: false,
 })
 const _ScrollArea1 = dynamic(() => import('@gentleduck/registry-examples-duckui/scroll-area/scroll-area-1'), {
@@ -172,26 +197,37 @@ const _ScrollArea1 = dynamic(() => import('@gentleduck/registry-examples-duckui/
 const _ScrollArea2 = dynamic(() => import('@gentleduck/registry-examples-duckui/scroll-area/scroll-area-2'), {
   ssr: false,
 })
+const _ScrollArea3 = dynamic(() => import('@gentleduck/registry-examples-duckui/scroll-area/scroll-area-3'), {
+  ssr: false,
+})
 const _Select1 = dynamic(() => import('@gentleduck/registry-examples-duckui/select/select-1'), { ssr: false })
 const _Select2 = dynamic(() => import('@gentleduck/registry-examples-duckui/select/select-2'), { ssr: false })
 const _Select3 = dynamic(() => import('@gentleduck/registry-examples-duckui/select/select-3'), { ssr: false })
+const _Select4 = dynamic(() => import('@gentleduck/registry-examples-duckui/select/select-4'), { ssr: false })
 const _Separator1 = dynamic(() => import('@gentleduck/registry-examples-duckui/separator/separator-1'), { ssr: false })
+const _Separator2 = dynamic(() => import('@gentleduck/registry-examples-duckui/separator/separator-2'), { ssr: false })
 const _Sheet1 = dynamic(() => import('@gentleduck/registry-examples-duckui/sheet/sheet-1'), { ssr: false })
 const _Sheet2 = dynamic(() => import('@gentleduck/registry-examples-duckui/sheet/sheet-2'), { ssr: false })
+const _Sheet3 = dynamic(() => import('@gentleduck/registry-examples-duckui/sheet/sheet-3'), { ssr: false })
 const _Skeleton1 = dynamic(() => import('@gentleduck/registry-examples-duckui/skeleton/skeleton-1'), { ssr: false })
 const _Skeleton2 = dynamic(() => import('@gentleduck/registry-examples-duckui/skeleton/skeleton-2'), { ssr: false })
+const _Skeleton3 = dynamic(() => import('@gentleduck/registry-examples-duckui/skeleton/skeleton-3'), { ssr: false })
 const _Slider1 = dynamic(() => import('@gentleduck/registry-examples-duckui/slider/slider-1'), { ssr: false })
 const _Slider2 = dynamic(() => import('@gentleduck/registry-examples-duckui/slider/slider-2'), { ssr: false })
 const _Slider3 = dynamic(() => import('@gentleduck/registry-examples-duckui/slider/slider-3'), { ssr: false })
 const _Slider4 = dynamic(() => import('@gentleduck/registry-examples-duckui/slider/slider-4'), { ssr: false })
+const _Slider5 = dynamic(() => import('@gentleduck/registry-examples-duckui/slider/slider-5'), { ssr: false })
 const _Switch1 = dynamic(() => import('@gentleduck/registry-examples-duckui/switch/switch-1'), { ssr: false })
 const _Switch2 = dynamic(() => import('@gentleduck/registry-examples-duckui/switch/switch-2'), { ssr: false })
+const _Switch3 = dynamic(() => import('@gentleduck/registry-examples-duckui/switch/switch-3'), { ssr: false })
 const _Sonner1 = dynamic(() => import('@gentleduck/registry-examples-duckui/sonner/sonner-1'), { ssr: false })
 const _Sonner2 = dynamic(() => import('@gentleduck/registry-examples-duckui/sonner/sonner-2'), { ssr: false })
 const _Sonner3 = dynamic(() => import('@gentleduck/registry-examples-duckui/sonner/sonner-3'), { ssr: false })
 const _Sonner4 = dynamic(() => import('@gentleduck/registry-examples-duckui/sonner/sonner-4'), { ssr: false })
 const _Sonner5 = dynamic(() => import('@gentleduck/registry-examples-duckui/sonner/sonner-5'), { ssr: false })
+const _Sonner6 = dynamic(() => import('@gentleduck/registry-examples-duckui/sonner/sonner-6'), { ssr: false })
 const _Tabs1 = dynamic(() => import('@gentleduck/registry-examples-duckui/tabs/tabs-1'), { ssr: false })
+const _Tabs2 = dynamic(() => import('@gentleduck/registry-examples-duckui/tabs/tabs-2'), { ssr: false })
 const _Textarea1 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-1'), { ssr: false })
 const _Textarea2 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-2'), { ssr: false })
 const _Textarea3 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-3'), { ssr: false })
@@ -199,6 +235,7 @@ const _Textarea4 = dynamic(() => import('@gentleduck/registry-examples-duckui/te
 const _Textarea5 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-5'), { ssr: false })
 const _Textarea6 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-6'), { ssr: false })
 const _Textarea7 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-7'), { ssr: false })
+const _Textarea8 = dynamic(() => import('@gentleduck/registry-examples-duckui/textarea/textarea-8'), { ssr: false })
 const _Toggle1 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-1'), { ssr: false })
 const _Toggle2 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-2'), { ssr: false })
 const _Toggle3 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-3'), { ssr: false })
@@ -206,6 +243,7 @@ const _Toggle4 = dynamic(() => import('@gentleduck/registry-examples-duckui/togg
 const _Toggle5 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-5'), { ssr: false })
 const _Toggle6 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-6'), { ssr: false })
 const _Toggle7 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-7'), { ssr: false })
+const _Toggle8 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle/toggle-8'), { ssr: false })
 const _ToggleGroup1 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle-group/toggle-group-1'), {
   ssr: false,
 })
@@ -227,9 +265,16 @@ const _ToggleGroup6 = dynamic(() => import('@gentleduck/registry-examples-duckui
 const _ToggleGroup7 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle-group/toggle-group-7'), {
   ssr: false,
 })
+const _ToggleGroup8 = dynamic(() => import('@gentleduck/registry-examples-duckui/toggle-group/toggle-group-8'), {
+  ssr: false,
+})
 const _Tooltip1 = dynamic(() => import('@gentleduck/registry-examples-duckui/tooltip/tooltip-1'), { ssr: false })
 const _Tooltip2 = dynamic(() => import('@gentleduck/registry-examples-duckui/tooltip/tooltip-2'), { ssr: false })
+const _Tooltip3 = dynamic(() => import('@gentleduck/registry-examples-duckui/tooltip/tooltip-3'), { ssr: false })
 const _AspectRatio1 = dynamic(() => import('@gentleduck/registry-examples-duckui/aspect-ratio/aspect-ratio-1'), {
+  ssr: false,
+})
+const _AspectRatio2 = dynamic(() => import('@gentleduck/registry-examples-duckui/aspect-ratio/aspect-ratio-2'), {
   ssr: false,
 })
 const _Typography1 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-1'), {
@@ -248,6 +293,9 @@ const _Typography13 = dynamic(() => import('@gentleduck/registry-examples-duckui
   ssr: false,
 })
 const _Typography14 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-14'), {
+  ssr: false,
+})
+const _Typography15 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-15'), {
   ssr: false,
 })
 const _Typography2 = dynamic(() => import('@gentleduck/registry-examples-duckui/typography/typography-2'), {
@@ -275,10 +323,15 @@ const _Typography9 = dynamic(() => import('@gentleduck/registry-examples-duckui/
   ssr: false,
 })
 const _Table1 = dynamic(() => import('@gentleduck/registry-examples-duckui/table/table-1'), { ssr: false })
+const _Table2 = dynamic(() => import('@gentleduck/registry-examples-duckui/table/table-2'), { ssr: false })
 const _Resizable1 = dynamic(() => import('@gentleduck/registry-examples-duckui/resizable/resizable-1'), { ssr: false })
 const _Resizable2 = dynamic(() => import('@gentleduck/registry-examples-duckui/resizable/resizable-2'), { ssr: false })
 const _Resizable3 = dynamic(() => import('@gentleduck/registry-examples-duckui/resizable/resizable-3'), { ssr: false })
+const _Resizable4 = dynamic(() => import('@gentleduck/registry-examples-duckui/resizable/resizable-4'), { ssr: false })
 const _Pagination1 = dynamic(() => import('@gentleduck/registry-examples-duckui/pagination/pagination-1'), {
+  ssr: false,
+})
+const _Pagination2 = dynamic(() => import('@gentleduck/registry-examples-duckui/pagination/pagination-2'), {
   ssr: false,
 })
 const _Checkbox1 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-1'), { ssr: false })
@@ -289,12 +342,14 @@ const _Checkbox5 = dynamic(() => import('@gentleduck/registry-examples-duckui/ch
 const _Checkbox6 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-6'), { ssr: false })
 const _Checkbox7 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-7'), { ssr: false })
 const _Checkbox8 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-8'), { ssr: false })
+const _Checkbox9 = dynamic(() => import('@gentleduck/registry-examples-duckui/checkbox/checkbox-9'), { ssr: false })
 const _Carousel1 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-1'), { ssr: false })
 const _Carousel2 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-2'), { ssr: false })
 const _Carousel3 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-3'), { ssr: false })
 const _Carousel4 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-4'), { ssr: false })
 const _Carousel5 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-5'), { ssr: false })
 const _Carousel6 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-6'), { ssr: false })
+const _Carousel7 = dynamic(() => import('@gentleduck/registry-examples-duckui/carousel/carousel-7'), { ssr: false })
 const _DatePicker1 = dynamic(() => import('@gentleduck/registry-examples-duckui/date-picker/date-picker-1'), {
   ssr: false,
 })
@@ -313,10 +368,15 @@ const _DatePicker5 = dynamic(() => import('@gentleduck/registry-examples-duckui/
 const _DatePicker6 = dynamic(() => import('@gentleduck/registry-examples-duckui/date-picker/date-picker-6'), {
   ssr: false,
 })
+const _DatePicker7 = dynamic(() => import('@gentleduck/registry-examples-duckui/date-picker/date-picker-7'), {
+  ssr: false,
+})
 const _Popover1 = dynamic(() => import('@gentleduck/registry-examples-duckui/popover/popover-1'), { ssr: false })
 const _Popover2 = dynamic(() => import('@gentleduck/registry-examples-duckui/popover/popover-2'), { ssr: false })
 const _Popover3 = dynamic(() => import('@gentleduck/registry-examples-duckui/popover/popover-3'), { ssr: false })
+const _Popover4 = dynamic(() => import('@gentleduck/registry-examples-duckui/popover/popover-4'), { ssr: false })
 const _Menubar1 = dynamic(() => import('@gentleduck/registry-examples-duckui/menubar/menubar-1'), { ssr: false })
+const _Menubar2 = dynamic(() => import('@gentleduck/registry-examples-duckui/menubar/menubar-2'), { ssr: false })
 const _DropdownMenu1 = dynamic(() => import('@gentleduck/registry-examples-duckui/dropdown-menu/dropdown-menu-1'), {
   ssr: false,
 })
@@ -326,13 +386,20 @@ const _DropdownMenu2 = dynamic(() => import('@gentleduck/registry-examples-ducku
 const _DropdownMenu3 = dynamic(() => import('@gentleduck/registry-examples-duckui/dropdown-menu/dropdown-menu-3'), {
   ssr: false,
 })
+const _DropdownMenu4 = dynamic(() => import('@gentleduck/registry-examples-duckui/dropdown-menu/dropdown-menu-4'), {
+  ssr: false,
+})
 const _Combobox1 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-1'), { ssr: false })
 const _Combobox2 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-2'), { ssr: false })
 const _Combobox3 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-3'), { ssr: false })
 const _Combobox4 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-4'), { ssr: false })
 const _Combobox5 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-5'), { ssr: false })
 const _Combobox6 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-6'), { ssr: false })
+const _Combobox7 = dynamic(() => import('@gentleduck/registry-examples-duckui/combobox/combobox-7'), { ssr: false })
 const _Collapsible1 = dynamic(() => import('@gentleduck/registry-examples-duckui/collapsible/collapsible-1'), {
+  ssr: false,
+})
+const _Collapsible2 = dynamic(() => import('@gentleduck/registry-examples-duckui/collapsible/collapsible-2'), {
   ssr: false,
 })
 const _InputOtp1 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-1'), { ssr: false })
@@ -341,6 +408,7 @@ const _InputOtp3 = dynamic(() => import('@gentleduck/registry-examples-duckui/in
 const _InputOtp4 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-4'), { ssr: false })
 const _InputOtp5 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-5'), { ssr: false })
 const _InputOtp6 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-6'), { ssr: false })
+const _InputOtp7 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-otp/input-otp-7'), { ssr: false })
 const _Chart1 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-1'), { ssr: false })
 const _Chart2 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-2'), { ssr: false })
 const _Chart3 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-3'), { ssr: false })
@@ -348,11 +416,19 @@ const _Chart4 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart
 const _Chart5 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-5'), { ssr: false })
 const _Chart6 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-6'), { ssr: false })
 const _Chart7 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-7'), { ssr: false })
+const _Chart8 = dynamic(() => import('@gentleduck/registry-examples-duckui/chart/chart-8'), { ssr: false })
 const _NavigationMenu1 = dynamic(
   () => import('@gentleduck/registry-examples-duckui/navigation-menu/navigation-menu-1'),
   { ssr: false },
 )
+const _NavigationMenu2 = dynamic(
+  () => import('@gentleduck/registry-examples-duckui/navigation-menu/navigation-menu-2'),
+  { ssr: false },
+)
 const _ContextMenu1 = dynamic(() => import('@gentleduck/registry-examples-duckui/context-menu/context-menu-1'), {
+  ssr: false,
+})
+const _ContextMenu2 = dynamic(() => import('@gentleduck/registry-examples-duckui/context-menu/context-menu-2'), {
   ssr: false,
 })
 const _DataTable1 = dynamic(() => import('@gentleduck/registry-examples-duckui/data-table/data-table-1'), {
@@ -366,6 +442,9 @@ const _ButtonGroup10 = dynamic(() => import('@gentleduck/registry-examples-ducku
   ssr: false,
 })
 const _ButtonGroup11 = dynamic(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-11'), {
+  ssr: false,
+})
+const _ButtonGroup12 = dynamic(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-12'), {
   ssr: false,
 })
 const _ButtonGroup2 = dynamic(() => import('@gentleduck/registry-examples-duckui/button-group/button-group-2'), {
@@ -397,16 +476,19 @@ const _Kbd2 = dynamic(() => import('@gentleduck/registry-examples-duckui/kbd/kbd
 const _Kbd3 = dynamic(() => import('@gentleduck/registry-examples-duckui/kbd/kbd-3'), { ssr: false })
 const _Kbd4 = dynamic(() => import('@gentleduck/registry-examples-duckui/kbd/kbd-4'), { ssr: false })
 const _Kbd5 = dynamic(() => import('@gentleduck/registry-examples-duckui/kbd/kbd-5'), { ssr: false })
+const _Kbd6 = dynamic(() => import('@gentleduck/registry-examples-duckui/kbd/kbd-6'), { ssr: false })
 const _Empty1 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-1'), { ssr: false })
 const _Empty2 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-2'), { ssr: false })
 const _Empty3 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-3'), { ssr: false })
 const _Empty4 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-4'), { ssr: false })
 const _Empty5 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-5'), { ssr: false })
 const _Empty6 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-6'), { ssr: false })
+const _Empty7 = dynamic(() => import('@gentleduck/registry-examples-duckui/empty/empty-7'), { ssr: false })
 const _Field1 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-1'), { ssr: false })
 const _Field10 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-10'), { ssr: false })
 const _Field11 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-11'), { ssr: false })
 const _Field12 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-12'), { ssr: false })
+const _Field13 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-13'), { ssr: false })
 const _Field2 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-2'), { ssr: false })
 const _Field3 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-3'), { ssr: false })
 const _Field4 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-4'), { ssr: false })
@@ -417,6 +499,7 @@ const _Field8 = dynamic(() => import('@gentleduck/registry-examples-duckui/field
 const _Field9 = dynamic(() => import('@gentleduck/registry-examples-duckui/field/field-9'), { ssr: false })
 const _Item1 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-1'), { ssr: false })
 const _Item10 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-10'), { ssr: false })
+const _Item11 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-11'), { ssr: false })
 const _Item2 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-2'), { ssr: false })
 const _Item3 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-3'), { ssr: false })
 const _Item4 = dynamic(() => import('@gentleduck/registry-examples-duckui/item/item-4'), { ssr: false })
@@ -432,6 +515,9 @@ const _InputGroup10 = dynamic(() => import('@gentleduck/registry-examples-duckui
   ssr: false,
 })
 const _InputGroup11 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-group/input-group-11'), {
+  ssr: false,
+})
+const _InputGroup12 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-group/input-group-12'), {
   ssr: false,
 })
 const _InputGroup2 = dynamic(() => import('@gentleduck/registry-examples-duckui/input-group/input-group-2'), {
@@ -467,6 +553,9 @@ const _JsonEditor2 = dynamic(() => import('@gentleduck/registry-examples-duckui/
 const _JsonEditor3 = dynamic(() => import('@gentleduck/registry-examples-duckui/json-editor/json-editor-3'), {
   ssr: false,
 })
+const _JsonEditor4 = dynamic(() => import('@gentleduck/registry-examples-duckui/json-editor/json-editor-4'), {
+  ssr: false,
+})
 const _ThemeToggle1 = dynamic(() => import('@gentleduck/registry-examples-duckui/theme-toggle/theme-toggle-1'), {
   ssr: false,
 })
@@ -482,11 +571,15 @@ const _PreviewPanel3 = dynamic(() => import('@gentleduck/registry-examples-ducku
 const _PreviewPanel4 = dynamic(() => import('@gentleduck/registry-examples-duckui/preview-panel/preview-panel-4'), {
   ssr: false,
 })
+const _PreviewPanel5 = dynamic(() => import('@gentleduck/registry-examples-duckui/preview-panel/preview-panel-5'), {
+  ssr: false,
+})
 const _Sidebar1 = dynamic(() => import('@gentleduck/registry-examples-duckui/sidebar/sidebar-1'), { ssr: false })
 const _Sidebar2 = dynamic(() => import('@gentleduck/registry-examples-duckui/sidebar/sidebar-2'), { ssr: false })
 const _Sidebar3 = dynamic(() => import('@gentleduck/registry-examples-duckui/sidebar/sidebar-3'), { ssr: false })
 const _Sidebar4 = dynamic(() => import('@gentleduck/registry-examples-duckui/sidebar/sidebar-4'), { ssr: false })
 const _Sidebar5 = dynamic(() => import('@gentleduck/registry-examples-duckui/sidebar/sidebar-5'), { ssr: false })
+const _Sidebar6 = dynamic(() => import('@gentleduck/registry-examples-duckui/sidebar/sidebar-6'), { ssr: false })
 const _Upload1 = dynamic(() => import('@gentleduck/registry-examples-duckui/upload/upload-1'), { ssr: false })
 const _Upload2 = dynamic(() => import('@gentleduck/registry-examples-duckui/upload/upload-2'), { ssr: false })
 const _Upload3 = dynamic(() => import('@gentleduck/registry-examples-duckui/upload/upload-3'), { ssr: false })
@@ -2174,6 +2267,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'accordion',
   },
+  'accordion-5': {
+    name: 'accordion-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['accordion'],
+    files: [
+      {
+        path: 'accordion/accordion-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Accordion5,
+    source: '/registry-examples-duckui/src/accordion',
+    categories: [],
+    root_folder: 'accordion',
+  },
   'alert-1': {
     name: 'alert-1',
     description: '',
@@ -2222,6 +2331,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'alert',
   },
+  'alert-4': {
+    name: 'alert-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['alert'],
+    files: [
+      {
+        path: 'alert/alert-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Alert4,
+    source: '/registry-examples-duckui/src/alert',
+    categories: [],
+    root_folder: 'alert',
+  },
   'alert-dialog-1': {
     name: 'alert-dialog-1',
     description: '',
@@ -2238,6 +2363,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'alert-dialog',
   },
+  'alert-dialog-2': {
+    name: 'alert-dialog-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['alert-dialog'],
+    files: [
+      {
+        path: 'alert-dialog/alert-dialog-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _AlertDialog2,
+    source: '/registry-examples-duckui/src/alert-dialog',
+    categories: [],
+    root_folder: 'alert-dialog',
+  },
   'avatar-1': {
     name: 'avatar-1',
     description: '',
@@ -2250,6 +2391,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Avatar1,
+    source: '/registry-examples-duckui/src/avatar',
+    categories: [],
+    root_folder: 'avatar',
+  },
+  'avatar-2': {
+    name: 'avatar-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['avatar'],
+    files: [
+      {
+        path: 'avatar/avatar-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Avatar2,
     source: '/registry-examples-duckui/src/avatar',
     categories: [],
     root_folder: 'avatar',
@@ -2378,6 +2535,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Badge8,
+    source: '/registry-examples-duckui/src/badge',
+    categories: [],
+    root_folder: 'badge',
+  },
+  'badge-9': {
+    name: 'badge-9',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['badge'],
+    files: [
+      {
+        path: 'badge/badge-9.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Badge9,
     source: '/registry-examples-duckui/src/badge',
     categories: [],
     root_folder: 'badge',
@@ -2570,6 +2743,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Button2,
+    source: '/registry-examples-duckui/src/button',
+    categories: [],
+    root_folder: 'button',
+  },
+  'button-20': {
+    name: 'button-20',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['button'],
+    files: [
+      {
+        path: 'button/button-20.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Button20,
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
@@ -2814,6 +3003,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'breadcrumb',
   },
+  'breadcrumb-9': {
+    name: 'breadcrumb-9',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['breadcrumb'],
+    files: [
+      {
+        path: 'breadcrumb/breadcrumb-9.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Breadcrumb9,
+    source: '/registry-examples-duckui/src/breadcrumb',
+    categories: [],
+    root_folder: 'breadcrumb',
+  },
   'dialog-1': {
     name: 'dialog-1',
     description: '',
@@ -2842,6 +3047,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Dialog2,
+    source: '/registry-examples-duckui/src/dialog',
+    categories: [],
+    root_folder: 'dialog',
+  },
+  'dialog-3': {
+    name: 'dialog-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['dialog'],
+    files: [
+      {
+        path: 'dialog/dialog-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Dialog3,
     source: '/registry-examples-duckui/src/dialog',
     categories: [],
     root_folder: 'dialog',
@@ -2878,6 +3099,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'command',
   },
+  'command-3': {
+    name: 'command-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['command'],
+    files: [
+      {
+        path: 'command/command-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Command3,
+    source: '/registry-examples-duckui/src/command',
+    categories: [],
+    root_folder: 'command',
+  },
   'card-1': {
     name: 'card-1',
     description: '',
@@ -2906,6 +3143,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Card2,
+    source: '/registry-examples-duckui/src/card',
+    categories: [],
+    root_folder: 'card',
+  },
+  'card-3': {
+    name: 'card-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['card'],
+    files: [
+      {
+        path: 'card/card-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Card3,
     source: '/registry-examples-duckui/src/card',
     categories: [],
     root_folder: 'card',
@@ -3038,6 +3291,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'calendar',
   },
+  'calendar-9': {
+    name: 'calendar-9',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-9.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar9,
+    source: '/registry-examples-duckui/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
   'drawer-1': {
     name: 'drawer-1',
     description: '',
@@ -3134,6 +3403,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'drawer',
   },
+  'drawer-7': {
+    name: 'drawer-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['drawer'],
+    files: [
+      {
+        path: 'drawer/drawer-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Drawer7,
+    source: '/registry-examples-duckui/src/drawer',
+    categories: [],
+    root_folder: 'drawer',
+  },
   'hover-card-1': {
     name: 'hover-card-1',
     description: '',
@@ -3146,6 +3431,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _HoverCard1,
+    source: '/registry-examples-duckui/src/hover-card',
+    categories: [],
+    root_folder: 'hover-card',
+  },
+  'hover-card-2': {
+    name: 'hover-card-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['hover-card'],
+    files: [
+      {
+        path: 'hover-card/hover-card-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _HoverCard2,
     source: '/registry-examples-duckui/src/hover-card',
     categories: [],
     root_folder: 'hover-card',
@@ -3262,6 +3563,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'input',
   },
+  'input-8': {
+    name: 'input-8',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['input'],
+    files: [
+      {
+        path: 'input/input-8.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Input8,
+    source: '/registry-examples-duckui/src/input',
+    categories: [],
+    root_folder: 'input',
+  },
   'label-1': {
     name: 'label-1',
     description: '',
@@ -3294,6 +3611,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'label',
   },
+  'label-3': {
+    name: 'label-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['label'],
+    files: [
+      {
+        path: 'label/label-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Label3,
+    source: '/registry-examples-duckui/src/label',
+    categories: [],
+    root_folder: 'label',
+  },
   'progress-1': {
     name: 'progress-1',
     description: '',
@@ -3306,6 +3639,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Progress1,
+    source: '/registry-examples-duckui/src/progress',
+    categories: [],
+    root_folder: 'progress',
+  },
+  'progress-2': {
+    name: 'progress-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['progress'],
+    files: [
+      {
+        path: 'progress/progress-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Progress2,
     source: '/registry-examples-duckui/src/progress',
     categories: [],
     root_folder: 'progress',
@@ -3342,6 +3691,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'radio-group',
   },
+  'radio-group-3': {
+    name: 'radio-group-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['radio-group'],
+    files: [
+      {
+        path: 'radio-group/radio-group-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _RadioGroup3,
+    source: '/registry-examples-duckui/src/radio-group',
+    categories: [],
+    root_folder: 'radio-group',
+  },
   'scroll-area-1': {
     name: 'scroll-area-1',
     description: '',
@@ -3370,6 +3735,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _ScrollArea2,
+    source: '/registry-examples-duckui/src/scroll-area',
+    categories: [],
+    root_folder: 'scroll-area',
+  },
+  'scroll-area-3': {
+    name: 'scroll-area-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['scroll-area'],
+    files: [
+      {
+        path: 'scroll-area/scroll-area-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _ScrollArea3,
     source: '/registry-examples-duckui/src/scroll-area',
     categories: [],
     root_folder: 'scroll-area',
@@ -3422,6 +3803,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'select',
   },
+  'select-4': {
+    name: 'select-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['select'],
+    files: [
+      {
+        path: 'select/select-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Select4,
+    source: '/registry-examples-duckui/src/select',
+    categories: [],
+    root_folder: 'select',
+  },
   'separator-1': {
     name: 'separator-1',
     description: '',
@@ -3434,6 +3831,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Separator1,
+    source: '/registry-examples-duckui/src/separator',
+    categories: [],
+    root_folder: 'separator',
+  },
+  'separator-2': {
+    name: 'separator-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['separator'],
+    files: [
+      {
+        path: 'separator/separator-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Separator2,
     source: '/registry-examples-duckui/src/separator',
     categories: [],
     root_folder: 'separator',
@@ -3470,6 +3883,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'sheet',
   },
+  'sheet-3': {
+    name: 'sheet-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['sheet'],
+    files: [
+      {
+        path: 'sheet/sheet-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Sheet3,
+    source: '/registry-examples-duckui/src/sheet',
+    categories: [],
+    root_folder: 'sheet',
+  },
   'skeleton-1': {
     name: 'skeleton-1',
     description: '',
@@ -3498,6 +3927,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Skeleton2,
+    source: '/registry-examples-duckui/src/skeleton',
+    categories: [],
+    root_folder: 'skeleton',
+  },
+  'skeleton-3': {
+    name: 'skeleton-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['skeleton'],
+    files: [
+      {
+        path: 'skeleton/skeleton-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Skeleton3,
     source: '/registry-examples-duckui/src/skeleton',
     categories: [],
     root_folder: 'skeleton',
@@ -3566,6 +4011,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'slider',
   },
+  'slider-5': {
+    name: 'slider-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['slider'],
+    files: [
+      {
+        path: 'slider/slider-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Slider5,
+    source: '/registry-examples-duckui/src/slider',
+    categories: [],
+    root_folder: 'slider',
+  },
   'switch-1': {
     name: 'switch-1',
     description: '',
@@ -3594,6 +4055,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Switch2,
+    source: '/registry-examples-duckui/src/switch',
+    categories: [],
+    root_folder: 'switch',
+  },
+  'switch-3': {
+    name: 'switch-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['switch'],
+    files: [
+      {
+        path: 'switch/switch-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Switch3,
     source: '/registry-examples-duckui/src/switch',
     categories: [],
     root_folder: 'switch',
@@ -3678,6 +4155,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'sonner',
   },
+  'sonner-6': {
+    name: 'sonner-6',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['sonner'],
+    files: [
+      {
+        path: 'sonner/sonner-6.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Sonner6,
+    source: '/registry-examples-duckui/src/sonner',
+    categories: [],
+    root_folder: 'sonner',
+  },
   'tabs-1': {
     name: 'tabs-1',
     description: '',
@@ -3690,6 +4183,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Tabs1,
+    source: '/registry-examples-duckui/src/tabs',
+    categories: [],
+    root_folder: 'tabs',
+  },
+  'tabs-2': {
+    name: 'tabs-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['tabs'],
+    files: [
+      {
+        path: 'tabs/tabs-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Tabs2,
     source: '/registry-examples-duckui/src/tabs',
     categories: [],
     root_folder: 'tabs',
@@ -3806,6 +4315,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'textarea',
   },
+  'textarea-8': {
+    name: 'textarea-8',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['textarea'],
+    files: [
+      {
+        path: 'textarea/textarea-8.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Textarea8,
+    source: '/registry-examples-duckui/src/textarea',
+    categories: [],
+    root_folder: 'textarea',
+  },
   'toggle-1': {
     name: 'toggle-1',
     description: '',
@@ -3914,6 +4439,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Toggle7,
+    source: '/registry-examples-duckui/src/toggle',
+    categories: [],
+    root_folder: 'toggle',
+  },
+  'toggle-8': {
+    name: 'toggle-8',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['toggle'],
+    files: [
+      {
+        path: 'toggle/toggle-8.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Toggle8,
     source: '/registry-examples-duckui/src/toggle',
     categories: [],
     root_folder: 'toggle',
@@ -4030,6 +4571,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'toggle-group',
   },
+  'toggle-group-8': {
+    name: 'toggle-group-8',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['toggle-group'],
+    files: [
+      {
+        path: 'toggle-group/toggle-group-8.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _ToggleGroup8,
+    source: '/registry-examples-duckui/src/toggle-group',
+    categories: [],
+    root_folder: 'toggle-group',
+  },
   'tooltip-1': {
     name: 'tooltip-1',
     description: '',
@@ -4062,6 +4619,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'tooltip',
   },
+  'tooltip-3': {
+    name: 'tooltip-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['tooltip'],
+    files: [
+      {
+        path: 'tooltip/tooltip-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Tooltip3,
+    source: '/registry-examples-duckui/src/tooltip',
+    categories: [],
+    root_folder: 'tooltip',
+  },
   'aspect-ratio-1': {
     name: 'aspect-ratio-1',
     description: '',
@@ -4074,6 +4647,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _AspectRatio1,
+    source: '/registry-examples-duckui/src/aspect-ratio',
+    categories: [],
+    root_folder: 'aspect-ratio',
+  },
+  'aspect-ratio-2': {
+    name: 'aspect-ratio-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['aspect-ratio'],
+    files: [
+      {
+        path: 'aspect-ratio/aspect-ratio-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _AspectRatio2,
     source: '/registry-examples-duckui/src/aspect-ratio',
     categories: [],
     root_folder: 'aspect-ratio',
@@ -4170,6 +4759,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Typography14,
+    source: '/registry-examples-duckui/src/typography',
+    categories: [],
+    root_folder: 'typography',
+  },
+  'typography-15': {
+    name: 'typography-15',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'typography/typography-15.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Typography15,
     source: '/registry-examples-duckui/src/typography',
     categories: [],
     root_folder: 'typography',
@@ -4318,6 +4923,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'table',
   },
+  'table-2': {
+    name: 'table-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['table'],
+    files: [
+      {
+        path: 'table/table-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Table2,
+    source: '/registry-examples-duckui/src/table',
+    categories: [],
+    root_folder: 'table',
+  },
   'resizable-1': {
     name: 'resizable-1',
     description: '',
@@ -4366,6 +4987,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'resizable',
   },
+  'resizable-4': {
+    name: 'resizable-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['resizable'],
+    files: [
+      {
+        path: 'resizable/resizable-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Resizable4,
+    source: '/registry-examples-duckui/src/resizable',
+    categories: [],
+    root_folder: 'resizable',
+  },
   'pagination-1': {
     name: 'pagination-1',
     description: '',
@@ -4378,6 +5015,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Pagination1,
+    source: '/registry-examples-duckui/src/pagination',
+    categories: [],
+    root_folder: 'pagination',
+  },
+  'pagination-2': {
+    name: 'pagination-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['pagination'],
+    files: [
+      {
+        path: 'pagination/pagination-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Pagination2,
     source: '/registry-examples-duckui/src/pagination',
     categories: [],
     root_folder: 'pagination',
@@ -4510,6 +5163,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'checkbox',
   },
+  'checkbox-9': {
+    name: 'checkbox-9',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['checkbox'],
+    files: [
+      {
+        path: 'checkbox/checkbox-9.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Checkbox9,
+    source: '/registry-examples-duckui/src/checkbox',
+    categories: [],
+    root_folder: 'checkbox',
+  },
   'carousel-1': {
     name: 'carousel-1',
     description: '',
@@ -4602,6 +5271,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Carousel6,
+    source: '/registry-examples-duckui/src/carousel',
+    categories: [],
+    root_folder: 'carousel',
+  },
+  'carousel-7': {
+    name: 'carousel-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['carousel'],
+    files: [
+      {
+        path: 'carousel/carousel-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Carousel7,
     source: '/registry-examples-duckui/src/carousel',
     categories: [],
     root_folder: 'carousel',
@@ -4702,6 +5387,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'date-picker',
   },
+  'date-picker-7': {
+    name: 'date-picker-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar', 'popover', 'button'],
+    files: [
+      {
+        path: 'date-picker/date-picker-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _DatePicker7,
+    source: '/registry-examples-duckui/src/date-picker',
+    categories: [],
+    root_folder: 'date-picker',
+  },
   'popover-1': {
     name: 'popover-1',
     description: '',
@@ -4750,6 +5451,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'popover',
   },
+  'popover-4': {
+    name: 'popover-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['popover'],
+    files: [
+      {
+        path: 'popover/popover-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Popover4,
+    source: '/registry-examples-duckui/src/popover',
+    categories: [],
+    root_folder: 'popover',
+  },
   'menubar-1': {
     name: 'menubar-1',
     description: '',
@@ -4762,6 +5479,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Menubar1,
+    source: '/registry-examples-duckui/src/menubar',
+    categories: [],
+    root_folder: 'menubar',
+  },
+  'menubar-2': {
+    name: 'menubar-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['menubar'],
+    files: [
+      {
+        path: 'menubar/menubar-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Menubar2,
     source: '/registry-examples-duckui/src/menubar',
     categories: [],
     root_folder: 'menubar',
@@ -4810,6 +5543,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _DropdownMenu3,
+    source: '/registry-examples-duckui/src/dropdown-menu',
+    categories: [],
+    root_folder: 'dropdown-menu',
+  },
+  'dropdown-menu-4': {
+    name: 'dropdown-menu-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['dropdown-menu'],
+    files: [
+      {
+        path: 'dropdown-menu/dropdown-menu-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _DropdownMenu4,
     source: '/registry-examples-duckui/src/dropdown-menu',
     categories: [],
     root_folder: 'dropdown-menu',
@@ -4910,6 +5659,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'combobox',
   },
+  'combobox-7': {
+    name: 'combobox-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['combobox'],
+    files: [
+      {
+        path: 'combobox/combobox-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Combobox7,
+    source: '/registry-examples-duckui/src/combobox',
+    categories: [],
+    root_folder: 'combobox',
+  },
   'collapsible-1': {
     name: 'collapsible-1',
     description: '',
@@ -4922,6 +5687,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Collapsible1,
+    source: '/registry-examples-duckui/src/collapsible',
+    categories: [],
+    root_folder: 'collapsible',
+  },
+  'collapsible-2': {
+    name: 'collapsible-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['collapsible'],
+    files: [
+      {
+        path: 'collapsible/collapsible-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Collapsible2,
     source: '/registry-examples-duckui/src/collapsible',
     categories: [],
     root_folder: 'collapsible',
@@ -5018,6 +5799,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _InputOtp6,
+    source: '/registry-examples-duckui/src/input-otp',
+    categories: [],
+    root_folder: 'input-otp',
+  },
+  'input-otp-7': {
+    name: 'input-otp-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['input-otp'],
+    files: [
+      {
+        path: 'input-otp/input-otp-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _InputOtp7,
     source: '/registry-examples-duckui/src/input-otp',
     categories: [],
     root_folder: 'input-otp',
@@ -5134,6 +5931,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'chart',
   },
+  'chart-8': {
+    name: 'chart-8',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['chart'],
+    files: [
+      {
+        path: 'chart/chart-8.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Chart8,
+    source: '/registry-examples-duckui/src/chart',
+    categories: [],
+    root_folder: 'chart',
+  },
   'navigation-menu-1': {
     name: 'navigation-menu-1',
     description: '',
@@ -5150,6 +5963,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'navigation-menu',
   },
+  'navigation-menu-2': {
+    name: 'navigation-menu-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['navigation-menu'],
+    files: [
+      {
+        path: 'navigation-menu/navigation-menu-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _NavigationMenu2,
+    source: '/registry-examples-duckui/src/navigation-menu',
+    categories: [],
+    root_folder: 'navigation-menu',
+  },
   'context-menu-1': {
     name: 'context-menu-1',
     description: '',
@@ -5162,6 +5991,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _ContextMenu1,
+    source: '/registry-examples-duckui/src/context-menu',
+    categories: [],
+    root_folder: 'context-menu',
+  },
+  'context-menu-2': {
+    name: 'context-menu-2',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['context-menu'],
+    files: [
+      {
+        path: 'context-menu/context-menu-2.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _ContextMenu2,
     source: '/registry-examples-duckui/src/context-menu',
     categories: [],
     root_folder: 'context-menu',
@@ -5242,6 +6087,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _ButtonGroup11,
+    source: '/registry-examples-duckui/src/button-group',
+    categories: [],
+    root_folder: 'button-group',
+  },
+  'button-group-12': {
+    name: 'button-group-12',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['button-group'],
+    files: [
+      {
+        path: 'button-group/button-group-12.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _ButtonGroup12,
     source: '/registry-examples-duckui/src/button-group',
     categories: [],
     root_folder: 'button-group',
@@ -5454,6 +6315,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'kbd',
   },
+  'kbd-6': {
+    name: 'kbd-6',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['kbd'],
+    files: [
+      {
+        path: 'kbd/kbd-6.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Kbd6,
+    source: '/registry-examples-duckui/src/kbd',
+    categories: [],
+    root_folder: 'kbd',
+  },
   'empty-1': {
     name: 'empty-1',
     description: '',
@@ -5550,6 +6427,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'empty',
   },
+  'empty-7': {
+    name: 'empty-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['empty'],
+    files: [
+      {
+        path: 'empty/empty-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Empty7,
+    source: '/registry-examples-duckui/src/empty',
+    categories: [],
+    root_folder: 'empty',
+  },
   'field-1': {
     name: 'field-1',
     description: '',
@@ -5610,6 +6503,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Field12,
+    source: '/registry-examples-duckui/src/field',
+    categories: [],
+    root_folder: 'field',
+  },
+  'field-13': {
+    name: 'field-13',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['field'],
+    files: [
+      {
+        path: 'field/field-13.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Field13,
     source: '/registry-examples-duckui/src/field',
     categories: [],
     root_folder: 'field',
@@ -5770,6 +6679,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Item10,
+    source: '/registry-examples-duckui/src/item',
+    categories: [],
+    root_folder: 'item',
+  },
+  'item-11': {
+    name: 'item-11',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['item'],
+    files: [
+      {
+        path: 'item/item-11.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Item11,
     source: '/registry-examples-duckui/src/item',
     categories: [],
     root_folder: 'item',
@@ -5950,6 +6875,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'input-group',
   },
+  'input-group-12': {
+    name: 'input-group-12',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['input-group'],
+    files: [
+      {
+        path: 'input-group/input-group-12.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _InputGroup12,
+    source: '/registry-examples-duckui/src/input-group',
+    categories: [],
+    root_folder: 'input-group',
+  },
   'input-group-2': {
     name: 'input-group-2',
     description: '',
@@ -6126,6 +7067,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'json-editor',
   },
+  'json-editor-4': {
+    name: 'json-editor-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['json-editor'],
+    files: [
+      {
+        path: 'json-editor/json-editor-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _JsonEditor4,
+    source: '/registry-examples-duckui/src/json-editor',
+    categories: [],
+    root_folder: 'json-editor',
+  },
   'theme-toggle-1': {
     name: 'theme-toggle-1',
     description: '',
@@ -6206,6 +7163,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'preview-panel',
   },
+  'preview-panel-5': {
+    name: 'preview-panel-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['preview-panel'],
+    files: [
+      {
+        path: 'preview-panel/preview-panel-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _PreviewPanel5,
+    source: '/registry-examples-duckui/src/preview-panel',
+    categories: [],
+    root_folder: 'preview-panel',
+  },
   'sidebar-1': {
     name: 'sidebar-1',
     description: '',
@@ -6282,6 +7255,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Sidebar5,
+    source: '/registry-examples-duckui/src/sidebar',
+    categories: [],
+    root_folder: 'sidebar',
+  },
+  'sidebar-6': {
+    name: 'sidebar-6',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['sidebar'],
+    files: [
+      {
+        path: 'sidebar/sidebar-6.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Sidebar6,
     source: '/registry-examples-duckui/src/sidebar',
     categories: [],
     root_folder: 'sidebar',

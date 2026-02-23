@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './collapsible-1'\n\nexport default function CollapsibleRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "collapsible/collapsible-2.tsx",
+      "target": "components/collapsible-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "collapsible-2",
+  "registryDependencies": [
+    "collapsible"
+  ],
+  "root_folder": "collapsible",
+  "source": "/registry-examples-duckui/src/collapsible",
+  "type": "registry:example"
+}

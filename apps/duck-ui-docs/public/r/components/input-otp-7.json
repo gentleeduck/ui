@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './input-otp-1'\n\nexport default function InputOtpRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "input-otp/input-otp-7.tsx",
+      "target": "components/input-otp-7.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "input-otp-7",
+  "registryDependencies": [
+    "input-otp"
+  ],
+  "root_folder": "input-otp",
+  "source": "/registry-examples-duckui/src/input-otp",
+  "type": "registry:example"
+}
