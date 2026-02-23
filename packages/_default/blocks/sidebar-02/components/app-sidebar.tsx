@@ -176,7 +176,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                 className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                 <CollapsibleTrigger>
                   {item.title}{' '}
-                  <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                  <ChevronRight className="ml-auto transition-transform group-data-[open=true]/collapsible:rotate-90" />
                 </CollapsibleTrigger>
               </SidebarGroupLabel>
               <CollapsibleContent>
