@@ -5,7 +5,7 @@
   ],
   "files": [
     {
-      "content": "import { GalleryVerticalEnd } from 'lucide-react'\nimport { LoginForm } from './components/login-form'\n\nexport default function LoginPage() {\n  return (\n    <div className=\"flex min-h-svh min-w-screen flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10\">\n      <div className=\"flex w-full max-w-sm flex-col gap-6\">\n        <a className=\"flex items-center gap-2 self-center font-medium\" href=\"#placeholder\">\n          <div className=\"flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground\">\n            <GalleryVerticalEnd className=\"size-4\" />\n          </div>\n          Acme Inc.\n        </a>\n        <LoginForm />\n      </div>\n    </div>\n  )\n}\n",
+      "content": "import { GalleryVerticalEnd } from 'lucide-react'\nimport { LoginForm } from './components/login-form'\n\nexport default function LoginPage() {\n  return (\n    <div className=\"flex min-h-svh min-w-screen flex-col items-center justify-center gap-6 bg-muted p-6 md:p-10\">\n      <div className=\"flex w-full max-w-sm flex-col gap-6\">\n        <a className=\"flex items-center gap-2 self-center font-medium\" href=\"#placeholder\">\n          <div className=\"flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground\">\n            <GalleryVerticalEnd className=\"size-4\" />\n          </div>\n          Duck UI\n        </a>\n        <LoginForm />\n      </div>\n    </div>\n  )\n}\n",
       "path": "authentications/login-3/login-3.tsx",
       "target": "components/login-3.tsx",
       "type": "registry:block"

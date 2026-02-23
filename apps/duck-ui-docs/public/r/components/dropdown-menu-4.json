@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './dropdown-menu-1'\n\nexport default function DropdownMenuRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "dropdown-menu/dropdown-menu-4.tsx",
+      "target": "components/dropdown-menu-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "dropdown-menu-4",
+  "registryDependencies": [
+    "dropdown-menu"
+  ],
+  "root_folder": "dropdown-menu",
+  "source": "/registry-examples-duckui/src/dropdown-menu",
+  "type": "registry:example"
+}

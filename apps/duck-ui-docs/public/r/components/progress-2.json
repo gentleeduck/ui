@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './progress-1'\n\nexport default function ProgressRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "progress/progress-2.tsx",
+      "target": "components/progress-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "progress-2",
+  "registryDependencies": [
+    "progress"
+  ],
+  "root_folder": "progress",
+  "source": "/registry-examples-duckui/src/progress",
+  "type": "registry:example"
+}

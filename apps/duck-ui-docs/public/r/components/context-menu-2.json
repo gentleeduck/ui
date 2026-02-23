@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './context-menu-1'\n\nexport default function ContextMenuRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "context-menu/context-menu-2.tsx",
+      "target": "components/context-menu-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "context-menu-2",
+  "registryDependencies": [
+    "context-menu"
+  ],
+  "root_folder": "context-menu",
+  "source": "/registry-examples-duckui/src/context-menu",
+  "type": "registry:example"
+}

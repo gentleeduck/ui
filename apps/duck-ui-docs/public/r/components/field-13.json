@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './field-1'\n\nexport default function FieldRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "field/field-13.tsx",
+      "target": "components/field-13.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "field-13",
+  "registryDependencies": [
+    "field"
+  ],
+  "root_folder": "field",
+  "source": "/registry-examples-duckui/src/field",
+  "type": "registry:example"
+}

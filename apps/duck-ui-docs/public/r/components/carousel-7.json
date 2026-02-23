@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './carousel-1'\n\nexport default function CarouselRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "carousel/carousel-7.tsx",
+      "target": "components/carousel-7.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "carousel-7",
+  "registryDependencies": [
+    "carousel"
+  ],
+  "root_folder": "carousel",
+  "source": "/registry-examples-duckui/src/carousel",
+  "type": "registry:example"
+}

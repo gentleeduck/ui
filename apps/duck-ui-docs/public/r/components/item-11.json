@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './item-1'\n\nexport default function ItemRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "item/item-11.tsx",
+      "target": "components/item-11.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "item-11",
+  "registryDependencies": [
+    "item"
+  ],
+  "root_folder": "item",
+  "source": "/registry-examples-duckui/src/item",
+  "type": "registry:example"
+}

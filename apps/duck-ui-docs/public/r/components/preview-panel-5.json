@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './preview-panel-1'\n\nexport default function PreviewPanelRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "preview-panel/preview-panel-5.tsx",
+      "target": "components/preview-panel-5.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "preview-panel-5",
+  "registryDependencies": [
+    "preview-panel"
+  ],
+  "root_folder": "preview-panel",
+  "source": "/registry-examples-duckui/src/preview-panel",
+  "type": "registry:example"
+}

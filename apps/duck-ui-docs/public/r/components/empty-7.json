@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './empty-1'\n\nexport default function EmptyRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "empty/empty-7.tsx",
+      "target": "components/empty-7.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "empty-7",
+  "registryDependencies": [
+    "empty"
+  ],
+  "root_folder": "empty",
+  "source": "/registry-examples-duckui/src/empty",
+  "type": "registry:example"
+}

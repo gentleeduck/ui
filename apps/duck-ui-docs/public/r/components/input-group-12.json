@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './input-group-1'\n\nexport default function InputGroupRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "input-group/input-group-12.tsx",
+      "target": "components/input-group-12.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "input-group-12",
+  "registryDependencies": [
+    "input-group"
+  ],
+  "root_folder": "input-group",
+  "source": "/registry-examples-duckui/src/input-group",
+  "type": "registry:example"
+}

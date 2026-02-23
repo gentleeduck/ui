@@ -1,0 +1,19 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './date-picker-1'\n\nexport default function DatePickerRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "date-picker/date-picker-7.tsx",
+      "target": "components/date-picker-7.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "date-picker-7",
+  "registryDependencies": [
+    "calendar",
+    "popover",
+    "button"
+  ],
+  "root_folder": "date-picker",
+  "source": "/registry-examples-duckui/src/date-picker",
+  "type": "registry:example"
+}

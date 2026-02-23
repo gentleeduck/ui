@@ -1,0 +1,15 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './typography-1'\n\nexport default function TypographyRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "typography/typography-15.tsx",
+      "target": "components/typography-15.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "typography-15",
+  "registryDependencies": [],
+  "root_folder": "typography",
+  "source": "/registry-examples-duckui/src/typography",
+  "type": "registry:example"
+}

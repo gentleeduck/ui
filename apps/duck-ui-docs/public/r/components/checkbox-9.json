@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './checkbox-1'\n\nexport default function CheckboxRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "checkbox/checkbox-9.tsx",
+      "target": "components/checkbox-9.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "checkbox-9",
+  "registryDependencies": [
+    "checkbox"
+  ],
+  "root_folder": "checkbox",
+  "source": "/registry-examples-duckui/src/checkbox",
+  "type": "registry:example"
+}
