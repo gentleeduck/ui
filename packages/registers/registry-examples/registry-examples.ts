@@ -409,4 +409,25 @@ export const registry_examples: RegistryEntry[] = [
     root_folder: 'preview-panel',
     type: 'registry:example',
   },
+  {
+    files: [],
+    name: 'sidebar-examples',
+    registryDependencies: ['sidebar'],
+    root_folder: 'sidebar',
+    type: 'registry:example',
+  },
+  {
+    files: [],
+    name: 'upload-examples',
+    registryDependencies: ['upload'],
+    root_folder: 'upload',
+    type: 'registry:example',
+  },
+  {
+    files: [],
+    name: 'duck-table-examples',
+    registryDependencies: ['duck-table'],
+    root_folder: 'duck-table',
+    type: 'registry:example',
+  },
 ]
