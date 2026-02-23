@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import '@gentleduck/motion/css'
-import 'public/r/themes.css'
+// import 'public/r/themes.css'
 import { TailwindIndicator, ThemeProvider } from '@gentleduck/docs/client'
 import { cn } from '@gentleduck/libs/cn'
 import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'

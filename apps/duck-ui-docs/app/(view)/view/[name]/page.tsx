@@ -77,11 +77,5 @@ export default async function BlockPage({
     return notFound()
   }
 
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center p-4">
-      <div className="w-full max-w-screen-2xl">
-        <RegistryPreview name={name} />
-      </div>
-    </div>
-  )
+  return <RegistryPreview name={name} />
 }
