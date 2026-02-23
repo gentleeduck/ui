@@ -66,7 +66,7 @@ const data = {
           url: '#',
         },
         {
-          title: 'Authentication',
+          title: 'Auth',
           url: '#',
         },
         {
@@ -82,7 +82,7 @@ const data = {
           url: '#',
         },
       ],
-      title: 'Building Your Application',
+      title: 'Building App',
       url: '#',
     },
     {
@@ -92,7 +92,7 @@ const data = {
           url: '#',
         },
         {
-          title: 'File Conventions',
+          title: 'Conventions',
           url: '#',
         },
         {
@@ -100,7 +100,7 @@ const data = {
           url: '#',
         },
         {
-          title: 'next.config.js Options',
+          title: 'next.config.js',
           url: '#',
         },
         {
@@ -126,11 +126,11 @@ const data = {
           url: '#',
         },
         {
-          title: 'Next.js Compiler',
+          title: 'Compiler',
           url: '#',
         },
         {
-          title: 'Supported Browsers',
+          title: 'Browsers',
           url: '#',
         },
         {
