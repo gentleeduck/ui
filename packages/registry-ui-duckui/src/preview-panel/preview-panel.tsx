@@ -333,7 +333,7 @@ function PreviewPanel({
   return (
     <div data-slot="preview-panel" className={cn('relative flex flex-col', className)} style={style} {...rest}>
       {showControls && (
-        <div className="absolute top-3 right-3 z-10">
+        <div className="absolute end-3 top-3 z-10">
           <ZoomControls onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} onReset={handleReset} zoom={displayZoom} />
         </div>
       )}

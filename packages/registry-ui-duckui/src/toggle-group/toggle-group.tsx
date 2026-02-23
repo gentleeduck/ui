@@ -31,8 +31,8 @@ const ToggleGroup = React.forwardRef<
     <ToggleGroupContext.Provider value={{ itemsRef, selectedItemRef, size, type, variant, wrapperRef }}>
       <ul
         className={cn(
-          'flex items-center justify-center overflow-hidden rounded-md [&>:first-child]:rounded-l-md [&>:last-child]:rounded-r-md',
-          variant === 'outline' && '[&>*:first-child]:border-r-0 [&>*:not(:first-child):not(:last-child)]:border-r-0',
+          'flex items-center justify-center overflow-hidden rounded-md [&>:first-child]:rounded-s-md [&>:last-child]:rounded-e-md',
+          variant === 'outline' && '[&>*:first-child]:border-e-0 [&>*:not(:first-child):not(:last-child)]:border-e-0',
           className,
         )}
         ref={(node) => {

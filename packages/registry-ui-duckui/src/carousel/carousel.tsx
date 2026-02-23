@@ -116,7 +116,7 @@ const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HT
     return (
       <div className="overflow-hidden" data-slot="carousel-content" ref={carouselRef}>
         <div
-          className={cn('flex', orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col', className)}
+          className={cn('flex', orientation === 'horizontal' ? '-ms-4' : '-mt-4 flex-col', className)}
           ref={ref}
           {...props}
         />
@@ -132,7 +132,7 @@ const CarouselItem = React.forwardRef<HTMLLIElement, React.HTMLAttributes<HTMLLI
 
     return (
       <li
-        className={cn('min-w-0 shrink-0 grow-0 basis-full', orientation === 'horizontal' ? 'pl-4' : 'pt-4', className)}
+        className={cn('min-w-0 shrink-0 grow-0 basis-full', orientation === 'horizontal' ? 'ps-4' : 'pt-4', className)}
         data-slot="carousel-item"
         ref={ref}
         {...props}
@@ -154,7 +154,7 @@ const CarouselPrevious = React.forwardRef<
       className={cn(
         'absolute h-8 w-8 rounded-full',
         orientation === 'horizontal'
-          ? 'top-1/2 -left-12 -translate-y-1/2'
+          ? '-start-12 top-1/2 -translate-y-1/2'
           : '-top-12 left-1/2 -translate-x-1/2 rotate-90',
         className,
       )}
@@ -165,7 +165,7 @@ const CarouselPrevious = React.forwardRef<
       size={size}
       variant={variant}
       {...props}>
-      <ArrowLeft className="h-4 w-4" />
+      <ArrowLeft className="h-4 w-4 rtl:rotate-180" />
       <span className="sr-only">Previous slide</span>
     </Button>
   )
@@ -181,7 +181,7 @@ const CarouselNext = React.forwardRef<React.ComponentRef<typeof Button>, React.C
         className={cn(
           'absolute h-8 w-8 rounded-full',
           orientation === 'horizontal'
-            ? 'top-1/2 -right-12 -translate-y-1/2'
+            ? '-end-12 top-1/2 -translate-y-1/2'
             : '-bottom-12 left-1/2 -translate-x-1/2 rotate-90',
           className,
         )}
@@ -192,7 +192,7 @@ const CarouselNext = React.forwardRef<React.ComponentRef<typeof Button>, React.C
         size={size}
         variant={variant}
         {...props}>
-        <ArrowRight className="h-4 w-4" />
+        <ArrowRight className="h-4 w-4 rtl:rotate-180" />
         <span className="sr-only">Next slide</span>
       </Button>
     )

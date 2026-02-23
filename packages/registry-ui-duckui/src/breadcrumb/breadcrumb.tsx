@@ -85,7 +85,7 @@ const BreadcrumbSeparator = React.forwardRef<HTMLLIElement, React.ComponentProps
       aria-hidden="true"
       data-slot="breadcrumb-separator"
       role="presentation">
-      {children ?? <ChevronRight />}
+      {children ?? <ChevronRight className="rtl:rotate-180" />}
     </li>
   ),
 )

@@ -60,13 +60,13 @@ function AnimationIcon({ children, animationIcon }: AnimationIconProps): React.J
   return (
     <>
       {animationIcon?.icon && animationIcon.iconPlacement === 'left' && (
-        <div className="w-0 translate-x-[-1.3em] pr-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:-translate-x-1 group-hover:pr-2 group-hover:opacity-100">
+        <div className="w-0 pe-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:pe-2 group-hover:opacity-100 ltr:translate-x-[-1.3em] ltr:group-hover:-translate-x-1 rtl:translate-x-[1.3em] rtl:group-hover:translate-x-1">
           {animationIcon?.icon}
         </div>
       )}
       {children}
       {animationIcon?.icon && animationIcon.iconPlacement === 'right' && (
-        <div className="w-0 translate-x-[1.3em] pl-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:pl-2 group-hover:opacity-100">
+        <div className="w-0 ps-0 opacity-0 transition-all duration-200 group-hover:w-5 group-hover:translate-x-0 group-hover:ps-2 group-hover:opacity-100 ltr:translate-x-[1.3em] rtl:translate-x-[-1.3em]">
           {animationIcon?.icon}
         </div>
       )}
