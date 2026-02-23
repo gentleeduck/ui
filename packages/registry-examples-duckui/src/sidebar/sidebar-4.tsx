@@ -20,18 +20,18 @@ import * as React from 'react'
 const data = {
   navMain: [
     {
-      title: 'General',
+      title: 'Workspace',
       items: [
-        { title: 'Dashboard', url: '#', icon: LayoutDashboard, isActive: true },
-        { title: 'Home', url: '#', icon: Home },
-        { title: 'Inbox', url: '#', icon: Inbox },
+        { title: 'Projects', url: '#', icon: LayoutDashboard, isActive: true },
+        { title: 'Tasks', url: '#', icon: Home },
+        { title: 'Calendar', url: '#', icon: Inbox },
       ],
     },
     {
-      title: 'Management',
+      title: 'Admin',
       items: [
-        { title: 'Users', url: '#', icon: Users },
-        { title: 'Settings', url: '#', icon: Settings },
+        { title: 'Members', url: '#', icon: Users },
+        { title: 'Billing', url: '#', icon: Settings },
       ],
     },
   ],

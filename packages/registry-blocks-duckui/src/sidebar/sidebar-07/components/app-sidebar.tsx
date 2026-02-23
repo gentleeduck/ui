@@ -134,24 +134,24 @@ const data = {
   teams: [
     {
       logo: GalleryVerticalEnd,
-      name: 'Acme Inc',
+      name: 'Duck Labs',
       plan: 'Enterprise',
     },
     {
       logo: AudioWaveform,
-      name: 'Acme Corp.',
+      name: 'Pond Studio',
       plan: 'Startup',
     },
     {
       logo: Command,
-      name: 'Evil Corp.',
+      name: 'Feather Works',
       plan: 'Free',
     },
   ],
   user: {
-    avatar: '/avatars/shadcn.jpg',
-    email: 'm@example.com',
-    name: 'shadcn',
+    avatar: '/avatars/01.png',
+    email: 'alex@duckui.dev',
+    name: 'Alex Morgan',
   },
 }
 

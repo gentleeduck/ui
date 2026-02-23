@@ -13,9 +13,9 @@ import { ChevronDownIcon } from 'lucide-react'
 
 const workspaces = [
   {
-    avatar: 'https://avatar.vercel.sh/acme',
+    avatar: 'https://avatar.vercel.sh/ducklabs',
     description: '12 members',
-    name: 'Acme Corp',
+    name: 'Duck Labs',
   },
   {
     avatar: 'https://avatar.vercel.sh/starter',

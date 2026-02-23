@@ -14,9 +14,9 @@ import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui-duckui/tog
 import { CircleHelp, Monitor, Smartphone, Tablet } from 'lucide-react'
 import type * as React from 'react'
 import type { ImperativePanelHandle } from 'react-resizable-panels'
-import { BlockCopyButton } from '~/components/blocks'
 import { StyleSwitcher } from '~/components/themes'
 import { V0Button } from '~/components/V0'
+import { BlockCopyButton } from './block-copy-button'
 
 export function BlockToolbar({
   block,
