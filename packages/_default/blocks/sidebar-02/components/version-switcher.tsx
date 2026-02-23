@@ -32,7 +32,7 @@ export function VersionSwitcher({ versions, defaultVersion }: { versions: string
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="start" className="w-[--gentleduck-dropdown-menu-trigger-width]">
+          <DropdownMenuContent align="start" className="w-(--gentleduck-dropdown-menu-trigger-width)">
             {versions.map((version) => (
               <DropdownMenuItem key={version} onSelect={() => setSelectedVersion(version)}>
                 v{version} {version === selectedVersion && <Check className="ml-auto" />}
