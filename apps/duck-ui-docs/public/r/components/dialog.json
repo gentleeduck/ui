@@ -1,7 +1,6 @@
 {
   "dependencies": [
     "@gentleduck/primitives",
-    
     "@gentleduck/hooks",
     "@gentleduck/libs",
     "lucide-react"

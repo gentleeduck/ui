@@ -2,7 +2,6 @@
   {
     "dependencies": [
       "@gentleduck/primitives",
-      "@gentleduck/motion",
       "@gentleduck/libs",
       "lucide-react"
     ],
@@ -77,7 +76,6 @@
   {
     "dependencies": [
       "@gentleduck/primitives",
-      "@gentleduck/motion",
       "@gentleduck/libs"
     ],
     "files": [
@@ -508,8 +506,7 @@
   {
     "dependencies": [
       "@gentleduck/libs",
-      "@gentleduck/primitives",
-      "@gentleduck/motion"
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -647,7 +644,6 @@
   {
     "dependencies": [
       "@gentleduck/primitives",
-      "@gentleduck/motion",
       "@gentleduck/libs",
       "lucide-react"
     ],
@@ -682,7 +678,6 @@
   {
     "dependencies": [
       "@gentleduck/primitives",
-      "@gentleduck/motion",
       "@gentleduck/hooks",
       "@gentleduck/libs",
       "lucide-react"
@@ -761,7 +756,6 @@
   {
     "dependencies": [
       "@gentleduck/primitives",
-      "@gentleduck/motion",
       "@gentleduck/libs",
       "lucide-react"
     ],
@@ -798,7 +792,6 @@
       "@gentleduck/variants",
       "@gentleduck/libs",
       "@gentleduck/primitives",
-      "@gentleduck/motion",
       "@radix-ui/react-navigation-menu",
       "lucide-react"
     ],
@@ -916,8 +909,7 @@
   {
     "dependencies": [
       "@gentleduck/libs",
-      "@gentleduck/primitives",
-      "@gentleduck/motion"
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -1132,8 +1124,7 @@
   {
     "dependencies": [
       "@gentleduck/primitives",
-      "@gentleduck/libs",
-      "@gentleduck/motion"
+      "@gentleduck/libs"
     ],
     "files": [
       {
@@ -1304,7 +1295,6 @@
   {
     "dependencies": [
       "@gentleduck/primitives",
-      "@gentleduck/motion",
       "@gentleduck/libs",
       "lucide-react"
     ],
@@ -1371,7 +1361,6 @@
     "dependencies": [
       "@gentleduck/primitives",
       "@gentleduck/libs",
-      "@gentleduck/motion",
       "@gentleduck/variants",
       "lucide-react"
     ],
@@ -1826,7 +1815,6 @@
   {
     "dependencies": [
       "@gentleduck/libs",
-      "@gentleduck/motion",
       "@gentleduck/primitives"
     ],
     "files": [
@@ -16419,6 +16407,426 @@
     ]
   },
   {
+    "files": [
+      {
+        "path": "sidebar/sidebar-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "sidebar-1",
+    "registryDependencies": [
+      "sidebar"
+    ],
+    "root_folder": "sidebar",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/sidebar",
+    "tree": [
+      {
+        "name": "sidebar-1.tsx",
+        "path": "sidebar/sidebar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-2.tsx",
+        "path": "sidebar/sidebar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-3.tsx",
+        "path": "sidebar/sidebar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-4.tsx",
+        "path": "sidebar/sidebar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-5.tsx",
+        "path": "sidebar/sidebar-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "sidebar/sidebar-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "sidebar-2",
+    "registryDependencies": [
+      "sidebar"
+    ],
+    "root_folder": "sidebar",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/sidebar",
+    "tree": [
+      {
+        "name": "sidebar-1.tsx",
+        "path": "sidebar/sidebar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-2.tsx",
+        "path": "sidebar/sidebar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-3.tsx",
+        "path": "sidebar/sidebar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-4.tsx",
+        "path": "sidebar/sidebar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-5.tsx",
+        "path": "sidebar/sidebar-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "sidebar/sidebar-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "sidebar-3",
+    "registryDependencies": [
+      "sidebar"
+    ],
+    "root_folder": "sidebar",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/sidebar",
+    "tree": [
+      {
+        "name": "sidebar-1.tsx",
+        "path": "sidebar/sidebar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-2.tsx",
+        "path": "sidebar/sidebar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-3.tsx",
+        "path": "sidebar/sidebar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-4.tsx",
+        "path": "sidebar/sidebar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-5.tsx",
+        "path": "sidebar/sidebar-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "sidebar/sidebar-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "sidebar-4",
+    "registryDependencies": [
+      "sidebar"
+    ],
+    "root_folder": "sidebar",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/sidebar",
+    "tree": [
+      {
+        "name": "sidebar-1.tsx",
+        "path": "sidebar/sidebar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-2.tsx",
+        "path": "sidebar/sidebar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-3.tsx",
+        "path": "sidebar/sidebar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-4.tsx",
+        "path": "sidebar/sidebar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-5.tsx",
+        "path": "sidebar/sidebar-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "sidebar/sidebar-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "sidebar-5",
+    "registryDependencies": [
+      "sidebar"
+    ],
+    "root_folder": "sidebar",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/sidebar",
+    "tree": [
+      {
+        "name": "sidebar-1.tsx",
+        "path": "sidebar/sidebar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-2.tsx",
+        "path": "sidebar/sidebar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-3.tsx",
+        "path": "sidebar/sidebar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-4.tsx",
+        "path": "sidebar/sidebar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-5.tsx",
+        "path": "sidebar/sidebar-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "upload/upload-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "upload-1",
+    "registryDependencies": [
+      "upload"
+    ],
+    "root_folder": "upload",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/upload",
+    "tree": [
+      {
+        "name": "upload-1.tsx",
+        "path": "upload/upload-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-2.tsx",
+        "path": "upload/upload-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-3.tsx",
+        "path": "upload/upload-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-4.tsx",
+        "path": "upload/upload-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-5.tsx",
+        "path": "upload/upload-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "upload/upload-2.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "upload-2",
+    "registryDependencies": [
+      "upload"
+    ],
+    "root_folder": "upload",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/upload",
+    "tree": [
+      {
+        "name": "upload-1.tsx",
+        "path": "upload/upload-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-2.tsx",
+        "path": "upload/upload-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-3.tsx",
+        "path": "upload/upload-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-4.tsx",
+        "path": "upload/upload-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-5.tsx",
+        "path": "upload/upload-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "upload/upload-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "upload-3",
+    "registryDependencies": [
+      "upload"
+    ],
+    "root_folder": "upload",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/upload",
+    "tree": [
+      {
+        "name": "upload-1.tsx",
+        "path": "upload/upload-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-2.tsx",
+        "path": "upload/upload-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-3.tsx",
+        "path": "upload/upload-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-4.tsx",
+        "path": "upload/upload-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-5.tsx",
+        "path": "upload/upload-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "upload/upload-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "upload-4",
+    "registryDependencies": [
+      "upload"
+    ],
+    "root_folder": "upload",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/upload",
+    "tree": [
+      {
+        "name": "upload-1.tsx",
+        "path": "upload/upload-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-2.tsx",
+        "path": "upload/upload-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-3.tsx",
+        "path": "upload/upload-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-4.tsx",
+        "path": "upload/upload-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-5.tsx",
+        "path": "upload/upload-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "upload/upload-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "upload-5",
+    "registryDependencies": [
+      "upload"
+    ],
+    "root_folder": "upload",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/upload",
+    "tree": [
+      {
+        "name": "upload-1.tsx",
+        "path": "upload/upload-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-2.tsx",
+        "path": "upload/upload-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-3.tsx",
+        "path": "upload/upload-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-4.tsx",
+        "path": "upload/upload-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "upload-5.tsx",
+        "path": "upload/upload-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
     "categories": [
       "authentications",
       "signup"
@@ -18700,6 +19108,1079 @@
         "name": "chart-tooltip-advanced.tsx",
         "path": "charts/chart-tooltip-advanced/chart-tooltip-advanced.tsx",
         "type": "file"
+      }
+    ]
+  },
+  {
+    "categories": [
+      "sidebar"
+    ],
+    "files": [
+      {
+        "path": "sidebar/sidebar-01/sidebar-01.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-01/components/app-sidebar.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-01/components/search-form.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-01/components/version-switcher.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "sidebar-01",
+    "registryDependencies": [
+      "sidebar",
+      "breadcrumb",
+      "separator",
+      "dropdown-menu"
+    ],
+    "root_folder": "sidebar/sidebar-01",
+    "type": "registry:block",
+    "source": "/registry-examples-duckui/src/sidebar/sidebar-01",
+    "tree": [
+      {
+        "name": "sidebar-01.tsx",
+        "path": "sidebar/sidebar-01/sidebar-01.tsx",
+        "type": "file"
+      },
+      {
+        "name": "components",
+        "path": "sidebar/sidebar-01/components",
+        "type": "folder",
+        "children": [
+          {
+            "name": "app-sidebar.tsx",
+            "path": "sidebar/sidebar-01/components/app-sidebar.tsx",
+            "type": "file"
+          },
+          {
+            "name": "search-form.tsx",
+            "path": "sidebar/sidebar-01/components/search-form.tsx",
+            "type": "file"
+          },
+          {
+            "name": "version-switcher.tsx",
+            "path": "sidebar/sidebar-01/components/version-switcher.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categories": [
+      "sidebar"
+    ],
+    "files": [
+      {
+        "path": "sidebar/sidebar-02/sidebar-02.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-02/components/app-sidebar.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-02/components/search-form.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-02/components/version-switcher.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "sidebar-02",
+    "registryDependencies": [
+      "sidebar",
+      "breadcrumb",
+      "separator",
+      "dropdown-menu"
+    ],
+    "root_folder": "sidebar/sidebar-02",
+    "type": "registry:block",
+    "source": "/registry-examples-duckui/src/sidebar/sidebar-02",
+    "tree": [
+      {
+        "name": "sidebar-02.tsx",
+        "path": "sidebar/sidebar-02/sidebar-02.tsx",
+        "type": "file"
+      },
+      {
+        "name": "components",
+        "path": "sidebar/sidebar-02/components",
+        "type": "folder",
+        "children": [
+          {
+            "name": "app-sidebar.tsx",
+            "path": "sidebar/sidebar-02/components/app-sidebar.tsx",
+            "type": "file"
+          },
+          {
+            "name": "search-form.tsx",
+            "path": "sidebar/sidebar-02/components/search-form.tsx",
+            "type": "file"
+          },
+          {
+            "name": "version-switcher.tsx",
+            "path": "sidebar/sidebar-02/components/version-switcher.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categories": [
+      "sidebar"
+    ],
+    "files": [
+      {
+        "path": "sidebar/sidebar-03/sidebar-03.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-03/components/app-sidebar.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "sidebar-03",
+    "registryDependencies": [
+      "sidebar",
+      "breadcrumb",
+      "separator"
+    ],
+    "root_folder": "sidebar/sidebar-03",
+    "type": "registry:block",
+    "source": "/registry-examples-duckui/src/sidebar/sidebar-03",
+    "tree": [
+      {
+        "name": "sidebar-03.tsx",
+        "path": "sidebar/sidebar-03/sidebar-03.tsx",
+        "type": "file"
+      },
+      {
+        "name": "components",
+        "path": "sidebar/sidebar-03/components",
+        "type": "folder",
+        "children": [
+          {
+            "name": "app-sidebar.tsx",
+            "path": "sidebar/sidebar-03/components/app-sidebar.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categories": [
+      "sidebar"
+    ],
+    "files": [
+      {
+        "path": "sidebar/sidebar-04/sidebar-04.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-04/components/app-sidebar.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "sidebar-04",
+    "registryDependencies": [
+      "sidebar",
+      "breadcrumb",
+      "separator"
+    ],
+    "root_folder": "sidebar/sidebar-04",
+    "type": "registry:block",
+    "source": "/registry-examples-duckui/src/sidebar/sidebar-04",
+    "tree": [
+      {
+        "name": "sidebar-04.tsx",
+        "path": "sidebar/sidebar-04/sidebar-04.tsx",
+        "type": "file"
+      },
+      {
+        "name": "components",
+        "path": "sidebar/sidebar-04/components",
+        "type": "folder",
+        "children": [
+          {
+            "name": "app-sidebar.tsx",
+            "path": "sidebar/sidebar-04/components/app-sidebar.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categories": [
+      "sidebar"
+    ],
+    "files": [
+      {
+        "path": "sidebar/sidebar-05/sidebar-05.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-05/components/app-sidebar.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-05/components/search-form.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "sidebar-05",
+    "registryDependencies": [
+      "sidebar",
+      "breadcrumb",
+      "separator"
+    ],
+    "root_folder": "sidebar/sidebar-05",
+    "type": "registry:block",
+    "source": "/registry-examples-duckui/src/sidebar/sidebar-05",
+    "tree": [
+      {
+        "name": "sidebar-05.tsx",
+        "path": "sidebar/sidebar-05/sidebar-05.tsx",
+        "type": "file"
+      },
+      {
+        "name": "components",
+        "path": "sidebar/sidebar-05/components",
+        "type": "folder",
+        "children": [
+          {
+            "name": "app-sidebar.tsx",
+            "path": "sidebar/sidebar-05/components/app-sidebar.tsx",
+            "type": "file"
+          },
+          {
+            "name": "search-form.tsx",
+            "path": "sidebar/sidebar-05/components/search-form.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categories": [
+      "sidebar"
+    ],
+    "files": [
+      {
+        "path": "sidebar/sidebar-06/sidebar-06.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-06/components/app-sidebar.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-06/components/nav-main.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-06/components/sidebar-opt-in-form.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "sidebar-06",
+    "registryDependencies": [
+      "sidebar",
+      "breadcrumb",
+      "separator",
+      "collapsible"
+    ],
+    "root_folder": "sidebar/sidebar-06",
+    "type": "registry:block",
+    "source": "/registry-examples-duckui/src/sidebar/sidebar-06",
+    "tree": [
+      {
+        "name": "sidebar-06.tsx",
+        "path": "sidebar/sidebar-06/sidebar-06.tsx",
+        "type": "file"
+      },
+      {
+        "name": "components",
+        "path": "sidebar/sidebar-06/components",
+        "type": "folder",
+        "children": [
+          {
+            "name": "app-sidebar.tsx",
+            "path": "sidebar/sidebar-06/components/app-sidebar.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-main.tsx",
+            "path": "sidebar/sidebar-06/components/nav-main.tsx",
+            "type": "file"
+          },
+          {
+            "name": "sidebar-opt-in-form.tsx",
+            "path": "sidebar/sidebar-06/components/sidebar-opt-in-form.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categories": [
+      "sidebar"
+    ],
+    "files": [
+      {
+        "path": "sidebar/sidebar-07/sidebar-07.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-07/components/app-sidebar.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-07/components/nav-main.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-07/components/nav-projects.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-07/components/nav-user.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-07/components/team-switcher.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "sidebar-07",
+    "registryDependencies": [
+      "sidebar",
+      "breadcrumb",
+      "separator",
+      "collapsible",
+      "avatar",
+      "dropdown-menu"
+    ],
+    "root_folder": "sidebar/sidebar-07",
+    "type": "registry:block",
+    "source": "/registry-examples-duckui/src/sidebar/sidebar-07",
+    "tree": [
+      {
+        "name": "sidebar-07.tsx",
+        "path": "sidebar/sidebar-07/sidebar-07.tsx",
+        "type": "file"
+      },
+      {
+        "name": "components",
+        "path": "sidebar/sidebar-07/components",
+        "type": "folder",
+        "children": [
+          {
+            "name": "app-sidebar.tsx",
+            "path": "sidebar/sidebar-07/components/app-sidebar.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-main.tsx",
+            "path": "sidebar/sidebar-07/components/nav-main.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-projects.tsx",
+            "path": "sidebar/sidebar-07/components/nav-projects.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-user.tsx",
+            "path": "sidebar/sidebar-07/components/nav-user.tsx",
+            "type": "file"
+          },
+          {
+            "name": "team-switcher.tsx",
+            "path": "sidebar/sidebar-07/components/team-switcher.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categories": [
+      "sidebar"
+    ],
+    "files": [
+      {
+        "path": "sidebar/sidebar-08/sidebar-08.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-08/components/app-sidebar.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-08/components/nav-main.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-08/components/nav-projects.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-08/components/nav-secondary.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-08/components/nav-user.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "sidebar-08",
+    "registryDependencies": [
+      "sidebar",
+      "breadcrumb",
+      "separator",
+      "collapsible",
+      "avatar",
+      "dropdown-menu"
+    ],
+    "root_folder": "sidebar/sidebar-08",
+    "type": "registry:block",
+    "source": "/registry-examples-duckui/src/sidebar/sidebar-08",
+    "tree": [
+      {
+        "name": "sidebar-08.tsx",
+        "path": "sidebar/sidebar-08/sidebar-08.tsx",
+        "type": "file"
+      },
+      {
+        "name": "components",
+        "path": "sidebar/sidebar-08/components",
+        "type": "folder",
+        "children": [
+          {
+            "name": "app-sidebar.tsx",
+            "path": "sidebar/sidebar-08/components/app-sidebar.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-main.tsx",
+            "path": "sidebar/sidebar-08/components/nav-main.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-projects.tsx",
+            "path": "sidebar/sidebar-08/components/nav-projects.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-secondary.tsx",
+            "path": "sidebar/sidebar-08/components/nav-secondary.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-user.tsx",
+            "path": "sidebar/sidebar-08/components/nav-user.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categories": [
+      "sidebar"
+    ],
+    "files": [
+      {
+        "path": "sidebar/sidebar-09/sidebar-09.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-09/components/app-sidebar.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-09/components/nav-user.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "sidebar-09",
+    "registryDependencies": [
+      "sidebar",
+      "breadcrumb",
+      "separator",
+      "avatar",
+      "dropdown-menu"
+    ],
+    "root_folder": "sidebar/sidebar-09",
+    "type": "registry:block",
+    "source": "/registry-examples-duckui/src/sidebar/sidebar-09",
+    "tree": [
+      {
+        "name": "sidebar-09.tsx",
+        "path": "sidebar/sidebar-09/sidebar-09.tsx",
+        "type": "file"
+      },
+      {
+        "name": "components",
+        "path": "sidebar/sidebar-09/components",
+        "type": "folder",
+        "children": [
+          {
+            "name": "app-sidebar.tsx",
+            "path": "sidebar/sidebar-09/components/app-sidebar.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-user.tsx",
+            "path": "sidebar/sidebar-09/components/nav-user.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categories": [
+      "sidebar"
+    ],
+    "files": [
+      {
+        "path": "sidebar/sidebar-10/sidebar-10.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-10/components/app-sidebar.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-10/components/nav-actions.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-10/components/nav-favorites.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-10/components/nav-main.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-10/components/nav-secondary.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-10/components/nav-workspaces.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-10/components/team-switcher.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "sidebar-10",
+    "registryDependencies": [
+      "sidebar",
+      "breadcrumb",
+      "separator",
+      "collapsible",
+      "dropdown-menu"
+    ],
+    "root_folder": "sidebar/sidebar-10",
+    "type": "registry:block",
+    "source": "/registry-examples-duckui/src/sidebar/sidebar-10",
+    "tree": [
+      {
+        "name": "sidebar-10.tsx",
+        "path": "sidebar/sidebar-10/sidebar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "components",
+        "path": "sidebar/sidebar-10/components",
+        "type": "folder",
+        "children": [
+          {
+            "name": "app-sidebar.tsx",
+            "path": "sidebar/sidebar-10/components/app-sidebar.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-actions.tsx",
+            "path": "sidebar/sidebar-10/components/nav-actions.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-favorites.tsx",
+            "path": "sidebar/sidebar-10/components/nav-favorites.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-main.tsx",
+            "path": "sidebar/sidebar-10/components/nav-main.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-secondary.tsx",
+            "path": "sidebar/sidebar-10/components/nav-secondary.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-workspaces.tsx",
+            "path": "sidebar/sidebar-10/components/nav-workspaces.tsx",
+            "type": "file"
+          },
+          {
+            "name": "team-switcher.tsx",
+            "path": "sidebar/sidebar-10/components/team-switcher.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categories": [
+      "sidebar"
+    ],
+    "files": [
+      {
+        "path": "sidebar/sidebar-11/sidebar-11.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-11/components/app-sidebar.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "sidebar-11",
+    "registryDependencies": [
+      "sidebar",
+      "breadcrumb",
+      "separator"
+    ],
+    "root_folder": "sidebar/sidebar-11",
+    "type": "registry:block",
+    "source": "/registry-examples-duckui/src/sidebar/sidebar-11",
+    "tree": [
+      {
+        "name": "sidebar-11.tsx",
+        "path": "sidebar/sidebar-11/sidebar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "components",
+        "path": "sidebar/sidebar-11/components",
+        "type": "folder",
+        "children": [
+          {
+            "name": "app-sidebar.tsx",
+            "path": "sidebar/sidebar-11/components/app-sidebar.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categories": [
+      "sidebar"
+    ],
+    "files": [
+      {
+        "path": "sidebar/sidebar-12/sidebar-12.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-12/components/app-sidebar.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-12/components/calendars.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-12/components/date-picker.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-12/components/nav-user.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "sidebar-12",
+    "registryDependencies": [
+      "sidebar",
+      "breadcrumb",
+      "separator",
+      "calendar",
+      "collapsible",
+      "avatar",
+      "dropdown-menu"
+    ],
+    "root_folder": "sidebar/sidebar-12",
+    "type": "registry:block",
+    "source": "/registry-examples-duckui/src/sidebar/sidebar-12",
+    "tree": [
+      {
+        "name": "sidebar-12.tsx",
+        "path": "sidebar/sidebar-12/sidebar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "components",
+        "path": "sidebar/sidebar-12/components",
+        "type": "folder",
+        "children": [
+          {
+            "name": "app-sidebar.tsx",
+            "path": "sidebar/sidebar-12/components/app-sidebar.tsx",
+            "type": "file"
+          },
+          {
+            "name": "calendars.tsx",
+            "path": "sidebar/sidebar-12/components/calendars.tsx",
+            "type": "file"
+          },
+          {
+            "name": "date-picker.tsx",
+            "path": "sidebar/sidebar-12/components/date-picker.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-user.tsx",
+            "path": "sidebar/sidebar-12/components/nav-user.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categories": [
+      "sidebar"
+    ],
+    "files": [
+      {
+        "path": "sidebar/sidebar-13/sidebar-13.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-13/components/settings-dialog.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "sidebar-13",
+    "registryDependencies": [
+      "sidebar",
+      "breadcrumb",
+      "button",
+      "dialog"
+    ],
+    "root_folder": "sidebar/sidebar-13",
+    "type": "registry:block",
+    "source": "/registry-examples-duckui/src/sidebar/sidebar-13",
+    "tree": [
+      {
+        "name": "sidebar-13.tsx",
+        "path": "sidebar/sidebar-13/sidebar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "components",
+        "path": "sidebar/sidebar-13/components",
+        "type": "folder",
+        "children": [
+          {
+            "name": "settings-dialog.tsx",
+            "path": "sidebar/sidebar-13/components/settings-dialog.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categories": [
+      "sidebar"
+    ],
+    "files": [
+      {
+        "path": "sidebar/sidebar-14/sidebar-14.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-14/components/app-sidebar.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "sidebar-14",
+    "registryDependencies": [
+      "sidebar",
+      "breadcrumb"
+    ],
+    "root_folder": "sidebar/sidebar-14",
+    "type": "registry:block",
+    "source": "/registry-examples-duckui/src/sidebar/sidebar-14",
+    "tree": [
+      {
+        "name": "sidebar-14.tsx",
+        "path": "sidebar/sidebar-14/sidebar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "components",
+        "path": "sidebar/sidebar-14/components",
+        "type": "folder",
+        "children": [
+          {
+            "name": "app-sidebar.tsx",
+            "path": "sidebar/sidebar-14/components/app-sidebar.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categories": [
+      "sidebar"
+    ],
+    "files": [
+      {
+        "path": "sidebar/sidebar-15/sidebar-15.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-15/components/calendars.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-15/components/date-picker.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-15/components/nav-favorites.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-15/components/nav-main.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-15/components/nav-secondary.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-15/components/nav-user.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-15/components/nav-workspaces.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-15/components/sidebar-left.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-15/components/sidebar-right.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-15/components/team-switcher.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "sidebar-15",
+    "registryDependencies": [
+      "sidebar",
+      "breadcrumb",
+      "separator",
+      "calendar",
+      "collapsible",
+      "avatar",
+      "dropdown-menu"
+    ],
+    "root_folder": "sidebar/sidebar-15",
+    "type": "registry:block",
+    "source": "/registry-examples-duckui/src/sidebar/sidebar-15",
+    "tree": [
+      {
+        "name": "sidebar-15.tsx",
+        "path": "sidebar/sidebar-15/sidebar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "components",
+        "path": "sidebar/sidebar-15/components",
+        "type": "folder",
+        "children": [
+          {
+            "name": "calendars.tsx",
+            "path": "sidebar/sidebar-15/components/calendars.tsx",
+            "type": "file"
+          },
+          {
+            "name": "date-picker.tsx",
+            "path": "sidebar/sidebar-15/components/date-picker.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-favorites.tsx",
+            "path": "sidebar/sidebar-15/components/nav-favorites.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-main.tsx",
+            "path": "sidebar/sidebar-15/components/nav-main.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-secondary.tsx",
+            "path": "sidebar/sidebar-15/components/nav-secondary.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-user.tsx",
+            "path": "sidebar/sidebar-15/components/nav-user.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-workspaces.tsx",
+            "path": "sidebar/sidebar-15/components/nav-workspaces.tsx",
+            "type": "file"
+          },
+          {
+            "name": "sidebar-left.tsx",
+            "path": "sidebar/sidebar-15/components/sidebar-left.tsx",
+            "type": "file"
+          },
+          {
+            "name": "sidebar-right.tsx",
+            "path": "sidebar/sidebar-15/components/sidebar-right.tsx",
+            "type": "file"
+          },
+          {
+            "name": "team-switcher.tsx",
+            "path": "sidebar/sidebar-15/components/team-switcher.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "categories": [
+      "sidebar"
+    ],
+    "files": [
+      {
+        "path": "sidebar/sidebar-16/sidebar-16.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-16/components/app-sidebar.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-16/components/nav-main.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-16/components/nav-projects.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-16/components/nav-secondary.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-16/components/nav-user.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-16/components/search-form.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "sidebar/sidebar-16/components/site-header.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "sidebar-16",
+    "registryDependencies": [
+      "sidebar",
+      "breadcrumb",
+      "separator",
+      "button",
+      "collapsible",
+      "avatar",
+      "dropdown-menu"
+    ],
+    "root_folder": "sidebar/sidebar-16",
+    "type": "registry:block",
+    "source": "/registry-examples-duckui/src/sidebar/sidebar-16",
+    "tree": [
+      {
+        "name": "sidebar-16.tsx",
+        "path": "sidebar/sidebar-16/sidebar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "components",
+        "path": "sidebar/sidebar-16/components",
+        "type": "folder",
+        "children": [
+          {
+            "name": "app-sidebar.tsx",
+            "path": "sidebar/sidebar-16/components/app-sidebar.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-main.tsx",
+            "path": "sidebar/sidebar-16/components/nav-main.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-projects.tsx",
+            "path": "sidebar/sidebar-16/components/nav-projects.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-secondary.tsx",
+            "path": "sidebar/sidebar-16/components/nav-secondary.tsx",
+            "type": "file"
+          },
+          {
+            "name": "nav-user.tsx",
+            "path": "sidebar/sidebar-16/components/nav-user.tsx",
+            "type": "file"
+          },
+          {
+            "name": "search-form.tsx",
+            "path": "sidebar/sidebar-16/components/search-form.tsx",
+            "type": "file"
+          },
+          {
+            "name": "site-header.tsx",
+            "path": "sidebar/sidebar-16/components/site-header.tsx",
+            "type": "file"
+          }
+        ]
       }
     ]
   }

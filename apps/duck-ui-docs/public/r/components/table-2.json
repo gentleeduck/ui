@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "",
+      "path": "duck-table/table-2.tsx",
+      "target": "components/table-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "table-2",
+  "registryDependencies": [
+    "duck-table"
+  ],
+  "root_folder": "duck-table",
+  "source": "/registry-examples-duckui/src/duck-table",
+  "type": "registry:example"
+}
