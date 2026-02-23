@@ -166,6 +166,7 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/comp
 | `onOpenChange` | `(open: boolean) => void` | -- | Callback when open state changes |
 | `delayDuration` | `number` | `700` | Per-tooltip delay override |
 | `disableHoverableContent` | `boolean` | `false` | Per-tooltip hover-content behavior override |
+| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction for RTL support |
 | `...props` | `React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>` | -- | Additional root props |
 
 ### TooltipTrigger
@@ -192,6 +193,17 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/comp
 | `...props` | `React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>` | -- | Additional props to spread to the content div |
 
 ## RTL Support
+
+The `Tooltip` component accepts a `dir` prop on the root element to control the reading direction. Set `dir="rtl"` to mirror the tooltip positioning for right-to-left languages.
+
+```tsx
+<TooltipProvider>
+  <Tooltip dir="rtl">
+    <TooltipTrigger>مرر الماوس</TooltipTrigger>
+    <TooltipContent>نص التلميح</TooltipContent>
+  </Tooltip>
+</TooltipProvider>
+```
 
 <ComponentPreview
   name="tooltip-3"

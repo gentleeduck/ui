@@ -109,6 +109,7 @@ import {
 | `defaultOpen` | `boolean` | `--` | Determines if the dialog should be open by default |
 | `open` | `boolean` | `--` | Controls the visibility of the dialog |
 | `onOpenChange` | `(open: boolean) => void` | `--` | Callback fired when the dialog opens or closes |
+| `dir` | `'ltr' \| 'rtl'` | `--` | Reading direction for RTL support. Inherited from the underlying Dialog primitive |
 | `children` | `React.ReactNode` | (required) | Child elements (typically Trigger and Content) |
 | `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Root>` | -- | Additional props inherited from `AlertDialogPrimitive.Root` |
 
@@ -193,6 +194,26 @@ import {
 | `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>` | -- | Additional props inherited from `AlertDialogPrimitive.Cancel` |
 
 ## RTL Support
+
+The `AlertDialog` component accepts a `dir` prop on the root element to control the reading direction. Since `AlertDialog` extends `Dialog` internally, setting `dir="rtl"` applies the same right-to-left layout behavior to all child content, including the header, footer, and action buttons.
+
+```tsx
+<AlertDialog dir="rtl">
+  <AlertDialogTrigger>Open</AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>هل انت متاكد؟</AlertDialogTitle>
+      <AlertDialogDescription>
+        هذا الاجراء لا يمكن التراجع عنه.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>الغاء</AlertDialogCancel>
+      <AlertDialogAction>متابعة</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
 
 <ComponentPreview
   name="alert-dialog-2"

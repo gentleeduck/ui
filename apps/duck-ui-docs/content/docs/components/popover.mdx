@@ -129,6 +129,7 @@ import {
 | `open` | `boolean` | `--` | Controlled open state |
 | `onOpenChange` | `(open: boolean) => void` | `--` | Callback when open state changes |
 | `modal` | `boolean` | `false` | Enables modal focus/interaction behavior |
+| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction for RTL support |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>` | -- | Additional props inherited from `Popover.Root`. |
 
 ### PopoverTrigger
@@ -168,6 +169,15 @@ Optional custom anchor element for positioning.
 | `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Anchor>` | -- | Additional props inherited from `Popover.Anchor`. |
 
 ## RTL Support
+
+The `Popover` component accepts a `dir` prop on the root element to control the reading direction. Set `dir="rtl"` to mirror the popover positioning and content layout for right-to-left languages. When `dir="rtl"` is set, `side="left"` and `side="right"` are logically swapped so the popover opens on the correct side relative to the reading direction.
+
+```tsx
+<Popover dir="rtl">
+  <PopoverTrigger>افتح</PopoverTrigger>
+  <PopoverContent>محتوى النافذة المنبثقة هنا.</PopoverContent>
+</Popover>
+```
 
 <ComponentPreview
   name="popover-4"
