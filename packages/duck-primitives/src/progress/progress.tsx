@@ -1,5 +1,7 @@
 /** Root Progress component with scope, context, and validation. */
 import * as React from 'react'
+import type { Direction } from '../hooks/use-direction'
+import { useDirection } from '../hooks/use-direction'
 import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'
@@ -11,7 +13,7 @@ type ScopedProps<P> = P & { __scopeProgress?: Scope }
 const [createProgressContext, createProgressScope] = createContextScope(PROGRESS_NAME)
 
 type ProgressState = 'indeterminate' | 'complete' | 'loading'
-type ProgressContextValue = { value: number | null; max: number }
+type ProgressContextValue = { value: number | null; max: number; dir: Direction }
 const [ProgressProvider, useProgressContext] = createProgressContext<ProgressContextValue>(PROGRESS_NAME)
 
 type ProgressElement = React.ComponentRef<typeof Primitive.div>
@@ -20,6 +22,7 @@ interface ProgressProps extends PrimitiveDivProps {
   value?: number | null | undefined
   max?: number
   getValueLabel?(value: number, max: number): string
+  dir?: Direction
 }
 
 const Progress = React.forwardRef<ProgressElement, ProgressProps>((props: ScopedProps<ProgressProps>, forwardedRef) => {
@@ -28,8 +31,10 @@ const Progress = React.forwardRef<ProgressElement, ProgressProps>((props: Scoped
     value: valueProp = null,
     max: maxProp,
     getValueLabel = defaultGetValueLabel,
+    dir,
     ...progressProps
   } = props
+  const direction = useDirection(dir)
 
   if ((maxProp || maxProp === 0) && !isValidMaxNumber(maxProp)) {
     console.error(getInvalidMaxError(`${maxProp}`, 'Progress'))
@@ -45,7 +50,7 @@ const Progress = React.forwardRef<ProgressElement, ProgressProps>((props: Scoped
   const valueLabel = isNumber(value) ? getValueLabel(value, max) : undefined
 
   return (
-    <ProgressProvider scope={__scopeProgress} value={value} max={max}>
+    <ProgressProvider scope={__scopeProgress} value={value} max={max} dir={direction}>
       <Primitive.div
         aria-valuemax={max}
         aria-valuemin={0}
@@ -55,6 +60,7 @@ const Progress = React.forwardRef<ProgressElement, ProgressProps>((props: Scoped
         data-state={getProgressState(value, max)}
         data-value={value ?? undefined}
         data-max={max}
+        dir={direction}
         {...progressProps}
         ref={forwardedRef}
       />
