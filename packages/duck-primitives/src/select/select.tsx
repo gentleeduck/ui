@@ -76,6 +76,7 @@ export type SelectContentContextValue = {
   position?: 'item-aligned' | 'popper'
   isPositioned?: boolean
   searchRef?: React.RefObject<string>
+  allowTextPortal?: boolean
 }
 
 const CONTENT_NAME = 'SelectContent'
