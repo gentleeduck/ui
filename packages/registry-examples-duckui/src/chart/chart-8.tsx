@@ -134,8 +134,14 @@ export default function ChartRtlDemo() {
       <Card>
         <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
           <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-            <CardTitle>{'\u0645\u062E\u0637\u0637 \u0634\u0631\u064A\u0637\u064A - \u062A\u0641\u0627\u0639\u0644\u064A'}</CardTitle>
-            <CardDescription>{'\u0639\u0631\u0636 \u0625\u062C\u0645\u0627\u0644\u064A \u0627\u0644\u0632\u0648\u0627\u0631 \u0644\u0622\u062E\u0631 3 \u0623\u0634\u0647\u0631'}</CardDescription>
+            <CardTitle>
+              {'\u0645\u062E\u0637\u0637 \u0634\u0631\u064A\u0637\u064A - \u062A\u0641\u0627\u0639\u0644\u064A'}
+            </CardTitle>
+            <CardDescription>
+              {
+                '\u0639\u0631\u0636 \u0625\u062C\u0645\u0627\u0644\u064A \u0627\u0644\u0632\u0648\u0627\u0631 \u0644\u0622\u062E\u0631 3 \u0623\u0634\u0647\u0631'
+              }
+            </CardDescription>
           </div>
           <div className="flex">
             {['desktop', 'mobile'].map((key) => {

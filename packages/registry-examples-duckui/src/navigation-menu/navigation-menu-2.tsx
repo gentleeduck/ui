@@ -41,8 +41,7 @@ const components: { title: string; href: string; description: string }[] = [
     title: 'التبويبات',
   },
   {
-    description:
-      'نافذة منبثقة تعرض معلومات متعلقة بعنصر عند تركيز لوحة المفاتيح عليه او تمرير الفأرة فوقه.',
+    description: 'نافذة منبثقة تعرض معلومات متعلقة بعنصر عند تركيز لوحة المفاتيح عليه او تمرير الفأرة فوقه.',
     href: '/docs/primitives/tooltip',
     title: 'تلميح الادوات',
   },
@@ -70,8 +69,7 @@ export default function NavigationMenuRtlDemo() {
                     />
                     <div className="mt-4 mb-2 font-medium text-lg">duck/ui</div>
                     <p className="text-muted-foreground text-sm leading-tight">
-                      مكونات مصممة بعناية يمكنك نسخها ولصقها في تطبيقاتك. سهلة الوصول. قابلة للتخصيص. مفتوحة
-                      المصدر.
+                      مكونات مصممة بعناية يمكنك نسخها ولصقها في تطبيقاتك. سهلة الوصول. قابلة للتخصيص. مفتوحة المصدر.
                     </p>
                   </a>
                 </NavigationMenuLink>

@@ -10,9 +10,7 @@ export default function AccordionRtlDemo() {
         </AccordionItem>
         <AccordionItem value="item-2">
           <AccordionTrigger>هل هو منسق؟</AccordionTrigger>
-          <AccordionContent>
-            نعم. يأتي بأنماط افتراضية تتوافق مع المظهر الجمالي للمكونات الأخرى.
-          </AccordionContent>
+          <AccordionContent>نعم. يأتي بأنماط افتراضية تتوافق مع المظهر الجمالي للمكونات الأخرى.</AccordionContent>
         </AccordionItem>
         <AccordionItem value="item-3">
           <AccordionTrigger>هل هو متحرك؟</AccordionTrigger>
