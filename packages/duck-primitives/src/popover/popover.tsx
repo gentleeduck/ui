@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { useControllableState } from '../hooks/use-controllable-state'
+import type { Direction } from '../hooks/use-direction'
+import { useDirection } from '../hooks/use-direction'
 import { useId } from '../hooks/use-id'
 import { createContextScope, type Scope } from '../libs/create-context'
 import * as PopperPrimitive from '../popper'
@@ -23,6 +25,7 @@ type PopoverContextValue = {
   onCustomAnchorAdd(): void
   onCustomAnchorRemove(): void
   modal: boolean
+  dir: Direction
 }
 
 export const [PopoverProvider, usePopoverContext] = createPopoverContext<PopoverContextValue>(POPOVER_NAME)
@@ -33,6 +36,7 @@ export interface PopoverProps {
   defaultOpen?: boolean
   onOpenChange?: (open: boolean) => void
   modal?: boolean
+  dir?: Direction
 }
 
 /**
@@ -40,11 +44,12 @@ export interface PopoverProps {
  * to all child components. Supports both controlled and uncontrolled usage.
  */
 export function Popover(props: ScopedProps<PopoverProps>) {
-  const { __scopePopover, children, open: openProp, defaultOpen, onOpenChange, modal = false } = props
+  const { __scopePopover, children, open: openProp, defaultOpen, onOpenChange, dir, modal = false } = props
 
   const popperScope = usePopperScope(__scopePopover)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const [hasCustomAnchor, setHasCustomAnchor] = React.useState(false)
+  const direction = useDirection(dir)
 
   // Supports controlled (open prop) and uncontrolled (defaultOpen) modes
   const [open, setOpen] = useControllableState({
@@ -66,7 +71,8 @@ export function Popover(props: ScopedProps<PopoverProps>) {
         hasCustomAnchor={hasCustomAnchor}
         onCustomAnchorAdd={React.useCallback(() => setHasCustomAnchor(true), [])}
         onCustomAnchorRemove={React.useCallback(() => setHasCustomAnchor(false), [])}
-        modal={modal}>
+        modal={modal}
+        dir={direction}>
         {children}
       </PopoverProvider>
     </PopperPrimitive.Popper>

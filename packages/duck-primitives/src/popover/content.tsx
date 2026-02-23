@@ -235,6 +235,7 @@ const PopoverContentImpl = React.forwardRef<PopoverContentElement, PopoverConten
             data-state={getState(context.open)}
             role="dialog"
             id={context.contentId}
+            dir={context.dir}
             {...popperScope}
             {...contentProps}
             ref={forwardedRef}

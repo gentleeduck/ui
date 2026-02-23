@@ -148,6 +148,7 @@ const DialogContentImpl = React.forwardRef<DialogContentImplElement, DialogConte
             aria-describedby={context.descriptionId}
             aria-labelledby={context.titleId}
             data-state={getState(context.open)}
+            dir={context.dir}
             {...contentProps}
             ref={composedRefs}
             onDismiss={() => context.onOpenChange(false)}

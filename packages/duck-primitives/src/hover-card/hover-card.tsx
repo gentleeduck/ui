@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { useControllableState } from '../hooks/use-controllable-state'
+import type { Direction } from '../hooks/use-direction'
+import { useDirection } from '../hooks/use-direction'
 import { createContextScope, type Scope } from '../libs/create-context'
 import * as PopperPrimitive from '../popper'
 import { createPopperScope } from '../popper'
@@ -24,6 +26,7 @@ type HoverCardContextValue = {
   onDismiss(): void
   hasSelectionRef: React.RefObject<boolean>
   isPointerDownOnContentRef: React.RefObject<boolean>
+  dir: Direction
 }
 
 export const [HoverCardProvider, useHoverCardContext] = createHoverCardContext<HoverCardContextValue>(HOVERCARD_NAME)
@@ -35,6 +38,7 @@ export interface HoverCardProps {
   onOpenChange?: (open: boolean) => void
   openDelay?: number
   closeDelay?: number
+  dir?: Direction
 }
 
 /** Root HoverCard component that manages open/close state and timing delays. */
@@ -47,8 +51,10 @@ export const HoverCard: React.FC<HoverCardProps> = (props: ScopedProps<HoverCard
     onOpenChange,
     openDelay = 700,
     closeDelay = 300,
+    dir,
   } = props
   const popperScope = usePopperScope(__scopeHoverCard)
+  const direction = useDirection(dir)
   const openTimerRef = React.useRef(0)
   const closeTimerRef = React.useRef(0)
   const hasSelectionRef = React.useRef(false)
@@ -92,7 +98,8 @@ export const HoverCard: React.FC<HoverCardProps> = (props: ScopedProps<HoverCard
       onClose={handleClose}
       onDismiss={handleDismiss}
       hasSelectionRef={hasSelectionRef}
-      isPointerDownOnContentRef={isPointerDownOnContentRef}>
+      isPointerDownOnContentRef={isPointerDownOnContentRef}
+      dir={direction}>
       <PopperPrimitive.Root {...popperScope}>{children}</PopperPrimitive.Root>
     </HoverCardProvider>
   )

@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { useControllableState } from '../hooks/use-controllable-state'
+import type { Direction } from '../hooks/use-direction'
+import { useDirection } from '../hooks/use-direction'
 import { useId } from '../hooks/use-id'
 import type { Scope } from '../libs/create-context'
 import { createContext, createContextScope } from '../libs/create-context'
@@ -21,6 +23,7 @@ export type DialogContextValue = {
   onOpenChange(open: boolean): void
   onOpenToggle(): void
   modal: boolean
+  dir: Direction
 }
 
 export const [DialogProvider, useDialogContext] = createDialogContext<DialogContextValue>(DIALOG_NAME)
@@ -31,13 +34,15 @@ export interface DialogProps {
   defaultOpen?: boolean
   onOpenChange?(open: boolean): void
   modal?: boolean
+  dir?: Direction
 }
 
 /** Manages open/closed state and provides context to all child components. */
 const Dialog: React.FC<DialogProps> = (props: ScopedProps<DialogProps>) => {
-  const { __scopeDialog, children, open: openProp, defaultOpen, onOpenChange, modal = true } = props
+  const { __scopeDialog, children, open: openProp, defaultOpen, onOpenChange, dir, modal = true } = props
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const contentRef = React.useRef<DialogContentElement>(null)
+  const direction = useDirection(dir)
   const [open, setOpen] = useControllableState({
     prop: openProp,
     defaultProp: defaultOpen ?? false,
@@ -56,7 +61,8 @@ const Dialog: React.FC<DialogProps> = (props: ScopedProps<DialogProps>) => {
       open={open}
       onOpenChange={setOpen}
       onOpenToggle={React.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen])}
-      modal={modal}>
+      modal={modal}
+      dir={direction}>
       {children}
     </DialogProvider>
   )

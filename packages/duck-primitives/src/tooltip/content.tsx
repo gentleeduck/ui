@@ -217,6 +217,7 @@ const TooltipContentImpl = React.forwardRef<TooltipContentImplElement, TooltipCo
         onDismiss={onClose}>
         <PopperPrimitive.PopperContent
           data-state={context.stateAttribute}
+          dir={context.dir}
           {...popperScope}
           {...contentProps}
           ref={forwardedRef}
