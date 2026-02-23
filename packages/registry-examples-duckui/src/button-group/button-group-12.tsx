@@ -45,7 +45,7 @@ export default function ButtonGroupRtlDemo() {
         </ButtonGroup>
         <ButtonGroup>
           <Button variant="outline">تأجيل</Button>
-          <DropdownMenu>
+          <DropdownMenu dir="rtl">
             <DropdownMenuTrigger asChild>
               <Button aria-label="خيارات إضافية" size="icon" variant="outline">
                 <MoreHorizontalIcon />
