@@ -139,6 +139,7 @@ const HoverCardContentImpl = React.forwardRef<HoverCardContentImplElement, Hover
         <PopperPrimitive.Content
           {...popperScope}
           {...contentProps}
+          dir={context.dir}
           onPointerDown={composeEventHandlers(contentProps.onPointerDown, (event) => {
             // Contain selection to current layer
             if (event.currentTarget.contains(event.target as HTMLElement)) {

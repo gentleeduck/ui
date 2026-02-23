@@ -1,5 +1,7 @@
 import * as React from 'react'
 import { useControllableState } from '../hooks/use-controllable-state'
+import type { Direction } from '../hooks/use-direction'
+import { useDirection } from '../hooks/use-direction'
 import { useId } from '../hooks/use-id'
 import { createContextScope, type Scope } from '../libs/create-context'
 import * as PopperPrimitive from '../popper'
@@ -111,6 +113,7 @@ type TooltipContextValue = {
   onOpen(): void
   onClose(): void
   disableHoverableContent: boolean
+  dir: Direction
 }
 
 export const [TooltipContextProvider, useTooltipContext] = createTooltipContext<TooltipContextValue>(TOOLTIP_NAME)
@@ -131,6 +134,7 @@ export interface TooltipProps {
    * @defaultValue false
    */
   disableHoverableContent?: boolean
+  dir?: Direction
 }
 
 export const Tooltip: React.FC<TooltipProps> = (props: ScopedProps<TooltipProps>) => {
@@ -142,9 +146,11 @@ export const Tooltip: React.FC<TooltipProps> = (props: ScopedProps<TooltipProps>
     onOpenChange,
     disableHoverableContent: disableHoverableContentProp,
     delayDuration: delayDurationProp,
+    dir,
   } = props
   const providerContext = useTooltipProviderContext(TOOLTIP_NAME, props.__scopeTooltip)
   const popperScope = usePopperScope(__scopeTooltip)
+  const direction = useDirection(dir)
   const [trigger, setTrigger] = React.useState<HTMLButtonElement | null>(null)
   const contentId = useId()
   const openTimerRef = React.useRef(0)
@@ -227,7 +233,8 @@ export const Tooltip: React.FC<TooltipProps> = (props: ScopedProps<TooltipProps>
         }, [handleClose, disableHoverableContent])}
         onOpen={handleOpen}
         onClose={handleClose}
-        disableHoverableContent={disableHoverableContent}>
+        disableHoverableContent={disableHoverableContent}
+        dir={direction}>
         {children}
       </TooltipContextProvider>
     </PopperPrimitive.Popper>
