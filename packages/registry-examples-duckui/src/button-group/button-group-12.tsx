@@ -36,7 +36,7 @@ export default function ButtonGroupRtlDemo() {
       <ButtonGroup>
         <ButtonGroup className="hidden sm:flex">
           <Button aria-label="رجوع" size="icon" variant="outline">
-            <ArrowLeftIcon />
+            <ArrowLeftIcon className="rtl:rotate-180" />
           </Button>
         </ButtonGroup>
         <ButtonGroup>
