@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './drawer-1'\n\nexport default function DrawerRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "drawer/drawer-7.tsx",
+      "target": "components/drawer-7.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "drawer-7",
+  "registryDependencies": [
+    "drawer"
+  ],
+  "root_folder": "drawer",
+  "source": "/registry-examples-duckui/src/drawer",
+  "type": "registry:example"
+}

@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './label-1'\n\nexport default function LabelRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "label/label-3.tsx",
+      "target": "components/label-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "label-3",
+  "registryDependencies": [
+    "label"
+  ],
+  "root_folder": "label",
+  "source": "/registry-examples-duckui/src/label",
+  "type": "registry:example"
+}

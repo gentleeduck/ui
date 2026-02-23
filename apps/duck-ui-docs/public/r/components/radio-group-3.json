@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './radio-group-1'\n\nexport default function RadioGroupRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "radio-group/radio-group-3.tsx",
+      "target": "components/radio-group-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "radio-group-3",
+  "registryDependencies": [
+    "radio-group"
+  ],
+  "root_folder": "radio-group",
+  "source": "/registry-examples-duckui/src/radio-group",
+  "type": "registry:example"
+}

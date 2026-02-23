@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './calendar-1'\n\nexport default function CalendarRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "calendar/calendar-9.tsx",
+      "target": "components/calendar-9.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "calendar-9",
+  "registryDependencies": [
+    "calendar"
+  ],
+  "root_folder": "calendar",
+  "source": "/registry-examples-duckui/src/calendar",
+  "type": "registry:example"
+}

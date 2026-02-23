@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './separator-1'\n\nexport default function SeparatorRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "separator/separator-2.tsx",
+      "target": "components/separator-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "separator-2",
+  "registryDependencies": [
+    "separator"
+  ],
+  "root_folder": "separator",
+  "source": "/registry-examples-duckui/src/separator",
+  "type": "registry:example"
+}

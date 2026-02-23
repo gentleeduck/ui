@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './card-1'\n\nexport default function CardRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "card/card-3.tsx",
+      "target": "components/card-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "card-3",
+  "registryDependencies": [
+    "card"
+  ],
+  "root_folder": "card",
+  "source": "/registry-examples-duckui/src/card",
+  "type": "registry:example"
+}

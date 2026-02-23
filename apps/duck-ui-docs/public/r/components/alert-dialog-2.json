@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport BaseDemo from './alert-dialog-1'\n\nexport default function AlertDialogRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "path": "alert-dialog/alert-dialog-2.tsx",
+      "target": "components/alert-dialog-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "alert-dialog-2",
+  "registryDependencies": [
+    "alert-dialog"
+  ],
+  "root_folder": "alert-dialog",
+  "source": "/registry-examples-duckui/src/alert-dialog",
+  "type": "registry:example"
+}
