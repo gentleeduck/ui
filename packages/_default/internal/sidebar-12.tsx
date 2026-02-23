@@ -136,7 +136,7 @@ function Calendars({
                 className="group/label w-full text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                 <CollapsibleTrigger>
                   {calendar.name}{' '}
-                  <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                  <ChevronRight className="ml-auto transition-transform group-data-[open=true]/collapsible:rotate-90" />
                 </CollapsibleTrigger>
               </SidebarGroupLabel>
               <CollapsibleContent>
@@ -208,7 +208,7 @@ function NavUser({
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="start"
-            className="w-[--gentleduck-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+            className="w-(--gentleduck-dropdown-menu-trigger-width) min-w-56 rounded-lg"
             side={isMobile ? 'bottom' : 'right'}
             sideOffset={4}>
             <DropdownMenuLabel className="p-0 font-normal">
