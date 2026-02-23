@@ -10,7 +10,7 @@
       "type": "registry:ui"
     },
     {
-      "content": "import { cn } from '@gentleduck/libs/cn'\nimport * as React from 'react'\n\ninterface ScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {\n  viewportClassName?: string\n}\n\nconst ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(\n  ({ children, className, viewportClassName, style, ...props }, ref) => {\n    return (\n      <div className={cn('relative overflow-hidden', className)} style={style} ref={ref} {...props} data-slot=\"scroll-area\">\n        <div className={cn('scrollbar-none h-full w-full overflow-auto', viewportClassName)}>{children}</div>\n      </div>\n    )\n  },\n)\nScrollArea.displayName = 'ScrollArea'\n\nexport { ScrollArea }\n",
+      "content": "import { cn } from '@gentleduck/libs/cn'\nimport * as React from 'react'\n\ninterface ScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {\n  viewportClassName?: string\n}\n\nconst ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(\n  ({ children, className, viewportClassName, style, ...props }, ref) => {\n    return (\n      <div\n        className={cn('relative overflow-hidden', className)}\n        style={style}\n        ref={ref}\n        {...props}\n        data-slot=\"scroll-area\">\n        <div className={cn('scrollbar-none h-full w-full overflow-auto', viewportClassName)}>{children}</div>\n      </div>\n    )\n  },\n)\nScrollArea.displayName = 'ScrollArea'\n\nexport { ScrollArea }\n",
       "path": "scroll-area/scroll-area.tsx",
       "target": "components/ui/scroll-area.tsx",
       "type": "registry:ui"

@@ -1,7 +1,6 @@
 {
   "dependencies": [
     "@gentleduck/libs",
-    
     "@gentleduck/primitives"
   ],
   "files": [

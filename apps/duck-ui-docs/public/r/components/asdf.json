@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "",
+      "path": "duck-table/asdf.tsx",
+      "target": "components/asdf.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "asdf",
+  "registryDependencies": [
+    "duck-table"
+  ],
+  "root_folder": "duck-table",
+  "source": "/registry-examples-duckui/src/duck-table",
+  "type": "registry:example"
+}
