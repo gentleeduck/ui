@@ -27,20 +27,18 @@ type AvatarElement = React.ComponentRef<typeof Primitive.span>
 type PrimitiveSpanProps = React.ComponentPropsWithoutRef<typeof Primitive.span>
 interface AvatarProps extends PrimitiveSpanProps {}
 
-const Avatar = React.forwardRef<AvatarElement, AvatarProps>(
-  (props: ScopedProps<AvatarProps>, forwardedRef) => {
-    const { __scopeAvatar, ...avatarProps } = props
-    const [imageLoadingStatus, setImageLoadingStatus] = React.useState<ImageLoadingStatus>('idle')
-    return (
-      <AvatarProvider
-        scope={__scopeAvatar}
-        imageLoadingStatus={imageLoadingStatus}
-        onImageLoadingStatusChange={setImageLoadingStatus}>
-        <Primitive.span {...avatarProps} ref={forwardedRef} />
-      </AvatarProvider>
-    )
-  },
-)
+const Avatar = React.forwardRef<AvatarElement, AvatarProps>((props: ScopedProps<AvatarProps>, forwardedRef) => {
+  const { __scopeAvatar, ...avatarProps } = props
+  const [imageLoadingStatus, setImageLoadingStatus] = React.useState<ImageLoadingStatus>('idle')
+  return (
+    <AvatarProvider
+      scope={__scopeAvatar}
+      imageLoadingStatus={imageLoadingStatus}
+      onImageLoadingStatusChange={setImageLoadingStatus}>
+      <Primitive.span {...avatarProps} ref={forwardedRef} />
+    </AvatarProvider>
+  )
+})
 
 Avatar.displayName = AVATAR_NAME
 
@@ -53,6 +51,7 @@ const IMAGE_NAME = 'AvatarImage'
 type AvatarImageElement = React.ComponentRef<typeof Primitive.img>
 type PrimitiveImageProps = React.ComponentPropsWithoutRef<typeof Primitive.img>
 interface AvatarImageProps extends PrimitiveImageProps {
+  src?: string
   onLoadingStatusChange?: (status: ImageLoadingStatus) => void
 }
 
@@ -72,9 +71,7 @@ const AvatarImage = React.forwardRef<AvatarImageElement, AvatarImageProps>(
       }
     }, [imageLoadingStatus, handleLoadingStatusChange])
 
-    return imageLoadingStatus === 'loaded' ? (
-      <Primitive.img {...imageProps} ref={forwardedRef} src={src} />
-    ) : null
+    return imageLoadingStatus === 'loaded' ? <Primitive.img {...imageProps} ref={forwardedRef} src={src} /> : null
   },
 )
 
@@ -127,10 +124,7 @@ function resolveLoadingStatus(image: HTMLImageElement | null, src?: string): Ima
   return image.complete && image.naturalWidth > 0 ? 'loaded' : 'loading'
 }
 
-function useImageLoadingStatus(
-  src: string | undefined,
-  { referrerPolicy, crossOrigin }: AvatarImageProps,
-) {
+function useImageLoadingStatus(src: string | undefined, { referrerPolicy, crossOrigin }: AvatarImageProps) {
   const isHydrated = useIsHydrated()
   const imageRef = React.useRef<HTMLImageElement | null>(null)
   const image = (() => {
@@ -141,9 +135,7 @@ function useImageLoadingStatus(
     return imageRef.current
   })()
 
-  const [loadingStatus, setLoadingStatus] = React.useState<ImageLoadingStatus>(() =>
-    resolveLoadingStatus(image, src),
-  )
+  const [loadingStatus, setLoadingStatus] = React.useState<ImageLoadingStatus>(() => resolveLoadingStatus(image, src))
 
   useLayoutEffect(() => {
     setLoadingStatus(resolveLoadingStatus(image, src))
