@@ -1,11 +1,11 @@
-'use client'
-
-import BaseDemo from './badge-1'
+import { Badge } from '@gentleduck/registry-ui-duckui/badge'
 
 export default function BadgeRtlDemo() {
   return (
     <div dir="rtl">
-      <BaseDemo />
+      <Badge arial-label="Badge" size={'default'} variant={'default'}>
+        شارة
+      </Badge>
     </div>
   )
 }
