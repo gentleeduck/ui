@@ -50,7 +50,7 @@ export function TeamSwitcher({
           </DropdownMenuTrigger>
           <DropdownMenuContent
             align="start"
-            className="w-[--gentleduck-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+            className="w-(--gentleduck-dropdown-menu-trigger-width) min-w-56 rounded-lg"
             side={isMobile ? 'bottom' : 'right'}
             sideOffset={4}>
             <DropdownMenuLabel className="text-xs text-muted-foreground">Teams</DropdownMenuLabel>
