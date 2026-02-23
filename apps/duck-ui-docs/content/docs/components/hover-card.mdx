@@ -101,6 +101,7 @@ Root wrapper that provides hover-card state and context. Wraps `HoverCardPrimiti
 | `delayDuration` | `number` | -- | Alias for `openDelay`. If both are provided, `openDelay` takes precedence |
 | `skipDelayDuration` | `number` | -- | Reserved for future use (currently ignored) |
 | `placement` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` | Default side for `HoverCardContent` positioning |
+| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction for RTL support |
 | `children` | `React.ReactNode` | `--` | HoverCard sub-components |
 | `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Root>` | -- | Additional props inherited from `HoverCard.Root`. |
 
@@ -131,6 +132,17 @@ The content displayed when the hover card is open. Wraps `HoverCardPrimitive.Con
 | `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content> & React.HTMLProps<HTMLDivElement>` | -- | Additional props inherited from `HoverCard.Content` and standard content div props. |
 
 ## RTL Support
+
+The `HoverCard` component accepts a `dir` prop on the root element to control the reading direction. Set `dir="rtl"` to mirror the hover card positioning and content layout for right-to-left languages.
+
+```tsx
+<HoverCard dir="rtl">
+  <HoverCardTrigger>مرر الماوس</HoverCardTrigger>
+  <HoverCardContent>
+    محتوى البطاقة هنا.
+  </HoverCardContent>
+</HoverCard>
+```
 
 <ComponentPreview
   name="hover-card-2"

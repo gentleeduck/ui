@@ -159,6 +159,7 @@ To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, y
 | `open` | `boolean` | -- | Controlled open state |
 | `onOpenChange` | `(open: boolean) => void` | -- | Callback when open state changes |
 | `modal` | `boolean` | `false` | Enables modal focus/interaction behavior |
+| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction for RTL support |
 | `children` | `React.ReactNode` | -- | Dialog sub-components (`DialogTrigger`, `DialogContent`, etc.) |
 | `...props` | `React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>` | -- | Additional props inherited from `DialogPrimitive.Root` |
 
@@ -251,6 +252,20 @@ The following responsive components automatically render a `Dialog` on desktop (
 | `DialogCloseResponsive` | `DialogClose` | `DrawerClose` |
 
 ## RTL Support
+
+The `Dialog` component accepts a `dir` prop on the root element to control the reading direction. Set `dir="rtl"` to render the dialog content in right-to-left mode. This affects the layout direction of the dialog header, footer, and close button positioning.
+
+```tsx
+<Dialog dir="rtl">
+  <DialogTrigger>Open</DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>عنوان الحوار</DialogTitle>
+      <DialogDescription>وصف الحوار هنا.</DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+```
 
 <ComponentPreview
   name="dialog-3"
