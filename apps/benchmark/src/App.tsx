@@ -191,7 +191,7 @@ export function AppSidebar() {
             <SidebarGroupLabel asChild>
               <CollapsibleTrigger className="w-full">
                 Help
-                <ChevronDown className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-180" />
+                <ChevronDown className="ml-auto transition-transform group-data-[open=true]/collapsible:rotate-180" />
               </CollapsibleTrigger>
             </SidebarGroupLabel>
             <CollapsibleContent>
