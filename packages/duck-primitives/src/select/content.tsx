@@ -11,6 +11,7 @@ import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { clamp } from '../libs/clamp'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
+import { focusFirst, getNavigationCandidates, NAVIGATION_KEYS } from '../libs/list-navigation'
 import * as PopperPrimitive from '../popper'
 import { Presence } from '../presence/presence'
 import { Primitive } from '../primitive-elements'
@@ -133,29 +134,29 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, SelectConte
     // the last element in the DOM (because of the `Portal`)
     useFocusGuards()
 
-    const focusFirst = React.useCallback(
+    const focusFirstItem = React.useCallback(
       (candidates: Array<HTMLElement | null>) => {
         const [firstItem, ...restItems] = getItems().map((item) => item.ref.current)
         const [lastItem] = restItems.slice(-1)
 
-        const PREVIOUSLY_FOCUSED_ELEMENT = document.activeElement
+        // Wrap shared focusFirst with viewport-specific scroll logic:
+        // viewport might have padding so scroll to its edges when focusing first/last items.
+        const previouslyFocused = document.activeElement
         for (const candidate of candidates) {
-          // if focus is already where we want to go, we don't want to keep going through the candidates
-          if (candidate === PREVIOUSLY_FOCUSED_ELEMENT) return
+          if (candidate === previouslyFocused) return
           candidate?.scrollIntoView({ block: 'nearest' })
-          // viewport might have padding so scroll to its edges when focusing first/last items.
           if (candidate === firstItem && viewport) viewport.scrollTop = 0
           if (candidate === lastItem && viewport) viewport.scrollTop = viewport.scrollHeight
           candidate?.focus()
-          if (document.activeElement !== PREVIOUSLY_FOCUSED_ELEMENT) return
+          if (document.activeElement !== previouslyFocused) return
         }
       },
       [getItems, viewport],
     )
 
     const focusSelectedItem = React.useCallback(
-      () => focusFirst([selectedItem, content]),
-      [focusFirst, selectedItem, content],
+      () => focusFirstItem([selectedItem, content]),
+      [focusFirstItem, selectedItem, content],
     )
 
     // Since this is not dependent on layout, we want to ensure this runs at the same time as
@@ -306,6 +307,7 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, SelectConte
               onFocusOutside={(event) => event.preventDefault()}
               onDismiss={() => context.onOpenChange(false)}>
               <SelectPosition
+                data-slot="select-content"
                 role="listbox"
                 id={context.contentId}
                 data-state={context.open ? 'open' : 'closed'}
@@ -331,20 +333,12 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, SelectConte
 
                   if (!isModifierKey && event.key.length === 1) handleTypeaheadSearch(event.key)
 
-                  if (['ArrowUp', 'ArrowDown', 'Home', 'End'].includes(event.key)) {
+                  if ((NAVIGATION_KEYS as readonly string[]).includes(event.key)) {
                     const items = getItems().filter((item) => !item.disabled)
-                    let candidateNodes = items.map((item) => item.ref.current!)
+                    const nodes = items.map((item) => item.ref.current!)
+                    const candidateNodes = getNavigationCandidates(nodes, event.key, event.target as HTMLElement)
 
-                    if (['ArrowUp', 'End'].includes(event.key)) {
-                      candidateNodes = candidateNodes.slice().reverse()
-                    }
-                    if (['ArrowUp', 'ArrowDown'].includes(event.key)) {
-                      const currentElement = event.target as HTMLDivElement
-                      const currentIndex = candidateNodes.indexOf(currentElement)
-                      candidateNodes = candidateNodes.slice(currentIndex + 1)
-                    }
-
-                    setTimeout(() => focusFirst(candidateNodes))
+                    setTimeout(() => focusFirstItem(candidateNodes))
                     event.preventDefault()
                   }
                 })}
