@@ -207,7 +207,7 @@ export default function Component() {
                     <ChevronsUpDown className="ml-auto" />
                   </SidebarMenuButton>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-[--gentleduck-dropdown-menu-trigger-width]">
+                <DropdownMenuContent align="start" className="w-(--gentleduck-dropdown-menu-trigger-width)">
                   {data.versions.map((version) => (
                     <DropdownMenuItem key={version} onSelect={() => setSelectedVersion(version)}>
                       v{version} {version === selectedVersion && <Check className="ml-auto" />}
@@ -239,7 +239,7 @@ export default function Component() {
                   className="group/label text-sm text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                   <CollapsibleTrigger>
                     {item.title}{' '}
-                    <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
+                    <ChevronRight className="ml-auto transition-transform group-data-[open=true]/collapsible:rotate-90" />
                   </CollapsibleTrigger>
                 </SidebarGroupLabel>
                 <CollapsibleContent>
