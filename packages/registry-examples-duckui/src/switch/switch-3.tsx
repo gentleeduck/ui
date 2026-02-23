@@ -1,11 +1,11 @@
 'use client'
 
-import BaseDemo from './switch-1'
+import { Switch } from '@gentleduck/registry-ui-duckui/switch'
 
 export default function SwitchRtlDemo() {
   return (
     <div dir="rtl">
-      <BaseDemo />
+      <Switch />
     </div>
   )
 }

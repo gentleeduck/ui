@@ -1,11 +1,9 @@
-'use client'
-
-import BaseDemo from './input-1'
+import { Input } from '@gentleduck/registry-ui-duckui/input'
 
 export default function InputRtlDemo() {
   return (
     <div dir="rtl">
-      <BaseDemo />
+      <Input placeholder="البريد الالكتروني" type="email" />
     </div>
   )
 }

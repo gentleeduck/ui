@@ -1,11 +1,21 @@
-'use client'
-
-import BaseDemo from './input-otp-1'
+import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@gentleduck/registry-ui-duckui/input-otp'
 
 export default function InputOtpRtlDemo() {
   return (
     <div dir="rtl">
-      <BaseDemo />
+      <InputOTP maxLength={6}>
+        <InputOTPGroup>
+          <InputOTPSlot />
+          <InputOTPSlot />
+          <InputOTPSlot />
+        </InputOTPGroup>
+        <InputOTPSeparator />
+        <InputOTPGroup>
+          <InputOTPSlot />
+          <InputOTPSlot />
+          <InputOTPSlot />
+        </InputOTPGroup>
+      </InputOTP>
     </div>
   )
 }

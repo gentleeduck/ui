@@ -1,11 +1,15 @@
-'use client'
-
-import BaseDemo from './skeleton-1'
+import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'
 
 export default function SkeletonRtlDemo() {
   return (
     <div dir="rtl">
-      <BaseDemo />
+      <div className="flex items-center space-x-4">
+        <Skeleton className="h-12 w-12 rounded-full" />
+        <div className="space-y-2">
+          <Skeleton className="h-4 w-[250px]" />
+          <Skeleton className="h-4 w-[200px]" />
+        </div>
+      </div>
     </div>
   )
 }
