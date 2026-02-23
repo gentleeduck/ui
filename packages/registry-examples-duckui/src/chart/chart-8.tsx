@@ -107,14 +107,14 @@ const chartData = [
 const chartConfig = {
   desktop: {
     color: 'var(--chart-1)',
-    label: '\u0633\u0637\u062D \u0627\u0644\u0645\u0643\u062A\u0628',
+    label: 'سطح المكتب',
   },
   mobile: {
     color: 'var(--chart-2)',
-    label: '\u0627\u0644\u0647\u0627\u062A\u0641',
+    label: 'الهاتف',
   },
   views: {
-    label: '\u0645\u0634\u0627\u0647\u062F\u0627\u062A \u0627\u0644\u0635\u0641\u062D\u0629',
+    label: 'مشاهدات الصفحة',
   },
 } satisfies ChartConfig
 
@@ -134,21 +134,15 @@ export default function ChartRtlDemo() {
       <Card>
         <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
           <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-            <CardTitle>
-              {'\u0645\u062E\u0637\u0637 \u0634\u0631\u064A\u0637\u064A - \u062A\u0641\u0627\u0639\u0644\u064A'}
-            </CardTitle>
-            <CardDescription>
-              {
-                '\u0639\u0631\u0636 \u0625\u062C\u0645\u0627\u0644\u064A \u0627\u0644\u0632\u0648\u0627\u0631 \u0644\u0622\u062E\u0631 3 \u0623\u0634\u0647\u0631'
-              }
-            </CardDescription>
+            <CardTitle>مخطط شريطي - تفاعلي</CardTitle>
+            <CardDescription>عرض إجمالي الزوار لآخر 3 أشهر</CardDescription>
           </div>
           <div className="flex">
             {['desktop', 'mobile'].map((key) => {
               const chart = key as keyof typeof chartConfig
               return (
                 <button
-                  className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-right even:border-r data-[active=true]:bg-muted/50 sm:border-t-0 sm:border-r sm:px-8 sm:py-6"
+                  className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-start even:border-s data-[active=true]:bg-muted/50 sm:border-t-0 sm:border-s sm:px-8 sm:py-6"
                   data-active={activeChart === chart}
                   key={chart}
                   onClick={() => setActiveChart(chart)}
