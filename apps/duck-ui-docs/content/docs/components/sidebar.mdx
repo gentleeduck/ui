@@ -1,5 +1,5 @@
 ---
-title: sidebar
+title: Sidebar
 description: A composable, themeable and customizable sidebar component.
 component: true
 ---
@@ -16,33 +16,7 @@ to any application and often contain a lot of moving parts.
 We now have a solid foundation to build on top of. Composable. Themeable.
 Customizable.
 
-## Philosophy
-
-The sidebar is a layout primitive built from small, composable pieces. Rather than a monolithic component with dozens of props, it exposes a hierarchy of sub-components (Provider, Header, Content, Footer, Group, Menu, MenuItem) that you assemble to match your application structure. Desktop and mobile behaviors are handled automatically -- desktop uses expand/collapse with a keyboard shortcut, mobile delegates to a Sheet overlay.
-
-## How It's Built
-
-<MermaidDiagram chart={`graph TD
-  Sidebar[Sidebar]
-  Sidebar --> hooks["@gentleduck/hooks"]:::internal
-  Sidebar --> libs["@gentleduck/libs"]:::internal
-  Sidebar --> primitives["@gentleduck/primitives\n/slot"]:::internal
-  Sidebar --> variants["@gentleduck/variants"]:::internal
-  Sidebar --> lucide["lucide-react"]:::external
-
-  Sidebar --> Button["Button"]:::component
-  Sidebar --> Input["Input"]:::component
-  Sidebar --> Separator["Separator"]:::component
-  Sidebar --> Sheet["Sheet"]:::component
-  Sidebar --> Skeleton["Skeleton"]:::component
-  Sidebar --> Tooltip["Tooltip"]:::component
-
-  hooks --> |"provides"| Mobile["useIsMobile\n(Responsive)"]
-
-  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
-  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
-  classDef component fill:#fb923c,stroke:#f97316,color:#fff
-`} />
+[Browse the Blocks Library](/blocks).
 
 ## Installation
 
@@ -62,30 +36,10 @@ npx @gentleduck/cli add sidebar
 
 <TabsContent value="manual">
 
-<Steps>
-
-<Step>Install the following dependencies:</Step>
-
-```bash
-npm install @gentleduck/hooks @gentleduck/libs @gentleduck/primitives @gentleduck/variants lucide-react
-```
-
-<Step>Make sure these components are installed:</Step>
-
-- [Button](/docs/components/button)
-- [Input](/docs/components/input)
-- [Separator](/docs/components/separator)
-- [Sheet](/docs/components/sheet)
-- [Skeleton](/docs/components/skeleton)
-- [Tooltip](/docs/components/tooltip)
-
-<Step>Copy the sidebar files into your project:</Step>
-
-<ComponentSource name="sidebar" title="components/ui/sidebar.tsx" />
-
-<Step>Update import paths to match your project structure.</Step>
-
-</Steps>
+<ComponentSource
+  name="sidebar"
+  title="components/ui/sidebar.tsx"
+/>
 
 </TabsContent>
 
@@ -101,30 +55,6 @@ A `Sidebar` component is composed of the following parts:
 - `SidebarContent` - Scrollable content.
 - `SidebarGroup` - Section within the `SidebarContent`.
 - `SidebarTrigger` - Trigger for the `Sidebar`.
-
-## Component Composition
-
-<MermaidDiagram chart={`graph TD
-  A[SidebarProvider] --> B[Sidebar]
-  A --> C[SidebarInset]
-  B --> D[SidebarHeader]
-  B --> E[SidebarContent]
-  B --> F[SidebarFooter]
-  B --> G[SidebarRail]
-  E --> H[SidebarGroup]
-  H --> I[SidebarGroupLabel]
-  H --> J[SidebarGroupAction]
-  H --> K[SidebarGroupContent]
-  K --> L[SidebarMenu]
-  L --> M[SidebarMenuItem]
-  M --> N[SidebarMenuButton]
-  M --> O[SidebarMenuAction]
-  M --> P[SidebarMenuBadge]
-  M --> Q[SidebarMenuSub]
-  Q --> R[SidebarMenuSubItem]
-  R --> S[SidebarMenuSubButton]
-  A --> T[SidebarTrigger]
-`} />
 
 ## Usage
 
@@ -168,54 +98,23 @@ export function AppSidebar() {
 }
 ```
 
-## Examples
-
-### Simple Sidebar
-
-A basic sidebar with grouped navigation items and a version switcher.
-
-<ComponentPreview name="sidebar-2" description="A simple sidebar with grouped navigation." />
-
-### Floating Variant
-
-Use the `floating` variant for a sidebar with rounded borders and a drop shadow.
-
-<ComponentPreview name="sidebar-3" description="A sidebar using the floating variant." />
-
-### Inset Variant
-
-Use the `inset` variant for a sidebar that sits inside the page layout.
-
-<Callout>
-  If you use the `inset` variant, remember to wrap your main content
-  in a `SidebarInset` component.
-</Callout>
-
-<ComponentPreview name="sidebar-4" description="A sidebar using the inset variant." />
-
-### Controlled Sidebar
-
-Use the `open` and `onOpenChange` props to control the sidebar state externally.
-
-<ComponentPreview name="sidebar-5" description="A controlled sidebar with external toggle." />
-
 ## SidebarProvider
 
 The `SidebarProvider` component is used to provide the sidebar context to the `Sidebar` component. You should always wrap your application in a `SidebarProvider` component.
 
 ### Props
 
-| Name | Type | Default | Description |
-| --- | --- | --- | --- |
-| `defaultOpen` | `boolean` | `true` | Default open state of the sidebar. |
-| `open` | `boolean` | -- | Open state of the sidebar (controlled). |
-| `onOpenChange` | `(open: boolean) => void` | -- | Sets open state of the sidebar (controlled). |
+| Name           | Type                      | Description                                  |
+| -------------- | ------------------------- | -------------------------------------------- |
+| `defaultOpen`  | `boolean`                 | Default open state of the sidebar.           |
+| `open`         | `boolean`                 | Open state of the sidebar (controlled).      |
+| `onOpenChange` | `(open: boolean) => void` | Sets open state of the sidebar (controlled). |
 
 ### Width
 
-If you have a single sidebar in your application, you can use the `SIDEBAR_WIDTH` and `SIDEBAR_WIDTH_MOBILE` variables in `sidebar.constants.ts` to set the width of the sidebar.
+If you have a single sidebar in your application, you can use the `SIDEBAR_WIDTH` and `SIDEBAR_WIDTH_MOBILE` variables in `sidebar.tsx` to set the width of the sidebar.
 
-```tsx showLineNumbers title="components/ui/sidebar.constants.ts"
+```tsx showLineNumbers title="components/ui/sidebar.tsx"
 const SIDEBAR_WIDTH = "16rem"
 const SIDEBAR_WIDTH_MOBILE = "18rem"
 ```
@@ -237,9 +136,9 @@ For multiple sidebars in your application, you can use the `--sidebar-width` and
 
 ### Keyboard Shortcut
 
-The sidebar can be toggled using `cmd+b` on Mac and `ctrl+b` on Windows.
+To trigger the sidebar, you use the `cmd+b` keyboard shortcut on Mac and `ctrl+b` on Windows.
 
-```tsx showLineNumbers title="components/ui/sidebar.constants.ts"
+```tsx showLineNumbers title="components/ui/sidebar.tsx"
 const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 ```
 
@@ -249,17 +148,33 @@ The main `Sidebar` component used to render a collapsible sidebar.
 
 ### Props
 
-| Property | Type | Default | Description |
-| --- | --- | --- | --- |
-| `side` | `'left'` or `'right'` | `'left'` | The side of the sidebar. |
-| `variant` | `'sidebar'`, `'floating'`, or `'inset'` | `'sidebar'` | The variant of the sidebar. |
-| `collapsible` | `'offcanvas'`, `'icon'`, or `'none'` | `'offcanvas'` | Collapsible state of the sidebar. |
+| Property      | Type                              | Description                       |
+| ------------- | --------------------------------- | --------------------------------- |
+| `side`        | `left` or `right`                 | The side of the sidebar.          |
+| `variant`     | `sidebar`, `floating`, or `inset` | The variant of the sidebar.       |
+| `collapsible` | `offcanvas`, `icon`, or `none`    | Collapsible state of the sidebar. |
 
-| Prop | Description |
-| --- | --- |
+| Prop        | Description                                                  |
+| ----------- | ------------------------------------------------------------ |
 | `offcanvas` | A collapsible sidebar that slides in from the left or right. |
-| `icon` | A sidebar that collapses to icons. |
-| `none` | A non-collapsible sidebar. |
+| `icon`      | A sidebar that collapses to icons.                           |
+| `none`      | A non-collapsible sidebar.                                   |
+
+### sidebar variant
+
+Use the default `sidebar` variant for a standard sidebar layout.
+
+<ComponentPreview name="sidebar-2" description="A sidebar with the default sidebar variant." />
+
+### floating variant
+
+Use the `floating` variant for a sidebar with rounded borders and a drop shadow.
+
+<ComponentPreview name="sidebar-3" description="A sidebar using the floating variant." />
+
+### inset variant
+
+Use the `inset` variant for a sidebar that sits inside the page layout.
 
 <Callout>
   If you use the `inset` variant, remember to wrap your main content
@@ -274,6 +189,8 @@ The main `Sidebar` component used to render a collapsible sidebar.
   </SidebarInset>
 </SidebarProvider>
 ```
+
+<ComponentPreview name="sidebar-4" description="A sidebar using the inset variant." />
 
 ## useSidebar
 
@@ -295,15 +212,15 @@ export function AppSidebar() {
 }
 ```
 
-| Property | Type | Description |
-| --- | --- | --- |
-| `state` | `'expanded'` or `'collapsed'` | The current state of the sidebar. |
-| `open` | `boolean` | Whether the sidebar is open. |
-| `setOpen` | `(open: boolean) => void` | Sets the open state of the sidebar. |
-| `openMobile` | `boolean` | Whether the sidebar is open on mobile. |
+| Property        | Type                      | Description                                   |
+| --------------- | ------------------------- | --------------------------------------------- |
+| `state`         | `expanded` or `collapsed` | The current state of the sidebar.             |
+| `open`          | `boolean`                 | Whether the sidebar is open.                  |
+| `setOpen`       | `(open: boolean) => void` | Sets the open state of the sidebar.           |
+| `openMobile`    | `boolean`                 | Whether the sidebar is open on mobile.        |
 | `setOpenMobile` | `(open: boolean) => void` | Sets the open state of the sidebar on mobile. |
-| `isMobile` | `boolean` | Whether the sidebar is on mobile. |
-| `toggleSidebar` | `() => void` | Toggles the sidebar. Desktop and mobile. |
+| `isMobile`      | `boolean`                 | Whether the sidebar is on mobile.             |
+| `toggleSidebar` | `() => void`              | Toggles the sidebar. Desktop and mobile.      |
 
 ## SidebarHeader
 
@@ -493,8 +410,6 @@ The `SidebarMenuSkeleton` component is used to render a skeleton for a `SidebarM
 
 Use the `SidebarTrigger` component to render a button that toggles the sidebar.
 
-The built-in component renders a `Button` with a `PanelLeftIcon`. You can also build a custom trigger:
-
 ```tsx showLineNumbers
 import { useSidebar } from "@/components/ui/sidebar"
 
@@ -523,6 +438,8 @@ The `SidebarRail` component is used to render a rail within a `Sidebar`. This ra
 ## Controlled Sidebar
 
 Use the `open` and `onOpenChange` props to control the sidebar.
+
+<ComponentPreview name="sidebar-5" description="A controlled sidebar with external toggle." />
 
 ```tsx showLineNumbers
 export function AppSidebar() {
@@ -570,8 +487,6 @@ We use the following CSS variables to theme the sidebar.
 
 Here are some tips for styling the sidebar based on different states.
 
-Hide a `SidebarGroup` when the sidebar collapses to icons:
-
 ```tsx
 <Sidebar collapsible="icon">
   <SidebarContent>
@@ -580,8 +495,6 @@ Hide a `SidebarGroup` when the sidebar collapses to icons:
 </Sidebar>
 ```
 
-Show a `SidebarMenuAction` only when the parent button is active:
-
 ```tsx
 <SidebarMenuItem>
   <SidebarMenuButton />
@@ -589,67 +502,11 @@ Show a `SidebarMenuAction` only when the parent button is active:
 </SidebarMenuItem>
 ```
 
-## API Reference
-
-### SidebarProvider
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `defaultOpen` | `boolean` | `true` | Initial open state for uncontrolled usage |
-| `open` | `boolean` | -- | Controlled open state |
-| `onOpenChange` | `(open: boolean) => void` | -- | Callback when open state changes |
-| `children` | `React.ReactNode` | -- | Provider children |
-
-### Sidebar
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `side` | `'left'` or `'right'` | `'left'` | The side of the sidebar |
-| `variant` | `'sidebar'`, `'floating'`, or `'inset'` | `'sidebar'` | The variant of the sidebar |
-| `collapsible` | `'offcanvas'`, `'icon'`, or `'none'` | `'offcanvas'` | Collapsible behavior |
-| `className` | `string` | -- | Additional CSS classes |
-
-### SidebarMenuButton
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `asChild` | `boolean` | `false` | Renders child as the button element |
-| `isActive` | `boolean` | `false` | Marks the button as active |
-| `tooltip` | `string` or `React.ComponentProps<typeof TooltipContent>` | -- | Tooltip shown on hover (visible when collapsed to icons) |
-| `size` | `'sm'`, `'default'`, or `'lg'` | `'default'` | Button size variant |
-| `variant` | `'default'` or `'outline'` | `'default'` | Button style variant |
-
-### SidebarMenuAction
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `asChild` | `boolean` | `false` | Renders child as the action element |
-| `showOnHover` | `boolean` | `false` | Only shows the action on hover |
-| `className` | `string` | -- | Additional CSS classes |
-
-### Main Exports
-
-- Layout: `Sidebar`, `SidebarInset`, `SidebarHeader`, `SidebarContent`, `SidebarFooter`, `SidebarSeparator`
-- Grouping: `SidebarGroup`, `SidebarGroupLabel`, `SidebarGroupContent`, `SidebarGroupAction`
-- Menu: `SidebarMenu`, `SidebarMenuItem`, `SidebarMenuButton`, `SidebarMenuAction`, `SidebarMenuBadge`
-- Sub-menu: `SidebarMenuSub`, `SidebarMenuSubItem`, `SidebarMenuSubButton`
-- Helpers: `SidebarProvider`, `SidebarTrigger`, `SidebarRail`, `SidebarInput`, `SidebarMenuSkeleton`, `useSidebar`
-
-### Constants
-
-- `SIDEBAR_COOKIE_NAME`
-- `SIDEBAR_COOKIE_MAX_AGE`
-- `SIDEBAR_WIDTH`
-- `SIDEBAR_WIDTH_MOBILE`
-- `SIDEBAR_WIDTH_ICON`
-- `SIDEBAR_KEYBOARD_SHORTCUT`
-- `sidebarMenuButtonVariants`
-
 ## Changelog
 
 ### RTL Support
 
-To add RTL support to the `Sidebar` component, apply the following updates:
+If you are upgrading from a previous version of the `Sidebar` component, you will need to apply the following updates to add RTL support:
 
 <Steps>
 
@@ -741,10 +598,3 @@ After applying these changes, you can use the `dir` prop to set the direction:
 ```
 
 The sidebar will correctly position itself and handle interactions in both LTR and RTL layouts.
-
-## See Also
-
-- [Sheet](/docs/components/sheet) -- Side panel overlay, used for mobile sidebar
-- [Navigation Menu](/docs/components/navigation-menu) -- Top-level navigation
-- [Collapsible](/docs/components/collapsible) -- Used for collapsible sidebar groups
-- [Item](/docs/components/item) -- Generic list item primitive
