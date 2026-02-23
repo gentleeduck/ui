@@ -7,7 +7,7 @@ component: true
 <ComponentPreview
   name="sidebar-1"
   description="A sidebar that collapses to icons."
-  className="relative"
+  className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch"
 />
 
 Sidebars are one of the most complex components to build. They are central
@@ -165,13 +165,13 @@ The main `Sidebar` component used to render a collapsible sidebar.
 
 Use the default `sidebar` variant for a standard sidebar layout.
 
-<ComponentPreview name="sidebar-2" description="A sidebar with the default sidebar variant." />
+<ComponentPreview name="sidebar-2" description="A sidebar with the default sidebar variant." className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch" />
 
 ### floating variant
 
 Use the `floating` variant for a sidebar with rounded borders and a drop shadow.
 
-<ComponentPreview name="sidebar-3" description="A sidebar using the floating variant." />
+<ComponentPreview name="sidebar-3" description="A sidebar using the floating variant." className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch" />
 
 ### inset variant
 
@@ -191,7 +191,7 @@ Use the `inset` variant for a sidebar that sits inside the page layout.
 </SidebarProvider>
 ```
 
-<ComponentPreview name="sidebar-4" description="A sidebar using the inset variant." />
+<ComponentPreview name="sidebar-4" description="A sidebar using the inset variant." className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch" />
 
 ## useSidebar
 
@@ -524,7 +524,7 @@ The `SidebarRail` component is used to render a rail within a `Sidebar`. This ra
 
 Use the `open` and `onOpenChange` props to control the sidebar.
 
-<ComponentPreview name="sidebar-5" description="A controlled sidebar with external toggle." />
+<ComponentPreview name="sidebar-5" description="A controlled sidebar with external toggle." className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch" />
 
 ```tsx showLineNumbers
 export function AppSidebar() {
@@ -624,6 +624,12 @@ Show an action when the menu button is active:
 ## RTL Support
 
 The sidebar supports RTL layouts via the `dir` prop on the `Sidebar` component. The trigger icon and rail positioning adjust automatically.
+
+<ComponentPreview
+  name="sidebar-6"
+  description="A sidebar with RTL support."
+  className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch"
+/>
 
 ```tsx
 <Sidebar dir="rtl" side="right">
