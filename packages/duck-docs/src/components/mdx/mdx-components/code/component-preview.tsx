@@ -50,8 +50,8 @@ export function ComponentPreview({
       return (
         <div className="flex h-full w-full items-center justify-center text-muted-foreground text-sm">
           Component{' '}
-          <code className="relative mx-1 rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">{name}</code>{' '}
-          not found in registry.
+          <code className="relative mx-1 rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">{name}</code> not
+          found in registry.
         </div>
       )
     }

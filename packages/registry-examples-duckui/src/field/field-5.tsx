@@ -1,7 +1,7 @@
 'use client'
 
 import { Field, FieldDescription, FieldTitle } from '@gentleduck/registry-ui-duckui/field'
-import { SliderRange } from '@gentleduck/registry-ui-duckui/slider'
+import { Slider } from '@gentleduck/registry-ui-duckui/slider'
 import { useState } from 'react'
 
 export default function FieldSlider() {
@@ -15,7 +15,7 @@ export default function FieldSlider() {
           <span className="font-medium tabular-nums">{value[0]}</span> -{' '}
           <span className="font-medium tabular-nums">{value[1]}</span>).
         </FieldDescription>
-        <SliderRange
+        <Slider
           aria-label="Price Range"
           className="mt-2 w-full"
           max={1000}

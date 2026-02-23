@@ -70,7 +70,7 @@
     "build": "next build",
     "build:docs": "bunx velite",
     "build:reg": "./scripts/run-registry-build.sh && biome format --write ./__ui_registry__/index.tsx",
-    "dev": "next dev --webpack",
+    "dev": "next dev",
     "dev:docs": "bunx velite dev",
     "lint": "next lint",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
