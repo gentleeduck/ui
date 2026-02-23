@@ -4,26 +4,24 @@ import { CalendarIcon } from 'lucide-react'
 
 export default function HoverCardRtlDemo() {
   return (
-    <div dir="rtl">
-      <HoverCard>
-        <HoverCardTrigger variant={'link'}>@nextjs</HoverCardTrigger>
-        <HoverCardContent className="w-80">
-          <div className="flex justify-between space-x-4 space-x-reverse">
-            <Avatar>
-              <AvatarImage alt="VC" src="https://github.com/vercel.png" />
-              <AvatarFallback>VC</AvatarFallback>
-            </Avatar>
-            <div className="space-y-1">
-              <h4 className="font-semibold text-sm">@nextjs</h4>
-              <p className="text-sm">اطار React -- تم انشاؤه وصيانته بواسطة @vercel.</p>
-              <div className="flex items-center pt-2">
-                <CalendarIcon className="ml-2 h-4 w-4 opacity-70" />{' '}
-                <span className="text-muted-foreground text-xs">انضم في ديسمبر 2021</span>
-              </div>
+    <HoverCard dir="rtl">
+      <HoverCardTrigger variant={'link'}>@nextjs</HoverCardTrigger>
+      <HoverCardContent className="w-80">
+        <div className="flex justify-between space-x-4 space-x-reverse">
+          <Avatar>
+            <AvatarImage alt="VC" src="https://github.com/vercel.png" />
+            <AvatarFallback>VC</AvatarFallback>
+          </Avatar>
+          <div className="space-y-1">
+            <h4 className="font-semibold text-sm">@nextjs</h4>
+            <p className="text-sm">اطار React -- تم انشاؤه وصيانته بواسطة @vercel.</p>
+            <div className="flex items-center pt-2">
+              <CalendarIcon className="ml-2 h-4 w-4 opacity-70" />{' '}
+              <span className="text-muted-foreground text-xs">انضم في ديسمبر 2021</span>
             </div>
           </div>
-        </HoverCardContent>
-      </HoverCard>
-    </div>
+        </div>
+      </HoverCardContent>
+    </HoverCard>
   )
 }
