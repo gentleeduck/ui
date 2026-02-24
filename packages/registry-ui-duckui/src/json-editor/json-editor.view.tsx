@@ -5,6 +5,28 @@ import * as React from 'react'
 import { Textarea } from '../textarea'
 import type { JsonEditorViewProps } from './json-editor.types'
 
+const LOCALE_NUMBERING_SYSTEMS: Record<string, string> = {
+  ar: 'arab',
+  bn: 'beng',
+  fa: 'arabext',
+  gu: 'gujr',
+  hi: 'deva',
+  km: 'khmr',
+  kn: 'knda',
+  lo: 'laoo',
+  ml: 'mlym',
+  mr: 'deva',
+  my: 'mymr',
+  ne: 'deva',
+  or: 'orya',
+  pa: 'guru',
+  ps: 'arabext',
+  ta: 'tamldec',
+  te: 'telu',
+  th: 'thai',
+  ur: 'arabext',
+}
+
 export function JsonEditorView({
   value,
   onChange,
@@ -34,30 +56,10 @@ export function JsonEditorView({
     // environments defaulting to latn still produce locale-appropriate digits.
     let localeTag = lang
     if (!lang.includes('-u-') || !lang.includes('-nu-')) {
-      const base = lang.split('-')[0].toLowerCase()
-      const ns: Record<string, string> = {
-        ar: 'arab',
-        fa: 'arabext',
-        ur: 'arabext',
-        ps: 'arabext',
-        bn: 'beng',
-        hi: 'deva',
-        mr: 'deva',
-        ne: 'deva',
-        th: 'thai',
-        my: 'mymr',
-        km: 'khmr',
-        lo: 'laoo',
-        ta: 'tamldec',
-        te: 'telu',
-        kn: 'knda',
-        ml: 'mlym',
-        gu: 'gujr',
-        or: 'orya',
-        pa: 'guru',
-      }
-      if (ns[base]) {
-        localeTag = `${lang}-u-nu-${ns[base]}`
+      const [base = ''] = lang.toLowerCase().split('-')
+      const numberingSystem = LOCALE_NUMBERING_SYSTEMS[base]
+      if (numberingSystem) {
+        localeTag = `${lang}-u-nu-${numberingSystem}`
       }
     }
 

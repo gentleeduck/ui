@@ -29,25 +29,35 @@ const formSchema = z.object({
   }),
 })
 
+type FormValues = z.infer<typeof formSchema>
+
+function hasMessage(error: unknown): error is { message: unknown } {
+  return typeof error === 'object' && error !== null && 'message' in error
+}
+
+function isPlan(value: string): value is FormValues['plan'] {
+  return value === 'free' || value === 'pro' || value === 'enterprise'
+}
+
 function toFieldErrors(errors: unknown[]) {
   return errors
     .map((error) => {
       if (typeof error === 'string') {
         return { message: error }
       }
-      if (error && typeof error === 'object' && 'message' in error) {
-        const message = (error as { message?: unknown }).message
+      if (hasMessage(error)) {
+        const message = error.message
         return { message: typeof message === 'string' ? message : undefined }
       }
       return undefined
     })
-    .filter((error): error is { message?: string } => Boolean(error))
+    .filter((error): error is { message: string | undefined } => Boolean(error))
 }
 
 export default function FormTanStackRadioGroup() {
-  const form = useForm({
+  const form = useForm<FormValues>({
     defaultValues: {
-      plan: 'free' as const,
+      plan: 'free',
     },
     onSubmit: async ({ value }) => {
       toast.success('Plan updated', {
@@ -77,10 +87,17 @@ export default function FormTanStackRadioGroup() {
           children={(field) => {
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
             return (
-              <FieldSet>
-                <FieldLegend>Plan</FieldLegend>
-                <FieldDescription>You can upgrade or downgrade your plan at any time.</FieldDescription>
-                <RadioGroup name={field.name} value={field.state.value} onValueChange={field.handleChange}>
+                <FieldSet>
+                  <FieldLegend>Plan</FieldLegend>
+                  <FieldDescription>You can upgrade or downgrade your plan at any time.</FieldDescription>
+                <RadioGroup
+                  name={field.name}
+                  value={field.state.value}
+                  onValueChange={(nextValue) => {
+                    if (isPlan(nextValue)) {
+                      field.handleChange(nextValue)
+                    }
+                  }}>
                   {plans.map((plan) => (
                     <FieldLabel key={plan.id} htmlFor={`form-tanstack-radiogroup-${plan.id}`}>
                       <Field orientation="horizontal" data-invalid={isInvalid}>

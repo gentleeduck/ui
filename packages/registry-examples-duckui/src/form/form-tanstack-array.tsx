@@ -44,7 +44,7 @@ function toFieldErrors(errors: unknown[]) {
       }
       return undefined
     })
-    .filter((error): error is { message?: string } => Boolean(error))
+    .filter((error): error is { message: string | undefined } => Boolean(error))
 }
 
 export default function FormTanStackArray() {
@@ -99,7 +99,7 @@ export default function FormTanStackArray() {
                               name={subField.name}
                               value={subField.state.value}
                               onBlur={subField.handleBlur}
-                              onChange={(event) => subField.handleChange(event.target.value)}
+                              onChange={(event) => subField.handleChange(event.target.value as never)}
                               aria-invalid={isSubFieldInvalid}
                               autoComplete="email"
                               placeholder="name@example.com"
@@ -132,7 +132,7 @@ export default function FormTanStackArray() {
                 type="button"
                 variant="outline"
                 size="sm"
-                onClick={() => field.pushValue({ address: '' })}
+                onClick={() => field.pushValue({ address: '' } as never)}
                 disabled={field.state.value.length >= 5}>
                 Add Email Address
               </Button>

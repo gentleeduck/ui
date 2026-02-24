@@ -34,7 +34,6 @@ export type ComboboxProps<TData extends readonly ComboboxItemType[], TType exten
 export function Combobox<TData extends readonly ComboboxItemType[], TType extends 'single' | 'multiple' = 'single'>({
   value,
   defaultValue,
-  onValueChange,
   items,
   command,
   commandInput,
@@ -48,11 +47,6 @@ export function Combobox<TData extends readonly ComboboxItemType[], TType extend
   children,
 }: ComboboxProps<TData, TType>) {
   const MAX_SELECTION = 2
-  React.useEffect(() => {
-    if (value) {
-      onValueChange?.(value as any)
-    }
-  }, [value])
   const _value = value ?? defaultValue
 
   return (
@@ -108,16 +102,16 @@ export function ComboxGroup({ children, ...props }: React.ComponentPropsWithoutR
   return <CommandGroup {...props}>{children}</CommandGroup>
 }
 
-export function ComboboxItem<T extends ComboboxItemType>({
-  item,
-  onSelect,
-  children,
-  checked,
-  ...props
-}: {
+type ComboboxItemProps<T extends ComboboxItemType> = Omit<
+  React.ComponentPropsWithoutRef<typeof CommandItem>,
+  'onSelect'
+> & {
   item: T
   onSelect?: (value: T['value']) => void
-} & Omit<React.ComponentPropsWithoutRef<typeof CommandItem>, 'onSelect'>) {
+  checked?: React.ComponentPropsWithoutRef<typeof Checkbox>['checked']
+}
+
+export function ComboboxItem<T extends ComboboxItemType>({ item, onSelect, checked, ...props }: ComboboxItemProps<T>) {
   return (
     <CommandItem
       onSelect={() => {

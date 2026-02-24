@@ -2,8 +2,9 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import * as HoverCardPrimitive from '@gentleduck/primitives/hover-card'
+import type { VariantProps } from '@gentleduck/variants'
 import * as React from 'react'
-import { Button } from '../button'
+import { buttonVariants } from '../button'
 
 const HoverCardPlacementContext =
   React.createContext<React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content>['side']>('top')
@@ -33,14 +34,18 @@ HoverCard.displayName = 'HoverCard'
 
 const HoverCardTrigger = React.forwardRef<
   React.ComponentRef<typeof HoverCardPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Trigger> & React.ComponentPropsWithoutRef<typeof Button>
->(({ children, variant = 'outline', asChild = false, ...props }, ref) => (
-  <HoverCardPrimitive.Trigger asChild data-slot="hover-card-trigger">
-    <Button ref={ref} {...props} asChild={asChild} variant={variant}>
+  React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Trigger> & VariantProps<typeof buttonVariants>
+>(({ children, className, variant = 'outline', size = 'default', border = 'default', ...props }, ref) => {
+  return (
+    <HoverCardPrimitive.Trigger
+      ref={ref}
+      className={cn(buttonVariants({ variant, size, border }), className)}
+      data-slot="hover-card-trigger"
+      {...props}>
       {children}
-    </Button>
-  </HoverCardPrimitive.Trigger>
-))
+    </HoverCardPrimitive.Trigger>
+  )
+})
 HoverCardTrigger.displayName = HoverCardPrimitive.Trigger.displayName
 
 const HoverCardContent = React.forwardRef<

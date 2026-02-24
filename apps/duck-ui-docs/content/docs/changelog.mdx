@@ -5,6 +5,18 @@ description: Recent updates and improvements to the duck-ui documentation and co
 
 ## February 2026
 
+### Radio Group and Pagination Sync (February 24, 2026)
+
+- Updated `radio-group` keyboard behavior to track group-level navigation keys (`Arrow*`, `Home/End`, `PageUp/PageDown`) for focus-driven selection.
+- Added `radio-group` typeahead and Vim-style navigation (`a-z`, `gg`, `G`) when the group or its items are focused.
+- Updated `radio-group` registry internals with class ordering cleanup and label interaction docs clarity.
+- Added dedicated `@gentleduck/primitives/radio-group` API documentation and linked it from component docs.
+- Migrated `pagination` registry internals to `@gentleduck/primitives/pagination` with direction-aware wrapper controls and improved accessibility labels.
+- Added `@gentleduck/primitives/pagination` API docs and sidebar navigation entry.
+- Added `Pagination` to the `duck-primitives` overview surface components list and architecture diagram.
+- Switched docs app sans font from `Montserrat` to `Geist`.
+- Synced `@gentleduck/registry-examples-duckui` dependency resolution for `@tanstack/react-form` in the lockfile.
+
 ### Recharts v3 Migration (February 14, 2026)
 
 Upgraded all charts from Recharts v2.15.1 to Recharts v3.7.0. This is a major upgrade that brings server-side rendering, better accessibility, and smaller bundles.
