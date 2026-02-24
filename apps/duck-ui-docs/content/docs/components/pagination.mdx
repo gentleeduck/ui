@@ -167,6 +167,7 @@ Extends `PaginationLink` with `aria-label="Go to previous page"`, left arrow ico
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `text` | `string` | `'Previous'` | Visible label text. Override for i18n / RTL support. |
 | `className` | `string` | `--` | Additional CSS classes for the previous link |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PaginationLink>` | -- | Additional props inherited from `PaginationLink`. |
 
@@ -176,6 +177,7 @@ Extends `PaginationLink` with `aria-label="Go to next page"`, text "Next", and r
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `text` | `string` | `'Next'` | Visible label text. Override for i18n / RTL support. |
 | `className` | `string` | `--` | Additional CSS classes for the next link |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PaginationLink>` | -- | Additional props inherited from `PaginationLink`. |
 
@@ -183,6 +185,7 @@ Extends `PaginationLink` with `aria-label="Go to next page"`, text "Next", and r
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `text` | `string` | `'More pages'` | Screen-reader label text. Override for i18n / RTL support. |
 | `className` | `string` | `--` | Additional CSS classes for the ellipsis element |
 | `...props` | `React.HTMLProps<HTMLSpanElement>` | -- | Additional props to spread to the span element |
 
@@ -200,8 +203,10 @@ Extends `PaginationLink` with `aria-label="Go to next page"`, text "Next", and r
 
 ## RTL Support
 
+Use the `text` prop on `PaginationPrevious`, `PaginationNext`, and `PaginationEllipsis` to provide translated labels. Wrap in `dir="rtl"` for right-to-left layout. Chevron icons auto-flip via `rtl:rotate-180`.
+
 <ComponentPreview
   name="pagination-2"
-  description="A pagination with RTL support."
+  description="A pagination with full RTL and Arabic i18n support."
 />
 
