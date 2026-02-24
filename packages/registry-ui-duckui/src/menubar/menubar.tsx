@@ -39,7 +39,7 @@ const Menubar = React.forwardRef<
 Menubar.displayName = MenubarPrimitive.Root.displayName
 
 const MenubarTrigger = React.forwardRef<
-  React.ElementRef<typeof MenubarPrimitive.Trigger>,
+  React.ComponentRef<typeof MenubarPrimitive.Trigger>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Trigger>
 >(({ className, ...props }, ref) => (
   <MenubarPrimitive.Trigger
@@ -52,19 +52,6 @@ const MenubarTrigger = React.forwardRef<
   />
 ))
 
-// const MenubarTrigger = React.forwardRef<
-//   React.ComponentRef<typeof MenubarPrimitive.Trigger>,
-//   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Trigger>
-// >(({ className, ...props }, ref) => (
-//   <MenubarPrimitive.Trigger
-//     ref={ref}
-//     className={cn(
-//       'flex cursor-default select-none items-center rounded-sm px-3 py-1 font-medium text-sm outline-none focus:bg-accent focus:text-accent-foreground data-[state=open]:bg-accent data-[state=open]:text-accent-foreground',
-//       className,
-//     )}
-//     {...props}
-//   />
-// ))
 MenubarTrigger.displayName = MenubarPrimitive.Trigger.displayName
 
 const MenubarSubTrigger = React.forwardRef<

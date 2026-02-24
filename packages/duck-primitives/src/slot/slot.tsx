@@ -72,9 +72,6 @@ interface SlotCloneProps {
   return SlotClone
 }
 
-/* -------------------------------------------------------------------------------------------------
- * Slottable
- * -----------------------------------------------------------------------------------------------*/
 
 const SLOTTABLE_IDENTIFIER = Symbol('radix.slottable')
 
@@ -97,7 +94,6 @@ interface SlottableComponent extends React.FC<SlottableProps> {
 
 const Slottable = createSlottable('Slottable')
 
-/* ---------------------------------------------------------------------------------------------- */
 
 type AnyProps = Record<string, any>
 

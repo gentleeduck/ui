@@ -4,10 +4,6 @@ import { useComposedRefs } from '../libs/compose-ref'
 import { type ScopedProps, useDialogScope } from './alert-dialog'
 import { useAlertDialogContentContext } from './content'
 
-/* -------------------------------------------------------------------------------------------------
- * AlertDialogCancel
- * -----------------------------------------------------------------------------------------------*/
-
 const CANCEL_NAME = 'AlertDialogCancel'
 
 type AlertDialogCancelElement = React.ComponentRef<typeof DialogPrimitive.Close>

@@ -3,13 +3,6 @@ import ReactDOM from 'react-dom'
 import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { Primitive } from '../primitive-elements'
 
-/* -------------------------------------------------------------------------------------------------
- * Portal
- *
- * Renders children into a DOM node outside the parent hierarchy using
- * ReactDOM.createPortal. Defaults to document.body. Waits until after
- * the first layout effect to mount, ensuring SSR compatibility.
- * -----------------------------------------------------------------------------------------------*/
 
 const PORTAL_NAME = 'Portal'
 

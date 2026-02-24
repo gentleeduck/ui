@@ -18,8 +18,8 @@ import {
   AlertDialogTitle,
 } from '../alert-dialog'
 import { Button } from '../button'
+import { Field, FieldDescription, FieldError, FieldLabel } from '../field'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
-import { FormControl, FormDescription, FormItem, FormLabel, FormMessage } from '../react-hook-form'
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../sheet'
 import { useJsonEditorHotkeys } from './json-editor.hooks'
 import { formatJson, isObjectLike, safeStringify, tryParseJson } from './json-editor.libs'
@@ -70,7 +70,7 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
     nullPreview: textProp?.nullPreview ?? 'NULL',
   }
 
-  const { field } = useController({ control, name })
+  const { field, fieldState } = useController({ control, name })
   const committedText = React.useMemo(() => safeStringify(field.value), [field.value])
 
   const [draft, setDraft] = React.useState(committedText)
@@ -275,11 +275,11 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
   )
 
   return (
-    <FormItem className={cn('space-y-3', className)} data-slot="json-editor-field" dir={dir}>
+    <Field className={cn('space-y-3', className)} data-slot="json-editor-field" dir={dir}>
       <div className="mb-1 flex items-start justify-between gap-4" data-slot="json-editor-header">
         <div className="space-y-1">
-          <FormLabel className="font-semibold text-base">{label}</FormLabel>
-          {description ? <FormDescription>{description}</FormDescription> : null}
+          <FieldLabel className="font-semibold text-base">{label}</FieldLabel>
+          {description ? <FieldDescription>{description}</FieldDescription> : null}
         </div>
 
         <div className={cn('flex items-center gap-2', actionsClassName)} data-slot="json-editor-actions">
@@ -312,7 +312,7 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
         </div>
       </div>
 
-      <FormControl>
+      <div>
         {mode === 'inline' ? (
           inlineEditor
         ) : (
@@ -330,9 +330,9 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
             </Popover>
           </div>
         )}
-      </FormControl>
+      </div>
 
-      <FormMessage />
+      {fieldState.error ? <FieldError errors={[fieldState.error]} /> : null}
 
       {expandMode === 'sheet' ? (
         <>
@@ -420,6 +420,6 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
           </AlertDialogContent>
         </AlertDialog>
       </Portal>
-    </FormItem>
+    </Field>
   )
 }

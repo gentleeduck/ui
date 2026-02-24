@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { composeEventHandlers } from '../libs/compose-event-handler'
-import { dispatchDiscreteCustomEvent, Primitive } from '../primitive-elements'
+import { flushSync } from 'react-dom'
+import { Primitive } from '../primitive-elements'
 import type { ScopedProps } from './navigation-menu'
 import { FocusGroupItem, LINK_SELECT, ROOT_CONTENT_DISMISS } from './navigation-menu.libs'
 
@@ -34,14 +35,14 @@ const NavigationMenuLink = React.forwardRef<NavigationMenuLinkElement, Navigatio
                 cancelable: true,
               })
               target.addEventListener(LINK_SELECT, (event) => onSelect?.(event), { once: true })
-              dispatchDiscreteCustomEvent(target, linkSelectEvent)
+              flushSync(() => target.dispatchEvent(linkSelectEvent))
 
               if (!linkSelectEvent.defaultPrevented && !event.metaKey) {
                 const rootContentDismissEvent = new CustomEvent(ROOT_CONTENT_DISMISS, {
                   bubbles: true,
                   cancelable: true,
                 })
-                dispatchDiscreteCustomEvent(target, rootContentDismissEvent)
+                flushSync(() => target.dispatchEvent(rootContentDismissEvent))
               }
             },
             { checkForDefaultPrevented: false },

@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useControllableState } from '../hooks/use-controllable-state'
-import type { Direction } from '../hooks/use-direction'
-import { useDirection } from '../hooks/use-direction'
+import type { Direction } from '../hooks/direction'
+import { useDirection } from '../hooks/direction'
 import { useId } from '../hooks/use-id'
 import * as PopperPrimitive from '../popper'
 import { useTooltipProviderContext } from './provider'
@@ -11,9 +11,6 @@ export { createTooltipScope, type ScopedProps, TOOLTIP_OPEN, usePopperScope } fr
 
 const TOOLTIP_NAME = 'Tooltip'
 
-/* -------------------------------------------------------------------------------------------------
- * Tooltip
- * -----------------------------------------------------------------------------------------------*/
 
 type TooltipTriggerElement = React.ComponentRef<'button'>
 

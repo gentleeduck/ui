@@ -3,6 +3,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { MountMinimal } from '@gentleduck/primitives/mount'
 import * as React from 'react'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 
 export function useTabs() {
   const context = React.useContext(TabsContext)
@@ -26,6 +27,7 @@ export interface TabsProps extends Omit<React.HTMLProps<HTMLDivElement>, 'defaul
 }
 
 const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(({ value, defaultValue, onValueChange, ...props }, ref) => {
+  const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
   const [activeItem, setActiveItem] = React.useState<string>(defaultValue ?? value ?? '')
 
   React.useEffect(() => {
@@ -34,7 +36,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(({ value, defaultValue,
 
   return (
     <TabsContext.Provider value={{ activeItem, setActiveItem }}>
-      <div {...props} aria-orientation="vertical" data-slot="tabs" duck-tabs="" ref={ref} role="tablist" />
+      <div {...props} aria-orientation="vertical" data-slot="tabs" dir={direction} duck-tabs="" ref={ref} role="tablist" />
     </TabsContext.Provider>
   )
 })

@@ -1,16 +1,6 @@
 import * as React from 'react'
-import { flushSync } from 'react-dom'
 import { createSlot } from '../slot'
 
-/* -------------------------------------------------------------------------------------------------
- * Primitive
- *
- * A collection of low-level HTML element wrappers that support the `asChild`
- * prop for component composition. When asChild is true, the component renders
- * its child via the Slot system instead of the native element.
- *
- * Usage: <Primitive.button asChild><MyButton /></Primitive.button>
- * -----------------------------------------------------------------------------------------------*/
 
 const NODES = [
   'a',
@@ -71,15 +61,4 @@ for (const node of NODES) {
   Primitive[node] = createPrimitive(node)
 }
 
-/* -------------------------------------------------------------------------------------------------
- * dispatchDiscreteCustomEvent
- *
- * Dispatches a custom event inside flushSync to ensure React processes the
- * resulting state update synchronously (required for discrete user events).
- * -----------------------------------------------------------------------------------------------*/
-
-function dispatchDiscreteCustomEvent<E extends CustomEvent>(target: E['target'], event: E) {
-  if (target) flushSync(() => target.dispatchEvent(event))
-}
-
-export { Primitive, dispatchDiscreteCustomEvent }
+export { Primitive }

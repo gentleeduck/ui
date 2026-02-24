@@ -2,11 +2,13 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import * as React from 'react'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 
 const Progress = React.forwardRef<
   HTMLDivElement,
   Omit<React.HTMLProps<HTMLDivElement>, 'value' | 'ref'> & { value: number }
 >(({ className, value, ...props }, ref) => {
+  const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
   return (
     <div
       className={cn('relative h-2 w-full overflow-hidden rounded-full bg-secondary', className)}
@@ -15,6 +17,7 @@ const Progress = React.forwardRef<
       aria-valuemax={100}
       aria-valuemin={0}
       aria-valuenow={value}
+      dir={direction}
       data-slot="progress"
       role="progressbar">
       <div
