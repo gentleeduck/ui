@@ -30,6 +30,23 @@ function getNodeAttributeByName(node: UnistNode, name: string) {
 
 type ItemType = { name: string; type: string; src: string }
 
+function resolveRegistryFilePath(baseDir: string, filePath: string) {
+  const absolute = path.join(baseDir, filePath)
+  if (fs.existsSync(absolute)) return absolute
+
+  const ext = path.extname(absolute)
+  if (ext === '.ts') {
+    const tsxPath = absolute.slice(0, -3) + '.tsx'
+    if (fs.existsSync(tsxPath)) return tsxPath
+  }
+  if (ext === '.tsx') {
+    const tsPath = absolute.slice(0, -4) + '.ts'
+    if (fs.existsSync(tsPath)) return tsPath
+  }
+
+  return absolute
+}
+
 export function get_component_source(files: RegistryItemFile[]): ItemType[] {
   const item: ItemType[] = []
 
@@ -37,8 +54,11 @@ export function get_component_source(files: RegistryItemFile[]): ItemType[] {
     if (!files[i]?.path) {
       console.log(`ERROR: no path found for file ${files[i]?.path}`)
     }
-    const filePath = path.join(
-      `../../packages/registry-${files[i]?.type === 'registry:ui' ? 'ui' : 'examples'}-duckui/src/`,
+    const filePath = resolveRegistryFilePath(
+      path.join(
+        process.cwd(),
+        `../../packages/registry-${files[i]?.type === 'registry:ui' ? 'ui' : 'examples'}-duckui/src/`,
+      ),
       files[i]!.path,
     )
     let source = `// ${files[i]?.path.split('/').splice(1).join('/')}\n`
@@ -77,28 +97,26 @@ export function componentSource({ node }: { node: UnistNode }) {
     const component = Index[`${name}`]
     const items = get_component_source(component?.files ?? [])
 
-    node.children?.push(
-      ...items.map((item) => {
-        return u('element', {
-          children: [
-            u('element', {
-              children: [
-                {
-                  type: 'text',
-                  value: item.src,
-                },
-              ],
-              properties: {
-                className: ['language-tsx'],
+    node.children = items.map((item) => {
+      return u('element', {
+        children: [
+          u('element', {
+            children: [
+              {
+                type: 'text',
+                value: item.src,
               },
-              tagName: 'code',
-            }),
-          ],
-          properties: {},
-          tagName: 'pre',
-        })
-      }),
-    )
+            ],
+            properties: {
+              className: ['language-tsx'],
+            },
+            tagName: 'code',
+          }),
+        ],
+        properties: {},
+        tagName: 'pre',
+      })
+    })
   } catch (error) {
     console.error(error)
   }
@@ -120,7 +138,10 @@ export function componentPreview({ node }: { node: UnistNode }) {
       return null
     }
     // Read the source file.
-    const filePath = path.join(process.cwd(), `../../packages/registry-examples-duckui/src/${src}`)
+    const filePath = resolveRegistryFilePath(
+      path.join(process.cwd(), '../../packages/registry-examples-duckui/src/'),
+      src,
+    )
     let source = fs.readFileSync(filePath, 'utf8')
 
     // Replace imports.
@@ -130,7 +151,7 @@ export function componentPreview({ node }: { node: UnistNode }) {
     source = source.replaceAll('export default', 'export')
 
     // Add code as children so that rehype can take over at build time.
-    node.children?.push(
+    node.children = [
       u('element', {
         children: [
           u('element', {
@@ -148,7 +169,7 @@ export function componentPreview({ node }: { node: UnistNode }) {
         ],
         tagName: 'pre',
       }),
-    )
+    ]
   } catch (error) {
     console.error(error)
   }
