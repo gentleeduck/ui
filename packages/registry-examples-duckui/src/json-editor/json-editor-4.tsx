@@ -3,8 +3,7 @@
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import type { JsonEditorText } from '@gentleduck/registry-ui-duckui/json-editor'
 import { JsonTextareaField } from '@gentleduck/registry-ui-duckui/json-editor'
-import { Form } from '@gentleduck/registry-ui-duckui/react-hook-form'
-import { useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 type JsonEditorValues = {
@@ -58,7 +57,7 @@ export default function JsonEditorRtlDemo() {
   }
 
   return (
-    <Form {...form}>
+    <FormProvider {...form}>
       <form className="w-full max-w-2xl space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <JsonTextareaField
           control={form.control}
@@ -84,6 +83,6 @@ export default function JsonEditorRtlDemo() {
           </Button>
         </div>
       </form>
-    </Form>
+    </FormProvider>
   )
 }

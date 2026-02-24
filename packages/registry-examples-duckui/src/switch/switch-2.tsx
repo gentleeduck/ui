@@ -2,16 +2,16 @@
 
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-} from '@gentleduck/registry-ui-duckui/react-hook-form'
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from '@gentleduck/registry-ui-duckui/field'
 import { Switch } from '@gentleduck/registry-ui-duckui/switch'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -40,45 +40,62 @@ export default function SwitchForm() {
   }
 
   return (
-    <Form {...form}>
-      <form className="w-full space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-        <div>
-          <h3 className="mb-4 font-medium text-lg">Email Notifications</h3>
-          <div className="space-y-4">
-            <FormField
-              control={form.control}
-              name="marketing_emails"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Marketing emails</FormLabel>
-                    <FormDescription>Receive emails about new products, features, and more.</FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch checked={field.value} onCheckedChange={field.onChange} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="security_emails"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 shadow-sm">
-                  <div className="space-y-0.5">
-                    <FormLabel>Security emails</FormLabel>
-                    <FormDescription>Receive emails about your account security.</FormDescription>
-                  </div>
-                  <FormControl>
-                    <Switch aria-readonly checked={field.value} disabled onCheckedChange={field.onChange} />
-                  </FormControl>
-                </FormItem>
-              )}
-            />
-          </div>
-        </div>
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+    <form className="w-full space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+      <div>
+        <h3 className="mb-4 font-medium text-lg">Email Notifications</h3>
+        <FieldGroup className="space-y-4">
+          <Controller
+            control={form.control}
+            name="marketing_emails"
+            render={({ field, fieldState }) => (
+              <Field
+                className="justify-between rounded-lg border p-3 shadow-sm"
+                orientation="horizontal"
+                data-invalid={fieldState.invalid}>
+                <FieldContent>
+                  <FieldLabel htmlFor="switch-marketing-emails">Marketing emails</FieldLabel>
+                  <FieldDescription>Receive emails about new products, features, and more.</FieldDescription>
+                  {fieldState.invalid && fieldState.error && <FieldError errors={[fieldState.error]} />}
+                </FieldContent>
+                <Switch
+                  id="switch-marketing-emails"
+                  name={field.name}
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  aria-invalid={fieldState.invalid}
+                />
+              </Field>
+            )}
+          />
+
+          <Controller
+            control={form.control}
+            name="security_emails"
+            render={({ field, fieldState }) => (
+              <Field
+                className="justify-between rounded-lg border p-3 shadow-sm"
+                orientation="horizontal"
+                data-invalid={fieldState.invalid}>
+                <FieldContent>
+                  <FieldLabel htmlFor="switch-security-emails">Security emails</FieldLabel>
+                  <FieldDescription>Receive emails about your account security.</FieldDescription>
+                  {fieldState.invalid && fieldState.error && <FieldError errors={[fieldState.error]} />}
+                </FieldContent>
+                <Switch
+                  aria-readonly
+                  id="switch-security-emails"
+                  name={field.name}
+                  checked={field.value}
+                  disabled
+                  onCheckedChange={field.onChange}
+                  aria-invalid={fieldState.invalid}
+                />
+              </Field>
+            )}
+          />
+        </FieldGroup>
+      </div>
+      <Button type="submit">Submit</Button>
+    </form>
   )
 }

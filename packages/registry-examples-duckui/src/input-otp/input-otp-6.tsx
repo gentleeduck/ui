@@ -1,18 +1,10 @@
 'use client'
 
 import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@gentleduck/registry-ui-duckui/field'
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@gentleduck/registry-ui-duckui/input-otp'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@gentleduck/registry-ui-duckui/react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -41,34 +33,38 @@ export default function InputOTPForm() {
   }
 
   return (
-    <Form {...form}>
-      <form className="w-2/3 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
+    <form className="w-2/3 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldGroup>
+        <Controller
           control={form.control}
           name="pin"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>One-Time Password</FormLabel>
-              <FormControl>
-                <InputOTP maxLength={6} {...field} onValueChange={field.onChange}>
-                  <InputOTPGroup>
-                    <InputOTPSlot />
-                    <InputOTPSlot />
-                    <InputOTPSlot />
-                    <InputOTPSlot />
-                    <InputOTPSlot />
-                    <InputOTPSlot />
-                  </InputOTPGroup>
-                </InputOTP>
-              </FormControl>
-              <FormDescription>Please enter the one-time password sent to your phone.</FormDescription>
-              <FormMessage />
-            </FormItem>
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-rhf-input-otp-pin">One-Time Password</FieldLabel>
+              <InputOTP
+                id="form-rhf-input-otp-pin"
+                maxLength={6}
+                name={field.name}
+                value={field.value}
+                onBlur={field.onBlur}
+                onValueChange={field.onChange}
+                aria-invalid={fieldState.invalid}>
+                <InputOTPGroup>
+                  <InputOTPSlot />
+                  <InputOTPSlot />
+                  <InputOTPSlot />
+                  <InputOTPSlot />
+                  <InputOTPSlot />
+                  <InputOTPSlot />
+                </InputOTPGroup>
+              </InputOTP>
+              <FieldDescription>Please enter the one-time password sent to your phone.</FieldDescription>
+              {fieldState.invalid && fieldState.error && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}
         />
-
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+      </FieldGroup>
+      <Button type="submit">Submit</Button>
+    </form>
   )
 }

@@ -2,8 +2,7 @@
 
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { JsonTextareaField } from '@gentleduck/registry-ui-duckui/json-editor'
-import { Form } from '@gentleduck/registry-ui-duckui/react-hook-form'
-import { useForm } from 'react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 
 type JsonEditorCallbackValues = {
@@ -35,7 +34,7 @@ export default function JsonEditorCallbackExample() {
   }
 
   return (
-    <Form {...form}>
+    <FormProvider {...form}>
       <form className="w-full max-w-2xl space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
         <JsonTextareaField
           allowArray={false}
@@ -58,6 +57,6 @@ export default function JsonEditorCallbackExample() {
 
         <Button type="submit">Submit payload</Button>
       </form>
-    </Form>
+    </FormProvider>
   )
 }

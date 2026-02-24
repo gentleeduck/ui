@@ -1,10 +1,20 @@
 'use client'
 
 import { Button } from '@gentleduck/registry-ui-duckui/button'
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+  FieldTitle,
+} from '@gentleduck/registry-ui-duckui/field'
 import { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui-duckui/radio-group'
-import { Form, FormField, FormItem, FormLabel, FormMessage } from '@gentleduck/registry-ui-duckui/react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -13,6 +23,24 @@ const FormSchema = z.object({
     error: 'You need to select a notification type.',
   }),
 })
+
+const notificationTypes = [
+  {
+    description: 'Receive updates for every new message.',
+    id: 'all',
+    title: 'All new messages',
+  },
+  {
+    description: 'Only direct mentions and private messages.',
+    id: 'mentions',
+    title: 'Direct messages and mentions',
+  },
+  {
+    description: 'Disable all notification alerts.',
+    id: 'none',
+    title: 'Nothing',
+  },
+] as const
 
 export default function RadioGroupDemo() {
   const form = useForm<z.infer<typeof FormSchema>>({
@@ -31,25 +59,38 @@ export default function RadioGroupDemo() {
   }
 
   return (
-    <Form {...form}>
-      <form className="w-2/3 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
+    <form className="w-full max-w-lg space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldGroup>
+        <Controller
           control={form.control}
           name="type"
-          render={({ field }) => (
-            <FormItem className="space-y-3">
-              <FormLabel>Notify me about...</FormLabel>
-              <RadioGroup className="flex flex-col space-y-1" defaultValue={field.value} onValueChange={field.onChange}>
-                <RadioGroupItem value="all">All new messages</RadioGroupItem>
-                <RadioGroupItem value="mentions">Direct messages and mentions</RadioGroupItem>
-                <RadioGroupItem value="none">Nothing</RadioGroupItem>
+          render={({ field, fieldState }) => (
+            <FieldSet>
+              <FieldLegend>Notify me about...</FieldLegend>
+              <FieldDescription>Choose which message types should trigger notifications.</FieldDescription>
+              <RadioGroup name={field.name} value={field.value} onValueChange={field.onChange}>
+                {notificationTypes.map((option) => (
+                  <FieldLabel htmlFor={`form-rhf-radio-${option.id}`} key={option.id}>
+                    <Field orientation="horizontal" data-invalid={fieldState.invalid}>
+                      <FieldContent>
+                        <FieldTitle>{option.title}</FieldTitle>
+                        <FieldDescription>{option.description}</FieldDescription>
+                      </FieldContent>
+                      <RadioGroupItem
+                        id={`form-rhf-radio-${option.id}`}
+                        value={option.id}
+                        aria-invalid={fieldState.invalid}
+                      />
+                    </Field>
+                  </FieldLabel>
+                ))}
               </RadioGroup>
-              <FormMessage />
-            </FormItem>
+              {fieldState.invalid && fieldState.error && <FieldError errors={[fieldState.error]} />}
+            </FieldSet>
           )}
         />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+      </FieldGroup>
+      <Button type="submit">Submit</Button>
+    </form>
   )
 }
