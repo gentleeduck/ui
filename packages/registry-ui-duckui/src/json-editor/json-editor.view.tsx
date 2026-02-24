@@ -15,6 +15,8 @@ export function JsonEditorView({
   readOnly,
   lineNumbers,
   lineHeightPx,
+  dir,
+  lang,
   onKeyDown,
 }: JsonEditorViewProps) {
   const lineCount = React.useMemo(() => {
@@ -22,13 +24,49 @@ export function JsonEditorView({
     return Math.max(1, count)
   }, [value])
 
-  const numbers = React.useMemo(
-    () => Array.from({ length: lineCount }, (_, index) => String(index + 1)).join('\n'),
-    [lineCount],
-  )
+  const numbers = React.useMemo(() => {
+    if (!lang) {
+      return Array.from({ length: lineCount }, (_, i) => String(i + 1)).join('\n')
+    }
+
+    // Build formatter; if the locale already includes a -u-nu- extension, use as-is.
+    // Otherwise append the native numbering system for known locales so that
+    // environments defaulting to latn still produce locale-appropriate digits.
+    let localeTag = lang
+    if (!lang.includes('-u-') || !lang.includes('-nu-')) {
+      const base = lang.split('-')[0].toLowerCase()
+      const ns: Record<string, string> = {
+        ar: 'arab',
+        fa: 'arabext',
+        ur: 'arabext',
+        ps: 'arabext',
+        bn: 'beng',
+        hi: 'deva',
+        mr: 'deva',
+        ne: 'deva',
+        th: 'thai',
+        my: 'mymr',
+        km: 'khmr',
+        lo: 'laoo',
+        ta: 'tamldec',
+        te: 'telu',
+        kn: 'knda',
+        ml: 'mlym',
+        gu: 'gujr',
+        or: 'orya',
+        pa: 'guru',
+      }
+      if (ns[base]) {
+        localeTag = `${lang}-u-nu-${ns[base]}`
+      }
+    }
+
+    const fmt = new Intl.NumberFormat(localeTag, { useGrouping: false })
+    return Array.from({ length: lineCount }, (_, i) => fmt.format(i + 1)).join('\n')
+  }, [lineCount, lang])
 
   return (
-    <div className="overflow-hidden rounded-md border bg-background" data-slot="json-editor-shell">
+    <div className="overflow-hidden rounded-md border bg-background" data-slot="json-editor-shell" dir={dir}>
       <div className="relative" data-slot="json-editor-container">
         {lineNumbers ? (
           <div className="absolute inset-y-0 start-0 w-12 border-e bg-muted/30" data-slot="json-editor-gutter">
@@ -51,6 +89,7 @@ export function JsonEditorView({
             lineNumbers ? 'ps-14' : '',
           )}
           data-slot="json-editor-textarea"
+          dir="ltr"
           onChange={(event) => onChange(event.currentTarget.value)}
           onKeyDown={onKeyDown}
           onScroll={(event) => onScroll?.(event.currentTarget.scrollTop)}

@@ -27,11 +27,33 @@ export type JsonTextareaFieldProps<TFieldValues extends FieldValues> = {
   lineNumbers?: boolean
   lineHeightPx?: number
 
+  dir?: 'ltr' | 'rtl'
+  lang?: string
+
   expandMode?: JsonEditorExpandMode
   sheetSide?: 'left' | 'right'
   sheetTitle?: string
 
+  text?: JsonEditorText
+
   onExpandEditor?: (payload: JsonEditorExpandPayload<TFieldValues>) => void
+}
+
+export type JsonEditorText = {
+  format?: string
+  cancel?: string
+  save?: string
+  full?: string
+  close?: string
+  keepEditing?: string
+  discard?: string
+  discardTitle?: string
+  discardDescription?: string
+  statusHint?: string
+  sheetStatusHint?: string
+  unsavedChanges?: string
+  saved?: string
+  nullPreview?: string
 }
 
 export type JsonParseResult = { ok: true; value: unknown } | { ok: false; message: string }
@@ -46,6 +68,8 @@ export type JsonEditorViewProps = {
   readOnly: boolean
   lineNumbers: boolean
   lineHeightPx: number
+  dir?: 'ltr' | 'rtl'
+  lang?: string
   onKeyDown: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void
 }
 
