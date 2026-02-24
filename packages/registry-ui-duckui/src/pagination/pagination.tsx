@@ -49,7 +49,12 @@ const PaginationLink = ({ className, isActive, size = 'icon', ref, ...props }: P
   />
 )
 
-const PaginationPrevious = ({ className, ref, ...props }: React.ComponentPropsWithRef<typeof PaginationLink>) => (
+const PaginationPrevious = ({
+  className,
+  text = 'Previous',
+  ref,
+  ...props
+}: React.ComponentPropsWithRef<typeof PaginationLink> & { text?: string }) => (
   <PaginationLink
     aria-label="Go to previous page"
     className={cn('gap-1 ps-2.5', className)}
@@ -58,11 +63,16 @@ const PaginationPrevious = ({ className, ref, ...props }: React.ComponentPropsWi
     size="default"
     {...props}>
     <ChevronLeft className="h-4 w-4 rtl:rotate-180" />
-    <span>Previous</span>
+    <span className="hidden sm:block">{text}</span>
   </PaginationLink>
 )
 
-const PaginationNext = ({ className, ref, ...props }: React.ComponentPropsWithRef<typeof PaginationLink>) => (
+const PaginationNext = ({
+  className,
+  text = 'Next',
+  ref,
+  ...props
+}: React.ComponentPropsWithRef<typeof PaginationLink> & { text?: string }) => (
   <PaginationLink
     aria-label="Go to next page"
     className={cn('gap-1 pe-2.5', className)}
@@ -70,12 +80,17 @@ const PaginationNext = ({ className, ref, ...props }: React.ComponentPropsWithRe
     ref={ref}
     size="default"
     {...props}>
-    <span>Next</span>
+    <span className="hidden sm:block">{text}</span>
     <ChevronRight className="h-4 w-4 rtl:rotate-180" />
   </PaginationLink>
 )
 
-const PaginationEllipsis = ({ className, ref, ...props }: React.HTMLProps<HTMLSpanElement>) => (
+const PaginationEllipsis = ({
+  className,
+  text = 'More pages',
+  ref,
+  ...props
+}: React.HTMLProps<HTMLSpanElement> & { text?: string }) => (
   <span
     aria-hidden
     className={cn('flex h-9 w-9 items-center justify-center', className)}
@@ -83,7 +98,7 @@ const PaginationEllipsis = ({ className, ref, ...props }: React.HTMLProps<HTMLSp
     ref={ref}
     {...props}>
     <MoreHorizontal className="h-4 w-4" />
-    <span className="sr-only">More pages</span>
+    <span className="sr-only">{text}</span>
   </span>
 )
 

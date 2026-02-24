@@ -91,20 +91,21 @@ const BreadcrumbSeparator = React.forwardRef<HTMLLIElement, React.ComponentProps
 )
 BreadcrumbSeparator.displayName = 'BreadcrumbSeparator'
 
-const BreadcrumbEllipsis = React.forwardRef<HTMLSpanElement, React.ComponentPropsWithoutRef<'span'>>(
-  ({ className, ...props }, ref) => (
-    <span
-      aria-hidden="true"
-      className={cn('flex h-9 w-9 items-center justify-center', className)}
-      role="presentation"
-      ref={ref}
-      {...props}
-      data-slot="breadcrumb-ellipsis">
-      <MoreHorizontal className="h-4 w-4" />
-      <span className="sr-only">More</span>
-    </span>
-  ),
-)
+const BreadcrumbEllipsis = React.forwardRef<
+  HTMLSpanElement,
+  React.ComponentPropsWithoutRef<'span'> & { text?: string }
+>(({ className, text = 'More', ...props }, ref) => (
+  <span
+    aria-hidden="true"
+    className={cn('flex h-9 w-9 items-center justify-center', className)}
+    role="presentation"
+    ref={ref}
+    {...props}
+    data-slot="breadcrumb-ellipsis">
+    <MoreHorizontal className="h-4 w-4" />
+    <span className="sr-only">{text}</span>
+  </span>
+))
 BreadcrumbEllipsis.displayName = 'BreadcrumbEllipsis'
 
 export {
