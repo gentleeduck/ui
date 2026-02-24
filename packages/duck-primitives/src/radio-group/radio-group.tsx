@@ -215,24 +215,28 @@ const RadioGroup = React.forwardRef<RadioGroupElement, RadioGroupProps>(
             dir={direction}
             {...groupProps}
             ref={forwardedRef}
-            onKeyDown={composeEventHandlers(groupProps.onKeyDown, (event) => {
-              const enabledItems = getEnabledNavigationItems()
-              const nodes = enabledItems.map((item) => item.node)
+            onKeyDown={composeEventHandlers(
+              groupProps.onKeyDown,
+              (event) => {
+                const enabledItems = getEnabledNavigationItems()
+                const nodes = enabledItems.map((item) => item.node)
 
-              if (handleVimKey(event, nodes)) return
+                if (handleVimKey(event, nodes)) return
 
-              const isModifierKey = event.ctrlKey || event.altKey || event.metaKey
-              const isCharacterKey = event.key.length === 1 && event.key !== ' '
-              if (!isModifierKey && isCharacterKey) {
-                handleTypeaheadSearch(event.key)
-              }
+                const isModifierKey = event.ctrlKey || event.altKey || event.metaKey
+                const isCharacterKey = event.key.length === 1 && event.key !== ' '
+                if (!isModifierKey && isCharacterKey) {
+                  handleTypeaheadSearch(event.key)
+                }
 
-              if ((RADIO_GROUP_NAVIGATION_KEYS as readonly string[]).includes(event.key)) {
-                isNavigationKeyPressedRef.current = true
-                resetTypeaheadState()
-                scheduleNavigationReset()
-              }
-            })}
+                if ((RADIO_GROUP_NAVIGATION_KEYS as readonly string[]).includes(event.key)) {
+                  isNavigationKeyPressedRef.current = true
+                  resetTypeaheadState()
+                  scheduleNavigationReset()
+                }
+              },
+              { checkForDefaultPrevented: false },
+            )}
             onBlur={composeEventHandlers(groupProps.onBlur, (event) => {
               if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
                 if (navigationResetTimerRef.current !== null) {

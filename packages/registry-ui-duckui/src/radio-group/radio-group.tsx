@@ -81,7 +81,10 @@ const RadioGroupItem = React.forwardRef<
         <label
           className="cursor-pointer font-normal text-base"
           data-slot="radio-label"
-          onClick={() => itemRef.current?.click()}>
+          onClick={() => {
+            itemRef.current?.focus()
+            itemRef.current?.click()
+          }}>
           {children}
         </label>
       )}
