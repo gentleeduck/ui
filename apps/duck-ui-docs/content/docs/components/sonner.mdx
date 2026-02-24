@@ -91,7 +91,7 @@ npm install sonner next-themes @gentleduck/libs lucide-react
 
 <Step>Add the `Button` and `Progress` component to your project.</Step>
 
-The `Sonner` component uses the [`Button`](/components/button) and [`Progress`](/components/progress) components. Make sure you have them installed in your project.
+The `Sonner` component uses the [`Button`](/docs/components/button) and [`Progress`](/docs/components/progress) components. Make sure you have them installed in your project.
 
 
 <Step>Copy and paste the following code into your project.</Step>
@@ -183,6 +183,8 @@ The `Toaster` component wraps the `Sonner` `Toaster` from the `sonner` library, 
 | `onCancel` | `(e: React.MouseEvent<HTMLButtonElement>, dismiss: (id: string) => void) => void` | -- | Callback triggered when the Cancel button is clicked. Receives the click event and a function to dismiss the toast by ID |
 | `onComplete` | `(e: React.MouseEvent<HTMLButtonElement>, dismiss: (id: string) => void) => void` | -- | Callback triggered when the Complete button is clicked. Receives the click event and a function to dismiss the toast by ID |
 
+`SonnerUpload` shows a spinning `Loader` icon while `progress < 100` and switches to a success `CircleCheck` icon at completion.
+
 ### Utility Function
 
 #### `formatTime(seconds: number): string`
@@ -215,6 +217,8 @@ export type ToasterProps = React.ComponentProps<typeof Sonner>
 ```
 
 ## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
 
 <ComponentPreview
   name="sonner-6"

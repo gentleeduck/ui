@@ -73,7 +73,7 @@ const nextConfig: NextConfig = {
         source: '/docs/forms',
       },
       {
-        destination: '/docs/components/form',
+        destination: '/docs/components/react-hook-form',
         permanent: false,
         source: '/docs/forms/react-hook-form',
       },
@@ -83,7 +83,7 @@ const nextConfig: NextConfig = {
         source: '/sidebar',
       },
       {
-        destination: '/docs/react-19',
+        destination: '/docs/javascript',
         permanent: true,
         source: '/react-19',
       },
@@ -103,7 +103,7 @@ const nextConfig: NextConfig = {
         source: '/docs/:path*.mdx',
       },
       {
-        destination: '/docs/mcp',
+        destination: '/docs/components/cli',
         permanent: false,
         source: '/mcp',
       },

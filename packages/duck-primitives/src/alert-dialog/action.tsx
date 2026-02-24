@@ -2,10 +2,6 @@ import * as React from 'react'
 import * as DialogPrimitive from '../dialog'
 import { type ScopedProps, useDialogScope } from './alert-dialog'
 
-/* -------------------------------------------------------------------------------------------------
- * AlertDialogAction
- * -----------------------------------------------------------------------------------------------*/
-
 const ACTION_NAME = 'AlertDialogAction'
 
 type AlertDialogActionElement = React.ComponentRef<typeof DialogPrimitive.Close>

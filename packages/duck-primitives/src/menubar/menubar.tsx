@@ -1,8 +1,8 @@
 /** Root Menubar component with collection, context, and scope setup. */
 import * as React from 'react'
+import type { Direction } from '../direction'
+import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
-import type { Direction } from '../hooks/use-direction'
-import { useDirection } from '../hooks/use-direction'
 import { createCollection } from '../libs/create-collection'
 import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'

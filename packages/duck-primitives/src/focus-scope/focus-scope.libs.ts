@@ -1,10 +1,3 @@
-/* -------------------------------------------------------------------------------------------------
- * Focus utilities
- *
- * Helper functions for focus management: finding tabbable elements,
- * checking visibility, and programmatically moving focus.
- * -----------------------------------------------------------------------------------------------*/
-
 type FocusableTarget = HTMLElement | { focus(): void }
 
 /**
@@ -97,14 +90,6 @@ function focus(element?: FocusableTarget | null, { select = false } = {}) {
 function removeLinks(items: HTMLElement[]) {
   return items.filter((item) => item.tagName !== 'A')
 }
-
-/* -------------------------------------------------------------------------------------------------
- * FocusScope stack
- *
- * Manages a stack of focus scopes. When a new scope is added, the previously
- * active scope is paused. When removed, the next scope in the stack resumes.
- * This enables correct nesting of focus traps (e.g., dialog inside dialog).
- * -----------------------------------------------------------------------------------------------*/
 
 type FocusScopeAPI = { paused: boolean; pause(): void; resume(): void }
 

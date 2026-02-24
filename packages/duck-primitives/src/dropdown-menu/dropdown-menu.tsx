@@ -1,8 +1,8 @@
 /** Root DropdownMenu component, scope factory, and shared context. */
 import * as React from 'react'
+import type { Direction } from '../direction'
+import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
-import type { Direction } from '../hooks/use-direction'
-import { useDirection } from '../hooks/use-direction'
 import { useId } from '../hooks/use-id'
 import { createContextScope, type Scope } from '../libs/create-context'
 import * as MenuPrimitive from '../menu'

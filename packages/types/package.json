@@ -33,7 +33,7 @@
   "peelDependencies": {},
   "private": true,
   "scripts": {
-    "start:env": "tsx ./index.ts",
+    "start:env": "bun ./index.ts",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },
   "type": "module",

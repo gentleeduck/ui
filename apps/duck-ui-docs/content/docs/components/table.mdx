@@ -90,9 +90,9 @@ import {
 You can use the `<Table />` component to build more complex data tables. Combine it with
 [@gentleduck/table](https://github.com/gentleeduck/ui/tree/master/packages/duck-table) to create tables with sorting, filtering and pagination.
 
-See the [Data Table](/docs/components/table) documentation for more information.
+See the [Data Table](/docs/components/data-table) documentation for more information.
 
-You can also see an example of a data table in the [Tasks](/examples/tasks) demo.
+You can also see data-table examples in the [Blocks Library](/blocks).
 
 ---
 
@@ -178,8 +178,9 @@ You can also see an example of a data table in the [Tasks](/examples/tasks) demo
 
 ## RTL Support
 
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
 <ComponentPreview
   name="table-2"
   description="A table with RTL support."
 />
-

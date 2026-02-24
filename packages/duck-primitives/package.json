@@ -22,6 +22,7 @@
     "tsdown": "0.18.3"
   },
   "exports": {
+    "./hooks/*": "./dist/hooks/*.js",
     "./*": "./dist/*/index.js"
   },
   "files": [

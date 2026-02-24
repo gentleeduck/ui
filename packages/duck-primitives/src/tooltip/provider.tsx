@@ -1,10 +1,6 @@
 import * as React from 'react'
 import { createTooltipContext, type ScopedProps } from './tooltip.libs'
 
-/* -------------------------------------------------------------------------------------------------
- * TooltipProvider
- * -----------------------------------------------------------------------------------------------*/
-
 const PROVIDER_NAME = 'TooltipProvider'
 const DEFAULT_DELAY_DURATION = 700
 

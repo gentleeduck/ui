@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 
 function AspectRatio({
@@ -8,13 +9,16 @@ function AspectRatio({
   className,
   ratio,
   ref,
+  dir,
   ...props
 }: React.ComponentPropsWithRef<typeof Slot> & {
   ratio: string
 }) {
+  const direction = useDirection(dir as Direction)
   return (
     <Slot
       className={cn('relative h-auto w-full overflow-hidden', className)}
+      dir={direction}
       ref={ref}
       style={{
         aspectRatio: ratio,

@@ -153,7 +153,7 @@ The main `Sidebar` component used to render a collapsible sidebar.
 | `side`        | `left` or `right`                 | The side of the sidebar.               |
 | `variant`     | `sidebar`, `floating`, or `inset` | The variant of the sidebar.            |
 | `collapsible` | `offcanvas`, `icon`, or `none`    | Collapsible state of the sidebar.      |
-| `dir`         | `ltr` or `rtl`                    | Direction for RTL layout support.      |
+| `dir`         | `ltr` or `rtl`                    | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 
 | Prop        | Description                                                  |
 | ----------- | ------------------------------------------------------------ |
@@ -177,7 +177,7 @@ Use the `floating` variant for a sidebar with rounded borders and a drop shadow.
 
 Use the `inset` variant for a sidebar that sits inside the page layout.
 
-<Callout>
+<Callout icon={<Lightbulb />}>
   If you use the `inset` variant, remember to wrap your main content
   in a `SidebarInset` component.
 </Callout>
@@ -623,7 +623,7 @@ Show an action when the menu button is active:
 
 ## RTL Support
 
-The sidebar supports RTL layouts via the `dir` prop on the `Sidebar` component. The trigger icon and rail positioning adjust automatically.
+Set `dir="rtl"` on `Sidebar` for a local override, or set `DirectionProvider` once at app/root level for global direction. Trigger icon and rail positioning adjust automatically.
 
 <ComponentPreview
   name="sidebar-6"

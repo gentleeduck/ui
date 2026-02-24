@@ -1,14 +1,17 @@
 import { cn } from '@gentleduck/libs/cn'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import type { VariantProps } from '@gentleduck/variants'
 import { emptyMediaVariants } from './empty.constants'
 
-function Empty({ className, ...props }: React.ComponentProps<'div'>) {
+function Empty({ className, dir, ...props }: React.ComponentProps<'div'>) {
+  const direction = useDirection(dir as Direction)
   return (
     <div
       className={cn(
         'flex min-w-0 flex-1 flex-col items-center justify-center gap-6 text-balance rounded-lg border-dashed p-6 text-center md:p-12',
         className,
       )}
+      dir={direction}
       data-slot="empty"
       {...props}
     />

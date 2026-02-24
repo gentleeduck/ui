@@ -25,12 +25,12 @@ export default function SheetRtlDemo() {
             <SheetTrigger asChild>
               <Button variant={'outline'}>{side}</Button>
             </SheetTrigger>
-            <SheetContent side={side}>
+            <SheetContent className="flex flex-col" side={side}>
               <SheetHeader>
                 <SheetTitle>تعديل الملف الشخصي</SheetTitle>
                 <SheetDescription>قم باجراء تغييرات على ملفك الشخصي هنا. انقر على حفظ عند الانتهاء.</SheetDescription>
               </SheetHeader>
-              <div className="item-start flex h-full flex-direction flex-col justify-start gap-4 py-4">
+              <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto py-4">
                 <div className="grid grid-cols-4 items-center gap-4">
                   <Label htmlFor="name">الاسم</Label>
                   <Input className="col-span-3" id="name" value="احمد محمد" />
@@ -40,7 +40,7 @@ export default function SheetRtlDemo() {
                   <Input className="col-span-3" id="username" value="@ahmad" />
                 </div>
               </div>
-              <SheetFooter>
+              <SheetFooter className="mt-2">
                 <SheetClose>
                   <Button variant={'outline'}>حفظ التغييرات</Button>
                 </SheetClose>

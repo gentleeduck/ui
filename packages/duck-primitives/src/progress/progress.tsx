@@ -1,7 +1,7 @@
 /** Root Progress component with scope, context, and validation. */
 import * as React from 'react'
-import type { Direction } from '../hooks/use-direction'
-import { useDirection } from '../hooks/use-direction'
+import type { Direction } from '../direction'
+import { useDirection } from '../direction'
 import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'

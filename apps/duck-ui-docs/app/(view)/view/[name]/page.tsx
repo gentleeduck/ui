@@ -2,17 +2,17 @@ import { absoluteUrl } from '@gentleduck/docs/lib'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 import React from 'react'
-import { Index } from '~/__ui_registry__'
 import { RegistryPreview } from '~/components/registry-preview'
 import { siteConfig } from '~/config/site'
 import { getRegistryItem } from '~/lib/get-registry-item'
+import { getRegistryIndex } from '~/lib/registry-index.server'
 
 export const revalidate = false
 export const dynamic = 'force-static'
 export const dynamicParams = false
 
 export async function generateStaticParams() {
-  return Object.keys(Index).map((name) => ({ name }))
+  return Object.keys(getRegistryIndex()).map((name) => ({ name }))
 }
 
 const getCachedRegistryItem = React.cache(async (name: string) => {

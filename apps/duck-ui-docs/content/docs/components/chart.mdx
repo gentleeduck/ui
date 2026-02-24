@@ -52,7 +52,7 @@ We designed the `chart` component with composition in mind. **You build your cha
 ```tsx showLineNumbers /ChartContainer/ /ChartTooltipContent/
 import { Bar, BarChart } from "recharts"
 
-import { ChartContainer, ChartTooltipContent } from "@/components/ui/charts"
+import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart"
 
 export function MyChart() {
   return (
@@ -697,6 +697,8 @@ type ChartConfig = {
 Each key maps to a data series. Use either `color` (single value) or `theme` (light/dark pair) -- never both.
 
 ## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
 
 <ComponentPreview
   name="chart-8"

@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Minus, Plus, RotateCcw } from 'lucide-react'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Badge } from '../badge'
@@ -82,6 +83,7 @@ function PreviewPanel({
   style,
   onStateChange,
   syncState,
+  dir,
   ...rest
 }: PreviewPanelProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -335,9 +337,15 @@ function PreviewPanel({
     () => ({ maxHeight, cursor: 'grab' as const, touchAction: 'none' as const }),
     [maxHeight],
   )
+  const direction = useDirection(dir as Direction)
 
   return (
-    <div data-slot="preview-panel" className={cn('relative flex flex-col', className)} style={style} {...rest}>
+    <div
+      data-slot="preview-panel"
+      className={cn('relative flex flex-col', className)}
+      dir={direction}
+      style={style}
+      {...rest}>
       {showControls && (
         <div className="absolute end-3 top-3 z-10">
           <ZoomControls onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} onReset={handleReset} zoom={displayZoom} />

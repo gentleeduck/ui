@@ -11,7 +11,7 @@ component: true
 
 ## Philosophy
 
-Radio groups enforce single selection from a set -- the constraint is the feature. Unlike checkboxes (multi-select) or selects (dropdown), radio groups make all options visible simultaneously. The primitive layer handles keyboard navigation (arrow keys cycle through options, auto-selecting on focus), form integration via hidden native radio inputs, and RTL direction support.
+Radio groups enforce single selection from a set -- the constraint is the feature. Unlike checkboxes (multi-select) or selects (dropdown), radio groups make all options visible simultaneously. The primitive layer handles keyboard navigation (arrow keys plus Home/End/PageUp/PageDown navigation, auto-selecting on focus), form integration via hidden native radio inputs, and RTL direction support.
 
 ## How It's Built
 
@@ -97,6 +97,13 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 | `ArrowRight` | Move focus to next item and select it |
 | `ArrowUp` | Move focus to previous item and select it |
 | `ArrowLeft` | Move focus to previous item and select it |
+| `Home` | Move focus to first item and select it |
+| `End` | Move focus to last item and select it |
+| `PageUp` | Move focus to first item and select it |
+| `PageDown` | Move focus to last item and select it |
+| `a-z` | Jump to next item matching typed characters and select it |
+| `g` `g` | Jump to first item and select it |
+| `G` | Jump to last item and select it |
 | `Tab` | Move focus into/out of the radio group |
 | `Space` | Select the focused item (if not already selected) |
 
@@ -122,7 +129,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 | `disabled` | `boolean` | `false` | Whether the entire group is disabled |
 | `required` | `boolean` | `false` | Whether the group is required in a form |
 | `name` | `string` | -- | The name used when submitting an HTML form |
-| `dir` | `'ltr' \| 'rtl'` | -- | The reading direction of the radio group |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `orientation` | `'horizontal' \| 'vertical'` | -- | The orientation of the group for arrow key navigation |
 | `loop` | `boolean` | `true` | Whether keyboard navigation should loop |
 | `className` | `string` | -- | Additional CSS classes |
@@ -135,10 +142,13 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 | `disabled` | `boolean` | `false` | Whether this item is disabled |
 | `indicator` | `React.ReactElement` | -- | Custom SVG or element for unchecked state indicator |
 | `checkedIndicator` | `React.ReactElement` | -- | Custom SVG or element for checked state indicator |
-| `children` | `React.ReactNode` | -- | Label content |
-| `className` | `string` | -- | Additional CSS classes |
+| `textValue` | `string` | -- | Optional text used for keyboard typeahead matching (`a-z`). In the registry component, plain string/number children are inferred automatically. |
+| `children` | `React.ReactNode` | -- | Label content. When provided, a clickable label is rendered next to the control and selects the item on click. |
+| `className` | `string` | -- | Additional CSS classes for the radio button control |
 
 ## RTL Support
+
+Set `dir="rtl"` on `RadioGroup` for a local override, or set `DirectionProvider` once at app/root level for global direction.
 
 <ComponentPreview
   name="radio-group-3"
@@ -150,3 +160,4 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 - [Checkbox](/docs/components/checkbox) -- Multi-selection toggle control
 - [Switch](/docs/components/switch) -- Toggle between on and off states
 - [Select](/docs/components/select) -- Dropdown selection from a list
+- [Radio Group Primitive API](/docs/packages/duck-primitives/api/radio-group) -- Headless primitive reference (`Root`, `Item`, `Indicator`)

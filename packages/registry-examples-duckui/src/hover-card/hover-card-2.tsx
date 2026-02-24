@@ -4,7 +4,7 @@ import { CalendarIcon } from 'lucide-react'
 
 export default function HoverCardRtlDemo() {
   return (
-    <HoverCard dir="rtl" open>
+    <HoverCard dir="rtl">
       <HoverCardTrigger variant={'link'}>@nextjs</HoverCardTrigger>
       <HoverCardContent className="w-80">
         <div className="flex justify-between gap-4 space-x-reverse">

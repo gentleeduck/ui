@@ -32,14 +32,14 @@ export default function ComboboxRtlDemo() {
   return (
     <Popover dir="rtl" onOpenChange={setOpen} open={open}>
       <PopoverTrigger>
-        <Button aria-expanded={open} className="w-[230px] justify-between text-start" role="combobox" variant="outline">
+        <Button aria-expanded={open} className="w-57.5 justify-between text-start" role="combobox" variant="outline">
           {selectedLabel ?? 'اختر نوع المشروع...'}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
 
-      <PopoverContent dir="rtl" className="w-[230px] min-w-auto p-0">
-        <Command>
+      <PopoverContent dir="rtl" className="w-57.5 min-w-auto p-0">
+        <Command dir="rtl">
           <CommandInput className="h-9 text-start" placeholder="ابحث عن نوع المشروع..." />
 
           <CommandList>

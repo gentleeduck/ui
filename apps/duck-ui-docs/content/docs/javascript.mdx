@@ -3,15 +3,24 @@ title: javascript
 description: How to use @gentleduck/ui with JavaScript
 ---
 
-This project is written in **TypeScript** and it will remain that way. There will never be a JavaScript version, because TypeScript is simply, provably, and unarguably superior. JavaScript is a dynamically typed chaos engine, a language that encourages runtime disasters by design: adding strings to arrays, invoking properties on `undefined`, and deploying entire bug factories under the banner of "flexibility." It is pseudocode disguised as a language, and it survives only because people tolerate the mess it creates.  
+You can use `@gentleduck/ui` from JavaScript projects.
 
-TypeScript exists to end that mess. Its type system is not an inconvenience -- it is a mathematical safeguard against human error. JavaScript trusts you blindly; TypeScript knows better. This is not a matter of preference but of rigor: a TypeScript program is structurally sound, while a JavaScript program is a gamble against runtime failure.  
+The source and docs are authored in TypeScript, but runtime usage works the same in JavaScript. You can copy component code and remove type annotations where needed.
 
+## Notes for JavaScript users
+
+- Install and use components exactly as shown in the docs.
+- Ignore type-only imports and type annotations in TypeScript snippets.
+- Keep your project aliases configured (`@/*` etc.) so copied component imports resolve correctly.
 
 <Callout icon={<Lightbulb />}>
-   If you came here hoping for JavaScript support, forget it. Learn TypeScript. The sooner you do, the sooner you can stop wasting hours on `undefined is not a function`. I am not biased. I am simply correct.  
+
+TypeScript is recommended for better editor support and safer refactors, but it is not required to use the components.
+
 </Callout>
 
+## Next steps
 
-Supporting JavaScript would be like publishing a research paper in crayon: it might convey the idea, but serious work deserves serious tools. TypeScript is not optional -- it is the only rational path forward.  
-
+- [Installation](/docs/installation) -- Set up your project
+- [CLI](/docs/components/cli) -- Add components quickly
+- [Components](/docs/components) -- Browse available UI components

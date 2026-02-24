@@ -124,14 +124,14 @@ import { buttonVariants } from '@/components/ui'
 ```
 
 ```tsx
-<Link className={buttonVariants({ variant: 'outline' })}>I'am a Link 🦆</Link>
+<Link className={buttonVariants({ variant: 'outline' })}>I'm a Link 🦆</Link>
 ```
 
 Alternatively, you can set the `asChild` parameter and nest the link component.
 
 ```tsx
 <Button asChild>
-  <Link href="/tos">I'am a Link with tos 🦆</Link>
+  <Link href="/tos">I'm a Link to ToS 🦆</Link>
 </Button>
 ```
 
@@ -242,12 +242,13 @@ Alternatively, you can set the `asChild` parameter and nest the link component.
   description="loading button"
 />
 
+When `loading` is `true`, `Button` renders a `lucide-react` `<Loader />` with `animate-spin`, disables interaction, and replaces the leading `icon` until loading completes.
+
 ### With Second Icon
 
 <ComponentPreview
   name="button-17"
-  description="badge label button"
-  description="seocond icon button"
+  description="second icon button"
 />
 
 ### Collapsible
@@ -275,7 +276,7 @@ Alternatively, you can set the `asChild` parameter and nest the link component.
 | `size` | `'default' \| 'sm' \| 'lg' \| 'icon' \| 'icon-sm' \| 'icon-lg'` | `'default'` | Size of the button |
 | `border` | `'default' \| 'primary' \| 'secondary' \| 'destructive' \| 'warning'` | `'default'` | Border style variant |
 | `asChild` | `boolean` | `--` | If `true`, renders using a custom child element via `Slot` (e.g. a `Link`) |
-| `loading` | `boolean` | `--` | If `true`, shows a spinning loader icon and disables the button |
+| `loading` | `boolean` | `--` | If `true`, renders `<Loader className="animate-spin" />`, disables the button, and temporarily overrides `icon` |
 | `disabled` | `boolean` | `--` | Disables the button manually |
 | `icon` | `React.ReactNode` | `--` | Primary icon displayed before the content (or centered if collapsed) |
 | `secondIcon` | `React.ReactNode` | `--` | Secondary icon displayed after the content |
@@ -289,10 +290,3 @@ Alternatively, you can set the `asChild` parameter and nest the link component.
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | (required) | Content inside the animation icon wrapper |
 | `animationIcon` | `{ icon?: React.ReactNode; iconPlacement?: 'left' \| 'right' }` | `--` | Animation icon configuration with icon element and placement direction |
-
-## RTL Support
-
-<ComponentPreview
-  name="button-20"
-  description="A button with RTL support."
-/>

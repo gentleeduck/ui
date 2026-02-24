@@ -126,6 +126,8 @@ A styled `<input>` element that accepts all standard HTML input attributes.
 
 ## RTL Support
 
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
 <ComponentPreview
   name="input-8"
   description="An input with RTL support."

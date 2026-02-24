@@ -25,18 +25,10 @@ import {
 const CONTENT_NAME = 'TooltipContent'
 const TOOLTIP_NAME = 'Tooltip'
 
-/* -------------------------------------------------------------------------------------------------
- * VisuallyHiddenContent context
- * -----------------------------------------------------------------------------------------------*/
-
 export const [VisuallyHiddenContentContextProvider, useVisuallyHiddenContentContext] = createTooltipContext(
   TOOLTIP_NAME,
   { isInside: false },
 )
-
-/* -------------------------------------------------------------------------------------------------
- * TooltipContent
- * -----------------------------------------------------------------------------------------------*/
 
 type TooltipContentImplElement = React.ComponentRef<typeof PopperPrimitive.PopperContent>
 type DismissableLayerProps = React.ComponentPropsWithoutRef<typeof DismissableLayer>
@@ -89,10 +81,6 @@ export const TooltipContent = React.forwardRef<TooltipContentElement, TooltipCon
 )
 
 TooltipContent.displayName = CONTENT_NAME
-
-/* -------------------------------------------------------------------------------------------------
- * TooltipContentHoverable
- * -----------------------------------------------------------------------------------------------*/
 
 type TooltipContentHoverableElement = TooltipContentImplElement
 interface TooltipContentHoverableProps extends TooltipContentImplProps {}
@@ -172,10 +160,6 @@ const TooltipContentHoverable = React.forwardRef<TooltipContentHoverableElement,
 )
 
 TooltipContentHoverable.displayName = `${CONTENT_NAME}Hoverable`
-
-/* -------------------------------------------------------------------------------------------------
- * TooltipContentImpl
- * -----------------------------------------------------------------------------------------------*/
 
 const Slottable = createSlottable('TooltipContent')
 

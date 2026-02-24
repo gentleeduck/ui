@@ -166,7 +166,7 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/comp
 | `onOpenChange` | `(open: boolean) => void` | -- | Callback when open state changes |
 | `delayDuration` | `number` | `700` | Per-tooltip delay override |
 | `disableHoverableContent` | `boolean` | `false` | Per-tooltip hover-content behavior override |
-| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction for RTL support |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `...props` | `React.ComponentPropsWithRef<typeof TooltipPrimitive.Root>` | -- | Additional root props |
 
 ### TooltipTrigger
@@ -194,7 +194,7 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/comp
 
 ## RTL Support
 
-The `Tooltip` component accepts a `dir` prop on the root element to control the reading direction. Set `dir="rtl"` to mirror the tooltip positioning for right-to-left languages.
+Set `dir="rtl"` on `Tooltip` for a local override, or set `DirectionProvider` once at app/root level for global direction. This mirrors tooltip positioning in right-to-left layouts.
 
 ```tsx
 <TooltipProvider>

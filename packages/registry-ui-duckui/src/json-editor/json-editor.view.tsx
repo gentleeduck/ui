@@ -1,9 +1,32 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 import { Textarea } from '../textarea'
 import type { JsonEditorViewProps } from './json-editor.types'
+
+const LOCALE_NUMBERING_SYSTEMS: Record<string, string> = {
+  ar: 'arab',
+  bn: 'beng',
+  fa: 'arabext',
+  gu: 'gujr',
+  hi: 'deva',
+  km: 'khmr',
+  kn: 'knda',
+  lo: 'laoo',
+  ml: 'mlym',
+  mr: 'deva',
+  my: 'mymr',
+  ne: 'deva',
+  or: 'orya',
+  pa: 'guru',
+  ps: 'arabext',
+  ta: 'tamldec',
+  te: 'telu',
+  th: 'thai',
+  ur: 'arabext',
+}
 
 export function JsonEditorView({
   value,
@@ -19,6 +42,7 @@ export function JsonEditorView({
   lang,
   onKeyDown,
 }: JsonEditorViewProps) {
+  const direction = useDirection(dir as Direction)
   const lineCount = React.useMemo(() => {
     const count = value ? value.split(/\r\n|\r|\n/).length : 1
     return Math.max(1, count)
@@ -34,30 +58,10 @@ export function JsonEditorView({
     // environments defaulting to latn still produce locale-appropriate digits.
     let localeTag = lang
     if (!lang.includes('-u-') || !lang.includes('-nu-')) {
-      const base = lang.split('-')[0].toLowerCase()
-      const ns: Record<string, string> = {
-        ar: 'arab',
-        fa: 'arabext',
-        ur: 'arabext',
-        ps: 'arabext',
-        bn: 'beng',
-        hi: 'deva',
-        mr: 'deva',
-        ne: 'deva',
-        th: 'thai',
-        my: 'mymr',
-        km: 'khmr',
-        lo: 'laoo',
-        ta: 'tamldec',
-        te: 'telu',
-        kn: 'knda',
-        ml: 'mlym',
-        gu: 'gujr',
-        or: 'orya',
-        pa: 'guru',
-      }
-      if (ns[base]) {
-        localeTag = `${lang}-u-nu-${ns[base]}`
+      const [base = ''] = lang.toLowerCase().split('-')
+      const numberingSystem = LOCALE_NUMBERING_SYSTEMS[base]
+      if (numberingSystem) {
+        localeTag = `${lang}-u-nu-${numberingSystem}`
       }
     }
 
@@ -66,7 +70,7 @@ export function JsonEditorView({
   }, [lineCount, lang])
 
   return (
-    <div className="overflow-hidden rounded-md border bg-background" data-slot="json-editor-shell" dir={dir}>
+    <div className="overflow-hidden rounded-md border bg-background" data-slot="json-editor-shell" dir={direction}>
       <div className="relative" data-slot="json-editor-container">
         {lineNumbers ? (
           <div className="absolute inset-y-0 start-0 w-12 border-e bg-muted/30" data-slot="json-editor-gutter">

@@ -1,14 +1,10 @@
 import * as React from 'react'
+import type { Direction } from '../direction'
+import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
-import type { Direction } from '../hooks/use-direction'
-import { useDirection } from '../hooks/use-direction'
 import { createContextScope, type Scope } from '../libs/create-context'
 import * as PopperPrimitive from '../popper'
 import { createPopperScope } from '../popper'
-
-/* -------------------------------------------------------------------------------------------------
- * HoverCard
- * -------------------------------------------------------------------------------------------------*/
 
 const HOVERCARD_NAME = 'HoverCard'
 

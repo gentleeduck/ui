@@ -1,0 +1,20 @@
+'use client'
+
+import { DIRECTION_DICTIONARY, DirectionProvider, useDirection } from '@gentleduck/registry-ui-duckui/direction'
+
+function DirectionStatus() {
+  const dir = useDirection()
+  return (
+    <div className="rounded-md border bg-card px-4 py-2 text-card-foreground text-sm">
+      Resolved direction: <span className="font-mono">{dir}</span>
+    </div>
+  )
+}
+
+export default function DirectionDemo() {
+  return (
+    <DirectionProvider dir={DIRECTION_DICTIONARY.rtl}>
+      <DirectionStatus />
+    </DirectionProvider>
+  )
+}

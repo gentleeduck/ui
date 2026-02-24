@@ -129,7 +129,7 @@ import {
 | `open` | `boolean` | `--` | Controlled open state |
 | `onOpenChange` | `(open: boolean) => void` | `--` | Callback when open state changes |
 | `modal` | `boolean` | `false` | Enables modal focus/interaction behavior |
-| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction for RTL support |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>` | -- | Additional props inherited from `Popover.Root`. |
 
 ### PopoverTrigger
@@ -170,7 +170,7 @@ Optional custom anchor element for positioning.
 
 ## RTL Support
 
-The `Popover` component accepts a `dir` prop on the root element to control the reading direction. Set `dir="rtl"` to mirror the popover positioning and content layout for right-to-left languages. When `dir="rtl"` is set, `side="left"` and `side="right"` are logically swapped so the popover opens on the correct side relative to the reading direction.
+Set `dir="rtl"` on `Popover` for a local override, or set `DirectionProvider` once at app/root level for global direction. In RTL mode, `side="left"` and `side="right"` are logically swapped.
 
 ```tsx
 <Popover dir="rtl">

@@ -145,6 +145,13 @@ export const registry_ui: RegistryEntry[] = [
     type: 'registry:ui',
   },
   {
+    dependencies: ['@gentleduck/primitives'],
+    files: [],
+    name: 'direction',
+    root_folder: 'direction',
+    type: 'registry:ui',
+  },
+  {
     dependencies: ['@gentleduck/primitives', '@gentleduck/libs', 'lucide-react'],
     files: [],
     name: 'dropdown-menu',
@@ -167,22 +174,6 @@ export const registry_ui: RegistryEntry[] = [
     type: 'registry:ui',
   },
   {
-    dependencies: ['@gentleduck/libs', '@gentleduck/primitives', 'react-hook-form', 'zod', '@hookform/resolvers'],
-    files: [],
-    name: 'react-hook-form',
-    registryDependencies: ['label'],
-    root_folder: 'react-hook-form',
-    type: 'registry:ui',
-  },
-  {
-    dependencies: ['@gentleduck/libs', '@tanstack/react-form', 'lucide-react'],
-    files: [],
-    name: 'tanstack-form',
-    registryDependencies: ['label'],
-    root_folder: 'tanstack-form',
-    type: 'registry:ui',
-  },
-  {
     dependencies: ['@gentleduck/libs', '@gentleduck/primitives'],
     files: [],
     name: 'hover-card',
@@ -198,7 +189,7 @@ export const registry_ui: RegistryEntry[] = [
     type: 'registry:ui',
   },
   {
-    dependencies: ['@gentleduck/libs'],
+    dependencies: ['@gentleduck/libs', '@gentleduck/primitives', 'lucide-react'],
     files: [],
     name: 'input-otp',
     root_folder: 'input-otp',
@@ -220,7 +211,7 @@ export const registry_ui: RegistryEntry[] = [
     type: 'registry:ui',
   },
   {
-    dependencies: ['@gentleduck/libs'],
+    dependencies: ['@gentleduck/libs', '@gentleduck/primitives'],
     files: [],
     name: 'pagination',
     registryDependencies: ['button'],
@@ -423,7 +414,7 @@ export const registry_ui: RegistryEntry[] = [
     dependencies: ['@gentleduck/libs', '@gentleduck/primitives', 'react-hook-form', 'sonner', 'lucide-react'],
     files: [],
     name: 'json-editor',
-    registryDependencies: ['alert-dialog', 'button', 'popover', 'react-hook-form', 'sheet'],
+    registryDependencies: ['alert-dialog', 'button', 'popover', 'field', 'sheet'],
     root_folder: 'json-editor',
     type: 'registry:ui',
   },

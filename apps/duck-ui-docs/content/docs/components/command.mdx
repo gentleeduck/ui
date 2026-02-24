@@ -21,7 +21,7 @@ component: true
 * **Typeahead Search:** Type printable characters to jump to matching items in the list.
 * **Custom Shortcuts:** Optional shortcut labels shown beside each command item.
 * **Empty State Handling:** Automatically displays a fallback when no items match the query.
-* **RTL Support:** Full right-to-left layout via the `dir` prop.
+* **RTL Support:** Full right-to-left layout via local `dir` override or global `DirectionProvider`.
 * **Accessible & Composable:** ARIA roles (`listbox`, `option`, `combobox`, `status`) and headless architecture for complete flexibility.
 * **Responsive Design:** Adapts gracefully to different screen sizes and containers.
 * **Dialog or Inline Support:** Can be used as a floating dialog or embedded inline.
@@ -29,7 +29,7 @@ component: true
 ## About
 This component is built on top of the [@gentleduck/primitives](https://github.com/gentleeduck/ui/tree/master/packages/duck-primitives) command primitive, following the same Radix-style context/collection pattern used by Select and other primitives. The registry-layer components are thin styling wrappers around the primitives.
 
-Direction (`dir`) is resolved once at the root `Command` primitive via `useDirection` and stored in context. Every child primitive -- `CommandInput`, `CommandList`, `CommandItem`, `CommandGroup`, `CommandEmpty`, and `CommandSeparator` -- reads `dir` from context and applies it to its DOM element automatically. You only need to set `dir` on the root `Command` component; all descendants inherit it.
+Direction (`dir`) is resolved once at the root `Command` primitive via `useDirection` and stored in context. Every child primitive -- `CommandInput`, `CommandList`, `CommandItem`, `CommandGroup`, `CommandEmpty`, and `CommandSeparator` -- reads `dir` from context and applies it to its DOM element automatically. Use local `dir` on `Command` when needed, or set `DirectionProvider` at app/root level for global direction.
 
 ## Philosophy
 
@@ -84,7 +84,7 @@ npm install @gentleduck/primitives @gentleduck/libs @gentleduck/vim lucide-react
 
 <Step>Add the `Dialog` and `ScrollArea` components to your project.</Step>
 
-The `Command` component uses the [`Dialog`](/components/dialog) and [`ScrollArea`](/components/scroll-area) component. Make sure you have it installed in your project.
+The `Command` component uses the [`Dialog`](/docs/components/dialog) and [`ScrollArea`](/docs/components/scroll-area) components. Make sure you have them installed in your project.
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -205,7 +205,7 @@ export function CommandMenu() {
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Inherited by all child components. |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`) and inherited by children. |
 | `className` | `string` | -- | Additional CSS classes applied to the command container |
 | `children` | `React.ReactNode` | -- | Command content (`CommandInput`, `CommandList`, etc.) |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the root div |
@@ -292,7 +292,7 @@ Returned by `useCommandContext()`. Provides root command state.
 | --- | --- | --- |
 | `search` | `string` | Current search query value. |
 | `onSearchChange` | `(search: string) => void` | Callback to update the search query. |
-| `dir` | `'ltr' \| 'rtl'` | Text direction for the command tree. |
+| `dir` | `'ltr' \| 'rtl'` | Text direction for the command tree. Uses the same `useDirection` resolution order. |
 | `listId` | `string` | Auto-generated id linking the input to the list via `aria-controls`. |
 | `inputRef` | `React.RefObject<HTMLInputElement \| null>` | Search input field reference. |
 | `typeaheadSearchRef` | `React.RefObject<string>` | Ref tracking the current typeahead search string. |
@@ -336,7 +336,7 @@ Per-item context. Available via `useCommandItemContext()`.
 
 ## RTL Support
 
-RTL is handled at the primitive layer. Pass `dir="rtl"` on the root `Command` and every sub-component receives the direction through context -- no per-child `dir` props needed.
+RTL is handled at the primitive layer. Set `dir="rtl"` on the root `Command` for a local override, or set `DirectionProvider` once at app/root level for global direction. Child primitives inherit direction automatically.
 
 ```tsx
 <Command dir="rtl">

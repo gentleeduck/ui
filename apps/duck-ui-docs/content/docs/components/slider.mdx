@@ -110,7 +110,7 @@ A unified slider component that supports both single-thumb and multi-thumb (rang
 | `defaultValue` | `number[]` | `[min, max]` | Uncontrolled initial values |
 | `value` | `number[]` | -- | Controlled values array |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider orientation |
-| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction. Resolved at the primitive layer via `useDirection` and inherited by all sub-components through context. |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`) and inherited by slider parts. |
 | `min` | `number` | `0` | Minimum allowed value |
 | `max` | `number` | `100` | Maximum allowed value |
 | `...props` | `React.ComponentProps<typeof SliderPrimitive.Root>` | -- | All other props from `SliderPrimitive.Root` |
@@ -133,7 +133,7 @@ The following primitives are used internally by `Slider`:
 | `onValueChange` | `(value: number[]) => void` | -- | Callback fired on every value change |
 | `onValueCommit` | `(value: number[]) => void` | -- | Callback fired when interaction ends (pointer up or key commit) |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider orientation |
-| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction for horizontal sliders |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction for horizontal sliders. Uses the same `useDirection` resolution order. |
 | `inverted` | `boolean` | `false` | Inverts the slider direction |
 | `minStepsBetweenThumbs` | `number` | `0` | Minimum number of steps between thumbs |
 | `form` | `string` | -- | Associates with a form element by ID |
@@ -155,6 +155,8 @@ Renders a `<span>`. The thumb index is auto-detected from render order.
 | `name` | `string` | -- | Optional name override for this thumb's hidden input |
 
 ## RTL Support
+
+Set `dir="rtl"` on `Slider` for a local override, or set `DirectionProvider` once at app/root level for global direction.
 
 <ComponentPreview
   name="slider-5"

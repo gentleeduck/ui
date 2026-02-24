@@ -165,7 +165,7 @@ function TeamSwitcher({
                 <span className="truncate font-medium">{activeTeam.name}</span>
                 <span className="truncate text-xs">{activeTeam.plan}</span>
               </div>
-              <ChevronsUpDown className="mr-auto" />
+              <ChevronsUpDown className="ms-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -230,7 +230,7 @@ function NavMain({
                   {open && (
                     <>
                       <span>{item.title}</span>
-                      <ChevronRight className="mr-auto transition-transform duration-200 group-data-[open=true]/collapsible:rotate-90" />{' '}
+                      <ChevronRight className="ms-auto transition-transform duration-200 group-data-[open=true]/collapsible:rotate-90 rtl:rotate-180" />
                     </>
                   )}
                 </SidebarMenuButton>
@@ -349,7 +349,7 @@ function NavUser({
                 <span className="truncate font-medium">{user.name}</span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
-              <ChevronsUpDown className="mr-auto size-4" />
+              <ChevronsUpDown className="ms-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -409,8 +409,8 @@ function NavUser({
 
 export default function SidebarRtlDemo() {
   return (
-    <div dir="rtl" className="relative flex h-full w-full overflow-hidden [transform:translateZ(0)]">
-      <SidebarProvider>
+    <div className="transform-[translateZ(0)] relative flex h-full w-full overflow-hidden">
+      <SidebarProvider dir="rtl">
         <Sidebar collapsible="icon" side="right">
           <SidebarHeader>
             <TeamSwitcher teams={data.teams} />
@@ -427,7 +427,7 @@ export default function SidebarRtlDemo() {
         <SidebarInset>
           <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
             <div className="flex items-center gap-2 px-4">
-              <SidebarTrigger className="-mr-1" />
+              <SidebarTrigger className="-ms-1" />
             </div>
           </header>
           <div className="flex flex-1 flex-col gap-4 p-4">

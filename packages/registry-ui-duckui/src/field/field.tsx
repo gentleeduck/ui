@@ -1,13 +1,15 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import type { VariantProps } from '@gentleduck/variants'
 import { useMemo } from 'react'
 import { Label } from '../label'
 import { Separator } from '../separator'
 import { fieldVariants } from './field.constants'
 
-function FieldSet({ className, ...props }: React.ComponentProps<'fieldset'>) {
+function FieldSet({ className, dir, ...props }: React.ComponentProps<'fieldset'>) {
+  const direction = useDirection(dir as Direction)
   return (
     <fieldset
       className={cn(
@@ -15,6 +17,7 @@ function FieldSet({ className, ...props }: React.ComponentProps<'fieldset'>) {
         'has-[>[data-slot=checkbox-group]]:gap-3 has-[>[data-slot=radio-group]]:gap-3',
         className,
       )}
+      dir={direction}
       data-slot="field-set"
       {...props}
     />

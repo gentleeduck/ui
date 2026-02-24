@@ -1,4 +1,4 @@
-import { FileIcon } from 'lucide-react'
+import { FileIcon, Loader } from 'lucide-react'
 
 type IconProps = React.HTMLAttributes<SVGElement>
 
@@ -98,20 +98,8 @@ export const Icons = {
       />
     </svg>
   ),
-  spinner: (props: IconProps) => (
-    <svg
-      fill="none"
-      height="24"
-      stroke="currentColor"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      strokeWidth="2"
-      viewBox="0 0 24 24"
-      width="24"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}>
-      <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-    </svg>
+  spinner: ({ className, ...props }: IconProps) => (
+    <Loader className={className ? `animate-spin ${className}` : 'animate-spin'} {...props} />
   ),
   tailwind: (props: IconProps) => (
     <svg viewBox="0 0 24 24" {...props}>
