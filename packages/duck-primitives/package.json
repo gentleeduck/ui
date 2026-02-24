@@ -22,10 +22,7 @@
     "tsdown": "0.18.3"
   },
   "exports": {
-    "./*": {
-      "import": "./src/*/index.ts",
-      "default": "./dist/*/index.js"
-    }
+    "./*": "./dist/*/index.js"
   },
   "files": [
     "dist",
@@ -66,6 +63,7 @@
   },
   "scripts": {
     "build": "tsdown",
+    "dev": "tsdown --watch",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },
   "type": "module",

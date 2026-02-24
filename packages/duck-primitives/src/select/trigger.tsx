@@ -4,7 +4,7 @@ import { useComposedRefs } from '../libs/compose-ref'
 import * as PopperPrimitive from '../popper'
 import { Primitive } from '../primitive-elements'
 import { OPEN_KEYS, type ScopedProps, useCollection, usePopperScope, useSelectContext } from './select'
-import { findNextItem, shouldShowPlaceholder, useTypeaheadSearch } from './select.libs'
+import { shouldShowPlaceholder, useTypeaheadListNavigation } from './select.libs'
 
 const TRIGGER_NAME = 'SelectTrigger'
 
@@ -22,20 +22,21 @@ export const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTrigge
     const getItems = useCollection(__scopeSelect)
     const pointerTypeRef = React.useRef<React.PointerEvent['pointerType']>('touch')
 
-    const [searchRef, handleTypeaheadSearch, resetTypeahead] = useTypeaheadSearch((search) => {
-      const enabledItems = getItems().filter((item) => !item.disabled)
-      const currentItem = enabledItems.find((item) => item.value === context.value)
-      const nextItem = findNextItem(enabledItems, search, currentItem)
-      if (nextItem !== undefined) {
-        context.onValueChange(nextItem.value)
-      }
+    const [searchRef, handleTypeaheadSearch, resetTypeaheadState] = useTypeaheadListNavigation({
+      getItems: () => getItems().filter((item) => !item.disabled),
+      getItemElement: (item) => item.ref.current as HTMLElement | null,
+      getItemTextValue: (item) => item.textValue || (item.ref.current?.textContent ?? '').trim(),
+      getCurrentItem: (items) => items.find((item) => item.value === context.value),
+      onMatch: (item) => {
+        context.onValueChange(item.value)
+      },
     })
 
     const handleOpen = (pointerEvent?: React.MouseEvent | React.PointerEvent) => {
       if (!isDisabled) {
         context.onOpenChange(true)
         // reset typeahead when we open
-        resetTypeahead()
+        resetTypeaheadState()
       }
 
       if (pointerEvent) {
@@ -49,6 +50,7 @@ export const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTrigge
     return (
       <PopperPrimitive.Anchor asChild {...popperScope}>
         <Primitive.button
+          data-slot="select-trigger"
           type="button"
           role="combobox"
           aria-controls={context.contentId}

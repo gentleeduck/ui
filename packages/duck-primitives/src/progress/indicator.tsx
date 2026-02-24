@@ -1,7 +1,8 @@
 /** ProgressIndicator - visual indicator for progress state. */
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
-import { getProgressState, type ScopedProps, useProgressContext } from './progress'
+import { type ScopedProps, useProgressContext } from './progress'
+import { getProgressState } from './progress.libs'
 
 const INDICATOR_NAME = 'ProgressIndicator'
 
@@ -15,6 +16,7 @@ const ProgressIndicator = React.forwardRef<ProgressIndicatorElement, ProgressInd
     const context = useProgressContext(INDICATOR_NAME, __scopeProgress)
     return (
       <Primitive.div
+        data-slot="progress-indicator"
         data-state={getProgressState(context.value, context.max)}
         data-value={context.value ?? undefined}
         data-max={context.max}

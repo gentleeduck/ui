@@ -6,15 +6,12 @@ export type { SelectGroupProps } from './group'
 export { SelectGroup, SelectGroup as Group } from './group'
 export type { SelectIconProps } from './icon'
 export { SelectIcon, SelectIcon as Icon } from './icon'
-export type { SelectItemIndicatorProps, SelectItemProps, SelectItemTextProps } from './item'
-export {
-  SelectItem,
-  SelectItem as Item,
-  SelectItemIndicator,
-  SelectItemIndicator as ItemIndicator,
-  SelectItemText,
-  SelectItemText as ItemText,
-} from './item'
+export type { SelectItemProps } from './item'
+export { SelectItem, SelectItem as Item } from './item'
+export type { SelectItemIndicatorProps } from './item-indicator'
+export { SelectItemIndicator, SelectItemIndicator as ItemIndicator } from './item-indicator'
+export type { SelectItemTextProps } from './item-text'
+export { SelectItemText, SelectItemText as ItemText } from './item-text'
 export type { SelectLabelProps } from './label'
 export { SelectLabel, SelectLabel as Label } from './label'
 export type { SelectPortalProps } from './portal'

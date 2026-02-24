@@ -232,6 +232,7 @@ const PopoverContentImpl = React.forwardRef<PopoverContentElement, PopoverConten
           onFocusOutside={onFocusOutside}
           onDismiss={() => context.onOpenChange(false)}>
           <PopperPrimitive.PopperContent
+            data-slot="popover-content"
             data-state={getState(context.open)}
             role="dialog"
             id={context.contentId}

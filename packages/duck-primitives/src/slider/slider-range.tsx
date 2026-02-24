@@ -24,8 +24,10 @@ const SliderRange = React.forwardRef<SliderRangeElement, SliderRangeProps>(
 
     return (
       <Primitive.span
+        data-slot="slider-range"
         data-orientation={context.orientation}
         data-disabled={context.disabled ? '' : undefined}
+        dir={context.dir}
         {...rangeProps}
         ref={composedRefs}
         style={{

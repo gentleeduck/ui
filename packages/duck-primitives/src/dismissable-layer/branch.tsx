@@ -33,7 +33,7 @@ export const DismissableLayerBranch = React.forwardRef<DismissableLayerBranchEle
       }
     }, [context.branches])
 
-    return <Primitive.div {...props} ref={composedRefs} />
+    return <Primitive.div data-slot="dismissable-layer-branch" {...props} ref={composedRefs} />
   },
 )
 

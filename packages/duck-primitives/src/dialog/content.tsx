@@ -143,6 +143,7 @@ const DialogContentImpl = React.forwardRef<DialogContentImplElement, DialogConte
           onMountAutoFocus={onOpenAutoFocus}
           onUnmountAutoFocus={onCloseAutoFocus}>
           <DismissableLayer
+            data-slot="dialog-content"
             role="dialog"
             id={context.contentId}
             aria-describedby={context.descriptionId}

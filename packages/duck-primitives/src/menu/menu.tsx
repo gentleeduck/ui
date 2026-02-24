@@ -8,7 +8,7 @@ import * as PopperPrimitive from '../popper'
 import { createPopperScope } from '../popper'
 import { createRovingFocusGroupScope } from '../roving-focus'
 
-import type { Direction } from './utils'
+import type { Direction } from './menu.libs'
 
 const MENU_NAME = 'Menu'
 

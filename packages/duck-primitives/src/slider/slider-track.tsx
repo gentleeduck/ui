@@ -14,8 +14,10 @@ const SliderTrack = React.forwardRef<SliderTrackElement, SliderTrackProps>(
     const context = useSliderContext(TRACK_NAME, __scopeSlider)
     return (
       <Primitive.span
+        data-slot="slider-track"
         data-disabled={context.disabled ? '' : undefined}
         data-orientation={context.orientation}
+        dir={context.dir}
         {...trackProps}
         ref={forwardedRef}
       />

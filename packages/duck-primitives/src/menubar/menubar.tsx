@@ -100,7 +100,7 @@ const Menubar = React.forwardRef<MenubarElement, MenubarProps>((props: ScopedPro
             dir={direction}
             currentTabStopId={currentTabStopId}
             onCurrentTabStopIdChange={setCurrentTabStopId}>
-            <Primitive.div role="menubar" {...menubarProps} ref={forwardedRef} />
+            <Primitive.div data-slot="menubar" role="menubar" {...menubarProps} ref={forwardedRef} />
           </RovingFocusGroup.Root>
         </Collection.Slot>
       </Collection.Provider>

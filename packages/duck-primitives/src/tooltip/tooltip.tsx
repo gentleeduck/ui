@@ -3,98 +3,13 @@ import { useControllableState } from '../hooks/use-controllable-state'
 import type { Direction } from '../hooks/use-direction'
 import { useDirection } from '../hooks/use-direction'
 import { useId } from '../hooks/use-id'
-import { createContextScope, type Scope } from '../libs/create-context'
 import * as PopperPrimitive from '../popper'
-import { createPopperScope } from '../popper'
+import { useTooltipProviderContext } from './provider'
+import { createTooltipContext, type ScopedProps, TOOLTIP_OPEN, usePopperScope } from './tooltip.libs'
+
+export { createTooltipScope, type ScopedProps, TOOLTIP_OPEN, usePopperScope } from './tooltip.libs'
 
 const TOOLTIP_NAME = 'Tooltip'
-
-export type ScopedProps<P = {}> = P & { __scopeTooltip?: Scope }
-
-export const [createTooltipContext, createTooltipScope] = createContextScope(TOOLTIP_NAME, [createPopperScope])
-export const usePopperScope = createPopperScope()
-
-/* -------------------------------------------------------------------------------------------------
- * TooltipProvider
- * -----------------------------------------------------------------------------------------------*/
-
-const PROVIDER_NAME = 'TooltipProvider'
-const DEFAULT_DELAY_DURATION = 700
-export const TOOLTIP_OPEN = 'tooltip.open'
-
-type TooltipProviderContextValue = {
-  isOpenDelayedRef: React.RefObject<boolean>
-  delayDuration: number
-  onOpen(): void
-  onClose(): void
-  onPointerInTransitChange(inTransit: boolean): void
-  isPointerInTransitRef: React.RefObject<boolean>
-  disableHoverableContent: boolean
-}
-
-export const [TooltipProviderContextProvider, useTooltipProviderContext] =
-  createTooltipContext<TooltipProviderContextValue>(PROVIDER_NAME)
-
-export interface TooltipProviderProps {
-  children: React.ReactNode
-  /**
-   * The duration from when the pointer enters the trigger until the tooltip gets opened.
-   * @defaultValue 700
-   */
-  delayDuration?: number
-  /**
-   * How much time a user has to enter another trigger without incurring a delay again.
-   * @defaultValue 300
-   */
-  skipDelayDuration?: number
-  /**
-   * When `true`, trying to hover the content will result in the tooltip closing as the pointer leaves the trigger.
-   * @defaultValue false
-   */
-  disableHoverableContent?: boolean
-}
-
-export const TooltipProvider: React.FC<TooltipProviderProps> = (props: ScopedProps<TooltipProviderProps>) => {
-  const {
-    __scopeTooltip,
-    delayDuration = DEFAULT_DELAY_DURATION,
-    skipDelayDuration = 300,
-    disableHoverableContent = false,
-    children,
-  } = props
-  const isOpenDelayedRef = React.useRef(true)
-  const isPointerInTransitRef = React.useRef(false)
-  const skipDelayTimerRef = React.useRef(0)
-
-  React.useEffect(() => {
-    const skipDelayTimer = skipDelayTimerRef.current
-    return () => window.clearTimeout(skipDelayTimer)
-  }, [])
-
-  return (
-    <TooltipProviderContextProvider
-      scope={__scopeTooltip}
-      isOpenDelayedRef={isOpenDelayedRef}
-      delayDuration={delayDuration}
-      onOpen={React.useCallback(() => {
-        window.clearTimeout(skipDelayTimerRef.current)
-        isOpenDelayedRef.current = false
-      }, [])}
-      onClose={React.useCallback(() => {
-        window.clearTimeout(skipDelayTimerRef.current)
-        skipDelayTimerRef.current = window.setTimeout(() => (isOpenDelayedRef.current = true), skipDelayDuration)
-      }, [skipDelayDuration])}
-      isPointerInTransitRef={isPointerInTransitRef}
-      onPointerInTransitChange={React.useCallback((inTransit: boolean) => {
-        isPointerInTransitRef.current = inTransit
-      }, [])}
-      disableHoverableContent={disableHoverableContent}>
-      {children}
-    </TooltipProviderContextProvider>
-  )
-}
-
-TooltipProvider.displayName = PROVIDER_NAME
 
 /* -------------------------------------------------------------------------------------------------
  * Tooltip

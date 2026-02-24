@@ -38,8 +38,10 @@ const ContextMenuTrigger = React.forwardRef<ContextMenuTriggerElement, ContextMe
       <>
         <MenuPrimitive.Anchor {...menuScope} virtualRef={virtualRef} />
         <Primitive.span
+          data-slot="context-menu-trigger"
           data-state={context.open ? 'open' : 'closed'}
           data-disabled={disabled ? '' : undefined}
+          dir={context.dir}
           {...triggerProps}
           ref={forwardedRef}
           // prevent iOS context menu from appearing

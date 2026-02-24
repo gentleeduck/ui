@@ -8,9 +8,9 @@ import { FocusScope } from '../focus-scope'
 import { useFocusGuards } from '../hooks/use-focus-guard'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
+import { useTypeaheadListNavigation, useVimNavigation } from '../libs/list-navigation'
 import * as PopperPrimitive from '../popper'
 import { Presence } from '../presence'
-import { Primitive } from '../primitive-elements'
 import * as RovingFocusGroup from '../roving-focus'
 import { createSlot } from '../slot'
 
@@ -18,8 +18,6 @@ import {
   Collection,
   createMenuContext,
   type MenuContentElement,
-  MenuProvider,
-  MenuRootProvider,
   type ScopedProps,
   useCollection,
   useMenuContext,
@@ -27,19 +25,17 @@ import {
   usePopperScope,
   useRovingFocusGroupScope,
 } from './menu'
-import { usePortalContext } from './portal'
 import {
   FIRST_LAST_KEYS,
   focusFirst,
   type GraceIntent,
-  getNextMatch,
   getOpenState,
   isPointerInGraceArea,
   LAST_KEYS,
-  SELECTION_KEYS,
   type Side,
   whenMouse,
-} from './utils'
+} from './menu.libs'
+import { usePortalContext } from './portal'
 
 const CONTENT_NAME = 'MenuContent'
 
@@ -215,7 +211,6 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, MenuContentImpl
     const [currentItemId, setCurrentItemId] = React.useState<string | null>(null)
     const contentRef = React.useRef<HTMLDivElement>(null)
     const composedRefs = useComposedRefs(forwardedRef, contentRef, context.onContentChange)
-    const timerRef = React.useRef(0)
     const searchRef = React.useRef('')
     const pointerGraceTimerRef = React.useRef(0)
     const pointerGraceIntentRef = React.useRef<GraceIntent | null>(null)
@@ -225,34 +220,28 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, MenuContentImpl
     const ScrollLockWrapper = disableOutsideScroll ? RemoveScroll : React.Fragment
     const scrollLockWrapperProps = disableOutsideScroll ? { as: Slot, allowPinchZoom: true } : undefined
 
-    const handleTypeaheadSearch = (key: string) => {
-      const search = searchRef.current + key
-      const items = getItems().filter((item) => !item.disabled)
-      const currentItem = document.activeElement
-      const currentMatch = items.find((item) => item.ref.current === currentItem)?.textValue
-      const values = items.map((item) => item.textValue)
-      const nextMatch = getNextMatch(values, search, currentMatch)
-      const newItem = items.find((item) => item.textValue === nextMatch)?.ref.current
+    const [, handleTypeaheadSearch, resetTypeahead] = useTypeaheadListNavigation({
+      getItems: () => getItems().filter((item) => !item.disabled),
+      getItemElement: (item) => item.ref.current as HTMLElement | null,
+      getItemTextValue: (item) => item.textValue || (item.ref.current?.textContent ?? '').trim(),
+      onMatch: (item) => {
+        const node = item.ref.current as HTMLElement | null
+        if (node) {
+          /**
+           * Imperative focus during keydown is risky so we prevent React's batching updates
+           * to avoid potential bugs. See: https://github.com/facebook/react/issues/20332
+           */
+          setTimeout(() => node.focus())
+        }
+      },
+      externalSearchRef: searchRef,
+    })
 
-      // Reset `searchRef` 1 second after it was last updated
-      ;(function updateSearch(value: string) {
-        searchRef.current = value
-        window.clearTimeout(timerRef.current)
-        if (value !== '') timerRef.current = window.setTimeout(() => updateSearch(''), 1000)
-      })(search)
-
-      if (newItem) {
-        /**
-         * Imperative focus during keydown is risky so we prevent React's batching updates
-         * to avoid potential bugs. See: https://github.com/facebook/react/issues/20332
-         */
-        setTimeout(() => (newItem as HTMLElement).focus())
-      }
-    }
+    const handleVimKey = useVimNavigation({ onNavigate: resetTypeahead })
 
     React.useEffect(() => {
-      return () => window.clearTimeout(timerRef.current)
-    }, [])
+      return () => resetTypeahead()
+    }, [resetTypeahead])
 
     // Make sure the whole tree has focus guards as our `MenuContent` may be
     // the last element in the DOM (because of the `Portal`)
@@ -324,10 +313,10 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, MenuContentImpl
                 })}
                 preventScrollOnEntryFocus>
                 <PopperPrimitive.Content
+                  data-slot="menu-content"
                   role="menu"
                   aria-orientation="vertical"
                   data-state={getOpenState(context.open)}
-                  data-gentleduck-menu-content=""
                   dir={rootContext.dir}
                   {...popperScope}
                   {...contentProps}
@@ -336,12 +325,17 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, MenuContentImpl
                   onKeyDown={composeEventHandlers(contentProps.onKeyDown, (event) => {
                     // submenu key events bubble through portals. We only care about keys in this menu.
                     const target = event.target as HTMLElement
-                    const isKeyDownInside = target.closest('[data-gentleduck-menu-content]') === event.currentTarget
+                    const isKeyDownInside = target.closest('[role="menu"]') === event.currentTarget
                     const isModifierKey = event.ctrlKey || event.altKey || event.metaKey
                     const isCharacterKey = event.key.length === 1
                     if (isKeyDownInside) {
                       // menus should not be navigated using tab key so we prevent it
                       if (event.key === 'Tab') event.preventDefault()
+
+                      const enabledItems = getItems().filter((item) => !item.disabled)
+                      const nodes = enabledItems.map((item) => item.ref.current!)
+                      if (handleVimKey(event, nodes)) return
+
                       if (!isModifierKey && isCharacterKey) handleTypeaheadSearch(event.key)
                     }
                     // focus first/last item based on key pressed
@@ -356,10 +350,8 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, MenuContentImpl
                   })}
                   onBlur={composeEventHandlers(props.onBlur, (event) => {
                     // clear search buffer when leaving the menu
-                    if (!event.currentTarget.contains(event.target)) {
-                      window.clearTimeout(timerRef.current)
-                      searchRef.current = ''
-                    }
+                    const nextTarget = event.relatedTarget as Node | null
+                    if (!event.currentTarget.contains(nextTarget)) resetTypeahead()
                   })}
                   onPointerMove={composeEventHandlers(
                     props.onPointerMove,

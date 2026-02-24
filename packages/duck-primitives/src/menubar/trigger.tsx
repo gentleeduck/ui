@@ -31,6 +31,7 @@ const MenubarTrigger = React.forwardRef<MenubarTriggerElement, MenubarTriggerPro
         <RovingFocusGroup.Item asChild {...rovingFocusGroupScope} focusable={!disabled} tabStopId={menuContext.value}>
           <MenuPrimitive.Anchor asChild {...menuScope}>
             <Primitive.button
+              data-slot="menubar-trigger"
               type="button"
               role="menuitem"
               id={menuContext.triggerId}

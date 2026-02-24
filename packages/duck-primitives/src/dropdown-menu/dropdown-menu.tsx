@@ -2,6 +2,7 @@
 import * as React from 'react'
 import { useControllableState } from '../hooks/use-controllable-state'
 import type { Direction } from '../hooks/use-direction'
+import { useDirection } from '../hooks/use-direction'
 import { useId } from '../hooks/use-id'
 import { createContextScope, type Scope } from '../libs/create-context'
 import * as MenuPrimitive from '../menu'
@@ -20,6 +21,7 @@ type DropdownMenuContextValue = {
   open: boolean
   onOpenChange(open: boolean): void
   onOpenToggle(): void
+  dir: Direction
   modal: boolean
 }
 
@@ -37,6 +39,7 @@ interface DropdownMenuProps {
 
 const DropdownMenu: React.FC<DropdownMenuProps> = (props: ScopedProps<DropdownMenuProps>) => {
   const { __scopeDropdownMenu, children, dir, open: openProp, defaultOpen, onOpenChange, modal = true } = props
+  const direction = useDirection(dir)
   const menuScope = useMenuScope(__scopeDropdownMenu)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const [open, setOpen] = useControllableState({
@@ -55,8 +58,9 @@ const DropdownMenu: React.FC<DropdownMenuProps> = (props: ScopedProps<DropdownMe
       open={open}
       onOpenChange={setOpen}
       onOpenToggle={React.useCallback(() => setOpen((prevOpen) => !prevOpen), [setOpen])}
+      dir={direction}
       modal={modal}>
-      <MenuPrimitive.Root {...menuScope} open={open} onOpenChange={setOpen} dir={dir} modal={modal}>
+      <MenuPrimitive.Root {...menuScope} open={open} onOpenChange={setOpen} dir={direction} modal={modal}>
         {children}
       </MenuPrimitive.Root>
     </DropdownMenuProvider>

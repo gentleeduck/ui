@@ -19,14 +19,14 @@ function FocusGuards(props: { children?: React.ReactNode }) {
  */
 function useFocusGuards() {
   React.useEffect(() => {
-    const edgeGuards = document.querySelectorAll('[data-gentleduck-focus-guard]')
+    const edgeGuards = document.querySelectorAll('[data-slot="focus-guard"]')
     document.body.insertAdjacentElement('afterbegin', edgeGuards[0] ?? createFocusGuard())
     document.body.insertAdjacentElement('beforeend', edgeGuards[1] ?? createFocusGuard())
     count++
 
     return () => {
       if (count === 1) {
-        document.querySelectorAll('[data-gentleduck-focus-guard]').forEach((node) => node.remove())
+        document.querySelectorAll('[data-slot="focus-guard"]').forEach((node) => node.remove())
       }
       count--
     }
@@ -35,7 +35,7 @@ function useFocusGuards() {
 
 function createFocusGuard() {
   const element = document.createElement('span')
-  element.setAttribute('data-gentleduck-focus-guard', '')
+  element.setAttribute('data-slot', 'focus-guard')
   element.tabIndex = 0
   element.style.outline = 'none'
   element.style.opacity = '0'

@@ -137,6 +137,7 @@ const HoverCardContentImpl = React.forwardRef<HoverCardContentImplElement, Hover
         })}
         onDismiss={context.onDismiss}>
         <PopperPrimitive.Content
+          data-slot="hover-card-content"
           {...popperScope}
           {...contentProps}
           dir={context.dir}

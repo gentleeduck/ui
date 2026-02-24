@@ -25,6 +25,7 @@ export const PopoverTrigger = React.forwardRef<
 
   const trigger = (
     <Primitive.button
+      data-slot="popover-trigger"
       type="button"
       aria-haspopup="dialog"
       aria-expanded={context.open}

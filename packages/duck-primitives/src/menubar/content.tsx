@@ -25,7 +25,7 @@ const MenubarContent = React.forwardRef<MenubarContentElement, MenubarContentPro
       <MenuPrimitive.Content
         id={menuContext.contentId}
         aria-labelledby={menuContext.triggerId}
-        data-gentleduck-menubar-content=""
+        data-slot="menubar-content"
         {...menuScope}
         {...contentProps}
         ref={forwardedRef}
@@ -54,19 +54,34 @@ const MenubarContent = React.forwardRef<MenubarContentElement, MenubarContentPro
         onKeyDown={composeEventHandlers(
           props.onKeyDown,
           (event) => {
-            if (['ArrowRight', 'ArrowLeft'].includes(event.key)) {
-              const target = event.target as HTMLElement
-              const targetIsSubTrigger = target.hasAttribute('data-gentleduck-menubar-subtrigger')
-              const isKeyDownInsideSubMenu = target.closest('[data-gentleduck-menubar-content]') !== event.currentTarget
+            // Shift+I = jump to first menu, Shift+A = jump to last menu (vim-style)
+            // In RTL these swap: Shift+I = last, Shift+A = first
+            if (event.key === 'I' || event.key === 'A') {
+              const items = getItems().filter((item) => !item.disabled)
+              const values = items.map((item) => item.value)
+              const isFirst = context.dir === 'rtl' ? event.key === 'A' : event.key === 'I'
+              const targetValue = isFirst ? values[0] : values[values.length - 1]
+              if (targetValue) {
+                event.preventDefault()
+                context.onMenuOpen(targetValue)
+              }
+              return
+            }
 
-              const prevMenuKey = context.dir === 'rtl' ? 'ArrowRight' : 'ArrowLeft'
-              const isPrevKey = prevMenuKey === event.key
-              const isNextKey = !isPrevKey
+            if (['ArrowRight', 'ArrowLeft', 'h', 'l'].includes(event.key)) {
+              const target = event.target as HTMLElement
+              const targetIsSubTrigger =
+                target.closest('[data-slot="menubar-subtrigger"]') !== null ||
+                target.closest('[data-gentleduck-menubar-subtrigger]') !== null
+              // Submenu key events bubble through portals. Use role-based detection
+              // so this still works if data-slot is customized by consumers.
+              const isKeyDownInsideSubMenu = target.closest('[role="menu"]') !== event.currentTarget
+
+              const isPrevKey = event.key === 'ArrowLeft' || event.key === 'h'
+              const isNextKey = event.key === 'ArrowRight' || event.key === 'l'
 
               // Prevent navigation when we're opening a submenu
-              if (isNextKey && targetIsSubTrigger) return
-              // or we're inside a submenu and are moving backwards to close it
-              if (isKeyDownInsideSubMenu && isPrevKey) return
+              if (isNextKey && targetIsSubTrigger && !isKeyDownInsideSubMenu) return
 
               const items = getItems().filter((item) => !item.disabled)
               let candidateValues = items.map((item) => item.value)
@@ -79,7 +94,10 @@ const MenubarContent = React.forwardRef<MenubarContentElement, MenubarContentPro
                 : candidateValues.slice(currentIndex + 1)
 
               const [nextValue] = candidateValues
-              if (nextValue) context.onMenuOpen(nextValue)
+              if (nextValue) {
+                event.preventDefault()
+                context.onMenuOpen(nextValue)
+              }
             }
           },
           { checkForDefaultPrevented: false },

@@ -18,6 +18,7 @@ interface VisuallyHiddenProps extends PrimitiveSpanProps {}
 const VisuallyHidden = React.forwardRef<VisuallyHiddenElement, VisuallyHiddenProps>((props, forwardedRef) => {
   return (
     <Primitive.span
+      data-slot="visually-hidden"
       {...props}
       ref={forwardedRef}
       style={{

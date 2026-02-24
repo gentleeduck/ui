@@ -14,7 +14,9 @@ const MenuGroup = React.forwardRef<MenuGroupElement, MenuGroupProps>(
   (props: ScopedProps<MenuGroupProps>, forwardedRef) => {
     const { __scopeMenu, ...groupProps } = props
     const rootContext = useMenuRootContext(GROUP_NAME, __scopeMenu)
-    return <Primitive.div role="group" dir={rootContext.dir} {...groupProps} ref={forwardedRef} />
+    return (
+      <Primitive.div data-slot="menu-group" role="group" dir={rootContext.dir} {...groupProps} ref={forwardedRef} />
+    )
   },
 )
 

@@ -17,7 +17,7 @@ export const HoverCardArrow = React.forwardRef<HoverCardArrowElement, HoverCardA
   (props: ScopedProps<HoverCardArrowProps>, forwardedRef) => {
     const { __scopeHoverCard, ...arrowProps } = props
     const popperScope = usePopperScope(__scopeHoverCard)
-    return <PopperPrimitive.Arrow {...popperScope} {...arrowProps} ref={forwardedRef} />
+    return <PopperPrimitive.Arrow data-slot="hover-card-arrow" {...popperScope} {...arrowProps} ref={forwardedRef} />
   },
 )
 

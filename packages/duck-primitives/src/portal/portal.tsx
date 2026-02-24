@@ -25,7 +25,9 @@ const Portal = React.forwardRef<PortalElement, PortalProps>((props, forwardedRef
   const [mounted, setMounted] = React.useState(false)
   useLayoutEffect(() => setMounted(true), [])
   const container = containerProp || (mounted && globalThis?.document?.body)
-  return container ? ReactDOM.createPortal(<Primitive.div {...portalProps} ref={forwardedRef} />, container) : null
+  return container
+    ? ReactDOM.createPortal(<Primitive.div data-slot="portal" {...portalProps} ref={forwardedRef} />, container)
+    : null
 })
 
 Portal.displayName = PORTAL_NAME

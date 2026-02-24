@@ -11,7 +11,7 @@ import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { clamp } from '../libs/clamp'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
-import { focusFirst, getNavigationCandidates, NAVIGATION_KEYS } from '../libs/list-navigation'
+import { focusFirst, getNavigationCandidates, NAVIGATION_KEYS, useVimNavigation } from '../libs/list-navigation'
 import * as PopperPrimitive from '../popper'
 import { Presence } from '../presence/presence'
 import { Primitive } from '../primitive-elements'
@@ -27,7 +27,7 @@ import {
   useSelectContentContext,
   useSelectContext,
 } from './select'
-import { findNextItem, useTypeaheadSearch } from './select.libs'
+import { useTypeaheadListNavigation } from './select.libs'
 
 const CONTENT_NAME = 'SelectContent'
 
@@ -216,14 +216,17 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, SelectConte
       }
     }, [onOpenChange])
 
-    const [searchRef, handleTypeaheadSearch] = useTypeaheadSearch((search) => {
-      const enabledItems = getItems().filter((item) => !item.disabled)
-      const currentItem = enabledItems.find((item) => item.ref.current === document.activeElement)
-      const nextItem = findNextItem(enabledItems, search, currentItem)
-      if (nextItem) {
-        setTimeout(() => (nextItem.ref.current as HTMLElement).focus())
-      }
+    const [searchRef, handleTypeaheadSearch, resetTypeaheadState] = useTypeaheadListNavigation({
+      getItems: () => getItems().filter((item) => !item.disabled),
+      getItemElement: (item) => item.ref.current as HTMLElement | null,
+      getItemTextValue: (item) => item.textValue || (item.ref.current?.textContent ?? '').trim(),
+      onMatch: (item) => {
+        const node = item.ref.current as HTMLElement | null
+        if (node) setTimeout(() => node.focus())
+      },
     })
+
+    const handleVimKey = useVimNavigation({ onNavigate: resetTypeaheadState })
 
     const itemRefCallback = React.useCallback(
       (node: HTMLDivElement | null, value: string, disabled: boolean) => {
@@ -331,11 +334,14 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, SelectConte
                   // select should not be navigated using tab key so we prevent it
                   if (event.key === 'Tab') event.preventDefault()
 
+                  // Vim keybindings (gg -> top, G -> bottom)
+                  const enabledItems = getItems().filter((item) => !item.disabled)
+                  const nodes = enabledItems.map((item) => item.ref.current!)
+                  if (handleVimKey(event, nodes)) return
+
                   if (!isModifierKey && event.key.length === 1) handleTypeaheadSearch(event.key)
 
                   if ((NAVIGATION_KEYS as readonly string[]).includes(event.key)) {
-                    const items = getItems().filter((item) => !item.disabled)
-                    const nodes = items.map((item) => item.ref.current!)
                     const candidateNodes = getNavigationCandidates(nodes, event.key, event.target as HTMLElement)
 
                     setTimeout(() => focusFirstItem(candidateNodes))
@@ -540,6 +546,7 @@ const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElem
             zIndex: contentZIndex,
           }}>
           <Primitive.div
+            data-slot="select-item-aligned-position"
             {...popperProps}
             ref={composedRefs}
             style={{
@@ -574,6 +581,7 @@ const SelectPopperPosition = React.forwardRef<SelectPopperPositionElement, Selec
 
     return (
       <PopperPrimitive.Content
+        data-slot="select-popper-position"
         {...popperScope}
         {...popperProps}
         ref={forwardedRef}

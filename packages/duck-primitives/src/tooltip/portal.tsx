@@ -1,7 +1,8 @@
 import type * as React from 'react'
 import { Portal as PortalPrimitive } from '../portal'
 import { Presence } from '../presence'
-import { createTooltipContext, type ScopedProps, useTooltipContext } from './tooltip'
+import { useTooltipContext } from './tooltip'
+import { createTooltipContext, type ScopedProps } from './tooltip.libs'
 
 const PORTAL_NAME = 'TooltipPortal'
 

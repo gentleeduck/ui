@@ -3,7 +3,9 @@ import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import * as PopperPrimitive from '../popper'
 import { Primitive } from '../primitive-elements'
-import { type ScopedProps, usePopperScope, useTooltipContext, useTooltipProviderContext } from './tooltip'
+import { useTooltipProviderContext } from './provider'
+import { useTooltipContext } from './tooltip'
+import { type ScopedProps, usePopperScope } from './tooltip.libs'
 
 const TRIGGER_NAME = 'TooltipTrigger'
 
@@ -30,6 +32,7 @@ export const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTri
     return (
       <PopperPrimitive.PopperAnchor asChild {...popperScope}>
         <Primitive.button
+          data-slot="tooltip-trigger"
           // We purposefully avoid adding `type=button` here because tooltip triggers are also
           // commonly anchors and the anchor `type` attribute signifies MIME type.
           aria-describedby={context.open ? context.contentId : undefined}

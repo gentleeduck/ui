@@ -20,6 +20,7 @@ export const PopoverClose = React.forwardRef<
 
   return (
     <Primitive.button
+      data-slot="popover-close"
       type="button"
       dir={context.dir}
       {...closeProps}

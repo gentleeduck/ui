@@ -13,7 +13,15 @@ export const SelectLabel = React.forwardRef<SelectLabelElement, SelectLabelProps
     const { __scopeSelect, ...labelProps } = props
     const context = useSelectContext(LABEL_NAME, __scopeSelect)
     const groupContext = useSelectGroupContext(LABEL_NAME, __scopeSelect)
-    return <Primitive.div id={groupContext.id} dir={context.dir} {...labelProps} ref={forwardedRef} />
+    return (
+      <Primitive.div
+        data-slot="select-label"
+        id={groupContext.id}
+        dir={context.dir}
+        {...labelProps}
+        ref={forwardedRef}
+      />
+    )
   },
 )
 

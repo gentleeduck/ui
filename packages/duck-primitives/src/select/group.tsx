@@ -16,7 +16,14 @@ export const SelectGroup = React.forwardRef<SelectGroupElement, SelectGroupProps
     const groupId = useId()
     return (
       <SelectGroupContextProvider scope={__scopeSelect} id={groupId}>
-        <Primitive.div role="group" aria-labelledby={groupId} dir={context.dir} {...groupProps} ref={forwardedRef} />
+        <Primitive.div
+          data-slot="select-group"
+          role="group"
+          aria-labelledby={groupId}
+          dir={context.dir}
+          {...groupProps}
+          ref={forwardedRef}
+        />
       </SelectGroupContextProvider>
     )
   },

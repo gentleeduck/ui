@@ -23,7 +23,9 @@ const DropdownMenuTrigger = React.forwardRef<DropdownMenuTriggerElement, Dropdow
     return (
       <MenuPrimitive.Anchor asChild {...menuScope}>
         <Primitive.button
+          data-slot="dropdown-menu-trigger"
           type="button"
+          dir={context.dir}
           id={context.triggerId}
           aria-haspopup="menu"
           aria-expanded={context.open}

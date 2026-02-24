@@ -59,6 +59,7 @@ const SliderThumbImpl = React.forwardRef<SliderThumbImplElement, SliderThumbImpl
 
     return (
       <span
+        dir={context.dir}
         style={{
           transform: 'var(--gentleduck-slider-thumb-transform)',
           position: 'absolute',
@@ -66,6 +67,8 @@ const SliderThumbImpl = React.forwardRef<SliderThumbImplElement, SliderThumbImpl
         }}>
         <Collection.ItemSlot scope={props.__scopeSlider}>
           <Primitive.span
+            data-slot="slider-thumb"
+            dir={context.dir}
             role="slider"
             aria-label={props['aria-label'] || label}
             aria-valuemin={context.min}
