@@ -10,7 +10,7 @@
       "type": "registry:ui"
     },
     {
-      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport * as React from 'react'\n\nconst Separator = React.forwardRef<\n  HTMLHRElement,\n  React.HTMLAttributes<HTMLHRElement> & {\n    orientation?: 'horizontal' | 'vertical'\n  }\n>(({ className, orientation = 'horizontal', ...props }, ref) => (\n  <hr\n    ref={ref}\n    aria-orientation={orientation}\n    className={cn(\n      'shrink-0 bg-border',\n      orientation === 'horizontal' ? 'h-[1px] w-full' : 'min-h-full w-[1px]',\n      className,\n    )}\n    {...props}\n    data-slot=\"separator\"\n  />\n))\nSeparator.displayName = 'Separator'\n\nexport { Separator }\n",
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport * as React from 'react'\nimport { useDirection } from '@gentleduck/primitives/hooks/direction'\n\nconst Separator = React.forwardRef<\n  HTMLHRElement,\n  React.HTMLAttributes<HTMLHRElement> & {\n    orientation?: 'horizontal' | 'vertical'\n  }\n>(({ className, orientation = 'horizontal', ...props }, ref) => {\n  const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)\n  return (\n    <hr\n      ref={ref}\n      aria-orientation={orientation}\n      className={cn(\n        'shrink-0 bg-border',\n        orientation === 'horizontal' ? 'h-[1px] w-full' : 'min-h-full w-[1px]',\n        className,\n      )}\n      dir={direction}\n      {...props}\n      data-slot=\"separator\"\n    />\n  )\n})\nSeparator.displayName = 'Separator'\n\nexport { Separator }\n",
       "path": "separator/separator.tsx",
       "target": "components/ui/separator.tsx",
       "type": "registry:ui"
