@@ -4,7 +4,10 @@ description: A container that groups related button like elements together with 
 component: true
 ---
 
-<ComponentPreview name="button-group-1" />
+<ComponentPreview
+  name="button-group-1"
+  description="An email toolbar with nested button groups, featuring archive, report, and snooze actions alongside a dropdown menu for additional options."
+/>
 
 ## Philosophy
 
@@ -105,19 +108,28 @@ import {
 
 Set the `orientation` prop to change the button group layout.
 
-<ComponentPreview name="button-group-2" />
+<ComponentPreview
+  name="button-group-2"
+  description="A vertical button group with plus and minus icon buttons stacked on top of each other."
+/>
 
 ### Size
 
 Control the size of buttons using the `size` prop on individual buttons.
 
-<ComponentPreview name="button-group-3" />
+<ComponentPreview
+  name="button-group-3"
+  description="Button groups rendered at small, default, and large sizes to demonstrate the size prop on individual buttons."
+/>
 
 ### Nested
 
 Nest `<ButtonGroup>` components to create button groups with spacing.
 
-<ComponentPreview name="button-group-4" />
+<ComponentPreview
+  name="button-group-4"
+  description="Nested button groups combining a pagination group with previous and next arrow buttons."
+/>
 
 ### Separator
 
@@ -125,43 +137,64 @@ The `ButtonGroupSeparator` component visually divides buttons within a group.
 
 Buttons with variant `outline` do not need a separator since they have a border. For other variants, a separator is recommended to improve the visual hierarchy.
 
-<ComponentPreview name="button-group-5" />
+<ComponentPreview
+  name="button-group-5"
+  description="A button group with a ButtonGroupSeparator dividing Copy and Paste actions using the secondary variant."
+/>
 
 ### Split
 
 Create a split button group by adding two buttons separated by a `ButtonGroupSeparator`.
 
-<ComponentPreview name="button-group-6" />
+<ComponentPreview
+  name="button-group-6"
+  description="A split button with a primary action and a separator followed by a plus icon button for secondary actions."
+/>
 
 ### Input
 
 Wrap an `Input` component with buttons.
 
-<ComponentPreview name="button-group-7" />
+<ComponentPreview
+  name="button-group-7"
+  description="A search input paired with a search icon button inside a button group."
+/>
 
 ### Input Group
 
 Wrap an `InputGroup` component to create complex input layouts.
 
-<ComponentPreview name="button-group-8" />
+<ComponentPreview
+  name="button-group-8"
+  description="A messaging input group with a plus button, text input, and a toggleable voice mode addon inside nested button groups."
+/>
 
 ### Dropdown Menu
 
 Create a split button group with a `DropdownMenu` component.
 
-<ComponentPreview name="button-group-9" />
+<ComponentPreview
+  name="button-group-9"
+  description="A split button group with a Follow action and a dropdown menu for conversation options like mute, report, and delete."
+/>
 
 ### Select
 
 Pair with a `Select` component.
 
-<ComponentPreview name="button-group-10" />
+<ComponentPreview
+  name="button-group-10"
+  description="Three currency select dropdowns grouped together with an arrow submit button for currency conversion."
+/>
 
 ### Popover
 
 Use with a `Popover` component.
 
-<ComponentPreview name="button-group-11" />
+<ComponentPreview
+  name="button-group-11"
+  description="A Copilot button paired with a popover that opens a task description form for starting agent tasks."
+/>
 
 ## API Reference
 

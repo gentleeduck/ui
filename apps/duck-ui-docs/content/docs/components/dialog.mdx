@@ -101,7 +101,10 @@ import {
 
 ### Controlled Dialog 
 
-<ComponentPreview name="dialog-2" />
+<ComponentPreview
+  name="dialog-2"
+  description="A controlled dialog for editing profile details with open state management."
+/>
 
 ## Notes
 
@@ -167,7 +170,6 @@ To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, y
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `asChild` | `boolean` | `false` | Renders the child as trigger element instead of a default button |
 | `children` | `React.ReactNode` | -- | Trigger content |
 | `...props` | `React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>` | -- | Additional props inherited from `DialogPrimitive.Trigger` |
 
@@ -190,6 +192,7 @@ To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, y
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `forceMount` | `true` | -- | Force mounting for animation control |
 | `className` | `string` | -- | Additional CSS classes applied to the content panel |
 | `children` | `React.ReactNode` | -- | Dialog inner content |
 | `...props` | `React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>` | -- | Additional props inherited from `DialogPrimitive.Content` |
@@ -210,7 +213,7 @@ To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, y
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes applied to the footer |
 | `children` | `React.ReactNode` | -- | Footer content (typically action buttons) |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | -- | Additional props to spread to the footer container |
 
 ### DialogTitle
 
@@ -232,7 +235,6 @@ To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, y
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `asChild` | `boolean` | `false` | Renders child as the close control |
 | `children` | `React.ReactNode` | -- | Close control content |
 | `...props` | `React.ComponentPropsWithoutRef<typeof DialogPrimitive.Close>` | -- | Additional props inherited from `DialogPrimitive.Close` |
 
