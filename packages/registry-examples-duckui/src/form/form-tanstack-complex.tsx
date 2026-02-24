@@ -69,14 +69,16 @@ function toFieldErrors(errors: unknown[]) {
 }
 
 export default function FormTanStackComplex() {
-  const form = useForm<FormValues>({
-    defaultValues: {
-      description: '',
-      language: 'auto',
-      plan: 'free',
-      title: '',
-      twoFactor: true,
-    },
+  const defaultValues: FormValues = {
+    description: '',
+    language: 'auto',
+    plan: 'free',
+    title: '',
+    twoFactor: true,
+  }
+
+  const form = useForm({
+    defaultValues,
     onSubmit: async ({ value }) => {
       toast.success('Complex form submitted', {
         description: (
@@ -185,9 +187,9 @@ export default function FormTanStackComplex() {
           children={(field) => {
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
             return (
-                <FieldSet>
-                  <FieldLegend>Support plan</FieldLegend>
-                  <FieldDescription>Select the support response tier for this project.</FieldDescription>
+              <FieldSet>
+                <FieldLegend>Support plan</FieldLegend>
+                <FieldDescription>Select the support response tier for this project.</FieldDescription>
                 <RadioGroup
                   name={field.name}
                   value={field.state.value}
