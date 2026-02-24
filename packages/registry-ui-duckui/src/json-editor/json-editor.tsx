@@ -23,7 +23,7 @@ import { FormControl, FormDescription, FormItem, FormLabel, FormMessage } from '
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../sheet'
 import { useJsonEditorHotkeys } from './json-editor.hooks'
 import { formatJson, isObjectLike, safeStringify, tryParseJson } from './json-editor.libs'
-import type { JsonTextareaFieldProps } from './json-editor.types'
+import type { JsonEditorText, JsonTextareaFieldProps } from './json-editor.types'
 import { JsonEditorView } from './json-editor.view'
 
 export function JsonTextareaField<TFieldValues extends FieldValues>(
@@ -43,11 +43,32 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
     placeholder = '{\n  "theme": "dark"\n}',
     lineNumbers = true,
     lineHeightPx = 20,
+    dir,
+    lang,
     expandMode = 'sheet',
     sheetSide = 'right',
     sheetTitle = 'Edit JSON',
+    text: textProp,
     onExpandEditor,
   } = props
+
+  const t: Required<JsonEditorText> = {
+    format: textProp?.format ?? 'Format',
+    cancel: textProp?.cancel ?? 'Cancel',
+    save: textProp?.save ?? 'Save',
+    full: textProp?.full ?? 'Full',
+    close: textProp?.close ?? 'Close',
+    keepEditing: textProp?.keepEditing ?? 'Keep editing',
+    discard: textProp?.discard ?? 'Discard',
+    discardTitle: textProp?.discardTitle ?? 'Discard changes?',
+    discardDescription:
+      textProp?.discardDescription ?? 'You have unsaved changes in the editor. If you close now, they will be lost.',
+    statusHint: textProp?.statusHint ?? 'Ctrl/Cmd + Enter: Save, Esc: Cancel',
+    sheetStatusHint: textProp?.sheetStatusHint ?? 'Ctrl/Cmd + Enter: Save, Esc: Close',
+    unsavedChanges: textProp?.unsavedChanges ?? 'Unsaved changes',
+    saved: textProp?.saved ?? 'Saved',
+    nullPreview: textProp?.nullPreview ?? 'NULL',
+  }
 
   const { field } = useController({ control, name })
   const committedText = React.useMemo(() => safeStringify(field.value), [field.value])
@@ -218,7 +239,7 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
   }, [sheetDraft])
 
   const preview = React.useMemo(() => {
-    if (!committedText.trim()) return 'NULL'
+    if (!committedText.trim()) return t.nullPreview
 
     const oneLine = committedText.replace(/\s+/g, ' ').trim()
     return oneLine.length > 120 ? `${oneLine.slice(0, 117)}...` : oneLine
@@ -227,6 +248,8 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
   const inlineEditor = (
     <div className="space-y-2" data-slot="json-editor-inline">
       <JsonEditorView
+        dir={dir}
+        lang={lang}
         lineHeightPx={lineHeightPx}
         lineNumbers={lineNumbers}
         onChange={(value) => {
@@ -245,14 +268,14 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
       <div
         className="flex items-center justify-between gap-2 text-muted-foreground text-xs"
         data-slot="json-editor-status">
-        <span>Ctrl/⌘ + Enter: Save, Esc: Cancel</span>
-        {dirty ? <span className="text-foreground">Unsaved changes</span> : <span>Saved</span>}
+        <span>{t.statusHint}</span>
+        {dirty ? <span className="text-foreground">{t.unsavedChanges}</span> : <span>{t.saved}</span>}
       </div>
     </div>
   )
 
   return (
-    <FormItem className={cn('space-y-3', className)} data-slot="json-editor-field">
+    <FormItem className={cn('space-y-3', className)} data-slot="json-editor-field" dir={dir}>
       <div className="mb-1 flex items-start justify-between gap-4" data-slot="json-editor-header">
         <div className="space-y-1">
           <FormLabel className="font-semibold text-base">{label}</FormLabel>
@@ -266,16 +289,16 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
             size="sm"
             type="button"
             variant="outline">
-            Format
+            {t.format}
           </Button>
 
           {dirty ? (
             <>
               <Button onClick={cancelInline} size="sm" type="button" variant="outline">
-                Cancel
+                {t.cancel}
               </Button>
               <Button disabled={!isEditable} onClick={saveInline} size="sm" type="button">
-                Save
+                {t.save}
               </Button>
             </>
           ) : null}
@@ -283,7 +306,7 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
           {expandMode !== 'none' ? (
             <Button onClick={handleExpand} size="sm" type="button" variant="outline">
               <Maximize size={14} />
-              <span className="ms-2">Full</span>
+              <span className="ms-2">{t.full}</span>
             </Button>
           ) : null}
         </div>
@@ -323,13 +346,15 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
               requestCloseSheet()
             }}
             open={sheetOpen}>
-            <SheetContent className="w-full sm:max-w-3xl" side={sheetSide}>
+            <SheetContent className="w-full sm:max-w-3xl" dir={dir} side={sheetSide}>
               <SheetHeader>
                 <SheetTitle>{sheetTitle}</SheetTitle>
               </SheetHeader>
 
               <div className="mt-4 space-y-3" data-slot="json-editor-sheet-content">
                 <JsonEditorView
+                  dir={dir}
+                  lang={lang}
                   lineHeightPx={lineHeightPx}
                   lineNumbers={lineNumbers}
                   onChange={(value) => {
@@ -346,7 +371,7 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
                 />
 
                 <div className="flex items-center justify-between gap-2" data-slot="json-editor-sheet-actions">
-                  <div className="text-muted-foreground text-xs">Ctrl/⌘ + Enter: Save, Esc: Close</div>
+                  <div className="text-muted-foreground text-xs">{t.sheetStatusHint}</div>
 
                   <div className="flex items-center gap-2">
                     <Button
@@ -355,15 +380,15 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
                       size="sm"
                       type="button"
                       variant="outline">
-                      Format
+                      {t.format}
                     </Button>
 
                     <Button onClick={requestCloseSheet} size="sm" type="button" variant="outline">
-                      Close
+                      {t.close}
                     </Button>
 
                     <Button disabled={!isEditable} onClick={saveSheet} size="sm" type="button">
-                      Save
+                      {t.save}
                     </Button>
                   </div>
                 </div>
@@ -377,20 +402,18 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
         <AlertDialog onOpenChange={setConfirmDiscardOpen} open={confirmDiscardOpen}>
           <AlertDialogContent>
             <AlertDialogHeader>
-              <AlertDialogTitle>Discard changes?</AlertDialogTitle>
-              <AlertDialogDescription>
-                You have unsaved changes in the editor. If you close now, they will be lost.
-              </AlertDialogDescription>
+              <AlertDialogTitle>{t.discardTitle}</AlertDialogTitle>
+              <AlertDialogDescription>{t.discardDescription}</AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel onClick={() => setConfirmDiscardOpen(false)}>
                 <Button variant="outline" size="sm">
-                  Keep editing
+                  {t.keepEditing}
                 </Button>
               </AlertDialogCancel>
               <AlertDialogAction onClick={discardSheetChanges}>
                 <Button variant="default" size="sm">
-                  Discard
+                  {t.discard}
                 </Button>
               </AlertDialogAction>
             </AlertDialogFooter>
