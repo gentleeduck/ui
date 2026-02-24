@@ -1,5 +1,5 @@
 import { cn } from '@gentleduck/libs/cn'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 
 interface ScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -7,8 +7,8 @@ interface ScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
-  ({ children, className, viewportClassName, style, ...props }, ref) => {
-    const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
+  ({ children, className, viewportClassName, style, dir, ...props }, ref) => {
+    const direction = useDirection(dir as Direction)
     return (
       <div
         className={cn('relative overflow-hidden', className)}

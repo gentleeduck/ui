@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useDirection } from '../hooks/direction'
+import { useDirection } from '../direction'
 import { useCallbackRef } from '../hooks/use-callback-ref'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { composeEventHandlers } from '../libs/compose-event-handler'

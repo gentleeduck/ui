@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 import { Drawer as DrawerPrimitive } from 'vaul'
 
@@ -16,9 +16,14 @@ function resolveDrawerDirection(direction: DrawerDirection, dir: Direction): Dra
   return direction
 }
 
-function Drawer({ direction = 'bottom', shouldScaleBackground = true, dir, ...props }: DrawerProps): React.JSX.Element {
-  const resolvedDir = useDirection(dir)
-  const resolvedDirection = resolveDrawerDirection(direction, resolvedDir)
+function Drawer({
+  direction: drawerDirection = 'bottom',
+  shouldScaleBackground = true,
+  dir,
+  ...props
+}: DrawerProps): React.JSX.Element {
+  const direction = useDirection(dir as Direction)
+  const resolvedDirection = resolveDrawerDirection(drawerDirection, direction)
 
   return (
     <DrawerPrimitive.Root

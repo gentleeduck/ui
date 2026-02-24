@@ -1,10 +1,10 @@
 import { cn } from '@gentleduck/libs/cn'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import type { VariantProps } from '@gentleduck/variants'
 import { emptyMediaVariants } from './empty.constants'
 
-function Empty({ className, ...props }: React.ComponentProps<'div'>) {
-  const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
+function Empty({ className, dir, ...props }: React.ComponentProps<'div'>) {
+  const direction = useDirection(dir as Direction)
   return (
     <div
       className={cn(

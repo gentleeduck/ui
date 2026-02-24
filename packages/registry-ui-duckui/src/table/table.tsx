@@ -1,10 +1,10 @@
 import { cn } from '@gentleduck/libs/cn'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 
 const Table = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
-  ({ className, ...props }, ref) => {
-    const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
+  ({ className, dir, ...props }, ref) => {
+    const direction = useDirection(dir as Direction)
     return (
       <div className="relative w-full overflow-auto" dir={direction}>
         <table className={cn('w-full caption-bottom text-sm', className)} data-slot="table" ref={ref} {...props} />

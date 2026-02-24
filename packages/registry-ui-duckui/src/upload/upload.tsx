@@ -335,6 +335,6 @@
 //   )
 // }
 
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 
-export const useUploadDirection = (dir?: 'ltr' | 'rtl') => useDirection(dir)
+export const useUploadDirection = (dir?: 'ltr' | 'rtl') => useDirection(dir as Direction)

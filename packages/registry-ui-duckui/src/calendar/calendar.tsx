@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import * as React from 'react'
 import { type DayButton, DayPicker, getDefaultClassNames } from 'react-day-picker'
@@ -20,7 +20,7 @@ function Calendar({
 }: React.ComponentProps<typeof DayPicker> & {
   buttonVariant?: React.ComponentProps<typeof Button>['variant']
 }) {
-  const direction = useDirection(dir as 'ltr' | 'rtl' | undefined)
+  const direction = useDirection(dir as Direction)
   const defaultClassNames = getDefaultClassNames()
   const localeTag = React.useMemo(() => {
     const code = props.locale?.code

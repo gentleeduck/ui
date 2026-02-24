@@ -145,6 +145,13 @@ export const registry_ui: RegistryEntry[] = [
     type: 'registry:ui',
   },
   {
+    dependencies: ['@gentleduck/primitives'],
+    files: [],
+    name: 'direction',
+    root_folder: 'direction',
+    type: 'registry:ui',
+  },
+  {
     dependencies: ['@gentleduck/primitives', '@gentleduck/libs', 'lucide-react'],
     files: [],
     name: 'dropdown-menu',
@@ -182,7 +189,7 @@ export const registry_ui: RegistryEntry[] = [
     type: 'registry:ui',
   },
   {
-    dependencies: ['@gentleduck/libs'],
+    dependencies: ['@gentleduck/libs', '@gentleduck/primitives', 'lucide-react'],
     files: [],
     name: 'input-otp',
     root_folder: 'input-otp',

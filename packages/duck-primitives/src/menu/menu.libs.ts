@@ -3,7 +3,7 @@ import type * as React from 'react'
 import type { Polygon } from '../libs/shared-utils'
 import { isPointInPolygon } from '../libs/shared-utils'
 
-export type { Direction } from '../hooks/direction'
+export type { Direction } from '../direction'
 export type { Point, Polygon } from '../libs/shared-utils'
 export { focusFirst, isPointInPolygon, wrapArray } from '../libs/shared-utils'
 

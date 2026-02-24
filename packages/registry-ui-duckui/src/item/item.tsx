@@ -1,5 +1,5 @@
 import { cn } from '@gentleduck/libs/cn'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import { cva, type VariantProps } from '@gentleduck/variants'
 import * as React from 'react'
@@ -7,8 +7,8 @@ import { Separator } from '../separator'
 import { itemVariants } from './item.constants'
 
 const ItemGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
-  ({ className, ...props }, ref) => {
-    const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
+  ({ className, dir, ...props }, ref) => {
+    const direction = useDirection(dir as Direction)
     return (
       <div
         className={cn('group/item-group flex flex-col', className)}

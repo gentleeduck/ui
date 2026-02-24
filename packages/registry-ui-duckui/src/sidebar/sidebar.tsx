@@ -2,7 +2,7 @@
 
 import { useIsMobile } from '@gentleduck/hooks/use-is-mobile'
 import { cn } from '@gentleduck/libs/cn'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import { cva, type VariantProps } from '@gentleduck/variants'
 import { PanelLeftIcon } from 'lucide-react'
@@ -14,7 +14,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '
 import { Skeleton } from '../skeleton'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip'
 import { SidebarContext, useSidebar } from './sidebar.hooks'
-import type { SidebarContextProps, SidebarDirection } from './sidebar.types'
+import type { SidebarContextProps } from './sidebar.types'
 
 const SIDEBAR_COOKIE_NAME = 'sidebar_state'
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -23,18 +23,16 @@ const SIDEBAR_WIDTH_MOBILE = '18rem'
 const SIDEBAR_WIDTH_ICON = '3rem'
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b'
 
-type SidebarProviderProps = Omit<React.ComponentProps<'div'>, 'dir'> & {
+type SidebarProviderProps = React.ComponentProps<'div'> & {
   defaultOpen?: boolean
   open?: boolean
   onOpenChange?: (open: boolean) => void
-  dir?: SidebarDirection
 }
 
-type SidebarProps = Omit<React.ComponentProps<'div'>, 'dir'> & {
+type SidebarProps = React.ComponentProps<'div'> & {
   side?: 'left' | 'right'
   variant?: 'sidebar' | 'floating' | 'inset'
   collapsible?: 'offcanvas' | 'icon' | 'none'
-  dir?: SidebarDirection
   mobileTitle?: string
   mobileDescription?: string
 }
@@ -43,15 +41,15 @@ function SidebarProvider({
   defaultOpen = true,
   open: openProp,
   onOpenChange: setOpenProp,
-  dir: dirProp,
   className,
   style,
+  dir,
   children,
   ...props
 }: SidebarProviderProps) {
   const isMobile = useIsMobile()
   const [openMobile, setOpenMobile] = React.useState(false)
-  const direction = useDirection(dirProp)
+  const direction = useDirection(dir as Direction)
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
@@ -134,13 +132,13 @@ function Sidebar({
   collapsible = 'offcanvas',
   className,
   children,
-  dir: dirProp,
+  dir,
   mobileTitle = 'Sidebar',
   mobileDescription = 'Displays the mobile sidebar.',
   ...props
 }: SidebarProps) {
-  const { isMobile, state, openMobile, setOpenMobile, dir: contextDir } = useSidebar()
-  const direction = useDirection(dirProp ?? contextDir)
+  const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
+  const direction = useDirection(dir as Direction)
 
   if (collapsible === 'none') {
     return (
@@ -466,6 +464,7 @@ function SidebarMenuButton({
   variant = 'default',
   size = 'default',
   tooltip,
+  dir,
   className,
   ...props
 }: React.ComponentProps<'button'> & {
@@ -474,8 +473,9 @@ function SidebarMenuButton({
   tooltip?: string | React.ComponentProps<typeof TooltipContent>
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot : 'button'
-  const { isMobile, state, dir } = useSidebar()
-  const fallbackTooltipSide = dir === 'rtl' ? 'left' : 'right'
+  const { isMobile, state } = useSidebar()
+  const direction = useDirection(dir as Direction)
+  const fallbackTooltipSide = direction === 'rtl' ? 'left' : 'right'
 
   const button = (
     <Comp
@@ -495,7 +495,7 @@ function SidebarMenuButton({
   const tooltipProps = typeof tooltip === 'string' ? { children: tooltip } : tooltip
 
   return (
-    <Tooltip dir={dir}>
+    <Tooltip dir={direction}>
       <TooltipTrigger asChild>{button}</TooltipTrigger>
       <TooltipContent
         side={fallbackTooltipSide}

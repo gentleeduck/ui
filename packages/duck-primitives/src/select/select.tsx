@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import { useDirection } from '../hooks/direction'
+import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { useId } from '../hooks/use-id'
 import { usePrevious } from '../hooks/use-previous'

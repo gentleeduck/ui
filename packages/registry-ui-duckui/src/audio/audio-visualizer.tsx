@@ -1,6 +1,6 @@
 // @ts-noCheck
 
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { useTheme } from 'next-themes'
 import React from 'react'
 import { useAudioDataProvider } from './audio-record'
@@ -297,7 +297,7 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
 }) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const { process_audio, data, duration, animationProgress } = useAudioDataProvider()
-  const direction = useDirection(dir)
+  const direction = useDirection(dir as Direction)
 
   const { theme } = useTheme()
 

@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
 import * as React from 'react'
 
@@ -26,28 +26,30 @@ export interface TabsProps extends Omit<React.HTMLProps<HTMLDivElement>, 'defaul
   onValueChange?: (value: string) => void
 }
 
-const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(({ value, defaultValue, onValueChange, ...props }, ref) => {
-  const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
-  const [activeItem, setActiveItem] = React.useState<string>(defaultValue ?? value ?? '')
+const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
+  ({ value, defaultValue, onValueChange, dir, ...props }, ref) => {
+    const direction = useDirection(dir as Direction)
+    const [activeItem, setActiveItem] = React.useState<string>(defaultValue ?? value ?? '')
 
-  React.useEffect(() => {
-    if (onValueChange) onValueChange(activeItem)
-  }, [activeItem])
+    React.useEffect(() => {
+      if (onValueChange) onValueChange(activeItem)
+    }, [activeItem])
 
-  return (
-    <TabsContext.Provider value={{ activeItem, setActiveItem }}>
-      <div
-        {...props}
-        aria-orientation="vertical"
-        data-slot="tabs"
-        dir={direction}
-        duck-tabs=""
-        ref={ref}
-        role="tablist"
-      />
-    </TabsContext.Provider>
-  )
-})
+    return (
+      <TabsContext.Provider value={{ activeItem, setActiveItem }}>
+        <div
+          {...props}
+          aria-orientation="vertical"
+          data-slot="tabs"
+          dir={direction}
+          duck-tabs=""
+          ref={ref}
+          role="tablist"
+        />
+      </TabsContext.Provider>
+    )
+  },
+)
 Tabs.displayName = 'Tabs'
 
 export interface TabsListProps extends Omit<React.HTMLProps<HTMLUListElement>, 'ref'> {}
