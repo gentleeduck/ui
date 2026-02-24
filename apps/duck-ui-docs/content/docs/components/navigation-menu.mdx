@@ -4,7 +4,11 @@ description: A collection of links for navigating websites.
 component: true
 ---
 
-<ComponentPreview name="navigation-menu-1" className="[&>div>div>div[duck-preview]]:overflow-visible!" description="A navigation menu with dropdown content panels and a documentation link." />
+<ComponentPreview 
+  name="navigation-menu-1" 
+  description="A navigation menu with dropdown content panels and a documentation link." 
+  className="[&>div>div>div[duck-preview]]:overflow-visible [&>div>div>div[duck-preview]]:items-start" 
+/>
 
 ## Philosophy
 
@@ -121,7 +125,7 @@ Root container that wraps the navigation menu and optionally renders the viewpor
 | `defaultValue` | `string` | -- | Default active value for uncontrolled usage |
 | `onValueChange` | `(value: string) => void` | -- | Callback when the active value changes |
 | `viewport` | `boolean` | `true` | Whether to render the `NavigationMenuViewport` automatically |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved at the primitive layer via `useDirection` and inherited by all descendants through context. |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`) and inherited by descendants. |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | The orientation of the menu |
 | `delayDuration` | `number` | `200` | Duration in ms from when the pointer enters a trigger until the content opens |
 | `skipDelayDuration` | `number` | `300` | Duration in ms a user has to enter another trigger without incurring a delay again |
@@ -193,9 +197,10 @@ import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
 
 ## RTL Support
 
+Set `dir="rtl"` on `NavigationMenu` for a local override, or set `DirectionProvider` once at app/root level for global direction.
+
 <ComponentPreview
   name="navigation-menu-2"
-  className="[&>div>div>div[duck-preview]]:overflow-visible
-  [&>div>div>div[duck-preview]]:justify-end mb-40" 
+  className="[&>div>div>div[duck-preview]]:overflow-visible [&>div>div>div[duck-preview]]:items-start" 
   description="A navigation menu with RTL support."
 />

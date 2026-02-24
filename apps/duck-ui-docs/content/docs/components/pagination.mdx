@@ -136,7 +136,7 @@ const PaginationLink = ({...props }: ) => (
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `dir` | `'ltr' \| 'rtl'` | `'ltr'` | Layout direction for pagination and controls |
+| `dir` | `'ltr' \| 'rtl'` | `'ltr'` | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | `--` | Additional CSS classes for the `nav` element |
 | `...props` | `React.ComponentPropsWithoutRef<'nav'>` | -- | Additional props to spread to the nav element |
 
@@ -210,7 +210,7 @@ You can pass `dir: 'rtl'` through `wrapper` to make wrapper controls direction-a
 
 ## RTL Support
 
-Use the `text` prop on `PaginationPrevious`, `PaginationNext`, and `PaginationEllipsis` to provide translated labels. Set `dir="rtl"` on `Pagination` for right-to-left layout and keep markup in logical order (`Previous`, pages, `Next`): visual mirroring is handled automatically. Chevron icons and wrapper controls adapt automatically.
+Use the `text` prop on `PaginationPrevious`, `PaginationNext`, and `PaginationEllipsis` to provide translated labels. Set `dir="rtl"` on `Pagination` for a local override, or set `DirectionProvider` once at app/root level for global direction. Keep markup in logical order (`Previous`, pages, `Next`): visual mirroring is handled automatically.
 
 <ComponentPreview
   name="pagination-2"

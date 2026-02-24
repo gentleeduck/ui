@@ -4,10 +4,10 @@ import {
   InputGroupInput,
   InputGroupText,
 } from '@gentleduck/registry-ui-duckui/input-group'
-import { LoaderIcon } from 'lucide-react'
+import { Loader } from 'lucide-react'
 
 function Spinner({ className, ...props }: React.ComponentProps<'svg'>) {
-  return <LoaderIcon aria-label="Loading" className={'size-4 animate-spin'} role="status" {...props} />
+  return <Loader aria-label="Loading" className={'size-4 animate-spin'} role="status" {...props} />
 }
 
 export default function InputGroupSpinner() {
@@ -35,7 +35,7 @@ export default function InputGroupSpinner() {
       <InputGroup data-disabled>
         <InputGroupInput disabled placeholder="Validating configuration..." />
         <InputGroupAddon>
-          <LoaderIcon className="animate-spin" />
+          <Loader className="animate-spin" />
         </InputGroupAddon>
         <InputGroupAddon align="inline-end">
           <InputGroupText className="text-muted-foreground">Almost done...</InputGroupText>

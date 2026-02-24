@@ -60,7 +60,7 @@ npx @gentleduck/cli add json-editor
 npm install @gentleduck/libs @gentleduck/primitives react-hook-form sonner lucide-react
 ```
 
-The `json-editor` component depends on the [`alert-dialog`](/docs/components/alert-dialog), [`button`](/docs/components/button), [`popover`](/docs/components/popover), [`react-hook-form`](/docs/components/react-hook-form), and [`sheet`](/docs/components/sheet) components.
+The `json-editor` component depends on the [`alert-dialog`](/docs/components/alert-dialog), [`button`](/docs/components/button), [`field`](/docs/components/field), [`popover`](/docs/components/popover), and [`sheet`](/docs/components/sheet) components.
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -81,8 +81,7 @@ import { JsonTextareaField } from '@/components/ui/json-editor'
 ```
 
 ```tsx
-import { useForm } from 'react-hook-form'
-import { Form } from '@/components/ui/react-hook-form'
+import { FormProvider, useForm } from 'react-hook-form'
 
 type FormValues = {
   settings: Record<string, unknown> | null
@@ -97,7 +96,7 @@ const form = useForm<FormValues>({
   },
 })
 
-<Form {...form}>
+<FormProvider {...form}>
   <form>
     <JsonTextareaField
       control={form.control}
@@ -105,7 +104,7 @@ const form = useForm<FormValues>({
       label="Settings"
     />
   </form>
-</Form>
+</FormProvider>
 ```
 
 ## Examples
@@ -156,7 +155,7 @@ Set `expandMode="callback"` to hand off full-screen editing to your own flow.
 | `placeholder` | `string` | `'{\n  "theme": "dark"\n}'` | Placeholder content shown when empty |
 | `lineNumbers` | `boolean` | `true` | Shows or hides the line-number gutter |
 | `lineHeightPx` | `number` | `20` | Line-height used by textarea and line-number gutter |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Controls layout of the editor chrome (gutter, buttons). JSON content is always LTR. |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). Controls editor chrome (gutter/buttons); JSON content stays LTR. |
 | `lang` | `string` | -- | BCP 47 locale tag (e.g. `'ar'`, `'fa'`). Controls the numeral system used for line numbers. |
 | `expandMode` | `'none' \| 'callback' \| 'sheet'` | `'sheet'` | Full-editor behavior for the `Full` action |
 | `sheetSide` | `'left' \| 'right'` | `'right'` | Side used when `expandMode="sheet"` |
@@ -204,7 +203,7 @@ type JsonEditorExpandPayload<TFieldValues extends FieldValues> = {
 
 ## RTL Support
 
-Pass `dir="rtl"` and `lang` for locale-aware line numbers. Use the `text` prop to translate all button labels, status messages, and dialog strings.
+Set `dir="rtl"` on `JsonEditor` for a local override, or set `DirectionProvider` once at app/root level for global direction. Pass `lang` for locale-aware line numbers, and use `text` to translate labels/messages.
 
 <ComponentPreview
   name="json-editor-4"
