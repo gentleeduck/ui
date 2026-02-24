@@ -87,6 +87,13 @@ export const registry_examples: RegistryEntry[] = [
   },
   {
     files: [],
+    name: 'direction-examples',
+    registryDependencies: ['direction'],
+    root_folder: 'direction',
+    type: 'registry:example',
+  },
+  {
+    files: [],
     name: 'hover-card-examples',
     registryDependencies: ['hover-card'],
     root_folder: 'hover-card',
@@ -307,7 +314,7 @@ export const registry_examples: RegistryEntry[] = [
   {
     files: [],
     name: 'input-otp-examples',
-    registryDependencies: ['input-otp'],
+    registryDependencies: ['input-otp', 'button', 'field'],
     root_folder: 'input-otp',
     type: 'registry:example',
   },

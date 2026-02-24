@@ -1,5 +1,5 @@
 import { cn } from '@gentleduck/libs/cn'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import React from 'react'
 import { Badge } from '../badge'
 import { Button } from '../button'
@@ -47,12 +47,13 @@ export function Combobox<TData extends readonly ComboboxItemType[], TType extend
   showSelected = true,
   children,
 }: ComboboxProps<TData, TType>) {
-  const direction = useDirection((popover as { dir?: 'ltr' | 'rtl' } | undefined)?.dir)
+  const { dir, ...popoverProps } = popover ?? {}
+  const direction = useDirection(dir as Direction)
   const MAX_SELECTION = 2
   const _value = value ?? defaultValue
 
   return (
-    <Popover {...popover} dir={direction}>
+    <Popover {...popoverProps} dir={direction}>
       <PopoverTrigger asChild>
         <Button {...popoverTrigger} variant={popoverTrigger?.variant ?? 'dashed'}>
           {popoverTrigger?.children}

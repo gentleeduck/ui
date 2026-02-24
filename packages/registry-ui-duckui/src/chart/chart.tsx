@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 import * as RechartsPrimitive from 'recharts'
 import { getPayloadConfigFromPayload } from './chart.libs'
@@ -31,7 +31,7 @@ function useChart() {
 const ChartContainer = ({ id, className, children, config, ref, dir, ...props }: ChartContainerProps) => {
   const uniqueId = React.useId()
   const chartId = `chart-${id || uniqueId.replace(/:/g, '')}`
-  const direction = useDirection(dir as 'ltr' | 'rtl' | undefined)
+  const direction = useDirection(dir as Direction)
 
   return (
     <ChartContext.Provider value={{ config }}>

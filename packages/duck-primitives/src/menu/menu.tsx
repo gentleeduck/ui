@@ -1,6 +1,6 @@
 /** Menu root component, contexts, collection, and scope setup. */
 import * as React from 'react'
-import { useDirection } from '../hooks/direction'
+import { useDirection } from '../direction'
 import { useCallbackRef } from '../hooks/use-callback-ref'
 import { createCollection } from '../libs/create-collection'
 import { createContextScope, type Scope } from '../libs/create-context'

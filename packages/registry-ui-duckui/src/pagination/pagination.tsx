@@ -1,5 +1,5 @@
 import { cn } from '@gentleduck/libs/cn'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import * as PaginationPrimitive from '@gentleduck/primitives/pagination'
 import {
   ChevronLeft,
@@ -118,18 +118,18 @@ const PaginationEllipsis = React.forwardRef<
 PaginationEllipsis.displayName = 'PaginationEllipsis'
 
 const PaginationWrapper = (props: DuckPaginationProps) => {
-  const { className: wrapperClassName, ...wrapperProps } = props.wrapper ?? {}
+  const { className: wrapperClassName, dir, ...wrapperProps } = props.wrapper ?? {}
   const { className: contentClassName, ...contentProps } = props.content ?? {}
   const { className: itemClassName, ...itemProps } = props.item ?? {}
   const { className: rightClassName, ...rightProps } = props.right ?? {}
   const { className: maxRightClassName, ...maxRightProps } = props.maxRight ?? {}
   const { className: leftClassName, ...leftProps } = props.left ?? {}
   const { className: maxLeftClassName, ...maxLeftProps } = props.maxLeft ?? {}
-  const dir = useDirection(wrapperProps.dir)
-  const StartIcon = dir === 'rtl' ? ChevronRightIcon : ChevronLeftIcon
-  const EndIcon = dir === 'rtl' ? ChevronLeftIcon : ChevronRightIcon
-  const StartDoubleIcon = dir === 'rtl' ? ChevronsRightIcon : ChevronsLeftIcon
-  const EndDoubleIcon = dir === 'rtl' ? ChevronsLeftIcon : ChevronsRightIcon
+  const direction = useDirection(dir as Direction)
+  const StartIcon = direction === 'rtl' ? ChevronRightIcon : ChevronLeftIcon
+  const EndIcon = direction === 'rtl' ? ChevronLeftIcon : ChevronRightIcon
+  const StartDoubleIcon = direction === 'rtl' ? ChevronsRightIcon : ChevronsLeftIcon
+  const EndDoubleIcon = direction === 'rtl' ? ChevronsLeftIcon : ChevronsRightIcon
 
   return (
     <Pagination className={cn('justify-end', wrapperClassName)} {...wrapperProps}>

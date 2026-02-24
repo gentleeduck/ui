@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Mount } from '@gentleduck/primitives/mount'
 import { ChevronDown } from 'lucide-react'
 import * as React from 'react'
@@ -44,11 +44,12 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
       collapsible = true,
       renderOnce = false,
       onValueChange,
+      dir,
       ...props
     },
     ref,
   ) => {
-    const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
+    const direction = useDirection(dir as Direction)
     const wrapperRef = React.useRef<HTMLDivElement | null>(null)
     const itemsRef = React.useRef<HTMLDetailsElement[]>([])
 

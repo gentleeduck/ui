@@ -1,6 +1,6 @@
 import * as React from 'react'
+import { useDirection } from '../direction'
 import type { DismissableLayer } from '../dismissable-layer'
-import { useDirection } from '../hooks/direction'
 import { useCallbackRef } from '../hooks/use-callback-ref'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { useId } from '../hooks/use-id'

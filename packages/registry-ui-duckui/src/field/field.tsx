@@ -1,15 +1,15 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import type { VariantProps } from '@gentleduck/variants'
 import { useMemo } from 'react'
 import { Label } from '../label'
 import { Separator } from '../separator'
 import { fieldVariants } from './field.constants'
 
-function FieldSet({ className, ...props }: React.ComponentProps<'fieldset'>) {
-  const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
+function FieldSet({ className, dir, ...props }: React.ComponentProps<'fieldset'>) {
+  const direction = useDirection(dir as Direction)
   return (
     <fieldset
       className={cn(

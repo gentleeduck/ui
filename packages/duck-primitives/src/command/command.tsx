@@ -1,8 +1,8 @@
 'use client'
 
 import * as React from 'react'
-import type { Direction } from '../hooks/direction'
-import { useDirection } from '../hooks/direction'
+import type { Direction } from '../direction'
+import { useDirection } from '../direction'
 import { useId } from '../hooks/use-id'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { createCollection } from '../libs/create-collection'

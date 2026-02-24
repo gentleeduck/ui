@@ -17,34 +17,34 @@ import * as React from 'react'
 const components: { title: string; href: string; description: string }[] = [
   {
     description: 'A modal dialog that interrupts the user with important content and expects a response.',
-    href: '/docs/primitives/alert-dialog',
+    href: '/docs/components/alert-dialog',
     title: 'Alert Dialog',
   },
   {
     description: 'For sighted users to preview content available behind a link.',
-    href: '/docs/primitives/hover-card',
+    href: '/docs/components/hover-card',
     title: 'Hover Card',
   },
   {
     description:
       'Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.',
-    href: '/docs/primitives/progress',
+    href: '/docs/components/progress',
     title: 'Progress',
   },
   {
     description: 'Visually or semantically separates content.',
-    href: '/docs/primitives/scroll-area',
+    href: '/docs/components/scroll-area',
     title: 'Scroll-area',
   },
   {
     description: 'A set of layered sections of content—known as tab panels—that are displayed one at a time.',
-    href: '/docs/primitives/tabs',
+    href: '/docs/components/tabs',
     title: 'Tabs',
   },
   {
     description:
       'A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.',
-    href: '/docs/primitives/tooltip',
+    href: '/docs/components/tooltip',
     title: 'Tooltip',
   },
 ]
@@ -82,7 +82,7 @@ export default function NavigationMenuDemo() {
                 <ListItem href="/docs/installation" title="Installation">
                   How to install dependencies and structure your app.
                 </ListItem>
-                <ListItem href="/docs/primitives/typography" title="Typography">
+                <ListItem href="/docs/components/typography" title="Typography">
                   Styles for headings, paragraphs, lists...etc
                 </ListItem>
               </div>

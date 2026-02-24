@@ -1,5 +1,5 @@
 import { cn } from '@gentleduck/libs/cn'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import { ChevronRight, MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
@@ -9,8 +9,8 @@ const Breadcrumb = React.forwardRef<
   React.ComponentPropsWithoutRef<'nav'> & {
     separator?: React.ReactNode
   }
->(({ ...props }, ref) => {
-  const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
+>(({ dir, ...props }, ref) => {
+  const direction = useDirection(dir as Direction)
   return <nav ref={ref} {...props} aria-label="breadcrumb" dir={direction} duck-breadcrumb="" />
 })
 Breadcrumb.displayName = 'Breadcrumb'

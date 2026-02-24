@@ -6,17 +6,11 @@ import * as MenubarPrimitive from '@gentleduck/primitives/menubar'
 import { Check, ChevronRight, Circle } from 'lucide-react'
 import * as React from 'react'
 
-function MenubarMenu({ ...props }: React.ComponentProps<typeof MenubarPrimitive.Menu>) {
-  return <MenubarPrimitive.Menu {...props} />
-}
+const MenubarMenu: typeof MenubarPrimitive.Menu = MenubarPrimitive.Menu
 
-function MenubarGroup({ ...props }: React.ComponentProps<typeof MenubarPrimitive.Group>) {
-  return <MenubarPrimitive.Group {...props} />
-}
+const MenubarGroup = MenubarPrimitive.Group
 
-function MenubarPortal({ ...props }: React.ComponentProps<typeof MenubarPrimitive.Portal>) {
-  return <MenubarPrimitive.Portal {...props} />
-}
+const MenubarPortal = MenubarPrimitive.Portal
 
 function MenubarRadioGroup({ ...props }: React.ComponentProps<typeof MenubarPrimitive.RadioGroup>) {
   return <MenubarPrimitive.RadioGroup {...props} />
@@ -197,7 +191,7 @@ MenubarSeparator.displayName = MenubarPrimitive.Separator.displayName
 const MenubarShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
   return <span className={cn('ms-auto text-muted-foreground text-xs tracking-widest', className)} {...props} />
 }
-MenubarShortcut.displayname = 'MenubarShortcut'
+MenubarShortcut.displayName = 'MenubarShortcut'
 
 export {
   Menubar,

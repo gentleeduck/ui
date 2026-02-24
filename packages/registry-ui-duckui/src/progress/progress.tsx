@@ -1,14 +1,14 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 
 const Progress = React.forwardRef<
   HTMLDivElement,
   Omit<React.HTMLProps<HTMLDivElement>, 'value' | 'ref'> & { value: number }
->(({ className, value, ...props }, ref) => {
-  const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
+>(({ className, value, dir, ...props }, ref) => {
+  const direction = useDirection(dir as Direction)
   return (
     <div
       className={cn('relative h-2 w-full overflow-hidden rounded-full bg-secondary', className)}
