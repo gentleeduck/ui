@@ -1,6 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
-import * as React from 'react'
 import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import * as React from 'react'
 
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
   ({ className, type, dir, ...props }, ref) => {

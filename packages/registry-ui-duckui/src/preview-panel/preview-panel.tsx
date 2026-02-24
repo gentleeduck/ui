@@ -1,12 +1,12 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Minus, Plus, RotateCcw } from 'lucide-react'
 import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Badge } from '../badge'
 import { Button } from '../button'
 import { ButtonGroup } from '../button-group'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Separator } from '../separator'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../tooltip'
 import type { PreviewPanelProps } from './preview-panel.types'
@@ -339,7 +339,12 @@ function PreviewPanel({
   const direction = useDirection((rest as { dir?: 'ltr' | 'rtl' }).dir)
 
   return (
-    <div data-slot="preview-panel" className={cn('relative flex flex-col', className)} dir={direction} style={style} {...rest}>
+    <div
+      data-slot="preview-panel"
+      className={cn('relative flex flex-col', className)}
+      dir={direction}
+      style={style}
+      {...rest}>
       {showControls && (
         <div className="absolute end-3 top-3 z-10">
           <ZoomControls onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} onReset={handleReset} zoom={displayZoom} />

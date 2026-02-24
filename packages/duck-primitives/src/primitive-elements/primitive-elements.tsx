@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { createSlot } from '../slot'
 
-
 const NODES = [
   'a',
   'button',

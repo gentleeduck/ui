@@ -1,11 +1,11 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import * as React from 'react'
 import { type DayButton, DayPicker, getDefaultClassNames } from 'react-day-picker'
 import { Button, buttonVariants } from '../button'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
 
 function Calendar({
   className,

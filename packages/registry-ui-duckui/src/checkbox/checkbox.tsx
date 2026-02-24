@@ -3,8 +3,8 @@
 import { cn } from '@gentleduck/libs/cn'
 import { checkersStylePattern } from '@gentleduck/motion/anim'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
-import * as React from 'react'
 import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import * as React from 'react'
 import { Label } from '../label'
 import type { CheckboxGroupProps, CheckboxProps, CheckboxWithLabelProps, CheckedState } from './checkbox.types'
 

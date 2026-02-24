@@ -1,7 +1,7 @@
 import { cn } from '@gentleduck/libs/cn'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import type { VariantProps } from '@gentleduck/variants'
 import * as React from 'react'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { alertVariants } from './alert.constants'
 
 const Alert = React.forwardRef<

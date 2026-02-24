@@ -1,9 +1,9 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { type Direction, useDirection } from '@gentleduck/primitives/hooks/direction'
 import * as React from 'react'
 import { Drawer as DrawerPrimitive } from 'vaul'
-import { type Direction, useDirection } from '@gentleduck/primitives/hooks/direction'
 
 type DrawerRootProps = React.ComponentProps<typeof DrawerPrimitive.Root>
 type DrawerDirection = NonNullable<DrawerRootProps['direction']>

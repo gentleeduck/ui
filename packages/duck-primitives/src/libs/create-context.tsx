@@ -1,6 +1,5 @@
 import * as React from 'react'
 
-
 function createContext<ContextValueType extends object | null>(
   rootComponentName: string,
   defaultContext?: ContextValueType,
@@ -25,7 +24,6 @@ function createContext<ContextValueType extends object | null>(
 
   return [Provider, useContext] as const
 }
-
 
 type Scope<C = any> = { [scopeName: string]: React.Context<C>[] } | undefined
 type ScopeHook = (scope: Scope) => { [__scopeProp: string]: Scope }
@@ -81,7 +79,6 @@ function createContextScope(scopeName: string, createContextScopeDeps: CreateSco
   createScope.scopeName = scopeName
   return [createContext, composeContextScopes(createScope, ...createContextScopeDeps)] as const
 }
-
 
 function composeContextScopes(...scopes: [CreateScope, ...CreateScope[]]): CreateScope {
   const baseScope = scopes[0]

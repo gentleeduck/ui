@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
 
-
 const NAME = 'Arrow'
 
 type ArrowElement = React.ComponentRef<typeof Primitive.svg>

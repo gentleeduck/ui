@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { composeEventHandlers } from '../libs/compose-event-handler'
 import { flushSync } from 'react-dom'
+import { composeEventHandlers } from '../libs/compose-event-handler'
 import { Primitive } from '../primitive-elements'
 import type { ScopedProps } from './navigation-menu'
 import { FocusGroupItem, LINK_SELECT, ROOT_CONTENT_DISMISS } from './navigation-menu.libs'

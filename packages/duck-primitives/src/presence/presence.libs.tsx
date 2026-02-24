@@ -2,7 +2,6 @@ import * as React from 'react'
 import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { useStateMachine } from '../hooks/use-state-machine'
 
-
 function usePresence(present: boolean) {
   const [node, setNode] = React.useState<HTMLElement>()
   const stylesRef = React.useRef<CSSStyleDeclaration>({} as CSSStyleDeclaration)

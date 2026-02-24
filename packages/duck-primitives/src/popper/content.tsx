@@ -28,7 +28,6 @@ import {
 
 const CONTENT_NAME = 'PopperContent'
 
-
 type PopperContentContextValue = {
   placedSide: Side
   onArrowChange(arrow: HTMLSpanElement | null): void
@@ -38,7 +37,6 @@ type PopperContentContextValue = {
 }
 
 export const [PopperContentProvider, useContentContext] = createPopperContext<PopperContentContextValue>(CONTENT_NAME)
-
 
 type PrimitiveDivProps = React.ComponentPropsWithRef<typeof Primitive.div>
 
@@ -202,7 +200,6 @@ export const PopperContent = ({ ref: forwardedRef, ...props }: ScopedProps<Poppe
 }
 
 PopperContent.displayName = CONTENT_NAME
-
 
 function isNotNull<T>(value: T | null): value is T {
   return value !== null

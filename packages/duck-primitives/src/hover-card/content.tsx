@@ -10,7 +10,6 @@ import { excludeTouch } from './trigger'
 
 let originalBodyUserSelect: string
 
-
 const CONTENT_NAME = 'HoverCardContent'
 
 type HoverCardContentImplElement = React.ComponentRef<typeof PopperPrimitive.Content>
@@ -56,7 +55,6 @@ export const HoverCardContent = React.forwardRef<HoverCardContentElement, HoverC
 )
 
 HoverCardContent.displayName = CONTENT_NAME
-
 
 const HoverCardContentImpl = React.forwardRef<HoverCardContentImplElement, HoverCardContentImplProps>(
   (props: ScopedProps<HoverCardContentImplProps>, forwardedRef) => {
@@ -163,7 +161,6 @@ const HoverCardContentImpl = React.forwardRef<HoverCardContentImplElement, Hover
     )
   },
 )
-
 
 /**
  * Returns a list of nodes that can be in the tab sequence.

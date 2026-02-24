@@ -22,17 +22,14 @@ const COMMAND_NAME = 'Command'
 export type { Scope }
 export type ScopedProps<P> = P & { __scopeCommand?: Scope }
 
-
 type CommandItemData = { value: string; disabled: boolean; textValue: string }
 
 export const [Collection, useCollection, createCollectionScope] = createCollection<HTMLLIElement, CommandItemData>(
   COMMAND_NAME,
 )
 
-
 const [createCommandContext, createCommandScope] = createContextScope(COMMAND_NAME, [createCollectionScope])
 export { createCommandScope }
-
 
 type CommandContextValue = {
   search: string
@@ -45,7 +42,6 @@ type CommandContextValue = {
 
 export const [CommandProvider, useCommandContext] = createCommandContext<CommandContextValue>(COMMAND_NAME)
 
-
 export type CommandListContextValue = {
   onItemLeave?: () => void
   listRef: React.RefObject<HTMLUListElement | null>
@@ -56,7 +52,6 @@ export type CommandListContextValue = {
 const LIST_CONTEXT_NAME = 'CommandList'
 export const [CommandListProvider, useCommandListContext] =
   createCommandContext<CommandListContextValue>(LIST_CONTEXT_NAME)
-
 
 export type CommandItemContextValue = {
   value: string
@@ -69,13 +64,11 @@ const ITEM_CONTEXT_NAME = 'CommandItem'
 export const [CommandItemContextProvider, useCommandItemContext] =
   createCommandContext<CommandItemContextValue>(ITEM_CONTEXT_NAME)
 
-
 type CommandGroupContextValue = { id: string }
 
 const GROUP_CONTEXT_NAME = 'CommandGroup'
 export const [CommandGroupContextProvider, useCommandGroupContext] =
   createCommandContext<CommandGroupContextValue>(GROUP_CONTEXT_NAME)
-
 
 type CommandElement = React.ComponentRef<typeof Primitive.div>
 
@@ -113,7 +106,6 @@ export const Command = React.forwardRef<CommandElement, CommandProps>(
 )
 
 Command.displayName = COMMAND_NAME
-
 
 const CommandInner = React.forwardRef<CommandElement, ScopedProps<React.ComponentPropsWithRef<typeof Primitive.div>>>(
   (props, forwardedRef) => {

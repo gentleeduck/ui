@@ -1,9 +1,9 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import * as React from 'react'
 import * as RechartsPrimitive from 'recharts'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { getPayloadConfigFromPayload } from './chart.libs'
 import type {
   ChartContainerProps,
@@ -44,8 +44,7 @@ const ChartContainer = ({ id, className, children, config, ref, dir, ...props }:
         data-chart={chartId}
         data-slot="chart-container"
         dir={direction}
-        ref={ref}
-      >
+        ref={ref}>
         <ChartStyle config={config} id={chartId} />
         <RechartsPrimitive.ResponsiveContainer>{children}</RechartsPrimitive.ResponsiveContainer>
       </div>

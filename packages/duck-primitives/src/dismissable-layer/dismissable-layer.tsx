@@ -14,7 +14,6 @@ import {
 
 export type { FocusOutsideEvent, PointerDownOutsideEvent } from './dismissable-layer.libs'
 
-
 const DISMISSABLE_LAYER_NAME = 'DismissableLayer'
 
 let originalBodyPointerEvents: string

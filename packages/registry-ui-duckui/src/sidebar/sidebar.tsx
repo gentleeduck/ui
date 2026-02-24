@@ -2,12 +2,12 @@
 
 import { useIsMobile } from '@gentleduck/hooks/use-is-mobile'
 import { cn } from '@gentleduck/libs/cn'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import { cva, type VariantProps } from '@gentleduck/variants'
 import { PanelLeftIcon } from 'lucide-react'
 import * as React from 'react'
 import { Button } from '../button'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Input } from '../input'
 import { Separator } from '../separator'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '../sheet'

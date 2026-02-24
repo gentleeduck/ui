@@ -1,7 +1,7 @@
 import * as React from 'react'
+import { useDirection } from '../hooks/direction'
 import { useCallbackRef } from '../hooks/use-callback-ref'
 import { useControllableState } from '../hooks/use-controllable-state'
-import { useDirection } from '../hooks/direction'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import { createCollection } from '../libs/create-collection'
