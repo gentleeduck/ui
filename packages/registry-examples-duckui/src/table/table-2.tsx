@@ -56,34 +56,32 @@ const invoices = [
 
 export default function TableRtlDemo() {
   return (
-    <div dir="rtl">
-      <Table>
-        <TableCaption>{'قائمة بفواتيرك الأخيرة.'}</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">{'الفاتورة'}</TableHead>
-            <TableHead>{'الحالة'}</TableHead>
-            <TableHead>{'طريقة الدفع'}</TableHead>
-            <TableHead className="text-left">{'المبلغ'}</TableHead>
+    <Table dir="rtl">
+      <TableCaption>{'قائمة بفواتيرك الأخيرة.'}</TableCaption>
+      <TableHeader>
+        <TableRow className="[&_th]:py-2">
+          <TableHead className="w-[100px]">{'الفاتورة'}</TableHead>
+          <TableHead>{'الحالة'}</TableHead>
+          <TableHead>{'طريقة الدفع'}</TableHead>
+          <TableHead className="text-left">{'المبلغ'}</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {invoices.map((invoice) => (
+          <TableRow key={invoice.invoice} className="[&_td]:py-2">
+            <TableCell className="font-medium">{invoice.invoice}</TableCell>
+            <TableCell>{invoice.paymentStatus}</TableCell>
+            <TableCell>{invoice.paymentMethod}</TableCell>
+            <TableCell className="text-left">{invoice.totalAmount}</TableCell>
           </TableRow>
-        </TableHeader>
-        <TableBody>
-          {invoices.map((invoice) => (
-            <TableRow key={invoice.invoice}>
-              <TableCell className="font-medium">{invoice.invoice}</TableCell>
-              <TableCell>{invoice.paymentStatus}</TableCell>
-              <TableCell>{invoice.paymentMethod}</TableCell>
-              <TableCell className="text-left">{invoice.totalAmount}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TableCell colSpan={3}>{'الإجمالي'}</TableCell>
-            <TableCell className="text-left">$2,500.00</TableCell>
-          </TableRow>
-        </TableFooter>
-      </Table>
-    </div>
+        ))}
+      </TableBody>
+      <TableFooter>
+        <TableRow className="[&_td]:py-2">
+          <TableCell colSpan={3}>{'الإجمالي'}</TableCell>
+          <TableCell className="text-left">$2,500.00</TableCell>
+        </TableRow>
+      </TableFooter>
+    </Table>
   )
 }

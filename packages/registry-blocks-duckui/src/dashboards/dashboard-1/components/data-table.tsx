@@ -72,7 +72,7 @@ import {
   ChevronsRightIcon,
   ColumnsIcon,
   GripVerticalIcon,
-  LoaderIcon,
+  Loader,
   MoreVerticalIcon,
   PlusIcon,
   TrendingUpIcon,
@@ -166,7 +166,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
         {row.original.status === 'Done' ? (
           <CheckCircle2Icon className="text-green-500 dark:text-green-400" />
         ) : (
-          <LoaderIcon />
+          <Loader className="animate-spin" />
         )}
         {row.original.status}
       </Badge>

@@ -125,7 +125,7 @@ Components in this file wrap `@gentleduck/primitives/context-menu`.
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | -- | Context menu content (trigger + menu content) |
 | `modal` | `boolean` | `true` | Whether interaction outside the menu is blocked while open |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction for menu keyboard navigation |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `onOpenChange` | `(open: boolean) => void` | -- | Callback fired when open state changes |
 | `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Root>` | -- | Additional props inherited from `ContextMenuPrimitive.Root` |
 
@@ -243,6 +243,8 @@ Components in this file wrap `@gentleduck/primitives/context-menu`.
 | `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubContent>` | -- | Additional props inherited from `ContextMenuPrimitive.SubContent` |
 
 ## RTL Support
+
+Set `dir="rtl"` on `ContextMenu` for a local override, or set `DirectionProvider` once at app/root level for global direction.
 
 <ComponentPreview
   name="context-menu-2"

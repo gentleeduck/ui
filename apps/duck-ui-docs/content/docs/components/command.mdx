@@ -205,7 +205,7 @@ export function CommandMenu() {
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Inherited by all child components. |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`) and inherited by children. |
 | `className` | `string` | -- | Additional CSS classes applied to the command container |
 | `children` | `React.ReactNode` | -- | Command content (`CommandInput`, `CommandList`, etc.) |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the root div |
@@ -292,7 +292,7 @@ Returned by `useCommandContext()`. Provides root command state.
 | --- | --- | --- |
 | `search` | `string` | Current search query value. |
 | `onSearchChange` | `(search: string) => void` | Callback to update the search query. |
-| `dir` | `'ltr' \| 'rtl'` | Text direction for the command tree. |
+| `dir` | `'ltr' \| 'rtl'` | Text direction for the command tree. Uses the same `useDirection` resolution order. |
 | `listId` | `string` | Auto-generated id linking the input to the list via `aria-controls`. |
 | `inputRef` | `React.RefObject<HTMLInputElement \| null>` | Search input field reference. |
 | `typeaheadSearchRef` | `React.RefObject<string>` | Ref tracking the current typeahead search string. |
@@ -336,7 +336,7 @@ Per-item context. Available via `useCommandItemContext()`.
 
 ## RTL Support
 
-RTL is handled at the primitive layer. Pass `dir="rtl"` on the root `Command` and every sub-component receives the direction through context -- no per-child `dir` props needed.
+RTL is handled at the primitive layer. Set `dir="rtl"` on the root `Command` for a local override, or set `DirectionProvider` once at app/root level for global direction. Child primitives inherit direction automatically.
 
 ```tsx
 <Command dir="rtl">

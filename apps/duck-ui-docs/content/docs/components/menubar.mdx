@@ -109,7 +109,7 @@ Components in this file wrap `@gentleduck/primitives/menubar`.
 | `defaultValue` | `string` | `''` | Initial open menu value for uncontrolled usage |
 | `onValueChange` | `(value: string) => void` | -- | Callback when open menu value changes |
 | `loop` | `boolean` | `true` | Loops roving focus across triggers |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction for keyboard navigation |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | -- | Additional CSS classes |
 | `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Root>` | -- | Additional props inherited from `MenubarPrimitive.Root` |
 
@@ -234,6 +234,8 @@ Components in this file wrap `@gentleduck/primitives/menubar`.
 | `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.SubContent>` | -- | Additional props inherited from `MenubarPrimitive.SubContent` |
 
 ## RTL Support
+
+Set `dir="rtl"` on `Menubar` for a local override, or set `DirectionProvider` once at app/root level for global direction.
 
 <ComponentPreview
   name="menubar-2"

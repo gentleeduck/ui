@@ -24,12 +24,12 @@ export default function SheetSide() {
           <SheetTrigger asChild>
             <Button variant={'outline'}>{side}</Button>
           </SheetTrigger>
-          <SheetContent side={side}>
+          <SheetContent className="flex flex-col" side={side}>
             <SheetHeader>
               <SheetTitle>Edit profile</SheetTitle>
               <SheetDescription>Make changes to your profile here. Click save when you're done.</SheetDescription>
             </SheetHeader>
-            <div className="item-start flex h-full flex-direction flex-col justify-start gap-4 py-4">
+            <div className="flex min-h-0 flex-1 flex-col gap-4 overflow-y-auto py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <Label htmlFor="name">Name</Label>
                 <Input className="col-span-3" id="name" value="Pedro Duarte" />
@@ -39,7 +39,7 @@ export default function SheetSide() {
                 <Input className="col-span-3" id="username" value="@peduarte" />
               </div>
             </div>
-            <SheetFooter>
+            <SheetFooter className="mt-2">
               <SheetClose>
                 <Button variant={'outline'}>Save changes</Button>
               </SheetClose>

@@ -73,7 +73,7 @@ export default function FormTanStackInput() {
                   onChange={(event) => field.handleChange(event.target.value)}
                   aria-invalid={isInvalid}
                   autoComplete="username"
-                  placeholder="shadcn"
+                  placeholder="gentleduck"
                 />
                 <FieldDescription>
                   This is your public display name. Must be between 3 and 10 characters. Must only contain letters,

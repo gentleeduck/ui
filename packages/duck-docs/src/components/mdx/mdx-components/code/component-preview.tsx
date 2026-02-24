@@ -96,14 +96,14 @@ export function ComponentPreview({
           )}
         </div>
         <TabsContent className="relative min-w-2/5 rounded-md border" value="preview">
-          <div className="absolute flex w-full items-center justify-between p-4">
+          <div className="absolute flex w-full items-center justify-between p-3">
             <span className="text-muted-foreground text-sm">{}</span>
             <div className="flex items-center gap-2">
               <CopyButton value={codeString} variant="outline" />
             </div>
           </div>
           <div
-            className={cn('preview flex h-[500px] w-full justify-center overflow-auto p-10', {
+            className={cn('preview flex h-[502px] w-full justify-center overflow-auto p-10', {
               'items-center': align === 'center',
               'items-end': align === 'end',
               'items-start': align === 'start',

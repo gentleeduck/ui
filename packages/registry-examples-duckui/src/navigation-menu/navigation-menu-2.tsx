@@ -49,11 +49,11 @@ const components: { title: string; href: string; description: string }[] = [
 
 export default function NavigationMenuRtlDemo() {
   return (
-    <NavigationMenu dir="rtl" className="z-10">
+    <NavigationMenu dir="rtl">
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>البدء</NavigationMenuTrigger>
-          <NavigationMenuContent>
+          <NavigationMenuContent className="md:right-auto md:left-0">
             <ul className="flex gap-3 p-6">
               <NavigationMenuLink asChild className="w-[350px] rounded-md bg-muted">
                 <a
@@ -88,7 +88,7 @@ export default function NavigationMenuRtlDemo() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger>المكونات</NavigationMenuTrigger>
-          <NavigationMenuContent>
+          <NavigationMenuContent className="md:right-auto md:left-0">
             <ul className="grid w-[500px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[500px]">
               {components.map((component) => (
                 <ListItem href={component.href} key={component.title} title={component.title}>

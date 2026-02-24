@@ -59,7 +59,7 @@ export default function TableDemo() {
     <Table>
       <TableCaption>A list of your recent invoices.</TableCaption>
       <TableHeader>
-        <TableRow>
+        <TableRow className="[&_th]:py-2">
           <TableHead className="w-[100px]">Invoice</TableHead>
           <TableHead>Status</TableHead>
           <TableHead>Method</TableHead>
@@ -68,7 +68,7 @@ export default function TableDemo() {
       </TableHeader>
       <TableBody>
         {invoices.map((invoice) => (
-          <TableRow key={invoice.invoice}>
+          <TableRow key={invoice.invoice} className="[&_td]:py-2">
             <TableCell className="font-medium">{invoice.invoice}</TableCell>
             <TableCell>{invoice.paymentStatus}</TableCell>
             <TableCell>{invoice.paymentMethod}</TableCell>
@@ -77,7 +77,7 @@ export default function TableDemo() {
         ))}
       </TableBody>
       <TableFooter>
-        <TableRow>
+        <TableRow className="[&_td]:py-2">
           <TableCell colSpan={3}>Total</TableCell>
           <TableCell className="text-right">$2,500.00</TableCell>
         </TableRow>

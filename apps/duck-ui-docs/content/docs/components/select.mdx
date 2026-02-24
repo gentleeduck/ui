@@ -134,7 +134,7 @@ The root component that manages open/closed state, value state, and provides con
 | `open` | `boolean` | -- | Controlled open state |
 | `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
 | `onOpenChange` | `(open: boolean) => void` | -- | Callback fired when dropdown open state changes |
-| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction for RTL support |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `name` | `string` | -- | Name attribute for native form submission |
 | `disabled` | `boolean` | -- | Disables the entire select |
 | `required` | `boolean` | -- | Marks the select as required for form validation |
@@ -223,6 +223,8 @@ Scroll navigation buttons that appear when content overflows the viewport.
 | `className` | `string` | -- | Additional CSS class names |
 
 ## RTL Support
+
+Set `dir="rtl"` on `Select` for a local override, or set `DirectionProvider` once at app/root level for global direction.
 
 <ComponentPreview
   name="select-4"

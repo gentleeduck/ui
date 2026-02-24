@@ -129,7 +129,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 | `disabled` | `boolean` | `false` | Whether the entire group is disabled |
 | `required` | `boolean` | `false` | Whether the group is required in a form |
 | `name` | `string` | -- | The name used when submitting an HTML form |
-| `dir` | `'ltr' \| 'rtl'` | -- | The reading direction of the radio group |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `orientation` | `'horizontal' \| 'vertical'` | -- | The orientation of the group for arrow key navigation |
 | `loop` | `boolean` | `true` | Whether keyboard navigation should loop |
 | `className` | `string` | -- | Additional CSS classes |
@@ -147,6 +147,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 | `className` | `string` | -- | Additional CSS classes for the radio button control |
 
 ## RTL Support
+
+Set `dir="rtl"` on `RadioGroup` for a local override, or set `DirectionProvider` once at app/root level for global direction.
 
 <ComponentPreview
   name="radio-group-3"

@@ -141,7 +141,7 @@ The root component that manages open/closed state and provides context to all ch
 | `open` | `boolean` | -- | Controlled open state |
 | `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
 | `onOpenChange` | `(open: boolean) => void` | -- | Callback when open state changes |
-| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction for RTL support |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `modal` | `boolean` | `true` | When true, interaction with outside elements is disabled and only menu content is visible to screen readers |
 
 ### DropdownMenuTrigger
@@ -289,6 +289,8 @@ Content container for a submenu. Positioned to the side of the sub-trigger.
 Exposes the same `--gentleduck-dropdown-menu-*` CSS custom properties as `DropdownMenuContent`.
 
 ## RTL Support
+
+Set `dir="rtl"` on `DropdownMenu` for a local override, or set `DirectionProvider` once at app/root level for global direction.
 
 <ComponentPreview
   name="dropdown-menu-4"
