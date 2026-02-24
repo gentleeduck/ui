@@ -11,20 +11,24 @@ component: true
 
 ## Philosophy
 
-When multiple toggles share context, they become a group. ToggleGroup manages mutual exclusivity (single mode) or multi-selection, keeping the state logic out of your components. It's the same relationship as RadioGroup to Radio -- the group owns the state, the items render the UI.
+When multiple toggles share context, they become a group. ToggleGroup manages mutual exclusivity (single mode) or multi-selection, keeping the state logic out of your components. Built on `@gentleduck/primitives/toggle-group` with roving focus keyboard navigation -- arrow keys move between items, Space/Enter toggles them.
 
 ## How It's Built
 
 <MermaidDiagram chart={`graph TD
   ToggleGroup[ToggleGroup]
+  ToggleGroup --> primitives["@gentleduck/primitives/toggle-group"]:::primitive
   ToggleGroup --> variants["@gentleduck/variants"]:::internal
   ToggleGroup --> libs["@gentleduck/libs"]:::internal
-  ToggleGroup --> Toggle["Toggle"]:::component
+  ToggleGroup --> Toggle["Toggle Variants"]:::component
+  primitives --> |"provides"| GroupState["Selection State\n(single/multiple)"]
+  primitives --> |"provides"| Keyboard["Keyboard Navigation\n(Arrow keys, Space/Enter)"]
+  primitives --> |"provides"| RovingFocus["Roving Focus\n(Tab management)"]
+  primitives --> |"provides"| RTL["RTL Direction\nSupport"]
   variants --> |"provides"| VariantSystem["Type-safe Variants"]
-  Toggle --> |"provides"| ItemBehavior["Individual\nToggle Behavior"]
-  ToggleGroup --> |"manages"| GroupContext["Selection Context\n(single/multiple)"]
   classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
   classDef component fill:#fb923c,stroke:#f97316,color:#fff
+  classDef primitive fill:#818cf8,stroke:#6366f1,color:#fff
 `} />
 
 ## Installation
@@ -50,7 +54,7 @@ npx @gentleduck/cli add toggle-group
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/variants @gentleduck/libs
+npm install @gentleduck/primitives @gentleduck/variants @gentleduck/libs
 ```
 
 <Step>Add the [`Toggle`](/docs/components/toggle) component to your project </Step>
@@ -125,34 +129,58 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
   description="A disabled toggle group."
 />
 
+## Keyboard Navigation
+
+| Key | Description |
+| --- | --- |
+| `Tab` | Moves focus into the toggle group (focuses the active or first item) |
+| `ArrowRight` | Moves focus to the next item |
+| `ArrowLeft` | Moves focus to the previous item |
+| `ArrowDown` | Moves focus to the next item |
+| `ArrowUp` | Moves focus to the previous item |
+| `Home` | Moves focus to the first item |
+| `End` | Moves focus to the last item |
+| `Space` / `Enter` | Toggles the focused item |
+
 ## API Reference
 
 ### ToggleGroup
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names to apply |
-| `variant` | `'default' \| 'outline'` | `'default'` | Visual style variant for the toggles (passed down to items via context) |
-| `size` | `'default' \| 'sm' \| 'lg'` | -- | Size variant for the toggles (passed down to items via context) |
-| `type` | `'single' \| 'multiple'` | -- | Determines selection behavior. `'single'` allows only one toggle selected at a time; `'multiple'` allows multiple toggles selected |
-| `onValueChange` | `(value: string) => void` | -- | Callback invoked when a toggle item is selected or deselected |
+| `type` | `'single' \| 'multiple'` | (required) | Determines selection behavior. `'single'` allows one toggle at a time; `'multiple'` allows multiple |
 | `value` | `string \| string[]` | -- | Controlled selected value(s) |
 | `defaultValue` | `string \| string[]` | -- | Uncontrolled initial selected value(s) |
+| `onValueChange` | `(value: string \| string[]) => void` | -- | Callback invoked when the value changes |
+| `variant` | `'default' \| 'outline'` | `'default'` | Visual style variant for the toggles (passed to items via context) |
+| `size` | `'default' \| 'sm' \| 'lg'` | `'default'` | Size variant for the toggles (passed to items via context) |
+| `disabled` | `boolean` | `false` | Disables all items in the group |
+| `rovingFocus` | `boolean` | `true` | Whether to use roving focus for keyboard navigation |
+| `loop` | `boolean` | `true` | Whether keyboard navigation should loop at boundaries |
+| `orientation` | `'horizontal' \| 'vertical'` | -- | The orientation of the group for arrow key navigation |
+| `dir` | `'ltr' \| 'rtl'` | -- | The reading direction for keyboard navigation |
+| `className` | `string` | -- | Additional CSS class names to apply |
 | `children` | `React.ReactNode` | -- | ToggleGroupItem elements to render inside the group |
-| `ref` | `React.Ref<HTMLUListElement>` | -- | Ref forwarded to the underlying `ul` element |
-| `...props` | `Omit<React.HTMLProps<HTMLUListElement>, 'size'>` | -- | Additional props to spread to the ul element |
+| `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the underlying div element |
 
 ### ToggleGroupItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names to apply |
+| `value` | `string` | (required) | The unique value identifying this toggle item |
 | `variant` | `'default' \| 'outline'` | -- | Visual style variant for this item (overrides group context) |
 | `size` | `'default' \| 'sm' \| 'lg'` | -- | Size variant for this item (overrides group context) |
-| `value` | `string` | (required) | The unique value identifying this toggle item |
+| `disabled` | `boolean` | `false` | Disables this specific item |
+| `className` | `string` | -- | Additional CSS class names to apply |
 | `children` | `React.ReactNode` | -- | Content rendered inside the toggle item |
-| `ref` | `React.Ref<HTMLInputElement>` | -- | Ref forwarded to the underlying Toggle component |
-| `...props` | `React.ComponentPropsWithRef<typeof Toggle>` | -- | Additional props inherited from `Toggle`. |
+| `ref` | `React.Ref<HTMLButtonElement>` | -- | Ref forwarded to the underlying button element |
+
+### Data Attributes
+
+| Attribute | Values | Description |
+| --- | --- | --- |
+| `data-state` | `"on" \| "off"` | The pressed state of the item |
+| `data-disabled` | Present when disabled | Whether the item is disabled |
 
 ## RTL Support
 
@@ -160,4 +188,3 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
   name="toggle-group-8"
   description="A toggle group with RTL support."
 />
-

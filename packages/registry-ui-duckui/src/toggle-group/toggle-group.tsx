@@ -1,77 +1,58 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import * as ToggleGroupPrimitive from '@gentleduck/primitives/toggle-group'
 import type { VariantProps } from '@gentleduck/variants'
 import * as React from 'react'
-import * as Toggle from '../toggle'
-import { ToggleGroupInit } from './toggle-group.hooks'
+import { toggleVariants } from '../toggle/toggle.constants'
 
-export interface ToggleGroupContextProps extends VariantProps<typeof Toggle.toggleVariants> {
-  type?: 'single' | 'multiple'
-  selectedItemRef: React.RefObject<HTMLDivElement[]>
-  itemsRef: React.RefObject<HTMLDivElement[]>
-  wrapperRef: React.RefObject<HTMLUListElement | null>
-}
+interface ToggleGroupContextProps extends VariantProps<typeof toggleVariants> {}
 
-const ToggleGroupContext = React.createContext<ToggleGroupContextProps | null>(null)
+const ToggleGroupContext = React.createContext<ToggleGroupContextProps>({
+  size: 'default',
+  variant: 'default',
+})
 
 const ToggleGroup = React.forwardRef<
-  HTMLUListElement,
-  Omit<Omit<React.HTMLProps<HTMLUListElement>, 'size'>, 'ref'> &
-    VariantProps<typeof Toggle.toggleVariants> & {
-      type?: 'single' | 'multiple'
-      onValueChange?: (value: string) => void
-      value?: string | string[]
-      defaultValue?: string | string[]
-    }
->(({ className, variant = 'default', size, type, children, onValueChange, value, defaultValue, ...props }, ref) => {
-  const { selectedItemRef, wrapperRef, itemsRef } = ToggleGroupInit(type, onValueChange, value, defaultValue)
-
+  React.ComponentRef<typeof ToggleGroupPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Root> & VariantProps<typeof toggleVariants>
+>(({ className, variant = 'default', size = 'default', children, ...props }, ref) => {
   return (
-    <ToggleGroupContext.Provider value={{ itemsRef, selectedItemRef, size, type, variant, wrapperRef }}>
-      <ul
+    <ToggleGroupContext.Provider value={{ size, variant }}>
+      <ToggleGroupPrimitive.Root
         className={cn(
           'flex items-center justify-center overflow-hidden rounded-md [&>:first-child]:rounded-s-md [&>:last-child]:rounded-e-md',
           variant === 'outline' && '[&>*:first-child]:border-e-0 [&>*:not(:first-child):not(:last-child)]:border-e-0',
           className,
         )}
-        ref={(node) => {
-          if (typeof ref === 'function') {
-            ref(node)
-          } else if (ref) {
-            ;(ref as React.RefObject<HTMLUListElement | null>).current = node
-          }
-          ;(wrapperRef as React.RefObject<HTMLUListElement | null>).current = node
-        }}
-        {...props}
+        ref={ref}
         data-slot="toggle-group"
-        data-type={type}
-        duck-toggle-group="">
+        {...props}>
         {children}
-      </ul>
+      </ToggleGroupPrimitive.Root>
     </ToggleGroupContext.Provider>
   )
 })
 ToggleGroup.displayName = 'ToggleGroup'
 
 const ToggleGroupItem = React.forwardRef<
-  HTMLInputElement,
-  Omit<React.ComponentPropsWithoutRef<typeof Toggle.Toggle>, 'ref'>
->(({ className, children, variant, size, value, ...props }, ref) => {
+  React.ComponentRef<typeof ToggleGroupPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Item> & VariantProps<typeof toggleVariants>
+>(({ className, variant, size, children, ...props }, ref) => {
   const context = React.useContext(ToggleGroupContext)
 
   return (
-    <Toggle.Toggle
-      className={cn('rounded-none', className)}
+    <ToggleGroupPrimitive.Item
+      className={cn(
+        toggleVariants({ variant: variant || context.variant, size: size || context.size }),
+        'rounded-none',
+        className,
+      )}
       ref={ref}
-      size={context?.size || size}
-      value={value}
-      variant={context?.variant || variant}
-      {...props}
       data-slot="toggle-group-item"
-      duck-toggle-group-item="">
+      {...props}>
       {children}
-    </Toggle.Toggle>
+    </ToggleGroupPrimitive.Item>
   )
 })
 ToggleGroupItem.displayName = 'ToggleGroupItem'
