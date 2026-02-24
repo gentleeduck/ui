@@ -3,16 +3,16 @@
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@gentleduck/registry-ui-duckui/react-hook-form'
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from '@gentleduck/registry-ui-duckui/field'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -68,47 +68,40 @@ export default function CheckboxReactHookFormMultiple() {
   }
 
   return (
-    <Form {...form}>
-      <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
-          control={form.control}
-          name="items"
-          render={() => (
-            <FormItem>
-              <div className="mb-4">
-                <FormLabel className="text-base">Sidebar</FormLabel>
-                <FormDescription>Select the items you want to display in the sidebar.</FormDescription>
-              </div>
+    <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+      <Controller
+        control={form.control}
+        name="items"
+        render={({ field, fieldState }) => (
+          <FieldSet>
+            <FieldLegend variant="label">Sidebar</FieldLegend>
+            <FieldDescription>Select the items you want to display in the sidebar.</FieldDescription>
+            <FieldGroup data-slot="checkbox-group">
               {items.map((item) => (
-                <FormField
-                  control={form.control}
-                  key={item.id}
-                  name="items"
-                  render={({ field }) => {
-                    return (
-                      <FormItem className="flex flex-row items-center gap-2" key={item.id}>
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value?.includes(item.id)}
-                            onCheckedChange={(checked) => {
-                              return checked
-                                ? field.onChange([...field.value, item.id])
-                                : field.onChange(field.value?.filter((value) => value !== item.id))
-                            }}
-                          />
-                        </FormControl>
-                        <FormLabel className="font-normal text-sm">{item.label}</FormLabel>
-                      </FormItem>
-                    )
-                  }}
-                />
+                <Field orientation="horizontal" key={item.id} data-invalid={fieldState.invalid}>
+                  <Checkbox
+                    id={`form-rhf-checkbox-${item.id}`}
+                    name={field.name}
+                    aria-invalid={fieldState.invalid}
+                    checked={field.value.includes(item.id)}
+                    onCheckedChange={(checked) => {
+                      const nextValue = checked
+                        ? [...field.value, item.id]
+                        : field.value.filter((value) => value !== item.id)
+                      field.onChange(nextValue)
+                    }}
+                  />
+                  <FieldLabel className="font-normal text-sm" htmlFor={`form-rhf-checkbox-${item.id}`}>
+                    {item.label}
+                  </FieldLabel>
+                </Field>
               ))}
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+            </FieldGroup>
+            {fieldState.invalid && fieldState.error && <FieldError errors={[fieldState.error]} />}
+          </FieldSet>
+        )}
+      />
+      <Button type="submit">Submit</Button>
+    </form>
   )
 }

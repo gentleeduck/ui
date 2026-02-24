@@ -10,19 +10,12 @@ import {
   CommandItem,
   CommandList,
 } from '@gentleduck/registry-ui-duckui/command'
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@gentleduck/registry-ui-duckui/field'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@gentleduck/registry-ui-duckui/react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Check, ChevronsUpDown } from 'lucide-react'
-import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -45,6 +38,7 @@ const FormSchema = z.object({
 })
 
 export default function ComboboxForm() {
+  const [open, setOpen] = useState(false)
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema as any),
   })
@@ -60,29 +54,30 @@ export default function ComboboxForm() {
   }
 
   return (
-    <Form {...form}>
-      <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
+    <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldGroup>
+        <Controller
           control={form.control}
           name="language"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Language</FormLabel>
-              <Popover>
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-rhf-combobox-language">Language</FieldLabel>
+              <Popover onOpenChange={setOpen} open={open}>
                 <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      className={cn('w-[200px] justify-between', !field.value && 'text-muted-foreground')}
-                      role="combobox"
-                      variant="outline">
-                      {field.value
-                        ? languages.find((language) => language.value === field.value)?.label
-                        : 'Select language'}
-                      <ChevronsUpDown className="opacity-50" />
-                    </Button>
-                  </FormControl>
+                  <Button
+                    className={cn('w-[240px] justify-between', !field.value && 'text-muted-foreground')}
+                    id="form-rhf-combobox-language"
+                    role="combobox"
+                    aria-expanded={open}
+                    aria-invalid={fieldState.invalid}
+                    variant="outline">
+                    {field.value
+                      ? languages.find((language) => language.value === field.value)?.label
+                      : 'Select language'}
+                    <ChevronsUpDown className="opacity-50" />
+                  </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[200px] min-w-auto p-0">
+                <PopoverContent className="w-[240px] min-w-auto p-0">
                   <Command>
                     <CommandInput className="h-9" placeholder="Search framework..." />
                     <CommandList>
@@ -92,12 +87,13 @@ export default function ComboboxForm() {
                           <CommandItem
                             key={language.value}
                             onSelect={() => {
-                              form.setValue('language', language.value)
+                              field.onChange(language.value)
+                              setOpen(false)
                             }}
                             value={language.label}>
                             {language.label}
                             <Check
-                              className={cn('ml-auto', language.value === field.value ? 'opacity-100' : 'opacity-0')}
+                              className={cn('ms-auto', language.value === field.value ? 'opacity-100' : 'opacity-0')}
                             />
                           </CommandItem>
                         ))}
@@ -106,13 +102,13 @@ export default function ComboboxForm() {
                   </Command>
                 </PopoverContent>
               </Popover>
-              <FormDescription>This is the language that will be used in the dashboard.</FormDescription>
-              <FormMessage />
-            </FormItem>
+              <FieldDescription>This is the language that will be used in the dashboard.</FieldDescription>
+              {fieldState.invalid && fieldState.error && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}
         />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+      </FieldGroup>
+      <Button type="submit">Submit</Button>
+    </form>
   )
 }

@@ -3,20 +3,12 @@
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Calendar } from '@gentleduck/registry-ui-duckui/calendar'
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@gentleduck/registry-ui-duckui/field'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@gentleduck/registry-ui-duckui/react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -42,27 +34,27 @@ export default function CalendarDemo() {
   }
 
   return (
-    <Form {...form}>
-      <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
+    <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldGroup>
+        <Controller
           control={form.control}
           name="dob"
-          render={({ field }) => (
-            <FormItem className="flex flex-col">
-              <FormLabel>Date of birth</FormLabel>
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor="form-rhf-calendar-dob">Date of birth</FieldLabel>
               <Popover>
-                <FormControl>
-                  <PopoverTrigger asChild>
-                    <Button
-                      className={cn('w-[240px] pl-3 text-left font-normal', !field.value && 'text-muted-foreground')}
-                      variant={'outline'}>
-                      <div className="flex w-full items-center justify-between">
-                        {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                      </div>
-                    </Button>
-                  </PopoverTrigger>
-                </FormControl>
+                <PopoverTrigger asChild>
+                  <Button
+                    id="form-rhf-calendar-dob"
+                    className={cn('w-[240px] px-3 text-left font-normal', !field.value && 'text-muted-foreground')}
+                    variant="outline"
+                    aria-invalid={fieldState.invalid}>
+                    <div className="flex w-full items-center justify-between">
+                      {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
+                      <CalendarIcon className="h-4 w-4 opacity-50" />
+                    </div>
+                  </Button>
+                </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
                   <Calendar
                     captionLayout="dropdown"
@@ -73,13 +65,13 @@ export default function CalendarDemo() {
                   />
                 </PopoverContent>
               </Popover>
-              <FormDescription>Your date of birth is used to calculate your age.</FormDescription>
-              <FormMessage />
-            </FormItem>
+              <FieldDescription>Your date of birth is used to calculate your age.</FieldDescription>
+              {fieldState.invalid && fieldState.error && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}
         />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+      </FieldGroup>
+      <Button type="submit">Submit</Button>
+    </form>
   )
 }
