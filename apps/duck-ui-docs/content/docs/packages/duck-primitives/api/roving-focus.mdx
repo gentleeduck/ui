@@ -28,7 +28,7 @@ import * as RovingFocusGroup from '@gentleduck/primitives/roving-focus'
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `orientation` | `'horizontal' \| 'vertical'` | -- | Arrow key direction |
-| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved with `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `loop` | `boolean` | `false` | Wrap at boundaries |
 
 ## How it works
