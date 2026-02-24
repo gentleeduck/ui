@@ -19,6 +19,7 @@ export function PopperArrow({ ref, ...props }: ScopedProps<React.ComponentPropsW
 
   return (
     <span
+      data-slot="popper-arrow"
       // SVG measurement: wrapper is measured via ResizeObserver; SVG bbox is not what we want.
       ref={contentContext.onArrowChange}
       style={{

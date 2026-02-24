@@ -15,7 +15,7 @@ export const SelectArrow = React.forwardRef<SelectArrowElement, SelectArrowProps
     const context = useSelectContext(ARROW_NAME, __scopeSelect)
     const contentContext = useSelectContentContext(ARROW_NAME, __scopeSelect)
     return context.open && contentContext.position === 'popper' ? (
-      <PopperPrimitive.Arrow {...popperScope} {...arrowProps} ref={forwardedRef} />
+      <PopperPrimitive.Arrow data-slot="select-arrow" {...popperScope} {...arrowProps} ref={forwardedRef} />
     ) : null
   },
 )

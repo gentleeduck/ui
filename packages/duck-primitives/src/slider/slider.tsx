@@ -48,6 +48,7 @@ type SliderContextValue = {
   valueIndexToChangeRef: React.RefObject<number>
   thumbs: Set<SliderThumbElement>
   orientation: SliderProps['orientation']
+  dir: Direction
   form: string | undefined
 }
 
@@ -88,9 +89,11 @@ const Slider = React.forwardRef<SliderElement, SliderProps>((props: ScopedProps<
     onValueChange = () => {},
     onValueCommit = () => {},
     inverted = false,
+    dir,
     form,
     ...sliderProps
   } = props
+  const direction = useDirection(dir)
   const thumbRefs = React.useRef<SliderContextValue['thumbs']>(new Set())
   const valueIndexToChangeRef = React.useRef<number>(0)
   const isHorizontal = orientation === 'horizontal'
@@ -153,6 +156,7 @@ const Slider = React.forwardRef<SliderElement, SliderProps>((props: ScopedProps<
       thumbs={thumbRefs.current}
       values={values}
       orientation={orientation}
+      dir={direction}
       form={form}>
       <Collection.Provider scope={props.__scopeSlider}>
         <Collection.Slot scope={props.__scopeSlider}>
@@ -160,6 +164,7 @@ const Slider = React.forwardRef<SliderElement, SliderProps>((props: ScopedProps<
             aria-disabled={disabled}
             data-disabled={disabled ? '' : undefined}
             {...sliderProps}
+            dir={direction}
             ref={forwardedRef}
             onPointerDown={composeEventHandlers(sliderProps.onPointerDown, () => {
               if (!disabled) valuesBeforeSlideStartRef.current = values
@@ -372,6 +377,7 @@ const SliderImpl = React.forwardRef<SliderImplElement, SliderImplProps>(
 
     return (
       <Primitive.span
+        data-slot="slider"
         {...sliderProps}
         ref={forwardedRef}
         onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {

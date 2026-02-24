@@ -14,7 +14,7 @@ export const PopoverArrow = React.forwardRef<
   const { __scopePopover, ...arrowProps } = props
   const popperScope = usePopperScope(__scopePopover)
 
-  return <PopperPrimitive.PopperAnchor {...popperScope} {...arrowProps} ref={forwardedRef} />
+  return <PopperPrimitive.PopperAnchor data-slot="popover-arrow" {...popperScope} {...arrowProps} ref={forwardedRef} />
 })
 
 PopoverArrow.displayName = ARROW_NAME

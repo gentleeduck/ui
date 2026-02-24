@@ -5,8 +5,8 @@ import { composeEventHandlers } from '../libs/compose-event-handler'
 import { ItemIndicatorProvider } from './checkbox-item'
 import { MenuItem, type MenuItemProps } from './item'
 import type { ScopedProps } from './menu'
+import { getCheckedState } from './menu.libs'
 import { useRadioGroupContext } from './radio-group'
-import { getCheckedState } from './utils'
 
 const RADIO_ITEM_NAME = 'MenuRadioItem'
 

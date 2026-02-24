@@ -6,17 +6,21 @@ import * as PopperPrimitive from '../popper'
 import { Presence } from '../presence'
 import { createSlottable } from '../slot'
 import * as VisuallyHiddenPrimitive from '../visibility-hidden'
-import type { Polygon } from './grace-area'
-import { getExitSideFromRect, getHull, getPaddedExitPoints, getPointsFromRect, isPointInPolygon } from './grace-area'
 import { usePortalContext } from './portal'
+import { useTooltipProviderContext } from './provider'
+import { useTooltipContext } from './tooltip'
+import type { Polygon } from './tooltip.libs'
 import {
   createTooltipContext,
+  getExitSideFromRect,
+  getHull,
+  getPaddedExitPoints,
+  getPointsFromRect,
+  isPointInPolygon,
   type ScopedProps,
   TOOLTIP_OPEN,
   usePopperScope,
-  useTooltipContext,
-  useTooltipProviderContext,
-} from './tooltip'
+} from './tooltip.libs'
 
 const CONTENT_NAME = 'TooltipContent'
 const TOOLTIP_NAME = 'Tooltip'
@@ -216,6 +220,7 @@ const TooltipContentImpl = React.forwardRef<TooltipContentImplElement, TooltipCo
         onFocusOutside={(event) => event.preventDefault()}
         onDismiss={onClose}>
         <PopperPrimitive.PopperContent
+          data-slot="tooltip-content"
           data-state={context.stateAttribute}
           dir={context.dir}
           {...popperScope}

@@ -16,6 +16,7 @@ export const DialogClose = React.forwardRef<DialogCloseElement, DialogCloseProps
     const context = useDialogContext(CLOSE_NAME, __scopeDialog)
     return (
       <Primitive.button
+        data-slot="dialog-close"
         type="button"
         dir={context.dir}
         {...closeProps}

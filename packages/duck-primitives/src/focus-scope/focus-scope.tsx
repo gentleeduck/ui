@@ -2,7 +2,14 @@ import * as React from 'react'
 import { useCallbackRef } from '../hooks/use-callback-ref'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
-import { focus, focusFirst, focusScopesStack, getTabbableCandidates, getTabbableEdges, removeLinks } from './utils'
+import {
+  focus,
+  focusFirst,
+  focusScopesStack,
+  getTabbableCandidates,
+  getTabbableEdges,
+  removeLinks,
+} from './focus-scope.libs'
 
 /* -------------------------------------------------------------------------------------------------
  * FocusScope
@@ -175,7 +182,9 @@ const FocusScope = React.forwardRef<FocusScopeElement, FocusScopeProps>((props, 
     [loop, trapped, focusScope.paused],
   )
 
-  return <Primitive.div tabIndex={-1} {...scopeProps} ref={composedRefs} onKeyDown={handleKeyDown} />
+  return (
+    <Primitive.div data-slot="focus-scope" tabIndex={-1} {...scopeProps} ref={composedRefs} onKeyDown={handleKeyDown} />
+  )
 })
 
 FocusScope.displayName = FOCUS_SCOPE_NAME

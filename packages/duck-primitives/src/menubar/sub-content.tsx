@@ -18,7 +18,7 @@ const MenubarSubContent = React.forwardRef<MenubarSubContentElement, MenubarSubC
     return (
       <MenuPrimitive.SubContent
         {...menuScope}
-        data-gentleduck-menubar-content=""
+        data-slot="menubar-content"
         {...subContentProps}
         ref={forwardedRef}
         style={{

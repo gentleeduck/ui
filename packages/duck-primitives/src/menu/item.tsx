@@ -6,7 +6,7 @@ import { dispatchDiscreteCustomEvent, Primitive } from '../primitive-elements'
 import * as RovingFocusGroup from '../roving-focus'
 import { useMenuContentContext } from './content'
 import { Collection, type ScopedProps, useCollection, useMenuRootContext, useRovingFocusGroupScope } from './menu'
-import { SELECTION_KEYS, whenMouse } from './utils'
+import { SELECTION_KEYS, whenMouse } from './menu.libs'
 
 const ITEM_NAME = 'MenuItem'
 const ITEM_SELECT = 'menu.itemSelect'
@@ -104,6 +104,7 @@ const MenuItemImpl = React.forwardRef<MenuItemImplElement, MenuItemImplProps>(
       <Collection.ItemSlot scope={__scopeMenu} disabled={disabled} textValue={textValue ?? textContent}>
         <RovingFocusGroup.Item asChild {...rovingFocusGroupScope} focusable={!disabled}>
           <Primitive.div
+            data-slot="menu-item"
             role="menuitem"
             data-highlighted={isFocused ? '' : undefined}
             aria-disabled={disabled || undefined}

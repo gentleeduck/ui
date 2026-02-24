@@ -1,13 +1,19 @@
-export type { AvatarFallbackProps, AvatarImageProps, AvatarProps } from './avatar'
+export type { AvatarProps } from './avatar'
 export {
   //
   Avatar,
   Avatar as Root,
+  createAvatarScope,
+} from './avatar'
+export type { AvatarFallbackProps } from './fallback'
+export {
   //
   AvatarFallback,
   AvatarFallback as Fallback,
+} from './fallback'
+export type { AvatarImageProps } from './image'
+export {
   //
   AvatarImage,
   AvatarImage as Image,
-  createAvatarScope,
-} from './avatar'
+} from './image'

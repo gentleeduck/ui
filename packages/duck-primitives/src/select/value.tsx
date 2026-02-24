@@ -28,6 +28,7 @@ export const SelectValue = React.forwardRef<SelectValueElement, SelectValueProps
 
     return (
       <Primitive.span
+        data-slot="select-value"
         {...valueProps}
         ref={composedRefs}
         dir={context.dir}

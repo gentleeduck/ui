@@ -13,7 +13,15 @@ export const DialogDescription = React.forwardRef<DialogDescriptionElement, Dial
   (props: ScopedProps<DialogDescriptionProps>, forwardedRef) => {
     const { __scopeDialog, ...descriptionProps } = props
     const context = useDialogContext(DESCRIPTION_NAME, __scopeDialog)
-    return <Primitive.p id={context.descriptionId} dir={context.dir} {...descriptionProps} ref={forwardedRef} />
+    return (
+      <Primitive.p
+        data-slot="dialog-description"
+        id={context.descriptionId}
+        dir={context.dir}
+        {...descriptionProps}
+        ref={forwardedRef}
+      />
+    )
   },
 )
 

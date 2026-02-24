@@ -18,6 +18,7 @@ export const DialogTrigger = React.forwardRef<DialogTriggerElement, DialogTrigge
     const composedTriggerRef = useComposedRefs(forwardedRef, context.triggerRef)
     return (
       <Primitive.button
+        data-slot="dialog-trigger"
         type="button"
         aria-haspopup="dialog"
         aria-expanded={context.open}

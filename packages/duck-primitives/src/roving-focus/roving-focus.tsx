@@ -7,8 +7,8 @@ import { useComposedRefs } from '../libs/compose-ref'
 import { createCollection } from '../libs/create-collection'
 import { createContextScope, type Scope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'
-import type { Direction, Orientation } from './utils'
-import { focusFirst } from './utils'
+import type { Direction, Orientation } from './roving-focus.libs'
+import { focusFirst } from './roving-focus.libs'
 
 const ENTRY_FOCUS = 'rovingFocusGroup.onEntryFocus'
 const EVENT_OPTIONS = { bubbles: false, cancelable: true }
@@ -119,6 +119,7 @@ const RovingFocusGroupImpl = React.forwardRef<RovingFocusGroupImplElement, Rovin
         onFocusableItemAdd={React.useCallback(() => setFocusableItemsCount((prevCount) => prevCount + 1), [])}
         onFocusableItemRemove={React.useCallback(() => setFocusableItemsCount((prevCount) => prevCount - 1), [])}>
         <Primitive.div
+          data-slot="roving-focus-group"
           tabIndex={isTabbingBackOut || focusableItemsCount === 0 ? -1 : 0}
           data-orientation={orientation}
           {...groupProps}

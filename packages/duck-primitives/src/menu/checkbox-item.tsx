@@ -4,7 +4,7 @@ import * as React from 'react'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { MenuItem, type MenuItemProps } from './item'
 import { createMenuContext, type ScopedProps } from './menu'
-import { type CheckedState, getCheckedState, isIndeterminate } from './utils'
+import { type CheckedState, getCheckedState, isIndeterminate } from './menu.libs'
 
 const CHECKBOX_ITEM_NAME = 'MenuCheckboxItem'
 const ITEM_INDICATOR_NAME = 'MenuItemIndicator'

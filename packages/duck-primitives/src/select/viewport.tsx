@@ -32,13 +32,13 @@ export const SelectViewport = React.forwardRef<SelectViewportElement, SelectView
         {/* Hide scrollbars cross-browser and enable momentum scroll for touch devices */}
         <style
           dangerouslySetInnerHTML={{
-            __html: `[data-gentleduck-select-viewport]{scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;}[data-gentleduck-select-viewport]::-webkit-scrollbar{display:none}`,
+            __html: `[data-slot="select-viewport"]{scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;}[data-slot="select-viewport"]::-webkit-scrollbar{display:none}`,
           }}
           nonce={nonce}
         />
         <Collection.Slot scope={__scopeSelect}>
           <Primitive.div
-            data-gentleduck-select-viewport=""
+            data-slot="select-viewport"
             role="presentation"
             dir={context.dir}
             {...viewportProps}

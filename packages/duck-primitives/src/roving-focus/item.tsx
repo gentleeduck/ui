@@ -4,7 +4,7 @@ import { useId } from '../hooks/use-id'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { Primitive } from '../primitive-elements'
 import { Collection, type ScopedProps, useCollection, useRovingFocusContext } from './roving-focus'
-import { focusFirst, getFocusIntent, wrapArray } from './utils'
+import { focusFirst, getFocusIntent, wrapArray } from './roving-focus.libs'
 
 const ITEM_NAME = 'RovingFocusGroupItem'
 
@@ -37,6 +37,7 @@ const RovingFocusGroupItem = React.forwardRef<RovingFocusItemElement, RovingFocu
     return (
       <Collection.ItemSlot scope={__scopeRovingFocusGroup} id={id} focusable={focusable} active={active}>
         <Primitive.span
+          data-slot="roving-focus-item"
           tabIndex={isCurrentTabStop ? 0 : -1}
           data-orientation={context.orientation}
           {...itemProps}

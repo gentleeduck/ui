@@ -10,9 +10,9 @@ import {
   type MenuContentImplProps,
 } from './content'
 import { Collection, type ScopedProps, useMenuContext, useMenuRootContext } from './menu'
+import { SUB_CLOSE_KEYS } from './menu.libs'
 import { usePortalContext } from './portal'
 import { useMenuSubContext } from './sub'
-import { SUB_CLOSE_KEYS } from './utils'
 
 const CONTENT_NAME = 'MenuContent'
 const SUB_CONTENT_NAME = 'MenuSubContent'

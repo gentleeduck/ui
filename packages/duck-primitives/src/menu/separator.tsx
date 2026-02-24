@@ -16,6 +16,7 @@ const MenuSeparator = React.forwardRef<MenuSeparatorElement, MenuSeparatorProps>
     const rootContext = useMenuRootContext(SEPARATOR_NAME, __scopeMenu)
     return (
       <Primitive.div
+        data-slot="menu-separator"
         role="separator"
         aria-orientation="horizontal"
         dir={rootContext.dir}

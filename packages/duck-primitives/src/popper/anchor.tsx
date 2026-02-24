@@ -23,7 +23,7 @@ export const PopperAnchor = ({ ref: forwardedRef, ...props }: ScopedProps<Popper
     context.onAnchorChange(virtualRef?.current ?? ref.current)
   })
 
-  return virtualRef ? null : <Primitive.div {...anchorProps} ref={composedRefs} />
+  return virtualRef ? null : <Primitive.div data-slot="popper-anchor" {...anchorProps} ref={composedRefs} />
 }
 
 PopperAnchor.displayName = ANCHOR_NAME

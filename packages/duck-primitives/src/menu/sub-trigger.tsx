@@ -7,8 +7,8 @@ import { MenuAnchor } from './anchor'
 import { useMenuContentContext } from './content'
 import { MenuItemImpl, type MenuItemImplProps } from './item'
 import { type ScopedProps, useMenuContext, useMenuRootContext, usePopperScope } from './menu'
+import { getOpenState, type Side, SUB_OPEN_KEYS, whenMouse } from './menu.libs'
 import { useMenuSubContext } from './sub'
-import { getOpenState, type Side, SUB_OPEN_KEYS, whenMouse } from './utils'
 
 const SUB_TRIGGER_NAME = 'MenuSubTrigger'
 

@@ -18,6 +18,7 @@ const Arrow = React.forwardRef<ArrowElement, ArrowProps>((props, forwardedRef) =
   const { children, width = 10, height = 5, ...arrowProps } = props
   return (
     <Primitive.svg
+      data-slot="arrow"
       {...arrowProps}
       ref={forwardedRef}
       width={width}

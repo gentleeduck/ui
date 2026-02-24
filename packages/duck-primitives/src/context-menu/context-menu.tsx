@@ -2,6 +2,7 @@
 import * as React from 'react'
 import { useCallbackRef } from '../hooks/use-callback-ref'
 import type { Direction } from '../hooks/use-direction'
+import { useDirection } from '../hooks/use-direction'
 import { createContextScope, type Scope } from '../libs/create-context'
 import * as MenuPrimitive from '../menu'
 import { createMenuScope } from '../menu'
@@ -15,6 +16,7 @@ const useMenuScope = createMenuScope()
 type ContextMenuContextValue = {
   open: boolean
   onOpenChange(open: boolean): void
+  dir: Direction
   modal: boolean
 }
 
@@ -30,6 +32,7 @@ interface ContextMenuProps {
 
 const ContextMenu: React.FC<ContextMenuProps> = (props: ScopedProps<ContextMenuProps>) => {
   const { __scopeContextMenu, children, onOpenChange, dir, modal = true } = props
+  const direction = useDirection(dir)
   const [open, setOpen] = React.useState(false)
   const menuScope = useMenuScope(__scopeContextMenu)
   const handleOpenChangeProp = useCallbackRef(onOpenChange)
@@ -43,8 +46,13 @@ const ContextMenu: React.FC<ContextMenuProps> = (props: ScopedProps<ContextMenuP
   )
 
   return (
-    <ContextMenuProvider scope={__scopeContextMenu} open={open} onOpenChange={handleOpenChange} modal={modal}>
-      <MenuPrimitive.Root {...menuScope} dir={dir} open={open} onOpenChange={handleOpenChange} modal={modal}>
+    <ContextMenuProvider
+      scope={__scopeContextMenu}
+      open={open}
+      onOpenChange={handleOpenChange}
+      dir={direction}
+      modal={modal}>
+      <MenuPrimitive.Root {...menuScope} dir={direction} open={open} onOpenChange={handleOpenChange} modal={modal}>
         {children}
       </MenuPrimitive.Root>
     </ContextMenuProvider>

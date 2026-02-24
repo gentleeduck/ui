@@ -41,6 +41,7 @@ export const SelectScrollUpButton = React.forwardRef<SelectScrollButtonImplEleme
     return canScrollUp ? (
       <SelectScrollButtonImpl
         {...props}
+        data-slot="select-scroll-up-button"
         ref={composedRefs}
         onAutoScroll={() => {
           const { viewport, selectedItem } = contentContext
@@ -85,6 +86,7 @@ export const SelectScrollDownButton = React.forwardRef<SelectScrollButtonImplEle
     return canScrollDown ? (
       <SelectScrollButtonImpl
         {...props}
+        data-slot="select-scroll-down-button"
         ref={composedRefs}
         onAutoScroll={() => {
           const { viewport, selectedItem } = contentContext
@@ -132,6 +134,7 @@ const SelectScrollButtonImpl = React.forwardRef<HTMLDivElement, ScopedProps<Sele
 
     return (
       <Primitive.div
+        data-slot="select-scroll-button"
         aria-hidden
         dir={context.dir}
         {...scrollIndicatorProps}

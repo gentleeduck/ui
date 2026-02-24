@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { usePrevious } from '../hooks/use-previous'
+import { Primitive } from '../primitive-elements'
 
 const BubbleInput = (props: React.ComponentPropsWithoutRef<'input'>) => {
   const { value, ...inputProps } = props
@@ -18,6 +19,6 @@ const BubbleInput = (props: React.ComponentPropsWithoutRef<'input'>) => {
     }
   }, [prevValue, value])
 
-  return <input style={{ display: 'none' }} {...inputProps} ref={ref} defaultValue={value} />
+  return <Primitive.input style={{ display: 'none' }} {...inputProps} ref={ref} defaultValue={value} />
 }
 export { BubbleInput }

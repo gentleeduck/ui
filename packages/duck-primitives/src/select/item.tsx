@@ -1,7 +1,5 @@
 import * as React from 'react'
-import * as ReactDOM from 'react-dom'
 import { useId } from '../hooks/use-id'
-import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
@@ -13,8 +11,6 @@ import {
   SelectItemContextProvider,
   useSelectContentContext,
   useSelectContext,
-  useSelectItemContext,
-  useSelectNativeOptionsContext,
 } from './select'
 
 const ITEM_NAME = 'SelectItem'
@@ -70,6 +66,7 @@ export const SelectItem = React.forwardRef<SelectItemElement, ScopedProps<Select
     <SelectItemContextProvider scope={__scopeSelect} {...itemContextValue}>
       <Collection.ItemSlot scope={__scopeSelect} value={value} disabled={disabled} textValue={textValue}>
         <Primitive.div
+          data-slot="select-item"
           role="option"
           aria-labelledby={textId}
           dir={context.dir}
@@ -124,79 +121,3 @@ export const SelectItem = React.forwardRef<SelectItemElement, ScopedProps<Select
 })
 
 SelectItem.displayName = ITEM_NAME
-const ITEM_TEXT_NAME = 'SelectItemText'
-
-type SelectItemTextElement = React.ComponentRef<typeof Primitive.span>
-
-export interface SelectItemTextProps extends React.ComponentPropsWithRef<typeof Primitive.span> {}
-
-export const SelectItemText = React.forwardRef<SelectItemTextElement, ScopedProps<SelectItemTextProps>>(
-  (props, forwardedRef) => {
-    // We ignore `className` and `style` as this part shouldn't be styled.
-    const { __scopeSelect, className, style, ...itemTextProps } = props
-    const context = useSelectContext(ITEM_TEXT_NAME, __scopeSelect)
-    const contentContext = useSelectContentContext(ITEM_TEXT_NAME, __scopeSelect)
-    const itemContext = useSelectItemContext(ITEM_TEXT_NAME, __scopeSelect)
-    const nativeOptionsContext = useSelectNativeOptionsContext(ITEM_TEXT_NAME, __scopeSelect)
-    const [itemTextNode, setItemTextNode] = React.useState<SelectItemTextElement | null>(null)
-    const composedRefs = useComposedRefs(
-      forwardedRef,
-      (node: HTMLSpanElement | null) => setItemTextNode(node),
-      itemContext.onItemTextChange,
-      (node: HTMLSpanElement | null) =>
-        contentContext.itemTextRefCallback?.(node, itemContext.value, itemContext.disabled),
-    )
-
-    const textContent = itemTextNode?.textContent
-    const nativeOption = React.useMemo(
-      () => (
-        <option key={itemContext.value} value={itemContext.value} disabled={itemContext.disabled}>
-          {textContent}
-        </option>
-      ),
-      [itemContext.disabled, itemContext.value, textContent],
-    )
-
-    const { onNativeOptionAdd, onNativeOptionRemove } = nativeOptionsContext
-    useLayoutEffect(() => {
-      onNativeOptionAdd(nativeOption)
-      return () => onNativeOptionRemove(nativeOption)
-    }, [onNativeOptionAdd, onNativeOptionRemove, nativeOption])
-
-    return (
-      <>
-        <Primitive.span id={itemContext.textId} dir={context.dir} {...itemTextProps} ref={composedRefs} />
-
-        {/* Portal the select item text into the trigger value node.
-           Skip when allowTextPortal is false (content is animating out) to avoid
-           duplicating the portal that the fragment copy already provides. */}
-        {itemContext.isSelected &&
-        context.valueNode &&
-        !context.valueNodeHasChildren &&
-        contentContext.allowTextPortal !== false
-          ? ReactDOM.createPortal(itemTextProps.children, context.valueNode)
-          : null}
-      </>
-    )
-  },
-)
-
-SelectItemText.displayName = ITEM_TEXT_NAME
-const ITEM_INDICATOR_NAME = 'SelectItemIndicator'
-
-type SelectItemIndicatorElement = React.ComponentRef<typeof Primitive.span>
-
-export interface SelectItemIndicatorProps extends React.ComponentPropsWithRef<typeof Primitive.span> {}
-
-export const SelectItemIndicator = React.forwardRef<SelectItemIndicatorElement, ScopedProps<SelectItemIndicatorProps>>(
-  (props, forwardedRef) => {
-    const { __scopeSelect, ...itemIndicatorProps } = props
-    const context = useSelectContext(ITEM_INDICATOR_NAME, __scopeSelect)
-    const itemContext = useSelectItemContext(ITEM_INDICATOR_NAME, __scopeSelect)
-    return itemContext.isSelected ? (
-      <Primitive.span aria-hidden dir={context.dir} {...itemIndicatorProps} ref={forwardedRef} />
-    ) : null
-  },
-)
-
-SelectItemIndicator.displayName = ITEM_INDICATOR_NAME

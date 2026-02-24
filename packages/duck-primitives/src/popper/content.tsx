@@ -165,7 +165,7 @@ export const PopperContent = ({ ref: forwardedRef, ...props }: ScopedProps<Poppe
   return (
     <Primitive.div
       ref={refs.setFloating}
-      data-duck-popper-content-wrapper=""
+      data-slot="popper-content-wrapper"
       style={
         {
           ...floatingStyles,
@@ -192,6 +192,7 @@ export const PopperContent = ({ ref: forwardedRef, ...props }: ScopedProps<Poppe
         arrowY={arrowY}
         shouldHideArrow={cannotCenterArrow}>
         <Primitive.div
+          data-slot="popper-content"
           data-side={placedSide}
           data-align={placedAlign}
           {...contentProps}

@@ -53,7 +53,7 @@ function createCollection<ItemElement extends HTMLElement, ItemData = {}>(name: 
 
   // CollectionItem
   const ITEM_SLOT_NAME = name + 'CollectionItemSlot'
-  const ITEM_DATA_ATTR = 'data-gentleduck-collection-item'
+  const ITEM_DATA_ATTR = 'data-collection-item'
 
   type CollectionItemSlotProps = ItemData & {
     children: React.ReactNode

@@ -25,7 +25,9 @@ export const PopoverAnchor = React.forwardRef<
     return () => onCustomAnchorRemove()
   }, [onCustomAnchorAdd, onCustomAnchorRemove])
 
-  return <PopperPrimitive.PopperAnchor {...popperScope} {...anchorProps} ref={forwardedRef} />
+  return (
+    <PopperPrimitive.PopperAnchor data-slot="popover-anchor" {...popperScope} {...anchorProps} ref={forwardedRef} />
+  )
 })
 
 PopoverAnchor.displayName = ANCHOR_NAME

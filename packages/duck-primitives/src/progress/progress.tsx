@@ -5,14 +5,22 @@ import { useDirection } from '../hooks/use-direction'
 import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'
+import {
+  DEFAULT_MAX,
+  defaultGetValueLabel,
+  getInvalidMaxError,
+  getInvalidValueError,
+  getProgressState,
+  isNumber,
+  isValidMaxNumber,
+  isValidValueNumber,
+} from './progress.libs'
 
 const PROGRESS_NAME = 'Progress'
-const DEFAULT_MAX = 100
 
 type ScopedProps<P> = P & { __scopeProgress?: Scope }
 const [createProgressContext, createProgressScope] = createContextScope(PROGRESS_NAME)
 
-type ProgressState = 'indeterminate' | 'complete' | 'loading'
 type ProgressContextValue = { value: number | null; max: number; dir: Direction }
 const [ProgressProvider, useProgressContext] = createProgressContext<ProgressContextValue>(PROGRESS_NAME)
 
@@ -52,6 +60,7 @@ const Progress = React.forwardRef<ProgressElement, ProgressProps>((props: Scoped
   return (
     <ProgressProvider scope={__scopeProgress} value={value} max={max} dir={direction}>
       <Primitive.div
+        data-slot="progress"
         aria-valuemax={max}
         aria-valuemin={0}
         aria-valuenow={isNumber(value) ? value : undefined}
@@ -69,39 +78,6 @@ const Progress = React.forwardRef<ProgressElement, ProgressProps>((props: Scoped
 })
 
 Progress.displayName = PROGRESS_NAME
-
-function defaultGetValueLabel(value: number, max: number) {
-  return `${Math.round((value / max) * 100)}%`
-}
-
-function getProgressState(value: number | undefined | null, maxValue: number): ProgressState {
-  return value == null ? 'indeterminate' : value === maxValue ? 'complete' : 'loading'
-}
-
-function isNumber(value: unknown): value is number {
-  return typeof value === 'number'
-}
-
-function isValidMaxNumber(max: unknown): max is number {
-  return isNumber(max) && !isNaN(max) && max > 0
-}
-
-function isValidValueNumber(value: unknown, max: number): value is number {
-  return isNumber(value) && !isNaN(value) && value <= max && value >= 0
-}
-
-function getInvalidMaxError(propValue: string, componentName: string) {
-  return `Invalid prop \`max\` of value \`${propValue}\` supplied to \`${componentName}\`. Only numbers greater than 0 are valid max values. Defaulting to \`${DEFAULT_MAX}\`.`
-}
-
-function getInvalidValueError(propValue: string, componentName: string) {
-  return `Invalid prop \`value\` of value \`${propValue}\` supplied to \`${componentName}\`. The \`value\` prop must be:
-  - a positive number
-  - less than the value passed to \`max\` (or ${DEFAULT_MAX} if no \`max\` prop is set)
-  - \`null\` or \`undefined\` if the progress is indeterminate.
-
-Defaulting to \`null\`.`
-}
 
 export { PROGRESS_NAME, createProgressScope, ProgressProvider, useProgressContext, getProgressState, Progress }
 export type { ScopedProps, ProgressProps, ProgressContextValue }

@@ -23,6 +23,7 @@ export const HoverCardTrigger = React.forwardRef<HoverCardTriggerElement, HoverC
     return (
       <PopperPrimitive.Anchor asChild {...popperScope}>
         <Primitive.a
+          data-slot="hover-card-trigger"
           data-state={context.open ? 'open' : 'closed'}
           dir={context.dir}
           {...triggerProps}

@@ -15,12 +15,7 @@ const MenubarSubTrigger = React.forwardRef<MenubarSubTriggerElement, MenubarSubT
     const { __scopeMenubar, ...subTriggerProps } = props
     const menuScope = useMenuScope(__scopeMenubar)
     return (
-      <MenuPrimitive.SubTrigger
-        data-gentleduck-menubar-subtrigger=""
-        {...menuScope}
-        {...subTriggerProps}
-        ref={forwardedRef}
-      />
+      <MenuPrimitive.SubTrigger data-slot="menubar-subtrigger" {...menuScope} {...subTriggerProps} ref={forwardedRef} />
     )
   },
 )

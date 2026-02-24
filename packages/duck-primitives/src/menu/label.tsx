@@ -14,7 +14,7 @@ const MenuLabel = React.forwardRef<MenuLabelElement, MenuLabelProps>(
   (props: ScopedProps<MenuLabelProps>, forwardedRef) => {
     const { __scopeMenu, ...labelProps } = props
     const rootContext = useMenuRootContext(LABEL_NAME, __scopeMenu)
-    return <Primitive.div dir={rootContext.dir} {...labelProps} ref={forwardedRef} />
+    return <Primitive.div data-slot="menu-label" dir={rootContext.dir} {...labelProps} ref={forwardedRef} />
   },
 )
 

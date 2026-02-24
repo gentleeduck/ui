@@ -13,7 +13,7 @@ export const SelectIcon = React.forwardRef<SelectIconElement, SelectIconProps>(
     const { __scopeSelect, children, ...iconProps } = props
     const context = useSelectContext(ICON_NAME, __scopeSelect)
     return (
-      <Primitive.span aria-hidden dir={context.dir} {...iconProps} ref={forwardedRef}>
+      <Primitive.span data-slot="select-icon" aria-hidden dir={context.dir} {...iconProps} ref={forwardedRef}>
         {children || '\u25BC'}
       </Primitive.span>
     )
