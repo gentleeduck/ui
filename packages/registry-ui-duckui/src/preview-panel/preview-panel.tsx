@@ -22,11 +22,17 @@ const ZoomControls = memo(function ZoomControls({
   onZoomOut,
   onReset,
   zoom,
+  zoomInText = 'Zoom in',
+  zoomOutText = 'Zoom out',
+  resetText = 'Reset view',
 }: {
   onZoomIn: () => void
   onZoomOut: () => void
   onReset: () => void
   zoom: number
+  zoomInText?: string
+  zoomOutText?: string
+  resetText?: string
 }) {
   return (
     <TooltipProvider>
@@ -35,7 +41,7 @@ const ZoomControls = memo(function ZoomControls({
           <TooltipTrigger asChild>
             <Button variant="ghost" size="icon-sm" onClick={onZoomIn} icon={<Plus />} />
           </TooltipTrigger>
-          <TooltipContent>Zoom in</TooltipContent>
+          <TooltipContent>{zoomInText}</TooltipContent>
         </Tooltip>
         <Separator orientation="vertical" />
         <Badge variant="secondary" size="sm" className="rounded-none tabular-nums">
@@ -46,14 +52,14 @@ const ZoomControls = memo(function ZoomControls({
           <TooltipTrigger asChild>
             <Button variant="ghost" size="icon-sm" onClick={onZoomOut} icon={<Minus />} />
           </TooltipTrigger>
-          <TooltipContent>Zoom out</TooltipContent>
+          <TooltipContent>{zoomOutText}</TooltipContent>
         </Tooltip>
         <Separator orientation="vertical" />
         <Tooltip>
           <TooltipTrigger asChild>
             <Button variant="ghost" size="icon-sm" onClick={onReset} icon={<RotateCcw />} />
           </TooltipTrigger>
-          <TooltipContent>Reset view</TooltipContent>
+          <TooltipContent>{resetText}</TooltipContent>
         </Tooltip>
       </ButtonGroup>
     </TooltipProvider>
