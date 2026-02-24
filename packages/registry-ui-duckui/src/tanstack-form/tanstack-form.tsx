@@ -114,7 +114,7 @@ function FormMultiMessage({
     <div
       className={cn(
         'overflow-hidden transition-all duration-300 ease-in-out',
-        errors.length ? 'my-1 max-h-[960px] opacity-100' : 'my-0 max-h-0 opacity-0',
+        errors.length ? 'my-1 max-h-240 opacity-100' : 'my-0 max-h-0 opacity-0',
         className,
       )}
       data-slot="form-message"

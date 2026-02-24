@@ -19,6 +19,7 @@ export default function CardRtlDemo() {
           <CardTitle>إنشاء مشروع</CardTitle>
           <CardDescription>انشر مشروعك الجديد بنقرة واحدة.</CardDescription>
         </CardHeader>
+
         <CardContent>
           <form>
             <div className="grid w-full items-center gap-4">
@@ -26,23 +27,29 @@ export default function CardRtlDemo() {
                 <Label htmlFor="name">الاسم</Label>
                 <Input id="name" placeholder="اسم مشروعك" />
               </div>
+
               <div className="flex flex-col space-y-1.5">
-                <Label htmlFor="framework">إطار العمل</Label>
-                <Select>
+                <Label htmlFor="framework">نوع المشروع</Label>
+
+                <Select dir="rtl">
                   <SelectTrigger id="framework">
-                    <SelectValue placeholder="اختر" />
+                    <SelectValue placeholder="اختر نوع المشروع" />
                   </SelectTrigger>
+
                   <SelectContent>
-                    <SelectItem value="next">Next.js</SelectItem>
-                    <SelectItem value="sveltekit">SvelteKit</SelectItem>
-                    <SelectItem value="astro">Astro</SelectItem>
-                    <SelectItem value="nuxt">Nuxt.js</SelectItem>
+                    <SelectItem value="landing">صفحة هبوط</SelectItem>
+                    <SelectItem value="dashboard">لوحة تحكم</SelectItem>
+                    <SelectItem value="ecommerce">متجر إلكتروني</SelectItem>
+                    <SelectItem value="portfolio">معرض أعمال</SelectItem>
+                    <SelectItem value="blog">مدونة</SelectItem>
+                    <SelectItem value="mobile-app">تطبيق موبايل</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
             </div>
           </form>
         </CardContent>
+
         <CardFooter className="flex justify-between">
           <Button variant="outline">إلغاء</Button>
           <Button>نشر</Button>

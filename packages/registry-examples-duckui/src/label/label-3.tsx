@@ -5,8 +5,8 @@ export default function LabelRtlDemo() {
   return (
     <div dir="rtl">
       <div className="flex items-center gap-2">
-        <Checkbox id="terms" />
-        <Label htmlFor="terms">قبول الشروط والاحكام</Label>
+        <Checkbox id="tterms" />
+        <Label htmlFor="tterms">قبول الشروط والاحكام</Label>
       </div>
     </div>
   )

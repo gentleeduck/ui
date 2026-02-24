@@ -12,7 +12,11 @@ import {
 export default function CarouselRtlDemo() {
   return (
     <div dir="rtl">
-      <Carousel className="w-full max-w-xs">
+      <Carousel
+        className="w-full max-w-xs"
+        opts={{
+          direction: 'rtl',
+        }}>
         <CarouselContent>
           {Array.from({ length: 5 }).map((_, index) => (
             <CarouselItem key={`item-${index + 1}`}>

@@ -1,18 +1,10 @@
 'use client'
 
 import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@gentleduck/registry-ui-duckui/field'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@gentleduck/registry-ui-duckui/react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -42,24 +34,22 @@ export default function InputForm() {
   }
 
   return (
-    <Form {...form}>
-      <form className="w-2/3 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
+    <form className="w-2/3 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldGroup>
+        <Controller
           control={form.control}
           name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="wildduck" {...field} />
-              </FormControl>
-              <FormDescription>This is your public display name.</FormDescription>
-              <FormMessage />
-            </FormItem>
+          render={({ field, fieldState }) => (
+            <Field data-invalid={fieldState.invalid}>
+              <FieldLabel htmlFor={field.name}>Username</FieldLabel>
+              <Input {...field} id={field.name} aria-invalid={fieldState.invalid} placeholder="wildduck" />
+              <FieldDescription>This is your public display name.</FieldDescription>
+              {fieldState.invalid && fieldState.error && <FieldError errors={[fieldState.error]} />}
+            </Field>
           )}
         />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+      </FieldGroup>
+      <Button type="submit">Submit</Button>
+    </form>
   )
 }

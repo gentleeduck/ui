@@ -16,7 +16,7 @@ import { Textarea } from '@gentleduck/registry-ui-duckui/textarea'
 export default function FieldRtlDemo() {
   return (
     <div dir="rtl">
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-lg">
         <form>
           <FieldGroup>
             <FieldSet>

@@ -14,57 +14,51 @@ import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui
 import { Check, ChevronsUpDown } from 'lucide-react'
 import * as React from 'react'
 
-const frameworks = [
-  {
-    label: 'Next.js',
-    value: 'next.js',
-  },
-  {
-    label: 'SvelteKit',
-    value: 'sveltekit',
-  },
-  {
-    label: 'Nuxt.js',
-    value: 'nuxt.js',
-  },
-  {
-    label: 'Remix',
-    value: 'remix',
-  },
-  {
-    label: 'Astro',
-    value: 'astro',
-  },
+const options = [
+  { label: 'صفحة هبوط', value: 'landing' },
+  { label: 'لوحة تحكم', value: 'dashboard' },
+  { label: 'متجر إلكتروني', value: 'ecommerce' },
+  { label: 'مدونة', value: 'blog' },
+  { label: 'معرض أعمال', value: 'portfolio' },
+  { label: 'نظام حجوزات', value: 'booking' },
 ]
 
 export default function ComboboxRtlDemo() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState('')
 
+  const selectedLabel = value ? options.find((x) => x.value === value)?.label : undefined
+
   return (
     <Popover dir="rtl" onOpenChange={setOpen} open={open}>
-      <PopoverTrigger asChild>
-        <Button aria-expanded={open} className="w-[240px] justify-between" role="combobox" variant="outline">
-          {value ? frameworks.find((framework) => framework.value === value)?.label : '...اختر اطار العمل'}
+      <PopoverTrigger>
+        <Button aria-expanded={open} className="w-[230px] justify-between text-start" role="combobox" variant="outline">
+          {selectedLabel ?? 'اختر نوع المشروع...'}
           <ChevronsUpDown className="opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[230px] min-w-auto p-0">
+
+      <PopoverContent dir="rtl" className="w-[230px] min-w-auto p-0">
         <Command>
-          <CommandInput className="h-9" placeholder="...ابحث عن اطار العمل" />
+          <CommandInput className="h-9 text-start" placeholder="ابحث عن نوع المشروع..." />
+
           <CommandList>
-            <CommandEmpty>لم يتم العثور على اطار عمل.</CommandEmpty>
+            <CommandEmpty>لم يتم العثور على نتائج.</CommandEmpty>
+
             <CommandGroup>
-              {frameworks.map((framework) => (
+              {options.map((item) => (
                 <CommandItem
-                  key={framework.value}
+                  key={item.value}
+                  value={item.value}
+                  className="text-start"
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? '' : currentValue)
                     setOpen(false)
-                  }}
-                  value={framework.value}>
-                  {framework.label}
-                  <Check className={cn('ml-auto', value === framework.value ? 'opacity-100' : 'opacity-0')} />
+                  }}>
+                  {item.label}
+
+                  {/* logical margin so it works for RTL/LTR */}
+                  <Check className={cn('ms-auto', value === item.value ? 'opacity-100' : 'opacity-0')} />
                 </CommandItem>
               ))}
             </CommandGroup>

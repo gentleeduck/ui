@@ -2,18 +2,17 @@
 
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@gentleduck/registry-ui-duckui/react-hook-form'
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+} from '@gentleduck/registry-ui-duckui/field'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { z } from 'zod'
 
@@ -40,35 +39,35 @@ export default function SelectForm() {
   }
 
   return (
-    <Form {...form}>
-      <form className="w-2/3 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
-        <FormField
+    <form className="w-2/3 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+      <FieldGroup>
+        <Controller
           control={form.control}
           name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <Select defaultValue={field.value} onValueChange={field.onChange}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a verified email to display" />
-                  </SelectTrigger>
-                </FormControl>
+          render={({ field, fieldState }) => (
+            <Field orientation="responsive" data-invalid={fieldState.invalid}>
+              <FieldContent>
+                <FieldLabel htmlFor="form-rhf-select-email">Email</FieldLabel>
+                <FieldDescription>
+                  You can manage email addresses in your <Link href="/examples/forms">email settings</Link>.
+                </FieldDescription>
+                {fieldState.invalid && fieldState.error && <FieldError errors={[fieldState.error]} />}
+              </FieldContent>
+              <Select name={field.name} value={field.value} onValueChange={field.onChange}>
+                <SelectTrigger id="form-rhf-select-email" aria-invalid={fieldState.invalid} className="min-w-[260px]">
+                  <SelectValue placeholder="Select a verified email to display" />
+                </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="m@example.com">m@example.com</SelectItem>
                   <SelectItem value="m@google.com">m@google.com</SelectItem>
                   <SelectItem value="m@support.com">m@support.com</SelectItem>
                 </SelectContent>
               </Select>
-              <FormDescription>
-                You can manage email addresses in your <Link href="/examples/forms">email settings</Link>.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
+            </Field>
           )}
         />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+      </FieldGroup>
+      <Button type="submit">Submit</Button>
+    </form>
   )
 }

@@ -4,11 +4,11 @@ import { CalendarIcon } from 'lucide-react'
 
 export default function HoverCardRtlDemo() {
   return (
-    <HoverCard dir="rtl">
+    <HoverCard dir="rtl" open>
       <HoverCardTrigger variant={'link'}>@nextjs</HoverCardTrigger>
       <HoverCardContent className="w-80">
-        <div className="flex justify-between space-x-4 space-x-reverse">
-          <Avatar>
+        <div className="flex justify-between gap-4 space-x-reverse">
+          <Avatar dir="rtl">
             <AvatarImage alt="VC" src="https://github.com/vercel.png" />
             <AvatarFallback>VC</AvatarFallback>
           </Avatar>

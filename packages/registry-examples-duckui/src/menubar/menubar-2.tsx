@@ -74,7 +74,7 @@ export default function MenubarRtlDemo() {
       </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>عرض</MenubarTrigger>
-        <MenubarContent>
+        <MenubarContent className="w-60">
           <MenubarCheckboxItem>اظهار شريط المفضلة دائما</MenubarCheckboxItem>
           <MenubarCheckboxItem checked>اظهار الروابط الكاملة دائما</MenubarCheckboxItem>
           <MenubarSeparator />
@@ -99,9 +99,9 @@ export default function MenubarRtlDemo() {
             <MenubarRadioItem value="omar">عمر</MenubarRadioItem>
           </MenubarRadioGroup>
           <MenubarSeparator />
-          <MenubarItem inset>تعديل...</MenubarItem>
+          <MenubarItem inset>تعديل</MenubarItem>
           <MenubarSeparator />
-          <MenubarItem inset>اضافة ملف شخصي...</MenubarItem>
+          <MenubarItem inset>اضافة ملف شخصي</MenubarItem>
         </MenubarContent>
       </MenubarMenu>
     </Menubar>
