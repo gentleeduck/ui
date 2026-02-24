@@ -540,19 +540,12 @@
   },
   {
     "dependencies": [
-      "@gentleduck/vim",
+      "@gentleduck/primitives",
       "@gentleduck/libs",
+      "@gentleduck/vim",
       "lucide-react"
     ],
     "files": [
-      {
-        "path": "command/command.hooks.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "command/command.libs.ts",
-        "type": "registry:ui"
-      },
       {
         "path": "command/command.tsx",
         "type": "registry:ui"
@@ -575,16 +568,6 @@
     "type": "registry:ui",
     "source": "/registry-ui-duckui/src/command",
     "tree": [
-      {
-        "name": "command.hooks.ts",
-        "path": "command/command.hooks.ts",
-        "type": "file"
-      },
-      {
-        "name": "command.libs.ts",
-        "path": "command/command.libs.ts",
-        "type": "file"
-      },
       {
         "name": "command.tsx",
         "path": "command/command.tsx",

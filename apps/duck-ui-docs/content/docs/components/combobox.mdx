@@ -26,7 +26,7 @@ Comboboxes solve the "too many options" problem -- they combine a text input wit
   Combobox --> Separator["Separator"]:::component
 
   Popover --> |"provides"| Positioning["Dropdown\nPositioning"]
-  CommandComp --> |"provides"| Search["Fuzzy Search"]
+  CommandComp --> |"provides"| Search["Search Filtering"]
   CommandComp --> |"provides"| KeyNav["Keyboard\nNavigation"]
   Combobox --> |"adds"| MultiSelect["Multi-select\nwith Badges"]
   Combobox --> |"adds"| Generics["Type-safe\nGenerics"]
@@ -171,7 +171,10 @@ Note: The `Combobox` wrapper component (`@/components/ui/combobox`) uses item `v
 
 ### Popover
 
-<ComponentPreview name="combobox-3" />
+<ComponentPreview
+  name="combobox-3"
+  description="A combobox using a popover to select a status from a filterable list."
+/>
 
 ### Dropdown menu
 
@@ -184,11 +187,17 @@ Note: The `Combobox` wrapper component (`@/components/ui/combobox`) uses item `v
 
 You can create a responsive combobox by using the `<Popover />` on desktop and the `<Drawer />` components on mobile.
 
-<ComponentPreview name="combobox-5" />
+<ComponentPreview
+  name="combobox-5"
+  description="A responsive combobox that renders a popover on desktop and a drawer on mobile."
+/>
 
 ### Form
 
-<ComponentPreview name="combobox-6" />
+<ComponentPreview
+  name="combobox-6"
+  description="A combobox integrated with React Hook Form for language selection with validation."
+/>
 
 ## API Reference
 
@@ -209,7 +218,7 @@ A generic combobox component built on top of `Popover` and `Command`. Supports b
 | `commandEmpty` | `string` | `'Nothing found.'` | Text shown inside the command list when no results match the search query. |
 | `popover` | `React.ComponentPropsWithoutRef<typeof Popover>` | -- | Props spread onto the root `Popover` component. |
 | `popoverTrigger` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Props spread onto the trigger `Button`. The `variant` defaults to `'dashed'` when not provided. |
-| `popoverContent` | `React.ComponentPropsWithoutRef<typeof PopoverContent>` | -- | Props spread onto `PopoverContent`. `className` is merged with the default `'w-[200px] p-0'`. |
+| `popoverContent` | `React.ComponentPropsWithoutRef<typeof PopoverContent>` | -- | Props spread onto `PopoverContent`. `className` is merged with the default `'w-(--gentleduck-popover-trigger-width) p-0'`. |
 | `command` | `React.ComponentPropsWithoutRef<typeof Command>` | -- | Props spread onto the inner `Command` component. |
 | `commandInput` | `React.ComponentPropsWithoutRef<typeof CommandInput>` | -- | Props spread onto `CommandInput` when `withSearch` is `true`. |
 

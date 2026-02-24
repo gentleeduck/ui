@@ -1258,14 +1258,6 @@ export const Index: Record<string, any> = {
     registryDependencies: ['scroll-area', 'dialog'],
     files: [
       {
-        path: 'command/command.hooks.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'command/command.libs.ts',
-        type: 'registry:ui',
-      },
-      {
         path: 'command/command.tsx',
         type: 'registry:ui',
       },
@@ -1623,14 +1615,10 @@ export const Index: Record<string, any> = {
     name: 'radio-group',
     description: '',
     type: 'registry:ui',
-    registryDependencies: ['label'],
+    registryDependencies: [],
     files: [
       {
         path: 'radio-group/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'radio-group/radio-group.hooks.ts',
         type: 'registry:ui',
       },
       {
@@ -1963,10 +1951,6 @@ export const Index: Record<string, any> = {
     files: [
       {
         path: 'toggle-group/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'toggle-group/toggle-group.hooks.ts',
         type: 'registry:ui',
       },
       {

@@ -113,9 +113,6 @@ const nextConfig: NextConfig = {
     '@gentleduck/registry-ui-duckui',
     '@gentleduck/registry-examples-duckui',
     '@gentleduck/registry-blocks-duckui',
-    '@gentleduck/docs',
-    '@gentleduck/lazy',
-    '@gentleduck/primitives',
   ],
   // rewrites: async () => {
   //   return [

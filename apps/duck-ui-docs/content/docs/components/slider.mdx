@@ -110,6 +110,7 @@ A unified slider component that supports both single-thumb and multi-thumb (rang
 | `defaultValue` | `number[]` | `[min, max]` | Uncontrolled initial values |
 | `value` | `number[]` | -- | Controlled values array |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider orientation |
+| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction. Resolved at the primitive layer via `useDirection` and inherited by all sub-components through context. |
 | `min` | `number` | `0` | Minimum allowed value |
 | `max` | `number` | `100` | Maximum allowed value |
 | `...props` | `React.ComponentProps<typeof SliderPrimitive.Root>` | -- | All other props from `SliderPrimitive.Root` |

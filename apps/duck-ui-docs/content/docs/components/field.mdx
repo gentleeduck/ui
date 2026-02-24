@@ -6,7 +6,8 @@ component: true
 
 <ComponentPreview
   name="field-1"
-  className="[&_.preview]:h-[800px] [&_.preview]:p-6 md:[&_.preview]:h-[850px]"
+  className="[&_.preview]:h-200 [&_.preview]:p-6 md:[&_.preview]:h-212.5"
+  description="A complete checkout form with payment, billing, and comments fields."
 />
 
 ## Philosophy
@@ -114,47 +115,47 @@ The `Field` family is designed for composing accessible forms. A typical field i
 
 ### Input
 
-<ComponentPreview name="field-2" className="!mb-4 [&_.preview]:p-6" />
+<ComponentPreview name="field-2" className="!mb-4 [&_.preview]:p-6" description="Input fields with labels and helper descriptions." />
 
 ### Textarea
 
-<ComponentPreview name="field-3" className="!mb-4 [&_.preview]:p-6" />
+<ComponentPreview name="field-3" className="!mb-4 [&_.preview]:p-6" description="A textarea field with a label and description." />
 
 ### Select
 
-<ComponentPreview name="field-4" className="!mb-4 [&_.preview]:p-6" />
+<ComponentPreview name="field-4" className="!mb-4 [&_.preview]:p-6" description="A select field with a label and description." />
 
 ### Slider
 
-<ComponentPreview name="field-5" className="!mb-4 [&_.preview]:p-6" />
+<ComponentPreview name="field-5" className="!mb-4 [&_.preview]:p-6" description="A slider field with a dynamic price range description." />
 
 ### Fieldset
 
-<ComponentPreview name="field-6" className="!mb-4 [&_.preview]:p-6" />
+<ComponentPreview name="field-6" className="!mb-4 [&_.preview]:p-6" description="A fieldset grouping address fields with a legend." />
 
 ### Checkbox
 
-<ComponentPreview name="field-7" className="!mb-4 [&_.preview]:p-6" />
+<ComponentPreview name="field-7" className="!mb-4 [&_.preview]:p-6" description="Checkbox fields with a legend, descriptions, and a separator." />
 
 ### Radio
 
-<ComponentPreview name="field-8" className="!mb-4 [&_.preview]:p-6" />
+<ComponentPreview name="field-8" className="!mb-4 [&_.preview]:p-6" description="A radio group for selecting a subscription plan." />
 
 ### Switch
 
-<ComponentPreview name="field-9" className="!mb-4 [&_.preview]:p-6" />
+<ComponentPreview name="field-9" className="!mb-4 [&_.preview]:p-6" description="A switch field with a horizontal label and description." />
 
 ### Choice Card
 
 Wrap `Field` components inside `FieldLabel` to create selectable field groups. This works with `RadioItem`, `Checkbox` and `Switch` components.
 
-<ComponentPreview name="field-10" className="!mb-4 [&_.preview]:p-6" />
+<ComponentPreview name="field-10" className="!mb-4 [&_.preview]:p-6" description="Selectable choice cards using radio items inside field labels." />
 
 ### Field Group
 
 Stack `Field` components with `FieldGroup`. Add `FieldSeparator` to divide them.
 
-<ComponentPreview name="field-11" className="!mb-4 [&_.preview]:p-6" />
+<ComponentPreview name="field-11" className="!mb-4 [&_.preview]:p-6" description="Grouped fields with separators for notification settings." />
 
 ## Responsive Layout
 
@@ -165,6 +166,7 @@ Stack `Field` components with `FieldGroup`. Add `FieldSeparator` to divide them.
 <ComponentPreview
   name="field-12"
   className="!mb-4 [&_.preview]:h-[650px] [&_.preview]:p-6 [&_.preview]:md:h-[500px] [&_.preview]:md:p-10"
+  description="Responsive fields that switch between vertical and horizontal orientation."
 />
 
 ## Validation and Errors
@@ -313,5 +315,6 @@ When the `errors` array contains multiple messages, the component renders a list
 
 <ComponentPreview
   name="field-13"
+  className="[&_.preview]:h-200 [&_.preview]:p-6 [&_.preview>div]:w-full md:[&_.preview]:h-200"
   description="A field with RTL support."
 />

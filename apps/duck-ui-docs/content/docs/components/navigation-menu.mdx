@@ -4,7 +4,7 @@ description: A collection of links for navigating websites.
 component: true
 ---
 
-<ComponentPreview name="navigation-menu-1" className="[&>div>div>div[duck-preview]]:overflow-visible!" />
+<ComponentPreview name="navigation-menu-1" className="[&>div>div>div[duck-preview]]:overflow-visible!" description="A navigation menu with dropdown content panels and a documentation link." />
 
 ## Philosophy
 
@@ -117,9 +117,16 @@ Root container that wraps the navigation menu and optionally renders the viewpor
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `value` | `string` | -- | Controlled value of the active menu item |
+| `defaultValue` | `string` | -- | Default active value for uncontrolled usage |
+| `onValueChange` | `(value: string) => void` | -- | Callback when the active value changes |
 | `viewport` | `boolean` | `true` | Whether to render the `NavigationMenuViewport` automatically |
-| `className` | `string` | `--` | Additional CSS classes for the root element |
-| `children` | `React.ReactNode` | `--` | Navigation menu list and other elements |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved at the primitive layer via `useDirection` and inherited by all descendants through context. |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | The orientation of the menu |
+| `delayDuration` | `number` | `200` | Duration in ms from when the pointer enters a trigger until the content opens |
+| `skipDelayDuration` | `number` | `300` | Duration in ms a user has to enter another trigger without incurring a delay again |
+| `className` | `string` | -- | Additional CSS classes for the root element |
+| `children` | `React.ReactNode` | -- | Navigation menu list and other elements |
 | `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root>` | -- | Additional props inherited from `NavigationMenu.Root`. |
 
 ### NavigationMenuList
@@ -188,5 +195,7 @@ import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
 
 <ComponentPreview
   name="navigation-menu-2"
+  className="[&>div>div>div[duck-preview]]:overflow-visible
+  [&>div>div>div[duck-preview]]:justify-end mb-40" 
   description="A navigation menu with RTL support."
 />
