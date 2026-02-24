@@ -55,10 +55,12 @@ function toFieldErrors(errors: unknown[]) {
 }
 
 export default function FormTanStackRadioGroup() {
-  const form = useForm<FormValues>({
-    defaultValues: {
-      plan: 'free',
-    },
+  const defaultValues: FormValues = {
+    plan: 'free',
+  }
+
+  const form = useForm({
+    defaultValues,
     onSubmit: async ({ value }) => {
       toast.success('Plan updated', {
         description: (
@@ -87,9 +89,9 @@ export default function FormTanStackRadioGroup() {
           children={(field) => {
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
             return (
-                <FieldSet>
-                  <FieldLegend>Plan</FieldLegend>
-                  <FieldDescription>You can upgrade or downgrade your plan at any time.</FieldDescription>
+              <FieldSet>
+                <FieldLegend>Plan</FieldLegend>
+                <FieldDescription>You can upgrade or downgrade your plan at any time.</FieldDescription>
                 <RadioGroup
                   name={field.name}
                   value={field.state.value}
