@@ -46,10 +46,12 @@ function toFieldErrors(errors: unknown[]) {
 }
 
 export default function FormTanStackSelect() {
-  const form = useForm<FormValues>({
-    defaultValues: {
-      language: 'auto',
-    },
+  const defaultValues: FormValues = {
+    language: 'auto',
+  }
+
+  const form = useForm({
+    defaultValues,
     onSubmit: async ({ value }) => {
       toast.success('Language updated', {
         description: (
