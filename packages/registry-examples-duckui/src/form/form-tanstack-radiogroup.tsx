@@ -21,7 +21,7 @@ const plans = [
   { description: 'Best for trying things out.', id: 'free', title: 'Free' },
   { description: 'Great for growing teams.', id: 'pro', title: 'Pro' },
   { description: 'Advanced governance and controls.', id: 'enterprise', title: 'Enterprise' },
-] as const
+]
 
 const formSchema = z.object({
   plan: z.enum(['free', 'pro', 'enterprise'], {
