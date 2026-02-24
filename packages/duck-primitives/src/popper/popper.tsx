@@ -16,20 +16,12 @@ export type CollisionPadding = number | Partial<Record<Side, number>>
 const POPPER_NAME = 'Popper'
 export const [createPopperContext, createPopperScope] = createContextScope(POPPER_NAME)
 
-/* -------------------------------------------------------------------------------------------------
- * PopperContext
- * -----------------------------------------------------------------------------------------------*/
-
 type PopperContextValue = {
   anchor: Measurable | null
   onAnchorChange(anchor: Measurable | null): void
 }
 
 export const [PopperProvider, usePopperContext] = createPopperContext<PopperContextValue>(POPPER_NAME)
-
-/* -------------------------------------------------------------------------------------------------
- * Popper
- * -----------------------------------------------------------------------------------------------*/
 
 export function Popper(
   props: ScopedProps<{

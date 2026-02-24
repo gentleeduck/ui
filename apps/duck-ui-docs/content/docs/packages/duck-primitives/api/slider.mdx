@@ -66,7 +66,7 @@ The root component that manages slider state, drag interactions, keyboard steppi
 | `name` | `string` | -- | Name for hidden form inputs |
 | `disabled` | `boolean` | `false` | Disables the slider |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider orientation |
-| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction (horizontal only) |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction (horizontal only). Resolved with `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `min` | `number` | `0` | Minimum allowed value |
 | `max` | `number` | `100` | Maximum allowed value |
 | `step` | `number` | `1` | Increment step for values |

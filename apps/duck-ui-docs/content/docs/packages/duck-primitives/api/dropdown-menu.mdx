@@ -98,7 +98,7 @@ The root component that manages open/closed state and provides context. Wraps th
 | `open` | `boolean` | -- | Controlled open state |
 | `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
 | `onOpenChange` | `(open: boolean) => void` | -- | Called when the open state should change |
-| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved with `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `modal` | `boolean` | `true` | When true, interaction with outside elements is disabled and only menu content is visible to screen readers |
 
 ### `DropdownMenu.Trigger`

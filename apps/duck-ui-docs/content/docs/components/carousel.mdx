@@ -69,7 +69,7 @@ npm install embla-carousel-react @gentleduck/libs
 
 <Step>Add the `Button` component to your project.</Step>
 
-The `Carousel` component uses the [`Button`](/components/button) component. Make sure you have it installed in your project.
+The `Carousel` component uses the [`Button`](/docs/components/button) component. Make sure you have it installed in your project.
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -403,6 +403,8 @@ type CarouselContextProps = {
 ```
 
 ## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
 
 <ComponentPreview
   name="carousel-7"

@@ -8,7 +8,7 @@ import { Drawer, DrawerContent, DrawerTrigger } from '@gentleduck/registry-ui-du
 import { Sheet, SheetContent, SheetTrigger } from '@gentleduck/registry-ui-duckui/sheet'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { type ComponentProps, useMemo, useState } from 'react'
-import { BlockCopyButton } from '../blocks'
+import { BlockCopyButton } from '../blocks/block-copy-button'
 
 export function ChartCodeViewer({ chart, className, children }: { chart: Block } & ComponentProps<'div'>) {
   const [tab, setTab] = useState('code')

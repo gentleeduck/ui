@@ -1,16 +1,21 @@
 import { cn } from '@gentleduck/libs/cn'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 
 const Skeleton = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => (
-    <div
-      ref={ref}
-      aria-hidden="true"
-      className={cn('animate-pulse rounded-md bg-muted', className)}
-      {...props}
-      data-slot="skeleton"
-    />
-  ),
+  ({ className, dir, ...props }, ref) => {
+    const direction = useDirection(dir as Direction)
+    return (
+      <div
+        ref={ref}
+        aria-hidden="true"
+        className={cn('animate-pulse rounded-md bg-muted', className)}
+        dir={direction}
+        {...props}
+        data-slot="skeleton"
+      />
+    )
+  },
 )
 Skeleton.displayName = 'Skeleton'
 

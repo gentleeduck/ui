@@ -213,6 +213,24 @@ Context scoping also supports nesting multiple instances of the same primitive w
 
 ---
 
+## Direction context (`rtl`/`ltr`)
+
+Primitives that care about logical direction (keyboard arrows, placement, alignment) resolve it through a shared direction module:
+
+```tsx
+import { DirectionProvider, useDirection } from '@gentleduck/primitives/hooks/direction'
+```
+
+Resolution order:
+
+- Local `dir` prop passed to a primitive
+- `DirectionProvider` value from context
+- Fallback `'ltr'`
+
+This lets you set direction once for a subtree while still allowing local overrides where needed.
+
+---
+
 ## Data attributes
 
 Primitives expose their state via `data-state` attributes on rendered elements. This allows CSS-only styling based on state:

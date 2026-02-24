@@ -1,17 +1,26 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { GripVertical } from 'lucide-react'
 import type * as React from 'react'
 import * as ResizablePrimitive from 'react-resizable-panels'
 
-const ResizablePanelGroup = ({ className, ...props }: React.ComponentProps<typeof ResizablePrimitive.PanelGroup>) => (
-  <ResizablePrimitive.PanelGroup
-    className={cn('flex h-full w-full data-[panel-group-direction=vertical]:flex-col', className)}
-    data-slot="panel-group"
-    {...props}
-  />
-)
+const ResizablePanelGroup = ({
+  className,
+  dir,
+  ...props
+}: React.ComponentProps<typeof ResizablePrimitive.PanelGroup>) => {
+  const direction = useDirection(dir as Direction)
+  return (
+    <ResizablePrimitive.PanelGroup
+      className={cn('flex h-full w-full data-[panel-group-direction=vertical]:flex-col', className)}
+      data-slot="panel-group"
+      dir={direction}
+      {...props}
+    />
+  )
+}
 
 const ResizablePanel = ResizablePrimitive.Panel
 

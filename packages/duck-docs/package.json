@@ -159,7 +159,7 @@
   },
   "scripts": {
     "build": "cp -r ../registers/registry-colors/registry-colors.ts ./src/lib/registry-colors-data.ts && tsdown && node ./scripts/patch-react-refresh.mjs && node ./scripts/copy-styles.mjs",
-    "dev": "vitest",
+    "dev": "tsdown --watch",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "test": "vitest run"
   },

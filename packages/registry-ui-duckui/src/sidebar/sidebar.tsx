@@ -2,6 +2,7 @@
 
 import { useIsMobile } from '@gentleduck/hooks/use-is-mobile'
 import { cn } from '@gentleduck/libs/cn'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import { cva, type VariantProps } from '@gentleduck/variants'
 import { PanelLeftIcon } from 'lucide-react'
@@ -22,21 +23,33 @@ const SIDEBAR_WIDTH_MOBILE = '18rem'
 const SIDEBAR_WIDTH_ICON = '3rem'
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b'
 
+type SidebarProviderProps = React.ComponentProps<'div'> & {
+  defaultOpen?: boolean
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+}
+
+type SidebarProps = React.ComponentProps<'div'> & {
+  side?: 'left' | 'right'
+  variant?: 'sidebar' | 'floating' | 'inset'
+  collapsible?: 'offcanvas' | 'icon' | 'none'
+  mobileTitle?: string
+  mobileDescription?: string
+}
+
 function SidebarProvider({
   defaultOpen = true,
   open: openProp,
   onOpenChange: setOpenProp,
   className,
   style,
+  dir,
   children,
   ...props
-}: React.ComponentProps<'div'> & {
-  defaultOpen?: boolean
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
-}) {
+}: SidebarProviderProps) {
   const isMobile = useIsMobile()
   const [openMobile, setOpenMobile] = React.useState(false)
+  const direction = useDirection(dir as Direction)
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
@@ -88,8 +101,9 @@ function SidebarProvider({
       openMobile,
       setOpenMobile,
       toggleSidebar,
+      dir: direction,
     }),
-    [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar],
+    [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar, direction],
   )
 
   return (
@@ -103,6 +117,7 @@ function SidebarProvider({
             ...style,
           } as React.CSSProperties
         }
+        dir={direction}
         className={cn('group/sidebar-wrapper flex min-h-svh w-full has-data-[variant=inset]:bg-sidebar', className)}
         {...props}>
         {children}
@@ -121,18 +136,14 @@ function Sidebar({
   mobileTitle = 'Sidebar',
   mobileDescription = 'Displays the mobile sidebar.',
   ...props
-}: React.ComponentProps<'div'> & {
-  side?: 'left' | 'right'
-  variant?: 'sidebar' | 'floating' | 'inset'
-  collapsible?: 'offcanvas' | 'icon' | 'none'
-  mobileTitle?: string
-  mobileDescription?: string
-}) {
+}: SidebarProps) {
   const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
+  const direction = useDirection(dir as Direction)
 
   if (collapsible === 'none') {
     return (
       <div
+        dir={direction}
         data-slot="sidebar"
         className={cn('flex h-full w-(--sidebar-width) flex-col bg-sidebar text-sidebar-foreground', className)}
         {...props}>
@@ -143,9 +154,9 @@ function Sidebar({
 
   if (isMobile) {
     return (
-      <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
+      <Sheet dir={direction} open={openMobile} onOpenChange={setOpenMobile} {...props}>
         <SheetContent
-          dir={dir}
+          dir={direction}
           data-sidebar="sidebar"
           data-slot="sidebar"
           data-mobile="true"
@@ -168,6 +179,7 @@ function Sidebar({
 
   return (
     <div
+      dir={direction}
       className="group peer hidden text-sidebar-foreground md:block"
       data-state={state}
       data-collapsible={state === 'collapsed' ? collapsible : ''}
@@ -452,6 +464,7 @@ function SidebarMenuButton({
   variant = 'default',
   size = 'default',
   tooltip,
+  dir,
   className,
   ...props
 }: React.ComponentProps<'button'> & {
@@ -461,6 +474,8 @@ function SidebarMenuButton({
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot : 'button'
   const { isMobile, state } = useSidebar()
+  const direction = useDirection(dir as Direction)
+  const fallbackTooltipSide = direction === 'rtl' ? 'left' : 'right'
 
   const button = (
     <Comp
@@ -477,16 +492,17 @@ function SidebarMenuButton({
     return button
   }
 
-  if (typeof tooltip === 'string') {
-    tooltip = {
-      children: tooltip,
-    }
-  }
+  const tooltipProps = typeof tooltip === 'string' ? { children: tooltip } : tooltip
 
   return (
-    <Tooltip>
+    <Tooltip dir={direction}>
       <TooltipTrigger asChild>{button}</TooltipTrigger>
-      <TooltipContent side="right" align="center" hidden={state !== 'collapsed' || isMobile} {...tooltip} />
+      <TooltipContent
+        side={fallbackTooltipSide}
+        align="center"
+        hidden={state !== 'collapsed' || isMobile}
+        {...tooltipProps}
+      />
     </Tooltip>
   )
 }

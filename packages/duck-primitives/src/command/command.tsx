@@ -1,8 +1,8 @@
 'use client'
 
 import * as React from 'react'
-import type { Direction } from '../hooks/use-direction'
-import { useDirection } from '../hooks/use-direction'
+import type { Direction } from '../direction'
+import { useDirection } from '../direction'
 import { useId } from '../hooks/use-id'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { createCollection } from '../libs/create-collection'
@@ -22,26 +22,14 @@ const COMMAND_NAME = 'Command'
 export type { Scope }
 export type ScopedProps<P> = P & { __scopeCommand?: Scope }
 
-/* -------------------------------------------------------------------------------------------------
- * Collection (same pattern as Select -- select.tsx:24-26)
- * -----------------------------------------------------------------------------------------------*/
-
 type CommandItemData = { value: string; disabled: boolean; textValue: string }
 
 export const [Collection, useCollection, createCollectionScope] = createCollection<HTMLLIElement, CommandItemData>(
   COMMAND_NAME,
 )
 
-/* -------------------------------------------------------------------------------------------------
- * Scope chain (same pattern as Select -- select.tsx:29-31)
- * -----------------------------------------------------------------------------------------------*/
-
 const [createCommandContext, createCommandScope] = createContextScope(COMMAND_NAME, [createCollectionScope])
 export { createCommandScope }
-
-/* -------------------------------------------------------------------------------------------------
- * CommandContext -- root state (like SelectProvider)
- * -----------------------------------------------------------------------------------------------*/
 
 type CommandContextValue = {
   search: string
@@ -54,10 +42,6 @@ type CommandContextValue = {
 
 export const [CommandProvider, useCommandContext] = createCommandContext<CommandContextValue>(COMMAND_NAME)
 
-/* -------------------------------------------------------------------------------------------------
- * CommandListContext -- list/content state (like SelectContentProvider)
- * -----------------------------------------------------------------------------------------------*/
-
 export type CommandListContextValue = {
   onItemLeave?: () => void
   listRef: React.RefObject<HTMLUListElement | null>
@@ -68,10 +52,6 @@ export type CommandListContextValue = {
 const LIST_CONTEXT_NAME = 'CommandList'
 export const [CommandListProvider, useCommandListContext] =
   createCommandContext<CommandListContextValue>(LIST_CONTEXT_NAME)
-
-/* -------------------------------------------------------------------------------------------------
- * CommandItemContext -- per-item state (like SelectItemContextProvider)
- * -----------------------------------------------------------------------------------------------*/
 
 export type CommandItemContextValue = {
   value: string
@@ -84,19 +64,11 @@ const ITEM_CONTEXT_NAME = 'CommandItem'
 export const [CommandItemContextProvider, useCommandItemContext] =
   createCommandContext<CommandItemContextValue>(ITEM_CONTEXT_NAME)
 
-/* -------------------------------------------------------------------------------------------------
- * CommandGroupContext -- per-group state (like SelectGroupContextProvider)
- * -----------------------------------------------------------------------------------------------*/
-
 type CommandGroupContextValue = { id: string }
 
 const GROUP_CONTEXT_NAME = 'CommandGroup'
 export const [CommandGroupContextProvider, useCommandGroupContext] =
   createCommandContext<CommandGroupContextValue>(GROUP_CONTEXT_NAME)
-
-/* -------------------------------------------------------------------------------------------------
- * Command root
- * -----------------------------------------------------------------------------------------------*/
 
 type CommandElement = React.ComponentRef<typeof Primitive.div>
 
@@ -134,11 +106,6 @@ export const Command = React.forwardRef<CommandElement, CommandProps>(
 )
 
 Command.displayName = COMMAND_NAME
-
-/* -------------------------------------------------------------------------------------------------
- * CommandInner -- sits inside Collection.Provider so it can consume useCollection
- *                 and handle keyboard navigation + typeahead on the root div.
- * -----------------------------------------------------------------------------------------------*/
 
 const CommandInner = React.forwardRef<CommandElement, ScopedProps<React.ComponentPropsWithRef<typeof Primitive.div>>>(
   (props, forwardedRef) => {

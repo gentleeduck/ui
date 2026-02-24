@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 import * as RechartsPrimitive from 'recharts'
 import { getPayloadConfigFromPayload } from './chart.libs'
@@ -27,9 +28,10 @@ function useChart() {
   return context
 }
 
-const ChartContainer = ({ id, className, children, config, ref, ...props }: ChartContainerProps) => {
+const ChartContainer = ({ id, className, children, config, ref, dir, ...props }: ChartContainerProps) => {
   const uniqueId = React.useId()
   const chartId = `chart-${id || uniqueId.replace(/:/g, '')}`
+  const direction = useDirection(dir as Direction)
 
   return (
     <ChartContext.Provider value={{ config }}>
@@ -38,10 +40,11 @@ const ChartContainer = ({ id, className, children, config, ref, ...props }: Char
           "flex aspect-video justify-center text-xs [&_.recharts-cartesian-axis-tick_text]:fill-muted-foreground [&_.recharts-cartesian-grid_line[stroke='#ccc']]:stroke-border/50 [&_.recharts-curve.recharts-tooltip-cursor]:stroke-border [&_.recharts-dot[stroke='#fff']]:stroke-transparent [&_.recharts-layer]:outline-hidden [&_.recharts-polar-grid_[stroke='#ccc']]:stroke-border [&_.recharts-radial-bar-background-sector]:fill-muted [&_.recharts-rectangle.recharts-tooltip-cursor]:fill-muted [&_.recharts-reference-line_[stroke='#ccc']]:stroke-border [&_.recharts-sector[stroke='#fff']]:stroke-transparent [&_.recharts-sector]:outline-hidden [&_.recharts-surface]:outline-hidden",
           className,
         )}
+        {...props}
         data-chart={chartId}
         data-slot="chart-container"
-        ref={ref}
-        {...props}>
+        dir={direction}
+        ref={ref}>
         <ChartStyle config={config} id={chartId} />
         <RechartsPrimitive.ResponsiveContainer>{children}</RechartsPrimitive.ResponsiveContainer>
       </div>

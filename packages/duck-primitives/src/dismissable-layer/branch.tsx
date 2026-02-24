@@ -3,14 +3,6 @@ import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
 import { DismissableLayerContext } from './dismissable-layer'
 
-/* -------------------------------------------------------------------------------------------------
- * DismissableLayerBranch
- *
- * Marks a DOM subtree as a "branch" of the dismissable layer.
- * Pointer and focus events inside a branch will not trigger layer dismissal.
- * Useful for related UI like a color picker popover inside a dialog.
- * -----------------------------------------------------------------------------------------------*/
-
 const BRANCH_NAME = 'DismissableLayerBranch'
 
 type DismissableLayerBranchElement = React.ComponentRef<typeof Primitive.div>

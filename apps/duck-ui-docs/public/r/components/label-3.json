@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\n\nimport BaseDemo from './label-1'\n\nexport default function LabelRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "content": "import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'\nimport { Label } from '@gentleduck/registry-ui-duckui/label'\n\nexport default function LabelRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <div className=\"flex items-center gap-2\">\n        <Checkbox id=\"tterms\" />\n        <Label htmlFor=\"tterms\">قبول الشروط والاحكام</Label>\n      </div>\n    </div>\n  )\n}\n",
       "path": "label/label-3.tsx",
       "target": "components/label-3.tsx",
       "type": "registry:example"

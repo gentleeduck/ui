@@ -1,14 +1,6 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
 
-/* -------------------------------------------------------------------------------------------------
- * Arrow
- *
- * Renders an SVG arrow (default: downward-pointing triangle).
- * Supports asChild to replace the entire SVG with a custom element.
- * Used by PopperArrow to render the visual arrow indicator.
- * -----------------------------------------------------------------------------------------------*/
-
 const NAME = 'Arrow'
 
 type ArrowElement = React.ComponentRef<typeof Primitive.svg>

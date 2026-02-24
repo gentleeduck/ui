@@ -1,5 +1,6 @@
 // @ts-noCheck
 
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { useTheme } from 'next-themes'
 import React from 'react'
 import { useAudioDataProvider } from './audio-record'
@@ -265,6 +266,7 @@ interface AudioVisualizerProps {
   blob: Blob | null
   width: number
   height: number
+  dir?: 'ltr' | 'rtl'
   barWidth?: number
   gap?: number
   backgroundColor?: ThemeColor
@@ -282,6 +284,7 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
   blob,
   width,
   height,
+  dir,
   barWidth = 2,
   gap = 1,
   backgroundColor = { dark: 'transparent', light: 'transparent' },
@@ -294,6 +297,7 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
 }) => {
   const canvasRef = React.useRef<HTMLCanvasElement>(null)
   const { process_audio, data, duration, animationProgress } = useAudioDataProvider()
+  const direction = useDirection(dir as Direction)
 
   const { theme } = useTheme()
 
@@ -357,7 +361,7 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
     })
   }, [data, width, height, currentTime, duration, animationProgress, theme])
 
-  return <canvas height={height} ref={canvasRef} style={style} width={width} />
+  return <canvas dir={direction} height={height} ref={canvasRef} style={style} width={width} />
 }
 
 export { AudioVisualizer }

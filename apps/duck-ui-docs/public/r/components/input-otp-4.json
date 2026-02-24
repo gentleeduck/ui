@@ -9,7 +9,9 @@
   ],
   "name": "input-otp-4",
   "registryDependencies": [
-    "input-otp"
+    "input-otp",
+    "button",
+    "field"
   ],
   "root_folder": "input-otp",
   "source": "/registry-examples-duckui/src/input-otp",

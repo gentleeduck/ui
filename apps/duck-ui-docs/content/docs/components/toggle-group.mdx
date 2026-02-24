@@ -158,7 +158,7 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 | `rovingFocus` | `boolean` | `true` | Whether to use roving focus for keyboard navigation |
 | `loop` | `boolean` | `true` | Whether keyboard navigation should loop at boundaries |
 | `orientation` | `'horizontal' \| 'vertical'` | -- | The orientation of the group for arrow key navigation |
-| `dir` | `'ltr' \| 'rtl'` | -- | The reading direction for keyboard navigation |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | -- | Additional CSS class names to apply |
 | `children` | `React.ReactNode` | -- | ToggleGroupItem elements to render inside the group |
 | `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the underlying div element |
@@ -183,6 +183,8 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 | `data-disabled` | Present when disabled | Whether the item is disabled |
 
 ## RTL Support
+
+Set `dir="rtl"` on `ToggleGroup` for a local override, or set `DirectionProvider` once at app/root level for global direction.
 
 <ComponentPreview
   name="toggle-group-8"

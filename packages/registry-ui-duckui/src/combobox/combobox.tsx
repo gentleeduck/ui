@@ -1,4 +1,5 @@
 import { cn } from '@gentleduck/libs/cn'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import React from 'react'
 import { Badge } from '../badge'
 import { Button } from '../button'
@@ -34,7 +35,6 @@ export type ComboboxProps<TData extends readonly ComboboxItemType[], TType exten
 export function Combobox<TData extends readonly ComboboxItemType[], TType extends 'single' | 'multiple' = 'single'>({
   value,
   defaultValue,
-  onValueChange,
   items,
   command,
   commandInput,
@@ -47,16 +47,13 @@ export function Combobox<TData extends readonly ComboboxItemType[], TType extend
   showSelected = true,
   children,
 }: ComboboxProps<TData, TType>) {
+  const { dir, ...popoverProps } = popover ?? {}
+  const direction = useDirection(dir as Direction)
   const MAX_SELECTION = 2
-  React.useEffect(() => {
-    if (value) {
-      onValueChange?.(value as any)
-    }
-  }, [value])
   const _value = value ?? defaultValue
 
   return (
-    <Popover {...popover}>
+    <Popover {...popoverProps} dir={direction}>
       <PopoverTrigger asChild>
         <Button {...popoverTrigger} variant={popoverTrigger?.variant ?? 'dashed'}>
           {popoverTrigger?.children}
@@ -67,12 +64,12 @@ export function Combobox<TData extends readonly ComboboxItemType[], TType extend
                   <Separator orientation="vertical" />
                   <div className="flex gap-1">
                     {_value.length > MAX_SELECTION ? (
-                      <Badge className="px-2 py-[3px] rounded-sm font-normal" variant={'secondary'}>
+                      <Badge className="px-2 py-0.75 rounded-sm font-normal" variant={'secondary'}>
                         +{_value.length} Selected
                       </Badge>
                     ) : (
                       _value.map((item) => (
-                        <Badge className="px-2 py-[2px] rounded-[3px] capitalize" key={item} variant={'secondary'}>
+                        <Badge className="px-2 py-0.5 rounded-[3px] capitalize" key={item} variant={'secondary'}>
                           {item}
                         </Badge>
                       ))
@@ -89,11 +86,10 @@ export function Combobox<TData extends readonly ComboboxItemType[], TType extend
       </PopoverTrigger>
       <PopoverContent
         {...popoverContent}
+        dir={direction}
         className={cn('w-(--gentleduck-popover-trigger-width) p-0', popoverContent?.className)}>
         <Command {...command}>
-          {withSearch && (
-            <CommandInput {...commandInput} className={cn('h-8 [&_svg]:size-[18px] px-2', commandInput)} />
-          )}
+          {withSearch && <CommandInput {...commandInput} className={cn('h-8 [&_svg]:size-4.5 px-2', commandInput)} />}
           <CommandList>
             {commandEmpty && <CommandEmpty>{commandEmpty}</CommandEmpty>}
             {children(items)}
@@ -108,16 +104,16 @@ export function ComboxGroup({ children, ...props }: React.ComponentPropsWithoutR
   return <CommandGroup {...props}>{children}</CommandGroup>
 }
 
-export function ComboboxItem<T extends ComboboxItemType>({
-  item,
-  onSelect,
-  children,
-  checked,
-  ...props
-}: {
+type ComboboxItemProps<T extends ComboboxItemType> = Omit<
+  React.ComponentPropsWithoutRef<typeof CommandItem>,
+  'onSelect'
+> & {
   item: T
   onSelect?: (value: T['value']) => void
-} & Omit<React.ComponentPropsWithoutRef<typeof CommandItem>, 'onSelect'>) {
+  checked?: React.ComponentPropsWithoutRef<typeof Checkbox>['checked']
+}
+
+export function ComboboxItem<T extends ComboboxItemType>({ item, onSelect, checked, ...props }: ComboboxItemProps<T>) {
   return (
     <CommandItem
       onSelect={() => {

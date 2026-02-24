@@ -78,7 +78,9 @@ export const checkersStylePattern = cva(
         switch: `
           px-4 py-2 justify-end after:text-md
           px-4.5 py-2.5 
-          checked:after:translate-x-full after:opacity-100
+          ltr:after:translate-x-0 ltr:checked:after:translate-x-full
+          rtl:after:translate-x-full rtl:checked:after:translate-x-0
+          after:opacity-100
             `,
       },
     },

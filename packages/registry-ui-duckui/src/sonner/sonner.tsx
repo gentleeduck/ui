@@ -1,15 +1,19 @@
 'use client'
 
+import { cn } from '@gentleduck/libs/cn'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { useTheme } from 'next-themes'
 import type * as React from 'react'
 import { Toaster as Sonner, type ToasterProps } from 'sonner'
 
-const Toaster = ({ ...props }: ToasterProps) => {
+const Toaster = ({ dir, className, ...props }: ToasterProps) => {
   const { theme = 'system' } = useTheme()
+  const direction = useDirection(dir as Direction)
 
   return (
     <Sonner
-      className="toaster group [&_li>div]:w-full"
+      className={cn('toaster group [&_li>div]:w-full', className)}
+      dir={direction}
       style={
         {
           '--normal-bg': 'var(--popover)',

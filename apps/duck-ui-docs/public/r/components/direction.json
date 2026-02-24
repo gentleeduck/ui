@@ -1,0 +1,23 @@
+{
+  "dependencies": [
+    "@gentleduck/primitives"
+  ],
+  "files": [
+    {
+      "content": "export * from '@gentleduck/primitives/direction'\n",
+      "path": "direction/direction.tsx",
+      "target": "components/ui/direction.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "content": "export * from './direction'\n\n",
+      "path": "direction/index.ts",
+      "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "direction",
+  "root_folder": "direction",
+  "source": "/registry-ui-duckui/src/direction",
+  "type": "registry:ui"
+}

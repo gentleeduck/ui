@@ -2,16 +2,6 @@ import * as React from 'react'
 import { useComposedRefs } from '../libs/compose-ref'
 import { getComponentRef, usePresence } from './presence.libs'
 
-/* -------------------------------------------------------------------------------------------------
- * Presence
- *
- * Controls mounting/unmounting of children based on a `present` prop while
- * respecting CSS animations. Uses a state machine (mounted / unmountSuspended /
- * unmounted) to detect exit animations and delay unmounting until they complete.
- *
- * Accepts either a ReactElement child or a render function for more control.
- * -----------------------------------------------------------------------------------------------*/
-
 interface PresenceProps {
   children: React.ReactElement | ((props: { present: boolean }) => React.ReactElement)
   present: boolean

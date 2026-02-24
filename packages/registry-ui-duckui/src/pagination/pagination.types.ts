@@ -14,4 +14,4 @@ export interface DuckPaginationProps {
 export type PaginationLinkProps = {
   isActive?: boolean
 } & Pick<ButtonProps, 'size'> &
-  Omit<React.HTMLProps<HTMLAnchorElement>, 'size'>
+  Omit<React.ComponentPropsWithoutRef<'a'>, 'size'>

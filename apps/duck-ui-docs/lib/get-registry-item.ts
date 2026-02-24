@@ -1,14 +1,12 @@
+import fs from 'node:fs/promises'
 import { registry_entry_schema, type registry_item_file_schema } from '@gentleduck/registers'
-import fs from 'fs/promises'
 import { tmpdir } from 'os'
 import path from 'path'
 import { Project, ScriptKind } from 'ts-morph'
 import type { z } from 'zod'
-import { Index } from '~/__ui_registry__'
+import { getRegistryIndex } from '~/lib/registry-index.server'
 
-const memoizedIndex: typeof Index = Object.fromEntries(
-  Object.entries(Index).map(([style, items]) => [style, { ...items }]),
-)
+const memoizedIndex = getRegistryIndex()
 
 function getSourceDir(fileType: string): string {
   if (fileType.includes('ui')) return 'packages/registry-ui-duckui/src/'

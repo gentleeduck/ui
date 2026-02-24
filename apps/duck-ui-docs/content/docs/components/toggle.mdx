@@ -136,7 +136,7 @@ import { Toggle } from '@/components/ui/toggle'
 | `variant` | `'default' \| 'outline'` | `'default'` | Visual style variant of the toggle |
 | `size` | `'default' \| 'sm' \| 'lg'` | `'default'` | Size variant of the toggle |
 | `disabled` | `boolean` | `false` | Disables the toggle if set to `true` |
-| `dir` | `'ltr' \| 'rtl'` | -- | The reading direction |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `children` | `React.ReactNode` | -- | Content rendered inside the toggle button |
 | `ref` | `React.Ref<HTMLButtonElement>` | -- | Ref forwarded to the underlying button element |
 
@@ -148,6 +148,8 @@ import { Toggle } from '@/components/ui/toggle'
 | `data-disabled` | Present when disabled | Whether the toggle is disabled |
 
 ## RTL Support
+
+Set `dir="rtl"` on `Toggle` for a local override, or set `DirectionProvider` once at app/root level for global direction.
 
 <ComponentPreview
   name="toggle-8"

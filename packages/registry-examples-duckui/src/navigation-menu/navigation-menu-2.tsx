@@ -17,43 +17,43 @@ import * as React from 'react'
 const components: { title: string; href: string; description: string }[] = [
   {
     description: 'نافذة حوار تقاطع المستخدم بمحتوى مهم وتتطلب استجابة.',
-    href: '/docs/primitives/alert-dialog',
+    href: '/docs/components/alert-dialog',
     title: 'نافذة التنبيه',
   },
   {
     description: 'لمعاينة المحتوى المتاح خلف رابط للمستخدمين المبصرين.',
-    href: '/docs/primitives/hover-card',
+    href: '/docs/components/hover-card',
     title: 'بطاقة التمرير',
   },
   {
     description: 'يعرض مؤشرا يوضح تقدم اكتمال مهمة، وعادة ما يظهر كشريط تقدم.',
-    href: '/docs/primitives/progress',
+    href: '/docs/components/progress',
     title: 'شريط التقدم',
   },
   {
     description: 'يفصل المحتوى بصريا او دلاليا.',
-    href: '/docs/primitives/scroll-area',
+    href: '/docs/components/scroll-area',
     title: 'منطقة التمرير',
   },
   {
     description: 'مجموعة من اقسام المحتوى المتراكبة -- المعروفة بلوحات التبويب -- تعرض واحدة في كل مرة.',
-    href: '/docs/primitives/tabs',
+    href: '/docs/components/tabs',
     title: 'التبويبات',
   },
   {
     description: 'نافذة منبثقة تعرض معلومات متعلقة بعنصر عند تركيز لوحة المفاتيح عليه او تمرير الفأرة فوقه.',
-    href: '/docs/primitives/tooltip',
+    href: '/docs/components/tooltip',
     title: 'تلميح الادوات',
   },
 ]
 
 export default function NavigationMenuRtlDemo() {
   return (
-    <NavigationMenu dir="rtl" className="z-10">
+    <NavigationMenu dir="rtl">
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>البدء</NavigationMenuTrigger>
-          <NavigationMenuContent>
+          <NavigationMenuContent className="md:right-auto md:left-0">
             <ul className="flex gap-3 p-6">
               <NavigationMenuLink asChild className="w-[350px] rounded-md bg-muted">
                 <a
@@ -79,7 +79,7 @@ export default function NavigationMenuRtlDemo() {
                 <ListItem href="/docs/installation" title="التثبيت">
                   كيفية تثبيت التبعيات وهيكلة تطبيقك.
                 </ListItem>
-                <ListItem href="/docs/primitives/typography" title="الخطوط">
+                <ListItem href="/docs/components/typography" title="الخطوط">
                   انماط العناوين والفقرات والقوائم...الخ
                 </ListItem>
               </div>
@@ -88,7 +88,7 @@ export default function NavigationMenuRtlDemo() {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger>المكونات</NavigationMenuTrigger>
-          <NavigationMenuContent>
+          <NavigationMenuContent className="md:right-auto md:left-0">
             <ul className="grid w-[500px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[500px]">
               {components.map((component) => (
                 <ListItem href={component.href} key={component.title} title={component.title}>

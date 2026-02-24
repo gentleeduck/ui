@@ -170,6 +170,7 @@ A non-dismissible drawer For cases when your drawer has to be always visible, No
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `shouldScaleBackground` | `boolean` | `true` | Whether to scale the background when drawer is open |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction used to resolve horizontal drawer side in RTL/LTR. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `...props` | `React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Root>` | -- | Additional props inherited from `Drawer.Root`. |
 
 ### DrawerTrigger
@@ -249,6 +250,8 @@ Wrapper around `DrawerPrimitive.Close`. Closes the drawer when clicked.
 | `...props` | `React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>` | -- | Additional props inherited from `Drawer.Description`. |
 
 ## RTL Support
+
+Set `dir="rtl"` on `Drawer` for a local override, or set `DirectionProvider` once at app/root level for global direction. Horizontal drawers (`left`/`right`) are resolved automatically for RTL/LTR.
 
 <ComponentPreview
   name="drawer-7"

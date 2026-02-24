@@ -46,7 +46,7 @@ echo "🏁 Script execution finished."
 # 🔧 Running 'bun run start'...
 #
 # > @gentleduck/registry-build-duckui@0.1.0 start /mnt/1T_wild/wildduck/@gentleduck-ui/packages/registry-build-duckui
-# > tsx ./index.ts
+# > bun ./index.ts
 #
 #     ██████╗ ██╗   ██╗ ██████╗██╗  ██╗    ██╗   ██╗██╗
 #     ██╔══██╗██║   ██║██╔════╝██║ ██╔╝    ██║   ██║██║

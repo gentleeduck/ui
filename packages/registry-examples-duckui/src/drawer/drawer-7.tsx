@@ -33,57 +33,55 @@ export default function DrawerRtlDemo() {
   }
 
   return (
-    <div dir="rtl">
-      <Drawer>
-        <DrawerTrigger asChild>
-          <Button variant="outline">فتح الدرج</Button>
-        </DrawerTrigger>
-        <DrawerContent>
-          <div className="mx-auto w-full max-w-sm">
-            <DrawerHeader>
-              <DrawerTitle>تحريك الهدف</DrawerTitle>
-              <DrawerDescription>حدد هدف نشاطك اليومي.</DrawerDescription>
-            </DrawerHeader>
-            <div className="p-4 pb-0">
-              <div className="flex items-center justify-center space-x-2">
-                <Button className="h-8 w-8" disabled={goal <= 200} onClick={() => onClick(-10)} variant="outline">
-                  <Minus className="h-4 w-4" />
-                  <span className="sr-only">تقليل</span>
-                </Button>
-                <div className="flex-1 text-center">
-                  <div className="font-bold text-7xl tracking-tighter">{goal}</div>
-                  <div className="text-[0.70rem] text-muted-foreground uppercase">سعرة حرارية/يوم</div>
-                </div>
-                <Button className="h-8 w-8" disabled={goal >= 400} onClick={() => onClick(10)} variant="outline">
-                  <Plus />
-                  <span className="sr-only">زيادة</span>
-                </Button>
+    <Drawer dir="rtl">
+      <DrawerTrigger asChild>
+        <Button variant="outline">فتح الدرج</Button>
+      </DrawerTrigger>
+      <DrawerContent>
+        <div className="mx-auto w-full max-w-sm">
+          <DrawerHeader>
+            <DrawerTitle>تحريك الهدف</DrawerTitle>
+            <DrawerDescription>حدد هدف نشاطك اليومي.</DrawerDescription>
+          </DrawerHeader>
+          <div className="p-4 pb-0">
+            <div className="flex items-center justify-center space-x-2">
+              <Button className="h-8 w-8" disabled={goal <= 200} onClick={() => onClick(-10)} variant="outline">
+                <Minus className="h-4 w-4" />
+                <span className="sr-only">تقليل</span>
+              </Button>
+              <div className="flex-1 text-center">
+                <div className="font-bold text-7xl tracking-tighter">{goal}</div>
+                <div className="text-[0.70rem] text-muted-foreground uppercase">سعرة حرارية/يوم</div>
               </div>
-              <div className="mt-3 h-[120px]">
-                <ResponsiveContainer height="100%" width="100%">
-                  <BarChart data={data}>
-                    <Bar
-                      dataKey="goal"
-                      style={
-                        {
-                          fill: 'hsl(var(--foreground))',
-                          opacity: 0.9,
-                        } as React.CSSProperties
-                      }
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
+              <Button className="h-8 w-8" disabled={goal >= 400} onClick={() => onClick(10)} variant="outline">
+                <Plus />
+                <span className="sr-only">زيادة</span>
+              </Button>
             </div>
-            <DrawerFooter>
-              <Button>ارسال</Button>
-              <DrawerClose asChild>
-                <Button variant="outline">الغاء</Button>
-              </DrawerClose>
-            </DrawerFooter>
+            <div className="mt-3 h-[120px]">
+              <ResponsiveContainer height="100%" width="100%">
+                <BarChart data={data}>
+                  <Bar
+                    dataKey="goal"
+                    style={
+                      {
+                        fill: 'hsl(var(--foreground))',
+                        opacity: 0.9,
+                      } as React.CSSProperties
+                    }
+                  />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
           </div>
-        </DrawerContent>
-      </Drawer>
-    </div>
+          <DrawerFooter>
+            <Button>ارسال</Button>
+            <DrawerClose asChild>
+              <Button variant="outline">الغاء</Button>
+            </DrawerClose>
+          </DrawerFooter>
+        </div>
+      </DrawerContent>
+    </Drawer>
   )
 }

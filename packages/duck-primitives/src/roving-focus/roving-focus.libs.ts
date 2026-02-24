@@ -1,5 +1,5 @@
 import type * as React from 'react'
-import type { Direction } from '../hooks/use-direction'
+import type { Direction } from '../direction'
 
 export { focusFirst, wrapArray } from '../libs/shared-utils'
 export type { Direction }

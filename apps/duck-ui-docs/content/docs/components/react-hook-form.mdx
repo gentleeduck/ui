@@ -1,361 +1,334 @@
 ---
-title: react-hook-form
-description: Building forms with React Hook Form and Zod.
+title: React Hook Form
+description: Build forms in React using React Hook Form and Zod.
 component: true
 links:
   doc: https://react-hook-form.com
 ---
 
-Forms are tricky. They are one of the most common things you'll build in a web application, but also one of the most complex.
+In this guide, we will take a look at building forms with React Hook Form. We'll cover building forms with the `<Field />` component, adding schema validation using Zod, error handling, accessibility, and more.
 
-Well-designed HTML forms are:
+## Demo
 
-- Well-structured and semantically correct.
-- Easy to use and navigate (keyboard).
-- Accessible with ARIA attributes and proper labels.
-- Has support for client and server side validation.
-- Well-styled and consistent with the rest of the application.
+We are going to build the following form. It has a simple text input and a textarea. On submit, we'll validate the form data and display any errors.
 
-In this guide, we will take a look at building forms with [`react-hook-form`](https://react-hook-form.com/) and [`zod`](https://zod.dev). We're going to use a `<FormField>` component to compose accessible forms using Radix UI components.
+<Callout icon={<Lightbulb />}>
+  **Note:** For the purpose of this demo, we have intentionally disabled browser
+  validation to show how schema validation and form errors work in React Hook
+  Form. It is recommended to add basic browser validation in your production
+  code.
+</Callout>
 
-## Features
+<ComponentPreview
+  name="form-rhf-demo"
+  className="[&_.preview]:h-[700px]"
+/>
 
-The `<Form />` component is a wrapper around the `react-hook-form` library. It provides a few things:
+## Approach
 
-- Composable components for building forms.
-- A `<FormField />` component for building controlled form fields.
-- Form validation using `zod`.
-- Handles accessibility and error messages.
-- Uses `React.useId()` for generating unique IDs.
-- Applies the correct `aria` attributes to form fields based on states.
-- Built to work with all Radix UI components.
-- Bring your own schema library. We use `zod` but you can use anything you want.
-- **You have full control over the markup and styling.**
+This form leverages React Hook Form for performant, flexible form handling. We'll build our form using the `<Field />` component, which gives you **complete flexibility over the markup and styling**.
 
-## Philosophy
-
-Form validation shouldn't require a PhD. We integrate with React Hook Form because it validates at the field level without re-rendering the entire form. The Form/FormField/FormItem/FormControl pattern maps directly to how forms work: each field has a label, an input, a description, and an error message.
-
-## How It's Built
-
-<MermaidDiagram chart={`graph TD
-  Form[Form]
-  Form --> rhf["react-hook-form"]:::external
-  Form --> primitives["@gentleduck/primitives\n/slot"]:::internal
-  Form --> libs["@gentleduck/libs"]:::internal
-  Form --> Label["Label"]:::component
-
-  rhf --> |"provides"| Validation["Field Validation"]
-  rhf --> |"provides"| FormState["Form State\nManagement"]
-  rhf --> |"provides"| Controller["Controlled\nInputs"]
-  primitives --> |"provides"| Slot["Slot Rendering\n(asChild)"]
-  Form --> |"adds"| FieldContext["Field-level\nReact Context"]
-  Form --> |"adds"| ErrorDisplay["Error Message\nComponents"]
-
-  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
-  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
-  classDef component fill:#fb923c,stroke:#f97316,color:#fff
-`} />
+- Uses React Hook Form's `useForm` hook for form state management.
+- `<Controller />` component for controlled inputs.
+- `<Field />` components for building accessible forms.
+- Client-side validation using Zod with `zodResolver`.
 
 ## Anatomy
 
-```tsx showLineNumbers
-<Form>
-  <FormField
-    control={...}
-    name="..."
-    render={() => (
-      <FormItem>
-        <FormLabel />
-        <FormControl>
-          { /* Your form field */}
-        </FormControl>
-        <FormDescription />
-        <FormMessage />
-      </FormItem>
-    )}
-  />
-</Form>
-```
+Here's a basic example of a form using the `<Controller />` component from React Hook Form and the `<Field />` component.
 
-## Example
-
-```tsx showLineNumbers
-const form = useForm()
-
-<FormField
+```tsx showLineNumbers {5-18}
+<Controller
+  name="title"
   control={form.control}
-  name="username"
-  render={({ field }) => (
-    <FormItem>
-      <FormLabel>Username</FormLabel>
-      <FormControl>
-        <Input placeholder="wildduck" {...field} />
-      </FormControl>
-      <FormDescription>This is your public display name.</FormDescription>
-      <FormMessage />
-    </FormItem>
+  render={({ field, fieldState }) => (
+    <Field data-invalid={fieldState.invalid}>
+      <FieldLabel htmlFor={field.name}>Bug Title</FieldLabel>
+      <Input
+        {...field}
+        id={field.name}
+        aria-invalid={fieldState.invalid}
+        placeholder="Login button not working on mobile"
+        autoComplete="off"
+      />
+      <FieldDescription>
+        Provide a concise title for your bug report.
+      </FieldDescription>
+      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+    </Field>
   )}
 />
 ```
 
-## Installation
+## Form
 
-<Tabs defaultValue="cli">
+### Create a form schema
 
-<TabsList>
-  <TabsTrigger value="cli">CLI</TabsTrigger>
-  <TabsTrigger value="manual">Manual</TabsTrigger>
-</TabsList>
-<TabsContent value="cli">
+We'll start by defining the shape of our form using a Zod schema.
 
-
-```bash
-npx @gentleduck/cli add form
-```
-
-</TabsContent>
-
-<TabsContent value="manual">
-
-<Steps>
-
-<Step>Install the following dependencies:</Step>
-
-```bash
-npm install react-hook-form @hookform/resolvers zod @gentleduck/primitives @gentleduck/libs
-```
-<Step>Make sure you have the [`Label`](/docs/components/label) component installed in your project.</Step>
-
-<Step>Copy and paste the following code into your project.</Step>
-
-<ComponentSource name="react-hook-form" />
-
-<Step>Update the import paths to match your project setup.</Step>
-
-</Steps>
-
-</TabsContent>
-
-</Tabs>
-
-## Usage
-
-<Steps>
-
-<Step>Create a form schema</Step>
-
-Define the shape of your form using a Zod schema. You can read more about using Zod in the [Zod documentation](https://zod.dev).
-
-```tsx showLineNumbers {3,5-7}
-"use client"
-
-import { z } from "zod"
+```tsx showLineNumbers title="form.tsx"
+import * as z from "zod"
 
 const formSchema = z.object({
-  username: z.string().min(2).max(50),
+  title: z
+    .string()
+    .min(5, "Bug title must be at least 5 characters.")
+    .max(32, "Bug title must be at most 32 characters."),
+  description: z
+    .string()
+    .min(20, "Description must be at least 20 characters.")
+    .max(100, "Description must be at most 100 characters."),
 })
 ```
 
-<Step>Define a form</Step>
+### Setup the form
 
-Use the `useForm` hook from `react-hook-form` to create a form.
+Next, we'll use the `useForm` hook from React Hook Form to create our form instance. We'll also add the Zod resolver to validate the form data.
 
-```tsx showLineNumbers {3-4,14-20,22-27}
-"use client"
-
+```tsx showLineNumbers title="form.tsx" {17-23}
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z } from "zod"
+import * as z from "zod"
 
 const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
+  title: z
+    .string()
+    .min(5, "Bug title must be at least 5 characters.")
+    .max(32, "Bug title must be at most 32 characters."),
+  description: z
+    .string()
+    .min(20, "Description must be at least 20 characters.")
+    .max(100, "Description must be at most 100 characters."),
 })
 
-export function ProfileForm() {
-  // 1. Define your form.
+export function BugReportForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      username: "",
+      title: "",
+      description: "",
     },
   })
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values)
+  function onSubmit(data: z.infer<typeof formSchema>) {
+    console.log(data)
   }
-}
-```
-
-Since `FormField` is using a controlled component, you need to provide a default value for the field. See the [React Hook Form docs](https://react-hook-form.com/docs/usecontroller) to learn more about controlled components.
-
-<Step>Build your form</Step>
-
-We can now use the `<Form />` components to build our form.
-
-```tsx showLineNumbers {7-17,28-50}
-"use client"
-
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { z } from "zod"
-
-import { Button } from "@/components/ui/button"
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form"
-import { Input } from "@/components/ui/input"
-
-const formSchema = z.object({
-  username: z.string().min(2, {
-    message: "Username must be at least 2 characters.",
-  }),
-})
-
-export function ProfileForm() {
-  // ...
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="wildduck" {...field} />
-              </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button type="submit">Submit</Button>
-      </form>
-    </Form>
+    <form noValidate onSubmit={form.handleSubmit(onSubmit)}>
+      {/* Build the form here */}
+    </form>
   )
 }
 ```
 
-<Step>Done</Step>
+### Build the form
 
-That's it. You now have a fully accessible form that is type-safe with client-side validation.
+We can now build the form using the `<Controller />` component from React Hook Form and the `<Field />` component.
+
+<ComponentSource name="form-rhf-demo" title="form.tsx" />
+
+### Done
+
+That's it. You now have a fully accessible form with client-side validation.
+
+When you submit the form, the `onSubmit` function will be called with the validated form data. If the form data is invalid, React Hook Form will display the errors next to each field.
+
+## Validation
+
+### Client-side Validation
+
+React Hook Form validates your form data using the Zod schema. Define a schema and pass it to the `resolver` option of the `useForm` hook.
+
+```tsx showLineNumbers title="example-form.tsx" {5-8,12}
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useForm } from "react-hook-form"
+import * as z from "zod"
+
+const formSchema = z.object({
+  title: z.string(),
+  description: z.string().optional(),
+})
+
+export function ExampleForm() {
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: "",
+      description: "",
+    },
+  })
+}
+```
+
+### Validation Modes
+
+React Hook Form supports different validation modes.
+
+```tsx showLineNumbers title="form.tsx" {3}
+const form = useForm<z.infer<typeof formSchema>>({
+  resolver: zodResolver(formSchema),
+  mode: "onChange",
+})
+```
+
+| Mode          | Description                                              |
+| ------------- | -------------------------------------------------------- |
+| `"onChange"`  | Validation triggers on every change.                     |
+| `"onBlur"`    | Validation triggers on blur.                             |
+| `"onSubmit"`  | Validation triggers on submit (default).                 |
+| `"onTouched"` | Validation triggers on first blur, then on every change. |
+| `"all"`       | Validation triggers on blur and change.                  |
+
+## Displaying Errors
+
+Display errors next to the field using `<FieldError />`. For styling and accessibility:
+
+- Add the `data-invalid` prop to the `<Field />` component.
+- Add the `aria-invalid` prop to the form control such as `<Input />`, `<SelectTrigger />`, `<Checkbox />`, etc.
+
+```tsx showLineNumbers title="form.tsx" {5,11,13}
+<Controller
+  name="email"
+  control={form.control}
+  render={({ field, fieldState }) => (
+    <Field data-invalid={fieldState.invalid}>
+      <FieldLabel htmlFor={field.name}>Email</FieldLabel>
+      <Input
+        {...field}
+        id={field.name}
+        type="email"
+        aria-invalid={fieldState.invalid}
+      />
+      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+    </Field>
+  )}
+/>
+```
+
+## Working with Different Field Types
+
+### Input
+
+- For input fields, spread the `field` object onto the `<Input />` component.
+- To show errors, add the `aria-invalid` prop to the `<Input />` component and the `data-invalid` prop to the `<Field />` component.
 
 <ComponentPreview
-  name="input-7"
-  className="[&_[role=tablist]]:hidden [&>div>div:first-child]:hidden"
+  name="form-rhf-input"
+  className="[&_.preview]:h-[700px]"
 />
 
-</Steps>
+### Textarea
 
-## Examples
+- For textarea fields, spread the `field` object onto the `<Textarea />` component.
+- To show errors, add the `aria-invalid` prop to the `<Textarea />` component and the `data-invalid` prop to the `<Field />` component.
 
-See the following links for more examples on how to use the `<Form />` component with other components:
+<ComponentPreview
+  name="form-rhf-textarea"
+  className="[&_.preview]:h-[700px]"
+/>
 
-- [Checkbox](/docs/components/checkbox#form)
-- [Date Picker](/docs/components/date-picker#form)
-- [Input](/docs/components/input#form)
-- [Radio Group](/docs/components/radio-group#form)
-- [Select](/docs/components/select#form)
-- [Switch](/docs/components/switch#form)
-- [Textarea](/docs/components/textarea#form)
-- [Combobox](/docs/components/combobox#form)
+### Select
 
+- For select components, use `field.value` and `field.onChange` on the `<Select />` component.
+- To show errors, add the `aria-invalid` prop to the `<SelectTrigger />` component and the `data-invalid` prop to the `<Field />` component.
 
-## Component Composition
+<ComponentPreview
+  name="form-rhf-select"
+  className="[&_.preview]:h-[700px]"
+/>
 
-<MermaidDiagram chart={`graph TD
-    A[Form] --> B[FormField]
-    B --> C[FormItem]
-    C --> D[FormLabel]
-    C --> E[FormControl]
-    C --> F[FormDescription]
-    C --> G[FormMessage]
-`} />
+### Checkbox
 
-## API Reference
+- For checkbox arrays, use `field.value` and `field.onChange` with array manipulation.
+- To show errors, add the `aria-invalid` prop to the `<Checkbox />` component and the `data-invalid` prop to the `<Field />` component.
+- Remember to add `data-slot="checkbox-group"` to the `<FieldGroup />` component for proper styling and spacing.
 
-### Form
+<ComponentPreview
+  name="form-rhf-checkbox"
+  className="[&_.preview]:h-[700px]"
+/>
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `...props` | `FormProviderProps` | -- | Additional props inherited from `FormProvider` in `react-hook-form`. |
+### Radio Group
 
-### FormField
+- For radio groups, use `field.value` and `field.onChange` on the `<RadioGroup />` component.
+- To show errors, add the `aria-invalid` prop to the `<RadioGroupItem />` component and the `data-invalid` prop to the `<Field />` component.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `name` | `FieldPath<TFieldValues>` | (required) | The field name in your form schema |
-| `control` | `Control<TFieldValues>` | (required) | The control object from `useForm` |
-| `render` | `ControllerProps<TFieldValues, TName>['render']` | (required) | Render function receiving `{ field, fieldState, formState }` |
-| `...props` | `React.ComponentPropsWithoutRef<typeof Controller>` | -- | Additional props inherited from `Controller`. |
+<ComponentPreview
+  name="form-rhf-radiogroup"
+  className="[&_.preview]:h-[700px]"
+/>
 
-### FormItem
+### Switch
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional CSS classes for the form item wrapper |
-| `children` | `React.ReactNode` | `--` | Label, control, description, and message elements |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+- For switches, use `field.value` and `field.onChange` on the `<Switch />` component.
+- To show errors, add the `aria-invalid` prop to the `<Switch />` component and the `data-invalid` prop to the `<Field />` component.
 
-### FormLabel
+<ComponentPreview
+  name="form-rhf-switch"
+  className="[&_.preview]:h-[500px]"
+/>
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional CSS classes for the label |
-| `...props` | `React.ComponentPropsWithoutRef<typeof Label>` | -- | Additional props inherited from `Label`. Automatically receives `htmlFor` and `data-error` from form context. |
+### Complex Forms
 
-### FormControl
+Here is an example of a more complex form with multiple fields and validation.
 
-Renders its child via `Slot`, injecting `id`, `aria-describedby`, and `aria-invalid` from the form field context.
+<ComponentPreview
+  name="form-rhf-complex"
+  className="[&_.preview]:h-[1300px]"
+/>
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `children` | `React.ReactNode` | `--` | The form control element (input, select, etc.) |
-| `...props` | `React.ComponentPropsWithoutRef<typeof Slot>` | -- | Additional props inherited from `Slot`. |
+## Resetting the Form
 
-### FormDescription
+Use `form.reset()` to reset the form to its default values.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional CSS classes for the description text |
-| `children` | `React.ReactNode` | `--` | Help text content |
-| `...props` | `React.HTMLProps<HTMLParagraphElement>` | -- | Additional props to spread to the p element |
+```tsx showLineNumbers
+<Button type="button" variant="outline" onClick={() => form.reset()}>
+  Reset
+</Button>
+```
 
-### FormMessage
+## Array Fields
 
-Displays the field's validation error message. If no error exists, renders `children` or nothing.
+React Hook Form provides a `useFieldArray` hook for managing dynamic array fields. This is useful when you need to add or remove fields dynamically.
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional CSS classes for the message text |
-| `children` | `React.ReactNode` | `--` | Fallback content when no error is present |
-| `...props` | `React.HTMLProps<HTMLParagraphElement>` | -- | Additional props to spread to the p element |
+<ComponentPreview
+  name="form-rhf-array"
+  className="[&_.preview]:h-[700px]"
+/>
 
-### useFormField
+### Using useFieldArray
 
-Returns an object containing:
+Use the `useFieldArray` hook to manage array fields. It provides `fields`, `append`, and `remove` methods.
 
-| Property | Type | Description |
-| --- | --- | --- |
-| `id` | `string` | Internal form item ID |
-| `name` | `string` | Field name |
-| `formItemId` | `string` | ID for the form control |
-| `formDescriptionId` | `string` | ID for the description |
-| `formMessageId` | `string` | ID for the message |
-| `error` | `FieldError \| undefined` | Validation error object |
+```tsx showLineNumbers title="form.tsx" {8-11}
+import { useFieldArray, useForm } from "react-hook-form"
+
+export function ExampleForm() {
+  const form = useForm({
+    // ... form config
+  })
+
+  const { fields, append, remove } = useFieldArray({
+    control: form.control,
+    name: "emails",
+  })
+}
+```
+
+### Array Validation
+
+Use Zod's `array` method to validate array fields.
+
+```tsx showLineNumbers title="form.tsx"
+const formSchema = z.object({
+  emails: z
+    .array(
+      z.object({
+        address: z.string().email("Enter a valid email address."),
+      })
+    )
+    .min(1, "Add at least one email address.")
+    .max(5, "You can add up to 5 email addresses."),
+})
+```

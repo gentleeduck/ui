@@ -56,7 +56,7 @@ npx @gentleduck/cli add item
 npm install @gentleduck/libs @gentleduck/primitives @gentleduck/variants
 ```
 
-The `item` component depend on the `label` and `separator` components
+The `item` component depends on the [`label`](/docs/components/label) and [`separator`](/docs/components/separator) components.
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -295,6 +295,8 @@ Displays a footer spanning the full width of the item.
 | `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
 ## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
 
 <ComponentPreview
   name="item-11"

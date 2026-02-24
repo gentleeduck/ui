@@ -11,7 +11,7 @@ component: true
 
 ## Philosophy
 
-Pagination is a navigation pattern, not a data-fetching pattern. We provide the visual components (page buttons, next/previous, ellipsis) and let you wire them to your data layer. This separation means the same pagination UI works whether you're paginating a client-side array, an API, or a database cursor.
+Pagination is a navigation pattern, not a data-fetching pattern. We provide the visual components (page buttons, next/previous, ellipsis) and let you wire them to your data layer. This separation means the same pagination UI works whether you're paginating a client-side array, an API, or a database cursor. Under the hood, this component composes `@gentleduck/primitives/pagination` for semantic structure and direction-aware behavior.
 
 ## Installation
 
@@ -36,12 +36,12 @@ npx @gentleduck/cli add pagination
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @gentleduck/libs
+npm install @gentleduck/libs @gentleduck/primitives
 ```
 
 <Step>Add the `Button` component to your project.</Step>
 
-The `Pagination` component uses the [`Button`](/components/button) component. Make sure you have it installed in your project.
+The `Pagination` component uses the [`Button`](/docs/components/button) component. Make sure you have it installed in your project.
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -97,7 +97,7 @@ To use the Next.js `<Link />` component, make the following updates to `paginati
 ```diff showLineNumbers /typeof Link/ {1}
 + import Link from "next/link"
 
-- type PaginationLinkProps = ... & React.ComponentProps<"a">
+- type PaginationLinkProps = ... & React.ComponentPropsWithoutRef<"a">
 + type PaginationLinkProps = ... & React.ComponentProps<typeof Link>
 
 const PaginationLink = ({...props }: ) => (
@@ -136,22 +136,23 @@ const PaginationLink = ({...props }: ) => (
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | `'ltr'` | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | `--` | Additional CSS classes for the `nav` element |
-| `...props` | `React.HTMLProps<HTMLElement>` | -- | Additional props to spread to the nav element |
+| `...props` | `React.ComponentPropsWithoutRef<'nav'>` | -- | Additional props to spread to the nav element |
 
 ### PaginationContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the `ul` element |
-| `...props` | `React.HTMLProps<HTMLUListElement>` | -- | Additional props to spread to the ul element |
+| `...props` | `React.ComponentPropsWithoutRef<'ul'>` | -- | Additional props to spread to the ul element |
 
 ### PaginationItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the `li` element |
-| `...props` | `React.HTMLProps<HTMLLIElement>` | -- | Additional props to spread to the li element |
+| `...props` | `React.ComponentPropsWithoutRef<'li'>` | -- | Additional props to spread to the li element |
 
 ### PaginationLink
 
@@ -159,7 +160,7 @@ const PaginationLink = ({...props }: ) => (
 | --- | --- | --- | --- |
 | `isActive` | `boolean` | -- | Marks the link as active/current page (adds `aria-current="page"` and styles) |
 | `size` | `'icon' \| 'default' \| 'sm'` | `'icon'` | Size variant for the button style |
-| `...props` | `React.HTMLProps<HTMLAnchorElement>` | -- | Additional props to spread to the a element |
+| `...props` | `React.ComponentPropsWithoutRef<'a'>` | -- | Additional props to spread to the a element |
 
 ### PaginationPrevious
 
@@ -187,7 +188,7 @@ Extends `PaginationLink` with `aria-label="Go to next page"`, text "Next", and r
 | --- | --- | --- | --- |
 | `text` | `string` | `'More pages'` | Screen-reader label text. Override for i18n / RTL support. |
 | `className` | `string` | `--` | Additional CSS classes for the ellipsis element |
-| `...props` | `React.HTMLProps<HTMLSpanElement>` | -- | Additional props to spread to the span element |
+| `...props` | `React.ComponentPropsWithoutRef<'span'>` | -- | Additional props to spread to the span element |
 
 ### PaginationWrapper
 
@@ -201,12 +202,17 @@ Extends `PaginationLink` with `aria-label="Go to next page"`, text "Next", and r
 | `left` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Props for the "Previous" button |
 | `maxLeft` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Props for the "First" button |
 
+You can pass `dir: 'rtl'` through `wrapper` to make wrapper controls direction-aware:
+
+```tsx
+<PaginationWrapper wrapper={{ dir: 'rtl' }} />
+```
+
 ## RTL Support
 
-Use the `text` prop on `PaginationPrevious`, `PaginationNext`, and `PaginationEllipsis` to provide translated labels. Wrap in `dir="rtl"` for right-to-left layout. Chevron icons auto-flip via `rtl:rotate-180`.
+Use the `text` prop on `PaginationPrevious`, `PaginationNext`, and `PaginationEllipsis` to provide translated labels. Set `dir="rtl"` on `Pagination` for a local override, or set `DirectionProvider` once at app/root level for global direction. Keep markup in logical order (`Previous`, pages, `Next`): visual mirroring is handled automatically.
 
 <ComponentPreview
   name="pagination-2"
   description="A pagination with full RTL and Arabic i18n support."
 />
-

@@ -1,10 +1,13 @@
 import { cn } from '@gentleduck/libs/cn'
+import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
-  ({ className, type, ...props }, ref) => {
+  ({ className, type, dir, ...props }, ref) => {
+    const direction = useDirection(dir as Direction)
     return (
       <input
+        dir={direction}
         type={type}
         className={cn(
           // base

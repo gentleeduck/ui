@@ -1,14 +1,6 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
 
-/* -------------------------------------------------------------------------------------------------
- * VisuallyHidden
- *
- * Renders content that is visually hidden but remains accessible to screen
- * readers and other assistive technologies. Uses the Bootstrap visually-hidden
- * mixin pattern (absolute positioning, 1x1 clipped rect).
- * -----------------------------------------------------------------------------------------------*/
-
 const NAME = 'VisuallyHidden'
 
 type VisuallyHiddenElement = React.ComponentRef<typeof Primitive.span>

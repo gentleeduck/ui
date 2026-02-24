@@ -157,7 +157,7 @@ type TypeaheadListNavigationOptions<T> = {
  * Returns [searchRef, handleTypeaheadSearch, resetTypeaheadState].
  */
 export function useTypeaheadListNavigation<T>(options: TypeaheadListNavigationOptions<T>) {
-  const lastMatchedElementRef = React.useRef<HTMLElement | null>(null)
+  const lastMatchedRefObject = React.useRef<HTMLElement | null>(null)
 
   const [searchRef, handleTypeaheadSearch, resetTypeahead] = useTypeaheadSearch((search, key) => {
     const items = options.getItems()
@@ -172,7 +172,7 @@ export function useTypeaheadListNavigation<T>(options: TypeaheadListNavigationOp
 
     const state: TypeaheadListState = {
       activeElement: document.activeElement,
-      lastMatchedElement: lastMatchedElementRef.current,
+      lastMatchedElement: lastMatchedRefObject.current,
     }
 
     const defaultCurrentItem =
@@ -197,7 +197,7 @@ export function useTypeaheadListNavigation<T>(options: TypeaheadListNavigationOp
 
     if (nextEntry) {
       const nextElement = options.getItemElement(nextEntry.item)
-      if (nextElement) lastMatchedElementRef.current = nextElement
+      if (nextElement) lastMatchedRefObject.current = nextElement
       options.onMatch(nextEntry.item)
     }
 
@@ -206,7 +206,7 @@ export function useTypeaheadListNavigation<T>(options: TypeaheadListNavigationOp
 
   const resetTypeaheadState = React.useCallback(() => {
     resetTypeahead()
-    lastMatchedElementRef.current = null
+    lastMatchedRefObject.current = null
   }, [resetTypeahead])
 
   return [searchRef, handleTypeaheadSearch, resetTypeaheadState] as const
