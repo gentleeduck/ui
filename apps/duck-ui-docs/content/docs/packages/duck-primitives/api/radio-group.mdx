@@ -53,7 +53,7 @@ Container for a single-selection radio set. Uses roving focus and form-compatibl
 | `disabled` | `boolean` | `false` | Disables all items in the group |
 | `required` | `boolean` | `false` | Marks the group required for form validation |
 | `name` | `string` | -- | Name used for hidden native radio inputs |
-| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved with `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `orientation` | `'horizontal' \| 'vertical'` | -- | Limits arrow-key navigation axis |
 | `loop` | `boolean` | `true` | Wraps focus from end to start (and reverse) |
 | `...props` | `React.ComponentPropsWithoutRef<'div'>` | -- | Additional props for the radiogroup container |
