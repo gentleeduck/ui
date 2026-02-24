@@ -808,89 +808,6 @@
   {
     "dependencies": [
       "@gentleduck/libs",
-      "@gentleduck/primitives",
-      "react-hook-form",
-      "zod",
-      "@hookform/resolvers"
-    ],
-    "files": [
-      {
-        "path": "react-hook-form/index.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "react-hook-form/react-hook.form.tsx",
-        "type": "registry:ui"
-      }
-    ],
-    "name": "react-hook-form",
-    "registryDependencies": [
-      "label"
-    ],
-    "root_folder": "react-hook-form",
-    "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/react-hook-form",
-    "tree": [
-      {
-        "name": "index.ts",
-        "path": "react-hook-form/index.ts",
-        "type": "file"
-      },
-      {
-        "name": "react-hook.form.tsx",
-        "path": "react-hook-form/react-hook.form.tsx",
-        "type": "file"
-      }
-    ]
-  },
-  {
-    "dependencies": [
-      "@gentleduck/libs",
-      "@tanstack/react-form",
-      "lucide-react"
-    ],
-    "files": [
-      {
-        "path": "tanstack-form/index.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "tanstack-form/tanstack-form.hooks.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "tanstack-form/tanstack-form.tsx",
-        "type": "registry:ui"
-      }
-    ],
-    "name": "tanstack-form",
-    "registryDependencies": [
-      "label"
-    ],
-    "root_folder": "tanstack-form",
-    "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/tanstack-form",
-    "tree": [
-      {
-        "name": "index.ts",
-        "path": "tanstack-form/index.ts",
-        "type": "file"
-      },
-      {
-        "name": "tanstack-form.hooks.ts",
-        "path": "tanstack-form/tanstack-form.hooks.ts",
-        "type": "file"
-      },
-      {
-        "name": "tanstack-form.tsx",
-        "path": "tanstack-form/tanstack-form.tsx",
-        "type": "file"
-      }
-    ]
-  },
-  {
-    "dependencies": [
-      "@gentleduck/libs",
       "@gentleduck/primitives"
     ],
     "files": [
@@ -2096,7 +2013,7 @@
       "alert-dialog",
       "button",
       "popover",
-      "react-hook-form",
+      "field",
       "sheet"
     ],
     "root_folder": "json-editor",

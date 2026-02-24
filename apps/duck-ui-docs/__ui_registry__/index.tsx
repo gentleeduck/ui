@@ -30,8 +30,6 @@ const _Dialog = dynamic(() => import('@gentleduck/registry-ui-duckui/dialog'), {
 const _Drawer = dynamic(() => import('@gentleduck/registry-ui-duckui/drawer'), { ssr: false })
 const _DropdownMenu = dynamic(() => import('@gentleduck/registry-ui-duckui/dropdown-menu'), { ssr: false })
 const _NavigationMenu = dynamic(() => import('@gentleduck/registry-ui-duckui/navigation-menu'), { ssr: false })
-const _ReactHookForm = dynamic(() => import('@gentleduck/registry-ui-duckui/react-hook-form'), { ssr: false })
-const _TanstackForm = dynamic(() => import('@gentleduck/registry-ui-duckui/tanstack-form'), { ssr: false })
 const _HoverCard = dynamic(() => import('@gentleduck/registry-ui-duckui/hover-card'), { ssr: false })
 const _Input = dynamic(() => import('@gentleduck/registry-ui-duckui/input'), { ssr: false })
 const _InputOtp = dynamic(() => import('@gentleduck/registry-ui-duckui/input-otp'), { ssr: false })
@@ -1450,50 +1448,6 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'navigation-menu',
   },
-  'react-hook-form': {
-    name: 'react-hook-form',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: ['label'],
-    files: [
-      {
-        path: 'react-hook-form/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'react-hook-form/react-hook.form.tsx',
-        type: 'registry:ui',
-      },
-    ],
-    component: _ReactHookForm,
-    source: '/registry-ui-duckui/src/react-hook-form',
-    categories: [],
-    root_folder: 'react-hook-form',
-  },
-  'tanstack-form': {
-    name: 'tanstack-form',
-    description: '',
-    type: 'registry:ui',
-    registryDependencies: ['label'],
-    files: [
-      {
-        path: 'tanstack-form/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'tanstack-form/tanstack-form.hooks.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'tanstack-form/tanstack-form.tsx',
-        type: 'registry:ui',
-      },
-    ],
-    component: _TanstackForm,
-    source: '/registry-ui-duckui/src/tanstack-form',
-    categories: [],
-    root_folder: 'tanstack-form',
-  },
   'hover-card': {
     name: 'hover-card',
     description: '',
@@ -2174,7 +2128,7 @@ export const Index: Record<string, any> = {
     name: 'json-editor',
     description: '',
     type: 'registry:ui',
-    registryDependencies: ['alert-dialog', 'button', 'popover', 'react-hook-form', 'sheet'],
+    registryDependencies: ['alert-dialog', 'button', 'popover', 'field', 'sheet'],
     files: [
       {
         path: 'json-editor/index.ts',

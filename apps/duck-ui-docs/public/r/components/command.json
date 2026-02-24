@@ -18,7 +18,7 @@
       "type": "registry:ui"
     },
     {
-      "content": "export * from './command'\nexport * from './command.types'\n\nimport {\n  useCommandContext as _useCommandContext,\n  useCommandListContext as _useCommandListContext,\n} from '@gentleduck/primitives/command'\n\ntype ScopeArg<T extends (...args: any[]) => any> = Parameters<T>[1]\ntype CommandContextReturn = ReturnType<typeof _useCommandContext>\ntype CommandListContextReturn = ReturnType<typeof _useCommandListContext>\n\n/** Convenience hook to access command search state and direction. */\nexport function useCommandContext(): CommandContextReturn {\n  return _useCommandContext('CommandConsumer', undefined as unknown as ScopeArg<typeof _useCommandContext>)\n}\n\n/** Convenience hook to access command list refs and item leave handler. */\nexport function useCommandListContext(): CommandListContextReturn {\n  return _useCommandListContext('CommandConsumer', undefined as unknown as ScopeArg<typeof _useCommandListContext>)\n}\n",
+      "content": "export * from './command'\nexport * from './command.types'\n",
       "path": "command/index.ts",
       "target": "components/ui/index.ts",
       "type": "registry:ui"
