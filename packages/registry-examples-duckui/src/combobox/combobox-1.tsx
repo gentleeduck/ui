@@ -44,7 +44,7 @@ export default function ComboboxDemo() {
   return (
     <Popover onOpenChange={setOpen} open={open}>
       <PopoverTrigger asChild>
-        <Button aria-expanded={open} className="w-[240px] justify-between" role="combobox" variant="outline">
+        <Button aria-expanded={open} className="w-[230px] justify-between" role="combobox" variant="outline">
           {value ? frameworks.find((framework) => framework.value === value)?.label : 'Select framework...'}
           <ChevronsUpDown className="opacity-50" />
         </Button>

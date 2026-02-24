@@ -49,7 +49,7 @@ const components: { title: string; href: string; description: string }[] = [
 
 export default function NavigationMenuRtlDemo() {
   return (
-    <NavigationMenu dir="rtl">
+    <NavigationMenu dir="rtl" className="z-10">
       <NavigationMenuList>
         <NavigationMenuItem>
           <NavigationMenuTrigger>البدء</NavigationMenuTrigger>

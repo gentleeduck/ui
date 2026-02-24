@@ -131,7 +131,7 @@ export default function ChartRtlDemo() {
 
   return (
     <div dir="rtl">
-      <Card>
+      <Card className="rounded-sm border-none">
         <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
           <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
             <CardTitle>مخطط شريطي - تفاعلي</CardTitle>
@@ -142,7 +142,7 @@ export default function ChartRtlDemo() {
               const chart = key as keyof typeof chartConfig
               return (
                 <button
-                  className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-start even:border-s data-[active=true]:bg-muted/50 sm:border-t-0 sm:border-s sm:px-8 sm:py-6"
+                  className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-start even:border-s data-[active=true]:bg-muted/50 sm:border-s sm:border-t-0 sm:px-8 sm:py-6"
                   data-active={activeChart === chart}
                   key={chart}
                   onClick={() => setActiveChart(chart)}

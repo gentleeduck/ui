@@ -8,17 +8,16 @@ export default function SonnerRtlDemo() {
     <div dir="rtl">
       <Button
         onClick={() =>
-          toast('\u062A\u0645 \u0625\u0646\u0634\u0627\u0621 \u0627\u0644\u062D\u062F\u062B', {
+          toast('تم إنشاء الحدث', {
             action: {
-              label: '\u062A\u0631\u0627\u062C\u0639',
+              label: 'تراجع',
               onClick: () => console.log('Undo'),
             },
-            description:
-              '\u0627\u0644\u0623\u062D\u062F\u060C 3 \u062F\u064A\u0633\u0645\u0628\u0631 2023 \u0627\u0644\u0633\u0627\u0639\u0629 9:00 \u0635\u0628\u0627\u062D\u0627\u064B',
+            description: 'الأحد، 3 ديسمبر 2023 الساعة 9:00 صباحاً',
           })
         }
         variant="outline">
-        {'\u0639\u0631\u0636 \u0627\u0644\u0625\u0634\u0639\u0627\u0631'}
+        {'عرض الإشعار'}
       </Button>
     </div>
   )

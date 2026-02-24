@@ -11,9 +11,5 @@ export default function ProgressRtlDemo() {
     return () => clearTimeout(timer)
   }, [])
 
-  return (
-    <div dir="rtl">
-      <Progress className="w-[60%]" value={progress} />
-    </div>
-  )
+  return <Progress className="w-[60%] rtl:rotate-180" value={progress} dir="rtl" />
 }
