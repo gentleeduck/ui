@@ -39,7 +39,49 @@ export const docsConfig: DocsConfig = {
         },
         {
           href: '/docs/installation',
-          items: [],
+          collapsible: true,
+          items: [
+            {
+              href: '/docs/installation/next',
+              items: [],
+              title: 'Next.js',
+            },
+            {
+              href: '/docs/installation/vite',
+              items: [],
+              title: 'Vite',
+            },
+            {
+              href: '/docs/installation/astro',
+              items: [],
+              title: 'Astro',
+            },
+            {
+              href: '/docs/installation/laravel',
+              items: [],
+              title: 'Laravel',
+            },
+            {
+              href: '/docs/installation/react-router',
+              items: [],
+              title: 'React Router',
+            },
+            {
+              href: '/docs/installation/tanstack',
+              items: [],
+              title: 'TanStack Start',
+            },
+            {
+              href: '/docs/installation/tanstack-router',
+              items: [],
+              title: 'TanStack Router',
+            },
+            {
+              href: '/docs/installation/manual',
+              items: [],
+              title: 'Manual Installation',
+            },
+          ],
           title: 'Installation',
         },
         {
@@ -59,7 +101,29 @@ export const docsConfig: DocsConfig = {
         },
         {
           href: '/docs/dark-theme',
-          items: [],
+          collapsible: true,
+          items: [
+            {
+              href: '/docs/dark-theme/next',
+              items: [],
+              title: 'Next.js',
+            },
+            {
+              href: '/docs/dark-theme/vite',
+              items: [],
+              title: 'Vite',
+            },
+            {
+              href: '/docs/dark-theme/astro',
+              items: [],
+              title: 'Astro',
+            },
+            {
+              href: '/docs/dark-theme/remix',
+              items: [],
+              title: 'Remix',
+            },
+          ],
           title: 'Dark Theme',
         },
         {
@@ -367,6 +431,11 @@ export const docsConfig: DocsConfig = {
                   title: 'Progress',
                 },
                 {
+                  href: '/docs/packages/duck-primitives/api/input-otp',
+                  items: [],
+                  title: 'Input OTP',
+                },
+                {
                   href: '/docs/packages/duck-primitives/api/pagination',
                   items: [],
                   title: 'Pagination',
@@ -375,6 +444,11 @@ export const docsConfig: DocsConfig = {
                   href: '/docs/packages/duck-primitives/api/select',
                   items: [],
                   title: 'Select',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/radio-group',
+                  items: [],
+                  title: 'Radio Group',
                 },
                 {
                   href: '/docs/packages/duck-primitives/api/slider',
@@ -425,6 +499,11 @@ export const docsConfig: DocsConfig = {
                   href: '/docs/packages/duck-primitives/api/mount',
                   items: [],
                   title: 'Mount',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/direction',
+                  items: [],
+                  title: 'Direction',
                 },
                 {
                   href: '/docs/packages/duck-primitives/api/layer',
@@ -587,6 +666,11 @@ export const docsConfig: DocsConfig = {
           title: 'Chart',
         },
         {
+          href: '/docs/components/cli',
+          items: [],
+          title: 'CLI',
+        },
+        {
           href: '/docs/components/checkbox',
           items: [],
           title: 'Checkbox',
@@ -620,6 +704,11 @@ export const docsConfig: DocsConfig = {
           href: '/docs/components/date-picker',
           items: [],
           title: 'Date Picker',
+        },
+        {
+          href: '/docs/components/direction',
+          items: [],
+          title: 'Direction',
         },
         {
           href: '/docs/components/dialog',

@@ -737,6 +737,37 @@
   },
   {
     "dependencies": [
+      "@gentleduck/primitives"
+    ],
+    "files": [
+      {
+        "path": "direction/direction.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "direction/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "name": "direction",
+    "root_folder": "direction",
+    "type": "registry:ui",
+    "source": "/registry-ui-duckui/src/direction",
+    "tree": [
+      {
+        "name": "direction.tsx",
+        "path": "direction/direction.tsx",
+        "type": "file"
+      },
+      {
+        "name": "index.ts",
+        "path": "direction/index.ts",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "dependencies": [
       "@gentleduck/primitives",
       "@gentleduck/libs",
       "lucide-react"
@@ -873,15 +904,13 @@
   },
   {
     "dependencies": [
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives",
+      "lucide-react"
     ],
     "files": [
       {
         "path": "input-otp/index.ts",
-        "type": "registry:ui"
-      },
-      {
-        "path": "input-otp/input-otp.hooks.ts",
         "type": "registry:ui"
       },
       {
@@ -897,11 +926,6 @@
       {
         "name": "index.ts",
         "path": "input-otp/index.ts",
-        "type": "file"
-      },
-      {
-        "name": "input-otp.hooks.ts",
-        "path": "input-otp/input-otp.hooks.ts",
         "type": "file"
       },
       {
@@ -7243,6 +7267,28 @@
       {
         "name": "drawer-7.tsx",
         "path": "drawer/drawer-7.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "direction/direction-1.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "direction-1",
+    "registryDependencies": [
+      "direction"
+    ],
+    "root_folder": "direction",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/direction",
+    "tree": [
+      {
+        "name": "direction-1.tsx",
+        "path": "direction/direction-1.tsx",
         "type": "file"
       }
     ]
@@ -14336,7 +14382,9 @@
     ],
     "name": "input-otp-1",
     "registryDependencies": [
-      "input-otp"
+      "input-otp",
+      "button",
+      "field"
     ],
     "root_folder": "input-otp",
     "type": "registry:example",
@@ -14388,7 +14436,9 @@
     ],
     "name": "input-otp-2",
     "registryDependencies": [
-      "input-otp"
+      "input-otp",
+      "button",
+      "field"
     ],
     "root_folder": "input-otp",
     "type": "registry:example",
@@ -14440,7 +14490,9 @@
     ],
     "name": "input-otp-3",
     "registryDependencies": [
-      "input-otp"
+      "input-otp",
+      "button",
+      "field"
     ],
     "root_folder": "input-otp",
     "type": "registry:example",
@@ -14492,7 +14544,9 @@
     ],
     "name": "input-otp-4",
     "registryDependencies": [
-      "input-otp"
+      "input-otp",
+      "button",
+      "field"
     ],
     "root_folder": "input-otp",
     "type": "registry:example",
@@ -14544,7 +14598,9 @@
     ],
     "name": "input-otp-5",
     "registryDependencies": [
-      "input-otp"
+      "input-otp",
+      "button",
+      "field"
     ],
     "root_folder": "input-otp",
     "type": "registry:example",
@@ -14596,7 +14652,9 @@
     ],
     "name": "input-otp-6",
     "registryDependencies": [
-      "input-otp"
+      "input-otp",
+      "button",
+      "field"
     ],
     "root_folder": "input-otp",
     "type": "registry:example",
@@ -14648,7 +14706,9 @@
     ],
     "name": "input-otp-7",
     "registryDependencies": [
-      "input-otp"
+      "input-otp",
+      "button",
+      "field"
     ],
     "root_folder": "input-otp",
     "type": "registry:example",

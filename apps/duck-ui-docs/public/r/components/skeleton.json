@@ -10,7 +10,7 @@
       "type": "registry:ui"
     },
     {
-      "content": "import { cn } from '@gentleduck/libs/cn'\nimport * as React from 'react'\nimport { useDirection } from '@gentleduck/primitives/hooks/direction'\n\nconst Skeleton = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(\n  ({ className, ...props }, ref) => {\n    const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)\n    return (\n      <div\n        ref={ref}\n        aria-hidden=\"true\"\n        className={cn('animate-pulse rounded-md bg-muted', className)}\n        dir={direction}\n        {...props}\n        data-slot=\"skeleton\"\n      />\n    )\n  },\n)\nSkeleton.displayName = 'Skeleton'\n\nexport { Skeleton }\n",
+      "content": "import { cn } from '@gentleduck/libs/cn'\nimport { type Direction, useDirection } from '@gentleduck/primitives/direction'\nimport * as React from 'react'\n\nconst Skeleton = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(\n  ({ className, dir, ...props }, ref) => {\n    const direction = useDirection(dir as Direction)\n    return (\n      <div\n        ref={ref}\n        aria-hidden=\"true\"\n        className={cn('animate-pulse rounded-md bg-muted', className)}\n        dir={direction}\n        {...props}\n        data-slot=\"skeleton\"\n      />\n    )\n  },\n)\nSkeleton.displayName = 'Skeleton'\n\nexport { Skeleton }\n",
       "path": "skeleton/skeleton.tsx",
       "target": "components/ui/skeleton.tsx",
       "type": "registry:ui"
