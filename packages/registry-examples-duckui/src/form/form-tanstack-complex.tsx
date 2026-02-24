@@ -25,7 +25,7 @@ const plans = [
   { description: 'Good for trying the platform.', id: 'free', title: 'Free' },
   { description: 'For fast-moving teams and priority support.', id: 'pro', title: 'Pro' },
   { description: 'Advanced controls for larger organizations.', id: 'enterprise', title: 'Enterprise' },
-] as const
+]
 
 const formSchema = z.object({
   description: z.string().min(20, 'Description must be at least 20 characters.'),
