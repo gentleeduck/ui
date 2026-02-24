@@ -20,7 +20,8 @@ function PreviewPanelDialog({
   initialZoom = 1,
   showControls = true,
   syncPanels = true,
-}: PreviewPanelDialogProps) {
+  fullscreenText = 'Open fullscreen',
+}: PreviewPanelDialogProps & { fullscreenText?: string }) {
   const [sharedState, setSharedState] = useState<PreviewPanelState | undefined>(undefined)
 
   // Ref tracks whether a state update is already scheduled this frame.
@@ -73,7 +74,7 @@ function PreviewPanelDialog({
                   />
                 </DialogTrigger>
               </TooltipTrigger>
-              <TooltipContent>Open fullscreen</TooltipContent>
+              <TooltipContent>{fullscreenText}</TooltipContent>
             </Tooltip>
             <DialogContent className="max-h-[85vh] max-w-[90vw] overflow-auto p-0">
               <PreviewPanel
