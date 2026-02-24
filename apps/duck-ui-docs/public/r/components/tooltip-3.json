@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\n\nimport BaseDemo from './tooltip-1'\n\nexport default function TooltipRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <BaseDemo />\n    </div>\n  )\n}\n",
+      "content": "import { Button } from '@gentleduck/registry-ui-duckui/button'\nimport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'\n\nexport default function TooltipRtlDemo() {\n  return (\n    <TooltipProvider>\n      <Tooltip dir=\"rtl\">\n        <TooltipTrigger asChild>\n          <Button variant=\"outline\">{'تمرير'}</Button>\n        </TooltipTrigger>\n\n        <TooltipContent>\n          <p>{'أضف إلى المكتبة'}</p>\n        </TooltipContent>\n      </Tooltip>\n    </TooltipProvider>\n  )\n}\n",
       "path": "tooltip/tooltip-3.tsx",
       "target": "components/tooltip-3.tsx",
       "type": "registry:example"

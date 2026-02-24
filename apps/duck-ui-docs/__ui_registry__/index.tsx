@@ -585,6 +585,57 @@ const _Upload2 = dynamic(() => import('@gentleduck/registry-examples-duckui/uplo
 const _Upload3 = dynamic(() => import('@gentleduck/registry-examples-duckui/upload/upload-3'), { ssr: false })
 const _Upload4 = dynamic(() => import('@gentleduck/registry-examples-duckui/upload/upload-4'), { ssr: false })
 const _Upload5 = dynamic(() => import('@gentleduck/registry-examples-duckui/upload/upload-5'), { ssr: false })
+const _FormRhfArray = dynamic(() => import('@gentleduck/registry-examples-duckui/form/form-rhf-array'), { ssr: false })
+const _FormRhfCheckbox = dynamic(() => import('@gentleduck/registry-examples-duckui/form/form-rhf-checkbox'), {
+  ssr: false,
+})
+const _FormRhfComplex = dynamic(() => import('@gentleduck/registry-examples-duckui/form/form-rhf-complex'), {
+  ssr: false,
+})
+const _FormRhfDemo = dynamic(() => import('@gentleduck/registry-examples-duckui/form/form-rhf-demo'), { ssr: false })
+const _FormRhfInput = dynamic(() => import('@gentleduck/registry-examples-duckui/form/form-rhf-input'), { ssr: false })
+const _FormRhfRadiogroup = dynamic(() => import('@gentleduck/registry-examples-duckui/form/form-rhf-radiogroup'), {
+  ssr: false,
+})
+const _FormRhfSelect = dynamic(() => import('@gentleduck/registry-examples-duckui/form/form-rhf-select'), {
+  ssr: false,
+})
+const _FormRhfSwitch = dynamic(() => import('@gentleduck/registry-examples-duckui/form/form-rhf-switch'), {
+  ssr: false,
+})
+const _FormRhfTextarea = dynamic(() => import('@gentleduck/registry-examples-duckui/form/form-rhf-textarea'), {
+  ssr: false,
+})
+const _FormTanstackArray = dynamic(() => import('@gentleduck/registry-examples-duckui/form/form-tanstack-array'), {
+  ssr: false,
+})
+const _FormTanstackCheckbox = dynamic(
+  () => import('@gentleduck/registry-examples-duckui/form/form-tanstack-checkbox'),
+  { ssr: false },
+)
+const _FormTanstackComplex = dynamic(() => import('@gentleduck/registry-examples-duckui/form/form-tanstack-complex'), {
+  ssr: false,
+})
+const _FormTanstackDemo = dynamic(() => import('@gentleduck/registry-examples-duckui/form/form-tanstack-demo'), {
+  ssr: false,
+})
+const _FormTanstackInput = dynamic(() => import('@gentleduck/registry-examples-duckui/form/form-tanstack-input'), {
+  ssr: false,
+})
+const _FormTanstackRadiogroup = dynamic(
+  () => import('@gentleduck/registry-examples-duckui/form/form-tanstack-radiogroup'),
+  { ssr: false },
+)
+const _FormTanstackSelect = dynamic(() => import('@gentleduck/registry-examples-duckui/form/form-tanstack-select'), {
+  ssr: false,
+})
+const _FormTanstackSwitch = dynamic(() => import('@gentleduck/registry-examples-duckui/form/form-tanstack-switch'), {
+  ssr: false,
+})
+const _FormTanstackTextarea = dynamic(
+  () => import('@gentleduck/registry-examples-duckui/form/form-tanstack-textarea'),
+  { ssr: false },
+)
 const _Signup1 = dynamic(() => import('@gentleduck/registry-blocks-duckui/authentications/signup-1/signup-1'), {
   ssr: false,
 })
@@ -1615,7 +1666,7 @@ export const Index: Record<string, any> = {
     name: 'radio-group',
     description: '',
     type: 'registry:ui',
-    registryDependencies: [],
+    registryDependencies: ['label'],
     files: [
       {
         path: 'radio-group/index.ts',
@@ -7338,6 +7389,474 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/upload',
     categories: [],
     root_folder: 'upload',
+  },
+  'form-rhf-array': {
+    name: 'form-rhf-array',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-rhf-array.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormRhfArray,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-rhf-checkbox': {
+    name: 'form-rhf-checkbox',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-rhf-checkbox.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormRhfCheckbox,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-rhf-complex': {
+    name: 'form-rhf-complex',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-rhf-complex.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormRhfComplex,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-rhf-demo': {
+    name: 'form-rhf-demo',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-rhf-demo.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormRhfDemo,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-rhf-input': {
+    name: 'form-rhf-input',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-rhf-input.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormRhfInput,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-rhf-radiogroup': {
+    name: 'form-rhf-radiogroup',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-rhf-radiogroup.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormRhfRadiogroup,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-rhf-select': {
+    name: 'form-rhf-select',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-rhf-select.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormRhfSelect,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-rhf-switch': {
+    name: 'form-rhf-switch',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-rhf-switch.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormRhfSwitch,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-rhf-textarea': {
+    name: 'form-rhf-textarea',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-rhf-textarea.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormRhfTextarea,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-tanstack-array': {
+    name: 'form-tanstack-array',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-tanstack-array.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormTanstackArray,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-tanstack-checkbox': {
+    name: 'form-tanstack-checkbox',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-tanstack-checkbox.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormTanstackCheckbox,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-tanstack-complex': {
+    name: 'form-tanstack-complex',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-tanstack-complex.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormTanstackComplex,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-tanstack-demo': {
+    name: 'form-tanstack-demo',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-tanstack-demo.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormTanstackDemo,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-tanstack-input': {
+    name: 'form-tanstack-input',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-tanstack-input.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormTanstackInput,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-tanstack-radiogroup': {
+    name: 'form-tanstack-radiogroup',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-tanstack-radiogroup.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormTanstackRadiogroup,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-tanstack-select': {
+    name: 'form-tanstack-select',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-tanstack-select.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormTanstackSelect,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-tanstack-switch': {
+    name: 'form-tanstack-switch',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-tanstack-switch.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormTanstackSwitch,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
+  'form-tanstack-textarea': {
+    name: 'form-tanstack-textarea',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-tanstack-textarea.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormTanstackTextarea,
+    source: '/registry-examples-duckui/src/form',
+    categories: [],
+    root_folder: 'form',
   },
   'signup-1': {
     name: 'signup-1',
