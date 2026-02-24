@@ -3,9 +3,11 @@ import path from 'node:path'
 import type { UnistNode, UnistTree } from '@gentleduck/docs/types'
 import { u } from 'unist-builder'
 import { visit } from 'unist-util-visit'
-import { Index } from '../__ui_registry__'
+import { getRegistryIndex } from './registry-index.server'
 
 export function rehypeComponent() {
+  const index = getRegistryIndex()
+
   return async (tree: UnistTree) => {
     visit(tree, (node: UnistNode) => {
       // src prop overrides both name and fileName.
@@ -25,7 +27,7 @@ export function rehypeComponent() {
         }
 
         try {
-          const component = Index[`${name}`]
+          const component = index[`${name}`]
           // @ts-ignore
           const files = component.files[0]
           // @ts-ignore
@@ -69,7 +71,7 @@ export function rehypeComponent() {
         }
 
         try {
-          const component = Index[`${name}`]
+          const component = index[`${name}`]
           //@ts-ignore
           const src = component.files[0][0].path
 

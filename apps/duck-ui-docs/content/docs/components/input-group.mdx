@@ -1,5 +1,5 @@
 ---
-title: input-group 
+title: input-group
 description: Group inputs, in layouts, more easily.
 component: true
 ---
@@ -56,7 +56,7 @@ npx @gentleduck/cli add input-group
 ```bash
 npm install @gentleduck/libs @gentleduck/variants 
 ```
-The `input-group` component depend on the [`button`](/docs/components/button) and [`input`](/docs/components/input) and [`textarea`](/docs/components/textarea) components
+The `input-group` component depends on the [`button`](/docs/components/button), [`input`](/docs/components/input), and [`textarea`](/docs/components/textarea) components.
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -149,6 +149,8 @@ Input groups also work with textarea components. Use `block-start` or `block-end
 
 Show loading indicators while processing input.
 
+Use `Button loading` inside `InputGroupButton` for the built-in animated `<Loader />` spinner behavior.
+
 <ComponentPreview
   name="input-group-7"
   className="[&_.preview]:p-4"
@@ -196,7 +198,7 @@ No style is applied to the custom input. Apply your own styles using the `classN
 />
 
 ```tsx showLineNumbers
-import { InputGroup, InputGroupAddon } from "@/component/ui/input-group"
+import { InputGroup, InputGroupAddon } from "@/components/ui/input-group"
 import TextareaAutosize from "react-textarea-autosize"
 
 export function InputGroupCustom() {

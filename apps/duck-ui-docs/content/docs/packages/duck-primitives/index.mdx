@@ -54,14 +54,21 @@ gentleduck/primitives gives you production-ready behavior out of the box:
 | --- | --- | --- |
 | [Menu](/docs/packages/duck-primitives/api/menu) | Base menu with items, checkboxes, radios, submenus | `@gentleduck/primitives/menu` |
 | [Context Menu](/docs/packages/duck-primitives/api/context-menu) | Right-click menu built on Menu | `@gentleduck/primitives/context-menu` |
+| [Dropdown Menu](/docs/packages/duck-primitives/api/dropdown-menu) | Triggered menu built on Menu | `@gentleduck/primitives/dropdown-menu` |
+| [Navigation Menu](/docs/packages/duck-primitives/api/navigation-menu) | Composable navigation with trigger/content/viewport parts | `@gentleduck/primitives/navigation-menu` |
 | [Menubar](/docs/packages/duck-primitives/api/menubar) | Horizontal menu bar (File, Edit, View...) | `@gentleduck/primitives/menubar` |
 
 ### Surface components
 
 | Primitive | Description | Import |
 | --- | --- | --- |
+| [Sheet](/docs/packages/duck-primitives/api/sheet) | Dialog aliases for sheet-style APIs | `@gentleduck/primitives/sheet` |
 | [Progress](/docs/packages/duck-primitives/api/progress) | Progress bar with determinate/indeterminate states | `@gentleduck/primitives/progress` |
+| [Input OTP](/docs/packages/duck-primitives/api/input-otp) | Segmented one-time-password input with paste/focus management | `@gentleduck/primitives/input-otp` |
 | [Pagination](/docs/packages/duck-primitives/api/pagination) | Structural pagination primitives with direction-aware context | `@gentleduck/primitives/pagination` |
+| [Select](/docs/packages/duck-primitives/api/select) | Accessible select/dropdown primitive | `@gentleduck/primitives/select` |
+| [Radio Group](/docs/packages/duck-primitives/api/radio-group) | Single-selection radio controls | `@gentleduck/primitives/radio-group` |
+| [Slider](/docs/packages/duck-primitives/api/slider) | Accessible range slider (single or multi-thumb) | `@gentleduck/primitives/slider` |
 
 ### Infrastructure
 
@@ -99,9 +106,14 @@ gentleduck/primitives gives you production-ready behavior out of the box:
     PP --> HC[Hover Card]
     PP --> MN[Menu]
     MN --> CM[Context Menu]
+    MN --> DM[Dropdown Menu]
     MN --> MB[Menubar]
+    MN --> NM[Navigation Menu]
     PE --> PG[Progress]
     PE --> PN[Pagination]
+    PP --> SEL[Select]
+    PE --> RG[Radio Group]
+    PE --> SLD[Slider]
 `} />
 
 Higher-level primitives compose lower-level ones. Dialog uses Dismissable Layer, Focus Scope, Presence, and Portal. Menu uses Popper for positioning. You can use any layer directly.

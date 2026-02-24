@@ -2,7 +2,7 @@
 
 import { registry_entry_schema } from '@gentleduck/registers'
 import { z } from 'zod'
-import { Index } from '~/__ui_registry__'
+import { getRegistryIndex } from '~/lib/registry-index.server'
 
 export async function getAllBlockIds(
   types: z.infer<typeof registry_entry_schema>['type'][] = ['registry:block'],
@@ -17,7 +17,8 @@ export async function getAllBlocks(
   types: z.infer<typeof registry_entry_schema>['type'][] = ['registry:block'],
   categories: string[] = [],
 ) {
-  const index = z.record(z.string(), registry_entry_schema).parse(Index)
+  const indexData = getRegistryIndex()
+  const index = z.record(z.string(), registry_entry_schema).parse(indexData)
 
   return Object.values(index).filter((block) => {
     if (!types.includes(block.type)) return false

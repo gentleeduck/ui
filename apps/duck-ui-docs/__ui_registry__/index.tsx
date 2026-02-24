@@ -28,6 +28,7 @@ const _Combobox = dynamic(() => import('@gentleduck/registry-ui-duckui/combobox'
 const _ContextMenu = dynamic(() => import('@gentleduck/registry-ui-duckui/context-menu'), { ssr: false })
 const _Dialog = dynamic(() => import('@gentleduck/registry-ui-duckui/dialog'), { ssr: false })
 const _Drawer = dynamic(() => import('@gentleduck/registry-ui-duckui/drawer'), { ssr: false })
+const _Direction = dynamic(() => import('@gentleduck/registry-ui-duckui/direction'), { ssr: false })
 const _DropdownMenu = dynamic(() => import('@gentleduck/registry-ui-duckui/dropdown-menu'), { ssr: false })
 const _NavigationMenu = dynamic(() => import('@gentleduck/registry-ui-duckui/navigation-menu'), { ssr: false })
 const _HoverCard = dynamic(() => import('@gentleduck/registry-ui-duckui/hover-card'), { ssr: false })
@@ -161,6 +162,7 @@ const _Drawer4 = dynamic(() => import('@gentleduck/registry-examples-duckui/draw
 const _Drawer5 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-5'), { ssr: false })
 const _Drawer6 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-6'), { ssr: false })
 const _Drawer7 = dynamic(() => import('@gentleduck/registry-examples-duckui/drawer/drawer-7'), { ssr: false })
+const _Direction1 = dynamic(() => import('@gentleduck/registry-examples-duckui/direction/direction-1'), { ssr: false })
 const _HoverCard1 = dynamic(() => import('@gentleduck/registry-examples-duckui/hover-card/hover-card-1'), {
   ssr: false,
 })
@@ -1408,6 +1410,26 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'drawer',
   },
+  direction: {
+    name: 'direction',
+    description: '',
+    type: 'registry:ui',
+    registryDependencies: undefined,
+    files: [
+      {
+        path: 'direction/direction.tsx',
+        type: 'registry:ui',
+      },
+      {
+        path: 'direction/index.ts',
+        type: 'registry:ui',
+      },
+    ],
+    component: _Direction,
+    source: '/registry-ui-duckui/src/direction',
+    categories: [],
+    root_folder: 'direction',
+  },
   'dropdown-menu': {
     name: 'dropdown-menu',
     description: '',
@@ -1496,10 +1518,6 @@ export const Index: Record<string, any> = {
     files: [
       {
         path: 'input-otp/index.ts',
-        type: 'registry:ui',
-      },
-      {
-        path: 'input-otp/input-otp.hooks.ts',
         type: 'registry:ui',
       },
       {
@@ -3407,6 +3425,22 @@ export const Index: Record<string, any> = {
     source: '/registry-examples-duckui/src/drawer',
     categories: [],
     root_folder: 'drawer',
+  },
+  'direction-1': {
+    name: 'direction-1',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['direction'],
+    files: [
+      {
+        path: 'direction/direction-1.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Direction1,
+    source: '/registry-examples-duckui/src/direction',
+    categories: [],
+    root_folder: 'direction',
   },
   'hover-card-1': {
     name: 'hover-card-1',
@@ -5700,7 +5734,7 @@ export const Index: Record<string, any> = {
     name: 'input-otp-1',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['input-otp'],
+    registryDependencies: ['input-otp', 'button', 'field'],
     files: [
       {
         path: 'input-otp/input-otp-1.tsx',
@@ -5716,7 +5750,7 @@ export const Index: Record<string, any> = {
     name: 'input-otp-2',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['input-otp'],
+    registryDependencies: ['input-otp', 'button', 'field'],
     files: [
       {
         path: 'input-otp/input-otp-2.tsx',
@@ -5732,7 +5766,7 @@ export const Index: Record<string, any> = {
     name: 'input-otp-3',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['input-otp'],
+    registryDependencies: ['input-otp', 'button', 'field'],
     files: [
       {
         path: 'input-otp/input-otp-3.tsx',
@@ -5748,7 +5782,7 @@ export const Index: Record<string, any> = {
     name: 'input-otp-4',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['input-otp'],
+    registryDependencies: ['input-otp', 'button', 'field'],
     files: [
       {
         path: 'input-otp/input-otp-4.tsx',
@@ -5764,7 +5798,7 @@ export const Index: Record<string, any> = {
     name: 'input-otp-5',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['input-otp'],
+    registryDependencies: ['input-otp', 'button', 'field'],
     files: [
       {
         path: 'input-otp/input-otp-5.tsx',
@@ -5780,7 +5814,7 @@ export const Index: Record<string, any> = {
     name: 'input-otp-6',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['input-otp'],
+    registryDependencies: ['input-otp', 'button', 'field'],
     files: [
       {
         path: 'input-otp/input-otp-6.tsx',
@@ -5796,7 +5830,7 @@ export const Index: Record<string, any> = {
     name: 'input-otp-7',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['input-otp'],
+    registryDependencies: ['input-otp', 'button', 'field'],
     files: [
       {
         path: 'input-otp/input-otp-7.tsx',
