@@ -1,7 +1,6 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
 
-
 const NAME = 'VisuallyHidden'
 
 type VisuallyHiddenElement = React.ComponentRef<typeof Primitive.span>

@@ -1,9 +1,9 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import type { VariantProps } from '@gentleduck/variants'
 import { useMemo } from 'react'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Label } from '../label'
 import { Separator } from '../separator'
 import { fieldVariants } from './field.constants'

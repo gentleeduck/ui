@@ -24,7 +24,7 @@ const ToggleGroup: React.ForwardRefExoticComponent<ToggleGroupProps & React.RefA
         <ToggleGroupContext.Provider value={{ size, variant }}>
           <ToggleGroupPrimitive.Root
             className={cn(
-              'isolate flex items-center justify-center rounded-md *:last:rounded-e-md *:first:rounded-s-md',
+              'isolate flex items-center justify-center rounded-md *:first:rounded-s-md *:last:rounded-e-md',
               variant === 'outline' &&
                 '[&>*:first-child]:border-e-0 [&>*:not(:first-child):not(:last-child)]:border-e-0',
               className,

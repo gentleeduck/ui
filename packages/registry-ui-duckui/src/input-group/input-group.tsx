@@ -1,9 +1,9 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { cva, type VariantProps } from '@gentleduck/variants'
 import * as React from 'react'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Button } from '../button'
 import { Input } from '../input'
 import { Textarea } from '../textarea'

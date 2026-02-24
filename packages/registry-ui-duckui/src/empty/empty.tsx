@@ -1,6 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
-import type { VariantProps } from '@gentleduck/variants'
 import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import type { VariantProps } from '@gentleduck/variants'
 import { emptyMediaVariants } from './empty.constants'
 
 function Empty({ className, ...props }: React.ComponentProps<'div'>) {

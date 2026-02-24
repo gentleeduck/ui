@@ -1,4 +1,3 @@
-
 type FocusableTarget = HTMLElement | { focus(): void }
 
 /**
@@ -91,7 +90,6 @@ function focus(element?: FocusableTarget | null, { select = false } = {}) {
 function removeLinks(items: HTMLElement[]) {
   return items.filter((item) => item.tagName !== 'A')
 }
-
 
 type FocusScopeAPI = { paused: boolean; pause(): void; resume(): void }
 

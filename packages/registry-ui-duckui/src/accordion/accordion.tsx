@@ -1,10 +1,10 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Mount } from '@gentleduck/primitives/mount'
 import { ChevronDown } from 'lucide-react'
 import * as React from 'react'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
 
 const AccordionContext = React.createContext<{
   value: string[]

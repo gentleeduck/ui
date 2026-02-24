@@ -2,7 +2,6 @@ import * as React from 'react'
 import { useComposedRefs } from '../libs/compose-ref'
 import { getComponentRef, usePresence } from './presence.libs'
 
-
 interface PresenceProps {
   children: React.ReactElement | ((props: { present: boolean }) => React.ReactElement)
   present: boolean

@@ -1,9 +1,9 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
 import * as React from 'react'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
 
 export function useTabs() {
   const context = React.useContext(TabsContext)
@@ -36,7 +36,15 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(({ value, defaultValue,
 
   return (
     <TabsContext.Provider value={{ activeItem, setActiveItem }}>
-      <div {...props} aria-orientation="vertical" data-slot="tabs" dir={direction} duck-tabs="" ref={ref} role="tablist" />
+      <div
+        {...props}
+        aria-orientation="vertical"
+        data-slot="tabs"
+        dir={direction}
+        duck-tabs=""
+        ref={ref}
+        role="tablist"
+      />
     </TabsContext.Provider>
   )
 })

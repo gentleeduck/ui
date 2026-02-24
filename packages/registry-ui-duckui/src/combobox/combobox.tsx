@@ -1,6 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
-import React from 'react'
 import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import React from 'react'
 import { Badge } from '../badge'
 import { Button } from '../button'
 import { Checkbox } from '../checkbox'

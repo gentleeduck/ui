@@ -2,15 +2,12 @@ import * as React from 'react'
 import { flushSync } from 'react-dom'
 import { useCallbackRef } from '../hooks/use-callback-ref'
 
-
 export const CONTEXT_UPDATE = 'dismissableLayer.update'
 export const POINTER_DOWN_OUTSIDE = 'dismissableLayer.pointerDownOutside'
 export const FOCUS_OUTSIDE = 'dismissableLayer.focusOutside'
 
-
 export type PointerDownOutsideEvent = CustomEvent<{ originalEvent: PointerEvent }>
 export type FocusOutsideEvent = CustomEvent<{ originalEvent: FocusEvent }>
-
 
 export function usePointerDownOutside(
   onPointerDownOutside?: (event: PointerDownOutsideEvent) => void,
@@ -61,7 +58,6 @@ export function usePointerDownOutside(
   }
 }
 
-
 export function useFocusOutside(
   onFocusOutside?: (event: FocusOutsideEvent) => void,
   ownerDocument: Document = globalThis?.document,
@@ -87,7 +83,6 @@ export function useFocusOutside(
     onBlurCapture: () => (isFocusInsideReactTreeRef.current = false),
   }
 }
-
 
 export function dispatchUpdate() {
   const event = new CustomEvent(CONTEXT_UPDATE)

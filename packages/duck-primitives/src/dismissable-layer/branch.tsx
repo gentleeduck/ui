@@ -3,7 +3,6 @@ import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
 import { DismissableLayerContext } from './dismissable-layer'
 
-
 const BRANCH_NAME = 'DismissableLayerBranch'
 
 type DismissableLayerBranchElement = React.ComponentRef<typeof Primitive.div>

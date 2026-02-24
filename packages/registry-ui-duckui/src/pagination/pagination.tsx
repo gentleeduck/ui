@@ -1,4 +1,5 @@
 import { cn } from '@gentleduck/libs/cn'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import * as PaginationPrimitive from '@gentleduck/primitives/pagination'
 import {
   ChevronLeft,
@@ -11,7 +12,6 @@ import {
 } from 'lucide-react'
 import * as React from 'react'
 import { Button, buttonVariants } from '../button'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import type { DuckPaginationProps, PaginationLinkProps } from './pagination.types'
 
 const Pagination = React.forwardRef<

@@ -3,7 +3,6 @@ import { Portal as PortalPrimitive } from '../portal'
 import { Presence } from '../presence'
 import { createHoverCardContext, type ScopedProps, useHoverCardContext } from './hover-card'
 
-
 const PORTAL_NAME = 'HoverCardPortal'
 
 type PortalContextValue = { forceMount?: true }

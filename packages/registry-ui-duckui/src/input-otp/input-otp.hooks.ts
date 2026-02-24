@@ -1,5 +1,5 @@
-import React from 'react'
 import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import React from 'react'
 import { OTPInputContext } from './input-otp'
 
 export function useOTPInputContext() {

@@ -1,9 +1,9 @@
 'use client'
 
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { useTheme } from 'next-themes'
 import type * as React from 'react'
 import { Toaster as Sonner, type ToasterProps } from 'sonner'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = 'system' } = useTheme()

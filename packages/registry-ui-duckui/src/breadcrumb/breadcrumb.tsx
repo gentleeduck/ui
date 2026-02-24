@@ -1,8 +1,8 @@
 import { cn } from '@gentleduck/libs/cn'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import { ChevronRight, MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
 
 const Breadcrumb = React.forwardRef<
   HTMLElement,

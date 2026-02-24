@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom'
 import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { Primitive } from '../primitive-elements'
 
-
 const PORTAL_NAME = 'Portal'
 
 type PortalElement = React.ComponentRef<typeof Primitive.div>

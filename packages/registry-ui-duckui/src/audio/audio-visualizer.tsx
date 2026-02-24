@@ -1,8 +1,8 @@
 // @ts-noCheck
 
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { useTheme } from 'next-themes'
 import React from 'react'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { useAudioDataProvider } from './audio-record'
 
 export const new_audio = (url: string) => new Audio(url)

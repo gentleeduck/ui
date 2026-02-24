@@ -4,7 +4,6 @@ import type { Point, Polygon } from '../libs/shared-utils'
 import { isPointInPolygon } from '../libs/shared-utils'
 import { createPopperScope } from '../popper'
 
-
 const TOOLTIP_NAME = 'Tooltip'
 
 type ScopedProps<P = {}> = P & { __scopeTooltip?: Scope }
@@ -16,7 +15,6 @@ const TOOLTIP_OPEN = 'tooltip.open'
 
 export { TOOLTIP_NAME, createTooltipContext, createTooltipScope, usePopperScope, TOOLTIP_OPEN }
 export type { ScopedProps }
-
 
 type Side = 'top' | 'right' | 'bottom' | 'left'
 

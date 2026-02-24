@@ -1,9 +1,9 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
 import * as React from 'react'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Button } from '../button'
 
 const CollapsibleContext = React.createContext<{

@@ -1,11 +1,11 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import useEmblaCarousel from 'embla-carousel-react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import * as React from 'react'
 import { Button } from '../button'
-import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import type { CarouselApi, CarouselContextProps, CarouselProps } from './carousel.types'
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null)
@@ -51,7 +51,7 @@ const Carousel = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLDivEleme
     }, [api])
 
     const handleKeyDown = React.useCallback(
-        (event: React.KeyboardEvent<HTMLDivElement>) => {
+      (event: React.KeyboardEvent<HTMLDivElement>) => {
         if ((event.key === 'ArrowLeft' && direction === 'ltr') || (event.key === 'ArrowRight' && direction === 'rtl')) {
           event.preventDefault()
           scrollPrev()

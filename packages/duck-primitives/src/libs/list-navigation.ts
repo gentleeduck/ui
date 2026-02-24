@@ -94,11 +94,11 @@ export function useTypeaheadSearch(
       const nextSearch = handleSearchChange(search, key)
       const resolvedSearch = typeof nextSearch === 'string' ? nextSearch : search
 
-        ; (function updateSearch(value: string) {
-          searchRef.current = value
-          window.clearTimeout(timerRef.current)
-          if (value !== '') timerRef.current = window.setTimeout(() => updateSearch(''), 1000)
-        })(resolvedSearch)
+      ;(function updateSearch(value: string) {
+        searchRef.current = value
+        window.clearTimeout(timerRef.current)
+        if (value !== '') timerRef.current = window.setTimeout(() => updateSearch(''), 1000)
+      })(resolvedSearch)
     },
     [handleSearchChange],
   )
@@ -233,7 +233,7 @@ type VimNavigationOptions = {
 export function useVimNavigation(options: VimNavigationOptions = {}) {
   const { ggTimeoutMs = 300 } = options
   const lastGPressRef = React.useRef(0)
-  const onNavigate = useCallbackRef(options.onNavigate ?? (() => { }))
+  const onNavigate = useCallbackRef(options.onNavigate ?? (() => {}))
 
   const handleVimKey = React.useCallback(
     (event: KeyboardEvent | React.KeyboardEvent, items: HTMLElement[]): boolean => {

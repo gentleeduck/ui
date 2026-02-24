@@ -1,19 +1,21 @@
 import { cn } from '@gentleduck/libs/cn'
-import * as React from 'react'
 import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import * as React from 'react'
 
-const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, dir, ...props }, ref) => {
-  const direction = useDirection(dir as 'ltr' | 'rtl' | undefined)
-  return (
-    <div
-      ref={ref}
-      className={cn('flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm', className)}
-      data-card=""
-      dir={direction}
-      {...props}
-    />
-  )
-})
+const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, dir, ...props }, ref) => {
+    const direction = useDirection(dir as 'ltr' | 'rtl' | undefined)
+    return (
+      <div
+        ref={ref}
+        className={cn('flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm', className)}
+        data-card=""
+        dir={direction}
+        {...props}
+      />
+    )
+  },
+)
 Card.displayName = 'Card'
 
 const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(

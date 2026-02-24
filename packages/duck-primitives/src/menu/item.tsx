@@ -1,8 +1,8 @@
 /** MenuItem component - an interactive item within a menu. */
 import * as React from 'react'
+import { flushSync } from 'react-dom'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
-import { flushSync } from 'react-dom'
 import { Primitive } from '../primitive-elements'
 import * as RovingFocusGroup from '../roving-focus'
 import { useMenuContentContext } from './content'

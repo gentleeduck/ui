@@ -1,23 +1,25 @@
 import { cn } from '@gentleduck/libs/cn'
-import * as React from 'react'
 import { useDirection } from '@gentleduck/primitives/hooks/direction'
+import * as React from 'react'
 
-const Kbd = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<'kbd'>>(({ className, dir, ...props }, ref) => {
-  const direction = useDirection(dir as 'ltr' | 'rtl' | undefined)
-  return (
-    <kbd
-      className={cn(
-        'pointer-events-none inline-flex h-5 w-fit min-w-5 select-none items-center justify-center gap-1 rounded-sm bg-muted px-1 font-medium font-sans text-muted-foreground text-xs',
-        "[&_svg:not([class*='size-'])]:size-3",
-        className,
-      )}
-      data-slot="kbd"
-      dir={direction}
-      ref={ref}
-      {...props}
-    />
-  )
-})
+const Kbd = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<'kbd'>>(
+  ({ className, dir, ...props }, ref) => {
+    const direction = useDirection(dir as 'ltr' | 'rtl' | undefined)
+    return (
+      <kbd
+        className={cn(
+          'pointer-events-none inline-flex h-5 w-fit min-w-5 select-none items-center justify-center gap-1 rounded-sm bg-muted px-1 font-medium font-sans text-muted-foreground text-xs',
+          "[&_svg:not([class*='size-'])]:size-3",
+          className,
+        )}
+        data-slot="kbd"
+        dir={direction}
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
 Kbd.displayName = 'Kbd'
 
 const KbdGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
