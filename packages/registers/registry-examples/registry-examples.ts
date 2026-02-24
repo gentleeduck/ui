@@ -423,4 +423,21 @@ export const registry_examples: RegistryEntry[] = [
     root_folder: 'upload',
     type: 'registry:example',
   },
+  {
+    files: [],
+    name: 'form-examples',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    root_folder: 'form',
+    type: 'registry:example',
+  },
 ]

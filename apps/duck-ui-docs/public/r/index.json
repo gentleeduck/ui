@@ -540,9 +540,8 @@
   },
   {
     "dependencies": [
-      "@gentleduck/primitives",
-      "@gentleduck/libs",
       "@gentleduck/vim",
+      "@gentleduck/libs",
       "lucide-react"
     ],
     "files": [
@@ -1179,10 +1178,6 @@
         "type": "registry:ui"
       },
       {
-        "path": "radio-group/radio-group.hooks.ts",
-        "type": "registry:ui"
-      },
-      {
         "path": "radio-group/radio-group.tsx",
         "type": "registry:ui"
       }
@@ -1198,11 +1193,6 @@
       {
         "name": "index.ts",
         "path": "radio-group/index.ts",
-        "type": "file"
-      },
-      {
-        "name": "radio-group.hooks.ts",
-        "path": "radio-group/radio-group.hooks.ts",
         "type": "file"
       },
       {
@@ -1762,10 +1752,6 @@
         "type": "registry:ui"
       },
       {
-        "path": "toggle-group/toggle-group.hooks.ts",
-        "type": "registry:ui"
-      },
-      {
         "path": "toggle-group/toggle-group.tsx",
         "type": "registry:ui"
       }
@@ -1781,11 +1767,6 @@
       {
         "name": "index.ts",
         "path": "toggle-group/index.ts",
-        "type": "file"
-      },
-      {
-        "name": "toggle-group.hooks.ts",
-        "path": "toggle-group/toggle-group.hooks.ts",
         "type": "file"
       },
       {
@@ -20617,6 +20598,2076 @@
       {
         "name": "upload-5.tsx",
         "path": "upload/upload-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-rhf-array.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-rhf-array",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-rhf-checkbox",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-rhf-complex.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-rhf-complex",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-rhf-demo.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-rhf-demo",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-rhf-input.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-rhf-input",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-rhf-radiogroup",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-rhf-select.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-rhf-select",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-rhf-switch.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-rhf-switch",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-rhf-textarea",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-tanstack-array.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-tanstack-array",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-tanstack-checkbox",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-tanstack-complex",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-tanstack-demo",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-tanstack-input.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-tanstack-input",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-tanstack-radiogroup",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-tanstack-select.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-tanstack-select",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-tanstack-switch",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-tanstack-textarea",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/form",
+    "tree": [
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
         "type": "file"
       }
     ]
