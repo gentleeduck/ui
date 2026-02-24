@@ -367,6 +367,11 @@ export const docsConfig: DocsConfig = {
                   title: 'Progress',
                 },
                 {
+                  href: '/docs/packages/duck-primitives/api/pagination',
+                  items: [],
+                  title: 'Pagination',
+                },
+                {
                   href: '/docs/packages/duck-primitives/api/select',
                   items: [],
                   title: 'Select',

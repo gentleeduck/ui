@@ -1,0 +1,42 @@
+import * as React from 'react'
+import type { Direction } from '../hooks/use-direction'
+import { useDirection } from '../hooks/use-direction'
+import type { Scope } from '../libs/create-context'
+import { createContextScope } from '../libs/create-context'
+import { Primitive } from '../primitive-elements'
+
+const PAGINATION_NAME = 'Pagination'
+
+type ScopedProps<P> = P & { __scopePagination?: Scope }
+const [createPaginationContext, createPaginationScope] = createContextScope(PAGINATION_NAME)
+
+type PaginationContextValue = { dir: Direction }
+const [PaginationProvider, usePaginationContext] = createPaginationContext<PaginationContextValue>(PAGINATION_NAME)
+
+type PaginationElement = React.ComponentRef<typeof Primitive.nav>
+interface PaginationProps extends React.ComponentPropsWithoutRef<typeof Primitive.nav> {
+  dir?: Direction
+}
+
+const Pagination = React.forwardRef<PaginationElement, PaginationProps>(
+  (props: ScopedProps<PaginationProps>, forwardedRef) => {
+    const { __scopePagination, dir, ...paginationProps } = props
+    const direction = useDirection(dir)
+    return (
+      <PaginationProvider scope={__scopePagination} dir={direction}>
+        <Primitive.nav
+          data-slot="pagination"
+          dir={direction}
+          {...paginationProps}
+          aria-label={paginationProps['aria-label'] ?? 'pagination'}
+          ref={forwardedRef}
+        />
+      </PaginationProvider>
+    )
+  },
+)
+
+Pagination.displayName = PAGINATION_NAME
+
+export { PAGINATION_NAME, createPaginationScope, PaginationProvider, usePaginationContext, Pagination }
+export type { ScopedProps, PaginationProps, PaginationContextValue }

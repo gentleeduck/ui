@@ -28,35 +28,22 @@ interface RadioGroupItemProps extends PrimitiveButtonProps {
    * The unique value for this radio item.
    */
   value: string
+  /**
+   * Optional text used for typeahead keyboard navigation.
+   * Falls back to `aria-label`, then `value` when omitted.
+   */
+  textValue?: string
 }
 
 const RadioGroupItem = React.forwardRef<RadioGroupItemElement, RadioGroupItemProps>(
   (props: ScopedProps<RadioGroupItemProps>, forwardedRef) => {
-    const { __scopeRadioGroup, value, disabled: disabledProp, ...itemProps } = props
+    const { __scopeRadioGroup, value, textValue, disabled: disabledProp, ...itemProps } = props
     const context = useRadioGroupContext(ITEM_NAME, __scopeRadioGroup)
     const rovingFocusGroupScope = useRovingFocusGroupScope(__scopeRadioGroup)
     const checked = context.value === value
     const disabled = context.disabled || disabledProp || false
     const ref = React.useRef<RadioGroupItemElement>(null)
     const composedRefs = useComposedRefs(forwardedRef, ref)
-    const isArrowKeyPressedRef = React.useRef(false)
-
-    React.useEffect(() => {
-      const handleKeyDown = (event: KeyboardEvent) => {
-        if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(event.key)) {
-          isArrowKeyPressedRef.current = true
-        }
-      }
-      const handleKeyUp = () => {
-        isArrowKeyPressedRef.current = false
-      }
-      document.addEventListener('keydown', handleKeyDown)
-      document.addEventListener('keyup', handleKeyUp)
-      return () => {
-        document.removeEventListener('keydown', handleKeyDown)
-        document.removeEventListener('keyup', handleKeyUp)
-      }
-    }, [])
 
     return (
       <RadioGroupItemProvider scope={__scopeRadioGroup as Scope} checked={checked} disabled={disabled}>
@@ -71,6 +58,8 @@ const RadioGroupItem = React.forwardRef<RadioGroupItemElement, RadioGroupItemPro
             disabled={disabled}
             dir={context.dir}
             {...itemProps}
+            data-value={value}
+            data-text-value={textValue}
             ref={composedRefs}
             onClick={composeEventHandlers(props.onClick, () => {
               if (!checked) {
@@ -78,8 +67,8 @@ const RadioGroupItem = React.forwardRef<RadioGroupItemElement, RadioGroupItemPro
               }
             })}
             onFocus={composeEventHandlers(props.onFocus, () => {
-              // When focus moves via arrow keys, auto-select this item
-              if (isArrowKeyPressedRef.current) {
+              // When focus moves via keyboard navigation keys, auto-select this item.
+              if (context.isNavigationKeyPressedRef.current) {
                 context.onValueChange(value)
               }
             })}

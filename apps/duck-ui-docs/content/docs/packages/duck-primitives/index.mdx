@@ -61,6 +61,7 @@ gentleduck/primitives gives you production-ready behavior out of the box:
 | Primitive | Description | Import |
 | --- | --- | --- |
 | [Progress](/docs/packages/duck-primitives/api/progress) | Progress bar with determinate/indeterminate states | `@gentleduck/primitives/progress` |
+| [Pagination](/docs/packages/duck-primitives/api/pagination) | Structural pagination primitives with direction-aware context | `@gentleduck/primitives/pagination` |
 
 ### Infrastructure
 
@@ -99,6 +100,7 @@ gentleduck/primitives gives you production-ready behavior out of the box:
     MN --> CM[Context Menu]
     MN --> MB[Menubar]
     PE --> PG[Progress]
+    PE --> PN[Pagination]
 `} />
 
 Higher-level primitives compose lower-level ones. Dialog uses Dismissable Layer, Focus Scope, Presence, and Portal. Menu uses Popper for positioning. You can use any layer directly.

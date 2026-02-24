@@ -220,7 +220,7 @@ export const registry_ui: RegistryEntry[] = [
     type: 'registry:ui',
   },
   {
-    dependencies: ['@gentleduck/libs'],
+    dependencies: ['@gentleduck/libs', '@gentleduck/primitives'],
     files: [],
     name: 'pagination',
     registryDependencies: ['button'],

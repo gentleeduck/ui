@@ -27,7 +27,7 @@ function toFieldErrors(errors: unknown[]) {
       }
       return undefined
     })
-    .filter((error): error is { message?: string } => Boolean(error))
+    .filter((error): error is { message: string | undefined } => Boolean(error))
 }
 
 export default function FormTanStackInput() {

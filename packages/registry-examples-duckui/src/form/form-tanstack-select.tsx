@@ -20,25 +20,35 @@ const formSchema = z.object({
   }),
 })
 
+type FormValues = z.infer<typeof formSchema>
+
+function hasMessage(error: unknown): error is { message: unknown } {
+  return typeof error === 'object' && error !== null && 'message' in error
+}
+
+function isLanguage(value: string): value is FormValues['language'] {
+  return value === 'auto' || value === 'en' || value === 'es'
+}
+
 function toFieldErrors(errors: unknown[]) {
   return errors
     .map((error) => {
       if (typeof error === 'string') {
         return { message: error }
       }
-      if (error && typeof error === 'object' && 'message' in error) {
-        const message = (error as { message?: unknown }).message
+      if (hasMessage(error)) {
+        const message = error.message
         return { message: typeof message === 'string' ? message : undefined }
       }
       return undefined
     })
-    .filter((error): error is { message?: string } => Boolean(error))
+    .filter((error): error is { message: string | undefined } => Boolean(error))
 }
 
 export default function FormTanStackSelect() {
-  const form = useForm({
+  const form = useForm<FormValues>({
     defaultValues: {
-      language: 'auto' as const,
+      language: 'auto',
     },
     onSubmit: async ({ value }) => {
       toast.success('Language updated', {
@@ -74,7 +84,14 @@ export default function FormTanStackSelect() {
                   <FieldDescription>For best results, select the language you speak.</FieldDescription>
                   {isInvalid && <FieldError errors={toFieldErrors(field.state.meta.errors)} />}
                 </FieldContent>
-                <Select name={field.name} value={field.state.value} onValueChange={field.handleChange}>
+                <Select
+                  name={field.name}
+                  value={field.state.value}
+                  onValueChange={(nextValue) => {
+                    if (isLanguage(nextValue)) {
+                      field.handleChange(nextValue)
+                    }
+                  }}>
                   <SelectTrigger id="form-tanstack-select-language" aria-invalid={isInvalid} className="min-w-[120px]">
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>

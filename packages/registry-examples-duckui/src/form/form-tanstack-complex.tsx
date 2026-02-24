@@ -39,27 +39,41 @@ const formSchema = z.object({
   twoFactor: z.boolean(),
 })
 
+type FormValues = z.infer<typeof formSchema>
+
+function hasMessage(error: unknown): error is { message: unknown } {
+  return typeof error === 'object' && error !== null && 'message' in error
+}
+
+function isLanguage(value: string): value is FormValues['language'] {
+  return value === 'auto' || value === 'en' || value === 'es'
+}
+
+function isPlan(value: string): value is FormValues['plan'] {
+  return value === 'free' || value === 'pro' || value === 'enterprise'
+}
+
 function toFieldErrors(errors: unknown[]) {
   return errors
     .map((error) => {
       if (typeof error === 'string') {
         return { message: error }
       }
-      if (error && typeof error === 'object' && 'message' in error) {
-        const message = (error as { message?: unknown }).message
+      if (hasMessage(error)) {
+        const message = error.message
         return { message: typeof message === 'string' ? message : undefined }
       }
       return undefined
     })
-    .filter((error): error is { message?: string } => Boolean(error))
+    .filter((error): error is { message: string | undefined } => Boolean(error))
 }
 
 export default function FormTanStackComplex() {
-  const form = useForm({
+  const form = useForm<FormValues>({
     defaultValues: {
       description: '',
-      language: 'auto' as const,
-      plan: 'free' as const,
+      language: 'auto',
+      plan: 'free',
       title: '',
       twoFactor: true,
     },
@@ -144,7 +158,14 @@ export default function FormTanStackComplex() {
                   <FieldDescription>Pick your preferred language for notifications.</FieldDescription>
                   {isInvalid && <FieldError errors={toFieldErrors(field.state.meta.errors)} />}
                 </FieldContent>
-                <Select name={field.name} value={field.state.value} onValueChange={field.handleChange}>
+                <Select
+                  name={field.name}
+                  value={field.state.value}
+                  onValueChange={(nextValue) => {
+                    if (isLanguage(nextValue)) {
+                      field.handleChange(nextValue)
+                    }
+                  }}>
                   <SelectTrigger id="form-tanstack-complex-language" aria-invalid={isInvalid} className="min-w-[180px]">
                     <SelectValue placeholder="Select" />
                   </SelectTrigger>
@@ -164,10 +185,17 @@ export default function FormTanStackComplex() {
           children={(field) => {
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
             return (
-              <FieldSet>
-                <FieldLegend>Support plan</FieldLegend>
-                <FieldDescription>Select the support response tier for this project.</FieldDescription>
-                <RadioGroup name={field.name} value={field.state.value} onValueChange={field.handleChange}>
+                <FieldSet>
+                  <FieldLegend>Support plan</FieldLegend>
+                  <FieldDescription>Select the support response tier for this project.</FieldDescription>
+                <RadioGroup
+                  name={field.name}
+                  value={field.state.value}
+                  onValueChange={(nextValue) => {
+                    if (isPlan(nextValue)) {
+                      field.handleChange(nextValue)
+                    }
+                  }}>
                   {plans.map((plan) => (
                     <FieldLabel htmlFor={`form-tanstack-complex-plan-${plan.id}`} key={plan.id}>
                       <Field orientation="horizontal" data-invalid={isInvalid}>

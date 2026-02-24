@@ -25,13 +25,16 @@ const RadioGroupItem = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> & {
     indicator?: React.ReactElement
     checkedIndicator?: React.ReactElement
+    textValue?: string
   }
->(({ className, indicator, checkedIndicator, children, ...props }, ref) => {
+>(({ className, indicator, checkedIndicator, children, textValue, ...props }, ref) => {
   const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
     checkedIndicator,
     indicator,
   })
   const itemRef = React.useRef<HTMLButtonElement>(null)
+  const resolvedTextValue =
+    textValue ?? (typeof children === 'string' || typeof children === 'number' ? String(children) : undefined)
 
   const indicatorStateClass =
     indicatorReady && checkedIndicatorReady
@@ -47,11 +50,11 @@ const RadioGroupItem = React.forwardRef<
       <RadioGroupPrimitive.Item
         className={cn(
           // Base radio styles (uses data-[state=checked]: instead of checked: for button elements)
-          'appearance-none relative p-2 size-[1em] flex items-center rounded-full m-0',
-          'border bg-border border-border data-[state=checked]:bg-primary data-[state=checked]:border-primary text-primary-foreground',
+          'relative m-0 flex size-[1em] appearance-none items-center rounded-full p-2',
+          'border border-border bg-border text-primary-foreground data-[state=checked]:border-primary data-[state=checked]:bg-primary',
           'ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
           'data-disabled:cursor-not-allowed data-disabled:opacity-50',
-          'after:absolute after:drop-shadow after:bg-current after:size-[1em] after:rounded-[inherit] after:block after:mask-type-alpha after:mask-contain',
+          'after:mask-type-alpha after:mask-contain after:absolute after:block after:size-[1em] after:rounded-[inherit] after:bg-current after:drop-shadow',
           'after:opacity-0 data-[state=checked]:after:opacity-100',
           // Radio-specific indicator
           'justify-center after:text-[10px]',
@@ -70,12 +73,13 @@ const RadioGroupItem = React.forwardRef<
           else if (ref) (ref as React.MutableRefObject<HTMLButtonElement | null>).current = node
         }}
         style={inputStyle}
+        data-text-value={resolvedTextValue}
         {...props}
       />
       <SvgIndicator className="sr-only" />
       {children && (
         <label
-          className="font-normal text-base cursor-pointer"
+          className="cursor-pointer font-normal text-base"
           data-slot="radio-label"
           onClick={() => itemRef.current?.click()}>
           {children}

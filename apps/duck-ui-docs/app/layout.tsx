@@ -9,7 +9,7 @@ import { TooltipProvider } from '@gentleduck/registry-ui-duckui/tooltip'
 import { KeyProvider } from '@gentleduck/vim/react'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import { Geist_Mono, Montserrat } from 'next/font/google'
+import { Geist, Geist_Mono } from 'next/font/google'
 import { DocsAppProvider } from '~/components/docs-provider'
 import { ThemeWrapper } from '~/components/themes'
 import { docsConfig } from '~/config/docs'
@@ -17,7 +17,7 @@ import { METADATA } from '~/config/metadata'
 import { META_THEME_COLORS, siteConfig } from '~/config/site'
 import { docs } from '../.velite'
 
-const geistSans = Montserrat({
+const geistSans = Geist({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-geist-sans',
