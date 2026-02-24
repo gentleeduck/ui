@@ -1,31 +1,22 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import * as TogglePrimitive from '@gentleduck/primitives/toggle'
 import type { VariantProps } from '@gentleduck/variants'
 import * as React from 'react'
 import { toggleVariants } from './toggle.constants'
 
 const Toggle = React.forwardRef<
-  HTMLInputElement,
-  Omit<Omit<React.HTMLProps<HTMLInputElement>, 'size'>, 'ref'> & VariantProps<typeof toggleVariants>
->(({ className, value, variant = 'default', size = 'default', disabled = false, children, ...props }, ref) => {
+  React.ComponentRef<typeof TogglePrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof TogglePrimitive.Root> & VariantProps<typeof toggleVariants>
+>(({ className, variant = 'default', size = 'default', ...props }, ref) => {
   return (
-    <label
+    <TogglePrimitive.Root
       className={cn(toggleVariants({ className, size, variant }))}
       data-slot="toggle"
-      data-value={value}
-      duck-toggle="">
-      <input
-        className="invisible absolute hidden"
-        disabled={disabled}
-        ref={ref}
-        type="checkbox"
-        value={value}
-        {...props}
-      />
-
-      {children}
-    </label>
+      ref={ref}
+      {...props}
+    />
   )
 })
 Toggle.displayName = 'Toggle'
