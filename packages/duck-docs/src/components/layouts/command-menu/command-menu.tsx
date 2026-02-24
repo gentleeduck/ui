@@ -13,7 +13,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-  useCommandRefsContext,
+  useCommandListContext,
 } from '@gentleduck/registry-ui-duckui/command'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { useKeyCommands } from '@gentleduck/vim/react'
@@ -144,7 +144,7 @@ export function CommandMenu() {
 }
 
 function CommandFooter() {
-  const { selectedItem } = useCommandRefsContext()
+  const { selectedItem } = useCommandListContext()
   const docsConfig = useDocsConfig()
   const sidebarItems = docsConfig.sidebarNav.flatMap((group) => flattenSidebarItems(group.items ?? []))
   const selectedNavItem = sidebarItems.find((item) => item.title === selectedItem?.innerText)
