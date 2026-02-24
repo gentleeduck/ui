@@ -1,3 +1,5 @@
+export type SidebarDirection = 'ltr' | 'rtl'
+
 export type SidebarContextProps = {
   state: 'expanded' | 'collapsed'
   open: boolean
@@ -6,4 +8,5 @@ export type SidebarContextProps = {
   setOpenMobile: (open: boolean) => void
   isMobile: boolean
   toggleSidebar: () => void
+  dir: SidebarDirection
 }

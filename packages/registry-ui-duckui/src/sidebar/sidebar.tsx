@@ -13,7 +13,7 @@ import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '
 import { Skeleton } from '../skeleton'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../tooltip'
 import { SidebarContext, useSidebar } from './sidebar.hooks'
-import type { SidebarContextProps } from './sidebar.types'
+import type { SidebarContextProps, SidebarDirection } from './sidebar.types'
 
 const SIDEBAR_COOKIE_NAME = 'sidebar_state'
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
@@ -21,22 +21,37 @@ const SIDEBAR_WIDTH = '16rem'
 const SIDEBAR_WIDTH_MOBILE = '18rem'
 const SIDEBAR_WIDTH_ICON = '3rem'
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b'
+const DEFAULT_SIDEBAR_DIRECTION: SidebarDirection = 'ltr'
+
+type SidebarProviderProps = Omit<React.ComponentProps<'div'>, 'dir'> & {
+  defaultOpen?: boolean
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
+  dir?: SidebarDirection
+}
+
+type SidebarProps = Omit<React.ComponentProps<'div'>, 'dir'> & {
+  side?: 'left' | 'right'
+  variant?: 'sidebar' | 'floating' | 'inset'
+  collapsible?: 'offcanvas' | 'icon' | 'none'
+  dir?: SidebarDirection
+  mobileTitle?: string
+  mobileDescription?: string
+}
 
 function SidebarProvider({
   defaultOpen = true,
   open: openProp,
   onOpenChange: setOpenProp,
+  dir: dirProp,
   className,
   style,
   children,
   ...props
-}: React.ComponentProps<'div'> & {
-  defaultOpen?: boolean
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
-}) {
+}: SidebarProviderProps) {
   const isMobile = useIsMobile()
   const [openMobile, setOpenMobile] = React.useState(false)
+  const direction = dirProp ?? DEFAULT_SIDEBAR_DIRECTION
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
@@ -88,8 +103,9 @@ function SidebarProvider({
       openMobile,
       setOpenMobile,
       toggleSidebar,
+      dir: direction,
     }),
-    [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar],
+    [state, open, setOpen, isMobile, openMobile, setOpenMobile, toggleSidebar, direction],
   )
 
   return (
@@ -103,6 +119,7 @@ function SidebarProvider({
             ...style,
           } as React.CSSProperties
         }
+        dir={direction}
         className={cn('group/sidebar-wrapper flex min-h-svh w-full has-data-[variant=inset]:bg-sidebar', className)}
         {...props}>
         {children}
@@ -117,22 +134,18 @@ function Sidebar({
   collapsible = 'offcanvas',
   className,
   children,
-  dir,
+  dir: dirProp,
   mobileTitle = 'Sidebar',
   mobileDescription = 'Displays the mobile sidebar.',
   ...props
-}: React.ComponentProps<'div'> & {
-  side?: 'left' | 'right'
-  variant?: 'sidebar' | 'floating' | 'inset'
-  collapsible?: 'offcanvas' | 'icon' | 'none'
-  mobileTitle?: string
-  mobileDescription?: string
-}) {
-  const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
+}: SidebarProps) {
+  const { isMobile, state, openMobile, setOpenMobile, dir: contextDir } = useSidebar()
+  const direction = dirProp ?? contextDir
 
   if (collapsible === 'none') {
     return (
       <div
+        dir={direction}
         data-slot="sidebar"
         className={cn('flex h-full w-(--sidebar-width) flex-col bg-sidebar text-sidebar-foreground', className)}
         {...props}>
@@ -143,9 +156,9 @@ function Sidebar({
 
   if (isMobile) {
     return (
-      <Sheet open={openMobile} onOpenChange={setOpenMobile} {...props}>
+      <Sheet dir={direction} open={openMobile} onOpenChange={setOpenMobile} {...props}>
         <SheetContent
-          dir={dir}
+          dir={direction}
           data-sidebar="sidebar"
           data-slot="sidebar"
           data-mobile="true"
@@ -168,6 +181,7 @@ function Sidebar({
 
   return (
     <div
+      dir={direction}
       className="group peer hidden text-sidebar-foreground md:block"
       data-state={state}
       data-collapsible={state === 'collapsed' ? collapsible : ''}
@@ -460,7 +474,8 @@ function SidebarMenuButton({
   tooltip?: string | React.ComponentProps<typeof TooltipContent>
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
   const Comp = asChild ? Slot : 'button'
-  const { isMobile, state } = useSidebar()
+  const { isMobile, state, dir } = useSidebar()
+  const fallbackTooltipSide = dir === 'rtl' ? 'left' : 'right'
 
   const button = (
     <Comp
@@ -477,16 +492,17 @@ function SidebarMenuButton({
     return button
   }
 
-  if (typeof tooltip === 'string') {
-    tooltip = {
-      children: tooltip,
-    }
-  }
+  const tooltipProps = typeof tooltip === 'string' ? { children: tooltip } : tooltip
 
   return (
-    <Tooltip>
+    <Tooltip dir={dir}>
       <TooltipTrigger asChild>{button}</TooltipTrigger>
-      <TooltipContent side="right" align="center" hidden={state !== 'collapsed' || isMobile} {...tooltip} />
+      <TooltipContent
+        side={fallbackTooltipSide}
+        align="center"
+        hidden={state !== 'collapsed' || isMobile}
+        {...tooltipProps}
+      />
     </Tooltip>
   )
 }
