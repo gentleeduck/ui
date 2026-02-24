@@ -2,6 +2,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { Slot } from '@gentleduck/primitives/slot'
 import type { VariantProps } from '@gentleduck/variants'
 import * as React from 'react'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Separator } from '../separator'
 import { buttonGroupVariants } from './button-group.constants'
 
@@ -9,11 +10,13 @@ const ButtonGroup = React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<'div'> & VariantProps<typeof buttonGroupVariants>
 >(({ className, orientation = 'horizontal', ...props }, ref) => {
+  const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
   return (
     <div
       className={cn(buttonGroupVariants({ orientation }), className)}
       data-orientation={orientation}
       data-slot="button-group"
+      dir={direction}
       ref={ref}
       role="group"
       {...props}

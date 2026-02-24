@@ -3,6 +3,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { MountMinimal } from '@gentleduck/primitives/mount'
 import * as React from 'react'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Button } from '../button'
 
 const CollapsibleContext = React.createContext<{
@@ -30,6 +31,7 @@ const Collapsible = React.forwardRef<
     defaultOpen?: boolean
   }
 >(({ children, className, open: openProp, onOpenChange, defaultOpen, ...props }, ref) => {
+  const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
@@ -61,6 +63,7 @@ const Collapsible = React.forwardRef<
       value={{ contentId, contentRef, onOpenChange: handleOpenChange, open, triggerRef, wrapperRef }}>
       <div
         className={cn('flex flex-col gap-2', className)}
+        dir={direction}
         data-slot="collapsible"
         duck-collapsible=""
         ref={(node) => {

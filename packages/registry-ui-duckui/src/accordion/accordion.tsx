@@ -4,6 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { Mount } from '@gentleduck/primitives/mount'
 import { ChevronDown } from 'lucide-react'
 import * as React from 'react'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 
 const AccordionContext = React.createContext<{
   value: string[]
@@ -47,6 +48,7 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
     },
     ref,
   ) => {
+    const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
     const wrapperRef = React.useRef<HTMLDivElement | null>(null)
     const itemsRef = React.useRef<HTMLDetailsElement[]>([])
 
@@ -131,6 +133,7 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
         }}>
         <div
           className={cn('min-w-100 [interpolate-size:allow-keywords]', className)}
+          dir={direction}
           {...props}
           data-slot="accordion"
           ref={(node) => {

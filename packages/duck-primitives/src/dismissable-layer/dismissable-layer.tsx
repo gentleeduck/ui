@@ -14,13 +14,6 @@ import {
 
 export type { FocusOutsideEvent, PointerDownOutsideEvent } from './dismissable-layer.libs'
 
-/* -------------------------------------------------------------------------------------------------
- * DismissableLayer
- *
- * A layer that can be dismissed by pressing Escape, clicking outside, or focusing outside.
- * Manages a stack of layers so only the topmost layer handles dismiss events.
- * Optionally disables pointer events on elements behind the layer.
- * -----------------------------------------------------------------------------------------------*/
 
 const DISMISSABLE_LAYER_NAME = 'DismissableLayer'
 

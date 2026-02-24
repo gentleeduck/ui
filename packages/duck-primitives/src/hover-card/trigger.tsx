@@ -4,9 +4,6 @@ import * as PopperPrimitive from '../popper'
 import { Primitive } from '../primitive-elements'
 import { type ScopedProps, useHoverCardContext, usePopperScope } from './hover-card'
 
-/* -------------------------------------------------------------------------------------------------
- * HoverCardTrigger
- * -------------------------------------------------------------------------------------------------*/
 
 const TRIGGER_NAME = 'HoverCardTrigger'
 
@@ -42,9 +39,6 @@ export const HoverCardTrigger = React.forwardRef<HoverCardTriggerElement, HoverC
 
 HoverCardTrigger.displayName = TRIGGER_NAME
 
-/* -------------------------------------------------------------------------------------------------
- * excludeTouch
- * -------------------------------------------------------------------------------------------------*/
 
 /** Wraps an event handler so it is skipped for touch pointer events. */
 export function excludeTouch<E>(eventHandler: () => void) {

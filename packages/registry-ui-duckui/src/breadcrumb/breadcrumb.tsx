@@ -2,6 +2,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { Slot } from '@gentleduck/primitives/slot'
 import { ChevronRight, MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 
 const Breadcrumb = React.forwardRef<
   HTMLElement,
@@ -9,7 +10,8 @@ const Breadcrumb = React.forwardRef<
     separator?: React.ReactNode
   }
 >(({ ...props }, ref) => {
-  return <nav ref={ref} {...props} aria-label="breadcrumb" duck-breadcrumb="" />
+  const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
+  return <nav ref={ref} {...props} aria-label="breadcrumb" dir={direction} duck-breadcrumb="" />
 })
 Breadcrumb.displayName = 'Breadcrumb'
 
@@ -17,7 +19,7 @@ const BreadcrumbList = React.forwardRef<HTMLOListElement, React.ComponentPropsWi
   ({ className, ...props }, ref) => (
     <ol
       className={cn(
-        'flex flex-wrap items-center gap-1.5 break-words text-muted-foreground text-sm sm:gap-2.5',
+        'wrap-break-word flex flex-wrap items-center gap-1.5 text-muted-foreground text-sm sm:gap-2.5',
         className,
       )}
       ref={ref}

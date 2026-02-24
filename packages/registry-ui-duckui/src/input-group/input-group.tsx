@@ -3,12 +3,14 @@
 import { cn } from '@gentleduck/libs/cn'
 import { cva, type VariantProps } from '@gentleduck/variants'
 import * as React from 'react'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Button } from '../button'
 import { Input } from '../input'
 import { Textarea } from '../textarea'
 
 const InputGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
   ({ className, ...props }, ref) => {
+    const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
     return (
       <div
         className={cn(
@@ -30,6 +32,7 @@ const InputGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutR
           className,
         )}
         data-slot="input-group"
+        dir={direction}
         ref={ref}
         role="group"
         {...props}

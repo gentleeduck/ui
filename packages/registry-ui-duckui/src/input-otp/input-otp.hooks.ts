@@ -1,4 +1,5 @@
 import React from 'react'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { OTPInputContext } from './input-otp'
 
 export function useOTPInputContext() {
@@ -14,11 +15,11 @@ export function useInputOTPInit(
   onValueChange?: (value: string) => void,
   pattern: RegExp = /^[\w\d\p{P}\p{S}]$/u,
 ) {
+  const dir = useDirection()
   const inputsRef = React.useRef<HTMLInputElement[]>([])
   const wrapperRef = React.useRef<HTMLDivElement>(null)
 
   React.useEffect(() => {
-    const html = document.documentElement
     const wrapper = wrapperRef.current
     if (!wrapper) return
 
@@ -54,16 +55,13 @@ export function useInputOTPInit(
         // navigation keys
         if (
           e.key === 'Backspace' ||
-          (e.key === 'ArrowLeft' && html.getAttribute('dir') === 'ltr') ||
-          (e.key === 'ArrowRight' && html.getAttribute('dir') === 'rtl')
+          (e.key === 'ArrowLeft' && dir === 'ltr') ||
+          (e.key === 'ArrowRight' && dir === 'rtl')
         ) {
           setTimeout(() => inputs[i - 1]?.focus(), 0)
         }
 
-        if (
-          (e.key === 'ArrowLeft' && html.getAttribute('dir') === 'rtl') ||
-          (e.key === 'ArrowRight' && (html.getAttribute('dir') === 'ltr' || html.getAttribute('dir') === null))
-        ) {
+        if ((e.key === 'ArrowLeft' && dir === 'rtl') || (e.key === 'ArrowRight' && dir === 'ltr')) {
           setTimeout(() => inputs[i + 1]?.focus(), 0)
         }
 
@@ -107,7 +105,7 @@ export function useInputOTPInit(
     return () => {
       for (const fn of cleanup) fn()
     }
-  }, [value, onValueChange, pattern])
+  }, [value, onValueChange, pattern, dir])
 
   return { inputsRef, wrapperRef }
 }

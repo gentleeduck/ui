@@ -1,7 +1,9 @@
 import { cn } from '@gentleduck/libs/cn'
 import * as React from 'react'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 
-const Kbd = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<'kbd'>>(({ className, ...props }, ref) => {
+const Kbd = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<'kbd'>>(({ className, dir, ...props }, ref) => {
+  const direction = useDirection(dir as 'ltr' | 'rtl' | undefined)
   return (
     <kbd
       className={cn(
@@ -10,6 +12,7 @@ const Kbd = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<'kbd'>>
         className,
       )}
       data-slot="kbd"
+      dir={direction}
       ref={ref}
       {...props}
     />

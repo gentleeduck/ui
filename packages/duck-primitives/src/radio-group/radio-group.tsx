@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useControllableState } from '../hooks/use-controllable-state'
-import type { Direction } from '../hooks/use-direction'
-import { useDirection } from '../hooks/use-direction'
+import type { Direction } from '../hooks/direction'
+import { useDirection } from '../hooks/direction'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
@@ -46,9 +46,6 @@ type RadioGroupContextValue = {
 
 const [RadioGroupProvider, useRadioGroupContext] = createRadioGroupContext<RadioGroupContextValue>(RADIO_GROUP_NAME)
 
-/* -------------------------------------------------------------------------------------------------
- * RadioGroup
- * -----------------------------------------------------------------------------------------------*/
 
 type RadioGroupElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>

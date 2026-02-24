@@ -3,9 +3,6 @@ import { Portal as PortalPrimitive } from '../portal'
 import { Presence } from '../presence'
 import { createHoverCardContext, type ScopedProps, useHoverCardContext } from './hover-card'
 
-/* -------------------------------------------------------------------------------------------------
- * HoverCardPortal
- * -------------------------------------------------------------------------------------------------*/
 
 const PORTAL_NAME = 'HoverCardPortal'
 

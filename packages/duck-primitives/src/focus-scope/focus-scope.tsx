@@ -11,13 +11,6 @@ import {
   removeLinks,
 } from './focus-scope.libs'
 
-/* -------------------------------------------------------------------------------------------------
- * FocusScope
- *
- * Traps and/or loops keyboard focus within a container element.
- * Supports auto-focus on mount and unmount, and manages a stack of
- * nested scopes so only the topmost scope actively traps focus.
- * -----------------------------------------------------------------------------------------------*/
 
 const AUTOFOCUS_ON_MOUNT = 'focusScope.autoFocusOnMount'
 const AUTOFOCUS_ON_UNMOUNT = 'focusScope.autoFocusOnUnmount'

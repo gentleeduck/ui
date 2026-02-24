@@ -1,12 +1,5 @@
 import * as React from 'react'
 
-/* -------------------------------------------------------------------------------------------------
- * createContext
- *
- * Creates a Provider and a useContext hook pair. If no default value is given,
- * the context is required -- using it outside the Provider throws an error.
- * The Provider automatically memoizes the value based on prop values.
- * -----------------------------------------------------------------------------------------------*/
 
 function createContext<ContextValueType extends object | null>(
   rootComponentName: string,
@@ -33,16 +26,6 @@ function createContext<ContextValueType extends object | null>(
   return [Provider, useContext] as const
 }
 
-/* -------------------------------------------------------------------------------------------------
- * createContextScope
- *
- * Creates a scoped context system that supports multiple independent instances
- * of the same component tree. Each scope gets its own set of React contexts,
- * enabling composition without cross-talk (e.g., nested Popovers).
- *
- * Also supports dependency injection: a component scope can depend on a parent
- * scope (e.g., Popover depends on Popper scope for positioning).
- * -----------------------------------------------------------------------------------------------*/
 
 type Scope<C = any> = { [scopeName: string]: React.Context<C>[] } | undefined
 type ScopeHook = (scope: Scope) => { [__scopeProp: string]: Scope }
@@ -99,12 +82,6 @@ function createContextScope(scopeName: string, createContextScopeDeps: CreateSco
   return [createContext, composeContextScopes(createScope, ...createContextScopeDeps)] as const
 }
 
-/* -------------------------------------------------------------------------------------------------
- * composeContextScopes
- *
- * Merges multiple CreateScope functions into one. The resulting scope hook
- * combines all scope maps, enabling a component to depend on multiple parents.
- * -----------------------------------------------------------------------------------------------*/
 
 function composeContextScopes(...scopes: [CreateScope, ...CreateScope[]]): CreateScope {
   const baseScope = scopes[0]

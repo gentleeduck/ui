@@ -65,8 +65,6 @@ export const AlertDialogContent = React.forwardRef<AlertDialogContentElement, Al
 
 AlertDialogContent.displayName = CONTENT_NAME
 
-/* ---------------------------------------------------------------------------------------------- */
-
 type DescriptionWarningProps = {
   contentRef: React.RefObject<AlertDialogContentElement | null>
 }

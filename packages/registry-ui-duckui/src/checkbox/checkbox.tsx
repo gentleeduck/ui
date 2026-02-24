@@ -4,6 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { checkersStylePattern } from '@gentleduck/motion/anim'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
 import * as React from 'react'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Label } from '../label'
 import type { CheckboxGroupProps, CheckboxProps, CheckboxWithLabelProps, CheckedState } from './checkbox.types'
 
@@ -21,6 +22,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
     },
     ref,
   ) => {
+    const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
     const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
       checkedIndicator,
       indicator,
@@ -67,7 +69,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             '[&:before,&:after]:transition-gpu [&:before,&:after]:duration-[inherit] [&:before,&:after]:ease-[inherit] [&:before,&:after]:will-change-[inherit]',
             (indicatorReady && checkedIndicatorReady) || indicatorReady
               ? ''
-              : 'after:mb-0.5 after:h-[9px] after:w-[4px] after:rotate-45 after:border-[1.5px] after:border-t-0 after:border-l-0 after:bg-transparent',
+              : 'after:mb-0.5 after:h-2.25 after:w-1 after:rotate-45 after:border-[1.5px] after:border-t-0 after:border-l-0 after:bg-transparent',
             'data-[checked="indeterminate"]:border-border data-[checked="indeterminate"]:bg-transparent data-[checked="indeterminate"]:text-foreground',
             'rounded-sm bg-transparent',
             className,
@@ -80,6 +82,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
             handleChange(nextChecked)
           }}
           ref={ref ?? inputRef}
+          dir={direction}
           style={{ ...style, ...inputStyle }}
           type="checkbox"
           {...props}

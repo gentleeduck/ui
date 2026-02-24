@@ -24,7 +24,7 @@ const ToggleGroup: React.ForwardRefExoticComponent<ToggleGroupProps & React.RefA
         <ToggleGroupContext.Provider value={{ size, variant }}>
           <ToggleGroupPrimitive.Root
             className={cn(
-              'flex items-center justify-center overflow-hidden rounded-md [&>:first-child]:rounded-s-md [&>:last-child]:rounded-e-md',
+              'isolate flex items-center justify-center rounded-md *:last:rounded-e-md *:first:rounded-s-md',
               variant === 'outline' &&
                 '[&>*:first-child]:border-e-0 [&>*:not(:first-child):not(:last-child)]:border-e-0',
               className,
@@ -53,7 +53,7 @@ const ToggleGroupItem: React.ForwardRefExoticComponent<
       <ToggleGroupPrimitive.Item
         className={cn(
           toggleVariants({ variant: variant || context.variant, size: size || context.size }),
-          'rounded-none',
+          'relative rounded-none focus-visible:z-10 focus-visible:ring-offset-0',
           className,
         )}
         ref={ref}

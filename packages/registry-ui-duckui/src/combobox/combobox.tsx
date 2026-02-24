@@ -1,5 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
 import React from 'react'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Badge } from '../badge'
 import { Button } from '../button'
 import { Checkbox } from '../checkbox'
@@ -46,11 +47,12 @@ export function Combobox<TData extends readonly ComboboxItemType[], TType extend
   showSelected = true,
   children,
 }: ComboboxProps<TData, TType>) {
+  const direction = useDirection((popover as { dir?: 'ltr' | 'rtl' } | undefined)?.dir)
   const MAX_SELECTION = 2
   const _value = value ?? defaultValue
 
   return (
-    <Popover {...popover}>
+    <Popover {...popover} dir={direction}>
       <PopoverTrigger asChild>
         <Button {...popoverTrigger} variant={popoverTrigger?.variant ?? 'dashed'}>
           {popoverTrigger?.children}
@@ -61,12 +63,12 @@ export function Combobox<TData extends readonly ComboboxItemType[], TType extend
                   <Separator orientation="vertical" />
                   <div className="flex gap-1">
                     {_value.length > MAX_SELECTION ? (
-                      <Badge className="px-2 py-[3px] rounded-sm font-normal" variant={'secondary'}>
+                      <Badge className="px-2 py-0.75 rounded-sm font-normal" variant={'secondary'}>
                         +{_value.length} Selected
                       </Badge>
                     ) : (
                       _value.map((item) => (
-                        <Badge className="px-2 py-[2px] rounded-[3px] capitalize" key={item} variant={'secondary'}>
+                        <Badge className="px-2 py-0.5 rounded-[3px] capitalize" key={item} variant={'secondary'}>
                           {item}
                         </Badge>
                       ))
@@ -83,11 +85,10 @@ export function Combobox<TData extends readonly ComboboxItemType[], TType extend
       </PopoverTrigger>
       <PopoverContent
         {...popoverContent}
+        dir={direction}
         className={cn('w-(--gentleduck-popover-trigger-width) p-0', popoverContent?.className)}>
         <Command {...command}>
-          {withSearch && (
-            <CommandInput {...commandInput} className={cn('h-8 [&_svg]:size-[18px] px-2', commandInput)} />
-          )}
+          {withSearch && <CommandInput {...commandInput} className={cn('h-8 [&_svg]:size-4.5 px-2', commandInput)} />}
           <CommandList>
             {commandEmpty && <CommandEmpty>{commandEmpty}</CommandEmpty>}
             {children(items)}

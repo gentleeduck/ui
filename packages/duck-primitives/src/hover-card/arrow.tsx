@@ -2,9 +2,6 @@ import * as React from 'react'
 import * as PopperPrimitive from '../popper'
 import { type ScopedProps, usePopperScope } from './hover-card'
 
-/* -------------------------------------------------------------------------------------------------
- * HoverCardArrow
- * -------------------------------------------------------------------------------------------------*/
 
 const ARROW_NAME = 'HoverCardArrow'
 

@@ -1,14 +1,25 @@
 import { cn } from '@gentleduck/libs/cn'
 import type { VariantProps } from '@gentleduck/variants'
 import * as React from 'react'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { alertVariants } from './alert.constants'
 
 const Alert = React.forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
->(({ className, variant, ...props }, ref) => (
-  <div ref={ref} className={cn(alertVariants({ variant }), className)} data-slot="alert" role="alert" {...props} />
-))
+>(({ className, variant, dir, ...props }, ref) => {
+  const direction = useDirection(dir as 'ltr' | 'rtl' | undefined)
+  return (
+    <div
+      ref={ref}
+      className={cn(alertVariants({ variant }), className)}
+      data-slot="alert"
+      dir={direction}
+      role="alert"
+      {...props}
+    />
+  )
+})
 Alert.displayName = 'Alert'
 
 const AlertTitle = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(

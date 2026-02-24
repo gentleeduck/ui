@@ -1,8 +1,8 @@
 /** Root ContextMenu component, scope factory, and shared context. */
 import * as React from 'react'
 import { useCallbackRef } from '../hooks/use-callback-ref'
-import type { Direction } from '../hooks/use-direction'
-import { useDirection } from '../hooks/use-direction'
+import type { Direction } from '../hooks/direction'
+import { useDirection } from '../hooks/direction'
 import { createContextScope, type Scope } from '../libs/create-context'
 import * as MenuPrimitive from '../menu'
 import { createMenuScope } from '../menu'

@@ -2,12 +2,6 @@ import * as React from 'react'
 import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { useStateMachine } from '../hooks/use-state-machine'
 
-/* -------------------------------------------------------------------------------------------------
- * usePresence
- *
- * Tracks whether a component should remain mounted by observing CSS animations.
- * Returns { isPresent, ref } where ref must be attached to the animated element.
- * -----------------------------------------------------------------------------------------------*/
 
 function usePresence(present: boolean) {
   const [node, setNode] = React.useState<HTMLElement>()

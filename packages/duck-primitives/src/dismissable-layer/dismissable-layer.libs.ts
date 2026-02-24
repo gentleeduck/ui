@@ -1,29 +1,16 @@
 import * as React from 'react'
+import { flushSync } from 'react-dom'
 import { useCallbackRef } from '../hooks/use-callback-ref'
-import { dispatchDiscreteCustomEvent } from '../primitive-elements'
 
-/* -------------------------------------------------------------------------------------------------
- * Constants
- * -----------------------------------------------------------------------------------------------*/
 
 export const CONTEXT_UPDATE = 'dismissableLayer.update'
 export const POINTER_DOWN_OUTSIDE = 'dismissableLayer.pointerDownOutside'
 export const FOCUS_OUTSIDE = 'dismissableLayer.focusOutside'
 
-/* -------------------------------------------------------------------------------------------------
- * Types
- * -----------------------------------------------------------------------------------------------*/
 
 export type PointerDownOutsideEvent = CustomEvent<{ originalEvent: PointerEvent }>
 export type FocusOutsideEvent = CustomEvent<{ originalEvent: FocusEvent }>
 
-/* -------------------------------------------------------------------------------------------------
- * usePointerDownOutside
- *
- * Detects pointerdown events outside the React subtree.
- * Uses pointerdown (not pointerup) to match OS-level layer dismiss behavior.
- * Handles touch devices by deferring to the next click event.
- * -----------------------------------------------------------------------------------------------*/
 
 export function usePointerDownOutside(
   onPointerDownOutside?: (event: PointerDownOutsideEvent) => void,
@@ -74,12 +61,6 @@ export function usePointerDownOutside(
   }
 }
 
-/* -------------------------------------------------------------------------------------------------
- * useFocusOutside
- *
- * Detects when focus moves outside the React subtree.
- * Tracks focus via capture-phase handlers to distinguish React tree vs DOM tree focus.
- * -----------------------------------------------------------------------------------------------*/
 
 export function useFocusOutside(
   onFocusOutside?: (event: FocusOutsideEvent) => void,
@@ -107,9 +88,6 @@ export function useFocusOutside(
   }
 }
 
-/* -------------------------------------------------------------------------------------------------
- * Helpers
- * -----------------------------------------------------------------------------------------------*/
 
 export function dispatchUpdate() {
   const event = new CustomEvent(CONTEXT_UPDATE)
@@ -127,7 +105,7 @@ export function handleAndDispatchCustomEvent<E extends CustomEvent, OriginalEven
   if (handler) target.addEventListener(name, handler as EventListener, { once: true })
 
   if (discrete) {
-    dispatchDiscreteCustomEvent(target, event)
+    if (target) flushSync(() => target.dispatchEvent(event))
   } else {
     target.dispatchEvent(event)
   }

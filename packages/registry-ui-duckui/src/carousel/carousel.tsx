@@ -5,6 +5,7 @@ import useEmblaCarousel from 'embla-carousel-react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import * as React from 'react'
 import { Button } from '../button'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import type { CarouselApi, CarouselContextProps, CarouselProps } from './carousel.types'
 
 const CarouselContext = React.createContext<CarouselContextProps | null>(null)
@@ -21,6 +22,7 @@ function useCarousel() {
 
 const Carousel = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLDivElement> & CarouselProps>(
   ({ orientation = 'horizontal', opts, setApi, plugins, className, children, ...props }, ref) => {
+    const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
     const [carouselRef, api] = useEmblaCarousel(
       {
         ...opts,
@@ -49,16 +51,19 @@ const Carousel = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLDivEleme
     }, [api])
 
     const handleKeyDown = React.useCallback(
-      (event: React.KeyboardEvent<HTMLDivElement>) => {
-        if (event.key === 'ArrowLeft') {
+        (event: React.KeyboardEvent<HTMLDivElement>) => {
+        if ((event.key === 'ArrowLeft' && direction === 'ltr') || (event.key === 'ArrowRight' && direction === 'rtl')) {
           event.preventDefault()
           scrollPrev()
-        } else if (event.key === 'ArrowRight') {
+        } else if (
+          (event.key === 'ArrowRight' && direction === 'ltr') ||
+          (event.key === 'ArrowLeft' && direction === 'rtl')
+        ) {
           event.preventDefault()
           scrollNext()
         }
       },
-      [scrollPrev, scrollNext],
+      [scrollPrev, scrollNext, direction],
     )
 
     React.useEffect(() => {
@@ -98,6 +103,7 @@ const Carousel = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLDivEleme
         <section
           className={cn('relative', className)}
           data-slot="carousel"
+          dir={direction}
           onKeyDownCapture={handleKeyDown}
           ref={ref}
           {...props}>

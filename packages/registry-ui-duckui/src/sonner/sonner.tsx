@@ -3,13 +3,16 @@
 import { useTheme } from 'next-themes'
 import type * as React from 'react'
 import { Toaster as Sonner, type ToasterProps } from 'sonner'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = 'system' } = useTheme()
+  const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
 
   return (
     <Sonner
       className="toaster group [&_li>div]:w-full"
+      dir={direction}
       style={
         {
           '--normal-bg': 'var(--popover)',

@@ -82,9 +82,6 @@ const RadioGroupItem = React.forwardRef<RadioGroupItemElement, RadioGroupItemPro
 
 RadioGroupItem.displayName = ITEM_NAME
 
-/* -------------------------------------------------------------------------------------------------
- * BubbleInput -- hidden native radio input for form submission
- * -----------------------------------------------------------------------------------------------*/
 
 interface BubbleInputProps {
   name: string

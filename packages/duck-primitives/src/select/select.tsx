@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { useControllableState } from '../hooks/use-controllable-state'
-import { useDirection } from '../hooks/use-direction'
+import { useDirection } from '../hooks/direction'
 import { useId } from '../hooks/use-id'
 import { usePrevious } from '../hooks/use-previous'
 import { useComposedRefs } from '../libs/compose-ref'

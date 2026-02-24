@@ -3,11 +3,13 @@
 import { cn } from '@gentleduck/libs/cn'
 import type { VariantProps } from '@gentleduck/variants'
 import { useMemo } from 'react'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Label } from '../label'
 import { Separator } from '../separator'
 import { fieldVariants } from './field.constants'
 
 function FieldSet({ className, ...props }: React.ComponentProps<'fieldset'>) {
+  const direction = useDirection((props as { dir?: 'ltr' | 'rtl' }).dir)
   return (
     <fieldset
       className={cn(
@@ -15,6 +17,7 @@ function FieldSet({ className, ...props }: React.ComponentProps<'fieldset'>) {
         'has-[>[data-slot=checkbox-group]]:gap-3 has-[>[data-slot=radio-group]]:gap-3',
         className,
       )}
+      dir={direction}
       data-slot="field-set"
       {...props}
     />

@@ -7,6 +7,7 @@ import { cva, type VariantProps } from '@gentleduck/variants'
 import { PanelLeftIcon } from 'lucide-react'
 import * as React from 'react'
 import { Button } from '../button'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Input } from '../input'
 import { Separator } from '../separator'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from '../sheet'
@@ -21,7 +22,6 @@ const SIDEBAR_WIDTH = '16rem'
 const SIDEBAR_WIDTH_MOBILE = '18rem'
 const SIDEBAR_WIDTH_ICON = '3rem'
 const SIDEBAR_KEYBOARD_SHORTCUT = 'b'
-const DEFAULT_SIDEBAR_DIRECTION: SidebarDirection = 'ltr'
 
 type SidebarProviderProps = Omit<React.ComponentProps<'div'>, 'dir'> & {
   defaultOpen?: boolean
@@ -51,7 +51,7 @@ function SidebarProvider({
 }: SidebarProviderProps) {
   const isMobile = useIsMobile()
   const [openMobile, setOpenMobile] = React.useState(false)
-  const direction = dirProp ?? DEFAULT_SIDEBAR_DIRECTION
+  const direction = useDirection(dirProp)
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
@@ -140,7 +140,7 @@ function Sidebar({
   ...props
 }: SidebarProps) {
   const { isMobile, state, openMobile, setOpenMobile, dir: contextDir } = useSidebar()
-  const direction = dirProp ?? contextDir
+  const direction = useDirection(dirProp ?? contextDir)
 
   if (collapsible === 'none') {
     return (

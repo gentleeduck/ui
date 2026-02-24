@@ -4,10 +4,6 @@ import { createDialogScope } from '../dialog'
 import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
 
-/* -------------------------------------------------------------------------------------------------
- * AlertDialog
- * -----------------------------------------------------------------------------------------------*/
-
 const ROOT_NAME = 'AlertDialog'
 
 export type ScopedProps<P> = P & { __scopeAlertDialog?: Scope }

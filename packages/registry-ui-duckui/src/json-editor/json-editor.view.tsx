@@ -2,6 +2,7 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import * as React from 'react'
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
 import { Textarea } from '../textarea'
 import type { JsonEditorViewProps } from './json-editor.types'
 
@@ -41,6 +42,7 @@ export function JsonEditorView({
   lang,
   onKeyDown,
 }: JsonEditorViewProps) {
+  const direction = useDirection(dir)
   const lineCount = React.useMemo(() => {
     const count = value ? value.split(/\r\n|\r|\n/).length : 1
     return Math.max(1, count)
@@ -68,7 +70,7 @@ export function JsonEditorView({
   }, [lineCount, lang])
 
   return (
-    <div className="overflow-hidden rounded-md border bg-background" data-slot="json-editor-shell" dir={dir}>
+    <div className="overflow-hidden rounded-md border bg-background" data-slot="json-editor-shell" dir={direction}>
       <div className="relative" data-slot="json-editor-container">
         {lineNumbers ? (
           <div className="absolute inset-y-0 start-0 w-12 border-e bg-muted/30" data-slot="json-editor-gutter">

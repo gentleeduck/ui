@@ -2,7 +2,8 @@
 import * as React from 'react'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
-import { dispatchDiscreteCustomEvent, Primitive } from '../primitive-elements'
+import { flushSync } from 'react-dom'
+import { Primitive } from '../primitive-elements'
 import * as RovingFocusGroup from '../roving-focus'
 import { useMenuContentContext } from './content'
 import { Collection, type ScopedProps, useCollection, useMenuRootContext, useRovingFocusGroupScope } from './menu'
@@ -36,7 +37,7 @@ const MenuItem = React.forwardRef<MenuItemElement, MenuItemProps>((props: Scoped
     if (!disabled && menuItem) {
       const itemSelectEvent = new CustomEvent(ITEM_SELECT, { bubbles: true, cancelable: true })
       menuItem.addEventListener(ITEM_SELECT, (event) => onSelect?.(event), { once: true })
-      dispatchDiscreteCustomEvent(menuItem, itemSelectEvent)
+      flushSync(() => menuItem.dispatchEvent(itemSelectEvent))
       if (itemSelectEvent.defaultPrevented) {
         isPointerDownRef.current = false
       } else {

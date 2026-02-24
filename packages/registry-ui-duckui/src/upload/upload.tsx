@@ -334,3 +334,7 @@
 //     </Button>
 //   )
 // }
+
+import { useDirection } from '@gentleduck/primitives/hooks/direction'
+
+export const useUploadDirection = (dir?: 'ltr' | 'rtl') => useDirection(dir)

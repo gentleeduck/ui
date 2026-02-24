@@ -1,7 +1,7 @@
 /** Menu root component, contexts, collection, and scope setup. */
 import * as React from 'react'
 import { useCallbackRef } from '../hooks/use-callback-ref'
-import { useDirection } from '../hooks/use-direction'
+import { useDirection } from '../hooks/direction'
 import { createCollection } from '../libs/create-collection'
 import { createContextScope, type Scope } from '../libs/create-context'
 import * as PopperPrimitive from '../popper'
