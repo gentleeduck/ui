@@ -12,7 +12,12 @@ export const dynamic = 'force-static'
 export const dynamicParams = false
 
 export async function generateStaticParams() {
-  return Object.keys(getRegistryIndex()).map((name) => ({ name }))
+  const entries = Object.values(getRegistryIndex())
+
+  const filteredEntries =
+    process.env.MODE === 'production' ? entries.filter((entry) => entry.type !== 'registry:example') : entries
+
+  return filteredEntries.map((entry) => ({ name: entry.name }))
 }
 
 const getCachedRegistryItem = React.cache(async (name: string) => {
