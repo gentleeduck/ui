@@ -16,6 +16,7 @@ interface DocPageProps {
     slug: string[]
   }
 }
+export const runtime = 'edge'
 
 async function getDocFromParams({ params }: DocPageProps) {
   const slug = params.slug

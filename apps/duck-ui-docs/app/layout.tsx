@@ -18,7 +18,6 @@ const docsEntries = docs.map((doc) => {
   const slug = doc.slug.startsWith('/') ? doc.slug : `/${doc.slug}`
   return {
     component: doc.component,
-    content: doc.body,
     permalink: slug,
     slug,
     title: doc.title,
