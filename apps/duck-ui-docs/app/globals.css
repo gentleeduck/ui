@@ -41,7 +41,7 @@
   }
 
   .font-sans {
-    font-family: var(--font-geist-sans, "Montserrat"), sans-serif !important;
+    font-family: var(--font-geist-sans, "Geist"), sans-serif !important;
   }
 
   .font-mono {
