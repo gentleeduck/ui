@@ -99,7 +99,6 @@ const components = {
   td: TableCell,
   th: TableHeader,
   tr: TableRow,
-  // FrameworkDocs,
 }
 
 interface MdxProps {

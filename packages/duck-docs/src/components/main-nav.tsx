@@ -4,7 +4,7 @@ import { useDocsConfig } from '@duck-docs/context'
 import { cn } from '@gentleduck/libs/cn'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { HeaderBrand } from './layouts/site-header/header-shell'
+import { HeaderBrand } from './layouts/site-header'
 
 export function MainNav() {
   const pathname = usePathname()
