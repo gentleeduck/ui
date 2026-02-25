@@ -28,7 +28,7 @@ duck-primitives ships TypeScript types and requires **React 19+**. No separate `
 Set direction once at app root and primitives/components resolve it automatically:
 
 ```tsx
-import { DirectionProvider } from '@gentleduck/primitives/hooks/direction'
+import { DirectionProvider } from '@gentleduck/primitives/direction'
 
 export function Providers({ children }: { children: React.ReactNode }) {
   return <DirectionProvider dir="rtl">{children}</DirectionProvider>

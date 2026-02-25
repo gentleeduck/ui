@@ -4,7 +4,7 @@ description: "Global RTL/LTR direction context for primitives and registry compo
 ---
 
 ```tsx
-import { DirectionProvider, useDirection } from '@gentleduck/primitives/hooks/direction'
+import { DirectionProvider, useDirection } from '@gentleduck/primitives/direction'
 ```
 
 ## What it does
@@ -20,7 +20,7 @@ This is the single direction module used by primitives and registry-ui component
 ## Example
 
 ```tsx
-import { DirectionProvider } from '@gentleduck/primitives/hooks/direction'
+import { DirectionProvider } from '@gentleduck/primitives/direction'
 import * as Dialog from '@gentleduck/primitives/dialog'
 
 export function App() {
@@ -57,4 +57,3 @@ Returns:
 - `localDir` when provided
 - Provider `dir` when available
 - `'ltr'` as final fallback
-

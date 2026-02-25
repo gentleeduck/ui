@@ -10,7 +10,7 @@
       "type": "registry:ui"
     },
     {
-      "content": "export * from './direction'\n\n",
+      "content": "export * from './direction'\n",
       "path": "direction/index.ts",
       "target": "components/ui/index.ts",
       "type": "registry:ui"
