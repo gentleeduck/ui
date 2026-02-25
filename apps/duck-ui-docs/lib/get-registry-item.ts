@@ -15,6 +15,7 @@ function getSourceDir(fileType: string): string {
 }
 
 export function getRegistryComponent(name: string) {
+  // @ts-ignore - ignore we add this at runtime
   return memoizedIndex[name]?.component
 }
 
@@ -32,7 +33,7 @@ export async function getRegistryItem(name: string) {
   }
 
   let files: typeof result.data.files = []
-  for (const file of item.files) {
+  for (const file of item.files ?? []) {
     const content = await getFileContent(file)
     const relativePath = path.relative(process.cwd(), file.path)
 

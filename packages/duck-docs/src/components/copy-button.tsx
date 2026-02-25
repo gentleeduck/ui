@@ -1,0 +1,54 @@
+'use client'
+
+import { type Event, trackEvent } from '@duck-docs/lib/events'
+import { cn } from '@gentleduck/libs/cn'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { CheckIcon, Copy } from 'lucide-react'
+import * as React from 'react'
+
+export async function copyToClipboardWithMeta(value: string, event?: Event) {
+  navigator.clipboard.writeText(value)
+  if (event) {
+    trackEvent(event)
+  }
+}
+
+export type CopyButtonProps = import('@gentleduck/registry-ui-duckui/button').ButtonProps & {
+  value: string
+  event?: Event['name']
+}
+
+export function CopyButton({ value, className, variant = 'ghost', event, ...props }: CopyButtonProps) {
+  const [hasCopied, setHasCopied] = React.useState(false)
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      setHasCopied(false)
+    }, 3000)
+  }, [hasCopied])
+
+  return (
+    <Button
+      aria-label="Copy"
+      className={cn('[&_svg]:!size-3.5 z-50 size-7 rounded-sm shadow-none', className)}
+      icon={hasCopied ? <CheckIcon /> : <Copy />}
+      onClick={() => {
+        copyToClipboardWithMeta(
+          value,
+          event
+            ? {
+                name: event,
+                properties: {
+                  code: value,
+                },
+              }
+            : undefined,
+        )
+        setHasCopied(true)
+      }}
+      size="icon"
+      variant={variant}
+      {...props}
+    />
+  )
+}

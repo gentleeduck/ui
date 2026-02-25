@@ -9,5 +9,5 @@ certificates
 
 tailwind.config.ts
 **/.fuse_*
-node-compile-cache
+.node-compile-cache
 **/tsconfig.tsbuildinfo
