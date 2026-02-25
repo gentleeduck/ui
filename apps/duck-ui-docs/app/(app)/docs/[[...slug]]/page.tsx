@@ -1,9 +1,8 @@
 import { DashboardTableOfContents, DocsPagerBottom, DocsPagerTop, Mdx } from '@gentleduck/docs/client'
 import { cn } from '@gentleduck/libs/cn'
 import { badgeVariants } from '@gentleduck/registry-ui-duckui/badge'
-import { ChevronRightIcon, ExternalLinkIcon } from 'lucide-react'
+import { ExternalLinkIcon } from 'lucide-react'
 import type { Metadata } from 'next'
-import { headers } from 'next/headers'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React from 'react'
@@ -11,30 +10,42 @@ import React from 'react'
 import { SLUG_METADATA } from '~/config/metadata'
 import { docs } from '../../../../.velite'
 
-interface DocPageProps {
-  params: {
-    slug: string[]
-  }
+export const dynamic = 'force-static'
+export const dynamicParams = false
+export const revalidate = false
+
+function getDocFromSlug(slug?: string[]) {
+  const path = slug && slug.length > 0 ? slug.join('/') : 'index'
+  const normalizedPath = path.replace(/^\/+|\/+$/g, '')
+  const candidates = normalizedPath === 'index' ? ['index'] : [normalizedPath, `${normalizedPath}/index`]
+
+  return docs.find((doc) => candidates.includes(doc.permalink)) ?? null
 }
-export const runtime = 'edge'
 
-async function getDocFromParams({ params }: DocPageProps) {
-  const slug = params.slug
-  const doc = docs.find((doc) => slug?.includes(doc.permalink))
+export async function generateStaticParams() {
+  const unique = new Map<string, string[]>()
 
-  if (!doc) {
-    return null
+  for (const doc of docs) {
+    const permalink = doc.permalink.replace(/^\/+|\/+$/g, '')
+
+    if (permalink === 'index') {
+      unique.set('', [])
+      continue
+    }
+
+    const cleanPath = permalink.endsWith('/index') ? permalink.slice(0, -'/index'.length) : permalink
+    unique.set(cleanPath, cleanPath.split('/'))
   }
 
-  return doc
+  return Array.from(unique.values()).map((slug) => ({ slug }))
 }
 
 export async function generateMetadata(props: {
-  params: Promise<{ slug: string[] }>
+  params: Promise<{ slug?: string[] }>
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }): Promise<Metadata> {
   const params = await props.params
-  const doc = await getDocFromParams({ params })
+  const doc = getDocFromSlug(params.slug)
 
   if (!doc) {
     return {}
@@ -42,26 +53,9 @@ export async function generateMetadata(props: {
   return SLUG_METADATA(doc)
 }
 
-const PostLayout = async ({ params }: { params: Promise<{ slug: any }> }) => {
-  const headersList = await headers()
-  const host = headersList.get('host')
-  const protocol = headersList.get('x-forwarded-proto') || 'http'
+const PostLayout = async ({ params }: { params: Promise<{ slug?: string[] }> }) => {
   const _params = await params
-  const path = _params.slug ? '/' + _params.slug.join('/') : '/'
-
-  const fullUrl = `${protocol}://${host}/docs${path}`
-
-  const doc = docs.find((post) => {
-    if (post?.slug === 'docs/index' && !_params.slug) {
-      return true
-    }
-
-    if (post.slug.endsWith('/index')) {
-      return String(fullUrl + '/index').endsWith(post.slug)
-    } else {
-      return fullUrl.endsWith(post.slug)
-    }
-  })
+  const doc = getDocFromSlug(_params.slug)
 
   if (!doc) {
     notFound()
