@@ -4,7 +4,7 @@ description: Accessible one-time password component with paste-to-fill support.
 component: true
 ---
 
-<ComponentPreview name="input-otp-1" description="An 6 digits input OTP." />
+<ComponentPreview name="input-otp-1" description="A 6-digit input OTP." />
 
 ## Philosophy
 
@@ -180,6 +180,9 @@ The root component that provides OTP context and manages slot focus, paste, and 
 | `value` | `string` | -- | Controlled value of the OTP input |
 | `onValueChange` | `(value: string) => void` | -- | Callback fired when the combined slot value changes |
 | `pattern` | `RegExp` | `/^.$/` | Regex used to validate each entered character |
+| `maxLength` | `number` | -- | Optional cap for active slots used by keyboard and paste behavior |
+| `name` | `string` | -- | Optional field name (useful with form libraries) |
+| `dir` | `'ltr' \| 'rtl'` | inherited | Local direction override |
 | `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the wrapper div |
 | `aria-label` | `string` | `"otp-one-time-password"` | Accessible label for the OTP region |
 | `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'pattern'>` | -- | Additional props to spread to the content div |
