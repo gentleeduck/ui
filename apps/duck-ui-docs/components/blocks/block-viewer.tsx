@@ -179,15 +179,14 @@ function BlockViewerToolbar() {
 
             <Separator className="!h-6" orientation="vertical" />
             <Button
+              aria-label={isCopiedLink ? 'Link copied' : 'Share preview link'}
               className="size-9 rounded-none p-0"
               onClick={() => {
                 copyToClipboardLink(`${window.location.origin}/view/${item.name}`)
               }}
               size="icon"
-              title="Share Preview Link"
               variant="ghost">
-              {isCopiedLink ? <Check /> : <Share2 />}
-              <span className="sr-only">Share</span>
+              {isCopiedLink ? <Check aria-hidden="true" /> : <Share2 aria-hidden="true" />}
             </Button>
           </ToggleGroup>
         </div>
@@ -421,7 +420,7 @@ function BlockCopyCodeButton() {
 
   return (
     <Button
-      aria-label="Copy code"
+      aria-label={isCopied ? 'Copied' : 'Copy code'}
       className="size-7"
       onClick={() => {
         copyToClipboard(content)
@@ -435,7 +434,7 @@ function BlockCopyCodeButton() {
       }}
       size="icon"
       variant="ghost">
-      {isCopied ? <Check /> : <Clipboard />}
+      {isCopied ? <Check aria-hidden="true" /> : <Clipboard aria-hidden="true" />}
     </Button>
   )
 }

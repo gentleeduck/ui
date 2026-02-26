@@ -150,8 +150,9 @@ export function DocsSidebarNavItem({
       <li className={cn(isActive && 'border-primary border-l')}>
         <div className="flex items-center">
           <Link
+            aria-current={isCurrent ? 'page' : undefined}
             className={cn(
-              'group flex w-full items-center border-primary px-4 py-1 font-medium text-sm focus-visible:border-l focus-visible:outline-none',
+              'group flex w-full items-center border-primary px-4 py-1 font-medium text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
               depth > 0 && 'px-3',
               isActive ? 'font-medium text-foreground' : 'text-muted-foreground',
             )}

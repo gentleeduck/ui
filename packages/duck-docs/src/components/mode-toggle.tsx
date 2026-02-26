@@ -25,12 +25,12 @@ export function ModeSwitcher() {
 
   return (
     <Button
-      aria-label="toggle theme"
+      aria-label={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} theme`}
       className="group/toggle"
       icon={
         <>
-          <SunIcon className="hidden [html.dark_&]:block" />
-          <MoonIcon className="hidden [html.light_&]:block" />
+          <SunIcon aria-hidden="true" className="hidden [html.dark_&]:block" />
+          <MoonIcon aria-hidden="true" className="hidden [html.light_&]:block" />
         </>
       }
       onClick={toggleTheme}

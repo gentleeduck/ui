@@ -8,6 +8,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from 
 import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
 import { PanelsTopLeft } from 'lucide-react'
 import Link, { type LinkProps } from 'next/link'
+import { usePathname } from 'next/navigation'
 import * as React from 'react'
 
 export function MobileNav() {
@@ -20,7 +21,7 @@ export function MobileNav() {
         <Button
           aria-label="Open navigation menu"
           className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
-          icon={<PanelsTopLeft />}
+          icon={<PanelsTopLeft aria-hidden="true" />}
           size={'icon'}
           variant="ghost"></Button>
       </DrawerTrigger>
@@ -106,8 +107,10 @@ interface MobileLinkProps extends LinkProps {
 }
 
 function MobileLink({ href, onOpenChange, className, children, ...props }: MobileLinkProps) {
+  const pathname = usePathname()
   return (
     <Link
+      aria-current={pathname === href ? 'page' : undefined}
       className={cn(className)}
       href={href}
       scroll
