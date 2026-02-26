@@ -17,19 +17,21 @@ const SonnerUpload = ({
   return (
     <div className="flex w-full gap-3" data-slot="content">
       <CircleCheck
+        aria-hidden="true"
         className={cn(
           '!size-[18px] mt-2 hidden fill-primary [&_path]:stroke-primary-foreground',
           progress >= 100 && 'flex',
         )}
       />
       <Loader
+        aria-hidden="true"
         className={cn(
           '!size-[18px] mt-2 hidden animate-spin text-foreground-muted opacity-70',
           progress < 100 && 'flex',
         )}
       />
       <div className="flex w-full flex-col gap-2">
-        <div className="flex w-full justify-between">
+        <div className="flex w-full justify-between" role="status">
           <p className="text-foreground text-sm">
             {progress >= 100
               ? `Upload complete`

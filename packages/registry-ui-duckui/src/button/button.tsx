@@ -33,6 +33,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       <Component
         data-slot="button"
         {...props}
+        aria-busy={loading ? true : undefined}
         className={cn(
           buttonVariants({
             border,
@@ -44,7 +45,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         disabled={loading ?? disabled}
         ref={ref}
         type={type}>
-        {loading ? <Loader className="animate-spin" /> : icon}
+        {loading ? <Loader aria-hidden="true" className="animate-spin" /> : icon}
         <Slottable>{!isCollapsed && children}</Slottable>
         {!isCollapsed && secondIcon && secondIcon}
       </Component>

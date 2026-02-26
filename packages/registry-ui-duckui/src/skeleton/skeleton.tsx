@@ -9,7 +9,7 @@ const Skeleton = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivEl
       <div
         ref={ref}
         aria-hidden="true"
-        className={cn('animate-pulse rounded-md bg-muted', className)}
+        className={cn('animate-pulse motion-reduce:animate-none rounded-md bg-muted', className)}
         dir={direction}
         {...props}
         data-slot="skeleton"
