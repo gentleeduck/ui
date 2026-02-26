@@ -3244,6 +3244,11 @@
         "type": "file"
       },
       {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
+        "type": "file"
+      },
+      {
         "name": "button-3.tsx",
         "path": "button/button-3.tsx",
         "type": "file"
@@ -3358,6 +3363,11 @@
       {
         "name": "button-20.tsx",
         "path": "button/button-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
         "type": "file"
       },
       {
@@ -3478,6 +3488,11 @@
         "type": "file"
       },
       {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
+        "type": "file"
+      },
+      {
         "name": "button-3.tsx",
         "path": "button/button-3.tsx",
         "type": "file"
@@ -3592,6 +3607,11 @@
       {
         "name": "button-20.tsx",
         "path": "button/button-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
         "type": "file"
       },
       {
@@ -3712,6 +3732,11 @@
         "type": "file"
       },
       {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
+        "type": "file"
+      },
+      {
         "name": "button-3.tsx",
         "path": "button/button-3.tsx",
         "type": "file"
@@ -3826,6 +3851,11 @@
       {
         "name": "button-20.tsx",
         "path": "button/button-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
         "type": "file"
       },
       {
@@ -3946,6 +3976,11 @@
         "type": "file"
       },
       {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
+        "type": "file"
+      },
+      {
         "name": "button-3.tsx",
         "path": "button/button-3.tsx",
         "type": "file"
@@ -4060,6 +4095,11 @@
       {
         "name": "button-20.tsx",
         "path": "button/button-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
         "type": "file"
       },
       {
@@ -4180,6 +4220,11 @@
         "type": "file"
       },
       {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
+        "type": "file"
+      },
+      {
         "name": "button-3.tsx",
         "path": "button/button-3.tsx",
         "type": "file"
@@ -4294,6 +4339,11 @@
       {
         "name": "button-20.tsx",
         "path": "button/button-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
         "type": "file"
       },
       {
@@ -4414,6 +4464,11 @@
         "type": "file"
       },
       {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
+        "type": "file"
+      },
+      {
         "name": "button-3.tsx",
         "path": "button/button-3.tsx",
         "type": "file"
@@ -4528,6 +4583,11 @@
       {
         "name": "button-20.tsx",
         "path": "button/button-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
         "type": "file"
       },
       {
@@ -4648,6 +4708,133 @@
         "type": "file"
       },
       {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-3.tsx",
+        "path": "button/button-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-4.tsx",
+        "path": "button/button-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-5.tsx",
+        "path": "button/button-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-6.tsx",
+        "path": "button/button-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-7.tsx",
+        "path": "button/button-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-8.tsx",
+        "path": "button/button-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-9.tsx",
+        "path": "button/button-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "button/button-21.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "button-21",
+    "registryDependencies": [
+      "button"
+    ],
+    "root_folder": "button",
+    "type": "registry:example",
+    "source": "/registry-examples-duckui/src/button",
+    "tree": [
+      {
+        "name": "button-1.tsx",
+        "path": "button/button-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-10.tsx",
+        "path": "button/button-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-11.tsx",
+        "path": "button/button-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-12.tsx",
+        "path": "button/button-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-13.tsx",
+        "path": "button/button-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-14.tsx",
+        "path": "button/button-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-15.tsx",
+        "path": "button/button-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-16.tsx",
+        "path": "button/button-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-17.tsx",
+        "path": "button/button-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-18.tsx",
+        "path": "button/button-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-19.tsx",
+        "path": "button/button-19.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-2.tsx",
+        "path": "button/button-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-20.tsx",
+        "path": "button/button-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
+        "type": "file"
+      },
+      {
         "name": "button-3.tsx",
         "path": "button/button-3.tsx",
         "type": "file"
@@ -4762,6 +4949,11 @@
       {
         "name": "button-20.tsx",
         "path": "button/button-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
         "type": "file"
       },
       {
@@ -4882,6 +5074,11 @@
         "type": "file"
       },
       {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
+        "type": "file"
+      },
+      {
         "name": "button-3.tsx",
         "path": "button/button-3.tsx",
         "type": "file"
@@ -4996,6 +5193,11 @@
       {
         "name": "button-20.tsx",
         "path": "button/button-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
         "type": "file"
       },
       {
@@ -5116,6 +5318,11 @@
         "type": "file"
       },
       {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
+        "type": "file"
+      },
+      {
         "name": "button-3.tsx",
         "path": "button/button-3.tsx",
         "type": "file"
@@ -5230,6 +5437,11 @@
       {
         "name": "button-20.tsx",
         "path": "button/button-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
         "type": "file"
       },
       {
@@ -5350,6 +5562,11 @@
         "type": "file"
       },
       {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
+        "type": "file"
+      },
+      {
         "name": "button-3.tsx",
         "path": "button/button-3.tsx",
         "type": "file"
@@ -5464,6 +5681,11 @@
       {
         "name": "button-20.tsx",
         "path": "button/button-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-21.tsx",
+        "path": "button/button-21.tsx",
         "type": "file"
       },
       {
