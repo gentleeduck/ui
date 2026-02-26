@@ -126,7 +126,7 @@
     @apply px-4;
   }
 
-  [duck-abc] {
+  [data-slot="abc"] {
     @apply w-600;
   }
 }

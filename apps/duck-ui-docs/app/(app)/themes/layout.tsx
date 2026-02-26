@@ -43,10 +43,10 @@ export default function ThemesLayout({ children }: { children: React.ReactNode }
         <PageHeaderHeading className="w-full text-center">{title}</PageHeaderHeading>
         <PageHeaderDescription>{description}</PageHeaderDescription>
         <PageActions className="mx-auto w-full justify-center">
-          <Button size="sm">
+          <Button asChild size="sm">
             <a href="#themes">Browse Themes</a>
           </Button>
-          <Button size="sm" variant="ghost">
+          <Button asChild size="sm" variant="ghost">
             <Link href="/docs/theming">Documentation</Link>
           </Button>
         </PageActions>

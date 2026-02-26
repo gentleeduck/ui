@@ -166,12 +166,12 @@ export default function ConverterPage() {
             <h1 className="mb-2 font-bold text-3xl">Theme Format Converter</h1>
             <p className="text-muted-foreground">Convert between JavaScript theme objects and CSS custom properties</p>
           </div>
-          <Link href="/color-editor">
-            <Button className="flex items-center gap-2 bg-transparent" variant="outline">
+          <Button asChild className="flex items-center gap-2 bg-transparent" variant="outline">
+            <Link href="/color-editor">
               <Palette className="h-4 w-4" />
               Theme Manager
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         </div>
       </div>
 
