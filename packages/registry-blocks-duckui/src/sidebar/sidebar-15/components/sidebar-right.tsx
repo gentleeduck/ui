@@ -53,7 +53,7 @@ export function SidebarRight({ ...props }: React.ComponentProps<typeof Sidebar>)
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton>
-              <Plus />
+              <Plus aria-hidden="true" />
               <span>New Calendar</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
