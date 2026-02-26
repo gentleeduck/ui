@@ -40,8 +40,8 @@ export default function InputGroupRtlDemo() {
             <InputGroupAddon align="inline-end">
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <InputGroupButton className="rounded-full" size="icon-xs">
-                    <IconInfoCircle />
+                  <InputGroupButton aria-label="Info" className="rounded-full" size="icon-xs">
+                    <IconInfoCircle aria-hidden="true" />
                   </InputGroupButton>
                 </TooltipTrigger>
                 <TooltipContent>سيتم استنساخ المستودع الى ~/projects.</TooltipContent>
@@ -51,8 +51,8 @@ export default function InputGroupRtlDemo() {
           <InputGroup>
             <InputGroupTextarea placeholder="صف مشكلتك..." />
             <InputGroupAddon align="block-end">
-              <InputGroupButton className="rounded-full" size="icon-xs" variant="outline">
-                <IconPaperclip />
+              <InputGroupButton aria-label="Attach file" className="rounded-full" size="icon-xs" variant="outline">
+                <IconPaperclip aria-hidden="true" />
               </InputGroupButton>
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -67,7 +67,7 @@ export default function InputGroupRtlDemo() {
               <InputGroupText className="mr-auto">3 مرفقات</InputGroupText>
               <Separator className="!h-4" orientation="vertical" />
               <InputGroupButton className="rounded-full" disabled size="icon-xs" variant="default">
-                <ArrowUpIcon />
+                <ArrowUpIcon aria-hidden="true" />
                 <span className="sr-only">ارسال</span>
               </InputGroupButton>
             </InputGroupAddon>

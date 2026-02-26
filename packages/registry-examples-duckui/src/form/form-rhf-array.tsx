@@ -90,7 +90,7 @@ export default function FormRHFArray() {
                             size="icon-xs"
                             onClick={() => remove(index)}
                             aria-label={`Remove email ${index + 1}`}>
-                            <XIcon />
+                            <XIcon aria-hidden="true" />
                           </InputGroupButton>
                         </InputGroupAddon>
                       )}

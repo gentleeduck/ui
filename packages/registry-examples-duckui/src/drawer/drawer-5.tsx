@@ -71,7 +71,7 @@ export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (ad
             onClick={() => onClick(-10)}
             size="icon"
             variant="outline">
-            <Minus className="h-4 w-4" />
+            <Minus aria-hidden="true" className="h-4 w-4" />
             <span className="sr-only">Decrease</span>
           </Button>
 
@@ -86,7 +86,7 @@ export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (ad
             onClick={() => onClick(10)}
             size="icon"
             variant="outline">
-            <Plus className="h-4 w-4" />
+            <Plus aria-hidden="true" className="h-4 w-4" />
             <span className="sr-only">Increase</span>
           </Button>
         </div>

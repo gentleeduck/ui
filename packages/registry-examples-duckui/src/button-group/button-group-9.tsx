@@ -28,8 +28,8 @@ export default function ButtonGroupDropdown() {
       <Button variant="outline">Follow</Button>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button className="!pl-2" variant="outline">
-            <ChevronDownIcon />
+          <Button aria-label="More options" className="!pl-2" variant="outline">
+            <ChevronDownIcon aria-hidden="true" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent side="bottom" align="end" className="[--radius:1rem]">

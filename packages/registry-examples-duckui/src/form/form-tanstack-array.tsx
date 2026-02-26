@@ -113,7 +113,7 @@ export default function FormTanStackArray() {
                                   size="icon-xs"
                                   onClick={() => field.removeValue(index)}
                                   aria-label={`Remove email ${index + 1}`}>
-                                  <XIcon />
+                                  <XIcon aria-hidden="true" />
                                 </InputGroupButton>
                               </InputGroupAddon>
                             )}

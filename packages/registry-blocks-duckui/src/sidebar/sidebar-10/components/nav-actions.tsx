@@ -103,13 +103,13 @@ export function NavActions() {
   return (
     <div className="flex items-center gap-2 text-sm">
       <div className="hidden font-medium text-muted-foreground md:inline-block">Edit Oct 08</div>
-      <Button className="h-7 w-7" size="icon" variant="ghost">
-        <Star />
+      <Button aria-label="Star" className="h-7 w-7" size="icon" variant="ghost">
+        <Star aria-hidden="true" />
       </Button>
       <Popover onOpenChange={setIsOpen} open={isOpen}>
         <PopoverTrigger asChild>
-          <Button className="h-7 w-7 data-[state=open]:bg-accent" size="icon" variant="ghost">
-            <MoreHorizontal />
+          <Button aria-label="More actions" className="h-7 w-7 data-[state=open]:bg-accent" size="icon" variant="ghost">
+            <MoreHorizontal aria-hidden="true" />
           </Button>
         </PopoverTrigger>
         <PopoverContent align="end" className="w-56 overflow-hidden rounded-lg p-0">

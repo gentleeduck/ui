@@ -27,11 +27,11 @@ export default function InputGroupTextareaExample() {
             <IconDatabase />
             production.sql
           </InputGroupText>
-          <InputGroupButton className="ml-auto" size="icon-xs">
-            <IconRefresh />
+          <InputGroupButton aria-label="Refresh" className="ml-auto" size="icon-xs">
+            <IconRefresh aria-hidden="true" />
           </InputGroupButton>
-          <InputGroupButton size="icon-xs" variant="ghost">
-            <IconCopy />
+          <InputGroupButton aria-label="Copy" size="icon-xs" variant="ghost">
+            <IconCopy aria-hidden="true" />
           </InputGroupButton>
         </InputGroupAddon>
       </InputGroup>

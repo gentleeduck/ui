@@ -26,7 +26,7 @@ export default function InputGroupDemo() {
         <InputGroup>
           <InputGroupInput placeholder="Filter logs..." />
           <InputGroupAddon>
-            <FilterIcon />
+            <FilterIcon aria-hidden="true" />
           </InputGroupAddon>
           <InputGroupAddon align="inline-end">24 entries</InputGroupAddon>
         </InputGroup>
@@ -38,8 +38,8 @@ export default function InputGroupDemo() {
           <InputGroupAddon align="inline-end">
             <Tooltip>
               <TooltipTrigger asChild>
-                <InputGroupButton className="rounded-full" size="icon-xs">
-                  <IconInfoCircle />
+                <InputGroupButton aria-label="Info" className="rounded-full" size="icon-xs">
+                  <IconInfoCircle aria-hidden="true" />
                 </InputGroupButton>
               </TooltipTrigger>
               <TooltipContent>Repository will be cloned to ~/projects.</TooltipContent>
@@ -49,8 +49,8 @@ export default function InputGroupDemo() {
         <InputGroup>
           <InputGroupTextarea placeholder="Describe your issue..." />
           <InputGroupAddon align="block-end">
-            <InputGroupButton className="rounded-full" size="icon-xs" variant="outline">
-              <IconPaperclip />
+            <InputGroupButton aria-label="Attach file" className="rounded-full" size="icon-xs" variant="outline">
+              <IconPaperclip aria-hidden="true" />
             </InputGroupButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -65,7 +65,7 @@ export default function InputGroupDemo() {
             <InputGroupText className="ml-auto">3 attachments</InputGroupText>
             <Separator className="!h-4" orientation="vertical" />
             <InputGroupButton className="rounded-full" disabled size="icon-xs" variant="default">
-              <ArrowUpIcon />
+              <ArrowUpIcon aria-hidden="true" />
               <span className="sr-only">Submit</span>
             </InputGroupButton>
           </InputGroupAddon>

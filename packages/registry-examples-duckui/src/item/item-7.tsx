@@ -49,8 +49,8 @@ export default function ItemGroupExample() {
                 <ItemDescription>{contact.lastMessage}</ItemDescription>
               </ItemContent>
               <ItemActions>
-                <Button className="rounded-full" size="icon" variant="ghost">
-                  <MessageSquareIcon />
+                <Button aria-label="Message" className="rounded-full" size="icon" variant="ghost">
+                  <MessageSquareIcon aria-hidden="true" />
                 </Button>
               </ItemActions>
             </Item>
