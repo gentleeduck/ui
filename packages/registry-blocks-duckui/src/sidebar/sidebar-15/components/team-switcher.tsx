@@ -35,10 +35,10 @@ export function TeamSwitcher({
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton className="w-fit px-1.5">
               <div className="flex aspect-square size-5 items-center justify-center rounded-md bg-sidebar-primary text-sidebar-primary-foreground">
-                <activeTeam.logo className="size-3" />
+                <activeTeam.logo aria-hidden="true" className="size-3" />
               </div>
               <span className="truncate font-semibold">{activeTeam.name}</span>
-              <ChevronDown className="opacity-50" />
+              <ChevronDown aria-hidden="true" className="opacity-50" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" className="w-64 rounded-lg" side="bottom" sideOffset={4}>
@@ -46,7 +46,7 @@ export function TeamSwitcher({
             {teams.map((team, index) => (
               <DropdownMenuItem className="gap-2 p-2" key={team.name} onClick={() => setActiveTeam(team)}>
                 <div className="flex size-6 items-center justify-center rounded-sm border">
-                  <team.logo className="size-4 shrink-0" />
+                  <team.logo aria-hidden="true" className="size-4 shrink-0" />
                 </div>
                 {team.name}
                 <DropdownMenuShortcut>Cmd+{index + 1}</DropdownMenuShortcut>
@@ -55,7 +55,7 @@ export function TeamSwitcher({
             <DropdownMenuSeparator />
             <DropdownMenuItem className="gap-2 p-2">
               <div className="flex size-6 items-center justify-center rounded-md border bg-background">
-                <Plus className="size-4" />
+                <Plus aria-hidden="true" className="size-4" />
               </div>
               <div className="font-medium text-muted-foreground">Add team</div>
             </DropdownMenuItem>
