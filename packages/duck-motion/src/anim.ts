@@ -16,35 +16,6 @@ export const AnimVariants = cva('', {
   },
 })
 
-export const AnimPopoverArrowVariants = cva(
-  `overflow-visible after:border-background after:w-0 after:h-0 after:absolute after:[position-anchor:var(--position-anchor)] after:[po ition-area:inherit] 
-`,
-  {
-    defaultVariants: {
-      side: 'left',
-    },
-    variants: {
-      side: {
-        bottom: `
-            after:border-x-8 after:border-x-transparent after:border-b-10 
-            after:-top-2.5 after:left-[50%] after:-translate-x-[50%]
-        `,
-        left: `after:border-y-8 after:border-y-transparent after:border-l-10
-            after:-right-2.5 after:top-[50%] after:-translate-y-[50%]`,
-        right: `
-after:border-y-8 after:border-y-transparent after:border-r-10
-            after:-left-2.5 after:top-[50%] after:-translate-y-[50%]
-after:bg-red-600
-        `,
-        top: `
-            after:border-x-8 after:border-x-transparent after:border-t-10
-            after:-bottom-2.5 
-          `,
-      },
-    },
-  },
-)
-
 export const checkersStylePattern = cva(
   `appearance-none relative p-2 size-[1em] flex items-center rounded-full m-0
   border bg-border border-border checked:bg-primary checked:border-primary text-primary-foreground
