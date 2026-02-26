@@ -19,8 +19,8 @@ export default function ButtonGroupInputGroup() {
     <TooltipProvider>
       <ButtonGroup className="[--radius:9999rem]">
         <ButtonGroup>
-          <Button size="icon" variant="outline">
-            <PlusIcon />
+          <Button aria-label="Add" size="icon" variant="outline">
+            <PlusIcon aria-hidden="true" />
           </Button>
         </ButtonGroup>
         <ButtonGroup>
@@ -33,12 +33,13 @@ export default function ButtonGroupInputGroup() {
               <Tooltip>
                 <TooltipTrigger asChild>
                   <InputGroupButton
+                    aria-label="Voice Mode"
                     aria-pressed={voiceEnabled}
                     className="data-[active=true]:bg-orange-100 data-[active=true]:text-orange-700 dark:data-[active=true]:bg-orange-800 dark:data-[active=true]:text-orange-100"
                     data-active={voiceEnabled}
                     onClick={() => setVoiceEnabled(!voiceEnabled)}
                     size="icon-xs">
-                    <AudioLinesIcon />
+                    <AudioLinesIcon aria-hidden="true" />
                   </InputGroupButton>
                 </TooltipTrigger>
                 <TooltipContent>Voice Mode</TooltipContent>

@@ -27,7 +27,7 @@ export default function InputGroupButtonExample() {
             }}
             size="icon-xs"
             title="Copy">
-            {isCopied ? <IconCheck /> : <IconCopy />}
+            {isCopied ? <IconCheck aria-hidden="true" /> : <IconCopy aria-hidden="true" />}
           </InputGroupButton>
         </InputGroupAddon>
       </InputGroup>
@@ -35,8 +35,8 @@ export default function InputGroupButtonExample() {
         <Popover>
           <PopoverTrigger asChild>
             <InputGroupAddon>
-              <InputGroupButton size="icon-xs" variant="secondary">
-                <IconInfoCircle />
+              <InputGroupButton aria-label="SSL info" size="icon-xs" variant="secondary">
+                <IconInfoCircle aria-hidden="true" />
               </InputGroupButton>
             </InputGroupAddon>
           </PopoverTrigger>
@@ -48,7 +48,11 @@ export default function InputGroupButtonExample() {
         <InputGroupAddon className="pl-1.5 text-muted-foreground">https://</InputGroupAddon>
         <InputGroupInput id="input-secure-19" />
         <InputGroupAddon align="inline-end">
-          <InputGroupButton onClick={() => setIsBookmarked(!isBookmarked)} size="icon-xs">
+          <InputGroupButton
+            aria-label="Bookmark"
+            aria-pressed={isBookmarked}
+            onClick={() => setIsBookmarked(!isBookmarked)}
+            size="icon-xs">
             <IconBookmark
               className="data-[saved=true]:fill-blue-600 data-[saved=true]:stroke-blue-600"
               data-saved={isBookmarked}

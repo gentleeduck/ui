@@ -15,9 +15,7 @@ import { HeaderContainer, HeaderRoot } from './header-shell'
 const CommandMenu = React.lazy(() =>
   import('@duck-docs/components/layouts/command-menu').then((m) => ({ default: m.CommandMenu })),
 )
-const MobileNav = React.lazy(() =>
-  import('@duck-docs/components/mobile-nav').then((m) => ({ default: m.MobileNav })),
-)
+const MobileNav = React.lazy(() => import('@duck-docs/components/mobile-nav').then((m) => ({ default: m.MobileNav })))
 
 export function SiteHeader() {
   const siteConfig = useSiteConfig()

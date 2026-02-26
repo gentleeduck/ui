@@ -31,7 +31,7 @@ export function NavMain({
               <span>Quick Create</span>
             </SidebarMenuButton>
             <Button className="h-9 w-9 shrink-0 group-data-[collapsible=icon]:opacity-0" size="icon" variant="outline">
-              <MailIcon />
+              <MailIcon aria-hidden="true" />
               <span className="sr-only">Inbox</span>
             </Button>
           </SidebarMenuItem>

@@ -105,7 +105,7 @@ function DragHandle({ id }: { id: number }) {
       className="size-7 text-muted-foreground hover:bg-transparent"
       size="icon"
       variant="ghost">
-      <GripVerticalIcon className="size-3 text-muted-foreground" />
+      <GripVerticalIcon aria-hidden="true" className="size-3 text-muted-foreground" />
       <span className="sr-only">Drag to reorder</span>
     </Button>
   )
@@ -254,7 +254,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button className="flex size-8 text-muted-foreground data-[state=open]:bg-muted" size="icon" variant="ghost">
-            <MoreVerticalIcon />
+            <MoreVerticalIcon aria-hidden="true" />
             <span className="sr-only">Open menu</span>
           </Button>
         </DropdownMenuTrigger>
@@ -456,7 +456,7 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
                 onClick={() => table.setPageIndex(0)}
                 variant="outline">
                 <span className="sr-only">Go to first page</span>
-                <ChevronsLeftIcon />
+                <ChevronsLeftIcon aria-hidden="true" />
               </Button>
               <Button
                 className="size-8"
@@ -465,7 +465,7 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
                 size="icon"
                 variant="outline">
                 <span className="sr-only">Go to previous page</span>
-                <ChevronLeftIcon />
+                <ChevronLeftIcon aria-hidden="true" />
               </Button>
               <Button
                 className="size-8"
@@ -474,7 +474,7 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
                 size="icon"
                 variant="outline">
                 <span className="sr-only">Go to next page</span>
-                <ChevronRightIcon />
+                <ChevronRightIcon aria-hidden="true" />
               </Button>
               <Button
                 className="hidden size-8 lg:flex"
@@ -483,7 +483,7 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
                 size="icon"
                 variant="outline">
                 <span className="sr-only">Go to last page</span>
-                <ChevronsRightIcon />
+                <ChevronsRightIcon aria-hidden="true" />
               </Button>
             </div>
           </div>

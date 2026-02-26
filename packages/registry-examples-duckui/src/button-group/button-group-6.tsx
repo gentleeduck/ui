@@ -10,8 +10,8 @@ export default function ButtonGroupSplit() {
     <ButtonGroup>
       <Button variant="secondary">Button</Button>
       <ButtonGroupSeparator />
-      <Button size="icon" variant="secondary">
-        <Plus />
+      <Button aria-label="Add" size="icon" variant="secondary">
+        <Plus aria-hidden="true" />
       </Button>
     </ButtonGroup>
   )
