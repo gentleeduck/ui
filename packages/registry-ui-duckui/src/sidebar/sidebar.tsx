@@ -230,7 +230,7 @@ function SidebarTrigger({
         toggleSidebar()
       }}
       {...props}>
-      <PanelLeftIcon className="rtl:-scale-x-100" />
+      <PanelLeftIcon aria-hidden="true" className="rtl:-scale-x-100" />
       <span className="sr-only">{text}</span>
     </Button>
   )

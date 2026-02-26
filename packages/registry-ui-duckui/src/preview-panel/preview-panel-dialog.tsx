@@ -69,7 +69,7 @@ function PreviewPanelDialog({
                   <Button
                     variant="ghost"
                     size="icon-sm"
-                    icon={<Maximize2 />}
+                    icon={<Maximize2 aria-hidden="true" />}
                     aria-label={fullscreenText}
                     className="absolute end-3 bottom-3 z-10 border bg-background/80 backdrop-blur-sm"
                   />

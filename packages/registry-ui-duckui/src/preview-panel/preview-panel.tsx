@@ -40,7 +40,7 @@ const ZoomControls = memo(function ZoomControls({
       <ButtonGroup data-slot="preview-panel-controls" className="rounded-md border bg-background/80 backdrop-blur-sm">
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon-sm" onClick={onZoomIn} icon={<Plus />} aria-label={zoomInText} />
+            <Button variant="ghost" size="icon-sm" onClick={onZoomIn} icon={<Plus aria-hidden="true" />} aria-label={zoomInText} />
           </TooltipTrigger>
           <TooltipContent>{zoomInText}</TooltipContent>
         </Tooltip>
@@ -51,14 +51,14 @@ const ZoomControls = memo(function ZoomControls({
         <Separator orientation="vertical" />
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon-sm" onClick={onZoomOut} icon={<Minus />} aria-label={zoomOutText} />
+            <Button variant="ghost" size="icon-sm" onClick={onZoomOut} icon={<Minus aria-hidden="true" />} aria-label={zoomOutText} />
           </TooltipTrigger>
           <TooltipContent>{zoomOutText}</TooltipContent>
         </Tooltip>
         <Separator orientation="vertical" />
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button variant="ghost" size="icon-sm" onClick={onReset} icon={<RotateCcw />} aria-label={resetText} />
+            <Button variant="ghost" size="icon-sm" onClick={onReset} icon={<RotateCcw aria-hidden="true" />} aria-label={resetText} />
           </TooltipTrigger>
           <TooltipContent>{resetText}</TooltipContent>
         </Tooltip>
