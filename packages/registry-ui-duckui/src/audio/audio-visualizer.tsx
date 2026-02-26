@@ -361,7 +361,17 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
     })
   }, [data, width, height, currentTime, duration, animationProgress, theme])
 
-  return <canvas aria-label="Audio waveform visualization" dir={direction} height={height} ref={canvasRef} role="img" style={style} width={width} />
+  return (
+    <canvas
+      aria-label="Audio waveform visualization"
+      dir={direction}
+      height={height}
+      ref={canvasRef}
+      role="img"
+      style={style}
+      width={width}
+    />
+  )
 }
 
 export { AudioVisualizer }
