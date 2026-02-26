@@ -14,7 +14,14 @@
     "tsdown": "0.18.3"
   },
   "exports": {
-    "./*": "./dist/*.js",
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./dist/index.js"
+    },
+    "./*": {
+      "types": "./src/*.ts",
+      "default": "./dist/*.js"
+    },
     "./css": "./src/index.css"
   },
   "files": [
