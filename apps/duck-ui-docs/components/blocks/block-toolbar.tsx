@@ -110,13 +110,13 @@ export function BlockToolbar({
                 }
               }}
               type="single">
-              <ToggleGroupItem className="h-[22px] w-[22px] rounded-xs p-0" value="100">
+              <ToggleGroupItem aria-label="Desktop view" className="h-[22px] w-[22px] rounded-xs p-0" value="100">
                 <Monitor className="h-3.5 w-3.5" />
               </ToggleGroupItem>
-              <ToggleGroupItem className="h-[22px] w-[22px] rounded-xs p-0" value="60">
+              <ToggleGroupItem aria-label="Tablet view" className="h-[22px] w-[22px] rounded-xs p-0" value="60">
                 <Tablet className="h-3.5 w-3.5" />
               </ToggleGroupItem>
-              <ToggleGroupItem className="h-[22px] w-[22px] rounded-xs p-0" value="30">
+              <ToggleGroupItem aria-label="Mobile view" className="h-[22px] w-[22px] rounded-xs p-0" value="30">
                 <Smartphone className="h-3.5 w-3.5" />
               </ToggleGroupItem>
             </ToggleGroup>

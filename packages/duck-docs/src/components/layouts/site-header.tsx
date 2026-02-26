@@ -116,11 +116,13 @@ export function FontStyleButton() {
   }, [fontType])
 
   return (
-    <div
+    <button
+      aria-label={fontType === 'mono' ? 'Switch to sans-serif font' : 'Switch to monospace font'}
       className={cn(buttonVariants({ size: 'icon', variant: 'ghost' }))}
-      onClick={() => setFontType(fontType === 'mono' ? 'sans' : 'mono')}>
+      onClick={() => setFontType(fontType === 'mono' ? 'sans' : 'mono')}
+      type="button">
       {fontType === 'mono' ? <Type /> : <CaseUpper />}
-    </div>
+    </button>
   )
 }
 

@@ -4,8 +4,8 @@ import { useMediaQuery } from '@gentleduck/hooks/use-media-query'
 import { cn } from '@gentleduck/libs/cn'
 import type { Block } from '@gentleduck/registers'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Drawer, DrawerContent, DrawerTrigger } from '@gentleduck/registry-ui-duckui/drawer'
-import { Sheet, SheetContent, SheetTrigger } from '@gentleduck/registry-ui-duckui/sheet'
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@gentleduck/registry-ui-duckui/drawer'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@gentleduck/registry-ui-duckui/sheet'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
 import { type ComponentProps, useMemo, useState } from 'react'
 import { BlockCopyButton } from '../blocks/block-copy-button'
@@ -118,6 +118,9 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
         <DrawerTrigger asChild>{button}</DrawerTrigger>
         <DrawerContent
           className={cn('flex max-h-[80vh] flex-col sm:max-h-[90vh] [&>div.bg-muted]:shrink-0', className)}>
+          <DrawerHeader className="sr-only">
+            <DrawerTitle>View chart code</DrawerTitle>
+          </DrawerHeader>
           <div className="flex h-full flex-col overflow-auto">{content}</div>
         </DrawerContent>
       </Drawer>
@@ -133,6 +136,9 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
           className,
         )}
         side="right">
+        <SheetHeader className="sr-only">
+          <SheetTitle>View chart code</SheetTitle>
+        </SheetHeader>
         {content}
       </SheetContent>
     </Sheet>

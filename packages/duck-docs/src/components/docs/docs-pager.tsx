@@ -67,6 +67,7 @@ export function DocsPagerTop({ doc }: DocsPagerProps) {
     <div className="flex flex-row items-center justify-between">
       {pager?.prev?.href && (
         <Link
+          aria-label={`Previous: ${pager.prev.title}`}
           className={cn(
             buttonVariants({
               className: '[&>svg]:!size-4 size-8 items-center',
@@ -81,6 +82,7 @@ export function DocsPagerTop({ doc }: DocsPagerProps) {
       )}
       {pager?.next?.href && (
         <Link
+          aria-label={`Next: ${pager.next.title}`}
           className={cn(
             buttonVariants({
               className: '[&>svg]:!size-4 ml-2 size-8 items-center',

@@ -13,6 +13,7 @@ export function Color({ color }: { color: Color }) {
 
   return (
     <button
+      aria-label={`Copy ${color.className} color value`}
       className="group relative flex aspect-[3/1] w-full flex-1 cursor-pointer flex-col gap-2 text-(--text) sm:aspect-[2/3] sm:h-auto sm:w-auto [&>svg]:absolute [&>svg]:top-4 [&>svg]:right-4 [&>svg]:z-10 [&>svg]:h-3.5 [&>svg]:w-3.5 [&>svg]:opacity-0 [&>svg]:transition-opacity"
       data-last-copied={lastCopied === color[format]}
       key={color.hex}
