@@ -28,7 +28,7 @@ export function DashboardTableOfContents({ toc }: TocProps) {
   return mounted ? (
     <div className="space-y-2">
       <p className="font-medium">
-        <BookOpenText />
+        <BookOpenText size={16} aria-hidden="true" />
         On This Page
       </p>
       <Tree activeItem={activeHeading} tree={toc} />
