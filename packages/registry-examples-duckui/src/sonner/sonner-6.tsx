@@ -14,6 +14,10 @@ export default function SonnerRtlDemo() {
               onClick: () => console.log('Undo'),
             },
             description: 'الأحد، 3 ديسمبر 2023 الساعة 9:00 صباحاً',
+            style: {
+              direction: 'rtl',
+              textAlign: 'right',
+            },
           })
         }
         variant="outline">

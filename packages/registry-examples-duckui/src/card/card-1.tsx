@@ -28,7 +28,7 @@ export default function CardWithForm() {
             <div className="flex flex-col space-y-1.5">
               <Label htmlFor="framework">Framework</Label>
               <Select>
-                <SelectTrigger id="framework">
+                <SelectTrigger id="framework" className="w-full">
                   <SelectValue placeholder="Select" />
                 </SelectTrigger>
                 <SelectContent>
@@ -42,7 +42,7 @@ export default function CardWithForm() {
           </div>
         </form>
       </CardContent>
-      <CardFooter className="flex justify-between">
+      <CardFooter className="flex">
         <Button variant="outline">Cancel</Button>
         <Button>Deploy</Button>
       </CardFooter>

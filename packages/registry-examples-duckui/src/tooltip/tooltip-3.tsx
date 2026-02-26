@@ -3,8 +3,8 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentl
 
 export default function TooltipRtlDemo() {
   return (
-    <TooltipProvider>
-      <Tooltip dir="rtl">
+    <TooltipProvider dir="rtl">
+      <Tooltip>
         <TooltipTrigger asChild>
           <Button variant="outline">{'تمرير'}</Button>
         </TooltipTrigger>

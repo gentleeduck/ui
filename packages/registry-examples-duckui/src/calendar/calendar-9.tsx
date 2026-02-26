@@ -8,16 +8,14 @@ export default function CalendarRtlDemo() {
   const [date, setDate] = React.useState<Date | undefined>(new Date())
 
   return (
-    <div dir="rtl">
-      <Calendar
-        captionLayout="dropdown"
-        className="rounded-md border shadow-sm"
-        dir="rtl"
-        locale={arSA}
-        mode="single"
-        onSelect={setDate}
-        selected={date}
-      />
-    </div>
+    <Calendar
+      captionLayout="dropdown"
+      className="rounded-md border shadow-sm"
+      dir="rtl"
+      locale={arSA}
+      mode="single"
+      onSelect={setDate}
+      selected={date}
+    />
   )
 }

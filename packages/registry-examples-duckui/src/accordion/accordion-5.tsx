@@ -1,9 +1,10 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui-duckui/accordion'
+import { DirectionProvider } from '@gentleduck/registry-ui-duckui/direction'
 
 export default function AccordionRtlDemo() {
   return (
-    <div dir="rtl">
-      <Accordion className="w-[350px]" collapsible type="single">
+    <DirectionProvider dir="rtl">
+      <Accordion className="w-87.5" collapsible type="single">
         <AccordionItem value="item-1">
           <AccordionTrigger>هل هو قابل للوصول؟</AccordionTrigger>
           <AccordionContent>نعم. يلتزم بنمط تصميم WAI-ARIA.</AccordionContent>
@@ -17,6 +18,6 @@ export default function AccordionRtlDemo() {
           <AccordionContent>نعم. هو متحرك افتراضيا، لكن يمكنك تعطيله إذا أردت.</AccordionContent>
         </AccordionItem>
       </Accordion>
-    </div>
+    </DirectionProvider>
   )
 }

@@ -9,7 +9,7 @@ export default function HoverCardRtlDemo() {
       <HoverCardContent className="w-80">
         <div className="flex justify-between gap-4 space-x-reverse">
           <Avatar dir="rtl">
-            <AvatarImage alt="VC" src="https://github.com/vercel.png" />
+            <AvatarImage alt="VC" src="https://github.com/gentleeduck.png" />
             <AvatarFallback>VC</AvatarFallback>
           </Avatar>
           <div className="space-y-1">

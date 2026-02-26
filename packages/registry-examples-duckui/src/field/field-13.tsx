@@ -1,5 +1,6 @@
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
+import { DirectionProvider } from '@gentleduck/registry-ui-duckui/direction'
 import {
   Field,
   FieldDescription,
@@ -15,7 +16,7 @@ import { Textarea } from '@gentleduck/registry-ui-duckui/textarea'
 
 export default function FieldRtlDemo() {
   return (
-    <div dir="rtl">
+    <DirectionProvider dir="rtl">
       <div className="w-full max-w-lg">
         <form>
           <FieldGroup>
@@ -112,6 +113,6 @@ export default function FieldRtlDemo() {
           </FieldGroup>
         </form>
       </div>
-    </div>
+    </DirectionProvider>
   )
 }
