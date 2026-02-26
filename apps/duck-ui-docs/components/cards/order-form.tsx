@@ -73,7 +73,7 @@ export function OrderForm() {
                 type="email"
                 value={formData.email}
               />
-              {errors.email && <AlertTriangle className="absolute top-3 right-3 h-4 w-4 text-red-500" />}
+              {errors.email && <AlertTriangle aria-hidden="true" className="absolute top-3 right-3 h-4 w-4 text-red-500" />}
             </div>
             {errors.email && (
               <p className="flex items-center gap-1 text-red-500 text-sm" id="email-error" role="alert">
@@ -161,7 +161,7 @@ export function OrderForm() {
             <Label>Payment details</Label>
             <div className="relative">
               <div className="flex items-center gap-2 rounded-md border px-3">
-                <Lock className="size-8" />
+                <Lock aria-hidden="true" className="size-8" />
                 <Input
                   aria-label="Card number"
                   className="border-0 bg-transparent p-0 focus-visible:ring-0"
@@ -239,7 +239,7 @@ export function OrderForm() {
                 onChange={(e) => handleInputChange('promoCode', e.currentTarget.value)}
                 value={formData.promoCode}
               />
-              {promoValid && <Check className="absolute top-3 right-3 h-4 w-4" />}
+              {promoValid && <Check aria-hidden="true" className="absolute top-3 right-3 h-4 w-4" />}
             </div>
           </div>
 
