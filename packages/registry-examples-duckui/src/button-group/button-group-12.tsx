@@ -2,6 +2,7 @@
 
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { ButtonGroup } from '@gentleduck/registry-ui-duckui/button-group'
+import { DirectionContext } from '@gentleduck/registry-ui-duckui/direction'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -32,8 +33,8 @@ export default function ButtonGroupRtlDemo() {
   const [label, setLabel] = React.useState('personal')
 
   return (
-    <div dir="rtl">
-      <ButtonGroup>
+    <DirectionContext.Provider value="rtl">
+      <ButtonGroup dir="rtl">
         <ButtonGroup className="hidden sm:flex">
           <Button aria-label="رجوع" size="icon" variant="outline">
             <ArrowLeftIcon className="rtl:rotate-180" />
@@ -101,6 +102,6 @@ export default function ButtonGroupRtlDemo() {
           </DropdownMenu>
         </ButtonGroup>
       </ButtonGroup>
-    </div>
+    </DirectionContext.Provider>
   )
 }
