@@ -8,13 +8,6 @@ import { composeEventHandlers } from '../libs/compose-event-handler'
 import { createCollection } from '../libs/create-collection'
 import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
-import {
-  focusFirst,
-  getNavigationCandidates,
-  NAVIGATION_KEYS,
-  useTypeaheadListNavigation,
-  useVimNavigation,
-} from '../libs/list-navigation'
 import { Primitive } from '../primitive-elements'
 
 const COMMAND_NAME = 'Command'
@@ -38,6 +31,10 @@ type CommandContextValue = {
   listId: string
   inputRef: React.RefObject<HTMLInputElement | null>
   typeaheadSearchRef: React.RefObject<string>
+  selectedItem: HTMLLIElement | null
+  setSelectedItem: (item: HTMLLIElement | null) => void
+  selectedValue: string | null
+  selectedText: string | null
 }
 
 export const [CommandProvider, useCommandContext] = createCommandContext<CommandContextValue>(COMMAND_NAME)
@@ -46,12 +43,18 @@ export type CommandListContextValue = {
   onItemLeave?: () => void
   listRef: React.RefObject<HTMLUListElement | null>
   emptyRef: React.RefObject<HTMLDivElement | null>
-  selectedItem: HTMLLIElement | null
 }
 
 const LIST_CONTEXT_NAME = 'CommandList'
-export const [CommandListProvider, useCommandListContext] =
-  createCommandContext<CommandListContextValue>(LIST_CONTEXT_NAME)
+const defaultListContext: CommandListContextValue = {
+  onItemLeave: undefined,
+  listRef: { current: null },
+  emptyRef: { current: null },
+}
+export const [CommandListProvider, useCommandListContext] = createCommandContext<CommandListContextValue>(
+  LIST_CONTEXT_NAME,
+  defaultListContext,
+)
 
 export type CommandItemContextValue = {
   value: string
@@ -85,6 +88,9 @@ export const Command = React.forwardRef<CommandElement, CommandProps>(
     const inputRef = React.useRef<HTMLInputElement | null>(null)
     const typeaheadSearchRef = React.useRef('')
     const [search, setSearch] = React.useState('')
+    const [selectedItem, setSelectedItem] = React.useState<HTMLLIElement | null>(null)
+    const selectedValue = selectedItem?.getAttribute('data-value') ?? null
+    const selectedText = selectedItem?.textContent?.trim() ?? null
 
     return (
       <CommandProvider
@@ -94,7 +100,11 @@ export const Command = React.forwardRef<CommandElement, CommandProps>(
         dir={direction}
         listId={listId}
         inputRef={inputRef}
-        typeaheadSearchRef={typeaheadSearchRef}>
+        typeaheadSearchRef={typeaheadSearchRef}
+        selectedItem={selectedItem}
+        setSelectedItem={setSelectedItem}
+        selectedValue={selectedValue}
+        selectedText={selectedText}>
         <Collection.Provider scope={__scopeCommand}>
           <CommandInner __scopeCommand={__scopeCommand} {...commandProps} ref={forwardedRef}>
             {children}
@@ -113,19 +123,6 @@ const CommandInner = React.forwardRef<CommandElement, ScopedProps<React.Componen
     const context = useCommandContext(COMMAND_NAME, __scopeCommand)
     const getItems = useCollection(__scopeCommand)
 
-    const [, handleTypeaheadSearch, resetTypeaheadState] = useTypeaheadListNavigation({
-      getItems: () => getItems().filter((item) => !item.disabled && !item.ref.current?.hidden),
-      getItemElement: (item) => item.ref.current as HTMLElement | null,
-      getItemTextValue: (item) => item.textValue || (item.ref.current?.textContent ?? '').trim(),
-      onMatch: (item) => {
-        const node = item.ref.current as HTMLElement | null
-        if (node) setTimeout(() => node.focus())
-      },
-      externalSearchRef: context.typeaheadSearchRef,
-    })
-
-    const handleVimKey = useVimNavigation({ onNavigate: resetTypeaheadState })
-
     return (
       <Primitive.div
         data-slot="command"
@@ -138,50 +135,57 @@ const CommandInner = React.forwardRef<CommandElement, ScopedProps<React.Componen
             return
           }
 
-          const inputFocused = document.activeElement === context.inputRef.current
+          const enabledItems = getItems().filter((item) => !item.disabled && !item.ref.current?.hidden)
+          const nodes = enabledItems.map((item) => item.ref.current!).filter(Boolean)
 
-          // When the input has focus, only ArrowDown navigates to items.
-          // All other keys (Home, End, ArrowUp, printable chars) are left to native input.
-          if (inputFocused) {
-            if (event.key === 'ArrowDown') {
-              const items = getItems().filter((item) => !item.disabled && !item.ref.current?.hidden)
-              if (items.length > 0) {
-                event.preventDefault()
-                const nodes = items.map((item) => item.ref.current!)
-                setTimeout(() => focusFirst(nodes))
-              }
+          if (event.key === 'ArrowDown') {
+            event.preventDefault()
+            if (nodes.length === 0) return
+            const currentIndex = context.selectedItem ? nodes.indexOf(context.selectedItem) : -1
+            const nextIndex = currentIndex === -1 ? 0 : Math.min(currentIndex + 1, nodes.length - 1)
+            const next = nodes[nextIndex]
+            if (next) {
+              context.setSelectedItem(next)
+              next.scrollIntoView({ block: 'nearest' })
             }
             return
           }
 
-          // From here, an item is focused.
-
-          // Vim keybindings (gg -> top, G -> bottom). Checked before typeahead
-          // so Shift+G is not sent to typeahead search.
-          const enabledItems = getItems().filter((item) => !item.disabled && !item.ref.current?.hidden)
-          const nodes = enabledItems.map((item) => item.ref.current!)
-          if (handleVimKey(event, nodes)) return
-
-          // Typeahead: printable char including space (same as Select's content.tsx).
-          // Runs before nav so space can join an active typeahead search.
-          // Item's onKeyDown fires first (bubbling), so it checks isTypingAhead
-          // before this handler adds the char to the search string.
-          const isModifierKey = event.ctrlKey || event.altKey || event.metaKey
-          if (!isModifierKey && event.key.length === 1) {
-            handleTypeaheadSearch(event.key)
+          if (event.key === 'ArrowUp') {
+            event.preventDefault()
+            if (nodes.length === 0) return
+            const currentIndex = context.selectedItem ? nodes.indexOf(context.selectedItem) : nodes.length
+            const prevIndex = Math.max(currentIndex - 1, 0)
+            const prev = nodes[prevIndex]
+            if (prev) {
+              context.setSelectedItem(prev)
+              prev.scrollIntoView({ block: 'nearest' })
+            }
+            return
           }
 
-          if ((NAVIGATION_KEYS as readonly string[]).includes(event.key)) {
-            const candidateNodes = getNavigationCandidates(nodes, event.key, document.activeElement)
-
-            // At boundary (first/last item), stay put
-            if ((event.key === 'ArrowUp' || event.key === 'ArrowDown') && candidateNodes.length === 0) {
-              event.preventDefault()
-              return
-            }
-
+          if (event.key === 'Home') {
             event.preventDefault()
-            setTimeout(() => focusFirst(candidateNodes))
+            if (nodes.length > 0) {
+              context.setSelectedItem(nodes[0]!)
+              nodes[0]!.scrollIntoView({ block: 'nearest' })
+            }
+            return
+          }
+
+          if (event.key === 'End') {
+            event.preventDefault()
+            if (nodes.length > 0) {
+              const last = nodes[nodes.length - 1]!
+              context.setSelectedItem(last)
+              last.scrollIntoView({ block: 'nearest' })
+            }
+            return
+          }
+
+          if (event.key === 'Enter' && context.selectedItem) {
+            event.preventDefault()
+            context.selectedItem.click()
             return
           }
         })}>
