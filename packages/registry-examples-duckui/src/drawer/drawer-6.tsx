@@ -13,7 +13,7 @@ import {
   DrawerTrigger,
 } from '@gentleduck/registry-ui-duckui/drawer'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
-import { motion } from 'motion/react'
+import { motion, useReducedMotion } from 'motion/react'
 import { AnimateNumber } from 'motion-number'
 import * as React from 'react'
 import { toast } from 'sonner'
@@ -113,6 +113,7 @@ export function HI(props: {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }) {
   const { progress, getBadgeColor, barCount, filledBars, getBarColor, setOpen, setProgress } = props
+  const prefersReducedMotion = useReducedMotion()
 
   return (
     <>
@@ -136,14 +137,14 @@ export function HI(props: {
           <motion.div
             animate={{
               height: '1.5rem',
-              scale: index < filledBars ? [1, 1.1, 1] : 1,
+              scale: prefersReducedMotion ? 1 : index < filledBars ? [1, 1.1, 1] : 1,
             }}
             className={`h-[1rem] w-[5px] rounded-full transition-colors duration-300 ${
               index < filledBars ? getBarColor(index) : 'bg-gray-200'
             }`}
             initial={{ height: '1rem' }}
             key={`bar-${index + 1}`}
-            transition={{ delay: index * 0.008, duration: 0.5 }}
+            transition={prefersReducedMotion ? { duration: 0 } : { delay: index * 0.008, duration: 0.5 }}
           />
         ))}
       </div>
