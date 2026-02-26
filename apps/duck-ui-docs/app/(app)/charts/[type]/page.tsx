@@ -1,9 +1,9 @@
+import { absoluteUrl } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 import * as React from 'react'
 import { ChartDisplay } from '~/components/charts'
-import { SLUG_METADATA } from '~/config/metadata'
 import { charts } from '../charts'
 
 export const revalidate = false
@@ -23,6 +23,15 @@ export async function generateStaticParams() {
   return chartTypes.map((type) => ({
     type,
   }))
+}
+
+export async function generateMetadata({ params }: ChartPageProps): Promise<Metadata> {
+  const { type } = await params
+  return {
+    alternates: {
+      canonical: absoluteUrl(`/charts/${type}`),
+    },
+  }
 }
 
 export default async function ChartPage({ params }: ChartPageProps) {

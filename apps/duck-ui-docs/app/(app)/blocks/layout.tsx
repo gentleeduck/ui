@@ -1,4 +1,5 @@
 import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/docs/client'
+import { absoluteUrl } from '@gentleduck/docs/lib'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
@@ -10,6 +11,9 @@ const description =
   'A collection of sleek, customizable blocks to speed up your workflow. Drop them into any React app and ship faster.'
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: absoluteUrl('/blocks'),
+  },
   description,
   openGraph: {
     images: [

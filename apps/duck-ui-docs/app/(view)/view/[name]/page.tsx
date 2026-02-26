@@ -42,6 +42,9 @@ export async function generateMetadata({
   const description = item.description
 
   return {
+    alternates: {
+      canonical: absoluteUrl(`/view/${item.name}`),
+    },
     description,
     openGraph: {
       description,

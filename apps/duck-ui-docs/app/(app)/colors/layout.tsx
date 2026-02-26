@@ -1,4 +1,5 @@
 import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/docs/client'
+import { absoluteUrl } from '@gentleduck/docs/lib'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
@@ -10,6 +11,9 @@ const description =
   'Browse the full Tailwind palette in HEX, RGB, HSL, and CSS formats. Copy and paste what you need in seconds.'
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: absoluteUrl('/colors'),
+  },
   description,
   openGraph: {
     images: [
