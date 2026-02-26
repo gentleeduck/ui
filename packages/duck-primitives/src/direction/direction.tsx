@@ -16,7 +16,17 @@ interface DirectionProviderProps {
 
 const DirectionProvider: React.FC<DirectionProviderProps> = (props) => {
   const { dir, children } = props
-  return <DirectionContext.Provider value={dir}>{children}</DirectionContext.Provider>
+  return (
+    <DirectionContext.Provider value={dir}>
+      <div
+        dir={dir}
+        style={{
+          direction: dir,
+        }}>
+        {children}
+      </div>
+    </DirectionContext.Provider>
+  )
 }
 
 function useDirection(localDir?: Direction): Direction {

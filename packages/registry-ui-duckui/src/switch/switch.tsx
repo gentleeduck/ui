@@ -38,6 +38,8 @@ const Switch = React.forwardRef<
           }),
           'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
           '[&:before,&:after]:transition-gpu [&:before,&:after]:duration-[inherit] [&:before,&:after]:ease-[inherit] [&:before,&:after]:will-change-[inherit]',
+          '[&[dir=ltr]:checked]:after:translate-x-full [&[dir=ltr]]:after:translate-x-0',
+          '[&[dir=rtl]:checked]:after:-translate-x-full [&[dir=rtl]]:after:translate-x-0',
 
           className,
         )}

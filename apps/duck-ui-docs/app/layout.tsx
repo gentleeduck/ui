@@ -4,6 +4,7 @@ import '@gentleduck/motion/css'
 // import 'public/r/themes.css'
 import { TailwindIndicator, ThemeProvider } from '@gentleduck/docs/client'
 import { cn } from '@gentleduck/libs/cn'
+import { DirectionProvider } from '@gentleduck/registry-ui-duckui/direction'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { Geist, Geist_Mono } from 'next/font/google'
@@ -75,17 +76,19 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={cn('duck min-h-svh bg-background antialiased')}>
         <ThemeProvider attribute="class" defaultTheme="system" disableTransitionOnChange enableColorScheme enableSystem>
           <AppClientProviders>
-            <DocsAppProvider docs={docsEntries} docsConfig={docsConfig} siteConfig={docsSiteConfig}>
-              <ThemeWrapper>
-                <div vaul-drawer-wrapper="">
-                  <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
-                </div>
+            <DirectionProvider dir="ltr">
+              <DocsAppProvider docs={docsEntries} docsConfig={docsConfig} siteConfig={docsSiteConfig}>
+                <ThemeWrapper>
+                  <div vaul-drawer-wrapper="">
+                    <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
+                  </div>
 
-                <SpeedInsights />
-                <VercelAnalytics />
-                {process.env.NODE_ENV === 'development' && <TailwindIndicator />}
-              </ThemeWrapper>
-            </DocsAppProvider>
+                  <SpeedInsights />
+                  <VercelAnalytics />
+                  {process.env.NODE_ENV === 'development' && <TailwindIndicator />}
+                </ThemeWrapper>
+              </DocsAppProvider>
+            </DirectionProvider>
           </AppClientProviders>
         </ThemeProvider>
       </body>
