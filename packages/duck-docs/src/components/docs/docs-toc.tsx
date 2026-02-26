@@ -3,6 +3,7 @@
 import type { TocEntry } from '@duck-docs/context'
 import { useMounted } from '@duck-docs/hooks/use-mounted'
 import { cn } from '@gentleduck/libs/cn'
+import { BookOpenText } from 'lucide-react'
 import * as React from 'react'
 
 interface TocProps {
@@ -26,7 +27,10 @@ export function DashboardTableOfContents({ toc }: TocProps) {
 
   return mounted ? (
     <div className="space-y-2">
-      <p className="font-medium">On This Page</p>
+      <p className="font-medium">
+        <BookOpenText />
+        On This Page
+      </p>
       <Tree activeItem={activeHeading} tree={toc} />
     </div>
   ) : null
