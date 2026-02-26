@@ -17,6 +17,7 @@ export function MainNav() {
         <nav aria-label="Main" className="flex items-center gap-4 text-sm xl:gap-6">
           {mainNav.map((item) => (
             <Link
+              aria-current={pathname === item.href ? 'page' : undefined}
               className={cn(
                 'font-medium transition-colors hover:text-foreground/80',
                 pathname === item.href ? 'text-foreground' : 'text-foreground/80',

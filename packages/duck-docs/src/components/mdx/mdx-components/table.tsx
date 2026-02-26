@@ -15,13 +15,14 @@ export function TableRow({ className, ...props }: React.HTMLAttributes<HTMLTable
   return <tr className={cn('m-0 border-b', className)} {...props} />
 }
 
-export function TableHeader({ className, ...props }: React.HTMLAttributes<HTMLTableCellElement>) {
+export function TableHeader({ className, ...props }: React.ThHTMLAttributes<HTMLTableCellElement>) {
   return (
     <th
       className={cn(
         'px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right',
         className,
       )}
+      scope="col"
       {...props}
     />
   )
