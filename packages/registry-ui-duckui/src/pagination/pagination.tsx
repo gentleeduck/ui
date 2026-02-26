@@ -106,13 +106,13 @@ const PaginationEllipsis = React.forwardRef<
   React.ComponentPropsWithoutRef<'span'> & { text?: string }
 >(({ className, text = 'More pages', ...props }, ref) => (
   <span
-    aria-hidden
+    role="img"
+    aria-label={text}
     className={cn('flex h-9 w-9 items-center justify-center', className)}
     data-slot="pagination-ellipsis"
     ref={ref}
     {...props}>
     <MoreHorizontal className="h-4 w-4" />
-    <span className="sr-only">{text}</span>
   </span>
 ))
 PaginationEllipsis.displayName = 'PaginationEllipsis'

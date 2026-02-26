@@ -216,7 +216,7 @@ const AccordionTrigger = React.forwardRef<
           '[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:transition-transform [&>svg]:duration-200 group-open:[&>svg]:rotate-180',
         )}
         data-slot="accordion-icon">
-        {icon ? icon : <ChevronDown />}
+        {icon ? icon : <ChevronDown aria-hidden="true" />}
       </span>
     </summary>
   )

@@ -305,7 +305,7 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
 
           {expandMode !== 'none' ? (
             <Button onClick={handleExpand} size="sm" type="button" variant="outline">
-              <Maximize size={14} />
+              <Maximize aria-hidden="true" size={14} />
               <span className="ms-2">{t.full}</span>
             </Button>
           ) : null}
