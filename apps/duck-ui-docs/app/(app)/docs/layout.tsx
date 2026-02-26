@@ -14,7 +14,7 @@ export default function DocsLayout({ children }: DocsLayoutProps) {
           aria-label="Sidebar navigation"
           className="fixed top-16 z-30 hidden h-[calc(100vh-4rem)] w-full shrink-0 border-grid border-r md:sticky md:block"
           style={{ content: 'unset' }}>
-          <div className="h-full overflow-x-hidden overflow-y-auto py-8">
+          <div className="h-full overflow-y-auto overflow-x-hidden py-8">
             <DocsSidebarNav />
           </div>
         </aside>

@@ -1,28 +1,32 @@
-import { docs } from '../../../.velite'
+import { readFile } from 'node:fs/promises'
+import { join } from 'node:path'
 
-function resolveDoc(slug: string[]) {
-  const path = slug.join('/').replace(/^\/|\/$/g, '')
-  const candidates = [path, path.replace(/^docs\//, ''), path === '' ? 'index' : `${path}/index`]
+const CONTENT_DIR = join(process.cwd(), 'content', 'docs')
 
-  return (
-    docs.find(
-      (doc) =>
-        candidates.includes(doc.permalink) ||
-        candidates.includes(doc.slug) ||
-        candidates.includes(doc.slug.replace(/^docs\//, '')),
-    ) ?? null
-  )
+async function readMdxFile(slug: string[]): Promise<string | null> {
+  const path = slug.join('/')
+  const candidates = [join(CONTENT_DIR, `${path}.mdx`), join(CONTENT_DIR, path, 'index.mdx')]
+
+  for (const filePath of candidates) {
+    try {
+      return await readFile(filePath, 'utf-8')
+    } catch {
+      continue
+    }
+  }
+
+  return null
 }
 
 export async function GET(_request: Request, context: { params: Promise<{ slug: string[] }> }) {
   const { slug } = await context.params
-  const doc = resolveDoc(slug)
+  const content = await readMdxFile(slug)
 
-  if (!doc) {
+  if (!content) {
     return new Response('Not found', { status: 404 })
   }
 
-  return new Response(doc.content, {
+  return new Response(content, {
     headers: {
       'Content-Type': 'text/markdown; charset=utf-8',
       'Cache-Control': 'public, max-age=0, s-maxage=300',
