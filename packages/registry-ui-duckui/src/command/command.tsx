@@ -17,7 +17,7 @@ const Command = React.forwardRef<
     ref={ref}
     data-slot="command"
     className={cn(
-      'flex h-full w-full max-w-96 flex-col overflow-hidden rounded-md bg-popover p-2 text-popover-foreground shadow-sm',
+      'flex h-full w-full max-w-162.5 flex-col overflow-hidden rounded-md bg-popover p-2 text-popover-foreground shadow-sm',
       className,
     )}
     {...props}
@@ -30,7 +30,7 @@ const CommandInput = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input> & {
     wrapperClassName?: string
   }
->(({ className, wrapperClassName, placeholder = 'Search...', autoFocus = true, ...props }, ref) => (
+>(({ className, wrapperClassName, placeholder = 'Search...', autoFocus = false, ...props }, ref) => (
   <div className={cn('mb-2 flex items-center gap-2 border-b px-1', wrapperClassName)} data-slot="command-input">
     <Search className="size-5 shrink-0 opacity-50" />
     <CommandPrimitive.Input
@@ -41,7 +41,7 @@ const CommandInput = React.forwardRef<
         'flex h-10 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50',
         className,
       )}
-      tabIndex={0}
+      // tabIndex={0}
       {...props}
     />
   </div>
@@ -50,12 +50,15 @@ CommandInput.displayName = CommandPrimitive.Input.displayName
 
 const CommandList = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.List>
->(({ className, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof CommandPrimitive.List> & {
+    scrollRef?: React.Ref<HTMLDivElement>
+  }
+>(({ className, scrollRef, ...props }, ref) => (
   <ScrollArea
     className="overflow-y-auto overflow-x-hidden"
     data-slot="command-list"
-    viewportClassName="overflow-x-hidden">
+    viewportClassName="overflow-x-hidden"
+    viewportRef={scrollRef}>
     <CommandPrimitive.List ref={ref} className={cn('max-h-75 focus:outline-none', className)} {...props} />
   </ScrollArea>
 ))
@@ -81,7 +84,10 @@ const CommandGroup = React.forwardRef<
   <CommandPrimitive.Group
     ref={ref}
     data-slot="command-group"
-    className={cn('overflow-hidden text-foreground', className)}
+    className={cn(
+      'overflow-hidden text-foreground *:data-[slot="command-group-heading"]:px-2 *:data-[slot="command-group-heading"]:py-1.5 *:data-[slot="command-group-heading"]:font-medium *:data-[slot="command-group-heading"]:text-muted-foreground *:data-[slot="command-group-heading"]:text-sm',
+      className,
+    )}
     {...props}
   />
 ))
@@ -159,11 +165,15 @@ function CommandShortcut({
 function CommandDialog({ children, ...props }: React.ComponentPropsWithRef<typeof Dialog>): React.JSX.Element {
   return (
     <Dialog {...props}>
-      <DialogContent className="h-125 p-0 lg:w-162.5 [&>div]:max-w-full">
-        <Command>{children}</Command>
+      <DialogContent className="h-125 p-0 lg:w-[700px] max-w-full">
+        <Command className="max-w-full">{children}</Command>
       </DialogContent>
     </Dialog>
   )
+}
+
+function useCommandListContext(__scopeCommand: Parameters<typeof CommandPrimitive.useCommandContext>[1]) {
+  return CommandPrimitive.useCommandContext('Command', __scopeCommand)
 }
 
 export {
@@ -176,4 +186,5 @@ export {
   CommandShortcut,
   CommandSeparator,
   CommandDialog,
+  useCommandListContext,
 }
