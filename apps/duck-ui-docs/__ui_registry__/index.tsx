@@ -103,6 +103,7 @@ const _Button18 = dynamic(() => import('@gentleduck/registry-examples-duckui/but
 const _Button19 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-19'), { ssr: false })
 const _Button2 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-2'), { ssr: false })
 const _Button20 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-20'), { ssr: false })
+const _Button21 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-21'), { ssr: false })
 const _Button3 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-3'), { ssr: false })
 const _Button4 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-4'), { ssr: false })
 const _Button5 = dynamic(() => import('@gentleduck/registry-examples-duckui/button/button-5'), { ssr: false })
@@ -2766,6 +2767,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Button20,
+    source: '/registry-examples-duckui/src/button',
+    categories: [],
+    root_folder: 'button',
+  },
+  'button-21': {
+    name: 'button-21',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['button'],
+    files: [
+      {
+        path: 'button/button-21.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Button21,
     source: '/registry-examples-duckui/src/button',
     categories: [],
     root_folder: 'button',
