@@ -11,6 +11,7 @@ import {
 import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { Check, ChevronDown, Copy } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import { useSiteConfig } from '../../context'
 
 function getPromptUrl(baseURL: string, url: string, siteName: string) {
@@ -153,6 +154,7 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
   const siteConfig = useSiteConfig()
   const siteName = siteConfig.name ?? 'documentation'
   const { copyToClipboard, isCopied } = useCopyToClipboard()
+  const pathname = usePathname()
   const resolvedUrl = resolvePageUrl(url)
 
   const trigger = (
@@ -185,7 +187,7 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
           <DropdownMenuContent align="end" className="animate-none! rounded-lg shadow-none">
             {Object.entries(menuItems).map(([key, value]) => (
               <DropdownMenuItem asChild key={key}>
-                {value(resolvedUrl, siteName)}
+                {value(key === 'markdown' ? pathname : resolvedUrl, siteName)}
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
@@ -209,7 +211,7 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
               key={key}
               size="lg"
               variant="ghost">
-              {value(resolvedUrl, siteName)}
+              {value(key === 'markdown' ? pathname : resolvedUrl, siteName)}
             </Button>
           ))}
         </PopoverContent>
