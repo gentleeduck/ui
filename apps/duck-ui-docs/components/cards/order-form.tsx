@@ -73,7 +73,9 @@ export function OrderForm() {
                 type="email"
                 value={formData.email}
               />
-              {errors.email && <AlertTriangle aria-hidden="true" className="absolute top-3 right-3 h-4 w-4 text-red-500" />}
+              {errors.email && (
+                <AlertTriangle aria-hidden="true" className="absolute top-3 right-3 h-4 w-4 text-red-500" />
+              )}
             </div>
             {errors.email && (
               <p className="flex items-center gap-1 text-red-500 text-sm" id="email-error" role="alert">
