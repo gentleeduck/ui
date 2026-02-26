@@ -1,8 +1,6 @@
 'use client'
 
-import { CommandMenu } from '@duck-docs/components/layouts/command-menu'
 import { MainNav } from '@duck-docs/components/main-nav'
-import { MobileNav } from '@duck-docs/components/mobile-nav'
 import { ModeSwitcher } from '@duck-docs/components/mode-toggle'
 import { useSiteConfig } from '@duck-docs/context'
 import { cn } from '@gentleduck/libs/cn'
@@ -14,6 +12,13 @@ import Link from 'next/link'
 import React from 'react'
 import { HeaderContainer, HeaderRoot } from './header-shell'
 
+const CommandMenu = React.lazy(() =>
+  import('@duck-docs/components/layouts/command-menu').then((m) => ({ default: m.CommandMenu })),
+)
+const MobileNav = React.lazy(() =>
+  import('@duck-docs/components/mobile-nav').then((m) => ({ default: m.MobileNav })),
+)
+
 export function SiteHeader() {
   const siteConfig = useSiteConfig()
 
@@ -21,10 +26,24 @@ export function SiteHeader() {
     <HeaderRoot className="border-border/50 border-b bg-background/95 backdrop-blur-sm supports-[backdrop-filter]:bg-background/70">
       <HeaderContainer>
         <MainNav />
-        <MobileNav />
+        <React.Suspense fallback={null}>
+          <MobileNav />
+        </React.Suspense>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none">
-            <CommandMenu />
+            <React.Suspense
+              fallback={
+                <div
+                  className={cn(
+                    buttonVariants({ size: 'sm', variant: 'outline' }),
+                    'relative h-8 w-full bg-muted/50 text-muted-foreground text-sm shadow-none md:w-40 lg:w-64',
+                  )}>
+                  <span className="hidden lg:inline-flex">Search documentation...</span>
+                  <span className="inline-flex lg:hidden">Search...</span>
+                </div>
+              }>
+              <CommandMenu />
+            </React.Suspense>
           </div>
           <nav aria-label="Social and settings" className="flex items-center">
             <GitHubStarsButton />

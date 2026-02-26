@@ -1,7 +1,6 @@
-import { CardsDemo } from '~/components/cards'
+import dynamic from 'next/dynamic'
 
-export const dynamic = 'force-static'
-export const revalidate = false
+const CardsDemo = dynamic(() => import('~/components/cards').then((m) => ({ default: m.CardsDemo })))
 
 export default function ThemesPage() {
   return <CardsDemo />
