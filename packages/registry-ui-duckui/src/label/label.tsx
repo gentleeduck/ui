@@ -8,6 +8,7 @@ export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> 
 
 const Label = React.forwardRef<HTMLLabelElement, LabelProps>(({ className, htmlFor, dir, ...props }, ref) => {
   const direction = useDirection(dir as Direction)
+
   return (
     <label
       aria-label="label"

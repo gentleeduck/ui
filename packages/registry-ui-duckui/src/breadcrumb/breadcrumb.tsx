@@ -11,7 +11,7 @@ const Breadcrumb = React.forwardRef<
   }
 >(({ dir, ...props }, ref) => {
   const direction = useDirection(dir as Direction)
-  return <nav ref={ref} {...props} aria-label="breadcrumb" dir={direction} duck-breadcrumb="" />
+  return <nav ref={ref} {...props} aria-label="breadcrumb" data-slot="breadcrumb" dir={direction} />
 })
 Breadcrumb.displayName = 'Breadcrumb'
 

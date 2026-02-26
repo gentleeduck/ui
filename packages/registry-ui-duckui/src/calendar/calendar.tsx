@@ -147,7 +147,7 @@ function Calendar({
         formatDay: (date) => formatLocalizedNumber(date.getDate()),
         formatMonthDropdown: (date) => monthFormatter.format(date),
         formatWeekNumber: (weekNumber) => formatLocalizedNumber(weekNumber),
-        formatYearDropdown: (date) => formatLocalizedNumber(date.getFullYear()),
+        formatYearDropdown: (date) => String(date.getFullYear()),
         ...formatters,
       }}
       showOutsideDays={showOutsideDays}

@@ -37,15 +37,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
 
     return (
       <TabsContext.Provider value={{ activeItem, setActiveItem }}>
-        <div
-          {...props}
-          aria-orientation="vertical"
-          data-slot="tabs"
-          dir={direction}
-          duck-tabs=""
-          ref={ref}
-          role="tablist"
-        />
+        <div {...props} aria-orientation="vertical" data-slot="tabs" dir={direction} ref={ref} role="tablist" />
       </TabsContext.Provider>
     )
   },
@@ -63,7 +55,6 @@ const TabsList = React.forwardRef<HTMLUListElement, TabsListProps>(({ className,
     ref={ref}
     {...props}
     data-slot="tabs-list"
-    duck-tabs-list=""
   />
 ))
 TabsList.displayName = 'TabsList'
@@ -95,8 +86,7 @@ const TabsTrigger = React.forwardRef<HTMLLIElement, TabsTriggerProps>(
         id={`tab-${value}`}
         ref={ref}
         {...props}
-        data-slot="tabs-trigger"
-        duck-tabs-trigger="">
+        data-slot="tabs-trigger">
         <input
           checked={isActive}
           className="absolute inset-0 appearance-none rounded-md ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
@@ -136,7 +126,6 @@ const TabsContent = React.forwardRef<
         className,
       )}
       data-value={value}
-      duck-tabs-content=""
       hidden={activeItem !== value}
       ref={(node) => {
         ;(localRef as React.RefObject<HTMLDivElement | null>).current = node
