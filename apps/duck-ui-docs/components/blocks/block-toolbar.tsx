@@ -44,7 +44,7 @@ export function BlockToolbar({
           <PopoverTrigger
             className="hidden text-muted-foreground hover:text-foreground disabled:opacity-50 sm:flex"
             disabled={isLiftMode}>
-            <CircleHelp className="h-3.5 w-3.5" />
+            <CircleHelp aria-hidden="true" className="h-3.5 w-3.5" />
             <span className="sr-only">Block description</span>
           </PopoverTrigger>
           <PopoverContent className="space-y-3 rounded-[0.5rem] text-sm" side="top" sideOffset={20}>
@@ -100,7 +100,7 @@ export function BlockToolbar({
               <Separator className="mx-2 hidden h-4 lg:inline-flex" orientation="vertical" />
             </>
           )}
-          <div className="hidden h-[28px] items-center gap-1.5 rounded-md border p-[2px] shadow-xs md:flex">
+          <div className="hidden h-7 items-center gap-1.5 rounded-md border p-[2px] shadow-xs md:flex">
             <ToggleGroup
               defaultValue="100"
               disabled={isLiftMode}
@@ -110,14 +110,14 @@ export function BlockToolbar({
                 }
               }}
               type="single">
-              <ToggleGroupItem aria-label="Desktop view" className="h-[22px] w-[22px] rounded-xs p-0" value="100">
-                <Monitor className="h-3.5 w-3.5" />
+              <ToggleGroupItem aria-label="Desktop view" className="size-6 rounded-xs p-0" value="100">
+                <Monitor aria-hidden="true" className="h-3.5 w-3.5" />
               </ToggleGroupItem>
-              <ToggleGroupItem aria-label="Tablet view" className="h-[22px] w-[22px] rounded-xs p-0" value="60">
-                <Tablet className="h-3.5 w-3.5" />
+              <ToggleGroupItem aria-label="Tablet view" className="size-6 rounded-xs p-0" value="60">
+                <Tablet aria-hidden="true" className="h-3.5 w-3.5" />
               </ToggleGroupItem>
-              <ToggleGroupItem aria-label="Mobile view" className="h-[22px] w-[22px] rounded-xs p-0" value="30">
-                <Smartphone className="h-3.5 w-3.5" />
+              <ToggleGroupItem aria-label="Mobile view" className="size-6 rounded-xs p-0" value="30">
+                <Smartphone aria-hidden="true" className="h-3.5 w-3.5" />
               </ToggleGroupItem>
             </ToggleGroup>
           </div>
