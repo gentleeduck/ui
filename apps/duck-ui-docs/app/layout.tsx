@@ -7,7 +7,8 @@ import { cn } from '@gentleduck/libs/cn'
 import { DirectionProvider } from '@gentleduck/registry-ui-duckui/direction'
 import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import { Geist, Geist_Mono } from 'next/font/google'
+import { GeistMono } from 'geist/font/mono'
+import { GeistSans } from 'geist/font/sans'
 import { AppClientProviders } from '~/components/app-client-providers'
 import { DocsAppProvider } from '~/components/docs-provider'
 import { ThemeWrapper } from '~/components/themes'
@@ -36,21 +37,9 @@ export const metadata: Metadata = {
   ...METADATA,
 }
 
-const geistSans = Geist({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-geist-sans',
-})
-
-const geistMono = Geist_Mono({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-geist-mono',
-})
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html className={`${geistSans.variable} ${geistMono.variable}`} dir="ltr" lang="en" suppressHydrationWarning>
+    <html className={`${GeistSans.variable} ${GeistMono.variable}`} dir="ltr" lang="en" suppressHydrationWarning>
       <head>
         {process.env.NODE_ENV === 'development' && (
           <script crossOrigin="anonymous" src="//unpkg.com/react-scan/dist/auto.global.js" />

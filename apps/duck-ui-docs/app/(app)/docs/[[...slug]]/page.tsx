@@ -1,5 +1,4 @@
-import { DashboardTableOfContents, DocsPagerBottom, DocsPagerTop, Mdx } from '@gentleduck/docs/client'
-import { DocsCopyPage } from '@gentleduck/docs/components/docs'
+import { DashboardTableOfContents, DocsCopyPage, DocsPagerBottom, DocsPagerTop, Mdx } from '@gentleduck/docs/client'
 import { absoluteUrl } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
 import { badgeVariants } from '@gentleduck/registry-ui-duckui/badge'
@@ -8,6 +7,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React from 'react'
+import { DocsPathBreadcrumb } from '~/components/docs-path-breadcrumb'
 import { SLUG_METADATA } from '~/config/metadata'
 import { docs } from '../../../../.velite'
 
@@ -65,11 +65,14 @@ const PostLayout = async ({ params }: { params: Promise<{ slug?: string[] }> }) 
   return (
     <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
       <div className="relative mx-auto w-full min-w-0 max-w-2xl">
-        <div className="space-y-2">
-          <div className="absolute top-0 right-0 flex items-center gap-2">
-            {<DocsCopyPage page={doc.content} url={absoluteUrl('')} />}
+        <div className="mb-4 flex items-center justify-between gap-2">
+          <DocsPathBreadcrumb segments={_params.slug ?? []} />
+          <div className="flex items-center gap-2">
+            <DocsCopyPage page={doc.content} url={absoluteUrl(doc.slug)} />
             <DocsPagerTop doc={doc} />
           </div>
+        </div>
+        <div className="space-y-2">
           <div className="space-y-2">
             <h1 className={cn('scroll-m-20 font-bold text-3xl capitalize tracking-tight')}>
               {doc.title.split('-').join(' ')}

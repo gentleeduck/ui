@@ -7,6 +7,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from '@gentleduck/registry-ui-duckui/chart'
+import { DirectionProvider } from '@gentleduck/registry-ui-duckui/direction'
 import * as React from 'react'
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts'
 
@@ -130,74 +131,76 @@ export default function ChartRtlDemo() {
   )
 
   return (
-    <Card className="rounded-sm border-none" dir="rtl">
-      <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
-        <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
-          <CardTitle>مخطط شريطي - تفاعلي</CardTitle>
-          <CardDescription>عرض إجمالي الزوار لآخر 3 أشهر</CardDescription>
-        </div>
-        <div className="flex">
-          {['desktop', 'mobile'].map((key) => {
-            const chart = key as keyof typeof chartConfig
-            return (
-              <button
-                aria-pressed={activeChart === chart}
-                className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-start even:border-s data-[active=true]:bg-muted/50 sm:border-s sm:border-t-0 sm:px-8 sm:py-6"
-                data-active={activeChart === chart}
-                key={chart}
-                onClick={() => setActiveChart(chart)}
-                type="button">
-                <span className="text-muted-foreground text-xs">{chartConfig[chart].label}</span>
-                <span className="font-bold text-lg leading-none sm:text-3xl">
-                  {total[key as keyof typeof total].toLocaleString()}
-                </span>
-              </button>
-            )
-          })}
-        </div>
-      </CardHeader>
-      <CardContent className="px-2 sm:p-6">
-        <ChartContainer className="aspect-auto h-[250px] w-full" config={chartConfig}>
-          <BarChart
-            data={chartData}
-            margin={{
-              left: 12,
-              right: 12,
-            }}>
-            <CartesianGrid vertical={false} />
-            <XAxis
-              axisLine={false}
-              dataKey="date"
-              minTickGap={32}
-              tickFormatter={(value) => {
-                const date = new Date(value)
-                return date.toLocaleDateString('ar-SA', {
-                  day: 'numeric',
-                  month: 'short',
-                })
-              }}
-              tickLine={false}
-              tickMargin={8}
-            />
-            <ChartTooltip
-              content={
-                <ChartTooltipContent
-                  className="w-[150px]"
-                  labelFormatter={(value) => {
-                    return new Date(value).toLocaleDateString('ar-SA', {
-                      day: 'numeric',
-                      month: 'short',
-                      year: 'numeric',
-                    })
-                  }}
-                  nameKey="views"
-                />
-              }
-            />
-            <Bar dataKey={activeChart} fill={`${(chartConfig[activeChart] as any).color}`} />
-          </BarChart>
-        </ChartContainer>
-      </CardContent>
-    </Card>
+    <DirectionProvider dir="rtl">
+      <Card className="rounded-sm border-none" dir="rtl">
+        <CardHeader className="flex flex-col items-stretch space-y-0 border-b p-0 sm:flex-row">
+          <div className="flex flex-1 flex-col justify-center gap-1 px-6 py-5 sm:py-6">
+            <CardTitle>مخطط شريطي - تفاعلي</CardTitle>
+            <CardDescription>عرض إجمالي الزوار لآخر 3 أشهر</CardDescription>
+          </div>
+          <div className="flex">
+            {['desktop', 'mobile'].map((key) => {
+              const chart = key as keyof typeof chartConfig
+              return (
+                <button
+                  aria-pressed={activeChart === chart}
+                  className="relative z-30 flex flex-1 flex-col justify-center gap-1 border-t px-6 py-4 text-start even:border-s data-[active=true]:bg-muted/50 sm:border-s sm:border-t-0 sm:px-8 sm:py-6"
+                  data-active={activeChart === chart}
+                  key={chart}
+                  onClick={() => setActiveChart(chart)}
+                  type="button">
+                  <span className="text-muted-foreground text-xs">{chartConfig[chart].label}</span>
+                  <span className="font-bold text-lg leading-none sm:text-3xl">
+                    {total[key as keyof typeof total].toLocaleString()}
+                  </span>
+                </button>
+              )
+            })}
+          </div>
+        </CardHeader>
+        <CardContent className="px-2 sm:p-6">
+          <ChartContainer className="aspect-auto h-[250px] w-full" config={chartConfig}>
+            <BarChart
+              data={chartData}
+              margin={{
+                left: 12,
+                right: 12,
+              }}>
+              <CartesianGrid vertical={false} />
+              <XAxis
+                axisLine={false}
+                dataKey="date"
+                minTickGap={32}
+                tickFormatter={(value) => {
+                  const date = new Date(value)
+                  return date.toLocaleDateString('ar-SA', {
+                    day: 'numeric',
+                    month: 'short',
+                  })
+                }}
+                tickLine={false}
+                tickMargin={8}
+              />
+              <ChartTooltip
+                content={
+                  <ChartTooltipContent
+                    className="w-[150px]"
+                    labelFormatter={(value) => {
+                      return new Date(value).toLocaleDateString('ar-SA', {
+                        day: 'numeric',
+                        month: 'short',
+                        year: 'numeric',
+                      })
+                    }}
+                    nameKey="views"
+                  />
+                }
+              />
+              <Bar dataKey={activeChart} fill={`${(chartConfig[activeChart] as any).color}`} />
+            </BarChart>
+          </ChartContainer>
+        </CardContent>
+      </Card>
+    </DirectionProvider>
   )
 }
