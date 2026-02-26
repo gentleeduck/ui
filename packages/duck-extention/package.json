@@ -11,6 +11,7 @@
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
   "dependencies": {
+    "@gentleduck/motion": "workspace:*",
     "@tailwindcss/vite": "^4.1.17",
     "axios": "^1.13.2",
     "lucide-react": "0.562.0",
