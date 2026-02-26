@@ -82,7 +82,7 @@ function DialogFooterResponsive({
     return <DialogFooter {...props}>{children}</DialogFooter>
   }
 
-  return <DrawerFooter {...props}>{children}</DrawerFooter>
+  return <DrawerFooter {...(props as {})}>{children}</DrawerFooter>
 }
 
 function DialogTitleResponsive({
@@ -95,7 +95,7 @@ function DialogTitleResponsive({
     return <DialogTitle {...props}>{children}</DialogTitle>
   }
 
-  return <DrawerTitle {...props}>{children}</DrawerTitle>
+  return <DrawerTitle {...(props as {})}>{children}</DrawerTitle>
 }
 
 function DialogDescriptionResponsive({
@@ -108,7 +108,7 @@ function DialogDescriptionResponsive({
     return <DialogDescription {...props}>{children}</DialogDescription>
   }
 
-  return <DrawerDescription {...props}>{children}</DrawerDescription>
+  return <DrawerDescription {...(props as {})}>{children}</DrawerDescription>
 }
 
 function DialogCloseResponsive({
