@@ -15,4 +15,3 @@ export function animateIfAllowed(
   if (!element || reducedMotion) return null
   return element.animate(keyframes, options)
 }
-

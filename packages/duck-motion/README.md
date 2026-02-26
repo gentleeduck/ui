@@ -1,6 +1,6 @@
 # @gentleduck/motion
 
-A lightweight and composable animation library for web applications.
+A lightweight motion toolkit for duck-ui packages.
 
 > It's for duck-ui internal use only
 
@@ -12,9 +12,22 @@ bun add @gentleduck/motion
 
 ## API
 
--   `animate`: A function to create and control animations.
--   `easing`: A collection of easing functions to control the rate of change of an animation.
--   `motion`: A collection of motion functions to control the rate of change of an animation. 
+- `@gentleduck/motion/css`
+  - Motion tokens (`--duck-motion-ease`, `--duck-motion-dur`)
+  - Global `prefers-reduced-motion` fallback policy
+- `tokens`
+  - `duckEasing`
+  - `duckDuration`
+  - `duckMotionCssVar`
+- `react`
+  - `useDuckReducedMotion()`
+  - `motionTransition(reduced, normal)`
+- `waapi`
+  - `prefersReducedMotion()`
+  - `animateIfAllowed(element, keyframes, options, reducedMotion?)`
+- `motion`
+  - `animateIn(element, keyframes?, options?)`
+  - `motion` (named alias for backward compatibility)
 
 ## Contributing
 
