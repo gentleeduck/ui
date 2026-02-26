@@ -109,19 +109,19 @@ const nextConfig: NextConfig = {
       },
     ]
   },
+  rewrites: async () => {
+    return [
+      {
+        source: '/docs/:path*.md',
+        destination: '/llm/:path*',
+      },
+    ]
+  },
   transpilePackages: [
     '@gentleduck/registry-ui-duckui',
     '@gentleduck/registry-examples-duckui',
     '@gentleduck/registry-blocks-duckui',
   ],
-  // rewrites: async () => {
-  //   return [
-  //     {
-  //       source: '/docs/:path*.md',
-  //       destination: '/llm/:path*',
-  //     },
-  //   ]
-  // },
 }
 
 export default nextConfig

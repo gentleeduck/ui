@@ -231,7 +231,10 @@ function NavMain({
                   {open && (
                     <>
                       <span>{item.title}</span>
-                      <ChevronRight aria-hidden="true" className="ms-auto transition-transform duration-200 group-data-[open=true]/collapsible:rotate-90 rtl:rotate-180" />
+                      <ChevronRight
+                        aria-hidden="true"
+                        className="ms-auto transition-transform duration-200 group-data-[open=true]/collapsible:rotate-90 rtl:rotate-180"
+                      />
                     </>
                   )}
                 </SidebarMenuButton>
