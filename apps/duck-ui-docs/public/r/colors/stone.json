@@ -132,7 +132,7 @@
       "sidebar-primary-foreground": "oklch(0.985 0.001 106.423)",
       "sidebar-ring": "oklch(0.553 0.013 58.071)",
       "warning": "oklch(0.78 0.16 75.9)",
-      "warning-foreground": "oklch(0.98 0 0)"
+      "warning-foreground": "oklch(0.205 0 0)"
     },
     "light": {
       "accent": "oklch(0.97 0.001 106.424)",
@@ -169,7 +169,7 @@
       "sidebar-primary-foreground": "oklch(0.985 0.001 106.423)",
       "sidebar-ring": "oklch(0.709 0.01 56.259)",
       "warning": "oklch(0.79 0.16 75.77)",
-      "warning-foreground": "oklch(0.98 0 0)"
+      "warning-foreground": "oklch(0.205 0 0)"
     }
   },
   "inlineColorsTemplate": "@tailwind base;\n@tailwind components;\n@tailwind utilities;\n  ",
