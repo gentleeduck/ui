@@ -97,7 +97,7 @@ export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (ad
                 dataKey="goal"
                 style={
                   {
-                    fill: 'hsl(var(--foreground))',
+                    fill: 'var(--foreground)',
                     opacity: 0.9,
                     width: '50px',
                   } as React.CSSProperties

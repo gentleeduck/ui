@@ -5,24 +5,22 @@ import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 import { Drawer as DrawerPrimitive } from 'vaul'
 
-type DrawerRootProps = React.ComponentProps<typeof DrawerPrimitive.Root>
-type DrawerDirection = NonNullable<DrawerRootProps['direction']>
-type DrawerProps = DrawerRootProps & { dir?: Direction }
+type DrawerProps = React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Root> & {
+  dir?: Direction
+}
 
-function resolveDrawerDirection(direction: DrawerDirection, dir: Direction): DrawerDirection {
+function resolveDrawerDirection(
+  direction: NonNullable<React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Root>['direction']>,
+  dir: Direction,
+) {
   if (dir !== 'rtl') return direction
   if (direction === 'left') return 'right'
   if (direction === 'right') return 'left'
   return direction
 }
 
-function Drawer({
-  direction: drawerDirection = 'bottom',
-  shouldScaleBackground = true,
-  dir,
-  ...props
-}: DrawerProps): React.JSX.Element {
-  const direction = useDirection(dir as Direction)
+function Drawer({ direction: drawerDirection = 'bottom', shouldScaleBackground = true, dir, ...props }: DrawerProps) {
+  const direction = useDirection(dir)
   const resolvedDirection = resolveDrawerDirection(drawerDirection, direction)
 
   return (
@@ -36,78 +34,72 @@ function Drawer({
 }
 Drawer.displayName = 'Drawer'
 
-const DrawerTrigger = React.forwardRef<
-  React.ComponentRef<typeof DrawerPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Trigger>
->(({ ...props }, ref) => {
-  return <DrawerPrimitive.Trigger ref={ref} {...props} data-slot="drawer-trigger" />
-})
+const DrawerTrigger: React.ForwardRefExoticComponent<
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Trigger> &
+    React.RefAttributes<React.ComponentRef<typeof DrawerPrimitive.Trigger>>
+> = React.forwardRef((props, ref) => <DrawerPrimitive.Trigger ref={ref} {...props} data-slot="drawer-trigger" />)
 DrawerTrigger.displayName = 'DrawerTrigger'
 
-type DrawerTriggerElement = React.ComponentRef<typeof DrawerPrimitive.Trigger>
-type DrawerTriggerProps = React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Trigger>
-const DrawerTriggerTyped: React.ForwardRefExoticComponent<
-  DrawerTriggerProps & React.RefAttributes<DrawerTriggerElement>
-> = DrawerTrigger
-
-const DrawerPortal = ({ ...props }: React.ComponentProps<typeof DrawerPrimitive.Portal>): React.JSX.Element => {
-  return <DrawerPrimitive.Portal {...props} data-slot="drawer-portal" />
-}
+const DrawerPortal: React.FC<React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Portal>> = (props) => (
+  <DrawerPrimitive.Portal {...props} data-slot="drawer-portal" />
+)
 DrawerPortal.displayName = 'DrawerPortal'
 
-const DrawerClose = React.forwardRef<
-  React.ComponentRef<typeof DrawerPrimitive.Close>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Close>
->(({ ...props }, ref) => {
-  return <DrawerPrimitive.Close ref={ref} {...props} data-slot="drawer-close" />
-})
+const DrawerClose: React.ForwardRefExoticComponent<
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Close> &
+    React.RefAttributes<React.ComponentRef<typeof DrawerPrimitive.Close>>
+> = React.forwardRef((props, ref) => <DrawerPrimitive.Close ref={ref} {...props} data-slot="drawer-close" />)
 DrawerClose.displayName = 'DrawerClose'
 
-type DrawerCloseElement = React.ComponentRef<typeof DrawerPrimitive.Close>
-type DrawerCloseProps = React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Close>
-const DrawerCloseTyped: React.ForwardRefExoticComponent<DrawerCloseProps & React.RefAttributes<DrawerCloseElement>> =
-  DrawerClose
-
-type DrawerOverlayElement = React.ComponentRef<typeof DrawerPrimitive.Overlay>
-type DrawerOverlayProps = React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay>
-const DrawerOverlay: React.ForwardRefExoticComponent<DrawerOverlayProps & React.RefAttributes<DrawerOverlayElement>> =
-  React.forwardRef<DrawerOverlayElement, DrawerOverlayProps>(({ className, ...props }, ref) => {
-    return (
-      <DrawerPrimitive.Overlay
-        className={cn('fixed inset-0 bg-black/80', className)}
-        ref={ref}
-        {...props}
-        data-slot="drawer-overlay"
-      />
-    )
-  })
+const DrawerOverlay: React.ForwardRefExoticComponent<
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Overlay> &
+    React.RefAttributes<React.ComponentRef<typeof DrawerPrimitive.Overlay>>
+> = React.forwardRef(({ className, ...props }, ref) => (
+  <DrawerPrimitive.Overlay
+    ref={ref}
+    className={cn('fixed inset-0 bg-black/80', className)}
+    {...props}
+    data-slot="drawer-overlay"
+  />
+))
 DrawerOverlay.displayName = 'DrawerOverlay'
-const DrawerOverlayTyped: React.ForwardRefExoticComponent<
-  DrawerOverlayProps & React.RefAttributes<DrawerOverlayElement>
-> = DrawerOverlay
 
-const DrawerContent = React.forwardRef<
-  React.ComponentRef<typeof DrawerPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> & {
-    overlay?: React.ComponentPropsWithRef<typeof DrawerOverlay>
-  }
->(({ className, children, overlay, ...props }, ref) => {
+type DrawerContentProps = React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> & {
+  dir?: Direction
+  overlayProps?: React.ComponentPropsWithoutRef<typeof DrawerOverlay>
+}
+
+const DrawerContent: React.ForwardRefExoticComponent<
+  DrawerContentProps & React.RefAttributes<React.ComponentRef<typeof DrawerPrimitive.Content>>
+> = React.forwardRef(({ className, children, dir, overlayProps, ...props }, ref) => {
+  const direction = useDirection(dir)
+
   return (
-    <DrawerPortal data-slot="drawer-portal">
-      <DrawerOverlay {...overlay} data-slot="drawer-overlay" />
+    <DrawerPortal>
+      <DrawerOverlay {...overlayProps} />
       <DrawerPrimitive.Content
+        ref={ref}
+        dir={direction}
+        data-slot="drawer-content"
         className={cn(
           'group/drawer-content fixed z-50 flex h-auto flex-col bg-background',
+
+          // top
           'data-[vaul-drawer-direction=top]:inset-x-0 data-[vaul-drawer-direction=top]:top-0 data-[vaul-drawer-direction=top]:mb-24 data-[vaul-drawer-direction=top]:max-h-[80vh] data-[vaul-drawer-direction=top]:rounded-b-lg data-[vaul-drawer-direction=top]:border-b',
+
+          // bottom
           'data-[vaul-drawer-direction=bottom]:inset-x-0 data-[vaul-drawer-direction=bottom]:bottom-0 data-[vaul-drawer-direction=bottom]:mt-24 data-[vaul-drawer-direction=bottom]:max-h-[80vh] data-[vaul-drawer-direction=bottom]:rounded-t-lg data-[vaul-drawer-direction=bottom]:border-t',
+
+          // right
           'data-[vaul-drawer-direction=right]:inset-y-0 data-[vaul-drawer-direction=right]:right-0 data-[vaul-drawer-direction=right]:w-3/4 data-[vaul-drawer-direction=right]:border-l data-[vaul-drawer-direction=right]:sm:max-w-sm',
+
+          // left
           'data-[vaul-drawer-direction=left]:inset-y-0 data-[vaul-drawer-direction=left]:left-0 data-[vaul-drawer-direction=left]:w-3/4 data-[vaul-drawer-direction=left]:border-r data-[vaul-drawer-direction=left]:sm:max-w-sm',
+
           className,
         )}
-        data-slot="drawer-content"
-        ref={ref}
         {...props}>
-        <div className="mx-auto mt-4 hidden h-2 w-[100px] shrink-0 rounded-full bg-muted group-data-[vaul-drawer-direction=bottom]/drawer-content:block" />
+        <div className="mx-auto mt-4 hidden h-2 w-25 shrink-0 rounded-full bg-muted group-data-[vaul-drawer-direction=bottom]/drawer-content:block" />
         {children}
       </DrawerPrimitive.Content>
     </DrawerPortal>
@@ -115,34 +107,26 @@ const DrawerContent = React.forwardRef<
 })
 DrawerContent.displayName = 'DrawerContent'
 
-type DrawerContentElement = React.ComponentRef<typeof DrawerPrimitive.Content>
-type DrawerContentProps = React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> & {
-  overlay?: React.ComponentPropsWithRef<typeof DrawerOverlay>
-}
-const DrawerContentTyped: React.ForwardRefExoticComponent<
-  DrawerContentProps & React.RefAttributes<DrawerContentElement>
-> = DrawerContent
-
 const DrawerHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => {
-    return (
-      <div
-        className={cn('grid gap-1.5 p-4 [&_*]:text-center sm:[&_*]:text-start', className)}
-        ref={ref}
-        {...props}
-        data-slot="drawer-header"
-      />
-    )
-  },
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn('grid gap-1.5 p-4 **:text-center sm:**:text-start', className)}
+      {...props}
+      data-slot="drawer-header"
+    />
+  ),
 )
 DrawerHeader.displayName = 'DrawerHeader'
 
-const DrawerFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
-  ({ className, ...props }, ref) => {
+const DrawerFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement> & { dir?: Direction }>(
+  ({ className, dir, ...props }, ref) => {
+    const direction = useDirection(dir)
     return (
       <div
-        className={cn('mt-auto flex flex-col gap-2 p-4', className)}
         ref={ref}
+        dir={direction}
+        className={cn('mt-auto flex flex-col gap-2 p-4', className)}
         {...props}
         data-slot="drawer-footer"
       />
@@ -151,56 +135,51 @@ const DrawerFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
 )
 DrawerFooter.displayName = 'DrawerFooter'
 
-const DrawerTitle = React.forwardRef<
-  React.ComponentRef<typeof DrawerPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
->(({ className, ...props }, ref) => {
+const DrawerTitle: React.ForwardRefExoticComponent<
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title> & { dir?: Direction } & React.RefAttributes<
+      React.ComponentRef<typeof DrawerPrimitive.Title>
+    >
+> = React.forwardRef(({ className, dir, ...props }, ref) => {
+  const direction = useDirection(dir)
   return (
     <DrawerPrimitive.Title
+      ref={ref}
+      dir={direction}
       className={cn('font-semibold text-lg leading-none tracking-tight', className)}
       data-slot="drawer-title"
-      ref={ref}
       {...props}
     />
   )
 })
-DrawerTitle.displayName = DrawerPrimitive.Title.displayName
+DrawerTitle.displayName = 'DrawerTitle'
 
-type DrawerTitleElement = React.ComponentRef<typeof DrawerPrimitive.Title>
-type DrawerTitleProps = React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>
-const DrawerTitleTyped: React.ForwardRefExoticComponent<DrawerTitleProps & React.RefAttributes<DrawerTitleElement>> =
-  DrawerTitle
-
-const DrawerDescription = React.forwardRef<
-  React.ComponentRef<typeof DrawerPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>
->(({ className, ...props }, ref) => {
+const DrawerDescription: React.ForwardRefExoticComponent<
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description> & { dir?: Direction } & React.RefAttributes<
+      React.ComponentRef<typeof DrawerPrimitive.Description>
+    >
+> = React.forwardRef(({ className, dir, ...props }, ref) => {
+  const direction = useDirection(dir)
   return (
     <DrawerPrimitive.Description
-      className={cn('text-muted-foreground text-sm', className)}
       ref={ref}
-      {...props}
+      dir={direction}
+      className={cn('text-muted-foreground text-sm', className)}
       data-slot="drawer-description"
+      {...props}
     />
   )
 })
-DrawerDescription.displayName = DrawerPrimitive.Description.displayName
-
-type DrawerDescriptionElement = React.ComponentRef<typeof DrawerPrimitive.Description>
-type DrawerDescriptionProps = React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>
-const DrawerDescriptionTyped: React.ForwardRefExoticComponent<
-  DrawerDescriptionProps & React.RefAttributes<DrawerDescriptionElement>
-> = DrawerDescription
+DrawerDescription.displayName = 'DrawerDescription'
 
 export {
   Drawer,
   DrawerPortal,
-  DrawerOverlayTyped as DrawerOverlay,
-  DrawerTriggerTyped as DrawerTrigger,
-  DrawerCloseTyped as DrawerClose,
-  DrawerContentTyped as DrawerContent,
+  DrawerOverlay,
+  DrawerTrigger,
+  DrawerClose,
+  DrawerContent,
   DrawerHeader,
   DrawerFooter,
-  DrawerTitleTyped as DrawerTitle,
-  DrawerDescriptionTyped as DrawerDescription,
+  DrawerTitle,
+  DrawerDescription,
 }
