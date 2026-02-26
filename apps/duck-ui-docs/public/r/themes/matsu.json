@@ -82,7 +82,7 @@
       "sidebar-ring": "oklch(0.81 0.005 0)",
       "warning": "39.66deg 88.68% 51.57%",
       "warning-border": "0deg 0.37% 97.38%",
-      "warning-foreground": "0deg 0.37% 97.38%"
+      "warning-foreground": "0deg 0% 10%"
     },
     "light": {
       "accent": "oklch(0.86 0.055 83.6)",
@@ -122,7 +122,7 @@
       "sidebar-ring": "oklch(0.71 0.005 0)",
       "warning": "39.66deg 88.68% 51.57%",
       "warning-border": "39.66deg 88.68% 51.57%",
-      "warning-foreground": "0deg 0.37% 97.38%"
+      "warning-foreground": "0deg 0% 10%"
     },
     "theme": {
       "font-sans": "Nunito, sans-serif",

@@ -34,7 +34,7 @@
       "sidebar-primary-foreground": "oklch(0.986 0.031 120.757)",
       "sidebar-ring": "oklch(0.405 0.101 131.063)",
       "warning": "oklch(0.78 0.16 75.9)",
-      "warning-foreground": "oklch(0.98 0 0)"
+      "warning-foreground": "oklch(0.205 0 0)"
     },
     "light": {
       "accent": "oklch(0.967 0.001 286.375)",
@@ -71,7 +71,7 @@
       "sidebar-primary-foreground": "oklch(0.986 0.031 120.757)",
       "sidebar-ring": "oklch(0.841 0.238 128.85)",
       "warning": "oklch(0.79 0.16 75.77)",
-      "warning-foreground": "oklch(0.98 0 0)"
+      "warning-foreground": "oklch(0.205 0 0)"
     }
   },
   "name": "green"
