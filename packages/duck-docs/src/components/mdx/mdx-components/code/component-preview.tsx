@@ -86,7 +86,7 @@ export function ComponentPreview({
             <TabsList className="w-full justify-start overflow-x-auto rounded-none border-b bg-transparent p-0 [&_button]:shadow-none">
               {TABS.map((tab, idx) => (
                 <TabsTrigger
-                  className="cursor-pointer rounded-none border-b-[2px] border-b-transparent px-12 py-2 [&[aria-selected='true']]:border-b-primary [&[aria-selected='true']]:shadow-none [&_input]:focus-visible:shadow-none [&_input]:focus-visible:ring-transparent [&_input]:focus-visible:ring-offset-0"
+                  className="cursor-pointer rounded-none border-b-[2px] border-b-transparent px-12 py-2 [&[aria-selected='true']]:border-b-primary [&[aria-selected='true']]:shadow-none"
                   key={idx}
                   value={tab.value}>
                   {tab.name}
