@@ -127,7 +127,7 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuTrigger asChild>
             <Button className="size-8 p-0" variant="ghost">
               <span className="sr-only">Open menu</span>
-              <MoreHorizontalIcon />
+              <MoreHorizontalIcon aria-hidden="true" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="bottom" align="end">

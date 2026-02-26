@@ -141,7 +141,7 @@ const PaginationWrapper = (props: DuckPaginationProps) => {
             size="sm"
             variant="outline"
             {...maxLeftProps}>
-            <StartDoubleIcon />
+            <StartDoubleIcon aria-hidden="true" />
           </Button>
         </PaginationItem>
         <PaginationItem className={cn(itemClassName)} {...itemProps}>
@@ -151,7 +151,7 @@ const PaginationWrapper = (props: DuckPaginationProps) => {
             size="sm"
             variant="outline"
             {...leftProps}>
-            <StartIcon />
+            <StartIcon aria-hidden="true" />
           </Button>
         </PaginationItem>
         <PaginationItem className={cn(itemClassName)} {...itemProps}>
@@ -161,7 +161,7 @@ const PaginationWrapper = (props: DuckPaginationProps) => {
             size="sm"
             variant="outline"
             {...rightProps}>
-            <EndIcon />
+            <EndIcon aria-hidden="true" />
           </Button>
         </PaginationItem>
         <PaginationItem className={cn(itemClassName)} {...itemProps}>
@@ -171,7 +171,7 @@ const PaginationWrapper = (props: DuckPaginationProps) => {
             size="sm"
             variant="outline"
             {...maxRightProps}>
-            <EndDoubleIcon />
+            <EndDoubleIcon aria-hidden="true" />
           </Button>
         </PaginationItem>
       </PaginationContent>

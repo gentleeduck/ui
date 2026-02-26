@@ -251,7 +251,6 @@ function SidebarRail({
       aria-label={text}
       tabIndex={-1}
       onClick={toggleSidebar}
-      title={text}
       dir={direction}
       className={cn(
         'absolute inset-y-0 z-20 hidden w-4 transition-all ease-linear after:absolute after:inset-y-0 after:start-1/2 after:w-0.5 hover:after:bg-sidebar-border group-data-[side=left]:-right-4 group-data-[side=right]:left-0 sm:flex ltr:-translate-x-1/2 rtl:-translate-x-1/2',

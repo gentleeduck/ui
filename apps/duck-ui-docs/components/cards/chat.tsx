@@ -104,7 +104,7 @@ export function CardsChat() {
                 onClick={() => setOpen(true)}
                 size="icon"
                 variant="secondary">
-                <PlusIcon />
+                <PlusIcon aria-hidden="true" />
                 <span className="sr-only">New message</span>
               </Button>
             </TooltipTrigger>
@@ -153,7 +153,7 @@ export function CardsChat() {
               disabled={inputLength === 0}
               size="icon"
               type="submit">
-              <ArrowUpIcon className="!size-3.5" />
+              <ArrowUpIcon aria-hidden="true" className="!size-3.5" />
               <span className="sr-only">Send</span>
             </Button>
           </form>
@@ -190,7 +190,7 @@ export function CardsChat() {
                       <p className="font-medium text-sm leading-none">{user.name}</p>
                       <p className="text-muted-foreground text-sm">{user.email}</p>
                     </div>
-                    {selectedUsers.includes(user) ? <CheckIcon className="ml-auto flex size-4 text-primary" /> : null}
+                    {selectedUsers.includes(user) ? <CheckIcon aria-hidden="true" className="ml-auto flex size-4 text-primary" /> : null}
                   </CommandItem>
                 ))}
               </CommandGroup>

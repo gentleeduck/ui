@@ -84,7 +84,7 @@ export function CardsActivityGoal() {
             onClick={() => onClick(-10)}
             size="icon"
             variant="outline">
-            <MinusIcon />
+            <MinusIcon aria-hidden="true" />
             <span className="sr-only">Decrease</span>
           </Button>
           <div className="text-center">
@@ -97,7 +97,7 @@ export function CardsActivityGoal() {
             onClick={() => onClick(10)}
             size="icon"
             variant="outline">
-            <PlusIcon />
+            <PlusIcon aria-hidden="true" />
             <span className="sr-only">Increase</span>
           </Button>
         </div>
