@@ -1,12 +1,13 @@
 'use client'
 
 import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
+import { DirectionProvider } from '@gentleduck/registry-ui-duckui/direction'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 
 export default function CheckboxRtlDemo() {
   return (
-    <div dir="rtl">
-      <div className="flex flex-col gap-6">
+    <DirectionProvider dir="rtl">
+      <div className="flex flex-col gap-6" dir="rtl">
         <div className="flex items-center gap-3">
           <Checkbox id="terms" />
           <Label htmlFor="terms">قبول الشروط والاحكام</Label>
@@ -22,7 +23,7 @@ export default function CheckboxRtlDemo() {
           <Checkbox disabled id="toggle" />
           <Label htmlFor="toggle">تفعيل الاشعارات</Label>
         </div>
-        <Label className="flex items-start gap-3 rounded-lg border p-3 hover:bg-accent/50 has-[[aria-checked=true]]:border-blue-600 has-[[aria-checked=true]]:bg-blue-50 dark:has-[[aria-checked=true]]:border-blue-900 dark:has-[[aria-checked=true]]:bg-blue-950">
+        <Label className="flex items-start gap-3 rounded-lg border p-3 hover:bg-accent/50 has-aria-checked:border-blue-600 has-aria-checked:bg-blue-50 dark:has-aria-checked:border-blue-900 dark:has-aria-checked:bg-blue-950">
           <Checkbox
             className="data-[state=checked]:border-blue-600 data-[state=checked]:bg-blue-600 data-[state=checked]:text-white dark:data-[state=checked]:border-blue-700 dark:data-[state=checked]:bg-blue-700"
             defaultChecked
@@ -34,6 +35,6 @@ export default function CheckboxRtlDemo() {
           </div>
         </Label>
       </div>
-    </div>
+    </DirectionProvider>
   )
 }

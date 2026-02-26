@@ -1,42 +1,45 @@
 'use client'
 
 import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { DirectionProvider } from '@gentleduck/registry-ui-duckui/direction'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 
 export default function PopoverRtlDemo() {
   return (
-    <Popover dir="rtl">
-      <PopoverTrigger asChild>
-        <Button variant="outline">افتح النافذة المنبثقة</Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-80">
-        <div className="grid gap-4">
-          <div className="space-y-2">
-            <h4 className="font-medium leading-none">الابعاد</h4>
-            <p className="text-muted-foreground text-sm">قم بتعيين ابعاد الطبقة.</p>
+    <DirectionProvider dir="rtl">
+      <Popover dir="rtl">
+        <PopoverTrigger asChild>
+          <Button variant="outline">افتح النافذة المنبثقة</Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-80">
+          <div className="grid gap-4">
+            <div className="space-y-2">
+              <h4 className="font-medium leading-none">الابعاد</h4>
+              <p className="text-muted-foreground text-sm">قم بتعيين ابعاد الطبقة.</p>
+            </div>
+            <div className="grid gap-2">
+              <div className="grid grid-cols-3 items-center gap-4">
+                <Label htmlFor="width">العرض</Label>
+                <Input className="col-span-2 h-8" defaultValue="100%" id="width" />
+              </div>
+              <div className="grid grid-cols-3 items-center gap-4">
+                <Label htmlFor="maxWidth">اقصى عرض</Label>
+                <Input className="col-span-2 h-8" defaultValue="300px" id="maxWidth" />
+              </div>
+              <div className="grid grid-cols-3 items-center gap-4">
+                <Label htmlFor="height">الارتفاع</Label>
+                <Input className="col-span-2 h-8" defaultValue="25px" id="height" />
+              </div>
+              <div className="grid grid-cols-3 items-center gap-4">
+                <Label htmlFor="maxHeight">اقصى ارتفاع</Label>
+                <Input className="col-span-2 h-8" defaultValue="none" id="maxHeight" />
+              </div>
+            </div>
           </div>
-          <div className="grid gap-2">
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="width">العرض</Label>
-              <Input className="col-span-2 h-8" defaultValue="100%" id="width" />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="maxWidth">اقصى عرض</Label>
-              <Input className="col-span-2 h-8" defaultValue="300px" id="maxWidth" />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="height">الارتفاع</Label>
-              <Input className="col-span-2 h-8" defaultValue="25px" id="height" />
-            </div>
-            <div className="grid grid-cols-3 items-center gap-4">
-              <Label htmlFor="maxHeight">اقصى ارتفاع</Label>
-              <Input className="col-span-2 h-8" defaultValue="none" id="maxHeight" />
-            </div>
-          </div>
-        </div>
-      </PopoverContent>
-    </Popover>
+        </PopoverContent>
+      </Popover>
+    </DirectionProvider>
   )
 }

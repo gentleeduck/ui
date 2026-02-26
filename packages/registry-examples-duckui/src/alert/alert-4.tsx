@@ -1,9 +1,10 @@
 import { Alert, AlertDescription, AlertTitle } from '@gentleduck/registry-ui-duckui/alert'
+import { DirectionProvider } from '@gentleduck/registry-ui-duckui/direction'
 import { AlertCircleIcon, CheckCircle2Icon, PopcornIcon } from 'lucide-react'
 
 export default function AlertRtlDemo() {
   return (
-    <div dir="rtl">
+    <DirectionProvider dir="rtl">
       <div className="grid w-full max-w-xl items-start gap-4">
         <Alert>
           <CheckCircle2Icon />
@@ -27,6 +28,6 @@ export default function AlertRtlDemo() {
           </AlertDescription>
         </Alert>
       </div>
-    </div>
+    </DirectionProvider>
   )
 }

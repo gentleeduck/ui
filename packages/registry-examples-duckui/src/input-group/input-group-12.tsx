@@ -1,5 +1,6 @@
 'use client'
 
+import { DirectionProvider } from '@gentleduck/registry-ui-duckui/direction'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -21,8 +22,8 @@ import { ArrowUpIcon, FilterIcon } from 'lucide-react'
 
 export default function InputGroupRtlDemo() {
   return (
-    <div dir="rtl">
-      <TooltipProvider>
+    <DirectionProvider dir="rtl">
+      <TooltipProvider dir="rtl">
         <div className="grid w-full max-w-sm gap-6">
           <InputGroup>
             <InputGroupInput placeholder="تصفية السجلات..." />
@@ -81,6 +82,6 @@ export default function InputGroupRtlDemo() {
           </InputGroup>
         </div>
       </TooltipProvider>
-    </div>
+    </DirectionProvider>
   )
 }

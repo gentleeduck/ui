@@ -1,9 +1,5 @@
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 
 export default function InputRtlDemo() {
-  return (
-    <div dir="rtl">
-      <Input placeholder="البريد الالكتروني" type="email" />
-    </div>
-  )
+  return <Input placeholder="البريد الالكتروني" type="email" dir="rtl" className="max-w-xs" />
 }

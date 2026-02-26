@@ -2,20 +2,18 @@ import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@gentl
 
 export default function InputOtpRtlDemo() {
   return (
-    <div dir="rtl">
-      <InputOTP maxLength={6}>
-        <InputOTPGroup>
-          <InputOTPSlot />
-          <InputOTPSlot />
-          <InputOTPSlot />
-        </InputOTPGroup>
-        <InputOTPSeparator />
-        <InputOTPGroup>
-          <InputOTPSlot />
-          <InputOTPSlot />
-          <InputOTPSlot />
-        </InputOTPGroup>
-      </InputOTP>
-    </div>
+    <InputOTP maxLength={6} dir="rtl">
+      <InputOTPGroup>
+        <InputOTPSlot />
+        <InputOTPSlot />
+        <InputOTPSlot />
+      </InputOTPGroup>
+      <InputOTPSeparator />
+      <InputOTPGroup>
+        <InputOTPSlot />
+        <InputOTPSlot />
+        <InputOTPSlot />
+      </InputOTPGroup>
+    </InputOTP>
   )
 }

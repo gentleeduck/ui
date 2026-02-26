@@ -9,7 +9,7 @@ export default function HoverCardDemo() {
       <HoverCardContent className="w-80">
         <div className="flex justify-between space-x-4">
           <Avatar>
-            <AvatarImage alt="VC" src="https://github.com/vercel.png" />
+            <AvatarImage alt="VC" src="https://github.com/gentleeduck.png" />
             <AvatarFallback>VC</AvatarFallback>
           </Avatar>
           <div className="space-y-1">

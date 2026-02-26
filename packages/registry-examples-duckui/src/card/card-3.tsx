@@ -7,14 +7,15 @@ import {
   CardHeader,
   CardTitle,
 } from '@gentleduck/registry-ui-duckui/card'
+import { DirectionProvider } from '@gentleduck/registry-ui-duckui/direction'
 import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
 
 export default function CardRtlDemo() {
   return (
-    <div dir="rtl">
-      <Card className="w-[350px]">
+    <DirectionProvider dir="rtl">
+      <Card className="w-[350px]" dir="rtl">
         <CardHeader>
           <CardTitle>إنشاء مشروع</CardTitle>
           <CardDescription>انشر مشروعك الجديد بنقرة واحدة.</CardDescription>
@@ -32,7 +33,7 @@ export default function CardRtlDemo() {
                 <Label htmlFor="framework">نوع المشروع</Label>
 
                 <Select dir="rtl">
-                  <SelectTrigger id="framework">
+                  <SelectTrigger id="framework" className="w-full">
                     <SelectValue placeholder="اختر نوع المشروع" />
                   </SelectTrigger>
 
@@ -50,11 +51,11 @@ export default function CardRtlDemo() {
           </form>
         </CardContent>
 
-        <CardFooter className="flex justify-between">
+        <CardFooter className="flex">
           <Button variant="outline">إلغاء</Button>
           <Button>نشر</Button>
         </CardFooter>
       </Card>
-    </div>
+    </DirectionProvider>
   )
 }

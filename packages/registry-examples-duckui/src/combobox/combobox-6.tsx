@@ -54,7 +54,7 @@ export default function ComboboxForm() {
   }
 
   return (
-    <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+    <form className="w-100 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
       <FieldGroup>
         <Controller
           control={form.control}
@@ -65,7 +65,7 @@ export default function ComboboxForm() {
               <Popover onOpenChange={setOpen} open={open}>
                 <PopoverTrigger asChild>
                   <Button
-                    className={cn('w-[240px] justify-between', !field.value && 'text-muted-foreground')}
+                    className={cn('w-[400px] justify-between', !field.value && 'text-muted-foreground')}
                     id="form-rhf-combobox-language"
                     role="combobox"
                     aria-expanded={open}
@@ -77,7 +77,7 @@ export default function ComboboxForm() {
                     <ChevronsUpDown className="opacity-50" />
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[240px] min-w-auto p-0">
+                <PopoverContent className="w-[400px] min-w-auto p-0 [&>div]:max-w-full">
                   <Command>
                     <CommandInput className="h-9" placeholder="Search framework..." />
                     <CommandList>
