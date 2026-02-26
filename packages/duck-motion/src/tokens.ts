@@ -14,4 +14,3 @@ export const duckMotionCssVar = {
   duration: 'var(--duck-motion-dur, 150ms)',
   easing: 'var(--duck-motion-ease, cubic-bezier(0.4, 0, 0.2, 1))',
 } as const
-
