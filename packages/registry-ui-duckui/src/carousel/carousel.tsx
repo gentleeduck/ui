@@ -172,7 +172,7 @@ const CarouselPrevious = React.forwardRef<
       size={size}
       variant={variant}
       {...props}>
-      <ArrowLeft className="h-4 w-4 rtl:rotate-180" />
+      <ArrowLeft aria-hidden="true" className="h-4 w-4 rtl:rotate-180" />
       <span className="sr-only">{text}</span>
     </Button>
   )
@@ -201,7 +201,7 @@ const CarouselNext = React.forwardRef<
       size={size}
       variant={variant}
       {...props}>
-      <ArrowRight className="h-4 w-4 rtl:rotate-180" />
+      <ArrowRight aria-hidden="true" className="h-4 w-4 rtl:rotate-180" />
       <span className="sr-only">{text}</span>
     </Button>
   )

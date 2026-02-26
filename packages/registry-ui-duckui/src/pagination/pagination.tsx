@@ -78,7 +78,7 @@ const PaginationPrevious = React.forwardRef<
     ref={ref}
     size="default"
     {...props}>
-    <ChevronLeft className="h-4 w-4 rtl:rotate-180" />
+    <ChevronLeft aria-hidden="true" className="h-4 w-4 rtl:rotate-180" />
     <span className="hidden sm:block">{text}</span>
   </PaginationLink>
 ))
@@ -96,7 +96,7 @@ const PaginationNext = React.forwardRef<
     size="default"
     {...props}>
     <span className="hidden sm:block">{text}</span>
-    <ChevronRight className="h-4 w-4 rtl:rotate-180" />
+    <ChevronRight aria-hidden="true" className="h-4 w-4 rtl:rotate-180" />
   </PaginationLink>
 ))
 PaginationNext.displayName = 'PaginationNext'
@@ -112,7 +112,7 @@ const PaginationEllipsis = React.forwardRef<
     data-slot="pagination-ellipsis"
     ref={ref}
     {...props}>
-    <MoreHorizontal className="h-4 w-4" />
+    <MoreHorizontal aria-hidden="true" className="h-4 w-4" />
   </span>
 ))
 PaginationEllipsis.displayName = 'PaginationEllipsis'

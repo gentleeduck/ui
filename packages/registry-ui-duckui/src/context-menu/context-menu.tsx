@@ -32,7 +32,7 @@ const ContextMenuSubTrigger = React.forwardRef<
     )}
     {...props}>
     {children}
-    <ChevronRight className="ms-auto h-4 w-4 rtl:rotate-180" />
+    <ChevronRight aria-hidden="true" className="ms-auto h-4 w-4 rtl:rotate-180" />
   </ContextMenuPrimitive.SubTrigger>
 ))
 ContextMenuSubTrigger.displayName = ContextMenuPrimitive.SubTrigger.displayName
@@ -103,7 +103,7 @@ const ContextMenuCheckboxItem = React.forwardRef<
     {...props}>
     <span className="absolute start-2 flex h-3.5 w-3.5 items-center justify-center">
       <ContextMenuPrimitive.ItemIndicator>
-        <Check className="h-4 w-4" />
+        <Check aria-hidden="true" className="h-4 w-4" />
       </ContextMenuPrimitive.ItemIndicator>
     </span>
     {children}
@@ -124,7 +124,7 @@ const ContextMenuRadioItem = React.forwardRef<
     {...props}>
     <span className="absolute start-2 flex h-3.5 w-3.5 items-center justify-center">
       <ContextMenuPrimitive.ItemIndicator>
-        <Circle className="size-2 fill-current" />
+        <Circle aria-hidden="true" className="size-2 fill-current" />
       </ContextMenuPrimitive.ItemIndicator>
     </span>
     {children}
