@@ -32,7 +32,7 @@ const CommandInput = React.forwardRef<
   }
 >(({ className, wrapperClassName, placeholder = 'Search...', autoFocus = false, ...props }, ref) => (
   <div className={cn('mb-2 flex items-center gap-2 border-b px-1', wrapperClassName)} data-slot="command-input">
-    <Search className="size-5 shrink-0 opacity-50" />
+    <Search aria-hidden="true" className="size-5 shrink-0 opacity-50" />
     <CommandPrimitive.Input
       ref={ref}
       autoFocus={autoFocus}

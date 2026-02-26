@@ -70,7 +70,6 @@ const BreadcrumbPage = React.forwardRef<HTMLSpanElement, React.ComponentPropsWit
         ref={ref}
         {...props}
         aria-current="page"
-        aria-disabled="true"
         data-slot="breadcrumb-page"
       />
     )
@@ -104,7 +103,7 @@ const BreadcrumbEllipsis = React.forwardRef<
     ref={ref}
     {...props}
     data-slot="breadcrumb-ellipsis">
-    <MoreHorizontal className="h-4 w-4" />
+    <MoreHorizontal aria-hidden="true" className="h-4 w-4" />
   </span>
 ))
 BreadcrumbEllipsis.displayName = 'BreadcrumbEllipsis'
