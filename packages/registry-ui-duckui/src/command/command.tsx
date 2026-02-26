@@ -165,7 +165,7 @@ function CommandShortcut({
 function CommandDialog({ children, ...props }: React.ComponentPropsWithRef<typeof Dialog>): React.JSX.Element {
   return (
     <Dialog {...props}>
-      <DialogContent className="h-125 p-0 lg:w-[700px] max-w-full">
+      <DialogContent className="h-125 max-w-full p-0 lg:w-[700px]">
         <Command className="max-w-full">{children}</Command>
       </DialogContent>
     </Dialog>

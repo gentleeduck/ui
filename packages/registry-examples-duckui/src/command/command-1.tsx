@@ -14,7 +14,7 @@ import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-
 
 export default function CommandDemo() {
   return (
-    <Command className="h-fit border pt-0">
+    <Command className="h-fit w-80 border pt-0">
       <CommandInput placeholder="Type a command or search..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>

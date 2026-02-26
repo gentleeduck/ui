@@ -17,11 +17,11 @@ export const CommandList = React.forwardRef<CommandListElement, CommandListProps
     const listRef = React.useRef<HTMLUListElement | null>(null)
     const emptyRef = React.useRef<HTMLDivElement | null>(null)
     const composedRef = useComposedRefs(forwardedRef, listRef)
-    const [selectedItem, setSelectedItem] = React.useState<HTMLLIElement | null>(null)
 
     const handleItemLeave = React.useCallback(() => {
+      context.setSelectedItem(null)
       context.inputRef.current?.focus({ preventScroll: true })
-    }, [context.inputRef])
+    }, [context.inputRef, context.setSelectedItem])
 
     // Filtering effect (replaces useCommandSearch)
     // Uses Collection data instead of raw DOM queries.
@@ -45,7 +45,7 @@ export const CommandList = React.forwardRef<CommandListElement, CommandListProps
 
       // Track the first visible item
       const firstVisible = items.find((i) => !i.ref.current?.hidden)
-      setSelectedItem(firstVisible?.ref.current ?? null)
+      context.setSelectedItem(firstVisible?.ref.current ?? null)
 
       // Toggle empty state
       if (emptyRef.current) {
@@ -73,12 +73,7 @@ export const CommandList = React.forwardRef<CommandListElement, CommandListProps
     }, [context.search, getItems])
 
     return (
-      <CommandListProvider
-        scope={__scopeCommand}
-        onItemLeave={handleItemLeave}
-        listRef={listRef}
-        emptyRef={emptyRef}
-        selectedItem={selectedItem}>
+      <CommandListProvider scope={__scopeCommand} onItemLeave={handleItemLeave} listRef={listRef} emptyRef={emptyRef}>
         <Collection.Slot scope={__scopeCommand}>
           <Primitive.ul
             data-slot="command-list"

@@ -36,17 +36,21 @@ export const CommandItem = React.forwardRef<CommandItemElement, CommandItemProps
     } = props
     const context = useCommandContext(ITEM_NAME, __scopeCommand)
     const listContext = useCommandListContext(ITEM_NAME, __scopeCommand)
-    const [isFocused, setIsFocused] = React.useState(false)
     const [textValue, setTextValue] = React.useState(textValueProp ?? '')
     const textId = useId()
+    const itemId = useId()
+    const itemRef = React.useRef<HTMLLIElement | null>(null)
     const pointerTypeRef = React.useRef<React.PointerEvent['pointerType']>('touch')
 
     // Read text content from DOM via ref callback (like SelectItem's onItemTextChange)
-    const composedRefs = useComposedRefs(forwardedRef, (node: HTMLLIElement | null) => {
+    const composedRefs = useComposedRefs(forwardedRef, itemRef, (node: HTMLLIElement | null) => {
       if (node && !textValueProp) {
         setTextValue((prev) => prev || (node.textContent ?? '').trim())
       }
     })
+
+    // Derive highlight from context (selectedItem) instead of DOM focus
+    const isHighlighted = context.selectedItem !== null && context.selectedItem === itemRef.current
 
     const handleSelect = () => {
       if (!disabled) {
@@ -70,18 +74,22 @@ export const CommandItem = React.forwardRef<CommandItemElement, CommandItemProps
       <CommandItemContextProvider scope={__scopeCommand} {...itemContextValue}>
         <Collection.ItemSlot scope={__scopeCommand} value={value} disabled={disabled} textValue={textValue}>
           <Primitive.li
+            id={itemId}
             data-slot="command-item"
+            data-value={value}
             role="option"
             dir={context.dir}
-            data-highlighted={isFocused ? '' : undefined}
-            aria-selected={isFocused}
+            data-highlighted={isHighlighted ? '' : undefined}
+            aria-selected={isHighlighted}
             aria-disabled={disabled || undefined}
             data-disabled={disabled ? '' : undefined}
             tabIndex={disabled ? undefined : -1}
             {...itemProps}
             ref={composedRefs}
-            onFocus={composeEventHandlers(itemProps.onFocus, () => setIsFocused(true))}
-            onBlur={composeEventHandlers(itemProps.onBlur, () => setIsFocused(false))}
+            onFocus={composeEventHandlers(itemProps.onFocus, (event) => {
+              context.setSelectedItem(event.currentTarget)
+            })}
+            onBlur={composeEventHandlers(itemProps.onBlur, () => {})}
             onClick={composeEventHandlers(itemProps.onClick, () => {
               if (pointerTypeRef.current !== 'mouse') handleSelect()
             })}
@@ -96,7 +104,7 @@ export const CommandItem = React.forwardRef<CommandItemElement, CommandItemProps
               if (disabled) {
                 listContext.onItemLeave?.()
               } else if (pointerTypeRef.current === 'mouse') {
-                event.currentTarget.focus({ preventScroll: true })
+                context.setSelectedItem(event.currentTarget)
               }
             })}
             onPointerLeave={composeEventHandlers(itemProps.onPointerLeave, (event) => {

@@ -14,7 +14,7 @@ import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-
 
 export default function CommandRtlDemo() {
   return (
-    <Command className="h-fit border pt-0" dir="rtl">
+    <Command className="h-fit w-80 border pt-0" dir="rtl">
       <CommandInput placeholder="...اكتب امرا او ابحث" />
       <CommandList>
         <CommandEmpty>لا توجد نتائج.</CommandEmpty>
