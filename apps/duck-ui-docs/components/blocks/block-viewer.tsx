@@ -143,27 +143,27 @@ function BlockViewerToolbar() {
               }
             }}
             type="single">
-            <ToggleGroupItem title="Desktop" value="100">
-              <Monitor />
+            <ToggleGroupItem aria-label="Desktop" value="100">
+              <Monitor aria-hidden="true" />
             </ToggleGroupItem>
-            <ToggleGroupItem title="Tablet" value="60">
-              <Tablet />
+            <ToggleGroupItem aria-label="Tablet" value="60">
+              <Tablet aria-hidden="true" />
             </ToggleGroupItem>
-            <ToggleGroupItem title="Mobile" value="30">
-              <Smartphone />
+            <ToggleGroupItem aria-label="Mobile" value="30">
+              <Smartphone aria-hidden="true" />
             </ToggleGroupItem>
 
             <Separator className="!h-6" orientation="vertical" />
 
-            <Button asChild className="size-9 rounded-none" size="icon" title="Open in New Tab" variant="ghost">
+            <Button asChild aria-label="Open in new tab" className="size-9 rounded-none" size="icon" variant="ghost">
               <Link href={`/view/${item.name}`} target="_blank">
-                <span className="sr-only">Open in New Tab</span>
-                <ExternalLink />
+                <ExternalLink aria-hidden="true" />
               </Link>
             </Button>
             <Separator className="!h-6" orientation="vertical" />
 
             <Button
+              aria-label="Refresh preview"
               className="size-9 rounded-none p-0"
               onClick={() => {
                 if (setIframeKey) {
@@ -171,10 +171,8 @@ function BlockViewerToolbar() {
                 }
               }}
               size="icon"
-              title="Refresh Preview"
               variant="ghost">
-              <RotateCw />
-              <span className="sr-only">Refresh Preview</span>
+              <RotateCw aria-hidden="true" />
             </Button>
 
             <Separator className="!h-6" orientation="vertical" />
