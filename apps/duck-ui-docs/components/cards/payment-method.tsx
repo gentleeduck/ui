@@ -13,6 +13,7 @@ import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui-duckui/radio-group'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
+import * as React from 'react'
 
 const plans = [
   {
@@ -30,6 +31,7 @@ const plans = [
 ] as const
 
 export function CardsPaymentMethod() {
+  const id = React.useId()
   return (
     <Card>
       <CardHeader>
@@ -38,8 +40,8 @@ export function CardsPaymentMethod() {
       </CardHeader>
       <CardContent className="flex flex-col gap-6">
         <div className="flex flex-col gap-3">
-          <Label htmlFor="name">Name</Label>
-          <Input id="name" placeholder="First Last" />
+          <Label htmlFor={`${id}-name`}>Name</Label>
+          <Input id={`${id}-name`} placeholder="First Last" />
         </div>
         <div className="flex flex-col gap-3">
           <legend className="font-medium text-sm">Plan</legend>
@@ -49,7 +51,7 @@ export function CardsPaymentMethod() {
               <Label
                 className="flex items-start gap-3 rounded-lg border p-3 has-[[data-state=checked]]:border-ring has-[[data-state=checked]]:bg-primary/5"
                 key={plan.id}>
-                <RadioGroupItem className="data-[state=checked]:border-primary" id={plan.name} value={plan.id} />
+                <RadioGroupItem className="data-[state=checked]:border-primary" value={plan.id} />
                 <div className="grid gap-1 font-normal">
                   <div className="font-medium">{plan.name}</div>
                   <div className="text-balance pr-2 text-muted-foreground text-xs leading-snug">{plan.description}</div>
@@ -59,14 +61,14 @@ export function CardsPaymentMethod() {
           </RadioGroup>
         </div>
         <div className="flex flex-col gap-3">
-          <Label htmlFor="number">Card number</Label>
-          <Input id="number" placeholder="" />
+          <Label htmlFor={`${id}-number`}>Card number</Label>
+          <Input id={`${id}-number`} placeholder="" />
         </div>
         <div className="grid grid-cols-3 gap-4">
           <div className="flex flex-col gap-3">
-            <Label htmlFor="month">Expires</Label>
+            <Label htmlFor={`${id}-month`}>Expires</Label>
             <Select>
-              <SelectTrigger aria-label="Month" className="w-full" id="month">
+              <SelectTrigger aria-label="Month" className="w-full" id={`${id}-month`}>
                 <SelectValue placeholder="Month" />
               </SelectTrigger>
               <SelectContent>
@@ -86,9 +88,9 @@ export function CardsPaymentMethod() {
             </Select>
           </div>
           <div className="flex flex-col gap-3">
-            <Label htmlFor="year">Year</Label>
+            <Label htmlFor={`${id}-year`}>Year</Label>
             <Select>
-              <SelectTrigger aria-label="Year" className="w-full" id="year">
+              <SelectTrigger aria-label="Year" className="w-full" id={`${id}-year`}>
                 <SelectValue placeholder="Year" />
               </SelectTrigger>
               <SelectContent>
@@ -101,8 +103,8 @@ export function CardsPaymentMethod() {
             </Select>
           </div>
           <div className="flex flex-col gap-3">
-            <Label htmlFor="cvc">CVC</Label>
-            <Input id="cvc" placeholder="CVC" />
+            <Label htmlFor={`${id}-cvc`}>CVC</Label>
+            <Input id={`${id}-cvc`} placeholder="CVC" />
           </div>
         </div>
       </CardContent>

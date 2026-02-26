@@ -45,6 +45,9 @@ export function ThemeCustomizer() {
           </Button>
         </DrawerTrigger>
         <DrawerContent className="p-6 pt-0">
+          <DrawerHeader className="sr-only">
+            <DrawerTitle>Customize theme</DrawerTitle>
+          </DrawerHeader>
           <Customizer />
         </DrawerContent>
       </Drawer>

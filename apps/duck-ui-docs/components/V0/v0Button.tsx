@@ -79,6 +79,7 @@ function Form({ disabled, className, ...props }: Omit<React.ComponentProps<typeo
 export function V0Logo({ className, ...props }: React.ComponentProps<'svg'>) {
   return (
     <svg
+      aria-hidden="true"
       className={cn('h-5 w-5 text-current', className)}
       fill="none"
       viewBox="0 0 40 20"

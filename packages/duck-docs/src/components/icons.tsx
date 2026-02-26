@@ -165,18 +165,18 @@ export const Icons = {
 export function getIconForLanguageExtension(language: string) {
   switch (language) {
     case 'json':
-      return <Icons.json />
+      return <Icons.json aria-hidden="true" />
     case 'css':
-      return <Icons.css className="fill-foreground" />
+      return <Icons.css aria-hidden="true" className="fill-foreground" />
     case 'js':
     case 'jsx':
     case 'ts':
     case 'tsx':
     case 'typescript':
-      return <Icons.ts className="fill-foreground" />
+      return <Icons.ts aria-hidden="true" className="fill-foreground" />
     case 'toml':
-      return <Icons.toml className="fill-foreground" />
+      return <Icons.toml aria-hidden="true" className="fill-foreground" />
     default:
-      return <FileIcon />
+      return <FileIcon aria-hidden="true" />
   }
 }

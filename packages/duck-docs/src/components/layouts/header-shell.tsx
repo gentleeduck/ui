@@ -52,14 +52,14 @@ export function HeaderBrand({
   return (
     <Link className={cn('flex items-center gap-2 text-foreground', className)} href={href}>
       <Image
-        alt="Logo"
+        alt={`${label} logo`}
         className={cn('hidden h-6 w-6 dark:block', logoClassName)}
         height={512}
         src={logoDark}
         width={512}
       />
       <Image
-        alt="Logo"
+        alt={`${label} logo`}
         className={cn('block h-6 w-6 dark:hidden', logoClassName)}
         height={512}
         src={logoLight}
