@@ -190,7 +190,9 @@ export function CardsChat() {
                       <p className="font-medium text-sm leading-none">{user.name}</p>
                       <p className="text-muted-foreground text-sm">{user.email}</p>
                     </div>
-                    {selectedUsers.includes(user) ? <CheckIcon aria-hidden="true" className="ml-auto flex size-4 text-primary" /> : null}
+                    {selectedUsers.includes(user) ? (
+                      <CheckIcon aria-hidden="true" className="ml-auto flex size-4 text-primary" />
+                    ) : null}
                   </CommandItem>
                 ))}
               </CommandGroup>
