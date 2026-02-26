@@ -21,7 +21,7 @@ export default function InputGroupDropdown() {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <InputGroupButton aria-label="More" size="icon-xs" variant="ghost">
-                <MoreHorizontal />
+                <MoreHorizontal aria-hidden="true" />
               </InputGroupButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent side="bottom" align="end">

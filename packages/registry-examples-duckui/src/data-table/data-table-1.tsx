@@ -133,7 +133,7 @@ export const columns: ColumnDef<Payment>[] = [
           <DropdownMenuTrigger asChild>
             <Button className="ml-auto h-8 w-8 p-0" size={'sm'} variant="ghost">
               <span className="sr-only">Open menu</span>
-              <MoreHorizontal />
+              <MoreHorizontal aria-hidden="true" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="bottom" align="end" className="w-[170px]">
@@ -190,7 +190,7 @@ export default function DataTableDemo() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className="ml-auto text-sm" variant="outline">
-              Columns <ChevronDown />
+              Columns <ChevronDown aria-hidden="true" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent side="bottom" align="end">

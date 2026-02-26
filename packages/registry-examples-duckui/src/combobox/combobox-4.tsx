@@ -38,7 +38,7 @@ export default function ComboboxDropdownMenu() {
       <DropdownMenu onOpenChange={setOpen} open={open}>
         <DropdownMenuTrigger asChild>
           <Button size="sm" variant="ghost">
-            <MoreHorizontal />
+            <MoreHorizontal aria-hidden="true" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent side="top" align="end" className="w-[200px]">

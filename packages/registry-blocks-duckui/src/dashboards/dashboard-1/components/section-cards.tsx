@@ -11,14 +11,14 @@ export function SectionCards() {
           <CardTitle className="font-semibold @[250px]/card:text-3xl text-2xl tabular-nums">$1,250.00</CardTitle>
           <div className="absolute top-4 right-4">
             <Badge className="flex gap-1 rounded-lg text-xs" variant="outline">
-              <TrendingUpIcon className="size-3" />
+              <TrendingUpIcon aria-hidden="true" className="size-3" />
               +12.5%
             </Badge>
           </div>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Trending up this month <TrendingUpIcon className="size-4" />
+            Trending up this month <TrendingUpIcon aria-hidden="true" className="size-4" />
           </div>
           <div className="text-muted-foreground">Visitors for the last 6 months</div>
         </CardFooter>
@@ -29,14 +29,14 @@ export function SectionCards() {
           <CardTitle className="font-semibold @[250px]/card:text-3xl text-2xl tabular-nums">1,234</CardTitle>
           <div className="absolute top-4 right-4">
             <Badge className="flex gap-1 rounded-lg text-xs" variant="outline">
-              <TrendingDownIcon className="size-3" />
+              <TrendingDownIcon aria-hidden="true" className="size-3" />
               -20%
             </Badge>
           </div>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Down 20% this period <TrendingDownIcon className="size-4" />
+            Down 20% this period <TrendingDownIcon aria-hidden="true" className="size-4" />
           </div>
           <div className="text-muted-foreground">Acquisition needs attention</div>
         </CardFooter>
@@ -47,14 +47,14 @@ export function SectionCards() {
           <CardTitle className="font-semibold @[250px]/card:text-3xl text-2xl tabular-nums">45,678</CardTitle>
           <div className="absolute top-4 right-4">
             <Badge className="flex gap-1 rounded-lg text-xs" variant="outline">
-              <TrendingUpIcon className="size-3" />
+              <TrendingUpIcon aria-hidden="true" className="size-3" />
               +12.5%
             </Badge>
           </div>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Strong user retention <TrendingUpIcon className="size-4" />
+            Strong user retention <TrendingUpIcon aria-hidden="true" className="size-4" />
           </div>
           <div className="text-muted-foreground">Engagement exceed targets</div>
         </CardFooter>
@@ -65,14 +65,14 @@ export function SectionCards() {
           <CardTitle className="font-semibold @[250px]/card:text-3xl text-2xl tabular-nums">4.5%</CardTitle>
           <div className="absolute top-4 right-4">
             <Badge className="flex gap-1 rounded-lg text-xs" variant="outline">
-              <TrendingUpIcon className="size-3" />
+              <TrendingUpIcon aria-hidden="true" className="size-3" />
               +4.5%
             </Badge>
           </div>
         </CardHeader>
         <CardFooter className="flex-col items-start gap-1 text-sm">
           <div className="line-clamp-1 flex gap-2 font-medium">
-            Steady performance <TrendingUpIcon className="size-4" />
+            Steady performance <TrendingUpIcon aria-hidden="true" className="size-4" />
           </div>
           <div className="text-muted-foreground">Meets growth projections</div>
         </CardFooter>

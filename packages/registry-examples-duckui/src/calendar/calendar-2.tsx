@@ -107,14 +107,14 @@ export default function CalendarDemo() {
       components={{
         Chevron: ({ className, orientation, ...props }) => {
           if (orientation === 'left') {
-            return <ChevronLeftIcon className={cn('size-4', className)} {...props} />
+            return <ChevronLeftIcon aria-hidden="true" className={cn('size-4', className)} {...props} />
           }
 
           if (orientation === 'right') {
-            return <ChevronRightIcon className={cn('size-4', className)} {...props} />
+            return <ChevronRightIcon aria-hidden="true" className={cn('size-4', className)} {...props} />
           }
 
-          return <ChevronDownIcon className={cn('size-4', className)} {...props} />
+          return <ChevronDownIcon aria-hidden="true" className={cn('size-4', className)} {...props} />
         },
         DayButton: CalendarDayButton,
         Root: ({ className, rootRef, ...props }) => {

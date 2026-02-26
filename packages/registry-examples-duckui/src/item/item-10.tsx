@@ -35,7 +35,7 @@ export default function ItemDropdown() {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button className="w-fit" size="sm" variant="outline">
-            Switch Workspace <ChevronDownIcon />
+            Switch Workspace <ChevronDownIcon aria-hidden="true" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-72 [--radius:0.65rem]" side="bottom">

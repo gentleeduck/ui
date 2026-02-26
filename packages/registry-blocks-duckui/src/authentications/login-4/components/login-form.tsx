@@ -73,7 +73,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
           </form>
           <div className="relative hidden bg-muted md:block">
             <img
-              alt="placeholder"
+              alt=""
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
               height={'100%'}
               src="/placeholder.svg"

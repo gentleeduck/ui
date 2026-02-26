@@ -20,7 +20,7 @@ export default function CalendarDemo() {
         <PopoverTrigger asChild>
           <Button className="w-48 justify-between font-normal" id="date" variant="outline">
             {date ? date.toLocaleDateString() : 'Select date'}
-            <ChevronDownIcon />
+            <ChevronDownIcon aria-hidden="true" />
           </Button>
         </PopoverTrigger>
         <PopoverContent side="bottom" className="w-auto overflow-hidden p-0">

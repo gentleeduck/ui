@@ -37,9 +37,9 @@ export function Color({ color }: { color: Color }) {
         } as React.CSSProperties
       }>
       {isCopied ? (
-        <Check className="group-hover:opacity-100 group-data-[last-copied=true]:opacity-100" />
+        <Check aria-hidden="true" className="group-hover:opacity-100 group-data-[last-copied=true]:opacity-100" />
       ) : (
-        <Clipboard className="group-hover:opacity-100" />
+        <Clipboard aria-hidden="true" className="group-hover:opacity-100" />
       )}
       <div className="w-full flex-1 rounded-md border bg-(--bg) after:rounded-lg after:border-input md:rounded-lg" />
       <div className="flex w-full flex-col items-center justify-center gap-1">

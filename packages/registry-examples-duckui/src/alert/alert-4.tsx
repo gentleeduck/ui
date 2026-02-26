@@ -7,16 +7,16 @@ export default function AlertRtlDemo() {
     <DirectionProvider dir="rtl">
       <div className="grid w-full max-w-xl items-start gap-4">
         <Alert>
-          <CheckCircle2Icon />
+          <CheckCircle2Icon aria-hidden="true" />
           <AlertTitle>تم بنجاح! تم حفظ التغييرات الخاصة بك</AlertTitle>
           <AlertDescription>هذا تنبيه يحتوي على أيقونة وعنوان ووصف.</AlertDescription>
         </Alert>
         <Alert>
-          <PopcornIcon />
+          <PopcornIcon aria-hidden="true" />
           <AlertTitle>هذا التنبيه يحتوي على عنوان وأيقونة. بدون وصف.</AlertTitle>
         </Alert>
         <Alert variant="destructive">
-          <AlertCircleIcon />
+          <AlertCircleIcon aria-hidden="true" />
           <AlertTitle>تعذرت معالجة عملية الدفع الخاصة بك.</AlertTitle>
           <AlertDescription>
             <p>يرجى التحقق من معلومات الفوترة والمحاولة مرة أخرى.</p>
