@@ -56,7 +56,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               {data.changes.map((item, index) => (
                 <SidebarMenuItem key={index}>
                   <SidebarMenuButton>
-                    <File />
+                    <File aria-hidden="true" />
                     {item.file}
                   </SidebarMenuButton>
                   <SidebarMenuBadge>{item.state}</SidebarMenuBadge>
@@ -87,7 +87,7 @@ function Tree({ item }: { item: string | any[] }) {
   if (!items.length) {
     return (
       <SidebarMenuButton className="data-[active=true]:bg-transparent" isActive={name === 'button.tsx'}>
-        <File />
+        <File aria-hidden="true" />
         {name}
       </SidebarMenuButton>
     )
@@ -100,8 +100,8 @@ function Tree({ item }: { item: string | any[] }) {
         defaultOpen={name === 'components' || name === 'ui'}>
         <CollapsibleTrigger asChild>
           <SidebarMenuButton>
-            <ChevronRight className="transition-transform" />
-            <Folder />
+            <ChevronRight aria-hidden="true" className="transition-transform" />
+            <Folder aria-hidden="true" />
             {name}
           </SidebarMenuButton>
         </CollapsibleTrigger>
