@@ -1,4 +1,5 @@
 import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/docs/client'
+import { absoluteUrl } from '@gentleduck/docs/lib'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
@@ -10,6 +11,9 @@ const title = 'Find Your Color. Make It Yours.'
 const description = 'Browse hand-crafted themes you can use right away. Just copy and paste. Theme editor coming soon!'
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: absoluteUrl('/themes'),
+  },
   description,
   openGraph: {
     images: [

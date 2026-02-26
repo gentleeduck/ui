@@ -1,4 +1,5 @@
 import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/docs/client'
+import { absoluteUrl } from '@gentleduck/docs/lib'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
@@ -13,6 +14,9 @@ const description =
   'From bar and line charts to advanced visualizations, explore a collection of Recharts components you can drop straight into your projects.'
 
 export const metadata: Metadata = {
+  alternates: {
+    canonical: absoluteUrl('/charts'),
+  },
   description,
   openGraph: {
     images: [
