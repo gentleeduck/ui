@@ -27,10 +27,10 @@ export function DashboardTableOfContents({ toc }: TocProps) {
 
   return mounted ? (
     <div className="space-y-2">
-      <p className="font-medium">
-        <BookOpenText size={16} aria-hidden="true" />
-        On This Page
-      </p>
+      <div className="flex items-center gap-2">
+        <BookOpenText aria-hidden="true" className="size-4" />
+        <p className="font-medium">On This Page</p>
+      </div>
       <Tree activeItem={activeHeading} tree={toc} />
     </div>
   ) : null
