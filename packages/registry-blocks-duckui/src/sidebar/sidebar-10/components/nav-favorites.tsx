@@ -44,7 +44,7 @@ export function NavFavorites({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuAction showOnHover>
-                  <MoreHorizontal />
+                  <MoreHorizontal aria-hidden="true" />
                   <span className="sr-only">More</span>
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
@@ -53,21 +53,21 @@ export function NavFavorites({
                 className="w-56 rounded-lg"
                 side={isMobile ? 'bottom' : 'right'}>
                 <DropdownMenuItem>
-                  <StarOff className="text-muted-foreground" />
+                  <StarOff aria-hidden="true" className="text-muted-foreground" />
                   <span>Remove from Favorites</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <Link className="text-muted-foreground" />
+                  <Link aria-hidden="true" className="text-muted-foreground" />
                   <span>Copy Link</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <ArrowUpRight className="text-muted-foreground" />
+                  <ArrowUpRight aria-hidden="true" className="text-muted-foreground" />
                   <span>Open in New Tab</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem>
-                  <Trash2 className="text-muted-foreground" />
+                  <Trash2 aria-hidden="true" className="text-muted-foreground" />
                   <span>Delete</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -76,7 +76,7 @@ export function NavFavorites({
         ))}
         <SidebarMenuItem>
           <SidebarMenuButton className="text-sidebar-foreground/70">
-            <MoreHorizontal />
+            <MoreHorizontal aria-hidden="true" />
             <span>More</span>
           </SidebarMenuButton>
         </SidebarMenuItem>

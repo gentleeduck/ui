@@ -5,16 +5,16 @@ export default function AlertDemo() {
   return (
     <div className="grid w-full max-w-xl items-start gap-4">
       <Alert>
-        <CheckCircle2Icon />
+        <CheckCircle2Icon aria-hidden="true" />
         <AlertTitle>Success! Your changes have been saved</AlertTitle>
         <AlertDescription>This is an alert with icon, title and description.</AlertDescription>
       </Alert>
       <Alert>
-        <PopcornIcon />
+        <PopcornIcon aria-hidden="true" />
         <AlertTitle>This Alert has a title and an icon. No description.</AlertTitle>
       </Alert>
       <Alert variant="destructive">
-        <AlertCircleIcon />
+        <AlertCircleIcon aria-hidden="true" />
         <AlertTitle>Unable to process your payment.</AlertTitle>
         <AlertDescription>
           <p>Please verify your billing information and try again.</p>

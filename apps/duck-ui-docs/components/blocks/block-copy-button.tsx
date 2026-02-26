@@ -45,7 +45,7 @@ export function BlockCopyButton({
           variant="outline"
           {...props}>
           <span className="sr-only">Copy</span>
-          {hasCopied ? <CheckIcon /> : <Copy />}
+          {hasCopied ? <CheckIcon aria-hidden="true" /> : <Copy aria-hidden="true" />}
         </Button>
       </TooltipTrigger>
       <TooltipContent className="bg-black text-white">Copy code</TooltipContent>

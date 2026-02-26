@@ -12,12 +12,12 @@ export default function ButtonGroupPopover() {
   return (
     <ButtonGroup>
       <Button variant="outline">
-        <BotIcon /> Copilot
+        <BotIcon aria-hidden="true" /> Copilot
       </Button>
       <Popover>
         <PopoverTrigger asChild>
           <Button aria-label="Open Popover" size="icon" variant="outline">
-            <ChevronDownIcon />
+            <ChevronDownIcon aria-hidden="true" />
           </Button>
         </PopoverTrigger>
         <PopoverContent side="bottom" align="end" className="rounded-xl p-0 text-sm">

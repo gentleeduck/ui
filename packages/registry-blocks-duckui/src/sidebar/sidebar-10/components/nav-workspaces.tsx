@@ -43,11 +43,12 @@ export function NavWorkspaces({
                   <SidebarMenuAction
                     className="left-2 bg-sidebar-accent text-sidebar-accent-foreground data-[state=open]:rotate-90"
                     showOnHover>
-                    <ChevronRight />
+                    <ChevronRight aria-hidden="true" />
+                    <span className="sr-only">Toggle</span>
                   </SidebarMenuAction>
                 </CollapsibleTrigger>
-                <SidebarMenuAction showOnHover>
-                  <Plus />
+                <SidebarMenuAction aria-label="Add page" showOnHover>
+                  <Plus aria-hidden="true" />
                 </SidebarMenuAction>
                 <CollapsibleContent>
                   <SidebarMenuSub>
@@ -68,7 +69,7 @@ export function NavWorkspaces({
           ))}
           <SidebarMenuItem>
             <SidebarMenuButton className="text-sidebar-foreground/70">
-              <MoreHorizontal />
+              <MoreHorizontal aria-hidden="true" />
               <span>More</span>
             </SidebarMenuButton>
           </SidebarMenuItem>

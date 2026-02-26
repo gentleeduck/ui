@@ -7,8 +7,8 @@ export default function Badge8Demo() {
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger>
-          <Badge arial-label="Badge" className="rounded-full" size="icon" variant="outline">
-            <Info />
+          <Badge aria-label="Badge" className="rounded-full" size="icon" variant="outline">
+            <Info aria-hidden="true" />
           </Badge>
         </TooltipTrigger>
         <TooltipContent>Info Badge</TooltipContent>

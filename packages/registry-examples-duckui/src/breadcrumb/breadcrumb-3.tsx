@@ -31,7 +31,7 @@ export default function BreadcrumbDemo() {
           <DropdownMenu>
             <DropdownMenuTrigger className="flex items-center gap-1 [&_svg:not([class*='size-'])]:size-3.5 [&_svg]:pointer-events-none [&_svg]:shrink-0">
               Components
-              <ChevronDownIcon />
+              <ChevronDownIcon aria-hidden="true" />
             </DropdownMenuTrigger>
             <DropdownMenuContent side="top" align="start">
               <DropdownMenuItem>Documentation</DropdownMenuItem>

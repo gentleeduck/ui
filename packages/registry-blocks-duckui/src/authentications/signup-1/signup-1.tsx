@@ -142,8 +142,8 @@ export default function signup_1({ className }: { className?: string }) {
         className="hidden h-full flex-col gap-4 overflow-hidden px-16 pt-16 pr-0 lg:flex xl:pt-18 xl:pl-22"
         id="right-side">
         <div className="relative h-full w-full">
-          <Image alt="WD" className="hidden object-cover object-left-top dark:block" fill src="/login.jpg" />
-          <Image alt="WD" className="block object-cover object-left-top dark:hidden" fill src="/login-light.jpg" />
+          <Image alt="" className="hidden object-cover object-left-top dark:block" fill src="/login.jpg" />
+          <Image alt="" className="block object-cover object-left-top dark:hidden" fill src="/login-light.jpg" />
         </div>
       </div>
     </div>

@@ -371,8 +371,8 @@ export function DataTable({ data: initialData }: { data: z.infer<typeof schema>[
           <TabsTrigger value="focus-documents">Focus Documents</TabsTrigger>
         </TabsList>
         <div className="flex items-center gap-2">
-          <Button variant="outline">
-            <PlusIcon />
+          <Button aria-label="Add Section" variant="outline">
+            <PlusIcon aria-hidden="true" />
             <span className="hidden lg:inline">Add Section</span>
           </Button>
         </div>

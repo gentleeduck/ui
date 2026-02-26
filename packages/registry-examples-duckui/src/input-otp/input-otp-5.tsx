@@ -9,7 +9,7 @@ export default function InputOTPDemo() {
         <InputOTPSlot />
         <InputOTPSlot />
       </InputOTPGroup>
-      <InputOTPSeparator customIndicator={<Minus />} />
+      <InputOTPSeparator customIndicator={<Minus aria-hidden="true" />} />
       <InputOTPGroup>
         <InputOTPSlot />
         <InputOTPSlot />

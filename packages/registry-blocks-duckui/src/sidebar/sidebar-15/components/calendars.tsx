@@ -30,7 +30,7 @@ export function Calendars({
                 className="group/label w-full text-sidebar-foreground text-sm hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                 <CollapsibleTrigger>
                   {calendar.name}{' '}
-                  <ChevronRight className="ml-auto transition-transform group-data-[open=true]/collapsible:rotate-90" />
+                  <ChevronRight aria-hidden="true" className="ml-auto transition-transform group-data-[open=true]/collapsible:rotate-90" />
                 </CollapsibleTrigger>
               </SidebarGroupLabel>
               <CollapsibleContent>
@@ -42,7 +42,7 @@ export function Calendars({
                           <div
                             className="group/calendar-item flex aspect-square size-4 shrink-0 items-center justify-center rounded-sm border border-sidebar-border text-sidebar-primary-foreground data-[active=true]:border-sidebar-primary data-[active=true]:bg-sidebar-primary"
                             data-active={index < 2}>
-                            <Check className="hidden size-3 group-data-[active=true]/calendar-item:block" />
+                            <Check aria-hidden="true" className="hidden size-3 group-data-[active=true]/calendar-item:block" />
                           </div>
                           {item}
                         </SidebarMenuButton>

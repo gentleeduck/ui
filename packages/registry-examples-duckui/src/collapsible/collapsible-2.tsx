@@ -12,7 +12,7 @@ export default function CollapsibleRtlDemo() {
       <div className="flex items-center justify-between gap-4 px-4">
         <h4 className="font-semibold text-sm">@peduarte قام بتمييز 3 مستودعات</h4>
         <CollapsibleTrigger size={'icon'}>
-          <ChevronsUpDown />
+          <ChevronsUpDown aria-hidden="true" />
           <span className="sr-only">تبديل</span>
         </CollapsibleTrigger>
       </div>

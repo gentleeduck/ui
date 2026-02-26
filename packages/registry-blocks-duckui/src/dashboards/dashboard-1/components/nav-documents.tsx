@@ -36,14 +36,14 @@ export function NavDocuments({
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
               <a href={item.url}>
-                <item.icon />
+                <item.icon aria-hidden="true" />
                 <span>{item.name}</span>
               </a>
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuAction className="rounded-sm data-[state=open]:bg-accent" showOnHover>
-                  <MoreHorizontalIcon />
+                  <MoreHorizontalIcon aria-hidden="true" />
                   <span className="sr-only">More</span>
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
@@ -52,11 +52,11 @@ export function NavDocuments({
                 className="w-24 rounded-lg"
                 side={isMobile ? 'bottom' : 'right'}>
                 <DropdownMenuItem>
-                  <FolderIcon />
+                  <FolderIcon aria-hidden="true" />
                   <span>Open</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <ShareIcon />
+                  <ShareIcon aria-hidden="true" />
                   <span>Share</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -65,7 +65,7 @@ export function NavDocuments({
         ))}
         <SidebarMenuItem>
           <SidebarMenuButton className="text-sidebar-foreground/70">
-            <MoreHorizontalIcon className="text-sidebar-foreground/70" />
+            <MoreHorizontalIcon aria-hidden="true" className="text-sidebar-foreground/70" />
             <span>More</span>
           </SidebarMenuButton>
         </SidebarMenuItem>

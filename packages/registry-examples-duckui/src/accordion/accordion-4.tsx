@@ -5,7 +5,7 @@ export default function Accordion1Demo() {
   return (
     <Accordion className="w-full" type="multiple">
       <AccordionItem value="item-1">
-        <AccordionTrigger className="hover:no-underline" icon={<Plus />}>
+        <AccordionTrigger className="hover:no-underline" icon={<Plus aria-hidden="true" />}>
           Is it accessible?
         </AccordionTrigger>
         <AccordionContent>
@@ -15,7 +15,7 @@ export default function Accordion1Demo() {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
-        <AccordionTrigger className="hover:no-underline" icon={<Plus />}>
+        <AccordionTrigger className="hover:no-underline" icon={<Plus aria-hidden="true" />}>
           Is it styled?
         </AccordionTrigger>
         <AccordionContent>
@@ -25,7 +25,7 @@ export default function Accordion1Demo() {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-3">
-        <AccordionTrigger className="hover:no-underline" icon={<Plus />}>
+        <AccordionTrigger className="hover:no-underline" icon={<Plus aria-hidden="true" />}>
           Is it animated?
         </AccordionTrigger>
         <AccordionContent>
@@ -35,7 +35,7 @@ export default function Accordion1Demo() {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-4">
-        <AccordionTrigger className="hover:no-underline" icon={<Plus />}>
+        <AccordionTrigger className="hover:no-underline" icon={<Plus aria-hidden="true" />}>
           How customizable is it?
         </AccordionTrigger>
         <AccordionContent>
@@ -45,7 +45,7 @@ export default function Accordion1Demo() {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-5">
-        <AccordionTrigger className="hover:no-underline" icon={<Plus />}>
+        <AccordionTrigger className="hover:no-underline" icon={<Plus aria-hidden="true" />}>
           What are some use cases for this component?
         </AccordionTrigger>
         <AccordionContent>

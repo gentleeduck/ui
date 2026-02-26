@@ -48,7 +48,7 @@ export default function DrawerRtlDemo() {
             <div className="p-4 pb-0">
               <div className="flex items-center justify-center space-x-2">
                 <Button className="h-8 w-8" disabled={goal <= 200} onClick={() => onClick(-10)} variant="outline">
-                  <Minus className="h-4 w-4" />
+                  <Minus aria-hidden="true" className="h-4 w-4" />
                   <span className="sr-only">تقليل</span>
                 </Button>
                 <div className="flex-1 text-center">
@@ -56,7 +56,7 @@ export default function DrawerRtlDemo() {
                   <div className="text-[0.70rem] text-muted-foreground uppercase">سعرة حرارية/يوم</div>
                 </div>
                 <Button className="h-8 w-8" disabled={goal >= 400} onClick={() => onClick(10)} variant="outline">
-                  <Plus />
+                  <Plus aria-hidden="true" />
                   <span className="sr-only">زيادة</span>
                 </Button>
               </div>

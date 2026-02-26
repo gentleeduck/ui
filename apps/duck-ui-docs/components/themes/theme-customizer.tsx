@@ -127,7 +127,7 @@ export function Customizer() {
                     className={cn(
                       'mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[var(--theme-primary)]',
                     )}>
-                    {isActive && <CheckIcon className="!size-3 text-white" />}
+                    {isActive && <CheckIcon aria-hidden="true" className="!size-3 text-white" />}
                   </span>
                   {theme.label}
                 </Button>

@@ -22,7 +22,7 @@ export default function DatePickerRtlDemo() {
         <PopoverTrigger asChild>
           <Button className="w-48 justify-between font-normal" id="date" variant="outline">
             {date ? date.toLocaleDateString(locale) : 'اختر التاريخ'}
-            <ChevronDownIcon />
+            <ChevronDownIcon aria-hidden="true" />
           </Button>
         </PopoverTrigger>
         <PopoverContent side="top" align="start" className="min-w-auto overflow-hidden p-0">

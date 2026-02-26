@@ -160,13 +160,13 @@ function TeamSwitcher({
               size="lg"
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground">
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-                <activeTeam.logo className="size-4" />
+                <activeTeam.logo aria-hidden="true" className="size-4" />
               </div>
               <div className="grid flex-1 text-right text-sm leading-tight">
                 <span className="truncate font-medium">{activeTeam.name}</span>
                 <span className="truncate text-xs">{activeTeam.plan}</span>
               </div>
-              <ChevronsUpDown className="ms-auto" />
+              <ChevronsUpDown aria-hidden="true" className="ms-auto" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -190,7 +190,7 @@ function TeamSwitcher({
             <DropdownMenuGroup>
               <DropdownMenuItem className="gap-2 p-2">
                 <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
-                  <Plus className="size-4" />
+                  <Plus aria-hidden="true" className="size-4" />
                 </div>
                 <div className="font-medium text-muted-foreground">اضافة فريق</div>
               </DropdownMenuItem>
@@ -227,11 +227,11 @@ function NavMain({
             <SidebarMenuItem>
               <CollapsibleTrigger asChild>
                 <SidebarMenuButton tooltip={item.title}>
-                  {item.icon && <item.icon />}
+                  {item.icon && <item.icon aria-hidden="true" />}
                   {open && (
                     <>
                       <span>{item.title}</span>
-                      <ChevronRight className="ms-auto transition-transform duration-200 group-data-[open=true]/collapsible:rotate-90 rtl:rotate-180" />
+                      <ChevronRight aria-hidden="true" className="ms-auto transition-transform duration-200 group-data-[open=true]/collapsible:rotate-90 rtl:rotate-180" />
                     </>
                   )}
                 </SidebarMenuButton>
@@ -276,14 +276,14 @@ function NavProjects({
           <SidebarMenuItem key={item.name}>
             <SidebarMenuButton asChild>
               <a href={item.url}>
-                <item.icon />
+                <item.icon aria-hidden="true" />
                 <span>{item.name}</span>
               </a>
             </SidebarMenuButton>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <SidebarMenuAction showOnHover>
-                  <MoreHorizontal />
+                  <MoreHorizontal aria-hidden="true" />
                   <span className="sr-only">المزيد</span>
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
@@ -293,18 +293,18 @@ function NavProjects({
                 align={isMobile ? 'end' : 'start'}>
                 <DropdownMenuGroup>
                   <DropdownMenuItem>
-                    <Folder className="text-muted-foreground" />
+                    <Folder aria-hidden="true" className="text-muted-foreground" />
                     <span>عرض المشروع</span>
                   </DropdownMenuItem>
                   <DropdownMenuItem>
-                    <Forward className="text-muted-foreground" />
+                    <Forward aria-hidden="true" className="text-muted-foreground" />
                     <span>مشاركة المشروع</span>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                   <DropdownMenuItem>
-                    <Trash2 className="text-muted-foreground" />
+                    <Trash2 aria-hidden="true" className="text-muted-foreground" />
                     <span>حذف المشروع</span>
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
@@ -314,7 +314,7 @@ function NavProjects({
         ))}
         <SidebarMenuItem>
           <SidebarMenuButton className="text-sidebar-foreground/70">
-            <MoreHorizontal className="text-sidebar-foreground/70" />
+            <MoreHorizontal aria-hidden="true" className="text-sidebar-foreground/70" />
             <span>المزيد</span>
           </SidebarMenuButton>
         </SidebarMenuItem>
@@ -350,7 +350,7 @@ function NavUser({
                 <span className="truncate font-medium">{user.name}</span>
                 <span className="truncate text-xs">{user.email}</span>
               </div>
-              <ChevronsUpDown className="ms-auto size-4" />
+              <ChevronsUpDown aria-hidden="true" className="ms-auto size-4" />
             </SidebarMenuButton>
           </DropdownMenuTrigger>
           <DropdownMenuContent
@@ -375,29 +375,29 @@ function NavUser({
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <Sparkles />
+                <Sparkles aria-hidden="true" />
                 الترقية الى برو
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <BadgeCheck />
+                <BadgeCheck aria-hidden="true" />
                 الحساب
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <CreditCard />
+                <CreditCard aria-hidden="true" />
                 الفوترة
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <Bell />
+                <Bell aria-hidden="true" />
                 الاشعارات
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
-                <LogOut />
+                <LogOut aria-hidden="true" />
                 تسجيل الخروج
               </DropdownMenuItem>
             </DropdownMenuGroup>
