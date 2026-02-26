@@ -26,11 +26,15 @@ export function SiteHeader() {
           <div className="w-full flex-1 md:w-auto md:flex-none">
             <CommandMenu />
           </div>
-          <nav className="flex items-center">
+          <nav aria-label="Social and settings" className="flex items-center">
             <GitHubStarsButton />
             <FontStyleButton />
             {siteConfig.links?.twitter ? (
-              <Link aria-label="Twitter" href={siteConfig.links.twitter} rel="noreferrer" target="_blank">
+              <Link
+                aria-label="Twitter (opens in a new tab)"
+                href={siteConfig.links.twitter}
+                rel="noreferrer"
+                target="_blank">
                 <div
                   className={cn(
                     buttonVariants({
@@ -38,7 +42,7 @@ export function SiteHeader() {
                       variant: 'ghost',
                     }),
                   )}>
-                  <Twitter />
+                  <Twitter aria-hidden="true" />
                 </div>
               </Link>
             ) : null}
@@ -80,7 +84,11 @@ function GitHubStarsButton() {
   }
 
   return (
-    <Link aria-label="GitHub" href={siteConfig.links.github} rel="noopener noreferrer" target="_blank">
+    <Link
+      aria-label="GitHub (opens in a new tab)"
+      href={siteConfig.links.github}
+      rel="noopener noreferrer"
+      target="_blank">
       <div
         className={cn(
           buttonVariants({
@@ -89,7 +97,7 @@ function GitHubStarsButton() {
             variant: 'ghost',
           }),
         )}>
-        <Github />
+        <Github aria-hidden="true" />
         {stars !== null ? stars.toLocaleString() : '...'}
       </div>
     </Link>
@@ -121,7 +129,7 @@ export function FontStyleButton() {
       className={cn(buttonVariants({ size: 'icon', variant: 'ghost' }))}
       onClick={() => setFontType(fontType === 'mono' ? 'sans' : 'mono')}
       type="button">
-      {fontType === 'mono' ? <Type /> : <CaseUpper />}
+      {fontType === 'mono' ? <Type aria-hidden="true" /> : <CaseUpper aria-hidden="true" />}
     </button>
   )
 }

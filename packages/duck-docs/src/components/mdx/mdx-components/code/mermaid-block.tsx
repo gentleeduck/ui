@@ -33,9 +33,11 @@ export function MermaidBlock(props: MermaidBlockProps) {
 
   if (!mounted) {
     return (
-      <div className={cn('my-6 flex h-[300px] items-center justify-center rounded-lg border bg-card', props.className)}>
+      <div
+        className={cn('my-6 flex h-[300px] items-center justify-center rounded-lg border bg-card', props.className)}
+        role="status">
         <div className="flex flex-col items-center gap-3">
-          <Loader className="size-4 animate-spin opacity-50" />
+          <Loader aria-hidden="true" className="size-4 animate-spin opacity-50" />
           <p className="text-muted-foreground text-sm">Loading diagram...</p>
         </div>
       </div>

@@ -95,7 +95,7 @@ export function Customizer() {
           }}
           size="icon"
           variant="ghost">
-          <ResetIcon />
+          <ResetIcon aria-hidden="true" />
           <span className="sr-only">Reset</span>
         </Button>
       </div>
@@ -169,7 +169,7 @@ export function Customizer() {
                   onClick={() => setMode('light')}
                   size="sm"
                   variant={'outline'}>
-                  <SunIcon className="mr-1 -translate-x-1" />
+                  <SunIcon aria-hidden="true" className="mr-1 -translate-x-1" />
                   Light
                 </Button>
                 <Button
@@ -177,7 +177,7 @@ export function Customizer() {
                   onClick={() => setMode('dark')}
                   size="sm"
                   variant={'outline'}>
-                  <MoonIcon className="mr-1 -translate-x-1" />
+                  <MoonIcon aria-hidden="true" className="mr-1 -translate-x-1" />
                   Dark
                 </Button>
               </>

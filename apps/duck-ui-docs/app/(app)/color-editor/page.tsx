@@ -506,18 +506,27 @@ export default function ColorThemeManager() {
           />
           {showPicker && (
             <input
+              aria-label={`Color picker for ${color.name.replace(/-/g, ' ')}`}
               className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
               onChange={handleColorPickerChange}
               type="color"
               value={isValid ? hexValue : '#000000'}
             />
           )}
-          <Pipette className="absolute -right-1 -bottom-1 h-4 w-4 rounded border bg-background p-0.5" />
+          <Pipette
+            aria-hidden="true"
+            className="absolute -right-1 -bottom-1 h-4 w-4 rounded border bg-background p-0.5"
+          />
         </div>
         <div className="flex-1 space-y-1">
-          <Label className="font-medium text-sm capitalize">{color.name.replace(/-/g, ' ')}</Label>
+          <Label
+            className="font-medium text-sm capitalize"
+            htmlFor={`color-${color.name}-${isDark ? 'dark' : 'light'}`}>
+            {color.name.replace(/-/g, ' ')}
+          </Label>
           <Input
             className={`h-8 font-mono text-xs ${!isValid ? 'border-red-300 text-red-600' : ''}`}
+            id={`color-${color.name}-${isDark ? 'dark' : 'light'}`}
             onBlur={handleInputBlur}
             onChange={handleInputChange}
             onKeyDown={handleInputKeyDown}
@@ -546,28 +555,28 @@ export default function ColorThemeManager() {
             </CardTitle>
             <div className="flex gap-1">
               <Button
+                aria-label="Apply Theme"
                 className="text-primary hover:text-primary"
                 onClick={() => applyTheme(theme)}
                 size="sm"
-                title="Apply Theme"
                 variant="ghost">
-                <Palette className="h-4 w-4" />
+                <Palette aria-hidden="true" className="h-4 w-4" />
               </Button>
               <Button
+                aria-label="Edit Theme"
                 className="text-primary hover:text-primary"
                 onClick={() => openPreviewModal(theme)}
                 size="sm"
-                title="Edit Theme"
                 variant="ghost">
-                <Eye className="h-4 w-4" />
+                <Eye aria-hidden="true" className="h-4 w-4" />
               </Button>
               <Button
+                aria-label="Delete Theme"
                 className="text-destructive hover:text-destructive"
                 onClick={() => deleteTheme(theme.id)}
                 size="sm"
-                title="Delete Theme"
                 variant="ghost">
-                <Trash2 className="h-4 w-4" />
+                <Trash2 aria-hidden="true" className="h-4 w-4" />
               </Button>
             </div>
           </div>
@@ -578,7 +587,7 @@ export default function ColorThemeManager() {
             <Select
               onValueChange={((value: ColorFormat) => updateThemeFormat(theme.id, value)) as never}
               value={theme.lightColors[0]?.originalFormat || 'oklch'}>
-              <SelectTrigger className="h-7 text-xs">
+              <SelectTrigger aria-label="Color format" className="h-7 text-xs">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -696,7 +705,7 @@ export default function ColorThemeManager() {
         <DialogContent className="max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <Palette className="h-5 w-5" />
+              <Palette aria-hidden="true" className="h-5 w-5" />
               Advanced Color Picker
             </DialogTitle>
             <DialogDescription>
@@ -717,9 +726,12 @@ export default function ColorThemeManager() {
             {/* Chrome-like Color Picker */}
             <div className="space-y-3">
               <div>
-                <Label className="text-sm">Color Picker</Label>
+                <Label className="text-sm" htmlFor="advanced-color-picker">
+                  Color Picker
+                </Label>
                 <input
                   className="h-12 w-full cursor-pointer rounded border"
+                  id="advanced-color-picker"
                   onChange={(e) => updateColorValue(e.target.value, 'hex')}
                   type="color"
                   value={hexValue}
@@ -731,9 +743,12 @@ export default function ColorThemeManager() {
                 <Label className="text-sm">HSL Values</Label>
                 <div className="grid grid-cols-3 gap-2">
                   <div>
-                    <Label className="text-xs">H</Label>
+                    <Label className="text-xs" htmlFor="hsl-h">
+                      H
+                    </Label>
                     <Input
                       className="h-8 text-xs"
+                      id="hsl-h"
                       max="360"
                       min="0"
                       onChange={(e) => {
@@ -745,9 +760,12 @@ export default function ColorThemeManager() {
                     />
                   </div>
                   <div>
-                    <Label className="text-xs">S</Label>
+                    <Label className="text-xs" htmlFor="hsl-s">
+                      S
+                    </Label>
                     <Input
                       className="h-8 text-xs"
+                      id="hsl-s"
                       max="100"
                       min="0"
                       onChange={(e) => {
@@ -759,9 +777,12 @@ export default function ColorThemeManager() {
                     />
                   </div>
                   <div>
-                    <Label className="text-xs">L</Label>
+                    <Label className="text-xs" htmlFor="hsl-l">
+                      L
+                    </Label>
                     <Input
                       className="h-8 text-xs"
+                      id="hsl-l"
                       max="100"
                       min="0"
                       onChange={(e) => {
@@ -780,9 +801,12 @@ export default function ColorThemeManager() {
                 <Label className="text-sm">RGB Values</Label>
                 <div className="grid grid-cols-3 gap-2">
                   <div>
-                    <Label className="text-xs">R</Label>
+                    <Label className="text-xs" htmlFor="rgb-r">
+                      R
+                    </Label>
                     <Input
                       className="h-8 text-xs"
+                      id="rgb-r"
                       max="255"
                       min="0"
                       onChange={(e) => {
@@ -794,9 +818,12 @@ export default function ColorThemeManager() {
                     />
                   </div>
                   <div>
-                    <Label className="text-xs">G</Label>
+                    <Label className="text-xs" htmlFor="rgb-g">
+                      G
+                    </Label>
                     <Input
                       className="h-8 text-xs"
+                      id="rgb-g"
                       max="255"
                       min="0"
                       onChange={(e) => {
@@ -808,9 +835,12 @@ export default function ColorThemeManager() {
                     />
                   </div>
                   <div>
-                    <Label className="text-xs">B</Label>
+                    <Label className="text-xs" htmlFor="rgb-b">
+                      B
+                    </Label>
                     <Input
                       className="h-8 text-xs"
+                      id="rgb-b"
                       max="255"
                       min="0"
                       onChange={(e) => {
@@ -826,9 +856,12 @@ export default function ColorThemeManager() {
 
               {/* Direct Value Input */}
               <div>
-                <Label className="text-sm">Direct Value</Label>
+                <Label className="text-sm" htmlFor="direct-color-value">
+                  Direct Value
+                </Label>
                 <Input
                   className="font-mono text-xs"
+                  id="direct-color-value"
                   onChange={(e) => setTempColorValue(e.currentTarget.value)}
                   placeholder="Enter color value..."
                   value={tempColorValue}
@@ -957,18 +990,18 @@ export default function ColorThemeManager() {
               variant="outline">
               {isDarkMode ? (
                 <>
-                  <Sun className="h-4 w-4" />
+                  <Sun aria-hidden="true" className="h-4 w-4" />
                   Light
                 </>
               ) : (
                 <>
-                  <Moon className="h-4 w-4" />
+                  <Moon aria-hidden="true" className="h-4 w-4" />
                   Dark
                 </>
               )}
             </Button>
             <Button className="flex items-center gap-2" onClick={() => setThemeChangerOpen(true)}>
-              <Settings className="h-4 w-4" />
+              <Settings aria-hidden="true" className="h-4 w-4" />
               Theme Changer
             </Button>
           </div>
@@ -1010,7 +1043,7 @@ export default function ColorThemeManager() {
               <div>
                 <Label htmlFor="output-format">Output Format (for parsing)</Label>
                 <Select onValueChange={((value: ColorFormat) => setOutputFormat(value)) as never} value={outputFormat}>
-                  <SelectTrigger>
+                  <SelectTrigger id="output-format">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -1029,7 +1062,7 @@ export default function ColorThemeManager() {
               <div>
                 <Label htmlFor="color-format">Display Format</Label>
                 <Select onValueChange={((value: ColorFormat) => setColorFormat(value)) as never} value={colorFormat}>
-                  <SelectTrigger>
+                  <SelectTrigger id="color-format">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -1062,7 +1095,7 @@ export default function ColorThemeManager() {
                 </Button>
                 {currentTheme && (
                   <Button onClick={handleSaveTheme} variant="outline">
-                    <Plus className="mr-2 h-4 w-4" />
+                    <Plus aria-hidden="true" className="mr-2 h-4 w-4" />
                     Save Theme
                   </Button>
                 )}
@@ -1133,7 +1166,7 @@ export default function ColorThemeManager() {
           <DialogContent className="max-w-4xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <Settings className="h-5 w-5" />
+                <Settings aria-hidden="true" className="h-5 w-5" />
                 Theme Changer
               </DialogTitle>
               <DialogDescription>Select and apply themes to see them in action</DialogDescription>
@@ -1186,7 +1219,7 @@ export default function ColorThemeManager() {
           <DialogContent className="max-w-6xl">
             <DialogHeader>
               <DialogTitle className="flex items-center gap-2">
-                <Palette className="h-5 w-5" />
+                <Palette aria-hidden="true" className="h-5 w-5" />
                 {previewTheme?.name} - Theme Preview & Editor
               </DialogTitle>
               <DialogDescription>Preview and edit both light and dark mode colors side by side</DialogDescription>

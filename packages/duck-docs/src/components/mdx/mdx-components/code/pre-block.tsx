@@ -71,7 +71,7 @@ export function ShellCommand({ __npmCommand__, __yarnCommand__, __pnpmCommand__,
     <Tabs className="rounded-md" defaultValue="__npmCommand__">
       <TabsList className="w-fit justify-start bg-transparent py-2">
         <div className="flex size-4 flex-col items-center justify-center bg-foreground/65 ltr:mr-2 ltr:ml-3 rtl:mr-3 rtl:ml-2">
-          <Terminal className="size-4 text-background" />
+          <Terminal aria-hidden="true" className="size-4 text-background" />
         </div>
         {Object.keys(commands).map((command, idx) => {
           return (

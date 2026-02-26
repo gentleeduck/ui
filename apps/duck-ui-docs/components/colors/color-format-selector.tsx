@@ -25,7 +25,7 @@ export function ColorFormatSelector({
   return (
     <Select onValueChange={setFormat as never} value={format}>
       <Button asChild size={'sm'} variant="ghost">
-        <SelectTrigger className={cn(className)} {...props}>
+        <SelectTrigger aria-label="Color format" className={cn(className)} {...props}>
           <span className="font-medium text-sm">Format: </span>
           <span className="font-mono text-muted-foreground">{format}</span>
         </SelectTrigger>

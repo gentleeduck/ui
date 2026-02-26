@@ -14,7 +14,7 @@ export function MainNav() {
     <div className="mr-4 hidden md:flex">
       <HeaderBrand className="mr-4 lg:mr-6" />
       {mainNav?.length ? (
-        <nav className="flex items-center gap-4 text-sm xl:gap-6">
+        <nav aria-label="Main" className="flex items-center gap-4 text-sm xl:gap-6">
           {mainNav.map((item) => (
             <Link
               className={cn(

@@ -66,7 +66,7 @@ export function CommandMenu() {
       ...docsConfig.sidebarNav.map((group) => ({
         items: flattenSidebarItems(group.items ?? []).map((navItem) => ({
           action: () => router.push(navItem.href),
-          icon: <Circle className="mr-2 h-3 w-3" />,
+          icon: <Circle aria-hidden="true" className="mr-2 h-3 w-3" />,
           name: navItem.title,
         })),
         title: group.title,
@@ -75,17 +75,17 @@ export function CommandMenu() {
         items: [
           {
             action: () => setTheme('light'),
-            icon: <Sun className="mr-2 h-4 w-4" />,
+            icon: <Sun aria-hidden="true" className="mr-2 h-4 w-4" />,
             name: 'Light',
           },
           {
             action: () => setTheme('dark'),
-            icon: <Moon className="mr-2 h-4 w-4" />,
+            icon: <Moon aria-hidden="true" className="mr-2 h-4 w-4" />,
             name: 'Dark',
           },
           {
             action: () => setTheme('system'),
-            icon: <FileIcon className="mr-2 h-4 w-4" />,
+            icon: <FileIcon aria-hidden="true" className="mr-2 h-4 w-4" />,
             name: 'System',
           },
         ],
@@ -123,7 +123,7 @@ export function CommandMenu() {
           onKeysPressed={() => {
             setOpen((prev) => !prev)
           }}>
-          <Command className="!size-3" />
+          <Command aria-hidden="true" className="!size-3" />
           <span className="text-md">K</span>
         </CommandShortcut>
       </Button>
@@ -337,7 +337,7 @@ function CommandFooter({ selectedLabel }: { selectedLabel: string }) {
       <div className="flex h-full w-full items-center justify-between gap-4">
         {selectedLabel && (
           <Button className={cn('px-2')} size={'sm'} variant={'outline'}>
-            <CornerDownLeft />
+            <CornerDownLeft aria-hidden="true" />
             <Separator className="m-0 h-4 p-0" orientation="vertical" />
             {selectedLabel.split(' ')?.[0]}
           </Button>
@@ -345,7 +345,7 @@ function CommandFooter({ selectedLabel }: { selectedLabel: string }) {
         {selectedLabel && selectedNavItem?.title ? (
           <Button className={cn('px-2')} size={'sm'} variant={'outline'}>
             <div className="flex items-center gap-1">
-              <Command className="!size-3" />
+              <Command aria-hidden="true" className="!size-3" />
               <p className="text-md">C</p>
             </div>
             <Separator className="m-0 h-4 p-0" orientation="vertical" />

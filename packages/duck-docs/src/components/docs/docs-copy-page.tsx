@@ -29,6 +29,7 @@ const menuItems = {
         />
       </svg>
       Open in ChatGPT
+      <span className="sr-only"> (opens in a new tab)</span>
     </a>
   ),
   claude: (url: string, siteName: string) => (
@@ -40,6 +41,7 @@ const menuItems = {
         />
       </svg>
       Open in Claude
+      <span className="sr-only"> (opens in a new tab)</span>
     </a>
   ),
   markdown: (url: string) => (
@@ -53,6 +55,7 @@ const menuItems = {
         />
       </svg>
       View as Markdown
+      <span className="sr-only"> (opens in a new tab)</span>
     </a>
   ),
   v0: (url: string, siteName: string) => (
@@ -66,6 +69,7 @@ const menuItems = {
         <path d="M56 50.203V14h14v46.156C70 65.593 65.593 70 60.156 70c-2.596 0-5.158-1-7-2.843L0 14h19.797L56 50.203ZM147 56h-14V23.953L100.953 56H133v14H96.687C85.814 70 77 61.186 77 50.312V14h14v32.156L123.156 14H91V0h36.312C138.186 0 147 8.814 147 19.688V56Z" />
       </svg>
       <span className="-translate-x-[2px]">Open in v0</span>
+      <span className="sr-only"> (opens in a new tab)</span>
     </a>
   ),
 }
@@ -77,14 +81,14 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
 
   const trigger = (
     <Button aria-label="More options" className="peer [&>svg]:!size-4 size-8 shadow-none" size="sm" variant="secondary">
-      <ChevronDown />
+      <ChevronDown aria-hidden="true" />
     </Button>
   )
 
   return (
     <div className="group/buttons relative flex rounded-lg bg-secondary *:[[data-slot=button]]:focus-visible:relative *:[[data-slot=button]]:focus-visible:z-10">
       <Button className="[&_svg]:!size-3.5" onClick={() => copyToClipboard(page)} size="sm" variant="secondary">
-        {isCopied ? <Check /> : <Copy />}
+        {isCopied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
         Copy Page
       </Button>
       <Separator className="bg-foreground/25" orientation="vertical" />

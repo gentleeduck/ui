@@ -16,8 +16,10 @@ interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
 export function ComponentSource({ children, className, ...props }: ComponentSourceProps) {
   if (!children.length) {
     return (
-      <div className="flex h-24 w-full items-center justify-center gap-2 rounded-md border border-border bg-muted/40 text-muted-foreground text-sm">
-        <Icons.spinner className="h-4 w-4 animate-spin" />
+      <div
+        className="flex h-24 w-full items-center justify-center gap-2 rounded-md border border-border bg-muted/40 text-muted-foreground text-sm"
+        role="status">
+        <Icons.spinner aria-hidden="true" className="h-4 w-4 animate-spin" />
         Loading...
       </div>
     )
