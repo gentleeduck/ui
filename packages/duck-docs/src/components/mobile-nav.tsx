@@ -4,7 +4,7 @@ import { useDocsConfig } from '@duck-docs/context'
 import type { SidebarNavItem } from '@duck-docs/types/nav'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Drawer, DrawerContent, DrawerTrigger } from '@gentleduck/registry-ui-duckui/drawer'
+import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@gentleduck/registry-ui-duckui/drawer'
 import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
 import { PanelsTopLeft } from 'lucide-react'
 import Link, { type LinkProps } from 'next/link'
@@ -18,12 +18,16 @@ export function MobileNav() {
     <Drawer onOpenChange={setOpen} open={open}>
       <DrawerTrigger asChild>
         <Button
+          aria-label="Open navigation menu"
           className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
           icon={<PanelsTopLeft />}
           size={'icon'}
           variant="ghost"></Button>
       </DrawerTrigger>
       <DrawerContent className="pr-0 pb-4">
+        <DrawerHeader className="sr-only">
+          <DrawerTitle>Site navigation</DrawerTitle>
+        </DrawerHeader>
         <ScrollArea>
           <div className="hide-scroll my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
             <div className="flex flex-col space-y-3">

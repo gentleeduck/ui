@@ -220,6 +220,7 @@ function BlockViewerIframe({ className }: { className?: string }) {
       key={iframeKey}
       loading="lazy"
       src={`/view/${item.name}`}
+      title={`Preview of ${item.name}`}
     />
   )
 }
@@ -420,6 +421,7 @@ function BlockCopyCodeButton() {
 
   return (
     <Button
+      aria-label="Copy code"
       className="size-7"
       onClick={() => {
         copyToClipboard(content)

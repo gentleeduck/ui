@@ -57,6 +57,7 @@ export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean }
                 setIsLoading(false)
               }}
               src={`/blocks/${block.name}`}
+              title={`Preview of ${block.name}`}
             />
           </ResizablePanel>
           <ResizableHandle

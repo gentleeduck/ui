@@ -64,6 +64,8 @@ export function OrderForm() {
             <Label htmlFor="email2">Email address</Label>
             <div className="relative">
               <Input
+                aria-describedby={errors.email ? 'email-error' : undefined}
+                aria-invalid={errors.email}
                 className={errors.email ? 'border-red-500' : ''}
                 id="email2"
                 onChange={(e) => handleInputChange('email', e.currentTarget.value)}
@@ -73,7 +75,11 @@ export function OrderForm() {
               />
               {errors.email && <AlertTriangle className="absolute top-3 right-3 h-4 w-4 text-red-500" />}
             </div>
-            {errors.email && <p className="flex items-center gap-1 text-red-500 text-sm">INVALID EMAIL ADDRESS</p>}
+            {errors.email && (
+              <p className="flex items-center gap-1 text-red-500 text-sm" id="email-error" role="alert">
+                INVALID EMAIL ADDRESS
+              </p>
+            )}
           </div>
 
           {/* Full Name */}
@@ -81,11 +87,13 @@ export function OrderForm() {
             <Label>Full name</Label>
             <div className="grid grid-cols-2 gap-4">
               <Input
+                aria-label="First name"
                 onChange={(e) => handleInputChange('firstName', e.currentTarget.value)}
                 placeholder="First name"
                 value={formData.firstName}
               />
               <Input
+                aria-label="Last name"
                 onChange={(e) => handleInputChange('lastName', e.currentTarget.value)}
                 placeholder="Last name"
                 value={formData.lastName}
@@ -97,11 +105,13 @@ export function OrderForm() {
           <div className="flex flex-col space-y-2">
             <Label>Address</Label>
             <Input
+              aria-label="Street address"
               onChange={(e) => handleInputChange('streetAddress', e.currentTarget.value)}
               placeholder="Street Address"
               value={formData.streetAddress}
             />
             <Input
+              aria-label="Office, suite, apt."
               onChange={(e) => handleInputChange('suite', e.currentTarget.value)}
               placeholder="Office, Suite, Apt."
               value={formData.suite}
@@ -122,7 +132,7 @@ export function OrderForm() {
                   State
                 </Label>
                 <Select onValueChange={(value) => handleInputChange('state', value)} value={formData.state}>
-                  <SelectTrigger>
+                  <SelectTrigger id="state">
                     <SelectValue placeholder="Choose..." />
                   </SelectTrigger>
                   <SelectContent>
@@ -153,6 +163,7 @@ export function OrderForm() {
               <div className="flex items-center gap-2 rounded-md border px-3">
                 <Lock className="size-8" />
                 <Input
+                  aria-label="Card number"
                   className="border-0 bg-transparent p-0 focus-visible:ring-0"
                   onChange={(e) => handleInputChange('cardNumber', e.currentTarget.value)}
                   placeholder="0000 0000 0000 0000"
@@ -160,6 +171,7 @@ export function OrderForm() {
                 />
                 <div className="flex items-center gap-8">
                   <Input
+                    aria-label="Expiry date"
                     className="w-16 border-0 bg-transparent p-0 focus-visible:ring-0"
                     onChange={(e) => {
                       const [month, year] = e.currentTarget.value.split('/')
@@ -170,12 +182,14 @@ export function OrderForm() {
                     value={`${formData.expiryMonth}/${formData.expiryYear}`}
                   />
                   <Input
+                    aria-label="CVV"
                     className="w-12 border-0 bg-transparent p-0 focus-visible:ring-0"
                     onChange={(e) => handleInputChange('cvv', e.currentTarget.value)}
                     placeholder="CVV"
                     value={formData.cvv}
                   />
                   <Input
+                    aria-label="Billing ZIP code"
                     className="w-16 border-0 bg-transparent p-0 focus-visible:ring-0"
                     onChange={(e) => handleInputChange('zipCode', e.currentTarget.value)}
                     placeholder="ZIP"
