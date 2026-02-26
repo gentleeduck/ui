@@ -166,7 +166,6 @@ const AccordionItem = React.forwardRef<
 
   return (
     <details
-      aria-labelledby={value}
       className={cn(
         'group details-content:h-0 details-content:transform-gpu overflow-hidden border-border border-b details-content:transition-all details-content:transition-discrete details-content:duration-[200ms,150ms] details-content:ease-(--duck-motion-ease) details-content:will-change-[height] open:details-content:h-auto',
         className,
@@ -204,13 +203,10 @@ const AccordionTrigger = React.forwardRef<
 >(({ className, children, icon, value, ...props }, ref) => {
   return (
     <summary
-      aria-controls={value}
-      aria-describedby={value}
       className={cn(
         'flex flex-1 cursor-pointer select-none items-center justify-between whitespace-nowrap py-4 font-medium text-base ring-offset-background transition-all hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         className,
       )}
-      id={value}
       ref={ref as React.Ref<HTMLElement>}
       {...props}
       data-slot="accordion-trigger">
@@ -220,7 +216,7 @@ const AccordionTrigger = React.forwardRef<
           '[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:transition-transform [&>svg]:duration-200 group-open:[&>svg]:rotate-180',
         )}
         data-slot="accordion-icon">
-        {icon ? icon : <ChevronDown id="arrow" />}
+        {icon ? icon : <ChevronDown />}
       </span>
     </summary>
   )

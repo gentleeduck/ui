@@ -23,7 +23,6 @@ const Switch = React.forwardRef<
   return (
     <>
       <input
-        aria-checked={props.checked}
         className={cn(
           checkersStylePattern({
             indicatorState:

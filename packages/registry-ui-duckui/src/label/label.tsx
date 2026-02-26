@@ -11,7 +11,6 @@ const Label = React.forwardRef<HTMLLabelElement, LabelProps>(({ className, htmlF
 
   return (
     <label
-      aria-label="label"
       className={cn(
         'text-balance font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',
         className,
