@@ -406,12 +406,12 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
               <AlertDialogDescription>{t.discardDescription}</AlertDialogDescription>
             </AlertDialogHeader>
             <AlertDialogFooter>
-              <AlertDialogCancel onClick={() => setConfirmDiscardOpen(false)}>
+              <AlertDialogCancel asChild onClick={() => setConfirmDiscardOpen(false)}>
                 <Button variant="outline" size="sm">
                   {t.keepEditing}
                 </Button>
               </AlertDialogCancel>
-              <AlertDialogAction onClick={discardSheetChanges}>
+              <AlertDialogAction asChild onClick={discardSheetChanges}>
                 <Button variant="default" size="sm">
                   {t.discard}
                 </Button>

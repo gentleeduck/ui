@@ -51,6 +51,7 @@ const Item = React.forwardRef<
       data-slot="item"
       data-variant={variant}
       ref={ref}
+      role="listitem"
       {...props}
     />
   )

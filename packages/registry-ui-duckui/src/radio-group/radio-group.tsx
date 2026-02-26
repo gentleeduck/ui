@@ -33,6 +33,7 @@ const RadioGroupItem = React.forwardRef<
     indicator,
   })
   const itemRef = React.useRef<HTMLButtonElement>(null)
+  const itemId = React.useId()
   const resolvedTextValue =
     textValue ?? (typeof children === 'string' || typeof children === 'number' ? String(children) : undefined)
 
@@ -48,6 +49,7 @@ const RadioGroupItem = React.forwardRef<
   return (
     <div className="flex items-center gap-2">
       <RadioGroupPrimitive.Item
+        id={itemId}
         className={cn(
           // Base radio styles (uses data-[state=checked]: instead of checked: for button elements)
           'relative m-0 flex size-[1em] appearance-none items-center rounded-full p-2',
@@ -81,10 +83,7 @@ const RadioGroupItem = React.forwardRef<
         <label
           className="cursor-pointer font-normal text-base"
           data-slot="radio-label"
-          onClick={() => {
-            itemRef.current?.focus()
-            itemRef.current?.click()
-          }}>
+          htmlFor={itemId}>
           {children}
         </label>
       )}

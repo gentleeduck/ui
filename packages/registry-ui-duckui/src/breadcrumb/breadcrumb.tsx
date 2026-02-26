@@ -98,14 +98,13 @@ const BreadcrumbEllipsis = React.forwardRef<
   React.ComponentPropsWithoutRef<'span'> & { text?: string }
 >(({ className, text = 'More', ...props }, ref) => (
   <span
-    aria-hidden="true"
     className={cn('flex h-9 w-9 items-center justify-center', className)}
-    role="presentation"
+    role="img"
+    aria-label={text}
     ref={ref}
     {...props}
     data-slot="breadcrumb-ellipsis">
     <MoreHorizontal className="h-4 w-4" />
-    <span className="sr-only">{text}</span>
   </span>
 ))
 BreadcrumbEllipsis.displayName = 'BreadcrumbEllipsis'

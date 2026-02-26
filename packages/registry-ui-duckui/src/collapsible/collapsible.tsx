@@ -128,6 +128,7 @@ const CollapsibleContent = React.forwardRef<
         className,
       )}
       data-open={open}
+      inert={!open || undefined}
       data-slot="collapsible-content"
       id={contentId}
       ref={(node) => {

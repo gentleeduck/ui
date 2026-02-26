@@ -101,6 +101,7 @@ const Carousel = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLDivEleme
           scrollPrev,
         }}>
         <section
+          aria-roledescription="carousel"
           className={cn('relative', className)}
           data-slot="carousel"
           dir={direction}
@@ -115,13 +116,13 @@ const Carousel = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLDivEleme
 )
 Carousel.displayName = 'Carousel'
 
-const CarouselContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+const CarouselContent = React.forwardRef<HTMLUListElement, React.HTMLAttributes<HTMLUListElement>>(
   ({ className, ...props }, ref) => {
     const { carouselRef, orientation } = useCarousel()
 
     return (
       <div className="overflow-hidden" data-slot="carousel-content" ref={carouselRef}>
-        <div
+        <ul
           className={cn('flex', orientation === 'horizontal' ? '-ms-4' : '-mt-4 flex-col', className)}
           ref={ref}
           {...props}

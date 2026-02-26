@@ -46,9 +46,14 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
     }, [checked, ref])
 
     function changeCheckedState(state: CheckedState, input: HTMLInputElement) {
-      input.setAttribute('aria-checked', `${state}`)
+      if (state === 'indeterminate') {
+        input.indeterminate = true
+        input.checked = false
+      } else {
+        input.indeterminate = false
+        input.checked = state as boolean
+      }
       input.setAttribute('data-checked', `${state}`)
-      input.checked = state as boolean
     }
 
     return (

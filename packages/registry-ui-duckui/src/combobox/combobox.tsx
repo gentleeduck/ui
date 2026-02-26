@@ -120,7 +120,7 @@ export function ComboboxItem<T extends ComboboxItemType>({ item, onSelect, check
         onSelect?.(item.value)
       }}
       {...props}>
-      <Checkbox checked={checked} className="border-foreground/50 pointer-events-none" id={item?.value} />
+      <Checkbox aria-hidden="true" checked={checked} className="border-foreground/50 pointer-events-none" tabIndex={-1} />
       {item?.label}
     </CommandItem>
   )
