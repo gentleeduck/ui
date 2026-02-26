@@ -18,7 +18,9 @@ import { Textarea } from '@gentleduck/registry-ui-duckui/textarea'
 import { converter, formatHex, parse } from 'culori'
 import { Eye, Moon, Palette, Pipette, Plus, Settings, Sun, Trash2 } from 'lucide-react'
 import { useEffect, useState } from 'react'
-import { CardsDemo } from '~/components/cards'
+import dynamic from 'next/dynamic'
+
+const CardsDemo = dynamic(() => import('~/components/cards').then((m) => ({ default: m.CardsDemo })), { ssr: false })
 
 interface ColorVariable {
   name: string
