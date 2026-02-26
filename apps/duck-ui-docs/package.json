@@ -81,7 +81,7 @@
     "preview:cf": "bunx @cloudflare/next-on-pages",
     "deploy": "bunx @cloudflare/next-on-pages && mkdir -p .vercel/output/static && bunx wrangler pages deploy .vercel/output/static",
     "deoploy": "bun run deploy",
-    "start": "next start",
+    "start": "next start --port 3008",
     "preview": "next build && next start"
   },
   "version": "3.0.21"
