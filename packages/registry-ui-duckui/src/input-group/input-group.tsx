@@ -9,7 +9,7 @@ import { Input } from '../input'
 import { Textarea } from '../textarea'
 
 const InputGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
-  ({ className, dir, ...props }, ref) => {
+  ({ className, dir, children, ...props }, ref) => {
     const direction = useDirection(dir as Direction)
     return (
       <div
@@ -35,8 +35,9 @@ const InputGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutR
         dir={direction}
         ref={ref}
         role="group"
-        {...props}
-      />
+        {...props}>
+        {children}
+      </div>
     )
   },
 )
@@ -131,13 +132,15 @@ const InputGroupText = React.forwardRef<HTMLSpanElement, React.ComponentPropsWit
 InputGroupText.displayName = 'InputGroupText'
 
 const InputGroupInput = React.forwardRef<HTMLInputElement, React.ComponentPropsWithoutRef<'input'>>(
-  ({ className, ...props }, ref) => {
+  ({ className, dir, ...props }, ref) => {
+    const direction = useDirection(dir as Direction)
     return (
       <Input
         className={cn(
           'flex-1 rounded-none border-0 bg-transparent shadow-none focus-visible:ring-0 dark:bg-transparent',
           className,
         )}
+        dir={direction}
         data-slot="input-group-control"
         ref={ref}
         {...props}

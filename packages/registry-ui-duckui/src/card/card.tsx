@@ -70,7 +70,7 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
   ({ className, ...props }, ref) => (
     <div
       ref={ref}
-      className={cn('flex items-center px-6 [.border-t]:pt-6', className)}
+      className={cn('flex items-center justify-end gap-2 px-6 [.border-t]:pt-6', className)}
       data-slot="card-footer"
       {...props}
     />

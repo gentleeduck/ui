@@ -65,7 +65,6 @@ const Collapsible = React.forwardRef<
         className={cn('flex flex-col gap-2', className)}
         dir={direction}
         data-slot="collapsible"
-        duck-collapsible=""
         ref={(node) => {
           ;(wrapperRef as React.RefObject<HTMLDivElement | null>).current = node
           if (typeof ref === 'function') {
@@ -93,7 +92,6 @@ const CollapsibleTrigger = React.forwardRef<HTMLButtonElement, React.ComponentPr
         aria-expanded={open}
         data-open={open}
         data-slot="collapsible-trigger"
-        duck-collapsible-trigger=""
         onClick={(e) => {
           onOpenChange?.(!open)
           onClick?.(e)
@@ -131,7 +129,6 @@ const CollapsibleContent = React.forwardRef<
       )}
       data-open={open}
       data-slot="collapsible-content"
-      duck-collapsible-content=""
       id={contentId}
       ref={(node) => {
         ;(contentRef as React.RefObject<HTMLDivElement | null>).current = node as HTMLDivElement

@@ -64,7 +64,7 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
 
     React.useEffect(() => {
       itemsRef.current = Array.from(
-        wrapperRef.current?.querySelectorAll('[duck-accordion-item]') as never as HTMLDetailsElement[],
+        wrapperRef.current?.querySelectorAll('[data-slot="accordion-item"]') as never as HTMLDetailsElement[],
       )
     }, [])
 
@@ -158,10 +158,11 @@ const AccordionItem = React.forwardRef<
   Omit<React.HTMLProps<HTMLDetailsElement>, 'value' | 'ref'> & {
     value?: string
   }
->(({ className, children, onClick, onKeyUp, value, ...props }, ref) => {
+>(({ className, children, onClick, onKeyUp, value, dir, ...props }, ref) => {
   const { onItemChange, value: _value = [], renderOnce } = React.useContext(AccordionContext) ?? {}
   const isActive = _value.includes(value as string)
   const _children = Array.from(children as never as React.ReactNode[])
+  const direction = useDirection(dir as Direction)
 
   return (
     <details
@@ -181,10 +182,10 @@ const AccordionItem = React.forwardRef<
         onItemChange?.(value ?? '', e)
       }}
       onKeyUp={onKeyUp}
+      dir={direction}
       ref={ref}
       {...props}
-      data-slot="accordion-item"
-      duck-accordion-item="">
+      data-slot="accordion-item">
       {_children[0]}
       <Mount open={renderOnce ? isActive : true} renderOnce={renderOnce ?? false}>
         {_children[1]}
@@ -212,15 +213,13 @@ const AccordionTrigger = React.forwardRef<
       id={value}
       ref={ref as React.Ref<HTMLElement>}
       {...props}
-      data-slot="accordion-trigger"
-      duck-accordion-trigger="">
+      data-slot="accordion-trigger">
       {children}
       <span
         className={cn(
           '[&>svg]:size-4 [&>svg]:shrink-0 [&>svg]:transition-transform [&>svg]:duration-200 group-open:[&>svg]:rotate-180',
         )}
-        data-slot="accordion-icon"
-        duck-accordion-icon="">
+        data-slot="accordion-icon">
         {icon ? icon : <ChevronDown id="arrow" />}
       </span>
     </summary>
@@ -229,7 +228,8 @@ const AccordionTrigger = React.forwardRef<
 AccordionTrigger.displayName = 'AccordionTrigger'
 
 const AccordionContent = React.forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement> & { rerender?: boolean }>(
-  ({ className, children, rerender = false, ...props }, ref) => {
+  ({ className, children, rerender = false, dir, ...props }, ref) => {
+    const direction = useDirection(dir as Direction)
     return (
       <div
         className={cn(
@@ -238,7 +238,7 @@ const AccordionContent = React.forwardRef<HTMLDivElement, React.HTMLProps<HTMLDi
           className,
         )}
         data-slot="accordion-content"
-        duck-accordion-content=""
+        dir={direction}
         ref={ref}
         {...props}>
         {children}

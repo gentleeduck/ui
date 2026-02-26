@@ -4,10 +4,11 @@ import * as React from 'react'
 
 interface ScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {
   viewportClassName?: string
+  viewportRef?: React.Ref<HTMLDivElement>
 }
 
 const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
-  ({ children, className, viewportClassName, style, dir, ...props }, ref) => {
+  ({ children, className, viewportClassName, viewportRef, style, dir, ...props }, ref) => {
     const direction = useDirection(dir as Direction)
     return (
       <div
@@ -17,7 +18,9 @@ const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
         ref={ref}
         {...props}
         data-slot="scroll-area">
-        <div className={cn('scrollbar-none h-full w-full overflow-auto', viewportClassName)}>{children}</div>
+        <div ref={viewportRef} className={cn('scrollbar-none h-full w-full overflow-auto', viewportClassName)}>
+          {children}
+        </div>
       </div>
     )
   },
