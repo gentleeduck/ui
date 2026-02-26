@@ -152,7 +152,7 @@ export function DocsSidebarNavItem({
           <Link
             aria-current={isCurrent ? 'page' : undefined}
             className={cn(
-              'group flex w-full items-center border-primary px-4 py-1 font-medium text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+              'group flex w-full items-center border-primary px-4 py-2 font-medium text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
               depth > 0 && 'px-3',
               isActive ? 'font-medium text-foreground' : 'text-muted-foreground',
             )}
@@ -172,7 +172,7 @@ export function DocsSidebarNavItem({
             <button
               aria-expanded={isOpen}
               aria-label={`Toggle ${item.title}`}
-              className="mr-1 inline-flex size-6 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+              className="relative mr-1 inline-flex size-8 items-center justify-center rounded-sm text-muted-foreground transition-colors after:absolute after:-inset-1 after:content-[''] hover:bg-accent hover:text-foreground"
               onClick={(event) => {
                 event.preventDefault()
                 event.stopPropagation()
@@ -224,7 +224,7 @@ export function DocsSidebarNavItem({
           <button
             aria-expanded={isOpen}
             aria-label={`Toggle ${item.title}`}
-            className="mr-1 inline-flex size-6 items-center justify-center rounded-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+            className="relative mr-1 inline-flex size-8 items-center justify-center rounded-sm text-muted-foreground transition-colors after:absolute after:-inset-1 after:content-[''] hover:bg-accent hover:text-foreground"
             onClick={() => {
               setIsOpen((open) => !open)
             }}
