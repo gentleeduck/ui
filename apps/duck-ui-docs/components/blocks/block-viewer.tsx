@@ -198,7 +198,7 @@ function BlockViewerToolbar() {
             copyToClipboard(`npx @gentleduck/cli add ${item.name}`)
           }}
           variant="secondary">
-          {isCopied ? <Check /> : <Terminal />}
+          {isCopied ? <Check aria-hidden="true" /> : <Terminal aria-hidden="true" />}
           <span className="font-medium">npx @gentleduck/cli add {item.name}</span>
         </Button>
         {
@@ -368,7 +368,7 @@ function Tree({ item, index }: { item: FileTree; index: number }) {
               '--index': `${index * 1.6}rem`,
             } as React.CSSProperties
           }>
-          <File className="h-4 w-4" />
+          <File aria-hidden="true" className="h-4 w-4" />
           {item.name}
         </SidebarMenuButton>
       </SidebarMenuItem>
@@ -388,8 +388,8 @@ function Tree({ item, index }: { item: FileTree; index: number }) {
                 '--index': `${index}rem`,
               } as React.CSSProperties
             }>
-            <ChevronRight className="transition-transform" />
-            <Folder />
+            <ChevronRight aria-hidden="true" className="transition-transform" />
+            <Folder aria-hidden="true" />
             {item.name}
           </SidebarMenuButton>
         </CollapsibleTrigger>

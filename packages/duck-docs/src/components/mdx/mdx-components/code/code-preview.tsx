@@ -44,8 +44,10 @@ export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean }
             minSize={30}
             ref={ref}>
             {isLoading ? (
-              <div className="absolute inset-0 z-10 flex h-[--container-height] w-full items-center justify-center gap-2 bg-background text-muted-foreground text-sm">
-                <Icons.spinner className="h-4 w-4 animate-spin" />
+              <div
+                className="absolute inset-0 z-10 flex h-[--container-height] w-full items-center justify-center gap-2 bg-background text-muted-foreground text-sm"
+                role="status">
+                <Icons.spinner aria-hidden="true" className="h-4 w-4 animate-spin" />
                 Loading...
               </div>
             ) : null}

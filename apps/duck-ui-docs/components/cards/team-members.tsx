@@ -66,7 +66,7 @@ export function CardsTeamMembers() {
           <div className="flex items-center justify-between gap-4" key={member.name}>
             <div className="flex items-center gap-4">
               <Avatar className="border">
-                <AvatarImage alt={member.name.charAt(0)} src={member.avatar} />
+                <AvatarImage alt={member.name} src={member.avatar} />
                 <AvatarFallback>{member.name.charAt(0)}</AvatarFallback>
               </Avatar>
               <div className="flex flex-col gap-0.5">
@@ -77,7 +77,7 @@ export function CardsTeamMembers() {
             <Popover>
               <PopoverTrigger asChild>
                 <Button className="ml-auto shadow-none" size="sm" variant="outline">
-                  {member.role} <ChevronDown />
+                  {member.role} <ChevronDown aria-hidden="true" />
                 </Button>
               </PopoverTrigger>
               <PopoverContent side="bottom" align="end" className="p-0">

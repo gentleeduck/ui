@@ -111,8 +111,10 @@ export function ComponentPreview({
             duck-preview="">
             <React.Suspense
               fallback={
-                <div className="flex h-full w-full items-center justify-center gap-2 text-muted-foreground text-sm">
-                  <Icons.spinner className="h-4 w-4 animate-spin" />
+                <div
+                  className="flex h-full w-full items-center justify-center gap-2 text-muted-foreground text-sm"
+                  role="status">
+                  <Icons.spinner aria-hidden="true" className="h-4 w-4 animate-spin" />
                   Loading...
                 </div>
               }>
@@ -141,7 +143,7 @@ export const BuildTab = () => {
       <div className="absolute inset-0 top-0 left-0 flex h-[500px] flex-col items-center justify-center gap-4 rounded-md bg-zinc-700/10 px-4 py-2 backdrop-blur-sm dark:bg-zinc-700/50">
         <div className="flex items-center gap-4">
           <Button className="rounded-sm font-bold" size={'sm'}>
-            <Crown />
+            <Crown aria-hidden="true" />
             <span>Coming soon</span>
           </Button>
         </div>

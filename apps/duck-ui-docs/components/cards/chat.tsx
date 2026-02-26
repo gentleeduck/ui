@@ -25,6 +25,8 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui
 import { ArrowUpIcon, CheckIcon, PlusIcon } from 'lucide-react'
 import * as React from 'react'
 
+const chatPartner = 'Sofia Davis'
+
 const users = [
   {
     avatar: '/avatars/01.png',
@@ -56,6 +58,7 @@ const users = [
 type User = (typeof users)[number]
 
 export function CardsChat() {
+  const id = React.useId()
   const [open, setOpen] = React.useState(false)
   const [selectedUsers, setSelectedUsers] = React.useState<User[]>([])
 
@@ -86,11 +89,11 @@ export function CardsChat() {
         <CardHeader className="flex flex-row items-center">
           <div className="flex items-center gap-4">
             <Avatar className="border">
-              <AvatarImage alt="S" src="/avatars/01.png" />
+              <AvatarImage alt={chatPartner} src="/avatars/01.png" />
               <AvatarFallback>S</AvatarFallback>
             </Avatar>
             <div className="flex flex-col gap-0.5">
-              <p className="font-medium text-sm leading-none">Sofia Davis</p>
+              <p className="font-medium text-sm leading-none">{chatPartner}</p>
               <p className="text-muted-foreground text-xs">m@example.com</p>
             </div>
           </div>
@@ -140,7 +143,7 @@ export function CardsChat() {
             <Input
               autoComplete="off"
               className="flex-1 pr-10"
-              id="message"
+              id={`${id}-message`}
               onChange={(event) => setInput(event.currentTarget.value)}
               placeholder="Type your message..."
               value={input}
@@ -180,7 +183,7 @@ export function CardsChat() {
                       return setSelectedUsers([...users].filter((u) => [...selectedUsers, user].includes(u)))
                     }}>
                     <Avatar className="border">
-                      <AvatarImage alt={user.name[0]} src={user.avatar} />
+                      <AvatarImage alt={user.name} src={user.avatar} />
                       <AvatarFallback>{user.name[0]}</AvatarFallback>
                     </Avatar>
                     <div className="ml-2">

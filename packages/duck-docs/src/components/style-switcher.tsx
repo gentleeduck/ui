@@ -19,7 +19,10 @@ export function StyleSwitcher({ className, ...props }: React.ComponentPropsWitho
           })) as never
       }
       value={config.style}>
-      <SelectTrigger className={cn('h-7 w-[145px] text-xs [&_svg]:h-4 [&_svg]:w-4', className)} {...props}>
+      <SelectTrigger
+        aria-label="Style"
+        className={cn('h-7 w-[145px] text-xs [&_svg]:h-4 [&_svg]:w-4', className)}
+        {...props}>
         <span className="text-muted-foreground">Style: </span>
         <SelectValue placeholder="Select style" />
       </SelectTrigger>

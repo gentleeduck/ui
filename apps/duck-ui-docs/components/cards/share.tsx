@@ -7,6 +7,7 @@ import { Input } from '@gentleduck/registry-ui-duckui/input'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
+import * as React from 'react'
 
 const people = [
   {
@@ -31,6 +32,7 @@ const people = [
   },
 ]
 export function CardsShare() {
+  const id = React.useId()
   return (
     <Card>
       <CardHeader>
@@ -39,10 +41,10 @@ export function CardsShare() {
       </CardHeader>
       <CardContent>
         <div className="flex items-center gap-2">
-          <Label className="sr-only" htmlFor="link">
+          <Label className="sr-only" htmlFor={`${id}-link`}>
             Link
           </Label>
-          <Input className="h-8" id="link" readOnly value="http://example.com/link/to/document" />
+          <Input className="h-8" id={`${id}-link`} readOnly value="http://example.com/link/to/document" />
           <Button className="shadow-none" size="sm" variant="outline">
             Copy Link
           </Button>
@@ -55,7 +57,7 @@ export function CardsShare() {
               <div className="flex items-center justify-between gap-4" key={person.email}>
                 <div className="flex items-center gap-4">
                   <Avatar>
-                    <AvatarImage alt={person.name.charAt(0)} src={person.avatar} />
+                    <AvatarImage alt={person.name} src={person.avatar} />
                     <AvatarFallback>{person.name.charAt(0)}</AvatarFallback>
                   </Avatar>
                   <div>
@@ -65,7 +67,7 @@ export function CardsShare() {
                 </div>
                 <Select defaultValue="edit">
                   <Button asChild size="sm" variant="outline">
-                    <SelectTrigger aria-label="Edit" className="ml-auto pr-2">
+                    <SelectTrigger aria-label={`Permission for ${person.name}`} className="ml-auto pr-2">
                       <SelectValue placeholder="Select" />
                     </SelectTrigger>
                   </Button>

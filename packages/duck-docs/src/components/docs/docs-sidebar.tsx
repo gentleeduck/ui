@@ -178,7 +178,7 @@ export function DocsSidebarNavItem({
                 setIsOpen((open) => !open)
               }}
               type="button">
-              <ChevronRight className={cn('size-3 transition-transform', isOpen && 'rotate-90')} />
+              <ChevronRight aria-hidden="true" className={cn('size-3 transition-transform', isOpen && 'rotate-90')} />
             </button>
           )}
         </div>
@@ -261,7 +261,8 @@ function AnimatedHeightCollapse({ open, children }: { open: boolean; children: R
       className={cn(
         'grid transition-[grid-template-rows] duration-300 ease-(--duck-motion-ease)',
         open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
-      )}>
+      )}
+      inert={!open || undefined}>
       <div className={cn('overflow-hidden', !open && 'invisible')}>{children}</div>
     </div>
   )
