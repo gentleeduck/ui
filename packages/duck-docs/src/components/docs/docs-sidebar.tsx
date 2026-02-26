@@ -229,7 +229,7 @@ export function DocsSidebarNavItem({
               setIsOpen((open) => !open)
             }}
             type="button">
-            <ChevronRight className={cn('size-3 transition-transform', isOpen && 'rotate-90')} />
+            <ChevronRight aria-hidden="true" className={cn('size-3 transition-transform', isOpen && 'rotate-90')} />
           </button>
         )}
       </div>

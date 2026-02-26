@@ -34,7 +34,7 @@ export function DocsPagerBottom({ doc }: DocsPagerProps) {
           )}
           href={pager.prev.href}
           scroll>
-          <ChevronLeft className="mr-2 size-4" />
+          <ChevronLeft aria-hidden="true" className="mr-2 size-4" />
           <span>{pager.prev.title}</span>
         </Link>
       )}
@@ -49,7 +49,7 @@ export function DocsPagerBottom({ doc }: DocsPagerProps) {
           href={pager.next.href}
           scroll>
           <span>{pager.next.title}</span>
-          <ChevronRight className="ml-2 size-4" />
+          <ChevronRight aria-hidden="true" className="ml-2 size-4" />
         </Link>
       )}
     </div>
@@ -77,7 +77,7 @@ export function DocsPagerTop({ doc }: DocsPagerProps) {
           )}
           href={pager.prev.href}
           scroll>
-          <ArrowLeft />
+          <ArrowLeft aria-hidden="true" />
         </Link>
       )}
       {pager?.next?.href && (
@@ -92,7 +92,7 @@ export function DocsPagerTop({ doc }: DocsPagerProps) {
           )}
           href={pager.next.href}
           scroll>
-          <ArrowRight />
+          <ArrowRight aria-hidden="true" />
         </Link>
       )}
     </div>
