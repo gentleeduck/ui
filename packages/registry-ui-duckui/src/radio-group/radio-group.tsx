@@ -80,10 +80,7 @@ const RadioGroupItem = React.forwardRef<
       />
       <SvgIndicator className="sr-only" />
       {children && (
-        <label
-          className="cursor-pointer font-normal text-base"
-          data-slot="radio-label"
-          htmlFor={itemId}>
+        <label className="cursor-pointer font-normal text-base" data-slot="radio-label" htmlFor={itemId}>
           {children}
         </label>
       )}
