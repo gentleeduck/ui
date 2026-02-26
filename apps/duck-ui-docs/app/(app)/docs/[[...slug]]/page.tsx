@@ -1,4 +1,6 @@
 import { DashboardTableOfContents, DocsPagerBottom, DocsPagerTop, Mdx } from '@gentleduck/docs/client'
+import { DocsCopyPage } from '@gentleduck/docs/components/docs'
+import { absoluteUrl } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
 import { badgeVariants } from '@gentleduck/registry-ui-duckui/badge'
 import { ExternalLinkIcon } from 'lucide-react'
@@ -6,7 +8,6 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import React from 'react'
-// import { DocCopy } from '~/components/ui/Blocks/doc-copy'
 import { SLUG_METADATA } from '~/config/metadata'
 import { docs } from '../../../../.velite'
 
@@ -66,9 +67,7 @@ const PostLayout = async ({ params }: { params: Promise<{ slug?: string[] }> }) 
       <div className="relative mx-auto w-full min-w-0 max-w-2xl">
         <div className="space-y-2">
           <div className="absolute top-0 right-0 flex items-center gap-2">
-            {
-              // <DocsCopyPage page={doc.content} url={absoluteUrl('')} />
-            }
+            {<DocsCopyPage page={doc.content} url={absoluteUrl('')} />}
             <DocsPagerTop doc={doc} />
           </div>
           <div className="space-y-2">
