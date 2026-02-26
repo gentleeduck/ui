@@ -39,7 +39,7 @@ function ChartTitle({ chart }: { chart: Block }) {
   if (categories.includes('charts-line')) {
     return (
       <>
-        <LineChart /> Chart
+        <LineChart aria-hidden="true" /> Chart
       </>
     )
   }
@@ -47,7 +47,7 @@ function ChartTitle({ chart }: { chart: Block }) {
   if (categories.includes('charts-bar')) {
     return (
       <>
-        <BarChartBig /> Chart
+        <BarChartBig aria-hidden="true" /> Chart
       </>
     )
   }
@@ -55,7 +55,7 @@ function ChartTitle({ chart }: { chart: Block }) {
   if (categories.includes('charts-pie')) {
     return (
       <>
-        <PieChart /> Chart
+        <PieChart aria-hidden="true" /> Chart
       </>
     )
   }
@@ -63,7 +63,7 @@ function ChartTitle({ chart }: { chart: Block }) {
   if (categories.includes('charts-area')) {
     return (
       <>
-        <AreaChart /> Chart
+        <AreaChart aria-hidden="true" /> Chart
       </>
     )
   }
@@ -71,7 +71,7 @@ function ChartTitle({ chart }: { chart: Block }) {
   if (categories.includes('charts-radar')) {
     return (
       <>
-        <Hexagon /> Chart
+        <Hexagon aria-hidden="true" /> Chart
       </>
     )
   }
@@ -79,7 +79,7 @@ function ChartTitle({ chart }: { chart: Block }) {
   if (categories.includes('charts-radial')) {
     return (
       <>
-        <Radar /> Chart
+        <Radar aria-hidden="true" /> Chart
       </>
     )
   }
@@ -87,7 +87,7 @@ function ChartTitle({ chart }: { chart: Block }) {
   if (categories.includes('charts-tooltip')) {
     return (
       <>
-        <MousePointer2 />
+        <MousePointer2 aria-hidden="true" />
         Tooltip
       </>
     )

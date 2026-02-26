@@ -10,7 +10,7 @@ export function Announcement() {
         <span className="text-sm">
           Charts upgraded to Recharts v3 + new components <span className="underline">See what's new</span>
         </span>
-        <ArrowRightIcon />
+        <ArrowRightIcon aria-hidden="true" />
       </Link>
     </Badge>
   )

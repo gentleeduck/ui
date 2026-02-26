@@ -11,8 +11,10 @@ import {
 } from '@gentleduck/registry-ui-duckui/card'
 import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Switch } from '@gentleduck/registry-ui-duckui/switch'
+import * as React from 'react'
 
 export function CardsCookieSettings() {
+  const id = React.useId()
   return (
     <Card>
       <CardHeader>
@@ -21,22 +23,22 @@ export function CardsCookieSettings() {
       </CardHeader>
       <CardContent className="grid gap-6">
         <div className="flex items-center justify-between gap-4">
-          <Label className="flex flex-col items-start" htmlFor="necessary">
+          <Label className="flex flex-col items-start" htmlFor={`${id}-necessary`}>
             <span>Strictly Necessary</span>
             <span className="font-normal text-muted-foreground leading-snug">
               These cookies are essential in order to use the website and use its features.
             </span>
           </Label>
-          <Switch aria-label="Necessary" defaultChecked id="necessary" />
+          <Switch aria-label="Necessary" defaultChecked id={`${id}-necessary`} />
         </div>
         <div className="flex items-center justify-between gap-4">
-          <Label className="flex flex-col items-start" htmlFor="functional">
+          <Label className="flex flex-col items-start" htmlFor={`${id}-functional`}>
             <span>Functional Cookies</span>
             <span className="font-normal text-muted-foreground leading-snug">
               These cookies allow the website to provide personalized functionality.
             </span>
           </Label>
-          <Switch aria-label="Functional" id="functional" />
+          <Switch aria-label="Functional" id={`${id}-functional`} />
         </div>
       </CardContent>
       <CardFooter>

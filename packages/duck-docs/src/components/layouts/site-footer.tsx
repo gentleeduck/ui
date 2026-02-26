@@ -20,6 +20,7 @@ export function SiteFooter() {
             {authorUrl ? (
               <a className="font-medium underline underline-offset-4" href={authorUrl} rel="noreferrer" target="_blank">
                 {authorName}
+                <span className="sr-only"> (opens in a new tab)</span>
               </a>
             ) : (
               <span className="font-medium">{authorName}</span>
@@ -33,6 +34,7 @@ export function SiteFooter() {
                   rel="noreferrer"
                   target="_blank">
                   GitHub
+                  <span className="sr-only"> (opens in a new tab)</span>
                 </a>
                 .
               </>
@@ -54,16 +56,17 @@ export function FooterButtons() {
       <Link
         className={buttonVariants({ size: 'sm', variant: 'outline' })}
         href="https://github.com/sponsors/wildduck2"
+        rel="noreferrer"
         target="_blank">
-        <HeartIcon className="mr-2 h-4 w-4 fill-current text-red-600" />
+        <HeartIcon aria-hidden="true" className="mr-2 h-4 w-4 fill-current text-red-600" />
         Sponsor
+        <span className="sr-only"> (opens in a new tab)</span>
       </Link>
       <Link
         className={buttonVariants({ size: 'sm', variant: 'outline' })}
-        href={siteConfig.links?.email ? `mailto:${siteConfig.links.email}` : 'mailto:support@gentleduck.org'}
-        target="_blank">
-        <Mail />
-        <span className="">Email</span>
+        href={siteConfig.links?.email ? `mailto:${siteConfig.links.email}` : 'mailto:support@gentleduck.org'}>
+        <Mail aria-hidden="true" />
+        <span>Email</span>
       </Link>
     </>
   )

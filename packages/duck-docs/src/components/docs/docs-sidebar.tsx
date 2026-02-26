@@ -165,6 +165,7 @@ export function DocsSidebarNavItem({
                 {item.label}
               </span>
             )}
+            {item.external && <span className="sr-only"> (opens in a new tab)</span>}
           </Link>
           {isAccordionItem && (
             <button

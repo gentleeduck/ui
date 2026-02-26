@@ -87,7 +87,8 @@ const PostLayout = async ({ params }: { params: Promise<{ slug?: string[] }> }) 
                 rel="noreferrer"
                 target="_blank">
                 Docs
-                <ExternalLinkIcon className="h-3 w-3" />
+                <ExternalLinkIcon aria-hidden="true" className="h-3 w-3" />
+                <span className="sr-only"> (opens in a new tab)</span>
               </Link>
             )}
             {doc.links?.api && (
@@ -97,7 +98,8 @@ const PostLayout = async ({ params }: { params: Promise<{ slug?: string[] }> }) 
                 rel="noreferrer"
                 target="_blank">
                 API Reference
-                <ExternalLinkIcon className="h-3 w-3" />
+                <ExternalLinkIcon aria-hidden="true" className="h-3 w-3" />
+                <span className="sr-only"> (opens in a new tab)</span>
               </Link>
             )}
           </div>
