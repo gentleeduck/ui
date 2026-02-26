@@ -155,7 +155,7 @@ function BlockViewerToolbar() {
 
             <Separator className="!h-6" orientation="vertical" />
 
-            <Button className="size-9 rounded-none" size="icon" title="Open in New Tab" variant="ghost">
+            <Button asChild className="size-9 rounded-none" size="icon" title="Open in New Tab" variant="ghost">
               <Link href={`/view/${item.name}`} target="_blank">
                 <span className="sr-only">Open in New Tab</span>
                 <ExternalLink />

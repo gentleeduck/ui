@@ -1,10 +1,8 @@
 import { PageActions, PageHeader, PageHeaderDescription } from '@gentleduck/docs/client'
-import { DuckLazyComponent } from '@gentleduck/lazy/lazy-component'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
-import { EcosystemSection } from '~/components/layouts/core-packages'
 import { FeaturesSection } from '~/components/layouts/features'
 
 const title = 'Primitives that Scale, Components that Perform.'
@@ -59,10 +57,10 @@ export default function Page() {
         </div>
         <PageHeaderDescription>{description}</PageHeaderDescription>
         <PageActions className="mx-auto w-full justify-center">
-          <Button>
+          <Button asChild>
             <Link href="/docs/installation">Get Started</Link>
           </Button>
-          <Button variant="ghost">
+          <Button asChild variant="ghost">
             <Link href="/docs/components">What we have?</Link>
           </Button>
         </PageActions>
@@ -70,10 +68,6 @@ export default function Page() {
       <div className="container-wrapper">
         <div className="">
           <FeaturesSection />
-
-          <DuckLazyComponent options={{ rootMargin: '-50px 0px 0px 0px', threshold: 0 }}>
-            <EcosystemSection />
-          </DuckLazyComponent>
         </div>
       </div>
     </>

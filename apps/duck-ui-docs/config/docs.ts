@@ -666,11 +666,6 @@ export const docsConfig: DocsConfig = {
           title: 'Chart',
         },
         {
-          href: '/docs/components/cli',
-          items: [],
-          title: 'CLI',
-        },
-        {
           href: '/docs/components/checkbox',
           items: [],
           title: 'Checkbox',
