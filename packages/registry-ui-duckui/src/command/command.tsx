@@ -5,7 +5,7 @@ import * as CommandPrimitive from '@gentleduck/primitives/command'
 import { useKeyCommands } from '@gentleduck/vim/react'
 import { Search } from 'lucide-react'
 import * as React from 'react'
-import { Dialog, DialogContent } from '../dialog'
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '../dialog'
 import { ScrollArea } from '../scroll-area'
 import type { CommandBadgeProps } from './command.types'
 
@@ -166,6 +166,8 @@ function CommandDialog({ children, ...props }: React.ComponentPropsWithRef<typeo
   return (
     <Dialog {...props}>
       <DialogContent className="h-125 max-w-full p-0 lg:w-[700px]">
+        <DialogTitle className="sr-only">Command palette</DialogTitle>
+        <DialogDescription className="sr-only">Search for commands and navigation items</DialogDescription>
         <Command className="max-w-full">{children}</Command>
       </DialogContent>
     </Dialog>
