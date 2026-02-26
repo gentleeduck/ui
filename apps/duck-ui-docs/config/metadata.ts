@@ -101,6 +101,9 @@ const ogImage = {
 
 export const SLUG_METADATA = (doc: { title: string; description: string; slug: string }): Metadata => ({
   ...METADATA,
+  alternates: {
+    canonical: absoluteUrl(doc.slug),
+  },
   description: doc.description,
   openGraph: {
     ...METADATA.openGraph,
