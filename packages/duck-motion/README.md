@@ -22,6 +22,7 @@ bun add @gentleduck/motion
 - `react`
   - `useDuckReducedMotion()`
   - `motionTransition(reduced, normal)`
+  - `onDuckReducedMotionChange(callback)`
 - `waapi`
   - `prefersReducedMotion()`
   - `animateIfAllowed(element, keyframes, options, reducedMotion?)`
