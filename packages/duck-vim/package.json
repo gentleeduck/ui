@@ -3,7 +3,7 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "author": "wildduck",
+  "author": "gentleduck contributors",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
@@ -58,7 +58,6 @@
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-vim#readme",
   "keywords": [
     "gentleduck",
-    "duck-ui",
     "vim",
     "keybindings",
     "keyboard",

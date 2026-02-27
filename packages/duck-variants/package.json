@@ -3,7 +3,7 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "author": "wildduck (https://github.com/wildduck2)",
+  "author": "gentleduck contributors",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },

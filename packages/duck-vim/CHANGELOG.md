@@ -10,4 +10,4 @@
 
 ### Patch Changes
 
-- integration with duck-ui
+- integration with gentleduck/ui

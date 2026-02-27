@@ -140,14 +140,13 @@
   "description": "Shared docs app kit used by the duck-ui docs apps.",
   "keywords": [
     "gentleduck",
-    "duck-ui",
     "docs",
     "documentation",
     "mdx",
     "nextjs"
   ],
   "license": "MIT",
-  "author": "duck-ui contributors",
+  "author": "gentleduck contributors",
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-docs#readme",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"

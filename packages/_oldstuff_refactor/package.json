@@ -23,7 +23,7 @@
     "vite-tsconfig-paths": "^6.0.3"
   },
   "devDependencies": {
-    "@ahmedayob/duck-shortcut": "^0.0.2",
+    "@gentleduck/shortcut": "workspace:*",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/registry-ui-duckui": "workspace:*",
@@ -128,7 +128,7 @@
     "./lib": "./lib/"
   },
   "name": "@gentleduck/registry-ui",
-  "author": "duck-ui contributors",
+  "author": "gentleduck contributors",
   "license": "MIT",
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/_oldstuff_refactor#readme",
   "bugs": {

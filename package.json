@@ -12,8 +12,8 @@
     "vercel": "^50.1.6"
   },
   "name": "duck-ui",
-  "description": "duck-ui monorepo for UI, Duck Gen, and related tooling.",
-  "author": "duck-ui contributors",
+  "description": "gentleduck/ui monorepo for UI components, tools, and related packages.",
+  "author": "gentleduck contributors",
   "license": "MIT",
   "homepage": "https://ui.gentleduck.org",
   "repository": {
@@ -24,8 +24,8 @@
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
   "keywords": [
+    "gentleduck",
     "duck-ui",
-    "duckui",
     "developer-tools",
     "ui",
     "react"
@@ -56,7 +56,6 @@
       "apps/*",
       "packages/*",
       "tooling/*",
-      "!./apps/upload-api/",
       "!./apps/benchmark/"
     ],
     "catalog": {

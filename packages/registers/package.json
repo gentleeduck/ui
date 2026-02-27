@@ -12,7 +12,7 @@
     ".": "./index.ts"
   },
   "name": "@gentleduck/registers",
-  "author": "duck-ui contributors",
+  "author": "gentleduck contributors",
   "license": "MIT",
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/registers#readme",
   "bugs": {

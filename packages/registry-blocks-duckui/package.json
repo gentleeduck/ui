@@ -30,7 +30,7 @@
     "./charts/*": "./src/charts/*"
   },
   "name": "@gentleduck/registry-blocks-duckui",
-  "author": "duck-ui contributors",
+  "author": "gentleduck contributors",
   "license": "MIT",
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/registry-blocks-duckui#readme",
   "bugs": {

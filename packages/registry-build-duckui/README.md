@@ -2,7 +2,7 @@
 
 ## Overview
 
-This script builds the @gentleduck/ui Registry**, a centralized collection of components and utilities for the @gentleduck/ui package. It automates the process of compiling and organizing the registry, ensuring consistency and efficiency.
+This script builds the @gentleduck/ui Registry, a centralized collection of components and utilities for the @gentleduck/ui package. It automates the process of compiling and organizing the registry, ensuring consistency and efficiency.
 
 ---
 
@@ -13,12 +13,12 @@ This script builds the @gentleduck/ui Registry**, a centralized collection of co
    bun install
    ```
 
-2. Copy the `example.env` to be .env 
+2. Copy the `example.env` to be .env
    ```bash
    sudo cp example.env .env
    ```
 
-3. Uncommetn the lines in the `index.ts` 
+3. Uncomment the lines in the `index.ts`
 
 4. Build the registry:
    ```bash
@@ -45,15 +45,14 @@ bun run start
 
 ## Output
 
-The registry will be generated in the `apps/docs/public/registry/` directory with the following structure:
+The registry will be generated in the `apps/duck-ui-docs/public/r/` directory with the following structure:
 ```
- duck-ui
-│   ✗ registry           # the main registry.
-│ │   colors             # the colros registry.
-│ │   ✗ components       # the components and examples registry.
-│ │   themes             # the themes registry.
-│ │ │  ✗ index.json       # the main registry file.
-└ └ └  themes.css         # the themes file.
+apps/duck-ui-docs/public/r/
+  colors/             # the colors registry
+  components/         # the components and examples registry
+  themes/             # the themes registry
+  index.json          # the main registry file
+  themes.css          # the themes file
 ```
 
 ---
@@ -62,5 +61,3 @@ The registry will be generated in the `apps/docs/public/registry/` directory wit
 
 - This script is designed to work within a monorepo.
 - No additional setup is required for @gentleduck/ui; the script handles everything.
-
-Build your registry with ease! 🚀

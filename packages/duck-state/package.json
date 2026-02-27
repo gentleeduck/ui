@@ -3,11 +3,11 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "author": "wildduck (https://github.com/wildduck2)",
+  "author": "gentleduck contributors",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
-  "description": "A package for state management",
+  "description": "Lightweight state management for gentleduck/ui.",
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@types/react": "19.2.7",
@@ -25,7 +25,6 @@
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-state#readme",
   "keywords": [
     "gentleduck",
-    "duck-ui",
     "react",
     "components",
     "performance",
@@ -40,10 +39,8 @@
     "access": "public"
   },
   "peerDependencies": {
-    "@types/node": "22.19.3",
     "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "typescript": "5.9.3"
+    "react-dom": "^19.2.3"
   },
   "repository": {
     "type": "git",
@@ -54,6 +51,5 @@
     "build": "tsdown"
   },
   "type": "module",
-  "types": "./dist/index-jiSPvUlD.d.ts",
   "version": "0.2.0"
 }

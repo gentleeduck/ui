@@ -1,78 +1,26 @@
 ---
-name: "✨ Feature Request"
-about: Suggest a new feature or improvement for duck-ui
+name: Feature Request
+about: Suggest a new feature or improvement for gentleduck/ui
 title: "[Feature] "
 labels: enhancement
 assignees: ""
 ---
 
-## Feature Description
-A clear and concise description of the feature you’d like to see.
+## Description
+A clear description of the feature you'd like to see.
 
----
-
-## Problem Statement
-- Is your feature request related to a specific problem or limitation?  
-- Why is this feature important?  
-- Who would benefit from it (end users, developers, or both)?  
-
----
+## Problem
+What problem does this solve? Why is it needed?
 
 ## Proposed Solution
-- Describe the solution you’d like in detail.  
-- Share API design ideas, function signatures, or component props if relevant.  
-- Provide examples of how developers would use it in their code:  
+Describe the solution. Include API ideas or code examples if relevant:
 
 ```tsx
 // Example usage
-import { Button } from "@gentleduck/registry-ui-duckui/button"
-
-<Button variant="default">Hello duck-ui</Button>
-````
-
----
+```
 
 ## Alternatives Considered
-
-* What alternatives or workarounds have you tried?
-* Why are these alternatives not sufficient?
-
----
-
-## Use Cases
-
-List 2–3 practical use cases for this feature:
-
-1. …
-2. …
-3. …
-
----
-
-## Priority
-
-How important is this feature to you?
-
-* [ ] Critical – I cannot use duck-ui without it
-* [ ] High – It would significantly improve my workflow
-* [ ] Medium – Useful, but I can manage without it
-* [ ] Low – Nice to have
-
----
-
-## Potential Risks
-
-* Could this feature introduce breaking changes?
-* Could it add performance overhead?
-
----
-
-## Mockups / References
-
-If applicable, add wireframes, design mockups, or links to similar implementations in other libraries.
-
----
+What workarounds or alternatives have you tried?
 
 ## Additional Context
-
-Add any other context, references, or related issues here.
+Add mockups, references, or links to similar implementations if helpful.

@@ -1,8 +1,8 @@
 # @gentleduck/motion
 
-A lightweight motion toolkit for duck-ui packages.
+A lightweight motion toolkit for gentleduck/ui packages.
 
-> It's for duck-ui internal use only
+> It's for gentleduck internal use only
 
 ## Installation
 
@@ -36,4 +36,4 @@ Contributions are welcome! Please open an issue or submit a pull request on the 
 
 ## License
 
-[MIT © duck-ui](./LICENSE)
+[MIT © gentleduck](./LICENSE)

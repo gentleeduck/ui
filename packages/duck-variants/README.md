@@ -9,10 +9,10 @@ A lightweight utility for generating class names based on variant configurations
 
 ## Philosophy
 
-At **duck-ui**, we believe that developer tools should be **fast**, **reliable**, and **actively maintained** — not abandoned. While `class-variance-authority` initially inspired the idea of variant-based class management, its situation has become unacceptable:  
+At **gentleduck**, we believe that developer tools should be **fast**, **reliable**, and **actively maintained** — not abandoned. While `class-variance-authority` initially inspired the idea of variant-based class management, its situation has become unacceptable:  
 despite having **over 6 million weekly downloads**, the project has been left **poorly maintained for more than 6 months**, with important pull requests and bug fixes sitting untouched.
 
-Leaving a critical utility like this in a broken or half-maintained state is **unacceptable** to us at **duck-ui**.  
+Leaving a critical utility like this in a broken or half-maintained state is **unacceptable** to us at **gentleduck**.  
 So, we took action: we rewrote the library from scratch with our own vision and philosophy — making it **more modern**, **more reliable**, and **up to 7× faster**.  
 
 Our goal with **@gentleduck/variants** is simple:  
@@ -36,7 +36,7 @@ to offer the community a **serious**, **well-maintained**, and **future-proof** 
 - 🔐 **Fully type-safe**, IDE-friendly autocompletion. 
 - 🎨 **Flexible styling** via variants, nested arrays & conditionals.
 - 🚀 **Minimal runtime & memoized** with zero runtime dependencies (just a few dozen lines of code).
-- ⚡ **Blazing fast**: ~7× faster than the reference `(class-variance-authority)[https://www.npmjs.com/package/class-variance-authority]`.
+- ⚡ **Blazing fast**: ~7× faster than the reference `[class-variance-authority](https://www.npmjs.com/package/class-variance-authority)`.
 - 🧠 **Powerful system** for defaults, compounds, and custom classes.
 
 ---
@@ -44,12 +44,12 @@ to offer the community a **serious**, **well-maintained**, and **future-proof** 
 ## Benchmark
 
 ### **Vitest Benchmark**
-**@gentleduck/variants**: ~7x faster than `(class-variance-authority)[https://www.npmjs.com/package/class-variance-authority]`
-<img src="https://github.com/gentleeduck/duck-ui/blob/master/public/vite_benchmark.png" alt="Benchmark" />
+**@gentleduck/variants**: ~7x faster than `[class-variance-authority](https://www.npmjs.com/package/class-variance-authority)`
+<img src="https://raw.githubusercontent.com/gentleeduck/duck-ui/master/public/vite_benchmark.png" alt="Benchmark" />
 <img src="https://raw.githubusercontent.com/gentleeduck/duck-ui/3ae21ea9d8311c330fa85cde3e562fd213d83239/public/vite-bench-cases.png" alt="Benchmark" />
 
 ### **Duck Benchmark**
-<img src="https://github.com/gentleeduck/duck-ui/blob/master/public/duck_benchmark.png" alt="Benchmark" />
+<img src="https://raw.githubusercontent.com/gentleeduck/duck-ui/master/public/duck_benchmark.png" alt="Benchmark" />
 
 
 
@@ -250,4 +250,4 @@ const fn = cva({ base: 'base', variants, defaultVariants, compoundVariants })
 
 ## License
 
-MIT © [duck-ui](./LICENSE)
+MIT © [gentleduck](./LICENSE)

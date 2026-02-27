@@ -3,7 +3,7 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "author": "wildduck (https://github.com/wildduck2)",
+  "author": "gentleduck contributors",
   "bin": {
     "duck-benchmark": "dist/index.js"
   },
@@ -32,7 +32,7 @@
     "tsconfig-paths": "^4.2.0",
     "zod": "4.2.1"
   },
-  "description": "this is the benchmark tool for the @gentleduck/ui components, it's a black magic tool to let you know weather your code suck or good.",
+  "description": "Benchmarking tool for gentleduck/ui components.",
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@types/babel__core": "^7.20.5",
@@ -61,7 +61,7 @@
     "ui",
     "tailwind",
     "radix-ui",
-    "duck-ui"
+    "gentleduck"
   ],
   "license": "MIT",
   "name": "@gentleduck/benchmark",
@@ -76,7 +76,7 @@
     "directory": "packages/duck-benchmark"
   },
   "scripts": {
-    "buildd": "tsdown",
+    "build": "tsdown",
     "dev": "tsdown --watch",
     "start": "node dist/index.js",
     "start:dev": "cross-env COMPONENTS_REGISTRY_URL=http://localhost:3003 node dist/index.js",

@@ -31,12 +31,11 @@
   "description": "React hooks for Duck UI.",
   "keywords": [
     "gentleduck",
-    "duck-ui",
     "react",
     "hooks"
   ],
   "license": "MIT",
-  "author": "duck-ui contributors",
+  "author": "gentleduck contributors",
   "module": "./dist/index.js",
   "name": "@gentleduck/hooks",
   "packageManager": "bun@1.3.5",

@@ -4,4 +4,4 @@
 
 ### Patch Changes
 
-- new docs and integration in duck-ui
+- new docs and integration in gentleduck/ui
