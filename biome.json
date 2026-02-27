@@ -20,16 +20,15 @@
       "!**/public",
       "!**/.next",
       "!**/next-env.d.ts",
-      "!**/apps/docs/.next",
+      "!**/apps/duck-ui-docs/.next",
       "!**/website",
       "!**/.*",
       "!**/generated.root-owned",
       "!**/old_*",
       "!packages/___",
-      "!./apps/docs/__ui_registry__/**",
+      "!./apps/duck-ui-docs/__ui_registry__/**",
       "!packages/_oldstuff_refactor",
-      "!packages/benchmark",
-      "!packages/duck-orm-skitch"
+      "!packages/duck-benchmark"
     ]
   },
   "formatter": {
@@ -50,16 +49,15 @@
       "!**/public/**",
       "!**/.next/**",
       "!**/next-env.d.ts",
-      "!**/apps/docs/.next/**",
+      "!**/apps/duck-ui-docs/.next/**",
       "!**/website/**",
       "!**/.*/**",
       "!**/generated.root-owned/**",
       "!**/old_*/**",
       "!packages/___/**",
-      "!./apps/docs/__ui_registry__/**",
+      "!./apps/duck-ui-docs/__ui_registry__/**",
       "!packages/_oldstuff_refactor/**",
-      "!packages/benchmark/**",
-      "!packages/duck-orm-skitch/**"
+      "!packages/duck-benchmark/**"
     ],
     "indentStyle": "space",
     "indentWidth": 2,
@@ -81,7 +79,7 @@
       "semicolons": "asNeeded",
       "trailingCommas": "all"
     },
-    "globals": ["Global1"]
+    "globals": []
   },
   "linter": {
     "enabled": true,
@@ -96,22 +94,19 @@
       "!**/public/**",
       "!**/.next/**",
       "!**/next-env.d.ts",
-      "!**/apps/docs/.next/**",
+      "!**/apps/duck-ui-docs/.next/**",
       "!**/website/**",
       "!**/.*/**",
       "!**/generated.root-owned/**",
       "!**/old_*/**",
       "!**/_*/**",
-      "!apps/docs/**",
-      "!apps/upload-api/**",
-      "!apps/www/**",
+      "!apps/duck-ui-docs/**",
       "!apps/benchmark/**",
       "!packages/___/**",
       "!packages/_oldstuff_refactor/**",
       "!packages/duck-state/**",
       "!packages/duck-benchmark/**",
       "!packages/registry-build-duckui/**",
-      "!packages/sandbox-server/**",
       "!**/duck-state/**",
       "!**/upload/**",
       "!**/table/**",

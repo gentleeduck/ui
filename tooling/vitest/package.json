@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
-  "author": "duck-ui contributors",
+  "author": "gentleduck contributors",
   "engines": {
     "node": ">=22.0.0"
   },

@@ -1,14 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "engines": {
-    "bun": ">=1.3.5"
+    "node": ">=22.0.0"
   },
-  "author": "gentleduck",
+  "author": "gentleduck contributors",
   "dependencies": {
     "@vitejs/plugin-react-swc": "^3.11.0",
     "tsdown": "0.18.3"
   },
-  "description": "this is a package for `tsdown` build configs",
+  "description": "Shared tsdown build configuration for gentleduck/ui.",
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*"
   },

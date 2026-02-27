@@ -20,12 +20,10 @@
       "dependsOn": ["^test"]
     },
     "format": {
-      "outputLogs": "new-only",
-      "outputs": [".cache/.prettiercache"]
+      "outputLogs": "new-only"
     },
     "lint": {
-      "dependsOn": ["^topo", "^build"],
-      "outputs": [".cache/.eslintcache"]
+      "dependsOn": ["^build"]
     }
   }
 }

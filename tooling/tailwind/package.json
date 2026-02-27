@@ -8,7 +8,7 @@
     "./docs": "./docs.css",
     "./web": "./web.css"
   },
-  "author": "duck-ui contributors",
+  "author": "gentleduck contributors",
   "license": "MIT",
   "name": "@gentleduck/tailwind-config",
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/tooling/tailwind#readme",
