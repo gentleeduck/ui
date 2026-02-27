@@ -67,8 +67,7 @@ export async function GET(request: Request) {
             display: 'flex',
             width: 520,
             height: 520,
-            background:
-              'radial-gradient(circle, rgba(250,204,21,0.14) 0%, rgba(250,204,21,0.03) 50%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(250,204,21,0.14) 0%, rgba(250,204,21,0.03) 50%, transparent 70%)',
           }}
         />
 
@@ -79,8 +78,7 @@ export async function GET(request: Request) {
             display: 'flex',
             width: 420,
             height: 420,
-            background:
-              'radial-gradient(circle, rgba(168,85,247,0.10) 0%, rgba(168,85,247,0.02) 50%, transparent 70%)',
+            background: 'radial-gradient(circle, rgba(168,85,247,0.10) 0%, rgba(168,85,247,0.02) 50%, transparent 70%)',
           }}
         />
 
@@ -240,7 +238,7 @@ export async function GET(request: Request) {
           <DuckLogo logoSrc={logoSrc} opacity={0.06} size={20} />
         </div>
         <div tw="absolute" style={{ display: 'flex', bottom: 25, right: 200 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.10} size={34} />
+          <DuckLogo logoSrc={logoSrc} opacity={0.1} size={34} />
         </div>
         <div tw="absolute" style={{ display: 'flex', bottom: 55, right: 80 }}>
           <DuckLogo logoSrc={logoSrc} opacity={0.07} size={26} />
