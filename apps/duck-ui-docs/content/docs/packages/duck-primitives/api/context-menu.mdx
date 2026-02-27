@@ -89,6 +89,12 @@ function FileExplorer() {
 
 State manager. Opens on right-click on the trigger area.
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `onOpenChange` | `(open: boolean) => void` | -- | Called when open state changes |
+| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction for keyboard navigation |
+| `modal` | `boolean` | `true` | Enable modal behavior |
+
 ### `ContextMenu.Trigger`
 
 The area that responds to right-click. Renders a `<span>` by default.

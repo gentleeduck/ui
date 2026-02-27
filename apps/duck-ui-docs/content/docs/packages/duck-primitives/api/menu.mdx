@@ -19,9 +19,20 @@ Menu does not include a trigger mechanism. Context Menu adds right-click trigger
 
 ---
 
+## API
+
+### `Menu.Root`
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `open` | `boolean` | -- | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | -- | Called on state change |
+| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction for keyboard navigation |
+| `modal` | `boolean` | `true` | Enable modal behavior |
+
 ## Sub-components
 
-`Menu.Root`, `Menu.Anchor`, `Menu.Portal`, `Menu.Content`, `Menu.Group`, `Menu.Label`, `Menu.Item`, `Menu.CheckboxItem`, `Menu.RadioGroup`, `Menu.RadioItem`, `Menu.ItemIndicator`, `Menu.Separator`, `Menu.Arrow`, `Menu.Sub`, `Menu.SubTrigger`, `Menu.SubContent`
+`Menu.Anchor`, `Menu.Portal`, `Menu.Content`, `Menu.Group`, `Menu.Label`, `Menu.Item`, `Menu.CheckboxItem`, `Menu.RadioGroup`, `Menu.RadioItem`, `Menu.ItemIndicator`, `Menu.Separator`, `Menu.Arrow`, `Menu.Sub`, `Menu.SubTrigger`, `Menu.SubContent`
 
 <Callout icon={<Target />}>
 

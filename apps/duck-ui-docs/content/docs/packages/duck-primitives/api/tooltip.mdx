@@ -81,9 +81,28 @@ Manages state for a single tooltip instance.
 
 The element that activates the tooltip on hover/focus.
 
-### `Tooltip.Portal`, `Tooltip.Content`, `Tooltip.Arrow`
+### `Tooltip.Portal`
 
-Same as Popover equivalents. Content supports `side`, `sideOffset`, `align`, `alignOffset`.
+Portals content to `document.body`.
+
+### `Tooltip.Content`
+
+The floating tooltip content. Positioned by the Popper engine.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `aria-label` | `string` | -- | Accessible label when content is purely visual |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` | Preferred side |
+| `sideOffset` | `number` | `0` | Distance from anchor in pixels |
+| `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment along the side |
+| `alignOffset` | `number` | `0` | Alignment offset in pixels |
+| `forceMount` | `true` | -- | Keep mounted always |
+| `onEscapeKeyDown` | `(event) => void` | -- | Called on <Kbd>Escape</Kbd> press |
+| `onPointerDownOutside` | `(event) => void` | -- | Called on outside click |
+
+### `Tooltip.Arrow`
+
+Optional visual arrow pointing toward the trigger.
 
 ---
 
