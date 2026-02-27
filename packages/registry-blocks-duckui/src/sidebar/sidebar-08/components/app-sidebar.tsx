@@ -135,7 +135,7 @@ const data = {
   ],
   user: {
     avatar: '/avatars/01.png',
-    email: 'alex@duckui.dev',
+    email: 'alex@gentleduck.org',
     name: 'Alex Morgan',
   },
 }
