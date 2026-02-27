@@ -1,6 +1,6 @@
 # Support
 
-Thanks for using **duck-ui**.
+Thanks for using **gentleduck/ui**.
 
 If you need help:
 

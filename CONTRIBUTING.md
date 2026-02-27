@@ -1,6 +1,6 @@
-# Contributing to duck-ui
+# Contributing to gentleduck/ui
 
-First off, thank you for considering contributing to **duck-ui**!
+First off, thank you for considering contributing to **gentleduck/ui**!
 We welcome all kinds of contributions — from bug reports and documentation improvements to feature requests and new packages.
 
 This document provides guidelines to help you get started.
@@ -59,7 +59,7 @@ This will spin up local development environments for the packages and docs.
 
 1. **Branching**
 
-   * Create a new branch from `main`.
+   * Create a new branch from `master`.
    * Use a descriptive name, e.g. `fix/button-hover`, `feat/new-dialog`, `docs/readme-update`.
 
    ```bash
@@ -101,7 +101,7 @@ This will spin up local development environments for the packages and docs.
    git push origin feat/new-component
    ```
 
-2. Open a Pull Request (PR) against the `main` branch.
+2. Open a Pull Request (PR) against the `master` branch.
 
 3. Fill out the PR template with:
 
@@ -127,7 +127,7 @@ If you find a bug, please [open an issue](https://github.com/gentleeduck/duck-ui
 * **Code**: Bug fixes, features, optimizations
 * **Docs**: Tutorials, guides, API references
 * **Design**: Improving UX, accessibility, component design
-* **Community**: Helping others in discussions, writing blog posts, or sharing duck-ui
+* **Community**: Helping others in discussions, writing blog posts, or sharing gentleduck/ui
 
 ---
 

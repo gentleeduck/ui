@@ -1,4 +1,4 @@
-# @ahmedayob/duck-shortcut
+# @gentleduck/shortcut
 
 ## 0.0.2
 

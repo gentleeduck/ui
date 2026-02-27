@@ -2,7 +2,7 @@
   <img src="./public/logo.png" alt="Duck UI Logo" width="200"/>
 </p>
 
-# `@ahmedayob/duck-shortcut`
+# `@gentleduck/shortcut`
 
 A lightweight React component for easily binding and handling keyboard shortcuts in your React applications.
 
@@ -22,9 +22,9 @@ A lightweight React component for easily binding and handling keyboard shortcuts
 To install the toolkit, use npm or yarn:
 
 ```bash
-npm install @ahmedayob/duck-shortcut
+npm install @gentleduck/shortcut
 # or
-yarn add @ahmedayob/duck-shortcut
+yarn add @gentleduck/shortcut
 ```
 
 ## Usage
@@ -32,7 +32,7 @@ yarn add @ahmedayob/duck-shortcut
 Here's a quick guide on how to use the library:
 
 ```tsx
-import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
+import { useDuckShortcut } from '@gentleduck/shortcut'
 
 const App = () => {
   useDuckShortcut({
@@ -51,7 +51,7 @@ const App = () => {
 You can handle multiple key combinations or sequences by passing them as an array:
 
 ```typescript
-import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
+import { useDuckShortcut } from '@gentleduck/shortcut'
 const App = () => {
   useDuckShortcut({
     keys: ['ctrl+s', 'command+k'], // Multiple shortcuts
@@ -65,7 +65,7 @@ const App = () => {
 
 ## API Reference
 
-Here’s an API reference for `@ahmedayob/duck-shortcut` in MDX format, detailing the types and usage of the `useDuckShortcut` hook:
+Here’s an API reference for `@gentleduck/shortcut` in MDX format, detailing the types and usage of the `useDuckShortcut` hook:
 
 ## `useDuckShortcut`
 
@@ -74,7 +74,7 @@ The `useDuckShortcut` hook allows you to bind keyboard shortcuts to callback fun
 ### Importing
 
 ```jsx
-import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
+import { useDuckShortcut } from '@gentleduck/shortcut'
 ```
 
 ### Usage
@@ -127,7 +127,7 @@ onKeysPressed: () => {
 ### Example
 
 ```jsx
-import { useDuckShortcut } from '@ahmedayob/duck-shortcut'
+import { useDuckShortcut } from '@gentleduck/shortcut'
 
 const App = () => {
   useDuckShortcut({
@@ -173,7 +173,7 @@ This library is available under the [MIT License](LICENSE).
 
 This reference includes type definitions for `DuckShortcutProps`, as well as detailed information on how to use the `useDuckShortcut` hook.
 
-Contributions are welcome! Please open issues and pull requests on the [GitHub repository](https://github.com/TheDuckUI/shortcut).
+Contributions are welcome! Please open issues and pull requests on the [GitHub repository](https://github.com/gentleeduck/duck-ui).
 
 ## License
 

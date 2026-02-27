@@ -6,7 +6,7 @@
   "publishConfig": {
     "access": "restricted"
   },
-  "author": "wildduck (https://github.com/wildduck2)",
+  "author": "gentleduck contributors",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
@@ -18,7 +18,7 @@
     "react": "^19.2.3",
     "react-dom": "^19.2.3"
   },
-  "description": "A package for fonts changing while browsing the internet, so you set the fonts you like not the fonts they set.",
+  "description": "Browser extension for font customization and typography control.",
   "devDependencies": {
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/registry-ui-duckui": "workspace:*",
@@ -57,7 +57,6 @@
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-extention#readme",
   "keywords": [
     "gentleduck",
-    "duck-ui",
     "browser-extension",
     "fonts",
     "typography"

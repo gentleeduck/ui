@@ -3,8 +3,8 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "author": "duck-ui contributors",
-  "description": "this is a package for types and utils for typescript",
+  "author": "gentleduck contributors",
+  "description": "Shared TypeScript types and utilities for gentleduck/ui.",
   "devDependencies": {
     "@gentleduck/biome-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*"
@@ -30,7 +30,7 @@
     "directory": "packages/types"
   },
   "packageManager": "bun@1.3.5",
-  "peelDependencies": {},
+  "peerDependencies": {},
   "private": true,
   "scripts": {
     "start:env": "bun ./index.ts",

@@ -3,11 +3,11 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "author": "wildduck (https://github.com/wildduck2)",
+  "author": "gentleduck contributors",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
-  "description": "motion is a behavioral component abstraction that makes the aero dynamics of the web",
+  "description": "Motion primitives for gentleduck/ui components.",
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
@@ -34,7 +34,6 @@
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-motion#readme",
   "keywords": [
     "gentleduck",
-    "duck-ui",
     "motion",
     "animation",
     "ui"
@@ -44,8 +43,7 @@
   "packageManager": "bun@1.3.5",
   "peerDependencies": {
     "@gentleduck/variants": "workspace:*",
-    "react": "^18 || ^19",
-    "typescript": "5.9.3"
+    "react": "^18 || ^19"
   },
   "peerDependenciesMeta": {
     "react": {

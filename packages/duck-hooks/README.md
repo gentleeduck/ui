@@ -6,6 +6,7 @@ This package provides a collection of reusable React hooks for the @gentleduck/u
 
 - `use-composed-refs`: A hook to merge multiple refs into a single ref.
 - `use-computed-timeout-transition`: A hook to manage timeout-based transitions.
+- `use-copy-to-clipboard`: A hook to copy text to the clipboard.
 - `use-debounce`: A hook to debounce a value.
 - `use-is-mobile`: A hook to detect if the user is on a mobile device.
 - `use-media-query`: A hook to use media queries in your components.
@@ -17,7 +18,7 @@ This package provides a collection of reusable React hooks for the @gentleduck/u
 To use a hook, import it from the corresponding directory:
 
 ```typescript
-import { useDebounce } from '@gentleduck/libs/use-debounce';
+import { useDebounce } from '@gentleduck/hooks/use-debounce';
 
 function MyComponent() {
   const [value, setValue] = useState('');
@@ -29,5 +30,5 @@ function MyComponent() {
 
 ## License
 
-[MIT © duck-ui](./LICENSE)
+[MIT © gentleduck](./LICENSE)
 

@@ -4,7 +4,7 @@
     "node": ">=22.0.0"
   },
   "name": "_default",
-  "author": "duck-ui contributors",
+  "author": "gentleduck contributors",
   "license": "MIT",
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/_default#readme",
   "bugs": {

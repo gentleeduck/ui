@@ -39,7 +39,7 @@
     "./*": "./src/*"
   },
   "name": "@gentleduck/registry-examples-duckui",
-  "author": "duck-ui contributors",
+  "author": "gentleduck contributors",
   "license": "MIT",
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/registry-examples-duckui#readme",
   "bugs": {

@@ -1,12 +1,12 @@
 # Security Policy
 
 ## Supported Versions
-We provide security updates for the latest major release of duck-ui.  
+We provide security updates for the latest major release of gentleduck/ui.  
 Older versions may not receive patches.
 
 ## Reporting a Vulnerability
 ⚠️ **Please do not disclose security issues publicly.**  
-If you discover a vulnerability in duck-ui:
+If you discover a vulnerability in gentleduck/ui:
 
 1. Report it privately by emailing: **security@gentleduck.org**
 2. Include a detailed description of the vulnerability and how to reproduce it.
@@ -16,4 +16,4 @@ If you discover a vulnerability in duck-ui:
 We ask security researchers to give us **90 days** to address issues before public disclosure.  
 We will credit you in release notes unless you prefer to remain anonymous.
 
-Thank you for helping keep duck-ui secure.
+Thank you for helping keep gentleduck/ui secure.

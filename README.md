@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="./apps/duck-ui-docs/public/og/root.png" alt="duck-ui logo" width="800"/>
+  <img src="./apps/duck-ui-docs/public/og/root.png" alt="gentleduck/ui" width="800"/>
 </p>
 
-# duck-ui
+# gentleduck/ui
 
-duck-ui is a Bun-based monorepo for the duck-ui component system, docs, and related tooling.
+A Bun-based monorepo for the gentleduck/ui component system, docs, and related tooling.
  
 ## Documentation
 - Docs app: `apps/duck-ui-docs`
@@ -13,8 +13,6 @@ duck-ui is a Bun-based monorepo for the duck-ui component system, docs, and rela
 ## What's in this repo
 ### Apps
 - `apps/duck-ui-docs` – component docs site (components, blocks, charts, themes)
-- `apps/duck-gen-docs` – Duck Gen docs site
-
 ### Packages (Selected)
 - `packages/duck-docs` – shared docs app kit used by the docs apps
 - `packages/registry-ui-duckui` – UI components
@@ -28,15 +26,13 @@ duck-ui is a Bun-based monorepo for the duck-ui component system, docs, and rela
 - `packages/duck-lazy` – lazy-loading utilities
 
 ### Published packages (npm)
-- `@gentleduck/benchmark` – benchmarking tool for Duck UI components
+- `@gentleduck/benchmark` – benchmarking tool for gentleduck/ui components
 - `@gentleduck/cli` – CLI to add components and bootstrap integrations
-- `@gentleduck/gen` – type-safe API and message generator (NestJS-tested)
 - `@gentleduck/hooks` – React hooks
 - `@gentleduck/lazy` – lazy-loading utilities
 - `@gentleduck/libs` – utilities and helpers
 - `@gentleduck/motion` – motion primitives
 - `@gentleduck/primitives` – headless UI primitives
-- `@gentleduck/query` – type-safe Axios client
 - `@gentleduck/shortcut` – keyboard shortcut utilities
 - `@gentleduck/variants` – class/variant helpers
 - `@gentleduck/vim` – keybinding engine
@@ -51,7 +47,6 @@ bun install
 ## Run a Single App
 ```bash
 bun --filter @gentleduck/ui-docs dev
-bun --filter @gentleduck/gen-docs dev
 ```
 
 ## Contributing

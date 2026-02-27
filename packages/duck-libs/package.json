@@ -3,11 +3,11 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "author": "wildduck (https://github.com/wildduck2)",
+  "author": "gentleduck contributors",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
-  "description": "libs is a behavioral component abstraction that makes the aero dynamics of the web",
+  "description": "Tiny, framework-agnostic utility functions for gentleduck/ui.",
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
@@ -28,7 +28,6 @@
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-libs#readme",
   "keywords": [
     "gentleduck",
-    "duck-ui",
     "utilities",
     "helpers",
     "typescript"

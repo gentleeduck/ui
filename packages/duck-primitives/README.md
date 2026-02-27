@@ -10,13 +10,7 @@
 npm install @gentleduck/primitives
 ```
 
-### Tailwind CSS Setup
-
-This package uses Tailwind CSS classes that require proper configuration. See [TAILWIND_SETUP.md](./TAILWIND_SETUP.md) for detailed setup instructions.
-
----
-
-## 🔧 Usage
+## Usage
 
 Each primitive is exposed via **path exports**. Import only what you need:
 
@@ -70,4 +64,4 @@ Report issues at [github.com/gentleeduck/duck-ui/issues](https://github.com/gent
 
 ## 📄 License
 
-[MIT © duck-ui](./LICENSE)
+[MIT © gentleduck](./LICENSE)

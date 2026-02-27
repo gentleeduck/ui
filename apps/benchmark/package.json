@@ -76,7 +76,7 @@
     "vite-tsconfig-paths": "^6.0.3"
   },
   "name": "benchmark",
-  "author": "duck-ui contributors",
+  "author": "gentleduck contributors",
   "license": "MIT",
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/apps/benchmark#readme",
   "bugs": {

@@ -1,10 +1,10 @@
 <p align="center">
-  <img src="./public/og/root.png" alt="duck ui root" width="800"/>
+  <img src="./public/og/root.png" alt="gentleduck/ui" width="800"/>
 </p>
 
-# @gentleduck/duck-ui-docs
+# @gentleduck/ui-docs
 
-Next.js documentation site for duck-ui. Covers components, blocks, charts, themes, and registry-powered previews.
+Next.js documentation site for gentleduck/ui. Covers components, blocks, charts, themes, and registry-powered previews.
 
 ## Stack
 - Next.js App Router
