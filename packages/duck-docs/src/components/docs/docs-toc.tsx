@@ -74,10 +74,7 @@ function useActiveItem(itemIds: (string | undefined)[]) {
   return activeId
 }
 
-function useTocThumb(
-  containerRef: React.RefObject<HTMLDivElement | null>,
-  activeItem: string,
-): [number, number] {
+function useTocThumb(containerRef: React.RefObject<HTMLDivElement | null>, activeItem: string): [number, number] {
   const [pos, setPos] = React.useState<[number, number]>([0, 0])
 
   React.useEffect(() => {
@@ -204,7 +201,7 @@ function TocTree({ items, activeItem }: { items: FlatTocItem[]; activeItem: stri
             {offset !== upperOffset ? (
               <svg
                 aria-hidden="true"
-                className="absolute -top-1.5 start-0 size-3"
+                className="absolute start-0 -top-1.5 size-3"
                 viewBox="0 0 16 16"
                 xmlns="http://www.w3.org/2000/svg">
                 <line
