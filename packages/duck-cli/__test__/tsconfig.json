@@ -24,7 +24,7 @@
     "noUnusedParameters": false,
     "outDir": "./dist",
     "paths": {
-      "~/*": ["./src/hello/*"]
+      "~/*": ["./*"]
     },
     "plugins": [
       {
@@ -38,6 +38,6 @@
     "strict": true,
     "target": "ESNext"
   },
-  "exclude": ["node_modules", "dist", "node_modules", "build", "dist"],
+  "exclude": ["node_modules", "dist", "build"],
   "include": ["./**/*.ts", "./**/*.tsx"]
 }

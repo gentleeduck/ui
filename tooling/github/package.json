@@ -4,7 +4,7 @@
     "node": ">=22.0.0"
   },
   "name": "@gentleduck/github",
-  "author": "duck-ui contributors",
+  "author": "gentleduck contributors",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"

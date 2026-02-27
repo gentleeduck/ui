@@ -9,7 +9,7 @@
     ".": "./config.json"
   },
   "name": "@gentleduck/biome-config",
-  "author": "duck-ui contributors",
+  "author": "gentleduck contributors",
   "license": "MIT",
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/tooling/biome#readme",
   "bugs": {

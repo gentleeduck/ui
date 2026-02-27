@@ -7,7 +7,7 @@
     "*.json"
   ],
   "name": "@gentleduck/typescript-config",
-  "author": "duck-ui contributors",
+  "author": "gentleduck contributors",
   "license": "MIT",
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/tooling/typescript#readme",
   "bugs": {

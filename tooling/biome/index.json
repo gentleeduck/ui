@@ -15,10 +15,8 @@
       "**/public/**",
       "**/.next/**",
       "**/.velite/**",
-      "./apps/old_react_docs/",
       "./packages/___/",
       "./packages/_oldstuff_refactor/",
-      "./packages/benchmark/",
       "./**/_*/**"
     ],
     "indentStyle": "space",
@@ -38,7 +36,7 @@
       "semicolons": "asNeeded",
       "trailingCommas": "all"
     },
-    "globals": ["Global1"]
+    "globals": []
   },
   "linter": {
     "enabled": true,
@@ -50,16 +48,11 @@
       "**/public/**",
       "**/.next/**",
       "**/.velite/**",
-      "./apps/old_react_docs/",
-      "./apps/docs/",
-      "./apps/upload-api/",
-      "./apps/www/",
+      "./apps/duck-ui-docs/",
       "./packages/___/",
       "./packages/_oldstuff_refactor/",
       "./packages/duck-state/",
       "./packages/duck-benchmark/",
-      "./packages/duck-ui/",
-      "./packages/benchmark/",
       "**/upload/**",
       "**/table/**",
       "**/combobox.tsx",
