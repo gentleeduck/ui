@@ -7,13 +7,13 @@ export const siteConfig = {
     email: 'support@gentleduck.org',
   },
   description:
-    'duck-ui is a modern, open-source React component library built with Tailwind CSS. It offers accessible, customizable, and type-safe UI components to help developers build faster and more consistent interfaces.',
+    'A modern, open-source React component library built on Tailwind CSS. Accessible, customizable, and type-safe primitives for building beautiful interfaces.',
   links: {
     email: 'duckui@duck.com',
     github: 'https://github.com/gentleeduck/duck-ui',
     twitter: 'https://x.com/wild_ducka',
   },
-  name: 'duck-ui',
+  name: 'gentleduck/ui',
   ogImage: absoluteUrl('/og/root.png'),
   title: 'turn tiny primitives to infinite design',
   url: absoluteUrl('/'),

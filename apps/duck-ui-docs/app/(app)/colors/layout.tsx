@@ -6,9 +6,9 @@ import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { ThemeWrapper } from '~/components/themes'
 
-const title = 'Tailwind Colors, Simplified'
+const title = 'Every Tailwind Color at a Glance'
 const description =
-  'Browse the full Tailwind palette in HEX, RGB, HSL, and CSS formats. Copy and paste what you need in seconds.'
+  'Browse the full Tailwind color palette in HEX, RGB, HSL, and CSS variables. Copy what you need in one click.'
 
 export const metadata: Metadata = {
   alternates: {

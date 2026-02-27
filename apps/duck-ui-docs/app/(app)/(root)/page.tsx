@@ -5,8 +5,9 @@ import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { FeaturesSection } from '~/components/layouts/features'
 
-const title = 'Primitives that Scale, Components that Perform.'
-const description = 'Bring life to your own website with a pack full of ideas made specially for magical websites.'
+const title = 'Turn Tiny Primitives to Infinite Design'
+const description =
+  'A modern React component library built on Tailwind CSS. Accessible, customizable, and type-safe primitives for building beautiful interfaces.'
 
 export const dynamic = 'force-static'
 export const revalidate = false

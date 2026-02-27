@@ -1,6 +1,5 @@
 import { absoluteUrl } from '@gentleduck/docs/lib'
 import type { Metadata, Viewport } from 'next'
-import { allTitles } from './docs'
 import { siteConfig } from './site'
 
 export const VIEWPORT: Viewport = {
@@ -16,11 +15,11 @@ export const METADATA: Metadata = {
   },
   authors: [
     {
-      name: 'wilddcuk2',
+      name: 'wildduck2',
       url: 'https://github.com/wildduck2',
     },
   ],
-  creator: 'wilddcuk2',
+  creator: 'wildduck2',
   description: siteConfig.description,
   icons: {
     apple: '/apple-touch-icon.png',
@@ -29,13 +28,13 @@ export const METADATA: Metadata = {
   },
   keywords: [
     // Brand
-    'duck-ui',
-    'duck-ui react components',
-    'duck-ui button',
-    'Duck UI',
+    'gentleduck ui',
+    'gentleduck/ui',
+    'gentleduck ui react components',
+    'gentleduck ui button',
 
-    'duck-ui library',
-    'duck-ui components',
+    'gentleduck ui library',
+    'gentleduck ui components',
 
     // Core tech stack
     'React UI library',
@@ -67,10 +66,7 @@ export const METADATA: Metadata = {
     description: siteConfig.description,
     images: [
       {
-        alt: siteConfig.name,
-        height: 630,
-        url: siteConfig.ogImage,
-        width: 1200,
+        url: `/og?title=${encodeURIComponent(siteConfig.name)}&description=${encodeURIComponent(siteConfig.title)}`,
       },
     ],
     locale: 'en_US',
@@ -87,37 +83,37 @@ export const METADATA: Metadata = {
     card: 'summary_large_image',
     creator: '@gentleduck',
     description: siteConfig.description,
-    images: [siteConfig.ogImage],
+    images: [
+      {
+        url: `/og?title=${encodeURIComponent(siteConfig.name)}&description=${encodeURIComponent(siteConfig.title)}`,
+      },
+    ],
     title: siteConfig.name,
   },
 }
 
-const ogImage = {
-  alt: siteConfig.name,
-  height: 630,
-  url: siteConfig.ogImage,
-  width: 1200,
+export const SLUG_METADATA = (doc: { title: string; description: string; slug: string }): Metadata => {
+  const ogUrl = `/og?title=${encodeURIComponent(doc.title)}&description=${encodeURIComponent(doc.description)}`
+  return {
+    ...METADATA,
+    alternates: {
+      canonical: absoluteUrl(doc.slug),
+    },
+    description: doc.description,
+    openGraph: {
+      ...METADATA.openGraph,
+      description: doc.description,
+      images: [{ url: ogUrl }],
+      title: doc.title,
+      type: 'article',
+      url: absoluteUrl(doc.slug),
+    },
+    title: doc.title,
+    twitter: {
+      ...METADATA.twitter,
+      description: doc.description,
+      images: [{ url: ogUrl }],
+      title: doc.title,
+    },
+  }
 }
-
-export const SLUG_METADATA = (doc: { title: string; description: string; slug: string }): Metadata => ({
-  ...METADATA,
-  alternates: {
-    canonical: absoluteUrl(doc.slug),
-  },
-  description: doc.description,
-  openGraph: {
-    ...METADATA.openGraph,
-    description: doc.description,
-    images: [ogImage],
-    title: doc.title,
-    type: 'article',
-    url: absoluteUrl(doc.slug),
-  },
-  title: doc.title,
-  twitter: {
-    ...METADATA.twitter,
-    description: doc.description,
-    images: [siteConfig.ogImage],
-    title: doc.title,
-  },
-})

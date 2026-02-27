@@ -6,9 +6,9 @@ import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { BlocksNav } from '~/components/blocks/block-nav'
 
-const title = 'Reusable Blocks for the Web'
+const title = 'Building Blocks for Modern Apps'
 const description =
-  'A collection of sleek, customizable blocks to speed up your workflow. Drop them into any React app and ship faster.'
+  'Pre-built, composable UI blocks you can drop into any React project. Ship complete features in minutes.'
 
 export const metadata: Metadata = {
   alternates: {
