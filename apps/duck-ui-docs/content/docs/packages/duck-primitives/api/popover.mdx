@@ -64,6 +64,7 @@ function UserMenu() {
 | `defaultOpen` | `boolean` | `false` | Initial open state |
 | `onOpenChange` | `(open: boolean) => void` | -- | Called on state change |
 | `modal` | `boolean` | `false` | Enable modal behavior (focus trap, scroll lock) |
+| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction for keyboard navigation |
 
 ### `Popover.Trigger`
 
@@ -95,6 +96,8 @@ The floating content. Positioned by the Popper engine relative to the trigger.
 | `onOpenAutoFocus` | `(event) => void` | -- | Intercept auto-focus |
 | `onCloseAutoFocus` | `(event) => void` | -- | Intercept focus restoration |
 | `onPointerDownOutside` | `(event) => void` | -- | Called on outside click |
+| `onFocusOutside` | `(event) => void` | -- | Called when focus moves outside |
+| `onInteractOutside` | `(event) => void` | -- | Called for any outside interaction |
 | `onEscapeKeyDown` | `(event) => void` | -- | Called on <Kbd>Escape</Kbd> press |
 
 ### `Popover.Arrow`

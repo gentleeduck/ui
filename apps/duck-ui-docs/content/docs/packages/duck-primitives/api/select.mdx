@@ -142,7 +142,11 @@ The dropdown content. Handles focus trapping, dismiss-on-click-outside, escape-t
 | `align` | `'start' \| 'center' \| 'end'` | `'start'` | Cross-axis alignment (popper only) |
 | `alignOffset` | `number` | -- | Cross-axis offset (popper only) |
 | `avoidCollisions` | `boolean` | `true` | Flip to avoid viewport overflow (popper only) |
+| `collisionBoundary` | `Element \| Element[]` | -- | Custom collision boundary (popper only) |
 | `collisionPadding` | `number` | `10` | Padding from viewport edges |
+| `arrowPadding` | `number` | `0` | Minimum padding between arrow and content edges (popper only) |
+| `sticky` | `'partial' \| 'always'` | `'partial'` | Keep content in view when trigger is partially hidden (popper only) |
+| `hideWhenDetached` | `boolean` | `false` | Hide content when trigger is fully occluded (popper only) |
 | `onCloseAutoFocus` | `(event: Event) => void` | -- | Called when focus returns to trigger on close |
 | `onEscapeKeyDown` | `(event: KeyboardEvent) => void` | -- | Called when Escape is pressed |
 | `onPointerDownOutside` | `(event) => void` | -- | Called when clicking outside |
