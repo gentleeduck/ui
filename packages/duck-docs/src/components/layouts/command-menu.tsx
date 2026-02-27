@@ -1,6 +1,7 @@
 'use client'
 
-import { useDocsConfig } from '@duck-docs/context'
+import { useDocsConfig, useDocsEntries } from '@duck-docs/context'
+import type { DocsEntry, TocEntry } from '@duck-docs/context/context.types'
 import type { SidebarNavItem } from '@duck-docs/types/nav'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
@@ -16,15 +17,40 @@ import {
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
 import { useKeyCommands } from '@gentleduck/vim/react'
 import { useVirtualizer } from '@tanstack/react-virtual'
+import lunr from 'lunr'
 import { Circle, Command, CornerDownLeft, FileIcon, Moon, Sun } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
 
+// -- Types -------------------------------------------------------------------
+
 type FlattenedSidebarItem = {
   href: string
   title: string
 }
+
+type VirtualRow =
+  | { type: 'heading'; title: string }
+  | { type: 'item'; name: string; href: string; icon: React.ReactNode; action: () => void }
+
+type ItemRow = VirtualRow & { type: 'item' }
+
+type SearchableItem = {
+  groupTitle: string
+  id: string
+  leafTitle: string
+  name: string
+  segments: string
+  tocHeadings: string
+}
+
+// -- Constants ---------------------------------------------------------------
+
+const HEADING_HEIGHT = 32
+const ITEM_HEIGHT = 36
+
+// -- Helpers -----------------------------------------------------------------
 
 function flattenSidebarItems(items: SidebarNavItem[], parentTitle = ''): FlattenedSidebarItem[] {
   const flattened: FlattenedSidebarItem[] = []
@@ -47,18 +73,50 @@ function flattenSidebarItems(items: SidebarNavItem[], parentTitle = ''): Flatten
   return flattened
 }
 
-type VirtualRow =
-  | { type: 'heading'; title: string }
-  | { type: 'item'; name: string; icon: React.ReactNode; action: () => void }
+function flattenTocTitles(entries?: TocEntry[]): string {
+  if (!entries || entries.length === 0) return ''
+  const titles: string[] = []
+  for (const entry of entries) {
+    titles.push(entry.title)
+    if (entry.items?.length) {
+      titles.push(flattenTocTitles(entry.items))
+    }
+  }
+  return titles.join(' ')
+}
 
-const HEADING_HEIGHT = 32
-const ITEM_HEIGHT = 36
+function findTocHeadings(docs: DocsEntry[] | undefined, href: string): string {
+  if (!docs || !href) return ''
+  const doc = docs.find((d) => d.permalink === href || d.slug === href)
+  return doc?.toc ? flattenTocTitles(doc.toc) : ''
+}
+
+function buildSearchIndex(items: SearchableItem[]): lunr.Index {
+  return lunr(function () {
+    this.ref('id')
+    this.field('leafTitle', { boost: 10 })
+    this.field('name', { boost: 5 })
+    this.field('segments', { boost: 3 })
+    this.field('tocHeadings', { boost: 2 })
+    this.field('groupTitle', { boost: 1 })
+
+    this.pipeline.remove(lunr.stemmer)
+    this.searchPipeline.remove(lunr.stemmer)
+
+    for (const item of items) {
+      this.add(item)
+    }
+  })
+}
+
+// -- CommandMenu -------------------------------------------------------------
 
 export function CommandMenu() {
   const router = useRouter()
   const [open, setOpen] = React.useState(false)
   const { setTheme } = useTheme()
   const docsConfig = useDocsConfig()
+  const docsEntries = useDocsEntries()
   const [selectedLabel, setSelectedLabel] = React.useState('')
 
   const items = React.useMemo(
@@ -66,6 +124,7 @@ export function CommandMenu() {
       ...docsConfig.sidebarNav.map((group) => ({
         items: flattenSidebarItems(group.items ?? []).map((navItem) => ({
           action: () => router.push(navItem.href),
+          href: navItem.href,
           icon: <Circle aria-hidden="true" className="mr-2 h-3 w-3" />,
           name: navItem.title,
         })),
@@ -75,16 +134,19 @@ export function CommandMenu() {
         items: [
           {
             action: () => setTheme('light'),
+            href: '',
             icon: <Sun aria-hidden="true" className="mr-2 h-4 w-4" />,
             name: 'Light',
           },
           {
             action: () => setTheme('dark'),
+            href: '',
             icon: <Moon aria-hidden="true" className="mr-2 h-4 w-4" />,
             name: 'Dark',
           },
           {
             action: () => setTheme('system'),
+            href: '',
             icon: <FileIcon aria-hidden="true" className="mr-2 h-4 w-4" />,
             name: 'System',
           },
@@ -100,11 +162,33 @@ export function CommandMenu() {
     for (const group of items) {
       rows.push({ type: 'heading', title: group.title })
       for (const item of group.items) {
-        rows.push({ type: 'item', name: item.name, icon: item.icon, action: item.action })
+        rows.push({ type: 'item', name: item.name, href: item.href, icon: item.icon, action: item.action })
       }
     }
     return rows
   }, [items])
+
+  const searchIndex = React.useMemo(() => {
+    const searchable: SearchableItem[] = []
+
+    for (const group of items) {
+      if (group.title === 'Theme') continue
+      for (const item of group.items) {
+        const segments = item.name.split(' / ')
+        const leafTitle = segments[segments.length - 1] ?? item.name
+        searchable.push({
+          groupTitle: group.title,
+          id: item.name,
+          leafTitle,
+          name: item.name,
+          segments: segments.join(' '),
+          tocHeadings: findTocHeadings(docsEntries, item.href),
+        })
+      }
+    }
+
+    return searchable.length > 0 ? buildSearchIndex(searchable) : null
+  }, [items, docsEntries])
 
   return (
     <>
@@ -133,6 +217,7 @@ export function CommandMenu() {
           flatRows={flatRows}
           onClose={() => setOpen(false)}
           onSelectedLabelChange={setSelectedLabel}
+          searchIndex={searchIndex}
         />
         <CommandFooter selectedLabel={selectedLabel} />
       </CommandDialog>
@@ -140,46 +225,87 @@ export function CommandMenu() {
   )
 }
 
-type ItemRow = VirtualRow & { type: 'item' }
+// -- VirtualCommandList ------------------------------------------------------
 
 function VirtualCommandList({
   flatRows,
   onClose,
   onSelectedLabelChange,
+  searchIndex,
 }: {
   flatRows: VirtualRow[]
   onClose: () => void
   onSelectedLabelChange: (label: string) => void
+  searchIndex: lunr.Index | null
 }) {
   const { search } = useCommandListContext({})
   const scrollRef = React.useRef<HTMLDivElement>(null)
   const [selectedIndex, setSelectedIndex] = React.useState(0)
 
-  const filteredRows = React.useMemo(() => {
+  const filteredRows = React.useMemo<VirtualRow[]>(() => {
     if (!search) return flatRows
-    const query = search.toLowerCase()
 
+    // Build score map from lunr results for doc items
+    let scoreMap: Map<string, number>
+
+    try {
+      if (!searchIndex) throw new Error('no index')
+      const sanitized = search.replace(/[:\*\~\+\-\^]/g, '\\$&')
+      const terms = sanitized.trim().split(/\s+/).filter(Boolean)
+      if (terms.length === 0) return flatRows
+
+      // Try wildcard prefix matching first (natural for incremental typing)
+      let results = searchIndex.search(terms.map((t) => `${t}*`).join(' '))
+
+      // Fuzzy fallback for typos
+      if (results.length === 0) {
+        results = searchIndex.search(terms.map((t) => `${t}~1`).join(' '))
+      }
+
+      scoreMap = new Map(results.map((r) => [r.ref, r.score]))
+    } catch {
+      // lunr threw on invalid syntax -- fall back to substring
+      const q = search.toLowerCase()
+      scoreMap = new Map(
+        flatRows
+          .filter((r): r is ItemRow => r.type === 'item' && r.name.toLowerCase().includes(q))
+          .map((r) => [r.name, 1]),
+      )
+    }
+
+    const query = search.toLowerCase()
     const filtered: VirtualRow[] = []
-    let currentHeading: VirtualRow | null = null
-    let headingHasItems = false
+    let currentHeading: (VirtualRow & { type: 'heading' }) | null = null
+    let pendingItems: ItemRow[] = []
+    let isThemeGroup = false
+
+    const flushGroup = () => {
+      if (pendingItems.length > 0 && currentHeading) {
+        // Sort items within group by lunr score (highest first)
+        pendingItems.sort((a, b) => (scoreMap.get(b.name) ?? 0) - (scoreMap.get(a.name) ?? 0))
+        filtered.push(currentHeading)
+        filtered.push(...pendingItems)
+      }
+      pendingItems = []
+    }
 
     for (const row of flatRows) {
       if (row.type === 'heading') {
+        flushGroup()
         currentHeading = row
-        headingHasItems = false
+        isThemeGroup = row.title === 'Theme'
       } else if (row.type === 'item') {
-        if (row.name.toLowerCase().includes(query)) {
-          if (currentHeading && !headingHasItems) {
-            filtered.push(currentHeading)
-            headingHasItems = true
-          }
-          filtered.push(row)
+        // Theme items use substring, doc items use lunr
+        const isMatch = isThemeGroup ? row.name.toLowerCase().includes(query) : scoreMap.has(row.name)
+        if (isMatch) {
+          pendingItems.push(row)
         }
       }
     }
+    flushGroup()
 
     return filtered
-  }, [flatRows, search])
+  }, [flatRows, search, searchIndex])
 
   // Extract only item rows for index-based navigation
   const itemRows = React.useMemo<ItemRow[]>(
@@ -219,9 +345,6 @@ function VirtualCommandList({
   }, [selectedFilteredIndex, virtualizer])
 
   // Keyboard navigation via capture-phase listener.
-  // Capture phase fires before the primitive's bubble-phase handler.
-  // Calling preventDefault() here causes composeEventHandlers to skip
-  // the primitive's internal keyboard handler.
   const stableRef = React.useRef({ itemRows, selectedRow, clampedIndex, onClose })
   stableRef.current = { itemRows, selectedRow, clampedIndex, onClose }
 
@@ -291,7 +414,7 @@ function VirtualCommandList({
                 ) : (
                   <CommandItem
                     value={row?.name}
-                    textValue={row?.name}
+                    textValue={search ? `${row?.name} ${search}` : row?.name}
                     data-highlighted={isSelected ? '' : undefined}
                     aria-selected={isSelected}
                     onSelect={() => {
@@ -314,6 +437,8 @@ function VirtualCommandList({
     </>
   )
 }
+
+// -- CommandFooter -----------------------------------------------------------
 
 function CommandFooter({ selectedLabel }: { selectedLabel: string }) {
   const docsConfig = useDocsConfig()
