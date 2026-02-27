@@ -30,10 +30,7 @@ function TocSkeleton({ toc }: TocProps) {
     <ul className="m-0 list-none">
       {skeletonItems.map((item, i) => (
         <li key={i} className={cn('mt-0 pt-2', { 'pl-4': item.level > 1 })}>
-          <div
-            className="h-3.5 animate-pulse rounded-full bg-muted/70"
-            style={{ width: item.width }}
-          />
+          <div className="h-3.5 animate-pulse rounded-full bg-muted/70" style={{ width: item.width }} />
         </li>
       ))}
     </ul>

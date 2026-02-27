@@ -2,7 +2,9 @@ import { DashboardTableOfContents, DocsCopyPage, DocsPagerBottom, DocsPagerTop, 
 import { absoluteUrl } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
 import { badgeVariants } from '@gentleduck/registry-ui-duckui/badge'
-import { ExternalLinkIcon } from 'lucide-react'
+import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Separator } from '@gentleduck/registry-ui-duckui/separator'
+import { ArrowDownIcon, ArrowUpIcon, ExternalLinkIcon, SquarePenIcon } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -110,12 +112,35 @@ const PostLayout = async ({ params }: { params: Promise<{ slug?: string[] }> }) 
           <Mdx code={doc.body} />
         </div>
         {<DocsPagerBottom doc={doc} />}
+        <div aria-hidden="true" id="bottom" />
       </div>
       {doc.toc && (
         <div className="hidden text-sm xl:block">
-          <div className="sticky top-16 -mt-10 pt-4">
-            <div className="show-scroll-hover sticky top-16 -mt-10 h-[calc(100vh-3.5rem)] overflow-y-auto py-12 pb-10">
-              <DashboardTableOfContents toc={doc.toc} />
+          <div className="sticky top-16 -mt-10 flex h-[calc(100vh-3.5rem)] flex-col py-12">
+            <DashboardTableOfContents toc={doc.toc} />
+            <Separator className="my-4 shrink-0" />
+            <div className="flex shrink-0 flex-col gap-1">
+              <Button asChild className="justify-start" size="sm" variant="link">
+                <a
+                  href={`https://github.com/gentleeduck/duck-ui/blob/master/apps/duck-ui-docs/content/${doc.slug}.mdx`}
+                  rel="noreferrer"
+                  target="_blank">
+                  <SquarePenIcon aria-hidden="true" className="size-3.5" />
+                  Edit this page on GitHub
+                </a>
+              </Button>
+              <Button asChild className="justify-start" size="sm" variant="link">
+                <a href="#">
+                  <ArrowUpIcon aria-hidden="true" className="size-3.5" />
+                  Scroll to top
+                </a>
+              </Button>
+              <Button asChild className="justify-start" size="sm" variant="link">
+                <a href="#bottom">
+                  <ArrowDownIcon aria-hidden="true" className="size-3.5" />
+                  Scroll to bottom
+                </a>
+              </Button>
             </div>
           </div>
         </div>
