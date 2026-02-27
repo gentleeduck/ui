@@ -9,13 +9,13 @@ export const siteConfig = {
   description:
     'A modern, open-source React component library built on Tailwind CSS. Accessible, customizable, and type-safe primitives for building beautiful interfaces.',
   links: {
-    email: 'duckui@duck.com',
+    email: 'support@gentleduck.org',
     github: 'https://github.com/gentleeduck/duck-ui',
     twitter: 'https://x.com/wild_ducka',
   },
   name: 'gentleduck/ui',
   ogImage: absoluteUrl('/og/root.png'),
-  title: 'turn tiny primitives to infinite design',
+  title: 'turn tiny primitives into infinite design',
   url: absoluteUrl('/'),
 }
 

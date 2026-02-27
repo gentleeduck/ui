@@ -27,7 +27,7 @@ import * as InputOTP from '@gentleduck/primitives/input-otp'
     <InputOTP.Slot />
     <InputOTP.Slot />
   </InputOTP.Group>
-  <InputOTP.Separator>•</InputOTP.Separator>
+  <InputOTP.Separator>-</InputOTP.Separator>
   <InputOTP.Group>
     <InputOTP.Slot />
     <InputOTP.Slot />
@@ -47,6 +47,7 @@ import * as InputOTP from '@gentleduck/primitives/input-otp'
 | `pattern` | `RegExp` | `/^.$/` | Validates each entered character |
 | `maxLength` | `number` | -- | Optional cap for active slots used by keyboard/paste behavior |
 | `dir` | `'ltr' \| 'rtl'` | inherited | Local direction override |
+| `name` | `string` | -- | Name for form submission |
 | `...props` | `React.ComponentPropsWithoutRef<'div'>` | -- | Additional root props |
 
 ### `InputOTP.Group`

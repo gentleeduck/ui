@@ -16,7 +16,7 @@ export function OrderForm() {
     city: 'New York',
     cvv: '123',
     dataUsage: '50-250mb',
-    email: 'duckui@duck.com',
+    email: 'hello@gentleduck.org',
     expiryMonth: '12',
     expiryYear: '2025',
     firstName: 'wild',

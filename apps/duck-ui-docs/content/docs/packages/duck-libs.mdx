@@ -1,11 +1,11 @@
 ---
 title: gentleduck/libs
-description: "A collection of tiny, framework-agnostic React libs. Each hook lives in its own folder and can be imported individually or all together."
+description: "A collection of tiny, framework-agnostic utility functions. Each utility lives in its own folder and can be imported individually or all together."
 ---
 
 <Callout icon={<Zap />}>
 
-A collection of tiny, framework-agnostic React libs. Each hook lives in its own folder and can be imported individually or all together.
+A collection of tiny, framework-agnostic utility functions. Each utility lives in its own folder and can be imported individually or all together.
 
 </Callout>
 
@@ -19,7 +19,7 @@ Every UI library needs utility functions, but they shouldn't be a dependency dec
 
 ```bash
 npm install @gentleduck/libs
-````
+```
 
 <MermaidDiagram chart={`graph TD
     A[gentleduck/libs] --> B[Class Utils]
@@ -33,7 +33,7 @@ npm install @gentleduck/libs
     E --> J[parse-date]
 `} />
 
-## Available Hooks
+## Available Utilities
 
 * `cn` - Utility for conditional className merging.
 * `filtered-object` - Create a new object with only selected keys or values.
@@ -45,16 +45,13 @@ npm install @gentleduck/libs
 ## Usage
 
 ```tsx
-import { useDebounce } from '@gentleduck/libs'
+import { cn } from '@gentleduck/libs'
 
-function SearchInput() {
-  const [value, setValue] = useState('')
-  const debounced = useDebounce(value, 300)
-
-  useEffect(() => {
-    // trigger API search with `debounced`
-  }, [debounced])
-
-  return <input value={value} onChange={e => setValue(e.target.value)} />
+function MyComponent({ active }: { active: boolean }) {
+  return (
+    <div className={cn('rounded-md border p-4', active && 'bg-primary text-primary-foreground')}>
+      Hello
+    </div>
+  )
 }
 ```

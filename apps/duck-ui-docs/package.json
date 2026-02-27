@@ -52,7 +52,7 @@
     "velite": "^0.3.1"
   },
   "name": "@gentleduck/ui-docs",
-  "author": "gentleduck/ui contributors",
+  "author": "gentleduck contributors",
   "license": "MIT",
   "homepage": "https://www.gentleduck.org",
   "bugs": {
