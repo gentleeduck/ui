@@ -84,7 +84,7 @@ export default function ConverterPage() {
     try {
       if (isJsToCSS) {
         // Convert JS object to CSS
-        const parsed = eval(`(${input})`) as ThemeObject
+        const parsed = JSON.parse(input) as ThemeObject
         const cssOutput = convertJsToCSS(parsed)
         setOutput(cssOutput)
       } else {

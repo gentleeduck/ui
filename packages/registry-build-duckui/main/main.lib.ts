@@ -17,7 +17,7 @@ export const project = new Project({
 export function fix_import(content: string) {
   const regex = /@\/(.+?)\/((?:.*?\/)?(?:components|ui|hooks|lib))\/([\w-]+)/g
 
-  // TODO: find out thwat to do with the path
+  // TODO: find out what to do with the path
   const replacement = (match: string, path: string, type: string, component: string) => {
     if (type.endsWith('components')) {
       return `@/components/${component}`

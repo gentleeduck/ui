@@ -58,7 +58,7 @@ Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info
           )}`,
         )
         spinner.info(
-          `🦆 If you do not know how to write a professional issue,\n     you can find more info here: https://ui.gentleduck.com/docs/cli`,
+          `🦆 If you do not know how to write a professional issue,\n     you can find more info here: https://ui.gentleduck.org/docs/cli`,
         )
         process.exit(0)
       }
@@ -290,7 +290,6 @@ export async function process_component_dependencies(
     spinner.text = `🔧 Installing ${highlighter.info(allDependencies.length)} dependencies...`
 
     const packageManager = await get_package_manager(process.cwd())
-    console.log(packageManager)
     const { failed: installation_step_1 } = await execa(
       packageManager,
       [packageManager !== 'npm' ? 'add' : 'install', 'lucide-react', ...allDependencies],
