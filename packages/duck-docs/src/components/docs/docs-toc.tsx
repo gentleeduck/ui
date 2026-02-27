@@ -10,6 +10,36 @@ interface TocProps {
   toc: TocEntry[]
 }
 
+function TocSkeleton({ toc }: TocProps) {
+  const skeletonItems = React.useMemo(() => {
+    const items: { level: number; width: string }[] = []
+    for (const entry of toc) {
+      const chars = entry.title.length
+      items.push({ level: 1, width: `${Math.min(Math.max(chars * 8, 80), 200)}px` })
+      if (entry.items) {
+        for (const sub of entry.items) {
+          const subChars = sub.title.length
+          items.push({ level: 2, width: `${Math.min(Math.max(subChars * 7, 64), 160)}px` })
+        }
+      }
+    }
+    return items
+  }, [toc])
+
+  return (
+    <ul className="m-0 list-none">
+      {skeletonItems.map((item, i) => (
+        <li key={i} className={cn('mt-0 pt-2', { 'pl-4': item.level > 1 })}>
+          <div
+            className="h-3.5 animate-pulse rounded-full bg-muted/70"
+            style={{ width: item.width }}
+          />
+        </li>
+      ))}
+    </ul>
+  )
+}
+
 export function DashboardTableOfContents({ toc }: TocProps) {
   const itemIds = React.useMemo(
     () =>
@@ -25,15 +55,17 @@ export function DashboardTableOfContents({ toc }: TocProps) {
   const activeHeading = useActiveItem(itemIds)
   const mounted = useMounted()
 
-  return mounted ? (
-    <div className="space-y-2">
-      <div className="flex items-center gap-2">
+  return (
+    <div className="flex min-h-0 flex-1 flex-col gap-2">
+      <div className="flex shrink-0 items-center gap-2">
         <BookOpenText aria-hidden="true" className="size-4" />
         <p className="font-medium">On This Page</p>
       </div>
-      <Tree activeItem={activeHeading} tree={toc} />
+      <div className="min-h-0 flex-1 overflow-y-auto">
+        {mounted ? <Tree activeItem={activeHeading} tree={toc} /> : <TocSkeleton toc={toc} />}
+      </div>
     </div>
-  ) : null
+  )
 }
 
 function useActiveItem(itemIds: (string | undefined)[]) {
@@ -93,7 +125,7 @@ function Tree({ tree, level = 1, activeItem }: TreeProps) {
           <li className={cn('mt-0 pt-2')} key={index}>
             <a
               className={cn(
-                'inline-block no-underline',
+                'inline-block no-underline transition-colors hover:text-foreground',
                 item.url === `#${activeItem}` ? 'font-medium text-primary' : 'text-muted-foreground text-sm',
               )}
               href={item.url}>
