@@ -5,9 +5,9 @@ import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { FeaturesSection } from '~/components/layouts/features'
 
-const title = 'Turn Tiny Primitives to Infinite Design'
+const title = 'Turn Tiny Primitives into Infinite Design'
 const description =
-  'A modern React component library built on Tailwind CSS. Accessible, customizable, and type-safe primitives for building beautiful interfaces.'
+  'A modern, open-source React component library built on Tailwind CSS. Accessible, customizable, and type-safe primitives for building beautiful interfaces.'
 
 export const dynamic = 'force-static'
 export const revalidate = false
@@ -46,7 +46,7 @@ export default function Page() {
         <div className="relative">
           <h1 className="inline-block max-w-6xl font-bold leading-none tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
             <div className="relative mb-3 text-center text-4xl sm:text-5xl md:mb-5 md:text-6xl">
-              <span className="inline-block">TURN TINY PRIMITIVES TO</span>
+              <span className="inline-block">TURN TINY PRIMITIVES INTO</span>
             </div>
             <div className="mt-1 block text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
               <span className="relative inline-block -rotate-3 bg-primary px-4 py-1 text-primary-foreground">

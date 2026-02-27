@@ -103,7 +103,7 @@ const nextConfig: NextConfig = {
         source: '/docs/:path*.mdx',
       },
       {
-        destination: '/docs/components/cli',
+        destination: '/docs/packages/duck-cli',
         permanent: false,
         source: '/mcp',
       },

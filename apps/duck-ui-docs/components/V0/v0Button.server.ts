@@ -2,7 +2,7 @@
 
 import { track } from '@vercel/analytics/server'
 
-const EDIT_IN_V0_SOURCE = 'duckui.org'
+const EDIT_IN_V0_SOURCE = 'gentleduck.org'
 
 export async function editInV0({ name, description, code }: { name: string; description: string; code: string }) {
   try {

@@ -52,14 +52,14 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
-export function themeToggle() {
+export function ThemeToggle() {
   const [theme, setThemeState] = React.useState<
-    "theme-light" | "dark" | "system"
-  >("theme-light")
+    "light" | "dark" | "system"
+  >("light")
 
   React.useEffect(() => {
     const isDarktheme = document.documentElement.classList.contains("dark")
-    setThemeState(isDarktheme ? "dark" : "theme-light")
+    setThemeState(isDarktheme ? "dark" : "light")
   }, [])
 
   React.useEffect(() => {
@@ -80,7 +80,7 @@ export function themeToggle() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setThemeState("theme-light")}>
+        <DropdownMenuItem onClick={() => setThemeState("light")}>
           Light
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => setThemeState("dark")}>
@@ -102,7 +102,7 @@ Place a theme toggle on your site to toggle between light and dark theme.
 ```astro title="src/pages/index.astro"
 ---
 import '../styles/globals.css'
-import { themeToggle } from '@/components/themeToggle';
+import { ThemeToggle } from '@/components/themeToggle';
 ---
 
 <!-- Inline script -->
@@ -110,7 +110,7 @@ import { themeToggle } from '@/components/themeToggle';
 <html lang="en">
 	<body>
       <h1>Astro</h1>
-      <themeToggle client:load />
+      <ThemeToggle client:load />
 	</body>
 </html>
 ```

@@ -138,8 +138,71 @@ export const docsConfig: DocsConfig = {
         },
         {
           href: '/docs/changelog',
-          items: [],
+          collapsible: true,
           label: 'new',
+          items: [
+            {
+              href: '/docs/changelog/february-2026',
+              items: [],
+              label: 'new',
+              title: 'February 2026',
+            },
+            {
+              href: '/docs/changelog/january-2026',
+              items: [],
+              title: 'January 2026',
+            },
+            {
+              href: '/docs/changelog/december-2025',
+              items: [],
+              title: 'December 2025',
+            },
+            {
+              href: '/docs/changelog/november-2025',
+              items: [],
+              title: 'November 2025',
+            },
+            {
+              href: '/docs/changelog/october-2025',
+              items: [],
+              title: 'October 2025',
+            },
+            {
+              href: '/docs/changelog/september-2025',
+              items: [],
+              title: 'September 2025',
+            },
+            {
+              href: '/docs/changelog/august-2025',
+              items: [],
+              title: 'August 2025',
+            },
+            {
+              href: '/docs/changelog/july-2025',
+              items: [],
+              title: 'July 2025',
+            },
+            {
+              href: '/docs/changelog/june-2025',
+              items: [],
+              title: 'June 2025',
+            },
+            {
+              href: '/docs/changelog/may-2025',
+              items: [],
+              title: 'May 2025',
+            },
+            {
+              href: '/docs/changelog/april-2025',
+              items: [],
+              title: 'April 2025',
+            },
+            {
+              href: '/docs/changelog/2024',
+              items: [],
+              title: '2024',
+            },
+          ],
           title: 'Changelog',
         },
       ],

@@ -68,7 +68,7 @@ const features = [
   {
     bgColor: 'rgba(34, 197, 94, 0.1)',
     description:
-      'Optimized data components like DuckTable with virtual scrolling, advanced filtering, sorting, and undo/redo support. (coming soon)',
+      'Optimized data components like DuckTable with virtual scrolling, advanced filtering, sorting, and undo/redo support.',
     icon: <Table aria-hidden="true" className="h-7 w-7" />,
     textColor: 'rgb(34, 197, 94)',
     title: 'Data-Heavy UI',
