@@ -61,7 +61,7 @@ import * as React from 'react'
 const data = {
   user: {
     name: 'Alex Morgan',
-    email: 'alex@duckui.dev',
+    email: 'alex@gentleduck.org',
     avatar: '/avatars/01.png',
   },
   teams: [
