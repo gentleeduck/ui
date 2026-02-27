@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 import React from 'react'
 import { RegistryPreview } from '~/components/registry-preview'
-import { siteConfig } from '~/config/site'
 import { getRegistryItem } from '~/lib/get-registry-item'
 import { getRegistryIndex } from '~/lib/registry-index.server'
 
@@ -39,7 +38,8 @@ export async function generateMetadata({
   }
 
   const title = item.name
-  const description = item.description
+  const description = item.description ?? ''
+  const ogUrl = `/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`
 
   return {
     alternates: {
@@ -48,24 +48,17 @@ export async function generateMetadata({
     description,
     openGraph: {
       description,
-      images: [
-        {
-          alt: siteConfig.name,
-          height: 630,
-          url: siteConfig.ogImage,
-          width: 1200,
-        },
-      ],
+      images: [{ url: ogUrl }],
       title,
       type: 'article',
       url: absoluteUrl(`/view/${item.name}`),
     },
-    title: item.description,
+    title,
     twitter: {
       card: 'summary_large_image',
       creator: '@wildduck2',
       description,
-      images: [siteConfig.ogImage],
+      images: [{ url: ogUrl }],
       title,
     },
   }

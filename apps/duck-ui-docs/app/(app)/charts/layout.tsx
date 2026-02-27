@@ -9,9 +9,9 @@ import { ActiveThemeProvider } from '~/components/colors'
 import { ThemesStyle } from '~/components/themes'
 import { ThemesSwitcher } from '~/components/themes/themes-selector'
 
-const title = 'Ready-to-Use Chart Components'
+const title = 'Beautiful Charts, Zero Configuration'
 const description =
-  'From bar and line charts to advanced visualizations, explore a collection of Recharts components you can drop straight into your projects.'
+  'A collection of responsive chart components built on Recharts. From bar and line to pie and radar -- ready to use.'
 
 export const metadata: Metadata = {
   alternates: {
