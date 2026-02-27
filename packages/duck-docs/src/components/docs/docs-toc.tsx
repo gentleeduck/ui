@@ -113,11 +113,12 @@ function useTocSvg(containerRef: React.RefObject<HTMLDivElement | null>, items: 
       const d: string[] = []
 
       for (let i = 0; i < items.length; i++) {
-        const el = container.querySelector<HTMLElement>(`a[href="${items[i].url}"]`)
+        const item = items[i]!
+        const el = container.querySelector<HTMLElement>(`a[href="${item.url}"]`)
         if (!el) continue
 
         const styles = getComputedStyle(el)
-        const offset = lineOffset(items[i].depth) + 1
+        const offset = lineOffset(item.depth) + 1
         const top = el.offsetTop + parseFloat(styles.paddingTop)
         const bottom = el.offsetTop + el.clientHeight - parseFloat(styles.paddingBottom)
 
@@ -180,8 +181,8 @@ function TocTree({ items, activeItem }: { items: FlatTocItem[]; activeItem: stri
     <div ref={containerRef} className="relative">
       {/* Per-item track lines + diagonal connectors */}
       {items.map((item, i) => {
-        const upper = i > 0 ? items[i - 1].depth : item.depth
-        const lower = i < items.length - 1 ? items[i + 1].depth : item.depth
+        const upper = i > 0 ? items[i - 1]!.depth : item.depth
+        const lower = i < items.length - 1 ? items[i + 1]!.depth : item.depth
         const offset = lineOffset(item.depth)
         const upperOffset = lineOffset(upper)
         const lowerOffset = lineOffset(lower)
