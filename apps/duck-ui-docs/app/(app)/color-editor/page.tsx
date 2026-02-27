@@ -153,7 +153,7 @@ export default function ColorThemeManager() {
 
       // If we still can't parse it, return the original value
       if (!parsedColor) {
-        console.log('[v0] Could not parse color:', cleanValue)
+        // console.log('[v0] Could not parse color:', cleanValue)
         return cleanValue
       }
 
@@ -225,7 +225,7 @@ export default function ColorThemeManager() {
           return cleanValue
       }
     } catch (error) {
-      console.log('[v0] Color conversion error for value:', value, 'Error:', error)
+      // console.log('[v0] Color conversion error for value:', value, 'Error:', error)
       return value
     }
   }
@@ -251,7 +251,7 @@ export default function ColorThemeManager() {
       // Check if color is valid and displayable
       return parsedColor !== undefined && parsedColor !== null
     } catch (error) {
-      console.log('[v0] Color validation error:', error)
+      // console.log('[v0] Color validation error:', error)
       return false
     }
   }
@@ -313,18 +313,18 @@ export default function ColorThemeManager() {
   }
 
   const applyTheme = (theme: Theme) => {
-    console.log('[v0] Applying theme:', theme.name, 'Dark mode:', isDarkMode)
+    // console.log('[v0] Applying theme:', theme.name, 'Dark mode:', isDarkMode)
     setActiveTheme(theme)
     const root = document.documentElement
 
     // Determine which color set to use based on current mode
     const colorsToApply = isDarkMode ? theme.darkColors : theme.lightColors
-    console.log('[v0] Colors to apply:', colorsToApply)
+    // console.log('[v0] Colors to apply:', colorsToApply)
 
     // Apply all colors from the appropriate set
     colorsToApply.forEach((color) => {
       root.style.setProperty(`--${color.name}`, color.value)
-      console.log('[v0] Setting CSS variable:', `--${color.name}`, 'to', color.value)
+      // console.log('[v0] Setting CSS variable:', `--${color.name}`, 'to', color.value)
     })
 
     // Create dark mode styles that override the light colors when .dark class is present
@@ -354,15 +354,15 @@ export default function ColorThemeManager() {
     const primaryColor = colorsToApply.find((c) => c.name === 'primary')
     const primaryForegroundColor = colorsToApply.find((c) => c.name === 'primary-foreground')
 
-    console.log('[v0] Primary color:', primaryColor?.value)
-    console.log('[v0] Primary foreground color:', primaryForegroundColor?.value)
+    // console.log('[v0] Primary color:', primaryColor?.value)
+    // console.log('[v0] Primary foreground color:', primaryForegroundColor?.value)
 
     if (primaryColor && primaryForegroundColor) {
       root.style.setProperty('--primary', primaryColor.value)
       root.style.setProperty('--primary-foreground', primaryForegroundColor.value)
     } else {
       // Fallback to ensure good contrast
-      console.log('[v0] Missing primary colors, using fallbacks')
+      // console.log('[v0] Missing primary colors, using fallbacks')
       if (isDarkMode) {
         root.style.setProperty('--primary', 'hsl(210 40% 98%)')
         root.style.setProperty('--primary-foreground', 'hsl(222.2 84% 4.9%)')

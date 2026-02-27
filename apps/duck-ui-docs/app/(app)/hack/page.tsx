@@ -1,8 +1,5 @@
-'use client'
-
-// import { HH } from './hack'
+import { notFound } from 'next/navigation'
 
 export default function Page() {
-  return 'hay'
-  // return <HH />
+  return notFound()
 }

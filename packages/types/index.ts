@@ -6,7 +6,7 @@
  * ```ts
  * let status: REQUEST_STATUS = 'loading'; // Valid
  * status = 'success'; // Valid
- * status = 'unknown'; // ❌ Error: Type '"unknown"' is not assignable to type 'REQUEST_STATUS'
+ * status = 'unknown'; // Error: Type '"unknown"' is not assignable to type 'REQUEST_STATUS'
  * ```
  */
 export type REQUEST_STATUS = 'idle' | 'loading' | 'success' | 'error'
@@ -172,18 +172,3 @@ export type MappedTo<T extends Record<string, number> | ReadonlyArray<string | n
   : T extends object
     ? { [K in keyof Mutable<T>]: U }
     : never
-
-type UUID = `${string}-${string}-${string}-${string}-${string}`
-
-let uuid: UUID = '1234-5678-9012-3456-7890'
-
-type Type<T extends string> = T extends string ? T : never
-
-function callsomething<const T extends string>(v: Type<T>): T {
-  console.log(v)
-  return v
-}
-
-let hi = callsomething(uuid) // error
-
-let rest = hi

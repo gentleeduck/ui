@@ -54,7 +54,6 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
       const old_content = await fs.readFile(path.join(_options.cwd, parse_config_options.css), 'utf-8')
       if (old_content.length > 50) {
         let { overwrite }: prompts.Answers<'overwrite'> = { overwrite: true }
-        console.log(options.duckui)
         if (!_options.yes) {
           spinner.stop()
           overwrite = await prompts({

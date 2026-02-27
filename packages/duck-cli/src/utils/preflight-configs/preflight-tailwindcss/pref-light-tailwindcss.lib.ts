@@ -116,7 +116,7 @@ export const tailwindcss_dependencies = (
         return ['tailwindcss', 'tw-animate-css']
     }
   } catch (error) {
-    console.log(error)
-    process.exit(0)
+    console.error(error)
+    process.exit(1)
   }
 }

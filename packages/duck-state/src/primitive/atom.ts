@@ -13,7 +13,6 @@ export type PrimitiveAtom<Value> = WritableAtom<Value, [SetStateAction<Value>], 
 export type Atom<Value> = {
   toString: () => Symbol
   read: Read<Value>
-  // TODO:
   unstable_is?(a: Atom<unknown>): boolean
   debugLabel?: string
   debugPrivate?: boolean
@@ -23,7 +22,6 @@ export type Atom<Value> = {
 export interface WritableAtom<Value, Args extends unknown[], Result> extends Atom<Value> {
   read: Read<Value, SetAtom<Args, Result>>
   write: Write<Args, Result>
-  // TODO:
   onMount?: () => () => void
 }
 
