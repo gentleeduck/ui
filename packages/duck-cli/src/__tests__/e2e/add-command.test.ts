@@ -91,7 +91,7 @@ describe('add_command_action', () => {
     const { add_command_action } = await import('~/commands/add/add.libs')
 
     await expect(
-      add_command_action(['button'], { yes: true, force: true }),
+      add_command_action(['button'], { cwd: tmpDir, yes: true, force: true }),
     ).rejects.toThrow(/process\.exit/)
 
     // First exit call should be 0 (success)
@@ -106,7 +106,7 @@ describe('add_command_action', () => {
     const { add_command_action } = await import('~/commands/add/add.libs')
 
     await expect(
-      add_command_action(['nonexistent'], { yes: true, force: true }),
+      add_command_action(['nonexistent'], { cwd: tmpDir, yes: true, force: true }),
     ).rejects.toThrow(/process\.exit/)
 
     // resolve_components calls process.exit(0) when no components found
@@ -139,7 +139,7 @@ describe('add_command_action', () => {
     const { add_command_action } = await import('~/commands/add/add.libs')
 
     await expect(
-      add_command_action(['card'], { yes: true, force: true }),
+      add_command_action(['card'], { cwd: tmpDir, yes: true, force: true }),
     ).rejects.toThrow(/process\.exit/)
 
     // First exit should be 0 (success)
@@ -180,7 +180,7 @@ describe('add_command_action', () => {
     const { execa } = await import('execa')
 
     await expect(
-      add_command_action(['button'], { yes: true, force: true }),
+      add_command_action(['button'], { cwd: tmpDir, yes: true, force: true }),
     ).rejects.toThrow(/process\.exit/)
 
     // First exit should be 0 (success)

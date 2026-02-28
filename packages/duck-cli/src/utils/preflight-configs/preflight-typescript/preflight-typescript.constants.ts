@@ -14,7 +14,7 @@ export const typescript_prompts: PromptObject<'typescript'>[] = [
 
 export const typescript_dependencies = ['typescript']
 
-export const ts_config = `{
+const ts_config_base = `{
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "lib": [
@@ -53,12 +53,7 @@ export const ts_config = `{
       "~/*": [
         "./*"
       ]
-    },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ]
+    }PLUGINS_PLACEHOLDER
   },
   "include": [
     "./**/*.ts",
@@ -67,7 +62,17 @@ export const ts_config = `{
   "exclude": [
     "node_modules",
     "dist",
-    "build",
+    "build"
   ]
 }
 `
+
+const nextjs_plugins = `,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]`
+
+export const ts_config_nextjs = ts_config_base.replace('PLUGINS_PLACEHOLDER', nextjs_plugins)
+export const ts_config_generic = ts_config_base.replace('PLUGINS_PLACEHOLDER', '')

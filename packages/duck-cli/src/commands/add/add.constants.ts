@@ -22,10 +22,10 @@ export const add_command_config: addCommandConfig = {
       description: 'overwrite existing components',
       flags: '-f, --force',
     },
-    // option_3: {
-    //   flags: '-r, --registry',
-    //   description: 'install from registry',
-    //   defaultValue: false,
-    // },
+    option_3: {
+      defaultValue: process.cwd(),
+      description: 'the working directory. defaults to the current directory.',
+      flags: '-c, --cwd <cwd>',
+    },
   },
 }
