@@ -67,7 +67,7 @@ const PostLayout = async ({ params }: { params: Promise<{ slug?: string[] }> }) 
   return (
     <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
       <div className="relative mx-auto w-full min-w-0 max-w-2xl">
-        <div className="mb-4 flex min-h-8 items-center justify-between gap-2 md:min-h-7">
+        <div className="mb-4 flex h-8 items-center justify-between gap-2">
           <DocsPathBreadcrumb segments={_params.slug ?? []} />
           <div className="flex-1" />
           <div className="flex items-center gap-2">
