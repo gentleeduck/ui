@@ -23,10 +23,10 @@
     "vite-tsconfig-paths": "^6.0.3"
   },
   "devDependencies": {
-    "@gentleduck/shortcut": "workspace:*",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/registry-ui-duckui": "workspace:*",
+    "@gentleduck/shortcut": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@radix-ui/react-accessible-icon": "^1.1.7",
     "@radix-ui/react-accordion": "^1.2.12",

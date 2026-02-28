@@ -30,13 +30,12 @@
     "directory": "packages/types"
   },
   "packageManager": "bun@1.3.5",
-  "peerDependencies": {},
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "start:env": "bun ./index.ts",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },
   "type": "module",
-  "types": "index.ts",
-  "version": "0.0.1"
+  "types": "index.ts"
 }
