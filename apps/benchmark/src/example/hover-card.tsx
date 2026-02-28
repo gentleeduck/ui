@@ -8,7 +8,7 @@ export default function HoverCardDemo() {
         <div className="flex justify-between gap-4">
           <div className="space-y-1">
             <h4 className="font-semibold text-sm">@nextjs</h4>
-            <p className="text-sm">The React Framework – created and maintained by @vercel.</p>
+            <p className="text-sm">The React Framework -- created and maintained by @vercel.</p>
             <div className="text-muted-foreground text-xs">Joined December 2021</div>
           </div>
         </div>
