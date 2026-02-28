@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(timeout 30 npx next build:*)",
+      "Bash(node -e:*)",
+      "Bash(sudo rm:*)",
+      "Bash(NODE_ENV=development timeout 90 npx next build:*)",
+      "Bash(chmod:*)",
+      "Bash(xargs:*)",
+      "Bash(npx tsc:*)",
+      "Bash(echo:*)",
+      "Bash(_ZO_DOCTOR=0 npx tsc:*)",
+      "Bash(_ZO_DOCTOR=0 npm run build:*)",
+      "Bash(sudo chown:*)",
+      "Bash(cd /run/media/wildduck/wildduck/@duck/@duck-ui && git ls-tree -r HEAD packages/duck-primitives/src | grep -i select 2>&1)",
+      "Bash(grep:*)",
+      "Bash(python3:*)",
+      "Bash(tail:*)",
+      "Bash(rm:*)",
+      "Bash(grep dropdown-menu:*)",
+      "Bash(cd:*)",
+      "Bash(tr ;:*)",
+      "Bash(cat:*)",
+      "Bash(find:*)",
+      "Bash(fi)",
+      "Bash(done)",
+      "Bash(npx next:*)"
+    ]
+  }
+}
