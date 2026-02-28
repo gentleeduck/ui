@@ -19,9 +19,10 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
+    "jsx": "react-jsx",
     "target": "esnext"
   },
   "display": "Default",
   "exclude": ["node_modules"],
-  "include": ["src/**/*.ts"]
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

@@ -16,25 +16,31 @@
     "commander": "^14.0.1",
     "execa": "^9.6.0",
     "fast-glob": "^3.3.3",
+    "figlet": "^1.9.3",
     "fs-extra": "^11.3.2",
+    "ink": "^6.0.0",
     "kleur": "^4.1.5",
     "log-symbols": "^7.0.1",
     "ora": "^9.0.0",
     "postcss": "^8.5.6",
     "prompts": "^2.4.2",
+    "react": "^19.2.3",
     "tsconfig-paths": "^4.2.0",
     "zod": "4.2.1"
   },
   "description": "CLI to add gentleduck/ui components and bootstrap integrations.",
   "devDependencies": {
     "@gentleduck/registers": "workspace:*",
-    "vitest": "catalog:",
+    "@inkjs/ui": "^2.0.0",
+    "@types/figlet": "^1.7.0",
     "@types/fs-extra": "^11.0.4",
     "@types/prompts": "^2.4.9",
+    "@types/react": "19.2.7",
     "rimraf": "^6.0.1",
     "tsdown": "0.18.3",
     "type-fest": "^5.0.1",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vitest": "catalog:"
   },
   "directories": {
     "test": "test"
