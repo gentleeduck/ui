@@ -11,7 +11,7 @@ import { duckui_prompts_schema, type PROJECT_TYPE } from '../preflight-duckui'
 import {
   post_css_nextjs,
   tailwindcss_install_prompts,
-  tailwindcss_poiler,
+  tailwindcss_boilerplate,
   tailwindcss_vite,
 } from './preflight-tailwindcss.constants'
 
@@ -42,7 +42,9 @@ export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
 
     return is_tailwind_installed
   } catch (error) {
-    spinner.fail(`${highlighter.error('TailwindCss is not installed...')}${highlighter.error(error instanceof Error ? error.message : String(error))}`)
+    spinner.fail(
+      `${highlighter.error('TailwindCss is not installed...')}${highlighter.error(error instanceof Error ? error.message : String(error))}`,
+    )
     process.exit(1)
   }
 }
@@ -70,7 +72,10 @@ export async function install_tailwindcss(cwd: string, spinner: Ora) {
     },
   )
 
-  if (installation_step_1) return spinner.fail(`${installation_step_1}`)
+  if (installation_step_1) {
+    spinner.fail('Failed to install TailwindCSS dependencies')
+    return
+  }
 
   spinner.text = `${highlighter.info('TailwindCSS is installed...')}`
 }
@@ -96,17 +101,17 @@ export const tailwindcss_dependencies = (
     switch (project_type) {
       case 'NEXT_JS':
         fs.writeFileSync(path.join(cwd, 'postcss.config.mjs'), post_css_nextjs)
-        fs.writeFileSync(cssFile, tailwindcss_poiler)
+        fs.writeFileSync(cssFile, tailwindcss_boilerplate)
         return ['tailwindcss', 'postcss', '@tailwindcss/postcss', 'tw-animate-css']
 
       case 'VITE':
       case 'TANSTACK_START':
         fs.writeFileSync(path.join(cwd, 'vite.config.ts'), tailwindcss_vite)
-        fs.writeFileSync(cssFile, tailwindcss_poiler)
+        fs.writeFileSync(cssFile, tailwindcss_boilerplate)
         return ['tailwindcss', '@tailwindcss/vite', 'tw-animate-css']
 
       default:
-        fs.writeFileSync(cssFile, tailwindcss_poiler)
+        fs.writeFileSync(cssFile, tailwindcss_boilerplate)
         return ['tailwindcss', 'tw-animate-css']
     }
   } catch (error) {

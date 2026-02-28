@@ -1,6 +1,7 @@
 import { Command } from 'commander'
 import { add_command } from '~/commands/add'
 import { init_command } from '~/commands/init'
+import { list_command } from '~/commands/list'
 import { get_package_json } from '~/utils'
 import { set_verbose } from '~/utils/verbose'
 import { config } from './main.constants'
@@ -21,6 +22,7 @@ export function init() {
   })
   duck_ui.addCommand(init_command())
   duck_ui.addCommand(add_command())
+  duck_ui.addCommand(list_command())
 
   duck_ui.parse()
 }

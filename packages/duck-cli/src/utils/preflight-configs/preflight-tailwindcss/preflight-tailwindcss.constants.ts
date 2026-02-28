@@ -47,7 +47,7 @@ export default defineConfig({
   ],
 })`
 
-export const tailwindcss_poiler = `@import "tailwindcss";
+export const tailwindcss_boilerplate = `@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));

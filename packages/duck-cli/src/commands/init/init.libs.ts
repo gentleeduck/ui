@@ -27,7 +27,7 @@ export async function init_command_action(args: string[], opt: InitOptions) {
       })
 
       if (!install.install) {
-        spinner.succeed('Done.!, enjoy mr duck!')
+        spinner.succeed('Done.')
         process.exit(0)
       }
       spinner.start()
@@ -37,12 +37,12 @@ export async function init_command_action(args: string[], opt: InitOptions) {
 
     const duckui_config = await get_duckui_config(cwd, spinner)
 
-    await registry_component_install(components, duckui_config, { yes: options.yes, force: false }, spinner)
+    await registry_component_install(components, duckui_config, { cwd, yes: options.yes, force: false }, spinner)
 
-    spinner.succeed('Done.!, enjoy mr duck!')
+    spinner.succeed('Done.')
     process.exit(0)
   } catch (error) {
-    spinner.fail(`Something went wrong: ${error instanceof Error ? error.message : error}`)
+    spinner.fail(`Something went wrong: ${error instanceof Error ? error.message : String(error)}`)
     if (is_verbose() && error instanceof Error) {
       console.error(error.stack)
     }

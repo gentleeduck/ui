@@ -4,7 +4,7 @@ import fs from 'fs-extra'
 import type { Ora } from 'ora'
 import { get_package_manager } from '../../get-package-manager'
 import { highlighter } from '../../text-styling'
-import { ts_config, typescript_dependencies } from './preflight-typescript.constants'
+import { ts_config_generic, ts_config_nextjs, typescript_dependencies } from './preflight-typescript.constants'
 
 export async function install_typescript(cwd: string, spinner: Ora) {
   try {
@@ -32,8 +32,9 @@ export async function install_typescript(cwd: string, spinner: Ora) {
 }
 
 // Add Typescript config
-export async function adding_typescript_config(cwd: string, spinner: Ora) {
+export async function adding_typescript_config(cwd: string, spinner: Ora, project_type?: string) {
   spinner.text = `Adding ${highlighter.info('TypeScript')} config...`
 
-  await fs.writeFile(path.join(cwd, 'tsconfig.json'), ts_config, 'utf-8')
+  const template = project_type === 'NEXT_JS' ? ts_config_nextjs : ts_config_generic
+  await fs.writeFile(path.join(cwd, 'tsconfig.json'), template, 'utf-8')
 }

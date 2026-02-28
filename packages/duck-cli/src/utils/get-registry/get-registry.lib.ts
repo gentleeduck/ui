@@ -31,7 +31,7 @@ export async function fetch_registry_url(paths: string[]) {
     const results = await Promise.all(
       paths.map(async (path) => {
         const url = get_registry_url(path)
-        const response = await fetch(url)
+        const response = await fetch(url, { signal: AbortSignal.timeout(30_000) })
 
         if (!response.ok) {
           check_status(response.status, response.statusText, url, await response.text())

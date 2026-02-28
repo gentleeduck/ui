@@ -17,7 +17,7 @@ export async function get_installation_config(
 ): Promise<string> {
   try {
     const alias = duck_config.aliases.ui.split('/').shift()
-    const ts_config = await get_ts_config(process.cwd(), spinner)
+    const ts_config = await get_ts_config(options.cwd, spinner)
 
     if (!ts_config.compilerOptions?.paths || !alias) {
       spinner.fail(
@@ -101,10 +101,13 @@ export async function process_components(
       )
     }
 
-    await install_registry_dependencies(dependencies, spinner, write_path, options.force, duck_config)
-    await process_component_dependencies(dependencies, spinner)
+    const topLevelNames = new Set(components.map((c) => c.name.toLowerCase()))
+    await install_registry_dependencies(dependencies, spinner, write_path, options.force, duck_config, topLevelNames)
+    await process_component_dependencies(dependencies, spinner, options.cwd)
   } catch (error) {
-    spinner.fail(`Failed to install components, ${highlighter.error(error instanceof Error ? error.message : String(error))}`)
+    spinner.fail(
+      `Failed to install components, ${highlighter.error(error instanceof Error ? error.message : String(error))}`,
+    )
     throw error
   }
 }
@@ -159,21 +162,24 @@ export async function install_registry_dependencies(
   write_path: string,
   force: boolean,
   duck_config: DuckUI,
+  exclude?: Set<string>,
 ) {
-  const visited = new Set<string>() // avoid infinite loops
+  const visited = new Set<string>(exclude) // avoid infinite loops and double-installs
   const allComponents: Registry = []
 
   async function fetchAndProcess(deps: Set<string>) {
     if (deps.size === 0) return
 
-    const components = (await Promise.all(
-      Array.from(deps).map(async (item, idx) => {
-        spinner.text = `Fetching registry necessary dependency ${highlighter.info(
-          `[${idx + 1}/${deps.size}]`,
-        )} ${highlighter.warn(item)}`
-        return await get_registry_item(item as Lowercase<string>)
-      }),
-    )).filter((item): item is Registry[number] => item !== null)
+    const components = (
+      await Promise.all(
+        Array.from(deps).map(async (item, idx) => {
+          spinner.text = `Fetching registry necessary dependency ${highlighter.info(
+            `[${idx + 1}/${deps.size}]`,
+          )} ${highlighter.warn(item)}`
+          return await get_registry_item(item as Lowercase<string>)
+        }),
+      )
+    ).filter((item): item is Registry[number] => item !== null)
 
     spinner.succeed(`Fetched ${components.length} necessary component${components.length > 1 ? 's' : ''} from registry`)
 
@@ -275,6 +281,7 @@ export async function process_component_files(
 export async function process_component_dependencies(
   { dependencies, dev_dependencies }: DependenciesType,
   spinner: Ora,
+  cwd: string,
 ) {
   try {
     spinner.start(`Installing dependencies`)
@@ -289,12 +296,12 @@ export async function process_component_dependencies(
 
     spinner.text = `Installing ${highlighter.info(String(allDependencies.length))} dependencies...`
 
-    const packageManager = await get_package_manager(process.cwd())
+    const packageManager = await get_package_manager(cwd)
     const { failed: installation_step_1 } = await execa(
       packageManager,
       [packageManager !== 'npm' ? 'add' : 'install', ...allDependencies],
       {
-        cwd: process.cwd(),
+        cwd,
         stdio: 'ignore',
       },
     )

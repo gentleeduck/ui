@@ -65,7 +65,7 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
         }
 
         if (overwrite) {
-          fs.writeFileSync(path.join(_options.cwd, parse_config_options.css), old_content + css)
+          fs.writeFileSync(path.join(_options.cwd, parse_config_options.css), css)
         }
       }
     }

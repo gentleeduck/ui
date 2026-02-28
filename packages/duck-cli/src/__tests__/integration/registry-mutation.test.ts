@@ -240,6 +240,7 @@ describe('process_component_dependencies', () => {
     await process_component_dependencies(
       { dependencies: [], dev_dependencies: [], registry_dependencies: [] },
       spinner as any,
+      process.cwd(),
     )
 
     expect(spinner.warn).toHaveBeenCalledWith('No dependencies found')
@@ -256,6 +257,7 @@ describe('process_component_dependencies', () => {
         registry_dependencies: [],
       },
       spinner as any,
+      process.cwd(),
     )
 
     expect(execa).toHaveBeenCalledWith(
@@ -277,6 +279,7 @@ describe('process_component_dependencies', () => {
         registry_dependencies: [],
       },
       spinner as any,
+      process.cwd(),
     )
 
     expect(execa).toHaveBeenCalledWith(

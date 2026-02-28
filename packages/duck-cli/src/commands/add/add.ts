@@ -3,7 +3,7 @@ import { add_command_config } from './add.constants'
 import { add_command_action } from './add.libs'
 
 const { name, description, options, arguments_ } = add_command_config
-const { option_1, option_2 } = options
+const { option_1, option_2, option_3 } = options
 const { arg_1 } = arguments_
 
 export function add_command(): Command {
@@ -14,6 +14,7 @@ export function add_command(): Command {
     .argument(arg_1.name, arg_1.description, arg_1.defaultValue)
     .option(option_1.flags, option_1.description, option_1.defaultValue)
     .option(option_2.flags, option_2.description, option_2.defaultValue)
+    .option(option_3.flags, option_3.description, option_3.defaultValue)
     .action(add_command_action)
 
   return add_command

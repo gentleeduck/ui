@@ -14,7 +14,7 @@ export async function resolve_components(component_names: string[], spinner: Ora
   if (component_names.length > 0) {
     const results = await Promise.all(
       component_names.map(async (item, idx) => {
-        spinner.text = `Fetching components... ${highlighter.info(`[${idx}/${component_names.length}]`)}`
+        spinner.text = `Fetching components... ${highlighter.info(`[${idx + 1}/${component_names.length}]`)}`
         return await get_registry_item(item as Lowercase<string>)
       }),
     )
@@ -44,7 +44,7 @@ export async function resolve_components(component_names: string[], spinner: Ora
 
     const promptResults = await Promise.all(
       prompt.component.map(async (item, idx) => {
-        spinner.text = `Fetching components... ${highlighter.info(`[${idx}/${prompt.component.length}]`)}`
+        spinner.text = `Fetching components... ${highlighter.info(`[${idx + 1}/${prompt.component.length}]`)}`
         return await get_registry_item(item as Lowercase<string>)
       }),
     )
