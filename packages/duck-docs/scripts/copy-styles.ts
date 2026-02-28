@@ -1,11 +1,7 @@
 import { copyFile, mkdir, readdir } from 'node:fs/promises'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
 
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
-
-const packageRoot = path.resolve(__dirname, '..')
+const packageRoot = path.resolve(import.meta.dirname, '..')
 const srcStylesDir = path.join(packageRoot, 'src', 'styles')
 const distStylesDir = path.join(packageRoot, 'dist', 'styles')
 

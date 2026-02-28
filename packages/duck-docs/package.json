@@ -32,11 +32,8 @@
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/registry-ui-duckui": "workspace:*",
-    "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@gentleduck/vim": "workspace:*",
-    "@testing-library/jest-dom": "^6.8.0",
-    "@testing-library/user-event": "^14.6.1",
     "@types/hast": "^3.0.4",
     "@types/lunr": "^2.3.7",
     "@types/node": "^25.3.0",
@@ -53,9 +50,7 @@
     "rimraf": "^6.0.1",
     "tailwind-merge": "^3.4.0",
     "tsdown": "0.18.3",
-    "typescript": "5.9.3",
-    "vite": "npm:rolldown-vite@^7.3.0",
-    "vitest": "^4.0.16"
+    "typescript": "5.9.3"
   },
   "peerDependencies": {
     "@excalidraw/excalidraw": "^0.17.2",
@@ -160,10 +155,9 @@
     "access": "public"
   },
   "scripts": {
-    "build": "cp -r ../registers/registry-colors/registry-colors.ts ./src/lib/registry-colors-data.ts && tsdown && node ./scripts/patch-react-refresh.mjs && node ./scripts/copy-styles.mjs",
+    "build": "cp -r ../registers/registry-colors/registry-colors.ts ./src/lib/registry-colors-data.ts && tsdown && bun run scripts/copy-styles.ts",
     "dev": "tsdown --watch",
-    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
-    "test": "vitest run"
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
