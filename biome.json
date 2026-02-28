@@ -136,7 +136,7 @@
         "noDoubleEquals": "error",
         "noExplicitAny": "off",
         "noThenProperty": "error",
-        "noUnknownAtRules": "info",
+        "noUnknownAtRules": "off",
         "noVar": "error",
         "useGetterReturn": "error",
         "useIsArray": "error"
