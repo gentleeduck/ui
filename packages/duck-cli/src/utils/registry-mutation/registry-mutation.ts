@@ -1,14 +1,14 @@
 import type { Ora } from 'ora'
-import type { addOptions } from '~/commands/add'
 import type { Registry } from '../get-registry'
 import type { DuckUI } from '../preflight-configs/preflight-duckui'
 import { highlighter } from '../text-styling'
 import { get_installation_config, process_components } from './registry-mutation.lib'
+import type { InstallOptions } from './registry-mutation.types'
 
 export async function registry_component_install(
   components: Registry,
   duck_config: DuckUI,
-  options: addOptions,
+  options: InstallOptions,
   spinner: Ora,
 ) {
   try {

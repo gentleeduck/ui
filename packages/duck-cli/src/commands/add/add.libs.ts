@@ -2,6 +2,7 @@ import { get_duckui_config } from '~/utils/get-project-info'
 import { registry_component_install } from '~/utils/registry-mutation'
 import { resolve_components } from '~/utils/resolve-components'
 import { spinner as Spinner } from '~/utils/spinner'
+import { is_verbose } from '~/utils/verbose'
 import { add_arguments_schema, add_options_schema, type addOptions } from './add.dto'
 
 export async function add_command_action(args: string[], opt: addOptions) {
@@ -21,6 +22,9 @@ export async function add_command_action(args: string[], opt: addOptions) {
     process.exit(0)
   } catch (error) {
     spinner.fail(`Something went wrong: ${error instanceof Error ? error.message : error}`)
+    if (is_verbose() && error instanceof Error) {
+      console.error(error.stack)
+    }
     process.exit(1)
   }
 }

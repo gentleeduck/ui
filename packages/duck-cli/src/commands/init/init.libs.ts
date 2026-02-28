@@ -4,6 +4,7 @@ import { get_duckui_config, registry_component_install } from '~/utils'
 import { preflight_configs } from '~/utils/preflight-configs'
 import { resolve_components } from '~/utils/resolve-components'
 import { spinner as Spinner } from '~/utils/spinner'
+import { is_verbose } from '~/utils/verbose'
 import { type InitOptions, init_arguments_schema, init_options_schema } from './init.dto'
 
 export async function init_command_action(args: string[], opt: InitOptions) {
@@ -36,12 +37,15 @@ export async function init_command_action(args: string[], opt: InitOptions) {
 
     const duckui_config = await get_duckui_config(process.cwd(), spinner)
 
-    await registry_component_install(components, duckui_config, options as never, spinner)
+    await registry_component_install(components, duckui_config, { yes: options.yes, force: false }, spinner)
 
     spinner.succeed('Done.!, enjoy mr duck!')
     process.exit(0)
   } catch (error) {
     spinner.fail(`Something went wrong: ${error instanceof Error ? error.message : error}`)
+    if (is_verbose() && error instanceof Error) {
+      console.error(error.stack)
+    }
     process.exit(1)
   }
 }

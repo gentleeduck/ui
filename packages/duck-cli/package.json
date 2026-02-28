@@ -5,7 +5,7 @@
   },
   "author": "gentleduck contributors",
   "bin": {
-    "cli": "dist/index.js"
+    "duck-cli": "dist/index.js"
   },
   "bugs": {
     "url": "https://github.com/gentleeduck/duck-ui/issues"
@@ -13,12 +13,10 @@
   "dependencies": {
     "@antfu/ni": "^26.0.1",
     "autoprefixer": "^10.4.21",
-    "axios": "^1.13.2",
     "commander": "^14.0.1",
     "execa": "^9.6.0",
     "fast-glob": "^3.3.3",
     "fs-extra": "^11.3.2",
-    "https-proxy-agent": "^7.0.6",
     "kleur": "^4.1.5",
     "log-symbols": "^7.0.1",
     "ora": "^9.0.0",

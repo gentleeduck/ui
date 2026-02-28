@@ -1,4 +1,3 @@
-import axios from 'axios'
 import { REGISTRY_URL } from '~/main'
 import { highlighter, logger } from '../text-styling'
 import { error_messages } from './get-registry.constants'
@@ -15,7 +14,7 @@ export function is_url(path: string) {
 export function get_registry_url(path: string) {
   if (is_url(path)) {
     // If the url contains /chat/b/, we assume it's the v0 registry.
-    //NOTE: We need to add the /json suffix if it's missing.
+    // We need to add the /json suffix if it's missing.
     const url = new URL(path)
     if (url.pathname.match(/\/chat\/b\//) && !url.pathname.endsWith('/json')) {
       url.pathname = `${url.pathname}/json`
@@ -32,13 +31,13 @@ export async function fetch_registry_url(paths: string[]) {
     const results = await Promise.all(
       paths.map(async (path) => {
         const url = get_registry_url(path)
-        const response = await axios.get(url)
+        const response = await fetch(url)
 
-        if (response.status !== 200) {
-          check_status(response, url)
+        if (!response.ok) {
+          check_status(response.status, response.statusText, url, await response.text())
         }
 
-        return response.data
+        return await response.json()
       }),
     )
 
@@ -52,8 +51,8 @@ export async function fetch_registry_url(paths: string[]) {
   }
 }
 
-export function check_status(response: any, url: string) {
-  if (response.status === 401) {
+export function check_status(status: number, statusText: string, url: string, body: string) {
+  if (status === 401) {
     throw new Error(
       `You are not authorized to access the component at ${highlighter.info(
         url,
@@ -61,7 +60,7 @@ export function check_status(response: any, url: string) {
     )
   }
 
-  if (response.status === 404) {
+  if (status === 404) {
     throw new Error(
       `The component at ${highlighter.info(
         url,
@@ -69,7 +68,7 @@ export function check_status(response: any, url: string) {
     )
   }
 
-  if (response.status === 403) {
+  if (status === 403) {
     throw new Error(
       `You do not have access to the component at ${highlighter.info(
         url,
@@ -77,10 +76,12 @@ export function check_status(response: any, url: string) {
     )
   }
 
-  const result = response.data
-  const message =
-    result && typeof result === 'object' && 'error' in result
-      ? result.error
-      : response.statusText || error_messages[response.status]
+  let message: string
+  try {
+    const result = JSON.parse(body)
+    message = result && typeof result === 'object' && 'error' in result ? result.error : statusText || error_messages[status]
+  } catch {
+    message = statusText || error_messages[status]
+  }
   throw new Error(`Failed to fetch from ${highlighter.info(url)}.\n${message}`)
 }

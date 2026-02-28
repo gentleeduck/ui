@@ -32,7 +32,7 @@ export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
 
     for (let i = 0; i < styles_files.length; i++) {
       const file = styles_files[i]
-      const content = await fs.readFile(path.join((file.dirent as any)?.parentPath, file.name), 'utf-8')
+      const content = await fs.readFile(path.join(cwd, file.path), 'utf-8')
       is_tailwind_installed = content.includes('@import "tailwindcss"')
     }
 
