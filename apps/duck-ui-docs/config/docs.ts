@@ -23,10 +23,6 @@ export const docsConfig: DocsConfig = {
       href: '/charts/area',
       title: 'Charts',
     },
-    {
-      href: '/colors',
-      title: 'Colors',
-    },
   ],
   sidebarNav: [
     {
