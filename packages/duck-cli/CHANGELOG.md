@@ -1,4 +1,4 @@
-# @gentleduck/@gentleduck/cli
+# @gentleduck/cli
 
 ## 1.0.11
 

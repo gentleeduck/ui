@@ -9,12 +9,12 @@
       "run_at": "document_start"
     }
   ],
-  "description": "Browser extensions by duck-ui",
+  "description": "Browser extensions by gentleduck/ui",
   "icons": {
     "128": "dark.png"
   },
   "manifest_version": 2,
-  "name": "duck-ui Extensions",
+  "name": "gentleduck/ui Extensions",
   "permissions": ["tabs", "storage", "<all_urls>"],
   "version": "1.0.0"
 }
