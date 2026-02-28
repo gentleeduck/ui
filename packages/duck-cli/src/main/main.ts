@@ -6,7 +6,13 @@ import { get_package_json } from '~/utils'
 import { set_verbose } from '~/utils/verbose'
 import { config } from './main.constants'
 
-export function init() {
+export async function init() {
+  if (process.argv.includes('--gui')) {
+    const { launch_gui } = await import('~/gui')
+    launch_gui()
+    return
+  }
+
   const duck_ui = new Command()
   const packageJson = get_package_json()
 
