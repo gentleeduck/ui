@@ -194,7 +194,7 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
         </DropdownMenu>
 
         <Separator
-          className="!h-6 !bg-foreground/5 sm:!h-5 absolute top-1 right-8 z-0 peer-focus-visible:opacity-0 sm:right-7"
+          className="!h-6 !bg-foreground/5 md:!h-5 absolute top-1 right-8 z-0 min-h-0 peer-focus-visible:opacity-0 md:right-7"
           orientation="vertical"
         />
 

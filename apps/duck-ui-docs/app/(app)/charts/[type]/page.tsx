@@ -45,7 +45,7 @@ export default async function ChartPage({ params }: ChartPageProps) {
   const chartList = charts[chartType]
 
   return (
-    <div className="grid flex-1 gap-12 lg:gap-24">
+    <div className="grid flex-1 gap-12 pb-16 lg:gap-24 lg:pb-24">
       <h2 className="sr-only">{type.charAt(0).toUpperCase() + type.slice(1)} Charts</h2>
       <div className="grid flex-1 scroll-mt-20 items-stretch gap-10 md:grid-cols-2 md:gap-6 lg:grid-cols-3 xl:gap-10">
         {Array.from({ length: 12 }).map((_, index) => {

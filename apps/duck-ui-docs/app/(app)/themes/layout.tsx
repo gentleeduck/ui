@@ -7,8 +7,9 @@ import { Announcement } from '~/components/announcement'
 
 import { ThemeCustomizer, ThemeWrapper } from '~/components/themes'
 
-const title = 'Themes That Fit Your Brand'
-const description = 'Hand-crafted color themes for gentleduck/ui. Browse, preview, and copy into your project.'
+const title = 'Make It Yours With Themes'
+const description =
+  'Hand-crafted color themes for gentleduck/ui. Browse, preview, and copy the config straight into your project.'
 
 export const metadata: Metadata = {
   alternates: {

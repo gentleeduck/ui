@@ -1,13 +1,14 @@
-import { PageActions, PageHeader, PageHeaderDescription } from '@gentleduck/docs/client'
+import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/docs/client'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { FeaturesSection } from '~/components/layouts/features'
+import { SponsorsSection } from '~/components/layouts/sponsors'
 
-const title = 'Turn Tiny Primitives into Infinite Design'
+const title = 'The React UI Ecosystem That Ships With Everything'
 const description =
-  'A modern, open-source React component library built on Tailwind CSS. Accessible, customizable, and type-safe primitives for building beautiful interfaces.'
+  'Headless primitives, styled components, a CLI, and pre-built blocks. Type-safe, accessible, and built on Tailwind CSS.'
 
 export const dynamic = 'force-static'
 export const revalidate = false
@@ -43,19 +44,7 @@ export default function Page() {
           aria-hidden="true"
           className="absolute bottom-16 left-0 z-0 h-36 w-36 rounded-full bg-primary/20 blur-3xl"></div>
         <Announcement />
-        <div className="relative">
-          <h1 className="inline-block max-w-6xl font-bold leading-none tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-            <div className="relative mb-3 text-center text-4xl sm:text-5xl md:mb-5 md:text-6xl">
-              <span className="inline-block">TURN TINY PRIMITIVES INTO</span>
-            </div>
-            <div className="mt-1 block text-center text-4xl sm:text-5xl md:text-6xl lg:text-7xl">
-              <span className="relative inline-block -rotate-3 bg-primary px-4 py-1 text-primary-foreground">
-                INFINITE
-              </span>
-              <span className="ml-2 inline-block text-foreground uppercase">Design</span>
-            </div>
-          </h1>
-        </div>
+        <PageHeaderHeading>{title}</PageHeaderHeading>
         <PageHeaderDescription>{description}</PageHeaderDescription>
         <PageActions className="mx-auto w-full justify-center">
           <Button asChild>
@@ -69,6 +58,7 @@ export default function Page() {
       <div className="container-wrapper">
         <div className="">
           <FeaturesSection />
+          <SponsorsSection />
         </div>
       </div>
     </>

@@ -9,9 +9,9 @@ import { ActiveThemeProvider } from '~/components/colors'
 import { ThemesStyle } from '~/components/themes'
 import { ThemesSwitcher } from '~/components/themes/themes-selector'
 
-const title = 'Beautiful Charts, Zero Configuration'
+const title = 'Charts, Rebuilt From the Ground Up'
 const description =
-  'A collection of responsive chart components built on Recharts. From bar and line to pie and radar -- ready to use.'
+  'A brand-new version of our chart components. Built on Recharts, responsive, themeable, and ready to drop into any project.'
 
 export const metadata: Metadata = {
   alternates: {
