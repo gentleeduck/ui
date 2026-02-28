@@ -2,7 +2,7 @@ import { get_registry_index } from '~/utils/get-registry'
 import { spinner as Spinner } from '~/utils/spinner'
 import { highlighter } from '~/utils/text-styling'
 import { is_verbose } from '~/utils/verbose'
-import { list_options_schema, type ListOptions } from './list.dto'
+import { type ListOptions, list_options_schema } from './list.dto'
 
 export async function list_command_action(opt: ListOptions) {
   const spinner = Spinner('Fetching registry...').start()

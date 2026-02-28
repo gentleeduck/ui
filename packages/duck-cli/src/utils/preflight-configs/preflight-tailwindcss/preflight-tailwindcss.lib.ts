@@ -10,8 +10,8 @@ import { highlighter } from '../../text-styling'
 import { duckui_prompts_schema, type PROJECT_TYPE } from '../preflight-duckui'
 import {
   post_css_nextjs,
-  tailwindcss_install_prompts,
   tailwindcss_boilerplate,
+  tailwindcss_install_prompts,
   tailwindcss_vite,
 } from './preflight-tailwindcss.constants'
 
