@@ -3,15 +3,14 @@ import { execa } from 'execa'
 import fs from 'fs-extra'
 import type { Ora } from 'ora'
 import prompts from 'prompts'
-import type { addOptions } from '~/commands/add'
 import { get_package_manager } from '../get-package-manager'
 import { get_ts_config } from '../get-project-info'
 import { get_registry_item, type Registry } from '../get-registry'
 import type { DuckUI } from '../preflight-configs/preflight-duckui'
 import { highlighter } from '../text-styling'
-import type { DependenciesType } from './registry-mutation.types'
+import type { DependenciesType, InstallOptions } from './registry-mutation.types'
 
-export async function get_installation_config(duck_config: DuckUI, spinner: Ora, options: addOptions): Promise<string> {
+export async function get_installation_config(duck_config: DuckUI, spinner: Ora, options: InstallOptions): Promise<string> {
   try {
     const alias = duck_config.aliases.ui.split('/').shift()
     const ts_config = await get_ts_config(process.cwd(), spinner)
@@ -29,10 +28,8 @@ export async function get_installation_config(duck_config: DuckUI, spinner: Ora,
 
     const write_path_key = Object.keys(ts_config.compilerOptions.paths).find((path) => path.includes(alias))
 
-    const write_path = (ts_config.compilerOptions.paths[write_path_key as string] as any)?.[0]
-      ?.split('/')
-      .slice(0, -1)
-      .join('/') as string
+    const path_values = write_path_key ? ts_config.compilerOptions.paths[write_path_key] : undefined
+    const write_path = path_values?.[0]?.split('/').slice(0, -1).join('/')
 
     if (!write_path) {
       spinner.fail(`Alias "${alias}" not found in tsconfig paths.
@@ -77,7 +74,7 @@ export async function process_components(
   components: Registry,
   write_path: string,
   spinner: Ora,
-  options: addOptions,
+  options: InstallOptions,
 ) {
   try {
     const dependencies = {
