@@ -16,7 +16,7 @@ export async function install_typescript(cwd: string, spinner: Ora) {
     spinner.text = `Installing ${highlighter.info('TypeScript')}...`
     const { failed: installation_step_1 } = await execa(
       packageManager,
-      [packageManager !== 'npm' ? 'install' : 'add', ...typescript_dependencies, '-D'],
+      [packageManager === 'npm' ? 'install' : 'add', ...typescript_dependencies, '-D'],
       {
         cwd: cwd,
       },
