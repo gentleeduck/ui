@@ -39,7 +39,7 @@ export function ComponentSource({ children, className, ...props }: ComponentSour
   if (items.length === 1) {
     const value = getChildLabel(items[0])
     return (
-      <div className="relative m-0 mt-2 shrink-0 list-none bg-muted/40 ring-offset-background focus-visible:shadow-none focus-visible:outline-none focus-visible:outline-hidden focus-visible:ring-0 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 [&>div>div>button]:top-2 [&>div>div>button]:right-2 [&>div>div]:m-0 border [&>div]:my-0 rounded-lg [&>div]:bg-transparent [&>div]:border-none [&>div]:static">
+      <div className="relative m-0 mt-2 shrink-0 list-none rounded-lg border bg-muted/40 ring-offset-background focus-visible:shadow-none focus-visible:outline-none focus-visible:outline-hidden focus-visible:ring-0 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 [&>div>div>button]:top-2 [&>div>div>button]:right-2 [&>div>div]:m-0 [&>div]:static [&>div]:my-0 [&>div]:border-none [&>div]:bg-transparent">
         <FigcaptionBlock>{value}</FigcaptionBlock>
         {items[0]}
       </div>
