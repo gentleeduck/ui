@@ -4,7 +4,6 @@ import fg from 'fast-glob'
 import fs from 'fs-extra'
 import type { Ora } from 'ora'
 import prompts from 'prompts'
-import { ZodError } from 'zod'
 import { get_package_manager } from '../../get-package-manager'
 import { IGNORED_DIRECTORIES } from '../../get-project-info'
 import { highlighter } from '../../text-styling'
@@ -43,11 +42,7 @@ export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
 
     return is_tailwind_installed
   } catch (error) {
-    if (error instanceof ZodError) {
-      spinner.fail(`${highlighter.error('Wrong Options..')}${highlighter.error(error.message)}`)
-    }
-
-    spinner.fail(`${highlighter.error('TailwindCss is not installed...')}${highlighter.error(error as string)}`)
+    spinner.fail(`${highlighter.error('TailwindCss is not installed...')}${highlighter.error(error instanceof Error ? error.message : String(error))}`)
     process.exit(1)
   }
 }

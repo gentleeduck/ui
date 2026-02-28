@@ -52,8 +52,8 @@ export async function get_duckui_config(cwd: string, spinner: Ora) {
     const duckui_parsed_config = duck_ui_schema.safeParse(duckui_config)
     if (duckui_parsed_config.error) {
       console.dir(duckui_parsed_config.error, { depth: null })
-      spinner.succeed(`${highlighter.info('duckui')} invalid configs found`)
-      process.exit(0)
+      spinner.fail(`${highlighter.info('duckui')} invalid configs found`)
+      process.exit(1)
     }
 
     return duckui_parsed_config.data

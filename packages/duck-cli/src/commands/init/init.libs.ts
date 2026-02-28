@@ -35,7 +35,7 @@ export async function init_command_action(args: string[], opt: InitOptions) {
 
     const components = await resolve_components(components_names, spinner)
 
-    const duckui_config = await get_duckui_config(process.cwd(), spinner)
+    const duckui_config = await get_duckui_config(cwd, spinner)
 
     await registry_component_install(components, duckui_config, { yes: options.yes, force: false }, spinner)
 

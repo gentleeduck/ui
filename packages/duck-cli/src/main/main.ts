@@ -1,8 +1,8 @@
 import { Command } from 'commander'
 import { add_command } from '~/commands/add'
-import { init_command } from '../commands/init'
-import { get_package_json } from '../utils'
-import { set_verbose } from '../utils/verbose'
+import { init_command } from '~/commands/init'
+import { get_package_json } from '~/utils'
+import { set_verbose } from '~/utils/verbose'
 import { config } from './main.constants'
 
 export function init() {

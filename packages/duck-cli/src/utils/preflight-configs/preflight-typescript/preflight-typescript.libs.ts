@@ -23,10 +23,10 @@ export async function install_typescript(cwd: string, spinner: Ora) {
     )
     if (!installation_step_1) return
 
-    spinner.fail(`${installation_step_1}`)
+    spinner.fail('Failed to install TypeScript dependencies')
     process.exit(1)
   } catch (error) {
-    spinner.fail(`${highlighter.error(error as string)}`)
+    spinner.fail(`${highlighter.error(error instanceof Error ? error.message : String(error))}`)
     process.exit(1)
   }
 }

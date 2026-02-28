@@ -34,7 +34,7 @@ export async function preflight_typescript(_options: InitOptions, spinner: Ora) 
   } catch (error) {
     spinner.fail(
       `Failed to preflight required ${highlighter.error('TypeScript')} configs...\n ${highlighter.error(
-        error as string,
+        error instanceof Error ? error.message : String(error),
       )}`,
     )
     process.exit(1)

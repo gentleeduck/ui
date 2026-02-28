@@ -67,7 +67,7 @@ Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info
 
     return write_path
   } catch (error) {
-    spinner.fail(`Oops: ${highlighter.error(error as string)}`)
+    spinner.fail(`Oops: ${highlighter.error(error instanceof Error ? error.message : String(error))}`)
 
     process.exit(1)
   }
@@ -104,7 +104,7 @@ export async function process_components(
     await install_registry_dependencies(dependencies, spinner, write_path, options.force, duck_config)
     await process_component_dependencies(dependencies, spinner)
   } catch (error) {
-    spinner.fail(`Failed to install components, ${highlighter.error(error as string)}`)
+    spinner.fail(`Failed to install components, ${highlighter.error(error instanceof Error ? error.message : String(error))}`)
     throw error
   }
 }
@@ -173,7 +173,7 @@ export async function install_registry_dependencies(
         )} ${highlighter.warn(item)}`
         return await get_registry_item(item as Lowercase<string>)
       }),
-    )) as Registry
+    )).filter((item): item is Registry[number] => item !== null)
 
     spinner.succeed(`Fetched ${components.length} necessary component${components.length > 1 ? 's' : ''} from registry`)
 
@@ -258,8 +258,12 @@ export async function process_component_files(
 
   for (const file of component.files) {
     try {
+      if (!file.content) {
+        spinner.warn(`Skipping file with no content: ${file.path}`)
+        continue
+      }
       spinner.text = `Writing file: ${file.target}`
-      await fs.writeFile(path.resolve(`${write_path}`, file.path as string), file.content as string, 'utf8')
+      await fs.writeFile(path.resolve(`${write_path}`, file.path as string), file.content, 'utf8')
       spinner.succeed(`Successfully wrote: ${from_root_write_path}/${file.path}`)
     } catch (error) {
       spinner.fail(`Failed to write file: ${file.target}`)
@@ -283,7 +287,7 @@ export async function process_component_dependencies(
     // Merge all dependencies into a single list
     const allDependencies = [...dependencies, ...dev_dependencies]
 
-    spinner.text = `Installing ${highlighter.info(allDependencies.length)} dependencies...`
+    spinner.text = `Installing ${highlighter.info(String(allDependencies.length))} dependencies...`
 
     const packageManager = await get_package_manager(process.cwd())
     const { failed: installation_step_1 } = await execa(
@@ -294,11 +298,14 @@ export async function process_component_dependencies(
         stdio: 'ignore',
       },
     )
-    if (installation_step_1) return spinner.fail(`${installation_step_1}`)
+    if (installation_step_1) {
+      spinner.fail('Failed to install dependencies')
+      throw new Error('Package installation failed')
+    }
 
     spinner.succeed(`Successfully installed dependencies`)
   } catch (error) {
     spinner.fail(`Failed to install dependencies`)
-    console.error(error)
+    throw error
   }
 }

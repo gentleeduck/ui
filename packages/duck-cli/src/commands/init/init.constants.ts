@@ -22,10 +22,5 @@ export const init_command_config: InitCommandConfig = {
       description: 'the working directory. defaults to the current directory.',
       flags: '-c, --cwd <cwd>',
     },
-    option_3: {
-      defaultValue: false,
-      description: 'overwrite existing components',
-      flags: '-f, --force',
-    },
   },
 }

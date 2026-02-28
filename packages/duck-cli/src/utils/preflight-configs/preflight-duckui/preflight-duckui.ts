@@ -53,14 +53,14 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
     if (exists) {
       const old_content = await fs.readFile(path.join(_options.cwd, parse_config_options.css), 'utf-8')
       if (old_content.length > 50) {
-        let { overwrite }: prompts.Answers<'overwrite'> = { overwrite: true }
+        let overwrite = true
         if (!_options.yes) {
           spinner.stop()
-          overwrite = await prompts({
+          ;({ overwrite } = await prompts({
             message: `The ${highlighter.info('tailwindCss')} settings already exists, do you want to overwrite it?`,
             name: 'overwrite',
             type: 'confirm',
-          })
+          }))
           spinner.start()
         }
 
@@ -73,7 +73,7 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
     await init_duckui_config(_options.cwd, spinner, parse_config_options)
   } catch (error) {
     spinner.fail(
-      `Failed to preflight required ${highlighter.error('duck-ui')} configs...\n ${highlighter.error(error as string)}`,
+      `Failed to preflight required ${highlighter.error('duck-ui')} configs...\n ${highlighter.error(error instanceof Error ? error.message : String(error))}`,
     )
     process.exit(1)
   }
