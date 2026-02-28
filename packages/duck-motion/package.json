@@ -64,6 +64,6 @@
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },
   "type": "module",
-  "types": "./index.ts",
+  "types": "./src/index.ts",
   "version": "0.1.13"
 }

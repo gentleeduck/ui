@@ -11,8 +11,7 @@
     "moduleResolution": "bundler",
     "outDir": "./dist",
     "paths": {
-      "~/*": ["./*"],
-      "~/old-registry-ui": ["../_oldstuff_refactor/ui/index.ts"]
+      "~/*": ["./*"]
     },
     "plugins": [
       {
