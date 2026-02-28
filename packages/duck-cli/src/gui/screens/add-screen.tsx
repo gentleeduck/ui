@@ -1,16 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Box, Text, useInput } from 'ink'
 import { ConfirmInput, Select, Spinner, StatusMessage } from '@inkjs/ui'
+import { Box, Text, useInput } from 'ink'
+import React, { useContext, useEffect, useState } from 'react'
+import { TerminalSizeContext, VimContext } from '../app'
+import { THEME } from '../app.constants'
 import { Banner } from '../components/banner'
 import { StatusLine } from '../components/status-line'
 import { StepIndicator } from '../components/step-indicator'
-import { THEME } from '../app.constants'
-import { VimContext, TerminalSizeContext } from '../app'
 import { useAsyncTask } from '../hooks/use-async-task'
 import { useRegistry } from '../hooks/use-registry'
-import { fetch_components } from '../services/registry.service'
 import { install_components, install_npm_deps, resolve_install_path } from '../services/install.service'
 import { read_duckui_config, read_ts_config } from '../services/preflight.service'
+import { fetch_components } from '../services/registry.service'
 
 type Step = 'loading' | 'groups' | 'browse' | 'confirm' | 'installing' | 'done' | 'error'
 
@@ -189,7 +189,13 @@ export function AddScreen({ onBack }: { onBack: () => void }) {
       if (!pathResult.ok) return pathResult
 
       onProgress('Installing components...')
-      const installResult = await install_components(fetchResult.data, configResult.data, pathResult.data, true, onProgress)
+      const installResult = await install_components(
+        fetchResult.data,
+        configResult.data,
+        pathResult.data,
+        true,
+        onProgress,
+      )
       if (!installResult.ok) return installResult
 
       onProgress('Installing npm dependencies...')
@@ -197,7 +203,9 @@ export function AddScreen({ onBack }: { onBack: () => void }) {
     })
 
     if (result.ok) {
-      setStatusMessage(`Successfully installed ${componentNames.length} component${componentNames.length > 1 ? 's' : ''}.`)
+      setStatusMessage(
+        `Successfully installed ${componentNames.length} component${componentNames.length > 1 ? 's' : ''}.`,
+      )
       setStep('done')
     } else {
       setErrorMessage(result.error)
@@ -292,12 +300,8 @@ export function AddScreen({ onBack }: { onBack: () => void }) {
           <Text bold>
             {groupLabel} ({groupComponents.length})
           </Text>
-          {selectedInGroup > 0 ? (
-            <Text color={THEME.foreground}>{selectedInGroup} selected</Text>
-          ) : null}
-          {selected.size > 0 ? (
-            <Text color={THEME.mutedForeground}>{selected.size} total selected</Text>
-          ) : null}
+          {selectedInGroup > 0 ? <Text color={THEME.foreground}>{selectedInGroup} selected</Text> : null}
+          {selected.size > 0 ? <Text color={THEME.mutedForeground}>{selected.size} total selected</Text> : null}
         </Box>
 
         <Box marginTop={1}>
@@ -319,9 +323,7 @@ export function AddScreen({ onBack }: { onBack: () => void }) {
                   <Text color={isCursor ? THEME.foreground : THEME.surfaceForeground} bold={isCursor}>
                     {isCursor ? '>' : ' '} [{isSelected ? 'x' : ' '}] {component.name}
                   </Text>
-                  {component.description ? (
-                    <Text color={THEME.mutedForeground}>{component.description}</Text>
-                  ) : null}
+                  {component.description ? <Text color={THEME.mutedForeground}>{component.description}</Text> : null}
                 </Box>
               )
             })

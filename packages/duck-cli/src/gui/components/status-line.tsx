@@ -1,5 +1,5 @@
-import React, { memo } from 'react'
 import { Box, Text } from 'ink'
+import React, { memo } from 'react'
 import { THEME } from '../app.constants'
 
 export const StatusLine = memo(function StatusLine({ items }: { items: { key: string; label: string }[] }) {

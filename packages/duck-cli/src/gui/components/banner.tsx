@@ -1,7 +1,7 @@
-import React, { memo, useContext, useMemo } from 'react'
 import { Box, Text } from 'ink'
-import { generateBanner, SUBTITLE, THEME } from '../app.constants'
+import React, { memo, useContext, useMemo } from 'react'
 import { TerminalSizeContext } from '../app'
+import { generateBanner, SUBTITLE, THEME } from '../app.constants'
 
 export const Banner = memo(function Banner({ compact }: { compact?: boolean }) {
   const { columns } = useContext(TerminalSizeContext)

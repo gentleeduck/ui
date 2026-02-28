@@ -40,7 +40,11 @@ export class VimStdin extends Transform {
     return this
   }
 
-  _transform(chunk: Buffer, _encoding: BufferEncoding, callback: (error: Error | null, data?: Buffer | string) => void) {
+  _transform(
+    chunk: Buffer,
+    _encoding: BufferEncoding,
+    callback: (error: Error | null, data?: Buffer | string) => void,
+  ) {
     if (this.enabled) {
       const str = chunk.toString()
       if (str === 'j') return callback(null, ARROW_DOWN)

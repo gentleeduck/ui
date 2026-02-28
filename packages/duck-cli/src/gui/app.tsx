@@ -1,14 +1,14 @@
-import React, { createContext, useState, useMemo, useCallback } from 'react'
-import { render, Box } from 'ink'
-import type { Screen } from './app.types'
+import { Box, render } from 'ink'
+import React, { createContext, useCallback, useMemo, useState } from 'react'
 import { THEME } from './app.constants'
+import type { Screen } from './app.types'
 import type { TerminalSize } from './hooks/use-terminal-size'
 import { useTerminalSize } from './hooks/use-terminal-size'
-import { VimStdin } from './vim-stdin'
+import { AddScreen } from './screens/add-screen'
 import { HomeScreen } from './screens/home-screen'
 import { InitScreen } from './screens/init-screen'
-import { AddScreen } from './screens/add-screen'
 import { ListScreen } from './screens/list-screen'
+import { VimStdin } from './vim-stdin'
 
 export const VimContext = createContext<{ setEnabled: (v: boolean) => void }>({
   setEnabled: () => {},
@@ -65,5 +65,8 @@ function App({ vimStdin }: { vimStdin: VimStdin }) {
 export function launch_gui() {
   const vimStdin = new VimStdin()
   process.stdin.pipe(vimStdin)
-  render(<App vimStdin={vimStdin} />, { stdin: vimStdin })
+  const instance = render(<App vimStdin={vimStdin} />, { stdin: vimStdin })
+  instance.waitUntilExit().then(() => {
+    instance.clear()
+  })
 }

@@ -1,4 +1,4 @@
-import { get_registry_index, get_registry_item, get_registry_base_color, type Registry } from '~/utils/get-registry'
+import { get_registry_base_color, get_registry_index, get_registry_item, type Registry } from '~/utils/get-registry'
 import type { RegistryEntry } from '~/utils/get-registry/get-registry.dto'
 import type { ProgressCallback, ServiceResult } from '../app.types'
 

@@ -1,4 +1,4 @@
-import { useReducer, useCallback } from 'react'
+import { useCallback, useReducer } from 'react'
 import type { Registry } from '~/utils/get-registry'
 import { fetch_registry } from '../services/registry.service'
 
@@ -8,10 +8,7 @@ type State = {
   error: string | null
 }
 
-type Action =
-  | { type: 'fetch' }
-  | { type: 'success'; data: Registry }
-  | { type: 'error'; error: string }
+type Action = { type: 'fetch' } | { type: 'success'; data: Registry } | { type: 'error'; error: string }
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {

@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Box, Text, useInput } from 'ink'
 import { Spinner } from '@inkjs/ui'
+import { Box, Text, useInput } from 'ink'
+import React, { useContext, useEffect, useState } from 'react'
+import { TerminalSizeContext } from '../app'
+import { THEME } from '../app.constants'
 import { Banner } from '../components/banner'
 import { StatusLine } from '../components/status-line'
-import { THEME } from '../app.constants'
-import { TerminalSizeContext } from '../app'
 import { useRegistry } from '../hooks/use-registry'
 
 const TYPE_FILTERS = ['all', 'ui', 'block', 'example'] as const
@@ -77,8 +77,7 @@ export function ListScreen({ onBack }: { onBack: () => void }) {
     )
   }
 
-  const filtered =
-    !index ? [] : typeFilter === 'all' ? index : index.filter((c) => c.type === `registry:${typeFilter}`)
+  const filtered = !index ? [] : typeFilter === 'all' ? index : index.filter((c) => c.type === `registry:${typeFilter}`)
 
   const maxOffset = Math.max(0, filtered.length - visibleRows)
   const clampedOffset = Math.min(scrollOffset, maxOffset)
@@ -89,7 +88,9 @@ export function ListScreen({ onBack }: { onBack: () => void }) {
       <Banner compact />
 
       <Box marginTop={1} gap={1}>
-        <Text bold color={THEME.foreground}>Components ({filtered.length})</Text>
+        <Text bold color={THEME.foreground}>
+          Components ({filtered.length})
+        </Text>
         <Text color={THEME.ring}>|</Text>
         {TYPE_FILTERS.map((t) => (
           <Text key={t} bold={t === typeFilter} color={t === typeFilter ? THEME.foreground : THEME.mutedForeground}>
