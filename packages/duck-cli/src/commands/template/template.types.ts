@@ -2,7 +2,7 @@ export type templateCommandConfig = {
   name: string
   description: string
   options: Record<`option_${number}`, OptionType>
-  argumentss: Record<
+  arguments_: Record<
     `arg_${number}`,
     {
       name: string

@@ -3,9 +3,9 @@ import { template_command_config } from './template.constants'
 
 // import { template_command_action } from './template.libs'
 
-const { name, description, options, argumentss } = template_command_config
+const { name, description, options, arguments_ } = template_command_config
 const { option_1, option_2 } = options
-const { arg_1 } = argumentss
+const { arg_1 } = arguments_
 
 export function template_command(): Command {
   const template_command = new Command(name)

@@ -1,7 +1,7 @@
 import type { templateCommandConfig } from './template.types'
 
 export const template_command_config: templateCommandConfig = {
-  argumentss: {
+  arguments_: {
     arg_1: {
       defaultValue: [],
       description:
