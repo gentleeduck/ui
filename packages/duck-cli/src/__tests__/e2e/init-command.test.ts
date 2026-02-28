@@ -142,4 +142,74 @@ describe('init_command_action', () => {
     expect(fs.existsSync(buttonFile)).toBe(true)
     expect(fs.readFileSync(buttonFile, 'utf8')).toBe('export function Button() { return null }')
   })
+
+  it('fails with exit 1 when duck-ui config is missing and components are requested', async () => {
+    // Remove the duck-ui config - preflight is mocked so it won't create one
+    fs.unlinkSync(path.join(tmpDir, 'duck-ui.config.json'))
+
+    mockPrompts.mockResolvedValue({ yes: true })
+
+    vi.stubGlobal(
+      'fetch',
+      createMockFetch({
+        '/r/components/button.json': createMockRegistryEntry({
+          name: 'button',
+          root_folder: 'button',
+          files: [
+            {
+              path: 'button/button.tsx',
+              target: 'button/button.tsx',
+              type: 'registry:ui',
+              content: 'export function Button() { return null }',
+            },
+          ],
+          dependencies: [],
+          devDependencies: [],
+          registryDependencies: [],
+        }),
+      }),
+    )
+
+    const { init_command_action } = await import('~/commands/init/init.libs')
+
+    await expect(init_command_action(['button'], { yes: true, cwd: tmpDir })).rejects.toThrow(/process\.exit/)
+
+    // Should fail because duck-ui config is missing
+    expect(exitCodes[0]).toBe(1)
+  })
+
+  it('fails with exit 1 when tsconfig is missing during component install', async () => {
+    // Remove tsconfig - needed for write path resolution
+    fs.unlinkSync(path.join(tmpDir, 'tsconfig.json'))
+
+    mockPrompts.mockResolvedValue({ yes: true })
+
+    vi.stubGlobal(
+      'fetch',
+      createMockFetch({
+        '/r/components/button.json': createMockRegistryEntry({
+          name: 'button',
+          root_folder: 'button',
+          files: [
+            {
+              path: 'button/button.tsx',
+              target: 'button/button.tsx',
+              type: 'registry:ui',
+              content: 'export function Button() { return null }',
+            },
+          ],
+          dependencies: [],
+          devDependencies: [],
+          registryDependencies: [],
+        }),
+      }),
+    )
+
+    const { init_command_action } = await import('~/commands/init/init.libs')
+
+    await expect(init_command_action(['button'], { yes: true, cwd: tmpDir })).rejects.toThrow(/process\.exit/)
+
+    // Should fail because tsconfig is missing (needed for write path resolution)
+    expect(exitCodes[0]).toBe(1)
+  })
 })

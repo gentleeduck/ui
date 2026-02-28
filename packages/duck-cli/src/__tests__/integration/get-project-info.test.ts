@@ -1,3 +1,5 @@
+import fs from 'node:fs'
+import os from 'node:os'
 import path from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { get_duckui_config, get_package_json, get_ts_config } from '~/utils/get-project-info'
@@ -57,6 +59,22 @@ describe('get_duckui_config', () => {
       get_duckui_config('/tmp/nonexistent-dir-for-test', spinner as any),
     ).rejects.toThrow(/process\.exit/)
     expect(spinner.fail).toHaveBeenCalled()
+  })
+
+  it('calls process.exit(1) when config has invalid schema', async () => {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'duck-cli-invalid-config-'))
+    try {
+      // Write an invalid config (missing required fields, invalid schema URL)
+      fs.writeFileSync(
+        path.join(tmpDir, 'duck-ui.config.json'),
+        JSON.stringify({ rsc: 'not-a-boolean', schema: 'not-a-url' }),
+      )
+      const spinner = createMockSpinner()
+      await expect(get_duckui_config(tmpDir, spinner as any)).rejects.toThrow('process.exit(1)')
+      expect(spinner.fail).toHaveBeenCalled()
+    } finally {
+      fs.rmSync(tmpDir, { recursive: true, force: true })
+    }
   })
 })
 
