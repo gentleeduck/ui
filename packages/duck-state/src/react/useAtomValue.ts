@@ -17,7 +17,6 @@ export function useAtomValue<AtomType extends Atom<unknown>>(
 
 export function useAtomValue<Value>(atom: Atom<Value>, options?: Options) {
   const store = useStore(options)
-  // console.log(store)
 
   return React.useSyncExternalStore(
     (callback) => store.subscribe(atom, callback),
