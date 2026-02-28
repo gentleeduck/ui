@@ -2,9 +2,9 @@ import { Command } from 'commander'
 import { init_command_config } from './init.constants'
 import { init_command_action } from './init.libs'
 
-const { name, description, options, argumentss } = init_command_config
+const { name, description, options, arguments_ } = init_command_config
 const { option_1, option_2 } = options
-const { arg_1 } = argumentss
+const { arg_1 } = arguments_
 
 export function init_command(): Command {
   const init_command = new Command(name)

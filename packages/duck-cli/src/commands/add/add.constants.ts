@@ -1,7 +1,7 @@
 import type { addCommandConfig } from './add.types'
 
 export const add_command_config: addCommandConfig = {
-  argumentss: {
+  arguments_: {
     arg_1: {
       defaultValue: [],
       description:
