@@ -4,19 +4,17 @@
     "node": ">=22.0.0"
   },
   "author": "gentleduck contributors",
-  "dependencies": {
-    "esbuild": "^0.25.10",
-    "vite": "npm:rolldown-vite@^7.3.0"
-  },
   "description": "A lightweight React component for easily binding and handling keyboard shortcuts in your React applications.",
   "devDependencies": {
     "@types/mousetrap": "^1.6.15",
     "@types/node": "^25.3.0",
     "@types/react": "19.2.7",
-    "@types/react-dom": "19.2.3"
+    "@types/react-dom": "19.2.3",
+    "esbuild": "^0.25.10",
+    "vite": "npm:rolldown-vite@^7.3.0"
   },
   "files": [
-    "/dist"
+    "dist"
   ],
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-shortcut#readme",
   "bugs": {
