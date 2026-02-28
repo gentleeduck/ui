@@ -35,7 +35,7 @@ export async function get_installation_config(duck_config: DuckUI, spinner: Ora,
       .join('/') as string
 
     if (!write_path) {
-      spinner.fail(`🦆 Alias "${alias}" not found in tsconfig paths.
+      spinner.fail(`Alias "${alias}" not found in tsconfig paths.
 Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info('tsconfig.json')} aliases match.`)
       process.exit(1)
     }
@@ -44,21 +44,21 @@ Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info
       spinner.stop()
       const { yes } = await prompts({
         initial: options.yes,
-        message: `💡 Do you want to install ${highlighter.info('components')}? at ${highlighter.warn(write_path)}`,
+        message: `Do you want to install ${highlighter.info('components')}? at ${highlighter.warn(write_path)}`,
         name: 'yes',
         type: 'confirm',
       })
       spinner.start()
 
       if (!yes) {
-        spinner.fail('🥺 Why you cannot install components?, goodbye!')
+        spinner.fail('Why you cannot install components?, goodbye!')
         spinner.info(
-          `🦆 Having issues you can report them here: ${highlighter.info(
+          `Having issues you can report them here: ${highlighter.info(
             'https://github.com/gentleeduck/duck-ui/issues',
           )}`,
         )
         spinner.info(
-          `🦆 If you do not know how to write a professional issue,\n     you can find more info here: https://ui.gentleduck.org/docs/cli`,
+          `If you do not know how to write a professional issue,\n     you can find more info here: https://ui.gentleduck.org/docs/cli`,
         )
         process.exit(0)
       }
@@ -66,7 +66,7 @@ Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info
 
     return write_path
   } catch (error) {
-    spinner.fail(`🦆 Oops: ${highlighter.error(error as string)}`)
+    spinner.fail(`Oops: ${highlighter.error(error as string)}`)
 
     process.exit(1)
   }
@@ -106,7 +106,7 @@ export async function process_components(
     await install_registry_dependencies(dependencies, spinner, write_path, options.force, duck_config)
     await process_component_dependencies(dependencies, spinner)
   } catch (error) {
-    spinner.fail(`🦆 Failed to install components, ${highlighter.error(error as string)}`)
+    spinner.fail(`Failed to install components, ${highlighter.error(error as string)}`)
     throw error
   }
 }
@@ -126,7 +126,7 @@ async function install_component(
   dependencies.dev_dependencies.push(...(component.devDependencies ?? []))
   dependencies.registry_dependencies.push(...(component.registryDependencies ?? []))
 
-  spinner.text = `🦆 Installing ${registry ? 'necessary ' : ''}component: ${highlighter.info(`${component.name}`)}`
+  spinner.text = `Installing ${registry ? 'necessary ' : ''}component: ${highlighter.info(`${component.name}`)}`
 
   const component_type = component.type.split(':').pop() as string
   const duckui_write_path = duck_config.aliases.ui.split('/').slice(1).join('/')
@@ -135,7 +135,7 @@ async function install_component(
   if (!fs.existsSync(write_type_path)) {
     spinner.text = `Creating directory: ${component_type}`
     await fs.mkdir(write_type_path, { recursive: true })
-    spinner.succeed(`⚡ Created directory: ${component_type}`)
+    spinner.succeed(`Created directory: ${component_type}`)
   }
 
   const write_component_path = `${write_type_path}/${component.root_folder}`
@@ -143,13 +143,13 @@ async function install_component(
   if (!fs.existsSync(write_component_path)) {
     spinner.text = `Creating directory: ${component.root_folder}`
     await fs.mkdir(write_component_path, { recursive: true })
-    spinner.succeed(`⚡ Created directory: ${component.root_folder}`)
+    spinner.succeed(`Created directory: ${component.root_folder}`)
   }
 
   await process_component_files(component, write_type_path, `${write_path}/${duckui_write_path}`, spinner, force)
 
   spinner.succeed(
-    `🦋 Installed ${registry ? 'necessary ' : ''}component${
+    `Installed ${registry ? 'necessary ' : ''}component${
       components.length > 1 ? 's' : ''
     }: ${highlighter.info(`[${idx + 1}/${components.length}]`)}\x1b[0K`,
   )
@@ -170,7 +170,7 @@ export async function install_registry_dependencies(
 
     const components = (await Promise.all(
       Array.from(deps).map(async (item, idx) => {
-        spinner.text = `🦆 Fetching registry necessary dependency ${highlighter.info(
+        spinner.text = `Fetching registry necessary dependency ${highlighter.info(
           `[${idx + 1}/${deps.size}]`,
         )} ${highlighter.warn(item)}`
         return await get_registry_item(item as Lowercase<string>)
@@ -178,7 +178,7 @@ export async function install_registry_dependencies(
     )) as Registry
 
     spinner.succeed(
-      `🦋 Fetched ${components.length} necessary component${components.length > 1 ? 's' : ''} from registry`,
+      `Fetched ${components.length} necessary component${components.length > 1 ? 's' : ''} from registry`,
     )
 
     // Merge fetched components
@@ -209,7 +209,7 @@ export async function install_registry_dependencies(
   })
   await fetchAndProcess(initialDeps)
 
-  // 🔑 Ensure dependencies & devDependencies are unique
+  // Ensure dependencies & devDependencies are unique
   dependencies.dependencies = Array.from(new Set(dependencies.dependencies ?? []))
   dependencies.dev_dependencies = Array.from(new Set(dependencies.dev_dependencies ?? []))
 
@@ -237,7 +237,7 @@ export async function process_component_files(
   force: boolean,
 ) {
   if (!component.files?.length) {
-    spinner.warn(`🦆 No files found for component: ${from_root_write_path}`)
+    spinner.warn(`No files found for component: ${from_root_write_path}`)
     return
   }
 
@@ -246,14 +246,14 @@ export async function process_component_files(
       spinner.stop()
       const { overwrite } = await prompts({
         initial: true,
-        message: `💡 Do you want to overwrite ${highlighter.info(component.name)}?`,
+        message: `Do you want to overwrite ${highlighter.info(component.name)}?`,
         name: 'overwrite',
         type: 'confirm',
       })
       spinner.start()
       if (!overwrite) {
         spinner.warn(
-          `🦆 Components already exists: ${highlighter.info(`${from_root_write_path}${component.root_folder}`)} (skipping)`,
+          `Components already exists: ${highlighter.info(`${from_root_write_path}${component.root_folder}`)} (skipping)`,
         )
         return
       }
@@ -262,11 +262,11 @@ export async function process_component_files(
 
   for (const file of component.files) {
     try {
-      spinner.text = `🦋 Writing file: ${file.target}`
+      spinner.text = `Writing file: ${file.target}`
       await fs.writeFile(path.resolve(`${write_path}`, file.path as string), file.content as string, 'utf8')
-      spinner.succeed(`🦋 Successfully wrote: ${from_root_write_path}/${file.path}`)
+      spinner.succeed(`Successfully wrote: ${from_root_write_path}/${file.path}`)
     } catch (error) {
-      spinner.fail(`🦆 Failed to write file: ${file.target}`)
+      spinner.fail(`Failed to write file: ${file.target}`)
       throw error
     }
   }
@@ -277,17 +277,17 @@ export async function process_component_dependencies(
   spinner: Ora,
 ) {
   try {
-    spinner.start(`🦋 Installing dependencies`)
+    spinner.start(`Installing dependencies`)
 
     if (dependencies.length === 0 && dev_dependencies.length === 0) {
-      spinner.warn(`🦆 No dependencies found`)
+      spinner.warn(`No dependencies found`)
       return
     }
 
     // Merge all dependencies into a single list
     const allDependencies = [...dependencies, ...dev_dependencies]
 
-    spinner.text = `🔧 Installing ${highlighter.info(allDependencies.length)} dependencies...`
+    spinner.text = `Installing ${highlighter.info(allDependencies.length)} dependencies...`
 
     const packageManager = await get_package_manager(process.cwd())
     const { failed: installation_step_1 } = await execa(
@@ -301,9 +301,9 @@ export async function process_component_dependencies(
     )
     if (installation_step_1) return spinner.fail(`${installation_step_1}`)
 
-    spinner.succeed(`🦋 Successfully installed dependencies`)
+    spinner.succeed(`Successfully installed dependencies`)
   } catch (error) {
-    spinner.fail(`🦆 Failed to install dependencies`)
+    spinner.fail(`Failed to install dependencies`)
     console.error(error)
   }
 }

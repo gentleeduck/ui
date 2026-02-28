@@ -24,7 +24,7 @@ import { WriteIndexTsxParams } from './build-registry-tsx.types'
 export async function write_index_tsx({ tsx_content, spinner }: WriteIndexTsxParams): Promise<void> {
   try {
     const targetPath = path.join(process.cwd(), `../..${ENV.REGISTRY_OUTPUT_PATH}__ui_registry__/index.tsx`)
-    spinner.text = `🧭 Writing UI registry index file: ${targetPath}`
+    spinner.text = `Writing UI registry index file: ${targetPath}`
 
     // Remove existing index.tsx file if present
     rimraf.sync(targetPath)

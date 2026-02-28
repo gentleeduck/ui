@@ -23,10 +23,10 @@ export async function build_registry_components({
   try {
     if (!REGISTRY_INDEX_WHITELIST.includes(item?.type) || !item.files) {
       spinner.warn(`Skipping registry item: ${item.name} (Not whitelisted)`)
-      process.exit(0)
+      process.exit(1)
     }
 
-    spinner.text = `🧭 Processing registry item: ${item.name} (${idx + 1}/${registry_count})`
+    spinner.text = `Processing registry item: ${item.name} (${idx + 1}/${registry_count})`
 
     const files = await Promise.all(item.files.map((file) => get_file({ file, item, spinner })))
 
@@ -34,13 +34,13 @@ export async function build_registry_components({
 
     if (!payload.success) {
       spinner.warn(`Skipping registry item: ${item.name} (Schema validation failed)`)
-      process.exit(0)
+      process.exit(1)
     }
 
     const filePath = path.join(PUBLIC_REGISTRY_PATH, `${item.name}.json`)
     const dirPath = path.dirname(filePath)
 
-    spinner.text = `🧭 Building registry component: ${item.name} (${
+    spinner.text = `Building registry component: ${item.name} (${
       idx + 1
     }/${registry_count}) (${styleText('green', item.type)})`
 
@@ -51,7 +51,7 @@ export async function build_registry_components({
       mode: 0o644,
     })
 
-    spinner.text = `🧭 Built registry component: ${item.name} (${
+    spinner.text = `Built registry component: ${item.name} (${
       idx + 1
     }/${registry_count}) (${styleText('green', item.type)})`
   } catch (error) {
@@ -65,7 +65,7 @@ export async function build_registry_components({
  */
 export async function get_file({ file, item, spinner }: GetFileParams): Promise<typeof file | undefined> {
   try {
-    spinner.text = `🧭 Processing file: ${file.path} (${item.name})`
+    spinner.text = `Processing file: ${file.path} (${item.name})`
 
     const content = await get_file_content({ file, spinner })
     const source_file = await gen_temp_source_files({ content, file, spinner })

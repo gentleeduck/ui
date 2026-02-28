@@ -24,7 +24,7 @@ export async function init_command_action(args: string[], opt: InitOptions) {
     if (components_names.length > 0) {
       components = await Promise.all(
         components_names.map(async (item, idx) => {
-          spinner.text = `🦆 Fetching components... ${highlighter.info(`[${idx}/${components_names.length}]`)}`
+          spinner.text = `Fetching components... ${highlighter.info(`[${idx}/${components_names.length}]`)}`
           return await get_registry_item(item as Lowercase<string>)
         }) as unknown as RegistryEntry[],
       )
@@ -38,7 +38,7 @@ export async function init_command_action(args: string[], opt: InitOptions) {
       })
 
       if (!install.install) {
-        spinner.succeed('🧑 Done.!, enjoy mr duck!🦆')
+        spinner.succeed('Done.!, enjoy mr duck!')
         process.exit(0)
       }
 
@@ -58,28 +58,28 @@ export async function init_command_action(args: string[], opt: InitOptions) {
 
       components = (await Promise.all(
         prompt.component?.map(async (item, idx) => {
-          spinner.text = `🦆 Fetching components... ${highlighter.info(`[${idx}/${prompt.component.length}]`)}`
+          spinner.text = `Fetching components... ${highlighter.info(`[${idx}/${prompt.component.length}]`)}`
           return await get_registry_item(item as Lowercase<string>)
         }),
       )) as RegistryEntry[]
     }
 
     if (!components.length) {
-      spinner.fail('🦆 No components found to install')
+      spinner.fail('No components found to install')
       process.exit(0)
     }
 
     spinner.succeed(
-      `🦆 Fetched component${components.length > 1 ? 's' : ''} ${highlighter.info(`[${components.length}/${components.length}]`)}`,
+      `Fetched component${components.length > 1 ? 's' : ''} ${highlighter.info(`[${components.length}/${components.length}]`)}`,
     )
 
     const duckui_config = await get_duckui_config(process.cwd(), spinner)
 
     await registry_component_install(components, duckui_config, options as never, spinner)
 
-    spinner.succeed('🧑 Done.!, enjoy mr duck!🦆')
+    spinner.succeed('Done.!, enjoy mr duck!')
     process.exit(0)
   } catch (_error) {
-    spinner.fail('🦆 Something went wrong')
+    spinner.fail('Something went wrong')
   }
 }

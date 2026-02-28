@@ -40,7 +40,7 @@ export async function build_registry_tsx({ item, spinner }: GetComponentFilesArg
 
     const id = toIdentifier(item.name)
 
-    spinner.text = `🧭 Building TSX registry entry for ${item.name}`
+    spinner.text = `Building TSX registry entry for ${item.name}`
 
     const importLine = `const ${id} = dynamic(() => import("${component_path}"), { ssr: false })\n`
 
@@ -62,6 +62,6 @@ export async function build_registry_tsx({ item, spinner }: GetComponentFilesArg
     return { importLine, entry }
   } catch (error) {
     spinner.fail(`Failed to build TSX registry entry: ${error instanceof Error ? error.message : String(error)}`)
-    process.exit(0)
+    process.exit(1)
   }
 }

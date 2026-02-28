@@ -18,7 +18,7 @@ export async function add_command_action(args: string[], opt: addOptions) {
     if (components_names.length) {
       components = await Promise.all(
         components_names.map(async (item, idx) => {
-          spinner.text = `🦆 Fetching components... ${highlighter.info(`[${idx}/${components_names.length}]`)}`
+          spinner.text = `Fetching components... ${highlighter.info(`[${idx}/${components_names.length}]`)}`
           return await get_registry_item(item as Lowercase<string>)
         }) as unknown as RegistryEntry[],
       )
@@ -33,7 +33,7 @@ export async function add_command_action(args: string[], opt: addOptions) {
             title: item.name,
             value: item.name,
           })),
-          message: '💡 Select component to install',
+          message: 'Select component to install',
           name: 'component',
           type: 'autocompleteMultiselect',
         },
@@ -42,28 +42,28 @@ export async function add_command_action(args: string[], opt: addOptions) {
 
       components = (await Promise.all(
         prompt.component?.map(async (item, idx) => {
-          spinner.text = `🦆 Fetching components... ${highlighter.info(`[${idx}/${prompt.component.length}]`)}`
+          spinner.text = `Fetching components... ${highlighter.info(`[${idx}/${prompt.component.length}]`)}`
           return await get_registry_item(item as Lowercase<string>)
         }),
       )) as RegistryEntry[]
     }
 
     if (!components.length) {
-      spinner.fail('🦆 No components found to install')
+      spinner.fail('No components found to install')
       process.exit(0)
     }
 
     spinner.succeed(
-      `🦆 Fetched component${components.length > 1 ? 's' : ''} ${highlighter.info(`[${components.length}/${components.length}]`)}`,
+      `Fetched component${components.length > 1 ? 's' : ''} ${highlighter.info(`[${components.length}/${components.length}]`)}`,
     )
 
     const duckui_config = await get_duckui_config(process.cwd(), spinner)
 
     await registry_component_install(components, duckui_config, options, spinner)
 
-    spinner.succeed('🧑 Done.!, enjoy mr duck!🦆')
+    spinner.succeed('Done.!, enjoy mr duck!')
     process.exit(0)
   } catch (_error) {
-    spinner.fail('🦆 Something went wrong')
+    spinner.fail('Something went wrong')
   }
 }

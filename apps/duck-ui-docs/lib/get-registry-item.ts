@@ -51,7 +51,7 @@ export async function getRegistryItem(name: string) {
   try {
     meta = await getFileMeta(files[0]?.path as string, item.type)
   } catch {
-    // Meta extraction is optional — don't fail the whole item.
+    // Meta extraction is optional -- don't fail the whole item.
   }
 
   // Fix file paths.
@@ -130,7 +130,7 @@ function getFileTarget(file: z.infer<typeof registry_item_file_schema>) {
   let target = file.target
 
   if (!target || target === '') {
-    const fileName = file.path.split('/').splice(-2).join('/')
+    const fileName = file.path.split('/').slice(-2).join('/')
     if (file.type === 'registry:block' || file.type === 'registry:example') {
       target = `components/${fileName}`
     }

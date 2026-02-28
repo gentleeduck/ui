@@ -118,7 +118,7 @@ export type CVA = <_ extends "cva's generic parameters are restricted to interna
 export interface DefineConfigOptions {
   hooks?: {
     /**
-     * @deprecated please use `onComplete`
+     * @deprecated please use `onComplete`
      */
     'cx:done'?: (className: string) => string
     /**

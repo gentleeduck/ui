@@ -12,13 +12,13 @@ export async function registry_component_install(
   spinner: Ora,
 ) {
   try {
-    spinner.text = `🦆 Installing ${highlighter.info('components')} ${highlighter.info(components.length)}...`
+    spinner.text = `Installing ${highlighter.info('components')} ${highlighter.info(components.length)}...`
 
     const write_path = await get_installation_config(duck_config, spinner, options)
 
     await process_components(duck_config, components, write_path, spinner, options)
   } catch (_error) {
-    spinner.fail('🦆 Failed to install components')
+    spinner.fail('Failed to install components')
     process.exit(1)
   }
 }

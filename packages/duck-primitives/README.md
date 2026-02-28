@@ -4,7 +4,7 @@
 
 ---
 
-## 🚀 Installation
+## Installation
 
 ```sh
 npm install @gentleduck/primitives
@@ -55,13 +55,13 @@ export function ExampleDialog() {
 > API shape may vary between primitives. See each primitive’s `src/<primitive>/` for details.
 
 
-## 🔒 Security
+## Security
 
 See [`SECURITY.md`](./SECURITY.md).
 Report issues at [github.com/gentleeduck/duck-ui/issues](https://github.com/gentleeduck/duck-ui/issues).
 
 ---
 
-## 📄 License
+## License
 
 [MIT © gentleduck](./LICENSE)

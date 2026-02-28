@@ -21,7 +21,6 @@ yarn add @gentleduck/libs
 * `group-array` - Group array items by a given key or function.
 * `group-data-by-numbers` - Group numbers into ranges or buckets.
 * `parse-date` - Parse strings or values into valid Date objects.
-* `index.ts` - Barrel file that re-exports utilities.
 
 ## Usage
 

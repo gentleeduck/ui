@@ -165,16 +165,10 @@ interface DuckShortcutProps {
 declare function useDuckShortcut(props: DuckShortcutProps): void
 ```
 
-## License
-
-This library is available under the [MIT License](LICENSE).
-
 ## Contributing
-
-This reference includes type definitions for `DuckShortcutProps`, as well as detailed information on how to use the `useDuckShortcut` hook.
 
 Contributions are welcome! Please open issues and pull requests on the [GitHub repository](https://github.com/gentleeduck/duck-ui).
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](./LICENSE) file for details.
+[MIT](./LICENSE)

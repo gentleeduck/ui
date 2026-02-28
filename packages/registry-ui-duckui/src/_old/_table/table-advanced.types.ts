@@ -244,8 +244,8 @@ export interface TableDropdownMenuOptionsType<T extends boolean> {
 }
 
 export interface TableColumnType extends React.HTMLProps<HTMLTableCellElement> {
-  // TODO: bro what the fuck is this, the old code looks bloated af.
-  // FIX: make sure to sue these in the feture
+  // TODO: clean up these legacy props
+  // FIX: make sure to use these in the future
   withLabel?: Omit<LabelType, 'showCommand' | 'showLabel'>
   withIcon?: React.ReactNode
 }
