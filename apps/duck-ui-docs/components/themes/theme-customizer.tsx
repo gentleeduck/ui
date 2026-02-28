@@ -24,9 +24,8 @@ import { Label } from '@gentleduck/registry-ui-duckui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
 import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
-import { ResetIcon } from '@radix-ui/react-icons'
 import template from 'lodash.template'
-import { CheckIcon, MoonIcon, SunIcon } from 'lucide-react'
+import { CheckIcon, MoonIcon, RotateCcwIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
 
@@ -95,7 +94,7 @@ export function Customizer() {
           }}
           size="icon"
           variant="ghost">
-          <ResetIcon aria-hidden="true" />
+          <RotateCcwIcon aria-hidden="true" />
           <span className="sr-only">Reset</span>
         </Button>
       </div>
