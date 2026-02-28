@@ -120,7 +120,18 @@
       "Bash(echo === $pkg - checking index files ===:*)",
       "Bash(echo $path: EXISTS:*)",
       "Bash(echo === duck-hooks module field ===:*)",
-      "Bash(echo === duck-hooks types ===:*)"
+      "Bash(echo === duck-hooks types ===:*)",
+      "Bash(mv:*)",
+      "Bash(noglob git:*)",
+      "WebFetch(domain:github.blog)",
+      "WebFetch(domain:tsdown.dev)",
+      "WebFetch(domain:www.jsdocs.io)",
+      "Bash(PATH=\"$HOME/.bun/bin:$PATH\" bun install:*)",
+      "Bash(PATH=\"$HOME/.bun/bin:$PATH\" bun run:*)",
+      "Bash(PATH=\"$HOME/.bun/bin:$PATH\" bunx biome:*)",
+      "Bash($HOME/.bun/bin/bunx biome:*)",
+      "Bash(PATH=\"$HOME/.bun/bin:$PATH\" git add:*)",
+      "Bash(PATH=\"$HOME/.bun/bin:$PATH\" git commit:*)"
     ]
   }
 }
