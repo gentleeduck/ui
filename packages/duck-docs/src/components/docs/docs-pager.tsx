@@ -70,7 +70,7 @@ export function DocsPagerTop({ doc }: DocsPagerProps) {
           aria-label={`Previous: ${pager.prev.title}`}
           className={cn(
             buttonVariants({
-              className: '[&>svg]:!size-4 size-8 items-center',
+              className: '[&>svg]:!size-4 size-8 items-center md:size-7',
               size: 'sm',
               variant: 'secondary',
             }),
@@ -85,7 +85,7 @@ export function DocsPagerTop({ doc }: DocsPagerProps) {
           aria-label={`Next: ${pager.next.title}`}
           className={cn(
             buttonVariants({
-              className: '[&>svg]:!size-4 ml-2 size-8 items-center',
+              className: '[&>svg]:!size-4 ml-2 size-8 items-center md:size-7',
               size: 'sm',
               variant: 'secondary',
             }),
