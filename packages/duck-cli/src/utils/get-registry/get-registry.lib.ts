@@ -79,7 +79,8 @@ export function check_status(status: number, statusText: string, url: string, bo
   let message: string
   try {
     const result = JSON.parse(body)
-    message = result && typeof result === 'object' && 'error' in result ? result.error : statusText || error_messages[status]
+    message =
+      result && typeof result === 'object' && 'error' in result ? result.error : statusText || error_messages[status]
   } catch {
     message = statusText || error_messages[status]
   }

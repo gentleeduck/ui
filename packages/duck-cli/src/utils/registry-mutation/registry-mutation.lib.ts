@@ -10,7 +10,11 @@ import type { DuckUI } from '../preflight-configs/preflight-duckui'
 import { highlighter } from '../text-styling'
 import type { DependenciesType, InstallOptions } from './registry-mutation.types'
 
-export async function get_installation_config(duck_config: DuckUI, spinner: Ora, options: InstallOptions): Promise<string> {
+export async function get_installation_config(
+  duck_config: DuckUI,
+  spinner: Ora,
+  options: InstallOptions,
+): Promise<string> {
   try {
     const alias = duck_config.aliases.ui.split('/').shift()
     const ts_config = await get_ts_config(process.cwd(), spinner)
