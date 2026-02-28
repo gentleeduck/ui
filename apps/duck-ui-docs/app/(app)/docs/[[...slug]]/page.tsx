@@ -4,7 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { badgeVariants } from '@gentleduck/registry-ui-duckui/badge'
 import { Button } from '@gentleduck/registry-ui-duckui/button'
 import { Separator } from '@gentleduck/registry-ui-duckui/separator'
-import { ArrowDownIcon, ArrowUpIcon, ExternalLinkIcon, SquarePenIcon } from 'lucide-react'
+import { ArrowDownIcon, ArrowUpIcon, ExternalLinkIcon, PencilIcon } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
@@ -125,7 +125,7 @@ const PostLayout = async ({ params }: { params: Promise<{ slug?: string[] }> }) 
                   href={`https://github.com/gentleeduck/duck-ui/blob/master/apps/duck-ui-docs/content/${doc.slug}.mdx`}
                   rel="noreferrer"
                   target="_blank">
-                  <SquarePenIcon aria-hidden="true" className="size-3.5" />
+                  <PencilIcon aria-hidden="true" className="size-3.5" />
                   Edit this page on GitHub
                 </a>
               </Button>
