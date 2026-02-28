@@ -8,10 +8,7 @@ import { highlighter } from './text-styling'
  * Resolves components either from explicit names or by prompting the user
  * to select from the registry. Returns a filtered array with no null entries.
  */
-export async function resolve_components(
-  component_names: string[],
-  spinner: Ora,
-): Promise<RegistryEntry[]> {
+export async function resolve_components(component_names: string[], spinner: Ora): Promise<RegistryEntry[]> {
   let components: RegistryEntry[] = []
 
   if (component_names.length > 0) {
