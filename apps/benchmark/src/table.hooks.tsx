@@ -48,7 +48,6 @@ export function createDuckTable<THeaders extends Lowercase<string>[]>(initialDat
     () => table.getQuery(),
     (_, set, newQuery: string) => {
       table.setQuery(newQuery)
-      console.log(table.getQuery())
       set(currentPage, () => table.getCurrentPage())
       syncAll(set)
     },

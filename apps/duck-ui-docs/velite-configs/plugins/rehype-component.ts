@@ -52,7 +52,7 @@ export function get_component_source(files: RegistryItemFile[]): ItemType[] {
 
   for (let i = 0; i < files.length; i++) {
     if (!files[i]?.path) {
-      console.log(`ERROR: no path found for file ${files[i]?.path}`)
+      console.warn(`No path found for file ${files[i]?.path}`)
     }
     const filePath = resolveRegistryFilePath(
       path.join(
@@ -61,7 +61,7 @@ export function get_component_source(files: RegistryItemFile[]): ItemType[] {
       ),
       files[i]!.path,
     )
-    let source = `// ${files[i]?.path.split('/').splice(1).join('/')}\n`
+    let source = `// ${files[i]?.path.split('/').slice(1).join('/')}\n`
 
     try {
       source += fs.readFileSync(filePath, 'utf8')
@@ -89,7 +89,7 @@ export function componentSource({ node }: { node: UnistNode }) {
   const name = getNodeAttributeByName(node, 'name')?.value as string
 
   if (!name) {
-    console.log('no name found')
+    console.warn('no name found')
     return null
   }
 
@@ -134,7 +134,7 @@ export function componentPreview({ node }: { node: UnistNode }) {
     const src = component?.files?.[0]?.path
 
     if (!src) {
-      console.log('no src found for', name)
+      console.warn('no src found for', name)
       return null
     }
     // Read the source file.

@@ -83,7 +83,6 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
   }
 
   public setRows(rows: DuckTableOptions<TColumn>['rows']): void {
-    console.log(rows, 'inside')
     this.rows = rows
   }
 
