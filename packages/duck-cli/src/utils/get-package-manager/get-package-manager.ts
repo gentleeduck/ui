@@ -14,14 +14,3 @@ export async function get_package_manager(
 
   return packageManager
 }
-
-export async function getPackageRunner(
-  cwd: string,
-  pm: Exclude<(typeof AGENTS)[number], 'yarn@berry' | 'pnpm@6'>,
-): Promise<'pnpm dlx' | 'bunx' | 'npx'> {
-  const packageManager = pm ?? (await get_package_manager(cwd))
-
-  if (packageManager === 'pnpm') return 'pnpm dlx'
-  if (packageManager === 'bun') return 'bunx'
-  return 'npx'
-}

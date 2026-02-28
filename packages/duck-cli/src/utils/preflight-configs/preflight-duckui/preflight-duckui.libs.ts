@@ -15,7 +15,7 @@ export async function init_duckui_config(cwd: string, spinner: Ora, duck_config:
     spinner.succeed(`${highlighter.info('duck-ui')} config initialized...`)
   } catch (error) {
     spinner.fail(
-      `Failed to initialize ${highlighter.error('duck-ui config...')}\n ${highlighter.error(error as string)}`,
+      `Failed to initialize ${highlighter.error('duck-ui config...')}\n ${highlighter.error(error instanceof Error ? error.message : String(error))}`,
     )
     process.exit(1)
   }

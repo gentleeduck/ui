@@ -37,8 +37,13 @@ export async function resolve_components(component_names: string[], spinner: Ora
     ])
     spinner.start()
 
+    if (!prompt.component?.length) {
+      spinner.fail('No components selected')
+      process.exit(0)
+    }
+
     const promptResults = await Promise.all(
-      prompt.component?.map(async (item, idx) => {
+      prompt.component.map(async (item, idx) => {
         spinner.text = `Fetching components... ${highlighter.info(`[${idx}/${prompt.component.length}]`)}`
         return await get_registry_item(item as Lowercase<string>)
       }),

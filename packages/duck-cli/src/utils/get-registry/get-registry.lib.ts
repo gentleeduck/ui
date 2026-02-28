@@ -42,9 +42,9 @@ export async function fetch_registry_url(paths: string[]) {
     )
 
     return results
-  } catch (_error) {
+  } catch (error) {
     logger.error({
-      args: ['\nFailed to fetch from registry.'],
+      args: [`\nFailed to fetch from registry.\n${error instanceof Error ? error.message : String(error)}`],
       with_icon: true,
     })
     return []

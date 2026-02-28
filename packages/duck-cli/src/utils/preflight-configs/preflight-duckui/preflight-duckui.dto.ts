@@ -19,7 +19,7 @@ export const duckui_prompts_schema = z.object({
     .default('~')
     .describe('Defines the alias used for importing modules.'),
   base_color: z
-    .enum(['zinc', 'slate', 'gray', 'neutral', 'red', 'rose', 'orange', 'green', 'blue'], {
+    .enum(BASE_COLORS, {
       error: 'Please select a valid base color.',
     })
     .describe('The primary color theme for your project.'),

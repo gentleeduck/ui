@@ -4,9 +4,9 @@ export interface LoggerParams {
 }
 
 export type LoggerType = {
-  error: ({ with_icon, args }: LoggerParams) => any
-  warn: ({ with_icon, args }: LoggerParams) => any
-  info: ({ with_icon, args }: LoggerParams) => any
-  success: ({ with_icon, args }: LoggerParams) => any
-  break: () => any
+  error: ({ with_icon, args }: LoggerParams) => LoggerType
+  warn: ({ with_icon, args }: LoggerParams) => LoggerType
+  info: ({ with_icon, args }: LoggerParams) => LoggerType
+  success: ({ with_icon, args }: LoggerParams) => LoggerType
+  break: () => LoggerType
 }

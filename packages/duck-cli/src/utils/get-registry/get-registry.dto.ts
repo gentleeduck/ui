@@ -127,21 +127,3 @@ export const registry_schema = z.array(registry_entry_schema)
 
 export type Registry = z.infer<typeof registry_schema>
 
-//NOTE: STILL NOT USED IN REAL
-export const block_schema = registry_entry_schema.extend({
-  code: z.string(),
-  component: z.any(),
-  container: z
-    .object({
-      className: z.string().nullish(),
-      height: z.string().nullish(),
-    })
-    .optional(),
-  highlightedCode: z.string(),
-  style: z.enum(['default', 'new-york']),
-  type: z.literal('registry:block'),
-})
-
-export type Block = z.infer<typeof block_schema>
-
-export type BlockChunk = z.infer<typeof block_chunk_schema>
