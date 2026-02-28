@@ -11,7 +11,7 @@ export async function build_registry_home(spinner: Ora): Promise<void> {
     console.log(asciiText)
   } catch (error) {
     spinner.fail(`Failed to generate ASCII UI: ${error instanceof Error ? error.message : String(error)}`)
-    process.exit(0)
+    process.exit(1)
   }
 }
 

@@ -205,7 +205,7 @@ function get_component_source(files: { type: string; path: string }[]) {
   for (let i = 0; i < files.length; i++) {
     // ! NOTE: This is a temporary solution
     const filePath = path.join(process.cwd(), 'registry', files[i]?.path || '')
-    let source = `// ${files[i]?.path.split('/').splice(1).join('/')}\n\n`
+    let source = `// ${files[i]?.path.split('/').slice(1).join('/')}\n\n`
     try {
       source += fs.readFileSync(filePath, 'utf8')
 
