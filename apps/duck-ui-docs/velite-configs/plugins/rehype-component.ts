@@ -1,24 +1,32 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import type { UnistNode, UnistTree } from '@gentleduck/docs/types'
-import type { RegistryItemFile } from '@gentleduck/registers'
 import { u } from 'unist-builder'
 import { visit } from 'unist-util-visit'
 import { Index } from '~/__ui_registry__'
 
+const EXT_TO_LANG: Record<string, string> = {
+  '.ts': 'typescript',
+  '.tsx': 'tsx',
+  '.js': 'javascript',
+  '.jsx': 'jsx',
+  '.css': 'css',
+  '.json': 'json',
+  '.md': 'markdown',
+  '.mdx': 'mdx',
+  '.html': 'html',
+  '.sh': 'bash',
+}
+
 export function rehypeComponent() {
   return async (tree: UnistTree) => {
-    // @ts-ignore
+    // @ts-expect-error
     visit(tree, (node: UnistNode) => {
       if (node.name === 'ComponentSource') {
-        componentSource({
-          node,
-        })
+        componentSource({ node })
       }
       if (node.name === 'ComponentPreview') {
-        componentPreview({
-          node,
-        })
+        componentPreview({ node })
       }
     })
   }
@@ -28,9 +36,12 @@ function getNodeAttributeByName(node: UnistNode, name: string) {
   return node.attributes?.find((attribute) => attribute.name === name)
 }
 
-type ItemType = { name: string; type: string; src: string }
+function getLangFromExt(filePath: string): string {
+  const ext = path.extname(filePath)
+  return EXT_TO_LANG[ext] ?? 'plaintext'
+}
 
-function resolveRegistryFilePath(baseDir: string, filePath: string) {
+function resolveFilePath(baseDir: string, filePath: string) {
   const absolute = path.join(baseDir, filePath)
   if (fs.existsSync(absolute)) return absolute
 
@@ -47,80 +58,69 @@ function resolveRegistryFilePath(baseDir: string, filePath: string) {
   return absolute
 }
 
-export function get_component_source(files: RegistryItemFile[]): ItemType[] {
-  const item: ItemType[] = []
-
-  for (let i = 0; i < files.length; i++) {
-    if (!files[i]?.path) {
-      console.warn(`No path found for file ${files[i]?.path}`)
-    }
-    const filePath = resolveRegistryFilePath(
-      path.join(
-        process.cwd(),
-        `../../packages/registry-${files[i]?.type === 'registry:ui' ? 'ui' : 'examples'}-duckui/src/`,
-      ),
-      files[i]!.path,
-    )
-    let source = `// ${files[i]?.path.split('/').slice(1).join('/')}\n`
-
-    try {
-      source += fs.readFileSync(filePath, 'utf8')
-      // Replace imports.
-      // TODO: Use @swc/core and a visitor to replace this.
-      // For now a simple regex should do.
-      source = source.replaceAll(
-        `@/registry/registry-ui-components`,
-        `@/components/${files[i]?.path.split('/')[0]?.split('-')[1]}`,
-      )
-      source = source.replaceAll('export default', 'export')
-      item.push({
-        name: files[i]!.path.split('/')?.pop() ?? 'file',
-        src: source,
-        type: files[i]!.type,
-      })
-    } catch (error) {
-      console.error(`Error reading file ${filePath}:`, error)
-    }
-  }
-  return item
+function createCodeNode(source: string, lang: string) {
+  return u('element', {
+    tagName: 'pre',
+    properties: {},
+    children: [
+      u('element', {
+        tagName: 'code',
+        properties: { className: [`language-${lang}`] },
+        children: [{ type: 'text', value: source }],
+      }),
+    ],
+  })
 }
 
-export function componentSource({ node }: { node: UnistNode }) {
-  const name = getNodeAttributeByName(node, 'name')?.value as string
+// -- ComponentSource ----------------------------------------------------------
 
-  if (!name) {
-    console.warn('no name found')
+export function componentSource({ node }: { node: UnistNode }) {
+  const sourcePath = getNodeAttributeByName(node, 'path')?.value as string | undefined
+
+  if (!sourcePath) {
+    console.warn('[ComponentSource] no path attribute found')
     return null
   }
 
   try {
-    const component = Index[`${name}`]
-    const items = get_component_source(component?.files ?? [])
+    // process.cwd() is apps/duck-ui-docs/, go up to monorepo root
+    const resolved = path.resolve(process.cwd(), '../../', sourcePath)
 
-    node.children = items.map((item) => {
-      return u('element', {
-        children: [
-          u('element', {
-            children: [
-              {
-                type: 'text',
-                value: item.src,
-              },
-            ],
-            properties: {
-              className: ['language-tsx'],
-            },
-            tagName: 'code',
-          }),
-        ],
-        properties: {},
-        tagName: 'pre',
+    if (!fs.existsSync(resolved)) {
+      console.warn(`[ComponentSource] path not found: ${resolved}`)
+      return null
+    }
+
+    const stat = fs.statSync(resolved)
+
+    if (stat.isDirectory()) {
+      // Directory -- read all files, create a pre/code block for each (tabs)
+      const entries = fs.readdirSync(resolved).filter((entry) => {
+        const entryPath = path.join(resolved, entry)
+        return fs.statSync(entryPath).isFile()
       })
-    })
+
+      node.children = entries.map((entry) => {
+        const filePath = path.join(resolved, entry)
+        const lang = getLangFromExt(entry)
+        const content = fs.readFileSync(filePath, 'utf8')
+        const source = `// ${entry}\n${content}`
+        return createCodeNode(source, lang)
+      })
+    } else {
+      // Single file -- one pre/code block
+      const lang = getLangFromExt(resolved)
+      const fileName = path.basename(resolved)
+      const content = fs.readFileSync(resolved, 'utf8')
+      const source = `// ${fileName}\n${content}`
+      node.children = [createCodeNode(source, lang)]
+    }
   } catch (error) {
-    console.error(error)
+    console.error('[ComponentSource]', error)
   }
 }
+
+// -- ComponentPreview ---------------------------------------------------------
 
 export function componentPreview({ node }: { node: UnistNode }) {
   const name = getNodeAttributeByName(node, 'name')?.value as string
@@ -137,39 +137,14 @@ export function componentPreview({ node }: { node: UnistNode }) {
       console.warn('no src found for', name)
       return null
     }
-    // Read the source file.
-    const filePath = resolveRegistryFilePath(
-      path.join(process.cwd(), '../../packages/registry-examples-duckui/src/'),
-      src,
-    )
+
+    const filePath = resolveFilePath(path.join(process.cwd(), '../../packages/registry-examples-duckui/src/'), src)
     let source = fs.readFileSync(filePath, 'utf8')
 
-    // Replace imports.
-    // TODO: Use @swc/core and a visitor to replace this.
-    // For now a simple regex should do.
     source = source.replaceAll(`@gentleduck/registry-ui-duckui`, `~/components`)
     source = source.replaceAll('export default', 'export')
 
-    // Add code as children so that rehype can take over at build time.
-    node.children = [
-      u('element', {
-        children: [
-          u('element', {
-            children: [
-              {
-                type: 'text',
-                value: source,
-              },
-            ],
-            properties: {
-              className: ['language-tsx'],
-            },
-            tagName: 'code',
-          }),
-        ],
-        tagName: 'pre',
-      }),
-    ]
+    node.children = [createCodeNode(source, 'tsx')]
   } catch (error) {
     console.error(error)
   }
