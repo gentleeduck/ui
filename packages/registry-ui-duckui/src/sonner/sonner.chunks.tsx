@@ -41,7 +41,7 @@ const SonnerUpload = ({
           </p>
           <div className="flex items-center gap-2">
             {progress <= 100 && (
-              <p className="font-mono text-foreground-light text-sm">{`${remainingTime && !Number.isNaN(remainingTime) && Number.isFinite(remainingTime) && remainingTime !== 0 ? `${formatTime(remainingTime)} remaining – ` : ''}`}</p>
+              <p className="font-mono text-foreground-light text-sm">{`${remainingTime && !Number.isNaN(remainingTime) && Number.isFinite(remainingTime) && remainingTime !== 0 ? `${formatTime(remainingTime)} remaining -` : ''}`}</p>
             )}
             <p className="font-mono text-foreground-light text-sm">{`${progress}%`}</p>
           </div>

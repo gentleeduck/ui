@@ -20,7 +20,7 @@ export async function get_installation_config(duck_config: DuckUI, spinner: Ora,
       spinner.fail(
         `No ${highlighter.info(
           'TypeScript',
-        )} configs found \r\n(NOTE: chekck your tsconfig.json, and add the paths because we need them) \r\nAs an example \r\n${highlighter.warn(
+        )} configs found \r\n(NOTE: check your tsconfig.json, and add the paths because we need them) \r\nAs an example \r\n${highlighter.warn(
           `paths: {\r\n  "~/*": ["./*"]\r\n}`,
         )}\r\n`,
       )
@@ -159,7 +159,7 @@ export async function install_registry_dependencies(
   dependencies: DependenciesType,
   spinner: Ora,
   write_path: string,
-  foce: boolean,
+  force: boolean,
   duck_config: DuckUI,
 ) {
   const visited = new Set<string>() // avoid infinite loops
@@ -177,9 +177,7 @@ export async function install_registry_dependencies(
       }),
     )) as Registry
 
-    spinner.succeed(
-      `Fetched ${components.length} necessary component${components.length > 1 ? 's' : ''} from registry`,
-    )
+    spinner.succeed(`Fetched ${components.length} necessary component${components.length > 1 ? 's' : ''} from registry`)
 
     // Merge fetched components
     allComponents.push(...components)
@@ -224,7 +222,7 @@ export async function install_registry_dependencies(
       allComponents,
       write_path,
       spinner,
-      foce,
+      force,
     )
   }
 }

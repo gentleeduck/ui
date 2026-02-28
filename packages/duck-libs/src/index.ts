@@ -8,7 +8,7 @@ export function generateArabicSlug(text: string) {
   return text
     .trim()
     .replace(/\s+/g, '-')
-    .replace(/[^أ-يa-zA-Z0-9-]/g, '')
+    .replace(/[^\u0623-\u064Aa-zA-Z0-9-]/g, '')
 }
 
 export function getTodayDate() {

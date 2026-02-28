@@ -3,7 +3,7 @@ import { SonnerUpload } from '@gentleduck/registry-ui-duckui/sonner'
 import React from 'react'
 import { toast } from 'sonner'
 
-export default function SonnerDmeo() {
+export default function SonnerDemo() {
   const controllerRef = React.useRef(new AbortController())
   // @ts-ignore
   const intervalRef = React.useRef<NodeJS.Timeout | null>(null)
@@ -27,7 +27,7 @@ export default function SonnerDmeo() {
     updateToast(0)
 
     intervalRef.current = setInterval(() => {
-      const randomStep = Math.floor(Math.random() * 11) + 5 // 5–15%
+      const randomStep = Math.floor(Math.random() * 11) + 5 // 5-15%
       progressRef.current = Math.min(progressRef.current + randomStep, 100)
       updateToast(progressRef.current)
 
