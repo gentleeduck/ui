@@ -28,6 +28,7 @@
   "description": "CLI to add gentleduck/ui components and bootstrap integrations.",
   "devDependencies": {
     "@gentleduck/registers": "workspace:*",
+    "vitest": "catalog:",
     "@types/fs-extra": "^11.0.4",
     "@types/prompts": "^2.4.9",
     "rimraf": "^6.0.1",

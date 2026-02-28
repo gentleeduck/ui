@@ -1,0 +1,117 @@
+import { describe, expect, it } from 'vitest'
+import {
+  default_duckui_config,
+  generateThemeCSS,
+} from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs'
+
+describe('default_duckui_config', () => {
+  const baseInput = {
+    project_type: 'NEXT_JS' as const,
+    monorepo: false,
+    css: './src/styles.css',
+    prefix: '',
+    alias: '~',
+    base_color: 'zinc' as const,
+    css_variables: true,
+  }
+
+  it('generates valid JSON', () => {
+    const result = default_duckui_config(baseInput)
+    expect(() => JSON.parse(result)).not.toThrow()
+  })
+
+  it('sets rsc to true for NEXT_JS projects', () => {
+    const result = JSON.parse(default_duckui_config(baseInput))
+    expect(result.rsc).toBe(true)
+  })
+
+  it('sets rsc to false for non-NEXT_JS projects', () => {
+    const result = JSON.parse(default_duckui_config({ ...baseInput, project_type: 'VITE' as const }))
+    expect(result.rsc).toBe(false)
+  })
+
+  it('includes correct aliases based on alias prefix', () => {
+    const result = JSON.parse(default_duckui_config({ ...baseInput, alias: '@' }))
+    expect(result.aliases.ui).toBe('@/ui')
+    expect(result.aliases.libs).toBe('@/libs')
+    expect(result.aliases.hooks).toBe('@/hooks')
+    expect(result.aliases.pages).toBe('@/pages')
+    expect(result.aliases.layouts).toBe('@/layouts')
+  })
+
+  it('includes tailwind config with base color', () => {
+    const result = JSON.parse(default_duckui_config(baseInput))
+    expect(result.tailwind.baseColor).toBe('zinc')
+    expect(result.tailwind.css).toBe('./src/styles.css')
+    expect(result.tailwind.cssVariables).toBe(true)
+    expect(result.tailwind.prefix).toBe('')
+  })
+
+  it('handles special characters in values safely', () => {
+    const result = default_duckui_config({
+      ...baseInput,
+      css: './src/my "quoted" styles.css',
+    })
+    expect(() => JSON.parse(result)).not.toThrow()
+    const parsed = JSON.parse(result)
+    expect(parsed.tailwind.css).toBe('./src/my "quoted" styles.css')
+  })
+
+  it('includes schema URL', () => {
+    const result = JSON.parse(default_duckui_config(baseInput))
+    expect(result.schema).toBe('https://ui.gentleduck.org/schema.json')
+  })
+})
+
+describe('generateThemeCSS', () => {
+  const mockTheme = {
+    name: 'zinc',
+    cssVars: {
+      light: {
+        background: '0 0% 100%',
+        foreground: '240 10% 3.9%',
+        primary: 'oklch(0.21 0.006 285.75)',
+      },
+      dark: {
+        background: '240 10% 3.9%',
+        foreground: '0 0% 98%',
+        primary: 'oklch(0.985 0 0)',
+      },
+    },
+  }
+
+  it('generates :root block with light variables', () => {
+    const result = generateThemeCSS(mockTheme as any)
+    expect(result).toContain(':root {')
+    expect(result).toContain('--background: 0 0% 100%;')
+    expect(result).toContain('--foreground: 240 10% 3.9%;')
+  })
+
+  it('generates .dark block with dark variables', () => {
+    const result = generateThemeCSS(mockTheme as any)
+    expect(result).toContain('.dark {')
+    expect(result).toContain('--background: 240 10% 3.9%;')
+  })
+
+  it('generates @theme inline block', () => {
+    const result = generateThemeCSS(mockTheme as any)
+    expect(result).toContain('@theme inline {')
+    expect(result).toContain('--breakpoint-3xl: 1600px;')
+    expect(result).toContain('--radius-sm: calc(var(--radius) - 4px);')
+  })
+
+  it('uses --color- prefix for oklch values in tailwind vars', () => {
+    const result = generateThemeCSS(mockTheme as any)
+    expect(result).toContain('--color-primary: var(--primary);')
+  })
+
+  it('uses plain var reference for non-oklch values in tailwind vars', () => {
+    const result = generateThemeCSS(mockTheme as any)
+    expect(result).toContain('--background: var(--background);')
+  })
+
+  it('includes theme name in comment', () => {
+    const result = generateThemeCSS(mockTheme as any)
+    expect(result).toContain('/* zinc theme */')
+  })
+})
