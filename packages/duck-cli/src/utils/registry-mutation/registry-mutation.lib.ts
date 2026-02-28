@@ -287,7 +287,7 @@ export async function process_component_dependencies(
     const packageManager = await get_package_manager(process.cwd())
     const { failed: installation_step_1 } = await execa(
       packageManager,
-      [packageManager !== 'npm' ? 'add' : 'install', 'lucide-react', ...allDependencies],
+      [packageManager !== 'npm' ? 'add' : 'install', ...allDependencies],
       {
         cwd: process.cwd(),
         stdio: 'ignore',
