@@ -37,6 +37,6 @@ export async function preflight_typescript(_options: InitOptions, spinner: Ora) 
         error as string,
       )}`,
     )
-    process.exit(0)
+    process.exit(1)
   }
 }

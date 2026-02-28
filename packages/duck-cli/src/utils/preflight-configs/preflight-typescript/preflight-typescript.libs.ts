@@ -19,16 +19,15 @@ export async function install_typescript(cwd: string, spinner: Ora) {
       [packageManager !== 'npm' ? 'install' : 'add', ...typescript_dependencies, '-D'],
       {
         cwd: cwd,
-        shell: true,
       },
     )
     if (!installation_step_1) return
 
     spinner.fail(`${installation_step_1}`)
-    process.exit(0)
+    process.exit(1)
   } catch (error) {
     spinner.fail(`${highlighter.error(error as string)}`)
-    process.exit(0)
+    process.exit(1)
   }
 }
 

@@ -15,6 +15,6 @@ export async function preflight_configs(_options: InitOptions, spinner: Ora): Pr
     spinner.text = `${highlighter.info('Configs preflighted...')}`
   } catch (error) {
     spinner.fail(`Failed to preflight required configs...\n ${highlighter.error(error as string)}`)
-    process.exit(0)
+    process.exit(1)
   }
 }

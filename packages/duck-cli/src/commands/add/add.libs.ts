@@ -16,12 +16,13 @@ export async function add_command_action(args: string[], opt: addOptions) {
     let components: RegistryEntry[] = []
 
     if (components_names.length) {
-      components = await Promise.all(
+      const results = await Promise.all(
         components_names.map(async (item, idx) => {
           spinner.text = `Fetching components... ${highlighter.info(`[${idx}/${components_names.length}]`)}`
           return await get_registry_item(item as Lowercase<string>)
-        }) as unknown as RegistryEntry[],
+        }),
       )
+      components = results.filter((item): item is RegistryEntry => item !== null)
     } else {
       const registry = await get_registry_index()
       const filtered_registry = registry?.filter((item) => item.type === 'registry:ui')
@@ -40,12 +41,13 @@ export async function add_command_action(args: string[], opt: addOptions) {
       ])
       spinner.start()
 
-      components = (await Promise.all(
+      const promptResults = await Promise.all(
         prompt.component?.map(async (item, idx) => {
           spinner.text = `Fetching components... ${highlighter.info(`[${idx}/${prompt.component.length}]`)}`
           return await get_registry_item(item as Lowercase<string>)
         }),
-      )) as RegistryEntry[]
+      )
+      components = promptResults.filter((item): item is RegistryEntry => item !== null)
     }
 
     if (!components.length) {
@@ -63,7 +65,8 @@ export async function add_command_action(args: string[], opt: addOptions) {
 
     spinner.succeed('Done.!, enjoy mr duck!')
     process.exit(0)
-  } catch (_error) {
-    spinner.fail('Something went wrong')
+  } catch (error) {
+    spinner.fail(`Something went wrong: ${error instanceof Error ? error.message : error}`)
+    process.exit(1)
   }
 }

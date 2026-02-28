@@ -75,6 +75,6 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
     spinner.fail(
       `Failed to preflight required ${highlighter.error('duck-ui')} configs...\n ${highlighter.error(error as string)}`,
     )
-    process.exit(0)
+    process.exit(1)
   }
 }

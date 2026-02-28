@@ -17,7 +17,7 @@ export async function init_duckui_config(cwd: string, spinner: Ora, duck_config:
     spinner.fail(
       `Failed to initialize ${highlighter.error('duck-ui config...')}\n ${highlighter.error(error as string)}`,
     )
-    process.exit(0)
+    process.exit(1)
   }
 }
 
@@ -68,22 +68,26 @@ export const default_duckui_config = ({
   base_color,
   css_variables,
 }: DuckuiPrompts) => {
-  return `{
-  "schema": "https://ui.gentleduck.org/schema.json",
-  "rsc": ${['NEXT_JS'].includes(project_type)},
-  "monorepo": ${monorepo},
-  "tailwind": {
-    "baseColor": "${base_color}",
-    "css": "${css}",
-    "cssVariables": ${css_variables},
-    "prefix": "${prefix}"
-  },
-  "aliases": {
-    "ui": "${alias}/ui",
-    "libs": "${alias}/libs",
-    "hooks": "${alias}/hooks",
-    "pages": "${alias}/pages",
-    "layouts": "${alias}/layouts"
-  }
-}`
+  return JSON.stringify(
+    {
+      schema: 'https://ui.gentleduck.org/schema.json',
+      rsc: ['NEXT_JS'].includes(project_type),
+      monorepo,
+      tailwind: {
+        baseColor: base_color,
+        css,
+        cssVariables: css_variables,
+        prefix: prefix || '',
+      },
+      aliases: {
+        ui: `${alias}/ui`,
+        libs: `${alias}/libs`,
+        hooks: `${alias}/hooks`,
+        pages: `${alias}/pages`,
+        layouts: `${alias}/layouts`,
+      },
+    },
+    null,
+    2,
+  )
 }
