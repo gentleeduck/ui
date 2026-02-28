@@ -2,6 +2,10 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createMockFetch } from '../helpers/mock-fetch'
 import { createMockSpinner } from '../helpers/mock-spinner'
 
+// Mock prompts for the prompt-path tests
+const mockPrompts = vi.fn()
+vi.mock('prompts', () => ({ default: mockPrompts }))
+
 describe('resolve_components', () => {
   beforeEach(() => {
     vi.resetModules()
@@ -45,5 +49,29 @@ describe('resolve_components', () => {
       resolve_components(['nonexistent1', 'nonexistent2'], spinner as any),
     ).rejects.toThrow('process.exit(0)')
     expect(spinner.fail).toHaveBeenCalledWith('No components found to install')
+  })
+
+  it('fetches registry index and prompts user when no names given', async () => {
+    mockPrompts.mockResolvedValue({ component: ['button', 'input'] })
+    const { resolve_components } = await import('~/utils/resolve-components')
+    const spinner = createMockSpinner()
+
+    const result = await resolve_components([], spinner as any)
+
+    expect(result).toHaveLength(2)
+    expect(result[0].name).toBe('button')
+    expect(result[1].name).toBe('input')
+    expect(mockPrompts).toHaveBeenCalled()
+    expect(spinner.stop).toHaveBeenCalled()
+    expect(spinner.start).toHaveBeenCalled()
+  })
+
+  it('exits with 0 when user selects nothing from prompt', async () => {
+    mockPrompts.mockResolvedValue({})
+    const { resolve_components } = await import('~/utils/resolve-components')
+    const spinner = createMockSpinner()
+
+    await expect(resolve_components([], spinner as any)).rejects.toThrow('process.exit(0)')
+    expect(spinner.fail).toHaveBeenCalledWith('No components selected')
   })
 })
