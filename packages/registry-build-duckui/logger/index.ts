@@ -10,10 +10,10 @@ export class Logger {
    * Log levels mapped to console methods for efficient logging.
    */
   private static logLevels = new Map([
-    ['success', { color: kleur.green, icon: '✅', method: console.log }],
+    ['success', { color: kleur.green, icon: '[ok]', method: console.log }],
     ['warn', { color: kleur.yellow, icon: '!', method: console.warn }],
-    ['error', { color: kleur.red, icon: '❌', method: console.error }],
-    ['fatal', { color: kleur.bgRed().white, icon: '🔥', method: console.error }],
+    ['error', { color: kleur.red, icon: '[x]', method: console.error }],
+    ['fatal', { color: kleur.bgRed().white, icon: '[!!]', method: console.error }],
   ])
 
   /**
@@ -29,7 +29,7 @@ export class Logger {
 
     if (logStyle) {
       const formattedMessage = `${timestamp} ${logStyle.icon} ${logStyle.color(`[${level.toUpperCase()}]`)} ${kleur.bold(message)}`
-      logStyle.method(`${formattedMessage}\n ${kleur.dim(`📌 ${caller}`)}  |  ${kleur.underline(cwd)}`)
+      logStyle.method(`${formattedMessage}\n ${kleur.dim(`> ${caller}`)}  |  ${kleur.underline(cwd)}`)
     }
   }
 

@@ -75,7 +75,7 @@ const features = [
   },
   {
     bgColor: 'rgba(249, 115, 22, 0.1)',
-    description: 'Built-in accessibility and keyboard navigation for dropdowns, modals, and menus — no hacks required.',
+    description: 'Built-in accessibility and keyboard navigation for dropdowns, modals, and menus  -- no hacks required.',
     icon: <Accessibility aria-hidden="true" className="h-7 w-7" />,
     textColor: 'rgb(249, 115, 22)',
     title: 'Accessible by Default',

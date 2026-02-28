@@ -11,9 +11,9 @@
 //   try
 //
 //
-//     spinner.succeed('🧑 Done.!, enjoy mr duck!🦆')
+//     spinner.succeed('Done.!, enjoy mr duck!')
 //     process.exit(0)
 //   } catch (error) {
-//     spinner.fail('🦆 Something went wrong')
+//     spinner.fail('Something went wrong')
 //   }
 // }

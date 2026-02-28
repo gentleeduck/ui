@@ -14,14 +14,14 @@ export async function main() {
   // 1- showing the home of the application
   await build_registry_home(spinner)
 
-  spinner.start('🧭 Building the registry...')
+  spinner.start('Building the registry...')
 
   // 2- validate the registry with zod.
-  spinner.text = '🧭 Validating the registry...'
+  spinner.text = 'Validating the registry...'
   const registry_valid = registry_schema.safeParse(registry)
 
   if (!registry_valid.success) {
-    spinner.fail('🚫 The registry is not valid!')
+    spinner.fail('The registry is not valid!')
     process.exit(1)
   }
 
@@ -57,5 +57,5 @@ export async function main() {
   // 6- build registry colors
   await registry_build_colors({ spinner })
 
-  spinner.succeed(styleText('green', `🎉 Registry built successfully!`))
+  spinner.succeed(styleText('green', `Registry built successfully!`))
 }

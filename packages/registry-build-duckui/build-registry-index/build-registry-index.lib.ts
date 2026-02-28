@@ -45,7 +45,7 @@ export async function get_component_files({
     if (files.length === 0) {
       spinner.warn(`No TypeScript or TSX files found in: ${cwdPath}`)
     } else {
-      spinner.text = `🧭 Retrieving ${styleText(
+      spinner.text = `Retrieving ${styleText(
         'green',
         type,
       )} component files... (${styleText('yellow', idx.toString())}/${styleText('yellow', registry_count.toString())})`

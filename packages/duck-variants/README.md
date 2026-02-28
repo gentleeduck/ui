@@ -22,22 +22,22 @@ to offer the community a **serious**, **well-maintained**, and **future-proof** 
 
 ## Features
 
-- 🧠 **Declarative variant-based styling**  
-- 🎯 **Type-safe API with intelligent autocompletion**  
-- 🧱 **Composable and extendable utility**  
-- 🎨 **Supports default variants and compound variants**  
-- 🪶 **Lightweight, zero dependencies, blazing fast**  
+- **Declarative variant-based styling**
+- **Type-safe API with intelligent autocompletion**
+- **Composable and extendable utility**
+- **Supports default variants and compound variants**
+- **Lightweight, zero dependencies, blazing fast**
 
 ---
 
 ## Why `@gentleduck/variants`?
 
-- ✅ **Zero dependencies**, tiny bundle footprint. 
-- 🔐 **Fully type-safe**, IDE-friendly autocompletion. 
-- 🎨 **Flexible styling** via variants, nested arrays & conditionals.
-- 🚀 **Minimal runtime & memoized** with zero runtime dependencies (just a few dozen lines of code).
-- ⚡ **Blazing fast**: ~7× faster than the reference `[class-variance-authority](https://www.npmjs.com/package/class-variance-authority)`.
-- 🧠 **Powerful system** for defaults, compounds, and custom classes.
+- **Zero dependencies**, tiny bundle footprint.
+- **Fully type-safe**, IDE-friendly autocompletion.
+- **Flexible styling** via variants, nested arrays & conditionals.
+- **Minimal runtime & memoized** with zero runtime dependencies (just a few dozen lines of code).
+- **Blazing fast**: ~7x faster than the reference [class-variance-authority](https://www.npmjs.com/package/class-variance-authority).
+- **Powerful system** for defaults, compounds, and custom classes.
 
 ---
 
@@ -178,10 +178,10 @@ const alert = cva('alert', {
   },
 })
 
-// ✅
+// OK
 alert({ severity: 'error' })
 
-// ❌ TS Error: 'warning' is not a valid severity
+// TS Error: 'warning' is not a valid severity
 alert({ severity: 'warning' })
 ```
 

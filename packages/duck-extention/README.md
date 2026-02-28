@@ -27,7 +27,7 @@ Just download the extension from the [RELEASES](./releases) and install it on yo
 5. Click **Load unpacked**
 6. Select the extracted folder
 
-You're good to go. 🦆✨
+You're good to go.
 
 ### Firefox
 
@@ -48,7 +48,7 @@ You're good to go. 🦆✨
    - The font will be applied immediately
 
 2. **Toggle extension on/off**:
-   - Look for the floating button (🔤) in the bottom-right corner of any website
+   - Look for the floating button in the bottom-right corner of any website
    - Click it to enable/disable the extension for that specific domain
    - The button shows the current state (opaque = enabled, faded = disabled)
 
@@ -70,7 +70,7 @@ If you enjoy this extension:
 * Share it
 * Contribute or open issues
 
-Your support keeps this duck flying. 🦆💨
+Your support keeps this duck flying.
 
 ---
 

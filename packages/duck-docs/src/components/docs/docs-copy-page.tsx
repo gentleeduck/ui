@@ -16,7 +16,7 @@ import { useSiteConfig } from '../../context'
 
 function getPromptUrl(baseURL: string, url: string, siteName: string) {
   return `${baseURL}?q=${encodeURIComponent(
-    `I’m looking at this ${siteName} documentation: ${url}.\nHelp me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.\n  `,
+    `I'm looking at this ${siteName} documentation: ${url}.\nHelp me understand how to use it. Be ready to explain concepts, give examples, or help debug based on it.\n  `,
   )}`
 }
 

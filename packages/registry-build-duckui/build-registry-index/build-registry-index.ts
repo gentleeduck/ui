@@ -19,7 +19,7 @@ import { BuildRegistryIndexParams } from './build-registry-index.types'
  */
 export async function build_registry_index({ registry, spinner }: BuildRegistryIndexParams): Promise<RegistryEntry[]> {
   try {
-    spinner.text = `🧭 Retrieving ${styleText('green', 'ui')} component files...`
+    spinner.text = `Retrieving ${styleText('green', 'ui')} component files...`
 
     const uiItems = await Promise.all(
       registry.uis.map((item, idx) =>
@@ -33,7 +33,7 @@ export async function build_registry_index({ registry, spinner }: BuildRegistryI
       ),
     )
 
-    spinner.text = `🧭 Retrieving ${styleText('green', 'example')} component files...`
+    spinner.text = `Retrieving ${styleText('green', 'example')} component files...`
 
     const exampleItems = await Promise.all(
       registry.examples.map((item) =>
@@ -47,15 +47,15 @@ export async function build_registry_index({ registry, spinner }: BuildRegistryI
       ),
     )
 
-    spinner.text = `🧭 Transforming registry index...`
+    spinner.text = `Transforming registry index...`
 
     const exampleItemsMapped = exampleItems.flatMap((item, idx) => {
       if (!item?.files?.length) {
-        spinner.fail(`🧭 No files found for example item: ${item?.name}`)
+        spinner.fail(`No files found for example item: ${item?.name}`)
         process.exit(1)
       }
 
-      spinner.text = `🧭 Transforming registry index... (${styleText(
+      spinner.text = `Transforming registry index... (${styleText(
         'green',
         idx.toString(),
       )} of ${styleText('green', exampleItems.length.toString())})`
@@ -67,7 +67,7 @@ export async function build_registry_index({ registry, spinner }: BuildRegistryI
       }))
     })
 
-    spinner.text = `🧭 Retrieving ${styleText('green', 'block')} component files...`
+    spinner.text = `Retrieving ${styleText('green', 'block')} component files...`
 
     const blocksItems = await Promise.all(
       registry.blocks.map((item) =>
@@ -81,7 +81,7 @@ export async function build_registry_index({ registry, spinner }: BuildRegistryI
       ),
     )
 
-    spinner.text = `🧭 Writing registry index to file... (${styleText('green', String(blocksItems.length + uiItems.length + exampleItems.length))} items)`
+    spinner.text = `Writing registry index to file... (${styleText('green', String(blocksItems.length + uiItems.length + exampleItems.length))} items)`
 
     const registryJson = JSON.stringify([...uiItems, ...exampleItemsMapped, ...blocksItems], null, 2)
 
@@ -90,7 +90,7 @@ export async function build_registry_index({ registry, spinner }: BuildRegistryI
 
     return [...uiItems, ...exampleItemsMapped, ...blocksItems]
   } catch (error) {
-    spinner.fail(`🧭 Failed to build registry index: ${error instanceof Error ? error.message : String(error)}`)
+    spinner.fail(`Failed to build registry index: ${error instanceof Error ? error.message : String(error)}`)
     process.exit(1)
   }
 }

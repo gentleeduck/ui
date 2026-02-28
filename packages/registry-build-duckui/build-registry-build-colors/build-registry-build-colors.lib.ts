@@ -15,7 +15,7 @@ import {
 // ----------------------------------------------------------------------------
 
 export async function build_registry_themes(spinner: Ora) {
-  spinner.text = '🧭 Initializing registry themes build'
+  spinner.text = 'Initializing registry themes build'
 
   // Helpers
   const ensureDir = async (p: string) => {
@@ -26,7 +26,7 @@ export async function build_registry_themes(spinner: Ora) {
   // --------------------------------------------------------------------------
   // Step 1: Build base colors index
   // --------------------------------------------------------------------------
-  spinner.text = '🎨 Generating base colors index'
+  spinner.text = 'Generating base colors index'
   const colorsTargetPath = path.join(REGISTRY_PATH, 'colors')
   rimraf.sync(colorsTargetPath) // clean start
   await ensureDir(colorsTargetPath)
@@ -61,7 +61,7 @@ export async function build_registry_themes(spinner: Ora) {
   // --------------------------------------------------------------------------
   // Step 2: Generate base color JSON files
   // --------------------------------------------------------------------------
-  spinner.text = '🧩 Creating per-base-color JSON files'
+  spinner.text = 'Creating per-base-color JSON files'
   const baseColorsList = Object.keys(baseColorsOKLCH)
 
   for (const baseColor of baseColorsList) {
@@ -111,7 +111,7 @@ export async function build_registry_themes(spinner: Ora) {
   // --------------------------------------------------------------------------
   // Step 3: Build themes.css
   // --------------------------------------------------------------------------
-  spinner.text = '📄 Generating themes.css'
+  spinner.text = 'Generating themes.css'
   const themeCSS: string[] = []
   for (const theme of baseColors) {
     themeCSS.push(
@@ -126,7 +126,7 @@ export async function build_registry_themes(spinner: Ora) {
   // --------------------------------------------------------------------------
   // Step 4: Build theme JSON files
   // --------------------------------------------------------------------------
-  spinner.text = '📦 Creating individual theme JSON files'
+  spinner.text = 'Creating individual theme JSON files'
   const themesTarget = path.join(REGISTRY_PATH, 'themes')
   rimraf.sync(themesTarget)
   await ensureDir(themesTarget)
@@ -136,9 +136,9 @@ export async function build_registry_themes(spinner: Ora) {
   }
 
   // --------------------------------------------------------------------------
-  // Done 🎉
+  // Done
   // --------------------------------------------------------------------------
-  spinner.text = '✅ Registry themes build complete'
+  spinner.text = 'Registry themes build complete'
 }
 
 // ----------------------------------------------------------------------------
@@ -154,7 +154,7 @@ export async function registry_build_colors_index(
   try {
     if (!registry_colors || typeof registry_colors !== 'object') {
       spinner.fail('Invalid registry_colors: Expected an object.')
-      process.exit(0)
+      process.exit(1)
     }
 
     for (const [color, value] of Object.entries(registry_colors)) {
@@ -168,7 +168,7 @@ export async function registry_build_colors_index(
           colors_data[color] = value.map((item) => {
             if (!item.rgb || !item.hsl) {
               spinner.fail(`Invalid color array item: ${JSON.stringify(item)}`)
-              process.exit(0)
+              process.exit(1)
             }
             return {
               ...item,
@@ -182,7 +182,7 @@ export async function registry_build_colors_index(
         if (typeof value === 'object' && value !== null) {
           if (!value.rgb || !value.hsl) {
             spinner.fail(`Invalid color object: ${JSON.stringify(value)}`)
-            process.exit(0)
+            process.exit(1)
           }
           colors_data[color] = {
             ...value,
@@ -192,20 +192,20 @@ export async function registry_build_colors_index(
           continue
         }
 
-        spinner.text = `🧭 Invalid color value: ${JSON.stringify(value)}`
-        process.exit(0)
+        spinner.text = `Invalid color value: ${JSON.stringify(value)}`
+        process.exit(1)
       } catch (error) {
-        spinner.fail(`🧭 Error processing color "${color}": ${error instanceof Error ? error.message : String(error)}`)
-        process.exit(0)
+        spinner.fail(`Error processing color "${color}": ${error instanceof Error ? error.message : String(error)}`)
+        process.exit(1)
       }
     }
 
     const filePath = path.join(colors_target_path, 'index.json')
 
     await fs.writeFile(filePath, JSON.stringify(colors_data, null, 2), 'utf8')
-    spinner.text = `🧭 Created colors index: ${filePath}`
+    spinner.text = `Created colors index: ${filePath}`
   } catch (error) {
     spinner.fail(`Failed to build registry colors index: ${error instanceof Error ? error.message : String(error)}`)
-    process.exit(0)
+    process.exit(1)
   }
 }

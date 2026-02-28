@@ -34,7 +34,7 @@ export type VariantParams<TVariants extends Record<string, Record<string, string
  *
  * @property {Array<VariantParams<TVariants> & { class?: ClassValue; className?: ClassValue }>} [compoundVariants]
  *   Array of objects that specify additional `class` or `className` entries when
- *   multiple variant keys match simultaneously. Each object’s own keys correspond
+ *   multiple variant keys match simultaneously. Each object's own keys correspond
  *   to variant names (or arrays of variant names) indicating the match conditions.
  *
  * @example
@@ -106,7 +106,7 @@ export type CvaProps<TVariants extends Record<string, Record<string, string | st
 type RemoveArray<T> = T extends any[] ? never : T
 
 /**
- * Extracts only the variant-related props from a CVA function’s signature,
+ * Extracts only the variant-related props from a CVA function's signature,
  * omitting `class` and `className`.
  *
  * @template T - A function type returned by `cva(...)`.
