@@ -1,4 +1,4 @@
-# @gentleduck/libs
+# @gentleduck/hooks
 
 ## 0.1.8
 

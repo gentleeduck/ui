@@ -1,4 +1,4 @@
-// This code comes from https://github.com/radix-ui/primitives/tree/main/packages/react/compose-refs
+// Originally based on radix-ui compose-refs, rewritten for gentleduck/ui.
 
 import * as React from 'react'
 

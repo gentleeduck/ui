@@ -12,13 +12,13 @@
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'"
   },
-  "description": "Browser extensions by duck-ui",
+  "description": "Browser extensions by gentleduck/ui",
   "host_permissions": ["http://*/*", "https://*/*"],
   "icons": {
     "128": "./dark.png"
   },
   "manifest_version": 3,
-  "name": "duck-ui Extensions",
+  "name": "gentleduck/ui Extensions",
   "permissions": ["tabs", "scripting", "storage"],
   "version": "1.0.0"
 }

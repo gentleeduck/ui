@@ -5,10 +5,10 @@ export default function AvatarDemo() {
     <div className="flex flex-row flex-wrap items-center gap-12">
       <Avatar>
         <AvatarImage
-          alt="DU"
+          alt="GD"
           src="https://github.com/gentleeduck/duck-ui/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true"
         />
-        <AvatarFallback>DU</AvatarFallback>
+        <AvatarFallback>GD</AvatarFallback>
       </Avatar>
       <Avatar className="rounded-lg">
         <AvatarImage alt="WD" src="https://avatars.githubusercontent.com/u/108896341?v=4" />
@@ -17,10 +17,10 @@ export default function AvatarDemo() {
       <div className="flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
         <Avatar>
           <AvatarImage
-            alt="DU"
+            alt="GD"
             src="https://github.com/gentleeduck/duck-ui/blob/master/apps/duck-ui-docs/public/static/LOGO.png?raw=true"
           />
-          <AvatarFallback>DU</AvatarFallback>
+          <AvatarFallback>GD</AvatarFallback>
         </Avatar>
         <Avatar>
           <AvatarImage alt="WD" src="https://avatars.githubusercontent.com/u/108896341?v=4" />

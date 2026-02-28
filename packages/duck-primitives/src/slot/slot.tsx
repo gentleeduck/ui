@@ -72,7 +72,7 @@ interface SlotCloneProps {
   return SlotClone
 }
 
-const SLOTTABLE_IDENTIFIER = Symbol('radix.slottable')
+const SLOTTABLE_IDENTIFIER = Symbol('gentleduck.slottable')
 
 interface SlottableProps {
   children: React.ReactNode
