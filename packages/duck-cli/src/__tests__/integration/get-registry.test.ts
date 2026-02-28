@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createMockFetch } from '../helpers/mock-fetch'
 import { createMockRegistryEntry } from '../helpers/fixtures'
+import { createMockFetch } from '../helpers/mock-fetch'
 
 describe('get_registry_index', () => {
   beforeEach(() => {
@@ -23,10 +23,7 @@ describe('get_registry_index', () => {
   })
 
   it('returns null on network error', async () => {
-    vi.stubGlobal(
-      'fetch',
-      vi.fn().mockRejectedValue(new Error('Network error')),
-    )
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('Network error')))
     const { get_registry_index } = await import('~/utils/get-registry')
     const result = await get_registry_index()
     expect(result).toBeNull()

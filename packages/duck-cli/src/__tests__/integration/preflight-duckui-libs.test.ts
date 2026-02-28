@@ -16,9 +16,7 @@ describe('init_duckui_config', () => {
   })
 
   it('writes duck-ui.config.json to the specified directory', async () => {
-    const { init_duckui_config } = await import(
-      '~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs'
-    )
+    const { init_duckui_config } = await import('~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs')
     const spinner = createMockSpinner()
 
     await init_duckui_config(tmpDir, spinner as any, {
@@ -42,9 +40,7 @@ describe('init_duckui_config', () => {
   })
 
   it('sets rsc=false for non-NEXT_JS projects', async () => {
-    const { init_duckui_config } = await import(
-      '~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs'
-    )
+    const { init_duckui_config } = await import('~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs')
     const spinner = createMockSpinner()
 
     await init_duckui_config(tmpDir, spinner as any, {
@@ -66,9 +62,7 @@ describe('init_duckui_config', () => {
 
 describe('generateThemeCSS with real theme structure', () => {
   it('produces correct CSS from a full theme object', async () => {
-    const { generateThemeCSS } = await import(
-      '~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs'
-    )
+    const { generateThemeCSS } = await import('~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs')
 
     const theme = {
       name: 'zinc',
