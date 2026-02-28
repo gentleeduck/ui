@@ -75,7 +75,7 @@ export const duckui_config_prompts: PromptObject[] = [
     active: 'yes',
     inactive: 'no',
     initial: true,
-    message: `You want to se ${highlighter.info('CSS')} variables?`,
+    message: `Do you want to use ${highlighter.info('CSS')} variables?`,
     name: 'css_variables',
     type: 'confirm',
   },

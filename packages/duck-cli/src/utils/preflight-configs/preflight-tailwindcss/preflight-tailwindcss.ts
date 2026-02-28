@@ -2,9 +2,9 @@ import type { Ora } from 'ora'
 import prompts from 'prompts'
 import type { InitOptions } from '~/commands/init'
 import { highlighter } from '../../text-styling'
-import { tailwindcss_prompts } from './pref-light-tailwindcss.constants'
-import { pref_light_tailwindcss_options_schema } from './pref-light-tailwindcss.dto'
-import { checkTailwindCssInstalled, install_tailwindcss } from './pref-light-tailwindcss.lib'
+import { tailwindcss_prompts } from './preflight-tailwindcss.constants'
+import { preflight_tailwindcss_options_schema } from './preflight-tailwindcss.dto'
+import { checkTailwindCssInstalled, install_tailwindcss } from './preflight-tailwindcss.lib'
 
 export async function preflight_tailwindcss(_options: InitOptions, spinner: Ora): Promise<void> {
   try {
@@ -19,7 +19,7 @@ export async function preflight_tailwindcss(_options: InitOptions, spinner: Ora)
       spinner.stop()
       const options = await prompts(tailwindcss_prompts)
       spinner.start()
-      const { tailwind } = pref_light_tailwindcss_options_schema.parse(options)
+      const { tailwind } = preflight_tailwindcss_options_schema.parse(options)
 
       if (!tailwind) {
         spinner.text = `${highlighter.info('TailwindCss')} is not installed...`
@@ -34,6 +34,6 @@ export async function preflight_tailwindcss(_options: InitOptions, spinner: Ora)
         error as string,
       )}`,
     )
-    process.exit(0)
+    process.exit(1)
   }
 }

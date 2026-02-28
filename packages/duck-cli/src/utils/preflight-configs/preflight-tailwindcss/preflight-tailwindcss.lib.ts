@@ -14,7 +14,7 @@ import {
   tailwindcss_install_prompts,
   tailwindcss_poiler,
   tailwindcss_vite,
-} from './pref-light-tailwindcss.constants'
+} from './preflight-tailwindcss.constants'
 
 export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
   try {
@@ -48,7 +48,7 @@ export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
     }
 
     spinner.fail(`${highlighter.error('TailwindCss is not installed...')}${highlighter.error(error as string)}`)
-    process.exit(0)
+    process.exit(1)
   }
 }
 
@@ -72,7 +72,6 @@ export async function install_tailwindcss(cwd: string, spinner: Ora) {
     [packageManager === 'npm' ? 'install' : 'add', ...tailwindcss_dependencies(project_type, css, cwd)],
     {
       cwd,
-      shell: true,
     },
   )
 

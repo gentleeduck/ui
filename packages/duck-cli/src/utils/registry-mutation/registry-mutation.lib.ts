@@ -86,22 +86,19 @@ export async function process_components(
       registry_dependencies: [],
     } as DependenciesType
 
-    await Promise.all(
-      components.map(
-        async (component, idx) =>
-          await install_component(
-            duck_config,
-            dependencies,
-            idx,
-            component,
-            false,
-            components,
-            write_path,
-            spinner,
-            options.force,
-          ),
-      ),
-    )
+    for (let idx = 0; idx < components.length; idx++) {
+      await install_component(
+        duck_config,
+        dependencies,
+        idx,
+        components[idx],
+        false,
+        components,
+        write_path,
+        spinner,
+        options.force,
+      )
+    }
 
     await install_registry_dependencies(dependencies, spinner, write_path, options.force, duck_config)
     await process_component_dependencies(dependencies, spinner)
@@ -293,7 +290,6 @@ export async function process_component_dependencies(
       [packageManager !== 'npm' ? 'add' : 'install', 'lucide-react', ...allDependencies],
       {
         cwd: process.cwd(),
-        shell: true,
         stdio: 'ignore',
       },
     )
