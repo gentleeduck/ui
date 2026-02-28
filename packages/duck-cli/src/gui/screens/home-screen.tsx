@@ -1,10 +1,10 @@
-import React from 'react'
-import { Box, Text, useApp, useInput } from 'ink'
 import { Select } from '@inkjs/ui'
-import { Banner } from '../components/banner'
-import { StatusLine } from '../components/status-line'
+import { Box, Text, useApp, useInput } from 'ink'
+import React from 'react'
 import { MENU_ITEMS, THEME } from '../app.constants'
 import type { Screen } from '../app.types'
+import { Banner } from '../components/banner'
+import { StatusLine } from '../components/status-line'
 
 export function HomeScreen({ onNavigate }: { onNavigate: (screen: Screen) => void }) {
   const { exit } = useApp()

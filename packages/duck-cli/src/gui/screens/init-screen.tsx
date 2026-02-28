@@ -1,27 +1,27 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Box, Text, useInput } from 'ink'
 import { ConfirmInput, MultiSelect, Select, Spinner, StatusMessage, TextInput } from '@inkjs/ui'
+import { Box, Text, useInput } from 'ink'
+import React, { useContext, useEffect, useState } from 'react'
+import { BASE_COLORS, PROJECT_TYPE } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.constants'
+import type { DuckuiPrompts } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.dto'
+import { VimContext } from '../app'
+import { THEME } from '../app.constants'
 import { Banner } from '../components/banner'
 import { StatusLine } from '../components/status-line'
 import { StepIndicator } from '../components/step-indicator'
-import { THEME } from '../app.constants'
-import { VimContext } from '../app'
 import { useAsyncTask } from '../hooks/use-async-task'
 import { useRegistry } from '../hooks/use-registry'
-import { BASE_COLORS, PROJECT_TYPE } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.constants'
+import { install_components, install_npm_deps, resolve_install_path } from '../services/install.service'
 import {
-  check_typescript_installed,
-  run_install_typescript,
-  check_tailwind_installed,
-  run_install_tailwindcss,
   check_duckui_config_exists,
-  run_init_duckui_config,
+  check_tailwind_installed,
+  check_typescript_installed,
   read_duckui_config,
   read_ts_config,
+  run_init_duckui_config,
+  run_install_tailwindcss,
+  run_install_typescript,
 } from '../services/preflight.service'
 import { fetch_components } from '../services/registry.service'
-import { install_components, install_npm_deps, resolve_install_path } from '../services/install.service'
-import type { DuckuiPrompts } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.dto'
 
 type InitStep =
   | 'check-ts'
@@ -200,7 +200,13 @@ export function InitScreen({ onBack }: { onBack: () => void }) {
       if (!pathResult.ok) return pathResult
 
       onProgress('Installing components...')
-      const installResult = await install_components(fetchResult.data, configResult.data, pathResult.data, true, onProgress)
+      const installResult = await install_components(
+        fetchResult.data,
+        configResult.data,
+        pathResult.data,
+        true,
+        onProgress,
+      )
       if (!installResult.ok) return installResult
 
       onProgress('Installing npm dependencies...')
@@ -224,7 +230,9 @@ export function InitScreen({ onBack }: { onBack: () => void }) {
   return (
     <Box flexDirection="column">
       <Banner compact />
-      {step !== 'done' && step !== 'error' ? <StepIndicator current={phase} total={TOTAL_PHASES} label={phaseLabel} /> : null}
+      {step !== 'done' && step !== 'error' ? (
+        <StepIndicator current={phase} total={TOTAL_PHASES} label={phaseLabel} />
+      ) : null}
 
       {/* Status history */}
       {recentStatus.length > 0 ? (
@@ -442,7 +450,9 @@ export function InitScreen({ onBack }: { onBack: () => void }) {
         ) : null}
 
         {/* Done / Error */}
-        {step === 'done' ? <StatusMessage variant="success">Done. Project initialized successfully.</StatusMessage> : null}
+        {step === 'done' ? (
+          <StatusMessage variant="success">Done. Project initialized successfully.</StatusMessage>
+        ) : null}
 
         {step === 'error' ? <StatusMessage variant="error">Error: {errorMessage}</StatusMessage> : null}
       </Box>

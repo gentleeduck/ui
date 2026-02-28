@@ -5,20 +5,20 @@ import fs from 'fs-extra'
 import { get_package_manager } from '~/utils/get-package-manager'
 import { IGNORED_DIRECTORIES } from '~/utils/get-project-info'
 import { get_registry_base_color } from '~/utils/get-registry'
-import {
-  generateThemeCSS,
-  default_duckui_config,
-} from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs'
 import type { DuckuiPrompts } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.dto'
 import {
-  tailwindcss_boilerplate,
+  default_duckui_config,
+  generateThemeCSS,
+} from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs'
+import {
   post_css_nextjs,
+  tailwindcss_boilerplate,
   tailwindcss_vite,
 } from '~/utils/preflight-configs/preflight-tailwindcss/preflight-tailwindcss.constants'
 import { tailwindcss_dependencies } from '~/utils/preflight-configs/preflight-tailwindcss/preflight-tailwindcss.lib'
 import {
-  ts_config_nextjs,
   ts_config_generic,
+  ts_config_nextjs,
   typescript_dependencies,
 } from '~/utils/preflight-configs/preflight-typescript/preflight-typescript.constants'
 import type { ProgressCallback, ServiceResult } from '../app.types'
