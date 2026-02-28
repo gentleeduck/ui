@@ -2,8 +2,8 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createMockFetch } from '../helpers/mock-fetch'
 import { createMockRegistryEntry } from '../helpers/fixtures'
+import { createMockFetch } from '../helpers/mock-fetch'
 
 // Mock ora to return a silent spinner
 vi.mock('ora', () => ({
@@ -42,10 +42,7 @@ describe('add_command_action', () => {
     exitCodes = []
 
     // Create fixture files in tmpDir
-    fs.writeFileSync(
-      path.join(tmpDir, 'package.json'),
-      JSON.stringify({ name: 'test-project', version: '1.0.0' }),
-    )
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'test-project', version: '1.0.0' }))
     fs.writeFileSync(
       path.join(tmpDir, 'tsconfig.json'),
       JSON.stringify({
@@ -90,9 +87,9 @@ describe('add_command_action', () => {
   it('adds a component with --yes --force flags', async () => {
     const { add_command_action } = await import('~/commands/add/add.libs')
 
-    await expect(
-      add_command_action(['button'], { cwd: tmpDir, yes: true, force: true }),
-    ).rejects.toThrow(/process\.exit/)
+    await expect(add_command_action(['button'], { cwd: tmpDir, yes: true, force: true })).rejects.toThrow(
+      /process\.exit/,
+    )
 
     // First exit call should be 0 (success)
     expect(exitCodes[0]).toBe(0)
@@ -105,9 +102,9 @@ describe('add_command_action', () => {
   it('handles nonexistent component gracefully', async () => {
     const { add_command_action } = await import('~/commands/add/add.libs')
 
-    await expect(
-      add_command_action(['nonexistent'], { cwd: tmpDir, yes: true, force: true }),
-    ).rejects.toThrow(/process\.exit/)
+    await expect(add_command_action(['nonexistent'], { cwd: tmpDir, yes: true, force: true })).rejects.toThrow(
+      /process\.exit/,
+    )
 
     // resolve_components calls process.exit(0) when no components found
     expect(exitCodes[0]).toBe(0)
@@ -138,9 +135,7 @@ describe('add_command_action', () => {
 
     const { add_command_action } = await import('~/commands/add/add.libs')
 
-    await expect(
-      add_command_action(['card'], { cwd: tmpDir, yes: true, force: true }),
-    ).rejects.toThrow(/process\.exit/)
+    await expect(add_command_action(['card'], { cwd: tmpDir, yes: true, force: true })).rejects.toThrow(/process\.exit/)
 
     // First exit should be 0 (success)
     expect(exitCodes[0]).toBe(0)
@@ -179,9 +174,9 @@ describe('add_command_action', () => {
     const { add_command_action } = await import('~/commands/add/add.libs')
     const { execa } = await import('execa')
 
-    await expect(
-      add_command_action(['button'], { cwd: tmpDir, yes: true, force: true }),
-    ).rejects.toThrow(/process\.exit/)
+    await expect(add_command_action(['button'], { cwd: tmpDir, yes: true, force: true })).rejects.toThrow(
+      /process\.exit/,
+    )
 
     // First exit should be 0 (success)
     expect(exitCodes[0]).toBe(0)

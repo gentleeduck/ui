@@ -2,8 +2,8 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createMockFetch } from '../helpers/mock-fetch'
 import { createMockRegistryEntry } from '../helpers/fixtures'
+import { createMockFetch } from '../helpers/mock-fetch'
 
 // Mock ora to return a silent spinner
 vi.mock('ora', () => ({
@@ -47,10 +47,7 @@ describe('init_command_action', () => {
     exitCodes = []
 
     // Create fixture files in tmpDir
-    fs.writeFileSync(
-      path.join(tmpDir, 'package.json'),
-      JSON.stringify({ name: 'test-project', version: '1.0.0' }),
-    )
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'test-project', version: '1.0.0' }))
     fs.writeFileSync(
       path.join(tmpDir, 'tsconfig.json'),
       JSON.stringify({
@@ -96,9 +93,7 @@ describe('init_command_action', () => {
 
     const { init_command_action } = await import('~/commands/init/init.libs')
 
-    await expect(
-      init_command_action([], { yes: false, cwd: tmpDir }),
-    ).rejects.toThrow(/process\.exit/)
+    await expect(init_command_action([], { yes: false, cwd: tmpDir })).rejects.toThrow(/process\.exit/)
 
     // First exit call should be 0 (user declined)
     expect(exitCodes[0]).toBe(0)
@@ -130,9 +125,7 @@ describe('init_command_action', () => {
 
     const { init_command_action } = await import('~/commands/init/init.libs')
 
-    await expect(
-      init_command_action(['button'], { yes: true, cwd: tmpDir }),
-    ).rejects.toThrow(/process\.exit/)
+    await expect(init_command_action(['button'], { yes: true, cwd: tmpDir })).rejects.toThrow(/process\.exit/)
 
     // First exit call should be 0 (success)
     expect(exitCodes[0]).toBe(0)

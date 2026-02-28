@@ -2,9 +2,12 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { process_component_files, process_component_dependencies } from '~/utils/registry-mutation/registry-mutation.lib'
-import { createMockFetch } from '../helpers/mock-fetch'
+import {
+  process_component_dependencies,
+  process_component_files,
+} from '~/utils/registry-mutation/registry-mutation.lib'
 import { createMockRegistryEntry } from '../helpers/fixtures'
+import { createMockFetch } from '../helpers/mock-fetch'
 import { createMockSpinner } from '../helpers/mock-spinner'
 
 // Mock execa for dependency installation tests

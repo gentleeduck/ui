@@ -128,7 +128,20 @@ describe('duck_ui_schema', () => {
   })
 
   it('accepts all valid BASE_COLORS values', () => {
-    const colors = ['zinc', 'slate', 'stone', 'gray', 'neutral', 'red', 'rose', 'orange', 'green', 'blue', 'yellow', 'violet']
+    const colors = [
+      'zinc',
+      'slate',
+      'stone',
+      'gray',
+      'neutral',
+      'red',
+      'rose',
+      'orange',
+      'green',
+      'blue',
+      'yellow',
+      'violet',
+    ]
     for (const color of colors) {
       const config = createMockDuckUIConfig({
         tailwind: { baseColor: color, css: './src/styles.css', cssVariables: true, prefix: '' },

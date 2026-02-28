@@ -45,9 +45,9 @@ describe('resolve_components', () => {
     const { resolve_components } = await import('~/utils/resolve-components')
     const spinner = createMockSpinner()
 
-    await expect(
-      resolve_components(['nonexistent1', 'nonexistent2'], spinner as any),
-    ).rejects.toThrow('process.exit(0)')
+    await expect(resolve_components(['nonexistent1', 'nonexistent2'], spinner as any)).rejects.toThrow(
+      'process.exit(0)',
+    )
     expect(spinner.fail).toHaveBeenCalledWith('No components found to install')
   })
 

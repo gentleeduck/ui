@@ -55,9 +55,7 @@ describe('get_duckui_config', () => {
 
   it('calls process.exit when config file is missing', async () => {
     const spinner = createMockSpinner()
-    await expect(
-      get_duckui_config('/tmp/nonexistent-dir-for-test', spinner as any),
-    ).rejects.toThrow(/process\.exit/)
+    await expect(get_duckui_config('/tmp/nonexistent-dir-for-test', spinner as any)).rejects.toThrow(/process\.exit/)
     expect(spinner.fail).toHaveBeenCalled()
   })
 
@@ -98,9 +96,7 @@ describe('get_ts_config', () => {
 
   it('calls process.exit when tsconfig is missing', async () => {
     const spinner = createMockSpinner()
-    await expect(
-      get_ts_config('/tmp/nonexistent-dir-for-test', spinner as any),
-    ).rejects.toThrow(/process\.exit/)
+    await expect(get_ts_config('/tmp/nonexistent-dir-for-test', spinner as any)).rejects.toThrow(/process\.exit/)
     expect(spinner.fail).toHaveBeenCalled()
   })
 })
