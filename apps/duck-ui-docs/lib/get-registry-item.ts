@@ -15,7 +15,7 @@ function getSourceDir(fileType: string): string {
 }
 
 export function getRegistryComponent(name: string) {
-  // @ts-ignore - ignore we add this at runtime
+  // @ts-expect-error - ignore we add this at runtime
   return memoizedIndex[name]?.component
 }
 

@@ -15,7 +15,7 @@
     "inlineSources": false,
     "jsx": "preserve",
     "lib": ["ES2022", "dom", "dom.iterable"],
-    "module": "Preserve",
+    "module": "preserve",
     "moduleDetection": "force",
     "moduleResolution": "bundler",
     "noEmit": true,

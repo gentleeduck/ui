@@ -1,4 +1,4 @@
-// @ts-ignore
+// @ts-expect-error
 import Login from '@gentleduck/registry-blocks-duckui/authentications/signup-1/signup-1'
 import { CardsActivityGoal } from './activity-goal'
 import { CardsCalendar } from './calendar'
