@@ -1,6 +1,6 @@
 import type { PromptObject } from 'prompts'
 import { highlighter } from '../../text-styling'
-import { PROJECT_TYPE } from '../preflight-duckui'
+import { PROJECT_TYPE } from '../preflight-duckui/preflight-duckui.constants'
 
 export const tailwindcss_prompts: PromptObject<string>[] = [
   {

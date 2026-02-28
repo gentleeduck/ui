@@ -1,0 +1,145 @@
+import fs from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { createMockFetch } from '../helpers/mock-fetch'
+import { createMockRegistryEntry } from '../helpers/fixtures'
+
+// Mock ora to return a silent spinner
+vi.mock('ora', () => ({
+  default: () => ({
+    fail: vi.fn().mockReturnThis(),
+    info: vi.fn().mockReturnThis(),
+    start: vi.fn().mockReturnThis(),
+    stop: vi.fn().mockReturnThis(),
+    succeed: vi.fn().mockReturnThis(),
+    warn: vi.fn().mockReturnThis(),
+    text: '',
+  }),
+}))
+
+// Mock execa to prevent actual package installations
+vi.mock('execa', () => ({
+  execa: vi.fn().mockResolvedValue({ failed: false, stdout: '', stderr: '' }),
+}))
+
+// Mock get_package_manager
+vi.mock('~/utils/get-package-manager', () => ({
+  get_package_manager: vi.fn().mockResolvedValue('npm'),
+}))
+
+// Mock preflight_configs to skip the full preflight checks
+vi.mock('~/utils/preflight-configs', () => ({
+  preflight_configs: vi.fn().mockResolvedValue(undefined),
+}))
+
+// Mock prompts
+const mockPrompts = vi.fn()
+vi.mock('prompts', () => ({ default: mockPrompts }))
+
+describe('init_command_action', () => {
+  let tmpDir: string
+  const originalCwd = process.cwd
+  let exitCodes: number[]
+
+  beforeEach(() => {
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'duck-cli-e2e-init-'))
+    exitCodes = []
+
+    // Create fixture files in tmpDir
+    fs.writeFileSync(
+      path.join(tmpDir, 'package.json'),
+      JSON.stringify({ name: 'test-project', version: '1.0.0' }),
+    )
+    fs.writeFileSync(
+      path.join(tmpDir, 'tsconfig.json'),
+      JSON.stringify({
+        compilerOptions: {
+          baseUrl: '.',
+          paths: { '~/*': ['./src/*'] },
+        },
+      }),
+    )
+    fs.writeFileSync(
+      path.join(tmpDir, 'duck-ui.config.json'),
+      JSON.stringify({
+        schema: 'https://ui.gentleduck.org/schema.json',
+        rsc: false,
+        monorepo: false,
+        tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },
+        aliases: { ui: '~/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
+      }),
+    )
+
+    // Create src directory
+    fs.mkdirSync(path.join(tmpDir, 'src'), { recursive: true })
+
+    process.cwd = () => tmpDir
+    vi.stubGlobal('fetch', createMockFetch())
+    // Track exit codes - first call records code, subsequent calls are from error handling
+    vi.spyOn(process, 'exit').mockImplementation(((code?: number) => {
+      exitCodes.push(code ?? 0)
+      throw new Error(`process.exit(${code})`)
+    }) as never)
+    mockPrompts.mockReset()
+  })
+
+  afterEach(() => {
+    process.cwd = originalCwd
+    fs.rmSync(tmpDir, { recursive: true, force: true })
+    vi.unstubAllGlobals()
+    vi.restoreAllMocks()
+  })
+
+  it('exits with 0 when user declines component installation', async () => {
+    mockPrompts.mockResolvedValue({ install: false })
+
+    const { init_command_action } = await import('~/commands/init/init.libs')
+
+    await expect(
+      init_command_action([], { yes: false, cwd: tmpDir }),
+    ).rejects.toThrow(/process\.exit/)
+
+    // First exit call should be 0 (user declined)
+    expect(exitCodes[0]).toBe(0)
+  })
+
+  it('fetches and installs a named component with --yes flag', async () => {
+    mockPrompts.mockResolvedValue({ yes: true })
+
+    vi.stubGlobal(
+      'fetch',
+      createMockFetch({
+        '/r/components/button.json': createMockRegistryEntry({
+          name: 'button',
+          root_folder: 'button',
+          files: [
+            {
+              path: 'button/button.tsx',
+              target: 'button/button.tsx',
+              type: 'registry:ui',
+              content: 'export function Button() { return null }',
+            },
+          ],
+          dependencies: [],
+          devDependencies: [],
+          registryDependencies: [],
+        }),
+      }),
+    )
+
+    const { init_command_action } = await import('~/commands/init/init.libs')
+
+    await expect(
+      init_command_action(['button'], { yes: true, cwd: tmpDir }),
+    ).rejects.toThrow(/process\.exit/)
+
+    // First exit call should be 0 (success)
+    expect(exitCodes[0]).toBe(0)
+
+    // Verify the component file was written
+    const buttonFile = path.join(tmpDir, 'src', 'ui', 'button', 'button.tsx')
+    expect(fs.existsSync(buttonFile)).toBe(true)
+    expect(fs.readFileSync(buttonFile, 'utf8')).toBe('export function Button() { return null }')
+  })
+})
