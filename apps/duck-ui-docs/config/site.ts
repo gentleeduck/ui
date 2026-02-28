@@ -4,18 +4,22 @@ export const siteConfig = {
   author: {
     name: 'Ahmed Ayob',
     url: 'https://x.com/wild_ducka',
-    email: 'support@gentleduck.org',
+    email: 'ahmedayobbusiness@gmail.com',
   },
   description:
-    'A modern, open-source React component library built on Tailwind CSS. Accessible, customizable, and type-safe primitives for building beautiful interfaces.',
+    'Headless primitives, styled components, a CLI, and pre-built blocks. Type-safe, accessible, and built on Tailwind CSS.',
   links: {
+    community: 'community@gentleduck.org',
+    discord: process.env.NEXT_PUBLIC_DISCORD_URL ?? 'https://discord.gg/r93Qvam8',
     email: 'support@gentleduck.org',
     github: 'https://github.com/gentleeduck/duck-ui',
+    security: 'security@gentleduck.org',
+    sponsor: process.env.NEXT_PUBLIC_SPONSOR_URL ?? 'https://opencollective.com/gentelduck',
     twitter: 'https://x.com/wild_ducka',
   },
   name: 'gentleduck/ui',
   ogImage: absoluteUrl('/og/root.png'),
-  title: 'turn tiny primitives into infinite design',
+  title: 'the react ui ecosystem that ships with everything',
   url: absoluteUrl('/'),
 }
 

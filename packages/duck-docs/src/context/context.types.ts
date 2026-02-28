@@ -17,8 +17,12 @@ export type DocsSiteConfig = {
   description?: string
   githubRepo?: string
   links?: {
+    community?: string
+    discord?: string
     email?: string
     github?: string
+    security?: string
+    sponsor?: string
     twitter?: string
   }
   metaThemeColors?: {

@@ -55,7 +55,7 @@ export function FooterButtons() {
     <>
       <Link
         className={buttonVariants({ size: 'sm', variant: 'outline' })}
-        href="https://github.com/sponsors/wildduck2"
+        href={siteConfig.links?.sponsor ?? 'https://opencollective.com/gentelduck'}
         rel="noreferrer"
         target="_blank">
         <HeartIcon aria-hidden="true" className="mr-2 h-4 w-4 fill-current text-red-600" />
