@@ -1,0 +1,11 @@
+import { z } from 'zod'
+
+export const update_options_schema = z.object({
+  all: z.boolean().default(false),
+  cwd: z.string().default(process.cwd()),
+  yes: z.boolean().default(false),
+})
+
+export const update_arguments_schema = z.array(z.string()).default([])
+
+export type UpdateOptions = z.infer<typeof update_options_schema>
