@@ -1,13 +1,16 @@
 import path from 'node:path'
 import prompts from 'prompts'
-import { resolve_write_type_path, scan_installed_components } from '~/services/component.service'
+import { launch_merge_gui_and_wait } from '~/gui'
+import { diff_component, resolve_write_type_path, scan_installed_components } from '~/services/component.service'
 import { install_components, install_npm_deps, resolve_install_path } from '~/services/install.service'
+import { build_component_merge_state, write_merge_results } from '~/services/merge.service'
 import { print_banner } from '~/utils/banner'
 import { get_duckui_config, get_ts_config } from '~/utils/get-project-info'
 import { get_registry_item } from '~/utils/get-registry'
 import { spinner as Spinner } from '~/utils/spinner'
 import { highlighter } from '~/utils/text-styling'
 import { is_verbose } from '~/utils/verbose'
+import { resolve_project_cwd, validate_workspace_target } from '~/utils/workspace'
 import { type UpdateOptions, update_arguments_schema, update_options_schema } from './update.dto'
 
 export async function update_command_action(args: string[], opt: UpdateOptions) {
@@ -20,7 +23,14 @@ export async function update_command_action(args: string[], opt: UpdateOptions) 
     const cwd = path.resolve(options.cwd)
 
     const duckui_config = await get_duckui_config(cwd, spinner)
-    const ts_config = await get_ts_config(cwd, spinner)
+    const project_cwd = resolve_project_cwd(cwd, duckui_config, options.workspace)
+    const workspace_error = validate_workspace_target(project_cwd, true)
+    if (workspace_error) {
+      spinner.fail(workspace_error)
+      process.exit(1)
+    }
+    spinner.info(`Using workspace: ${project_cwd}`)
+    const ts_config = await get_ts_config(project_cwd, spinner)
 
     const path_result = resolve_install_path(duckui_config, ts_config)
     if (!path_result.ok) {
@@ -28,7 +38,7 @@ export async function update_command_action(args: string[], opt: UpdateOptions) 
       process.exit(1)
     }
 
-    const write_type_path = resolve_write_type_path(duckui_config, path.resolve(cwd, path_result.data))
+    const write_type_path = resolve_write_type_path(duckui_config, path.resolve(project_cwd, path_result.data))
 
     spinner.text = 'Scanning installed components...'
     const scan_result = await scan_installed_components(write_type_path)
@@ -110,27 +120,95 @@ export async function update_command_action(args: string[], opt: UpdateOptions) 
       process.exit(1)
     }
 
-    // Re-install with force (update = forced re-install)
-    const install_result = await install_components(
-      registry_entries,
-      duckui_config,
-      path.resolve(cwd, path_result.data),
-      true,
-      (msg) => {
-        spinner.text = msg
-      },
-    )
+    // For each component, check for local modifications and offer merge
+    const merge_handled = new Set<string>()
 
-    if (!install_result.ok) {
-      spinner.fail(install_result.error)
-      process.exit(1)
+    if (!options.yes) {
+      for (const entry of registry_entries) {
+        const installed_comp = selected.find((c) => c.name === entry.name)
+        if (!installed_comp) continue
+
+        spinner.text = `Checking ${entry.name} for local changes...`
+        const diff_result = await diff_component(installed_comp, entry)
+
+        if (diff_result.ok && !diff_result.data.is_identical) {
+          spinner.stop()
+          const { action } = await prompts({
+            message: `${highlighter.info(entry.name)} has local modifications. What do you want to do?`,
+            name: 'action',
+            type: 'select',
+            choices: [
+              { title: 'Overwrite (replace with registry version)', value: 'overwrite' },
+              { title: 'Skip (keep local version)', value: 'skip' },
+              { title: 'Merge (resolve changes interactively)', value: 'merge' },
+            ],
+          })
+          spinner.start()
+
+          if (action === 'skip' || !action) {
+            merge_handled.add(entry.name)
+            spinner.warn(`Skipped ${highlighter.info(entry.name)}.`)
+            continue
+          }
+
+          if (action === 'merge') {
+            merge_handled.add(entry.name)
+            const merge_state = build_component_merge_state(diff_result.data, write_type_path, entry.root_folder)
+            spinner.stop()
+            const merge_results = await launch_merge_gui_and_wait(merge_state)
+            spinner.start()
+
+            if (merge_results) {
+              spinner.succeed(`Merge complete for ${highlighter.info(entry.name)}.`)
+            } else {
+              spinner.warn(`Merge aborted for ${highlighter.info(entry.name)}.`)
+            }
+            continue
+          }
+          // action === 'overwrite' -- will be handled by install_components below
+        }
+      }
+    }
+
+    // Install remaining components that were not handled by merge (force overwrite)
+    const remaining_entries = registry_entries.filter((e) => !merge_handled.has(e.name))
+
+    let all_deps: string[] = []
+    let all_dev_deps: string[] = []
+
+    if (remaining_entries.length > 0) {
+      const install_result = await install_components(
+        remaining_entries,
+        duckui_config,
+        path.resolve(project_cwd, path_result.data),
+        true,
+        (msg) => {
+          spinner.text = msg
+        },
+      )
+
+      if (!install_result.ok) {
+        spinner.fail(install_result.error)
+        process.exit(1)
+      }
+
+      all_deps = install_result.data.dependencies
+      all_dev_deps = install_result.data.devDependencies
+    }
+
+    // Also collect deps from merge-handled components
+    for (const entry of registry_entries) {
+      if (merge_handled.has(entry.name)) {
+        all_deps.push(...(entry.dependencies ?? []))
+        all_dev_deps.push(...(entry.devDependencies ?? []))
+      }
     }
 
     // Install any new/updated npm dependencies
     const deps_result = await install_npm_deps(
-      install_result.data.dependencies,
-      install_result.data.devDependencies,
-      cwd,
+      [...new Set(all_deps)],
+      [...new Set(all_dev_deps)],
+      project_cwd,
       (msg) => {
         spinner.text = msg
       },

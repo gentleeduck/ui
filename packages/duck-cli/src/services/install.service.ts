@@ -2,12 +2,13 @@ import path from 'node:path'
 import { execa } from 'execa'
 import fs from 'fs-extra'
 import { get_package_manager } from '~/utils/get-package-manager'
+import type { TsConfig } from '~/utils/get-project-info'
 import { get_registry_item, type Registry } from '~/utils/get-registry'
 import type { RegistryEntry } from '~/utils/get-registry/get-registry.dto'
 import type { DuckUI } from '~/utils/preflight-configs/preflight-duckui'
-import type { ProgressCallback, ServiceResult } from '../app.types'
+import type { ProgressCallback, ServiceResult } from './service.types'
 
-export function resolve_install_path(duck_config: DuckUI, tsConfig: any): ServiceResult<string> {
+export function resolve_install_path(duck_config: DuckUI, tsConfig: TsConfig): ServiceResult<string> {
   const alias = duck_config.aliases.ui.split('/').shift()
   if (!tsConfig?.compilerOptions?.paths || !alias) {
     return { ok: false, error: 'No TypeScript path aliases found in tsconfig.json.' }
@@ -24,6 +25,8 @@ export function resolve_install_path(duck_config: DuckUI, tsConfig: any): Servic
   return { ok: true, data: write_path }
 }
 
+export type ConflictAction = 'overwrite' | 'skip' | 'merge'
+
 export async function install_components(
   components: Registry,
   duck_config: DuckUI,
@@ -31,6 +34,7 @@ export async function install_components(
   force: boolean,
   onProgress?: ProgressCallback,
   onOverwriteCheck?: (name: string) => Promise<boolean>,
+  onConflictCheck?: (name: string) => Promise<ConflictAction>,
 ): Promise<ServiceResult<{ dependencies: string[]; devDependencies: string[] }>> {
   try {
     const allDeps: string[] = []
@@ -48,7 +52,14 @@ export async function install_components(
       allDevDeps.push(...(component.devDependencies ?? []))
       registryDeps.push(...(component.registryDependencies ?? []))
 
-      await write_component(component, write_type_path, `${write_path}/${duckui_write_path}`, force, onOverwriteCheck)
+      await write_component(
+        component,
+        write_type_path,
+        `${write_path}/${duckui_write_path}`,
+        force,
+        onOverwriteCheck,
+        onConflictCheck,
+      )
     }
 
     // Handle registry dependencies recursively
@@ -64,7 +75,7 @@ export async function install_components(
         await Promise.all(
           batch.map(async (name, idx) => {
             onProgress?.(`Fetching registry dependency ${idx + 1}/${batch.length}: ${name}`)
-            return get_registry_item(name as Lowercase<string>)
+            return get_registry_item(name)
           }),
         )
       ).filter((item): item is RegistryEntry => item !== null)
@@ -103,6 +114,7 @@ async function write_component(
   _from_root_path: string,
   force: boolean,
   onOverwriteCheck?: (name: string) => Promise<boolean>,
+  onConflictCheck?: (name: string) => Promise<ConflictAction>,
 ) {
   const write_component_path = `${write_type_path}/${component.root_folder}`
 
@@ -116,7 +128,16 @@ async function write_component(
   if (!component.files?.length) return
 
   if (!force && fs.readdirSync(write_component_path).length > 0) {
-    if (onOverwriteCheck) {
+    if (onConflictCheck) {
+      const action = await onConflictCheck(component.name)
+      if (action === 'skip') return
+      if (action === 'merge') {
+        // Merge is handled externally by the caller
+        // The caller should have already resolved the merge before calling install_components
+        return
+      }
+      // action === 'overwrite' -- fall through to write
+    } else if (onOverwriteCheck) {
       const overwrite = await onOverwriteCheck(component.name)
       if (!overwrite) return
     } else {

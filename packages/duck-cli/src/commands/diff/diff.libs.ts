@@ -9,6 +9,7 @@ import { get_duckui_config, get_ts_config } from '~/utils/get-project-info'
 import { spinner as Spinner } from '~/utils/spinner'
 import { highlighter } from '~/utils/text-styling'
 import { is_verbose } from '~/utils/verbose'
+import { resolve_project_cwd, validate_workspace_target } from '~/utils/workspace'
 import { type DiffOptions, diff_arguments_schema, diff_options_schema } from './diff.dto'
 
 export async function diff_command_action(args: string[], opt: DiffOptions) {
@@ -27,7 +28,14 @@ export async function diff_command_action(args: string[], opt: DiffOptions) {
     const cwd = path.resolve(options.cwd)
 
     const duckui_config = await get_duckui_config(cwd, spinner)
-    const ts_config = await get_ts_config(cwd, spinner)
+    const project_cwd = resolve_project_cwd(cwd, duckui_config, options.workspace)
+    const workspace_error = validate_workspace_target(project_cwd, true)
+    if (workspace_error) {
+      spinner.fail(workspace_error)
+      process.exit(1)
+    }
+    spinner.info(`Using workspace: ${project_cwd}`)
+    const ts_config = await get_ts_config(project_cwd, spinner)
 
     const path_result = resolve_install_path(duckui_config, ts_config)
     if (!path_result.ok) {
@@ -35,7 +43,7 @@ export async function diff_command_action(args: string[], opt: DiffOptions) {
       process.exit(1)
     }
 
-    const write_type_path = resolve_write_type_path(duckui_config, path.resolve(cwd, path_result.data))
+    const write_type_path = resolve_write_type_path(duckui_config, path.resolve(project_cwd, path_result.data))
 
     spinner.text = 'Scanning installed components...'
     const scan_result = await scan_installed_components(write_type_path)

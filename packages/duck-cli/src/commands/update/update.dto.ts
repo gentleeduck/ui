@@ -3,6 +3,7 @@ import { z } from 'zod'
 export const update_options_schema = z.object({
   all: z.boolean().default(false),
   cwd: z.string().default(process.cwd()),
+  workspace: z.string().optional(),
   yes: z.boolean().default(false),
 })
 

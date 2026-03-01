@@ -1,5 +1,1 @@
-export type ServiceResult<T> = { ok: true; data: T } | { ok: false; error: string }
-
-export type ProgressCallback = (message: string) => void
-
-export type Screen = 'home' | 'init' | 'add' | 'list'
+// GUI types kept minimal -- only diff screen uses the TUI now.

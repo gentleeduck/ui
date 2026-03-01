@@ -1,20 +1,8 @@
+import { THEME_NAMES } from '@gentleduck/registers'
 import type { PromptObject } from 'prompts'
 import { highlighter } from '../../text-styling'
 
-export const BASE_COLORS = [
-  'zinc',
-  'slate',
-  'stone',
-  'gray',
-  'neutral',
-  'red',
-  'rose',
-  'orange',
-  'green',
-  'blue',
-  'yellow',
-  'violet',
-] as const
+export const BASE_COLORS = THEME_NAMES
 
 export const PROJECT_TYPE = ['NEXT_JS', 'TANSTACK_START', 'VITE', 'UNKNOWN'] as const
 

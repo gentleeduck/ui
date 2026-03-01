@@ -15,21 +15,28 @@ export async function resolve_components(component_names: string[], spinner: Ora
     const results = await Promise.all(
       component_names.map(async (item, idx) => {
         spinner.text = `Fetching components... ${highlighter.info(`[${idx + 1}/${component_names.length}]`)}`
-        return await get_registry_item(item as Lowercase<string>)
+        return await get_registry_item(item)
       }),
     )
     components = results.filter((item): item is RegistryEntry => item !== null)
   } else {
     const registry = await get_registry_index()
     const filtered_registry = registry?.filter((item) => item.type === 'registry:ui')
+    const INSTALL_ALL_VALUE = '__install_all__'
 
     spinner.stop()
     const prompt: { component: string[] } = await prompts([
       {
-        choices: filtered_registry?.map((item) => ({
-          title: item.name,
-          value: item.name,
-        })),
+        choices: [
+          {
+            title: 'Install all components',
+            value: INSTALL_ALL_VALUE,
+          },
+          ...(filtered_registry?.map((item) => ({
+            title: item.name,
+            value: item.name,
+          })) ?? []),
+        ],
         message: 'Select component to install',
         name: 'component',
         type: 'autocompleteMultiselect',
@@ -42,10 +49,14 @@ export async function resolve_components(component_names: string[], spinner: Ora
       process.exit(0)
     }
 
+    const selected_component_names = prompt.component.includes(INSTALL_ALL_VALUE)
+      ? (filtered_registry?.map((item) => item.name) ?? [])
+      : prompt.component
+
     const promptResults = await Promise.all(
-      prompt.component.map(async (item, idx) => {
-        spinner.text = `Fetching components... ${highlighter.info(`[${idx + 1}/${prompt.component.length}]`)}`
-        return await get_registry_item(item as Lowercase<string>)
+      selected_component_names.map(async (item, idx) => {
+        spinner.text = `Fetching components... ${highlighter.info(`[${idx + 1}/${selected_component_names.length}]`)}`
+        return await get_registry_item(item)
       }),
     )
     components = promptResults.filter((item): item is RegistryEntry => item !== null)

@@ -23,6 +23,6 @@
     "target": "esnext"
   },
   "display": "Default",
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "**/*.tsbuildinfo", "tsconfig.tsbuildinfo"],
   "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

@@ -1,43 +1,38 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "allowImportingTsExtensions": true,
-    "allowJs": true,
+    "lib": ["ES2022", "dom", "dom.iterable"],
     "baseUrl": ".",
+    "incremental": false,
+    "rootDir": "./",
+    "outDir": "./dist",
+    "module": "Preserve",
+    "allowImportingTsExtensions": true,
+    "moduleResolution": "bundler",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ESNext",
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "disableSourceOfProjectReferenceRedirect": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
     "checkJs": true,
+    "noEmit": true,
     "composite": false,
     "declaration": true,
     "declarationMap": true,
-    "disableSourceOfProjectReferenceRedirect": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "incremental": false,
     "inlineSources": false,
-    "jsx": "preserve",
-    "lib": ["ES2022", "dom", "dom.iterable"],
-    "module": "preserve",
-    "moduleDetection": "force",
-    "moduleResolution": "bundler",
-    "noEmit": true,
-    "noUncheckedIndexedAccess": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "outDir": "./dist",
+    "preserveWatchOutput": true,
+    "forceConsistentCasingInFileNames": true,
+    "jsx": "preserve",
     "paths": {
       "~/*": ["./*"]
-    },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
-    "preserveWatchOutput": true,
-    "resolveJsonModule": true,
-    "rootDir": "./",
-    "skipLibCheck": true,
-    "strict": true,
-    "target": "ESNext"
+    }
   },
-  "exclude": ["node_modules", "dist", "build"],
-  "include": ["./**/*.ts", "./**/*.tsx"]
+  "include": ["./**/*.ts", "./**/*.tsx"],
+  "exclude": ["node_modules", "dist", "build"]
 }

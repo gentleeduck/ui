@@ -1,6 +1,8 @@
 export { Banner } from './banner'
 export { DiffLineView } from './diff-line'
 export { FileTabs } from './file-tabs'
+export { MergeHunkView } from './merge-hunk-view'
+export { MergeSummary } from './merge-summary'
 export { SideBySideLine } from './side-by-side-line'
 export { StatusLine } from './status-line'
 export { StepIndicator } from './step-indicator'

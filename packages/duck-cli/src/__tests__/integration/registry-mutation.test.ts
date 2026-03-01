@@ -171,6 +171,10 @@ describe('install_registry_dependencies', () => {
       schema: 'https://ui.gentleduck.org/schema.json',
       rsc: true,
       monorepo: false,
+      workspace: {
+        root: '.',
+        project: '.',
+      },
       tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },
       aliases: { ui: '~/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
     }
@@ -192,6 +196,10 @@ describe('install_registry_dependencies', () => {
       schema: 'https://ui.gentleduck.org/schema.json',
       rsc: true,
       monorepo: false,
+      workspace: {
+        root: '.',
+        project: '.',
+      },
       tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },
       aliases: { ui: '~/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
     }
@@ -218,6 +226,10 @@ describe('install_registry_dependencies', () => {
       schema: 'https://ui.gentleduck.org/schema.json',
       rsc: true,
       monorepo: false,
+      workspace: {
+        root: '.',
+        project: '.',
+      },
       tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },
       aliases: { ui: '~/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
     }

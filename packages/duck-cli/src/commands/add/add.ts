@@ -15,6 +15,8 @@ export function add_command(): Command {
     .option(option_1.flags, option_1.description, option_1.defaultValue)
     .option(option_2.flags, option_2.description, option_2.defaultValue)
     .option(option_3.flags, option_3.description, option_3.defaultValue)
+    .option('-w, --workspace <path>', 'workspace path override (relative to monorepo root)')
+    .option('-a, --all', 'add all available components', false)
     .action(add_command_action)
 
   return add_command

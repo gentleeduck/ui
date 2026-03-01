@@ -58,6 +58,10 @@ describe('update_command_action', () => {
         schema: 'https://ui.gentleduck.org/schema.json',
         rsc: false,
         monorepo: false,
+        workspace: {
+          root: '.',
+          project: '.',
+        },
         tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },
         aliases: { ui: '~/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
       }),
@@ -200,5 +204,73 @@ describe('update_command_action', () => {
       expect.arrayContaining(['install', 'class-variance-authority', 'clsx']),
       expect.objectContaining({ stdio: 'ignore' }),
     )
+  })
+
+  it('supports --workspace override in monorepo mode', async () => {
+    fs.writeFileSync(
+      path.join(tmpDir, 'duck-ui.config.json'),
+      JSON.stringify({
+        schema: 'https://ui.gentleduck.org/schema.json',
+        rsc: false,
+        monorepo: true,
+        workspace: {
+          root: '.',
+          project: 'apps/default',
+        },
+        tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },
+        aliases: { ui: '~/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
+      }),
+    )
+
+    fs.mkdirSync(path.join(tmpDir, 'apps', 'web', 'src', 'ui', 'button'), { recursive: true })
+    fs.writeFileSync(path.join(tmpDir, 'apps', 'web', 'package.json'), JSON.stringify({ name: 'web' }))
+    fs.writeFileSync(
+      path.join(tmpDir, 'apps', 'web', 'tsconfig.json'),
+      JSON.stringify({
+        compilerOptions: {
+          baseUrl: '.',
+          paths: { '~/*': ['./src/*'] },
+        },
+      }),
+    )
+    fs.writeFileSync(
+      path.join(tmpDir, 'apps', 'web', 'src', 'ui', 'button', 'button.tsx'),
+      'export function Button() { return <div>old</div> }',
+    )
+
+    const { update_command_action } = await import('~/commands/update/update.libs')
+
+    await expect(
+      update_command_action(['button'], { cwd: tmpDir, workspace: 'apps/web', yes: true, all: false }),
+    ).rejects.toThrow(/process\.exit/)
+
+    expect(exitCodes[0]).toBe(0)
+    const content = fs.readFileSync(path.join(tmpDir, 'apps', 'web', 'src', 'ui', 'button', 'button.tsx'), 'utf8')
+    expect(content).toBe('export function Button() { return null }')
+  })
+
+  it('fails when --workspace points to invalid target', async () => {
+    fs.writeFileSync(
+      path.join(tmpDir, 'duck-ui.config.json'),
+      JSON.stringify({
+        schema: 'https://ui.gentleduck.org/schema.json',
+        rsc: false,
+        monorepo: true,
+        workspace: {
+          root: '.',
+          project: 'apps/default',
+        },
+        tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },
+        aliases: { ui: '~/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
+      }),
+    )
+
+    const { update_command_action } = await import('~/commands/update/update.libs')
+
+    await expect(
+      update_command_action(['button'], { cwd: tmpDir, workspace: 'apps/missing', yes: true, all: false }),
+    ).rejects.toThrow(/process\.exit/)
+
+    expect(exitCodes[0]).toBe(1)
   })
 })

@@ -53,6 +53,32 @@ describe('get_duckui_config', () => {
     expect(config).toHaveProperty('tailwind')
   })
 
+  it('reads config by searching parent directories', async () => {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'duck-cli-parent-config-'))
+    try {
+      const nested = path.join(tmpDir, 'apps/web/src')
+      fs.mkdirSync(nested, { recursive: true })
+      fs.writeFileSync(
+        path.join(tmpDir, 'duck-ui.config.json'),
+        JSON.stringify({
+          schema: 'https://ui.gentleduck.org/schema.json',
+          monorepo: true,
+          workspace: { root: '.', project: 'apps/web' },
+          rsc: false,
+          tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },
+          aliases: { hooks: '~/hooks', layouts: '~/layouts', libs: '~/libs', pages: '~/pages', ui: '~/ui' },
+        }),
+      )
+
+      const spinner = createMockSpinner()
+      const config = await get_duckui_config(nested, spinner as any)
+      expect(config.monorepo).toBe(true)
+      expect(config.workspace.project).toBe('apps/web')
+    } finally {
+      fs.rmSync(tmpDir, { recursive: true, force: true })
+    }
+  })
+
   it('calls process.exit when config file is missing', async () => {
     const spinner = createMockSpinner()
     await expect(get_duckui_config('/tmp/nonexistent-dir-for-test', spinner as any)).rejects.toThrow(/process\.exit/)
@@ -70,6 +96,27 @@ describe('get_duckui_config', () => {
       const spinner = createMockSpinner()
       await expect(get_duckui_config(tmpDir, spinner as any)).rejects.toThrow('process.exit(1)')
       expect(spinner.fail).toHaveBeenCalled()
+    } finally {
+      fs.rmSync(tmpDir, { recursive: true, force: true })
+    }
+  })
+
+  it('shows migration error for legacy config missing workspace', async () => {
+    const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'duck-cli-legacy-config-'))
+    try {
+      fs.writeFileSync(
+        path.join(tmpDir, 'duck-ui.config.json'),
+        JSON.stringify({
+          schema: 'https://ui.gentleduck.org/schema.json',
+          monorepo: false,
+          rsc: true,
+          tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },
+          aliases: { hooks: '~/hooks', layouts: '~/layouts', libs: '~/libs', pages: '~/pages', ui: '~/ui' },
+        }),
+      )
+      const spinner = createMockSpinner()
+      await expect(get_duckui_config(tmpDir, spinner as any)).rejects.toThrow('process.exit(1)')
+      expect(spinner.fail).toHaveBeenCalledWith(expect.stringContaining('Legacy'))
     } finally {
       fs.rmSync(tmpDir, { recursive: true, force: true })
     }

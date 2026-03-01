@@ -22,6 +22,10 @@ describe('init_duckui_config', () => {
     await init_duckui_config(tmpDir, spinner as any, {
       project_type: 'NEXT_JS',
       monorepo: false,
+      workspace: {
+        root: '.',
+        project: '.',
+      },
       css: './src/styles.css',
       prefix: '',
       alias: '~',
@@ -46,6 +50,10 @@ describe('init_duckui_config', () => {
     await init_duckui_config(tmpDir, spinner as any, {
       project_type: 'VITE',
       monorepo: false,
+      workspace: {
+        root: '.',
+        project: '.',
+      },
       css: './src/styles.css',
       prefix: 'dk',
       alias: '@',
@@ -64,25 +72,22 @@ describe('generateThemeCSS with real theme structure', () => {
   it('produces correct CSS from a full theme object', async () => {
     const { generateThemeCSS } = await import('~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs')
 
-    const theme = {
-      name: 'zinc',
-      cssVars: {
-        light: {
-          background: 'oklch(1 0 0)',
-          foreground: 'oklch(0.145 0.017 285.823)',
-          primary: 'oklch(0.205 0.017 285.823)',
-          radius: '0.625rem',
-        },
-        dark: {
-          background: 'oklch(0.145 0.017 285.823)',
-          foreground: 'oklch(0.985 0.002 247.839)',
-          primary: 'oklch(0.985 0.002 247.839)',
-          radius: '0.625rem',
-        },
+    const cssVars = {
+      light: {
+        background: 'oklch(1 0 0)',
+        foreground: 'oklch(0.145 0.017 285.823)',
+        primary: 'oklch(0.205 0.017 285.823)',
+        radius: '0.625rem',
+      },
+      dark: {
+        background: 'oklch(0.145 0.017 285.823)',
+        foreground: 'oklch(0.985 0.002 247.839)',
+        primary: 'oklch(0.985 0.002 247.839)',
+        radius: '0.625rem',
       },
     }
 
-    const css = generateThemeCSS(theme as any)
+    const css = generateThemeCSS('zinc', cssVars as any)
 
     // Check structure
     expect(css).toContain(':root {')
@@ -100,8 +105,8 @@ describe('generateThemeCSS with real theme structure', () => {
     expect(css).toContain('--color-background: var(--background);')
     expect(css).toContain('--color-foreground: var(--foreground);')
 
-    // Check non-oklch values use plain var reference
-    expect(css).toContain('--radius: var(--radius);')
+    // Check radius is in :root but not duplicated in @theme inline as --radius: var(--radius)
+    expect(css).toContain('--radius: 0.625rem;')
 
     // Check radius calculations
     expect(css).toContain('--radius-sm: calc(var(--radius) - 4px);')
