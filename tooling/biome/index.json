@@ -20,7 +20,6 @@
       "**/public/**",
       "**/.next/**",
       "**/.velite/**",
-      "./packages/___/",
       "./packages/_oldstuff_refactor/",
       "./**/_*/**"
     ],
@@ -54,7 +53,6 @@
       "**/.next/**",
       "**/.velite/**",
       "./apps/duck-ui-docs/",
-      "./packages/___/",
       "./packages/_oldstuff_refactor/",
       "./packages/duck-state/",
       "./packages/duck-benchmark/",
