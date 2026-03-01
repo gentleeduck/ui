@@ -1,5 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
 import { Alert, AlertDescription, AlertTitle } from '@gentleduck/registry-ui/alert'
+
 type CalloutTone = 'default' | 'info' | 'warning' | 'deprecated'
 
 const CALLOUT_TONE_CLASSES: Record<CalloutTone, string> = {
