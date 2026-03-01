@@ -12,8 +12,10 @@ import {
 import { resolve_install_path } from '~/services/install.service'
 import { build_component_merge_state, write_merge_results } from '~/services/merge.service'
 import { read_duckui_config, read_ts_config } from '~/services/preflight.service'
+import { highlight_diff_lines, warm_highlighter } from '~/services/syntax-highlight.service'
 import type { ComponentMergeState, FileMergeState, HunkChoice, MergeResult } from '~/utils/merge'
 import { build_merge_preview_lines } from '~/utils/merge'
+import type { DiffDisplayLine } from '~/utils/diff-format'
 import { resolve_project_cwd } from '~/utils/workspace'
 import { InitialArgsContext, TerminalSizeContext } from '../app'
 import { THEME } from '../app.constants'
@@ -46,6 +48,7 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
   const [activeHunkIndex, setActiveHunkIndex] = useState(0)
   const [writeResults, setWriteResults] = useState<MergeResult[]>([])
   const [autoSelected, setAutoSelected] = useState(false)
+  const [highlightedPreview, setHighlightedPreview] = useState<DiffDisplayLine[]>([])
 
   const diffTask = useAsyncTask<ComponentDiff>()
   const writeTask = useAsyncTask<MergeResult[]>()
@@ -121,6 +124,34 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
       }
     }
   }, [installed, step, initialArgs, autoSelected])
+
+  // Pre-warm syntax highlighter when we know the file paths
+  useEffect(() => {
+    if (step !== 'resolving' || !mergeState) return
+    for (const file of mergeState.files) {
+      warm_highlighter(file.file_path).catch(() => {})
+      break
+    }
+  }, [step, mergeState])
+
+  // Build highlighted preview when entering summary
+  useEffect(() => {
+    if (step !== 'summary' || !mergeState) return
+
+    const preview_file = mergeState.files.find((f) => f.status === 'modified')
+    if (!preview_file) {
+      setHighlightedPreview([])
+      return
+    }
+
+    const raw_lines = build_merge_preview_lines(preview_file.local_content, preview_file.hunks)
+    setHighlightedPreview(raw_lines)
+
+    const full_code = raw_lines.map((l) => l.raw_text).join('\n')
+    highlight_diff_lines(raw_lines, full_code, preview_file.file_path)
+      .then((highlighted) => setHighlightedPreview(highlighted))
+      .catch(() => {})
+  }, [step, mergeState])
 
   // -- Helpers --
 
@@ -291,6 +322,8 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
       setWriteResults(result.data)
       if (onComplete) {
         onComplete(result.data)
+        onBack()
+        return
       }
       setStep('done')
     } else {
@@ -605,9 +638,8 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
   }
 
   if (step === 'summary' && mergeState) {
-    // Build preview lines for the active file
     const preview_file = mergeState.files.find((f) => f.status === 'modified')
-    const preview_lines = preview_file ? build_merge_preview_lines(preview_file.local_content, preview_file.hunks) : []
+    const preview_lines = highlightedPreview
     const visible_preview = preview_lines.slice(scrollOffset, scrollOffset + summaryVisibleRows)
 
     return (
@@ -625,7 +657,7 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
               Preview ({preview_file?.file_path}):
             </Text>
             {visible_preview.map((line, i) => (
-              <DiffLineView key={scrollOffset + i} line={line} num_width={4} />
+              <DiffLineView key={scrollOffset + i} line={line} num_width={4} single_num />
             ))}
             {preview_lines.length > summaryVisibleRows && (
               <Text color={THEME.mutedForeground}>

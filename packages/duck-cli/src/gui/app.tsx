@@ -87,7 +87,16 @@ function App({ vimStdin, initialArgs, screen, mergeData, onComplete }: AppProps)
   )
 }
 
+function enter_alt_screen() {
+  process.stdout.write('\x1b[?1049h')
+}
+
+function leave_alt_screen() {
+  process.stdout.write('\x1b[?1049l')
+}
+
 export function launch_gui(options?: GuiLaunchOptions) {
+  enter_alt_screen()
   const vimStdin = new VimStdin()
   process.stdin.pipe(vimStdin)
   const instance = render(
@@ -102,6 +111,8 @@ export function launch_gui(options?: GuiLaunchOptions) {
   )
   instance.waitUntilExit().then(() => {
     instance.clear()
+    leave_alt_screen()
+    process.exit(0)
   })
 }
 
@@ -114,6 +125,7 @@ export function launch_merge_gui_and_wait(mergeData: ComponentMergeState): Promi
   return new Promise((resolve) => {
     let resolved = false
 
+    enter_alt_screen()
     const vimStdin = new VimStdin()
     process.stdin.pipe(vimStdin)
 
@@ -132,6 +144,7 @@ export function launch_merge_gui_and_wait(mergeData: ComponentMergeState): Promi
 
     instance.waitUntilExit().then(() => {
       instance.clear()
+      leave_alt_screen()
       vimStdin.unpipe()
       if (!resolved) {
         resolve(null)

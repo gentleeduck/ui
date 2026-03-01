@@ -3,6 +3,7 @@ export type DiffLineType = 'context' | 'add' | 'remove' | 'hunk-header' | 'file-
 export type DiffSegment = {
   text: string
   highlight: boolean
+  color?: string
 }
 
 export type DiffDisplayLine = {
