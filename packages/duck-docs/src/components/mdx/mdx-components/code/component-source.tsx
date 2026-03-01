@@ -2,8 +2,8 @@
 
 import { Icons } from '@duck-docs/components/icons'
 import { cn } from '@gentleduck/libs/cn'
-import { Separator } from '@gentleduck/registry-ui-duckui/separator'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
+import { Separator } from '@gentleduck/registry-ui/separator'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui/tabs'
 import * as React from 'react'
 import { FigcaptionBlock } from './figcaption-block'
 

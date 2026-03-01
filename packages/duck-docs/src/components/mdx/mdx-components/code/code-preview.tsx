@@ -3,8 +3,8 @@
 import { Icons } from '@duck-docs/components/icons'
 import { useLiftMode } from '@duck-docs/hooks/use-lift-mode'
 import { cn } from '@gentleduck/libs/cn'
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui-duckui/resizable'
-import { Tabs, TabsContent } from '@gentleduck/registry-ui-duckui/tabs'
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui/resizable'
+import { Tabs, TabsContent } from '@gentleduck/registry-ui/tabs'
 import React from 'react'
 import type { ImperativePanelHandle } from 'react-resizable-panels'
 

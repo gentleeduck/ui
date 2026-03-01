@@ -5,11 +5,11 @@
     "outDir": "./dist",
     "paths": {
       "@duck-docs/*": ["./src/*"],
-      "@gentleduck/registry-ui-duckui/*": ["../registry-ui-duckui/src/*"]
+      "@gentleduck/registry-ui/*": ["../registry-ui/src/*"]
     },
     "jsx": "react-jsx"
   },
-  "exclude": ["node_modules", "dist"],
+  "exclude": ["node_modules", "dist", "**/*.tsbuildinfo", "tsconfig.tsbuildinfo"],
   "extends": "@gentleduck/typescript-config/internal-package.json",
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }

@@ -3,7 +3,7 @@
 import { useConfig } from '@duck-docs/hooks/use-config'
 import { type Style, styles } from '@duck-docs/lib/registry-styles'
 import { cn } from '@gentleduck/libs/cn'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'
 import type * as React from 'react'
 
 export function StyleSwitcher({ className, ...props }: React.ComponentPropsWithoutRef<typeof SelectTrigger>) {

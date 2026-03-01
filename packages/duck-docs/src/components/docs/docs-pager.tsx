@@ -3,7 +3,7 @@
 import { type DocsConfig, useDocsConfig } from '@duck-docs/context'
 import type { NavItem, NavItemWithChildren } from '@duck-docs/types/nav'
 import { cn } from '@gentleduck/libs/cn'
-import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
+import { buttonVariants } from '@gentleduck/registry-ui/button'
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 

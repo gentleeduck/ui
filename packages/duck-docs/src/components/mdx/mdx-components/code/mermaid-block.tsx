@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { PreviewPanelDialog } from '@gentleduck/registry-ui-duckui/preview-panel'
+import { PreviewPanelDialog } from '@gentleduck/registry-ui/preview-panel'
 import { Loader } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
