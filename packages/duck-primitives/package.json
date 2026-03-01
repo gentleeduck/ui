@@ -16,7 +16,7 @@
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@types/node": "^25.3.0",
-    "@types/react": "19.2.7",
+    "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "mini-svg-data-uri": "^1.4.4",
     "tsdown": "0.18.3"

@@ -22,7 +22,7 @@
   "devDependencies": {
     "@gentleduck/registry-ui": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
-    "@types/react": "19.2.7"
+    "@types/react": "19.2.14"
   },
   "exports": {
     ".": "./src/index.ts",

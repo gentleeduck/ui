@@ -38,7 +38,7 @@
     "@types/figlet": "^1.7.0",
     "@types/fs-extra": "^11.0.4",
     "@types/prompts": "^2.4.9",
-    "@types/react": "19.2.7",
+    "@types/react": "19.2.14",
     "rimraf": "^6.0.1",
     "tsdown": "0.18.3",
     "type-fest": "^5.0.1",
