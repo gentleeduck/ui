@@ -1,5 +1,19 @@
 # @gentleduck/registry-ui
 
+## 0.2.1
+
+### Patch Changes
+
+- ad86755: Fix popover width, update calendar and date-picker examples, and migrate registry packages.
+- Updated dependencies [ad86755]
+- Updated dependencies [ad86755]
+  - @gentleduck/primitives@0.2.1
+  - @gentleduck/hooks@0.1.9
+  - @gentleduck/libs@0.1.12
+  - @gentleduck/variants@0.1.17
+  - @gentleduck/motion@0.1.14
+  - @gentleduck/vim@0.1.13
+
 ## 0.2.0
 
 ### Minor Changes

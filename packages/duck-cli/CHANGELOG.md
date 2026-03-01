@@ -1,5 +1,11 @@
 # @gentleduck/cli
 
+## 1.2.0
+
+### Minor Changes
+
+- ad86755: Add interactive merge GUI with syntax highlighting, split monolithic screen components into workflow and keyboard hooks, extract shared utilities, add JSDoc throughout, fix tsconfig module resolution, sync registry schema with canonical source, and add comprehensive test suite (170 tests).
+
 ## 1.1.0
 
 ### Minor Changes

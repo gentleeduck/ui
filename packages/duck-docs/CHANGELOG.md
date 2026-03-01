@@ -1,5 +1,15 @@
 # @gentleduck/docs
 
+## 0.0.14
+
+### Patch Changes
+
+- ad86755: Refactor MDX rendering pipeline, split styles into layered files, decompose runtime and type plugin metadata, and fix toolbar height and empty TOC handling.
+- Updated dependencies [ad86755]
+  - @gentleduck/hooks@0.1.9
+  - @gentleduck/libs@0.1.12
+  - @gentleduck/vim@0.1.13
+
 ## 0.0.13
 
 ### Patch Changes
