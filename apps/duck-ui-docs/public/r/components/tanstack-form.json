@@ -10,6 +10,6 @@
     "label"
   ],
   "root_folder": "tanstack-form",
-  "source": "/registry-ui-duckui/src/tanstack-form",
+  "source": "/registry-ui/src/tanstack-form",
   "type": "registry:ui"
 }

@@ -19,6 +19,6 @@
   ],
   "name": "tooltip",
   "root_folder": "tooltip",
-  "source": "/registry-ui-duckui/src/tooltip",
+  "source": "/registry-ui/src/tooltip",
   "type": "registry:ui"
 }

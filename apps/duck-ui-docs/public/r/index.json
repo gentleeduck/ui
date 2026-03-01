@@ -18,7 +18,7 @@
     "name": "accordion",
     "root_folder": "accordion",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/accordion",
+    "source": "/registry-ui/src/accordion",
     "tree": [
       {
         "name": "accordion.tsx",
@@ -54,7 +54,7 @@
     "name": "alert",
     "root_folder": "alert",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/alert",
+    "source": "/registry-ui/src/alert",
     "tree": [
       {
         "name": "alert.constants.ts",
@@ -94,7 +94,7 @@
     ],
     "root_folder": "alert-dialog",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/alert-dialog",
+    "source": "/registry-ui/src/alert-dialog",
     "tree": [
       {
         "name": "alert-dialog.tsx",
@@ -126,7 +126,7 @@
     "name": "aspect-ratio",
     "root_folder": "aspect-ratio",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/aspect-ratio",
+    "source": "/registry-ui/src/aspect-ratio",
     "tree": [
       {
         "name": "aspect-ratio.tsx",
@@ -157,7 +157,7 @@
     "name": "avatar",
     "root_folder": "avatar",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/avatar",
+    "source": "/registry-ui/src/avatar",
     "tree": [
       {
         "name": "avatar.tsx",
@@ -194,7 +194,7 @@
     "name": "badge",
     "root_folder": "badge",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/badge",
+    "source": "/registry-ui/src/badge",
     "tree": [
       {
         "name": "badge.constants.ts",
@@ -231,7 +231,7 @@
     "name": "breadcrumb",
     "root_folder": "breadcrumb",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/breadcrumb",
+    "source": "/registry-ui/src/breadcrumb",
     "tree": [
       {
         "name": "breadcrumb.tsx",
@@ -273,7 +273,7 @@
     "name": "button",
     "root_folder": "button",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/button",
+    "source": "/registry-ui/src/button",
     "tree": [
       {
         "name": "button.constants.ts",
@@ -319,7 +319,7 @@
     ],
     "root_folder": "calendar",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/calendar",
+    "source": "/registry-ui/src/calendar",
     "tree": [
       {
         "name": "calendar.tsx",
@@ -350,7 +350,7 @@
     "name": "card",
     "root_folder": "card",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/card",
+    "source": "/registry-ui/src/card",
     "tree": [
       {
         "name": "card.tsx",
@@ -389,7 +389,7 @@
     ],
     "root_folder": "carousel",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/carousel",
+    "source": "/registry-ui/src/carousel",
     "tree": [
       {
         "name": "carousel.tsx",
@@ -434,7 +434,7 @@
     "name": "chart",
     "root_folder": "chart",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/chart",
+    "source": "/registry-ui/src/chart",
     "tree": [
       {
         "name": "chart.libs.ts",
@@ -484,7 +484,7 @@
     ],
     "root_folder": "checkbox",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/checkbox",
+    "source": "/registry-ui/src/checkbox",
     "tree": [
       {
         "name": "checkbox.tsx",
@@ -524,7 +524,7 @@
     ],
     "root_folder": "collapsible",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/collapsible",
+    "source": "/registry-ui/src/collapsible",
     "tree": [
       {
         "name": "collapsible.tsx",
@@ -565,7 +565,7 @@
     ],
     "root_folder": "command",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/command",
+    "source": "/registry-ui/src/command",
     "tree": [
       {
         "name": "command.tsx",
@@ -609,7 +609,7 @@
     ],
     "root_folder": "combobox",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/combobox",
+    "source": "/registry-ui/src/combobox",
     "tree": [
       {
         "name": "combobox.tsx",
@@ -643,7 +643,7 @@
     "registryDependencies": [],
     "root_folder": "context-menu",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/context-menu",
+    "source": "/registry-ui/src/context-menu",
     "tree": [
       {
         "name": "context-menu.tsx",
@@ -684,7 +684,7 @@
     ],
     "root_folder": "dialog",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/dialog",
+    "source": "/registry-ui/src/dialog",
     "tree": [
       {
         "name": "dialog-responsive.tsx",
@@ -721,7 +721,7 @@
     "name": "drawer",
     "root_folder": "drawer",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/drawer",
+    "source": "/registry-ui/src/drawer",
     "tree": [
       {
         "name": "drawer.tsx",
@@ -752,7 +752,7 @@
     "name": "direction",
     "root_folder": "direction",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/direction",
+    "source": "/registry-ui/src/direction",
     "tree": [
       {
         "name": "direction.tsx",
@@ -786,7 +786,7 @@
     "registryDependencies": [],
     "root_folder": "dropdown-menu",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/dropdown-menu",
+    "source": "/registry-ui/src/dropdown-menu",
     "tree": [
       {
         "name": "dropdown-menu.tsx",
@@ -822,7 +822,7 @@
     "registryDependencies": [],
     "root_folder": "navigation-menu",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/navigation-menu",
+    "source": "/registry-ui/src/navigation-menu",
     "tree": [
       {
         "name": "index.ts",
@@ -857,7 +857,7 @@
     ],
     "root_folder": "hover-card",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/hover-card",
+    "source": "/registry-ui/src/hover-card",
     "tree": [
       {
         "name": "hover-card.tsx",
@@ -888,7 +888,7 @@
     "name": "input",
     "root_folder": "input",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/input",
+    "source": "/registry-ui/src/input",
     "tree": [
       {
         "name": "index.ts",
@@ -921,7 +921,7 @@
     "name": "input-otp",
     "root_folder": "input-otp",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/input-otp",
+    "source": "/registry-ui/src/input-otp",
     "tree": [
       {
         "name": "index.ts",
@@ -952,7 +952,7 @@
     "name": "label",
     "root_folder": "label",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/label",
+    "source": "/registry-ui/src/label",
     "tree": [
       {
         "name": "index.ts",
@@ -987,7 +987,7 @@
     "registryDependencies": [],
     "root_folder": "menubar",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/menubar",
+    "source": "/registry-ui/src/menubar",
     "tree": [
       {
         "name": "index.ts",
@@ -1026,7 +1026,7 @@
     ],
     "root_folder": "pagination",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/pagination",
+    "source": "/registry-ui/src/pagination",
     "tree": [
       {
         "name": "index.ts",
@@ -1063,7 +1063,7 @@
     "name": "popover",
     "root_folder": "popover",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/popover",
+    "source": "/registry-ui/src/popover",
     "tree": [
       {
         "name": "index.ts",
@@ -1094,7 +1094,7 @@
     "name": "progress",
     "root_folder": "progress",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/progress",
+    "source": "/registry-ui/src/progress",
     "tree": [
       {
         "name": "index.ts",
@@ -1130,7 +1130,7 @@
     ],
     "root_folder": "radio-group",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/radio-group",
+    "source": "/registry-ui/src/radio-group",
     "tree": [
       {
         "name": "index.ts",
@@ -1162,7 +1162,7 @@
     "name": "resizable",
     "root_folder": "resizable",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/resizable",
+    "source": "/registry-ui/src/resizable",
     "tree": [
       {
         "name": "index.ts",
@@ -1193,7 +1193,7 @@
     "name": "scroll-area",
     "root_folder": "scroll-area",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/scroll-area",
+    "source": "/registry-ui/src/scroll-area",
     "tree": [
       {
         "name": "index.ts",
@@ -1227,7 +1227,7 @@
     "registryDependencies": [],
     "root_folder": "select",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/select",
+    "source": "/registry-ui/src/select",
     "tree": [
       {
         "name": "index.ts",
@@ -1258,7 +1258,7 @@
     "name": "separator",
     "root_folder": "separator",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/separator",
+    "source": "/registry-ui/src/separator",
     "tree": [
       {
         "name": "index.ts",
@@ -1296,7 +1296,7 @@
     "name": "sheet",
     "root_folder": "sheet",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/sheet",
+    "source": "/registry-ui/src/sheet",
     "tree": [
       {
         "name": "index.ts",
@@ -1356,7 +1356,7 @@
     ],
     "root_folder": "sidebar",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/sidebar",
+    "source": "/registry-ui/src/sidebar",
     "tree": [
       {
         "name": "index.ts",
@@ -1402,7 +1402,7 @@
     "name": "skeleton",
     "root_folder": "skeleton",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/skeleton",
+    "source": "/registry-ui/src/skeleton",
     "tree": [
       {
         "name": "index.ts",
@@ -1434,7 +1434,7 @@
     "name": "slider",
     "root_folder": "slider",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/slider",
+    "source": "/registry-ui/src/slider",
     "tree": [
       {
         "name": "index.ts",
@@ -1484,7 +1484,7 @@
     ],
     "root_folder": "sonner",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/sonner",
+    "source": "/registry-ui/src/sonner",
     "tree": [
       {
         "name": "index.ts",
@@ -1532,7 +1532,7 @@
     "name": "switch",
     "root_folder": "switch",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/switch",
+    "source": "/registry-ui/src/switch",
     "tree": [
       {
         "name": "index.ts",
@@ -1563,7 +1563,7 @@
     "name": "table",
     "root_folder": "table",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/table",
+    "source": "/registry-ui/src/table",
     "tree": [
       {
         "name": "index.ts",
@@ -1596,7 +1596,7 @@
     "registryDependencies": [],
     "root_folder": "tabs",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/tabs",
+    "source": "/registry-ui/src/tabs",
     "tree": [
       {
         "name": "index.ts",
@@ -1627,7 +1627,7 @@
     "name": "textarea",
     "root_folder": "textarea",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/textarea",
+    "source": "/registry-ui/src/textarea",
     "tree": [
       {
         "name": "index.ts",
@@ -1664,7 +1664,7 @@
     "registryDependencies": [],
     "root_folder": "toggle",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/toggle",
+    "source": "/registry-ui/src/toggle",
     "tree": [
       {
         "name": "index.ts",
@@ -1704,7 +1704,7 @@
     ],
     "root_folder": "toggle-group",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/toggle-group",
+    "source": "/registry-ui/src/toggle-group",
     "tree": [
       {
         "name": "index.ts",
@@ -1736,7 +1736,7 @@
     "name": "tooltip",
     "root_folder": "tooltip",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/tooltip",
+    "source": "/registry-ui/src/tooltip",
     "tree": [
       {
         "name": "index.ts",
@@ -1776,7 +1776,7 @@
     ],
     "root_folder": "button-group",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/button-group",
+    "source": "/registry-ui/src/button-group",
     "tree": [
       {
         "name": "button-group.constants.ts",
@@ -1812,7 +1812,7 @@
     "name": "kbd",
     "root_folder": "kbd",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/kbd",
+    "source": "/registry-ui/src/kbd",
     "tree": [
       {
         "name": "index.ts",
@@ -1848,7 +1848,7 @@
     "name": "empty",
     "root_folder": "empty",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/empty",
+    "source": "/registry-ui/src/empty",
     "tree": [
       {
         "name": "empty.constants.ts",
@@ -1893,7 +1893,7 @@
     ],
     "root_folder": "field",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/field",
+    "source": "/registry-ui/src/field",
     "tree": [
       {
         "name": "field.constants.ts",
@@ -1938,7 +1938,7 @@
     ],
     "root_folder": "item",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/item",
+    "source": "/registry-ui/src/item",
     "tree": [
       {
         "name": "index.ts",
@@ -1980,7 +1980,7 @@
     ],
     "root_folder": "input-group",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/input-group",
+    "source": "/registry-ui/src/input-group",
     "tree": [
       {
         "name": "index.ts",
@@ -2042,7 +2042,7 @@
     ],
     "root_folder": "json-editor",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/json-editor",
+    "source": "/registry-ui/src/json-editor",
     "tree": [
       {
         "name": "index.ts",
@@ -2115,7 +2115,7 @@
     ],
     "root_folder": "preview-panel",
     "type": "registry:ui",
-    "source": "/registry-ui-duckui/src/preview-panel",
+    "source": "/registry-ui/src/preview-panel",
     "tree": [
       {
         "name": "index.ts",
@@ -2152,7 +2152,7 @@
     ],
     "root_folder": "accordion",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/accordion",
+    "source": "/registry-examples/src/accordion",
     "tree": [
       {
         "name": "accordion-1.tsx",
@@ -2194,7 +2194,7 @@
     ],
     "root_folder": "accordion",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/accordion",
+    "source": "/registry-examples/src/accordion",
     "tree": [
       {
         "name": "accordion-1.tsx",
@@ -2236,7 +2236,7 @@
     ],
     "root_folder": "accordion",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/accordion",
+    "source": "/registry-examples/src/accordion",
     "tree": [
       {
         "name": "accordion-1.tsx",
@@ -2278,7 +2278,7 @@
     ],
     "root_folder": "accordion",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/accordion",
+    "source": "/registry-examples/src/accordion",
     "tree": [
       {
         "name": "accordion-1.tsx",
@@ -2320,7 +2320,7 @@
     ],
     "root_folder": "accordion",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/accordion",
+    "source": "/registry-examples/src/accordion",
     "tree": [
       {
         "name": "accordion-1.tsx",
@@ -2362,7 +2362,7 @@
     ],
     "root_folder": "alert",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/alert",
+    "source": "/registry-examples/src/alert",
     "tree": [
       {
         "name": "alert-1.tsx",
@@ -2399,7 +2399,7 @@
     ],
     "root_folder": "alert",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/alert",
+    "source": "/registry-examples/src/alert",
     "tree": [
       {
         "name": "alert-1.tsx",
@@ -2436,7 +2436,7 @@
     ],
     "root_folder": "alert",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/alert",
+    "source": "/registry-examples/src/alert",
     "tree": [
       {
         "name": "alert-1.tsx",
@@ -2473,7 +2473,7 @@
     ],
     "root_folder": "alert",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/alert",
+    "source": "/registry-examples/src/alert",
     "tree": [
       {
         "name": "alert-1.tsx",
@@ -2510,7 +2510,7 @@
     ],
     "root_folder": "alert-dialog",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/alert-dialog",
+    "source": "/registry-examples/src/alert-dialog",
     "tree": [
       {
         "name": "alert-dialog-1.tsx",
@@ -2537,7 +2537,7 @@
     ],
     "root_folder": "alert-dialog",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/alert-dialog",
+    "source": "/registry-examples/src/alert-dialog",
     "tree": [
       {
         "name": "alert-dialog-1.tsx",
@@ -2564,7 +2564,7 @@
     ],
     "root_folder": "avatar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/avatar",
+    "source": "/registry-examples/src/avatar",
     "tree": [
       {
         "name": "avatar-1.tsx",
@@ -2591,7 +2591,7 @@
     ],
     "root_folder": "avatar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/avatar",
+    "source": "/registry-examples/src/avatar",
     "tree": [
       {
         "name": "avatar-1.tsx",
@@ -2618,7 +2618,7 @@
     ],
     "root_folder": "badge",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/badge",
+    "source": "/registry-examples/src/badge",
     "tree": [
       {
         "name": "badge-1.tsx",
@@ -2680,7 +2680,7 @@
     ],
     "root_folder": "badge",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/badge",
+    "source": "/registry-examples/src/badge",
     "tree": [
       {
         "name": "badge-1.tsx",
@@ -2742,7 +2742,7 @@
     ],
     "root_folder": "badge",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/badge",
+    "source": "/registry-examples/src/badge",
     "tree": [
       {
         "name": "badge-1.tsx",
@@ -2804,7 +2804,7 @@
     ],
     "root_folder": "badge",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/badge",
+    "source": "/registry-examples/src/badge",
     "tree": [
       {
         "name": "badge-1.tsx",
@@ -2866,7 +2866,7 @@
     ],
     "root_folder": "badge",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/badge",
+    "source": "/registry-examples/src/badge",
     "tree": [
       {
         "name": "badge-1.tsx",
@@ -2928,7 +2928,7 @@
     ],
     "root_folder": "badge",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/badge",
+    "source": "/registry-examples/src/badge",
     "tree": [
       {
         "name": "badge-1.tsx",
@@ -2990,7 +2990,7 @@
     ],
     "root_folder": "badge",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/badge",
+    "source": "/registry-examples/src/badge",
     "tree": [
       {
         "name": "badge-1.tsx",
@@ -3052,7 +3052,7 @@
     ],
     "root_folder": "badge",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/badge",
+    "source": "/registry-examples/src/badge",
     "tree": [
       {
         "name": "badge-1.tsx",
@@ -3114,7 +3114,7 @@
     ],
     "root_folder": "badge",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/badge",
+    "source": "/registry-examples/src/badge",
     "tree": [
       {
         "name": "badge-1.tsx",
@@ -3176,7 +3176,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -3298,7 +3298,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -3420,7 +3420,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -3542,7 +3542,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -3664,7 +3664,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -3786,7 +3786,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -3908,7 +3908,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -4030,7 +4030,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -4152,7 +4152,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -4274,7 +4274,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -4396,7 +4396,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -4518,7 +4518,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -4640,7 +4640,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -4762,7 +4762,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -4884,7 +4884,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -5006,7 +5006,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -5128,7 +5128,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -5250,7 +5250,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -5372,7 +5372,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -5494,7 +5494,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -5616,7 +5616,7 @@
     ],
     "root_folder": "button",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button",
+    "source": "/registry-examples/src/button",
     "tree": [
       {
         "name": "button-1.tsx",
@@ -5738,7 +5738,7 @@
     ],
     "root_folder": "breadcrumb",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/breadcrumb",
+    "source": "/registry-examples/src/breadcrumb",
     "tree": [
       {
         "name": "breadcrumb-1.tsx",
@@ -5800,7 +5800,7 @@
     ],
     "root_folder": "breadcrumb",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/breadcrumb",
+    "source": "/registry-examples/src/breadcrumb",
     "tree": [
       {
         "name": "breadcrumb-1.tsx",
@@ -5862,7 +5862,7 @@
     ],
     "root_folder": "breadcrumb",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/breadcrumb",
+    "source": "/registry-examples/src/breadcrumb",
     "tree": [
       {
         "name": "breadcrumb-1.tsx",
@@ -5924,7 +5924,7 @@
     ],
     "root_folder": "breadcrumb",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/breadcrumb",
+    "source": "/registry-examples/src/breadcrumb",
     "tree": [
       {
         "name": "breadcrumb-1.tsx",
@@ -5986,7 +5986,7 @@
     ],
     "root_folder": "breadcrumb",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/breadcrumb",
+    "source": "/registry-examples/src/breadcrumb",
     "tree": [
       {
         "name": "breadcrumb-1.tsx",
@@ -6048,7 +6048,7 @@
     ],
     "root_folder": "breadcrumb",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/breadcrumb",
+    "source": "/registry-examples/src/breadcrumb",
     "tree": [
       {
         "name": "breadcrumb-1.tsx",
@@ -6110,7 +6110,7 @@
     ],
     "root_folder": "breadcrumb",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/breadcrumb",
+    "source": "/registry-examples/src/breadcrumb",
     "tree": [
       {
         "name": "breadcrumb-1.tsx",
@@ -6172,7 +6172,7 @@
     ],
     "root_folder": "breadcrumb",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/breadcrumb",
+    "source": "/registry-examples/src/breadcrumb",
     "tree": [
       {
         "name": "breadcrumb-1.tsx",
@@ -6234,7 +6234,7 @@
     ],
     "root_folder": "breadcrumb",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/breadcrumb",
+    "source": "/registry-examples/src/breadcrumb",
     "tree": [
       {
         "name": "breadcrumb-1.tsx",
@@ -6296,7 +6296,7 @@
     ],
     "root_folder": "dialog",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/dialog",
+    "source": "/registry-examples/src/dialog",
     "tree": [
       {
         "name": "dialog-1.tsx",
@@ -6328,7 +6328,7 @@
     ],
     "root_folder": "dialog",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/dialog",
+    "source": "/registry-examples/src/dialog",
     "tree": [
       {
         "name": "dialog-1.tsx",
@@ -6360,7 +6360,7 @@
     ],
     "root_folder": "dialog",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/dialog",
+    "source": "/registry-examples/src/dialog",
     "tree": [
       {
         "name": "dialog-1.tsx",
@@ -6392,7 +6392,7 @@
     ],
     "root_folder": "command",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/command",
+    "source": "/registry-examples/src/command",
     "tree": [
       {
         "name": "command-1.tsx",
@@ -6424,7 +6424,7 @@
     ],
     "root_folder": "command",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/command",
+    "source": "/registry-examples/src/command",
     "tree": [
       {
         "name": "command-1.tsx",
@@ -6456,7 +6456,7 @@
     ],
     "root_folder": "command",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/command",
+    "source": "/registry-examples/src/command",
     "tree": [
       {
         "name": "command-1.tsx",
@@ -6488,7 +6488,7 @@
     ],
     "root_folder": "card",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/card",
+    "source": "/registry-examples/src/card",
     "tree": [
       {
         "name": "card-1.tsx",
@@ -6520,7 +6520,7 @@
     ],
     "root_folder": "card",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/card",
+    "source": "/registry-examples/src/card",
     "tree": [
       {
         "name": "card-1.tsx",
@@ -6552,7 +6552,7 @@
     ],
     "root_folder": "card",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/card",
+    "source": "/registry-examples/src/card",
     "tree": [
       {
         "name": "card-1.tsx",
@@ -6584,7 +6584,7 @@
     ],
     "root_folder": "calendar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/calendar",
+    "source": "/registry-examples/src/calendar",
     "tree": [
       {
         "name": "calendar-1.tsx",
@@ -6646,7 +6646,7 @@
     ],
     "root_folder": "calendar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/calendar",
+    "source": "/registry-examples/src/calendar",
     "tree": [
       {
         "name": "calendar-1.tsx",
@@ -6708,7 +6708,7 @@
     ],
     "root_folder": "calendar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/calendar",
+    "source": "/registry-examples/src/calendar",
     "tree": [
       {
         "name": "calendar-1.tsx",
@@ -6770,7 +6770,7 @@
     ],
     "root_folder": "calendar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/calendar",
+    "source": "/registry-examples/src/calendar",
     "tree": [
       {
         "name": "calendar-1.tsx",
@@ -6832,7 +6832,7 @@
     ],
     "root_folder": "calendar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/calendar",
+    "source": "/registry-examples/src/calendar",
     "tree": [
       {
         "name": "calendar-1.tsx",
@@ -6894,7 +6894,7 @@
     ],
     "root_folder": "calendar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/calendar",
+    "source": "/registry-examples/src/calendar",
     "tree": [
       {
         "name": "calendar-1.tsx",
@@ -6956,7 +6956,7 @@
     ],
     "root_folder": "calendar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/calendar",
+    "source": "/registry-examples/src/calendar",
     "tree": [
       {
         "name": "calendar-1.tsx",
@@ -7018,7 +7018,7 @@
     ],
     "root_folder": "calendar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/calendar",
+    "source": "/registry-examples/src/calendar",
     "tree": [
       {
         "name": "calendar-1.tsx",
@@ -7080,7 +7080,7 @@
     ],
     "root_folder": "calendar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/calendar",
+    "source": "/registry-examples/src/calendar",
     "tree": [
       {
         "name": "calendar-1.tsx",
@@ -7142,7 +7142,7 @@
     ],
     "root_folder": "drawer",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/drawer",
+    "source": "/registry-examples/src/drawer",
     "tree": [
       {
         "name": "drawer-1.tsx",
@@ -7194,7 +7194,7 @@
     ],
     "root_folder": "drawer",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/drawer",
+    "source": "/registry-examples/src/drawer",
     "tree": [
       {
         "name": "drawer-1.tsx",
@@ -7246,7 +7246,7 @@
     ],
     "root_folder": "drawer",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/drawer",
+    "source": "/registry-examples/src/drawer",
     "tree": [
       {
         "name": "drawer-1.tsx",
@@ -7298,7 +7298,7 @@
     ],
     "root_folder": "drawer",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/drawer",
+    "source": "/registry-examples/src/drawer",
     "tree": [
       {
         "name": "drawer-1.tsx",
@@ -7350,7 +7350,7 @@
     ],
     "root_folder": "drawer",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/drawer",
+    "source": "/registry-examples/src/drawer",
     "tree": [
       {
         "name": "drawer-1.tsx",
@@ -7402,7 +7402,7 @@
     ],
     "root_folder": "drawer",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/drawer",
+    "source": "/registry-examples/src/drawer",
     "tree": [
       {
         "name": "drawer-1.tsx",
@@ -7454,7 +7454,7 @@
     ],
     "root_folder": "drawer",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/drawer",
+    "source": "/registry-examples/src/drawer",
     "tree": [
       {
         "name": "drawer-1.tsx",
@@ -7506,7 +7506,7 @@
     ],
     "root_folder": "direction",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/direction",
+    "source": "/registry-examples/src/direction",
     "tree": [
       {
         "name": "direction-1.tsx",
@@ -7528,7 +7528,7 @@
     ],
     "root_folder": "hover-card",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/hover-card",
+    "source": "/registry-examples/src/hover-card",
     "tree": [
       {
         "name": "hover-card-1.tsx",
@@ -7555,7 +7555,7 @@
     ],
     "root_folder": "hover-card",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/hover-card",
+    "source": "/registry-examples/src/hover-card",
     "tree": [
       {
         "name": "hover-card-1.tsx",
@@ -7582,7 +7582,7 @@
     ],
     "root_folder": "input",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input",
+    "source": "/registry-examples/src/input",
     "tree": [
       {
         "name": "input-1.tsx",
@@ -7639,7 +7639,7 @@
     ],
     "root_folder": "input",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input",
+    "source": "/registry-examples/src/input",
     "tree": [
       {
         "name": "input-1.tsx",
@@ -7696,7 +7696,7 @@
     ],
     "root_folder": "input",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input",
+    "source": "/registry-examples/src/input",
     "tree": [
       {
         "name": "input-1.tsx",
@@ -7753,7 +7753,7 @@
     ],
     "root_folder": "input",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input",
+    "source": "/registry-examples/src/input",
     "tree": [
       {
         "name": "input-1.tsx",
@@ -7810,7 +7810,7 @@
     ],
     "root_folder": "input",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input",
+    "source": "/registry-examples/src/input",
     "tree": [
       {
         "name": "input-1.tsx",
@@ -7867,7 +7867,7 @@
     ],
     "root_folder": "input",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input",
+    "source": "/registry-examples/src/input",
     "tree": [
       {
         "name": "input-1.tsx",
@@ -7924,7 +7924,7 @@
     ],
     "root_folder": "input",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input",
+    "source": "/registry-examples/src/input",
     "tree": [
       {
         "name": "input-1.tsx",
@@ -7981,7 +7981,7 @@
     ],
     "root_folder": "input",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input",
+    "source": "/registry-examples/src/input",
     "tree": [
       {
         "name": "input-1.tsx",
@@ -8038,7 +8038,7 @@
     ],
     "root_folder": "label",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/label",
+    "source": "/registry-examples/src/label",
     "tree": [
       {
         "name": "label-1.tsx",
@@ -8070,7 +8070,7 @@
     ],
     "root_folder": "label",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/label",
+    "source": "/registry-examples/src/label",
     "tree": [
       {
         "name": "label-1.tsx",
@@ -8102,7 +8102,7 @@
     ],
     "root_folder": "label",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/label",
+    "source": "/registry-examples/src/label",
     "tree": [
       {
         "name": "label-1.tsx",
@@ -8134,7 +8134,7 @@
     ],
     "root_folder": "progress",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/progress",
+    "source": "/registry-examples/src/progress",
     "tree": [
       {
         "name": "progress-1.tsx",
@@ -8161,7 +8161,7 @@
     ],
     "root_folder": "progress",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/progress",
+    "source": "/registry-examples/src/progress",
     "tree": [
       {
         "name": "progress-1.tsx",
@@ -8188,7 +8188,7 @@
     ],
     "root_folder": "radio-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/radio-group",
+    "source": "/registry-examples/src/radio-group",
     "tree": [
       {
         "name": "radio-group-1.tsx",
@@ -8220,7 +8220,7 @@
     ],
     "root_folder": "radio-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/radio-group",
+    "source": "/registry-examples/src/radio-group",
     "tree": [
       {
         "name": "radio-group-1.tsx",
@@ -8252,7 +8252,7 @@
     ],
     "root_folder": "radio-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/radio-group",
+    "source": "/registry-examples/src/radio-group",
     "tree": [
       {
         "name": "radio-group-1.tsx",
@@ -8284,7 +8284,7 @@
     ],
     "root_folder": "scroll-area",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/scroll-area",
+    "source": "/registry-examples/src/scroll-area",
     "tree": [
       {
         "name": "scroll-area-1.tsx",
@@ -8316,7 +8316,7 @@
     ],
     "root_folder": "scroll-area",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/scroll-area",
+    "source": "/registry-examples/src/scroll-area",
     "tree": [
       {
         "name": "scroll-area-1.tsx",
@@ -8348,7 +8348,7 @@
     ],
     "root_folder": "scroll-area",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/scroll-area",
+    "source": "/registry-examples/src/scroll-area",
     "tree": [
       {
         "name": "scroll-area-1.tsx",
@@ -8380,7 +8380,7 @@
     ],
     "root_folder": "select",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/select",
+    "source": "/registry-examples/src/select",
     "tree": [
       {
         "name": "select-1.tsx",
@@ -8417,7 +8417,7 @@
     ],
     "root_folder": "select",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/select",
+    "source": "/registry-examples/src/select",
     "tree": [
       {
         "name": "select-1.tsx",
@@ -8454,7 +8454,7 @@
     ],
     "root_folder": "select",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/select",
+    "source": "/registry-examples/src/select",
     "tree": [
       {
         "name": "select-1.tsx",
@@ -8491,7 +8491,7 @@
     ],
     "root_folder": "select",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/select",
+    "source": "/registry-examples/src/select",
     "tree": [
       {
         "name": "select-1.tsx",
@@ -8528,7 +8528,7 @@
     ],
     "root_folder": "separator",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/separator",
+    "source": "/registry-examples/src/separator",
     "tree": [
       {
         "name": "separator-1.tsx",
@@ -8555,7 +8555,7 @@
     ],
     "root_folder": "separator",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/separator",
+    "source": "/registry-examples/src/separator",
     "tree": [
       {
         "name": "separator-1.tsx",
@@ -8582,7 +8582,7 @@
     ],
     "root_folder": "sheet",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/sheet",
+    "source": "/registry-examples/src/sheet",
     "tree": [
       {
         "name": "sheet-1.tsx",
@@ -8614,7 +8614,7 @@
     ],
     "root_folder": "sheet",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/sheet",
+    "source": "/registry-examples/src/sheet",
     "tree": [
       {
         "name": "sheet-1.tsx",
@@ -8646,7 +8646,7 @@
     ],
     "root_folder": "sheet",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/sheet",
+    "source": "/registry-examples/src/sheet",
     "tree": [
       {
         "name": "sheet-1.tsx",
@@ -8678,7 +8678,7 @@
     ],
     "root_folder": "skeleton",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/skeleton",
+    "source": "/registry-examples/src/skeleton",
     "tree": [
       {
         "name": "skeleton-1.tsx",
@@ -8710,7 +8710,7 @@
     ],
     "root_folder": "skeleton",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/skeleton",
+    "source": "/registry-examples/src/skeleton",
     "tree": [
       {
         "name": "skeleton-1.tsx",
@@ -8742,7 +8742,7 @@
     ],
     "root_folder": "skeleton",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/skeleton",
+    "source": "/registry-examples/src/skeleton",
     "tree": [
       {
         "name": "skeleton-1.tsx",
@@ -8774,7 +8774,7 @@
     ],
     "root_folder": "slider",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/slider",
+    "source": "/registry-examples/src/slider",
     "tree": [
       {
         "name": "slider-1.tsx",
@@ -8816,7 +8816,7 @@
     ],
     "root_folder": "slider",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/slider",
+    "source": "/registry-examples/src/slider",
     "tree": [
       {
         "name": "slider-1.tsx",
@@ -8858,7 +8858,7 @@
     ],
     "root_folder": "slider",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/slider",
+    "source": "/registry-examples/src/slider",
     "tree": [
       {
         "name": "slider-1.tsx",
@@ -8900,7 +8900,7 @@
     ],
     "root_folder": "slider",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/slider",
+    "source": "/registry-examples/src/slider",
     "tree": [
       {
         "name": "slider-1.tsx",
@@ -8942,7 +8942,7 @@
     ],
     "root_folder": "slider",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/slider",
+    "source": "/registry-examples/src/slider",
     "tree": [
       {
         "name": "slider-1.tsx",
@@ -8984,7 +8984,7 @@
     ],
     "root_folder": "switch",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/switch",
+    "source": "/registry-examples/src/switch",
     "tree": [
       {
         "name": "switch-1.tsx",
@@ -9016,7 +9016,7 @@
     ],
     "root_folder": "switch",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/switch",
+    "source": "/registry-examples/src/switch",
     "tree": [
       {
         "name": "switch-1.tsx",
@@ -9048,7 +9048,7 @@
     ],
     "root_folder": "switch",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/switch",
+    "source": "/registry-examples/src/switch",
     "tree": [
       {
         "name": "switch-1.tsx",
@@ -9080,7 +9080,7 @@
     ],
     "root_folder": "sonner",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/sonner",
+    "source": "/registry-examples/src/sonner",
     "tree": [
       {
         "name": "sonner-1.tsx",
@@ -9127,7 +9127,7 @@
     ],
     "root_folder": "sonner",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/sonner",
+    "source": "/registry-examples/src/sonner",
     "tree": [
       {
         "name": "sonner-1.tsx",
@@ -9174,7 +9174,7 @@
     ],
     "root_folder": "sonner",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/sonner",
+    "source": "/registry-examples/src/sonner",
     "tree": [
       {
         "name": "sonner-1.tsx",
@@ -9221,7 +9221,7 @@
     ],
     "root_folder": "sonner",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/sonner",
+    "source": "/registry-examples/src/sonner",
     "tree": [
       {
         "name": "sonner-1.tsx",
@@ -9268,7 +9268,7 @@
     ],
     "root_folder": "sonner",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/sonner",
+    "source": "/registry-examples/src/sonner",
     "tree": [
       {
         "name": "sonner-1.tsx",
@@ -9315,7 +9315,7 @@
     ],
     "root_folder": "sonner",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/sonner",
+    "source": "/registry-examples/src/sonner",
     "tree": [
       {
         "name": "sonner-1.tsx",
@@ -9362,7 +9362,7 @@
     ],
     "root_folder": "tabs",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/tabs",
+    "source": "/registry-examples/src/tabs",
     "tree": [
       {
         "name": "tabs-1.tsx",
@@ -9389,7 +9389,7 @@
     ],
     "root_folder": "tabs",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/tabs",
+    "source": "/registry-examples/src/tabs",
     "tree": [
       {
         "name": "tabs-1.tsx",
@@ -9416,7 +9416,7 @@
     ],
     "root_folder": "textarea",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/textarea",
+    "source": "/registry-examples/src/textarea",
     "tree": [
       {
         "name": "textarea-1.tsx",
@@ -9473,7 +9473,7 @@
     ],
     "root_folder": "textarea",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/textarea",
+    "source": "/registry-examples/src/textarea",
     "tree": [
       {
         "name": "textarea-1.tsx",
@@ -9530,7 +9530,7 @@
     ],
     "root_folder": "textarea",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/textarea",
+    "source": "/registry-examples/src/textarea",
     "tree": [
       {
         "name": "textarea-1.tsx",
@@ -9587,7 +9587,7 @@
     ],
     "root_folder": "textarea",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/textarea",
+    "source": "/registry-examples/src/textarea",
     "tree": [
       {
         "name": "textarea-1.tsx",
@@ -9644,7 +9644,7 @@
     ],
     "root_folder": "textarea",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/textarea",
+    "source": "/registry-examples/src/textarea",
     "tree": [
       {
         "name": "textarea-1.tsx",
@@ -9701,7 +9701,7 @@
     ],
     "root_folder": "textarea",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/textarea",
+    "source": "/registry-examples/src/textarea",
     "tree": [
       {
         "name": "textarea-1.tsx",
@@ -9758,7 +9758,7 @@
     ],
     "root_folder": "textarea",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/textarea",
+    "source": "/registry-examples/src/textarea",
     "tree": [
       {
         "name": "textarea-1.tsx",
@@ -9815,7 +9815,7 @@
     ],
     "root_folder": "textarea",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/textarea",
+    "source": "/registry-examples/src/textarea",
     "tree": [
       {
         "name": "textarea-1.tsx",
@@ -9872,7 +9872,7 @@
     ],
     "root_folder": "toggle",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/toggle",
+    "source": "/registry-examples/src/toggle",
     "tree": [
       {
         "name": "toggle-1.tsx",
@@ -9929,7 +9929,7 @@
     ],
     "root_folder": "toggle",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/toggle",
+    "source": "/registry-examples/src/toggle",
     "tree": [
       {
         "name": "toggle-1.tsx",
@@ -9986,7 +9986,7 @@
     ],
     "root_folder": "toggle",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/toggle",
+    "source": "/registry-examples/src/toggle",
     "tree": [
       {
         "name": "toggle-1.tsx",
@@ -10043,7 +10043,7 @@
     ],
     "root_folder": "toggle",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/toggle",
+    "source": "/registry-examples/src/toggle",
     "tree": [
       {
         "name": "toggle-1.tsx",
@@ -10100,7 +10100,7 @@
     ],
     "root_folder": "toggle",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/toggle",
+    "source": "/registry-examples/src/toggle",
     "tree": [
       {
         "name": "toggle-1.tsx",
@@ -10157,7 +10157,7 @@
     ],
     "root_folder": "toggle",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/toggle",
+    "source": "/registry-examples/src/toggle",
     "tree": [
       {
         "name": "toggle-1.tsx",
@@ -10214,7 +10214,7 @@
     ],
     "root_folder": "toggle",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/toggle",
+    "source": "/registry-examples/src/toggle",
     "tree": [
       {
         "name": "toggle-1.tsx",
@@ -10271,7 +10271,7 @@
     ],
     "root_folder": "toggle",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/toggle",
+    "source": "/registry-examples/src/toggle",
     "tree": [
       {
         "name": "toggle-1.tsx",
@@ -10328,7 +10328,7 @@
     ],
     "root_folder": "toggle-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/toggle-group",
+    "source": "/registry-examples/src/toggle-group",
     "tree": [
       {
         "name": "toggle-group-1.tsx",
@@ -10385,7 +10385,7 @@
     ],
     "root_folder": "toggle-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/toggle-group",
+    "source": "/registry-examples/src/toggle-group",
     "tree": [
       {
         "name": "toggle-group-1.tsx",
@@ -10442,7 +10442,7 @@
     ],
     "root_folder": "toggle-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/toggle-group",
+    "source": "/registry-examples/src/toggle-group",
     "tree": [
       {
         "name": "toggle-group-1.tsx",
@@ -10499,7 +10499,7 @@
     ],
     "root_folder": "toggle-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/toggle-group",
+    "source": "/registry-examples/src/toggle-group",
     "tree": [
       {
         "name": "toggle-group-1.tsx",
@@ -10556,7 +10556,7 @@
     ],
     "root_folder": "toggle-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/toggle-group",
+    "source": "/registry-examples/src/toggle-group",
     "tree": [
       {
         "name": "toggle-group-1.tsx",
@@ -10613,7 +10613,7 @@
     ],
     "root_folder": "toggle-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/toggle-group",
+    "source": "/registry-examples/src/toggle-group",
     "tree": [
       {
         "name": "toggle-group-1.tsx",
@@ -10670,7 +10670,7 @@
     ],
     "root_folder": "toggle-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/toggle-group",
+    "source": "/registry-examples/src/toggle-group",
     "tree": [
       {
         "name": "toggle-group-1.tsx",
@@ -10727,7 +10727,7 @@
     ],
     "root_folder": "toggle-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/toggle-group",
+    "source": "/registry-examples/src/toggle-group",
     "tree": [
       {
         "name": "toggle-group-1.tsx",
@@ -10784,7 +10784,7 @@
     ],
     "root_folder": "tooltip",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/tooltip",
+    "source": "/registry-examples/src/tooltip",
     "tree": [
       {
         "name": "tooltip-1.tsx",
@@ -10816,7 +10816,7 @@
     ],
     "root_folder": "tooltip",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/tooltip",
+    "source": "/registry-examples/src/tooltip",
     "tree": [
       {
         "name": "tooltip-1.tsx",
@@ -10848,7 +10848,7 @@
     ],
     "root_folder": "tooltip",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/tooltip",
+    "source": "/registry-examples/src/tooltip",
     "tree": [
       {
         "name": "tooltip-1.tsx",
@@ -10880,7 +10880,7 @@
     ],
     "root_folder": "aspect-ratio",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/aspect-ratio",
+    "source": "/registry-examples/src/aspect-ratio",
     "tree": [
       {
         "name": "aspect-ratio-1.tsx",
@@ -10907,7 +10907,7 @@
     ],
     "root_folder": "aspect-ratio",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/aspect-ratio",
+    "source": "/registry-examples/src/aspect-ratio",
     "tree": [
       {
         "name": "aspect-ratio-1.tsx",
@@ -10932,7 +10932,7 @@
     "registryDependencies": [],
     "root_folder": "typography",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/typography",
+    "source": "/registry-examples/src/typography",
     "tree": [
       {
         "name": "typography-1.tsx",
@@ -11022,7 +11022,7 @@
     "registryDependencies": [],
     "root_folder": "typography",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/typography",
+    "source": "/registry-examples/src/typography",
     "tree": [
       {
         "name": "typography-1.tsx",
@@ -11112,7 +11112,7 @@
     "registryDependencies": [],
     "root_folder": "typography",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/typography",
+    "source": "/registry-examples/src/typography",
     "tree": [
       {
         "name": "typography-1.tsx",
@@ -11202,7 +11202,7 @@
     "registryDependencies": [],
     "root_folder": "typography",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/typography",
+    "source": "/registry-examples/src/typography",
     "tree": [
       {
         "name": "typography-1.tsx",
@@ -11292,7 +11292,7 @@
     "registryDependencies": [],
     "root_folder": "typography",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/typography",
+    "source": "/registry-examples/src/typography",
     "tree": [
       {
         "name": "typography-1.tsx",
@@ -11382,7 +11382,7 @@
     "registryDependencies": [],
     "root_folder": "typography",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/typography",
+    "source": "/registry-examples/src/typography",
     "tree": [
       {
         "name": "typography-1.tsx",
@@ -11472,7 +11472,7 @@
     "registryDependencies": [],
     "root_folder": "typography",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/typography",
+    "source": "/registry-examples/src/typography",
     "tree": [
       {
         "name": "typography-1.tsx",
@@ -11562,7 +11562,7 @@
     "registryDependencies": [],
     "root_folder": "typography",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/typography",
+    "source": "/registry-examples/src/typography",
     "tree": [
       {
         "name": "typography-1.tsx",
@@ -11652,7 +11652,7 @@
     "registryDependencies": [],
     "root_folder": "typography",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/typography",
+    "source": "/registry-examples/src/typography",
     "tree": [
       {
         "name": "typography-1.tsx",
@@ -11742,7 +11742,7 @@
     "registryDependencies": [],
     "root_folder": "typography",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/typography",
+    "source": "/registry-examples/src/typography",
     "tree": [
       {
         "name": "typography-1.tsx",
@@ -11832,7 +11832,7 @@
     "registryDependencies": [],
     "root_folder": "typography",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/typography",
+    "source": "/registry-examples/src/typography",
     "tree": [
       {
         "name": "typography-1.tsx",
@@ -11922,7 +11922,7 @@
     "registryDependencies": [],
     "root_folder": "typography",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/typography",
+    "source": "/registry-examples/src/typography",
     "tree": [
       {
         "name": "typography-1.tsx",
@@ -12012,7 +12012,7 @@
     "registryDependencies": [],
     "root_folder": "typography",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/typography",
+    "source": "/registry-examples/src/typography",
     "tree": [
       {
         "name": "typography-1.tsx",
@@ -12102,7 +12102,7 @@
     "registryDependencies": [],
     "root_folder": "typography",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/typography",
+    "source": "/registry-examples/src/typography",
     "tree": [
       {
         "name": "typography-1.tsx",
@@ -12192,7 +12192,7 @@
     "registryDependencies": [],
     "root_folder": "typography",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/typography",
+    "source": "/registry-examples/src/typography",
     "tree": [
       {
         "name": "typography-1.tsx",
@@ -12284,7 +12284,7 @@
     ],
     "root_folder": "table",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/table",
+    "source": "/registry-examples/src/table",
     "tree": [
       {
         "name": "table-1.tsx",
@@ -12311,7 +12311,7 @@
     ],
     "root_folder": "table",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/table",
+    "source": "/registry-examples/src/table",
     "tree": [
       {
         "name": "table-1.tsx",
@@ -12338,7 +12338,7 @@
     ],
     "root_folder": "resizable",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/resizable",
+    "source": "/registry-examples/src/resizable",
     "tree": [
       {
         "name": "resizable-1.tsx",
@@ -12375,7 +12375,7 @@
     ],
     "root_folder": "resizable",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/resizable",
+    "source": "/registry-examples/src/resizable",
     "tree": [
       {
         "name": "resizable-1.tsx",
@@ -12412,7 +12412,7 @@
     ],
     "root_folder": "resizable",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/resizable",
+    "source": "/registry-examples/src/resizable",
     "tree": [
       {
         "name": "resizable-1.tsx",
@@ -12449,7 +12449,7 @@
     ],
     "root_folder": "resizable",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/resizable",
+    "source": "/registry-examples/src/resizable",
     "tree": [
       {
         "name": "resizable-1.tsx",
@@ -12486,7 +12486,7 @@
     ],
     "root_folder": "pagination",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/pagination",
+    "source": "/registry-examples/src/pagination",
     "tree": [
       {
         "name": "pagination-1.tsx",
@@ -12513,7 +12513,7 @@
     ],
     "root_folder": "pagination",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/pagination",
+    "source": "/registry-examples/src/pagination",
     "tree": [
       {
         "name": "pagination-1.tsx",
@@ -12540,7 +12540,7 @@
     ],
     "root_folder": "checkbox",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/checkbox",
+    "source": "/registry-examples/src/checkbox",
     "tree": [
       {
         "name": "checkbox-1.tsx",
@@ -12602,7 +12602,7 @@
     ],
     "root_folder": "checkbox",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/checkbox",
+    "source": "/registry-examples/src/checkbox",
     "tree": [
       {
         "name": "checkbox-1.tsx",
@@ -12664,7 +12664,7 @@
     ],
     "root_folder": "checkbox",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/checkbox",
+    "source": "/registry-examples/src/checkbox",
     "tree": [
       {
         "name": "checkbox-1.tsx",
@@ -12726,7 +12726,7 @@
     ],
     "root_folder": "checkbox",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/checkbox",
+    "source": "/registry-examples/src/checkbox",
     "tree": [
       {
         "name": "checkbox-1.tsx",
@@ -12788,7 +12788,7 @@
     ],
     "root_folder": "checkbox",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/checkbox",
+    "source": "/registry-examples/src/checkbox",
     "tree": [
       {
         "name": "checkbox-1.tsx",
@@ -12850,7 +12850,7 @@
     ],
     "root_folder": "checkbox",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/checkbox",
+    "source": "/registry-examples/src/checkbox",
     "tree": [
       {
         "name": "checkbox-1.tsx",
@@ -12912,7 +12912,7 @@
     ],
     "root_folder": "checkbox",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/checkbox",
+    "source": "/registry-examples/src/checkbox",
     "tree": [
       {
         "name": "checkbox-1.tsx",
@@ -12974,7 +12974,7 @@
     ],
     "root_folder": "checkbox",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/checkbox",
+    "source": "/registry-examples/src/checkbox",
     "tree": [
       {
         "name": "checkbox-1.tsx",
@@ -13036,7 +13036,7 @@
     ],
     "root_folder": "checkbox",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/checkbox",
+    "source": "/registry-examples/src/checkbox",
     "tree": [
       {
         "name": "checkbox-1.tsx",
@@ -13098,7 +13098,7 @@
     ],
     "root_folder": "carousel",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/carousel",
+    "source": "/registry-examples/src/carousel",
     "tree": [
       {
         "name": "carousel-1.tsx",
@@ -13150,7 +13150,7 @@
     ],
     "root_folder": "carousel",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/carousel",
+    "source": "/registry-examples/src/carousel",
     "tree": [
       {
         "name": "carousel-1.tsx",
@@ -13202,7 +13202,7 @@
     ],
     "root_folder": "carousel",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/carousel",
+    "source": "/registry-examples/src/carousel",
     "tree": [
       {
         "name": "carousel-1.tsx",
@@ -13254,7 +13254,7 @@
     ],
     "root_folder": "carousel",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/carousel",
+    "source": "/registry-examples/src/carousel",
     "tree": [
       {
         "name": "carousel-1.tsx",
@@ -13306,7 +13306,7 @@
     ],
     "root_folder": "carousel",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/carousel",
+    "source": "/registry-examples/src/carousel",
     "tree": [
       {
         "name": "carousel-1.tsx",
@@ -13358,7 +13358,7 @@
     ],
     "root_folder": "carousel",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/carousel",
+    "source": "/registry-examples/src/carousel",
     "tree": [
       {
         "name": "carousel-1.tsx",
@@ -13410,7 +13410,7 @@
     ],
     "root_folder": "carousel",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/carousel",
+    "source": "/registry-examples/src/carousel",
     "tree": [
       {
         "name": "carousel-1.tsx",
@@ -13464,7 +13464,7 @@
     ],
     "root_folder": "date-picker",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/date-picker",
+    "source": "/registry-examples/src/date-picker",
     "tree": [
       {
         "name": "date-picker-1.tsx",
@@ -13518,7 +13518,7 @@
     ],
     "root_folder": "date-picker",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/date-picker",
+    "source": "/registry-examples/src/date-picker",
     "tree": [
       {
         "name": "date-picker-1.tsx",
@@ -13572,7 +13572,7 @@
     ],
     "root_folder": "date-picker",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/date-picker",
+    "source": "/registry-examples/src/date-picker",
     "tree": [
       {
         "name": "date-picker-1.tsx",
@@ -13626,7 +13626,7 @@
     ],
     "root_folder": "date-picker",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/date-picker",
+    "source": "/registry-examples/src/date-picker",
     "tree": [
       {
         "name": "date-picker-1.tsx",
@@ -13680,7 +13680,7 @@
     ],
     "root_folder": "date-picker",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/date-picker",
+    "source": "/registry-examples/src/date-picker",
     "tree": [
       {
         "name": "date-picker-1.tsx",
@@ -13734,7 +13734,7 @@
     ],
     "root_folder": "date-picker",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/date-picker",
+    "source": "/registry-examples/src/date-picker",
     "tree": [
       {
         "name": "date-picker-1.tsx",
@@ -13788,7 +13788,7 @@
     ],
     "root_folder": "date-picker",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/date-picker",
+    "source": "/registry-examples/src/date-picker",
     "tree": [
       {
         "name": "date-picker-1.tsx",
@@ -13840,7 +13840,7 @@
     ],
     "root_folder": "popover",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/popover",
+    "source": "/registry-examples/src/popover",
     "tree": [
       {
         "name": "popover-1.tsx",
@@ -13877,7 +13877,7 @@
     ],
     "root_folder": "popover",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/popover",
+    "source": "/registry-examples/src/popover",
     "tree": [
       {
         "name": "popover-1.tsx",
@@ -13914,7 +13914,7 @@
     ],
     "root_folder": "popover",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/popover",
+    "source": "/registry-examples/src/popover",
     "tree": [
       {
         "name": "popover-1.tsx",
@@ -13951,7 +13951,7 @@
     ],
     "root_folder": "popover",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/popover",
+    "source": "/registry-examples/src/popover",
     "tree": [
       {
         "name": "popover-1.tsx",
@@ -13988,7 +13988,7 @@
     ],
     "root_folder": "menubar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/menubar",
+    "source": "/registry-examples/src/menubar",
     "tree": [
       {
         "name": "menubar-1.tsx",
@@ -14015,7 +14015,7 @@
     ],
     "root_folder": "menubar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/menubar",
+    "source": "/registry-examples/src/menubar",
     "tree": [
       {
         "name": "menubar-1.tsx",
@@ -14042,7 +14042,7 @@
     ],
     "root_folder": "dropdown-menu",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/dropdown-menu",
+    "source": "/registry-examples/src/dropdown-menu",
     "tree": [
       {
         "name": "dropdown-menu-1.tsx",
@@ -14079,7 +14079,7 @@
     ],
     "root_folder": "dropdown-menu",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/dropdown-menu",
+    "source": "/registry-examples/src/dropdown-menu",
     "tree": [
       {
         "name": "dropdown-menu-1.tsx",
@@ -14116,7 +14116,7 @@
     ],
     "root_folder": "dropdown-menu",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/dropdown-menu",
+    "source": "/registry-examples/src/dropdown-menu",
     "tree": [
       {
         "name": "dropdown-menu-1.tsx",
@@ -14153,7 +14153,7 @@
     ],
     "root_folder": "dropdown-menu",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/dropdown-menu",
+    "source": "/registry-examples/src/dropdown-menu",
     "tree": [
       {
         "name": "dropdown-menu-1.tsx",
@@ -14190,7 +14190,7 @@
     ],
     "root_folder": "combobox",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/combobox",
+    "source": "/registry-examples/src/combobox",
     "tree": [
       {
         "name": "combobox-1.tsx",
@@ -14242,7 +14242,7 @@
     ],
     "root_folder": "combobox",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/combobox",
+    "source": "/registry-examples/src/combobox",
     "tree": [
       {
         "name": "combobox-1.tsx",
@@ -14294,7 +14294,7 @@
     ],
     "root_folder": "combobox",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/combobox",
+    "source": "/registry-examples/src/combobox",
     "tree": [
       {
         "name": "combobox-1.tsx",
@@ -14346,7 +14346,7 @@
     ],
     "root_folder": "combobox",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/combobox",
+    "source": "/registry-examples/src/combobox",
     "tree": [
       {
         "name": "combobox-1.tsx",
@@ -14398,7 +14398,7 @@
     ],
     "root_folder": "combobox",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/combobox",
+    "source": "/registry-examples/src/combobox",
     "tree": [
       {
         "name": "combobox-1.tsx",
@@ -14450,7 +14450,7 @@
     ],
     "root_folder": "combobox",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/combobox",
+    "source": "/registry-examples/src/combobox",
     "tree": [
       {
         "name": "combobox-1.tsx",
@@ -14502,7 +14502,7 @@
     ],
     "root_folder": "combobox",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/combobox",
+    "source": "/registry-examples/src/combobox",
     "tree": [
       {
         "name": "combobox-1.tsx",
@@ -14554,7 +14554,7 @@
     ],
     "root_folder": "collapsible",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/collapsible",
+    "source": "/registry-examples/src/collapsible",
     "tree": [
       {
         "name": "collapsible-1.tsx",
@@ -14581,7 +14581,7 @@
     ],
     "root_folder": "collapsible",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/collapsible",
+    "source": "/registry-examples/src/collapsible",
     "tree": [
       {
         "name": "collapsible-1.tsx",
@@ -14610,7 +14610,7 @@
     ],
     "root_folder": "input-otp",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-otp",
+    "source": "/registry-examples/src/input-otp",
     "tree": [
       {
         "name": "input-otp-1.tsx",
@@ -14664,7 +14664,7 @@
     ],
     "root_folder": "input-otp",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-otp",
+    "source": "/registry-examples/src/input-otp",
     "tree": [
       {
         "name": "input-otp-1.tsx",
@@ -14718,7 +14718,7 @@
     ],
     "root_folder": "input-otp",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-otp",
+    "source": "/registry-examples/src/input-otp",
     "tree": [
       {
         "name": "input-otp-1.tsx",
@@ -14772,7 +14772,7 @@
     ],
     "root_folder": "input-otp",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-otp",
+    "source": "/registry-examples/src/input-otp",
     "tree": [
       {
         "name": "input-otp-1.tsx",
@@ -14826,7 +14826,7 @@
     ],
     "root_folder": "input-otp",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-otp",
+    "source": "/registry-examples/src/input-otp",
     "tree": [
       {
         "name": "input-otp-1.tsx",
@@ -14880,7 +14880,7 @@
     ],
     "root_folder": "input-otp",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-otp",
+    "source": "/registry-examples/src/input-otp",
     "tree": [
       {
         "name": "input-otp-1.tsx",
@@ -14934,7 +14934,7 @@
     ],
     "root_folder": "input-otp",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-otp",
+    "source": "/registry-examples/src/input-otp",
     "tree": [
       {
         "name": "input-otp-1.tsx",
@@ -14986,7 +14986,7 @@
     ],
     "root_folder": "chart",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/chart",
+    "source": "/registry-examples/src/chart",
     "tree": [
       {
         "name": "chart-1.tsx",
@@ -15043,7 +15043,7 @@
     ],
     "root_folder": "chart",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/chart",
+    "source": "/registry-examples/src/chart",
     "tree": [
       {
         "name": "chart-1.tsx",
@@ -15100,7 +15100,7 @@
     ],
     "root_folder": "chart",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/chart",
+    "source": "/registry-examples/src/chart",
     "tree": [
       {
         "name": "chart-1.tsx",
@@ -15157,7 +15157,7 @@
     ],
     "root_folder": "chart",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/chart",
+    "source": "/registry-examples/src/chart",
     "tree": [
       {
         "name": "chart-1.tsx",
@@ -15214,7 +15214,7 @@
     ],
     "root_folder": "chart",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/chart",
+    "source": "/registry-examples/src/chart",
     "tree": [
       {
         "name": "chart-1.tsx",
@@ -15271,7 +15271,7 @@
     ],
     "root_folder": "chart",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/chart",
+    "source": "/registry-examples/src/chart",
     "tree": [
       {
         "name": "chart-1.tsx",
@@ -15328,7 +15328,7 @@
     ],
     "root_folder": "chart",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/chart",
+    "source": "/registry-examples/src/chart",
     "tree": [
       {
         "name": "chart-1.tsx",
@@ -15385,7 +15385,7 @@
     ],
     "root_folder": "chart",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/chart",
+    "source": "/registry-examples/src/chart",
     "tree": [
       {
         "name": "chart-1.tsx",
@@ -15442,7 +15442,7 @@
     ],
     "root_folder": "navigation-menu",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/navigation-menu",
+    "source": "/registry-examples/src/navigation-menu",
     "tree": [
       {
         "name": "navigation-menu-1.tsx",
@@ -15469,7 +15469,7 @@
     ],
     "root_folder": "navigation-menu",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/navigation-menu",
+    "source": "/registry-examples/src/navigation-menu",
     "tree": [
       {
         "name": "navigation-menu-1.tsx",
@@ -15496,7 +15496,7 @@
     ],
     "root_folder": "context-menu",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/context-menu",
+    "source": "/registry-examples/src/context-menu",
     "tree": [
       {
         "name": "context-menu-1.tsx",
@@ -15523,7 +15523,7 @@
     ],
     "root_folder": "context-menu",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/context-menu",
+    "source": "/registry-examples/src/context-menu",
     "tree": [
       {
         "name": "context-menu-1.tsx",
@@ -15551,7 +15551,7 @@
     ],
     "root_folder": "data-table",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/data-table",
+    "source": "/registry-examples/src/data-table",
     "tree": [
       {
         "name": "data-table-1.tsx",
@@ -15571,7 +15571,7 @@
     "registryDependencies": [],
     "root_folder": "cva",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/cva",
+    "source": "/registry-examples/src/cva",
     "tree": [
       {
         "name": "cva-1.tsx",
@@ -15593,7 +15593,7 @@
     ],
     "root_folder": "button-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button-group",
+    "source": "/registry-examples/src/button-group",
     "tree": [
       {
         "name": "button-group-1.tsx",
@@ -15670,7 +15670,7 @@
     ],
     "root_folder": "button-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button-group",
+    "source": "/registry-examples/src/button-group",
     "tree": [
       {
         "name": "button-group-1.tsx",
@@ -15747,7 +15747,7 @@
     ],
     "root_folder": "button-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button-group",
+    "source": "/registry-examples/src/button-group",
     "tree": [
       {
         "name": "button-group-1.tsx",
@@ -15824,7 +15824,7 @@
     ],
     "root_folder": "button-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button-group",
+    "source": "/registry-examples/src/button-group",
     "tree": [
       {
         "name": "button-group-1.tsx",
@@ -15901,7 +15901,7 @@
     ],
     "root_folder": "button-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button-group",
+    "source": "/registry-examples/src/button-group",
     "tree": [
       {
         "name": "button-group-1.tsx",
@@ -15978,7 +15978,7 @@
     ],
     "root_folder": "button-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button-group",
+    "source": "/registry-examples/src/button-group",
     "tree": [
       {
         "name": "button-group-1.tsx",
@@ -16055,7 +16055,7 @@
     ],
     "root_folder": "button-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button-group",
+    "source": "/registry-examples/src/button-group",
     "tree": [
       {
         "name": "button-group-1.tsx",
@@ -16132,7 +16132,7 @@
     ],
     "root_folder": "button-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button-group",
+    "source": "/registry-examples/src/button-group",
     "tree": [
       {
         "name": "button-group-1.tsx",
@@ -16209,7 +16209,7 @@
     ],
     "root_folder": "button-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button-group",
+    "source": "/registry-examples/src/button-group",
     "tree": [
       {
         "name": "button-group-1.tsx",
@@ -16286,7 +16286,7 @@
     ],
     "root_folder": "button-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button-group",
+    "source": "/registry-examples/src/button-group",
     "tree": [
       {
         "name": "button-group-1.tsx",
@@ -16363,7 +16363,7 @@
     ],
     "root_folder": "button-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button-group",
+    "source": "/registry-examples/src/button-group",
     "tree": [
       {
         "name": "button-group-1.tsx",
@@ -16440,7 +16440,7 @@
     ],
     "root_folder": "button-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/button-group",
+    "source": "/registry-examples/src/button-group",
     "tree": [
       {
         "name": "button-group-1.tsx",
@@ -16517,7 +16517,7 @@
     ],
     "root_folder": "kbd",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/kbd",
+    "source": "/registry-examples/src/kbd",
     "tree": [
       {
         "name": "kbd-1.tsx",
@@ -16564,7 +16564,7 @@
     ],
     "root_folder": "kbd",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/kbd",
+    "source": "/registry-examples/src/kbd",
     "tree": [
       {
         "name": "kbd-1.tsx",
@@ -16611,7 +16611,7 @@
     ],
     "root_folder": "kbd",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/kbd",
+    "source": "/registry-examples/src/kbd",
     "tree": [
       {
         "name": "kbd-1.tsx",
@@ -16658,7 +16658,7 @@
     ],
     "root_folder": "kbd",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/kbd",
+    "source": "/registry-examples/src/kbd",
     "tree": [
       {
         "name": "kbd-1.tsx",
@@ -16705,7 +16705,7 @@
     ],
     "root_folder": "kbd",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/kbd",
+    "source": "/registry-examples/src/kbd",
     "tree": [
       {
         "name": "kbd-1.tsx",
@@ -16752,7 +16752,7 @@
     ],
     "root_folder": "kbd",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/kbd",
+    "source": "/registry-examples/src/kbd",
     "tree": [
       {
         "name": "kbd-1.tsx",
@@ -16799,7 +16799,7 @@
     ],
     "root_folder": "empty",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/empty",
+    "source": "/registry-examples/src/empty",
     "tree": [
       {
         "name": "empty-1.tsx",
@@ -16851,7 +16851,7 @@
     ],
     "root_folder": "empty",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/empty",
+    "source": "/registry-examples/src/empty",
     "tree": [
       {
         "name": "empty-1.tsx",
@@ -16903,7 +16903,7 @@
     ],
     "root_folder": "empty",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/empty",
+    "source": "/registry-examples/src/empty",
     "tree": [
       {
         "name": "empty-1.tsx",
@@ -16955,7 +16955,7 @@
     ],
     "root_folder": "empty",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/empty",
+    "source": "/registry-examples/src/empty",
     "tree": [
       {
         "name": "empty-1.tsx",
@@ -17007,7 +17007,7 @@
     ],
     "root_folder": "empty",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/empty",
+    "source": "/registry-examples/src/empty",
     "tree": [
       {
         "name": "empty-1.tsx",
@@ -17059,7 +17059,7 @@
     ],
     "root_folder": "empty",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/empty",
+    "source": "/registry-examples/src/empty",
     "tree": [
       {
         "name": "empty-1.tsx",
@@ -17111,7 +17111,7 @@
     ],
     "root_folder": "empty",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/empty",
+    "source": "/registry-examples/src/empty",
     "tree": [
       {
         "name": "empty-1.tsx",
@@ -17163,7 +17163,7 @@
     ],
     "root_folder": "field",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/field",
+    "source": "/registry-examples/src/field",
     "tree": [
       {
         "name": "field-1.tsx",
@@ -17245,7 +17245,7 @@
     ],
     "root_folder": "field",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/field",
+    "source": "/registry-examples/src/field",
     "tree": [
       {
         "name": "field-1.tsx",
@@ -17327,7 +17327,7 @@
     ],
     "root_folder": "field",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/field",
+    "source": "/registry-examples/src/field",
     "tree": [
       {
         "name": "field-1.tsx",
@@ -17409,7 +17409,7 @@
     ],
     "root_folder": "field",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/field",
+    "source": "/registry-examples/src/field",
     "tree": [
       {
         "name": "field-1.tsx",
@@ -17491,7 +17491,7 @@
     ],
     "root_folder": "field",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/field",
+    "source": "/registry-examples/src/field",
     "tree": [
       {
         "name": "field-1.tsx",
@@ -17573,7 +17573,7 @@
     ],
     "root_folder": "field",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/field",
+    "source": "/registry-examples/src/field",
     "tree": [
       {
         "name": "field-1.tsx",
@@ -17655,7 +17655,7 @@
     ],
     "root_folder": "field",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/field",
+    "source": "/registry-examples/src/field",
     "tree": [
       {
         "name": "field-1.tsx",
@@ -17737,7 +17737,7 @@
     ],
     "root_folder": "field",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/field",
+    "source": "/registry-examples/src/field",
     "tree": [
       {
         "name": "field-1.tsx",
@@ -17819,7 +17819,7 @@
     ],
     "root_folder": "field",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/field",
+    "source": "/registry-examples/src/field",
     "tree": [
       {
         "name": "field-1.tsx",
@@ -17901,7 +17901,7 @@
     ],
     "root_folder": "field",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/field",
+    "source": "/registry-examples/src/field",
     "tree": [
       {
         "name": "field-1.tsx",
@@ -17983,7 +17983,7 @@
     ],
     "root_folder": "field",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/field",
+    "source": "/registry-examples/src/field",
     "tree": [
       {
         "name": "field-1.tsx",
@@ -18065,7 +18065,7 @@
     ],
     "root_folder": "field",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/field",
+    "source": "/registry-examples/src/field",
     "tree": [
       {
         "name": "field-1.tsx",
@@ -18147,7 +18147,7 @@
     ],
     "root_folder": "field",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/field",
+    "source": "/registry-examples/src/field",
     "tree": [
       {
         "name": "field-1.tsx",
@@ -18229,7 +18229,7 @@
     ],
     "root_folder": "item",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/item",
+    "source": "/registry-examples/src/item",
     "tree": [
       {
         "name": "item-1.tsx",
@@ -18301,7 +18301,7 @@
     ],
     "root_folder": "item",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/item",
+    "source": "/registry-examples/src/item",
     "tree": [
       {
         "name": "item-1.tsx",
@@ -18373,7 +18373,7 @@
     ],
     "root_folder": "item",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/item",
+    "source": "/registry-examples/src/item",
     "tree": [
       {
         "name": "item-1.tsx",
@@ -18445,7 +18445,7 @@
     ],
     "root_folder": "item",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/item",
+    "source": "/registry-examples/src/item",
     "tree": [
       {
         "name": "item-1.tsx",
@@ -18517,7 +18517,7 @@
     ],
     "root_folder": "item",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/item",
+    "source": "/registry-examples/src/item",
     "tree": [
       {
         "name": "item-1.tsx",
@@ -18589,7 +18589,7 @@
     ],
     "root_folder": "item",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/item",
+    "source": "/registry-examples/src/item",
     "tree": [
       {
         "name": "item-1.tsx",
@@ -18661,7 +18661,7 @@
     ],
     "root_folder": "item",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/item",
+    "source": "/registry-examples/src/item",
     "tree": [
       {
         "name": "item-1.tsx",
@@ -18733,7 +18733,7 @@
     ],
     "root_folder": "item",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/item",
+    "source": "/registry-examples/src/item",
     "tree": [
       {
         "name": "item-1.tsx",
@@ -18805,7 +18805,7 @@
     ],
     "root_folder": "item",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/item",
+    "source": "/registry-examples/src/item",
     "tree": [
       {
         "name": "item-1.tsx",
@@ -18877,7 +18877,7 @@
     ],
     "root_folder": "item",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/item",
+    "source": "/registry-examples/src/item",
     "tree": [
       {
         "name": "item-1.tsx",
@@ -18949,7 +18949,7 @@
     ],
     "root_folder": "item",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/item",
+    "source": "/registry-examples/src/item",
     "tree": [
       {
         "name": "item-1.tsx",
@@ -19021,7 +19021,7 @@
     ],
     "root_folder": "input-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-group",
+    "source": "/registry-examples/src/input-group",
     "tree": [
       {
         "name": "input-group-1.tsx",
@@ -19098,7 +19098,7 @@
     ],
     "root_folder": "input-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-group",
+    "source": "/registry-examples/src/input-group",
     "tree": [
       {
         "name": "input-group-1.tsx",
@@ -19175,7 +19175,7 @@
     ],
     "root_folder": "input-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-group",
+    "source": "/registry-examples/src/input-group",
     "tree": [
       {
         "name": "input-group-1.tsx",
@@ -19252,7 +19252,7 @@
     ],
     "root_folder": "input-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-group",
+    "source": "/registry-examples/src/input-group",
     "tree": [
       {
         "name": "input-group-1.tsx",
@@ -19329,7 +19329,7 @@
     ],
     "root_folder": "input-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-group",
+    "source": "/registry-examples/src/input-group",
     "tree": [
       {
         "name": "input-group-1.tsx",
@@ -19406,7 +19406,7 @@
     ],
     "root_folder": "input-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-group",
+    "source": "/registry-examples/src/input-group",
     "tree": [
       {
         "name": "input-group-1.tsx",
@@ -19483,7 +19483,7 @@
     ],
     "root_folder": "input-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-group",
+    "source": "/registry-examples/src/input-group",
     "tree": [
       {
         "name": "input-group-1.tsx",
@@ -19560,7 +19560,7 @@
     ],
     "root_folder": "input-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-group",
+    "source": "/registry-examples/src/input-group",
     "tree": [
       {
         "name": "input-group-1.tsx",
@@ -19637,7 +19637,7 @@
     ],
     "root_folder": "input-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-group",
+    "source": "/registry-examples/src/input-group",
     "tree": [
       {
         "name": "input-group-1.tsx",
@@ -19714,7 +19714,7 @@
     ],
     "root_folder": "input-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-group",
+    "source": "/registry-examples/src/input-group",
     "tree": [
       {
         "name": "input-group-1.tsx",
@@ -19791,7 +19791,7 @@
     ],
     "root_folder": "input-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-group",
+    "source": "/registry-examples/src/input-group",
     "tree": [
       {
         "name": "input-group-1.tsx",
@@ -19868,7 +19868,7 @@
     ],
     "root_folder": "input-group",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/input-group",
+    "source": "/registry-examples/src/input-group",
     "tree": [
       {
         "name": "input-group-1.tsx",
@@ -19945,7 +19945,7 @@
     ],
     "root_folder": "json-editor",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/json-editor",
+    "source": "/registry-examples/src/json-editor",
     "tree": [
       {
         "name": "json-editor-1.tsx",
@@ -19982,7 +19982,7 @@
     ],
     "root_folder": "json-editor",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/json-editor",
+    "source": "/registry-examples/src/json-editor",
     "tree": [
       {
         "name": "json-editor-1.tsx",
@@ -20019,7 +20019,7 @@
     ],
     "root_folder": "json-editor",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/json-editor",
+    "source": "/registry-examples/src/json-editor",
     "tree": [
       {
         "name": "json-editor-1.tsx",
@@ -20056,7 +20056,7 @@
     ],
     "root_folder": "json-editor",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/json-editor",
+    "source": "/registry-examples/src/json-editor",
     "tree": [
       {
         "name": "json-editor-1.tsx",
@@ -20091,7 +20091,7 @@
     "registryDependencies": [],
     "root_folder": "theme-toggle",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/theme-toggle",
+    "source": "/registry-examples/src/theme-toggle",
     "tree": [
       {
         "name": "theme-toggle-1.tsx",
@@ -20113,7 +20113,7 @@
     ],
     "root_folder": "preview-panel",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/preview-panel",
+    "source": "/registry-examples/src/preview-panel",
     "tree": [
       {
         "name": "preview-panel-1.tsx",
@@ -20155,7 +20155,7 @@
     ],
     "root_folder": "preview-panel",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/preview-panel",
+    "source": "/registry-examples/src/preview-panel",
     "tree": [
       {
         "name": "preview-panel-1.tsx",
@@ -20197,7 +20197,7 @@
     ],
     "root_folder": "preview-panel",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/preview-panel",
+    "source": "/registry-examples/src/preview-panel",
     "tree": [
       {
         "name": "preview-panel-1.tsx",
@@ -20239,7 +20239,7 @@
     ],
     "root_folder": "preview-panel",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/preview-panel",
+    "source": "/registry-examples/src/preview-panel",
     "tree": [
       {
         "name": "preview-panel-1.tsx",
@@ -20281,7 +20281,7 @@
     ],
     "root_folder": "preview-panel",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/preview-panel",
+    "source": "/registry-examples/src/preview-panel",
     "tree": [
       {
         "name": "preview-panel-1.tsx",
@@ -20323,7 +20323,7 @@
     ],
     "root_folder": "sidebar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/sidebar",
+    "source": "/registry-examples/src/sidebar",
     "tree": [
       {
         "name": "sidebar-1.tsx",
@@ -20370,7 +20370,7 @@
     ],
     "root_folder": "sidebar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/sidebar",
+    "source": "/registry-examples/src/sidebar",
     "tree": [
       {
         "name": "sidebar-1.tsx",
@@ -20417,7 +20417,7 @@
     ],
     "root_folder": "sidebar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/sidebar",
+    "source": "/registry-examples/src/sidebar",
     "tree": [
       {
         "name": "sidebar-1.tsx",
@@ -20464,7 +20464,7 @@
     ],
     "root_folder": "sidebar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/sidebar",
+    "source": "/registry-examples/src/sidebar",
     "tree": [
       {
         "name": "sidebar-1.tsx",
@@ -20511,7 +20511,7 @@
     ],
     "root_folder": "sidebar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/sidebar",
+    "source": "/registry-examples/src/sidebar",
     "tree": [
       {
         "name": "sidebar-1.tsx",
@@ -20558,7 +20558,7 @@
     ],
     "root_folder": "sidebar",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/sidebar",
+    "source": "/registry-examples/src/sidebar",
     "tree": [
       {
         "name": "sidebar-1.tsx",
@@ -20605,7 +20605,7 @@
     ],
     "root_folder": "upload",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/upload",
+    "source": "/registry-examples/src/upload",
     "tree": [
       {
         "name": "upload-1.tsx",
@@ -20647,7 +20647,7 @@
     ],
     "root_folder": "upload",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/upload",
+    "source": "/registry-examples/src/upload",
     "tree": [
       {
         "name": "upload-1.tsx",
@@ -20689,7 +20689,7 @@
     ],
     "root_folder": "upload",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/upload",
+    "source": "/registry-examples/src/upload",
     "tree": [
       {
         "name": "upload-1.tsx",
@@ -20731,7 +20731,7 @@
     ],
     "root_folder": "upload",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/upload",
+    "source": "/registry-examples/src/upload",
     "tree": [
       {
         "name": "upload-1.tsx",
@@ -20773,7 +20773,7 @@
     ],
     "root_folder": "upload",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/upload",
+    "source": "/registry-examples/src/upload",
     "tree": [
       {
         "name": "upload-1.tsx",
@@ -20823,7 +20823,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -20938,7 +20938,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -21053,7 +21053,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -21168,7 +21168,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -21283,7 +21283,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -21398,7 +21398,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -21513,7 +21513,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -21628,7 +21628,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -21743,7 +21743,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -21858,7 +21858,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -21973,7 +21973,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -22088,7 +22088,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -22203,7 +22203,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -22318,7 +22318,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -22433,7 +22433,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -22548,7 +22548,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -22663,7 +22663,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -22778,7 +22778,7 @@
     ],
     "root_folder": "form",
     "type": "registry:example",
-    "source": "/registry-examples-duckui/src/form",
+    "source": "/registry-examples/src/form",
     "tree": [
       {
         "name": "form-rhf-array.tsx",
@@ -22873,6 +22873,540 @@
     ]
   },
   {
+    "files": [
+      {
+        "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+        "type": "registry:internal"
+      }
+    ],
+    "name": "alert-dialog-confirm",
+    "registryDependencies": [
+      "@gentleduck/primitives"
+    ],
+    "root_folder": "internal-primitives",
+    "source": "/registry-internals/src/internal-primitives",
+    "type": "registry:internal",
+    "tree": [
+      {
+        "name": "alert-dialog-confirm",
+        "path": "internal-primitives/alert-dialog-confirm",
+        "type": "folder",
+        "children": [
+          {
+            "name": "alert-dialog-confirm.tsx",
+            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dialog-guarded-async",
+        "path": "internal-primitives/dialog-guarded-async",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dialog-guarded-async.tsx",
+            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "popover-side-aware",
+        "path": "internal-primitives/popover-side-aware",
+        "type": "folder",
+        "children": [
+          {
+            "name": "popover-side-aware.tsx",
+            "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "tooltip-delay-provider",
+        "path": "internal-primitives/tooltip-delay-provider",
+        "type": "folder",
+        "children": [
+          {
+            "name": "tooltip-delay-provider.tsx",
+            "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "select-controlled",
+        "path": "internal-primitives/select-controlled",
+        "type": "folder",
+        "children": [
+          {
+            "name": "select-controlled.tsx",
+            "path": "internal-primitives/select-controlled/select-controlled.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dropdown-menu-selection",
+        "path": "internal-primitives/dropdown-menu-selection",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dropdown-menu-selection.tsx",
+            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
+        "type": "registry:internal"
+      }
+    ],
+    "name": "dialog-guarded-async",
+    "registryDependencies": [
+      "@gentleduck/primitives"
+    ],
+    "root_folder": "internal-primitives",
+    "source": "/registry-internals/src/internal-primitives",
+    "type": "registry:internal",
+    "tree": [
+      {
+        "name": "alert-dialog-confirm",
+        "path": "internal-primitives/alert-dialog-confirm",
+        "type": "folder",
+        "children": [
+          {
+            "name": "alert-dialog-confirm.tsx",
+            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dialog-guarded-async",
+        "path": "internal-primitives/dialog-guarded-async",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dialog-guarded-async.tsx",
+            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "popover-side-aware",
+        "path": "internal-primitives/popover-side-aware",
+        "type": "folder",
+        "children": [
+          {
+            "name": "popover-side-aware.tsx",
+            "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "tooltip-delay-provider",
+        "path": "internal-primitives/tooltip-delay-provider",
+        "type": "folder",
+        "children": [
+          {
+            "name": "tooltip-delay-provider.tsx",
+            "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "select-controlled",
+        "path": "internal-primitives/select-controlled",
+        "type": "folder",
+        "children": [
+          {
+            "name": "select-controlled.tsx",
+            "path": "internal-primitives/select-controlled/select-controlled.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dropdown-menu-selection",
+        "path": "internal-primitives/dropdown-menu-selection",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dropdown-menu-selection.tsx",
+            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
+        "type": "registry:internal"
+      }
+    ],
+    "name": "popover-side-aware",
+    "registryDependencies": [
+      "@gentleduck/primitives"
+    ],
+    "root_folder": "internal-primitives",
+    "source": "/registry-internals/src/internal-primitives",
+    "type": "registry:internal",
+    "tree": [
+      {
+        "name": "alert-dialog-confirm",
+        "path": "internal-primitives/alert-dialog-confirm",
+        "type": "folder",
+        "children": [
+          {
+            "name": "alert-dialog-confirm.tsx",
+            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dialog-guarded-async",
+        "path": "internal-primitives/dialog-guarded-async",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dialog-guarded-async.tsx",
+            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "popover-side-aware",
+        "path": "internal-primitives/popover-side-aware",
+        "type": "folder",
+        "children": [
+          {
+            "name": "popover-side-aware.tsx",
+            "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "tooltip-delay-provider",
+        "path": "internal-primitives/tooltip-delay-provider",
+        "type": "folder",
+        "children": [
+          {
+            "name": "tooltip-delay-provider.tsx",
+            "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "select-controlled",
+        "path": "internal-primitives/select-controlled",
+        "type": "folder",
+        "children": [
+          {
+            "name": "select-controlled.tsx",
+            "path": "internal-primitives/select-controlled/select-controlled.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dropdown-menu-selection",
+        "path": "internal-primitives/dropdown-menu-selection",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dropdown-menu-selection.tsx",
+            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
+        "type": "registry:internal"
+      }
+    ],
+    "name": "tooltip-delay-provider",
+    "registryDependencies": [
+      "@gentleduck/primitives"
+    ],
+    "root_folder": "internal-primitives",
+    "source": "/registry-internals/src/internal-primitives",
+    "type": "registry:internal",
+    "tree": [
+      {
+        "name": "alert-dialog-confirm",
+        "path": "internal-primitives/alert-dialog-confirm",
+        "type": "folder",
+        "children": [
+          {
+            "name": "alert-dialog-confirm.tsx",
+            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dialog-guarded-async",
+        "path": "internal-primitives/dialog-guarded-async",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dialog-guarded-async.tsx",
+            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "popover-side-aware",
+        "path": "internal-primitives/popover-side-aware",
+        "type": "folder",
+        "children": [
+          {
+            "name": "popover-side-aware.tsx",
+            "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "tooltip-delay-provider",
+        "path": "internal-primitives/tooltip-delay-provider",
+        "type": "folder",
+        "children": [
+          {
+            "name": "tooltip-delay-provider.tsx",
+            "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "select-controlled",
+        "path": "internal-primitives/select-controlled",
+        "type": "folder",
+        "children": [
+          {
+            "name": "select-controlled.tsx",
+            "path": "internal-primitives/select-controlled/select-controlled.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dropdown-menu-selection",
+        "path": "internal-primitives/dropdown-menu-selection",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dropdown-menu-selection.tsx",
+            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "internal-primitives/select-controlled/select-controlled.tsx",
+        "type": "registry:internal"
+      }
+    ],
+    "name": "select-controlled",
+    "registryDependencies": [
+      "@gentleduck/primitives"
+    ],
+    "root_folder": "internal-primitives",
+    "source": "/registry-internals/src/internal-primitives",
+    "type": "registry:internal",
+    "tree": [
+      {
+        "name": "alert-dialog-confirm",
+        "path": "internal-primitives/alert-dialog-confirm",
+        "type": "folder",
+        "children": [
+          {
+            "name": "alert-dialog-confirm.tsx",
+            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dialog-guarded-async",
+        "path": "internal-primitives/dialog-guarded-async",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dialog-guarded-async.tsx",
+            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "popover-side-aware",
+        "path": "internal-primitives/popover-side-aware",
+        "type": "folder",
+        "children": [
+          {
+            "name": "popover-side-aware.tsx",
+            "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "tooltip-delay-provider",
+        "path": "internal-primitives/tooltip-delay-provider",
+        "type": "folder",
+        "children": [
+          {
+            "name": "tooltip-delay-provider.tsx",
+            "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "select-controlled",
+        "path": "internal-primitives/select-controlled",
+        "type": "folder",
+        "children": [
+          {
+            "name": "select-controlled.tsx",
+            "path": "internal-primitives/select-controlled/select-controlled.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dropdown-menu-selection",
+        "path": "internal-primitives/dropdown-menu-selection",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dropdown-menu-selection.tsx",
+            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+        "type": "registry:internal"
+      }
+    ],
+    "name": "dropdown-menu-selection",
+    "registryDependencies": [
+      "@gentleduck/primitives"
+    ],
+    "root_folder": "internal-primitives",
+    "source": "/registry-internals/src/internal-primitives",
+    "type": "registry:internal",
+    "tree": [
+      {
+        "name": "alert-dialog-confirm",
+        "path": "internal-primitives/alert-dialog-confirm",
+        "type": "folder",
+        "children": [
+          {
+            "name": "alert-dialog-confirm.tsx",
+            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dialog-guarded-async",
+        "path": "internal-primitives/dialog-guarded-async",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dialog-guarded-async.tsx",
+            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "popover-side-aware",
+        "path": "internal-primitives/popover-side-aware",
+        "type": "folder",
+        "children": [
+          {
+            "name": "popover-side-aware.tsx",
+            "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "tooltip-delay-provider",
+        "path": "internal-primitives/tooltip-delay-provider",
+        "type": "folder",
+        "children": [
+          {
+            "name": "tooltip-delay-provider.tsx",
+            "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "select-controlled",
+        "path": "internal-primitives/select-controlled",
+        "type": "folder",
+        "children": [
+          {
+            "name": "select-controlled.tsx",
+            "path": "internal-primitives/select-controlled/select-controlled.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dropdown-menu-selection",
+        "path": "internal-primitives/dropdown-menu-selection",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dropdown-menu-selection.tsx",
+            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
     "categories": [
       "authentications",
       "signup"
@@ -22898,7 +23432,7 @@
     ],
     "root_folder": "authentications/signup-1",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/authentications/signup-1",
+    "source": "/registry-blocks/src/authentications/signup-1",
     "tree": [
       {
         "name": "signup-1.constants.tsx",
@@ -22938,7 +23472,7 @@
     ],
     "root_folder": "authentications/login-1",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/authentications/login-1",
+    "source": "/registry-blocks/src/authentications/login-1",
     "tree": [
       {
         "name": "login-1.tsx",
@@ -22985,7 +23519,7 @@
     ],
     "root_folder": "authentications/login-2",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/authentications/login-2",
+    "source": "/registry-blocks/src/authentications/login-2",
     "tree": [
       {
         "name": "login-2.tsx",
@@ -23032,7 +23566,7 @@
     ],
     "root_folder": "authentications/login-3",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/authentications/login-3",
+    "source": "/registry-blocks/src/authentications/login-3",
     "tree": [
       {
         "name": "login-3.tsx",
@@ -23079,7 +23613,7 @@
     ],
     "root_folder": "authentications/login-4",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/authentications/login-4",
+    "source": "/registry-blocks/src/authentications/login-4",
     "tree": [
       {
         "name": "login-4.tsx",
@@ -23126,7 +23660,7 @@
     ],
     "root_folder": "authentications/login-5",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/authentications/login-5",
+    "source": "/registry-blocks/src/authentications/login-5",
     "tree": [
       {
         "name": "login-5.tsx",
@@ -23205,7 +23739,7 @@
     ],
     "root_folder": "dashboards/dashboard-1",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/dashboards/dashboard-1",
+    "source": "/registry-blocks/src/dashboards/dashboard-1",
     "tree": [
       {
         "name": "dashboard-1.tsx",
@@ -23284,7 +23818,7 @@
     ],
     "root_folder": "charts/chart-area-axes",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-area-axes",
+    "source": "/registry-blocks/src/charts/chart-area-axes",
     "tree": [
       {
         "name": "chart-area-axes.tsx",
@@ -23311,7 +23845,7 @@
     ],
     "root_folder": "charts/chart-area-default",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-area-default",
+    "source": "/registry-blocks/src/charts/chart-area-default",
     "tree": [
       {
         "name": "chart-area-default.tsx",
@@ -23338,7 +23872,7 @@
     ],
     "root_folder": "charts/chart-area-gradient",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-area-gradient",
+    "source": "/registry-blocks/src/charts/chart-area-gradient",
     "tree": [
       {
         "name": "chart-area-gradient.tsx",
@@ -23365,7 +23899,7 @@
     ],
     "root_folder": "charts/chart-area-icons",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-area-icons",
+    "source": "/registry-blocks/src/charts/chart-area-icons",
     "tree": [
       {
         "name": "chart-area-icons.tsx",
@@ -23393,7 +23927,7 @@
     ],
     "root_folder": "charts/chart-area-interactive",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-area-interactive",
+    "source": "/registry-blocks/src/charts/chart-area-interactive",
     "tree": [
       {
         "name": "chart-area-interactive.tsx",
@@ -23420,7 +23954,7 @@
     ],
     "root_folder": "charts/chart-area-legend",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-area-legend",
+    "source": "/registry-blocks/src/charts/chart-area-legend",
     "tree": [
       {
         "name": "chart-area-legend.tsx",
@@ -23447,7 +23981,7 @@
     ],
     "root_folder": "charts/chart-area-linear",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-area-linear",
+    "source": "/registry-blocks/src/charts/chart-area-linear",
     "tree": [
       {
         "name": "chart-area-linear.tsx",
@@ -23474,7 +24008,7 @@
     ],
     "root_folder": "charts/chart-area-stacked-expand",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-area-stacked-expand",
+    "source": "/registry-blocks/src/charts/chart-area-stacked-expand",
     "tree": [
       {
         "name": "chart-area-stacked-expand.tsx",
@@ -23501,7 +24035,7 @@
     ],
     "root_folder": "charts/chart-area-stacked",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-area-stacked",
+    "source": "/registry-blocks/src/charts/chart-area-stacked",
     "tree": [
       {
         "name": "chart-area-stacked.tsx",
@@ -23528,7 +24062,7 @@
     ],
     "root_folder": "charts/chart-area-step",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-area-step",
+    "source": "/registry-blocks/src/charts/chart-area-step",
     "tree": [
       {
         "name": "chart-area-step.tsx",
@@ -23555,7 +24089,7 @@
     ],
     "root_folder": "charts/chart-bar-active",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-bar-active",
+    "source": "/registry-blocks/src/charts/chart-bar-active",
     "tree": [
       {
         "name": "chart-bar-active.tsx",
@@ -23582,7 +24116,7 @@
     ],
     "root_folder": "charts/chart-bar-default",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-bar-default",
+    "source": "/registry-blocks/src/charts/chart-bar-default",
     "tree": [
       {
         "name": "chart-bar-default.tsx",
@@ -23609,7 +24143,7 @@
     ],
     "root_folder": "charts/chart-bar-horizontal",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-bar-horizontal",
+    "source": "/registry-blocks/src/charts/chart-bar-horizontal",
     "tree": [
       {
         "name": "chart-bar-horizontal.tsx",
@@ -23636,7 +24170,7 @@
     ],
     "root_folder": "charts/chart-bar-interactive",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-bar-interactive",
+    "source": "/registry-blocks/src/charts/chart-bar-interactive",
     "tree": [
       {
         "name": "chart-bar-interactive.tsx",
@@ -23663,7 +24197,7 @@
     ],
     "root_folder": "charts/chart-bar-label-custom",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-bar-label-custom",
+    "source": "/registry-blocks/src/charts/chart-bar-label-custom",
     "tree": [
       {
         "name": "chart-bar-label-custom.tsx",
@@ -23690,7 +24224,7 @@
     ],
     "root_folder": "charts/chart-bar-label",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-bar-label",
+    "source": "/registry-blocks/src/charts/chart-bar-label",
     "tree": [
       {
         "name": "chart-bar-label.tsx",
@@ -23717,7 +24251,7 @@
     ],
     "root_folder": "charts/chart-bar-mixed",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-bar-mixed",
+    "source": "/registry-blocks/src/charts/chart-bar-mixed",
     "tree": [
       {
         "name": "chart-bar-mixed.tsx",
@@ -23744,7 +24278,7 @@
     ],
     "root_folder": "charts/chart-bar-multiple",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-bar-multiple",
+    "source": "/registry-blocks/src/charts/chart-bar-multiple",
     "tree": [
       {
         "name": "chart-bar-multiple.tsx",
@@ -23771,7 +24305,7 @@
     ],
     "root_folder": "charts/chart-bar-negative",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-bar-negative",
+    "source": "/registry-blocks/src/charts/chart-bar-negative",
     "tree": [
       {
         "name": "chart-bar-negative.tsx",
@@ -23798,7 +24332,7 @@
     ],
     "root_folder": "charts/chart-bar-stacked",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-bar-stacked",
+    "source": "/registry-blocks/src/charts/chart-bar-stacked",
     "tree": [
       {
         "name": "chart-bar-stacked.tsx",
@@ -23825,7 +24359,7 @@
     ],
     "root_folder": "charts/chart-line-default",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-line-default",
+    "source": "/registry-blocks/src/charts/chart-line-default",
     "tree": [
       {
         "name": "chart-line-default.tsx",
@@ -23852,7 +24386,7 @@
     ],
     "root_folder": "charts/chart-line-dots-colors",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-line-dots-colors",
+    "source": "/registry-blocks/src/charts/chart-line-dots-colors",
     "tree": [
       {
         "name": "chart-line-dots-colors.tsx",
@@ -23879,7 +24413,7 @@
     ],
     "root_folder": "charts/chart-line-dots-custom",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-line-dots-custom",
+    "source": "/registry-blocks/src/charts/chart-line-dots-custom",
     "tree": [
       {
         "name": "chart-line-dots-custom.tsx",
@@ -23906,7 +24440,7 @@
     ],
     "root_folder": "charts/chart-line-dots",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-line-dots",
+    "source": "/registry-blocks/src/charts/chart-line-dots",
     "tree": [
       {
         "name": "chart-line-dots.tsx",
@@ -23933,7 +24467,7 @@
     ],
     "root_folder": "charts/chart-line-interactive",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-line-interactive",
+    "source": "/registry-blocks/src/charts/chart-line-interactive",
     "tree": [
       {
         "name": "chart-line-interactive.tsx",
@@ -23960,7 +24494,7 @@
     ],
     "root_folder": "charts/chart-line-label-custom",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-line-label-custom",
+    "source": "/registry-blocks/src/charts/chart-line-label-custom",
     "tree": [
       {
         "name": "chart-line-label-custom.tsx",
@@ -23987,7 +24521,7 @@
     ],
     "root_folder": "charts/chart-line-label",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-line-label",
+    "source": "/registry-blocks/src/charts/chart-line-label",
     "tree": [
       {
         "name": "chart-line-label.tsx",
@@ -24014,7 +24548,7 @@
     ],
     "root_folder": "charts/chart-line-linear",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-line-linear",
+    "source": "/registry-blocks/src/charts/chart-line-linear",
     "tree": [
       {
         "name": "chart-line-linear.tsx",
@@ -24041,7 +24575,7 @@
     ],
     "root_folder": "charts/chart-line-multiple",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-line-multiple",
+    "source": "/registry-blocks/src/charts/chart-line-multiple",
     "tree": [
       {
         "name": "chart-line-multiple.tsx",
@@ -24068,7 +24602,7 @@
     ],
     "root_folder": "charts/chart-line-step",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-line-step",
+    "source": "/registry-blocks/src/charts/chart-line-step",
     "tree": [
       {
         "name": "chart-line-step.tsx",
@@ -24095,7 +24629,7 @@
     ],
     "root_folder": "charts/chart-pie-donut-active",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-pie-donut-active",
+    "source": "/registry-blocks/src/charts/chart-pie-donut-active",
     "tree": [
       {
         "name": "chart-pie-donut-active.tsx",
@@ -24122,7 +24656,7 @@
     ],
     "root_folder": "charts/chart-pie-donut-text",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-pie-donut-text",
+    "source": "/registry-blocks/src/charts/chart-pie-donut-text",
     "tree": [
       {
         "name": "chart-pie-donut-text.tsx",
@@ -24149,7 +24683,7 @@
     ],
     "root_folder": "charts/chart-pie-donut",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-pie-donut",
+    "source": "/registry-blocks/src/charts/chart-pie-donut",
     "tree": [
       {
         "name": "chart-pie-donut.tsx",
@@ -24176,7 +24710,7 @@
     ],
     "root_folder": "charts/chart-pie-interactive",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-pie-interactive",
+    "source": "/registry-blocks/src/charts/chart-pie-interactive",
     "tree": [
       {
         "name": "chart-pie-interactive.tsx",
@@ -24203,7 +24737,7 @@
     ],
     "root_folder": "charts/chart-pie-label-custom",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-pie-label-custom",
+    "source": "/registry-blocks/src/charts/chart-pie-label-custom",
     "tree": [
       {
         "name": "chart-pie-label-custom.tsx",
@@ -24230,7 +24764,7 @@
     ],
     "root_folder": "charts/chart-pie-label-list",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-pie-label-list",
+    "source": "/registry-blocks/src/charts/chart-pie-label-list",
     "tree": [
       {
         "name": "chart-pie-label-list.tsx",
@@ -24257,7 +24791,7 @@
     ],
     "root_folder": "charts/chart-pie-label",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-pie-label",
+    "source": "/registry-blocks/src/charts/chart-pie-label",
     "tree": [
       {
         "name": "chart-pie-label.tsx",
@@ -24284,7 +24818,7 @@
     ],
     "root_folder": "charts/chart-pie-legend",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-pie-legend",
+    "source": "/registry-blocks/src/charts/chart-pie-legend",
     "tree": [
       {
         "name": "chart-pie-legend.tsx",
@@ -24311,7 +24845,7 @@
     ],
     "root_folder": "charts/chart-pie-separator-none",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-pie-separator-none",
+    "source": "/registry-blocks/src/charts/chart-pie-separator-none",
     "tree": [
       {
         "name": "chart-pie-separator-none.tsx",
@@ -24338,7 +24872,7 @@
     ],
     "root_folder": "charts/chart-pie-simple",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-pie-simple",
+    "source": "/registry-blocks/src/charts/chart-pie-simple",
     "tree": [
       {
         "name": "chart-pie-simple.tsx",
@@ -24365,7 +24899,7 @@
     ],
     "root_folder": "charts/chart-pie-stacked",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-pie-stacked",
+    "source": "/registry-blocks/src/charts/chart-pie-stacked",
     "tree": [
       {
         "name": "chart-pie-stacked.tsx",
@@ -24392,7 +24926,7 @@
     ],
     "root_folder": "charts/chart-radar-default",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radar-default",
+    "source": "/registry-blocks/src/charts/chart-radar-default",
     "tree": [
       {
         "name": "chart-radar-default.tsx",
@@ -24419,7 +24953,7 @@
     ],
     "root_folder": "charts/chart-radar-dots",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radar-dots",
+    "source": "/registry-blocks/src/charts/chart-radar-dots",
     "tree": [
       {
         "name": "chart-radar-dots.tsx",
@@ -24446,7 +24980,7 @@
     ],
     "root_folder": "charts/chart-radar-grid-circle-fill",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radar-grid-circle-fill",
+    "source": "/registry-blocks/src/charts/chart-radar-grid-circle-fill",
     "tree": [
       {
         "name": "chart-radar-grid-circle-fill.tsx",
@@ -24473,7 +25007,7 @@
     ],
     "root_folder": "charts/chart-radar-grid-circle-no-lines",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radar-grid-circle-no-lines",
+    "source": "/registry-blocks/src/charts/chart-radar-grid-circle-no-lines",
     "tree": [
       {
         "name": "chart-radar-grid-circle-no-lines.tsx",
@@ -24500,7 +25034,7 @@
     ],
     "root_folder": "charts/chart-radar-grid-circle",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radar-grid-circle",
+    "source": "/registry-blocks/src/charts/chart-radar-grid-circle",
     "tree": [
       {
         "name": "chart-radar-grid-circle.tsx",
@@ -24527,7 +25061,7 @@
     ],
     "root_folder": "charts/chart-radar-grid-custom",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radar-grid-custom",
+    "source": "/registry-blocks/src/charts/chart-radar-grid-custom",
     "tree": [
       {
         "name": "chart-radar-grid-custom.tsx",
@@ -24554,7 +25088,7 @@
     ],
     "root_folder": "charts/chart-radar-grid-fill",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radar-grid-fill",
+    "source": "/registry-blocks/src/charts/chart-radar-grid-fill",
     "tree": [
       {
         "name": "chart-radar-grid-fill.tsx",
@@ -24581,7 +25115,7 @@
     ],
     "root_folder": "charts/chart-radar-grid-none",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radar-grid-none",
+    "source": "/registry-blocks/src/charts/chart-radar-grid-none",
     "tree": [
       {
         "name": "chart-radar-grid-none.tsx",
@@ -24608,7 +25142,7 @@
     ],
     "root_folder": "charts/chart-radar-icons",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radar-icons",
+    "source": "/registry-blocks/src/charts/chart-radar-icons",
     "tree": [
       {
         "name": "chart-radar-icons.tsx",
@@ -24635,7 +25169,7 @@
     ],
     "root_folder": "charts/chart-radar-label-custom",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radar-label-custom",
+    "source": "/registry-blocks/src/charts/chart-radar-label-custom",
     "tree": [
       {
         "name": "chart-radar-label-custom.tsx",
@@ -24662,7 +25196,7 @@
     ],
     "root_folder": "charts/chart-radar-legend",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radar-legend",
+    "source": "/registry-blocks/src/charts/chart-radar-legend",
     "tree": [
       {
         "name": "chart-radar-legend.tsx",
@@ -24689,7 +25223,7 @@
     ],
     "root_folder": "charts/chart-radar-lines-only",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radar-lines-only",
+    "source": "/registry-blocks/src/charts/chart-radar-lines-only",
     "tree": [
       {
         "name": "chart-radar-lines-only.tsx",
@@ -24716,7 +25250,7 @@
     ],
     "root_folder": "charts/chart-radar-multiple",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radar-multiple",
+    "source": "/registry-blocks/src/charts/chart-radar-multiple",
     "tree": [
       {
         "name": "chart-radar-multiple.tsx",
@@ -24743,7 +25277,7 @@
     ],
     "root_folder": "charts/chart-radar-radius",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radar-radius",
+    "source": "/registry-blocks/src/charts/chart-radar-radius",
     "tree": [
       {
         "name": "chart-radar-radius.tsx",
@@ -24770,7 +25304,7 @@
     ],
     "root_folder": "charts/chart-radial-grid",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radial-grid",
+    "source": "/registry-blocks/src/charts/chart-radial-grid",
     "tree": [
       {
         "name": "chart-radial-grid.tsx",
@@ -24797,7 +25331,7 @@
     ],
     "root_folder": "charts/chart-radial-label",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radial-label",
+    "source": "/registry-blocks/src/charts/chart-radial-label",
     "tree": [
       {
         "name": "chart-radial-label.tsx",
@@ -24824,7 +25358,7 @@
     ],
     "root_folder": "charts/chart-radial-shape",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radial-shape",
+    "source": "/registry-blocks/src/charts/chart-radial-shape",
     "tree": [
       {
         "name": "chart-radial-shape.tsx",
@@ -24851,7 +25385,7 @@
     ],
     "root_folder": "charts/chart-radial-simple",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radial-simple",
+    "source": "/registry-blocks/src/charts/chart-radial-simple",
     "tree": [
       {
         "name": "chart-radial-simple.tsx",
@@ -24878,7 +25412,7 @@
     ],
     "root_folder": "charts/chart-radial-stacked",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radial-stacked",
+    "source": "/registry-blocks/src/charts/chart-radial-stacked",
     "tree": [
       {
         "name": "chart-radial-stacked.tsx",
@@ -24905,7 +25439,7 @@
     ],
     "root_folder": "charts/chart-radial-text",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-radial-text",
+    "source": "/registry-blocks/src/charts/chart-radial-text",
     "tree": [
       {
         "name": "chart-radial-text.tsx",
@@ -24932,7 +25466,7 @@
     ],
     "root_folder": "charts/chart-tooltip-default",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-tooltip-default",
+    "source": "/registry-blocks/src/charts/chart-tooltip-default",
     "tree": [
       {
         "name": "chart-tooltip-default.tsx",
@@ -24959,7 +25493,7 @@
     ],
     "root_folder": "charts/chart-tooltip-indicator-line",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-tooltip-indicator-line",
+    "source": "/registry-blocks/src/charts/chart-tooltip-indicator-line",
     "tree": [
       {
         "name": "chart-tooltip-indicator-line.tsx",
@@ -24986,7 +25520,7 @@
     ],
     "root_folder": "charts/chart-tooltip-indicator-none",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-tooltip-indicator-none",
+    "source": "/registry-blocks/src/charts/chart-tooltip-indicator-none",
     "tree": [
       {
         "name": "chart-tooltip-indicator-none.tsx",
@@ -25013,7 +25547,7 @@
     ],
     "root_folder": "charts/chart-tooltip-label-none",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-tooltip-label-none",
+    "source": "/registry-blocks/src/charts/chart-tooltip-label-none",
     "tree": [
       {
         "name": "chart-tooltip-label-none.tsx",
@@ -25040,7 +25574,7 @@
     ],
     "root_folder": "charts/chart-tooltip-label-custom",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-tooltip-label-custom",
+    "source": "/registry-blocks/src/charts/chart-tooltip-label-custom",
     "tree": [
       {
         "name": "chart-tooltip-label-custom.tsx",
@@ -25067,7 +25601,7 @@
     ],
     "root_folder": "charts/chart-tooltip-label-formatter",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-tooltip-label-formatter",
+    "source": "/registry-blocks/src/charts/chart-tooltip-label-formatter",
     "tree": [
       {
         "name": "chart-tooltip-label-formatter.tsx",
@@ -25094,7 +25628,7 @@
     ],
     "root_folder": "charts/chart-tooltip-formatter",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-tooltip-formatter",
+    "source": "/registry-blocks/src/charts/chart-tooltip-formatter",
     "tree": [
       {
         "name": "chart-tooltip-formatter.tsx",
@@ -25121,7 +25655,7 @@
     ],
     "root_folder": "charts/chart-tooltip-icons",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-tooltip-icons",
+    "source": "/registry-blocks/src/charts/chart-tooltip-icons",
     "tree": [
       {
         "name": "chart-tooltip-icons.tsx",
@@ -25148,7 +25682,7 @@
     ],
     "root_folder": "charts/chart-tooltip-advanced",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/charts/chart-tooltip-advanced",
+    "source": "/registry-blocks/src/charts/chart-tooltip-advanced",
     "tree": [
       {
         "name": "chart-tooltip-advanced.tsx",
@@ -25188,7 +25722,7 @@
     ],
     "root_folder": "sidebar/sidebar-01",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/sidebar/sidebar-01",
+    "source": "/registry-blocks/src/sidebar/sidebar-01",
     "tree": [
       {
         "name": "sidebar-01.tsx",
@@ -25250,7 +25784,7 @@
     ],
     "root_folder": "sidebar/sidebar-02",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/sidebar/sidebar-02",
+    "source": "/registry-blocks/src/sidebar/sidebar-02",
     "tree": [
       {
         "name": "sidebar-02.tsx",
@@ -25303,7 +25837,7 @@
     ],
     "root_folder": "sidebar/sidebar-03",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/sidebar/sidebar-03",
+    "source": "/registry-blocks/src/sidebar/sidebar-03",
     "tree": [
       {
         "name": "sidebar-03.tsx",
@@ -25346,7 +25880,7 @@
     ],
     "root_folder": "sidebar/sidebar-04",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/sidebar/sidebar-04",
+    "source": "/registry-blocks/src/sidebar/sidebar-04",
     "tree": [
       {
         "name": "sidebar-04.tsx",
@@ -25393,7 +25927,7 @@
     ],
     "root_folder": "sidebar/sidebar-05",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/sidebar/sidebar-05",
+    "source": "/registry-blocks/src/sidebar/sidebar-05",
     "tree": [
       {
         "name": "sidebar-05.tsx",
@@ -25450,7 +25984,7 @@
     ],
     "root_folder": "sidebar/sidebar-06",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/sidebar/sidebar-06",
+    "source": "/registry-blocks/src/sidebar/sidebar-06",
     "tree": [
       {
         "name": "sidebar-06.tsx",
@@ -25522,7 +26056,7 @@
     ],
     "root_folder": "sidebar/sidebar-07",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/sidebar/sidebar-07",
+    "source": "/registry-blocks/src/sidebar/sidebar-07",
     "tree": [
       {
         "name": "sidebar-07.tsx",
@@ -25604,7 +26138,7 @@
     ],
     "root_folder": "sidebar/sidebar-08",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/sidebar/sidebar-08",
+    "source": "/registry-blocks/src/sidebar/sidebar-08",
     "tree": [
       {
         "name": "sidebar-08.tsx",
@@ -25673,7 +26207,7 @@
     ],
     "root_folder": "sidebar/sidebar-09",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/sidebar/sidebar-09",
+    "source": "/registry-blocks/src/sidebar/sidebar-09",
     "tree": [
       {
         "name": "sidebar-09.tsx",
@@ -25747,7 +26281,7 @@
     ],
     "root_folder": "sidebar/sidebar-10",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/sidebar/sidebar-10",
+    "source": "/registry-blocks/src/sidebar/sidebar-10",
     "tree": [
       {
         "name": "sidebar-10.tsx",
@@ -25820,7 +26354,7 @@
     ],
     "root_folder": "sidebar/sidebar-11",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/sidebar/sidebar-11",
+    "source": "/registry-blocks/src/sidebar/sidebar-11",
     "tree": [
       {
         "name": "sidebar-11.tsx",
@@ -25879,7 +26413,7 @@
     ],
     "root_folder": "sidebar/sidebar-12",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/sidebar/sidebar-12",
+    "source": "/registry-blocks/src/sidebar/sidebar-12",
     "tree": [
       {
         "name": "sidebar-12.tsx",
@@ -25938,7 +26472,7 @@
     ],
     "root_folder": "sidebar/sidebar-13",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/sidebar/sidebar-13",
+    "source": "/registry-blocks/src/sidebar/sidebar-13",
     "tree": [
       {
         "name": "sidebar-13.tsx",
@@ -25980,7 +26514,7 @@
     ],
     "root_folder": "sidebar/sidebar-14",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/sidebar/sidebar-14",
+    "source": "/registry-blocks/src/sidebar/sidebar-14",
     "tree": [
       {
         "name": "sidebar-14.tsx",
@@ -26063,7 +26597,7 @@
     ],
     "root_folder": "sidebar/sidebar-15",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/sidebar/sidebar-15",
+    "source": "/registry-blocks/src/sidebar/sidebar-15",
     "tree": [
       {
         "name": "sidebar-15.tsx",
@@ -26179,7 +26713,7 @@
     ],
     "root_folder": "sidebar/sidebar-16",
     "type": "registry:block",
-    "source": "/registry-examples-duckui/src/sidebar/sidebar-16",
+    "source": "/registry-blocks/src/sidebar/sidebar-16",
     "tree": [
       {
         "name": "sidebar-16.tsx",

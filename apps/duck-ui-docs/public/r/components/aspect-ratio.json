@@ -19,6 +19,6 @@
   ],
   "name": "aspect-ratio",
   "root_folder": "aspect-ratio",
-  "source": "/registry-ui-duckui/src/aspect-ratio",
+  "source": "/registry-ui/src/aspect-ratio",
   "type": "registry:ui"
 }

@@ -1,8 +1,8 @@
 'use client'
 
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui-duckui/card'
-import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui/card'
+import { Checkbox } from '@gentleduck/registry-ui/checkbox'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,8 +10,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@gentleduck/registry-ui-duckui/dropdown-menu'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@gentleduck/registry-ui-duckui/table'
+} from '@gentleduck/registry-ui/dropdown-menu'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@gentleduck/registry-ui/table'
 import {
   type ColumnDef,
   type ColumnFiltersState,

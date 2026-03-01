@@ -1,20 +1,14 @@
 'use client'
 
 import { CopyButton } from '@gentleduck/docs/client'
-import { Badge } from '@gentleduck/registry-ui-duckui/badge'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui-duckui/card'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-} from '@gentleduck/registry-ui-duckui/dialog'
-import { Input } from '@gentleduck/registry-ui-duckui/input'
-import { Label } from '@gentleduck/registry-ui-duckui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
-import { Textarea } from '@gentleduck/registry-ui-duckui/textarea'
+import { Badge } from '@gentleduck/registry-ui/badge'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui/card'
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@gentleduck/registry-ui/dialog'
+import { Input } from '@gentleduck/registry-ui/input'
+import { Label } from '@gentleduck/registry-ui/label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'
+import { Textarea } from '@gentleduck/registry-ui/textarea'
 import { converter, formatHex, parse } from 'culori'
 import { Eye, Moon, Palette, Pipette, Plus, Settings, Sun, Trash2 } from 'lucide-react'
 import dynamic from 'next/dynamic'

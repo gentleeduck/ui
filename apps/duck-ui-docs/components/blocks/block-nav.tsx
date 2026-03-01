@@ -1,6 +1,6 @@
 'use client'
 
-import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
+import { ScrollArea } from '@gentleduck/registry-ui/scroll-area'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 

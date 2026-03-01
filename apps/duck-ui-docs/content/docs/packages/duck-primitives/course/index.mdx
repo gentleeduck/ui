@@ -1,105 +1,93 @@
 ---
 title: "gentleduck/primitives Course"
-description: "Learn to build accessible UI components with gentleduck/primitives. 8 practical lessons plus full primitive coverage map."
+description: "Advanced, project-oriented curriculum for building accessible component systems with gentleduck/primitives."
 ---
 
 <Callout icon={<MapIcon />}>
 
-This course teaches you how to use **gentleduck/primitives** to build accessible, composable UI components. Each lesson introduces one concept with practical code examples.
+This course is a systems track, not a demo track. You will build production-quality wrappers and learn how primitives behave under real constraints: nested overlays, async workflows, keyboard-first navigation, and accessibility audits.
 
 </Callout>
 
-## Course overview
+## Outcomes
 
-**Prerequisites:** React knowledge (hooks, refs, context). No accessibility expertise required.
+After completing the course, you should be able to:
 
----
-
-## Lessons
-
-| # | Title | What you will learn |
-| --- | --- | --- |
-| 1 | [Why Primitives](/docs/packages/duck-primitives/course/01-why-primitives) | The problem with building UI from scratch, and how primitives solve it |
-| 2 | [Your First Dialog](/docs/packages/duck-primitives/course/02-first-dialog) | The compound component pattern, controlled/uncontrolled state |
-| 3 | [The asChild Pattern](/docs/packages/duck-primitives/course/03-as-child) | Composition without wrapper divs |
-| 4 | [Popover and Positioning](/docs/packages/duck-primitives/course/04-popover) | Floating elements, anchoring, and collision avoidance |
-| 5 | [Menus, Dropdowns, and Selection](/docs/packages/duck-primitives/course/05-menus) | Context menus, dropdown menus, select patterns, and keyboard navigation |
-| 6 | [Animation with Presence](/docs/packages/duck-primitives/course/06-animation) | Enter/exit animations using CSS and Presence |
-| 7 | [Accessibility Deep Dive](/docs/packages/duck-primitives/course/07-accessibility) | ARIA patterns, focus management, and screen reader testing |
-| 8 | [Building a Design System](/docs/packages/duck-primitives/course/08-design-system) | Wrapping primitives into styled, reusable components |
+- Build and ship design-system wrappers around primitives.
+- Choose controlled vs uncontrolled strategies intentionally.
+- Debug focus, dismissal, and layering issues quickly.
+- Implement robust motion with `Presence` and reduced-motion support.
+- Verify accessibility with keyboard and screen reader workflows.
+- Build quality gates that catch interaction regressions early.
+- Run an internal registry of vetted primitive wrapper examples.
 
 ---
 
-## Primitive coverage map
+## How to run this course
 
-The lessons focus on core patterns. Use this map to see where each primitive is covered.
+Recommended cadence:
 
-### Component primitives
+1. Read one lesson.
+2. Build the lab in a local playground.
+3. Add one production constraint (async, nesting, RTL, or reduced motion).
+4. Validate with keyboard and screen reader checks.
 
-| Primitive | Course coverage | API reference |
-| --- | --- | --- |
-| Dialog | Lesson 2, 3, 7, 8 | [/api/dialog](/docs/packages/duck-primitives/api/dialog) |
-| Alert Dialog | Lesson 7, 8 | [/api/alert-dialog](/docs/packages/duck-primitives/api/alert-dialog) |
-| Popover | Lesson 4, 8 | [/api/popover](/docs/packages/duck-primitives/api/popover) |
-| Tooltip | Lesson 4, 8 | [/api/tooltip](/docs/packages/duck-primitives/api/tooltip) |
-| Hover Card | Lesson 4 | [/api/hover-card](/docs/packages/duck-primitives/api/hover-card) |
-| Menu | Lesson 5 | [/api/menu](/docs/packages/duck-primitives/api/menu) |
-| Context Menu | Lesson 5 | [/api/context-menu](/docs/packages/duck-primitives/api/context-menu) |
-| Dropdown Menu | Lesson 5 | [/api/dropdown-menu](/docs/packages/duck-primitives/api/dropdown-menu) |
-| Menubar | Lesson 5 | [/api/menubar](/docs/packages/duck-primitives/api/menubar) |
-| Select | Lesson 5, 8 | [/api/select](/docs/packages/duck-primitives/api/select) |
-| Slider | Lesson 8 | [/api/slider](/docs/packages/duck-primitives/api/slider) |
-| Sheet | Lesson 8 | [/api/sheet](/docs/packages/duck-primitives/api/sheet) |
-| Navigation Menu | Lesson 5 | [/api/navigation-menu](/docs/packages/duck-primitives/api/navigation-menu) |
-| Arrow | Lesson 4, 8 | [/api/arrow](/docs/packages/duck-primitives/api/arrow) |
-| Progress | Lesson 8 | [/api/progress](/docs/packages/duck-primitives/api/progress) |
-
-### Infrastructure primitives
-
-| Primitive | Course coverage | API reference |
-| --- | --- | --- |
-| Primitive Elements | Lesson 3 | [/api/primitive-elements](/docs/packages/duck-primitives/api/primitive-elements) |
-| Slot | Lesson 3 | [/api/slot](/docs/packages/duck-primitives/api/slot) |
-| Presence | Lesson 6 | [/api/presence](/docs/packages/duck-primitives/api/presence) |
-| Portal | Lesson 2, 8 | [/api/portal](/docs/packages/duck-primitives/api/portal) |
-| Focus Scope | Lesson 7 | [/api/focus-scope](/docs/packages/duck-primitives/api/focus-scope) |
-| Dismissable Layer | Lesson 7 | [/api/dismissable-layer](/docs/packages/duck-primitives/api/dismissable-layer) |
-| Roving Focus | Lesson 5, 7 | [/api/roving-focus](/docs/packages/duck-primitives/api/roving-focus) |
-| Popper | Lesson 4 | [/api/popper](/docs/packages/duck-primitives/api/popper) |
-| Mount | Lesson 6 | [/api/mount](/docs/packages/duck-primitives/api/mount) |
-| Visibility Hidden | Lesson 7, 8 | [/api/visibility-hidden](/docs/packages/duck-primitives/api/visibility-hidden) |
-| Checkers | Lesson 8 | [/api/checkers](/docs/packages/duck-primitives/api/checkers) |
-
-### Reserved entrypoints
-
-| Primitive | Status | API reference |
-| --- | --- | --- |
-| Drawer | Reserved / no stable public exports | [/api/drawer](/docs/packages/duck-primitives/api/drawer) |
-| Layer | Reserved / no stable public exports | [/api/layer](/docs/packages/duck-primitives/api/layer) |
+If you only copy snippets, you will miss the behavioral contracts that matter in production.
 
 ---
 
-## Setup
+## Curriculum
 
-<Steps>
+| # | Lesson | Core topic | Production lens |
+| --- | --- | --- | --- |
+| 1 | [Why Primitives](/docs/packages/duck-primitives/course/01-why-primitives) | Behavioral abstraction | What complexity you should never rebuild manually |
+| 2 | [Your First Dialog](/docs/packages/duck-primitives/course/02-first-dialog) | Compound anatomy | State ownership and guarded dismiss flows |
+| 3 | [The asChild Pattern](/docs/packages/duck-primitives/course/03-as-child) | Composition model | Ref safety and prop merging contracts |
+| 4 | [Popover and Positioning](/docs/packages/duck-primitives/course/04-popover) | Popper placement | Collision strategy and anchor modeling |
+| 5 | [Menus, Dropdowns, and Selection](/docs/packages/duck-primitives/course/05-menus) | Complex selection UIs | Keyboard routing, item semantics, and submenus |
+| 6 | [Animation with Presence](/docs/packages/duck-primitives/course/06-animation) | Mount lifecycle | Exit timing, forceMount, and reduced-motion policy |
+| 7 | [Accessibility Deep Dive](/docs/packages/duck-primitives/course/07-accessibility) | ARIA + focus rules | Practical audits and failure modes |
+| 8 | [Building a Design System](/docs/packages/duck-primitives/course/08-design-system) | Wrapper architecture | API consistency, defaults, and scaling patterns |
+| 9 | [Testing and Quality Gates](/docs/packages/duck-primitives/course/09-testing-quality) | Reliability engineering | Interaction tests, a11y assertions, CI gates |
+| 10 | [Operations, Migration, and Internal Registry](/docs/packages/duck-primitives/course/10-operations-migration) | Long-term operations | Rollout safety, governance, migration, registry |
 
-<Step>Create a new project</Step>
+---
 
-```bash
-npm create vite@latest primitives-playground — --template react-ts
-```
+## Prep checklist
 
-<Step>Install duck-primitives</Step>
+Before lesson 1:
 
-```bash
-cd primitives-playground
-npm install @gentleduck/primitives
-```
+- Install `@gentleduck/primitives`.
+- Create a playground app where you can iterate quickly.
+- Set document and provider direction (`ltr` or `rtl`).
+- Have one keyboard and one screen-reader pass workflow ready.
 
-<Step>Start the dev server</Step>
+---
 
-```bash
-npm run dev
-```
+## Suggested capstone
 
-</Steps>
+Build this in your own repo while taking the course:
+
+- `Dialog` wrapper with guarded async close.
+- `Popover` wrapper with side-aware motion.
+- `Menu` wrapper with checkbox/radio semantics.
+- `Tooltip` wrapper with provider defaults.
+- Internal registry entries for each wrapper with examples and test references.
+
+If you are following this inside this monorepo, use `packages/registers/registry-internal/registry-internal.ts` as the internal registry entry source.
+
+Then write a short engineering note explaining:
+
+- Why you chose controlled vs uncontrolled for each.
+- Which accessibility checks you automated vs manual.
+- Which defaults belong in wrappers vs app usage.
+
+---
+
+## Coverage map
+
+Use API docs as the canonical prop/event source:
+
+- [All APIs](/docs/packages/duck-primitives/api)
+- [Core Concepts](/docs/packages/duck-primitives/concepts)
+- [Guides](/docs/packages/duck-primitives/guides)

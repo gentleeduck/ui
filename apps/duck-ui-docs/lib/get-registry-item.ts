@@ -9,9 +9,9 @@ import { getRegistryIndex } from '~/lib/registry-index.server'
 const memoizedIndex = getRegistryIndex()
 
 function getSourceDir(fileType: string): string {
-  if (fileType.includes('ui')) return 'packages/registry-ui-duckui/src/'
-  if (fileType.includes('example')) return 'packages/registry-examples-duckui/src/'
-  return 'packages/registry-blocks-duckui/src/'
+  if (fileType.includes('ui')) return 'packages/registry-ui/src/'
+  if (fileType.includes('example')) return 'packages/registry-examples/src/'
+  return 'packages/registry-blocks/src/'
 }
 
 export function getRegistryComponent(name: string) {

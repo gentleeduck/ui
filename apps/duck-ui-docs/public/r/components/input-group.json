@@ -24,6 +24,6 @@
     "textarea"
   ],
   "root_folder": "input-group",
-  "source": "/registry-ui-duckui/src/input-group",
+  "source": "/registry-ui/src/input-group",
   "type": "registry:ui"
 }

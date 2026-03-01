@@ -1,19 +1,12 @@
 'use client'
 
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@gentleduck/registry-ui-duckui/card'
-import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
-import { Input } from '@gentleduck/registry-ui-duckui/input'
-import { Label } from '@gentleduck/registry-ui-duckui/label'
-import { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui-duckui/radio-group'
-import { Textarea } from '@gentleduck/registry-ui-duckui/textarea'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@gentleduck/registry-ui/card'
+import { Checkbox } from '@gentleduck/registry-ui/checkbox'
+import { Input } from '@gentleduck/registry-ui/input'
+import { Label } from '@gentleduck/registry-ui/label'
+import { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui/radio-group'
+import { Textarea } from '@gentleduck/registry-ui/textarea'
 import * as React from 'react'
 
 const plans = [

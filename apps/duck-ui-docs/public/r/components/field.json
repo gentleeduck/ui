@@ -29,6 +29,6 @@
     "separator"
   ],
   "root_folder": "field",
-  "source": "/registry-ui-duckui/src/field",
+  "source": "/registry-ui/src/field",
   "type": "registry:ui"
 }

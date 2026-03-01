@@ -1,172 +1,74 @@
 ---
 title: "Lesson 6: Animation with Presence"
-description: "Add enter and exit animations to primitives using CSS and the Presence system."
+description: "Use Presence for reliable enter/exit motion, forceMount integration, and reduced-motion compliance."
 ---
 
 <Callout icon={<Lightbulb />}>
 
-**Lesson 6 of 8** — Add smooth enter and exit animations using CSS keyframes and the Presence system.
+**Lesson 6 of 10**: Great motion is not decoration. It must respect lifecycle, accessibility, and user settings.
 
 </Callout>
 
-## The unmount problem
+## Why Presence exists
 
-When a dialog closes, React removes its DOM nodes immediately. If you have a fade-out animation, you never see it because the element is gone before the animation starts.
+A common bug in animated overlays: component unmounts before exit animation finishes.
 
-<Callout icon={<Zap />}>
-
-The `Presence` component solves this. It detects CSS animations on its child element and delays unmounting until `animationend` fires.
-
-</Callout>
-
----
-
-## Adding animations
-
-All you need are CSS keyframes and `data-state` selectors. The primitives already apply `data-state` to Overlay and Content.
-
-```css title="styles.css"
-@keyframes overlayFadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-@keyframes overlayFadeOut {
-  from { opacity: 1; }
-  to { opacity: 0; }
-}
-@keyframes contentSlideIn {
-  from { opacity: 0; transform: translate(-50%, -48%) scale(0.96); }
-  to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-}
-@keyframes contentSlideOut {
-  from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  to { opacity: 0; transform: translate(-50%, -48%) scale(0.96); }
-}
-
-.dialog-overlay[data-state="open"] { animation: overlayFadeIn 200ms ease; }
-.dialog-overlay[data-state="closed"] { animation: overlayFadeOut 200ms ease; }
-.dialog-content[data-state="open"] { animation: contentSlideIn 200ms ease; }
-.dialog-content[data-state="closed"] { animation: contentSlideOut 150ms ease; }
-```
-
-```tsx
-<Dialog.Portal>
-  <Dialog.Overlay className="fixed inset-0 bg-black/50 dialog-overlay" />
-  <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl p-6 dialog-content">
-    <Dialog.Title>Animated dialog</Dialog.Title>
-    <Dialog.Close>Close</Dialog.Close>
-  </Dialog.Content>
-</Dialog.Portal>
-```
-
-Open and close the dialog. You will see both enter and exit animations play. Presence keeps the elements mounted during the exit animation.
-
----
-
-## How Presence works internally
-
-<Callout icon={<Lightbulb />}>
-
-Presence uses a three-state machine:
-
-1. **`mounted`** — element is in the DOM, visible.
-2. **`unmountSuspended`** — `present` changed to `false`, but an exit animation is running. Element stays in DOM.
-3. **`unmounted`** — animation finished. Element is removed from DOM.
-
-</Callout>
-
-When `present` changes from `true` to `false`, Presence reads `getComputedStyle(element).animationName` and compares it with the previous value. If it changed, an exit animation started, and Presence enters `unmountSuspended`. It then listens for `animationend` to transition to `unmounted`.
-
----
-
-## Using Presence directly
-
-You don't usually need to use Presence directly since primitives use it internally. But it's useful for custom components:
+`Presence` solves this by delaying unmount until animation completion.
 
 ```tsx
 import { Presence } from '@gentleduck/primitives/presence'
 
-function Notification({ visible, children }) {
-  return (
-    <Presence present={visible}>
-      <div className={`notification ${visible ? 'slide-in' : 'slide-out'}`}>
-        {children}
-      </div>
-    </Presence>
-  )
-}
-```
-
----
-
-## The render function form
-
-For more control over which classes to apply:
-
-```tsx
-<Presence present={isOpen}>
-  {({ present }) => (
-    <div className={present ? 'entering' : 'exiting'}>
-      Content
-    </div>
-  )}
+<Presence present={open}>
+  <div className={open ? 'animate-in' : 'animate-out'} />
 </Presence>
 ```
 
 ---
 
-## The `forceMount` escape hatch
+## State machine mental model
 
-<Callout icon={<Target />}>
+`Presence` transitions through:
 
-When you want to use a JS animation library (Framer Motion, React Spring) instead of CSS, use `forceMount` to keep elements always mounted.
+1. `mounted`
+2. `unmountSuspended`
+3. `unmounted`
 
-</Callout>
-
-```tsx
-const [open, setOpen] = React.useState(false)
-
-<Dialog.Root open={open} onOpenChange={setOpen}>
-  <Dialog.Trigger>Open</Dialog.Trigger>
-  <Dialog.Portal forceMount>
-    <AnimatePresence>
-      {open && (
-        <Dialog.Overlay forceMount asChild>
-          <motion.div
-            className="fixed inset-0 bg-black/50"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          />
-        </Dialog.Overlay>
-      )}
-      {open && (
-        <Dialog.Content forceMount asChild>
-          <motion.div
-            className="fixed top-1/2 left-1/2 bg-white rounded-xl p-6"
-            initial={{ opacity: 0, y: 20, x: '-50%', translateY: '-50%' }}
-            animate={{ opacity: 1, y: 0, x: '-50%', translateY: '-50%' }}
-            exit={{ opacity: 0, y: 20 }}
-          >
-            <Dialog.Title>Framer Motion dialog</Dialog.Title>
-            <Dialog.Close>Close</Dialog.Close>
-          </motion.div>
-        </Dialog.Content>
-      )}
-    </AnimatePresence>
-  </Dialog.Portal>
-</Dialog.Root>
-```
+When `present` becomes false, it checks animation state and waits for completion.
 
 ---
 
-## Reduced motion
+## CSS contract for primitives
 
-<Callout icon={<TriangleAlert />}>
+Most primitives expose `data-state="open|closed"`.
 
-Always respect `prefers-reduced-motion` to provide a comfortable experience for users sensitive to animation.
+```css
+.dialog-content[data-state='open'] { animation: zoomIn 160ms ease; }
+.dialog-content[data-state='closed'] { animation: zoomOut 120ms ease; }
+```
 
-</Callout>
+Always define both states when using animated exit.
+
+---
+
+## Using JS animation libraries
+
+Use `forceMount` when a motion library controls render lifecycle.
+
+```tsx
+<Dialog.Portal forceMount>
+  <Dialog.Content forceMount asChild>
+    <motion.div />
+  </Dialog.Content>
+</Dialog.Portal>
+```
+
+This avoids double lifecycle ownership.
+
+---
+
+## Reduced motion policy
+
+Respect system preference:
 
 ```css
 @media (prefers-reduced-motion: reduce) {
@@ -177,16 +79,29 @@ Always respect `prefers-reduced-motion` to provide a comfortable experience for 
 }
 ```
 
+Motion should never block usability.
+
 ---
 
-## Exercise
+## Debugging animation issues
 
-1. Add slide-up enter and slide-down exit animations to a dialog.
-2. Create an animated popover that fades and scales based on its `side` (different animations for top vs bottom).
-3. Build a notification toast using `Presence` directly that slides in from the right and slides out.
+If exit motion is not visible:
+
+1. Verify closed-state animation exists.
+2. Verify selector matches rendered element.
+3. Verify no immediate `display: none` style is applied.
+4. Verify `forceMount` strategy if using JS animation library.
+
+---
+
+## Lab
+
+1. Add side-aware popover motion.
+2. Add dialog overlay/content enter and exit motion.
+3. Validate behavior with reduced-motion enabled.
 
 <Callout icon={<MapIcon />}>
 
-Next: [Lesson 7 — Accessibility Deep Dive](/docs/packages/duck-primitives/course/07-accessibility)
+Next: [Lesson 7 - Accessibility Deep Dive](/docs/packages/duck-primitives/course/07-accessibility)
 
 </Callout>

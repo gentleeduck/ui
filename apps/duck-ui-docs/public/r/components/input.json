@@ -18,6 +18,6 @@
   ],
   "name": "input",
   "root_folder": "input",
-  "source": "/registry-ui-duckui/src/input",
+  "source": "/registry-ui/src/input",
   "type": "registry:ui"
 }

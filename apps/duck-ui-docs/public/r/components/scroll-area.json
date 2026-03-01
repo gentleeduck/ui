@@ -18,6 +18,6 @@
   ],
   "name": "scroll-area",
   "root_folder": "scroll-area",
-  "source": "/registry-ui-duckui/src/scroll-area",
+  "source": "/registry-ui/src/scroll-area",
   "type": "registry:ui"
 }

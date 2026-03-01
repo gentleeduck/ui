@@ -117,11 +117,7 @@ const nextConfig: NextConfig = {
       },
     ]
   },
-  transpilePackages: [
-    '@gentleduck/registry-ui-duckui',
-    '@gentleduck/registry-examples-duckui',
-    '@gentleduck/registry-blocks-duckui',
-  ],
+  transpilePackages: ['@gentleduck/registry-ui', '@gentleduck/registry-examples', '@gentleduck/registry-blocks'],
 }
 
 export default nextConfig

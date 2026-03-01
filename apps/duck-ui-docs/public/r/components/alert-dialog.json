@@ -22,6 +22,6 @@
     "button"
   ],
   "root_folder": "alert-dialog",
-  "source": "/registry-ui-duckui/src/alert-dialog",
+  "source": "/registry-ui/src/alert-dialog",
   "type": "registry:ui"
 }

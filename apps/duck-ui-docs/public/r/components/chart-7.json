@@ -12,6 +12,6 @@
     "chart"
   ],
   "root_folder": "chart",
-  "source": "/registry-examples-duckui/src/chart",
+  "source": "/registry-examples/src/chart",
   "type": "registry:example"
 }

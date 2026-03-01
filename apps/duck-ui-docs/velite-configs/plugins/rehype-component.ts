@@ -3,7 +3,6 @@ import path from 'node:path'
 import type { UnistNode, UnistTree } from '@gentleduck/docs/types'
 import { u } from 'unist-builder'
 import { visit } from 'unist-util-visit'
-import { Index } from '~/__ui_registry__'
 
 const EXT_TO_LANG: Record<string, string> = {
   '.ts': 'typescript',
@@ -18,9 +17,24 @@ const EXT_TO_LANG: Record<string, string> = {
   '.sh': 'bash',
 }
 
+type RegistryEntry = {
+  source?: string
+  root_folder?: string
+  files?: { path?: string } | Array<{ path?: string }>
+}
+
+function loadRegistryIndex(): Record<string, RegistryEntry> {
+  const indexPath = path.join(process.cwd(), 'public/r/index.json')
+  const raw = fs.readFileSync(indexPath, 'utf8')
+  const entries = JSON.parse(raw) as Array<{ name: string } & RegistryEntry>
+
+  return Object.fromEntries(entries.map((entry) => [entry.name, entry]))
+}
+
+const registryIndex = loadRegistryIndex()
+
 export function rehypeComponent() {
   return async (tree: UnistTree) => {
-    // @ts-expect-error
     visit(tree, (node: UnistNode) => {
       if (node.name === 'ComponentSource') {
         componentSource({ node })
@@ -56,6 +70,31 @@ function resolveFilePath(baseDir: string, filePath: string) {
   }
 
   return absolute
+}
+
+function resolvePreviewSourcePath(component: RegistryEntry | undefined, src: string) {
+  const packagesRoot = path.resolve(process.cwd(), '../../packages')
+  const candidates: string[] = []
+
+  if (component?.source) {
+    const normalizedSource = component.source.replace(/^\/+/, '')
+    const sourceDir = path.resolve(packagesRoot, normalizedSource)
+    const fileName = path.basename(src)
+    const withoutRootPrefix = component.root_folder ? src.replace(new RegExp(`^${component.root_folder}/`), '') : src
+    candidates.push(path.join(sourceDir, fileName))
+    candidates.push(path.join(sourceDir, withoutRootPrefix))
+    candidates.push(path.join(sourceDir, src))
+  }
+
+  candidates.push(path.resolve(packagesRoot, 'registry-examples/src', src))
+  candidates.push(path.resolve(packagesRoot, 'registry-internals/src', src))
+
+  for (const candidate of candidates) {
+    const resolved = resolveFilePath('', candidate)
+    if (fs.existsSync(resolved)) return resolved
+  }
+
+  return resolveFilePath(path.resolve(packagesRoot, 'registry-examples/src'), src)
 }
 
 function createCodeNode(source: string, lang: string) {
@@ -130,18 +169,19 @@ export function componentPreview({ node }: { node: UnistNode }) {
   }
 
   try {
-    const component = Index[`${name}`]
-    const src = component?.files?.[0]?.path
+    const component = registryIndex[name]
+    const files = Array.isArray(component?.files) ? component.files : component?.files ? [component.files] : []
+    const src = files[0]?.path
 
     if (!src) {
       console.warn('no src found for', name)
       return null
     }
 
-    const filePath = resolveFilePath(path.join(process.cwd(), '../../packages/registry-examples-duckui/src/'), src)
+    const filePath = resolvePreviewSourcePath(component, src)
     let source = fs.readFileSync(filePath, 'utf8')
 
-    source = source.replaceAll(`@gentleduck/registry-ui-duckui`, `~/components`)
+    source = source.replaceAll(`@gentleduck/registry-ui`, `~/components`)
     source = source.replaceAll('export default', 'export')
 
     node.children = [createCodeNode(source, 'tsx')]

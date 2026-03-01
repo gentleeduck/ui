@@ -18,6 +18,6 @@
   ],
   "name": "textarea",
   "root_folder": "textarea",
-  "source": "/registry-ui-duckui/src/textarea",
+  "source": "/registry-ui/src/textarea",
   "type": "registry:ui"
 }

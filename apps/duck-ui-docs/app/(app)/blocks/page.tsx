@@ -1,4 +1,4 @@
-import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui/button'
 import Link from 'next/link'
 import { BlockDisplay } from '~/components/blocks'
 

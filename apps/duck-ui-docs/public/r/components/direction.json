@@ -18,6 +18,6 @@
   ],
   "name": "direction",
   "root_folder": "direction",
-  "source": "/registry-ui-duckui/src/direction",
+  "source": "/registry-ui/src/direction",
   "type": "registry:ui"
 }

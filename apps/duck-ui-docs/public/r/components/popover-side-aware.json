@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport * as Popover from '@gentleduck/primitives/popover'\nimport * as React from 'react'\nimport styles from './styles.module.css'\n\nexport default function PopoverSideAwareInternalExample() {\n  const [portalContainer, setPortalContainer] = React.useState<HTMLDivElement | null>(null)\n\n  return (\n    <div className={styles.frame} ref={setPortalContainer}>\n      <Popover.Root>\n        <Popover.Trigger className={styles.trigger}>Open filters</Popover.Trigger>\n        <Popover.Portal container={portalContainer}>\n          <Popover.Content\n            align=\"start\"\n            className={styles.content}\n            collisionBoundary={portalContainer ?? undefined}\n            collisionPadding={10}\n            side=\"bottom\"\n            sideOffset={10}>\n            <h4 className={styles.title}>Quick filters</h4>\n            <p className={styles.description}>Uses side, align, offset, and collision padding.</p>\n            <div className={styles.chips}>\n              <span>Recent</span>\n              <span>Assigned</span>\n              <span>Open</span>\n            </div>\n            <Popover.Arrow className={styles.arrow} />\n          </Popover.Content>\n        </Popover.Portal>\n      </Popover.Root>\n    </div>\n  )\n}\n",
+      "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
+      "target": "components/popover-side-aware.tsx",
+      "type": "registry:internal"
+    }
+  ],
+  "name": "popover-side-aware",
+  "registryDependencies": [
+    "@gentleduck/primitives"
+  ],
+  "root_folder": "internal-primitives",
+  "source": "/registry-internals/src/internal-primitives",
+  "type": "registry:internal"
+}

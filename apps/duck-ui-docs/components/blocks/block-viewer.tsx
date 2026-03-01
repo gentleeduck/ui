@@ -5,10 +5,10 @@ import { trackEvent } from '@gentleduck/docs/lib'
 import { useCopyToClipboard } from '@gentleduck/hooks/use-copy-to-clipboard'
 import { cn } from '@gentleduck/libs/cn'
 import type { registry_entry_schema, registry_item_file_schema } from '@gentleduck/registers'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui-duckui/collapsible'
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui-duckui/resizable'
-import { Separator } from '@gentleduck/registry-ui-duckui/separator'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui/collapsible'
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui/resizable'
+import { Separator } from '@gentleduck/registry-ui/separator'
 import {
   Sidebar,
   SidebarGroup,
@@ -19,9 +19,9 @@ import {
   SidebarMenuItem,
   SidebarMenuSub,
   SidebarProvider,
-} from '@gentleduck/registry-ui-duckui/sidebar'
-import { Tabs, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
-import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui-duckui/toggle-group'
+} from '@gentleduck/registry-ui/sidebar'
+import { Tabs, TabsList, TabsTrigger } from '@gentleduck/registry-ui/tabs'
+import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui/toggle-group'
 import {
   Check,
   ChevronRight,

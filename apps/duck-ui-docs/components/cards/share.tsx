@@ -1,12 +1,12 @@
 'use client'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui-duckui/avatar'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui-duckui/card'
-import { Input } from '@gentleduck/registry-ui-duckui/input'
-import { Label } from '@gentleduck/registry-ui-duckui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
-import { Separator } from '@gentleduck/registry-ui-duckui/separator'
+import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui/avatar'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui/card'
+import { Input } from '@gentleduck/registry-ui/input'
+import { Label } from '@gentleduck/registry-ui/label'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'
+import { Separator } from '@gentleduck/registry-ui/separator'
 import * as React from 'react'
 
 const people = [

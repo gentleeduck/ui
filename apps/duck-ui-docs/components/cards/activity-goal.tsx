@@ -1,15 +1,8 @@
 'use client'
 
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@gentleduck/registry-ui-duckui/card'
-import { type ChartConfig, ChartContainer } from '@gentleduck/registry-ui-duckui/chart'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@gentleduck/registry-ui/card'
+import { type ChartConfig, ChartContainer } from '@gentleduck/registry-ui/chart'
 import { MinusIcon, PlusIcon } from 'lucide-react'
 import * as React from 'react'
 import { Bar, BarChart } from 'recharts'

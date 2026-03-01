@@ -3,9 +3,9 @@
 import { useColors } from '@gentleduck/docs/client'
 import { type Color, getColorFormat } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Select, SelectContent, SelectItem, SelectTrigger } from '@gentleduck/registry-ui-duckui/select'
-import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Select, SelectContent, SelectItem, SelectTrigger } from '@gentleduck/registry-ui/select'
+import { Skeleton } from '@gentleduck/registry-ui/skeleton'
 import * as React from 'react'
 
 export function ColorFormatSelector({

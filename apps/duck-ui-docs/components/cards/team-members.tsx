@@ -1,8 +1,8 @@
 'use client'
 
-import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui-duckui/avatar'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui-duckui/card'
+import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui/avatar'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui/card'
 import {
   Command,
   CommandEmpty,
@@ -10,8 +10,8 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@gentleduck/registry-ui-duckui/command'
-import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
+} from '@gentleduck/registry-ui/command'
+import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
 import { ChevronDown } from 'lucide-react'
 
 const teamMembers = [

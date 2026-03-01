@@ -1,89 +1,118 @@
 ---
 title: "Lesson 1: Why Primitives"
-description: "The problem with building UI from scratch, and how headless primitives solve it."
+description: "Understand the real engineering cost of interaction components and why headless primitives are a strategic foundation."
 ---
 
 <Callout icon={<Lightbulb />}>
 
-**Lesson 1 of 8** — Understand why headless primitives exist and what problems they solve.
+**Lesson 1 of 10**: This lesson frames primitives as an engineering strategy, not a UI trend.
 
 </Callout>
 
-## The dialog problem
+## The actual problem
 
-Building a dialog sounds simple: show a div on top of everything. But a production dialog needs:
+Teams usually underestimate overlay and selection components because demos look simple. In production, each component requires:
 
-- **Focus trap:** <Kbd>Tab</Kbd> should cycle through focusable elements inside the dialog, not escape to the page behind it.
-- **Focus restoration:** When the dialog closes, focus should return to the element that opened it.
-- **Scroll lock:** The page behind the dialog shouldn't scroll.
-- **Escape to close:** Pressing <Kbd>Escape</Kbd> should dismiss the dialog.
-- **Click outside to close:** Clicking the overlay should dismiss the dialog.
-- **Screen reader announcements:** The dialog needs `role="dialog"`, `aria-labelledby`, and `aria-describedby`.
-- **Content hiding:** Everything behind the dialog should be hidden from screen readers via `aria-hidden`.
-- **Animation support:** Exit animations need to complete before unmounting.
+- Keyboard interaction contracts.
+- Screen reader semantics.
+- Focus containment and restoration.
+- Layering and stacking rules.
+- Dismiss behavior under nested surfaces.
+- Motion that does not break unmount timing.
 
-<Callout icon={<TriangleAlert />}>
-
-Implementing all of this correctly takes hundreds of lines of code and edge-case handling across browsers. Multiply that by every component (popover, tooltip, menu, select...) and you're looking at weeks of work that has nothing to do with your product.
-
-</Callout>
+Building this from scratch once is expensive. Maintaining it across product growth is far more expensive.
 
 ---
 
-## What primitives give you
+## Complexity profile: Dialog as an example
 
-duck-primitives handle all of the above. You write:
+A production dialog is not "render a box in the center". It includes:
 
-```tsx
-<Dialog.Root>
-  <Dialog.Trigger>Open</Dialog.Trigger>
-  <Dialog.Portal>
-    <Dialog.Overlay />
-    <Dialog.Content>
-      <Dialog.Title>Hello</Dialog.Title>
-      <Dialog.Close>Close</Dialog.Close>
-    </Dialog.Content>
-  </Dialog.Portal>
-</Dialog.Root>
-```
+1. Trigger semantics (`aria-haspopup`, `aria-expanded`, `aria-controls`).
+2. Content semantics (`role="dialog"`, labelled and described connections).
+3. Focus trap and tab loop.
+4. Focus restore after close.
+5. Body scroll lock.
+6. Escape and outside interaction handling.
+7. Hidden background semantics for assistive tech.
+8. Exit animation support before unmount.
 
-And you get focus trapping, scroll lock, ARIA labels, escape handling, click-outside dismissal, and animation support. All you add is CSS.
+If any one of these fails, users notice quickly.
 
 ---
 
-## Unstyled by design
+## Why headless primitives exist
 
-Primitives render semantic HTML with no visual styles. A `Dialog.Content` renders a `<div role="dialog">` with correct ARIA attributes and behavior, but with zero CSS.
+Headless primitives separate concerns cleanly:
 
-<Callout icon={<Zap />}>
+- Primitive layer: behavior, accessibility, interaction lifecycle.
+- Design-system layer: visual language, motion style, spacing/tokens.
+- App layer: business flows and feature logic.
 
-This is intentional. Every design system has different visual language. By shipping zero CSS, duck-primitives work with Tailwind, CSS modules, styled-components, or vanilla CSS equally well.
-
-</Callout>
-
----
-
-## The compound component pattern
-
-Every primitive uses compound components: a collection of related components that share implicit context.
-
-```tsx
-<Dialog.Root>        {/* Provider: manages state */}
-  <Dialog.Trigger /> {/* Consumer: reads state, toggles open */}
-  <Dialog.Content /> {/* Consumer: reads state, renders conditionally */}
-</Dialog.Root>
-```
-
-Root provides context. Children consume it. You compose them however you want. The structure is flexible: Trigger doesn't have to be a sibling of Content. It just needs to be somewhere inside Root.
+This separation lets teams move faster without breaking interaction correctness.
 
 ---
 
-## What you will learn next
+## Build-vs-wrap decision
 
-In Lesson 2, you will build your first real dialog with controlled state and understand every component in the anatomy.
+Use primitives when:
+
+- You need consistent interaction behavior across many teams.
+- You need custom UI style with no framework lock-in.
+- You care about long-term maintainability and accessibility quality.
+
+Use pre-styled components when:
+
+- You need speed for a small app with low customization needs.
+- Interaction edge cases are minimal and design constraints are fixed.
+
+---
+
+## The hidden risk of ad hoc components
+
+Without primitives, teams often copy-paste component code and drift begins:
+
+- Slightly different keyboard behavior per surface.
+- Inconsistent ARIA labeling patterns.
+- Close behavior differences across dialogs/popovers.
+- Animation races that cause focus loss.
+
+Drift multiplies QA effort and makes regressions harder to diagnose.
+
+---
+
+## What gentleduck/primitives gives you
+
+- Accessibility patterns implemented once and reused.
+- Compound APIs that support composition without hacks.
+- Controlled and uncontrolled state support.
+- Data attributes for styling state transitions.
+- Infra primitives (`Presence`, `Dismissable Layer`, `Focus Scope`, `Popper`) you can use directly.
+
+---
+
+## Mental model for this course
+
+Treat primitives like low-level platform APIs:
+
+- You do not redesign their behavioral contract.
+- You do wrap them with your design-system conventions.
+- You do test wrapper behavior in realistic workflows.
+
+---
+
+## Lab
+
+Build a simple comparison in your playground:
+
+1. One dialog built with raw `div` logic.
+2. One dialog built with `Dialog` primitive.
+3. Test both with keyboard and screen reader.
+
+Write down which edge cases broke in the raw version. That list is your adoption justification.
 
 <Callout icon={<MapIcon />}>
 
-Next: [Lesson 2 — Your First Dialog](/docs/packages/duck-primitives/course/02-first-dialog)
+Next: [Lesson 2 - Your First Dialog](/docs/packages/duck-primitives/course/02-first-dialog)
 
 </Callout>

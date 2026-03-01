@@ -12,6 +12,6 @@
     "label"
   ],
   "root_folder": "label",
-  "source": "/registry-examples-duckui/src/label",
+  "source": "/registry-examples/src/label",
   "type": "registry:example"
 }

@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\n\nimport { Switch } from '@gentleduck/registry-ui-duckui/switch'\n\nexport default function SwitchRtlDemo() {\n  return <Switch dir=\"rtl\" />\n}\n",
+      "content": "'use client'\n\nimport { Switch } from '@gentleduck/registry-ui/switch'\n\nexport default function SwitchRtlDemo() {\n  return <Switch dir=\"rtl\" />\n}\n",
       "path": "switch/switch-3.tsx",
       "target": "components/switch-3.tsx",
       "type": "registry:example"
@@ -12,6 +12,6 @@
     "switch"
   ],
   "root_folder": "switch",
-  "source": "/registry-examples-duckui/src/switch",
+  "source": "/registry-examples/src/switch",
   "type": "registry:example"
 }

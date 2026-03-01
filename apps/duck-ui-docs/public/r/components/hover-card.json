@@ -22,6 +22,6 @@
     "button"
   ],
   "root_folder": "hover-card",
-  "source": "/registry-ui-duckui/src/hover-card",
+  "source": "/registry-ui/src/hover-card",
   "type": "registry:ui"
 }
