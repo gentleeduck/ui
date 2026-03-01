@@ -19,6 +19,35 @@ interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   showSettings?: boolean
 }
 
+type CodeFragmentProps = {
+  'data-rehype-pretty-code-fragment'?: unknown
+  children?: React.ReactNode
+}
+
+type CopyValueProps = {
+  __rawString__?: string
+  value?: string
+}
+
+function getCodeStringFromFragment(codeNode: React.ReactElement | undefined): string | null {
+  if (!codeNode || !React.isValidElement<CodeFragmentProps>(codeNode)) {
+    return null
+  }
+
+  if (typeof codeNode.props['data-rehype-pretty-code-fragment'] === 'undefined') {
+    return null
+  }
+
+  const fragmentChildren = React.Children.toArray(codeNode.props.children)
+  const copyNode = fragmentChildren[1]
+
+  if (!copyNode || !React.isValidElement<CopyValueProps>(copyNode)) {
+    return null
+  }
+
+  return copyNode.props.value ?? copyNode.props.__rawString__ ?? null
+}
+
 export function ComponentPreview({
   name,
   children,
@@ -60,20 +89,7 @@ export function ComponentPreview({
   }, [name, registryIndex])
 
   const codeString = React.useMemo(() => {
-    if (
-      // ! FIX:
-      //  @ts-ignore 'Code.props' is of type 'unknown'.ts(18046)
-      typeof Code?.props['data-rehype-pretty-code-fragment'] !== 'undefined'
-    ) {
-      const Button = React.Children.toArray(
-        // ! FIX:
-        //  @ts-expect-error Property 'children' does not exist on type '{}'.ts(2339)
-        Code.props.children,
-      ) as React.ReactElement[]
-      // ! FIX:
-      //  @ts-expect-error Property '__rawString__' does not exist on type '{}'.ts(2339)
-      return Button[1]?.props?.value || Button[1]?.props?.__rawString__ || null
-    }
+    return getCodeStringFromFragment(Code)
   }, [Code])
 
   return (
@@ -99,7 +115,7 @@ export function ComponentPreview({
           <div className="absolute flex w-full items-center justify-between p-3">
             <span className="text-muted-foreground text-sm">{}</span>
             <div className="flex items-center gap-2">
-              <CopyButton value={codeString} variant="outline" />
+              <CopyButton value={codeString ?? ''} variant="outline" />
             </div>
           </div>
           <div
