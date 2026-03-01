@@ -28,7 +28,6 @@
   background: var(--popover);
   color: var(--popover-foreground);
   padding: 0.3rem;
-  box-shadow: 0 14px 36px color-mix(in oklab, var(--foreground) 16%, transparent);
 }
 
 .menuLabel {
@@ -36,15 +35,18 @@
   color: var(--muted-foreground);
   font-size: 0.73rem;
 }
+
 .item {
   border-radius: 8px;
   padding: 0.45rem 0.5rem;
   font-size: 0.84rem;
 }
+
 .item[data-highlighted] {
   background: var(--muted);
   outline: none;
 }
+
 .separator {
   height: 1px;
   margin: 0.2rem 0.15rem;

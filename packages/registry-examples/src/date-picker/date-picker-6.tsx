@@ -34,7 +34,7 @@ export default function CalendarDemo() {
   }
 
   return (
-    <form className="w-full space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+    <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
       <FieldGroup>
         <Controller
           control={form.control}
