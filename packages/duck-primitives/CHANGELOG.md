@@ -1,5 +1,11 @@
 # @gentleduck/primitives
 
+## 0.2.1
+
+### Patch Changes
+
+- ad86755: Fix internal registry source path and primitives build types.
+
 ## 0.2.0
 
 ### Minor Changes
