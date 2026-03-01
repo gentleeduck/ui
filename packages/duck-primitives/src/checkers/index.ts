@@ -1,2 +1,2 @@
-export * from './checkers.tsx'
-export * as default from './checkers.tsx'
+export * from './checkers'
+export * as default from './checkers'
