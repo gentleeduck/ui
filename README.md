@@ -15,9 +15,9 @@ A Bun-based monorepo for the gentleduck/ui component system, docs, and related t
 - `apps/duck-ui-docs` – component docs site (components, blocks, charts, themes)
 ### Packages (Selected)
 - `packages/duck-docs` – shared docs app kit used by the docs apps
-- `packages/registry-ui-duckui` – UI components
-- `packages/registry-blocks-duckui` – blocks and layouts
-- `packages/registry-examples-duckui` – examples used in docs
+- `packages/registry-ui` – UI components
+- `packages/registry-blocks` – blocks and layouts
+- `packages/registry-examples` – examples used in docs
 - `packages/duck-libs` – utilities
 - `packages/duck-hooks` – React hooks
 - `packages/duck-motion` – motion primitives
