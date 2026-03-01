@@ -126,3 +126,13 @@ export type RegistryEntry = z.infer<typeof registry_entry_schema>
 export const registry_schema = z.array(registry_entry_schema)
 
 export type Registry = z.infer<typeof registry_schema>
+
+export type ThemeEntry = {
+  light: Record<string, string>
+  dark: Record<string, string>
+}
+
+export type ThemeResponse = {
+  name: string
+  cssVars: ThemeEntry
+}

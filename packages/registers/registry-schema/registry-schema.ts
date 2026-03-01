@@ -6,6 +6,7 @@ export const REGISTRY_ITEM_TYPES = [
   'registry:hook',
   'registry:block',
   'registry:example',
+  'registry:internal',
   'registry:page',
 ] as const
 
@@ -69,7 +70,8 @@ export const registry_schema = z.object({
   blocks: z.array(registry_entry_schema),
   examples: z.array(registry_entry_schema),
   uis: z.array(registry_entry_schema),
-  //
+  internal: z.array(registry_entry_schema),
+  // TODO:
   // pages: z.array(registry_entry_schema),
 })
 

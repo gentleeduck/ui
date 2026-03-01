@@ -27,15 +27,17 @@ export class VimStdin extends Transform {
   }
 
   ref() {
-    if (typeof (process.stdin as any).ref === 'function') {
-      ;(process.stdin as any).ref()
+    const stdin = process.stdin as NodeJS.ReadStream & { ref?: () => void }
+    if (typeof stdin.ref === 'function') {
+      stdin.ref()
     }
     return this
   }
 
   unref() {
-    if (typeof (process.stdin as any).unref === 'function') {
-      ;(process.stdin as any).unref()
+    const stdin = process.stdin as NodeJS.ReadStream & { unref?: () => void }
+    if (typeof stdin.unref === 'function') {
+      stdin.unref()
     }
     return this
   }
