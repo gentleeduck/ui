@@ -131,7 +131,12 @@
       "Bash(PATH=\"$HOME/.bun/bin:$PATH\" bunx biome:*)",
       "Bash($HOME/.bun/bin/bunx biome:*)",
       "Bash(PATH=\"$HOME/.bun/bin:$PATH\" git add:*)",
-      "Bash(PATH=\"$HOME/.bun/bin:$PATH\" git commit:*)"
+      "Bash(PATH=\"$HOME/.bun/bin:$PATH\" git commit:*)",
+      "Bash(export:*)",
+      "Bash(node $CLI:*)",
+      "Bash(npm run:*)",
+      "WebFetch(domain:diffs.com)",
+      "Bash(mkdir:*)"
     ]
   }
 }
