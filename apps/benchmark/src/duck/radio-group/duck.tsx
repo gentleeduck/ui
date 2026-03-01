@@ -1,4 +1,4 @@
-import { Radio, RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui-duckui/radio-group'
+import { Radio, RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui/radio-group'
 import { Circle, CircleAlertIcon } from 'lucide-react'
 
 export default function RadioGroupDemo() {

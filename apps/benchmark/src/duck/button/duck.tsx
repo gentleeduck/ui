@@ -1,4 +1,4 @@
-import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui/button'
 
 function DuckButton() {
   return (

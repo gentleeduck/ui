@@ -1,4 +1,4 @@
-import { Slider } from '@gentleduck/registry-ui-duckui/slider'
+import { Slider } from '@gentleduck/registry-ui/slider'
 import { cn } from '@/lib/utils'
 
 type SliderProps = React.ComponentProps<typeof Slider>

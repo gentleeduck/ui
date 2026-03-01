@@ -1,4 +1,4 @@
-import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui/button'
 import { Button as HButton } from '@heroui/react'
 import { bench, describe } from 'vitest'
 import { render } from 'vitest-browser-react'

@@ -1,4 +1,4 @@
-import { Switch } from '@gentleduck/registry-ui-duckui/switch'
+import { Switch } from '@gentleduck/registry-ui/switch'
 import { Moon, Sun } from 'lucide-react'
 
 export default function SwitchDemo() {

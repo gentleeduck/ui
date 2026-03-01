@@ -8,9 +8,9 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from '@gentleduck/registry-ui-duckui/alert-dialog'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
+} from '@gentleduck/registry-ui/alert-dialog'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Checkbox } from '@gentleduck/registry-ui/checkbox'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,9 +18,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@gentleduck/registry-ui-duckui/dropdown-menu'
-import { Label } from '@gentleduck/registry-ui-duckui/label'
-import { Pagination, PaginationContent, PaginationItem } from '@gentleduck/registry-ui-duckui/pagination'
+} from '@gentleduck/registry-ui/dropdown-menu'
+import { Label } from '@gentleduck/registry-ui/label'
+import { Pagination, PaginationContent, PaginationItem } from '@gentleduck/registry-ui/pagination'
 import {
   Select,
   SelectContent,
@@ -28,7 +28,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@gentleduck/registry-ui-duckui/select'
+} from '@gentleduck/registry-ui/select'
 import {
   Table,
   TableBody,
@@ -37,7 +37,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@gentleduck/registry-ui-duckui/table'
+} from '@gentleduck/registry-ui/table'
 import { useAtom, useAtomValue } from '@gentleduck/state/react'
 import {
   ChevronLeftIcon,

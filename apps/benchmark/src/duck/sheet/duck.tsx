@@ -1,5 +1,5 @@
-import { Input } from '@gentleduck/registry-ui-duckui/input'
-import { Label } from '@gentleduck/registry-ui-duckui/label'
+import { Input } from '@gentleduck/registry-ui/input'
+import { Label } from '@gentleduck/registry-ui/label'
 import {
   Sheet,
   SheetClose,
@@ -9,7 +9,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@gentleduck/registry-ui-duckui/sheet'
+} from '@gentleduck/registry-ui/sheet'
 
 export default function SheetDemo({ side = 'right' }: { side?: 'left' | 'right' | 'top' | 'bottom' }) {
   return (

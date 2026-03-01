@@ -13,7 +13,7 @@ import {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-} from '@gentleduck/registry-ui-duckui/dropdown-menu'
+} from '@gentleduck/registry-ui/dropdown-menu'
 import { Command } from 'lucide-react'
 import React from 'react'
 import { Button } from '@/components/ui/button'

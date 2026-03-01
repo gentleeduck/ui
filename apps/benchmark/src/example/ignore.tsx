@@ -11,7 +11,7 @@
 //   NavigationMenuList,
 //   NavigationMenuTrigger,
 //   navigationMenuTriggerStyle,
-// } from '@gentleduck/registry-ui-duckui/navigation-menu'
+// } from '@gentleduck/registry-ui/navigation-menu'
 // import TooltipDemo from './example/tooltip'
 // import DropdownMenuDemo from './example/dropdown'
 // import SelectDemo from './example/select'

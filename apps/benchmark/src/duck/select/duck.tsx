@@ -1,5 +1,5 @@
-import { CommandShortcut } from '@gentleduck/registry-ui-duckui/command'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui-duckui/select'
+import { CommandShortcut } from '@gentleduck/registry-ui/command'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'
 import React from 'react'
 
 export default function SelectDemo() {
