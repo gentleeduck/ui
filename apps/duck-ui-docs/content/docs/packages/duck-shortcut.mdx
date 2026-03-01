@@ -1,0 +1,51 @@
+---
+title: gentleduck shortcut
+description: Deprecated React hook package for keyboard shortcuts and key sequences.
+---
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Deprecated"
+  tone="deprecated">
+`@gentleduck/shortcut` is deprecated and should not be adopted for new projects. Prefer `@gentleduck/vim` for active keyboard shortcut development and long-term support.
+</Callout>
+
+## Philosophy
+
+`@gentleduck/shortcut` gives a minimal hook API for keyboard interactions without forcing a full command framework. Use it for focused shortcut handling in app-level or feature-level components.
+
+## Installation
+
+```bash
+npm install @gentleduck/shortcut mousetrap
+```
+
+## Usage
+
+```tsx
+import { useDuckShortcut } from '@gentleduck/shortcut'
+
+export function EditorShortcuts() {
+  useDuckShortcut({
+    keys: ['ctrl+s', 'command+s'],
+    onKeysPressed: () => {
+      console.log('Save triggered')
+    },
+  })
+
+  return null
+}
+```
+
+## API Reference
+
+### `useDuckShortcut({ keys, onKeysPressed })`
+
+- `keys`: `string | string[]` for key combinations or sequences.
+- `onKeysPressed`: callback fired when a configured shortcut matches.
+
+## Notes
+
+- Supports both combinations (`ctrl+s`) and sequences (`up up down down ...`).
+- Key matching is case-insensitive.
+- Works with multiple hook instances in the same app.

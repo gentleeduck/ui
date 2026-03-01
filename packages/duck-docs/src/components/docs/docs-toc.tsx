@@ -111,9 +111,11 @@ function useTocSvg(containerRef: React.RefObject<HTMLDivElement | null>, items: 
       let w = 0
       let h = 0
       const d: string[] = []
+      let previousOffset = 0
+      let previousBottom = 0
+      let hasStarted = false
 
-      for (let i = 0; i < items.length; i++) {
-        const item = items[i]!
+      for (const item of items) {
         const el = container.querySelector<HTMLElement>(`a[href="${item.url}"]`)
         if (!el) continue
 
@@ -125,11 +127,23 @@ function useTocSvg(containerRef: React.RefObject<HTMLDivElement | null>, items: 
         w = Math.max(offset, w)
         h = Math.max(h, bottom)
 
-        d.push(`${i === 0 ? 'M' : 'L'}${offset} ${top}`)
-        d.push(`L${offset} ${bottom}`)
+        if (!hasStarted) {
+          d.push(`M${offset} ${top}`)
+          d.push(`L${offset} ${bottom}`)
+          hasStarted = true
+        } else {
+          // Connect stacked items (including depth changes) with one continuous path.
+          if (top !== previousBottom || offset !== previousOffset) {
+            d.push(`L${offset} ${top}`)
+          }
+          d.push(`L${offset} ${bottom}`)
+        }
+
+        previousOffset = offset
+        previousBottom = bottom
       }
 
-      setSvg({ path: d.join(' '), width: w + 1, height: h })
+      setSvg(d.length > 0 ? { path: d.join(' '), width: w + 1, height: h } : null)
     }
 
     const observer = new ResizeObserver(compute)
@@ -179,14 +193,29 @@ function TocTree({ items, activeItem }: { items: FlatTocItem[]; activeItem: stri
 
   return (
     <div ref={containerRef} className="relative">
-      {/* Per-item track lines + diagonal connectors */}
-      {items.map((item, i) => {
-        const upper = i > 0 ? items[i - 1]!.depth : item.depth
-        const lower = i < items.length - 1 ? items[i + 1]!.depth : item.depth
-        const offset = lineOffset(item.depth)
-        const upperOffset = lineOffset(upper)
-        const lowerOffset = lineOffset(lower)
+      {/* Shared SVG track for smoother joins and anti-aliased rendering */}
+      {svg ? (
+        <svg
+          aria-hidden="true"
+          className="pointer-events-none absolute start-0 top-0"
+          height={svg.height}
+          style={{ width: svg.width }}
+          viewBox={`0 0 ${svg.width} ${svg.height}`}
+          width={svg.width}>
+          <path
+            d={svg.path}
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={1}
+            className="text-muted-foreground/20"
+          />
+        </svg>
+      ) : null}
 
+      {/* Link labels */}
+      {items.map((item, i) => {
         return (
           <a
             key={i}
@@ -198,33 +227,6 @@ function TocTree({ items, activeItem }: { items: FlatTocItem[]; activeItem: stri
                 : 'text-muted-foreground text-sm hover:text-foreground',
             )}
             style={{ paddingInlineStart: `${itemPadding(item.depth)}px` }}>
-            {/* Diagonal connector when depth changes */}
-            {offset !== upperOffset ? (
-              <svg
-                aria-hidden="true"
-                className="absolute start-0 -top-1.5 size-3"
-                viewBox="0 0 16 16"
-                xmlns="http://www.w3.org/2000/svg">
-                <line
-                  className="stroke-muted-foreground/15"
-                  strokeWidth={1}
-                  x1={upperOffset + 1}
-                  x2={offset + 1}
-                  y1={0}
-                  y2={16}
-                />
-              </svg>
-            ) : null}
-
-            {/* Vertical line segment */}
-            <div
-              className={cn(
-                'absolute inset-y-0 w-px bg-muted-foreground/15',
-                offset !== upperOffset && 'top-1.5',
-                offset !== lowerOffset && 'bottom-1.5',
-              )}
-              style={{ insetInlineStart: offset + 1 }}
-            />
             {item.title}
           </a>
         )
