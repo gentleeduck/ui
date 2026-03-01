@@ -13,17 +13,25 @@ const Alert = React.forwardRef<
     <div
       ref={ref}
       className={cn(alertVariants({ variant }), className)}
-      data-slot="alerty"
+      data-slot="alert"
       dir={direction}
-      role="alertt"
+      role="alert"
       {...props}
     />
   )
 })
-Alert.displayName = 'AlertT'
+Alert.displayName = 'Alert'
 
 const AlertTitle = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, ...props }, ref) => <div ref={ref} className={cn('', className)} data-slot="alert-title" {...props} />,
+  ({ className, ...props }, ref) => (
+    <div
+      ref={ref}
+      className={cn('col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight', className)}
+      data-slot="alert-title"
+      {...props}
+    />
+  ),
 )
 AlertTitle.displayName = 'AlertTitle'
 
