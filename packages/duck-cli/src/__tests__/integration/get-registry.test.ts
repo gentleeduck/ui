@@ -66,7 +66,7 @@ describe('get_registry_item', () => {
 
   it('returns null for nonexistent component', async () => {
     const { get_registry_item } = await import('~/utils/get-registry')
-    const result = await get_registry_item('nonexistent' as Lowercase<string>)
+    const result = await get_registry_item('nonexistent')
     expect(result).toBeNull()
   })
 
@@ -81,7 +81,7 @@ describe('get_registry_item', () => {
       }),
     )
     const { get_registry_item } = await import('~/utils/get-registry')
-    const result = await get_registry_item('https://example.com/components/button.json' as Lowercase<string>)
+    const result = await get_registry_item('https://example.com/components/button.json')
     expect(result).toBeDefined()
     expect(result!.name).toBe('remote-button')
   })

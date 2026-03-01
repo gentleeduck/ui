@@ -63,6 +63,10 @@ describe('init_command_action', () => {
         schema: 'https://ui.gentleduck.org/schema.json',
         rsc: false,
         monorepo: false,
+        workspace: {
+          root: '.',
+          project: '.',
+        },
         tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },
         aliases: { ui: '~/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
       }),
@@ -93,7 +97,7 @@ describe('init_command_action', () => {
 
     const { init_command_action } = await import('~/commands/init/init.libs')
 
-    await expect(init_command_action([], { yes: false, cwd: tmpDir })).rejects.toThrow(/process\.exit/)
+    await expect(init_command_action([], { yes: false, cwd: tmpDir, all: false })).rejects.toThrow(/process\.exit/)
 
     // First exit call should be 0 (user declined)
     expect(exitCodes[0]).toBe(0)
@@ -125,7 +129,9 @@ describe('init_command_action', () => {
 
     const { init_command_action } = await import('~/commands/init/init.libs')
 
-    await expect(init_command_action(['button'], { yes: true, cwd: tmpDir })).rejects.toThrow(/process\.exit/)
+    await expect(init_command_action(['button'], { yes: true, cwd: tmpDir, all: false })).rejects.toThrow(
+      /process\.exit/,
+    )
 
     // First exit call should be 0 (success)
     expect(exitCodes[0]).toBe(0)
@@ -165,7 +171,9 @@ describe('init_command_action', () => {
 
     const { init_command_action } = await import('~/commands/init/init.libs')
 
-    await expect(init_command_action(['button'], { yes: true, cwd: tmpDir })).rejects.toThrow(/process\.exit/)
+    await expect(init_command_action(['button'], { yes: true, cwd: tmpDir, all: false })).rejects.toThrow(
+      /process\.exit/,
+    )
 
     // Should fail because duck-ui config is missing
     expect(exitCodes[0]).toBe(1)
@@ -200,7 +208,9 @@ describe('init_command_action', () => {
 
     const { init_command_action } = await import('~/commands/init/init.libs')
 
-    await expect(init_command_action(['button'], { yes: true, cwd: tmpDir })).rejects.toThrow(/process\.exit/)
+    await expect(init_command_action(['button'], { yes: true, cwd: tmpDir, all: false })).rejects.toThrow(
+      /process\.exit/,
+    )
 
     // Should fail because tsconfig is missing (needed for write path resolution)
     expect(exitCodes[0]).toBe(1)

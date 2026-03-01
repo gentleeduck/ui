@@ -27,7 +27,17 @@ export async function preflight_tailwindcss(_options: InitOptions, spinner: Ora)
       }
     }
 
-    await install_tailwindcss(_options.cwd, spinner)
+    if (_options.yes) {
+      // Non-interactive mode: use flag values or defaults
+      await install_tailwindcss(
+        _options.cwd,
+        spinner,
+        _options.projectType || 'VITE',
+        _options.css || './src/styles.css',
+      )
+    } else {
+      await install_tailwindcss(_options.cwd, spinner)
+    }
   } catch (error) {
     spinner.fail(
       `Failed to preflight required ${highlighter.error('TailwindCss')} configs...\n ${highlighter.error(

@@ -1,21 +1,7 @@
+import path from 'node:path'
 import { Select, Spinner, StatusMessage } from '@inkjs/ui'
 import { Box, Text, useInput } from 'ink'
 import React, { memo, useContext, useEffect, useState } from 'react'
-import {
-  build_display_lines,
-  build_side_by_side_pairs,
-  get_hunk_offsets,
-  get_max_line_number,
-} from '~/utils/diff-format'
-import { InitialArgsContext, TerminalSizeContext } from '../app'
-import { THEME } from '../app.constants'
-import { Banner } from '../components/banner'
-import { DiffLineView } from '../components/diff-line'
-import { FileTabs } from '../components/file-tabs'
-import { SideBySideLine } from '../components/side-by-side-line'
-import { StatusLine } from '../components/status-line'
-import { StepIndicator } from '../components/step-indicator'
-import { useAsyncTask } from '../hooks/use-async-task'
 import {
   type ComponentDiff,
   diff_component,
@@ -25,6 +11,22 @@ import {
 } from '~/services/component.service'
 import { resolve_install_path } from '~/services/install.service'
 import { read_duckui_config, read_ts_config } from '~/services/preflight.service'
+import {
+  build_display_lines,
+  build_side_by_side_pairs,
+  get_hunk_offsets,
+  get_max_line_number,
+} from '~/utils/diff-format'
+import { resolve_project_cwd } from '~/utils/workspace'
+import { InitialArgsContext, TerminalSizeContext } from '../app'
+import { THEME } from '../app.constants'
+import { Banner } from '../components/banner'
+import { DiffLineView } from '../components/diff-line'
+import { FileTabs } from '../components/file-tabs'
+import { SideBySideLine } from '../components/side-by-side-line'
+import { StatusLine } from '../components/status-line'
+import { StepIndicator } from '../components/step-indicator'
+import { useAsyncTask } from '../hooks/use-async-task'
 import type { DiffDisplayLine, SideBySidePair, ViewMode } from './diff-screen.types'
 
 type Step = 'loading' | 'select' | 'diffing' | 'results' | 'error'
@@ -62,7 +64,8 @@ export const DiffScreen = memo(function DiffScreen({ onBack }: { onBack: () => v
         return
       }
 
-      const tsResult = await read_ts_config(cwd)
+      const project_cwd = resolve_project_cwd(cwd, configResult.data)
+      const tsResult = await read_ts_config(project_cwd)
       if (!tsResult.ok) {
         setErrorMessage(tsResult.error)
         setStep('error')
@@ -76,7 +79,7 @@ export const DiffScreen = memo(function DiffScreen({ onBack }: { onBack: () => v
         return
       }
 
-      const write_type_path = resolve_write_type_path(configResult.data, pathResult.data)
+      const write_type_path = resolve_write_type_path(configResult.data, path.resolve(project_cwd, pathResult.data))
       const scanResult = await scan_installed_components(write_type_path)
       if (!scanResult.ok) {
         setErrorMessage(scanResult.error)

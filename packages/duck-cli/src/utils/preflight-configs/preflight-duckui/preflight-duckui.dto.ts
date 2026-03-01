@@ -62,6 +62,10 @@ export const duck_ui_schema = z.object({
     ui: z.string(),
   }),
   monorepo: z.boolean(),
+  workspace: z.object({
+    root: z.string(),
+    project: z.string(),
+  }),
   rsc: z.boolean(),
   schema: z.url(),
   tailwind: z.object({

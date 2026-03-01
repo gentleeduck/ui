@@ -3,25 +3,23 @@ import { execa } from 'execa'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import { get_package_manager } from '~/utils/get-package-manager'
-import { IGNORED_DIRECTORIES } from '~/utils/get-project-info'
+import { IGNORED_DIRECTORIES, type TsConfig } from '~/utils/get-project-info'
 import { get_registry_base_color } from '~/utils/get-registry'
-import type { DuckuiPrompts } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.dto'
+import { duck_ui_schema } from '~/utils/preflight-configs/preflight-duckui'
+import type { PROJECT_TYPE } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.constants'
+import type { DuckUI, DuckuiPrompts } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.dto'
 import {
   default_duckui_config,
   generateThemeCSS,
 } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs'
-import {
-  post_css_nextjs,
-  tailwindcss_boilerplate,
-  tailwindcss_vite,
-} from '~/utils/preflight-configs/preflight-tailwindcss/preflight-tailwindcss.constants'
 import { tailwindcss_dependencies } from '~/utils/preflight-configs/preflight-tailwindcss/preflight-tailwindcss.lib'
 import {
   ts_config_generic,
   ts_config_nextjs,
   typescript_dependencies,
 } from '~/utils/preflight-configs/preflight-typescript/preflight-typescript.constants'
-import type { ProgressCallback, ServiceResult } from '../app.types'
+import { find_duckui_root_cwd } from '~/utils/workspace'
+import type { ProgressCallback, ServiceResult } from './service.types'
 
 // -- TypeScript --
 
@@ -85,7 +83,7 @@ export async function check_tailwind_installed(cwd: string): Promise<boolean> {
 
 export async function run_install_tailwindcss(
   cwd: string,
-  projectType: string,
+  projectType: (typeof PROJECT_TYPE)[number],
   cssPath: string,
   onProgress?: ProgressCallback,
 ): Promise<ServiceResult<void>> {
@@ -94,7 +92,7 @@ export async function run_install_tailwindcss(
     const packageManager = await get_package_manager(cwd)
 
     onProgress?.('Writing TailwindCSS config files...')
-    const deps = tailwindcss_dependencies(projectType as any, cssPath, cwd)
+    const deps = tailwindcss_dependencies(projectType, cssPath, cwd)
 
     onProgress?.('Installing TailwindCSS dependencies...')
     const { failed } = await execa(packageManager, [packageManager === 'npm' ? 'install' : 'add', ...deps], { cwd })
@@ -128,9 +126,9 @@ export async function run_init_duckui_config(
     onProgress?.('Fetching theme...')
     const theme = await get_registry_base_color(options.base_color)
 
-    if (theme) {
+    if (theme?.cssVars) {
       onProgress?.('Generating theme CSS...')
-      const css = generateThemeCSS(theme)
+      const css = generateThemeCSS(options.base_color, theme.cssVars)
 
       const cssPath = path.join(cwd, options.css)
       const cssExists = fs.existsSync(cssPath)
@@ -138,11 +136,19 @@ export async function run_init_duckui_config(
       if (cssExists) {
         const old = await fs.readFile(cssPath, 'utf-8')
         if (old.length <= 50) {
-          await fs.writeFile(cssPath, css)
+          // Small file, safe to replace with theme
+          const trimmed = old.trim()
+          await fs.writeFile(cssPath, trimmed ? `${trimmed}\n\n${css}` : css)
+        } else {
+          // Keep existing @ imports (tailwind imports, etc.) and append theme
+          const at_imports = old
+            .split('\n')
+            .filter((l) => l.startsWith('@'))
+            .join('\n')
+          await fs.writeFile(cssPath, at_imports ? `${at_imports}\n\n${css}` : css)
         }
-        // If content exists and is > 50 chars, the GUI screen should have asked for overwrite
       } else {
-        await fs.mkdirSync(path.dirname(cssPath), { recursive: true })
+        fs.mkdirSync(path.dirname(cssPath), { recursive: true })
         await fs.writeFile(cssPath, css)
       }
     }
@@ -158,20 +164,34 @@ export async function run_init_duckui_config(
 
 // -- Config Reading --
 
-export async function read_duckui_config(cwd: string): Promise<ServiceResult<any>> {
+export async function read_duckui_config(cwd: string): Promise<ServiceResult<DuckUI>> {
   try {
-    const files = fg.sync(['duck-ui.config.json'], { cwd, deep: 1, ignore: IGNORED_DIRECTORIES })
-    if (!files.length) {
+    const config_root = find_duckui_root_cwd(cwd)
+    if (!config_root) {
       return { ok: false, error: 'duck-ui.config.json not found' }
     }
-    const raw = await fs.readFile(path.join(cwd, 'duck-ui.config.json'), 'utf8')
-    return { ok: true, data: JSON.parse(raw) }
+    const raw = await fs.readFile(path.join(config_root, 'duck-ui.config.json'), 'utf8')
+    const parsed_result = duck_ui_schema.safeParse(JSON.parse(raw))
+    if (!parsed_result.success) {
+      const is_legacy_config = parsed_result.error.issues.some(
+        (issue) => issue.path[0] === 'workspace' && issue.code === 'invalid_type',
+      )
+      if (is_legacy_config) {
+        return {
+          ok: false,
+          error: 'Legacy duck-ui.config.json detected (missing workspace). Re-run @gentleduck/cli init to migrate.',
+        }
+      }
+      return { ok: false, error: 'duck-ui.config.json has invalid schema' }
+    }
+
+    return { ok: true, data: parsed_result.data }
   } catch (error) {
     return { ok: false, error: error instanceof Error ? error.message : String(error) }
   }
 }
 
-export async function read_ts_config(cwd: string): Promise<ServiceResult<any>> {
+export async function read_ts_config(cwd: string): Promise<ServiceResult<TsConfig>> {
   try {
     const files = fg.sync(['tsconfig.json'], { cwd, deep: 1, ignore: IGNORED_DIRECTORIES })
     if (!files.length) {

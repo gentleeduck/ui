@@ -1,16 +1,22 @@
 import path from 'node:path'
-import type { Theme } from '@gentleduck/registers'
 import fs from 'fs-extra'
 import type { Ora } from 'ora'
+import type { ThemeEntry } from '~/utils/get-registry/get-registry.dto'
 import { highlighter } from '~/utils/text-styling'
+import type { WorkspaceTarget } from '~/utils/workspace'
 import type { DuckuiPrompts } from './preflight-duckui.dto'
 
-export async function init_duckui_config(cwd: string, spinner: Ora, duck_config: DuckuiPrompts) {
+export async function init_duckui_config(
+  cwd: string,
+  spinner: Ora,
+  duck_config: DuckuiPrompts,
+  workspace: WorkspaceTarget = { root: '.', project: '.' },
+) {
   try {
     spinner.text = `Initializing ${highlighter.info('duck-ui')} config...`
 
     spinner.text = `Writing ${highlighter.info('duck-ui')} config...`
-    await fs.writeFile(path.join(cwd, 'duck-ui.config.json'), default_duckui_config(duck_config), 'utf-8')
+    await fs.writeFile(path.join(cwd, 'duck-ui.config.json'), default_duckui_config(duck_config, workspace), 'utf-8')
 
     spinner.succeed(`${highlighter.info('duck-ui')} config initialized...`)
   } catch (error) {
@@ -21,23 +27,29 @@ export async function init_duckui_config(cwd: string, spinner: Ora, duck_config:
   }
 }
 
-export function generateThemeCSS({ name, cssVars }: Theme) {
-  const lightVars = Object.entries(cssVars.light)
+export function generateThemeCSS(name: string, entry: ThemeEntry) {
+  const radius = entry.light?.radius || '0.5rem'
+
+  const lightVars = Object.entries(entry.light)
+    .filter(([key]) => key !== 'radius')
     .map(([key, val]) => `  --${key}: ${val};`)
     .join('\n')
 
-  const darkVars = Object.entries(cssVars.dark)
+  const darkVars = Object.entries(entry.dark)
+    .filter(([key]) => key !== 'radius')
     .map(([key, val]) => `  --${key}: ${val};`)
     .join('\n')
 
   // map only oklch values into --color-* for Tailwind inline theme
-  const tailwindVars = Object.entries(cssVars.light)
+  const tailwindVars = Object.entries(entry.light)
+    .filter(([key]) => key !== 'radius')
     .map(([key, val]) => (val.startsWith('oklch') ? `  --color-${key}: var(--${key});` : `  --${key}: var(--${key});`))
     .join('\n')
 
   return `
 /* ${name} theme */
 :root {
+  --radius: ${radius};
 ${lightVars}
 }
 
@@ -59,20 +71,16 @@ ${tailwindVars}
 `.trim()
 }
 
-export const default_duckui_config = ({
-  project_type,
-  monorepo,
-  css,
-  prefix,
-  alias,
-  base_color,
-  css_variables,
-}: DuckuiPrompts) => {
+export const default_duckui_config = (
+  { project_type, monorepo, css, prefix, alias, base_color, css_variables }: DuckuiPrompts,
+  workspace: WorkspaceTarget = { root: '.', project: '.' },
+) => {
   return JSON.stringify(
     {
       schema: 'https://ui.gentleduck.org/schema.json',
       rsc: ['NEXT_JS'].includes(project_type),
       monorepo,
+      workspace,
       tailwind: {
         baseColor: base_color,
         css,

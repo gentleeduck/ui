@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import type { ServiceResult } from '../app.types'
+import type { ServiceResult } from '~/services/service.types'
 
 export type AsyncTaskState<T> =
   | { status: 'idle' }

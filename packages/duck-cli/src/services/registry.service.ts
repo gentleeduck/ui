@@ -1,6 +1,6 @@
 import { get_registry_base_color, get_registry_index, get_registry_item, type Registry } from '~/utils/get-registry'
 import type { RegistryEntry } from '~/utils/get-registry/get-registry.dto'
-import type { ProgressCallback, ServiceResult } from '../app.types'
+import type { ProgressCallback, ServiceResult } from './service.types'
 
 export async function fetch_registry(): Promise<ServiceResult<Registry>> {
   const index = await get_registry_index()
@@ -11,7 +11,7 @@ export async function fetch_registry(): Promise<ServiceResult<Registry>> {
 }
 
 export async function fetch_component(name: string): Promise<ServiceResult<RegistryEntry>> {
-  const item = await get_registry_item(name as Lowercase<string>)
+  const item = await get_registry_item(name)
   if (!item) {
     return { ok: false, error: `Component "${name}" not found in registry.` }
   }
@@ -25,7 +25,7 @@ export async function fetch_components(
   const results: RegistryEntry[] = []
   for (let i = 0; i < names.length; i++) {
     onProgress(`Fetching component ${i + 1}/${names.length}: ${names[i]}`)
-    const item = await get_registry_item(names[i] as Lowercase<string>)
+    const item = await get_registry_item(names[i])
     if (item) results.push(item)
   }
   if (results.length === 0) {

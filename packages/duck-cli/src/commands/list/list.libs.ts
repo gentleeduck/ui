@@ -1,3 +1,4 @@
+import { print_banner } from '~/utils/banner'
 import { get_registry_index } from '~/utils/get-registry'
 import { spinner as Spinner } from '~/utils/spinner'
 import { highlighter } from '~/utils/text-styling'
@@ -5,10 +6,11 @@ import { is_verbose } from '~/utils/verbose'
 import { type ListOptions, list_options_schema } from './list.dto'
 
 export async function list_command_action(opt: ListOptions) {
+  const options = list_options_schema.parse(opt)
+
+  print_banner()
   const spinner = Spinner('Fetching registry...').start()
   try {
-    const options = list_options_schema.parse(opt)
-
     const index = await get_registry_index()
 
     if (!index || index.length === 0) {

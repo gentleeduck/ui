@@ -3,11 +3,15 @@ import { execa } from 'execa'
 import fs from 'fs-extra'
 import type { Ora } from 'ora'
 import prompts from 'prompts'
+import { launch_merge_gui_and_wait } from '~/gui'
+import { diff_component } from '~/services/component.service'
+import { build_component_merge_state, write_merge_results } from '~/services/merge.service'
 import { get_package_manager } from '../get-package-manager'
 import { get_ts_config } from '../get-project-info'
 import { get_registry_item, type Registry } from '../get-registry'
 import type { DuckUI } from '../preflight-configs/preflight-duckui'
 import { highlighter } from '../text-styling'
+import { resolve_project_cwd, validate_workspace_target } from '../workspace'
 import type { DependenciesType, InstallOptions } from './registry-mutation.types'
 
 export async function get_installation_config(
@@ -17,7 +21,13 @@ export async function get_installation_config(
 ): Promise<string> {
   try {
     const alias = duck_config.aliases.ui.split('/').shift()
-    const ts_config = await get_ts_config(options.cwd, spinner)
+    const project_cwd = resolve_project_cwd(options.cwd, duck_config, options.workspace)
+    const workspace_error = validate_workspace_target(project_cwd, true)
+    if (workspace_error) {
+      spinner.fail(workspace_error)
+      process.exit(1)
+    }
+    const ts_config = await get_ts_config(project_cwd, spinner)
 
     if (!ts_config.compilerOptions?.paths || !alias) {
       spinner.fail(
@@ -41,11 +51,16 @@ Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info
       process.exit(1)
     }
 
+    // Resolve the write_path to an absolute path using the target cwd
+    const resolved_write_path = path.resolve(project_cwd, write_path)
+
     if (!options.yes) {
       spinner.stop()
       const { yes } = await prompts({
         initial: options.yes,
-        message: `Do you want to install ${highlighter.info('components')}? at ${highlighter.warn(write_path)}`,
+        message: `Do you want to install ${highlighter.info('components')}? at ${highlighter.warn(
+          write_path,
+        )} (workspace: ${highlighter.info(project_cwd)})`,
         name: 'yes',
         type: 'confirm',
       })
@@ -65,7 +80,7 @@ Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info
       }
     }
 
-    return write_path
+    return resolved_write_path
   } catch (error) {
     spinner.fail(`Oops: ${highlighter.error(error instanceof Error ? error.message : String(error))}`)
 
@@ -103,7 +118,13 @@ export async function process_components(
 
     const topLevelNames = new Set(components.map((c) => c.name.toLowerCase()))
     await install_registry_dependencies(dependencies, spinner, write_path, options.force, duck_config, topLevelNames)
-    await process_component_dependencies(dependencies, spinner, options.cwd)
+    const project_cwd = resolve_project_cwd(options.cwd, duck_config, options.workspace)
+    const workspace_error = validate_workspace_target(project_cwd, false)
+    if (workspace_error) {
+      spinner.fail(workspace_error)
+      process.exit(1)
+    }
+    await process_component_dependencies(dependencies, spinner, project_cwd)
   } catch (error) {
     spinner.fail(
       `Failed to install components, ${highlighter.error(error instanceof Error ? error.message : String(error))}`,
@@ -176,7 +197,7 @@ export async function install_registry_dependencies(
           spinner.text = `Fetching registry necessary dependency ${highlighter.info(
             `[${idx + 1}/${deps.size}]`,
           )} ${highlighter.warn(item)}`
-          return await get_registry_item(item as Lowercase<string>)
+          return await get_registry_item(item)
         }),
       )
     ).filter((item): item is Registry[number] => item !== null)
@@ -246,19 +267,64 @@ export async function process_component_files(
   if (!force) {
     if (fs.readdirSync(`${write_path}/${component.root_folder}`).length > 0) {
       spinner.stop()
-      const { overwrite } = await prompts({
-        initial: true,
-        message: `Do you want to overwrite ${highlighter.info(component.name)}?`,
-        name: 'overwrite',
-        type: 'confirm',
+      const { action } = await prompts({
+        message: `${highlighter.info(component.name)} already exists. What do you want to do?`,
+        name: 'action',
+        type: 'select',
+        choices: [
+          { title: 'Overwrite (replace with registry version)', value: 'overwrite' },
+          { title: 'Skip (keep local version)', value: 'skip' },
+          { title: 'Merge (resolve changes interactively)', value: 'merge' },
+        ],
       })
       spinner.start()
-      if (!overwrite) {
+
+      if (action === 'skip' || !action) {
         spinner.warn(
           `Components already exists: ${highlighter.info(`${from_root_write_path}${component.root_folder}`)} (skipping)`,
         )
         return
       }
+
+      if (action === 'merge') {
+        spinner.text = `Preparing merge for ${highlighter.info(component.name)}...`
+
+        // Build the diff between local and registry
+        const local_path = `${write_path}/${component.root_folder}`
+        const installed_comp = {
+          name: component.name,
+          root_folder: component.root_folder,
+          local_path,
+          registry_entry: component,
+        }
+        const diff_result = await diff_component(installed_comp, component)
+
+        if (!diff_result.ok) {
+          spinner.fail(`Failed to compute diff: ${diff_result.error}`)
+          return
+        }
+
+        if (diff_result.data.is_identical) {
+          spinner.info(`${highlighter.info(component.name)} is identical to registry. Skipping.`)
+          return
+        }
+
+        // Build merge state and launch interactive merge
+        const merge_state = build_component_merge_state(diff_result.data, write_path, component.root_folder)
+        spinner.stop()
+
+        const merge_results = await launch_merge_gui_and_wait(merge_state)
+        spinner.start()
+
+        if (!merge_results) {
+          spinner.warn(`Merge aborted for ${highlighter.info(component.name)}.`)
+          return
+        }
+
+        spinner.succeed(`Merge complete for ${highlighter.info(component.name)}.`)
+        return
+      }
+      // action === 'overwrite' -- fall through to write files below
     }
   }
 

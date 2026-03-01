@@ -13,13 +13,6 @@ export function generateBanner(width: number): string {
 
 export const SUBTITLE = 'by gentleduck.org'
 
-export const MENU_ITEMS = [
-  { label: 'Initialize Project', value: 'init' as const },
-  { label: 'Add Components', value: 'add' as const },
-  { label: 'List Components', value: 'list' as const },
-  { label: 'Exit', value: 'exit' as const },
-]
-
 // Standard terminal colors -- inherits from the user's terminal theme
 export const THEME = {
   foreground: 'white',

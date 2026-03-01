@@ -1,7 +1,17 @@
 import { z } from 'zod'
+import { BASE_COLORS, PROJECT_TYPE } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.constants'
 
 export const init_options_schema = z.object({
+  alias: z.string().optional(),
+  all: z.boolean().default(false),
+  baseColor: z.enum(BASE_COLORS).optional(),
+  css: z.string().optional(),
+  cssVariables: z.boolean().optional(),
   cwd: z.string().default(process.cwd()),
+  monorepo: z.boolean().optional(),
+  workspace: z.string().optional(),
+  prefix: z.string().optional(),
+  projectType: z.enum(PROJECT_TYPE).optional(),
   yes: z.boolean().default(false),
 })
 

@@ -14,6 +14,7 @@ export function diff_command(): Command {
     .argument(arg_1.name, arg_1.description, arg_1.defaultValue)
     .option(option_1.flags, option_1.description, option_1.defaultValue)
     .option(option_2.flags, option_2.description, option_2.defaultValue)
+    .option('-w, --workspace <path>', 'workspace path override (relative to monorepo root)')
     .action(diff_command_action)
 
   return cmd

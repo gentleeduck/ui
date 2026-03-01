@@ -33,6 +33,10 @@ export function createMockDuckUIConfig(overrides: Record<string, any> = {}) {
     schema: 'https://ui.gentleduck.org/schema.json',
     rsc: true,
     monorepo: false,
+    workspace: {
+      root: '.',
+      project: '.',
+    },
     tailwind: {
       baseColor: 'zinc',
       css: './src/styles.css',

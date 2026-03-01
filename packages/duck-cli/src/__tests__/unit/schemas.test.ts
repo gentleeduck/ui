@@ -1,6 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { add_arguments_schema, add_options_schema } from '~/commands/add/add.dto'
+import { diff_arguments_schema, diff_options_schema } from '~/commands/diff/diff.dto'
 import { init_arguments_schema, init_options_schema } from '~/commands/init/init.dto'
+import { remove_arguments_schema, remove_options_schema } from '~/commands/remove/remove.dto'
+import { update_arguments_schema, update_options_schema } from '~/commands/update/update.dto'
 import { registry_entry_schema } from '~/utils/get-registry/get-registry.dto'
 import { duck_ui_schema } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.dto'
 import { createMockDuckUIConfig, createMockRegistryEntry } from '../helpers/fixtures'
@@ -148,5 +151,102 @@ describe('duck_ui_schema', () => {
       })
       expect(() => duck_ui_schema.parse(config)).not.toThrow()
     }
+  })
+})
+
+// -- remove command schemas --
+
+describe('remove_options_schema', () => {
+  it('provides defaults for empty input', () => {
+    const result = remove_options_schema.parse({})
+    expect(result.yes).toBe(false)
+    expect(typeof result.cwd).toBe('string')
+    expect(result.cwd.length).toBeGreaterThan(0)
+  })
+
+  it('accepts valid options', () => {
+    const result = remove_options_schema.parse({ yes: true, cwd: '/tmp/test' })
+    expect(result.yes).toBe(true)
+    expect(result.cwd).toBe('/tmp/test')
+  })
+
+  it('defaults yes to false', () => {
+    const result = remove_options_schema.parse({ cwd: '/tmp' })
+    expect(result.yes).toBe(false)
+  })
+})
+
+describe('remove_arguments_schema', () => {
+  it('defaults to empty array', () => {
+    const result = remove_arguments_schema.parse(undefined)
+    expect(result).toEqual([])
+  })
+
+  it('accepts component names', () => {
+    const result = remove_arguments_schema.parse(['button', 'input'])
+    expect(result).toEqual(['button', 'input'])
+  })
+})
+
+// -- update command schemas --
+
+describe('update_options_schema', () => {
+  it('provides defaults for empty input', () => {
+    const result = update_options_schema.parse({})
+    expect(result.yes).toBe(false)
+    expect(result.all).toBe(false)
+    expect(typeof result.cwd).toBe('string')
+    expect(result.cwd.length).toBeGreaterThan(0)
+  })
+
+  it('accepts valid options', () => {
+    const result = update_options_schema.parse({ yes: true, all: true, cwd: '/tmp/test' })
+    expect(result.yes).toBe(true)
+    expect(result.all).toBe(true)
+    expect(result.cwd).toBe('/tmp/test')
+  })
+
+  it('defaults all to false', () => {
+    const result = update_options_schema.parse({ cwd: '/tmp' })
+    expect(result.all).toBe(false)
+  })
+})
+
+describe('update_arguments_schema', () => {
+  it('defaults to empty array', () => {
+    const result = update_arguments_schema.parse(undefined)
+    expect(result).toEqual([])
+  })
+
+  it('accepts component names', () => {
+    const result = update_arguments_schema.parse(['button', 'card'])
+    expect(result).toEqual(['button', 'card'])
+  })
+})
+
+// -- diff command schemas --
+
+describe('diff_options_schema', () => {
+  it('provides defaults for empty input', () => {
+    const result = diff_options_schema.parse({})
+    expect(typeof result.cwd).toBe('string')
+    expect(result.cwd.length).toBeGreaterThan(0)
+  })
+
+  it('accepts valid options', () => {
+    const result = diff_options_schema.parse({ cwd: '/tmp/test' })
+    expect(result.cwd).toBe('/tmp/test')
+  })
+})
+
+describe('diff_arguments_schema', () => {
+  it('defaults to empty array', () => {
+    const result = diff_arguments_schema.parse(undefined)
+    expect(result).toEqual([])
+  })
+
+  it('accepts component names', () => {
+    const result = diff_arguments_schema.parse(['button'])
+    expect(result).toEqual(['button'])
   })
 })

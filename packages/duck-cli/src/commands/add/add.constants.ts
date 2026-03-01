@@ -9,7 +9,7 @@ export const add_command_config: addCommandConfig = {
       name: '[components...]',
     },
   },
-  description: 'add the project',
+  description: 'add components to your project',
   name: 'add',
   options: {
     option_1: {

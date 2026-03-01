@@ -1,14 +1,19 @@
-import { Box, render } from 'ink'
-import React, { createContext, useCallback, useMemo, useState } from 'react'
+import { Box, render, useApp } from 'ink'
+import React, { createContext, useCallback, useMemo } from 'react'
+import type { ComponentMergeState, MergeResult } from '~/utils/merge'
 import { THEME } from './app.constants'
-import type { Screen } from './app.types'
 import type { TerminalSize } from './hooks/use-terminal-size'
 import { useTerminalSize } from './hooks/use-terminal-size'
-import { AddScreen } from './screens/add-screen'
-import { HomeScreen } from './screens/home-screen'
-import { InitScreen } from './screens/init-screen'
-import { ListScreen } from './screens/list-screen'
+import { DiffScreen } from './screens/diff-screen'
+import { MergeScreen } from './screens/merge-screen'
 import { VimStdin } from './vim-stdin'
+
+export type GuiLaunchOptions = {
+  initialArgs?: string[]
+  screen?: 'diff' | 'merge'
+  mergeData?: ComponentMergeState
+  onComplete?: (results: MergeResult[]) => void
+}
 
 export const VimContext = createContext<{ setEnabled: (v: boolean) => void }>({
   setEnabled: () => {},
@@ -19,9 +24,19 @@ export const TerminalSizeContext = createContext<TerminalSize>({
   rows: 24,
 })
 
-function App({ vimStdin }: { vimStdin: VimStdin }) {
-  const [screen, setScreen] = useState<Screen>('home')
+export const InitialArgsContext = createContext<string[]>([])
+
+type AppProps = {
+  vimStdin: VimStdin
+  initialArgs?: string[]
+  screen?: 'diff' | 'merge'
+  mergeData?: ComponentMergeState
+  onComplete?: (results: MergeResult[]) => void
+}
+
+function App({ vimStdin, initialArgs, screen, mergeData, onComplete }: AppProps) {
   const size = useTerminalSize()
+  const { exit } = useApp()
 
   const vimContext = useMemo(
     () => ({
@@ -32,41 +47,95 @@ function App({ vimStdin }: { vimStdin: VimStdin }) {
     [vimStdin],
   )
 
-  const goHome = useCallback(() => setScreen('home'), [])
-  const navigate = useCallback((s: Screen) => setScreen(s), [])
+  const handleBack = useCallback(() => {
+    exit()
+  }, [exit])
+
+  const handleMergeComplete = useCallback(
+    (results: MergeResult[]) => {
+      if (onComplete) {
+        onComplete(results)
+      }
+    },
+    [onComplete],
+  )
+
+  const active_screen = screen ?? 'diff'
 
   return (
     <TerminalSizeContext.Provider value={size}>
       <VimContext.Provider value={vimContext}>
-        <Box
-          width={size.columns}
-          height={size.rows}
-          borderStyle="round"
-          borderColor={THEME.border}
-          paddingX={2}
-          paddingY={1}
-          flexDirection="column"
-          overflow="hidden">
-          {screen === 'init' ? (
-            <InitScreen onBack={goHome} />
-          ) : screen === 'add' ? (
-            <AddScreen onBack={goHome} />
-          ) : screen === 'list' ? (
-            <ListScreen onBack={goHome} />
-          ) : (
-            <HomeScreen onNavigate={navigate} />
-          )}
-        </Box>
+        <InitialArgsContext.Provider value={initialArgs ?? []}>
+          <Box
+            width={size.columns}
+            height={size.rows}
+            borderStyle="round"
+            borderColor={THEME.border}
+            paddingX={2}
+            paddingY={1}
+            flexDirection="column"
+            overflow="hidden">
+            {active_screen === 'merge' ? (
+              <MergeScreen mergeData={mergeData} onBack={handleBack} onComplete={handleMergeComplete} />
+            ) : (
+              <DiffScreen onBack={handleBack} />
+            )}
+          </Box>
+        </InitialArgsContext.Provider>
       </VimContext.Provider>
     </TerminalSizeContext.Provider>
   )
 }
 
-export function launch_gui() {
+export function launch_gui(options?: GuiLaunchOptions) {
   const vimStdin = new VimStdin()
   process.stdin.pipe(vimStdin)
-  const instance = render(<App vimStdin={vimStdin} />, { stdin: vimStdin })
+  const instance = render(
+    <App
+      vimStdin={vimStdin}
+      initialArgs={options?.initialArgs}
+      screen={options?.screen}
+      mergeData={options?.mergeData}
+      onComplete={options?.onComplete}
+    />,
+    { stdin: vimStdin },
+  )
   instance.waitUntilExit().then(() => {
     instance.clear()
+  })
+}
+
+/**
+ * Launch merge GUI and wait for it to complete.
+ * Returns MergeResult[] if the user confirmed, or null if aborted.
+ * Used by CLI commands (add/update) to integrate merge into headless flows.
+ */
+export function launch_merge_gui_and_wait(mergeData: ComponentMergeState): Promise<MergeResult[] | null> {
+  return new Promise((resolve) => {
+    let resolved = false
+
+    const vimStdin = new VimStdin()
+    process.stdin.pipe(vimStdin)
+
+    const instance = render(
+      <App
+        vimStdin={vimStdin}
+        screen="merge"
+        mergeData={mergeData}
+        onComplete={(results) => {
+          resolved = true
+          resolve(results)
+        }}
+      />,
+      { stdin: vimStdin },
+    )
+
+    instance.waitUntilExit().then(() => {
+      instance.clear()
+      vimStdin.unpipe()
+      if (!resolved) {
+        resolve(null)
+      }
+    })
   })
 }
