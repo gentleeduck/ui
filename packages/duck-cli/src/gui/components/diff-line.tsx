@@ -2,6 +2,7 @@ import { Box, Text } from 'ink'
 import React, { memo } from 'react'
 import { THEME } from '../app.constants'
 import type { DiffDisplayLine } from '../screens/diff-screen.types'
+import { get_conflict_marker_color } from './conflict-markers'
 
 type DiffLineProps = {
   line: DiffDisplayLine
@@ -9,13 +10,10 @@ type DiffLineProps = {
   single_num?: boolean
 }
 
-function get_conflict_marker_color(raw_text: string): string | null {
-  if (raw_text === '<<<<<<< LOCAL') return THEME.destructive
-  if (raw_text === '=======') return THEME.warning
-  if (raw_text === '>>>>>>> REGISTRY') return THEME.success
-  return null
-}
-
+/**
+ * Renders a single unified diff line with syntax highlighting and word-level highlights.
+ * Supports dual-gutter (old+new line numbers) and single-gutter modes.
+ */
 export const DiffLineView = memo(function DiffLineView({ line, num_width, single_num }: DiffLineProps) {
   const marker_color = get_conflict_marker_color(line.raw_text)
   if (marker_color) {
@@ -57,9 +55,7 @@ export const DiffLineView = memo(function DiffLineView({ line, num_width, single
 
     return (
       <Box>
-        <Text color={THEME.mutedForeground}>
-          {num_str}{' '}
-        </Text>
+        <Text color={THEME.mutedForeground}>{num_str} </Text>
         <Text color={base_color}>{prefix} </Text>
         {line.segments.map((seg, i) => {
           if (seg.highlight) {

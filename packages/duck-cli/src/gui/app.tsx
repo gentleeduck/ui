@@ -2,18 +2,14 @@ import { Box, render, useApp } from 'ink'
 import React, { createContext, useCallback, useMemo } from 'react'
 import type { ComponentMergeState, MergeResult } from '~/utils/merge'
 import { THEME } from './app.constants'
+import type { AppProps, GuiLaunchOptions } from './app.types'
 import type { TerminalSize } from './hooks/use-terminal-size'
 import { useTerminalSize } from './hooks/use-terminal-size'
 import { DiffScreen } from './screens/diff-screen'
 import { MergeScreen } from './screens/merge-screen'
 import { VimStdin } from './vim-stdin'
 
-export type GuiLaunchOptions = {
-  initialArgs?: string[]
-  screen?: 'diff' | 'merge'
-  mergeData?: ComponentMergeState
-  onComplete?: (results: MergeResult[]) => void
-}
+export type { GuiLaunchOptions } from './app.types'
 
 export const VimContext = createContext<{ setEnabled: (v: boolean) => void }>({
   setEnabled: () => {},
@@ -25,14 +21,6 @@ export const TerminalSizeContext = createContext<TerminalSize>({
 })
 
 export const InitialArgsContext = createContext<string[]>([])
-
-type AppProps = {
-  vimStdin: VimStdin
-  initialArgs?: string[]
-  screen?: 'diff' | 'merge'
-  mergeData?: ComponentMergeState
-  onComplete?: (results: MergeResult[]) => void
-}
 
 function App({ vimStdin, initialArgs, screen, mergeData, onComplete }: AppProps) {
   const size = useTerminalSize()
@@ -107,7 +95,7 @@ export function launch_gui(options?: GuiLaunchOptions) {
       mergeData={options?.mergeData}
       onComplete={options?.onComplete}
     />,
-    { stdin: vimStdin },
+    { stdin: vimStdin.asInkStdin() },
   )
   instance.waitUntilExit().then(() => {
     instance.clear()
@@ -139,7 +127,7 @@ export function launch_merge_gui_and_wait(mergeData: ComponentMergeState): Promi
           resolve(results)
         }}
       />,
-      { stdin: vimStdin },
+      { stdin: vimStdin.asInkStdin() },
     )
 
     instance.waitUntilExit().then(() => {

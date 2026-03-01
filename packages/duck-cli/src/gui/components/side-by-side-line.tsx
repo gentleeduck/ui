@@ -2,18 +2,12 @@ import { Box, Text } from 'ink'
 import React, { memo } from 'react'
 import { THEME } from '../app.constants'
 import type { DiffDisplayLine, SideBySidePair } from '../screens/diff-screen.types'
+import { get_conflict_marker_color } from './conflict-markers'
 
 type SideBySideLineProps = {
   pair: SideBySidePair
   num_width: number
   half_width: number
-}
-
-function get_conflict_marker_color(raw_text: string): string | null {
-  if (raw_text === '<<<<<<< LOCAL') return THEME.destructive
-  if (raw_text === '=======') return THEME.warning
-  if (raw_text === '>>>>>>> REGISTRY') return THEME.success
-  return null
 }
 
 function render_side(line: DiffDisplayLine | null, num_width: number, side: 'left' | 'right') {
@@ -65,6 +59,7 @@ function render_side(line: DiffDisplayLine | null, num_width: number, side: 'lef
   )
 }
 
+/** Renders a side-by-side diff pair with line number gutter on each side. */
 export const SideBySideLine = memo(function SideBySideLine({ pair, num_width, half_width }: SideBySideLineProps) {
   return (
     <Box>
