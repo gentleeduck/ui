@@ -11,6 +11,7 @@ const memoizedIndex = getRegistryIndex()
 function getSourceDir(fileType: string): string {
   if (fileType.includes('ui')) return 'packages/registry-ui/src/'
   if (fileType.includes('example')) return 'packages/registry-examples/src/'
+  if (fileType.includes('internal')) return 'packages/registry-internals/src/'
   return 'packages/registry-blocks/src/'
 }
 
@@ -131,7 +132,7 @@ function getFileTarget(file: z.infer<typeof registry_item_file_schema>) {
 
   if (!target || target === '') {
     const fileName = file.path.split('/').slice(-2).join('/')
-    if (file.type === 'registry:block' || file.type === 'registry:example') {
+    if (file.type === 'registry:block' || file.type === 'registry:example' || file.type === 'registry:internal') {
       target = `components/${fileName}`
     }
 

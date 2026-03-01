@@ -22,10 +22,12 @@ export function useSvgIndicator({
   const [checkedIndicatorReady, setCheckedIndicatorReady] = React.useState<boolean>(false)
 
   React.useEffect(() => {
-    const hasOff = Boolean(refOff.current?.innerHTML.trim())
-    const hasOn = Boolean(refOn.current?.innerHTML.trim())
-    const newUriOff = hasOff ? svgToMiniDataURI(refOff.current?.innerHTML.trim()) : ''
-    const newUriOn = hasOn ? svgToMiniDataURI(refOn.current?.innerHTML.trim()) : ''
+    const offMarkup = refOff.current?.innerHTML.trim() ?? ''
+    const onMarkup = refOn.current?.innerHTML.trim() ?? ''
+    const hasOff = offMarkup.length > 0
+    const hasOn = onMarkup.length > 0
+    const newUriOff = hasOff ? svgToMiniDataURI(offMarkup) : ''
+    const newUriOn = hasOn ? svgToMiniDataURI(onMarkup) : ''
 
     setUriOff(newUriOff)
     setUriOn(newUriOn)

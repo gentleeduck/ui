@@ -397,28 +397,28 @@ const _FormTanstackSwitch = dynamic(() => import('@gentleduck/registry-examples/
 const _FormTanstackTextarea = dynamic(() => import('@gentleduck/registry-examples/form/form-tanstack-textarea'), {
   ssr: false,
 })
+const _DialogGuardedAsync = dynamic(
+  () => import('@gentleduck/registry-internals/internal-primitives/dialog-guarded-async/dialog-guarded-async'),
+  { ssr: false },
+)
 const _AlertDialogConfirm = dynamic(
   () => import('@gentleduck/registry-internals/internal-primitives/alert-dialog-confirm/alert-dialog-confirm'),
   { ssr: false },
 )
-const _DialogGuardedAsync = dynamic(
-  () => import('@gentleduck/registry-internals/internal-primitives/dialog-guarded-async/dialog-guarded-async'),
+const _DropdownMenuSelection = dynamic(
+  () => import('@gentleduck/registry-internals/internal-primitives/dropdown-menu-selection/dropdown-menu-selection'),
   { ssr: false },
 )
 const _PopoverSideAware = dynamic(
   () => import('@gentleduck/registry-internals/internal-primitives/popover-side-aware/popover-side-aware'),
   { ssr: false },
 )
-const _TooltipDelayProvider = dynamic(
-  () => import('@gentleduck/registry-internals/internal-primitives/tooltip-delay-provider/tooltip-delay-provider'),
-  { ssr: false },
-)
 const _SelectControlled = dynamic(
   () => import('@gentleduck/registry-internals/internal-primitives/select-controlled/select-controlled'),
   { ssr: false },
 )
-const _DropdownMenuSelection = dynamic(
-  () => import('@gentleduck/registry-internals/internal-primitives/dropdown-menu-selection/dropdown-menu-selection'),
+const _TooltipDelayProvider = dynamic(
+  () => import('@gentleduck/registry-internals/internal-primitives/tooltip-delay-provider/tooltip-delay-provider'),
   { ssr: false },
 )
 const _Signup1 = dynamic(() => import('@gentleduck/registry-blocks/authentications/signup-1/signup-1.constants'), {
@@ -6368,6 +6368,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'form',
   },
+  'dialog-guarded-async': {
+    name: 'dialog-guarded-async',
+    description: '',
+    type: 'registry:internal',
+    registryDependencies: ['@gentleduck/primitives'],
+    files: [
+      {
+        path: 'internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx',
+        type: 'registry:internal',
+      },
+    ],
+    component: _DialogGuardedAsync,
+    source: '/registry-internals/src/internal-primitives',
+    categories: [],
+    root_folder: 'internal-primitives',
+  },
   'alert-dialog-confirm': {
     name: 'alert-dialog-confirm',
     description: '',
@@ -6384,18 +6400,18 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'internal-primitives',
   },
-  'dialog-guarded-async': {
-    name: 'dialog-guarded-async',
+  'dropdown-menu-selection': {
+    name: 'dropdown-menu-selection',
     description: '',
     type: 'registry:internal',
     registryDependencies: ['@gentleduck/primitives'],
     files: [
       {
-        path: 'internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx',
+        path: 'internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx',
         type: 'registry:internal',
       },
     ],
-    component: _DialogGuardedAsync,
+    component: _DropdownMenuSelection,
     source: '/registry-internals/src/internal-primitives',
     categories: [],
     root_folder: 'internal-primitives',
@@ -6416,22 +6432,6 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'internal-primitives',
   },
-  'tooltip-delay-provider': {
-    name: 'tooltip-delay-provider',
-    description: '',
-    type: 'registry:internal',
-    registryDependencies: ['@gentleduck/primitives'],
-    files: [
-      {
-        path: 'internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx',
-        type: 'registry:internal',
-      },
-    ],
-    component: _TooltipDelayProvider,
-    source: '/registry-internals/src/internal-primitives',
-    categories: [],
-    root_folder: 'internal-primitives',
-  },
   'select-controlled': {
     name: 'select-controlled',
     description: '',
@@ -6448,18 +6448,18 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'internal-primitives',
   },
-  'dropdown-menu-selection': {
-    name: 'dropdown-menu-selection',
+  'tooltip-delay-provider': {
+    name: 'tooltip-delay-provider',
     description: '',
     type: 'registry:internal',
     registryDependencies: ['@gentleduck/primitives'],
     files: [
       {
-        path: 'internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx',
+        path: 'internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx',
         type: 'registry:internal',
       },
     ],
-    component: _DropdownMenuSelection,
+    component: _TooltipDelayProvider,
     source: '/registry-internals/src/internal-primitives',
     categories: [],
     root_folder: 'internal-primitives',
