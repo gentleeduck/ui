@@ -34,7 +34,7 @@ export default function CalendarDemo() {
   }
 
   return (
-    <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+    <form className="w-full space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
       <FieldGroup>
         <Controller
           control={form.control}
@@ -47,7 +47,7 @@ export default function CalendarDemo() {
                   <Button
                     id="form-rhf-date-picker-dob"
                     className={cn(
-                      'w-[240px] px-2 text-left font-normal [&_svg]:w-4',
+                      'w-60 px-2 text-left font-normal [&_svg]:w-4',
                       !field.value && 'text-muted-foreground',
                     )}
                     variant="outline"
