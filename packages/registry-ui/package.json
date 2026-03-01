@@ -23,7 +23,7 @@
     "tailwindcss": "^4.2.0",
     "uuidv7": "^1.1.0",
     "vaul": "1.1.2",
-    "zod": "4.2.1"
+    "zod": "4.3.6"
   },
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
