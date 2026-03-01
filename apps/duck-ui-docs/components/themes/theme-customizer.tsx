@@ -2,8 +2,9 @@
 
 import { CopyButton, useConfig } from '@gentleduck/docs/client'
 import { cn } from '@gentleduck/libs/cn'
-import { type BaseColor, baseColors, baseColorsOKLCH } from '@gentleduck/registers'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
+import type { ThemeName } from '@gentleduck/registers'
+import { THEME_NAMES, themeRegistry } from '@gentleduck/registers'
+import { Button } from '@gentleduck/registry-ui/button'
 import {
   Dialog,
   DialogContent,
@@ -11,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@gentleduck/registry-ui-duckui/dialog'
+} from '@gentleduck/registry-ui/dialog'
 import {
   Drawer,
   DrawerContent,
@@ -19,20 +20,13 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
-} from '@gentleduck/registry-ui-duckui/drawer'
-import { Label } from '@gentleduck/registry-ui-duckui/label'
-import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
-import { Skeleton } from '@gentleduck/registry-ui-duckui/skeleton'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
-import template from 'lodash.template'
+} from '@gentleduck/registry-ui/drawer'
+import { Label } from '@gentleduck/registry-ui/label'
+import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
+import { Skeleton } from '@gentleduck/registry-ui/skeleton'
 import { CheckIcon, MoonIcon, RotateCcwIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
-
-interface BaseColorOKLCH {
-  light: Record<string, string>
-  dark: Record<string, string>
-}
 
 export function ThemeCustomizer() {
   return (
@@ -102,23 +96,25 @@ export function Customizer() {
         <div className="space-y-1.5">
           <Label className="text-xs">Color</Label>
           <div className="grid grid-cols-3 gap-2">
-            {baseColors.map((theme) => {
-              const isActive = config.theme === theme.name
+            {THEME_NAMES.map((name) => {
+              const entry = themeRegistry[name]
+              const isActive = config.theme === name
+              const previewColor = mode === 'dark' ? entry.dark.primary : entry.light.primary
 
               return mounted ? (
                 <Button
                   className={cn('justify-start', isActive && 'border-2 border-primary')}
-                  key={theme.name}
+                  key={name}
                   onClick={() => {
                     setConfig({
                       ...config,
-                      theme: theme.name,
+                      theme: name,
                     })
                   }}
                   size="sm"
                   style={
                     {
-                      '--theme-primary': `hsl(${theme?.activeColor?.[mode === 'dark' ? 'dark' : 'light']})`,
+                      '--theme-primary': previewColor,
                     } as React.CSSProperties
                   }
                   variant={'outline'}>
@@ -128,10 +124,10 @@ export function Customizer() {
                     )}>
                     {isActive && <CheckIcon aria-hidden="true" className="!size-3 text-white" />}
                   </span>
-                  {theme.label}
+                  {entry.label}
                 </Button>
               ) : (
-                <Skeleton className="h-8 w-full" key={theme.name} />
+                <Skeleton className="h-8 w-full" key={name} />
               )
             })}
           </div>
@@ -231,10 +227,8 @@ export function CopyCodeButton({ className, ...props }: React.ComponentProps<typ
 function CustomizerCode() {
   const [config] = useConfig()
   const [hasCopied, setHasCopied] = React.useState(false)
-  const [themeVersion, setThemeVersion] = React.useState('v4')
-  const activeTheme = React.useMemo(() => baseColors.find((theme) => theme.name === config.theme), [config.theme])
-  const activeThemeOKLCH = React.useMemo(
-    () => baseColorsOKLCH[config.theme as keyof typeof baseColorsOKLCH],
+  const activeTheme = React.useMemo(
+    () => themeRegistry[config.theme as ThemeName] ?? themeRegistry.zinc,
     [config.theme],
   )
 
@@ -246,152 +240,36 @@ function CustomizerCode() {
     }
   }, [hasCopied])
 
-  const Button = () => {
-    return (
-      <CopyButton
-        className="absolute top-4 right-4"
-        value={
-          themeVersion === 'v3'
-            ? getThemeCode(activeTheme, config.radius)
-            : getThemeCodeOKLCH(activeThemeOKLCH, config.radius)
-        }
-      />
-    )
-  }
-
   return (
-    <Tabs onValueChange={setThemeVersion} value={themeVersion}>
-      <div className="flex items-center justify-between">
-        <TabsList className="bg-zinc-950 dark:bg-zinc-900">
-          <TabsTrigger className="w-full" value="v4">
-            Tailwind v4
-          </TabsTrigger>
-          <TabsTrigger className="w-full" value="v3">
-            v3
-          </TabsTrigger>
-        </TabsList>
+    <div className="relative">
+      <CopyButton className="absolute top-4 right-4" value={getThemeCode(activeTheme, config.radius)} />
+      <div data-rehype-pretty-code-fragment="">
+        <pre className="relative max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900">
+          <code className="relative flex flex-col rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
+            <span className="line text-white">&nbsp;:root &#123;</span>
+            <span className="line text-white">&nbsp;&nbsp;&nbsp;--radius: {config.radius}rem;</span>
+            {Object.entries(activeTheme.light).map(([key, value]) => (
+              <span className="line text-white" key={key}>
+                &nbsp;&nbsp;&nbsp;--{key}: {value};
+              </span>
+            ))}
+            <span className="line text-white">&nbsp;&#125;</span>
+            <span className="line text-white">&nbsp;</span>
+            <span className="line text-white">&nbsp;.dark &#123;</span>
+            {Object.entries(activeTheme.dark).map(([key, value]) => (
+              <span className="line text-white" key={key}>
+                &nbsp;&nbsp;&nbsp;--{key}: {value};
+              </span>
+            ))}
+            <span className="line text-white">&nbsp;&#125;</span>
+          </code>
+        </pre>
       </div>
-      <TabsContent className="relative" value="v4">
-        <Button />
-        <div data-rehype-pretty-code-fragment="">
-          <pre className="relative max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900">
-            <code className="relative flex flex-col rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
-              <span className="line text-white">&nbsp;:root &#123;</span>
-              <span className="line text-white">&nbsp;&nbsp;&nbsp;--radius: {config.radius}rem;</span>
-              {Object.entries(activeThemeOKLCH?.light)?.map(([key, value]) => (
-                <span className="line text-white" key={key}>
-                  &nbsp;&nbsp;&nbsp;--{key}: {value};
-                </span>
-              ))}
-              <span className="line text-white">&nbsp;&#125;</span>
-              <span className="line text-white">&nbsp;</span>
-              <span className="line text-white">&nbsp;.dark &#123;</span>
-              {Object.entries(activeThemeOKLCH?.dark)?.map(([key, value]) => (
-                <span className="line text-white" key={key}>
-                  &nbsp;&nbsp;&nbsp;--{key}: {value};
-                </span>
-              ))}
-              <span className="line text-white">&nbsp;&#125;</span>
-            </code>
-          </pre>
-        </div>
-      </TabsContent>
-      <TabsContent className="relative" value="v3">
-        <Button />
-        <div data-rehype-pretty-code-fragment="">
-          <pre className="relative max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900">
-            <code className="relative flex flex-col rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
-              <span className="line text-white">@layer base &#123;</span>
-              <span className="line text-white">&nbsp;&nbsp;:root &#123;</span>
-              <span className="line text-white">
-                &nbsp;&nbsp;&nbsp;&nbsp;--background: {activeTheme?.cssVars.light['background']};
-              </span>
-              <span className="line text-white">
-                &nbsp;&nbsp;&nbsp;&nbsp;--foreground: {activeTheme?.cssVars.light['foreground']};
-              </span>
-              {['card', 'popover', 'primary', 'secondary', 'muted', 'accent', 'destructive'].map((prefix) => (
-                <>
-                  <span className="line text-white">
-                    &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}:{' '}
-                    {activeTheme?.cssVars.light[prefix as keyof typeof activeTheme.cssVars.light]};
-                  </span>
-                  <span className="line text-white">
-                    &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}-foreground:{' '}
-                    {activeTheme?.cssVars.light[`${prefix}-foreground` as keyof typeof activeTheme.cssVars.light]};
-                  </span>
-                </>
-              ))}
-              <span className="line text-white">
-                &nbsp;&nbsp;&nbsp;&nbsp;--border: {activeTheme?.cssVars.light['border']};
-              </span>
-              <span className="line text-white">
-                &nbsp;&nbsp;&nbsp;&nbsp;--input: {activeTheme?.cssVars.light['input']};
-              </span>
-              <span className="line text-white">
-                &nbsp;&nbsp;&nbsp;&nbsp;--ring: {activeTheme?.cssVars.light['ring']};
-              </span>
-              <span className="line text-white">&nbsp;&nbsp;&nbsp;&nbsp;--radius: {config.radius}rem;</span>
-              {['chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5'].map((prefix) => (
-                <>
-                  <span className="line text-white">
-                    &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}:{' '}
-                    {activeTheme?.cssVars.light[prefix as keyof typeof activeTheme.cssVars.light]};
-                  </span>
-                </>
-              ))}
-              <span className="line text-white">&nbsp;&nbsp;&#125;</span>
-              <span className="line text-white">&nbsp;</span>
-              <span className="line text-white">&nbsp;&nbsp;.dark &#123;</span>
-              <span className="line text-white">
-                &nbsp;&nbsp;&nbsp;&nbsp;--background: {activeTheme?.cssVars.dark['background']};
-              </span>
-              <span className="line text-white">
-                &nbsp;&nbsp;&nbsp;&nbsp;--foreground: {activeTheme?.cssVars.dark['foreground']};
-              </span>
-              {['card', 'popover', 'primary', 'secondary', 'muted', 'accent', 'destructive'].map((prefix) => (
-                <>
-                  <span className="line text-white">
-                    &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}:{' '}
-                    {activeTheme?.cssVars.dark[prefix as keyof typeof activeTheme.cssVars.dark]};
-                  </span>
-                  <span className="line text-white">
-                    &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}-foreground:{' '}
-                    {activeTheme?.cssVars.dark[`${prefix}-foreground` as keyof typeof activeTheme.cssVars.dark]};
-                  </span>
-                </>
-              ))}
-              <span className="line text-white">
-                &nbsp;&nbsp;&nbsp;&nbsp;--border: {activeTheme?.cssVars.dark['border']};
-              </span>
-              <span className="line text-white">
-                &nbsp;&nbsp;&nbsp;&nbsp;--input: {activeTheme?.cssVars.dark['input']};
-              </span>
-              <span className="line text-white">
-                &nbsp;&nbsp;&nbsp;&nbsp;--ring: {activeTheme?.cssVars.dark['ring']};
-              </span>
-              {['chart-1', 'chart-2', 'chart-3', 'chart-4', 'chart-5'].map((prefix) => (
-                <>
-                  <span className="line text-white">
-                    &nbsp;&nbsp;&nbsp;&nbsp;--{prefix}:{' '}
-                    {activeTheme?.cssVars.dark[prefix as keyof typeof activeTheme.cssVars.dark]};
-                  </span>
-                </>
-              ))}
-              <span className="line text-white">&nbsp;&nbsp;&#125;</span>
-              <span className="line text-white">&#125;</span>
-            </code>
-          </pre>
-        </div>
-      </TabsContent>
-    </Tabs>
+    </div>
   )
 }
 
-function getThemeCodeOKLCH(theme: BaseColorOKLCH | undefined, radius: number) {
-  if (!theme) {
-    return ''
-  }
-
+function getThemeCode(theme: { light: Record<string, string>; dark: Record<string, string> }, radius: number) {
   const rootSection =
     ':root {\n  --radius: ' +
     radius +
@@ -407,73 +285,3 @@ function getThemeCodeOKLCH(theme: BaseColorOKLCH | undefined, radius: number) {
 
   return rootSection
 }
-
-function getThemeCode(theme: BaseColor | undefined, radius: number) {
-  if (!theme) {
-    return ''
-  }
-
-  return template(BASE_STYLES_WITH_VARIABLES)({
-    colors: theme.cssVars,
-    radius: radius.toString(),
-  })
-}
-
-const BASE_STYLES_WITH_VARIABLES = `
-@layer base {
-  :root {
-    --background: <%- colors.light["background"] %>;
-    --foreground: <%- colors.light["foreground"] %>;
-    --card: <%- colors.light["card"] %>;
-    --card-foreground: <%- colors.light["card-foreground"] %>;
-    --popover: <%- colors.light["popover"] %>;
-    --popover-foreground: <%- colors.light["popover-foreground"] %>;
-    --primary: <%- colors.light["primary"] %>;
-    --primary-foreground: <%- colors.light["primary-foreground"] %>;
-    --secondary: <%- colors.light["secondary"] %>;
-    --secondary-foreground: <%- colors.light["secondary-foreground"] %>;
-    --muted: <%- colors.light["muted"] %>;
-    --muted-foreground: <%- colors.light["muted-foreground"] %>;
-    --accent: <%- colors.light["accent"] %>;
-    --accent-foreground: <%- colors.light["accent-foreground"] %>;
-    --destructive: <%- colors.light["destructive"] %>;
-    --destructive-foreground: <%- colors.light["destructive-foreground"] %>;
-    --border: <%- colors.light["border"] %>;
-    --input: <%- colors.light["input"] %>;
-    --ring: <%- colors.light["ring"] %>;
-    --radius: <%- radius %>rem;
-    --chart-1: <%- colors.light["chart-1"] %>;
-    --chart-2: <%- colors.light["chart-2"] %>;
-    --chart-3: <%- colors.light["chart-3"] %>;
-    --chart-4: <%- colors.light["chart-4"] %>;
-    --chart-5: <%- colors.light["chart-5"] %>;
-  }
-
-  .dark {
-    --background: <%- colors.dark["background"] %>;
-    --foreground: <%- colors.dark["foreground"] %>;
-    --card: <%- colors.dark["card"] %>;
-    --card-foreground: <%- colors.dark["card-foreground"] %>;
-    --popover: <%- colors.dark["popover"] %>;
-    --popover-foreground: <%- colors.dark["popover-foreground"] %>;
-    --primary: <%- colors.dark["primary"] %>;
-    --primary-foreground: <%- colors.dark["primary-foreground"] %>;
-    --secondary: <%- colors.dark["secondary"] %>;
-    --secondary-foreground: <%- colors.dark["secondary-foreground"] %>;
-    --muted: <%- colors.dark["muted"] %>;
-    --muted-foreground: <%- colors.dark["muted-foreground"] %>;
-    --accent: <%- colors.dark["accent"] %>;
-    --accent-foreground: <%- colors.dark["accent-foreground"] %>;
-    --destructive: <%- colors.dark["destructive"] %>;
-    --destructive-foreground: <%- colors.dark["destructive-foreground"] %>;
-    --border: <%- colors.dark["border"] %>;
-    --input: <%- colors.dark["input"] %>;
-    --ring: <%- colors.dark["ring"] %>;
-    --chart-1: <%- colors.dark["chart-1"] %>;
-    --chart-2: <%- colors.dark["chart-2"] %>;
-    --chart-3: <%- colors.dark["chart-3"] %>;
-    --chart-4: <%- colors.dark["chart-4"] %>;
-    --chart-5: <%- colors.dark["chart-5"] %>;
-  }
-}
-`

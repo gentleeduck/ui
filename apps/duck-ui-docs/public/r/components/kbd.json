@@ -18,6 +18,6 @@
   ],
   "name": "kbd",
   "root_folder": "kbd",
-  "source": "/registry-ui-duckui/src/kbd",
+  "source": "/registry-ui/src/kbd",
   "type": "registry:ui"
 }

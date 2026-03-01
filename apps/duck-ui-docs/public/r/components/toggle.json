@@ -26,6 +26,6 @@
   "name": "toggle",
   "registryDependencies": [],
   "root_folder": "toggle",
-  "source": "/registry-ui-duckui/src/toggle",
+  "source": "/registry-ui/src/toggle",
   "type": "registry:ui"
 }

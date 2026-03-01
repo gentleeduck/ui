@@ -1,68 +1,141 @@
 ---
 title: gentleduck/cli
-description: Use the gentleduck CLI package to add components and dependencies to your project.
+description: Use the gentleduck CLI package to initialize configs and install components from the registry.
 ---
 
 <MermaidDiagram chart={`flowchart TD
     A[npx @gentleduck/cli] --> B[init]
     A --> C[add]
-    B --> D[Configure Project]
-    C --> E[Select Components]
-    E --> F[Install Dependencies]
-    F --> G[Copy Source Files]
+    A --> D[update]
+    A --> E[remove]
+    A --> F[diff]
+    B --> G[duck-ui.config.json]
+    C --> H[Install Components]
+    D --> I[Refresh Local Components]
+    E --> J[Remove Local Components]
+    F --> K[Compare With Registry]
 `} />
 
 ## Philosophy
 
-A good CLI makes adoption frictionless. gentleduck/cli doesn't install pre-built packages — it copies source code into your project. This means you own every line, can modify anything, and never wait for a library release to fix a bug. The tradeoff is intentional: full control over zero-config convenience.
+gentleduck/cli copies source files into your project instead of installing pre-built UI packages. You keep full ownership of the code and can customize immediately.
 
----
+## Commands
 
-## init
+### init
 
-Use the `init` command to initialize configuration and dependencies for a new project.
+Initialize project config and optionally install components.
 
 ```bash
 npx @gentleduck/cli init [components...]
 ```
 
-**Options**
-
-```bash
-Usage: @gentleduck/cli init [options] [components...]
-
-init the project
-
-Arguments:
-  [components...]   names, url or local path to component to install. When not provided, you’ll be directed to a list to select from.
-
 Options:
-  -y, --yes           skip confirmation prompt. (default: false)
-  -c, --cwd <cwd>     the working directory. defaults to the current directory. (default: process.cwd())
-  -f, --force         overwrite existing components. (default: false)
-```
 
----
+- `-y, --yes`
+- `-c, --cwd <cwd>`
+- `-p, --project-type <type>`
+- `-b, --base-color <color>`
+- `--alias <alias>`
+- `--css <path>`
+- `--css-variables`
+- `--no-css-variables`
+- `--monorepo`
+- `--no-monorepo`
+- `-w, --workspace <path>`
+- `--prefix <prefix>`
+- `-a, --all`
 
-## add
+### add
 
-Use the `add` command to add components and dependencies to your project.
+Install components from the registry.
 
 ```bash
 npx @gentleduck/cli add [components...]
 ```
 
-**Options**
+Options:
+
+- `-y, --yes`
+- `-f, --force`
+- `-c, --cwd <cwd>`
+- `-w, --workspace <path>`
+- `-a, --all`
+
+### update
+
+Update installed local components to latest registry versions.
 
 ```bash
-Usage: @gentleduck/cli add [options] [components...]
-
-add components to your project
-
-Arguments:
-  [components...]   names, url or local path to component to install. When not provided, you’ll be directed to a list to select from.
+npx @gentleduck/cli update [components...]
+```
 
 Options:
-  -y, --yes           skip confirmation prompt. (default: false)
-  -f, --force         overwrite existing components. (default: false)
+
+- `-a, --all`
+- `-y, --yes`
+- `-c, --cwd <cwd>`
+- `-w, --workspace <path>`
+
+### remove
+
+Remove installed local components.
+
+```bash
+npx @gentleduck/cli remove [components...]
+```
+
+Options:
+
+- `-y, --yes`
+- `-c, --cwd <cwd>`
+- `-w, --workspace <path>`
+
+### diff
+
+Show differences between installed components and registry versions.
+
+```bash
+npx @gentleduck/cli diff [components...]
+```
+
+Options:
+
+- `-c, --cwd <cwd>`
+- `-g, --gui`
+- `-w, --workspace <path>`
+
+## Monorepo Usage
+
+When `duck-ui.config.json` has `"monorepo": true`, the CLI resolves the install target from:
+
+1. `duck-ui.config.json` `workspace` field
+2. `--workspace` override (if provided)
+
+The CLI validates that the target workspace has:
+
+- `package.json`
+- `tsconfig.json` (for component commands)
+
+If `--workspace` is not provided and you run a command inside a workspace directory, the CLI infers the target from the nearest parent `package.json`.
+
+### Example
+
+```bash
+npx @gentleduck/cli add button --workspace apps/web
+```
+
+### Init with explicit workspace
+
+```bash
+npx @gentleduck/cli init --monorepo --workspace apps/web
+```
+
+## Migration Note
+
+Legacy `duck-ui.config.json` files (without `workspace`) are rejected.
+Re-run init to migrate:
+
+```bash
+npx @gentleduck/cli init
 ```

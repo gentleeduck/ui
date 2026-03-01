@@ -1,8 +1,8 @@
 'use client'
 
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui-duckui/card'
-import { Textarea } from '@gentleduck/registry-ui-duckui/textarea'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui/card'
+import { Textarea } from '@gentleduck/registry-ui/textarea'
 import { ArrowRightLeft, Copy, Download, Palette } from 'lucide-react'
 import Link from 'next/link'
 import { useState } from 'react'

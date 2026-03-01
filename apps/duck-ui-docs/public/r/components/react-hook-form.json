@@ -12,6 +12,6 @@
     "label"
   ],
   "root_folder": "react-hook-form",
-  "source": "/registry-ui-duckui/src/react-hook-form",
+  "source": "/registry-ui/src/react-hook-form",
   "type": "registry:ui"
 }

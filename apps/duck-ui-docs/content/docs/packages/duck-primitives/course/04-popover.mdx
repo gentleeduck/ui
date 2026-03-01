@@ -1,43 +1,27 @@
 ---
 title: "Lesson 4: Popover and Positioning"
-description: "Floating elements that stay anchored to their trigger with collision avoidance."
+description: "Use Popper-driven placement correctly: side/align strategy, collisions, anchors, and side-aware motion."
 ---
 
 <Callout icon={<Lightbulb />}>
 
-**Lesson 4 of 8** — Learn how floating elements position themselves relative to triggers and handle viewport edges.
+**Lesson 4 of 10**: Floating UI quality depends on placement strategy, not just CSS.
 
 </Callout>
 
-## A basic popover
+## Baseline popover
 
 ```tsx
 import * as Popover from '@gentleduck/primitives/popover'
 
-function UserSettings() {
+export function FilterPopover() {
   return (
     <Popover.Root>
-      <Popover.Trigger className="px-3 py-1.5 border rounded-lg text-sm">
-        Settings
-      </Popover.Trigger>
-
+      <Popover.Trigger className="rounded border px-3 py-2 text-sm">Filters</Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content
-          className="bg-white shadow-xl rounded-lg p-4 w-72 border"
-          sideOffset={8}
-        >
-          <h3 className="font-semibold mb-3">Display settings</h3>
-          <label className="block mb-2">
-            <span className="text-sm text-gray-600">Theme</span>
-            <select className="w-full border rounded px-2 py-1 mt-1">
-              <option>Light</option>
-              <option>Dark</option>
-              <option>System</option>
-            </select>
-          </label>
-          <Popover.Close className="text-sm text-blue-600 mt-2">
-            Done
-          </Popover.Close>
+        <Popover.Content sideOffset={8} className="w-72 rounded-lg border bg-white p-4 shadow-lg">
+          <h3 className="font-medium">Filters</h3>
+          <p className="mt-1 text-sm text-gray-600">Adjust visible results.</p>
           <Popover.Arrow className="fill-white" />
         </Popover.Content>
       </Popover.Portal>
@@ -48,113 +32,81 @@ function UserSettings() {
 
 ---
 
-## Positioning props
+## Placement API
 
-The Popper engine positions Content relative to the Trigger. You control placement with these props on Content:
+Core props on `Content`:
 
-### `side`
+- `side`: top/right/bottom/left.
+- `align`: start/center/end.
+- `sideOffset`: distance from anchor.
+- `alignOffset`: fine alignment shift.
 
-Which side of the trigger to appear on: `'top'`, `'right'`, `'bottom'` (default), `'left'`.
-
-```tsx
-<Popover.Content side="top" sideOffset={8}>
-```
-
-### `sideOffset`
-
-Gap between the content and the trigger in pixels. Default is `0`.
-
-### `align`
-
-Alignment along the chosen side: `'start'`, `'center'` (default), `'end'`.
-
-```tsx
-// Align to the left edge of the trigger
-<Popover.Content side="bottom" align="start">
-```
-
-### `alignOffset`
-
-Fine-tune alignment by shifting along the alignment axis.
+Treat these as geometry controls. Keep spacing, color, borders in CSS/tokens.
 
 ---
 
-## Collision avoidance
+## Collision strategy
 
-<Callout icon={<Zap />}>
-
-By default, `avoidCollisions` is `true`. If the content would overflow the viewport on the chosen side, Popper **flips to the opposite side** automatically.
-
-</Callout>
-
-Try this: place a trigger near the bottom of the page with `side="bottom"`. The content will flip to `top` when there's not enough space below.
-
-You can control this behavior:
+Popper can flip and shift content to keep it visible.
 
 ```tsx
 <Popover.Content
-  avoidCollisions={true}
-  collisionPadding={10}          // minimum 10px from viewport edge
-  collisionBoundary={myElement}  // use a custom boundary instead of viewport
->
+  side="bottom"
+  align="start"
+  avoidCollisions
+  collisionPadding={8}
+/>
 ```
+
+Use `collisionPadding` to preserve comfortable edge spacing.
 
 ---
 
-## Custom anchor
+## Anchor modeling
 
-<Callout icon={<Lightbulb />}>
-
-By default, content is positioned relative to the Trigger. Use `Popover.Anchor` to position relative to a **different element**.
-
-</Callout>
+By default, content anchors to `Trigger`. Use `Anchor` when trigger and visual anchor differ.
 
 ```tsx
-<Popover.Root>
-  <Popover.Anchor asChild>
-    <div className="text-input-container">
-      <input placeholder="Search..." />
-      <Popover.Trigger className="ml-2">Filter</Popover.Trigger>
-    </div>
-  </Popover.Anchor>
-
-  <Popover.Portal>
-    <Popover.Content>
-      {/* Content positions relative to the Anchor, not the Trigger */}
-      <p>Filter options...</p>
-    </Popover.Content>
-  </Popover.Portal>
-</Popover.Root>
+<Popover.Anchor asChild>
+  <div className="inline-flex items-center gap-2">...</div>
+</Popover.Anchor>
 ```
 
----
-
-## Popover vs Dialog vs Tooltip
-
-| Feature | Dialog | Popover | Tooltip |
-| --- | --- | --- | --- |
-| Trigger | Click | Click | Hover/focus |
-| Positioning | Centered on screen | Anchored to trigger | Anchored to trigger |
-| Focus trap | Yes (modal) | Optional | No |
-| Interactive content | Yes | Yes | No (display-only) |
-| Dismiss | <Kbd>Escape</Kbd>, click outside | <Kbd>Escape</Kbd>, click outside | Pointer leave, <Kbd>Escape</Kbd> |
-
-<Callout icon={<Target />}>
-
-Use **Dialog** for blocking actions. Use **Popover** for interactive floating panels. Use **Tooltip** for non-interactive hints.
-
-</Callout>
+This is useful for composite inputs and toolbar groups.
 
 ---
 
-## Exercise
+## Side-aware animation
 
-1. Build a color picker popover: trigger shows a color swatch, content shows a grid of colors.
-2. Try all four `side` values and observe the positioning.
-3. Place the trigger in a corner and verify collision avoidance flips the content.
+Use `data-side` and `data-state` for directional motion:
+
+```css
+[data-state='open'][data-side='top'] { animation: slideDownIn 150ms ease; }
+[data-state='open'][data-side='bottom'] { animation: slideUpIn 150ms ease; }
+```
+
+This prevents motion that feels disconnected from placement.
+
+---
+
+## Popover vs Tooltip vs Dialog
+
+- `Popover`: interactive floating content.
+- `Tooltip`: non-interactive hint text.
+- `Dialog`: high-priority task or interruption.
+
+Wrong primitive choice usually leads to accessibility issues.
+
+---
+
+## Lab
+
+1. Build an anchored filter popover.
+2. Test all `side` + `align` combinations near viewport edges.
+3. Add side-aware enter/exit motion and verify reduced-motion fallback.
 
 <Callout icon={<MapIcon />}>
 
-Next: [Lesson 5 — Menus, Dropdowns, and Selection](/docs/packages/duck-primitives/course/05-menus)
+Next: [Lesson 5 - Menus, Dropdowns, and Selection](/docs/packages/duck-primitives/course/05-menus)
 
 </Callout>

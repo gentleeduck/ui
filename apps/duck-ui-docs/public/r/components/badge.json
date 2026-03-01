@@ -26,6 +26,6 @@
   ],
   "name": "badge",
   "root_folder": "badge",
-  "source": "/registry-ui-duckui/src/badge",
+  "source": "/registry-ui/src/badge",
   "type": "registry:ui"
 }

@@ -25,6 +25,6 @@
   ],
   "name": "empty",
   "root_folder": "empty",
-  "source": "/registry-ui-duckui/src/empty",
+  "source": "/registry-ui/src/empty",
   "type": "registry:ui"
 }

@@ -12,6 +12,6 @@
     "duck-table"
   ],
   "root_folder": "duck-table",
-  "source": "/registry-examples-duckui/src/duck-table",
+  "source": "/registry-examples/src/duck-table",
   "type": "registry:example"
 }

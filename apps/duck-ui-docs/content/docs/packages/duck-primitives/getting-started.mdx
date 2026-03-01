@@ -1,69 +1,106 @@
 ---
 title: "Getting Started"
-description: "Install duck-primitives and render your first accessible dialog in under 5 minutes."
+description: "Set up gentleduck/primitives with production defaults: accessibility, animation, direction, and state control."
 ---
 
 <Callout icon={<Zap />}>
 
-Get up and running with **gentleduck/primitives** in under 5 minutes. By the end of this page you will have a fully accessible, animated dialog.
+This guide is optimized for real projects, not toy demos. You will install primitives, wire global direction, build a controlled dialog, and validate behavior with a practical QA checklist.
 
 </Callout>
 
-## Installation
+## Install
 
 ```bash
 npm install @gentleduck/primitives
 ```
 
-<Callout icon={<Lightbulb />}>
+Requirements:
 
-duck-primitives ships TypeScript types and requires **React 19+**. No separate `@types` package needed.
-
-</Callout>
+- React `19+`
+- TypeScript optional (types are bundled)
 
 ---
 
-## Global direction (RTL/LTR)
+## Set document direction once
 
-Set direction once at app root and primitives/components resolve it automatically:
+If your product may support RTL later, set direction now.
 
 ```tsx
 import { DirectionProvider } from '@gentleduck/primitives/direction'
 
 export function Providers({ children }: { children: React.ReactNode }) {
-  return <DirectionProvider dir="rtl">{children}</DirectionProvider>
+  return <DirectionProvider dir="ltr">{children}</DirectionProvider>
 }
 ```
 
-For full document semantics, also set `<html dir="rtl">` (or `"ltr"`).
+Also set document semantics:
+
+```html
+<html dir="ltr" lang="en">
+```
+
+Use `dir="rtl"` at provider or primitive level where needed.
 
 ---
 
-## Your first dialog
-
-Every primitive follows the same pattern: a namespace object with compound components.
-
-<Steps>
-
-<Step>Import the Dialog primitive</Step>
+## First production-ready Dialog
 
 ```tsx
+import * as React from 'react'
 import * as Dialog from '@gentleduck/primitives/dialog'
-```
 
-<Step>Build your component</Step>
+export function DeleteProjectDialog() {
+  const [open, setOpen] = React.useState(false)
+  const [submitting, setSubmitting] = React.useState(false)
 
-```tsx
-function MyDialog() {
+  async function onDelete() {
+    try {
+      setSubmitting(true)
+      // await deleteProject()
+      setOpen(false)
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
   return (
-    <Dialog.Root>
-      <Dialog.Trigger>Open dialog</Dialog.Trigger>
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Trigger className="rounded-md border px-3 py-2 text-sm">
+        Delete project
+      </Dialog.Trigger>
+
       <Dialog.Portal>
-        <Dialog.Overlay className="fixed inset-0 bg-black/50" />
-        <Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg">
-          <Dialog.Title>Are you sure?</Dialog.Title>
-          <Dialog.Description>This action cannot be undone.</Dialog.Description>
-          <Dialog.Close>Close</Dialog.Close>
+        <Dialog.Overlay className="fixed inset-0 bg-black/40 data-[state=open]:animate-in data-[state=closed]:animate-out" />
+
+        <Dialog.Content
+          className="fixed left-1/2 top-1/2 w-[92vw] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-xl border bg-background p-5 shadow-xl data-[state=open]:animate-in data-[state=closed]:animate-out"
+          onEscapeKeyDown={(event) => {
+            if (submitting) event.preventDefault()
+          }}
+          onInteractOutside={(event) => {
+            if (submitting) event.preventDefault()
+          }}
+        >
+          <Dialog.Title className="text-lg font-semibold">Delete project?</Dialog.Title>
+          <Dialog.Description className="mt-1 text-sm text-muted-foreground">
+            This action removes all environments and cannot be undone.
+          </Dialog.Description>
+
+          <div className="mt-4 flex justify-end gap-2">
+            <Dialog.Close asChild>
+              <button className="rounded-md border px-3 py-2 text-sm" disabled={submitting}>
+                Cancel
+              </button>
+            </Dialog.Close>
+            <button
+              className="rounded-md bg-red-600 px-3 py-2 text-sm text-white"
+              disabled={submitting}
+              onClick={onDelete}
+            >
+              {submitting ? 'Deleting...' : 'Delete'}
+            </button>
+          </div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
@@ -71,32 +108,18 @@ function MyDialog() {
 }
 ```
 
-<Step>You are done</Step>
+What this gives you immediately:
 
-</Steps>
-
-That's it. The dialog handles all of this automatically:
-
-- Focus trapping inside the content when open.
-- Restoring focus to the trigger when closed.
-- Closing on <Kbd>Escape</Kbd> key press.
-- Closing on overlay click.
-- Scroll locking on the body.
-- Correct ARIA roles (`dialog`, `aria-labelledby`, `aria-describedby`).
-- Hiding everything else from screen readers via `aria-hidden`.
-
-You provide the styles. The primitive provides the behavior.
+- Focus trapping and restoration.
+- Escape + outside interaction dismissal control.
+- Correct dialog ARIA semantics.
+- State-driven animation hooks via `data-state`.
 
 ---
 
-## Import patterns
+## Import strategy
 
-<Tabs defaultValue="namespace">
-<TabsList>
-  <TabsTrigger value="namespace">Namespace (recommended)</TabsTrigger>
-  <TabsTrigger value="named">Named imports</TabsTrigger>
-</TabsList>
-<TabsContent value="namespace">
+Use namespace imports to keep JSX readable and avoid naming collisions:
 
 ```tsx
 import * as Dialog from '@gentleduck/primitives/dialog'
@@ -104,92 +127,31 @@ import * as Popover from '@gentleduck/primitives/popover'
 import * as Tooltip from '@gentleduck/primitives/tooltip'
 ```
 
+---
 
-Reads clearly in JSX: `<Dialog.Root>`, `<Dialog.Trigger>`, etc.
+## Controlled vs uncontrolled rule
 
-</TabsContent>
-<TabsContent value="named">
+- Use uncontrolled (`defaultOpen`) for simple local UI.
+- Use controlled (`open` + `onOpenChange`) for workflows, async actions, analytics, or URL-driven state.
 
-```tsx
-import { Dialog, DialogTrigger, DialogContent } from '@gentleduck/primitives/dialog'
-```
-
-Works when you need to avoid naming collisions.
-
-</TabsContent>
-</Tabs>
+If you need business rules around close behavior, controlled mode should be your default.
 
 ---
 
-## The component model
+## Minimal QA before merge
 
-Every primitive follows the same compound component pattern:
-
-```txt
-Root         — State manager, provides context
-Trigger      — Element that activates the component
-Portal       — Renders content outside the DOM tree
-Overlay      — Backdrop behind the content (optional)
-Content      — The main content area
-Title        — Accessible title (connected via aria-labelledby)
-Description  — Accessible description (connected via aria-describedby)
-Close        — Button that closes the component
-```
-
-<Callout icon={<Lightbulb />}>
-
-Not every primitive has all of these. A Tooltip has no Overlay. A Progress bar has an Indicator instead of Content. But the pattern is consistent across the library.
-
-</Callout>
+1. Keyboard-only: tab into trigger, open, tab cycle, close with <Kbd>Escape</Kbd>, confirm focus restore.
+2. Screen reader: confirm title and description are announced.
+3. Nested overlays: confirm outside click behavior is correct.
+4. Reduced motion: ensure animations are disabled when `prefers-reduced-motion: reduce`.
+5. RTL pass: verify placement/alignment for at least one floating primitive.
 
 ---
 
-## Controlled vs uncontrolled
-
-All primitives support both modes:
-
-<Tabs defaultValue="uncontrolled">
-<TabsList>
-  <TabsTrigger value="uncontrolled">Uncontrolled</TabsTrigger>
-  <TabsTrigger value="controlled">Controlled</TabsTrigger>
-</TabsList>
-<TabsContent value="uncontrolled">
-
-The primitive manages its own state internally:
-
-```tsx
-<Dialog.Root defaultOpen={false}>
-  ...
-</Dialog.Root>
-```
-
-</TabsContent>
-<TabsContent value="controlled">
-
-You manage the state and pass it in:
-
-```tsx
-const [open, setOpen] = useState(false)
-<Dialog.Root open={open} onOpenChange={setOpen}>
-  ...
-</Dialog.Root>
-```
-
-</TabsContent>
-</Tabs>
-
-<Callout icon={<TriangleAlert />}>
-
-In development mode, switching between controlled and uncontrolled will log a warning to help you catch bugs.
-
-</Callout>
-
----
-
-## What's next?
+## Next pages
 
 <Callout icon={<MapIcon />} className="[&_ul]:my-0">
-- [Core Concepts](/docs/packages/duck-primitives/concepts) — Understand asChild, Presence, and the composition model.
-- [API Reference](/docs/packages/duck-primitives/api) — Full API for every primitive.
-- [Course](/docs/packages/duck-primitives/course) — Hands-on tutorial from zero to advanced.
+- [Core Concepts](/docs/packages/duck-primitives/concepts) — Deep mechanics: `asChild`, Presence, Dismissable Layer, context scoping.
+- [Course](/docs/packages/duck-primitives/course) — Structured lessons with labs and production patterns.
+- [API Reference](/docs/packages/duck-primitives/api) — Full prop and event reference.
 </Callout>

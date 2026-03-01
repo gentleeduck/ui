@@ -2,7 +2,7 @@
 
 import { getColors } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
-import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
+import { ScrollArea } from '@gentleduck/registry-ui/scroll-area'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 

@@ -1,15 +1,8 @@
 'use client'
 
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import {
-  Card,
-  CardAction,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@gentleduck/registry-ui-duckui/card'
-import { type ChartConfig, ChartContainer } from '@gentleduck/registry-ui-duckui/chart'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui/card'
+import { type ChartConfig, ChartContainer } from '@gentleduck/registry-ui/chart'
 import { Area, AreaChart, Line, LineChart } from 'recharts'
 
 const data = [

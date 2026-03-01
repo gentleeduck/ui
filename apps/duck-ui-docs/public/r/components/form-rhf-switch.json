@@ -20,6 +20,6 @@
     "textarea"
   ],
   "root_folder": "form",
-  "source": "/registry-examples-duckui/src/form",
+  "source": "/registry-examples/src/form",
   "type": "registry:example"
 }

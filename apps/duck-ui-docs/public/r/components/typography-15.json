@@ -10,6 +10,6 @@
   "name": "typography-15",
   "registryDependencies": [],
   "root_folder": "typography",
-  "source": "/registry-examples-duckui/src/typography",
+  "source": "/registry-examples/src/typography",
   "type": "registry:example"
 }

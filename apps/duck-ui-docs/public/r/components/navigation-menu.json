@@ -23,6 +23,6 @@
   "name": "navigation-menu",
   "registryDependencies": [],
   "root_folder": "navigation-menu",
-  "source": "/registry-ui-duckui/src/navigation-menu",
+  "source": "/registry-ui/src/navigation-menu",
   "type": "registry:ui"
 }

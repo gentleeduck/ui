@@ -49,7 +49,7 @@
 // }
 // ////
 //
-// /* import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui-duckui/accordion'
+// /* import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui/accordion'
 //
 // export function AccordionDemo() {
 //   return (
@@ -98,7 +98,7 @@
 // }
 //
 // import { ChevronsUpDown } from 'lucide-react'
-// import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui-duckui/collapsible'
+// import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui/collapsible'
 //
 // export function CollapsibleDemo() {
 //   const [isOpen, setIsOpen] = React.useState(true)
@@ -123,7 +123,7 @@
 //   )
 // }
 //
-// import { Slider } from '@gentleduck/registry-ui-duckui/slider'
+// import { Slider } from '@gentleduck/registry-ui/slider'
 //
 // type SliderProps = React.ComponentProps<typeof Slider>
 //
@@ -133,7 +133,7 @@
 //
 // import { Bold, Italic, Underline } from 'lucide-react'
 //
-// import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui-duckui/toggle-group'
+// import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui/toggle-group'
 //
 // export function ToggleGroupDemo() {
 //   return (
@@ -151,7 +151,7 @@
 //   )
 // }
 //
-// import { Toggle } from '@gentleduck/registry-ui-duckui/toggle'
+// import { Toggle } from '@gentleduck/registry-ui/toggle'
 //
 // export function ToggleDemo() {
 //   return (
@@ -161,7 +161,7 @@
 //   )
 // }
 //
-// import { Progress } from '@gentleduck/registry-ui-duckui/progress'
+// import { Progress } from '@gentleduck/registry-ui/progress'
 //
 // export function ProgressDemo() {
 //   const [progress, setProgress] = React.useState(13)
@@ -174,7 +174,7 @@
 //   return <Progress value={progress} className="w-[60%]" />
 // }
 //
-// import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@gentleduck/registry-ui-duckui/input-otp'
+// import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@gentleduck/registry-ui/input-otp'
 //
 // export function InputOTPDemo() {
 //   return (
@@ -203,7 +203,7 @@
 //   BreadcrumbList,
 //   BreadcrumbPage,
 //   BreadcrumbSeparator,
-// } from '@gentleduck/registry-ui-duckui/breadcrumb'
+// } from '@gentleduck/registry-ui/breadcrumb'
 // export function BreadcrumbDemo() {
 //   return (
 //     <Breadcrumb>
@@ -256,7 +256,7 @@
 //   MenubarSubContent,
 //   MenubarSubTrigger,
 //   MenubarTrigger,
-// } from '@gentleduck/registry-ui-duckui/menubar'
+// } from '@gentleduck/registry-ui/menubar'
 //
 // export function MenubarDemo() {
 //   return (
@@ -357,7 +357,7 @@
 //   SelectScrollUpButton,
 //   SelectTrigger,
 //   SelectValue,
-// } from '@gentleduck/registry-ui-duckui/select'
+// } from '@gentleduck/registry-ui/select'
 // import { Calendar, Clock, MicOff, Users, Video, X } from 'lucide-react'
 //
 // export function SelectDemo() {
@@ -431,7 +431,7 @@
 //   DropdownMenuSubContent,
 //   DropdownMenuSubTrigger,
 //   DropdownMenuTrigger,
-// } from '@gentleduck/registry-ui-duckui/dropdown-menu'
+// } from '@gentleduck/registry-ui/dropdown-menu'
 //
 // import { Command } from 'lucide-react'
 //
@@ -513,10 +513,10 @@
 //   CommandList,
 //   CommandSeparator,
 //   CommandShortcut,
-// } from '@gentleduck/registry-ui-duckui/command'
+// } from '@gentleduck/registry-ui/command'
 // import React from 'react'
 // import { cn } from '@gentleduck/duck-libs/cn'
-// import { Button } from '@gentleduck/registry-ui-duckui/button'
+// import { Button } from '@gentleduck/registry-ui/button'
 //
 // export function CommandDemo() {
 //   return (
@@ -692,7 +692,7 @@
 //   NavigationMenuList,
 //   NavigationMenuTrigger,
 //   navigationMenuTriggerStyle,
-// } from '@gentleduck/registry-ui-duckui/navigation-menu'
+// } from '@gentleduck/registry-ui/navigation-menu'
 //
 // const components: { title: string; href: string; description: string }[] = [
 //   {
@@ -779,7 +779,7 @@
 //   ContextMenuSubContent,
 //   ContextMenuSubTrigger,
 //   ContextMenuTrigger,
-// } from '@gentleduck/registry-ui-duckui/context-menu'
+// } from '@gentleduck/registry-ui/context-menu'
 //
 // export function ContextMenuDemo() {
 //   return (
@@ -826,8 +826,8 @@
 //   )
 // }
 //
-// import { Avatar } from '@gentleduck/registry-ui-duckui/avatar'
-// import { HoverCard, HoverCardContent, HoverCardTrigger } from '@gentleduck/registry-ui-duckui/hover-card'
+// import { Avatar } from '@gentleduck/registry-ui/avatar'
+// import { HoverCard, HoverCardContent, HoverCardTrigger } from '@gentleduck/registry-ui/hover-card'
 //
 // export function HoverCardDemo() {
 //   return (
@@ -858,7 +858,7 @@
 //   DialogHeader,
 //   DialogTitle,
 //   DialogTrigger,
-// } from '@gentleduck/registry-ui-duckui/dialog'
+// } from '@gentleduck/registry-ui/dialog'
 //
 // export function DialogDemo() {
 //   return (
@@ -903,7 +903,7 @@
 //   SheetHeader,
 //   SheetTitle,
 //   SheetTrigger,
-// } from '@gentleduck/registry-ui-duckui/sheet'
+// } from '@gentleduck/registry-ui/sheet'
 //
 // export function SheetDemo() {
 //   return (
@@ -937,12 +937,12 @@
 //   )
 // }
 //
-// import { Input } from '@gentleduck/registry-ui-duckui/input'
-// import { Label } from '@gentleduck/registry-ui-duckui/label'
+// import { Input } from '@gentleduck/registry-ui/input'
+// import { Label } from '@gentleduck/registry-ui/label'
 // // import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-// import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
+// import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
 //
-// import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
+// import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'
 //
 // export function TooltipDemo() {
 //   return (
@@ -991,7 +991,7 @@
 //   )
 // }
 //
-// import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui-duckui/accordion'
+// import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui/accordion'
 //
 // export function AccordionDemo() {
 //   return (
@@ -1040,7 +1040,7 @@
 // }
 //
 // import { ChevronsUpDown } from 'lucide-react'
-// import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui-duckui/collapsible'
+// import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui/collapsible'
 //
 // export function CollapsibleDemo() {
 //   const [isOpen, setIsOpen] = React.useState(true)
@@ -1065,7 +1065,7 @@
 //   )
 // }
 //
-// import { Slider } from '@gentleduck/registry-ui-duckui/slider'
+// import { Slider } from '@gentleduck/registry-ui/slider'
 //
 // type SliderProps = React.ComponentProps<typeof Slider>
 //
@@ -1075,7 +1075,7 @@
 //
 // import { Bold, Italic, Underline } from 'lucide-react'
 //
-// import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui-duckui/toggle-group'
+// import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui/toggle-group'
 //
 // export function ToggleGroupDemo() {
 //   return (
@@ -1093,7 +1093,7 @@
 //   )
 // }
 //
-// import { Toggle } from '@gentleduck/registry-ui-duckui/toggle'
+// import { Toggle } from '@gentleduck/registry-ui/toggle'
 //
 // export function ToggleDemo() {
 //   return (
@@ -1103,7 +1103,7 @@
 //   )
 // }
 //
-// import { Progress } from '@gentleduck/registry-ui-duckui/progress'
+// import { Progress } from '@gentleduck/registry-ui/progress'
 //
 // export function ProgressDemo() {
 //   const [progress, setProgress] = React.useState(13)
@@ -1116,7 +1116,7 @@
 //   return <Progress value={progress} className="w-[60%]" />
 // }
 //
-// import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@gentleduck/registry-ui-duckui/input-otp'
+// import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@gentleduck/registry-ui/input-otp'
 //
 // export function InputOTPDemo() {
 //   return (
@@ -1145,7 +1145,7 @@
 //   BreadcrumbList,
 //   BreadcrumbPage,
 //   BreadcrumbSeparator,
-// } from '@gentleduck/registry-ui-duckui/breadcrumb'
+// } from '@gentleduck/registry-ui/breadcrumb'
 // export function BreadcrumbDemo() {
 //   return (
 //     <Breadcrumb>
@@ -1198,7 +1198,7 @@
 //   MenubarSubContent,
 //   MenubarSubTrigger,
 //   MenubarTrigger,
-// } from '@gentleduck/registry-ui-duckui/menubar'
+// } from '@gentleduck/registry-ui/menubar'
 //
 // export function MenubarDemo() {
 //   return (
@@ -1299,7 +1299,7 @@
 //   SelectScrollUpButton,
 //   SelectTrigger,
 //   SelectValue,
-// } from '@gentleduck/registry-ui-duckui/select'
+// } from '@gentleduck/registry-ui/select'
 // import { Calendar, Clock, MicOff, Users, Video, X } from 'lucide-react'
 //
 // export function SelectDemo() {
@@ -1373,7 +1373,7 @@
 //   DropdownMenuSubContent,
 //   DropdownMenuSubTrigger,
 //   DropdownMenuTrigger,
-// } from '@gentleduck/registry-ui-duckui/dropdown-menu'
+// } from '@gentleduck/registry-ui/dropdown-menu'
 //
 // import { Command } from 'lucide-react'
 //
@@ -1456,10 +1456,10 @@
 //   CommandList,
 //   CommandSeparator,
 //   CommandShortcut,
-// } from '@gentleduck/registry-ui-duckui/command'
+// } from '@gentleduck/registry-ui/command'
 // import React from 'react'
 // import { cn } from '@gentleduck/duck-libs/cn'
-// import { Button } from '@gentleduck/registry-ui-duckui/button'
+// import { Button } from '@gentleduck/registry-ui/button'
 //
 // export function CommandDemo() {
 //   return (

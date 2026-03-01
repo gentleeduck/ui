@@ -19,6 +19,6 @@
   ],
   "name": "popover",
   "root_folder": "popover",
-  "source": "/registry-ui-duckui/src/popover",
+  "source": "/registry-ui/src/popover",
   "type": "registry:ui"
 }

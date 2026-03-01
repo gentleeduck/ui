@@ -11,6 +11,8 @@
     "noErrorTruncation": true,
     "paths": {
       "~/*": ["./*"],
+      "@gentleduck/primitives/*": ["../../packages/duck-primitives/src/*"],
+      "@gentleduck/registry-internals/*": ["../../packages/registry-internals/src/*"],
       "~/velite": ["./.velite/*"]
     },
     "plugins": [

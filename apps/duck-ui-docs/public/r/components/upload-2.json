@@ -12,6 +12,6 @@
     "upload"
   ],
   "root_folder": "upload",
-  "source": "/registry-examples-duckui/src/upload",
+  "source": "/registry-examples/src/upload",
   "type": "registry:example"
 }

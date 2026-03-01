@@ -25,6 +25,6 @@
   ],
   "name": "alert",
   "root_folder": "alert",
-  "source": "/registry-ui-duckui/src/alert",
+  "source": "/registry-ui/src/alert",
   "type": "registry:ui"
 }

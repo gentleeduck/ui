@@ -1,171 +1,98 @@
 ---
 title: "Lesson 3: The asChild Pattern"
-description: "Replace default rendered elements with your own components using asChild."
+description: "Master composition contracts: prop merging, ref forwarding, and safe custom components."
 ---
 
 <Callout icon={<Lightbulb />}>
 
-**Lesson 3 of 8** — Learn the composition pattern that makes primitives infinitely flexible.
+**Lesson 3 of 10**: `asChild` is the key to integrating primitives with your design-system components.
 
 </Callout>
 
-## The problem
+## Why `asChild` matters
 
-Dialog.Trigger renders a `<button>`. But what if you want a link? Or a custom component from your design system? Without composition, you'd need a wrapper div or a forked component.
+Without `asChild`, you either accept default HTML nodes or add wrappers that hurt semantics and styling.
 
----
-
-## The solution
-
-Every primitive element supports `asChild`. When `true`, the primitive skips rendering its own element and passes all its props to the child element instead.
-
-```tsx
-// Default: renders a <button>
-<Dialog.Trigger>Open</Dialog.Trigger>
-
-// asChild: renders your <a> with Trigger's behavior
-<Dialog.Trigger asChild>
-  <a href="#">Open dialog</a>
-</Dialog.Trigger>
-```
-
-The `<a>` now has `aria-haspopup="dialog"`, `aria-expanded`, `aria-controls`, `data-state`, and the click handler. All merged from Dialog.Trigger.
-
----
-
-## How prop merging works
-
-When asChild is used, props merge with specific rules:
+With `asChild`, primitives attach behavior to your element directly.
 
 ```tsx
 <Dialog.Trigger asChild>
-  <button
-    className="my-class"
-    style={{ color: 'red' }}
-    onClick={() => console.log('child click')}
-  >
-    Open
-  </button>
+  <a href="#" className="inline-flex items-center">Open</a>
 </Dialog.Trigger>
 ```
 
-What happens:
+---
 
-- **Event handlers** compose: both Dialog.Trigger's `onClick` and your `onClick` fire. Your handler runs first.
-- **`className`** concatenates: the child gets both the primitive's and your class names.
-- **`style`** merges: your styles override the primitive's for conflicting properties.
-- **`ref`** composes: both refs receive the DOM element.
-- **Other props**: child props override primitive props.
+## Merge contract
+
+When `asChild` is enabled:
+
+- primitive and child event handlers compose,
+- refs compose,
+- class/style merge,
+- ARIA/data attributes attach to child.
+
+This keeps behavior while preserving your visual control.
 
 ---
 
-## Using with custom components
+## Ref-forwarding requirement
 
-<Callout icon={<TriangleAlert />}>
-
-Your component **must** forward refs. If it doesn't, `asChild` silently breaks. Always use `React.forwardRef` for components that will be used with primitives.
-
-</Callout>
+Custom child components must forward refs.
 
 ```tsx
-const FancyButton = React.forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>(
-  (props, ref) => (
-    <button ref={ref} {...props} className={`fancy-button ${props.className || ''}`} />
-  )
+const ActionButton = React.forwardRef<HTMLButtonElement, React.ButtonHTMLAttributes<HTMLButtonElement>>(
+  ({ className, ...props }, ref) => <button ref={ref} className={className} {...props} />,
 )
+ActionButton.displayName = 'ActionButton'
+```
 
-// Now it works with asChild
+Then:
+
+```tsx
 <Dialog.Trigger asChild>
-  <FancyButton>Open</FancyButton>
+  <ActionButton>Open</ActionButton>
 </Dialog.Trigger>
 ```
 
 ---
 
-## Common patterns
+## Common failure modes
 
-### Icon button close
+1. Multiple children under `asChild`.
+2. Child component that drops incoming props.
+3. Child component that does not forward ref.
+4. Overriding `onClick` and forgetting composed behavior.
 
-```tsx
-<Dialog.Close asChild>
-  <button aria-label="Close dialog" className="absolute top-3 right-3 p-1 rounded-full hover:bg-gray-100">
-    <XIcon className="w-4 h-4" />
-  </button>
-</Dialog.Close>
-```
-
-### Tooltip on a link
-
-```tsx
-<Tooltip.Trigger asChild>
-  <a href="/docs">Documentation</a>
-</Tooltip.Trigger>
-```
-
-### Popover with custom anchor
-
-```tsx
-<Popover.Trigger asChild>
-  <div className="inline-flex items-center gap-2 cursor-pointer">
-    <Avatar src={user.avatar} />
-    <ChevronDown className="w-4 h-4" />
-  </div>
-</Popover.Trigger>
-```
+If trigger behavior disappears, inspect rendered element and ensure primitive props are present.
 
 ---
 
-## The rule
+## Building your own `asChild` API
 
-<Callout icon={<TriangleAlert />}>
-
-`asChild` requires **exactly one** child element. Multiple children will cause an error.
-
-</Callout>
-
-```tsx
-// Error: multiple children
-<Dialog.Trigger asChild>
-  <span>Icon</span>
-  <span>Text</span>
-</Dialog.Trigger>
-
-// Fix: wrap in a single element
-<Dialog.Trigger asChild>
-  <button>
-    <span>Icon</span>
-    <span>Text</span>
-  </button>
-</Dialog.Trigger>
-```
-
----
-
-## Under the hood: Slot
-
-`asChild` is powered by the `Slot` component. When `asChild` is true, the primitive renders a `Slot` instead of the native element. Slot clones the child element with merged props. You can use `Slot` directly when building your own primitives:
+Use `Slot` for custom primitives:
 
 ```tsx
 import { Slot } from '@gentleduck/primitives/slot'
 
-function MyComponent({ asChild, ...props }) {
-  const Comp = asChild ? Slot : 'button'
+function Box({ asChild, ...props }: { asChild?: boolean } & React.ComponentProps<'div'>) {
+  const Comp = asChild ? Slot : 'div'
   return <Comp {...props} />
 }
 ```
 
+This aligns your custom components with library conventions.
+
 ---
 
-## Exercise
+## Lab
 
-Take the dialog from Lesson 2 and:
-
-1. Replace Dialog.Trigger with a styled anchor tag using `asChild`.
-2. Add an icon-only Dialog.Close button in the top-right corner using `asChild`.
-3. Create a custom `Card` component and use it as Dialog.Content with `asChild`.
+1. Convert `Dialog.Trigger` and `Dialog.Close` to design-system buttons via `asChild`.
+2. Replace trigger with a link and verify ARIA/data attributes still apply.
+3. Intentionally break ref forwarding and observe behavior, then fix it.
 
 <Callout icon={<MapIcon />}>
 
-Next: [Lesson 4 — Popover and Positioning](/docs/packages/duck-primitives/course/04-popover)
+Next: [Lesson 4 - Popover and Positioning](/docs/packages/duck-primitives/course/04-popover)
 
 </Callout>

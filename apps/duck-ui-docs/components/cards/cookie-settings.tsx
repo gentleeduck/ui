@@ -1,16 +1,9 @@
 'use client'
 
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@gentleduck/registry-ui-duckui/card'
-import { Label } from '@gentleduck/registry-ui-duckui/label'
-import { Switch } from '@gentleduck/registry-ui-duckui/switch'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@gentleduck/registry-ui/card'
+import { Label } from '@gentleduck/registry-ui/label'
+import { Switch } from '@gentleduck/registry-ui/switch'
 import * as React from 'react'
 
 export function CardsCookieSettings() {

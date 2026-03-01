@@ -4,7 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 
 import 'public/r/themes.css'
 import type { Block } from '@gentleduck/registers'
-import { Separator } from '@gentleduck/registry-ui-duckui/separator'
+import { Separator } from '@gentleduck/registry-ui/separator'
 import { AreaChart, BarChartBig, Hexagon, LineChart, MousePointer2, PieChart, Radar } from 'lucide-react'
 import { BlockCopyButton } from '../blocks/block-copy-button'
 import { ChartCodeViewer } from './chart-code-viewer'

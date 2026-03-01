@@ -1,212 +1,40 @@
 ---
 title: "Lesson 5: Menus, Dropdowns, and Selection"
-description: "Build context menus, dropdown menus, menubars, and select patterns with keyboard navigation."
+description: "Build robust menu systems: context menus, dropdown actions, checkbox/radio items, submenus, and keyboard routing."
 ---
 
 <Callout icon={<Lightbulb />}>
 
-**Lesson 5 of 8** — Build right-click menus, action dropdowns, menubars, and select-style pickers with full keyboard support.
+**Lesson 5 of 10**: Menus are high-density interaction surfaces. Small semantic mistakes create large usability issues.
 
 </Callout>
 
-## Context menu
+## Menu family overview
 
-A right-click menu:
+Use the right primitive for the right trigger model:
 
-```tsx
-import * as ContextMenu from '@gentleduck/primitives/context-menu'
-
-function Canvas() {
-  return (
-    <ContextMenu.Root>
-      <ContextMenu.Trigger className="w-80 h-48 border-2 border-dashed rounded-lg flex items-center justify-center text-gray-400">
-        Right-click here
-      </ContextMenu.Trigger>
-
-      <ContextMenu.Portal>
-        <ContextMenu.Content className="bg-white shadow-lg rounded-md p-1 min-w-[180px] border text-sm">
-          <ContextMenu.Item className="px-3 py-1.5 rounded hover:bg-blue-50 cursor-pointer outline-none data-[highlighted]:bg-blue-50">
-            Cut
-          </ContextMenu.Item>
-          <ContextMenu.Item className="px-3 py-1.5 rounded hover:bg-blue-50 cursor-pointer outline-none data-[highlighted]:bg-blue-50">
-            Copy
-          </ContextMenu.Item>
-          <ContextMenu.Item className="px-3 py-1.5 rounded hover:bg-blue-50 cursor-pointer outline-none data-[highlighted]:bg-blue-50">
-            Paste
-          </ContextMenu.Item>
-          <ContextMenu.Separator className="h-px bg-gray-200 my-1" />
-          <ContextMenu.Item
-            className="px-3 py-1.5 rounded text-red-600 hover:bg-red-50 cursor-pointer outline-none data-[highlighted]:bg-red-50"
-            onSelect={() => console.log('deleted')}
-          >
-            Delete
-          </ContextMenu.Item>
-        </ContextMenu.Content>
-      </ContextMenu.Portal>
-    </ContextMenu.Root>
-  )
-}
-```
-
-Right-click the trigger area. The menu opens at the cursor position. Arrow keys navigate. <Kbd>Enter</Kbd> / <Kbd>Space</Kbd> activates.
+- `ContextMenu`: right-click or long-press entry.
+- `DropdownMenu`: button-triggered action menu.
+- `Menubar`: persistent horizontal app/menu bar.
+- `Menu`: base behavior for custom compositions.
 
 ---
 
-## Menu item types
-
-### Standard items
-
-```tsx
-<ContextMenu.Item onSelect={(event) => {
-  console.log('Selected')
-  // event.preventDefault() keeps the menu open
-}}>
-  Standard item
-</ContextMenu.Item>
-```
-
-### Checkbox items
-
-Toggle on/off with a visual indicator:
-
-```tsx
-const [showGrid, setShowGrid] = React.useState(true)
-
-<ContextMenu.CheckboxItem
-  checked={showGrid}
-  onCheckedChange={setShowGrid}
-  className="px-3 py-1.5 rounded flex items-center gap-2"
->
-  <ContextMenu.ItemIndicator>
-    <CheckIcon className="w-4 h-4" />
-  </ContextMenu.ItemIndicator>
-  Show grid
-</ContextMenu.CheckboxItem>
-```
-
-### Radio items
-
-Mutually exclusive choices:
-
-```tsx
-const [view, setView] = React.useState('grid')
-
-<ContextMenu.RadioGroup value={view} onValueChange={setView}>
-  <ContextMenu.RadioItem value="grid" className="px-3 py-1.5 rounded flex items-center gap-2">
-    <ContextMenu.ItemIndicator>
-      <DotIcon className="w-4 h-4" />
-    </ContextMenu.ItemIndicator>
-    Grid view
-  </ContextMenu.RadioItem>
-  <ContextMenu.RadioItem value="list" className="px-3 py-1.5 rounded flex items-center gap-2">
-    <ContextMenu.ItemIndicator>
-      <DotIcon className="w-4 h-4" />
-    </ContextMenu.ItemIndicator>
-    List view
-  </ContextMenu.RadioItem>
-</ContextMenu.RadioGroup>
-```
-
----
-
-## Submenus
-
-Nested menus with hover/keyboard support:
-
-```tsx
-<ContextMenu.Sub>
-  <ContextMenu.SubTrigger className="px-3 py-1.5 rounded flex justify-between items-center data-[highlighted]:bg-blue-50">
-    Sort by
-    <ChevronRight className="w-4 h-4" />
-  </ContextMenu.SubTrigger>
-
-  <ContextMenu.Portal>
-    <ContextMenu.SubContent className="bg-white shadow-lg rounded-md p-1 min-w-[140px] border text-sm">
-      <ContextMenu.Item className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">Name</ContextMenu.Item>
-      <ContextMenu.Item className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">Date</ContextMenu.Item>
-      <ContextMenu.Item className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">Size</ContextMenu.Item>
-    </ContextMenu.SubContent>
-  </ContextMenu.Portal>
-</ContextMenu.Sub>
-```
-
-<Kbd>ArrowRight</Kbd> opens the submenu. <Kbd>ArrowLeft</Kbd> closes it.
-
----
-
-## Menubar
-
-A horizontal bar of menus like a desktop app:
-
-```tsx
-import * as Menubar from '@gentleduck/primitives/menubar'
-
-function AppMenubar() {
-  return (
-    <Menubar.Root className="flex gap-1 bg-white border rounded-lg p-1 shadow-sm">
-      <Menubar.Menu>
-        <Menubar.Trigger className="px-3 py-1 rounded text-sm hover:bg-gray-100 data-[state=open]:bg-gray-100">
-          File
-        </Menubar.Trigger>
-        <Menubar.Portal>
-          <Menubar.Content className="bg-white shadow-lg rounded-md p-1 min-w-[160px] border text-sm mt-1">
-            <Menubar.Item className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">New</Menubar.Item>
-            <Menubar.Item className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">Open</Menubar.Item>
-            <Menubar.Separator className="h-px bg-gray-200 my-1" />
-            <Menubar.Item className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">Quit</Menubar.Item>
-          </Menubar.Content>
-        </Menubar.Portal>
-      </Menubar.Menu>
-
-      <Menubar.Menu>
-        <Menubar.Trigger className="px-3 py-1 rounded text-sm hover:bg-gray-100 data-[state=open]:bg-gray-100">
-          Edit
-        </Menubar.Trigger>
-        <Menubar.Portal>
-          <Menubar.Content className="bg-white shadow-lg rounded-md p-1 min-w-[160px] border text-sm mt-1">
-            <Menubar.Item className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">Undo</Menubar.Item>
-            <Menubar.Item className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">Redo</Menubar.Item>
-          </Menubar.Content>
-        </Menubar.Portal>
-      </Menubar.Menu>
-    </Menubar.Root>
-  )
-}
-```
-
-<Callout icon={<Lightbulb />}>
-
-Click "File" to open it. Then hover over "Edit" and it opens instantly. <Kbd>ArrowLeft</Kbd> / <Kbd>ArrowRight</Kbd> moves between menus.
-
-</Callout>
-
----
-
-## Dropdown menu
-
-Use Dropdown Menu for button-triggered action lists.
+## Action menu baseline
 
 ```tsx
 import * as DropdownMenu from '@gentleduck/primitives/dropdown-menu'
 
-function Actions() {
+export function RowActions() {
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger className="px-3 py-1.5 border rounded text-sm">
-        Actions
-      </DropdownMenu.Trigger>
+      <DropdownMenu.Trigger className="rounded border px-2 py-1 text-sm">Actions</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
-        <DropdownMenu.Content className="bg-white border rounded-md p-1 shadow-lg min-w-[180px]">
-          <DropdownMenu.Item className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">
-            Rename
-          </DropdownMenu.Item>
-          <DropdownMenu.Item className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">
-            Duplicate
-          </DropdownMenu.Item>
-          <DropdownMenu.Separator className="h-px bg-gray-200 my-1" />
-          <DropdownMenu.Item className="px-3 py-1.5 rounded text-red-600 data-[highlighted]:bg-red-50">
-            Delete
-          </DropdownMenu.Item>
+        <DropdownMenu.Content className="min-w-44 rounded-md border bg-white p-1 shadow-lg">
+          <DropdownMenu.Item className="rounded px-2 py-1.5 text-sm data-[highlighted]:bg-gray-100">Edit</DropdownMenu.Item>
+          <DropdownMenu.Item className="rounded px-2 py-1.5 text-sm data-[highlighted]:bg-gray-100">Duplicate</DropdownMenu.Item>
+          <DropdownMenu.Separator className="my-1 h-px bg-gray-200" />
+          <DropdownMenu.Item className="rounded px-2 py-1.5 text-sm text-red-600 data-[highlighted]:bg-red-50">Delete</DropdownMenu.Item>
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
@@ -216,107 +44,66 @@ function Actions() {
 
 ---
 
-## Select
+## Selection semantics
 
-Use Select when the user must choose one value from a known set and the value should participate in forms.
+- `Item`: execute action.
+- `CheckboxItem`: independent toggles.
+- `RadioGroup` + `RadioItem`: mutually exclusive options.
+
+These semantics are not visual only; they affect role and announcement behavior.
+
+---
+
+## Keeping menu open on select
+
+Default behavior closes menu after activation. To keep it open for batch actions:
 
 ```tsx
-import * as Select from '@gentleduck/primitives/select'
-
-function ThemeSelect() {
-  return (
-    <Select.Root defaultValue="system" name="theme">
-      <Select.Trigger className="w-48 border rounded px-3 py-2">
-        <Select.Value placeholder="Choose theme" />
-        <Select.Icon />
-      </Select.Trigger>
-      <Select.Portal>
-        <Select.Content className="bg-white border rounded-md shadow-lg">
-          <Select.Viewport className="p-1">
-            <Select.Item value="light" className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">
-              <Select.ItemText>Light</Select.ItemText>
-              <Select.ItemIndicator>*</Select.ItemIndicator>
-            </Select.Item>
-            <Select.Item value="dark" className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">
-              <Select.ItemText>Dark</Select.ItemText>
-              <Select.ItemIndicator>*</Select.ItemIndicator>
-            </Select.Item>
-            <Select.Item value="system" className="px-3 py-1.5 rounded data-[highlighted]:bg-blue-50">
-              <Select.ItemText>System</Select.ItemText>
-              <Select.ItemIndicator>*</Select.ItemIndicator>
-            </Select.Item>
-          </Select.Viewport>
-        </Select.Content>
-      </Select.Portal>
-    </Select.Root>
-  )
-}
+<DropdownMenu.Item
+  onSelect={(event) => {
+    event.preventDefault()
+    toggleSomething()
+  }}
+>
+  Toggle without close
+</DropdownMenu.Item>
 ```
 
-<Callout icon={<Lightbulb />}>
-
-`Menu`/`DropdownMenu` are action lists. `Select` is a value-selection control with form semantics.
-
-</Callout>
+Use sparingly; persistent menus can confuse users if overused.
 
 ---
 
-## Keyboard navigation
+## Submenus and navigation
 
-Menu-family primitives implement WAI-ARIA menu keyboard patterns:
+Submenus increase cognitive load. Keep depth shallow and labels explicit.
 
-| Key | Action |
-| --- | --- |
-| <Kbd>ArrowDown</Kbd> | Next item |
-| <Kbd>ArrowUp</Kbd> | Previous item |
-| <Kbd>ArrowRight</Kbd> | Open submenu (on SubTrigger) / Next menu (Menubar) |
-| <Kbd>ArrowLeft</Kbd> | Close submenu / Previous menu (Menubar) |
-| <Kbd>Enter</Kbd> / <Kbd>Space</Kbd> | Activate highlighted item |
-| <Kbd>Escape</Kbd> | Close menu |
-| Type a character | Jump to item starting with that letter |
+Checklist:
+
+1. Parent item has clear category meaning.
+2. Submenu items are short and action-oriented.
+3. Keyboard path is predictable (arrows and escape).
+4. Hover intent timing is not too aggressive.
 
 ---
 
-## Select keyboard navigation
+## Styling contract
 
-| Key | Action |
-| --- | --- |
-| <Kbd>Space</Kbd> / <Kbd>Enter</Kbd> | Open select / choose highlighted option |
-| <Kbd>ArrowDown</Kbd> | Next option |
-| <Kbd>ArrowUp</Kbd> | Previous option |
-| <Kbd>Home</Kbd> | First option |
-| <Kbd>End</Kbd> | Last option |
-| Type text | Typeahead to matching option |
-| <Kbd>Escape</Kbd> | Close select |
+Use menu state attributes instead of brittle selectors:
+
+- `data-highlighted` for active row.
+- `data-disabled` for non-interactive entries.
+- `data-state` for checkbox/radio indicators.
 
 ---
 
-## The `data-highlighted` attribute
+## Lab
 
-<Callout icon={<Lightbulb />}>
-
-When an item is focused via keyboard or hovered, it gets `data-highlighted`. This is more reliable than `:hover` because it works for both mouse **and** keyboard navigation.
-
-</Callout>
-
-```css
-.menu-item[data-highlighted] {
-  background: #eff6ff;
-}
-```
-
----
-
-## Exercise
-
-Build all three:
-
-1. A file manager context menu with Cut/Copy/Paste and a radio submenu.
-2. An action dropdown menu for Rename/Duplicate/Delete.
-3. A Select for choosing sort order (`name`, `date`, `size`) and bind it to form state.
+1. Build a dropdown with action + checkbox + radio sections.
+2. Add one submenu and validate keyboard behavior end-to-end.
+3. Add a context menu variant that shares the same item components.
 
 <Callout icon={<MapIcon />}>
 
-Next: [Lesson 6 — Animation with Presence](/docs/packages/duck-primitives/course/06-animation)
+Next: [Lesson 6 - Animation with Presence](/docs/packages/duck-primitives/course/06-animation)
 
 </Callout>

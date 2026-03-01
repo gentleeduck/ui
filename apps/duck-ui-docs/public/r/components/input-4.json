@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Input } from '@gentleduck/registry-ui-duckui/input'\n\nexport default function InputDisabled() {\n  return <Input disabled placeholder=\"Email\" type=\"email\" />\n}\n",
+      "content": "import { Input } from '@gentleduck/registry-ui/input'\n\nexport default function InputDisabled() {\n  return <Input disabled placeholder=\"Email\" type=\"email\" />\n}\n",
       "path": "input/input-4.tsx",
       "target": "components/input-4.tsx",
       "type": "registry:example"
@@ -12,6 +12,6 @@
     "input"
   ],
   "root_folder": "input",
-  "source": "/registry-examples-duckui/src/input",
+  "source": "/registry-examples/src/input",
   "type": "registry:example"
 }

@@ -69,7 +69,7 @@ import {
   ChartTooltipLabelCustom,
   ChartTooltipLabelFormatter,
   ChartTooltipLabelNone,
-} from '@gentleduck/registry-blocks-duckui'
+} from '@gentleduck/registry-blocks'
 
 type ChartComponent = React.ComponentType
 

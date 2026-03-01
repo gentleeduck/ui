@@ -1,378 +1,121 @@
 ---
 title: "Lesson 8: Building a Design System"
-description: "Wrap primitives into styled, reusable components that form your component library."
+description: "Turn primitives into a stable design-system API with wrappers, defaults, testing strategy, and release discipline."
 ---
 
 <Callout icon={<Lightbulb />}>
 
-**Lesson 8 of 8** — Learn the production pattern for wrapping primitives into styled, reusable design system components.
+**Lesson 8 of 10**: This lesson turns everything into a maintainable system that can scale across teams.
 
 </Callout>
 
-## The pattern
+## System architecture
 
-Your design system components wrap duck-primitives with your styles, defaults, and API surface. The primitive handles behavior. Your wrapper handles appearance.
+Recommended layers:
 
-<MermaidDiagram chart={`flowchart LR
-    A[duck-primitives<br/>behavior] --> B[your wrapper<br/>styles + defaults]
-    B --> C[your app<br/>usage]
-`} />
+1. `@your-org/primitives-wrappers`: behavior-preserving wrappers.
+2. `@your-org/tokens`: color, spacing, radius, typography, motion tokens.
+3. `@your-org/components`: composed business-facing UI components.
+
+Keep interaction correctness close to wrappers, not app-level copies.
 
 ---
 
-## A styled Dialog
+## Wrapper rules
 
-```tsx title="components/ui/dialog.tsx"
+For every wrapper component:
+
+- use `forwardRef`,
+- merge `className` safely,
+- pass through primitive props,
+- provide sensible defaults,
+- preserve accessibility semantics.
+
+If wrapper API hides critical primitive events, you lose escape hatches.
+
+---
+
+## Example wrapper shape
+
+```tsx
 import * as DialogPrimitive from '@gentleduck/primitives/dialog'
-import { cn } from '../utils'
 
 export const Dialog = DialogPrimitive.Root
 export const DialogTrigger = DialogPrimitive.Trigger
 
-export const DialogPortal = DialogPrimitive.Portal
-
-export const DialogOverlay = React.forwardRef<
-  React.ComponentRef<typeof DialogPrimitive.Overlay>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Overlay>
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Overlay
-    ref={ref}
-    className={cn(
-      'fixed inset-0 bg-black/50 backdrop-blur-sm',
-      'data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut',
-      className
-    )}
-    {...props}
-  />
-))
-DialogOverlay.displayName = 'DialogOverlay'
-
 export const DialogContent = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
->(({ className, children, ...props }, ref) => (
-  <DialogPortal>
-    <DialogOverlay />
-    <DialogPrimitive.Content
-      ref={ref}
-      className={cn(
-        'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-        'w-full max-w-lg bg-white rounded-xl shadow-2xl p-6',
-        'data-[state=open]:animate-scaleIn data-[state=closed]:animate-scaleOut',
-        'focus:outline-none',
-        className
-      )}
-      {...props}
-    >
-      {children}
-      <DialogPrimitive.Close className="absolute top-4 right-4 p-1 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300">
-        <XIcon className="w-4 h-4" />
-        <span className="sr-only">Close</span>
-      </DialogPrimitive.Close>
-    </DialogPrimitive.Content>
-  </DialogPortal>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Portal>
+    <DialogPrimitive.Overlay className="fixed inset-0 bg-black/45" />
+    <DialogPrimitive.Content ref={ref} className={className} {...props} />
+  </DialogPrimitive.Portal>
 ))
 DialogContent.displayName = 'DialogContent'
-
-export const DialogTitle = React.forwardRef<
-  React.ComponentRef<typeof DialogPrimitive.Title>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Title>
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Title
-    ref={ref}
-    className={cn('text-lg font-semibold', className)}
-    {...props}
-  />
-))
-DialogTitle.displayName = 'DialogTitle'
-
-export const DialogDescription = React.forwardRef<
-  React.ComponentRef<typeof DialogPrimitive.Description>,
-  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Description>
->(({ className, ...props }, ref) => (
-  <DialogPrimitive.Description
-    ref={ref}
-    className={cn('text-sm text-gray-500 mt-1.5', className)}
-    {...props}
-  />
-))
-DialogDescription.displayName = 'DialogDescription'
 ```
 
-### Usage
+---
 
-```tsx
-import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from './ui/dialog'
+## API design principles
 
-function App() {
-  return (
-    <Dialog>
-      <DialogTrigger className="btn-primary">Open</DialogTrigger>
-      <DialogContent>
-        <DialogTitle>Are you sure?</DialogTitle>
-        <DialogDescription>This action cannot be undone.</DialogDescription>
-        <div className="mt-4 flex gap-2 justify-end">
-          <button className="btn-secondary">Cancel</button>
-          <button className="btn-danger">Delete</button>
-        </div>
-      </DialogContent>
-    </Dialog>
-  )
-}
-```
+1. Prefer stable, small public surface.
+2. Put visual defaults in wrappers, not app screens.
+3. Keep naming consistent across components.
+4. Avoid creating wrapper props that duplicate primitive behavior poorly.
 
-<Callout icon={<Zap />}>
+---
 
-The consumer never sees overlay setup, close button placement, or animation classes. They get a clean API.
+## Testing strategy
+
+Per wrapper:
+
+- interaction tests (open/close, keyboard, outside click),
+- accessibility assertions (role/name/state),
+- visual state tests (`data-state`, disabled, highlighted),
+- regression tests for nested overlays.
+
+Run at least one end-to-end keyboard workflow in CI.
+
+---
+
+## Versioning and rollout
+
+Treat wrapper changes as product API changes:
+
+- semver discipline,
+- migration notes,
+- deprecation windows,
+- changelog entries with behavior impact.
+
+If menu keyboard behavior changes, that is not a minor cosmetic patch.
+
+---
+
+## Capstone
+
+Build and document these wrappers:
+
+1. `Dialog` with guarded async close.
+2. `Popover` with directional motion.
+3. `DropdownMenu` with checkbox/radio sections.
+4. `Tooltip` with provider defaults.
+
+Then create a short design-system note explaining:
+
+- chosen defaults,
+- accessibility guarantees,
+- known limitations,
+- test coverage boundaries.
+
+---
+
+## Final note
+
+The value of primitives is consistency under pressure. When deadlines are tight, your wrappers should keep behavior predictable, accessible, and easy to debug.
+
+<Callout icon={<MapIcon />}>
+
+Next: [Lesson 9 - Testing and Quality Gates](/docs/packages/duck-primitives/course/09-testing-quality)
 
 </Callout>
-
----
-
-## Design system principles
-
-<Callout icon={<Lightbulb />}>
-
-Follow these five principles when wrapping primitives into design system components:
-
-</Callout>
-
-### 1. Re-export the Root directly
-
-The Root rarely needs styling. Just re-export it:
-
-```tsx
-export const Dialog = DialogPrimitive.Root
-```
-
-### 2. Bake in portal and overlay
-
-Most dialogs need a portal and overlay. Include them in Content so consumers don't have to:
-
-```tsx
-export const DialogContent = React.forwardRef(({ children, ...props }, ref) => (
-  <DialogPortal>
-    <DialogOverlay />
-    <DialogPrimitive.Content ref={ref} {...props}>
-      {children}
-    </DialogPrimitive.Content>
-  </DialogPortal>
-))
-```
-
-### 3. Always forward ref and className
-
-Every wrapper should forward `ref` (for parent components to measure or focus) and `className` (for one-off overrides):
-
-```tsx
-const Component = React.forwardRef(({ className, ...props }, ref) => (
-  <Primitive ref={ref} className={cn(defaultClasses, className)} {...props} />
-))
-```
-
-### 4. Keep primitive props accessible
-
-Don't hide useful props. Your DialogContent should still accept `onOpenAutoFocus`, `onEscapeKeyDown`, etc. Spread `...props` onto the primitive.
-
-### 5. Add a close button by default
-
-Most dialogs need a close button. Include it in Content with a visually hidden label.
-
----
-
-## A styled Popover
-
-```tsx title="components/ui/popover.tsx"
-export const Popover = PopoverPrimitive.Root
-export const PopoverTrigger = PopoverPrimitive.Trigger
-
-export const PopoverContent = React.forwardRef<
-  React.ComponentRef<typeof PopoverPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
->(({ className, align = 'center', sideOffset = 8, ...props }, ref) => (
-  <PopoverPrimitive.Portal>
-    <PopoverPrimitive.Content
-      ref={ref}
-      align={align}
-      sideOffset={sideOffset}
-      className={cn(
-        'bg-white rounded-lg shadow-lg border p-4 w-72',
-        'data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut',
-        'outline-none',
-        className
-      )}
-      {...props}
-    />
-  </PopoverPrimitive.Portal>
-))
-PopoverContent.displayName = 'PopoverContent'
-```
-
-<Callout icon={<Lightbulb />}>
-
-Notice `sideOffset` defaults to `8` instead of `0`. Your design system establishes sensible defaults.
-
-</Callout>
-
----
-
-## A styled Tooltip
-
-```tsx title="components/ui/tooltip.tsx"
-export const TooltipProvider = TooltipPrimitive.Provider
-export const Tooltip = TooltipPrimitive.Root
-export const TooltipTrigger = TooltipPrimitive.Trigger
-
-export const TooltipContent = React.forwardRef<
-  React.ComponentRef<typeof TooltipPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 6, ...props }, ref) => (
-  <TooltipPrimitive.Portal>
-    <TooltipPrimitive.Content
-      ref={ref}
-      sideOffset={sideOffset}
-      className={cn(
-        'bg-gray-900 text-white text-xs px-2.5 py-1 rounded-md shadow-md',
-        'animate-in fade-in-0 zoom-in-95',
-        className
-      )}
-      {...props}
-    />
-  </TooltipPrimitive.Portal>
-))
-TooltipContent.displayName = 'TooltipContent'
-```
-
----
-
-## A styled Select
-
-```tsx title="components/ui/select.tsx"
-import * as SelectPrimitive from '@gentleduck/primitives/select'
-import { cn } from '../utils'
-
-export const Select = SelectPrimitive.Root
-export const SelectTrigger = React.forwardRef<
-  React.ComponentRef<typeof SelectPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.Trigger
-    ref={ref}
-    className={cn(
-      'inline-flex h-10 w-full items-center justify-between rounded-md border px-3 py-2 text-sm',
-      className
-    )}
-    {...props}
-  />
-))
-
-export const SelectContent = React.forwardRef<
-  React.ComponentRef<typeof SelectPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
->(({ className, ...props }, ref) => (
-  <SelectPrimitive.Portal>
-    <SelectPrimitive.Content ref={ref} className={cn('rounded-md border bg-white shadow-lg', className)} {...props}>
-      <SelectPrimitive.Viewport className="p-1" />
-    </SelectPrimitive.Content>
-  </SelectPrimitive.Portal>
-))
-```
-
----
-
-## A styled Slider
-
-```tsx title="components/ui/slider.tsx"
-import * as SliderPrimitive from '@gentleduck/primitives/slider'
-import { cn } from '../utils'
-
-export const Slider = React.forwardRef<
-  React.ComponentRef<typeof SliderPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof SliderPrimitive.Root>
->(({ className, ...props }, ref) => (
-  <SliderPrimitive.Root ref={ref} className={cn('relative flex w-full items-center', className)} {...props}>
-    <SliderPrimitive.Track className="relative h-1 w-full grow rounded-full bg-gray-200">
-      <SliderPrimitive.Range className="absolute h-full rounded-full bg-blue-600" />
-    </SliderPrimitive.Track>
-    {(props.value ?? props.defaultValue ?? [0]).map((_, index) => (
-      <SliderPrimitive.Thumb key={index} className="block size-4 rounded-full border bg-white shadow" />
-    ))}
-  </SliderPrimitive.Root>
-))
-```
-
----
-
-## Sheet + accessibility helpers
-
-- Use `@gentleduck/primitives/sheet` when you want dialog behavior with sheet naming.
-- Use `@gentleduck/primitives/visibility-hidden` for labels in icon-only controls.
-- Use `@gentleduck/primitives/arrow` for consistent floating-surface arrows.
-- Use `@gentleduck/primitives/checkers` when custom checkbox/radio visual indicators need SVG data-URI rendering.
-
----
-
-## The `cn` utility
-
-Most design systems use a class merging utility:
-
-```tsx title="utils.ts"
-import { clsx } from 'clsx'
-import { twMerge } from 'tailwind-merge'
-
-export function cn(...inputs: (string | undefined | null | false)[]) {
-  return twMerge(clsx(inputs))
-}
-```
-
-<Callout icon={<Lightbulb />}>
-
-`twMerge` resolves Tailwind conflicts (e.g., `bg-red-500` overrides `bg-blue-500` instead of concatenating).
-
-</Callout>
-
----
-
-## File structure
-
-A typical design system built on duck-primitives:
-
-```txt
-components/
-  ui/
-    dialog.tsx        # Dialog, DialogContent, DialogTitle, etc.
-    sheet.tsx         # Sheet wrappers (Dialog aliases)
-    popover.tsx       # Popover, PopoverContent, etc.
-    tooltip.tsx       # Tooltip, TooltipContent, etc.
-    select.tsx        # Select wrappers
-    slider.tsx        # Slider wrapper
-    context-menu.tsx  # ContextMenu, etc.
-    dropdown-menu.tsx # DropdownMenu wrappers
-    menubar.tsx       # Menubar, etc.
-    alert-dialog.tsx  # AlertDialog, etc.
-    progress.tsx      # Progress, ProgressIndicator
-  utils.ts            # cn() helper
-```
-
-Each file re-exports primitives with your styles baked in. Consumers import from `./ui/dialog` instead of `@gentleduck/primitives/dialog`.
-
----
-
-## What you have learned
-
-<Callout icon={<Zap />}>
-
-Across 8 lessons, you now know:
-
-1. Why primitives exist and what they handle.
-2. The compound component pattern and controlled state.
-3. The `asChild` composition pattern.
-4. Floating element positioning with Popper.
-5. Menu systems and keyboard navigation.
-6. Animation with Presence.
-7. Accessibility patterns and testing.
-8. Wrapping primitives into a design system, including dialogs, menus, dropdowns, selects, sliders, and sheets.
-
-</Callout>
-
-You now have the knowledge to build a complete, accessible component library on top of duck-primitives. For module-by-module depth, use the API reference pages for every primitive.

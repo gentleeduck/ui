@@ -1,9 +1,9 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui-duckui/avatar'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Card, CardContent, CardFooter, CardHeader } from '@gentleduck/registry-ui-duckui/card'
+import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui/avatar'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Card, CardContent, CardFooter, CardHeader } from '@gentleduck/registry-ui/card'
 import {
   Command,
   CommandEmpty,
@@ -11,7 +11,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@gentleduck/registry-ui-duckui/command'
+} from '@gentleduck/registry-ui/command'
 import {
   Dialog,
   DialogContent,
@@ -19,9 +19,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@gentleduck/registry-ui-duckui/dialog'
-import { Input } from '@gentleduck/registry-ui-duckui/input'
-import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui-duckui/tooltip'
+} from '@gentleduck/registry-ui/dialog'
+import { Input } from '@gentleduck/registry-ui/input'
+import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'
 import { ArrowUpIcon, CheckIcon, PlusIcon } from 'lucide-react'
 import * as React from 'react'
 

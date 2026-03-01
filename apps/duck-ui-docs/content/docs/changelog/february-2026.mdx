@@ -16,6 +16,20 @@ Rebranded the project to **gentleduck/ui** across all assets and documentation.
 
 ---
 
+## CLI Monorepo Workspace Support <Badge>feat</Badge>
+
+Improved `@gentleduck/cli` monorepo behavior and workspace targeting.
+
+- Added `--workspace <path>` support to `init`, `add`, `update`, `remove`, and `diff`
+- Added strict workspace validation (`package.json` and `tsconfig.json` where required)
+- Added parent-directory config discovery for `duck-ui.config.json`
+- Added explicit workspace output in command flows to show where files are written
+- Added legacy config migration error for configs missing `workspace`
+
+See [CLI docs](/docs/packages/duck-cli) for command examples.
+
+---
+
 ## Accessibility Audit <Badge variant="outline">a11y</Badge>
 
 Comprehensive accessibility pass across the entire docs site and component library:

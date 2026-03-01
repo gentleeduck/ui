@@ -22,6 +22,6 @@
     "toggle"
   ],
   "root_folder": "toggle-group",
-  "source": "/registry-ui-duckui/src/toggle-group",
+  "source": "/registry-ui/src/toggle-group",
   "type": "registry:ui"
 }

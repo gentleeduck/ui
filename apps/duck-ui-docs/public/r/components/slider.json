@@ -19,6 +19,6 @@
   ],
   "name": "slider",
   "root_folder": "slider",
-  "source": "/registry-ui-duckui/src/slider",
+  "source": "/registry-ui/src/slider",
   "type": "registry:ui"
 }

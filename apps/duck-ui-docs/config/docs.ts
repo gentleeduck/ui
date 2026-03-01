@@ -96,6 +96,11 @@ export const docsConfig: DocsConfig = {
           title: 'JavaScript',
         },
         {
+          href: '/docs/mdx',
+          items: [],
+          title: 'MDX Authoring',
+        },
+        {
           href: '/docs/dark-theme',
           collapsible: true,
           items: [
@@ -626,6 +631,16 @@ export const docsConfig: DocsConfig = {
                   href: '/docs/packages/duck-primitives/course/08-design-system',
                   items: [],
                   title: '08: Design System',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/course/09-testing-quality',
+                  items: [],
+                  title: '09: Testing + Quality',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/course/10-operations-migration',
+                  items: [],
+                  title: '10: Operations + Migration',
                 },
               ],
             },
