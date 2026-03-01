@@ -7,6 +7,7 @@ type MergeSummaryProps = {
   merge_state: ComponentMergeState
 }
 
+/** Pre-write summary of all merge decisions with per-file status and aggregate counts. */
 export const MergeSummary = memo(function MergeSummary({ merge_state }: MergeSummaryProps) {
   let total_hunks = 0
   let local_count = 0

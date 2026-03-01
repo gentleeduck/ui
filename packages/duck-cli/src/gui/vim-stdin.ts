@@ -26,6 +26,11 @@ export class VimStdin extends Transform {
     }
   }
 
+  /**
+   * Forward ref/unref calls to process.stdin.
+   * Required by ink's stdin handling to manage the event loop --
+   * unref() allows the process to exit when the TUI is idle.
+   */
   ref() {
     const stdin = process.stdin as NodeJS.ReadStream & { ref?: () => void }
     if (typeof stdin.ref === 'function') {
@@ -53,5 +58,15 @@ export class VimStdin extends Transform {
       if (str === 'k') return callback(null, ARROW_UP)
     }
     callback(null, chunk)
+  }
+
+  /**
+   * Cast this instance to the ReadStream type ink's render() expects.
+   * VimStdin implements everything ink uses at runtime (isTTY, setRawMode,
+   * ref, unref, readable stream), but extends Transform rather than
+   * net.Socket, so the structural types do not fully overlap.
+   */
+  asInkStdin(): NodeJS.ReadStream {
+    return this as unknown as NodeJS.ReadStream
   }
 }

@@ -3,6 +3,7 @@ import React, { memo, useContext, useMemo } from 'react'
 import { TerminalSizeContext } from '../app'
 import { generateBanner, SUBTITLE, THEME } from '../app.constants'
 
+/** ASCII art banner scaled to terminal width, or compact text header. */
 export const Banner = memo(function Banner({ compact }: { compact?: boolean }) {
   const { columns } = useContext(TerminalSizeContext)
   // Subtract root box chrome: border (2) + paddingX (4) = 6

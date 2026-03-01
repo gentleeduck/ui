@@ -7,6 +7,9 @@ import type { ProgressCallback, ServiceResult } from './service.types'
 
 // -- Types --
 
+/**
+ * A component directory found on disk, optionally matched to a registry entry.
+ */
 export type InstalledComponent = {
   name: string
   root_folder: string
@@ -14,6 +17,11 @@ export type InstalledComponent = {
   registry_entry: RegistryEntry | null
 }
 
+/**
+ * Diff result for a single file within a component.
+ * Status indicates whether the file was modified, added (new in registry),
+ * or deleted (only exists locally).
+ */
 export type FileDiff = {
   file_path: string
   local_content: string
@@ -21,6 +29,10 @@ export type FileDiff = {
   status: 'modified' | 'added' | 'deleted'
 }
 
+/**
+ * Aggregated diff result for an entire component.
+ * Contains per-file diffs and an is_identical flag.
+ */
 export type ComponentDiff = {
   name: string
   diffs: FileDiff[]
@@ -29,6 +41,11 @@ export type ComponentDiff = {
 
 // -- Path resolution --
 
+/**
+ * Compute the absolute path where components are installed.
+ * Combines the resolved tsconfig alias path with the duck-ui
+ * config's aliases.ui subdirectory.
+ */
 export function resolve_write_type_path(duck_config: DuckUI, write_path: string): string {
   const duckui_write_path = duck_config.aliases.ui.split('/').slice(1).join('/')
   return path.resolve(`${write_path}/${duckui_write_path}`)
@@ -36,6 +53,10 @@ export function resolve_write_type_path(duck_config: DuckUI, write_path: string)
 
 // -- Scan installed components --
 
+/**
+ * Scan the component install directory for installed components.
+ * Each subdirectory is matched against the registry index to populate metadata.
+ */
 export async function scan_installed_components(
   write_type_path: string,
   onProgress?: ProgressCallback,
@@ -75,6 +96,7 @@ export async function scan_installed_components(
 
 // -- Remove --
 
+/** Delete a single component's directory from disk. */
 export async function remove_component(component: InstalledComponent): Promise<ServiceResult<void>> {
   try {
     await fs.remove(component.local_path)
@@ -84,6 +106,7 @@ export async function remove_component(component: InstalledComponent): Promise<S
   }
 }
 
+/** Delete multiple components with progress reporting. */
 export async function remove_components(
   components: InstalledComponent[],
   onProgress?: ProgressCallback,
@@ -102,6 +125,12 @@ export async function remove_components(
 
 // -- Diff --
 
+/**
+ * Compare a locally installed component against its registry entry.
+ * Walks local files, compares against registry files, and categorizes
+ * each as modified, added (exists only in registry), or deleted
+ * (exists only locally).
+ */
 export async function diff_component(
   component: InstalledComponent,
   registry_entry: RegistryEntry,
@@ -111,7 +140,7 @@ export async function diff_component(
     const registry_files = registry_entry.files ?? []
     const local_files_set = new Set<string>()
 
-    // Scan local files
+    // Recursively scan local directory tree to build the set of all local files
     const local_dir = component.local_path
     if (fs.existsSync(local_dir)) {
       const walk = (dir: string, prefix: string) => {
@@ -187,6 +216,10 @@ export async function diff_component(
   }
 }
 
+/**
+ * Diff multiple components against the registry.
+ * Fetches full registry entries (index entries may lack file contents).
+ */
 export async function diff_components(
   components: InstalledComponent[],
   onProgress?: ProgressCallback,

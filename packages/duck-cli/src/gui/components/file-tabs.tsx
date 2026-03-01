@@ -7,6 +7,7 @@ type FileTabsProps = {
   active_index: number
 }
 
+/** Horizontal file tab bar with the active file shown bold and underlined. */
 export const FileTabs = memo(function FileTabs({ files, active_index }: FileTabsProps) {
   if (files.length <= 1) return null
 

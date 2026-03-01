@@ -25,6 +25,11 @@ const CHOICE_COLORS: Record<string, string> = {
   pending: THEME.mutedForeground,
 }
 
+/**
+ * Renders a single merge hunk with git-style conflict markers.
+ * Shows context lines, local (removed) lines, and registry (added) lines.
+ * The active hunk is highlighted with >>. The unchosen side is dimmed.
+ */
 export const MergeHunkView = memo(function MergeHunkView({
   hunk,
   is_active,
