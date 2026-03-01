@@ -11,7 +11,7 @@
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
   "dependencies": {
-    "@antfu/ni": "^26.0.1",
+    "@antfu/ni": "^28.2.0",
     "autoprefixer": "^10.4.21",
     "commander": "^14.0.1",
     "diff": "^8.0.3",
