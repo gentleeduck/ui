@@ -8,7 +8,7 @@ import { codeImport } from 'remark-code-import'
 import remarkGfm from 'remark-gfm'
 import type { Pluggable } from 'unified'
 import { defineConfig, s, type ZodMeta } from 'velite'
-import { rehypeMermaid, rehypeNpmCommand, rehypePreBlockSource, rehypeTitle, rhypeMetadataPlugin } from './plugins'
+import { rehypeMermaid, rehypeMetadataPlugin, rehypeNpmCommand, rehypePreBlockSource, rehypeTitle } from './plugins'
 import { cleanTocItems } from './utils'
 
 export type DocsVeliteConfigOptions = {
@@ -17,6 +17,59 @@ export type DocsVeliteConfigOptions = {
   rehypePluginsBefore?: Pluggable[]
   remarkPlugins?: Pluggable[]
   remarkPluginsBefore?: Pluggable[]
+}
+
+function buildDefaultRehypePlugins({
+  rehypePlugins = [],
+  rehypePluginsBefore = [],
+}: Pick<DocsVeliteConfigOptions, 'rehypePlugins' | 'rehypePluginsBefore'>): Pluggable[] {
+  return [
+    ...rehypePluginsBefore,
+    // 1) Structural transforms.
+    // @ts-ignore
+    rehypeSlug,
+    rehypeMetadataPlugin,
+    // 2) Syntax highlighting.
+    [
+      rehypePrettyCode,
+      {
+        getHighlighter,
+        onVisitHighlightedLine(node: UnistNode) {
+          // @ts-ignore
+          node.properties.className.push('line--highlighted')
+        },
+        onVisitHighlightedWord(node: UnistNode) {
+          // @ts-ignore
+          node.properties.className = ['word--highlighted']
+        },
+        onVisitLine(node: UnistNode) {
+          if (node.children?.length === 0) {
+            node.children = [{ type: 'text', value: ' ' }]
+          }
+        },
+        theme: {
+          dark: 'catppuccin-mocha',
+          light: 'github-light',
+        },
+      },
+    ],
+    // 3) Post-highlight enrichments and specialized transforms.
+    rehypeTitle,
+    rehypePreBlockSource,
+    rehypeMermaid,
+    rehypeNpmCommand,
+    // 4) Heading links for docs navigation.
+    // @ts-ignore
+    [rehypeAutolinkHeadings, { properties: { ariaLabel: 'Link to section', className: ['subheading-anchor'] } }],
+    ...rehypePlugins,
+  ]
+}
+
+function buildDefaultRemarkPlugins({
+  remarkPlugins = [],
+  remarkPluginsBefore = [],
+}: Pick<DocsVeliteConfigOptions, 'remarkPlugins' | 'remarkPluginsBefore'>): Pluggable[] {
+  return [...remarkPluginsBefore, remarkGfm, codeImport, ...remarkPlugins]
 }
 
 export function createDocsVeliteConfig({
@@ -74,43 +127,8 @@ export function createDocsVeliteConfig({
       },
     },
     mdx: {
-      rehypePlugins: [
-        ...rehypePluginsBefore,
-        // @ts-ignore
-        rehypeSlug,
-        rhypeMetadataPlugin,
-        [
-          rehypePrettyCode,
-          {
-            getHighlighter,
-            onVisitHighlightedLine(node: UnistNode) {
-              // @ts-ignore
-              node.properties.className.push('line--highlighted')
-            },
-            onVisitHighlightedWord(node: UnistNode) {
-              // @ts-ignore
-              node.properties.className = ['word--highlighted']
-            },
-            onVisitLine(node: UnistNode) {
-              if (node.children?.length === 0) {
-                node.children = [{ type: 'text', value: ' ' }]
-              }
-            },
-            theme: {
-              dark: 'catppuccin-mocha',
-              light: 'github-light',
-            },
-          },
-        ],
-        rehypeTitle,
-        rehypePreBlockSource,
-        rehypeMermaid,
-        rehypeNpmCommand,
-        // @ts-ignore
-        [rehypeAutolinkHeadings, { properties: { ariaLabel: 'Link to section', className: ['subheading-anchor'] } }],
-        ...rehypePlugins,
-      ],
-      remarkPlugins: [...remarkPluginsBefore, remarkGfm, codeImport, ...remarkPlugins],
+      rehypePlugins: buildDefaultRehypePlugins({ rehypePlugins, rehypePluginsBefore }),
+      remarkPlugins: buildDefaultRemarkPlugins({ remarkPlugins, remarkPluginsBefore }),
     },
   }) as any
 }

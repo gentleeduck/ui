@@ -1,7 +1,8 @@
-import type { UnistNode, UnistTree } from '@duck-docs/types'
+import type { MdxCodeNodeProperties, UnistNode, UnistTree } from '@duck-docs/types'
 import type { Nodes } from 'hast'
 import { toString } from 'hast-util-to-string'
 import { visit } from 'unist-util-visit'
+import { assignNodeProperties, readNodeProperties } from './hast-properties'
 
 export function rehypePreBlockSource() {
   return (tree: UnistTree) => {
@@ -13,10 +14,11 @@ export function rehypePreBlockSource() {
 
         node.children?.forEach((child: UnistNode) => {
           if (child?.type === 'element' && child?.tagName === 'pre') {
-            child.properties = {
-              ...child?.properties,
+            const currentProperties = readNodeProperties<MdxCodeNodeProperties>(child)
+            assignNodeProperties(child, {
+              ...currentProperties,
               __rawString__: toString(child as Nodes),
-            }
+            })
           }
         })
       }

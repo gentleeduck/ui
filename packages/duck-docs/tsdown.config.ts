@@ -6,7 +6,7 @@ export default defineConfig({
   },
   clean: true,
   dts: true,
-  entry: ['src/**/*.{ts,tsx}', '!src/**/__test__/**'],
+  entry: ['src/**/*.{ts,tsx}', '!src/**/__test__/**', '!src/**/__tests__/**'],
   external: ['react', 'react/jsx-runtime', 'react/jsx-dev-runtime'],
   format: 'esm',
   minify: true,
