@@ -12,9 +12,12 @@ import type { ProgressCallback, ServiceResult } from './service.types'
 
 /**
  * Build the initial merge state from a ComponentDiff.
- * - Added files are auto-resolved (write from registry).
- * - Deleted files need user decision (keep or remove).
- * - Modified files get hunk-level merge resolution.
+ *
+ * File status handling:
+ * - Added files: auto-resolved (is_resolved=true), will write registry content.
+ * - Deleted files: pending user decision (keep local or remove).
+ * - Modified files: builds merge hunks via structuredPatch, marks resolved
+ *   only if there are no change hunks (files are identical).
  */
 export function build_component_merge_state(
   component_diff: ComponentDiff,
@@ -79,7 +82,12 @@ export function is_merge_resolved(merge_state: ComponentMergeState): boolean {
 }
 
 /**
- * Write the merged results to disk.
+ * Write resolved merge decisions to disk.
+ *
+ * - Added files: writes registry content to new file.
+ * - Deleted files: removes if file_choice='remove', else skips.
+ * - Modified files: applies hunk choices via apply_merge_choices
+ *   to produce the merged content, then writes to disk.
  */
 export async function write_merge_results(
   merge_state: ComponentMergeState,

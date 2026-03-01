@@ -13,7 +13,11 @@ export function generateBanner(width: number): string {
 
 export const SUBTITLE = 'by gentleduck.org'
 
-// Standard terminal colors -- inherits from the user's terminal theme
+/**
+ * Color theme constants for the TUI.
+ * Uses standard terminal color names so they inherit from
+ * the user's terminal theme (light/dark mode compatible).
+ */
 export const THEME = {
   foreground: 'white',
   mutedForeground: 'gray',

@@ -23,10 +23,12 @@ import type { ProgressCallback, ServiceResult } from './service.types'
 
 // -- TypeScript --
 
+/** Check if tsconfig.json exists at the project root. */
 export async function check_typescript_installed(cwd: string): Promise<boolean> {
   return fs.pathExists(path.resolve(cwd, 'tsconfig.json'))
 }
 
+/** Install TypeScript and write a starter tsconfig.json (Next.js or generic). */
 export async function run_install_typescript(
   cwd: string,
   projectType?: string,
@@ -58,6 +60,7 @@ export async function run_install_typescript(
 
 // -- TailwindCSS --
 
+/** Detect TailwindCSS by scanning CSS files for the @import 'tailwindcss' directive. */
 export async function check_tailwind_installed(cwd: string): Promise<boolean> {
   try {
     const css_files = await fg.async('**.css', {
@@ -81,6 +84,7 @@ export async function check_tailwind_installed(cwd: string): Promise<boolean> {
   }
 }
 
+/** Install TailwindCSS and its dependencies via the detected package manager. */
 export async function run_install_tailwindcss(
   cwd: string,
   projectType: (typeof PROJECT_TYPE)[number],
@@ -108,6 +112,7 @@ export async function run_install_tailwindcss(
 
 // -- Duck-UI Config --
 
+/** Check if duck-ui.config.json exists in the current directory. */
 export function check_duckui_config_exists(cwd: string): boolean {
   const files = fg.sync(['duck-ui.config.json'], {
     cwd,
@@ -117,6 +122,10 @@ export function check_duckui_config_exists(cwd: string): boolean {
   return files.length > 0
 }
 
+/**
+ * Initialize duck-ui configuration: fetch theme from registry,
+ * generate CSS custom properties, and write duck-ui.config.json.
+ */
 export async function run_init_duckui_config(
   cwd: string,
   options: DuckuiPrompts,
@@ -164,6 +173,10 @@ export async function run_init_duckui_config(
 
 // -- Config Reading --
 
+/**
+ * Read and validate duck-ui.config.json.
+ * Detects legacy config format (pre-workspace field) and provides a migration hint.
+ */
 export async function read_duckui_config(cwd: string): Promise<ServiceResult<DuckUI>> {
   try {
     const config_root = find_duckui_root_cwd(cwd)
@@ -191,6 +204,7 @@ export async function read_duckui_config(cwd: string): Promise<ServiceResult<Duc
   }
 }
 
+/** Read and parse tsconfig.json from the project directory. */
 export async function read_ts_config(cwd: string): Promise<ServiceResult<TsConfig>> {
   try {
     const files = fg.sync(['tsconfig.json'], { cwd, deep: 1, ignore: IGNORED_DIRECTORIES })

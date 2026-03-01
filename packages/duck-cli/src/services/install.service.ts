@@ -8,6 +8,11 @@ import type { RegistryEntry } from '~/utils/get-registry/get-registry.dto'
 import type { DuckUI } from '~/utils/preflight-configs/preflight-duckui'
 import type { ProgressCallback, ServiceResult } from './service.types'
 
+/**
+ * Resolve the base installation path from duck-ui config aliases and tsconfig paths.
+ * Extracts the alias prefix from aliases.ui (e.g. '@/components/ui' -> '@'),
+ * finds the matching tsconfig path entry, and returns the filesystem directory.
+ */
 export function resolve_install_path(duck_config: DuckUI, tsConfig: TsConfig): ServiceResult<string> {
   const alias = duck_config.aliases.ui.split('/').shift()
   if (!tsConfig?.compilerOptions?.paths || !alias) {
@@ -27,6 +32,11 @@ export function resolve_install_path(duck_config: DuckUI, tsConfig: TsConfig): S
 
 export type ConflictAction = 'overwrite' | 'skip' | 'merge'
 
+/**
+ * Install one or more registry components to disk.
+ * Handles file writing, conflict checking (overwrite/skip/merge),
+ * and recursive BFS resolution of registry dependencies.
+ */
 export async function install_components(
   components: Registry,
   duck_config: DuckUI,
@@ -62,7 +72,8 @@ export async function install_components(
       )
     }
 
-    // Handle registry dependencies recursively
+    // BFS resolution of registry dependencies: fetch transitive deps
+    // and install them until no new dependencies are discovered.
     const visited = new Set(components.map((c) => c.name.toLowerCase()))
     const pendingDeps = new Set(registryDeps.map((d) => d.toLowerCase()))
     pendingDeps.forEach((d) => visited.add(d))
@@ -108,6 +119,11 @@ export async function install_components(
   }
 }
 
+/**
+ * Write a single component's files to disk.
+ * Creates the target directory if needed, checks for existing files
+ * when force=false, and delegates conflict resolution to callbacks.
+ */
 async function write_component(
   component: RegistryEntry,
   write_type_path: string,
@@ -151,6 +167,10 @@ async function write_component(
   }
 }
 
+/**
+ * Run the detected package manager to install npm dependencies.
+ * Combines deps and devDeps into a single install command.
+ */
 export async function install_npm_deps(
   deps: string[],
   devDeps: string[],
