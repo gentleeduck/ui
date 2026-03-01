@@ -4,10 +4,10 @@
 
 ### Patch Changes
 
-- ad86755: Align biome and tsconfig build info exclusions.
+- ad86755: Align biome and tsconfig build info exclusions. Rebrand package metadata to gentleduck/duck-ui.
 
 ## 0.1.16
 
 ### Patch Changes
 
-- done with some types
+- Fix TypeScript type inference for variant compound conditions. Correct GitHub URLs from gentleeduck/ui to gentleeduck/duck-ui. Normalize package metadata.

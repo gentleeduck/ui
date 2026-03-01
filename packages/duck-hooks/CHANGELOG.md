@@ -4,61 +4,53 @@
 
 ### Patch Changes
 
-- ad86755: Align biome and tsconfig build info exclusions.
+- ad86755: Align biome and tsconfig build info exclusions. Rebrand package metadata to gentleduck/duck-ui.
 
 ## 0.1.8
 
 ### Patch Changes
 
-- done
-- done
-- done
-- new copy
+- Add useCopyToClipboard hook for one-click clipboard interaction with success/error feedback.
+- Update package metadata, normalize dependencies, and set up type checking.
 
 ## 0.1.7
 
 ### Patch Changes
 
-- done
-- done
-- done
+- Update contributing guidelines, README structure, and package dependency declarations.
 
 ## 0.1.6
 
 ### Patch Changes
 
-- done
-- done
-- done
+- Normalize package.json metadata and align repository URLs across all hook exports.
 
 ## 0.1.5
 
 ### Patch Changes
 
-- done
-- done
+- Set up check-types script for all packages. Fix type-only exports for stricter TypeScript configurations.
 
 ## 0.1.4
 
 ### Patch Changes
 
-- done
-- done
+- Fix repository and bug tracker URLs in package.json metadata.
 
 ## 0.1.3
 
 ### Patch Changes
 
-- done
+- Clean up test infrastructure and update internal dependency references.
 
 ## 0.1.2
 
 ### Patch Changes
 
-- done
+- Fix build output paths and ensure correct ESM/CJS dual-module exports.
 
 ## 0.1.1
 
 ### Patch Changes
 
-- done
+- Initial public release of @gentleduck/hooks with useControllableState, useCallbackRef, and useComposedRefs utilities.

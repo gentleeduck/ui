@@ -4,8 +4,23 @@
 
 ### Patch Changes
 
-- ad86755: Fix popover width, update calendar and date-picker examples, and migrate registry packages.
-- Updated dependencies [ad86755]
+- ad86755: Migrate all UI components to new duck-primitives, add RTL support, and update component styles.
+
+  **Features:**
+  - Migrate all registry-ui components to new duck-primitives module
+  - Add RTL support with CSS logical properties across components
+  - Add AnimVariants for consistent animation behavior
+  - Rewrite alert-dialog to use new primitives
+  - Rewrite sheet to use new dialog-based primitives
+  - Rewrite menubar to use new menubar primitives
+  - Switch preview index to next/dynamic SSR entries
+
+  **Fixes:**
+  - Fix dialog and popover styles for Tailwind CSS v4 compatibility
+  - Fix select to manage its own open state
+  - Fix popover width and update calendar/date-picker examples
+  - Disable SSR for dynamic preview components
+
 - Updated dependencies [ad86755]
   - @gentleduck/primitives@0.2.1
   - @gentleduck/hooks@0.1.9
@@ -22,7 +37,7 @@
 
 ### Patch Changes
 
-- d46534e: Upgrade recharts peer dependency from v2 to v3.7.0
+- d46534e: Upgrade recharts peer dependency from v2 to v3.7.0 with updated chart component types.
 - Updated dependencies [36f9364]
   - @gentleduck/primitives@0.2.0
 
@@ -59,4 +74,4 @@
 
 ### Patch Changes
 
-- df94032: publish for internal use only
+- df94032: Initial public release of styled UI component wrappers for duck-primitives with Tailwind CSS styling and registry infrastructure.
