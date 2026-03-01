@@ -1,5 +1,6 @@
 export * from './component.service'
 export * from './install.service'
+export * from './merge.service'
 export * from './preflight.service'
 export * from './registry.service'
 export * from './service.types'

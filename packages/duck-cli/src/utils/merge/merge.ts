@@ -1,11 +1,19 @@
 import { structuredPatch } from 'diff'
 import type { DiffDisplayLine } from '~/utils/diff-format'
-import { compute_word_segments } from '~/utils/diff-format'
+import { compute_word_segments, split_segments_by_newline } from '~/utils/diff-format'
 import type { MergeHunk } from './merge.types'
 
 /**
  * Build resolvable merge hunks from local and registry content.
- * Each contiguous change block (removed/added lines) becomes one MergeHunk.
+ *
+ * Uses the `diff` library's structuredPatch to get unified diff hunks.
+ * Each hunk contains interleaved context (' '), removed ('-'), and
+ * added ('+') lines. We walk through each hunk and extract contiguous
+ * change blocks, where each block of removed+added lines becomes one
+ * MergeHunk that the user can resolve independently.
+ *
+ * Line numbers are tracked separately for old (local) and new (registry)
+ * to maintain accurate 1-based references for display.
  */
 export function build_merge_hunks(file_path: string, local_content: string, registry_content: string): MergeHunk[] {
   const patch = structuredPatch(
@@ -183,31 +191,17 @@ function build_hunk_display_lines(
 }
 
 /**
- * Split a flat array of DiffSegments into per-line groups at newline boundaries.
- */
-function split_segments_by_newline(
-  segments: { text: string; highlight: boolean }[],
-): { text: string; highlight: boolean }[][] {
-  const result: { text: string; highlight: boolean }[][] = [[]]
-
-  for (const seg of segments) {
-    const parts = seg.text.split('\n')
-    for (let i = 0; i < parts.length; i++) {
-      if (i > 0) {
-        result.push([])
-      }
-      if (parts[i].length > 0) {
-        result[result.length - 1].push({ text: parts[i], highlight: seg.highlight })
-      }
-    }
-  }
-
-  return result
-}
-
-/**
  * Reconstruct the merged file content from local content and resolved hunks.
- * Hunks must be sorted by old_start.
+ *
+ * Walks through sorted hunks in order of their position in the local file.
+ * Between hunks, copies unchanged local lines. For each hunk, emits the
+ * chosen side based on the user's resolution:
+ *   'local' or 'pending': keep local lines (pending defaults to local)
+ *   'registry': replace with registry lines
+ *   'both': concatenate local then registry lines
+ *
+ * local_cursor is a 0-based index into local_lines.
+ * hunk.old_start is 1-based, so we convert with hunk_start_0 = old_start - 1.
  */
 export function apply_merge_choices(local_content: string, hunks: MergeHunk[]): string {
   const local_lines = local_content.split('\n')
@@ -264,8 +258,15 @@ export function apply_merge_choices(local_content: string, hunks: MergeHunk[]): 
 }
 
 /**
- * Build a preview of the merged file with git-style conflict markers
- * for any unresolved hunks.
+ * Build a preview of the merged file for the summary step.
+ *
+ * Resolved hunks show their chosen content as context lines.
+ * Unresolved hunks show git-style conflict markers:
+ *   <<<<<<< LOCAL
+ *   (local lines)
+ *   =======
+ *   (registry lines)
+ *   >>>>>>> REGISTRY
  */
 export function build_merge_preview_lines(local_content: string, hunks: MergeHunk[]): DiffDisplayLine[] {
   const local_lines = local_content.split('\n')

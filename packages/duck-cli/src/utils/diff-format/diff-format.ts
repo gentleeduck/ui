@@ -1,6 +1,12 @@
 import { diffWords, structuredPatch } from 'diff'
 import type { DiffDisplayLine, DiffSegment, SideBySidePair } from './diff-format.types'
 
+/**
+ * Compute word-level diff segments between two text blocks.
+ * Uses diffWords to identify changed words, producing separate
+ * segment arrays for removed (old) and added (new) text.
+ * Each segment is tagged with highlight=true if it represents a change.
+ */
 export function compute_word_segments(
   old_text: string,
   new_text: string,
@@ -23,11 +29,22 @@ export function compute_word_segments(
   return { removed_segments, added_segments }
 }
 
+/** Pad a line number to the given width, or return spaces if null. */
 export function format_line_number(num: number | null, width: number): string {
   if (num === null) return ' '.repeat(width)
   return String(num).padStart(width)
 }
 
+/**
+ * Generate a unified diff view as an array of DiffDisplayLine objects.
+ *
+ * Uses structuredPatch for the raw diff, then walks each hunk to:
+ * 1. Emit file-header lines (--- local, +++ registry)
+ * 2. Emit hunk-header lines (@@ -old,count +new,count @@)
+ * 3. For each change block, compute word-level highlights by joining
+ *    contiguous removed/added lines and running compute_word_segments,
+ *    then splitting back into per-line segments.
+ */
 export function build_display_lines(
   file_path: string,
   local_content: string,
@@ -175,10 +192,14 @@ export function build_display_lines(
 }
 
 /**
- * Split a flat array of segments into per-line groups,
- * breaking on newline characters within segment text.
+ * Split a flat array of diff segments into per-line groups,
+ * breaking at newline characters within segment text.
+ *
+ * Used after word-level diffing where segments span multiple lines
+ * (e.g. from joining lines with '\n' before calling diffWords).
+ * The output aligns segments back to individual source lines.
  */
-function split_segments_by_newline(segments: DiffSegment[]): DiffSegment[][] {
+export function split_segments_by_newline(segments: DiffSegment[]): DiffSegment[][] {
   const result: DiffSegment[][] = [[]]
 
   for (const seg of segments) {
@@ -196,6 +217,11 @@ function split_segments_by_newline(segments: DiffSegment[]): DiffSegment[][] {
   return result
 }
 
+/**
+ * Convert a unified diff line array into side-by-side pairs.
+ * Contiguous remove+add blocks are paired left/right,
+ * with null padding on the shorter side.
+ */
 export function build_side_by_side_pairs(lines: DiffDisplayLine[]): SideBySidePair[] {
   const pairs: SideBySidePair[] = []
   let i = 0
@@ -239,6 +265,7 @@ export function build_side_by_side_pairs(lines: DiffDisplayLine[]): SideBySidePa
   return pairs
 }
 
+/** Find the highest line number across all lines for gutter width calculation. */
 export function get_max_line_number(lines: DiffDisplayLine[]): number {
   let max = 0
   for (const line of lines) {
@@ -248,6 +275,7 @@ export function get_max_line_number(lines: DiffDisplayLine[]): number {
   return max
 }
 
+/** Return array indices of hunk-header lines, used for n/p keyboard navigation. */
 export function get_hunk_offsets(lines: DiffDisplayLine[]): number[] {
   const offsets: number[] = []
   for (let i = 0; i < lines.length; i++) {
