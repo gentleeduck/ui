@@ -143,9 +143,14 @@ export const docsConfig: DocsConfig = {
           label: 'new',
           items: [
             {
-              href: '/docs/changelog/february-2026',
+              href: '/docs/changelog/march-2026',
               items: [],
               label: 'new',
+              title: 'March 2026',
+            },
+            {
+              href: '/docs/changelog/february-2026',
+              items: [],
               title: 'February 2026',
             },
             {
@@ -658,14 +663,19 @@ export const docsConfig: DocsConfig = {
           title: 'Gentleduck Hooks',
         },
         {
-          href: '/docs/packages/duck-ttest',
+          href: '/docs/packages/duck-motion',
           items: [],
-          title: 'Gentleduck Ttest',
+          title: 'Gentleduck Motion',
         },
         {
-          href: '/docs/packages/duck-template',
+          href: '/docs/packages/duck-state',
           items: [],
-          title: 'Gentleduck Template',
+          title: 'Gentleduck State',
+        },
+        {
+          href: '/docs/packages/duck-shortcut',
+          items: [],
+          title: 'Gentleduck Shortcut (Deprecated)',
         },
       ],
       title: 'Core Packages',

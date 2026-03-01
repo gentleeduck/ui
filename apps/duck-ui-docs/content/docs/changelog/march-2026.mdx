@@ -1,0 +1,103 @@
+---
+title: March 2026
+description: CLI v1.2.0 with merge/diff GUI, docs MDX pipeline overhaul, vim keyboard engine modules, and version release across all packages.
+---
+
+## CLI v1.2.0 -- Merge and Diff GUI <Badge>feat</Badge>
+
+Major overhaul of `@gentleduck/cli` with an interactive terminal UI for resolving merge conflicts and reviewing diffs.
+
+- Interactive **merge GUI** with three-way conflict resolution and syntax highlighting
+- Side-by-side **diff viewer** for comparing component versions
+- Color-coded conflict markers (green = ours, blue = theirs, yellow = base)
+- Figlet ASCII banner and dynamic terminal resize handling
+- New `update`, `remove`, and `diff` commands with monorepo workspace support
+- `--verbose` flag for detailed logging output
+
+### Architecture Refactor
+
+- Replaced axios with native **fetch** API across all HTTP operations
+- Split monolithic merge-screen into separate workflow and keyboard hook modules
+- Split monolithic diff-screen into separate workflow and keyboard hook modules
+- Extracted shared utilities (formatting helpers, ANSI constants, type definitions)
+- Consolidated scattered type definitions into centralized modules
+
+### Infrastructure
+
+- Fixed tsconfig module resolution (`module: esnext`, `moduleResolution: bundler`)
+- Synced local registry schema with canonical `@gentleduck/registers` source
+- Added comprehensive **vitest** test suite with **170 tests** across unit, integration, and e2e
+- Added JSDoc documentation and inline comments throughout the codebase
+
+See the [CLI docs](/docs/packages/duck-cli) for usage examples.
+
+---
+
+## Docs MDX Pipeline Overhaul <Badge>feat</Badge>
+
+Refactored the `@gentleduck/docs` MDX rendering pipeline for better maintainability.
+
+- Split MDX styles into **layered CSS files** for modular theming
+- Decomposed MDX runtime and type plugin metadata into separate modules
+- Improved mermaid block rendering and callout icon support
+- Added bun-based MDX regression tests and docs architecture tests
+
+---
+
+## Vim Keyboard Engine Modules <Badge>feat</Badge>
+
+Added a full keyboard input processing pipeline to `@gentleduck/vim`.
+
+- **Platform** module for OS-aware modifier key handling
+- **Parser** module for normalizing raw keyboard events into structured key objects
+- **Matcher** module for comparing parsed keys against registered bindings
+- **Format** module for human-readable key combination display strings
+- **Sequence** module for multi-key chord and sequence matching
+- **Recorder** module for capturing and replaying key input sessions
+- **useVim** and **useKeySequence** React hooks for declarative keybinding
+- Enhanced KeyProvider with context-based registration and conflict detection
+
+---
+
+## Motion Design Tokens Update <Badge>feat</Badge>
+
+Expanded `@gentleduck/motion` with design tokens and accessibility support.
+
+- Added motion design tokens for consistent animation duration, easing, and spring values
+- Added reduced-motion helper utilities for `prefers-reduced-motion` media query support
+- Centralized reduced-motion styles via shared helpers
+- Removed unused `AnimPopoverArrowVariants`
+
+---
+
+## Version Release <Badge variant="outline">chore</Badge>
+
+Published new versions across all packages:
+
+| Package | Version | Type |
+| --- | --- | --- |
+| `@gentleduck/cli` | 1.2.0 | minor |
+| `@gentleduck/registers` | 0.3.0 | minor |
+| `@gentleduck/primitives` | 0.2.1 | patch |
+| `@gentleduck/docs` | 0.0.14 | patch |
+| `@gentleduck/registry-ui` | 0.2.1 | patch |
+| `@gentleduck/vim` | 0.1.13 | patch |
+| `@gentleduck/motion` | 0.1.14 | patch |
+| `@gentleduck/hooks` | 0.1.9 | patch |
+| `@gentleduck/libs` | 0.1.12 | patch |
+| `@gentleduck/variants` | 0.1.17 | patch |
+| `@gentleduck/shortcut` | 0.0.3 | patch |
+| `@gentleduck/lazy` | 1.2.10 | patch |
+| `@gentleduck/state` | 0.2.1 | patch |
+| `@gentleduck/benchmark` | 0.0.3 | patch |
+
+---
+
+## Fixes <Badge variant="outline">fix</Badge>
+
+- Fixed missing `tsdown` devDependency in `@gentleduck/shortcut` causing CI build failures
+- Fixed internal registry source path and primitives build types
+- Fixed popover width and updated calendar/date-picker examples
+- Cleaned up dialog-guarded-async overlay styles in registry internals
+- Aligned biome and tsconfig build info exclusions across all packages
+- Rewrote all CHANGELOG.md files with comprehensive descriptions
