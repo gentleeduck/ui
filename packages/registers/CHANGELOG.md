@@ -1,5 +1,11 @@
 # @gentleduck/registers
 
+## 0.3.1
+
+### Patch Changes
+
+- c9bbef8: Documentation and style updates.
+
 ## 0.3.0
 
 ### Minor Changes
@@ -7,6 +13,7 @@
 - ad86755: Add internal registry support, expand theme system, and update component definitions.
 
   **Features:**
+
   - Add internal registry support for primitive component wrappers
   - Add shared direction API for RTL/LTR support across primitives and registry
   - Add sidebar blocks 01-16 with full registry infrastructure
@@ -14,6 +21,7 @@
   - Update component registry definitions and generated JSON manifests
 
   **Fixes:**
+
   - Update warning-foreground color in registry color definitions for better contrast
   - Migrate duckui registry packages to new structure
 

@@ -1,5 +1,18 @@
 # @gentleduck/registry-ui
 
+## 0.2.2
+
+### Patch Changes
+
+- c9bbef8: Documentation and style updates.
+- Updated dependencies [c9bbef8]
+  - @gentleduck/hooks@0.1.10
+  - @gentleduck/libs@0.1.13
+  - @gentleduck/motion@0.1.15
+  - @gentleduck/primitives@0.2.2
+  - @gentleduck/variants@0.1.18
+  - @gentleduck/vim@0.1.14
+
 ## 0.2.1
 
 ### Patch Changes
@@ -7,6 +20,7 @@
 - ad86755: Migrate all UI components to new duck-primitives, add RTL support, and update component styles.
 
   **Features:**
+
   - Migrate all registry-ui components to new duck-primitives module
   - Add RTL support with CSS logical properties across components
   - Add AnimVariants for consistent animation behavior
@@ -16,6 +30,7 @@
   - Switch preview index to next/dynamic SSR entries
 
   **Fixes:**
+
   - Fix dialog and popover styles for Tailwind CSS v4 compatibility
   - Fix select to manage its own open state
   - Fix popover width and update calendar/date-picker examples

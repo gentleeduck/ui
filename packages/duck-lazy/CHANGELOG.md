@@ -1,5 +1,11 @@
 # @gentleduck/lazy
 
+## 1.2.11
+
+### Patch Changes
+
+- c9bbef8: Documentation and style updates.
+
 ## 1.2.10
 
 ### Patch Changes
