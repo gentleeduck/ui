@@ -25,6 +25,6 @@
     "types": ["@testing-library/jest-dom"],
     "verbatimModuleSyntax": true
   },
-  "exclude": ["node_modules", "dist"],
+  "exclude": ["node_modules", "dist", "**/*.tsbuildinfo", "tsconfig.tsbuildinfo"],
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }
