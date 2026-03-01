@@ -49,6 +49,15 @@ bun install
 bun --filter @gentleduck/ui-docs dev
 ```
 
+## Common Workspace Commands
+```bash
+bun run dev          # run all workspace dev tasks
+bun run build        # build all packages/apps
+bun run test         # run tests across workspaces
+bun run check        # biome checks
+bun run check-types  # TypeScript type checks
+```
+
 ## Contributing
 We welcome contributions. Please read [`CONTRIBUTING.md`](./CONTRIBUTING.md) and [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md).
 
