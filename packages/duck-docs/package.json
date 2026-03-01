@@ -46,7 +46,7 @@
     "next-themes": "^0.4.6",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "react-resizable-panels": "^3.0.6",
+    "react-resizable-panels": "^4.7.0",
     "rimraf": "^6.0.1",
     "tailwind-merge": "^3.4.0",
     "tsdown": "0.18.3",
@@ -63,7 +63,7 @@
     "next-themes": "^0.4.6",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
-    "react-resizable-panels": "^3.0.6"
+    "react-resizable-panels": "^4.7.0"
   },
   "peerDependenciesMeta": {
     "@excalidraw/excalidraw": {
