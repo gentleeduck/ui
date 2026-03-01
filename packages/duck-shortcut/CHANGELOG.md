@@ -1,5 +1,11 @@
 # @gentleduck/shortcut
 
+## 0.0.4
+
+### Patch Changes
+
+- c9bbef8: Documentation and style updates.
+
 ## 0.0.3
 
 ### Patch Changes

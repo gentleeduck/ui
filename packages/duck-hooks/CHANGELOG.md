@@ -1,5 +1,11 @@
 # @gentleduck/hooks
 
+## 0.1.10
+
+### Patch Changes
+
+- c9bbef8: Documentation and style updates.
+
 ## 0.1.9
 
 ### Patch Changes

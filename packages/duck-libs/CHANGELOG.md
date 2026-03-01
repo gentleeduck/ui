@@ -1,5 +1,11 @@
 # @gentleduck/libs
 
+## 0.1.13
+
+### Patch Changes
+
+- c9bbef8: Documentation and style updates.
+
 ## 0.1.12
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @gentleduck/cli
 
+## 1.2.1
+
+### Patch Changes
+
+- c9bbef8: Documentation and style updates.
+
 ## 1.2.0
 
 ### Minor Changes
@@ -7,6 +13,7 @@
 - ad86755: Major CLI overhaul with interactive merge/diff GUI, architecture refactor, and comprehensive test coverage.
 
   **Features:**
+
   - Add interactive merge GUI with three-way conflict resolution and syntax highlighting
   - Add interactive diff viewer with side-by-side comparison
   - Add figlet ASCII banner and dynamic terminal resize handling
@@ -15,6 +22,7 @@
   - Add `update`, `remove`, and `diff` commands with workspace support
 
   **Architecture Refactor:**
+
   - Replace axios with native fetch API across all HTTP operations
   - Split monolithic merge-screen into workflow hook and keyboard hook modules
   - Split monolithic diff-screen into workflow hook and keyboard hook modules
@@ -23,6 +31,7 @@
   - Add VimStdin.asInkStdin() method to encapsulate stream type casting
 
   **Infrastructure:**
+
   - Fix tsconfig module resolution (add module: esnext, change to bundler resolution)
   - Sync local registry schema with canonical @gentleduck/registers source
   - Add comprehensive vitest test suite with 170 tests across unit, integration, and e2e

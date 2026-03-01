@@ -67,7 +67,7 @@
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },
   "type": "module",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "dependencies": {
     "@floating-ui/react-dom": "^2.1.7",
     "aria-hidden": "^1.2.6",

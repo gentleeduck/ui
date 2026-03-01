@@ -1,5 +1,11 @@
 # @gentleduck/primitives
 
+## 0.2.2
+
+### Patch Changes
+
+- c9bbef8: Documentation and style updates.
+
 ## 0.2.1
 
 ### Patch Changes
@@ -7,6 +13,7 @@
 - ad86755: Add 15+ new headless primitive components, full RTL/direction support, and major architecture overhaul.
 
   **New Primitives:**
+
   - Add dialog, alert-dialog, tooltip, popover, hover-card with individual file splitting
   - Add popper positioning primitive with CSS variable-based placement
   - Add focus-scope and dismissable-layer for overlay management
@@ -19,12 +26,14 @@
   - Add pagination primitive
 
   **RTL / Direction Support:**
+
   - Add shared direction API with DirectionProvider DOM wrapper
   - Pass dir prop from context to all exported primitive components
   - Add dir prop to Dialog, Popover, HoverCard, and Tooltip
   - Fix select RTL support with logical CSS positioning
 
   **Architecture:**
+
   - Add slot composition system for flexible component rendering
   - Add shared hooks library (useControllableState, useCallbackRef, useComposedRefs)
   - Add shared lib utilities (composeEventHandlers, createContext)
@@ -33,6 +42,7 @@
   - Extract shared list-navigation logic for Select and Command
 
   **Fixes:**
+
   - Fix radio-group arrow-key navigation sync with checked state
   - Fix select value text duplication on item click
   - Narrow avatar src type to string for TypeScript compatibility
