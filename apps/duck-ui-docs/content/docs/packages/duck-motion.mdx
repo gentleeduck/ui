@@ -1,0 +1,56 @@
+---
+title: gentleduck motion
+description: Motion primitives and reduced-motion utilities used across the gentleduck ecosystem.
+---
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Experimental: Not Production Ready"
+  tone="warning">
+`@gentleduck/motion` is currently in active development and is **not ready for production use**. Expect API changes and breaking updates between releases.
+</Callout>
+
+## Philosophy
+
+`@gentleduck/motion` provides a small, predictable motion layer. It focuses on shared easing/duration tokens and reduced-motion safety so transitions stay consistent across packages.
+
+## Installation
+
+```bash
+npm install @gentleduck/motion
+```
+
+## Usage
+
+```tsx
+import '@gentleduck/motion/css'
+import { motionTransition, useDuckReducedMotion } from '@gentleduck/motion'
+```
+
+```tsx
+const reduced = useDuckReducedMotion()
+const transition = motionTransition(reduced, { duration: 240, easing: 'var(--duck-motion-ease)' })
+```
+
+## API Reference
+
+### CSS entrypoint
+
+- `@gentleduck/motion/css`: motion tokens and reduced-motion defaults.
+
+### `react`
+
+- `useDuckReducedMotion()`
+- `motionTransition(reduced, normal)`
+- `onDuckReducedMotionChange(callback)`
+
+### `waapi`
+
+- `prefersReducedMotion()`
+- `animateIfAllowed(element, keyframes, options, reducedMotion?)`
+
+### Tokens
+
+- `duckEasing`
+- `duckDuration`
+- `duckMotionCssVar`

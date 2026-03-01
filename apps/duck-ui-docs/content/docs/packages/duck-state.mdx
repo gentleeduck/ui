@@ -1,0 +1,56 @@
+---
+title: gentleduck state
+description: Lightweight atomic state management for React with primitive and derived atoms.
+---
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Experimental: Not Production Ready"
+  tone="warning">
+`@gentleduck/state` is currently in active development and is **not ready for production use**. APIs and behavior may change without long-term compatibility guarantees.
+</Callout>
+
+## Philosophy
+
+`@gentleduck/state` keeps state modeling explicit with an atom/store API. It is optimized for predictable dependency tracking and small runtime surface area.
+
+## Installation
+
+```bash
+npm install @gentleduck/state
+```
+
+## Usage
+
+```ts
+import { atom, createStore } from '@gentleduck/state'
+
+const count = atom(0)
+const double = atom((get) => get(count) * 2)
+
+const store = createStore()
+store.set(count, (prev) => prev + 1)
+console.log(store.get(double))
+```
+
+## API Reference
+
+### `atom(initialValue)`
+
+Creates a primitive writable atom.
+
+### `atom(read)`
+
+Creates a derived read-only atom.
+
+### `atom(read, write)`
+
+Creates a writable derived atom.
+
+### `createStore()`
+
+Creates a store instance with:
+
+- `get(atom)`
+- `set(atom, valueOrUpdater)`
+- `subscribe(atom, callback)`
