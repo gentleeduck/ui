@@ -11,7 +11,7 @@
 //   DialogResponsive,
 //   DialogTitleResponsive,
 //   DialogTriggerResponsive,
-// } from '@gentleduck/registry-ui-duckui/dialog'
+// } from '@gentleduck/registry-ui/dialog'
 // import { ScrollArea } from './scroll-area'
 // import { filesize } from 'filesize'
 // import { useMediaQuery } from '@gentleduck/libs/'

@@ -5,7 +5,7 @@
 //   TooltipContent,
 //   TooltipTrigger,
 //   TooltipTrigger,
-// } from '@gentleduck/registry-ui-duckui/tooltip'
+// } from '@gentleduck/registry-ui/tooltip'
 // import { Inbox, Mail } from 'lucide-react'
 // //@ts-noCheck
 // import * as React from 'react'

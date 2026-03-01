@@ -19,7 +19,7 @@
 // import data from '@emoji-mart/data'
 // import { useDebounceCallback } from '@gentleduck/hooks/use-debounce-callback'
 // import { cn } from '@gentleduck/libs/cn'
-// import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
+// import { ScrollArea } from '@gentleduck/registry-ui/scroll-area'
 // import { init, SearchIndex } from 'emoji-mart'
 // import { SpaceNode } from './space-node'
 // import { z } from 'zod'

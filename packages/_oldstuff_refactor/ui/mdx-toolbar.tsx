@@ -1,8 +1,8 @@
 // import React from 'react'
 // import { HexColorPicker } from 'react-colorful'
-// import { Separator } from '@gentleduck/registry-ui-duckui/separator'
-// import { Dialog, DialogClose , DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@gentleduck/registry-ui-duckui/dialog'
-// import { Button } from '@gentleduck/registry-ui-duckui/button'
+// import { Separator } from '@gentleduck/registry-ui/separator'
+// import { Dialog, DialogClose , DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@gentleduck/registry-ui/dialog'
+// import { Button } from '@gentleduck/registry-ui/button'
 // // import {
 // //   bubbleMenuIconsData,
 // //   emailToolbarEditor,
