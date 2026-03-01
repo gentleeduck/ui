@@ -104,8 +104,8 @@ describe('get_registry_base_color', () => {
     expect(result).toBeDefined()
     expect(result).toHaveProperty('name', 'zinc')
     expect(result).toHaveProperty('cssVars')
-    expect(result.cssVars).toHaveProperty('light')
-    expect(result.cssVars).toHaveProperty('dark')
+    expect(result!.cssVars).toHaveProperty('light')
+    expect(result!.cssVars).toHaveProperty('dark')
   })
 
   it('returns null for nonexistent theme', async () => {

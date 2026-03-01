@@ -57,14 +57,12 @@ export const registry_color_base_schema = z.array(registrycolor_scheme).min(1, {
 export type ColorBase = z.infer<typeof registry_color_base_schema>
 
 export const registry_item_type_schema = z.enum([
-  'registry:style',
-  'registry:lib',
-  'registry:example',
-  'registry:block',
-  'registry:component',
   'registry:ui',
+  'registry:lib',
   'registry:hook',
-  'registry:theme',
+  'registry:block',
+  'registry:example',
+  'registry:internal',
   'registry:page',
 ])
 
@@ -104,7 +102,7 @@ export const block_chunk_schema = z.object({
 })
 
 export const registry_entry_schema = z.object({
-  category: z.string().optional(),
+  categories: z.array(z.string()).optional(),
   chunks: z.array(block_chunk_schema).optional(),
   cssVars: registry_item_css_vars_schema.optional(),
   dependencies: z.array(z.string()).optional(),
@@ -116,7 +114,6 @@ export const registry_entry_schema = z.object({
   registryDependencies: z.array(z.string()).optional(),
   root_folder: z.string(),
   source: z.string().optional(),
-  subcategory: z.string().optional(),
   tailwind: registry_item_tailwind_schema.optional(),
   type: registry_item_type_schema,
 })

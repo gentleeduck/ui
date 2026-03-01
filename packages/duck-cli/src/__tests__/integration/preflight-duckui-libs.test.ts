@@ -19,19 +19,20 @@ describe('init_duckui_config', () => {
     const { init_duckui_config } = await import('~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs')
     const spinner = createMockSpinner()
 
-    await init_duckui_config(tmpDir, spinner as any, {
-      project_type: 'NEXT_JS',
-      monorepo: false,
-      workspace: {
-        root: '.',
-        project: '.',
+    await init_duckui_config(
+      tmpDir,
+      spinner as any,
+      {
+        project_type: 'NEXT_JS',
+        monorepo: false,
+        css: './src/styles.css',
+        prefix: '',
+        alias: '~',
+        base_color: 'zinc',
+        css_variables: true,
       },
-      css: './src/styles.css',
-      prefix: '',
-      alias: '~',
-      base_color: 'zinc',
-      css_variables: true,
-    })
+      { root: '.', project: '.' },
+    )
 
     const configPath = path.join(tmpDir, 'duck-ui.config.json')
     expect(fs.existsSync(configPath)).toBe(true)
@@ -47,19 +48,20 @@ describe('init_duckui_config', () => {
     const { init_duckui_config } = await import('~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs')
     const spinner = createMockSpinner()
 
-    await init_duckui_config(tmpDir, spinner as any, {
-      project_type: 'VITE',
-      monorepo: false,
-      workspace: {
-        root: '.',
-        project: '.',
+    await init_duckui_config(
+      tmpDir,
+      spinner as any,
+      {
+        project_type: 'VITE',
+        monorepo: false,
+        css: './src/styles.css',
+        prefix: 'dk',
+        alias: '@',
+        base_color: 'slate',
+        css_variables: true,
       },
-      css: './src/styles.css',
-      prefix: 'dk',
-      alias: '@',
-      base_color: 'slate',
-      css_variables: true,
-    })
+      { root: '.', project: '.' },
+    )
 
     const content = JSON.parse(fs.readFileSync(path.join(tmpDir, 'duck-ui.config.json'), 'utf8'))
     expect(content.rsc).toBe(false)
