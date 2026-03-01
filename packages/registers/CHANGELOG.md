@@ -1,5 +1,11 @@
 # @gentleduck/registers
 
+## 0.3.0
+
+### Minor Changes
+
+- ad86755: Add internal registry support and migrate duckui registry packages.
+
 ## 0.2.0
 
 ### Minor Changes

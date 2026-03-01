@@ -1,5 +1,11 @@
 # @gentleduck/hooks
 
+## 0.1.9
+
+### Patch Changes
+
+- ad86755: Align biome and tsconfig build info exclusions.
+
 ## 0.1.8
 
 ### Patch Changes
