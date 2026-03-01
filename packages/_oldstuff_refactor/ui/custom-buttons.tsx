@@ -1,6 +1,6 @@
 //
 // import { cn } from '@gentleduck/libs/cn'
-// import { Button, ButtonProps } from '@gentleduck/registry-ui-duckui/button'
+// import { Button, ButtonProps } from '@gentleduck/registry-ui/button'
 // //@ts-noCheck
 // import React from 'react'
 // // import { IoHeart } from 'react-icons/io5'

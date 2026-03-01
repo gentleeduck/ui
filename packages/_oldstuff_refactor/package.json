@@ -1,0 +1,8 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@duck-ui/oldstuff-refactor",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Archived refactor workspace content.",
+  "license": "UNLICENSED"
+}

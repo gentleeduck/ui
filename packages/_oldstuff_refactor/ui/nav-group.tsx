@@ -2,7 +2,7 @@
 // import * as React from 'react'
 // import { cn } from '@gentleduck/libs/cn'
 // import {  groupArrays } from '@gentleduck/libs/group-array'
-// import { Button, ButtonProps } from '@gentleduck/registry-ui-duckui/button'
+// import { Button, ButtonProps } from '@gentleduck/registry-ui/button'
 // import { Separator } from './ShadcnUI/separator'
 //
 // type NavGroupProps<T extends boolean> = {
