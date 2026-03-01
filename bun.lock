@@ -189,9 +189,9 @@
     },
     "packages/duck-cli": {
       "name": "@gentleduck/cli",
-      "version": "1.0.11",
+      "version": "1.1.0",
       "bin": {
-        "duck-cli": "dist/index.js",
+        "duck-cli": "dist/index.mjs",
       },
       "dependencies": {
         "@antfu/ni": "^26.0.1",
@@ -209,6 +209,7 @@
         "postcss": "^8.5.6",
         "prompts": "^2.4.2",
         "react": "^19.2.3",
+        "shiki": "^1.12.1",
         "tsconfig-paths": "^4.2.0",
         "zod": "4.2.1",
       },
