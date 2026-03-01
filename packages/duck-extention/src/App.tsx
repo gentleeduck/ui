@@ -1,6 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
-import { Card } from '@gentleduck/registry-ui-duckui/card'
+import { Button } from '@gentleduck/registry-ui/button'
+import { Card } from '@gentleduck/registry-ui/card'
 import {
   Command,
   CommandEmpty,
@@ -8,7 +8,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@gentleduck/registry-ui-duckui/command'
+} from '@gentleduck/registry-ui/command'
 import {
   Field,
   FieldContent,
@@ -18,9 +18,9 @@ import {
   FieldLegend,
   FieldSeparator,
   FieldSet,
-} from '@gentleduck/registry-ui-duckui/field'
-import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
-import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
+} from '@gentleduck/registry-ui/field'
+import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
+import { ScrollArea } from '@gentleduck/registry-ui/scroll-area'
 import { Ban, Check, ChevronsUpDown, Github, Power, Trash2 } from 'lucide-react'
 import React from 'react'
 import fontsMetadata from './assets/fonts.json'
