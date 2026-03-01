@@ -1,17 +1,3 @@
-.frame {
-  padding: 1rem;
-  border-radius: 14px;
-  border: 1px solid var(--border);
-  background: linear-gradient(180deg, color-mix(in oklab, var(--card) 92%, var(--muted)) 0%, var(--muted) 100%);
-  color: var(--foreground);
-}
-
-.label {
-  margin: 0 0 0.6rem;
-  font-size: 0.75rem;
-  color: var(--muted-foreground);
-}
-
 .trigger,
 .secondary,
 .danger {
@@ -26,7 +12,11 @@
 .overlay {
   position: fixed;
   inset: 0;
-  background: color-mix(in oklab, var(--background) 20%, black);
+  background: color-mix(in oklab, var(--background) 10%, black);
+  opacity: 0.5;
+  backdrop-filter: blur(10px);
+  z-index: 70;
+  transition: all 0.2s ease-in-out;
 }
 
 .content {
@@ -40,24 +30,28 @@
   background: var(--card);
   color: var(--foreground);
   padding: 1rem;
-  box-shadow: 0 20px 45px color-mix(in oklab, var(--foreground) 18%, transparent);
+  z-index: 71;
+  transition: all 0.2s ease-in-out;
 }
 
 .title {
   margin: 0;
   font-size: 1rem;
 }
+
 .description {
   margin: 0.35rem 0 0;
   color: var(--muted-foreground);
   font-size: 0.86rem;
 }
+
 .actions {
   margin-top: 0.85rem;
   display: flex;
   justify-content: flex-end;
   gap: 0.55rem;
 }
+
 .danger {
   border-color: transparent;
   background: var(--destructive);
