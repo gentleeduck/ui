@@ -1,5 +1,5 @@
 import { cn } from '@gentleduck/libs/cn'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui-duckui/tabs'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui/tabs'
 
 export function Tab({ className, ...props }: React.ComponentProps<typeof Tabs>) {
   return <Tabs className={cn('relative mt-6 w-full', className)} {...props} />
@@ -26,7 +26,7 @@ export function TabContent({ className, ...props }: React.ComponentProps<typeof 
   return (
     <TabsContent
       className={cn(
-        'relative [&>div[data-rehype-pretty-code-fragment]]:relative [&>div[data-rehype-pretty-code-fragment]]:my-3 [&>div[data-rehype-pretty-code-fragment]]:rounded-lg [&>div[data-rehype-pretty-code-fragment]]:bg-muted/40 [&>div]:border [&_h3.font-heading]:font-semibold [&_h3.font-heading]:text-base',
+        'relative [&>div[data-rehype-pretty-code-fragment]]:relative [&>div[data-rehype-pretty-code-fragment]]:my-3 [&>div[data-rehype-pretty-code-fragment]]:rounded-lg [&>div[data-rehype-pretty-code-fragment]]:bg-muted/40 [&_h3.font-heading]:font-semibold [&_h3.font-heading]:text-base',
         className,
       )}
       {...props}

@@ -1,5 +1,5 @@
 import { cn } from '@gentleduck/libs/cn'
-import { Alert, AlertDescription, AlertTitle } from '@gentleduck/registry-ui-duckui/alert'
+import { Alert, AlertDescription, AlertTitle } from '@gentleduck/registry-ui/alert'
 
 export function Callout({
   title,

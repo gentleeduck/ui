@@ -2,7 +2,7 @@
 
 import { type Event, trackEvent } from '@duck-docs/lib/events'
 import { cn } from '@gentleduck/libs/cn'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui/button'
 import { CheckIcon, Copy } from 'lucide-react'
 import * as React from 'react'
 
@@ -13,7 +13,7 @@ export async function copyToClipboardWithMeta(value: string, event?: Event) {
   }
 }
 
-export type CopyButtonProps = import('@gentleduck/registry-ui-duckui/button').ButtonProps & {
+export type CopyButtonProps = import('@gentleduck/registry-ui/button').ButtonProps & {
   value: string
   event?: Event['name']
 }

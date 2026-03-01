@@ -1,7 +1,7 @@
 'use client'
 
 import { useSiteConfig } from '@duck-docs/context'
-import { buttonVariants } from '@gentleduck/registry-ui-duckui/button'
+import { buttonVariants } from '@gentleduck/registry-ui/button'
 import { HeartIcon, Mail } from 'lucide-react'
 import Link from 'next/link'
 

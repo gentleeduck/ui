@@ -8,7 +8,13 @@ export function formatDate(input: string | number): string {
 }
 
 export function absoluteUrl(path: string) {
-  return `${process.env.NEXT_PUBLIC_APP_URL || ''}${path}`
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || ''
+  if (!baseUrl) return path
+
+  const normalizedBase = baseUrl.replace(/\/+$/, '')
+  const normalizedPath = path.startsWith('/') ? path : `/${path}`
+
+  return `${normalizedBase}${normalizedPath}`
 }
 
 export const filteredObject = <T extends Record<string, any>>(keys: string[], obj: T): Partial<T> => {

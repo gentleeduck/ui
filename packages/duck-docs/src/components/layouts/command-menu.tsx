@@ -4,7 +4,7 @@ import { useDocsConfig, useDocsEntries } from '@duck-docs/context'
 import type { DocsEntry, TocEntry } from '@duck-docs/context/context.types'
 import type { SidebarNavItem } from '@duck-docs/types/nav'
 import { cn } from '@gentleduck/libs/cn'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui/button'
 import {
   CommandDialog,
   CommandEmpty,
@@ -13,8 +13,8 @@ import {
   CommandList,
   CommandShortcut,
   useCommandListContext,
-} from '@gentleduck/registry-ui-duckui/command'
-import { Separator } from '@gentleduck/registry-ui-duckui/separator'
+} from '@gentleduck/registry-ui/command'
+import { Separator } from '@gentleduck/registry-ui/separator'
 import { useKeyCommands } from '@gentleduck/vim/react'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { Circle, Command, CornerDownLeft, FileIcon, Moon, Sun } from 'lucide-react'

@@ -1,15 +1,15 @@
 'use client'
 
 import { useCopyToClipboard } from '@gentleduck/hooks/use-copy-to-clipboard'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui/button'
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@gentleduck/registry-ui-duckui/dropdown-menu'
-import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
-import { Separator } from '@gentleduck/registry-ui-duckui/separator'
+} from '@gentleduck/registry-ui/dropdown-menu'
+import { Popover, PopoverAnchor, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
+import { Separator } from '@gentleduck/registry-ui/separator'
 import { Check, ChevronDown, Copy } from 'lucide-react'
 import { usePathname } from 'next/navigation'
 import { useSiteConfig } from '../../context'

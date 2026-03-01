@@ -2,7 +2,7 @@
 
 import { useSiteConfig } from '@duck-docs/context'
 import { useMetaColor } from '@duck-docs/hooks/use-meta-colors'
-import { Button } from '@gentleduck/registry-ui-duckui/button'
+import { Button } from '@gentleduck/registry-ui/button'
 import { MoonIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
