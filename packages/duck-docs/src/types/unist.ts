@@ -1,9 +1,10 @@
 import type { Node } from 'unist'
+import type { MdxCodeNodeProperties, MdxNodeData, NpmCommands } from './mdx-runtime'
+
+export type { NpmCommands } from './mdx-runtime'
 
 declare module 'unist' {
-  interface Data {
-    meta?: string
-  }
+  interface Data extends MdxNodeData {}
 }
 
 export interface UnistNode extends Node {
@@ -12,17 +13,9 @@ export interface UnistNode extends Node {
   tagName?: string
   value?: string
   properties?: {
-    __rawString__?: string
-    __className__?: string
-    __title__?: string
-    __marks__?: string[]
-    __event__?: string
-    __isMermaid__?: boolean
-    __mermaidLightSvg__?: string
-    __mermaidDarkSvg__?: string
     className?: string[]
     [key: string]: unknown
-  } & NpmCommands
+  } & MdxCodeNodeProperties
   attributes?: {
     name: string
     value: unknown
@@ -33,11 +26,4 @@ export interface UnistNode extends Node {
 
 export interface UnistTree extends Node {
   children: UnistNode[]
-}
-
-export interface NpmCommands {
-  __npmCommand__?: string
-  __yarnCommand__?: string
-  __pnpmCommand__?: string
-  __bunCommand__?: string
 }

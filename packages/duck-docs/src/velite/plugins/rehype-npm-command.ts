@@ -1,5 +1,6 @@
-import type { UnistNode, UnistTree } from '@duck-docs/types'
+import type { MdxCodeNodeProperties, UnistNode, UnistTree } from '@duck-docs/types'
 import { visit } from 'unist-util-visit'
+import { readNodeProperties } from './hast-properties'
 
 export function rehypeNpmCommand() {
   return (tree: UnistTree) => {
@@ -8,34 +9,35 @@ export function rehypeNpmCommand() {
         return
       }
 
+      const props = readNodeProperties<MdxCodeNodeProperties>(node)
+      const raw = props.__rawString__
+
+      if (!raw) {
+        return
+      }
+
       // npm install.
-      if (node.properties?.['__rawString__']?.startsWith('npm install')) {
-        const npmCommand = node.properties?.['__rawString__']
-        node.properties['__npmCommand__'] = npmCommand
-        node.properties['__yarnCommand__'] = npmCommand.replace('npm install', 'yarn add')
-        node.properties['__pnpmCommand__'] = npmCommand.replace('npm install', 'pnpm add')
-        node.properties['__bunCommand__'] = npmCommand.replace('npm install', 'bun add')
+      if (raw.startsWith('npm install')) {
+        props.__npmCommand__ = raw
+        props.__yarnCommand__ = raw.replace('npm install', 'yarn add')
+        props.__pnpmCommand__ = raw.replace('npm install', 'pnpm add')
+        props.__bunCommand__ = raw.replace('npm install', 'bun add')
       }
 
       // npx create.
-      if (node.properties?.['__rawString__']?.startsWith('npx create-')) {
-        const npmCommand = node.properties?.['__rawString__']
-        node.properties['__npmCommand__'] = npmCommand
-        node.properties['__yarnCommand__'] = npmCommand.replace('npx create-', 'yarn create ')
-        node.properties['__pnpmCommand__'] = npmCommand.replace('npx create-', 'pnpm create ')
-        node.properties['__bunCommand__'] = npmCommand.replace('npx', 'bunx --bun')
+      if (raw.startsWith('npx create-')) {
+        props.__npmCommand__ = raw
+        props.__yarnCommand__ = raw.replace('npx create-', 'yarn create ')
+        props.__pnpmCommand__ = raw.replace('npx create-', 'pnpm create ')
+        props.__bunCommand__ = raw.replace('npx', 'bunx --bun')
       }
 
       // npx.
-      if (
-        node.properties?.['__rawString__']?.startsWith('npx') &&
-        !node.properties?.['__rawString__']?.startsWith('npx create-')
-      ) {
-        const npmCommand = node.properties?.['__rawString__']
-        node.properties['__npmCommand__'] = npmCommand
-        node.properties['__yarnCommand__'] = npmCommand.replace('npx', 'yarn dlx')
-        node.properties['__pnpmCommand__'] = npmCommand.replace('npx', 'pnpm dlx')
-        node.properties['__bunCommand__'] = npmCommand.replace('npx', 'bunx --bun')
+      if (raw.startsWith('npx') && !raw.startsWith('npx create-')) {
+        props.__npmCommand__ = raw
+        props.__yarnCommand__ = raw.replace('npx', 'yarn dlx')
+        props.__pnpmCommand__ = raw.replace('npx', 'pnpm dlx')
+        props.__bunCommand__ = raw.replace('npx', 'bunx --bun')
       }
     })
   }

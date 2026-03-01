@@ -1,64 +1,9 @@
 import { CopyButton } from '@duck-docs/components/copy-button'
-import type { Event } from '@duck-docs/lib/events'
 import type { NpmCommands } from '@duck-docs/types/unist'
 import { cn } from '@gentleduck/libs/cn'
 import { Separator } from '@gentleduck/registry-ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui/tabs'
 import { Terminal } from 'lucide-react'
-
-export type CodeBlockProps = React.HTMLAttributes<HTMLPreElement> & {
-  __rawString__?: string
-  __withMeta__?: boolean
-  __title__?: string
-  __event__?: Event['name']
-} & NpmCommands
-
-export function PreBlock({
-  className,
-  __rawString__,
-  __npmCommand__,
-  __yarnCommand__,
-  __pnpmCommand__,
-  __bunCommand__,
-  __withMeta__,
-  __event__,
-  __title__,
-  children,
-  ...props
-}: CodeBlockProps) {
-  return (
-    <div data-theme={(props as any)['data-theme']}>
-      {__npmCommand__ && __yarnCommand__ && __pnpmCommand__ && __bunCommand__ ? (
-        <ShellCommand
-          __bunCommand__={__bunCommand__}
-          __npmCommand__={__npmCommand__}
-          __pnpmCommand__={__pnpmCommand__}
-          __yarnCommand__={__yarnCommand__}
-          {...props}
-        />
-      ) : (
-        <>
-          {__rawString__ && !__npmCommand__ && (
-            <CopyButton
-              className={cn('absolute top-2 right-2 bg-muted [&_svg]:text-muted-foreground', __withMeta__ && 'top-16')}
-              event={__event__}
-              value={__rawString__}
-              variant={'outline'}
-            />
-          )}
-          <pre
-            className={cn(
-              'max-h-[650px] overflow-auto rounded-lg py-4 focus-visible:shadow-none focus-visible:outline-none',
-              className,
-            )}
-            {...props}>
-            {children}
-          </pre>
-        </>
-      )}
-    </div>
-  )
-}
 
 export function ShellCommand({ __npmCommand__, __yarnCommand__, __pnpmCommand__, __bunCommand__ }: NpmCommands) {
   const commands = {
@@ -67,6 +12,7 @@ export function ShellCommand({ __npmCommand__, __yarnCommand__, __pnpmCommand__,
     __pnpmCommand__,
     __yarnCommand__,
   }
+
   return (
     <Tabs className="rounded-md" defaultValue="__npmCommand__">
       <TabsList className="w-fit justify-start bg-transparent py-2">

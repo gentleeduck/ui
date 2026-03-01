@@ -9,7 +9,7 @@
     },
     "jsx": "react-jsx"
   },
-  "exclude": ["node_modules", "dist", "**/*.tsbuildinfo", "tsconfig.tsbuildinfo"],
+  "exclude": ["node_modules", "dist", "src/**/__tests__/**", "**/*.tsbuildinfo", "tsconfig.tsbuildinfo"],
   "extends": "@gentleduck/typescript-config/internal-package.json",
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }
