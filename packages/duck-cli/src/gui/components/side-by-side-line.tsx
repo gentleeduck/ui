@@ -9,9 +9,25 @@ type SideBySideLineProps = {
   half_width: number
 }
 
+function get_conflict_marker_color(raw_text: string): string | null {
+  if (raw_text === '<<<<<<< LOCAL') return THEME.destructive
+  if (raw_text === '=======') return THEME.warning
+  if (raw_text === '>>>>>>> REGISTRY') return THEME.success
+  return null
+}
+
 function render_side(line: DiffDisplayLine | null, num_width: number, side: 'left' | 'right') {
   if (!line) {
     return null
+  }
+
+  const marker_color = get_conflict_marker_color(line.raw_text)
+  if (marker_color) {
+    return (
+      <Text bold color={marker_color}>
+        {line.raw_text}
+      </Text>
+    )
   }
 
   if (line.type === 'file-header') {

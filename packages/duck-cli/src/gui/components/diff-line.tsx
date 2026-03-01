@@ -8,7 +8,23 @@ type DiffLineProps = {
   num_width: number
 }
 
+function get_conflict_marker_color(raw_text: string): string | null {
+  if (raw_text === '<<<<<<< LOCAL') return THEME.destructive
+  if (raw_text === '=======') return THEME.warning
+  if (raw_text === '>>>>>>> REGISTRY') return THEME.success
+  return null
+}
+
 export const DiffLineView = memo(function DiffLineView({ line, num_width }: DiffLineProps) {
+  const marker_color = get_conflict_marker_color(line.raw_text)
+  if (marker_color) {
+    return (
+      <Text bold color={marker_color}>
+        {line.raw_text}
+      </Text>
+    )
+  }
+
   if (line.type === 'file-header') {
     return (
       <Text bold color={THEME.foreground}>
