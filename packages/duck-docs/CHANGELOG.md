@@ -1,5 +1,15 @@
 # @gentleduck/docs
 
+## 0.0.15
+
+### Patch Changes
+
+- c9bbef8: Documentation and style updates.
+- Updated dependencies [c9bbef8]
+  - @gentleduck/hooks@0.1.10
+  - @gentleduck/libs@0.1.13
+  - @gentleduck/vim@0.1.14
+
 ## 0.0.14
 
 ### Patch Changes
@@ -7,12 +17,14 @@
 - ad86755: Overhaul MDX rendering pipeline, improve docs layout, and add accessibility support.
 
   **MDX Rendering:**
+
   - Refactor MDX rendering pipeline for better performance and maintainability
   - Split MDX styles into layered CSS files for modular theming
   - Decompose MDX runtime and type plugin metadata into separate modules
   - Improve mermaid block rendering and callout icon support
 
   **Docs Layout:**
+
   - Add SVG path indicator with mask-image highlight to table of contents
   - Enhance TOC sidebar with edit links, scroll navigation, and formatting
   - Add skeleton fallback to TOC tree to prevent layout shift on mount
@@ -21,17 +33,20 @@
   - Add loading and error states for ComponentPreview and ComponentSource
 
   **Search and Performance:**
+
   - Replace command menu substring search with lunr.js full-text search
   - Lazy-load CommandMenu, MobileNav, and CardsDemo components
   - Refactor command navigation model and virtualize command menu
 
   **Accessibility:**
+
   - Comprehensive accessibility audit across examples, blocks, and docs
   - Add aria-hidden to decorative icons in sidebar, preview-panel, and upload
   - Increase touch target size in docs sidebar to meet WCAG guidelines
   - Add prefers-reduced-motion support across animation components
 
   **Testing:**
+
   - Add bun-based MDX regression tests and docs architecture tests
 
 - Updated dependencies [ad86755]

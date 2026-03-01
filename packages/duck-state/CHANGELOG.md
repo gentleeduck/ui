@@ -1,5 +1,11 @@
 # @gentleduck/state
 
+## 0.2.2
+
+### Patch Changes
+
+- c9bbef8: Documentation and style updates.
+
 ## 0.2.1
 
 ### Patch Changes
