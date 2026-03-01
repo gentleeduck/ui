@@ -4,7 +4,31 @@
 
 ### Minor Changes
 
-- ad86755: Add interactive merge GUI with syntax highlighting, split monolithic screen components into workflow and keyboard hooks, extract shared utilities, add JSDoc throughout, fix tsconfig module resolution, sync registry schema with canonical source, and add comprehensive test suite (170 tests).
+- ad86755: Major CLI overhaul with interactive merge/diff GUI, architecture refactor, and comprehensive test coverage.
+
+  **Features:**
+  - Add interactive merge GUI with three-way conflict resolution and syntax highlighting
+  - Add interactive diff viewer with side-by-side comparison
+  - Add figlet ASCII banner and dynamic terminal resize handling
+  - Add merge conflict marker colorization (ours=green, theirs=blue, base=yellow)
+  - Add `--verbose` flag for detailed logging output
+  - Add `update`, `remove`, and `diff` commands with workspace support
+
+  **Architecture Refactor:**
+  - Replace axios with native fetch API across all HTTP operations
+  - Split monolithic merge-screen into workflow hook and keyboard hook modules
+  - Split monolithic diff-screen into workflow hook and keyboard hook modules
+  - Extract shared utilities (formatting helpers, ANSI constants, type definitions)
+  - Consolidate scattered type definitions into centralized modules
+  - Add VimStdin.asInkStdin() method to encapsulate stream type casting
+
+  **Infrastructure:**
+  - Fix tsconfig module resolution (add module: esnext, change to bundler resolution)
+  - Sync local registry schema with canonical @gentleduck/registers source
+  - Add comprehensive vitest test suite with 170 tests across unit, integration, and e2e
+  - Add JSDoc documentation and inline comments throughout the codebase
+  - Clean up dependencies, deduplicate logic, remove dead code
+  - Fix critical bugs in install command, error handling, and binary resolution
 
 ## 1.1.0
 
@@ -12,42 +36,14 @@
 
 - Add robust monorepo workspace support across CLI commands.
 
-  - add `--workspace <path>` support for `init`, `add`, `update`, `remove`, and `diff`
-  - validate workspace targets (`package.json` and `tsconfig.json` where required)
-  - infer workspace from current directory when running inside a monorepo workspace
-  - improve config handling with legacy migration errors for missing `workspace`
-  - add command help/docs/test coverage for workspace behavior
-
-## Unreleased
-
-### Features
-
-- Added monorepo workspace targeting support via `--workspace <path>` for:
-  - `init`
-  - `add`
-  - `update`
-  - `remove`
-  - `diff`
-- Added strict workspace validation:
-  - `package.json` required
-  - `tsconfig.json` required for component commands
-- Added workspace auto-inference from current directory when running inside a monorepo workspace and `--workspace` is not provided.
-
-### Improvements
-
-- Added explicit runtime output showing resolved workspace target (`Using workspace: ...`).
-- Added legacy config migration guard:
-  - old `duck-ui.config.json` files missing `workspace` are rejected with a migration message.
-- Added parent-directory discovery for `duck-ui.config.json`.
-
-### Tests
-
-- Added e2e coverage for valid and invalid `--workspace` behavior across `add/update/remove/diff`.
-- Added e2e coverage for invalid `init --monorepo --workspace` preflight path.
-- Added command help snapshot tests to lock `--workspace` help output.
+  - Add `--workspace <path>` support for `init`, `add`, `update`, `remove`, and `diff`
+  - Validate workspace targets (`package.json` and `tsconfig.json` where required)
+  - Infer workspace from current directory when running inside a monorepo workspace
+  - Improve config handling with legacy migration errors for missing `workspace`
+  - Add command help/docs/test coverage for workspace behavior
 
 ## 1.0.11
 
 ### Patch Changes
 
-- fixed binaries
+- Fix binary entry point resolution for global CLI installation via npx.

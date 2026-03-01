@@ -4,10 +4,10 @@
 
 ### Patch Changes
 
-- ad86755: Align biome and tsconfig build info exclusions.
+- ad86755: Align biome and tsconfig build info exclusions. Add missing tsdown devDependency for CI build. Rebrand package metadata to gentleduck/duck-ui.
 
 ## 0.0.2
 
 ### Patch Changes
 
-- done
+- Initial public release of @gentleduck/shortcut keyboard shortcut binding library. Provides React components and hooks for declarative keyboard shortcut handling with mousetrap integration.

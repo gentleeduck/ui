@@ -4,7 +4,36 @@
 
 ### Patch Changes
 
-- ad86755: Refactor MDX rendering pipeline, split styles into layered files, decompose runtime and type plugin metadata, and fix toolbar height and empty TOC handling.
+- ad86755: Overhaul MDX rendering pipeline, improve docs layout, and add accessibility support.
+
+  **MDX Rendering:**
+  - Refactor MDX rendering pipeline for better performance and maintainability
+  - Split MDX styles into layered CSS files for modular theming
+  - Decompose MDX runtime and type plugin metadata into separate modules
+  - Improve mermaid block rendering and callout icon support
+
+  **Docs Layout:**
+  - Add SVG path indicator with mask-image highlight to table of contents
+  - Enhance TOC sidebar with edit links, scroll navigation, and formatting
+  - Add skeleton fallback to TOC tree to prevent layout shift on mount
+  - Fix toolbar height and empty TOC handling
+  - Show prev/next pager buttons on all doc pages, not just components
+  - Add loading and error states for ComponentPreview and ComponentSource
+
+  **Search and Performance:**
+  - Replace command menu substring search with lunr.js full-text search
+  - Lazy-load CommandMenu, MobileNav, and CardsDemo components
+  - Refactor command navigation model and virtualize command menu
+
+  **Accessibility:**
+  - Comprehensive accessibility audit across examples, blocks, and docs
+  - Add aria-hidden to decorative icons in sidebar, preview-panel, and upload
+  - Increase touch target size in docs sidebar to meet WCAG guidelines
+  - Add prefers-reduced-motion support across animation components
+
+  **Testing:**
+  - Add bun-based MDX regression tests and docs architecture tests
+
 - Updated dependencies [ad86755]
   - @gentleduck/hooks@0.1.9
   - @gentleduck/libs@0.1.12
@@ -14,22 +43,22 @@
 
 ### Patch Changes
 
-- 919f689: fixed some minor issues with the list
+- 919f689: Improve mermaid diagram block rendering with better sizing and dark mode support. Fix ordered-list indentation for nested items.
 
 ## 0.0.12
 
 ### Patch Changes
 
-- d46534e: Update default sans font fallback from Geist to Montserrat
+- d46534e: Update default sans font fallback from Geist to Montserrat for improved cross-platform typography consistency.
 
 ## 0.0.11
 
 ### Patch Changes
 
-- fe4335d: fix missing dep
+- fe4335d: Fix missing peer dependency causing build failures in downstream consumers.
 
 ## 0.0.1
 
 ### Patch Changes
 
-- 3e65b9f: public
+- 3e65b9f: Initial public release of the @gentleduck/docs MDX rendering framework.

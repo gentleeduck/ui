@@ -4,47 +4,80 @@
 
 ### Patch Changes
 
-- ad86755: Fix internal registry source path and primitives build types.
+- ad86755: Add 15+ new headless primitive components, full RTL/direction support, and major architecture overhaul.
+
+  **New Primitives:**
+  - Add dialog, alert-dialog, tooltip, popover, hover-card with individual file splitting
+  - Add popper positioning primitive with CSS variable-based placement
+  - Add focus-scope and dismissable-layer for overlay management
+  - Add menu, context-menu, and menubar primitives with roving-focus navigation
+  - Add progress primitive with split file structure
+  - Add command primitive with keyboard-driven list navigation
+  - Add toggle, toggle-group, and radio-group primitives
+  - Add avatar primitive with composition API and AvatarGroup support
+  - Add input-otp primitive module
+  - Add pagination primitive
+
+  **RTL / Direction Support:**
+  - Add shared direction API with DirectionProvider DOM wrapper
+  - Pass dir prop from context to all exported primitive components
+  - Add dir prop to Dialog, Popover, HoverCard, and Tooltip
+  - Fix select RTL support with logical CSS positioning
+
+  **Architecture:**
+  - Add slot composition system for flexible component rendering
+  - Add shared hooks library (useControllableState, useCallbackRef, useComposedRefs)
+  - Add shared lib utilities (composeEventHandlers, createContext)
+  - Add primitive element wrappers and utility primitives (Presence, Portal, VisuallyHidden)
+  - Reorganize file structure with data-slot attributes throughout
+  - Extract shared list-navigation logic for Select and Command
+
+  **Fixes:**
+  - Fix radio-group arrow-key navigation sync with checked state
+  - Fix select value text duplication on item click
+  - Narrow avatar src type to string for TypeScript compatibility
+  - Fix CSS variable typos in popper content
+  - Fix internal registry source path and build types
 
 ## 0.2.0
 
 ### Minor Changes
 
-- 36f9364: Add dynamic z-index layering system (useDynamicLayer) for correct stacking of nested overlays. Integrate into dialog, popover, sheet, and tooltip primitives. Fix scrollbar lock to use reference counting so concurrent overlays don't unlock prematurely.
+- 36f9364: Add dynamic z-index layering system (`useDynamicLayer`) for correct stacking of nested overlays. Integrate into dialog, popover, sheet, and tooltip primitives. Fix scrollbar lock to use reference counting so concurrent overlays don't unlock prematurely.
 
 ## 0.1.45
 
 ### Patch Changes
 
-- 4f93768: fixing bugs and making sure gen support new format
+- 4f93768: Fix compatibility with duck-gen output format and resolve build issues with generated component wrappers.
 
 ## 0.1.44
 
 ### Patch Changes
 
-- d0a2c1d: fixed some bugs
-- d0a2c1d: Update tooltip primitive behavior by removing click-toggle on the trigger and adding a `disabled` option for focus management in `Tooltip.Content`.
+- d0a2c1d: Fix tooltip primitive behavior by removing click-toggle on the trigger.
+- d0a2c1d: Add `disabled` option for focus management in `Tooltip.Content` to prevent focus trapping when tooltip is used as a passive hint.
 
 ## 0.1.43
 
 ### Patch Changes
 
-- 45ec82f: fix the context menu
+- 45ec82f: Fix context menu positioning and event propagation to prevent menu from appearing at incorrect coordinates on right-click.
 
 ## 0.1.42
 
 ### Patch Changes
 
-- cd47e32: fixed
+- cd47e32: Fix overlay dismiss behavior when clicking outside nested dialog/popover stacks.
 
 ## 0.1.41
 
 ### Patch Changes
 
-- fixed bugs
+- Fix scroll lock edge case where rapid open/close cycles could leave the body in a locked state.
 
 ## 0.1.1
 
 ### Patch Changes
 
-- publish
+- Initial public release of @gentleduck/primitives headless component library.
