@@ -1,4 +1,4 @@
-import { Checkbox } from '@gentleduck/registry-ui-duckui/checkbox'
+import { Checkbox } from '@gentleduck/registry-ui/checkbox'
 import { Check } from 'lucide-react'
 
 export default function CheckboxDemo() {

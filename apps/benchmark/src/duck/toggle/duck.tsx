@@ -1,4 +1,4 @@
-import { Toggle } from '@gentleduck/registry-ui-duckui/toggle'
+import { Toggle } from '@gentleduck/registry-ui/toggle'
 import { Bold } from 'lucide-react'
 
 export default function ToggleDemo() {

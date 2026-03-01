@@ -5,11 +5,11 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@gentleduck/registry-ui-duckui/command'
-import { Input } from '@gentleduck/registry-ui-duckui/input'
-import { Label } from '@gentleduck/registry-ui-duckui/label'
+} from '@gentleduck/registry-ui/command'
+import { Input } from '@gentleduck/registry-ui/input'
+import { Label } from '@gentleduck/registry-ui/label'
 // import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui-duckui/popover'
+import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
 import { Check, ChevronsUpDown } from 'lucide-react'
 import React from 'react'
 

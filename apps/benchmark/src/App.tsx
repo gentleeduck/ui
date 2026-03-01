@@ -143,7 +143,7 @@ import {
   SidebarMenuItem,
   SidebarProvider,
   SidebarTrigger,
-} from '@gentleduck/registry-ui-duckui/sidebar'
+} from '@gentleduck/registry-ui/sidebar'
 import { Calendar, ChevronDown, Home, Inbox, Search, Settings } from 'lucide-react'
 
 // Menu items.
@@ -175,7 +175,7 @@ const items = [
   },
 ]
 
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui-duckui/collapsible'
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui/collapsible'
 import AccordionDemo from './duck/accordion/duck'
 import ScrollAreaDemo from './duck/scroll-area/scroll-area'
 import SelectDemo from './duck/select/duck'

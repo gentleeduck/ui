@@ -15,15 +15,25 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "paths": {
-      "~/*": ["./*"]
+      "~/*": [
+        "./*"
+      ]
     },
     "preserveWatchOutput": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "types": ["node"]
+    "types": [
+      "node"
+    ]
   },
   "display": "Default",
-  "exclude": ["node_modules"],
-  "include": ["src/**/*"]
+  "exclude": [
+    "node_modules",
+    "**/*.tsbuildinfo",
+    "tsconfig.tsbuildinfo"
+  ],
+  "include": [
+    "src/**/*"
+  ]
 }

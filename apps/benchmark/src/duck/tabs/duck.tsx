@@ -3,7 +3,7 @@
 //   TabsContent,
 //   TabsList,
 //   TabsTrigger,
-// } from '@gentleduck/registry-ui-duckui/tabs'
+// } from '@gentleduck/registry-ui/tabs'
 
 // function DuckButton() {
 //   return (

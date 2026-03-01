@@ -1,4 +1,4 @@
-import { ScrollArea } from '@gentleduck/registry-ui-duckui/scroll-area'
+import { ScrollArea } from '@gentleduck/registry-ui/scroll-area'
 import * as React from 'react'
 import { cn } from '@/lib/utils'
 

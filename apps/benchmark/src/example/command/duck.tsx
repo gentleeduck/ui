@@ -9,7 +9,7 @@ import {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-} from '@gentleduck/registry-ui-duckui/command'
+} from '@gentleduck/registry-ui/command'
 import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-react'
 
 export default function CommandDemo() {

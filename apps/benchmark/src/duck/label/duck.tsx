@@ -1,4 +1,4 @@
-import { Label } from '@gentleduck/registry-ui-duckui/label'
+import { Label } from '@gentleduck/registry-ui/label'
 
 export default function LabelDemo() {
   return (

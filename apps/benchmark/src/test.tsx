@@ -3,7 +3,7 @@
 // import './style.css'
 // // @ts-expect-error css
 // import '@gentleduck/motion/css'
-// // import { TableDemo } from '@gentleduck/registry-ui-duckui/table'
+// // import { TableDemo } from '@gentleduck/registry-ui/table'
 //
 // // import { lazy } from 'react'
 //

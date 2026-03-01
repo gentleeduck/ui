@@ -1,4 +1,4 @@
-import { Separator } from '@gentleduck/registry-ui-duckui/separator'
+import { Separator } from '@gentleduck/registry-ui/separator'
 
 export default function SeparatorDemo() {
   return <Separator />

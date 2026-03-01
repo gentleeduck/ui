@@ -9,7 +9,7 @@ import {
   DrawerTitle,
   DrawerTrigger,
   NestedDrawerProvider,
-} from '@gentleduck/registry-ui-duckui/drawer'
+} from '@gentleduck/registry-ui/drawer'
 
 export default function DrawerExample() {
   return (

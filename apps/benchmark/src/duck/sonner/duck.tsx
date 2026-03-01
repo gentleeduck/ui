@@ -1,4 +1,4 @@
-import { Toaster } from '@gentleduck/registry-ui-duckui/sonner'
+import { Toaster } from '@gentleduck/registry-ui/sonner'
 import { toast } from 'sonner'
 
 export default function DrawerDemo() {
