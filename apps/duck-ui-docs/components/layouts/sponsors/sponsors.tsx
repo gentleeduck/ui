@@ -15,11 +15,6 @@ const sponsors: Sponsor[] = [
     href: 'https://aibrush.co',
     name: 'AIBrush',
   },
-  {
-    avatar: 'https://github.com/wildduck2.png',
-    href: 'https://github.com/wildduck2',
-    name: 'wildduck2',
-  },
 ]
 
 function SponsorCell({ sponsor }: { sponsor: Sponsor }) {
