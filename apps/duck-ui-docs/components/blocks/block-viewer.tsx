@@ -39,7 +39,7 @@ import {
 } from 'lucide-react'
 import Link from 'next/link'
 import * as React from 'react'
-import type { ImperativePanelHandle } from 'react-resizable-panels'
+import type { PanelImperativeHandle } from 'react-resizable-panels'
 import type { z } from 'zod'
 import type { createFileTreeForRegistryItemFiles, FileTree } from '~/lib/get-registry-item'
 
@@ -49,7 +49,7 @@ type BlockViewerContext = {
   setView: (view: 'code' | 'preview') => void
   activeFile: string | null
   setActiveFile: (file: string) => void
-  resizablePanelRef: React.RefObject<ImperativePanelHandle | null> | null
+  resizablePanelRef: React.RefObject<PanelImperativeHandle | null> | null
   tree: ReturnType<typeof createFileTreeForRegistryItemFiles> | null
   highlightedFiles:
     | (z.infer<typeof registry_item_file_schema> & {
@@ -82,7 +82,7 @@ function BlockViewerProvider({
   const [activeFile, setActiveFile] = React.useState<BlockViewerContext['activeFile']>(
     highlightedFiles?.[0]?.target ?? null,
   )
-  const resizablePanelRef = React.useRef<ImperativePanelHandle>(null)
+  const resizablePanelRef = React.useRef<PanelImperativeHandle>(null)
   const [iframeKey, setIframeKey] = React.useState(0)
 
   return (
@@ -231,7 +231,7 @@ function BlockViewerView() {
         <div className="absolute inset-0 right-4 [background-image:radial-gradient(#d4d4d4_1px,transparent_1px)] [background-size:20px_20px] dark:[background-image:radial-gradient(#404040_1px,transparent_1px)]"></div>
         <ResizablePanelGroup
           className="relative z-10 after:absolute after:inset-0 after:right-3 after:z-0 after:rounded-xl after:bg-surface/50"
-          direction="horizontal">
+          orientation="horizontal">
           <ResizablePanel
             className="relative aspect-[4/2.5] overflow-hidden rounded-lg border bg-background md:aspect-auto md:rounded-xl"
             defaultSize={100}
