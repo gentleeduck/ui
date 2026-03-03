@@ -1,5 +1,11 @@
 # @gentleduck/shortcut
 
+## 0.0.5
+
+### Patch Changes
+
+- 7c2aa88: Update dependencies and publish unpublished packages
+
 ## 0.0.4
 
 ### Patch Changes

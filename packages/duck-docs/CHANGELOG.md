@@ -1,5 +1,15 @@
 # @gentleduck/docs
 
+## 0.0.16
+
+### Patch Changes
+
+- 7c2aa88: Update dependencies and publish unpublished packages
+- Updated dependencies [7c2aa88]
+  - @gentleduck/hooks@0.1.11
+  - @gentleduck/libs@0.1.14
+  - @gentleduck/vim@0.1.15
+
 ## 0.0.15
 
 ### Patch Changes
