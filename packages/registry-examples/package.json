@@ -5,7 +5,7 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
-    "@tabler/icons-react": "3.37.1",
+    "@tabler/icons-react": "3.38.0",
     "@tanstack/react-form": "^1.23.0",
     "@tanstack/react-table": "^8.21.3",
     "date-fns": "^4.1.0",
