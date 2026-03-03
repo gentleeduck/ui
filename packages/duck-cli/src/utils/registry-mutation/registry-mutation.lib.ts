@@ -225,16 +225,15 @@ export async function install_registry_dependencies(
     }
   }
 
-  // Kick off recursion with initial registry deps
-  const initialDeps = new Set(dependencies.registry_dependencies.map((d) => d.toLowerCase()))
-  initialDeps.forEach((d) => {
-    visited.add(d)
-  })
+  // Kick off recursion with initial registry deps, filtering out already-visited names
+  const initialDeps = new Set<string>()
+  for (const d of dependencies.registry_dependencies.map((dep) => dep.toLowerCase())) {
+    if (!visited.has(d)) {
+      visited.add(d)
+      initialDeps.add(d)
+    }
+  }
   await fetchAndProcess(initialDeps)
-
-  // Ensure dependencies & devDependencies are unique
-  dependencies.dependencies = Array.from(new Set(dependencies.dependencies ?? []))
-  dependencies.dev_dependencies = Array.from(new Set(dependencies.dev_dependencies ?? []))
 
   // Install all collected components
   for (let i = 0; i < allComponents.length; i++) {
@@ -352,13 +351,13 @@ export async function process_component_dependencies(
   try {
     spinner.start(`Installing dependencies`)
 
-    if (dependencies.length === 0 && dev_dependencies.length === 0) {
+    // Deduplicate all collected dependencies
+    const allDependencies = [...new Set([...dependencies, ...dev_dependencies])]
+
+    if (allDependencies.length === 0) {
       spinner.warn(`No dependencies found`)
       return
     }
-
-    // Merge all dependencies into a single list
-    const allDependencies = [...dependencies, ...dev_dependencies]
 
     spinner.text = `Installing ${highlighter.info(String(allDependencies.length))} dependencies...`
 
