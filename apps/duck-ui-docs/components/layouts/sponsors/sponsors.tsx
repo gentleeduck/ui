@@ -50,8 +50,9 @@ export function SponsorsSection() {
       <div className="container relative mx-auto py-24 sm:py-32">
         <SectionTitle subtitle="The people and organizations that keep this project alive." title="Partners" />
 
-        <div className="mx-auto mt-12 max-w-2xl overflow-hidden rounded-xl border border-border/60">
-          <div className="grid grid-cols-1 sm:grid-cols-2">
+        <div
+          className={`mx-auto mt-12 overflow-hidden rounded-xl border border-border/60 ${sponsors.length > 1 ? 'max-w-2xl' : 'max-w-sm'}`}>
+          <div className={`grid grid-cols-1 ${sponsors.length > 1 ? 'sm:grid-cols-2' : ''}`}>
             {sponsors.map((sponsor) => (
               <SponsorCell key={sponsor.name} sponsor={sponsor} />
             ))}
