@@ -1,5 +1,15 @@
 # @gentleduck/cli
 
+## 1.2.4
+
+### Patch Changes
+
+- 9a3a651: test: add test cases for dependency deduplication, registry dep filtering, and overwrite prompt behavior
+- 4fc4d25: fix: deduplicate dependencies and skip already-installed components
+
+  - Filter initial registry dependencies against already-installed top-level components to avoid false "already exists" prompts on first install
+  - Move dependency deduplication to right before the package manager install so all collected deps (including from registry dependencies) are properly deduplicated
+
 ## 1.2.3
 
 ### Patch Changes
