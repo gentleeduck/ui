@@ -1,5 +1,11 @@
 # @gentleduck/cli
 
+## 1.2.2
+
+### Patch Changes
+
+- 7c2aa88: Update dependencies and publish unpublished packages
+
 ## 1.2.1
 
 ### Patch Changes

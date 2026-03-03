@@ -1,5 +1,18 @@
 # @gentleduck/registry-ui
 
+## 0.2.3
+
+### Patch Changes
+
+- 7c2aa88: Update dependencies and publish unpublished packages
+- Updated dependencies [7c2aa88]
+  - @gentleduck/hooks@0.1.11
+  - @gentleduck/libs@0.1.14
+  - @gentleduck/motion@0.1.16
+  - @gentleduck/primitives@0.2.3
+  - @gentleduck/variants@0.1.19
+  - @gentleduck/vim@0.1.15
+
 ## 0.2.2
 
 ### Patch Changes

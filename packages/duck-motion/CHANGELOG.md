@@ -1,5 +1,13 @@
 # @gentleduck/motion
 
+## 0.1.16
+
+### Patch Changes
+
+- 7c2aa88: Update dependencies and publish unpublished packages
+- Updated dependencies [7c2aa88]
+  - @gentleduck/variants@0.1.19
+
 ## 0.1.15
 
 ### Patch Changes
