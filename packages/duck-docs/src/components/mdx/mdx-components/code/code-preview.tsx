@@ -42,7 +42,7 @@ export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean }
             )}
             defaultSize={100}
             minSize={30}
-            ref={ref}>
+            panelRef={ref}>
             {isLoading ? (
               <div
                 className="absolute inset-0 z-10 flex h-[--container-height] w-full items-center justify-center gap-2 bg-background text-muted-foreground text-sm"

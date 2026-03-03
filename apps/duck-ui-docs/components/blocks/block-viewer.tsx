@@ -236,7 +236,7 @@ function BlockViewerView() {
             className="relative aspect-[4/2.5] overflow-hidden rounded-lg border bg-background md:aspect-auto md:rounded-xl"
             defaultSize={100}
             minSize={30}
-            ref={resizablePanelRef}>
+            panelRef={resizablePanelRef}>
             <BlockViewerIframe />
           </ResizablePanel>
           <ResizableHandle className="relative hidden w-3 bg-transparent p-0 after:absolute after:top-1/2 after:right-0 after:h-8 after:w-[6px] after:translate-x-[-1px] after:-translate-y-1/2 after:rounded-full after:bg-border after:transition-all after:hover:h-10 md:block" />
