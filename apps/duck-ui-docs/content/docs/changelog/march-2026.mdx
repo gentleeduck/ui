@@ -93,6 +93,44 @@ Published new versions across all packages:
 
 ---
 
+## Dependency Updates <Badge variant="outline">chore</Badge>
+
+Updated all workspace dependencies and resolved peer dependency warnings.
+
+- Bumped `@biomejs/biome` to 2.4.4
+- Bumped `vitest`, `@vitest/coverage-v8`, `@vitest/ui`, `@vitest/browser` to 4.0.18
+- Bumped `react` and `react-dom` to ^19.2.4 across all packages
+- Bumped `@types/react` to 19.2.14
+- Bumped `zod` to 4.3.6
+- Removed unused `react-cmdk` dependency from benchmark
+- Added `overrides` for transitive dependencies lacking React 19 support
+
+---
+
+## react-resizable-panels v4 Migration <Badge>breaking</Badge>
+
+Migrated the `Resizable` component to `react-resizable-panels` v4.
+
+- `PanelGroup` renamed to `Group` internally
+- `PanelResizeHandle` renamed to `Separator` internally
+- The `direction` prop is now `orientation` on `ResizablePanelGroup`
+- `ImperativePanelHandle` type renamed to `PanelImperativeHandle`
+- Updated all examples, docs, and internal usages
+
+### Before
+
+```tsx
+<ResizablePanelGroup direction="horizontal">
+```
+
+### After
+
+```tsx
+<ResizablePanelGroup orientation="horizontal">
+```
+
+---
+
 ## Fixes <Badge variant="outline">fix</Badge>
 
 - Fixed missing `tsdown` devDependency in `@gentleduck/shortcut` causing CI build failures
@@ -101,3 +139,4 @@ Published new versions across all packages:
 - Cleaned up dialog-guarded-async overlay styles in registry internals
 - Aligned biome and tsconfig build info exclusions across all packages
 - Rewrote all CHANGELOG.md files with comprehensive descriptions
+- Resolved all `bun install` peer dependency warnings for vitest, react, and react-dom
