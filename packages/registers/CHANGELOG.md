@@ -1,5 +1,11 @@
 # @gentleduck/registers
 
+## 0.3.2
+
+### Patch Changes
+
+- 7c2aa88: Update dependencies and publish unpublished packages
+
 ## 0.3.1
 
 ### Patch Changes

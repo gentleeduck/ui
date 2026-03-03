@@ -1,5 +1,11 @@
 # @gentleduck/variants
 
+## 0.1.19
+
+### Patch Changes
+
+- 7c2aa88: Update dependencies and publish unpublished packages
+
 ## 0.1.18
 
 ### Patch Changes

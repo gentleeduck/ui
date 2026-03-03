@@ -1,5 +1,12 @@
 # @gentleduck/registry-ui
 
+## 0.2.3
+
+### Patch Changes
+
+- Updated dependencies [7c2aa88]
+  - @gentleduck/primitives@0.2.3
+
 ## 0.2.2
 
 ### Patch Changes
