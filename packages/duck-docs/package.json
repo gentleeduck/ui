@@ -28,7 +28,7 @@
     "zod": "4.3.6"
   },
   "devDependencies": {
-    "@excalidraw/excalidraw": "^0.17.2",
+    "@excalidraw/excalidraw": "^0.18.0",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/registry-ui": "workspace:*",
@@ -53,7 +53,7 @@
     "typescript": "5.9.3"
   },
   "peerDependencies": {
-    "@excalidraw/excalidraw": "^0.17.2",
+    "@excalidraw/excalidraw": "^0.18.0",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/vim": "workspace:*",
