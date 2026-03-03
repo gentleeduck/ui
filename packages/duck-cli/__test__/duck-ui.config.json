@@ -1,7 +1,7 @@
 {
   "schema": "https://ui.gentleduck.org/schema.json",
-  "rsc": true,
-  "monorepo": true,
+  "rsc": false,
+  "monorepo": false,
   "workspace": {
     "root": ".",
     "project": "."

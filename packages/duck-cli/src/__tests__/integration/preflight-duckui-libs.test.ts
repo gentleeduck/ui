@@ -74,22 +74,23 @@ describe('generateThemeCSS with real theme structure', () => {
   it('produces correct CSS from a full theme object', async () => {
     const { generateThemeCSS } = await import('~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs')
 
-    const cssVars = {
+    const themeResponse = {
+      name: 'zinc',
+      label: 'Zinc',
       light: {
         background: 'oklch(1 0 0)',
         foreground: 'oklch(0.145 0.017 285.823)',
         primary: 'oklch(0.205 0.017 285.823)',
-        radius: '0.625rem',
       },
       dark: {
         background: 'oklch(0.145 0.017 285.823)',
         foreground: 'oklch(0.985 0.002 247.839)',
         primary: 'oklch(0.985 0.002 247.839)',
-        radius: '0.625rem',
       },
+      radius: '0.625rem',
     }
 
-    const css = generateThemeCSS('zinc', cssVars as any)
+    const css = generateThemeCSS('zinc', themeResponse as any)
 
     // Check structure
     expect(css).toContain(':root {')
