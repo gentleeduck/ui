@@ -55,7 +55,7 @@
     "react-dom": "^19.2.3",
     "react-hook-form": "^7.71.1",
     "rolldown": "latest",
-    "sonda": "^0.7.1",
+    "sonda": "^0.11.1",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.2.0",
