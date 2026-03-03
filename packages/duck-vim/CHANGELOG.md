@@ -1,5 +1,11 @@
 # @gentleduck/vim
 
+## 0.1.15
+
+### Patch Changes
+
+- 7c2aa88: Update dependencies and publish unpublished packages
+
 ## 0.1.14
 
 ### Patch Changes

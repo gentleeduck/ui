@@ -1,5 +1,11 @@
 # @gentleduck/hooks
 
+## 0.1.11
+
+### Patch Changes
+
+- 7c2aa88: Update dependencies and publish unpublished packages
+
 ## 0.1.10
 
 ### Patch Changes
