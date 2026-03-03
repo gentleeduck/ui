@@ -88,7 +88,7 @@ import {
 ```
 
 ```tsx showLineNumbers
-<ResizablePanelGroup direction="horizontal">
+<ResizablePanelGroup orientation="horizontal">
   <ResizablePanel>One</ResizablePanel>
   <ResizableHandle />
   <ResizablePanel>Two</ResizablePanel>
@@ -99,7 +99,7 @@ import {
 
 ### Vertical
 
-Use the `direction` prop to set the direction of the resizable panels.
+Use the `orientation` prop to set the direction of the resizable panels.
 
 <ComponentPreview
   name="resizable-2"
@@ -115,7 +115,7 @@ import {
 
 export default function Example() {
   return (
-    <ResizablePanelGroup direction="vertical">
+    <ResizablePanelGroup orientation="vertical">
       <ResizablePanel>One</ResizablePanel>
       <ResizableHandle />
       <ResizablePanel>Two</ResizablePanel>
@@ -142,7 +142,7 @@ import {
 
 export default function Example() {
   return (
-    <ResizablePanelGroup direction="horizontal">
+    <ResizablePanelGroup orientation="horizontal">
       <ResizablePanel>One</ResizablePanel>
       <ResizableHandle withHandle />
       <ResizablePanel>Two</ResizablePanel>
@@ -165,10 +165,11 @@ export default function Example() {
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `direction` | `"horizontal" \| "vertical"` | (required) | Layout direction of the panels |
+| `orientation` | `"horizontal" \| "vertical"` | (required) | Layout orientation of the panels |
 | `className` | `string` | `--` | Additional CSS classes for the panel group |
+| `dir` | `"ltr" \| "rtl"` | `--` | Text direction override for RTL support |
 | `children` | `React.ReactNode` | `--` | `ResizablePanel` and `ResizableHandle` elements |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PanelGroup>` | -- | Additional props inherited from `PanelGroup`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof Group>` | -- | Additional props inherited from `Group`. |
 
 ### ResizablePanel
 
@@ -190,7 +191,7 @@ Re-exports `Panel` from `react-resizable-panels` directly.
 | --- | --- | --- | --- |
 | `withHandle` | `boolean` | `--` | Whether to render the visible grip icon handle |
 | `className` | `string` | `--` | Additional CSS classes for the resize handle |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PanelResizeHandle>` | -- | Additional props inherited from `PanelResizeHandle`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof Separator>` | -- | Additional props inherited from `Separator`. |
 
 ## RTL Support
 
