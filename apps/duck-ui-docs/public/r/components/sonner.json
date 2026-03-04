@@ -3,6 +3,7 @@
     "sonner",
     "next-themes",
     "@gentleduck/libs",
+    "@gentleduck/primitives",
     "lucide-react"
   ],
   "files": [
