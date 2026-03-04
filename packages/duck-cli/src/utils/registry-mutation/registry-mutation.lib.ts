@@ -102,6 +102,8 @@ export async function process_components(
       registry_dependencies: [],
     } as DependenciesType
 
+    const skip_prompts = options.force || options.yes
+
     for (let idx = 0; idx < components.length; idx++) {
       await install_component(
         duck_config,
@@ -112,12 +114,12 @@ export async function process_components(
         components,
         write_path,
         spinner,
-        options.force,
+        skip_prompts,
       )
     }
 
     const topLevelNames = new Set(components.map((c) => c.name.toLowerCase()))
-    await install_registry_dependencies(dependencies, spinner, write_path, options.force, duck_config, topLevelNames)
+    await install_registry_dependencies(dependencies, spinner, write_path, skip_prompts, duck_config, topLevelNames)
     const project_cwd = resolve_project_cwd(options.cwd, duck_config, options.workspace)
     const workspace_error = validate_workspace_target(project_cwd, false)
     if (workspace_error) {
