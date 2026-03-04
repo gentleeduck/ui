@@ -364,17 +364,16 @@ export async function process_component_dependencies(
     spinner.text = `Installing ${highlighter.info(String(allDependencies.length))} dependencies...`
 
     const packageManager = await get_package_manager(cwd)
-    const { failed: installation_step_1 } = await execa(
-      packageManager,
-      [packageManager !== 'npm' ? 'add' : 'install', ...allDependencies],
-      {
-        cwd,
-        stdio: 'ignore',
-      },
-    )
-    if (installation_step_1) {
+    const result = await execa(packageManager, [packageManager !== 'npm' ? 'add' : 'install', ...allDependencies], {
+      cwd,
+      reject: false,
+    })
+    if (result.failed) {
+      const stderr = result.stderr?.trim()
       spinner.fail('Failed to install dependencies')
-      throw new Error('Package installation failed')
+      throw new Error(
+        `${packageManager} ${packageManager !== 'npm' ? 'add' : 'install'} failed${stderr ? `:\n${stderr}` : ''}`,
+      )
     }
 
     spinner.succeed(`Successfully installed dependencies`)
