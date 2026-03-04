@@ -1,5 +1,13 @@
 # @gentleduck/cli
 
+## 1.2.5
+
+### Patch Changes
+
+- 371fc7a: fix: --yes flag now skips per-component overwrite prompts
+
+  Previously only --force skipped overwrite prompts. Now --yes (non-interactive mode) also skips them, since the user explicitly opted out of interactive prompts.
+
 ## 1.2.4
 
 ### Patch Changes
