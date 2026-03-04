@@ -1,5 +1,5 @@
 ---
-"@gentleduck/duck-docs": minor
+"@gentleduck/docs": minor
 ---
 
 feat: migrate from @shikijs/compat to shiki v2 and resolve mermaid locally
