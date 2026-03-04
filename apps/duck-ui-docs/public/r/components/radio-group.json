@@ -1,8 +1,7 @@
 {
   "dependencies": [
     "@gentleduck/primitives",
-    "@gentleduck/libs",
-    "@gentleduck/motion"
+    "@gentleduck/libs"
   ],
   "files": [
     {

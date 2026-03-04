@@ -2,6 +2,7 @@
   "dependencies": [
     "@gentleduck/vim",
     "@gentleduck/libs",
+    "@gentleduck/primitives",
     "lucide-react"
   ],
   "files": [
