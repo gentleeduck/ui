@@ -1,5 +1,6 @@
 import { execSync } from 'node:child_process'
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { UnistNode, UnistTree } from '@duck-docs/types'
@@ -78,10 +79,24 @@ function findChromium(): string {
 
 let chromiumPath: string | null = null
 
+function resolveMermaidPath(): string {
+  try {
+    const req = createRequire(import.meta.url)
+    const pkgPath = req.resolve('mermaid/package.json')
+    return join(pkgPath, '..', 'dist', 'mermaid.esm.min.mjs')
+  } catch {
+    return ''
+  }
+}
+
 function buildRenderHtml(diagrams: { source: string; id: string; theme: 'default' | 'dark' }[]): string {
+  const localMermaid = resolveMermaidPath()
+  const mermaidSrc = localMermaid
+    ? `file://${localMermaid}`
+    : 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'
   return `<!DOCTYPE html><html><head>
 <script type="module">
-import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+import mermaid from '${mermaidSrc}';
 const diagrams = ${JSON.stringify(diagrams)};
 const results = {};
 for (const d of diagrams) {
@@ -108,7 +123,7 @@ async function renderSvgBatch(
     writeFileSync(htmlFile, buildRenderHtml(diagrams))
 
     const output = execSync(
-      `"${chromiumPath}" --headless --disable-gpu --no-sandbox --virtual-time-budget=15000 --dump-dom "file://${htmlFile}"`,
+      `"${chromiumPath}" --headless --disable-gpu --no-sandbox --allow-file-access-from-files --virtual-time-budget=15000 --dump-dom "file://${htmlFile}"`,
       { timeout: 60000, encoding: 'utf-8', maxBuffer: 50 * 1024 * 1024, stdio: ['pipe', 'pipe', 'pipe'] },
     )
 
