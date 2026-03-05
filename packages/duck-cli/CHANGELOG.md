@@ -1,5 +1,17 @@
 # @gentleduck/cli
 
+## 1.2.5
+
+### Patch Changes
+
+- 288d274: fix: --yes flag now skips per-component overwrite prompts
+
+  Previously only --force skipped overwrite prompts. Now --yes (non-interactive mode) also skips them, since the user explicitly opted out of interactive prompts.
+
+- f45aa97: fix: show actual error output when dependency installation fails
+
+  Previously stderr was suppressed with stdio:'ignore', making it impossible to diagnose install failures. Now the actual package manager error is included in the failure message.
+
 ## 1.2.4
 
 ### Patch Changes
