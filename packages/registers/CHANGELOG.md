@@ -1,5 +1,11 @@
 # @gentleduck/registers
 
+## 0.3.3
+
+### Patch Changes
+
+- efb94d8: fix: add missing component dependencies (primitives, lucide-react) to registry entries
+
 ## 0.3.2
 
 ### Patch Changes
