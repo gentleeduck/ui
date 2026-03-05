@@ -136,7 +136,8 @@
       "Bash(node $CLI:*)",
       "Bash(npm run:*)",
       "WebFetch(domain:diffs.com)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(do sed:*)"
     ]
   }
 }

@@ -49,8 +49,8 @@
   "name": "@gentleduck/shortcut",
   "peerDependencies": {
     "mousetrap": "^1.6.5",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3"
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
   },
   "private": false,
   "publishConfig": {
@@ -69,5 +69,5 @@
   },
   "type": "module",
   "types": "dist/index.d.ts",
-  "version": "0.0.4"
+  "version": "0.0.5"
 }

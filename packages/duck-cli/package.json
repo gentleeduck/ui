@@ -25,8 +25,8 @@
     "ora": "^9.0.0",
     "postcss": "^8.5.6",
     "prompts": "^2.4.2",
-    "react": "^19.2.3",
-    "shiki": "^1.12.1",
+    "react": "^19.2.4",
+    "shiki": "^2.5.0",
     "tsconfig-paths": "^4.2.0",
     "zod": "4.3.6"
   },
@@ -85,5 +85,5 @@
     "test": "vitest run"
   },
   "type": "module",
-  "version": "1.2.1"
+  "version": "1.2.4"
 }

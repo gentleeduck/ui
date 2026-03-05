@@ -1,7 +1,7 @@
 import path from 'node:path'
 import fs from 'fs-extra'
 import type { Ora } from 'ora'
-import type { ThemeEntry } from '~/utils/get-registry/get-registry.dto'
+import type { ThemeResponse } from '~/utils/get-registry/get-registry.dto'
 import { highlighter } from '~/utils/text-styling'
 import type { WorkspaceTarget } from '~/utils/workspace'
 import type { DuckuiPrompts } from './preflight-duckui.dto'
@@ -27,8 +27,8 @@ export async function init_duckui_config(
   }
 }
 
-export function generateThemeCSS(name: string, entry: ThemeEntry) {
-  const radius = entry.light?.radius || '0.5rem'
+export function generateThemeCSS(name: string, entry: ThemeResponse) {
+  const radius = entry.radius || '0.5rem'
 
   const lightVars = Object.entries(entry.light)
     .filter(([key]) => key !== 'radius')

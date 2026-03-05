@@ -1,8 +1,9 @@
 {
   "dependencies": [
     "react-day-picker",
-    "date-fns",
-    "@gentleduck/libs"
+    "@gentleduck/libs",
+    "@gentleduck/primitives",
+    "lucide-react"
   ],
   "files": [
     {

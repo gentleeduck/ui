@@ -2,7 +2,7 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduc
 
 export default function ResizableDemo() {
   return (
-    <ResizablePanelGroup className="max-w-md rounded-lg border md:min-w-[450px]" direction="horizontal">
+    <ResizablePanelGroup className="max-w-md rounded-lg border md:min-w-[450px]" orientation="horizontal">
       <ResizablePanel defaultSize={50}>
         <div className="flex h-[200px] items-center justify-center p-6">
           <span className="font-semibold">One</span>
@@ -10,7 +10,7 @@ export default function ResizableDemo() {
       </ResizablePanel>
       <ResizableHandle />
       <ResizablePanel defaultSize={50}>
-        <ResizablePanelGroup direction="vertical">
+        <ResizablePanelGroup orientation="vertical">
           <ResizablePanel defaultSize={25}>
             <div className="flex h-full items-center justify-center p-6">
               <span className="font-semibold">Two</span>

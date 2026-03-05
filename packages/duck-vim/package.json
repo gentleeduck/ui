@@ -16,7 +16,7 @@
     "jsdom": "^27.0.0",
     "tsdown": "0.18.3",
     "typescript": "5.9.3",
-    "vitest": "^4.0.16"
+    "vitest": "^4.0.18"
   },
   "exports": {
     "./*": "./dist/*/index.js"
@@ -91,5 +91,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "0.1.14"
+  "version": "0.1.15"
 }

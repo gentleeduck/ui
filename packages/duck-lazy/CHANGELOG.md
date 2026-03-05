@@ -1,5 +1,11 @@
 # @gentleduck/lazy
 
+## 1.2.12
+
+### Patch Changes
+
+- 7c2aa88: Update dependencies and publish unpublished packages
+
 ## 1.2.11
 
 ### Patch Changes

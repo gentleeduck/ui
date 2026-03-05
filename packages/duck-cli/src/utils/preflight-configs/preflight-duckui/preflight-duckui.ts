@@ -65,11 +65,11 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
     }
 
     const theme_response = await get_registry_base_color(parse_config_options.base_color)
-    if (!theme_response?.cssVars) {
+    if (!theme_response?.light || !theme_response?.dark) {
       spinner.fail('Failed to fetch theme from registry.')
       process.exit(1)
     }
-    const css = generateThemeCSS(parse_config_options.base_color, theme_response.cssVars)
+    const css = generateThemeCSS(parse_config_options.base_color, theme_response)
 
     const css_file_path = path.join(_options.cwd, parse_config_options.css)
     const exists = fs.existsSync(css_file_path)
