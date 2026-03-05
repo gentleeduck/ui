@@ -1,5 +1,23 @@
 # @gentleduck/docs
 
+## 0.1.0
+
+### Minor Changes
+
+- c1c256f: feat: migrate from @shikijs/compat to shiki v2 and resolve mermaid locally
+
+  Replaced @shikijs/compat with native shiki v2 createHighlighter. Improved
+  rehype-mermaid to resolve mermaid from node_modules instead of CDN, and
+  added --allow-file-access-from-files for local rendering.
+
+### Patch Changes
+
+- 995316e: feat: increase header transparency and add gradient blob styling
+
+  Updated site-header to use more transparent background with stronger
+  backdrop blur. Added gradient blob decorations to hero sections,
+  feature sections, and sponsor sections across all docs apps.
+
 ## 0.0.16
 
 ### Patch Changes
