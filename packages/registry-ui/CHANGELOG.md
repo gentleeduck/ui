@@ -1,5 +1,14 @@
 # @gentleduck/registry-ui
 
+## 0.2.4
+
+### Patch Changes
+
+- ba8a6f3: fix: update resizable components to react-resizable-panels v4 API
+
+  Replace deprecated ref with panelRef across resizable component and
+  examples to align with react-resizable-panels v4.
+
 ## 0.2.3
 
 ### Patch Changes
