@@ -102,6 +102,8 @@ export async function process_components(
       registry_dependencies: [],
     } as DependenciesType
 
+    const skip_prompts = options.force || options.yes
+
     for (let idx = 0; idx < components.length; idx++) {
       await install_component(
         duck_config,
@@ -112,12 +114,12 @@ export async function process_components(
         components,
         write_path,
         spinner,
-        options.force,
+        skip_prompts,
       )
     }
 
     const topLevelNames = new Set(components.map((c) => c.name.toLowerCase()))
-    await install_registry_dependencies(dependencies, spinner, write_path, options.force, duck_config, topLevelNames)
+    await install_registry_dependencies(dependencies, spinner, write_path, skip_prompts, duck_config, topLevelNames)
     const project_cwd = resolve_project_cwd(options.cwd, duck_config, options.workspace)
     const workspace_error = validate_workspace_target(project_cwd, false)
     if (workspace_error) {
@@ -225,16 +227,15 @@ export async function install_registry_dependencies(
     }
   }
 
-  // Kick off recursion with initial registry deps
-  const initialDeps = new Set(dependencies.registry_dependencies.map((d) => d.toLowerCase()))
-  initialDeps.forEach((d) => {
-    visited.add(d)
-  })
+  // Kick off recursion with initial registry deps, filtering out already-visited names
+  const initialDeps = new Set<string>()
+  for (const d of dependencies.registry_dependencies.map((dep) => dep.toLowerCase())) {
+    if (!visited.has(d)) {
+      visited.add(d)
+      initialDeps.add(d)
+    }
+  }
   await fetchAndProcess(initialDeps)
-
-  // Ensure dependencies & devDependencies are unique
-  dependencies.dependencies = Array.from(new Set(dependencies.dependencies ?? []))
-  dependencies.dev_dependencies = Array.from(new Set(dependencies.dev_dependencies ?? []))
 
   // Install all collected components
   for (let i = 0; i < allComponents.length; i++) {
@@ -352,28 +353,27 @@ export async function process_component_dependencies(
   try {
     spinner.start(`Installing dependencies`)
 
-    if (dependencies.length === 0 && dev_dependencies.length === 0) {
+    // Deduplicate all collected dependencies
+    const allDependencies = [...new Set([...dependencies, ...dev_dependencies])]
+
+    if (allDependencies.length === 0) {
       spinner.warn(`No dependencies found`)
       return
     }
 
-    // Merge all dependencies into a single list
-    const allDependencies = [...dependencies, ...dev_dependencies]
-
     spinner.text = `Installing ${highlighter.info(String(allDependencies.length))} dependencies...`
 
     const packageManager = await get_package_manager(cwd)
-    const { failed: installation_step_1 } = await execa(
-      packageManager,
-      [packageManager !== 'npm' ? 'add' : 'install', ...allDependencies],
-      {
-        cwd,
-        stdio: 'ignore',
-      },
-    )
-    if (installation_step_1) {
+    const result = await execa(packageManager, [packageManager !== 'npm' ? 'add' : 'install', ...allDependencies], {
+      cwd,
+      reject: false,
+    })
+    if (result.failed) {
+      const stderr = result.stderr?.trim()
       spinner.fail('Failed to install dependencies')
-      throw new Error('Package installation failed')
+      throw new Error(
+        `${packageManager} ${packageManager !== 'npm' ? 'add' : 'install'} failed${stderr ? `:\n${stderr}` : ''}`,
+      )
     }
 
     spinner.succeed(`Successfully installed dependencies`)

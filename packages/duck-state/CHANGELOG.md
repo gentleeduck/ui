@@ -1,5 +1,11 @@
 # @gentleduck/state
 
+## 0.2.3
+
+### Patch Changes
+
+- 7c2aa88: Update dependencies and publish unpublished packages
+
 ## 0.2.2
 
 ### Patch Changes

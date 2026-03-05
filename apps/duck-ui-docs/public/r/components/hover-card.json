@@ -1,7 +1,8 @@
 {
   "dependencies": [
     "@gentleduck/libs",
-    "@gentleduck/primitives"
+    "@gentleduck/primitives",
+    "@gentleduck/variants"
   ],
   "files": [
     {

@@ -13,7 +13,7 @@ import { TabsList, TabsTrigger } from '@gentleduck/registry-ui/tabs'
 import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui/toggle-group'
 import { CircleHelp, Monitor, Smartphone, Tablet } from 'lucide-react'
 import type * as React from 'react'
-import type { ImperativePanelHandle } from 'react-resizable-panels'
+import type { PanelImperativeHandle } from 'react-resizable-panels'
 import { StyleSwitcher } from '~/components/themes'
 import { V0Button } from '~/components/V0'
 import { BlockCopyButton } from './block-copy-button'
@@ -23,7 +23,7 @@ export function BlockToolbar({
   resizablePanelRef,
 }: {
   block: Block & { hasLiftMode: boolean }
-  resizablePanelRef: React.RefObject<ImperativePanelHandle>
+  resizablePanelRef: React.RefObject<PanelImperativeHandle>
 }) {
   const { isLiftMode, toggleLiftMode } = useLiftMode(block.name)
 

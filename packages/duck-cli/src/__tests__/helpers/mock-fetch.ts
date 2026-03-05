@@ -11,12 +11,40 @@ export function createMockFetch(overrides: Record<string, any> = {}) {
       root_folder: 'card',
       registryDependencies: ['button'],
     }),
+    '/r/components/alert.json': createMockRegistryEntry({
+      name: 'alert',
+      root_folder: 'alert',
+      dependencies: ['@gentleduck/libs', '@gentleduck/variants'],
+      registryDependencies: ['button'],
+      files: [
+        {
+          path: 'alert/alert.tsx',
+          target: 'alert/alert.tsx',
+          type: 'registry:ui' as const,
+          content: 'export function Alert() { return null }',
+        },
+      ],
+    }),
+    '/r/components/dialog.json': createMockRegistryEntry({
+      name: 'dialog',
+      root_folder: 'dialog',
+      dependencies: ['@gentleduck/libs'],
+      registryDependencies: ['button', 'input'],
+      files: [
+        {
+          path: 'dialog/dialog.tsx',
+          target: 'dialog/dialog.tsx',
+          type: 'registry:ui' as const,
+          content: 'export function Dialog() { return null }',
+        },
+      ],
+    }),
     '/r/themes/zinc.json': {
       name: 'zinc',
-      cssVars: {
-        light: { background: '0 0% 100%', foreground: '240 10% 3.9%' },
-        dark: { background: '240 10% 3.9%', foreground: '0 0% 98%' },
-      },
+      label: 'Zinc',
+      light: { background: 'oklch(1 0 0)', foreground: 'oklch(0.141 0.005 285.823)' },
+      dark: { background: 'oklch(0.145 0 0)', foreground: 'oklch(0.985 0 0)' },
+      radius: '0.5rem',
     },
     ...overrides,
   }

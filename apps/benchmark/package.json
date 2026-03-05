@@ -41,21 +41,20 @@
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
     "@vitejs/plugin-react-oxc": "^0.4.3",
-    "@vitest/browser": "^3.2.4",
+    "@vitest/browser": "^4.0.18",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
     "framer-motion": "^11.18.2",
     "jotai": "^2.16.2",
-    "lucide-react": "0.562.0",
+    "lucide-react": "0.576.0",
     "next-themes": "^0.4.6",
     "playwright": "^1.53.1",
-    "react": "^19.2.3",
-    "react-cmdk": "^1.3.9",
-    "react-dom": "^19.2.3",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "react-hook-form": "^7.71.1",
     "rolldown": "latest",
-    "sonda": "^0.7.1",
+    "sonda": "^0.11.1",
     "sonner": "^2.0.7",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.2.0",
@@ -105,5 +104,9 @@
     "serve": "tsc -b && vite build && vite preview"
   },
   "type": "module",
-  "version": "0.1.14"
+  "version": "0.1.14",
+  "overrides": {
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
 }

@@ -1,7 +1,8 @@
 {
   "dependencies": [
     "recharts",
-    "@gentleduck/libs"
+    "@gentleduck/libs",
+    "@gentleduck/primitives"
   ],
   "files": [
     {

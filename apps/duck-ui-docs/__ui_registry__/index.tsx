@@ -361,6 +361,7 @@ const _Upload2 = dynamic(() => import('@gentleduck/registry-examples/upload/uplo
 const _Upload3 = dynamic(() => import('@gentleduck/registry-examples/upload/upload-3'), { ssr: false })
 const _Upload4 = dynamic(() => import('@gentleduck/registry-examples/upload/upload-4'), { ssr: false })
 const _Upload5 = dynamic(() => import('@gentleduck/registry-examples/upload/upload-5'), { ssr: false })
+const _FormRhfTextarea = dynamic(() => import('@gentleduck/registry-examples/form/form-rhf-textarea'), { ssr: false })
 const _FormRhfArray = dynamic(() => import('@gentleduck/registry-examples/form/form-rhf-array'), { ssr: false })
 const _FormRhfCheckbox = dynamic(() => import('@gentleduck/registry-examples/form/form-rhf-checkbox'), { ssr: false })
 const _FormRhfComplex = dynamic(() => import('@gentleduck/registry-examples/form/form-rhf-complex'), { ssr: false })
@@ -371,7 +372,6 @@ const _FormRhfRadiogroup = dynamic(() => import('@gentleduck/registry-examples/f
 })
 const _FormRhfSelect = dynamic(() => import('@gentleduck/registry-examples/form/form-rhf-select'), { ssr: false })
 const _FormRhfSwitch = dynamic(() => import('@gentleduck/registry-examples/form/form-rhf-switch'), { ssr: false })
-const _FormRhfTextarea = dynamic(() => import('@gentleduck/registry-examples/form/form-rhf-textarea'), { ssr: false })
 const _FormTanstackArray = dynamic(() => import('@gentleduck/registry-examples/form/form-tanstack-array'), {
   ssr: false,
 })
@@ -397,28 +397,28 @@ const _FormTanstackSwitch = dynamic(() => import('@gentleduck/registry-examples/
 const _FormTanstackTextarea = dynamic(() => import('@gentleduck/registry-examples/form/form-tanstack-textarea'), {
   ssr: false,
 })
-const _AlertDialogConfirm = dynamic(
-  () => import('@gentleduck/registry-internals/internal-primitives/alert-dialog-confirm/alert-dialog-confirm'),
+const _DialogGuardedAsync = dynamic(
+  () => import('@gentleduck/registry-internals/internal-primitives/dialog-guarded-async/dialog-guarded-async'),
   { ssr: false },
 )
 const _PopoverSideAware = dynamic(
   () => import('@gentleduck/registry-internals/internal-primitives/popover-side-aware/popover-side-aware'),
   { ssr: false },
 )
-const _DropdownMenuSelection = dynamic(
-  () => import('@gentleduck/registry-internals/internal-primitives/dropdown-menu-selection/dropdown-menu-selection'),
-  { ssr: false },
-)
 const _SelectControlled = dynamic(
   () => import('@gentleduck/registry-internals/internal-primitives/select-controlled/select-controlled'),
   { ssr: false },
 )
-const _TooltipDelayProvider = dynamic(
-  () => import('@gentleduck/registry-internals/internal-primitives/tooltip-delay-provider/tooltip-delay-provider'),
+const _AlertDialogConfirm = dynamic(
+  () => import('@gentleduck/registry-internals/internal-primitives/alert-dialog-confirm/alert-dialog-confirm'),
   { ssr: false },
 )
-const _DialogGuardedAsync = dynamic(
-  () => import('@gentleduck/registry-internals/internal-primitives/dialog-guarded-async/dialog-guarded-async'),
+const _DropdownMenuSelection = dynamic(
+  () => import('@gentleduck/registry-internals/internal-primitives/dropdown-menu-selection/dropdown-menu-selection'),
+  { ssr: false },
+)
+const _TooltipDelayProvider = dynamic(
+  () => import('@gentleduck/registry-internals/internal-primitives/tooltip-delay-provider/tooltip-delay-provider'),
   { ssr: false },
 )
 const _Signup1 = dynamic(() => import('@gentleduck/registry-blocks/authentications/signup-1/signup-1.constants'), {
@@ -5900,6 +5900,32 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'upload',
   },
+  'form-rhf-textarea': {
+    name: 'form-rhf-textarea',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [
+      'button',
+      'checkbox',
+      'field',
+      'input',
+      'input-group',
+      'radio-group',
+      'select',
+      'switch',
+      'textarea',
+    ],
+    files: [
+      {
+        path: 'form/form-rhf-textarea.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _FormRhfTextarea,
+    source: '/registry-examples/src/form',
+    categories: [],
+    root_folder: 'form',
+  },
   'form-rhf-array': {
     name: 'form-rhf-array',
     description: '',
@@ -6104,32 +6130,6 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _FormRhfSwitch,
-    source: '/registry-examples/src/form',
-    categories: [],
-    root_folder: 'form',
-  },
-  'form-rhf-textarea': {
-    name: 'form-rhf-textarea',
-    description: '',
-    type: 'registry:example',
-    registryDependencies: [
-      'button',
-      'checkbox',
-      'field',
-      'input',
-      'input-group',
-      'radio-group',
-      'select',
-      'switch',
-      'textarea',
-    ],
-    files: [
-      {
-        path: 'form/form-rhf-textarea.tsx',
-        type: 'registry:example',
-      },
-    ],
-    component: _FormRhfTextarea,
     source: '/registry-examples/src/form',
     categories: [],
     root_folder: 'form',
@@ -6368,18 +6368,18 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'form',
   },
-  'alert-dialog-confirm': {
-    name: 'alert-dialog-confirm',
+  'dialog-guarded-async': {
+    name: 'dialog-guarded-async',
     description: '',
     type: 'registry:internal',
     registryDependencies: ['@gentleduck/primitives'],
     files: [
       {
-        path: 'internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx',
+        path: 'internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx',
         type: 'registry:internal',
       },
     ],
-    component: _AlertDialogConfirm,
+    component: _DialogGuardedAsync,
     source: '/registry-internals/src/internal-primitives',
     categories: [],
     root_folder: 'internal-primitives',
@@ -6400,22 +6400,6 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'internal-primitives',
   },
-  'dropdown-menu-selection': {
-    name: 'dropdown-menu-selection',
-    description: '',
-    type: 'registry:internal',
-    registryDependencies: ['@gentleduck/primitives'],
-    files: [
-      {
-        path: 'internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx',
-        type: 'registry:internal',
-      },
-    ],
-    component: _DropdownMenuSelection,
-    source: '/registry-internals/src/internal-primitives',
-    categories: [],
-    root_folder: 'internal-primitives',
-  },
   'select-controlled': {
     name: 'select-controlled',
     description: '',
@@ -6432,6 +6416,38 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'internal-primitives',
   },
+  'alert-dialog-confirm': {
+    name: 'alert-dialog-confirm',
+    description: '',
+    type: 'registry:internal',
+    registryDependencies: ['@gentleduck/primitives'],
+    files: [
+      {
+        path: 'internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx',
+        type: 'registry:internal',
+      },
+    ],
+    component: _AlertDialogConfirm,
+    source: '/registry-internals/src/internal-primitives',
+    categories: [],
+    root_folder: 'internal-primitives',
+  },
+  'dropdown-menu-selection': {
+    name: 'dropdown-menu-selection',
+    description: '',
+    type: 'registry:internal',
+    registryDependencies: ['@gentleduck/primitives'],
+    files: [
+      {
+        path: 'internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx',
+        type: 'registry:internal',
+      },
+    ],
+    component: _DropdownMenuSelection,
+    source: '/registry-internals/src/internal-primitives',
+    categories: [],
+    root_folder: 'internal-primitives',
+  },
   'tooltip-delay-provider': {
     name: 'tooltip-delay-provider',
     description: '',
@@ -6444,22 +6460,6 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _TooltipDelayProvider,
-    source: '/registry-internals/src/internal-primitives',
-    categories: [],
-    root_folder: 'internal-primitives',
-  },
-  'dialog-guarded-async': {
-    name: 'dialog-guarded-async',
-    description: '',
-    type: 'registry:internal',
-    registryDependencies: ['@gentleduck/primitives'],
-    files: [
-      {
-        path: 'internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx',
-        type: 'registry:internal',
-      },
-    ],
-    component: _DialogGuardedAsync,
     source: '/registry-internals/src/internal-primitives',
     categories: [],
     root_folder: 'internal-primitives',

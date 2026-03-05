@@ -35,7 +35,8 @@
   {
     "dependencies": [
       "@gentleduck/variants",
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -142,7 +143,8 @@
   },
   {
     "dependencies": [
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -216,7 +218,8 @@
   {
     "dependencies": [
       "@gentleduck/primitives",
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "lucide-react"
     ],
     "files": [
       {
@@ -300,8 +303,9 @@
   {
     "dependencies": [
       "react-day-picker",
-      "date-fns",
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives",
+      "lucide-react"
     ],
     "files": [
       {
@@ -335,7 +339,8 @@
   },
   {
     "dependencies": [
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -367,7 +372,9 @@
   {
     "dependencies": [
       "embla-carousel-react",
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives",
+      "lucide-react"
     ],
     "files": [
       {
@@ -411,7 +418,8 @@
   {
     "dependencies": [
       "recharts",
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -542,6 +550,7 @@
     "dependencies": [
       "@gentleduck/vim",
       "@gentleduck/libs",
+      "@gentleduck/primitives",
       "lucide-react"
     ],
     "files": [
@@ -586,7 +595,8 @@
   },
   {
     "dependencies": [
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -706,7 +716,8 @@
   {
     "dependencies": [
       "vaul",
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -805,7 +816,6 @@
       "@gentleduck/variants",
       "@gentleduck/libs",
       "@gentleduck/primitives",
-      "@radix-ui/react-navigation-menu",
       "lucide-react"
     ],
     "files": [
@@ -839,7 +849,8 @@
   {
     "dependencies": [
       "@gentleduck/libs",
-      "@gentleduck/primitives"
+      "@gentleduck/primitives",
+      "@gentleduck/variants"
     ],
     "files": [
       {
@@ -873,7 +884,8 @@
   },
   {
     "dependencies": [
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -937,7 +949,8 @@
   },
   {
     "dependencies": [
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -1004,7 +1017,8 @@
   {
     "dependencies": [
       "@gentleduck/libs",
-      "@gentleduck/primitives"
+      "@gentleduck/primitives",
+      "lucide-react"
     ],
     "files": [
       {
@@ -1079,7 +1093,8 @@
   },
   {
     "dependencies": [
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -1111,8 +1126,7 @@
   {
     "dependencies": [
       "@gentleduck/primitives",
-      "@gentleduck/libs",
-      "@gentleduck/motion"
+      "@gentleduck/libs"
     ],
     "files": [
       {
@@ -1147,7 +1161,9 @@
   {
     "dependencies": [
       "react-resizable-panels",
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives",
+      "lucide-react"
     ],
     "files": [
       {
@@ -1178,7 +1194,8 @@
   },
   {
     "dependencies": [
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -1243,7 +1260,8 @@
   },
   {
     "dependencies": [
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -1387,7 +1405,8 @@
   },
   {
     "dependencies": [
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -1453,6 +1472,7 @@
       "sonner",
       "next-themes",
       "@gentleduck/libs",
+      "@gentleduck/primitives",
       "lucide-react"
     ],
     "files": [
@@ -1548,7 +1568,8 @@
   },
   {
     "dependencies": [
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -1612,7 +1633,8 @@
   },
   {
     "dependencies": [
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -1644,7 +1666,8 @@
   {
     "dependencies": [
       "@gentleduck/variants",
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -1686,7 +1709,8 @@
   {
     "dependencies": [
       "@gentleduck/variants",
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -1753,7 +1777,8 @@
   {
     "dependencies": [
       "@gentleduck/libs",
-      "@gentleduck/variants"
+      "@gentleduck/variants",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -1797,7 +1822,8 @@
   },
   {
     "dependencies": [
-      "@gentleduck/libs"
+      "@gentleduck/libs",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -1829,7 +1855,8 @@
   {
     "dependencies": [
       "@gentleduck/libs",
-      "@gentleduck/variants"
+      "@gentleduck/variants",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -1870,7 +1897,8 @@
   {
     "dependencies": [
       "@gentleduck/libs",
-      "@gentleduck/variants"
+      "@gentleduck/variants",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -1960,7 +1988,8 @@
   {
     "dependencies": [
       "@gentleduck/libs",
-      "@gentleduck/variants"
+      "@gentleduck/variants",
+      "@gentleduck/primitives"
     ],
     "files": [
       {
@@ -2084,6 +2113,7 @@
   {
     "dependencies": [
       "@gentleduck/libs",
+      "@gentleduck/primitives",
       "lucide-react"
     ],
     "files": [
@@ -20805,11 +20835,11 @@
   {
     "files": [
       {
-        "path": "form/form-rhf-array.tsx",
+        "path": "form/form-rhf-textarea.tsx",
         "type": "registry:example"
       }
     ],
-    "name": "form-rhf-array",
+    "name": "form-rhf-textarea",
     "registryDependencies": [
       "button",
       "checkbox",
@@ -20825,6 +20855,11 @@
     "type": "registry:example",
     "source": "/registry-examples/src/form",
     "tree": [
+      {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
       {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
@@ -20866,8 +20901,118 @@
         "type": "file"
       },
       {
+        "name": "form-tanstack-array.tsx",
+        "path": "form/form-tanstack-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-checkbox.tsx",
+        "path": "form/form-tanstack-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-complex.tsx",
+        "path": "form/form-tanstack-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-demo.tsx",
+        "path": "form/form-tanstack-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-input.tsx",
+        "path": "form/form-tanstack-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-radiogroup.tsx",
+        "path": "form/form-tanstack-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-select.tsx",
+        "path": "form/form-tanstack-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-switch.tsx",
+        "path": "form/form-tanstack-switch.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-tanstack-textarea.tsx",
+        "path": "form/form-tanstack-textarea.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "form/form-rhf-array.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "form-rhf-array",
+    "registryDependencies": [
+      "button",
+      "checkbox",
+      "field",
+      "input",
+      "input-group",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea"
+    ],
+    "root_folder": "form",
+    "type": "registry:example",
+    "source": "/registry-examples/src/form",
+    "tree": [
+      {
         "name": "form-rhf-textarea.tsx",
         "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-array.tsx",
+        "path": "form/form-rhf-array.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-checkbox.tsx",
+        "path": "form/form-rhf-checkbox.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-complex.tsx",
+        "path": "form/form-rhf-complex.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-demo.tsx",
+        "path": "form/form-rhf-demo.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-input.tsx",
+        "path": "form/form-rhf-input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-radiogroup.tsx",
+        "path": "form/form-rhf-radiogroup.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-select.tsx",
+        "path": "form/form-rhf-select.tsx",
+        "type": "file"
+      },
+      {
+        "name": "form-rhf-switch.tsx",
+        "path": "form/form-rhf-switch.tsx",
         "type": "file"
       },
       {
@@ -20941,6 +21086,11 @@
     "source": "/registry-examples/src/form",
     "tree": [
       {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
         "type": "file"
@@ -20978,11 +21128,6 @@
       {
         "name": "form-rhf-switch.tsx",
         "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-textarea.tsx",
-        "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
       {
@@ -21056,6 +21201,11 @@
     "source": "/registry-examples/src/form",
     "tree": [
       {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
         "type": "file"
@@ -21093,11 +21243,6 @@
       {
         "name": "form-rhf-switch.tsx",
         "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-textarea.tsx",
-        "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
       {
@@ -21171,6 +21316,11 @@
     "source": "/registry-examples/src/form",
     "tree": [
       {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
         "type": "file"
@@ -21208,11 +21358,6 @@
       {
         "name": "form-rhf-switch.tsx",
         "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-textarea.tsx",
-        "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
       {
@@ -21286,6 +21431,11 @@
     "source": "/registry-examples/src/form",
     "tree": [
       {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
         "type": "file"
@@ -21323,11 +21473,6 @@
       {
         "name": "form-rhf-switch.tsx",
         "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-textarea.tsx",
-        "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
       {
@@ -21401,6 +21546,11 @@
     "source": "/registry-examples/src/form",
     "tree": [
       {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
         "type": "file"
@@ -21438,11 +21588,6 @@
       {
         "name": "form-rhf-switch.tsx",
         "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-textarea.tsx",
-        "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
       {
@@ -21516,6 +21661,11 @@
     "source": "/registry-examples/src/form",
     "tree": [
       {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
         "type": "file"
@@ -21553,11 +21703,6 @@
       {
         "name": "form-rhf-switch.tsx",
         "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-textarea.tsx",
-        "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
       {
@@ -21631,120 +21776,10 @@
     "source": "/registry-examples/src/form",
     "tree": [
       {
-        "name": "form-rhf-array.tsx",
-        "path": "form/form-rhf-array.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-checkbox.tsx",
-        "path": "form/form-rhf-checkbox.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-complex.tsx",
-        "path": "form/form-rhf-complex.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-demo.tsx",
-        "path": "form/form-rhf-demo.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-input.tsx",
-        "path": "form/form-rhf-input.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-radiogroup.tsx",
-        "path": "form/form-rhf-radiogroup.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-select.tsx",
-        "path": "form/form-rhf-select.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-switch.tsx",
-        "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
         "name": "form-rhf-textarea.tsx",
         "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
-      {
-        "name": "form-tanstack-array.tsx",
-        "path": "form/form-tanstack-array.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-tanstack-checkbox.tsx",
-        "path": "form/form-tanstack-checkbox.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-tanstack-complex.tsx",
-        "path": "form/form-tanstack-complex.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-tanstack-demo.tsx",
-        "path": "form/form-tanstack-demo.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-tanstack-input.tsx",
-        "path": "form/form-tanstack-input.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-tanstack-radiogroup.tsx",
-        "path": "form/form-tanstack-radiogroup.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-tanstack-select.tsx",
-        "path": "form/form-tanstack-select.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-tanstack-switch.tsx",
-        "path": "form/form-tanstack-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-tanstack-textarea.tsx",
-        "path": "form/form-tanstack-textarea.tsx",
-        "type": "file"
-      }
-    ]
-  },
-  {
-    "files": [
-      {
-        "path": "form/form-rhf-textarea.tsx",
-        "type": "registry:example"
-      }
-    ],
-    "name": "form-rhf-textarea",
-    "registryDependencies": [
-      "button",
-      "checkbox",
-      "field",
-      "input",
-      "input-group",
-      "radio-group",
-      "select",
-      "switch",
-      "textarea"
-    ],
-    "root_folder": "form",
-    "type": "registry:example",
-    "source": "/registry-examples/src/form",
-    "tree": [
       {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
@@ -21783,11 +21818,6 @@
       {
         "name": "form-rhf-switch.tsx",
         "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-textarea.tsx",
-        "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
       {
@@ -21861,6 +21891,11 @@
     "source": "/registry-examples/src/form",
     "tree": [
       {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
         "type": "file"
@@ -21898,11 +21933,6 @@
       {
         "name": "form-rhf-switch.tsx",
         "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-textarea.tsx",
-        "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
       {
@@ -21976,6 +22006,11 @@
     "source": "/registry-examples/src/form",
     "tree": [
       {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
         "type": "file"
@@ -22013,11 +22048,6 @@
       {
         "name": "form-rhf-switch.tsx",
         "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-textarea.tsx",
-        "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
       {
@@ -22091,6 +22121,11 @@
     "source": "/registry-examples/src/form",
     "tree": [
       {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
         "type": "file"
@@ -22128,11 +22163,6 @@
       {
         "name": "form-rhf-switch.tsx",
         "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-textarea.tsx",
-        "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
       {
@@ -22206,6 +22236,11 @@
     "source": "/registry-examples/src/form",
     "tree": [
       {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
         "type": "file"
@@ -22243,11 +22278,6 @@
       {
         "name": "form-rhf-switch.tsx",
         "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-textarea.tsx",
-        "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
       {
@@ -22321,6 +22351,11 @@
     "source": "/registry-examples/src/form",
     "tree": [
       {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
         "type": "file"
@@ -22358,11 +22393,6 @@
       {
         "name": "form-rhf-switch.tsx",
         "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-textarea.tsx",
-        "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
       {
@@ -22436,6 +22466,11 @@
     "source": "/registry-examples/src/form",
     "tree": [
       {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
         "type": "file"
@@ -22473,11 +22508,6 @@
       {
         "name": "form-rhf-switch.tsx",
         "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-textarea.tsx",
-        "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
       {
@@ -22551,6 +22581,11 @@
     "source": "/registry-examples/src/form",
     "tree": [
       {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
         "type": "file"
@@ -22588,11 +22623,6 @@
       {
         "name": "form-rhf-switch.tsx",
         "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-textarea.tsx",
-        "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
       {
@@ -22666,6 +22696,11 @@
     "source": "/registry-examples/src/form",
     "tree": [
       {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
         "type": "file"
@@ -22703,11 +22738,6 @@
       {
         "name": "form-rhf-switch.tsx",
         "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-textarea.tsx",
-        "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
       {
@@ -22781,6 +22811,11 @@
     "source": "/registry-examples/src/form",
     "tree": [
       {
+        "name": "form-rhf-textarea.tsx",
+        "path": "form/form-rhf-textarea.tsx",
+        "type": "file"
+      },
+      {
         "name": "form-rhf-array.tsx",
         "path": "form/form-rhf-array.tsx",
         "type": "file"
@@ -22818,11 +22853,6 @@
       {
         "name": "form-rhf-switch.tsx",
         "path": "form/form-rhf-switch.tsx",
-        "type": "file"
-      },
-      {
-        "name": "form-rhf-textarea.tsx",
-        "path": "form/form-rhf-textarea.tsx",
         "type": "file"
       },
       {
@@ -22875,11 +22905,11 @@
   {
     "files": [
       {
-        "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+        "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
         "type": "registry:internal"
       }
     ],
-    "name": "alert-dialog-confirm",
+    "name": "dialog-guarded-async",
     "registryDependencies": [
       "@gentleduck/primitives"
     ],
@@ -22888,13 +22918,13 @@
     "type": "registry:internal",
     "tree": [
       {
-        "name": "alert-dialog-confirm",
-        "path": "internal-primitives/alert-dialog-confirm",
+        "name": "dialog-guarded-async",
+        "path": "internal-primitives/dialog-guarded-async",
         "type": "folder",
         "children": [
           {
-            "name": "alert-dialog-confirm.tsx",
-            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "name": "dialog-guarded-async.tsx",
+            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
             "type": "file"
           }
         ]
@@ -22912,18 +22942,6 @@
         ]
       },
       {
-        "name": "dropdown-menu-selection",
-        "path": "internal-primitives/dropdown-menu-selection",
-        "type": "folder",
-        "children": [
-          {
-            "name": "dropdown-menu-selection.tsx",
-            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
         "name": "select-controlled",
         "path": "internal-primitives/select-controlled",
         "type": "folder",
@@ -22936,6 +22954,30 @@
         ]
       },
       {
+        "name": "alert-dialog-confirm",
+        "path": "internal-primitives/alert-dialog-confirm",
+        "type": "folder",
+        "children": [
+          {
+            "name": "alert-dialog-confirm.tsx",
+            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dropdown-menu-selection",
+        "path": "internal-primitives/dropdown-menu-selection",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dropdown-menu-selection.tsx",
+            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
         "name": "tooltip-delay-provider",
         "path": "internal-primitives/tooltip-delay-provider",
         "type": "folder",
@@ -22943,18 +22985,6 @@
           {
             "name": "tooltip-delay-provider.tsx",
             "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "dialog-guarded-async",
-        "path": "internal-primitives/dialog-guarded-async",
-        "type": "folder",
-        "children": [
-          {
-            "name": "dialog-guarded-async.tsx",
-            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
             "type": "file"
           }
         ]
@@ -22977,13 +23007,13 @@
     "type": "registry:internal",
     "tree": [
       {
-        "name": "alert-dialog-confirm",
-        "path": "internal-primitives/alert-dialog-confirm",
+        "name": "dialog-guarded-async",
+        "path": "internal-primitives/dialog-guarded-async",
         "type": "folder",
         "children": [
           {
-            "name": "alert-dialog-confirm.tsx",
-            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "name": "dialog-guarded-async.tsx",
+            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
             "type": "file"
           }
         ]
@@ -23001,18 +23031,6 @@
         ]
       },
       {
-        "name": "dropdown-menu-selection",
-        "path": "internal-primitives/dropdown-menu-selection",
-        "type": "folder",
-        "children": [
-          {
-            "name": "dropdown-menu-selection.tsx",
-            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
         "name": "select-controlled",
         "path": "internal-primitives/select-controlled",
         "type": "folder",
@@ -23024,47 +23042,6 @@
           }
         ]
       },
-      {
-        "name": "tooltip-delay-provider",
-        "path": "internal-primitives/tooltip-delay-provider",
-        "type": "folder",
-        "children": [
-          {
-            "name": "tooltip-delay-provider.tsx",
-            "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "dialog-guarded-async",
-        "path": "internal-primitives/dialog-guarded-async",
-        "type": "folder",
-        "children": [
-          {
-            "name": "dialog-guarded-async.tsx",
-            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
-            "type": "file"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "files": [
-      {
-        "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
-        "type": "registry:internal"
-      }
-    ],
-    "name": "dropdown-menu-selection",
-    "registryDependencies": [
-      "@gentleduck/primitives"
-    ],
-    "root_folder": "internal-primitives",
-    "source": "/registry-internals/src/internal-primitives",
-    "type": "registry:internal",
-    "tree": [
       {
         "name": "alert-dialog-confirm",
         "path": "internal-primitives/alert-dialog-confirm",
@@ -23078,18 +23055,6 @@
         ]
       },
       {
-        "name": "popover-side-aware",
-        "path": "internal-primitives/popover-side-aware",
-        "type": "folder",
-        "children": [
-          {
-            "name": "popover-side-aware.tsx",
-            "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
         "name": "dropdown-menu-selection",
         "path": "internal-primitives/dropdown-menu-selection",
         "type": "folder",
@@ -23102,18 +23067,6 @@
         ]
       },
       {
-        "name": "select-controlled",
-        "path": "internal-primitives/select-controlled",
-        "type": "folder",
-        "children": [
-          {
-            "name": "select-controlled.tsx",
-            "path": "internal-primitives/select-controlled/select-controlled.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
         "name": "tooltip-delay-provider",
         "path": "internal-primitives/tooltip-delay-provider",
         "type": "folder",
@@ -23121,18 +23074,6 @@
           {
             "name": "tooltip-delay-provider.tsx",
             "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "dialog-guarded-async",
-        "path": "internal-primitives/dialog-guarded-async",
-        "type": "folder",
-        "children": [
-          {
-            "name": "dialog-guarded-async.tsx",
-            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
             "type": "file"
           }
         ]
@@ -23155,13 +23096,13 @@
     "type": "registry:internal",
     "tree": [
       {
-        "name": "alert-dialog-confirm",
-        "path": "internal-primitives/alert-dialog-confirm",
+        "name": "dialog-guarded-async",
+        "path": "internal-primitives/dialog-guarded-async",
         "type": "folder",
         "children": [
           {
-            "name": "alert-dialog-confirm.tsx",
-            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "name": "dialog-guarded-async.tsx",
+            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
             "type": "file"
           }
         ]
@@ -23179,6 +23120,30 @@
         ]
       },
       {
+        "name": "select-controlled",
+        "path": "internal-primitives/select-controlled",
+        "type": "folder",
+        "children": [
+          {
+            "name": "select-controlled.tsx",
+            "path": "internal-primitives/select-controlled/select-controlled.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "alert-dialog-confirm",
+        "path": "internal-primitives/alert-dialog-confirm",
+        "type": "folder",
+        "children": [
+          {
+            "name": "alert-dialog-confirm.tsx",
+            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
         "name": "dropdown-menu-selection",
         "path": "internal-primitives/dropdown-menu-selection",
         "type": "folder",
@@ -23186,6 +23151,59 @@
           {
             "name": "dropdown-menu-selection.tsx",
             "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "tooltip-delay-provider",
+        "path": "internal-primitives/tooltip-delay-provider",
+        "type": "folder",
+        "children": [
+          {
+            "name": "tooltip-delay-provider.tsx",
+            "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+        "type": "registry:internal"
+      }
+    ],
+    "name": "alert-dialog-confirm",
+    "registryDependencies": [
+      "@gentleduck/primitives"
+    ],
+    "root_folder": "internal-primitives",
+    "source": "/registry-internals/src/internal-primitives",
+    "type": "registry:internal",
+    "tree": [
+      {
+        "name": "dialog-guarded-async",
+        "path": "internal-primitives/dialog-guarded-async",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dialog-guarded-async.tsx",
+            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "popover-side-aware",
+        "path": "internal-primitives/popover-side-aware",
+        "type": "folder",
+        "children": [
+          {
+            "name": "popover-side-aware.tsx",
+            "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
             "type": "file"
           }
         ]
@@ -23203,6 +23221,30 @@
         ]
       },
       {
+        "name": "alert-dialog-confirm",
+        "path": "internal-primitives/alert-dialog-confirm",
+        "type": "folder",
+        "children": [
+          {
+            "name": "alert-dialog-confirm.tsx",
+            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dropdown-menu-selection",
+        "path": "internal-primitives/dropdown-menu-selection",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dropdown-menu-selection.tsx",
+            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
         "name": "tooltip-delay-provider",
         "path": "internal-primitives/tooltip-delay-provider",
         "type": "folder",
@@ -23213,7 +23255,24 @@
             "type": "file"
           }
         ]
-      },
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+        "type": "registry:internal"
+      }
+    ],
+    "name": "dropdown-menu-selection",
+    "registryDependencies": [
+      "@gentleduck/primitives"
+    ],
+    "root_folder": "internal-primitives",
+    "source": "/registry-internals/src/internal-primitives",
+    "type": "registry:internal",
+    "tree": [
       {
         "name": "dialog-guarded-async",
         "path": "internal-primitives/dialog-guarded-async",
@@ -23222,6 +23281,66 @@
           {
             "name": "dialog-guarded-async.tsx",
             "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "popover-side-aware",
+        "path": "internal-primitives/popover-side-aware",
+        "type": "folder",
+        "children": [
+          {
+            "name": "popover-side-aware.tsx",
+            "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "select-controlled",
+        "path": "internal-primitives/select-controlled",
+        "type": "folder",
+        "children": [
+          {
+            "name": "select-controlled.tsx",
+            "path": "internal-primitives/select-controlled/select-controlled.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "alert-dialog-confirm",
+        "path": "internal-primitives/alert-dialog-confirm",
+        "type": "folder",
+        "children": [
+          {
+            "name": "alert-dialog-confirm.tsx",
+            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dropdown-menu-selection",
+        "path": "internal-primitives/dropdown-menu-selection",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dropdown-menu-selection.tsx",
+            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "tooltip-delay-provider",
+        "path": "internal-primitives/tooltip-delay-provider",
+        "type": "folder",
+        "children": [
+          {
+            "name": "tooltip-delay-provider.tsx",
+            "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
             "type": "file"
           }
         ]
@@ -23244,13 +23363,13 @@
     "type": "registry:internal",
     "tree": [
       {
-        "name": "alert-dialog-confirm",
-        "path": "internal-primitives/alert-dialog-confirm",
+        "name": "dialog-guarded-async",
+        "path": "internal-primitives/dialog-guarded-async",
         "type": "folder",
         "children": [
           {
-            "name": "alert-dialog-confirm.tsx",
-            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "name": "dialog-guarded-async.tsx",
+            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
             "type": "file"
           }
         ]
@@ -23268,18 +23387,6 @@
         ]
       },
       {
-        "name": "dropdown-menu-selection",
-        "path": "internal-primitives/dropdown-menu-selection",
-        "type": "folder",
-        "children": [
-          {
-            "name": "dropdown-menu-selection.tsx",
-            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
         "name": "select-controlled",
         "path": "internal-primitives/select-controlled",
         "type": "folder",
@@ -23291,47 +23398,6 @@
           }
         ]
       },
-      {
-        "name": "tooltip-delay-provider",
-        "path": "internal-primitives/tooltip-delay-provider",
-        "type": "folder",
-        "children": [
-          {
-            "name": "tooltip-delay-provider.tsx",
-            "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "dialog-guarded-async",
-        "path": "internal-primitives/dialog-guarded-async",
-        "type": "folder",
-        "children": [
-          {
-            "name": "dialog-guarded-async.tsx",
-            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
-            "type": "file"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "files": [
-      {
-        "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
-        "type": "registry:internal"
-      }
-    ],
-    "name": "dialog-guarded-async",
-    "registryDependencies": [
-      "@gentleduck/primitives"
-    ],
-    "root_folder": "internal-primitives",
-    "source": "/registry-internals/src/internal-primitives",
-    "type": "registry:internal",
-    "tree": [
       {
         "name": "alert-dialog-confirm",
         "path": "internal-primitives/alert-dialog-confirm",
@@ -23345,18 +23411,6 @@
         ]
       },
       {
-        "name": "popover-side-aware",
-        "path": "internal-primitives/popover-side-aware",
-        "type": "folder",
-        "children": [
-          {
-            "name": "popover-side-aware.tsx",
-            "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
         "name": "dropdown-menu-selection",
         "path": "internal-primitives/dropdown-menu-selection",
         "type": "folder",
@@ -23369,18 +23423,6 @@
         ]
       },
       {
-        "name": "select-controlled",
-        "path": "internal-primitives/select-controlled",
-        "type": "folder",
-        "children": [
-          {
-            "name": "select-controlled.tsx",
-            "path": "internal-primitives/select-controlled/select-controlled.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
         "name": "tooltip-delay-provider",
         "path": "internal-primitives/tooltip-delay-provider",
         "type": "folder",
@@ -23388,18 +23430,6 @@
           {
             "name": "tooltip-delay-provider.tsx",
             "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "dialog-guarded-async",
-        "path": "internal-primitives/dialog-guarded-async",
-        "type": "folder",
-        "children": [
-          {
-            "name": "dialog-guarded-async.tsx",
-            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
             "type": "file"
           }
         ]

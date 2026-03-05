@@ -1,5 +1,29 @@
 # @gentleduck/cli
 
+## 1.2.4
+
+### Patch Changes
+
+- 9a3a651: test: add test cases for dependency deduplication, registry dep filtering, and overwrite prompt behavior
+- 4fc4d25: fix: deduplicate dependencies and skip already-installed components
+
+  - Filter initial registry dependencies against already-installed top-level components to avoid false "already exists" prompts on first install
+  - Move dependency deduplication to right before the package manager install so all collected deps (including from registry dependencies) are properly deduplicated
+
+## 1.2.3
+
+### Patch Changes
+
+- 22fa78f: fix: align ThemeResponse type with updated registry API response shape
+
+  The theme registry endpoint now returns `light`, `dark`, and `radius` at the top level instead of nesting them under `cssVars`. Updated all consumers to match the new response shape.
+
+## 1.2.2
+
+### Patch Changes
+
+- 7c2aa88: Update dependencies and publish unpublished packages
+
 ## 1.2.1
 
 ### Patch Changes

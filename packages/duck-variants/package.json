@@ -15,7 +15,7 @@
     "cva": "1.0.0-beta.3",
     "tsdown": "0.18.3",
     "typescript": "5.9.3",
-    "vitest": "^4.0.16"
+    "vitest": "^4.0.18"
   },
   "exports": {
     ".": "./dist/index.js"
@@ -65,5 +65,5 @@
   },
   "type": "module",
   "types": "./dist/index.d.ts",
-  "version": "0.1.18"
+  "version": "0.1.19"
 }

@@ -3,7 +3,6 @@
     "@gentleduck/variants",
     "@gentleduck/libs",
     "@gentleduck/primitives",
-    "@radix-ui/react-navigation-menu",
     "lucide-react"
   ],
   "files": [

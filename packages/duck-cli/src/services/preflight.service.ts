@@ -135,9 +135,9 @@ export async function run_init_duckui_config(
     onProgress?.('Fetching theme...')
     const theme = await get_registry_base_color(options.base_color)
 
-    if (theme?.cssVars) {
+    if (theme?.light && theme?.dark) {
       onProgress?.('Generating theme CSS...')
-      const css = generateThemeCSS(options.base_color, theme.cssVars)
+      const css = generateThemeCSS(options.base_color, theme)
 
       const cssPath = path.join(cwd, options.css)
       const cssExists = fs.existsSync(cssPath)

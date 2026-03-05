@@ -6,7 +6,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui/resizable'
 import { Tabs, TabsContent } from '@gentleduck/registry-ui/tabs'
 import React from 'react'
-import type { ImperativePanelHandle } from 'react-resizable-panels'
+import type { PanelImperativeHandle } from 'react-resizable-panels'
 
 type Block = {
   name: string
@@ -19,7 +19,7 @@ type Block = {
 export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean } }) {
   const { isLiftMode } = useLiftMode(block.name)
   const [isLoading, setIsLoading] = React.useState(true)
-  const ref = React.useRef<ImperativePanelHandle>(null)
+  const ref = React.useRef<PanelImperativeHandle>(null)
 
   return (
     <Tabs
@@ -34,7 +34,7 @@ export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean }
       <TabsContent
         className="relative after:absolute after:inset-0 after:right-3 after:z-0 after:rounded-lg after:bg-muted"
         value="preview">
-        <ResizablePanelGroup className="relative z-10" direction="horizontal">
+        <ResizablePanelGroup className="relative z-10" orientation="horizontal">
           <ResizablePanel
             className={cn(
               'relative rounded-lg border bg-background',
@@ -42,7 +42,7 @@ export function CodePreview({ block }: { block: Block & { hasLiftMode: boolean }
             )}
             defaultSize={100}
             minSize={30}
-            ref={ref}>
+            panelRef={ref}>
             {isLoading ? (
               <div
                 className="absolute inset-0 z-10 flex h-[--container-height] w-full items-center justify-center gap-2 bg-background text-muted-foreground text-sm"
