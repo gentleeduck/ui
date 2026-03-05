@@ -66,7 +66,7 @@ export default function ChartsLayout({ children }: { children: React.ReactNode }
         </div>
         <div className="container-wrapper section-soft container flex-1">
           <div className="gap-6 md:flex md:flex-row-reverse md:items-start">
-            <ThemesSwitcher className="fixed inset-x-0 bottom-0 z-40 flex bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 lg:sticky lg:top-20 lg:bottom-auto" />
+            <ThemesSwitcher className="fixed inset-x-0 bottom-0 z-40 flex bg-background/60 backdrop-blur-md supports-[backdrop-filter]:bg-background/40 lg:sticky lg:top-20 lg:bottom-auto" />
             <section className="theme-container w-full">
               <ThemesStyle />
               {children}
