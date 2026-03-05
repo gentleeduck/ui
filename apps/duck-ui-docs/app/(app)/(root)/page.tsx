@@ -39,10 +39,16 @@ export default function Page() {
       <PageHeader className="relative flex flex-col justify-start justify-self-center text-center">
         <div
           aria-hidden="true"
-          className="absolute top-0 right-0 z-0 h-16 w-16 rounded-full bg-yellow-400/20 blur-2xl md:h-72 md:w-72"></div>
+          className="pointer-events-none absolute -top-40 -right-40 z-0 h-[14rem] w-[14rem] rounded-full bg-gradient-to-br from-yellow-400/15 to-orange-400/10 blur-[100px] md:h-[20rem] md:w-[20rem]"></div>
         <div
           aria-hidden="true"
-          className="absolute bottom-16 left-0 z-0 h-36 w-36 rounded-full bg-primary/20 blur-3xl"></div>
+          className="pointer-events-none absolute -bottom-36 -left-40 z-0 h-[12rem] w-[12rem] rounded-full bg-gradient-to-tr from-primary/12 to-sky-400/8 blur-[90px] md:h-[18rem] md:w-[18rem]"></div>
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-48 left-1/2 z-0 h-[10rem] w-[10rem] -translate-x-1/2 rounded-full bg-gradient-to-b from-violet-500/8 to-fuchsia-400/5 blur-[110px] md:h-[16rem] md:w-[16rem]"></div>
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -right-20 -bottom-32 z-0 h-[8rem] w-[8rem] rounded-full bg-gradient-to-tl from-rose-400/6 to-pink-300/4 blur-[80px] md:h-[14rem] md:w-[14rem]"></div>
         <Announcement />
         <PageHeaderHeading>{title}</PageHeaderHeading>
         <PageHeaderDescription>{description}</PageHeaderDescription>
