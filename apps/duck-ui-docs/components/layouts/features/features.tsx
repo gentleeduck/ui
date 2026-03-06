@@ -43,40 +43,35 @@ const features = [
   },
   {
     bgColor: 'bg-purple-500/10',
-    description:
-      'Unstyled, ARIA-compliant primitives give you full control over markup and styling. Own every pixel.',
+    description: 'Unstyled, ARIA-compliant primitives give you full control over markup and styling. Own every pixel.',
     icon: <Layers aria-hidden="true" className="h-7 w-7" />,
     textColor: 'text-purple-500',
     title: 'Headless by Default',
   },
   {
     bgColor: 'bg-green-500/10',
-    description:
-      'One command to get started. Supports Next.js, Vite, Astro, Laravel, and more out of the box.',
+    description: 'One command to get started. Supports Next.js, Vite, Astro, Laravel, and more out of the box.',
     icon: <Terminal aria-hidden="true" className="h-7 w-7" />,
     textColor: 'text-green-500',
     title: 'Install in Seconds',
   },
   {
     bgColor: 'bg-yellow-500/10',
-    description:
-      'Every component, hook, and primitive is fully typed. Your editor knows what to do before you do.',
+    description: 'Every component, hook, and primitive is fully typed. Your editor knows what to do before you do.',
     icon: <Code2 aria-hidden="true" className="h-7 w-7" />,
     textColor: 'text-yellow-500',
     title: 'TypeScript Native',
   },
   {
     bgColor: 'bg-orange-500/10',
-    description:
-      'A vim-style command engine with hotkey parsing, sequence recording, and playback for power users.',
+    description: 'A vim-style command engine with hotkey parsing, sequence recording, and playback for power users.',
     icon: <Keyboard aria-hidden="true" className="h-7 w-7" />,
     textColor: 'text-orange-500',
     title: 'Keyboard-First',
   },
   {
     bgColor: 'bg-sky-500/10',
-    description:
-      'Auth flows, dashboards, sidebars, and charts. Drop them in, tweak the styles, and ship faster.',
+    description: 'Auth flows, dashboards, sidebars, and charts. Drop them in, tweak the styles, and ship faster.',
     icon: <LayoutTemplate aria-hidden="true" className="h-7 w-7" />,
     textColor: 'text-sky-500',
     title: 'Pre-built Blocks',
