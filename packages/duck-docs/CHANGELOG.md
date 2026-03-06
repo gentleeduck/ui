@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.1.1
+
+### Patch Changes
+
+- abe4c0a: update the header
+
 ## 0.1.0
 
 ### Minor Changes
