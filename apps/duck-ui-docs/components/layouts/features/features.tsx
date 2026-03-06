@@ -36,7 +36,7 @@ const features = [
   {
     bgColor: 'bg-blue-500/10',
     description:
-      'Stop rebuilding the same UI from scratch. Ship faster with production-ready components that just work -- accessible, composable, and styled with Tailwind CSS.',
+      'Stop rebuilding the same UI from scratch. Ship faster with production-ready components that just work: accessible, composable, and styled with Tailwind CSS.',
     icon: <Blocks aria-hidden="true" className="h-7 w-7" />,
     textColor: 'text-blue-500',
     title: 'Build Once, Use Everywhere',
@@ -44,7 +44,7 @@ const features = [
   {
     bgColor: 'bg-purple-500/10',
     description:
-      'Own every pixel. Unstyled, ARIA-compliant primitives give you full control over markup and styling -- no fighting the framework.',
+      'Own every pixel. Unstyled, ARIA-compliant primitives give you full control over markup and styling without fighting the framework.',
     icon: <Layers aria-hidden="true" className="h-7 w-7" />,
     textColor: 'text-purple-500',
     title: 'Headless by Default',
@@ -75,7 +75,7 @@ const features = [
   {
     bgColor: 'bg-sky-500/10',
     description:
-      'Auth flows, dashboards, sidebars, charts -- drop them in, tweak the styles, and move on to what matters.',
+      'Auth flows, dashboards, sidebars, and charts. Drop them in, tweak the styles, and move on to what matters.',
     icon: <LayoutTemplate aria-hidden="true" className="h-7 w-7" />,
     textColor: 'text-sky-500',
     title: 'Pre-built Blocks',
@@ -97,7 +97,7 @@ export function FeaturesSection() {
 
       <div className="container relative mx-auto py-24 sm:py-32 lg:py-40">
         <SectionTitle
-          subtitle="Stop gluing libraries together. Everything you need to build fast, accessible interfaces -- in one ecosystem."
+          subtitle="Stop gluing libraries together. Everything you need to build fast, accessible interfaces, all in one ecosystem."
           title="Why duck ui"
         />
 
