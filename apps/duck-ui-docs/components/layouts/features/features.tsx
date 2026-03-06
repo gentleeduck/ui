@@ -36,7 +36,7 @@ const features = [
   {
     bgColor: 'bg-blue-500/10',
     description:
-      'Stop rebuilding the same UI from scratch. Ship faster with production-ready components that just work: accessible, composable, and styled with Tailwind CSS.',
+      'Ship faster with production-ready components that are accessible, composable, and styled with Tailwind CSS.',
     icon: <Blocks aria-hidden="true" className="h-7 w-7" />,
     textColor: 'text-blue-500',
     title: 'Build Once, Use Everywhere',
@@ -44,7 +44,7 @@ const features = [
   {
     bgColor: 'bg-purple-500/10',
     description:
-      'Own every pixel. Unstyled, ARIA-compliant primitives give you full control over markup and styling without fighting the framework.',
+      'Unstyled, ARIA-compliant primitives give you full control over markup and styling. Own every pixel.',
     icon: <Layers aria-hidden="true" className="h-7 w-7" />,
     textColor: 'text-purple-500',
     title: 'Headless by Default',
@@ -52,14 +52,15 @@ const features = [
   {
     bgColor: 'bg-green-500/10',
     description:
-      'One command. Pick your framework. Start building. Supports Next.js, Vite, Astro, Laravel, and more out of the box.',
+      'One command to get started. Supports Next.js, Vite, Astro, Laravel, and more out of the box.',
     icon: <Terminal aria-hidden="true" className="h-7 w-7" />,
     textColor: 'text-green-500',
     title: 'Install in Seconds',
   },
   {
     bgColor: 'bg-yellow-500/10',
-    description: 'Every component, hook, and primitive is fully typed. Your editor knows what to do before you do.',
+    description:
+      'Every component, hook, and primitive is fully typed. Your editor knows what to do before you do.',
     icon: <Code2 aria-hidden="true" className="h-7 w-7" />,
     textColor: 'text-yellow-500',
     title: 'TypeScript Native',
@@ -67,7 +68,7 @@ const features = [
   {
     bgColor: 'bg-orange-500/10',
     description:
-      'A built-in vim-style command engine with hotkey parsing, sequence recording, and playback. Power users will love you.',
+      'A vim-style command engine with hotkey parsing, sequence recording, and playback for power users.',
     icon: <Keyboard aria-hidden="true" className="h-7 w-7" />,
     textColor: 'text-orange-500',
     title: 'Keyboard-First',
@@ -75,7 +76,7 @@ const features = [
   {
     bgColor: 'bg-sky-500/10',
     description:
-      'Auth flows, dashboards, sidebars, and charts. Drop them in, tweak the styles, and move on to what matters.',
+      'Auth flows, dashboards, sidebars, and charts. Drop them in, tweak the styles, and ship faster.',
     icon: <LayoutTemplate aria-hidden="true" className="h-7 w-7" />,
     textColor: 'text-sky-500',
     title: 'Pre-built Blocks',
@@ -97,8 +98,8 @@ export function FeaturesSection() {
 
       <div className="container relative mx-auto py-24 sm:py-32 lg:py-40">
         <SectionTitle
-          subtitle="Stop gluing libraries together. Everything you need to build fast, accessible interfaces, all in one ecosystem."
-          title="Why duck ui"
+          subtitle="Everything you need to build fast, accessible interfaces, all in one ecosystem."
+          title="Why Duck UI"
         />
 
         <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
