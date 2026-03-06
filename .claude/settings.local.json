@@ -137,7 +137,14 @@
       "Bash(npm run:*)",
       "WebFetch(domain:diffs.com)",
       "Bash(mkdir:*)",
-      "Bash(do sed:*)"
+      "Bash(do sed:*)",
+      "Bash(do:*)",
+      "Bash(do echo:*)",
+      "Bash(for pkg in duck-docs duck-hooks duck-libs duck-motion duck-vim duck-lazy duck-primitives duck-variants registry-ui)",
+      "Read(//run/media/wildduck/duck/wildduck/@duck/@duck-ui/packages/$pkg/**)",
+      "Bash(npm whoami:*)",
+      "Bash(for d in apps/duck-gen-docs packages/duck-query packages/duck-ttest packages/sandbox-server)",
+      "Read(//run/media/wildduck/duck/wildduck/@duck/@duck-ui/$d/**)"
     ]
   }
 }
