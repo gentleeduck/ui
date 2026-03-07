@@ -39,7 +39,7 @@ function SponsorCell({ sponsor }: { sponsor: Sponsor }) {
 
 export function SponsorsSection() {
   return (
-    <section aria-labelledby="sponsors-heading" className="relative" id="sponsors">
+    <section aria-labelledby="sponsors-heading" className="relative isolate overflow-x-clip" id="sponsors">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute -top-28 -left-16 z-0 h-[10rem] w-[10rem] rounded-full bg-gradient-to-br from-pink-500/10 to-rose-400/6 blur-[80px] md:h-[16rem] md:w-[16rem]"></div>

@@ -36,7 +36,7 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <>
-      <PageHeader className="relative flex flex-col justify-start justify-self-center text-center">
+      <PageHeader className="relative flex flex-col justify-start w-full justify-self-center text-center">
         <div
           aria-hidden="true"
           className="pointer-events-none absolute -top-40 -right-40 z-0 h-[14rem] w-[14rem] rounded-full bg-gradient-to-br from-yellow-400/15 to-orange-400/10 blur-[100px] md:h-[20rem] md:w-[20rem]"></div>
@@ -62,10 +62,8 @@ export default function Page() {
         </PageActions>
       </PageHeader>
       <div className="container-wrapper">
-        <div className="">
-          <FeaturesSection />
-          <SponsorsSection />
-        </div>
+        <FeaturesSection />
+        <SponsorsSection />
       </div>
     </>
   )
