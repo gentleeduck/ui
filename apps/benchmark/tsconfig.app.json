@@ -1,4 +1,5 @@
 {
+  "extends": "@gentleduck/typescript-config/base.json",
   "compilerOptions": {
     "allowImportingTsExtensions": true,
     "baseUrl": ".",
