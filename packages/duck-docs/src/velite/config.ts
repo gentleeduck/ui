@@ -1,11 +1,11 @@
 import type { UnistNode } from '@duck-docs/types'
+import { getHighlighter } from '@shikijs/compat'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 // @ts-ignore
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
 import { codeImport } from 'remark-code-import'
 import remarkGfm from 'remark-gfm'
-import { createHighlighter as getHighlighter } from 'shiki'
 import type { Pluggable } from 'unified'
 import { defineConfig, s, type ZodMeta } from 'velite'
 import { rehypeMermaid, rehypeMetadataPlugin, rehypeNpmCommand, rehypePreBlockSource, rehypeTitle } from './plugins'
@@ -35,10 +35,6 @@ function buildDefaultRehypePlugins({
       {
         getHighlighter,
         onVisitHighlightedLine(node: UnistNode) {
-          // @ts-ignore
-          if (!node.properties) node.properties = {}
-          // @ts-ignore
-          if (!node.properties.className) node.properties.className = []
           // @ts-ignore
           node.properties.className.push('line--highlighted')
         },
