@@ -33,6 +33,7 @@
   "description": "CLI to add gentleduck/ui components and bootstrap integrations.",
   "devDependencies": {
     "@gentleduck/registers": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
     "@inkjs/ui": "^2.0.0",
     "@types/diff": "^8.0.0",
     "@types/figlet": "^1.7.0",

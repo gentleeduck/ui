@@ -35,6 +35,7 @@
   "description": "Benchmarking tool for gentleduck/ui components.",
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
     "@types/babel__core": "^7.20.5",
     "@types/figlet": "^1.7.0",
     "@types/fs-extra": "^11.0.4",
