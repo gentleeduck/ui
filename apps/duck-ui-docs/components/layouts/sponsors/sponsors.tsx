@@ -64,11 +64,14 @@ export function SponsorsSection() {
 
         <div className="mt-10 text-center">
           <Link
-            className="inline-flex items-center gap-2 rounded-lg border border-border/50 px-5 py-2.5 text-muted-foreground text-sm transition-colors hover:border-primary/30 hover:text-foreground"
+            className="group/support inline-flex items-center gap-2 rounded-lg border border-border/50 px-5 py-2.5 text-muted-foreground text-sm transition-colors hover:border-red-500/70 hover:text-foreground"
             href={process.env.NEXT_PUBLIC_SPONSOR_URL ?? 'https://opencollective.com/gentelduck'}
             rel="noreferrer"
             target="_blank">
-            <Heart aria-hidden="true" className="size-4" />
+            <Heart
+              aria-hidden="true"
+              className="size-4 fill-transparent stroke-current transition-all duration-300 ease-out group-hover/support:animate-[heart-pop_420ms_cubic-bezier(0.22,1,0.36,1)_both] group-hover/support:fill-red-500/75 group-hover/support:stroke-red-400 group-hover/support:text-red-400"
+            />
             Become a Sponsor
           </Link>
         </div>
