@@ -68,7 +68,7 @@
   },
   "scripts": {
     "build": "MODE=\"production\" next build",
-    "build:full": "next build",
+    "build:prod": "next build",
     "build:docs": "velite",
     "build:reg": "./scripts/run-registry-build.sh && biome format --write ./__ui_registry__/index.tsx",
     "dev": "next dev",
