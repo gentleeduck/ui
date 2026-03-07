@@ -6,6 +6,7 @@
   "author": "gentleduck contributors",
   "description": "A lightweight React component for easily binding and handling keyboard shortcuts in your React applications.",
   "devDependencies": {
+    "@gentleduck/typescript-config": "workspace:*",
     "@types/mousetrap": "^1.6.15",
     "@types/node": "^25.3.0",
     "@types/react": "19.2.14",
