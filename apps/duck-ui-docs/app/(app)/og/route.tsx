@@ -3,28 +3,21 @@ import { ImageResponse } from 'next/og'
 export const runtime = 'edge'
 
 async function loadAssets(): Promise<{ name: string; data: Buffer; weight: 400 | 600; style: 'normal' }[]> {
-  const [{ base64Font: normal }, { base64Font: mono }, { base64Font: semibold }] = await Promise.all([
-    import('./geist-regular-otf.json').then((mod) => mod.default || mod),
-    import('./geistmono-regular-otf.json').then((mod) => mod.default || mod),
-    import('./geist-semibold-otf.json').then((mod) => mod.default || mod),
+  const [{ base64Font: normal }, { base64Font: semibold }] = await Promise.all([
+    import('./source-sans-3-regular-woff2.json').then((mod) => mod.default || mod),
+    import('./source-sans-3-semibold-woff2.json').then((mod) => mod.default || mod),
   ])
 
   return [
     {
       data: Buffer.from(normal, 'base64'),
-      name: 'Geist',
-      style: 'normal' as const,
-      weight: 400 as const,
-    },
-    {
-      data: Buffer.from(mono, 'base64'),
-      name: 'Geist Mono',
+      name: 'Source Sans 3',
       style: 'normal' as const,
       weight: 400 as const,
     },
     {
       data: Buffer.from(semibold, 'base64'),
-      name: 'Geist',
+      name: 'Source Sans 3',
       style: 'normal' as const,
       weight: 600 as const,
     },
@@ -56,7 +49,11 @@ export async function GET(request: Request) {
 
   return new ImageResponse(
     <div
-      style={{ display: 'flex', background: '#09090b', fontFamily: 'Geist' }}
+      style={{
+        display: 'flex',
+        background: '#09090b',
+        fontFamily: 'Source Sans 3, Source Sans Pro, ui-sans-serif, system-ui, sans-serif',
+      }}
       tw="h-full w-full text-white relative overflow-hidden">
       {/* -- Decorations layer (glows, lines, corners, ducks, dots) -- */}
       <div style={{ display: 'flex' }} tw="absolute inset-0">
@@ -334,7 +331,7 @@ export async function GET(request: Request) {
               }}>
               gentleduck/ui
             </span>
-            <span style={{ fontFamily: 'Geist Mono', fontSize: 14 }} tw="text-zinc-500 mt-1">
+            <span style={{ fontSize: 14 }} tw="text-zinc-500 mt-1">
               gentleduck.org
             </span>
           </div>
