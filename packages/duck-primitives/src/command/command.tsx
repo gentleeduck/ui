@@ -35,6 +35,7 @@ type CommandContextValue = {
   setSelectedItem: (item: HTMLLIElement | null) => void
   selectedValue: string | null
   selectedText: string | null
+  shouldFilter: boolean
 }
 
 export const [CommandProvider, useCommandContext] = createCommandContext<CommandContextValue>(COMMAND_NAME)
@@ -77,11 +78,12 @@ type CommandElement = React.ComponentRef<typeof Primitive.div>
 
 export interface CommandProps extends React.ComponentPropsWithRef<typeof Primitive.div> {
   dir?: Direction
+  shouldFilter?: boolean
 }
 
 export const Command = React.forwardRef<CommandElement, CommandProps>(
   (props: ScopedProps<CommandProps>, forwardedRef) => {
-    const { __scopeCommand, dir: dirProp, children, ...commandProps } = props
+    const { __scopeCommand, dir: dirProp, shouldFilter = true, children, ...commandProps } = props
 
     const direction = useDirection(dirProp)
     const listId = useId()
@@ -104,7 +106,8 @@ export const Command = React.forwardRef<CommandElement, CommandProps>(
         selectedItem={selectedItem}
         setSelectedItem={setSelectedItem}
         selectedValue={selectedValue}
-        selectedText={selectedText}>
+        selectedText={selectedText}
+        shouldFilter={shouldFilter}>
         <Collection.Provider scope={__scopeCommand}>
           <CommandInner __scopeCommand={__scopeCommand} {...commandProps} ref={forwardedRef}>
             {children}

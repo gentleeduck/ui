@@ -1,5 +1,16 @@
 # @gentleduck/docs
 
+## 0.2.2
+
+### Patch Changes
+
+- fix(search): disable primitive's built-in filter when using custom lunr search
+
+  The command menu had two competing filtering systems: lunr-based search and the primitive's
+  substring filter. The primitive's filter was hiding items via `el.hidden = true` even when
+  lunr correctly found them, causing search results to not appear. Added `shouldFilter` prop
+  to the Command primitive to allow disabling the built-in filter.
+
 ## 0.2.1
 
 ### Patch Changes
