@@ -22,6 +22,8 @@ bun --filter @gentleduck/ui-docs dev
 - `bun --filter @gentleduck/ui-docs dev` – run the dev server
 - `bun --filter @gentleduck/ui-docs build` – production build
 - `bun --filter @gentleduck/ui-docs start` – serve the build
+- `bun --filter @gentleduck/ui-docs preview` – build and preview via OpenNext (Cloudflare)
+- `bun --filter @gentleduck/ui-docs deploy` – deploy to Cloudflare Workers
 - `bun --filter @gentleduck/ui-docs dev:docs` – watch/generate MDX content
 - `bun --filter @gentleduck/ui-docs build:docs` – one-time MDX build
 - `bun --filter @gentleduck/ui-docs build:reg` – rebuild the UI registry and format output
