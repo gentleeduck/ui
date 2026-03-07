@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
+    "@opennextjs/cloudflare": "^1.17.1",
     "@tailwindcss/postcss": "^4.1.18",
     "@types/culori": "^4.0.1",
     "@types/node": "^25.3.0",
@@ -48,7 +49,8 @@
     "@types/react-dom": "19.2.3",
     "tailwindcss": "^4.2.0",
     "typescript": "5.9.3",
-    "velite": "^0.3.1"
+    "velite": "^0.3.1",
+    "wrangler": "^4.71.0"
   },
   "name": "@gentleduck/ui-docs",
   "author": "gentleduck contributors",
@@ -68,6 +70,8 @@
   },
   "scripts": {
     "build": "MODE=\"production\" next build",
+    "prepare:prod": "bun run build:reg && bun run build:docs",
+    "build:prod": "bun run prepare:prod && bun run build && opennextjs-cloudflare build --skipNextBuild",
     "build:full": "next build",
     "build:docs": "velite",
     "build:reg": "./scripts/run-registry-build.sh && biome format --write ./__ui_registry__/index.tsx",
@@ -77,7 +81,8 @@
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "postbuild": "next-sitemap && node scripts/fix-required-server-files.mjs",
     "start": "next start --port 3008",
-    "preview": "next build && next start"
+    "preview": "bun run build:prod && opennextjs-cloudflare preview",
+    "deploy": "bun run build:prod && opennextjs-cloudflare deploy"
   },
   "version": "3.0.21"
 }

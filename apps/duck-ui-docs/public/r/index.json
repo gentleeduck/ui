@@ -22942,6 +22942,18 @@
         ]
       },
       {
+        "name": "dropdown-menu-selection",
+        "path": "internal-primitives/dropdown-menu-selection",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dropdown-menu-selection.tsx",
+            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
         "name": "tooltip-delay-provider",
         "path": "internal-primitives/tooltip-delay-provider",
         "type": "folder",
@@ -22973,18 +22985,6 @@
           {
             "name": "popover-side-aware.tsx",
             "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "dropdown-menu-selection",
-        "path": "internal-primitives/dropdown-menu-selection",
-        "type": "folder",
-        "children": [
-          {
-            "name": "dropdown-menu-selection.tsx",
-            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
             "type": "file"
           }
         ]
@@ -23031,42 +23031,6 @@
         ]
       },
       {
-        "name": "tooltip-delay-provider",
-        "path": "internal-primitives/tooltip-delay-provider",
-        "type": "folder",
-        "children": [
-          {
-            "name": "tooltip-delay-provider.tsx",
-            "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "select-controlled",
-        "path": "internal-primitives/select-controlled",
-        "type": "folder",
-        "children": [
-          {
-            "name": "select-controlled.tsx",
-            "path": "internal-primitives/select-controlled/select-controlled.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "popover-side-aware",
-        "path": "internal-primitives/popover-side-aware",
-        "type": "folder",
-        "children": [
-          {
-            "name": "popover-side-aware.tsx",
-            "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
         "name": "dropdown-menu-selection",
         "path": "internal-primitives/dropdown-menu-selection",
         "type": "folder",
@@ -23074,47 +23038,6 @@
           {
             "name": "dropdown-menu-selection.tsx",
             "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
-            "type": "file"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "files": [
-      {
-        "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
-        "type": "registry:internal"
-      }
-    ],
-    "name": "tooltip-delay-provider",
-    "registryDependencies": [
-      "@gentleduck/primitives"
-    ],
-    "root_folder": "internal-primitives",
-    "source": "/registry-internals/src/internal-primitives",
-    "type": "registry:internal",
-    "tree": [
-      {
-        "name": "alert-dialog-confirm",
-        "path": "internal-primitives/alert-dialog-confirm",
-        "type": "folder",
-        "children": [
-          {
-            "name": "alert-dialog-confirm.tsx",
-            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "dialog-guarded-async",
-        "path": "internal-primitives/dialog-guarded-async",
-        "type": "folder",
-        "children": [
-          {
-            "name": "dialog-guarded-async.tsx",
-            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
             "type": "file"
           }
         ]
@@ -23151,196 +23074,6 @@
           {
             "name": "popover-side-aware.tsx",
             "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "dropdown-menu-selection",
-        "path": "internal-primitives/dropdown-menu-selection",
-        "type": "folder",
-        "children": [
-          {
-            "name": "dropdown-menu-selection.tsx",
-            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
-            "type": "file"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "files": [
-      {
-        "path": "internal-primitives/select-controlled/select-controlled.tsx",
-        "type": "registry:internal"
-      }
-    ],
-    "name": "select-controlled",
-    "registryDependencies": [
-      "@gentleduck/primitives"
-    ],
-    "root_folder": "internal-primitives",
-    "source": "/registry-internals/src/internal-primitives",
-    "type": "registry:internal",
-    "tree": [
-      {
-        "name": "alert-dialog-confirm",
-        "path": "internal-primitives/alert-dialog-confirm",
-        "type": "folder",
-        "children": [
-          {
-            "name": "alert-dialog-confirm.tsx",
-            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "dialog-guarded-async",
-        "path": "internal-primitives/dialog-guarded-async",
-        "type": "folder",
-        "children": [
-          {
-            "name": "dialog-guarded-async.tsx",
-            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "tooltip-delay-provider",
-        "path": "internal-primitives/tooltip-delay-provider",
-        "type": "folder",
-        "children": [
-          {
-            "name": "tooltip-delay-provider.tsx",
-            "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "select-controlled",
-        "path": "internal-primitives/select-controlled",
-        "type": "folder",
-        "children": [
-          {
-            "name": "select-controlled.tsx",
-            "path": "internal-primitives/select-controlled/select-controlled.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "popover-side-aware",
-        "path": "internal-primitives/popover-side-aware",
-        "type": "folder",
-        "children": [
-          {
-            "name": "popover-side-aware.tsx",
-            "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "dropdown-menu-selection",
-        "path": "internal-primitives/dropdown-menu-selection",
-        "type": "folder",
-        "children": [
-          {
-            "name": "dropdown-menu-selection.tsx",
-            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
-            "type": "file"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    "files": [
-      {
-        "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
-        "type": "registry:internal"
-      }
-    ],
-    "name": "popover-side-aware",
-    "registryDependencies": [
-      "@gentleduck/primitives"
-    ],
-    "root_folder": "internal-primitives",
-    "source": "/registry-internals/src/internal-primitives",
-    "type": "registry:internal",
-    "tree": [
-      {
-        "name": "alert-dialog-confirm",
-        "path": "internal-primitives/alert-dialog-confirm",
-        "type": "folder",
-        "children": [
-          {
-            "name": "alert-dialog-confirm.tsx",
-            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "dialog-guarded-async",
-        "path": "internal-primitives/dialog-guarded-async",
-        "type": "folder",
-        "children": [
-          {
-            "name": "dialog-guarded-async.tsx",
-            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "tooltip-delay-provider",
-        "path": "internal-primitives/tooltip-delay-provider",
-        "type": "folder",
-        "children": [
-          {
-            "name": "tooltip-delay-provider.tsx",
-            "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "select-controlled",
-        "path": "internal-primitives/select-controlled",
-        "type": "folder",
-        "children": [
-          {
-            "name": "select-controlled.tsx",
-            "path": "internal-primitives/select-controlled/select-controlled.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "popover-side-aware",
-        "path": "internal-primitives/popover-side-aware",
-        "type": "folder",
-        "children": [
-          {
-            "name": "popover-side-aware.tsx",
-            "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
-            "type": "file"
-          }
-        ]
-      },
-      {
-        "name": "dropdown-menu-selection",
-        "path": "internal-primitives/dropdown-menu-selection",
-        "type": "folder",
-        "children": [
-          {
-            "name": "dropdown-menu-selection.tsx",
-            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
             "type": "file"
           }
         ]
@@ -23387,6 +23120,18 @@
         ]
       },
       {
+        "name": "dropdown-menu-selection",
+        "path": "internal-primitives/dropdown-menu-selection",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dropdown-menu-selection.tsx",
+            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
         "name": "tooltip-delay-provider",
         "path": "internal-primitives/tooltip-delay-provider",
         "type": "folder",
@@ -23421,6 +23166,47 @@
             "type": "file"
           }
         ]
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
+        "type": "registry:internal"
+      }
+    ],
+    "name": "tooltip-delay-provider",
+    "registryDependencies": [
+      "@gentleduck/primitives"
+    ],
+    "root_folder": "internal-primitives",
+    "source": "/registry-internals/src/internal-primitives",
+    "type": "registry:internal",
+    "tree": [
+      {
+        "name": "alert-dialog-confirm",
+        "path": "internal-primitives/alert-dialog-confirm",
+        "type": "folder",
+        "children": [
+          {
+            "name": "alert-dialog-confirm.tsx",
+            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dialog-guarded-async",
+        "path": "internal-primitives/dialog-guarded-async",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dialog-guarded-async.tsx",
+            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
+            "type": "file"
+          }
+        ]
       },
       {
         "name": "dropdown-menu-selection",
@@ -23430,6 +23216,220 @@
           {
             "name": "dropdown-menu-selection.tsx",
             "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "tooltip-delay-provider",
+        "path": "internal-primitives/tooltip-delay-provider",
+        "type": "folder",
+        "children": [
+          {
+            "name": "tooltip-delay-provider.tsx",
+            "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "select-controlled",
+        "path": "internal-primitives/select-controlled",
+        "type": "folder",
+        "children": [
+          {
+            "name": "select-controlled.tsx",
+            "path": "internal-primitives/select-controlled/select-controlled.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "popover-side-aware",
+        "path": "internal-primitives/popover-side-aware",
+        "type": "folder",
+        "children": [
+          {
+            "name": "popover-side-aware.tsx",
+            "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "internal-primitives/select-controlled/select-controlled.tsx",
+        "type": "registry:internal"
+      }
+    ],
+    "name": "select-controlled",
+    "registryDependencies": [
+      "@gentleduck/primitives"
+    ],
+    "root_folder": "internal-primitives",
+    "source": "/registry-internals/src/internal-primitives",
+    "type": "registry:internal",
+    "tree": [
+      {
+        "name": "alert-dialog-confirm",
+        "path": "internal-primitives/alert-dialog-confirm",
+        "type": "folder",
+        "children": [
+          {
+            "name": "alert-dialog-confirm.tsx",
+            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dialog-guarded-async",
+        "path": "internal-primitives/dialog-guarded-async",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dialog-guarded-async.tsx",
+            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dropdown-menu-selection",
+        "path": "internal-primitives/dropdown-menu-selection",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dropdown-menu-selection.tsx",
+            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "tooltip-delay-provider",
+        "path": "internal-primitives/tooltip-delay-provider",
+        "type": "folder",
+        "children": [
+          {
+            "name": "tooltip-delay-provider.tsx",
+            "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "select-controlled",
+        "path": "internal-primitives/select-controlled",
+        "type": "folder",
+        "children": [
+          {
+            "name": "select-controlled.tsx",
+            "path": "internal-primitives/select-controlled/select-controlled.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "popover-side-aware",
+        "path": "internal-primitives/popover-side-aware",
+        "type": "folder",
+        "children": [
+          {
+            "name": "popover-side-aware.tsx",
+            "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
+            "type": "file"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
+        "type": "registry:internal"
+      }
+    ],
+    "name": "popover-side-aware",
+    "registryDependencies": [
+      "@gentleduck/primitives"
+    ],
+    "root_folder": "internal-primitives",
+    "source": "/registry-internals/src/internal-primitives",
+    "type": "registry:internal",
+    "tree": [
+      {
+        "name": "alert-dialog-confirm",
+        "path": "internal-primitives/alert-dialog-confirm",
+        "type": "folder",
+        "children": [
+          {
+            "name": "alert-dialog-confirm.tsx",
+            "path": "internal-primitives/alert-dialog-confirm/alert-dialog-confirm.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dialog-guarded-async",
+        "path": "internal-primitives/dialog-guarded-async",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dialog-guarded-async.tsx",
+            "path": "internal-primitives/dialog-guarded-async/dialog-guarded-async.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "dropdown-menu-selection",
+        "path": "internal-primitives/dropdown-menu-selection",
+        "type": "folder",
+        "children": [
+          {
+            "name": "dropdown-menu-selection.tsx",
+            "path": "internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "tooltip-delay-provider",
+        "path": "internal-primitives/tooltip-delay-provider",
+        "type": "folder",
+        "children": [
+          {
+            "name": "tooltip-delay-provider.tsx",
+            "path": "internal-primitives/tooltip-delay-provider/tooltip-delay-provider.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "select-controlled",
+        "path": "internal-primitives/select-controlled",
+        "type": "folder",
+        "children": [
+          {
+            "name": "select-controlled.tsx",
+            "path": "internal-primitives/select-controlled/select-controlled.tsx",
+            "type": "file"
+          }
+        ]
+      },
+      {
+        "name": "popover-side-aware",
+        "path": "internal-primitives/popover-side-aware",
+        "type": "folder",
+        "children": [
+          {
+            "name": "popover-side-aware.tsx",
+            "path": "internal-primitives/popover-side-aware/popover-side-aware.tsx",
             "type": "file"
           }
         ]

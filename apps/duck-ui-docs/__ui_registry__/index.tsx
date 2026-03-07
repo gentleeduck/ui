@@ -405,6 +405,10 @@ const _DialogGuardedAsync = dynamic(
   () => import('@gentleduck/registry-internals/internal-primitives/dialog-guarded-async/dialog-guarded-async'),
   { ssr: false },
 )
+const _DropdownMenuSelection = dynamic(
+  () => import('@gentleduck/registry-internals/internal-primitives/dropdown-menu-selection/dropdown-menu-selection'),
+  { ssr: false },
+)
 const _TooltipDelayProvider = dynamic(
   () => import('@gentleduck/registry-internals/internal-primitives/tooltip-delay-provider/tooltip-delay-provider'),
   { ssr: false },
@@ -415,10 +419,6 @@ const _SelectControlled = dynamic(
 )
 const _PopoverSideAware = dynamic(
   () => import('@gentleduck/registry-internals/internal-primitives/popover-side-aware/popover-side-aware'),
-  { ssr: false },
-)
-const _DropdownMenuSelection = dynamic(
-  () => import('@gentleduck/registry-internals/internal-primitives/dropdown-menu-selection/dropdown-menu-selection'),
   { ssr: false },
 )
 const _Signup1 = dynamic(() => import('@gentleduck/registry-blocks/authentications/signup-1/signup-1.constants'), {
@@ -6400,6 +6400,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'internal-primitives',
   },
+  'dropdown-menu-selection': {
+    name: 'dropdown-menu-selection',
+    description: '',
+    type: 'registry:internal',
+    registryDependencies: ['@gentleduck/primitives'],
+    files: [
+      {
+        path: 'internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx',
+        type: 'registry:internal',
+      },
+    ],
+    component: _DropdownMenuSelection,
+    source: '/registry-internals/src/internal-primitives',
+    categories: [],
+    root_folder: 'internal-primitives',
+  },
   'tooltip-delay-provider': {
     name: 'tooltip-delay-provider',
     description: '',
@@ -6444,22 +6460,6 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _PopoverSideAware,
-    source: '/registry-internals/src/internal-primitives',
-    categories: [],
-    root_folder: 'internal-primitives',
-  },
-  'dropdown-menu-selection': {
-    name: 'dropdown-menu-selection',
-    description: '',
-    type: 'registry:internal',
-    registryDependencies: ['@gentleduck/primitives'],
-    files: [
-      {
-        path: 'internal-primitives/dropdown-menu-selection/dropdown-menu-selection.tsx',
-        type: 'registry:internal',
-      },
-    ],
-    component: _DropdownMenuSelection,
     source: '/registry-internals/src/internal-primitives',
     categories: [],
     root_folder: 'internal-primitives',
