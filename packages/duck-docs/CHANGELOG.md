@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.2.0
+
+### Minor Changes
+
+- 9f5eb58: Introduce local font preset support across docs UI, switch docs app fonts from Geist to bundled local assets (JetBrains Mono Nerd, Inter, Inria Serif), update MDX/code typography behavior, and migrate syntax highlighting compatibility for the docs pipeline.
+
 ## 0.1.1
 
 ### Patch Changes
