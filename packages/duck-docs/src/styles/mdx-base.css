@@ -5,8 +5,10 @@
   samp,
   pre {
     font-family: var(--font-mono);
-    font-style: normal;
+    font-style: var(--duck-font-style, normal);
     font-optical-sizing: auto;
+    font-size: var(--text-sm);
+    font-weight: 700;
   }
 
   [data-theme="light"] {

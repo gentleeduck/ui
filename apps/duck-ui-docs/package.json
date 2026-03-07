@@ -4,6 +4,7 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
+    "@fontsource/inter": "^5.2.8",
     "@gentleduck/docs": "workspace:*",
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/lazy": "workspace:*",
@@ -21,7 +22,6 @@
     "@vercel/speed-insights": "^1.3.1",
     "culori": "^4.0.2",
     "date-fns": "^4.1.0",
-    "geist": "^1.7.0",
     "lucide-react": "0.576.0",
     "motion": "^12.26.2",
     "next": "^16.1.1",

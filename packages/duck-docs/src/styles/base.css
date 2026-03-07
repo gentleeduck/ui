@@ -44,6 +44,10 @@
   --code-number: oklch(0.546 0 0);
   --selection: oklch(0.145 0 0);
   --selection-foreground: oklch(1 0 0);
+  --duck-font-family:
+    "Duck JetBrains Mono NFM", "JetBrains Mono Nerd Font Mono", "JetBrains Mono Nerd Font", "JetBrains Mono",
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --duck-font-style: normal;
 }
 
 .dark {
@@ -97,8 +101,36 @@
 @theme inline {
   --breakpoint-3xl: 1600px;
   --breakpoint-4xl: 2000px;
-  --font-sans: var(--font-geist-sans, "Montserrat"), sans-serif;
-  --font-mono: var(--font-geist-mono, "Geist Mono"), monospace;
+  --font-sans: var(
+    --duck-font-family,
+    "Duck JetBrains Mono NFM",
+    var(--font-mono-font, "JetBrains Mono Nerd Font Mono"),
+    "JetBrains Mono Nerd Font",
+    "JetBrains Mono",
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace
+  );
+  --font-mono: var(
+    --duck-font-family,
+    "Duck JetBrains Mono NFM",
+    var(--font-mono-font, "JetBrains Mono Nerd Font Mono"),
+    "JetBrains Mono Nerd Font",
+    "JetBrains Mono",
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    "Liberation Mono",
+    "Courier New",
+    monospace
+  );
   --radius: 0.5rem;
 
   --color-background: var(--background);

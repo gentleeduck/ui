@@ -6,6 +6,7 @@
 
 @theme {
   --animate-shine: shine 8s ease-in-out infinite;
+  --animate-heart-pop: heart-pop 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
 
   @keyframes shine {
     from {
@@ -14,6 +15,28 @@
 
     to {
       background-position: -200% 0;
+    }
+  }
+
+  @keyframes heart-pop {
+    0% {
+      transform: scale(1);
+    }
+
+    35% {
+      transform: scale(1.26);
+    }
+
+    62% {
+      transform: scale(0.94);
+    }
+
+    82% {
+      transform: scale(1.08);
+    }
+
+    to {
+      transform: scale(1);
     }
   }
 }
@@ -30,12 +53,41 @@
     @apply scroll-smooth;
   }
 
+  html[data-font-preset^="mono"] {
+    --duck-font-family:
+      var(--font-mono-font, "JetBrains Mono Nerd Font Mono"), "JetBrains Mono Nerd Font", "JetBrains Mono",
+      ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  }
+
+  html[data-font-preset^="sans"] {
+    --duck-font-family: var(--font-sans-font, "Inter"), ui-sans-serif, system-ui, sans-serif;
+  }
+
+  html[data-font-preset^="serif"] {
+    --duck-font-family: var(--font-serif-font, "Inria Serif"), Georgia, "Times New Roman", serif;
+  }
+
+  html[data-font-preset$="italic"] {
+    --duck-font-style: italic;
+  }
+
+  html[data-font-preset$="normal"] {
+    --duck-font-style: normal;
+  }
+
+  html,
+  body {
+    font-family: var(--duck-font-family, var(--font-mono)) !important;
+    font-style: var(--duck-font-style, normal) !important;
+  }
+
   .font-sans {
-    font-family: var(--font-geist-sans, "Montserrat"), sans-serif !important;
+    font-family: var(--font-sans) !important;
   }
 
   .font-mono {
-    font-family: var(--font-geist-mono, "Geist Mono"), monospace !important;
+    font-family: var(--font-mono) !important;
+    font-variant-numeric: tabular-nums;
   }
 
   ::-webkit-scrollbar {
@@ -63,6 +115,7 @@
 
   body {
     @apply bg-background text-foreground;
+    font-variant-numeric: tabular-nums;
     font-feature-settings:
       "rlig" 1,
       "calt" 1;

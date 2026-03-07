@@ -20,7 +20,9 @@
 }
 
 @theme inline {
-  --font-mono: var(--font-geist-mono, "Geist Mono"), monospace;
+  --font-mono:
+    var(--font-mono-font, "JetBrains Mono Nerd Font"), "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco,
+    Consolas, "Liberation Mono", "Courier New", monospace;
   --radius: 0.5rem;
 
   --color-background: var(--background);

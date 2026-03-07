@@ -5,9 +5,16 @@ import { ModeSwitcher } from '@duck-docs/components/mode-toggle'
 import { useSiteConfig } from '@duck-docs/context'
 import { cn } from '@gentleduck/libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from '@gentleduck/registry-ui/dropdown-menu'
 import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
-import { CaseUpper, Github, Twitter, Type } from 'lucide-react'
+import { Github, Twitter, Type } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { HeaderContainer, HeaderRoot } from './header-shell'
@@ -16,6 +23,71 @@ const CommandMenu = React.lazy(() =>
   import('@duck-docs/components/layouts/command-menu').then((m) => ({ default: m.CommandMenu })),
 )
 const MobileNav = React.lazy(() => import('@duck-docs/components/mobile-nav').then((m) => ({ default: m.MobileNav })))
+
+type FontPreset = 'mono-italic' | 'mono-normal' | 'sans-normal' | 'sans-italic' | 'serif-normal' | 'serif-italic'
+const FONT_PRESET_STORAGE_KEY = 'fontPresetV6'
+
+const DEFAULT_FONT_PRESET: FontPreset = 'mono-normal'
+
+const FONT_PRESET_OPTIONS: Array<{ label: string; value: FontPreset }> = [
+  { label: 'JetBrains Mono Nerd Italic', value: 'mono-italic' },
+  { label: 'JetBrains Mono Nerd Regular', value: 'mono-normal' },
+  { label: 'Inter Regular', value: 'sans-normal' },
+  { label: 'Inter Italic', value: 'sans-italic' },
+  { label: 'Inria Serif Regular', value: 'serif-normal' },
+  { label: 'Inria Serif Italic', value: 'serif-italic' },
+]
+
+const VALID_FONT_PRESETS = new Set<FontPreset>(FONT_PRESET_OPTIONS.map((option) => option.value))
+
+function isFontPreset(value: unknown): value is FontPreset {
+  return typeof value === 'string' && VALID_FONT_PRESETS.has(value as FontPreset)
+}
+
+function applyFontPreset(preset: FontPreset) {
+  const family = preset.startsWith('sans')
+    ? 'var(--font-sans-font, "Inter"), ui-sans-serif, system-ui, sans-serif'
+    : preset.startsWith('serif')
+      ? 'var(--font-serif-font, "Inria Serif"), Georgia, "Times New Roman", serif'
+      : 'var(--font-mono-font, "JetBrains Mono Nerd Font Mono"), "JetBrains Mono Nerd Font", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
+  const familyVar = preset.startsWith('sans')
+    ? '--font-sans-font'
+    : preset.startsWith('serif')
+      ? '--font-serif-font'
+      : '--font-mono-font'
+  const style = preset.endsWith('italic') ? 'italic' : 'normal'
+
+  document.documentElement.setAttribute('data-font-preset', preset)
+  const warmUpFont = () => {
+    if (!document.fonts?.load) {
+      return
+    }
+    try {
+      const familyToken = getComputedStyle(document.documentElement).getPropertyValue(familyVar).trim()
+      if (!familyToken) {
+        return
+      }
+      const stylePrefix = style === 'italic' ? 'italic ' : ''
+      void document.fonts.load(`${stylePrefix}400 1em ${familyToken}`)
+      void document.fonts.load(`${stylePrefix}500 1em ${familyToken}`)
+      void document.fonts.load(`${stylePrefix}700 1em ${familyToken}`)
+    } catch {
+      // Ignore font prewarm failures and let normal rendering fallback.
+    }
+  }
+
+  document.documentElement.style.setProperty('--duck-font-family', family)
+  document.documentElement.style.setProperty('--font-sans', family)
+  document.documentElement.style.setProperty('--font-mono', family)
+  document.documentElement.style.setProperty('font-family', family, 'important')
+  document.documentElement.style.setProperty('font-style', style, 'important')
+  document.documentElement.style.setProperty('--duck-font-style', style)
+  if (document.body) {
+    document.body.style.setProperty('font-family', family, 'important')
+    document.body.style.setProperty('font-style', style, 'important')
+  }
+  warmUpFont()
+}
 
 export function SiteHeader() {
   const siteConfig = useSiteConfig()
@@ -144,34 +216,99 @@ function GitHubStarsButton() {
     </Link>
   )
 }
-const fontAtom = atomWithStorage('fontType', 'mono')
+const fontPresetAtom = atomWithStorage<FontPreset>(FONT_PRESET_STORAGE_KEY, DEFAULT_FONT_PRESET)
 
 export function FontStyleButton() {
-  const [fontType, setFontType] = useAtom(fontAtom)
-  const firstRender = React.useRef(true)
+  const [fontPreset, setFontPreset] = useAtom(fontPresetAtom)
 
   React.useEffect(() => {
-    if (firstRender.current) {
-      firstRender.current = false
+    try {
+      const hasNewPreset = localStorage.getItem(FONT_PRESET_STORAGE_KEY) !== null
+      if (hasNewPreset) {
+        return
+      }
+
+      const rawV5Preset = localStorage.getItem('fontPresetV5')
+      if (rawV5Preset) {
+        const v5Preset = JSON.parse(rawV5Preset)
+        const migratedPreset: FontPreset = isFontPreset(v5Preset)
+          ? (String(v5Preset).replace('-italic', '-normal') as FontPreset)
+          : DEFAULT_FONT_PRESET
+        setFontPreset(migratedPreset)
+        return
+      }
+
+      const rawV2Preset = localStorage.getItem('fontPresetV2')
+      if (rawV2Preset) {
+        const v2Preset = JSON.parse(rawV2Preset)
+        const migratedPreset: FontPreset =
+          isFontPreset(v2Preset) && v2Preset.startsWith('mono') ? v2Preset : DEFAULT_FONT_PRESET
+        setFontPreset(migratedPreset)
+        return
+      }
+
+      const rawOldPreset = localStorage.getItem('fontPreset')
+      if (rawOldPreset) {
+        const oldPreset = JSON.parse(rawOldPreset)
+        const migratedPreset: FontPreset =
+          isFontPreset(oldPreset) && oldPreset.startsWith('mono') ? oldPreset : DEFAULT_FONT_PRESET
+        setFontPreset(migratedPreset)
+        return
+      }
+
+      const rawLegacyType = localStorage.getItem('fontType')
+      if (rawLegacyType) {
+        const legacyType = JSON.parse(rawLegacyType)
+        const migratedPreset: FontPreset = legacyType === 'mono' ? 'mono-normal' : DEFAULT_FONT_PRESET
+        setFontPreset(migratedPreset)
+      }
+    } catch {
+      // Ignore legacy migration issues and keep defaults.
+    }
+  }, [setFontPreset])
+
+  React.useEffect(() => {
+    if (!isFontPreset(fontPreset)) {
+      setFontPreset(DEFAULT_FONT_PRESET)
       return
     }
-
-    const family =
-      fontType === 'sans'
-        ? 'var(--font-geist-sans, "Montserrat"), sans-serif'
-        : 'var(--font-geist-mono, "Geist Mono"), monospace'
-
-    document.documentElement.style.setProperty('font-family', family, 'important')
-  }, [fontType])
+    applyFontPreset(fontPreset)
+  }, [fontPreset, setFontPreset])
 
   return (
-    <button
-      aria-label={fontType === 'mono' ? 'Switch to sans-serif font' : 'Switch to monospace font'}
-      className={cn(buttonVariants({ size: 'icon', variant: 'ghost' }))}
-      onClick={() => setFontType(fontType === 'mono' ? 'sans' : 'mono')}
-      type="button">
-      {fontType === 'mono' ? <Type aria-hidden="true" /> : <CaseUpper aria-hidden="true" />}
-    </button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <button
+          aria-label="Font and style"
+          className={cn(buttonVariants({ size: 'icon', variant: 'ghost' }), 'size-8')}
+          type="button">
+          <Type aria-hidden="true" className="size-4" />
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end" className="w-60">
+        <DropdownMenuRadioGroup
+          onValueChange={(value) => {
+            if (!isFontPreset(value)) {
+              return
+            }
+            setFontPreset(value)
+            applyFontPreset(value)
+          }}
+          value={fontPreset}>
+          {FONT_PRESET_OPTIONS.map((option) => (
+            <DropdownMenuRadioItem
+              key={option.value}
+              onSelect={() => {
+                setFontPreset(option.value)
+                applyFontPreset(option.value)
+              }}
+              value={option.value}>
+              {option.label}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 
