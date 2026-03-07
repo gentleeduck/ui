@@ -1,5 +1,19 @@
 # @gentleduck/registry-ui
 
+## 0.2.5
+
+### Patch Changes
+
+- fix(search): disable primitive's built-in filter when using custom lunr search
+
+  The command menu had two competing filtering systems: lunr-based search and the primitive's
+  substring filter. The primitive's filter was hiding items via `el.hidden = true` even when
+  lunr correctly found them, causing search results to not appear. Added `shouldFilter` prop
+  to the Command primitive to allow disabling the built-in filter.
+
+- Updated dependencies
+  - @gentleduck/primitives@0.2.4
+
 ## 0.2.4
 
 ### Patch Changes

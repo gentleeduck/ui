@@ -211,7 +211,7 @@ export function CommandMenu() {
           <span className="text-md">K</span>
         </CommandShortcut>
       </Button>
-      <CommandDialog onOpenChange={setOpen} open={open}>
+      <CommandDialog onOpenChange={setOpen} open={open} shouldFilter={false}>
         <CommandInput autoFocus placeholder="Search..." />
         <VirtualCommandList
           flatRows={flatRows}
@@ -385,11 +385,21 @@ function VirtualCommandList({
 
   const isEmpty = itemRows.length === 0
 
+  // The primitive's CommandList has a built-in substring filter that sets el.hidden = true.
+  // Since we handle filtering ourselves via lunr, unhide all items after the primitive's effect runs.
+  const listContainerRef = React.useRef<HTMLDivElement>(null)
+  React.useEffect(() => {
+    const container = listContainerRef.current
+    if (!container) return
+    const hiddenItems = container.querySelectorAll('[data-slot="command-item"][hidden]')
+    hiddenItems.forEach((el) => el.removeAttribute('hidden'))
+  })
+
   return (
     <>
       {isEmpty && <CommandEmpty>No results found.</CommandEmpty>}
       <CommandList className="h-[390px] max-h-full w-full md:w-full" scrollRef={scrollRef}>
-        <div style={{ height: virtualizer.getTotalSize(), position: 'relative', width: '100%' }}>
+        <div ref={listContainerRef} style={{ height: virtualizer.getTotalSize(), position: 'relative', width: '100%' }}>
           {virtualizer.getVirtualItems().map((virtualRow) => {
             const row = filteredRows[virtualRow.index]
             const isSelected = row === selectedRow
@@ -414,7 +424,6 @@ function VirtualCommandList({
                 ) : (
                   <CommandItem
                     value={row?.name}
-                    textValue={search ? `${row?.name} ${search}` : row?.name}
                     data-highlighted={isSelected ? '' : undefined}
                     aria-selected={isSelected}
                     onSelect={() => {

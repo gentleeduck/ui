@@ -25,7 +25,10 @@ export const CommandList = React.forwardRef<CommandListElement, CommandListProps
 
     // Filtering effect (replaces useCommandSearch)
     // Uses Collection data instead of raw DOM queries.
+    // Skipped when shouldFilter is false (external filtering is handled by consumer).
     React.useEffect(() => {
+      if (!context.shouldFilter) return
+
       const items = getItems()
       if (items.length === 0) return
 
@@ -70,7 +73,7 @@ export const CommandList = React.forwardRef<CommandListElement, CommandListProps
           }
         }
       }
-    }, [context.search, getItems])
+    }, [context.search, context.shouldFilter, getItems])
 
     return (
       <CommandListProvider scope={__scopeCommand} onItemLeave={handleItemLeave} listRef={listRef} emptyRef={emptyRef}>

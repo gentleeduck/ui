@@ -162,13 +162,19 @@ function CommandShortcut({
   )
 }
 
-function CommandDialog({ children, ...props }: React.ComponentPropsWithRef<typeof Dialog>): React.JSX.Element {
+function CommandDialog({
+  children,
+  shouldFilter,
+  ...props
+}: React.ComponentPropsWithRef<typeof Dialog> & { shouldFilter?: boolean }): React.JSX.Element {
   return (
     <Dialog {...props}>
       <DialogContent className="h-125 max-w-full p-0 lg:w-[700px]">
         <DialogTitle className="sr-only">Command palette</DialogTitle>
         <DialogDescription className="sr-only">Search for commands and navigation items</DialogDescription>
-        <Command className="max-w-full">{children}</Command>
+        <Command className="max-w-full" shouldFilter={shouldFilter}>
+          {children}
+        </Command>
       </DialogContent>
     </Dialog>
   )
