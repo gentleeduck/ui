@@ -13,7 +13,6 @@ coverage
 
 # next.js
 .next/
-**/.velite/
 out/
 next-env.d.ts
 
