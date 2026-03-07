@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.2.1
+
+### Patch Changes
+
+- 2dddadb: fixing some issues
+
 ## 0.2.0
 
 ### Minor Changes
