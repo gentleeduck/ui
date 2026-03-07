@@ -69,10 +69,10 @@
   "scripts": {
     "build": "MODE=\"production\" next build",
     "build:full": "next build",
-    "build:docs": "bunx velite",
+    "build:docs": "velite",
     "build:reg": "./scripts/run-registry-build.sh && biome format --write ./__ui_registry__/index.tsx",
     "dev": "next dev",
-    "dev:docs": "bunx velite dev",
+    "dev:docs": "velite dev",
     "lint": "next lint",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "postbuild": "next-sitemap && node scripts/fix-required-server-files.mjs",
