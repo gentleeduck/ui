@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.2.3
+
+### Patch Changes
+
+- 5ccba20: fixed the copy-button z-index
+
 ## 0.2.2
 
 ### Patch Changes
