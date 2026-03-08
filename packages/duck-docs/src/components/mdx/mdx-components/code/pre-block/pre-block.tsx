@@ -31,7 +31,10 @@ export function PreBlock({
         <>
           {__rawString__ && !__npmCommand__ && (
             <CopyButton
-              className={cn('absolute top-2 right-2 bg-muted [&_svg]:text-muted-foreground', __withMeta__ && 'top-16')}
+              className={cn(
+                'absolute top-2 right-2 z-10 bg-muted [&_svg]:text-muted-foreground',
+                __withMeta__ && 'top-16',
+              )}
               event={__event__}
               value={__rawString__}
               variant={'outline'}
@@ -39,7 +42,7 @@ export function PreBlock({
           )}
           <pre
             className={cn(
-              'max-h-[650px] overflow-auto rounded-lg py-4 focus-visible:shadow-none focus-visible:outline-none',
+              'max-h-162.5 overflow-auto rounded-lg py-4 focus-visible:shadow-none focus-visible:outline-none',
               className,
             )}
             {...props}>
