@@ -10,6 +10,7 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 permissions:
   contents: write
   pull-requests: write
+  workflows: write
 
 env:
   BUN_VERSION: "1.3.5"
