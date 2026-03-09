@@ -15,6 +15,7 @@ import type {
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 export const THEMES = { dark: '.dark', light: '' } as const
+const DEFAULT_CHART_INITIAL_DIMENSION = { width: 640, height: 360 } as const
 
 const ChartContext = React.createContext<ChartContextProps | null>(null)
 
@@ -46,7 +47,9 @@ const ChartContainer = ({ id, className, children, config, ref, dir, ...props }:
         dir={direction}
         ref={ref}>
         <ChartStyle config={config} id={chartId} />
-        <RechartsPrimitive.ResponsiveContainer minWidth={0}>{children}</RechartsPrimitive.ResponsiveContainer>
+        <RechartsPrimitive.ResponsiveContainer initialDimension={DEFAULT_CHART_INITIAL_DIMENSION} minWidth={0}>
+          {children}
+        </RechartsPrimitive.ResponsiveContainer>
       </div>
     </ChartContext.Provider>
   )

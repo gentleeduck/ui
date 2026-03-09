@@ -337,7 +337,19 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
       setLoading,
       width,
     })
-  }, [blob])
+  }, [
+    blob,
+    barWidth,
+    currentColors.backgroundColor,
+    currentColors.barColor,
+    currentColors.barPlayedColor,
+    gap,
+    height,
+    minBarHeight,
+    process_audio,
+    setLoading,
+    width,
+  ])
 
   React.useEffect(() => {
     if (!canvasRef.current) return
@@ -359,7 +371,19 @@ const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
       gap,
       minBarHeight,
     })
-  }, [data, width, height, currentTime, duration, animationProgress, theme])
+  }, [
+    data,
+    width,
+    currentTime,
+    duration,
+    animationProgress,
+    barWidth,
+    currentColors.backgroundColor,
+    currentColors.barColor,
+    currentColors.barPlayedColor,
+    gap,
+    minBarHeight,
+  ])
 
   return (
     <canvas

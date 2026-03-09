@@ -243,7 +243,7 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
 
     const oneLine = committedText.replace(/\s+/g, ' ').trim()
     return oneLine.length > 120 ? `${oneLine.slice(0, 117)}...` : oneLine
-  }, [committedText])
+  }, [committedText, t.nullPreview])
 
   const inlineEditor = (
     <div className="space-y-2" data-slot="json-editor-inline">
@@ -335,67 +335,65 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
       {fieldState.error ? <FieldError errors={[fieldState.error]} /> : null}
 
       {expandMode === 'sheet' ? (
-        <>
-          <Sheet
-            onOpenChange={(nextOpen) => {
-              if (nextOpen) {
-                openSheet()
-                return
-              }
+        <Sheet
+          onOpenChange={(nextOpen) => {
+            if (nextOpen) {
+              openSheet()
+              return
+            }
 
-              requestCloseSheet()
-            }}
-            open={sheetOpen}>
-            <SheetContent className="w-full sm:max-w-3xl" dir={dir} side={sheetSide}>
-              <SheetHeader>
-                <SheetTitle>{sheetTitle}</SheetTitle>
-              </SheetHeader>
+            requestCloseSheet()
+          }}
+          open={sheetOpen}>
+          <SheetContent className="w-full sm:max-w-3xl" dir={dir} side={sheetSide}>
+            <SheetHeader>
+              <SheetTitle>{sheetTitle}</SheetTitle>
+            </SheetHeader>
 
-              <div className="mt-4 space-y-3" data-slot="json-editor-sheet-content">
-                <JsonEditorView
-                  dir={dir}
-                  lang={lang}
-                  lineHeightPx={lineHeightPx}
-                  lineNumbers={lineNumbers}
-                  onChange={(value) => {
-                    setSheetDraft(value)
-                    setSheetDirty(true)
-                  }}
-                  onKeyDown={sheetHotkeys}
-                  onScroll={setSheetScrollTop}
-                  placeholder={placeholder}
-                  readOnly={!isEditable}
-                  rows={24}
-                  scrollTop={sheetScrollTop}
-                  value={sheetDraft}
-                />
+            <div className="mt-4 space-y-3" data-slot="json-editor-sheet-content">
+              <JsonEditorView
+                dir={dir}
+                lang={lang}
+                lineHeightPx={lineHeightPx}
+                lineNumbers={lineNumbers}
+                onChange={(value) => {
+                  setSheetDraft(value)
+                  setSheetDirty(true)
+                }}
+                onKeyDown={sheetHotkeys}
+                onScroll={setSheetScrollTop}
+                placeholder={placeholder}
+                readOnly={!isEditable}
+                rows={24}
+                scrollTop={sheetScrollTop}
+                value={sheetDraft}
+              />
 
-                <div className="flex items-center justify-between gap-2" data-slot="json-editor-sheet-actions">
-                  <div className="text-muted-foreground text-xs">{t.sheetStatusHint}</div>
+              <div className="flex items-center justify-between gap-2" data-slot="json-editor-sheet-actions">
+                <div className="text-muted-foreground text-xs">{t.sheetStatusHint}</div>
 
-                  <div className="flex items-center gap-2">
-                    <Button
-                      disabled={!isEditable || !canFormatSheet}
-                      onClick={formatSheet}
-                      size="sm"
-                      type="button"
-                      variant="outline">
-                      {t.format}
-                    </Button>
+                <div className="flex items-center gap-2">
+                  <Button
+                    disabled={!isEditable || !canFormatSheet}
+                    onClick={formatSheet}
+                    size="sm"
+                    type="button"
+                    variant="outline">
+                    {t.format}
+                  </Button>
 
-                    <Button onClick={requestCloseSheet} size="sm" type="button" variant="outline">
-                      {t.close}
-                    </Button>
+                  <Button onClick={requestCloseSheet} size="sm" type="button" variant="outline">
+                    {t.close}
+                  </Button>
 
-                    <Button disabled={!isEditable} onClick={saveSheet} size="sm" type="button">
-                      {t.save}
-                    </Button>
-                  </div>
+                  <Button disabled={!isEditable} onClick={saveSheet} size="sm" type="button">
+                    {t.save}
+                  </Button>
                 </div>
               </div>
-            </SheetContent>
-          </Sheet>
-        </>
+            </div>
+          </SheetContent>
+        </Sheet>
       ) : null}
 
       <Portal>

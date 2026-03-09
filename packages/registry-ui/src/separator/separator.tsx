@@ -17,7 +17,6 @@ const Separator = React.forwardRef<
       aria-orientation={orientation}
       className={cn('shrink-0 bg-border', orientation === 'horizontal' ? 'h-px w-full' : 'min-h-full w-px', className)}
       dir={direction}
-      role="separator"
       {...props}
       data-slot="separator"
     />

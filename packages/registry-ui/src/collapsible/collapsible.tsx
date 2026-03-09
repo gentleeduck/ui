@@ -56,7 +56,7 @@ const Collapsible = React.forwardRef<
 
     triggerRef.current?.addEventListener('click', handleClick)
     return () => triggerRef.current?.removeEventListener('click', handleClick)
-  }, [open])
+  }, [open, handleOpenChange, onOpenChange])
 
   return (
     <CollapsibleContext.Provider

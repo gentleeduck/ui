@@ -35,7 +35,7 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
 
     React.useEffect(() => {
       if (onValueChange) onValueChange(activeItem)
-    }, [activeItem])
+    }, [activeItem, onValueChange])
 
     return (
       <TabsContext.Provider value={{ activeItem, setActiveItem, tabsId }}>
@@ -74,7 +74,7 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
 
     React.useEffect(() => {
       if (defaultChecked) setActiveItem(value)
-    }, [defaultChecked])
+    }, [defaultChecked, setActiveItem, value])
 
     return (
       <button
