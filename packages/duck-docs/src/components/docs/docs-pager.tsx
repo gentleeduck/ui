@@ -104,7 +104,7 @@ export function getPagerForDoc(doc: DocsPagerProps['doc'], docsConfig: DocsConfi
   const flattenedLinks = [null, ...flatten(allNav), null]
 
   // Normalize slug: ensure leading /, strip trailing /index
-  const normalizedSlug = ('/' + (doc.slug ?? '')).replace(/\/+/g, '/').replace(/\/index$/, '')
+  const normalizedSlug = `/${doc.slug ?? ''}`.replace(/\/+/g, '/').replace(/\/index$/, '')
 
   const activeIndex = flattenedLinks.findIndex((link) => {
     if (!link?.href) return false

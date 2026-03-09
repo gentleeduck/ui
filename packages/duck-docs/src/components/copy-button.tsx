@@ -25,7 +25,7 @@ export function CopyButton({ value, className, variant = 'ghost', event, ...prop
     setTimeout(() => {
       setHasCopied(false)
     }, 3000)
-  }, [hasCopied])
+  }, [])
 
   return (
     <Button

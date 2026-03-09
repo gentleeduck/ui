@@ -39,39 +39,110 @@ function itemPadding(depth: number): number {
   return depth >= 2 ? 28 : 16
 }
 
+/**
+ * Find the best heading to activate based on current scroll position.
+ * Walks backwards through headings and picks the last one whose top
+ * is above or at the viewport top (with a small offset).
+ */
+function findActiveHeading(ids: string[]): string | null {
+  // At the very bottom of the page, activate the last heading visible
+  const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 50
+  if (atBottom) {
+    for (let i = ids.length - 1; i >= 0; i--) {
+      const id = ids[i]
+      if (!id) continue
+      const el = document.getElementById(id)
+      if (el && el.getBoundingClientRect().top < window.innerHeight) {
+        return id
+      }
+    }
+  }
+
+  // Otherwise find the last heading scrolled past (top <= 100px from viewport top)
+  let best: string | null = null
+  for (const id of ids) {
+    const el = document.getElementById(id)
+    if (el && el.getBoundingClientRect().top <= 100) {
+      best = id
+    }
+  }
+  return best
+}
+
 // -- Hooks -------------------------------------------------------------------
 
 function useActiveItem(itemIds: (string | undefined)[]) {
   const [activeId, setActiveId] = React.useState<string>('')
+  const lockedIdRef = React.useRef<string | null>(null)
+  const hasInitialized = React.useRef(false)
+
+  const setFromClick = React.useCallback((id: string) => {
+    setActiveId(id)
+    // Lock: ignore scroll updates until the smooth scroll finishes
+    lockedIdRef.current = id
+
+    function unlock() {
+      // Only unlock if it's still the same target
+      if (lockedIdRef.current === id) lockedIdRef.current = null
+      window.removeEventListener('scrollend', unlock)
+    }
+
+    // scrollend fires once smooth scrolling stops
+    window.addEventListener('scrollend', unlock, { once: true })
+    // Safety fallback in case scrollend doesn't fire (e.g. already at position)
+    setTimeout(() => {
+      if (lockedIdRef.current === id) lockedIdRef.current = null
+    }, 2000)
+  }, [])
 
   React.useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setActiveId(entry.target.id)
-          }
-        })
-      },
-      { rootMargin: '0% 0% -80% 0%' },
-    )
+    const validIds = itemIds.filter(Boolean) as string[]
+    if (!validIds.length) return
 
-    itemIds?.forEach((id) => {
-      if (!id) return
-      const element = document.getElementById(id)
-      if (element) observer.observe(element)
-    })
-
-    return () => {
-      itemIds?.forEach((id) => {
-        if (!id) return
-        const element = document.getElementById(id)
-        if (element) observer.unobserve(element)
-      })
+    function onScroll() {
+      if (lockedIdRef.current) return
+      const active = findActiveHeading(validIds)
+      if (active) setActiveId(active)
     }
+
+    // On first mount: handle URL hash
+    if (!hasInitialized.current) {
+      hasInitialized.current = true
+      const hash = window.location.hash.replace('#', '')
+
+      if (hash && validIds.includes(hash)) {
+        // Lock and set the hash as active immediately
+        setActiveId(hash)
+        lockedIdRef.current = hash
+
+        requestAnimationFrame(() => {
+          const heading = document.getElementById(hash)
+          if (!heading) {
+            lockedIdRef.current = null
+            return
+          }
+          const top = heading.getBoundingClientRect().top + window.scrollY - 80
+          window.scrollTo({ top, behavior: 'smooth' })
+
+          function unlock() {
+            if (lockedIdRef.current === hash) lockedIdRef.current = null
+            window.removeEventListener('scrollend', unlock)
+          }
+          window.addEventListener('scrollend', unlock, { once: true })
+          setTimeout(() => {
+            if (lockedIdRef.current === hash) lockedIdRef.current = null
+          }, 2000)
+        })
+      } else {
+        onScroll()
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
   }, [itemIds])
 
-  return activeId
+  return [activeId, setFromClick] as const
 }
 
 function useTocThumb(containerRef: React.RefObject<HTMLDivElement | null>, activeItem: string): [number, number] {
@@ -150,7 +221,7 @@ function useTocSvg(containerRef: React.RefObject<HTMLDivElement | null>, items: 
     compute()
     observer.observe(container)
     return () => observer.disconnect()
-  }, [items])
+  }, [items, containerRef.current])
 
   return svg
 }
@@ -159,14 +230,22 @@ function useTocSvg(containerRef: React.RefObject<HTMLDivElement | null>, items: 
 
 function TocSkeleton({ toc }: TocProps) {
   const skeletonItems = React.useMemo(() => {
-    const items: { level: number; width: string }[] = []
+    const items: { key: string; level: number; width: string }[] = []
     for (const entry of toc) {
       const chars = entry.title.length
-      items.push({ level: 1, width: `${Math.min(Math.max(chars * 8, 80), 200)}px` })
+      items.push({
+        key: entry.url,
+        level: 1,
+        width: `${Math.min(Math.max(chars * 8, 80), 200)}px`,
+      })
       if (entry.items) {
         for (const sub of entry.items) {
           const subChars = sub.title.length
-          items.push({ level: 2, width: `${Math.min(Math.max(subChars * 7, 64), 160)}px` })
+          items.push({
+            key: sub.url,
+            level: 2,
+            width: `${Math.min(Math.max(subChars * 7, 64), 160)}px`,
+          })
         }
       }
     }
@@ -175,8 +254,8 @@ function TocSkeleton({ toc }: TocProps) {
 
   return (
     <ul className="m-0 list-none">
-      {skeletonItems.map((item, i) => (
-        <li key={i} className={cn('mt-0 pt-2', { 'pl-4': item.level > 1 })}>
+      {skeletonItems.map((item) => (
+        <li key={item.key} className={cn('mt-0 pt-2', { 'pl-4': item.level > 1 })}>
           <div className="h-3.5 animate-pulse rounded-full bg-muted/70" style={{ width: item.width }} />
         </li>
       ))}
@@ -186,10 +265,65 @@ function TocSkeleton({ toc }: TocProps) {
 
 // -- TocTree -----------------------------------------------------------------
 
-function TocTree({ items, activeItem }: { items: FlatTocItem[]; activeItem: string }) {
+function TocTree({
+  items,
+  activeItem,
+  onItemClick,
+}: {
+  items: FlatTocItem[]
+  activeItem: string
+  onItemClick?: (id: string) => void
+}) {
   const containerRef = React.useRef<HTMLDivElement>(null)
   const thumb = useTocThumb(containerRef, activeItem)
   const svg = useTocSvg(containerRef, items)
+
+  // Scroll the active TOC link into view within the scrollable container
+  React.useEffect(() => {
+    const container = containerRef.current
+    if (!activeItem || !container) return
+
+    const scrollParent = container.closest<HTMLElement>('[class*="overflow-y"]') ?? container.parentElement
+    if (!scrollParent) return
+
+    const el = container.querySelector<HTMLElement>(`a[href="#${activeItem}"]`)
+    if (!el) return
+
+    const scrollRect = scrollParent.getBoundingClientRect()
+    const elRect = el.getBoundingClientRect()
+
+    // Only scroll if the active item is outside the visible area
+    if (elRect.top < scrollRect.top || elRect.bottom > scrollRect.bottom) {
+      const targetScroll = el.offsetTop - scrollParent.offsetTop - scrollParent.clientHeight / 2 + el.clientHeight / 2
+      scrollParent.scrollTo({ top: targetScroll, behavior: 'smooth' })
+    }
+  }, [activeItem])
+
+  const handleClick = React.useCallback(
+    (e: React.MouseEvent<HTMLAnchorElement>, item: FlatTocItem) => {
+      const id = item.url.split('#')[1]
+      if (!id) return
+
+      const heading = document.getElementById(id)
+      if (!heading) return
+
+      // Prevent the browser's default hash-jump behavior.
+      // We scroll manually so we can place the heading at a nice offset
+      // instead of jamming it to the very top of the viewport.
+      e.preventDefault()
+
+      // Activate immediately
+      onItemClick?.(id)
+
+      // Update the URL hash without triggering a scroll
+      window.history.pushState(null, '', `#${id}`)
+
+      // Scroll the heading into view with offset so it sits below the header
+      const top = heading.getBoundingClientRect().top + window.scrollY - 80
+      window.scrollTo({ top, behavior: 'smooth' })
+    },
+    [onItemClick],
+  )
 
   return (
     <div ref={containerRef} className="relative">
@@ -215,11 +349,12 @@ function TocTree({ items, activeItem }: { items: FlatTocItem[]; activeItem: stri
       ) : null}
 
       {/* Link labels */}
-      {items.map((item, i) => {
+      {items.map((item) => {
         return (
           <a
-            key={i}
+            key={item.url}
             href={item.url}
+            onClick={(e) => handleClick(e, item)}
             className={cn(
               'relative block py-1.5 no-underline transition-colors [overflow-wrap:anywhere]',
               item.url === `#${activeItem}`
@@ -262,7 +397,7 @@ function TocTree({ items, activeItem }: { items: FlatTocItem[]; activeItem: stri
 export function DashboardTableOfContents({ toc }: TocProps) {
   const flatItems = React.useMemo(() => flattenToc(toc), [toc])
   const itemIds = React.useMemo(() => flatItems.map((item) => item.url.split('#')[1]).filter(Boolean), [flatItems])
-  const activeHeading = useActiveItem(itemIds)
+  const [activeHeading, setActiveHeading] = useActiveItem(itemIds)
   const mounted = useMounted()
 
   if (!toc.length) return null
@@ -274,7 +409,11 @@ export function DashboardTableOfContents({ toc }: TocProps) {
         <p className="font-medium">On This Page</p>
       </div>
       <div className="min-h-0 flex-1 overflow-y-auto">
-        {mounted ? <TocTree activeItem={activeHeading} items={flatItems} /> : <TocSkeleton toc={toc} />}
+        {mounted ? (
+          <TocTree activeItem={activeHeading} items={flatItems} onItemClick={setActiveHeading} />
+        ) : (
+          <TocSkeleton toc={toc} />
+        )}
       </div>
     </div>
   )

@@ -12,6 +12,10 @@ export interface DocsSidebarNavProps {
   config?: DocsConfig
 }
 
+function getSidebarItemKey(item: SidebarNavItem) {
+  return item.href ?? `${item.title}-${item.label ?? 'item'}`
+}
+
 function isPathActive(pathname: string, href: string) {
   return pathname === href || (href !== '/docs' && pathname.startsWith(`${href}/`))
 }
@@ -36,8 +40,8 @@ export function DocsSidebarNav({ config }: DocsSidebarNavProps) {
   return (
     items?.length && (
       <div className="flex w-full flex-col">
-        {items.map((item, index) => (
-          <CategoryItem item={item} key={index} pathname={pathname} />
+        {items.map((item) => (
+          <CategoryItem item={item} key={getSidebarItemKey(item)} pathname={pathname} />
         ))}
       </div>
     )
@@ -100,7 +104,7 @@ export function DocsSidebarNavItems({
             forceClose={activeAccordionIndex !== -1 && activeAccordionIndex !== index}
             forceOpen={activeAccordionIndex === index}
             item={item}
-            key={index}
+            key={getSidebarItemKey(item)}
             pathname={pathname}
           />
         ))}
@@ -145,11 +149,31 @@ export function DocsSidebarNavItem({
     }
   }, [isAccordionItem, forceOpen, forceClose, isActiveBranch])
 
+  const linkRef = React.useRef<HTMLAnchorElement>(null)
+
+  // Scroll the active sidebar link into view on mount
+  React.useEffect(() => {
+    if (!isCurrent || !linkRef.current) return
+
+    const scrollParent = linkRef.current.closest<HTMLElement>('[class*="overflow"]')
+    if (!scrollParent) return
+
+    const el = linkRef.current
+    const scrollRect = scrollParent.getBoundingClientRect()
+    const elRect = el.getBoundingClientRect()
+
+    if (elRect.top < scrollRect.top || elRect.bottom > scrollRect.bottom) {
+      const targetScroll = el.offsetTop - scrollParent.offsetTop - scrollParent.clientHeight / 2 + el.clientHeight / 2
+      scrollParent.scrollTo({ top: targetScroll, behavior: 'smooth' })
+    }
+  }, [isCurrent])
+
   if (item.href && !item.disabled) {
     return (
       <li className={cn(isActive && 'border-primary border-l')}>
         <div className="flex items-center">
           <Link
+            ref={linkRef}
             aria-current={isCurrent ? 'page' : undefined}
             className={cn(
               'group flex w-full items-center border-primary px-4 py-1 font-medium text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',

@@ -1,5 +1,5 @@
 import type { Node } from 'unist'
-import type { MdxCodeNodeProperties, MdxNodeData, NpmCommands } from './mdx-runtime'
+import type { MdxCodeNodeProperties, MdxNodeData } from './mdx-runtime'
 
 export type { NpmCommands } from './mdx-runtime'
 

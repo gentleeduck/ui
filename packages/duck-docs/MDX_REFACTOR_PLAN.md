@@ -126,8 +126,8 @@ Control: split CSS after contracts stabilize and validate by page set.
 - 2026-03-01: Introduced `mdx-components/typography.tsx` alias and switched new composition modules to the corrected import path while keeping backward compatibility.
 - 2026-03-01: Added `src/components/mdx/ARCHITECTURE.md` contributor guide for runtime composition boundaries and plugin metadata extension rules.
 - 2026-03-01: Split `src/styles/mdx.css` into layered files (`mdx-base.css`, `mdx-typography.css`, `mdx-code.css`, `mdx-extensions.css`) and kept `mdx.css` as a barrel.
-- 2026-03-01: Fixed build entry hygiene by excluding both `__test__` and `__tests__` from `tsdown` entries to prevent test artifacts in publish output.
-- 2026-03-01: Moved plugin tests from `src/**/__tests__` to `tests/**` to keep publish/build artifacts source-only.
+- 2026-03-01: Fixed build entry hygiene by excluding `__test__` folders from `tsdown` entries to prevent test artifacts in publish output.
+- 2026-03-01: Moved plugin tests out of source-local test folders and into `tests/**` to keep publish/build artifacts source-only.
 - 2026-03-01: Tightened MDX runtime typing via `CompiledMdxComponent` and explicit `MdxComponentMap` contract in `useMDXComponent`.
 - 2026-03-01: Added test compile target (`tsconfig.test.json`) and package script `check-types:test` for typed validation of `tests/**`.
 - 2026-03-01: Added regression coverage for `rehypePreBlockSource` and MDX registry composition (`tests/velite/plugins/rehype-pre-block-source.test.ts`, `tests/components/mdx/mdx-components-registry.test.ts`).
