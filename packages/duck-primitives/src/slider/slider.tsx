@@ -183,6 +183,7 @@ const Slider = React.forwardRef<SliderElement, SliderProps>((props: ScopedProps<
                 const isSkipKey = isPageKey || (event.shiftKey && ARROW_KEYS.includes(event.key))
                 const multiplier = isSkipKey ? 10 : 1
                 const atIndex = valueIndexToChangeRef.current
+                // biome-ignore lint/style/noNonNullAssertion: atIndex is derived from valueIndexToChangeRef which always points to a valid index
                 const value = values[atIndex]!
                 const stepInDirection = step * multiplier * stepDirection
                 updateValues(value + stepInDirection, atIndex, { commit: true })

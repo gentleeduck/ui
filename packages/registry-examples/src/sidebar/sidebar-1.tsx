@@ -47,7 +47,7 @@ import {
   Frame,
   GalleryVerticalEnd,
   LogOut,
-  Map,
+  Map as MapIcon,
   MoreHorizontal,
   PieChart,
   Plus,
@@ -129,7 +129,7 @@ const data = {
   projects: [
     { name: 'Component Library', url: '#', icon: Frame },
     { name: 'Landing Pages', url: '#', icon: PieChart },
-    { name: 'Documentation', url: '#', icon: Map },
+    { name: 'Documentation', url: '#', icon: MapIcon },
   ],
 }
 

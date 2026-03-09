@@ -46,14 +46,14 @@ export default function signup_1({ className }: { className?: string }) {
             <h3 className="font-semibold text-primary/90 text-xl">Personal Information</h3>
           </div>
           <div className="flex items-center gap-1">
-            {Array.from({ length: 5 }, (_, i) => (
+            {[1, 2, 3, 4, 5].map((step) => (
               <div
                 className={cn(
                   'grid size-8 place-content-center rounded-full bg-muted font-semibold text-muted-foreground',
-                  i === 0 && 'bg-foreground text-accent',
+                  step === 1 && 'bg-foreground text-accent',
                 )}
-                key={`step-${i + 1}`}>
-                {i + 1}
+                key={`step-${step}`}>
+                {step}
               </div>
             ))}
           </div>

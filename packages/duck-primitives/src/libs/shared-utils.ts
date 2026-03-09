@@ -8,6 +8,7 @@ export type Polygon = Point[]
  * Example: wrapArray(['a', 'b', 'c', 'd'], 2) returns ['c', 'd', 'a', 'b']
  */
 export function wrapArray<T>(array: T[], startIndex: number) {
+  // biome-ignore lint/style/noNonNullAssertion: modulo guarantees the index is always within bounds
   return array.map<T>((_, index) => array[(startIndex + index) % array.length]!)
 }
 
@@ -32,7 +33,9 @@ export function isPointInPolygon(point: Point, polygon: Polygon) {
   const { x, y } = point
   let inside = false
   for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {
+    // biome-ignore lint/style/noNonNullAssertion: loop indices i and j are always within polygon bounds
     const ii = polygon[i]!
+    // biome-ignore lint/style/noNonNullAssertion: loop indices i and j are always within polygon bounds
     const jj = polygon[j]!
     const xi = ii.x
     const yi = ii.y

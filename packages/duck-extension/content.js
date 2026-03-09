@@ -9,7 +9,7 @@ function getDomain(input) {
 
   // Add protocol if missing
   if (!/^https?:\/\//i.test(url)) {
-    url = 'https://' + url
+    url = `https://${url}`
   }
 
   try {
@@ -260,7 +260,7 @@ chrome.storage.onChanged.addListener((changes, area) => {
 })
 
 // Listen for messages from popup
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message) => {
   if (message.type === 'UPDATE_FONT') {
     applyGentleduck()
 

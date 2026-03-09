@@ -12,6 +12,7 @@ const InputGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutR
   ({ className, dir, children, ...props }, ref) => {
     const direction = useDirection(dir as Direction)
     return (
+      // biome-ignore lint/a11y/useSemanticElements: group role is semantically correct for input grouping
       <div
         className={cn(
           'group/input-group relative flex w-full items-center rounded-md border border-input shadow-xs outline-none transition-[color,box-shadow] dark:bg-input/30',
@@ -66,6 +67,8 @@ const InputGroupAddon = React.forwardRef<
   React.ComponentPropsWithoutRef<'div'> & VariantProps<typeof inputGroupAddonVariants>
 >(({ className, align = 'inline-start', ...props }, ref) => {
   return (
+    // biome-ignore lint/a11y/useSemanticElements: group role is semantically correct for addon grouping
+    // biome-ignore lint/a11y/useKeyWithClickEvents: click handler delegates focus to input, not interactive itself
     <div
       className={cn(inputGroupAddonVariants({ align }), className)}
       data-align={align}

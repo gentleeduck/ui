@@ -204,7 +204,7 @@ describe('@gentleduck/variants - cva', () => {
         color: 'primary',
         size: 'lg',
         unknownProp: 'value',
-      } as any)
+      } as Record<string, unknown>)
       expect(result).toEqual('btn btn-primary btn-lg')
     })
   })

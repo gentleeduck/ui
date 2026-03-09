@@ -18,6 +18,7 @@ export default function CarouselDemo() {
       orientation="vertical">
       <CarouselContent className="-mt-1 h-[200px]">
         {Array.from({ length: 5 }).map((_, index) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: static list generated from Array.from
           <CarouselItem className="pt-1 md:basis-1/2" key={`item-${index + 1}`}>
             <div className="p-1">
               <Card>

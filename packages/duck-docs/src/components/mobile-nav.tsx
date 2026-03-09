@@ -42,8 +42,8 @@ export function MobileNav() {
               )}
             </div>
             <div className="flex flex-col space-y-2">
-              {docsConfig.sidebarNav.map((item, index) => (
-                <div className="flex flex-col space-y-3 pt-6" key={index}>
+              {docsConfig.sidebarNav.map((item) => (
+                <div className="flex flex-col space-y-3 pt-6" key={item.title}>
                   <h4 className="font-medium">{item.title}</h4>
                   <MobileSidebarNavItems items={item.items ?? []} onOpenChange={setOpen} />
                 </div>

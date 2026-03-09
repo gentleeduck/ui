@@ -139,6 +139,7 @@ const CommandInner = React.forwardRef<CommandElement, ScopedProps<React.Componen
           }
 
           const enabledItems = getItems().filter((item) => !item.disabled && !item.ref.current?.hidden)
+          // biome-ignore lint/style/noNonNullAssertion: collection item refs are always mounted when the command is rendered
           const nodes = enabledItems.map((item) => item.ref.current!).filter(Boolean)
 
           if (event.key === 'ArrowDown') {
@@ -170,6 +171,7 @@ const CommandInner = React.forwardRef<CommandElement, ScopedProps<React.Componen
           if (event.key === 'Home') {
             event.preventDefault()
             if (nodes.length > 0) {
+              // biome-ignore lint/style/noNonNullAssertion: guarded by nodes.length > 0 check above
               context.setSelectedItem(nodes[0]!)
               nodes[0]?.scrollIntoView({ block: 'nearest' })
             }
@@ -179,6 +181,7 @@ const CommandInner = React.forwardRef<CommandElement, ScopedProps<React.Componen
           if (event.key === 'End') {
             event.preventDefault()
             if (nodes.length > 0) {
+              // biome-ignore lint/style/noNonNullAssertion: guarded by nodes.length > 0 check above
               const last = nodes[nodes.length - 1]!
               context.setSelectedItem(last)
               last.scrollIntoView({ block: 'nearest' })

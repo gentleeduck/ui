@@ -10,6 +10,7 @@ const ItemGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRe
   ({ className, dir, ...props }, ref) => {
     const direction = useDirection(dir as Direction)
     return (
+      // biome-ignore lint/a11y/useSemanticElements: list role on div is intentional for composed item patterns
       <div
         className={cn('group/item-group flex flex-col', className)}
         dir={direction}

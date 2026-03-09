@@ -17,6 +17,7 @@ export default function ItemDemo() {
         </ItemActions>
       </Item>
       <Item asChild size="sm" variant="outline">
+        {/* biome-ignore lint/a11y/useValidAnchor: placeholder href in demo component */}
         <a href="#">
           <ItemMedia>
             <ClipboardListIcon className="size-5" />

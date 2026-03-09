@@ -46,6 +46,7 @@ export function getNavigationCandidates(
  * Example: `wrapArray(['a', 'b', 'c', 'd'], 2) === ['c', 'd', 'a', 'b']`
  */
 export function wrapArray<T>(array: T[], startIndex: number) {
+  // biome-ignore lint/style/noNonNullAssertion: modulo guarantees the index is always within bounds
   return array.map<T>((_, index) => array[(startIndex + index) % array.length]!)
 }
 
@@ -57,6 +58,7 @@ export function wrapArray<T>(array: T[], startIndex: number) {
  */
 export function findNextItem<T extends { textValue: string }>(items: T[], search: string, currentItem?: T) {
   const isRepeated = search.length > 1 && Array.from(search).every((char) => char === search[0])
+  // biome-ignore lint/style/noNonNullAssertion: search.length > 1 guarantees search[0] exists when isRepeated is true
   const normalizedSearch = isRepeated ? search[0]! : search
   const currentItemIndex = currentItem ? items.indexOf(currentItem) : -1
   const isFreshSingleChar = search.length === 1

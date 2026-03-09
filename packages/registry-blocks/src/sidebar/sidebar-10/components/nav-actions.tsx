@@ -115,12 +115,15 @@ export function NavActions() {
         <PopoverContent align="end" className="w-56 overflow-hidden rounded-lg p-0">
           <Sidebar className="bg-transparent" collapsible="none">
             <SidebarContent>
-              {data.map((group, index) => (
-                <SidebarGroup className="border-b last:border-none" key={index}>
+              {data.map((group, groupIndex) => (
+                <SidebarGroup
+                  className="border-b last:border-none"
+                  // biome-ignore lint/suspicious/noArrayIndexKey: static group list without unique identifiers
+                  key={groupIndex}>
                   <SidebarGroupContent className="gap-0">
                     <SidebarMenu>
-                      {group.map((item, index) => (
-                        <SidebarMenuItem key={index}>
+                      {group.map((item) => (
+                        <SidebarMenuItem key={item.label}>
                           <SidebarMenuButton>
                             <item.icon aria-hidden="true" /> <span>{item.label}</span>
                           </SidebarMenuButton>

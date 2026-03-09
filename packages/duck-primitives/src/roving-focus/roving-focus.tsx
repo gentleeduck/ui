@@ -138,6 +138,7 @@ const RovingFocusGroupImpl = React.forwardRef<RovingFocusGroupImplElement, Rovin
                 const activeItem = items.find((item) => item.active)
                 const currentItem = items.find((item) => item.id === currentTabStopId)
                 const candidateItems = [activeItem, currentItem, ...items].filter(Boolean) as typeof items
+                // biome-ignore lint/style/noNonNullAssertion: focusable items always have mounted refs within the roving focus group
                 const candidateNodes = candidateItems.map((item) => item.ref.current!)
                 focusFirst(candidateNodes, preventScrollOnEntryFocus)
               }

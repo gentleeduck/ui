@@ -72,6 +72,7 @@ export default function FormTanStackArray() {
       <form.Field
         name="emails"
         mode="array"
+        // biome-ignore lint/correctness/noChildrenProp: TanStack Form API uses children prop for render callback
         children={(field) => (
           <FieldSet className="gap-4">
             <FieldLegend variant="label">Email Addresses</FieldLegend>
@@ -82,7 +83,9 @@ export default function FormTanStackArray() {
                 <form.Field
                   // Type-safe path strings are verbose in examples; keep this ergonomic.
                   name={`emails[${index}].address` as never}
+                  // biome-ignore lint/suspicious/noArrayIndexKey: dynamic form array items have no stable ID
                   key={index}
+                  // biome-ignore lint/correctness/noChildrenProp: TanStack Form API uses children prop for render callback
                   children={(subField) => {
                     const isSubFieldInvalid = subField.state.meta.isTouched && !subField.state.meta.isValid
                     return (

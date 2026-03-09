@@ -18,6 +18,7 @@ export function useOnOpenChange<const T extends React.RefObject<HTMLElement | nu
           onOpenChange?.(true)
         }, 100)
       } else {
+        // biome-ignore lint/correctness/useHookAtTopLevel: useComputedTimeoutTransition is a utility function, not a React hook
         useComputedTimeoutTransition(ref.current, () => {
           document.body.classList.remove('scroll-locked')
         })
@@ -30,6 +31,7 @@ export function useOnOpenChange<const T extends React.RefObject<HTMLElement | nu
 
   React.useEffect(() => {
     if (!ref.current) return
+    // biome-ignore lint/correctness/useHookAtTopLevel: useComputedTimeoutTransition is a utility function, not a React hook
     useComputedTimeoutTransition(ref.current, () => {
       document.body.classList.toggle('scroll-locked', open)
     })

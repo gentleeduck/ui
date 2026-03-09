@@ -5,6 +5,7 @@ import kleur from 'kleur'
  * Provides methods for logging success, warnings, errors, and fatal exceptions.
  */
 
+// biome-ignore lint/complexity/noStaticOnlyClass: Logger uses static-only pattern for structured logging utility
 export class Logger {
   /**
    * Log levels mapped to console methods for efficient logging.

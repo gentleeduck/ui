@@ -23,6 +23,7 @@ export default function EmptyInputGroup() {
           </InputGroupAddon>
         </InputGroup>
         <EmptyDescription>
+          {/* biome-ignore lint/a11y/useValidAnchor: placeholder href in demo component */}
           Still stuck? <a href="#">Browse all categories</a>
         </EmptyDescription>
       </EmptyContent>

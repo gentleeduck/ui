@@ -73,6 +73,7 @@ export function SettingsDialog() {
                     {data.nav.map((item) => (
                       <SidebarMenuItem key={item.name}>
                         <SidebarMenuButton asChild isActive={item.name === 'Messages & media'}>
+                          {/* biome-ignore lint/a11y/useValidAnchor: demo block with placeholder href */}
                           <a href="#">
                             <item.icon aria-hidden="true" />
                             <span>{item.name}</span>
@@ -103,6 +104,7 @@ export function SettingsDialog() {
             </header>
             <div className="flex flex-1 flex-col gap-4 overflow-y-auto p-4 pt-0">
               {Array.from({ length: 10 }).map((_, i) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: static placeholder elements
                 <div className="aspect-video max-w-3xl rounded-xl bg-muted/50" key={i} />
               ))}
             </div>

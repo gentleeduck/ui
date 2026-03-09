@@ -113,7 +113,9 @@ const HoverCardContentImpl = React.forwardRef<HoverCardContentImplElement, Hover
     React.useEffect(() => {
       if (ref.current) {
         const tabbables = getTabbableNodes(ref.current)
-        tabbables.forEach((tabbable) => tabbable.setAttribute('tabindex', '-1'))
+        for (const tabbable of tabbables) {
+          tabbable.setAttribute('tabindex', '-1')
+        }
       }
     })
 

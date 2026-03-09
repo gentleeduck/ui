@@ -28,6 +28,7 @@ export default function ItemImage() {
       <ItemGroup className="gap-4">
         {articles.map((article) => (
           <Item asChild key={article.title} role="listitem" variant="outline">
+            {/* biome-ignore lint/a11y/useValidAnchor: placeholder href in demo component */}
             <a href="#">
               <ItemMedia variant="image">
                 <Image

@@ -72,6 +72,7 @@ function useInputOTPBehavior({
 
       let j = 0
       for (let k = startIndex; k < inputs.length && j < chars.length; k++) {
+        // biome-ignore lint/style/noNonNullAssertion: k and j are bounded by inputs.length and chars.length respectively
         inputs[k]!.value = chars[j]!
         j++
       }
@@ -82,6 +83,7 @@ function useInputOTPBehavior({
     }
 
     for (let i = 0; i < inputs.length; i++) {
+      // biome-ignore lint/style/noNonNullAssertion: i is bounded by inputs.length in the for loop
       const item = inputs[i]!
       item.value = valueChunks[i] ?? ''
       item.setAttribute('aria-label', `Digit ${i + 1}`)

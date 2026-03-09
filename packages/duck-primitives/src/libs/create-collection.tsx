@@ -91,6 +91,7 @@ function createCollection<ItemElement extends HTMLElement, ItemData = {}>(name: 
       const orderedNodes = Array.from(collectionNode.querySelectorAll(`[${ITEM_DATA_ATTR}]`))
       const items = Array.from(context.itemMap.values())
       const orderedItems = items.sort(
+        // biome-ignore lint/style/noNonNullAssertion: item refs are always mounted when queried from the collection
         (a, b) => orderedNodes.indexOf(a.ref.current!) - orderedNodes.indexOf(b.ref.current!),
       )
       return orderedItems

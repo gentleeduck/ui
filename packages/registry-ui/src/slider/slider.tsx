@@ -46,6 +46,7 @@ function Slider({
         <SliderPrimitive.Thumb
           data-orientation={orientation}
           data-slot="slider-thumb"
+          // biome-ignore lint/suspicious/noArrayIndexKey: thumbs are positional, index is the stable key
           key={index}
           className="relative block size-4 shrink-0 select-none rounded-full border border-ring bg-white ring-ring/50 transition-[color,box-shadow] after:absolute after:-inset-2 hover:ring-3 focus-visible:outline-hidden focus-visible:ring-3 active:ring-3 disabled:pointer-events-none disabled:opacity-50"
         />

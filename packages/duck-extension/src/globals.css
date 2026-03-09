@@ -1,8 +1,8 @@
 @import "tailwindcss";
-
-@source "../node_modules/@gentleduck/registry-ui/src/";
 @import "./base.css";
 @import "tw-animate-css";
+
+@source "../node_modules/@gentleduck/registry-ui/src/";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -50,7 +50,7 @@
     text-rendering: optimizeLegibility;
   }
 
-  @supports (font: -apple-system-body) and (-webkit-appearance: none) {
+  @supports (font-family: -apple-system-body) and (-webkit-appearance: none) {
     [data-wrapper] {
       @apply min-[1800px]:border-t;
     }

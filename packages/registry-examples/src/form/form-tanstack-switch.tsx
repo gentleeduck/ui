@@ -63,6 +63,7 @@ export default function FormTanStackSwitch() {
       <FieldGroup>
         <form.Field
           name="twoFactor"
+          // biome-ignore lint/correctness/noChildrenProp: TanStack Form API requires children prop
           children={(field) => {
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
             return (

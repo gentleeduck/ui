@@ -60,6 +60,7 @@ export default function FormTanStackInput() {
       <FieldGroup>
         <form.Field
           name="username"
+          // biome-ignore lint/correctness/noChildrenProp: TanStack Form API requires children prop
           children={(field) => {
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
             return (

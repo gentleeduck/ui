@@ -51,7 +51,8 @@ export class SequenceManager {
       unregister: () => {
         const idx = this.entries.findIndex((e) => e.id === id)
         if (idx !== -1) {
-          this.clearEntryTimeout(this.entries[idx]!)
+          const entry = this.entries[idx]
+          if (entry) this.clearEntryTimeout(entry)
           this.entries.splice(idx, 1)
         }
       },

@@ -247,6 +247,7 @@ const BubbleSelect = React.forwardRef<HTMLSelectElement, React.ComponentPropsWit
 
     // Bubble value change to parents (e.g form change event)
     React.useEffect(() => {
+      // biome-ignore lint/style/noNonNullAssertion: ref is always mounted when this effect runs (component renders the select element)
       const select = ref.current!
       const selectProto = window.HTMLSelectElement.prototype
       const descriptor = Object.getOwnPropertyDescriptor(selectProto, 'value') as PropertyDescriptor

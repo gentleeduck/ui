@@ -104,6 +104,7 @@ export default function FormTanStackComplex() {
       <FieldGroup>
         <form.Field
           name="title"
+          // biome-ignore lint/correctness/noChildrenProp: TanStack Form API requires children prop
           children={(field) => {
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
             return (
@@ -127,6 +128,7 @@ export default function FormTanStackComplex() {
 
         <form.Field
           name="description"
+          // biome-ignore lint/correctness/noChildrenProp: TanStack Form API requires children prop
           children={(field) => {
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
             return (
@@ -151,6 +153,7 @@ export default function FormTanStackComplex() {
 
         <form.Field
           name="language"
+          // biome-ignore lint/correctness/noChildrenProp: TanStack Form API requires children prop
           children={(field) => {
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
             return (
@@ -184,6 +187,7 @@ export default function FormTanStackComplex() {
 
         <form.Field
           name="plan"
+          // biome-ignore lint/correctness/noChildrenProp: TanStack Form API requires children prop
           children={(field) => {
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
             return (
@@ -222,6 +226,7 @@ export default function FormTanStackComplex() {
 
         <form.Field
           name="twoFactor"
+          // biome-ignore lint/correctness/noChildrenProp: TanStack Form API requires children prop
           children={(field) => {
             const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
             return (

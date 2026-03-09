@@ -46,6 +46,7 @@ const Switch = React.forwardRef<
           onChange?.(e)
           onCheckedChange?.(e.target.checked)
         }}
+        aria-checked={props.checked}
         ref={ref}
         role="switch"
         dir={direction}

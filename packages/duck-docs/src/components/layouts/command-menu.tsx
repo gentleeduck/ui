@@ -350,7 +350,7 @@ function VirtualCommandList({
 
   React.useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      const { itemRows: rows, selectedRow: selected, clampedIndex: idx, onClose: close } = stableRef.current
+      const { itemRows: rows, selectedRow: selected, onClose: close } = stableRef.current
       if (rows.length === 0 && e.key !== 'Escape') return
 
       switch (e.key) {
@@ -392,7 +392,9 @@ function VirtualCommandList({
     const container = listContainerRef.current
     if (!container) return
     const hiddenItems = container.querySelectorAll('[data-slot="command-item"][hidden]')
-    hiddenItems.forEach((el) => el.removeAttribute('hidden'))
+    hiddenItems.forEach((el) => {
+      el.removeAttribute('hidden')
+    })
   })
 
   return (

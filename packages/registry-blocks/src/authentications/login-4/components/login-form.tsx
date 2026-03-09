@@ -72,6 +72,7 @@ export function LoginForm({ className, ...props }: React.ComponentProps<'div'>) 
             </div>
           </form>
           <div className="relative hidden bg-muted md:block">
+            {/* biome-ignore lint/performance/noImgElement: demo block, not using Next.js Image */}
             <img
               alt=""
               className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"

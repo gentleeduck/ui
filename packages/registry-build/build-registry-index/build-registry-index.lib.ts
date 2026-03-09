@@ -79,7 +79,7 @@ export async function get_component_files({
             currentLevel.push(newNode)
 
             if (!isFile) {
-              currentLevel = newNode.children!
+              currentLevel = newNode.children ?? []
             }
           }
         })
