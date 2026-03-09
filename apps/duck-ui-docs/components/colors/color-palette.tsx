@@ -1,8 +1,8 @@
-import type { ColorPalette } from '@gentleduck/docs/lib'
+import type { ColorPalette as DocsColorPalette } from '@gentleduck/docs/lib'
 import { Color } from './color'
 import { ColorFormatSelector } from './color-format-selector'
 
-export function ColorPalette({ colorPalette }: { colorPalette: ColorPalette }) {
+export function ColorPalette({ colorPalette }: { colorPalette: DocsColorPalette }) {
   return (
     <div className="scroll-mt-20 rounded-lg" id={colorPalette.name}>
       <div className="flex items-center justify-end gap-4 px-4">

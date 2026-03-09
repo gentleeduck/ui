@@ -1,13 +1,13 @@
 'use client'
 
 import { useColors } from '@gentleduck/docs/client'
-import type { Color } from '@gentleduck/docs/lib'
+import type { Color as DocsColor } from '@gentleduck/docs/lib'
 import { trackEvent } from '@gentleduck/docs/lib'
 import { useCopyToClipboard } from '@gentleduck/hooks/use-copy-to-clipboard'
 import { Check, Clipboard } from 'lucide-react'
 import { toast } from 'sonner'
 
-export function Color({ color }: { color: Color }) {
+export function Color({ color }: { color: DocsColor }) {
   const { format, setLastCopied, lastCopied } = useColors()
   const { isCopied, copyToClipboard } = useCopyToClipboard({ timeout: 0 })
 
@@ -35,7 +35,8 @@ export function Color({ color }: { color: Color }) {
           '--bg': `${color.oklch}`,
           '--text': color.foreground,
         } as React.CSSProperties
-      }>
+      }
+      type="button">
       {isCopied ? (
         <Check aria-hidden="true" className="group-hover:opacity-100 group-data-[last-copied=true]:opacity-100" />
       ) : (

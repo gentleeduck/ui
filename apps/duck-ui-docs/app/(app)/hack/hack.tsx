@@ -265,10 +265,10 @@
 //         <MenubarTrigger>File</MenubarTrigger>
 //         <MenubarContent>
 //           <MenubarItem>
-//             New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+//             New Tab <MenubarShortcut>Cmd+T</MenubarShortcut>
 //           </MenubarItem>
 //           <MenubarItem>
-//             New Window <MenubarShortcut>⌘N</MenubarShortcut>
+//             New Window <MenubarShortcut>Cmd+N</MenubarShortcut>
 //           </MenubarItem>
 //           <MenubarItem disabled>New Incognito Window</MenubarItem>
 //           <MenubarSeparator />
@@ -282,7 +282,7 @@
 //           </MenubarSub>
 //           <MenubarSeparator />
 //           <MenubarItem>
-//             Print... <MenubarShortcut>⌘P</MenubarShortcut>
+//             Print... <MenubarShortcut>Cmd+P</MenubarShortcut>
 //           </MenubarItem>
 //         </MenubarContent>
 //       </MenubarMenu>
@@ -290,10 +290,10 @@
 //         <MenubarTrigger>Edit</MenubarTrigger>
 //         <MenubarContent>
 //           <MenubarItem>
-//             Undo <MenubarShortcut>⌘Z</MenubarShortcut>
+//             Undo <MenubarShortcut>Cmd+Z</MenubarShortcut>
 //           </MenubarItem>
 //           <MenubarItem>
-//             Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut>
+//             Redo <MenubarShortcut>Shift+Cmd+Z</MenubarShortcut>
 //           </MenubarItem>
 //           <MenubarSeparator />
 //           <MenubarSub>
@@ -319,10 +319,10 @@
 //           <MenubarCheckboxItem checked>Always Show Full URLs</MenubarCheckboxItem>
 //           <MenubarSeparator />
 //           <MenubarItem inset>
-//             Reload <MenubarShortcut>⌘R</MenubarShortcut>
+//             Reload <MenubarShortcut>Cmd+R</MenubarShortcut>
 //           </MenubarItem>
 //           <MenubarItem disabled inset>
-//             Force Reload <MenubarShortcut>⇧⌘R</MenubarShortcut>
+//             Force Reload <MenubarShortcut>Shift+Cmd+R</MenubarShortcut>
 //           </MenubarItem>
 //           <MenubarSeparator />
 //           <MenubarItem inset>Toggle Fullscreen</MenubarItem>
@@ -544,21 +544,21 @@
 //             <User />
 //             <span>Profile</span>
 //             <CommandShortcut>
-//               ⌘P
+//               Cmd+P
 //             </CommandShortcut>
 //           </CommandItem>
 //           <CommandItem>
 //             <CreditCard />
 //             <span>Billing</span>
 //             <CommandShortcut>
-//               ⌘B
+//               Cmd+B
 //             </CommandShortcut>
 //           </CommandItem>
 //           <CommandItem>
 //             <Settings />
 //             <span>Settings</span>
 //             <CommandShortcut>
-//               ⌘S
+//               Cmd+S
 //             </CommandShortcut>
 //           </CommandItem>
 //         </CommandGroup>
@@ -719,7 +719,7 @@
 //   {
 //     title: 'Tabs',
 //     href: '/docs/primitives/tabs',
-//     description: 'A set of layered sections of content—known as tab panels—that are displayed one at a time.',
+//     description: 'A set of layered sections of content - known as tab panels - that are displayed one at a time.',
 //   },
 //   {
 //     title: 'Tooltip',
@@ -790,15 +790,15 @@
 //       <ContextMenuContent className="w-52">
 //         <ContextMenuItem inset>
 //           Back
-//           <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+//           <ContextMenuShortcut>Cmd+[</ContextMenuShortcut>
 //         </ContextMenuItem>
 //         <ContextMenuItem inset disabled>
 //           Forward
-//           <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+//           <ContextMenuShortcut>Cmd+]</ContextMenuShortcut>
 //         </ContextMenuItem>
 //         <ContextMenuItem inset>
 //           Reload
-//           <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+//           <ContextMenuShortcut>Cmd+R</ContextMenuShortcut>
 //         </ContextMenuItem>
 //         <ContextMenuSub>
 //           <ContextMenuSubTrigger inset>More Tools</ContextMenuSubTrigger>
@@ -1207,10 +1207,10 @@
 //         <MenubarTrigger>File</MenubarTrigger>
 //         <MenubarContent>
 //           <MenubarItem>
-//             New Tab <MenubarShortcut>⌘T</MenubarShortcut>
+//             New Tab <MenubarShortcut>Cmd+T</MenubarShortcut>
 //           </MenubarItem>
 //           <MenubarItem>
-//             New Window <MenubarShortcut>⌘N</MenubarShortcut>
+//             New Window <MenubarShortcut>Cmd+N</MenubarShortcut>
 //           </MenubarItem>
 //           <MenubarItem disabled>New Incognito Window</MenubarItem>
 //           <MenubarSeparator />
@@ -1224,7 +1224,7 @@
 //           </MenubarSub>
 //           <MenubarSeparator />
 //           <MenubarItem>
-//             Print... <MenubarShortcut>⌘P</MenubarShortcut>
+//             Print... <MenubarShortcut>Cmd+P</MenubarShortcut>
 //           </MenubarItem>
 //         </MenubarContent>
 //       </MenubarMenu>
@@ -1232,10 +1232,10 @@
 //         <MenubarTrigger>Edit</MenubarTrigger>
 //         <MenubarContent>
 //           <MenubarItem>
-//             Undo <MenubarShortcut>⌘Z</MenubarShortcut>
+//             Undo <MenubarShortcut>Cmd+Z</MenubarShortcut>
 //           </MenubarItem>
 //           <MenubarItem>
-//             Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut>
+//             Redo <MenubarShortcut>Shift+Cmd+Z</MenubarShortcut>
 //           </MenubarItem>
 //           <MenubarSeparator />
 //           <MenubarSub>
@@ -1261,10 +1261,10 @@
 //           <MenubarCheckboxItem checked>Always Show Full URLs</MenubarCheckboxItem>
 //           <MenubarSeparator />
 //           <MenubarItem inset>
-//             Reload <MenubarShortcut>⌘R</MenubarShortcut>
+//             Reload <MenubarShortcut>Cmd+R</MenubarShortcut>
 //           </MenubarItem>
 //           <MenubarItem disabled inset>
-//             Force Reload <MenubarShortcut>⇧⌘R</MenubarShortcut>
+//             Force Reload <MenubarShortcut>Shift+Cmd+R</MenubarShortcut>
 //           </MenubarItem>
 //           <MenubarSeparator />
 //           <MenubarItem inset>Toggle Fullscreen</MenubarItem>
@@ -1487,21 +1487,21 @@
 //             <User />
 //             <span>Profile</span>
 //             <CommandShortcut>
-//               ⌘P
+//               Cmd+P
 //             </CommandShortcut>
 //           </CommandItem>
 //           <CommandItem>
 //             <CreditCard />
 //             <span>Billing</span>
 //             <CommandShortcut>
-//               ⌘B
+//               Cmd+B
 //             </CommandShortcut>
 //           </CommandItem>
 //           <CommandItem>
 //             <Settings />
 //             <span>Settings</span>
 //             <CommandShortcut>
-//               ⌘S
+//               Cmd+S
 //             </CommandShortcut>
 //           </CommandItem>
 //         </CommandGroup>

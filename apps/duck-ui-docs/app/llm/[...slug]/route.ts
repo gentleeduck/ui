@@ -10,9 +10,7 @@ async function readMdxFile(slug: string[]): Promise<string | null> {
   for (const filePath of candidates) {
     try {
       return await readFile(filePath, 'utf-8')
-    } catch {
-      continue
-    }
+    } catch {}
   }
 
   return null

@@ -1,4 +1,4 @@
-// @ts-expect-error
+// @ts-expect-error -- no type declarations available for this registry block module
 import Login from '@gentleduck/registry-blocks/authentications/signup-1/signup-1'
 import { CardsActivityGoal } from './activity-goal'
 import { CardsCalendar } from './calendar'

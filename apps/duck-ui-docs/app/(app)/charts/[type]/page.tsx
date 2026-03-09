@@ -2,7 +2,6 @@ import { absoluteUrl } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
-import * as React from 'react'
 import { ChartDisplay } from '~/components/charts'
 import { charts } from '../charts'
 

@@ -6,6 +6,12 @@ const EDIT_IN_V0_SOURCE = 'gentleduck.org'
 
 export async function editInV0({ name, description, code }: { name: string; description: string; code: string }) {
   try {
+    const v0Url = process.env.V0_URL
+    const editSecret = process.env.V0_EDIT_SECRET
+    if (!v0Url || !editSecret) {
+      return { error: 'V0 is not configured.' }
+    }
+
     await track('edit_in_v0', {
       description,
       name,
@@ -15,11 +21,11 @@ export async function editInV0({ name, description, code }: { name: string; desc
     // v0 will handle this for us.
     code = code.replace(`"use client"`, '')
 
-    const response = await fetch(`${process.env.V0_URL}/api/edit`, {
+    const response = await fetch(`${v0Url}/api/edit`, {
       body: JSON.stringify({ code, description, source: EDIT_IN_V0_SOURCE }),
       headers: {
         'Content-Type': 'application/json',
-        'x-v0-edit-secret': process.env.V0_EDIT_SECRET!,
+        'x-v0-edit-secret': editSecret,
         'x-vercel-protection-bypass': process.env.DEPLOYMENT_PROTECTION_BYPASS || 'not-set',
       },
       method: 'POST',
@@ -37,7 +43,7 @@ export async function editInV0({ name, description, code }: { name: string; desc
 
     return {
       ...result,
-      url: `${process.env.V0_URL}/edit/${result.id}`,
+      url: `${v0Url}/edit/${result.id}`,
     }
   } catch (error) {
     if (error instanceof Error) {

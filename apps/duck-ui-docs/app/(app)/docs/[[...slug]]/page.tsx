@@ -4,11 +4,10 @@ import { cn } from '@gentleduck/libs/cn'
 import { badgeVariants } from '@gentleduck/registry-ui/badge'
 import { Button } from '@gentleduck/registry-ui/button'
 import { Separator } from '@gentleduck/registry-ui/separator'
-import { ArrowDownIcon, ArrowUpIcon, ExternalLinkIcon, PencilIcon, SquareArrowOutUpRight } from 'lucide-react'
+import { ArrowDownIcon, ArrowUpIcon, ExternalLinkIcon, SquareArrowOutUpRight } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
-import React from 'react'
 import { DocsPathBreadcrumb } from '~/components/docs-path-breadcrumb'
 import { SLUG_METADATA } from '~/config/metadata'
 import { docs } from '../../../../.velite'
@@ -65,7 +64,7 @@ const PostLayout = async ({ params }: { params: Promise<{ slug?: string[] }> }) 
   }
 
   return (
-    <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]">
+    <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]" id="top">
       <div className="relative mx-auto w-full min-w-0 max-w-2xl">
         <div className="mb-4 flex h-8 items-center justify-between gap-2">
           <DocsPathBreadcrumb segments={_params.slug ?? []} />
@@ -131,7 +130,7 @@ const PostLayout = async ({ params }: { params: Promise<{ slug?: string[] }> }) 
                 </a>
               </Button>
               <Button asChild className="justify-start" size="sm" variant="link">
-                <a href="#">
+                <a href="#top">
                   <ArrowUpIcon aria-hidden="true" className="size-3.5" />
                   Scroll to top
                 </a>

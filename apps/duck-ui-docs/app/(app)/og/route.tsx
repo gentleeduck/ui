@@ -32,7 +32,7 @@ async function loadLogo(): Promise<string> {
 // Duck logo at given size and opacity
 function DuckLogo({ logoSrc, opacity, size }: { logoSrc: string; opacity: number; size: number }) {
   return (
-    // eslint-disable-next-line @next/next/no-img-element
+    // biome-ignore lint/performance/noImgElement: ImageResponse markup does not support next/image.
     <img alt="" height={size} src={logoSrc} style={{ opacity }} width={size} />
   )
 }
@@ -320,7 +320,7 @@ export async function GET(request: Request) {
       <div tw="flex flex-col absolute left-24 right-24 top-24 bottom-24">
         {/* Logo + brand with URL underneath */}
         <div tw="flex items-center">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
+          {/* biome-ignore lint/performance/noImgElement: ImageResponse markup does not support next/image. */}
           <img alt="" height="56" src={logoSrc} width="56" />
           <div tw="flex flex-col ml-4">
             <span

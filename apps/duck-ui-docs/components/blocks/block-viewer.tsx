@@ -1,3 +1,4 @@
+/* biome-ignore-all lint/security/noDangerouslySetInnerHtml: Highlighted code HTML is generated upstream and rendered read-only here. */
 'use client'
 
 import { getIconForLanguageExtension } from '@gentleduck/docs/client'
@@ -29,7 +30,6 @@ import {
   ExternalLink,
   File,
   Folder,
-  Fullscreen,
   Monitor,
   RotateCw,
   Share2,
@@ -139,7 +139,7 @@ function BlockViewerToolbar() {
             onValueChange={(value) => {
               setView('preview')
               if (resizablePanelRef?.current) {
-                resizablePanelRef.current.resize(parseInt(value))
+                resizablePanelRef.current.resize(parseInt(value, 10))
               }
             }}
             type="single">
@@ -247,7 +247,7 @@ function BlockViewerView() {
   )
 }
 
-function BlockViewerMobile({ children }: { children: React.ReactNode }) {
+function BlockViewerMobile({ children: _children }: { children: React.ReactNode }) {
   const { item } = useBlockViewer()
 
   return (
@@ -316,8 +316,8 @@ function BlockViewerCode() {
         </figcaption>
         <div
           className="overflow-y-auto"
-          dangerouslySetInnerHTML={{ __html: file?.highlightedContent ?? '' }}
-          key={file?.path}
+          dangerouslySetInnerHTML={{ __html: file.highlightedContent }}
+          key={file.path}
         />
       </figure>
     </div>
@@ -338,8 +338,8 @@ export function BlockViewerFileTree() {
         <SidebarGroup className="p-0">
           <SidebarGroupContent>
             <SidebarMenu className="translate-x-0">
-              {tree.map((file, index) => {
-                return <Tree index={1} item={file} key={index} />
+              {tree.map((file) => {
+                return <Tree index={1} item={file} key={file.path ?? `${file.name}-root`} />
               })}
             </SidebarMenu>
           </SidebarGroupContent>
@@ -392,8 +392,8 @@ function Tree({ item, index }: { item: FileTree; index: number }) {
         </CollapsibleTrigger>
         <CollapsibleContent>
           <SidebarMenuSub className="m-0 w-full translate-x-0 gap-0 border-none p-0">
-            {item.children.map((subItem, key) => (
-              <Tree index={index + 1} item={subItem} key={key} />
+            {item.children.map((subItem) => (
+              <Tree index={index + 1} item={subItem} key={subItem.path ?? `${item.name}-${subItem.name}`} />
             ))}
           </SidebarMenuSub>
         </CollapsibleContent>

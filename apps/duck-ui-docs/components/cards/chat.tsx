@@ -113,16 +113,26 @@ export function CardsChat() {
         </CardHeader>
         <CardContent>
           <div className="flex flex-col gap-4">
-            {messages.map((message, index) => (
-              <div
-                className={cn(
-                  'flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm',
-                  message.role === 'user' ? 'ml-auto bg-primary text-primary-foreground' : 'bg-muted',
-                )}
-                key={index}>
-                {message.content}
-              </div>
-            ))}
+            {(() => {
+              const messageCounts = new Map<string, number>()
+
+              return messages.map((message) => {
+                const signature = `${message.role}:${message.content}`
+                const occurrence = (messageCounts.get(signature) ?? 0) + 1
+                messageCounts.set(signature, occurrence)
+
+                return (
+                  <div
+                    className={cn(
+                      'flex w-max max-w-[75%] flex-col gap-2 rounded-lg px-3 py-2 text-sm',
+                      message.role === 'user' ? 'ml-auto bg-primary text-primary-foreground' : 'bg-muted',
+                    )}
+                    key={`${signature}:${occurrence}`}>
+                    {message.content}
+                  </div>
+                )
+              })
+            })()}
           </div>
         </CardContent>
         <CardFooter>

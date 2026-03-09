@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
 import { registry_entry_schema, type registry_item_file_schema } from '@gentleduck/registers'
-import { tmpdir } from 'os'
-import path from 'path'
 import { Project, ScriptKind } from 'ts-morph'
 import type { z } from 'zod'
 import { getRegistryIndex } from '~/lib/registry-index.server'
@@ -16,8 +16,7 @@ function getSourceDir(fileType: string): string {
 }
 
 export function getRegistryComponent(name: string) {
-  // @ts-expect-error - ignore we add this at runtime
-  return memoizedIndex[name]?.component
+  return (memoizedIndex[name] as Record<string, unknown> | undefined)?.component
 }
 
 export async function getRegistryItem(name: string) {
@@ -50,7 +49,9 @@ export async function getRegistryItem(name: string) {
   // TODO: Get meta from registry.
   let meta = {}
   try {
-    meta = await getFileMeta(files[0]?.path as string, item.type)
+    const firstFilePath = files[0]?.path
+    if (!firstFilePath) throw new Error('No file path found')
+    meta = await getFileMeta(firstFilePath, item.type)
   } catch {
     // Meta extraction is optional -- don't fail the whole item.
   }
@@ -163,7 +164,7 @@ function fixFilePaths(files: z.infer<typeof registry_entry_schema>['files']) {
   }
 
   // Resolve all paths relative to the first file's directory.
-  const firstFilePath = files[0]!.path
+  const firstFilePath = files[0]?.path ?? ''
   const firstFilePathDir = path.dirname(firstFilePath)
 
   return files.map((file) => {
@@ -220,16 +221,19 @@ export function createFileTreeForRegistryItemFiles(files: Array<{ path: string; 
           existingNode.path = path
         } else {
           // Move to next level in the tree
-          currentLevel = existingNode.children!
+          if (!existingNode.children) {
+            existingNode.children = []
+          }
+          currentLevel = existingNode.children
         }
       } else {
-        // @ts-expect-error
+        if (!part) continue
         const newNode: FileTree = isFile ? { name: part, path } : { children: [], name: part }
 
         currentLevel.push(newNode)
 
         if (!isFile) {
-          currentLevel = newNode.children!
+          currentLevel = newNode.children ?? []
         }
       }
     }

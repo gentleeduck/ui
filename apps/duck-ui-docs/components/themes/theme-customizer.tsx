@@ -250,7 +250,7 @@ function CustomizerCode() {
             <span className="line text-white">&nbsp;&nbsp;&nbsp;--radius: {config.radius}rem;</span>
             {Object.entries(activeTheme.light).map(([key, value]) => (
               <span className="line text-white" key={key}>
-                &nbsp;&nbsp;&nbsp;--{key}: {value};
+                &nbsp;&nbsp;&nbsp;--{key}: {`${value};`}
               </span>
             ))}
             <span className="line text-white">&nbsp;&#125;</span>
@@ -258,7 +258,7 @@ function CustomizerCode() {
             <span className="line text-white">&nbsp;.dark &#123;</span>
             {Object.entries(activeTheme.dark).map(([key, value]) => (
               <span className="line text-white" key={key}>
-                &nbsp;&nbsp;&nbsp;--{key}: {value};
+                &nbsp;&nbsp;&nbsp;--{key}: {`${value};`}
               </span>
             ))}
             <span className="line text-white">&nbsp;&#125;</span>
@@ -275,11 +275,11 @@ function getThemeCode(theme: { light: Record<string, string>; dark: Record<strin
     radius +
     'rem;\n' +
     Object.entries(theme.light)
-      .map((entry) => '  --' + entry[0] + ': ' + entry[1] + ';')
+      .map((entry) => `  --${entry[0]}: ${entry[1]};`)
       .join('\n') +
     '\n}\n\n.dark {\n' +
     Object.entries(theme.dark)
-      .map((entry) => '  --' + entry[0] + ': ' + entry[1] + ';')
+      .map((entry) => `  --${entry[0]}: ${entry[1]};`)
       .join('\n') +
     '\n}\n'
 

@@ -98,8 +98,8 @@ export function FeaturesSection() {
         />
 
         <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map((feature, i) => (
-            <FeatureCard feature={feature} key={i} />
+          {features.map((feature) => (
+            <FeatureCard feature={feature} key={feature.title} />
           ))}
         </div>
       </div>

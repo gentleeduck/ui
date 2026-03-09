@@ -61,11 +61,11 @@ function resolveFilePath(baseDir: string, filePath: string) {
 
   const ext = path.extname(absolute)
   if (ext === '.ts') {
-    const tsxPath = absolute.slice(0, -3) + '.tsx'
+    const tsxPath = `${absolute.slice(0, -3)}.tsx`
     if (fs.existsSync(tsxPath)) return tsxPath
   }
   if (ext === '.tsx') {
-    const tsPath = absolute.slice(0, -4) + '.ts'
+    const tsPath = `${absolute.slice(0, -4)}.ts`
     if (fs.existsSync(tsPath)) return tsPath
   }
 
