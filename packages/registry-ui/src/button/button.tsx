@@ -42,7 +42,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
             variant,
           }),
         )}
-        disabled={loading ?? disabled}
+        disabled={Boolean(loading) || disabled}
         ref={ref}
         type={type}>
         {loading ? <Loader aria-hidden="true" className="animate-spin" /> : icon}

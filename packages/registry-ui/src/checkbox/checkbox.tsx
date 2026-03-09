@@ -43,7 +43,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
         changeCheckedState(checked, ref.current)
       }
       changeCheckedState(checked, inputRef.current as HTMLInputElement)
-    }, [checked, ref])
+    }, [checked, ref, changeCheckedState])
 
     function changeCheckedState(state: CheckedState, input: HTMLInputElement) {
       if (state === 'indeterminate') {

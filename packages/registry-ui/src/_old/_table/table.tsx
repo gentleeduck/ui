@@ -206,7 +206,7 @@
 //   DuckTableSearchInputProps
 // >(({ trigger, label, badge, keys }, ref) => {
 //   const {
-//     children: badgeChildren = '⌃+⇧+F',
+//     children: badgeChildren = 'Ctrl+Shift+F',
 //     className: badgeClassName,
 //     ...badgeProps
 //   } = badge ?? {}
@@ -415,7 +415,7 @@
 //           children: 'View',
 //           command: {
 //             key: 'ctrl+shift+v',
-//             label: '⌃+⇧+V',
+//             label: 'Ctrl+Shift+V',
 //           },
 //           icon: {
 //             children: MixerHorizontalIcon as LucideIcon,
@@ -527,7 +527,7 @@
 //         //     }),
 //         // command: {
 //         //     key: 'ctrl+shift+down',
-//         //     label: '⌃+⇧+↓',
+//         //     label: 'Ctrl+Shift+Down',
 //         //     action: () =>
 //         //         setPaginationState({
 //         //             ...paginationState,
@@ -546,7 +546,7 @@
 //         // onClick: () => setPaginationState({ ...paginationState, activePage: 0 }),
 //         // command: {
 //         //     key: 'ctrl+shift+left',
-//         //     label: '⌃+⇧+←',
+//         //     label: 'Ctrl+Shift+Left',
 //         //     action: () => setPaginationState({ ...paginationState, activePage: 0 }),
 //         // },
 //         label: {
@@ -561,7 +561,7 @@
 //         // onClick: () => setPaginationState({ ...paginationState, activePage: resultArrays.length - 1 }),
 //         // command: {
 //         //     key: 'ctrl+shift+right',
-//         //     label: '⌃+⇧+->',
+//         //     label: 'Ctrl+Shift+Right',
 //         //     action: () => setPaginationState({ ...paginationState, activePage: resultArrays.length - 1 }),
 //         // },
 //         label: {
@@ -575,7 +575,7 @@
 //       right={{
 //         command: {
 //           key: 'ctrl+shift+up',
-//           label: '⌃+⇧+↑',
+//           label: 'Ctrl+Shift+Up',
 //           // action: () =>
 //           //     setPaginationState({
 //           //         ...paginationState,
@@ -677,7 +677,7 @@
 //                     className: 'w-[4.5rem] h-[32px] gap-0',
 //                     command: {
 //                       key: 'ctrl+shift+c',
-//                       label: '⌃+⇧+C',
+//                       label: 'Ctrl+Shift+C',
 //                     },
 //                     label: {
 //                       children: 'Rows per page',
