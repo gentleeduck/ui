@@ -585,6 +585,26 @@ export const docsConfig: DocsConfig = {
                   items: [],
                   title: 'Visibility Hidden',
                 },
+                {
+                  href: '/docs/packages/duck-primitives/api/avatar',
+                  items: [],
+                  title: 'Avatar',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/command',
+                  items: [],
+                  title: 'Command',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/toggle',
+                  items: [],
+                  title: 'Toggle',
+                },
+                {
+                  href: '/docs/packages/duck-primitives/api/toggle-group',
+                  items: [],
+                  title: 'Toggle Group',
+                },
               ],
             },
             {
