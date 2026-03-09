@@ -26,7 +26,7 @@
       "!**/generated.root-owned",
       "!**/old_*",
       "!packages/___",
-      "!./apps/duck-ui-docs/__ui_registry__/**",
+      "!./apps/duck-ui-docs/__ui_registry__",
       "!packages/_oldstuff_refactor",
       "!packages/duck-benchmark"
     ]
@@ -100,7 +100,6 @@
       "!**/generated.root-owned/**",
       "!**/old_*/**",
       "!**/_*/**",
-      "!apps/duck-ui-docs/**",
       "!apps/benchmark/**",
       "!packages/___/**",
       "!packages/_oldstuff_refactor/**",
@@ -113,8 +112,32 @@
       "!**/combobox.tsx"
     ],
     "rules": {
+      "recommended": true,
+      "a11y": {
+        "noLabelWithoutControl": "warn",
+        "noStaticElementInteractions": "warn",
+        "noSvgWithoutTitle": "off",
+        "useAriaPropsForRole": "warn",
+        "useAriaPropsSupportedByRole": "warn",
+        "useButtonType": "warn",
+        "useKeyWithClickEvents": "warn",
+        "useValidAnchor": "warn",
+        "useSemanticElements": "warn"
+      },
       "complexity": {
-        "noBannedTypes": "off"
+        "noBannedTypes": "off",
+        "noImportantStyles": "warn",
+        "noThisInStatic": "warn"
+      },
+      "correctness": {
+        "noChildrenProp": "warn",
+        "noInvalidPositionAtImportRule": "warn",
+        "noInvalidUseBeforeDeclaration": "warn",
+        "noUnusedImports": "error",
+        "noUnusedVariables": "warn",
+        "noUnusedFunctionParameters": "warn",
+        "useExhaustiveDependencies": "warn",
+        "useHookAtTopLevel": "warn"
       },
       "nursery": {
         "useSortedClasses": {
@@ -126,19 +149,38 @@
           }
         }
       },
-      "recommended": false,
+      "performance": {
+        "noImgElement": "warn"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "warn"
+      },
       "style": {
-        "useImportType": "on"
+        "noDescendingSpecificity": "warn",
+        "noNonNullAssertion": "warn",
+        "useImportType": "on",
+        "useTemplate": "warn",
+        "useNodejsImportProtocol": "warn"
       },
       "suspicious": {
+        "noArrayIndexKey": "warn",
+        "noAssignInExpressions": "warn",
         "noDocumentCookie": "off",
         "noDoubleEquals": "error",
-        "noExplicitAny": "off",
+        "noDuplicateCustomProperties": "warn",
+        "noDuplicateProperties": "warn",
+        "noExplicitAny": "warn",
+        "noImplicitAnyLet": "warn",
+        "noNonNullAssertedOptionalChain": "warn",
+        "noRedeclare": "warn",
+        "noShadowRestrictedNames": "warn",
+        "noShorthandPropertyOverrides": "warn",
         "noThenProperty": "error",
         "noUnknownAtRules": "off",
         "noVar": "error",
         "useGetterReturn": "error",
-        "useIsArray": "error"
+        "useIsArray": "error",
+        "useIterableCallbackReturn": "warn"
       }
     }
   },
