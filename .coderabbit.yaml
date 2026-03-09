@@ -1,0 +1,25 @@
+language: en-US
+
+reviews:
+  auto_review:
+    enabled: true
+    drafts: false
+    base_branches:
+      - master
+  path_filters:
+    - "!**/_oldstuff_refactor/**"
+    - "!**/___/**"
+    - "!**/dist/**"
+    - "!**/build/**"
+    - "!**/.next/**"
+    - "!**/__snapshots__/**"
+    - "!**/__ui_registry__/**"
+    - "!**/node_modules/**"
+    - "!**/bun.lock"
+    - "!**/public/sitemap-0.xml"
+  tools:
+    biome:
+      enabled: true
+
+chat:
+  auto_reply: true
