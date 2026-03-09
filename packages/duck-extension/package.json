@@ -54,7 +54,7 @@
     "tsconfig.app.json",
     "tsconfig.node.json"
   ],
-  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-extention#readme",
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-extension#readme",
   "keywords": [
     "gentleduck",
     "browser-extension",
@@ -63,7 +63,7 @@
   ],
   "license": "MIT",
   "main": "./index.ts",
-  "name": "@gentleduck/duck-extention",
+  "name": "@gentleduck/duck-extension",
   "packageManager": "bun@1.3.5",
   "peerDependenciesMeta": {
     "next": {
@@ -74,7 +74,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gentleeduck/duck-ui.git",
-    "directory": "packages/duck-extention"
+    "directory": "packages/duck-extension"
   },
   "scripts": {
     "build": "tsc -b && vite build",

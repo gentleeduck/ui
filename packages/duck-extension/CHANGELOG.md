@@ -1,4 +1,4 @@
-# @gentleduck/duck-extention
+# @gentleduck/duck-extension
 
 ## 1.0.3
 
