@@ -1,7 +1,6 @@
 import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
-import type { Point, Polygon } from '../libs/shared-utils'
-import { isPointInPolygon } from '../libs/shared-utils'
+import type { Point } from '../libs/shared-utils'
 import { createPopperScope } from '../popper'
 
 const TOOLTIP_NAME = 'Tooltip'
@@ -126,8 +125,8 @@ function getHullPresorted<P extends Point>(points: Readonly<Array<P>>): Array<P>
   if (
     upperHull.length === 1 &&
     lowerHull.length === 1 &&
-    upperHull[0]!.x === lowerHull[0]!.x &&
-    upperHull[0]!.y === lowerHull[0]!.y
+    upperHull[0]?.x === lowerHull[0]?.x &&
+    upperHull[0]?.y === lowerHull[0]?.y
   ) {
     return upperHull
   } else {

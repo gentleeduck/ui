@@ -20,7 +20,7 @@ interface RadioGroupIndicatorProps extends PrimitiveSpanProps {
 const RadioGroupIndicator = React.forwardRef<RadioGroupIndicatorElement, RadioGroupIndicatorProps>(
   (props: ScopedProps<RadioGroupIndicatorProps>, forwardedRef) => {
     const { __scopeRadioGroup, forceMount, ...indicatorProps } = props
-    const itemContext = useRadioGroupItemContext(INDICATOR_NAME, __scopeRadioGroup as any)
+    const itemContext = useRadioGroupItemContext(INDICATOR_NAME, __scopeRadioGroup)
 
     return (
       <Presence present={forceMount || itemContext.checked}>

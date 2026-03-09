@@ -2,7 +2,8 @@ import * as React from 'react'
 import { useLayoutEffect } from './use-layout-effect'
 
 // Spaces with .trim().toString() prevent bundlers from tree-shaking useId out of React.
-const useReactId = (React as any)[' useId '.trim().toString()] || (() => undefined)
+const useReactId =
+  ((React as Record<string, unknown>)[' useId '.trim().toString()] as () => string | undefined) || (() => undefined)
 let count = 0
 
 /**

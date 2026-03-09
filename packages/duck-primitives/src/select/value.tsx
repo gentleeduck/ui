@@ -35,7 +35,7 @@ export const SelectValue = React.forwardRef<SelectValueElement, SelectValueProps
         // we don't want events from the portalled `SelectValue` children to bubble
         // through the item they came from
         style={{ pointerEvents: 'none' }}>
-        {shouldShowPlaceholder(context.value) ? <>{placeholder}</> : children}
+        {shouldShowPlaceholder(context.value) ? placeholder : children}
       </Primitive.span>
     )
   },

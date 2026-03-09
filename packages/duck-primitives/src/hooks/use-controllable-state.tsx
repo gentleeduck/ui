@@ -3,7 +3,8 @@ import { useLayoutEffect } from './use-layout-effect'
 
 // Prevent bundlers from trying to optimize the import.
 const useInsertionEffect: typeof useLayoutEffect =
-  (React as any)[' useInsertionEffect '.trim().toString()] || useLayoutEffect
+  ((React as Record<string, unknown>)[' useInsertionEffect '.trim().toString()] as typeof useLayoutEffect) ||
+  useLayoutEffect
 
 type ChangeHandler<T> = (state: T) => void
 type SetStateFn<T> = React.Dispatch<React.SetStateAction<T>>
@@ -91,11 +92,11 @@ function useUncontrolledState<T>({
       onChangeRef.current?.(value)
       prevValueRef.current = value
     }
-  }, [value, prevValueRef])
+  }, [value])
 
   return [value, setValue, onChangeRef]
 }
 
-function isFunction(value: unknown): value is (...args: any[]) => any {
+function isFunction<T>(value: React.SetStateAction<T>): value is (prevState: T) => T {
   return typeof value === 'function'
 }

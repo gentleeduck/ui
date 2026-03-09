@@ -242,7 +242,8 @@ const SliderHorizontal = React.forwardRef<SliderHorizontalElement, SliderHorizon
     const isSlidingFromLeft = (isDirectionLTR && !inverted) || (!isDirectionLTR && inverted)
 
     function getValueFromPointer(pointerPosition: number) {
-      const rect = rectRef.current || slider!.getBoundingClientRect()
+      const rect = rectRef.current || slider?.getBoundingClientRect()
+      if (!rect) return min
       const input: [number, number] = [0, rect.width]
       const output: [number, number] = isSlidingFromLeft ? [min, max] : [max, min]
       const value = linearScale(input, output)
@@ -265,7 +266,7 @@ const SliderHorizontal = React.forwardRef<SliderHorizontalElement, SliderHorizon
           ref={composedRefs}
           style={{
             ...sliderProps.style,
-            ['--gentleduck-slider-thumb-transform' as any]: 'translateX(-50%)',
+            ['--gentleduck-slider-thumb-transform' as string]: 'translateX(-50%)',
           }}
           onSlideStart={(event) => {
             const value = getValueFromPointer(event.clientX)
@@ -302,7 +303,8 @@ const SliderVertical = React.forwardRef<SliderVerticalElement, SliderVerticalPro
     const isSlidingFromBottom = !inverted
 
     function getValueFromPointer(pointerPosition: number) {
-      const rect = rectRef.current || sliderRef.current!.getBoundingClientRect()
+      const rect = rectRef.current || sliderRef.current?.getBoundingClientRect()
+      if (!rect) return min
       const input: [number, number] = [0, rect.height]
       const output: [number, number] = isSlidingFromBottom ? [max, min] : [min, max]
       const value = linearScale(input, output)
@@ -324,7 +326,7 @@ const SliderVertical = React.forwardRef<SliderVerticalElement, SliderVerticalPro
           ref={ref}
           style={{
             ...sliderProps.style,
-            ['--gentleduck-slider-thumb-transform' as any]: 'translateY(50%)',
+            ['--gentleduck-slider-thumb-transform' as string]: 'translateY(50%)',
           }}
           onSlideStart={(event) => {
             const value = getValueFromPointer(event.clientY)

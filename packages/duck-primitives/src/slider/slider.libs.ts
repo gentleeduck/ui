@@ -64,7 +64,7 @@ function getDecimalCount(value: number) {
 }
 
 function roundValue(value: number, decimalCount: number) {
-  const rounder = Math.pow(10, decimalCount)
+  const rounder = 10 ** decimalCount
   return Math.round(value * rounder) / rounder
 }
 

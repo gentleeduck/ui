@@ -52,7 +52,7 @@ interface SlotCloneProps {
 }
 
 /* @__NO_SIDE_EFFECTS__ */ function createSlotClone(ownerName: string) {
-  const SlotClone = React.forwardRef<any, SlotCloneProps>((props, forwardedRef) => {
+  const SlotClone = React.forwardRef<HTMLElement, SlotCloneProps>((props, forwardedRef) => {
     const { children, ...slotProps } = props
 
     if (React.isValidElement(children)) {
@@ -93,7 +93,7 @@ interface SlottableComponent extends React.FC<SlottableProps> {
 
 const Slottable = createSlottable('Slottable')
 
-type AnyProps = Record<string, any>
+type AnyProps = Record<string, unknown>
 
 function isSlottable(child: React.ReactNode): child is React.ReactElement<SlottableProps, typeof Slottable> {
   return (
@@ -117,8 +117,8 @@ function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
       // if the handler exists on both, we compose them
       if (slotPropValue && childPropValue) {
         overrideProps[propName] = (...args: unknown[]) => {
-          const result = childPropValue(...args)
-          slotPropValue(...args)
+          const result = (childPropValue as (...a: unknown[]) => unknown)(...args)
+          ;(slotPropValue as (...a: unknown[]) => unknown)(...args)
           return result
         }
       }
@@ -129,7 +129,7 @@ function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
     }
     // if it's `style`, we merge them
     else if (propName === 'style') {
-      overrideProps[propName] = { ...slotPropValue, ...childPropValue }
+      overrideProps[propName] = { ...(slotPropValue as object), ...(childPropValue as object) }
     } else if (propName === 'className') {
       overrideProps[propName] = [slotPropValue, childPropValue].filter(Boolean).join(' ')
     }
@@ -148,7 +148,7 @@ function getComponentRef(element: React.ReactElement) {
   let getter = Object.getOwnPropertyDescriptor(element.props, 'ref')?.get
   let mayWarn = getter && 'isReactWarning' in getter && getter.isReactWarning
   if (mayWarn) {
-    return (element as any).ref
+    return (element as React.ReactElement & { ref?: React.Ref<unknown> }).ref
   }
 
   // React 19 in DEV
@@ -159,7 +159,10 @@ function getComponentRef(element: React.ReactElement) {
   }
 
   // Not DEV
-  return (element.props as { ref?: React.Ref<unknown> }).ref || (element as any).ref
+  return (
+    (element.props as { ref?: React.Ref<unknown> }).ref ||
+    (element as React.ReactElement & { ref?: React.Ref<unknown> }).ref
+  )
 }
 
 export { Slot, Slottable }

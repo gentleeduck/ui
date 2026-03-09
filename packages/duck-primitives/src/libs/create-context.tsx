@@ -13,7 +13,7 @@ function createContext<ContextValueType extends object | null>(
     return <Context.Provider value={value}>{children}</Context.Provider>
   }
 
-  Provider.displayName = rootComponentName + 'Provider'
+  Provider.displayName = `${rootComponentName}Provider`
 
   function useContext(consumerName: string) {
     const context = React.useContext(Context)
@@ -25,6 +25,7 @@ function createContext<ContextValueType extends object | null>(
   return [Provider, useContext] as const
 }
 
+// biome-ignore lint/suspicious/noExplicitAny: Scope requires `any` default for Context covariance across component boundaries
 type Scope<C = any> = { [scopeName: string]: React.Context<C>[] } | undefined
 type ScopeHook = (scope: Scope) => { [__scopeProp: string]: Scope }
 interface CreateScope {
@@ -53,7 +54,7 @@ function createContextScope(scopeName: string, createContextScopeDeps: CreateSco
       return <Context.Provider value={value}>{children}</Context.Provider>
     }
 
-    Provider.displayName = rootComponentName + 'Provider'
+    Provider.displayName = `${rootComponentName}Provider`
 
     function useContext(consumerName: string, scope: Scope<ContextValueType | undefined>) {
       const Context = scope?.[scopeName]?.[index] || BaseContext

@@ -69,7 +69,7 @@ export const SelectViewport = React.forwardRef<SelectViewportElement, SelectView
                     const clampedNextHeight = Math.min(availableHeight, nextHeight)
                     const heightDiff = nextHeight - clampedNextHeight
 
-                    contentWrapper.style.height = clampedNextHeight + 'px'
+                    contentWrapper.style.height = `${clampedNextHeight}px`
                     if (contentWrapper.style.bottom === '0px') {
                       viewport.scrollTop = heightDiff > 0 ? heightDiff : 0
                       // ensure the content stays pinned to the bottom

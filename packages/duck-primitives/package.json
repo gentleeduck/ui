@@ -64,7 +64,8 @@
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
-    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
+    "test": "bun test"
   },
   "type": "module",
   "version": "0.2.4",

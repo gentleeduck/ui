@@ -49,8 +49,8 @@ const NavigationMenuViewportImpl = React.forwardRef<NavigationMenuViewportImplEl
     const viewportContentContext = useViewportContentContext(CONTENT_NAME, props.__scopeNavigationMenu)
     const [size, setSize] = React.useState<{ width: number; height: number } | null>(null)
     const [content, setContent] = React.useState<NavigationMenuContentImplElement | null>(null)
-    const viewportWidth = size ? size?.width + 'px' : undefined
-    const viewportHeight = size ? size?.height + 'px' : undefined
+    const viewportWidth = size ? `${size?.width}px` : undefined
+    const viewportHeight = size ? `${size?.height}px` : undefined
     const open = Boolean(context.value)
     // We persist the last active content value as the viewport may be animating out
     // and we want the content to remain mounted for the lifecycle of the viewport.
@@ -77,8 +77,8 @@ const NavigationMenuViewportImpl = React.forwardRef<NavigationMenuViewportImplEl
         style={{
           // Prevent interaction when animating out
           pointerEvents: !open && context.isRootMenu ? 'none' : undefined,
-          ['--radix-navigation-menu-viewport-width' as any]: viewportWidth,
-          ['--radix-navigation-menu-viewport-height' as any]: viewportHeight,
+          ['--radix-navigation-menu-viewport-width' as string]: viewportWidth,
+          ['--radix-navigation-menu-viewport-height' as string]: viewportHeight,
           ...viewportImplProps.style,
         }}
         onPointerEnter={composeEventHandlers(props.onPointerEnter, context.onContentEnter)}

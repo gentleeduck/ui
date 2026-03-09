@@ -76,7 +76,7 @@ function isSelectableInput(element: unknown): element is FocusableTarget & { sel
  * Optionally selects input content after focusing.
  */
 function focus(element?: FocusableTarget | null, { select = false } = {}) {
-  if (element && element.focus) {
+  if (element?.focus) {
     const previouslyFocusedElement = document.activeElement
     element.focus({ preventScroll: true })
     if (element !== previouslyFocusedElement && isSelectableInput(element) && select) element.select()

@@ -171,7 +171,7 @@ const CommandInner = React.forwardRef<CommandElement, ScopedProps<React.Componen
             event.preventDefault()
             if (nodes.length > 0) {
               context.setSelectedItem(nodes[0]!)
-              nodes[0]!.scrollIntoView({ block: 'nearest' })
+              nodes[0]?.scrollIntoView({ block: 'nearest' })
             }
             return
           }
