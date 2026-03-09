@@ -1,5 +1,11 @@
 # @gentleduck/libs
 
+## 0.1.15
+
+### Patch Changes
+
+- 2b6e8d0: Resolve all biome lint warnings, improve type safety, and add test coverage across the monorepo.
+
 ## 0.1.14
 
 ### Patch Changes
