@@ -13,6 +13,9 @@
     "@gentleduck/typescript-config": "workspace:*",
     "@types/node": "^25.3.0",
     "@types/react": "19.2.14",
+    "jsdom": "^27.0.0",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "tsdown": "0.18.3",
     "tsup": "^8.5.1"
   },
@@ -63,7 +66,8 @@
   },
   "scripts": {
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
-    "build": "tsdown"
+    "build": "tsdown",
+    "test": "bun test"
   },
   "type": "module",
   "version": "1.2.12"

@@ -85,7 +85,7 @@ function PlaceHolder({
       src={src as (string | StaticImport) & string}
       style={{ transform: 'translate3d(0,0,0)' }}
       width={width}
-      {...(props as any)}
+      {...(props as Record<string, unknown>)}
     />
   )
 }
