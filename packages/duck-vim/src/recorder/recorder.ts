@@ -1,4 +1,4 @@
-import { keyboardEventToDescriptor, MODIFIER_KEYS } from '../parser/parser'
+import { MODIFIER_KEYS } from '../parser/parser'
 import type { KeyRecorderOptions, KeyRecorderState, KeyStateSnapshot } from './recorder.types'
 
 /**

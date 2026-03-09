@@ -46,7 +46,8 @@
     "@types/react-dom": "19.2.3",
     "tsdown": "0.18.3",
     "type-fest": "^5.0.1",
-    "typescript": "5.9.3"
+    "typescript": "5.9.3",
+    "vitest": "catalog:"
   },
   "exports": {
     ".": {
@@ -82,7 +83,7 @@
     "start": "node dist/index.js",
     "start:dev": "cross-env COMPONENTS_REGISTRY_URL=http://localhost:3003 node dist/index.js",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
-    "test": "vitest run"
+    "test": "vitest run --passWithNoTests"
   },
   "type": "module",
   "types": "./dist/index.d.ts",

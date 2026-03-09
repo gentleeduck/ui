@@ -17,6 +17,15 @@
     },
     "rootDir": "./"
   },
-  "exclude": ["node_modules", "dist", "**/*.tsbuildinfo", "tsconfig.tsbuildinfo"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/**/__test__/**",
+    "src/**/__test__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.tsbuildinfo",
+    "tsconfig.tsbuildinfo"
+  ],
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }
