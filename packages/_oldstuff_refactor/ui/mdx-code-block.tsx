@@ -274,7 +274,7 @@
 //               return false
 //             }
 //
-//             // don’t create a new code block within code blocks
+//             // don't create a new code block within code blocks
 //             if (this.editor.isActive(this.type.name)) {
 //               return false
 //             }

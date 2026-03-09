@@ -10,32 +10,69 @@ A Bun-based monorepo for the gentleduck/ui component system, docs, and related t
 - Docs app: `apps/duck-ui-docs`
 - GitHub: https://github.com/gentleeduck/duck-ui
 
-## What's in this repo
-### Apps
-- `apps/duck-ui-docs` – component docs site (components, blocks, charts, themes)
-### Packages (Selected)
-- `packages/duck-docs` – shared docs app kit used by the docs apps
-- `packages/registry-ui` – UI components
-- `packages/registry-blocks` – blocks and layouts
-- `packages/registry-examples` – examples used in docs
-- `packages/duck-libs` – utilities
-- `packages/duck-hooks` – React hooks
-- `packages/duck-motion` – motion primitives
-- `packages/duck-variants` – class/variant helpers
-- `packages/duck-vim` – keybinding engine
-- `packages/duck-lazy` – lazy-loading utilities
+## Workspace Matrix
 
-### Published packages (npm)
-- `@gentleduck/benchmark` – benchmarking tool for gentleduck/ui components
-- `@gentleduck/cli` – CLI to add components and bootstrap integrations
-- `@gentleduck/hooks` – React hooks
-- `@gentleduck/lazy` – lazy-loading utilities
-- `@gentleduck/libs` – utilities and helpers
-- `@gentleduck/motion` – motion primitives
-- `@gentleduck/primitives` – headless UI primitives
-- `@gentleduck/shortcut` – keyboard shortcut utilities
-- `@gentleduck/variants` – class/variant helpers
-- `@gentleduck/vim` – keybinding engine
+### Apps
+
+| Path | Package | Role | Status |
+| --- | --- | --- | --- |
+| `apps/duck-ui-docs` | `@gentleduck/ui-docs` | Public docs site, registry explorer, MCP server | Active |
+| `apps/benchmark` | `benchmark` | Standalone benchmark app | Standalone, excluded from default root workspace scripts |
+
+### Published Packages
+
+| Path | Package | Role | Status |
+| --- | --- | --- | --- |
+| `packages/duck-benchmark` | `@gentleduck/benchmark` | Benchmarking package | Active |
+| `packages/duck-cli` | `@gentleduck/cli` | CLI for installing and updating duck-ui pieces | Active |
+| `packages/duck-docs` | `@gentleduck/docs` | Shared docs app kit | Active |
+| `packages/duck-hooks` | `@gentleduck/hooks` | React hooks | Active |
+| `packages/duck-lazy` | `@gentleduck/lazy` | Lazy-loading helpers | Active |
+| `packages/duck-libs` | `@gentleduck/libs` | Shared utility helpers | Active |
+| `packages/duck-motion` | `@gentleduck/motion` | Motion tokens and helpers | Active |
+| `packages/duck-primitives` | `@gentleduck/primitives` | Accessibility-first unstyled primitives | Active |
+| `packages/duck-shortcut` | `@gentleduck/shortcut` | Legacy shortcut package | Deprecated, frozen in favor of `@gentleduck/vim` |
+| `packages/duck-state` | `@gentleduck/state` | Lightweight state primitives | Active |
+| `packages/duck-variants` | `@gentleduck/variants` | Variant and class composition helpers | Active |
+| `packages/duck-vim` | `@gentleduck/vim` | Keyboard command engine | Active |
+| `packages/registers` | `@gentleduck/registers` | Registry schema and aggregate data exports | Active |
+| `packages/registry-ui` | `@gentleduck/registry-ui` | Source exports for UI components | Active |
+
+### Private / Internal Packages
+
+| Path | Package | Role | Status |
+| --- | --- | --- | --- |
+| `packages/duck-extension` | `@gentleduck/duck-extension` | Browser extension experiments | Private, active |
+| `packages/registry-blocks` | `@gentleduck/registry-blocks` | Registry block content | Private, active |
+| `packages/registry-build` | `@gentleduck/registry-build` | Registry generation tooling | Private, active |
+| `packages/registry-examples` | `@gentleduck/registry-examples` | Example source content | Private, active |
+| `packages/registry-internals` | `@gentleduck/registry-internals` | Internal registry content | Private, active |
+| `packages/types` | `@gentleduck/types` | Shared type-only package | Private, active |
+
+### Tooling Packages
+
+| Path | Package | Role | Status |
+| --- | --- | --- | --- |
+| `tooling/biome` | `@gentleduck/biome-config` | Shared Biome config | Internal |
+| `tooling/github` | `@gentleduck/github` | GitHub/project automation support | Internal |
+| `tooling/tailwind` | `@gentleduck/tailwind-config` | Shared Tailwind config | Internal |
+| `tooling/tsdown` | `@gentleduck/tsdown-config` | Shared `tsdown` config | Internal |
+| `tooling/typescript` | `@gentleduck/typescript-config` | Shared TypeScript config | Internal |
+| `tooling/vitest` | `@gentleduck/vitest-config` | Shared Vitest config | Internal |
+| `tooling/bash` | `bash` | Shell utilities and misc scripts | Internal |
+
+### Archived / Planned
+
+| Path | Package | Role | Status |
+| --- | --- | --- | --- |
+| `packages/_oldstuff_refactor` | `@duck-ui/oldstuff-refactor` | Archived refactor material | Archived, excluded from root workspace automation |
+| `packages/duck-emoji` | `@gentleduck/emoji` | Planned emoji package | Placeholder, excluded from root workspace automation |
+
+## Workspace Policy
+
+- Root quality scripts target the active workspace graph only.
+- Archived and placeholder packages stay in the repo for reference, but are excluded from root workspace automation.
+- Deprecated published packages remain documented until they are formally removed from maintenance or npm distribution.
 
 ## Getting Started
 ```bash
@@ -56,6 +93,7 @@ bun run build        # build all packages/apps
 bun run test         # run tests across workspaces
 bun run check        # biome checks
 bun run check-types  # TypeScript type checks
+bun run ci           # non-mutating repo verification (check, workspace lint, types, tests, build)
 ```
 
 ## Contributing

@@ -10,7 +10,7 @@ const ShortcutKey = ({ children }: { children: string }): JSX.Element => {
     'inline-flex items-center justify-center w-5 h-5 p-1 text-[0.625rem] rounded-sm font-semibold leading-none border border-neutral-200 text-neutral-500 border-b-2'
 
   if (children === 'Mod') {
-    return <kbd className={className}>{isMac ? '⌘' : 'Ctrl'}</kbd> // ⌃
+    return <kbd className={className}>{isMac ? '⌘' : 'Ctrl'}</kbd> // Ctrl
   }
 
   if (children === 'Shift') {

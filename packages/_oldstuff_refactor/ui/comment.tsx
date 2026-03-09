@@ -840,7 +840,7 @@
 //     },
 //     {
 //       children: 'Delete',
-//       command: { label: '⌘⌫', key: 'a' },
+//       command: { label: 'Cmd+Delete', key: 'a' },
 //       icon: {
 //         children: Trash2,
 //       },
