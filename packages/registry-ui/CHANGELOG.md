@@ -1,5 +1,18 @@
 # @gentleduck/registry-ui
 
+## 0.2.6
+
+### Patch Changes
+
+- 2b6e8d0: Resolve all biome lint warnings, improve type safety, and add test coverage across the monorepo.
+- Updated dependencies [2b6e8d0]
+  - @gentleduck/primitives@0.2.5
+  - @gentleduck/variants@0.1.20
+  - @gentleduck/hooks@0.1.12
+  - @gentleduck/motion@0.1.17
+  - @gentleduck/libs@0.1.15
+  - @gentleduck/vim@0.1.16
+
 ## 0.2.5
 
 ### Patch Changes

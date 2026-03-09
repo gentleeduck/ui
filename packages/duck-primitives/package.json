@@ -68,7 +68,7 @@
     "test": "bun test"
   },
   "type": "module",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "dependencies": {
     "@floating-ui/react-dom": "^2.1.7",
     "aria-hidden": "^1.2.6",

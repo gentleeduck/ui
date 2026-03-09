@@ -1,5 +1,13 @@
 # @gentleduck/motion
 
+## 0.1.17
+
+### Patch Changes
+
+- 2b6e8d0: Resolve all biome lint warnings, improve type safety, and add test coverage across the monorepo.
+- Updated dependencies [2b6e8d0]
+  - @gentleduck/variants@0.1.20
+
 ## 0.1.16
 
 ### Patch Changes
