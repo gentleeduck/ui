@@ -25,7 +25,7 @@ function getCacheKey<TVariants extends Record<string, Record<string, string | st
 
   let key = ''
   for (let i = 0; i < entries.length; i++) {
-    const [k, v] = entries[i]
+    const [k, v] = entries[i]!
     if (Array.isArray(v)) {
       key += `${k}:[${v.map(String).join(',')}]`
     } else {
@@ -169,13 +169,13 @@ export function cva<TVariants extends Record<string, Record<string, string | str
     for (const variantName in variants) {
       const v = merged[variantName]
       if (v == null || v === 'unset') continue
-      const cls = variants[variantName][String(v)]
+      const cls = variants[variantName]?.[String(v)]
       flattenClasses(cls, tokens)
     }
 
     // 5) Apply compoundVariants when all conditions match
     for (let i = 0; i < compoundVariants.length; i++) {
-      const cv = compoundVariants[i as number]
+      const cv = compoundVariants[i as number]!
       let match = true
 
       for (const key in cv) {
@@ -207,7 +207,8 @@ export function cva<TVariants extends Record<string, Record<string, string | str
 
     // 7) Deduplicate & join
     for (let i = 0; i < tokens.length; i++) {
-      seen.add(tokens[i as number])
+      const token = tokens[i as number]
+      if (token) seen.add(token)
     }
     const result = Array.from(seen).join(' ')
 

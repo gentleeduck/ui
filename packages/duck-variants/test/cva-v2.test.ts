@@ -6,6 +6,7 @@ describe('@gentleduck/variants - cva core tests', () => {
   let compoundCva: ReturnType<typeof cva>
 
   beforeAll(() => {
+    // variants order: align, justify
     baseCva = cva('flex items-center', {
       defaultVariants: {
         align: 'center',
@@ -25,6 +26,7 @@ describe('@gentleduck/variants - cva core tests', () => {
       },
     })
 
+    // variants order: size, state
     compoundCva = cva('bg-white', {
       compoundVariants: [
         {
@@ -57,23 +59,28 @@ describe('@gentleduck/variants - cva core tests', () => {
 
   describe('basic variant behavior', () => {
     it('should apply base classes and default variants', () => {
+      // base: "flex items-center", align=center -> "items-center" (deduped), justify=start -> "justify-start"
       const result = baseCva()
       expect(result).toEqual('flex items-center justify-start')
     })
 
     it('should override default variants with props', () => {
+      // base: "flex items-center", align=top -> "items-start", justify=center -> "justify-center"
+      // Order: base tokens, then align variant, then justify variant
       const result = baseCva({ align: 'top', justify: 'center' })
-      expect(result).toEqual('flex items-center justify-center items-start')
+      expect(result).toEqual('flex items-center items-start justify-center')
     })
 
     it('should correctly handle additional className prop', () => {
+      // align defaults to center ("items-center" deduped with base), justify=end -> "justify-end", className="gap-4"
       const result = baseCva({ className: 'gap-4', justify: 'end' })
       expect(result).toEqual('flex items-center justify-end gap-4')
     })
 
     it('should correctly handle additional class prop', () => {
+      // base: "flex items-center", align=bottom -> "items-end", justify defaults to start -> "justify-start", class="mt-2"
       const result = baseCva({ align: 'bottom', class: 'mt-2' })
-      expect(result).toEqual('flex items-center justify-start items-end mt-2')
+      expect(result).toEqual('flex items-center items-end justify-start mt-2')
     })
 
     it('should merge class and className together', () => {
@@ -88,23 +95,30 @@ describe('@gentleduck/variants - cva core tests', () => {
 
   describe('compound variants behavior', () => {
     it('should apply base and default classes without compound', () => {
+      // base: "bg-white", size=sm -> "p-2 text-sm", state=inactive -> "bg-gray-300 text-black"
+      // compound match: size=sm + state=inactive -> className="opacity-70"
       const result = compoundCva()
-      expect(result).toEqual('bg-white bg-gray-300 text-black p-2 text-sm opacity-70')
+      expect(result).toEqual('bg-white p-2 text-sm bg-gray-300 text-black opacity-70')
     })
 
     it('should apply compound class when matching active + lg', () => {
+      // base: "bg-white", size=lg -> "p-4 text-lg", state=active -> "bg-blue-500 text-white"
+      // compound match: size=lg + state=active -> class="ring-4 ring-blue-300"
       const result = compoundCva({ size: 'lg', state: 'active' })
-      expect(result).toEqual('bg-white bg-blue-500 text-white p-4 text-lg ring-4 ring-blue-300')
+      expect(result).toEqual('bg-white p-4 text-lg bg-blue-500 text-white ring-4 ring-blue-300')
     })
 
     it('should NOT apply compound class if not matching', () => {
+      // base: "bg-white", size=sm -> "p-2 text-sm", state=active -> "bg-blue-500 text-white"
+      // No compound match (need lg+active or sm+inactive)
       const result = compoundCva({ size: 'sm', state: 'active' })
-      expect(result).toEqual('bg-white bg-blue-500 text-white p-2 text-sm')
+      expect(result).toEqual('bg-white p-2 text-sm bg-blue-500 text-white')
     })
 
     it('should apply multiple compound conditions independently', () => {
+      // same as defaults: size=sm, state=inactive
       const result = compoundCva({ size: 'sm', state: 'inactive' })
-      expect(result).toEqual('bg-white bg-gray-300 text-black p-2 text-sm opacity-70')
+      expect(result).toEqual('bg-white p-2 text-sm bg-gray-300 text-black opacity-70')
     })
   })
 
@@ -178,6 +192,7 @@ describe('@gentleduck/variants - cva core tests', () => {
   })
 
   describe('multiple compound variants matching', () => {
+    // variants order: size, variant
     const multiCompound = cva('border', {
       compoundVariants: [
         {
@@ -204,18 +219,24 @@ describe('@gentleduck/variants - cva core tests', () => {
     })
 
     it('should apply multiple compound classes correctly', () => {
+      // base: "border", size=md -> "p-4", variant=outlined -> "border-2 border-gray-300"
+      // compound match: size=md + variant=outlined -> class="shadow-md"
       const result = multiCompound({ size: 'md', variant: 'outlined' })
-      expect(result).toEqual('border border-2 border-gray-300 p-4 shadow-md')
+      expect(result).toEqual('border p-4 border-2 border-gray-300 shadow-md')
     })
 
     it('should apply a different compound class for different combination', () => {
+      // base: "border", size=sm -> "p-2", variant=filled -> "bg-gray-200"
+      // compound match: size=sm + variant=filled -> className="rounded-md"
       const result = multiCompound({ size: 'sm', variant: 'filled' })
-      expect(result).toEqual('border bg-gray-200 p-2 rounded-md')
+      expect(result).toEqual('border p-2 bg-gray-200 rounded-md')
     })
 
     it('should fallback to only variant/size if no compound match', () => {
+      // base: "border", size=md -> "p-4", variant=filled -> "bg-gray-200"
+      // no compound match
       const result = multiCompound({ size: 'md', variant: 'filled' })
-      expect(result).toEqual('border bg-gray-200 p-4')
+      expect(result).toEqual('border p-4 bg-gray-200')
     })
   })
 })
