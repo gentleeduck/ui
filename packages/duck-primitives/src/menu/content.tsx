@@ -333,6 +333,7 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, MenuContentImpl
                       if (event.key === 'Tab') event.preventDefault()
 
                       const enabledItems = getItems().filter((item) => !item.disabled)
+                      // biome-ignore lint/style/noNonNullAssertion: collection item refs are always mounted when the menu is open
                       const nodes = enabledItems.map((item) => item.ref.current!)
                       if (handleVimKey(event, nodes)) return
 
@@ -344,6 +345,7 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, MenuContentImpl
                     if (!FIRST_LAST_KEYS.includes(event.key)) return
                     event.preventDefault()
                     const items = getItems().filter((item) => !item.disabled)
+                    // biome-ignore lint/style/noNonNullAssertion: collection item refs are always mounted when the menu is open
                     const candidateNodes = items.map((item) => item.ref.current!)
                     if (LAST_KEYS.includes(event.key)) candidateNodes.reverse()
                     focusFirst(candidateNodes)

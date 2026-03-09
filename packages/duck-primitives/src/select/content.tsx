@@ -336,6 +336,7 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, SelectConte
 
                   // Vim keybindings (gg -> top, G -> bottom)
                   const enabledItems = getItems().filter((item) => !item.disabled)
+                  // biome-ignore lint/style/noNonNullAssertion: collection items always have mounted refs when the content is open
                   const nodes = enabledItems.map((item) => item.ref.current!)
                   if (handleVimKey(event, nodes)) return
 

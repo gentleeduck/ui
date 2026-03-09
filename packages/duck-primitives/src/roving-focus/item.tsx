@@ -66,6 +66,7 @@ const RovingFocusGroupItem = React.forwardRef<RovingFocusItemElement, RovingFocu
               event.preventDefault()
 
               const items = getItems().filter((item) => item.focusable)
+              // biome-ignore lint/style/noNonNullAssertion: focusable items always have mounted refs within the roving focus group
               let candidateNodes = items.map((item) => item.ref.current!)
 
               if (focusIntent === 'last') {

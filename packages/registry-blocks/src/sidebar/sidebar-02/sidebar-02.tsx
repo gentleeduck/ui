@@ -32,6 +32,7 @@ export default function Page() {
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4">
           {Array.from({ length: 24 }).map((_, index) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: static placeholder list
             <div className="aspect-video h-12 w-full rounded-lg bg-muted/50" key={index} />
           ))}
         </div>

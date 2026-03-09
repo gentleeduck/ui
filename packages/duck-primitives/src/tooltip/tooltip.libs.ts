@@ -98,9 +98,12 @@ function getHullPresorted<P extends Point>(points: Readonly<Array<P>>): Array<P>
 
   const upperHull: Array<P> = []
   for (let i = 0; i < points.length; i++) {
+    // biome-ignore lint/style/noNonNullAssertion: index `i` is always within bounds of `points`
     const p = points[i]!
     while (upperHull.length >= 2) {
+      // biome-ignore lint/style/noNonNullAssertion: length >= 2 guarantees these indices exist
       const q = upperHull[upperHull.length - 1]!
+      // biome-ignore lint/style/noNonNullAssertion: length >= 2 guarantees these indices exist
       const r = upperHull[upperHull.length - 2]!
       if ((q.x - r.x) * (p.y - r.y) >= (q.y - r.y) * (p.x - r.x)) upperHull.pop()
       else break
@@ -111,9 +114,12 @@ function getHullPresorted<P extends Point>(points: Readonly<Array<P>>): Array<P>
 
   const lowerHull: Array<P> = []
   for (let i = points.length - 1; i >= 0; i--) {
+    // biome-ignore lint/style/noNonNullAssertion: index `i` is always within bounds of `points`
     const p = points[i]!
     while (lowerHull.length >= 2) {
+      // biome-ignore lint/style/noNonNullAssertion: length >= 2 guarantees these indices exist
       const q = lowerHull[lowerHull.length - 1]!
+      // biome-ignore lint/style/noNonNullAssertion: length >= 2 guarantees these indices exist
       const r = lowerHull[lowerHull.length - 2]!
       if ((q.x - r.x) * (p.y - r.y) >= (q.y - r.y) * (p.x - r.x)) lowerHull.pop()
       else break

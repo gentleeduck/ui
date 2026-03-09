@@ -12,6 +12,7 @@ const ButtonGroup = React.forwardRef<
 >(({ className, orientation = 'horizontal', dir, ...props }, ref) => {
   const direction = useDirection(dir as Direction)
   return (
+    // biome-ignore lint/a11y/useSemanticElements: group role is semantically correct for button groups
     <div
       className={cn(buttonGroupVariants({ orientation }), className)}
       data-orientation={orientation}

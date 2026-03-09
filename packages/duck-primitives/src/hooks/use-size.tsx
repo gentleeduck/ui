@@ -16,6 +16,7 @@ function useSize(element: HTMLElement | null) {
       const resizeObserver = new ResizeObserver((entries) => {
         if (!Array.isArray(entries) || !entries.length) return
 
+        // biome-ignore lint/style/noNonNullAssertion: guarded by the entries.length check above
         const entry = entries[0]!
         let width: number
         let height: number

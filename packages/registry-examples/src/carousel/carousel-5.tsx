@@ -34,6 +34,7 @@ export default function CarouselDemo() {
       <Carousel className="w-full max-w-xs" setApi={setApi}>
         <CarouselContent>
           {Array.from({ length: 5 }).map((_, index) => (
+            // biome-ignore lint/suspicious/noArrayIndexKey: static list generated from Array.from
             <CarouselItem key={`item-${index + 1}`}>
               <Card>
                 <CardContent className="flex aspect-square items-center justify-center p-6">

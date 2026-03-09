@@ -44,6 +44,7 @@ export const mdxBaseComponents = {
   hr: Hr,
   Image,
   img: ({ className, alt, ...props }: React.ImgHTMLAttributes<HTMLImageElement>) => (
+    // biome-ignore lint/performance/noImgElement: MDX component override for the native `img` tag
     <img alt={alt} className={cn('rounded-md', className)} {...props} />
   ),
   Link: LinkBlock,

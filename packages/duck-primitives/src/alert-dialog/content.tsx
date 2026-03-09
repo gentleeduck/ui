@@ -80,7 +80,7 @@ Alternatively, you can use your own component as a description by assigning it a
 For more information, see the alert-dialog documentation.`
 
   React.useEffect(() => {
-    const hasDescription = document.getElementById(contentRef.current?.getAttribute('aria-describedby')!)
+    const hasDescription = document.getElementById(contentRef.current?.getAttribute('aria-describedby') ?? '')
     if (!hasDescription) console.warn(MESSAGE)
   }, [MESSAGE, contentRef])
 

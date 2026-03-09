@@ -5,6 +5,7 @@ export default function ItemLink() {
   return (
     <div className="flex w-full max-w-md flex-col gap-4">
       <Item asChild>
+        {/* biome-ignore lint/a11y/useValidAnchor: placeholder href in demo component */}
         <a href="#">
           <ItemContent>
             <ItemTitle>API Reference</ItemTitle>
@@ -16,6 +17,7 @@ export default function ItemLink() {
         </a>
       </Item>
       <Item asChild variant="outline">
+        {/* biome-ignore lint/a11y/useValidAnchor: placeholder href in demo component */}
         <a href="#" rel="noopener noreferrer" target="_blank">
           <ItemContent>
             <ItemTitle>Changelog - February 2026</ItemTitle>

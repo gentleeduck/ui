@@ -148,7 +148,7 @@ function TooltipDemo({
       )}>
       {!nestLabel ? tooltipLabel : null}
       <div className="grid gap-1.5">
-        {payload.map((item, index) => {
+        {payload.map((item) => {
           const indicatorColor = item.fill
 
           return (
@@ -157,7 +157,7 @@ function TooltipDemo({
                 'flex w-full items-stretch gap-2 [&>svg]:h-2.5 [&>svg]:w-2.5 [&>svg]:text-muted-foreground',
                 indicator === 'dot' && 'items-center',
               )}
-              key={`item-${index + 1}`}>
+              key={item.name}>
               {!hideIndicator && (
                 <div
                   className={cn('shrink-0 rounded-[2px] border-[--color-border] bg-[--color-bg]', {

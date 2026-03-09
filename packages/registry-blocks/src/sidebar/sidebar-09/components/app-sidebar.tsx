@@ -159,6 +159,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild className="md:h-8 md:p-0" size="lg">
+                {/* biome-ignore lint/a11y/useValidAnchor: demo block with placeholder href */}
                 <a href="#">
                   <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                     <Command aria-hidden="true" className="size-4" />
@@ -224,6 +225,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               {mails.map((mail) => (
                 <a
                   className="flex flex-col items-start gap-2 whitespace-nowrap border-b p-4 text-sm leading-tight last:border-b-0 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                  // biome-ignore lint/a11y/useValidAnchor: demo block with placeholder href
                   href="#"
                   key={mail.email}>
                   <div className="flex w-full items-center gap-2">

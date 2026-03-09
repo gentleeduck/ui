@@ -48,7 +48,7 @@ import {
   Frame,
   GalleryVerticalEnd,
   LogOut,
-  Map,
+  Map as MapIcon,
   MoreHorizontal,
   PieChart,
   Plus,
@@ -131,7 +131,7 @@ const data = {
   projects: [
     { name: 'مكتبة المكونات', url: '#', icon: Frame },
     { name: 'صفحات الهبوط', url: '#', icon: PieChart },
-    { name: 'التوثيق', url: '#', icon: Map },
+    { name: 'التوثيق', url: '#', icon: MapIcon },
   ],
 }
 

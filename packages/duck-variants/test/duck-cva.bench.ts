@@ -66,9 +66,9 @@ const buttonWithoutBaseWithDefaultsWithClassNameString = {
       unset: null,
     },
   },
-} as any
+} as unknown
 
-const buttonVariants = DuckCva('', buttonWithoutBaseWithDefaultsWithClassNameString)
+const buttonVariants = DuckCva('', buttonWithoutBaseWithDefaultsWithClassNameString as Record<string, Record<string, string | string[]>>)
 
 const _buttonVariants = cva(buttonWithoutBaseWithDefaultsWithClassNameString)
 
@@ -77,38 +77,38 @@ const __buttonVariants = CvaPrefPullRequest(buttonWithoutBaseWithDefaultsWithCla
 describe.skip('benchmarking cva', () => {
   bench('duck cva', () => {
     buttonVariants({})
-    buttonVariants({ disabled: true, intent: 'primary' } as any)
-    buttonVariants({ intent: 'primary', size: 'medium' } as any)
+    buttonVariants({ disabled: true, intent: 'primary' } as Record<string, unknown>)
+    buttonVariants({ intent: 'primary', size: 'medium' } as Record<string, unknown>)
     buttonVariants({
       disabled: true,
       intent: 'warning',
       size: 'medium',
-    } as any)
-    buttonVariants({ size: 'small' } as any)
-    buttonVariants({ intent: 'unset', size: 'large' } as any)
+    } as Record<string, unknown>)
+    buttonVariants({ size: 'small' } as Record<string, unknown>)
+    buttonVariants({ intent: 'unset', size: 'large' } as Record<string, unknown>)
   })
   bench('cva pref pull request', () => {
     __buttonVariants({})
-    __buttonVariants({ disabled: true, intent: 'primary' } as any)
-    __buttonVariants({ intent: 'primary', size: 'medium' } as any)
+    __buttonVariants({ disabled: true, intent: 'primary' } as Record<string, unknown>)
+    __buttonVariants({ intent: 'primary', size: 'medium' } as Record<string, unknown>)
     __buttonVariants({
       disabled: true,
       intent: 'warning',
       size: 'medium',
-    } as any)
-    __buttonVariants({ size: 'small' } as any)
-    __buttonVariants({ intent: 'unset', size: 'large' } as any)
+    } as Record<string, unknown>)
+    __buttonVariants({ size: 'small' } as Record<string, unknown>)
+    __buttonVariants({ intent: 'unset', size: 'large' } as Record<string, unknown>)
   })
   bench('cva', () => {
     _buttonVariants({})
-    _buttonVariants({ disabled: true, intent: 'primary' } as any)
-    _buttonVariants({ intent: 'primary', size: 'medium' } as any)
+    _buttonVariants({ disabled: true, intent: 'primary' } as Record<string, unknown>)
+    _buttonVariants({ intent: 'primary', size: 'medium' } as Record<string, unknown>)
     _buttonVariants({
       disabled: true,
       intent: 'warning',
       size: 'medium',
-    } as any)
-    _buttonVariants({ size: 'small' } as any)
-    _buttonVariants({ intent: 'unset', size: 'large' } as any)
+    } as Record<string, unknown>)
+    _buttonVariants({ size: 'small' } as Record<string, unknown>)
+    _buttonVariants({ intent: 'unset', size: 'large' } as Record<string, unknown>)
   })
 })

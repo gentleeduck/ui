@@ -9,7 +9,18 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@gentleduck/registry-ui/sidebar'
-import { BookOpen, Bot, Command, Frame, LifeBuoy, Map, PieChart, Send, Settings2, SquareTerminal } from 'lucide-react'
+import {
+  BookOpen,
+  Bot,
+  Command,
+  Frame,
+  LifeBuoy,
+  Map as MapIcon,
+  PieChart,
+  Send,
+  Settings2,
+  SquareTerminal,
+} from 'lucide-react'
 import type * as React from 'react'
 import { NavMain } from './nav-main'
 import { NavProjects } from './nav-projects'
@@ -128,7 +139,7 @@ const data = {
       url: '#',
     },
     {
-      icon: Map,
+      icon: MapIcon,
       name: 'Travel',
       url: '#',
     },
@@ -147,6 +158,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <SidebarMenu>
           <SidebarMenuItem>
             <SidebarMenuButton asChild size="lg">
+              {/* biome-ignore lint/a11y/useValidAnchor: demo block with placeholder href */}
               <a href="#">
                 <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                   <Command className="size-4" />

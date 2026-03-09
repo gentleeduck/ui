@@ -20,6 +20,7 @@ export default function LoginPage() {
         </div>
       </div>
       <div className="relative hidden bg-muted lg:block">
+        {/* biome-ignore lint/performance/noImgElement: demo block, not using Next.js Image */}
         <img
           alt=""
           className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"

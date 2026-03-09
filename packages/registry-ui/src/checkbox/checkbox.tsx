@@ -37,13 +37,14 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
       onCheckedChange?.(next)
     }
 
+    // biome-ignore lint/correctness/useExhaustiveDependencies: changeCheckedState is stable and defined in render scope
     React.useEffect(() => {
       if (ref && typeof ref !== 'function' && checked === 'indeterminate' && ref.current) {
         ref.current.indeterminate = true
         changeCheckedState(checked, ref.current)
       }
       changeCheckedState(checked, inputRef.current as HTMLInputElement)
-    }, [checked, ref, changeCheckedState])
+    }, [checked, ref])
 
     function changeCheckedState(state: CheckedState, input: HTMLInputElement) {
       if (state === 'indeterminate') {

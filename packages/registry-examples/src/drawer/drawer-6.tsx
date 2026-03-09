@@ -143,6 +143,7 @@ export function HI(props: {
               index < filledBars ? getBarColor(index) : 'bg-gray-200'
             }`}
             initial={{ height: '1rem' }}
+            // biome-ignore lint/suspicious/noArrayIndexKey: static list of progress bars with no unique identifier
             key={`bar-${index + 1}`}
             transition={prefersReducedMotion ? { duration: 0 } : { delay: index * 0.008, duration: 0.5 }}
           />
@@ -205,7 +206,7 @@ export function HI2(props: { setOpen: React.Dispatch<React.SetStateAction<boolea
             title: 'Launch & review',
           },
         ].map((task, index) => (
-          <li className="flex items-start gap-3" key={`todo-${index + 1}`}>
+          <li className="flex items-start gap-3" key={task.title}>
             <input className="mt-1 h-4 w-4 accent-green-500" id={`todo-${index}`} type="checkbox" />
             <div>
               <label className="block font-semibold text-md" htmlFor={`todo-${index}`}>

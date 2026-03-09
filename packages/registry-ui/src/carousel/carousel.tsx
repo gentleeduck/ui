@@ -100,6 +100,7 @@ const Carousel = React.forwardRef<HTMLElement, React.HTMLAttributes<HTMLDivEleme
           scrollNext,
           scrollPrev,
         }}>
+        {/* biome-ignore lint/a11y/useAriaPropsSupportedByRole: carousel is a custom widget needing roledescription */}
         <section
           aria-roledescription="carousel"
           className={cn('relative', className)}

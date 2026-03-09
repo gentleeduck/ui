@@ -150,6 +150,7 @@ const FocusGroupItem = React.forwardRef<FocusGroupItemElement, FocusGroupItemPro
           onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
             const isFocusNavigationKey = ['Home', 'End', ...ARROW_KEYS].includes(event.key)
             if (isFocusNavigationKey) {
+              // biome-ignore lint/style/noNonNullAssertion: collection items always have mounted refs when this keyboard handler fires
               let candidateNodes = getItems().map((item) => item.ref.current!)
               const prevItemKey = context.dir === 'rtl' ? 'ArrowRight' : 'ArrowLeft'
               const prevKeys = [prevItemKey, 'ArrowUp', 'End']

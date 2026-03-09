@@ -50,7 +50,7 @@ function composeRefs<T>(...refs: PossibleRef<T>[]): React.RefCallback<T> {
  * so it remains stable across renders when the input refs do not change.
  */
 function useComposedRefs<T>(...refs: PossibleRef<T>[]): React.RefCallback<T> {
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // biome-ignore lint/correctness/useExhaustiveDependencies: refs spread is intentionally used as deps — the composed callback must update when any ref changes
   return React.useCallback(composeRefs(...refs), refs)
 }
 

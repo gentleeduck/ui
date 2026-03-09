@@ -24,8 +24,27 @@ import { ScrollArea } from '@gentleduck/registry-ui/scroll-area'
 import { Ban, Check, ChevronsUpDown, Github, Power, Trash2 } from 'lucide-react'
 import React from 'react'
 
-// If you don't have @types/chrome, this keeps TS happy:
-declare const chrome: any
+// Minimal Chrome Extension API type declarations
+declare const chrome:
+  | {
+      storage: {
+        sync: {
+          get: (keys: string[], callback: (data: Record<string, unknown>) => void) => void
+          set: (items: Record<string, unknown>, callback?: () => void) => void
+          clear: (callback?: () => void) => void
+        }
+      }
+      tabs: {
+        query: (queryInfo: Record<string, unknown>, callback: (tabs: ChromeTab[]) => void) => void
+        sendMessage: (tabId: number, message: Record<string, unknown>) => Promise<void>
+      }
+    }
+  | undefined
+
+type ChromeTab = {
+  id: number
+  url?: string
+}
 
 // ---------- Types ----------
 
@@ -68,7 +87,7 @@ function getDomain(input: string): string | null {
 
   // If no protocol, prepend https://
   if (!/^https?:\/\//i.test(url)) {
-    url = 'https://' + url
+    url = `https://${url}`
   }
 
   try {
@@ -105,28 +124,31 @@ function FontProvider({ children }: { children: React.ReactNode }) {
       setDisabledDomains(storageCache.disabledDomains)
     }
 
-    if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
+    if (chrome?.storage?.sync) {
       // Get current tab domain
-      chrome.tabs.query({ active: true, currentWindow: true }, (tabs: any) => {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs: ChromeTab[]) => {
         const rawUrl = tabs[0]?.url
-        const domain = getDomain(rawUrl)
+        const domain = rawUrl ? getDomain(rawUrl) : null
         setCurrentDomain(domain)
 
         // Load domain fonts and disabled domains
-        chrome.storage.sync.get(['gentleduck_domainFonts', 'gentleduck_disabledDomains'], (data: any) => {
-          const fonts = data.gentleduck_domainFonts || {}
-          const disabled = data.gentleduck_disabledDomains || []
+        chrome.storage.sync.get(
+          ['gentleduck_domainFonts', 'gentleduck_disabledDomains'],
+          (data: Record<string, unknown>) => {
+            const fonts = (data.gentleduck_domainFonts || {}) as Record<string, Font>
+            const disabled = (data.gentleduck_disabledDomains || []) as string[]
 
-          // Update cache
-          storageCache = {
-            domainFonts: fonts,
-            disabledDomains: disabled,
-            timestamp: Date.now(),
-          }
+            // Update cache
+            storageCache = {
+              domainFonts: fonts,
+              disabledDomains: disabled,
+              timestamp: Date.now(),
+            }
 
-          setDomainFonts(fonts)
-          setDisabledDomains(disabled)
-        })
+            setDomainFonts(fonts)
+            setDisabledDomains(disabled)
+          },
+        )
       })
     } else {
       // Fallback to localStorage for development
@@ -162,10 +184,10 @@ function FontProvider({ children }: { children: React.ReactNode }) {
       storageCache.timestamp = Date.now()
 
       // Save to storage (async, don't block)
-      if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
+      if (chrome?.storage?.sync) {
         chrome.storage.sync.set({ gentleduck_domainFonts: newDomainFonts }, () => {
           // Update all tabs
-          chrome.tabs.query({}, (tabs: any[]) => {
+          chrome.tabs.query({}, (tabs: ChromeTab[]) => {
             tabs.forEach((tab) => {
               if (tab.url) {
                 chrome.tabs.sendMessage(tab.id, { type: 'UPDATE_FONT' }).catch(() => {})
@@ -192,10 +214,10 @@ function FontProvider({ children }: { children: React.ReactNode }) {
       storageCache.timestamp = Date.now()
 
       // Save to storage (async, don't block)
-      if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
+      if (chrome?.storage?.sync) {
         chrome.storage.sync.set({ gentleduck_disabledDomains: newDisabledDomains }, () => {
           // Update all tabs
-          chrome.tabs.query({}, (tabs: any[]) => {
+          chrome.tabs.query({}, (tabs: ChromeTab[]) => {
             tabs.forEach((tab) => {
               if (tab.url) {
                 chrome.tabs.sendMessage(tab.id, { type: 'UPDATE_FONT' }).catch(() => {})
@@ -223,10 +245,10 @@ function FontProvider({ children }: { children: React.ReactNode }) {
       storageCache.timestamp = Date.now()
 
       // Save to storage (async, don't block)
-      if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
+      if (chrome?.storage?.sync) {
         chrome.storage.sync.set({ gentleduck_domainFonts: newDomainFonts }, () => {
           // Update all tabs
-          chrome.tabs.query({}, (tabs: any[]) => {
+          chrome.tabs.query({}, (tabs: ChromeTab[]) => {
             tabs.forEach((tab) => {
               if (tab.url) {
                 chrome.tabs.sendMessage(tab.id, { type: 'UPDATE_FONT' }).catch(() => {})
@@ -351,7 +373,7 @@ const AppShell = React.memo(function AppShell() {
                 <Field className="justify-center">
                   <Button
                     onClick={() => {
-                      if (typeof chrome !== 'undefined' && chrome.storage?.sync) {
+                      if (chrome?.storage?.sync) {
                         chrome.storage.sync.clear(() => {
                           localStorage.clear()
                           window.location.reload()

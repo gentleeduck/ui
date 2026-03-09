@@ -30,7 +30,7 @@ import { clsx } from 'clsx'
 // Should this project move to JSDoc, this workaround would no longer be needed.
 
 export type ClassValue = ClassArray | ClassDictionary | string | number | bigint | null | boolean | undefined
-export type ClassDictionary = Record<string, any>
+export type ClassDictionary = Record<string, unknown>
 export type ClassArray = ClassValue[]
 
 /* Utils
@@ -38,9 +38,9 @@ export type ClassArray = ClassValue[]
 
 type OmitUndefined<T> = T extends undefined ? never : T
 type StringToBoolean<T> = T extends 'true' | 'false' ? boolean : T
-type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (k: infer I) => void ? I : never
+type UnionToIntersection<U> = (U extends unknown ? (k: U) => void : never) extends (k: infer I) => void ? I : never
 
-export type VariantProps<Component extends (...args: any) => any> = Omit<
+export type VariantProps<Component extends (...args: unknown[]) => unknown> = Omit<
   OmitUndefined<Parameters<Component>[0]>,
   'class' | 'className'
 >

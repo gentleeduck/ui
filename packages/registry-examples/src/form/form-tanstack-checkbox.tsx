@@ -70,6 +70,7 @@ export default function FormTanStackCheckbox() {
       <form.Field
         name="tasks"
         mode="array"
+        // biome-ignore lint/correctness/noChildrenProp: TanStack Form API requires children prop
         children={(field) => {
           const isInvalid = field.state.meta.isTouched && !field.state.meta.isValid
           return (

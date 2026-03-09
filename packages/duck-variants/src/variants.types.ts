@@ -103,7 +103,7 @@ export type CvaProps<TVariants extends Record<string, Record<string, string | st
  * // => { class?: string; className?: string }
  * ```
  */
-type RemoveArray<T> = T extends any[] ? never : T
+type RemoveArray<T> = T extends unknown[] ? never : T
 
 /**
  * Extracts only the variant-related props from a CVA function's signature,

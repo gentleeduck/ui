@@ -58,6 +58,7 @@ function Field({
   ...props
 }: React.ComponentProps<'div'> & VariantProps<typeof fieldVariants>) {
   return (
+    // biome-ignore lint/a11y/useSemanticElements: field group role is semantically correct for form field grouping
     <div
       className={cn(fieldVariants({ orientation }), className)}
       data-orientation={orientation}
@@ -169,6 +170,7 @@ function FieldError({
 
     return (
       <ul className="ms-4 flex list-disc flex-col gap-1">
+        {/* biome-ignore lint/suspicious/noArrayIndexKey: error messages have no stable unique id */}
         {errors.map((error, index) => error?.message && <li key={index}>{error.message}</li>)}
       </ul>
     )

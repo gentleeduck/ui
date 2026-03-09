@@ -10,6 +10,7 @@ const Label = React.forwardRef<HTMLLabelElement, LabelProps>(({ className, htmlF
   const direction = useDirection(dir as Direction)
 
   return (
+    // biome-ignore lint/a11y/noLabelWithoutControl: label is composed with form controls externally via htmlFor
     <label
       className={cn(
         'text-balance font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',

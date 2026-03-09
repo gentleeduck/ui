@@ -64,6 +64,7 @@ const ChartStyle = ({ id, config }: ChartStyleProps) => {
 
   return (
     <style
+      // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled CSS injection for chart color themes
       dangerouslySetInnerHTML={{
         __html: Object.entries(THEMES)
           .map(

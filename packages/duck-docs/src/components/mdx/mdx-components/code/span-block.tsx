@@ -1,7 +1,7 @@
 import { cn } from '@gentleduck/libs/cn'
 
 export function SpanBlock({ className, children, ...props }: React.HTMLAttributes<HTMLSpanElement>) {
-  return isLineComment(children?.toString()!) ? null : (
+  return isLineComment(children?.toString() ?? '') ? null : (
     <span className={cn(className)} {...props}>
       {children}
     </span>

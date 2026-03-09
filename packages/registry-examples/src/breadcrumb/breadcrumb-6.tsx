@@ -58,8 +58,8 @@ export default function BreadcrumbResponsive() {
                     <BreadcrumbEllipsis className="size-4" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent side="bottom" align="start">
-                    {items.slice(1, -2).map((item, index) => (
-                      <DropdownMenuItem key={`item-${index}-${item.label}`}>
+                    {items.slice(1, -2).map((item) => (
+                      <DropdownMenuItem key={item.label}>
                         <Link href={item.href ? item.href : '#'}>{item.label}</Link>
                       </DropdownMenuItem>
                     ))}
@@ -76,11 +76,8 @@ export default function BreadcrumbResponsive() {
                       <DrawerDescription>Select a page to navigate to.</DrawerDescription>
                     </DrawerHeader>
                     <div className="grid gap-1 px-4">
-                      {items.slice(1, -2).map((item, index) => (
-                        <Link
-                          className="py-1 text-sm"
-                          href={item.href ? item.href : '#'}
-                          key={`item-${index}-${item.label}`}>
+                      {items.slice(1, -2).map((item) => (
+                        <Link className="py-1 text-sm" href={item.href ? item.href : '#'} key={item.label}>
                           {item.label}
                         </Link>
                       ))}
@@ -97,8 +94,8 @@ export default function BreadcrumbResponsive() {
             <BreadcrumbSeparator />
           </>
         ) : null}
-        {items.slice(-ITEMS_TO_DISPLAY + 1).map((item, index) => (
-          <BreadcrumbItem key={`item-${index}-${item.label}`}>
+        {items.slice(-ITEMS_TO_DISPLAY + 1).map((item) => (
+          <BreadcrumbItem key={item.label}>
             {item.href ? (
               <>
                 <BreadcrumbLink asChild className="max-w-20 truncate md:max-w-none">

@@ -8,7 +8,7 @@ function createContext<ContextValueType extends object | null>(
 
   const Provider: React.FC<ContextValueType & { children: React.ReactNode }> = (props) => {
     const { children, ...context } = props
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // biome-ignore lint/correctness/useExhaustiveDependencies: context object values are used as individual deps to avoid unnecessary re-renders
     const value = React.useMemo(() => context, Object.values(context)) as ContextValueType
     return <Context.Provider value={value}>{children}</Context.Provider>
   }
@@ -49,7 +49,7 @@ function createContextScope(scopeName: string, createContextScopeDeps: CreateSco
     ) => {
       const { scope, children, ...context } = props
       const Context = scope?.[scopeName]?.[index] || BaseContext
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      // biome-ignore lint/correctness/useExhaustiveDependencies: context object values are used as individual deps to avoid unnecessary re-renders
       const value = React.useMemo(() => context, Object.values(context)) as ContextValueType
       return <Context.Provider value={value}>{children}</Context.Provider>
     }
@@ -92,13 +92,15 @@ function composeContextScopes(...scopes: [CreateScope, ...CreateScope[]]): Creat
     }))
 
     return function useComposedScopes(overrideScopes) {
-      const nextScopes = scopeHooks.reduce((nextScopes, { useScope, scopeName }) => {
-        // eslint-disable-next-line react-hooks/rules-of-hooks
+      const nextScopes: Record<string, unknown> = {}
+      for (const { useScope, scopeName } of scopeHooks) {
+        // biome-ignore lint/correctness/useHookAtTopLevel: scopeHooks is static — the number of hooks called is always the same across renders
         const scopeProps = useScope(overrideScopes)
         const currentScope = scopeProps[`__scope${scopeName}`]
-        return { ...nextScopes, ...currentScope }
-      }, {})
+        Object.assign(nextScopes, currentScope)
+      }
 
+      // biome-ignore lint/correctness/useExhaustiveDependencies: nextScopes is intentionally rebuilt each render to compose all scope contexts
       return React.useMemo(() => ({ [`__scope${baseScope.scopeName}`]: nextScopes }), [nextScopes])
     }
   }

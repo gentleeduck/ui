@@ -129,8 +129,8 @@ const configCva = {
   },
 }
 
-const theirFn = authorityFn(configCva as any)
-const prefPullRequest = prefPullRequestFn(configCva as any)
+const theirFn = authorityFn(configCva as unknown)
+const prefPullRequest = prefPullRequestFn(configCva as unknown)
 
 const N = 3
 

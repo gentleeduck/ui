@@ -32,6 +32,7 @@ const AvatarImage = React.forwardRef<AvatarImageElement, AvatarImageProps>(
     }, [imageLoadingStatus, handleLoadingStatusChange])
 
     return imageLoadingStatus === 'loaded' ? (
+      // biome-ignore lint/performance/noImgElement: avatar primitive needs raw <img> for framework-agnostic usage — not tied to Next.js Image
       <Primitive.img data-slot="avatar-image" dir={context.dir} {...imageProps} ref={forwardedRef} src={src} />
     ) : null
   },

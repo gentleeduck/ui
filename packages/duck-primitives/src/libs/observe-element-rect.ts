@@ -66,9 +66,11 @@ function runLoop() {
   })
 
   // DOM writes (callbacks may trigger layout)
-  changedRectsData.forEach((data) => {
-    data.callbacks.forEach((callback) => callback(data.rect))
-  })
+  for (const data of changedRectsData) {
+    for (const callback of data.callbacks) {
+      callback(data.rect)
+    }
+  }
 
   rafId = requestAnimationFrame(runLoop)
 }

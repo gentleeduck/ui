@@ -123,6 +123,7 @@
     text-rendering: optimizeLegibility;
   }
 
+  /* biome-ignore lint/suspicious/noShorthandPropertyOverrides: browser feature detection query, not actual font shorthand */
   @supports (font: -apple-system-body) and (-webkit-appearance: none) {
     [data-wrapper] {
       @apply min-[1800px]:border-t;

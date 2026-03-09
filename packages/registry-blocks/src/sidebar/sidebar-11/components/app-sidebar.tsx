@@ -53,8 +53,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupLabel>Changes</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {data.changes.map((item, index) => (
-                <SidebarMenuItem key={index}>
+              {data.changes.map((item) => (
+                <SidebarMenuItem key={item.file}>
                   <SidebarMenuButton>
                     <File aria-hidden="true" />
                     {item.file}
@@ -70,6 +70,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarGroupContent>
             <SidebarMenu>
               {data.tree.map((item, index) => (
+                // biome-ignore lint/suspicious/noArrayIndexKey: tree items lack unique identifiers
                 <Tree item={item} key={index} />
               ))}
             </SidebarMenu>
@@ -81,7 +82,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   )
 }
 
-function Tree({ item }: { item: string | any[] }) {
+type TreeItem = string | TreeItem[]
+function Tree({ item }: { item: TreeItem }) {
   const [name, ...items] = Array.isArray(item) ? item : [item]
 
   if (!items.length) {
@@ -108,6 +110,7 @@ function Tree({ item }: { item: string | any[] }) {
         <CollapsibleContent>
           <SidebarMenuSub>
             {items.map((subItem, index) => (
+              // biome-ignore lint/suspicious/noArrayIndexKey: tree items lack unique identifiers
               <Tree item={subItem} key={index} />
             ))}
           </SidebarMenuSub>

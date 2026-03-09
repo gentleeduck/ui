@@ -44,6 +44,7 @@ const Collapsible = React.forwardRef<
     onOpenChange?.(state)
   }
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: handleOpenChange and triggerRef are stable refs
   React.useEffect(() => {
     if (open) {
       handleOpenChange(open)
@@ -56,7 +57,7 @@ const Collapsible = React.forwardRef<
 
     triggerRef.current?.addEventListener('click', handleClick)
     return () => triggerRef.current?.removeEventListener('click', handleClick)
-  }, [open, handleOpenChange, onOpenChange])
+  }, [open, onOpenChange])
 
   return (
     <CollapsibleContext.Provider

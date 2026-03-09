@@ -1,6 +1,6 @@
 import type { MdxCodeNodeProperties, UnistNode, UnistTree } from '@duck-docs/types'
 import type { Nodes } from 'hast'
-import { toString } from 'hast-util-to-string'
+import { toString as hastToString } from 'hast-util-to-string'
 import { visit } from 'unist-util-visit'
 import { assignNodeProperties, readNodeProperties } from './hast-properties'
 
@@ -17,7 +17,7 @@ export function rehypePreBlockSource() {
             const currentProperties = readNodeProperties<MdxCodeNodeProperties>(child)
             assignNodeProperties(child, {
               ...currentProperties,
-              __rawString__: toString(child as Nodes),
+              __rawString__: hastToString(child as Nodes),
             })
           }
         })

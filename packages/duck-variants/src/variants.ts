@@ -25,7 +25,9 @@ function getCacheKey<TVariants extends Record<string, Record<string, string | st
 
   let key = ''
   for (let i = 0; i < entries.length; i++) {
-    const [k, v] = entries[i]!
+    const entry = entries[i]
+    if (!entry) continue
+    const [k, v] = entry
     if (Array.isArray(v)) {
       key += `${k}:[${v.map(String).join(',')}]`
     } else {
@@ -175,7 +177,8 @@ export function cva<TVariants extends Record<string, Record<string, string | str
 
     // 5) Apply compoundVariants when all conditions match
     for (let i = 0; i < compoundVariants.length; i++) {
-      const cv = compoundVariants[i as number]!
+      const cv = compoundVariants[i as number]
+      if (!cv) continue
       let match = true
 
       for (const key in cv) {

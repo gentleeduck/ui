@@ -3,6 +3,7 @@ import * as React from 'react'
 type Machine<S> = { [k: string]: { [k: string]: S } }
 type MachineState<T> = keyof T
 type MachineEvent<T> = keyof UnionToIntersection<T[keyof T]>
+// biome-ignore lint/suspicious/noExplicitAny: `any` is required here for distributive conditional type and contravariant inference to work correctly
 type UnionToIntersection<T> = (T extends any ? (x: T) => any : never) extends (x: infer R) => any ? R : never
 
 /**

@@ -304,8 +304,8 @@ function PreviewPanel({
     if (!el) return
 
     const dist = (e: TouchEvent) => {
-      const a = e.touches[0]!
-      const b = e.touches[1]!
+      const a = e.touches[0] ?? { clientX: 0, clientY: 0 }
+      const b = e.touches[1] ?? { clientX: 0, clientY: 0 }
       return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY)
     }
 

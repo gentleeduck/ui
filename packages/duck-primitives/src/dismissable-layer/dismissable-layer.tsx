@@ -62,6 +62,7 @@ const DismissableLayer = React.forwardRef<DismissableLayerElement, DismissableLa
     context.layersWithOutsidePointerEventsDisabled,
   ).slice(-1)
   const highestLayerWithOutsidePointerEventsDisabledIndex = layers.indexOf(
+    // biome-ignore lint/style/noNonNullAssertion: indexOf returns -1 for undefined which is the correct fallback behavior here
     highestLayerWithOutsidePointerEventsDisabled!,
   )
   const index = node ? layers.indexOf(node) : -1

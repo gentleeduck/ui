@@ -31,7 +31,7 @@ function buildDefaultRehypePlugins({
         ;(node.properties?.className as string[]).push('line--highlighted')
       },
       onVisitHighlightedWord(node: UnistNode) {
-        node.properties!.className = ['word--highlighted']
+        if (node.properties) node.properties.className = ['word--highlighted']
       },
       onVisitLine(node: UnistNode) {
         if (node.children?.length === 0) {

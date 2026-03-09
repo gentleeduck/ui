@@ -30,6 +30,7 @@ export default function FieldGroupExample() {
         <FieldSet>
           <FieldLabel>Tasks</FieldLabel>
           <FieldDescription>
+            {/* biome-ignore lint/a11y/useValidAnchor: placeholder href in demo component */}
             Get notified when tasks you&apos;ve created have updates. <a href="#">Manage tasks</a>
           </FieldDescription>
           <FieldGroup data-slot="checkbox-group">

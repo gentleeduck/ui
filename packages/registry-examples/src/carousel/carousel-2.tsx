@@ -17,6 +17,7 @@ export default function CarouselDemo() {
       }}>
       <CarouselContent>
         {Array.from({ length: 5 }).map((_, index) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: static list generated from Array.from
           <CarouselItem className="md:basis-1/2 lg:basis-1/3" key={`item-${index + 1}`}>
             <div className="p-1">
               <Card>

@@ -38,6 +38,7 @@ function getThumbInBoundsOffset(width: number, left: number, direction: number) 
 }
 
 function getStepsBetweenValues(values: number[]) {
+  // biome-ignore lint/style/noNonNullAssertion: slice(0,-1) guarantees index+1 is always valid
   return values.slice(0, -1).map((value, index) => values[index + 1]! - value)
 }
 

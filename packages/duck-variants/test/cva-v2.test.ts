@@ -153,7 +153,7 @@ describe('@gentleduck/variants - cva core tests', () => {
     })
 
     it('should ignore unknown props safely', () => {
-      const result = baseCva({ unknown: 'something' } as any)
+      const result = baseCva({ unknown: 'something' } as Record<string, unknown>)
       expect(result).toEqual('flex items-center justify-start')
     })
 

@@ -5,7 +5,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { UnistNode, UnistTree } from '@duck-docs/types'
 import type { Nodes } from 'hast'
-import { toString } from 'hast-util-to-string'
+import { toString as hastToString } from 'hast-util-to-string'
 import { visit } from 'unist-util-visit'
 
 // ---------------------------------------------------------------------------
@@ -142,7 +142,7 @@ async function renderSvgBatch(
     const titleMatch = output.match(/<title>DONE:([\s\S]*?)<\/title>/)
     if (!titleMatch) throw new Error('Chromium did not produce output')
 
-    const json = decodeURIComponent(escape(Buffer.from(titleMatch[1]!, 'base64').toString('binary')))
+    const json = decodeURIComponent(escape(Buffer.from(titleMatch[1] ?? '', 'base64').toString('binary')))
     const results: Record<string, string> = JSON.parse(json)
 
     // Make SVGs responsive
@@ -194,14 +194,14 @@ export function rehypeMermaid() {
         const pres = (node.children || []).filter((c: UnistNode) => c.type === 'element' && c.tagName === 'pre')
         const mPre = pres.find((c: UnistNode) => isMermaidCode(c))
         if (!mPre) return
-        const src = (mPre.properties?.__rawString__ as string) || toString(mPre as Nodes)
+        const src = (mPre.properties?.__rawString__ as string) || hastToString(mPre as Nodes)
         if (src) entries.push({ kind: 'fence', node, pre: mPre, source: src.trim() })
         return
       }
 
       // 3. Standalone <pre>
       if (node.type === 'element' && node.tagName === 'pre' && isMermaidCode(node)) {
-        const src = (node.properties?.__rawString__ as string) || toString(node as Nodes)
+        const src = (node.properties?.__rawString__ as string) || hastToString(node as Nodes)
         if (src) entries.push({ kind: 'fence', node, pre: node, source: src.trim() })
       }
     })
@@ -227,7 +227,8 @@ export function rehypeMermaid() {
     }
 
     for (let i = 0; i < entries.length; i++) {
-      const entry = entries[i]!
+      const entry = entries[i]
+      if (!entry) continue
       const lightSvg = results[`ml${i}`] || ''
       const darkSvg = results[`md${i}`] || ''
 

@@ -29,6 +29,7 @@ export default function EmptyDemo() {
         </div>
       </EmptyContent>
       <Button asChild className="text-muted-foreground" size="sm" variant="link">
+        {/* biome-ignore lint/a11y/useValidAnchor: placeholder href in demo component */}
         <a href="#">
           Manage Preferences <ArrowUpRightIcon />
         </a>

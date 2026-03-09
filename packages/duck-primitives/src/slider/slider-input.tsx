@@ -8,6 +8,7 @@ const BubbleInput = (props: React.ComponentPropsWithoutRef<'input'>) => {
   const prevValue = usePrevious(value)
 
   React.useEffect(() => {
+    // biome-ignore lint/style/noNonNullAssertion: ref is always mounted when this effect runs (component renders the input element)
     const input = ref.current!
     const inputProto = window.HTMLInputElement.prototype
     const descriptor = Object.getOwnPropertyDescriptor(inputProto, 'value') as PropertyDescriptor

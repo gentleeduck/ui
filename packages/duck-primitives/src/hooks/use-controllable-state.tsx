@@ -39,7 +39,9 @@ export function useControllableState<T>({
   // so bundlers can strip this block entirely in production.
   /* eslint-disable react-hooks/rules-of-hooks */
   if (process.env.NODE_ENV !== 'production') {
+    // biome-ignore lint/correctness/useHookAtTopLevel: hooks are intentionally called inside a NODE_ENV check — the condition is static per build so hook order is stable at runtime
     const isControlledRef = React.useRef(prop !== undefined)
+    // biome-ignore lint/correctness/useHookAtTopLevel: hooks are intentionally called inside a NODE_ENV check — the condition is static per build so hook order is stable at runtime
     React.useEffect(() => {
       const wasControlled = isControlledRef.current
       if (wasControlled !== isControlled) {
