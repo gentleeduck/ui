@@ -78,6 +78,8 @@ jobs:
             turbo-${{ runner.os }}-
       - run: bun install --frozen-lockfile
       - run: bun run build
+        env:
+          NEXT_PUBLIC_APP_URL: https://ui.gentleduck.org
       - run: bun run check-types
 
   test:
