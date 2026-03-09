@@ -87,11 +87,14 @@ export function CardsPaymentMethod() {
                 <SelectValue placeholder="Year" />
               </SelectTrigger>
               <SelectContent>
-                {Array.from({ length: 10 }, (_, i) => (
-                  <SelectItem key={i} value={`${new Date().getFullYear() + i}`}>
-                    {new Date().getFullYear() + i}
-                  </SelectItem>
-                ))}
+                {Array.from({ length: 10 }, (_, i) => {
+                  const year = new Date().getFullYear() + i
+                  return (
+                    <SelectItem key={year} value={`${year}`}>
+                      {year}
+                    </SelectItem>
+                  )
+                })}
               </SelectContent>
             </Select>
           </div>

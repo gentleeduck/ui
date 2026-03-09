@@ -18,7 +18,7 @@ export function DocsPathBreadcrumb({ segments }: { segments: string[] }) {
   return (
     <nav aria-label="Page path" className="hidden items-center gap-2 text-muted-foreground text-sm md:flex">
       {segments.map((segment, index) => (
-        <div className="flex items-center gap-2" key={`${segment}-${index}`}>
+        <div className="flex items-center gap-2" key={segments.slice(0, index + 1).join('/')}>
           {index > 0 && <ChevronRightIcon aria-hidden="true" className="size-4" />}
           <Link
             className="transition-colors hover:text-foreground"

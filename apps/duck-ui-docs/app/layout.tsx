@@ -1,3 +1,4 @@
+/* biome-ignore-all lint/security/noDangerouslySetInnerHtml: This layout bootstraps the stored font preset before hydration. */
 import type { Metadata } from 'next'
 import './globals.css'
 import '@gentleduck/motion/css'

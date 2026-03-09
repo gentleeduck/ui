@@ -1,3 +1,4 @@
+/* biome-ignore-all lint/security/noDangerouslySetInnerHtml: Highlighted chart HTML is generated upstream and rendered read-only here. */
 'use client'
 import { useThemesConfig } from '@gentleduck/docs/client'
 import { useMediaQuery } from '@gentleduck/hooks/use-media-query'
@@ -32,6 +33,20 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
 }
 `
   }, [themesConfig])
+
+  const themeLines = useMemo(() => {
+    const counts = new Map<string, number>()
+
+    return themeCode.split('\n').map((line) => {
+      const occurrence = (counts.get(line) ?? 0) + 1
+      counts.set(line, occurrence)
+
+      return {
+        key: `${chart.name}:${line}:${occurrence}`,
+        line,
+      }
+    })
+  }, [chart.name, themeCode])
 
   const button = (
     <Button
@@ -99,8 +114,8 @@ ${Object.entries(themesConfig?.activeTheme.cssVars.dark || {})
             <pre className="relative max-h-[44.5vh] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900">
               <code className="relative flex flex-col rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
                 <span className="line text-zinc-700">{`/* ${themesConfig?.activeTheme.name} */`}</span>
-                {themeCode.split('\n').map((line, index) => (
-                  <span className="line" key={index}>
+                {themeLines.map(({ key, line }) => (
+                  <span className="line" key={key}>
                     {line}
                   </span>
                 ))}

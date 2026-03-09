@@ -128,6 +128,12 @@ export const docsConfig: DocsConfig = {
           title: 'Dark Theme',
         },
         {
+          href: '/docs/mcp',
+          items: [],
+          label: 'new',
+          title: 'MCP Server',
+        },
+        {
           href: '/docs/faqs',
           items: [],
           title: 'FAQs',

@@ -12,7 +12,7 @@ import { Textarea } from '@gentleduck/registry-ui/textarea'
 import { converter, formatHex, parse } from 'culori'
 import { Eye, Moon, Palette, Pipette, Plus, Settings, Sun, Trash2 } from 'lucide-react'
 import dynamic from 'next/dynamic'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 const CardsDemo = dynamic(() => import('~/components/cards').then((m) => ({ default: m.CardsDemo })), { ssr: false })
 
@@ -73,8 +73,9 @@ export default function ColorThemeManager() {
           name?.includes('ring') ||
           name?.includes('chart')
         ) {
-          const originalFormat = detectColorFormat(value!)
-          const convertedValue = convertColor(value!, originalFormat, outputFormat)
+          if (!name || !value) return
+          const originalFormat = detectColorFormat(value)
+          const convertedValue = convertColor(value, originalFormat, outputFormat)
           light.push({ name: name.replace('--', ''), originalFormat: outputFormat, value: convertedValue })
         }
       })
@@ -100,8 +101,9 @@ export default function ColorThemeManager() {
           name?.includes('ring') ||
           name?.includes('chart')
         ) {
-          const originalFormat = detectColorFormat(value!)
-          const convertedValue = convertColor(value!, originalFormat, outputFormat)
+          if (!name || !value) return
+          const originalFormat = detectColorFormat(value)
+          const convertedValue = convertColor(value, originalFormat, outputFormat)
           dark.push({ name: name.replace('--', ''), originalFormat: outputFormat, value: convertedValue })
         }
       })
@@ -152,10 +154,11 @@ export default function ColorThemeManager() {
       }
 
       switch (toFormat) {
-        case 'hex':
+        case 'hex': {
           const hexResult = formatHex(parsedColor)
           return hexResult || cleanValue
-        case 'hsl':
+        }
+        case 'hsl': {
           const hslColor = converter('hsl')(parsedColor)
           if (hslColor) {
             const h = (hslColor.h || 0).toFixed(2)
@@ -166,7 +169,8 @@ export default function ColorThemeManager() {
             return `hsl(${h} ${s}% ${l}%${alpha})`
           }
           return cleanValue
-        case 'rgb':
+        }
+        case 'rgb': {
           const rgbColor = converter('rgb')(parsedColor)
           if (rgbColor) {
             const r = Math.round(rgbColor.r * 255)
@@ -177,21 +181,24 @@ export default function ColorThemeManager() {
             return `rgb(${r} ${g} ${b}${alpha})`
           }
           return cleanValue
-        case 'srgb':
+        }
+        case 'srgb': {
           const srgbColor = converter('rgb')(parsedColor)
           if (srgbColor) {
             const alpha = srgbColor.alpha !== undefined && srgbColor.alpha < 1 ? ` / ${srgbColor.alpha.toFixed(4)}` : ''
             return `color(srgb ${srgbColor.r.toFixed(4)} ${srgbColor.g.toFixed(4)} ${srgbColor.b.toFixed(4)}${alpha})`
           }
           return cleanValue
-        case 'p3':
+        }
+        case 'p3': {
           const p3Color = converter('p3')(parsedColor)
           if (p3Color) {
             const alpha = p3Color.alpha !== undefined && p3Color.alpha < 1 ? ` / ${p3Color.alpha.toFixed(4)}` : ''
             return `color(display-p3 ${p3Color.r.toFixed(4)} ${p3Color.g.toFixed(4)} ${p3Color.b.toFixed(4)}${alpha})`
           }
           return cleanValue
-        case 'lab':
+        }
+        case 'lab': {
           const labColor = converter('lab')(parsedColor)
           if (labColor) {
             const alpha =
@@ -199,7 +206,8 @@ export default function ColorThemeManager() {
             return `lab(${(labColor.l || 0).toFixed(3)}% ${(labColor.a || 0).toFixed(4)} ${(labColor.b || 0).toFixed(4)}${alpha})`
           }
           return cleanValue
-        case 'lch':
+        }
+        case 'lch': {
           const lchColor = converter('lch')(parsedColor)
           if (lchColor) {
             const alpha =
@@ -207,7 +215,8 @@ export default function ColorThemeManager() {
             return `lch(${(lchColor.l || 0).toFixed(3)}% ${(lchColor.c || 0).toFixed(4)} ${(lchColor.h || 0).toFixed(3)}${alpha})`
           }
           return cleanValue
-        case 'oklch':
+        }
+        case 'oklch': {
           const oklchColor = converter('oklch')(parsedColor)
           if (oklchColor) {
             const alpha =
@@ -215,10 +224,11 @@ export default function ColorThemeManager() {
             return `oklch(${(oklchColor.l || 0).toFixed(4)} ${(oklchColor.c || 0).toFixed(4)} ${(oklchColor.h || 0).toFixed(3)}${alpha})`
           }
           return cleanValue
+        }
         default:
           return cleanValue
       }
-    } catch (error) {
+    } catch (_error) {
       // console.log('[v0] Color conversion error for value:', value, 'Error:', error)
       return value
     }
@@ -244,7 +254,7 @@ export default function ColorThemeManager() {
 
       // Check if color is valid and displayable
       return parsedColor !== undefined && parsedColor !== null
-    } catch (error) {
+    } catch (_error) {
       // console.log('[v0] Color validation error:', error)
       return false
     }
@@ -278,7 +288,9 @@ export default function ColorThemeManager() {
     const colorIndex = colors.findIndex((c) => c.name === colorName)
 
     if (colorIndex !== -1) {
-      colors[colorIndex]!.value = newValue
+      const color = colors[colorIndex]
+      if (!color) return
+      color.value = newValue
       setCurrentTheme(updatedTheme)
     }
   }
@@ -300,80 +312,85 @@ export default function ColorThemeManager() {
     const colorIndex = colors.findIndex((c) => c.name === colorName)
 
     if (colorIndex !== -1) {
-      colors[colorIndex]!.value = newValue
+      const color = colors[colorIndex]
+      if (!color) return
+      color.value = newValue
       setPreviewTheme(updatedTheme)
       setThemes(themes.map((t) => (t.id === updatedTheme.id ? updatedTheme : t)))
     }
   }
 
-  const applyTheme = (theme: Theme) => {
-    // console.log('[v0] Applying theme:', theme.name, 'Dark mode:', isDarkMode)
-    setActiveTheme(theme)
-    const root = document.documentElement
+  const applyTheme = useCallback(
+    (theme: Theme) => {
+      // console.log('[v0] Applying theme:', theme.name, 'Dark mode:', isDarkMode)
+      setActiveTheme(theme)
+      const root = document.documentElement
 
-    // Determine which color set to use based on current mode
-    const colorsToApply = isDarkMode ? theme.darkColors : theme.lightColors
-    // console.log('[v0] Colors to apply:', colorsToApply)
+      // Determine which color set to use based on current mode
+      const colorsToApply = isDarkMode ? theme.darkColors : theme.lightColors
+      // console.log('[v0] Colors to apply:', colorsToApply)
 
-    // Apply all colors from the appropriate set
-    colorsToApply.forEach((color) => {
-      root.style.setProperty(`--${color.name}`, color.value)
-      // console.log('[v0] Setting CSS variable:', `--${color.name}`, 'to', color.value)
-    })
-
-    // Create dark mode styles that override the light colors when .dark class is present
-    const darkStyles = theme.darkColors
-      .map((color) => {
-        return `--${color.name}: ${color.value};`
+      // Apply all colors from the appropriate set
+      colorsToApply.forEach((color) => {
+        root.style.setProperty(`--${color.name}`, color.value)
+        // console.log('[v0] Setting CSS variable:', `--${color.name}`, 'to', color.value)
       })
-      .join(' ')
 
-    // Update or create dark mode styles
-    let darkStyleElement = document.getElementById('dynamic-dark-theme')
-    if (!darkStyleElement) {
-      darkStyleElement = document.createElement('style')
-      darkStyleElement.id = 'dynamic-dark-theme'
-      document.head.appendChild(darkStyleElement)
-    }
-    darkStyleElement.textContent = `.dark { ${darkStyles} }`
+      // Create dark mode styles that override the light colors when .dark class is present
+      const darkStyles = theme.darkColors
+        .map((color) => {
+          return `--${color.name}: ${color.value};`
+        })
+        .join(' ')
 
-    // Apply dark class if in dark mode
-    if (isDarkMode) {
-      root.classList.add('dark')
-    } else {
-      root.classList.remove('dark')
-    }
-
-    // Ensure proper contrast for primary button
-    const primaryColor = colorsToApply.find((c) => c.name === 'primary')
-    const primaryForegroundColor = colorsToApply.find((c) => c.name === 'primary-foreground')
-
-    // console.log('[v0] Primary color:', primaryColor?.value)
-    // console.log('[v0] Primary foreground color:', primaryForegroundColor?.value)
-
-    if (primaryColor && primaryForegroundColor) {
-      root.style.setProperty('--primary', primaryColor.value)
-      root.style.setProperty('--primary-foreground', primaryForegroundColor.value)
-    } else {
-      // Fallback to ensure good contrast
-      // console.log('[v0] Missing primary colors, using fallbacks')
-      if (isDarkMode) {
-        root.style.setProperty('--primary', 'hsl(210 40% 98%)')
-        root.style.setProperty('--primary-foreground', 'hsl(222.2 84% 4.9%)')
-      } else {
-        root.style.setProperty('--primary', 'hsl(222.2 84% 4.9%)')
-        root.style.setProperty('--primary-foreground', 'hsl(210 40% 98%)')
+      // Update or create dark mode styles
+      let darkStyleElement = document.getElementById('dynamic-dark-theme')
+      if (!darkStyleElement) {
+        darkStyleElement = document.createElement('style')
+        darkStyleElement.id = 'dynamic-dark-theme'
+        document.head.appendChild(darkStyleElement)
       }
-    }
+      darkStyleElement.textContent = `.dark { ${darkStyles} }`
 
-    const backgroundcolor = colorsToApply.find((c) => c.name === 'background')
-    const foregroundColor = colorsToApply.find((c) => c.name === 'foreground')
+      // Apply dark class if in dark mode
+      if (isDarkMode) {
+        root.classList.add('dark')
+      } else {
+        root.classList.remove('dark')
+      }
 
-    if (backgroundcolor && foregroundColor) {
-      root.style.setProperty('--background', backgroundcolor.value)
-      root.style.setProperty('--foreground', foregroundColor.value)
-    }
-  }
+      // Ensure proper contrast for primary button
+      const primaryColor = colorsToApply.find((c) => c.name === 'primary')
+      const primaryForegroundColor = colorsToApply.find((c) => c.name === 'primary-foreground')
+
+      // console.log('[v0] Primary color:', primaryColor?.value)
+      // console.log('[v0] Primary foreground color:', primaryForegroundColor?.value)
+
+      if (primaryColor && primaryForegroundColor) {
+        root.style.setProperty('--primary', primaryColor.value)
+        root.style.setProperty('--primary-foreground', primaryForegroundColor.value)
+      } else {
+        // Fallback to ensure good contrast
+        // console.log('[v0] Missing primary colors, using fallbacks')
+        if (isDarkMode) {
+          root.style.setProperty('--primary', 'hsl(210 40% 98%)')
+          root.style.setProperty('--primary-foreground', 'hsl(222.2 84% 4.9%)')
+        } else {
+          root.style.setProperty('--primary', 'hsl(222.2 84% 4.9%)')
+          root.style.setProperty('--primary-foreground', 'hsl(210 40% 98%)')
+        }
+      }
+
+      const backgroundcolor = colorsToApply.find((c) => c.name === 'background')
+      const foregroundColor = colorsToApply.find((c) => c.name === 'foreground')
+
+      if (backgroundcolor && foregroundColor) {
+        root.style.setProperty('--background', backgroundcolor.value)
+        root.style.setProperty('--foreground', foregroundColor.value)
+      }
+    },
+    [isDarkMode],
+  )
 
   const resetTheme = () => {
     setActiveTheme(null)
@@ -495,10 +512,12 @@ export default function ColorThemeManager() {
     return (
       <div className="flex items-center gap-3 rounded-lg border p-3 transition-colors hover:bg-muted/50">
         <div className="relative">
-          <div
+          <button
             className={`h-12 w-12 cursor-pointer rounded-lg border-2 transition-all hover:scale-105 ${!isValid ? 'border-red-300 bg-red-100' : 'border-border'}`}
+            aria-label={`Open advanced color picker for ${color.name.replace(/-/g, ' ')}`}
             onClick={openAdvancedPicker}
             style={{ backgroundColor: isValid ? hexValue : '#f3f4f6' }}
+            type="button"
           />
           {showPicker && (
             <input
@@ -952,7 +971,7 @@ export default function ColorThemeManager() {
     if (activeTheme) {
       applyTheme(activeTheme)
     }
-  }, [isDarkMode, activeTheme])
+  }, [isDarkMode, activeTheme, applyTheme])
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')

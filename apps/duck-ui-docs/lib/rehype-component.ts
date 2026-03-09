@@ -28,10 +28,9 @@ export function rehypeComponent() {
 
         try {
           const component = index[`${name}`]
-          // @ts-expect-error
-          const files = component.files[0]
-          // @ts-expect-error
-          const items: ItemType[] = get_component_source(files)
+          if (!component?.files?.[0]) return null
+          const files = component.files
+          const items: ItemType[] = get_component_source(files as { type: string; path: string }[])
 
           node.children?.push(
             ...items.map((item) =>
@@ -72,8 +71,9 @@ export function rehypeComponent() {
 
         try {
           const component = index[`${name}`]
-          // @ts-expect-error
-          const src = component.files[0][0].path
+          if (!component?.files?.[0]) return null
+          const firstFile = component.files[0] as { path: string }
+          const src = firstFile.path
 
           // Read the source file.
           const filePath = path.join(process.cwd(), 'registry', src)
@@ -84,7 +84,7 @@ export function rehypeComponent() {
           // For now a simple regex should do.
           source = source.replaceAll(
             `@/registry/registry-ui-components`,
-            `@/components/${src.split('/')[0].split('-')[1]}`,
+            `@/components/${src.split('/')[0]?.split('-')[1] ?? ''}`,
           )
           source = source.replaceAll('export default', 'export')
 

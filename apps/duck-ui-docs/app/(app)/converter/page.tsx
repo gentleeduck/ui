@@ -62,11 +62,12 @@ export default function ConverterPage() {
           const [, key, value] = match
           const cleanKey = key?.trim()
           const cleanValue = value?.trim()
+          if (!cleanKey || !cleanValue) return
 
           if (currentMode === 'light') {
-            lightTheme[cleanKey!] = `'${cleanValue}'`
+            lightTheme[cleanKey] = `'${cleanValue}'`
           } else {
-            darkTheme[cleanKey!] = `'${cleanValue}'`
+            darkTheme[cleanKey] = `'${cleanValue}'`
           }
         }
       }
@@ -93,7 +94,7 @@ export default function ConverterPage() {
         setOutput(jsOutput)
       }
       toast(`Successfully converted ${isJsToCSS ? 'JS to CSS' : 'CSS to JS'}`)
-    } catch (error) {
+    } catch (_error) {
       toast('Please check your input format and try again.')
     }
   }
@@ -102,7 +103,7 @@ export default function ConverterPage() {
     try {
       await navigator.clipboard.writeText(output)
       toast('Output copied to clipboard')
-    } catch (error) {
+    } catch (_error) {
       toast('Failed to copy to clipboard')
     }
   }

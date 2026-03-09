@@ -4,7 +4,7 @@ import { type Event, trackEvent } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
 import { Button, type ButtonProps } from '@gentleduck/registry-ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'
-import { CheckIcon, ClipboardIcon, Copy } from 'lucide-react'
+import { CheckIcon, Copy } from 'lucide-react'
 import * as React from 'react'
 
 export function BlockCopyButton({
@@ -24,7 +24,7 @@ export function BlockCopyButton({
     setTimeout(() => {
       setHasCopied(false)
     }, 2000)
-  }, [hasCopied])
+  }, [])
 
   return (
     <Tooltip>
