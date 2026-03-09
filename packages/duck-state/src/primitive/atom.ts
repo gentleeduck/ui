@@ -16,7 +16,7 @@ export type Atom<Value> = {
   unstable_is?(a: Atom<unknown>): boolean
   debugLabel?: string
   debugPrivate?: boolean
-  unstable_onInit?: (store: any) => void
+  unstable_onInit?: (store: unknown) => void
 }
 
 export interface WritableAtom<Value, Args extends unknown[], Result> extends Atom<Value> {
@@ -55,12 +55,12 @@ export function atom<TValue, Args extends unknown[], Result>(
   write?: Write<Args, Result>,
 ) {
   const key = `atom-${++keyCount}`
+  const isDevelopment =
+    (globalThis as { process?: { env?: { NODE_ENV?: string } } }).process?.env?.NODE_ENV === 'development'
 
   const config = {
     toString(): Symbol {
-      return import.meta.env?.MODE === 'development' && this.debugLabel
-        ? Symbol(key + ': ' + this.debugLabel)
-        : Symbol(key)
+      return isDevelopment && this.debugLabel ? Symbol(key + ': ' + this.debugLabel) : Symbol(key)
     },
   } as WritableAtom<TValue, Args, Result> & WithInitValue<TValue>
 

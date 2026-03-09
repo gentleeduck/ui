@@ -7,12 +7,12 @@ export function createStore() {
   const listeners = new WeakMap<Atom<unknown>, Set<Listener>>()
 
   // Dependency maps
-  const dependencies = new WeakMap<Atom<any>, Set<Atom<any>>>()
-  const dependents = new WeakMap<Atom<any>, Set<Atom<any>>>()
+  const dependencies = new WeakMap<Atom<unknown>, Set<Atom<unknown>>>()
+  const dependents = new WeakMap<Atom<unknown>, Set<Atom<unknown>>>()
 
-  let currentlyReadingAtom: Atom<any> | null = null
+  let currentlyReadingAtom: Atom<unknown> | null = null
 
-  function trackDependency(parent: Atom<any>, dep: Atom<any>) {
+  function trackDependency(parent: Atom<unknown>, dep: Atom<unknown>) {
     let deps = dependencies.get(parent)
     if (!deps) {
       deps = new Set()
@@ -28,7 +28,7 @@ export function createStore() {
     revDeps.add(parent)
   }
 
-  function invalidateDependents(atom: Atom<any>) {
+  function invalidateDependents(atom: Atom<unknown>) {
     const dependentsSet = dependents.get(atom)
     if (!dependentsSet) return
 
@@ -132,7 +132,7 @@ export function createStore() {
   return store
 }
 
-function shallowEqual(a: any, b: any): boolean {
+function shallowEqual(a: unknown, b: unknown): boolean {
   if (Object.is(a, b)) return true
   if (typeof a !== 'object' || a === null || typeof b !== 'object' || b === null) return false
   if (Array.isArray(a) && Array.isArray(b)) {
@@ -142,11 +142,13 @@ function shallowEqual(a: any, b: any): boolean {
     }
     return true
   }
-  const keysA = Object.keys(a)
-  const keysB = Object.keys(b)
+  const objA = a as Record<string, unknown>
+  const objB = b as Record<string, unknown>
+  const keysA = Object.keys(objA)
+  const keysB = Object.keys(objB)
   if (keysA.length !== keysB.length) return false
   for (const key of keysA) {
-    if (!Object.is(a[key], b[key])) return false
+    if (!Object.is(objA[key], objB[key])) return false
   }
   return true
 }
