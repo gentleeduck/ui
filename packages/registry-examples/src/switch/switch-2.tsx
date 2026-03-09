@@ -25,7 +25,7 @@ export default function SwitchForm() {
     defaultValues: {
       security_emails: true,
     },
-    resolver: zodResolver(FormSchema as any),
+    resolver: zodResolver(FormSchema),
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {

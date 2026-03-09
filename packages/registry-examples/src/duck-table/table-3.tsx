@@ -119,7 +119,7 @@
 //               setDropOpen(true)
 //             },
 //             key: 'Alt+p',
-//             label: '⌘+k',
+//             label: 'Cmd+k',
 //           },
 //           icon: <Ellipsis />,
 //           size: 'sm',
@@ -215,7 +215,7 @@
 //       children: 'Settings',
 //       command: {
 //         key: 'Alt+o',
-//         label: '⌘+o+k',
+//         label: 'Cmd+o+k',
 //       },
 //       icon: <Pen />,
 //     },
@@ -225,7 +225,7 @@
 //       className: 'bg-destructive/40 dark:text-white/70 text-destructive hover:!bg-destructive hover:!text-white',
 //       command: {
 //         key: 'Alt+n',
-//         label: '⌘+o+d',
+//         label: 'Cmd+o+d',
 //       },
 //       icon: <Trash2 />,
 //     },

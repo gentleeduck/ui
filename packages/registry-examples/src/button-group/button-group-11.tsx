@@ -6,7 +6,6 @@ import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui
 import { Separator } from '@gentleduck/registry-ui/separator'
 import { Textarea } from '@gentleduck/registry-ui/textarea'
 import { BotIcon, ChevronDownIcon } from 'lucide-react'
-import * as React from 'react'
 
 export default function ButtonGroupPopover() {
   return (

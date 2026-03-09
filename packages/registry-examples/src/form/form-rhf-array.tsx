@@ -35,7 +35,7 @@ export default function FormRHFArray() {
     defaultValues: {
       emails: [{ address: '' }],
     },
-    resolver: zodResolver(formSchema as any),
+    resolver: zodResolver(formSchema),
   })
 
   const { append, fields, remove } = useFieldArray({

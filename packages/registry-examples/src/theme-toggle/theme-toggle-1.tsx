@@ -9,7 +9,7 @@ export default function ThemeToggle() {
   const { setTheme, resolvedTheme } = useTheme()
 
   const toggleTheme = React.useCallback(() => {
-    let color = resolvedTheme === 'dark' ? 'light' : 'dark'
+    const color = resolvedTheme === 'dark' ? 'light' : 'dark'
     setTheme(color)
   }, [resolvedTheme, setTheme])
 

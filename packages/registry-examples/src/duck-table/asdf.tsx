@@ -116,7 +116,7 @@
 //       children: 'priority',
 //       command: {
 //         key: 'ctrl+shift+m',
-//         label: '⌃+⇧+M',
+//         label: 'Ctrl+Shift+M',
 //       },
 //       label: {
 //         children: 'Filter Method',
@@ -159,7 +159,7 @@
 //           className: '[&_svg]:text-[#6441a5]',
 //           command: {
 //             key: 'b',
-//             label: '⌘+e',
+//             label: 'Cmd+e',
 //           },
 //           icon: {
 //             children: Twitch,
@@ -178,7 +178,7 @@
 //   {
 //     children: 'Delete',
 //     className: '[&_span]:text-red-500 text-red-500 [&_span]:hover:text-primary',
-//     command: { key: 'a', label: '⌘⌫' },
+//     command: { key: 'a', label: 'Cmd+Delete' },
 //     icon: {
 //       children: Trash2,
 //     },

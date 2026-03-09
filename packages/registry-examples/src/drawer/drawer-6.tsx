@@ -32,7 +32,7 @@ export default function DrawerDemo8() {
       }, 50)
       return () => clearInterval(timer)
     }
-  }, [progress, autoIncrement])
+  }, [progress])
 
   const getBarColor = (index: number) => {
     const progress = (index / barCount) * 100

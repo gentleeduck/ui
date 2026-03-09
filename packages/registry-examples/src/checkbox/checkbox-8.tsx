@@ -54,7 +54,7 @@ export default function CheckboxReactHookFormMultiple() {
     defaultValues: {
       items: ['recents', 'home'],
     },
-    resolver: zodResolver(FormSchema as any),
+    resolver: zodResolver(FormSchema),
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {

@@ -28,7 +28,7 @@ export default function FormRHFDemo() {
       description: '',
       title: '',
     },
-    resolver: zodResolver(formSchema as any),
+    resolver: zodResolver(formSchema),
   })
 
   function onSubmit(values: FormValues) {

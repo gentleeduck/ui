@@ -4,7 +4,6 @@ import { Button } from '@gentleduck/registry-ui/button'
 import { Input } from '@gentleduck/registry-ui/input'
 import { Label } from '@gentleduck/registry-ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
-import * as React from 'react'
 
 export default function PopoverDemo() {
   return (

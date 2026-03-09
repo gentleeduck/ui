@@ -19,7 +19,7 @@ export default function InputForm() {
     defaultValues: {
       username: '',
     },
-    resolver: zodResolver(FormSchema as any),
+    resolver: zodResolver(FormSchema),
   })
 
   function onSubmit(data: z.infer<typeof FormSchema>) {

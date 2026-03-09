@@ -15,7 +15,6 @@ import {
   SidebarTrigger,
 } from '@gentleduck/registry-ui/sidebar'
 import { GalleryVerticalEnd, Home, Inbox, LayoutDashboard, Settings, Users } from 'lucide-react'
-import * as React from 'react'
 
 const data = {
   navMain: [
