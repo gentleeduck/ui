@@ -1,5 +1,11 @@
 # @gentleduck/primitives
 
+## 0.2.5
+
+### Patch Changes
+
+- 2b6e8d0: Resolve all biome lint warnings, improve type safety, and add test coverage across the monorepo.
+
 ## 0.2.4
 
 ### Patch Changes

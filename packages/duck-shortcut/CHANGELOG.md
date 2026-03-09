@@ -1,5 +1,11 @@
 # @gentleduck/shortcut
 
+## 0.0.6
+
+### Patch Changes
+
+- 2b6e8d0: Resolve all biome lint warnings, improve type safety, and add test coverage across the monorepo.
+
 ## 0.0.5
 
 ### Patch Changes
