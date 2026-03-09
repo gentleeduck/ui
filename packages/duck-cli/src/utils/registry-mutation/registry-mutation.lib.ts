@@ -5,7 +5,7 @@ import type { Ora } from 'ora'
 import prompts from 'prompts'
 import { launch_merge_gui_and_wait } from '~/gui'
 import { diff_component } from '~/services/component.service'
-import { build_component_merge_state, write_merge_results } from '~/services/merge.service'
+import { build_component_merge_state } from '~/services/merge.service'
 import { get_package_manager } from '../get-package-manager'
 import { get_ts_config } from '../get-project-info'
 import { get_registry_item, type Registry } from '../get-registry'
@@ -104,12 +104,12 @@ export async function process_components(
 
     const skip_prompts = options.force || options.yes
 
-    for (let idx = 0; idx < components.length; idx++) {
+    for (const [idx, component] of components.entries()) {
       await install_component(
         duck_config,
         dependencies,
         idx,
-        components[idx],
+        component,
         false,
         components,
         write_path,
@@ -238,12 +238,12 @@ export async function install_registry_dependencies(
   await fetchAndProcess(initialDeps)
 
   // Install all collected components
-  for (let i = 0; i < allComponents.length; i++) {
+  for (const [index, component] of allComponents.entries()) {
     await install_component(
       duck_config,
       dependencies,
-      i,
-      allComponents[i],
+      index,
+      component,
       true,
       allComponents,
       write_path,
@@ -336,7 +336,9 @@ export async function process_component_files(
         continue
       }
       spinner.text = `Writing file: ${file.target}`
-      await fs.writeFile(path.resolve(`${write_path}`, file.path as string), file.content, 'utf8')
+      const target_path = path.resolve(`${write_path}`, file.path as string)
+      await fs.ensureDir(path.dirname(target_path))
+      await fs.writeFile(target_path, file.content, 'utf8')
       spinner.succeed(`Successfully wrote: ${from_root_write_path}/${file.path}`)
     } catch (error) {
       spinner.fail(`Failed to write file: ${file.target}`)

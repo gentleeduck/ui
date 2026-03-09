@@ -1,12 +1,13 @@
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
+import { execa } from 'execa'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import {
   process_component_dependencies,
   process_component_files,
 } from '~/utils/registry-mutation/registry-mutation.lib'
-import { createMockRegistryEntry } from '../helpers/fixtures'
+import { createMockDuckUIConfig, createMockRegistryEntry } from '../helpers/fixtures'
 import { createMockFetch } from '../helpers/mock-fetch'
 import { createMockSpinner } from '../helpers/mock-spinner'
 
@@ -29,6 +30,8 @@ describe('process_component_files', () => {
 
   beforeEach(() => {
     tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'duck-cli-test-'))
+    mockPrompts.mockReset()
+    vi.mocked(execa).mockClear()
   })
 
   afterEach(() => {
@@ -53,7 +56,7 @@ describe('process_component_files', () => {
     // Create the required subdirectory
     fs.mkdirSync(path.join(tmpDir, 'button'), { recursive: true })
 
-    await process_component_files(component, tmpDir, 'src/ui', spinner as any, true)
+    await process_component_files(component, tmpDir, 'src/ui', spinner, true)
 
     const written = fs.readFileSync(path.join(tmpDir, 'button/button.tsx'), 'utf8')
     expect(written).toBe('export function Button() { return null }')
@@ -65,7 +68,7 @@ describe('process_component_files', () => {
 
     const component = createMockRegistryEntry({ files: [] })
 
-    await process_component_files(component, tmpDir, 'src/ui', spinner as any, true)
+    await process_component_files(component, tmpDir, 'src/ui', spinner, true)
 
     expect(spinner.warn).toHaveBeenCalled()
   })
@@ -86,7 +89,7 @@ describe('process_component_files', () => {
 
     fs.mkdirSync(path.join(tmpDir, 'button'), { recursive: true })
 
-    await process_component_files(component, tmpDir, 'src/ui', spinner as any, true)
+    await process_component_files(component, tmpDir, 'src/ui', spinner, true)
 
     expect(spinner.warn).toHaveBeenCalledWith(expect.stringContaining('no content'))
     expect(fs.existsSync(path.join(tmpDir, 'button/button.tsx'))).toBe(false)
@@ -111,7 +114,7 @@ describe('process_component_files', () => {
     fs.mkdirSync(path.join(tmpDir, 'button'), { recursive: true })
     fs.writeFileSync(path.join(tmpDir, 'button/existing.tsx'), 'old content')
 
-    await process_component_files(component, tmpDir, 'src/ui', spinner as any, false)
+    await process_component_files(component, tmpDir, 'src/ui', spinner, false)
 
     // Should have prompted and skipped since user declined
     expect(mockPrompts).toHaveBeenCalled()
@@ -135,7 +138,7 @@ describe('process_component_files', () => {
     // Create an empty directory (simulates first install where mkdir ran first)
     fs.mkdirSync(path.join(tmpDir, 'button'), { recursive: true })
 
-    await process_component_files(component, tmpDir, 'src/ui', spinner as any, false)
+    await process_component_files(component, tmpDir, 'src/ui', spinner, false)
 
     // Should NOT have prompted since directory is empty
     expect(mockPrompts).not.toHaveBeenCalled()
@@ -163,7 +166,7 @@ describe('process_component_files', () => {
     fs.mkdirSync(path.join(tmpDir, 'button'), { recursive: true })
     fs.writeFileSync(path.join(tmpDir, 'button/existing.tsx'), 'old content')
 
-    await process_component_files(component, tmpDir, 'src/ui', spinner as any, false)
+    await process_component_files(component, tmpDir, 'src/ui', spinner, false)
 
     // Should have prompted
     expect(mockPrompts).toHaveBeenCalled()
@@ -190,7 +193,7 @@ describe('process_component_files', () => {
     fs.mkdirSync(path.join(tmpDir, 'button'), { recursive: true })
     fs.writeFileSync(path.join(tmpDir, 'button/existing.tsx'), 'old content')
 
-    await process_component_files(component, tmpDir, 'src/ui', spinner as any, true)
+    await process_component_files(component, tmpDir, 'src/ui', spinner, true)
 
     // Should NOT have prompted since force=true
     expect(mockPrompts).not.toHaveBeenCalled()
@@ -221,7 +224,7 @@ describe('process_component_files', () => {
 
     fs.mkdirSync(path.join(tmpDir, 'button'), { recursive: true })
 
-    await process_component_files(component, tmpDir, 'src/ui', spinner as any, true)
+    await process_component_files(component, tmpDir, 'src/ui', spinner, true)
 
     expect(fs.readFileSync(path.join(tmpDir, 'button/button.tsx'), 'utf8')).toBe('export function Button() {}')
     expect(fs.readFileSync(path.join(tmpDir, 'button/button.types.ts'), 'utf8')).toBe('export type ButtonProps = {}')
@@ -248,17 +251,7 @@ describe('install_registry_dependencies', () => {
     const { install_registry_dependencies } = await import('~/utils/registry-mutation/registry-mutation.lib')
     const spinner = createMockSpinner()
 
-    const duckConfig = {
-      schema: 'https://ui.gentleduck.org/schema.json',
-      rsc: true,
-      monorepo: false,
-      workspace: {
-        root: '.',
-        project: '.',
-      },
-      tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },
-      aliases: { ui: '~/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
-    }
+    const duckConfig = createMockDuckUIConfig()
 
     const dependencies = {
       dependencies: [] as string[],
@@ -266,24 +259,14 @@ describe('install_registry_dependencies', () => {
       registry_dependencies: [] as string[],
     }
 
-    await install_registry_dependencies(dependencies, spinner as any, tmpDir, true, duckConfig as any)
+    await install_registry_dependencies(dependencies, spinner, tmpDir, true, duckConfig)
   })
 
   it('fetches registry deps and filters out null results', async () => {
     const { install_registry_dependencies } = await import('~/utils/registry-mutation/registry-mutation.lib')
     const spinner = createMockSpinner()
 
-    const duckConfig = {
-      schema: 'https://ui.gentleduck.org/schema.json',
-      rsc: true,
-      monorepo: false,
-      workspace: {
-        root: '.',
-        project: '.',
-      },
-      tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },
-      aliases: { ui: '~/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
-    }
+    const duckConfig = createMockDuckUIConfig()
 
     const dependencies = {
       dependencies: [] as string[],
@@ -292,7 +275,7 @@ describe('install_registry_dependencies', () => {
       registry_dependencies: ['button', 'nonexistent'],
     }
 
-    await install_registry_dependencies(dependencies, spinner as any, tmpDir, true, duckConfig as any)
+    await install_registry_dependencies(dependencies, spinner, tmpDir, true, duckConfig)
 
     // Should succeed without crashing on the null result
     expect(spinner.succeed).toHaveBeenCalled()
@@ -303,17 +286,7 @@ describe('install_registry_dependencies', () => {
     const { install_registry_dependencies } = await import('~/utils/registry-mutation/registry-mutation.lib')
     const spinner = createMockSpinner()
 
-    const duckConfig = {
-      schema: 'https://ui.gentleduck.org/schema.json',
-      rsc: true,
-      monorepo: false,
-      workspace: {
-        root: '.',
-        project: '.',
-      },
-      tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },
-      aliases: { ui: '~/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
-    }
+    const duckConfig = createMockDuckUIConfig()
 
     const dependencies = {
       dependencies: [] as string[],
@@ -321,7 +294,7 @@ describe('install_registry_dependencies', () => {
       registry_dependencies: ['button'],
     }
 
-    await install_registry_dependencies(dependencies, spinner as any, tmpDir, true, duckConfig as any)
+    await install_registry_dependencies(dependencies, spinner, tmpDir, true, duckConfig)
 
     expect(spinner.succeed).toHaveBeenCalled()
     // Dependencies from the button component should be collected
@@ -334,14 +307,7 @@ describe('install_registry_dependencies', () => {
     const mockFetch = createMockFetch()
     vi.stubGlobal('fetch', mockFetch)
 
-    const duckConfig = {
-      schema: 'https://ui.gentleduck.org/schema.json',
-      rsc: true,
-      monorepo: false,
-      workspace: { root: '.', project: '.' },
-      tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },
-      aliases: { ui: '~/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
-    }
+    const duckConfig = createMockDuckUIConfig()
 
     const dependencies = {
       dependencies: [] as string[],
@@ -353,10 +319,10 @@ describe('install_registry_dependencies', () => {
     // Exclude "button" (simulating it was already installed as a top-level component)
     const exclude = new Set(['button'])
 
-    await install_registry_dependencies(dependencies, spinner as any, tmpDir, true, duckConfig as any, exclude)
+    await install_registry_dependencies(dependencies, spinner, tmpDir, true, duckConfig, exclude)
 
     // "button" should NOT have been fetched since it is in the exclude set
-    const fetchedUrls = mockFetch.mock.calls.map((call: any[]) => call[0])
+    const fetchedUrls = mockFetch.mock.calls.map((call: [string, ...unknown[]]) => call[0])
     const buttonFetches = fetchedUrls.filter((url: string) => url.includes('button'))
     expect(buttonFetches).toHaveLength(0)
   })
@@ -367,14 +333,7 @@ describe('install_registry_dependencies', () => {
     const mockFetch = createMockFetch()
     vi.stubGlobal('fetch', mockFetch)
 
-    const duckConfig = {
-      schema: 'https://ui.gentleduck.org/schema.json',
-      rsc: true,
-      monorepo: false,
-      workspace: { root: '.', project: '.' },
-      tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },
-      aliases: { ui: '~/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
-    }
+    const duckConfig = createMockDuckUIConfig()
 
     const dependencies = {
       dependencies: [] as string[],
@@ -383,10 +342,10 @@ describe('install_registry_dependencies', () => {
       registry_dependencies: ['button', 'button', 'Button', 'BUTTON'],
     }
 
-    await install_registry_dependencies(dependencies, spinner as any, tmpDir, true, duckConfig as any)
+    await install_registry_dependencies(dependencies, spinner, tmpDir, true, duckConfig)
 
     // "button" should only be fetched once despite appearing multiple times
-    const fetchedUrls = mockFetch.mock.calls.map((call: any[]) => call[0])
+    const fetchedUrls = mockFetch.mock.calls.map((call: [string, ...unknown[]]) => call[0])
     const buttonFetches = fetchedUrls.filter((url: string) => url.includes('/components/button.json'))
     expect(buttonFetches).toHaveLength(1)
   })
@@ -397,14 +356,7 @@ describe('install_registry_dependencies', () => {
     const mockFetch = createMockFetch()
     vi.stubGlobal('fetch', mockFetch)
 
-    const duckConfig = {
-      schema: 'https://ui.gentleduck.org/schema.json',
-      rsc: true,
-      monorepo: false,
-      workspace: { root: '.', project: '.' },
-      tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },
-      aliases: { ui: '~/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
-    }
+    const duckConfig = createMockDuckUIConfig()
 
     const dependencies = {
       dependencies: [] as string[],
@@ -413,10 +365,10 @@ describe('install_registry_dependencies', () => {
       registry_dependencies: ['card'],
     }
 
-    await install_registry_dependencies(dependencies, spinner as any, tmpDir, true, duckConfig as any)
+    await install_registry_dependencies(dependencies, spinner, tmpDir, true, duckConfig)
 
     // Both card and button should be fetched
-    const fetchedUrls = mockFetch.mock.calls.map((call: any[]) => call[0])
+    const fetchedUrls = mockFetch.mock.calls.map((call: [string, ...unknown[]]) => call[0])
     expect(fetchedUrls.some((url: string) => url.includes('/components/card.json'))).toBe(true)
     expect(fetchedUrls.some((url: string) => url.includes('/components/button.json'))).toBe(true)
 
@@ -430,12 +382,16 @@ describe('install_registry_dependencies', () => {
 })
 
 describe('process_component_dependencies', () => {
+  beforeEach(() => {
+    vi.mocked(execa).mockClear()
+  })
+
   it('warns and returns when no dependencies exist', async () => {
     const spinner = createMockSpinner()
 
     await process_component_dependencies(
       { dependencies: [], dev_dependencies: [], registry_dependencies: [] },
-      spinner as any,
+      spinner,
       process.cwd(),
     )
 
@@ -452,14 +408,14 @@ describe('process_component_dependencies', () => {
         dev_dependencies: [],
         registry_dependencies: [],
       },
-      spinner as any,
+      spinner,
       process.cwd(),
     )
 
     expect(execa).toHaveBeenCalledWith(
       'npm',
       expect.arrayContaining(['install', 'class-variance-authority', 'clsx']),
-      expect.objectContaining({ stdio: 'ignore' }),
+      expect.objectContaining({ cwd: process.cwd(), reject: false }),
     )
     expect(spinner.succeed).toHaveBeenCalledWith('Successfully installed dependencies')
   })
@@ -474,14 +430,14 @@ describe('process_component_dependencies', () => {
         dev_dependencies: ['@types/react'],
         registry_dependencies: [],
       },
-      spinner as any,
+      spinner,
       process.cwd(),
     )
 
     expect(execa).toHaveBeenCalledWith(
       'npm',
       expect.arrayContaining(['install', 'clsx', '@types/react']),
-      expect.any(Object),
+      expect.objectContaining({ cwd: process.cwd(), reject: false }),
     )
   })
 
@@ -503,7 +459,7 @@ describe('process_component_dependencies', () => {
         dev_dependencies: [],
         registry_dependencies: [],
       },
-      spinner as any,
+      spinner,
       process.cwd(),
     )
 
@@ -528,7 +484,7 @@ describe('process_component_dependencies', () => {
         dev_dependencies: ['@gentleduck/libs', '@types/react'],
         registry_dependencies: [],
       },
-      spinner as any,
+      spinner,
       process.cwd(),
     )
 

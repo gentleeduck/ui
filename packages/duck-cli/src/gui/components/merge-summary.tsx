@@ -1,5 +1,5 @@
 import { Box, Text } from 'ink'
-import React, { memo } from 'react'
+import { memo } from 'react'
 import type { ComponentMergeState } from '~/utils/merge'
 import { THEME } from '../app.constants'
 

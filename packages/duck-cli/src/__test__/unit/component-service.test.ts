@@ -2,27 +2,33 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { createMockRegistryEntry, createMockRegistryIndex } from '../helpers/fixtures'
+import { createMockDuckUIConfig, createMockRegistryEntry, createMockRegistryIndex } from '../helpers/fixtures'
 import { createMockFetch } from '../helpers/mock-fetch'
 
 describe('resolve_write_type_path', () => {
   it('resolves path from config aliases and write_path', async () => {
     const { resolve_write_type_path } = await import('~/services/component.service')
-    const config = { aliases: { ui: '~/ui' } } as any
+    const config = createMockDuckUIConfig({
+      aliases: { ui: '~/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
+    })
     const result = resolve_write_type_path(config, 'src')
     expect(result).toBe(path.resolve('src/ui'))
   })
 
   it('handles nested alias paths', async () => {
     const { resolve_write_type_path } = await import('~/services/component.service')
-    const config = { aliases: { ui: '~/components/ui' } } as any
+    const config = createMockDuckUIConfig({
+      aliases: { ui: '~/components/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
+    })
     const result = resolve_write_type_path(config, 'src')
     expect(result).toBe(path.resolve('src/components/ui'))
   })
 
   it('handles alias with no subdirectory', async () => {
     const { resolve_write_type_path } = await import('~/services/component.service')
-    const config = { aliases: { ui: '~' } } as any
+    const config = createMockDuckUIConfig({
+      aliases: { ui: '~', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
+    })
     const result = resolve_write_type_path(config, 'src')
     expect(result).toBe(path.resolve('src'))
   })

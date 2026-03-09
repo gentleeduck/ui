@@ -30,8 +30,7 @@ export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
       objectMode: true,
     })
 
-    for (let i = 0; i < styles_files.length; i++) {
-      const file = styles_files[i]
+    for (const file of styles_files) {
       const content = await fs.readFile(path.join(cwd, file.path), 'utf-8')
       if (content.includes('@import "tailwindcss"')) {
         spinner.text = `${highlighter.info('TailwindCss is already installed...')}`
@@ -232,9 +231,9 @@ function inject_vite_tailwind_plugin(content: string): string | null {
   // Add import at top (after last import statement)
   const import_lines = content.split('\n')
   let last_import_index = -1
-  for (let i = 0; i < import_lines.length; i++) {
-    if (import_lines[i].trimStart().startsWith('import ')) {
-      last_import_index = i
+  for (const [index, line] of import_lines.entries()) {
+    if (line.trimStart().startsWith('import ')) {
+      last_import_index = index
     }
   }
 

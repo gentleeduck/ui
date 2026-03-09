@@ -1,10 +1,12 @@
 import { Command } from 'commander'
+import { require_config_value } from '~/utils/require-config-value'
 import { init_command_config } from './init.constants'
 import { init_command_action } from './init.libs'
 
 const { name, description, options, arguments_ } = init_command_config
-const { option_1, option_2 } = options
-const { arg_1 } = arguments_
+const option_1 = require_config_value(options.option_1, 'missing init command option_1 config')
+const option_2 = require_config_value(options.option_2, 'missing init command option_2 config')
+const arg_1 = require_config_value(arguments_.arg_1, 'missing init command arg_1 config')
 
 export function init_command(): Command {
   const init_command = new Command(name)

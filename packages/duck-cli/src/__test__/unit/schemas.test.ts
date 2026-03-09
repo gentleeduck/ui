@@ -5,7 +5,7 @@ import { init_arguments_schema, init_options_schema } from '~/commands/init/init
 import { remove_arguments_schema, remove_options_schema } from '~/commands/remove/remove.dto'
 import { update_arguments_schema, update_options_schema } from '~/commands/update/update.dto'
 import { registry_entry_schema } from '~/utils/get-registry/get-registry.dto'
-import { duck_ui_schema } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.dto'
+import { type DuckUI, duck_ui_schema } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.dto'
 import { createMockDuckUIConfig, createMockRegistryEntry } from '../helpers/fixtures'
 
 describe('init_options_schema', () => {
@@ -108,15 +108,14 @@ describe('duck_ui_schema', () => {
   })
 
   it('rejects config missing the aliases field', () => {
-    const config = createMockDuckUIConfig()
-    delete (config as any).aliases
-    expect(() => duck_ui_schema.parse(config)).toThrow()
+    const { aliases, ...configWithoutAliases } = createMockDuckUIConfig()
+    expect(() => duck_ui_schema.parse(configWithoutAliases)).toThrow()
   })
 
   it('rejects config with invalid tailwind baseColor', () => {
     const config = createMockDuckUIConfig({
       tailwind: {
-        baseColor: 'invalid-color',
+        baseColor: 'invalid-color' as DuckUI['tailwind']['baseColor'],
         css: './src/styles.css',
         cssVariables: true,
         prefix: '',
@@ -131,7 +130,7 @@ describe('duck_ui_schema', () => {
   })
 
   it('accepts all valid BASE_COLORS values', () => {
-    const colors = [
+    const colors: DuckUI['tailwind']['baseColor'][] = [
       'zinc',
       'slate',
       'stone',

@@ -1,10 +1,11 @@
 import { Select, Spinner, StatusMessage } from '@inkjs/ui'
 import { Box, Text } from 'ink'
-import React, { memo } from 'react'
+import { memo } from 'react'
 import type { ComponentMergeState, MergeResult } from '~/utils/merge'
 import { THEME } from '../app.constants'
 import { Banner } from '../components/banner'
 import { DiffLineView } from '../components/diff-line'
+import { get_diff_line_key } from '../components/diff-line.libs'
 import { FileTabs } from '../components/file-tabs'
 import { MergeHunkView } from '../components/merge-hunk-view'
 import { MergeSummary } from '../components/merge-summary'
@@ -234,8 +235,8 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
             <Text bold color={THEME.foreground}>
               Preview ({preview_file?.file_path}):
             </Text>
-            {visible_preview.map((line, i) => (
-              <DiffLineView key={scrollOffset + i} line={line} num_width={4} single_num />
+            {visible_preview.map((line) => (
+              <DiffLineView key={get_diff_line_key(line)} line={line} num_width={4} single_num />
             ))}
             {preview_lines.length > summaryVisibleRows && (
               <Text color={THEME.mutedForeground}>

@@ -95,6 +95,10 @@ export function build_display_lines(
 
     while (i < hunk_lines.length) {
       const line = hunk_lines[i]
+      if (!line) {
+        i++
+        continue
+      }
       const prefix = line[0]
       const content = line.substring(1)
 
@@ -114,14 +118,18 @@ export function build_display_lines(
         // Collect contiguous removed lines
         const removed_lines: string[] = []
         let j = i
-        while (j < hunk_lines.length && hunk_lines[j][0] === '-') {
-          removed_lines.push(hunk_lines[j].substring(1))
+        while (j < hunk_lines.length) {
+          const removedLine = hunk_lines[j]
+          if (!removedLine || removedLine[0] !== '-') break
+          removed_lines.push(removedLine.substring(1))
           j++
         }
         // Collect contiguous added lines that follow
         const added_lines: string[] = []
-        while (j < hunk_lines.length && hunk_lines[j][0] === '+') {
-          added_lines.push(hunk_lines[j].substring(1))
+        while (j < hunk_lines.length) {
+          const addedLine = hunk_lines[j]
+          if (!addedLine || addedLine[0] !== '+') break
+          added_lines.push(addedLine.substring(1))
           j++
         }
 
@@ -136,22 +144,26 @@ export function build_display_lines(
           const added_line_segments = split_segments_by_newline(added_segments)
 
           for (let k = 0; k < removed_lines.length; k++) {
+            const removedLine = removed_lines[k]
+            if (removedLine == null) continue
             lines.push({
               type: 'remove',
               old_line_num: old_line,
               new_line_num: null,
-              segments: removed_line_segments[k] ?? [{ text: removed_lines[k], highlight: false }],
-              raw_text: removed_lines[k],
+              segments: removed_line_segments[k] ?? [{ text: removedLine, highlight: false }],
+              raw_text: removedLine,
             })
             old_line++
           }
           for (let k = 0; k < added_lines.length; k++) {
+            const addedLine = added_lines[k]
+            if (addedLine == null) continue
             lines.push({
               type: 'add',
               old_line_num: null,
               new_line_num: new_line,
-              segments: added_line_segments[k] ?? [{ text: added_lines[k], highlight: false }],
-              raw_text: added_lines[k],
+              segments: added_line_segments[k] ?? [{ text: addedLine, highlight: false }],
+              raw_text: addedLine,
             })
             new_line++
           }
@@ -204,12 +216,13 @@ export function split_segments_by_newline(segments: DiffSegment[]): DiffSegment[
 
   for (const seg of segments) {
     const parts = seg.text.split('\n')
-    for (let i = 0; i < parts.length; i++) {
-      if (i > 0) {
+    for (const [index, part] of parts.entries()) {
+      if (index > 0) {
         result.push([])
       }
-      if (parts[i].length > 0) {
-        result[result.length - 1].push({ text: parts[i], highlight: seg.highlight })
+      if (part.length > 0) {
+        const currentLine = result.at(-1)
+        currentLine?.push({ text: part, highlight: seg.highlight })
       }
     }
   }
@@ -228,6 +241,10 @@ export function build_side_by_side_pairs(lines: DiffDisplayLine[]): SideBySidePa
 
   while (i < lines.length) {
     const line = lines[i]
+    if (!line) {
+      i++
+      continue
+    }
 
     if (line.type === 'file-header' || line.type === 'hunk-header' || line.type === 'context') {
       pairs.push({ left: line, right: line })
@@ -235,22 +252,26 @@ export function build_side_by_side_pairs(lines: DiffDisplayLine[]): SideBySidePa
     } else if (line.type === 'remove') {
       // Collect contiguous removes
       const removes: DiffDisplayLine[] = []
-      while (i < lines.length && lines[i].type === 'remove') {
-        removes.push(lines[i])
+      while (i < lines.length) {
+        const removeLine = lines[i]
+        if (!removeLine || removeLine.type !== 'remove') break
+        removes.push(removeLine)
         i++
       }
       // Collect contiguous adds
       const adds: DiffDisplayLine[] = []
-      while (i < lines.length && lines[i].type === 'add') {
-        adds.push(lines[i])
+      while (i < lines.length) {
+        const addLine = lines[i]
+        if (!addLine || addLine.type !== 'add') break
+        adds.push(addLine)
         i++
       }
       // Pair them, padding the shorter side
       const max_len = Math.max(removes.length, adds.length)
       for (let j = 0; j < max_len; j++) {
         pairs.push({
-          left: j < removes.length ? removes[j] : null,
-          right: j < adds.length ? adds[j] : null,
+          left: removes[j] ?? null,
+          right: adds[j] ?? null,
         })
       }
     } else if (line.type === 'add') {
@@ -279,7 +300,7 @@ export function get_max_line_number(lines: DiffDisplayLine[]): number {
 export function get_hunk_offsets(lines: DiffDisplayLine[]): number[] {
   const offsets: number[] = []
   for (let i = 0; i < lines.length; i++) {
-    if (lines[i].type === 'hunk-header') {
+    if (lines[i]?.type === 'hunk-header') {
       offsets.push(i)
     }
   }

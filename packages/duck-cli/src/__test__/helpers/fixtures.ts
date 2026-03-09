@@ -1,4 +1,6 @@
 import path from 'node:path'
+import type { RegistryEntry } from '~/utils/get-registry/get-registry.dto'
+import type { DuckUI } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.dto'
 
 export const FIXTURES_DIR = path.resolve(__dirname, '../../../__test__')
 
@@ -8,7 +10,7 @@ export const FIXTURE_PATHS = {
   tsconfig: path.join(FIXTURES_DIR, 'tsconfig.json'),
 }
 
-export function createMockRegistryEntry(overrides: Record<string, any> = {}) {
+export function createMockRegistryEntry(overrides: Partial<RegistryEntry> = {}): RegistryEntry {
   return {
     name: 'button',
     type: 'registry:ui' as const,
@@ -28,7 +30,7 @@ export function createMockRegistryEntry(overrides: Record<string, any> = {}) {
   }
 }
 
-export function createMockDuckUIConfig(overrides: Record<string, any> = {}) {
+export function createMockDuckUIConfig(overrides: Partial<DuckUI> = {}): DuckUI {
   return {
     schema: 'https://ui.gentleduck.org/schema.json',
     rsc: true,

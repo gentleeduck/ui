@@ -1,8 +1,9 @@
 import { Box, Text } from 'ink'
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { THEME } from '../app.constants'
 import type { DiffDisplayLine, SideBySidePair } from '../screens/diff-screen.types'
 import { get_conflict_marker_color } from './conflict-markers'
+import { get_renderable_diff_segments } from './diff-line.libs'
 
 type SideBySideLineProps = {
   pair: SideBySidePair
@@ -41,13 +42,14 @@ function render_side(line: DiffDisplayLine | null, num_width: number, side: 'lef
 
   const base_color =
     line.type === 'add' ? THEME.success : line.type === 'remove' ? THEME.destructive : THEME.mutedForeground
+  const renderable_segments = get_renderable_diff_segments(line.segments)
 
   return (
     <>
       <Text color={THEME.mutedForeground}>{num_str} </Text>
-      {line.segments.map((seg, i) => (
+      {renderable_segments.map((seg) => (
         <Text
-          key={i}
+          key={seg.key}
           color={seg.highlight ? (line.type === 'remove' ? 'white' : 'black') : base_color}
           backgroundColor={
             seg.highlight ? (line.type === 'add' ? 'green' : line.type === 'remove' ? 'red' : undefined) : undefined

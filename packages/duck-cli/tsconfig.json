@@ -25,6 +25,13 @@
     "target": "esnext"
   },
   "display": "Default",
-  "exclude": ["node_modules", "**/*.tsbuildinfo", "tsconfig.tsbuildinfo"],
+  "exclude": [
+    "node_modules",
+    "src/**/__test__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.tsbuildinfo",
+    "tsconfig.tsbuildinfo"
+  ],
   "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

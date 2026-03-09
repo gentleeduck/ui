@@ -1,5 +1,5 @@
 import { Box, Text } from 'ink'
-import React, { memo, useContext, useMemo } from 'react'
+import { memo, useContext, useMemo } from 'react'
 import { TerminalSizeContext } from '../app'
 import { generateBanner, SUBTITLE, THEME } from '../app.constants'
 
