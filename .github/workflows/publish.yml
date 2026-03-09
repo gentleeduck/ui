@@ -11,6 +11,11 @@ permissions:
   contents: write
   pull-requests: write
 
+env:
+  BUN_VERSION: "1.3.5"
+  NODE_VERSION: "22"
+  NEXT_PUBLIC_APP_URL: https://ui.gentleduck.org
+
 jobs:
   release:
     name: Release
@@ -19,34 +24,22 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v6
 
-      - name: Setup Node.js 22.x
+      - name: Setup Node.js
         uses: actions/setup-node@v6
         with:
-          node-version: 22
+          node-version: ${{ env.NODE_VERSION }}
           registry-url: https://registry.npmjs.org
 
       - name: Setup Bun
         uses: oven-sh/setup-bun@v2
         with:
-          bun-version: 1.3.5
-
-      - name: Cache bun dependencies
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.bun/install/cache
-            node_modules
-          key: bun-${{ runner.os }}-${{ hashFiles('bun.lock') }}
-          restore-keys: |
-            bun-${{ runner.os }}-
+          bun-version: ${{ env.BUN_VERSION }}
 
       - name: Install Dependencies
         run: bun install --frozen-lockfile
 
       - name: Build
         run: bun run build
-        env:
-          NEXT_PUBLIC_APP_URL: https://ui.gentleduck.org
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
@@ -60,4 +53,3 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NEXT_PUBLIC_APP_URL: https://ui.gentleduck.org
