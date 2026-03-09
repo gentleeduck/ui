@@ -20,7 +20,6 @@ import {
   UserRoundXIcon,
   VolumeOffIcon,
 } from 'lucide-react'
-import * as React from 'react'
 
 export default function ButtonGroupDropdown() {
   return (

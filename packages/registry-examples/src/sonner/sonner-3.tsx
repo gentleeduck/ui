@@ -5,8 +5,7 @@ import { toast } from 'sonner'
 
 export default function SonnerDemo() {
   const controllerRef = React.useRef(new AbortController())
-  // @ts-ignore
-  const intervalRef = React.useRef<NodeJS.Timeout | null>(null)
+  const intervalRef = React.useRef<ReturnType<typeof setInterval> | null>(null)
   const progressRef = React.useRef(0)
 
   const updateToast = (progress: number) => {
@@ -32,7 +31,9 @@ export default function SonnerDemo() {
       updateToast(progressRef.current)
 
       if (progressRef.current >= 100) {
-        clearInterval(intervalRef.current)
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current)
+        }
         intervalRef.current = null
       }
     }, 400)

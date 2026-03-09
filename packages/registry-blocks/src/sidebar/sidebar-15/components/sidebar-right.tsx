@@ -6,7 +6,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarRail,
   SidebarSeparator,
 } from '@gentleduck/registry-ui/sidebar'
 import { Plus } from 'lucide-react'

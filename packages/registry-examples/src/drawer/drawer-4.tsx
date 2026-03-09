@@ -11,7 +11,7 @@ import {
 } from '@gentleduck/registry-ui/drawer'
 import { Minus, Plus } from 'lucide-react'
 import * as React from 'react'
-import { Bar, BarChart, ResponsiveContainer } from 'recharts'
+import { Bar, BarChart } from 'recharts'
 
 function generateRandomGoals(count: number, minGoal: number = 100, maxGoal: number = 500): { goal: number }[] {
   const goals: { goal: number }[] = []
@@ -91,20 +91,18 @@ export const ContentComponent = ({ goal, onClick }: { goal: number; onClick: (ad
         </div>
 
         <div className="mt-3 h-[120px] w-full">
-          <ResponsiveContainer className="!w-[368px]" height="100%" width="100%">
-            <BarChart data={goals}>
-              <Bar
-                dataKey="goal"
-                style={
-                  {
-                    fill: 'var(--foreground)',
-                    opacity: 0.9,
-                    width: '50px',
-                  } as React.CSSProperties
-                }
-              />
-            </BarChart>
-          </ResponsiveContainer>
+          <BarChart data={goals} height={120} width={368}>
+            <Bar
+              dataKey="goal"
+              style={
+                {
+                  fill: 'var(--foreground)',
+                  opacity: 0.9,
+                  width: '50px',
+                } as React.CSSProperties
+              }
+            />
+          </BarChart>
         </div>
       </div>
     </div>

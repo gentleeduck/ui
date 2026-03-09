@@ -21,7 +21,6 @@ import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } f
 import { Checkbox } from '@gentleduck/registry-ui/checkbox'
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
@@ -60,12 +59,10 @@ import {
 } from '@tanstack/react-table'
 import {
   CheckCircle2Icon,
-  ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   ChevronsLeftIcon,
   ChevronsRightIcon,
-  ColumnsIcon,
   GripVerticalIcon,
   Loader,
   MoreVerticalIcon,

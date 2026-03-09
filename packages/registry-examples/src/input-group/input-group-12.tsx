@@ -23,7 +23,7 @@ import { ArrowUpIcon, FilterIcon } from 'lucide-react'
 export default function InputGroupRtlDemo() {
   return (
     <DirectionProvider dir="rtl">
-      <TooltipProvider dir="rtl">
+      <TooltipProvider>
         <div className="grid w-full max-w-sm gap-6">
           <InputGroup>
             <InputGroupInput placeholder="تصفية السجلات..." />

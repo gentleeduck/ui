@@ -237,7 +237,7 @@
 //       children: 'status',
 //       command: {
 //         key: 'ctrl+shift+s',
-//         label: '⌃+⇧+S',
+//         label: 'Ctrl+Shift+S',
 //       },
 //       label: {
 //         children: 'Filter Status',
@@ -288,7 +288,7 @@
 //       children: 'priority',
 //       command: {
 //         key: 'ctrl+shift+m',
-//         label: '⌃+⇧+M',
+//         label: 'Ctrl+Shift+M',
 //       },
 //       label: {
 //         children: 'Filter Method',

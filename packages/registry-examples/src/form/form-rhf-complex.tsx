@@ -60,7 +60,7 @@ export default function FormRHFComplex() {
       title: '',
       twoFactor: true,
     },
-    resolver: zodResolver(formSchema as any),
+    resolver: zodResolver(formSchema),
   })
 
   function onSubmit(values: FormValues) {

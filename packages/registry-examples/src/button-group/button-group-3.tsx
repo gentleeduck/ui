@@ -3,7 +3,6 @@
 import { Button } from '@gentleduck/registry-ui/button'
 import { ButtonGroup } from '@gentleduck/registry-ui/button-group'
 import { PlusIcon } from 'lucide-react'
-import * as React from 'react'
 
 export default function ButtonGroupSize() {
   return (

@@ -191,7 +191,10 @@ export default function ChartRtlDemo() {
                   />
                 }
               />
-              <Bar dataKey={activeChart} fill={`${(chartConfig[activeChart] as any).color}`} />
+              <Bar
+                dataKey={activeChart}
+                fill={`${'color' in chartConfig[activeChart] ? chartConfig[activeChart].color : ''}`}
+              />
             </BarChart>
           </ChartContainer>
         </CardContent>

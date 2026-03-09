@@ -2,7 +2,6 @@
 
 import { Button } from '@gentleduck/registry-ui/button'
 import { ButtonGroup } from '@gentleduck/registry-ui/button-group'
-import { Input } from '@gentleduck/registry-ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger } from '@gentleduck/registry-ui/select'
 import { ArrowRightIcon } from 'lucide-react'
 import * as React from 'react'
