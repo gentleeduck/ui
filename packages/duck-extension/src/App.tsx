@@ -23,7 +23,6 @@ import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui
 import { ScrollArea } from '@gentleduck/registry-ui/scroll-area'
 import { Ban, Check, ChevronsUpDown, Github, Power, Trash2 } from 'lucide-react'
 import React from 'react'
-import fontsMetadata from './assets/fonts.json'
 
 // If you don't have @types/chrome, this keeps TS happy:
 declare const chrome: any
@@ -304,7 +303,7 @@ const AppShell = React.memo(function AppShell() {
       <Card className="relative w-[500px] justify-self-center rounded-none py-6">
         <a
           className="absolute top-2 right-2 z-10"
-          href="https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-extention"
+          href="https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-extension"
           rel="noreferrer"
           target="_blank">
           <Button icon={<Github />} size="icon" variant="outline" />
@@ -380,6 +379,8 @@ const AppShell = React.memo(function AppShell() {
 
 const FontSelector = React.memo(function FontSelector({ domain }: { domain: string }) {
   const { domainFonts, setFontForDomain, disabledDomains } = useFontStore()
+  const [fonts, setFonts] = React.useState<Font[] | null>(null)
+  const [open, setOpen] = React.useState(false)
 
   // Memoize derived values
   const currentFont = React.useMemo(() => domainFonts[domain] || null, [domainFonts, domain])
@@ -392,8 +393,26 @@ const FontSelector = React.memo(function FontSelector({ domain }: { domain: stri
     [domain, setFontForDomain],
   )
 
+  React.useEffect(() => {
+    if (!open || fonts) {
+      return
+    }
+
+    let cancelled = false
+
+    void import('./assets/fonts.json').then((module) => {
+      if (!cancelled) {
+        setFonts(module.default as Font[])
+      }
+    })
+
+    return () => {
+      cancelled = true
+    }
+  }, [fonts, open])
+
   return (
-    <Popover>
+    <Popover onOpenChange={setOpen} open={open}>
       <PopoverTrigger asChild>
         <Button className="w-full justify-between" disabled={isDisabled} variant="outline">
           {currentFont ? currentFont.family : 'Select font...'}
@@ -406,10 +425,10 @@ const FontSelector = React.memo(function FontSelector({ domain }: { domain: stri
           <CommandInput className="h-9" placeholder="Search fonts..." />
 
           <CommandList className="max-h-60 overflow-y-auto">
-            <CommandEmpty>No fonts found.</CommandEmpty>
+            <CommandEmpty>{fonts ? 'No fonts found.' : 'Loading fonts...'}</CommandEmpty>
 
             <CommandGroup heading="Fonts">
-              {fontsMetadata.map((f: Font) => (
+              {(fonts ?? []).map((f) => (
                 <CommandItem key={f.id} onSelect={() => handleSelect(f)}>
                   <div className="flex items-center gap-2">
                     <Check className={`h-4 w-4 ${currentFont?.id === f.id ? 'opacity-100' : 'opacity-0'}`} />
