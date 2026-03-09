@@ -23,9 +23,8 @@
     "skipLibCheck": true /* FIXME remove this once vite fixes it */,
     "strict": true,
     "target": "esnext",
-    "types": ["@testing-library/jest-dom"],
     "verbatimModuleSyntax": true
   },
-  "exclude": ["node_modules", "dist", "**/*.tsbuildinfo", "tsconfig.tsbuildinfo"],
+  "exclude": ["node_modules", "dist", "src/__test__/**", "src/examples/**", "**/*.tsbuildinfo", "tsconfig.tsbuildinfo"],
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }
