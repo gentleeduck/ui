@@ -45,7 +45,7 @@ console.log('foreignObject count:', foCount)
 console.log('SVG length:', svg.length)
 console.log('Has text labels:', svg.includes('duck-gen'))
 
-import { writeFileSync } from 'fs'
+import { writeFileSync } from 'node:fs'
 
 writeFileSync(
   '/tmp/mermaid-playwright.html',

@@ -14,7 +14,10 @@ interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
 
 function getChildLabel(child: React.ReactNode): string {
   return (
-    String((child as any).props?.children?.[0]?.props?.__rawString__ ?? '')
+    String(
+      (child as React.ReactElement<{ children?: React.ReactElement<{ __rawString__?: string }>[] }>)?.props
+        ?.children?.[0]?.props?.__rawString__ ?? '',
+    )
       .split('\n')[0]
       ?.replace('//', '')
       .trim() || 'source'
@@ -26,12 +29,12 @@ export function ComponentSource({ children, className, ...props }: ComponentSour
 
   if (items.length === 0) {
     return (
-      <div
-        className="flex h-24 w-full items-center justify-center gap-2 rounded-md border border-border bg-muted/40 text-muted-foreground text-sm"
-        role="status">
+      <output
+        aria-live="polite"
+        className="flex h-24 w-full items-center justify-center gap-2 rounded-md border border-border bg-muted/40 text-muted-foreground text-sm">
         <Icons.spinner aria-hidden="true" className="h-4 w-4 animate-spin" />
         Loading...
-      </div>
+      </output>
     )
   }
 
@@ -55,22 +58,22 @@ export function ComponentSource({ children, className, ...props }: ComponentSour
       {...props}
       defaultValue={defaultValue}>
       <TabsList className="w-[622px] justify-start overflow-x-auto bg-transparent px-2 py-2">
-        {items.map((item, idx) => {
+        {items.map((item) => {
           const value = getChildLabel(item)
           return (
-            <TabsTrigger className="aria-[selected='true']:bg-muted" key={idx} value={value}>
+            <TabsTrigger className="aria-[selected='true']:bg-muted" key={value} value={value}>
               {value}
             </TabsTrigger>
           )
         })}
       </TabsList>
       <Separator />
-      {items.map((item, idx) => {
+      {items.map((item) => {
         const value = getChildLabel(item)
         return (
           <TabsContent
             className="relative m-0 bg-transparent focus-visible:shadow-none focus-visible:outline-none focus-visible:ring-0 [&>div>div>button]:top-2 [&>div>div>button]:right-2 [&>div>div]:m-0"
-            key={idx}
+            key={value}
             value={value}>
             <FigcaptionBlock>{value}</FigcaptionBlock>
             {item}

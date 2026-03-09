@@ -250,7 +250,7 @@ function VirtualCommandList({
 
     try {
       if (!searchIndex) throw new Error('no index')
-      const sanitized = search.replace(/[:\*\~\+\-\^]/g, '\\$&')
+      const sanitized = search.replace(/[:*~+\-^]/g, '\\$&')
       const terms = sanitized.trim().split(/\s+/).filter(Boolean)
       if (terms.length === 0) return flatRows
 
@@ -316,7 +316,7 @@ function VirtualCommandList({
   // Reset selection when search/filter changes
   React.useEffect(() => {
     setSelectedIndex(0)
-  }, [search])
+  }, [])
 
   // Clamp selectedIndex to valid range
   const clampedIndex = itemRows.length > 0 ? Math.min(selectedIndex, itemRows.length - 1) : -1

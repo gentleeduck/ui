@@ -7,6 +7,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui/tabs'
 import { Crown } from 'lucide-react'
+import Image from 'next/image'
 import * as React from 'react'
 
 interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
@@ -100,10 +101,10 @@ export function ComponentPreview({
         <div className="flex items-center justify-between">
           {!hideCode && (
             <TabsList className="w-full justify-start overflow-x-auto rounded-none border-b bg-transparent p-0 [&_button]:shadow-none">
-              {TABS.map((tab, idx) => (
+              {TABS.map((tab) => (
                 <TabsTrigger
                   className="cursor-pointer rounded-none border-b-[2px] border-b-transparent px-12 py-2 [&[aria-selected='true']]:border-b-primary [&[aria-selected='true']]:shadow-none"
-                  key={idx}
+                  key={tab.value}
                   value={tab.value}>
                   {tab.name}
                 </TabsTrigger>
@@ -127,12 +128,12 @@ export function ComponentPreview({
             duck-preview="">
             <React.Suspense
               fallback={
-                <div
-                  className="flex h-full w-full items-center justify-center gap-2 text-muted-foreground text-sm"
-                  role="status">
+                <output
+                  aria-live="polite"
+                  className="flex h-full w-full items-center justify-center gap-2 text-muted-foreground text-sm">
                   <Icons.spinner aria-hidden="true" className="h-4 w-4 animate-spin" />
                   Loading...
-                </div>
+                </output>
               }>
               {Preview}
             </React.Suspense>
@@ -152,8 +153,8 @@ export function ComponentPreview({
 export const BuildTab = () => {
   return (
     <TabsContent className="relative overflow-hidden" value="build">
-      <div className="h-[500px] overflow-hidden rounded-lg">
-        <img alt="build" className="object-cover" src="/builder.png" />
+      <div className="relative h-[500px] overflow-hidden rounded-lg">
+        <Image alt="build" className="object-cover" fill sizes="100vw" src="/builder.png" />
       </div>
 
       <div className="absolute inset-0 top-0 left-0 flex h-[500px] flex-col items-center justify-center gap-4 rounded-md bg-zinc-700/10 px-4 py-2 backdrop-blur-sm dark:bg-zinc-700/50">

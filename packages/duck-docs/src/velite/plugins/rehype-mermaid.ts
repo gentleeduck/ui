@@ -20,14 +20,26 @@ function isMermaidCode(node: UnistNode): boolean {
   return dataLang === 'mermaid' || (Array.isArray(classes) && classes.includes('language-mermaid'))
 }
 
+interface MdxJsxAttribute {
+  type: string
+  name: string
+  value: string | { type: string; value: string } | null | undefined
+}
+
+interface MdxJsxFlowElement extends UnistNode {
+  type: 'mdxJsxFlowElement'
+  name?: string
+  attributes?: MdxJsxAttribute[]
+}
+
 /** Safely extract a string value from an mdxJsxAttribute. */
-function extractAttrValue(attr: any): string | null {
+function extractAttrValue(attr: MdxJsxAttribute | undefined): string | null {
   if (!attr?.value) return null
   if (typeof attr.value === 'string') return attr.value
   if (attr.value?.type === 'mdxJsxAttributeValueExpression') {
     try {
       // eslint-disable-next-line no-new-func
-      return new Function('return ' + attr.value.value)()
+      return new Function(`return ${attr.value.value}`)()
     } catch {
       return null
     }
@@ -161,9 +173,10 @@ export function rehypeMermaid() {
 
     visit(tree, (node: UnistNode) => {
       // 1. <MermaidDiagram chart={`...`} /> JSX elements
-      if ((node as any).type === 'mdxJsxFlowElement' && (node as any).name === 'MermaidDiagram') {
-        const attrs = (node as any).attributes || []
-        const chartAttr = attrs.find((a: any) => a.type === 'mdxJsxAttribute' && a.name === 'chart')
+      const mdxNode = node as MdxJsxFlowElement
+      if (mdxNode.type === 'mdxJsxFlowElement' && mdxNode.name === 'MermaidDiagram') {
+        const attrs = mdxNode.attributes || []
+        const chartAttr = attrs.find((a) => a.type === 'mdxJsxAttribute' && a.name === 'chart')
         const chart = extractAttrValue(chartAttr)
         if (chart) {
           entries.push({ kind: 'jsx', node, source: chart.trim() })
@@ -198,7 +211,9 @@ export function rehypeMermaid() {
     // Build all diagrams in a single Chromium invocation (both themes)
     const diagrams: { source: string; id: string; theme: 'default' | 'dark' }[] = []
     for (let i = 0; i < entries.length; i++) {
-      const src = entries[i]!.source
+      const entry = entries[i]
+      if (!entry) continue
+      const src = entry.source
       diagrams.push({ source: src, id: `ml${i}`, theme: 'default' })
       diagrams.push({ source: src, id: `md${i}`, theme: 'dark' })
     }
@@ -222,10 +237,11 @@ export function rehypeMermaid() {
       }
 
       if (entry.kind === 'jsx') {
-        const attrs = (entry.node as any).attributes || []
+        const jsxNode = entry.node as MdxJsxFlowElement
+        const attrs = jsxNode.attributes || []
         if (lightSvg) attrs.push(makeJsxStringAttr('lightSvg', lightSvg))
         if (darkSvg) attrs.push(makeJsxStringAttr('darkSvg', darkSvg))
-        ;(entry.node as any).attributes = attrs
+        jsxNode.attributes = attrs
       } else {
         if (entry.node !== entry.pre) {
           entry.node.children = [entry.pre]

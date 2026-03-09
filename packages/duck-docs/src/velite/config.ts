@@ -1,7 +1,7 @@
 import type { UnistNode } from '@duck-docs/types'
 import { getHighlighter } from '@shikijs/compat'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
-// @ts-ignore
+// @ts-expect-error -- rehype-pretty-code has no published type declarations
 import rehypePrettyCode from 'rehype-pretty-code'
 import rehypeSlug from 'rehype-slug'
 import { codeImport } from 'remark-code-import'
@@ -23,44 +23,47 @@ function buildDefaultRehypePlugins({
   rehypePlugins = [],
   rehypePluginsBefore = [],
 }: Pick<DocsVeliteConfigOptions, 'rehypePlugins' | 'rehypePluginsBefore'>): Pluggable[] {
+  const prettyCodePlugin = [
+    rehypePrettyCode,
+    {
+      getHighlighter,
+      onVisitHighlightedLine(node: UnistNode) {
+        ;(node.properties?.className as string[]).push('line--highlighted')
+      },
+      onVisitHighlightedWord(node: UnistNode) {
+        node.properties!.className = ['word--highlighted']
+      },
+      onVisitLine(node: UnistNode) {
+        if (node.children?.length === 0) {
+          node.children = [{ type: 'text', value: ' ' }]
+        }
+      },
+      theme: {
+        dark: 'catppuccin-mocha',
+        light: 'github-light',
+      },
+    },
+  ] as Pluggable
+
+  const autolinkHeadingsPlugin = [
+    rehypeAutolinkHeadings,
+    { properties: { ariaLabel: 'Link to section', className: ['subheading-anchor'] } },
+  ] as Pluggable
+
   return [
     ...rehypePluginsBefore,
     // 1) Structural transforms.
-    // @ts-ignore
-    rehypeSlug,
+    rehypeSlug as Pluggable,
     rehypeMetadataPlugin,
     // 2) Syntax highlighting.
-    [
-      rehypePrettyCode,
-      {
-        getHighlighter,
-        onVisitHighlightedLine(node: UnistNode) {
-          // @ts-ignore
-          node.properties.className.push('line--highlighted')
-        },
-        onVisitHighlightedWord(node: UnistNode) {
-          // @ts-ignore
-          node.properties.className = ['word--highlighted']
-        },
-        onVisitLine(node: UnistNode) {
-          if (node.children?.length === 0) {
-            node.children = [{ type: 'text', value: ' ' }]
-          }
-        },
-        theme: {
-          dark: 'catppuccin-mocha',
-          light: 'github-light',
-        },
-      },
-    ],
+    prettyCodePlugin,
     // 3) Post-highlight enrichments and specialized transforms.
     rehypeTitle,
     rehypePreBlockSource,
     rehypeMermaid,
     rehypeNpmCommand,
     // 4) Heading links for docs navigation.
-    // @ts-ignore
-    [rehypeAutolinkHeadings, { properties: { ariaLabel: 'Link to section', className: ['subheading-anchor'] } }],
+    autolinkHeadingsPlugin,
     ...rehypePlugins,
   ]
 }
@@ -130,7 +133,7 @@ export function createDocsVeliteConfig({
       rehypePlugins: buildDefaultRehypePlugins({ rehypePlugins, rehypePluginsBefore }),
       remarkPlugins: buildDefaultRemarkPlugins({ remarkPlugins, remarkPluginsBefore }),
     },
-  }) as any
+  }) as ReturnType<typeof defineConfig>
 }
 
 export const docsVeliteConfig = createDocsVeliteConfig()

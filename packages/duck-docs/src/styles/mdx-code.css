@@ -57,7 +57,7 @@
     @apply -mx-1 md:-mx-1;
 
     &:has([data-rehype-pretty-code-title]) [data-slot="copy-button"] {
-      top: calc(var(--spacing) * 1.5) !important;
+      top: calc(var(--spacing) * 1.5);
     }
   }
 
@@ -110,7 +110,7 @@
     color: var(--shiki-light);
 
     @variant dark {
-      color: var(--shiki-dark) !important;
+      color: var(--shiki-dark);
     }
   }
 

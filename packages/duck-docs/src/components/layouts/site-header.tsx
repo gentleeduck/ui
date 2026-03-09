@@ -190,7 +190,7 @@ function GitHubStarsButton() {
       }
     }
     fetchStars()
-  }, [])
+  }, [repo])
 
   if (!siteConfig.links?.github) {
     return null

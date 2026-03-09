@@ -1,5 +1,5 @@
-import { writeFileSync } from 'fs'
-import { createRequire } from 'module'
+import { writeFileSync } from 'node:fs'
+import { createRequire } from 'node:module'
 
 const require = createRequire(import.meta.url)
 
@@ -55,18 +55,12 @@ try {
         proto.getComputedTextLength = function () {
           return (this.textContent || '').length * 8
         }
-      if (!proto.getTotalLength)
-        proto.getTotalLength = function () {
-          return 100
-        }
-      if (!proto.getPointAtLength)
-        proto.getPointAtLength = function () {
-          return { x: 0, y: 0 }
-        }
+      if (!proto.getTotalLength) proto.getTotalLength = () => 100
+      if (!proto.getPointAtLength) proto.getPointAtLength = () => ({ x: 0, y: 0 })
       proto = Object.getPrototypeOf(proto)
     }
   }
-} catch (e) {}
+} catch (_e) {}
 
 const mermaid = (await import('mermaid')).default
 

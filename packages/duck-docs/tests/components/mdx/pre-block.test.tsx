@@ -1,4 +1,3 @@
-import React from 'react'
 import { renderToStaticMarkup } from 'react-dom/server'
 import { PreBlock } from '../../../src/components/mdx/mdx-components/code/pre-block/pre-block'
 
