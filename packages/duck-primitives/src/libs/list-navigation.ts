@@ -80,7 +80,7 @@ export function findNextItem<T extends { textValue: string }>(items: T[], search
  * hook should store (useful for fallback behavior, e.g. resetting to last key).
  */
 export function useTypeaheadSearch(
-  onSearchChange: (search: string, key: string) => string | void,
+  onSearchChange: (search: string, key: string) => string | undefined,
   externalSearchRef?: React.RefObject<string>,
 ) {
   const handleSearchChange = useCallbackRef(onSearchChange)
@@ -100,13 +100,13 @@ export function useTypeaheadSearch(
         if (value !== '') timerRef.current = window.setTimeout(() => updateSearch(''), 1000)
       })(resolvedSearch)
     },
-    [handleSearchChange],
+    [handleSearchChange, searchRef],
   )
 
   const resetTypeahead = React.useCallback(() => {
     searchRef.current = ''
     window.clearTimeout(timerRef.current)
-  }, [])
+  }, [searchRef])
 
   React.useEffect(() => {
     return () => window.clearTimeout(timerRef.current)

@@ -6,7 +6,7 @@ import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
 import * as RovingFocusGroup from '../roving-focus'
 import { useMenuContentContext } from './content'
-import { Collection, type ScopedProps, useCollection, useMenuRootContext, useRovingFocusGroupScope } from './menu'
+import { Collection, type ScopedProps, useMenuRootContext, useRovingFocusGroupScope } from './menu'
 import { SELECTION_KEYS, whenMouse } from './menu.libs'
 
 const ITEM_NAME = 'MenuItem'
@@ -99,7 +99,7 @@ const MenuItemImpl = React.forwardRef<MenuItemImplElement, MenuItemImplProps>(
       if (menuItem) {
         setTextContent((menuItem.textContent ?? '').trim())
       }
-    }, [itemProps.children])
+    }, [])
 
     return (
       <Collection.ItemSlot scope={__scopeMenu} disabled={disabled} textValue={textValue ?? textContent}>

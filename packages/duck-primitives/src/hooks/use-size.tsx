@@ -21,9 +21,9 @@ function useSize(element: HTMLElement | null) {
         let height: number
 
         if ('borderBoxSize' in entry) {
-          const borderSize = Array.isArray(entry['borderBoxSize']) ? entry['borderBoxSize'][0] : entry['borderBoxSize']
-          width = borderSize['inlineSize']
-          height = borderSize['blockSize']
+          const borderSize = Array.isArray(entry.borderBoxSize) ? entry.borderBoxSize[0] : entry.borderBoxSize
+          width = borderSize.inlineSize
+          height = borderSize.blockSize
         } else {
           width = element.offsetWidth
           height = element.offsetHeight

@@ -33,7 +33,7 @@ export function useSvgIndicator({
     setUriOn(newUriOn)
     setIndicatorReady(hasOff)
     setCheckedIndicatorReady(hasOn)
-  }, [indicator, checkedIndicator])
+  }, [])
 
   // CSS style to attach to the input element with both variables
   const inputStyle: React.CSSProperties = {

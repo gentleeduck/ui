@@ -11,7 +11,7 @@ import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { clamp } from '../libs/clamp'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
-import { focusFirst, getNavigationCandidates, NAVIGATION_KEYS, useVimNavigation } from '../libs/list-navigation'
+import { getNavigationCandidates, NAVIGATION_KEYS, useVimNavigation } from '../libs/list-navigation'
 import * as PopperPrimitive from '../popper'
 import { Presence } from '../presence/presence'
 import { Primitive } from '../primitive-elements'
@@ -408,8 +408,8 @@ const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElem
           const rightEdge = window.innerWidth - CONTENT_MARGIN
           const clampedLeft = clamp(left, [CONTENT_MARGIN, Math.max(CONTENT_MARGIN, rightEdge - contentWidth)])
 
-          contentWrapper.style.minWidth = minContentWidth + 'px'
-          contentWrapper.style.left = clampedLeft + 'px'
+          contentWrapper.style.minWidth = `${minContentWidth}px`
+          contentWrapper.style.left = `${clampedLeft}px`
         } else {
           const itemTextOffset = contentRect.right - itemTextRect.right
           const right = window.innerWidth - valueNodeRect.right - itemTextOffset
@@ -419,8 +419,8 @@ const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElem
           const leftEdge = window.innerWidth - CONTENT_MARGIN
           const clampedRight = clamp(right, [CONTENT_MARGIN, Math.max(CONTENT_MARGIN, leftEdge - contentWidth)])
 
-          contentWrapper.style.minWidth = minContentWidth + 'px'
-          contentWrapper.style.right = clampedRight + 'px'
+          contentWrapper.style.minWidth = `${minContentWidth}px`
+          contentWrapper.style.right = `${clampedRight}px`
         }
 
         // -----------------------------------------------------------------------------------------
@@ -454,8 +454,8 @@ const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElem
         const willAlignWithoutTopOverflow = contentTopToItemMiddle <= topEdgeToTriggerMiddle
 
         if (willAlignWithoutTopOverflow) {
-          const isLastItem = items.length > 0 && selectedItem === items[items.length - 1]!.ref.current
-          contentWrapper.style.bottom = 0 + 'px'
+          const isLastItem = items.length > 0 && selectedItem === items[items.length - 1]?.ref.current
+          contentWrapper.style.bottom = `${0}px`
           const viewportOffsetBottom = content.clientHeight - viewport.offsetTop - viewport.offsetHeight
           const clampedTriggerMiddleToBottomEdge = Math.max(
             triggerMiddleToBottomEdge,
@@ -466,10 +466,10 @@ const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElem
               contentBorderBottomWidth,
           )
           const height = contentTopToItemMiddle + clampedTriggerMiddleToBottomEdge
-          contentWrapper.style.height = height + 'px'
+          contentWrapper.style.height = `${height}px`
         } else {
-          const isFirstItem = items.length > 0 && selectedItem === items[0]!.ref.current
-          contentWrapper.style.top = 0 + 'px'
+          const isFirstItem = items.length > 0 && selectedItem === items[0]?.ref.current
+          contentWrapper.style.top = `${0}px`
           const clampedTopEdgeToTriggerMiddle = Math.max(
             topEdgeToTriggerMiddle,
             contentBorderTopWidth +
@@ -479,13 +479,13 @@ const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElem
               selectedItemHalfHeight,
           )
           const height = clampedTopEdgeToTriggerMiddle + itemMiddleToContentBottom
-          contentWrapper.style.height = height + 'px'
+          contentWrapper.style.height = `${height}px`
           viewport.scrollTop = contentTopToItemMiddle - topEdgeToTriggerMiddle + viewport.offsetTop
         }
 
         contentWrapper.style.margin = `${CONTENT_MARGIN}px 0`
-        contentWrapper.style.minHeight = minContentHeight + 'px'
-        contentWrapper.style.maxHeight = availableHeight + 'px'
+        contentWrapper.style.minHeight = `${minContentHeight}px`
+        contentWrapper.style.maxHeight = `${availableHeight}px`
         // -----------------------------------------------------------------------------------------
 
         onPlaced?.()

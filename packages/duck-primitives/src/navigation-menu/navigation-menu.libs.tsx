@@ -3,7 +3,7 @@ import { useCallbackRef } from '../hooks/use-callback-ref'
 import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { Primitive } from '../primitive-elements'
-import type { Direction, FocusGroupItemElement, PrimitiveDivProps, ScopedProps } from './navigation-menu'
+import type { FocusGroupItemElement, PrimitiveDivProps, ScopedProps } from './navigation-menu'
 import { FocusGroupCollection, useFocusGroupCollection, useNavigationMenuContext } from './navigation-menu'
 
 /* ----- Constants ----- */
@@ -43,13 +43,14 @@ function whenMouse<E>(handler: React.PointerEventHandler<E>): React.PointerEvent
 function getTabbableCandidates(container: HTMLElement) {
   const nodes: HTMLElement[] = []
   const walker = document.createTreeWalker(container, NodeFilter.SHOW_ELEMENT, {
-    acceptNode: (node: any) => {
-      const isHiddenInput = node.tagName === 'INPUT' && node.type === 'hidden'
-      if (node.disabled || node.hidden || isHiddenInput) return NodeFilter.FILTER_SKIP
+    acceptNode: (node: Node) => {
+      const el = node as HTMLElement
+      const isHiddenInput = el.tagName === 'INPUT' && (el as HTMLInputElement).type === 'hidden'
+      if (el.hidden || (el as HTMLInputElement).disabled || isHiddenInput) return NodeFilter.FILTER_SKIP
       // `.tabIndex` is not the same as the `tabindex` attribute. It works on the
       // runtime's understanding of tabbability, so this automatically accounts
       // for any kind of element that could be tabbed to.
-      return node.tabIndex >= 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP
+      return el.tabIndex >= 0 ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP
     },
   })
   while (walker.nextNode()) nodes.push(walker.currentNode as HTMLElement)

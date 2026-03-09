@@ -6,7 +6,7 @@ import { createContextScope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'
 import * as RovingFocusGroup from '../roving-focus'
 import type { ScopedProps } from './radio-group'
-import { RADIO_GROUP_NAME, useRadioGroupContext, useRovingFocusGroupScope } from './radio-group'
+import { useRadioGroupContext, useRovingFocusGroupScope } from './radio-group'
 
 const ITEM_NAME = 'RadioGroupItem'
 

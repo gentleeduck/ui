@@ -6,7 +6,7 @@ import { composeRefs } from '../libs/compose-ref'
 import { MenuAnchor } from './anchor'
 import { useMenuContentContext } from './content'
 import { MenuItemImpl, type MenuItemImplProps } from './item'
-import { type ScopedProps, useMenuContext, useMenuRootContext, usePopperScope } from './menu'
+import { type ScopedProps, useMenuContext, useMenuRootContext } from './menu'
 import { getOpenState, type Side, SUB_OPEN_KEYS, whenMouse } from './menu.libs'
 import { useMenuSubContext } from './sub'
 
@@ -84,7 +84,8 @@ const MenuSubTrigger = React.forwardRef<MenuSubTriggerElement, MenuSubTriggerPro
 
               const contentRect = context.content?.getBoundingClientRect()
               if (contentRect) {
-                // TODO: make sure to update this when we change positioning logic
+                // Side is read from the `data-side` attribute set by the Popper (Floating UI).
+                // It always reflects the actual computed placement of the submenu content.
                 const side = context.content?.dataset.side as Side
                 const rightSide = side === 'right'
                 const bleed = rightSide ? -5 : +5

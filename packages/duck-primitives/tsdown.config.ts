@@ -3,6 +3,6 @@ import { defineConfig } from 'tsdown'
 
 export default defineConfig({
   ...config,
-  entry: ['./src/**'],
+  entry: ['./src/**', '!./src/**/__test__/**'],
   plugins: [],
 })

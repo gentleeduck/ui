@@ -160,7 +160,7 @@ export const Select: React.FC<SelectProps> = (props: ScopedProps<SelectProps>) =
   const [value, setValue] = useControllableState({
     prop: valueProp,
     defaultProp: defaultValue,
-    onChange: onValueChange as any,
+    onChange: onValueChange as ((value: string | undefined) => void) | undefined,
     caller: SELECT_NAME,
   })
   const triggerPointerDownPosRef = React.useRef<{ x: number; y: number } | null>(null)

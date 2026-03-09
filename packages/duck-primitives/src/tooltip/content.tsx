@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { DismissableLayer } from '../dismissable-layer'
-import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import * as PopperPrimitive from '../popper'
 import { Presence } from '../presence'
@@ -133,7 +132,7 @@ const TooltipContentHoverable = React.forwardRef<TooltipContentHoverableElement,
           content.removeEventListener('pointerleave', handleContentLeave)
         }
       }
-    }, [trigger, content, handleCreateGraceArea, handleRemoveGraceArea])
+    }, [trigger, content, handleCreateGraceArea])
 
     React.useEffect(() => {
       if (pointerGraceArea) {

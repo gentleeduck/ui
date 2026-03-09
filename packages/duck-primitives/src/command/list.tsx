@@ -73,7 +73,7 @@ export const CommandList = React.forwardRef<CommandListElement, CommandListProps
           }
         }
       }
-    }, [context.search, context.shouldFilter, getItems])
+    }, [context.search, context.shouldFilter, getItems, context.setSelectedItem])
 
     return (
       <CommandListProvider scope={__scopeCommand} onItemLeave={handleItemLeave} listRef={listRef} emptyRef={emptyRef}>

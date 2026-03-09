@@ -32,8 +32,8 @@ const SliderRange = React.forwardRef<SliderRangeElement, SliderRangeProps>(
         ref={composedRefs}
         style={{
           ...props.style,
-          [orientation.startEdge]: offsetStart + '%',
-          [orientation.endEdge]: offsetEnd + '%',
+          [orientation.startEdge]: `${offsetStart}%`,
+          [orientation.endEdge]: `${offsetEnd}%`,
         }}
       />
     )

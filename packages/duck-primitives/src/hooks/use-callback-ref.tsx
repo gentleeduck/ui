@@ -5,7 +5,7 @@ import * as React from 'react'
  * passed as a prop or re-executes effects when listed as a dependency.
  * The returned function always calls the latest callback.
  */
-function useCallbackRef<T extends (...args: any[]) => any>(callback: T | undefined): T {
+function useCallbackRef<T extends (...args: never[]) => unknown>(callback: T | undefined): T {
   const callbackRef = React.useRef(callback)
 
   React.useEffect(() => {

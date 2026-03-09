@@ -51,11 +51,11 @@ function MountMinimal({
         setIsVisible(false)
         timeoutRef.current = null
       } else {
-        // @ts-ignore
-        timeoutRef.current = useComputedTimeoutTransition(element, () => {
-          setIsVisible(false)
-          timeoutRef.current = null
-        })
+        timeoutRef.current =
+          useComputedTimeoutTransition(element, () => {
+            setIsVisible(false)
+            timeoutRef.current = null
+          }) ?? null
       }
     }
 

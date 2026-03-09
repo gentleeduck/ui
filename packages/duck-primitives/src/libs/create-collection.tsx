@@ -12,7 +12,7 @@ interface CollectionProps extends SlotProps {
 
 function createCollection<ItemElement extends HTMLElement, ItemData = {}>(name: string) {
   // CollectionProvider
-  const PROVIDER_NAME = name + 'CollectionProvider'
+  const PROVIDER_NAME = `${name}CollectionProvider`
   const [createCollectionContext, createCollectionScope] = createContextScope(PROVIDER_NAME)
 
   type ContextValue = {
@@ -39,7 +39,7 @@ function createCollection<ItemElement extends HTMLElement, ItemData = {}>(name: 
   CollectionProvider.displayName = PROVIDER_NAME
 
   // CollectionSlot
-  const COLLECTION_SLOT_NAME = name + 'CollectionSlot'
+  const COLLECTION_SLOT_NAME = `${name}CollectionSlot`
 
   const CollectionSlotImpl = createSlot(COLLECTION_SLOT_NAME)
   const CollectionSlot = React.forwardRef<CollectionElement, CollectionProps>((props, forwardedRef) => {
@@ -52,7 +52,7 @@ function createCollection<ItemElement extends HTMLElement, ItemData = {}>(name: 
   CollectionSlot.displayName = COLLECTION_SLOT_NAME
 
   // CollectionItem
-  const ITEM_SLOT_NAME = name + 'CollectionItemSlot'
+  const ITEM_SLOT_NAME = `${name}CollectionItemSlot`
   const ITEM_DATA_ATTR = 'data-collection-item'
 
   type CollectionItemSlotProps = ItemData & {
@@ -83,7 +83,7 @@ function createCollection<ItemElement extends HTMLElement, ItemData = {}>(name: 
 
   // useCollection
   function useCollection(scope: Scope) {
-    const context = useCollectionContext(name + 'CollectionConsumer', scope)
+    const context = useCollectionContext(`${name}CollectionConsumer`, scope)
 
     const getItems = React.useCallback(() => {
       const collectionNode = context.collectionRef.current

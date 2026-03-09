@@ -82,12 +82,12 @@ const NavigationMenuIndicatorImpl = React.forwardRef<
         ...(isHorizontal
           ? {
               left: 0,
-              width: position.size + 'px',
+              width: `${position.size}px`,
               transform: `translateX(${position.offset}px)`,
             }
           : {
               top: 0,
-              height: position.size + 'px',
+              height: `${position.size}px`,
               transform: `translateY(${position.offset}px)`,
             }),
         ...indicatorProps.style,

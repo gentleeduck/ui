@@ -4,12 +4,10 @@ import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Presence } from '../presence'
-import { Primitive } from '../primitive-elements'
 import type {
   NavigationMenuContentImplElement,
   NavigationMenuContentImplPrivateProps,
   NavigationMenuContentImplProps,
-  NavigationMenuTriggerElement,
   ScopedProps,
   ViewportContentMounterElement,
   ViewportContentMounterProps,
@@ -137,7 +135,7 @@ const NavigationMenuContentImpl = React.forwardRef<NavigationMenuContentImplElem
         content.addEventListener(ROOT_CONTENT_DISMISS, handleClose)
         return () => content.removeEventListener(ROOT_CONTENT_DISMISS, handleClose)
       }
-    }, [context.isRootMenu, props.value, triggerRef, onItemDismiss, onRootContentClose])
+    }, [context.isRootMenu, triggerRef, onItemDismiss, onRootContentClose])
 
     const motionAttribute = React.useMemo(() => {
       const items = getItems()
@@ -203,8 +201,8 @@ const NavigationMenuContentImpl = React.forwardRef<NavigationMenuContentImplElem
             const isTabKey = event.key === 'Tab' && !isMetaKey
             if (isTabKey) {
               const candidates = getTabbableCandidates(event.currentTarget)
-              const focusedElement = document.activeElement
-              const index = candidates.findIndex((candidate) => candidate === focusedElement)
+              const focusedElement = document.activeElement as HTMLElement | null
+              const index = focusedElement ? candidates.indexOf(focusedElement) : -1
               const isMovingBackwards = event.shiftKey
               const nextCandidates = isMovingBackwards
                 ? candidates.slice(0, index).reverse()

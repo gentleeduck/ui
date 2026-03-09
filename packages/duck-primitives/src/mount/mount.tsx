@@ -13,8 +13,7 @@ function Mount({ open, renderOnce = false, children, animationDuration = 400 }: 
   const [mounted, setMounted] = React.useState(open)
 
   React.useEffect(() => {
-    // @ts-ignore
-    let timeout: NodeJS.Timeout
+    let timeout: ReturnType<typeof setTimeout>
 
     if (open) {
       // Mount immediately on open
