@@ -9,11 +9,13 @@ description: Use the gentleduck CLI package to initialize configs and install co
     A --> D[update]
     A --> E[remove]
     A --> F[diff]
+    A --> L[list]
     B --> G[duck-ui.config.json]
     C --> H[Install Components]
     D --> I[Refresh Local Components]
     E --> J[Remove Local Components]
     F --> K[Compare With Registry]
+    L --> M[Show Registry Components]
 `} />
 
 ## Philosophy
@@ -104,6 +106,32 @@ Options:
 - `-c, --cwd <cwd>`
 - `-g, --gui`
 - `-w, --workspace <path>`
+
+### list
+
+List available components from the registry.
+
+```bash
+npx @gentleduck/cli list
+```
+
+Options:
+
+- `-t, --type <type>` - filter by component type (e.g. ui, hook, lib, block)
+- `-j, --json` - output as JSON
+
+Examples:
+
+```bash
+# List all available components
+npx @gentleduck/cli list
+
+# List only UI components
+npx @gentleduck/cli list --type ui
+
+# Output the full list as JSON
+npx @gentleduck/cli list --json
+```
 
 ## Monorepo Usage
 
