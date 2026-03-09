@@ -1,5 +1,11 @@
 # @gentleduck/cli
 
+## 1.2.6
+
+### Patch Changes
+
+- 2b6e8d0: Resolve all biome lint warnings, improve type safety, and add test coverage across the monorepo.
+
 ## 1.2.5
 
 ### Patch Changes

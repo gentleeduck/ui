@@ -1,5 +1,11 @@
 # @gentleduck/lazy
 
+## 1.2.13
+
+### Patch Changes
+
+- 2b6e8d0: Resolve all biome lint warnings, improve type safety, and add test coverage across the monorepo.
+
 ## 1.2.12
 
 ### Patch Changes

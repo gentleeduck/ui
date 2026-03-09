@@ -86,5 +86,5 @@
     "test": "vitest run"
   },
   "type": "module",
-  "version": "1.2.5"
+  "version": "1.2.6"
 }

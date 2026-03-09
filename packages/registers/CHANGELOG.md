@@ -1,5 +1,11 @@
 # @gentleduck/registers
 
+## 0.3.4
+
+### Patch Changes
+
+- 2b6e8d0: Resolve all biome lint warnings, improve type safety, and add test coverage across the monorepo.
+
 ## 0.3.3
 
 ### Patch Changes
