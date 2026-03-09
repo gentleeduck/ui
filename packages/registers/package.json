@@ -29,7 +29,8 @@
     "access": "public"
   },
   "scripts": {
-    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
+    "test": "bun test"
   },
   "type": "module",
   "version": "0.3.3"

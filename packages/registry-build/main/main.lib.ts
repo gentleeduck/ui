@@ -18,7 +18,7 @@ export function fix_import(content: string) {
   const regex = /@\/(.+?)\/((?:.*?\/)?(?:components|ui|hooks|lib))\/([\w-]+)/g
 
   // TODO: find out what to do with the path
-  const replacement = (match: string, path: string, type: string, component: string) => {
+  const replacement = (match: string, _path: string, type: string, component: string) => {
     if (type.endsWith('components')) {
       return `@/components/${component}`
     } else if (type.endsWith('ui')) {

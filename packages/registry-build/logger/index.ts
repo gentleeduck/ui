@@ -25,7 +25,7 @@ export class Logger {
     const caller = new Error().stack?.split('\n')[3]?.trim().split(' ')[1] || 'Unknown Function'
     const timestamp = kleur.gray(`[${new Date().toISOString()}]`)
     const cwd = kleur.cyan(process.cwd())
-    const logStyle = this.logLevels.get(level)
+    const logStyle = Logger.logLevels.get(level)
 
     if (logStyle) {
       const formattedMessage = `${timestamp} ${logStyle.icon} ${logStyle.color(`[${level.toUpperCase()}]`)} ${kleur.bold(message)}`
@@ -41,7 +41,7 @@ export class Logger {
    * @returns {{ success: true; message: string; data: T }}
    */
   static success<T>(message: string, data: T): { success: true; message: string; data: T } {
-    this.log('success', message)
+    Logger.log('success', message)
     return { data, message, success: true }
   }
 
@@ -50,7 +50,7 @@ export class Logger {
    * @param {string} message - A warning message.
    */
   static warn(message: string) {
-    this.log('warn', message)
+    Logger.log('warn', message)
   }
 
   /**
@@ -64,7 +64,7 @@ export class Logger {
     message: string
     data: null
   } {
-    this.log('error', message)
+    Logger.log('error', message)
     return { data: null, message, success: false }
   }
 
@@ -75,7 +75,7 @@ export class Logger {
    * @throws {Error} Always throws an Error with the provided message.
    */
   static throwFatalError(message: string): never {
-    this.log('fatal', message)
+    Logger.log('fatal', message)
     throw new Error(message)
   }
 }

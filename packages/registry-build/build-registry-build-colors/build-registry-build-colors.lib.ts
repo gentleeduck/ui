@@ -15,7 +15,7 @@ export async function build_registry_themes(spinner: Ora) {
   const ensureDir = async (p: string) => {
     if (!existsSync(p)) await fs.mkdir(p, { recursive: true })
   }
-  const writeJson = async (p: string, data: any) => await fs.writeFile(p, JSON.stringify(data, null, 2), 'utf8')
+  const writeJson = async (p: string, data: unknown) => await fs.writeFile(p, JSON.stringify(data, null, 2), 'utf8')
 
   // --------------------------------------------------------------------------
   // Step 1: Build base colors index
@@ -25,7 +25,7 @@ export async function build_registry_themes(spinner: Ora) {
   await fs.rm(colorsTargetPath, { recursive: true, force: true }) // clean start
   await ensureDir(colorsTargetPath)
 
-  const colorsData: Record<string, any> = {}
+  const colorsData: Record<string, unknown> = {}
   for (const [color, value] of Object.entries(registry_colors)) {
     if (typeof value === 'string') {
       colorsData[color] = value
@@ -47,7 +47,6 @@ export async function build_registry_themes(spinner: Ora) {
         hslChannel: value.hsl.replace(/^hsl\(([\d.]+),([\d.]+%),([\d.]+%)\)$/, '$1 $2 $3'),
         rgbChannel: value.rgb.replace(/^rgb\((\d+),(\d+),(\d+)\)$/, '$1 $2 $3'),
       }
-      continue
     }
   }
   await writeJson(path.join(colorsTargetPath, 'index.json'), colorsData)
@@ -59,7 +58,7 @@ export async function build_registry_themes(spinner: Ora) {
 
   for (const name of THEME_NAMES) {
     const entry = themeRegistry[name]
-    const base: Record<string, any> = {
+    const base: Record<string, unknown> = {
       cssVarsV4: { light: entry.light, dark: entry.dark },
       inlineColorsTemplate: BASE_STYLES,
       cssVarsTemplate: generateBaseStylesWithVariables(entry),
@@ -109,7 +108,7 @@ export async function build_registry_themes(spinner: Ora) {
  * Builds and writes the colors index file from the registry.
  */
 export async function registry_build_colors_index(
-  colors_data: Record<string, any>,
+  colors_data: Record<string, unknown>,
   colors_target_path: string,
   spinner: Ora,
 ): Promise<void> {

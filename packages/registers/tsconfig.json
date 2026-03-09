@@ -3,7 +3,16 @@
     "outDir": "./dist",
     "paths": {}
   },
-  "exclude": ["node_modules", "dist", "**/*.tsbuildinfo", "tsconfig.tsbuildinfo"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/__test__/**",
+    "**/__test__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.tsbuildinfo",
+    "tsconfig.tsbuildinfo"
+  ],
   "extends": "@gentleduck/typescript-config/internal-package.json",
   "include": [
     "./registry-ui/",
