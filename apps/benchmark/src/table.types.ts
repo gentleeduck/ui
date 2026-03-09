@@ -26,7 +26,7 @@ export type DuckTableHistoryDelta = {
   type: DuckTableEventType
   timestamp: number
   ids: string[]
-  meta: any
+  meta: Record<string, unknown>
 }
 export type DuckTableEvent<TColumn extends readonly Lowercase<string>[]> =
   | { type: 'init'; meta: {} }
@@ -46,7 +46,7 @@ export type DuckTableEvent<TColumn extends readonly Lowercase<string>[]> =
   | { type: 'reset'; meta: { rowCount: number } }
   | { type: 'hydrate'; meta: { snapshot: DuckTableOptions<TColumn> } }
 
-export type DuckTableEventType = DuckTableEvent<any>['type']
+export type DuckTableEventType = DuckTableEvent<readonly Lowercase<string>[]>['type']
 
 export type DuckTableEventMeta<T extends DuckTableEventType, TColumn extends readonly Lowercase<string>[]> = Extract<
   DuckTableEvent<TColumn>,

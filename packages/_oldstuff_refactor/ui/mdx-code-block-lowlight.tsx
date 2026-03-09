@@ -38,7 +38,7 @@
 //         onChange={(event) => updateAttributes({ language: event.target.value })}
 //       >
 //         <option value="null">auto</option>
-//         <option disabled>—</option>
+//         <option disabled>-</option>
 //         {extension.options.lowlight.listLanguages().map((lang, index) => (
 //           <option key={index} value={lang}>
 //             {lang}

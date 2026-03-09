@@ -43,7 +43,7 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
     this.mutatedRows = options.rows.slice()
     this.assertUniqueIds(this.rows)
     this.query = options.query ?? ''
-    this.visibleColumns = (Object.keys(this.columns) as any[]).filter(
+    this.visibleColumns = (Object.keys(this.columns) as TColumn[number][]).filter(
       (k) => this.columns[k as TColumn[number]].visible,
     ) as typeof this.visibleColumns
     this.pageSize = options.pageSize ?? DEFAULT_PAGE_SIZE
@@ -186,7 +186,7 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
       .sort((a, b) => {
         for (const { label, direction } of active) {
           const header = this.columns[label as keyof typeof this.columns] as DuckColumnValues & {
-            sortFn?: (a: any, b: any) => number
+            sortFn?: (a: string, b: string) => number
           }
           const aV = a.row[label as keyof typeof a.row]
           const bV = b.row[label as keyof typeof b.row]
@@ -423,7 +423,7 @@ export class DuckTable<TColumn extends Lowercase<string>[]> {
     }
 
     this.reapplyView()
-    this.emitChange('hydrate', snapshot as any)
+    this.emitChange('hydrate', { snapshot })
   }
 
   public persistSnapshot(key: string): void {
