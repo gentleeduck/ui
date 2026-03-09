@@ -1,9 +1,10 @@
 import { Select, Spinner, StatusMessage } from '@inkjs/ui'
 import { Box, Text } from 'ink'
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { THEME } from '../app.constants'
 import { Banner } from '../components/banner'
 import { DiffLineView } from '../components/diff-line'
+import { get_diff_line_key, get_side_by_side_pair_key } from '../components/diff-line.libs'
 import { FileTabs } from '../components/file-tabs'
 import { SideBySideLine } from '../components/side-by-side-line'
 import { StatusLine } from '../components/status-line'
@@ -121,8 +122,8 @@ export const DiffScreen = memo(function DiffScreen({ onBack }: { onBack: () => v
           <FileTabs files={file_names} active_index={activeFileIndex} />
 
           <Box marginTop={1} flexDirection="column">
-            {visible.map((line, i) => (
-              <DiffLineView key={scrollOffset + i} line={line} num_width={numWidth} />
+            {visible.map((line) => (
+              <DiffLineView key={get_diff_line_key(line)} line={line} num_width={numWidth} />
             ))}
           </Box>
 
@@ -163,8 +164,13 @@ export const DiffScreen = memo(function DiffScreen({ onBack }: { onBack: () => v
               </Text>
             </Box>
           </Box>
-          {visible_pairs.map((pair, i) => (
-            <SideBySideLine key={scrollOffset + i} pair={pair} num_width={numWidth} half_width={half_width} />
+          {visible_pairs.map((pair) => (
+            <SideBySideLine
+              key={get_side_by_side_pair_key(pair)}
+              pair={pair}
+              num_width={numWidth}
+              half_width={half_width}
+            />
           ))}
         </Box>
 

@@ -80,9 +80,11 @@ export function check_status(status: number, statusText: string, url: string, bo
   try {
     const result = JSON.parse(body)
     message =
-      result && typeof result === 'object' && 'error' in result ? result.error : statusText || error_messages[status]
+      result && typeof result === 'object' && 'error' in result
+        ? String(result.error)
+        : statusText || error_messages[status] || 'Unknown registry error'
   } catch {
-    message = statusText || error_messages[status]
+    message = statusText || error_messages[status] || 'Unknown registry error'
   }
   throw new Error(`Failed to fetch from ${highlighter.info(url)}.\n${message}`)
 }

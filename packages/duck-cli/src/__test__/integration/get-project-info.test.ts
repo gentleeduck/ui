@@ -47,7 +47,7 @@ describe('get_duckui_config', () => {
 
   it('reads valid config from fixture', async () => {
     const spinner = createMockSpinner()
-    const config = await get_duckui_config(FIXTURES_DIR, spinner as any)
+    const config = await get_duckui_config(FIXTURES_DIR, spinner)
     expect(config).toBeDefined()
     expect(config).toHaveProperty('aliases')
     expect(config).toHaveProperty('tailwind')
@@ -71,7 +71,7 @@ describe('get_duckui_config', () => {
       )
 
       const spinner = createMockSpinner()
-      const config = await get_duckui_config(nested, spinner as any)
+      const config = await get_duckui_config(nested, spinner)
       expect(config.monorepo).toBe(true)
       expect(config.workspace.project).toBe('apps/web')
     } finally {
@@ -81,7 +81,7 @@ describe('get_duckui_config', () => {
 
   it('calls process.exit when config file is missing', async () => {
     const spinner = createMockSpinner()
-    await expect(get_duckui_config('/tmp/nonexistent-dir-for-test', spinner as any)).rejects.toThrow(/process\.exit/)
+    await expect(get_duckui_config('/tmp/nonexistent-dir-for-test', spinner)).rejects.toThrow(/process\.exit/)
     expect(spinner.fail).toHaveBeenCalled()
   })
 
@@ -94,7 +94,7 @@ describe('get_duckui_config', () => {
         JSON.stringify({ rsc: 'not-a-boolean', schema: 'not-a-url' }),
       )
       const spinner = createMockSpinner()
-      await expect(get_duckui_config(tmpDir, spinner as any)).rejects.toThrow('process.exit(1)')
+      await expect(get_duckui_config(tmpDir, spinner)).rejects.toThrow('process.exit(1)')
       expect(spinner.fail).toHaveBeenCalled()
     } finally {
       fs.rmSync(tmpDir, { recursive: true, force: true })
@@ -115,7 +115,7 @@ describe('get_duckui_config', () => {
         }),
       )
       const spinner = createMockSpinner()
-      await expect(get_duckui_config(tmpDir, spinner as any)).rejects.toThrow('process.exit(1)')
+      await expect(get_duckui_config(tmpDir, spinner)).rejects.toThrow('process.exit(1)')
       expect(spinner.fail).toHaveBeenCalledWith(expect.stringContaining('Legacy'))
     } finally {
       fs.rmSync(tmpDir, { recursive: true, force: true })
@@ -136,14 +136,14 @@ describe('get_ts_config', () => {
 
   it('reads valid tsconfig from fixture', async () => {
     const spinner = createMockSpinner()
-    const config = await get_ts_config(FIXTURES_DIR, spinner as any)
+    const config = await get_ts_config(FIXTURES_DIR, spinner)
     expect(config).toBeDefined()
     expect(config).toHaveProperty('compilerOptions')
   })
 
   it('calls process.exit when tsconfig is missing', async () => {
     const spinner = createMockSpinner()
-    await expect(get_ts_config('/tmp/nonexistent-dir-for-test', spinner as any)).rejects.toThrow(/process\.exit/)
+    await expect(get_ts_config('/tmp/nonexistent-dir-for-test', spinner)).rejects.toThrow(/process\.exit/)
     expect(spinner.fail).toHaveBeenCalled()
   })
 })

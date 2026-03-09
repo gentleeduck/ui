@@ -112,9 +112,9 @@ export async function remove_components(
   onProgress?: ProgressCallback,
 ): Promise<ServiceResult<void>> {
   try {
-    for (let i = 0; i < components.length; i++) {
-      onProgress?.(`Removing ${i + 1}/${components.length}: ${components[i].name}`)
-      const result = await remove_component(components[i])
+    for (const [index, component] of components.entries()) {
+      onProgress?.(`Removing ${index + 1}/${components.length}: ${component.name}`)
+      const result = await remove_component(component)
       if (!result.ok) return result
     }
     return { ok: true, data: undefined }
@@ -227,9 +227,8 @@ export async function diff_components(
   try {
     const results: ComponentDiff[] = []
 
-    for (let i = 0; i < components.length; i++) {
-      const comp = components[i]
-      onProgress?.(`Diffing ${i + 1}/${components.length}: ${comp.name}`)
+    for (const [index, comp] of components.entries()) {
+      onProgress?.(`Diffing ${index + 1}/${components.length}: ${comp.name}`)
 
       // Always fetch the full registry entry (the index entry may lack file contents)
       const entry = await get_registry_item(comp.name)

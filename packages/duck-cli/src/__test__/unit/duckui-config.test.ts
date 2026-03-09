@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import type { ThemeResponse } from '~/utils/get-registry/get-registry.dto'
 import {
   default_duckui_config,
   generateThemeCSS,
@@ -78,7 +79,8 @@ describe('default_duckui_config', () => {
 })
 
 describe('generateThemeCSS', () => {
-  const mockCssVars = {
+  const mockCssVars: ThemeResponse = {
+    name: 'zinc',
     light: {
       radius: '0.5rem',
       background: '0 0% 100%',
@@ -93,42 +95,42 @@ describe('generateThemeCSS', () => {
   }
 
   it('generates :root block with light variables', () => {
-    const result = generateThemeCSS('zinc', mockCssVars as any)
+    const result = generateThemeCSS('zinc', mockCssVars)
     expect(result).toContain(':root {')
     expect(result).toContain('--background: 0 0% 100%;')
     expect(result).toContain('--foreground: 240 10% 3.9%;')
   })
 
   it('generates .dark block with dark variables', () => {
-    const result = generateThemeCSS('zinc', mockCssVars as any)
+    const result = generateThemeCSS('zinc', mockCssVars)
     expect(result).toContain('.dark {')
     expect(result).toContain('--background: 240 10% 3.9%;')
   })
 
   it('generates @theme inline block', () => {
-    const result = generateThemeCSS('zinc', mockCssVars as any)
+    const result = generateThemeCSS('zinc', mockCssVars)
     expect(result).toContain('@theme inline {')
     expect(result).toContain('--breakpoint-3xl: 1600px;')
     expect(result).toContain('--radius-sm: calc(var(--radius) - 4px);')
   })
 
   it('uses --color- prefix for oklch values in tailwind vars', () => {
-    const result = generateThemeCSS('zinc', mockCssVars as any)
+    const result = generateThemeCSS('zinc', mockCssVars)
     expect(result).toContain('--color-primary: var(--primary);')
   })
 
   it('uses plain var reference for non-oklch values in tailwind vars', () => {
-    const result = generateThemeCSS('zinc', mockCssVars as any)
+    const result = generateThemeCSS('zinc', mockCssVars)
     expect(result).toContain('--background: var(--background);')
   })
 
   it('includes theme name in comment', () => {
-    const result = generateThemeCSS('zinc', mockCssVars as any)
+    const result = generateThemeCSS('zinc', mockCssVars)
     expect(result).toContain('/* zinc theme */')
   })
 
   it('extracts radius from light vars', () => {
-    const result = generateThemeCSS('zinc', mockCssVars as any)
+    const result = generateThemeCSS('zinc', mockCssVars)
     expect(result).toContain('--radius: 0.5rem;')
     // radius should not appear as a regular CSS variable
     expect(result).not.toContain('--radius: var(--radius);')

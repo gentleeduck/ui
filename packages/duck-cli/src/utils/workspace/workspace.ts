@@ -95,7 +95,7 @@ export function pick_default_workspace(cwd: string, projects: string[]): string 
   if (!projects.length) return null
 
   const with_tsconfig = projects.find((project) => fs.existsSync(path.join(cwd, project, 'tsconfig.json')))
-  return with_tsconfig ?? projects[0]
+  return with_tsconfig ?? projects[0] ?? null
 }
 
 export function resolve_project_cwd(cwd: string, duck_config: DuckUI, workspaceOverride?: string): string {

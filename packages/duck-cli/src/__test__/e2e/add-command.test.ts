@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
+import { execa } from 'execa'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createMockRegistryEntry } from '../helpers/fixtures'
 import { createMockFetch } from '../helpers/mock-fetch'
@@ -72,6 +73,7 @@ describe('add_command_action', () => {
 
     process.cwd = () => tmpDir
     vi.stubGlobal('fetch', createMockFetch())
+    vi.mocked(execa).mockClear()
     // Track exit codes - first call records the intended exit code
     vi.spyOn(process, 'exit').mockImplementation(((code?: number) => {
       exitCodes.push(code ?? 0)
@@ -191,7 +193,7 @@ describe('add_command_action', () => {
     expect(execa).toHaveBeenCalledWith(
       'npm',
       expect.arrayContaining(['install', 'class-variance-authority', 'clsx']),
-      expect.objectContaining({ stdio: 'ignore' }),
+      expect.objectContaining({ cwd: tmpDir, reject: false }),
     )
   })
 

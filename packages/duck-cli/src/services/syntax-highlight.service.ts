@@ -39,7 +39,7 @@ const SHIKI_THEME = 'tokyo-night'
 const DEFAULT_COLOR = '#d4d4d4'
 
 let _highlighter: ShikiHighlighter | null = null
-let _loaded_langs = new Set<string>()
+const _loaded_langs = new Set<string>()
 let _init_promise: Promise<ShikiHighlighter> | null = null
 
 /**
@@ -115,8 +115,8 @@ async function tokenize_code(code: string, lang: string): Promise<SyntaxToken[][
 /** Convert tokenized output into a Map keyed by 1-based line numbers for O(1) lookup. */
 function build_line_token_map(token_lines: SyntaxToken[][]): Map<number, SyntaxToken[]> {
   const map = new Map<number, SyntaxToken[]>()
-  for (let i = 0; i < token_lines.length; i++) {
-    map.set(i + 1, token_lines[i])
+  for (const [index, line] of token_lines.entries()) {
+    map.set(index + 1, line)
   }
   return map
 }

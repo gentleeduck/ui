@@ -3,7 +3,7 @@ import prompts from 'prompts'
 import { launch_merge_gui_and_wait } from '~/gui'
 import { diff_component, resolve_write_type_path, scan_installed_components } from '~/services/component.service'
 import { install_components, install_npm_deps, resolve_install_path } from '~/services/install.service'
-import { build_component_merge_state, write_merge_results } from '~/services/merge.service'
+import { build_component_merge_state } from '~/services/merge.service'
 import { print_banner } from '~/utils/banner'
 import { get_duckui_config, get_ts_config } from '~/utils/get-project-info'
 import { get_registry_item } from '~/utils/get-registry'
@@ -163,7 +163,6 @@ export async function update_command_action(args: string[], opt: UpdateOptions) 
             } else {
               spinner.warn(`Merge aborted for ${highlighter.info(entry.name)}.`)
             }
-            continue
           }
           // action === 'overwrite' -- will be handled by install_components below
         }

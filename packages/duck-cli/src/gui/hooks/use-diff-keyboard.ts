@@ -83,8 +83,9 @@ export function useDiffKeyboard(workflow: DiffWorkflowState, onBack: () => void)
       if (input === 'p') {
         const offsets = hunkOffsetsPerFile[activeFileIndex] ?? []
         const candidates = offsets.filter((o: number) => o < workflow.scrollOffset)
-        if (candidates.length > 0) {
-          setScrollOffset(candidates[candidates.length - 1])
+        const previous = candidates.at(-1)
+        if (previous !== undefined) {
+          setScrollOffset(previous)
         }
         return
       }

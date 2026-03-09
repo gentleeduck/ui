@@ -38,8 +38,10 @@ export function build_merge_hunks(file_path: string, local_content: string, regi
     while (i < lines.length) {
       // Collect context lines before the change
       const context_before: string[] = []
-      while (i < lines.length && lines[i][0] === ' ') {
-        context_before.push(lines[i].substring(1))
+      while (i < lines.length) {
+        const currentLine = lines[i]
+        if (!currentLine || currentLine[0] !== ' ') break
+        context_before.push(currentLine.substring(1))
         current_old_line++
         current_new_line++
         i++
@@ -48,7 +50,7 @@ export function build_merge_hunks(file_path: string, local_content: string, regi
       if (i >= lines.length) break
 
       // Skip "no newline" markers
-      if (lines[i] && lines[i][0] === '\\') {
+      if (lines[i]?.[0] === '\\') {
         i++
         continue
       }
@@ -57,16 +59,20 @@ export function build_merge_hunks(file_path: string, local_content: string, regi
       const local_lines: string[] = []
       const change_old_start = current_old_line
       const change_new_start = current_new_line
-      while (i < lines.length && lines[i][0] === '-') {
-        local_lines.push(lines[i].substring(1))
+      while (i < lines.length) {
+        const currentLine = lines[i]
+        if (!currentLine || currentLine[0] !== '-') break
+        local_lines.push(currentLine.substring(1))
         current_old_line++
         i++
       }
 
       // Collect contiguous added lines (registry)
       const registry_lines: string[] = []
-      while (i < lines.length && lines[i][0] === '+') {
-        registry_lines.push(lines[i].substring(1))
+      while (i < lines.length) {
+        const currentLine = lines[i]
+        if (!currentLine || currentLine[0] !== '+') break
+        registry_lines.push(currentLine.substring(1))
         current_new_line++
         i++
       }
@@ -85,8 +91,10 @@ export function build_merge_hunks(file_path: string, local_content: string, regi
       // Peek ahead for context_after
       const context_after: string[] = []
       let peek = i
-      while (peek < lines.length && lines[peek][0] === ' ' && context_after.length < 3) {
-        context_after.push(lines[peek].substring(1))
+      while (peek < lines.length && context_after.length < 3) {
+        const peekLine = lines[peek]
+        if (!peekLine || peekLine[0] !== ' ') break
+        context_after.push(peekLine.substring(1))
         peek++
       }
 
@@ -146,43 +154,51 @@ function build_hunk_display_lines(
     const added_line_segs = split_segments_by_newline(added_segments)
 
     for (let k = 0; k < local_lines.length; k++) {
+      const localLine = local_lines[k]
+      if (localLine == null) continue
       lines.push({
         type: 'remove',
         old_line_num: old_start + k,
         new_line_num: null,
-        segments: removed_line_segs[k] ?? [{ text: local_lines[k], highlight: false }],
-        raw_text: local_lines[k],
+        segments: removed_line_segs[k] ?? [{ text: localLine, highlight: false }],
+        raw_text: localLine,
       })
     }
     for (let k = 0; k < registry_lines.length; k++) {
+      const registryLine = registry_lines[k]
+      if (registryLine == null) continue
       lines.push({
         type: 'add',
         old_line_num: null,
         new_line_num: new_start + k,
-        segments: added_line_segs[k] ?? [{ text: registry_lines[k], highlight: false }],
-        raw_text: registry_lines[k],
+        segments: added_line_segs[k] ?? [{ text: registryLine, highlight: false }],
+        raw_text: registryLine,
       })
     }
   } else if (local_lines.length > 0) {
     // Pure removal
     for (let k = 0; k < local_lines.length; k++) {
+      const localLine = local_lines[k]
+      if (localLine == null) continue
       lines.push({
         type: 'remove',
         old_line_num: old_start + k,
         new_line_num: null,
-        segments: [{ text: local_lines[k], highlight: false }],
-        raw_text: local_lines[k],
+        segments: [{ text: localLine, highlight: false }],
+        raw_text: localLine,
       })
     }
   } else {
     // Pure addition
     for (let k = 0; k < registry_lines.length; k++) {
+      const registryLine = registry_lines[k]
+      if (registryLine == null) continue
       lines.push({
         type: 'add',
         old_line_num: null,
         new_line_num: new_start + k,
-        segments: [{ text: registry_lines[k], highlight: false }],
-        raw_text: registry_lines[k],
+        segments: [{ text: registryLine, highlight: false }],
+        raw_text: registryLine,
       })
     }
   }
@@ -215,7 +231,10 @@ export function apply_merge_choices(local_content: string, hunks: MergeHunk[]): 
 
     // Copy unchanged lines before this hunk
     while (local_cursor < hunk_start_0) {
-      result.push(local_lines[local_cursor])
+      const localLine = local_lines[local_cursor]
+      if (localLine != null) {
+        result.push(localLine)
+      }
       local_cursor++
     }
 
@@ -250,7 +269,10 @@ export function apply_merge_choices(local_content: string, hunks: MergeHunk[]): 
 
   // Copy remaining lines after the last hunk
   while (local_cursor < local_lines.length) {
-    result.push(local_lines[local_cursor])
+    const localLine = local_lines[local_cursor]
+    if (localLine != null) {
+      result.push(localLine)
+    }
     local_cursor++
   }
 
@@ -281,13 +303,16 @@ export function build_merge_preview_lines(local_content: string, hunks: MergeHun
 
     // Unchanged lines before this hunk
     while (local_cursor < hunk_start_0) {
-      result.push({
-        type: 'context',
-        old_line_num: output_line,
-        new_line_num: output_line,
-        segments: [{ text: local_lines[local_cursor], highlight: false }],
-        raw_text: local_lines[local_cursor],
-      })
+      const localLine = local_lines[local_cursor]
+      if (localLine != null) {
+        result.push({
+          type: 'context',
+          old_line_num: output_line,
+          new_line_num: output_line,
+          segments: [{ text: localLine, highlight: false }],
+          raw_text: localLine,
+        })
+      }
       output_line++
       local_cursor++
     }
@@ -361,13 +386,16 @@ export function build_merge_preview_lines(local_content: string, hunks: MergeHun
 
   // Remaining lines
   while (local_cursor < local_lines.length) {
-    result.push({
-      type: 'context',
-      old_line_num: output_line,
-      new_line_num: output_line,
-      segments: [{ text: local_lines[local_cursor], highlight: false }],
-      raw_text: local_lines[local_cursor],
-    })
+    const localLine = local_lines[local_cursor]
+    if (localLine != null) {
+      result.push({
+        type: 'context',
+        old_line_num: output_line,
+        new_line_num: output_line,
+        segments: [{ text: localLine, highlight: false }],
+        raw_text: localLine,
+      })
+    }
     output_line++
     local_cursor++
   }

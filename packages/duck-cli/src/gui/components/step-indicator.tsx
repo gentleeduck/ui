@@ -1,5 +1,5 @@
 import { Box, Text } from 'ink'
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { THEME } from '../app.constants'
 
 /** Step progress indicator showing [current/total] with a descriptive label. */

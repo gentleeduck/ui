@@ -38,7 +38,7 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
       }
     }
 
-    let parse_config_options
+    let parse_config_options: ReturnType<typeof duckui_prompts_schema.parse>
 
     if (_options.yes) {
       // Use flag values or sensible defaults for non-interactive mode

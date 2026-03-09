@@ -162,16 +162,6 @@ export function useMergeWorkflow(options: {
   }, [step])
 
   // Auto-select from CLI initial args (e.g. `duck-cli merge button`)
-  useEffect(() => {
-    if (initialArgs.length > 0 && installed.length > 0 && step === 'select' && !autoSelected) {
-      const match = installed.find((c) => c.name.toLowerCase() === initialArgs[0].toLowerCase())
-      if (match) {
-        setAutoSelected(true)
-        handleSelect(match.name)
-      }
-    }
-  }, [installed, step, initialArgs, autoSelected])
-
   // Pre-warm syntax highlighter while user resolves hunks,
   // so the summary step renders highlighted code instantly.
   useEffect(() => {
@@ -226,9 +216,13 @@ export function useMergeWorkflow(options: {
       if (!mergeState || !active_file || active_file.status !== 'modified') return
 
       const new_files = [...mergeState.files]
-      const file = { ...new_files[activeFileIndex] }
+      const currentFile = new_files[activeFileIndex]
+      if (!currentFile) return
+      const file = { ...currentFile }
       const new_hunks = [...file.hunks]
-      new_hunks[activeHunkIndex] = { ...new_hunks[activeHunkIndex], choice }
+      const currentHunk = new_hunks[activeHunkIndex]
+      if (!currentHunk) return
+      new_hunks[activeHunkIndex] = { ...currentHunk, choice }
       file.hunks = new_hunks
       file.is_resolved = new_hunks.every((h) => h.choice !== 'pending')
       new_files[activeFileIndex] = file
@@ -244,7 +238,9 @@ export function useMergeWorkflow(options: {
       if (!mergeState || !active_file || active_file.status !== 'deleted') return
 
       const new_files = [...mergeState.files]
-      const file = { ...new_files[activeFileIndex] }
+      const currentFile = new_files[activeFileIndex]
+      if (!currentFile) return
+      const file = { ...currentFile }
       file.file_choice = choice
       file.is_resolved = true
       new_files[activeFileIndex] = file
@@ -261,13 +257,15 @@ export function useMergeWorkflow(options: {
     // Search forward from current position
     for (let fi = activeFileIndex; fi < mergeState.files.length; fi++) {
       const file = mergeState.files[fi]
+      if (!file) continue
       if (file.status === 'deleted' && file.file_choice === 'pending') {
         return { fileIdx: fi, hunkIdx: 0 }
       }
       if (file.status === 'modified') {
         const start_hunk = fi === activeFileIndex ? activeHunkIndex + 1 : 0
         for (let hi = start_hunk; hi < file.hunks.length; hi++) {
-          if (file.hunks[hi].choice === 'pending') {
+          const hunk = file.hunks[hi]
+          if (hunk?.choice === 'pending') {
             return { fileIdx: fi, hunkIdx: hi }
           }
         }
@@ -277,13 +275,15 @@ export function useMergeWorkflow(options: {
     // Wrap around from the beginning
     for (let fi = 0; fi <= activeFileIndex; fi++) {
       const file = mergeState.files[fi]
+      if (!file) continue
       if (file.status === 'deleted' && file.file_choice === 'pending') {
         return { fileIdx: fi, hunkIdx: 0 }
       }
       if (file.status === 'modified') {
         const end_hunk = fi === activeFileIndex ? activeHunkIndex : file.hunks.length
         for (let hi = 0; hi < end_hunk; hi++) {
-          if (file.hunks[hi].choice === 'pending') {
+          const hunk = file.hunks[hi]
+          if (hunk?.choice === 'pending') {
             return { fileIdx: fi, hunkIdx: hi }
           }
         }
@@ -299,10 +299,12 @@ export function useMergeWorkflow(options: {
 
     for (let fi = activeFileIndex; fi >= 0; fi--) {
       const file = mergeState.files[fi]
+      if (!file) continue
       if (file.status === 'modified') {
         const start_hunk = fi === activeFileIndex ? activeHunkIndex - 1 : file.hunks.length - 1
         for (let hi = start_hunk; hi >= 0; hi--) {
-          if (file.hunks[hi].choice === 'pending') {
+          const hunk = file.hunks[hi]
+          if (hunk?.choice === 'pending') {
             return { fileIdx: fi, hunkIdx: hi }
           }
         }
@@ -318,51 +320,66 @@ export function useMergeWorkflow(options: {
   // -- Async action handlers --
 
   /** Diff the selected component and build merge state. */
-  const handleSelect = async (name: string) => {
-    setStep('diffing')
-    const comp = installed.find((c) => c.name === name)
-    if (!comp) {
-      setErrorMessage(`Component "${name}" not found.`)
-      setStep('error')
-      return
-    }
-
-    setRootFolder(comp.root_folder)
-
-    const result = await diffTask.run(async (onProgress) => {
-      onProgress(`Fetching registry version of ${name}...`)
-
-      if (!comp.registry_entry) {
-        const { get_registry_item } = await import('~/utils/get-registry')
-        const entry = await get_registry_item(name)
-        if (!entry) {
-          return { ok: false as const, error: `Component "${name}" not found in registry.` }
-        }
-        comp.registry_entry = entry
-      }
-
-      onProgress('Comparing files...')
-      return diff_component(comp, comp.registry_entry)
-    })
-
-    if (result.ok) {
-      if (result.data.is_identical) {
-        setErrorMessage(`${name}: identical to registry. Nothing to merge.`)
+  const handleSelect = useCallback(
+    async (name: string) => {
+      setStep('diffing')
+      const comp = installed.find((c) => c.name === name)
+      if (!comp) {
+        setErrorMessage(`Component "${name}" not found.`)
         setStep('error')
         return
       }
 
-      const state = build_component_merge_state(result.data, writePath, comp.root_folder)
-      setMergeState(state)
-      setActiveFileIndex(0)
-      setActiveHunkIndex(0)
-      setScrollOffset(0)
-      setStep('resolving')
-    } else {
-      setErrorMessage(result.error)
-      setStep('error')
+      setRootFolder(comp.root_folder)
+
+      const result = await diffTask.run(async (onProgress) => {
+        onProgress(`Fetching registry version of ${name}...`)
+
+        if (!comp.registry_entry) {
+          const { get_registry_item } = await import('~/utils/get-registry')
+          const entry = await get_registry_item(name)
+          if (!entry) {
+            return { ok: false as const, error: `Component "${name}" not found in registry.` }
+          }
+          comp.registry_entry = entry
+        }
+
+        onProgress('Comparing files...')
+        return diff_component(comp, comp.registry_entry)
+      })
+
+      if (result.ok) {
+        if (result.data.is_identical) {
+          setErrorMessage(`${name}: identical to registry. Nothing to merge.`)
+          setStep('error')
+          return
+        }
+
+        const state = build_component_merge_state(result.data, writePath, comp.root_folder)
+        setMergeState(state)
+        setActiveFileIndex(0)
+        setActiveHunkIndex(0)
+        setScrollOffset(0)
+        setStep('resolving')
+      } else {
+        setErrorMessage(result.error)
+        setStep('error')
+      }
+    },
+    [diffTask, installed, writePath],
+  )
+
+  // Auto-select from CLI initial args (e.g. `duck-cli merge button`)
+  useEffect(() => {
+    const initialArg = initialArgs[0]
+    if (initialArg && installed.length > 0 && step === 'select' && !autoSelected) {
+      const match = installed.find((c) => c.name.toLowerCase() === initialArg.toLowerCase())
+      if (match) {
+        setAutoSelected(true)
+        void handleSelect(match.name)
+      }
     }
-  }
+  }, [autoSelected, handleSelect, initialArgs, installed, step])
 
   /** Write resolved merge results to disk. */
   const handleWrite = async () => {

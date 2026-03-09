@@ -1,8 +1,9 @@
 import { Box, Text } from 'ink'
-import React, { memo } from 'react'
+import { memo } from 'react'
 import { THEME } from '../app.constants'
 import type { DiffDisplayLine } from '../screens/diff-screen.types'
 import { get_conflict_marker_color } from './conflict-markers'
+import { get_renderable_diff_segments } from './diff-line.libs'
 
 type DiffLineProps = {
   line: DiffDisplayLine
@@ -48,6 +49,7 @@ export const DiffLineView = memo(function DiffLineView({ line, num_width, single
 
   const base_color =
     line.type === 'add' ? THEME.success : line.type === 'remove' ? THEME.destructive : THEME.mutedForeground
+  const renderable_segments = get_renderable_diff_segments(line.segments)
 
   if (single_num) {
     const num = line.new_line_num ?? line.old_line_num
@@ -57,11 +59,11 @@ export const DiffLineView = memo(function DiffLineView({ line, num_width, single
       <Box>
         <Text color={THEME.mutedForeground}>{num_str} </Text>
         <Text color={base_color}>{prefix} </Text>
-        {line.segments.map((seg, i) => {
+        {renderable_segments.map((seg) => {
           if (seg.highlight) {
             return (
               <Text
-                key={i}
+                key={seg.key}
                 color={line.type === 'remove' ? 'white' : 'black'}
                 backgroundColor={line.type === 'add' ? 'green' : line.type === 'remove' ? 'red' : undefined}>
                 {seg.text}
@@ -70,7 +72,7 @@ export const DiffLineView = memo(function DiffLineView({ line, num_width, single
           }
 
           return (
-            <Text key={i} color={seg.color ?? base_color}>
+            <Text key={seg.key} color={seg.color ?? base_color}>
               {seg.text}
             </Text>
           )
@@ -88,11 +90,11 @@ export const DiffLineView = memo(function DiffLineView({ line, num_width, single
         {old_num} {new_num}{' '}
       </Text>
       <Text color={base_color}>{prefix} </Text>
-      {line.segments.map((seg, i) => {
+      {renderable_segments.map((seg) => {
         if (seg.highlight) {
           return (
             <Text
-              key={i}
+              key={seg.key}
               color={line.type === 'remove' ? 'white' : 'black'}
               backgroundColor={line.type === 'add' ? 'green' : line.type === 'remove' ? 'red' : undefined}>
               {seg.text}
@@ -101,7 +103,7 @@ export const DiffLineView = memo(function DiffLineView({ line, num_width, single
         }
 
         return (
-          <Text key={i} color={seg.color ?? base_color}>
+          <Text key={seg.key} color={seg.color ?? base_color}>
             {seg.text}
           </Text>
         )

@@ -26,9 +26,9 @@ export async function fetch_components(
   onProgress: ProgressCallback,
 ): Promise<ServiceResult<RegistryEntry[]>> {
   const results: RegistryEntry[] = []
-  for (let i = 0; i < names.length; i++) {
-    onProgress(`Fetching component ${i + 1}/${names.length}: ${names[i]}`)
-    const item = await get_registry_item(names[i])
+  for (const [index, name] of names.entries()) {
+    onProgress(`Fetching component ${index + 1}/${names.length}: ${name}`)
+    const item = await get_registry_item(name)
     if (item) results.push(item)
   }
   if (results.length === 0) {

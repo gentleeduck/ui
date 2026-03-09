@@ -1,5 +1,5 @@
 import path from 'node:path'
-import { useContext, useEffect, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 import {
   type ComponentDiff,
   diff_component,
@@ -68,7 +68,7 @@ export type DiffWorkflowState = {
  * The diff screen follows a multi-step state machine:
  *   loading -> select -> diffing -> results | error
  */
-export function useDiffWorkflow(options: { onBack: () => void }): DiffWorkflowState {
+export function useDiffWorkflow(_options: { onBack: () => void }): DiffWorkflowState {
   const [step, setStep] = useState<Step>('loading')
   const [installed, setInstalled] = useState<InstalledComponent[]>([])
   const [diffResult, setDiffResult] = useState<ComponentDiff | null>(null)
@@ -136,91 +136,95 @@ export function useDiffWorkflow(options: { onBack: () => void }): DiffWorkflowSt
   }, [])
 
   // Auto-select component from CLI initial args
-  useEffect(() => {
-    if (initialArgs.length > 0 && installed.length > 0 && step === 'select' && !autoSelected) {
-      const match = installed.find((c) => c.name.toLowerCase() === initialArgs[0].toLowerCase())
-      if (match) {
-        setAutoSelected(true)
-        handleSelect(match.name)
-      }
-    }
-  }, [installed, step, initialArgs, autoSelected])
-
   /** Diff the selected component against the registry. */
-  const handleSelect = async (name: string) => {
-    setStep('diffing')
-    const comp = installed.find((c) => c.name === name)
-    if (!comp) {
-      setErrorMessage(`Component "${name}" not found.`)
-      setStep('error')
-      return
-    }
-
-    const result = await diffTask.run(async (onProgress) => {
-      onProgress(`Fetching registry version of ${name}...`)
-
-      if (!comp.registry_entry) {
-        const { get_registry_item } = await import('~/utils/get-registry')
-        const entry = await get_registry_item(name)
-        if (!entry) {
-          return { ok: false as const, error: `Component "${name}" not found in registry.` }
-        }
-        comp.registry_entry = entry
+  const handleSelect = useCallback(
+    async (name: string) => {
+      setStep('diffing')
+      const comp = installed.find((c) => c.name === name)
+      if (!comp) {
+        setErrorMessage(`Component "${name}" not found.`)
+        setStep('error')
+        return
       }
 
-      onProgress('Comparing files...')
-      return diff_component(comp, comp.registry_entry)
-    })
+      const result = await diffTask.run(async (onProgress) => {
+        onProgress(`Fetching registry version of ${name}...`)
 
-    if (result.ok) {
-      setDiffResult(result.data)
+        if (!comp.registry_entry) {
+          const { get_registry_item } = await import('~/utils/get-registry')
+          const entry = await get_registry_item(name)
+          if (!entry) {
+            return { ok: false as const, error: `Component "${name}" not found in registry.` }
+          }
+          comp.registry_entry = entry
+        }
 
-      if (result.data.is_identical) {
-        // Show a simple "identical" message as a file-header line
-        const identical_lines: DiffDisplayLine[] = [
-          {
+        onProgress('Comparing files...')
+        return diff_component(comp, comp.registry_entry)
+      })
+
+      if (result.ok) {
+        setDiffResult(result.data)
+
+        if (result.data.is_identical) {
+          // Show a simple "identical" message as a file-header line
+          const identical_line: DiffDisplayLine = {
             type: 'file-header',
             old_line_num: null,
             new_line_num: null,
             segments: [{ text: `${name}: identical to registry`, highlight: false }],
             raw_text: `${name}: identical to registry`,
-          },
-        ]
-        setDisplayLinesPerFile([identical_lines])
-        setSideBySidePairsPerFile([[{ left: identical_lines[0], right: identical_lines[0] }]])
-        setHunkOffsetsPerFile([[]])
-        setNumWidth(3)
-      } else {
-        // Build display lines, side-by-side pairs, and hunk offsets per file
-        const all_display_lines: DiffDisplayLine[][] = []
-        const all_sbs_pairs: SideBySidePair[][] = []
-        const all_hunk_offsets: number[][] = []
-        let max_num = 0
+          }
+          const identical_lines: DiffDisplayLine[] = [identical_line]
+          setDisplayLinesPerFile([identical_lines])
+          setSideBySidePairsPerFile([[{ left: identical_line, right: identical_line }]])
+          setHunkOffsetsPerFile([[]])
+          setNumWidth(3)
+        } else {
+          // Build display lines, side-by-side pairs, and hunk offsets per file
+          const all_display_lines: DiffDisplayLine[][] = []
+          const all_sbs_pairs: SideBySidePair[][] = []
+          const all_hunk_offsets: number[][] = []
+          let max_num = 0
 
-        for (const fd of result.data.diffs) {
-          const lines = build_display_lines(fd.file_path, fd.local_content, fd.registry_content)
-          const file_max = get_max_line_number(lines)
-          if (file_max > max_num) max_num = file_max
+          for (const fd of result.data.diffs) {
+            const lines = build_display_lines(fd.file_path, fd.local_content, fd.registry_content)
+            const file_max = get_max_line_number(lines)
+            if (file_max > max_num) max_num = file_max
 
-          all_display_lines.push(lines)
-          all_sbs_pairs.push(build_side_by_side_pairs(lines))
-          all_hunk_offsets.push(get_hunk_offsets(lines))
+            all_display_lines.push(lines)
+            all_sbs_pairs.push(build_side_by_side_pairs(lines))
+            all_hunk_offsets.push(get_hunk_offsets(lines))
+          }
+
+          setDisplayLinesPerFile(all_display_lines)
+          setSideBySidePairsPerFile(all_sbs_pairs)
+          setHunkOffsetsPerFile(all_hunk_offsets)
+          setNumWidth(Math.max(String(max_num).length, 3))
         }
 
-        setDisplayLinesPerFile(all_display_lines)
-        setSideBySidePairsPerFile(all_sbs_pairs)
-        setHunkOffsetsPerFile(all_hunk_offsets)
-        setNumWidth(Math.max(String(max_num).length, 3))
+        setActiveFileIndex(0)
+        setScrollOffset(0)
+        setStep('results')
+      } else {
+        setErrorMessage(result.error)
+        setStep('error')
       }
+    },
+    [diffTask, installed],
+  )
 
-      setActiveFileIndex(0)
-      setScrollOffset(0)
-      setStep('results')
-    } else {
-      setErrorMessage(result.error)
-      setStep('error')
+  // Auto-select component from CLI initial args
+  useEffect(() => {
+    const initialArg = initialArgs[0]
+    if (initialArg && installed.length > 0 && step === 'select' && !autoSelected) {
+      const match = installed.find((c) => c.name.toLowerCase() === initialArg.toLowerCase())
+      if (match) {
+        setAutoSelected(true)
+        void handleSelect(match.name)
+      }
     }
-  }
+  }, [autoSelected, handleSelect, initialArgs, installed, step])
 
   return {
     step,

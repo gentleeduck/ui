@@ -54,9 +54,8 @@ export async function install_components(
     const duckui_write_path = duck_config.aliases.ui.split('/').slice(1).join('/')
     const write_type_path = path.resolve(`${write_path}/${duckui_write_path}`)
 
-    for (let idx = 0; idx < components.length; idx++) {
-      const component = components[idx]
-      onProgress?.(`Installing component ${idx + 1}/${components.length}: ${component.name}`)
+    for (const [index, component] of components.entries()) {
+      onProgress?.(`Installing component ${index + 1}/${components.length}: ${component.name}`)
 
       allDeps.push(...(component.dependencies ?? []))
       allDevDeps.push(...(component.devDependencies ?? []))
@@ -76,7 +75,9 @@ export async function install_components(
     // and install them until no new dependencies are discovered.
     const visited = new Set(components.map((c) => c.name.toLowerCase()))
     const pendingDeps = new Set(registryDeps.map((d) => d.toLowerCase()))
-    pendingDeps.forEach((d) => visited.add(d))
+    for (const dependency of pendingDeps) {
+      visited.add(dependency)
+    }
 
     while (pendingDeps.size > 0) {
       const batch = Array.from(pendingDeps)

@@ -1,5 +1,5 @@
 import { Box, render, useApp } from 'ink'
-import React, { createContext, useCallback, useMemo } from 'react'
+import { createContext, useCallback, useMemo } from 'react'
 import type { ComponentMergeState, MergeResult } from '~/utils/merge'
 import { THEME } from './app.constants'
 import type { AppProps, GuiLaunchOptions } from './app.types'

@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
+import type { ThemeResponse } from '~/utils/get-registry/get-registry.dto'
 import { createMockSpinner } from '../helpers/mock-spinner'
 
 describe('init_duckui_config', () => {
@@ -21,7 +22,7 @@ describe('init_duckui_config', () => {
 
     await init_duckui_config(
       tmpDir,
-      spinner as any,
+      spinner,
       {
         project_type: 'NEXT_JS',
         monorepo: false,
@@ -50,7 +51,7 @@ describe('init_duckui_config', () => {
 
     await init_duckui_config(
       tmpDir,
-      spinner as any,
+      spinner,
       {
         project_type: 'VITE',
         monorepo: false,
@@ -74,7 +75,7 @@ describe('generateThemeCSS with real theme structure', () => {
   it('produces correct CSS from a full theme object', async () => {
     const { generateThemeCSS } = await import('~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs')
 
-    const themeResponse = {
+    const themeResponse: ThemeResponse = {
       name: 'zinc',
       label: 'Zinc',
       light: {
@@ -90,7 +91,7 @@ describe('generateThemeCSS with real theme structure', () => {
       radius: '0.625rem',
     }
 
-    const css = generateThemeCSS('zinc', themeResponse as any)
+    const css = generateThemeCSS('zinc', themeResponse)
 
     // Check structure
     expect(css).toContain(':root {')
