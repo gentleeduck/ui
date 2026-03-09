@@ -57,7 +57,7 @@ export async function main() {
   }
 
   // 5- assemble and write the index.tsx
-  const tsx_content = tsx_header + imports + '\nexport const Index: Record<string, any> = {' + entries + '\n}'
+  const tsx_content = `${tsx_header + imports}\nexport const Index: Record<string, any> = {${entries}\n}`
   await write_index_tsx({ spinner, tsx_content })
 
   // 6- build registry colors

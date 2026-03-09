@@ -40,7 +40,8 @@
   "scripts": {
     "start": "bun ./index.ts",
     "dev": "bun --watch ./index.ts",
-    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
+    "test": "bun test"
   },
   "type": "module",
   "version": "0.1.0"
