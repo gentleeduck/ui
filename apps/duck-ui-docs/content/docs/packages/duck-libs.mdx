@@ -26,20 +26,25 @@ npm install @gentleduck/libs
     A --> C[Object Utils]
     A --> D[Array Utils]
     A --> E[Date Utils]
-    B --> F[cn]
-    C --> G[filtered-object]
-    D --> H[group-array]
-    D --> I[group-data-by-numbers]
-    E --> J[parse-date]
+    A --> F[String Utils]
+    B --> G[cn]
+    C --> H[filtered-object]
+    D --> I[group-array]
+    D --> J[group-data-by-numbers]
+    E --> K[parse-date]
+    E --> L[getTodayDate]
+    F --> M[generateArabicSlug]
 `} />
 
 ## Available Utilities
 
 * `cn` - Utility for conditional className merging.
-* `filtered-object` - Create a new object with only selected keys or values.
-* `group-array` - Group array items by a given key or function.
-* `group-data-by-numbers` - Group numbers into ranges or buckets.
+* `filtered-object` - Create a new object by excluding specified keys.
+* `group-array` - Split an array into sub-arrays by numeric group sizes.
+* `group-data-by-numbers` - Group array elements into sub-arrays by specified chunk sizes.
 * `parse-date` - Parse strings or values into valid Date objects.
+* `generateArabicSlug` - Convert text to URL slugs preserving Arabic characters.
+* `getTodayDate` - Return today's date as a YYYY-MM-DD string.
 * `index.ts` - Barrel file that re-exports utilities.
 
 ## Usage
