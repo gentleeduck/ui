@@ -61,7 +61,9 @@ export const METADATA: Metadata = {
     'UI toolkit for developers',
   ],
   manifest: `${siteConfig.url}/site.webmanifest`,
-  metadataBase: new URL(siteConfig.url.startsWith('http') ? siteConfig.url : `https://${process.env.VERCEL_URL ?? 'localhost:3000'}`),
+  metadataBase: new URL(
+    siteConfig.url.startsWith('http') ? siteConfig.url : `https://${process.env.VERCEL_URL ?? 'localhost:3000'}`,
+  ),
   openGraph: {
     description: siteConfig.description,
     images: [
