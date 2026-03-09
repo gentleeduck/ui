@@ -7,6 +7,7 @@
     "@biomejs/biome": "2.4.6",
     "@changesets/cli": "^2.30.0",
     "husky": "^9.1.7",
+    "sherif": "1.10.0",
     "turbo": "^2.8.14",
     "typescript": "5.9.3",
     "vercel": "^50.28.0"
@@ -35,21 +36,21 @@
   "scripts": {
     "dev": "turbo run dev",
     "build": "turbo run build",
-    "test": "turbo test",
+    "test": "turbo run test",
     "check": "biome check .",
     "lint": "biome lint .",
     "format": "biome format --write .",
     "fix": "biome check --write .",
     "changeset": "changeset",
     "version-packages": "changeset version",
-    "ci": "bun run lint && bun run format && bun run build",
+    "ci": "bun run check && bun run lint:ws && bun run check-types && bun run test && bun run build",
     "release": "bun run ci && changeset publish",
     "clean": "rimraf dist .cache .turbo node_modules .next .velite",
     "clean:git": "git clean -xdf .cache .turbo node_modules dist",
-    "lint:ws": "bunx sherif@latest",
+    "lint:ws": "sherif",
     "postinstall": "bun run lint:ws",
     "prepare": "husky",
-    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
+    "check-types": "turbo run check-types"
   },
   "overrides": {
     "react": "^19.2.4",
@@ -60,11 +61,13 @@
       "apps/*",
       "packages/*",
       "tooling/*",
-      "!./apps/benchmark/"
+      "!./apps/benchmark/",
+      "!./packages/_oldstuff_refactor/",
+      "!./packages/duck-emoji/"
     ],
     "catalog": {
       "next": "^16.1.1",
-      "lucide-react": "0.562.0",
+      "lucide-react": "0.576.0",
       "@changesets/cli": "^2.29.8",
       "@tabler/icons-react": "3.36.0",
       "@tanstack/react-query": "^5.90.15",
