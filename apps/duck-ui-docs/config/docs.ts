@@ -456,11 +456,6 @@ export const docsConfig: DocsConfig = {
                   title: 'Checkers',
                 },
                 {
-                  href: '/docs/packages/duck-primitives/api/drawer',
-                  items: [],
-                  title: 'Drawer',
-                },
-                {
                   href: '/docs/packages/duck-primitives/api/popover',
                   items: [],
                   title: 'Popover',
@@ -579,11 +574,6 @@ export const docsConfig: DocsConfig = {
                   href: '/docs/packages/duck-primitives/api/direction',
                   items: [],
                   title: 'Direction',
-                },
-                {
-                  href: '/docs/packages/duck-primitives/api/layer',
-                  items: [],
-                  title: 'Layer',
                 },
                 {
                   href: '/docs/packages/duck-primitives/api/primitive-elements',
