@@ -4,7 +4,7 @@
     "node": ">=22.0.0"
   },
   "author": "gentleduck contributors",
-  "description": "A lightweight React component for easily binding and handling keyboard shortcuts in your React applications.",
+  "description": "[DEPRECATED: use @gentleduck/vim instead] A lightweight React component for easily binding and handling keyboard shortcuts in your React applications.",
   "devDependencies": {
     "@gentleduck/typescript-config": "workspace:*",
     "@types/mousetrap": "^1.6.15",
@@ -13,7 +13,8 @@
     "@types/react-dom": "19.2.3",
     "esbuild": "^0.25.10",
     "tsdown": "catalog:",
-    "vite": "npm:rolldown-vite@^7.3.0"
+    "vite": "npm:rolldown-vite@^7.3.0",
+    "vitest": "catalog:"
   },
   "files": [
     "dist"
@@ -65,7 +66,7 @@
   "scripts": {
     "build": "tsdown",
     "dev": "vite",
-    "test": "vitest run",
+    "test": "vitest run --passWithNoTests",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },
   "type": "module",

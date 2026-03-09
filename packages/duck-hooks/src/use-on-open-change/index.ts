@@ -25,7 +25,7 @@ export function useOnOpenChange<const T extends React.RefObject<HTMLElement | nu
         onOpenChange?.(false)
       }
     },
-    [onOpenChange],
+    [onOpenChange, ref.current],
   )
 
   React.useEffect(() => {
@@ -39,7 +39,7 @@ export function useOnOpenChange<const T extends React.RefObject<HTMLElement | nu
     } else if (openProp === false) {
       handleOpenChange(false)
     }
-  }, [handleOpenChange, open, openProp])
+  }, [handleOpenChange, open, openProp, ref.current])
 
   return {
     onOpenChange: handleOpenChange,

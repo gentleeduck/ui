@@ -3,7 +3,15 @@
     "outDir": "./dist",
     "paths": {}
   },
-  "exclude": ["node_modules", "dist", "**/*.tsbuildinfo", "tsconfig.tsbuildinfo"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/**/__test__/**",
+    "**/*.test.ts",
+    "**/*.test.tsx",
+    "**/*.tsbuildinfo",
+    "tsconfig.tsbuildinfo"
+  ],
   "extends": "@gentleduck/typescript-config/internal-package.json",
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }

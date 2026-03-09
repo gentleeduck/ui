@@ -49,7 +49,7 @@ export const KeyProvider: React.FC<KeyProviderProps> = ({
     const sequenceManager = new SequenceManager()
 
     return { registry, handler, sequenceManager, timeoutMs, defaultOptions }
-  }, [debug, timeoutMs])
+  }, [debug, timeoutMs, defaultOptions])
 
   React.useEffect(() => {
     value.handler.attach()

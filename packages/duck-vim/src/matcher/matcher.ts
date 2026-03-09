@@ -3,7 +3,7 @@ import type { ParsedKeyBind } from '../parser/parser.types'
 import type { KeyBindHandlerConfig, MatchOptions } from './matcher.types'
 
 /** Tag names that are considered input elements for ignoreInputs */
-const INPUT_TAGS = new Set(['INPUT', 'TEXTAREA', 'SELECT'])
+const _INPUT_TAGS = new Set(['INPUT', 'TEXTAREA', 'SELECT'])
 
 /** Input types that are considered button-like (not text entry) */
 const BUTTON_INPUT_TYPES = new Set(['button', 'submit', 'reset'])

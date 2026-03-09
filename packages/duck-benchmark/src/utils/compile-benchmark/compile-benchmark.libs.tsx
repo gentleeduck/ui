@@ -27,10 +27,10 @@ function formatUnknownError(error: unknown) {
 }
 
 function formatExecaError(error: unknown) {
-  const anyError = error as any
+  const execaError = error as { shortMessage?: unknown; stderr?: unknown }
 
-  const shortMessage = typeof anyError?.shortMessage === 'string' ? anyError.shortMessage : ''
-  const stderr = typeof anyError?.stderr === 'string' ? anyError.stderr.trim() : ''
+  const shortMessage = typeof execaError?.shortMessage === 'string' ? execaError.shortMessage : ''
+  const stderr = typeof execaError?.stderr === 'string' ? execaError.stderr.trim() : ''
   const message = formatUnknownError(error)
 
   return [shortMessage, stderr, message].filter(Boolean).join('\n')

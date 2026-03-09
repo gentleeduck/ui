@@ -78,6 +78,7 @@ export function useKeyBind(binding: string, handler: () => void, options?: KeyBi
     options?.preventDefault,
     options?.stopPropagation,
     options?.ignoreInputs,
+    options,
   ])
 }
 
@@ -131,7 +132,7 @@ export function useKeySequence(steps: string[], handler: () => void, options?: S
       target.removeEventListener('keydown', listener)
       manager.destroy()
     }
-  }, [steps.join('+'), ctx, options?.timeout, options?.enabled])
+  }, [ctx, options?.timeout, options?.enabled, steps.map, options])
 }
 
 /**
