@@ -314,11 +314,6 @@ export const docsConfig: DocsConfig = {
               ],
               title: 'Course',
             },
-            {
-              href: '/docs/packages/duck-registry-build/migration',
-              items: [],
-              title: 'Migration',
-            },
           ],
           title: 'Gentleduck Registry Build',
         },
