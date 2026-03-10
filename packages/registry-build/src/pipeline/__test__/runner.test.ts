@@ -52,7 +52,7 @@ export const Button = () => helper()
     'utf8',
   )
 
-  const packageSourceUrl = pathToFileURL(path.resolve(process.cwd(), 'src/index.ts')).href
+  const packageSourceUrl = pathToFileURL(path.resolve(import.meta.dir, '../../index.ts')).href
 
   await fs.writeFile(
     path.join(tempDir, 'registry-build.config.ts'),
