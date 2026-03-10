@@ -36,6 +36,8 @@ The built-in extensions are mostly UI/docs-oriented helpers. They are useful, bu
 | --- | --- | --- |
 | `bannerExtension()` | `beforeBuild` | Print a compact build banner |
 | `validateExtension()` | `beforeBuild` | Validate source paths and registry entries |
+| `indexBuildExtension()` | `afterBuild` | Materialize registry entries and write `index.json` |
+| `componentsExtension()` | `afterBuild` | Generate per-item JSON component payloads |
 | `componentIndexExtension()` | `afterBuild` | Generate framework-specific import index files |
 | `colorsExtension()` | `afterBuild` | Generate colors, themes, and CSS artifacts |
 
@@ -44,7 +46,9 @@ import {
   bannerExtension,
   colorsExtension,
   componentIndexExtension,
+  componentsExtension,
   defineConfig,
+  indexBuildExtension,
   validateExtension,
 } from '@gentleduck/registry-build'
 
@@ -52,6 +56,8 @@ export default defineConfig({
   extensions: [
     bannerExtension({ name: 'Duck UI' }),
     validateExtension(),
+    indexBuildExtension(),
+    componentsExtension(),
     componentIndexExtension({
       framework: 'nextjs',
       excludeTypes: ['registry:ui', 'registry:hook'],

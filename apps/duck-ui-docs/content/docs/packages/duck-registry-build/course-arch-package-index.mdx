@@ -110,10 +110,6 @@ export default defineConfig({
   output: {
     dir: './dist',
   },
-  pipeline: {
-    components: false,
-    index: false,
-  },
 })
 ```
 
@@ -122,7 +118,7 @@ Why this shape works:
 - `collections.packages.data` is your package dataset
 - `collections.packages.metadata` holds repo ordering
 - `collections.packages.sources` gives the extension a named source tree
-- `pipeline.index` and `pipeline.components` are disabled because this build does not need the UI-oriented core outputs
+- The runner is entirely extension-driven — only the extensions you register will run
 
 ---
 

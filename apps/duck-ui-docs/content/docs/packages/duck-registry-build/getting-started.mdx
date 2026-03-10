@@ -45,10 +45,6 @@ export default defineConfig({
   output: {
     dir: './dist',
   },
-  pipeline: {
-    components: false,
-    index: false,
-  },
   extensions: [
     archRepositoryExtension({
       collection: 'packages',
@@ -99,7 +95,7 @@ For the example above, you will get something like:
     search.json
 ```
 
-If you enable the core UI-oriented phases or extensions, you can still get outputs such as `public/r/index.json`, per-item JSON files, or `__ui_registry__/index.tsx`.
+If you use `uiRegistryPreset()` or the individual UI extensions (`indexBuildExtension()`, `componentsExtension()`, `componentIndexExtension()`, `colorsExtension()`), you can also get outputs such as `public/r/index.json`, per-item JSON files, `__ui_registry__/index.tsx`, and theme/color artifacts.
 
 ---
 
@@ -119,9 +115,9 @@ Paths were resolved relative to the config file, not the current working directo
 
 The context now carries resolved collections, output paths, cache helpers, output registration, and extension APIs.
 
-<Step>The core phases ran only if you left them enabled</Step>
+<Step>Extensions ran in order</Step>
 
-In this example they are disabled because the custom extension owns the outputs. In a UI registry build, the core can still generate `index.json` and per-item JSON payloads.
+In this example only the custom extension runs. For a UI registry build, use `uiRegistryPreset()` to include the standard index-build, components, colors, and component-index extensions.
 
 <Step>Extensions added optional outputs</Step>
 
