@@ -100,6 +100,8 @@ const SliderThumbImpl = React.forwardRef<SliderThumbImplElement, SliderThumbImpl
   },
 )
 
+SliderThumbImpl.displayName = 'SliderThumbImpl'
+
 SliderThumb.displayName = THUMB_NAME
 
 export { SliderThumb }

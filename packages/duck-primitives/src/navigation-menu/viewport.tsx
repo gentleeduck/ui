@@ -103,5 +103,7 @@ const NavigationMenuViewportImpl = React.forwardRef<NavigationMenuViewportImplEl
   },
 )
 
+NavigationMenuViewportImpl.displayName = 'NavigationMenuViewportImpl'
+
 export { NavigationMenuViewport }
 export type { NavigationMenuViewportProps }

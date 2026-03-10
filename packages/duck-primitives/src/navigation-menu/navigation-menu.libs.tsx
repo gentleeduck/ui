@@ -129,6 +129,8 @@ const FocusGroup = React.forwardRef<FocusGroupElement, FocusGroupProps>(
   },
 )
 
+FocusGroup.displayName = FOCUS_GROUP_NAME
+
 /* ----- FocusGroupItem (internal component) ----- */
 
 const FOCUS_GROUP_ITEM_NAME = 'FocusGroupItem'
@@ -174,6 +176,7 @@ const FocusGroupItem = React.forwardRef<FocusGroupItemElement, FocusGroupItemPro
     )
   },
 )
+FocusGroupItem.displayName = FOCUS_GROUP_ITEM_NAME
 
 export {
   ROOT_CONTENT_DISMISS,

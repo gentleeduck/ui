@@ -292,6 +292,8 @@ const SliderHorizontal = React.forwardRef<SliderHorizontalElement, SliderHorizon
   },
 )
 
+SliderHorizontal.displayName = 'SliderHorizontal'
+
 type SliderVerticalElement = SliderImplElement
 interface SliderVerticalProps extends SliderOrientationProps {}
 
@@ -351,6 +353,8 @@ const SliderVertical = React.forwardRef<SliderVerticalElement, SliderVerticalPro
     )
   },
 )
+
+SliderVertical.displayName = 'SliderVertical'
 
 type SliderImplElement = React.ComponentRef<typeof Primitive.span>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
@@ -420,6 +424,8 @@ const SliderImpl = React.forwardRef<SliderImplElement, SliderImplProps>(
     )
   },
 )
+
+SliderImpl.displayName = 'SliderImpl'
 
 export { Collection, useCollection, createSliderScope, useSliderContext, useSliderOrientationContext, Slider }
 export type { ScopedProps, SliderThumbElement, PrimitiveSpanProps, SliderProps }
