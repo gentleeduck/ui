@@ -197,6 +197,13 @@ export function mergeRegistryBuildConfigs<
             ...nextConfig.output,
           }
         : undefined,
+    performance:
+      baseConfig.performance || nextConfig.performance
+        ? {
+            ...baseConfig.performance,
+            ...nextConfig.performance,
+          }
+        : undefined,
     pipeline:
       baseConfig.pipeline || nextConfig.pipeline
         ? {

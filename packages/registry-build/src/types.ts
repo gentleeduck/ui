@@ -112,6 +112,12 @@ export interface RegistryBuildPipelineConfig {
   index?: boolean
 }
 
+export interface RegistryBuildPerformanceConfig {
+  cacheDir?: string
+  incremental?: boolean
+  parallelism?: number
+}
+
 export interface RegistryBuildBranding {
   font?: string
   name?: string
@@ -130,6 +136,7 @@ export interface RegistryBuildConfig<TType extends RegistryItemType = RegistryIt
   extensions?: RegistryBuildExtension[]
   importMappings?: RegistryBuildImportMappings<TType>
   output?: RegistryBuildOutput
+  performance?: RegistryBuildPerformanceConfig
   pipeline?: RegistryBuildPipelineConfig
   registries?: Record<string, RegistryEntry<TType>[]>
   registrySource?: 'inline' | string
@@ -189,6 +196,12 @@ export interface ResolvedRegistryBuildPipelineConfig extends RegistryBuildPipeli
   index: boolean
 }
 
+export interface ResolvedRegistryBuildPerformanceConfig extends RegistryBuildPerformanceConfig {
+  cacheDir: string
+  incremental: boolean
+  parallelism: number
+}
+
 export interface ResolvedRegistryBuildBranding extends RegistryBuildBranding {
   font: string
   name: string
@@ -209,6 +222,7 @@ export interface ResolvedRegistryBuildConfig<TType extends RegistryItemType = Re
     | 'extends'
     | 'importMappings'
     | 'output'
+    | 'performance'
     | 'pipeline'
     | 'schema'
     | 'sources'
@@ -222,6 +236,7 @@ export interface ResolvedRegistryBuildConfig<TType extends RegistryItemType = Re
   extensions: RegistryBuildExtension[]
   importMappings: ResolvedRegistryBuildImportMappings<TType>
   output: ResolvedRegistryBuildOutput
+  performance: ResolvedRegistryBuildPerformanceConfig
   pipeline: ResolvedRegistryBuildPipelineConfig
   registries: Record<string, RegistryEntry<TType>[]>
   registrySource: 'inline' | string

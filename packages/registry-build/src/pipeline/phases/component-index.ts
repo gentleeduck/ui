@@ -1,7 +1,7 @@
-import fs from 'node:fs/promises'
-import path from 'node:path'
 import { getComponentIndexAdapter } from '../../adapters'
 import { DEFAULT_COMPONENT_INDEX_HEADER } from '../../config'
+import { pathExists, writeFileIfChanged } from '../../lib/fs'
+import { hashValue } from '../../lib/hash'
 import { normalizeSlashes } from '../../lib/path'
 import type {
   RegistryBuildComponentIndex,
@@ -13,6 +13,11 @@ import type { IndexedRegistryEntry, RegistryBuildContext, RegistryBuildPhaseResu
 export interface RegistryBuildComponentIndexPhaseOptions<TType extends RegistryItemType = RegistryItemType>
   extends RegistryBuildComponentIndex<TType> {
   packageMappings?: RegistryItemTypeMap<string, TType>
+}
+
+interface RegistryBuildComponentIndexCacheState {
+  outputFiles: string[]
+  signature: string
 }
 
 function toIdentifier(name: string) {
@@ -73,6 +78,7 @@ export async function runComponentIndexPhase(
   context: RegistryBuildContext,
   options: RegistryBuildComponentIndexPhaseOptions = {},
 ): Promise<RegistryBuildPhaseResult> {
+  const previousCacheState = context.cache.getPhaseData<RegistryBuildComponentIndexCacheState>('componentIndex')
   const index = context.getArtifact<IndexedRegistryEntry[]>('index') ?? []
   const componentIndex = {
     ...context.config.componentIndex,
@@ -85,6 +91,7 @@ export async function runComponentIndexPhase(
     ...context.config.importMappings.packageMappings,
     ...(options.packageMappings ?? {}),
   }
+  const outputFile = context.getPath('componentIndexFile')
   const filteredItems = index.filter((item) => !componentIndex.excludeTypes.includes(item.type))
   const adapter = getComponentIndexAdapter(componentIndex.framework ?? context.config.componentIndex.framework)
   const header =
@@ -93,10 +100,45 @@ export async function runComponentIndexPhase(
       ? adapter.defaultHeader
       : componentIndex.header
 
+  const signature = hashValue({
+    framework: componentIndex.framework,
+    generator: componentIndex.generator ? String(componentIndex.generator) : null,
+    header,
+    items: filteredItems.map((item) => ({
+      files: (item.files ?? []).map((file) => ({
+        path: file.path,
+        type: file.type,
+      })),
+      name: item.name,
+      root_folder: item.root_folder,
+      type: item.type,
+    })),
+    packageMappings,
+    ssr: componentIndex.ssr ?? context.config.componentIndex.ssr,
+  })
+
+  if (previousCacheState?.signature === signature && (await pathExists(outputFile))) {
+    context.registerOutput('componentIndex', outputFile, {
+      artifact: 'index',
+      kind: 'component-index',
+    })
+
+    return {
+      details: 'reused cached output',
+      itemCount: filteredItems.length,
+      name: 'componentIndex',
+      outputFiles: [],
+    }
+  }
+
   if (componentIndex.generator) {
-    await fs.mkdir(context.getPath('componentIndexDir'), { recursive: true })
-    await fs.writeFile(context.getPath('componentIndexFile'), componentIndex.generator(filteredItems), 'utf8')
-    context.registerOutput('componentIndex', context.getPath('componentIndexFile'), {
+    const wroteFile = await writeFileIfChanged(outputFile, componentIndex.generator(filteredItems))
+
+    context.cache.setPhaseData<RegistryBuildComponentIndexCacheState>('componentIndex', {
+      outputFiles: [outputFile],
+      signature,
+    })
+    context.registerOutput('componentIndex', outputFile, {
       artifact: 'index',
       kind: 'component-index',
     })
@@ -104,7 +146,7 @@ export async function runComponentIndexPhase(
     return {
       itemCount: filteredItems.length,
       name: 'componentIndex',
-      outputFiles: [context.getPath('componentIndexFile')],
+      outputFiles: wroteFile ? [outputFile] : [],
     }
   }
 
@@ -131,9 +173,13 @@ export const Index: Record<string, any> = {${entries}
 }
 `
 
-  await fs.mkdir(context.getPath('componentIndexDir'), { recursive: true })
-  await fs.writeFile(context.getPath('componentIndexFile'), content, 'utf8')
-  context.registerOutput('componentIndex', context.getPath('componentIndexFile'), {
+  const wroteFile = await writeFileIfChanged(outputFile, content)
+
+  context.cache.setPhaseData<RegistryBuildComponentIndexCacheState>('componentIndex', {
+    outputFiles: [outputFile],
+    signature,
+  })
+  context.registerOutput('componentIndex', outputFile, {
     artifact: 'index',
     kind: 'component-index',
   })
@@ -141,6 +187,6 @@ export const Index: Record<string, any> = {${entries}
   return {
     itemCount: filteredItems.length,
     name: 'componentIndex',
-    outputFiles: [context.getPath('componentIndexFile')],
+    outputFiles: wroteFile ? [outputFile] : [],
   }
 }

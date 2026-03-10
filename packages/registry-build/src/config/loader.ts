@@ -8,6 +8,7 @@ import {
   DEFAULT_CONFIG_FILENAMES,
   DEFAULT_CSS_TEMPLATES,
   DEFAULT_OUTPUT,
+  DEFAULT_PERFORMANCE,
   DEFAULT_PIPELINE,
   DEFAULT_SOURCE_GLOB,
   DEFAULT_SOURCE_IGNORE,
@@ -266,6 +267,10 @@ function toResolvedConfig(config: RegistryBuildConfig, configPath: string): Reso
       ...DEFAULT_OUTPUT,
       ...withDefaults.output,
       dir: resolveFrom(configDir, withDefaults.output.dir),
+    },
+    performance: {
+      ...DEFAULT_PERFORMANCE,
+      ...withDefaults.performance,
     },
     pipeline: {
       ...DEFAULT_PIPELINE,

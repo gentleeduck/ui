@@ -2,9 +2,9 @@ import { loadRegistryBuildConfig } from '../config'
 import type { RegistryBuildExtensionApi } from '../extensions'
 import { createRegistryBuildContext } from './context'
 import { runComponentsPhase, runIndexBuildPhase } from './phases'
-import type { BuildOptions, BuildResult, RegistryBuildPhaseResult } from './types'
+import type { BuildOptions, BuildResult, RegistryBuildContext, RegistryBuildPhaseResult } from './types'
 
-function createExtensionApi(context: ReturnType<typeof createRegistryBuildContext>): RegistryBuildExtensionApi {
+function createExtensionApi(context: RegistryBuildContext): RegistryBuildExtensionApi {
   return {
     artifacts: context.artifacts,
     config: context.config,
@@ -20,7 +20,7 @@ function createExtensionApi(context: ReturnType<typeof createRegistryBuildContex
 }
 
 async function runExtensionStage(
-  context: ReturnType<typeof createRegistryBuildContext>,
+  context: RegistryBuildContext,
   stage: 'beforeBuild' | 'afterBuild',
 ) {
   const phaseResults: RegistryBuildPhaseResult[] = []
@@ -52,7 +52,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
     configFile: options.configFile,
     cwd: options.cwd,
   })
-  const context = createRegistryBuildContext(loaded, options)
+  const context = await createRegistryBuildContext(loaded, options)
   const phaseResults: RegistryBuildPhaseResult[] = []
 
   phaseResults.push(...(await runExtensionStage(context, 'beforeBuild')))
@@ -66,6 +66,7 @@ export async function build(options: BuildOptions = {}): Promise<BuildResult> {
   }
 
   phaseResults.push(...(await runExtensionStage(context, 'afterBuild')))
+  await context.cache.save()
 
   return {
     artifacts: context.artifacts,

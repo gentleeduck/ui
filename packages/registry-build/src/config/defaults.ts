@@ -1,6 +1,8 @@
+import { availableParallelism } from 'node:os'
 import type {
   RegistryBuildConfig,
   RegistryBuildFramework,
+  RegistryBuildPerformanceConfig,
   RegistryBuildSource,
   RegistryItemType,
   RegistryItemTypeMap,
@@ -8,6 +10,7 @@ import type {
   ResolvedRegistryBuildComponentIndex,
   ResolvedRegistryBuildCssTemplates,
   ResolvedRegistryBuildOutput,
+  ResolvedRegistryBuildPerformanceConfig,
   ResolvedRegistryBuildPipelineConfig,
 } from '../types'
 
@@ -68,6 +71,12 @@ export const DEFAULT_PIPELINE: ResolvedRegistryBuildPipelineConfig = {
   index: true,
 }
 
+export const DEFAULT_PERFORMANCE: ResolvedRegistryBuildPerformanceConfig = {
+  cacheDir: '.registry-build',
+  incremental: true,
+  parallelism: Math.max(1, Math.min(availableParallelism(), 8)),
+}
+
 export const DEFAULT_BRANDING: ResolvedRegistryBuildBranding = {
   font: 'ANSI Shadow',
   name: '@gentleduck/registry-build',
@@ -115,6 +124,10 @@ export function withRegistryBuildDefaults(config: RegistryBuildConfig): Registry
           ...config.output,
         }
       : undefined,
+    performance: {
+      ...DEFAULT_PERFORMANCE,
+      ...config.performance,
+    } satisfies RegistryBuildPerformanceConfig,
     pipeline: {
       ...DEFAULT_PIPELINE,
       ...config.pipeline,

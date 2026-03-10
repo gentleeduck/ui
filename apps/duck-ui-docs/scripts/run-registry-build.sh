@@ -15,4 +15,4 @@ if ! command -v bun &> /dev/null; then
   exit 1
 fi
 
-exec bun "${REGISTRY_BUILD_ENTRY}" build
+exec bun "${REGISTRY_BUILD_ENTRY}" build "$@"
