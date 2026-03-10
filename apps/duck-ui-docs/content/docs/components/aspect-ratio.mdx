@@ -86,6 +86,7 @@ import { AspectRatio } from "@/components/ui/aspect-ratio"
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `ratio` | `string` | (required) | Aspect ratio of the container, e.g. `'16/9'`, `'4/3'` |
 | `className` | `string` | `--` | Additional class names to apply to the container |
 | `style` | `React.CSSProperties` | `--` | Inline styles applied to the container (aspect-ratio is merged automatically) |

@@ -250,6 +250,7 @@ A responsive breadcrumb that collapses intermediate items behind an ellipsis, di
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `separator` | `React.ReactNode` | `--` | Custom separator element between breadcrumb items |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Breadcrumb content (typically a `BreadcrumbList`) |
@@ -300,8 +301,9 @@ A responsive breadcrumb that collapses intermediate items behind an ellipsis, di
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `text` | `string` | `'More'` | Accessible label used for `aria-label` on the ellipsis element |
 | `className` | `string` | `--` | Additional class names to apply |
-| `...props` | `React.HTMLProps<HTMLSpanElement>` | -- | Additional props to spread to the span element |
+| `...props` | `React.ComponentPropsWithoutRef<'span'>` | -- | Additional props to spread to the span element |
 
 ## RTL Support
 

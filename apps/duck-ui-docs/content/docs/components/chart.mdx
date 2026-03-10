@@ -612,6 +612,7 @@ The top-level wrapper component for all charts. Provides chart context and appli
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `config` | `ChartConfig` | -- | (required) Chart configuration object mapping data keys to labels, icons, and colors. |
 | `id` | `string` | -- | Optional id used to scope CSS custom properties. Auto-generated when omitted. |
 | `children` | `React.ComponentProps<typeof ResponsiveContainer>['children']` | -- | (required) Recharts chart element(s) to render inside the responsive container. |
@@ -663,7 +664,7 @@ Custom content renderer for `<ChartLegend>` (Recharts `Legend`). Reads theme col
 | --- | --- | --- | --- |
 | `nameKey` | `string` | -- | Config or data key to use for legend item names. |
 | `hideIcon` | `boolean` | `false` | Whether to hide the icon or color swatch for each legend entry. |
-| `verticalAlign` | `'top' \| 'bottom'` | `'bottom'` | Vertical alignment of the legend relative to the chart. Controls top/bottom padding. |
+| `verticalAlign` | `'top' \| 'middle' \| 'bottom'` | `'bottom'` | Vertical alignment of the legend relative to the chart. Controls top/bottom padding. |
 | `payload` | `RechartsPrimitive.LegendProps['payload']` | -- | Legend payload provided automatically by Recharts. |
 | `className` | `string` | -- | Additional CSS classes applied to the legend container. |
 | `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the legend container `div`. |

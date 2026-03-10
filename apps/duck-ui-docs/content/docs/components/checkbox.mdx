@@ -128,6 +128,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 | `checked` | `boolean \| 'indeterminate'` | -- | Controlled checked state |
 | `defaultChecked` | `boolean \| 'indeterminate'` | `false` | Initial checked state if uncontrolled |
 | `onCheckedChange` | `(checked: boolean \| 'indeterminate') => void` | -- | Callback fired when checked state changes |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | -- | Additional CSS classes applied to the checkbox input |
 | `style` | `React.CSSProperties` | -- | Inline styles merged with internal indicator styles |
 | `ref` | `React.Ref<HTMLInputElement>` | -- | Ref forwarded to the native checkbox input |

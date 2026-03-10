@@ -116,6 +116,7 @@ You can also see data-table examples in the [Blocks Library](/blocks).
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | Table content (`TableHeader`, `TableBody`, `TableFooter`, `TableCaption`) |
 | `...props` | `React.HTMLProps<HTMLTableElement>` | -- | Additional props to spread to the table element |
@@ -156,9 +157,10 @@ You can also see data-table examples in the [Blocks Library](/blocks).
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `scope` | `string` | `'col'` | HTML `scope` attribute for accessibility |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | Header cell content |
-| `...props` | `React.HTMLProps<HTMLTableCellElement>` | -- | Additional props to spread to the th element |
+| `...props` | `React.ThHTMLAttributes<HTMLTableCellElement>` | -- | Additional props to spread to the th element |
 
 ### TableCell
 
@@ -166,7 +168,7 @@ You can also see data-table examples in the [Blocks Library](/blocks).
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | Cell content |
-| `...props` | `React.HTMLProps<HTMLTableCellElement>` | -- | Additional props to spread to the td element |
+| `...props` | `React.TdHTMLAttributes<HTMLTableCellElement>` | -- | Additional props to spread to the td element |
 
 ### TableCaption
 
