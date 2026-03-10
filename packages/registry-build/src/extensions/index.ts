@@ -9,9 +9,9 @@
  * - `ui/` — UI registry compatibility pack (types, schema, collection helpers,
  *   and extension factories for index-build and components phases)
  */
-export * from './banner'
-export * from './colors'
-export * from './component-index'
-export * from './extension'
-export * from './ui'
-export * from './validate'
+export * from './banner/index'
+export * from './colors/index'
+export * from './component-index/index'
+export * from './extension/index'
+export * from './ui/index'
+export * from './validate/index'

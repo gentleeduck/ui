@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { init } from './main'
+import { init } from './main/index'
 
 process.on('SIGINT', () => process.exit(0))
 process.on('SIGTERM', () => process.exit(0))

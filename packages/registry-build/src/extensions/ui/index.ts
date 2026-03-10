@@ -3,7 +3,7 @@
  * helpers, schema helpers, output-path helpers, extension factories, and
  * UI-specific library utilities for the built-in UI registry behavior.
  */
-export * from './lib'
+export * from './lib/index'
 export * from './ui.collection'
 export * from './ui.collection.types'
 export * from './ui.config.types'

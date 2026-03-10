@@ -219,6 +219,7 @@
       },
       "devDependencies": {
         "@gentleduck/registers": "workspace:*",
+        "@gentleduck/tsdown-config": "workspace:*",
         "@gentleduck/typescript-config": "workspace:*",
         "@inkjs/ui": "^2.0.0",
         "@types/diff": "^8.0.0",
@@ -265,6 +266,7 @@
         "@gentleduck/hooks": "workspace:*",
         "@gentleduck/libs": "workspace:*",
         "@gentleduck/registry-ui": "workspace:*",
+        "@gentleduck/tsdown-config": "workspace:*",
         "@gentleduck/typescript-config": "workspace:*",
         "@gentleduck/vim": "workspace:*",
         "@types/hast": "^3.0.4",
@@ -459,6 +461,7 @@
       "name": "@gentleduck/shortcut",
       "version": "0.0.6",
       "devDependencies": {
+        "@gentleduck/tsdown-config": "workspace:*",
         "@gentleduck/typescript-config": "workspace:*",
         "@types/mousetrap": "^1.6.15",
         "@types/node": "^25.3.0",
@@ -572,6 +575,7 @@
       },
       "devDependencies": {
         "@gentleduck/registers": "workspace:*",
+        "@gentleduck/tsdown-config": "workspace:*",
         "@gentleduck/typescript-config": "workspace:*",
         "@types/node": "^25.3.0",
         "tsdown": "0.18.3",

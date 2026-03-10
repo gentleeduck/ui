@@ -1,4 +1,4 @@
 /**
  * Public adapter surface.
  */
-export * from './component-index'
+export * from './component-index/index'
