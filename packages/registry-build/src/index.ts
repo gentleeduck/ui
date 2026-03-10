@@ -32,11 +32,11 @@
  * })
  * ```
  */
-export * from './adapters'
-export * from './commands'
-export * from './config'
+export * from './adapters/index'
+export * from './commands/index'
+export * from './config/index'
 export * from './define-config'
-export * from './extensions'
-export * from './lib'
-export * from './main'
-export * from './pipeline'
+export * from './extensions/index'
+export * from './lib/index'
+export * from './main/index'
+export * from './pipeline/index'

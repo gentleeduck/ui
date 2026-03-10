@@ -30,7 +30,7 @@
       "!packages/_oldstuff_refactor",
       "!packages/duck-benchmark",
       "!templates",
-      "!**/__fixtures__/**"
+      "!**/__fixtures__"
     ]
   },
   "formatter": {
