@@ -6,16 +6,22 @@ import { Check, ChevronRight, Circle } from 'lucide-react'
 import * as React from 'react'
 
 const DropdownMenu = DropdownMenuPrimitive.Root
+DropdownMenu.displayName = 'DropdownMenu'
 
 const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
+DropdownMenuTrigger.displayName = 'DropdownMenuTrigger'
 
 const DropdownMenuGroup = DropdownMenuPrimitive.Group
+DropdownMenuGroup.displayName = 'DropdownMenuGroup'
 
 const DropdownMenuPortal = DropdownMenuPrimitive.Portal
+DropdownMenuPortal.displayName = 'DropdownMenuPortal'
 
 const DropdownMenuSub = DropdownMenuPrimitive.Sub
+DropdownMenuSub.displayName = 'DropdownMenuSub'
 
 const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup
+DropdownMenuRadioGroup.displayName = 'DropdownMenuRadioGroup'
 
 const DropdownMenuSubTrigger = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.SubTrigger>,
@@ -157,9 +163,11 @@ const DropdownMenuSeparator = React.forwardRef<
 ))
 DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
 
-const DropdownMenuShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
-  return <span className={cn('ms-auto text-xs tracking-widest opacity-60', className)} {...props} />
-}
+const DropdownMenuShortcut = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanElement>>(
+  ({ className, ...props }, ref) => (
+    <span ref={ref} className={cn('ms-auto text-xs tracking-widest opacity-60', className)} {...props} />
+  ),
+)
 DropdownMenuShortcut.displayName = 'DropdownMenuShortcut'
 
 export {

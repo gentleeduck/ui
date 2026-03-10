@@ -122,51 +122,47 @@ const CommandSeparator = React.forwardRef<
 ))
 CommandSeparator.displayName = CommandPrimitive.Separator.displayName
 
-function CommandShortcut({
-  className,
-  keys,
-  onKeysPressed,
-  variant = 'default',
-  ref,
-  ...props
-}: CommandBadgeProps): React.JSX.Element {
-  const commands = React.useMemo(
-    () =>
-      keys && onKeysPressed
-        ? {
-            [keys]: {
-              description: keys,
-              execute: () => {
-                onKeysPressed()
+const CommandShortcut = React.forwardRef<HTMLElement, CommandBadgeProps>(
+  ({ className, keys, onKeysPressed, variant = 'default', ...props }, ref) => {
+    const commands = React.useMemo(
+      () =>
+        keys && onKeysPressed
+          ? {
+              [keys]: {
+                description: keys,
+                execute: () => {
+                  onKeysPressed()
+                },
+                name: keys,
               },
-              name: keys,
-            },
-          }
-        : {},
-    [keys, onKeysPressed],
-  )
+            }
+          : {},
+      [keys, onKeysPressed],
+    )
 
-  useKeyCommands(commands, { preventDefault: true })
+    useKeyCommands(commands, { preventDefault: true })
 
-  return (
-    <kbd
-      className={cn(
-        'focus:offset-2 pointer-events-none ms-auto inline-flex cursor-none select-none items-center gap-0.5 rounded-sm px-2 py-[.12rem] font-sans text-secondary-foreground text-sm tracking-widest transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring [&_svg]:size-3',
-        variant === 'secondary' && 'bg-secondary',
-        className,
-      )}
-      data-slot="command-badge"
-      ref={ref}
-      {...props}
-    />
-  )
-}
+    return (
+      <kbd
+        className={cn(
+          'focus:offset-2 pointer-events-none ms-auto inline-flex cursor-none select-none items-center gap-0.5 rounded-sm px-2 py-[.12rem] font-sans text-secondary-foreground text-sm tracking-widest transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring [&_svg]:size-3',
+          variant === 'secondary' && 'bg-secondary',
+          className,
+        )}
+        data-slot="command-badge"
+        ref={ref}
+        {...props}
+      />
+    )
+  },
+)
+CommandShortcut.displayName = 'CommandShortcut'
 
 function CommandDialog({
   children,
   shouldFilter,
   ...props
-}: React.ComponentPropsWithRef<typeof Dialog> & { shouldFilter?: boolean }): React.JSX.Element {
+}: React.ComponentPropsWithoutRef<typeof Dialog> & { shouldFilter?: boolean }) {
   return (
     <Dialog {...props}>
       <DialogContent className="h-125 max-w-full p-0 lg:w-[700px]">
@@ -179,6 +175,7 @@ function CommandDialog({
     </Dialog>
   )
 }
+CommandDialog.displayName = 'CommandDialog'
 
 function useCommandListContext(__scopeCommand: Parameters<typeof CommandPrimitive.useCommandContext>[1]) {
   return CommandPrimitive.useCommandContext('Command', __scopeCommand)

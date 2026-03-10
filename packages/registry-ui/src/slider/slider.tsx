@@ -4,15 +4,10 @@ import { cn } from '@gentleduck/libs/cn'
 import * as SliderPrimitive from '@gentleduck/primitives/slider'
 import * as React from 'react'
 
-function Slider({
-  className,
-  defaultValue,
-  orientation = 'horizontal',
-  value,
-  min = 0,
-  max = 100,
-  ...props
-}: React.ComponentProps<typeof SliderPrimitive.Root>) {
+const Slider = React.forwardRef<
+  React.ComponentRef<typeof SliderPrimitive.Root>,
+  React.ComponentProps<typeof SliderPrimitive.Root>
+>(({ className, defaultValue, orientation = 'horizontal', value, min = 0, max = 100, ...props }, ref) => {
   const _values = React.useMemo(
     () => (Array.isArray(value) ? value : Array.isArray(defaultValue) ? defaultValue : [min, max]),
     [value, defaultValue, min, max],
@@ -20,6 +15,7 @@ function Slider({
 
   return (
     <SliderPrimitive.Root
+      ref={ref}
       data-slot="slider"
       data-orientation={orientation}
       defaultValue={defaultValue}
@@ -53,6 +49,7 @@ function Slider({
       ))}
     </SliderPrimitive.Root>
   )
-}
+})
+Slider.displayName = 'Slider'
 
 export { Slider }

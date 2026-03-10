@@ -7,18 +7,23 @@ import { Check, ChevronRight, Circle } from 'lucide-react'
 import * as React from 'react'
 
 const MenubarMenu: typeof MenubarPrimitive.Menu = MenubarPrimitive.Menu
+MenubarMenu.displayName = 'MenubarMenu'
 
 const MenubarGroup = MenubarPrimitive.Group
+MenubarGroup.displayName = 'MenubarGroup'
 
 const MenubarPortal = MenubarPrimitive.Portal
+MenubarPortal.displayName = 'MenubarPortal'
 
 function MenubarRadioGroup({ ...props }: React.ComponentProps<typeof MenubarPrimitive.RadioGroup>) {
   return <MenubarPrimitive.RadioGroup {...props} />
 }
+MenubarRadioGroup.displayName = 'MenubarRadioGroup'
 
 function MenubarSub({ ...props }: React.ComponentProps<typeof MenubarPrimitive.Sub>) {
   return <MenubarPrimitive.Sub data-slot="menubar-sub" {...props} />
 }
+MenubarSub.displayName = 'MenubarSub'
 
 const Menubar = React.forwardRef<
   React.ComponentRef<typeof MenubarPrimitive.Root>,
@@ -188,9 +193,11 @@ const MenubarSeparator = React.forwardRef<
 ))
 MenubarSeparator.displayName = MenubarPrimitive.Separator.displayName
 
-const MenubarShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
-  return <span className={cn('ms-auto text-muted-foreground text-xs tracking-widest', className)} {...props} />
-}
+const MenubarShortcut = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanElement>>(
+  ({ className, ...props }, ref) => (
+    <span ref={ref} className={cn('ms-auto text-muted-foreground text-xs tracking-widest', className)} {...props} />
+  ),
+)
 MenubarShortcut.displayName = 'MenubarShortcut'
 
 export {

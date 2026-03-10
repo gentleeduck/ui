@@ -5,10 +5,13 @@ import * as TooltipPrimitive from '@gentleduck/primitives/tooltip'
 import * as React from 'react'
 
 const TooltipProvider = TooltipPrimitive.Provider
+TooltipProvider.displayName = 'TooltipProvider'
 
 const Tooltip = TooltipPrimitive.Root
+Tooltip.displayName = 'Tooltip'
 
 const TooltipTrigger = TooltipPrimitive.Trigger
+TooltipTrigger.displayName = 'TooltipTrigger'
 
 const TooltipContent = React.forwardRef<
   React.ComponentRef<typeof TooltipPrimitive.Content>,
