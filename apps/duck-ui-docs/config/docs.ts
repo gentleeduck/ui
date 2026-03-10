@@ -298,6 +298,23 @@ export const docsConfig: DocsConfig = {
               title: 'Recipes',
             },
             {
+              href: '/docs/packages/duck-registry-build/course',
+              collapsible: true,
+              items: [
+                {
+                  href: '/docs/packages/duck-registry-build/course',
+                  items: [],
+                  title: 'Overview',
+                },
+                {
+                  href: '/docs/packages/duck-registry-build/course-arch-package-index',
+                  items: [],
+                  title: 'Arch Package Index',
+                },
+              ],
+              title: 'Course',
+            },
+            {
               href: '/docs/packages/duck-registry-build/migration',
               items: [],
               title: 'Migration',
