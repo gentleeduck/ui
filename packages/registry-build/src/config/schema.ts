@@ -1,48 +1,18 @@
 import { z } from 'zod'
-import type { RegistryBuildExtension } from '../extensions/types'
-import type { RegistryEntry, RegistryItemType } from '../types'
+import type { RegistryBuildExtension } from '../extensions/extension'
+import type { RegistryEntry } from '../extensions/ui/ui.registry.types'
+import { registryEntryListSchema, registryItemTypeSchema, themeEntriesSchema } from '../extensions/ui/ui.schema'
 
 const nonEmptyStringSchema = z.string().trim().min(1)
-export const registryItemTypeSchema = nonEmptyStringSchema.regex(/^registry:.+$/) as z.ZodType<RegistryItemType>
 
-export const registryItemFileSchema = z.object({
-  content: z.string().optional(),
-  path: nonEmptyStringSchema,
-  target: nonEmptyStringSchema.optional(),
-  type: registryItemTypeSchema,
-})
+export {
+  registryEntryListSchema,
+  registryEntrySchema,
+  registryItemTypeSchema,
+  themeEntriesSchema,
+} from '../extensions/ui/ui.schema'
 
-export const registryItemTailwindSchema = z.object({
-  config: z.object({
-    content: z.array(nonEmptyStringSchema).optional(),
-    plugins: z.array(nonEmptyStringSchema).optional(),
-    theme: z.record(z.string(), z.unknown()).optional(),
-  }),
-})
-
-export const registryItemCssVarsSchema = z.object({
-  dark: z.record(z.string(), z.string()).optional(),
-  light: z.record(z.string(), z.string()).optional(),
-})
-
-export const registryEntrySchema: z.ZodType<RegistryEntry> = z
-  .object({
-    categories: z.array(nonEmptyStringSchema).optional(),
-    cssVars: registryItemCssVarsSchema.optional(),
-    dependencies: z.array(nonEmptyStringSchema).optional(),
-    description: z.string().optional(),
-    devDependencies: z.array(nonEmptyStringSchema).optional(),
-    files: z.array(registryItemFileSchema).optional(),
-    name: nonEmptyStringSchema,
-    registryDependencies: z.array(nonEmptyStringSchema).optional(),
-    root_folder: nonEmptyStringSchema,
-    source: z.string().optional(),
-    tailwind: registryItemTailwindSchema.optional(),
-    type: registryItemTypeSchema,
-  })
-  .catchall(z.unknown())
-
-export const registryEntriesSchema = z.record(z.string(), z.array(registryEntrySchema))
+export const registryEntriesSchema = z.record(z.string(), registryEntryListSchema)
 
 export const registryBuildSourceSchema = z.object({
   glob: nonEmptyStringSchema.optional(),
@@ -59,15 +29,6 @@ export const registryBuildCollectionSchema = z.object({
   sources: z.record(nonEmptyStringSchema, registryBuildSourceSchema).optional(),
 })
 
-export const themeEntrySchema = z.object({
-  dark: z.record(z.string(), z.string()),
-  label: nonEmptyStringSchema,
-  light: z.record(z.string(), z.string()),
-  radius: nonEmptyStringSchema,
-})
-
-export const themeEntriesSchema = z.record(z.string(), themeEntrySchema)
-
 export const registryBuildExtensionSchema = z.custom<RegistryBuildExtension>((value) => {
   return (
     typeof value === 'object' &&
@@ -80,14 +41,13 @@ export const registryBuildExtensionSchema = z.custom<RegistryBuildExtension>((va
 })
 
 export const registryBuildConfigSchema = z.object({
-  collections: z.record(z.string(), registryBuildCollectionSchema).optional(),
-  extends: z.union([nonEmptyStringSchema, z.array(nonEmptyStringSchema)]).optional(),
   branding: z
     .object({
       font: nonEmptyStringSchema.optional(),
       name: nonEmptyStringSchema.optional(),
     })
     .optional(),
+  collections: z.record(z.string(), registryBuildCollectionSchema).optional(),
   colors: z
     .object({
       data: z.union([nonEmptyStringSchema, z.record(z.string(), z.unknown())]).optional(),
@@ -96,7 +56,7 @@ export const registryBuildConfigSchema = z.object({
   componentIndex: z
     .object({
       excludeTypes: z.array(registryItemTypeSchema).optional(),
-      framework: z.enum(['nextjs', 'vite', 'astro', 'custom']).optional(),
+      framework: z.enum(['nextjs', 'vite', 'custom']).optional(),
       generator: z.custom<(items: RegistryEntry[]) => string>((value) => typeof value === 'function').optional(),
       header: z.string().optional(),
       ssr: z.boolean().optional(),
@@ -108,6 +68,7 @@ export const registryBuildConfigSchema = z.object({
       baseStyles: z.string().optional(),
     })
     .optional(),
+  extends: z.union([nonEmptyStringSchema, z.array(nonEmptyStringSchema)]).optional(),
   extensions: z.array(registryBuildExtensionSchema).optional(),
   importMappings: z
     .object({
@@ -139,12 +100,6 @@ export const registryBuildConfigSchema = z.object({
       cacheDir: nonEmptyStringSchema.optional(),
       incremental: z.boolean().optional(),
       parallelism: z.number().int().positive().optional(),
-    })
-    .optional(),
-  pipeline: z
-    .object({
-      components: z.boolean().optional(),
-      index: z.boolean().optional(),
     })
     .optional(),
   registries: registryEntriesSchema.optional(),

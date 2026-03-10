@@ -40,7 +40,7 @@ If the package is installed in a workspace app, prefer running the script from t
   </AccordionItem>
 
   <AccordionItem value="source-missing">
-    <AccordionTrigger>`Source path does not exist`</AccordionTrigger>
+    <AccordionTrigger>Source path does not exist</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
 This almost always means the path was written as if it were relative to the current working directory instead of relative to the config file that declared it.
@@ -51,15 +51,10 @@ Fix the path in config, not in the caller shell.
   </AccordionItem>
 
   <AccordionItem value="no-files-found">
-    <AccordionTrigger>`No files found for entry ...`</AccordionTrigger>
+    <AccordionTrigger>No files found for entry ...</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-Check the combination of:
-
-- `sources[type].path`
-- `entry.root_folder`
-- `sources[type].glob`
-- `sources[type].ignore`
+Check `sources[type].path`, `entry.root_folder`, `sources[type].glob`, and `sources[type].ignore`.
 
 Also verify whether the source should be `indexStrategy: 'item'` or `indexStrategy: 'file'`.
 
@@ -70,13 +65,7 @@ Also verify whether the source should be `indexStrategy: 'item'` or `indexStrate
     <AccordionTrigger>Unknown registry item type</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-The same registry item type namespace must be declared consistently across:
-
-- `schema.itemTypes`
-- `sources`
-- `targetPaths`
-- `packageMappings`
-- each `RegistryEntry.type`
+The same registry item type namespace must be declared consistently across `schema.itemTypes`, `sources`, `targetPaths`, `packageMappings`, and each `RegistryEntry.type`.
 
 Everything must still satisfy ``registry:${string}``.
 
@@ -96,18 +85,13 @@ Use JSON configs if you need the most portable runtime path. TS config loading d
     <AccordionTrigger>Warm builds still rewrite files</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-This usually means the generated content is changing, not the cache. Check for:
-
-- unstable ordering
-- custom generators with non-deterministic output
-- timestamps or environment-specific strings
-- changes in rewritten imports or stripped variables
+This usually means the generated content is changing, not the cache. Check for unstable ordering, custom generators with non-deterministic output, timestamps or environment-specific strings, and changes in rewritten imports or stripped variables.
 
     </AccordionContent>
   </AccordionItem>
 
   <AccordionItem value="changed-only-broad">
-    <AccordionTrigger>`--changed-only` still does more work than expected</AccordionTrigger>
+    <AccordionTrigger>changed-only still does more work than expected</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
 Make the changed paths more specific. File-indexed sources can narrow rebuild work more accurately than folder-indexed sources. Passing a whole source root will still mark many entries as affected.

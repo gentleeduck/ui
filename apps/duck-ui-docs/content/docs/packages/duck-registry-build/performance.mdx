@@ -142,7 +142,7 @@ Check whether generated content is actually stable. Dynamic timestamps, non-dete
   </AccordionItem>
 
   <AccordionItem value="changed-only-too-broad">
-    <AccordionTrigger>`--changed-only` still rebuilds more than expected</AccordionTrigger>
+    <AccordionTrigger>changed-only still rebuilds more than expected</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
 Make sure the changed paths you provide map closely to the real source files that belong to a registry item. File-indexed sources can narrow work more precisely than folder-level item indexing.
@@ -151,7 +151,7 @@ Make sure the changed paths you provide map closely to the real source files tha
   </AccordionItem>
 
   <AccordionItem value="cache-directory">
-    <AccordionTrigger>Where did `.registry-build/` come from?</AccordionTrigger>
+    <AccordionTrigger>Where did .registry-build come from?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
 That is the local incremental cache directory under `output.dir`. It is expected, safe to delete, and should be ignored by Git.

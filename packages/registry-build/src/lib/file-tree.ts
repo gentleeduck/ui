@@ -1,5 +1,6 @@
 import { joinPosix, normalizeSlashes } from './path'
 
+/** Represents a file or folder node in a registry file tree. */
 export interface RegistryFileTreeNode {
   children?: RegistryFileTreeNode[]
   name: string
@@ -7,12 +8,14 @@ export interface RegistryFileTreeNode {
   type: 'file' | 'folder'
 }
 
+/** Builds a hierarchical file tree from a flat list of file paths. */
 export function createRegistryFileTree(paths: string[], options?: { basePath?: string }) {
   const root: RegistryFileTreeNode[] = []
   const basePath = options?.basePath ? normalizeSlashes(options.basePath).replace(/\/$/, '') : ''
 
   for (const filePath of paths.map((value) => normalizeSlashes(value))) {
-    const relativePath = basePath && filePath.startsWith(`${basePath}/`) ? filePath.slice(basePath.length + 1) : filePath
+    const relativePath =
+      basePath && filePath.startsWith(`${basePath}/`) ? filePath.slice(basePath.length + 1) : filePath
     const parts = relativePath.split('/').filter(Boolean)
     let currentLevel = root
 
@@ -23,7 +26,9 @@ export function createRegistryFileTree(paths: string[], options?: { basePath?: s
       }
 
       const isFile = index === parts.length - 1
-      const nextPath = basePath ? joinPosix(basePath, ...parts.slice(0, index + 1)) : joinPosix(...parts.slice(0, index + 1))
+      const nextPath = basePath
+        ? joinPosix(basePath, ...parts.slice(0, index + 1))
+        : joinPosix(...parts.slice(0, index + 1))
       const existingNode = currentLevel.find((node) => node.name === part)
 
       if (existingNode) {

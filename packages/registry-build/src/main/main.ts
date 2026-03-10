@@ -1,6 +1,6 @@
 import { Command } from 'commander'
-import { buildCommand, runBuildCommand, withBuildOptions } from '../commands'
 import type { RegistryBuildCommandOptions } from '../commands'
+import { buildCommand, runBuildCommand, withBuildOptions } from '../commands'
 import { config } from './main.constants'
 
 export function createProgram() {

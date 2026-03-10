@@ -1,3 +1,4 @@
+/** Maps over values with a bounded concurrency limit, preserving input order in results. */
 export async function mapConcurrently<TValue, TResult>(
   values: TValue[],
   concurrency: number,

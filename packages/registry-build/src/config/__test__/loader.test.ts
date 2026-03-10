@@ -1,7 +1,7 @@
-import fs from 'node:fs/promises'
-import path from 'node:path'
-import { tmpdir } from 'node:os'
 import { afterEach, describe, expect, test } from 'bun:test'
+import fs from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
 import {
   DEFAULT_COMPONENT_INDEX_EXCLUDE_TYPES,
   DEFAULT_CONFIG_FILENAMES,
@@ -11,7 +11,7 @@ import {
   loadRegistryBuildConfig,
   resolveRegistryBuildConfig,
 } from '../..'
-import type { RegistryBuildConfig } from '../../types'
+import type { RegistryBuildConfig } from '../types'
 
 const tempDirs: string[] = []
 
@@ -212,10 +212,6 @@ describe('registry build config loader', () => {
   },
   output: {
     dir: './dist'
-  },
-  pipeline: {
-    components: false,
-    index: false
   }
 }
 `,
@@ -273,6 +269,7 @@ describe('registry build config loader', () => {
     expect(loaded.config.collections.uis?.metadata).toEqual({
       compatibility: 'legacy-registries',
       itemTypes: ['registry:ui'],
+      kind: 'ui-registry',
     })
     expect(loaded.config.collections.uis?.data).toEqual([
       {
@@ -376,9 +373,7 @@ describe('registry build config loader', () => {
     expect(loaded.config.output.dir).toBe(path.join(tempDir, 'apps/docs'))
     expect(loaded.config.sources['registry:ui']?.path).toBe(path.join(presetDir, 'sources', 'base-ui'))
     expect(loaded.config.sources['registry:block']?.path).toBe(path.join(tempDir, 'sources', 'feature-ui'))
-    expect(loaded.config.stripVariables).toEqual(
-      expect.arrayContaining(['themeDescription', 'localDescription']),
-    )
+    expect(loaded.config.stripVariables).toEqual(expect.arrayContaining(['themeDescription', 'localDescription']))
     expect(loaded.config.themes?.names).toEqual(expect.arrayContaining(['zinc', 'teal']))
     expect(loaded.config.themes?.data?.zinc?.label).toBe('Zinc')
     expect(loaded.config.themes?.data?.teal?.label).toBe('Teal')

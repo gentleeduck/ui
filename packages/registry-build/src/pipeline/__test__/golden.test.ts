@@ -1,8 +1,8 @@
-import fs from 'node:fs/promises'
-import path from 'node:path'
-import { tmpdir } from 'node:os'
-import { fileURLToPath } from 'node:url'
 import { afterEach, describe, expect, test } from 'bun:test'
+import fs from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { build } from '../..'
 
 const fixtureDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../__fixtures__/golden/basic')
@@ -51,18 +51,16 @@ describe('registry build golden outputs', () => {
     await fs.cp(path.join(fixtureDir, 'sources'), path.join(tempDir, 'sources'), { recursive: true })
     await fs.writeFile(
       path.join(tempDir, 'registry-build.config.ts'),
-      `import { colorsExtension, componentIndexExtension, validateExtension } from ${JSON.stringify(packageSourceUrl)}
+      `import { colorsExtension, componentIndexExtension, componentsExtension, indexBuildExtension, validateExtension } from ${JSON.stringify(packageSourceUrl)}
 
 export default {
   output: {
     dir: './dist'
   },
-  pipeline: {
-    components: true,
-    index: true
-  },
   extensions: [
     validateExtension(),
+    indexBuildExtension(),
+    componentsExtension(),
     componentIndexExtension({
       packageMappings: {
         'registry:example': '@example/examples'
