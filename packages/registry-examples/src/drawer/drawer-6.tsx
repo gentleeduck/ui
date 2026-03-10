@@ -219,7 +219,7 @@ export function HI2(props: { setOpen: React.Dispatch<React.SetStateAction<boolea
       </ul>
       <Button
         onClick={() => {
-          setOpen(!open)
+          setOpen((prev) => !prev)
         }}
         variant="secondary">
         See checklist
