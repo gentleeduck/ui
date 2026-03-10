@@ -229,6 +229,49 @@ export const docsConfig: DocsConfig = {
           title: 'Gentleduck CLI',
         },
         {
+          href: '/docs/packages/duck-registry-build',
+          collapsible: true,
+          label: 'new',
+          items: [
+            {
+              href: '/docs/packages/duck-registry-build',
+              items: [],
+              title: 'Overview',
+            },
+            {
+              href: '/docs/packages/duck-registry-build/getting-started',
+              items: [],
+              title: 'Getting Started',
+            },
+            {
+              href: '/docs/packages/duck-registry-build/configuration',
+              items: [],
+              title: 'Configuration',
+            },
+            {
+              href: '/docs/packages/duck-registry-build/extensions',
+              items: [],
+              title: 'Extensions',
+            },
+            {
+              href: '/docs/packages/duck-registry-build/cli',
+              items: [],
+              title: 'CLI',
+            },
+            {
+              href: '/docs/packages/duck-registry-build/performance',
+              items: [],
+              title: 'Performance',
+            },
+            {
+              href: '/docs/packages/duck-registry-build/migration',
+              items: [],
+              title: 'Migration',
+            },
+          ],
+          title: 'Gentleduck Registry Build',
+        },
+        {
           href: '/docs/packages/duck-lazy',
           items: [],
           title: 'Gentleduck Lazy',

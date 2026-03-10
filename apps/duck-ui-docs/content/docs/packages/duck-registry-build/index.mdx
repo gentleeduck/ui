@@ -1,0 +1,175 @@
+---
+title: "gentleduck/registry-build"
+description: "Config-driven registry and index builder CLI with explicit extensions, type-safe config, and incremental rebuilds."
+---
+
+<Callout icon={<Zap />}>
+
+**gentleduck/registry-build** turns source folders plus registry metadata into generated artifacts like `index.json`, per-item JSON payloads, component indexes, and theme outputs. The core stays small; optional behavior is attached explicitly through extensions.
+
+</Callout>
+
+## What this package is
+
+gentleduck/registry-build is a consumer-owned build system for registry-style content.
+
+Use it when you need to:
+
+- discover files from one or more source trees
+- attach structured metadata to those files
+- emit a stable machine-readable index
+- generate derived outputs such as component indexes, theme files, or custom manifests
+- keep the build reproducible and configurable instead of hardcoding monorepo paths
+
+The package is intentionally split into a small core and explicit extensions. That keeps the base runner reusable while still supporting docs-site style builds.
+
+---
+
+## Why it exists
+
+The old approach to registry generation usually looks like this:
+
+- arrays of entries hardcoded in source
+- output paths hidden behind environment variables
+- framework-specific logic baked into the build
+- one repo layout assumed forever
+
+registry-build replaces that with:
+
+- a typed `registry-build.config.ts`
+- path-aware config composition with `extends`
+- explicit extension hooks for optional outputs
+- CLI-driven execution
+- incremental caching for repeated local builds
+
+---
+
+## Architecture at a glance
+
+<MermaidDiagram chart={`flowchart TD
+    A[registry-build.config.ts] --> B[Config Loader]
+    B --> C[Schema Validation + Defaults]
+    C --> D[Build Runner]
+    D --> E[Index Phase]
+    D --> F[Components Phase]
+    D --> G[Extensions]
+    G --> H[Validation]
+    G --> I[Component Index]
+    G --> J[Colors and Themes]
+    E --> K[Generated Outputs]
+    F --> K
+    G --> K
+    D --> L[.registry-build Cache]
+`} />
+
+---
+
+## Capability map
+
+| Layer | Responsibility | Why it matters |
+| --- | --- | --- |
+| Config loader | Discover config, resolve `extends`, normalize paths | Consumers own the build contract |
+| Core phases | Build `index.json` and per-item JSON outputs | Stable machine-readable artifacts |
+| Extensions | Add validation, banners, component indexes, colors/themes, or custom outputs | No hidden default plugins |
+| CLI | Run builds from app/package roots | Works like a normal tool, not a repo-only script |
+| Performance layer | File-hash cache, write skipping, changed-only mode, bounded concurrency | Fast warm builds and less filesystem churn |
+
+---
+
+## Quick links
+
+<Callout icon={<MapIcon />} className="[&_ul]:my-0">
+
+- [Getting Started](/docs/packages/duck-registry-build/getting-started) - Install the package and ship your first build
+- [Configuration](/docs/packages/duck-registry-build/configuration) - Full config reference with collapsible sections
+- [Extensions](/docs/packages/duck-registry-build/extensions) - Built-in extensions and custom extension API
+- [CLI](/docs/packages/duck-registry-build/cli) - Commands, flags, JSON output, and scripting patterns
+- [Performance](/docs/packages/duck-registry-build/performance) - Cache behavior, changed-only mode, and warm builds
+- [Migration](/docs/packages/duck-registry-build/migration) - Move from hardcoded or env-based builders
+
+</Callout>
+
+---
+
+## Installation
+
+<Tabs defaultValue="npm">
+<TabsList>
+  <TabsTrigger value="npm">npm</TabsTrigger>
+  <TabsTrigger value="pnpm">pnpm</TabsTrigger>
+  <TabsTrigger value="bun">bun</TabsTrigger>
+</TabsList>
+<TabsContent value="npm">
+
+```bash
+npm install @gentleduck/registry-build
+```
+
+</TabsContent>
+<TabsContent value="pnpm">
+
+```bash
+pnpm add @gentleduck/registry-build
+```
+
+</TabsContent>
+<TabsContent value="bun">
+
+```bash
+bun add @gentleduck/registry-build
+```
+
+</TabsContent>
+</Tabs>
+
+---
+
+## Core model
+
+<Accordion type="multiple" className="w-full">
+  <AccordionItem value="consumer-owned-config">
+    <AccordionTrigger>Consumer-owned config</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+The config file lives beside the app or package that owns the outputs. That means source paths, registry entries, output directories, extensions, and performance settings are all declared by the consumer, not buried inside the shared package.
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="core-vs-extensions">
+    <AccordionTrigger>Core phases vs extensions</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+The core runner only knows how to build the base registry index and per-item JSON artifacts. Validation, component-index generation, colors/themes, and banners are attached explicitly as extensions. If you do not attach them, they do not run.
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="typed-registry-namespaces">
+    <AccordionTrigger>Typed registry namespaces</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+Registry item types are validated as ``registry:${string}``. The same namespace carries through `sources`, `targetPaths`, package mappings, schema item types, and inline registry entries. This keeps config composition consistent as the build grows.
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="incremental-builds">
+    <AccordionTrigger>Incremental rebuild behavior</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+The builder stores cache data under `<output.dir>/.registry-build/`. On warm runs it reuses file hashes, skips unchanged writes, removes stale generated files, and can narrow work further with `--changed-only` plus explicit changed paths.
+
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+---
+
+## Typical use cases
+
+- Build a docs-site registry from component source folders.
+- Emit an installable JSON index for a CLI.
+- Create a generated component import map for a framework.
+- Generate theme and token payloads from static data files.
+- Produce custom artifacts through extension hooks after the base registry is materialized.

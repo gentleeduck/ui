@@ -1,0 +1,333 @@
+---
+title: "Configuration"
+description: "Full registry-build config reference with collapsible sections for every major config area."
+---
+
+<Callout icon={<Search />}>
+
+This page is the full config reference. The dense parts are organized as accordions so you can open only the sections you need while wiring a real build.
+
+</Callout>
+
+## Base shape
+
+```ts
+import { defineConfig } from '@gentleduck/registry-build'
+
+export default defineConfig({
+  extends: ['./registry-build.base.ts'],
+  sources: {},
+  registrySource: 'inline',
+  registries: {},
+  output: {
+    dir: '.',
+  },
+  importMappings: {},
+  targetPaths: {},
+  componentIndex: {},
+  colors: {},
+  themes: {},
+  cssTemplates: {},
+  stripVariables: [],
+  performance: {},
+  pipeline: {},
+  branding: {},
+  schema: {},
+  extensions: [],
+})
+```
+
+<Callout icon={<Target />}>
+
+Registry item types are enforced as ``registry:${string}``. That namespace flows through `sources`, `targetPaths`, `packageMappings`, `schema.itemTypes`, and every `RegistryEntry.type`.
+
+</Callout>
+
+---
+
+## Reference
+
+<Accordion type="multiple" className="w-full">
+  <AccordionItem value="sources">
+    <AccordionTrigger>`sources`</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+`sources` maps each registry item type to a source directory definition.
+
+| Field | Type | Purpose |
+| --- | --- | --- |
+| `path` | `string` | Filesystem path relative to the config file |
+| `packageName` | `string` | Package base used for generated import paths |
+| `glob` | `string` | Discovery pattern, default `**/*.{ts,tsx}` |
+| `ignore` | `string[]` | Ignore globs for discovery |
+| `indexStrategy` | `'item' \| 'file'` | Emit one index record per registry item or per discovered file |
+| `referencePath` | `string` | Stable logical path stored in generated metadata |
+
+```ts
+sources: {
+  'registry:ui': {
+    path: '../../packages/registry-ui/src',
+    packageName: '@example/registry-ui',
+    referencePath: '/registry-ui/src',
+  },
+  'registry:example': {
+    path: '../../packages/registry-examples/src',
+    indexStrategy: 'file',
+    referencePath: '/registry-examples/src',
+  },
+}
+```
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="registries">
+    <AccordionTrigger>`registries` and `registrySource`</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+`registries` is the structured metadata that describes items to build. Categories are consumer-defined keys such as `uis`, `examples`, or `blocks`.
+
+`registrySource` controls where those entries come from:
+
+- `'inline'` means use the `registries` object directly
+- a file path means load external JSON/TS data, then merge it with inline entries
+
+```ts
+registrySource: 'inline',
+registries: {
+  uis: [
+    {
+      name: 'button',
+      root_folder: 'button',
+      type: 'registry:ui',
+    },
+  ],
+}
+```
+
+Each entry can include metadata such as `dependencies`, `registryDependencies`, `files`, `description`, `categories`, `tailwind`, and `cssVars`.
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="output">
+    <AccordionTrigger>`output`</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+`output.dir` is required after defaults and `extends` are resolved.
+
+| Field | Default |
+| --- | --- |
+| `dir` | required |
+| `registryDir` | `public/r` |
+| `componentIndexDir` | `__ui_registry__` |
+| `componentIndexFile` | `index.tsx` |
+| `componentsDir` | `components` |
+| `colorsDir` | `colors` |
+| `themesDir` | `themes` |
+| `themesCssFile` | `themes.css` |
+
+```ts
+output: {
+  dir: './apps/docs',
+  registryDir: 'public/r',
+  componentIndexDir: '__ui_registry__',
+}
+```
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="imports-targets">
+    <AccordionTrigger>`importMappings` and `targetPaths`</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+Use `contentRewrites` when copied source files need import rewriting. Use `packageMappings` when generated component indexes should import from a package path that differs from the source declaration.
+
+Use `targetPaths` to tell generated item files where they should land in consumer projects.
+
+```ts
+importMappings: {
+  contentRewrites: [
+    {
+      pattern: '@old/pkg',
+      replacement: '@new/pkg',
+    },
+  ],
+  packageMappings: {
+    'registry:ui': '@example/registry-ui',
+    'registry:example': '@example/registry-examples',
+  },
+},
+targetPaths: {
+  'registry:ui': 'components/ui',
+  'registry:example': 'components',
+}
+```
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="component-index">
+    <AccordionTrigger>`componentIndex`</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+This config shapes the generated component import index used by extensions such as `componentIndexExtension`.
+
+| Field | Purpose |
+| --- | --- |
+| `framework` | Select built-in adapter: `nextjs`, `vite`, `astro`, or `custom` |
+| `header` | Override generated file header |
+| `excludeTypes` | Skip registry item types from the component index |
+| `ssr` | Framework-specific SSR hint |
+| `generator` | Full custom generator function |
+
+```ts
+componentIndex: {
+  framework: 'nextjs',
+  excludeTypes: ['registry:ui', 'registry:hook'],
+  ssr: false,
+}
+```
+
+If `generator` is set, it takes over file generation entirely.
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="themes-colors">
+    <AccordionTrigger>`colors`, `themes`, and `cssTemplates`</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+These fields feed the colors/themes extension layer.
+
+`colors.data` and `themes.data` can be:
+
+- inline objects
+- file paths when declared at the root config level
+
+`themes` also controls:
+
+- `cssVarKeys`
+- `names`
+- `defaultRadius`
+
+`cssTemplates` lets consumers override the generated base CSS strings.
+
+```ts
+colors: {
+  data: './data/colors.json',
+},
+themes: {
+  data: './data/themes.json',
+  names: ['zinc', 'stone'],
+  cssVarKeys: ['background', 'foreground'],
+  defaultRadius: '0.5rem',
+},
+cssTemplates: {
+  baseStyles: '@tailwind base;\\n@tailwind components;\\n@tailwind utilities;',
+}
+```
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="performance">
+    <AccordionTrigger>`performance`</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+Performance settings control incremental behavior.
+
+| Field | Default | Purpose |
+| --- | --- | --- |
+| `cacheDir` | `.registry-build` | Cache directory under `output.dir` |
+| `incremental` | `true` | Enable file-hash cache and phase reuse |
+| `parallelism` | CPU-aware default | Bound concurrent discovery and generation work |
+
+```ts
+performance: {
+  cacheDir: '.registry-build',
+  incremental: true,
+  parallelism: 6,
+}
+```
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="pipeline-schema-branding">
+    <AccordionTrigger>`pipeline`, `schema`, `branding`, and `stripVariables`</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+`pipeline` only controls the core phases today:
+
+- `index`
+- `components`
+
+`schema.itemTypes` declares the registry item type namespace you expect.
+
+`stripVariables` removes named variables from copied source files before they are emitted into generated JSON payloads.
+
+`branding` currently feeds extension and UI-facing metadata such as banners.
+
+```ts
+pipeline: {
+  index: true,
+  components: true,
+},
+schema: {
+  itemTypes: ['registry:ui', 'registry:example', 'registry:block'],
+},
+stripVariables: ['iframeHeight', 'description'],
+branding: {
+  name: 'Duck UI',
+}
+```
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="composition">
+    <AccordionTrigger>`extends` and `mergeRegistryBuildConfigs`</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+Use `extends` for file-based composition and `mergeRegistryBuildConfigs()` for code-driven composition.
+
+`extends` is path-aware:
+
+- source paths resolve relative to the file that declared them
+- external data files resolve relative to the file that declared them
+- maps and arrays are merged where appropriate
+
+```ts
+export default defineConfig({
+  extends: ['./registry-build.base.ts', './registry-build.theme.ts'],
+  output: {
+    dir: '.',
+  },
+})
+```
+
+```ts
+import { defineConfig, mergeRegistryBuildConfigs } from '@gentleduck/registry-build'
+import { baseConfig } from './registry-build.base'
+import { themeConfig } from './registry-build.theme'
+
+export default defineConfig(mergeRegistryBuildConfigs(baseConfig, themeConfig))
+```
+
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+---
+
+## Read next
+
+<Callout icon={<MapIcon />} className="[&_ul]:my-0">
+
+- [Extensions](/docs/packages/duck-registry-build/extensions) for the optional output model
+- [CLI](/docs/packages/duck-registry-build/cli) for runtime flags
+- [Performance](/docs/packages/duck-registry-build/performance) for incremental behavior details
+
+</Callout>
