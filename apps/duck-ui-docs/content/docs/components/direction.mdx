@@ -66,6 +66,7 @@ import { DIRECTION_DICTIONARY, DirectionProvider, useDirection } from '@/compone
 | --- | --- | --- |
 | `DIRECTION_DICTIONARY` | `{ ltr: 'ltr'; rtl: 'rtl' }` | Canonical direction values |
 | `DirectionProvider` | `React.FC<{ dir: 'ltr' \| 'rtl'; children?: ReactNode }>` | Provides direction to descendants |
+| `Provider` | `React.FC<{ dir: 'ltr' \| 'rtl'; children?: ReactNode }>` | Alias for `DirectionProvider` |
 | `useDirection` | `(localDir?: 'ltr' \| 'rtl') => 'ltr' \| 'rtl'` | Resolves `localDir` -> context -> `'ltr'` |
 | `DirectionContext` | `React.Context<'ltr' \| 'rtl' \| undefined>` | Underlying context object |
 

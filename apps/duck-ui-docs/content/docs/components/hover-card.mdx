@@ -107,11 +107,13 @@ Root wrapper that provides hover-card state and context. Wraps `HoverCardPrimiti
 
 ### HoverCardTrigger
 
-The element that triggers the hover card on hover. Renders a `Button` internally.
+The element that triggers the hover card on hover. Applies `buttonVariants` styling.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `variant` | `string` | `'outline'` | Variant style applied to the internal `Button` |
+| `variant` | `ButtonVariant` | `'outline'` | Button variant style |
+| `size` | `ButtonSize` | `'default'` | Button size |
+| `border` | `ButtonBorder` | `'default'` | Button border style |
 | `asChild` | `boolean` | `false` | Whether to use the child as the trigger element directly |
 | `children` | `React.ReactNode` | `--` | Content rendered inside the trigger button |
 | `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Trigger> & React.ComponentPropsWithoutRef<typeof Button>` | -- | Additional props inherited from `HoverCard.Trigger` and `Button`. |

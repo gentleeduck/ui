@@ -214,7 +214,8 @@ Wrapper around `DrawerPrimitive.Close`. Closes the drawer when clicked.
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS classes applied to the content panel |
 | `children` | `React.ReactNode` | -- | Drawer inner content |
-| `overlay` | `React.ComponentPropsWithRef<typeof DrawerOverlay>` | -- | Props forwarded to the `DrawerOverlay` |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `overlayProps` | `React.ComponentPropsWithoutRef<typeof DrawerOverlay>` | -- | Props forwarded to the `DrawerOverlay` |
 | `...props` | `React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content>` | -- | Additional props inherited from `Drawer.Content`. |
 
 ### DrawerHeader
@@ -229,6 +230,7 @@ Wrapper around `DrawerPrimitive.Close`. Closes the drawer when clicked.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | -- | Additional CSS classes applied to the footer |
 | `children` | `React.ReactNode` | -- | Footer content |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
@@ -237,6 +239,7 @@ Wrapper around `DrawerPrimitive.Close`. Closes the drawer when clicked.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | -- | Additional CSS classes applied to the title |
 | `children` | `React.ReactNode` | -- | Title text |
 | `...props` | `React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title>` | -- | Additional props inherited from `Drawer.Title`. |
@@ -245,6 +248,7 @@ Wrapper around `DrawerPrimitive.Close`. Closes the drawer when clicked.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | -- | Additional CSS classes applied to the description |
 | `children` | `React.ReactNode` | -- | Description text |
 | `...props` | `React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>` | -- | Additional props inherited from `Drawer.Description`. |

@@ -102,6 +102,7 @@ Displays an individual keyboard key with consistent styling.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | -- | Additional class names for the kbd element |
 | `children` | `React.ReactNode` | -- | Key label text or icon |
 | `...props` | `React.HTMLProps<HTMLElement>` | -- | Additional props to spread to the kbd element |
@@ -114,7 +115,7 @@ Groups multiple `Kbd` components together in an inline layout.
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional class names for the group |
 | `children` | `React.ReactNode` | -- | `Kbd` elements to group together |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `...props` | `React.ComponentPropsWithoutRef<'div'>` | -- | Additional props to spread to the group element (renders as a `kbd`) |
 
 ## RTL Support
 

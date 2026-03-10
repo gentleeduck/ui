@@ -38,7 +38,24 @@ This form leverages TanStack Form for powerful, headless form handling. We'll bu
 
 Here's a basic example of a form using TanStack Form with the `<Field />` component.
 
-```tsx showLineNumbers {15-31}
+```tsx showLineNumbers {1-14,29-45}
+function toFieldErrors(errors: unknown[]) {
+  return errors
+    .map((error) => {
+      if (typeof error === "string") {
+        return { message: error }
+      }
+      if (error && typeof error === "object" && "message" in error) {
+        const message = (error as { message?: unknown }).message
+        return { message: typeof message === "string" ? message : undefined }
+      }
+      return undefined
+    })
+    .filter(
+      (error): error is { message: string | undefined } => Boolean(error)
+    )
+}
+
 <form
   onSubmit={(e) => {
     e.preventDefault()
@@ -67,7 +84,9 @@ Here's a basic example of a form using TanStack Form with the `<Field />` compon
             <FieldDescription>
               Provide a concise title for your bug report.
             </FieldDescription>
-            {isInvalid && <FieldError errors={field.state.meta.errors} />}
+            {isInvalid && (
+              <FieldError errors={toFieldErrors(field.state.meta.errors)} />
+            )}
           </Field>
         )
       }}
@@ -76,6 +95,8 @@ Here's a basic example of a form using TanStack Form with the `<Field />` compon
   <Button type="submit">Submit</Button>
 </form>
 ```
+
+The `toFieldErrors` helper normalizes TanStack Form's error format (which can be strings or objects) into the `{ message: string }` format expected by the `<FieldError />` component.
 
 ## Form
 
@@ -215,7 +236,7 @@ Display errors next to the field using `<FieldError />`. For styling and accessi
 - Add the `data-invalid` prop to the `<Field />` component.
 - Add the `aria-invalid` prop to the form control such as `<Input />`, `<SelectTrigger />`, `<Checkbox />`, etc.
 
-```tsx showLineNumbers title="form.tsx" {4,18}
+```tsx showLineNumbers title="form.tsx" {4,18-20}
 <form.Field
   name="email"
   children={(field) => {
@@ -233,7 +254,9 @@ Display errors next to the field using `<FieldError />`. For styling and accessi
           type="email"
           aria-invalid={isInvalid}
         />
-        {isInvalid && <FieldError errors={field.state.meta.errors} />}
+        {isInvalid && (
+          <FieldError errors={toFieldErrors(field.state.meta.errors)} />
+        )}
       </Field>
     )
   }}

@@ -211,6 +211,7 @@ Container that renders a semantic `fieldset` with spacing presets.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | `--` | Additional CSS classes |
 | `children` | `React.ReactNode` | `--` | Fieldset content |
 | `...props` | `React.HTMLProps<HTMLFieldSetElement>` | -- | Additional props to spread to the fieldset element |

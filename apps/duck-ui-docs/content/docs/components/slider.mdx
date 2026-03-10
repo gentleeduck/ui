@@ -107,7 +107,7 @@ A unified slider component that supports both single-thumb and multi-thumb (rang
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
-| `defaultValue` | `number[]` | `[min, max]` | Uncontrolled initial values |
+| `defaultValue` | `number[]` | -- | Uncontrolled initial values. When omitted (and `value` is also omitted), two thumbs are rendered at `[min, max]`. |
 | `value` | `number[]` | -- | Controlled values array |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider orientation |
 | `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`) and inherited by slider parts. |

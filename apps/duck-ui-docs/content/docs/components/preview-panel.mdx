@@ -148,6 +148,7 @@ The core pan-zoom container.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `maxHeight` | `string` | `--` | Maximum height of the panel container (e.g. `"400px"`) |
 | `minZoom` | `number` | `0.25` | Minimum zoom level |
 | `maxZoom` | `number` | `4` | Maximum zoom level |
@@ -167,6 +168,7 @@ Combines an inline `PreviewPanel` with a fullscreen `Dialog`. Includes an expand
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `children` | `React.ReactNode` | -- | Content rendered in both inline and dialog panels |
 | `html` | `string` | -- | Raw HTML string. Takes priority over `children` |
 | `className` | `string` | -- | Class name for the outer wrapper |

@@ -169,6 +169,7 @@ You can adjust the size of the sheet using CSS classes:
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'right'` | The side from which the sheet slides in |
+| `closeText` | `string` | `'Close'` | Screen-reader label for the built-in close button |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | Sheet content |
 | `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content> & VariantProps<typeof sheetVariants>` | -- | Additional props inherited from `SheetPrimitive.Content` and the local `sheetVariants` |
@@ -187,7 +188,7 @@ You can adjust the size of the sheet using CSS classes:
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | -- | Additional props to spread to the footer div |
 
 ### SheetTitle
 
