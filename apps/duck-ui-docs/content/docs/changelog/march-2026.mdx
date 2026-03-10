@@ -1,6 +1,45 @@
 ---
 title: March 2026
-description: CLI v1.2.0 with merge/diff GUI, docs MDX pipeline overhaul, vim keyboard engine modules, and version release across all packages.
+description: Registry-build extension-driven architecture, CLI v1.2.0 with merge/diff GUI, docs MDX pipeline overhaul, vim keyboard engine modules, and version release across all packages.
+---
+
+## Registry Build -- Extension-Driven Architecture <Badge>feat</Badge>
+
+Major refactoring of `@gentleduck/registry-build` into a fully extension-driven build system with generic collections support.
+
+### Extension-driven runner
+
+The core runner no longer has built-in index or components phases. All processing is now performed by explicit extensions that consumers register in their config:
+
+- `bannerExtension()` -- CLI banner output (beforeBuild)
+- `validateExtension()` -- source path and registry entry validation (beforeBuild)
+- `indexBuildExtension()` -- registry entry materialization and `index.json` generation (afterBuild)
+- `componentsExtension()` -- per-item JSON component payload generation (afterBuild)
+- `componentIndexExtension()` -- framework-specific import index generation (afterBuild)
+- `colorsExtension()` -- theme CSS and color JSON generation (afterBuild)
+
+Use `uiRegistryPreset()` to bundle all standard UI extensions, or register them individually for full control.
+
+### Generic collections
+
+New `collections` config surface for non-UI consumers. Collections hold file-backed data, named source trees, and arbitrary metadata. Extensions read collections without assuming UI registry structure.
+
+### Config composition
+
+- File-based `extends` with path-aware resolution (source paths, data files resolve relative to the declaring config)
+- Code-driven `mergeRegistryBuildConfigs()` for parameterized preset factories
+- Monorepo-specific presets moved out of the package to consumer-local config files
+
+### Codebase hardening
+
+- Consolidated over-split config files (`types.ts`, `defaults.ts` merged back to single files)
+- Removed dead code (unused logger, duplicate type aliases, unexported internal helpers)
+- Added JSDoc to all exported functions across `lib/`, `pipeline/`, `extensions/`, and `config/`
+- Added unit tests for config merge, defaults, change detection, and framework adapters
+- 51 tests across 7 test files with 109 assertions
+
+See the full [registry-build docs](/docs/packages/duck-registry-build).
+
 ---
 
 ## CLI v1.2.0 -- Merge and Diff GUI <Badge>feat</Badge>
@@ -76,6 +115,7 @@ Published new versions across all packages:
 
 | Package | Version | Type |
 | --- | --- | --- |
+| `@gentleduck/registry-build` | 0.1.0 | minor |
 | `@gentleduck/cli` | 1.2.0 | minor |
 | `@gentleduck/registers` | 0.3.0 | minor |
 | `@gentleduck/primitives` | 0.2.1 | patch |
