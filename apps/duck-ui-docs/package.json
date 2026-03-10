@@ -13,6 +13,7 @@
     "@gentleduck/primitives": "workspace:*",
     "@gentleduck/registers": "workspace:*",
     "@gentleduck/registry-blocks": "workspace:*",
+    "@gentleduck/registry-build": "workspace:*",
     "@gentleduck/registry-examples": "workspace:*",
     "@gentleduck/registry-internals": "workspace:*",
     "@gentleduck/registry-ui": "workspace:*",
