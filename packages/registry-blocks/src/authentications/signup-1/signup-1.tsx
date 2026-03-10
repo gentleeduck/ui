@@ -11,7 +11,7 @@ import Image from 'next/image'
 import type React from 'react'
 import { icons } from './signup-1.constants'
 
-export default function signup_1({ className }: { className?: string }) {
+export default function Signup1({ className }: { className?: string }) {
   return (
     <div
       className={cn(

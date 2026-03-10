@@ -2,7 +2,7 @@ import { Badge } from '@gentleduck/registry-ui/badge'
 import { Card, CardContent, CardHeader } from '@gentleduck/registry-ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'
 
-export default function Blog01Page() {
+export default function Blog02Page() {
   return (
     <div className="mx-auto max-w-(--breakpoint-xl) px-6 py-16 xl:px-0">
       <div className="flex items-end justify-between">
