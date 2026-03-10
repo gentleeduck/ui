@@ -12,7 +12,7 @@
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@types/node": "^25.3.0",
-    "tsdown": "0.18.3",
+    "tsdown": "0.21.1",
     "typescript": "5.9.3",
     "zod": "4.3.6"
   },
