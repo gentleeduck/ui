@@ -1,9 +1,9 @@
 import assert from 'node:assert/strict'
-import fs from 'node:fs/promises'
-import path from 'node:path'
-import { tmpdir } from 'node:os'
-import { fileURLToPath } from 'node:url'
 import { spawn } from 'node:child_process'
+import fs from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const scriptDir = path.dirname(fileURLToPath(import.meta.url))
 const packageDir = path.resolve(scriptDir, '..')
@@ -59,7 +59,11 @@ async function main() {
   try {
     await fs.mkdir(tarballDir, { recursive: true })
     await fs.mkdir(path.join(consumerDir, 'src', 'ui', 'button'), { recursive: true })
-    await fs.writeFile(path.join(consumerDir, 'src', 'ui', 'button', 'button.tsx'), 'export const Button = () => null\n', 'utf8')
+    await fs.writeFile(
+      path.join(consumerDir, 'src', 'ui', 'button', 'button.tsx'),
+      'export const Button = () => null\n',
+      'utf8',
+    )
     await fs.writeFile(
       path.join(consumerDir, 'package.json'),
       JSON.stringify(
@@ -121,7 +125,10 @@ export default defineConfig({
 
     const tarballFilename = (await fs.readdir(tarballDir)).find((entry) => entry.endsWith('.tgz'))
 
-    assert.ok(tarballFilename, `npm pack did not return a tarball filename:\n${packResult.stdout}\n${packResult.stderr}`)
+    assert.ok(
+      tarballFilename,
+      `npm pack did not return a tarball filename:\n${packResult.stdout}\n${packResult.stderr}`,
+    )
     tarballPath = path.join(tarballDir, tarballFilename)
 
     const extractResult = await runCommand('tar', ['-xzf', tarballPath, '-C', tempRoot], { cwd: tempRoot })
@@ -133,7 +140,9 @@ export default defineConfig({
     await fs.mkdir(path.dirname(packageInstallDir), { recursive: true })
     await fs.rename(extractedPackageDir, packageInstallDir)
 
-    const installedPackageJson = JSON.parse(await fs.readFile(path.join(packageInstallDir, 'package.json'), 'utf8')) as {
+    const installedPackageJson = JSON.parse(
+      await fs.readFile(path.join(packageInstallDir, 'package.json'), 'utf8'),
+    ) as {
       bin?: Record<string, string>
       dependencies?: Record<string, string>
     }
@@ -158,7 +167,9 @@ export default defineConfig({
     const cliResult = await runCommand(cliPath, ['build'], { cwd: consumerDir })
     assert.equal(cliResult.code, 0, `installed registry-build CLI failed:\n${cliResult.stderr || cliResult.stdout}`)
 
-    const indexJson = JSON.parse(await fs.readFile(path.join(consumerDir, 'dist', 'public', 'r', 'index.json'), 'utf8')) as Array<{
+    const indexJson = JSON.parse(
+      await fs.readFile(path.join(consumerDir, 'dist', 'public', 'r', 'index.json'), 'utf8'),
+    ) as Array<{
       name: string
       source: string
     }>
@@ -169,7 +180,10 @@ export default defineConfig({
       source: string
     }
 
-    assert.deepEqual(indexJson.map((entry) => entry.name), ['button'])
+    assert.deepEqual(
+      indexJson.map((entry) => entry.name),
+      ['button'],
+    )
     assert.equal(indexJson[0]?.source, '/registry-ui/src/button')
     assert.equal(componentJson.source, '/registry-ui/src/button')
     assert.equal(componentJson.files[0]?.target, 'components/ui/button.tsx')
