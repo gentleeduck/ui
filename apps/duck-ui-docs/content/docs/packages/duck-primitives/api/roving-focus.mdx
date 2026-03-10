@@ -30,6 +30,11 @@ import * as RovingFocusGroup from '@gentleduck/primitives/roving-focus'
 | `orientation` | `'horizontal' \| 'vertical'` | -- | Arrow key direction |
 | `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved with `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `loop` | `boolean` | `false` | Wrap at boundaries |
+| `currentTabStopId` | `string \| null` | -- | Controlled active tab stop ID |
+| `defaultCurrentTabStopId` | `string` | -- | Initial active tab stop ID (uncontrolled) |
+| `onCurrentTabStopIdChange` | `(tabStopId: string \| null) => void` | -- | Called when the active tab stop changes |
+| `onEntryFocus` | `(event: Event) => void` | -- | Called when focus enters the group. Call `event.preventDefault()` to prevent auto-focus. |
+| `preventScrollOnEntryFocus` | `boolean` | `false` | Prevent scroll when focus enters the group |
 
 ## How it works
 
