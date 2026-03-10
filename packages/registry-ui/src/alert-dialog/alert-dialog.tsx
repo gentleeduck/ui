@@ -6,10 +6,13 @@ import * as React from 'react'
 import { buttonVariants } from '../button'
 
 const AlertDialog = AlertDialogPrimitive.Root
+AlertDialog.displayName = 'AlertDialog'
 
 const AlertDialogTrigger = AlertDialogPrimitive.Trigger
+AlertDialogTrigger.displayName = 'AlertDialogTrigger'
 
 const AlertDialogPortal = AlertDialogPrimitive.Portal
+AlertDialogPortal.displayName = 'AlertDialogPortal'
 
 const AlertDialogOverlay = React.forwardRef<
   React.ComponentRef<typeof AlertDialogPrimitive.Overlay>,
@@ -46,13 +49,17 @@ const AlertDialogContent = React.forwardRef<
 ))
 AlertDialogContent.displayName = AlertDialogPrimitive.Content.displayName
 
-const AlertDialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('flex flex-col space-y-2 text-center sm:text-start', className)} {...props} />
+const AlertDialogHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn('flex flex-col space-y-2 text-center sm:text-start', className)} {...props} />
+  ),
 )
 AlertDialogHeader.displayName = 'AlertDialogHeader'
 
-const AlertDialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:gap-2', className)} {...props} />
+const AlertDialogFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:gap-2', className)} {...props} />
+  ),
 )
 AlertDialogFooter.displayName = 'AlertDialogFooter'
 

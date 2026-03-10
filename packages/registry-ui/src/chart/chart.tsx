@@ -29,7 +29,7 @@ function useChart() {
   return context
 }
 
-const ChartContainer = ({ id, className, children, config, ref, dir, ...props }: ChartContainerProps) => {
+function ChartContainer({ id, className, children, config, ref, dir, ...props }: ChartContainerProps) {
   const uniqueId = React.useId()
   const chartId = `chart-${id || uniqueId.replace(/:/g, '')}`
   const direction = useDirection(dir as Direction)
@@ -54,8 +54,9 @@ const ChartContainer = ({ id, className, children, config, ref, dir, ...props }:
     </ChartContext.Provider>
   )
 }
+ChartContainer.displayName = 'ChartContainer'
 
-const ChartStyle = ({ id, config }: ChartStyleProps) => {
+function ChartStyle({ id, config }: ChartStyleProps) {
   const colorConfig = Object.entries(config).filter(([_, config]) => config.theme || config.color)
 
   if (!colorConfig.length) {
@@ -84,10 +85,11 @@ ${colorConfig
     />
   )
 }
+ChartStyle.displayName = 'ChartStyle'
 
 const ChartTooltip = RechartsPrimitive.Tooltip
 
-const ChartTooltipContent = ({
+function ChartTooltipContent({
   active,
   payload,
   className,
@@ -102,7 +104,7 @@ const ChartTooltipContent = ({
   color,
   nameKey,
   labelKey,
-}: ChartTooltipContentProps) => {
+}: ChartTooltipContentProps) {
   const { config } = useChart()
 
   const tooltipLabel = React.useMemo(() => {
@@ -212,17 +214,19 @@ const ChartTooltipContent = ({
     </div>
   )
 }
+ChartTooltipContent.displayName = 'ChartTooltipContent'
 
 const ChartLegend = RechartsPrimitive.Legend
+ChartLegend.displayName = 'ChartLegend'
 
-const ChartLegendContent = ({
+function ChartLegendContent({
   className,
   hideIcon = false,
   payload,
   verticalAlign = 'bottom',
   ref,
   nameKey,
-}: ChartLegendContentProps) => {
+}: ChartLegendContentProps) {
   const { config } = useChart()
 
   if (!payload?.length) {
@@ -260,5 +264,6 @@ const ChartLegendContent = ({
     </div>
   )
 }
+ChartLegendContent.displayName = 'ChartLegendContent'
 
 export { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartStyle }

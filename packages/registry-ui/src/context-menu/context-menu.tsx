@@ -6,16 +6,22 @@ import { Check, ChevronRight, Circle } from 'lucide-react'
 import * as React from 'react'
 
 const ContextMenu = ContextMenuPrimitive.Root
+ContextMenu.displayName = 'ContextMenu'
 
 const ContextMenuTrigger = ContextMenuPrimitive.Trigger
+ContextMenuTrigger.displayName = 'ContextMenuTrigger'
 
 const ContextMenuGroup = ContextMenuPrimitive.Group
+ContextMenuGroup.displayName = 'ContextMenuGroup'
 
 const ContextMenuPortal = ContextMenuPrimitive.Portal
+ContextMenuPortal.displayName = 'ContextMenuPortal'
 
 const ContextMenuSub = ContextMenuPrimitive.Sub
+ContextMenuSub.displayName = 'ContextMenuSub'
 
 const ContextMenuRadioGroup = ContextMenuPrimitive.RadioGroup
+ContextMenuRadioGroup.displayName = 'ContextMenuRadioGroup'
 
 const ContextMenuSubTrigger = React.forwardRef<
   React.ComponentRef<typeof ContextMenuPrimitive.SubTrigger>,
@@ -154,9 +160,11 @@ const ContextMenuSeparator = React.forwardRef<
 ))
 ContextMenuSeparator.displayName = ContextMenuPrimitive.Separator.displayName
 
-const ContextMenuShortcut = ({ className, ...props }: React.HTMLAttributes<HTMLSpanElement>) => {
-  return <span className={cn('ms-auto text-muted-foreground text-xs tracking-widest', className)} {...props} />
-}
+const ContextMenuShortcut = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanElement>>(
+  ({ className, ...props }, ref) => (
+    <span ref={ref} className={cn('ms-auto text-muted-foreground text-xs tracking-widest', className)} {...props} />
+  ),
+)
 ContextMenuShortcut.displayName = 'ContextMenuShortcut'
 
 export {

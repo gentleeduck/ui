@@ -6,10 +6,13 @@ import { Check, ChevronDown, ChevronUp } from 'lucide-react'
 import * as React from 'react'
 
 const Select = SelectPrimitive.Root
+Select.displayName = 'Select'
 
 const SelectGroup = SelectPrimitive.Group
+SelectGroup.displayName = 'SelectGroup'
 
 const SelectValue = SelectPrimitive.Value
+SelectValue.displayName = 'SelectValue'
 
 const SelectTrigger = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Trigger>,

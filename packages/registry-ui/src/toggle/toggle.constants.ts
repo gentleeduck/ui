@@ -10,8 +10,8 @@ export const toggleVariants = cva(
     variants: {
       size: {
         default: 'h-9 px-4 py-2 has-[>svg]:px-3',
-        lg: 'h-10 min-w-11 px-5 px-6 has-[>svg]:px-4',
-        sm: 'h-8 min-w-9 gap-1.5 px-2.5 px-3 has-[>svg]:px-2.5',
+        lg: 'h-10 min-w-11 px-6 has-[>svg]:px-4',
+        sm: 'h-8 min-w-9 gap-1.5 px-3 has-[>svg]:px-2.5',
       },
       variant: {
         default: 'bg-transparent',

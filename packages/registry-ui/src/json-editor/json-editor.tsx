@@ -421,3 +421,4 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
     </Field>
   )
 }
+JsonTextareaField.displayName = 'JsonTextareaField'

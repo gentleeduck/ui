@@ -127,6 +127,15 @@ function DialogCloseResponsive({
   return <DrawerClose {...props}>{children}</DrawerClose>
 }
 
+DialogResponsive.displayName = 'DialogResponsive'
+DialogTriggerResponsive.displayName = 'DialogTriggerResponsive'
+DialogContentResponsive.displayName = 'DialogContentResponsive'
+DialogHeaderResponsive.displayName = 'DialogHeaderResponsive'
+DialogFooterResponsive.displayName = 'DialogFooterResponsive'
+DialogTitleResponsive.displayName = 'DialogTitleResponsive'
+DialogDescriptionResponsive.displayName = 'DialogDescriptionResponsive'
+DialogCloseResponsive.displayName = 'DialogCloseResponsive'
+
 export {
   DialogResponsive,
   DialogTriggerResponsive,

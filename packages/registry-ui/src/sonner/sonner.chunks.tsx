@@ -78,4 +78,6 @@ const SonnerUpload = ({
   )
 }
 
+SonnerUpload.displayName = 'SonnerUpload'
+
 export { SonnerUpload }

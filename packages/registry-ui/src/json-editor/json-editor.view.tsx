@@ -108,3 +108,4 @@ export function JsonEditorView({
     </div>
   )
 }
+JsonEditorView.displayName = 'JsonEditorView'

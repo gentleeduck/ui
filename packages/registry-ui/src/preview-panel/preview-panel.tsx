@@ -3,7 +3,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Minus, Plus, RotateCcw } from 'lucide-react'
-import { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Badge } from '../badge'
 import { Button } from '../button'
 import { ButtonGroup } from '../button-group'
@@ -89,300 +89,307 @@ const ZoomControls = memo(function ZoomControls({
 // All transforms bypass React via direct DOM writes for zero re-renders
 // during continuous interactions (drag, wheel, pinch).
 
-function PreviewPanel({
-  maxHeight,
-  minZoom = 0.25,
-  maxZoom = 4,
-  initialZoom = 1,
-  showControls = true,
-  html,
-  children,
-  className,
-  style,
-  onStateChange,
-  syncState,
-  dir,
-  ...rest
-}: PreviewPanelProps) {
-  const containerRef = useRef<HTMLDivElement>(null)
-  const contentRef = useRef<HTMLDivElement>(null)
+const PreviewPanel = React.forwardRef<HTMLDivElement, PreviewPanelProps>(
+  (
+    {
+      maxHeight,
+      minZoom = 0.25,
+      maxZoom = 4,
+      initialZoom = 1,
+      showControls = true,
+      html,
+      children,
+      className,
+      style,
+      onStateChange,
+      syncState,
+      dir,
+      ...rest
+    },
+    ref,
+  ) => {
+    const containerRef = useRef<HTMLDivElement>(null)
+    const contentRef = useRef<HTMLDivElement>(null)
 
-  // All mutable interaction state lives in a single ref object.
-  // Nothing here triggers React re-renders.
-  const s = useRef({
-    zoom: initialZoom,
-    x: 0,
-    y: 0,
-    dragging: false,
-    dragStartX: 0,
-    dragStartY: 0,
-    posStartX: 0,
-    posStartY: 0,
-    rafId: 0,
-    emitPending: false,
-    pinchDist: 0,
-    pinchZoom: initialZoom,
-    willChangeTimer: 0,
-  })
-
-  // Only React state: the zoom label percentage
-  const [displayZoom, setDisplayZoom] = useState(initialZoom)
-
-  // Stable ref for the callback so effects never re-subscribe
-  const onStateChangeRef = useRef(onStateChange)
-  onStateChangeRef.current = onStateChange
-
-  // Flush a pending state emission. Called from RAF or directly by button handlers.
-  const flushEmit = useCallback(() => {
-    if (!s.current.emitPending) return
-    s.current.emitPending = false
-    onStateChangeRef.current?.({
-      zoom: s.current.zoom,
-      x: s.current.x,
-      y: s.current.y,
+    // All mutable interaction state lives in a single ref object.
+    // Nothing here triggers React re-renders.
+    const s = useRef({
+      zoom: initialZoom,
+      x: 0,
+      y: 0,
+      dragging: false,
+      dragStartX: 0,
+      dragStartY: 0,
+      posStartX: 0,
+      posStartY: 0,
+      rafId: 0,
+      emitPending: false,
+      pinchDist: 0,
+      pinchZoom: initialZoom,
+      willChangeTimer: 0,
     })
-  }, [])
 
-  // Mark state as dirty so the next RAF tick emits it.
-  // For continuous interactions (drag, wheel, pinch) this batches
-  // multiple events into one React state update per frame.
-  const markDirty = useCallback(() => {
-    s.current.emitPending = true
-  }, [])
+    // Only React state: the zoom label percentage
+    const [displayZoom, setDisplayZoom] = useState(initialZoom)
 
-  // Write transform directly to the DOM element.
-  const applyTransform = useCallback((animate: boolean) => {
-    const el = contentRef.current
-    if (!el) return
-    const { x, y, zoom } = s.current
-    el.style.transform = `translate3d(${x}px,${y}px,0) scale(${zoom})`
-    el.style.transition = animate ? 'transform 0.15s ease-out' : 'none'
-    // GPU-composite during interaction, then clear so browser
-    // re-rasterizes at the new zoom for crisp SVG text
-    el.style.willChange = 'transform'
-    clearTimeout(s.current.willChangeTimer)
-    s.current.willChangeTimer = window.setTimeout(() => {
-      if (contentRef.current && !s.current.dragging) {
-        contentRef.current.style.willChange = 'auto'
-      }
-    }, 200)
-  }, [])
+    // Stable ref for the callback so effects never re-subscribe
+    const onStateChangeRef = useRef(onStateChange)
+    onStateChangeRef.current = onStateChange
 
-  // Batch DOM writes behind a single requestAnimationFrame.
-  // Also flushes any pending state emission in the same frame.
-  const scheduleApply = useCallback(() => {
-    if (s.current.rafId) return
-    s.current.rafId = requestAnimationFrame(() => {
-      s.current.rafId = 0
-      applyTransform(false)
-      flushEmit()
-    })
-  }, [applyTransform, flushEmit])
+    // Flush a pending state emission. Called from RAF or directly by button handlers.
+    const flushEmit = useCallback(() => {
+      if (!s.current.emitPending) return
+      s.current.emitPending = false
+      onStateChangeRef.current?.({
+        zoom: s.current.zoom,
+        x: s.current.x,
+        y: s.current.y,
+      })
+    }, [])
 
-  const syncDisplay = useCallback(() => setDisplayZoom(s.current.zoom), [])
+    // Mark state as dirty so the next RAF tick emits it.
+    // For continuous interactions (drag, wheel, pinch) this batches
+    // multiple events into one React state update per frame.
+    const markDirty = useCallback(() => {
+      s.current.emitPending = true
+    }, [])
 
-  // -- Sync from external state (receives changes from a paired panel) --
+    // Write transform directly to the DOM element.
+    const applyTransform = useCallback((animate: boolean) => {
+      const el = contentRef.current
+      if (!el) return
+      const { x, y, zoom } = s.current
+      el.style.transform = `translate3d(${x}px,${y}px,0) scale(${zoom})`
+      el.style.transition = animate ? 'transform 0.15s ease-out' : 'none'
+      // GPU-composite during interaction, then clear so browser
+      // re-rasterizes at the new zoom for crisp SVG text
+      el.style.willChange = 'transform'
+      clearTimeout(s.current.willChangeTimer)
+      s.current.willChangeTimer = window.setTimeout(() => {
+        if (contentRef.current && !s.current.dragging) {
+          contentRef.current.style.willChange = 'auto'
+        }
+      }, 200)
+    }, [])
 
-  useEffect(() => {
-    if (!syncState) return
-    const { zoom, x, y } = syncState
-    // Epsilon check prevents applying our own emitted state back
-    if (Math.abs(s.current.zoom - zoom) < 0.001 && Math.abs(s.current.x - x) < 0.5 && Math.abs(s.current.y - y) < 0.5)
-      return
-    s.current.zoom = zoom
-    s.current.x = x
-    s.current.y = y
-    // Apply silently without emitting back to avoid ping-pong
-    applyTransform(true)
-    syncDisplay()
-  }, [syncState, applyTransform, syncDisplay])
+    // Batch DOM writes behind a single requestAnimationFrame.
+    // Also flushes any pending state emission in the same frame.
+    const scheduleApply = useCallback(() => {
+      if (s.current.rafId) return
+      s.current.rafId = requestAnimationFrame(() => {
+        s.current.rafId = 0
+        applyTransform(false)
+        flushEmit()
+      })
+    }, [applyTransform, flushEmit])
 
-  // -- Button handlers (discrete, emit immediately) --
+    const syncDisplay = useCallback(() => setDisplayZoom(s.current.zoom), [])
 
-  const handleZoomIn = useCallback(() => {
-    s.current.zoom = clamp(s.current.zoom + ZOOM_STEP_BUTTON, minZoom, maxZoom)
-    applyTransform(true)
-    syncDisplay()
-    markDirty()
-    flushEmit()
-  }, [applyTransform, syncDisplay, markDirty, flushEmit, minZoom, maxZoom])
+    // -- Sync from external state (receives changes from a paired panel) --
 
-  const handleZoomOut = useCallback(() => {
-    s.current.zoom = clamp(s.current.zoom - ZOOM_STEP_BUTTON, minZoom, maxZoom)
-    applyTransform(true)
-    syncDisplay()
-    markDirty()
-    flushEmit()
-  }, [applyTransform, syncDisplay, markDirty, flushEmit, minZoom, maxZoom])
-
-  const handleReset = useCallback(() => {
-    s.current.zoom = initialZoom
-    s.current.x = 0
-    s.current.y = 0
-    applyTransform(true)
-    syncDisplay()
-    markDirty()
-    flushEmit()
-  }, [applyTransform, syncDisplay, markDirty, flushEmit, initialZoom])
-
-  // -- Pointer drag --
-
-  useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
-
-    const onDown = (e: PointerEvent) => {
-      if (e.button !== 0) return
-      if ((e.target as HTMLElement).closest('[data-slot="preview-panel-controls"]')) return
-      e.preventDefault()
-      el.setPointerCapture(e.pointerId)
-      s.current.dragging = true
-      s.current.dragStartX = e.clientX
-      s.current.dragStartY = e.clientY
-      s.current.posStartX = s.current.x
-      s.current.posStartY = s.current.y
-      el.style.cursor = 'grabbing'
-    }
-
-    const onMove = (e: PointerEvent) => {
-      if (!s.current.dragging) return
-      s.current.x = s.current.posStartX + (e.clientX - s.current.dragStartX)
-      s.current.y = s.current.posStartY + (e.clientY - s.current.dragStartY)
-      markDirty()
-      scheduleApply()
-    }
-
-    const onUp = (e: PointerEvent) => {
-      if (!s.current.dragging) return
-      s.current.dragging = false
-      el.releasePointerCapture(e.pointerId)
-      el.style.cursor = 'grab'
-    }
-
-    const onLeave = () => {
-      if (!s.current.dragging) return
-      s.current.dragging = false
-      el.style.cursor = 'grab'
-    }
-
-    el.addEventListener('pointerdown', onDown)
-    el.addEventListener('pointermove', onMove)
-    el.addEventListener('pointerup', onUp)
-    el.addEventListener('pointerleave', onLeave)
-    return () => {
-      el.removeEventListener('pointerdown', onDown)
-      el.removeEventListener('pointermove', onMove)
-      el.removeEventListener('pointerup', onUp)
-      el.removeEventListener('pointerleave', onLeave)
-    }
-  }, [markDirty, scheduleApply])
-
-  // -- Wheel zoom (passive: false to preventDefault page scroll) --
-
-  useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
-
-    const onWheel = (e: WheelEvent) => {
-      e.preventDefault()
-      e.stopPropagation()
-      const delta = e.deltaY > 0 ? -ZOOM_STEP_WHEEL : ZOOM_STEP_WHEEL
-      s.current.zoom = clamp(s.current.zoom + delta, minZoom, maxZoom)
-      markDirty()
-      scheduleApply()
+    useEffect(() => {
+      if (!syncState) return
+      const { zoom, x, y } = syncState
+      // Epsilon check prevents applying our own emitted state back
+      if (Math.abs(s.current.zoom - zoom) < 0.001 && Math.abs(s.current.x - x) < 0.5 && Math.abs(s.current.y - y) < 0.5)
+        return
+      s.current.zoom = zoom
+      s.current.x = x
+      s.current.y = y
+      // Apply silently without emitting back to avoid ping-pong
+      applyTransform(true)
       syncDisplay()
-    }
+    }, [syncState, applyTransform, syncDisplay])
 
-    el.addEventListener('wheel', onWheel, { passive: false })
-    return () => el.removeEventListener('wheel', onWheel)
-  }, [markDirty, scheduleApply, syncDisplay, minZoom, maxZoom])
+    // -- Button handlers (discrete, emit immediately) --
 
-  // -- Pinch to zoom (two-finger touch) --
+    const handleZoomIn = useCallback(() => {
+      s.current.zoom = clamp(s.current.zoom + ZOOM_STEP_BUTTON, minZoom, maxZoom)
+      applyTransform(true)
+      syncDisplay()
+      markDirty()
+      flushEmit()
+    }, [applyTransform, syncDisplay, markDirty, flushEmit, minZoom, maxZoom])
 
-  useEffect(() => {
-    const el = containerRef.current
-    if (!el) return
+    const handleZoomOut = useCallback(() => {
+      s.current.zoom = clamp(s.current.zoom - ZOOM_STEP_BUTTON, minZoom, maxZoom)
+      applyTransform(true)
+      syncDisplay()
+      markDirty()
+      flushEmit()
+    }, [applyTransform, syncDisplay, markDirty, flushEmit, minZoom, maxZoom])
 
-    const dist = (e: TouchEvent) => {
-      const a = e.touches[0] ?? { clientX: 0, clientY: 0 }
-      const b = e.touches[1] ?? { clientX: 0, clientY: 0 }
-      return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY)
-    }
+    const handleReset = useCallback(() => {
+      s.current.zoom = initialZoom
+      s.current.x = 0
+      s.current.y = 0
+      applyTransform(true)
+      syncDisplay()
+      markDirty()
+      flushEmit()
+    }, [applyTransform, syncDisplay, markDirty, flushEmit, initialZoom])
 
-    const onTouchStart = (e: TouchEvent) => {
-      if (e.touches.length === 2) {
+    // -- Pointer drag --
+
+    useEffect(() => {
+      const el = containerRef.current
+      if (!el) return
+
+      const onDown = (e: PointerEvent) => {
+        if (e.button !== 0) return
+        if ((e.target as HTMLElement).closest('[data-slot="preview-panel-controls"]')) return
         e.preventDefault()
-        s.current.pinchDist = dist(e)
-        s.current.pinchZoom = s.current.zoom
+        el.setPointerCapture(e.pointerId)
+        s.current.dragging = true
+        s.current.dragStartX = e.clientX
+        s.current.dragStartY = e.clientY
+        s.current.posStartX = s.current.x
+        s.current.posStartY = s.current.y
+        el.style.cursor = 'grabbing'
       }
-    }
 
-    const onTouchMove = (e: TouchEvent) => {
-      if (e.touches.length === 2) {
+      const onMove = (e: PointerEvent) => {
+        if (!s.current.dragging) return
+        s.current.x = s.current.posStartX + (e.clientX - s.current.dragStartX)
+        s.current.y = s.current.posStartY + (e.clientY - s.current.dragStartY)
+        markDirty()
+        scheduleApply()
+      }
+
+      const onUp = (e: PointerEvent) => {
+        if (!s.current.dragging) return
+        s.current.dragging = false
+        el.releasePointerCapture(e.pointerId)
+        el.style.cursor = 'grab'
+      }
+
+      const onLeave = () => {
+        if (!s.current.dragging) return
+        s.current.dragging = false
+        el.style.cursor = 'grab'
+      }
+
+      el.addEventListener('pointerdown', onDown)
+      el.addEventListener('pointermove', onMove)
+      el.addEventListener('pointerup', onUp)
+      el.addEventListener('pointerleave', onLeave)
+      return () => {
+        el.removeEventListener('pointerdown', onDown)
+        el.removeEventListener('pointermove', onMove)
+        el.removeEventListener('pointerup', onUp)
+        el.removeEventListener('pointerleave', onLeave)
+      }
+    }, [markDirty, scheduleApply])
+
+    // -- Wheel zoom (passive: false to preventDefault page scroll) --
+
+    useEffect(() => {
+      const el = containerRef.current
+      if (!el) return
+
+      const onWheel = (e: WheelEvent) => {
         e.preventDefault()
-        const scale = dist(e) / s.current.pinchDist
-        s.current.zoom = clamp(s.current.pinchZoom * scale, minZoom, maxZoom)
+        e.stopPropagation()
+        const delta = e.deltaY > 0 ? -ZOOM_STEP_WHEEL : ZOOM_STEP_WHEEL
+        s.current.zoom = clamp(s.current.zoom + delta, minZoom, maxZoom)
         markDirty()
         scheduleApply()
         syncDisplay()
       }
-    }
 
-    el.addEventListener('touchstart', onTouchStart, { passive: false })
-    el.addEventListener('touchmove', onTouchMove, { passive: false })
-    return () => {
-      el.removeEventListener('touchstart', onTouchStart)
-      el.removeEventListener('touchmove', onTouchMove)
-    }
-  }, [markDirty, scheduleApply, syncDisplay, minZoom, maxZoom])
+      el.addEventListener('wheel', onWheel, { passive: false })
+      return () => el.removeEventListener('wheel', onWheel)
+    }, [markDirty, scheduleApply, syncDisplay, minZoom, maxZoom])
 
-  // Cleanup on unmount
-  useEffect(() => {
-    return () => {
-      if (s.current.rafId) cancelAnimationFrame(s.current.rafId)
-      clearTimeout(s.current.willChangeTimer)
-    }
-  }, [])
+    // -- Pinch to zoom (two-finger touch) --
 
-  // Stable content props - only changes when html/children identity changes
-  const contentProps = useMemo(
-    () => (html ? { dangerouslySetInnerHTML: { __html: html } } : { children }),
-    [html, children],
-  )
+    useEffect(() => {
+      const el = containerRef.current
+      if (!el) return
 
-  // Stable inline style for the container
-  const containerStyle = useMemo(
-    () => ({ maxHeight, cursor: 'grab' as const, touchAction: 'none' as const }),
-    [maxHeight],
-  )
-  const direction = useDirection(dir as Direction)
+      const dist = (e: TouchEvent) => {
+        const a = e.touches[0] ?? { clientX: 0, clientY: 0 }
+        const b = e.touches[1] ?? { clientX: 0, clientY: 0 }
+        return Math.hypot(a.clientX - b.clientX, a.clientY - b.clientY)
+      }
 
-  return (
-    <div
-      data-slot="preview-panel"
-      className={cn('relative flex flex-col', className)}
-      dir={direction}
-      style={style}
-      {...rest}>
-      {showControls && (
-        <div className="absolute end-3 top-3 z-10">
-          <ZoomControls onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} onReset={handleReset} zoom={displayZoom} />
-        </div>
-      )}
+      const onTouchStart = (e: TouchEvent) => {
+        if (e.touches.length === 2) {
+          e.preventDefault()
+          s.current.pinchDist = dist(e)
+          s.current.pinchZoom = s.current.zoom
+        }
+      }
+
+      const onTouchMove = (e: TouchEvent) => {
+        if (e.touches.length === 2) {
+          e.preventDefault()
+          const scale = dist(e) / s.current.pinchDist
+          s.current.zoom = clamp(s.current.pinchZoom * scale, minZoom, maxZoom)
+          markDirty()
+          scheduleApply()
+          syncDisplay()
+        }
+      }
+
+      el.addEventListener('touchstart', onTouchStart, { passive: false })
+      el.addEventListener('touchmove', onTouchMove, { passive: false })
+      return () => {
+        el.removeEventListener('touchstart', onTouchStart)
+        el.removeEventListener('touchmove', onTouchMove)
+      }
+    }, [markDirty, scheduleApply, syncDisplay, minZoom, maxZoom])
+
+    // Cleanup on unmount
+    useEffect(() => {
+      return () => {
+        if (s.current.rafId) cancelAnimationFrame(s.current.rafId)
+        clearTimeout(s.current.willChangeTimer)
+      }
+    }, [])
+
+    // Stable content props - only changes when html/children identity changes
+    const contentProps = useMemo(
+      () => (html ? { dangerouslySetInnerHTML: { __html: html } } : { children }),
+      [html, children],
+    )
+
+    // Stable inline style for the container
+    const containerStyle = useMemo(
+      () => ({ maxHeight, cursor: 'grab' as const, touchAction: 'none' as const }),
+      [maxHeight],
+    )
+    const direction = useDirection(dir as Direction)
+
+    return (
       <div
-        ref={containerRef}
-        className="flex flex-1 items-center justify-center overflow-hidden"
-        style={containerStyle}>
+        ref={ref}
+        data-slot="preview-panel"
+        className={cn('relative flex flex-col', className)}
+        dir={direction}
+        style={style}
+        {...rest}>
+        {showControls && (
+          <div className="absolute end-3 top-3 z-10">
+            <ZoomControls onZoomIn={handleZoomIn} onZoomOut={handleZoomOut} onReset={handleReset} zoom={displayZoom} />
+          </div>
+        )}
         <div
-          ref={contentRef}
-          className="flex w-full items-center justify-center p-6"
-          style={CONTENT_STYLE}
-          {...contentProps}
-        />
+          ref={containerRef}
+          className="flex flex-1 items-center justify-center overflow-hidden"
+          style={containerStyle}>
+          <div
+            ref={contentRef}
+            className="flex w-full items-center justify-center p-6"
+            style={CONTENT_STYLE}
+            {...contentProps}
+          />
+        </div>
       </div>
-    </div>
-  )
-}
+    )
+  },
+)
+PreviewPanel.displayName = 'PreviewPanel'
 
 const CONTENT_STYLE = { transformOrigin: 'center center' } as const
 

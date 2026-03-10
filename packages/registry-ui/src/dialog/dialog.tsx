@@ -6,12 +6,16 @@ import { X } from 'lucide-react'
 import * as React from 'react'
 
 const Dialog = DialogPrimitive.Root
+Dialog.displayName = 'Dialog'
 
 const DialogTrigger = DialogPrimitive.Trigger
+DialogTrigger.displayName = 'DialogTrigger'
 
 const DialogPortal = DialogPrimitive.Portal
+DialogPortal.displayName = 'DialogPortal'
 
 const DialogClose = DialogPrimitive.Close
+DialogClose.displayName = 'DialogClose'
 
 const DialogOverlay = React.forwardRef<
   React.ComponentRef<typeof DialogPrimitive.Overlay>,
@@ -53,13 +57,17 @@ const DialogContent = React.forwardRef<
 ))
 DialogContent.displayName = DialogPrimitive.Content.displayName
 
-const DialogHeader = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('flex flex-col space-y-1.5 text-center sm:text-start', className)} {...props} />
+const DialogHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn('flex flex-col space-y-1.5 text-center sm:text-start', className)} {...props} />
+  ),
 )
 DialogHeader.displayName = 'DialogHeader'
 
-const DialogFooter = ({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) => (
-  <div className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:gap-2', className)} {...props} />
+const DialogFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+  ({ className, ...props }, ref) => (
+    <div ref={ref} className={cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:gap-2', className)} {...props} />
+  ),
 )
 DialogFooter.displayName = 'DialogFooter'
 

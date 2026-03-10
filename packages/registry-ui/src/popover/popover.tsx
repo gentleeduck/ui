@@ -5,10 +5,13 @@ import * as PopoverPrimitive from '@gentleduck/primitives/popover'
 import * as React from 'react'
 
 const Popover = PopoverPrimitive.Root
+Popover.displayName = 'Popover'
 
 const PopoverTrigger: typeof PopoverPrimitive.Trigger = PopoverPrimitive.Trigger
+PopoverTrigger.displayName = 'PopoverTrigger'
 
 const PopoverAnchor: typeof PopoverPrimitive.Anchor = PopoverPrimitive.Anchor
+PopoverAnchor.displayName = 'PopoverAnchor'
 
 const PopoverContent = React.forwardRef<
   React.ComponentRef<typeof PopoverPrimitive.Content>,
@@ -31,5 +34,6 @@ const PopoverContent = React.forwardRef<
 PopoverContent.displayName = PopoverPrimitive.Content.displayName
 
 export const PopoverClose: typeof PopoverPrimitive.Close = PopoverPrimitive.Close
+PopoverClose.displayName = 'PopoverClose'
 
 export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor }
