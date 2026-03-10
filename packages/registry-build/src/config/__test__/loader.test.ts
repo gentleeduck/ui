@@ -175,6 +175,115 @@ describe('registry build config loader', () => {
     expect(loaded.config.sources['registry:ui']?.packageName).toBe('@example/registry-ui')
   })
 
+  test('loadRegistryBuildConfig resolves collection data files and collection source paths', async () => {
+    const tempDir = await createTempDir()
+
+    await fs.mkdir(path.join(tempDir, 'pkgbuilds', 'core', 'bash'), { recursive: true })
+    await fs.writeFile(path.join(tempDir, 'pkgbuilds', 'core', 'bash', 'PKGBUILD'), 'pkgname=bash\n', 'utf8')
+    await fs.writeFile(
+      path.join(tempDir, 'packages.json'),
+      JSON.stringify([
+        {
+          description: 'The GNU Bourne Again shell',
+          name: 'bash',
+          repo: 'core',
+          version: '5.2.037-1',
+        },
+      ]),
+      'utf8',
+    )
+    await fs.writeFile(
+      path.join(tempDir, 'registry-build.config.ts'),
+      `export default {
+  collections: {
+    packages: {
+      data: './packages.json',
+      metadata: {
+        repoOrder: ['core']
+      },
+      sources: {
+        pkgbuilds: {
+          glob: '**/PKGBUILD',
+          path: './pkgbuilds',
+          referencePath: '/pkgbuilds'
+        }
+      }
+    }
+  },
+  output: {
+    dir: './dist'
+  },
+  pipeline: {
+    components: false,
+    index: false
+  }
+}
+`,
+      'utf8',
+    )
+
+    const loaded = await loadRegistryBuildConfig({ cwd: tempDir })
+
+    expect(loaded.config.collections.packages?.data).toEqual([
+      {
+        description: 'The GNU Bourne Again shell',
+        name: 'bash',
+        repo: 'core',
+        version: '5.2.037-1',
+      },
+    ])
+    expect(loaded.config.collections.packages?.metadata).toEqual({
+      repoOrder: ['core'],
+    })
+    expect(loaded.config.collections.packages?.sources.pkgbuilds?.path).toBe(path.join(tempDir, 'pkgbuilds'))
+    expect(loaded.config.collections.packages?.sources.pkgbuilds?.glob).toBe('**/PKGBUILD')
+  })
+
+  test('loadRegistryBuildConfig derives generic collections from legacy registries and sources', async () => {
+    const tempDir = await createTempDir()
+
+    await fs.mkdir(path.join(tempDir, 'src', 'ui'), { recursive: true })
+    await fs.writeFile(
+      path.join(tempDir, 'registry-build.config.json'),
+      JSON.stringify({
+        output: {
+          dir: './dist',
+        },
+        registries: {
+          uis: [
+            {
+              name: 'button',
+              root_folder: 'button',
+              type: 'registry:ui',
+            },
+          ],
+        },
+        sources: {
+          'registry:ui': {
+            path: './src/ui',
+            referencePath: '/registry-ui/src',
+          },
+        },
+      }),
+      'utf8',
+    )
+
+    const loaded = await loadRegistryBuildConfig({ cwd: tempDir })
+
+    expect(loaded.config.collections.uis?.metadata).toEqual({
+      compatibility: 'legacy-registries',
+      itemTypes: ['registry:ui'],
+    })
+    expect(loaded.config.collections.uis?.data).toEqual([
+      {
+        name: 'button',
+        root_folder: 'button',
+        type: 'registry:ui',
+      },
+    ])
+    expect(loaded.config.collections.uis?.sources['registry:ui']?.path).toBe(path.join(tempDir, 'src', 'ui'))
+  })
+
   test('loadRegistryBuildConfig rejects invalid config shape', async () => {
     const tempDir = await createTempDir()
 

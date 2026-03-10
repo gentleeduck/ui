@@ -21,12 +21,14 @@ import { registryBuildConfigSchema, registryEntriesSchema, themeEntriesSchema } 
 import type {
   LoadedRegistryBuildConfig,
   LoadRegistryBuildConfigOptions,
+  RegistryBuildCollection,
   RegistryBuildConfig,
   RegistryBuildSource,
   RegistryBuildThemeEntry,
   RegistryItemType,
   RegistryItemTypeMap,
   ResolvedRegistryBuildConfig,
+  ResolvedRegistryBuildCollection,
   ResolvedRegistryBuildSource,
 } from '../types'
 
@@ -51,6 +53,33 @@ function deriveDeclaredItemTypes(config: RegistryBuildConfig): RegistryItemType[
     ...(Object.keys(config.importMappings?.packageMappings ?? {}) as RegistryItemType[]),
     ...((config.componentIndex?.excludeTypes ?? []) as RegistryItemType[]),
   ])].sort()
+}
+
+function deriveLegacyCollections(config: RegistryBuildConfig): Record<string, RegistryBuildCollection> {
+  return Object.fromEntries(
+    Object.entries(config.registries ?? {}).map(([name, entries]) => {
+      const itemTypes = [...new Set(entries.map((entry) => entry.type))].sort((left, right) => left.localeCompare(right))
+      const sources = Object.fromEntries(
+        itemTypes.flatMap((itemType) => {
+          const source = config.sources?.[itemType]
+
+          return source ? [[itemType, source]] : []
+        }),
+      )
+
+      return [
+        name,
+        {
+          data: entries,
+          metadata: {
+            compatibility: 'legacy-registries',
+            itemTypes,
+          },
+          sources,
+        } satisfies RegistryBuildCollection,
+      ] as const
+    }),
+  )
 }
 
 function deriveThemeCssVarKeys(themes: Record<string, RegistryBuildThemeEntry>) {
@@ -105,6 +134,27 @@ async function loadValueFile(filePath: string): Promise<unknown> {
 async function materializeConfigReferences(config: RegistryBuildConfig): Promise<RegistryBuildConfig> {
   let materializedConfig = { ...config }
 
+  if (materializedConfig.collections) {
+    materializedConfig = {
+      ...materializedConfig,
+      collections: await Promise.all(
+        Object.entries(materializedConfig.collections).map(async ([name, collection]) => {
+          if (typeof collection.data !== 'string') {
+            return [name, collection] as const
+          }
+
+          return [
+            name,
+            {
+              ...collection,
+              data: await loadValueFile(collection.data),
+            },
+          ] as const
+        }),
+      ).then((entries) => Object.fromEntries(entries)),
+    }
+  }
+
   if (typeof materializedConfig.colors?.data === 'string') {
     materializedConfig = {
       ...materializedConfig,
@@ -150,10 +200,29 @@ async function materializeConfigReferences(config: RegistryBuildConfig): Promise
 function normalizeConfigFileInput(config: RegistryBuildConfig, configPath: string): RegistryBuildConfig {
   const configDir = path.dirname(configPath)
   const extendEntries = config.extends ? (Array.isArray(config.extends) ? config.extends : [config.extends]) : undefined
+  const collectionEntries = Object.entries(config.collections ?? {}) as Array<[string, RegistryBuildCollection]>
   const sourceEntries = Object.entries(config.sources ?? {}) as Array<[RegistryItemType, RegistryBuildSource]>
 
   return {
     ...config,
+    collections: Object.fromEntries(
+      collectionEntries.map(([name, collection]) => [
+        name,
+        {
+          ...collection,
+          data: typeof collection.data === 'string' ? resolveFrom(configDir, collection.data) : collection.data,
+          sources: Object.fromEntries(
+            Object.entries(collection.sources ?? {}).map(([sourceName, source]) => [
+              sourceName,
+              {
+                ...source,
+                path: resolveFrom(configDir, source.path),
+              },
+            ]),
+          ),
+        },
+      ]),
+    ),
     colors:
       typeof config.colors?.data === 'string'
         ? {
@@ -239,10 +308,40 @@ function toResolvedConfig(config: RegistryBuildConfig, configPath: string): Reso
 
   const configDir = path.dirname(configPath)
   const registrySource = withDefaults.registrySource ?? 'inline'
+  const collections = mergeRegistryBuildConfigs(
+    {
+      collections: deriveLegacyCollections(withDefaults),
+    },
+    {
+      collections: withDefaults.collections ?? {},
+    },
+  ).collections ?? {}
   const sourceEntries = Object.entries(withDefaults.sources ?? {}) as Array<[RegistryItemType, RegistryBuildSource]>
 
   return {
     ...withDefaults,
+    collections: Object.fromEntries(
+      Object.entries(collections).map(([name, collection]) => [
+        name,
+        {
+          ...collection,
+          data: typeof collection.data === 'string' ? undefined : collection.data,
+          metadata: collection.metadata ?? {},
+          sources: Object.fromEntries(
+            Object.entries(collection.sources ?? {}).map(([sourceName, source]) => [
+              sourceName,
+              {
+                ...source,
+                glob: source.glob ?? DEFAULT_SOURCE_GLOB,
+                ignore: source.ignore ?? [...DEFAULT_SOURCE_IGNORE],
+                indexStrategy: source.indexStrategy ?? DEFAULT_SOURCE_INDEX_STRATEGY,
+                path: resolveFrom(configDir, source.path),
+              },
+            ]),
+          ),
+        },
+      ]),
+    ) as Record<string, ResolvedRegistryBuildCollection>,
     colors: withDefaults.colors?.data
       ? {
           data: typeof withDefaults.colors.data === 'string' ? undefined : withDefaults.colors.data,
@@ -315,6 +414,39 @@ export async function resolveRegistryBuildConfig(
 ): Promise<ResolvedRegistryBuildConfig> {
   const resolved = toResolvedConfig(config, options.configPath)
   const configDir = path.dirname(options.configPath)
+  let collections = resolved.collections
+
+  if (config.collections) {
+    const materializedCollections = Object.fromEntries(
+      await Promise.all(
+        Object.entries(config.collections).map(async ([name, collection]) => {
+          if (typeof collection.data !== 'string') {
+            return [name, resolved.collections[name] ?? {
+              data: collection.data,
+              metadata: collection.metadata ?? {},
+              sources: {},
+            }] as const
+          }
+
+          return [
+            name,
+            {
+              ...(resolved.collections[name] ?? {
+                metadata: collection.metadata ?? {},
+                sources: {},
+              }),
+              data: await loadValueFile(resolveFrom(configDir, collection.data)),
+            },
+          ] as const
+        }),
+      ),
+    ) as Record<string, ResolvedRegistryBuildCollection>
+
+    collections = {
+      ...resolved.collections,
+      ...materializedCollections,
+    }
+  }
 
   let colors = resolved.colors
   if (typeof config.colors?.data === 'string') {
@@ -340,6 +472,7 @@ export async function resolveRegistryBuildConfig(
 
   return {
     ...resolved,
+    collections,
     colors,
     registries,
     themes: themes

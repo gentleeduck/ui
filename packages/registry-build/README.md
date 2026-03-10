@@ -4,6 +4,8 @@ Config-driven registry and index builder.
 
 The core build only handles registry indexing and component JSON generation. Extra behavior such as banners, validation, component-index generation, and colors/themes output is attached explicitly through `extensions` in the consuming config.
 
+The package is being refactored toward a generic core-plus-extension model. That work starts with `collections`, which lets a consumer provide domain-neutral data and source definitions without opting into the legacy UI-shaped config surface.
+
 ## Usage
 
 Create a `registry-build.config.ts` beside the app or package that consumes the generated registry:
@@ -48,6 +50,46 @@ In a workspace app, the local installed binary works the same way:
 ```bash
 ./node_modules/.bin/registry-build build
 ```
+
+## Generic Collections
+
+For non-UI consumers, start with `collections` plus extensions:
+
+```ts
+import { defineConfig } from '@gentleduck/registry-build'
+import { archRepositoryExtension } from './arch-repository.extension'
+
+export default defineConfig({
+  collections: {
+    packages: {
+      data: './data/packages.json',
+      metadata: {
+        repoOrder: ['core', 'extra'],
+      },
+      sources: {
+        pkgbuilds: {
+          glob: '**/PKGBUILD',
+          path: './pkgbuilds',
+        },
+      },
+    },
+  },
+  extensions: [
+    archRepositoryExtension({
+      collection: 'packages',
+    }),
+  ],
+  output: {
+    dir: './dist',
+  },
+  pipeline: {
+    components: false,
+    index: false,
+  },
+})
+```
+
+See the runnable example in [`examples/arch-package-index`](./examples/arch-package-index).
 
 ## Incremental Builds
 

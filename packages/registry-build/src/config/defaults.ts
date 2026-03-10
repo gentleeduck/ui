@@ -1,5 +1,6 @@
 import { availableParallelism } from 'node:os'
 import type {
+  RegistryBuildCollection,
   RegistryBuildConfig,
   RegistryBuildFramework,
   RegistryBuildPerformanceConfig,
@@ -100,10 +101,31 @@ export const DEFAULT_CSS_TEMPLATES: ResolvedRegistryBuildCssTemplates = {
 export const DEFAULT_SCHEMA_ITEM_TYPES = [] as const
 
 export function withRegistryBuildDefaults(config: RegistryBuildConfig): RegistryBuildConfig {
+  const collectionEntries = Object.entries(config.collections ?? {}) as Array<[string, RegistryBuildCollection]>
   const sourceEntries = Object.entries(config.sources ?? {}) as Array<[RegistryItemType, RegistryBuildSource]>
 
   return {
     ...config,
+    collections: Object.fromEntries(
+      collectionEntries.map(([name, collection]) => [
+        name,
+        {
+          ...collection,
+          metadata: collection.metadata ?? {},
+          sources: Object.fromEntries(
+            Object.entries(collection.sources ?? {}).map(([sourceName, source]) => [
+              sourceName,
+              {
+                ...source,
+                glob: source.glob ?? DEFAULT_SOURCE_GLOB,
+                ignore: source.ignore ?? [...DEFAULT_SOURCE_IGNORE],
+                indexStrategy: source.indexStrategy ?? DEFAULT_SOURCE_INDEX_STRATEGY,
+              },
+            ]),
+          ),
+        },
+      ]),
+    ),
     componentIndex: {
       ...DEFAULT_COMPONENT_INDEX,
       ...config.componentIndex,

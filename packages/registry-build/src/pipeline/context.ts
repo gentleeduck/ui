@@ -54,7 +54,9 @@ export async function createRegistryBuildContext(
   }
   const outputPaths = createOutputPaths(config)
   const paths = createPathRegistry(outputPaths)
-  const artifacts: RegistryBuildContext['artifacts'] = {}
+  const artifacts: RegistryBuildContext['artifacts'] = {
+    collections: config.collections,
+  }
   const outputs: RegistryBuildOutputRecord[] = []
   const cwd = options.cwd ? path.resolve(options.cwd) : process.cwd()
   const changedPaths = (options.changedPaths ?? []).map((targetPath) =>
