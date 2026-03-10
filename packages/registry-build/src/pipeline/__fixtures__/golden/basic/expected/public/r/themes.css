@@ -1,0 +1,10 @@
+.theme-demo {
+  --background: white;
+  --foreground: black;
+  --radius: 1rem;
+}
+
+.dark .theme-demo {
+  --background: black;
+  --foreground: white;
+}

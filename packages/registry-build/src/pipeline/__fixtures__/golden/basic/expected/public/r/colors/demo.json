@@ -1,0 +1,14 @@
+{
+  "cssVarsV4": {
+    "light": {
+      "background": "white",
+      "foreground": "black"
+    },
+    "dark": {
+      "background": "black",
+      "foreground": "white"
+    }
+  },
+  "inlineColorsTemplate": "@tailwind base;\n",
+  "cssVarsTemplate": "@tailwind base;\n\n@layer base {\n  :root {\n    --background: white;\n    --foreground: black;\n    --radius: 1rem;\n  }\n\n  .dark {\n    --background: black;\n    --foreground: white;\n  }\n}\n\n@layer base { body { color: var(--foreground); } }"
+}

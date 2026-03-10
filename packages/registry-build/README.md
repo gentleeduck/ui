@@ -1,63 +1,138 @@
-# @gentleduck/ui Registry Builder
+# @gentleduck/registry-build
 
-## Overview
+Config-driven registry and index builder.
 
-This script builds the @gentleduck/ui Registry, a centralized collection of components and utilities for the @gentleduck/ui package. It automates the process of compiling and organizing the registry, ensuring consistency and efficiency.
-
----
-
-## Quick Start
-
-1. Install dependencies:
-   ```bash
-   bun install
-   ```
-
-2. Copy the `example.env` to be .env
-   ```bash
-   sudo cp example.env .env
-   ```
-
-3. Uncomment the lines in the `index.ts`
-
-4. Build the registry:
-   ```bash
-   bun run start
-   ```
-
----
-
-## What It Does
-
-- Generates a centralized registry file for easy integration.
-- Outputs the registry to the specified directory.
-
----
+The core build only handles registry indexing and component JSON generation. Extra behavior such as banners, validation, component-index generation, and colors/themes output is attached explicitly through `extensions` in the consuming config.
 
 ## Usage
 
-Run the following command to build the registry:
-```bash
-bun run start
+Create a `registry-build.config.ts` beside the app or package that consumes the generated registry:
+
+```ts
+import { defineConfig, validateExtension } from '@gentleduck/registry-build'
+
+export default defineConfig({
+  extensions: [validateExtension()],
+  output: {
+    dir: '.',
+  },
+  sources: {
+    'registry:ui': {
+      path: '../../packages/registry-ui/src',
+      packageName: '@example/registry-ui',
+      referencePath: '/registry-ui/src',
+    },
+  },
+  registries: {
+    uis: [
+      {
+        name: 'button',
+        root_folder: 'button',
+        type: 'registry:ui',
+      },
+    ],
+  },
+})
 ```
 
----
+Every registry item type is validated as ``registry:${string}``, and `defineConfig()` enforces the same namespace across source keys, package mappings, target paths, schema item types, and inline registry entries.
+
+Run the builder from that consumer directory:
+
+```bash
+registry-build build
+```
+
+In a workspace app, the local installed binary works the same way:
+
+```bash
+./node_modules/.bin/registry-build build
+```
+
+## Extensions
+
+Attach optional behavior explicitly:
+
+```ts
+import {
+  bannerExtension,
+  colorsExtension,
+  componentIndexExtension,
+  defineConfig,
+  validateExtension,
+} from '@gentleduck/registry-build'
+
+export default defineConfig({
+  extensions: [
+    bannerExtension({ name: 'My Registry' }),
+    validateExtension(),
+    componentIndexExtension(),
+    colorsExtension(),
+  ],
+  output: {
+    dir: '.',
+  },
+})
+```
+
+## Presets
+
+Configs can extend one or more preset files:
+
+```ts
+import { defineConfig } from '@gentleduck/registry-build'
+
+export default defineConfig({
+  extends: ['./presets/theme-preset.ts', './presets/source-preset.ts'],
+  output: {
+    dir: './apps/docs',
+  },
+})
+```
+
+`extends` is path-aware:
+- source paths are resolved relative to the file that declared them
+- theme/color data files are resolved relative to the preset that declared them
+- sources, registries, target paths, package mappings, and theme maps are merged
+
+For code-driven composition, import preset objects and merge them through the public API:
+
+```ts
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
+import {
+  createMonorepoSourcesPreset,
+  defineConfig,
+  mergeRegistryBuildConfigs,
+  monorepoRegistryPreset,
+} from '@gentleduck/registry-build'
+
+const packagesDir = fileURLToPath(new URL('../../packages', import.meta.url))
+const preset = mergeRegistryBuildConfigs(
+  monorepoRegistryPreset,
+  createMonorepoSourcesPreset({
+    packagesDir: path.resolve(packagesDir),
+  }),
+)
+
+export default defineConfig(mergeRegistryBuildConfigs(preset, {
+  output: {
+    dir: '.',
+  },
+}))
+```
 
 ## Output
 
-The registry will be generated in the `apps/duck-ui-docs/public/r/` directory with the following structure:
+The builder writes:
+
+```text
+<output.dir>/
+  __ui_registry__/index.tsx
+  public/r/
+    colors/
+    components/
+    themes/
+    index.json
+    themes.css
 ```
-apps/duck-ui-docs/public/r/
-  colors/             # the colors registry
-  components/         # the components and examples registry
-  themes/             # the themes registry
-  index.json          # the main registry file
-  themes.css          # the themes file
-```
-
----
-
-## Notes
-
-- This script is designed to work within a monorepo.
-- No additional setup is required for @gentleduck/ui; the script handles everything.

@@ -1,0 +1,14 @@
+{
+  "files": [
+    {
+      "content": "export const BasicExample = () => null\n",
+      "path": "button/basic.tsx",
+      "target": "components/basic.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "basic",
+  "root_folder": "button",
+  "source": "/registry-examples/src/button",
+  "type": "registry:example"
+}
