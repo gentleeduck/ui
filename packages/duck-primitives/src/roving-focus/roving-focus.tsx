@@ -152,4 +152,6 @@ const RovingFocusGroupImpl = React.forwardRef<RovingFocusGroupImplElement, Rovin
   },
 )
 
+RovingFocusGroupImpl.displayName = 'RovingFocusGroupImpl'
+
 export { createRovingFocusGroupScope, RovingFocusGroup }

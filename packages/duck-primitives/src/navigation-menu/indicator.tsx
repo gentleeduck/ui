@@ -96,5 +96,7 @@ const NavigationMenuIndicatorImpl = React.forwardRef<
   ) : null
 })
 
+NavigationMenuIndicatorImpl.displayName = 'NavigationMenuIndicatorImpl'
+
 export { NavigationMenuIndicator }
 export type { NavigationMenuIndicatorProps }

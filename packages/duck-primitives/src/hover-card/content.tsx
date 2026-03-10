@@ -164,6 +164,8 @@ const HoverCardContentImpl = React.forwardRef<HoverCardContentImplElement, Hover
   },
 )
 
+HoverCardContentImpl.displayName = 'HoverCardContentImpl'
+
 /**
  * Returns a list of nodes that can be in the tab sequence.
  * @see: https://developer.mozilla.org/en-US/docs/Web/API/TreeWalker
