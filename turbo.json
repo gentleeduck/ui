@@ -25,5 +25,6 @@
     "lint": {
       "dependsOn": ["^build"]
     }
-  }
+  },
+  "remoteCache": { "enabled": false }
 }

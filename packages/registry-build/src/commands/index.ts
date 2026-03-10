@@ -1,4 +1,4 @@
 /**
  * CLI command surface.
  */
-export * from './build/index'
+export * from './build-cmd/index'
