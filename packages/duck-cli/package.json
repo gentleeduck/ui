@@ -41,7 +41,7 @@
     "@types/prompts": "^2.4.9",
     "@types/react": "19.2.14",
     "rimraf": "^6.0.1",
-    "tsdown": "0.18.3",
+    "tsdown": "0.21.1",
     "type-fest": "^5.0.1",
     "typescript": "5.9.3",
     "vitest": "catalog:"

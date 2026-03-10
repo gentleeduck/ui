@@ -11,7 +11,7 @@
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
-    "tsdown": "0.18.3"
+    "tsdown": "0.21.1"
   },
   "exports": {
     ".": {
