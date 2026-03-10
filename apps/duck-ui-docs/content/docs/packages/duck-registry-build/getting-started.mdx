@@ -1,0 +1,159 @@
+---
+title: "Getting Started"
+description: "Install registry-build, define a config, attach extensions, and generate your first outputs."
+---
+
+<Callout icon={<Zap />}>
+
+Get from zero to a generated registry in one config file. The package is designed so the consumer owns all static inputs up front.
+
+</Callout>
+
+## 1. Install the package
+
+```bash
+npm install @gentleduck/registry-build
+```
+
+`registry-build` ships as both a CLI and a typed API.
+
+---
+
+## 2. Create `registry-build.config.ts`
+
+Place the config beside the app or package that should own the generated outputs.
+
+```ts
+import {
+  colorsExtension,
+  componentIndexExtension,
+  defineConfig,
+  validateExtension,
+} from '@gentleduck/registry-build'
+
+export default defineConfig({
+  sources: {
+    'registry:ui': {
+      path: '../../packages/registry-ui/src',
+      packageName: '@example/registry-ui',
+      referencePath: '/registry-ui/src',
+    },
+    'registry:example': {
+      indexStrategy: 'file',
+      path: '../../packages/registry-examples/src',
+      packageName: '@example/registry-examples',
+      referencePath: '/registry-examples/src',
+    },
+  },
+  registries: {
+    uis: [
+      {
+        name: 'button',
+        root_folder: 'button',
+        type: 'registry:ui',
+      },
+    ],
+    examples: [
+      {
+        name: 'button-examples',
+        root_folder: 'button',
+        type: 'registry:example',
+      },
+    ],
+  },
+  output: {
+    dir: '.',
+  },
+  targetPaths: {
+    'registry:ui': 'components/ui',
+    'registry:example': 'components',
+  },
+  extensions: [
+    validateExtension(),
+    componentIndexExtension(),
+    colorsExtension(),
+  ],
+})
+```
+
+<Callout icon={<Lightbulb />}>
+
+If you only want the base index and component payloads, skip the optional extensions.
+
+</Callout>
+
+---
+
+## 3. Run the build
+
+```bash
+registry-build build
+```
+
+Or from a package script:
+
+```json
+{
+  "scripts": {
+    "build:reg": "registry-build build"
+  }
+}
+```
+
+---
+
+## 4. Inspect the outputs
+
+With the default output naming, you will get something like:
+
+```text
+<output.dir>/
+  .registry-build/
+  __ui_registry__/
+    index.tsx
+  public/r/
+    index.json
+    components/
+      button.json
+      basic.json
+    colors/
+    themes/
+    themes.css
+```
+
+---
+
+## 5. Understand what just happened
+
+<Steps>
+
+<Step>The config loader discovered your `registry-build.config.ts`</Step>
+
+Paths were resolved relative to the config file, not the current working directory.
+
+<Step>The core runner built the base registry</Step>
+
+It generated `index.json` and per-item JSON payloads from your declared registry entries and source folders.
+
+<Step>Extensions added optional outputs</Step>
+
+Validation ran before the build. The component-index and colors extensions generated extra files after the core outputs were ready.
+
+<Step>The cache was updated</Step>
+
+The builder stored incremental state under `.registry-build/` so the next warm run can skip unchanged work.
+
+</Steps>
+
+---
+
+## Where to go next
+
+<Callout icon={<MapIcon />} className="[&_ul]:my-0">
+
+- Read [Configuration](/docs/packages/duck-registry-build/configuration) for the full schema.
+- Read [Extensions](/docs/packages/duck-registry-build/extensions) to understand the explicit plugin model.
+- Read [CLI](/docs/packages/duck-registry-build/cli) for scripting and CI usage.
+- Read [Performance](/docs/packages/duck-registry-build/performance) for cache and changed-only workflows.
+
+</Callout>
