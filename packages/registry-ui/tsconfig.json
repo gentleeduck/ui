@@ -24,7 +24,6 @@
     "dist",
     "./src/_old",
     "**/__test__/**",
-    "**/__test__/**",
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.tsbuildinfo",
