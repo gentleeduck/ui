@@ -4,11 +4,7 @@ import { resolveFrom } from '../loader/loader.path'
 import { loadValueFile } from '../loader/loader.value'
 import { mergeRegistryBuildConfigs } from '../merge'
 import { registryBuildConfigSchema, registryEntriesSchema, themeEntriesSchema } from '../schema'
-import type {
-  RegistryBuildConfig,
-  ResolvedRegistryBuildCollection,
-  ResolvedRegistryBuildConfig,
-} from '../types'
+import type { RegistryBuildConfig, ResolvedRegistryBuildCollection, ResolvedRegistryBuildConfig } from '../types'
 import {
   deriveDeclaredItemTypes,
   deriveLegacyCollections,

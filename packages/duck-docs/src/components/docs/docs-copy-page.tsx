@@ -163,7 +163,7 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
       className="peer -ml-0.5 size-8 shadow-none md:size-7 md:text-[0.8rem]"
       size="sm"
       variant="secondary">
-      <ChevronDown aria-hidden="true" className="rotate-180 sm:rotate-0" />
+      <ChevronDown aria-hidden="true" className="size-3.5 rotate-180 sm:rotate-0" />
     </Button>
   )
 
@@ -176,7 +176,7 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
           onClick={() => copyToClipboard(page)}
           size="sm"
           variant="secondary">
-          {isCopied ? <Check aria-hidden="true" /> : <Copy aria-hidden="true" />}
+          {isCopied ? <Check aria-hidden="true" className="size-3.5" /> : <Copy aria-hidden="true" className="size-3.5" />}
           Copy Page
         </Button>
 
