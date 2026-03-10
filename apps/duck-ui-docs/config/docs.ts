@@ -244,24 +244,58 @@ export const docsConfig: DocsConfig = {
               title: 'Getting Started',
             },
             {
-              href: '/docs/packages/duck-registry-build/configuration',
+              href: '/docs/packages/duck-registry-build/architecture',
               items: [],
-              title: 'Configuration',
+              title: 'Architecture',
             },
             {
-              href: '/docs/packages/duck-registry-build/extensions',
-              items: [],
-              title: 'Extensions',
+              href: '/docs/packages/duck-registry-build/reference',
+              collapsible: true,
+              items: [
+                {
+                  href: '/docs/packages/duck-registry-build/configuration',
+                  items: [],
+                  title: 'Configuration',
+                },
+                {
+                  href: '/docs/packages/duck-registry-build/extensions',
+                  items: [],
+                  title: 'Extensions',
+                },
+                {
+                  href: '/docs/packages/duck-registry-build/cli',
+                  items: [],
+                  title: 'CLI',
+                },
+              ],
+              title: 'Reference',
             },
             {
-              href: '/docs/packages/duck-registry-build/cli',
-              items: [],
-              title: 'CLI',
+              href: '/docs/packages/duck-registry-build/operations',
+              collapsible: true,
+              items: [
+                {
+                  href: '/docs/packages/duck-registry-build/performance',
+                  items: [],
+                  title: 'Performance',
+                },
+                {
+                  href: '/docs/packages/duck-registry-build/testing-ci',
+                  items: [],
+                  title: 'Testing and CI',
+                },
+                {
+                  href: '/docs/packages/duck-registry-build/troubleshooting',
+                  items: [],
+                  title: 'Troubleshooting',
+                },
+              ],
+              title: 'Operations',
             },
             {
-              href: '/docs/packages/duck-registry-build/performance',
+              href: '/docs/packages/duck-registry-build/recipes',
               items: [],
-              title: 'Performance',
+              title: 'Recipes',
             },
             {
               href: '/docs/packages/duck-registry-build/migration',

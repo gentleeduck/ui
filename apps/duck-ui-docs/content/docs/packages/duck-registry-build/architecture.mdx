@@ -1,0 +1,159 @@
+---
+title: "Architecture"
+description: "Understand the registry-build lifecycle, build context, cache model, and extension boundaries."
+---
+
+<Callout icon={<Target />}>
+
+The design goal is simple: static inputs live in config, the core runner produces deterministic base artifacts, and extensions add opt-in behavior after that base state exists.
+
+</Callout>
+
+## Lifecycle
+
+<MermaidDiagram chart={`flowchart TD
+    A[Discover config] --> B[Resolve extends]
+    B --> C[Validate shape + apply defaults]
+    C --> D[Create build context]
+    D --> E[Load cache]
+    E --> F[beforeBuild extensions]
+    F --> G[Index phase]
+    G --> H[Components phase]
+    H --> I[afterBuild extensions]
+    I --> J[Save cache]
+    J --> K[Build summary]
+`} />
+
+---
+
+## Build context
+
+The runtime context is the shared contract between the config loader, the core phases, and every extension.
+
+It carries:
+
+- resolved config
+- config path and config directory
+- output paths
+- path registry helpers
+- collected build artifacts
+- output registration records
+- a per-build `ts-morph` project
+- cache access
+- changed-only flags and resolved changed paths
+
+That keeps the pipeline explicit. Phases and extensions do not need to rediscover global state on their own.
+
+---
+
+## Core responsibilities
+
+<Accordion type="multiple" className="w-full">
+  <AccordionItem value="config-loader">
+    <AccordionTrigger>Config loader</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+The loader finds `registry-build.config.*`, resolves `extends`, normalizes config-relative paths immediately, materializes external file-backed data, applies defaults, and validates the final config with Zod.
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="index-phase">
+    <AccordionTrigger>Index phase</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+The index phase materializes registry entries into stable generated records. It discovers source files when needed, expands file-indexed sources into per-file entries, stores a deterministic file tree, and writes the root `index.json`.
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="components-phase">
+    <AccordionTrigger>Components phase</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+The components phase transforms each indexed item into its generated JSON payload. This is where source content rewriting, variable stripping, and target-path resolution happen.
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="extension-boundary">
+    <AccordionTrigger>Extension boundary</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+The core runner stops after the base registry artifacts exist. Validation, banners, component indexes, colors/themes, manifests, or any other side artifacts belong in extensions, not in the core phases.
+
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+---
+
+## Artifact model
+
+The runner exposes two related concepts:
+
+| Concept | Meaning |
+| --- | --- |
+| `artifacts` | In-memory values shared between phases and extensions |
+| `outputs` | Files or file groups registered as generated outputs |
+
+Typical examples:
+
+- artifact: `index`
+- output: `public/r/index.json`
+- output: `public/r/components/*.json`
+- output: `__ui_registry__/index.tsx`
+- output: `public/r/themes.css`
+
+This split is what lets extensions stay data-first. They can read artifacts and register outputs without pretending they are part of the core phase graph.
+
+---
+
+## Cache model
+
+The cache stores:
+
+- file hashes
+- phase-specific manifest data
+
+The cache is local, incremental state. It is not source of truth and should always be safe to delete.
+
+### What the cache is for
+
+- skip rehashing unchanged files
+- skip rematerializing unchanged registry items
+- skip rewriting identical generated outputs
+- support `--changed-only` local rebuilds
+
+### What the cache is not for
+
+- long-term artifact storage
+- cross-machine shared caching
+- replacing deterministic generation
+
+---
+
+## Design rules
+
+<Callout icon={<Lightbulb />} className="[&_ul]:my-0">
+
+- Keep config declarative and extensions imperative.
+- Keep the core generic and small.
+- Resolve paths relative to the file that declared them.
+- Prefer stable artifacts over framework-specific shortcuts in the core.
+- Treat generated output ordering as part of correctness.
+
+</Callout>
+
+---
+
+## Related pages
+
+<Callout icon={<MapIcon />} className="[&_ul]:my-0">
+
+- [Configuration](/docs/packages/duck-registry-build/configuration)
+- [Extensions](/docs/packages/duck-registry-build/extensions)
+- [Performance](/docs/packages/duck-registry-build/performance)
+- [Troubleshooting](/docs/packages/duck-registry-build/troubleshooting)
+
+</Callout>
