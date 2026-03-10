@@ -65,7 +65,51 @@ export default defineConfig({
 
 ---
 
-## Recipe 2: Custom manifest extension
+## Recipe 2: Arch-style package repository
+
+This pattern treats `registry-build` as a generic build core plus a custom extension. The core UI phases are disabled, and the custom extension emits repository metadata, package-file manifests, and search artifacts.
+
+```ts
+import { defineConfig } from '@gentleduck/registry-build'
+import { archRepositoryExtension } from './arch-repository.extension'
+
+export default defineConfig({
+  collections: {
+    packages: {
+      data: './data/packages.json',
+      metadata: {
+        repoOrder: ['core', 'extra'],
+      },
+      sources: {
+        pkgbuilds: {
+          glob: '**/PKGBUILD',
+          path: './pkgbuilds',
+        },
+      },
+    },
+  },
+  extensions: [
+    archRepositoryExtension({
+      collection: 'packages',
+    }),
+  ],
+  output: {
+    dir: './dist',
+  },
+  pipeline: {
+    components: false,
+    index: false,
+  },
+})
+```
+
+This is the direction for non-UI consumers: collections plus extensions, not empty `componentIndex` or `themes` objects.
+
+See the in-repo example in `packages/registry-build/examples/arch-package-index`.
+
+---
+
+## Recipe 3: Custom manifest extension
 
 If another tool needs a derived manifest after the registry build finishes, expose it through an `afterBuild` extension:
 
@@ -88,7 +132,7 @@ Use this pattern instead of patching the core runner.
 
 ---
 
-## Recipe 3: External static data files
+## Recipe 4: External static data files
 
 Use root config file paths when colors/themes or registry entries live in static JSON files:
 
@@ -111,7 +155,7 @@ This keeps static data portable and avoids importing giant objects into every co
 
 ---
 
-## Recipe 4: Extend a base config
+## Recipe 5: Extend a base config
 
 File-based composition:
 
@@ -138,7 +182,7 @@ Use file-based composition when the config should stay mostly declarative. Use c
 
 ---
 
-## Recipe 5: Custom framework component index
+## Recipe 6: Custom framework component index
 
 If the built-in framework adapters are not enough, provide a custom generator:
 
@@ -157,7 +201,7 @@ That keeps the rest of the build intact while taking full control over the gener
 
 ---
 
-## Recipe 6: Fast local rebuild loop
+## Recipe 7: Fast local rebuild loop
 
 Use split scripts so the raw CLI path remains available:
 
