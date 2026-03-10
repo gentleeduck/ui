@@ -7,6 +7,7 @@ import {
   build,
   createRegistryBuildContext,
   loadRegistryBuildConfig,
+  resolveRegistryBuildConfig,
   runIndexBuildPhase,
   runValidatePhase,
 } from '../..'
@@ -161,6 +162,54 @@ afterEach(async () => {
 })
 
 describe('registry build pipeline', () => {
+  test('context exposes resolved collections as a generic artifact', async () => {
+    const tempDir = await createTempDir()
+    const configPath = path.join(tempDir, 'registry-build.config.ts')
+    const config = await resolveRegistryBuildConfig(
+      {
+        collections: {
+          packages: {
+            data: [
+              {
+                name: 'bash',
+                repo: 'core',
+                version: '5.2.037-1',
+              },
+            ],
+            metadata: {
+              repoOrder: ['core'],
+            },
+            sources: {
+              pkgbuilds: {
+                glob: '**/PKGBUILD',
+                path: './pkgbuilds',
+              },
+            },
+          },
+        },
+        output: {
+          dir: './dist',
+        },
+        pipeline: {
+          components: false,
+          index: false,
+        },
+      },
+      { configPath },
+    )
+    const context = await createRegistryBuildContext(
+      {
+        config,
+        configDir: tempDir,
+        configPath,
+      },
+      { silent: true },
+    )
+
+    expect(context.getArtifact('collections')).toEqual(config.collections)
+    expect(context.config.collections.packages?.sources.pkgbuilds?.path).toBe(path.join(tempDir, 'pkgbuilds'))
+  })
+
   test('validate phase rejects duplicate registry entry names', async () => {
     const tempDir = await createTempDir()
 

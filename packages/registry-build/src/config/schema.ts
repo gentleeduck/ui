@@ -44,6 +44,21 @@ export const registryEntrySchema: z.ZodType<RegistryEntry> = z
 
 export const registryEntriesSchema = z.record(z.string(), z.array(registryEntrySchema))
 
+export const registryBuildSourceSchema = z.object({
+  glob: nonEmptyStringSchema.optional(),
+  ignore: z.array(nonEmptyStringSchema).optional(),
+  indexStrategy: z.enum(['item', 'file']).optional(),
+  packageName: nonEmptyStringSchema.optional(),
+  path: nonEmptyStringSchema,
+  referencePath: nonEmptyStringSchema.optional(),
+})
+
+export const registryBuildCollectionSchema = z.object({
+  data: z.unknown().optional(),
+  metadata: z.record(z.string(), z.unknown()).optional(),
+  sources: z.record(nonEmptyStringSchema, registryBuildSourceSchema).optional(),
+})
+
 export const themeEntrySchema = z.object({
   dark: z.record(z.string(), z.string()),
   label: nonEmptyStringSchema,
@@ -65,6 +80,7 @@ export const registryBuildExtensionSchema = z.custom<RegistryBuildExtension>((va
 })
 
 export const registryBuildConfigSchema = z.object({
+  collections: z.record(z.string(), registryBuildCollectionSchema).optional(),
   extends: z.union([nonEmptyStringSchema, z.array(nonEmptyStringSchema)]).optional(),
   branding: z
     .object({
@@ -138,18 +154,7 @@ export const registryBuildConfigSchema = z.object({
       itemTypes: z.array(registryItemTypeSchema).optional(),
     })
     .optional(),
-  sources: z.record(
-    registryItemTypeSchema,
-    z.object({
-      glob: nonEmptyStringSchema.optional(),
-      ignore: z.array(nonEmptyStringSchema).optional(),
-      indexStrategy: z.enum(['item', 'file']).optional(),
-      packageName: nonEmptyStringSchema.optional(),
-      path: nonEmptyStringSchema,
-      referencePath: nonEmptyStringSchema.optional(),
-    }),
-  )
-    .optional(),
+  sources: z.record(registryItemTypeSchema, registryBuildSourceSchema).optional(),
   stripVariables: z.array(nonEmptyStringSchema).optional(),
   targetPaths: z.record(registryItemTypeSchema, nonEmptyStringSchema).optional(),
   themes: z

@@ -1,4 +1,5 @@
 import type {
+  RegistryBuildCollection,
   RegistryBuildConfig,
   RegistryBuildSource,
   RegistryBuildThemeEntry,
@@ -28,14 +29,11 @@ function mergeUniqueStrings<TValue extends string>(left?: TValue[], right?: TVal
 }
 
 function mergeSources(
-  baseSources?: RegistryItemTypeMap<RegistryBuildSource>,
-  nextSources?: RegistryItemTypeMap<RegistryBuildSource>,
+  baseSources?: Record<string, RegistryBuildSource | undefined>,
+  nextSources?: Record<string, RegistryBuildSource | undefined>,
 ) {
-  const keys = new Set<RegistryItemType>([
-    ...(Object.keys(baseSources ?? {}) as RegistryItemType[]),
-    ...(Object.keys(nextSources ?? {}) as RegistryItemType[]),
-  ])
-  const result: RegistryItemTypeMap<RegistryBuildSource> = {}
+  const keys = new Set<string>([...Object.keys(baseSources ?? {}), ...Object.keys(nextSources ?? {})])
+  const result: Record<string, RegistryBuildSource> = {}
 
   for (const key of keys) {
     const base = baseSources?.[key]
@@ -65,6 +63,73 @@ function mergeSources(
       ...base,
       ...next,
       ignore: mergeUniqueStrings(base.ignore, next.ignore),
+    }
+  }
+
+  return result
+}
+
+function mergeCollectionData(baseData?: unknown | string, nextData?: unknown | string) {
+  if (typeof nextData === 'string') {
+    return nextData
+  }
+
+  if (typeof baseData === 'string') {
+    return nextData ?? baseData
+  }
+
+  if (baseData && nextData && !Array.isArray(baseData) && !Array.isArray(nextData)) {
+    return {
+      ...(baseData as Record<string, unknown>),
+      ...(nextData as Record<string, unknown>),
+    }
+  }
+
+  return nextData ?? baseData
+}
+
+function mergeCollections(
+  baseCollections?: Record<string, RegistryBuildCollection>,
+  nextCollections?: Record<string, RegistryBuildCollection>,
+) {
+  const keys = new Set([...Object.keys(baseCollections ?? {}), ...Object.keys(nextCollections ?? {})])
+  const result: Record<string, RegistryBuildCollection> = {}
+
+  for (const key of keys) {
+    const base = baseCollections?.[key]
+    const next = nextCollections?.[key]
+
+    if (!base && next) {
+      result[key] = {
+        ...next,
+        metadata: next.metadata ? { ...next.metadata } : undefined,
+        sources: next.sources ? mergeSources(undefined, next.sources) : undefined,
+      }
+      continue
+    }
+
+    if (base && !next) {
+      result[key] = {
+        ...base,
+        metadata: base.metadata ? { ...base.metadata } : undefined,
+        sources: base.sources ? mergeSources(base.sources, undefined) : undefined,
+      }
+      continue
+    }
+
+    if (!base || !next) {
+      continue
+    }
+
+    result[key] = {
+      ...base,
+      ...next,
+      data: mergeCollectionData(base.data, next.data),
+      metadata: {
+        ...(base.metadata ?? {}),
+        ...(next.metadata ?? {}),
+      },
+      sources: mergeSources(base.sources, next.sources),
     }
   }
 
@@ -141,6 +206,7 @@ export function mergeRegistryBuildConfigs<
     ...baseConfig,
     ...nextConfig,
     extends: undefined,
+    collections: mergeCollections(baseConfig.collections, nextConfig.collections),
     branding:
       baseConfig.branding || nextConfig.branding
         ? {
@@ -221,7 +287,7 @@ export function mergeRegistryBuildConfigs<
             itemTypes: mergeUniqueStrings(baseConfig.schema?.itemTypes, nextConfig.schema?.itemTypes),
           }
         : undefined,
-    sources: mergeSources(baseConfig.sources, nextConfig.sources),
+    sources: mergeSources(baseConfig.sources, nextConfig.sources) as RegistryItemTypeMap<RegistryBuildSource>,
     stripVariables: mergeUniqueStrings(baseConfig.stripVariables, nextConfig.stripVariables),
     targetPaths: {
       ...(baseConfig.targetPaths ?? {}),

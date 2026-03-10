@@ -53,6 +53,12 @@ export interface RegistryBuildSource {
   referencePath?: string
 }
 
+export interface RegistryBuildCollection {
+  data?: unknown | string
+  metadata?: Record<string, unknown>
+  sources?: Record<string, RegistryBuildSource>
+}
+
 export interface RegistryBuildOutput {
   colorsDir?: string
   componentIndexDir?: string
@@ -128,6 +134,7 @@ export interface RegistryBuildSchemaConfig<TType extends RegistryItemType = Regi
 }
 
 export interface RegistryBuildConfig<TType extends RegistryItemType = RegistryItemType> {
+  collections?: Record<string, RegistryBuildCollection>
   extends?: string | string[]
   branding?: RegistryBuildBranding
   colors?: RegistryBuildColorsConfig
@@ -152,6 +159,12 @@ export interface ResolvedRegistryBuildSource extends RegistryBuildSource {
   ignore: string[]
   indexStrategy: 'item' | 'file'
   path: string
+}
+
+export interface ResolvedRegistryBuildCollection {
+  data?: unknown
+  metadata: Record<string, unknown>
+  sources: Record<string, ResolvedRegistryBuildSource>
 }
 
 export interface ResolvedRegistryBuildOutput extends RegistryBuildOutput {
@@ -215,6 +228,7 @@ export interface ResolvedRegistryBuildSchemaConfig<TType extends RegistryItemTyp
 export interface ResolvedRegistryBuildConfig<TType extends RegistryItemType = RegistryItemType>
   extends Omit<
     RegistryBuildConfig<TType>,
+    | 'collections'
     | 'colors'
     | 'componentIndex'
     | 'cssTemplates'
@@ -228,6 +242,7 @@ export interface ResolvedRegistryBuildConfig<TType extends RegistryItemType = Re
     | 'sources'
     | 'themes'
   > {
+  collections: Record<string, ResolvedRegistryBuildCollection>
   colors?: {
     data?: Record<string, unknown>
   }

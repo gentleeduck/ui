@@ -1,6 +1,35 @@
 import { defineConfig } from './define-config'
 
 defineConfig({
+  collections: {
+    packages: {
+      data: [
+        {
+          name: 'bash',
+          repo: 'core',
+        },
+      ],
+      metadata: {
+        repoOrder: ['core'],
+      },
+      sources: {
+        pkgbuilds: {
+          glob: '**/PKGBUILD',
+          path: './pkgbuilds',
+        },
+      },
+    },
+  },
+  output: {
+    dir: './dist',
+  },
+  pipeline: {
+    components: false,
+    index: false,
+  },
+})
+
+defineConfig({
   output: {
     dir: './dist',
   },

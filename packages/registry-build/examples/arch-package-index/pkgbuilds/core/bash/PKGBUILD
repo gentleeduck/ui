@@ -1,0 +1,6 @@
+pkgname=bash
+pkgver=5.2.037
+pkgrel=1
+arch=('x86_64')
+pkgdesc='The GNU Bourne Again shell'
+depends=('glibc')
