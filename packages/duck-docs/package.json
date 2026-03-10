@@ -32,6 +32,7 @@
     "@gentleduck/hooks": "workspace:*",
     "@gentleduck/libs": "workspace:*",
     "@gentleduck/registry-ui": "workspace:*",
+    "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@gentleduck/vim": "workspace:*",
     "@types/hast": "^3.0.4",
