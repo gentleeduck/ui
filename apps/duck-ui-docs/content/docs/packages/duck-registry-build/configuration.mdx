@@ -21,7 +21,6 @@ export default defineConfig({
     dir: './dist',
   },
   performance: {},
-  pipeline: {},
   branding: {},
   extensions: [],
 })
@@ -126,29 +125,40 @@ performance: {
     </AccordionContent>
   </AccordionItem>
 
-  <AccordionItem value="pipeline">
-    <AccordionTrigger>pipeline</AccordionTrigger>
-    <AccordionContent className="text-muted-foreground">
-
-`pipeline` controls the current core phases: `index` and `components`.
-
-For generic collection-driven builds, it is valid to disable both and let extensions own every emitted artifact.
-
-```ts
-pipeline: {
-  index: false,
-  components: false,
-}
-```
-
-    </AccordionContent>
-  </AccordionItem>
-
   <AccordionItem value="extensions">
     <AccordionTrigger>extensions</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-Extensions are where custom behavior lives.
+Extensions are the primary mechanism for adding behavior to the builder. The runner is entirely extension-driven — all processing (index-build, components, colors, component-index, validation, banners) is performed by extensions.
+
+For UI registries, either use `uiRegistryPreset()` to bundle the standard extensions, or register them individually for full control:
+
+```ts
+import {
+  bannerExtension,
+  colorsExtension,
+  componentIndexExtension,
+  componentsExtension,
+  defineConfig,
+  indexBuildExtension,
+  validateExtension,
+} from '@gentleduck/registry-build'
+
+export default defineConfig({
+  extensions: [
+    bannerExtension({ name: 'My Registry' }),
+    validateExtension(),
+    indexBuildExtension(),
+    componentsExtension(),
+    componentIndexExtension({ framework: 'nextjs' }),
+    colorsExtension(),
+  ],
+  output: { dir: './dist' },
+  // ...
+})
+```
+
+For custom builds, register your own extensions:
 
 ```ts
 extensions: [
@@ -320,7 +330,7 @@ This config shapes the generated component import index used by `componentIndexE
 
 | Field | Purpose |
 | --- | --- |
-| `framework` | Select built-in adapter: `nextjs`, `vite`, `astro`, or `custom` |
+| `framework` | Select built-in adapter: `nextjs`, `vite`, or `custom` |
 | `header` | Override generated file header |
 | `excludeTypes` | Skip registry item types from the component index |
 | `ssr` | Framework-specific SSR hint |

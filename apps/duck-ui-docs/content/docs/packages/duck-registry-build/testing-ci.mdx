@@ -13,8 +13,9 @@ Treat generated registry output as production code. The build should be tested a
 
 | Layer | What to test | Why |
 | --- | --- | --- |
-| Config tests | loading, defaults, `extends`, validation | catches wrong config shape early |
-| Phase tests | index, components, colors, component index | catches deterministic output regressions |
+| Config tests | loading, defaults, merge, `extends`, validation | catches wrong config shape early |
+| Extension tests | index-build, components, colors, component-index, adapters | catches deterministic output regressions |
+| Change detection tests | cache keys, affected-path matching, incremental rebuild | proves cache correctness |
 | Golden tests | full generated fixture tree | protects output contracts |
 | Consumer smoke tests | real app/package scripts | proves the actual integration path |
 | Pack/install smoke tests | packed CLI works in a temp consumer | proves publish surface |

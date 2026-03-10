@@ -19,11 +19,9 @@ The design goal is simple: static inputs live in config, the core runner produce
     E --> F[Create build context]
     F --> G[Load cache]
     G --> H[beforeBuild extensions]
-    H --> I[Index phase]
-    I --> J[Components phase]
-    J --> K[afterBuild extensions]
-    K --> L[Save cache]
-    L --> M[Build summary]
+    H --> I[afterBuild extensions]
+    I --> J[Save cache]
+    J --> K[Build summary]
 `} />
 
 ---
@@ -79,20 +77,13 @@ The loader finds `registry-build.config.*`, resolves `extends`, normalizes confi
     </AccordionContent>
   </AccordionItem>
 
-  <AccordionItem value="index-phase">
-    <AccordionTrigger>Index phase</AccordionTrigger>
+  <AccordionItem value="extension-driven-phases">
+    <AccordionTrigger>Extension-driven phases</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-The index phase materializes registry entries into stable generated records. It discovers source files when needed, expands file-indexed sources into per-file entries, stores a deterministic file tree, and writes the root `index.json`.
+The core runner has no built-in phases. All processing — index building, component generation, validation, colors/themes, component indexes, banners — is performed by extensions registered in the `extensions` array.
 
-    </AccordionContent>
-  </AccordionItem>
-
-  <AccordionItem value="components-phase">
-    <AccordionTrigger>Components phase</AccordionTrigger>
-    <AccordionContent className="text-muted-foreground">
-
-The components phase transforms each indexed item into its generated JSON payload. This is where source content rewriting, variable stripping, and target-path resolution happen.
+For UI registries, `indexBuildExtension()` materializes registry entries into `index.json` and `componentsExtension()` transforms each indexed item into its generated JSON payload. Both run as `afterBuild` extensions and are included automatically by `uiRegistryPreset()`.
 
     </AccordionContent>
   </AccordionItem>
@@ -101,7 +92,7 @@ The components phase transforms each indexed item into its generated JSON payloa
     <AccordionTrigger>Extension boundary</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-The core runner stops after the base registry artifacts exist. Validation, banners, component indexes, colors/themes, manifests, or any other side artifacts belong in extensions, not in the core phases.
+The core runner only provides the build context, cache management, and extension execution loop. All domain-specific outputs belong in extensions, not in the runner itself.
 
     </AccordionContent>
   </AccordionItem>

@@ -53,14 +53,16 @@ registry-build replaces that with:
     C --> D[Resolve Collections]
     D --> E[Compatibility Normalization]
     E --> F[Build Runner]
-    F --> G[Core Phases]
-    F --> H[Extensions]
-    H --> I[Arch Repo Output]
-    H --> J[Component Index]
-    H --> K[Colors and Themes]
-    G --> L[Generated Outputs]
-    H --> L
-    F --> M[.registry-build Cache]
+    F --> G[beforeBuild Extensions]
+    F --> H[afterBuild Extensions]
+    G --> I[Banner / Validate]
+    H --> J[Index Build / Components]
+    H --> K[Component Index / Colors]
+    H --> L[Custom Extensions]
+    J --> M[Generated Outputs]
+    K --> M
+    L --> M
+    F --> N[.registry-build Cache]
 `} />
 
 ---
@@ -72,8 +74,8 @@ registry-build replaces that with:
 | Config loader | Discover config, resolve `extends`, normalize paths | Consumers own the build contract |
 | Collections model | Materialize named datasets and source declarations | Non-UI consumers get a generic starting point |
 | Compatibility layer | Translate legacy UI config into generic collection artifacts | Existing docs-style builds keep working while the core evolves |
-| Core phases | Build base index and JSON artifacts when enabled | Stable machine-readable artifacts |
-| Extensions | Add validation, banners, repository indexes, component indexes, colors/themes, or custom outputs | No hidden default plugins |
+| Built-in extensions | Index build, components, colors, component index, validation, banner | All processing is extension-driven, nothing runs by default |
+| Custom extensions | Add repository indexes, manifests, search indexes, or any domain-specific output | Composable and explicit |
 | CLI | Run builds from app/package roots | Works like a normal tool, not a repo-only script |
 | Performance layer | File-hash cache, write skipping, changed-only mode, bounded concurrency | Fast warm builds and less filesystem churn |
 
@@ -147,7 +149,7 @@ The config file lives beside the app or package that owns the outputs. That mean
     <AccordionTrigger>Core phases vs extensions</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-The core runner only knows how to build the base registry index and per-item JSON artifacts. Validation, component-index generation, colors/themes, and banners are attached explicitly as extensions. If you do not attach them, they do not run.
+The core runner is entirely extension-driven. Index building, component generation, validation, component-index generation, colors/themes, and banners are all extensions that consumers attach explicitly. If you do not attach them, they do not run.
 
     </AccordionContent>
   </AccordionItem>
