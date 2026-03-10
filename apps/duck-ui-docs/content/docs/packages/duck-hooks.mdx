@@ -33,17 +33,19 @@ npm install @gentleduck/hooks
     D --> J[use-media-query]
     E --> K[use-on-open-change]
     E --> L[use-stable-id]
+    E --> M[use-copy-to-clipboard]
 `} />
 
 ## Available Hooks
 
-- `use-composed-refs` — Merge multiple refs into a single ref.
-- `use-computed-timeout-transition` — Manage timeout-based transitions.
-- `use-debounce` — Debounce a value.
-- `use-is-mobile` — Detect if the user is on a mobile device.
-- `use-media-query` — Use media queries in your components.
-- `use-on-open-change` — Handle open/close state changes.
-- `use-stable-id` — Generate a stable ID.
+- `use-composed-refs` — Merge multiple refs into a single ref. Also exports a `composeRefs` utility function.
+- `use-computed-timeout-transition` — Compute an element's CSS transition duration and run a callback after it completes.
+- `use-copy-to-clipboard` — Copy text to the clipboard with a configurable reset timeout.
+- `use-debounce` — Debounce a callback function. Also exports a standalone `debounce` utility function.
+- `use-is-mobile` — Detect if the viewport is below 768px.
+- `use-media-query` — Subscribe to a CSS media query and get a boolean match result.
+- `use-on-open-change` — Manage open/close state with scroll locking and CSS transition awareness.
+- `use-stable-id` — Generate a stable, incrementing ID with an optional prefix.
 
 ## Usage
 
@@ -54,8 +56,10 @@ import { useDebounce } from '@gentleduck/hooks/use-debounce';
 
 function MyComponent() {
   const [value, setValue] = useState('');
-  const debouncedValue = useDebounce(value, 500);
+  const debouncedSearch = useDebounce((query: string) => {
+    console.log('Searching for:', query);
+  }, 500);
 
-  return <div>{debouncedValue}</div>;
+  return <input onChange={(e) => debouncedSearch(e.target.value)} />;
 }
 ```
