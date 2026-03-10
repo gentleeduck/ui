@@ -1,7 +1,7 @@
 import path from 'node:path'
 import type { RegistryBuildExtension } from '../../src'
 import { writeFileIfChanged, writeJsonIfChanged } from '../../src'
-import type { ResolvedRegistryBuildCollection } from '../../src/types'
+import type { ResolvedRegistryBuildCollection } from '../../src/config/types'
 
 interface ArchPackageRecord {
   arch: string
@@ -33,14 +33,13 @@ function toPackageArray(value: unknown): ArchPackageRecord[] {
   return value as ArchPackageRecord[]
 }
 
-export function archRepositoryExtension(
-  options: ArchRepositoryExtensionOptions,
-): RegistryBuildExtension {
+export function archRepositoryExtension(options: ArchRepositoryExtensionOptions): RegistryBuildExtension {
   return {
     name: 'archRepository',
     stage: 'afterBuild',
     async run(api) {
-      const collections = api.getArtifact<Record<string, ResolvedRegistryBuildCollection>>('collections') ?? api.config.collections
+      const collections =
+        api.getArtifact<Record<string, ResolvedRegistryBuildCollection>>('collections') ?? api.config.collections
       const collection = collections[options.collection]
 
       if (!collection) {
@@ -69,11 +68,10 @@ export function archRepositoryExtension(
         const repoPackages = packages.filter((pkg) => pkg.repo === repo).sort(byName)
         const dbFile = path.join(repoDir, `${repo}.db.json`)
         const filesFile = path.join(repoDir, `${repo}.files.txt`)
-        const fileManifest = repoPackages.flatMap((pkg) => [
-          `${pkg.name} ${pkg.version}`,
-          ...(pkg.files ?? []).map((filePath) => `  ${filePath}`),
-          '',
-        ]).join('\n').trimEnd()
+        const fileManifest = repoPackages
+          .flatMap((pkg) => [`${pkg.name} ${pkg.version}`, ...(pkg.files ?? []).map((filePath) => `  ${filePath}`), ''])
+          .join('\n')
+          .trimEnd()
         const dbPayload = {
           generatedAt: 'static-example',
           packageCount: repoPackages.length,

@@ -81,15 +81,11 @@ This keeps the generated registry path in the same pipeline as the app build tha
 ## Release checklist
 
 <Accordion type="multiple" className="w-full">
-  <AccordionItem value="package-checks">
+    <AccordionItem value="package-checks">
     <AccordionTrigger>Package checks before publish</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-- typecheck passes
-- tests pass
-- build output is generated cleanly
-- packed tarball exposes the expected `bin` and `exports`
-- a temp consumer can execute the installed CLI
+Make sure typecheck passes, tests pass, build output is generated cleanly, the packed tarball exposes the expected `bin` and `exports`, and a temp consumer can execute the installed CLI.
 
     </AccordionContent>
   </AccordionItem>
@@ -98,10 +94,7 @@ This keeps the generated registry path in the same pipeline as the app build tha
     <AccordionTrigger>Consumer checks before rollout</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-- the owning app/package can run `registry-build build`
-- a no-op warm build rewrites nothing
-- changed-only runs only touch expected artifacts
-- downstream app build still passes with the generated files
+Make sure the owning app or package can run `registry-build build`, a no-op warm build rewrites nothing, changed-only runs only touch the expected artifacts, and the downstream app build still passes with the generated files.
 
     </AccordionContent>
   </AccordionItem>
@@ -110,10 +103,7 @@ This keeps the generated registry path in the same pipeline as the app build tha
     <AccordionTrigger>Debugging checks when something drifts</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-- compare generated outputs against the last known good tree
-- inspect the cache manifest under `.registry-build/`
-- run once with `incremental: false` if you need to rule out cache behavior
-- prefer deterministic ordering in custom generators and extensions
+Compare generated outputs against the last known good tree, inspect the cache manifest under `.registry-build/`, run once with `incremental: false` if you need to rule out cache behavior, and prefer deterministic ordering in custom generators and extensions.
 
     </AccordionContent>
   </AccordionItem>

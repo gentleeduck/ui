@@ -1,18 +1,16 @@
 import type { Project } from 'ts-morph'
-import type { RegistryFileTreeNode } from '../lib/file-tree'
-import type { RegistryBuildCacheStore } from './cache'
-import type {
-  LoadedRegistryBuildConfig,
-  LoadRegistryBuildConfigOptions,
-  RegistryEntry,
-  ResolvedRegistryBuildConfig,
-} from '../types'
+import type { LoadedRegistryBuildConfig, LoadRegistryBuildConfigOptions } from '../config/loader/loader.types'
+import type { ResolvedRegistryBuildConfig } from '../config/types'
+import type { RegistryBuildCacheStore } from './cache/cache'
 
-export interface IndexedRegistryEntry extends RegistryEntry {
-  source?: string
-  tree?: RegistryFileTreeNode[]
-}
+/**
+ * Pipeline-owned runtime types live beside the pipeline implementation so the
+ * orchestration layer does not depend on a separate shared type bucket.
+ */
 
+/**
+ * Normalized output paths used by the core pipeline and UI extensions.
+ */
 export interface RegistryBuildOutputPaths {
   baseDir: string
   cacheDir: string
@@ -42,11 +40,15 @@ export interface RegistryBuildArtifacts {
   [key: string]: unknown
 }
 
-export interface RegistryBuildContext extends LoadedRegistryBuildConfig {
+/**
+ * Runtime state shared by core phases and extensions.
+ */
+export interface RegistryBuildContext extends Omit<LoadedRegistryBuildConfig, 'config'> {
   artifacts: RegistryBuildArtifacts
   cache: RegistryBuildCacheStore
   changedOnly: boolean
   changedPaths: string[]
+  config: ResolvedRegistryBuildConfig
   cwd: string
   getArtifact: <TValue = unknown>(name: string) => TValue | undefined
   getOutput: (name: string) => RegistryBuildOutputRecord | undefined
@@ -56,7 +58,11 @@ export interface RegistryBuildContext extends LoadedRegistryBuildConfig {
   outputs: RegistryBuildOutputRecord[]
   paths: RegistryBuildPathRegistry
   project: Project
-  registerOutput: (name: string, paths: string | string[], metadata?: Record<string, unknown>) => RegistryBuildOutputRecord
+  registerOutput: (
+    name: string,
+    paths: string | string[],
+    metadata?: Record<string, unknown>,
+  ) => RegistryBuildOutputRecord
   setArtifact: <TValue>(name: string, value: TValue) => TValue
   silent: boolean
 }
@@ -72,7 +78,6 @@ export interface RegistryBuildPhaseResult {
 export interface BuildOptions extends LoadRegistryBuildConfigOptions {
   changedOnly?: boolean
   changedPaths?: string[]
-  phaseOverrides?: Partial<ResolvedRegistryBuildConfig['pipeline']>
   silent?: boolean
 }
 

@@ -1,0 +1,142 @@
+import path from 'node:path'
+import type { ResolvedRegistryBuildCssTemplates } from '../../../config/types'
+import { generateBaseStylesWithVariables, generateThemeCss } from '../../../extensions/ui/lib/css-generator'
+import type { RegistryBuildThemeEntry } from '../../../extensions/ui/ui.config.types'
+import { writeJsonIfChanged } from '../../../lib/fs'
+import type { RegistryBuildContext } from '../../types'
+import type { RegistryBuildColorsPhaseOptions } from './colors.types'
+
+/**
+ * Extension overrides must pass loaded data objects rather than unresolved
+ * filesystem paths.
+ */
+function resolveExtensionData<TValue>(value: TValue | string | undefined, label: string) {
+  if (typeof value === 'string') {
+    throw new Error(
+      `${label} extension options require loaded data objects. Use root config file paths if you need loader-based resolution.`,
+    )
+  }
+
+  return value
+}
+
+/**
+ * Merge root config and extension overrides into one normalized colors-phase
+ * view.
+ */
+export function resolveColorsPhaseConfig(context: RegistryBuildContext, options: RegistryBuildColorsPhaseOptions) {
+  const colorsConfig = {
+    ...context.config.colors,
+    ...options.colors,
+  }
+  const themesConfig = {
+    ...context.config.themes,
+    ...options.themes,
+  }
+  const cssTemplates = {
+    ...context.config.cssTemplates,
+    ...options.cssTemplates,
+  }
+  const colors = resolveExtensionData(colorsConfig.data, 'colors') ?? {}
+  const themes = resolveExtensionData(themesConfig.data, 'themes') ?? {}
+  const themeNames = themesConfig.names ?? Object.keys(themes)
+  const cssVarKeys = themesConfig.cssVarKeys ?? []
+  const defaultRadius = themesConfig.defaultRadius ?? '0.5rem'
+
+  return {
+    colors,
+    cssTemplates,
+    cssVarKeys,
+    defaultRadius,
+    themeNames,
+    themes,
+  }
+}
+
+/**
+ * Derive the expected output files for the current theme set.
+ */
+export function getColorsOutputFiles(context: RegistryBuildContext, themeNames: string[]) {
+  const colorsIndexFile = path.join(context.getPath('colorsDir'), 'index.json')
+  const outputFiles = [colorsIndexFile]
+
+  for (const name of themeNames) {
+    outputFiles.push(path.join(context.getPath('colorsDir'), `${name}.json`))
+    outputFiles.push(path.join(context.getPath('themesDir'), `${name}.json`))
+  }
+
+  if (themeNames.length > 0) {
+    outputFiles.push(context.getPath('themesCssFile'))
+  }
+
+  return {
+    colorsIndexFile,
+    outputFiles,
+  }
+}
+
+/**
+ * Process a single theme entry: generate color/theme JSON payloads and CSS,
+ * writing files only when their content has changed.
+ */
+export async function processTheme(
+  context: RegistryBuildContext,
+  name: string,
+  entry: RegistryBuildThemeEntry,
+  options: {
+    cssTemplates: ResolvedRegistryBuildCssTemplates
+    cssVarKeys: string[]
+    defaultRadius: string
+  },
+): Promise<{ themeCss: string; writtenFiles: string[] }> {
+  const radius = entry.radius || options.defaultRadius
+  const colorFile = path.join(context.getPath('colorsDir'), `${name}.json`)
+  const themeFile = path.join(context.getPath('themesDir'), `${name}.json`)
+  const colorPayload = {
+    cssVarsV4: {
+      light: entry.light,
+      dark: entry.dark,
+    },
+    inlineColorsTemplate: options.cssTemplates.baseStyles,
+    cssVarsTemplate: generateBaseStylesWithVariables({
+      baseLayerRules: options.cssTemplates.baseLayerRules,
+      baseStyles: options.cssTemplates.baseStyles,
+      cssVarKeys: options.cssVarKeys,
+      entry: {
+        ...entry,
+        radius,
+      },
+      radius,
+    }),
+  }
+  const themePayload = {
+    name,
+    label: entry.label,
+    light: entry.light,
+    dark: entry.dark,
+    radius,
+  }
+  const themeCss = generateThemeCss({
+    cssVarKeys: options.cssVarKeys,
+    entry: {
+      ...entry,
+      radius,
+    },
+    name,
+    radius,
+  })
+  const writtenFiles: string[] = []
+
+  if (await writeJsonIfChanged(colorFile, colorPayload)) {
+    writtenFiles.push(colorFile)
+  }
+
+  if (await writeJsonIfChanged(themeFile, themePayload)) {
+    writtenFiles.push(themeFile)
+  }
+
+  return {
+    themeCss,
+    writtenFiles,
+  }
+}

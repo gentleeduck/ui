@@ -28,7 +28,8 @@
       "!packages/___",
       "!./apps/duck-ui-docs/__ui_registry__",
       "!packages/_oldstuff_refactor",
-      "!packages/duck-benchmark"
+      "!packages/duck-benchmark",
+      "!templates"
     ]
   },
   "formatter": {

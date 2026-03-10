@@ -1,8 +1,8 @@
-import fs from 'node:fs/promises'
-import path from 'node:path'
-import { tmpdir } from 'node:os'
-import { pathToFileURL } from 'node:url'
 import { afterEach, describe, expect, test } from 'bun:test'
+import fs from 'node:fs/promises'
+import { tmpdir } from 'node:os'
+import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 import {
   build,
   createRegistryBuildContext,
@@ -56,18 +56,16 @@ export const Button = () => helper()
 
   await fs.writeFile(
     path.join(tempDir, 'registry-build.config.ts'),
-    `import { colorsExtension, componentIndexExtension, validateExtension } from ${JSON.stringify(packageSourceUrl)}
+    `import { colorsExtension, componentIndexExtension, componentsExtension, indexBuildExtension, validateExtension } from ${JSON.stringify(packageSourceUrl)}
 
 export default {
   output: {
     dir: './dist'
   },
-  pipeline: {
-    components: true,
-    index: true
-  },
   extensions: [
     validateExtension(),
+    indexBuildExtension(),
+    componentsExtension(),
     componentIndexExtension({
       packageMappings: {
         'registry:example': '@example/examples'
@@ -190,10 +188,6 @@ describe('registry build pipeline', () => {
         output: {
           dir: './dist',
         },
-        pipeline: {
-          components: false,
-          index: false,
-        },
       },
       { configPath },
     )
@@ -218,10 +212,6 @@ describe('registry build pipeline', () => {
     await writeJson(path.join(tempDir, 'registry-build.config.json'), {
       output: {
         dir: './dist',
-      },
-      pipeline: {
-        components: false,
-        index: false,
       },
       registries: {
         uis: [
@@ -258,7 +248,11 @@ describe('registry build pipeline', () => {
 
     await fs.mkdir(path.join(tempDir, 'sources', 'ui', 'button'), { recursive: true })
     await fs.mkdir(path.join(tempDir, 'sources', 'examples', 'button'), { recursive: true })
-    await fs.writeFile(path.join(tempDir, 'sources', 'ui', 'button', 'button.tsx'), 'export const Button = () => null\n', 'utf8')
+    await fs.writeFile(
+      path.join(tempDir, 'sources', 'ui', 'button', 'button.tsx'),
+      'export const Button = () => null\n',
+      'utf8',
+    )
     await fs.writeFile(path.join(tempDir, 'sources', 'ui', 'button', 'index.ts'), "export * from './button'\n", 'utf8')
     await fs.writeFile(
       path.join(tempDir, 'sources', 'examples', 'button', 'basic.tsx'),
@@ -274,10 +268,6 @@ describe('registry build pipeline', () => {
     await writeJson(path.join(tempDir, 'registry-build.config.json'), {
       output: {
         dir: './dist',
-      },
-      pipeline: {
-        components: false,
-        index: true,
       },
       registries: {
         uis: [
@@ -317,7 +307,9 @@ describe('registry build pipeline', () => {
 
     await runValidatePhase(context)
     const result = await runIndexBuildPhase(context)
-    const writtenIndex = JSON.parse(await fs.readFile(context.outputPaths.indexFile, 'utf8')) as Array<Record<string, unknown>>
+    const writtenIndex = JSON.parse(await fs.readFile(context.outputPaths.indexFile, 'utf8')) as Array<
+      Record<string, unknown>
+    >
 
     expect(result.itemCount).toBe(3)
     expect(writtenIndex).toHaveLength(3)
@@ -345,10 +337,9 @@ describe('registry build pipeline', () => {
     const basicComponent = JSON.parse(
       await fs.readFile(path.join(result.outputPaths.componentsDir, 'basic.json'), 'utf8'),
     ) as Record<string, unknown>
-    const colorsIndex = JSON.parse(await fs.readFile(path.join(result.outputPaths.colorsDir, 'index.json'), 'utf8')) as Record<
-      string,
-      unknown
-    >
+    const colorsIndex = JSON.parse(
+      await fs.readFile(path.join(result.outputPaths.colorsDir, 'index.json'), 'utf8'),
+    ) as Record<string, unknown>
     const componentIndex = await fs.readFile(result.outputPaths.componentIndexFile, 'utf8')
     const themesCss = await fs.readFile(result.outputPaths.themesCssFile, 'utf8')
     const buttonSourceFile = (buttonComponent.files as Array<{ content: string; path: string; target: string }>).find(
@@ -366,7 +357,7 @@ describe('registry build pipeline', () => {
     await expect(fs.access(result.outputPaths.componentIndexFile)).resolves.toBeNull()
     expect(buttonComponent).not.toHaveProperty('tree')
     expect(buttonSourceFile?.content).not.toContain('iframeHeight')
-    expect(buttonSourceFile?.content).toContain("@new/pkg")
+    expect(buttonSourceFile?.content).toContain('@new/pkg')
     expect(buttonSourceFile?.target).toBe('components/ui/button.tsx')
     expect((buttonComponent.files as Array<{ path: string }>).map((file) => file.path)).not.toContain(
       'button/__test__/button.test.tsx',
@@ -442,10 +433,6 @@ import path from 'node:path'
 export default {
   output: {
     dir: './dist'
-  },
-  pipeline: {
-    components: false,
-    index: false
   },
   extensions: [
     {

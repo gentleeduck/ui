@@ -39,7 +39,7 @@ If you are building a UI/docs registry, you can still use `sources`, `registries
 
 <Accordion type="multiple" className="w-full">
   <AccordionItem value="collections">
-    <AccordionTrigger>`collections`</AccordionTrigger>
+    <AccordionTrigger>collections</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
 `collections` is the generic input surface for non-UI builds.
@@ -70,17 +70,13 @@ collections: {
 }
 ```
 
-Use `collections` when:
-
-- you are building a package index or repository catalog
-- you want extensions to read arbitrary data without pretending it is a UI component registry
-- you want a small, generic config with minimal domain assumptions
+Use `collections` when you are building a package index or repository catalog, when you want extensions to read arbitrary data without pretending it is a UI component registry, and when you want a small generic config with minimal domain assumptions.
 
     </AccordionContent>
   </AccordionItem>
 
   <AccordionItem value="output">
-    <AccordionTrigger>`output`</AccordionTrigger>
+    <AccordionTrigger>output</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
 `output.dir` is required after defaults and `extends` are resolved.
@@ -108,7 +104,7 @@ Even in a generic build, the cache still lives under `<output.dir>/.registry-bui
   </AccordionItem>
 
   <AccordionItem value="performance">
-    <AccordionTrigger>`performance`</AccordionTrigger>
+    <AccordionTrigger>performance</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
 Performance settings control incremental behavior.
@@ -131,13 +127,10 @@ performance: {
   </AccordionItem>
 
   <AccordionItem value="pipeline">
-    <AccordionTrigger>`pipeline`</AccordionTrigger>
+    <AccordionTrigger>pipeline</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-`pipeline` controls the current core phases:
-
-- `index`
-- `components`
+`pipeline` controls the current core phases: `index` and `components`.
 
 For generic collection-driven builds, it is valid to disable both and let extensions own every emitted artifact.
 
@@ -152,7 +145,7 @@ pipeline: {
   </AccordionItem>
 
   <AccordionItem value="extensions">
-    <AccordionTrigger>`extensions`</AccordionTrigger>
+    <AccordionTrigger>extensions</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
 Extensions are where custom behavior lives.
@@ -165,17 +158,13 @@ extensions: [
 ]
 ```
 
-The recommended pattern is:
-
-- keep static data in config
-- let extensions read collections and existing artifacts
-- let extensions register outputs explicitly
+The recommended pattern is to keep static data in config, let extensions read collections and existing artifacts, and let extensions register outputs explicitly.
 
     </AccordionContent>
   </AccordionItem>
 
   <AccordionItem value="branding">
-    <AccordionTrigger>`branding`</AccordionTrigger>
+    <AccordionTrigger>branding</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
 `branding` is lightweight metadata for CLI- or extension-facing presentation.
@@ -193,17 +182,12 @@ Treat this as presentation metadata, not as core build logic.
   </AccordionItem>
 
   <AccordionItem value="composition">
-    <AccordionTrigger>`extends` and `mergeRegistryBuildConfigs`</AccordionTrigger>
+    <AccordionTrigger>extends and mergeRegistryBuildConfigs</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
 Use `extends` for file-based composition and `mergeRegistryBuildConfigs()` for code-driven composition.
 
-`extends` is path-aware:
-
-- collection data files resolve relative to the file that declared them
-- collection source paths resolve relative to the file that declared them
-- source paths and external data files from compatibility fields follow the same rule
-- maps and arrays are merged where appropriate
+`extends` is path-aware. Collection data files resolve relative to the file that declared them, collection source paths resolve relative to the file that declared them, source paths and external data files from compatibility fields follow the same rule, and maps and arrays are merged where appropriate.
 
 ```ts
 export default defineConfig({
@@ -238,7 +222,7 @@ These fields are still important for docs-style UI registries. They are supporte
 
 <Accordion type="multiple" className="w-full">
   <AccordionItem value="sources">
-    <AccordionTrigger>`sources`</AccordionTrigger>
+    <AccordionTrigger>sources</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
 `sources` maps each UI registry item type to a source directory definition.
@@ -273,15 +257,12 @@ UI item types are validated as ``registry:${string}``.
   </AccordionItem>
 
   <AccordionItem value="registries">
-    <AccordionTrigger>`registries` and `registrySource`</AccordionTrigger>
+    <AccordionTrigger>registries and registrySource</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
 `registries` is the structured metadata that describes UI registry items. Categories are consumer-defined keys such as `uis`, `examples`, or `blocks`.
 
-`registrySource` controls where those entries come from:
-
-- `'inline'` means use the `registries` object directly
-- a file path means load external JSON/TS data, then merge it with inline entries
+`registrySource` controls where those entries come from. Use `'inline'` to read the `registries` object directly, or use a file path to load external JSON or TS data and merge it with inline entries.
 
 ```ts
 registrySource: 'inline',
@@ -302,7 +283,7 @@ Each entry can include metadata such as `dependencies`, `registryDependencies`, 
   </AccordionItem>
 
   <AccordionItem value="imports-targets">
-    <AccordionTrigger>`importMappings` and `targetPaths`</AccordionTrigger>
+    <AccordionTrigger>importMappings and targetPaths</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
 Use `contentRewrites` when copied source files need import rewriting. Use `packageMappings` when generated component indexes should import from a package path that differs from the source declaration.
@@ -332,7 +313,7 @@ targetPaths: {
   </AccordionItem>
 
   <AccordionItem value="component-index">
-    <AccordionTrigger>`componentIndex`</AccordionTrigger>
+    <AccordionTrigger>componentIndex</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
 This config shapes the generated component import index used by `componentIndexExtension()`.
@@ -359,21 +340,14 @@ If `generator` is set, it takes over file generation entirely.
   </AccordionItem>
 
   <AccordionItem value="themes-colors">
-    <AccordionTrigger>`colors`, `themes`, and `cssTemplates`</AccordionTrigger>
+    <AccordionTrigger>colors, themes, and cssTemplates</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
 These fields feed the colors/themes extension layer.
 
-`colors.data` and `themes.data` can be:
+`colors.data` and `themes.data` can be inline objects or file paths when they are declared at the root config level.
 
-- inline objects
-- file paths when declared at the root config level
-
-`themes` also controls:
-
-- `cssVarKeys`
-- `names`
-- `defaultRadius`
+`themes` also controls `cssVarKeys`, `names`, and `defaultRadius`.
 
 `cssTemplates` lets consumers override the generated base CSS strings.
 
@@ -396,7 +370,7 @@ cssTemplates: {
   </AccordionItem>
 
   <AccordionItem value="schema-strip-variables">
-    <AccordionTrigger>`schema` and `stripVariables`</AccordionTrigger>
+    <AccordionTrigger>schema and stripVariables</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
 `schema.itemTypes` declares the UI registry item type namespace you expect.

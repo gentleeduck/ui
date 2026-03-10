@@ -25,8 +25,4 @@ export default defineConfig({
   output: {
     dir: './dist',
   },
-  pipeline: {
-    components: false,
-    index: false,
-  },
 })

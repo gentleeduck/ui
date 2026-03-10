@@ -1,20 +1,30 @@
 # @gentleduck/registry-build
 
-Config-driven registry and index builder.
+A generic, extension-driven build system for component registries.
 
-The core build only handles registry indexing and component JSON generation. Extra behavior such as banners, validation, component-index generation, and colors/themes output is attached explicitly through `extensions` in the consuming config.
+The runner is entirely extension-driven: users define their config with `defineConfig()`, register extensions (custom or built-in), and the builder runs them in order. The package provides built-in extensions for UI registries via `uiRegistryPreset()`, or users can create their own extensions for any domain.
 
-The package is being refactored toward a generic core-plus-extension model. That work starts with `collections`, which lets a consumer provide domain-neutral data and source definitions without opting into the legacy UI-shaped config surface.
+## Source Layout
+
+The `src` folder is split by responsibility so the runtime flow is easy to trace:
+
+- `src/config` resolves config files through folder modules such as `loader/`, `merge/`, and `resolution/`, each with its own `index.ts` and local support files.
+- `src/pipeline` owns the build context, cache, and folder-based phases where each larger phase keeps its `*.types.ts` and `*.lib.ts` beside the runner.
+- `src/extensions` contains folder-based extension modules such as `banner/`, `colors/`, `component-index/`, `extension/`, and `validate/`, with UI-specific helpers isolated under `src/extensions/ui`.
+- `src/extensions/ui` now splits ownership by concern: `ui.registry.types.ts` for registry items, `ui.config.types.ts` for UI config contracts, `ui.collection.types.ts` for collection adapters, and `ui.schema.ts` or `ui.collection.ts` for behavior.
+- `src/commands/build` and `src/adapters/component-index` follow the same module-folder pattern, keeping command or adapter types beside their implementation files.
+- `src/config/types.ts` owns the config contract, `src/config/loader/loader.types.ts` owns loader-specific contracts, and `src/extensions/extension/extension.types.ts` owns the extension runtime contract.
+- `src/lib` contains shared filesystem, hashing, path, and transformation utilities.
 
 ## Usage
 
 Create a `registry-build.config.ts` beside the app or package that consumes the generated registry:
 
 ```ts
-import { defineConfig, validateExtension } from '@gentleduck/registry-build'
+import { defineConfig, uiRegistryPreset } from '@gentleduck/registry-build'
 
 export default defineConfig({
-  extensions: [validateExtension()],
+  extensions: [...uiRegistryPreset()],
   output: {
     dir: '.',
   },
@@ -82,10 +92,6 @@ export default defineConfig({
   output: {
     dir: './dist',
   },
-  pipeline: {
-    components: false,
-    index: false,
-  },
 })
 ```
 
@@ -112,20 +118,15 @@ The build summary table now reports actual rewritten files per phase, so a warm 
 Attach optional behavior explicitly:
 
 ```ts
-import {
-  bannerExtension,
-  colorsExtension,
-  componentIndexExtension,
-  defineConfig,
-  validateExtension,
-} from '@gentleduck/registry-build'
+import { defineConfig, uiRegistryPreset } from '@gentleduck/registry-build'
 
 export default defineConfig({
   extensions: [
-    bannerExtension({ name: 'My Registry' }),
-    validateExtension(),
-    componentIndexExtension(),
-    colorsExtension(),
+    ...uiRegistryPreset({
+      banner: { name: 'My Registry' },
+      colors: { /* colors/themes config */ },
+      componentIndex: { /* component-index config */ },
+    }),
   ],
   output: {
     dir: '.',
@@ -133,7 +134,7 @@ export default defineConfig({
 })
 ```
 
-## Presets
+## Config Composition
 
 Configs can extend one or more preset files:
 
@@ -156,29 +157,18 @@ export default defineConfig({
 For code-driven composition, import preset objects and merge them through the public API:
 
 ```ts
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
-import {
-  createMonorepoSourcesPreset,
-  defineConfig,
-  mergeRegistryBuildConfigs,
-  monorepoRegistryPreset,
-} from '@gentleduck/registry-build'
+import { defineConfig, mergeRegistryBuildConfigs } from '@gentleduck/registry-build'
+import { baseConfig } from './presets/base'
+import { themeConfig } from './presets/theme'
 
-const packagesDir = fileURLToPath(new URL('../../packages', import.meta.url))
-const preset = mergeRegistryBuildConfigs(
-  monorepoRegistryPreset,
-  createMonorepoSourcesPreset({
-    packagesDir: path.resolve(packagesDir),
-  }),
-)
-
-export default defineConfig(mergeRegistryBuildConfigs(preset, {
+export default defineConfig(mergeRegistryBuildConfigs(baseConfig, themeConfig, {
   output: {
     dir: '.',
   },
 }))
 ```
+
+Consumer-specific presets (e.g., monorepo source layouts, project-specific theme maps) should live beside the consumer config, not inside this package.
 
 ## Output
 
