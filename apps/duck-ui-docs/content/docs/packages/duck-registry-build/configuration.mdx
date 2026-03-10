@@ -1,58 +1,247 @@
 ---
 title: "Configuration"
-description: "Full registry-build config reference with collapsible sections for every major config area."
+description: "Full registry-build config reference with a generic-first shape, collection docs, and legacy compatibility notes."
 ---
 
 <Callout icon={<Search />}>
 
-This page is the full config reference. The dense parts are organized as accordions so you can open only the sections you need while wiring a real build.
+This page is the full config reference. The important framing is: for new non-UI consumers, start with `collections`. The older UI-shaped fields still work, but they are now a compatibility surface rather than the preferred starting point.
 
 </Callout>
 
-## Base shape
+## Minimal generic shape
 
 ```ts
 import { defineConfig } from '@gentleduck/registry-build'
 
 export default defineConfig({
   extends: ['./registry-build.base.ts'],
-  sources: {},
-  registrySource: 'inline',
-  registries: {},
+  collections: {},
   output: {
-    dir: '.',
+    dir: './dist',
   },
-  importMappings: {},
-  targetPaths: {},
-  componentIndex: {},
-  colors: {},
-  themes: {},
-  cssTemplates: {},
-  stripVariables: [],
   performance: {},
   pipeline: {},
   branding: {},
-  schema: {},
   extensions: [],
 })
 ```
 
 <Callout icon={<Target />}>
 
-Registry item types are enforced as ``registry:${string}``. That namespace flows through `sources`, `targetPaths`, `packageMappings`, `schema.itemTypes`, and every `RegistryEntry.type`.
+If you are building a UI/docs registry, you can still use `sources`, `registries`, `targetPaths`, `importMappings`, `componentIndex`, `colors`, `themes`, and related fields. They remain supported through the compatibility layer.
 
 </Callout>
 
 ---
 
-## Reference
+## Generic-first reference
+
+<Accordion type="multiple" className="w-full">
+  <AccordionItem value="collections">
+    <AccordionTrigger>`collections`</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+`collections` is the generic input surface for non-UI builds.
+
+Each collection can provide:
+
+| Field | Type | Purpose |
+| --- | --- | --- |
+| `data` | `unknown \| string` | Inline data or a file path to load |
+| `metadata` | `Record<string, unknown>` | Arbitrary static metadata for extensions |
+| `sources` | `Record<string, RegistryBuildSource>` | Named source trees related to the collection |
+
+```ts
+collections: {
+  packages: {
+    data: './data/packages.json',
+    metadata: {
+      repoOrder: ['core', 'extra', 'community'],
+    },
+    sources: {
+      pkgbuilds: {
+        glob: '**/PKGBUILD',
+        path: './pkgbuilds',
+        referencePath: '/pkgbuilds',
+      },
+    },
+  },
+}
+```
+
+Use `collections` when:
+
+- you are building a package index or repository catalog
+- you want extensions to read arbitrary data without pretending it is a UI component registry
+- you want a small, generic config with minimal domain assumptions
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="output">
+    <AccordionTrigger>`output`</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+`output.dir` is required after defaults and `extends` are resolved.
+
+| Field | Default |
+| --- | --- |
+| `dir` | required |
+| `registryDir` | `public/r` |
+| `componentIndexDir` | `__ui_registry__` |
+| `componentIndexFile` | `index.tsx` |
+| `componentsDir` | `components` |
+| `colorsDir` | `colors` |
+| `themesDir` | `themes` |
+| `themesCssFile` | `themes.css` |
+
+```ts
+output: {
+  dir: './dist',
+}
+```
+
+Even in a generic build, the cache still lives under `<output.dir>/.registry-build/` by default.
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="performance">
+    <AccordionTrigger>`performance`</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+Performance settings control incremental behavior.
+
+| Field | Default | Purpose |
+| --- | --- | --- |
+| `cacheDir` | `.registry-build` | Cache directory under `output.dir` |
+| `incremental` | `true` | Enable file-hash cache and phase reuse |
+| `parallelism` | CPU-aware default | Bound concurrent discovery and generation work |
+
+```ts
+performance: {
+  cacheDir: '.registry-build',
+  incremental: true,
+  parallelism: 6,
+}
+```
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="pipeline">
+    <AccordionTrigger>`pipeline`</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+`pipeline` controls the current core phases:
+
+- `index`
+- `components`
+
+For generic collection-driven builds, it is valid to disable both and let extensions own every emitted artifact.
+
+```ts
+pipeline: {
+  index: false,
+  components: false,
+}
+```
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="extensions">
+    <AccordionTrigger>`extensions`</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+Extensions are where custom behavior lives.
+
+```ts
+extensions: [
+  archRepositoryExtension({
+    collection: 'packages',
+  }),
+]
+```
+
+The recommended pattern is:
+
+- keep static data in config
+- let extensions read collections and existing artifacts
+- let extensions register outputs explicitly
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="branding">
+    <AccordionTrigger>`branding`</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+`branding` is lightweight metadata for CLI- or extension-facing presentation.
+
+```ts
+branding: {
+  name: 'Acme Registry',
+  font: 'ANSI Shadow',
+}
+```
+
+Treat this as presentation metadata, not as core build logic.
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="composition">
+    <AccordionTrigger>`extends` and `mergeRegistryBuildConfigs`</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+Use `extends` for file-based composition and `mergeRegistryBuildConfigs()` for code-driven composition.
+
+`extends` is path-aware:
+
+- collection data files resolve relative to the file that declared them
+- collection source paths resolve relative to the file that declared them
+- source paths and external data files from compatibility fields follow the same rule
+- maps and arrays are merged where appropriate
+
+```ts
+export default defineConfig({
+  extends: ['./registry-build.base.ts', './registry-build.arch.ts'],
+  output: {
+    dir: './dist',
+  },
+})
+```
+
+```ts
+import { defineConfig, mergeRegistryBuildConfigs } from '@gentleduck/registry-build'
+import { baseConfig } from './registry-build.base'
+import { archConfig } from './registry-build.arch'
+
+export default defineConfig(mergeRegistryBuildConfigs(baseConfig, archConfig))
+```
+
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+---
+
+## UI compatibility reference
+
+<Callout icon={<Lightbulb />}>
+
+These fields are still important for docs-style UI registries. They are supported today, but they should be understood as a compatibility layer on top of the emerging generic core.
+
+</Callout>
 
 <Accordion type="multiple" className="w-full">
   <AccordionItem value="sources">
     <AccordionTrigger>`sources`</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-`sources` maps each registry item type to a source directory definition.
+`sources` maps each UI registry item type to a source directory definition.
 
 | Field | Type | Purpose |
 | --- | --- | --- |
@@ -78,6 +267,8 @@ sources: {
 }
 ```
 
+UI item types are validated as ``registry:${string}``.
+
     </AccordionContent>
   </AccordionItem>
 
@@ -85,7 +276,7 @@ sources: {
     <AccordionTrigger>`registries` and `registrySource`</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-`registries` is the structured metadata that describes items to build. Categories are consumer-defined keys such as `uis`, `examples`, or `blocks`.
+`registries` is the structured metadata that describes UI registry items. Categories are consumer-defined keys such as `uis`, `examples`, or `blocks`.
 
 `registrySource` controls where those entries come from:
 
@@ -106,34 +297,6 @@ registries: {
 ```
 
 Each entry can include metadata such as `dependencies`, `registryDependencies`, `files`, `description`, `categories`, `tailwind`, and `cssVars`.
-
-    </AccordionContent>
-  </AccordionItem>
-
-  <AccordionItem value="output">
-    <AccordionTrigger>`output`</AccordionTrigger>
-    <AccordionContent className="text-muted-foreground">
-
-`output.dir` is required after defaults and `extends` are resolved.
-
-| Field | Default |
-| --- | --- |
-| `dir` | required |
-| `registryDir` | `public/r` |
-| `componentIndexDir` | `__ui_registry__` |
-| `componentIndexFile` | `index.tsx` |
-| `componentsDir` | `components` |
-| `colorsDir` | `colors` |
-| `themesDir` | `themes` |
-| `themesCssFile` | `themes.css` |
-
-```ts
-output: {
-  dir: './apps/docs',
-  registryDir: 'public/r',
-  componentIndexDir: '__ui_registry__',
-}
-```
 
     </AccordionContent>
   </AccordionItem>
@@ -172,7 +335,7 @@ targetPaths: {
     <AccordionTrigger>`componentIndex`</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-This config shapes the generated component import index used by extensions such as `componentIndexExtension`.
+This config shapes the generated component import index used by `componentIndexExtension()`.
 
 | Field | Purpose |
 | --- | --- |
@@ -232,88 +395,19 @@ cssTemplates: {
     </AccordionContent>
   </AccordionItem>
 
-  <AccordionItem value="performance">
-    <AccordionTrigger>`performance`</AccordionTrigger>
+  <AccordionItem value="schema-strip-variables">
+    <AccordionTrigger>`schema` and `stripVariables`</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-Performance settings control incremental behavior.
-
-| Field | Default | Purpose |
-| --- | --- | --- |
-| `cacheDir` | `.registry-build` | Cache directory under `output.dir` |
-| `incremental` | `true` | Enable file-hash cache and phase reuse |
-| `parallelism` | CPU-aware default | Bound concurrent discovery and generation work |
-
-```ts
-performance: {
-  cacheDir: '.registry-build',
-  incremental: true,
-  parallelism: 6,
-}
-```
-
-    </AccordionContent>
-  </AccordionItem>
-
-  <AccordionItem value="pipeline-schema-branding">
-    <AccordionTrigger>`pipeline`, `schema`, `branding`, and `stripVariables`</AccordionTrigger>
-    <AccordionContent className="text-muted-foreground">
-
-`pipeline` only controls the core phases today:
-
-- `index`
-- `components`
-
-`schema.itemTypes` declares the registry item type namespace you expect.
+`schema.itemTypes` declares the UI registry item type namespace you expect.
 
 `stripVariables` removes named variables from copied source files before they are emitted into generated JSON payloads.
 
-`branding` currently feeds extension and UI-facing metadata such as banners.
-
 ```ts
-pipeline: {
-  index: true,
-  components: true,
-},
 schema: {
   itemTypes: ['registry:ui', 'registry:example', 'registry:block'],
 },
 stripVariables: ['iframeHeight', 'description'],
-branding: {
-  name: 'Duck UI',
-}
-```
-
-    </AccordionContent>
-  </AccordionItem>
-
-  <AccordionItem value="composition">
-    <AccordionTrigger>`extends` and `mergeRegistryBuildConfigs`</AccordionTrigger>
-    <AccordionContent className="text-muted-foreground">
-
-Use `extends` for file-based composition and `mergeRegistryBuildConfigs()` for code-driven composition.
-
-`extends` is path-aware:
-
-- source paths resolve relative to the file that declared them
-- external data files resolve relative to the file that declared them
-- maps and arrays are merged where appropriate
-
-```ts
-export default defineConfig({
-  extends: ['./registry-build.base.ts', './registry-build.theme.ts'],
-  output: {
-    dir: '.',
-  },
-})
-```
-
-```ts
-import { defineConfig, mergeRegistryBuildConfigs } from '@gentleduck/registry-build'
-import { baseConfig } from './registry-build.base'
-import { themeConfig } from './registry-build.theme'
-
-export default defineConfig(mergeRegistryBuildConfigs(baseConfig, themeConfig))
 ```
 
     </AccordionContent>
@@ -322,12 +416,13 @@ export default defineConfig(mergeRegistryBuildConfigs(baseConfig, themeConfig))
 
 ---
 
-## Read next
+## Rule of thumb
 
 <Callout icon={<MapIcon />} className="[&_ul]:my-0">
 
-- [Extensions](/docs/packages/duck-registry-build/extensions) for the optional output model
-- [CLI](/docs/packages/duck-registry-build/cli) for runtime flags
-- [Performance](/docs/packages/duck-registry-build/performance) for incremental behavior details
+- Start new package or repository indexes from `collections`.
+- Use compatibility fields only when you are deliberately building the UI/docs registry shape.
+- Put static values in config and computed behavior in extensions.
+- Keep extension output names explicit so the build summary stays readable.
 
 </Callout>

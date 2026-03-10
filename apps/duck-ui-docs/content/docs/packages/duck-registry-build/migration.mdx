@@ -5,7 +5,7 @@ description: "Move from hardcoded arrays, env-based path wiring, or monorepo-onl
 
 <Callout icon={<Target />}>
 
-The clean migration path is: move static values into config, move outputs to a consumer-owned config root, then reattach optional behavior as explicit extensions.
+The clean migration path is: move static values into config, move outputs to a consumer-owned config root, choose whether you are doing a generic collections-first build or a UI compatibility build, then attach optional behavior as explicit extensions.
 
 </Callout>
 
@@ -23,13 +23,17 @@ Move registry entries, colors, themes, and source-path declarations into config 
 
 Place `registry-build.config.ts` beside the app or package that owns the generated outputs.
 
-<Step>Map item types explicitly</Step>
+<Step>Choose your migration target</Step>
+
+For a new non-UI index, move toward `collections` plus extensions. For a docs-style UI registry, keep using `sources` and `registries` while the compatibility layer is still in place.
+
+<Step>Map item types explicitly when you stay on the UI shape</Step>
 
 Define `sources`, `targetPaths`, `packageMappings`, and `schema.itemTypes` using the same ``registry:${string}`` namespace.
 
 <Step>Keep the core small</Step>
 
-Enable the base build first: `index` and `components`.
+Enable only the core phases you actually need. Generic extension-only builds can disable `index` and `components` completely.
 
 <Step>Reattach optional behavior intentionally</Step>
 
@@ -55,6 +59,7 @@ Diff the generated outputs against the old pipeline and classify each difference
 ### After
 
 - typed config as the source of truth
+- generic `collections` model for non-UI consumers
 - path-aware `extends`
 - explicit extension list
 - consumer-owned output root
@@ -66,6 +71,7 @@ Diff the generated outputs against the old pipeline and classify each difference
 
 - move the config to the consuming app/package
 - resolve all paths relative to the config file
+- decide whether the target build should be generic-first or UI-compatibility-first
 - keep registry data in JSON or typed modules
 - replace switch statements with `targetPaths` and `packageMappings`
 - move optional outputs behind extensions
@@ -95,6 +101,15 @@ The package does not attach validation, component-index generation, colors/theme
     </AccordionContent>
   </AccordionItem>
 
+  <AccordionItem value="starting-ui-first">
+    <AccordionTrigger>Starting a new non-UI build from UI compatibility fields</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+If you are building a package index or repository database from scratch, start from `collections`. Use `sources`, `registries`, `targetPaths`, and other UI-shaped fields only when you are intentionally migrating an existing UI registry flow.
+
+    </AccordionContent>
+  </AccordionItem>
+
   <AccordionItem value="stale-cli-flow">
     <AccordionTrigger>Keeping old repo-local wrapper scripts around</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
@@ -110,6 +125,7 @@ Once the package is installed as a dependency, prefer `registry-build build` in 
 ## Final verification checklist
 
 - `registry-build build` succeeds from the consumer root
+- new non-UI builds use `collections` as the primary input model
 - the generated index is stable across two warm runs
 - no-op warm builds report zero rewritten files
 - changed-only runs only touch expected artifacts

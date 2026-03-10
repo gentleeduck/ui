@@ -5,7 +5,7 @@ description: "Learn the explicit extension model, built-in extensions, and the c
 
 <Callout icon={<Zap />}>
 
-registry-build does not attach default plugins automatically. If you want validation, component-index generation, colors/themes, or a banner, you add those extensions explicitly in config.
+registry-build does not attach default plugins automatically. If you want validation, component-index generation, colors/themes, an Arch-style repository emitter, or any other derived output, you add that extension explicitly in config.
 
 </Callout>
 
@@ -29,6 +29,8 @@ This keeps optional behavior composable without making the core runner guess whi
 ---
 
 ## Built-in extensions
+
+The built-in extensions are mostly UI/docs-oriented helpers. They are useful, but they are not the definition of the core package.
 
 | Extension | Stage | Purpose |
 | --- | --- | --- |
@@ -58,6 +60,48 @@ export default defineConfig({
   ],
 })
 ```
+
+---
+
+## Collections-first custom extensions
+
+For new non-UI builds, the most important pattern is reading named collections from the build context.
+
+```ts
+{
+  name: 'archRepository',
+  stage: 'afterBuild',
+  async run(api) {
+    const collections = api.getArtifact('collections') ?? api.config.collections
+    const packages = collections.packages?.data
+
+    // validate input
+    // derive outputs
+    // register emitted files
+  },
+}
+```
+
+That keeps your extension generic:
+
+- config declares data and paths
+- the extension reads collections and metadata
+- the extension emits files and artifacts intentionally
+
+---
+
+## Arch-style repository pattern
+
+An Arch-like package repository extension usually does four things:
+
+1. read `collections.packages.data`
+2. group packages by repo such as `core`, `extra`, or `community`
+3. emit repo-specific database and file-manifest outputs
+4. emit a search or lookup artifact for downstream consumers
+
+That is exactly the pattern used in the in-repo example under `packages/registry-build/examples/arch-package-index`.
+
+Read the full walkthrough in [Course](/docs/packages/duck-registry-build/course) and [Arch Package Index](/docs/packages/duck-registry-build/course-arch-package-index).
 
 ---
 
@@ -109,8 +153,10 @@ export default defineConfig({
       name: 'manifest',
       stage: 'afterBuild',
       async run(api) {
+        const collections = api.getArtifact('collections') ?? api.config.collections
         const manifest = {
           generatedAt: new Date().toISOString(),
+          collections: Object.keys(collections),
           outputs: api.listOutputs().map((output) => output.name),
         }
         const manifestPath = path.join(api.getPath('registryDir'), 'manifest.json')
@@ -148,6 +194,7 @@ Keep extensions data-first. Let the core build produce stable artifacts, then le
 
 Use config when the value is static and declarative:
 
+- collections and collection metadata
 - source folders
 - output directories
 - package mappings

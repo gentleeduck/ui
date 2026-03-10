@@ -5,7 +5,7 @@ description: "Install registry-build, define a config, attach extensions, and ge
 
 <Callout icon={<Zap />}>
 
-Get from zero to a generated registry in one config file. The package is designed so the consumer owns all static inputs up front.
+Get from zero to a generated index in one config file. The package is designed so the consumer owns all static inputs up front.
 
 </Callout>
 
@@ -24,61 +24,42 @@ npm install @gentleduck/registry-build
 Place the config beside the app or package that should own the generated outputs.
 
 ```ts
-import {
-  colorsExtension,
-  componentIndexExtension,
-  defineConfig,
-  validateExtension,
-} from '@gentleduck/registry-build'
+import { defineConfig } from '@gentleduck/registry-build'
+import { archRepositoryExtension } from './arch-repository.extension'
 
 export default defineConfig({
-  sources: {
-    'registry:ui': {
-      path: '../../packages/registry-ui/src',
-      packageName: '@example/registry-ui',
-      referencePath: '/registry-ui/src',
-    },
-    'registry:example': {
-      indexStrategy: 'file',
-      path: '../../packages/registry-examples/src',
-      packageName: '@example/registry-examples',
-      referencePath: '/registry-examples/src',
-    },
-  },
-  registries: {
-    uis: [
-      {
-        name: 'button',
-        root_folder: 'button',
-        type: 'registry:ui',
+  collections: {
+    packages: {
+      data: './data/packages.json',
+      metadata: {
+        repoOrder: ['core', 'extra'],
       },
-    ],
-    examples: [
-      {
-        name: 'button-examples',
-        root_folder: 'button',
-        type: 'registry:example',
+      sources: {
+        pkgbuilds: {
+          glob: '**/PKGBUILD',
+          path: './pkgbuilds',
+        },
       },
-    ],
+    },
   },
   output: {
-    dir: '.',
+    dir: './dist',
   },
-  targetPaths: {
-    'registry:ui': 'components/ui',
-    'registry:example': 'components',
+  pipeline: {
+    components: false,
+    index: false,
   },
   extensions: [
-    validateExtension(),
-    componentIndexExtension(),
-    colorsExtension(),
+    archRepositoryExtension({
+      collection: 'packages',
+    }),
   ],
 })
 ```
 
 <Callout icon={<Lightbulb />}>
 
-If you only want the base index and component payloads, skip the optional extensions.
+For new non-UI builds, start with `collections`. If you are building a UI/docs registry, the older `sources`, `registries`, `targetPaths`, and related fields still work through the compatibility layer.
 
 </Callout>
 
@@ -104,22 +85,21 @@ Or from a package script:
 
 ## 4. Inspect the outputs
 
-With the default output naming, you will get something like:
+For the example above, you will get something like:
 
 ```text
 <output.dir>/
   .registry-build/
-  __ui_registry__/
-    index.tsx
-  public/r/
-    index.json
-    components/
-      button.json
-      basic.json
-    colors/
-    themes/
-    themes.css
+  arch/
+    repos/
+      core.db.json
+      core.files.txt
+      extra.db.json
+      extra.files.txt
+    search.json
 ```
+
+If you enable the core UI-oriented phases or extensions, you can still get outputs such as `public/r/index.json`, per-item JSON files, or `__ui_registry__/index.tsx`.
 
 ---
 
@@ -131,13 +111,21 @@ With the default output naming, you will get something like:
 
 Paths were resolved relative to the config file, not the current working directory.
 
-<Step>The core runner built the base registry</Step>
+<Step>The loader resolved collections and compatibility fields</Step>
 
-It generated `index.json` and per-item JSON payloads from your declared registry entries and source folders.
+`collections` data and collection source paths were resolved relative to the config file. If you had used legacy UI fields, they would have been normalized into collection artifacts as well.
+
+<Step>The runner created the shared build context</Step>
+
+The context now carries resolved collections, output paths, cache helpers, output registration, and extension APIs.
+
+<Step>The core phases ran only if you left them enabled</Step>
+
+In this example they are disabled because the custom extension owns the outputs. In a UI registry build, the core can still generate `index.json` and per-item JSON payloads.
 
 <Step>Extensions added optional outputs</Step>
 
-Validation ran before the build. The component-index and colors extensions generated extra files after the core outputs were ready.
+The Arch repository extension read the `packages` collection and emitted repo databases, file manifests, and a search index.
 
 <Step>The cache was updated</Step>
 
@@ -153,6 +141,7 @@ The builder stored incremental state under `.registry-build/` so the next warm r
 
 - Read [Configuration](/docs/packages/duck-registry-build/configuration) for the full schema.
 - Read [Extensions](/docs/packages/duck-registry-build/extensions) to understand the explicit plugin model.
+- Read [Course](/docs/packages/duck-registry-build/course) for the full Arch-style package index walkthrough.
 - Read [CLI](/docs/packages/duck-registry-build/cli) for scripting and CI usage.
 - Read [Performance](/docs/packages/duck-registry-build/performance) for cache and changed-only workflows.
 
