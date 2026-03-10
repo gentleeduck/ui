@@ -49,6 +49,22 @@ In a workspace app, the local installed binary works the same way:
 ./node_modules/.bin/registry-build build
 ```
 
+## Incremental Builds
+
+The builder keeps a local cache under `<output.dir>/.registry-build/` by default.
+
+Useful CLI flags:
+
+```bash
+registry-build build --changed-only
+registry-build build --changed-only --changed ../../packages/registry-ui/src/button/button.tsx
+```
+
+- `--changed-only` keeps the incremental cache on and reuses unchanged outputs aggressively
+- `--changed <paths...>` narrows rebuild work to entries affected by those paths
+
+The build summary table now reports actual rewritten files per phase, so a warm no-op build should usually show `Files` as `-`.
+
 ## Extensions
 
 Attach optional behavior explicitly:
@@ -128,6 +144,7 @@ The builder writes:
 
 ```text
 <output.dir>/
+  .registry-build/
   __ui_registry__/index.tsx
   public/r/
     colors/

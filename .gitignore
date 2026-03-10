@@ -75,6 +75,7 @@ node-compile-cache.root-owned/
 **/dist.root-owned.*/
 **/.turbo.root-owned*/
 **/.next.root-owned*/
+**/.registry-build/
 **/dist.prebun.*/
 **/.dist.prebun.*/
 **/tsconfig.tsbuildinfo

@@ -1,5 +1,6 @@
 import type { Project } from 'ts-morph'
 import type { RegistryFileTreeNode } from '../lib/file-tree'
+import type { RegistryBuildCacheStore } from './cache'
 import type {
   LoadedRegistryBuildConfig,
   LoadRegistryBuildConfigOptions,
@@ -14,6 +15,8 @@ export interface IndexedRegistryEntry extends RegistryEntry {
 
 export interface RegistryBuildOutputPaths {
   baseDir: string
+  cacheDir: string
+  cacheFile: string
   colorsDir: string
   componentIndexDir: string
   componentIndexFile: string
@@ -41,6 +44,9 @@ export interface RegistryBuildArtifacts {
 
 export interface RegistryBuildContext extends LoadedRegistryBuildConfig {
   artifacts: RegistryBuildArtifacts
+  cache: RegistryBuildCacheStore
+  changedOnly: boolean
+  changedPaths: string[]
   cwd: string
   getArtifact: <TValue = unknown>(name: string) => TValue | undefined
   getOutput: (name: string) => RegistryBuildOutputRecord | undefined
@@ -64,6 +70,8 @@ export interface RegistryBuildPhaseResult {
 }
 
 export interface BuildOptions extends LoadRegistryBuildConfigOptions {
+  changedOnly?: boolean
+  changedPaths?: string[]
   phaseOverrides?: Partial<ResolvedRegistryBuildConfig['pipeline']>
   silent?: boolean
 }

@@ -1,6 +1,9 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
+import { mapConcurrently } from '../../lib/concurrency'
 import { generateBaseStylesWithVariables, generateThemeCss } from '../../lib/css-generator'
+import { listFilesRecursively, pathExists, removeStaleFiles, writeFileIfChanged, writeJsonIfChanged } from '../../lib/fs'
+import { hashValue } from '../../lib/hash'
 import { processRegistryColors } from '../../lib/color-processor'
 import type {
   RegistryBuildColorsConfig,
@@ -15,6 +18,11 @@ export interface RegistryBuildColorsPhaseOptions {
   themes?: RegistryBuildThemesConfig
 }
 
+interface RegistryBuildColorsCacheState {
+  outputFiles: string[]
+  signature: string
+}
+
 function resolveExtensionData<TValue>(value: TValue | string | undefined, label: string) {
   if (typeof value === 'string') {
     throw new Error(
@@ -25,15 +33,11 @@ function resolveExtensionData<TValue>(value: TValue | string | undefined, label:
   return value
 }
 
-async function writeJson(filePath: string, value: unknown) {
-  await fs.mkdir(path.dirname(filePath), { recursive: true })
-  await fs.writeFile(filePath, JSON.stringify(value, null, 2), 'utf8')
-}
-
 export async function runColorsPhase(
   context: RegistryBuildContext,
   options: RegistryBuildColorsPhaseOptions = {},
 ): Promise<RegistryBuildPhaseResult> {
+  const previousCacheState = context.cache.getPhaseData<RegistryBuildColorsCacheState>('colors')
   const colorsConfig = {
     ...context.config.colors,
     ...options.colors,
@@ -51,34 +55,83 @@ export async function runColorsPhase(
   const themeNames = themesConfig.names ?? Object.keys(themes)
   const cssVarKeys = themesConfig.cssVarKeys ?? []
   const defaultRadius = themesConfig.defaultRadius ?? '0.5rem'
-  const outputFiles: string[] = []
+  const colorsIndexFile = path.join(context.getPath('colorsDir'), 'index.json')
+  const outputFiles = [colorsIndexFile]
 
-  await fs.rm(context.getPath('colorsDir'), { force: true, recursive: true })
-  await fs.rm(context.getPath('themesDir'), { force: true, recursive: true })
-  await fs.rm(context.getPath('themesCssFile'), { force: true })
-  await fs.mkdir(context.getPath('colorsDir'), { recursive: true })
-  await fs.mkdir(context.getPath('themesDir'), { recursive: true })
+  for (const name of themeNames) {
+    outputFiles.push(path.join(context.getPath('colorsDir'), `${name}.json`))
+    outputFiles.push(path.join(context.getPath('themesDir'), `${name}.json`))
+  }
 
-  const processedColors = processRegistryColors(colors)
-  await writeJson(path.join(context.getPath('colorsDir'), 'index.json'), processedColors)
-  outputFiles.push(path.join(context.getPath('colorsDir'), 'index.json'))
+  if (themeNames.length > 0) {
+    outputFiles.push(context.getPath('themesCssFile'))
+  }
 
-  if (themeNames.length === 0) {
+  const signature = hashValue({
+    colors,
+    cssTemplates,
+    cssVarKeys,
+    defaultRadius,
+    themeNames,
+    themes,
+  })
+  const previousOutputFiles =
+    previousCacheState?.outputFiles.length
+      ? previousCacheState.outputFiles
+      : [
+          ...(await listFilesRecursively(context.getPath('colorsDir'))),
+          ...(await listFilesRecursively(context.getPath('themesDir'))),
+          ...((await pathExists(context.getPath('themesCssFile'))) ? [context.getPath('themesCssFile')] : []),
+        ]
+  const allOutputFilesExist = (await Promise.all(outputFiles.map((filePath) => pathExists(filePath)))).every(Boolean)
+
+  if (previousCacheState?.signature === signature && allOutputFilesExist) {
     context.registerOutput('colors', outputFiles, {
       kind: 'colors-and-themes',
     })
 
     return {
-      itemCount: 0,
+      details: 'reused cached output',
+      itemCount: themeNames.length,
       name: 'colors',
-      outputFiles,
+      outputFiles: [],
     }
   }
 
-  const themeCssBlocks: string[] = []
+  await fs.mkdir(context.getPath('colorsDir'), { recursive: true })
+  await fs.mkdir(context.getPath('themesDir'), { recursive: true })
 
-  for (const name of themeNames) {
+  const processedColors = processRegistryColors(colors)
+  const writtenFiles: string[] = []
+
+  if (await writeJsonIfChanged(colorsIndexFile, processedColors)) {
+    writtenFiles.push(colorsIndexFile)
+  }
+
+  if (themeNames.length === 0) {
+    const removedFiles = await removeStaleFiles(outputFiles, previousOutputFiles)
+
+    context.cache.setPhaseData<RegistryBuildColorsCacheState>('colors', {
+      outputFiles,
+      signature,
+    })
+    context.registerOutput('colors', outputFiles, {
+      kind: 'colors-and-themes',
+    })
+
+    return {
+      details: `${writtenFiles.length} written, ${outputFiles.length - writtenFiles.length} reused${
+        removedFiles.length > 0 ? `, ${removedFiles.length} removed` : ''
+      }`,
+      itemCount: 0,
+      name: 'colors',
+      outputFiles: writtenFiles,
+    }
+  }
+
+  const themeResults = await mapConcurrently(themeNames, context.config.performance.parallelism, async (name) => {
     const entry = themes[name]
+
     if (!entry) {
       throw new Error(`Theme "${name}" is missing from \`themes.data\`.`)
     }
@@ -86,8 +139,7 @@ export async function runColorsPhase(
     const radius = entry.radius || defaultRadius
     const colorFile = path.join(context.getPath('colorsDir'), `${name}.json`)
     const themeFile = path.join(context.getPath('themesDir'), `${name}.json`)
-
-    await writeJson(colorFile, {
+    const colorPayload = {
       cssVarsV4: {
         light: entry.light,
         dark: entry.dark,
@@ -103,38 +155,63 @@ export async function runColorsPhase(
         },
         radius,
       }),
-    })
-    await writeJson(themeFile, {
+    }
+    const themePayload = {
       name,
       label: entry.label,
       light: entry.light,
       dark: entry.dark,
       radius,
-    })
-
-    themeCssBlocks.push(
-      generateThemeCss({
-        cssVarKeys,
-        entry: {
-          ...entry,
-          radius,
-        },
-        name,
+    }
+    const themeCss = generateThemeCss({
+      cssVarKeys,
+      entry: {
+        ...entry,
         radius,
-      }),
-    )
-    outputFiles.push(colorFile, themeFile)
+      },
+      name,
+      radius,
+    })
+    const themeWrittenFiles: string[] = []
+
+    if (await writeJsonIfChanged(colorFile, colorPayload)) {
+      themeWrittenFiles.push(colorFile)
+    }
+
+    if (await writeJsonIfChanged(themeFile, themePayload)) {
+      themeWrittenFiles.push(themeFile)
+    }
+
+    return {
+      themeCss,
+      writtenFiles: themeWrittenFiles,
+    }
+  })
+  const themeCssBlocks = themeResults.map((result) => result.themeCss)
+  const themeCssFile = context.getPath('themesCssFile')
+
+  if (await writeFileIfChanged(themeCssFile, themeCssBlocks.join('\n\n'))) {
+    writtenFiles.push(themeCssFile)
   }
 
-  await fs.writeFile(context.getPath('themesCssFile'), themeCssBlocks.join('\n\n'), 'utf8')
-  outputFiles.push(context.getPath('themesCssFile'))
+  writtenFiles.push(...themeResults.flatMap((result) => result.writtenFiles))
+
+  const removedFiles = await removeStaleFiles(outputFiles, previousOutputFiles)
+
+  context.cache.setPhaseData<RegistryBuildColorsCacheState>('colors', {
+    outputFiles,
+    signature,
+  })
   context.registerOutput('colors', outputFiles, {
     kind: 'colors-and-themes',
   })
 
   return {
+    details: `${writtenFiles.length} written, ${outputFiles.length - writtenFiles.length} reused${
+      removedFiles.length > 0 ? `, ${removedFiles.length} removed` : ''
+    }`,
     itemCount: themeNames.length,
     name: 'colors',
-    outputFiles,
+    outputFiles: writtenFiles.sort((left, right) => left.localeCompare(right)),
   }
 }

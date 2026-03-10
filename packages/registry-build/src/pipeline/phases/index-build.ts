@@ -1,10 +1,30 @@
-import fs from 'node:fs/promises'
 import path from 'node:path'
 import fg from 'fast-glob'
 import { createRegistryFileTree } from '../../lib/file-tree'
+import { hashValue } from '../../lib/hash'
+import { mapConcurrently } from '../../lib/concurrency'
 import { joinPosix, normalizeSlashes } from '../../lib/path'
+import { writeFileIfChanged } from '../../lib/fs'
 import type { RegistryBuildSource, RegistryEntry, RegistryItemFile } from '../../types'
+import { createRegistryEntryCacheKey, isRegistryEntryAffectedByChangedPaths } from '../change-detection'
 import type { IndexedRegistryEntry, RegistryBuildContext, RegistryBuildPhaseResult } from '../types'
+
+interface RegistryBuildIndexCacheEntry {
+  indexedEntries: IndexedRegistryEntry[]
+  signature: string
+  staticSignature: string
+}
+
+interface RegistryBuildIndexCacheState {
+  entries: Record<string, RegistryBuildIndexCacheEntry>
+}
+
+interface RegistryBuildMaterializedEntry {
+  cacheEntry: RegistryBuildIndexCacheEntry
+  cacheKey: string
+  indexedEntries: IndexedRegistryEntry[]
+  rebuilt: boolean
+}
 
 function getSourceReference(source: RegistryBuildSource, context: RegistryBuildContext, entry: RegistryEntry) {
   const baseReference = source.referencePath ?? normalizeSlashes(path.relative(context.configDir, source.path))
@@ -52,21 +72,69 @@ function createIndexedEntries(entry: IndexedRegistryEntry, source?: RegistryBuil
   }))
 }
 
-async function materializeRegistryEntry(context: RegistryBuildContext, entry: RegistryEntry): Promise<IndexedRegistryEntry[]> {
+async function resolveRegistryFiles(context: RegistryBuildContext, entry: RegistryEntry) {
   const source = context.config.sources[entry.type]
   const files = entry.files?.length ? entry.files : source ? await discoverRegistryFiles(source, entry) : []
-  const normalizedFiles = files.map((file) => ({
-    ...file,
-    path: normalizeSlashes(file.path),
-    type: file.type || entry.type,
-  }))
 
+  return {
+    files: files.map((file) => ({
+      ...file,
+      path: normalizeSlashes(file.path),
+      type: file.type || entry.type,
+    })),
+    source,
+  }
+}
+
+function createIndexEntryStaticSignature(entry: RegistryEntry, source?: RegistryBuildSource) {
+  return hashValue({
+    entry: {
+      ...entry,
+      files: entry.files?.map((file) => ({
+        path: normalizeSlashes(file.path),
+        target: file.target,
+        type: file.type,
+      })),
+    },
+    source: source
+      ? {
+          glob: source.glob,
+          ignore: source.ignore,
+          indexStrategy: source.indexStrategy,
+          referencePath: source.referencePath,
+        }
+      : null,
+  })
+}
+
+function createIndexEntrySignature(
+  entry: RegistryEntry,
+  source: RegistryBuildSource | undefined,
+  files: RegistryItemFile[],
+) {
+  return hashValue({
+    files: files.map((file) => ({
+      path: file.path,
+      target: file.target,
+      type: file.type,
+    })),
+    sourceReference: source?.referencePath ?? null,
+    staticSignature: createIndexEntryStaticSignature(entry, source),
+  })
+}
+
+function materializeIndexedEntries(
+  context: RegistryBuildContext,
+  entry: RegistryEntry,
+  source: RegistryBuildSource | undefined,
+  files: RegistryItemFile[],
+) {
   const indexedEntry: IndexedRegistryEntry = {
     ...entry,
-    files: normalizedFiles,
+    files,
     source: source ? getSourceReference(source, context, entry) : entry.source,
     tree: createRegistryFileTree(
-      normalizedFiles.map((file) => file.path),
+      files.map((file) => file.path),
       { basePath: entry.root_folder },
     ),
   }
@@ -75,17 +143,78 @@ async function materializeRegistryEntry(context: RegistryBuildContext, entry: Re
 }
 
 export async function runIndexBuildPhase(context: RegistryBuildContext): Promise<RegistryBuildPhaseResult> {
-  const index: IndexedRegistryEntry[] = []
+  const previousCacheState = context.cache.getPhaseData<RegistryBuildIndexCacheState>('index') ?? { entries: {} }
+  const nextCacheEntries: RegistryBuildIndexCacheState['entries'] = {}
+  const allEntries = Object.values(context.config.registries).flat()
+  let rebuiltEntryCount = 0
+  let reusedEntryCount = 0
 
-  for (const entries of Object.values(context.config.registries)) {
-    for (const entry of entries) {
-      index.push(...(await materializeRegistryEntry(context, entry)))
-    }
-  }
+  const materializedEntries = await mapConcurrently(
+    allEntries,
+    context.config.performance.parallelism,
+    async (entry): Promise<RegistryBuildMaterializedEntry> => {
+      const cacheKey = createRegistryEntryCacheKey(entry)
+      const previousCacheEntry = previousCacheState.entries[cacheKey]
+      const affectedByChanges = isRegistryEntryAffectedByChangedPaths(context, entry)
+      const { files, source } = await resolveRegistryFiles(context, entry)
+      const staticSignature = createIndexEntryStaticSignature(entry, source)
 
-  await fs.mkdir(context.getPath('registryDir'), { recursive: true })
-  await fs.writeFile(context.getPath('indexFile'), JSON.stringify(index, null, 2), 'utf8')
+      if (
+        !affectedByChanges &&
+        previousCacheEntry &&
+        previousCacheEntry.staticSignature === staticSignature
+      ) {
+        reusedEntryCount += previousCacheEntry.indexedEntries.length
+        nextCacheEntries[cacheKey] = previousCacheEntry
 
+        return {
+          cacheEntry: previousCacheEntry,
+          cacheKey,
+          indexedEntries: previousCacheEntry.indexedEntries,
+          rebuilt: false,
+        }
+      }
+
+      const signature = createIndexEntrySignature(entry, source, files)
+
+      if (previousCacheEntry?.signature === signature) {
+        reusedEntryCount += previousCacheEntry.indexedEntries.length
+        nextCacheEntries[cacheKey] = previousCacheEntry
+
+        return {
+          cacheEntry: previousCacheEntry,
+          cacheKey,
+          indexedEntries: previousCacheEntry.indexedEntries,
+          rebuilt: false,
+        }
+      }
+
+      const indexedEntries = materializeIndexedEntries(context, entry, source, files)
+      const cacheEntry: RegistryBuildIndexCacheEntry = {
+        indexedEntries,
+        signature,
+        staticSignature,
+      }
+
+      rebuiltEntryCount += indexedEntries.length
+      nextCacheEntries[cacheKey] = cacheEntry
+
+      return {
+        cacheEntry,
+        cacheKey,
+        indexedEntries,
+        rebuilt: true,
+      }
+    },
+  )
+
+  const index = materializedEntries.flatMap((entry) => entry.indexedEntries)
+  const outputContent = JSON.stringify(index, null, 2)
+  const wroteIndexFile = await writeFileIfChanged(context.getPath('indexFile'), outputContent)
+
+  context.cache.setPhaseData<RegistryBuildIndexCacheState>('index', {
+    entries: nextCacheEntries,
+  })
   context.setArtifact('index', index)
   context.registerOutput('index', context.getPath('indexFile'), {
     artifact: 'index',
@@ -93,8 +222,9 @@ export async function runIndexBuildPhase(context: RegistryBuildContext): Promise
   })
 
   return {
+    details: `${rebuiltEntryCount} rebuilt, ${reusedEntryCount} reused`,
     itemCount: index.length,
     name: 'index',
-    outputFiles: [context.getPath('indexFile')],
+    outputFiles: wroteIndexFile ? [context.getPath('indexFile')] : [],
   }
 }

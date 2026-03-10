@@ -118,6 +118,13 @@ export const registryBuildConfigSchema = z.object({
       themesDir: nonEmptyStringSchema.optional(),
     })
     .optional(),
+  performance: z
+    .object({
+      cacheDir: nonEmptyStringSchema.optional(),
+      incremental: z.boolean().optional(),
+      parallelism: z.number().int().positive().optional(),
+    })
+    .optional(),
   pipeline: z
     .object({
       components: z.boolean().optional(),

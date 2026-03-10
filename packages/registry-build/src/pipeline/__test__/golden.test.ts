@@ -21,12 +21,18 @@ async function collectFiles(rootDir: string, currentDir = rootDir): Promise<stri
 
   for (const entry of entries) {
     const fullPath = path.join(currentDir, entry.name)
+    const relativePath = path.relative(rootDir, fullPath)
+
+    if (relativePath === '.registry-build' || relativePath.startsWith('.registry-build/')) {
+      continue
+    }
+
     if (entry.isDirectory()) {
       files.push(...(await collectFiles(rootDir, fullPath)))
       continue
     }
 
-    files.push(path.relative(rootDir, fullPath))
+    files.push(relativePath)
   }
 
   return files.sort()

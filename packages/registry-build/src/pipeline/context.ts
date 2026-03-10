@@ -1,5 +1,7 @@
 import path from 'node:path'
 import { Project } from 'ts-morph'
+import { createRegistryBuildCache } from './cache'
+import { normalizeSlashes } from '../lib/path'
 import type { LoadedRegistryBuildConfig } from '../types'
 import type {
   BuildOptions,
@@ -13,9 +15,12 @@ function createOutputPaths(config: LoadedRegistryBuildConfig['config']): Registr
   const baseDir = config.output.dir
   const registryDir = path.join(baseDir, config.output.registryDir)
   const componentIndexDir = path.join(baseDir, config.output.componentIndexDir)
+  const cacheDir = path.join(baseDir, config.performance.cacheDir)
 
   return {
     baseDir,
+    cacheDir,
+    cacheFile: path.join(cacheDir, 'build-cache.json'),
     colorsDir: path.join(registryDir, config.output.colorsDir),
     componentIndexDir,
     componentIndexFile: path.join(componentIndexDir, config.output.componentIndexFile),
@@ -36,10 +41,10 @@ function createPathRegistry(outputPaths: RegistryBuildOutputPaths): RegistryBuil
   }
 }
 
-export function createRegistryBuildContext(
+export async function createRegistryBuildContext(
   loaded: LoadedRegistryBuildConfig,
-  options: Pick<BuildOptions, 'cwd' | 'phaseOverrides' | 'silent'> = {},
-): RegistryBuildContext {
+  options: Pick<BuildOptions, 'changedOnly' | 'changedPaths' | 'cwd' | 'phaseOverrides' | 'silent'> = {},
+): Promise<RegistryBuildContext> {
   const config = {
     ...loaded.config,
     pipeline: {
@@ -51,12 +56,23 @@ export function createRegistryBuildContext(
   const paths = createPathRegistry(outputPaths)
   const artifacts: RegistryBuildContext['artifacts'] = {}
   const outputs: RegistryBuildOutputRecord[] = []
+  const cwd = options.cwd ? path.resolve(options.cwd) : process.cwd()
+  const changedPaths = (options.changedPaths ?? []).map((targetPath) =>
+    normalizeSlashes(path.resolve(cwd, targetPath)),
+  )
+  const cache = await createRegistryBuildCache({
+    enabled: config.performance.incremental,
+    filePath: outputPaths.cacheFile,
+  })
 
   return {
     ...loaded,
     artifacts,
+    cache,
+    changedOnly: options.changedOnly ?? false,
+    changedPaths,
     config,
-    cwd: options.cwd ? path.resolve(options.cwd) : process.cwd(),
+    cwd,
     getArtifact: <TValue = unknown>(name: string) => artifacts[name] as TValue | undefined,
     getOutput: (name) => outputs.find((output) => output.name === name),
     getPath: (name) => {
