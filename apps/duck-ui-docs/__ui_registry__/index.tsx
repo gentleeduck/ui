@@ -9,6 +9,297 @@ try {
 } catch {
   dynamic = () => () => null
 }
+const _Signup1 = dynamic(() => import('@gentleduck/registry-blocks/authentications/signup-1/signup-1'), { ssr: false })
+const _Login1 = dynamic(() => import('@gentleduck/registry-blocks/authentications/login-1/login-1'), { ssr: false })
+const _Login2 = dynamic(() => import('@gentleduck/registry-blocks/authentications/login-2/login-2'), { ssr: false })
+const _Login3 = dynamic(() => import('@gentleduck/registry-blocks/authentications/login-3/login-3'), { ssr: false })
+const _Login4 = dynamic(() => import('@gentleduck/registry-blocks/authentications/login-4/login-4'), { ssr: false })
+const _Login5 = dynamic(() => import('@gentleduck/registry-blocks/authentications/login-5/login-5'), { ssr: false })
+const _Dashboard1 = dynamic(() => import('@gentleduck/registry-blocks/dashboards/dashboard-1/dashboard-1'), {
+  ssr: false,
+})
+const _ChartAreaAxes = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-area-axes/chart-area-axes'), {
+  ssr: false,
+})
+const _ChartAreaDefault = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-area-default/chart-area-default'),
+  { ssr: false },
+)
+const _ChartAreaGradient = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-area-gradient/chart-area-gradient'),
+  { ssr: false },
+)
+const _ChartAreaIcons = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-area-icons/chart-area-icons'), {
+  ssr: false,
+})
+const _ChartAreaInteractive = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-area-interactive/chart-area-interactive'),
+  { ssr: false },
+)
+const _ChartAreaLegend = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-area-legend/chart-area-legend'),
+  { ssr: false },
+)
+const _ChartAreaLinear = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-area-linear/chart-area-linear'),
+  { ssr: false },
+)
+const _ChartAreaStackedExpand = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-area-stacked-expand/chart-area-stacked-expand'),
+  { ssr: false },
+)
+const _ChartAreaStacked = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-area-stacked/chart-area-stacked'),
+  { ssr: false },
+)
+const _ChartAreaStep = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-area-step/chart-area-step'), {
+  ssr: false,
+})
+const _ChartBarActive = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-bar-active/chart-bar-active'), {
+  ssr: false,
+})
+const _ChartBarDefault = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-bar-default/chart-bar-default'),
+  { ssr: false },
+)
+const _ChartBarHorizontal = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-bar-horizontal/chart-bar-horizontal'),
+  { ssr: false },
+)
+const _ChartBarInteractive = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-bar-interactive/chart-bar-interactive'),
+  { ssr: false },
+)
+const _ChartBarLabelCustom = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-bar-label-custom/chart-bar-label-custom'),
+  { ssr: false },
+)
+const _ChartBarLabel = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-bar-label/chart-bar-label'), {
+  ssr: false,
+})
+const _ChartBarMixed = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-bar-mixed/chart-bar-mixed'), {
+  ssr: false,
+})
+const _ChartBarMultiple = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-bar-multiple/chart-bar-multiple'),
+  { ssr: false },
+)
+const _ChartBarNegative = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-bar-negative/chart-bar-negative'),
+  { ssr: false },
+)
+const _ChartBarStacked = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-bar-stacked/chart-bar-stacked'),
+  { ssr: false },
+)
+const _ChartLineDefault = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-line-default/chart-line-default'),
+  { ssr: false },
+)
+const _ChartLineDotsColors = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-line-dots-colors/chart-line-dots-colors'),
+  { ssr: false },
+)
+const _ChartLineDotsCustom = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-line-dots-custom/chart-line-dots-custom'),
+  { ssr: false },
+)
+const _ChartLineDots = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-line-dots/chart-line-dots'), {
+  ssr: false,
+})
+const _ChartLineInteractive = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-line-interactive/chart-line-interactive'),
+  { ssr: false },
+)
+const _ChartLineLabelCustom = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-line-label-custom/chart-line-label-custom'),
+  { ssr: false },
+)
+const _ChartLineLabel = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-line-label/chart-line-label'), {
+  ssr: false,
+})
+const _ChartLineLinear = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-line-linear/chart-line-linear'),
+  { ssr: false },
+)
+const _ChartLineMultiple = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-line-multiple/chart-line-multiple'),
+  { ssr: false },
+)
+const _ChartLineStep = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-line-step/chart-line-step'), {
+  ssr: false,
+})
+const _ChartPieDonutActive = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-pie-donut-active/chart-pie-donut-active'),
+  { ssr: false },
+)
+const _ChartPieDonutText = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-pie-donut-text/chart-pie-donut-text'),
+  { ssr: false },
+)
+const _ChartPieDonut = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-pie-donut/chart-pie-donut'), {
+  ssr: false,
+})
+const _ChartPieInteractive = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-pie-interactive/chart-pie-interactive'),
+  { ssr: false },
+)
+const _ChartPieLabelCustom = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-pie-label-custom/chart-pie-label-custom'),
+  { ssr: false },
+)
+const _ChartPieLabelList = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-pie-label-list/chart-pie-label-list'),
+  { ssr: false },
+)
+const _ChartPieLabel = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-pie-label/chart-pie-label'), {
+  ssr: false,
+})
+const _ChartPieLegend = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-pie-legend/chart-pie-legend'), {
+  ssr: false,
+})
+const _ChartPieSeparatorNone = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-pie-separator-none/chart-pie-separator-none'),
+  { ssr: false },
+)
+const _ChartPieSimple = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-pie-simple/chart-pie-simple'), {
+  ssr: false,
+})
+const _ChartPieStacked = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-pie-stacked/chart-pie-stacked'),
+  { ssr: false },
+)
+const _ChartRadarDefault = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radar-default/chart-radar-default'),
+  { ssr: false },
+)
+const _ChartRadarDots = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-radar-dots/chart-radar-dots'), {
+  ssr: false,
+})
+const _ChartRadarGridCircleFill = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radar-grid-circle-fill/chart-radar-grid-circle-fill'),
+  { ssr: false },
+)
+const _ChartRadarGridCircleNoLines = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radar-grid-circle-no-lines/chart-radar-grid-circle-no-lines'),
+  { ssr: false },
+)
+const _ChartRadarGridCircle = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radar-grid-circle/chart-radar-grid-circle'),
+  { ssr: false },
+)
+const _ChartRadarGridCustom = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radar-grid-custom/chart-radar-grid-custom'),
+  { ssr: false },
+)
+const _ChartRadarGridFill = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radar-grid-fill/chart-radar-grid-fill'),
+  { ssr: false },
+)
+const _ChartRadarGridNone = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radar-grid-none/chart-radar-grid-none'),
+  { ssr: false },
+)
+const _ChartRadarIcons = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radar-icons/chart-radar-icons'),
+  { ssr: false },
+)
+const _ChartRadarLabelCustom = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radar-label-custom/chart-radar-label-custom'),
+  { ssr: false },
+)
+const _ChartRadarLegend = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radar-legend/chart-radar-legend'),
+  { ssr: false },
+)
+const _ChartRadarLinesOnly = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radar-lines-only/chart-radar-lines-only'),
+  { ssr: false },
+)
+const _ChartRadarMultiple = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radar-multiple/chart-radar-multiple'),
+  { ssr: false },
+)
+const _ChartRadarRadius = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radar-radius/chart-radar-radius'),
+  { ssr: false },
+)
+const _ChartRadialGrid = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radial-grid/chart-radial-grid'),
+  { ssr: false },
+)
+const _ChartRadialLabel = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radial-label/chart-radial-label'),
+  { ssr: false },
+)
+const _ChartRadialShape = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radial-shape/chart-radial-shape'),
+  { ssr: false },
+)
+const _ChartRadialSimple = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radial-simple/chart-radial-simple'),
+  { ssr: false },
+)
+const _ChartRadialStacked = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radial-stacked/chart-radial-stacked'),
+  { ssr: false },
+)
+const _ChartRadialText = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-radial-text/chart-radial-text'),
+  { ssr: false },
+)
+const _ChartTooltipDefault = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-default/chart-tooltip-default'),
+  { ssr: false },
+)
+const _ChartTooltipIndicatorLine = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-indicator-line/chart-tooltip-indicator-line'),
+  { ssr: false },
+)
+const _ChartTooltipIndicatorNone = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-indicator-none/chart-tooltip-indicator-none'),
+  { ssr: false },
+)
+const _ChartTooltipLabelNone = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-label-none/chart-tooltip-label-none'),
+  { ssr: false },
+)
+const _ChartTooltipLabelCustom = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-label-custom/chart-tooltip-label-custom'),
+  { ssr: false },
+)
+const _ChartTooltipLabelFormatter = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-label-formatter/chart-tooltip-label-formatter'),
+  { ssr: false },
+)
+const _ChartTooltipFormatter = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-formatter/chart-tooltip-formatter'),
+  { ssr: false },
+)
+const _ChartTooltipIcons = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-icons/chart-tooltip-icons'),
+  { ssr: false },
+)
+const _ChartTooltipAdvanced = dynamic(
+  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-advanced/chart-tooltip-advanced'),
+  { ssr: false },
+)
+const _Sidebar01 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-01/sidebar-01'), { ssr: false })
+const _Sidebar02 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-02/sidebar-02'), { ssr: false })
+const _Sidebar03 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-03/sidebar-03'), { ssr: false })
+const _Sidebar04 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-04/sidebar-04'), { ssr: false })
+const _Sidebar05 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-05/sidebar-05'), { ssr: false })
+const _Sidebar06 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-06/sidebar-06'), { ssr: false })
+const _Sidebar07 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-07/sidebar-07'), { ssr: false })
+const _Sidebar08 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-08/sidebar-08'), { ssr: false })
+const _Sidebar09 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-09/sidebar-09'), { ssr: false })
+const _Sidebar10 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-10/sidebar-10'), { ssr: false })
+const _Sidebar11 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-11/sidebar-11'), { ssr: false })
+const _Sidebar12 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-12/sidebar-12'), { ssr: false })
+const _Sidebar13 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-13/sidebar-13'), { ssr: false })
+const _Sidebar14 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-14/sidebar-14'), { ssr: false })
+const _Sidebar15 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-15/sidebar-15'), { ssr: false })
+const _Sidebar16 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-16/sidebar-16'), { ssr: false })
 const _Accordion1 = dynamic(() => import('@gentleduck/registry-examples/accordion/accordion-1'), { ssr: false })
 const _Accordion2 = dynamic(() => import('@gentleduck/registry-examples/accordion/accordion-2'), { ssr: false })
 const _Accordion3 = dynamic(() => import('@gentleduck/registry-examples/accordion/accordion-3'), { ssr: false })
@@ -409,313 +700,1792 @@ const _DropdownMenuSelection = dynamic(
   () => import('@gentleduck/registry-internals/internal-primitives/dropdown-menu-selection/dropdown-menu-selection'),
   { ssr: false },
 )
-const _SelectControlled = dynamic(
-  () => import('@gentleduck/registry-internals/internal-primitives/select-controlled/select-controlled'),
-  { ssr: false },
-)
 const _PopoverSideAware = dynamic(
   () => import('@gentleduck/registry-internals/internal-primitives/popover-side-aware/popover-side-aware'),
+  { ssr: false },
+)
+const _SelectControlled = dynamic(
+  () => import('@gentleduck/registry-internals/internal-primitives/select-controlled/select-controlled'),
   { ssr: false },
 )
 const _TooltipDelayProvider = dynamic(
   () => import('@gentleduck/registry-internals/internal-primitives/tooltip-delay-provider/tooltip-delay-provider'),
   { ssr: false },
 )
-const _Signup1 = dynamic(() => import('@gentleduck/registry-blocks/authentications/signup-1/signup-1.constants'), {
-  ssr: false,
-})
-const _Login1 = dynamic(() => import('@gentleduck/registry-blocks/authentications/login-1/login-1'), { ssr: false })
-const _Login2 = dynamic(() => import('@gentleduck/registry-blocks/authentications/login-2/login-2'), { ssr: false })
-const _Login3 = dynamic(() => import('@gentleduck/registry-blocks/authentications/login-3/login-3'), { ssr: false })
-const _Login4 = dynamic(() => import('@gentleduck/registry-blocks/authentications/login-4/login-4'), { ssr: false })
-const _Login5 = dynamic(() => import('@gentleduck/registry-blocks/authentications/login-5/login-5'), { ssr: false })
-const _Dashboard1 = dynamic(() => import('@gentleduck/registry-blocks/dashboards/dashboard-1/dashboard-1'), {
-  ssr: false,
-})
-const _ChartAreaAxes = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-area-axes/chart-area-axes'), {
-  ssr: false,
-})
-const _ChartAreaDefault = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-area-default/chart-area-default'),
-  { ssr: false },
-)
-const _ChartAreaGradient = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-area-gradient/chart-area-gradient'),
-  { ssr: false },
-)
-const _ChartAreaIcons = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-area-icons/chart-area-icons'), {
-  ssr: false,
-})
-const _ChartAreaInteractive = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-area-interactive/chart-area-interactive'),
-  { ssr: false },
-)
-const _ChartAreaLegend = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-area-legend/chart-area-legend'),
-  { ssr: false },
-)
-const _ChartAreaLinear = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-area-linear/chart-area-linear'),
-  { ssr: false },
-)
-const _ChartAreaStackedExpand = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-area-stacked-expand/chart-area-stacked-expand'),
-  { ssr: false },
-)
-const _ChartAreaStacked = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-area-stacked/chart-area-stacked'),
-  { ssr: false },
-)
-const _ChartAreaStep = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-area-step/chart-area-step'), {
-  ssr: false,
-})
-const _ChartBarActive = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-bar-active/chart-bar-active'), {
-  ssr: false,
-})
-const _ChartBarDefault = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-bar-default/chart-bar-default'),
-  { ssr: false },
-)
-const _ChartBarHorizontal = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-bar-horizontal/chart-bar-horizontal'),
-  { ssr: false },
-)
-const _ChartBarInteractive = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-bar-interactive/chart-bar-interactive'),
-  { ssr: false },
-)
-const _ChartBarLabelCustom = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-bar-label-custom/chart-bar-label-custom'),
-  { ssr: false },
-)
-const _ChartBarLabel = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-bar-label/chart-bar-label'), {
-  ssr: false,
-})
-const _ChartBarMixed = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-bar-mixed/chart-bar-mixed'), {
-  ssr: false,
-})
-const _ChartBarMultiple = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-bar-multiple/chart-bar-multiple'),
-  { ssr: false },
-)
-const _ChartBarNegative = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-bar-negative/chart-bar-negative'),
-  { ssr: false },
-)
-const _ChartBarStacked = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-bar-stacked/chart-bar-stacked'),
-  { ssr: false },
-)
-const _ChartLineDefault = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-line-default/chart-line-default'),
-  { ssr: false },
-)
-const _ChartLineDotsColors = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-line-dots-colors/chart-line-dots-colors'),
-  { ssr: false },
-)
-const _ChartLineDotsCustom = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-line-dots-custom/chart-line-dots-custom'),
-  { ssr: false },
-)
-const _ChartLineDots = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-line-dots/chart-line-dots'), {
-  ssr: false,
-})
-const _ChartLineInteractive = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-line-interactive/chart-line-interactive'),
-  { ssr: false },
-)
-const _ChartLineLabelCustom = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-line-label-custom/chart-line-label-custom'),
-  { ssr: false },
-)
-const _ChartLineLabel = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-line-label/chart-line-label'), {
-  ssr: false,
-})
-const _ChartLineLinear = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-line-linear/chart-line-linear'),
-  { ssr: false },
-)
-const _ChartLineMultiple = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-line-multiple/chart-line-multiple'),
-  { ssr: false },
-)
-const _ChartLineStep = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-line-step/chart-line-step'), {
-  ssr: false,
-})
-const _ChartPieDonutActive = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-pie-donut-active/chart-pie-donut-active'),
-  { ssr: false },
-)
-const _ChartPieDonutText = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-pie-donut-text/chart-pie-donut-text'),
-  { ssr: false },
-)
-const _ChartPieDonut = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-pie-donut/chart-pie-donut'), {
-  ssr: false,
-})
-const _ChartPieInteractive = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-pie-interactive/chart-pie-interactive'),
-  { ssr: false },
-)
-const _ChartPieLabelCustom = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-pie-label-custom/chart-pie-label-custom'),
-  { ssr: false },
-)
-const _ChartPieLabelList = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-pie-label-list/chart-pie-label-list'),
-  { ssr: false },
-)
-const _ChartPieLabel = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-pie-label/chart-pie-label'), {
-  ssr: false,
-})
-const _ChartPieLegend = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-pie-legend/chart-pie-legend'), {
-  ssr: false,
-})
-const _ChartPieSeparatorNone = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-pie-separator-none/chart-pie-separator-none'),
-  { ssr: false },
-)
-const _ChartPieSimple = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-pie-simple/chart-pie-simple'), {
-  ssr: false,
-})
-const _ChartPieStacked = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-pie-stacked/chart-pie-stacked'),
-  { ssr: false },
-)
-const _ChartRadarDefault = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radar-default/chart-radar-default'),
-  { ssr: false },
-)
-const _ChartRadarDots = dynamic(() => import('@gentleduck/registry-blocks/charts/chart-radar-dots/chart-radar-dots'), {
-  ssr: false,
-})
-const _ChartRadarGridCircleFill = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radar-grid-circle-fill/chart-radar-grid-circle-fill'),
-  { ssr: false },
-)
-const _ChartRadarGridCircleNoLines = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radar-grid-circle-no-lines/chart-radar-grid-circle-no-lines'),
-  { ssr: false },
-)
-const _ChartRadarGridCircle = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radar-grid-circle/chart-radar-grid-circle'),
-  { ssr: false },
-)
-const _ChartRadarGridCustom = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radar-grid-custom/chart-radar-grid-custom'),
-  { ssr: false },
-)
-const _ChartRadarGridFill = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radar-grid-fill/chart-radar-grid-fill'),
-  { ssr: false },
-)
-const _ChartRadarGridNone = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radar-grid-none/chart-radar-grid-none'),
-  { ssr: false },
-)
-const _ChartRadarIcons = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radar-icons/chart-radar-icons'),
-  { ssr: false },
-)
-const _ChartRadarLabelCustom = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radar-label-custom/chart-radar-label-custom'),
-  { ssr: false },
-)
-const _ChartRadarLegend = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radar-legend/chart-radar-legend'),
-  { ssr: false },
-)
-const _ChartRadarLinesOnly = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radar-lines-only/chart-radar-lines-only'),
-  { ssr: false },
-)
-const _ChartRadarMultiple = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radar-multiple/chart-radar-multiple'),
-  { ssr: false },
-)
-const _ChartRadarRadius = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radar-radius/chart-radar-radius'),
-  { ssr: false },
-)
-const _ChartRadialGrid = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radial-grid/chart-radial-grid'),
-  { ssr: false },
-)
-const _ChartRadialLabel = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radial-label/chart-radial-label'),
-  { ssr: false },
-)
-const _ChartRadialShape = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radial-shape/chart-radial-shape'),
-  { ssr: false },
-)
-const _ChartRadialSimple = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radial-simple/chart-radial-simple'),
-  { ssr: false },
-)
-const _ChartRadialStacked = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radial-stacked/chart-radial-stacked'),
-  { ssr: false },
-)
-const _ChartRadialText = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-radial-text/chart-radial-text'),
-  { ssr: false },
-)
-const _ChartTooltipDefault = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-default/chart-tooltip-default'),
-  { ssr: false },
-)
-const _ChartTooltipIndicatorLine = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-indicator-line/chart-tooltip-indicator-line'),
-  { ssr: false },
-)
-const _ChartTooltipIndicatorNone = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-indicator-none/chart-tooltip-indicator-none'),
-  { ssr: false },
-)
-const _ChartTooltipLabelNone = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-label-none/chart-tooltip-label-none'),
-  { ssr: false },
-)
-const _ChartTooltipLabelCustom = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-label-custom/chart-tooltip-label-custom'),
-  { ssr: false },
-)
-const _ChartTooltipLabelFormatter = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-label-formatter/chart-tooltip-label-formatter'),
-  { ssr: false },
-)
-const _ChartTooltipFormatter = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-formatter/chart-tooltip-formatter'),
-  { ssr: false },
-)
-const _ChartTooltipIcons = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-icons/chart-tooltip-icons'),
-  { ssr: false },
-)
-const _ChartTooltipAdvanced = dynamic(
-  () => import('@gentleduck/registry-blocks/charts/chart-tooltip-advanced/chart-tooltip-advanced'),
-  { ssr: false },
-)
-const _Sidebar01 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-01/sidebar-01'), { ssr: false })
-const _Sidebar02 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-02/sidebar-02'), { ssr: false })
-const _Sidebar03 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-03/sidebar-03'), { ssr: false })
-const _Sidebar04 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-04/sidebar-04'), { ssr: false })
-const _Sidebar05 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-05/sidebar-05'), { ssr: false })
-const _Sidebar06 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-06/sidebar-06'), { ssr: false })
-const _Sidebar07 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-07/sidebar-07'), { ssr: false })
-const _Sidebar08 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-08/sidebar-08'), { ssr: false })
-const _Sidebar09 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-09/sidebar-09'), { ssr: false })
-const _Sidebar10 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-10/sidebar-10'), { ssr: false })
-const _Sidebar11 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-11/sidebar-11'), { ssr: false })
-const _Sidebar12 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-12/sidebar-12'), { ssr: false })
-const _Sidebar13 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-13/sidebar-13'), { ssr: false })
-const _Sidebar14 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-14/sidebar-14'), { ssr: false })
-const _Sidebar15 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-15/sidebar-15'), { ssr: false })
-const _Sidebar16 = dynamic(() => import('@gentleduck/registry-blocks/sidebar/sidebar-16/sidebar-16'), { ssr: false })
 
 export const Index: Record<string, any> = {
+  'signup-1': {
+    name: 'signup-1',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
+    files: [
+      {
+        path: 'authentications/signup-1/signup-1.constants.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'authentications/signup-1/signup-1.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Signup1,
+    source: '/registry-blocks/src/authentications/signup-1',
+    categories: ['authentications', 'signup'],
+    root_folder: 'authentications/signup-1',
+  },
+  'login-1': {
+    name: 'login-1',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
+    files: [
+      {
+        path: 'authentications/login-1/login-1.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'authentications/login-1/components/login-form.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Login1,
+    source: '/registry-blocks/src/authentications/login-1',
+    categories: ['authentications', 'login'],
+    root_folder: 'authentications/login-1',
+  },
+  'login-2': {
+    name: 'login-2',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
+    files: [
+      {
+        path: 'authentications/login-2/login-2.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'authentications/login-2/components/login-form.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Login2,
+    source: '/registry-blocks/src/authentications/login-2',
+    categories: ['authentications', 'login'],
+    root_folder: 'authentications/login-2',
+  },
+  'login-3': {
+    name: 'login-3',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
+    files: [
+      {
+        path: 'authentications/login-3/login-3.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'authentications/login-3/components/login-form.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Login3,
+    source: '/registry-blocks/src/authentications/login-3',
+    categories: ['authentications', 'login'],
+    root_folder: 'authentications/login-3',
+  },
+  'login-4': {
+    name: 'login-4',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
+    files: [
+      {
+        path: 'authentications/login-4/login-4.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'authentications/login-4/components/login-form.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Login4,
+    source: '/registry-blocks/src/authentications/login-4',
+    categories: ['authentications', 'login'],
+    root_folder: 'authentications/login-4',
+  },
+  'login-5': {
+    name: 'login-5',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
+    files: [
+      {
+        path: 'authentications/login-5/login-5.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'authentications/login-5/components/login-form.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Login5,
+    source: '/registry-blocks/src/authentications/login-5',
+    categories: ['authentications', 'login'],
+    root_folder: 'authentications/login-5',
+  },
+  'dashboard-1': {
+    name: 'dashboard-1',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
+    files: [
+      {
+        path: 'dashboards/dashboard-1/dashboard-1.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'dashboards/dashboard-1/components/app-sidebar.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'dashboards/dashboard-1/components/chart-area-interactive.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'dashboards/dashboard-1/components/data-table.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'dashboards/dashboard-1/components/nav-documents.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'dashboards/dashboard-1/components/nav-main.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'dashboards/dashboard-1/components/nav-secondary.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'dashboards/dashboard-1/components/nav-user.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'dashboards/dashboard-1/components/section-cards.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'dashboards/dashboard-1/components/site-header.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Dashboard1,
+    source: '/registry-blocks/src/dashboards/dashboard-1',
+    categories: ['dashboards', 'dashboard'],
+    root_folder: 'dashboards/dashboard-1',
+  },
+  'chart-area-axes': {
+    name: 'chart-area-axes',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-area-axes/chart-area-axes.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartAreaAxes,
+    source: '/registry-blocks/src/charts/chart-area-axes',
+    categories: ['charts', 'charts-area'],
+    root_folder: 'charts/chart-area-axes',
+  },
+  'chart-area-default': {
+    name: 'chart-area-default',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-area-default/chart-area-default.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartAreaDefault,
+    source: '/registry-blocks/src/charts/chart-area-default',
+    categories: ['charts', 'charts-area'],
+    root_folder: 'charts/chart-area-default',
+  },
+  'chart-area-gradient': {
+    name: 'chart-area-gradient',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-area-gradient/chart-area-gradient.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartAreaGradient,
+    source: '/registry-blocks/src/charts/chart-area-gradient',
+    categories: ['charts', 'charts-area'],
+    root_folder: 'charts/chart-area-gradient',
+  },
+  'chart-area-icons': {
+    name: 'chart-area-icons',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-area-icons/chart-area-icons.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartAreaIcons,
+    source: '/registry-blocks/src/charts/chart-area-icons',
+    categories: ['charts', 'charts-area'],
+    root_folder: 'charts/chart-area-icons',
+  },
+  'chart-area-interactive': {
+    name: 'chart-area-interactive',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart', 'select'],
+    files: [
+      {
+        path: 'charts/chart-area-interactive/chart-area-interactive.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartAreaInteractive,
+    source: '/registry-blocks/src/charts/chart-area-interactive',
+    categories: ['charts', 'charts-area'],
+    root_folder: 'charts/chart-area-interactive',
+  },
+  'chart-area-legend': {
+    name: 'chart-area-legend',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-area-legend/chart-area-legend.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartAreaLegend,
+    source: '/registry-blocks/src/charts/chart-area-legend',
+    categories: ['charts', 'charts-area'],
+    root_folder: 'charts/chart-area-legend',
+  },
+  'chart-area-linear': {
+    name: 'chart-area-linear',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-area-linear/chart-area-linear.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartAreaLinear,
+    source: '/registry-blocks/src/charts/chart-area-linear',
+    categories: ['charts', 'charts-area'],
+    root_folder: 'charts/chart-area-linear',
+  },
+  'chart-area-stacked-expand': {
+    name: 'chart-area-stacked-expand',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-area-stacked-expand/chart-area-stacked-expand.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartAreaStackedExpand,
+    source: '/registry-blocks/src/charts/chart-area-stacked-expand',
+    categories: ['charts', 'charts-area'],
+    root_folder: 'charts/chart-area-stacked-expand',
+  },
+  'chart-area-stacked': {
+    name: 'chart-area-stacked',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-area-stacked/chart-area-stacked.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartAreaStacked,
+    source: '/registry-blocks/src/charts/chart-area-stacked',
+    categories: ['charts', 'charts-area'],
+    root_folder: 'charts/chart-area-stacked',
+  },
+  'chart-area-step': {
+    name: 'chart-area-step',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-area-step/chart-area-step.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartAreaStep,
+    source: '/registry-blocks/src/charts/chart-area-step',
+    categories: ['charts', 'charts-area'],
+    root_folder: 'charts/chart-area-step',
+  },
+  'chart-bar-active': {
+    name: 'chart-bar-active',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-bar-active/chart-bar-active.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartBarActive,
+    source: '/registry-blocks/src/charts/chart-bar-active',
+    categories: ['charts', 'charts-bar'],
+    root_folder: 'charts/chart-bar-active',
+  },
+  'chart-bar-default': {
+    name: 'chart-bar-default',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-bar-default/chart-bar-default.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartBarDefault,
+    source: '/registry-blocks/src/charts/chart-bar-default',
+    categories: ['charts', 'charts-bar'],
+    root_folder: 'charts/chart-bar-default',
+  },
+  'chart-bar-horizontal': {
+    name: 'chart-bar-horizontal',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-bar-horizontal/chart-bar-horizontal.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartBarHorizontal,
+    source: '/registry-blocks/src/charts/chart-bar-horizontal',
+    categories: ['charts', 'charts-bar'],
+    root_folder: 'charts/chart-bar-horizontal',
+  },
+  'chart-bar-interactive': {
+    name: 'chart-bar-interactive',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-bar-interactive/chart-bar-interactive.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartBarInteractive,
+    source: '/registry-blocks/src/charts/chart-bar-interactive',
+    categories: ['charts', 'charts-bar'],
+    root_folder: 'charts/chart-bar-interactive',
+  },
+  'chart-bar-label-custom': {
+    name: 'chart-bar-label-custom',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-bar-label-custom/chart-bar-label-custom.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartBarLabelCustom,
+    source: '/registry-blocks/src/charts/chart-bar-label-custom',
+    categories: ['charts', 'charts-bar'],
+    root_folder: 'charts/chart-bar-label-custom',
+  },
+  'chart-bar-label': {
+    name: 'chart-bar-label',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-bar-label/chart-bar-label.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartBarLabel,
+    source: '/registry-blocks/src/charts/chart-bar-label',
+    categories: ['charts', 'charts-bar'],
+    root_folder: 'charts/chart-bar-label',
+  },
+  'chart-bar-mixed': {
+    name: 'chart-bar-mixed',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-bar-mixed/chart-bar-mixed.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartBarMixed,
+    source: '/registry-blocks/src/charts/chart-bar-mixed',
+    categories: ['charts', 'charts-bar'],
+    root_folder: 'charts/chart-bar-mixed',
+  },
+  'chart-bar-multiple': {
+    name: 'chart-bar-multiple',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-bar-multiple/chart-bar-multiple.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartBarMultiple,
+    source: '/registry-blocks/src/charts/chart-bar-multiple',
+    categories: ['charts', 'charts-bar'],
+    root_folder: 'charts/chart-bar-multiple',
+  },
+  'chart-bar-negative': {
+    name: 'chart-bar-negative',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-bar-negative/chart-bar-negative.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartBarNegative,
+    source: '/registry-blocks/src/charts/chart-bar-negative',
+    categories: ['charts', 'charts-bar'],
+    root_folder: 'charts/chart-bar-negative',
+  },
+  'chart-bar-stacked': {
+    name: 'chart-bar-stacked',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-bar-stacked/chart-bar-stacked.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartBarStacked,
+    source: '/registry-blocks/src/charts/chart-bar-stacked',
+    categories: ['charts', 'charts-bar'],
+    root_folder: 'charts/chart-bar-stacked',
+  },
+  'chart-line-default': {
+    name: 'chart-line-default',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-line-default/chart-line-default.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartLineDefault,
+    source: '/registry-blocks/src/charts/chart-line-default',
+    categories: ['charts', 'charts-line'],
+    root_folder: 'charts/chart-line-default',
+  },
+  'chart-line-dots-colors': {
+    name: 'chart-line-dots-colors',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-line-dots-colors/chart-line-dots-colors.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartLineDotsColors,
+    source: '/registry-blocks/src/charts/chart-line-dots-colors',
+    categories: ['charts', 'charts-line'],
+    root_folder: 'charts/chart-line-dots-colors',
+  },
+  'chart-line-dots-custom': {
+    name: 'chart-line-dots-custom',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-line-dots-custom/chart-line-dots-custom.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartLineDotsCustom,
+    source: '/registry-blocks/src/charts/chart-line-dots-custom',
+    categories: ['charts', 'charts-line'],
+    root_folder: 'charts/chart-line-dots-custom',
+  },
+  'chart-line-dots': {
+    name: 'chart-line-dots',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-line-dots/chart-line-dots.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartLineDots,
+    source: '/registry-blocks/src/charts/chart-line-dots',
+    categories: ['charts', 'charts-line'],
+    root_folder: 'charts/chart-line-dots',
+  },
+  'chart-line-interactive': {
+    name: 'chart-line-interactive',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-line-interactive/chart-line-interactive.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartLineInteractive,
+    source: '/registry-blocks/src/charts/chart-line-interactive',
+    categories: ['charts', 'charts-line'],
+    root_folder: 'charts/chart-line-interactive',
+  },
+  'chart-line-label-custom': {
+    name: 'chart-line-label-custom',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-line-label-custom/chart-line-label-custom.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartLineLabelCustom,
+    source: '/registry-blocks/src/charts/chart-line-label-custom',
+    categories: ['charts', 'charts-line'],
+    root_folder: 'charts/chart-line-label-custom',
+  },
+  'chart-line-label': {
+    name: 'chart-line-label',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-line-label/chart-line-label.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartLineLabel,
+    source: '/registry-blocks/src/charts/chart-line-label',
+    categories: ['charts', 'charts-line'],
+    root_folder: 'charts/chart-line-label',
+  },
+  'chart-line-linear': {
+    name: 'chart-line-linear',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-line-linear/chart-line-linear.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartLineLinear,
+    source: '/registry-blocks/src/charts/chart-line-linear',
+    categories: ['charts', 'charts-line'],
+    root_folder: 'charts/chart-line-linear',
+  },
+  'chart-line-multiple': {
+    name: 'chart-line-multiple',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-line-multiple/chart-line-multiple.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartLineMultiple,
+    source: '/registry-blocks/src/charts/chart-line-multiple',
+    categories: ['charts', 'charts-line'],
+    root_folder: 'charts/chart-line-multiple',
+  },
+  'chart-line-step': {
+    name: 'chart-line-step',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-line-step/chart-line-step.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartLineStep,
+    source: '/registry-blocks/src/charts/chart-line-step',
+    categories: ['charts', 'charts-line'],
+    root_folder: 'charts/chart-line-step',
+  },
+  'chart-pie-donut-active': {
+    name: 'chart-pie-donut-active',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-pie-donut-active/chart-pie-donut-active.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartPieDonutActive,
+    source: '/registry-blocks/src/charts/chart-pie-donut-active',
+    categories: ['charts', 'charts-pie'],
+    root_folder: 'charts/chart-pie-donut-active',
+  },
+  'chart-pie-donut-text': {
+    name: 'chart-pie-donut-text',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-pie-donut-text/chart-pie-donut-text.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartPieDonutText,
+    source: '/registry-blocks/src/charts/chart-pie-donut-text',
+    categories: ['charts', 'charts-pie'],
+    root_folder: 'charts/chart-pie-donut-text',
+  },
+  'chart-pie-donut': {
+    name: 'chart-pie-donut',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-pie-donut/chart-pie-donut.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartPieDonut,
+    source: '/registry-blocks/src/charts/chart-pie-donut',
+    categories: ['charts', 'charts-pie'],
+    root_folder: 'charts/chart-pie-donut',
+  },
+  'chart-pie-interactive': {
+    name: 'chart-pie-interactive',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-pie-interactive/chart-pie-interactive.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartPieInteractive,
+    source: '/registry-blocks/src/charts/chart-pie-interactive',
+    categories: ['charts', 'charts-pie'],
+    root_folder: 'charts/chart-pie-interactive',
+  },
+  'chart-pie-label-custom': {
+    name: 'chart-pie-label-custom',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-pie-label-custom/chart-pie-label-custom.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartPieLabelCustom,
+    source: '/registry-blocks/src/charts/chart-pie-label-custom',
+    categories: ['charts', 'charts-pie'],
+    root_folder: 'charts/chart-pie-label-custom',
+  },
+  'chart-pie-label-list': {
+    name: 'chart-pie-label-list',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-pie-label-list/chart-pie-label-list.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartPieLabelList,
+    source: '/registry-blocks/src/charts/chart-pie-label-list',
+    categories: ['charts', 'charts-pie'],
+    root_folder: 'charts/chart-pie-label-list',
+  },
+  'chart-pie-label': {
+    name: 'chart-pie-label',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-pie-label/chart-pie-label.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartPieLabel,
+    source: '/registry-blocks/src/charts/chart-pie-label',
+    categories: ['charts', 'charts-pie'],
+    root_folder: 'charts/chart-pie-label',
+  },
+  'chart-pie-legend': {
+    name: 'chart-pie-legend',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-pie-legend/chart-pie-legend.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartPieLegend,
+    source: '/registry-blocks/src/charts/chart-pie-legend',
+    categories: ['charts', 'charts-pie'],
+    root_folder: 'charts/chart-pie-legend',
+  },
+  'chart-pie-separator-none': {
+    name: 'chart-pie-separator-none',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-pie-separator-none/chart-pie-separator-none.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartPieSeparatorNone,
+    source: '/registry-blocks/src/charts/chart-pie-separator-none',
+    categories: ['charts', 'charts-pie'],
+    root_folder: 'charts/chart-pie-separator-none',
+  },
+  'chart-pie-simple': {
+    name: 'chart-pie-simple',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-pie-simple/chart-pie-simple.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartPieSimple,
+    source: '/registry-blocks/src/charts/chart-pie-simple',
+    categories: ['charts', 'charts-pie'],
+    root_folder: 'charts/chart-pie-simple',
+  },
+  'chart-pie-stacked': {
+    name: 'chart-pie-stacked',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-pie-stacked/chart-pie-stacked.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartPieStacked,
+    source: '/registry-blocks/src/charts/chart-pie-stacked',
+    categories: ['charts', 'charts-pie'],
+    root_folder: 'charts/chart-pie-stacked',
+  },
+  'chart-radar-default': {
+    name: 'chart-radar-default',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radar-default/chart-radar-default.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadarDefault,
+    source: '/registry-blocks/src/charts/chart-radar-default',
+    categories: ['charts', 'charts-radar'],
+    root_folder: 'charts/chart-radar-default',
+  },
+  'chart-radar-dots': {
+    name: 'chart-radar-dots',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radar-dots/chart-radar-dots.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadarDots,
+    source: '/registry-blocks/src/charts/chart-radar-dots',
+    categories: ['charts', 'charts-radar'],
+    root_folder: 'charts/chart-radar-dots',
+  },
+  'chart-radar-grid-circle-fill': {
+    name: 'chart-radar-grid-circle-fill',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radar-grid-circle-fill/chart-radar-grid-circle-fill.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadarGridCircleFill,
+    source: '/registry-blocks/src/charts/chart-radar-grid-circle-fill',
+    categories: ['charts', 'charts-radar'],
+    root_folder: 'charts/chart-radar-grid-circle-fill',
+  },
+  'chart-radar-grid-circle-no-lines': {
+    name: 'chart-radar-grid-circle-no-lines',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radar-grid-circle-no-lines/chart-radar-grid-circle-no-lines.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadarGridCircleNoLines,
+    source: '/registry-blocks/src/charts/chart-radar-grid-circle-no-lines',
+    categories: ['charts', 'charts-radar'],
+    root_folder: 'charts/chart-radar-grid-circle-no-lines',
+  },
+  'chart-radar-grid-circle': {
+    name: 'chart-radar-grid-circle',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radar-grid-circle/chart-radar-grid-circle.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadarGridCircle,
+    source: '/registry-blocks/src/charts/chart-radar-grid-circle',
+    categories: ['charts', 'charts-radar'],
+    root_folder: 'charts/chart-radar-grid-circle',
+  },
+  'chart-radar-grid-custom': {
+    name: 'chart-radar-grid-custom',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radar-grid-custom/chart-radar-grid-custom.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadarGridCustom,
+    source: '/registry-blocks/src/charts/chart-radar-grid-custom',
+    categories: ['charts', 'charts-radar'],
+    root_folder: 'charts/chart-radar-grid-custom',
+  },
+  'chart-radar-grid-fill': {
+    name: 'chart-radar-grid-fill',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radar-grid-fill/chart-radar-grid-fill.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadarGridFill,
+    source: '/registry-blocks/src/charts/chart-radar-grid-fill',
+    categories: ['charts', 'charts-radar'],
+    root_folder: 'charts/chart-radar-grid-fill',
+  },
+  'chart-radar-grid-none': {
+    name: 'chart-radar-grid-none',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radar-grid-none/chart-radar-grid-none.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadarGridNone,
+    source: '/registry-blocks/src/charts/chart-radar-grid-none',
+    categories: ['charts', 'charts-radar'],
+    root_folder: 'charts/chart-radar-grid-none',
+  },
+  'chart-radar-icons': {
+    name: 'chart-radar-icons',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radar-icons/chart-radar-icons.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadarIcons,
+    source: '/registry-blocks/src/charts/chart-radar-icons',
+    categories: ['charts', 'charts-radar'],
+    root_folder: 'charts/chart-radar-icons',
+  },
+  'chart-radar-label-custom': {
+    name: 'chart-radar-label-custom',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radar-label-custom/chart-radar-label-custom.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadarLabelCustom,
+    source: '/registry-blocks/src/charts/chart-radar-label-custom',
+    categories: ['charts', 'charts-radar'],
+    root_folder: 'charts/chart-radar-label-custom',
+  },
+  'chart-radar-legend': {
+    name: 'chart-radar-legend',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radar-legend/chart-radar-legend.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadarLegend,
+    source: '/registry-blocks/src/charts/chart-radar-legend',
+    categories: ['charts', 'charts-radar'],
+    root_folder: 'charts/chart-radar-legend',
+  },
+  'chart-radar-lines-only': {
+    name: 'chart-radar-lines-only',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radar-lines-only/chart-radar-lines-only.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadarLinesOnly,
+    source: '/registry-blocks/src/charts/chart-radar-lines-only',
+    categories: ['charts', 'charts-radar'],
+    root_folder: 'charts/chart-radar-lines-only',
+  },
+  'chart-radar-multiple': {
+    name: 'chart-radar-multiple',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radar-multiple/chart-radar-multiple.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadarMultiple,
+    source: '/registry-blocks/src/charts/chart-radar-multiple',
+    categories: ['charts', 'charts-radar'],
+    root_folder: 'charts/chart-radar-multiple',
+  },
+  'chart-radar-radius': {
+    name: 'chart-radar-radius',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radar-radius/chart-radar-radius.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadarRadius,
+    source: '/registry-blocks/src/charts/chart-radar-radius',
+    categories: ['charts', 'charts-radar'],
+    root_folder: 'charts/chart-radar-radius',
+  },
+  'chart-radial-grid': {
+    name: 'chart-radial-grid',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radial-grid/chart-radial-grid.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadialGrid,
+    source: '/registry-blocks/src/charts/chart-radial-grid',
+    categories: ['charts', 'charts-radial'],
+    root_folder: 'charts/chart-radial-grid',
+  },
+  'chart-radial-label': {
+    name: 'chart-radial-label',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radial-label/chart-radial-label.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadialLabel,
+    source: '/registry-blocks/src/charts/chart-radial-label',
+    categories: ['charts', 'charts-radial'],
+    root_folder: 'charts/chart-radial-label',
+  },
+  'chart-radial-shape': {
+    name: 'chart-radial-shape',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radial-shape/chart-radial-shape.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadialShape,
+    source: '/registry-blocks/src/charts/chart-radial-shape',
+    categories: ['charts', 'charts-radial'],
+    root_folder: 'charts/chart-radial-shape',
+  },
+  'chart-radial-simple': {
+    name: 'chart-radial-simple',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radial-simple/chart-radial-simple.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadialSimple,
+    source: '/registry-blocks/src/charts/chart-radial-simple',
+    categories: ['charts', 'charts-radial'],
+    root_folder: 'charts/chart-radial-simple',
+  },
+  'chart-radial-stacked': {
+    name: 'chart-radial-stacked',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radial-stacked/chart-radial-stacked.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadialStacked,
+    source: '/registry-blocks/src/charts/chart-radial-stacked',
+    categories: ['charts', 'charts-radial'],
+    root_folder: 'charts/chart-radial-stacked',
+  },
+  'chart-radial-text': {
+    name: 'chart-radial-text',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-radial-text/chart-radial-text.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartRadialText,
+    source: '/registry-blocks/src/charts/chart-radial-text',
+    categories: ['charts', 'charts-radial'],
+    root_folder: 'charts/chart-radial-text',
+  },
+  'chart-tooltip-default': {
+    name: 'chart-tooltip-default',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-tooltip-default/chart-tooltip-default.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartTooltipDefault,
+    source: '/registry-blocks/src/charts/chart-tooltip-default',
+    categories: ['charts', 'charts-tooltip'],
+    root_folder: 'charts/chart-tooltip-default',
+  },
+  'chart-tooltip-indicator-line': {
+    name: 'chart-tooltip-indicator-line',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-tooltip-indicator-line/chart-tooltip-indicator-line.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartTooltipIndicatorLine,
+    source: '/registry-blocks/src/charts/chart-tooltip-indicator-line',
+    categories: ['charts', 'charts-tooltip'],
+    root_folder: 'charts/chart-tooltip-indicator-line',
+  },
+  'chart-tooltip-indicator-none': {
+    name: 'chart-tooltip-indicator-none',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-tooltip-indicator-none/chart-tooltip-indicator-none.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartTooltipIndicatorNone,
+    source: '/registry-blocks/src/charts/chart-tooltip-indicator-none',
+    categories: ['charts', 'charts-tooltip'],
+    root_folder: 'charts/chart-tooltip-indicator-none',
+  },
+  'chart-tooltip-label-none': {
+    name: 'chart-tooltip-label-none',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-tooltip-label-none/chart-tooltip-label-none.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartTooltipLabelNone,
+    source: '/registry-blocks/src/charts/chart-tooltip-label-none',
+    categories: ['charts', 'charts-tooltip'],
+    root_folder: 'charts/chart-tooltip-label-none',
+  },
+  'chart-tooltip-label-custom': {
+    name: 'chart-tooltip-label-custom',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-tooltip-label-custom/chart-tooltip-label-custom.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartTooltipLabelCustom,
+    source: '/registry-blocks/src/charts/chart-tooltip-label-custom',
+    categories: ['charts', 'charts-tooltip'],
+    root_folder: 'charts/chart-tooltip-label-custom',
+  },
+  'chart-tooltip-label-formatter': {
+    name: 'chart-tooltip-label-formatter',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-tooltip-label-formatter/chart-tooltip-label-formatter.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartTooltipLabelFormatter,
+    source: '/registry-blocks/src/charts/chart-tooltip-label-formatter',
+    categories: ['charts', 'charts-tooltip'],
+    root_folder: 'charts/chart-tooltip-label-formatter',
+  },
+  'chart-tooltip-formatter': {
+    name: 'chart-tooltip-formatter',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-tooltip-formatter/chart-tooltip-formatter.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartTooltipFormatter,
+    source: '/registry-blocks/src/charts/chart-tooltip-formatter',
+    categories: ['charts', 'charts-tooltip'],
+    root_folder: 'charts/chart-tooltip-formatter',
+  },
+  'chart-tooltip-icons': {
+    name: 'chart-tooltip-icons',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-tooltip-icons/chart-tooltip-icons.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartTooltipIcons,
+    source: '/registry-blocks/src/charts/chart-tooltip-icons',
+    categories: ['charts', 'charts-tooltip'],
+    root_folder: 'charts/chart-tooltip-icons',
+  },
+  'chart-tooltip-advanced': {
+    name: 'chart-tooltip-advanced',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['card', 'chart'],
+    files: [
+      {
+        path: 'charts/chart-tooltip-advanced/chart-tooltip-advanced.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _ChartTooltipAdvanced,
+    source: '/registry-blocks/src/charts/chart-tooltip-advanced',
+    categories: ['charts', 'charts-tooltip'],
+    root_folder: 'charts/chart-tooltip-advanced',
+  },
+  'sidebar-01': {
+    name: 'sidebar-01',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'dropdown-menu'],
+    files: [
+      {
+        path: 'sidebar/sidebar-01/sidebar-01.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-01/components/app-sidebar.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-01/components/search-form.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-01/components/version-switcher.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Sidebar01,
+    source: '/registry-blocks/src/sidebar/sidebar-01',
+    categories: ['sidebar'],
+    root_folder: 'sidebar/sidebar-01',
+  },
+  'sidebar-02': {
+    name: 'sidebar-02',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'dropdown-menu'],
+    files: [
+      {
+        path: 'sidebar/sidebar-02/sidebar-02.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-02/components/app-sidebar.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-02/components/search-form.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-02/components/version-switcher.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Sidebar02,
+    source: '/registry-blocks/src/sidebar/sidebar-02',
+    categories: ['sidebar'],
+    root_folder: 'sidebar/sidebar-02',
+  },
+  'sidebar-03': {
+    name: 'sidebar-03',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['sidebar', 'breadcrumb', 'separator'],
+    files: [
+      {
+        path: 'sidebar/sidebar-03/sidebar-03.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-03/components/app-sidebar.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Sidebar03,
+    source: '/registry-blocks/src/sidebar/sidebar-03',
+    categories: ['sidebar'],
+    root_folder: 'sidebar/sidebar-03',
+  },
+  'sidebar-04': {
+    name: 'sidebar-04',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['sidebar', 'breadcrumb', 'separator'],
+    files: [
+      {
+        path: 'sidebar/sidebar-04/sidebar-04.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-04/components/app-sidebar.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Sidebar04,
+    source: '/registry-blocks/src/sidebar/sidebar-04',
+    categories: ['sidebar'],
+    root_folder: 'sidebar/sidebar-04',
+  },
+  'sidebar-05': {
+    name: 'sidebar-05',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['sidebar', 'breadcrumb', 'separator'],
+    files: [
+      {
+        path: 'sidebar/sidebar-05/sidebar-05.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-05/components/app-sidebar.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-05/components/search-form.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Sidebar05,
+    source: '/registry-blocks/src/sidebar/sidebar-05',
+    categories: ['sidebar'],
+    root_folder: 'sidebar/sidebar-05',
+  },
+  'sidebar-06': {
+    name: 'sidebar-06',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'collapsible'],
+    files: [
+      {
+        path: 'sidebar/sidebar-06/sidebar-06.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-06/components/app-sidebar.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-06/components/nav-main.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-06/components/sidebar-opt-in-form.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Sidebar06,
+    source: '/registry-blocks/src/sidebar/sidebar-06',
+    categories: ['sidebar'],
+    root_folder: 'sidebar/sidebar-06',
+  },
+  'sidebar-07': {
+    name: 'sidebar-07',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'collapsible', 'avatar', 'dropdown-menu'],
+    files: [
+      {
+        path: 'sidebar/sidebar-07/sidebar-07.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-07/components/app-sidebar.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-07/components/nav-main.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-07/components/nav-projects.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-07/components/nav-user.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-07/components/team-switcher.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Sidebar07,
+    source: '/registry-blocks/src/sidebar/sidebar-07',
+    categories: ['sidebar'],
+    root_folder: 'sidebar/sidebar-07',
+  },
+  'sidebar-08': {
+    name: 'sidebar-08',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'collapsible', 'avatar', 'dropdown-menu'],
+    files: [
+      {
+        path: 'sidebar/sidebar-08/sidebar-08.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-08/components/app-sidebar.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-08/components/nav-main.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-08/components/nav-projects.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-08/components/nav-secondary.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-08/components/nav-user.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Sidebar08,
+    source: '/registry-blocks/src/sidebar/sidebar-08',
+    categories: ['sidebar'],
+    root_folder: 'sidebar/sidebar-08',
+  },
+  'sidebar-09': {
+    name: 'sidebar-09',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'avatar', 'dropdown-menu'],
+    files: [
+      {
+        path: 'sidebar/sidebar-09/sidebar-09.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-09/components/app-sidebar.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-09/components/nav-user.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Sidebar09,
+    source: '/registry-blocks/src/sidebar/sidebar-09',
+    categories: ['sidebar'],
+    root_folder: 'sidebar/sidebar-09',
+  },
+  'sidebar-10': {
+    name: 'sidebar-10',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'collapsible', 'dropdown-menu'],
+    files: [
+      {
+        path: 'sidebar/sidebar-10/sidebar-10.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-10/components/app-sidebar.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-10/components/nav-actions.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-10/components/nav-favorites.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-10/components/nav-main.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-10/components/nav-secondary.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-10/components/nav-workspaces.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-10/components/team-switcher.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Sidebar10,
+    source: '/registry-blocks/src/sidebar/sidebar-10',
+    categories: ['sidebar'],
+    root_folder: 'sidebar/sidebar-10',
+  },
+  'sidebar-11': {
+    name: 'sidebar-11',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['sidebar', 'breadcrumb', 'separator'],
+    files: [
+      {
+        path: 'sidebar/sidebar-11/sidebar-11.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-11/components/app-sidebar.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Sidebar11,
+    source: '/registry-blocks/src/sidebar/sidebar-11',
+    categories: ['sidebar'],
+    root_folder: 'sidebar/sidebar-11',
+  },
+  'sidebar-12': {
+    name: 'sidebar-12',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'calendar', 'collapsible', 'avatar', 'dropdown-menu'],
+    files: [
+      {
+        path: 'sidebar/sidebar-12/sidebar-12.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-12/components/app-sidebar.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-12/components/calendars.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-12/components/date-picker.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-12/components/nav-user.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Sidebar12,
+    source: '/registry-blocks/src/sidebar/sidebar-12',
+    categories: ['sidebar'],
+    root_folder: 'sidebar/sidebar-12',
+  },
+  'sidebar-13': {
+    name: 'sidebar-13',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['sidebar', 'breadcrumb', 'button', 'dialog'],
+    files: [
+      {
+        path: 'sidebar/sidebar-13/sidebar-13.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-13/components/settings-dialog.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Sidebar13,
+    source: '/registry-blocks/src/sidebar/sidebar-13',
+    categories: ['sidebar'],
+    root_folder: 'sidebar/sidebar-13',
+  },
+  'sidebar-14': {
+    name: 'sidebar-14',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['sidebar', 'breadcrumb'],
+    files: [
+      {
+        path: 'sidebar/sidebar-14/sidebar-14.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-14/components/app-sidebar.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Sidebar14,
+    source: '/registry-blocks/src/sidebar/sidebar-14',
+    categories: ['sidebar'],
+    root_folder: 'sidebar/sidebar-14',
+  },
+  'sidebar-15': {
+    name: 'sidebar-15',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'calendar', 'collapsible', 'avatar', 'dropdown-menu'],
+    files: [
+      {
+        path: 'sidebar/sidebar-15/sidebar-15.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-15/components/calendars.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-15/components/date-picker.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-15/components/nav-favorites.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-15/components/nav-main.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-15/components/nav-secondary.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-15/components/nav-user.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-15/components/nav-workspaces.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-15/components/sidebar-left.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-15/components/sidebar-right.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-15/components/team-switcher.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Sidebar15,
+    source: '/registry-blocks/src/sidebar/sidebar-15',
+    categories: ['sidebar'],
+    root_folder: 'sidebar/sidebar-15',
+  },
+  'sidebar-16': {
+    name: 'sidebar-16',
+    description: '',
+    type: 'registry:block',
+    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'button', 'collapsible', 'avatar', 'dropdown-menu'],
+    files: [
+      {
+        path: 'sidebar/sidebar-16/sidebar-16.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-16/components/app-sidebar.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-16/components/nav-main.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-16/components/nav-projects.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-16/components/nav-secondary.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-16/components/nav-user.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-16/components/search-form.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'sidebar/sidebar-16/components/site-header.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _Sidebar16,
+    source: '/registry-blocks/src/sidebar/sidebar-16',
+    categories: ['sidebar'],
+    root_folder: 'sidebar/sidebar-16',
+  },
   'accordion-1': {
     name: 'accordion-1',
     description: '',
@@ -6416,22 +8186,6 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'internal-primitives',
   },
-  'select-controlled': {
-    name: 'select-controlled',
-    description: '',
-    type: 'registry:internal',
-    registryDependencies: ['@gentleduck/primitives'],
-    files: [
-      {
-        path: 'internal-primitives/select-controlled/select-controlled.tsx',
-        type: 'registry:internal',
-      },
-    ],
-    component: _SelectControlled,
-    source: '/registry-internals/src/internal-primitives',
-    categories: [],
-    root_folder: 'internal-primitives',
-  },
   'popover-side-aware': {
     name: 'popover-side-aware',
     description: '',
@@ -6444,6 +8198,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _PopoverSideAware,
+    source: '/registry-internals/src/internal-primitives',
+    categories: [],
+    root_folder: 'internal-primitives',
+  },
+  'select-controlled': {
+    name: 'select-controlled',
+    description: '',
+    type: 'registry:internal',
+    registryDependencies: ['@gentleduck/primitives'],
+    files: [
+      {
+        path: 'internal-primitives/select-controlled/select-controlled.tsx',
+        type: 'registry:internal',
+      },
+    ],
+    component: _SelectControlled,
     source: '/registry-internals/src/internal-primitives',
     categories: [],
     root_folder: 'internal-primitives',
@@ -6463,1777 +8233,5 @@ export const Index: Record<string, any> = {
     source: '/registry-internals/src/internal-primitives',
     categories: [],
     root_folder: 'internal-primitives',
-  },
-  'signup-1': {
-    name: 'signup-1',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
-    files: [
-      {
-        path: 'authentications/signup-1/signup-1.constants.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'authentications/signup-1/signup-1.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Signup1,
-    source: '/registry-blocks/src/authentications/signup-1',
-    categories: ['authentications', 'signup'],
-    root_folder: 'authentications/signup-1',
-  },
-  'login-1': {
-    name: 'login-1',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
-    files: [
-      {
-        path: 'authentications/login-1/login-1.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'authentications/login-1/components/login-form.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Login1,
-    source: '/registry-blocks/src/authentications/login-1',
-    categories: ['authentications', 'login'],
-    root_folder: 'authentications/login-1',
-  },
-  'login-2': {
-    name: 'login-2',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
-    files: [
-      {
-        path: 'authentications/login-2/login-2.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'authentications/login-2/components/login-form.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Login2,
-    source: '/registry-blocks/src/authentications/login-2',
-    categories: ['authentications', 'login'],
-    root_folder: 'authentications/login-2',
-  },
-  'login-3': {
-    name: 'login-3',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
-    files: [
-      {
-        path: 'authentications/login-3/login-3.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'authentications/login-3/components/login-form.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Login3,
-    source: '/registry-blocks/src/authentications/login-3',
-    categories: ['authentications', 'login'],
-    root_folder: 'authentications/login-3',
-  },
-  'login-4': {
-    name: 'login-4',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
-    files: [
-      {
-        path: 'authentications/login-4/login-4.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'authentications/login-4/components/login-form.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Login4,
-    source: '/registry-blocks/src/authentications/login-4',
-    categories: ['authentications', 'login'],
-    root_folder: 'authentications/login-4',
-  },
-  'login-5': {
-    name: 'login-5',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
-    files: [
-      {
-        path: 'authentications/login-5/login-5.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'authentications/login-5/components/login-form.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Login5,
-    source: '/registry-blocks/src/authentications/login-5',
-    categories: ['authentications', 'login'],
-    root_folder: 'authentications/login-5',
-  },
-  'dashboard-1': {
-    name: 'dashboard-1',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['button', 'input', 'avatar', 'separator', 'label', 'react-hook-form'],
-    files: [
-      {
-        path: 'dashboards/dashboard-1/dashboard-1.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'dashboards/dashboard-1/components/app-sidebar.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'dashboards/dashboard-1/components/chart-area-interactive.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'dashboards/dashboard-1/components/data-table.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'dashboards/dashboard-1/components/nav-documents.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'dashboards/dashboard-1/components/nav-main.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'dashboards/dashboard-1/components/nav-secondary.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'dashboards/dashboard-1/components/nav-user.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'dashboards/dashboard-1/components/section-cards.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'dashboards/dashboard-1/components/site-header.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Dashboard1,
-    source: '/registry-blocks/src/dashboards/dashboard-1',
-    categories: ['dashboards', 'dashboard'],
-    root_folder: 'dashboards/dashboard-1',
-  },
-  'chart-area-axes': {
-    name: 'chart-area-axes',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-area-axes/chart-area-axes.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartAreaAxes,
-    source: '/registry-blocks/src/charts/chart-area-axes',
-    categories: ['charts', 'charts-area'],
-    root_folder: 'charts/chart-area-axes',
-  },
-  'chart-area-default': {
-    name: 'chart-area-default',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-area-default/chart-area-default.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartAreaDefault,
-    source: '/registry-blocks/src/charts/chart-area-default',
-    categories: ['charts', 'charts-area'],
-    root_folder: 'charts/chart-area-default',
-  },
-  'chart-area-gradient': {
-    name: 'chart-area-gradient',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-area-gradient/chart-area-gradient.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartAreaGradient,
-    source: '/registry-blocks/src/charts/chart-area-gradient',
-    categories: ['charts', 'charts-area'],
-    root_folder: 'charts/chart-area-gradient',
-  },
-  'chart-area-icons': {
-    name: 'chart-area-icons',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-area-icons/chart-area-icons.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartAreaIcons,
-    source: '/registry-blocks/src/charts/chart-area-icons',
-    categories: ['charts', 'charts-area'],
-    root_folder: 'charts/chart-area-icons',
-  },
-  'chart-area-interactive': {
-    name: 'chart-area-interactive',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart', 'select'],
-    files: [
-      {
-        path: 'charts/chart-area-interactive/chart-area-interactive.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartAreaInteractive,
-    source: '/registry-blocks/src/charts/chart-area-interactive',
-    categories: ['charts', 'charts-area'],
-    root_folder: 'charts/chart-area-interactive',
-  },
-  'chart-area-legend': {
-    name: 'chart-area-legend',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-area-legend/chart-area-legend.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartAreaLegend,
-    source: '/registry-blocks/src/charts/chart-area-legend',
-    categories: ['charts', 'charts-area'],
-    root_folder: 'charts/chart-area-legend',
-  },
-  'chart-area-linear': {
-    name: 'chart-area-linear',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-area-linear/chart-area-linear.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartAreaLinear,
-    source: '/registry-blocks/src/charts/chart-area-linear',
-    categories: ['charts', 'charts-area'],
-    root_folder: 'charts/chart-area-linear',
-  },
-  'chart-area-stacked-expand': {
-    name: 'chart-area-stacked-expand',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-area-stacked-expand/chart-area-stacked-expand.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartAreaStackedExpand,
-    source: '/registry-blocks/src/charts/chart-area-stacked-expand',
-    categories: ['charts', 'charts-area'],
-    root_folder: 'charts/chart-area-stacked-expand',
-  },
-  'chart-area-stacked': {
-    name: 'chart-area-stacked',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-area-stacked/chart-area-stacked.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartAreaStacked,
-    source: '/registry-blocks/src/charts/chart-area-stacked',
-    categories: ['charts', 'charts-area'],
-    root_folder: 'charts/chart-area-stacked',
-  },
-  'chart-area-step': {
-    name: 'chart-area-step',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-area-step/chart-area-step.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartAreaStep,
-    source: '/registry-blocks/src/charts/chart-area-step',
-    categories: ['charts', 'charts-area'],
-    root_folder: 'charts/chart-area-step',
-  },
-  'chart-bar-active': {
-    name: 'chart-bar-active',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-bar-active/chart-bar-active.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartBarActive,
-    source: '/registry-blocks/src/charts/chart-bar-active',
-    categories: ['charts', 'charts-bar'],
-    root_folder: 'charts/chart-bar-active',
-  },
-  'chart-bar-default': {
-    name: 'chart-bar-default',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-bar-default/chart-bar-default.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartBarDefault,
-    source: '/registry-blocks/src/charts/chart-bar-default',
-    categories: ['charts', 'charts-bar'],
-    root_folder: 'charts/chart-bar-default',
-  },
-  'chart-bar-horizontal': {
-    name: 'chart-bar-horizontal',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-bar-horizontal/chart-bar-horizontal.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartBarHorizontal,
-    source: '/registry-blocks/src/charts/chart-bar-horizontal',
-    categories: ['charts', 'charts-bar'],
-    root_folder: 'charts/chart-bar-horizontal',
-  },
-  'chart-bar-interactive': {
-    name: 'chart-bar-interactive',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-bar-interactive/chart-bar-interactive.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartBarInteractive,
-    source: '/registry-blocks/src/charts/chart-bar-interactive',
-    categories: ['charts', 'charts-bar'],
-    root_folder: 'charts/chart-bar-interactive',
-  },
-  'chart-bar-label-custom': {
-    name: 'chart-bar-label-custom',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-bar-label-custom/chart-bar-label-custom.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartBarLabelCustom,
-    source: '/registry-blocks/src/charts/chart-bar-label-custom',
-    categories: ['charts', 'charts-bar'],
-    root_folder: 'charts/chart-bar-label-custom',
-  },
-  'chart-bar-label': {
-    name: 'chart-bar-label',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-bar-label/chart-bar-label.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartBarLabel,
-    source: '/registry-blocks/src/charts/chart-bar-label',
-    categories: ['charts', 'charts-bar'],
-    root_folder: 'charts/chart-bar-label',
-  },
-  'chart-bar-mixed': {
-    name: 'chart-bar-mixed',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-bar-mixed/chart-bar-mixed.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartBarMixed,
-    source: '/registry-blocks/src/charts/chart-bar-mixed',
-    categories: ['charts', 'charts-bar'],
-    root_folder: 'charts/chart-bar-mixed',
-  },
-  'chart-bar-multiple': {
-    name: 'chart-bar-multiple',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-bar-multiple/chart-bar-multiple.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartBarMultiple,
-    source: '/registry-blocks/src/charts/chart-bar-multiple',
-    categories: ['charts', 'charts-bar'],
-    root_folder: 'charts/chart-bar-multiple',
-  },
-  'chart-bar-negative': {
-    name: 'chart-bar-negative',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-bar-negative/chart-bar-negative.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartBarNegative,
-    source: '/registry-blocks/src/charts/chart-bar-negative',
-    categories: ['charts', 'charts-bar'],
-    root_folder: 'charts/chart-bar-negative',
-  },
-  'chart-bar-stacked': {
-    name: 'chart-bar-stacked',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-bar-stacked/chart-bar-stacked.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartBarStacked,
-    source: '/registry-blocks/src/charts/chart-bar-stacked',
-    categories: ['charts', 'charts-bar'],
-    root_folder: 'charts/chart-bar-stacked',
-  },
-  'chart-line-default': {
-    name: 'chart-line-default',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-line-default/chart-line-default.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartLineDefault,
-    source: '/registry-blocks/src/charts/chart-line-default',
-    categories: ['charts', 'charts-line'],
-    root_folder: 'charts/chart-line-default',
-  },
-  'chart-line-dots-colors': {
-    name: 'chart-line-dots-colors',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-line-dots-colors/chart-line-dots-colors.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartLineDotsColors,
-    source: '/registry-blocks/src/charts/chart-line-dots-colors',
-    categories: ['charts', 'charts-line'],
-    root_folder: 'charts/chart-line-dots-colors',
-  },
-  'chart-line-dots-custom': {
-    name: 'chart-line-dots-custom',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-line-dots-custom/chart-line-dots-custom.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartLineDotsCustom,
-    source: '/registry-blocks/src/charts/chart-line-dots-custom',
-    categories: ['charts', 'charts-line'],
-    root_folder: 'charts/chart-line-dots-custom',
-  },
-  'chart-line-dots': {
-    name: 'chart-line-dots',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-line-dots/chart-line-dots.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartLineDots,
-    source: '/registry-blocks/src/charts/chart-line-dots',
-    categories: ['charts', 'charts-line'],
-    root_folder: 'charts/chart-line-dots',
-  },
-  'chart-line-interactive': {
-    name: 'chart-line-interactive',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-line-interactive/chart-line-interactive.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartLineInteractive,
-    source: '/registry-blocks/src/charts/chart-line-interactive',
-    categories: ['charts', 'charts-line'],
-    root_folder: 'charts/chart-line-interactive',
-  },
-  'chart-line-label-custom': {
-    name: 'chart-line-label-custom',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-line-label-custom/chart-line-label-custom.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartLineLabelCustom,
-    source: '/registry-blocks/src/charts/chart-line-label-custom',
-    categories: ['charts', 'charts-line'],
-    root_folder: 'charts/chart-line-label-custom',
-  },
-  'chart-line-label': {
-    name: 'chart-line-label',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-line-label/chart-line-label.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartLineLabel,
-    source: '/registry-blocks/src/charts/chart-line-label',
-    categories: ['charts', 'charts-line'],
-    root_folder: 'charts/chart-line-label',
-  },
-  'chart-line-linear': {
-    name: 'chart-line-linear',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-line-linear/chart-line-linear.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartLineLinear,
-    source: '/registry-blocks/src/charts/chart-line-linear',
-    categories: ['charts', 'charts-line'],
-    root_folder: 'charts/chart-line-linear',
-  },
-  'chart-line-multiple': {
-    name: 'chart-line-multiple',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-line-multiple/chart-line-multiple.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartLineMultiple,
-    source: '/registry-blocks/src/charts/chart-line-multiple',
-    categories: ['charts', 'charts-line'],
-    root_folder: 'charts/chart-line-multiple',
-  },
-  'chart-line-step': {
-    name: 'chart-line-step',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-line-step/chart-line-step.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartLineStep,
-    source: '/registry-blocks/src/charts/chart-line-step',
-    categories: ['charts', 'charts-line'],
-    root_folder: 'charts/chart-line-step',
-  },
-  'chart-pie-donut-active': {
-    name: 'chart-pie-donut-active',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-pie-donut-active/chart-pie-donut-active.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartPieDonutActive,
-    source: '/registry-blocks/src/charts/chart-pie-donut-active',
-    categories: ['charts', 'charts-pie'],
-    root_folder: 'charts/chart-pie-donut-active',
-  },
-  'chart-pie-donut-text': {
-    name: 'chart-pie-donut-text',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-pie-donut-text/chart-pie-donut-text.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartPieDonutText,
-    source: '/registry-blocks/src/charts/chart-pie-donut-text',
-    categories: ['charts', 'charts-pie'],
-    root_folder: 'charts/chart-pie-donut-text',
-  },
-  'chart-pie-donut': {
-    name: 'chart-pie-donut',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-pie-donut/chart-pie-donut.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartPieDonut,
-    source: '/registry-blocks/src/charts/chart-pie-donut',
-    categories: ['charts', 'charts-pie'],
-    root_folder: 'charts/chart-pie-donut',
-  },
-  'chart-pie-interactive': {
-    name: 'chart-pie-interactive',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-pie-interactive/chart-pie-interactive.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartPieInteractive,
-    source: '/registry-blocks/src/charts/chart-pie-interactive',
-    categories: ['charts', 'charts-pie'],
-    root_folder: 'charts/chart-pie-interactive',
-  },
-  'chart-pie-label-custom': {
-    name: 'chart-pie-label-custom',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-pie-label-custom/chart-pie-label-custom.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartPieLabelCustom,
-    source: '/registry-blocks/src/charts/chart-pie-label-custom',
-    categories: ['charts', 'charts-pie'],
-    root_folder: 'charts/chart-pie-label-custom',
-  },
-  'chart-pie-label-list': {
-    name: 'chart-pie-label-list',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-pie-label-list/chart-pie-label-list.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartPieLabelList,
-    source: '/registry-blocks/src/charts/chart-pie-label-list',
-    categories: ['charts', 'charts-pie'],
-    root_folder: 'charts/chart-pie-label-list',
-  },
-  'chart-pie-label': {
-    name: 'chart-pie-label',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-pie-label/chart-pie-label.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartPieLabel,
-    source: '/registry-blocks/src/charts/chart-pie-label',
-    categories: ['charts', 'charts-pie'],
-    root_folder: 'charts/chart-pie-label',
-  },
-  'chart-pie-legend': {
-    name: 'chart-pie-legend',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-pie-legend/chart-pie-legend.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartPieLegend,
-    source: '/registry-blocks/src/charts/chart-pie-legend',
-    categories: ['charts', 'charts-pie'],
-    root_folder: 'charts/chart-pie-legend',
-  },
-  'chart-pie-separator-none': {
-    name: 'chart-pie-separator-none',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-pie-separator-none/chart-pie-separator-none.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartPieSeparatorNone,
-    source: '/registry-blocks/src/charts/chart-pie-separator-none',
-    categories: ['charts', 'charts-pie'],
-    root_folder: 'charts/chart-pie-separator-none',
-  },
-  'chart-pie-simple': {
-    name: 'chart-pie-simple',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-pie-simple/chart-pie-simple.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartPieSimple,
-    source: '/registry-blocks/src/charts/chart-pie-simple',
-    categories: ['charts', 'charts-pie'],
-    root_folder: 'charts/chart-pie-simple',
-  },
-  'chart-pie-stacked': {
-    name: 'chart-pie-stacked',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-pie-stacked/chart-pie-stacked.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartPieStacked,
-    source: '/registry-blocks/src/charts/chart-pie-stacked',
-    categories: ['charts', 'charts-pie'],
-    root_folder: 'charts/chart-pie-stacked',
-  },
-  'chart-radar-default': {
-    name: 'chart-radar-default',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radar-default/chart-radar-default.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadarDefault,
-    source: '/registry-blocks/src/charts/chart-radar-default',
-    categories: ['charts', 'charts-radar'],
-    root_folder: 'charts/chart-radar-default',
-  },
-  'chart-radar-dots': {
-    name: 'chart-radar-dots',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radar-dots/chart-radar-dots.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadarDots,
-    source: '/registry-blocks/src/charts/chart-radar-dots',
-    categories: ['charts', 'charts-radar'],
-    root_folder: 'charts/chart-radar-dots',
-  },
-  'chart-radar-grid-circle-fill': {
-    name: 'chart-radar-grid-circle-fill',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radar-grid-circle-fill/chart-radar-grid-circle-fill.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadarGridCircleFill,
-    source: '/registry-blocks/src/charts/chart-radar-grid-circle-fill',
-    categories: ['charts', 'charts-radar'],
-    root_folder: 'charts/chart-radar-grid-circle-fill',
-  },
-  'chart-radar-grid-circle-no-lines': {
-    name: 'chart-radar-grid-circle-no-lines',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radar-grid-circle-no-lines/chart-radar-grid-circle-no-lines.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadarGridCircleNoLines,
-    source: '/registry-blocks/src/charts/chart-radar-grid-circle-no-lines',
-    categories: ['charts', 'charts-radar'],
-    root_folder: 'charts/chart-radar-grid-circle-no-lines',
-  },
-  'chart-radar-grid-circle': {
-    name: 'chart-radar-grid-circle',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radar-grid-circle/chart-radar-grid-circle.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadarGridCircle,
-    source: '/registry-blocks/src/charts/chart-radar-grid-circle',
-    categories: ['charts', 'charts-radar'],
-    root_folder: 'charts/chart-radar-grid-circle',
-  },
-  'chart-radar-grid-custom': {
-    name: 'chart-radar-grid-custom',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radar-grid-custom/chart-radar-grid-custom.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadarGridCustom,
-    source: '/registry-blocks/src/charts/chart-radar-grid-custom',
-    categories: ['charts', 'charts-radar'],
-    root_folder: 'charts/chart-radar-grid-custom',
-  },
-  'chart-radar-grid-fill': {
-    name: 'chart-radar-grid-fill',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radar-grid-fill/chart-radar-grid-fill.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadarGridFill,
-    source: '/registry-blocks/src/charts/chart-radar-grid-fill',
-    categories: ['charts', 'charts-radar'],
-    root_folder: 'charts/chart-radar-grid-fill',
-  },
-  'chart-radar-grid-none': {
-    name: 'chart-radar-grid-none',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radar-grid-none/chart-radar-grid-none.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadarGridNone,
-    source: '/registry-blocks/src/charts/chart-radar-grid-none',
-    categories: ['charts', 'charts-radar'],
-    root_folder: 'charts/chart-radar-grid-none',
-  },
-  'chart-radar-icons': {
-    name: 'chart-radar-icons',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radar-icons/chart-radar-icons.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadarIcons,
-    source: '/registry-blocks/src/charts/chart-radar-icons',
-    categories: ['charts', 'charts-radar'],
-    root_folder: 'charts/chart-radar-icons',
-  },
-  'chart-radar-label-custom': {
-    name: 'chart-radar-label-custom',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radar-label-custom/chart-radar-label-custom.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadarLabelCustom,
-    source: '/registry-blocks/src/charts/chart-radar-label-custom',
-    categories: ['charts', 'charts-radar'],
-    root_folder: 'charts/chart-radar-label-custom',
-  },
-  'chart-radar-legend': {
-    name: 'chart-radar-legend',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radar-legend/chart-radar-legend.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadarLegend,
-    source: '/registry-blocks/src/charts/chart-radar-legend',
-    categories: ['charts', 'charts-radar'],
-    root_folder: 'charts/chart-radar-legend',
-  },
-  'chart-radar-lines-only': {
-    name: 'chart-radar-lines-only',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radar-lines-only/chart-radar-lines-only.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadarLinesOnly,
-    source: '/registry-blocks/src/charts/chart-radar-lines-only',
-    categories: ['charts', 'charts-radar'],
-    root_folder: 'charts/chart-radar-lines-only',
-  },
-  'chart-radar-multiple': {
-    name: 'chart-radar-multiple',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radar-multiple/chart-radar-multiple.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadarMultiple,
-    source: '/registry-blocks/src/charts/chart-radar-multiple',
-    categories: ['charts', 'charts-radar'],
-    root_folder: 'charts/chart-radar-multiple',
-  },
-  'chart-radar-radius': {
-    name: 'chart-radar-radius',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radar-radius/chart-radar-radius.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadarRadius,
-    source: '/registry-blocks/src/charts/chart-radar-radius',
-    categories: ['charts', 'charts-radar'],
-    root_folder: 'charts/chart-radar-radius',
-  },
-  'chart-radial-grid': {
-    name: 'chart-radial-grid',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radial-grid/chart-radial-grid.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadialGrid,
-    source: '/registry-blocks/src/charts/chart-radial-grid',
-    categories: ['charts', 'charts-radial'],
-    root_folder: 'charts/chart-radial-grid',
-  },
-  'chart-radial-label': {
-    name: 'chart-radial-label',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radial-label/chart-radial-label.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadialLabel,
-    source: '/registry-blocks/src/charts/chart-radial-label',
-    categories: ['charts', 'charts-radial'],
-    root_folder: 'charts/chart-radial-label',
-  },
-  'chart-radial-shape': {
-    name: 'chart-radial-shape',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radial-shape/chart-radial-shape.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadialShape,
-    source: '/registry-blocks/src/charts/chart-radial-shape',
-    categories: ['charts', 'charts-radial'],
-    root_folder: 'charts/chart-radial-shape',
-  },
-  'chart-radial-simple': {
-    name: 'chart-radial-simple',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radial-simple/chart-radial-simple.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadialSimple,
-    source: '/registry-blocks/src/charts/chart-radial-simple',
-    categories: ['charts', 'charts-radial'],
-    root_folder: 'charts/chart-radial-simple',
-  },
-  'chart-radial-stacked': {
-    name: 'chart-radial-stacked',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radial-stacked/chart-radial-stacked.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadialStacked,
-    source: '/registry-blocks/src/charts/chart-radial-stacked',
-    categories: ['charts', 'charts-radial'],
-    root_folder: 'charts/chart-radial-stacked',
-  },
-  'chart-radial-text': {
-    name: 'chart-radial-text',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-radial-text/chart-radial-text.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartRadialText,
-    source: '/registry-blocks/src/charts/chart-radial-text',
-    categories: ['charts', 'charts-radial'],
-    root_folder: 'charts/chart-radial-text',
-  },
-  'chart-tooltip-default': {
-    name: 'chart-tooltip-default',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-tooltip-default/chart-tooltip-default.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartTooltipDefault,
-    source: '/registry-blocks/src/charts/chart-tooltip-default',
-    categories: ['charts', 'charts-tooltip'],
-    root_folder: 'charts/chart-tooltip-default',
-  },
-  'chart-tooltip-indicator-line': {
-    name: 'chart-tooltip-indicator-line',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-tooltip-indicator-line/chart-tooltip-indicator-line.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartTooltipIndicatorLine,
-    source: '/registry-blocks/src/charts/chart-tooltip-indicator-line',
-    categories: ['charts', 'charts-tooltip'],
-    root_folder: 'charts/chart-tooltip-indicator-line',
-  },
-  'chart-tooltip-indicator-none': {
-    name: 'chart-tooltip-indicator-none',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-tooltip-indicator-none/chart-tooltip-indicator-none.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartTooltipIndicatorNone,
-    source: '/registry-blocks/src/charts/chart-tooltip-indicator-none',
-    categories: ['charts', 'charts-tooltip'],
-    root_folder: 'charts/chart-tooltip-indicator-none',
-  },
-  'chart-tooltip-label-none': {
-    name: 'chart-tooltip-label-none',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-tooltip-label-none/chart-tooltip-label-none.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartTooltipLabelNone,
-    source: '/registry-blocks/src/charts/chart-tooltip-label-none',
-    categories: ['charts', 'charts-tooltip'],
-    root_folder: 'charts/chart-tooltip-label-none',
-  },
-  'chart-tooltip-label-custom': {
-    name: 'chart-tooltip-label-custom',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-tooltip-label-custom/chart-tooltip-label-custom.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartTooltipLabelCustom,
-    source: '/registry-blocks/src/charts/chart-tooltip-label-custom',
-    categories: ['charts', 'charts-tooltip'],
-    root_folder: 'charts/chart-tooltip-label-custom',
-  },
-  'chart-tooltip-label-formatter': {
-    name: 'chart-tooltip-label-formatter',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-tooltip-label-formatter/chart-tooltip-label-formatter.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartTooltipLabelFormatter,
-    source: '/registry-blocks/src/charts/chart-tooltip-label-formatter',
-    categories: ['charts', 'charts-tooltip'],
-    root_folder: 'charts/chart-tooltip-label-formatter',
-  },
-  'chart-tooltip-formatter': {
-    name: 'chart-tooltip-formatter',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-tooltip-formatter/chart-tooltip-formatter.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartTooltipFormatter,
-    source: '/registry-blocks/src/charts/chart-tooltip-formatter',
-    categories: ['charts', 'charts-tooltip'],
-    root_folder: 'charts/chart-tooltip-formatter',
-  },
-  'chart-tooltip-icons': {
-    name: 'chart-tooltip-icons',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-tooltip-icons/chart-tooltip-icons.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartTooltipIcons,
-    source: '/registry-blocks/src/charts/chart-tooltip-icons',
-    categories: ['charts', 'charts-tooltip'],
-    root_folder: 'charts/chart-tooltip-icons',
-  },
-  'chart-tooltip-advanced': {
-    name: 'chart-tooltip-advanced',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['card', 'chart'],
-    files: [
-      {
-        path: 'charts/chart-tooltip-advanced/chart-tooltip-advanced.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _ChartTooltipAdvanced,
-    source: '/registry-blocks/src/charts/chart-tooltip-advanced',
-    categories: ['charts', 'charts-tooltip'],
-    root_folder: 'charts/chart-tooltip-advanced',
-  },
-  'sidebar-01': {
-    name: 'sidebar-01',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'dropdown-menu'],
-    files: [
-      {
-        path: 'sidebar/sidebar-01/sidebar-01.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-01/components/app-sidebar.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-01/components/search-form.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-01/components/version-switcher.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Sidebar01,
-    source: '/registry-blocks/src/sidebar/sidebar-01',
-    categories: ['sidebar'],
-    root_folder: 'sidebar/sidebar-01',
-  },
-  'sidebar-02': {
-    name: 'sidebar-02',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'dropdown-menu'],
-    files: [
-      {
-        path: 'sidebar/sidebar-02/sidebar-02.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-02/components/app-sidebar.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-02/components/search-form.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-02/components/version-switcher.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Sidebar02,
-    source: '/registry-blocks/src/sidebar/sidebar-02',
-    categories: ['sidebar'],
-    root_folder: 'sidebar/sidebar-02',
-  },
-  'sidebar-03': {
-    name: 'sidebar-03',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['sidebar', 'breadcrumb', 'separator'],
-    files: [
-      {
-        path: 'sidebar/sidebar-03/sidebar-03.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-03/components/app-sidebar.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Sidebar03,
-    source: '/registry-blocks/src/sidebar/sidebar-03',
-    categories: ['sidebar'],
-    root_folder: 'sidebar/sidebar-03',
-  },
-  'sidebar-04': {
-    name: 'sidebar-04',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['sidebar', 'breadcrumb', 'separator'],
-    files: [
-      {
-        path: 'sidebar/sidebar-04/sidebar-04.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-04/components/app-sidebar.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Sidebar04,
-    source: '/registry-blocks/src/sidebar/sidebar-04',
-    categories: ['sidebar'],
-    root_folder: 'sidebar/sidebar-04',
-  },
-  'sidebar-05': {
-    name: 'sidebar-05',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['sidebar', 'breadcrumb', 'separator'],
-    files: [
-      {
-        path: 'sidebar/sidebar-05/sidebar-05.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-05/components/app-sidebar.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-05/components/search-form.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Sidebar05,
-    source: '/registry-blocks/src/sidebar/sidebar-05',
-    categories: ['sidebar'],
-    root_folder: 'sidebar/sidebar-05',
-  },
-  'sidebar-06': {
-    name: 'sidebar-06',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'collapsible'],
-    files: [
-      {
-        path: 'sidebar/sidebar-06/sidebar-06.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-06/components/app-sidebar.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-06/components/nav-main.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-06/components/sidebar-opt-in-form.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Sidebar06,
-    source: '/registry-blocks/src/sidebar/sidebar-06',
-    categories: ['sidebar'],
-    root_folder: 'sidebar/sidebar-06',
-  },
-  'sidebar-07': {
-    name: 'sidebar-07',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'collapsible', 'avatar', 'dropdown-menu'],
-    files: [
-      {
-        path: 'sidebar/sidebar-07/sidebar-07.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-07/components/app-sidebar.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-07/components/nav-main.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-07/components/nav-projects.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-07/components/nav-user.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-07/components/team-switcher.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Sidebar07,
-    source: '/registry-blocks/src/sidebar/sidebar-07',
-    categories: ['sidebar'],
-    root_folder: 'sidebar/sidebar-07',
-  },
-  'sidebar-08': {
-    name: 'sidebar-08',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'collapsible', 'avatar', 'dropdown-menu'],
-    files: [
-      {
-        path: 'sidebar/sidebar-08/sidebar-08.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-08/components/app-sidebar.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-08/components/nav-main.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-08/components/nav-projects.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-08/components/nav-secondary.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-08/components/nav-user.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Sidebar08,
-    source: '/registry-blocks/src/sidebar/sidebar-08',
-    categories: ['sidebar'],
-    root_folder: 'sidebar/sidebar-08',
-  },
-  'sidebar-09': {
-    name: 'sidebar-09',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'avatar', 'dropdown-menu'],
-    files: [
-      {
-        path: 'sidebar/sidebar-09/sidebar-09.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-09/components/app-sidebar.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-09/components/nav-user.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Sidebar09,
-    source: '/registry-blocks/src/sidebar/sidebar-09',
-    categories: ['sidebar'],
-    root_folder: 'sidebar/sidebar-09',
-  },
-  'sidebar-10': {
-    name: 'sidebar-10',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'collapsible', 'dropdown-menu'],
-    files: [
-      {
-        path: 'sidebar/sidebar-10/sidebar-10.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-10/components/app-sidebar.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-10/components/nav-actions.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-10/components/nav-favorites.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-10/components/nav-main.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-10/components/nav-secondary.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-10/components/nav-workspaces.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-10/components/team-switcher.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Sidebar10,
-    source: '/registry-blocks/src/sidebar/sidebar-10',
-    categories: ['sidebar'],
-    root_folder: 'sidebar/sidebar-10',
-  },
-  'sidebar-11': {
-    name: 'sidebar-11',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['sidebar', 'breadcrumb', 'separator'],
-    files: [
-      {
-        path: 'sidebar/sidebar-11/sidebar-11.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-11/components/app-sidebar.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Sidebar11,
-    source: '/registry-blocks/src/sidebar/sidebar-11',
-    categories: ['sidebar'],
-    root_folder: 'sidebar/sidebar-11',
-  },
-  'sidebar-12': {
-    name: 'sidebar-12',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'calendar', 'collapsible', 'avatar', 'dropdown-menu'],
-    files: [
-      {
-        path: 'sidebar/sidebar-12/sidebar-12.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-12/components/app-sidebar.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-12/components/calendars.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-12/components/date-picker.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-12/components/nav-user.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Sidebar12,
-    source: '/registry-blocks/src/sidebar/sidebar-12',
-    categories: ['sidebar'],
-    root_folder: 'sidebar/sidebar-12',
-  },
-  'sidebar-13': {
-    name: 'sidebar-13',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['sidebar', 'breadcrumb', 'button', 'dialog'],
-    files: [
-      {
-        path: 'sidebar/sidebar-13/sidebar-13.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-13/components/settings-dialog.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Sidebar13,
-    source: '/registry-blocks/src/sidebar/sidebar-13',
-    categories: ['sidebar'],
-    root_folder: 'sidebar/sidebar-13',
-  },
-  'sidebar-14': {
-    name: 'sidebar-14',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['sidebar', 'breadcrumb'],
-    files: [
-      {
-        path: 'sidebar/sidebar-14/sidebar-14.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-14/components/app-sidebar.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Sidebar14,
-    source: '/registry-blocks/src/sidebar/sidebar-14',
-    categories: ['sidebar'],
-    root_folder: 'sidebar/sidebar-14',
-  },
-  'sidebar-15': {
-    name: 'sidebar-15',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'calendar', 'collapsible', 'avatar', 'dropdown-menu'],
-    files: [
-      {
-        path: 'sidebar/sidebar-15/sidebar-15.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-15/components/calendars.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-15/components/date-picker.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-15/components/nav-favorites.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-15/components/nav-main.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-15/components/nav-secondary.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-15/components/nav-user.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-15/components/nav-workspaces.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-15/components/sidebar-left.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-15/components/sidebar-right.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-15/components/team-switcher.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Sidebar15,
-    source: '/registry-blocks/src/sidebar/sidebar-15',
-    categories: ['sidebar'],
-    root_folder: 'sidebar/sidebar-15',
-  },
-  'sidebar-16': {
-    name: 'sidebar-16',
-    description: '',
-    type: 'registry:block',
-    registryDependencies: ['sidebar', 'breadcrumb', 'separator', 'button', 'collapsible', 'avatar', 'dropdown-menu'],
-    files: [
-      {
-        path: 'sidebar/sidebar-16/sidebar-16.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-16/components/app-sidebar.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-16/components/nav-main.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-16/components/nav-projects.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-16/components/nav-secondary.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-16/components/nav-user.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-16/components/search-form.tsx',
-        type: 'registry:block',
-      },
-      {
-        path: 'sidebar/sidebar-16/components/site-header.tsx',
-        type: 'registry:block',
-      },
-    ],
-    component: _Sidebar16,
-    source: '/registry-blocks/src/sidebar/sidebar-16',
-    categories: ['sidebar'],
-    root_folder: 'sidebar/sidebar-16',
   },
 }

@@ -10,6 +10,7 @@
     "moduleResolution": "bundler",
     "noErrorTruncation": true,
     "paths": {
+      "@gentleduck/registry-build": ["../../packages/registry-build/src/index.ts"],
       "~/*": ["./*"],
       "@gentleduck/primitives/*": ["../../packages/duck-primitives/src/*"],
       "@gentleduck/registry-internals/*": ["../../packages/registry-internals/src/*"],

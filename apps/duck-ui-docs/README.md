@@ -29,3 +29,4 @@ bun --filter @gentleduck/ui-docs dev
 
 ## Environment
 - `.env` is optional; see `.env.example` for defaults.
+- Registry build inputs and output paths live in [registry-build.config.ts](/run/media/wildduck/duck/wildduck/@duck/@duck-ui/apps/duck-ui-docs/registry-build.config.ts), not in `.env`.
