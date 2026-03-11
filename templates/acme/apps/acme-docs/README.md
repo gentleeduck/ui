@@ -8,7 +8,7 @@ Next.js documentation site for acme/ui. Covers components, blocks, charts, theme
 
 ## Stack
 - Next.js App Router
-- `@gentleduck/docs` (shared docs kit)
+- Shared docs kit (duck-ui)
 - Velite (MDX pipeline)
 - Registry tooling for component previews
 

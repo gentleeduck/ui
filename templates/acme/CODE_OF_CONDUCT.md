@@ -2,7 +2,7 @@
 
 ## Our Pledge
 
-We, as members, contributors, and leaders of the **gentleduck/ui** project, pledge to make participation in our community a harassment-free experience for everyone.
+We, as members, contributors, and leaders of the **acme/ui** project, pledge to make participation in our community a harassment-free experience for everyone.
 We are committed to fostering an environment where **everyone feels respected, safe, and welcome**, regardless of:
 
 * Age
@@ -34,7 +34,7 @@ Examples of unacceptable behavior include:
 
 * Harassment, insults, or derogatory comments
 * Trolling or deliberate intimidation
-* Publishing others’ private information without consent
+* Publishing others' private information without consent
 * Disruptive behavior that interrupts healthy collaboration
 * Any form of sexual or discriminatory language or imagery
 
@@ -48,7 +48,7 @@ They will take appropriate and fair action in response to any unacceptable behav
 Maintainers have the right and responsibility to remove, edit, or reject:
 
 * Comments, commits, code, issues, and pull requests that violate this Code of Conduct
-* Contributions that they reasonably believe are not aligned with the project’s values
+* Contributions that they reasonably believe are not aligned with the project's values
 
 ---
 
@@ -56,7 +56,7 @@ Maintainers have the right and responsibility to remove, edit, or reject:
 
 Instances of abusive, harassing, or otherwise unacceptable behavior may be reported to the project team at:
 
-**[community@gentleduck.org](mailto:community@gentleduck.org)**
+**[community@acme.com](mailto:community@acme.com)**
 
 All complaints will be reviewed and investigated promptly and fairly.
 The project team is obligated to maintain confidentiality regarding the reporter of an incident.

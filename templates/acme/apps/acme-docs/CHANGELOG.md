@@ -1,11 +1,10 @@
-# @gentleduck/ui-docs
+# @acme/docs
 
 ## 3.0.21
 
 ### Patch Changes
 
 - Updated dependencies [9a899db]
-  - @gentleduck/docs@0.0.2
 
 ### February - March 2026 Changes (Unreleased)
 
@@ -22,7 +21,7 @@
 - Add SVG path indicator with mask-image highlight to table of contents
 - Enhance TOC sidebar with edit links, scroll navigation, and formatting
 - Add loading and error states for ComponentPreview and ComponentSource
-- Redesign OG image with new logo and dark theme with duck decorations
+- Redesign OG image with new logo and dark theme
 
 #### RTL / Internationalization
 
@@ -59,6 +58,6 @@
 
 - Regenerate velite docs cache, sitemaps, and registry JSON throughout
 - Switch to Berkeley Mono font and remove legacy Geist fonts
-- Rebrand to gentleduck/ui across root and package metadata
+- Rebrand to acme/ui across root and package metadata
 - Clean up app layouts, font defaults, and CSS consolidation
 - Add page-specific canonical URLs to all pages for SEO

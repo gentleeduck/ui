@@ -1,14 +1,10 @@
-<p align="center">
-  <img src="./apps/duck-ui-docs/public/og/ui-home-67.png" alt="gentleduck/ui homepage snapshot (67%)" width="800"/>
-</p>
+# acme/ui
 
-# gentleduck/ui
+A Bun-based monorepo for the acme/ui component system, docs, and related tooling.
 
-A Bun-based monorepo for the gentleduck/ui component system, docs, and related tooling.
- 
 ## Documentation
-- Docs app: `apps/duck-ui-docs`
-- GitHub: https://github.com/gentleeduck/duck-ui
+- Docs app: `apps/acme-docs`
+- GitHub: https://github.com/acme/acme-ui
 
 ## Workspace Matrix
 
@@ -16,74 +12,36 @@ A Bun-based monorepo for the gentleduck/ui component system, docs, and related t
 
 | Path | Package | Role | Status |
 | --- | --- | --- | --- |
-| `apps/duck-ui-docs` | `@gentleduck/ui-docs` | Public docs site, registry explorer, MCP server | Active |
-| `apps/benchmark` | `benchmark` | Standalone benchmark app | Standalone, excluded from default root workspace scripts |
+| `apps/acme-docs` | `@acme/docs` | Public docs site | Active |
 
-### Published Packages
-
-| Path | Package | Role | Status |
-| --- | --- | --- | --- |
-| `packages/duck-benchmark` | `@gentleduck/benchmark` | Benchmarking package | Active |
-| `packages/duck-cli` | `@gentleduck/cli` | CLI for installing and updating duck-ui pieces | Active |
-| `packages/duck-docs` | `@gentleduck/docs` | Shared docs app kit | Active |
-| `packages/duck-hooks` | `@gentleduck/hooks` | React hooks | Active |
-| `packages/duck-lazy` | `@gentleduck/lazy` | Lazy-loading helpers | Active |
-| `packages/duck-libs` | `@gentleduck/libs` | Shared utility helpers | Active |
-| `packages/duck-motion` | `@gentleduck/motion` | Motion tokens and helpers | Active |
-| `packages/duck-primitives` | `@gentleduck/primitives` | Accessibility-first unstyled primitives | Active |
-| `packages/duck-shortcut` | `@gentleduck/shortcut` | Legacy shortcut package | Deprecated, frozen in favor of `@gentleduck/vim` |
-| `packages/duck-state` | `@gentleduck/state` | Lightweight state primitives | Active |
-| `packages/duck-variants` | `@gentleduck/variants` | Variant and class composition helpers | Active |
-| `packages/duck-vim` | `@gentleduck/vim` | Keyboard command engine | Active |
-| `packages/registers` | `@gentleduck/registers` | Registry schema and aggregate data exports | Active |
-| `packages/registry-ui` | `@gentleduck/registry-ui` | Source exports for UI components | Active |
-
-### Private / Internal Packages
+### Packages
 
 | Path | Package | Role | Status |
 | --- | --- | --- | --- |
-| `packages/duck-extension` | `@gentleduck/duck-extension` | Browser extension experiments | Private, active |
-| `packages/registry-blocks` | `@gentleduck/registry-blocks` | Registry block content | Private, active |
-| `packages/registry-build` | `@gentleduck/registry-build` | Registry generation tooling | Private, active |
-| `packages/registry-examples` | `@gentleduck/registry-examples` | Example source content | Private, active |
-| `packages/registry-internals` | `@gentleduck/registry-internals` | Internal registry content | Private, active |
-| `packages/types` | `@gentleduck/types` | Shared type-only package | Private, active |
+| `packages/ui` | `@acme/ui` | UI component library | Active |
 
 ### Tooling Packages
 
 | Path | Package | Role | Status |
 | --- | --- | --- | --- |
-| `tooling/biome` | `@gentleduck/biome-config` | Shared Biome config | Internal |
-| `tooling/github` | `@gentleduck/github` | GitHub/project automation support | Internal |
-| `tooling/tailwind` | `@gentleduck/tailwind-config` | Shared Tailwind config | Internal |
-| `tooling/tsdown` | `@gentleduck/tsdown-config` | Shared `tsdown` config | Internal |
-| `tooling/typescript` | `@gentleduck/typescript-config` | Shared TypeScript config | Internal |
-| `tooling/vitest` | `@gentleduck/vitest-config` | Shared Vitest config | Internal |
+| `tooling/biome` | `@acme/biome-config` | Shared Biome config | Internal |
+| `tooling/github` | `@acme/github` | GitHub/project automation support | Internal |
+| `tooling/tailwind` | `@acme/tailwind-config` | Shared Tailwind config | Internal |
+| `tooling/tsdown` | `@acme/tsdown-config` | Shared `tsdown` config | Internal |
+| `tooling/typescript` | `@acme/typescript-config` | Shared TypeScript config | Internal |
+| `tooling/vitest` | `@acme/vitest-config` | Shared Vitest config | Internal |
 | `tooling/bash` | `bash` | Shell utilities and misc scripts | Internal |
-
-### Archived / Planned
-
-| Path | Package | Role | Status |
-| --- | --- | --- | --- |
-| `packages/_oldstuff_refactor` | `@duck-ui/oldstuff-refactor` | Archived refactor material | Archived, excluded from root workspace automation |
-| `packages/duck-emoji` | `@gentleduck/emoji` | Planned emoji package | Placeholder, excluded from root workspace automation |
-
-## Workspace Policy
-
-- Root quality scripts target the active workspace graph only.
-- Archived and placeholder packages stay in the repo for reference, but are excluded from root workspace automation.
-- Deprecated published packages remain documented until they are formally removed from maintenance or npm distribution.
 
 ## Getting Started
 ```bash
-git clone https://github.com/gentleeduck/duck-ui.git
-cd duck-ui
+git clone https://github.com/acme/acme-ui.git
+cd acme-ui
 bun install
 ```
 
 ## Run a Single App
 ```bash
-bun --filter @gentleduck/ui-docs dev
+bun --filter @acme/docs dev
 ```
 
 ## Common Workspace Commands
@@ -93,7 +51,6 @@ bun run build        # build all packages/apps
 bun run test         # run tests across workspaces
 bun run check        # biome checks
 bun run check-types  # TypeScript type checks
-bun run ci           # non-mutating repo verification (check, workspace lint, types, tests, build)
 ```
 
 ## Contributing

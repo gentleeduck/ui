@@ -1,6 +1,6 @@
-# Contributing to gentleduck/ui
+# Contributing to acme/ui
 
-First off, thank you for considering contributing to **gentleduck/ui**!
+First off, thank you for considering contributing to **acme/ui**!
 We welcome all kinds of contributions — from bug reports and documentation improvements to feature requests and new packages.
 
 This document provides guidelines to help you get started.
@@ -14,13 +14,13 @@ Please treat everyone with respect and kindness.
 
 ---
 
-## 🛠 Getting Started
+## Getting Started
 
 ### 1. Fork & Clone
 
 ```bash
-git clone https://github.com/gentleeduck/duck-ui.git
-cd duck-ui
+git clone https://github.com/acme/acme-ui.git
+cd acme-ui
 ```
 
 ### 2. Install Dependencies
@@ -113,7 +113,7 @@ This will spin up local development environments for the packages and docs.
 
 ## Reporting Issues
 
-If you find a bug, please [open an issue](https://github.com/gentleeduck/duck-ui/issues) with:
+If you find a bug, please [open an issue](https://github.com/acme/acme-ui/issues) with:
 
 * Steps to reproduce
 * Expected behavior
@@ -127,18 +127,18 @@ If you find a bug, please [open an issue](https://github.com/gentleeduck/duck-ui
 * **Code**: Bug fixes, features, optimizations
 * **Docs**: Tutorials, guides, API references
 * **Design**: Improving UX, accessibility, component design
-* **Community**: Helping others in discussions, writing blog posts, or sharing gentleduck/ui
+* **Community**: Helping others in discussions, writing blog posts, or sharing acme/ui
 
 ---
 
 ## Tips
 
 * Start small - even fixing a typo helps!
-* Look at the ["good first issue"](https://github.com/gentleeduck/duck-ui/labels/good%20first%20issue) label for beginner-friendly contributions.
-* Ask questions! We’re happy to guide you.
+* Look at the ["good first issue"](https://github.com/acme/acme-ui/labels/good%20first%20issue) label for beginner-friendly contributions.
+* Ask questions! We're happy to guide you.
 
 ---
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the project’s [MIT License](./LICENSE).
+By contributing, you agree that your contributions will be licensed under the project's [MIT License](./LICENSE).
