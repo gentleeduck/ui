@@ -42,7 +42,12 @@ export async function add_command_action(args: string[], opt: addOptions) {
 
     spinner.info(`Using workspace: ${project_cwd}`)
 
-    await registry_component_install(components, duckui_config, { ...options, cwd: config_cwd, workspace: undefined }, spinner)
+    await registry_component_install(
+      components,
+      duckui_config,
+      { ...options, cwd: config_cwd, workspace: undefined },
+      spinner,
+    )
 
     spinner.succeed('Done.')
     process.exit(0)
