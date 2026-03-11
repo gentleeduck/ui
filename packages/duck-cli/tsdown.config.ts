@@ -4,6 +4,7 @@ import { defineConfig } from 'tsdown'
 export default defineConfig({
   ...config,
   entry: ['src/index.ts'],
+  platform: 'node',
   plugins: [],
   sourcemap: true,
 })

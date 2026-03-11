@@ -22,8 +22,10 @@ export async function update_command_action(args: string[], opt: UpdateOptions) 
   try {
     const cwd = path.resolve(options.cwd)
 
-    const duckui_config = await get_duckui_config(cwd, spinner)
-    const project_cwd = resolve_project_cwd(cwd, duckui_config, options.workspace)
+    // In monorepo mode, config lives in the workspace directory
+    const config_cwd = options.workspace ? path.resolve(cwd, options.workspace) : cwd
+    const duckui_config = await get_duckui_config(config_cwd, spinner)
+    const project_cwd = resolve_project_cwd(config_cwd, duckui_config)
     const workspace_error = validate_workspace_target(project_cwd, true)
     if (workspace_error) {
       spinner.fail(workspace_error)

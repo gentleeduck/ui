@@ -15,8 +15,12 @@ import { generateThemeCSS, init_duckui_config } from './preflight-duckui.libs'
 export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
   try {
     spinner.text = `Checking for ${highlighter.info('duck-ui')} config...`
+    const config_cwd =
+      _options.monorepo && _options.workspace
+        ? path.resolve(_options.cwd, _options.workspace)
+        : _options.cwd
     const files = fg.sync(['duck-ui.config.json'], {
-      cwd: _options.cwd,
+      cwd: config_cwd,
       deep: 1,
       ignore: IGNORED_DIRECTORIES,
     })
@@ -71,7 +75,11 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
     }
     const css = generateThemeCSS(parse_config_options.base_color, theme_response)
 
-    const css_file_path = path.join(_options.cwd, parse_config_options.css)
+    const css_cwd =
+      parse_config_options.monorepo && _options.workspace
+        ? path.resolve(_options.cwd, _options.workspace)
+        : _options.cwd
+    const css_file_path = path.join(css_cwd, parse_config_options.css)
     const exists = fs.existsSync(css_file_path)
 
     if (exists) {
@@ -148,7 +156,13 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
       workspace_target = { root: '.', project: selected_project }
     }
 
-    await init_duckui_config(_options.cwd, spinner, parse_config_options, workspace_target)
+    // When config lives in the workspace directory, project is '.' relative to config location
+    const effective_workspace_target: WorkspaceTarget =
+      parse_config_options.monorepo && _options.workspace
+        ? { root: '.', project: '.' }
+        : workspace_target
+
+    await init_duckui_config(config_cwd, spinner, parse_config_options, effective_workspace_target)
   } catch (error) {
     spinner.fail(
       `Failed to preflight required ${highlighter.error('duck-ui')} configs...\n ${highlighter.error(error instanceof Error ? error.message : String(error))}`,
