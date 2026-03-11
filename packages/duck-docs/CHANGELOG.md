@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.2.7
+
+### Patch Changes
+
+- 5e8d19f: fix header backdrop
+
 ## 0.2.6
 
 ### Patch Changes
