@@ -95,7 +95,7 @@ For the example above, you will get something like:
     search.json
 ```
 
-If you use `uiRegistryPreset()` or the individual UI extensions (`indexBuildExtension()`, `componentsExtension()`, `componentIndexExtension()`, `colorsExtension()`), you can also get outputs such as `public/r/index.json`, per-item JSON files, `__ui_registry__/index.tsx`, and theme/color artifacts.
+If you use `...uiRegistryPreset()` or the individual UI extensions (`indexBuildExtension()`, `componentsExtension()`, `componentIndexExtension()`, `colorsExtension()`), you can also get outputs such as `public/r/index.json`, per-item JSON files, `__ui_registry__/index.tsx`, and theme/color artifacts.
 
 ---
 
@@ -117,7 +117,7 @@ The context now carries resolved collections, output paths, cache helpers, outpu
 
 <Step>Extensions ran in order</Step>
 
-In this example only the custom extension runs. For a UI registry build, use `uiRegistryPreset()` to include the standard index-build, components, colors, and component-index extensions.
+In this example only the custom extension runs. For a UI registry build, spread `...uiRegistryPreset()` into your `extensions` array to include the standard index-build, components, colors, and component-index extensions.
 
 <Step>Extensions added optional outputs</Step>
 
