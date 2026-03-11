@@ -16,9 +16,7 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
   try {
     spinner.text = `Checking for ${highlighter.info('duck-ui')} config...`
     const config_cwd =
-      _options.monorepo && _options.workspace
-        ? path.resolve(_options.cwd, _options.workspace)
-        : _options.cwd
+      _options.monorepo && _options.workspace ? path.resolve(_options.cwd, _options.workspace) : _options.cwd
     const files = fg.sync(['duck-ui.config.json'], {
       cwd: config_cwd,
       deep: 1,
@@ -158,9 +156,7 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
 
     // When config lives in the workspace directory, project is '.' relative to config location
     const effective_workspace_target: WorkspaceTarget =
-      parse_config_options.monorepo && _options.workspace
-        ? { root: '.', project: '.' }
-        : workspace_target
+      parse_config_options.monorepo && _options.workspace ? { root: '.', project: '.' } : workspace_target
 
     await init_duckui_config(config_cwd, spinner, parse_config_options, effective_workspace_target)
   } catch (error) {
