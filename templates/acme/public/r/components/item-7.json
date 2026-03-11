@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui/avatar'\nimport { Button } from '@gentleduck/registry-ui/button'\nimport {\n  Item,\n  ItemActions,\n  ItemContent,\n  ItemDescription,\n  ItemGroup,\n  ItemMedia,\n  ItemSeparator,\n  ItemTitle,\n} from '@gentleduck/registry-ui/item'\nimport { MessageSquareIcon } from 'lucide-react'\nimport * as React from 'react'\n\nconst contacts = [\n  {\n    avatar: 'https://avatar.vercel.sh/jordan',\n    lastMessage: 'Sounds good, let me check the PR.',\n    name: 'Jordan Rivera',\n  },\n  {\n    avatar: 'https://avatar.vercel.sh/taylor',\n    lastMessage: 'The staging deploy is live now.',\n    name: 'Taylor Kim',\n  },\n  {\n    avatar: 'https://avatar.vercel.sh/casey',\n    lastMessage: 'Can we reschedule the sync to Thursday?',\n    name: 'Casey Nakamura',\n  },\n]\n\nexport default function ItemGroupExample() {\n  return (\n    <div className=\"flex w-full max-w-md flex-col gap-6\">\n      <ItemGroup>\n        {contacts.map((contact, index) => (\n          <React.Fragment key={contact.name}>\n            <Item>\n              <ItemMedia>\n                <Avatar>\n                  <AvatarImage alt={contact.name} src={contact.avatar} />\n                  <AvatarFallback>{contact.name.charAt(0)}</AvatarFallback>\n                </Avatar>\n              </ItemMedia>\n              <ItemContent className=\"gap-1\">\n                <ItemTitle>{contact.name}</ItemTitle>\n                <ItemDescription>{contact.lastMessage}</ItemDescription>\n              </ItemContent>\n              <ItemActions>\n                <Button aria-label=\"Message\" className=\"rounded-full\" size=\"icon\" variant=\"ghost\">\n                  <MessageSquareIcon aria-hidden=\"true\" />\n                </Button>\n              </ItemActions>\n            </Item>\n            {index !== contacts.length - 1 && <ItemSeparator />}\n          </React.Fragment>\n        ))}\n      </ItemGroup>\n    </div>\n  )\n}\n",
+      "path": "item/item-7.tsx",
+      "target": "components/item-7.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "item-7",
+  "registryDependencies": [
+    "item"
+  ],
+  "root_folder": "item",
+  "source": "/registry-examples/src/item",
+  "type": "registry:example"
+}

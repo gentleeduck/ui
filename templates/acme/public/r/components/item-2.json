@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@gentleduck/registry-ui/item'\n\nexport default function ItemVariant() {\n  return (\n    <div className=\"flex flex-col gap-6\">\n      <Item>\n        <ItemContent>\n          <ItemTitle>File Upload Complete</ItemTitle>\n          <ItemDescription>report-q4.pdf was uploaded successfully to shared drive.</ItemDescription>\n        </ItemContent>\n        <ItemActions>\n          <Button size=\"sm\" variant=\"outline\">\n            Open\n          </Button>\n        </ItemActions>\n      </Item>\n      <Item variant=\"outline\">\n        <ItemContent>\n          <ItemTitle>Payment Received</ItemTitle>\n          <ItemDescription>Invoice #1042 has been paid. Amount: $2,400.00.</ItemDescription>\n        </ItemContent>\n        <ItemActions>\n          <Button size=\"sm\" variant=\"outline\">\n            Details\n          </Button>\n        </ItemActions>\n      </Item>\n      <Item variant=\"muted\">\n        <ItemContent>\n          <ItemTitle>Archived Project</ItemTitle>\n          <ItemDescription>Landing page redesign was archived on Jan 15, 2026.</ItemDescription>\n        </ItemContent>\n        <ItemActions>\n          <Button size=\"sm\" variant=\"outline\">\n            Restore\n          </Button>\n        </ItemActions>\n      </Item>\n    </div>\n  )\n}\n",
+      "path": "item/item-2.tsx",
+      "target": "components/item-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "item-2",
+  "registryDependencies": [
+    "item"
+  ],
+  "root_folder": "item",
+  "source": "/registry-examples/src/item",
+  "type": "registry:example"
+}

@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import {\n  Table,\n  TableBody,\n  TableCaption,\n  TableCell,\n  TableFooter,\n  TableHead,\n  TableHeader,\n  TableRow,\n} from '@gentleduck/registry-ui/table'\n\nconst invoices = [\n  {\n    invoice: 'INV101',\n    paymentMethod: 'Apple Pay',\n    paymentStatus: 'غير مدفوع',\n    totalAmount: '$180.00',\n  },\n  {\n    invoice: 'INV102',\n    paymentMethod: 'بطاقة ائتمان',\n    paymentStatus: 'مدفوع',\n    totalAmount: '$720.00',\n  },\n  {\n    invoice: 'INV103',\n    paymentMethod: 'PayPal',\n    paymentStatus: 'قيد الانتظار',\n    totalAmount: '$95.00',\n  },\n  {\n    invoice: 'INV104',\n    paymentMethod: 'تحويل بنكي',\n    paymentStatus: 'مدفوع',\n    totalAmount: '$1,250.00',\n  },\n  {\n    invoice: 'INV105',\n    paymentMethod: 'بطاقة خصم',\n    paymentStatus: 'غير مدفوع',\n    totalAmount: '$430.00',\n  },\n  {\n    invoice: 'INV106',\n    paymentMethod: 'Apple Pay',\n    paymentStatus: 'قيد الانتظار',\n    totalAmount: '$610.00',\n  },\n  {\n    invoice: 'INV107',\n    paymentMethod: 'Google Pay',\n    paymentStatus: 'مدفوع',\n    totalAmount: '$390.00',\n  },\n]\n\nexport default function TableRtlDemo() {\n  return (\n    <Table dir=\"rtl\">\n      <TableCaption>{'قائمة بفواتيرك الأخيرة.'}</TableCaption>\n      <TableHeader>\n        <TableRow className=\"[&_th]:py-2\">\n          <TableHead className=\"w-[100px]\">{'الفاتورة'}</TableHead>\n          <TableHead>{'الحالة'}</TableHead>\n          <TableHead>{'طريقة الدفع'}</TableHead>\n          <TableHead className=\"text-left\">{'المبلغ'}</TableHead>\n        </TableRow>\n      </TableHeader>\n      <TableBody>\n        {invoices.map((invoice) => (\n          <TableRow key={invoice.invoice} className=\"[&_td]:py-2\">\n            <TableCell className=\"font-medium\">{invoice.invoice}</TableCell>\n            <TableCell>{invoice.paymentStatus}</TableCell>\n            <TableCell>{invoice.paymentMethod}</TableCell>\n            <TableCell className=\"text-left\">{invoice.totalAmount}</TableCell>\n          </TableRow>\n        ))}\n      </TableBody>\n      <TableFooter>\n        <TableRow className=\"[&_td]:py-2\">\n          <TableCell colSpan={3}>{'الإجمالي'}</TableCell>\n          <TableCell className=\"text-left\">$2,500.00</TableCell>\n        </TableRow>\n      </TableFooter>\n    </Table>\n  )\n}\n",
+      "path": "table/table-2.tsx",
+      "target": "components/table-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "table-2",
+  "registryDependencies": [
+    "table"
+  ],
+  "root_folder": "table",
+  "source": "/registry-examples/src/table",
+  "type": "registry:example"
+}

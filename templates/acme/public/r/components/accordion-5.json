@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui/accordion'\nimport { DirectionProvider } from '@gentleduck/registry-ui/direction'\n\nexport default function AccordionRtlDemo() {\n  return (\n    <DirectionProvider dir=\"rtl\">\n      <Accordion className=\"w-87.5\" collapsible type=\"single\">\n        <AccordionItem value=\"item-1\">\n          <AccordionTrigger>هل هو قابل للوصول؟</AccordionTrigger>\n          <AccordionContent>نعم. يلتزم بنمط تصميم WAI-ARIA.</AccordionContent>\n        </AccordionItem>\n        <AccordionItem value=\"item-2\">\n          <AccordionTrigger>هل هو منسق؟</AccordionTrigger>\n          <AccordionContent>نعم. يأتي بأنماط افتراضية تتوافق مع المظهر الجمالي للمكونات الأخرى.</AccordionContent>\n        </AccordionItem>\n        <AccordionItem value=\"item-3\">\n          <AccordionTrigger>هل هو متحرك؟</AccordionTrigger>\n          <AccordionContent>نعم. هو متحرك افتراضيا، لكن يمكنك تعطيله إذا أردت.</AccordionContent>\n        </AccordionItem>\n      </Accordion>\n    </DirectionProvider>\n  )\n}\n",
+      "path": "accordion/accordion-5.tsx",
+      "target": "components/accordion-5.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "accordion-5",
+  "registryDependencies": [
+    "accordion"
+  ],
+  "root_folder": "accordion",
+  "source": "/registry-examples/src/accordion",
+  "type": "registry:example"
+}

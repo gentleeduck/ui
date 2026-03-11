@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport {\n  Dialog,\n  DialogClose,\n  DialogContent,\n  DialogDescription,\n  DialogFooter,\n  DialogHeader,\n  DialogTitle,\n  DialogTrigger,\n} from '@gentleduck/registry-ui/dialog'\nimport { DirectionProvider } from '@gentleduck/registry-ui/direction'\nimport { Input } from '@gentleduck/registry-ui/input'\nimport { Label } from '@gentleduck/registry-ui/label'\n\nexport default function DialogRtlDemo() {\n  return (\n    <DirectionProvider dir=\"rtl\">\n      <Dialog>\n        <form onSubmit={(e) => e.preventDefault()}>\n          <DialogTrigger asChild>\n            <Button variant={'outline'}>فتح النافذة</Button>\n          </DialogTrigger>\n          <DialogContent className=\"sm:max-w-[425px]\">\n            <DialogHeader>\n              <DialogTitle>تعديل الملف الشخصي</DialogTitle>\n              <DialogDescription>قم باجراء التعديلات على ملفك الشخصي هنا. انقر على حفظ عند الانتهاء.</DialogDescription>\n            </DialogHeader>\n\n            <div className=\"grid gap-4\">\n              <div className=\"grid gap-3\">\n                <Label htmlFor=\"name-1\">الاسم</Label>\n                <Input defaultValue=\"احمد خالد\" id=\"name-1\" name=\"name\" />\n              </div>\n              <div className=\"grid gap-3\">\n                <Label htmlFor=\"username-1\">اسم المستخدم</Label>\n                <Input defaultValue=\"@ahmad\" id=\"username-1\" name=\"username\" />\n              </div>\n            </div>\n            <DialogFooter>\n              <DialogClose asChild>\n                <Button variant={'outline'}>الغاء</Button>\n              </DialogClose>\n              <Button type=\"submit\">حفظ التغييرات</Button>\n            </DialogFooter>\n          </DialogContent>\n        </form>\n      </Dialog>\n    </DirectionProvider>\n  )\n}\n",
+      "path": "dialog/dialog-3.tsx",
+      "target": "components/dialog-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "dialog-3",
+  "registryDependencies": [
+    "dialog"
+  ],
+  "root_folder": "dialog",
+  "source": "/registry-examples/src/dialog",
+  "type": "registry:example"
+}

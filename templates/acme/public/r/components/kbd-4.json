@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport { ButtonGroup } from '@gentleduck/registry-ui/button-group'\nimport { Kbd, KbdGroup } from '@gentleduck/registry-ui/kbd'\nimport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'\n\nexport default function KbdDemo() {\n  return (\n    <TooltipProvider>\n      <div className=\"flex flex-wrap gap-4\">\n        <ButtonGroup>\n          <Tooltip>\n            <TooltipTrigger asChild>\n              <Button size=\"sm\" variant=\"outline\">\n                Undo\n              </Button>\n            </TooltipTrigger>\n            <TooltipContent>\n              <div className=\"flex items-center gap-2\">\n                Undo{' '}\n                <KbdGroup>\n                  <Kbd>Ctrl</Kbd>\n                  <Kbd>Z</Kbd>\n                </KbdGroup>\n              </div>\n            </TooltipContent>\n          </Tooltip>\n          <Tooltip>\n            <TooltipTrigger asChild>\n              <Button size=\"sm\" variant=\"outline\">\n                Redo\n              </Button>\n            </TooltipTrigger>\n            <TooltipContent>\n              <div className=\"flex items-center gap-2\">\n                Redo{' '}\n                <KbdGroup>\n                  <Kbd>Ctrl</Kbd>\n                  <Kbd>Y</Kbd>\n                </KbdGroup>\n              </div>\n            </TooltipContent>\n          </Tooltip>\n        </ButtonGroup>\n      </div>\n    </TooltipProvider>\n  )\n}\n",
+      "path": "kbd/kbd-4.tsx",
+      "target": "components/kbd-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "kbd-4",
+  "registryDependencies": [
+    "kbd"
+  ],
+  "root_folder": "kbd",
+  "source": "/registry-examples/src/kbd",
+  "type": "registry:example"
+}

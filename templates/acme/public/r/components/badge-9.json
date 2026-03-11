@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Badge } from '@gentleduck/registry-ui/badge'\n\nexport default function BadgeRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <Badge arial-label=\"Badge\" size={'default'} variant={'default'}>\n        شارة\n      </Badge>\n    </div>\n  )\n}\n",
+      "path": "badge/badge-9.tsx",
+      "target": "components/badge-9.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "badge-9",
+  "registryDependencies": [
+    "badge"
+  ],
+  "root_folder": "badge",
+  "source": "/registry-examples/src/badge",
+  "type": "registry:example"
+}

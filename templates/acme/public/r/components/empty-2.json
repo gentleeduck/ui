@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport {\n  Empty,\n  EmptyContent,\n  EmptyDescription,\n  EmptyHeader,\n  EmptyMedia,\n  EmptyTitle,\n} from '@gentleduck/registry-ui/empty'\nimport { IconBookmark } from '@tabler/icons-react'\n\nexport default function EmptyOutline() {\n  return (\n    <Empty className=\"border border-dashed\">\n      <EmptyHeader>\n        <EmptyMedia variant=\"icon\">\n          <IconBookmark />\n        </EmptyMedia>\n        <EmptyTitle>No Saved Items</EmptyTitle>\n        <EmptyDescription>Bookmark articles, pages, or resources to find them quickly later.</EmptyDescription>\n      </EmptyHeader>\n      <EmptyContent>\n        <Button size=\"sm\" variant=\"outline\">\n          Browse Content\n        </Button>\n      </EmptyContent>\n    </Empty>\n  )\n}\n",
+      "path": "empty/empty-2.tsx",
+      "target": "components/empty-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "empty-2",
+  "registryDependencies": [
+    "empty"
+  ],
+  "root_folder": "empty",
+  "source": "/registry-examples/src/empty",
+  "type": "registry:example"
+}

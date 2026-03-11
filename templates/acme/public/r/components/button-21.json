@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport { DirectionProvider } from '@gentleduck/registry-ui/direction'\nimport { ChevronLeft, Send } from 'lucide-react'\n\nexport default function ButtonRtlDemo() {\n  return (\n    <DirectionProvider dir=\"rtl\">\n      <div className=\"flex flex-wrap items-center gap-4\">\n        <Button variant=\"default\" icon={<Send />}>\n          ارسال\n        </Button>\n        <Button variant=\"outline\" icon={<ChevronLeft />} className=\"rtl:[&_svg]:rotate-180\">\n          السابق\n        </Button>\n        <Button variant=\"secondary\">تسجيل الدخول</Button>\n        <Button variant=\"destructive\">حذف</Button>\n      </div>\n    </DirectionProvider>\n  )\n}\n",
+      "path": "button/button-21.tsx",
+      "target": "components/button-21.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "button-21",
+  "registryDependencies": [
+    "button"
+  ],
+  "root_folder": "button",
+  "source": "/registry-examples/src/button",
+  "type": "registry:example"
+}

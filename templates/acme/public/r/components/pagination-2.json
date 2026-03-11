@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import {\n  Pagination,\n  PaginationContent,\n  PaginationEllipsis,\n  PaginationItem,\n  PaginationLink,\n  PaginationNext,\n  PaginationPrevious,\n} from '@gentleduck/registry-ui/pagination'\n\nexport default function PaginationRtlDemo() {\n  return (\n    <Pagination dir=\"rtl\">\n      <PaginationContent>\n        <PaginationItem>\n          <PaginationPrevious href=\"#\" text=\"السابق\" />\n        </PaginationItem>\n\n        <PaginationItem>\n          <PaginationLink href=\"#\">١</PaginationLink>\n        </PaginationItem>\n\n        <PaginationItem>\n          <PaginationLink href=\"#\" isActive>\n            ٢\n          </PaginationLink>\n        </PaginationItem>\n\n        <PaginationItem>\n          <PaginationLink href=\"#\">٣</PaginationLink>\n        </PaginationItem>\n\n        <PaginationItem>\n          <PaginationEllipsis text=\"صفحات أخرى\" />\n        </PaginationItem>\n\n        <PaginationItem>\n          <PaginationNext href=\"#\" text=\"التالي\" />\n        </PaginationItem>\n      </PaginationContent>\n    </Pagination>\n  )\n}\n",
+      "path": "pagination/pagination-2.tsx",
+      "target": "components/pagination-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "pagination-2",
+  "registryDependencies": [
+    "pagination"
+  ],
+  "root_folder": "pagination",
+  "source": "/registry-examples/src/pagination",
+  "type": "registry:example"
+}

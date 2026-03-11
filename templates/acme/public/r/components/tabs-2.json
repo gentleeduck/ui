@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@gentleduck/registry-ui/card'\nimport { Input } from '@gentleduck/registry-ui/input'\nimport { Label } from '@gentleduck/registry-ui/label'\nimport { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui/tabs'\n\nexport default function TabsRtlDemo() {\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-6\">\n      <Tabs className=\"w-100\" defaultValue=\"account\" dir=\"rtl\">\n        <TabsList>\n          <TabsTrigger className=\"w-full\" value=\"account\">\n            {'الحساب'}\n          </TabsTrigger>\n          <TabsTrigger className=\"w-full\" value=\"password\">\n            {'كلمة المرور'}\n          </TabsTrigger>\n        </TabsList>\n        <TabsContent value=\"account\">\n          <Card>\n            <CardHeader>\n              <CardTitle>{'الحساب'}</CardTitle>\n              <CardDescription>{'قم بإجراء تغييرات على حسابك هنا. انقر حفظ عند الانتهاء.'}</CardDescription>\n            </CardHeader>\n            <CardContent className=\"grid gap-6\">\n              <div className=\"grid gap-3\">\n                <Label htmlFor=\"tabs-demo-name\">{'الاسم'}</Label>\n                <Input defaultValue=\"أحمد محمد\" id=\"tabs-demo-name\" />\n              </div>\n              <div className=\"grid gap-3\">\n                <Label htmlFor=\"tabs-demo-username\">{'اسم المستخدم'}</Label>\n                <Input defaultValue=\"@ahmad\" id=\"tabs-demo-username\" />\n              </div>\n            </CardContent>\n            <CardFooter className=\"justify-start\">\n              <Button>{'حفظ التغييرات'}</Button>\n            </CardFooter>\n          </Card>\n        </TabsContent>\n        <TabsContent value=\"password\">\n          <Card>\n            <CardHeader>\n              <CardTitle>{'كلمة المرور'}</CardTitle>\n              <CardDescription>{'غيّر كلمة مرورك هنا. بعد الحفظ، سيتم تسجيل خروجك.'}</CardDescription>\n            </CardHeader>\n            <CardContent className=\"grid gap-6\">\n              <div className=\"grid gap-3\">\n                <Label htmlFor=\"tabs-demo-current\">{'كلمة المرور الحالية'}</Label>\n                <Input id=\"tabs-demo-current\" type=\"password\" />\n              </div>\n              <div className=\"grid gap-3\">\n                <Label htmlFor=\"tabs-demo-new\">{'كلمة المرور الجديدة'}</Label>\n                <Input id=\"tabs-demo-new\" type=\"password\" />\n              </div>\n            </CardContent>\n            <CardFooter className=\"justify-start\">\n              <Button>{'حفظ كلمة المرور'}</Button>\n            </CardFooter>\n          </Card>\n        </TabsContent>\n      </Tabs>\n    </div>\n  )\n}\n",
+      "path": "tabs/tabs-2.tsx",
+      "target": "components/tabs-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "tabs-2",
+  "registryDependencies": [
+    "tabs"
+  ],
+  "root_folder": "tabs",
+  "source": "/registry-examples/src/tabs",
+  "type": "registry:example"
+}

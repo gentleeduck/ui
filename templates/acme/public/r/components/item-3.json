@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@gentleduck/registry-ui/item'\nimport { GitCommitVerticalIcon, PackageIcon } from 'lucide-react'\n\nexport default function ItemSizeDemo() {\n  return (\n    <div className=\"flex w-full max-w-md flex-col gap-6\">\n      <Item variant=\"outline\">\n        <ItemMedia variant=\"icon\">\n          <PackageIcon />\n        </ItemMedia>\n        <ItemContent>\n          <ItemTitle>Release v2.4.0 Published</ItemTitle>\n          <ItemDescription>Includes 12 bug fixes and 3 new components.</ItemDescription>\n        </ItemContent>\n        <ItemActions>\n          <Button size=\"sm\" variant=\"outline\">\n            Changelog\n          </Button>\n        </ItemActions>\n      </Item>\n      <Item size=\"sm\" variant=\"outline\">\n        <ItemMedia>\n          <GitCommitVerticalIcon className=\"size-5\" />\n        </ItemMedia>\n        <ItemContent>\n          <ItemTitle>feat: add slider primitive</ItemTitle>\n          <ItemDescription>Committed 2 hours ago</ItemDescription>\n        </ItemContent>\n      </Item>\n    </div>\n  )\n}\n",
+      "path": "item/item-3.tsx",
+      "target": "components/item-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "item-3",
+  "registryDependencies": [
+    "item"
+  ],
+  "root_folder": "item",
+  "source": "/registry-examples/src/item",
+  "type": "registry:example"
+}

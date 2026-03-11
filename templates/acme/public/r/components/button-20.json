@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { Button } from '@gentleduck/registry-ui/button'\nimport { CommandShortcut } from '@gentleduck/registry-ui/command'\nimport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'\nimport { ArrowBigUpDash, Command } from 'lucide-react'\nimport React from 'react'\nimport { toast } from 'sonner'\n\nexport default function ButtonRtlDemo() {\n  const [open, setOpen] = React.useState<boolean>(false)\n\n  return (\n    <div dir=\"rtl\">\n      <TooltipProvider>\n        <Tooltip>\n          <TooltipTrigger asChild>\n            <Button\n              aria-expanded={open}\n              aria-label={'زر متقدم'}\n              icon={<ArrowBigUpDash />}\n              isCollapsed={open}\n              loading={false}\n              onClick={() => setOpen((prev) => !prev)}\n              size=\"default\">\n              زر\n            </Button>\n          </TooltipTrigger>\n          <TooltipContent forceMount side=\"top\" className=\"flex items-center gap-2\">\n            <CommandShortcut\n              keys=\"ctrl+m\"\n              onKeysPressed={() => {\n                setOpen((prev) => !prev)\n                toast.success('زر متقدم')\n              }}\n              variant=\"secondary\">\n              <Command />\n              +m\n            </CommandShortcut>\n            <p>زر متقدم</p>\n          </TooltipContent>\n        </Tooltip>\n      </TooltipProvider>\n    </div>\n  )\n}\n",
+      "path": "button/button-20.tsx",
+      "target": "components/button-20.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "button-20",
+  "registryDependencies": [
+    "button"
+  ],
+  "root_folder": "button",
+  "source": "/registry-examples/src/button",
+  "type": "registry:example"
+}

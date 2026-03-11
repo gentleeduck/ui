@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport {\n  ContextMenu,\n  ContextMenuCheckboxItem,\n  ContextMenuContent,\n  ContextMenuItem,\n  ContextMenuLabel,\n  ContextMenuRadioGroup,\n  ContextMenuRadioItem,\n  ContextMenuSeparator,\n  ContextMenuShortcut,\n  ContextMenuSub,\n  ContextMenuSubContent,\n  ContextMenuSubTrigger,\n  ContextMenuTrigger,\n} from '@gentleduck/registry-ui/context-menu'\n\nexport default function ContextMenuRtlDemo() {\n  return (\n    <ContextMenu dir=\"rtl\">\n      <ContextMenuTrigger className=\"flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm\">\n        انقر بالزر الايمن هنا\n      </ContextMenuTrigger>\n      <ContextMenuContent className=\"w-64\">\n        <ContextMenuItem inset>\n          رجوع\n          <ContextMenuShortcut>⌘[</ContextMenuShortcut>\n        </ContextMenuItem>\n        <ContextMenuItem disabled inset>\n          تقدم\n          <ContextMenuShortcut>⌘]</ContextMenuShortcut>\n        </ContextMenuItem>\n        <ContextMenuItem inset>\n          اعادة تحميل\n          <ContextMenuShortcut>⌘R</ContextMenuShortcut>\n        </ContextMenuItem>\n        <ContextMenuSub>\n          <ContextMenuSubTrigger inset>ادوات اضافية</ContextMenuSubTrigger>\n          <ContextMenuSubContent className=\"w-48\">\n            <ContextMenuItem>\n              حفظ الصفحة باسم...\n              <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>\n            </ContextMenuItem>\n            <ContextMenuItem>انشاء اختصار...</ContextMenuItem>\n            <ContextMenuItem>تسمية النافذة...</ContextMenuItem>\n            <ContextMenuSeparator />\n            <ContextMenuItem>ادوات المطور</ContextMenuItem>\n          </ContextMenuSubContent>\n        </ContextMenuSub>\n        <ContextMenuSeparator />\n        <ContextMenuCheckboxItem checked>\n          اظهار شريط المفضلة\n          <ContextMenuShortcut>⌘⇧B</ContextMenuShortcut>\n        </ContextMenuCheckboxItem>\n        <ContextMenuCheckboxItem>اظهار الروابط الكاملة</ContextMenuCheckboxItem>\n        <ContextMenuSeparator />\n        <ContextMenuRadioGroup value=\"ahmad\">\n          <ContextMenuLabel inset>الاشخاص</ContextMenuLabel>\n          <ContextMenuSeparator />\n          <ContextMenuRadioItem value=\"ahmad\">احمد خالد</ContextMenuRadioItem>\n          <ContextMenuRadioItem value=\"sara\">سارة محمد</ContextMenuRadioItem>\n        </ContextMenuRadioGroup>\n      </ContextMenuContent>\n    </ContextMenu>\n  )\n}\n",
+      "path": "context-menu/context-menu-2.tsx",
+      "target": "components/context-menu-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "context-menu-2",
+  "registryDependencies": [
+    "context-menu"
+  ],
+  "root_folder": "context-menu",
+  "source": "/registry-examples/src/context-menu",
+  "type": "registry:example"
+}

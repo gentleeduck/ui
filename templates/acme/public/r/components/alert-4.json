@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Alert, AlertDescription, AlertTitle } from '@gentleduck/registry-ui/alert'\nimport { DirectionProvider } from '@gentleduck/registry-ui/direction'\nimport { AlertCircleIcon, CheckCircle2Icon, PopcornIcon } from 'lucide-react'\n\nexport default function AlertRtlDemo() {\n  return (\n    <DirectionProvider dir=\"rtl\">\n      <div className=\"grid w-full max-w-xl items-start gap-4\">\n        <Alert>\n          <CheckCircle2Icon aria-hidden=\"true\" />\n          <AlertTitle>تم بنجاح! تم حفظ التغييرات الخاصة بك</AlertTitle>\n          <AlertDescription>هذا تنبيه يحتوي على أيقونة وعنوان ووصف.</AlertDescription>\n        </Alert>\n        <Alert>\n          <PopcornIcon aria-hidden=\"true\" />\n          <AlertTitle>هذا التنبيه يحتوي على عنوان وأيقونة. بدون وصف.</AlertTitle>\n        </Alert>\n        <Alert variant=\"destructive\">\n          <AlertCircleIcon aria-hidden=\"true\" />\n          <AlertTitle>تعذرت معالجة عملية الدفع الخاصة بك.</AlertTitle>\n          <AlertDescription>\n            <p>يرجى التحقق من معلومات الفوترة والمحاولة مرة أخرى.</p>\n            <ul className=\"list-inside list-disc text-sm\">\n              <li>تحقق من تفاصيل بطاقتك</li>\n              <li>تأكد من توفر رصيد كاف</li>\n              <li>تحقق من عنوان الفوترة</li>\n            </ul>\n          </AlertDescription>\n        </Alert>\n      </div>\n    </DirectionProvider>\n  )\n}\n",
+      "path": "alert/alert-4.tsx",
+      "target": "components/alert-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "alert-4",
+  "registryDependencies": [
+    "alert"
+  ],
+  "root_folder": "alert",
+  "source": "/registry-examples/src/alert",
+  "type": "registry:example"
+}

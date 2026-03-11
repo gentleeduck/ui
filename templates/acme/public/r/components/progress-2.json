@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { Progress } from '@gentleduck/registry-ui/progress'\nimport * as React from 'react'\n\nexport default function ProgressRtlDemo() {\n  const [progress, setProgress] = React.useState(13)\n\n  React.useEffect(() => {\n    const timer = setTimeout(() => setProgress(66), 500)\n    return () => clearTimeout(timer)\n  }, [])\n\n  return <Progress className=\"w-[60%] rtl:rotate-180\" value={progress} dir=\"rtl\" />\n}\n",
+      "path": "progress/progress-2.tsx",
+      "target": "components/progress-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "progress-2",
+  "registryDependencies": [
+    "progress"
+  ],
+  "root_folder": "progress",
+  "source": "/registry-examples/src/progress",
+  "type": "registry:example"
+}

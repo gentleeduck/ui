@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Badge } from '@gentleduck/registry-ui/badge'\nimport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'\nimport { Info } from 'lucide-react'\n\nexport default function Badge8Demo() {\n  return (\n    <TooltipProvider>\n      <Tooltip>\n        <TooltipTrigger>\n          <Badge aria-label=\"Badge\" className=\"rounded-full\" size=\"icon\" variant=\"outline\">\n            <Info aria-hidden=\"true\" />\n          </Badge>\n        </TooltipTrigger>\n        <TooltipContent>Info Badge</TooltipContent>\n      </Tooltip>\n    </TooltipProvider>\n  )\n}\n",
+      "path": "badge/badge-8.tsx",
+      "target": "components/badge-8.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "badge-8",
+  "registryDependencies": [
+    "badge"
+  ],
+  "root_folder": "badge",
+  "source": "/registry-examples/src/badge",
+  "type": "registry:example"
+}
