@@ -233,42 +233,16 @@ export function stripMdxSyntax(body: string): string {
     stripped = stripped.replace(new RegExp(`<${component}[^>]*>[\\s\\S]*?<\\/${component}>`, 'g'), '')
   }
 
-  stripped = stripped
-    // Remove self-closing JSX tags like <ComponentPreview ... />
-    .replace(/<\w+[\s\S]*?\/>/g, '')
-    // Remove standalone JSX open/close tags (single line)
-    .replace(/^\s*<\/?\w+[^>]*>\s*$/gm, '')
-    // Collapse 3+ blank lines into 2
-    .replace(/\n{3,}/g, '\n\n')
-
-  // As a final safety net, sanitize any residual HTML/JSX tags (e.g. <script>).
-  stripped = sanitizeResidualHtml(stripped)
-
-  return stripped.trim()
-}
-
-/**
- * Perform a defensive sanitization pass to ensure there are no active HTML tags left.
- * This is especially important for tags like <script>, which can lead to injection.
- */
-function sanitizeResidualHtml(input: string): string {
-  let previous = input
-  let current = input
-
-  // Iteratively remove any <script>...</script> blocks that may be present.
-  do {
-    previous = current
-    current = current.replace(
-      /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi,
-      ''
-    )
-  } while (current !== previous)
-
-  // Neutralize any remaining angle-bracket tags by removing raw '<' and '>' characters.
-  // This uses simple character-based replacement to avoid incomplete multi-character sanitization.
-  current = current.replace(/[<>]/g, '')
-
-  return current
+  return (
+    stripped
+      // Remove self-closing JSX tags like <ComponentPreview ... />
+      .replace(/<\w+[\s\S]*?\/>/g, '')
+      // Remove standalone JSX open/close tags (single line)
+      .replace(/^\s*<\/?\w+[^>]*>\s*$/gm, '')
+      // Collapse 3+ blank lines into 2
+      .replace(/\n{3,}/g, '\n\n')
+      .trim()
+  )
 }
 
 /**

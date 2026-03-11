@@ -30,6 +30,35 @@ export const METADATA: Metadata = {
     // Brand
     'acme ui',
     'acme/ui',
+    'acme ui react components',
+    'acme ui button',
+
+    'acme ui library',
+    'acme ui components',
+
+    // Core tech stack
+    'React UI library',
+    'Tailwind CSS components',
+    'Next.js UI components',
+    'React Server Components',
+    'TypeScript UI library',
+
+    // Feature-driven
+    'Accessible React components',
+    'Headless UI alternative',
+    'Customizable UI components',
+    'Lightweight React UI kit',
+    'Type-safe React components',
+    'React motion components',
+    'React table library',
+    'React form components',
+
+    // Developer intent / search intent
+    'Open source React UI library',
+    'Best React UI frameworks',
+    'Tailwind React component library',
+    'Design system for React',
+    'UI toolkit for developers',
   ],
   manifest: `${siteConfig.url}/site.webmanifest`,
   metadataBase: new URL(
