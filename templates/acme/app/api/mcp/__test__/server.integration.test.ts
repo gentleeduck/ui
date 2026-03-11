@@ -4,7 +4,7 @@ import { Client } from '@modelcontextprotocol/sdk/client/index.js'
 import { InMemoryTransport } from '@modelcontextprotocol/sdk/inMemory.js'
 import { createMcpServer } from '../server'
 
-const CONTENT_DIR_ENV_VAR = 'DUCK_UI_DOCS_CONTENT_DIR'
+const CONTENT_DIR_ENV_VAR = 'ACME_DOCS_CONTENT_DIR'
 const DOCS_CONTENT_DIR = resolve(import.meta.dir, '../../../../content/docs')
 
 function getTextContent(result: { content?: Array<{ type: string; text?: string }> }): string {

@@ -154,7 +154,7 @@ function getFileTarget(file: z.infer<typeof registry_item_file_schema>) {
 }
 
 async function createTempSourceFile(filename: string) {
-  const dir = await fs.mkdtemp(path.join(tmpdir(), 'wildduck-'))
+  const dir = await fs.mkdtemp(path.join(tmpdir(), 'acme-'))
   return path.join(dir, filename)
 }
 

@@ -4,8 +4,8 @@ import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { getDocsIndexStats, resetDocsIndexStateForTests } from '../server'
 
-const CONTENT_DIR_ENV_VAR = 'DUCK_UI_DOCS_CONTENT_DIR'
-const CACHE_DIR_ENV_VAR = 'DUCK_UI_DOCS_MCP_CACHE_DIR'
+const CONTENT_DIR_ENV_VAR = 'ACME_DOCS_CONTENT_DIR'
+const CACHE_DIR_ENV_VAR = 'ACME_DOCS_MCP_CACHE_DIR'
 
 async function writeDocFile(rootDir: string, relativePath: string, content: string): Promise<void> {
   const filePath = join(rootDir, relativePath)

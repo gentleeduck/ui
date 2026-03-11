@@ -20,7 +20,7 @@ export function OrderForm() {
     expiryMonth: '12',
     expiryYear: '2025',
     firstName: 'wild',
-    lastName: 'duck',
+    lastName: 'doe',
     promoCode: '299',
     radioTech: '4g-lte',
     signUpOffers: false,
