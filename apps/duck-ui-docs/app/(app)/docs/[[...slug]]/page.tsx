@@ -1,4 +1,11 @@
-import { DashboardTableOfContents, DocsCopyPage, DocsPagerBottom, DocsPagerTop, DocsPathBreadcrumb, Mdx } from '@gentleduck/docs/client'
+import {
+  DashboardTableOfContents,
+  DocsCopyPage,
+  DocsPagerBottom,
+  DocsPagerTop,
+  DocsPathBreadcrumb,
+  Mdx,
+} from '@gentleduck/docs/client'
 import { absoluteUrl } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
 import { badgeVariants } from '@gentleduck/registry-ui/badge'

@@ -236,7 +236,7 @@
     },
     "packages/duck-docs": {
       "name": "@gentleduck/docs",
-      "version": "0.2.4",
+      "version": "0.2.5",
       "dependencies": {
         "@shikijs/compat": "1.12.1",
         "@tanstack/react-virtual": "^3.13.19",
@@ -561,7 +561,7 @@
     },
     "packages/registry-build": {
       "name": "@gentleduck/registry-build",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "bin": {
         "registry-build": "dist/cli.mjs",
       },
