@@ -61,7 +61,6 @@
       "apps/*",
       "packages/*",
       "tooling/*",
-      "!templates/*",
       "!./apps/benchmark/",
       "!./packages/_oldstuff_refactor/",
       "!./packages/duck-emoji/"
