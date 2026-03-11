@@ -1,0 +1,61 @@
+{
+  "$schema": "https://zpgqhogoevbgpxustvmo.supabase.co/storage/v1/object/public/json/duck-template-schema.json",
+  "args": {
+    "name": "duck-ui"
+  },
+  "description": "Wise decisions, powered by types.",
+  "ignore": ["node_modules", "dist"],
+  "name": "duck-ui",
+  "outdir": "./duck-template-dir",
+  "variants": [
+    {
+      "description": "",
+      "name": "new-package",
+      "src": [
+        {
+          "children": [
+            {
+              "args": [],
+              "content": "{\n  \"name\": \"@gentleduck/vim\",\n  \"private\": true,\n  \"version\": \"0.1.0\",\n  \"type\": \"module\",\n  \"files\": [\n    \"dist\"\n  ],\n  \"types\": \"./dist/index.d.ts\",\n  \"module\": \"./dist/index.js\",\n  \"exports\": {\n    \".\": \"./src/index.ts\",\n    \"./*\": \"./src/*/index.ts\"\n  },\n  \"scripts\": {\n    \"clean\": \"rimraf dist .cache .turbo node_modules .next .velite\",\n    \"clean:git\": \"git clean -xdf .cache .turbo node_modules dist\",\n    \"build\": \"tsdown\",\n    \"dev\": \"vitest\",\n    \"test\": \"vitest run\",\n    \"lint\": \"biome lint --write ./\",\n    \"format\": \"biome format --write ./\",\n    \"ci\": \"bun run lint && bun run format && bun run test && bun run build\",\n    \"release\": \"changeset version\",\n    \"publish\": \"bun run ci && changeset publish\"\n  },\n  \"devDependencies\": {\n    \"@gentleduck/tsdown-config\": \"workspace:*\",\n    \"@gentleduck/typescript-config\": \"workspace:*\",\n    \"@testing-library/jest-dom\": \"^5.17.0\",\n    \"@testing-library/user-event\": \"^14.6.1\",\n    \"@types/jsdom\": \"^21.1.7\",\n    \"@types/node\": \"22.19.3\",\n    \"@types/react\": \"19.2.7\",\n    \"@types/react-dom\": \"19.2.3\",\n    \"clsx\": \"^1.2.1\",\n    \"jsdom\": \"^20.0.3\",\n    \"react\": \"^19.2.3\",\n    \"react-dom\": \"^19.2.3\",\n    \"rimraf\": \"^4.4.1\",\n    \"tailwind-merge\": \"^1.14.0\",\n    \"tsdown\": \"0.18.3\",\n    \"typescript\": \"5.9.3\",\n    \"vite\": \"npm:rolldown-vite@^7.3.0\",\n    \"vitest\": \"^4.0.16\",\n    \"zod\": \"4.2.1\"\n  },\n  \"packageManager\": \"bun@1.3.5\",\n  \"engines\": {\n    \"node\": \">=22.0.0\"\n  }\n}\n",
+              "path": "package.json",
+              "type": "file"
+            },
+            {
+              "children": [
+                {
+                  "args": [],
+                  "content": "console.log('hello from duck template')\n",
+                  "path": "src/index.ts",
+                  "type": "file"
+                }
+              ],
+              "path": "src",
+              "type": "folder"
+            },
+            {
+              "args": [],
+              "content": "{\n  \"extends\": \"@gentleduck/typescript-config/internal-package.json\",\n  \"compilerOptions\": {\n    \"outDir\": \"./dist\",\n    \"base\": \"./\",\n    \"paths\": {}\n  },\n  \"include\": [\".\", \"../\"],\n  \"exclude\": [\"node_modules\", \"dist\"]\n}\n",
+              "path": "tsconfig.json",
+              "type": "file"
+            },
+            {
+              "args": [],
+              "content": "import { config } from '@gentleduck/tsdown-config'\nimport { defineConfig } from 'tsdown'\n\nexport default defineConfig({\n  ...config,\n})\n",
+              "path": "tsdown.config.ts",
+              "type": "file"
+            },
+            {
+              "args": [],
+              "content": "import { defineConfig } from 'vitest/config'\nimport '@testing-library/jest-dom'\n\nexport default defineConfig({\n  test: {\n    environment: 'jsdom',\n    globals: true,\n    setupFiles: ['./vitest.setup.ts'],\n  },\n})\n",
+              "path": "vitest.config.ts",
+              "type": "file"
+            }
+          ],
+          "path": "",
+          "type": "folder"
+        }
+      ]
+    }
+  ],
+  "version": "0.1.0"
+}
