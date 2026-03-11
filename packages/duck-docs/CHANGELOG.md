@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.2.6
+
+### Patch Changes
+
+- 43817f1: Move DocsPathBreadcrumb component from duck-ui-docs app to @gentleduck/docs package
+
 ## 0.2.5
 
 ### Patch Changes
