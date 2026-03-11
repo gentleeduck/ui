@@ -14,7 +14,7 @@ registry-build does not attach default plugins automatically. If you want valida
 Extensions run in one of two stages:
 
 - `beforeBuild`
-- `afterBuild`
+- `afterBuild` (default when `stage` is omitted)
 
 They receive a typed API with access to:
 
@@ -126,6 +126,8 @@ componentIndexExtension({
   },
   excludeTypes: ['registry:ui'],
   ssr: false,
+  header: '// Auto-generated component index',
+  generator: undefined, // set a custom (items) => string to replace the built-in adapter entirely
 })
 ```
 

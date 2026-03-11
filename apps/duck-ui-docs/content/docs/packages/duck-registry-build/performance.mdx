@@ -87,7 +87,7 @@ That lets the builder narrow component rebuild work to affected registry items i
 
 ## Parallelism
 
-The builder uses bounded concurrency for discovery and generation work. The default is CPU-aware and capped conservatively.
+The builder uses bounded concurrency for discovery and generation work. The default is `Math.max(1, Math.min(cpuCount, 8))` — CPU-aware and capped at 8.
 
 Override it with:
 

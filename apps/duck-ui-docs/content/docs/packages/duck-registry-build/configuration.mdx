@@ -112,7 +112,7 @@ Performance settings control incremental behavior.
 | --- | --- | --- |
 | `cacheDir` | `.registry-build` | Cache directory under `output.dir` |
 | `incremental` | `true` | Enable file-hash cache and phase reuse |
-| `parallelism` | CPU-aware default | Bound concurrent discovery and generation work |
+| `parallelism` | `min(cpuCount, 8)` | Bound concurrent discovery and generation work |
 
 ```ts
 performance: {
@@ -179,6 +179,11 @@ The recommended pattern is to keep static data in config, let extensions read co
 
 `branding` is lightweight metadata for CLI- or extension-facing presentation.
 
+| Field | Type | Default |
+| --- | --- | --- |
+| `name` | `string` | `'@gentleduck/registry-build'` |
+| `font` | `string` | `'ANSI Shadow'` |
+
 ```ts
 branding: {
   name: 'Acme Registry',
@@ -242,7 +247,7 @@ These fields are still important for docs-style UI registries. They are supporte
 | `path` | `string` | Filesystem path relative to the config file |
 | `packageName` | `string` | Package base used for generated import paths |
 | `glob` | `string` | Discovery pattern, default `**/*.{ts,tsx}` |
-| `ignore` | `string[]` | Ignore globs for discovery |
+| `ignore` | `string[]` | Ignore globs for discovery, default `['**/__test__/**', '**/*.test.*', '**/*.spec.*']` |
 | `indexStrategy` | `'item' \| 'file'` | Emit one index record per registry item or per discovered file |
 | `referencePath` | `string` | Stable logical path stored in generated metadata |
 
@@ -373,6 +378,7 @@ themes: {
 },
 cssTemplates: {
   baseStyles: '@tailwind base;\\n@tailwind components;\\n@tailwind utilities;',
+  baseLayerRules: '@layer base { ... }',
 }
 ```
 
