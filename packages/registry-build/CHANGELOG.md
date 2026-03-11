@@ -1,5 +1,11 @@
 # @gentleduck/registry-build
 
+## 0.2.1
+
+### Patch Changes
+
+- fd5e095: Fix tsdown config to use platform node, resolving node:\* import warnings and producing correct .mjs output
+
 ## 0.2.0
 
 ### Minor Changes
