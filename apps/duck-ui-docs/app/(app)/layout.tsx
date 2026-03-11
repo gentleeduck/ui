@@ -9,7 +9,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         Skip to main content
       </a>
       <SiteHeader />
-      <main className="flex w-full flex-1 flex-col" id="main-content">
+      <main className="flex w-full flex-1 flex-col pt-16" id="main-content">
         {children}
       </main>
       <SiteFooter />
