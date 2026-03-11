@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { cn } from '@gentleduck/libs/cn'\nimport { Slider } from '@gentleduck/registry-ui/slider'\n\nexport default function Slider3() {\n  return (\n    <div className=\"flex h-full w-full items-center justify-center p-4\">\n      <Slider className={cn('w-[60%]')} defaultValue={[33]} max={100} orientation=\"horizontal\" />\n    </div>\n  )\n}\n",
+      "path": "slider/slider-3.tsx",
+      "target": "components/slider-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "slider-3",
+  "registryDependencies": [
+    "slider"
+  ],
+  "root_folder": "slider",
+  "source": "/registry-examples/src/slider",
+  "type": "registry:example"
+}

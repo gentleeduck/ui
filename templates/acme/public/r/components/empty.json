@@ -1,0 +1,31 @@
+{
+  "dependencies": [
+    "@gentleduck/libs",
+    "@gentleduck/variants",
+    "@gentleduck/primitives"
+  ],
+  "files": [
+    {
+      "content": "import { cva } from '@gentleduck/variants'\nexport const emptyMediaVariants = cva(\n  'mb-2 flex shrink-0 items-center justify-center [&_svg]:pointer-events-none [&_svg]:shrink-0',\n  {\n    defaultVariants: {\n      variant: 'default',\n    },\n    variants: {\n      variant: {\n        default: 'bg-transparent',\n        icon: \"flex size-10 shrink-0 items-center justify-center rounded-lg bg-muted text-foreground [&_svg:not([class*='size-'])]:size-6\",\n      },\n    },\n  },\n)\n",
+      "path": "empty/empty.constants.ts",
+      "target": "components/ui/empty.constants.ts",
+      "type": "registry:ui"
+    },
+    {
+      "content": "import { cn } from '@gentleduck/libs/cn'\nimport { type Direction, useDirection } from '@gentleduck/primitives/direction'\nimport type { VariantProps } from '@gentleduck/variants'\nimport React from 'react'\nimport { emptyMediaVariants } from './empty.constants'\n\nconst Empty = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(({ className, dir, ...props }, ref) => {\n  const direction = useDirection(dir as Direction)\n  return (\n    <div\n      ref={ref}\n      className={cn(\n        'flex min-w-0 flex-1 flex-col items-center justify-center gap-6 text-balance rounded-lg border-dashed p-6 text-center md:p-12',\n        className,\n      )}\n      dir={direction}\n      data-slot=\"empty\"\n      {...props}\n    />\n  )\n})\nEmpty.displayName = 'Empty'\n\nconst EmptyHeader = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(({ className, ...props }, ref) => {\n  return (\n    <div\n      ref={ref}\n      className={cn('flex max-w-sm flex-col items-center gap-2 text-center', className)}\n      data-slot=\"empty-header\"\n      {...props}\n    />\n  )\n})\nEmptyHeader.displayName = 'EmptyHeader'\n\nconst EmptyMedia = React.forwardRef<\n  HTMLDivElement,\n  React.ComponentProps<'div'> & VariantProps<typeof emptyMediaVariants>\n>(({ className, variant = 'default', ...props }, ref) => {\n  return (\n    <div\n      ref={ref}\n      className={cn(emptyMediaVariants({ className, variant }))}\n      data-slot=\"empty-icon\"\n      data-variant={variant}\n      {...props}\n    />\n  )\n})\nEmptyMedia.displayName = 'EmptyMedia'\n\nconst EmptyTitle = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(({ className, ...props }, ref) => {\n  return (\n    <div ref={ref} className={cn('font-medium text-lg tracking-tight', className)} data-slot=\"empty-title\" {...props} />\n  )\n})\nEmptyTitle.displayName = 'EmptyTitle'\n\nconst EmptyDescription = React.forwardRef<HTMLDivElement, React.ComponentProps<'p'>>(({ className, ...props }, ref) => {\n  return (\n    <div\n      ref={ref}\n      className={cn(\n        'text-muted-foreground text-sm/relaxed [&>a:hover]:text-primary [&>a]:underline [&>a]:underline-offset-4',\n        className,\n      )}\n      data-slot=\"empty-description\"\n      {...props}\n    />\n  )\n})\nEmptyDescription.displayName = 'EmptyDescription'\n\nconst EmptyContent = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(({ className, ...props }, ref) => {\n  return (\n    <div\n      ref={ref}\n      className={cn('flex w-full min-w-0 max-w-sm flex-col items-center gap-4 text-balance text-sm', className)}\n      data-slot=\"empty-content\"\n      {...props}\n    />\n  )\n})\nEmptyContent.displayName = 'EmptyContent'\n\nexport { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent, EmptyMedia }\n",
+      "path": "empty/empty.tsx",
+      "target": "components/ui/empty.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "content": "export * from './empty'\nexport * from './empty.constants'\n",
+      "path": "empty/index.ts",
+      "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "empty",
+  "root_folder": "empty",
+  "source": "/registry-ui/src/empty",
+  "type": "registry:ui"
+}

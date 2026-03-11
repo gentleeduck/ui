@@ -1,0 +1,25 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nexport { default } from '../switch/switch-2'\n",
+      "path": "form/form-rhf-switch.tsx",
+      "target": "components/form-rhf-switch.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "form-rhf-switch",
+  "registryDependencies": [
+    "button",
+    "checkbox",
+    "field",
+    "input",
+    "input-group",
+    "radio-group",
+    "select",
+    "switch",
+    "textarea"
+  ],
+  "root_folder": "form",
+  "source": "/registry-examples/src/form",
+  "type": "registry:example"
+}

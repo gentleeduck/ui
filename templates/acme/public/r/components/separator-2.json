@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Separator } from '@gentleduck/registry-ui/separator'\n\nexport default function SeparatorRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <div>\n        <div className=\"space-y-1\">\n          <h4 className=\"font-medium text-sm leading-none\">مكونات Radix الاساسية</h4>\n          <p className=\"text-muted-foreground text-sm\">مكتبة مكونات واجهة مستخدم مفتوحة المصدر.</p>\n        </div>\n        <Separator className=\"my-4\" />\n        <div className=\"flex h-5 items-center space-x-4 text-sm\">\n          <div>المدونة</div>\n          <Separator orientation=\"vertical\" />\n          <div>التوثيق</div>\n          <Separator orientation=\"vertical\" />\n          <div>المصدر</div>\n        </div>\n      </div>\n    </div>\n  )\n}\n",
+      "path": "separator/separator-2.tsx",
+      "target": "components/separator-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "separator-2",
+  "registryDependencies": [
+    "separator"
+  ],
+  "root_folder": "separator",
+  "source": "/registry-examples/src/separator",
+  "type": "registry:example"
+}

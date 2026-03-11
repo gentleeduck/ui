@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Kbd, KbdGroup } from '@gentleduck/registry-ui/kbd'\n\nexport default function KbdDemo() {\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <p className=\"text-muted-foreground text-sm\">\n        Press{' '}\n        <KbdGroup>\n          <Kbd>Ctrl + K</Kbd>\n          <Kbd>Ctrl + P</Kbd>\n        </KbdGroup>{' '}\n        to jump between files quickly\n      </p>\n    </div>\n  )\n}\n",
+      "path": "kbd/kbd-2.tsx",
+      "target": "components/kbd-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "kbd-2",
+  "registryDependencies": [
+    "kbd"
+  ],
+  "root_folder": "kbd",
+  "source": "/registry-examples/src/kbd",
+  "type": "registry:example"
+}

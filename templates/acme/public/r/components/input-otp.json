@@ -1,0 +1,25 @@
+{
+  "dependencies": [
+    "@gentleduck/libs",
+    "@gentleduck/primitives",
+    "lucide-react"
+  ],
+  "files": [
+    {
+      "content": "export * from './input-otp'\n",
+      "path": "input-otp/index.ts",
+      "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    },
+    {
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport * as InputOTPPrimitive from '@gentleduck/primitives/input-otp'\nimport { Dot } from 'lucide-react'\nimport * as React from 'react'\n\nconst InputOTP = React.forwardRef<\n  React.ComponentRef<typeof InputOTPPrimitive.Root>,\n  React.ComponentPropsWithoutRef<typeof InputOTPPrimitive.Root>\n>(({ className, ...props }, ref) => (\n  <InputOTPPrimitive.Root\n    ref={ref}\n    className={cn('flex items-center gap-2 disabled:cursor-not-allowed has-disabled:opacity-50', className)}\n    data-slot=\"input-otp\"\n    {...props}\n  />\n))\nInputOTP.displayName = 'InputOTP'\n\nconst InputOTPGroup = React.forwardRef<\n  React.ComponentRef<typeof InputOTPPrimitive.Group>,\n  React.ComponentPropsWithoutRef<typeof InputOTPPrimitive.Group>\n>(({ className, ...props }, ref) => (\n  <InputOTPPrimitive.Group\n    ref={ref}\n    className={cn('flex items-center', className)}\n    data-slot=\"input-otp-group\"\n    {...props}\n  />\n))\nInputOTPGroup.displayName = 'InputOTPGroup'\n\nconst InputOTPSlot = React.forwardRef<\n  React.ComponentRef<typeof InputOTPPrimitive.Slot>,\n  React.ComponentPropsWithoutRef<typeof InputOTPPrimitive.Slot>\n>(({ className, ...props }, ref) => (\n  <InputOTPPrimitive.Slot\n    ref={ref}\n    className={cn(\n      'relative -ms-px h-10 w-10 rounded-none border border-input border-y border-e text-center text-sm transition-all first:ms-0 first:rounded-s-md last:rounded-e-md focus:relative focus:z-10 focus:outline-none focus:ring-2 focus:ring-ring',\n      className,\n    )}\n    data-slot=\"input-otp-slot\"\n    {...props}\n  />\n))\nInputOTPSlot.displayName = 'InputOTPSlot'\n\nconst InputOTPSeparator = React.forwardRef<\n  React.ComponentRef<typeof InputOTPPrimitive.Separator>,\n  React.ComponentPropsWithoutRef<typeof InputOTPPrimitive.Separator>\n>(({ customIndicator, ...props }, ref) => (\n  <InputOTPPrimitive.Separator\n    ref={ref}\n    customIndicator={customIndicator ?? <Dot />}\n    data-slot=\"input-otp-separator\"\n    {...props}\n  />\n))\nInputOTPSeparator.displayName = 'InputOTPSeparator'\n\nconst REGEXP_ONLY_DIGITS_AND_CHARS = InputOTPPrimitive.REGEXP_ONLY_DIGITS_AND_CHARS\nconst REGEXP_ONLY_DIGITS = InputOTPPrimitive.REGEXP_ONLY_DIGITS\n\nexport { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator, REGEXP_ONLY_DIGITS_AND_CHARS, REGEXP_ONLY_DIGITS }\n",
+      "path": "input-otp/input-otp.tsx",
+      "target": "components/ui/input-otp.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "input-otp",
+  "root_folder": "input-otp",
+  "source": "/registry-ui/src/input-otp",
+  "type": "registry:ui"
+}

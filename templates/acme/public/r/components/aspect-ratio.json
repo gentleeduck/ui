@@ -1,0 +1,24 @@
+{
+  "dependencies": [
+    "@gentleduck/primitives",
+    "@gentleduck/libs"
+  ],
+  "files": [
+    {
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport { type Direction, useDirection } from '@gentleduck/primitives/direction'\nimport { Slot } from '@gentleduck/primitives/slot'\nimport React from 'react'\n\nconst AspectRatio = React.forwardRef<\n  React.ComponentRef<typeof Slot>,\n  React.ComponentPropsWithoutRef<typeof Slot> & {\n    ratio: string\n  }\n>(({ style, className, ratio, dir, ...props }, ref) => {\n  const direction = useDirection(dir as Direction)\n  return (\n    <Slot\n      className={cn('relative h-auto w-full overflow-hidden', className)}\n      dir={direction}\n      ref={ref}\n      style={{\n        aspectRatio: ratio,\n        ...style,\n      }}\n      {...props}\n      data-slot=\"aspect-ratio\"\n    />\n  )\n})\nAspectRatio.displayName = 'AspectRatio'\n\nexport { AspectRatio }\n",
+      "path": "aspect-ratio/aspect-ratio.tsx",
+      "target": "components/ui/aspect-ratio.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "content": "export * from './aspect-ratio'\n",
+      "path": "aspect-ratio/index.ts",
+      "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "aspect-ratio",
+  "root_folder": "aspect-ratio",
+  "source": "/registry-ui/src/aspect-ratio",
+  "type": "registry:ui"
+}

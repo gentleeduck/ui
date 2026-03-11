@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { Calendar } from '@gentleduck/registry-ui/calendar'\nimport { arSA } from 'date-fns/locale'\nimport * as React from 'react'\n\nexport default function CalendarRtlDemo() {\n  const [date, setDate] = React.useState<Date | undefined>(new Date())\n\n  return (\n    <Calendar\n      captionLayout=\"dropdown\"\n      className=\"rounded-md border shadow-sm\"\n      dir=\"rtl\"\n      locale={arSA}\n      mode=\"single\"\n      onSelect={setDate}\n      selected={date}\n    />\n  )\n}\n",
+      "path": "calendar/calendar-9.tsx",
+      "target": "components/calendar-9.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "calendar-9",
+  "registryDependencies": [
+    "calendar"
+  ],
+  "root_folder": "calendar",
+  "source": "/registry-examples/src/calendar",
+  "type": "registry:example"
+}

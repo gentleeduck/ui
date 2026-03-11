@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { DIRECTION_DICTIONARY, DirectionProvider, useDirection } from '@gentleduck/registry-ui/direction'\n\nfunction DirectionStatus() {\n  const dir = useDirection()\n  return (\n    <div className=\"rounded-md border bg-card px-4 py-2 text-card-foreground text-sm\">\n      Resolved direction: <span className=\"font-mono\">{dir}</span>\n    </div>\n  )\n}\n\nexport default function DirectionDemo() {\n  return (\n    <DirectionProvider dir={DIRECTION_DICTIONARY.rtl}>\n      <DirectionStatus />\n    </DirectionProvider>\n  )\n}\n",
+      "path": "direction/direction-1.tsx",
+      "target": "components/direction-1.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "direction-1",
+  "registryDependencies": [
+    "direction"
+  ],
+  "root_folder": "direction",
+  "source": "/registry-examples/src/direction",
+  "type": "registry:example"
+}

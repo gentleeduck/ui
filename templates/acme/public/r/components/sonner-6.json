@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { Button } from '@gentleduck/registry-ui/button'\nimport { toast } from 'sonner'\n\nexport default function SonnerRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <Button\n        onClick={() =>\n          toast('تم إنشاء الحدث', {\n            action: {\n              label: 'تراجع',\n              onClick: () => console.log('Undo'),\n            },\n            description: 'الأحد، 3 ديسمبر 2023 الساعة 9:00 صباحاً',\n            style: {\n              direction: 'rtl',\n              textAlign: 'right',\n            },\n          })\n        }\n        variant=\"outline\">\n        {'عرض الإشعار'}\n      </Button>\n    </div>\n  )\n}\n",
+      "path": "sonner/sonner-6.tsx",
+      "target": "components/sonner-6.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "sonner-6",
+  "registryDependencies": [
+    "sonner"
+  ],
+  "root_folder": "sonner",
+  "source": "/registry-examples/src/sonner",
+  "type": "registry:example"
+}

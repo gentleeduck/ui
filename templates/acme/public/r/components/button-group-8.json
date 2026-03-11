@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { Button } from '@gentleduck/registry-ui/button'\nimport { ButtonGroup } from '@gentleduck/registry-ui/button-group'\nimport { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@gentleduck/registry-ui/input-group'\nimport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'\nimport { AudioLinesIcon, PlusIcon } from 'lucide-react'\nimport * as React from 'react'\n\nexport default function ButtonGroupInputGroup() {\n  const [voiceEnabled, setVoiceEnabled] = React.useState(false)\n\n  return (\n    <TooltipProvider>\n      <ButtonGroup className=\"[--radius:9999rem]\">\n        <ButtonGroup>\n          <Button aria-label=\"Add\" size=\"icon\" variant=\"outline\">\n            <PlusIcon aria-hidden=\"true\" />\n          </Button>\n        </ButtonGroup>\n        <ButtonGroup>\n          <InputGroup>\n            <InputGroupInput\n              disabled={voiceEnabled}\n              placeholder={voiceEnabled ? 'Record and send audio...' : 'Send a message...'}\n            />\n            <InputGroupAddon align=\"inline-end\">\n              <Tooltip>\n                <TooltipTrigger asChild>\n                  <InputGroupButton\n                    aria-label=\"Voice Mode\"\n                    aria-pressed={voiceEnabled}\n                    className=\"data-[active=true]:bg-orange-100 data-[active=true]:text-orange-700 dark:data-[active=true]:bg-orange-800 dark:data-[active=true]:text-orange-100\"\n                    data-active={voiceEnabled}\n                    onClick={() => setVoiceEnabled(!voiceEnabled)}\n                    size=\"icon-xs\">\n                    <AudioLinesIcon aria-hidden=\"true\" />\n                  </InputGroupButton>\n                </TooltipTrigger>\n                <TooltipContent>Voice Mode</TooltipContent>\n              </Tooltip>\n            </InputGroupAddon>\n          </InputGroup>\n        </ButtonGroup>\n      </ButtonGroup>\n    </TooltipProvider>\n  )\n}\n",
+      "path": "button-group/button-group-8.tsx",
+      "target": "components/button-group-8.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "button-group-8",
+  "registryDependencies": [
+    "button-group"
+  ],
+  "root_folder": "button-group",
+  "source": "/registry-examples/src/button-group",
+  "type": "registry:example"
+}

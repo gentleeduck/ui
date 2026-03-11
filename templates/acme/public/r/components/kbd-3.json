@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport { Kbd } from '@gentleduck/registry-ui/kbd'\n\nexport default function KbdDemo() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-4\">\n      <Button className=\"pr-2\" size=\"sm\" variant=\"outline\">\n        Confirm <Kbd>Enter</Kbd>\n      </Button>\n      <Button className=\"pr-2\" size=\"sm\" variant=\"outline\">\n        Dismiss <Kbd>Esc</Kbd>\n      </Button>\n    </div>\n  )\n}\n",
+      "path": "kbd/kbd-3.tsx",
+      "target": "components/kbd-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "kbd-3",
+  "registryDependencies": [
+    "kbd"
+  ],
+  "root_folder": "kbd",
+  "source": "/registry-examples/src/kbd",
+  "type": "registry:example"
+}

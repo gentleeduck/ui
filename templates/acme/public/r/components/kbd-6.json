@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Kbd, KbdGroup } from '@gentleduck/registry-ui/kbd'\n\nexport default function KbdRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <div className=\"flex flex-col items-center gap-4\">\n        <div dir=\"ltr\">\n          <KbdGroup>\n            <Kbd>Ctrl</Kbd>\n            <Kbd>Shift</Kbd>\n            <Kbd>Alt</Kbd>\n            <Kbd>Fn</Kbd>\n          </KbdGroup>\n        </div>\n\n        <div dir=\"ltr\">\n          <KbdGroup>\n            <Kbd>Ctrl</Kbd>\n            <span>+</span>\n            <Kbd>S</Kbd>\n          </KbdGroup>\n        </div>\n      </div>\n    </div>\n  )\n}\n",
+      "path": "kbd/kbd-6.tsx",
+      "target": "components/kbd-6.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "kbd-6",
+  "registryDependencies": [
+    "kbd"
+  ],
+  "root_folder": "kbd",
+  "source": "/registry-examples/src/kbd",
+  "type": "registry:example"
+}

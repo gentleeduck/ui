@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Checkbox } from '@gentleduck/registry-ui/checkbox'\nimport { Label } from '@gentleduck/registry-ui/label'\n\nexport default function LabelRtlDemo() {\n  return (\n    <div dir=\"rtl\">\n      <div className=\"flex items-center gap-2\">\n        <Checkbox id=\"tterms\" />\n        <Label htmlFor=\"tterms\">قبول الشروط والاحكام</Label>\n      </div>\n    </div>\n  )\n}\n",
+      "path": "label/label-3.tsx",
+      "target": "components/label-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "label-3",
+  "registryDependencies": [
+    "label"
+  ],
+  "root_folder": "label",
+  "source": "/registry-examples/src/label",
+  "type": "registry:example"
+}
