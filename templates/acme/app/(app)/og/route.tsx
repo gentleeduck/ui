@@ -29,8 +29,8 @@ async function loadLogo(): Promise<string> {
   return base64Logo
 }
 
-// Duck logo at given size and opacity
-function DuckLogo({ logoSrc, opacity, size }: { logoSrc: string; opacity: number; size: number }) {
+// Logo at given size and opacity
+function Logo({ logoSrc, opacity, size }: { logoSrc: string; opacity: number; size: number }) {
   return (
     // biome-ignore lint/performance/noImgElement: ImageResponse markup does not support next/image.
     <img alt="" height={size} src={logoSrc} style={{ opacity }} width={size} />
@@ -55,7 +55,7 @@ export async function GET(request: Request) {
         fontFamily: 'Source Sans 3, Source Sans Pro, ui-sans-serif, system-ui, sans-serif',
       }}
       tw="h-full w-full text-white relative overflow-hidden">
-      {/* -- Decorations layer (glows, lines, corners, ducks, dots) -- */}
+      {/* -- Decorations layer (glows, lines, corners, logos, dots) -- */}
       <div style={{ display: 'flex' }} tw="absolute inset-0">
         {/* Warm yellow glow - top right */}
         <div
@@ -176,69 +176,69 @@ export async function GET(request: Request) {
           }}
         />
 
-        {/* Scattered ducks -- top area */}
+        {/* Scattered logos -- top area */}
         <div tw="absolute" style={{ display: 'flex', top: 30, right: 140 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.07} size={28} />
+          <Logo logoSrc={logoSrc} opacity={0.07} size={28} />
         </div>
         <div tw="absolute" style={{ display: 'flex', top: 80, right: 320 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.05} size={20} />
+          <Logo logoSrc={logoSrc} opacity={0.05} size={20} />
         </div>
         <div tw="absolute" style={{ display: 'flex', top: 50, right: 500 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.04} size={16} />
+          <Logo logoSrc={logoSrc} opacity={0.04} size={16} />
         </div>
         <div tw="absolute" style={{ display: 'flex', top: 40, left: 350 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.05} size={22} />
+          <Logo logoSrc={logoSrc} opacity={0.05} size={22} />
         </div>
 
-        {/* Scattered ducks -- sides */}
+        {/* Scattered logos -- sides */}
         <div tw="absolute" style={{ display: 'flex', top: 180, right: 40 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.06} size={24} />
+          <Logo logoSrc={logoSrc} opacity={0.06} size={24} />
         </div>
         <div tw="absolute" style={{ display: 'flex', top: 300, right: 80 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.08} size={32} />
+          <Logo logoSrc={logoSrc} opacity={0.08} size={32} />
         </div>
         <div tw="absolute" style={{ display: 'flex', top: 240, right: 200 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.04} size={18} />
+          <Logo logoSrc={logoSrc} opacity={0.04} size={18} />
         </div>
         <div tw="absolute" style={{ display: 'flex', top: 320, left: 30 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.06} size={26} />
+          <Logo logoSrc={logoSrc} opacity={0.06} size={26} />
         </div>
         <div tw="absolute" style={{ display: 'flex', top: 200, left: 40 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.04} size={18} />
+          <Logo logoSrc={logoSrc} opacity={0.04} size={18} />
         </div>
 
-        {/* Scattered ducks -- center-right */}
+        {/* Scattered logos -- center-right */}
         <div tw="absolute" style={{ display: 'flex', top: 400, right: 160 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.07} size={30} />
+          <Logo logoSrc={logoSrc} opacity={0.07} size={30} />
         </div>
         <div tw="absolute" style={{ display: 'flex', top: 140, right: 100 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.05} size={14} />
+          <Logo logoSrc={logoSrc} opacity={0.05} size={14} />
         </div>
 
-        {/* Scattered ducks -- bottom (more prominent) */}
+        {/* Scattered logos -- bottom (more prominent) */}
         <div tw="absolute" style={{ display: 'flex', bottom: 30, left: 100 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.12} size={36} />
+          <Logo logoSrc={logoSrc} opacity={0.12} size={36} />
         </div>
         <div tw="absolute" style={{ display: 'flex', bottom: 50, left: 250 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.07} size={22} />
+          <Logo logoSrc={logoSrc} opacity={0.07} size={22} />
         </div>
         <div tw="absolute" style={{ display: 'flex', bottom: 25, left: 420 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.09} size={28} />
+          <Logo logoSrc={logoSrc} opacity={0.09} size={28} />
         </div>
         <div tw="absolute" style={{ display: 'flex', bottom: 60, left: 600 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.05} size={18} />
+          <Logo logoSrc={logoSrc} opacity={0.05} size={18} />
         </div>
         <div tw="absolute" style={{ display: 'flex', bottom: 30, left: 750 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.08} size={24} />
+          <Logo logoSrc={logoSrc} opacity={0.08} size={24} />
         </div>
         <div tw="absolute" style={{ display: 'flex', bottom: 45, right: 400 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.06} size={20} />
+          <Logo logoSrc={logoSrc} opacity={0.06} size={20} />
         </div>
         <div tw="absolute" style={{ display: 'flex', bottom: 25, right: 200 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.1} size={34} />
+          <Logo logoSrc={logoSrc} opacity={0.1} size={34} />
         </div>
         <div tw="absolute" style={{ display: 'flex', bottom: 55, right: 80 }}>
-          <DuckLogo logoSrc={logoSrc} opacity={0.07} size={26} />
+          <Logo logoSrc={logoSrc} opacity={0.07} size={26} />
         </div>
 
         {/* Decorative dots */}

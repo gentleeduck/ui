@@ -3,7 +3,7 @@ import { mkdir, readFile, rename, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { dirname, join, resolve } from 'node:path'
 
-const CACHE_DIR_ENV_VAR = 'DUCK_UI_DOCS_MCP_CACHE_DIR'
+const CACHE_DIR_ENV_VAR = 'ACME_DOCS_MCP_CACHE_DIR'
 const PERSISTED_INDEX_VERSION = 1
 
 export interface PersistedDocsIndexEntry {

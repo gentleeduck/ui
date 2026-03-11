@@ -1163,7 +1163,7 @@ export function createMcpServer(): McpServer {
     'read_doc',
     'Read a documentation page. Returns clean markdown (MDX syntax stripped). Use mode="summary" for a headings-only overview that saves tokens, or mode="full" for complete content. Responses over 4000 chars are truncated — use section parameter to read specific parts.',
     {
-      slug: z.string().describe('Doc page slug, e.g. "components/button", "installation/next", "packages/duck-cli"'),
+      slug: z.string().describe('Doc page slug, e.g. "components/button", "installation/next", "packages/acme-cli"'),
       mode: z
         .enum(['full', 'summary'])
         .default('full')
