@@ -5,8 +5,8 @@
   },
   "author": "gentleduck contributors",
   "dependencies": {
-    "@vitejs/plugin-react-swc": "^3.11.0",
-    "tsdown": "0.21.1"
+    "@vitejs/plugin-react-swc": "^4.2.3",
+    "tsdown": "0.18.3"
   },
   "description": "Shared tsdown build configuration for gentleduck/ui.",
   "devDependencies": {

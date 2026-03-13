@@ -95,14 +95,12 @@ export default function CvaDemo() {
           <SelectContent>
             <SelectGroup>
               <SelectLabel>Size</SelectLabel>
-              <SelectItem value="icon">Icon</SelectItem>
-              <SelectItem value="xs">XS</SelectItem>
-              <SelectItem value="sm">SM</SelectItem>
               <SelectItem value="default">Default</SelectItem>
+              <SelectItem value="sm">SM</SelectItem>
               <SelectItem value="lg">LG</SelectItem>
-              <SelectItem value="xl">XL</SelectItem>
-              <SelectItem value="2xl">2XL</SelectItem>
-              <SelectItem value="3xl">3XL</SelectItem>
+              <SelectItem value="icon">Icon</SelectItem>
+              <SelectItem value="icon-sm">Icon SM</SelectItem>
+              <SelectItem value="icon-lg">Icon LG</SelectItem>
             </SelectGroup>
           </SelectContent>
         </Select>

@@ -105,10 +105,10 @@ The root component that manages open/closed state and provides context. Wraps th
 
 Button that toggles the dropdown menu. Renders a `<button>` with `aria-haspopup="menu"`.
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `asChild` | `boolean` | Render as the child element instead of a `<button>` |
-| `disabled` | `boolean` | Disables the trigger |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `asChild` | `boolean` | -- | Render as the child element instead of a `<button>` |
+| `disabled` | `boolean` | `false` | Disables the trigger |
 
 Sets `aria-expanded`, `aria-controls`, and `data-state` automatically.
 
@@ -159,11 +159,11 @@ Non-interactive label for a group.
 
 An interactive menu item. Fires `onSelect` when activated.
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `disabled` | `boolean` | Disable the item |
-| `onSelect` | `(event: Event) => void` | Called when item is selected |
-| `textValue` | `string` | Text override for typeahead search |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `disabled` | `boolean` | `false` | Disable the item |
+| `onSelect` | `(event: Event) => void` | -- | Called when item is selected |
+| `textValue` | `string` | -- | Text override for typeahead search |
 
 Exposes `data-highlighted` when focused and `data-disabled` when disabled.
 
@@ -171,33 +171,33 @@ Exposes `data-highlighted` when focused and `data-disabled` when disabled.
 
 A toggleable menu item with checked state.
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `checked` | `boolean \| 'indeterminate'` | Checked state |
-| `onCheckedChange` | `(checked: boolean) => void` | Called on toggle |
-| `disabled` | `boolean` | Disable the item |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `checked` | `boolean \| 'indeterminate'` | -- | Checked state |
+| `onCheckedChange` | `(checked: boolean) => void` | -- | Called on toggle |
+| `disabled` | `boolean` | `false` | Disable the item |
 
 ### `DropdownMenu.RadioGroup` / `DropdownMenu.RadioItem`
 
 Mutually exclusive menu items.
 
-| Prop (RadioGroup) | Type | Description |
-| --- | --- | --- |
-| `value` | `string` | Currently selected value |
-| `onValueChange` | `(value: string) => void` | Called when selection changes |
+| Prop (RadioGroup) | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | -- | Currently selected value |
+| `onValueChange` | `(value: string) => void` | -- | Called when selection changes |
 
-| Prop (RadioItem) | Type | Description |
-| --- | --- | --- |
-| `value` | `string` | Value for this item |
-| `disabled` | `boolean` | Disable the item |
+| Prop (RadioItem) | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | -- | Value for this item |
+| `disabled` | `boolean` | `false` | Disable the item |
 
 ### `DropdownMenu.ItemIndicator`
 
 Renders only when the parent item is checked. Use for check marks or radio dots.
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `forceMount` | `boolean` | Keep mounted for animation control |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `forceMount` | `boolean` | -- | Keep mounted for animation control |
 
 ### `DropdownMenu.Sub` / `DropdownMenu.SubTrigger` / `DropdownMenu.SubContent`
 

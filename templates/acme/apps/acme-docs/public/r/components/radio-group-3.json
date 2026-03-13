@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui/radio-group'\n\nexport default function RadioGroupRtlDemo() {\n  return (\n    <RadioGroup\n      dir=\"rtl\"\n      className=\"[&>div]:felx flex flex-col space-y-1 [&>div]:items-center [&>div]:space-x-3 [&>div]:space-y-0\"\n      defaultValue=\"comfortable\">\n      <RadioGroupItem value=\"default\">افتراضي</RadioGroupItem>\n      <RadioGroupItem value=\"comfortable\">مريح</RadioGroupItem>\n      <RadioGroupItem value=\"compact\">مضغوط</RadioGroupItem>\n    </RadioGroup>\n  )\n}\n",
+      "path": "radio-group/radio-group-3.tsx",
+      "target": "components/radio-group-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "radio-group-3",
+  "registryDependencies": [
+    "radio-group"
+  ],
+  "root_folder": "radio-group",
+  "source": "/registry-examples/src/radio-group",
+  "type": "registry:example"
+}

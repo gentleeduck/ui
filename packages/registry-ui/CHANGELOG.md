@@ -1,5 +1,13 @@
 # @gentleduck/registry-ui
 
+## 0.2.8
+
+### Patch Changes
+
+- e7ee580: fix(registry-ui): replace workspace:\* dependencies with published npm versions
+
+  The published package had `workspace:*` references that broke any consumer's install.
+
 ## 0.2.6
 
 ### Patch Changes

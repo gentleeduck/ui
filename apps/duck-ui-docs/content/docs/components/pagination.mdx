@@ -136,7 +136,7 @@ const PaginationLink = ({...props }: ) => (
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `dir` | `'ltr' \| 'rtl'` | `'ltr'` | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | `--` | Additional CSS classes for the `nav` element |
 | `...props` | `React.ComponentPropsWithoutRef<'nav'>` | -- | Additional props to spread to the nav element |
 

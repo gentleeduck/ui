@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { PreviewPanel } from '@gentleduck/registry-ui/preview-panel'\n\nexport default function PreviewPanelRtlDemo() {\n  return (\n    <PreviewPanel maxHeight=\"400px\" className=\"rounded-lg border bg-card\" dir=\"rtl\">\n      <div className=\"flex flex-col items-center gap-4 p-8\">\n        <div className=\"size-24 rounded-full bg-primary/20\" />\n        <h3 className=\"font-semibold text-lg\">تحريك وتكبير</h3>\n        <p className=\"text-muted-foreground text-sm\">اسحب للتحريك، مرر للتكبير، او استخدم ادوات التحكم.</p>\n      </div>\n    </PreviewPanel>\n  )\n}\n",
+      "path": "preview-panel/preview-panel-5.tsx",
+      "target": "components/preview-panel-5.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "preview-panel-5",
+  "registryDependencies": [
+    "preview-panel"
+  ],
+  "root_folder": "preview-panel",
+  "source": "/registry-examples/src/preview-panel",
+  "type": "registry:example"
+}

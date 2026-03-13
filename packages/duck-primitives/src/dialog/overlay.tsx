@@ -54,3 +54,4 @@ const DialogOverlayImpl = React.forwardRef<DialogOverlayImplElement, DialogOverl
     )
   },
 )
+DialogOverlayImpl.displayName = 'DialogOverlayImpl'

@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import {\n  AlertDialog,\n  AlertDialogAction,\n  AlertDialogCancel,\n  AlertDialogContent,\n  AlertDialogDescription,\n  AlertDialogFooter,\n  AlertDialogHeader,\n  AlertDialogTitle,\n  AlertDialogTrigger,\n} from '@gentleduck/registry-ui/alert-dialog'\nimport { Button } from '@gentleduck/registry-ui/button'\n\nexport default function AlertDialogRtlDemo() {\n  return (\n    <AlertDialog dir=\"rtl\">\n      <AlertDialogTrigger asChild>\n        <Button variant=\"outline\">فتح</Button>\n      </AlertDialogTrigger>\n      <AlertDialogContent>\n        <AlertDialogHeader>\n          <AlertDialogTitle>هل أنت متأكد تماما؟</AlertDialogTitle>\n          <AlertDialogDescription>\n            لا يمكن التراجع عن هذا الإجراء. سيؤدي هذا إلى حذف حسابك نهائيا وإزالة بياناتك من خوادمنا\n          </AlertDialogDescription>\n        </AlertDialogHeader>\n        <AlertDialogFooter>\n          <AlertDialogCancel asChild>\n            <Button variant=\"outline\">إلغاء</Button>\n          </AlertDialogCancel>\n          <AlertDialogAction asChild>\n            <Button>متابعة</Button>\n          </AlertDialogAction>\n        </AlertDialogFooter>\n      </AlertDialogContent>\n    </AlertDialog>\n  )\n}\n",
+      "path": "alert-dialog/alert-dialog-2.tsx",
+      "target": "components/alert-dialog-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "alert-dialog-2",
+  "registryDependencies": [
+    "alert-dialog"
+  ],
+  "root_folder": "alert-dialog",
+  "source": "/registry-examples/src/alert-dialog",
+  "type": "registry:example"
+}

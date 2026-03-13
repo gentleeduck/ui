@@ -114,13 +114,15 @@ npx @gentleduck/cli add button
 
 The command above will add the `Button` component to your project. You can then import it like this:
 
-```tsx title="app/routes/index.tsx" showLineNumbers {1,6}
+```tsx title="app/routes/index.tsx" showLineNumbers {1-2,7}
+import { createFileRoute } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
 
-function Home() {
-  const router = useRouter()
-  const state = Route.useLoaderData()
+export const Route = createFileRoute("/")({
+  component: Home,
+})
 
+function Home() {
   return (
     <div>
       <Button>Click me</Button>

@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Slider } from '@gentleduck/registry-ui/slider'\n\nexport default function Slider4() {\n  return (\n    <div className=\"mx-auto flex w-full max-w-xs items-center justify-center gap-6\">\n      <Slider defaultValue={[50]} max={100} step={1} orientation=\"vertical\" className=\"h-40\" />\n      <Slider defaultValue={[25]} max={100} step={1} orientation=\"vertical\" className=\"h-40\" />\n    </div>\n  )\n}\n",
+      "path": "slider/slider-4.tsx",
+      "target": "components/slider-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "slider-4",
+  "registryDependencies": [
+    "slider"
+  ],
+  "root_folder": "slider",
+  "source": "/registry-examples/src/slider",
+  "type": "registry:example"
+}

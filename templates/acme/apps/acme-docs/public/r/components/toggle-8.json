@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Toggle } from '@gentleduck/registry-ui/toggle'\nimport { Bold } from 'lucide-react'\n\nexport default function ToggleRtlDemo() {\n  return (\n    <Toggle aria-label=\"تبديل الخط العريض\" dir=\"rtl\">\n      <Bold className=\"h-4 w-4\" />\n    </Toggle>\n  )\n}\n",
+      "path": "toggle/toggle-8.tsx",
+      "target": "components/toggle-8.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "toggle-8",
+  "registryDependencies": [
+    "toggle"
+  ],
+  "root_folder": "toggle",
+  "source": "/registry-examples/src/toggle",
+  "type": "registry:example"
+}

@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport { Button } from '@gentleduck/registry-ui/button'\nimport {\n  Command,\n  CommandEmpty,\n  CommandGroup,\n  CommandInput,\n  CommandItem,\n  CommandList,\n} from '@gentleduck/registry-ui/command'\nimport { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'\nimport { Check, ChevronsUpDown } from 'lucide-react'\nimport * as React from 'react'\n\nconst options = [\n  { label: 'صفحة هبوط', value: 'landing' },\n  { label: 'لوحة تحكم', value: 'dashboard' },\n  { label: 'متجر إلكتروني', value: 'ecommerce' },\n  { label: 'مدونة', value: 'blog' },\n  { label: 'معرض أعمال', value: 'portfolio' },\n  { label: 'نظام حجوزات', value: 'booking' },\n]\n\nexport default function ComboboxRtlDemo() {\n  const [open, setOpen] = React.useState(false)\n  const [value, setValue] = React.useState('')\n\n  const selectedLabel = value ? options.find((x) => x.value === value)?.label : undefined\n\n  return (\n    <Popover dir=\"rtl\" onOpenChange={setOpen} open={open}>\n      <PopoverTrigger>\n        <Button aria-expanded={open} className=\"w-57.5 justify-between text-start\" role=\"combobox\" variant=\"outline\">\n          {selectedLabel ?? 'اختر نوع المشروع...'}\n          <ChevronsUpDown className=\"opacity-50\" />\n        </Button>\n      </PopoverTrigger>\n\n      <PopoverContent dir=\"rtl\" className=\"w-57.5 min-w-auto p-0\">\n        <Command dir=\"rtl\">\n          <CommandInput className=\"h-9 text-start\" placeholder=\"ابحث عن نوع المشروع...\" />\n\n          <CommandList>\n            <CommandEmpty>لم يتم العثور على نتائج.</CommandEmpty>\n\n            <CommandGroup>\n              {options.map((item) => (\n                <CommandItem\n                  key={item.value}\n                  value={item.value}\n                  className=\"text-start\"\n                  onSelect={(currentValue) => {\n                    setValue(currentValue === value ? '' : currentValue)\n                    setOpen(false)\n                  }}>\n                  {item.label}\n\n                  {/* logical margin so it works for RTL/LTR */}\n                  <Check className={cn('ms-auto', value === item.value ? 'opacity-100' : 'opacity-0')} />\n                </CommandItem>\n              ))}\n            </CommandGroup>\n          </CommandList>\n        </Command>\n      </PopoverContent>\n    </Popover>\n  )\n}\n",
+      "path": "combobox/combobox-7.tsx",
+      "target": "components/combobox-7.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "combobox-7",
+  "registryDependencies": [
+    "combobox"
+  ],
+  "root_folder": "combobox",
+  "source": "/registry-examples/src/combobox",
+  "type": "registry:example"
+}

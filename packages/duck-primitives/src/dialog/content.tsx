@@ -84,6 +84,8 @@ const DialogContentModal = React.forwardRef<DialogContentTypeElement, DialogCont
   },
 )
 
+DialogContentModal.displayName = 'DialogContentModal'
+
 const DialogContentNonModal = React.forwardRef<DialogContentTypeElement, DialogContentTypeProps>(
   (props: ScopedProps<DialogContentTypeProps>, forwardedRef) => {
     const context = useDialogContext(CONTENT_NAME, props.__scopeDialog)
@@ -125,6 +127,8 @@ const DialogContentNonModal = React.forwardRef<DialogContentTypeElement, DialogC
   },
 )
 
+DialogContentNonModal.displayName = 'DialogContentNonModal'
+
 const DialogContentImpl = React.forwardRef<DialogContentImplElement, DialogContentImplProps>(
   (props: ScopedProps<DialogContentImplProps>, forwardedRef) => {
     const { __scopeDialog, trapFocus, onOpenAutoFocus, onCloseAutoFocus, ...contentProps } = props
@@ -165,3 +169,4 @@ const DialogContentImpl = React.forwardRef<DialogContentImplElement, DialogConte
     )
   },
 )
+DialogContentImpl.displayName = 'DialogContentImpl'

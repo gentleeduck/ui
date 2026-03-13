@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "files": [
+    "*.json"
+  ],
+  "name": "@acme/typescript-config",
+  "author": "acme contributors",
+  "license": "MIT",
+  "homepage": "https://github.com/acme/acme-ui/tree/master/tooling/typescript#readme",
+  "bugs": {
+    "url": "https://github.com/acme/acme-ui/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/acme/acme-ui.git",
+    "directory": "tooling/typescript"
+  },
+  "private": true,
+  "version": "0.1.0"
+}

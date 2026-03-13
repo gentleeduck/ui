@@ -88,6 +88,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 | `value` | `string` | -- | Controlled active tab value. Must be used alongside `onValueChange` |
 | `defaultValue` | `string` | -- | Uncontrolled initial tab value |
 | `onValueChange` | `(value: string) => void` | -- | Callback fired when the active tab changes |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'defaultValue'>` | -- | Additional props to spread to the content div |
 
 ### TabsList
@@ -96,7 +97,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 | --- | --- | --- | --- |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | `TabsTrigger` elements |
-| `...props` | `React.HTMLProps<HTMLUListElement>` | -- | Additional props to spread to the ul element |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the container div (renders with `role="tablist"`) |
 
 ### TabsTrigger
 
@@ -107,7 +108,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 | `disabled` | `boolean` | -- | Disables the tab trigger from user interaction |
 | `className` | `string` | -- | Additional CSS class names |
 | `children` | `React.ReactNode` | -- | Label or node to render inside the tab |
-| `...props` | `React.HTMLProps<HTMLLIElement>` | -- | Additional props to spread to the li element |
+| `...props` | `React.HTMLProps<HTMLButtonElement>` | -- | Additional props to spread to the button element |
 
 ### TabsContent
 

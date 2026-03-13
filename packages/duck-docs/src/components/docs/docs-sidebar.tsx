@@ -60,7 +60,7 @@ const CategoryItem = ({ item, pathname }: { item: SidebarNavItem; pathname: stri
           </span>
         )}
       </div>
-      <div className="border-l">
+      <div className="border-l-2">
         {item?.items?.length && (
           <DocsSidebarNavItems accordionDefault={Boolean(item.collapsible)} items={item.items} pathname={pathname} />
         )}

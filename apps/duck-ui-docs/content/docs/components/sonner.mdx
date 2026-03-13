@@ -141,11 +141,11 @@ toast('Event has been created.')
   description="A toast component."
 />
 
-### Download
+### Upload
 
 <ComponentPreview
   name="sonner-3"
-  description="A download toast component."
+  description="An upload progress toast component."
 />
 
 ### Toast Types
@@ -170,6 +170,7 @@ The `Toaster` component wraps the `Sonner` `Toaster` from the `sonner` library, 
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `theme` | `'light' \| 'dark' \| 'system'` | `'system'` | Toast theme. Auto-detected from `next-themes` `useTheme()` |
 | `...props` | `ToasterProps` | -- | Additional props inherited from the `sonner` toaster. |
 

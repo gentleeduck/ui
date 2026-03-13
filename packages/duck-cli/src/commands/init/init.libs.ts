@@ -57,8 +57,10 @@ export async function init_command_action(args: string[], opt: InitOptions) {
 
     const components = await resolve_components(final_names, spinner)
 
-    const duckui_config = await get_duckui_config(cwd, spinner)
-    const project_cwd = resolve_project_cwd(cwd, duckui_config, options.workspace)
+    // In monorepo mode, config lives in the workspace directory
+    const config_cwd = options.workspace ? path.resolve(cwd, options.workspace) : cwd
+    const duckui_config = await get_duckui_config(config_cwd, spinner)
+    const project_cwd = resolve_project_cwd(config_cwd, duckui_config)
     const workspace_error = validate_workspace_target(project_cwd, true)
     if (workspace_error) {
       spinner.fail(workspace_error)
@@ -70,7 +72,7 @@ export async function init_command_action(args: string[], opt: InitOptions) {
     await registry_component_install(
       components,
       duckui_config,
-      { cwd, workspace: options.workspace, yes: options.yes, force: false },
+      { cwd: config_cwd, yes: options.yes, force: false },
       spinner,
     )
 

@@ -1,0 +1,6 @@
+pkgname=git
+pkgver=2.51.0
+pkgrel=1
+arch=('x86_64')
+pkgdesc='Git source control management tools'
+depends=('bash' 'openssl')

@@ -36,21 +36,38 @@ const transition = motionTransition(reduced, { duration: 240, easing: 'var(--duc
 
 ### CSS entrypoint
 
-- `@gentleduck/motion/css`: motion tokens and reduced-motion defaults.
+`@gentleduck/motion/css` provides motion tokens and `prefers-reduced-motion` defaults:
+
+- `--duck-motion-ease` — cubic-bezier easing curve
+- `--duck-motion-spring` — spring-like easing via `linear()` keyframe stops
+- `--duck-motion-dur` — default duration (150ms)
 
 ### `react`
 
-- `useDuckReducedMotion()`
-- `motionTransition(reduced, normal)`
-- `onDuckReducedMotionChange(callback)`
+- `useDuckReducedMotion()` — returns `boolean` indicating reduced motion preference
+- `motionTransition(reduced, normal)` — returns a transition object respecting reduced motion
+- `onDuckReducedMotionChange(callback)` — subscribe to reduced motion preference changes
+- `getDuckReducedMotionServerSnapshot()` — SSR-safe snapshot for reduced motion state
+
+### `motion`
+
+- `animateIn(element, keyframes, options)` — animate an element with Web Animations API
+- `motion` — alias for `animateIn`
+
+### `anim`
+
+- `AnimVariants` — CVA variant utility for animation classes
+- `checkersStylePattern` — CVA variant utility for checkbox/radio/switch patterns
+
+### `easing`
+
+- `duckEasing` — easing curve value
+- `duckDuration` — duration value
+- `duckMotionCssVar` — CSS variable references
+- `ease` — backward-compatible alias for easing
+- `spring` — backward-compatible alias for spring easing
 
 ### `waapi`
 
-- `prefersReducedMotion()`
-- `animateIfAllowed(element, keyframes, options, reducedMotion?)`
-
-### Tokens
-
-- `duckEasing`
-- `duckDuration`
-- `duckMotionCssVar`
+- `prefersReducedMotion()` — check reduced motion preference
+- `animateIfAllowed(element, keyframes, options, reducedMotion?)` — animate only when motion is allowed

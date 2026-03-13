@@ -1,0 +1,38 @@
+[
+  {
+    "arch": "x86_64",
+    "conflicts": [],
+    "depends": ["glibc"],
+    "description": "The GNU Bourne Again shell",
+    "files": ["/usr/bin/bash", "/usr/share/man/man1/bash.1.gz"],
+    "licenses": ["GPL"],
+    "name": "bash",
+    "provides": ["sh"],
+    "repo": "core",
+    "version": "5.2.037-1"
+  },
+  {
+    "arch": "x86_64",
+    "conflicts": [],
+    "depends": ["bash", "glibc"],
+    "description": "Command line fuzzy finder",
+    "files": ["/usr/bin/fzf", "/usr/share/licenses/fzf/LICENSE"],
+    "licenses": ["MIT"],
+    "name": "fzf",
+    "provides": [],
+    "repo": "extra",
+    "version": "0.67.0-1"
+  },
+  {
+    "arch": "x86_64",
+    "conflicts": [],
+    "depends": ["bash", "openssl"],
+    "description": "Git source control management tools",
+    "files": ["/usr/bin/git", "/usr/share/man/man1/git.1.gz"],
+    "licenses": ["GPL-2.0-only"],
+    "name": "git",
+    "provides": ["git-core"],
+    "repo": "extra",
+    "version": "2.51.0-1"
+  }
+]

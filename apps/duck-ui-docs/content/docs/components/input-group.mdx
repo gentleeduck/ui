@@ -223,6 +223,7 @@ The root container that wraps inputs and addons into a unified group with shared
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | `--` | Additional CSS classes to apply |
 | `children` | `React.ReactNode` | `--` | InputGroup sub-components to render inside the group |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
@@ -271,6 +272,7 @@ Replacement for `<Input />` when building input groups. Has input group styles p
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | `--` | Additional CSS classes to apply |
 | `...props` | `React.HTMLProps<HTMLInputElement>` | -- | Additional props to spread to the input element |
 
@@ -280,6 +282,7 @@ Replacement for `<Textarea />` when building input groups. Has textarea group st
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | `--` | Additional CSS classes to apply |
 | `...props` | `React.HTMLProps<HTMLTextAreaElement>` | -- | Additional props to spread to the textarea element |
 

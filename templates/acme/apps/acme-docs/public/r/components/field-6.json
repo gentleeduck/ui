@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Field, FieldDescription, FieldGroup, FieldLabel, FieldLegend, FieldSet } from '@gentleduck/registry-ui/field'\nimport { Input } from '@gentleduck/registry-ui/input'\n\nexport default function FieldFieldset() {\n  return (\n    <div className=\"w-full max-w-md space-y-6\">\n      <FieldSet>\n        <FieldLegend>Address Information</FieldLegend>\n        <FieldDescription>We need your address to deliver your order.</FieldDescription>\n        <FieldGroup>\n          <Field>\n            <FieldLabel htmlFor=\"street\">Street Address</FieldLabel>\n            <Input id=\"street\" placeholder=\"123 Main St\" type=\"text\" />\n          </Field>\n          <div className=\"grid grid-cols-2 gap-4\">\n            <Field>\n              <FieldLabel htmlFor=\"city\">City</FieldLabel>\n              <Input id=\"city\" placeholder=\"New York\" type=\"text\" />\n            </Field>\n            <Field>\n              <FieldLabel htmlFor=\"zip\">Postal Code</FieldLabel>\n              <Input id=\"zip\" placeholder=\"90502\" type=\"text\" />\n            </Field>\n          </div>\n        </FieldGroup>\n      </FieldSet>\n    </div>\n  )\n}\n",
+      "path": "field/field-6.tsx",
+      "target": "components/field-6.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "field-6",
+  "registryDependencies": [
+    "field"
+  ],
+  "root_folder": "field",
+  "source": "/registry-examples/src/field",
+  "type": "registry:example"
+}

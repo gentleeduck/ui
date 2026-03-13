@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui/avatar'\nimport { Button } from '@gentleduck/registry-ui/button'\nimport {\n  DropdownMenu,\n  DropdownMenuContent,\n  DropdownMenuItem,\n  DropdownMenuTrigger,\n} from '@gentleduck/registry-ui/dropdown-menu'\nimport { Item, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@gentleduck/registry-ui/item'\nimport { ChevronDownIcon } from 'lucide-react'\n\nconst workspaces = [\n  {\n    avatar: 'https://avatar.vercel.sh/ducklabs',\n    description: '12 members',\n    name: 'Duck Labs',\n  },\n  {\n    avatar: 'https://avatar.vercel.sh/starter',\n    description: '5 members',\n    name: 'Starter Kit',\n  },\n  {\n    avatar: 'https://avatar.vercel.sh/oss',\n    description: '28 members',\n    name: 'Open Source Org',\n  },\n]\n\nexport default function ItemDropdown() {\n  return (\n    <div className=\"flex min-h-64 w-full max-w-md flex-col items-center gap-6\">\n      <DropdownMenu>\n        <DropdownMenuTrigger asChild>\n          <Button className=\"w-fit\" size=\"sm\" variant=\"outline\">\n            Switch Workspace <ChevronDownIcon aria-hidden=\"true\" />\n          </Button>\n        </DropdownMenuTrigger>\n        <DropdownMenuContent align=\"end\" className=\"w-72 [--radius:0.65rem]\" side=\"bottom\">\n          {workspaces.map((workspace) => (\n            <DropdownMenuItem className=\"p-0\" key={workspace.name}>\n              <Item className=\"w-full p-2\" size=\"sm\">\n                <ItemMedia>\n                  <Avatar className=\"size-8\">\n                    <AvatarImage alt={workspace.name} src={workspace.avatar} />\n                    <AvatarFallback>{workspace.name.charAt(0)}</AvatarFallback>\n                  </Avatar>\n                </ItemMedia>\n                <ItemContent className=\"gap-0.5\">\n                  <ItemTitle>{workspace.name}</ItemTitle>\n                  <ItemDescription>{workspace.description}</ItemDescription>\n                </ItemContent>\n              </Item>\n            </DropdownMenuItem>\n          ))}\n        </DropdownMenuContent>\n      </DropdownMenu>\n    </div>\n  )\n}\n",
+      "path": "item/item-10.tsx",
+      "target": "components/item-10.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "item-10",
+  "registryDependencies": [
+    "item"
+  ],
+  "root_folder": "item",
+  "source": "/registry-examples/src/item",
+  "type": "registry:example"
+}

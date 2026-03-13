@@ -54,7 +54,7 @@ Here's a basic example of a form using the `<Controller />` component from React
       <FieldDescription>
         Provide a concise title for your bug report.
       </FieldDescription>
-      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+      {fieldState.invalid && fieldState.error && <FieldError errors={[fieldState.error]} />}
     </Field>
   )}
 />
@@ -200,7 +200,7 @@ Display errors next to the field using `<FieldError />`. For styling and accessi
         type="email"
         aria-invalid={fieldState.invalid}
       />
-      {fieldState.invalid && <FieldError errors={[fieldState.error]} />}
+      {fieldState.invalid && fieldState.error && <FieldError errors={[fieldState.error]} />}
     </Field>
   )}
 />

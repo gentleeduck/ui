@@ -203,6 +203,7 @@ Use with a `Popover` component.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction of the button group |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Grouped content (buttons, separators, text, or nested groups) |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |

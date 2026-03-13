@@ -51,7 +51,7 @@ const ts_config_base = `{
     "jsx": "preserve",
     "paths": {
       "~/*": [
-        "./*"
+        "./src/*"
       ]
     }PLUGINS_PLACEHOLDER
   },

@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@gentleduck/registry-ui/item'\nimport { HardDriveIcon } from 'lucide-react'\n\nexport default function ItemIcon() {\n  return (\n    <div className=\"flex w-full max-w-lg flex-col gap-6\">\n      <Item variant=\"outline\">\n        <ItemMedia variant=\"icon\">\n          <HardDriveIcon />\n        </ItemMedia>\n        <ItemContent>\n          <ItemTitle>Storage Almost Full</ItemTitle>\n          <ItemDescription>You have used 48.2 GB of 50 GB. Free up space or upgrade your plan.</ItemDescription>\n        </ItemContent>\n        <ItemActions>\n          <Button size=\"sm\" variant=\"outline\">\n            Manage\n          </Button>\n        </ItemActions>\n      </Item>\n    </div>\n  )\n}\n",
+      "path": "item/item-4.tsx",
+      "target": "components/item-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "item-4",
+  "registryDependencies": [
+    "item"
+  ],
+  "root_folder": "item",
+  "source": "/registry-examples/src/item",
+  "type": "registry:example"
+}

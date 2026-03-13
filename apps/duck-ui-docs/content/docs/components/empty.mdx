@@ -161,6 +161,7 @@ The main component of the empty state. Wraps the `EmptyHeader` and `EmptyContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | `--` | Additional CSS classes |
 | `children` | `React.ReactNode` | `--` | Empty state content |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
@@ -204,7 +205,7 @@ Use the `EmptyDescription` component to display the description of the empty sta
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes |
 | `children` | `React.ReactNode` | `--` | Description text |
-| `...props` | `React.HTMLProps<HTMLParagraphElement>` | -- | Additional props to spread to the p element |
+| `...props` | `React.ComponentProps<'p'>` | -- | Additional props to spread to the description element (renders as a `div`) |
 
 ### EmptyContent
 

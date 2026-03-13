@@ -1,0 +1,9 @@
+{
+  "black": "#000",
+  "zinc": {
+    "hsl": "hsl(1,2%,3%)",
+    "rgb": "rgb(1,2,3)",
+    "hslChannel": "1 2% 3%",
+    "rgbChannel": "1 2 3"
+  }
+}

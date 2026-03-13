@@ -21,7 +21,6 @@
     "node_modules",
     "dist",
     "src/**/__test__/**",
-    "src/**/__test__/**",
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.tsbuildinfo",

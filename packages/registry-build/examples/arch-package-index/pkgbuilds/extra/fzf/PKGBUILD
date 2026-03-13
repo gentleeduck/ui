@@ -1,0 +1,6 @@
+pkgname=fzf
+pkgver=0.67.0
+pkgrel=1
+arch=('x86_64')
+pkgdesc='Command line fuzzy finder'
+depends=('bash' 'glibc')

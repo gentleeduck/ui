@@ -1,0 +1,24 @@
+{
+  "dependencies": [
+    "@gentleduck/libs",
+    "@gentleduck/primitives"
+  ],
+  "files": [
+    {
+      "content": "export * from './textarea'\n",
+      "path": "textarea/index.ts",
+      "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    },
+    {
+      "content": "import { cn } from '@gentleduck/libs/cn'\nimport { type Direction, useDirection } from '@gentleduck/primitives/direction'\nimport * as React from 'react'\n\nconst Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>(\n  ({ className, dir, ...props }, ref) => {\n    const direction = useDirection(dir as Direction)\n    return (\n      <textarea\n        className={cn(\n          'field-sizing-content flex min-h-16 w-full rounded-md border border-input bg-transparent px-3 py-2 text-base outline-none transition-colors placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-1 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-1 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 dark:disabled:bg-input/80',\n          className,\n        )}\n        data-slot=\"textarea\"\n        dir={direction}\n        ref={ref}\n        {...props}\n      />\n    )\n  },\n)\nTextarea.displayName = 'Textarea'\n\nexport { Textarea }\n",
+      "path": "textarea/textarea.tsx",
+      "target": "components/ui/textarea.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "textarea",
+  "root_folder": "textarea",
+  "source": "/registry-ui/src/textarea",
+  "type": "registry:ui"
+}

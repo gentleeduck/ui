@@ -96,9 +96,9 @@ function MyImageComponent() {
 | `src` | `string` | (required) | URL of the image |
 | `placeholder` | `string` | -- | Placeholder URL while loading |
 | `alt` | `string` | (required) | Accessible description |
-| `width` | `number` | (required) | Image width |
-| `height` | `number` | (required) | Image height |
-| `options` | `IntersectionObserverInit` | -- | IntersectionObserver options |
+| `width` | `number` | `200` | Image width |
+| `height` | `number` | `200` | Image height |
+| `options` | `IntersectionObserverInit` | `{ rootMargin: '200px', threshold: 0.1 }` | IntersectionObserver options |
 | `nextImage` | `boolean` | -- | Enables Next.js `next/image` optimization |
 
 ---
@@ -131,7 +131,7 @@ function MyComponent() {
 | Name | Type | Description |
 | --- | --- | --- |
 | `isVisible` | `boolean` | Whether the element is visible in the viewport |
-| `ComponentRef` | `React.Ref` | Ref to attach to the observed element |
+| `ComponentRef` | `React.RefObject<HTMLDivElement \| null>` | Ref to attach to the observed element |
 
 ---
 
@@ -164,7 +164,7 @@ function LazyImage({ src, placeholder }) {
 | Name | Type | Description |
 | --- | --- | --- |
 | `isLoaded` | `boolean` | Whether the image has finished loading |
-| `imageRef` | `React.Ref` | Ref to attach to the `<img>` element |
+| `imageRef` | `React.RefObject<HTMLImageElement \| null>` | Ref to attach to the `<img>` element |
 
 ---
 
@@ -237,7 +237,5 @@ Works as a drop-in replacement for `<img>` in plain React apps.
 
 ## Accessibility Features
 
-* `aria-live="polite"` -> announces loading state
-* `aria-hidden` -> hides placeholders from AT
-* `role="img"` + `aria-label` for screen readers
-* `aria-atomic` + `aria-relevant` for granular updates
+* `aria-live="polite"` — announces loading state changes via an `<output>` element
+* `aria-hidden` — hides placeholders from assistive technology
