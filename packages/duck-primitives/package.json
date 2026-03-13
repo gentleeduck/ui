@@ -19,7 +19,7 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "mini-svg-data-uri": "^1.4.4",
-    "tsdown": "0.18.3"
+    "tsdown": "0.21.1"
   },
   "exports": {
     "./hooks/*": "./dist/hooks/*.js",

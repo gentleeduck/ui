@@ -13,7 +13,7 @@
     "@gentleduck/typescript-config": "workspace:*",
     "clsx": "^2.1.1",
     "cva": "1.0.0-beta.3",
-    "tsdown": "0.18.3",
+    "tsdown": "0.21.1",
     "typescript": "5.9.3",
     "vitest": "^4.0.18"
   },
