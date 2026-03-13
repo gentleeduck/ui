@@ -343,6 +343,7 @@ See the [Embla Carousel docs](https://www.embla-carousel.com/api/plugins/) for m
 | `opts` | `CarouselOptions` | -- | Configuration options passed to `embla-carousel` |
 | `plugins` | `CarouselPlugin` | -- | Array of Embla plugins |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Carousel axis direction |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `setApi` | `(api: CarouselApi) => void` | -- | Callback to expose the Embla API |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
 
@@ -368,6 +369,7 @@ See the [Embla Carousel docs](https://www.embla-carousel.com/api/plugins/) for m
 | --- | --- | --- | --- |
 | `variant` | `string` | `'outline'` | Variant prop for the `Button` component |
 | `size` | `string` | `'icon'` | Size prop for the `Button` component |
+| `text` | `string` | `'Previous slide'` | Accessible label for the button (`aria-label`) |
 | `...props` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Additional props inherited from `Button`. |
 
 ### CarouselNext
@@ -376,6 +378,7 @@ See the [Embla Carousel docs](https://www.embla-carousel.com/api/plugins/) for m
 | --- | --- | --- | --- |
 | `variant` | `string` | `'outline'` | Variant prop for the `Button` component |
 | `size` | `string` | `'icon'` | Size prop for the `Button` component |
+| `text` | `string` | `'Next slide'` | Accessible label for the button (`aria-label`) |
 | `...props` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Additional props inherited from `Button`. |
 
 ### Types

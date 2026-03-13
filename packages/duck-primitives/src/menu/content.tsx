@@ -126,6 +126,8 @@ const MenuRootContentModal = React.forwardRef<MenuRootContentTypeElement, MenuRo
   },
 )
 
+MenuRootContentModal.displayName = 'MenuRootContentModal'
+
 const MenuRootContentNonModal = React.forwardRef<MenuRootContentTypeElement, MenuRootContentTypeProps>(
   (props: ScopedProps<MenuRootContentTypeProps>, forwardedRef) => {
     const context = useMenuContext(CONTENT_NAME, props.__scopeMenu)
@@ -141,6 +143,8 @@ const MenuRootContentNonModal = React.forwardRef<MenuRootContentTypeElement, Men
     )
   },
 )
+
+MenuRootContentNonModal.displayName = 'MenuRootContentNonModal'
 
 type FocusScopeProps = React.ComponentPropsWithoutRef<typeof FocusScope>
 type DismissableLayerProps = React.ComponentPropsWithoutRef<typeof DismissableLayer>
@@ -379,6 +383,8 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, MenuContentImpl
     )
   },
 )
+
+MenuContentImpl.displayName = 'MenuContentImpl'
 
 export { MenuContentProvider, useMenuContentContext, MenuContent, MenuContentImpl }
 export type { MenuContentProps, MenuContentImplProps, MenuContentImplPrivateProps, MenuContentImplElement }

@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@gentleduck/registry-ui/card'\nimport { DirectionProvider } from '@gentleduck/registry-ui/direction'\nimport { Input } from '@gentleduck/registry-ui/input'\nimport { Label } from '@gentleduck/registry-ui/label'\nimport { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'\n\nexport default function CardRtlDemo() {\n  return (\n    <DirectionProvider dir=\"rtl\">\n      <Card className=\"w-[350px]\" dir=\"rtl\">\n        <CardHeader>\n          <CardTitle>إنشاء مشروع</CardTitle>\n          <CardDescription>انشر مشروعك الجديد بنقرة واحدة.</CardDescription>\n        </CardHeader>\n\n        <CardContent>\n          <form>\n            <div className=\"grid w-full items-center gap-4\">\n              <div className=\"flex flex-col space-y-1.5\">\n                <Label htmlFor=\"name\">الاسم</Label>\n                <Input id=\"name\" placeholder=\"اسم مشروعك\" />\n              </div>\n\n              <div className=\"flex flex-col space-y-1.5\">\n                <Label htmlFor=\"framework\">نوع المشروع</Label>\n\n                <Select dir=\"rtl\">\n                  <SelectTrigger id=\"framework\" className=\"w-full\">\n                    <SelectValue placeholder=\"اختر نوع المشروع\" />\n                  </SelectTrigger>\n\n                  <SelectContent>\n                    <SelectItem value=\"landing\">صفحة هبوط</SelectItem>\n                    <SelectItem value=\"dashboard\">لوحة تحكم</SelectItem>\n                    <SelectItem value=\"ecommerce\">متجر إلكتروني</SelectItem>\n                    <SelectItem value=\"portfolio\">معرض أعمال</SelectItem>\n                    <SelectItem value=\"blog\">مدونة</SelectItem>\n                    <SelectItem value=\"mobile-app\">تطبيق موبايل</SelectItem>\n                  </SelectContent>\n                </Select>\n              </div>\n            </div>\n          </form>\n        </CardContent>\n\n        <CardFooter className=\"flex\">\n          <Button variant=\"outline\">إلغاء</Button>\n          <Button>نشر</Button>\n        </CardFooter>\n      </Card>\n    </DirectionProvider>\n  )\n}\n",
+      "path": "card/card-3.tsx",
+      "target": "components/card-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "card-3",
+  "registryDependencies": [
+    "card"
+  ],
+  "root_folder": "card",
+  "source": "/registry-examples/src/card",
+  "type": "registry:example"
+}

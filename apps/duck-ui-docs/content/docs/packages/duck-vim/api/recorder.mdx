@@ -66,12 +66,12 @@ new KeyRecorder(options?: KeyRecorderOptions)
 
 The callbacks are optional. `onRecord` fires every time the user presses a non-modifier key while holding modifiers.
 
-### `start(target?)`
+### `start(target = document)`
 
 Begin recording on the given target. Defaults to `document`. Calls `event.preventDefault()` and `event.stopPropagation()` on all key events while recording, so the user's keystrokes do not trigger other bindings.
 
 ```ts
-recorder.start(target?: HTMLElement | Document): void
+recorder.start(target: HTMLElement | Document = document): void
 ```
 
 <Callout icon={<TriangleAlert />}>

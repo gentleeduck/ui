@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Slider } from '@gentleduck/registry-ui/slider'\n\nexport default function SliderRange() {\n  return <Slider defaultValue={[25, 50]} max={100} step={5} className=\"mx-auto w-full max-w-xs\" />\n}\n",
+      "path": "slider/slider-2.tsx",
+      "target": "components/slider-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "slider-2",
+  "registryDependencies": [
+    "slider"
+  ],
+  "root_folder": "slider",
+  "source": "/registry-examples/src/slider",
+  "type": "registry:example"
+}

@@ -114,6 +114,7 @@ If you have a single sidebar in your application, you can use the `SIDEBAR_WIDTH
 ```tsx showLineNumbers title="components/ui/sidebar.tsx"
 const SIDEBAR_WIDTH = "16rem"
 const SIDEBAR_WIDTH_MOBILE = "18rem"
+const SIDEBAR_WIDTH_ICON = "3rem"
 ```
 
 For multiple sidebars in your application, you can use the `--sidebar-width` and `--sidebar-width-mobile` CSS variables in the `style` prop.
@@ -145,12 +146,14 @@ The main `Sidebar` component used to render a collapsible sidebar.
 
 ### Props
 
-| Property      | Type                              | Description                            |
-| ------------- | --------------------------------- | -------------------------------------- |
-| `side`        | `left` or `right`                 | The side of the sidebar.               |
-| `variant`     | `sidebar`, `floating`, or `inset` | The variant of the sidebar.            |
-| `collapsible` | `offcanvas`, `icon`, or `none`    | Collapsible state of the sidebar.      |
-| `dir`         | `ltr` or `rtl`                    | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| Property | Type | Default | Description |
+| --- | --- | --- | --- |
+| `side` | `'left' \| 'right'` | `'left'` | The side of the sidebar. |
+| `variant` | `'sidebar' \| 'floating' \| 'inset'` | `'sidebar'` | The variant of the sidebar. |
+| `collapsible` | `'offcanvas' \| 'icon' \| 'none'` | `'offcanvas'` | Collapsible state of the sidebar. |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection`. |
+| `mobileTitle` | `string` | `'Sidebar'` | Title for the mobile sheet dialog. |
+| `mobileDescription` | `string` | `'Displays the mobile sidebar.'` | Description for the mobile sheet dialog. |
 
 | Prop        | Description                                                  |
 | ----------- | ------------------------------------------------------------ |
@@ -219,6 +222,7 @@ export function AppSidebar() {
 | `setOpenMobile` | `(open: boolean) => void` | Sets the open state of the sidebar on mobile. |
 | `isMobile`      | `boolean`                 | Whether the sidebar is on mobile.             |
 | `toggleSidebar` | `() => void`              | Toggles the sidebar. Desktop and mobile.      |
+| `dir`           | `'ltr' \| 'rtl'`          | The resolved text direction.                  |
 
 ## SidebarHeader
 

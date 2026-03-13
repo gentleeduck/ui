@@ -128,6 +128,8 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `viewportRef` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the inner scrollable viewport element |
 | `viewportClassName` | `string` | `--` | Additional CSS classes for the inner scrollable viewport |
 | `className` | `string` | `--` | Additional CSS classes for the outer container |
 | `style` | `React.CSSProperties` | `--` | Inline styles for the outer container |

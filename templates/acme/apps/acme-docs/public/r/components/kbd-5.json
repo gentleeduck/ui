@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { InputGroup, InputGroupAddon, InputGroupInput } from '@gentleduck/registry-ui/input-group'\nimport { Kbd } from '@gentleduck/registry-ui/kbd'\nimport { SearchIcon } from 'lucide-react'\n\nexport default function KbdDemo() {\n  return (\n    <div className=\"flex w-full max-w-xs flex-col gap-6\">\n      <InputGroup>\n        <InputGroupInput placeholder=\"Quick find...\" />\n        <InputGroupAddon>\n          <SearchIcon />\n        </InputGroupAddon>\n        <InputGroupAddon align=\"inline-end\">\n          <Kbd>Ctrl</Kbd>\n          <Kbd>/</Kbd>\n        </InputGroupAddon>\n      </InputGroup>\n    </div>\n  )\n}\n",
+      "path": "kbd/kbd-5.tsx",
+      "target": "components/kbd-5.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "kbd-5",
+  "registryDependencies": [
+    "kbd"
+  ],
+  "root_folder": "kbd",
+  "source": "/registry-examples/src/kbd",
+  "type": "registry:example"
+}

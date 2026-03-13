@@ -103,8 +103,8 @@ Content displayed when the image has not loaded. Typically initials or an icon.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `imgs` | `{ src?: string; alt?: string; fallback?: string; id?: string }[]` | (required) | Array of avatar data objects |
-| `maxVisible` | `number` | `3` | Maximum number of avatars to display before showing overflow count |
+| `imgs` | `{ src?: string; alt?: string; fallback?: string; id?: string }[]` | (required) | Array of avatar data objects. Fallback text is truncated to 2 characters. |
+| `maxVisible` | `number` | `3` | Maximum number of avatars to display before showing a `+N` overflow counter |
 | `className` | `string` | -- | Additional class names for styling the avatar group container |
 | `...props` | `React.HTMLAttributes<HTMLDivElement>` | -- | Additional props to spread to the container div |
 

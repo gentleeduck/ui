@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui/avatar'\nimport { Button } from '@gentleduck/registry-ui/button'\nimport { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@gentleduck/registry-ui/item'\nimport { UserPlusIcon } from 'lucide-react'\n\nexport default function ItemAvatar() {\n  return (\n    <div className=\"flex w-full max-w-lg flex-col gap-6\">\n      <Item variant=\"outline\">\n        <ItemMedia>\n          <Avatar className=\"size-10\">\n            <AvatarImage alt=\"profile picture for alexchen\" src=\"https://avatar.vercel.sh/alexchen\" />\n            <AvatarFallback>AC</AvatarFallback>\n          </Avatar>\n        </ItemMedia>\n        <ItemContent>\n          <ItemTitle>Alex Chen</ItemTitle>\n          <ItemDescription>Frontend Engineer -- joined 3 weeks ago</ItemDescription>\n        </ItemContent>\n        <ItemActions>\n          <Button aria-label=\"Follow\" className=\"rounded-full\" size=\"icon-sm\" variant=\"outline\">\n            <UserPlusIcon />\n          </Button>\n        </ItemActions>\n      </Item>\n      <Item variant=\"outline\">\n        <ItemMedia>\n          <div className=\"flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale\">\n            <Avatar className=\"hidden sm:flex\">\n              <AvatarImage alt=\"sara\" src=\"https://avatar.vercel.sh/sara\" />\n              <AvatarFallback>SM</AvatarFallback>\n            </Avatar>\n            <Avatar className=\"hidden sm:flex\">\n              <AvatarImage alt=\"omar\" src=\"https://avatar.vercel.sh/omar\" />\n              <AvatarFallback>OK</AvatarFallback>\n            </Avatar>\n            <Avatar className=\"hidden sm:flex\">\n              <AvatarImage alt=\"liwei\" src=\"https://avatar.vercel.sh/liwei\" />\n              <AvatarFallback>LW</AvatarFallback>\n            </Avatar>\n          </div>\n        </ItemMedia>\n        <ItemContent>\n          <ItemTitle>Design Review Group</ItemTitle>\n          <ItemDescription>3 reviewers awaiting your feedback on the mockups.</ItemDescription>\n        </ItemContent>\n        <ItemActions>\n          <Button size=\"sm\" variant=\"outline\">\n            Review\n          </Button>\n        </ItemActions>\n      </Item>\n    </div>\n  )\n}\n",
+      "path": "item/item-5.tsx",
+      "target": "components/item-5.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "item-5",
+  "registryDependencies": [
+    "item"
+  ],
+  "root_folder": "item",
+  "source": "/registry-examples/src/item",
+  "type": "registry:example"
+}

@@ -448,6 +448,7 @@ This will install the latest version of the calendar blocks.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `buttonVariant` | `React.ComponentProps<typeof Button>['variant']` | `'ghost'` | Variant style for the calendar's navigation buttons |
 | `className` | `string` | -- | Additional class names for the root calendar container |
 | `classNames` | `Partial<ReturnType<typeof getDefaultClassNames>>` | -- | Overrides for internal DayPicker class names |

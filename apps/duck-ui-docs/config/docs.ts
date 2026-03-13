@@ -229,6 +229,95 @@ export const docsConfig: DocsConfig = {
           title: 'Gentleduck CLI',
         },
         {
+          href: '/docs/packages/duck-registry-build',
+          collapsible: true,
+          label: 'new',
+          items: [
+            {
+              href: '/docs/packages/duck-registry-build',
+              items: [],
+              title: 'Overview',
+            },
+            {
+              href: '/docs/packages/duck-registry-build/getting-started',
+              items: [],
+              title: 'Getting Started',
+            },
+            {
+              href: '/docs/packages/duck-registry-build/architecture',
+              items: [],
+              title: 'Architecture',
+            },
+            {
+              href: '/docs/packages/duck-registry-build/reference',
+              collapsible: true,
+              items: [
+                {
+                  href: '/docs/packages/duck-registry-build/configuration',
+                  items: [],
+                  title: 'Configuration',
+                },
+                {
+                  href: '/docs/packages/duck-registry-build/extensions',
+                  items: [],
+                  title: 'Extensions',
+                },
+                {
+                  href: '/docs/packages/duck-registry-build/cli',
+                  items: [],
+                  title: 'CLI',
+                },
+              ],
+              title: 'Reference',
+            },
+            {
+              href: '/docs/packages/duck-registry-build/operations',
+              collapsible: true,
+              items: [
+                {
+                  href: '/docs/packages/duck-registry-build/performance',
+                  items: [],
+                  title: 'Performance',
+                },
+                {
+                  href: '/docs/packages/duck-registry-build/testing-ci',
+                  items: [],
+                  title: 'Testing and CI',
+                },
+                {
+                  href: '/docs/packages/duck-registry-build/troubleshooting',
+                  items: [],
+                  title: 'Troubleshooting',
+                },
+              ],
+              title: 'Operations',
+            },
+            {
+              href: '/docs/packages/duck-registry-build/recipes',
+              items: [],
+              title: 'Recipes',
+            },
+            {
+              href: '/docs/packages/duck-registry-build/course',
+              collapsible: true,
+              items: [
+                {
+                  href: '/docs/packages/duck-registry-build/course',
+                  items: [],
+                  title: 'Overview',
+                },
+                {
+                  href: '/docs/packages/duck-registry-build/course-arch-package-index',
+                  items: [],
+                  title: 'Arch Package Index',
+                },
+              ],
+              title: 'Course',
+            },
+          ],
+          title: 'Gentleduck Registry Build',
+        },
+        {
           href: '/docs/packages/duck-lazy',
           items: [],
           title: 'Gentleduck Lazy',

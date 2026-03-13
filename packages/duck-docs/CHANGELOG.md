@@ -1,5 +1,23 @@
 # @gentleduck/docs
 
+## 0.2.7
+
+### Patch Changes
+
+- 5e8d19f: fix header backdrop
+
+## 0.2.6
+
+### Patch Changes
+
+- 43817f1: Move DocsPathBreadcrumb component from duck-ui-docs app to @gentleduck/docs package
+
+## 0.2.5
+
+### Patch Changes
+
+- 9afd136: Fix copy button icon sizing in DocsCopyPage — add explicit size-3.5 to Copy, Check, and ChevronDown icons.
+
 ## 0.2.4
 
 ### Patch Changes

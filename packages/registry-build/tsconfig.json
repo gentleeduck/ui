@@ -7,6 +7,7 @@
   "exclude": [
     "node_modules",
     "dist",
+    "**/__fixtures__/**",
     "**/__test__/**",
     "**/__test__/**",
     "**/*.test.ts",

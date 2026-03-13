@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "compilerOptions": {
+    "declaration": true,
+    "declarationMap": true,
+    "emitDeclarationOnly": true,
+    "esModuleInterop": true,
+    "module": "Preserve",
+    "moduleResolution": "Bundler",
+    "noEmit": false
+  },
+  "extends": "./base.json"
+}

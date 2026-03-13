@@ -1,0 +1,23 @@
+{
+  "dependencies": [
+    "@gentleduck/primitives"
+  ],
+  "files": [
+    {
+      "content": "'use client'\n\nimport {\n  DIRECTION_DICTIONARY,\n  type Direction,\n  DirectionContext,\n  DirectionProvider,\n  type DirectionProviderProps,\n  Provider,\n  useDirection,\n} from '@gentleduck/primitives/direction'\nexport type { Direction, DirectionProviderProps }\nexport { useDirection, Provider, DirectionProvider, DirectionContext, DIRECTION_DICTIONARY }\n",
+      "path": "direction/direction.tsx",
+      "target": "components/ui/direction.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "content": "export * from './direction'\n",
+      "path": "direction/index.ts",
+      "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "direction",
+  "root_folder": "direction",
+  "source": "/registry-ui/src/direction",
+  "type": "registry:ui"
+}

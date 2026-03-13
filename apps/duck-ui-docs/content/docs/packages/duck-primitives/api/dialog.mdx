@@ -81,9 +81,9 @@ The root component that manages open/closed state and provides context to all ch
 
 Button that toggles the dialog. Renders a `<button>` by default.
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `asChild` | `boolean` | Render as the child element instead of a `<button>` |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `asChild` | `boolean` | -- | Render as the child element instead of a `<button>` |
 
 Sets `aria-haspopup="dialog"`, `aria-expanded`, `aria-controls`, and `data-state` automatically.
 
@@ -100,10 +100,10 @@ Renders children into `document.body` (or a custom container) via React portal.
 
 Renders an overlay behind the content. Only renders when `modal` is `true`. Automatically locks body scroll.
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `forceMount` | `true` | Keep mounted regardless of open state |
-| `asChild` | `boolean` | Render as child element |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `forceMount` | `true` | -- | Keep mounted regardless of open state |
+| `asChild` | `boolean` | -- | Render as child element |
 
 Exposes `data-state="open"` / `data-state="closed"` for CSS animation.
 
@@ -111,15 +111,15 @@ Exposes `data-state="open"` / `data-state="closed"` for CSS animation.
 
 The content area. Handles focus trapping (modal), dismiss-on-click-outside, and escape-to-close.
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `forceMount` | `true` | Keep mounted regardless of open state |
-| `onOpenAutoFocus` | `(event: Event) => void` | Called when focus moves into content on open. Call `event.preventDefault()` to prevent auto-focus. |
-| `onCloseAutoFocus` | `(event: Event) => void` | Called when focus moves back to trigger on close |
-| `onPointerDownOutside` | `(event) => void` | Called when clicking outside. Prevent default to block close. |
-| `onFocusOutside` | `(event) => void` | Called when focus moves outside |
-| `onInteractOutside` | `(event) => void` | Called for any outside interaction |
-| `onEscapeKeyDown` | `(event) => void` | Called when <Kbd>Escape</Kbd> is pressed. Prevent default to block close. |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `forceMount` | `true` | -- | Keep mounted regardless of open state |
+| `onOpenAutoFocus` | `(event: Event) => void` | -- | Called when focus moves into content on open. Call `event.preventDefault()` to prevent auto-focus. |
+| `onCloseAutoFocus` | `(event: Event) => void` | -- | Called when focus moves back to trigger on close |
+| `onPointerDownOutside` | `(event) => void` | -- | Called when clicking outside. Prevent default to block close. |
+| `onFocusOutside` | `(event) => void` | -- | Called when focus moves outside |
+| `onInteractOutside` | `(event) => void` | -- | Called for any outside interaction |
+| `onEscapeKeyDown` | `(event) => void` | -- | Called when <Kbd>Escape</Kbd> is pressed. Prevent default to block close. |
 
 Sets `role="dialog"`, `aria-labelledby` (linked to Title), and `aria-describedby` (linked to Description).
 
@@ -141,9 +141,9 @@ Accessible description. Renders a `<p>` by default. Connected to Content via `ar
 
 Button that closes the dialog. Renders a `<button>` by default.
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `asChild` | `boolean` | Render as child element |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `asChild` | `boolean` | -- | Render as child element |
 
 ---
 

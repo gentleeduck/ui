@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Item, ItemContent, ItemDescription, ItemGroup, ItemHeader, ItemTitle } from '@gentleduck/registry-ui/item'\nimport Image from 'next/image'\n\nconst templates = [\n  {\n    description: 'Blog, portfolio, and marketing pages.',\n    image: 'https://images.unsplash.com/photo-1650804068570-7fb2e3dbf888?q=80&w=640&auto=format&fit=crop',\n    name: 'Static Site',\n  },\n  {\n    description: 'Auth, dashboard, and REST API scaffold.',\n    image: 'https://images.unsplash.com/photo-1610280777472-54133d004c8c?q=80&w=640&auto=format&fit=crop',\n    name: 'Full-Stack App',\n  },\n  {\n    description: 'Storybook, tests, and publish pipeline.',\n    image: 'https://images.unsplash.com/photo-1602146057681-08560aee8cde?q=80&w=640&auto=format&fit=crop',\n    name: 'Component Library',\n  },\n]\n\nexport default function ItemHeaderDemo() {\n  return (\n    <div className=\"flex w-full max-w-xl flex-col gap-6\">\n      <ItemGroup className=\"grid grid-cols-3 gap-4\">\n        {templates.map((template) => (\n          <Item key={template.name} variant=\"outline\">\n            <ItemHeader>\n              <Image\n                alt={template.name}\n                className=\"aspect-square w-full rounded-sm object-cover\"\n                height={128}\n                src={template.image}\n                width={128}\n              />\n            </ItemHeader>\n            <ItemContent>\n              <ItemTitle>{template.name}</ItemTitle>\n              <ItemDescription>{template.description}</ItemDescription>\n            </ItemContent>\n          </Item>\n        ))}\n      </ItemGroup>\n    </div>\n  )\n}\n",
+      "path": "item/item-8.tsx",
+      "target": "components/item-8.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "item-8",
+  "registryDependencies": [
+    "item"
+  ],
+  "root_folder": "item",
+  "source": "/registry-examples/src/item",
+  "type": "registry:example"
+}

@@ -1,0 +1,49 @@
+[
+  {
+    "files": [
+      {
+        "path": "button/button.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "button/index.ts",
+        "type": "registry:ui"
+      }
+    ],
+    "name": "button",
+    "root_folder": "button",
+    "type": "registry:ui",
+    "source": "/registry-ui/src/button",
+    "tree": [
+      {
+        "name": "button.tsx",
+        "path": "button/button.tsx",
+        "type": "file"
+      },
+      {
+        "name": "index.ts",
+        "path": "button/index.ts",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "button/basic.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "basic",
+    "root_folder": "button",
+    "type": "registry:example",
+    "source": "/registry-examples/src/button",
+    "tree": [
+      {
+        "name": "basic.tsx",
+        "path": "button/basic.tsx",
+        "type": "file"
+      }
+    ]
+  }
+]

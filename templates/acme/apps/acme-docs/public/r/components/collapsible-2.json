@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui/collapsible'\nimport { ChevronsUpDown } from 'lucide-react'\nimport * as React from 'react'\n\nexport default function CollapsibleRtlDemo() {\n  const [isOpen, setIsOpen] = React.useState(false)\n\n  return (\n    <Collapsible className=\"flex w-[350px] flex-col gap-2\" onOpenChange={setIsOpen} open={isOpen} dir=\"rtl\">\n      <div className=\"flex items-center justify-between gap-4 px-4\">\n        <h4 className=\"font-semibold text-sm\">@peduarte قام بتمييز 3 مستودعات</h4>\n        <CollapsibleTrigger size={'icon'}>\n          <ChevronsUpDown aria-hidden=\"true\" />\n          <span className=\"sr-only\">تبديل</span>\n        </CollapsibleTrigger>\n      </div>\n      <div className=\"rounded-md border px-4 py-2 font-mono text-sm\">@radix-ui/primitives</div>\n      <CollapsibleContent className=\"flex flex-col gap-2\">\n        <div className=\"rounded-md border px-4 py-2 font-mono text-sm\">@radix-ui/colors</div>\n        <div className=\"rounded-md border px-4 py-2 font-mono text-sm\">@stitches/react</div>\n      </CollapsibleContent>\n    </Collapsible>\n  )\n}\n",
+      "path": "collapsible/collapsible-2.tsx",
+      "target": "components/collapsible-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "collapsible-2",
+  "registryDependencies": [
+    "collapsible"
+  ],
+  "root_folder": "collapsible",
+  "source": "/registry-examples/src/collapsible",
+  "type": "registry:example"
+}

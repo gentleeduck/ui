@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { Button } from '@gentleduck/registry-ui/button'\nimport {\n  DropdownMenu,\n  DropdownMenuContent,\n  DropdownMenuGroup,\n  DropdownMenuItem,\n  DropdownMenuLabel,\n  // DropdownMenuPortal,\n  DropdownMenuSeparator,\n  DropdownMenuShortcut,\n  DropdownMenuSub,\n  DropdownMenuSubContent,\n  DropdownMenuSubTrigger,\n  DropdownMenuTrigger,\n} from '@gentleduck/registry-ui/dropdown-menu'\n\nexport default function DropdownMenuRtlDemo() {\n  return (\n    <DropdownMenu dir=\"rtl\">\n      <DropdownMenuTrigger asChild>\n        <Button variant=\"outline\">فتح</Button>\n      </DropdownMenuTrigger>\n      <DropdownMenuContent className=\"w-56\">\n        <DropdownMenuLabel>حسابي</DropdownMenuLabel>\n        <DropdownMenuGroup>\n          <DropdownMenuItem>\n            الملف الشخصي\n            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>\n          </DropdownMenuItem>\n          <DropdownMenuItem>\n            الفواتير\n            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>\n          </DropdownMenuItem>\n          <DropdownMenuItem>\n            الاعدادات\n            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>\n          </DropdownMenuItem>\n          <DropdownMenuItem>\n            اختصارات لوحة المفاتيح\n            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>\n          </DropdownMenuItem>\n        </DropdownMenuGroup>\n        <DropdownMenuSeparator />\n        <DropdownMenuGroup>\n          <DropdownMenuItem>الفريق</DropdownMenuItem>\n          <DropdownMenuSub>\n            <DropdownMenuSubTrigger>دعوة مستخدمين</DropdownMenuSubTrigger>\n            <DropdownMenuSubContent>\n              <DropdownMenuItem>البريد الالكتروني</DropdownMenuItem>\n              <DropdownMenuItem>رسالة</DropdownMenuItem>\n              <DropdownMenuSeparator />\n              <DropdownMenuItem>المزيد...</DropdownMenuItem>\n            </DropdownMenuSubContent>\n          </DropdownMenuSub>\n          <DropdownMenuItem>\n            فريق جديد\n            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>\n          </DropdownMenuItem>\n        </DropdownMenuGroup>\n        <DropdownMenuSeparator />\n        <DropdownMenuItem>GitHub</DropdownMenuItem>\n        <DropdownMenuItem>الدعم</DropdownMenuItem>\n        <DropdownMenuItem disabled>API</DropdownMenuItem>\n        <DropdownMenuSeparator />\n        <DropdownMenuItem>\n          تسجيل الخروج\n          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>\n        </DropdownMenuItem>\n      </DropdownMenuContent>\n    </DropdownMenu>\n  )\n}\n",
+      "path": "dropdown-menu/dropdown-menu-4.tsx",
+      "target": "components/dropdown-menu-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "dropdown-menu-4",
+  "registryDependencies": [
+    "dropdown-menu"
+  ],
+  "root_folder": "dropdown-menu",
+  "source": "/registry-examples/src/dropdown-menu",
+  "type": "registry:example"
+}

@@ -96,6 +96,8 @@ const ViewportContentMounter = React.forwardRef<ViewportContentMounterElement, V
   },
 )
 
+ViewportContentMounter.displayName = 'ViewportContentMounter'
+
 /* ----- NavigationMenuContentImpl (internal, also used by viewport.tsx) ----- */
 
 type MotionAttribute = 'to-start' | 'to-end' | 'from-start' | 'from-end'
@@ -229,6 +231,7 @@ const NavigationMenuContentImpl = React.forwardRef<NavigationMenuContentImplElem
     )
   },
 )
+NavigationMenuContentImpl.displayName = 'NavigationMenuContentImpl'
 
 export { NavigationMenuContent, NavigationMenuContentImpl }
 export type { NavigationMenuContentProps }

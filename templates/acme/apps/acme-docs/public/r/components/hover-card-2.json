@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui/avatar'\nimport { HoverCard, HoverCardContent, HoverCardTrigger } from '@gentleduck/registry-ui/hover-card'\nimport { CalendarIcon } from 'lucide-react'\n\nexport default function HoverCardRtlDemo() {\n  return (\n    <HoverCard dir=\"rtl\">\n      <HoverCardTrigger variant={'link'}>@nextjs</HoverCardTrigger>\n      <HoverCardContent className=\"w-80\">\n        <div className=\"flex justify-between gap-4 space-x-reverse\">\n          <Avatar dir=\"rtl\">\n            <AvatarImage alt=\"VC\" src=\"https://github.com/gentleeduck.png\" />\n            <AvatarFallback>VC</AvatarFallback>\n          </Avatar>\n          <div className=\"space-y-1\">\n            <h4 className=\"font-semibold text-sm\">@nextjs</h4>\n            <p className=\"text-sm\">اطار React -- تم انشاؤه وصيانته بواسطة @vercel.</p>\n            <div className=\"flex items-center pt-2\">\n              <CalendarIcon className=\"ml-2 h-4 w-4 opacity-70\" />{' '}\n              <span className=\"text-muted-foreground text-xs\">انضم في ديسمبر 2021</span>\n            </div>\n          </div>\n        </div>\n      </HoverCardContent>\n    </HoverCard>\n  )\n}\n",
+      "path": "hover-card/hover-card-2.tsx",
+      "target": "components/hover-card-2.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "hover-card-2",
+  "registryDependencies": [
+    "hover-card"
+  ],
+  "root_folder": "hover-card",
+  "source": "/registry-examples/src/hover-card",
+  "type": "registry:example"
+}

@@ -1,0 +1,13 @@
+{
+  "name": "demo",
+  "label": "Demo",
+  "light": {
+    "background": "white",
+    "foreground": "black"
+  },
+  "dark": {
+    "background": "black",
+    "foreground": "white"
+  },
+  "radius": "1rem"
+}

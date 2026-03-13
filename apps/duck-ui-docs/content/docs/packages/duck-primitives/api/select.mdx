@@ -99,10 +99,10 @@ The root component that manages open/closed state, selected value, and provides 
 
 Button that toggles the dropdown. Renders a `<button>` with `role="combobox"`.
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `asChild` | `boolean` | Render as the child element instead of a `<button>` |
-| `disabled` | `boolean` | Disables the trigger |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `asChild` | `boolean` | -- | Render as the child element instead of a `<button>` |
+| `disabled` | `boolean` | `false` | Disables the trigger |
 
 Sets `aria-expanded`, `aria-controls`, `aria-autocomplete="none"`, `data-state`, and `data-placeholder` automatically.
 
@@ -118,9 +118,9 @@ Displays the selected item text or a placeholder.
 
 Decorative icon next to the value. Renders a `<span>` with `aria-hidden`.
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `asChild` | `boolean` | Render as child element |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `asChild` | `boolean` | -- | Render as child element |
 
 ### `Select.Portal`
 
@@ -165,9 +165,9 @@ When using `position="popper"`, the following CSS custom properties are availabl
 
 Scrollable container for items inside the content.
 
-| Prop | Type | Description |
-| --- | --- | --- |
-| `nonce` | `string` | Nonce for the injected scrollbar-hiding style element |
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `nonce` | `string` | -- | Nonce for the injected scrollbar-hiding style element |
 
 ### `Select.Group`
 

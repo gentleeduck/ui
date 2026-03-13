@@ -66,6 +66,7 @@ Renders an accessible label element associated with form controls.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | -- | Additional class names for the label element |
 | `htmlFor` | `string` | -- | The `id` of the form element this label is associated with |
 | `children` | `React.ReactNode` | -- | Label text or elements |
