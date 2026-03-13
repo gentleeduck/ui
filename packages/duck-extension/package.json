@@ -14,7 +14,7 @@
     "@gentleduck/motion": "workspace:*",
     "@tailwindcss/vite": "^4.1.17",
     "axios": "^1.13.2",
-    "lucide-react": "0.576.0",
+    "lucide-react": "0.577.0",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
   },
