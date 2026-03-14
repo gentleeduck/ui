@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import type { SelectTriggerProps as PrimitiveSelectTriggerProps } from '@gentleduck/primitives/select'
 import * as SelectPrimitive from '@gentleduck/primitives/select'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
 import * as React from 'react'
@@ -14,24 +15,25 @@ SelectGroup.displayName = 'SelectGroup'
 const SelectValue = SelectPrimitive.Value
 SelectValue.displayName = 'SelectValue'
 
-const SelectTrigger = React.forwardRef<
-  React.ComponentRef<typeof SelectPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
-  <SelectPrimitive.Trigger
-    ref={ref}
-    data-slot="select-trigger"
-    className={cn(
-      'flex h-9 min-w-32 items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-muted-foreground [&>span]:line-clamp-1',
-      className,
-    )}
-    {...props}>
-    {children}
-    <SelectPrimitive.Icon asChild>
-      <ChevronDown aria-hidden="true" className="size-4 opacity-50" />
-    </SelectPrimitive.Icon>
-  </SelectPrimitive.Trigger>
-))
+export interface SelectTriggerProps extends PrimitiveSelectTriggerProps {}
+
+const SelectTrigger = React.forwardRef<React.ComponentRef<typeof SelectPrimitive.Trigger>, SelectTriggerProps>(
+  ({ className, children, ...props }, ref) => (
+    <SelectPrimitive.Trigger
+      ref={ref}
+      data-slot="select-trigger"
+      className={cn(
+        'flex h-9 min-w-32 items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-muted-foreground [&>span]:line-clamp-1',
+        className,
+      )}
+      {...props}>
+      {children}
+      <SelectPrimitive.Icon asChild>
+        <ChevronDown aria-hidden="true" className="size-4 opacity-50" />
+      </SelectPrimitive.Icon>
+    </SelectPrimitive.Trigger>
+  ),
+)
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName
 
 const SelectScrollUpButton = React.forwardRef<
