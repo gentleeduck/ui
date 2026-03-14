@@ -3,8 +3,10 @@ import type { ExtractAtomArgs, ExtractAtomResult, ExtractAtomValue } from '../pr
 import { useAtomValue } from './useAtomValue'
 import { useSetAtom } from './useSetAtom'
 
+/** @internal */
 type SetAtom<Args extends unknown[], Result> = (...args: Args) => Result
 
+/** @internal */
 type Options = Parameters<typeof useAtomValue>[1]
 
 export function useAtom<Value, Args extends unknown[], Result>(

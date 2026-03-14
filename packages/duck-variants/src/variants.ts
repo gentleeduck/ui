@@ -3,6 +3,8 @@ import type { ClassValue, CvaProps, VariantsOptions } from './variants.types'
 /**
  * Build a stable cache key by serializing props entries in sorted order.
  *
+ * @internal
+ *
  * @template TVariants
  *   The mapping of variant names to their allowed string/string[] classes.
  *
@@ -11,12 +13,6 @@ import type { ClassValue, CvaProps, VariantsOptions } from './variants.types'
  *
  * @returns {string}
  *   A deterministic string key used for memoization.
- *
- * @example
- * ```ts
- * getCacheKey({ intent: 'primary', size: ['sm', 'md'], className: 'mt-4' })
- * // => "className:mt-4|intent:primary|size:[sm,md]"
- * ```
  */
 function getCacheKey<TVariants extends Record<string, Record<string, string | string[]>>>(
   props: CvaProps<TVariants>,
@@ -41,6 +37,8 @@ function getCacheKey<TVariants extends Record<string, Record<string, string | st
 /**
  * Recursively flattens any supported `ClassValue` into individual CSS tokens.
  *
+ * @internal
+ *
  * Supports:
  * - primitive strings/numbers/booleans (whitespace-split)
  * - nested arrays of `ClassValue`
@@ -50,20 +48,6 @@ function getCacheKey<TVariants extends Record<string, Record<string, string | st
  *   The value to flatten into tokens.
  * @param {string[]} tokens
  *   The accumulator array receiving each CSS token.
- *
- * @example
- * ```ts
- * const out: string[] = []
- * flattenClasses(
- *   [
- *     'px-4 py-2',
- *     { 'text-bold': true, invisible: false },
- *     ['hover:bg-red-500', ['active:scale-95']],
- *   ],
- *   out
- * )
- * // out => ['px-4','py-2','text-bold','hover:bg-red-500','active:scale-95']
- * ```
  */
 function flattenClasses(input: ClassValue | undefined, tokens: string[]): void {
   if (input === undefined || input === null) return

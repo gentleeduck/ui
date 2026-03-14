@@ -95,13 +95,9 @@ export type CvaProps<TVariants extends Record<string, Record<string, string | st
 /**
  * Removes an array type from a union type.
  * Used to exclude `class` and `className` from `VariantProps`.
+ *
+ * @internal
  * @template T - A union type.
- * @example
- * ```ts
- * type Props = { class?: string; className?: string }
- * type PropsWithoutArray = RemoveArray<Props>
- * // => { class?: string; className?: string }
- * ```
  */
 type RemoveArray<T> = T extends unknown[] ? never : T
 
@@ -155,3 +151,24 @@ export type ClassArray = ClassValue[]
  * ```
  */
 export type ClassValue = string | number | boolean | ClassDictionary | ClassArray
+
+/**
+ * Infers the variant configuration type from a `VariantsOptions` object.
+ * Useful for deriving variant types from a config without manually duplicating them.
+ *
+ * @template T - A `VariantsOptions` object.
+ *
+ * @example
+ * ```ts
+ * const config = {
+ *   variants: {
+ *     size: { sm: 'text-sm', lg: 'text-lg' },
+ *     intent: { primary: 'bg-blue-500', danger: 'bg-red-500' },
+ *   },
+ * } satisfies VariantsOptions<{ size: { sm: string; lg: string }; intent: { primary: string; danger: string } }>
+ *
+ * type MyVariants = InferVariants<typeof config>
+ * // => { size: { sm: string; lg: string }; intent: { primary: string; danger: string } }
+ * ```
+ */
+export type InferVariants<T extends VariantsOptions<Record<string, Record<string, string | string[]>>>> = T['variants']

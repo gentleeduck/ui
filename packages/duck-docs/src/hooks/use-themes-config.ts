@@ -2,7 +2,8 @@ import { THEMES, type Theme } from '@duck-docs/lib/themes'
 import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 
-type ThemesConfig = {
+/** @internal */
+interface ThemesConfig {
   activeTheme: Theme
 }
 

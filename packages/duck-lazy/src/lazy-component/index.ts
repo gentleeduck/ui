@@ -4,6 +4,6 @@
  * @description Entry point for lazy component functionalities.
  * Exports the lazy component, its hooks, and types.
  */
-export * from './lazy-component'
-export * from './lazy-component.hooks'
-export * from './lazy-component.types'
+export { DuckLazyComponent } from './lazy-component'
+export { useLazyLoad } from './lazy-component.hooks'
+export type { DuckLazyProps, UseLazyLoadReturn } from './lazy-component.types'

@@ -1,3 +1,11 @@
+/**
+ * Partition `strings` into consecutive groups whose sizes are defined by
+ * `groupSizes`.
+ *
+ * @param strings    - The items to partition.
+ * @param groupSizes - The size of each group.
+ * @returns An array of sub-arrays.
+ */
 export function groupDataByNumbers<T>(strings: T[], groupSizes: number[]): T[][] {
   const result: T[][] = []
   let index = 0

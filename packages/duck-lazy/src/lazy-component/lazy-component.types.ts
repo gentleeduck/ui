@@ -12,7 +12,7 @@
  *   threshold: 0.25, // Trigger when 25% of the component is visible
  * });
  */
-export type UseLazyLoadReturn = {
+export interface UseLazyLoadReturn {
   isVisible: boolean
   ComponentRef: React.RefObject<HTMLDivElement | null>
 }

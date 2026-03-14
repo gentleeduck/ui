@@ -1,2 +1,8 @@
-export * from './sequence'
-export * from './sequence.types'
+export { createSequenceMatcher, SequenceManager } from './sequence'
+export type {
+  SequenceHandle,
+  SequenceOptions,
+  SequenceRegistration,
+  SequenceState,
+  SequenceStep,
+} from './sequence.types'

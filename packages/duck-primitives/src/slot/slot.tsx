@@ -47,6 +47,7 @@ interface SlotProps extends React.HTMLAttributes<HTMLElement> {
 
 const Slot = createSlot('Slot')
 
+/** @internal */
 interface SlotCloneProps {
   children: React.ReactNode
 }
@@ -93,8 +94,10 @@ interface SlottableComponent extends React.FC<SlottableProps> {
 
 const Slottable = createSlottable('Slottable')
 
+/** @internal */
 type AnyProps = Record<string, unknown>
 
+/** @internal */
 function isSlottable(child: React.ReactNode): child is React.ReactElement<SlottableProps, typeof Slottable> {
   return (
     React.isValidElement(child) &&
@@ -104,6 +107,7 @@ function isSlottable(child: React.ReactNode): child is React.ReactElement<Slotta
   )
 }
 
+/** @internal */
 function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
   // all child props should override
   const overrideProps = { ...childProps }
@@ -138,11 +142,14 @@ function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
   return { ...slotProps, ...overrideProps }
 }
 
-// Before React 19 accessing `element.props.ref` will throw a warning and suggest using `element.ref`
-// After React 19 accessing `element.ref` does the opposite.
-// https://github.com/facebook/react/pull/28348
-//
-// Access the ref using the method that doesn't yield a warning.
+/**
+ * @internal
+ * Before React 19 accessing `element.props.ref` will throw a warning and suggest using `element.ref`
+ * After React 19 accessing `element.ref` does the opposite.
+ * https://github.com/facebook/react/pull/28348
+ *
+ * Access the ref using the method that doesn't yield a warning.
+ */
 function getComponentRef(element: React.ReactElement) {
   // React <=18 in DEV
   let getter = Object.getOwnPropertyDescriptor(element.props, 'ref')?.get

@@ -60,6 +60,7 @@ export function DuckLazyImage(props: LazyImageProps): React.JSX.Element {
  * `PlaceHolder` is a React component that renders a placeholder image for the `DuckLazyImage` component.
  * It can be used to display a placeholder image while the main image is being loaded.
  *
+ * @internal
  * @param {Omit<LazyImageProps, 'placeholder'>} props - The props to configure the component.
  *
  * @returns {React.JSX.Element} The `PlaceHolder` component. An `img` tag with lazy loading and placeholder functionality.

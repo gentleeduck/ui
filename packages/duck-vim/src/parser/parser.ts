@@ -4,6 +4,7 @@ import type { ParsedKeyBind, ValidationResult } from './parser.types'
 
 /**
  * Map of raw key aliases to their canonical names.
+ * @internal
  */
 export const KEY_ALIASES: Record<string, string> = {
   ' ': 'space',

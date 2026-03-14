@@ -1,4 +1,5 @@
 /**
+ * @internal
  * Shared list-navigation utilities used by Select and Command primitives.
  */
 
@@ -117,12 +118,12 @@ export function useTypeaheadSearch(
   return [searchRef, handleTypeaheadSearch, resetTypeahead] as const
 }
 
-type TypeaheadListState = {
+interface TypeaheadListState {
   activeElement: Element | null
   lastMatchedElement: HTMLElement | null
 }
 
-type TypeaheadListNavigationOptions<T> = {
+interface TypeaheadListNavigationOptions<T> {
   /**
    * Returns candidate items to search. Callers should pre-filter out disabled/hidden items.
    */
@@ -214,7 +215,7 @@ export function useTypeaheadListNavigation<T>(options: TypeaheadListNavigationOp
   return [searchRef, handleTypeaheadSearch, resetTypeaheadState] as const
 }
 
-type VimNavigationOptions = {
+interface VimNavigationOptions {
   onNavigate?: () => void
   ggTimeoutMs?: number
 }

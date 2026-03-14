@@ -133,6 +133,9 @@
   "module": "./dist/index.js",
   "name": "@gentleduck/docs",
   "packageManager": "bun@1.3.5",
+  "sideEffects": [
+    "./dist/styles/*.css"
+  ],
   "private": false,
   "description": "Shared docs app kit used by the gentleduck/ui docs apps.",
   "keywords": [

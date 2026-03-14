@@ -1,5 +1,6 @@
 import type { Atom, Getter, SetStateAction, Setter, WritableAtom } from './atom'
 
+/** @internal */
 type Listener = () => void
 
 export function createStore() {
@@ -132,6 +133,7 @@ export function createStore() {
   return store
 }
 
+/** @internal */
 function shallowEqual(a: unknown, b: unknown): boolean {
   if (Object.is(a, b)) return true
   if (typeof a !== 'object' || a === null || typeof b !== 'object' || b === null) return false

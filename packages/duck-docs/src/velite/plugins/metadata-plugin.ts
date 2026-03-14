@@ -25,5 +25,9 @@ export function rehypeMetadataPlugin() {
   }
 }
 
-// Backward-compatible alias kept for downstream consumers.
+/**
+ * Backward-compatible alias kept for downstream consumers.
+ * @internal
+ * @deprecated Use {@link rehypeMetadataPlugin} instead.
+ */
 export const rhypeMetadataPlugin = rehypeMetadataPlugin

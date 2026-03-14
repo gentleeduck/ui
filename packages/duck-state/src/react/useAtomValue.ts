@@ -3,6 +3,7 @@ import type { Atom } from '../primitive/atom'
 import type { ExtractAtomValue } from '../primitive/types'
 import { useStore } from './provider'
 
+/** @internal */
 type Options = Parameters<typeof useStore>[0] & {
   delay?: number
   unstable_promiseStatus?: boolean

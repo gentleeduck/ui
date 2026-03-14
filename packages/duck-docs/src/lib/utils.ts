@@ -17,10 +17,12 @@ export function absoluteUrl(path: string) {
   return `${normalizedBase}${normalizedPath}`
 }
 
+/** @internal */
 export const filteredObject = <T extends Record<string, unknown>>(keys: string[], obj: T): Partial<T> => {
   return Object.fromEntries(Object.entries(obj).filter(([key]) => !keys.includes(key))) as Partial<T>
 }
 
+/** @internal */
 export function groupDataByNumbers<T>(strings: T[], groupSizes: number[]): T[][] {
   const result: T[][] = []
   let index = 0
@@ -34,6 +36,7 @@ export function groupDataByNumbers<T>(strings: T[], groupSizes: number[]): T[][]
   return result
 }
 
+/** @internal */
 export function groupArrays<T>(numbers: number[], arr: T[]): T[][] {
   const result: T[][] = []
   let index = 0

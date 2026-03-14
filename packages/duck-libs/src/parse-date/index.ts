@@ -1,3 +1,12 @@
+/**
+ * Parse a human-friendly date string into a `Date` object.
+ *
+ * Supported inputs include `"today"`, `"tomorrow"`, `"next week"`,
+ * `"in N days"`, and any string accepted by the `Date` constructor.
+ *
+ * @param input - The date string to parse.
+ * @returns The resolved `Date`, or `null` if parsing fails.
+ */
 export function parseDate(input: string): Date | null {
   const now = new Date()
   const normalized = input.trim().toLowerCase()

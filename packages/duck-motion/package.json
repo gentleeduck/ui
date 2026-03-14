@@ -15,11 +15,11 @@
   },
   "exports": {
     ".": {
-      "types": "./src/index.ts",
+      "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
     "./*": {
-      "types": "./src/*.ts",
+      "types": "./dist/*.d.ts",
       "default": "./dist/*.js"
     },
     "./css": "./src/index.css"
@@ -65,6 +65,10 @@
     "test": "bun test"
   },
   "type": "module",
-  "types": "./src/index.ts",
+  "sideEffects": [
+    "./src/index.css",
+    "./dist/**/*.css"
+  ],
+  "types": "./dist/index.d.ts",
   "version": "0.1.17"
 }

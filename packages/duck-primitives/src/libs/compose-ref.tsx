@@ -1,8 +1,10 @@
 import * as React from 'react'
 
+/** @internal */
 type PossibleRef<T> = React.Ref<T> | undefined
 
 /**
+ * @internal
  * Sets a single ref to a value. Handles both callback refs and RefObject(s).
  * Returns the cleanup function from callback refs (React 19+) if present.
  */
@@ -15,6 +17,7 @@ function setRef<T>(ref: PossibleRef<T>, value: T) {
 }
 
 /**
+ * @internal
  * Composes multiple refs into a single callback ref.
  * Supports React 19 cleanup functions: if any ref returns a cleanup,
  * the composed ref will return a combined cleanup.
@@ -46,6 +49,7 @@ function composeRefs<T>(...refs: PossibleRef<T>[]): React.RefCallback<T> {
 }
 
 /**
+ * @internal
  * Hook version of composeRefs. Memoizes the composed ref callback
  * so it remains stable across renders when the input refs do not change.
  */

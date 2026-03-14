@@ -1,6 +1,9 @@
-/** Shared utility functions and types used across multiple primitives. */
+/** @internal Shared utility functions and types used across multiple primitives. */
 
-export type Point = { x: number; y: number }
+export interface Point {
+  x: number
+  y: number
+}
 export type Polygon = Point[]
 
 /**

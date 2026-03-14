@@ -19,5 +19,5 @@ export function animateIn(
   return ref.animate(keyframes, options)
 }
 
-// Backward-compatible named alias for previous default behavior.
+/** @deprecated Use `animateIn` instead. */
 export const motion = animateIn

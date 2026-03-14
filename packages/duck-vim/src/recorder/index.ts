@@ -1,2 +1,2 @@
-export * from './recorder'
-export * from './recorder.types'
+export { KeyRecorder, KeyStateTracker } from './recorder'
+export type { KeyRecorderOptions, KeyRecorderState, KeyStateSnapshot } from './recorder.types'
