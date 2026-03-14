@@ -66,6 +66,7 @@ Options:
   -w, --workspace <path>     workspace path (relative to monorepo root)
   --prefix <prefix>          Tailwind prefix
   -a, --all                  install all available components (default: false)
+  -t, --template <name>      scaffold a project from a template (e.g., acme)
   -h, --help                 display help for command
 ",
   "remove": "Usage: remove [options] [components...]
