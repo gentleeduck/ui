@@ -28,13 +28,13 @@ Configure the path aliases in your `tsconfig.json` file.
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./*"]
+      "~/*": ["./src/*"]
     }
   }
 }
 ```
 
-The `@` alias is a preference. You can use other aliases if you want.
+The `~` alias is a preference. You can use other aliases if you want.
 
 <Step>Configure styles</Step>
 
@@ -173,10 +173,63 @@ Add the following to your styles/globals.css file. You can learn more about usin
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border font-medium;
   }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+    font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+    scrollbar-width: thin;
+    scrollbar-color: oklch(0.551 0.027 264.364) transparent;
+  }
+
+  html.dark {
+    scrollbar-color: oklch(0.37 0.013 285.805) transparent;
+  }
+
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  img {
+    user-select: none;
+  }
+
+  a:active,
+  button:active {
+    opacity: 0.8;
+  }
+}
+
+@utility duck-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@layer utilities {
+  .container {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .ellipsis {
+    @apply duck-truncate;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-delay: -1ms !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-delay: 0ms !important;
+    transition-duration: 1ms !important;
   }
 }
 ```
@@ -193,31 +246,32 @@ export function cn(...inputs: ClassValue[]) {
 }
 ```
 
-<Step>Create a `components.json` file</Step>
+<Step>Create a `duck-ui.config.json` file</Step>
 
-Create a `components.json` file in the root of your project.
+Create a `duck-ui.config.json` file in the root of your project.
 
-```json title="components.json" showLineNumbers
+```json title="duck-ui.config.json" showLineNumbers
 {
-  "$schema": "https://ui.gentleduck.org/schema.json",
-  "style": "new-york",
+  "schema": "https://ui.gentleduck.org/schema.json",
   "rsc": false,
-  "tsx": true,
+  "monorepo": false,
+  "workspace": {
+    "root": ".",
+    "project": "."
+  },
   "tailwind": {
-    "config": "",
-    "css": "src/styles/globals.css",
-    "baseColor": "neutral",
+    "baseColor": "zinc",
+    "css": "./src/styles/globals.css",
     "cssVariables": true,
     "prefix": ""
   },
   "aliases": {
-    "components": "@/components",
-    "utils": "@/lib/utils",
-    "ui": "@/components/ui",
-    "lib": "@/lib",
-    "hooks": "@/hooks"
-  },
-  "iconLibrary": "lucide"
+    "ui": "~/ui",
+    "libs": "~/libs",
+    "hooks": "~/hooks",
+    "pages": "~/pages",
+    "layouts": "~/layouts"
+  }
 }
 ```
 
