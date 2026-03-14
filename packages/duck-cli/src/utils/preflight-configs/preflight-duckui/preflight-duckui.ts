@@ -95,11 +95,21 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
         }
 
         if (overwrite) {
-          // Prepend the tailwind imports, then the theme
-          const tailwind_imports = old_content
-            .split('\n')
-            .filter((l) => l.startsWith('@'))
-            .join('\n')
+          // Extract only @import and @custom-variant preamble lines from the top of the file
+          const lines = old_content.split('\n')
+          const preamble: string[] = []
+          for (const line of lines) {
+            const trimmed = line.trim()
+            if (trimmed === '') {
+              continue
+            }
+            if (trimmed.startsWith('@import ') || trimmed.startsWith('@custom-variant ')) {
+              preamble.push(trimmed)
+            } else {
+              break
+            }
+          }
+          const tailwind_imports = preamble.join('\n')
           fs.writeFileSync(css_file_path, tailwind_imports ? `${tailwind_imports}\n\n${css}` : css)
         }
       } else {
