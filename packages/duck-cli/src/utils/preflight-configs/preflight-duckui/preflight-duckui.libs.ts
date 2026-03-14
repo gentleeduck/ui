@@ -4,6 +4,7 @@ import type { Ora } from 'ora'
 import type { ThemeResponse } from '~/utils/get-registry/get-registry.dto'
 import { highlighter } from '~/utils/text-styling'
 import type { WorkspaceTarget } from '~/utils/workspace'
+import { base_layer_styles } from '../preflight-tailwindcss/preflight-tailwindcss.constants'
 import type { DuckuiPrompts } from './preflight-duckui.dto'
 
 export async function init_duckui_config(
@@ -68,6 +69,8 @@ ${tailwindVars}
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 }
+
+${base_layer_styles}
 `.trim()
 }
 

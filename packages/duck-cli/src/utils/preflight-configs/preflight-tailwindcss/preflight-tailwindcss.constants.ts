@@ -51,6 +51,56 @@ export const tailwindcss_boilerplate = `@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
+`
+
+export const base_layer_styles = `@layer base {
+  * {
+    @apply border-border font-medium;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+    font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif);
+    scrollbar-width: thin;
+    scrollbar-color: oklch(0.551 0.027 264.364) transparent;
+  }
+
+  html.dark {
+    scrollbar-color: oklch(0.37 0.013 285.805) transparent;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  img {
+    user-select: none;
+  }
+
+  a:active,
+  button:active {
+    opacity: 0.8;
+  }
+}
+
+@utility duck-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@layer utilities {
+  .container {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .ellipsis {
+    @apply duck-truncate;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -63,5 +113,4 @@ export const tailwindcss_boilerplate = `@import "tailwindcss";
     transition-delay: 0ms !important;
     transition-duration: 1ms !important;
   }
-}
-`
+}`
