@@ -49,14 +49,23 @@ jobs:
       - name: Install Dependencies
         run: bun install --frozen-lockfile
 
+      - name: Lint and check
+        run: bun run check && bun run lint:ws
+
       - name: Build
         run: bunx turbo run build --filter='!@gentleduck/ui-docs'
+
+      - name: Type check
+        run: bunx turbo run check-types --filter='!@gentleduck/ui-docs'
+
+      - name: Test
+        run: bun run test
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: bun run release
+          publish: changeset publish
           version: bun run version-packages
           title: "chore: version packages"
           commit: "chore: version packages"
