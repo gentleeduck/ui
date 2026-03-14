@@ -1,5 +1,11 @@
 # @gentleduck/registry-ui
 
+## 0.2.9
+
+### Patch Changes
+
+- 80f8c4c: Fix declaration output for shared docs and registry UI components so consumer apps keep valid props during production typechecking.
+
 ## 0.2.8
 
 ### Patch Changes
