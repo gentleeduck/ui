@@ -30,6 +30,7 @@ export function init_command(): Command {
     .option('-w, --workspace <path>', 'workspace path (relative to monorepo root)')
     .option('--prefix <prefix>', 'Tailwind prefix')
     .option('-a, --all', 'install all available components', false)
+    .option('-t, --template <name>', 'scaffold a project from a template (e.g., acme)')
     .action(init_command_action)
 
   return init_command

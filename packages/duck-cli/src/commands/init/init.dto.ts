@@ -12,6 +12,7 @@ export const init_options_schema = z.object({
   workspace: z.string().optional(),
   prefix: z.string().optional(),
   projectType: z.enum(PROJECT_TYPE).optional(),
+  template: z.string().optional(),
   yes: z.boolean().default(false),
 })
 

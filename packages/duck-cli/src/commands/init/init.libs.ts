@@ -6,6 +6,7 @@ import { get_registry_index } from '~/utils/get-registry'
 import { preflight_configs } from '~/utils/preflight-configs'
 import { resolve_components } from '~/utils/resolve-components'
 import { spinner as Spinner } from '~/utils/spinner'
+import { scaffold_template } from '~/utils/template-scaffold'
 import { is_verbose } from '~/utils/verbose'
 import { resolve_project_cwd, validate_workspace_target } from '~/utils/workspace'
 import { type InitOptions, init_arguments_schema, init_options_schema } from './init.dto'
@@ -18,6 +19,12 @@ export async function init_command_action(args: string[], opt: InitOptions) {
   const spinner = Spinner('Initializing...').start()
   try {
     const cwd = path.resolve(options.cwd)
+
+    if (options.template) {
+      await scaffold_template({ template: options.template, cwd, yes: options.yes }, spinner)
+      spinner.succeed(`Template ${options.template} scaffolded successfully.`)
+      process.exit(0)
+    }
 
     const components_names = component_names
 
