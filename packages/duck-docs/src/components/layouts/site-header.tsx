@@ -93,7 +93,7 @@ export function SiteHeader() {
   const siteConfig = useSiteConfig()
 
   return (
-    <HeaderRoot className="border-border/40 border-b bg-background/40 backdrop-blur-md supports-[backdrop-filter]:bg-transparent">
+    <HeaderRoot className="border-border/40 border-b bg-background">
       <HeaderContainer>
         <MainNav />
         <React.Suspense fallback={null}>
