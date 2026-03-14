@@ -1,5 +1,11 @@
 # @gentleduck/variants
 
+## 0.1.21
+
+### Patch Changes
+
+- 6f0e067: Standardize package exports to use explicit named exports, add `sideEffects` field and `types` export entries to package.json, and annotate internal APIs with `@internal` JSDoc tags.
+
 ## 0.1.20
 
 ### Patch Changes
