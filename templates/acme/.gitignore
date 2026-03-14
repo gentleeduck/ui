@@ -1,0 +1,41 @@
+# dependencies
+node_modules/
+
+# build
+dist/
+.next/
+out/
+
+# turbo
+.turbo/
+
+# cache
+.cache/
+.velite/
+
+# vercel
+.vercel/
+
+# env files (keep .env.example)
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# logs
+*.log
+
+# test coverage
+coverage/
+
+# lock (bun)
+bun.lockb
