@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.2.9
+
+### Patch Changes
+
+- 652edb5: Replace translucent backdrop-blur header with solid `bg-background` in site header.
+
 ## 0.2.8
 
 ### Patch Changes
