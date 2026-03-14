@@ -1,5 +1,11 @@
 # @gentleduck/cli
 
+## 1.3.0
+
+### Minor Changes
+
+- 6f0e067: Add `--template` flag to the `init` command for scaffolding projects from templates. Run `npx @gentleduck/cli init --template acme` to download and extract the acme monorepo template.
+
 ## 1.2.7
 
 ### Patch Changes

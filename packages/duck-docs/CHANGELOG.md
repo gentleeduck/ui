@@ -1,5 +1,15 @@
 # @gentleduck/docs
 
+## 0.2.8
+
+### Patch Changes
+
+- 6f0e067: Standardize package exports to use explicit named exports, add `sideEffects` field and `types` export entries to package.json, and annotate internal APIs with `@internal` JSDoc tags.
+- Updated dependencies [6f0e067]
+  - @gentleduck/hooks@0.1.13
+  - @gentleduck/libs@0.1.16
+  - @gentleduck/vim@0.1.17
+
 ## 0.2.7
 
 ### Patch Changes
