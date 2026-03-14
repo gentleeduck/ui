@@ -6,7 +6,14 @@ import { cn } from '@gentleduck/libs/cn'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'
 import type * as React from 'react'
 
-export function StyleSwitcher({ className, ...props }: React.ComponentPropsWithoutRef<typeof SelectTrigger>) {
+/**
+ * Keep the public prop contract local and button-like. The docs app only needs
+ * standard trigger props such as `className` and `disabled`, and this avoids
+ * brittle declaration inference across package boundaries.
+ */
+export interface StyleSwitcherProps extends React.ComponentPropsWithoutRef<'button'> {}
+
+export function StyleSwitcher({ className, ...props }: StyleSwitcherProps) {
   const [config, setConfig] = useConfig()
 
   return (
