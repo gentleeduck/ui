@@ -77,6 +77,11 @@ export const docsConfig: DocsConfig = {
               items: [],
               title: 'Manual Installation',
             },
+            {
+              href: '/docs/installation/monorepo',
+              items: [],
+              title: 'Monorepo',
+            },
           ],
           title: 'Installation',
         },
