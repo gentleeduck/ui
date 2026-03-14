@@ -50,7 +50,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Build
-        run: bun run build
+        run: bunx turbo run build --filter='!@gentleduck/ui-docs'
 
       - name: Create Release Pull Request or Publish to npm
         id: changesets
