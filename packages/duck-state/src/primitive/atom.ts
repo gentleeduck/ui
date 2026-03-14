@@ -4,13 +4,16 @@ export type Setter = <Value, Args extends unknown[], Result>(
   atom: WritableAtom<Value, Args, Result>,
   ...args: Args
 ) => Result
+/** @internal */
 type Read<Value, Options = never> = (get: Getter, options: Options) => Value
+/** @internal */
 type Write<Args extends unknown[], Result> = (get: Getter, set: Setter, ...args: Args) => Result
+/** @internal */
 type SetAtom<Args extends unknown[], Result> = <P extends Args>(...args: P) => Result
 export type SetStateAction<Value> = Value | ((prevState: Value) => Value)
 export type PrimitiveAtom<Value> = WritableAtom<Value, [SetStateAction<Value>], void>
 
-export type Atom<Value> = {
+export interface Atom<Value> {
   toString: () => Symbol
   read: Read<Value>
   unstable_is?(a: Atom<unknown>): boolean
@@ -25,12 +28,14 @@ export interface WritableAtom<Value, Args extends unknown[], Result> extends Ato
   onMount?: () => () => void
 }
 
-type WithInitValue<Value> = {
+/** @internal */
+interface WithInitValue<Value> {
   initValue: Value
 }
 
 /* ======================================================== Atom Declarations ======================================================== */
 
+/** @internal */
 let keyCount = 0
 
 // writable derived atom

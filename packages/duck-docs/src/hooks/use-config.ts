@@ -2,7 +2,8 @@ import type { Style } from '@duck-docs/lib/registry-styles'
 import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 
-type Config = {
+/** @internal */
+interface Config {
   style: Style['name']
   theme: string
   radius: number

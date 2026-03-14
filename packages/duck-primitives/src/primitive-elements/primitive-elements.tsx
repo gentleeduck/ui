@@ -30,12 +30,14 @@ type PrimitiveComponent<E extends React.ElementType> = React.ForwardRefExoticCom
 
 type Primitives = { [E in Node]: PrimitiveComponent<E> }
 
+/** @internal */
 function markGentleduckInWindow(): void {
   if (typeof window !== 'undefined') {
     ;(window as unknown as Record<symbol, boolean>)[Symbol.for('gentleduck-ui')] = true
   }
 }
 
+/** @internal */
 function createPrimitive<E extends Node>(node: E): PrimitiveComponent<E> {
   const Slot = createSlot(`Primitive.${node}`)
 

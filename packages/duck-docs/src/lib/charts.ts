@@ -18,6 +18,7 @@ export function themeColorsToCssVariables(colors: Record<string, string>): Recor
   return cssVars
 }
 
+/** @internal */
 export function themeColorNameToCssVariable(name: string) {
   return `--${name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase()}`
 }

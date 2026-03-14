@@ -1,5 +1,6 @@
 import React from 'react'
 
+/** @internal */
 let globalIdCounter = 0
 
 export function useStableId(prefix = 'id') {

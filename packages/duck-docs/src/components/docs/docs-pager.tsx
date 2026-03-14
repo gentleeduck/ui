@@ -119,6 +119,7 @@ export function getPagerForDoc(doc: DocsPagerProps['doc'], docsConfig: DocsConfi
   }
 }
 
+/** @internal */
 export function flatten(links: NavItemWithChildren[]): NavItem[] {
   return links
     .reduce<NavItem[]>((flat, link) => {

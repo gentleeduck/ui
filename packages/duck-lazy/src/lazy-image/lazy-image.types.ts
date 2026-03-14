@@ -6,7 +6,7 @@
  * @property {boolean} isLoaded - A boolean indicating if the image has finished loading.
  * @property {React.RefObject<HTMLImageElement|null>} imageRef - A React ref object pointing to the DOM image element being observed.
  */
-export type UseLazyImageReturn = {
+export interface UseLazyImageReturn {
   isLoaded: boolean
   imageRef: React.RefObject<HTMLImageElement | null>
 }

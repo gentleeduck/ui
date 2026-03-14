@@ -20,8 +20,12 @@
     "vitest": "^4.0.18"
   },
   "exports": {
-    "./*": "./dist/*/index.js"
+    "./*": {
+      "types": "./dist/*/index.d.ts",
+      "default": "./dist/*/index.js"
+    }
   },
+  "sideEffects": false,
   "typesVersions": {
     "*": {
       "command": [

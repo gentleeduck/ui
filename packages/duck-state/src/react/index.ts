@@ -1,4 +1,4 @@
-export * from './provider'
-export * from './useAtom'
-export * from './useAtomValue'
-export * from './useSetAtom'
+export { Provider, useStore } from './provider'
+export { useAtom } from './useAtom'
+export { useAtomValue } from './useAtomValue'
+export { useSetAtom } from './useSetAtom'

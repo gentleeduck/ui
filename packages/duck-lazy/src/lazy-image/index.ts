@@ -1,3 +1,3 @@
-export * from './lazy-image'
-export * from './lazy-image.hooks'
-export * from './lazy-image.types'
+export { DuckLazyImage } from './lazy-image'
+export { useLazyImage } from './lazy-image.hooks'
+export type { LazyImageProps, UseLazyImageReturn } from './lazy-image.types'

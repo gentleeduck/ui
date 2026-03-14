@@ -62,6 +62,7 @@ export interface RegistrationHandle {
 
 /**
  * Internal storage entry for a registered command.
+ * @internal
  */
 export interface RegistryEntry {
   command: Command
@@ -74,6 +75,7 @@ export interface RegistryEntry {
  *
  * Provides methods to register commands, check for command existence,
  * and resolve multi-key sequence prefixes.
+ * @internal
  */
 export declare class RegistryClass {
   /**

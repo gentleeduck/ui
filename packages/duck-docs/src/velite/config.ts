@@ -11,7 +11,7 @@ import { defineConfig, s, type ZodMeta } from 'velite'
 import { rehypeMermaid, rehypeMetadataPlugin, rehypeNpmCommand, rehypePreBlockSource, rehypeTitle } from './plugins'
 import { cleanTocItems } from './utils'
 
-export type DocsVeliteConfigOptions = {
+export interface DocsVeliteConfigOptions {
   docsPattern?: string
   rehypePlugins?: Pluggable[]
   rehypePluginsBefore?: Pluggable[]

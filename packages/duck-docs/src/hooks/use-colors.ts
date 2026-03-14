@@ -3,7 +3,8 @@ import * as jotai from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import { useMounted } from './use-mounted'
 
-type Config = {
+/** @internal */
+interface Config {
   format: ColorFormat
   lastCopied: string
 }

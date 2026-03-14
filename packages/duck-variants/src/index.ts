@@ -1,2 +1,11 @@
-export * from './variants'
-export * from './variants.types'
+export { cva } from './variants'
+export type {
+  ClassArray,
+  ClassDictionary,
+  ClassValue,
+  CvaProps,
+  InferVariants,
+  VariantParams,
+  VariantProps,
+  VariantsOptions,
+} from './variants.types'

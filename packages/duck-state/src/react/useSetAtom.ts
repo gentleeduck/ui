@@ -3,7 +3,9 @@ import type { WritableAtom } from '../primitive/atom'
 import type { ExtractAtomArgs, ExtractAtomResult } from '../primitive/types'
 import { useStore } from './provider'
 
+/** @internal */
 type SetAtom<Args extends unknown[], Result> = (...args: Args) => Result
+/** @internal */
 type Options = Parameters<typeof useStore>[0]
 
 export function useSetAtom<Value, Args extends unknown[], Result>(

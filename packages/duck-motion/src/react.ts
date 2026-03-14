@@ -1,3 +1,4 @@
+/** @internal */
 function subscribe(callback: () => void) {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
     return () => {}
@@ -10,6 +11,7 @@ function subscribe(callback: () => void) {
   return () => mediaQuery.removeEventListener('change', handler)
 }
 
+/** @internal */
 function getSnapshot() {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
     return false
@@ -18,6 +20,7 @@ function getSnapshot() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches
 }
 
+/** @internal */
 function getServerSnapshot() {
   return false
 }
@@ -26,7 +29,14 @@ export function useDuckReducedMotion() {
   return getSnapshot()
 }
 
-export function motionTransition<T extends Record<string, unknown>>(reduced: boolean, normal: T): T | { duration: 0 } {
+export interface ReducedMotionFallback {
+  duration: 0
+}
+
+export function motionTransition<T extends Record<string, unknown>>(
+  reduced: boolean,
+  normal: T,
+): T | ReducedMotionFallback {
   if (reduced) return { duration: 0 }
   return normal
 }

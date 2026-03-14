@@ -1,11 +1,12 @@
 import type { MainNavItem, SidebarNavItem } from '@duck-docs/types/nav'
-export type DocsConfig = {
+
+export interface DocsConfig {
   chartsNav?: SidebarNavItem[]
   mainNav: MainNavItem[]
   sidebarNav: SidebarNavItem[]
 }
 
-export type DocsSiteConfig = {
+export interface DocsSiteConfig {
   author?: {
     name: string
     url?: string
@@ -34,7 +35,7 @@ export type DocsSiteConfig = {
   url?: string
 }
 
-export type DocsEntry = {
+export interface DocsEntry {
   component?: boolean
   content?: string
   permalink?: string
@@ -43,13 +44,13 @@ export type DocsEntry = {
   toc?: TocEntry[]
 }
 
-export type TocEntry = {
+export interface TocEntry {
   items?: TocEntry[]
   title: string
   url: string
 }
 
-export type DocsContextValue = {
+export interface DocsContextValue {
   docs?: DocsEntry[]
   docsConfig: DocsConfig
   registryIndex?: RegistryIndex

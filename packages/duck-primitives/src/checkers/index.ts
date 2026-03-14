@@ -1,2 +1,1 @@
-export * from './checkers'
-export * as default from './checkers'
+export { useSvgIndicator, useSvgIndicator as default } from './checkers'

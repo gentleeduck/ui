@@ -22,8 +22,14 @@
     "tsdown": "0.21.1"
   },
   "exports": {
-    "./hooks/*": "./dist/hooks/*.js",
-    "./*": "./dist/*/index.js"
+    "./hooks/*": {
+      "types": "./dist/hooks/*.d.ts",
+      "default": "./dist/hooks/*.js"
+    },
+    "./*": {
+      "types": "./dist/*/index.d.ts",
+      "default": "./dist/*/index.js"
+    }
   },
   "files": [
     "dist",
@@ -44,7 +50,6 @@
     "react"
   ],
   "license": "MIT",
-  "module": "./index.ts",
   "name": "@gentleduck/primitives",
   "packageManager": "bun@1.3.5",
   "peerDependencies": {
@@ -61,12 +66,14 @@
     "url": "git+https://github.com/gentleeduck/duck-ui.git",
     "directory": "packages/duck-primitives"
   },
+  "sideEffects": false,
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "test": "bun test"
   },
+  "types": "./dist/index.d.ts",
   "type": "module",
   "version": "0.2.5",
   "dependencies": {

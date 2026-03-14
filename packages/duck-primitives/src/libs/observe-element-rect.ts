@@ -1,6 +1,10 @@
-type Measurable = { getBoundingClientRect(): DOMRect }
+/** @internal */
+interface Measurable {
+  getBoundingClientRect(): DOMRect
+}
 
 /**
+ * @internal
  * Observes an element's bounding rect using a requestAnimationFrame loop.
  * Batches DOM reads (getBoundingClientRect) before DOM writes (callbacks)
  * to minimize layout thrashing. Returns an unsubscribe function.
@@ -45,7 +49,7 @@ function observeElementRect(elementToObserve: Measurable, callback: CallbackFn) 
 
 type CallbackFn = (rect: DOMRect) => void
 
-type ObservedData = {
+interface ObservedData {
   rect: DOMRect
   callbacks: Array<CallbackFn>
 }

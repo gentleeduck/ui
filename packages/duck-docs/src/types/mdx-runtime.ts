@@ -5,7 +5,7 @@ export interface NpmCommands {
   __bunCommand__?: string
 }
 
-export type MdxCodeNodeProperties = NpmCommands & {
+export interface MdxCodeNodeProperties extends NpmCommands {
   __className__?: string
   __event__?: string
   __isMermaid__?: boolean
@@ -16,6 +16,6 @@ export type MdxCodeNodeProperties = NpmCommands & {
   __title__?: string
 }
 
-export type MdxNodeData = {
+export interface MdxNodeData {
   meta?: string
 }
