@@ -1,5 +1,12 @@
 # @gentleduck/duck-extension
 
+## 1.0.5
+
+### Patch Changes
+
+- Updated dependencies [6f0e067]
+  - @gentleduck/motion@0.1.18
+
 ## 1.0.4
 
 ### Patch Changes
