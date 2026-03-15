@@ -19,7 +19,7 @@ Skills follow the open [Agent Skills specification](https://agentskills.io/speci
 Users install skills from this repo into their own projects:
 
 ```bash
-npx skills add gentleeduck/duck-ui
+npx skills add gentleduck/duck-ui
 ```
 
 This discovers all skills in the `skills/` directory and installs them into the user's agent configuration (`.claude/skills/`, `.cursor/skills/`, etc.).
@@ -27,7 +27,7 @@ This discovers all skills in the `skills/` directory and installs them into the 
 To install a specific skill:
 
 ```bash
-npx skills add gentleeduck/duck-ui --skill duck-primitives
+npx skills add gentleduck/duck-ui --skill duck-primitives
 ```
 
 ## Skill File Format
@@ -132,7 +132,7 @@ No manual submission is needed. The leaderboard indexes public repos automatical
 5. Commit and push. The skill is now installable by anyone:
 
    ```bash
-   npx skills add gentleeduck/duck-ui
+   npx skills add gentleduck/duck-ui
    ```
 
 ## Maintaining Skills
