@@ -139,6 +139,12 @@ export const docsConfig: DocsConfig = {
           title: 'MCP Server',
         },
         {
+          href: '/docs/skills',
+          items: [],
+          label: 'new',
+          title: 'Agent Skills',
+        },
+        {
           href: '/docs/faqs',
           items: [],
           title: 'FAQs',
