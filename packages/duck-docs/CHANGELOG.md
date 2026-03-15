@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.2.11
+
+### Patch Changes
+
+- f593df5: Bump version to sync downstream consumers.
+
 ## 0.2.10
 
 ### Patch Changes
