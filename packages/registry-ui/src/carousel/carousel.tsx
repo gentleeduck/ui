@@ -154,7 +154,7 @@ CarouselItem.displayName = 'CarouselItem'
 const CarouselPrevious = React.forwardRef<
   React.ComponentRef<typeof Button>,
   React.ComponentPropsWithoutRef<typeof Button> & { text?: string }
->(({ className, variant = 'outline', size = 'icon', text = 'Previous slide', ...props }, ref) => {
+>(({ className, icon, variant = 'outline', size = 'icon', text = 'Previous slide', ...props }, ref) => {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel()
 
   return (
@@ -172,8 +172,8 @@ const CarouselPrevious = React.forwardRef<
       ref={ref}
       size={size}
       variant={variant}
+      icon={icon === undefined ? <ArrowLeft aria-hidden="true" className="h-4 w-4 rtl:rotate-180" /> : icon}
       {...props}>
-      <ArrowLeft aria-hidden="true" className="h-4 w-4 rtl:rotate-180" />
       <span className="sr-only">{text}</span>
     </Button>
   )
@@ -183,7 +183,7 @@ CarouselPrevious.displayName = 'CarouselPrevious'
 const CarouselNext = React.forwardRef<
   React.ComponentRef<typeof Button>,
   React.ComponentPropsWithoutRef<typeof Button> & { text?: string }
->(({ className, variant = 'outline', size = 'icon', text = 'Next slide', ...props }, ref) => {
+>(({ className, icon, variant = 'outline', size = 'icon', text = 'Next slide', ...props }, ref) => {
   const { orientation, scrollNext, canScrollNext } = useCarousel()
 
   return (
@@ -201,8 +201,8 @@ const CarouselNext = React.forwardRef<
       ref={ref}
       size={size}
       variant={variant}
+      icon={icon === undefined ? <ArrowRight aria-hidden="true" className="h-4 w-4 rtl:rotate-180" /> : icon}
       {...props}>
-      <ArrowRight aria-hidden="true" className="h-4 w-4 rtl:rotate-180" />
       <span className="sr-only">{text}</span>
     </Button>
   )
