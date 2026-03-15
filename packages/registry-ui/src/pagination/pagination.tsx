@@ -121,10 +121,10 @@ const PaginationWrapper = (props: DuckPaginationProps) => {
   const { className: wrapperClassName, dir, ...wrapperProps } = props.wrapper ?? {}
   const { className: contentClassName, ...contentProps } = props.content ?? {}
   const { className: itemClassName, ...itemProps } = props.item ?? {}
-  const { className: rightClassName, ...rightProps } = props.right ?? {}
-  const { className: maxRightClassName, ...maxRightProps } = props.maxRight ?? {}
-  const { className: leftClassName, ...leftProps } = props.left ?? {}
-  const { className: maxLeftClassName, ...maxLeftProps } = props.maxLeft ?? {}
+  const { className: rightClassName, icon: rightIcon, ...rightProps } = props.right ?? {}
+  const { className: maxRightClassName, icon: maxRightIcon, ...maxRightProps } = props.maxRight ?? {}
+  const { className: leftClassName, icon: leftIcon, ...leftProps } = props.left ?? {}
+  const { className: maxLeftClassName, icon: maxLeftIcon, ...maxLeftProps } = props.maxLeft ?? {}
   const direction = useDirection(dir as Direction)
   const StartIcon = direction === 'rtl' ? ChevronRightIcon : ChevronLeftIcon
   const EndIcon = direction === 'rtl' ? ChevronLeftIcon : ChevronRightIcon
@@ -138,41 +138,41 @@ const PaginationWrapper = (props: DuckPaginationProps) => {
           <Button
             aria-label="Go to first page"
             className={cn('w-[32px] p-0', maxLeftClassName)}
+            icon={maxLeftIcon === undefined ? <StartDoubleIcon aria-hidden="true" /> : maxLeftIcon}
             size="sm"
             variant="outline"
-            {...maxLeftProps}>
-            <StartDoubleIcon aria-hidden="true" />
-          </Button>
+            {...maxLeftProps}
+          />
         </PaginationItem>
         <PaginationItem className={cn(itemClassName)} {...itemProps}>
           <Button
             aria-label="Go to previous page"
             className={cn('w-[32px] p-0', leftClassName)}
+            icon={leftIcon === undefined ? <StartIcon aria-hidden="true" /> : leftIcon}
             size="sm"
             variant="outline"
-            {...leftProps}>
-            <StartIcon aria-hidden="true" />
-          </Button>
+            {...leftProps}
+          />
         </PaginationItem>
         <PaginationItem className={cn(itemClassName)} {...itemProps}>
           <Button
             aria-label="Go to next page"
             className={cn('w-[32px] p-0', rightClassName)}
+            icon={rightIcon === undefined ? <EndIcon aria-hidden="true" /> : rightIcon}
             size="sm"
             variant="outline"
-            {...rightProps}>
-            <EndIcon aria-hidden="true" />
-          </Button>
+            {...rightProps}
+          />
         </PaginationItem>
         <PaginationItem className={cn(itemClassName)} {...itemProps}>
           <Button
             aria-label="Go to last page"
             className={cn('w-[32px] p-0', maxRightClassName)}
+            icon={maxRightIcon === undefined ? <EndDoubleIcon aria-hidden="true" /> : maxRightIcon}
             size="sm"
             variant="outline"
-            {...maxRightProps}>
-            <EndDoubleIcon aria-hidden="true" />
-          </Button>
+            {...maxRightProps}
+          />
         </PaginationItem>
       </PaginationContent>
     </Pagination>

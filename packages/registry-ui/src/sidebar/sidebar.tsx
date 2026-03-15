@@ -220,7 +220,7 @@ Sidebar.displayName = 'Sidebar'
 const SidebarTrigger = React.forwardRef<
   React.ComponentRef<typeof Button>,
   React.ComponentPropsWithoutRef<typeof Button> & { text?: string }
->(({ className, onClick, text = 'Toggle Sidebar', ...props }, ref) => {
+>(({ className, icon, onClick, text = 'Toggle Sidebar', ...props }, ref) => {
   const { toggleSidebar } = useSidebar()
   const direction = useDirection()
 
@@ -232,13 +232,13 @@ const SidebarTrigger = React.forwardRef<
       variant="ghost"
       size="icon-sm"
       dir={direction}
+      icon={icon === undefined ? <PanelLeftIcon aria-hidden="true" className="rtl:-scale-x-100" /> : icon}
       className={cn(className)}
       onClick={(event) => {
         onClick?.(event)
         toggleSidebar()
       }}
       {...props}>
-      <PanelLeftIcon aria-hidden="true" className="rtl:-scale-x-100" />
       <span className="sr-only">{text}</span>
     </Button>
   )
