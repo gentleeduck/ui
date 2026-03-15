@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.2.13
+
+### Patch Changes
+
+- 24b824b: Fix header shifting right when scroll is disabled by dialogs or sheets. Compensates for the removed scrollbar width using the CSS variable set by react-remove-scroll.
+
 ## 0.2.12
 
 ### Patch Changes
