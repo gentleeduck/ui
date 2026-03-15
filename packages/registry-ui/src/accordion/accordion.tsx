@@ -229,7 +229,7 @@ const AccordionContent = React.forwardRef<HTMLDivElement, React.HTMLProps<HTMLDi
     return (
       <div
         className={cn(
-          'select-none overflow-hidden pt-0 pb-4 text-base',
+          'overflow-hidden pt-0 pb-4 text-base',
           'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
           className,
         )}
