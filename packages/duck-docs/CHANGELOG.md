@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.2.12
+
+### Patch Changes
+
+- 0fd319f: Update carousel, pagination, and sidebar components with tests and fixes.
+
 ## 0.2.11
 
 ### Patch Changes
