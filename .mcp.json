@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "duck-ui-docs": {
+      "type": "url",
+      "url": "https://ui.gentleduck.org/api/mcp"
+    }
+  }
+}
