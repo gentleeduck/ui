@@ -13,8 +13,6 @@ Skills follow the open [Agent Skills specification](https://agentskills.io/speci
 | `duck-variants` | `@gentleduck/variants` | cva() variant function, VariantProps, CvaProps, type inference |
 | `duck-cli` | `@gentleduck/cli` | CLI commands, template scaffolding, command authoring pattern |
 | `duck-vim` | `@gentleduck/vim` | Keyboard engine, hotkey parsing, sequences, React hooks |
-| `duck-motion` | `@gentleduck/motion` | Animation tokens, easing, reduced motion, WAAPI helpers |
-| `duck-state` | `@gentleduck/state` | Atom-based state management, store, React hooks |
 
 ## Installing Skills
 
