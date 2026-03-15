@@ -1,5 +1,11 @@
 # @gentleduck/registry-ui
 
+## 0.2.11
+
+### Patch Changes
+
+- 3b33efe: Remove select-none from accordion content so users can select and copy text inside accordion panels.
+
 ## 0.2.10
 
 ### Patch Changes
