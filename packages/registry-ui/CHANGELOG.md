@@ -1,5 +1,11 @@
 # @gentleduck/registry-ui
 
+## 0.2.10
+
+### Patch Changes
+
+- 74f5628: Remove whitespace-nowrap from accordion trigger to allow text wrapping on smaller screens.
+
 ## 0.2.9
 
 ### Patch Changes
