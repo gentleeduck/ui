@@ -237,7 +237,7 @@
     },
     "packages/duck-docs": {
       "name": "@gentleduck/docs",
-      "version": "0.2.9",
+      "version": "0.2.10",
       "dependencies": {
         "@shikijs/compat": "1.12.1",
         "@tanstack/react-virtual": "^3.13.19",
@@ -659,7 +659,7 @@
     },
     "packages/registry-ui": {
       "name": "@gentleduck/registry-ui",
-      "version": "0.2.8",
+      "version": "0.2.9",
       "dependencies": {
         "@gentleduck/hooks": "^0.1.12",
         "@gentleduck/libs": "^0.1.15",
