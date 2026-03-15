@@ -3,6 +3,8 @@ title: Agent Skills
 description: Install AI coding skills that teach your agent how to work with gentleduck/ui.
 ---
 
+Agent skills are markdown instruction files that teach AI coding assistants the APIs, patterns, and conventions of a codebase so they produce correct code on the first try.
+
 ## Overview
 
 gentleduck/ui ships agent skills that teach AI coding assistants how to work with every package in the ecosystem. Skills follow the open [Agent Skills specification](https://agentskills.io/specification) and work with Claude Code, GitHub Copilot, Cursor, Cline, OpenCode, and 30+ other agents.
@@ -10,10 +12,16 @@ gentleduck/ui ships agent skills that teach AI coding assistants how to work wit
 ## Install
 
 ```bash
-npx skills add gentleeduck/duck-ui
+npx skills add gentelduck/ui
 ```
 
 This installs all available skills into your agent's configuration. Each skill is scoped to a single package so the agent only loads the context it needs.
+
+To install a single skill instead of all of them:
+
+```bash
+npx skills add gentelduck/ui --skill duck-primitives
+```
 
 ## Available Skills
 
@@ -26,6 +34,8 @@ This installs all available skills into your agent's configuration. Each skill i
 | `duck-vim` | `@gentleduck/vim` | Keyboard engine, hotkey parsing, sequences, React hooks |
 
 ## MCP Documentation Server
+
+Connecting your agent to the MCP documentation server gives it live access to component APIs, code examples, and full-text search across the docs site. This means the agent can look up accurate, up-to-date information at generation time instead of relying solely on the static skill instructions.
 
 The docs site exposes an MCP server that skills can connect to for real-time documentation access:
 
@@ -76,4 +86,11 @@ The agent reads the `description` to decide when to activate the skill. The mark
 
 ## Contributing Skills
 
-See the [skills README](https://github.com/gentleeduck/duck-ui/tree/master/skills) for the authoring guide, quality checklist, and publishing instructions.
+Want to add a skill for a new package or improve an existing one? The general workflow is:
+
+1. Create a directory under `skills/` with a `SKILL.md` containing frontmatter and markdown instructions.
+2. Optionally add a `references/` subdirectory for detailed content the agent loads on demand.
+3. Test locally by symlinking into `.claude/skills/` and starting a new agent session.
+4. Open a pull request. The skill becomes installable as soon as it merges.
+
+See the [skills README](https://github.com/gentelduck/ui/tree/master/skills) for the full authoring guide, quality checklist, and publishing instructions.

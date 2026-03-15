@@ -2,16 +2,19 @@
 name: duck-cli
 description: >-
   Use when working with @gentleduck/cli — the command-line tool for initializing
-  projects, scaffolding from templates, and adding components. Covers the init, add,
-  update, diff, and list commands, project detection, config generation, and the
-  template scaffold system.
-allowed-tools: Read Grep Glob Bash(node:*) Bash(bun:*)
+  projects, scaffolding from templates, and adding components. Covers the init,
+  add, update, remove, diff, and list commands.
+allowed-tools: Read Grep Glob Bash(bun run build) Bash(bun run test)
 argument-hint: "[command]"
 ---
 
 # @gentleduck/cli
 
 You are an expert on the duck-ui CLI tool. Your scope is `packages/duck-cli/`. This package provides the `npx @gentleduck/cli` command that helps users bootstrap projects and install components.
+
+## Global Flag
+
+`--verbose` — show detailed error output (stack traces). Handled via a `preAction` hook in `src/main/main.ts`.
 
 ## Commands
 
@@ -23,9 +26,13 @@ Initializes a project with duck-ui configuration.
 npx @gentleduck/cli init                              # Interactive
 npx @gentleduck/cli init -y                           # Non-interactive with defaults
 npx @gentleduck/cli init --template acme --cwd ./app  # Scaffold from template
-npx @gentleduck/cli init --monorepo --workspace packages/ui
+npx @gentleduck/cli init --monorepo -w packages/ui    # Monorepo workspace
 npx @gentleduck/cli init -p NEXT_JS -b zinc --css ./src/styles.css
+npx @gentleduck/cli init -a                           # Init and install all components
+npx @gentleduck/cli init button dialog                # Init and install specific components
 ```
+
+Flags: `-y, --yes`, `-c, --cwd <cwd>`, `-p, --project-type <type>`, `-b, --base-color <color>`, `--alias <alias>`, `--css <path>`, `--css-variables / --no-css-variables`, `--monorepo / --no-monorepo`, `-w, --workspace <path>`, `--prefix <prefix>`, `-a, --all`, `-t, --template <name>`.
 
 ### add
 
@@ -33,64 +40,80 @@ Adds components to an existing project.
 
 ```bash
 npx @gentleduck/cli add button dialog tabs
-npx @gentleduck/cli add button --workspace packages/ui  # Monorepo
-npx @gentleduck/cli add -y                               # Skip prompts
+npx @gentleduck/cli add -f                             # Overwrite existing
+npx @gentleduck/cli add -w packages/ui                 # Monorepo workspace
+npx @gentleduck/cli add -a                             # All components
+npx @gentleduck/cli add -y                             # Skip prompts
 ```
 
-### update, diff, list
+Flags: `-y, --yes`, `-f, --force`, `-c, --cwd <cwd>`, `-w, --workspace <path>`, `-a, --all`.
+
+### update, remove, diff
 
 ```bash
 npx @gentleduck/cli update button    # Update component to latest
+npx @gentleduck/cli remove button    # Remove component
 npx @gentleduck/cli diff button      # Show diff between local and registry
-npx @gentleduck/cli list             # List available components
 ```
+
+All three accept: `-y, --yes`, `-c, --cwd <cwd>`, `-w, --workspace <path>`.
+
+### list
+
+```bash
+npx @gentleduck/cli list             # List available components
+npx @gentleduck/cli list -t ui       # Filter by type (ui, hook, lib, block)
+npx @gentleduck/cli list -j          # Output as JSON
+```
+
+Flags: `-t, --type <type>`, `-j, --json`.
 
 ## Source Structure
 
 ```
 packages/duck-cli/src/
-├── commands/
-│   ├── init/           # init command (init.ts, init.libs.ts, init.dto.ts, init.constants.ts)
-│   ├── add/            # add command
-│   ├── update/         # update command
-│   ├── diff/           # diff command
-│   └── list/           # list command
-├── utils/
-│   ├── template-scaffold/   # --template flag implementation
-│   ├── get-package-manager/ # detects bun/pnpm/yarn/npm
-│   ├── preflight-configs/   # project detection and config generation
-│   ├── registry-mutation/   # component file writing
-│   ├── get-registry/        # fetches component registry from API
-│   └── text-styling/        # terminal colors (kleur)
-├── gui/                     # ink-based interactive UI
-└── index.ts                 # commander program setup
+├── commands/{name}/    # 5 files each: .ts, .libs.ts, .dto.ts, .constants.ts, .types.ts
+│   └── shared.types.ts # CommandConfig, OptionType (re-exported by each .types.ts)
+├── utils/              # template-scaffold/, get-package-manager/, get-project-info/,
+│                       # preflight-configs/, registry-mutation/, get-registry/,
+│                       # text-styling/, diff-format/, merge/, workspace/,
+│                       # resolve-components.ts, spinner.ts, banner.ts, verbose.ts,
+│                       # require-config-value.ts
+├── main/               # main.ts (commander setup), main.constants.ts (REGISTRY_URL)
+├── gui/                # ink-based interactive UI
+└── index.ts            # entry point
 ```
 
 ## Command Pattern
 
-Each command follows this structure:
+Each command has five files. See [COMMAND-PATTERN.md](references/COMMAND-PATTERN.md) for the full pattern with code examples.
 
+## Registry API
+
+The registry URL defaults to `https://ui.gentleduck.org/r` and can be overridden with the `COMPONENTS_REGISTRY_URL` env var. Defined in `src/main/main.constants.ts` as `REGISTRY_URL`.
+
+## Local Development
+
+```bash
+cd packages/duck-cli
+bun run build                      # Build with tsdown into dist/index.mjs
+bun run dev                        # Watch mode
+bun run start -- init -y           # Run the built CLI
+bun run start:dev -- init -y       # Run against local registry (localhost:3003)
+bun run test                       # Run vitest
 ```
-commands/{name}/
-├── {name}.ts           # Commander command definition with .option() and .action()
-├── {name}.libs.ts      # Action handler implementation
-├── {name}.dto.ts       # Zod schema for options validation
-└── {name}.constants.ts # Command metadata (name, description, flags)
-```
 
-## Template Scaffold
+## Error Patterns
 
-The `--template` flag downloads a tarball from GitHub:
+1. Command not found -- forgot to register in `src/main/main.ts`
+2. Option type mismatch -- Zod schema field name/type does not match the Commander option
+3. Registry fetch failure -- check `get-registry/` and the `COMPONENTS_REGISTRY_URL` env var
+4. Template not found -- tarball filter pattern does not match the template directory name
 
-1. Fetch `https://codeload.github.com/gentelduck/ui/tar.gz/master`
-2. Extract entries matching `templates/{name}/` via tar filter
-3. Skip ignored segments (node_modules, .git, dist, .turbo, etc.)
-4. Detect package manager and run install
+## Do Not
 
-Source: `packages/duck-cli/src/utils/template-scaffold/`
-
-## Build
-
-Built with tsdown into a single `dist/index.mjs`. Entry: `src/index.ts`. Published as `@gentleduck/cli` with bin `duck-cli`.
-
-For implementation details, read the source files. For the command option schemas, read the `.dto.ts` files.
+- Do not run arbitrary shell commands -- use `execa` with explicit command and args arrays
+- Do not skip Zod validation -- always parse options through the schema before use
+- Do not use `console.log` for user feedback -- use the `spinner` and `highlighter` utilities
+- Do not hardcode registry URLs -- use `REGISTRY_URL` from `main.constants.ts`
+- Do not add commands without updating the snapshot test at `src/__test__/unit/command-help.test.ts`

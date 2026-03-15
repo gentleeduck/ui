@@ -11,18 +11,18 @@ argument-hint: "[primitive-name]"
 
 # @gentleduck/primitives
 
-You are an expert on the headless primitive layer. Your scope is strictly `packages/duck-primitives/`. These are unstyled, accessibility-first React components that handle ARIA, keyboard nav, focus trapping, and state internally. The styled registry-ui components are built on top of these.
+You are an expert on the headless primitive layer. Your scope is strictly `packages/duck-primitives/src/`. These are unstyled, accessibility-first React components that handle ARIA, keyboard nav, focus trapping, and state internally. The styled registry-ui components are built on top of these.
 
 ## Where Primitives Live
 
 ```
 packages/duck-primitives/src/{name}/
-├── {name}.tsx           # Root component, context provider, state machine
-├── trigger.tsx          # Trigger sub-component
-├── content.tsx          # Content sub-component
-├── {sub-part}.tsx       # Other sub-parts (overlay, portal, arrow, etc.)
-├── {name}.libs.ts       # Internal helpers (not exported)
-└── index.ts             # Named exports (NEVER wildcard)
+├── {name}.tsx           # Root component (React.FC), context provider, state
+├── trigger.tsx          # Trigger sub-component (React.forwardRef)
+├── content.tsx          # Content sub-component (React.forwardRef)
+├── {sub-part}.tsx       # Other sub-parts (overlay, portal, arrow, close, etc.)
+├── {name}.libs.ts       # Internal helpers (NOT exported from index), may have 'use client'
+└── index.ts             # Named exports only (NEVER wildcard)
 ```
 
 Import: `import * as DialogPrimitive from '@gentleduck/primitives/dialog'`
@@ -31,100 +31,123 @@ Built with tsdown. Exports: `"./*": { "types": "./dist/*/index.d.ts", "default":
 
 ## Architecture Patterns
 
-### Scoped Context
+### Scoped Context (createContextScope)
 
-Every primitive creates isolated context so multiple instances never conflict:
+Every primitive uses `createContextScope` for isolated, composable context:
 
 ```tsx
-import { createContext } from '../libs/create-context'
+import { createContextScope, type Scope } from '../libs/create-context'
 
-const [DialogProvider, useDialogContext] = createContext<DialogContextValue>('Dialog')
+const DIALOG_NAME = 'Dialog'
+export type ScopedProps<P> = P & { __scopeDialog?: Scope }
+export const [createDialogContext, createDialogScope] = createContextScope(DIALOG_NAME)
+export const [DialogProvider, useDialogContext] = createDialogContext<DialogContextValue>(DIALOG_NAME)
 ```
 
-The factory returns a typed Provider and a hook that throws a clear error if used outside the Provider.
+The scoped hook always takes two args: `useDialogContext(COMPONENT_NAME, __scopeDialog)`.
 
-### State Machine via useControllableState
+For cross-primitive composition (e.g., Select depends on Popper):
+```tsx
+const [createSelectContext, createSelectScope] = createContextScope(SELECT_NAME, [
+  createCollectionScope, createPopperScope,
+])
+export const usePopperScope = createPopperScope()
+// In root: const popperScope = usePopperScope(__scopeSelect)
+// Then:    <PopperPrimitive.Root {...popperScope}>
+```
 
-All open/close state uses the controllable pattern from `src/hooks/useControllableState.ts`:
+### State via useControllableState
+
+All open/close state uses this pattern. The `caller` param is required:
 
 ```tsx
 const [open, setOpen] = useControllableState({
-  prop: openProp,           // controlled value (or undefined)
-  defaultProp: defaultOpen, // uncontrolled default
-  onChange: onOpenChange,   // callback when value changes
+  prop: openProp, defaultProp: defaultOpen ?? false,
+  onChange: onOpenChange, caller: DIALOG_NAME,
 })
 ```
+
+### Root = React.FC, Sub-parts = React.forwardRef
+
+Root components are provider-only (no DOM), so they use `React.FC`. Sub-components that render DOM use `React.forwardRef`. See [CODING-STYLE.md](references/CODING-STYLE.md) for full code examples of both patterns.
 
 ### Slot and asChild
 
 `Primitive.button` renders a native `<button>` by default. When `asChild` is true, it renders a `Slot` that merges all behavior (props, ref, event handlers) onto the consumer's child element.
 
-```tsx
-const Component = (asChild ? Slot : 'button') as React.ElementType
-```
+## Decision Guide: Choosing the Right Primitive Building Block
 
-The Slot component:
-- Merges event handlers (child handler runs first, then slot handler)
-- Merges style objects
-- Concatenates className strings
-- Composes refs
+### DismissableLayer vs useEscapeKeydown
+- Use `DismissableLayer` when you need: Escape to close, click-outside to close, focus-outside to close, and correct stacking with nested layers (e.g., Dialog, Popover, DropdownMenu).
+- Use `useEscapeKeydown` alone only for lightweight components that never stack and only need Escape (rare — Tooltip uses its own timer-based close instead).
 
-### Presence for Animations
+### Presence vs conditional rendering (`{open && <Content />}`)
+- Use `<Presence present={...}>` when the component needs exit animations. Presence keeps the element in the DOM during the leave animation and removes it after.
+- Use conditional rendering only for components that never animate (e.g., internal helper wrappers).
+- `forceMount` on Portal/Content keeps the element in DOM permanently; Presence then controls visibility for animation. Content reads `forceMount` from its parent Portal via `usePortalContext`.
 
-The Presence primitive delays unmounting until exit animations complete:
+### Portal: when and how
+- Use a Portal sub-component (like `DialogPortal`) when content must escape parent overflow/stacking contexts (modals, dropdowns, popovers, tooltips).
+- Portal wraps each child in `<Presence>` + `<PortalPrimitive>` and provides `forceMount` to children via its own context.
+- The base `Portal` primitive (`src/portal/`) uses `ReactDOM.createPortal` to `document.body` by default, accepts a `container` prop for custom targets.
 
-```tsx
-import { Presence } from '../presence'
+### Overlay: when to include one
+- Include an Overlay sub-component for modal primitives (Dialog, Sheet, AlertDialog) that need a backdrop.
+- Overlay only renders when `context.modal` is true. It wraps content in `RemoveScroll` for scroll locking.
+- Non-modal primitives (Popover, Tooltip, HoverCard) never use Overlay.
 
-<Presence present={open}>
-  <Content />
-</Presence>
-```
+### Focus restoration
+- Modal content: always restore focus to trigger on close via `context.triggerRef.current?.focus()` in `onCloseAutoFocus`.
+- Non-modal content: only restore focus if the user did NOT interact outside. Track this with `hasInteractedOutsideRef`.
 
-### DismissableLayer
+## Internal Hooks & Libs
 
-Handles click-outside and Escape key dismissal with nested layer awareness:
+Hooks (`src/hooks/`): `useCallbackRef`, `useControllableState` (requires `caller`), `useEscapeKeydown`, `useFocusGuards`, `useId`, `useLayoutEffect` (isomorphic), `usePrevious`, `useSize`, `useStateMachine`
 
-```tsx
-<DismissableLayer onDismiss={onClose} onEscapeKeyDown={onEscapeKeyDown}>
-  {children}
-</DismissableLayer>
-```
+Libs (`src/libs/`): `createContext`/`createContextScope`, `createCollection`, `composeEventHandlers`, `useComposedRefs`/`composeRefs`
 
-### FocusScope
+## Creating a New Primitive
 
-Traps focus within a boundary (used by Dialog, AlertDialog):
+1. Create `packages/duck-primitives/src/{name}/` directory.
+2. **Read `dialog/` first** as the canonical reference primitive.
+3. Create `{name}.tsx` — define `COMPONENT_NAME` const, `ScopedProps<P>`, `createContextScope`, context value type, `useControllableState` for state, `useDirection(dir)`, `useId()` for IDs. Export `getState` helper. Set `displayName`.
+4. Create sub-part files (trigger, content, etc.) — each defines its own `COMPONENT_NAME`, uses `useComposedRefs`, `composeEventHandlers`, `Primitive.{tag}`. Required attrs: `data-slot`, `data-state`, `dir`, `type="button"` on buttons. Props spread after data/aria attrs, `ref` last.
+5. If the primitive needs a popup layer: create `portal.tsx` (FC, not forwardRef) with its own context providing `forceMount`; create `content.tsx` wrapping children in `<Presence>` > `<FocusScope>` > `<DismissableLayer>`.
+6. If modal: add `overlay.tsx` with `RemoveScroll`, `hideOthers` in content, `disableOutsidePointerEvents`.
+7. If item-based (menu, select): use `createCollection` for keyboard nav and typeahead.
+8. Create `index.ts` — named exports with full name + short alias. Export `create{Name}Scope` for composition.
+9. Follow the [Conventions Checklist](references/CODING-STYLE.md#conventions-checklist) before finishing.
 
-```tsx
-<FocusScope trapped={open} onMountAutoFocus={...} onUnmountAutoFocus={...}>
-  {children}
-</FocusScope>
-```
+## Common Errors
 
-## Internal Hooks
+1. **Context error** — sub-component outside its Provider (check `__scope` threading)
+2. **Event swallowing** — not using `composeEventHandlers` (replaces consumer's handler)
+3. **State desync** — mixing controlled/uncontrolled; forgetting `caller` in `useControllableState`
+4. **SSR hydration** — using `useLayoutEffect` instead of the isomorphic version from `../hooks/use-layout-effect`
 
-- `useCallbackRef` — stable ref that updates every render without causing re-renders
-- `useControllableState` — controlled/uncontrolled state pattern
-- `useEscapeKeydown` — global Escape key listener with event propagation control
-- `useFocusGuard` — sentinel elements that catch focus leaving a boundary
-- `useId` — SSR-safe unique ID (uses React.useId internally)
-- `useLayoutEffect` — isomorphic (no SSR warning)
-- `usePrevious` — track previous render's value
-- `useSize` — ResizeObserver-based dimension tracking
-- `useStateMachine` — finite state machine with typed transitions
+## Do Not
 
-## Coding Style for Primitives
+- Use wildcard exports in index.ts — always named exports with full + short alias
+- Import from registry-ui or from sibling primitives — only from `../libs/`, `../hooks/`, and shared primitives like `../portal`, `../presence`, `../primitive-elements`
+- Use `React.forwardRef` for root/provider components — use `React.FC` (no DOM)
+- Use `React.FC` for sub-components that render DOM — use `React.forwardRef`
+- Omit the `caller` param from `useControllableState`
+- Call the scoped context hook with only one arg — always `(COMPONENT_NAME, __scope)`
+- Use `data-disabled="true"` — use `data-disabled=""` (empty string) to match `[data-disabled]`
+- Skip `data-slot`, `data-state`, `dir`, or `type="button"` attributes
+- Create a primitive without `COMPONENT_NAME` constant at top of each file
+- Forget `displayName` on every component (including internal impl components)
+- Skip `useComposedRefs` when both `forwardedRef` and a context ref are needed
 
-- Always `React.forwardRef` with explicit generic types
-- Named exports only in index.ts: `export { DialogContent } from './content'`
-- Prefix internal types with the primitive name: `SelectTriggerProps`, `DialogContentElement`
-- `ScopedProps<P>` wrapper for props that include `__scope{Name}` context prop
-- `data-slot="{primitive}-{part}"` on every element (e.g., `data-slot="dialog-content"`)
-- `data-state="open" | "closed"` for stateful elements
-- `data-disabled=""` when disabled (empty string, not "true")
-- Use `composeEventHandlers` to chain handlers without losing the original
-- Use `Primitive.{tag}` as the base element (from `../primitive-elements`)
-- Never import from registry-ui or other primitives at the same level — use libs/hooks only
+## Edge Cases
+
+See [CODING-STYLE.md](references/CODING-STYLE.md) for detailed edge cases with code. Key ones:
+- **Nested layers**: Escape only closes the topmost DismissableLayer; right-click outside prevents dismiss
+- **Modal vs non-modal**: Dialog delegates to separate impl components; modal traps focus + uses `aria-hidden` via `hideOthers`
+- **Scope composition**: Dependent primitives must compose scopes and thread `usePopperScope(__scope)`
+- **Collection pattern**: Item-based primitives use `createCollection` for keyboard nav and typeahead
+- **Scroll locking**: Modal overlay uses `RemoveScroll` (from `react-remove-scroll`); `dialog.libs.ts` has ref-counted `lockScrollbar` for additional scroll lock needs
+- **RTL**: Root uses `useDirection(dir)`; sub-components pass `dir={context.dir}`
 
 ## Available Primitives
 

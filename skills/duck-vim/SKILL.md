@@ -11,101 +11,127 @@ argument-hint: "[keybind-or-topic]"
 
 # @gentleduck/vim
 
-You are an expert on the keyboard command engine. Your scope is `packages/duck-vim/`. This package parses hotkey strings, matches keyboard events, supports sequences (vim-style chords), records key presses, and provides React hooks.
+Expert scope: `packages/duck-vim/`. Parses hotkey strings, matches keyboard events, supports sequences, records key presses, and provides React hooks. Import by subpath: `@gentleduck/vim/{module}`.
 
-## Modules
+## parser — `@gentleduck/vim/parser`
 
-Import by subpath: `@gentleduck/vim/{module}`
+Exports: `parseKeyBind(binding, platform?) => ParsedKeyBind`, `normalizeKeyBind(binding, platform?) => string`, `validateKeyBind(binding) => ValidationResult`, `keyboardEventToDescriptor(e) => string | null`, `KEY_ALIASES`, `MODIFIER_KEYS`, types `ParsedKeyBind`, `ValidationResult`.
 
-### parser — Parse hotkey strings into structured objects
-
-```tsx
-import { parseKeyBind, type ParsedKeyBind } from '@gentleduck/vim/parser'
-
-parseKeyBind('mod+shift+k')
-// => { key: 'k', mod: true, shift: true, alt: false, meta: false }
-// mod resolves to Cmd on Mac, Ctrl elsewhere
+```ts
+parseKeyBind('mod+shift+k', 'mac')
+// => { key: 'k', ctrl: false, shift: true, alt: false, meta: true, modifiers: ['meta', 'shift'] }
+normalizeKeyBind('Shift+Mod+s', 'mac') // => 'meta+shift+s'
+validateKeyBind('ctrl+ctrl+k')         // => { valid: false, errors: ['Duplicate modifier: ...'], warnings: [] }
 ```
 
-### matcher — Match keyboard events against parsed bindings
+## matcher — `@gentleduck/vim/matcher`
 
-```tsx
-import { createKeyBindHandler, matchesKeyboardEvent, isInputElement } from '@gentleduck/vim/matcher'
+Exports: `createKeyBindHandler(config) => (e) => void`, `createMultiKeyBindHandler(configs[]) => (e) => void`, `matchesKeyboardEvent(parsed, event, options?) => boolean`, `isInputElement(el) => boolean`, types `KeyBindHandlerConfig`, `MatchOptions`, `SingleKeyBindOptions`.
 
-const handler = createKeyBindHandler('mod+k', (e) => { openSearch() })
-document.addEventListener('keydown', handler)
-
-// Multi-key: matches any of several bindings
-const multi = createMultiKeyBindHandler([
-  { bind: 'mod+k', handler: openSearch },
-  { bind: 'mod+j', handler: openTerminal },
-])
+```ts
+const handler = createKeyBindHandler({
+  binding: 'Mod+S', handler: (e) => save(),
+  options: { preventDefault: true, ignoreInputs: true },
+})
+document.addEventListener('keydown', handler) // must attach manually
 ```
 
-### platform — Detect OS for mod key resolution
+## command — `@gentleduck/vim/command`
 
-```tsx
-import { detectPlatform, isMac, resolveMod } from '@gentleduck/vim/platform'
+Exports: `Registry`, `KeyHandler`, types `Command`, `KeyBindOptions`, `RegistrationHandle`, `RegistryEntry`, `RegistryClass`.
 
-detectPlatform() // => 'mac' | 'windows' | 'linux'
-resolveMod()     // => 'metaKey' on Mac, 'ctrlKey' elsewhere
+`Command` has `{ name: string, description?: string, execute: (args?) => void | Promise<void> }`.
+
+`KeyBindOptions` fields: `enabled?`, `preventDefault?`, `stopPropagation?`, `ignoreInputs?`, `eventType?` (`'keydown'|'keyup'`), `requireReset?`, `conflictBehavior?` (`'warn'|'error'|'replace'|'allow'`, default `'warn'`).
+
+```ts
+const registry = new Registry(/* debug */ false)
+const handle = registry.register('ctrl+k', { name: 'Palette', execute: () => openPalette() },
+  { preventDefault: true, conflictBehavior: 'error' })
+handle.unregister()          // remove binding
+handle.setEnabled(false)     // disable without removing
+handle.isEnabled()           // => boolean
+handle.resetFired()          // reset requireReset flag
+registry.getAllCommands()     // => Map<string, Command>
+registry.hasCommand('ctrl+k') // => boolean
+
+const kh = new KeyHandler(registry, 600, /* defaultOptions */ {})
+kh.attach(document)          // default target is document
+kh.detach(document)
 ```
 
-### format — Display-friendly key labels
+## platform — `@gentleduck/vim/platform`
 
-```tsx
-import { formatForDisplay, formatWithLabels } from '@gentleduck/vim/format'
+Exports: `detectPlatform() => Platform`, `isMac(platform?) => boolean`, `resolveMod(platform?) => 'meta' | 'ctrl'`, type `Platform` (`'mac' | 'windows' | 'linux'`).
 
-formatForDisplay('mod+shift+k') // => '⌘⇧K' on Mac, 'Ctrl+Shift+K' on Windows
+SSR safe: `detectPlatform()` falls back to `'linux'` when `navigator` is unavailable.
+
+## format — `@gentleduck/vim/format`
+
+Exports: `formatForDisplay(binding, options?) => string`, `formatWithLabels(binding, options?) => string`, `SYMBOL_MAP`, `LABEL_MAP`, type `FormatOptions { platform?, separator? }`.
+
+```ts
+formatForDisplay('mod+shift+k', { platform: 'mac' })  // => 'Cmd+Shift+K'
+formatWithLabels('mod+enter', { platform: 'mac' })     // => 'Cmd + Enter' (space-padded separator)
 ```
 
-### sequence — Vim-style multi-key sequences
+## sequence — `@gentleduck/vim/sequence`
 
-```tsx
-import { createSequenceMatcher, SequenceManager } from '@gentleduck/vim/sequence'
+Exports: `createSequenceMatcher(steps[], handler, options?) => { feed, reset, getState }`, `SequenceManager`, types `SequenceOptions`, `SequenceHandle`, `SequenceState`, `SequenceRegistration`, `SequenceStep`.
 
-const seq = createSequenceMatcher('g g', () => scrollToTop(), { timeout: 1000 })
+```ts
+const seq = createSequenceMatcher(['g', 'g'], () => scrollToTop(), { timeout: 1000 })
+seq.feed(event) // => true when complete
+const mgr = new SequenceManager()
+const handle = mgr.register({ steps: [{ binding: 'g' }, { binding: 'd' }], handler: goToDefinition })
+mgr.handleKeyEvent(event) // feed events; returns true if any matched
+handle.unregister()
+mgr.destroy()
 ```
 
-### recorder — Record key presses for shortcut discovery
+## recorder — `@gentleduck/vim/recorder`
 
-```tsx
-import { KeyRecorder, KeyStateTracker } from '@gentleduck/vim/recorder'
+Exports: `KeyRecorder`, `KeyStateTracker`, types `KeyRecorderOptions`, `KeyRecorderState`, `KeyStateSnapshot`.
+
+```ts
+const recorder = new KeyRecorder({ onRecord: (b) => console.log(b), onStart, onStop })
+recorder.start(document) // Ctrl+Shift+K => onRecord('ctrl+shift+k')
+recorder.getState()      // => { activeKeys: string[], recorded: string | null, isRecording }
+recorder.stop(); recorder.reset(); recorder.destroy()
+
+const tracker = new KeyStateTracker()
+tracker.attach(document)
+tracker.isKeyPressed('shift')   // => boolean
+tracker.getSnapshot()           // => { pressed: ReadonlySet<string>, hasModifier: boolean }
+tracker.detach(); tracker.destroy()
 ```
 
-### react — React hooks
+## react — `@gentleduck/vim/react`
 
-```tsx
-import { useKeyBind, useKeySequence, useKeyCommands, useKeyRecorder, KeyProvider } from '@gentleduck/vim/react'
+Exports: `useKeyBind`, `useKeySequence`, `useKeyCommands`, `useKeyRecorder`, `KeyProvider`, `KeyContext`, types `KeyContextValue`, `KeyBindHookOptions`, `SequenceHookOptions`, `KeyRecorderReturn`.
 
-// Single binding
-useKeyBind('mod+k', () => openCommandMenu())
-
-// Sequence
-useKeySequence('g g', () => scrollToTop())
-
-// Command registry
-useKeyCommands([
-  { id: 'search', bind: 'mod+k', handler: openSearch },
-  { id: 'save', bind: 'mod+s', handler: save },
-])
-
-// Recording mode
-const { recording, startRecording, stopRecording, keys } = useKeyRecorder()
+```ts
+useKeyBind('mod+k', () => openMenu(), { preventDefault: true, targetRef })
+useKeySequence(['g', 'g'], () => scrollToTop(), { timeout: 1000 }) // string[], NOT space-separated
+useKeyCommands({ 'ctrl+k': { name: 'Search', execute: openSearch } }, optionalKeyBindOptions) // requires KeyProvider
+const { state, start, stop, reset } = useKeyRecorder()
 ```
 
-## Source
+`KeyProvider` props: `debug?`, `timeoutMs?` (default 600), `defaultOptions?: Partial<KeyBindOptions>`, `children`.
 
-```
-packages/duck-vim/src/
-├── command/   # KeyHandler, Registry
-├── format/    # Display formatting
-├── matcher/   # Event matching
-├── parser/    # String parsing
-├── platform/  # OS detection
-├── react/     # React hooks and context
-├── recorder/  # Key recording
-└── sequence/  # Multi-key sequences
-```
+## Recipes
 
-Each module is independently importable via the package.json exports map.
+**Command palette:** `<KeyProvider><App /></KeyProvider>`, then `useKeyBind('mod+k', () => setPaletteOpen(true), { preventDefault: true, ignoreInputs: true })`.
+
+**Customizable keybinds:** Use `useKeyRecorder()` -- render `state.recorded`, call `start(el)` on focus, `stop()` on blur, persist result, pass to `useKeyBind` dynamically.
+
+**Conflict detection:** `conflictBehavior: 'error'` in dev to catch collisions; `'replace'` for user overrides.
+
+## Pitfalls
+
+1. Binding silent -- check `isInputElement`, `options.enabled`, and that `KeyProvider` wraps the tree
+2. Sequence timeout -- default 600ms; increase with `{ timeout: ms }`
+3. Always use `mod+` not `ctrl+`/`meta+`; always pass `string[]` not space-separated to sequences
+4. `createKeyBindHandler` takes `{ binding, handler, options }` -- not positional args
+5. `useKeyCommands` requires `KeyProvider` -- warns and no-ops without it
+6. For many bindings prefer `useKeyCommands` over repeated `useKeyBind`
