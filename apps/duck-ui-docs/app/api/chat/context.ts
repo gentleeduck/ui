@@ -1,10 +1,10 @@
 import { readdir, readFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
 import {
-  cosineSimilarity,
-  computeTf,
   computeIdf,
+  computeTf,
   computeTfidfVector,
+  cosineSimilarity,
   expandSearchTerms,
   extractSummary,
   fuzzyMatch,
@@ -143,19 +143,20 @@ export async function buildChatContext(userMessage: string): Promise<ChatContext
   for (const name of componentNames) {
     const doc = docs.find((d) => d.slug === `components/${name}`)
     if (!doc) continue
-    const summary = extractSummary(doc.cleanBody)
-    const chunk = `COMPONENT: ${doc.title}\n${summary}`
+    // Give full body for exact component matches (truncated to 3000 chars), not just summary
+    const body = doc.cleanBody.length > 3000 ? doc.cleanBody.slice(0, 3000) : doc.cleanBody
+    const chunk = `COMPONENT: ${doc.title}\nPage: ${BASE_URL}/docs/${doc.slug}\n\n${body}`
     if (usedChars + chunk.length > MAX_CONTEXT_CHARS) break
     contextParts.push(chunk)
     usedChars += chunk.length
     sources.push({ slug: doc.slug, title: doc.title, href: `${BASE_URL}/docs/${doc.slug}` })
   }
 
-  const searchResults = semanticSearch(userMessage, docs, idf, 5)
+  const searchResults = semanticSearch(userMessage, docs, idf, 3)
   for (const doc of searchResults) {
     if (sources.some((s) => s.slug === doc.slug)) continue
     const summary = extractSummary(doc.cleanBody)
-    const chunk = `DOC: ${doc.title}\n${summary}`
+    const chunk = `DOC: ${doc.title}\nPage: ${BASE_URL}/docs/${doc.slug}\n\n${summary}`
     if (usedChars + chunk.length > MAX_CONTEXT_CHARS) break
     contextParts.push(chunk)
     usedChars += chunk.length
