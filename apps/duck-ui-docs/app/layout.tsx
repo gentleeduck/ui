@@ -175,7 +175,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       suppressHydrationWarning>
       <head>
         {process.env.NODE_ENV === 'development' && (
-          <script crossOrigin="anonymous" src="//unpkg.com/react-scan/dist/auto.global.js" />
+          <>
+            <script crossOrigin="anonymous" src="//unpkg.com/react-scan/dist/auto.global.js" />
+            <script crossOrigin="anonymous" src="//unpkg.com/react-grab/dist/index.global.js" />
+          </>
         )}
 
         <script
