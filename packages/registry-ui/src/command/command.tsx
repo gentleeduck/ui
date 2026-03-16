@@ -167,7 +167,7 @@ function CommandDialog({
 }: React.ComponentPropsWithoutRef<typeof Dialog> & { shouldFilter?: boolean }) {
   return (
     <Dialog {...props}>
-      <DialogContent className="h-125 max-w-full p-0 lg:w-[700px]">
+      <DialogContent className="h-125 max-w-full p-0 lg:w-[700px]" hideClose>
         <DialogTitle className="sr-only">Command palette</DialogTitle>
         <DialogDescription className="sr-only">Search for commands and navigation items</DialogDescription>
         <Command className="max-w-full" shouldFilter={shouldFilter}>
