@@ -107,7 +107,10 @@ export async function POST(request: Request) {
 
     const chat = model.startChat({
       history,
-      systemInstruction: SYSTEM_PROMPT + contextText,
+      systemInstruction: {
+        role: 'user' as const,
+        parts: [{ text: SYSTEM_PROMPT + contextText }],
+      },
     })
 
     const result = await chat.sendMessageStream(lastMsg.parts[0].text)
