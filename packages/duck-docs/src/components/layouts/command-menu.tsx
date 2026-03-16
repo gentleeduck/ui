@@ -17,11 +17,15 @@ import {
 import { Separator } from '@gentleduck/registry-ui/separator'
 import { useKeyCommands } from '@gentleduck/vim/react'
 import { useVirtualizer } from '@tanstack/react-virtual'
-import { Circle, Command, CornerDownLeft, FileIcon, Moon, Sun } from 'lucide-react'
+import { Circle, Command, CornerDownLeft, FileIcon, Moon, Sparkles, Sun } from 'lucide-react'
 import lunr from 'lunr'
 import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
+
+const AIChatPanel = React.lazy(() =>
+  import('@duck-docs/components/layouts/ai-chat-panel').then((m) => ({ default: m.AIChatPanel })),
+)
 
 // -- Types -------------------------------------------------------------------
 
@@ -118,6 +122,25 @@ export function CommandMenu() {
   const docsConfig = useDocsConfig()
   const docsEntries = useDocsEntries()
   const [selectedLabel, setSelectedLabel] = React.useState('')
+  const [aiMode, setAiMode] = React.useState(false)
+  const [aiAvailable, setAiAvailable] = React.useState(false)
+  const [initialAiQuery, setInitialAiQuery] = React.useState('')
+
+  // Check if AI chat is available
+  React.useEffect(() => {
+    fetch('/api/chat/status')
+      .then((r) => r.json())
+      .then((data) => setAiAvailable(data.available === true))
+      .catch(() => setAiAvailable(false))
+  }, [])
+
+  // Reset AI mode when dialog closes
+  React.useEffect(() => {
+    if (!open) {
+      setAiMode(false)
+      setInitialAiQuery('')
+    }
+  }, [open])
 
   const items = React.useMemo(
     () => [
@@ -212,14 +235,43 @@ export function CommandMenu() {
         </CommandShortcut>
       </Button>
       <CommandDialog onOpenChange={setOpen} open={open} shouldFilter={false}>
-        <CommandInput autoFocus placeholder="Search..." />
-        <VirtualCommandList
-          flatRows={flatRows}
-          onClose={() => setOpen(false)}
-          onSelectedLabelChange={setSelectedLabel}
-          searchIndex={searchIndex}
-        />
-        <CommandFooter selectedLabel={selectedLabel} />
+        {aiMode ? (
+          <React.Suspense
+            fallback={
+              <div className="flex h-[420px] items-center justify-center text-muted-foreground text-sm">
+                Loading AI chat...
+              </div>
+            }>
+            <AIChatPanel initialQuery={initialAiQuery} onBack={() => setAiMode(false)} />
+          </React.Suspense>
+        ) : (
+          <>
+            <div className="flex items-center">
+              <CommandInput autoFocus className="flex-1" placeholder="Search..." />
+              {aiAvailable && (
+                <button
+                  type="button"
+                  onClick={() => setAiMode(true)}
+                  className="mr-2 flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                  title="Ask AI">
+                  <Sparkles aria-hidden="true" className="size-4" />
+                </button>
+              )}
+            </div>
+            <VirtualCommandList
+              aiAvailable={aiAvailable}
+              flatRows={flatRows}
+              onAskAI={(query) => {
+                setInitialAiQuery(query)
+                setAiMode(true)
+              }}
+              onClose={() => setOpen(false)}
+              onSelectedLabelChange={setSelectedLabel}
+              searchIndex={searchIndex}
+            />
+            <CommandFooter selectedLabel={selectedLabel} />
+          </>
+        )}
       </CommandDialog>
     </>
   )
@@ -228,12 +280,16 @@ export function CommandMenu() {
 // -- VirtualCommandList ------------------------------------------------------
 
 function VirtualCommandList({
+  aiAvailable,
   flatRows,
+  onAskAI,
   onClose,
   onSelectedLabelChange,
   searchIndex,
 }: {
+  aiAvailable: boolean
   flatRows: VirtualRow[]
+  onAskAI: (query: string) => void
   onClose: () => void
   onSelectedLabelChange: (label: string) => void
   searchIndex: lunr.Index | null
@@ -345,28 +401,32 @@ function VirtualCommandList({
   }, [selectedFilteredIndex, virtualizer])
 
   // Keyboard navigation via capture-phase listener.
-  const stableRef = React.useRef({ itemRows, selectedRow, clampedIndex, onClose })
-  stableRef.current = { itemRows, selectedRow, clampedIndex, onClose }
+  const stableRef = React.useRef({ itemRows, selectedRow, clampedIndex, onClose, search, aiAvailable, onAskAI })
+  stableRef.current = { itemRows, selectedRow, clampedIndex, onClose, search, aiAvailable, onAskAI }
 
   React.useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      const { itemRows: rows, selectedRow: selected, onClose: close } = stableRef.current
-      if (rows.length === 0 && e.key !== 'Escape') return
+      const { itemRows: rows, selectedRow: selected, onClose: close, search: q, aiAvailable: ai, onAskAI: askAI } =
+        stableRef.current
 
       switch (e.key) {
         case 'ArrowDown':
+          if (rows.length === 0) return
           e.preventDefault()
           setSelectedIndex((prev) => Math.min(prev + 1, rows.length - 1))
           break
         case 'ArrowUp':
+          if (rows.length === 0) return
           e.preventDefault()
           setSelectedIndex((prev) => Math.max(prev - 1, 0))
           break
         case 'Home':
+          if (rows.length === 0) return
           e.preventDefault()
           setSelectedIndex(0)
           break
         case 'End':
+          if (rows.length === 0) return
           e.preventDefault()
           setSelectedIndex(rows.length - 1)
           break
@@ -375,6 +435,8 @@ function VirtualCommandList({
           if (selected) {
             close()
             selected.action()
+          } else if (rows.length === 0 && ai && q) {
+            askAI(q)
           }
           break
       }
@@ -399,7 +461,20 @@ function VirtualCommandList({
 
   return (
     <>
-      {isEmpty && <CommandEmpty>No results found.</CommandEmpty>}
+      {isEmpty && (
+        <CommandEmpty>
+          <span>No results found.</span>
+          {aiAvailable && search && (
+            <button
+              type="button"
+              onClick={() => onAskAI(search)}
+              className="mt-2 flex items-center gap-1.5 text-muted-foreground text-xs transition-colors hover:text-foreground">
+              <Sparkles aria-hidden="true" className="size-3" />
+              Press Enter to ask AI instead
+            </button>
+          )}
+        </CommandEmpty>
+      )}
       <CommandList className="h-[390px] max-h-full w-full md:w-full" scrollRef={scrollRef}>
         <div ref={listContainerRef} style={{ height: virtualizer.getTotalSize(), position: 'relative', width: '100%' }}>
           {virtualizer.getVirtualItems().map((virtualRow) => {

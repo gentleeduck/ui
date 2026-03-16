@@ -18,6 +18,7 @@
     "@gentleduck/registry-internals": "workspace:*",
     "@gentleduck/registry-ui": "workspace:*",
     "@gentleduck/vim": "workspace:*",
+    "@google/generative-ai": "^0.24.0",
     "@modelcontextprotocol/sdk": "^1.27.1",
     "@tanstack/react-table": "^8.21.3",
     "@vercel/analytics": "^1.6.1",
