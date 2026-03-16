@@ -92,7 +92,8 @@ export async function POST(request: Request) {
     const { contextText, sources } = await buildChatContext(lastUserMessage.content)
 
     const genAI = new GoogleGenerativeAI(apiKey)
-    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash' })
+    const modelName = process.env.GEMINI_MODEL || 'gemini-2.0-flash-lite'
+    const model = genAI.getGenerativeModel({ model: modelName })
 
     const history = messages.slice(-10).map((m) => ({
       role: m.role === 'user' ? ('user' as const) : ('model' as const),
