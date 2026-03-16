@@ -7,7 +7,6 @@ import {
   cosineSimilarity,
   expandSearchTerms,
   extractSummary,
-  fuzzyMatch,
   parseFrontmatter,
   stripMdxSyntax,
   tokenize,
@@ -98,34 +97,102 @@ function semanticSearch(query: string, docs: DocEntry[], idf: Map<string, number
   return scored.map((r) => r.doc)
 }
 
+// Words to ignore when matching component names
+const STOP_WORDS = new Set([
+  'how',
+  'does',
+  'the',
+  'a',
+  'an',
+  'is',
+  'are',
+  'was',
+  'were',
+  'what',
+  'which',
+  'who',
+  'when',
+  'where',
+  'why',
+  'can',
+  'could',
+  'would',
+  'should',
+  'do',
+  'did',
+  'will',
+  'have',
+  'has',
+  'had',
+  'been',
+  'be',
+  'to',
+  'of',
+  'in',
+  'for',
+  'on',
+  'with',
+  'at',
+  'by',
+  'from',
+  'it',
+  'its',
+  'this',
+  'that',
+  'my',
+  'your',
+  'use',
+  'work',
+  'works',
+  'component',
+  'components',
+  'i',
+  'me',
+  'we',
+  'they',
+  'you',
+  'about',
+  'get',
+  'make',
+  'want',
+  'need',
+  'help',
+  'please',
+  'show',
+  'tell',
+])
+
+const ALIASES: Record<string, string> = {
+  modal: 'dialog',
+  popup: 'popover',
+  dropdown: 'dropdown-menu',
+  toast: 'sonner',
+  notification: 'sonner',
+  navbar: 'navigation-menu',
+  autocomplete: 'combobox',
+  datepicker: 'calendar',
+  'date-picker': 'calendar',
+}
+
 export function extractComponentNames(query: string, docs: DocEntry[]): string[] {
   const componentSlugs = docs.filter((d) => d.category === 'components').map((d) => d.slug.split('/').pop() ?? '')
-  const words = query.toLowerCase().split(/\s+/)
+  const words = query
+    .toLowerCase()
+    .split(/\s+/)
+    .filter((w) => w.length > 1 && !STOP_WORDS.has(w))
   const matched: string[] = []
 
-  const aliases: Record<string, string> = {
-    modal: 'dialog',
-    popup: 'popover',
-    dropdown: 'dropdown-menu',
-    toast: 'sonner',
-    notification: 'sonner',
-    navbar: 'navigation-menu',
-    sidebar: 'sidebar',
-    accordion: 'accordion',
-    autocomplete: 'combobox',
-  }
-
   for (const word of words) {
-    const aliased = aliases[word]
+    // Check aliases first
+    const aliased = ALIASES[word]
     if (aliased && componentSlugs.includes(aliased)) {
       matched.push(aliased)
       continue
     }
-    for (const slug of componentSlugs) {
-      if (slug === word || fuzzyMatch(word, slug)) {
-        matched.push(slug)
-        break
-      }
+
+    // Exact match only — no fuzzy for component detection
+    if (componentSlugs.includes(word)) {
+      matched.push(word)
     }
   }
 
