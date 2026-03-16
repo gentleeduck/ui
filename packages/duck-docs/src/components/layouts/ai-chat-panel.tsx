@@ -1,10 +1,10 @@
 'use client'
 
+import { type ChatMessage, type ChatSource, useAIChat } from '@duck-docs/hooks'
 import { cn } from '@gentleduck/libs/cn'
-import { ArrowLeft, Loader2, Send, Square, Sparkles } from 'lucide-react'
+import { ArrowLeft, FileText, Loader2, Send, Sparkles, Square } from 'lucide-react'
 import Link from 'next/link'
 import * as React from 'react'
-import { useAIChat, type ChatMessage } from '@duck-docs/hooks'
 
 interface AIChatPanelProps {
   initialQuery?: string
@@ -12,13 +12,12 @@ interface AIChatPanelProps {
 }
 
 export function AIChatPanel({ initialQuery, onBack }: AIChatPanelProps) {
-  const { messages, isStreaming, error, send, abort, reset } = useAIChat()
+  const { messages, isStreaming, isSearching, error, send, selectSource, abort, reset } = useAIChat()
   const [input, setInput] = React.useState('')
   const scrollRef = React.useRef<HTMLDivElement>(null)
   const inputRef = React.useRef<HTMLInputElement>(null)
   const sentInitial = React.useRef(false)
 
-  // Send initial query from search auto-switch
   React.useEffect(() => {
     if (initialQuery && !sentInitial.current) {
       sentInitial.current = true
@@ -26,13 +25,11 @@ export function AIChatPanel({ initialQuery, onBack }: AIChatPanelProps) {
     }
   }, [initialQuery, send])
 
-  // Auto-scroll to bottom
   React.useEffect(() => {
     const el = scrollRef.current
     if (el) el.scrollTop = el.scrollHeight
-  }, [messages])
+  })
 
-  // Focus input
   React.useEffect(() => {
     inputRef.current?.focus()
   }, [])
@@ -55,7 +52,6 @@ export function AIChatPanel({ initialQuery, onBack }: AIChatPanelProps) {
 
   return (
     <div className="flex h-[420px] flex-col">
-      {/* Header */}
       <div className="flex items-center gap-2 border-b px-3 py-2">
         <button
           type="button"
@@ -70,9 +66,8 @@ export function AIChatPanel({ initialQuery, onBack }: AIChatPanelProps) {
         <span className="font-medium text-sm">Ask about gentleduck/ui</span>
       </div>
 
-      {/* Messages */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-3 py-3">
-        {messages.length === 0 && !isStreaming && (
+        {messages.length === 0 && !isSearching && (
           <div className="flex h-full flex-col items-center justify-center gap-2 text-center text-muted-foreground text-sm">
             <Sparkles aria-hidden="true" className="size-8 opacity-20" />
             <p>Ask anything about gentleduck/ui components, installation, or usage.</p>
@@ -80,18 +75,17 @@ export function AIChatPanel({ initialQuery, onBack }: AIChatPanelProps) {
         )}
 
         {messages.map((msg) => (
-          <MessageBubble key={msg.id} message={msg} />
+          <MessageBubble key={msg.id} message={msg} onSelectSource={selectSource} />
         ))}
 
-        {isStreaming && messages[messages.length - 1]?.status === 'pending' && (
+        {(isSearching || (isStreaming && messages[messages.length - 1]?.status === 'pending')) && (
           <div className="flex items-center gap-1.5 py-2 text-muted-foreground text-sm">
             <Loader2 aria-hidden="true" className="size-3 animate-spin" />
-            <span>Thinking...</span>
+            <span>{isSearching ? 'Searching docs...' : 'Thinking...'}</span>
           </div>
         )}
       </div>
 
-      {/* Input */}
       <form onSubmit={handleSubmit} className="flex items-center gap-2 border-t px-3 py-2">
         <input
           ref={inputRef}
@@ -100,7 +94,7 @@ export function AIChatPanel({ initialQuery, onBack }: AIChatPanelProps) {
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder="Ask a question..."
-          disabled={isStreaming}
+          disabled={isStreaming || isSearching}
           className="h-8 flex-1 rounded-md border bg-transparent px-3 text-sm outline-none placeholder:text-muted-foreground focus:ring-1 focus:ring-ring disabled:opacity-50"
         />
         {isStreaming ? (
@@ -113,27 +107,31 @@ export function AIChatPanel({ initialQuery, onBack }: AIChatPanelProps) {
         ) : (
           <button
             type="submit"
-            disabled={!input.trim()}
+            disabled={!input.trim() || isSearching}
             className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50">
             <Send aria-hidden="true" className="size-3" />
           </button>
         )}
       </form>
 
-      {/* Footer */}
       <div className="flex items-center justify-center border-t px-3 py-1.5">
-        <span className="text-muted-foreground text-xs">Powered by Gemini</span>
+        <span className="text-muted-foreground text-xs">AI-powered docs search</span>
       </div>
 
-      {error && (
-        <div className="px-3 pb-2 text-destructive text-xs">{error}</div>
-      )}
+      {error && <div className="px-3 pb-2 text-destructive text-xs">{error}</div>}
     </div>
   )
 }
 
-function MessageBubble({ message }: { message: ChatMessage }) {
+function MessageBubble({
+  message,
+  onSelectSource,
+}: {
+  message: ChatMessage
+  onSelectSource: (messageId: string, source: ChatSource) => void
+}) {
   const isUser = message.role === 'user'
+  const isPicking = message.status === 'picking'
 
   return (
     <div className={cn('mb-3', isUser ? 'text-right' : 'text-left')}>
@@ -144,19 +142,35 @@ function MessageBubble({ message }: { message: ChatMessage }) {
           message.status === 'error' && 'bg-destructive/10 text-destructive',
         )}>
         {message.content.split('\n\n').map((paragraph, i) => (
-          <p key={i} className={i > 0 ? 'mt-2' : ''}>
+          <p key={`${message.id}-p-${i}`} className={i > 0 ? 'mt-2' : ''}>
             {paragraph}
           </p>
         ))}
       </div>
 
-      {message.sources && message.sources.length > 0 && (
+      {isPicking && message.sources && message.sources.length > 0 && (
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {message.sources.map((source) => (
+            <button
+              key={source.slug}
+              type="button"
+              onClick={() => onSelectSource(message.id, source)}
+              className="inline-flex items-center gap-1.5 rounded-md border bg-background px-2.5 py-1 text-foreground text-xs transition-colors hover:bg-accent">
+              <FileText aria-hidden="true" className="size-3 text-muted-foreground" />
+              {source.title}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {!isPicking && message.sources && message.sources.length > 0 && (
         <div className="mt-1.5 flex flex-wrap gap-1.5">
           {message.sources.map((source) => (
             <Link
               key={source.slug}
               href={`/docs/${source.slug}`}
-              className="inline-flex items-center rounded-md border px-2 py-0.5 text-muted-foreground text-xs transition-colors hover:bg-accent hover:text-foreground">
+              className="inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-muted-foreground text-xs transition-colors hover:bg-accent hover:text-foreground">
+              <FileText aria-hidden="true" className="size-3" />
               {source.title}
             </Link>
           ))}

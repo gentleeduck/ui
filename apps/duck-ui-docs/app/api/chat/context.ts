@@ -168,3 +168,17 @@ export async function buildChatContext(userMessage: string): Promise<ChatContext
     sources,
   }
 }
+
+export async function buildChatContextFromSlug(userMessage: string, slug: string): Promise<ChatContext> {
+  const docs = await loadDocs()
+  const doc = docs.find((d) => d.slug === slug)
+  if (!doc) {
+    return buildChatContext(userMessage)
+  }
+
+  const body = doc.cleanBody.length > 6000 ? doc.cleanBody.slice(0, 6000) : doc.cleanBody
+  const contextText = `COMPONENT: ${doc.title}\nPage: ${BASE_URL}/docs/${doc.slug}\n\n${body}`
+  const sources = [{ slug: doc.slug, title: doc.title, href: `${BASE_URL}/docs/${doc.slug}` }]
+
+  return { contextText, sources }
+}

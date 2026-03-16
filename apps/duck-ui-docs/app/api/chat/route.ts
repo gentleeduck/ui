@@ -1,4 +1,4 @@
-import { buildChatContext } from './context'
+import { buildChatContext, buildChatContextFromSlug } from './context'
 
 const SYSTEM_PROMPT = `You are a documentation assistant for gentleduck/ui, a React component library at ui.gentleduck.org.
 
@@ -85,7 +85,7 @@ export async function POST(request: Request) {
     )
   }
 
-  let body: { messages?: { role: string; content: string }[] }
+  let body: { messages?: { role: string; content: string }[]; sourceSlug?: string }
   try {
     body = await request.json()
   } catch {
@@ -109,7 +109,10 @@ export async function POST(request: Request) {
   }
 
   try {
-    const { contextText, sources } = await buildChatContext(lastUserMessage.content)
+    // If a specific source slug was selected, use only that page as context
+    const { contextText, sources } = body.sourceSlug
+      ? await buildChatContextFromSlug(lastUserMessage.content, body.sourceSlug)
+      : await buildChatContext(lastUserMessage.content)
 
     const chatMessages = [
       { role: 'system', content: SYSTEM_PROMPT + contextText },
