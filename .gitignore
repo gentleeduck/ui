@@ -101,4 +101,4 @@ node_modules/
 # Task files
 # tasks.json
 # tasks/ 
-**/.claude/
+**/.claude/settings.local.json
