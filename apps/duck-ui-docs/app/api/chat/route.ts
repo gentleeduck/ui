@@ -51,7 +51,7 @@ function getApiConfig(): { apiKey: string; baseUrl: string; model: string } | nu
     return {
       apiKey: openrouterKey,
       baseUrl: 'https://openrouter.ai/api/v1',
-      model: process.env.CHAT_MODEL || 'google/gemini-2.0-flash-exp:free',
+      model: process.env.CHAT_MODEL || 'google/gemini-2.5-flash-preview-05-20',
     }
   }
 
