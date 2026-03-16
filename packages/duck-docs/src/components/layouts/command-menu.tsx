@@ -122,7 +122,7 @@ export function CommandMenu() {
   const docsConfig = useDocsConfig()
   const docsEntries = useDocsEntries()
   const [selectedLabel, setSelectedLabel] = React.useState('')
-  const [aiMode, setAiMode] = React.useState(false)
+  const [aiMode, setAiMode] = React.useState(true)
   const [aiAvailable, setAiAvailable] = React.useState(false)
   const [initialAiQuery, setInitialAiQuery] = React.useState('')
 
@@ -246,18 +246,20 @@ export function CommandMenu() {
           </React.Suspense>
         ) : (
           <>
-            <div className="flex items-center">
-              <CommandInput autoFocus className="flex-1" placeholder="Search..." />
+            <CommandInput
+              autoFocus
+              placeholder="Search..."
+            >
               {aiAvailable && (
                 <button
                   type="button"
                   onClick={() => setAiMode(true)}
-                  className="mr-2 flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                  className="flex size-7 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
                   title="Ask AI">
                   <Sparkles aria-hidden="true" className="size-4" />
                 </button>
               )}
-            </div>
+            </CommandInput>
             <VirtualCommandList
               aiAvailable={aiAvailable}
               flatRows={flatRows}
@@ -406,8 +408,14 @@ function VirtualCommandList({
 
   React.useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      const { itemRows: rows, selectedRow: selected, onClose: close, search: q, aiAvailable: ai, onAskAI: askAI } =
-        stableRef.current
+      const {
+        itemRows: rows,
+        selectedRow: selected,
+        onClose: close,
+        search: q,
+        aiAvailable: ai,
+        onAskAI: askAI,
+      } = stableRef.current
 
       switch (e.key) {
         case 'ArrowDown':

@@ -29,8 +29,9 @@ const CommandInput = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input> & {
     wrapperClassName?: string
+    children?: React.ReactNode
   }
->(({ className, wrapperClassName, placeholder = 'Search...', autoFocus = false, ...props }, ref) => (
+>(({ className, wrapperClassName, placeholder = 'Search...', autoFocus = false, children, ...props }, ref) => (
   <div className={cn('mb-2 flex items-center gap-2 border-b px-1', wrapperClassName)} data-slot="command-input">
     <Search aria-hidden="true" className="size-5 shrink-0 opacity-50" />
     <CommandPrimitive.Input
@@ -44,6 +45,7 @@ const CommandInput = React.forwardRef<
       // tabIndex={0}
       {...props}
     />
+    {children}
   </div>
 ))
 CommandInput.displayName = CommandPrimitive.Input.displayName
