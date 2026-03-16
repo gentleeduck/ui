@@ -1,4 +1,3 @@
-import { GoogleGenerativeAI } from '@google/generative-ai'
 import { buildChatContext } from './context'
 
 const SYSTEM_PROMPT = `You are a documentation assistant for gentleduck/ui, a React component library at ui.gentleduck.org.
@@ -31,7 +30,6 @@ function checkRateLimit(ip: string): boolean {
   return true
 }
 
-// Clean stale entries every 5 minutes
 if (typeof globalThis !== 'undefined') {
   setInterval(() => {
     const now = Date.now()
@@ -47,13 +45,35 @@ const CORS_HEADERS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 } as const
 
+function getApiConfig(): { apiKey: string; baseUrl: string; model: string } | null {
+  const openrouterKey = process.env.OPENROUTER_API_KEY
+  if (openrouterKey) {
+    return {
+      apiKey: openrouterKey,
+      baseUrl: 'https://openrouter.ai/api/v1',
+      model: process.env.CHAT_MODEL || 'google/gemini-2.0-flash-exp:free',
+    }
+  }
+
+  const geminiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY
+  if (geminiKey) {
+    return {
+      apiKey: geminiKey,
+      baseUrl: 'https://generativelanguage.googleapis.com/v1beta/openai',
+      model: process.env.CHAT_MODEL || 'gemini-2.0-flash-lite',
+    }
+  }
+
+  return null
+}
+
 export async function OPTIONS() {
   return new Response(null, { status: 204, headers: CORS_HEADERS })
 }
 
 export async function POST(request: Request) {
-  const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY
-  if (!apiKey) {
+  const config = getApiConfig()
+  if (!config) {
     return Response.json({ error: 'AI chat is not configured' }, { status: 503, headers: CORS_HEADERS })
   }
 
@@ -91,44 +111,64 @@ export async function POST(request: Request) {
   try {
     const { contextText, sources } = await buildChatContext(lastUserMessage.content)
 
-    const genAI = new GoogleGenerativeAI(apiKey)
-    const modelName = process.env.GEMINI_MODEL || 'gemini-2.0-flash-lite'
-    const model = genAI.getGenerativeModel({ model: modelName })
+    const chatMessages = [
+      { role: 'system', content: SYSTEM_PROMPT + contextText },
+      ...messages.slice(-10).map((m) => ({ role: m.role, content: m.content })),
+    ]
 
-    const history = messages.slice(-10).map((m) => ({
-      role: m.role === 'user' ? ('user' as const) : ('model' as const),
-      parts: [{ text: m.content }],
-    }))
-
-    // Remove the last user message from history since we send it via sendMessageStream
-    const lastMsg = history.pop()
-    if (!lastMsg) {
-      return Response.json({ error: 'No message to send' }, { status: 400, headers: CORS_HEADERS })
-    }
-
-    const chat = model.startChat({
-      history,
-      systemInstruction: {
-        role: 'user' as const,
-        parts: [{ text: SYSTEM_PROMPT + contextText }],
+    const response = await fetch(`${config.baseUrl}/chat/completions`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${config.apiKey}`,
+        'Content-Type': 'application/json',
+        ...(config.baseUrl.includes('openrouter') ? { 'HTTP-Referer': 'https://ui.gentleduck.org' } : {}),
       },
+      body: JSON.stringify({
+        model: config.model,
+        messages: chatMessages,
+        stream: true,
+      }),
     })
 
-    const result = await chat.sendMessageStream(lastMsg.parts[0].text)
+    if (!response.ok || !response.body) {
+      const errText = await response.text().catch(() => 'Unknown error')
+      throw new Error(errText)
+    }
 
+    const reader = response.body.getReader()
+    const decoder = new TextDecoder()
     const encoder = new TextEncoder()
+
     const stream = new ReadableStream({
       async start(controller) {
-        // Send sources first
         if (sources.length > 0) {
           controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'sources', sources })}\n\n`))
         }
 
+        let buffer = ''
         try {
-          for await (const chunk of result.stream) {
-            const text = chunk.text()
-            if (text) {
-              controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'text', content: text })}\n\n`))
+          while (true) {
+            const { done, value } = await reader.read()
+            if (done) break
+
+            buffer += decoder.decode(value, { stream: true })
+            const lines = buffer.split('\n')
+            buffer = lines.pop() ?? ''
+
+            for (const line of lines) {
+              if (!line.startsWith('data: ')) continue
+              const data = line.slice(6).trim()
+              if (data === '[DONE]') continue
+
+              try {
+                const parsed = JSON.parse(data)
+                const text = parsed.choices?.[0]?.delta?.content
+                if (text) {
+                  controller.enqueue(encoder.encode(`data: ${JSON.stringify({ type: 'text', content: text })}\n\n`))
+                }
+              } catch {
+                // skip unparseable chunks
+              }
             }
           }
         } catch (err) {
