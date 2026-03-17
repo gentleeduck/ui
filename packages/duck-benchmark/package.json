@@ -21,7 +21,7 @@
     "fast-glob": "^3.3.3",
     "fs-extra": "^11.3.2",
     "globals": "^17.3.0",
-    "https-proxy-agent": "^7.0.6",
+    "https-proxy-agent": "^8.0.0",
     "kleur": "^4.1.5",
     "log-symbols": "^7.0.1",
     "ora": "^9.0.0",
