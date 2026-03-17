@@ -332,7 +332,7 @@ const markdownComponents = {
   code: ({ className, children, ...props }: React.HTMLAttributes<HTMLElement> & { children?: React.ReactNode }) => {
     const match = /language-(\w+)/.exec(className || '')
     const text = String(children).replace(/\n$/, '')
-    if (match) return <ShikiCodeBlock code={text} language={match[1]} />
+    if (match) return <ShikiCodeBlock code={text} language={match[1] ?? 'text'} />
     return (
       <code className="relative rounded-sm bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm" {...props}>
         {children}

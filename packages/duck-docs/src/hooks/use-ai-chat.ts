@@ -32,6 +32,20 @@ function createId(): string {
   return `msg_${Date.now()}_${++messageCounter}`
 }
 
+function updateMessage(
+  prev: ChatMessage[],
+  id: string,
+  patch: Partial<ChatMessage>,
+): ChatMessage[] {
+  const idx = prev.findIndex((m) => m.id === id)
+  if (idx === -1) return prev
+  const msg = prev[idx]
+  if (!msg) return prev
+  const updated = [...prev]
+  updated[idx] = { ...msg, ...patch }
+  return updated
+}
+
 export function useAIChat(): UseAIChatReturn {
   const [messages, setMessages] = React.useState<ChatMessage[]>([])
   const [isStreaming, setIsStreaming] = React.useState(false)
@@ -104,11 +118,9 @@ export function useAIChat(): UseAIChatReturn {
           const text = pendingText
           pendingText = ''
           setMessages((prev) => {
-            const idx = prev.findIndex((m) => m.id === assistantId)
-            if (idx === -1) return prev
-            const updated = [...prev]
-            updated[idx] = { ...updated[idx], content: updated[idx].content + text }
-            return updated
+            const msg = prev.find((m) => m.id === assistantId)
+            if (!msg) return prev
+            return updateMessage(prev, assistantId, { content: msg.content + text })
           })
         }
 
@@ -132,23 +144,11 @@ export function useAIChat(): UseAIChatReturn {
                 cancelAnimationFrame(rafId)
                 rafId = requestAnimationFrame(flushText)
               } else if (event.type === 'sources') {
-                setMessages((prev) => {
-                  const idx = prev.findIndex((m) => m.id === assistantId)
-                  if (idx === -1) return prev
-                  const updated = [...prev]
-                  updated[idx] = { ...updated[idx], sources: event.sources }
-                  return updated
-                })
+                setMessages((prev) => updateMessage(prev, assistantId, { sources: event.sources }))
               } else if (event.type === 'done') {
                 cancelAnimationFrame(rafId)
                 flushText()
-                setMessages((prev) => {
-                  const idx = prev.findIndex((m) => m.id === assistantId)
-                  if (idx === -1) return prev
-                  const updated = [...prev]
-                  updated[idx] = { ...updated[idx], status: 'done' }
-                  return updated
-                })
+                setMessages((prev) => updateMessage(prev, assistantId, { status: 'done' }))
               } else if (event.type === 'error') {
                 throw new Error(event.message)
               }
@@ -165,31 +165,17 @@ export function useAIChat(): UseAIChatReturn {
         flushText()
 
         setMessages((prev) => {
-          const idx = prev.findIndex((m) => m.id === assistantId)
-          if (idx === -1 || prev[idx].status !== 'streaming') return prev
-          const updated = [...prev]
-          updated[idx] = { ...updated[idx], status: 'done' }
-          return updated
+          const msg = prev.find((m) => m.id === assistantId)
+          if (!msg || msg.status !== 'streaming') return prev
+          return updateMessage(prev, assistantId, { status: 'done' })
         })
       } catch (err) {
         if ((err as Error).name === 'AbortError') {
-          setMessages((prev) => {
-            const idx = prev.findIndex((m) => m.id === assistantId)
-            if (idx === -1) return prev
-            const updated = [...prev]
-            updated[idx] = { ...updated[idx], status: 'done' }
-            return updated
-          })
+          setMessages((prev) => updateMessage(prev, assistantId, { status: 'done' }))
         } else {
           const message = err instanceof Error ? err.message : 'Something went wrong'
           setError(message)
-          setMessages((prev) => {
-            const idx = prev.findIndex((m) => m.id === assistantId)
-            if (idx === -1) return prev
-            const updated = [...prev]
-            updated[idx] = { ...updated[idx], content: message, status: 'error' }
-            return updated
-          })
+          setMessages((prev) => updateMessage(prev, assistantId, { content: message, status: 'error' }))
         }
       } finally {
         controllerRef.current = null
