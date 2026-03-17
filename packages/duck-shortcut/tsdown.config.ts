@@ -5,5 +5,4 @@ export default defineConfig({
   ...config,
   entry: ['./src/index.ts'],
   format: ['cjs', 'esm'],
-  plugins: [],
-})
+} as Parameters<typeof defineConfig>[0])
