@@ -189,7 +189,9 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
 
           // Sort keys for consistency
           if (pkg.devDependencies) {
-            pkg.devDependencies = Object.fromEntries(Object.entries(pkg.devDependencies).sort(([a], [b]) => a.localeCompare(b)))
+            pkg.devDependencies = Object.fromEntries(
+              Object.entries(pkg.devDependencies).sort(([a], [b]) => a.localeCompare(b)),
+            )
           }
 
           return JSON.stringify(pkg, null, 2)
