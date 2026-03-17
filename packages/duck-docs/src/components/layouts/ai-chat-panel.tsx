@@ -2,16 +2,38 @@
 
 import { type ChatMessage, type ChatSource, useAIChat } from '@duck-docs/hooks'
 import { cn } from '@gentleduck/libs/cn'
-import { ArrowLeft, FileText, Loader2, Send, Sparkles, Square } from 'lucide-react'
+import { ArrowLeft, ArrowUp, Check, Copy, FileText, Loader, Sparkles, Square, X } from 'lucide-react'
 import Link from 'next/link'
 import * as React from 'react'
+import Markdown from 'react-markdown'
+
+// ── Lazy shiki singleton ───────────────────────────────────────────────────────
+
+let shikiPromise: Promise<typeof import('shiki') | null> | null = null
+function getShiki() {
+  if (!shikiPromise) shikiPromise = import('shiki').catch(() => null)
+  return shikiPromise
+}
+
+// ── Panel ──────────────────────────────────────────────────────────────────────
 
 interface AIChatPanelProps {
   initialQuery?: string
   onBack: () => void
+  onClose?: () => void
+  title?: string
+  placeholder?: string
+  emptyMessage?: string
 }
 
-export function AIChatPanel({ initialQuery, onBack }: AIChatPanelProps) {
+export function AIChatPanel({
+  initialQuery,
+  onBack,
+  onClose,
+  title = 'Ask about gentleduck/ui',
+  placeholder = 'Ask a question...',
+  emptyMessage = 'Ask anything about components, installation, or usage.',
+}: AIChatPanelProps) {
   const { messages, isStreaming, isSearching, error, send, selectSource, abort, reset } = useAIChat()
   const [input, setInput] = React.useState('')
   const scrollRef = React.useRef<HTMLDivElement>(null)
@@ -25,103 +47,244 @@ export function AIChatPanel({ initialQuery, onBack }: AIChatPanelProps) {
     }
   }, [initialQuery, send])
 
+  // Scroll only when message count or last message content changes
+  const lastMsgLen = messages[messages.length - 1]?.content.length ?? 0
   React.useEffect(() => {
     const el = scrollRef.current
     if (el) el.scrollTop = el.scrollHeight
-  })
+  }, [messages.length, lastMsgLen])
 
-  React.useEffect(() => {
-    inputRef.current?.focus()
-  }, [])
+  React.useEffect(() => { inputRef.current?.focus() }, [])
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    if (!input.trim()) return
-    send(input)
-    setInput('')
-  }
-
-  function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Escape') {
+  const handleKeyDown = React.useCallback((e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
-      if (messages.length === 0) {
-        onBack()
+      e.stopPropagation()
+      const val = (e.target as HTMLInputElement).value
+      if (val.trim()) {
+        send(val)
+        ;(e.target as HTMLInputElement).value = ''
       }
+    } else if (e.key === 'Escape') {
+      e.preventDefault()
+      e.stopPropagation()
+      if (onClose) { reset(); onClose() }
     }
-  }
+  }, [send, reset, onClose])
+
+  const lastMsg = messages[messages.length - 1]
+  const showCrafting = isStreaming && lastMsg?.status === 'streaming' && !lastMsg?.content
 
   return (
-    <div className="flex h-[420px] flex-col">
-      <div className="flex items-center gap-2 border-b px-3 py-2">
-        <button
-          type="button"
-          onClick={() => {
-            reset()
-            onBack()
-          }}
+    <div className="flex h-full flex-col">
+      <div className="flex h-11 shrink-0 items-center gap-2 border-b px-3">
+        <button type="button"
+          onClick={() => { reset(); onBack() }}
           className="flex size-7 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground">
           <ArrowLeft aria-hidden="true" className="size-4" />
         </button>
-        <Sparkles aria-hidden="true" className="size-4 text-muted-foreground" />
-        <span className="font-medium text-sm">Ask about gentleduck/ui</span>
+        <Sparkles aria-hidden="true" className="size-3.5 text-muted-foreground" />
+        <span className="flex-1 font-medium text-sm">{title}</span>
+        {onClose && (
+          <button type="button"
+            onClick={() => { reset(); onClose() }}
+            className="flex size-7 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground">
+            <X aria-hidden="true" className="size-4" />
+          </button>
+        )}
       </div>
 
-      <div ref={scrollRef} className="flex-1 overflow-y-auto px-3 py-3">
+      <div ref={scrollRef} className="flex-1 overflow-y-auto p-4">
         {messages.length === 0 && !isSearching && (
-          <div className="flex h-full flex-col items-center justify-center gap-2 text-center text-muted-foreground text-sm">
-            <Sparkles aria-hidden="true" className="size-8 opacity-20" />
-            <p>Ask anything about gentleduck/ui components, installation, or usage.</p>
+          <div className="flex h-full flex-col items-center justify-center gap-3 text-center">
+            <div className="flex size-10 items-center justify-center rounded-full bg-muted">
+              <Sparkles aria-hidden="true" className="size-5 text-muted-foreground" />
+            </div>
+            <p className="max-w-[240px] text-muted-foreground text-sm leading-relaxed">{emptyMessage}</p>
           </div>
         )}
 
-        {messages.map((msg) => (
-          <MessageBubble key={msg.id} message={msg} onSelectSource={selectSource} />
-        ))}
+        <div className="space-y-4">
+          {messages.map((msg) => {
+            if (msg.status === 'streaming' && !msg.content) return null
+            return <MemoMessageBubble key={msg.id} message={msg} onSelectSource={selectSource} />
+          })}
+        </div>
 
-        {(isSearching || (isStreaming && messages[messages.length - 1]?.status === 'pending')) && (
-          <div className="flex items-center gap-1.5 py-2 text-muted-foreground text-sm">
-            <Loader2 aria-hidden="true" className="size-3 animate-spin" />
-            <span>{isSearching ? 'Searching docs...' : 'Thinking...'}</span>
+        {isSearching && (
+          <div className="mt-3 flex items-center gap-1.5 text-muted-foreground text-xs">
+            <Loader aria-hidden="true" className="size-3 animate-spin" />
+            <span>Searching...</span>
+          </div>
+        )}
+        {showCrafting && (
+          <div className="mt-3 flex items-center gap-1.5 text-muted-foreground text-xs">
+            <Sparkles aria-hidden="true" className="size-3 animate-[pulse_1.5s_ease-in-out_infinite]" />
+            <span>Crafting your answer...</span>
           </div>
         )}
       </div>
 
-      <form onSubmit={handleSubmit} className="flex items-center gap-2 border-t px-3 py-2">
-        <input
-          ref={inputRef}
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Ask a question..."
-          disabled={isStreaming || isSearching}
-          className="h-8 flex-1 rounded-md border bg-transparent px-3 text-sm outline-none placeholder:text-muted-foreground focus:ring-1 focus:ring-ring disabled:opacity-50"
-        />
-        {isStreaming ? (
-          <button
-            type="button"
-            onClick={abort}
-            className="flex size-8 items-center justify-center rounded-md bg-destructive text-destructive-foreground hover:bg-destructive/90">
-            <Square aria-hidden="true" className="size-3" />
-          </button>
-        ) : (
-          <button
-            type="submit"
-            disabled={!input.trim() || isSearching}
-            className="flex size-8 items-center justify-center rounded-md bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-50">
-            <Send aria-hidden="true" className="size-3" />
-          </button>
-        )}
-      </form>
-
-      <div className="flex items-center justify-center border-t px-3 py-1.5">
-        <span className="text-muted-foreground text-xs">AI-powered docs search</span>
+      <div className="shrink-0 border-t p-3">
+        <div className="flex items-center gap-2">
+          <input
+            ref={inputRef}
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder={placeholder}
+            disabled={isStreaming || isSearching}
+            className="h-9 flex-1 rounded-lg border bg-transparent px-3 text-sm outline-none placeholder:text-muted-foreground focus:ring-1 focus:ring-ring disabled:opacity-50"
+          />
+          {isStreaming ? (
+            <button type="button" onClick={abort}
+              className="flex size-9 shrink-0 items-center justify-center rounded-full bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              <Square aria-hidden="true" className="size-3.5" />
+            </button>
+          ) : (
+            <button type="button" disabled={!input.trim() || isSearching}
+              onClick={() => { if (input.trim()) { send(input); setInput('') } }}
+              className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-30">
+              <ArrowUp aria-hidden="true" className="size-4" />
+            </button>
+          )}
+        </div>
+        {error && <p className="mt-1.5 text-destructive text-xs">{error}</p>}
       </div>
-
-      {error && <div className="px-3 pb-2 text-destructive text-xs">{error}</div>}
     </div>
   )
 }
+
+// ── Shiki code block — debounced highlighting ──────────────────────────────────
+
+const ShikiCodeBlock = React.memo(function ShikiCodeBlock({ code, language }: { code: string; language: string }) {
+  const [html, setHtml] = React.useState<string | null>(null)
+  const [copied, setCopied] = React.useState(false)
+  const timerRef = React.useRef<ReturnType<typeof setTimeout>>(undefined)
+
+  React.useEffect(() => {
+    // Debounce — wait 150ms after last code change before highlighting
+    // Prevents hammering shiki on every streaming chunk
+    clearTimeout(timerRef.current)
+    timerRef.current = setTimeout(() => {
+      let cancelled = false
+      getShiki()
+        .then((shiki) => {
+          if (!shiki || cancelled) return null
+          const isDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
+          return shiki.codeToHtml(code, {
+            lang: language || 'text',
+            theme: isDark ? 'catppuccin-macchiato' : 'github-light',
+            transformers: [{
+              pre(node) {
+                node.properties.class =
+                  'no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 !bg-transparent text-[13px] leading-relaxed'
+              },
+            }],
+          })
+        })
+        .then((result) => { if (!cancelled && result) setHtml(result) })
+        .catch(() => {})
+      // Store cancel fn on the timer ref for cleanup
+      return () => { cancelled = true }
+    }, 150)
+
+    return () => { clearTimeout(timerRef.current) }
+  }, [code, language])
+
+  const handleCopy = React.useCallback(() => {
+    navigator.clipboard.writeText(code)
+    setCopied(true)
+    setTimeout(() => setCopied(false), 2000)
+  }, [code])
+
+  return (
+    <div className="group/code relative my-4 overflow-hidden rounded-lg border bg-muted/30">
+      <div className="flex items-center justify-between border-b px-3 py-1.5">
+        <span className="font-mono text-muted-foreground text-xs">{language || 'code'}</span>
+        <button type="button" onClick={handleCopy}
+          className="flex items-center gap-1 text-muted-foreground text-xs transition-colors hover:text-foreground">
+          {copied ? <Check aria-hidden="true" className="size-3" /> : <Copy aria-hidden="true" className="size-3" />}
+          {copied ? 'Copied' : 'Copy'}
+        </button>
+      </div>
+      {html ? (
+        <div className="[&_pre]:!m-0" dangerouslySetInnerHTML={{ __html: html }} />
+      ) : (
+        <pre className="overflow-x-auto px-4 py-3.5 font-mono text-[13px] leading-relaxed">
+          <code>{code}</code>
+        </pre>
+      )}
+    </div>
+  )
+})
+
+// ── Markdown component map — static, never recreated ───────────────────────────
+
+const markdownComponents = {
+  h1: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h1 className="mt-2 scroll-m-20 font-bold text-xl" {...props}>{children}</h1>
+  ),
+  h2: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h2 className="mt-6 scroll-m-20 border-b pb-2 font-semibold text-lg tracking-tight first:mt-0" {...props}>{children}</h2>
+  ),
+  h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h3 className="mt-4 scroll-m-20 font-semibold text-base tracking-tight" {...props}>{children}</h3>
+  ),
+  h4: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
+    <h4 className="mt-4 font-semibold text-sm tracking-tight" {...props}>{children}</h4>
+  ),
+  p: ({ children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
+    <p className="leading-7 [&:not(:first-child)]:mt-3" {...props}>{children}</p>
+  ),
+  a: ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
+    if (href?.startsWith('/') || href?.includes('gentleduck.org')) {
+      return <Link href={href} className="font-medium text-primary underline underline-offset-4" {...props}>{children}</Link>
+    }
+    return <a href={href} className="font-medium text-primary underline underline-offset-4" target="_blank" rel="noreferrer" {...props}>{children}</a>
+  },
+  ul: ({ children, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
+    <ul className="my-3 ml-6 flex list-disc flex-col gap-1.5" {...props}>{children}</ul>
+  ),
+  ol: ({ children, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
+    <ol className="my-3 ml-6 flex list-decimal flex-col gap-1.5" {...props}>{children}</ol>
+  ),
+  li: ({ children, ...props }: React.HTMLAttributes<HTMLLIElement>) => (
+    <li className="leading-7" {...props}>{children}</li>
+  ),
+  blockquote: ({ children, ...props }: React.HTMLAttributes<HTMLElement>) => (
+    <blockquote className="mt-4 border-l-2 pl-4 italic text-muted-foreground" {...props}>{children}</blockquote>
+  ),
+  hr: (props: React.HTMLAttributes<HTMLHRElement>) => <hr className="my-4" {...props} />,
+  strong: ({ children, ...props }: React.HTMLAttributes<HTMLElement>) => (
+    <strong className="font-semibold" {...props}>{children}</strong>
+  ),
+  pre: ({ children }: { children?: React.ReactNode }) => <>{children}</>,
+  code: ({ className, children, ...props }: React.HTMLAttributes<HTMLElement> & { children?: React.ReactNode }) => {
+    const match = /language-(\w+)/.exec(className || '')
+    const text = String(children).replace(/\n$/, '')
+    if (match) return <ShikiCodeBlock code={text} language={match[1]} />
+    return (
+      <code className="relative rounded-sm bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm" {...props}>
+        {children}
+      </code>
+    )
+  },
+  table: ({ children, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
+    <div className="my-4 w-full overflow-auto">
+      <table className="w-full text-sm" {...props}>{children}</table>
+    </div>
+  ),
+  th: ({ children, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
+    <th className="border px-4 py-2 text-left font-semibold [&[align=center]]:text-center [&[align=right]]:text-right" {...props}>{children}</th>
+  ),
+  td: ({ children, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
+    <td className="border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right" {...props}>{children}</td>
+  ),
+}
+
+// ── Message bubble — memoized to prevent re-rendering unchanged messages ───────
 
 function MessageBubble({
   message,
@@ -134,48 +297,55 @@ function MessageBubble({
   const isPicking = message.status === 'picking'
 
   return (
-    <div className={cn('mb-3', isUser ? 'text-right' : 'text-left')}>
-      <div
-        className={cn(
-          'inline-block max-w-[90%] rounded-lg px-3 py-2 text-sm',
-          isUser ? 'bg-primary text-primary-foreground' : 'bg-muted text-foreground',
-          message.status === 'error' && 'bg-destructive/10 text-destructive',
-        )}>
-        {message.content.split('\n\n').map((paragraph, i) => (
-          <p key={`${message.id}-p-${i}`} className={i > 0 ? 'mt-2' : ''}>
-            {paragraph}
-          </p>
-        ))}
+    <div className={cn('flex', isUser ? 'justify-end' : 'justify-start')}>
+      <div className={cn('max-w-[85%]', !isUser && 'w-full')}>
+        {isUser ? (
+          <div className="rounded-2xl rounded-br-md bg-primary px-3.5 py-2 text-primary-foreground text-sm">
+            {message.content}
+          </div>
+        ) : (
+          <div className={cn('text-sm text-foreground', message.status === 'error' && 'text-destructive')}>
+            <Markdown components={markdownComponents}>{message.content}</Markdown>
+            {message.status === 'streaming' && (
+              <span className="ml-0.5 inline-block h-4 w-0.5 animate-pulse bg-current align-middle" />
+            )}
+          </div>
+        )}
+
+        {isPicking && message.sources && message.sources.length > 0 && (
+          <div className="mt-2 flex flex-wrap gap-1.5">
+            {message.sources.map((source) => (
+              <button key={source.slug} type="button"
+                onClick={() => onSelectSource(message.id, source)}
+                className="inline-flex items-center gap-1.5 rounded-lg border bg-background px-2.5 py-1.5 text-foreground text-xs transition-colors hover:bg-accent">
+                <FileText aria-hidden="true" className="size-3 text-muted-foreground" />
+                {source.title}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {!isPicking && message.sources && message.sources.length > 0 && message.status === 'done' && (
+          <div className="mt-2 flex flex-wrap gap-1">
+            {message.sources.map((source) => (
+              <Link key={source.slug} href={`/docs/${source.slug}`}
+                className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-muted-foreground text-xs transition-colors hover:text-foreground hover:underline">
+                <FileText aria-hidden="true" className="size-3" />
+                {source.title}
+              </Link>
+            ))}
+          </div>
+        )}
       </div>
-
-      {isPicking && message.sources && message.sources.length > 0 && (
-        <div className="mt-2 flex flex-wrap gap-1.5">
-          {message.sources.map((source) => (
-            <button
-              key={source.slug}
-              type="button"
-              onClick={() => onSelectSource(message.id, source)}
-              className="inline-flex items-center gap-1.5 rounded-md border bg-background px-2.5 py-1 text-foreground text-xs transition-colors hover:bg-accent">
-              <FileText aria-hidden="true" className="size-3 text-muted-foreground" />
-              {source.title}
-            </button>
-          ))}
-        </div>
-      )}
-
-      {!isPicking && message.sources && message.sources.length > 0 && (
-        <div className="mt-1.5 flex flex-wrap gap-1.5">
-          {message.sources.map((source) => (
-            <Link
-              key={source.slug}
-              href={`/docs/${source.slug}`}
-              className="inline-flex items-center gap-1 rounded-md border px-2 py-0.5 text-muted-foreground text-xs transition-colors hover:bg-accent hover:text-foreground">
-              <FileText aria-hidden="true" className="size-3" />
-              {source.title}
-            </Link>
-          ))}
-        </div>
-      )}
     </div>
   )
 }
+
+const MemoMessageBubble = React.memo(MessageBubble, (prev, next) => {
+  // Only re-render if the message itself changed
+  return (
+    prev.message.content === next.message.content &&
+    prev.message.status === next.message.status &&
+    prev.message.sources === next.message.sources
+  )
+})

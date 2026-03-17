@@ -1,16 +1,8 @@
 import { readdir, readFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
-import {
-  computeIdf,
-  computeTf,
-  computeTfidfVector,
-  cosineSimilarity,
-  expandSearchTerms,
-  extractSummary,
-  parseFrontmatter,
-  stripMdxSyntax,
-  tokenize,
-} from '../mcp/server'
+import { parseFrontmatter, stripMdxSyntax, extractSummary } from '../mcp/text'
+import { tokenize, expandSearchTerms } from '../mcp/tokenize'
+import { computeTf, computeIdf, computeTfidfVector, cosineSimilarity } from '../mcp/tfidf'
 
 interface DocEntry {
   slug: string
@@ -201,7 +193,10 @@ export function extractComponentNames(query: string, docs: DocEntry[]): string[]
 
 export async function buildChatContext(userMessage: string): Promise<ChatContext> {
   const docs = await loadDocs()
-  const idf = cachedIdf!
+  if (!cachedIdf) {
+    return { contextText: '', sources: [] }
+  }
+  const idf = cachedIdf
   const sources: ChatSource[] = []
   const contextParts: string[] = []
   let usedChars = 0

@@ -35,15 +35,17 @@ function createId(): string {
 export function useAIChat(): UseAIChatReturn {
   const [messages, setMessages] = React.useState<ChatMessage[]>([])
   const [isStreaming, setIsStreaming] = React.useState(false)
-  const [isSearching, setIsSearching] = React.useState(false)
+  const [isSearching] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
   const controllerRef = React.useRef<AbortController | null>(null)
+  // Use ref to avoid stale closures in send — no need for messages in deps
+  const messagesRef = React.useRef(messages)
+  messagesRef.current = messages
 
   const abort = React.useCallback(() => {
     controllerRef.current?.abort()
     controllerRef.current = null
     setIsStreaming(false)
-    setIsSearching(false)
   }, [])
 
   const reset = React.useCallback(() => {
@@ -52,95 +54,34 @@ export function useAIChat(): UseAIChatReturn {
     setError(null)
   }, [abort])
 
-  // Step 1: User sends question → search for sources → show as options
   const send = React.useCallback(
     async (content: string) => {
-      if (!content.trim() || isStreaming || isSearching) return
+      if (!content.trim() || controllerRef.current) return
 
       setError(null)
-      const userMsg: ChatMessage = { id: createId(), role: 'user', content: content.trim(), status: 'done' }
-      const assistantMsg: ChatMessage = {
-        id: createId(),
-        role: 'assistant',
-        content: 'Here are the relevant documentation pages. Pick one to get a detailed answer:',
-        sources: [],
-        status: 'pending',
-      }
+      const assistantId = createId()
 
-      setMessages((prev) => [...prev, userMsg, assistantMsg])
-      setIsSearching(true)
-
-      try {
-        const response = await fetch('/api/chat/search', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query: content.trim() }),
-        })
-
-        if (!response.ok) {
-          const err = await response.json().catch(() => ({ error: 'Search failed' }))
-          throw new Error(err.error || `HTTP ${response.status}`)
-        }
-
-        const data = await response.json()
-        const sources: ChatSource[] = data.sources || []
-
-        if (sources.length === 0) {
-          setMessages((prev) =>
-            prev.map((m) =>
-              m.id === assistantMsg.id
-                ? { ...m, content: 'No relevant documentation found for that question. Try rephrasing.', status: 'done' as const }
-                : m,
-            ),
-          )
-        } else {
-          setMessages((prev) =>
-            prev.map((m) => (m.id === assistantMsg.id ? { ...m, sources, status: 'picking' as const } : m)),
-          )
-        }
-      } catch (err) {
-        const message = err instanceof Error ? err.message : 'Something went wrong'
-        setError(message)
-        setMessages((prev) =>
-          prev.map((m) => (m.id === assistantMsg.id ? { ...m, content: message, status: 'error' as const } : m)),
-        )
-      } finally {
-        setIsSearching(false)
-      }
-    },
-    [isStreaming, isSearching],
-  )
-
-  // Step 2: User picks a source → call AI with that specific context
-  const selectSource = React.useCallback(
-    async (messageId: string, source: ChatSource) => {
-      if (isStreaming) return
-
-      // Mark the picking message as done and highlight the selected source
-      setMessages((prev) =>
-        prev.map((m) =>
-          m.id === messageId ? { ...m, content: `Answering based on: ${source.title}`, sources: [source], status: 'done' as const } : m,
-        ),
-      )
-
-      const aiMsg: ChatMessage = { id: createId(), role: 'assistant', content: '', status: 'pending' }
-      setMessages((prev) => [...prev, aiMsg])
+      setMessages((prev) => [
+        ...prev,
+        { id: createId(), role: 'user', content: content.trim(), status: 'done' },
+        { id: assistantId, role: 'assistant', content: '', status: 'streaming' },
+      ])
       setIsStreaming(true)
 
       const controller = new AbortController()
       controllerRef.current = controller
 
       try {
-        // Get the last user question
-        const lastQuestion = messages.findLast((m) => m.role === 'user')?.content || ''
+        const history = messagesRef.current
+          .filter((m) => m.status === 'done')
+          .slice(-10)
+          .map((m) => ({ role: m.role, content: m.content }))
+        history.push({ role: 'user', content: content.trim() })
 
         const response = await fetch('/api/chat', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            messages: [{ role: 'user', content: lastQuestion }],
-            sourceSlug: source.slug,
-          }),
+          body: JSON.stringify({ messages: history }),
           signal: controller.signal,
         })
 
@@ -154,8 +95,22 @@ export function useAIChat(): UseAIChatReturn {
         const reader = response.body.getReader()
         const decoder = new TextDecoder()
         let buffer = ''
+        // Batch text chunks — accumulate then flush via rAF
+        let pendingText = ''
+        let rafId = 0
 
-        setMessages((prev) => prev.map((m) => (m.id === aiMsg.id ? { ...m, status: 'streaming' as const } : m)))
+        function flushText() {
+          if (!pendingText) return
+          const text = pendingText
+          pendingText = ''
+          setMessages((prev) => {
+            const idx = prev.findIndex((m) => m.id === assistantId)
+            if (idx === -1) return prev
+            const updated = [...prev]
+            updated[idx] = { ...updated[idx], content: updated[idx].content + text }
+            return updated
+          })
+        }
 
         while (true) {
           const { done, value } = await reader.read()
@@ -173,13 +128,27 @@ export function useAIChat(): UseAIChatReturn {
             try {
               const event = JSON.parse(jsonStr)
               if (event.type === 'text') {
-                setMessages((prev) =>
-                  prev.map((m) => (m.id === aiMsg.id ? { ...m, content: m.content + event.content } : m)),
-                )
+                pendingText += event.content
+                cancelAnimationFrame(rafId)
+                rafId = requestAnimationFrame(flushText)
               } else if (event.type === 'sources') {
-                setMessages((prev) => prev.map((m) => (m.id === aiMsg.id ? { ...m, sources: event.sources } : m)))
+                setMessages((prev) => {
+                  const idx = prev.findIndex((m) => m.id === assistantId)
+                  if (idx === -1) return prev
+                  const updated = [...prev]
+                  updated[idx] = { ...updated[idx], sources: event.sources }
+                  return updated
+                })
               } else if (event.type === 'done') {
-                setMessages((prev) => prev.map((m) => (m.id === aiMsg.id ? { ...m, status: 'done' as const } : m)))
+                cancelAnimationFrame(rafId)
+                flushText()
+                setMessages((prev) => {
+                  const idx = prev.findIndex((m) => m.id === assistantId)
+                  if (idx === -1) return prev
+                  const updated = [...prev]
+                  updated[idx] = { ...updated[idx], status: 'done' }
+                  return updated
+                })
               } else if (event.type === 'error') {
                 throw new Error(event.message)
               }
@@ -191,31 +160,54 @@ export function useAIChat(): UseAIChatReturn {
           }
         }
 
-        setMessages((prev) =>
-          prev.map((m) => (m.id === aiMsg.id && m.status === 'streaming' ? { ...m, status: 'done' as const } : m)),
-        )
+        // Flush any remaining text
+        cancelAnimationFrame(rafId)
+        flushText()
+
+        setMessages((prev) => {
+          const idx = prev.findIndex((m) => m.id === assistantId)
+          if (idx === -1 || prev[idx].status !== 'streaming') return prev
+          const updated = [...prev]
+          updated[idx] = { ...updated[idx], status: 'done' }
+          return updated
+        })
       } catch (err) {
         if ((err as Error).name === 'AbortError') {
-          setMessages((prev) => prev.map((m) => (m.id === aiMsg.id ? { ...m, status: 'done' as const } : m)))
+          setMessages((prev) => {
+            const idx = prev.findIndex((m) => m.id === assistantId)
+            if (idx === -1) return prev
+            const updated = [...prev]
+            updated[idx] = { ...updated[idx], status: 'done' }
+            return updated
+          })
         } else {
           const message = err instanceof Error ? err.message : 'Something went wrong'
           setError(message)
-          setMessages((prev) =>
-            prev.map((m) => (m.id === aiMsg.id ? { ...m, content: message, status: 'error' as const } : m)),
-          )
+          setMessages((prev) => {
+            const idx = prev.findIndex((m) => m.id === assistantId)
+            if (idx === -1) return prev
+            const updated = [...prev]
+            updated[idx] = { ...updated[idx], content: message, status: 'error' }
+            return updated
+          })
         }
       } finally {
         controllerRef.current = null
         setIsStreaming(false)
       }
     },
-    [isStreaming, messages],
+    [], // No deps — uses refs for current state
+  )
+
+  const selectSource = React.useCallback(
+    (_messageId: string, source: ChatSource) => {
+      send(`Tell me about ${source.title}`)
+    },
+    [send],
   )
 
   React.useEffect(() => {
-    return () => {
-      controllerRef.current?.abort()
-    }
+    return () => { controllerRef.current?.abort() }
   }, [])
 
   return { messages, isStreaming, isSearching, error, send, selectSource, abort, reset }

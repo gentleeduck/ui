@@ -234,7 +234,14 @@ export function CommandMenu() {
           <span className="text-md">K</span>
         </CommandShortcut>
       </Button>
-      <CommandDialog onOpenChange={setOpen} open={open} shouldFilter={false}>
+      <CommandDialog
+        onOpenChange={(v) => {
+          if (!v && aiMode) return
+          setOpen(v)
+        }}
+        open={open}
+        shouldFilter={false}
+        contentClassName={aiMode ? 'lg:w-[800px] h-[550px]' : ''}>
         {aiMode ? (
           <React.Suspense
             fallback={
@@ -242,14 +249,15 @@ export function CommandMenu() {
                 Loading AI chat...
               </div>
             }>
-            <AIChatPanel initialQuery={initialAiQuery} onBack={() => setAiMode(false)} />
+            <AIChatPanel
+              initialQuery={initialAiQuery}
+              onBack={() => setAiMode(false)}
+              onClose={() => { setAiMode(false); setOpen(false) }}
+            />
           </React.Suspense>
         ) : (
           <>
-            <CommandInput
-              autoFocus
-              placeholder="Search..."
-            >
+            <CommandInput autoFocus placeholder="Search...">
               {aiAvailable && (
                 <button
                   type="button"

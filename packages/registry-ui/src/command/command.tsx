@@ -163,11 +163,14 @@ CommandShortcut.displayName = 'CommandShortcut'
 function CommandDialog({
   children,
   shouldFilter,
+  contentClassName,
   ...props
-}: React.ComponentPropsWithoutRef<typeof Dialog> & { shouldFilter?: boolean }) {
+}: React.ComponentPropsWithoutRef<typeof Dialog> & { shouldFilter?: boolean; contentClassName?: string }) {
   return (
     <Dialog {...props}>
-      <DialogContent className="h-125 max-w-full p-0 lg:w-[700px]" hideClose>
+      <DialogContent
+        className={cn('h-125 max-w-full p-0 transition-all duration-200 lg:w-[700px]', contentClassName)}
+        hideClose>
         <DialogTitle className="sr-only">Command palette</DialogTitle>
         <DialogDescription className="sr-only">Search for commands and navigation items</DialogDescription>
         <Command className="max-w-full" shouldFilter={shouldFilter}>
