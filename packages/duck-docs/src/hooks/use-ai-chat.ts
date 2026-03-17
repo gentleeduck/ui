@@ -32,11 +32,7 @@ function createId(): string {
   return `msg_${Date.now()}_${++messageCounter}`
 }
 
-function updateMessage(
-  prev: ChatMessage[],
-  id: string,
-  patch: Partial<ChatMessage>,
-): ChatMessage[] {
+function updateMessage(prev: ChatMessage[], id: string, patch: Partial<ChatMessage>): ChatMessage[] {
   const idx = prev.findIndex((m) => m.id === id)
   if (idx === -1) return prev
   const msg = prev[idx]
