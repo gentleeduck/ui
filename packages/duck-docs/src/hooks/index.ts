@@ -1,3 +1,4 @@
+export { type ChatMessage, type ChatSource, type UseAIChatReturn, useAIChat } from './use-ai-chat'
 export { useColors } from './use-colors'
 export { useConfig } from './use-config'
 export { useLiftMode } from './use-lift-mode'
