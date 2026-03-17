@@ -23,5 +23,5 @@ const InputOTPSlot = React.forwardRef<InputOTPSlotElement, InputOTPSlotProps>((p
 
 InputOTPSlot.displayName = INPUT_OTP_SLOT_NAME
 
-export { INPUT_OTP_SLOT_NAME, InputOTPSlot }
 export type { InputOTPSlotProps }
+export { INPUT_OTP_SLOT_NAME, InputOTPSlot }

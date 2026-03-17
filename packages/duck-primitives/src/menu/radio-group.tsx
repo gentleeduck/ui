@@ -32,5 +32,5 @@ const MenuRadioGroup = React.forwardRef<MenuRadioGroupElement, MenuRadioGroupPro
 
 MenuRadioGroup.displayName = RADIO_GROUP_NAME
 
+export type { MenuRadioGroupElement, MenuRadioGroupProps }
 export { MenuRadioGroup, RadioGroupProvider, useRadioGroupContext }
-export type { MenuRadioGroupProps, MenuRadioGroupElement }

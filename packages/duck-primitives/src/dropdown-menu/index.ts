@@ -68,20 +68,20 @@ const SubTrigger = DropdownMenuSubTrigger
 const SubContent = DropdownMenuSubContent
 
 export {
-  Root,
-  Trigger,
-  Portal,
+  Arrow,
+  CheckboxItem,
   Content,
   Group,
-  Label,
   Item,
-  CheckboxItem,
+  ItemIndicator,
+  Label,
+  Portal,
   RadioGroup,
   RadioItem,
-  ItemIndicator,
+  Root,
   Separator,
-  Arrow,
   Sub,
-  SubTrigger,
   SubContent,
+  SubTrigger,
+  Trigger,
 }

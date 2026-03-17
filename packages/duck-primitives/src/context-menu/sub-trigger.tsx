@@ -20,5 +20,5 @@ const ContextMenuSubTrigger = React.forwardRef<ContextMenuSubTriggerElement, Con
 
 ContextMenuSubTrigger.displayName = SUB_TRIGGER_NAME
 
-export { ContextMenuSubTrigger }
 export type { ContextMenuSubTriggerProps }
+export { ContextMenuSubTrigger }

@@ -266,4 +266,4 @@ function ChartLegendContent({
 }
 ChartLegendContent.displayName = 'ChartLegendContent'
 
-export { ChartContainer, ChartTooltip, ChartTooltipContent, ChartLegend, ChartLegendContent, ChartStyle }
+export { ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent }

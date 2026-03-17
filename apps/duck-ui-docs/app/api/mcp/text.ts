@@ -36,13 +36,11 @@ export function stripMdxSyntax(body: string): string {
     stripped = stripped.replace(new RegExp(`<${component}[^>]*>[\\s\\S]*?<\\/${component}>`, 'g'), '')
   }
 
-  return (
-    stripped
-      .replace(/<\w+[\s\S]*?\/>/g, '')
-      .replace(/^\s*<\/?\w+[^>]*>\s*$/gm, '')
-      .replace(/\n{3,}/g, '\n\n')
-      .trim()
-  )
+  return stripped
+    .replace(/<\w+[\s\S]*?\/>/g, '')
+    .replace(/^\s*<\/?\w+[^>]*>\s*$/gm, '')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
 }
 
 /**

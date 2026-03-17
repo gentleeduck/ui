@@ -172,5 +172,5 @@ function getComponentRef(element: React.ReactElement) {
   )
 }
 
-export { Slot, Slottable }
 export type { SlotProps }
+export { Slot, Slottable }

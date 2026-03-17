@@ -42,5 +42,5 @@ const MenuPortal: React.FC<MenuPortalProps> = (props: ScopedProps<MenuPortalProp
 
 MenuPortal.displayName = PORTAL_NAME
 
-export { MenuPortal, PortalProvider, usePortalContext }
 export type { MenuPortalProps }
+export { MenuPortal, PortalProvider, usePortalContext }

@@ -20,5 +20,5 @@ const ContextMenuItem = React.forwardRef<ContextMenuItemElement, ContextMenuItem
 
 ContextMenuItem.displayName = ITEM_NAME
 
-export { ContextMenuItem }
 export type { ContextMenuItemProps }
+export { ContextMenuItem }

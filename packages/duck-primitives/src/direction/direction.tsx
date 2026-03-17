@@ -36,5 +36,5 @@ function useDirection(localDir?: Direction): Direction {
 
 const Provider = DirectionProvider
 
-export { useDirection, Provider, DirectionProvider, DirectionContext, DIRECTION_DICTIONARY }
 export type { Direction, DirectionProviderProps }
+export { DIRECTION_DICTIONARY, DirectionContext, DirectionProvider, Provider, useDirection }

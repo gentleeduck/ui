@@ -69,12 +69,12 @@ const DropdownMenu: React.FC<DropdownMenuProps> = (props: ScopedProps<DropdownMe
 
 DropdownMenu.displayName = DROPDOWN_MENU_NAME
 
+export type { Direction, DropdownMenuContextValue, DropdownMenuProps, ScopedProps }
 export {
-  DROPDOWN_MENU_NAME,
   createDropdownMenuScope,
-  useMenuScope,
+  DROPDOWN_MENU_NAME,
+  DropdownMenu,
   DropdownMenuProvider,
   useDropdownMenuContext,
-  DropdownMenu,
+  useMenuScope,
 }
-export type { ScopedProps, DropdownMenuProps, DropdownMenuContextValue, Direction }

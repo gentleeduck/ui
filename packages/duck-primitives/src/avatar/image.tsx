@@ -40,5 +40,5 @@ const AvatarImage = React.forwardRef<AvatarImageElement, AvatarImageProps>(
 
 AvatarImage.displayName = IMAGE_NAME
 
-export { AvatarImage }
 export type { AvatarImageProps }
+export { AvatarImage }

@@ -20,5 +20,5 @@ const DropdownMenuRadioGroup = React.forwardRef<DropdownMenuRadioGroupElement, D
 
 DropdownMenuRadioGroup.displayName = RADIO_GROUP_NAME
 
-export { DropdownMenuRadioGroup }
 export type { DropdownMenuRadioGroupProps }
+export { DropdownMenuRadioGroup }

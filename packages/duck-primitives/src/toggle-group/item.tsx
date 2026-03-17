@@ -58,5 +58,5 @@ const ToggleGroupItem = React.forwardRef<ToggleGroupItemElement, ToggleGroupItem
 
 ToggleGroupItem.displayName = ITEM_NAME
 
-export { ToggleGroupItem }
 export type { ToggleGroupItemProps }
+export { ToggleGroupItem }

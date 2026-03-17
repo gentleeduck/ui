@@ -90,5 +90,5 @@ function rectEquals(rect1: DOMRect, rect2: DOMRect) {
   )
 }
 
-export { observeElementRect }
 export type { Measurable }
+export { observeElementRect }

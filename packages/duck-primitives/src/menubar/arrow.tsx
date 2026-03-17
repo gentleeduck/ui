@@ -20,5 +20,5 @@ const MenubarArrow = React.forwardRef<MenubarArrowElement, MenubarArrowProps>(
 
 MenubarArrow.displayName = ARROW_NAME
 
-export { MenubarArrow }
 export type { MenubarArrowProps }
+export { MenubarArrow }

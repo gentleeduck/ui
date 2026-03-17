@@ -26,5 +26,5 @@ const InputOTPSeparator = React.forwardRef<InputOTPSeparatorElement, InputOTPSep
 
 InputOTPSeparator.displayName = INPUT_OTP_SEPARATOR_NAME
 
-export { INPUT_OTP_SEPARATOR_NAME, InputOTPSeparator }
 export type { InputOTPSeparatorProps }
+export { INPUT_OTP_SEPARATOR_NAME, InputOTPSeparator }

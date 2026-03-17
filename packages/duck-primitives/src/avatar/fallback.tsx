@@ -31,5 +31,5 @@ const AvatarFallback = React.forwardRef<AvatarFallbackElement, AvatarFallbackPro
 
 AvatarFallback.displayName = FALLBACK_NAME
 
-export { AvatarFallback }
 export type { AvatarFallbackProps }
+export { AvatarFallback }

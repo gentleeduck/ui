@@ -104,5 +104,5 @@ SliderThumbImpl.displayName = 'SliderThumbImpl'
 
 SliderThumb.displayName = THUMB_NAME
 
-export { SliderThumb }
 export type { SliderThumbProps }
+export { SliderThumb }

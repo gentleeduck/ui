@@ -24,5 +24,5 @@ const Portal = React.forwardRef<PortalElement, PortalProps>((props, forwardedRef
 
 Portal.displayName = PORTAL_NAME
 
-export { Portal }
 export type { PortalProps }
+export { Portal }

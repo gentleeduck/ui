@@ -94,5 +94,5 @@ function whenTouchOrPen<E>(handler: React.PointerEventHandler<E>): React.Pointer
   return (event) => (event.pointerType !== 'mouse' ? handler(event) : undefined)
 }
 
-export { ContextMenuTrigger, whenTouchOrPen }
 export type { ContextMenuTriggerProps }
+export { ContextMenuTrigger, whenTouchOrPen }

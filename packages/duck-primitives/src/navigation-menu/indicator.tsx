@@ -98,5 +98,5 @@ const NavigationMenuIndicatorImpl = React.forwardRef<
 
 NavigationMenuIndicatorImpl.displayName = 'NavigationMenuIndicatorImpl'
 
-export { NavigationMenuIndicator }
 export type { NavigationMenuIndicatorProps }
+export { NavigationMenuIndicator }

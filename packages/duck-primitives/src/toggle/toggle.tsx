@@ -85,5 +85,5 @@ const Toggle = React.forwardRef<ToggleElement, ToggleProps>((props: ScopedProps<
 
 Toggle.displayName = TOGGLE_NAME
 
-export { TOGGLE_NAME, createToggleScope, ToggleProvider, useToggleContext, Toggle }
-export type { ScopedProps, ToggleProps, ToggleContextValue }
+export type { ScopedProps, ToggleContextValue, ToggleProps }
+export { createToggleScope, TOGGLE_NAME, Toggle, ToggleProvider, useToggleContext }

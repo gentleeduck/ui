@@ -29,11 +29,7 @@ export function editDistance(a: string, b: string): number {
       if (b[i - 1] === a[j - 1]) {
         row[j] = previousRow[j - 1] ?? 0
       } else {
-        row[j] = Math.min(
-          (previousRow[j - 1] ?? 0) + 1,
-          (row[j - 1] ?? 0) + 1,
-          (previousRow[j] ?? 0) + 1,
-        )
+        row[j] = Math.min((previousRow[j - 1] ?? 0) + 1, (row[j - 1] ?? 0) + 1, (previousRow[j] ?? 0) + 1)
       }
     }
   }

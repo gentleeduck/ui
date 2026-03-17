@@ -49,4 +49,4 @@ const AlertDescription = React.forwardRef<HTMLDivElement, React.HTMLAttributes<H
 )
 AlertDescription.displayName = 'AlertDescription'
 
-export { Alert, AlertTitle, AlertDescription }
+export { Alert, AlertDescription, AlertTitle }

@@ -252,7 +252,10 @@ export function CommandMenu() {
             <AIChatPanel
               initialQuery={initialAiQuery}
               onBack={() => setAiMode(false)}
-              onClose={() => { setAiMode(false); setOpen(false) }}
+              onClose={() => {
+                setAiMode(false)
+                setOpen(false)
+              }}
             />
           </React.Suspense>
         ) : (

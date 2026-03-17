@@ -57,5 +57,5 @@ const ContextMenuContent = React.forwardRef<ContextMenuContentElement, ContextMe
 
 ContextMenuContent.displayName = CONTENT_NAME
 
-export { ContextMenuContent }
 export type { ContextMenuContentProps }
+export { ContextMenuContent }

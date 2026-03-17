@@ -105,27 +105,27 @@ Menu.displayName = MENU_NAME
 type MenuContentElement = React.ComponentRef<typeof PopperPrimitive.Content>
 type MenuItemElement = React.ComponentRef<typeof import('../primitive-elements').Primitive.div>
 
+export type {
+  Direction,
+  ItemData,
+  MenuContentElement,
+  MenuContextValue,
+  MenuItemElement,
+  MenuProps,
+  MenuRootContextValue,
+  ScopedProps,
+}
 export {
   Collection,
-  useCollection,
   createMenuContext,
   createMenuScope,
+  MENU_NAME,
+  Menu,
+  MenuProvider,
+  MenuRootProvider,
+  useCollection,
+  useMenuContext,
+  useMenuRootContext,
   usePopperScope,
   useRovingFocusGroupScope,
-  MenuProvider,
-  useMenuContext,
-  MenuRootProvider,
-  useMenuRootContext,
-  Menu,
-  MENU_NAME,
-}
-export type {
-  ScopedProps,
-  MenuProps,
-  MenuContextValue,
-  MenuRootContextValue,
-  MenuContentElement,
-  MenuItemElement,
-  ItemData,
-  Direction,
 }

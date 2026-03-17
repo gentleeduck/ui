@@ -110,17 +110,17 @@ const Menubar = React.forwardRef<MenubarElement, MenubarProps>((props: ScopedPro
 
 Menubar.displayName = MENUBAR_NAME
 
+export type { Direction, MenubarProps, MenubarTriggerElement, ScopedProps }
 export {
-  MENUBAR_NAME,
   Collection,
-  useCollection,
   createMenubarContext,
   createMenubarScope,
+  MENUBAR_NAME,
+  Menubar,
+  MenubarContextProvider,
+  useCollection,
+  useMenubarContext,
   useMenuScope,
   useRovingFocusGroupScope,
-  MenubarContextProvider,
-  useMenubarContext,
   wrapArray,
-  Menubar,
 }
-export type { ScopedProps, MenubarProps, MenubarTriggerElement, Direction }

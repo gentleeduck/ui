@@ -20,5 +20,5 @@ const ContextMenuRadioGroup = React.forwardRef<ContextMenuRadioGroupElement, Con
 
 ContextMenuRadioGroup.displayName = RADIO_GROUP_NAME
 
-export { ContextMenuRadioGroup }
 export type { ContextMenuRadioGroupProps }
+export { ContextMenuRadioGroup }

@@ -188,13 +188,13 @@ function useCommandListContext(__scopeCommand: Parameters<typeof CommandPrimitiv
 
 export {
   Command,
-  CommandInput,
-  CommandList,
-  CommandGroup,
-  CommandItem,
-  CommandEmpty,
-  CommandShortcut,
-  CommandSeparator,
   CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
   useCommandListContext,
 }

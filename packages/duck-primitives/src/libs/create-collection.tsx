@@ -107,5 +107,5 @@ function createCollection<ItemElement extends HTMLElement, ItemData = {}>(name: 
   ] as const
 }
 
-export { createCollection }
 export type { CollectionProps }
+export { createCollection }

@@ -120,5 +120,5 @@ const MenubarContent = React.forwardRef<MenubarContentElement, MenubarContentPro
 
 MenubarContent.displayName = CONTENT_NAME
 
-export { MenubarContent }
 export type { MenubarContentProps }
+export { MenubarContent }

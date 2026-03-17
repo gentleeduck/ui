@@ -79,5 +79,5 @@ const Progress = React.forwardRef<ProgressElement, ProgressProps>((props: Scoped
 
 Progress.displayName = PROGRESS_NAME
 
-export { PROGRESS_NAME, createProgressScope, ProgressProvider, useProgressContext, getProgressState, Progress }
-export type { ScopedProps, ProgressProps, ProgressContextValue }
+export type { ProgressContextValue, ProgressProps, ScopedProps }
+export { createProgressScope, getProgressState, PROGRESS_NAME, Progress, ProgressProvider, useProgressContext }

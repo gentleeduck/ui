@@ -75,4 +75,4 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
 )
 AvatarGroup.displayName = 'AvatarGroup'
 
-export { Avatar, AvatarImage, AvatarFallback, AvatarGroup }
+export { Avatar, AvatarFallback, AvatarGroup, AvatarImage }

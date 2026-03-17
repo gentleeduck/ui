@@ -20,5 +20,5 @@ const ContextMenuRadioItem = React.forwardRef<ContextMenuRadioItemElement, Conte
 
 ContextMenuRadioItem.displayName = RADIO_ITEM_NAME
 
-export { ContextMenuRadioItem }
 export type { ContextMenuRadioItemProps }
+export { ContextMenuRadioItem }

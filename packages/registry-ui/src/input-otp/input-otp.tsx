@@ -63,4 +63,4 @@ InputOTPSeparator.displayName = 'InputOTPSeparator'
 const REGEXP_ONLY_DIGITS_AND_CHARS = InputOTPPrimitive.REGEXP_ONLY_DIGITS_AND_CHARS
 const REGEXP_ONLY_DIGITS = InputOTPPrimitive.REGEXP_ONLY_DIGITS
 
-export { InputOTP, InputOTPGroup, InputOTPSlot, InputOTPSeparator, REGEXP_ONLY_DIGITS_AND_CHARS, REGEXP_ONLY_DIGITS }
+export { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, REGEXP_ONLY_DIGITS, REGEXP_ONLY_DIGITS_AND_CHARS }

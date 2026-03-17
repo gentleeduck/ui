@@ -38,5 +38,5 @@ const Pagination = React.forwardRef<PaginationElement, PaginationProps>(
 
 Pagination.displayName = PAGINATION_NAME
 
-export { PAGINATION_NAME, createPaginationScope, PaginationProvider, usePaginationContext, Pagination }
-export type { ScopedProps, PaginationProps, PaginationContextValue }
+export type { PaginationContextValue, PaginationProps, ScopedProps }
+export { createPaginationScope, PAGINATION_NAME, Pagination, PaginationProvider, usePaginationContext }

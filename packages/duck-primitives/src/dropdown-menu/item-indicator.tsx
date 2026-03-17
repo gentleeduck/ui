@@ -20,5 +20,5 @@ const DropdownMenuItemIndicator = React.forwardRef<DropdownMenuItemIndicatorElem
 
 DropdownMenuItemIndicator.displayName = INDICATOR_NAME
 
-export { DropdownMenuItemIndicator }
 export type { DropdownMenuItemIndicatorProps }
+export { DropdownMenuItemIndicator }

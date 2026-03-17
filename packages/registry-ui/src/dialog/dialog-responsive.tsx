@@ -137,12 +137,12 @@ DialogDescriptionResponsive.displayName = 'DialogDescriptionResponsive'
 DialogCloseResponsive.displayName = 'DialogCloseResponsive'
 
 export {
-  DialogResponsive,
-  DialogTriggerResponsive,
-  DialogContentResponsive,
-  DialogHeaderResponsive,
-  DialogFooterResponsive,
-  DialogTitleResponsive,
-  DialogDescriptionResponsive,
   DialogCloseResponsive,
+  DialogContentResponsive,
+  DialogDescriptionResponsive,
+  DialogFooterResponsive,
+  DialogHeaderResponsive,
+  DialogResponsive,
+  DialogTitleResponsive,
+  DialogTriggerResponsive,
 }

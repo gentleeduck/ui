@@ -92,4 +92,4 @@ const TableCaption = React.forwardRef<HTMLTableCaptionElement, React.HTMLAttribu
 )
 TableCaption.displayName = 'TableCaption'
 
-export { Table, TableHeader, TableBody, TableFooter, TableRow, TableHead, TableCell, TableCaption }
+export { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow }

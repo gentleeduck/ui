@@ -17,5 +17,5 @@ const MenubarPortal: React.FC<MenubarPortalProps> = (props: ScopedProps<MenubarP
 
 MenubarPortal.displayName = PORTAL_NAME
 
-export { MenubarPortal }
 export type { MenubarPortalProps }
+export { MenubarPortal }

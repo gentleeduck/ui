@@ -30,5 +30,5 @@ const ProgressIndicator = React.forwardRef<ProgressIndicatorElement, ProgressInd
 
 ProgressIndicator.displayName = INDICATOR_NAME
 
-export { ProgressIndicator }
 export type { ProgressIndicatorProps }
+export { ProgressIndicator }

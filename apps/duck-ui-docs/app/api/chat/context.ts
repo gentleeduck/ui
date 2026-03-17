@@ -1,8 +1,8 @@
 import { readdir, readFile } from 'node:fs/promises'
 import { join, resolve } from 'node:path'
-import { parseFrontmatter, stripMdxSyntax, extractSummary } from '../mcp/text'
-import { tokenize, expandSearchTerms } from '../mcp/tokenize'
-import { computeTf, computeIdf, computeTfidfVector, cosineSimilarity } from '../mcp/tfidf'
+import { extractSummary, parseFrontmatter, stripMdxSyntax } from '../mcp/text'
+import { computeIdf, computeTf, computeTfidfVector, cosineSimilarity } from '../mcp/tfidf'
+import { expandSearchTerms, tokenize } from '../mcp/tokenize'
 
 interface DocEntry {
   slug: string

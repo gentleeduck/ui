@@ -76,4 +76,4 @@ function AnimationIcon({ children, animationIcon }: AnimationIconProps): React.J
 }
 AnimationIcon.displayName = 'AnimationIcon'
 
-export { Button, AnimationIcon }
+export { AnimationIcon, Button }

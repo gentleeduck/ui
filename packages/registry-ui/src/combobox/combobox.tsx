@@ -122,6 +122,7 @@ const ComboxGroup = React.forwardRef<
   )
 })
 ComboxGroup.displayName = 'ComboxGroup'
+
 export { ComboxGroup }
 
 type ComboboxItemProps<T extends ComboboxItemType> = Omit<

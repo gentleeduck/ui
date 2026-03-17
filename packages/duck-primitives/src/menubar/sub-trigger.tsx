@@ -22,5 +22,5 @@ const MenubarSubTrigger = React.forwardRef<MenubarSubTriggerElement, MenubarSubT
 
 MenubarSubTrigger.displayName = SUB_TRIGGER_NAME
 
-export { MenubarSubTrigger }
 export type { MenubarSubTriggerProps }
+export { MenubarSubTrigger }

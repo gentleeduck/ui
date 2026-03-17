@@ -20,5 +20,5 @@ const ContextMenuCheckboxItem = React.forwardRef<ContextMenuCheckboxItemElement,
 
 ContextMenuCheckboxItem.displayName = CHECKBOX_ITEM_NAME
 
-export { ContextMenuCheckboxItem }
 export type { ContextMenuCheckboxItemProps }
+export { ContextMenuCheckboxItem }

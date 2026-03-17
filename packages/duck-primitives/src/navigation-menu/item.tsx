@@ -61,5 +61,5 @@ const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, Navigatio
 
 NavigationMenuItem.displayName = ITEM_NAME
 
-export { NavigationMenuItem }
 export type { NavigationMenuItemProps }
+export { NavigationMenuItem }

@@ -20,5 +20,5 @@ const DropdownMenuSubTrigger = React.forwardRef<DropdownMenuSubTriggerElement, D
 
 DropdownMenuSubTrigger.displayName = SUB_TRIGGER_NAME
 
-export { DropdownMenuSubTrigger }
 export type { DropdownMenuSubTriggerProps }
+export { DropdownMenuSubTrigger }

@@ -18,5 +18,5 @@ const PaginationContent = React.forwardRef<PaginationContentElement, PaginationC
 
 PaginationContent.displayName = CONTENT_NAME
 
-export { PaginationContent }
 export type { PaginationContentProps }
+export { PaginationContent }

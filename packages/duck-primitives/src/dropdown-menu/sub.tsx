@@ -33,5 +33,5 @@ const DropdownMenuSub: React.FC<DropdownMenuSubProps> = (props: ScopedProps<Drop
 
 DropdownMenuSub.displayName = SUB_NAME
 
-export { DropdownMenuSub }
 export type { DropdownMenuSubProps }
+export { DropdownMenuSub }

@@ -22,5 +22,5 @@ const Presence: React.FC<PresenceProps> = (props) => {
 
 Presence.displayName = 'Presence'
 
-export { Presence }
 export type { PresenceProps }
+export { Presence }

@@ -20,5 +20,5 @@ const DropdownMenuCheckboxItem = React.forwardRef<DropdownMenuCheckboxItemElemen
 
 DropdownMenuCheckboxItem.displayName = CHECKBOX_ITEM_NAME
 
-export { DropdownMenuCheckboxItem }
 export type { DropdownMenuCheckboxItemProps }
+export { DropdownMenuCheckboxItem }

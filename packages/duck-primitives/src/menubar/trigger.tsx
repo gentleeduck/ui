@@ -84,5 +84,5 @@ const MenubarTrigger = React.forwardRef<MenubarTriggerElement, MenubarTriggerPro
 
 MenubarTrigger.displayName = TRIGGER_NAME
 
-export { MenubarTrigger }
 export type { MenubarTriggerProps }
+export { MenubarTrigger }

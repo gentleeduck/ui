@@ -41,5 +41,5 @@ const Avatar = React.forwardRef<AvatarElement, AvatarProps>((props: ScopedProps<
 
 Avatar.displayName = AVATAR_NAME
 
-export { createAvatarScope, useAvatarContext, Avatar }
-export type { ScopedProps, AvatarProps }
+export type { AvatarProps, ScopedProps }
+export { Avatar, createAvatarScope, useAvatarContext }

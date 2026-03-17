@@ -20,5 +20,5 @@ const DropdownMenuRadioItem = React.forwardRef<DropdownMenuRadioItemElement, Dro
 
 DropdownMenuRadioItem.displayName = RADIO_ITEM_NAME
 
-export { DropdownMenuRadioItem }
 export type { DropdownMenuRadioItemProps }
+export { DropdownMenuRadioItem }

@@ -47,5 +47,5 @@ const MenuCheckboxItem = React.forwardRef<MenuCheckboxItemElement, MenuCheckboxI
 
 MenuCheckboxItem.displayName = CHECKBOX_ITEM_NAME
 
-export { MenuCheckboxItem, ItemIndicatorProvider, useItemIndicatorContext }
-export type { MenuCheckboxItemProps, MenuCheckboxItemElement }
+export type { MenuCheckboxItemElement, MenuCheckboxItemProps }
+export { ItemIndicatorProvider, MenuCheckboxItem, useItemIndicatorContext }

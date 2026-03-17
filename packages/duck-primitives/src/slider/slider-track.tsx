@@ -27,5 +27,5 @@ const SliderTrack = React.forwardRef<SliderTrackElement, SliderTrackProps>(
 
 SliderTrack.displayName = TRACK_NAME
 
-export { SliderTrack }
 export type { SliderTrackProps }
+export { SliderTrack }

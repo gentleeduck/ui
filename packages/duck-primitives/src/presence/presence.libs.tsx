@@ -137,4 +137,4 @@ function getComponentRef(element: React.ReactElement<{ ref?: React.Ref<unknown> 
   return element.props.ref || (element as unknown as { ref?: React.Ref<unknown> }).ref
 }
 
-export { usePresence, getAnimationName, getComponentRef }
+export { getAnimationName, getComponentRef, usePresence }

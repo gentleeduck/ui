@@ -20,5 +20,5 @@ const MenubarItemIndicator = React.forwardRef<MenubarItemIndicatorElement, Menub
 
 MenubarItemIndicator.displayName = INDICATOR_NAME
 
-export { MenubarItemIndicator }
 export type { MenubarItemIndicatorProps }
+export { MenubarItemIndicator }

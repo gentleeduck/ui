@@ -39,5 +39,5 @@ const MenuRadioItem = React.forwardRef<MenuRadioItemElement, MenuRadioItemProps>
 
 MenuRadioItem.displayName = RADIO_ITEM_NAME
 
+export type { MenuRadioItemElement, MenuRadioItemProps }
 export { MenuRadioItem }
-export type { MenuRadioItemProps, MenuRadioItemElement }

@@ -20,5 +20,5 @@ const MenubarRadioGroup = React.forwardRef<MenubarRadioGroupElement, MenubarRadi
 
 MenubarRadioGroup.displayName = RADIO_GROUP_NAME
 
-export { MenubarRadioGroup }
 export type { MenubarRadioGroupProps }
+export { MenubarRadioGroup }

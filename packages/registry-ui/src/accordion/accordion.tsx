@@ -244,4 +244,4 @@ const AccordionContent = React.forwardRef<HTMLDivElement, React.HTMLProps<HTMLDi
 )
 AccordionContent.displayName = 'AccordionContent'
 
-export { Accordion, AccordionItem, AccordionTrigger, AccordionContent }
+export { Accordion, AccordionContent, AccordionItem, AccordionTrigger }
