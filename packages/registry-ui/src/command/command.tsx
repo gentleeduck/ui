@@ -29,8 +29,9 @@ const CommandInput = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive.Input>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Input> & {
     wrapperClassName?: string
+    children?: React.ReactNode
   }
->(({ className, wrapperClassName, placeholder = 'Search...', autoFocus = false, ...props }, ref) => (
+>(({ className, wrapperClassName, placeholder = 'Search...', autoFocus = false, children, ...props }, ref) => (
   <div className={cn('mb-2 flex items-center gap-2 border-b px-1', wrapperClassName)} data-slot="command-input">
     <Search aria-hidden="true" className="size-5 shrink-0 opacity-50" />
     <CommandPrimitive.Input
@@ -44,6 +45,7 @@ const CommandInput = React.forwardRef<
       // tabIndex={0}
       {...props}
     />
+    {children}
   </div>
 ))
 CommandInput.displayName = CommandPrimitive.Input.displayName
@@ -161,11 +163,14 @@ CommandShortcut.displayName = 'CommandShortcut'
 function CommandDialog({
   children,
   shouldFilter,
+  contentClassName,
   ...props
-}: React.ComponentPropsWithoutRef<typeof Dialog> & { shouldFilter?: boolean }) {
+}: React.ComponentPropsWithoutRef<typeof Dialog> & { shouldFilter?: boolean; contentClassName?: string }) {
   return (
     <Dialog {...props}>
-      <DialogContent className="h-125 max-w-full p-0 lg:w-[700px]">
+      <DialogContent
+        className={cn('h-125 max-w-full p-0 transition-all duration-200 lg:w-[700px]', contentClassName)}
+        hideClose>
         <DialogTitle className="sr-only">Command palette</DialogTitle>
         <DialogDescription className="sr-only">Search for commands and navigation items</DialogDescription>
         <Command className="max-w-full" shouldFilter={shouldFilter}>
