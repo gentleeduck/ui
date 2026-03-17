@@ -21,5 +21,10 @@
     "type": "git",
     "url": "git+https://github.com/gentleeduck/duck-ui.git",
     "directory": "packages/duck-emoji"
-  }
+  },
+  "keywords": [
+    "gentleduck",
+    "react",
+    "emoji"
+  ]
 }
