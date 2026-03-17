@@ -20,5 +20,5 @@ const MenubarSeparator = React.forwardRef<MenubarSeparatorElement, MenubarSepara
 
 MenubarSeparator.displayName = SEPARATOR_NAME
 
-export { MenubarSeparator }
 export type { MenubarSeparatorProps }
+export { MenubarSeparator }

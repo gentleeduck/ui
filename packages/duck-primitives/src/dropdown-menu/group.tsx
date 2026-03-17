@@ -20,5 +20,5 @@ const DropdownMenuGroup = React.forwardRef<DropdownMenuGroupElement, DropdownMen
 
 DropdownMenuGroup.displayName = GROUP_NAME
 
-export { DropdownMenuGroup }
 export type { DropdownMenuGroupProps }
+export { DropdownMenuGroup }

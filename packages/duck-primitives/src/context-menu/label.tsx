@@ -20,5 +20,5 @@ const ContextMenuLabel = React.forwardRef<ContextMenuLabelElement, ContextMenuLa
 
 ContextMenuLabel.displayName = LABEL_NAME
 
-export { ContextMenuLabel }
 export type { ContextMenuLabelProps }
+export { ContextMenuLabel }

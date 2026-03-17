@@ -31,5 +31,5 @@ function getFocusIntent(event: React.KeyboardEvent, orientation?: Orientation, d
   return MAP_KEY_TO_FOCUS_INTENT[key]
 }
 
+export type { FocusIntent, Orientation }
 export { getFocusIntent }
-export type { Orientation, FocusIntent }

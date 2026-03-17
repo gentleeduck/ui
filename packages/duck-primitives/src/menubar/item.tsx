@@ -20,5 +20,5 @@ const MenubarItem = React.forwardRef<MenubarItemElement, MenubarItemProps>(
 
 MenubarItem.displayName = ITEM_NAME
 
-export { MenubarItem }
 export type { MenubarItemProps }
+export { MenubarItem }

@@ -83,4 +83,4 @@ const EmptyContent = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'
 })
 EmptyContent.displayName = 'EmptyContent'
 
-export { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyContent, EmptyMedia }
+export { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle }

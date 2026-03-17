@@ -14,5 +14,5 @@ const InputOTPGroup = React.forwardRef<InputOTPGroupElement, InputOTPGroupProps>
 
 InputOTPGroup.displayName = INPUT_OTP_GROUP_NAME
 
-export { INPUT_OTP_GROUP_NAME, InputOTPGroup }
 export type { InputOTPGroupProps }
+export { INPUT_OTP_GROUP_NAME, InputOTPGroup }

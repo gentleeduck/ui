@@ -153,5 +153,5 @@ const MenuItemImpl = React.forwardRef<MenuItemImplElement, MenuItemImplProps>(
 
 MenuItemImpl.displayName = 'MenuItemImpl'
 
+export type { MenuItemElement, MenuItemImplProps, MenuItemProps }
 export { MenuItem, MenuItemImpl }
-export type { MenuItemProps, MenuItemImplProps, MenuItemElement }

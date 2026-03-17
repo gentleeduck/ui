@@ -75,5 +75,5 @@ function useImageLoadingStatus(
   return loadingStatus
 }
 
-export { useImageLoadingStatus }
 export type { ImageLoadingStatus }
+export { useImageLoadingStatus }

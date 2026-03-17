@@ -39,5 +39,5 @@ const NavigationMenuList = React.forwardRef<NavigationMenuListElement, Navigatio
 
 NavigationMenuList.displayName = LIST_NAME
 
-export { NavigationMenuList }
 export type { NavigationMenuListProps }
+export { NavigationMenuList }

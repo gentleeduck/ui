@@ -116,5 +116,5 @@ function BubbleInput(props: BubbleInputProps) {
   )
 }
 
-export { RadioGroupItem, RadioGroupItemProvider, useRadioGroupItemContext }
 export type { RadioGroupItemProps }
+export { RadioGroupItem, RadioGroupItemProvider, useRadioGroupItemContext }

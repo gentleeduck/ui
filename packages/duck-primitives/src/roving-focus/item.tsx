@@ -91,5 +91,5 @@ const RovingFocusGroupItem = React.forwardRef<RovingFocusItemElement, RovingFocu
 
 RovingFocusGroupItem.displayName = ITEM_NAME
 
-export { RovingFocusGroupItem }
 export type { RovingFocusGroupItemProps }
+export { RovingFocusGroupItem }

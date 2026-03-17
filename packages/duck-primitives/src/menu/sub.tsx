@@ -69,5 +69,5 @@ const MenuSub: React.FC<MenuSubProps> = (props: ScopedProps<MenuSubProps>) => {
 
 MenuSub.displayName = SUB_NAME
 
+export type { MenuSubContextValue, MenuSubProps, MenuSubTriggerElement }
 export { MenuSub, MenuSubProvider, useMenuSubContext }
-export type { MenuSubProps, MenuSubContextValue, MenuSubTriggerElement }

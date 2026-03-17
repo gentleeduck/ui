@@ -38,5 +38,5 @@ const RadioGroupIndicator = React.forwardRef<RadioGroupIndicatorElement, RadioGr
 
 RadioGroupIndicator.displayName = INDICATOR_NAME
 
-export { RadioGroupIndicator }
 export type { RadioGroupIndicatorProps }
+export { RadioGroupIndicator }

@@ -38,5 +38,5 @@ const DropdownMenuSubContent = React.forwardRef<DropdownMenuSubContentElement, D
 
 DropdownMenuSubContent.displayName = SUB_CONTENT_NAME
 
-export { DropdownMenuSubContent }
 export type { DropdownMenuSubContentProps }
+export { DropdownMenuSubContent }

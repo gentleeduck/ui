@@ -42,5 +42,5 @@ const SliderRange = React.forwardRef<SliderRangeElement, SliderRangeProps>(
 
 SliderRange.displayName = RANGE_NAME
 
-export { SliderRange }
 export type { SliderRangeProps }
+export { SliderRange }

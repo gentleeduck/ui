@@ -33,5 +33,5 @@ const MenubarSub: React.FC<MenubarSubProps> = (props: ScopedProps<MenubarSubProp
 
 MenubarSub.displayName = SUB_NAME
 
-export { MenubarSub }
 export type { MenubarSubProps }
+export { MenubarSub }

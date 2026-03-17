@@ -192,5 +192,5 @@ const InputOTP = React.forwardRef<InputOTPElement, InputOTPProps>((props: Scoped
 
 InputOTP.displayName = INPUT_OTP_NAME
 
-export { INPUT_OTP_NAME, createInputOTPScope, InputOTP, InputOTPProvider, useInputOTPContext }
-export type { ScopedProps, InputOTPProps, InputOTPContextValue }
+export type { InputOTPContextValue, InputOTPProps, ScopedProps }
+export { createInputOTPScope, INPUT_OTP_NAME, InputOTP, InputOTPProvider, useInputOTPContext }

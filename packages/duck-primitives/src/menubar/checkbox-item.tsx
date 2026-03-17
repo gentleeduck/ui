@@ -20,5 +20,5 @@ const MenubarCheckboxItem = React.forwardRef<MenubarCheckboxItemElement, Menubar
 
 MenubarCheckboxItem.displayName = CHECKBOX_ITEM_NAME
 
-export { MenubarCheckboxItem }
 export type { MenubarCheckboxItemProps }
+export { MenubarCheckboxItem }

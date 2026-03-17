@@ -179,16 +179,16 @@ const FocusGroupItem = React.forwardRef<FocusGroupItemElement, FocusGroupItemPro
 FocusGroupItem.displayName = FOCUS_GROUP_ITEM_NAME
 
 export {
-  ROOT_CONTENT_DISMISS,
-  LINK_SELECT,
-  getOpenState,
-  makeTriggerId,
-  makeContentId,
-  whenMouse,
-  getTabbableCandidates,
-  focusFirst,
-  removeFromTabOrder,
-  useResizeObserver,
   FocusGroup,
   FocusGroupItem,
+  focusFirst,
+  getOpenState,
+  getTabbableCandidates,
+  LINK_SELECT,
+  makeContentId,
+  makeTriggerId,
+  ROOT_CONTENT_DISMISS,
+  removeFromTabOrder,
+  useResizeObserver,
+  whenMouse,
 }

@@ -55,5 +55,5 @@ const DropdownMenuContent = React.forwardRef<DropdownMenuContentElement, Dropdow
 
 DropdownMenuContent.displayName = CONTENT_NAME
 
-export { DropdownMenuContent }
 export type { DropdownMenuContentProps }
+export { DropdownMenuContent }

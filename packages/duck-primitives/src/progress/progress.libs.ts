@@ -37,14 +37,14 @@ function getInvalidValueError(propValue: string, componentName: string) {
 Defaulting to \`null\`.`
 }
 
+export type { ProgressState }
 export {
   DEFAULT_MAX,
   defaultGetValueLabel,
+  getInvalidMaxError,
+  getInvalidValueError,
   getProgressState,
   isNumber,
   isValidMaxNumber,
   isValidValueNumber,
-  getInvalidMaxError,
-  getInvalidValueError,
 }
-export type { ProgressState }

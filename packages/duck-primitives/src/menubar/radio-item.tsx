@@ -20,5 +20,5 @@ const MenubarRadioItem = React.forwardRef<MenubarRadioItemElement, MenubarRadioI
 
 MenubarRadioItem.displayName = RADIO_ITEM_NAME
 
-export { MenubarRadioItem }
 export type { MenubarRadioItemProps }
+export { MenubarRadioItem }

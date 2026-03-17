@@ -20,5 +20,5 @@ const ContextMenuArrow = React.forwardRef<ContextMenuArrowElement, ContextMenuAr
 
 ContextMenuArrow.displayName = ARROW_NAME
 
-export { ContextMenuArrow }
 export type { ContextMenuArrowProps }
+export { ContextMenuArrow }

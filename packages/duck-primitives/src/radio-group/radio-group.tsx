@@ -252,12 +252,12 @@ const RadioGroup = React.forwardRef<RadioGroupElement, RadioGroupProps>(
 
 RadioGroup.displayName = RADIO_GROUP_NAME
 
+export type { RadioGroupProps, ScopedProps }
 export {
-  RADIO_GROUP_NAME,
   createRadioGroupScope,
+  RADIO_GROUP_NAME,
+  RadioGroup,
   RadioGroupProvider,
   useRadioGroupContext,
   useRovingFocusGroupScope,
-  RadioGroup,
 }
-export type { ScopedProps, RadioGroupProps }

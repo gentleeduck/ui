@@ -93,5 +93,5 @@ const MenuSubContent = React.forwardRef<MenuSubContentElement, MenuSubContentPro
 
 MenuSubContent.displayName = SUB_CONTENT_NAME
 
+export type { MenuSubContentElement, MenuSubContentProps }
 export { MenuSubContent }
-export type { MenuSubContentProps, MenuSubContentElement }

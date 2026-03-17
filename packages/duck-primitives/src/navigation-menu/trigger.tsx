@@ -112,5 +112,5 @@ const NavigationMenuTrigger = React.forwardRef<NavigationMenuTriggerElement, Nav
 
 NavigationMenuTrigger.displayName = TRIGGER_NAME
 
-export { NavigationMenuTrigger }
 export type { NavigationMenuTriggerProps }
+export { NavigationMenuTrigger }

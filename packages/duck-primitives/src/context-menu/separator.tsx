@@ -20,5 +20,5 @@ const ContextMenuSeparator = React.forwardRef<ContextMenuSeparatorElement, Conte
 
 ContextMenuSeparator.displayName = SEPARATOR_NAME
 
-export { ContextMenuSeparator }
 export type { ContextMenuSeparatorProps }
+export { ContextMenuSeparator }

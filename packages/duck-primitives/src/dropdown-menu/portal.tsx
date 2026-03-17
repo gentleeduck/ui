@@ -17,5 +17,5 @@ const DropdownMenuPortal: React.FC<DropdownMenuPortalProps> = (props: ScopedProp
 
 DropdownMenuPortal.displayName = PORTAL_NAME
 
-export { DropdownMenuPortal }
 export type { DropdownMenuPortalProps }
+export { DropdownMenuPortal }

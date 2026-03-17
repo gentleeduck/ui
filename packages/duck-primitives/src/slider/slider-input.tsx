@@ -22,4 +22,5 @@ const BubbleInput = (props: React.ComponentPropsWithoutRef<'input'>) => {
 
   return <Primitive.input style={{ display: 'none' }} {...inputProps} ref={ref} defaultValue={value} />
 }
+
 export { BubbleInput }

@@ -170,4 +170,4 @@ const InputGroupTextarea = React.forwardRef<HTMLTextAreaElement, React.Component
 )
 InputGroupTextarea.displayName = 'InputGroupTextarea'
 
-export { InputGroup, InputGroupAddon, InputGroupButton, InputGroupText, InputGroupInput, InputGroupTextarea }
+export { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, InputGroupTextarea }

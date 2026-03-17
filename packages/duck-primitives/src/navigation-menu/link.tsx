@@ -56,5 +56,5 @@ const NavigationMenuLink = React.forwardRef<NavigationMenuLinkElement, Navigatio
 
 NavigationMenuLink.displayName = LINK_NAME
 
-export { NavigationMenuLink }
 export type { NavigationMenuLinkProps }
+export { NavigationMenuLink }

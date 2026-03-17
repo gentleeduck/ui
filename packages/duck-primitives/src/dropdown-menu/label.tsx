@@ -20,5 +20,5 @@ const DropdownMenuLabel = React.forwardRef<DropdownMenuLabelElement, DropdownMen
 
 DropdownMenuLabel.displayName = LABEL_NAME
 
-export { DropdownMenuLabel }
 export type { DropdownMenuLabelProps }
+export { DropdownMenuLabel }

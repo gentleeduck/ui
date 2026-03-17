@@ -69,20 +69,20 @@ const SubTrigger = MenuSubTrigger
 const SubContent = MenuSubContent
 
 export {
-  Root,
   Anchor,
-  Portal,
+  Arrow,
+  CheckboxItem,
   Content,
   Group,
-  Label,
   Item,
-  CheckboxItem,
+  ItemIndicator,
+  Label,
+  Portal,
   RadioGroup,
   RadioItem,
-  ItemIndicator,
+  Root,
   Separator,
-  Arrow,
   Sub,
-  SubTrigger,
   SubContent,
+  SubTrigger,
 }

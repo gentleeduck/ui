@@ -207,7 +207,9 @@ export function useAIChat(): UseAIChatReturn {
   )
 
   React.useEffect(() => {
-    return () => { controllerRef.current?.abort() }
+    return () => {
+      controllerRef.current?.abort()
+    }
   }, [])
 
   return { messages, isStreaming, isSearching, error, send, selectSource, abort, reset }

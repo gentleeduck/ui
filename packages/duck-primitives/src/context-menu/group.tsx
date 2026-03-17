@@ -20,5 +20,5 @@ const ContextMenuGroup = React.forwardRef<ContextMenuGroupElement, ContextMenuGr
 
 ContextMenuGroup.displayName = GROUP_NAME
 
-export { ContextMenuGroup }
 export type { ContextMenuGroupProps }
+export { ContextMenuGroup }

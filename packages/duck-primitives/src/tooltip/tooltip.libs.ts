@@ -12,8 +12,8 @@ const usePopperScope = createPopperScope()
 
 const TOOLTIP_OPEN = 'tooltip.open'
 
-export { TOOLTIP_NAME, createTooltipContext, createTooltipScope, usePopperScope, TOOLTIP_OPEN }
 export type { ScopedProps }
+export { createTooltipContext, createTooltipScope, TOOLTIP_NAME, TOOLTIP_OPEN, usePopperScope }
 
 type Side = 'top' | 'right' | 'bottom' | 'left'
 
@@ -142,4 +142,4 @@ function getHullPresorted<P extends Point>(points: Readonly<Array<P>>): Array<P>
 
 export type { Point, Polygon } from '../libs/shared-utils'
 export { isPointInPolygon } from '../libs/shared-utils'
-export { getExitSideFromRect, getPaddedExitPoints, getPointsFromRect, getHull }
+export { getExitSideFromRect, getHull, getPaddedExitPoints, getPointsFromRect }

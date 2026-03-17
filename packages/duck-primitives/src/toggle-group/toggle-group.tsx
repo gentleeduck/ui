@@ -238,12 +238,12 @@ const ToggleGroupImpl = React.forwardRef<ToggleGroupImplElement, ToggleGroupImpl
 
 ToggleGroupImpl.displayName = `${TOGGLE_GROUP_NAME}Impl`
 
+export type { ScopedProps, ToggleGroupImplProps, ToggleGroupMultipleProps, ToggleGroupProps, ToggleGroupSingleProps }
 export {
-  TOGGLE_GROUP_NAME,
   createToggleGroupScope,
-  ToggleGroupProvider,
-  useToggleGroupContext,
-  useRovingFocusGroupScope,
+  TOGGLE_GROUP_NAME,
   ToggleGroup,
+  ToggleGroupProvider,
+  useRovingFocusGroupScope,
+  useToggleGroupContext,
 }
-export type { ScopedProps, ToggleGroupProps, ToggleGroupSingleProps, ToggleGroupMultipleProps, ToggleGroupImplProps }

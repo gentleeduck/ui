@@ -33,5 +33,5 @@ const ContextMenuSub: React.FC<ContextMenuSubProps> = (props: ScopedProps<Contex
 
 ContextMenuSub.displayName = SUB_NAME
 
-export { ContextMenuSub }
 export type { ContextMenuSubProps }
+export { ContextMenuSub }

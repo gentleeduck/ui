@@ -39,5 +39,5 @@ const MenubarSubContent = React.forwardRef<MenubarSubContentElement, MenubarSubC
 
 MenubarSubContent.displayName = SUB_CONTENT_NAME
 
-export { MenubarSubContent }
 export type { MenubarSubContentProps }
+export { MenubarSubContent }

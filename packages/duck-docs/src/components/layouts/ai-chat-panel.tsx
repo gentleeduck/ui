@@ -54,23 +54,31 @@ export function AIChatPanel({
     if (el) el.scrollTop = el.scrollHeight
   }, [messages.length, lastMsgLen])
 
-  React.useEffect(() => { inputRef.current?.focus() }, [])
+  React.useEffect(() => {
+    inputRef.current?.focus()
+  }, [])
 
-  const handleKeyDown = React.useCallback((e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      e.stopPropagation()
-      const val = (e.target as HTMLInputElement).value
-      if (val.trim()) {
-        send(val)
-        ;(e.target as HTMLInputElement).value = ''
+  const handleKeyDown = React.useCallback(
+    (e: React.KeyboardEvent) => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault()
+        e.stopPropagation()
+        const val = (e.target as HTMLInputElement).value
+        if (val.trim()) {
+          send(val)
+          ;(e.target as HTMLInputElement).value = ''
+        }
+      } else if (e.key === 'Escape') {
+        e.preventDefault()
+        e.stopPropagation()
+        if (onClose) {
+          reset()
+          onClose()
+        }
       }
-    } else if (e.key === 'Escape') {
-      e.preventDefault()
-      e.stopPropagation()
-      if (onClose) { reset(); onClose() }
-    }
-  }, [send, reset, onClose])
+    },
+    [send, reset, onClose],
+  )
 
   const lastMsg = messages[messages.length - 1]
   const showCrafting = isStreaming && lastMsg?.status === 'streaming' && !lastMsg?.content
@@ -78,16 +86,24 @@ export function AIChatPanel({
   return (
     <div className="flex h-full flex-col">
       <div className="flex h-11 shrink-0 items-center gap-2 border-b px-3">
-        <button type="button"
-          onClick={() => { reset(); onBack() }}
+        <button
+          type="button"
+          onClick={() => {
+            reset()
+            onBack()
+          }}
           className="flex size-7 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground">
           <ArrowLeft aria-hidden="true" className="size-4" />
         </button>
         <Sparkles aria-hidden="true" className="size-3.5 text-muted-foreground" />
         <span className="flex-1 font-medium text-sm">{title}</span>
         {onClose && (
-          <button type="button"
-            onClick={() => { reset(); onClose() }}
+          <button
+            type="button"
+            onClick={() => {
+              reset()
+              onClose()
+            }}
             className="flex size-7 items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-foreground">
             <X aria-hidden="true" className="size-4" />
           </button>
@@ -138,13 +154,22 @@ export function AIChatPanel({
             className="h-9 flex-1 rounded-lg border bg-transparent px-3 text-sm outline-none placeholder:text-muted-foreground focus:ring-1 focus:ring-ring disabled:opacity-50"
           />
           {isStreaming ? (
-            <button type="button" onClick={abort}
+            <button
+              type="button"
+              onClick={abort}
               className="flex size-9 shrink-0 items-center justify-center rounded-full bg-destructive text-destructive-foreground hover:bg-destructive/90">
               <Square aria-hidden="true" className="size-3.5" />
             </button>
           ) : (
-            <button type="button" disabled={!input.trim() || isSearching}
-              onClick={() => { if (input.trim()) { send(input); setInput('') } }}
+            <button
+              type="button"
+              disabled={!input.trim() || isSearching}
+              onClick={() => {
+                if (input.trim()) {
+                  send(input)
+                  setInput('')
+                }
+              }}
               className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground hover:bg-primary/90 disabled:opacity-30">
               <ArrowUp aria-hidden="true" className="size-4" />
             </button>
@@ -176,21 +201,29 @@ const ShikiCodeBlock = React.memo(function ShikiCodeBlock({ code, language }: { 
           return shiki.codeToHtml(code, {
             lang: language || 'text',
             theme: isDark ? 'catppuccin-macchiato' : 'github-light',
-            transformers: [{
-              pre(node) {
-                node.properties.class =
-                  'no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 !bg-transparent text-[13px] leading-relaxed'
+            transformers: [
+              {
+                pre(node) {
+                  node.properties.class =
+                    'no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 !bg-transparent text-[13px] leading-relaxed'
+                },
               },
-            }],
+            ],
           })
         })
-        .then((result) => { if (!cancelled && result) setHtml(result) })
+        .then((result) => {
+          if (!cancelled && result) setHtml(result)
+        })
         .catch(() => {})
       // Store cancel fn on the timer ref for cleanup
-      return () => { cancelled = true }
+      return () => {
+        cancelled = true
+      }
     }, 150)
 
-    return () => { clearTimeout(timerRef.current) }
+    return () => {
+      clearTimeout(timerRef.current)
+    }
   }, [code, language])
 
   const handleCopy = React.useCallback(() => {
@@ -203,7 +236,9 @@ const ShikiCodeBlock = React.memo(function ShikiCodeBlock({ code, language }: { 
     <div className="group/code relative my-4 overflow-hidden rounded-lg border bg-muted/30">
       <div className="flex items-center justify-between border-b px-3 py-1.5">
         <span className="font-mono text-muted-foreground text-xs">{language || 'code'}</span>
-        <button type="button" onClick={handleCopy}
+        <button
+          type="button"
+          onClick={handleCopy}
           className="flex items-center gap-1 text-muted-foreground text-xs transition-colors hover:text-foreground">
           {copied ? <Check aria-hidden="true" className="size-3" /> : <Copy aria-hidden="true" className="size-3" />}
           {copied ? 'Copied' : 'Copy'}
@@ -224,41 +259,74 @@ const ShikiCodeBlock = React.memo(function ShikiCodeBlock({ code, language }: { 
 
 const markdownComponents = {
   h1: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h1 className="mt-2 scroll-m-20 font-bold text-xl" {...props}>{children}</h1>
+    <h1 className="mt-2 scroll-m-20 font-bold text-xl" {...props}>
+      {children}
+    </h1>
   ),
   h2: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h2 className="mt-6 scroll-m-20 border-b pb-2 font-semibold text-lg tracking-tight first:mt-0" {...props}>{children}</h2>
+    <h2 className="mt-6 scroll-m-20 border-b pb-2 font-semibold text-lg tracking-tight first:mt-0" {...props}>
+      {children}
+    </h2>
   ),
   h3: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h3 className="mt-4 scroll-m-20 font-semibold text-base tracking-tight" {...props}>{children}</h3>
+    <h3 className="mt-4 scroll-m-20 font-semibold text-base tracking-tight" {...props}>
+      {children}
+    </h3>
   ),
   h4: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h4 className="mt-4 font-semibold text-sm tracking-tight" {...props}>{children}</h4>
+    <h4 className="mt-4 font-semibold text-sm tracking-tight" {...props}>
+      {children}
+    </h4>
   ),
   p: ({ children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p className="leading-7 [&:not(:first-child)]:mt-3" {...props}>{children}</p>
+    <p className="leading-7 [&:not(:first-child)]:mt-3" {...props}>
+      {children}
+    </p>
   ),
   a: ({ href, children, ...props }: React.AnchorHTMLAttributes<HTMLAnchorElement>) => {
     if (href?.startsWith('/') || href?.includes('gentleduck.org')) {
-      return <Link href={href} className="font-medium text-primary underline underline-offset-4" {...props}>{children}</Link>
+      return (
+        <Link href={href} className="font-medium text-primary underline underline-offset-4" {...props}>
+          {children}
+        </Link>
+      )
     }
-    return <a href={href} className="font-medium text-primary underline underline-offset-4" target="_blank" rel="noreferrer" {...props}>{children}</a>
+    return (
+      <a
+        href={href}
+        className="font-medium text-primary underline underline-offset-4"
+        target="_blank"
+        rel="noreferrer"
+        {...props}>
+        {children}
+      </a>
+    )
   },
   ul: ({ children, ...props }: React.HTMLAttributes<HTMLUListElement>) => (
-    <ul className="my-3 ml-6 flex list-disc flex-col gap-1.5" {...props}>{children}</ul>
+    <ul className="my-3 ml-6 flex list-disc flex-col gap-1.5" {...props}>
+      {children}
+    </ul>
   ),
   ol: ({ children, ...props }: React.HTMLAttributes<HTMLOListElement>) => (
-    <ol className="my-3 ml-6 flex list-decimal flex-col gap-1.5" {...props}>{children}</ol>
+    <ol className="my-3 ml-6 flex list-decimal flex-col gap-1.5" {...props}>
+      {children}
+    </ol>
   ),
   li: ({ children, ...props }: React.HTMLAttributes<HTMLLIElement>) => (
-    <li className="leading-7" {...props}>{children}</li>
+    <li className="leading-7" {...props}>
+      {children}
+    </li>
   ),
   blockquote: ({ children, ...props }: React.HTMLAttributes<HTMLElement>) => (
-    <blockquote className="mt-4 border-l-2 pl-4 italic text-muted-foreground" {...props}>{children}</blockquote>
+    <blockquote className="mt-4 border-l-2 pl-4 text-muted-foreground italic" {...props}>
+      {children}
+    </blockquote>
   ),
   hr: (props: React.HTMLAttributes<HTMLHRElement>) => <hr className="my-4" {...props} />,
   strong: ({ children, ...props }: React.HTMLAttributes<HTMLElement>) => (
-    <strong className="font-semibold" {...props}>{children}</strong>
+    <strong className="font-semibold" {...props}>
+      {children}
+    </strong>
   ),
   pre: ({ children }: { children?: React.ReactNode }) => <>{children}</>,
   code: ({ className, children, ...props }: React.HTMLAttributes<HTMLElement> & { children?: React.ReactNode }) => {
@@ -273,14 +341,22 @@ const markdownComponents = {
   },
   table: ({ children, ...props }: React.HTMLAttributes<HTMLTableElement>) => (
     <div className="my-4 w-full overflow-auto">
-      <table className="w-full text-sm" {...props}>{children}</table>
+      <table className="w-full text-sm" {...props}>
+        {children}
+      </table>
     </div>
   ),
   th: ({ children, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
-    <th className="border px-4 py-2 text-left font-semibold [&[align=center]]:text-center [&[align=right]]:text-right" {...props}>{children}</th>
+    <th
+      className="border px-4 py-2 text-left font-semibold [&[align=center]]:text-center [&[align=right]]:text-right"
+      {...props}>
+      {children}
+    </th>
   ),
   td: ({ children, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
-    <td className="border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right" {...props}>{children}</td>
+    <td className="border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right" {...props}>
+      {children}
+    </td>
   ),
 }
 
@@ -304,7 +380,7 @@ function MessageBubble({
             {message.content}
           </div>
         ) : (
-          <div className={cn('text-sm text-foreground', message.status === 'error' && 'text-destructive')}>
+          <div className={cn('text-foreground text-sm', message.status === 'error' && 'text-destructive')}>
             <Markdown components={markdownComponents}>{message.content}</Markdown>
             {message.status === 'streaming' && (
               <span className="ml-0.5 inline-block h-4 w-0.5 animate-pulse bg-current align-middle" />
@@ -315,7 +391,9 @@ function MessageBubble({
         {isPicking && message.sources && message.sources.length > 0 && (
           <div className="mt-2 flex flex-wrap gap-1.5">
             {message.sources.map((source) => (
-              <button key={source.slug} type="button"
+              <button
+                key={source.slug}
+                type="button"
                 onClick={() => onSelectSource(message.id, source)}
                 className="inline-flex items-center gap-1.5 rounded-lg border bg-background px-2.5 py-1.5 text-foreground text-xs transition-colors hover:bg-accent">
                 <FileText aria-hidden="true" className="size-3 text-muted-foreground" />
@@ -328,7 +406,9 @@ function MessageBubble({
         {!isPicking && message.sources && message.sources.length > 0 && message.status === 'done' && (
           <div className="mt-2 flex flex-wrap gap-1">
             {message.sources.map((source) => (
-              <Link key={source.slug} href={`/docs/${source.slug}`}
+              <Link
+                key={source.slug}
+                href={`/docs/${source.slug}`}
                 className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-muted-foreground text-xs transition-colors hover:text-foreground hover:underline">
                 <FileText aria-hidden="true" className="size-3" />
                 {source.title}

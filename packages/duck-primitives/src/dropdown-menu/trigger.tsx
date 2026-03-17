@@ -61,5 +61,5 @@ const DropdownMenuTrigger = React.forwardRef<DropdownMenuTriggerElement, Dropdow
 
 DropdownMenuTrigger.displayName = TRIGGER_NAME
 
-export { DropdownMenuTrigger }
 export type { DropdownMenuTriggerProps }
+export { DropdownMenuTrigger }

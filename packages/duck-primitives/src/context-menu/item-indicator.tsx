@@ -20,5 +20,5 @@ const ContextMenuItemIndicator = React.forwardRef<ContextMenuItemIndicatorElemen
 
 ContextMenuItemIndicator.displayName = INDICATOR_NAME
 
-export { ContextMenuItemIndicator }
 export type { ContextMenuItemIndicatorProps }
+export { ContextMenuItemIndicator }

@@ -20,5 +20,5 @@ const MenubarLabel = React.forwardRef<MenubarLabelElement, MenubarLabelProps>(
 
 MenubarLabel.displayName = LABEL_NAME
 
-export { MenubarLabel }
 export type { MenubarLabelProps }
+export { MenubarLabel }

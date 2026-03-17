@@ -17,5 +17,5 @@ const ContextMenuPortal: React.FC<ContextMenuPortalProps> = (props: ScopedProps<
 
 ContextMenuPortal.displayName = PORTAL_NAME
 
-export { ContextMenuPortal }
 export type { ContextMenuPortalProps }
+export { ContextMenuPortal }

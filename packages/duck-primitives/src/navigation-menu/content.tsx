@@ -233,5 +233,5 @@ const NavigationMenuContentImpl = React.forwardRef<NavigationMenuContentImplElem
 )
 NavigationMenuContentImpl.displayName = 'NavigationMenuContentImpl'
 
-export { NavigationMenuContent, NavigationMenuContentImpl }
 export type { NavigationMenuContentProps }
+export { NavigationMenuContent, NavigationMenuContentImpl }

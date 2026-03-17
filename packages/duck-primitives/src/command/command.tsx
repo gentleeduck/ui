@@ -22,6 +22,7 @@ export const [Collection, useCollection, createCollectionScope] = createCollecti
 )
 
 const [createCommandContext, createCommandScope] = createContextScope(COMMAND_NAME, [createCollectionScope])
+
 export { createCommandScope }
 
 type CommandContextValue = {

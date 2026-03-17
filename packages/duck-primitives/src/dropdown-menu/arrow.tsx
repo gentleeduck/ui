@@ -20,5 +20,5 @@ const DropdownMenuArrow = React.forwardRef<DropdownMenuArrowElement, DropdownMen
 
 DropdownMenuArrow.displayName = ARROW_NAME
 
-export { DropdownMenuArrow }
 export type { DropdownMenuArrowProps }
+export { DropdownMenuArrow }

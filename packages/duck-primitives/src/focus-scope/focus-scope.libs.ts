@@ -125,4 +125,4 @@ function arrayRemove<T>(array: T[], item: T) {
 const focusScopesStack = createFocusScopesStack()
 
 export type { FocusableTarget, FocusScopeAPI }
-export { focusFirst, getTabbableEdges, getTabbableCandidates, focus, removeLinks, focusScopesStack }
+export { focus, focusFirst, focusScopesStack, getTabbableCandidates, getTabbableEdges, removeLinks }

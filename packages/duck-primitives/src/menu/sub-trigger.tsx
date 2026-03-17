@@ -139,5 +139,5 @@ const MenuSubTrigger = React.forwardRef<MenuSubTriggerElement, MenuSubTriggerPro
 
 MenuSubTrigger.displayName = SUB_TRIGGER_NAME
 
+export type { MenuSubTriggerElement, MenuSubTriggerProps }
 export { MenuSubTrigger }
-export type { MenuSubTriggerProps, MenuSubTriggerElement }

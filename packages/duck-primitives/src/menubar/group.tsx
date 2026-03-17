@@ -20,5 +20,5 @@ const MenubarGroup = React.forwardRef<MenubarGroupElement, MenubarGroupProps>(
 
 MenubarGroup.displayName = GROUP_NAME
 
-export { MenubarGroup }
 export type { MenubarGroupProps }
+export { MenubarGroup }

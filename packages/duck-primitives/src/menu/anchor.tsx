@@ -20,5 +20,5 @@ const MenuAnchor = React.forwardRef<MenuAnchorElement, MenuAnchorProps>(
 
 MenuAnchor.displayName = ANCHOR_NAME
 
+export type { MenuAnchorElement, MenuAnchorProps }
 export { MenuAnchor }
-export type { MenuAnchorProps, MenuAnchorElement }

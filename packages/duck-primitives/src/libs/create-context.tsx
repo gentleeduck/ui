@@ -110,5 +110,5 @@ function composeContextScopes(...scopes: [CreateScope, ...CreateScope[]]): Creat
   return createScope
 }
 
-export { createContext, createContextScope }
 export type { CreateScope, Scope }
+export { createContext, createContextScope }

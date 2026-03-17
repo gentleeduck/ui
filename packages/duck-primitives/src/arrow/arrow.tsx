@@ -24,5 +24,5 @@ const Arrow = React.forwardRef<ArrowElement, ArrowProps>((props, forwardedRef) =
 
 Arrow.displayName = NAME
 
-export { Arrow }
 export type { ArrowProps }
+export { Arrow }

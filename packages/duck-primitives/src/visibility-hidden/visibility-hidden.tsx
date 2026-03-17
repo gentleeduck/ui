@@ -34,5 +34,5 @@ VisuallyHidden.displayName = NAME
 
 const Root = VisuallyHidden
 
-export { VisuallyHidden, Root }
 export type { VisuallyHiddenProps }
+export { Root, VisuallyHidden }
