@@ -217,6 +217,7 @@ export function CommandMenu() {
 | `placeholder` | `string` | `'Search...'` | Placeholder text in the input |
 | `autoFocus` | `boolean` | `false` | Automatically focus input on mount |
 | `wrapperClassName` | `string` | -- | Additional CSS classes applied to the input wrapper div |
+| `children` | `React.ReactNode` | -- | Extra elements rendered inside the input wrapper (after the input), e.g. action buttons |
 | `onChange` | `React.ChangeEventHandler` | -- | Triggered when the input value changes. Also drives internal search filtering. |
 | `...props` | `React.HTMLProps<HTMLInputElement>` | -- | Additional props to spread to the input element |
 
@@ -280,6 +281,8 @@ Renders a `div` with `role="separator"` and `aria-hidden`. Visibility is automat
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | -- | Command content rendered inside the dialog (typically `CommandInput`, `CommandList`, etc.) |
+| `shouldFilter` | `boolean` | -- | Whether the command primitive should filter items internally |
+| `contentClassName` | `string` | -- | Additional CSS classes applied to the inner `DialogContent`, useful for controlling dialog size |
 | `...props` | `React.ComponentPropsWithRef<typeof Dialog>` | -- | Additional props inherited from `Dialog`. |
 
 ## Types
