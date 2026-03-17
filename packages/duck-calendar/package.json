@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "name": "@gentleduck/calendar",
+  "version": "0.1.0",
+  "description": "calendar package for Duck UI.",
+  "type": "module",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    "./*": {
+      "types": "./dist/*/index.d.ts",
+      "default": "./dist/*/index.js"
+    }
+  },
+  "files": ["dist", "README.md", "LICENSE", "tsconfig.json"],
+  "sideEffects": false,
+  "private": false,
+  "license": "MIT",
+  "author": "gentleduck contributors",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "packages/duck-calendar"
+  },
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
+  },
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-calendar#readme",
+  "keywords": ["gentleduck", "react", "calendar"],
+  "scripts": {
+    "build": "tsdown",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
+  },
+  "devDependencies": {
+    "@gentleduck/tsdown-config": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
+    "@types/node": "^25.3.0",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "tsdown": "0.21.4",
+    "typescript": "5.9.3"
+  },
+  "peerDependencies": {
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
+}
