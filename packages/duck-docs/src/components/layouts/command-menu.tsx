@@ -123,16 +123,10 @@ export function CommandMenu() {
   const docsEntries = useDocsEntries()
   const [selectedLabel, setSelectedLabel] = React.useState('')
   const [aiMode, setAiMode] = React.useState(true)
-  const [aiAvailable, setAiAvailable] = React.useState(false)
   const [initialAiQuery, setInitialAiQuery] = React.useState('')
 
-  // Check if AI chat is available
-  React.useEffect(() => {
-    fetch('/api/chat/status')
-      .then((r) => r.json())
-      .then((data) => setAiAvailable(data.available === true))
-      .catch(() => setAiAvailable(false))
-  }, [])
+  // Build-time check — no runtime API call
+  const aiAvailable = process.env.NEXT_PUBLIC_AI_CHAT_ENABLED === 'true'
 
   // Reset AI mode when dialog closes
   React.useEffect(() => {
