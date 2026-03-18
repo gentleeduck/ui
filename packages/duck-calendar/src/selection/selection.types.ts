@@ -45,3 +45,17 @@ export type CalendarValue<TDate, Mode extends SelectionMode> = Mode extends 'sin
     : Mode extends 'multi'
       ? TDate[]
       : never
+
+/**
+ * Constraints that restrict which dates can be selected or navigated to.
+ *
+ * @typeParam TDate - The adapter's date type.
+ */
+export interface SelectionConstraints<TDate> {
+  /** Array of specific disabled dates, or a predicate returning true for disabled dates. */
+  disabled?: TDate[] | ((date: TDate) => boolean)
+  /** Minimum selectable date (inclusive). Days before this are disabled. */
+  fromDate?: TDate
+  /** Maximum selectable date (inclusive). Days after this are disabled. */
+  toDate?: TDate
+}

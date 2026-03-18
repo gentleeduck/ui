@@ -16,7 +16,12 @@
       "default": "./dist/*/index.js"
     }
   },
-  "files": ["dist", "README.md", "LICENSE", "tsconfig.json"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "tsconfig.json"
+  ],
   "sideEffects": false,
   "private": false,
   "license": "MIT",
@@ -36,7 +41,12 @@
     "url": "https://github.com/gentleeduck/duck-ui/issues"
   },
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-calendar#readme",
-  "keywords": ["gentleduck", "calendar", "date-adapter", "headless"],
+  "keywords": [
+    "gentleduck",
+    "calendar",
+    "date-adapter",
+    "headless"
+  ],
   "scripts": {
     "build": "tsdown",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
