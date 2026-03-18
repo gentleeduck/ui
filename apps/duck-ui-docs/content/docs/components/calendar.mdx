@@ -9,7 +9,7 @@ links:
 <ComponentPreview
   name="calendar-1"
   title="Calendar"
-  description="A calendar showing the current date."
+  description="A calendar showing the current date with month/year dropdowns."
 />
 
 ## Blocks
@@ -29,6 +29,7 @@ Calendars are complex accessibility challenges disguised as simple grids. We own
   Calendar --> hook["useCalendar"]:::internal
   Calendar --> libs["@gentleduck/libs"]:::internal
   Calendar --> lucide["lucide-react"]:::external
+  Calendar --> select["Select"]:::component
 
   hook --> adapter["DateAdapter"]:::internal
   hook --> grid["buildCalendarMonth"]:::internal
@@ -67,9 +68,9 @@ npx @gentleduck/cli add calendar
 npm install @gentleduck/calendar @gentleduck/libs
 ```
 
-<Step>Add the `Button` component to your project.</Step>
+<Step>Add the `Button` and `Select` components to your project.</Step>
 
-The `Calendar` component uses the [`Button`](/docs/components/button) component's variant styles. Make sure you have it installed in your project.
+The `Calendar` uses the [`Button`](/docs/components/button) variant styles and the [`Select`](/docs/components/select) component for month/year dropdowns.
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -110,13 +111,28 @@ You can use the `<Calendar>` component to build a date picker. See the [Date Pic
 
 ## Examples
 
+### Multi-Month Range Picker
+
+<ComponentPreview
+  name="calendar-2"
+  title="Multi-Month Range Picker"
+  description="Two months side-by-side with range selection."
+/>
+
 ### Range Calendar
 
 <ComponentPreview
   name="calendar-3"
   title="Range Calendar"
-  description="A calendar showing the current date and range selection."
-  className="**:[.preview]:h-auto lg:**:[.preview]:h-[450px]"
+  description="Select a date range with start and end dates."
+/>
+
+### Date Constraints
+
+<ComponentPreview
+  name="calendar-4"
+  title="Date Constraints"
+  description="Calendar with min/max date boundaries (today to 3 months ahead)."
 />
 
 ### Date of Birth Picker
@@ -124,7 +140,7 @@ You can use the `<Calendar>` component to build a date picker. See the [Date Pic
 <ComponentPreview
   name="calendar-5"
   title="Date of Birth Picker"
-  description="A calendar with date of birth picker."
+  description="A calendar with date of birth picker in a popover."
 />
 
 ### Date and Time Picker
@@ -149,6 +165,30 @@ This component uses the `chrono-node` library to parse natural language dates.
 
 <ComponentPreview name="calendar-8" description="A date of birth calendar picker integrated with React Hook Form and Zod validation." />
 
+### Multi-Select
+
+<ComponentPreview
+  name="calendar-10"
+  title="Multi-Select Calendar"
+  description="Select multiple individual dates."
+/>
+
+### Event Calendar
+
+<ComponentPreview
+  name="calendar-11"
+  title="Event Calendar"
+  description="Calendar with events displayed and a detail sidebar — like Google Calendar."
+/>
+
+### Booking Calendar
+
+<ComponentPreview
+  name="calendar-12"
+  title="Booking Calendar"
+  description="Availability calendar with disabled booked dates and booking confirmation."
+/>
+
 ## API Reference
 
 ### Calendar
@@ -165,10 +205,13 @@ This component uses the `chrono-node` library to parse natural language dates.
 | `showOutsideDays` | `boolean` | `true` | Show days from adjacent months |
 | `fixedWeeks` | `boolean` | `false` | Always show 6 weeks |
 | `numberOfMonths` | `number` | `1` | How many months to show side by side |
+| `showDropdowns` | `boolean` | `true` | Show month/year dropdown selectors |
+| `yearRange` | `{ from: number; to: number }` | `{ from: now-100, to: now+10 }` | Range of years in the year dropdown |
 | `locale` | `string` | -- | BCP 47 locale tag (e.g. `'ar-SA'`, `'ja-JP'`) |
 | `dir` | `'ltr' \| 'rtl'` | -- | Text direction override |
 | `fromDate` | `Date` | -- | Earliest selectable date |
 | `toDate` | `Date` | -- | Latest selectable date |
+| `buttonVariant` | `string` | `'ghost'` | Variant style for navigation buttons |
 | `className` | `string` | -- | Additional CSS classes for the root container |
 
 ### Data Attributes
@@ -178,6 +221,7 @@ The calendar uses `data-*` attributes on day cells for styling. Target these in 
 | Attribute | When Present |
 | --- | --- |
 | `data-selected="true"` | Day is selected |
+| `data-selected-single="true"` | Day is selected (single mode, not part of range) |
 | `data-today="true"` | Day is today |
 | `data-disabled="true"` | Day is disabled |
 | `data-outside-month="true"` | Day is from an adjacent month |
@@ -186,6 +230,12 @@ The calendar uses `data-*` attributes on day cells for styling. Target these in 
 | `data-range-end="true"` | Day is the end of a range |
 | `data-focused="true"` | Day has keyboard focus |
 | `data-weekend="true"` | Day is Saturday or Sunday |
+
+### CSS Variables
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `--gentleduck-calendar-cell` | `--spacing(8)` (32px) | Size of day cells and nav buttons |
 
 ## RTL Support
 
