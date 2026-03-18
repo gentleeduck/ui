@@ -17,12 +17,6 @@ export type { NavigationDirection, NavigationUnit } from './navigation'
 
 // Navigation
 export { canNavigate, goToMonth, goToNextMonth, goToPrevMonth, goToYear, navigate } from './navigation'
-export type { CalendarValue, DateRange, SelectionConstraints, SelectionMode } from './selection'
-// Selection
-export { applySelection, isDateDisabled, isInRange, selectDay } from './selection'
-
-// React hooks (requires react peer dep)
-export { useCalendar, useKeyboard, useAnnouncer } from './react'
 export type {
   AnnouncerReturn,
   DayProps,
@@ -34,3 +28,8 @@ export type {
   UseCalendarConfig,
   UseCalendarReturn,
 } from './react'
+// React hooks (requires react peer dep)
+export { useAnnouncer, useCalendar, useKeyboard } from './react'
+export type { CalendarValue, DateRange, SelectionConstraints, SelectionMode } from './selection'
+// Selection
+export { applySelection, isDateDisabled, isInRange, selectDay } from './selection'

@@ -51,13 +51,7 @@ export function useAnnouncer(): AnnouncerReturn {
     if (typeof document === 'undefined') return null
 
     return createPortal(
-      <div
-        role="status"
-        aria-live="polite"
-        aria-atomic="true"
-        aria-relevant="text"
-        style={hiddenStyles}
-      >
+      <div role="status" aria-live="polite" aria-atomic="true" aria-relevant="text" style={hiddenStyles}>
         {message}
       </div>,
       document.body,
