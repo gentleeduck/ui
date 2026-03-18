@@ -1,0 +1,243 @@
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
+import { buildCalendarMonth, type CalendarDay, getLocalizedWeekdays } from '../../grid'
+import type { ViewMode } from '../../index.types'
+import { canNavigate, navigate } from '../../navigation'
+import type { CalendarValue, DateRange, SelectionConstraints, SelectionMode } from '../../selection'
+import { applySelection, isDateDisabled, selectDay } from '../../selection'
+import {
+  buildDateDisabledMessage,
+  buildDateSelectedMessage,
+  buildMonthNavigationMessage,
+  buildRangeSelectedMessage,
+  useAnnouncer,
+} from '../use-announcer'
+import { useKeyboard } from '../use-keyboard'
+import { buildDayProps, buildGridProps, buildHeaderProps, buildNavProps } from './use-calendar.libs'
+import type { UseCalendarConfig, UseCalendarReturn } from './use-calendar.types'
+
+// ---------------------------------------------------------------------------
+// useControllableState — tiny controlled/uncontrolled helper
+// ---------------------------------------------------------------------------
+
+function useControllableState<T>(
+  controlled: T | undefined,
+  uncontrolled: T,
+  onChange?: (val: T) => void,
+): [T, (val: T) => void] {
+  const [internal, setInternal] = useState<T>(uncontrolled)
+  const isControlled = controlled !== undefined
+
+  const value = isControlled ? controlled : internal
+
+  const setValue = useCallback(
+    (next: T) => {
+      if (!isControlled) setInternal(next)
+      onChange?.(next)
+    },
+    [isControlled, onChange],
+  )
+
+  return [value, setValue]
+}
+
+// ---------------------------------------------------------------------------
+// useCalendar
+// ---------------------------------------------------------------------------
+
+export function useCalendar<TDate, M extends SelectionMode = 'single'>(
+  config: UseCalendarConfig<TDate, M>,
+): UseCalendarReturn<TDate, M> {
+  const {
+    adapter,
+    mode,
+    locale,
+    month: controlledMonth,
+    defaultMonth,
+    selected: controlledSelected,
+    defaultSelected,
+    onSelect,
+    onMonthChange,
+    showOutsideDays = true,
+    fixedWeeks = false,
+    disabled,
+    fromDate,
+    toDate,
+  } = config
+
+  const headerId = useId()
+
+  // -------------------------------------------------------------------------
+  // Controlled / uncontrolled month
+  // -------------------------------------------------------------------------
+  const initialMonth = defaultMonth ?? controlledMonth ?? adapter.today()
+
+  const [month, setMonthState] = useControllableState<TDate>(controlledMonth, initialMonth, onMonthChange)
+
+  // -------------------------------------------------------------------------
+  // Controlled / uncontrolled selection value
+  // -------------------------------------------------------------------------
+  const initialValue: CalendarValue<TDate, M> =
+    (defaultSelected as CalendarValue<TDate, M>) ??
+    (mode === 'multi' ? ([] as unknown as CalendarValue<TDate, M>) : (null as CalendarValue<TDate, M>))
+
+  const [value, setValue] = useControllableState<CalendarValue<TDate, M>>(controlledSelected, initialValue, onSelect)
+
+  // -------------------------------------------------------------------------
+  // Local state
+  // -------------------------------------------------------------------------
+  const [focusedDate, setFocusedDate] = useState<TDate>(() => adapter.today())
+  const [viewMode, setViewMode] = useState<ViewMode>('days')
+
+  // -------------------------------------------------------------------------
+  // Constraints (memoised to keep a stable reference)
+  // -------------------------------------------------------------------------
+  const constraints: SelectionConstraints<TDate> = useMemo(
+    () => ({ disabled, fromDate, toDate }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [fromDate, toDate, disabled],
+  )
+
+  const isDisabledFn = useCallback((date: TDate) => isDateDisabled(adapter, date, constraints), [adapter, constraints])
+
+  // -------------------------------------------------------------------------
+  // Grid — rebuild when month, value, or constraints change
+  // -------------------------------------------------------------------------
+  const weeks = useMemo(() => {
+    const raw = buildCalendarMonth(adapter, month, { showOutsideDays, fixedWeeks, locale })
+    return applySelection(raw.weeks, adapter, mode, value, constraints)
+  }, [adapter, month, mode, value, constraints, showOutsideDays, fixedWeeks, locale])
+
+  // -------------------------------------------------------------------------
+  // Weekday headers
+  // -------------------------------------------------------------------------
+  const weekdays = useMemo(
+    () => getLocalizedWeekdays(adapter, locale?.locale, locale?.weekStartDay ?? 0, 'short'),
+    [adapter, locale],
+  )
+
+  // -------------------------------------------------------------------------
+  // Navigation helpers
+  // -------------------------------------------------------------------------
+  const canGoNext = canNavigate(adapter, month, 'next', 'month', { fromDate, toDate })
+  const canGoPrevious = canNavigate(adapter, month, 'prev', 'month', { fromDate, toDate })
+
+  const goToNext = useCallback(() => {
+    if (!canGoNext) return
+    setMonthState(navigate(adapter, month, 'next', 'month'))
+  }, [adapter, month, canGoNext, setMonthState])
+
+  const goToPrevious = useCallback(() => {
+    if (!canGoPrevious) return
+    setMonthState(navigate(adapter, month, 'prev', 'month'))
+  }, [adapter, month, canGoPrevious, setMonthState])
+
+  const setMonth = useCallback((next: TDate) => setMonthState(next), [setMonthState])
+
+  // -------------------------------------------------------------------------
+  // Selection
+  // -------------------------------------------------------------------------
+  const selectDate = useCallback(
+    (date: TDate) => {
+      if (isDisabledFn(date)) {
+        announce(buildDateDisabledMessage(adapter.format(date, { month: 'long', day: 'numeric' }, locale?.locale)))
+        return
+      }
+      const next = selectDay(adapter, mode, value, date)
+      setValue(next)
+    },
+    [adapter, mode, value, setValue, isDisabledFn, locale],
+  )
+
+  // -------------------------------------------------------------------------
+  // Screen reader
+  // -------------------------------------------------------------------------
+  const announcer = useAnnouncer()
+  const { announce } = announcer
+
+  // Announce on month change
+  const prevMonthRef = useRef<TDate | null>(null)
+  useEffect(() => {
+    if (prevMonthRef.current !== null && !adapter.isSameMonth(prevMonthRef.current, month)) {
+      announce(
+        buildMonthNavigationMessage(
+          adapter.format(month, { month: 'long' }, locale?.locale),
+          adapter.format(month, { year: 'numeric' }, locale?.locale),
+        ),
+      )
+    }
+    prevMonthRef.current = month
+  }, [month, adapter, announce, locale])
+
+  // Announce on value change
+  const prevValueRef = useRef<CalendarValue<TDate, M> | null>(null)
+  useEffect(() => {
+    if (prevValueRef.current === value) return
+    prevValueRef.current = value
+
+    if (value === null) return
+
+    const fmt = (d: TDate) => adapter.format(d, { month: 'long', day: 'numeric' }, locale?.locale)
+
+    if (mode === 'single' && value !== null) {
+      announce(buildDateSelectedMessage(fmt(value as TDate)))
+    } else if (mode === 'range') {
+      const range = value as DateRange<TDate> | null
+      if (range?.to) {
+        announce(buildRangeSelectedMessage(fmt(range.from), fmt(range.to)))
+      }
+    }
+  }, [value, mode, adapter, announce, locale])
+
+  // -------------------------------------------------------------------------
+  // Keyboard
+  // -------------------------------------------------------------------------
+  const keyboard = useKeyboard({
+    focusedDate,
+    onFocusChange: setFocusedDate,
+    onSelect: selectDate,
+    onDismiss: config.onDismiss,
+    isDisabled: isDisabledFn,
+    adapter,
+    weekStartDay: locale?.weekStartDay ?? 0,
+  })
+
+  // -------------------------------------------------------------------------
+  // Prop getters
+  // -------------------------------------------------------------------------
+  const getDayProps = useCallback(
+    (day: CalendarDay<TDate>) =>
+      buildDayProps(day, focusedDate, adapter, selectDate, setFocusedDate, keyboard.onKeyDown),
+    [focusedDate, adapter, selectDate, keyboard.onKeyDown],
+  )
+
+  const getGridProps = useCallback(() => buildGridProps(headerId), [headerId])
+
+  const getNavProps = useCallback(
+    (direction: 'prev' | 'next') => buildNavProps(direction, canGoPrevious, canGoNext, goToPrevious, goToNext),
+    [canGoPrevious, canGoNext, goToPrevious, goToNext],
+  )
+
+  const getHeaderProps = useCallback(() => buildHeaderProps(headerId), [headerId])
+
+  // -------------------------------------------------------------------------
+  // Return
+  // -------------------------------------------------------------------------
+  return {
+    state: { month, value, focusedDate, viewMode, weeks, weekdays },
+    actions: {
+      setMonth,
+      setViewMode,
+      goToNext,
+      goToPrevious,
+      selectDate,
+      focusDate: setFocusedDate,
+      canGoNext,
+      canGoPrevious,
+    },
+    getDayProps,
+    getGridProps,
+    getNavProps,
+    getHeaderProps,
+    announcer,
+  }
+}

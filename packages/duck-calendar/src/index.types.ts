@@ -52,4 +52,7 @@ export interface CalendarConfig<TDate, M extends SelectionMode = 'single'> {
   fromDate?: TDate
   /** Latest selectable date. */
   toDate?: TDate
+
+  /** Called when the user presses Escape (e.g. to close a date picker popover). */
+  onDismiss?: () => void
 }

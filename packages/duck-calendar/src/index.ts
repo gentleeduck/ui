@@ -20,3 +20,17 @@ export { canNavigate, goToMonth, goToNextMonth, goToPrevMonth, goToYear, navigat
 export type { CalendarValue, DateRange, SelectionConstraints, SelectionMode } from './selection'
 // Selection
 export { applySelection, isDateDisabled, isInRange, selectDay } from './selection'
+
+// React hooks (requires react peer dep)
+export { useCalendar, useKeyboard, useAnnouncer } from './react'
+export type {
+  AnnouncerReturn,
+  DayProps,
+  GridProps,
+  HeaderProps,
+  KeyboardConfig,
+  KeyboardReturn,
+  NavProps,
+  UseCalendarConfig,
+  UseCalendarReturn,
+} from './react'
