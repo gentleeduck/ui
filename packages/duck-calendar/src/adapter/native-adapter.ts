@@ -1,0 +1,100 @@
+import type { DateAdapter } from './adapter.types'
+
+export class NativeAdapter implements DateAdapter<Date> {
+  today(): Date {
+    const d = new Date()
+    return new Date(d.getFullYear(), d.getMonth(), d.getDate())
+  }
+
+  create(year: number, month: number, day: number): Date {
+    return new Date(year, month, day)
+  }
+
+  isValid(date: Date): boolean {
+    return !isNaN(date.getTime())
+  }
+
+  isSameDay(a: Date, b: Date): boolean {
+    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate()
+  }
+
+  isSameMonth(a: Date, b: Date): boolean {
+    return a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth()
+  }
+
+  isBefore(a: Date, b: Date): boolean {
+    return a.getTime() < b.getTime()
+  }
+
+  isAfter(a: Date, b: Date): boolean {
+    return a.getTime() > b.getTime()
+  }
+
+  startOfMonth(date: Date): Date {
+    return new Date(date.getFullYear(), date.getMonth(), 1)
+  }
+
+  endOfMonth(date: Date): Date {
+    // day 0 of next month = last day of current month
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0)
+  }
+
+  startOfWeek(date: Date, weekStartDay: 0 | 1 | 2 | 3 | 4 | 5 | 6): Date {
+    const d = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+    const diff = (d.getDay() - weekStartDay + 7) % 7
+    d.setDate(d.getDate() - diff)
+    return d
+  }
+
+  addDays(date: Date, count: number): Date {
+    const d = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+    d.setDate(d.getDate() + count)
+    return d
+  }
+
+  addMonths(date: Date, count: number): Date {
+    const originalDay = date.getDate()
+    const d = new Date(date.getFullYear(), date.getMonth(), 1)
+    d.setMonth(d.getMonth() + count)
+    const lastDay = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate()
+    d.setDate(Math.min(originalDay, lastDay))
+    return d
+  }
+
+  addYears(date: Date, count: number): Date {
+    const originalDay = date.getDate()
+    const d = new Date(date.getFullYear(), date.getMonth(), 1)
+    d.setFullYear(d.getFullYear() + count)
+    const lastDay = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate()
+    d.setDate(Math.min(originalDay, lastDay))
+    return d
+  }
+
+  getYear(date: Date): number {
+    return date.getFullYear()
+  }
+
+  getMonth(date: Date): number {
+    return date.getMonth()
+  }
+
+  getDate(date: Date): number {
+    return date.getDate()
+  }
+
+  getDayOfWeek(date: Date): 0 | 1 | 2 | 3 | 4 | 5 | 6 {
+    return date.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6
+  }
+
+  toDate(date: Date): Date {
+    return new Date(date.getTime())
+  }
+
+  fromDate(date: Date): Date {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate())
+  }
+
+  format(date: Date, options: Intl.DateTimeFormatOptions, locale?: string): string {
+    return new Intl.DateTimeFormat(locale, options).format(date)
+  }
+}
