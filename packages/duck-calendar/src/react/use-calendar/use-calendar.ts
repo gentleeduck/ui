@@ -1,5 +1,11 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
-import { buildCalendarMonth, type CalendarDay, getLocalizedWeekdays } from '../../grid'
+import {
+  buildCalendarMonth,
+  buildMultiMonth,
+  type CalendarDay,
+  type CalendarMonth,
+  getLocalizedWeekdays,
+} from '../../grid'
 import type { ViewMode } from '../../index.types'
 import { canNavigate, navigate } from '../../navigation'
 import type { CalendarValue, DateRange, SelectionConstraints, SelectionMode } from '../../selection'
@@ -12,33 +18,9 @@ import {
   useAnnouncer,
 } from '../use-announcer'
 import { useKeyboard } from '../use-keyboard'
+import { useControllableState } from '../utils/use-controllable-state'
 import { buildDayProps, buildGridProps, buildHeaderProps, buildNavProps } from './use-calendar.libs'
 import type { UseCalendarConfig, UseCalendarReturn } from './use-calendar.types'
-
-// ---------------------------------------------------------------------------
-// useControllableState — tiny controlled/uncontrolled helper
-// ---------------------------------------------------------------------------
-
-function useControllableState<T>(
-  controlled: T | undefined,
-  uncontrolled: T,
-  onChange?: (val: T) => void,
-): [T, (val: T) => void] {
-  const [internal, setInternal] = useState<T>(uncontrolled)
-  const isControlled = controlled !== undefined
-
-  const value = isControlled ? controlled : internal
-
-  const setValue = useCallback(
-    (next: T) => {
-      if (!isControlled) setInternal(next)
-      onChange?.(next)
-    },
-    [isControlled, onChange],
-  )
-
-  return [value, setValue]
-}
 
 // ---------------------------------------------------------------------------
 // useCalendar
@@ -57,6 +39,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
     defaultSelected,
     onSelect,
     onMonthChange,
+    numberOfMonths = 1,
     showOutsideDays = true,
     fixedWeeks = false,
     disabled,
@@ -108,10 +91,21 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // -------------------------------------------------------------------------
   // Grid — rebuild when month, value, or constraints change
   // -------------------------------------------------------------------------
-  const weeks = useMemo(() => {
-    const raw = buildCalendarMonth(adapter, month, { showOutsideDays, fixedWeeks, locale })
-    return applySelection(raw.weeks, adapter, mode, value, constraints)
-  }, [adapter, month, mode, value, constraints, showOutsideDays, fixedWeeks, locale])
+  const months: CalendarMonth<TDate>[] = useMemo(() => {
+    const gridConfig = { showOutsideDays, fixedWeeks, locale }
+    const rawMonths =
+      numberOfMonths <= 1
+        ? [buildCalendarMonth(adapter, month, gridConfig)]
+        : buildMultiMonth(adapter, month, numberOfMonths, gridConfig)
+
+    return rawMonths.map((m) => ({
+      ...m,
+      weeks: applySelection(m.weeks, adapter, mode, value, constraints),
+    }))
+  }, [adapter, month, mode, value, constraints, showOutsideDays, fixedWeeks, locale, numberOfMonths])
+
+  // First month's weeks for backward compat
+  const weeks = months[0]?.weeks ?? []
 
   // -------------------------------------------------------------------------
   // Weekday headers
@@ -244,7 +238,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // Return
   // -------------------------------------------------------------------------
   return {
-    state: { month, value, focusedDate, viewMode, weeks, weekdays, canGoNext, canGoPrevious },
+    state: { month, value, focusedDate, viewMode, weeks, months, weekdays, canGoNext, canGoPrevious },
     actions: {
       setMonth,
       setViewMode,

@@ -108,4 +108,20 @@ export class NativeAdapter implements DateAdapter<Date> {
   format(date: Date, options: Intl.DateTimeFormatOptions, locale?: string): string {
     return new Intl.DateTimeFormat(locale, options).format(date)
   }
+
+  getHours(date: Date): number {
+    return date.getHours()
+  }
+
+  getMinutes(date: Date): number {
+    return date.getMinutes()
+  }
+
+  getSeconds(date: Date): number {
+    return date.getSeconds()
+  }
+
+  setTime(date: Date, hour: number, minute: number, second?: number): Date {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, minute, second ?? 0)
+  }
 }

@@ -155,4 +155,23 @@ export interface DateAdapter<TDate> {
    *   Falls back to the runtime's default locale when omitted.
    */
   format(date: TDate, options: Intl.DateTimeFormatOptions, locale?: string): string
+
+  // -------------------------------------------------------------------------
+  // Time accessors (for datetime picker support)
+  // -------------------------------------------------------------------------
+
+  /** Extracts the hour (0–23). */
+  getHours(date: TDate): number
+
+  /** Extracts the minute (0–59). */
+  getMinutes(date: TDate): number
+
+  /** Extracts the second (0–59). */
+  getSeconds(date: TDate): number
+
+  /**
+   * Returns a new date with the time set to the given hour, minute, and optional second.
+   * The date (year/month/day) is preserved from the input.
+   */
+  setTime(date: TDate, hour: number, minute: number, second?: number): TDate
 }
