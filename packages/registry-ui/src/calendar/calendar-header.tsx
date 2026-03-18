@@ -30,6 +30,11 @@ interface CalendarHeaderProps {
   onMonthSelect: (date: Date) => void
 }
 
+/** Prevents Select portal interactions from dismissing parent Popover. */
+function stopPopoverDismiss(e: React.PointerEvent) {
+  e.stopPropagation()
+}
+
 export function CalendarHeader({
   month,
   title,
@@ -70,7 +75,7 @@ export function CalendarHeader({
         </button>
 
         {showDropdowns ? (
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1" onPointerDown={stopPopoverDismiss}>
             {/* Month dropdown */}
             <Select
               value={String(currentMonth)}
@@ -82,7 +87,7 @@ export function CalendarHeader({
                 )}>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent onCloseAutoFocus={(e) => e.preventDefault()}>
                 <SelectScrollUpButton />
                 {months.map((entry) => (
                   <SelectItem key={entry.month} value={String(entry.month)}>
@@ -104,7 +109,9 @@ export function CalendarHeader({
                 )}>
                 <SelectValue />
               </SelectTrigger>
-              <SelectContent className="max-h-[min(var(--radix-select-content-available-height),240px)]">
+              <SelectContent
+                className="max-h-[min(var(--gentleduck-select-content-available-height,240px),240px)]"
+                onCloseAutoFocus={(e) => e.preventDefault()}>
                 <SelectScrollUpButton />
                 {years.map((year) => (
                   <SelectItem key={year} value={String(year)}>

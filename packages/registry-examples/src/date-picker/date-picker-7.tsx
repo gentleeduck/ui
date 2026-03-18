@@ -26,6 +26,7 @@ export default function DatePickerRtlDemo() {
         </PopoverTrigger>
         <PopoverContent side="top" align="start" className="min-w-auto overflow-hidden p-0">
           <Calendar
+            showDropdowns={false}
             dir="rtl"
             locale="ar-SA"
             mode="single"
