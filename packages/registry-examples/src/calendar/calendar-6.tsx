@@ -25,7 +25,7 @@ export default function CalendarDemo() {
               <ChevronDownIcon aria-hidden="true" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent side="top" align="start" className="w-auto overflow-hidden p-0">
+          <PopoverContent side="top" align="start" className="w-auto p-0">
             <Calendar
               showDropdowns={false}
               mode="single"

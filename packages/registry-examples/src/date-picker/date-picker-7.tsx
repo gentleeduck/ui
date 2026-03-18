@@ -24,7 +24,7 @@ export default function DatePickerRtlDemo() {
             <ChevronDownIcon aria-hidden="true" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent side="top" align="start" className="min-w-auto overflow-hidden p-0">
+        <PopoverContent side="top" align="start" className="w-auto p-0">
           <Calendar
             showDropdowns={false}
             dir="rtl"

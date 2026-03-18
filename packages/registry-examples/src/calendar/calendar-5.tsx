@@ -23,7 +23,7 @@ export default function CalendarDemo() {
             <ChevronDownIcon aria-hidden="true" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent side="bottom" className="w-auto overflow-hidden p-0">
+        <PopoverContent side="bottom" className="w-auto p-0">
           <Calendar
             mode="single"
             yearRange={{ from: 1920, to: new Date().getFullYear() }}
