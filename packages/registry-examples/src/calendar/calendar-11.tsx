@@ -20,14 +20,17 @@ const EVENTS: Record<string, { title: string; color: string }[]> = {
   ],
 }
 
-function getEventsForDate(date: Date): { title: string; color: string }[] {
-  const key = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
-  return EVENTS[key] ?? []
+function getKey(d: Date) {
+  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`
+}
+
+function getEvents(d: Date) {
+  return EVENTS[getKey(d)] ?? []
 }
 
 export default function CalendarDemo() {
   const [selected, setSelected] = React.useState<Date | undefined>(new Date())
-  const selectedEvents = selected ? getEventsForDate(selected) : []
+  const selectedEvents = selected ? getEvents(selected) : []
 
   return (
     <div className="flex gap-6">
@@ -35,9 +38,23 @@ export default function CalendarDemo() {
         className="rounded-md border shadow-sm"
         mode="single"
         selected={selected}
-        onSelect={setSelected}
+        onSelect={setSelected as (value: unknown) => void}
         fixedWeeks
         showDropdowns
+        renderDay={(day, children) => {
+          const events = getEvents(day.date)
+          if (events.length === 0) return children
+          return (
+            <span className="flex flex-col items-center gap-0.5">
+              {children}
+              <span className="flex gap-0.5">
+                {events.slice(0, 3).map((e) => (
+                  <span key={e.title} className="size-1 rounded-full" style={{ backgroundColor: e.color }} />
+                ))}
+              </span>
+            </span>
+          )
+        }}
       />
       <div className="min-w-[200px] space-y-2">
         <h3 className="font-semibold text-sm">
