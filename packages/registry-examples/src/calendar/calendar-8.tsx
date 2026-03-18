@@ -57,7 +57,6 @@ export default function CalendarDemo() {
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
                   <Calendar
-                    captionLayout="dropdown"
                     disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
                     mode="single"
                     onSelect={field.onChange}

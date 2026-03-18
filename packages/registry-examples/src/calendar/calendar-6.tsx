@@ -27,7 +27,6 @@ export default function CalendarDemo() {
           </PopoverTrigger>
           <PopoverContent side="top" align="start" className="w-auto overflow-hidden p-0">
             <Calendar
-              captionLayout="dropdown"
               mode="single"
               onSelect={(date) => {
                 setDate(date)

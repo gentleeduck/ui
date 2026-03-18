@@ -1,7 +1,6 @@
 'use client'
 
 import { Calendar } from '@gentleduck/registry-ui/calendar'
-import { arSA } from 'date-fns/locale'
 import * as React from 'react'
 
 export default function CalendarRtlDemo() {
@@ -9,10 +8,9 @@ export default function CalendarRtlDemo() {
 
   return (
     <Calendar
-      captionLayout="dropdown"
       className="rounded-md border shadow-sm"
       dir="rtl"
-      locale={arSA}
+      locale="ar-SA"
       mode="single"
       onSelect={setDate}
       selected={date}

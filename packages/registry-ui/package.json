@@ -4,6 +4,7 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
+    "@gentleduck/calendar": "workspace:*",
     "@gentleduck/hooks": "^0.1.12",
     "@gentleduck/libs": "^0.1.15",
     "@gentleduck/motion": "^0.1.17",
@@ -14,7 +15,6 @@
     "lucide-react": "0.577.0",
     "next-themes": "^0.4.6",
     "react": "^19.2.4",
-    "react-day-picker": "^9.8.1",
     "react-dom": "^19.2.4",
     "react-hook-form": "^7.71.1",
     "react-resizable-panels": "^4.7.0",
