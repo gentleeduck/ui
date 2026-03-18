@@ -789,6 +789,12 @@ export const docsConfig: DocsConfig = {
           title: 'Gentleduck State',
         },
         {
+          href: '/docs/packages/duck-calendar',
+          items: [],
+          label: 'new',
+          title: 'Gentleduck Calendar',
+        },
+        {
           href: '/docs/packages/duck-shortcut',
           items: [],
           title: 'Gentleduck Shortcut (Deprecated)',
