@@ -67,6 +67,12 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   const headerId = useId()
 
   // -------------------------------------------------------------------------
+  // Screen reader (declared early so `announce` is available to selectDate)
+  // -------------------------------------------------------------------------
+  const announcer = useAnnouncer()
+  const { announce } = announcer
+
+  // -------------------------------------------------------------------------
   // Controlled / uncontrolled month
   // -------------------------------------------------------------------------
   const initialMonth = defaultMonth ?? controlledMonth ?? adapter.today()
@@ -118,8 +124,14 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // -------------------------------------------------------------------------
   // Navigation helpers
   // -------------------------------------------------------------------------
-  const canGoNext = canNavigate(adapter, month, 'next', 'month', { fromDate, toDate })
-  const canGoPrevious = canNavigate(adapter, month, 'prev', 'month', { fromDate, toDate })
+  const canGoNext = useMemo(
+    () => canNavigate(adapter, month, 'next', 'month', { fromDate, toDate }),
+    [adapter, month, fromDate, toDate],
+  )
+  const canGoPrevious = useMemo(
+    () => canNavigate(adapter, month, 'prev', 'month', { fromDate, toDate }),
+    [adapter, month, fromDate, toDate],
+  )
 
   const goToNext = useCallback(() => {
     if (!canGoNext) return
@@ -145,16 +157,12 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
       const next = selectDay(adapter, mode, value, date)
       setValue(next)
     },
-    [adapter, mode, value, setValue, isDisabledFn, locale],
+    [adapter, mode, value, setValue, isDisabledFn, locale, announce],
   )
 
   // -------------------------------------------------------------------------
-  // Screen reader
-  // -------------------------------------------------------------------------
-  const announcer = useAnnouncer()
-  const { announce } = announcer
-
   // Announce on month change
+  // -------------------------------------------------------------------------
   const prevMonthRef = useRef<TDate | null>(null)
   useEffect(() => {
     if (prevMonthRef.current !== null && !adapter.isSameMonth(prevMonthRef.current, month)) {
@@ -189,11 +197,24 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   }, [value, mode, adapter, announce, locale])
 
   // -------------------------------------------------------------------------
+  // Focus management — auto-advance month when focus leaves the visible month
+  // -------------------------------------------------------------------------
+  const handleFocusChange = useCallback(
+    (date: TDate) => {
+      setFocusedDate(date)
+      if (!adapter.isSameMonth(date, month)) {
+        setMonthState(adapter.startOfMonth(date))
+      }
+    },
+    [adapter, month, setMonthState],
+  )
+
+  // -------------------------------------------------------------------------
   // Keyboard
   // -------------------------------------------------------------------------
   const keyboard = useKeyboard({
     focusedDate,
-    onFocusChange: setFocusedDate,
+    onFocusChange: handleFocusChange,
     onSelect: selectDate,
     onDismiss: config.onDismiss,
     isDisabled: isDisabledFn,
@@ -223,7 +244,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // Return
   // -------------------------------------------------------------------------
   return {
-    state: { month, value, focusedDate, viewMode, weeks, weekdays },
+    state: { month, value, focusedDate, viewMode, weeks, weekdays, canGoNext, canGoPrevious },
     actions: {
       setMonth,
       setViewMode,
@@ -231,8 +252,6 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
       goToPrevious,
       selectDate,
       focusDate: setFocusedDate,
-      canGoNext,
-      canGoPrevious,
     },
     getDayProps,
     getGridProps,

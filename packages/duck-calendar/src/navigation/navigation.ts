@@ -31,10 +31,7 @@ export function canNavigate<TDate>(
   date: TDate,
   direction: NavigationDirection,
   unit: NavigationUnit,
-  constraints: Pick<SelectionConstraints<TDate>, 'fromDate' | 'toDate'> = {} as Pick<
-    SelectionConstraints<TDate>,
-    'fromDate' | 'toDate'
-  >,
+  constraints: Pick<SelectionConstraints<TDate>, 'fromDate' | 'toDate'> = {},
 ): boolean {
   const { fromDate, toDate } = constraints
 

@@ -58,6 +58,8 @@ function buildActionMap<TDate>(): Record<string, Action<TDate>> {
 const ACTION_MAP = buildActionMap<any>()
 
 export function useKeyboard<TDate>(config: KeyboardConfig<TDate>): KeyboardReturn {
+  const { focusedDate, onFocusChange, onSelect, onDismiss, isDisabled, adapter, weekStartDay } = config
+
   const onKeyDown: React.KeyboardEventHandler = useCallback(
     (e) => {
       const key = e.shiftKey && (e.key === 'PageUp' || e.key === 'PageDown') ? `Shift+${e.key}` : e.key
@@ -65,8 +67,8 @@ export function useKeyboard<TDate>(config: KeyboardConfig<TDate>): KeyboardRetur
       // Enter / Space — select
       if (key === 'Enter' || key === ' ') {
         e.preventDefault()
-        if (!config.isDisabled(config.focusedDate)) {
-          config.onSelect(config.focusedDate)
+        if (!isDisabled(focusedDate)) {
+          onSelect(focusedDate)
         }
         return
       }
@@ -74,7 +76,7 @@ export function useKeyboard<TDate>(config: KeyboardConfig<TDate>): KeyboardRetur
       // Escape — dismiss
       if (key === 'Escape') {
         e.preventDefault()
-        config.onDismiss?.()
+        onDismiss?.()
         return
       }
 
@@ -82,13 +84,21 @@ export function useKeyboard<TDate>(config: KeyboardConfig<TDate>): KeyboardRetur
       if (!action) return
 
       e.preventDefault()
-      const next = action(config.focusedDate, config)
+      const configObj: KeyboardConfig<TDate> = {
+        focusedDate,
+        onFocusChange,
+        onSelect,
+        onDismiss,
+        isDisabled,
+        adapter,
+        weekStartDay,
+      }
+      const next = action(focusedDate, configObj)
       if (next !== null) {
-        config.onFocusChange(next)
+        onFocusChange(next)
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [config],
+    [focusedDate, onFocusChange, onSelect, onDismiss, isDisabled, adapter, weekStartDay],
   )
 
   return { onKeyDown }
