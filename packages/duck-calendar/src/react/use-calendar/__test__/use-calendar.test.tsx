@@ -244,7 +244,7 @@ describe('useCalendar', () => {
         }),
       )
 
-      expect(result.current.actions.canGoNext).toBe(false)
+      expect(result.current.state.canGoNext).toBe(false)
     })
 
     it('canGoPrevious is false when at fromDate boundary', () => {
@@ -259,7 +259,7 @@ describe('useCalendar', () => {
         }),
       )
 
-      expect(result.current.actions.canGoPrevious).toBe(false)
+      expect(result.current.state.canGoPrevious).toBe(false)
     })
 
     it('goToNext() does nothing when canGoNext is false', () => {

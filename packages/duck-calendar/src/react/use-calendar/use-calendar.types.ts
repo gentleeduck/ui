@@ -59,6 +59,10 @@ export interface UseCalendarReturn<TDate, M extends SelectionMode> {
     weeks: CalendarWeek<TDate>[]
     /** Localised weekday header labels (7 items). */
     weekdays: string[]
+    /** Whether forward navigation is possible (respects toDate). */
+    canGoNext: boolean
+    /** Whether backward navigation is possible (respects fromDate). */
+    canGoPrevious: boolean
   }
   actions: {
     setMonth: (month: TDate) => void
@@ -67,8 +71,6 @@ export interface UseCalendarReturn<TDate, M extends SelectionMode> {
     goToPrevious: () => void
     selectDate: (date: TDate) => void
     focusDate: (date: TDate) => void
-    canGoNext: boolean
-    canGoPrevious: boolean
   }
   /** Spread onto each day cell element. */
   getDayProps: (day: CalendarDay<TDate>) => DayProps

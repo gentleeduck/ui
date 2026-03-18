@@ -37,12 +37,8 @@ export interface CalendarConfig<TDate, M extends SelectionMode = 'single'> {
   /** Called when the displayed month changes. */
   onMonthChange?: (month: TDate) => void
 
-  /** How many months to show side by side. Default `1`. */
-  numberOfMonths?: number
   /** Show days from previous/next month to fill the grid. Default `true`. */
   showOutsideDays?: boolean
-  /** Show ISO week numbers. Default `false`. */
-  showWeekNumbers?: boolean
   /** Always show 6 weeks so the grid height doesn't jump. Default `false`. */
   fixedWeeks?: boolean
 

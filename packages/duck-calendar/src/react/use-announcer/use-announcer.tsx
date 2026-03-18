@@ -17,46 +17,61 @@ const hiddenStyles: React.CSSProperties = {
   borderWidth: 0,
 }
 
-export function useAnnouncer(): AnnouncerReturn {
-  const [message, setMessage] = useState('')
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+/** Stable component that reads message from a ref to avoid remounting. */
+function LiveRegion({ messageRef }: { messageRef: React.RefObject<string> }) {
+  const [text, setText] = useState('')
 
-  // Clear the timer on unmount so we don't set state on an unmounted component
+  // Sync from ref — the parent triggers re-renders via forceRender
+  useEffect(() => {
+    if (messageRef.current !== text) {
+      setText(messageRef.current)
+    }
+  })
+
+  if (typeof document === 'undefined') return null
+
+  return createPortal(
+    <div role="status" aria-live="polite" aria-atomic="true" aria-relevant="text" style={hiddenStyles}>
+      {text}
+    </div>,
+    document.body,
+  )
+}
+
+export function useAnnouncer(): AnnouncerReturn {
+  const [, forceRender] = useState(0)
+  const messageRef = useRef('')
+  const outerTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const innerTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  // Clear both timers on unmount
   useEffect(() => {
     return () => {
-      if (timerRef.current !== null) {
-        clearTimeout(timerRef.current)
-      }
+      if (outerTimerRef.current !== null) clearTimeout(outerTimerRef.current)
+      if (innerTimerRef.current !== null) clearTimeout(innerTimerRef.current)
     }
   }, [])
 
   const announce = useCallback((next: string) => {
-    if (timerRef.current !== null) {
-      clearTimeout(timerRef.current)
-    }
+    if (outerTimerRef.current !== null) clearTimeout(outerTimerRef.current)
+    if (innerTimerRef.current !== null) clearTimeout(innerTimerRef.current)
 
-    timerRef.current = setTimeout(() => {
+    outerTimerRef.current = setTimeout(() => {
+      outerTimerRef.current = null
       // Toggling through empty string forces screen readers to re-announce
       // the same message if it hasn't changed (e.g. navigating to a boundary)
-      setMessage('')
+      messageRef.current = ''
+      forceRender((n) => n + 1)
       // A second tick ensures the DOM update with '' is committed first
-      timerRef.current = setTimeout(() => {
-        setMessage(next)
-        timerRef.current = null
+      innerTimerRef.current = setTimeout(() => {
+        innerTimerRef.current = null
+        messageRef.current = next
+        forceRender((n) => n + 1)
       }, 0)
     }, DEBOUNCE_MS)
   }, [])
 
-  const AnnouncerPortal: React.FC = useCallback(() => {
-    if (typeof document === 'undefined') return null
-
-    return createPortal(
-      <div role="status" aria-live="polite" aria-atomic="true" aria-relevant="text" style={hiddenStyles}>
-        {message}
-      </div>,
-      document.body,
-    )
-  }, [message])
+  const AnnouncerPortal: React.FC = useCallback(() => <LiveRegion messageRef={messageRef} />, [])
 
   return { announce, AnnouncerPortal }
 }
