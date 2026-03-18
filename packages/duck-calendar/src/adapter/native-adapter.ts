@@ -1,4 +1,4 @@
-import type { DateAdapter } from './adapter.types'
+import type { DateAdapter, WeekStartDay } from './adapter.types'
 
 /**
  * Native date adapter using built-in `Date` and `Intl.DateTimeFormat`.
@@ -47,7 +47,7 @@ export class NativeAdapter implements DateAdapter<Date> {
   }
 
   /** Walks backward to the given weekStartDay (0=Sunday). */
-  startOfWeek(date: Date, weekStartDay: 0 | 1 | 2 | 3 | 4 | 5 | 6): Date {
+  startOfWeek(date: Date, weekStartDay: WeekStartDay): Date {
     const d = new Date(date.getFullYear(), date.getMonth(), date.getDate())
     const diff = (d.getDay() - weekStartDay + 7) % 7
     d.setDate(d.getDate() - diff)
@@ -92,8 +92,8 @@ export class NativeAdapter implements DateAdapter<Date> {
     return date.getDate()
   }
 
-  getDayOfWeek(date: Date): 0 | 1 | 2 | 3 | 4 | 5 | 6 {
-    return date.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6
+  getDayOfWeek(date: Date): WeekStartDay {
+    return date.getDay() as WeekStartDay
   }
 
   toDate(date: Date): Date {
