@@ -4,7 +4,6 @@ import { Button } from '@gentleduck/registry-ui/button'
 import { Calendar } from '@gentleduck/registry-ui/calendar'
 import { Label } from '@gentleduck/registry-ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
-import { arSA } from 'date-fns/locale'
 import { ChevronDownIcon } from 'lucide-react'
 import * as React from 'react'
 
@@ -27,9 +26,8 @@ export default function DatePickerRtlDemo() {
         </PopoverTrigger>
         <PopoverContent side="top" align="start" className="min-w-auto overflow-hidden p-0">
           <Calendar
-            captionLayout="dropdown"
             dir="rtl"
-            locale={arSA}
+            locale="ar-SA"
             mode="single"
             onSelect={(date) => {
               setDate(date)

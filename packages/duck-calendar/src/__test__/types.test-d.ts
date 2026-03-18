@@ -1,17 +1,23 @@
-import { expectTypeOf, describe, it } from 'vitest'
+import { describe, expectTypeOf, it } from 'vitest'
 import type { DateAdapter, WeekStartDay } from '../adapter'
 import { NativeAdapter } from '../adapter'
 import type { CalendarDay, CalendarMonth, CalendarWeek } from '../grid'
 import { buildCalendarMonth, buildMultiMonth } from '../grid'
 import type { CalendarConfig, CalendarLocaleConfig, ViewMode } from '../index.types'
-import { navigate, canNavigate } from '../navigation'
-import type { CalendarValue, DateRange, SelectionMode, SelectionConstraints } from '../selection'
-import { selectDay, applySelection } from '../selection'
-import type { TimeValue, TimeField, HourCycle } from '../time'
-import { clampTime, incrementField, parseTimeInput } from '../time'
-import type { UseCalendarReturn, DayProps, GridProps, NavProps, HeaderProps } from '../react/use-calendar/use-calendar.types'
-import type { UseTimePickerReturn, TimeFieldProps } from '../react/use-time-picker/use-time-picker.types'
+import { canNavigate, navigate } from '../navigation'
+import type {
+  DayProps,
+  GridProps,
+  HeaderProps,
+  NavProps,
+  UseCalendarReturn,
+} from '../react/use-calendar/use-calendar.types'
 import type { UseDateTimeReturn } from '../react/use-datetime/use-datetime.types'
+import type { TimeFieldProps, UseTimePickerReturn } from '../react/use-time-picker/use-time-picker.types'
+import type { CalendarValue, DateRange, SelectionConstraints, SelectionMode } from '../selection'
+import { applySelection, selectDay } from '../selection'
+import type { HourCycle, TimeField, TimeValue } from '../time'
+import { clampTime, incrementField, parseTimeInput } from '../time'
 
 // ---------------------------------------------------------------------------
 // CalendarValue conditional type
