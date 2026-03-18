@@ -1,71 +1,51 @@
-# duck-calendar: Accessibility Audit and ARIA Compliance
+# duck-calendar: Multi-month, Time Picker, DateTime Picker
 
-Issue #308. Ensure the calendar meets WCAG 2.1 AA and follows the WAI-ARIA APG date picker pattern.
+Issue #309. Extend the calendar engine with multi-month display, time selection, and combined datetime picking.
 
-> Depends on: #304 (adapter), #305 (core), #306 (hooks), #307 (compound components) — all complete.
+> Depends on: #304–#308 — all complete.
 
-## Changes Made
+## Feature 1: Multi-month
 
-### Announcer — removed portal
-- `AnnouncerPortal` no longer uses `createPortal` from `react-dom`
-- Renders inline `<div aria-live="polite">` inside the calendar tree
-- Eliminates `react-dom` peer dependency from `@gentleduck/calendar`
+- `buildMultiMonth(adapter, startMonth, count, config)` — builds N consecutive month grids
+- `useCalendar` accepts `numberOfMonths` config, returns `state.months[]` array
+- `state.weeks` preserved for backward compat (first month's weeks)
+- Navigation advances all months together
 
-### Day buttons — full aria-label
-- Each day button now has `aria-label="Saturday, March 14, 2026"` (localized)
-- Previously screen readers only heard the number "14"
+## Feature 2: Time Picker
 
-### data-disabled consistency
-- Changed from empty string `""` to `"true"` to match all other data attributes
+### Core (`src/time/`)
+- `TimeValue` — `{ hour, minute, second? }`
+- `TimeField` — `'hour' | 'minute' | 'second' | 'ampm'`
+- `HourCycle` — `'12' | '24'`
+- Pure functions: `clampTime`, `incrementField`, `parseTimeInput`, `isValidTime`
+- Formatting: `formatTimeField`, `getAmPm`, `to12Hour`, `to24Hour`
 
-### Grid — aria-roledescription
-- Grid has `aria-roledescription="calendar"` per WAI-ARIA APG recommendation
+### Hook (`src/react/use-time-picker/`)
+- `useTimePicker(config)` — controlled/uncontrolled time state
+- Keyboard: ArrowUp/Down increment/decrement, digit typing
+- `getFieldProps(field)` — spinbutton ARIA props
+- Focus management with roving tabindex between fields
 
-### Weekday headers — role="columnheader"
-- `<abbr>` elements have `role="columnheader"` per WAI-ARIA grid pattern
+### DateAdapter extensions
+- `getHours(date)`, `getMinutes(date)`, `getSeconds(date)`, `setTime(date, h, m, s?)`
 
-### Nav labels — localizable
-- `buildNavProps` accepts optional `prevLabel`/`nextLabel` for i18n
-- Defaults: "Go to previous month" / "Go to next month"
+## Feature 3: DateTime Picker
 
-## ARIA Compliance Summary
-
-| Element | role | aria-* | Notes |
-|---------|------|--------|-------|
-| Calendar root | `application` | `aria-label="Calendar"` | |
-| Grid container | `grid` | `aria-labelledby`, `aria-roledescription="calendar"` | |
-| Weekday headers | `columnheader` | `title` on `<abbr>` | |
-| Day cells | `gridcell` | `aria-label` (full date), `aria-selected`, `aria-disabled`, `aria-current="date"` | |
-| Nav wrapper | `navigation` | `aria-label="Calendar navigation"` | |
-| Nav buttons | button | `aria-label` (localizable) | |
-| Header | — | `aria-live="polite"`, `id` | |
-| Month buttons | `gridcell` | `aria-label`, `aria-current` | |
-| Year buttons | `gridcell` | `aria-label`, `aria-current` | |
-| Announcer | `status` | `aria-live="polite"`, `aria-atomic`, `aria-relevant` | |
-
-## Keyboard Navigation
-
-| Key | Action |
-|-----|--------|
-| ArrowLeft/Right | ±1 day |
-| ArrowUp/Down | ±7 days |
-| PageUp/PageDown | ±1 month |
-| Shift+PageUp/PageDown | ±1 year |
-| Home/End | Week start/end |
-| Enter/Space | Select focused date |
-| Escape | Dismiss |
-
-Focus auto-advances the displayed month when crossing boundaries.
-Roving tabIndex: focused date has `tabIndex=0`, all others `-1`.
+### Hook (`src/react/use-datetime/`)
+- `useDateTime(config)` — composes `useCalendar` + `useTimePicker`
+- Date selection preserves time, time change preserves date
+- Returns combined `TDate` value
 
 ## Checklist
 
-- [x] Remove announcer portal (render inline)
-- [x] Add aria-label to day buttons (full localized date)
-- [x] Fix data-disabled consistency
-- [x] Add aria-roledescription to grid
-- [x] Restore role="columnheader" on weekday headers
-- [x] Localizable nav labels
-- [ ] Axe-core automated tests
-- [x] Build passes
-- [x] All tests pass
+- [x] DateAdapter time methods + NativeAdapter impl
+- [x] Time core module (types, functions, formatting)
+- [x] Multi-month: `buildMultiMonth` + `useCalendar` update
+- [ ] useTimePicker hook
+- [ ] useDateTime hook
+- [ ] Time core tests
+- [ ] useTimePicker tests
+- [ ] useDateTime tests
+- [ ] Barrel exports
+- [ ] Build passes
+- [ ] All tests pass

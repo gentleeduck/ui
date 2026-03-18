@@ -67,6 +67,24 @@ export function buildCalendarMonth<TDate>(
   }
 }
 
+/**
+ * Build grids for multiple consecutive months.
+ * Used when `numberOfMonths > 1` for multi-month calendar displays.
+ */
+export function buildMultiMonth<TDate>(
+  adapter: DateAdapter<TDate>,
+  startMonth: TDate,
+  count: number,
+  config: Pick<CalendarConfig<TDate, any>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>,
+): CalendarMonth<TDate>[] {
+  const months: CalendarMonth<TDate>[] = []
+  for (let i = 0; i < count; i++) {
+    const monthDate = i === 0 ? startMonth : adapter.addMonths(startMonth, i)
+    months.push(buildCalendarMonth(adapter, monthDate, config))
+  }
+  return months
+}
+
 /** Build 12 month entries for the year picker view. */
 export function buildCalendarYear<TDate>(adapter: DateAdapter<TDate>, viewDate: TDate, locale?: string): YearEntry[] {
   const today = adapter.today()

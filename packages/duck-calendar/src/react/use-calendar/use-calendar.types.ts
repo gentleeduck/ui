@@ -1,4 +1,4 @@
-import type { CalendarDay, CalendarWeek } from '../../grid'
+import type { CalendarDay, CalendarMonth, CalendarWeek } from '../../grid'
 import type { CalendarConfig, ViewMode } from '../../index.types'
 import type { CalendarValue, SelectionMode } from '../../selection'
 import type { AnnouncerReturn } from '../use-announcer'
@@ -57,8 +57,10 @@ export interface UseCalendarReturn<TDate, M extends SelectionMode> {
     focusedDate: TDate
     /** Whether we're showing the day grid, month picker, or year picker. */
     viewMode: ViewMode
-    /** Decorated weeks ready to render. */
+    /** Decorated weeks for the first (or only) month. */
     weeks: CalendarWeek<TDate>[]
+    /** All month grids when numberOfMonths > 1. */
+    months: CalendarMonth<TDate>[]
     /** Localised weekday header labels (7 items). */
     weekdays: string[]
     /** Whether forward navigation is possible (respects toDate). */
