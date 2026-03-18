@@ -74,8 +74,32 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // -------------------------------------------------------------------------
   // Local state
   // -------------------------------------------------------------------------
-  const [focusedDate, setFocusedDate] = useState<TDate>(() => adapter.today())
+  const [focusedDate, setFocusedDate] = useState<TDate>(() => {
+    // Initialize to selected date, default month, or today — whichever is visible
+    if (controlledSelected && typeof controlledSelected === 'object' && 'getTime' in (controlledSelected as object)) {
+      return controlledSelected as unknown as TDate
+    }
+    return defaultMonth ?? controlledMonth ?? adapter.today()
+  })
   const [viewMode, setViewMode] = useState<ViewMode>('days')
+
+  // Move DOM focus to the focused day button when focusedDate changes via keyboard.
+  // Skip on initial mount to prevent stealing focus from parent containers (e.g. Popover).
+  const hasMountedRef = useRef(false)
+  // biome-ignore lint/correctness/useExhaustiveDependencies: focusedDate triggers the effect, DOM query finds the element
+  useEffect(() => {
+    if (!hasMountedRef.current) {
+      hasMountedRef.current = true
+      return
+    }
+    const frame = requestAnimationFrame(() => {
+      const el = document.querySelector<HTMLElement>('[data-calendar-day][data-focused="true"]')
+      if (el && document.activeElement !== el) {
+        el.focus({ preventScroll: true })
+      }
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [focusedDate])
 
   // -------------------------------------------------------------------------
   // Constraints (memoised to keep a stable reference)
