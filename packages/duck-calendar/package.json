@@ -51,17 +51,21 @@
     "build": "tsdown",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "test": "vitest run",
-    "dev": "vitest"
+    "dev": "vitest",
+    "benchmark": "bun run scripts/benchmark.ts"
   },
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@testing-library/jest-dom": "^6.8.0",
     "@testing-library/react": "^16.3.0",
+    "@types/luxon": "^3.6.2",
     "@types/node": "^25.3.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
+    "dayjs": "^1.11.13",
     "jsdom": "^29.0.0",
+    "luxon": "^3.6.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "tsdown": "0.21.4",
@@ -69,10 +73,22 @@
     "vitest": "^4.0.18"
   },
   "peerDependencies": {
+    "date-fns": ">=3.0.0",
+    "dayjs": ">=1.11.0",
+    "luxon": ">=3.0.0",
     "react": "^19.2.4"
   },
   "peerDependenciesMeta": {
     "react": {
+      "optional": true
+    },
+    "date-fns": {
+      "optional": true
+    },
+    "dayjs": {
+      "optional": true
+    },
+    "luxon": {
       "optional": true
     }
   }

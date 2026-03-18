@@ -12,6 +12,17 @@ export interface CalendarLocaleConfig {
   weekStartDay?: WeekStartDay
   /** Text direction. */
   direction?: 'ltr' | 'rtl'
+  /**
+   * Unicode numbering system extension, e.g. `'arab'` for Arabic-Indic (٠١٢),
+   * `'latn'` for Western (012), `'jpan'` for Japanese.
+   * Appended to locale as `-u-nu-{value}`.
+   */
+  numberingSystem?: string
+  /**
+   * Unicode calendar system extension, e.g. `'islamic'`, `'persian'`, `'japanese'`.
+   * Appended to locale as `-u-ca-{value}`.
+   */
+  calendar?: string
 }
 
 /**

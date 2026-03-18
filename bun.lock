@@ -201,10 +201,13 @@
         "@gentleduck/typescript-config": "workspace:*",
         "@testing-library/jest-dom": "^6.8.0",
         "@testing-library/react": "^16.3.0",
+        "@types/luxon": "^3.6.2",
         "@types/node": "^25.3.0",
         "@types/react": "19.2.14",
         "@types/react-dom": "19.2.3",
+        "dayjs": "^1.11.13",
         "jsdom": "^29.0.0",
+        "luxon": "^3.6.1",
         "react": "^19.2.4",
         "react-dom": "^19.2.4",
         "tsdown": "0.21.4",
@@ -212,9 +215,15 @@
         "vitest": "^4.0.18",
       },
       "peerDependencies": {
+        "date-fns": ">=3.0.0",
+        "dayjs": ">=1.11.0",
+        "luxon": ">=3.0.0",
         "react": "^19.2.4",
       },
       "optionalPeers": [
+        "date-fns",
+        "dayjs",
+        "luxon",
         "react",
       ],
     },
@@ -2031,6 +2040,8 @@
     "@types/lodash.template": ["@types/lodash.template@4.5.3", "", { "dependencies": { "@types/lodash": "*" } }, "sha512-Mo0UYKLu1oXgkV9TVoXZLlXXjyIXlW7ZQRxi/4gQJmzJr63dmicE8gG0OkPjYTKBrBic852q0JzqrtNUWLBIyA=="],
 
     "@types/lunr": ["@types/lunr@2.3.7", "", {}, "sha512-Tb/kUm38e8gmjahQzdCKhbdsvQ9/ppzHFfsJ0dMs3ckqQsRj+P5IkSAwFTBrBxdyr3E/LoMUUrZngjDYAjiE3A=="],
+
+    "@types/luxon": ["@types/luxon@3.7.1", "", {}, "sha512-H3iskjFIAn5SlJU7OuxUmTEpebK6TKB8rxZShDslBMZJ5u9S//KM1sbdAisiSrqwLQncVjnpi2OK2J51h+4lsg=="],
 
     "@types/mdast": ["@types/mdast@4.0.4", "", { "dependencies": { "@types/unist": "*" } }, "sha512-kGaNbPh1k7AFzgpud/gMdvIm5xuECykRR+JnWKQno9TAXVa6WIVCGTPvYGekIDL4uwCZQSYbUxNBSb1aUo79oA=="],
 

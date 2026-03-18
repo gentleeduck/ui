@@ -1,0 +1,137 @@
+import {
+  addDays as dfAddDays,
+  addMonths as dfAddMonths,
+  addYears as dfAddYears,
+  endOfMonth as dfEndOfMonth,
+  getDate as dfGetDate,
+  getDay as dfGetDay,
+  getHours as dfGetHours,
+  getMinutes as dfGetMinutes,
+  getMonth as dfGetMonth,
+  getSeconds as dfGetSeconds,
+  getYear as dfGetYear,
+  isAfter as dfIsAfter,
+  isBefore as dfIsBefore,
+  isSameDay as dfIsSameDay,
+  isSameMonth as dfIsSameMonth,
+  isValid as dfIsValid,
+  set,
+  startOfDay,
+  startOfMonth as dfStartOfMonth,
+  startOfWeek as dfStartOfWeek,
+} from 'date-fns'
+
+import type { DateAdapter, WeekStartDay } from './adapter.types'
+
+/**
+ * Date adapter backed by `date-fns` for date arithmetic and `Intl.DateTimeFormat`
+ * for locale-aware formatting.
+ *
+ * `date-fns` operates on native `Date` objects, so `TDate = Date`.
+ * All methods return new Date instances — inputs are never mutated.
+ *
+ * Requires `date-fns` as a peer dependency.
+ */
+export class DateFnsAdapter implements DateAdapter<Date> {
+  /** Returns today's date with time stripped to midnight. */
+  today(): Date {
+    return startOfDay(new Date())
+  }
+
+  /** Creates a date from year, month (0-indexed), and day. */
+  create(year: number, month: number, day: number): Date {
+    return new Date(year, month, day)
+  }
+
+  isValid(date: Date): boolean {
+    return dfIsValid(date)
+  }
+
+  isSameDay(a: Date, b: Date): boolean {
+    return dfIsSameDay(a, b)
+  }
+
+  isSameMonth(a: Date, b: Date): boolean {
+    return dfIsSameMonth(a, b)
+  }
+
+  isBefore(a: Date, b: Date): boolean {
+    return dfIsBefore(a, b)
+  }
+
+  isAfter(a: Date, b: Date): boolean {
+    return dfIsAfter(a, b)
+  }
+
+  startOfMonth(date: Date): Date {
+    return dfStartOfMonth(date)
+  }
+
+  endOfMonth(date: Date): Date {
+    return dfEndOfMonth(date)
+  }
+
+  /** Walks backward to the given weekStartDay (0=Sunday). */
+  startOfWeek(date: Date, weekStartDay: WeekStartDay): Date {
+    return dfStartOfWeek(date, { weekStartsOn: weekStartDay })
+  }
+
+  addDays(date: Date, count: number): Date {
+    return dfAddDays(date, count)
+  }
+
+  /** Adds months — date-fns handles day clamping automatically. */
+  addMonths(date: Date, count: number): Date {
+    return dfAddMonths(date, count)
+  }
+
+  /** Adds years — date-fns handles leap-year clamping automatically. */
+  addYears(date: Date, count: number): Date {
+    return dfAddYears(date, count)
+  }
+
+  getYear(date: Date): number {
+    return dfGetYear(date)
+  }
+
+  getMonth(date: Date): number {
+    return dfGetMonth(date)
+  }
+
+  getDate(date: Date): number {
+    return dfGetDate(date)
+  }
+
+  getDayOfWeek(date: Date): WeekStartDay {
+    return dfGetDay(date) as WeekStartDay
+  }
+
+  toDate(date: Date): Date {
+    return new Date(date.getTime())
+  }
+
+  fromDate(date: Date): Date {
+    return startOfDay(date)
+  }
+
+  /** Formats using Intl.DateTimeFormat. Pass standard options like `{ month: 'long' }`. */
+  format(date: Date, options: Intl.DateTimeFormatOptions, locale?: string): string {
+    return new Intl.DateTimeFormat(locale, options).format(date)
+  }
+
+  getHours(date: Date): number {
+    return dfGetHours(date)
+  }
+
+  getMinutes(date: Date): number {
+    return dfGetMinutes(date)
+  }
+
+  getSeconds(date: Date): number {
+    return dfGetSeconds(date)
+  }
+
+  setTime(date: Date, hour: number, minute: number, second?: number): Date {
+    return set(date, { hours: hour, minutes: minute, seconds: second ?? 0 })
+  }
+}
