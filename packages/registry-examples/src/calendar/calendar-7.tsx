@@ -64,6 +64,7 @@ export default function CalendarDemo() {
           </PopoverTrigger>
           <PopoverContent side="top" align="end" className="w-auto overflow-hidden p-0">
             <Calendar
+              showDropdowns={false}
               mode="single"
               month={month}
               onMonthChange={setMonth}
