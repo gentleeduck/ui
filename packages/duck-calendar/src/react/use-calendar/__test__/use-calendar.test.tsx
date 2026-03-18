@@ -573,10 +573,18 @@ describe('useCalendar', () => {
       expect(result.current.getDayProps(otherDay).tabIndex).toBe(-1)
     })
 
-    it('focusedDate defaults to defaultMonth when provided', () => {
+    it('focusedDate defaults to today even when defaultMonth is provided', () => {
       const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
+      const today = adapter.today()
+      expect(adapter.isSameDay(result.current.state.focusedDate, today)).toBe(true)
+    })
 
-      expect(adapter.isSameDay(result.current.state.focusedDate, march2026)).toBe(true)
+    it('focusedDate defaults to selected date when provided', () => {
+      const selected = new Date(2026, 2, 15)
+      const { result } = renderHook(() =>
+        useCalendar({ adapter, mode: 'single' as const, selected, defaultMonth: march2026 }),
+      )
+      expect(adapter.isSameDay(result.current.state.focusedDate, selected)).toBe(true)
     })
 
     it('focusedDate defaults to today when no defaultMonth', () => {

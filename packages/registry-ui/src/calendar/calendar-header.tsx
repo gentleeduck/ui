@@ -22,11 +22,13 @@ function VirtualizedDropdown({
   activeValue,
   onSelect,
   width,
+  open,
 }: {
   items: { value: string; label: string }[]
   activeValue: string
   onSelect: (value: string) => void
   width: string
+  open: boolean
 }) {
   const scrollRef = React.useRef<HTMLDivElement>(null)
   const [scrollTop, setScrollTop] = React.useState(() => {
@@ -37,12 +39,12 @@ function VirtualizedDropdown({
   const totalHeight = items.length * ITEM_HEIGHT
 
   React.useLayoutEffect(() => {
-    if (scrollRef.current) {
-      const idx = items.findIndex((i) => i.value === activeValue)
-      const target = Math.max(0, idx * ITEM_HEIGHT - LIST_HEIGHT / 2 + ITEM_HEIGHT / 2)
-      scrollRef.current.scrollTop = target
-    }
-  }, [activeValue, items])
+    if (!open || !scrollRef.current) return
+    const idx = items.findIndex((i) => i.value === activeValue)
+    const target = Math.max(0, idx * ITEM_HEIGHT - LIST_HEIGHT / 2 + ITEM_HEIGHT / 2)
+    scrollRef.current.scrollTop = target
+    setScrollTop(target)
+  }, [activeValue, items, open])
 
   const startIndex = Math.max(0, Math.floor(scrollTop / ITEM_HEIGHT) - OVERSCAN)
   const endIndex = Math.min(items.length, Math.ceil((scrollTop + LIST_HEIGHT) / ITEM_HEIGHT) + OVERSCAN)
@@ -50,7 +52,13 @@ function VirtualizedDropdown({
   return (
     <div
       ref={scrollRef}
-      className={cn('overflow-y-auto rounded-md border bg-popover p-1 shadow-md', width)}
+      data-state={open ? 'open' : 'closed'}
+      className={cn(
+        'overflow-y-auto rounded-md border bg-popover p-1 shadow-md',
+        'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-top-2 data-[state=closed]:slide-out-to-top-2 origin-top data-[state=closed]:hidden data-[state=closed]:animate-out data-[state=open]:animate-in',
+        'transition-all transition-discrete duration-150 ease-(--duck-motion-ease)',
+        width,
+      )}
       style={{ height: LIST_HEIGHT, scrollBehavior: 'auto' }}
       onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}>
       <div style={{ height: totalHeight, position: 'relative' }}>
@@ -138,24 +146,40 @@ export function CalendarHeader({
   const currentMonth = adapter.getMonth(month)
   const [monthOpen, setMonthOpen] = React.useState(false)
   const [yearOpen, setYearOpen] = React.useState(false)
+  const dropdownRef = React.useRef<HTMLDivElement>(null)
+
+  // Close dropdowns on click outside (without a fixed backdrop that breaks Popover)
+  React.useEffect(() => {
+    if (!monthOpen && !yearOpen) return
+    function handlePointerDown(e: PointerEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setMonthOpen(false)
+        setYearOpen(false)
+      }
+    }
+    document.addEventListener('pointerdown', handlePointerDown, true)
+    return () => document.removeEventListener('pointerdown', handlePointerDown, true)
+  }, [monthOpen, yearOpen])
+
+  const isArabic = locale?.startsWith('ar')
+  const formatLocaleTag = isArabic ? `${locale}-u-nu-arab` : locale
 
   const monthItems = React.useMemo(() => {
     const entries = buildCalendarYear(adapter, month, locale)
-    return entries.map((e) => ({ value: String(e.month), label: e.label.slice(0, 3) }))
-  }, [month, locale])
+    return entries.map((e) => ({
+      value: String(e.month),
+      label: isArabic ? e.label : e.label.slice(0, 3),
+    }))
+  }, [month, locale, isArabic])
 
   const yearItems = React.useMemo(() => {
+    const fmt = formatLocaleTag ? new Intl.NumberFormat(formatLocaleTag) : null
     const result: { value: string; label: string }[] = []
     for (let y = yearRange.from; y <= yearRange.to; y++) {
-      result.push({ value: String(y), label: String(y) })
+      result.push({ value: String(y), label: fmt ? fmt.format(y) : String(y) })
     }
     return result
   }, [yearRange.from, yearRange.to])
-
-  const closeAll = () => {
-    setMonthOpen(false)
-    setYearOpen(false)
-  }
 
   return (
     <div className="flex h-(--gentleduck-calendar-cell) w-full items-center justify-center px-(--gentleduck-calendar-cell)">
@@ -171,65 +195,59 @@ export function CalendarHeader({
         </button>
 
         {showDropdowns ? (
-          <div {...headerProps} className="flex items-center gap-1.5" onPointerDown={stopPopoverDismiss}>
+          <div
+            ref={dropdownRef}
+            {...headerProps}
+            className="flex items-center gap-1.5"
+            onPointerDown={stopPopoverDismiss}>
             {/* Month dropdown */}
             <div className="relative">
               <DropdownTrigger
-                label={adapter.format(month, { month: 'short' }, locale)}
+                label={adapter.format(month, { month: isArabic ? 'long' : 'short' }, formatLocaleTag)}
                 open={monthOpen}
                 onClick={() => {
                   setMonthOpen((o) => !o)
                   setYearOpen(false)
                 }}
               />
-              {monthOpen && (
-                <>
-                  {/* biome-ignore lint/a11y/noStaticElementInteractions: backdrop dismiss */}
-                  {/* biome-ignore lint/a11y/useKeyWithClickEvents: backdrop is mouse-only */}
-                  <div className="fixed inset-0 z-40" onClick={closeAll} />
-                  <div className="absolute start-0 top-full z-50 mt-1">
-                    <VirtualizedDropdown
-                      items={monthItems}
-                      activeValue={String(currentMonth)}
-                      width="w-20"
-                      onSelect={(v) => {
-                        onMonthSelect(goToMonth(adapter, month, Number(v)))
-                        setMonthOpen(false)
-                      }}
-                    />
-                  </div>
-                </>
-              )}
+              <div className="absolute start-0 top-full z-50 mt-1">
+                <VirtualizedDropdown
+                  items={monthItems}
+                  activeValue={String(currentMonth)}
+                  width="w-20"
+                  open={monthOpen}
+                  onSelect={(v) => {
+                    onMonthSelect(goToMonth(adapter, month, Number(v)))
+                    setMonthOpen(false)
+                  }}
+                />
+              </div>
             </div>
 
             {/* Year dropdown */}
             <div className="relative">
               <DropdownTrigger
-                label={String(currentYear)}
+                label={
+                  formatLocaleTag ? new Intl.NumberFormat(formatLocaleTag).format(currentYear) : String(currentYear)
+                }
                 open={yearOpen}
                 onClick={() => {
                   setYearOpen((o) => !o)
                   setMonthOpen(false)
                 }}
               />
-              {yearOpen && (
-                <>
-                  {/* biome-ignore lint/a11y/noStaticElementInteractions: backdrop dismiss */}
-                  {/* biome-ignore lint/a11y/useKeyWithClickEvents: backdrop is mouse-only */}
-                  <div className="fixed inset-0 z-40" onClick={closeAll} />
-                  <div className="absolute end-0 top-full z-50 mt-1">
-                    <VirtualizedDropdown
-                      items={yearItems}
-                      activeValue={String(currentYear)}
-                      width="w-20"
-                      onSelect={(v) => {
-                        onMonthSelect(goToYear(adapter, month, Number(v)))
-                        setYearOpen(false)
-                      }}
-                    />
-                  </div>
-                </>
-              )}
+              <div className="absolute end-0 top-full z-50 mt-1">
+                <VirtualizedDropdown
+                  items={yearItems}
+                  activeValue={String(currentYear)}
+                  width="w-20"
+                  open={yearOpen}
+                  onSelect={(v) => {
+                    onMonthSelect(goToYear(adapter, month, Number(v)))
+                    setYearOpen(false)
+                  }}
+                />
+              </div>
             </div>
           </div>
         ) : (
