@@ -1,39 +1,39 @@
 # @gentleduck/motion
 
-A lightweight motion toolkit for gentleduck/ui packages.
+Animation tokens and reduced motion support.
 
-> It's for gentleduck internal use only
-
-## Installation
+## Quick Start
 
 ```bash
 bun add @gentleduck/motion
 ```
 
-## API
+```tsx
+import { useDuckReducedMotion, motionTransition } from '@gentleduck/motion'
 
-- `@gentleduck/motion/css`
-  - Motion tokens (`--duck-motion-ease`, `--duck-motion-dur`)
-  - Global `prefers-reduced-motion` fallback policy
-- `tokens`
-  - `duckEasing`
-  - `duckDuration`
-  - `duckMotionCssVar`
-- `react`
-  - `useDuckReducedMotion()`
-  - `motionTransition(reduced, normal)`
-  - `onDuckReducedMotionChange(callback)`
-- `waapi`
-  - `prefersReducedMotion()`
-  - `animateIfAllowed(element, keyframes, options, reducedMotion?)`
-- `motion`
-  - `animateIn(element, keyframes?, options?)`
-  - `motion` (named alias for backward compatibility)
+function Fade() {
+  const reduced = useDuckReducedMotion()
+  const transition = motionTransition(reduced, { duration: 200, easing: 'ease-out' })
+  // ...
+}
+```
 
-## Contributing
+## Features
 
-Contributions are welcome! Please open an issue or submit a pull request on the [GitHub repository](https://github.com/gentleeduck/duck-ui).
+- **Easing presets** -- `duckEasing.standard`, `duckEasing.spring`
+- **Duration tokens** -- `duckDuration.fast` (150ms), `.normal` (200ms), `.slow` (300ms)
+- **CSS custom properties** -- `--duck-motion-dur`, `--duck-motion-ease` via `@gentleduck/motion/css`
+- **Reduced motion** -- `useDuckReducedMotion()`, `motionTransition()`, `onDuckReducedMotionChange()`
+- **WAAPI helpers** -- `animateIfAllowed()`, `prefersReducedMotion()`
+- **Animate in** -- `animateIn()` for entrance animations
+
+## Exports
+
+| Entry point | What it provides |
+| --- | --- |
+| `@gentleduck/motion` | All JS exports (tokens, react, waapi, motion) |
+| `@gentleduck/motion/css` | CSS file with motion custom properties and reduced motion fallback |
 
 ## License
 
-[MIT © gentleduck](./LICENSE)
+MIT

@@ -1,67 +1,93 @@
 # @gentleduck/primitives
 
-**Primitives** is a behavioral component abstraction library for React. It provides **unstyled, accessibility-first building blocks**-dialogs, popovers, tooltips, sliders, and more—so you can bring your own design system while relying on correct behavior.
+Unstyled, accessibility-first UI primitives for React.
 
----
+## Why primitives
 
-## Installation
+- **Full keyboard navigation + ARIA compliance out of the box** — every component ships with correct roles, states, and keyboard interactions so you don't have to wire them yourself.
+- **Compound component pattern** — compose `Root`, `Trigger`, `Content`, and friends to build exactly the UI you need without prop drilling.
+- **Compatible with Radix API** — familiar naming and structure make migration from Radix straightforward.
 
-```sh
+## Components
+
+| Primitive | Description |
+| --- | --- |
+| `alert-dialog` | Modal dialog that requires user acknowledgment |
+| `arrow` | Positioning arrow for floating elements |
+| `avatar` | User avatar with image and fallback support |
+| `calendar` | Date grid with keyboard navigation and multi-view support |
+| `checkers` | Checkbox and switch toggle primitive |
+| `command` | Command palette with search filtering |
+| `context-menu` | Right-click context menu with submenus |
+| `dialog` | Modal and non-modal dialog windows |
+| `direction` | RTL/LTR direction provider |
+| `dismissable-layer` | Layer that dismisses on outside interaction |
+| `dropdown-menu` | Dropdown menu with submenus, checkboxes, and radio items |
+| `focus-scope` | Traps and manages focus within a boundary |
+| `hover-card` | Card triggered by hover with open/close delay |
+| `input-otp` | One-time password input with slots and separators |
+| `menu` | Base menu primitive used by dropdown, context, and menubar |
+| `menubar` | Horizontal menu bar with keyboard navigation |
+| `mount` | Deferred mounting with lifecycle callbacks |
+| `navigation-menu` | Site navigation with animated indicator and viewport |
+| `pagination` | Page navigation controls |
+| `popover` | Floating content anchored to a trigger |
+| `popper` | Low-level floating element positioning via Floating UI |
+| `portal` | Renders children into a DOM portal |
+| `presence` | Animate mount/unmount transitions |
+| `primitive-elements` | Base `Primitive` element factory (`asChild` support) |
+| `progress` | Determinate and indeterminate progress indicator |
+| `radio-group` | Radio button group with roving focus |
+| `roving-focus` | Roving tabindex focus management for groups |
+| `select` | Listbox-style select with typeahead and scroll buttons |
+| `sheet` | Slide-out panel (re-exports dialog internals) |
+| `slider` | Range slider with single or multiple thumbs |
+| `slot` | Merges props and ref onto a child element (`asChild` engine) |
+| `toggle` | Two-state toggle button |
+| `toggle-group` | Single or multi-select group of toggles |
+| `tooltip` | Accessible tooltip with provider-level delay |
+| `visibility-hidden` | Visually hidden element for screen readers |
+
+## Quick Start
+
+```bash
 npm install @gentleduck/primitives
 ```
 
-## Usage
-
-Each primitive is exposed via **path exports**. Import only what you need:
-
 ```tsx
-// Dialog
-import * as Dialog from "@gentleduck/primitives/dialog";
+import * as Dialog from '@gentleduck/primitives/dialog'
 
-// Popover
-import * as Popover from "@gentleduck/primitives/popover";
-
-// Tooltip
-import * as Tooltip from "@gentleduck/primitives/tooltip";
-
-// Slider
-import * as Slider from "@gentleduck/primitives/slider";
-```
-
-### Example: Dialog
-
-```tsx
-import { useState } from "react";
-import * as Dialog from "@gentleduck/primitives/dialog";
-
-export function ExampleDialog() {
-  const [open, setOpen] = useState(false);
+function Demo() {
   return (
-    <>
-      <Dialog.Trigger onClick={() => setOpen(true)}>Open</Dialog.Trigger>
-      <Dialog.Root open={open} onOpenChange={setOpen}>
+    <Dialog.Root>
+      <Dialog.Trigger>Open</Dialog.Trigger>
+      <Dialog.Portal>
         <Dialog.Overlay />
         <Dialog.Content>
-          <Dialog.Title>Title</Dialog.Title>
-          <Dialog.Description>Content goes here</Dialog.Description>
+          <Dialog.Title>Heading</Dialog.Title>
+          <Dialog.Description>Body text here.</Dialog.Description>
           <Dialog.Close>Close</Dialog.Close>
         </Dialog.Content>
-      </Dialog.Root>
-    </>
-  );
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
 }
 ```
 
-> API shape may vary between primitives. See each primitive’s `src/<primitive>/` for details.
+## Features
 
+- **`asChild` / Slot** — render any primitive as your own element via the `asChild` prop, powered by the `Slot` utility.
+- **`createContextScope`** — scoped React context factory that prevents cross-instance state leaks.
+- **`forwardRef` everywhere** — every component forwards refs for imperative access and composition.
+- **`data-slot` attributes** — every component root emits a `data-slot` for style targeting without class names.
+- **Presence animations** — the `Presence` primitive lets you animate enter/exit transitions before unmounting.
+- **Focus trapping** — `FocusScope` locks focus inside modals, dialogs, and popovers with configurable loop behavior.
+- **Dismiss layers** — `DismissableLayer` handles outside clicks, Escape key, and nested layer stacking.
 
-## Security
+## Documentation
 
-See [`SECURITY.md`](./SECURITY.md).
-Report issues at [github.com/gentleeduck/duck-ui/issues](https://github.com/gentleeduck/duck-ui/issues).
-
----
+[duck-ui.vercel.app/docs/packages/duck-primitives](https://duck-ui.vercel.app/docs/packages/duck-primitives)
 
 ## License
 
-[MIT © gentleduck](./LICENSE)
+[MIT](./LICENSE)

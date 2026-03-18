@@ -1,57 +1,57 @@
 # @gentleduck/state
 
-Lightweight atomic state management for React. Provides a Jotai-inspired `atom` + `createStore` API with dependency tracking and derived atoms.
+Atom-based state management.
 
-## Installation
+Lightweight, Jotai-inspired primitives with dependency tracking, derived atoms, and React bindings.
+
+## Quick Start
 
 ```bash
 bun add @gentleduck/state
 ```
 
-## Usage
-
-```ts
+```tsx
 import { atom, createStore } from '@gentleduck/state'
 
-// Primitive atom
 const count = atom(0)
-
-// Derived atom
 const double = atom((get) => get(count) * 2)
 
-// Store
 const store = createStore()
+store.set(count, 1)
+store.get(double) // 2
+```
 
-store.subscribe(count, () => {
-  console.log('count:', store.get(count))
-})
+### React
 
-store.set(count, (prev) => prev + 1)
-console.log(store.get(double)) // 2
+```tsx
+import { Provider, useAtom } from '@gentleduck/state/react'
+
+function Counter() {
+  const [count, setCount] = useAtom(countAtom)
+  return <button onClick={() => setCount((c) => c + 1)}>{count}</button>
+}
+
+function App() {
+  return (
+    <Provider>
+      <Counter />
+    </Provider>
+  )
+}
 ```
 
 ## API
 
-### `atom(initialValue)`
-
-Creates a primitive atom with a default value.
-
-### `atom(read)`
-
-Creates a read-only derived atom. `read` receives a `get` function to access other atoms.
-
-### `atom(read, write)`
-
-Creates a writable derived atom with custom read and write logic.
-
-### `createStore()`
-
-Creates a store instance to manage atom state outside of React.
-
-- `store.get(atom)` - Read the current value of an atom.
-- `store.set(atom, value)` - Set the value of a writable atom.
-- `store.subscribe(atom, callback)` - Subscribe to changes on an atom. Returns an unsubscribe function.
+| Export | Entry point | Description |
+| --- | --- | --- |
+| `atom` | `@gentleduck/state` | Create primitive, derived, or writable derived atoms |
+| `createStore` | `@gentleduck/state` | Standalone store with `get`, `set`, `subscribe` |
+| `Provider` | `@gentleduck/state/react` | React context provider for a store |
+| `useAtom` | `@gentleduck/state/react` | Read + write an atom |
+| `useAtomValue` | `@gentleduck/state/react` | Read-only subscription |
+| `useSetAtom` | `@gentleduck/state/react` | Write-only setter |
+| `useStore` | `@gentleduck/state/react` | Access the current store |
 
 ## License
 
-[MIT](./LICENSE)
+MIT
