@@ -1,0 +1,65 @@
+'use client'
+
+import { Calendar } from '@gentleduck/registry-ui/calendar'
+import * as React from 'react'
+
+const EVENTS: Record<string, { title: string; color: string }[]> = {
+  '2026-2-15': [
+    { title: 'Team standup', color: '#3b82f6' },
+    { title: 'Design review', color: '#8b5cf6' },
+  ],
+  '2026-2-18': [
+    { title: 'Sprint planning', color: '#f59e0b' },
+    { title: '1:1 with manager', color: '#10b981' },
+  ],
+  '2026-2-20': [{ title: 'Product launch', color: '#ef4444' }],
+  '2026-2-25': [
+    { title: 'Team retrospective', color: '#3b82f6' },
+    { title: 'All-hands meeting', color: '#8b5cf6' },
+    { title: 'Stakeholder demo', color: '#f59e0b' },
+  ],
+}
+
+function getEventsForDate(date: Date): { title: string; color: string }[] {
+  const key = `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`
+  return EVENTS[key] ?? []
+}
+
+export default function CalendarDemo() {
+  const [selected, setSelected] = React.useState<Date | undefined>(new Date())
+  const selectedEvents = selected ? getEventsForDate(selected) : []
+
+  return (
+    <div className="flex gap-6">
+      <Calendar
+        className="rounded-md border shadow-sm"
+        mode="single"
+        selected={selected}
+        onSelect={setSelected}
+        fixedWeeks
+        showDropdowns
+      />
+      <div className="min-w-[200px] space-y-2">
+        <h3 className="font-semibold text-sm">
+          {selected?.toLocaleDateString('en-US', {
+            weekday: 'long',
+            month: 'long',
+            day: 'numeric',
+          })}
+        </h3>
+        {selectedEvents.length > 0 ? (
+          <ul className="space-y-1">
+            {selectedEvents.map((event) => (
+              <li key={event.title} className="flex items-center gap-2 text-sm">
+                <span className="size-2 rounded-full" style={{ backgroundColor: event.color }} />
+                {event.title}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-muted-foreground text-sm">No events</p>
+        )}
+      </div>
+    </div>
+  )
+}
