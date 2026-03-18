@@ -67,9 +67,8 @@ export function DatePickerDemo() {
             <ChevronDownIcon aria-hidden="true" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent side="top" align="start" className="min-w-auto overflow-hidden p-0">
+        <PopoverContent side="top" align="start" className="w-auto p-0">
           <Calendar
-            captionLayout="dropdown"
             mode="single"
             onSelect={(date) => {
               setDate(date)
@@ -84,7 +83,7 @@ export function DatePickerDemo() {
 }
 ```
 
-See the [React DayPicker](https://react-day-picker.js.org) documentation for more information.
+See the [@gentleduck/calendar](/docs/packages/duck-calendar) documentation for more information on the headless calendar engine.
 
 ## Examples
 
@@ -122,11 +121,40 @@ This component uses the `chrono-node` library to parse natural language dates.
   description="A calendar with natural language picker."
 />
 
-### Form
+### Date of Birth Picker (with dropdowns)
+
+<ComponentPreview
+  name="calendar-5"
+  title="Date of Birth Picker"
+  description="A calendar with date of birth picker in a popover with year range."
+/>
+
+### Date and Time Picker
+
+<ComponentPreview
+  name="calendar-6"
+  title="Date and Time Picker"
+  description="A calendar with date and time picker."
+/>
+
+### Natural Language Picker
+
+<ComponentPreview
+  name="calendar-7"
+  title="Natural Language Picker"
+  description="A calendar with natural language picker using chrono-node."
+/>
+
+### Form Integration
+
+<ComponentPreview
+  name="calendar-8"
+  description="A date picker integrated with React Hook Form and Zod validation."
+/>
 
 <ComponentPreview
   name="date-picker-6"
-  description="A date picker integrated with React Hook Form for date of birth selection with validation."
+  description="A date picker with form validation."
 />
 
 ## RTL Support

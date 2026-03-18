@@ -18,9 +18,15 @@ We have built a collection of 30+ calendar blocks that you can use to build your
 
 See all calendar blocks in the [Blocks Library](/blocks/calendar) page.
 
+## Migrated from react-day-picker
+
+<Callout icon={<TriangleAlert />} tone="warning" title="Migrated from react-day-picker">
+We have replaced `react-day-picker` with our own headless calendar engine — [`@gentleduck/calendar`](/docs/packages/duck-calendar). The result is **65% smaller bundle** (7 KB vs ~20 KB gzipped), zero external dependencies, full keyboard navigation, and complete ARIA compliance. See the [performance benchmarks](/docs/packages/duck-calendar#performance) for detailed comparisons.
+</Callout>
+
 ## Philosophy
 
-Calendars are complex accessibility challenges disguised as simple grids. We own the entire calendar stack — from the headless engine (`@gentleduck/calendar`) to the compound primitives (`@gentleduck/primitives/calendar`) to this styled component. The adapter pattern lets you swap date libraries, the hook layer handles state management, and this component applies Tailwind styling via `data-*` attribute selectors.
+Calendars are complex accessibility challenges disguised as simple grids. We own the entire calendar stack — from the headless engine ([`@gentleduck/calendar`](/docs/packages/duck-calendar)) to the compound primitives (`@gentleduck/primitives/calendar`) to this styled component. The adapter pattern lets you swap date libraries, the hook layer handles state management, and this component applies Tailwind styling via `data-*` attribute selectors.
 
 ## How It's Built
 
@@ -135,36 +141,6 @@ You can use the `<Calendar>` component to build a date picker. See the [Date Pic
   description="Calendar with min/max date boundaries (today to 3 months ahead)."
 />
 
-### Date of Birth Picker
-
-<ComponentPreview
-  name="calendar-5"
-  title="Date of Birth Picker"
-  description="A calendar with date of birth picker in a popover."
-/>
-
-### Date and Time Picker
-
-<ComponentPreview
-  name="calendar-6"
-  title="Date and Time Picker"
-  description="A calendar with date and time picker."
-/>
-
-### Natural Language Picker
-
-This component uses the `chrono-node` library to parse natural language dates.
-
-<ComponentPreview
-  name="calendar-7"
-  title="Natural Language Picker"
-  description="A calendar with natural language picker."
-/>
-
-### Form
-
-<ComponentPreview name="calendar-8" description="A date of birth calendar picker integrated with React Hook Form and Zod validation." />
-
 ### Multi-Select
 
 <ComponentPreview
@@ -178,15 +154,39 @@ This component uses the `chrono-node` library to parse natural language dates.
 <ComponentPreview
   name="calendar-11"
   title="Event Calendar"
-  description="Calendar with events displayed and a detail sidebar — like Google Calendar."
+  description="Calendar with event dots via renderDay and a detail sidebar."
 />
 
-### Booking Calendar
+### Custom Cell Size
 
 <ComponentPreview
-  name="calendar-12"
-  title="Booking Calendar"
-  description="Availability calendar with disabled booked dates and booking confirmation."
+  name="calendar-14"
+  title="Custom Cell Size"
+  description="Calendar with larger cells using the --gentleduck-calendar-cell CSS variable."
+/>
+
+### Click to View Events (Popover)
+
+<ComponentPreview
+  name="calendar-15"
+  title="Click to View Events"
+  description="Click a day cell to open a popover with event details. Uses renderDay for event dots and inline Popover."
+/>
+
+### Booked Dates (Strikethrough)
+
+<ComponentPreview
+  name="calendar-16"
+  title="Booked Dates"
+  description="Booked dates shown with strikethrough via renderDay, legend via renderFooter. Only available dates are selectable."
+/>
+
+### Presets
+
+<ComponentPreview
+  name="calendar-17"
+  title="Calendar with Presets"
+  description="Quick date selection with preset buttons (Today, Tomorrow, In 3 days, etc.)."
 />
 
 ## API Reference
@@ -214,6 +214,77 @@ This component uses the `chrono-node` library to parse natural language dates.
 | `buttonVariant` | `string` | `'ghost'` | Variant style for navigation buttons |
 | `onDismiss` | `() => void` | -- | Called when the user presses Escape |
 | `className` | `string` | -- | Additional CSS classes for the root container |
+| `renderDay` | `(day: CalendarDay<Date>, children: ReactNode) => ReactNode` | -- | Custom render function for day cell content |
+| `renderHeader` | `(context: CalendarHeaderContext) => ReactNode` | -- | Custom render function for the navigation header |
+| `renderWeekday` | `(day: string, index: number) => ReactNode` | -- | Custom render function for weekday column labels |
+| `renderFooter` | `(months: CalendarMonth<Date>[]) => ReactNode` | -- | Render content below the calendar grid |
+
+### Render Props
+
+The Calendar component exposes render props that let you customize every visual part without forking the component.
+
+#### renderDay
+
+Customize the content inside each day cell. Receives the `CalendarDay` object and the default children (the date number).
+
+```tsx showLineNumbers
+<Calendar
+  renderDay={(day, children) => (
+    <>
+      {children}
+      {hasEvents(day.date) && (
+        <span className="size-1 rounded-full bg-primary" />
+      )}
+    </>
+  )}
+/>
+```
+
+The `day` object exposes: `date`, `isToday`, `isSelected`, `isDisabled`, `isOutside`, `isRangeStart`, `isRangeEnd`, `isRangeMiddle`.
+
+#### renderHeader
+
+Replace the entire navigation header. Receives a context object with navigation controls.
+
+```tsx showLineNumbers
+<Calendar
+  renderHeader={({ title, goToPrevMonth, goToNextMonth, isPrevDisabled, isNextDisabled }) => (
+    <div className="flex items-center justify-between px-2">
+      <button onClick={goToPrevMonth} disabled={isPrevDisabled}>←</button>
+      <span className="font-semibold">{title}</span>
+      <button onClick={goToNextMonth} disabled={isNextDisabled}>→</button>
+    </div>
+  )}
+/>
+```
+
+#### renderWeekday
+
+Customize individual weekday column headers. Receives the abbreviation and column index.
+
+```tsx showLineNumbers
+<Calendar
+  renderWeekday={(day, index) => (
+    <span className={index === 0 || index === 6 ? "text-red-400" : ""}>
+      {day}
+    </span>
+  )}
+/>
+```
+
+#### renderFooter
+
+Add content below the calendar grid. Receives the current months array for context.
+
+```tsx showLineNumbers
+<Calendar
+  renderFooter={() => (
+    <div className="mt-2 text-xs text-muted-foreground">
+      Pick a date to continue
+    </div>
+  )}
+/>
+```
 
 ### Data Attributes
 

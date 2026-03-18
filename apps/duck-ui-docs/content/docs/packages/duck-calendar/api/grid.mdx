@@ -1,0 +1,113 @@
+---
+title: "Grid"
+description: "Pure functions for building calendar month grids, year pickers, and decade views."
+---
+
+```tsx
+import { buildCalendarMonth, buildMultiMonth, buildCalendarYear, buildDecadeView } from '@gentleduck/calendar'
+```
+
+## Functions
+
+### `buildCalendarMonth`
+
+Build a single month grid with weeks and day cells.
+
+```tsx
+buildCalendarMonth(adapter: DateAdapter<TDate>, date: TDate, config?: GridConfig) => CalendarMonth<TDate>
+```
+
+| Param | Type | Description |
+| :--- | :--- | :--- |
+| `adapter` | `DateAdapter<TDate>` | Date adapter |
+| `date` | `TDate` | Any date in the target month |
+| `config` | `GridConfig` | Grid options |
+
+**GridConfig:**
+
+| Property | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `showOutsideDays` | `boolean` | `true` | Show days from adjacent months |
+| `fixedWeeks` | `boolean` | `false` | Always produce 6 weeks |
+| `weekStartDay` | `WeekStartDay` | `0` | Which day starts the week (0 = Sunday) |
+
+**Returns** a `CalendarMonth<TDate>`:
+
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `month` | `TDate` | The first day of the month |
+| `weeks` | `CalendarWeek<TDate>[]` | Array of week objects |
+
+Each `CalendarWeek<TDate>` has:
+
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `weekNumber` | `number` | ISO week number |
+| `days` | `CalendarDay<TDate>[]` | 7 day cells |
+
+Each `CalendarDay<TDate>` has:
+
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `date` | `TDate` | The date |
+| `isToday` | `boolean` | Whether this is today |
+| `isOutsideMonth` | `boolean` | Whether this day is from an adjacent month |
+| `isWeekend` | `boolean` | Whether this is a weekend |
+
+---
+
+### `buildMultiMonth`
+
+Build multiple consecutive month grids.
+
+```tsx
+buildMultiMonth(adapter: DateAdapter<TDate>, date: TDate, count: number, config?: GridConfig) => CalendarMonth<TDate>[]
+```
+
+| Param | Type | Description |
+| :--- | :--- | :--- |
+| `adapter` | `DateAdapter<TDate>` | Date adapter |
+| `date` | `TDate` | Starting month |
+| `count` | `number` | Number of months |
+| `config` | `GridConfig` | Grid options |
+
+---
+
+### `buildCalendarYear`
+
+Build a 12-month picker for year navigation.
+
+```tsx
+buildCalendarYear(adapter: DateAdapter<TDate>, date: TDate, locale?: string) => YearEntry[]
+```
+
+| Param | Type | Description |
+| :--- | :--- | :--- |
+| `adapter` | `DateAdapter<TDate>` | Date adapter |
+| `date` | `TDate` | Any date in the target year |
+| `locale` | `string` | BCP 47 locale for month names |
+
+Each `YearEntry` has:
+
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `month` | `number` | Month index (0-11) |
+| `label` | `string` | Localized month name |
+| `isCurrent` | `boolean` | Whether this is the currently displayed month |
+
+---
+
+### `buildDecadeView`
+
+Build a decade year picker.
+
+```tsx
+buildDecadeView(adapter: DateAdapter<TDate>, date: TDate) => DecadeEntry[]
+```
+
+Each `DecadeEntry` has:
+
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `year` | `number` | The year |
+| `isCurrent` | `boolean` | Whether this is the current year |
