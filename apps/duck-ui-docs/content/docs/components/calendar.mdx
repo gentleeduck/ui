@@ -212,6 +212,7 @@ This component uses the `chrono-node` library to parse natural language dates.
 | `fromDate` | `Date` | -- | Earliest selectable date |
 | `toDate` | `Date` | -- | Latest selectable date |
 | `buttonVariant` | `string` | `'ghost'` | Variant style for navigation buttons |
+| `onDismiss` | `() => void` | -- | Called when the user presses Escape |
 | `className` | `string` | -- | Additional CSS classes for the root container |
 
 ### Data Attributes
@@ -225,7 +226,7 @@ The calendar uses `data-*` attributes on day cells for styling. Target these in 
 | `data-today="true"` | Day is today |
 | `data-disabled="true"` | Day is disabled |
 | `data-outside-month="true"` | Day is from an adjacent month |
-| `data-in-range="true"` | Day is between range start and end |
+| `data-range-middle="true"` | Day is between range start and end |
 | `data-range-start="true"` | Day is the start of a range |
 | `data-range-end="true"` | Day is the end of a range |
 | `data-focused="true"` | Day has keyboard focus |
