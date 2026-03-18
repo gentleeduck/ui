@@ -20,7 +20,7 @@ export interface DayProps {
   'data-today': 'true' | undefined
   'data-disabled': 'true' | undefined
   'data-outside-month': 'true' | undefined
-  'data-in-range': 'true' | undefined
+  'data-range-middle': 'true' | undefined
   'data-range-start': 'true' | undefined
   'data-range-end': 'true' | undefined
   'data-focused': 'true' | undefined

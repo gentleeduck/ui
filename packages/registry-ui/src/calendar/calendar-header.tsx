@@ -171,7 +171,7 @@ export function CalendarHeader({
         </button>
 
         {showDropdowns ? (
-          <div className="flex items-center gap-1.5" onPointerDown={stopPopoverDismiss}>
+          <div {...headerProps} className="flex items-center gap-1.5" onPointerDown={stopPopoverDismiss}>
             {/* Month dropdown */}
             <div className="relative">
               <DropdownTrigger
