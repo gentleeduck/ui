@@ -1,0 +1,41 @@
+{
+  "competitors": [
+    {
+      "name": "@gentleduck/calendar",
+      "bundleKB": 7,
+      "deps": 0,
+      "cssKB": 0
+    },
+    {
+      "name": "react-day-picker v9",
+      "bundleKB": 20,
+      "deps": 1,
+      "cssKB": 3
+    },
+    {
+      "name": "react-aria (DatePicker)",
+      "bundleKB": 45,
+      "deps": 8,
+      "cssKB": 0
+    },
+    {
+      "name": "react-datepicker",
+      "bundleKB": 32,
+      "deps": 3,
+      "cssKB": 8
+    },
+    {
+      "name": "react-calendar",
+      "bundleKB": 15,
+      "deps": 0,
+      "cssKB": 5
+    }
+  ],
+  "performance": {
+    "buildMonth": 0.008640748,
+    "buildMulti3": 0.022176315,
+    "buildMulti12": 0.07850630199999999,
+    "applySelection": 0.010990479500000021
+  },
+  "generatedAt": "2026-03-18T14:23:58.840Z"
+}
