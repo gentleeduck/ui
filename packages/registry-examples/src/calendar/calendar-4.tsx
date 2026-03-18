@@ -5,7 +5,8 @@ import * as React from 'react'
 
 export default function CalendarDemo() {
   const [date, setDate] = React.useState<Date | undefined>(new Date())
-  const today = new Date()
+  const now = new Date()
+  const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
   const maxDate = new Date(today.getFullYear(), today.getMonth() + 3, today.getDate())
 
   return (
