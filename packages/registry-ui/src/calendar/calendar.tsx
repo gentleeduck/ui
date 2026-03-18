@@ -34,12 +34,18 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
       onDismiss,
       showDropdowns = true,
       yearRange,
+      renderDay,
+      renderHeader,
+      renderWeekday,
+      renderFooter,
     },
     ref,
   ) => {
     const direction = useDirection(dir)
     const currentYear = new Date().getFullYear()
     const resolvedYearRange = yearRange ?? { from: currentYear - 100, to: currentYear + 10 }
+    // Build full locale tag with numbering system for Arabic
+    const formatLocale = locale?.startsWith('ar') ? `${locale}-u-nu-arab` : locale
 
     const calendar = useCalendar({
       adapter,
@@ -61,6 +67,9 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
 
     const { state, getDayProps, getGridProps, getNavProps, getHeaderProps, announcer } = calendar
 
+    const prevNavProps = getNavProps('prev')
+    const nextNavProps = getNavProps('next')
+
     return (
       <div
         ref={ref}
@@ -68,15 +77,25 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
         dir={direction}
         className={cn(
           'group/calendar w-fit bg-background p-3 [--gentleduck-calendar-cell:--spacing(8)]',
-          'in-data-[slot=card-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent',
+          'rounded-md in-data-[slot=card-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent',
           className,
         )}>
         <div className="relative flex flex-col gap-4">
           {/* Nav header — spans full width above all months */}
-          {numberOfMonths <= 1 ? (
+          {renderHeader ? (
+            renderHeader({
+              month: state.month,
+              title: adapter.format(state.month, { month: 'long', year: 'numeric' }, formatLocale),
+              direction,
+              goToPrevMonth: prevNavProps.onClick,
+              goToNextMonth: nextNavProps.onClick,
+              isPrevDisabled: prevNavProps.disabled,
+              isNextDisabled: nextNavProps.disabled,
+            })
+          ) : numberOfMonths <= 1 ? (
             <CalendarHeader
               month={state.month}
-              title={adapter.format(state.month, { month: 'long', year: 'numeric' }, locale)}
+              title={adapter.format(state.month, { month: 'long', year: 'numeric' }, formatLocale)}
               direction={direction}
               locale={locale}
               buttonVariant={buttonVariant}
@@ -90,7 +109,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
             <div className="relative flex w-full items-center">
               <button
                 type="button"
-                {...getNavProps('prev')}
+                {...prevNavProps}
                 className={cn(
                   buttonVariants({ variant: buttonVariant as 'ghost' }),
                   'absolute start-0 z-10 size-(--gentleduck-calendar-cell) select-none p-0 aria-disabled:opacity-50',
@@ -99,12 +118,12 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
               </button>
               {state.months.map((m) => (
                 <span key={m.month.getTime()} className="flex-1 select-none text-center font-medium text-sm">
-                  {adapter.format(m.month, { month: 'long', year: 'numeric' }, locale)}
+                  {adapter.format(m.month, { month: 'long', year: 'numeric' }, formatLocale)}
                 </span>
               ))}
               <button
                 type="button"
-                {...getNavProps('next')}
+                {...nextNavProps}
                 className={cn(
                   buttonVariants({ variant: buttonVariant as 'ghost' }),
                   'absolute end-0 z-10 size-(--gentleduck-calendar-cell) select-none p-0 aria-disabled:opacity-50',
@@ -123,14 +142,14 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
                     {/* biome-ignore lint/a11y/useSemanticElements: role="row" on div per WAI-ARIA grid pattern */}
                     {/* biome-ignore lint/a11y/useFocusableInteractive: weekday header row is not interactive */}
                     <div role="row" className="flex">
-                      {state.weekdays.map((day) => (
+                      {state.weekdays.map((day, index) => (
                         // biome-ignore lint/a11y/useSemanticElements: columnheader on div per WAI-ARIA grid pattern
                         // biome-ignore lint/a11y/useFocusableInteractive: weekday headers are not interactive
                         <div
                           key={day}
                           role="columnheader"
                           className="flex-1 select-none rounded-md text-center font-normal text-[0.8rem] text-muted-foreground">
-                          {day}
+                          {renderWeekday ? renderWeekday(day, index) : day}
                         </div>
                       ))}
                     </div>
@@ -157,7 +176,9 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
                               isSelectedSingle={isSelectedSingle}
                               isFirstInRow={dayIdx === 0}
                               isLastInRow={dayIdx === 6}
+                              locale={locale}
                               onFocusDate={calendar.actions.focusDate}
+                              renderDay={renderDay}
                             />
                           )
                         })}
@@ -168,6 +189,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
               )
             })}
           </div>
+          {renderFooter && renderFooter(state.months)}
         </div>
         <announcer.AnnouncerPortal />
       </div>

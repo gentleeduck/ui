@@ -1,6 +1,23 @@
-import type { CalendarValue, SelectionMode } from '@gentleduck/calendar'
+import type { CalendarDay, CalendarMonth, CalendarValue, SelectionMode } from '@gentleduck/calendar'
 import type { Direction } from '@gentleduck/primitives/direction'
 import type { Button } from '../button'
+
+export interface CalendarHeaderContext {
+  /** The current displayed month Date. */
+  month: Date
+  /** Formatted title string (e.g. "March 2026"). */
+  title: string
+  /** Resolved text direction. */
+  direction: 'ltr' | 'rtl'
+  /** Navigate to the previous month. */
+  goToPrevMonth: () => void
+  /** Navigate to the next month. */
+  goToNextMonth: () => void
+  /** Whether previous navigation is disabled. */
+  isPrevDisabled: boolean
+  /** Whether next navigation is disabled. */
+  isNextDisabled: boolean
+}
 
 export interface CalendarProps {
   className?: string
@@ -46,4 +63,66 @@ export interface CalendarProps {
    * Default `{ from: currentYear - 100, to: currentYear + 10 }`.
    */
   yearRange?: { from: number; to: number }
+  /**
+   * Custom render function for day cells.
+   * Receives the day object and the default rendered children (the date number).
+   * Return a ReactNode to replace or wrap the default content.
+   *
+   * @example
+   * ```tsx
+   * renderDay={(day, children) => (
+   *   <>
+   *     {children}
+   *     {hasEvents(day.date) && <span className="size-1 rounded-full bg-primary" />}
+   *   </>
+   * )}
+   * ```
+   */
+  renderDay?: (day: CalendarDay<Date>, children: React.ReactNode) => React.ReactNode
+  /**
+   * Custom render function for the navigation header.
+   * Receives header context with month info and navigation controls.
+   * Return a ReactNode to replace the default header entirely.
+   *
+   * @example
+   * ```tsx
+   * renderHeader={({ title, goToPrevMonth, goToNextMonth }) => (
+   *   <div className="flex items-center justify-between">
+   *     <button onClick={goToPrevMonth}>←</button>
+   *     <span>{title}</span>
+   *     <button onClick={goToNextMonth}>→</button>
+   *   </div>
+   * )}
+   * ```
+   */
+  renderHeader?: (context: CalendarHeaderContext) => React.ReactNode
+  /**
+   * Custom render function for weekday column headers.
+   * Receives the weekday abbreviation (e.g. "Sun") and its index (0-6).
+   * Return a ReactNode to replace the default weekday label.
+   *
+   * @example
+   * ```tsx
+   * renderWeekday={(day, index) => (
+   *   <span className={index === 0 || index === 6 ? 'text-red-500' : ''}>
+   *     {day}
+   *   </span>
+   * )}
+   * ```
+   */
+  renderWeekday?: (day: string, index: number) => React.ReactNode
+  /**
+   * Render content below the calendar grid.
+   * Receives the current months array for context.
+   *
+   * @example
+   * ```tsx
+   * renderFooter={(months) => (
+   *   <div className="mt-2 text-xs text-muted-foreground">
+   *     Selected: {selected?.toLocaleDateString()}
+   *   </div>
+   * )}
+   * ```
+   */
+  renderFooter?: (months: CalendarMonth<Date>[]) => React.ReactNode
 }

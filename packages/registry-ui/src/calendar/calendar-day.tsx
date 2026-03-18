@@ -2,6 +2,7 @@
 
 import type { CalendarDay as CalendarDayType, DayProps } from '@gentleduck/calendar'
 import { cn } from '@gentleduck/libs/cn'
+import type * as React from 'react'
 import { buttonVariants } from '../button'
 
 interface CalendarDayCellProps {
@@ -11,7 +12,9 @@ interface CalendarDayCellProps {
   isSelectedSingle: boolean
   isFirstInRow: boolean
   isLastInRow: boolean
+  locale?: string
   onFocusDate: (date: Date) => void
+  renderDay?: (day: CalendarDayType<Date>, children: React.ReactNode) => React.ReactNode
 }
 
 export function CalendarDayCell({
@@ -21,7 +24,9 @@ export function CalendarDayCell({
   isSelectedSingle,
   isFirstInRow,
   isLastInRow,
+  locale,
   onFocusDate,
+  renderDay,
 }: CalendarDayCellProps) {
   const isInRange = day.isRangeStart || day.isRangeEnd || day.isRangeMiddle
   return (
@@ -42,12 +47,15 @@ export function CalendarDayCell({
         isInRange && isLastInRow && !day.isRangeEnd && 'rounded-e-md',
         day.isOutside && 'text-muted-foreground',
         day.isOutside && day.isSelected && 'text-muted-foreground',
-        day.isDisabled && 'text-muted-foreground opacity-50',
+        day.isDisabled && 'pointer-events-none text-muted-foreground opacity-50',
       )}>
       <button
         type="button"
         {...dayProps}
+        disabled={day.isDisabled}
+        tabIndex={day.isDisabled ? -1 : dayProps.tabIndex}
         onClick={() => {
+          if (day.isDisabled) return
           dayProps.onClick()
           onFocusDate(day.date)
         }}
@@ -75,7 +83,11 @@ export function CalendarDayCell({
           'group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:rounded-md group-data-[focused=true]/day:border group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-1 group-data-[focused=true]/day:ring-ring/50',
           '[&>span]:text-xs [&>span]:opacity-70',
         )}>
-        {day.date.getDate()}
+        {(() => {
+          const localeTag = locale?.startsWith('ar') ? `${locale}-u-nu-arab` : locale
+          const dayNum = localeTag ? new Intl.NumberFormat(localeTag).format(day.date.getDate()) : day.date.getDate()
+          return renderDay ? renderDay(day, dayNum) : dayNum
+        })()}
       </button>
     </div>
   )

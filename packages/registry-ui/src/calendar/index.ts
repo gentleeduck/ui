@@ -1,2 +1,2 @@
 export { Calendar } from './calendar'
-export type { CalendarProps } from './calendar.types'
+export type { CalendarHeaderContext, CalendarProps } from './calendar.types'
