@@ -227,8 +227,8 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // -------------------------------------------------------------------------
   const getDayProps = useCallback(
     (day: CalendarDay<TDate>) =>
-      buildDayProps(day, focusedDate, adapter, selectDate, setFocusedDate, keyboard.onKeyDown),
-    [focusedDate, adapter, selectDate, keyboard.onKeyDown],
+      buildDayProps(day, focusedDate, adapter, selectDate, setFocusedDate, keyboard.onKeyDown, locale?.locale),
+    [focusedDate, adapter, selectDate, keyboard.onKeyDown, locale],
   )
 
   const getGridProps = useCallback(() => buildGridProps(headerId), [headerId])

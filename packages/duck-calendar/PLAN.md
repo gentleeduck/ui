@@ -1,97 +1,71 @@
-# duck-calendar: Compound Components Plan
+# duck-calendar: Accessibility Audit and ARIA Compliance
 
-Issue #307. Build headless, unstyled compound components that wrap `useCalendar` hooks.
+Issue #308. Ensure the calendar meets WCAG 2.1 AA and follows the WAI-ARIA APG date picker pattern.
 
-> Depends on: #304 (adapter), #305 (core), #306 (hooks) — all complete.
+> Depends on: #304 (adapter), #305 (core), #306 (hooks), #307 (compound components) — all complete.
 
-## Architecture
+## Changes Made
 
-Compound components live in **`packages/duck-primitives/src/calendar/`** following the exact same patterns as Dialog, RadioGroup, and other primitives. They import the hooks and types from `@gentleduck/calendar`.
+### Announcer — removed portal
+- `AnnouncerPortal` no longer uses `createPortal` from `react-dom`
+- Renders inline `<div aria-live="polite">` inside the calendar tree
+- Eliminates `react-dom` peer dependency from `@gentleduck/calendar`
 
-**Pattern:** Full duck-primitives compound pattern:
-- `createContextScope('Calendar')` for scoped context
-- `ScopedProps<P>` on every component
-- `React.forwardRef` with explicit generics on all sub-components
-- `Primitive.div` / `Primitive.button` for base elements
-- `displayName` on every component
-- `data-slot` on every root element
-- `composeEventHandlers` for event composition
+### Day buttons — full aria-label
+- Each day button now has `aria-label="Saturday, March 14, 2026"` (localized)
+- Previously screen readers only heard the number "14"
 
-**Dependency direction:** `duck-primitives` → `duck-calendar` (one-way). Calendar has NO runtime dep on primitives.
+### data-disabled consistency
+- Changed from empty string `""` to `"true"` to match all other data attributes
 
-## File Structure
+### Grid — aria-roledescription
+- Grid has `aria-roledescription="calendar"` per WAI-ARIA APG recommendation
 
-```
-packages/duck-primitives/src/calendar/
-├── index.ts              ← barrel (long names + short aliases)
-├── calendar.tsx          ← Root (CalendarProvider + useCalendar)
-├── header.tsx            ← CalendarHeader
-├── nav.tsx               ← CalendarNav (prev/next buttons)
-├── grid.tsx              ← CalendarGrid (grid container)
-├── weekdays.tsx          ← CalendarWeekdays (header row)
-├── day.tsx               ← CalendarDay (day button)
-├── month-view.tsx        ← CalendarMonthView (12-month picker)
-├── year-view.tsx         ← CalendarYearView (decade picker)
-└── __test__/
-    └── calendar.test.tsx ← render tests
-```
+### Weekday headers — role="columnheader"
+- `<abbr>` elements have `role="columnheader"` per WAI-ARIA grid pattern
 
-## Components
+### Nav labels — localizable
+- `buildNavProps` accepts optional `prevLabel`/`nextLabel` for i18n
+- Defaults: "Go to previous month" / "Go to next month"
 
-### Calendar (root) — `calendar.tsx`
-- Accepts `UseCalendarConfig` props + `children`
-- Calls `useCalendar(config)` internally
-- Provides CalendarContext with full `UseCalendarReturn` + adapter + mode + locale
-- Renders `AnnouncerPortal`
-- Root: `<Primitive.div role="application" aria-label="Calendar" data-slot="calendar" data-view={viewMode}>`
+## ARIA Compliance Summary
 
-### CalendarHeader — `header.tsx`
-- `formatMonth?` prop for custom format
-- Spreads `getHeaderProps()` (id, aria-live)
-- Default: `adapter.format(month, { month: 'long', year: 'numeric' })`
-- `<Primitive.div data-slot="calendar-header">`
+| Element | role | aria-* | Notes |
+|---------|------|--------|-------|
+| Calendar root | `application` | `aria-label="Calendar"` | |
+| Grid container | `grid` | `aria-labelledby`, `aria-roledescription="calendar"` | |
+| Weekday headers | `columnheader` | `title` on `<abbr>` | |
+| Day cells | `gridcell` | `aria-label` (full date), `aria-selected`, `aria-disabled`, `aria-current="date"` | |
+| Nav wrapper | `navigation` | `aria-label="Calendar navigation"` | |
+| Nav buttons | button | `aria-label` (localizable) | |
+| Header | — | `aria-live="polite"`, `id` | |
+| Month buttons | `gridcell` | `aria-label`, `aria-current` | |
+| Year buttons | `gridcell` | `aria-label`, `aria-current` | |
+| Announcer | `status` | `aria-live="polite"`, `aria-atomic`, `aria-relevant` | |
 
-### CalendarNav — `nav.tsx`
-- Renders prev + next `<Primitive.button>` elements
-- Spreads `getNavProps('prev')` / `getNavProps('next')`
-- `data-slot="calendar-nav"`, buttons: `data-slot="calendar-nav-button"`
+## Keyboard Navigation
 
-### CalendarGrid — `grid.tsx`
-- Spreads `getGridProps()` (role="grid", aria-labelledby)
-- `<Primitive.div data-slot="calendar-grid">`
-- Renders rows of CalendarDay
+| Key | Action |
+|-----|--------|
+| ArrowLeft/Right | ±1 day |
+| ArrowUp/Down | ±7 days |
+| PageUp/PageDown | ±1 month |
+| Shift+PageUp/PageDown | ±1 year |
+| Home/End | Week start/end |
+| Enter/Space | Select focused date |
+| Escape | Dismiss |
 
-### CalendarWeekdays — `weekdays.tsx`
-- Renders `state.weekdays` headers
-- `<Primitive.div data-slot="calendar-weekdays">`
-
-### CalendarDay — `day.tsx`
-- `day: CalendarDay<Date>` required prop
-- Spreads `getDayProps(day)` (all ARIA + data attrs + handlers)
-- `<Primitive.button data-slot="calendar-day">`
-
-### CalendarMonthView — `month-view.tsx`
-- Uses `buildCalendarYear(adapter, month)`
-- Month buttons with `data-slot="calendar-month"`, `data-current`
-- Click → `setMonth(goToMonth(...))` + `setViewMode('days')`
-
-### CalendarYearView — `year-view.tsx`
-- Uses `buildDecadeView(adapter, month)`
-- Year buttons with `data-slot="calendar-year"`, `data-current`
-- Click → `setMonth(goToYear(...))` + `setViewMode('months')`
+Focus auto-advances the displayed month when crossing boundaries.
+Roving tabIndex: focused date has `tabIndex=0`, all others `-1`.
 
 ## Checklist
 
-- [ ] Add `@gentleduck/calendar` to duck-primitives deps
-- [ ] `calendar.tsx` — root + context
-- [ ] `header.tsx`
-- [ ] `nav.tsx`
-- [ ] `grid.tsx`
-- [ ] `weekdays.tsx`
-- [ ] `day.tsx`
-- [ ] `month-view.tsx`
-- [ ] `year-view.tsx`
-- [ ] `index.ts` — barrel
-- [ ] `__test__/calendar.test.tsx` — tests
-- [ ] Build passes
-- [ ] All tests pass
+- [x] Remove announcer portal (render inline)
+- [x] Add aria-label to day buttons (full localized date)
+- [x] Fix data-disabled consistency
+- [x] Add aria-roledescription to grid
+- [x] Restore role="columnheader" on weekday headers
+- [x] Localizable nav labels
+- [ ] Axe-core automated tests
+- [x] Build passes
+- [x] All tests pass

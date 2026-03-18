@@ -10,6 +10,7 @@ export interface UseCalendarConfig<TDate, M extends SelectionMode = 'single'> ex
 
 export interface DayProps {
   role: 'gridcell'
+  'aria-label': string
   'aria-selected': boolean
   'aria-disabled': boolean
   'aria-current': 'date' | undefined
@@ -17,7 +18,7 @@ export interface DayProps {
   'data-calendar-day': ''
   'data-selected': 'true' | undefined
   'data-today': 'true' | undefined
-  'data-disabled': '' | undefined
+  'data-disabled': 'true' | undefined
   'data-outside-month': 'true' | undefined
   'data-in-range': 'true' | undefined
   'data-range-start': 'true' | undefined
@@ -32,6 +33,7 @@ export interface DayProps {
 export interface GridProps {
   role: 'grid'
   'aria-labelledby': string
+  'aria-roledescription': string
 }
 
 export interface NavProps {
@@ -80,6 +82,6 @@ export interface UseCalendarReturn<TDate, M extends SelectionMode> {
   getNavProps: (direction: 'prev' | 'next') => NavProps
   /** Spread onto the month/year header element. */
   getHeaderProps: () => HeaderProps
-  /** Mount `announcer.AnnouncerPortal` anywhere in the tree. */
+  /** Render announcer inside the calendar tree for screen reader announcements. */
   announcer: AnnouncerReturn
 }
