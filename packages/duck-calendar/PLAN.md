@@ -1,51 +1,78 @@
-# duck-calendar: Multi-month, Time Picker, DateTime Picker
+# duck-calendar: Type-Level Tests and Type Inference Validation
 
-Issue #309. Extend the calendar engine with multi-month display, time selection, and combined datetime picking.
+Issue #310. Verify that the generic type system works correctly at compile time using vitest's `expectTypeOf`.
 
-> Depends on: #304–#308 — all complete.
+> Depends on: #304–#309 — all complete.
 
-## Feature 1: Multi-month
+## What was done
 
-- `buildMultiMonth(adapter, startMonth, count, config)` — builds N consecutive month grids
-- `useCalendar` accepts `numberOfMonths` config, returns `state.months[]` array
-- `state.weeks` preserved for backward compat (first month's weeks)
-- Navigation advances all months together
+Added `src/__test__/types.test-d.ts` with 44 type-level assertions covering:
 
-## Feature 2: Time Picker
+### CalendarValue conditional type
+- `'single'` → `TDate | null`
+- `'range'` → `DateRange<TDate> | null`
+- `'multi'` → `TDate[]`
+- Works with custom `TDate` types (e.g. `DayjsDate`)
 
-### Core (`src/time/`)
-- `TimeValue` — `{ hour, minute, second? }`
-- `TimeField` — `'hour' | 'minute' | 'second' | 'ampm'`
-- `HourCycle` — `'12' | '24'`
-- Pure functions: `clampTime`, `incrementField`, `parseTimeInput`, `isValidTime`
-- Formatting: `formatTimeField`, `getAmPm`, `to12Hour`, `to24Hour`
+### DateAdapter generic flow
+- `NativeAdapter` implements `DateAdapter<Date>`
+- All adapter methods accept/return the correct `TDate`
+- Time accessors return numbers
+- Boolean methods return boolean
+- Custom `TDate` types propagate correctly through the interface
 
-### Hook (`src/react/use-time-picker/`)
-- `useTimePicker(config)` — controlled/uncontrolled time state
-- Keyboard: ArrowUp/Down increment/decrement, digit typing
-- `getFieldProps(field)` — spinbutton ARIA props
-- Focus management with roving tabindex between fields
+### CalendarConfig type
+- `selected` type matches mode
+- `onSelect` callback parameter matches mode
+- `disabled` accepts array or predicate
+- `fromDate`/`toDate` are optional `TDate`
 
-### DateAdapter extensions
-- `getHours(date)`, `getMinutes(date)`, `getSeconds(date)`, `setTime(date, h, m, s?)`
+### UseCalendarReturn type
+- `state.value` type resolves fully per mode (no unresolved conditional)
+- State shape: month, focusedDate, viewMode, weeks, months, weekdays, canGoNext, canGoPrevious
+- Actions have correct function signatures
+- Prop getters return DayProps, GridProps, NavProps, HeaderProps
+- `getDayProps` accepts `CalendarDay<TDate>`
 
-## Feature 3: DateTime Picker
+### DayProps / GridProps types
+- Correct ARIA attribute types (literal strings)
+- data-* attribute types (`'true' | undefined`)
+- Event handler types
 
-### Hook (`src/react/use-datetime/`)
-- `useDateTime(config)` — composes `useCalendar` + `useTimePicker`
-- Date selection preserves time, time change preserves date
-- Returns combined `TDate` value
+### Time types
+- `TimeValue` has hour/minute required, second optional
+- `TimeField` is the correct union
+- `HourCycle` is `'12' | '24'`
+- `UseTimePickerReturn` state and `TimeFieldProps` shapes
 
-## Checklist
+### UseDateTimeReturn type
+- Has calendar and timePicker sub-returns
+- `state.value` is `TDate | null`
+- `actions.setValue` accepts `TDate`
 
-- [x] DateAdapter time methods + NativeAdapter impl
-- [x] Time core module (types, functions, formatting)
-- [x] Multi-month: `buildMultiMonth` + `useCalendar` update
-- [ ] useTimePicker hook
-- [ ] useDateTime hook
-- [ ] Time core tests
-- [ ] useTimePicker tests
-- [ ] useDateTime tests
-- [ ] Barrel exports
-- [ ] Build passes
-- [ ] All tests pass
+### Pure function return types
+- `selectDay` returns `CalendarValue` matching mode
+- `buildCalendarMonth` returns `CalendarMonth<TDate>`
+- `buildMultiMonth` returns `CalendarMonth<TDate>[]`
+- `navigate` returns `TDate`
+- `canNavigate` returns `boolean`
+- `clampTime` returns `TimeValue`
+- `parseTimeInput` returns `number | null`
+
+## Configuration
+
+Enabled vitest typecheck in `vitest.config.ts`:
+```ts
+typecheck: {
+  enabled: true,
+  include: ['src/**/*.test-d.ts'],
+}
+```
+
+## Verification
+
+```bash
+npx turbo run check-types build test --filter=@gentleduck/calendar --force
+```
+
+408 tests passing (364 runtime + 44 type-level). Zero type errors.
