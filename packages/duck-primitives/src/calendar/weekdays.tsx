@@ -21,14 +21,28 @@ export const CalendarWeekdays = React.forwardRef<CalendarWeekdaysElement, Calend
     return (
       <Primitive.div role="row" data-slot="calendar-weekdays" {...weekdayProps} ref={forwardedRef}>
         {children ??
-          weekdays.map((day, i) => (
-            <abbr key={day} data-slot="calendar-weekday" title={day}>
-              {renderWeekday ? renderWeekday(day, i) : day}
-            </abbr>
-          ))}
+          weekdays.map((day, i) => <WeekdayCell key={day} day={day} index={i} renderWeekday={renderWeekday} />)}
       </Primitive.div>
     )
   },
 )
 
 CalendarWeekdays.displayName = WEEKDAYS_NAME
+
+/** Internal weekday cell with biome suppression for a11y roles. */
+function WeekdayCell({
+  day,
+  index,
+  renderWeekday,
+}: {
+  day: string
+  index: number
+  renderWeekday?: (weekday: string, index: number) => React.ReactNode
+}) {
+  return (
+    // biome-ignore lint/a11y/useSemanticElements: columnheader role on abbr is intentional per WAI-ARIA grid pattern
+    <abbr role="columnheader" data-slot="calendar-weekday" title={day}>
+      {renderWeekday ? renderWeekday(day, index) : day}
+    </abbr>
+  )
+}

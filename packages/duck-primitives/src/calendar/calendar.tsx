@@ -97,8 +97,8 @@ const Calendar = React.forwardRef<CalendarElement, CalendarRootProps>(
           {...divProps}
           ref={forwardedRef}>
           {children}
+          <calendar.announcer.AnnouncerPortal />
         </Primitive.div>
-        <calendar.announcer.AnnouncerPortal />
       </CalendarProvider>
     )
   },

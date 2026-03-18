@@ -69,14 +69,10 @@
     "vitest": "^4.0.18"
   },
   "peerDependencies": {
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react": "^19.2.4"
   },
   "peerDependenciesMeta": {
     "react": {
-      "optional": true
-    },
-    "react-dom": {
       "optional": true
     }
   }

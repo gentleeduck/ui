@@ -10,11 +10,13 @@ export function buildDayProps<TDate>(
   selectDate: (date: TDate) => void,
   focusDate: (date: TDate) => void,
   onKeyDown: React.KeyboardEventHandler,
+  locale?: string,
 ): DayProps {
   const isFocused = adapter.isSameDay(day.date, focusedDate)
 
   return {
     role: 'gridcell',
+    'aria-label': adapter.format(day.date, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' }, locale),
     'aria-selected': day.isSelected,
     'aria-disabled': day.isDisabled,
     'aria-current': day.isToday ? 'date' : undefined,
@@ -22,7 +24,7 @@ export function buildDayProps<TDate>(
     'data-calendar-day': '',
     'data-selected': day.isSelected ? 'true' : undefined,
     'data-today': day.isToday ? 'true' : undefined,
-    'data-disabled': day.isDisabled ? '' : undefined,
+    'data-disabled': day.isDisabled ? 'true' : undefined,
     'data-outside-month': day.isOutside ? 'true' : undefined,
     'data-in-range': day.isRangeMiddle ? 'true' : undefined,
     'data-range-start': day.isRangeStart ? 'true' : undefined,
@@ -39,6 +41,7 @@ export function buildGridProps(headerId: string): GridProps {
   return {
     role: 'grid',
     'aria-labelledby': headerId,
+    'aria-roledescription': 'calendar',
   }
 }
 
@@ -48,9 +51,11 @@ export function buildNavProps(
   canGoNext: boolean,
   goToPrevious: () => void,
   goToNext: () => void,
+  prevLabel?: string,
+  nextLabel?: string,
 ): NavProps {
   return {
-    'aria-label': direction === 'prev' ? 'Go to previous month' : 'Go to next month',
+    'aria-label': direction === 'prev' ? (prevLabel ?? 'Go to previous month') : (nextLabel ?? 'Go to next month'),
     disabled: direction === 'prev' ? !canGoPrevious : !canGoNext,
     onClick: direction === 'prev' ? goToPrevious : goToNext,
   }
