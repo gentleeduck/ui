@@ -1,97 +1,55 @@
-/**
- * Represents a single cell in the calendar grid.
- *
- * Carries the raw date plus every boolean flag the renderer needs
- * so that rendering logic stays pure and stateless.
- *
- * @typeParam TDate - The adapter's date type.
- */
+/** A single day cell in the calendar grid. */
 export interface CalendarDay<TDate> {
-  /** The calendar date this cell represents. */
+  /** The date this cell represents. */
   date: TDate
-
-  /** `true` when this date equals today (per the adapter's `today()`). */
+  /** Whether this date is today. */
   isToday: boolean
-
-  /**
-   * `true` when this date is part of the current selection.
-   * In range mode this covers the start, middle, and end of the range.
-   */
+  /** Whether this date is selected. Filled by `applySelection()`. */
   isSelected: boolean
-
-  /**
-   * `true` when this date cannot be selected by the user.
-   * Caused by `disabled`, `fromDate`, or `toDate` constraints in
-   * {@link CalendarConfig}.
-   */
+  /** Whether this date is disabled (constraints). Filled by `applySelection()`. */
   isDisabled: boolean
-
-  /**
-   * `true` when this date belongs to the previous or next month.
-   * Only populated when `showOutsideDays` is `true` in
-   * {@link CalendarConfig}.
-   */
+  /** Whether this date belongs to the previous or next month. */
   isOutside: boolean
-
-  /**
-   * `true` when this is the first date in an active range selection.
-   * Always `false` in `single` and `multi` modes.
-   */
+  /** Whether this date is Saturday or Sunday. */
+  isWeekend: boolean
+  /** Whether this date is the start of a selected range. Filled by `applySelection()`. */
   isRangeStart: boolean
-
-  /**
-   * `true` when this is the last date in an active range selection.
-   * Always `false` in `single` and `multi` modes.
-   */
+  /** Whether this date is the end of a selected range. */
   isRangeEnd: boolean
-
-  /**
-   * `true` when this date falls between (exclusive) the range start and end.
-   * Always `false` in `single` and `multi` modes.
-   */
+  /** Whether this date is between the start and end of a selected range. */
   isRangeMiddle: boolean
 }
 
-/**
- * One row in the calendar grid, corresponding to a single week.
- *
- * A month grid is always 7 days wide; the number of rows varies between
- * 4 and 6 depending on the month (or is fixed at 6 when `fixedWeeks` is set).
- *
- * @typeParam TDate - The adapter's date type.
- */
+/** A single row (week) in the calendar grid. */
 export interface CalendarWeek<TDate> {
-  /**
-   * ISO week number (1–53) for this row.
-   * Useful for rendering week-number gutter columns.
-   */
+  /** ISO week number. */
   weekNumber: number
-
-  /**
-   * The seven days in this row, ordered from `weekStartDay` to
-   * `weekStartDay + 6`. Always exactly 7 elements.
-   */
+  /** The 7 days in this week. Always exactly 7 items. */
   days: CalendarDay<TDate>[]
 }
 
-/**
- * The complete grid for one calendar panel (one month view).
- *
- * When `numberOfMonths > 1`, the engine produces one `CalendarMonth`
- * per visible panel.
- *
- * @typeParam TDate - The adapter's date type.
- */
+/** A full month grid ready to render. */
 export interface CalendarMonth<TDate> {
-  /**
-   * A date within this month, always normalized to the 1st day.
-   * Pass directly to adapter methods like `getMonth()` or `format()`.
-   */
+  /** The first day of this month. */
   month: TDate
-
-  /**
-   * The week rows that make up the grid.
-   * Contains 4–6 rows normally, always 6 when `fixedWeeks` is enabled.
-   */
+  /** The weeks in this month (5 or 6 depending on `fixedWeeks`). */
   weeks: CalendarWeek<TDate>[]
+}
+
+/** A month entry for the year picker view. */
+export interface YearEntry {
+  /** Month index, 0-indexed (Jan = 0). */
+  month: number
+  /** Localized month name. */
+  label: string
+  /** Whether this is the current month. */
+  isCurrent: boolean
+}
+
+/** A year entry for the decade picker view. */
+export interface DecadeEntry {
+  /** Full year number. */
+  year: number
+  /** Whether this is the current year. */
+  isCurrent: boolean
 }
