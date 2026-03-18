@@ -17,24 +17,18 @@ describe('useCalendar', () => {
   // ---------------------------------------------------------------------------
   describe('uncontrolled month', () => {
     it('defaults to today when no defaultMonth provided', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'single' as const }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const }))
       const today = adapter.today()
       expect(adapter.isSameMonth(result.current.state.month, today)).toBe(true)
     })
 
     it('uses defaultMonth when provided', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
       expect(adapter.isSameMonth(result.current.state.month, march2026)).toBe(true)
     })
 
     it('goToNext() advances month by 1', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
       act(() => {
         result.current.actions.goToNext()
@@ -45,9 +39,7 @@ describe('useCalendar', () => {
     })
 
     it('goToPrevious() goes back 1 month', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
       act(() => {
         result.current.actions.goToPrevious()
@@ -63,9 +55,7 @@ describe('useCalendar', () => {
   // ---------------------------------------------------------------------------
   describe('controlled month', () => {
     it('uses month prop as the displayed month', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'single' as const, month: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, month: march2026 }))
       expect(adapter.isSameMonth(result.current.state.month, march2026)).toBe(true)
     })
 
@@ -95,16 +85,12 @@ describe('useCalendar', () => {
   // ---------------------------------------------------------------------------
   describe('single selection', () => {
     it('initial value is null', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
       expect(result.current.state.value).toBeNull()
     })
 
     it('selectDate(date) selects the date', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
       const day = result.current.state.weeks[0]!.days.find((d) => !d.isOutside)!
       act(() => {
@@ -115,9 +101,7 @@ describe('useCalendar', () => {
     })
 
     it('selectDate(same) deselects (toggles off)', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
       const day = result.current.state.weeks[0]!.days.find((d) => !d.isOutside)!
       act(() => {
@@ -136,9 +120,7 @@ describe('useCalendar', () => {
   // ---------------------------------------------------------------------------
   describe('range selection', () => {
     it('first click sets from, to is null', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'range' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'range' as const, defaultMonth: march2026 }))
 
       const day = result.current.state.weeks[0]!.days.find((d) => !d.isOutside)!
       act(() => {
@@ -152,9 +134,7 @@ describe('useCalendar', () => {
     })
 
     it('second click sets to', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'range' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'range' as const, defaultMonth: march2026 }))
 
       const firstDay = result.current.state.weeks[0]!.days.find((d) => !d.isOutside)!
       const lastDay = result.current.state.weeks[2]!.days.find((d) => !d.isOutside)!
@@ -179,16 +159,12 @@ describe('useCalendar', () => {
   // ---------------------------------------------------------------------------
   describe('multi selection', () => {
     it('initial value is empty array', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'multi' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'multi' as const, defaultMonth: march2026 }))
       expect(result.current.state.value).toEqual([])
     })
 
     it('click toggles date in/out of array', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'multi' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'multi' as const, defaultMonth: march2026 }))
 
       const day = result.current.state.weeks[0]!.days.find((d) => !d.isOutside)!
 
@@ -331,9 +307,7 @@ describe('useCalendar', () => {
   describe('prop getters', () => {
     describe('getDayProps', () => {
       it('returns role gridcell', () => {
-        const { result } = renderHook(() =>
-          useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-        )
+        const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
         const day = result.current.state.weeks[0]!.days[0]!
         const props = result.current.getDayProps(day)
@@ -342,9 +316,7 @@ describe('useCalendar', () => {
       })
 
       it('returns correct aria-selected (false when not selected)', () => {
-        const { result } = renderHook(() =>
-          useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-        )
+        const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
         const day = result.current.state.weeks[0]!.days.find((d) => !d.isOutside)!
         const props = result.current.getDayProps(day)
@@ -353,9 +325,7 @@ describe('useCalendar', () => {
       })
 
       it('returns correct aria-selected (true when selected)', () => {
-        const { result } = renderHook(() =>
-          useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-        )
+        const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
         const day = result.current.state.weeks[0]!.days.find((d) => !d.isOutside)!
         act(() => {
@@ -363,9 +333,7 @@ describe('useCalendar', () => {
         })
 
         // After selection, the day in weeks is updated — re-find it
-        const updatedDay = result.current.state.weeks[0]!.days.find(
-          (d) => adapter.isSameDay(d.date, day.date),
-        )!
+        const updatedDay = result.current.state.weeks[0]!.days.find((d) => adapter.isSameDay(d.date, day.date))!
         const props = result.current.getDayProps(updatedDay)
 
         expect(props['aria-selected']).toBe(true)
@@ -383,18 +351,14 @@ describe('useCalendar', () => {
           }),
         )
 
-        const day = result.current.state.weeks.flatMap((w) => w.days).find(
-          (d) => adapter.isSameDay(d.date, march5),
-        )!
+        const day = result.current.state.weeks.flatMap((w) => w.days).find((d) => adapter.isSameDay(d.date, march5))!
         const props = result.current.getDayProps(day)
 
         expect(props['aria-disabled']).toBe(true)
       })
 
       it('returns tabIndex 0 for focused date and -1 for others', () => {
-        const { result } = renderHook(() =>
-          useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-        )
+        const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
         const focusedDate = result.current.state.focusedDate
         const allDays = result.current.state.weeks.flatMap((w) => w.days)
@@ -411,9 +375,7 @@ describe('useCalendar', () => {
       })
 
       it('returns data-calendar-day attribute', () => {
-        const { result } = renderHook(() =>
-          useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-        )
+        const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
         const day = result.current.state.weeks[0]!.days[0]!
         const props = result.current.getDayProps(day)
@@ -422,13 +384,9 @@ describe('useCalendar', () => {
       })
 
       it('returns data-outside-month for outside days', () => {
-        const { result } = renderHook(() =>
-          useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-        )
+        const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
-        const outsideDay = result.current.state.weeks
-          .flatMap((w) => w.days)
-          .find((d) => d.isOutside)
+        const outsideDay = result.current.state.weeks.flatMap((w) => w.days).find((d) => d.isOutside)
 
         if (outsideDay) {
           const props = result.current.getDayProps(outsideDay)
@@ -437,9 +395,7 @@ describe('useCalendar', () => {
       })
 
       it('returns onClick and onKeyDown handlers', () => {
-        const { result } = renderHook(() =>
-          useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-        )
+        const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
         const day = result.current.state.weeks[0]!.days[0]!
         const props = result.current.getDayProps(day)
@@ -451,9 +407,7 @@ describe('useCalendar', () => {
 
     describe('getGridProps', () => {
       it('returns role grid and aria-labelledby', () => {
-        const { result } = renderHook(() =>
-          useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-        )
+        const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
         const props = result.current.getGridProps()
 
@@ -465,9 +419,7 @@ describe('useCalendar', () => {
 
     describe('getNavProps', () => {
       it('prev returns aria-label Go to previous month', () => {
-        const { result } = renderHook(() =>
-          useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-        )
+        const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
         const props = result.current.getNavProps('prev')
 
@@ -477,9 +429,7 @@ describe('useCalendar', () => {
       })
 
       it('next returns aria-label Go to next month', () => {
-        const { result } = renderHook(() =>
-          useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-        )
+        const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
         const props = result.current.getNavProps('next')
 
@@ -517,9 +467,7 @@ describe('useCalendar', () => {
 
     describe('getHeaderProps', () => {
       it('returns id and aria-live polite', () => {
-        const { result } = renderHook(() =>
-          useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-        )
+        const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
         const props = result.current.getHeaderProps()
 
@@ -529,9 +477,7 @@ describe('useCalendar', () => {
       })
 
       it('header id matches grid aria-labelledby', () => {
-        const { result } = renderHook(() =>
-          useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-        )
+        const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
         const headerProps = result.current.getHeaderProps()
         const gridProps = result.current.getGridProps()
@@ -546,9 +492,7 @@ describe('useCalendar', () => {
   // ---------------------------------------------------------------------------
   describe('state shape', () => {
     it('state.weeks is an array of CalendarWeek objects', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
       expect(Array.isArray(result.current.state.weeks)).toBe(true)
       expect(result.current.state.weeks.length).toBeGreaterThan(0)
@@ -561,9 +505,7 @@ describe('useCalendar', () => {
     })
 
     it('state.weekdays has exactly 7 items', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
       expect(result.current.state.weekdays).toHaveLength(7)
       for (const label of result.current.state.weekdays) {
@@ -573,17 +515,13 @@ describe('useCalendar', () => {
     })
 
     it('state.viewMode defaults to days', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
       expect(result.current.state.viewMode).toBe('days')
     })
 
     it('actions.setViewMode(months) changes viewMode', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
       act(() => {
         result.current.actions.setViewMode('months')
@@ -593,9 +531,7 @@ describe('useCalendar', () => {
     })
 
     it('actions.setViewMode(years) changes viewMode', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
       act(() => {
         result.current.actions.setViewMode('years')
@@ -610,9 +546,7 @@ describe('useCalendar', () => {
   // ---------------------------------------------------------------------------
   describe('focus', () => {
     it('actions.focusDate(date) changes focusedDate', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
       const march15 = new Date(2026, 2, 15)
       act(() => {
@@ -623,9 +557,7 @@ describe('useCalendar', () => {
     })
 
     it('focusedDate affects getDayProps tabIndex', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
       const march15 = new Date(2026, 2, 15)
       act(() => {
@@ -642,9 +574,7 @@ describe('useCalendar', () => {
     })
 
     it('focusedDate defaults to today', () => {
-      const { result } = renderHook(() =>
-        useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }),
-      )
+      const { result } = renderHook(() => useCalendar({ adapter, mode: 'single' as const, defaultMonth: march2026 }))
 
       const today = adapter.today()
       expect(adapter.isSameDay(result.current.state.focusedDate, today)).toBe(true)
