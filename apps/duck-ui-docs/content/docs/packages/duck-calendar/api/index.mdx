@@ -1,0 +1,47 @@
+---
+title: "API Reference"
+description: "Complete API reference for @gentleduck/calendar hooks, core functions, and types."
+---
+
+<Callout icon={<Search />}>
+
+Full prop tables, return types, and type definitions for every export in `@gentleduck/calendar`.
+
+</Callout>
+
+## Hooks
+
+| Page | Description |
+| :--- | :--- |
+| [useCalendar](/docs/packages/duck-calendar/api/use-calendar) | Main calendar hook -- state, actions, and prop getters |
+| [useTimePicker](/docs/packages/duck-calendar/api/use-time-picker) | Time picker hook -- spinbutton fields and keyboard input |
+| [useDateTime](/docs/packages/duck-calendar/api/use-datetime) | Combined date + time hook |
+
+## Core functions
+
+| Page | Description |
+| :--- | :--- |
+| [Grid](/docs/packages/duck-calendar/api/grid) | Grid builder functions -- `buildCalendarMonth`, `buildMultiMonth`, etc. |
+| [Selection](/docs/packages/duck-calendar/api/selection) | Selection logic -- `selectDay`, `applySelection` |
+| [Navigation](/docs/packages/duck-calendar/api/navigation) | Navigation functions -- `navigate`, `canNavigate` |
+
+---
+
+## Types
+
+These types are exported from `@gentleduck/calendar` and used across the API:
+
+| Type | Description |
+| :--- | :--- |
+| `DateAdapter<TDate>` | Interface for pluggable date backends |
+| `CalendarConfig<TDate, M>` | Full calendar configuration |
+| `CalendarValue<TDate, M>` | Conditional type resolving per selection mode |
+| `CalendarDay<TDate>` | Day cell with selection/state flags |
+| `CalendarWeek<TDate>` | Week with weekNumber + 7 days |
+| `CalendarMonth<TDate>` | Month grid with weeks |
+| `SelectionMode` | `'single' \| 'range' \| 'multi'` |
+| `DateRange<TDate>` | `{ from: TDate, to: TDate \| null }` |
+| `TimeValue` | `{ hour, minute, second? }` |
+| `TimeField` | `'hour' \| 'minute' \| 'second' \| 'ampm'` |
+| `HourCycle` | `'12' \| '24'` |
+| `ViewMode` | `'days' \| 'months' \| 'years'` |

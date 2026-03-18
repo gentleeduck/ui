@@ -551,6 +551,12 @@ export const docsConfig: DocsConfig = {
                   title: 'Arrow',
                 },
                 {
+                  href: '/docs/packages/duck-primitives/api/calendar',
+                  items: [],
+                  label: 'new',
+                  title: 'Calendar',
+                },
+                {
                   href: '/docs/packages/duck-primitives/api/checkers',
                   items: [],
                   title: 'Checkers',
@@ -789,8 +795,127 @@ export const docsConfig: DocsConfig = {
           title: 'Gentleduck State',
         },
         {
+          collapsible: true,
           href: '/docs/packages/duck-calendar',
-          items: [],
+          items: [
+            {
+              href: '/docs/packages/duck-calendar',
+              items: [],
+              title: 'Overview',
+            },
+            {
+              href: '/docs/packages/duck-calendar/getting-started',
+              items: [],
+              title: 'Getting Started',
+            },
+            {
+              collapsible: true,
+              href: '/docs/packages/duck-calendar/guides',
+              items: [
+                {
+                  href: '/docs/packages/duck-calendar/guides/adapters',
+                  items: [],
+                  title: 'Date Adapters',
+                },
+                {
+                  href: '/docs/packages/duck-calendar/guides/styling',
+                  items: [],
+                  title: 'Styling',
+                },
+                {
+                  href: '/docs/packages/duck-calendar/guides/accessibility',
+                  items: [],
+                  title: 'Accessibility',
+                },
+              ],
+              title: 'Guides',
+            },
+            {
+              collapsible: true,
+              href: '/docs/packages/duck-calendar/api',
+              items: [
+                {
+                  href: '/docs/packages/duck-calendar/api/use-calendar',
+                  items: [],
+                  title: 'useCalendar',
+                },
+                {
+                  href: '/docs/packages/duck-calendar/api/use-time-picker',
+                  items: [],
+                  title: 'useTimePicker',
+                },
+                {
+                  href: '/docs/packages/duck-calendar/api/use-datetime',
+                  items: [],
+                  title: 'useDateTime',
+                },
+                {
+                  href: '/docs/packages/duck-calendar/api/grid',
+                  items: [],
+                  title: 'Grid Builder',
+                },
+                {
+                  href: '/docs/packages/duck-calendar/api/selection',
+                  items: [],
+                  title: 'Selection',
+                },
+                {
+                  href: '/docs/packages/duck-calendar/api/navigation',
+                  items: [],
+                  title: 'Navigation',
+                },
+              ],
+              title: 'API Reference',
+            },
+            {
+              collapsible: true,
+              href: '/docs/packages/duck-calendar/course',
+              label: 'try',
+              items: [
+                {
+                  href: '/docs/packages/duck-calendar/course/01-introduction',
+                  items: [],
+                  title: '01: Introduction',
+                },
+                {
+                  href: '/docs/packages/duck-calendar/course/02-adapter-pattern',
+                  items: [],
+                  title: '02: Adapter Pattern',
+                },
+                {
+                  href: '/docs/packages/duck-calendar/course/03-building-a-grid',
+                  items: [],
+                  title: '03: Building a Grid',
+                },
+                {
+                  href: '/docs/packages/duck-calendar/course/04-selection-modes',
+                  items: [],
+                  title: '04: Selection Modes',
+                },
+                {
+                  href: '/docs/packages/duck-calendar/course/05-keyboard-a11y',
+                  items: [],
+                  title: '05: Keyboard & A11y',
+                },
+                {
+                  href: '/docs/packages/duck-calendar/course/06-time-picker',
+                  items: [],
+                  title: '06: Time Picker',
+                },
+                {
+                  href: '/docs/packages/duck-calendar/course/07-styling',
+                  items: [],
+                  title: '07: Styling',
+                },
+                {
+                  href: '/docs/packages/duck-calendar/course/08-performance',
+                  items: [],
+                  title: '08: Performance',
+                },
+              ],
+              title: 'Course',
+            },
+          ],
           label: 'new',
           title: 'Gentleduck Calendar',
         },
@@ -853,6 +978,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/calendar',
           items: [],
+          label: 'new',
           title: 'Calendar',
         },
         {
@@ -904,6 +1030,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/date-picker',
           items: [],
+          label: 'new',
           title: 'Date Picker',
         },
         {

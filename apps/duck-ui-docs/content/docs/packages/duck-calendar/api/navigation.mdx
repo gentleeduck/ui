@@ -1,0 +1,84 @@
+---
+title: "Navigation"
+description: "Pure functions for navigating between months, years, and decades."
+---
+
+```tsx
+import { navigate, canNavigate } from '@gentleduck/calendar'
+```
+
+## Functions
+
+### `navigate`
+
+Navigate to the next or previous month, year, or decade. Pure function.
+
+```tsx
+navigate(adapter: DateAdapter<TDate>, date: TDate, direction: 'prev' | 'next', unit: 'month' | 'year' | 'decade') => TDate
+```
+
+| Param | Type | Description |
+| :--- | :--- | :--- |
+| `adapter` | `DateAdapter<TDate>` | Date adapter |
+| `date` | `TDate` | Current date |
+| `direction` | `'prev' \| 'next'` | Navigation direction |
+| `unit` | `'month' \| 'year' \| 'decade'` | Navigation unit |
+
+**Returns** the new date after navigation.
+
+---
+
+### `canNavigate`
+
+Check whether navigation in a given direction is allowed, respecting `fromDate` and `toDate` constraints.
+
+```tsx
+canNavigate(
+  adapter: DateAdapter<TDate>,
+  date: TDate,
+  direction: 'prev' | 'next',
+  unit: 'month' | 'year' | 'decade',
+  constraints?: NavigationConstraints<TDate>
+) => boolean
+```
+
+| Param | Type | Description |
+| :--- | :--- | :--- |
+| `adapter` | `DateAdapter<TDate>` | Date adapter |
+| `date` | `TDate` | Current date |
+| `direction` | `'prev' \| 'next'` | Direction to check |
+| `unit` | `'month' \| 'year' \| 'decade'` | Navigation unit |
+| `constraints` | `NavigationConstraints<TDate>` | Optional bounds |
+
+**NavigationConstraints:**
+
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `fromDate` | `TDate` | Earliest navigable date |
+| `toDate` | `TDate` | Latest navigable date |
+
+**Returns** `true` if navigation is within bounds.
+
+---
+
+## Helper functions
+
+### `goToMonth`
+
+Navigate to a specific month within the current year. Used by the month picker view.
+
+```tsx
+import { goToMonth } from '@gentleduck/calendar'
+
+goToMonth(adapter: DateAdapter<TDate>, date: TDate, month: number) => TDate
+```
+
+### `goToYear`
+
+Navigate to a specific year. Used by the year picker view.
+
+```tsx
+import { goToYear } from '@gentleduck/calendar'
+
+goToYear(adapter: DateAdapter<TDate>, date: TDate, year: number) => TDate
+```
