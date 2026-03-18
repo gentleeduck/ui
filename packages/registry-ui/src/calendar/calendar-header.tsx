@@ -2,20 +2,106 @@
 
 import { buildCalendarYear, goToMonth, goToYear, NativeAdapter } from '@gentleduck/calendar'
 import { cn } from '@gentleduck/libs/cn'
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
+import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import * as React from 'react'
 import { buttonVariants } from '../button'
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectScrollDownButton,
-  SelectScrollUpButton,
-  SelectTrigger,
-  SelectValue,
-} from '../select'
 
 const adapter = new NativeAdapter()
+
+const ITEM_HEIGHT = 28
+const VISIBLE_ITEMS = 7
+const LIST_HEIGHT = ITEM_HEIGHT * VISIBLE_ITEMS
+const OVERSCAN = 3
+
+// ---------------------------------------------------------------------------
+// VirtualizedDropdown — shared by month and year
+// ---------------------------------------------------------------------------
+
+function VirtualizedDropdown({
+  items,
+  activeValue,
+  onSelect,
+  width,
+}: {
+  items: { value: string; label: string }[]
+  activeValue: string
+  onSelect: (value: string) => void
+  width: string
+}) {
+  const scrollRef = React.useRef<HTMLDivElement>(null)
+  const [scrollTop, setScrollTop] = React.useState(() => {
+    const idx = items.findIndex((i) => i.value === activeValue)
+    return Math.max(0, idx * ITEM_HEIGHT - LIST_HEIGHT / 2 + ITEM_HEIGHT / 2)
+  })
+
+  const totalHeight = items.length * ITEM_HEIGHT
+
+  React.useLayoutEffect(() => {
+    if (scrollRef.current) {
+      const idx = items.findIndex((i) => i.value === activeValue)
+      const target = Math.max(0, idx * ITEM_HEIGHT - LIST_HEIGHT / 2 + ITEM_HEIGHT / 2)
+      scrollRef.current.scrollTop = target
+    }
+  }, [activeValue, items])
+
+  const startIndex = Math.max(0, Math.floor(scrollTop / ITEM_HEIGHT) - OVERSCAN)
+  const endIndex = Math.min(items.length, Math.ceil((scrollTop + LIST_HEIGHT) / ITEM_HEIGHT) + OVERSCAN)
+
+  return (
+    <div
+      ref={scrollRef}
+      className={cn('overflow-y-auto rounded-md border bg-popover p-1 shadow-md', width)}
+      style={{ height: LIST_HEIGHT, scrollBehavior: 'auto' }}
+      onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}>
+      <div style={{ height: totalHeight, position: 'relative' }}>
+        {items.slice(startIndex, endIndex).map((item, i) => {
+          const isActive = item.value === activeValue
+          return (
+            <button
+              key={item.value}
+              type="button"
+              className={cn(
+                'flex w-full cursor-default select-none items-center gap-2 rounded-sm ps-6 pe-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground',
+                isActive && 'bg-accent font-medium text-accent-foreground',
+              )}
+              style={{
+                position: 'absolute',
+                top: (startIndex + i) * ITEM_HEIGHT,
+                height: ITEM_HEIGHT,
+                left: 0,
+                right: 0,
+              }}
+              onClick={() => onSelect(item.value)}>
+              {isActive && <CheckIcon className="absolute start-1.5 size-3.5" />}
+              {item.label}
+            </button>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// DropdownTrigger — shared trigger button
+// ---------------------------------------------------------------------------
+
+function DropdownTrigger({ label, open, onClick }: { label: string; open: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      aria-expanded={open}
+      onClick={onClick}
+      className="flex h-7 w-auto min-w-0 items-center gap-1 rounded-md border px-2 font-medium text-sm shadow-xs">
+      {label}
+      <ChevronDownIcon className="size-3 text-muted-foreground" />
+    </button>
+  )
+}
+
+// ---------------------------------------------------------------------------
+// CalendarHeader
+// ---------------------------------------------------------------------------
 
 interface CalendarHeaderProps {
   month: Date
@@ -50,16 +136,26 @@ export function CalendarHeader({
   const headerProps = getHeaderProps()
   const currentYear = adapter.getYear(month)
   const currentMonth = adapter.getMonth(month)
+  const [monthOpen, setMonthOpen] = React.useState(false)
+  const [yearOpen, setYearOpen] = React.useState(false)
 
-  const months = React.useMemo(() => buildCalendarYear(adapter, month, locale), [month, locale])
+  const monthItems = React.useMemo(() => {
+    const entries = buildCalendarYear(adapter, month, locale)
+    return entries.map((e) => ({ value: String(e.month), label: e.label.slice(0, 3) }))
+  }, [month, locale])
 
-  const years = React.useMemo(() => {
-    const result: number[] = []
+  const yearItems = React.useMemo(() => {
+    const result: { value: string; label: string }[] = []
     for (let y = yearRange.from; y <= yearRange.to; y++) {
-      result.push(y)
+      result.push({ value: String(y), label: String(y) })
     }
     return result
   }, [yearRange.from, yearRange.to])
+
+  const closeAll = () => {
+    setMonthOpen(false)
+    setYearOpen(false)
+  }
 
   return (
     <div className="flex h-(--gentleduck-calendar-cell) w-full items-center justify-center px-(--gentleduck-calendar-cell)">
@@ -75,52 +171,66 @@ export function CalendarHeader({
         </button>
 
         {showDropdowns ? (
-          <div className="flex items-center gap-1" onPointerDown={stopPopoverDismiss}>
+          <div className="flex items-center gap-1.5" onPointerDown={stopPopoverDismiss}>
             {/* Month dropdown */}
-            <Select
-              value={String(currentMonth)}
-              onValueChange={(v) => onMonthSelect(goToMonth(adapter, month, Number(v)))}>
-              <SelectTrigger
-                className={cn(
-                  'h-7 gap-1 border-none px-2 font-medium text-sm shadow-none focus:ring-0',
-                  '[&>svg]:size-3 [&>svg]:text-muted-foreground',
-                )}>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent onCloseAutoFocus={(e) => e.preventDefault()}>
-                <SelectScrollUpButton />
-                {months.map((entry) => (
-                  <SelectItem key={entry.month} value={String(entry.month)}>
-                    {entry.label}
-                  </SelectItem>
-                ))}
-                <SelectScrollDownButton />
-              </SelectContent>
-            </Select>
+            <div className="relative">
+              <DropdownTrigger
+                label={adapter.format(month, { month: 'short' }, locale)}
+                open={monthOpen}
+                onClick={() => {
+                  setMonthOpen((o) => !o)
+                  setYearOpen(false)
+                }}
+              />
+              {monthOpen && (
+                <>
+                  {/* biome-ignore lint/a11y/noStaticElementInteractions: backdrop dismiss */}
+                  {/* biome-ignore lint/a11y/useKeyWithClickEvents: backdrop is mouse-only */}
+                  <div className="fixed inset-0 z-40" onClick={closeAll} />
+                  <div className="absolute start-0 top-full z-50 mt-1">
+                    <VirtualizedDropdown
+                      items={monthItems}
+                      activeValue={String(currentMonth)}
+                      width="w-20"
+                      onSelect={(v) => {
+                        onMonthSelect(goToMonth(adapter, month, Number(v)))
+                        setMonthOpen(false)
+                      }}
+                    />
+                  </div>
+                </>
+              )}
+            </div>
 
             {/* Year dropdown */}
-            <Select
-              value={String(currentYear)}
-              onValueChange={(v) => onMonthSelect(goToYear(adapter, month, Number(v)))}>
-              <SelectTrigger
-                className={cn(
-                  'h-7 gap-1 border-none px-2 font-medium text-sm shadow-none focus:ring-0',
-                  '[&>svg]:size-3 [&>svg]:text-muted-foreground',
-                )}>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent
-                className="max-h-[min(var(--gentleduck-select-content-available-height,240px),240px)]"
-                onCloseAutoFocus={(e) => e.preventDefault()}>
-                <SelectScrollUpButton />
-                {years.map((year) => (
-                  <SelectItem key={year} value={String(year)}>
-                    {year}
-                  </SelectItem>
-                ))}
-                <SelectScrollDownButton />
-              </SelectContent>
-            </Select>
+            <div className="relative">
+              <DropdownTrigger
+                label={String(currentYear)}
+                open={yearOpen}
+                onClick={() => {
+                  setYearOpen((o) => !o)
+                  setMonthOpen(false)
+                }}
+              />
+              {yearOpen && (
+                <>
+                  {/* biome-ignore lint/a11y/noStaticElementInteractions: backdrop dismiss */}
+                  {/* biome-ignore lint/a11y/useKeyWithClickEvents: backdrop is mouse-only */}
+                  <div className="fixed inset-0 z-40" onClick={closeAll} />
+                  <div className="absolute end-0 top-full z-50 mt-1">
+                    <VirtualizedDropdown
+                      items={yearItems}
+                      activeValue={String(currentYear)}
+                      width="w-20"
+                      onSelect={(v) => {
+                        onMonthSelect(goToYear(adapter, month, Number(v)))
+                        setYearOpen(false)
+                      }}
+                    />
+                  </div>
+                </>
+              )}
+            </div>
           </div>
         ) : (
           <div {...headerProps} className="select-none font-medium text-sm">
