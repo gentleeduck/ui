@@ -1,2 +1,2 @@
-export type { DateAdapter } from './adapter.types'
+export type { DateAdapter, WeekStartDay } from './adapter.types'
 export { NativeAdapter } from './native-adapter'

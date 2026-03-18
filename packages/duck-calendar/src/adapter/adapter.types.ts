@@ -1,3 +1,6 @@
+/** The first day of the week. */
+export type WeekStartDay = 0 | 1 | 2 | 3 | 4 | 5 | 6 // 0=Sunday
+
 /**
  * The core abstraction over any date library.
  *
@@ -76,7 +79,7 @@ export interface DateAdapter<TDate> {
    * @param date         - The reference date.
    * @param weekStartDay - The desired start-of-week day (0 = Sunday, 1 = Monday, …).
    */
-  startOfWeek(date: TDate, weekStartDay: 0 | 1 | 2 | 3 | 4 | 5 | 6): TDate
+  startOfWeek(date: TDate, weekStartDay: WeekStartDay): TDate
 
   /**
    * Adds (or subtracts when negative) a number of days to `date`.
