@@ -1,81 +1,48 @@
 # @gentleduck/cli
 
-CLI for initializing `duck-ui` config and installing/updating/removing registry components.
+Add components to your project.
 
-## Install
+Scaffold a duck-ui configuration and install, update, diff, or remove registry components from the terminal.
+
+## Quick start
 
 ```bash
-npx @gentleduck/cli --help
+npx @gentleduck/cli init
+npx @gentleduck/cli add button
 ```
 
 ## Commands
 
-```bash
-npx @gentleduck/cli init [components...]
-npx @gentleduck/cli add [components...]
-npx @gentleduck/cli update [components...]
-npx @gentleduck/cli remove [components...]
-npx @gentleduck/cli diff [components...]
-```
+| Command | Description |
+|---------|-------------|
+| `init` | Create `duck-ui.config.json` and install base dependencies |
+| `add [components...]` | Install components from the registry |
+| `diff [components...]` | Show what changed between local and registry versions |
+| `update [components...]` | Pull latest registry versions into your project |
+| `remove [components...]` | Delete installed components |
+| `list` | List available registry components |
 
-## Monorepo Workspace Targeting
+## Monorepo support
 
-When `duck-ui.config.json` has `"monorepo": true`, the CLI resolves target paths from the config `workspace` field.
-
-You can override the target workspace per command:
-
-```bash
-npx @gentleduck/cli add button --workspace apps/web
-npx @gentleduck/cli update --all --workspace apps/web
-npx @gentleduck/cli diff button --workspace apps/web
-```
-
-For `init`:
+Pass `--monorepo` during init and target a specific workspace with `--workspace`:
 
 ```bash
 npx @gentleduck/cli init --monorepo --workspace apps/web
+npx @gentleduck/cli add button --workspace apps/web
 ```
 
-The CLI validates the workspace target:
+## Features
 
-- `package.json` must exist
-- `tsconfig.json` must exist for component commands
+- **TypeScript** -- resolves path aliases from your `tsconfig.json`
+- **Tailwind v4** -- detects and configures Tailwind CSS v4
+- **Monorepo aware** -- workspace targeting with validation
+- **Diff view** -- inline diff with merge conflict UI before overwriting
+- **Package manager detection** -- works with npm, yarn, pnpm, and bun
 
-## Migration
+## Docs
 
-Legacy `duck-ui.config.json` files (without `workspace`) are rejected.
+[duck-ui.vercel.app](https://duck-ui.vercel.app)
 
-Re-run init to migrate:
+## License
 
-```bash
-npx @gentleduck/cli init
-```
-
-## Release Workflow
-
-This repo uses Changesets for versioning and publishing.
-
-1. Add a changeset for CLI changes:
-
-```bash
-bun run changeset
-```
-
-2. Update versions/changelogs:
-
-```bash
-bun run version-packages
-```
-
-3. Validate package before publish:
-
-```bash
-bun run --cwd packages/duck-cli test
-bun run --cwd packages/duck-cli build
-```
-
-4. Publish (repo-level script):
-
-```bash
-bun run release
-```
+[MIT](./LICENSE)
