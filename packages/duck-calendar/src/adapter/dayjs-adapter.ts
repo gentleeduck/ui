@@ -131,6 +131,9 @@ export class DayjsAdapter implements DateAdapter<Dayjs> {
 
   /** Returns a new date with the time set, preserving the calendar date. */
   setTime(date: Dayjs, hour: number, minute: number, second?: number): Dayjs {
-    return date.hour(hour).minute(minute).second(second ?? 0)
+    return date
+      .hour(hour)
+      .minute(minute)
+      .second(second ?? 0)
   }
 }

@@ -1,6 +1,6 @@
 // Adapter
 export type { DateAdapter, WeekStartDay } from './adapter'
-export { NativeAdapter } from './adapter'
+export { HebrewAdapter, IslamicAdapter, NativeAdapter, PersianAdapter } from './adapter'
 export type { CalendarDay, CalendarMonth, CalendarWeek, DecadeEntry, YearEntry } from './grid'
 // Grid
 export {

@@ -1,5 +1,5 @@
-import { NativeAdapter } from '../native-adapter'
 import { runAdapterTests } from '../adapter-test-suite'
+import { NativeAdapter } from '../native-adapter'
 
 runAdapterTests(
   'NativeAdapter',
