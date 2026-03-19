@@ -1,4 +1,4 @@
-import type { CalendarDay, CalendarMonth, CalendarValue, SelectionMode } from '@gentleduck/calendar'
+import type { CalendarDay, CalendarMonth, CalendarValue, DateAdapter, SelectionMode } from '@gentleduck/calendar'
 import type { Direction } from '@gentleduck/primitives/direction'
 import type { Button } from '../button'
 
@@ -21,6 +21,11 @@ export interface CalendarHeaderContext {
 
 export interface CalendarProps {
   className?: string
+  /**
+   * Date adapter for alternative calendar systems (Islamic, Persian, etc.).
+   * Default uses `NativeAdapter` (Gregorian).
+   */
+  adapter?: DateAdapter<Date>
   /** Variant style for navigation buttons. Default `'ghost'`. */
   buttonVariant?: React.ComponentProps<typeof Button>['variant']
   /** Selection mode. Default `'single'`. */

@@ -5,6 +5,21 @@ import { cn } from '@gentleduck/libs/cn'
 import type * as React from 'react'
 import { buttonVariants } from '../button'
 
+const HEBREW_ONES = ['', 'א׳', 'ב׳', 'ג׳', 'ד׳', 'ה׳', 'ו׳', 'ז׳', 'ח׳', 'ט׳']
+const HEBREW_TENS = ['', 'י׳', 'כ׳', 'ל׳']
+
+function toHebrewNumeral(n: number): string {
+  if (n === 15) return 'ט״ו'
+  if (n === 16) return 'ט״ז'
+  const ten = Math.floor(n / 10)
+  const one = n % 10
+  if (one === 0) return HEBREW_TENS[ten] ?? String(n)
+  if (ten === 0) return HEBREW_ONES[one] ?? String(n)
+  const t = HEBREW_TENS[ten]?.replace('׳', '') ?? ''
+  const o = HEBREW_ONES[one]?.replace('׳', '') ?? ''
+  return `${t}״${o}`
+}
+
 interface CalendarDayCellProps {
   day: CalendarDayType<Date>
   dayProps: Omit<DayProps, 'role' | 'aria-selected' | 'onMouseEnter'>
@@ -54,10 +69,12 @@ export function CalendarDayCell({
         {...dayProps}
         disabled={day.isDisabled}
         tabIndex={day.isDisabled ? -1 : dayProps.tabIndex}
-        onClick={() => {
+        onClick={(e) => {
           if (day.isDisabled) return
           dayProps.onClick()
           onFocusDate(day.date)
+          // Remove browser focus so the cell returns to neutral visual state
+          ;(e.currentTarget as HTMLElement).blur()
         }}
         data-day={day.date.toLocaleDateString()}
         data-range-end={day.isRangeEnd || undefined}
@@ -84,8 +101,15 @@ export function CalendarDayCell({
           '[&>span]:text-xs [&>span]:opacity-70',
         )}>
         {(() => {
-          const localeTag = locale?.startsWith('ar') ? `${locale}-u-nu-arab` : locale
-          const dayNum = localeTag ? new Intl.NumberFormat(localeTag).format(day.date.getDate()) : day.date.getDate()
+          const d = day.date.getDate()
+          let dayNum: React.ReactNode = d
+          if (locale?.startsWith('ar')) {
+            dayNum = new Intl.NumberFormat(`${locale}-u-nu-arab`).format(d)
+          } else if (locale?.startsWith('he')) {
+            dayNum = toHebrewNumeral(d)
+          } else if (locale) {
+            dayNum = new Intl.NumberFormat(locale).format(d)
+          }
           return renderDay ? renderDay(day, dayNum) : dayNum
         })()}
       </button>

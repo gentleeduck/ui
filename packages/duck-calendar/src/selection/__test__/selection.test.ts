@@ -73,11 +73,10 @@ describe('selection', () => {
       expect(result.to).toBeNull()
     })
 
-    it('clicking same day as from closes a zero-length range', () => {
+    it('clicking same day as from deselects the range', () => {
       const partial: DateRange<Date> = { from: adapter.create(2026, 2, 15), to: null }
-      const result = selectDay(adapter, 'range', partial, adapter.create(2026, 2, 15)) as DateRange<Date>
-      expect(adapter.isSameDay(result.from, adapter.create(2026, 2, 15))).toBe(true)
-      expect(adapter.isSameDay(result.to!, adapter.create(2026, 2, 15))).toBe(true)
+      const result = selectDay(adapter, 'range', partial, adapter.create(2026, 2, 15))
+      expect(result).toBeNull()
     })
   })
 

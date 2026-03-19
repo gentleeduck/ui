@@ -1,21 +1,19 @@
 'use client'
 
+import { NativeAdapter } from '@gentleduck/calendar'
 import { Button } from '@gentleduck/registry-ui/button'
 import { Calendar } from '@gentleduck/registry-ui/calendar'
 import * as React from 'react'
 
-function addDays(date: Date, days: number): Date {
-  const result = new Date(date)
-  result.setDate(result.getDate() + days)
-  return result
-}
+const adapter = new NativeAdapter()
 
 const PRESETS = [
   { label: 'Today', days: 0 },
   { label: 'Tomorrow', days: 1 },
-  { label: 'In 3 days', days: 3 },
-  { label: 'In a week', days: 7 },
-  { label: 'In 2 weeks', days: 14 },
+  { label: '3 days', days: 3 },
+  { label: '1 week', days: 7 },
+  { label: '2 weeks', days: 14 },
+  { label: '1 month', days: 30 },
 ]
 
 export default function CalendarDemo() {
@@ -25,7 +23,7 @@ export default function CalendarDemo() {
   return (
     <div className="w-fit rounded-md border shadow-sm">
       <Calendar
-        className="p-3"
+        className="mx-auto p-3"
         mode="single"
         selected={date}
         onSelect={setDate}
@@ -34,15 +32,15 @@ export default function CalendarDemo() {
         fixedWeeks
         showDropdowns={false}
       />
-      <div className="flex flex-wrap gap-1.5 border-t p-3">
+      <div className="grid grid-cols-3 gap-1.5 border-t p-3">
         {PRESETS.map((preset) => (
           <Button
             key={preset.days}
             variant="outline"
             size="sm"
-            className="w-fit text-xs"
+            className="text-xs"
             onClick={() => {
-              const target = addDays(new Date(), preset.days)
+              const target = adapter.addDays(adapter.today(), preset.days)
               setDate(target)
               setMonth(new Date(target.getFullYear(), target.getMonth(), 1))
             }}>
