@@ -12,9 +12,9 @@
   <line x1="200" y1="70" x2="200" y2="300" stroke="#27272a" stroke-dasharray="3,3"/><text x="200" y="318" text-anchor="middle" fill="#52525b" font-size="9">0KB</text><line x1="276" y1="70" x2="276" y2="300" stroke="#27272a" stroke-dasharray="3,3"/><text x="276" y="318" text-anchor="middle" fill="#52525b" font-size="9">10KB</text><line x1="352" y1="70" x2="352" y2="300" stroke="#27272a" stroke-dasharray="3,3"/><text x="352" y="318" text-anchor="middle" fill="#52525b" font-size="9">20KB</text><line x1="428" y1="70" x2="428" y2="300" stroke="#27272a" stroke-dasharray="3,3"/><text x="428" y="318" text-anchor="middle" fill="#52525b" font-size="9">30KB</text><line x1="504" y1="70" x2="504" y2="300" stroke="#27272a" stroke-dasharray="3,3"/><text x="504" y="318" text-anchor="middle" fill="#52525b" font-size="9">40KB</text><line x1="580" y1="70" x2="580" y2="300" stroke="#27272a" stroke-dasharray="3,3"/><text x="580" y="318" text-anchor="middle" fill="#52525b" font-size="9">50KB</text>
   
     <text x="188" y="97" text-anchor="end" fill="#fafafa" font-size="12" font-weight="600">@gentleduck/calendar</text>
-    <rect x="200" y="80" width="53.2" height="26" fill="#22c55e" rx="4" opacity="1"/>
-    <text x="263.2" y="97" fill="#22c55e" font-size="12" font-weight="600">7 KB</text>
-    <text x="308.2" y="97" fill="#22c55e" font-size="10" font-weight="600">★ WINNER</text>
+    <rect x="200" y="80" width="37.24" height="26" fill="#22c55e" rx="4" opacity="1"/>
+    <text x="247.24" y="97" fill="#22c55e" font-size="12" font-weight="600">4.9 KB</text>
+    <text x="292.24" y="97" fill="#22c55e" font-size="10" font-weight="600">* WINNER</text>
     <text x="188" y="143" text-anchor="end" fill="#a1a1aa" font-size="12" font-weight="400">react-day-picker v9</text>
     <rect x="200" y="126" width="152" height="26" fill="#ef4444" rx="4" opacity="0.7"/>
     <text x="362" y="143" fill="#ef4444" font-size="12" font-weight="600">20 KB</text>
