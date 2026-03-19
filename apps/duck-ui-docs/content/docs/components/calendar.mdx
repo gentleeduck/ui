@@ -117,6 +117,38 @@ You can use the `<Calendar>` component to build a date picker. See the [Date Pic
 
 ## Examples
 
+### Date Picker (Popover)
+
+<ComponentPreview
+  name="calendar-5"
+  title="Date Picker"
+  description="Date picker in a popover with year dropdown."
+/>
+
+### Date Picker (Input)
+
+<ComponentPreview
+  name="calendar-6"
+  title="Date and Time Picker"
+  description="Date and time picker in popovers."
+/>
+
+### Date Input (Natural Language)
+
+<ComponentPreview
+  name="calendar-7"
+  title="Schedule Date Input"
+  description="Schedule date input with natural language parsing."
+/>
+
+### Form Integration
+
+<ComponentPreview
+  name="calendar-8"
+  title="Form Integration"
+  description="Date picker with React Hook Form and Zod validation."
+/>
+
 ### Multi-Month Range Picker
 
 <ComponentPreview
@@ -181,6 +213,30 @@ You can use the `<Calendar>` component to build a date picker. See the [Date Pic
   description="Booked dates shown with strikethrough via renderDay, legend via renderFooter. Only available dates are selectable."
 />
 
+### Booking Calendar
+
+<ComponentPreview
+  name="calendar-12"
+  title="Booking Calendar"
+  description="Booking calendar with disabled dates."
+/>
+
+### Multi-Range Selection
+
+<ComponentPreview
+  name="calendar-13"
+  title="Multi-Range Calendar"
+  description="Select multiple separate date ranges."
+/>
+
+### Multi-Range with Shift+Click
+
+<ComponentPreview
+  name="calendar-24"
+  title="Multi-Range Selection"
+  description="Click to start a range, click again to complete. Shift+click to exclude days. Supports multiple disjoint ranges."
+/>
+
 ### Presets
 
 <ComponentPreview
@@ -189,12 +245,61 @@ You can use the `<Calendar>` component to build a date picker. See the [Date Pic
   description="Quick date selection with preset buttons (Today, Tomorrow, In 3 days, etc.)."
 />
 
+### Persian (Jalali) Calendar
+
+<ComponentPreview
+  name="calendar-18"
+  title="Persian Calendar"
+  description="Solar Hijri / Jalali calendar with Persian numerals and RTL layout."
+/>
+
+### Islamic (Hijri) Calendar
+
+<ComponentPreview
+  name="calendar-19"
+  title="Islamic Calendar"
+  description="Hijri calendar with Arabic numerals and RTL layout."
+/>
+
+### Hebrew Calendar
+
+<ComponentPreview
+  name="calendar-20"
+  title="Hebrew Calendar"
+  description="Hebrew calendar with Hebrew numerals, RTL layout, and year/month dropdowns."
+/>
+
+### Hebrew Calendar (English)
+
+<ComponentPreview
+  name="calendar-21"
+  title="Hebrew Calendar (English)"
+  description="Hebrew calendar system with English month names and LTR layout."
+/>
+
+### Islamic Calendar (English)
+
+<ComponentPreview
+  name="calendar-22"
+  title="Islamic Calendar (English)"
+  description="Hijri calendar system with English month names and LTR layout."
+/>
+
+### Persian Calendar (English)
+
+<ComponentPreview
+  name="calendar-23"
+  title="Persian Calendar (English)"
+  description="Jalali calendar system with English month names and LTR layout."
+/>
+
 ## API Reference
 
 ### Calendar
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
+| `adapter` | `DateAdapter<Date>` | `NativeAdapter` | Date adapter for alternative calendar systems (Islamic, Persian, Hebrew) |
 | `mode` | `'single' \| 'range' \| 'multi'` | `'single'` | Selection mode |
 | `selected` | `Date \| DateRange<Date> \| Date[] \| null` | -- | Controlled selection value |
 | `onSelect` | `(value) => void` | -- | Called when the selection changes |
@@ -295,13 +400,12 @@ The calendar uses `data-*` attributes on day cells for styling. Target these in 
 | `data-selected="true"` | Day is selected |
 | `data-selected-single="true"` | Day is selected (single mode, not part of range) |
 | `data-today="true"` | Day is today |
-| `data-disabled="true"` | Day is disabled |
-| `data-outside-month="true"` | Day is from an adjacent month |
-| `data-range-middle="true"` | Day is between range start and end |
+| `data-focused="true"` | Day has keyboard focus |
 | `data-range-start="true"` | Day is the start of a range |
 | `data-range-end="true"` | Day is the end of a range |
-| `data-focused="true"` | Day has keyboard focus |
-| `data-weekend="true"` | Day is Saturday or Sunday |
+| `data-range-middle="true"` | Day is between range start and end |
+| `data-day` | Formatted date string for the day (always present) |
+| `data-slot="calendar-day"` | Always present on day cell buttons |
 
 ### CSS Variables
 
