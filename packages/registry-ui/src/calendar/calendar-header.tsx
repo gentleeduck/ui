@@ -5,16 +5,20 @@ import { cn } from '@gentleduck/libs/cn'
 import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import * as React from 'react'
 import { buttonVariants } from '../button'
+import { getCachedNumberFormat } from './calendar.utils'
 
 const defaultAdapter = new NativeAdapter()
 
+/** Height of each dropdown item in pixels. */
 const ITEM_HEIGHT = 28
+/** Number of items visible in the dropdown viewport. */
 const VISIBLE_ITEMS = 9
 const LIST_HEIGHT = ITEM_HEIGHT * VISIBLE_ITEMS
+/** Extra items rendered above/below the visible area for smooth scrolling. */
 const OVERSCAN = 3
 
 // ---------------------------------------------------------------------------
-// VirtualizedDropdown — shared by month and year
+// VirtualizedDropdown  -  shared by month and year
 // ---------------------------------------------------------------------------
 
 function VirtualizedDropdown({
@@ -64,7 +68,7 @@ function VirtualizedDropdown({
       )}
       style={{ height: LIST_HEIGHT, scrollBehavior: 'auto' }}
       onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}>
-      {/* Hidden sizer — establishes the intrinsic width from the longest label */}
+      {/* Hidden sizer  -  establishes the intrinsic width from the longest label */}
       <div
         aria-hidden
         className="pointer-events-none invisible flex h-0 items-center gap-2 overflow-hidden ps-6 pe-4 text-sm">
@@ -101,7 +105,7 @@ function VirtualizedDropdown({
 }
 
 // ---------------------------------------------------------------------------
-// DropdownTrigger — shared trigger button
+// DropdownTrigger  -  shared trigger button
 // ---------------------------------------------------------------------------
 
 function DropdownTrigger({ label, open, onClick }: { label: string; open: boolean; onClick: () => void }) {
@@ -184,16 +188,16 @@ export function CalendarHeader({
       value: String(e.month),
       label: isArabic ? e.label : e.label.slice(0, 3),
     }))
-  }, [month, locale, isArabic])
+  }, [adapter, month, locale, isArabic])
 
   const yearItems = React.useMemo(() => {
-    const fmt = formatLocaleTag ? new Intl.NumberFormat(formatLocaleTag, { useGrouping: false }) : null
+    const fmt = formatLocaleTag ? getCachedNumberFormat(formatLocaleTag, { useGrouping: false }) : null
     const result: { value: string; label: string }[] = []
     for (let y = yearRange.from; y <= yearRange.to; y++) {
       result.push({ value: String(y), label: fmt ? fmt.format(y) : String(y) })
     }
     return result
-  }, [yearRange.from, yearRange.to])
+  }, [yearRange.from, yearRange.to, formatLocaleTag])
 
   return (
     <div className="flex h-(--gentleduck-calendar-cell) w-full items-center justify-center px-(--gentleduck-calendar-cell)">
@@ -242,7 +246,7 @@ export function CalendarHeader({
               <DropdownTrigger
                 label={
                   formatLocaleTag
-                    ? new Intl.NumberFormat(formatLocaleTag, { useGrouping: false }).format(currentYear)
+                    ? getCachedNumberFormat(formatLocaleTag, { useGrouping: false }).format(currentYear)
                     : String(currentYear)
                 }
                 open={yearOpen}

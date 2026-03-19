@@ -91,7 +91,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
           className,
         )}>
         <div className="relative flex flex-col gap-4">
-          {/* Nav header — spans full width above all months */}
+          {/* Nav header  -  spans full width above all months */}
           {renderHeader ? (
             renderHeader({
               month: state.month,
