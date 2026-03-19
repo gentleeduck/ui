@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 680 480" font-family="'Inter', system-ui, -apple-system, sans-serif">
+  <defs>
+    <linearGradient id="cardGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#18181b"/>
+      <stop offset="100%" stop-color="#09090b"/>
+    </linearGradient>
+  </defs>
+  <rect width="680" height="480" fill="url(#cardGrad)" rx="12"/>
+  <rect x="0.5" y="0.5" width="679" height="479" fill="none" stroke="#27272a" rx="12" stroke-width="1"/>
+  <text x="340" y="36" text-anchor="middle" fill="#fafafa" font-size="15" font-weight="700" letter-spacing="0.02em">Adapter Performance Comparison</text>
+  <text x="340" y="54" text-anchor="middle" fill="#71717a" font-size="11">All 4 calendar systems — average of 5,000 iterations (μs per call)</text>
+  <text x="168" y="76" fill="#d4d4d8" font-size="11" font-weight="600">buildCalendarMonth</text>
+      <text x="168" y="92" text-anchor="end" fill="#71717a" font-size="9">Native</text>
+      <rect x="180" y="80" width="102.53638836757685" height="18" fill="#22c55e" rx="3" opacity="0.8"/>
+      <text x="288.5363883675768" y="92" fill="#22c55e" font-size="9" font-weight="600">5.7 μs</text>
+      <text x="168" y="114" text-anchor="end" fill="#71717a" font-size="9">Islamic</text>
+      <rect x="180" y="102" width="177.19729865797945" height="18" fill="#3b82f6" rx="3" opacity="0.8"/>
+      <text x="363.19729865797945" y="114" fill="#3b82f6" font-size="9" font-weight="600">9.8 μs</text>
+      <text x="168" y="136" text-anchor="end" fill="#71717a" font-size="9">Persian</text>
+      <rect x="180" y="124" width="193.95650894295127" height="18" fill="#f59e0b" rx="3" opacity="0.8"/>
+      <text x="379.95650894295125" y="136" fill="#f59e0b" font-size="9" font-weight="600">10.8 μs</text>
+      <text x="168" y="158" text-anchor="end" fill="#71717a" font-size="9">Hebrew</text>
+      <rect x="180" y="146" width="292.3076923076923" height="18" fill="#a855f7" rx="3" opacity="0.8"/>
+      <text x="478.3076923076923" y="158" fill="#a855f7" font-size="9" font-weight="600">16.2 μs</text><text x="168" y="188" fill="#d4d4d8" font-size="11" font-weight="600">getYear()</text>
+      <text x="168" y="204" text-anchor="end" fill="#71717a" font-size="9">Native</text>
+      <rect x="180" y="192" width="41.72008442519555" height="18" fill="#22c55e" rx="3" opacity="0.8"/>
+      <text x="227.72008442519555" y="204" fill="#22c55e" font-size="9" font-weight="600">0.0 μs</text>
+      <text x="168" y="226" text-anchor="end" fill="#71717a" font-size="9">Islamic</text>
+      <rect x="180" y="214" width="195.8400031641333" height="18" fill="#3b82f6" rx="3" opacity="0.8"/>
+      <text x="381.8400031641333" y="226" fill="#3b82f6" font-size="9" font-weight="600">0.0 μs</text>
+      <text x="168" y="248" text-anchor="end" fill="#71717a" font-size="9">Persian</text>
+      <rect x="180" y="236" width="273.77233018504415" height="18" fill="#f59e0b" rx="3" opacity="0.8"/>
+      <text x="459.77233018504415" y="248" fill="#f59e0b" font-size="9" font-weight="600">0.1 μs</text>
+      <text x="168" y="270" text-anchor="end" fill="#71717a" font-size="9">Hebrew</text>
+      <rect x="180" y="258" width="292.30769230769226" height="18" fill="#a855f7" rx="3" opacity="0.8"/>
+      <text x="478.30769230769226" y="270" fill="#a855f7" font-size="9" font-weight="600">0.1 μs</text><text x="168" y="300" fill="#d4d4d8" font-size="11" font-weight="600">create()</text>
+      <text x="168" y="316" text-anchor="end" fill="#71717a" font-size="9">Native</text>
+      <rect x="180" y="304" width="53.23758635718372" height="18" fill="#22c55e" rx="3" opacity="0.8"/>
+      <text x="239.23758635718372" y="316" fill="#22c55e" font-size="9" font-weight="600">0.1 μs</text>
+      <text x="168" y="338" text-anchor="end" fill="#71717a" font-size="9">Islamic</text>
+      <rect x="180" y="326" width="160.30274334740105" height="18" fill="#3b82f6" rx="3" opacity="0.8"/>
+      <text x="346.302743347401" y="338" fill="#3b82f6" font-size="9" font-weight="600">0.2 μs</text>
+      <text x="168" y="360" text-anchor="end" fill="#71717a" font-size="9">Persian</text>
+      <rect x="180" y="348" width="190.194250349357" height="18" fill="#f59e0b" rx="3" opacity="0.8"/>
+      <text x="376.194250349357" y="360" fill="#f59e0b" font-size="9" font-weight="600">0.2 μs</text>
+      <text x="168" y="382" text-anchor="end" fill="#71717a" font-size="9">Hebrew</text>
+      <rect x="180" y="370" width="292.30769230769226" height="18" fill="#a855f7" rx="3" opacity="0.8"/>
+      <text x="478.30769230769226" y="382" fill="#a855f7" font-size="9" font-weight="600">0.3 μs</text><text x="168" y="412" fill="#d4d4d8" font-size="11" font-weight="600">addMonths()</text>
+      <text x="168" y="428" text-anchor="end" fill="#71717a" font-size="9">Native</text>
+      <rect x="180" y="416" width="173.72786942541865" height="18" fill="#22c55e" rx="3" opacity="0.8"/>
+      <text x="359.72786942541865" y="428" fill="#22c55e" font-size="9" font-weight="600">0.3 μs</text>
+      <text x="168" y="450" text-anchor="end" fill="#71717a" font-size="9">Islamic</text>
+      <rect x="180" y="438" width="115.67695999430617" height="18" fill="#3b82f6" rx="3" opacity="0.8"/>
+      <text x="301.6769599943062" y="450" fill="#3b82f6" font-size="9" font-weight="600">0.2 μs</text>
+      <text x="168" y="472" text-anchor="end" fill="#71717a" font-size="9">Persian</text>
+      <rect x="180" y="460" width="138.40217812588213" height="18" fill="#f59e0b" rx="3" opacity="0.8"/>
+      <text x="324.40217812588213" y="472" fill="#f59e0b" font-size="9" font-weight="600">0.2 μs</text>
+      <text x="168" y="494" text-anchor="end" fill="#71717a" font-size="9">Hebrew</text>
+      <rect x="180" y="482" width="292.30769230769226" height="18" fill="#a855f7" rx="3" opacity="0.8"/>
+      <text x="478.30769230769226" y="494" fill="#a855f7" font-size="9" font-weight="600">0.5 μs</text><text x="168" y="524" fill="#d4d4d8" font-size="11" font-weight="600">format()</text>
+      <text x="168" y="540" text-anchor="end" fill="#71717a" font-size="9">Native</text>
+      <rect x="180" y="528" width="226.81000248069503" height="18" fill="#22c55e" rx="3" opacity="0.8"/>
+      <text x="412.81000248069506" y="540" fill="#22c55e" font-size="9" font-weight="600">21.8 μs</text>
+      <text x="168" y="562" text-anchor="end" fill="#71717a" font-size="9">Islamic</text>
+      <rect x="180" y="550" width="282.27647449484743" height="18" fill="#3b82f6" rx="3" opacity="0.8"/>
+      <text x="468.27647449484743" y="562" fill="#3b82f6" font-size="9" font-weight="600">27.1 μs</text>
+      <text x="168" y="584" text-anchor="end" fill="#71717a" font-size="9">Persian</text>
+      <rect x="180" y="572" width="292.30769230769226" height="18" fill="#f59e0b" rx="3" opacity="0.8"/>
+      <text x="478.30769230769226" y="584" fill="#f59e0b" font-size="9" font-weight="600">28.0 μs</text>
+      <text x="168" y="606" text-anchor="end" fill="#71717a" font-size="9">Hebrew</text>
+      <rect x="180" y="594" width="277.437475719287" height="18" fill="#a855f7" rx="3" opacity="0.8"/>
+      <text x="463.437475719287" y="606" fill="#a855f7" font-size="9" font-weight="600">26.6 μs</text>
+</svg>
