@@ -1,7 +1,10 @@
 'use client'
 
+import { NativeAdapter } from '@gentleduck/calendar'
 import { Calendar } from '@gentleduck/registry-ui/calendar'
 import * as React from 'react'
+
+const adapter = new NativeAdapter()
 
 const EVENTS: Record<string, { title: string; color: string }[]> = {
   '2026-2-15': [
@@ -21,7 +24,7 @@ const EVENTS: Record<string, { title: string; color: string }[]> = {
 }
 
 function getKey(d: Date) {
-  return `${d.getFullYear()}-${d.getMonth()}-${d.getDate()}`
+  return `${adapter.getYear(d)}-${adapter.getMonth(d)}-${adapter.getDate(d)}`
 }
 
 function getEvents(d: Date) {

@@ -10,12 +10,13 @@ import type { CalendarProps } from './calendar.types'
 import { CalendarDayCell } from './calendar-day'
 import { CalendarHeader } from './calendar-header'
 
-const adapter = new NativeAdapter()
+const defaultAdapter = new NativeAdapter()
 
 const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
   (
     {
       className,
+      adapter = defaultAdapter,
       buttonVariant = 'ghost',
       mode = 'single',
       selected,
@@ -67,6 +68,9 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
 
     const { state, getDayProps, getGridProps, getNavProps, getHeaderProps, announcer } = calendar
 
+    // Only show focus ring during keyboard navigation, not on mouse clicks
+    const [keyboardActive, setKeyboardActive] = React.useState(false)
+
     const prevNavProps = getNavProps('prev')
     const nextNavProps = getNavProps('next')
 
@@ -75,6 +79,12 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
         ref={ref}
         data-slot="calendar"
         dir={direction}
+        onKeyDown={() => {
+          if (!keyboardActive) setKeyboardActive(true)
+        }}
+        onPointerDown={() => {
+          if (keyboardActive) setKeyboardActive(false)
+        }}
         className={cn(
           'group/calendar w-fit bg-background p-3 [--gentleduck-calendar-cell:--spacing(8)]',
           'rounded-md in-data-[slot=card-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent',
@@ -94,6 +104,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
             })
           ) : numberOfMonths <= 1 ? (
             <CalendarHeader
+              adapter={adapter}
               month={state.month}
               title={adapter.format(state.month, { month: 'long', year: 'numeric' }, formatLocale)}
               direction={direction}
@@ -149,7 +160,15 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
                           key={day}
                           role="columnheader"
                           className="flex-1 select-none rounded-md text-center font-normal text-[0.8rem] text-muted-foreground">
-                          {renderWeekday ? renderWeekday(day, index) : day}
+                          {renderWeekday
+                            ? renderWeekday(day, index)
+                            : locale?.startsWith('ar')
+                              ? day.replace(/^ال/, '')
+                              : locale?.startsWith('fa')
+                                ? day.slice(0, 2)
+                                : locale?.startsWith('he')
+                                  ? day.replace(/^יום\s*/, '')
+                                  : day}
                         </div>
                       ))}
                     </div>
@@ -166,7 +185,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
                           } = getDayProps(day)
                           const isSelectedSingle =
                             day.isSelected && !day.isRangeStart && !day.isRangeEnd && !day.isRangeMiddle
-                          const isFocused = day.date.getTime() === state.focusedDate.getTime()
+                          const isFocused = keyboardActive && day.date.getTime() === state.focusedDate.getTime()
                           return (
                             <CalendarDayCell
                               key={day.date.getTime()}
@@ -177,7 +196,10 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
                               isFirstInRow={dayIdx === 0}
                               isLastInRow={dayIdx === 6}
                               locale={locale}
-                              onFocusDate={calendar.actions.focusDate}
+                              onFocusDate={(date) => {
+                                setKeyboardActive(false)
+                                calendar.actions.focusDate(date)
+                              }}
                               renderDay={renderDay}
                             />
                           )

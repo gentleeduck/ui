@@ -632,6 +632,7 @@
       "name": "@gentleduck/registry-examples",
       "version": "0.2.3",
       "dependencies": {
+        "@gentleduck/calendar": "workspace:*",
         "@gentleduck/primitives": "workspace:*",
         "@hookform/resolvers": "^5.2.2",
         "@tabler/icons-react": "3.40.0",

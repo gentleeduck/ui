@@ -1,7 +1,10 @@
 'use client'
 
+import { NativeAdapter } from '@gentleduck/calendar'
 import { Calendar } from '@gentleduck/registry-ui/calendar'
 import * as React from 'react'
+
+const adapter = new NativeAdapter()
 
 const EVENTS: Record<string, { title: string; time: string; color: string }[]> = {
   '2026-3-5': [
@@ -18,7 +21,7 @@ const EVENTS: Record<string, { title: string; time: string; color: string }[]> =
 }
 
 function getKey(d: Date) {
-  return `${d.getFullYear()}-${d.getMonth() + 1}-${d.getDate()}`
+  return `${adapter.getYear(d)}-${adapter.getMonth(d) + 1}-${adapter.getDate(d)}`
 }
 
 function getEvents(d: Date) {
@@ -91,11 +94,7 @@ export default function CalendarDemo() {
               {children}
               <span className="flex gap-0.5">
                 {events.slice(0, 3).map((event) => (
-                  <span
-                    key={event.title}
-                    className="size-1 rounded-full"
-                    style={{ backgroundColor: event.color }}
-                  />
+                  <span key={event.title} className="size-1 rounded-full" style={{ backgroundColor: event.color }} />
                 ))}
               </span>
             </span>
@@ -105,11 +104,11 @@ export default function CalendarDemo() {
       <div
         data-slot="event-popover"
         data-state={popoverDate ? 'open' : 'closed'}
-        className="absolute z-50 w-auto -translate-x-1/2 rounded-md border bg-popover p-3 text-popover-foreground shadow-md data-[state=closed]:hidden data-[state=closed]:animate-out data-[state=open]:animate-in data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2 transition-all transition-discrete duration-150 ease-(--duck-motion-ease)"
+        className="data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2 absolute z-50 w-auto -translate-x-1/2 rounded-md border bg-popover p-3 text-popover-foreground shadow-md transition-all transition-discrete duration-150 ease-(--duck-motion-ease) data-[state=closed]:hidden data-[state=closed]:animate-out data-[state=open]:animate-in"
         style={popoverPos ? { top: popoverPos.top, left: popoverPos.left } : undefined}>
         {popoverDate && (
           <>
-            <p className="mb-2 font-medium text-sm whitespace-nowrap">
+            <p className="mb-2 whitespace-nowrap font-medium text-sm">
               {popoverDate.toLocaleDateString('en-US', {
                 weekday: 'long',
                 month: 'long',
@@ -118,7 +117,7 @@ export default function CalendarDemo() {
             </p>
             <div className="space-y-1.5">
               {popoverEvents.map((event) => (
-                <div key={event.title} className="flex items-center gap-2 text-sm whitespace-nowrap">
+                <div key={event.title} className="flex items-center gap-2 whitespace-nowrap text-sm">
                   <span className="size-2 shrink-0 rounded-full" style={{ backgroundColor: event.color }} />
                   <span className="font-medium">{event.title}</span>
                   <span className="text-muted-foreground">{event.time}</span>

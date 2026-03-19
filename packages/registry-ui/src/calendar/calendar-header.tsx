@@ -1,15 +1,15 @@
 'use client'
 
-import { buildCalendarYear, goToMonth, goToYear, NativeAdapter } from '@gentleduck/calendar'
+import { buildCalendarYear, type DateAdapter, goToMonth, goToYear, NativeAdapter } from '@gentleduck/calendar'
 import { cn } from '@gentleduck/libs/cn'
 import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import * as React from 'react'
 import { buttonVariants } from '../button'
 
-const adapter = new NativeAdapter()
+const defaultAdapter = new NativeAdapter()
 
 const ITEM_HEIGHT = 28
-const VISIBLE_ITEMS = 7
+const VISIBLE_ITEMS = 9
 const LIST_HEIGHT = ITEM_HEIGHT * VISIBLE_ITEMS
 const OVERSCAN = 3
 
@@ -21,13 +21,11 @@ function VirtualizedDropdown({
   items,
   activeValue,
   onSelect,
-  width,
   open,
 }: {
   items: { value: string; label: string }[]
   activeValue: string
   onSelect: (value: string) => void
-  width: string
   open: boolean
 }) {
   const scrollRef = React.useRef<HTMLDivElement>(null)
@@ -49,6 +47,12 @@ function VirtualizedDropdown({
   const startIndex = Math.max(0, Math.floor(scrollTop / ITEM_HEIGHT) - OVERSCAN)
   const endIndex = Math.min(items.length, Math.ceil((scrollTop + LIST_HEIGHT) / ITEM_HEIGHT) + OVERSCAN)
 
+  // Find the longest label to size the container
+  const longestLabel = React.useMemo(
+    () => items.reduce((a, b) => (b.label.length > a.length ? b.label : a), ''),
+    [items],
+  )
+
   return (
     <div
       ref={scrollRef}
@@ -57,10 +61,16 @@ function VirtualizedDropdown({
         'overflow-y-auto rounded-md border bg-popover p-1 shadow-md',
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-top-2 data-[state=closed]:slide-out-to-top-2 origin-top data-[state=closed]:hidden data-[state=closed]:animate-out data-[state=open]:animate-in',
         'transition-all transition-discrete duration-150 ease-(--duck-motion-ease)',
-        width,
       )}
       style={{ height: LIST_HEIGHT, scrollBehavior: 'auto' }}
       onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}>
+      {/* Hidden sizer — establishes the intrinsic width from the longest label */}
+      <div
+        aria-hidden
+        className="pointer-events-none invisible flex h-0 items-center gap-2 overflow-hidden ps-6 pe-4 text-sm">
+        <CheckIcon className="size-3.5 shrink-0" />
+        {longestLabel}
+      </div>
       <div style={{ height: totalHeight, position: 'relative' }}>
         {items.slice(startIndex, endIndex).map((item, i) => {
           const isActive = item.value === activeValue
@@ -69,7 +79,7 @@ function VirtualizedDropdown({
               key={item.value}
               type="button"
               className={cn(
-                'flex w-full cursor-default select-none items-center gap-2 rounded-sm ps-6 pe-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground',
+                'flex w-full cursor-default select-none items-center gap-2 whitespace-nowrap rounded-sm ps-6 pe-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground',
                 isActive && 'bg-accent font-medium text-accent-foreground',
               )}
               style={{
@@ -98,10 +108,11 @@ function DropdownTrigger({ label, open, onClick }: { label: string; open: boolea
   return (
     <button
       type="button"
+      dir="ltr"
       aria-expanded={open}
       onClick={onClick}
-      className="flex h-7 w-auto min-w-0 items-center gap-1 rounded-md border px-2 font-medium text-sm shadow-xs">
-      {label}
+      className="flex h-7 w-fit shrink-0 items-center gap-1 whitespace-nowrap rounded-md border px-2 font-medium text-sm shadow-xs">
+      <span dir="auto">{label}</span>
       <ChevronDownIcon className="size-3 text-muted-foreground" />
     </button>
   )
@@ -112,6 +123,7 @@ function DropdownTrigger({ label, open, onClick }: { label: string; open: boolea
 // ---------------------------------------------------------------------------
 
 interface CalendarHeaderProps {
+  adapter?: DateAdapter<Date>
   month: Date
   title: string
   direction: 'ltr' | 'rtl'
@@ -130,6 +142,7 @@ function stopPopoverDismiss(e: React.PointerEvent) {
 }
 
 export function CalendarHeader({
+  adapter: adapterProp,
   month,
   title,
   direction,
@@ -141,6 +154,7 @@ export function CalendarHeader({
   getHeaderProps,
   onMonthSelect,
 }: CalendarHeaderProps) {
+  const adapter = adapterProp ?? defaultAdapter
   const headerProps = getHeaderProps()
   const currentYear = adapter.getYear(month)
   const currentMonth = adapter.getMonth(month)
@@ -173,7 +187,7 @@ export function CalendarHeader({
   }, [month, locale, isArabic])
 
   const yearItems = React.useMemo(() => {
-    const fmt = formatLocaleTag ? new Intl.NumberFormat(formatLocaleTag) : null
+    const fmt = formatLocaleTag ? new Intl.NumberFormat(formatLocaleTag, { useGrouping: false }) : null
     const result: { value: string; label: string }[] = []
     for (let y = yearRange.from; y <= yearRange.to; y++) {
       result.push({ value: String(y), label: fmt ? fmt.format(y) : String(y) })
@@ -214,7 +228,6 @@ export function CalendarHeader({
                 <VirtualizedDropdown
                   items={monthItems}
                   activeValue={String(currentMonth)}
-                  width="w-20"
                   open={monthOpen}
                   onSelect={(v) => {
                     onMonthSelect(goToMonth(adapter, month, Number(v)))
@@ -228,7 +241,9 @@ export function CalendarHeader({
             <div className="relative">
               <DropdownTrigger
                 label={
-                  formatLocaleTag ? new Intl.NumberFormat(formatLocaleTag).format(currentYear) : String(currentYear)
+                  formatLocaleTag
+                    ? new Intl.NumberFormat(formatLocaleTag, { useGrouping: false }).format(currentYear)
+                    : String(currentYear)
                 }
                 open={yearOpen}
                 onClick={() => {
@@ -240,7 +255,6 @@ export function CalendarHeader({
                 <VirtualizedDropdown
                   items={yearItems}
                   activeValue={String(currentYear)}
-                  width="w-20"
                   open={yearOpen}
                   onSelect={(v) => {
                     onMonthSelect(goToYear(adapter, month, Number(v)))

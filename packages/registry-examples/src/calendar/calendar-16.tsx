@@ -1,7 +1,10 @@
 'use client'
 
+import { NativeAdapter } from '@gentleduck/calendar'
 import { Calendar } from '@gentleduck/registry-ui/calendar'
 import * as React from 'react'
+
+const adapter = new NativeAdapter()
 
 const BOOKED_DATES = [
   new Date(2026, 2, 3),
@@ -14,9 +17,7 @@ const BOOKED_DATES = [
 ]
 
 function isBooked(date: Date) {
-  return BOOKED_DATES.some(
-    (d) => d.getFullYear() === date.getFullYear() && d.getMonth() === date.getMonth() && d.getDate() === date.getDate(),
-  )
+  return BOOKED_DATES.some((d) => adapter.isSameDay(d, date))
 }
 
 export default function CalendarDemo() {

@@ -41,6 +41,11 @@ function selectRange<TDate>(
     return { from: clicked, to: null }
   }
 
+  // Click the start cell again while no end is set — deselect
+  if (current.to === null && adapter.isSameDay(clicked, current.from)) {
+    return null
+  }
+
   if (current.to !== null) {
     return { from: clicked, to: null }
   }
