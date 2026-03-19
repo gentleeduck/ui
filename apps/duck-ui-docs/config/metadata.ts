@@ -53,12 +53,32 @@ export const METADATA: Metadata = {
     'React table library',
     'React form components',
 
+    // Calendar
+    'React calendar component',
+    'React date picker',
+    'headless calendar engine',
+    'react-day-picker alternative',
+    'React Persian calendar',
+    'React Hijri calendar',
+    'React calendar zero dependencies',
+    'date adapter pattern',
+
+    // Primitives
+    'headless UI components React',
+    'Radix alternative',
+    'accessible React primitives',
+
+    // Keyboard
+    'React keyboard shortcuts',
+    'keyboard command engine',
+
     // Developer intent / search intent
     'Open source React UI library',
     'Best React UI frameworks',
     'Tailwind React component library',
     'Design system for React',
     'UI toolkit for developers',
+    'shadcn alternative',
   ],
   manifest: `${siteConfig.url}/site.webmanifest`,
   metadataBase: new URL(
