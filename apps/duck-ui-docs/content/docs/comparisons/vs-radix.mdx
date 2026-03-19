@@ -1,0 +1,189 @@
+---
+title: "gentleduck/primitives vs Radix UI"
+description: "Compare @gentleduck/primitives with Radix UI Primitives. Same API, full ownership."
+---
+
+## Quick comparison
+
+| | @gentleduck/primitives | Radix UI Primitives |
+|---|---|---|
+| **API compatibility** | Same compound-component pattern | Original API |
+| **Source ownership** | You own the source (monorepo package) | node_modules dependency |
+| **Customization** | Modify internals directly | Fork or wrap |
+| **Bundle** | Tree-shakable ESM, built with tsdown | Tree-shakable ESM |
+| **Calendar primitive** | Included (Calendar.Root, Calendar.Grid, Calendar.Day) | Not available |
+| **asChild** | Supported via Slot | Supported via Slot |
+| **data-state attributes** | Same pattern (`data-state="open"`, `data-state="closed"`) | Same pattern |
+| **ARIA** | WAI-ARIA compliant | WAI-ARIA compliant |
+| **Animation** | Presence primitive + `@gentleduck/motion` tokens | Presence primitive |
+| **Direction** | Direction primitive (LTR/RTL) | Direction primitive (LTR/RTL) |
+| **Framework** | React 19 | React 18+ |
+
+---
+
+## What's the same
+
+`@gentleduck/primitives` follows the same patterns as Radix UI. If you know Radix, you know gentleduck primitives.
+
+### Compound components
+
+Both use the Root / Trigger / Content pattern:
+
+```tsx
+// Radix UI
+import * as Dialog from '@radix-ui/react-dialog'
+
+<Dialog.Root>
+  <Dialog.Trigger>Open</Dialog.Trigger>
+  <Dialog.Portal>
+    <Dialog.Overlay />
+    <Dialog.Content>
+      <Dialog.Title>Title</Dialog.Title>
+    </Dialog.Content>
+  </Dialog.Portal>
+</Dialog.Root>
+
+// gentleduck primitives
+import * as Dialog from '@gentleduck/primitives/dialog'
+
+<Dialog.Root>
+  <Dialog.Trigger>Open</Dialog.Trigger>
+  <Dialog.Portal>
+    <Dialog.Overlay />
+    <Dialog.Content>
+      <Dialog.Title>Title</Dialog.Title>
+    </Dialog.Content>
+  </Dialog.Portal>
+</Dialog.Root>
+```
+
+### asChild pattern
+
+Both support `asChild` via the Slot primitive to merge props onto a child element instead of rendering a wrapper:
+
+```tsx
+<Dialog.Trigger asChild>
+  <button className="custom-trigger">Open</button>
+</Dialog.Trigger>
+```
+
+### data-state attributes
+
+Both expose component state through `data-*` attributes for CSS targeting:
+
+```css
+[data-state='open'] { opacity: 1; }
+[data-state='closed'] { opacity: 0; }
+```
+
+### ARIA compliance
+
+Both implement WAI-ARIA authoring practices. Dialog manages focus trapping, escape dismissal, and `aria-labelledby` / `aria-describedby`. Menus implement `role="menu"` with roving tabindex. Select implements `role="listbox"`.
+
+---
+
+## What's different
+
+### Source ownership
+
+Radix primitives live in `node_modules`. You consume them as a dependency, versioned by the Radix team. Customizing behavior means forking or wrapping.
+
+gentleduck primitives live in your monorepo as `packages/duck-primitives/`. You can modify any internal -- focus trapping logic, dismiss behavior, animation integration -- directly. The build step (tsdown) produces the same ESM output.
+
+### Calendar primitive
+
+`@gentleduck/primitives/calendar` provides accessible Calendar.Root / Calendar.Grid / Calendar.Day compound components backed by the `@gentleduck/calendar` engine. Radix does not ship a calendar primitive.
+
+### Animation integration
+
+Radix provides a Presence primitive for mount/unmount animations. gentleduck extends this with `@gentleduck/motion` animation tokens -- prebuilt keyframe sets and reduced-motion utilities that integrate with the Presence lifecycle.
+
+### Bundled together
+
+Radix ships each primitive as a separate npm package (`@radix-ui/react-dialog`, `@radix-ui/react-popover`, etc.), each with their own internal utilities. gentleduck ships all primitives from a single package with shared internals (`@gentleduck/primitives/dialog`, `@gentleduck/primitives/popover`), reducing duplication.
+
+---
+
+## Migration
+
+For most primitives, migration is a namespace change.
+
+### 1. Update imports
+
+```diff
+- import * as Dialog from '@radix-ui/react-dialog'
++ import * as Dialog from '@gentleduck/primitives/dialog'
+
+- import * as Popover from '@radix-ui/react-popover'
++ import * as Popover from '@gentleduck/primitives/popover'
+
+- import * as DropdownMenu from '@radix-ui/react-dropdown-menu'
++ import * as DropdownMenu from '@gentleduck/primitives/dropdown-menu'
+```
+
+### 2. Remove Radix packages
+
+```bash
+npm uninstall @radix-ui/react-dialog @radix-ui/react-popover @radix-ui/react-dropdown-menu
+# ... and all other @radix-ui/* packages
+```
+
+### 3. Install gentleduck primitives
+
+```bash
+npm install @gentleduck/primitives
+```
+
+### 4. Verify behavior
+
+The component API, data attributes, and ARIA patterns are the same. Run your tests. The main things to check:
+
+- **Custom `asChild` usage**: Same API, should work identically.
+- **CSS selectors targeting `data-state`**: Same attribute values.
+- **Animation classes**: If you used Radix's `data-state` for CSS transitions, they still work. If you want motion tokens, add `@gentleduck/motion`.
+- **TypeScript types**: Prop types match. Generic patterns are the same.
+
+---
+
+## Available primitives
+
+| Primitive | gentleduck | Radix |
+|---|---|---|
+| Dialog | Yes | Yes |
+| Alert Dialog | Yes | Yes |
+| Popover | Yes | Yes |
+| Tooltip | Yes | Yes |
+| Hover Card | Yes | Yes |
+| Dropdown Menu | Yes | Yes |
+| Context Menu | Yes | Yes |
+| Menubar | Yes | Yes |
+| Navigation Menu | Yes | Yes |
+| Select | Yes | Yes |
+| Radio Group | Yes | Yes |
+| Slider | Yes | Yes |
+| Toggle | Yes | Yes |
+| Toggle Group | Yes | Yes |
+| Avatar | Yes | Yes |
+| Progress | Yes | Yes |
+| Calendar | Yes | No |
+| Command | Yes | No (cmdk) |
+| Input OTP | Yes | No (input-otp) |
+| Sheet | Yes | No (Dialog variant) |
+| Pagination | Yes | No |
+
+---
+
+## When to use which
+
+**Use @gentleduck/primitives when:**
+- You want to own and modify primitive internals
+- You need a Calendar primitive
+- You want all primitives from one package (no per-primitive installs)
+- You're building a design system and need full control over the a11y layer
+- You're in the gentleduck ecosystem
+
+**Use Radix UI when:**
+- You want a battle-tested library maintained by a dedicated team with long-term stability guarantees
+- You need React 18 support
+- You don't need to customize primitive internals
+- You prefer the granularity of per-primitive package installs for strict dependency control

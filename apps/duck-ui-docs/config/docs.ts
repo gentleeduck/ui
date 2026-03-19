@@ -931,6 +931,27 @@ export const docsConfig: DocsConfig = {
       collapsible: false,
       items: [
         {
+          href: '/docs/comparisons/vs-react-day-picker',
+          items: [],
+          title: 'vs react-day-picker',
+        },
+        {
+          href: '/docs/comparisons/vs-radix',
+          items: [],
+          title: 'vs Radix UI',
+        },
+        {
+          href: '/docs/comparisons/vs-shadcn',
+          items: [],
+          title: 'vs shadcn/ui',
+        },
+      ],
+      title: 'Comparisons',
+    },
+    {
+      collapsible: false,
+      items: [
+        {
           href: '/docs/components/accordion',
           items: [],
           title: 'Accordion',
