@@ -11,18 +11,18 @@
   <text x="340" y="54" text-anchor="middle" fill="#71717a" font-size="11">Average of 2,000 iterations (μs per call)</text>
   
     <text x="188" y="96" text-anchor="end" fill="#a1a1aa" font-size="11">buildCalendarMonth</text>
-    <rect x="200" y="80" width="31.86125193036425" height="24" fill="#22c55e" rx="4"/>
-    <text x="241.86125193036426" y="96" fill="#22c55e" font-size="11" font-weight="600">9.7 μs</text>
+    <rect x="200" y="80" width="27.602758093202816" height="24" fill="#22c55e" rx="4"/>
+    <text x="237.60275809320282" y="96" fill="#22c55e" font-size="11" font-weight="600">8.1 μs</text>
     <text x="188" y="140" text-anchor="end" fill="#a1a1aa" font-size="11">buildMultiMonth(3)</text>
-    <rect x="200" y="124" width="74.69409476131172" height="24" fill="#3b82f6" rx="4"/>
-    <text x="284.6940947613117" y="140" fill="#3b82f6" font-size="11" font-weight="600">22.7 μs</text>
+    <rect x="200" y="124" width="78.66189504465368" height="24" fill="#3b82f6" rx="4"/>
+    <text x="288.66189504465365" y="140" fill="#3b82f6" font-size="11" font-weight="600">23.0 μs</text>
     <text x="188" y="184" text-anchor="end" fill="#a1a1aa" font-size="11">buildMultiMonth(12)</text>
     <rect x="200" y="168" width="271.42857142857144" height="24" fill="#f59e0b" rx="4"/>
-    <text x="481.42857142857144" y="184" fill="#f59e0b" font-size="11" font-weight="600">82.6 μs</text>
+    <text x="481.42857142857144" y="184" fill="#f59e0b" font-size="11" font-weight="600">79.3 μs</text>
     <text x="188" y="228" text-anchor="end" fill="#a1a1aa" font-size="11">applySelection (single)</text>
-    <rect x="200" y="212" width="38.142328459079586" height="24" fill="#a855f7" rx="4"/>
-    <text x="248.14232845907958" y="228" fill="#a855f7" font-size="11" font-weight="600">11.6 μs</text>
+    <rect x="200" y="212" width="47.015820773581666" height="24" fill="#a855f7" rx="4"/>
+    <text x="257.01582077358165" y="228" fill="#a855f7" font-size="11" font-weight="600">13.7 μs</text>
     <text x="188" y="272" text-anchor="end" fill="#a1a1aa" font-size="11">applySelection (range)</text>
-    <rect x="200" y="256" width="39.24524205089413" height="24" fill="#ec4899" rx="4"/>
-    <text x="249.24524205089412" y="272" fill="#ec4899" font-size="11" font-weight="600">11.9 μs</text>
+    <rect x="200" y="256" width="48.68225236134276" height="24" fill="#ec4899" rx="4"/>
+    <text x="258.68225236134276" y="272" fill="#ec4899" font-size="11" font-weight="600">14.2 μs</text>
 </svg>

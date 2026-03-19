@@ -13,7 +13,7 @@
     <text x="188" y="97" text-anchor="end" fill="#fafafa" font-size="12" font-weight="600">@gentleduck/calendar</text>
     <rect x="200" y="80" width="4" height="26" fill="#22c55e" rx="4" opacity="1"/>
     <text x="214" y="97" fill="#22c55e" font-size="12" font-weight="600">0 deps</text>
-    <text x="259" y="97" fill="#22c55e" font-size="10" font-weight="600">★ ZERO DEPS</text>
+    <text x="259" y="97" fill="#22c55e" font-size="10" font-weight="600">* ZERO DEPS</text>
     <text x="188" y="143" text-anchor="end" fill="#a1a1aa" font-size="12" font-weight="400">react-day-picker v9</text>
     <rect x="200" y="126" width="38" height="26" fill="#ef4444" rx="4" opacity="0.7"/>
     <text x="248" y="143" fill="#ef4444" font-size="12" font-weight="600">1 dep</text>
