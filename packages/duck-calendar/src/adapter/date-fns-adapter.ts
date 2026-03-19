@@ -15,10 +15,10 @@ import {
   isSameDay as dfIsSameDay,
   isSameMonth as dfIsSameMonth,
   isValid as dfIsValid,
-  set,
-  startOfDay,
   startOfMonth as dfStartOfMonth,
   startOfWeek as dfStartOfWeek,
+  set,
+  startOfDay,
 } from 'date-fns'
 
 import type { DateAdapter, WeekStartDay } from './adapter.types'
