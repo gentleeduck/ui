@@ -1,0 +1,159 @@
+import { describe, expect, it } from 'vitest'
+
+import {
+  hebrewMonthLength,
+  hebrewMonthsInYear,
+  hebrewToGregorian,
+  hebrewYearLength,
+  isLeapHebrewYear,
+  toHebrew,
+} from '../hebrew'
+
+describe('hebrew conversion', () => {
+  // ---------------------------------------------------------------------------
+  // isLeapHebrewYear
+  // ---------------------------------------------------------------------------
+  describe('isLeapHebrewYear', () => {
+    it('identifies leap years in the 19-year Metonic cycle (positions 3,6,8,11,14,17,19)', () => {
+      // 5784: (5784-1) % 19 + 1 = 5783 % 19 + 1 = 7 + 1 = 8 -> leap
+      expect(isLeapHebrewYear(5784)).toBe(true)
+      // 5787: (5787-1) % 19 + 1 = 5786 % 19 + 1 = 12 + 1 = 13... wait
+      // 5786 % 19 = 304 * 19 + 10 -> 10 + 1 = 11 -> leap
+      expect(isLeapHebrewYear(5787)).toBe(true)
+    })
+
+    it('identifies common years', () => {
+      expect(isLeapHebrewYear(5785)).toBe(false)
+      expect(isLeapHebrewYear(5786)).toBe(false)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // hebrewMonthsInYear
+  // ---------------------------------------------------------------------------
+  describe('hebrewMonthsInYear', () => {
+    it('leap year has 13 months', () => {
+      expect(hebrewMonthsInYear(5784)).toBe(13)
+    })
+
+    it('common year has 12 months', () => {
+      expect(hebrewMonthsInYear(5786)).toBe(12)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // hebrewMonthLength
+  // ---------------------------------------------------------------------------
+  describe('hebrewMonthLength', () => {
+    it('Tishrei (month 1) always has 30 days', () => {
+      expect(hebrewMonthLength(5786, 1)).toBe(30)
+      expect(hebrewMonthLength(5784, 1)).toBe(30)
+    })
+
+    it('Tevet (month 4) always has 29 days', () => {
+      expect(hebrewMonthLength(5786, 4)).toBe(29)
+    })
+
+    it('Shevat (month 5) always has 30 days', () => {
+      expect(hebrewMonthLength(5786, 5)).toBe(30)
+    })
+
+    it('Adar in common year (month 6) has 29 days', () => {
+      expect(hebrewMonthLength(5786, 6)).toBe(29)
+    })
+
+    it('Adar I in leap year (month 6) has 30 days', () => {
+      expect(hebrewMonthLength(5784, 6)).toBe(30)
+    })
+
+    it('returns 0 for out-of-range months', () => {
+      expect(hebrewMonthLength(5786, 0)).toBe(0)
+      expect(hebrewMonthLength(5786, 13)).toBe(0)
+      expect(hebrewMonthLength(5784, 14)).toBe(0)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // hebrewYearLength
+  // ---------------------------------------------------------------------------
+  describe('hebrewYearLength', () => {
+    it('returns 353, 354, or 355 for common years', () => {
+      const len = hebrewYearLength(5786)
+      expect([353, 354, 355]).toContain(len)
+    })
+
+    it('returns 383, 384, or 385 for leap years', () => {
+      const len = hebrewYearLength(5784)
+      expect([383, 384, 385]).toContain(len)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // toHebrew
+  // ---------------------------------------------------------------------------
+  describe('toHebrew', () => {
+    it('converts Rosh Hashanah 5783 (Sep 26 2022) correctly', () => {
+      const h = toHebrew(2022, 9, 26)
+      expect(h.hy).toBe(5783)
+      expect(h.hm).toBe(1) // Tishrei
+      expect(h.hd).toBe(1)
+    })
+
+    it('converts 1 Tishrei 5786 (Sep 23 2025) correctly', () => {
+      const h = toHebrew(2025, 9, 23)
+      expect(h.hy).toBe(5786)
+      expect(h.hm).toBe(1)
+      expect(h.hd).toBe(1)
+    })
+
+    it('converts a mid-year date correctly', () => {
+      const h = toHebrew(2026, 3, 18)
+      expect(h.hy).toBe(5786)
+      // Should be in Adar (month 6)  -  verified against Intl
+      expect(h.hm).toBe(6)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // hebrewToGregorian
+  // ---------------------------------------------------------------------------
+  describe('hebrewToGregorian', () => {
+    it('converts 1 Tishrei 5786 to Sep 23 2025', () => {
+      const g = hebrewToGregorian(5786, 1, 1)
+      expect(g.gy).toBe(2025)
+      expect(g.gm).toBe(9) // September
+      expect(g.gd).toBe(23)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // Round-trip consistency
+  // ---------------------------------------------------------------------------
+  describe('round-trip', () => {
+    it('toHebrew -> hebrewToGregorian returns the original date', () => {
+      const testDates = [
+        [2025, 9, 23],
+        [2026, 1, 1],
+        [2026, 3, 18],
+        [2026, 6, 15],
+        [2026, 12, 31],
+      ]
+      for (const [gy, gm, gd] of testDates) {
+        const h = toHebrew(gy!, gm!, gd!)
+        const g = hebrewToGregorian(h.hy, h.hm, h.hd)
+        expect(g).toEqual({ gy, gm, gd })
+      }
+    })
+
+    it('validates full year against Intl.DateTimeFormat', () => {
+      const fmt = new Intl.DateTimeFormat('en-US-u-ca-hebrew', { day: 'numeric' })
+      let failures = 0
+      for (let d = new Date(2025, 0, 1); d < new Date(2027, 0, 1); d.setDate(d.getDate() + 1)) {
+        const intlDay = Number.parseInt(fmt.format(d))
+        const h = toHebrew(d.getFullYear(), d.getMonth() + 1, d.getDate())
+        if (h.hd !== intlDay) failures++
+      }
+      expect(failures).toBe(0)
+    })
+  })
+})
