@@ -79,7 +79,7 @@ The loader finds `registry-build.config.*`, resolves `extends`, normalizes confi
     <AccordionTrigger>Extension-driven phases</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-The core runner has no built-in phases. All processing — index building, component generation, validation, colors/themes, component indexes, banners — is performed by extensions registered in the `extensions` array.
+The core runner has no built-in phases. All processing  -  index building, component generation, validation, colors/themes, component indexes, banners  -  is performed by extensions registered in the `extensions` array.
 
 For UI registries, `indexBuildExtension()` materializes registry entries into `index.json` and `componentsExtension()` transforms each indexed item into its generated JSON payload. Both run as `afterBuild` extensions and are included automatically by `uiRegistryPreset()`.
 

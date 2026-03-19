@@ -10,7 +10,7 @@ import * as React from 'react'
 
 export default function CalendarDemo() {
   const [open, setOpen] = React.useState(false)
-  const [date, setDate] = React.useState<Date | undefined>(undefined)
+  const [date, setDate] = React.useState<Date | null>(null)
 
   return (
     <div className="flex gap-4">

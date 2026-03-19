@@ -1,7 +1,7 @@
 /**
- * Pure math functions for Gregorian ↔ Islamic (Hijri) calendar conversion.
+ * Pure math functions for Gregorian <-> Islamic (Hijri) calendar conversion.
  *
- * Uses the **tabular Islamic calendar** algorithm — algorithmic and deterministic,
+ * Uses the **tabular Islamic calendar** algorithm  -  algorithmic and deterministic,
  * not observation-based. This is the civil tabular calendar (Type II-A, Thursday epoch).
  *
  * Islamic epoch: July 16, 622 CE (Julian) = July 19, 622 CE (proleptic Gregorian).
@@ -11,12 +11,6 @@
 
 /** Leap years within the 30-year Islamic cycle. */
 const LEAP_YEARS = [2, 5, 7, 10, 13, 16, 18, 21, 24, 26, 29]
-
-/**
- * Islamic epoch as a Julian Day Number.
- * Corresponds to July 19, 622 CE (proleptic Gregorian) = 1 Muharram 1 AH.
- */
-const HIJRI_EPOCH = 1948439.5
 
 /**
  * Islamic month names (1-indexed by position).
@@ -159,7 +153,7 @@ function jdnToHijri(jdn: number): { hy: number; hm: number; hd: number } {
  *
  * @example
  * ```ts
- * toHijri(2026, 6, 27) // → { hy: 1448, hm: 1, hd: 1 }
+ * toHijri(2026, 6, 27) // -> { hy: 1448, hm: 1, hd: 1 }
  * ```
  */
 export function toHijri(gy: number, gm: number, gd: number): { hy: number; hm: number; hd: number } {
@@ -177,7 +171,7 @@ export function toHijri(gy: number, gm: number, gd: number): { hy: number; hm: n
  *
  * @example
  * ```ts
- * toGregorian(1448, 1, 1) // → { gy: 2026, gm: 6, gd: 27 }
+ * toGregorian(1448, 1, 1) // -> { gy: 2026, gm: 6, gd: 27 }
  * ```
  */
 export function toGregorian(hy: number, hm: number, hd: number): { gy: number; gm: number; gd: number } {

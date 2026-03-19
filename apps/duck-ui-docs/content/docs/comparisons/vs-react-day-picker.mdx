@@ -7,7 +7,7 @@ description: "Side-by-side comparison of @gentleduck/calendar and react-day-pick
 
 | | @gentleduck/calendar | react-day-picker |
 |---|---|---|
-| **Bundle size (gzip)** | ~7 KB | ~20 KB |
+| **Bundle size (gzip)** | ~5 KB | ~20 KB |
 | **Dependencies** | 0 (peer-optional: date-fns, dayjs, luxon) | date-fns (required) |
 | **Tree-shaking** | Full (ESM, `sideEffects: false`) | Partial |
 | **Calendar systems** | Gregorian, Hijri, Persian via adapter pattern | Gregorian default; Persian via separate `react-day-picker/persian` |
@@ -25,7 +25,7 @@ description: "Side-by-side comparison of @gentleduck/calendar and react-day-pick
 
 ![Bundle Size](/images/benchmarks/calendar/bundle-size.svg)
 
-`@gentleduck/calendar` ships ~7 KB gzipped with zero runtime dependencies. react-day-picker pulls in date-fns, bringing total bundle impact to ~20 KB gzipped. The adapter pattern means you only pay for the date library you already use.
+`@gentleduck/calendar` ships ~5 KB gzipped with zero runtime dependencies. react-day-picker pulls in date-fns, bringing total bundle impact to ~20 KB gzipped. The adapter pattern means you only pay for the date library you already use.
 
 ---
 
@@ -178,7 +178,7 @@ If you were using date-fns `format()` only for the calendar trigger label, you c
 ## When to use which
 
 **Use @gentleduck/calendar when:**
-- Bundle size matters (7 KB vs 20 KB)
+- Bundle size matters (~5 KB vs 20 KB)
 - You want zero date library lock-in (adapter pattern)
 - You need non-Gregorian calendars (Hijri, Persian) via adapters
 - You want a headless hook for full control over rendering

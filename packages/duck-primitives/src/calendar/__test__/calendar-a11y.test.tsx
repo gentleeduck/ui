@@ -51,9 +51,9 @@ function FullDaysCalendar(props: Partial<CalendarRootProps> & { weeks?: ReturnTy
 }
 
 // ---------------------------------------------------------------------------
-// Axe automated tests — zero violations target
+// Axe automated tests  -  zero violations target
 // ---------------------------------------------------------------------------
-describe('Calendar a11y — axe automated checks', () => {
+describe('Calendar a11y  -  axe automated checks', () => {
   beforeEach(() => {
     document.body.innerHTML = ''
   })
@@ -146,9 +146,9 @@ describe('Calendar a11y — axe automated checks', () => {
 })
 
 // ---------------------------------------------------------------------------
-// Structural a11y tests — manual assertions
+// Structural a11y tests  -  manual assertions
 // ---------------------------------------------------------------------------
-describe('Calendar a11y — structural assertions', () => {
+describe('Calendar a11y  -  structural assertions', () => {
   it('day buttons have aria-label with full date string', () => {
     const { container } = render(<FullDaysCalendar />)
     const dayButtons = container.querySelectorAll('[data-slot="calendar-day"]')

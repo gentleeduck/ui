@@ -1,12 +1,12 @@
 /**
- * Pure math functions for Gregorian ↔ Jalaali (Persian / Solar Hijri) conversion.
+ * Pure math functions for Gregorian <-> Jalaali (Persian / Solar Hijri) conversion.
  *
  * Based on the public-domain algorithm by Kazimierz M. Borkowski and the
  * jalaali-js implementation (MIT). Zero runtime dependencies.
  *
  * The Persian calendar has 12 months:
- *   - Months 1–6 have 31 days
- *   - Months 7–11 have 30 days
+ *   - Months 1-6 have 31 days
+ *   - Months 7-11 have 30 days
  *   - Month 12 has 29 days (30 in a leap year)
  *
  * Leap years follow a 2820-year cycle.
@@ -24,7 +24,7 @@ const BREAKS = [
  * Calculate Jalaali calendar constants for a given Jalaali year.
  *
  * @param jy - Jalaali year (-61 to 3177)
- * @returns An object with `leap` (-1, 0, 1, 2, 3 — where 0 means leap),
+ * @returns An object with `leap` (-1, 0, 1, 2, 3  -  where 0 means leap),
  *   `gy` (Gregorian year of the Nowruz), and `march` (March day of Nowruz).
  */
 function jalCal(jy: number): { leap: number; gy: number; march: number } {
@@ -112,14 +112,14 @@ export function jalaaliMonthLength(jy: number, jm: number): number {
 // Internal helpers
 // ---------------------------------------------------------------------------
 
-/** Gregorian date → Julian Day Number */
+/** Gregorian date -> Julian Day Number */
 function g2d(gy: number, gm: number, gd: number): number {
   let d = div((gy + div(gm - 8, 6) + 100100) * 1461, 4) + div(153 * mod(gm + 9, 12) + 2, 5) + gd - 34840408
   d = d - div(div(gy + 100100 + div(gm - 8, 6), 100) * 3, 4) + 752
   return d
 }
 
-/** Julian Day Number → Gregorian date */
+/** Julian Day Number -> Gregorian date */
 function d2g(jdn: number): { gy: number; gm: number; gd: number } {
   const j = 4 * jdn + 139361631 + div(div(4 * jdn + 183187720, 146097) * 3, 4) * 4 - 3908
   const i = div(mod(j, 1461), 4) * 5 + 308
@@ -129,13 +129,13 @@ function d2g(jdn: number): { gy: number; gm: number; gd: number } {
   return { gy, gm, gd }
 }
 
-/** Jalaali date → Julian Day Number */
+/** Jalaali date -> Julian Day Number */
 function j2d(jy: number, jm: number, jd: number): number {
   const r = jalCal(jy)
   return g2d(r.gy, 3, r.march) + (jm - 1) * 31 - div(jm, 7) * (jm - 7) + jd - 1
 }
 
-/** Julian Day Number → Jalaali date */
+/** Julian Day Number -> Jalaali date */
 function d2j(jdn: number): { jy: number; jm: number; jd: number } {
   const gy = d2g(jdn).gy
   let jy = gy - 621

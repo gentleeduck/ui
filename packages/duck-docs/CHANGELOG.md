@@ -75,7 +75,7 @@
 
 ### Patch Changes
 
-- 9afd136: Fix copy button icon sizing in DocsCopyPage — add explicit size-3.5 to Copy, Check, and ChevronDown icons.
+- 9afd136: Fix copy button icon sizing in DocsCopyPage  -  add explicit size-3.5 to Copy, Check, and ChevronDown icons.
 
 ## 0.2.4
 

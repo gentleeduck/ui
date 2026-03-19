@@ -11,6 +11,12 @@ import type { DateAdapter, WeekStartDay } from './adapter.types'
  * getDayOfWeek, startOfWeek, time accessors) delegate directly to Gregorian.
  */
 export class PersianAdapter implements DateAdapter<Date> {
+  private readonly locale: string
+
+  constructor(locale = 'fa-IR') {
+    this.locale = locale
+  }
+
   /** Returns today's date with time stripped to midnight. */
   today(): Date {
     const d = new Date()
@@ -22,7 +28,7 @@ export class PersianAdapter implements DateAdapter<Date> {
    *
    * @param year  - Persian year (e.g. 1404)
    * @param month - **0-indexed** Persian month (0 = Farvardin, 11 = Esfand)
-   * @param day   - Day of the Persian month (1–31)
+   * @param day   - Day of the Persian month (1-31)
    */
   create(year: number, month: number, day: number): Date {
     const { gy, gm, gd } = toGregorian(year, month + 1, day)
@@ -102,10 +108,10 @@ export class PersianAdapter implements DateAdapter<Date> {
   /** Adds Persian months with day clamping. */
   addMonths(date: Date, count: number): Date {
     const { jy, jm, jd } = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate())
-    // Total 0-indexed months then add count
     const totalMonths = jy * 12 + (jm - 1) + count
+    // Use ((n % d) + d) % d to handle negative modulo correctly
     const newJy = Math.floor(totalMonths / 12)
-    const newJm = (totalMonths % 12) + 1
+    const newJm = (((totalMonths % 12) + 12) % 12) + 1
     const maxDay = jalaaliMonthLength(newJy, newJm)
     const newJd = Math.min(jd, maxDay)
     const { gy, gm, gd } = toGregorian(newJy, newJm, newJd)
@@ -136,10 +142,10 @@ export class PersianAdapter implements DateAdapter<Date> {
 
   /**
    * Formats using `Intl.DateTimeFormat` with the Persian calendar extension.
-   * Appends `-u-ca-persian-nu-arab` to the locale tag for correct rendering.
+   * Appends `-u-ca-persian-nu-arabext` to the locale tag for correct rendering.
    */
   format(date: Date, options: Intl.DateTimeFormatOptions, locale?: string): string {
-    const base = locale ?? 'fa-IR'
+    const base = locale ?? this.locale
     // If already has the right calendar and numbering, use as-is
     if (base.includes('-ca-persian') && base.includes('-nu-arabext')) {
       return new Intl.DateTimeFormat(base, options).format(date)

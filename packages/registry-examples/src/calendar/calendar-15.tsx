@@ -29,7 +29,7 @@ function getEvents(d: Date) {
 }
 
 export default function CalendarDemo() {
-  const [selected, setSelected] = React.useState<Date | undefined>()
+  const [selected, setSelected] = React.useState<Date | null>(null)
   const [popoverDate, setPopoverDate] = React.useState<Date | null>(null)
   const calendarRef = React.useRef<HTMLDivElement>(null)
   const [popoverPos, setPopoverPos] = React.useState<{ top: number; left: number } | null>(null)
@@ -79,7 +79,7 @@ export default function CalendarDemo() {
         selected={selected}
         showDropdowns={false}
         onSelect={(date) => {
-          setSelected(date as Date | undefined)
+          setSelected(date as Date | null)
           if (date && getEvents(date as Date).length > 0) {
             openPopover(date as Date)
           } else {

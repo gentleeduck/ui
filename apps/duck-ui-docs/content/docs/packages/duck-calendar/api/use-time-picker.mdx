@@ -13,7 +13,7 @@ import { useTimePicker } from '@gentleduck/calendar'
 import { useTimePicker } from '@gentleduck/calendar'
 
 function MyTimePicker() {
-  const { state, getFieldProps } = useTimePicker({
+  const { state, actions, getFieldProps } = useTimePicker({
     hourCycle: '12',
     showSeconds: true,
   })

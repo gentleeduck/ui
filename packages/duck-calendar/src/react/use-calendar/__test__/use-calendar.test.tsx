@@ -332,7 +332,7 @@ describe('useCalendar', () => {
           result.current.actions.selectDate(day.date)
         })
 
-        // After selection, the day in weeks is updated — re-find it
+        // After selection, the day in weeks is updated  -  re-find it
         const updatedDay = result.current.state.weeks[0]!.days.find((d) => adapter.isSameDay(d.date, day.date))!
         const props = result.current.getDayProps(updatedDay)
 

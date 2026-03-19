@@ -24,8 +24,8 @@ function formatDate(date: Date | undefined) {
 export default function CalendarDemo() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState('In 2 days')
-  const [date, setDate] = React.useState<Date | undefined>(parseDate(value) || undefined)
-  const [month, setMonth] = React.useState<Date | undefined>(date)
+  const [date, setDate] = React.useState<Date | null>(parseDate(value) || null)
+  const [month, setMonth] = React.useState<Date | null>(date)
 
   return (
     <div className="flex flex-col gap-3">

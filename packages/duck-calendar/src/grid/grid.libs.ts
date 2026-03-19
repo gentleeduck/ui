@@ -14,8 +14,8 @@ export function getLocalizedWeekdays<TDate>(
   weekStartDay: 0 | 1 | 2 | 3 | 4 | 5 | 6 = 0,
   format: 'long' | 'short' | 'narrow' = 'short',
 ): string[] {
-  // Use a known Sunday = Jan 5 2025 as anchor to map day indices reliably
-  const KNOWN_SUNDAY = adapter.create(2025, 0, 5)
+  // Use a known Gregorian Sunday (Jan 5 2025) via fromDate to avoid calendar-system issues
+  const KNOWN_SUNDAY = adapter.fromDate(new Date(2025, 0, 5))
 
   return Array.from({ length: 7 }, (_, i) => {
     const dayIndex = (weekStartDay + i) % 7
@@ -25,7 +25,7 @@ export function getLocalizedWeekdays<TDate>(
 }
 
 /**
- * Returns 12 localized month names in calendar order (Jan–Dec).
+ * Returns 12 localized month names in calendar order (Jan-Dec).
  *
  * @param adapter - Any DateAdapter instance.
  * @param locale  - BCP 47 locale tag. Falls back to runtime default.

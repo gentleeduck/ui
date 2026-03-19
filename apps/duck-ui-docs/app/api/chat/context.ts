@@ -182,7 +182,7 @@ export function extractComponentNames(query: string, docs: DocEntry[]): string[]
       continue
     }
 
-    // Exact match only — no fuzzy for component detection
+    // Exact match only  -  no fuzzy for component detection
     if (componentSlugs.includes(word)) {
       matched.push(word)
     }

@@ -15,7 +15,7 @@ describe('selection', () => {
   })
 
   // ---------------------------------------------------------------------------
-  // selectDay — single
+  // selectDay  -  single
   // ---------------------------------------------------------------------------
   describe('selectDay / single', () => {
     it('selects a date when nothing is selected', () => {
@@ -39,7 +39,7 @@ describe('selection', () => {
   })
 
   // ---------------------------------------------------------------------------
-  // selectDay — range
+  // selectDay  -  range
   // ---------------------------------------------------------------------------
   describe('selectDay / range', () => {
     it('1st click sets from, to is null', () => {
@@ -81,7 +81,7 @@ describe('selection', () => {
   })
 
   // ---------------------------------------------------------------------------
-  // selectDay — multi
+  // selectDay  -  multi
   // ---------------------------------------------------------------------------
   describe('selectDay / multi', () => {
     it('adds a date to an empty array', () => {
@@ -206,7 +206,7 @@ describe('selection', () => {
       expect(isDateDisabled(adapter, adapter.create(2026, 2, 15), constraints)).toBe(false)
     })
 
-    it('applies all constraints — disabled array + fromDate', () => {
+    it('applies all constraints  -  disabled array + fromDate', () => {
       const constraints = {
         disabled: [adapter.create(2026, 2, 10)],
         fromDate: adapter.create(2026, 2, 5),
@@ -270,7 +270,7 @@ describe('selection', () => {
       })
       const allDays = result.flatMap((w) => w.days).filter((d) => !d.isOutside)
       const disabledDays = allDays.filter((d) => d.isDisabled)
-      // days 1–14 should be disabled
+      // days 1-14 should be disabled
       expect(disabledDays.length).toBe(14)
     })
 

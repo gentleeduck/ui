@@ -7,15 +7,18 @@ description: "Understand the DateAdapter pattern and how to plug in any date lib
 
 The `DateAdapter<TDate>` interface abstracts all date operations. The engine never calls `new Date()` or `date.getMonth()` directly -- everything goes through the adapter.
 
-This means you can swap `Date` for dayjs, date-fns, Luxon, or the Temporal API without changing any calendar logic.
+This means you can swap `Date` for dayjs, date-fns, Luxon, or a non-Gregorian calendar without changing any calendar logic.
 
 <MermaidDiagram chart={`
 graph LR
   A["Calendar Engine"] --> B["DateAdapter&lt;TDate&gt;"]
   B --> C["NativeAdapter (Date)"]
-  B --> D["DayjsAdapter"]
-  B --> E["DateFnsAdapter"]
-  B --> F["TemporalAdapter"]
+  B --> D["DateFnsAdapter"]
+  B --> E["DayjsAdapter"]
+  B --> F["LuxonAdapter"]
+  B --> G["PersianAdapter"]
+  B --> H["IslamicAdapter"]
+  B --> I["HebrewAdapter"]
 `} />
 
 ---
@@ -31,6 +34,22 @@ const adapter = new NativeAdapter()
 ```
 
 The `NativeAdapter` covers all adapter methods using only the native `Date` object and `Intl.DateTimeFormat` for locale-aware formatting. No polyfills needed for modern browsers.
+
+---
+
+## Shipped adapters
+
+The package includes 7 ready-to-use adapters. Adapters marked with a peer dependency require you to install the underlying date library yourself.
+
+| Adapter | Import | Description | Peer dependency |
+| :--- | :--- | :--- | :--- |
+| `NativeAdapter` | `@gentleduck/calendar` | Zero-dep adapter for the built-in `Date` object | None |
+| `DateFnsAdapter` | `@gentleduck/calendar/adapters/date-fns` | Adapter for date-fns | `date-fns` |
+| `DayjsAdapter` | `@gentleduck/calendar/adapters/dayjs` | Adapter for dayjs | `dayjs` |
+| `LuxonAdapter` | `@gentleduck/calendar/adapters/luxon` | Adapter for Luxon | `luxon` |
+| `PersianAdapter` | `@gentleduck/calendar/adapters/persian` | Persian / Jalali calendar | None |
+| `IslamicAdapter` | `@gentleduck/calendar/adapters/islamic` | Islamic / Hijri calendar | None |
+| `HebrewAdapter` | `@gentleduck/calendar/adapters/hebrew` | Hebrew calendar | None |
 
 ---
 

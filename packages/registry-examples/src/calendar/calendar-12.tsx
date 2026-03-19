@@ -19,7 +19,7 @@ function isBooked(date: Date): boolean {
 }
 
 export default function CalendarDemo() {
-  const [selected, setSelected] = React.useState<Date | undefined>()
+  const [selected, setSelected] = React.useState<Date | null>(null)
   const today = new Date()
 
   return (

@@ -26,13 +26,13 @@ describe('navigation', () => {
         expect(result.getFullYear()).toBe(2026)
       })
 
-      it('Dec → next → Jan of next year', () => {
+      it('Dec -> next -> Jan of next year', () => {
         const result = navigate(adapter, adapter.create(2026, 11, 1), 'next', 'month')
         expect(result.getMonth()).toBe(0)
         expect(result.getFullYear()).toBe(2027)
       })
 
-      it('Jan → prev → Dec of prev year', () => {
+      it('Jan -> prev -> Dec of prev year', () => {
         const result = navigate(adapter, adapter.create(2026, 0, 1), 'prev', 'month')
         expect(result.getMonth()).toBe(11)
         expect(result.getFullYear()).toBe(2025)
@@ -92,7 +92,7 @@ describe('navigation', () => {
 
     describe('fromDate constraint (prev direction)', () => {
       it('can navigate prev when target month still has days >= fromDate', () => {
-        // current: March 2026, fromDate: Feb 15 — going to Feb is fine (Feb has days after the 15th)
+        // current: March 2026, fromDate: Feb 15  -  going to Feb is fine (Feb has days after the 15th)
         const result = canNavigate(adapter, adapter.create(2026, 2, 1), 'prev', 'month', {
           fromDate: adapter.create(2026, 1, 15),
         })
@@ -100,7 +100,7 @@ describe('navigation', () => {
       })
 
       it('cannot navigate prev when target month ends before fromDate', () => {
-        // current: March 2026, fromDate: March 1 — going to Feb, but Feb ends Feb 28 < March 1
+        // current: March 2026, fromDate: March 1  -  going to Feb, but Feb ends Feb 28 < March 1
         const result = canNavigate(adapter, adapter.create(2026, 2, 1), 'prev', 'month', {
           fromDate: adapter.create(2026, 2, 1),
         })
@@ -133,7 +133,7 @@ describe('navigation', () => {
       })
 
       it('cannot navigate next when target month starts after toDate', () => {
-        // current: March 2026, toDate: March 31 — going to April, Apr 1 > Mar 31
+        // current: March 2026, toDate: March 31  -  going to April, Apr 1 > Mar 31
         const result = canNavigate(adapter, adapter.create(2026, 2, 1), 'next', 'month', {
           toDate: adapter.create(2026, 2, 31),
         })
@@ -166,7 +166,7 @@ describe('navigation', () => {
       expect(result.getMonth()).toBe(3)
     })
 
-    it('wraps Dec → Jan', () => {
+    it('wraps Dec -> Jan', () => {
       const result = goToNextMonth(adapter, adapter.create(2026, 11, 1))
       expect(result.getMonth()).toBe(0)
       expect(result.getFullYear()).toBe(2027)
@@ -179,7 +179,7 @@ describe('navigation', () => {
       expect(result.getMonth()).toBe(1)
     })
 
-    it('wraps Jan → Dec', () => {
+    it('wraps Jan -> Dec', () => {
       const result = goToPrevMonth(adapter, adapter.create(2026, 0, 1))
       expect(result.getMonth()).toBe(11)
       expect(result.getFullYear()).toBe(2025)

@@ -285,7 +285,7 @@ describe('useKeyboard', () => {
   // Unknown keys
   // ---------------------------------------------------------------------------
   describe('unknown keys', () => {
-    it('pressing "a" does nothing — no callbacks called', () => {
+    it('pressing "a" does nothing  -  no callbacks called', () => {
       pressKey(makeConfig(), 'a')
       expect(onFocusChange).not.toHaveBeenCalled()
       expect(onSelect).not.toHaveBeenCalled()

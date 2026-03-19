@@ -31,7 +31,7 @@ export const SelectViewport = React.forwardRef<SelectViewportElement, SelectView
       <>
         {/* Hide scrollbars cross-browser and enable momentum scroll for touch devices */}
         <style
-          // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled static CSS string for cross-browser scrollbar hiding — no user input involved
+          // biome-ignore lint/security/noDangerouslySetInnerHtml: controlled static CSS string for cross-browser scrollbar hiding  -  no user input involved
           dangerouslySetInnerHTML={{
             __html: `[data-slot="select-viewport"]{scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;}[data-slot="select-viewport"]::-webkit-scrollbar{display:none}`,
           }}

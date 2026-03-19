@@ -5,7 +5,7 @@ import type { DateAdapter, WeekStartDay } from './adapter.types'
 /**
  * Luxon date adapter wrapping `DateTime`.
  * Converts between Luxon's 1-indexed months and the adapter's 0-indexed convention.
- * All methods return new DateTime instances — never mutates inputs.
+ * All methods return new DateTime instances  -  never mutates inputs.
  */
 export class LuxonAdapter implements DateAdapter<DateTime> {
   /** Returns today's date with time stripped to midnight. */
@@ -61,8 +61,8 @@ export class LuxonAdapter implements DateAdapter<DateTime> {
 
   /**
    * Walks backward from `date` to the given weekday.
-   * Luxon weekday: 1=Monday … 7=Sunday.
-   * Adapter weekStartDay: 0=Sunday … 6=Saturday.
+   * Luxon weekday: 1=Monday ... 7=Sunday.
+   * Adapter weekStartDay: 0=Sunday ... 6=Saturday.
    */
   startOfWeek(date: DateTime, weekStartDay: WeekStartDay): DateTime {
     // Convert Luxon weekday (1=Mon,7=Sun) to adapter format (0=Sun,6=Sat)
@@ -105,14 +105,14 @@ export class LuxonAdapter implements DateAdapter<DateTime> {
     return date.month - 1
   }
 
-  /** Returns the day of the month (1–31). */
+  /** Returns the day of the month (1-31). */
   getDate(date: DateTime): number {
     return date.day
   }
 
   /**
    * Returns the day of the week (0=Sunday, 6=Saturday).
-   * Luxon uses 1=Monday … 7=Sunday, so `weekday % 7` converts correctly.
+   * Luxon uses 1=Monday ... 7=Sunday, so `weekday % 7` converts correctly.
    */
   getDayOfWeek(date: DateTime): WeekStartDay {
     return (date.weekday % 7) as WeekStartDay
@@ -133,17 +133,17 @@ export class LuxonAdapter implements DateAdapter<DateTime> {
     return new Intl.DateTimeFormat(locale, options).format(date.toJSDate())
   }
 
-  /** Returns the hour (0–23). */
+  /** Returns the hour (0-23). */
   getHours(date: DateTime): number {
     return date.hour
   }
 
-  /** Returns the minute (0–59). */
+  /** Returns the minute (0-59). */
   getMinutes(date: DateTime): number {
     return date.minute
   }
 
-  /** Returns the second (0–59). */
+  /** Returns the second (0-59). */
   getSeconds(date: DateTime): number {
     return date.second
   }

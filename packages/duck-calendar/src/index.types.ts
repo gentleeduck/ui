@@ -37,7 +37,7 @@ export interface CalendarConfig<TDate, M extends SelectionMode = 'single'> {
   /** Locale and direction settings. */
   locale?: CalendarLocaleConfig
 
-  /** Controlled month — the month currently displayed. */
+  /** Controlled month  -  the month currently displayed. */
   month?: TDate
   /** Default month for uncontrolled usage. */
   defaultMonth?: TDate

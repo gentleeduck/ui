@@ -1,10 +1,10 @@
 ---
 name: duck-vim
 description: >-
-  Use when working with @gentleduck/vim — the keyboard command engine. Covers hotkey
+  Use when working with @gentleduck/vim  -  the keyboard command engine. Covers hotkey
   parsing, key sequence matching, chord bindings, platform-aware mod resolution,
   key recording, and the React hooks (useKeyBind, useKeySequence, useKeyCommands,
-  useKeyRecorder). Not for vim-the-editor — this is a keyboard shortcut library.
+  useKeyRecorder). Not for vim-the-editor  -  this is a keyboard shortcut library.
 allowed-tools: Read Grep
 argument-hint: "[keybind-or-topic]"
 ---
@@ -13,7 +13,7 @@ argument-hint: "[keybind-or-topic]"
 
 Expert scope: `packages/duck-vim/`. Parses hotkey strings, matches keyboard events, supports sequences, records key presses, and provides React hooks. Import by subpath: `@gentleduck/vim/{module}`.
 
-## parser — `@gentleduck/vim/parser`
+## parser  -  `@gentleduck/vim/parser`
 
 Exports: `parseKeyBind(binding, platform?) => ParsedKeyBind`, `normalizeKeyBind(binding, platform?) => string`, `validateKeyBind(binding) => ValidationResult`, `keyboardEventToDescriptor(e) => string | null`, `KEY_ALIASES`, `MODIFIER_KEYS`, types `ParsedKeyBind`, `ValidationResult`.
 
@@ -24,7 +24,7 @@ normalizeKeyBind('Shift+Mod+s', 'mac') // => 'meta+shift+s'
 validateKeyBind('ctrl+ctrl+k')         // => { valid: false, errors: ['Duplicate modifier: ...'], warnings: [] }
 ```
 
-## matcher — `@gentleduck/vim/matcher`
+## matcher  -  `@gentleduck/vim/matcher`
 
 Exports: `createKeyBindHandler(config) => (e) => void`, `createMultiKeyBindHandler(configs[]) => (e) => void`, `matchesKeyboardEvent(parsed, event, options?) => boolean`, `isInputElement(el) => boolean`, types `KeyBindHandlerConfig`, `MatchOptions`, `SingleKeyBindOptions`.
 
@@ -36,7 +36,7 @@ const handler = createKeyBindHandler({
 document.addEventListener('keydown', handler) // must attach manually
 ```
 
-## command — `@gentleduck/vim/command`
+## command  -  `@gentleduck/vim/command`
 
 Exports: `Registry`, `KeyHandler`, types `Command`, `KeyBindOptions`, `RegistrationHandle`, `RegistryEntry`, `RegistryClass`.
 
@@ -60,13 +60,13 @@ kh.attach(document)          // default target is document
 kh.detach(document)
 ```
 
-## platform — `@gentleduck/vim/platform`
+## platform  -  `@gentleduck/vim/platform`
 
 Exports: `detectPlatform() => Platform`, `isMac(platform?) => boolean`, `resolveMod(platform?) => 'meta' | 'ctrl'`, type `Platform` (`'mac' | 'windows' | 'linux'`).
 
 SSR safe: `detectPlatform()` falls back to `'linux'` when `navigator` is unavailable.
 
-## format — `@gentleduck/vim/format`
+## format  -  `@gentleduck/vim/format`
 
 Exports: `formatForDisplay(binding, options?) => string`, `formatWithLabels(binding, options?) => string`, `SYMBOL_MAP`, `LABEL_MAP`, type `FormatOptions { platform?, separator? }`.
 
@@ -75,7 +75,7 @@ formatForDisplay('mod+shift+k', { platform: 'mac' })  // => 'Cmd+Shift+K'
 formatWithLabels('mod+enter', { platform: 'mac' })     // => 'Cmd + Enter' (space-padded separator)
 ```
 
-## sequence — `@gentleduck/vim/sequence`
+## sequence  -  `@gentleduck/vim/sequence`
 
 Exports: `createSequenceMatcher(steps[], handler, options?) => { feed, reset, getState }`, `SequenceManager`, types `SequenceOptions`, `SequenceHandle`, `SequenceState`, `SequenceRegistration`, `SequenceStep`.
 
@@ -89,7 +89,7 @@ handle.unregister()
 mgr.destroy()
 ```
 
-## recorder — `@gentleduck/vim/recorder`
+## recorder  -  `@gentleduck/vim/recorder`
 
 Exports: `KeyRecorder`, `KeyStateTracker`, types `KeyRecorderOptions`, `KeyRecorderState`, `KeyStateSnapshot`.
 
@@ -106,7 +106,7 @@ tracker.getSnapshot()           // => { pressed: ReadonlySet<string>, hasModifie
 tracker.detach(); tracker.destroy()
 ```
 
-## react — `@gentleduck/vim/react`
+## react  -  `@gentleduck/vim/react`
 
 Exports: `useKeyBind`, `useKeySequence`, `useKeyCommands`, `useKeyRecorder`, `KeyProvider`, `KeyContext`, types `KeyContextValue`, `KeyBindHookOptions`, `SequenceHookOptions`, `KeyRecorderReturn`.
 

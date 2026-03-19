@@ -14,7 +14,7 @@ describe('grid', () => {
   // buildCalendarMonth
   // ---------------------------------------------------------------------------
   describe('buildCalendarMonth', () => {
-    const march2026 = new Date(2026, 2, 1) // March 1 2026 — starts on Sunday
+    const march2026 = new Date(2026, 2, 1) // March 1 2026  -  starts on Sunday
 
     const baseConfig = {
       showOutsideDays: true,
@@ -37,7 +37,7 @@ describe('grid', () => {
     })
 
     it('March 2026 has 5 weeks (not fixedWeeks)', () => {
-      // March 2026: starts Sunday, ends Tuesday → 5 rows
+      // March 2026: starts Sunday, ends Tuesday -> 5 rows
       const result = buildCalendarMonth(adapter, march2026, baseConfig)
       expect(result.weeks).toHaveLength(5)
     })
@@ -62,7 +62,7 @@ describe('grid', () => {
       }
 
       const lastWeek = result.weeks[result.weeks.length - 1]!
-      // Last week of March ends on Tuesday (31st), so Wed–Sat are April days
+      // Last week of March ends on Tuesday (31st), so Wed-Sat are April days
       const outsideDays = lastWeek.days.filter((d) => d.isOutside)
       expect(outsideDays.length).toBeGreaterThan(0)
       for (const d of outsideDays) {
@@ -97,7 +97,7 @@ describe('grid', () => {
       }
     })
 
-    it('weekStartDay=1 (Monday) shifts the grid — first cell is a Monday', () => {
+    it('weekStartDay=1 (Monday) shifts the grid  -  first cell is a Monday', () => {
       const result = buildCalendarMonth(adapter, march2026, {
         ...baseConfig,
         locale: { weekStartDay: 1 as const },
@@ -106,7 +106,7 @@ describe('grid', () => {
       expect(firstCell.date.getDay()).toBe(1) // Monday
     })
 
-    it('weekStartDay=0 (Sunday) — first cell is a Sunday', () => {
+    it('weekStartDay=0 (Sunday)  -  first cell is a Sunday', () => {
       const result = buildCalendarMonth(adapter, march2026, baseConfig)
       const firstCell = result.weeks[0]!.days[0]!
       expect(firstCell.date.getDay()).toBe(0) // Sunday
@@ -157,7 +157,7 @@ describe('grid', () => {
       expect(result).toHaveLength(12)
     })
 
-    it('month indices are 0–11 in order', () => {
+    it('month indices are 0-11 in order', () => {
       const result = buildCalendarYear(adapter, new Date(2026, 0, 1))
       result.forEach((entry, i) => {
         expect(entry.month).toBe(i)
@@ -320,12 +320,12 @@ describe('grid', () => {
   // ---------------------------------------------------------------------------
   describe('getWeekNumber', () => {
     it('Jan 1 2026 is in week 1', () => {
-      // Jan 1 2026 is a Thursday → week 1
+      // Jan 1 2026 is a Thursday -> week 1
       expect(getWeekNumber(adapter, new Date(2026, 0, 1))).toBe(1)
     })
 
     it('Dec 31 2026 is in week 53', () => {
-      // Dec 31 2026 is a Thursday → week 53
+      // Dec 31 2026 is a Thursday -> week 53
       expect(getWeekNumber(adapter, new Date(2026, 11, 31))).toBe(53)
     })
 

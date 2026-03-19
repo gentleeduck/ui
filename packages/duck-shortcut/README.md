@@ -14,7 +14,7 @@ A lightweight React component for easily binding and handling keyboard shortcuts
 - **Mixed Key Combinations and Sequences**: Combine both key combinations and sequences to define more complex shortcuts.
 - **Global Keyboard Event Listener**: The component adds a global keyboard event listener that works anywhere in the component tree without preventing events from bubbling or capturing.
 - **TypeScript Support**: Fully implemented in TypeScript with type definitions, ensuring a smooth development experience with type safety.
-- **Case Insensitivity**: The component handles key shortcuts in a case-insensitive manner, so you don’t need to worry about key case.
+- **Case Insensitivity**: The component handles key shortcuts in a case-insensitive manner, so you don't need to worry about key case.
 - **No Conflict with Other Components**: Use multiple instances of `useDuckShortcut` for different shortcuts without conflicts.
 
 ## Installation
@@ -65,7 +65,7 @@ const App = () => {
 
 ## API Reference
 
-Here’s an API reference for `@gentleduck/shortcut` in MDX format, detailing the types and usage of the `useDuckShortcut` hook:
+Here's an API reference for `@gentleduck/shortcut` in MDX format, detailing the types and usage of the `useDuckShortcut` hook:
 
 ## `useDuckShortcut`
 

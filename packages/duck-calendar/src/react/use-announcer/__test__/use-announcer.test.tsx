@@ -92,7 +92,7 @@ describe('useAnnouncer', () => {
     expect(screen.getByRole('status').textContent).toBe('March 2026')
   })
 
-  it('rapid sequential calls are debounced — only the last message appears', () => {
+  it('rapid sequential calls are debounced  -  only the last message appears', () => {
     const { result } = renderHook(() => useAnnouncer())
 
     const Wrapper = () => <result.current.AnnouncerPortal />

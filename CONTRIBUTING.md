@@ -1,7 +1,7 @@
 # Contributing to gentleduck/ui
 
 First off, thank you for considering contributing to **gentleduck/ui**!
-We welcome all kinds of contributions — from bug reports and documentation improvements to feature requests and new packages.
+We welcome all kinds of contributions  -  from bug reports and documentation improvements to feature requests and new packages.
 
 This document provides guidelines to help you get started.
 
@@ -135,10 +135,10 @@ If you find a bug, please [open an issue](https://github.com/gentleeduck/duck-ui
 
 * Start small - even fixing a typo helps!
 * Look at the ["good first issue"](https://github.com/gentleeduck/duck-ui/labels/good%20first%20issue) label for beginner-friendly contributions.
-* Ask questions! We’re happy to guide you.
+* Ask questions! We're happy to guide you.
 
 ---
 
 ## License
 
-By contributing, you agree that your contributions will be licensed under the project’s [MIT License](./LICENSE).
+By contributing, you agree that your contributions will be licensed under the project's [MIT License](./LICENSE).

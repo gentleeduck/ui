@@ -32,7 +32,7 @@ function getEvents(d: Date) {
 }
 
 export default function CalendarDemo() {
-  const [selected, setSelected] = React.useState<Date | undefined>(new Date())
+  const [selected, setSelected] = React.useState<Date | null>(new Date())
   const selectedEvents = selected ? getEvents(selected) : []
 
   return (
@@ -41,7 +41,7 @@ export default function CalendarDemo() {
         className="rounded-md border shadow-sm"
         mode="single"
         selected={selected}
-        onSelect={setSelected as (value: unknown) => void}
+        onSelect={setSelected}
         fixedWeeks
         showDropdowns
         renderDay={(day, children) => {

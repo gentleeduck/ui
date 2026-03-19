@@ -4,7 +4,15 @@ description: "Pure functions for building calendar month grids, year pickers, an
 ---
 
 ```tsx
-import { buildCalendarMonth, buildMultiMonth, buildCalendarYear, buildDecadeView } from '@gentleduck/calendar'
+import {
+  buildCalendarMonth,
+  buildMultiMonth,
+  buildCalendarYear,
+  buildDecadeView,
+  getLocalizedWeekdays,
+  getLocalizedMonthNames,
+  getWeekNumber,
+} from '@gentleduck/calendar'
 ```
 
 ## Functions
@@ -14,22 +22,22 @@ import { buildCalendarMonth, buildMultiMonth, buildCalendarYear, buildDecadeView
 Build a single month grid with weeks and day cells.
 
 ```tsx
-buildCalendarMonth(adapter: DateAdapter<TDate>, date: TDate, config?: GridConfig) => CalendarMonth<TDate>
+buildCalendarMonth(adapter: DateAdapter<TDate>, date: TDate, config?: Pick<CalendarConfig<TDate, any>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>) => CalendarMonth<TDate>
 ```
 
 | Param | Type | Description |
 | :--- | :--- | :--- |
 | `adapter` | `DateAdapter<TDate>` | Date adapter |
 | `date` | `TDate` | Any date in the target month |
-| `config` | `GridConfig` | Grid options |
+| `config` | `Pick<CalendarConfig<TDate, any>, 'showOutsideDays' \| 'fixedWeeks' \| 'locale'>` | Grid options |
 
-**GridConfig:**
+**Config properties:**
 
 | Property | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `showOutsideDays` | `boolean` | `true` | Show days from adjacent months |
 | `fixedWeeks` | `boolean` | `false` | Always produce 6 weeks |
-| `weekStartDay` | `WeekStartDay` | `0` | Which day starts the week (0 = Sunday) |
+| `locale` | `CalendarLocaleConfig` | - | Locale config containing `weekStartDay`, `locale`, `direction`, etc. |
 
 **Returns** a `CalendarMonth<TDate>`:
 
@@ -51,8 +59,13 @@ Each `CalendarDay<TDate>` has:
 | :--- | :--- | :--- |
 | `date` | `TDate` | The date |
 | `isToday` | `boolean` | Whether this is today |
-| `isOutsideMonth` | `boolean` | Whether this day is from an adjacent month |
+| `isOutside` | `boolean` | Whether this day is from an adjacent month |
 | `isWeekend` | `boolean` | Whether this is a weekend |
+| `isSelected` | `boolean` | Whether this day is selected (set by `applySelection`) |
+| `isDisabled` | `boolean` | Whether this day is disabled (set by `applySelection`) |
+| `isRangeStart` | `boolean` | Whether this day is the start of a range |
+| `isRangeEnd` | `boolean` | Whether this day is the end of a range |
+| `isRangeMiddle` | `boolean` | Whether this day is in the middle of a range |
 
 ---
 
@@ -61,7 +74,7 @@ Each `CalendarDay<TDate>` has:
 Build multiple consecutive month grids.
 
 ```tsx
-buildMultiMonth(adapter: DateAdapter<TDate>, date: TDate, count: number, config?: GridConfig) => CalendarMonth<TDate>[]
+buildMultiMonth(adapter: DateAdapter<TDate>, date: TDate, count: number, config?: Pick<CalendarConfig<TDate, any>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>) => CalendarMonth<TDate>[]
 ```
 
 | Param | Type | Description |
@@ -69,7 +82,7 @@ buildMultiMonth(adapter: DateAdapter<TDate>, date: TDate, count: number, config?
 | `adapter` | `DateAdapter<TDate>` | Date adapter |
 | `date` | `TDate` | Starting month |
 | `count` | `number` | Number of months |
-| `config` | `GridConfig` | Grid options |
+| `config` | `Pick<CalendarConfig<TDate, any>, 'showOutsideDays' \| 'fixedWeeks' \| 'locale'>` | Grid options |
 
 ---
 
@@ -93,7 +106,7 @@ Each `YearEntry` has:
 | :--- | :--- | :--- |
 | `month` | `number` | Month index (0-11) |
 | `label` | `string` | Localized month name |
-| `isCurrent` | `boolean` | Whether this is the currently displayed month |
+| `isCurrent` | `boolean` | Whether this is the current month (today's month and year) |
 
 ---
 
@@ -111,3 +124,67 @@ Each `DecadeEntry` has:
 | :--- | :--- | :--- |
 | `year` | `number` | The year |
 | `isCurrent` | `boolean` | Whether this is the current year |
+
+---
+
+## Utility Functions
+
+### `getLocalizedWeekdays`
+
+Returns 7 localized weekday names starting from the given week start day.
+
+```tsx
+getLocalizedWeekdays(adapter: DateAdapter<TDate>, locale?: string, weekStartDay?: WeekStartDay, format?: 'long' | 'short' | 'narrow') => string[]
+```
+
+| Param | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `adapter` | `DateAdapter<TDate>` | - | Date adapter |
+| `locale` | `string` | runtime default | BCP 47 locale tag |
+| `weekStartDay` | `WeekStartDay` | `0` | Day the week starts on (0 = Sunday) |
+| `format` | `'long' \| 'short' \| 'narrow'` | `'short'` | Intl weekday format |
+
+```tsx
+const weekdays = getLocalizedWeekdays(adapter, 'en-US', 1) // Monday-first
+// ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+```
+
+---
+
+### `getLocalizedMonthNames`
+
+Returns 12 localized month names in calendar order (Jan-Dec).
+
+```tsx
+getLocalizedMonthNames(adapter: DateAdapter<TDate>, locale?: string, format?: 'long' | 'short' | 'narrow') => string[]
+```
+
+| Param | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `adapter` | `DateAdapter<TDate>` | - | Date adapter |
+| `locale` | `string` | runtime default | BCP 47 locale tag |
+| `format` | `'long' \| 'short' \| 'narrow'` | `'long'` | Intl month format |
+
+```tsx
+const months = getLocalizedMonthNames(adapter, 'ar-SA')
+// Arabic month names
+```
+
+---
+
+### `getWeekNumber`
+
+Computes the ISO 8601 week number for a given date. Week 1 is the week containing the first Thursday of the year.
+
+```tsx
+getWeekNumber(adapter: DateAdapter<TDate>, date: TDate) => number
+```
+
+| Param | Type | Description |
+| :--- | :--- | :--- |
+| `adapter` | `DateAdapter<TDate>` | Date adapter |
+| `date` | `TDate` | The date to compute the week number for |
+
+```tsx
+const week = getWeekNumber(adapter, new Date(2026, 2, 19)) // 12
+```

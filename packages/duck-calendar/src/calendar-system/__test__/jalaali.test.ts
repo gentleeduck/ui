@@ -4,50 +4,50 @@ import { isLeapJalaaliYear, jalaaliMonthLength, toGregorian, toJalaali } from '.
 
 describe('jalaali conversion', () => {
   // -------------------------------------------------------------------------
-  // Known Gregorian ↔ Jalaali pairs
+  // Known Gregorian <-> Jalaali pairs
   // -------------------------------------------------------------------------
   describe('toJalaali', () => {
-    it('2025-06-12 → 1404-03-22 (Khordad 22)', () => {
+    it('2025-06-12 -> 1404-03-22 (Khordad 22)', () => {
       expect(toJalaali(2025, 6, 12)).toEqual({ jy: 1404, jm: 3, jd: 22 })
     })
 
-    it('2026-03-21 → 1405-01-01 (Nowruz)', () => {
+    it('2026-03-21 -> 1405-01-01 (Nowruz)', () => {
       expect(toJalaali(2026, 3, 21)).toEqual({ jy: 1405, jm: 1, jd: 1 })
     })
 
-    it('2024-02-29 → 1402-12-10 (leap day)', () => {
+    it('2024-02-29 -> 1402-12-10 (leap day)', () => {
       expect(toJalaali(2024, 2, 29)).toEqual({ jy: 1402, jm: 12, jd: 10 })
     })
 
-    it('2024-03-20 → 1403-01-01 (Nowruz 1403)', () => {
+    it('2024-03-20 -> 1403-01-01 (Nowruz 1403)', () => {
       expect(toJalaali(2024, 3, 20)).toEqual({ jy: 1403, jm: 1, jd: 1 })
     })
 
-    it('2025-03-20 → 1403-12-30 (last day of 1403 — leap year)', () => {
+    it('2025-03-20 -> 1403-12-30 (last day of 1403  -  leap year)', () => {
       expect(toJalaali(2025, 3, 20)).toEqual({ jy: 1403, jm: 12, jd: 30 })
     })
 
-    it('2025-03-21 → 1404-01-01 (Nowruz 1404)', () => {
+    it('2025-03-21 -> 1404-01-01 (Nowruz 1404)', () => {
       expect(toJalaali(2025, 3, 21)).toEqual({ jy: 1404, jm: 1, jd: 1 })
     })
   })
 
   describe('toGregorian', () => {
-    it('1404-03-22 → 2025-06-12', () => {
+    it('1404-03-22 -> 2025-06-12', () => {
       expect(toGregorian(1404, 3, 22)).toEqual({ gy: 2025, gm: 6, gd: 12 })
     })
 
-    it('1405-01-01 → 2026-03-21 (Nowruz)', () => {
+    it('1405-01-01 -> 2026-03-21 (Nowruz)', () => {
       expect(toGregorian(1405, 1, 1)).toEqual({ gy: 2026, gm: 3, gd: 21 })
     })
 
-    it('1402-12-10 → 2024-02-29', () => {
+    it('1402-12-10 -> 2024-02-29', () => {
       expect(toGregorian(1402, 12, 10)).toEqual({ gy: 2024, gm: 2, gd: 29 })
     })
   })
 
   describe('roundtrip', () => {
-    it('toJalaali → toGregorian is identity', () => {
+    it('toJalaali -> toGregorian is identity', () => {
       const dates = [
         [2020, 1, 1],
         [2024, 2, 29],
@@ -63,7 +63,7 @@ describe('jalaali conversion', () => {
       }
     })
 
-    it('toGregorian → toJalaali is identity', () => {
+    it('toGregorian -> toJalaali is identity', () => {
       const dates = [
         [1404, 1, 1],
         [1404, 6, 31],
@@ -101,13 +101,13 @@ describe('jalaali conversion', () => {
   // Month lengths
   // -------------------------------------------------------------------------
   describe('jalaaliMonthLength', () => {
-    it('months 1–6 have 31 days', () => {
+    it('months 1-6 have 31 days', () => {
       for (let m = 1; m <= 6; m++) {
         expect(jalaaliMonthLength(1404, m)).toBe(31)
       }
     })
 
-    it('months 7–11 have 30 days', () => {
+    it('months 7-11 have 30 days', () => {
       for (let m = 7; m <= 11; m++) {
         expect(jalaaliMonthLength(1404, m)).toBe(30)
       }
@@ -126,7 +126,7 @@ describe('jalaali conversion', () => {
   // Edge cases
   // -------------------------------------------------------------------------
   describe('edge cases', () => {
-    it('year boundary: last day of Esfand → first day of Farvardin', () => {
+    it('year boundary: last day of Esfand -> first day of Farvardin', () => {
       // 1403 is leap, so Esfand has 30 days
       const g = toGregorian(1403, 12, 30)
       const next = toJalaali(g.gy, g.gm, g.gd + 1)

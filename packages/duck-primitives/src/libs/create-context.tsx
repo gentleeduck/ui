@@ -95,7 +95,7 @@ function composeContextScopes(...scopes: [CreateScope, ...CreateScope[]]): Creat
       // biome-ignore lint/suspicious/noExplicitAny: scope values are heterogeneous Context arrays requiring `any`
       const nextScopes: Record<string, any> = {}
       for (const { useScope, scopeName } of scopeHooks) {
-        // biome-ignore lint/correctness/useHookAtTopLevel: scopeHooks is static — the number of hooks called is always the same across renders
+        // biome-ignore lint/correctness/useHookAtTopLevel: scopeHooks is static  -  the number of hooks called is always the same across renders
         const scopeProps = useScope(overrideScopes)
         const currentScope = scopeProps[`__scope${scopeName}`]
         Object.assign(nextScopes, currentScope)

@@ -55,10 +55,7 @@ export function useAnnouncer(): AnnouncerReturn {
     }, DEBOUNCE_MS)
   }, [])
 
-  const AnnouncerPortal: React.FC = useCallback(
-    () => createElement(LiveRegion, { messageRef }),
-    [],
-  )
+  const AnnouncerPortal: React.FC = useCallback(() => createElement(LiveRegion, { messageRef }), [])
 
   return { announce, AnnouncerPortal }
 }

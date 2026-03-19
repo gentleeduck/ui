@@ -8,7 +8,7 @@ const NAV_NAME = 'CalendarNav'
 const NAV_BUTTON_NAME = 'CalendarNavButton'
 
 // ---------------------------------------------------------------------------
-// CalendarNav — wrapper for prev/next buttons
+// CalendarNav  -  wrapper for prev/next buttons
 // ---------------------------------------------------------------------------
 
 type CalendarNavElement = React.ComponentRef<typeof Primitive.div>

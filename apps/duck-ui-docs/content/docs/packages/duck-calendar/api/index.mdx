@@ -11,19 +11,31 @@ Full prop tables, return types, and type definitions for every export in `@gentl
 
 ## Hooks
 
-| Page | Description |
+| Export | Description |
 | :--- | :--- |
 | [useCalendar](/docs/packages/duck-calendar/api/use-calendar) | Main calendar hook -- state, actions, and prop getters |
 | [useTimePicker](/docs/packages/duck-calendar/api/use-time-picker) | Time picker hook -- spinbutton fields and keyboard input |
 | [useDateTime](/docs/packages/duck-calendar/api/use-datetime) | Combined date + time hook |
+| `useAnnouncer` | Screen reader announcement hook |
+| `useKeyboard` | Keyboard navigation hook |
 
 ## Core functions
 
-| Page | Description |
+| Export | Description |
 | :--- | :--- |
 | [Grid](/docs/packages/duck-calendar/api/grid) | Grid builder functions -- `buildCalendarMonth`, `buildMultiMonth`, etc. |
 | [Selection](/docs/packages/duck-calendar/api/selection) | Selection logic -- `selectDay`, `applySelection` |
 | [Navigation](/docs/packages/duck-calendar/api/navigation) | Navigation functions -- `navigate`, `canNavigate` |
+| `isDateDisabled` | Check if a date is disabled by the current constraints |
+| `isInRange` | Check if a date falls within a range |
+| `clampTime` | Clamp a time value to min/max bounds |
+| `formatTimeField` | Format a single time field for display |
+| `getAmPm` | Get the AM/PM value from a time |
+| `incrementField` | Increment or decrement a time field by step |
+| `isValidTime` | Validate a time value against constraints |
+| `parseTimeInput` | Parse raw keyboard input into a time field value |
+| `to12Hour` | Convert a 24-hour value to 12-hour format |
+| `to24Hour` | Convert a 12-hour value to 24-hour format |
 
 ---
 
@@ -35,13 +47,35 @@ These types are exported from `@gentleduck/calendar` and used across the API:
 | :--- | :--- |
 | `DateAdapter<TDate>` | Interface for pluggable date backends |
 | `CalendarConfig<TDate, M>` | Full calendar configuration |
+| `CalendarLocaleConfig` | Locale settings (locale tag, week start day, direction, numbering system, calendar) |
 | `CalendarValue<TDate, M>` | Conditional type resolving per selection mode |
 | `CalendarDay<TDate>` | Day cell with selection/state flags |
 | `CalendarWeek<TDate>` | Week with weekNumber + 7 days |
 | `CalendarMonth<TDate>` | Month grid with weeks |
 | `SelectionMode` | `'single' \| 'range' \| 'multi'` |
+| `SelectionConstraints` | Disabled dates and date bounds |
 | `DateRange<TDate>` | `{ from: TDate, to: TDate \| null }` |
+| `NavigationDirection` | `'prev' \| 'next'` |
+| `NavigationUnit` | `'month' \| 'year' \| 'decade'` |
+| `DayProps` | Props returned by `getDayProps` |
+| `GridProps` | Props returned by `getGridProps` |
+| `NavProps` | Props returned by `getNavProps` |
+| `HeaderProps` | Props returned by `getHeaderProps` |
+| `AnnouncerReturn` | Return type of `useAnnouncer` |
+| `KeyboardConfig` | Configuration for the keyboard navigation hook |
+| `KeyboardReturn` | Return type of `useKeyboard` |
+| `TimeFieldProps` | Props returned by `getFieldProps` |
 | `TimeValue` | `{ hour, minute, second? }` |
 | `TimeField` | `'hour' \| 'minute' \| 'second' \| 'ampm'` |
 | `HourCycle` | `'12' \| '24'` |
+| `TimePickerConfig` | Configuration for the time picker |
+| `UseCalendarConfig` | Configuration accepted by `useCalendar` |
+| `UseCalendarReturn` | Return type of `useCalendar` |
+| `UseTimePickerConfig` | Configuration accepted by `useTimePicker` |
+| `UseTimePickerReturn` | Return type of `useTimePicker` |
+| `UseDateTimeConfig` | Configuration accepted by `useDateTime` |
+| `UseDateTimeReturn` | Return type of `useDateTime` |
 | `ViewMode` | `'days' \| 'months' \| 'years'` |
+| `WeekStartDay` | Numeric day used as the first day of the week |
+| `DecadeEntry` | Entry in the decade view grid |
+| `YearEntry` | Entry in the year view grid |

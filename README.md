@@ -11,7 +11,7 @@ Build accessible React apps faster. 50+ components. 10+ packages. Zero compromis
 
 | Package | Description | Version |
 | --- | --- | --- |
-| [`@gentleduck/calendar`](./packages/duck-calendar) | Headless calendar engine with date adapter pattern (~7 KB) | [![npm](https://img.shields.io/npm/v/@gentleduck/calendar)](https://www.npmjs.com/package/@gentleduck/calendar) |
+| [`@gentleduck/calendar`](./packages/duck-calendar) | Headless calendar engine with date adapter pattern (~5 KB) | [![npm](https://img.shields.io/npm/v/@gentleduck/calendar)](https://www.npmjs.com/package/@gentleduck/calendar) |
 | [`@gentleduck/primitives`](./packages/duck-primitives) | Accessibility-first headless UI primitives | [![npm](https://img.shields.io/npm/v/@gentleduck/primitives)](https://www.npmjs.com/package/@gentleduck/primitives) |
 | [`@gentleduck/vim`](./packages/duck-vim) | Keyboard command engine with sequences and recording | [![npm](https://img.shields.io/npm/v/@gentleduck/vim)](https://www.npmjs.com/package/@gentleduck/vim) |
 | [`@gentleduck/variants`](./packages/duck-variants) | Type-safe component variants with cva() | [![npm](https://img.shields.io/npm/v/@gentleduck/variants)](https://www.npmjs.com/package/@gentleduck/variants) |
@@ -39,13 +39,13 @@ npx @gentleduck/cli@latest add button
 
 ## Key Features
 
-- **Tailwind v4** — Built on Tailwind CSS v4 with native CSS layers
-- **Dark mode** — First-class dark mode support out of the box
-- **RTL + i18n** — Right-to-left layout and internationalization ready
-- **ARIA compliant** — WAI-ARIA patterns across all primitives
-- **Tree-shakeable** — Every package ships ESM with no side effects
-- **TypeScript** — Full type coverage with strict mode
-- **Persian / Hijri calendars** — Multi-calendar system support via date adapters
+- **Tailwind v4**  -  Built on Tailwind CSS v4 with native CSS layers
+- **Dark mode**  -  First-class dark mode support out of the box
+- **RTL + i18n**  -  Right-to-left layout and internationalization ready
+- **ARIA compliant**  -  WAI-ARIA patterns across all primitives
+- **Tree-shakeable**  -  Every package ships ESM with no side effects
+- **TypeScript**  -  Full type coverage with strict mode
+- **Persian / Hijri calendars**  -  Multi-calendar system support via date adapters
 
 ## Documentation
 

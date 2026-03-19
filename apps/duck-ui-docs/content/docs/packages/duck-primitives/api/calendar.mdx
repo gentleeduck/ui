@@ -42,10 +42,10 @@ function DatePicker() {
         <Calendar.Header className="text-sm font-medium" />
         <Calendar.Nav className="flex gap-1">
           <Calendar.PrevButton className="h-7 w-7 rounded hover:bg-accent">
-            ←
+            <-
           </Calendar.PrevButton>
           <Calendar.NextButton className="h-7 w-7 rounded hover:bg-accent">
-            →
+            ->
           </Calendar.NextButton>
         </Calendar.Nav>
       </div>
@@ -162,7 +162,7 @@ Automatically applies `aria-label="Go to next month"` and `disabled` from contex
 
 ### `Calendar.Grid`
 
-The day grid container. Renders a `div` with `role="grid"` and `aria-roledescription="calendar"`.
+The day grid container. Renders a `div` with `role="grid"`, `aria-roledescription="calendar"`, and `aria-labelledby` pointing to the Header element (set automatically by `getGridProps()`).
 
 **Data attributes:**
 
@@ -174,7 +174,7 @@ The day grid container. Renders a `div` with `role="grid"` and `aria-roledescrip
 
 ### `Calendar.Weekdays`
 
-Renders the weekday header row. Each weekday renders as an `abbr` with `role="columnheader"`.
+Renders the weekday header row as a `div` with `role="row"`. Each weekday renders as an `abbr` with `role="columnheader"`.
 
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
@@ -204,6 +204,7 @@ Automatically applies all day props from context: `aria-label`, `aria-selected`,
 | Attribute | Value |
 | :--- | :--- |
 | `data-slot` | `"calendar-day"` |
+| `data-calendar-day` | `""` -- marker attribute used internally for focus queries |
 | `data-selected` | `"true"` when selected |
 | `data-today` | `"true"` for today |
 | `data-disabled` | `"true"` when disabled |
@@ -227,6 +228,7 @@ A 12-month grid for month picking. Renders a `div` with `role="grid"`. Clicking 
 | `data-slot` | `"calendar-month-view"` |
 | `data-slot` (each cell) | `"calendar-month"` |
 | `data-current` | `"true"` on the current month |
+| `data-month` (each cell) | Zero-based month index (e.g. `0` for January) |
 
 ---
 
@@ -241,14 +243,17 @@ A decade year grid for year picking. Renders a `div` with `role="grid"`. Clickin
 | `data-slot` | `"calendar-year-view"` |
 | `data-slot` (each cell) | `"calendar-year"` |
 | `data-current` | `"true"` on the current year |
+| `data-year` (each cell) | Four-digit year (e.g. `2026`) |
 
 ---
 
 ## Accessibility
 
 - `Calendar.Root` renders `role="application"` with `aria-label="Calendar"`
-- `Calendar.Grid` renders `role="grid"` with `aria-roledescription="calendar"`
+- `Calendar.Grid` renders `role="grid"` with `aria-roledescription="calendar"` and `aria-labelledby` linked to the Header
+- `Calendar.Weekdays` renders `role="row"` with each weekday cell as `role="columnheader"`
 - `Calendar.Day` renders `role="gridcell"` with full ARIA labeling
+- `Calendar.MonthView` and `Calendar.YearView` render each button cell with `role="gridcell"`
 - `Calendar.Nav` renders `role="navigation"` with `aria-label="Calendar navigation"`
 - Screen reader announcements are rendered automatically via `AnnouncerPortal`
 - Keyboard navigation follows the WAI-ARIA grid pattern (<Kbd>ArrowLeft</Kbd>/<Kbd>ArrowRight</Kbd>, <Kbd>PageUp</Kbd>/<Kbd>PageDown</Kbd>, <Kbd>Home</Kbd>/<Kbd>End</Kbd>, <Kbd>Enter</Kbd>/<Kbd>Space</Kbd>, <Kbd>Escape</Kbd>)

@@ -10,7 +10,7 @@ description: "Compare gentleduck/ui with shadcn/ui. Same philosophy, different e
 | **CLI** | `gentleduck add`, `init`, `diff`, `update`, `remove` | `shadcn add`, `init`, `diff` |
 | **Component count** | 50+ styled components | 50+ styled components |
 | **Primitives** | Own (`@gentleduck/primitives`) | Radix UI (dependency) |
-| **Calendar** | Own engine (`@gentleduck/calendar`, 7 KB) | react-day-picker (~20 KB) |
+| **Calendar** | Own engine (`@gentleduck/calendar`, ~5 KB) | react-day-picker (~20 KB) |
 | **Motion / Animation** | `@gentleduck/motion` (tokens, reduced-motion) | None (BYO) |
 | **Keyboard engine** | `@gentleduck/vim` (bindings, sequences, recorder) | None (BYO) |
 | **State management** | `@gentleduck/state` (atom-based) | None (BYO) |
@@ -62,7 +62,7 @@ gentleduck/ui uses `@gentleduck/primitives` -- the same compound-component API a
 
 shadcn/ui wraps react-day-picker (~20 KB gzipped, requires date-fns).
 
-gentleduck/ui uses `@gentleduck/calendar` (~7 KB gzipped, zero required dependencies). The adapter pattern lets you use native Date, date-fns, dayjs, or luxon. Non-Gregorian calendars (Hijri, Persian) work through adapters. See the [full comparison with react-day-picker](/docs/comparisons/vs-react-day-picker).
+gentleduck/ui uses `@gentleduck/calendar` (~5 KB gzipped, zero required dependencies). The adapter pattern lets you use native Date, date-fns, dayjs, or luxon. Non-Gregorian calendars (Hijri, Persian) work through adapters. See the [full comparison with react-day-picker](/docs/comparisons/vs-react-day-picker).
 
 ### Keyboard engine
 
@@ -223,7 +223,7 @@ The API is the same. `@gentleduck/variants` adds memoization.
 
 **Use gentleduck/ui when:**
 - You want to own the full stack (primitives, calendar, keyboard, motion, state)
-- Bundle size is a priority (especially for calendar: 7 KB vs 20 KB)
+- Bundle size is a priority (especially for calendar: ~5 KB vs 20 KB)
 - You need non-Gregorian calendar support
 - You want keyboard command infrastructure (vim-style bindings, command palette)
 - You want CLI commands for updating and removing components
