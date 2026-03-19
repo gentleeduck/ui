@@ -5,7 +5,7 @@ import type { CalendarDay, CalendarMonth, CalendarWeek, DecadeEntry, YearEntry }
 
 /**
  * Build a 2D grid of day cells for a given month.
- * Returns weeks × 7 days. Selection flags default to `false` — use `applySelection()` to fill them.
+ * Returns weeks x 7 days. Selection flags default to `false`  -  use `applySelection()` to fill them.
  */
 export function buildCalendarMonth<TDate>(
   adapter: DateAdapter<TDate>,
@@ -18,7 +18,7 @@ export function buildCalendarMonth<TDate>(
   const firstOfMonth = adapter.startOfMonth(viewDate)
   const lastOfMonth = adapter.endOfMonth(viewDate)
 
-  // first cell in the grid — may be in the previous month
+  // first cell in the grid  -  may be in the previous month
   let cursor = adapter.startOfWeek(firstOfMonth, weekStartDay)
 
   const weeks: CalendarWeek<TDate>[] = []

@@ -16,7 +16,7 @@ export const config: TsdownConfig = {
   },
   outDir: './dist',
   platform: 'neutral',
-  plugins: [react() as never],
+  plugins: [react({ development: false }) as never],
   shims: true,
   sourcemap: false,
   target: 'esnext',

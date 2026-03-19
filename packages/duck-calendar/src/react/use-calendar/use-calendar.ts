@@ -105,8 +105,13 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
 
   const isDisabledFn = useCallback((date: TDate) => isDateDisabled(adapter, date, constraints), [adapter, constraints])
 
+  // Extract primitive values from locale for stable memoization deps
+  const localeTag = locale?.locale
+  const weekStartDay = locale?.weekStartDay ?? 0
+  const localeDirection = locale?.direction
+
   // -------------------------------------------------------------------------
-  // Grid — rebuild when month, value, or constraints change
+  // Grid  -  rebuild when month, value, or constraints change
   // -------------------------------------------------------------------------
   const months: CalendarMonth<TDate>[] = useMemo(() => {
     const gridConfig = { showOutsideDays, fixedWeeks, locale }
@@ -119,7 +124,8 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
       ...m,
       weeks: applySelection(m.weeks, adapter, mode, value, constraints),
     }))
-  }, [adapter, month, mode, value, constraints, showOutsideDays, fixedWeeks, locale, numberOfMonths])
+    // Use primitive locale values instead of the locale object to avoid unnecessary rebuilds
+  }, [adapter, month, mode, value, constraints, showOutsideDays, fixedWeeks, localeTag, weekStartDay, localeDirection, numberOfMonths])
 
   // First month's weeks for backward compat
   const weeks = months[0]?.weeks ?? []
@@ -128,8 +134,8 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // Weekday headers
   // -------------------------------------------------------------------------
   const weekdays = useMemo(
-    () => getLocalizedWeekdays(adapter, locale?.locale, locale?.weekStartDay ?? 0, 'short'),
-    [adapter, locale],
+    () => getLocalizedWeekdays(adapter, localeTag, weekStartDay, 'short'),
+    [adapter, localeTag, weekStartDay],
   )
 
   // -------------------------------------------------------------------------
@@ -208,7 +214,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   }, [value, mode, adapter, announce, locale])
 
   // -------------------------------------------------------------------------
-  // Focus management — auto-advance month when focus leaves the visible month
+  // Focus management  -  auto-advance month when focus leaves the visible month
   // -------------------------------------------------------------------------
   const handleFocusChange = useCallback(
     (date: TDate) => {
