@@ -19,6 +19,14 @@ export const CalendarYearView = React.forwardRef<CalendarYearViewElement, Calend
 
     const years = React.useMemo(() => buildDecadeView(adapter, month), [adapter, month])
 
+    const handleYearSelect = React.useCallback(
+      (year: number) => {
+        context.actions.setMonth(goToYear(adapter, month, year))
+        context.actions.setViewMode('months')
+      },
+      [adapter, month, context.actions],
+    )
+
     return (
       <Primitive.div role="grid" data-slot="calendar-year-view" {...viewProps} ref={forwardedRef}>
         {children ??
@@ -32,10 +40,7 @@ export const CalendarYearView = React.forwardRef<CalendarYearViewElement, Calend
               data-slot="calendar-year"
               data-current={entry.isCurrent ? 'true' : undefined}
               data-year={entry.year}
-              onClick={() => {
-                context.actions.setMonth(goToYear(adapter, month, entry.year))
-                context.actions.setViewMode('months')
-              }}>
+              onClick={() => handleYearSelect(entry.year)}>
               {entry.year}
             </Primitive.button>
           ))}

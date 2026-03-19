@@ -17,7 +17,16 @@ export const CalendarMonthView = React.forwardRef<CalendarMonthViewElement, Cale
     const { adapter, locale } = context
     const { month } = context.state
 
-    const months = React.useMemo(() => buildCalendarYear(adapter, month, locale?.locale), [adapter, month, locale])
+    const localeTag = locale?.locale
+    const months = React.useMemo(() => buildCalendarYear(adapter, month, localeTag), [adapter, month, localeTag])
+
+    const handleMonthSelect = React.useCallback(
+      (monthIndex: number) => {
+        context.actions.setMonth(goToMonth(adapter, month, monthIndex))
+        context.actions.setViewMode('days')
+      },
+      [adapter, month, context.actions],
+    )
 
     return (
       <Primitive.div role="grid" data-slot="calendar-month-view" {...viewProps} ref={forwardedRef}>
@@ -32,10 +41,7 @@ export const CalendarMonthView = React.forwardRef<CalendarMonthViewElement, Cale
               data-slot="calendar-month"
               data-current={entry.isCurrent ? 'true' : undefined}
               data-month={entry.month}
-              onClick={() => {
-                context.actions.setMonth(goToMonth(adapter, month, entry.month))
-                context.actions.setViewMode('days')
-              }}>
+              onClick={() => handleMonthSelect(entry.month)}>
               {entry.label}
             </Primitive.button>
           ))}
