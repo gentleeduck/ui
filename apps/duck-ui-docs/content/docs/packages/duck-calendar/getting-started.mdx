@@ -100,8 +100,8 @@ function MyCalendar() {
       <div {...getHeaderProps()}>
         {adapter.format(state.month, { month: 'long', year: 'numeric' })}
       </div>
-      <button {...getNavProps('prev')}>←</button>
-      <button {...getNavProps('next')}>→</button>
+      <button {...getNavProps('prev')}><-</button>
+      <button {...getNavProps('next')}>-></button>
       <div {...getGridProps()}>
         {state.weeks.map(week =>
           week.days.map(day => (

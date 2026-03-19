@@ -28,7 +28,7 @@ import type { DateAdapter, WeekStartDay } from './adapter.types'
  * for locale-aware formatting.
  *
  * `date-fns` operates on native `Date` objects, so `TDate = Date`.
- * All methods return new Date instances — inputs are never mutated.
+ * All methods return new Date instances  -  inputs are never mutated.
  *
  * Requires `date-fns` as a peer dependency.
  */
@@ -80,12 +80,12 @@ export class DateFnsAdapter implements DateAdapter<Date> {
     return dfAddDays(date, count)
   }
 
-  /** Adds months — date-fns handles day clamping automatically. */
+  /** Adds months  -  date-fns handles day clamping automatically. */
   addMonths(date: Date, count: number): Date {
     return dfAddMonths(date, count)
   }
 
-  /** Adds years — date-fns handles leap-year clamping automatically. */
+  /** Adds years  -  date-fns handles leap-year clamping automatically. */
   addYears(date: Date, count: number): Date {
     return dfAddYears(date, count)
   }

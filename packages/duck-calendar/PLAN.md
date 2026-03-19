@@ -8,9 +8,9 @@ Issue #313. Measure and validate bundle size, rendering performance, and package
 |--------|---------|--------|--------|
 | Core (no React) | 2.5 KB | < 3 KB | PASS |
 | React hooks | 4.2 KB | < 8 KB | PASS |
-| Full package | 7.0 KB | < 8 KB | PASS |
+| Full package | 4.9 KB | < 8 KB | PASS |
 
-65% smaller than react-day-picker v9 (~20 KB).
+75% smaller than react-day-picker v9 (~20 KB).
 
 ## Performance Tests
 

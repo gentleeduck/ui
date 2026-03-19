@@ -99,10 +99,10 @@ describe('memoization correctness', () => {
 
     // Selection 1
     const sel1 = applySelection(raw.weeks, adapter, 'single', new Date(2026, 2, 10), {})
-    // Selection 2 — same raw grid, different selection
+    // Selection 2  -  same raw grid, different selection
     const sel2 = applySelection(raw.weeks, adapter, 'single', new Date(2026, 2, 20), {})
 
-    // raw.weeks is reused — only flags differ
+    // raw.weeks is reused  -  only flags differ
     const s1Selected = sel1.flatMap((w) => w.days).filter((d) => d.isSelected)
     const s2Selected = sel2.flatMap((w) => w.days).filter((d) => d.isSelected)
 

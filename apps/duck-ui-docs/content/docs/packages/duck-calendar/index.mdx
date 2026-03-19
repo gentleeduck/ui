@@ -34,7 +34,7 @@ We built this to replace `react-day-picker`. The numbers speak for themselves:
 
 ![Feature Comparison](/images/benchmarks/calendar/features.svg)
 
-7 KB gzipped. Zero dependencies. Full keyboard navigation. Complete ARIA compliance. See the [full benchmarks](/docs/packages/duck-calendar/course/08-performance).
+~5 KB gzipped. Zero dependencies. Full keyboard navigation. Complete ARIA compliance. See the [full benchmarks](/docs/packages/duck-calendar/course/08-performance).
 
 ## The four layers
 
@@ -56,7 +56,7 @@ We built this to replace `react-day-picker`. The numbers speak for themselves:
 
 We replaced `react-day-picker` with this package. Every existing React calendar library either bundles too much CSS, mandates a specific date library, or ships a monolithic component you cannot tree-shake. `@gentleduck/calendar` solves all three:
 
-- **7 KB gzipped** -- 2-6x smaller than every alternative
+- **~5 KB gzipped** -- 3-9x smaller than every alternative
 - **Zero runtime dependencies** -- the `NativeAdapter` uses only `Date` + `Intl.DateTimeFormat`
 - **Pluggable date backend** -- swap `Date` for dayjs, date-fns, or the Temporal API without changing any calendar code
 - **Headless** -- no CSS shipped, style with data attributes and Tailwind

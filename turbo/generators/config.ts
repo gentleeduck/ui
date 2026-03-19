@@ -67,7 +67,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
       const hasPrimitives = features.includes('primitives')
 
       const actions: PlopTypes.ActionType[] = [
-        // Core files — always created
+        // Core files  -  always created
         {
           type: 'add',
           path: 'packages/duck-{{ name }}/package.json',
@@ -105,7 +105,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
         },
       ]
 
-      // Vitest — add config + example test + test script
+      // Vitest  -  add config + example test + test script
       if (hasVitest) {
         actions.push(
           {
@@ -154,7 +154,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
             pkg.devDependencies.zod = '4.3.6'
           }
 
-          // Peer dependencies — gentleduck packages
+          // Peer dependencies  -  gentleduck packages
           if (!hasReact) {
             delete pkg.peerDependencies.react
             delete pkg.peerDependencies['react-dom']

@@ -160,7 +160,7 @@ describe('DateFnsAdapter', () => {
       expect(d.getFullYear()).toBe(2026)
     })
 
-    it('is already the 1st — returns 1st', () => {
+    it('is already the 1st  -  returns 1st', () => {
       expect(adapter.startOfMonth(adapter.create(2026, 2, 1)).getDate()).toBe(1)
     })
   })

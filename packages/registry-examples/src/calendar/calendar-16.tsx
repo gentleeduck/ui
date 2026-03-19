@@ -21,7 +21,7 @@ function isBooked(date: Date) {
 }
 
 export default function CalendarDemo() {
-  const [date, setDate] = React.useState<Date | undefined>()
+  const [date, setDate] = React.useState<Date | null>(null)
   const now = new Date()
   const today = new Date(now.getFullYear(), now.getMonth(), now.getDate())
 
@@ -31,7 +31,7 @@ export default function CalendarDemo() {
       mode="single"
       defaultMonth={new Date(2026, 2, 1)}
       selected={date}
-      onSelect={setDate as (value: unknown) => void}
+      onSelect={setDate}
       disabled={(d) => isBooked(d)}
       fromDate={today}
       showDropdowns={false}

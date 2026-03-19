@@ -8,7 +8,7 @@ export function getAmPm(hour: number): 'AM' | 'PM' {
   return hour < 12 ? 'AM' : 'PM'
 }
 
-/** Convert 24-hour to 12-hour display value. 0→12, 13→1, etc. */
+/** Convert 24-hour to 12-hour display value. 0->12, 13->1, etc. */
 export function to12Hour(hour: number): number {
   if (hour === 0) return 12
   if (hour > 12) return hour - 12

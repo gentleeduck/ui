@@ -1,10 +1,10 @@
 /** A time value with hour, minute, and optional second. */
 export interface TimeValue {
-  /** 0–23 */
+  /** 0-23 */
   hour: number
-  /** 0–59 */
+  /** 0-59 */
   minute: number
-  /** 0–59 (optional) */
+  /** 0-59 (optional) */
   second?: number
 }
 

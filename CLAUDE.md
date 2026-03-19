@@ -12,20 +12,21 @@ Always trust React Grab context over searching. It points to the exact file and 
 
 ## Monorepo Structure
 
-- `packages/registry-ui/` — styled Tailwind components (source-exported, no build)
-- `packages/duck-primitives/` — headless a11y-first primitives (built with tsdown)
-- `packages/duck-docs/` — shared docs app kit
-- `packages/duck-cli/` — CLI for scaffolding and adding components
-- `packages/duck-variants/` — cva() variant system
-- `packages/duck-motion/` — animation tokens and reduced motion
-- `packages/duck-vim/` — keyboard command engine
-- `packages/duck-state/` — atom-based state management
-- `packages/duck-hooks/` — React utility hooks
-- `packages/duck-libs/` — cn(), utilities
-- `packages/duck-lazy/` — lazy loading components
-- `apps/duck-ui-docs/` — docs site (Next.js)
-- `templates/acme/` — monorepo template
-- `skills/` — agent skills for AI coding assistants
+- `packages/registry-ui/`  -  styled Tailwind components (source-exported, no build)
+- `packages/duck-primitives/`  -  headless a11y-first primitives (built with tsdown)
+- `packages/duck-docs/`  -  shared docs app kit
+- `packages/duck-calendar/`  -  headless calendar engine with date adapters
+- `packages/duck-cli/`  -  CLI for scaffolding and adding components
+- `packages/duck-variants/`  -  cva() variant system
+- `packages/duck-motion/`  -  animation tokens and reduced motion
+- `packages/duck-vim/`  -  keyboard command engine
+- `packages/duck-state/`  -  atom-based state management
+- `packages/duck-hooks/`  -  React utility hooks
+- `packages/duck-libs/`  -  cn(), utilities
+- `packages/duck-lazy/`  -  lazy loading components
+- `apps/duck-ui-docs/`  -  docs site (Next.js)
+- `templates/acme/`  -  monorepo template
+- `skills/`  -  agent skills for AI coding assistants
 
 ## Build and Test
 

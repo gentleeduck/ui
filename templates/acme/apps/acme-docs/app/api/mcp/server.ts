@@ -796,7 +796,7 @@ function truncate(text: string): string {
   if (text.length <= MAX_RESPONSE_CHARS) return text
   return (
     text.slice(0, MAX_RESPONSE_CHARS) +
-    '\n\n---\n*[Truncated — use `section` parameter or `mode="summary"` to get specific parts]*'
+    '\n\n---\n*[Truncated  -  use `section` parameter or `mode="summary"` to get specific parts]*'
   )
 }
 
@@ -1112,7 +1112,7 @@ export function createMcpServer(): McpServer {
       },
       instructions: [
         'MCP server for acme/ui documentation (ui.acme.com).',
-        'Tools: list_docs → browse catalog, search_docs → keyword search (fuzzy), semantic_search → natural language search (TF-IDF), read_doc → full page, get_component_api → props only, get_examples → code only, get_changelog → version history, get_installation → setup guide, suggest_components → find the right component.',
+        'Tools: list_docs -> browse catalog, search_docs -> keyword search (fuzzy), semantic_search -> natural language search (TF-IDF), read_doc -> full page, get_component_api -> props only, get_examples -> code only, get_changelog -> version history, get_installation -> setup guide, suggest_components -> find the right component.',
         'Tip: use semantic_search for conceptual queries ("how to handle forms"), search_docs for specific keywords. Use list_docs to browse, then read_doc for details.',
         'Categories: components, installation, packages, changelog, dark-theme, general.',
       ].join(' '),
@@ -1123,7 +1123,7 @@ export function createMcpServer(): McpServer {
 
   server.tool(
     'list_docs',
-    'List documentation pages with pagination. Optionally filter by category. Returns slug, title, description — compact by default.',
+    'List documentation pages with pagination. Optionally filter by category. Returns slug, title, description  -  compact by default.',
     {
       category: CATEGORY_ENUM.default('all').describe('Filter by category. Use "all" for everything.'),
       page: z.number().min(1).default(1).describe('Page number (1-based). Each page returns up to 20 items.'),
@@ -1139,7 +1139,7 @@ export function createMcpServer(): McpServer {
       const start = (safePage - 1) * pageSize
       const slice = filtered.slice(start, start + pageSize)
 
-      const lines = slice.map((d) => `- **${d.title}** \`${d.slug}\` — ${d.description || '(no description)'}`)
+      const lines = slice.map((d) => `- **${d.title}** \`${d.slug}\`  -  ${d.description || '(no description)'}`)
 
       const pagination =
         totalPages > 1
@@ -1161,7 +1161,7 @@ export function createMcpServer(): McpServer {
 
   server.tool(
     'read_doc',
-    'Read a documentation page. Returns clean markdown (MDX syntax stripped). Use mode="summary" for a headings-only overview that saves tokens, or mode="full" for complete content. Responses over 4000 chars are truncated — use section parameter to read specific parts.',
+    'Read a documentation page. Returns clean markdown (MDX syntax stripped). Use mode="summary" for a headings-only overview that saves tokens, or mode="full" for complete content. Responses over 4000 chars are truncated  -  use section parameter to read specific parts.',
     {
       slug: z.string().describe('Doc page slug, e.g. "components/button", "installation/next", "packages/acme-cli"'),
       mode: z
@@ -1217,7 +1217,7 @@ export function createMcpServer(): McpServer {
 
   server.tool(
     'search_docs',
-    'Search documentation by keyword with typo tolerance. Returns matching pages with context snippets, ranked by relevance. Handles misspellings like "buton" → "button".',
+    'Search documentation by keyword with typo tolerance. Returns matching pages with context snippets, ranked by relevance. Handles misspellings like "buton" -> "button".',
     {
       query: z.string().describe('Search keyword or phrase'),
       category: CATEGORY_ENUM.default('all').describe('Narrow search to a category'),
@@ -1380,7 +1380,7 @@ export function createMcpServer(): McpServer {
         content: [
           {
             type: 'text' as const,
-            text: truncate(`# ${doc.title} — API Reference\n\n${apiLines.join('\n').trim()}`),
+            text: truncate(`# ${doc.title}  -  API Reference\n\n${apiLines.join('\n').trim()}`),
           },
         ],
       }
@@ -1391,7 +1391,7 @@ export function createMcpServer(): McpServer {
 
   server.tool(
     'get_examples',
-    'Get only the code examples from a documentation page. Returns all fenced code blocks without the surrounding prose — saves tokens when you just need to see usage patterns.',
+    'Get only the code examples from a documentation page. Returns all fenced code blocks without the surrounding prose  -  saves tokens when you just need to see usage patterns.',
     {
       slug: z.string().describe('Doc page slug, e.g. "components/button", "installation/next"'),
     },
@@ -1422,7 +1422,7 @@ export function createMcpServer(): McpServer {
           {
             type: 'text' as const,
             text: truncate(
-              `# ${doc.title} — Code Examples (${doc.codeBlocks.length})\n\n${doc.codeBlocks.join('\n\n')}`,
+              `# ${doc.title}  -  Code Examples (${doc.codeBlocks.length})\n\n${doc.codeBlocks.join('\n\n')}`,
             ),
           },
         ],
@@ -1632,7 +1632,7 @@ export function createMcpServer(): McpServer {
       }
 
       const output = top
-        .map((r, i) => `${i + 1}. **${r.title}** \`${r.slug}\` — ${r.description || '(no description)'}`)
+        .map((r, i) => `${i + 1}. **${r.title}** \`${r.slug}\`  -  ${r.description || '(no description)'}`)
         .join('\n')
 
       return {
@@ -1740,7 +1740,7 @@ export function createMcpServer(): McpServer {
         .map((r) => {
           const score = `(${(r.similarity * 100).toFixed(1)}% match)`
           const snippetLine = r.snippet ? `\n  > ${r.snippet}` : ''
-          const desc = r.description ? ` — ${r.description}` : ''
+          const desc = r.description ? `  -  ${r.description}` : ''
           return `- **${r.title}** \`${r.slug}\` ${score}${desc}${snippetLine}`
         })
         .join('\n')

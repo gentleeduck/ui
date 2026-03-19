@@ -31,10 +31,10 @@ describe('hijri conversion', () => {
     })
 
     it('works for years in later cycles', () => {
-      // Year 1447: (1447-1) % 30 + 1 = 27 → not in list... wait
-      // Actually (1447-1) % 30 = 1446 % 30 = 6, +1 = 7 → leap
+      // Year 1447: (1447-1) % 30 + 1 = 27 -> not in list... wait
+      // Actually (1447-1) % 30 = 1446 % 30 = 6, +1 = 7 -> leap
       expect(isLeapHijriYear(1447)).toBe(true)
-      // Year 1448: (1448-1) % 30 = 1447 % 30 = 7, +1 = 8 → not leap
+      // Year 1448: (1448-1) % 30 = 1447 % 30 = 7, +1 = 8 -> not leap
       expect(isLeapHijriYear(1448)).toBe(false)
     })
   })
@@ -142,7 +142,7 @@ describe('hijri conversion', () => {
   })
 
   describe('roundtrip', () => {
-    it('Gregorian → Hijri → Gregorian preserves the date', () => {
+    it('Gregorian -> Hijri -> Gregorian preserves the date', () => {
       const dates = [
         [2025, 1, 1],
         [2025, 6, 27],
@@ -159,7 +159,7 @@ describe('hijri conversion', () => {
       }
     })
 
-    it('Hijri → Gregorian → Hijri preserves the date', () => {
+    it('Hijri -> Gregorian -> Hijri preserves the date', () => {
       const dates = [
         [1447, 1, 1],
         [1447, 9, 1],

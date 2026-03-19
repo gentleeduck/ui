@@ -226,7 +226,7 @@ describe('IslamicAdapter', () => {
     })
 
     it('clamps day when target month is shorter', () => {
-      // Muharram day 30, +1 → Safar has 29 days → clamp to 29
+      // Muharram day 30, +1 -> Safar has 29 days -> clamp to 29
       const d = adapter.addMonths(adapter.create(1447, 0, 30), 1)
       expect(adapter.getMonth(d)).toBe(1)
       expect(adapter.getDate(d)).toBe(29)
@@ -261,7 +261,7 @@ describe('IslamicAdapter', () => {
       expect(adapter.getYear(d)).toBe(1446)
     })
 
-    it('clamps Dhu al-Hijjah 30 leap → 29 common', () => {
+    it('clamps Dhu al-Hijjah 30 leap -> 29 common', () => {
       // 1447 is leap, Dhu al-Hijjah has 30 days
       // 1448 is not leap, Dhu al-Hijjah has 29 days
       const d = adapter.addYears(adapter.create(1447, 11, 30), 1)
@@ -336,7 +336,7 @@ describe('IslamicAdapter', () => {
     it('walks back to the target weekday', () => {
       // 1 Muharram 1447 = June 27, 2025 = Friday (5)
       const d = adapter.create(1447, 0, 1)
-      // Walk back to Saturday (6) — Saturday is before Friday, so walk back 6 days
+      // Walk back to Saturday (6)  -  Saturday is before Friday, so walk back 6 days
       const sat = adapter.startOfWeek(d, 6)
       expect(adapter.getDayOfWeek(sat)).toBe(6)
     })

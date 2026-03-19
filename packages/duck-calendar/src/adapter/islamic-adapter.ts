@@ -6,7 +6,7 @@ import type { DateAdapter, WeekStartDay } from './adapter.types'
  *
  * Wraps native `Date` objects but exposes year/month/day in the tabular
  * Islamic calendar. The underlying `Date` still stores the Gregorian
- * instant — conversions happen on the fly.
+ * instant  -  conversions happen on the fly.
  *
  * - `getYear()` / `getMonth()` / `getDate()` return Hijri values.
  * - `create(year, month, day)` takes Hijri values (month is **0-indexed**,
@@ -52,7 +52,7 @@ export class IslamicAdapter implements DateAdapter<Date> {
    *
    * @param year  - Hijri year (e.g. 1447)
    * @param month - 0-indexed Hijri month (0 = Muharram, 11 = Dhu al-Hijjah)
-   * @param day   - Day of the Hijri month (1–30)
+   * @param day   - Day of the Hijri month (1-30)
    */
   create(year: number, month: number, day: number): Date {
     // month is 0-indexed externally, 1-indexed internally
@@ -117,18 +117,16 @@ export class IslamicAdapter implements DateAdapter<Date> {
     // Total 0-indexed months, then add
     const totalMonths = (hy - 1) * 12 + (hm - 1) + count
     const newYear = Math.floor(totalMonths / 12) + 1
-    const newMonth = (totalMonths % 12) + 1
-    // Handle negative modulo
-    const adjustedYear = newMonth < 1 ? newYear - 1 : newYear
-    const adjustedMonth = newMonth < 1 ? newMonth + 12 : newMonth
-    const maxDay = hijriMonthLength(adjustedYear, adjustedMonth)
-    return this.fromHijri(adjustedYear, adjustedMonth, Math.min(hd, maxDay))
+    // Use ((n % d) + d) % d to handle negative modulo correctly
+    const newMonth = (((totalMonths % 12) + 12) % 12) + 1
+    const maxDay = hijriMonthLength(newYear, newMonth)
+    return this.fromHijri(newYear, newMonth, Math.min(hd, maxDay))
   }
 
   /**
    * Adds years in the Hijri calendar with day clamping.
    *
-   * Dhu al-Hijjah 30 in a leap year → clamped to 29 in a non-leap year.
+   * Dhu al-Hijjah 30 in a leap year -> clamped to 29 in a non-leap year.
    */
   addYears(date: Date, count: number): Date {
     const { hy, hm, hd } = this.hijri(date)

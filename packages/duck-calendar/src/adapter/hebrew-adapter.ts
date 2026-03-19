@@ -5,7 +5,7 @@ import type { DateAdapter, WeekStartDay } from './adapter.types'
  * Hebrew calendar adapter.
  *
  * Wraps native `Date` objects but exposes year/month/day in the Hebrew
- * calendar. The underlying `Date` still stores the Gregorian instant —
+ * calendar. The underlying `Date` still stores the Gregorian instant  -
  * conversions happen on the fly.
  *
  * - `getYear()` / `getMonth()` / `getDate()` return Hebrew values.
@@ -51,7 +51,7 @@ export class HebrewAdapter implements DateAdapter<Date> {
    *
    * @param year  - Hebrew year (e.g. 5786)
    * @param month - 0-indexed Hebrew month (0 = Tishrei, 12 = Elul)
-   * @param day   - Day of the Hebrew month (1–30)
+   * @param day   - Day of the Hebrew month (1-30)
    */
   create(year: number, month: number, day: number): Date {
     return this.fromHebrew(year, month + 1, day)
@@ -104,7 +104,6 @@ export class HebrewAdapter implements DateAdapter<Date> {
 
   addMonths(date: Date, count: number): Date {
     const { hy, hm, hd } = this.hebrew(date)
-    const months = hebrewMonthsInYear(hy)
     let totalMonths = hm - 1 + count
     let newYear = hy
 

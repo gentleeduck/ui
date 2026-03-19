@@ -4,9 +4,9 @@ Unstyled, accessibility-first UI primitives for React.
 
 ## Why primitives
 
-- **Full keyboard navigation + ARIA compliance out of the box** — every component ships with correct roles, states, and keyboard interactions so you don't have to wire them yourself.
-- **Compound component pattern** — compose `Root`, `Trigger`, `Content`, and friends to build exactly the UI you need without prop drilling.
-- **Compatible with Radix API** — familiar naming and structure make migration from Radix straightforward.
+- **Full keyboard navigation + ARIA compliance out of the box**  -  every component ships with correct roles, states, and keyboard interactions so you don't have to wire them yourself.
+- **Compound component pattern**  -  compose `Root`, `Trigger`, `Content`, and friends to build exactly the UI you need without prop drilling.
+- **Compatible with Radix API**  -  familiar naming and structure make migration from Radix straightforward.
 
 ## Components
 
@@ -76,13 +76,13 @@ function Demo() {
 
 ## Features
 
-- **`asChild` / Slot** — render any primitive as your own element via the `asChild` prop, powered by the `Slot` utility.
-- **`createContextScope`** — scoped React context factory that prevents cross-instance state leaks.
-- **`forwardRef` everywhere** — every component forwards refs for imperative access and composition.
-- **`data-slot` attributes** — every component root emits a `data-slot` for style targeting without class names.
-- **Presence animations** — the `Presence` primitive lets you animate enter/exit transitions before unmounting.
-- **Focus trapping** — `FocusScope` locks focus inside modals, dialogs, and popovers with configurable loop behavior.
-- **Dismiss layers** — `DismissableLayer` handles outside clicks, Escape key, and nested layer stacking.
+- **`asChild` / Slot**  -  render any primitive as your own element via the `asChild` prop, powered by the `Slot` utility.
+- **`createContextScope`**  -  scoped React context factory that prevents cross-instance state leaks.
+- **`forwardRef` everywhere**  -  every component forwards refs for imperative access and composition.
+- **`data-slot` attributes**  -  every component root emits a `data-slot` for style targeting without class names.
+- **Presence animations**  -  the `Presence` primitive lets you animate enter/exit transitions before unmounting.
+- **Focus trapping**  -  `FocusScope` locks focus inside modals, dialogs, and popovers with configurable loop behavior.
+- **Dismiss layers**  -  `DismissableLayer` handles outside clicks, Escape key, and nested layer stacking.
 
 ## Documentation
 

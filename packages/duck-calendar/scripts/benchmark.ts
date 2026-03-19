@@ -78,7 +78,7 @@ const corePerf = {
 }
 
 // ---------------------------------------------------------------------------
-// 2. Adapter benchmarks — compare all calendar systems
+// 2. Adapter benchmarks  -  compare all calendar systems
 // ---------------------------------------------------------------------------
 
 const islamic = new IslamicAdapter()
@@ -114,7 +114,7 @@ const adapterPerf = adapters.map(({ name, adapter, color }) => {
 const competitors = [
   {
     name: '@gentleduck/calendar',
-    bundle: 7.0,
+    bundle: 4.9,
     deps: 0,
     css: 0,
     a11y: true,
@@ -213,7 +213,7 @@ function generateBundleSVG(): string {
     <text x="${leftPad - 12}" y="${y + barH / 2 + 4}" text-anchor="end" fill="${isWinner ? zinc[50] : zinc[400]}" font-size="12" font-weight="${isWinner ? '600' : '400'}">${c.name}</text>
     <rect x="${leftPad}" y="${y}" width="${barW}" height="${barH}" fill="${c.color}" rx="4" opacity="${isWinner ? '1' : '0.7'}"/>
     <text x="${leftPad + barW + 10}" y="${y + barH / 2 + 4}" fill="${c.color}" font-size="12" font-weight="600">${c.bundle} KB</text>
-    ${isWinner ? `<text x="${leftPad + barW + 55}" y="${y + barH / 2 + 4}" fill="${green}" font-size="10" font-weight="600">★ WINNER</text>` : ''}`
+    ${isWinner ? `<text x="${leftPad + barW + 55}" y="${y + barH / 2 + 4}" fill="${green}" font-size="10" font-weight="600">* WINNER</text>` : ''}`
   }
 
   let grid = ''
@@ -255,7 +255,7 @@ function generateDepsSVG(): string {
     <text x="${leftPad - 12}" y="${y + barH / 2 + 4}" text-anchor="end" fill="${isWinner ? zinc[50] : zinc[400]}" font-size="12" font-weight="${isWinner ? '600' : '400'}">${c.name}</text>
     <rect x="${leftPad}" y="${y}" width="${barW}" height="${barH}" fill="${c.color}" rx="4" opacity="${isWinner ? '1' : '0.7'}"/>
     <text x="${leftPad + barW + 10}" y="${y + barH / 2 + 4}" fill="${c.color}" font-size="12" font-weight="600">${c.deps} dep${c.deps !== 1 ? 's' : ''}</text>
-    ${isWinner && i === 0 ? `<text x="${leftPad + barW + 55}" y="${y + barH / 2 + 4}" fill="${green}" font-size="10" font-weight="600">★ ZERO DEPS</text>` : ''}`
+    ${isWinner && i === 0 ? `<text x="${leftPad + barW + 55}" y="${y + barH / 2 + 4}" fill="${green}" font-size="10" font-weight="600">* ZERO DEPS</text>` : ''}`
   }
 
   return `${svgHeader(w, h, 'Runtime Dependencies')}
@@ -316,9 +316,9 @@ function generateFeaturesSVG(): string {
         cells += `<text x="${x}" y="${y + 4}" text-anchor="middle" fill="${isWinner ? green : zinc[400]}" font-size="12" font-weight="${isWinner ? '700' : '400'}">${val}</text>`
       } else if (val) {
         cells += `<circle cx="${x}" cy="${y}" r="7" fill="${green}" opacity="0.2"/>
-        <text x="${x}" y="${y + 4}" text-anchor="middle" fill="${green}" font-size="12">✓</text>`
+        <text x="${x}" y="${y + 4}" text-anchor="middle" fill="${green}" font-size="12">Yes</text>`
       } else {
-        cells += `<text x="${x}" y="${y + 4}" text-anchor="middle" fill="${zinc[600]}" font-size="12">✗</text>`
+        cells += `<text x="${x}" y="${y + 4}" text-anchor="middle" fill="${zinc[600]}" font-size="12">No</text>`
       }
     }
   }
@@ -413,7 +413,7 @@ function generateAdapterPerfSVG(): string {
     y += adapterPerf.length * (barH + 4) + 24
   }
 
-  return `${svgHeader(w, h, 'Adapter Performance Comparison', 'All 4 calendar systems — average of 5,000 iterations (μs per call)')}
+  return `${svgHeader(w, h, 'Adapter Performance Comparison', 'All 4 calendar systems  -  average of 5,000 iterations (μs per call)')}
   ${content}
 </svg>`
 }
@@ -532,9 +532,9 @@ for (const [name, svg] of Object.entries(svgs)) {
 
 console.log('Benchmarks generated:')
 for (const name of Object.keys(svgs)) {
-  console.log(`  ✓ ${name}.svg`)
+  console.log(`  Yes ${name}.svg`)
 }
-console.log(`  ✓ results.json`)
+console.log(`  Yes results.json`)
 console.log()
 console.log('Core Performance:')
 for (const [k, v] of Object.entries(corePerf)) {

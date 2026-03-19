@@ -8961,7 +8961,7 @@
       "id": "left_right_arrow",
       "name": "Left Right Arrow",
       "keywords": ["shape", "direction", "horizontal", "sideways"],
-      "skins": [{ "unified": "2194-fe0f", "native": "↔️" }],
+      "skins": [{ "unified": "2194-fe0f", "native": "<->️" }],
       "version": 1
     },
     "leftwards_arrow_with_hook": {

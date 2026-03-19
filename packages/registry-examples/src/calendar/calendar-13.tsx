@@ -1,16 +1,12 @@
 'use client'
 
+import type { DateRange } from '@gentleduck/calendar'
 import { Calendar } from '@gentleduck/registry-ui/calendar'
 import * as React from 'react'
 
-interface DateRange {
-  from: Date
-  to: Date | null
-}
-
 export default function CalendarDemo() {
-  const [ranges, setRanges] = React.useState<DateRange[]>([])
-  const [current, setCurrent] = React.useState<DateRange | undefined>()
+  const [ranges, setRanges] = React.useState<DateRange<Date>[]>([])
+  const [current, setCurrent] = React.useState<DateRange<Date> | null>(null)
 
   return (
     <div className="space-y-4">
@@ -19,11 +15,11 @@ export default function CalendarDemo() {
         mode="range"
         selected={current}
         onSelect={(range) => {
-          setCurrent(range as DateRange | undefined)
-          // When a complete range is selected (both from and to), save it and reset
-          if (range && (range as DateRange).to) {
-            setRanges((prev) => [...prev, range as DateRange])
-            setCurrent(undefined)
+          const r = range as DateRange<Date> | null
+          setCurrent(r)
+          if (r?.to) {
+            setRanges((prev) => [...prev, r])
+            setCurrent(null)
           }
         }}
         showDropdowns={false}
@@ -35,7 +31,7 @@ export default function CalendarDemo() {
         {ranges.map((r, i) => (
           <div key={r.from.getTime()} className="flex items-center gap-2 text-muted-foreground text-sm">
             <span>
-              {r.from.toLocaleDateString()} — {r.to?.toLocaleDateString()}
+              {r.from.toLocaleDateString()} - {r.to?.toLocaleDateString()}
             </span>
             <button
               type="button"

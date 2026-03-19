@@ -42,6 +42,16 @@ const { state, actions, getDayProps, getGridProps, getNavProps, getHeaderProps, 
 | `fromDate` | `TDate` | -- | Earliest selectable date |
 | `toDate` | `TDate` | -- | Latest selectable date |
 
+#### `CalendarLocaleConfig`
+
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `locale` | `string` | BCP 47 locale tag (e.g. 'en-US', 'ar-SA', 'fa-IR') |
+| `weekStartDay` | `0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6` | Day the week starts on (0 = Sunday) |
+| `direction` | `'ltr' \| 'rtl'` | Text direction |
+| `numberingSystem` | `string` | Intl numbering system (e.g. 'arab', 'arabext') |
+| `calendar` | `string` | Intl calendar system (e.g. 'islamic', 'persian', 'hebrew') |
+
 ---
 
 ## Return value

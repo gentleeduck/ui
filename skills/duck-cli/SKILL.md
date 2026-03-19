@@ -1,7 +1,7 @@
 ---
 name: duck-cli
 description: >-
-  Use when working with @gentleduck/cli — the command-line tool for initializing
+  Use when working with @gentleduck/cli  -  the command-line tool for initializing
   projects, scaffolding from templates, and adding components. Covers the init,
   add, update, remove, diff, and list commands.
 allowed-tools: Read Grep Glob Bash(bun run build) Bash(bun run test)
@@ -14,7 +14,7 @@ You are an expert on the duck-ui CLI tool. Your scope is `packages/duck-cli/`. T
 
 ## Global Flag
 
-`--verbose` — show detailed error output (stack traces). Handled via a `preAction` hook in `src/main/main.ts`.
+`--verbose`  -  show detailed error output (stack traces). Handled via a `preAction` hook in `src/main/main.ts`.
 
 ## Commands
 

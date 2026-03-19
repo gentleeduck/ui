@@ -125,7 +125,19 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
       weeks: applySelection(m.weeks, adapter, mode, value, constraints),
     }))
     // Use primitive locale values instead of the locale object to avoid unnecessary rebuilds
-  }, [adapter, month, mode, value, constraints, showOutsideDays, fixedWeeks, localeTag, weekStartDay, localeDirection, numberOfMonths])
+  }, [
+    adapter,
+    month,
+    mode,
+    value,
+    constraints,
+    showOutsideDays,
+    fixedWeeks,
+    localeTag,
+    weekStartDay,
+    localeDirection,
+    numberOfMonths,
+  ])
 
   // First month's weeks for backward compat
   const weeks = months[0]?.weeks ?? []

@@ -17,7 +17,7 @@ const PRESETS = [
 ]
 
 export default function CalendarDemo() {
-  const [date, setDate] = React.useState<Date | undefined>(new Date())
+  const [date, setDate] = React.useState<Date | null>(new Date())
   const [month, setMonth] = React.useState<Date>(new Date(new Date().getFullYear(), new Date().getMonth(), 1))
 
   return (

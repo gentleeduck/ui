@@ -44,7 +44,7 @@ applySelection(
   adapter: DateAdapter<TDate>,
   mode: SelectionMode,
   value: CalendarValue<TDate, M>,
-  constraints: SelectionConstraints<TDate>
+  constraints?: SelectionConstraints<TDate> // default: {}
 ) => CalendarWeek<TDate>[]
 ```
 
@@ -54,7 +54,7 @@ applySelection(
 | `adapter` | `DateAdapter<TDate>` | Date adapter |
 | `mode` | `SelectionMode` | Selection mode |
 | `value` | `CalendarValue<TDate, M>` | Current selection |
-| `constraints` | `SelectionConstraints<TDate>` | Disabled dates, fromDate, toDate |
+| `constraints` | `SelectionConstraints<TDate>` | Optional. Disabled dates, fromDate, toDate. Defaults to `{}` |
 
 **SelectionConstraints:**
 
@@ -89,7 +89,7 @@ type CalendarValue<TDate, M extends SelectionMode> =
 ### `DateRange<TDate>`
 
 ```tsx showLineNumbers
-interface DateRange<TDate> {
+type DateRange<TDate> = {
   from: TDate
   to: TDate | null
 }

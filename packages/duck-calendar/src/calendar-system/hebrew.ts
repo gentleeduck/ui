@@ -1,5 +1,5 @@
 /**
- * Pure math functions for Gregorian ↔ Hebrew calendar conversion.
+ * Pure math functions for Gregorian <-> Hebrew calendar conversion.
  *
  * Based on the Reingold/Dershowitz algorithm from "Calendrical Calculations".
  * Uses the fixed arithmetic Hebrew calendar with postponement rules (dehiyot).
@@ -70,12 +70,12 @@ function hebrewElapsedDays(hy: number): number {
   // Apply dehiyot (postponement rules)
   const dayOfWeek = day % 7
 
-  // Dehiyah 1: Lo ADU Rosh — if day is Sun(0), Wed(3), or Fri(5), postpone by 1
+  // Dehiyah 1: Lo ADU Rosh  -  if day is Sun(0), Wed(3), or Fri(5), postpone by 1
   if (dayOfWeek === 0 || dayOfWeek === 3 || dayOfWeek === 5) {
     return day + 1
   }
 
-  // Dehiyah 2: Molad Zaken — if molad is >= 18 hours (=19440 parts), postpone
+  // Dehiyah 2: Molad Zaken  -  if molad is >= 18 hours (=19440 parts), postpone
   if (remainingParts >= 19440) {
     const next = day + 1
     const nextDow = next % 7
@@ -140,7 +140,7 @@ export function hebrewMonthLength(hy: number, hm: number): number {
 }
 
 // ---------------------------------------------------------------------------
-// Fixed-day (R.D.) conversions — Reingold/Dershowitz epoch = Jan 1, 1 CE
+// Fixed-day (R.D.) conversions  -  Reingold/Dershowitz epoch = Jan 1, 1 CE
 // ---------------------------------------------------------------------------
 
 /** R.D. date of Hebrew epoch (1 Tishrei, year 1). */
@@ -200,7 +200,7 @@ export function toHebrew(gy: number, gm: number, gd: number): { hy: number; hm: 
   const rd = gregorianToFixed(gy, gm, gd)
   // Approximate Hebrew year (Tishrei falls in Sep/Oct, so before that we're still in the previous Hebrew year)
   let hy = gy + 3761
-  // Search downward — the approximation can overshoot
+  // Search downward  -  the approximation can overshoot
   while (hebrewNewYear(hy) > rd) hy--
   // Then search upward to find the correct year
   while (hebrewNewYear(hy + 1) <= rd) hy++

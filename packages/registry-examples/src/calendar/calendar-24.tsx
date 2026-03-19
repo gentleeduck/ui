@@ -31,6 +31,8 @@ function getPosition(dates: Date[], target: Date) {
   return 'single' as const
 }
 
+const MS_PER_DAY = 86_400_000
+
 function getRanges(dates: Date[]): { from: Date; to: Date }[] {
   if (dates.length === 0) return []
   const sorted = [...dates].sort((a, b) => a.getTime() - b.getTime())
@@ -39,7 +41,7 @@ function getRanges(dates: Date[]): { from: Date; to: Date }[] {
   let to = sorted[0]!
   for (let i = 1; i < sorted.length; i++) {
     const d = sorted[i]!
-    if (d.getTime() - to.getTime() <= 86400000) {
+    if (d.getTime() - to.getTime() <= MS_PER_DAY) {
       to = d
     } else {
       ranges.push({ from, to })
@@ -110,20 +112,20 @@ export default function CalendarDemo() {
     if (selected && !isShift) {
       setAnchor(null)
 
-      // Start or end of a range → remove the whole range
+      // Start or end of a range -> remove the whole range
       if (pos === 'start' || pos === 'end') {
         const owner = findOwnerRange(ranges, date)
         if (owner) removeRange(owner)
         return
       }
 
-      // Single selected day → just deselect
+      // Single selected day -> just deselect
       if (pos === 'single') {
         removeDate(date)
         return
       }
 
-      // Middle of a range → trim: keep from..clicked, remove everything after
+      // Middle of a range -> trim: keep from..clicked, remove everything after
       if (pos === 'middle') {
         const owner = findOwnerRange(ranges, date)
         if (owner) {
@@ -134,7 +136,7 @@ export default function CalendarDemo() {
       }
     }
 
-    // --- Anchor is set → complete range ---
+    // --- Anchor is set -> complete range ---
     if (anchor) {
       const range = daysBetween(anchor, date)
       setDates((prev) => {
@@ -148,7 +150,7 @@ export default function CalendarDemo() {
       return
     }
 
-    // --- No anchor, unselected cell → start new range ---
+    // --- No anchor, unselected cell -> start new range ---
     setDates((prev) => [...prev, date])
     setAnchor(date)
   }
@@ -215,7 +217,7 @@ export default function CalendarDemo() {
               const days = daysBetween(r.from, r.to)
               const label = adapter.isSameDay(r.from, r.to)
                 ? adapter.format(r.from, { month: 'short', day: 'numeric' })
-                : `${adapter.format(r.from, { month: 'short', day: 'numeric' })} – ${adapter.format(r.to, { month: 'short', day: 'numeric' })}`
+                : `${adapter.format(r.from, { month: 'short', day: 'numeric' })} - ${adapter.format(r.to, { month: 'short', day: 'numeric' })}`
               return (
                 <div
                   key={r.from.getTime()}

@@ -6,17 +6,17 @@ describe('PersianAdapter', () => {
   const adapter = new PersianAdapter()
 
   // -------------------------------------------------------------------------
-  // create() and get*() — Persian calendar parts
+  // create() and get*()  -  Persian calendar parts
   // -------------------------------------------------------------------------
   describe('create', () => {
-    it('create(1404, 0, 1) → Farvardin 1, 1404 = Gregorian 2025-03-21', () => {
+    it('create(1404, 0, 1) -> Farvardin 1, 1404 = Gregorian 2025-03-21', () => {
       const d = adapter.create(1404, 0, 1)
       expect(d.getFullYear()).toBe(2025)
       expect(d.getMonth()).toBe(2) // March
       expect(d.getDate()).toBe(21)
     })
 
-    it('create(1405, 0, 1) → Nowruz 1405 = Gregorian 2026-03-21', () => {
+    it('create(1405, 0, 1) -> Nowruz 1405 = Gregorian 2026-03-21', () => {
       const d = adapter.create(1405, 0, 1)
       expect(d.getFullYear()).toBe(2026)
       expect(d.getMonth()).toBe(2)
@@ -43,7 +43,7 @@ describe('PersianAdapter', () => {
     it('Gregorian 2025-06-12 = Persian 1404-03-22 (Khordad 22)', () => {
       const d = new Date(2025, 5, 12) // June 12
       expect(adapter.getYear(d)).toBe(1404)
-      expect(adapter.getMonth(d)).toBe(2) // 0-indexed → Khordad
+      expect(adapter.getMonth(d)).toBe(2) // 0-indexed -> Khordad
       expect(adapter.getDate(d)).toBe(22)
     })
 
@@ -66,7 +66,7 @@ describe('PersianAdapter', () => {
   // Month lengths via startOfMonth / endOfMonth
   // -------------------------------------------------------------------------
   describe('month lengths', () => {
-    it('months 1–6 (Farvardin–Shahrivar) have 31 days', () => {
+    it('months 1-6 (Farvardin-Shahrivar) have 31 days', () => {
       for (let m = 0; m < 6; m++) {
         const start = adapter.startOfMonth(adapter.create(1404, m, 15))
         const end = adapter.endOfMonth(adapter.create(1404, m, 15))
@@ -75,7 +75,7 @@ describe('PersianAdapter', () => {
       }
     })
 
-    it('months 7–11 (Mehr–Bahman) have 30 days', () => {
+    it('months 7-11 (Mehr-Bahman) have 30 days', () => {
       for (let m = 6; m < 11; m++) {
         const end = adapter.endOfMonth(adapter.create(1404, m, 15))
         expect(adapter.getDate(end)).toBe(30)
@@ -195,7 +195,7 @@ describe('PersianAdapter', () => {
   })
 
   // -------------------------------------------------------------------------
-  // isSameMonth — compares Persian months
+  // isSameMonth  -  compares Persian months
   // -------------------------------------------------------------------------
   describe('isSameMonth', () => {
     it('same Persian month returns true', () => {
@@ -278,7 +278,7 @@ describe('PersianAdapter', () => {
   })
 
   // -------------------------------------------------------------------------
-  // format — Persian calendar output
+  // format  -  Persian calendar output
   // -------------------------------------------------------------------------
   describe('format', () => {
     it('outputs Persian month names with default locale', () => {
@@ -372,7 +372,7 @@ describe('PersianAdapter', () => {
 
   describe('startOfWeek', () => {
     it('walks back to Saturday (weekStartDay=6)', () => {
-      // Farvardin 1, 1404 = Friday. Saturday start → walk back 6 days
+      // Farvardin 1, 1404 = Friday. Saturday start -> walk back 6 days
       const d = adapter.startOfWeek(adapter.create(1404, 0, 1), 6)
       expect(adapter.getDayOfWeek(d)).toBe(6)
     })

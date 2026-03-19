@@ -359,7 +359,7 @@ export function truncate(text: string): string {
   if (text.length <= MAX_RESPONSE_CHARS) return text
   return (
     text.slice(0, MAX_RESPONSE_CHARS) +
-    '\n\n---\n*[Truncated — use `section` parameter or `mode="summary"` to get specific parts]*'
+    '\n\n---\n*[Truncated  -  use `section` parameter or `mode="summary"` to get specific parts]*'
   )
 }
 

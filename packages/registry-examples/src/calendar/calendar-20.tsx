@@ -7,7 +7,7 @@ import * as React from 'react'
 const adapter = new HebrewAdapter()
 
 export default function CalendarDemo() {
-  const [date, setDate] = React.useState<Date | undefined>(new Date())
+  const [date, setDate] = React.useState<Date | null>(new Date())
 
   return (
     <Calendar
@@ -16,7 +16,7 @@ export default function CalendarDemo() {
       dir="rtl"
       locale="he-IL"
       mode="single"
-      onSelect={setDate as (value: unknown) => void}
+      onSelect={setDate}
       selected={date}
       showDropdowns
       yearRange={{ from: 5750, to: 5810 }}

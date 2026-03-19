@@ -1,9 +1,9 @@
 /**
  * The three ways a calendar can accept user selection.
  *
- * - `'single'` — one date at a time.
- * - `'range'`  — a start date and an optional end date.
- * - `'multi'`  — an unordered set of individual dates.
+ * - `'single'`  -  one date at a time.
+ * - `'range'`   -  a start date and an optional end date.
+ * - `'multi'`   -  an unordered set of individual dates.
  */
 export type SelectionMode = 'single' | 'range' | 'multi'
 
@@ -32,7 +32,7 @@ export type DateRange<TDate> = {
  * | `multi`   | `TDate[]`                      |
  *
  * This conditional type lets TypeScript narrow `onSelect`'s argument and
- * `selected`'s type automatically from the `mode` prop — no casting required
+ * `selected`'s type automatically from the `mode` prop  -  no casting required
  * at call sites.
  *
  * @typeParam TDate - The adapter's date type.

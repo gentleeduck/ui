@@ -20,7 +20,9 @@ The calendar follows the [WAI-ARIA Grid Pattern](https://www.w3.org/WAI/ARIA/apg
 | Day cell | `aria-selected` | `true` when selected |
 | Day cell | `aria-disabled` | `true` when disabled |
 | Day cell | `aria-current` | `"date"` for today |
-| Nav wrapper | `role="navigation"` | -- |
+| Nav wrapper | `role="navigation"` | Set by the `CalendarNav` primitives compound component, not by the hook |
+| Nav button | `aria-label` | `"Go to previous month"` / `"Go to next month"` (from `getNavProps`) |
+| Nav button | `disabled` | `true` when navigation in that direction is not allowed (from `getNavProps`) |
 | Month header | `aria-live` | `"polite"` |
 
 ---
@@ -62,6 +64,6 @@ When using compound components, the announcer portal is rendered automatically i
 
 <Callout icon={<Zap />}>
 
-The prop getters (`getDayProps`, `getGridProps`, `getNavProps`, `getHeaderProps`) apply all ARIA attributes automatically. You do not need to add them manually.
+The prop getters (`getDayProps`, `getGridProps`, `getNavProps`, `getHeaderProps`) apply ARIA attributes for their respective elements automatically. Note that `getNavProps` provides `aria-label`, `disabled`, and `onClick` for individual prev/next buttons. The `role="navigation"` wrapper is provided by the `CalendarNav` primitives compound component.
 
 </Callout>

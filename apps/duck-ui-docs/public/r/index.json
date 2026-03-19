@@ -7810,8 +7810,1453 @@
         "type": "file"
       },
       {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
         "name": "calendar-2.tsx",
         "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-3.tsx",
+        "path": "calendar/calendar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-4.tsx",
+        "path": "calendar/calendar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-5.tsx",
+        "path": "calendar/calendar-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-6.tsx",
+        "path": "calendar/calendar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-7.tsx",
+        "path": "calendar/calendar-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-8.tsx",
+        "path": "calendar/calendar-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-9.tsx",
+        "path": "calendar/calendar-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "calendar/calendar-10.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "calendar-10",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/calendar",
+    "tree": [
+      {
+        "name": "calendar-1.tsx",
+        "path": "calendar/calendar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-2.tsx",
+        "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-3.tsx",
+        "path": "calendar/calendar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-4.tsx",
+        "path": "calendar/calendar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-5.tsx",
+        "path": "calendar/calendar-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-6.tsx",
+        "path": "calendar/calendar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-7.tsx",
+        "path": "calendar/calendar-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-8.tsx",
+        "path": "calendar/calendar-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-9.tsx",
+        "path": "calendar/calendar-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "calendar/calendar-11.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "calendar-11",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/calendar",
+    "tree": [
+      {
+        "name": "calendar-1.tsx",
+        "path": "calendar/calendar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-2.tsx",
+        "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-3.tsx",
+        "path": "calendar/calendar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-4.tsx",
+        "path": "calendar/calendar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-5.tsx",
+        "path": "calendar/calendar-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-6.tsx",
+        "path": "calendar/calendar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-7.tsx",
+        "path": "calendar/calendar-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-8.tsx",
+        "path": "calendar/calendar-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-9.tsx",
+        "path": "calendar/calendar-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "calendar/calendar-12.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "calendar-12",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/calendar",
+    "tree": [
+      {
+        "name": "calendar-1.tsx",
+        "path": "calendar/calendar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-2.tsx",
+        "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-3.tsx",
+        "path": "calendar/calendar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-4.tsx",
+        "path": "calendar/calendar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-5.tsx",
+        "path": "calendar/calendar-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-6.tsx",
+        "path": "calendar/calendar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-7.tsx",
+        "path": "calendar/calendar-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-8.tsx",
+        "path": "calendar/calendar-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-9.tsx",
+        "path": "calendar/calendar-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "calendar/calendar-13.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "calendar-13",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/calendar",
+    "tree": [
+      {
+        "name": "calendar-1.tsx",
+        "path": "calendar/calendar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-2.tsx",
+        "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-3.tsx",
+        "path": "calendar/calendar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-4.tsx",
+        "path": "calendar/calendar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-5.tsx",
+        "path": "calendar/calendar-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-6.tsx",
+        "path": "calendar/calendar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-7.tsx",
+        "path": "calendar/calendar-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-8.tsx",
+        "path": "calendar/calendar-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-9.tsx",
+        "path": "calendar/calendar-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "calendar/calendar-14.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "calendar-14",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/calendar",
+    "tree": [
+      {
+        "name": "calendar-1.tsx",
+        "path": "calendar/calendar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-2.tsx",
+        "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-3.tsx",
+        "path": "calendar/calendar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-4.tsx",
+        "path": "calendar/calendar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-5.tsx",
+        "path": "calendar/calendar-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-6.tsx",
+        "path": "calendar/calendar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-7.tsx",
+        "path": "calendar/calendar-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-8.tsx",
+        "path": "calendar/calendar-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-9.tsx",
+        "path": "calendar/calendar-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "calendar/calendar-15.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "calendar-15",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/calendar",
+    "tree": [
+      {
+        "name": "calendar-1.tsx",
+        "path": "calendar/calendar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-2.tsx",
+        "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-3.tsx",
+        "path": "calendar/calendar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-4.tsx",
+        "path": "calendar/calendar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-5.tsx",
+        "path": "calendar/calendar-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-6.tsx",
+        "path": "calendar/calendar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-7.tsx",
+        "path": "calendar/calendar-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-8.tsx",
+        "path": "calendar/calendar-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-9.tsx",
+        "path": "calendar/calendar-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "calendar/calendar-16.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "calendar-16",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/calendar",
+    "tree": [
+      {
+        "name": "calendar-1.tsx",
+        "path": "calendar/calendar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-2.tsx",
+        "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-3.tsx",
+        "path": "calendar/calendar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-4.tsx",
+        "path": "calendar/calendar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-5.tsx",
+        "path": "calendar/calendar-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-6.tsx",
+        "path": "calendar/calendar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-7.tsx",
+        "path": "calendar/calendar-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-8.tsx",
+        "path": "calendar/calendar-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-9.tsx",
+        "path": "calendar/calendar-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "calendar/calendar-17.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "calendar-17",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/calendar",
+    "tree": [
+      {
+        "name": "calendar-1.tsx",
+        "path": "calendar/calendar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-2.tsx",
+        "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-3.tsx",
+        "path": "calendar/calendar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-4.tsx",
+        "path": "calendar/calendar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-5.tsx",
+        "path": "calendar/calendar-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-6.tsx",
+        "path": "calendar/calendar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-7.tsx",
+        "path": "calendar/calendar-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-8.tsx",
+        "path": "calendar/calendar-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-9.tsx",
+        "path": "calendar/calendar-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "calendar/calendar-18.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "calendar-18",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/calendar",
+    "tree": [
+      {
+        "name": "calendar-1.tsx",
+        "path": "calendar/calendar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-2.tsx",
+        "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-3.tsx",
+        "path": "calendar/calendar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-4.tsx",
+        "path": "calendar/calendar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-5.tsx",
+        "path": "calendar/calendar-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-6.tsx",
+        "path": "calendar/calendar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-7.tsx",
+        "path": "calendar/calendar-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-8.tsx",
+        "path": "calendar/calendar-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-9.tsx",
+        "path": "calendar/calendar-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "calendar/calendar-19.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "calendar-19",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/calendar",
+    "tree": [
+      {
+        "name": "calendar-1.tsx",
+        "path": "calendar/calendar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-2.tsx",
+        "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
         "type": "file"
       },
       {
@@ -7872,8 +9317,768 @@
         "type": "file"
       },
       {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
         "name": "calendar-2.tsx",
         "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-3.tsx",
+        "path": "calendar/calendar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-4.tsx",
+        "path": "calendar/calendar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-5.tsx",
+        "path": "calendar/calendar-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-6.tsx",
+        "path": "calendar/calendar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-7.tsx",
+        "path": "calendar/calendar-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-8.tsx",
+        "path": "calendar/calendar-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-9.tsx",
+        "path": "calendar/calendar-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "calendar/calendar-20.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "calendar-20",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/calendar",
+    "tree": [
+      {
+        "name": "calendar-1.tsx",
+        "path": "calendar/calendar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-2.tsx",
+        "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-3.tsx",
+        "path": "calendar/calendar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-4.tsx",
+        "path": "calendar/calendar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-5.tsx",
+        "path": "calendar/calendar-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-6.tsx",
+        "path": "calendar/calendar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-7.tsx",
+        "path": "calendar/calendar-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-8.tsx",
+        "path": "calendar/calendar-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-9.tsx",
+        "path": "calendar/calendar-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "calendar/calendar-21.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "calendar-21",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/calendar",
+    "tree": [
+      {
+        "name": "calendar-1.tsx",
+        "path": "calendar/calendar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-2.tsx",
+        "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-3.tsx",
+        "path": "calendar/calendar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-4.tsx",
+        "path": "calendar/calendar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-5.tsx",
+        "path": "calendar/calendar-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-6.tsx",
+        "path": "calendar/calendar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-7.tsx",
+        "path": "calendar/calendar-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-8.tsx",
+        "path": "calendar/calendar-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-9.tsx",
+        "path": "calendar/calendar-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "calendar/calendar-22.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "calendar-22",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/calendar",
+    "tree": [
+      {
+        "name": "calendar-1.tsx",
+        "path": "calendar/calendar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-2.tsx",
+        "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-3.tsx",
+        "path": "calendar/calendar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-4.tsx",
+        "path": "calendar/calendar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-5.tsx",
+        "path": "calendar/calendar-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-6.tsx",
+        "path": "calendar/calendar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-7.tsx",
+        "path": "calendar/calendar-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-8.tsx",
+        "path": "calendar/calendar-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-9.tsx",
+        "path": "calendar/calendar-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "calendar/calendar-23.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "calendar-23",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/calendar",
+    "tree": [
+      {
+        "name": "calendar-1.tsx",
+        "path": "calendar/calendar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-2.tsx",
+        "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-3.tsx",
+        "path": "calendar/calendar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-4.tsx",
+        "path": "calendar/calendar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-5.tsx",
+        "path": "calendar/calendar-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-6.tsx",
+        "path": "calendar/calendar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-7.tsx",
+        "path": "calendar/calendar-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-8.tsx",
+        "path": "calendar/calendar-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-9.tsx",
+        "path": "calendar/calendar-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "calendar/calendar-24.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "calendar-24",
+    "registryDependencies": [
+      "calendar"
+    ],
+    "root_folder": "calendar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/calendar",
+    "tree": [
+      {
+        "name": "calendar-1.tsx",
+        "path": "calendar/calendar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-2.tsx",
+        "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
         "type": "file"
       },
       {
@@ -7934,8 +10139,83 @@
         "type": "file"
       },
       {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
         "name": "calendar-2.tsx",
         "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
         "type": "file"
       },
       {
@@ -7996,8 +10276,83 @@
         "type": "file"
       },
       {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
         "name": "calendar-2.tsx",
         "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
         "type": "file"
       },
       {
@@ -8058,8 +10413,83 @@
         "type": "file"
       },
       {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
         "name": "calendar-2.tsx",
         "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
         "type": "file"
       },
       {
@@ -8120,8 +10550,83 @@
         "type": "file"
       },
       {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
         "name": "calendar-2.tsx",
         "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
         "type": "file"
       },
       {
@@ -8182,8 +10687,83 @@
         "type": "file"
       },
       {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
         "name": "calendar-2.tsx",
         "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
         "type": "file"
       },
       {
@@ -8244,8 +10824,83 @@
         "type": "file"
       },
       {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
         "name": "calendar-2.tsx",
         "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
         "type": "file"
       },
       {
@@ -8306,8 +10961,83 @@
         "type": "file"
       },
       {
+        "name": "calendar-10.tsx",
+        "path": "calendar/calendar-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-11.tsx",
+        "path": "calendar/calendar-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-12.tsx",
+        "path": "calendar/calendar-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-13.tsx",
+        "path": "calendar/calendar-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-14.tsx",
+        "path": "calendar/calendar-14.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-15.tsx",
+        "path": "calendar/calendar-15.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-16.tsx",
+        "path": "calendar/calendar-16.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-17.tsx",
+        "path": "calendar/calendar-17.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-18.tsx",
+        "path": "calendar/calendar-18.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-19.tsx",
+        "path": "calendar/calendar-19.tsx",
+        "type": "file"
+      },
+      {
         "name": "calendar-2.tsx",
         "path": "calendar/calendar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-20.tsx",
+        "path": "calendar/calendar-20.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-21.tsx",
+        "path": "calendar/calendar-21.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-22.tsx",
+        "path": "calendar/calendar-22.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-23.tsx",
+        "path": "calendar/calendar-23.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-24.tsx",
+        "path": "calendar/calendar-24.tsx",
         "type": "file"
       },
       {
@@ -24934,7 +27664,23 @@
     ],
     "files": [
       {
+        "path": "calendar/calendar-day.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "calendar/calendar-header.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "calendar/calendar.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "calendar/calendar.types.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "calendar/calendar.utils.ts",
         "type": "registry:ui"
       },
       {
@@ -24951,8 +27697,28 @@
     "source": "/registry-ui/src/calendar",
     "tree": [
       {
+        "name": "calendar-day.tsx",
+        "path": "calendar/calendar-day.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-header.tsx",
+        "path": "calendar/calendar-header.tsx",
+        "type": "file"
+      },
+      {
         "name": "calendar.tsx",
         "path": "calendar/calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar.types.ts",
+        "path": "calendar/calendar.types.ts",
+        "type": "file"
+      },
+      {
+        "name": "calendar.utils.ts",
+        "path": "calendar/calendar.utils.ts",
         "type": "file"
       },
       {
