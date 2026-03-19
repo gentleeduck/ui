@@ -1,9 +1,22 @@
 import type { DateAdapter, WeekStartDay } from './adapter.types'
 
+// Shared formatter cache  -  keyed by "locale|options-json"
+const FORMATTER_CACHE = new Map<string, Intl.DateTimeFormat>()
+
+function getCachedFormatter(locale: string | undefined, options: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+  const key = `${locale ?? ''}|${JSON.stringify(options)}`
+  let f = FORMATTER_CACHE.get(key)
+  if (!f) {
+    f = new Intl.DateTimeFormat(locale, options)
+    FORMATTER_CACHE.set(key, f)
+  }
+  return f
+}
+
 /**
  * Native date adapter using built-in `Date` and `Intl.DateTimeFormat`.
  * Zero external dependencies. Handles month-overflow clamping (Jan 31 + 1 month = Feb 28).
- * All methods return new Date instances — never mutates inputs.
+ * All methods return new Date instances  -  never mutates inputs.
  */
 export class NativeAdapter implements DateAdapter<Date> {
   /** Returns today's date with time stripped to midnight. */
@@ -60,7 +73,7 @@ export class NativeAdapter implements DateAdapter<Date> {
     return d
   }
 
-  /** Adds months with day clamping — Jan 31 + 1 = Feb 28, not Mar 3. */
+  /** Adds months with day clamping  -  Jan 31 + 1 = Feb 28, not Mar 3. */
   addMonths(date: Date, count: number): Date {
     const originalDay = date.getDate()
     const d = new Date(date.getFullYear(), date.getMonth(), 1)
@@ -70,7 +83,7 @@ export class NativeAdapter implements DateAdapter<Date> {
     return d
   }
 
-  /** Adds years with day clamping — Feb 29 2024 + 1 = Feb 28 2025. */
+  /** Adds years with day clamping  -  Feb 29 2024 + 1 = Feb 28 2025. */
   addYears(date: Date, count: number): Date {
     const originalDay = date.getDate()
     const d = new Date(date.getFullYear(), date.getMonth(), 1)
@@ -104,9 +117,9 @@ export class NativeAdapter implements DateAdapter<Date> {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate())
   }
 
-  /** Formats using Intl.DateTimeFormat. Pass standard options like `{ month: 'long' }`. */
+  /** Formats using Intl.DateTimeFormat with cached formatter instances. */
   format(date: Date, options: Intl.DateTimeFormatOptions, locale?: string): string {
-    return new Intl.DateTimeFormat(locale, options).format(date)
+    return getCachedFormatter(locale, options).format(date)
   }
 
   getHours(date: Date): number {

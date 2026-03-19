@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { incrementField, parseTimeInput } from '../../time/time'
 import { formatTimeField, getAmPm, to12Hour, to24Hour } from '../../time/time.libs'
 import type { TimeField, TimeValue } from '../../time/time.types'
@@ -9,14 +9,16 @@ import type { TimeFieldProps, UseTimePickerConfig, UseTimePickerReturn } from '.
 // Field ordering for tab-through
 // ---------------------------------------------------------------------------
 
-const FIELD_ORDER: TimeField[] = ['hour', 'minute', 'second', 'ampm']
+// Pre-computed field orders for all 4 combinations (avoids filter() on every digit press)
+const FIELD_ORDERS: Record<string, TimeField[]> = {
+  '24_false': ['hour', 'minute'],
+  '24_true': ['hour', 'minute', 'second'],
+  '12_false': ['hour', 'minute', 'ampm'],
+  '12_true': ['hour', 'minute', 'second', 'ampm'],
+}
 
 function nextField(current: TimeField, showSeconds: boolean, hourCycle: '12' | '24'): TimeField | null {
-  const available = FIELD_ORDER.filter((f) => {
-    if (f === 'second' && !showSeconds) return false
-    if (f === 'ampm' && hourCycle === '24') return false
-    return true
-  })
+  const available = FIELD_ORDERS[`${hourCycle}_${showSeconds}`]!
   const idx = available.indexOf(current)
   if (idx < 0 || idx >= available.length - 1) return null
   return available[idx + 1]!
@@ -105,9 +107,9 @@ export function useTimePicker(config: UseTimePickerConfig = {}): UseTimePickerRe
     }
   }, [])
 
-  // Derived display values
-  const displayHour = useMemo(() => (hourCycle === '12' ? to12Hour(value.hour) : value.hour), [value.hour, hourCycle])
-  const displayAmPm = useMemo(() => getAmPm(value.hour), [value.hour])
+  // Derived display values (trivial computations  -  no useMemo needed)
+  const displayHour = hourCycle === '12' ? to12Hour(value.hour) : value.hour
+  const displayAmPm = getAmPm(value.hour)
 
   // -------------------------------------------------------------------------
   // Actions
@@ -134,7 +136,7 @@ export function useTimePicker(config: UseTimePickerConfig = {}): UseTimePickerRe
           next.second = fieldValue
           break
         case 'ampm':
-          // 0 = AM, 1 = PM — convert current hour accordingly
+          // 0 = AM, 1 = PM  -  convert current hour accordingly
           next.hour = fieldValue === 0 ? value.hour % 12 : (value.hour % 12) + 12
           break
       }

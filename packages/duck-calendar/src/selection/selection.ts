@@ -41,7 +41,7 @@ function selectRange<TDate>(
     return { from: clicked, to: null }
   }
 
-  // Click the start cell again while no end is set — deselect
+  // Click the start cell again while no end is set  -  deselect
   if (current.to === null && adapter.isSameDay(clicked, current.from)) {
     return null
   }
@@ -69,7 +69,7 @@ function selectMulti<TDate>(adapter: DateAdapter<TDate>, current: TDate[], click
  * Decorate a grid with selection, disabled, and range flags.
  * Takes the raw output of `buildCalendarMonth()` and fills in
  * `isSelected`, `isDisabled`, `isRangeStart`, `isRangeEnd`, `isRangeMiddle`.
- * Returns a new array — never mutates the input.
+ * Returns a new array  -  never mutates the input.
  */
 export function applySelection<TDate, M extends SelectionMode>(
   weeks: CalendarWeek<TDate>[],
@@ -88,33 +88,36 @@ export function applySelection<TDate, M extends SelectionMode>(
   }))
 }
 
+const UNSELECTED = Object.freeze({
+  isSelected: false,
+  isRangeStart: false,
+  isRangeEnd: false,
+  isRangeMiddle: false,
+})
+
 function resolveSelectionFlags<TDate, M extends SelectionMode>(
   adapter: DateAdapter<TDate>,
   mode: M,
   selected: CalendarValue<TDate, M>,
   date: TDate,
 ): Pick<CalendarDay<TDate>, 'isSelected' | 'isRangeStart' | 'isRangeEnd' | 'isRangeMiddle'> {
-  const none = {
-    isSelected: false,
-    isRangeStart: false,
-    isRangeEnd: false,
-    isRangeMiddle: false,
-  }
-
   switch (mode) {
     case 'single': {
       const value = selected as TDate | null
-      return { ...none, isSelected: value !== null && adapter.isSameDay(date, value) }
+      if (value === null || !adapter.isSameDay(date, value)) return UNSELECTED
+      return { isSelected: true, isRangeStart: false, isRangeEnd: false, isRangeMiddle: false }
     }
 
     case 'range': {
       const value = selected as DateRange<TDate> | null
-      if (value === null) return none
+      if (value === null) return UNSELECTED
 
       const { from, to } = value
       const isStart = adapter.isSameDay(date, from)
       const isEnd = to !== null && adapter.isSameDay(date, to)
       const isMid = to !== null && isInRange(adapter, date, value) && !isStart && !isEnd
+
+      if (!isStart && !isEnd && !isMid) return UNSELECTED
 
       return {
         isSelected: isStart || isEnd,
@@ -126,10 +129,11 @@ function resolveSelectionFlags<TDate, M extends SelectionMode>(
 
     case 'multi': {
       const value = selected as TDate[]
-      return { ...none, isSelected: value.some((d) => adapter.isSameDay(d, date)) }
+      if (!value.some((d) => adapter.isSameDay(d, date))) return UNSELECTED
+      return { isSelected: true, isRangeStart: false, isRangeEnd: false, isRangeMiddle: false }
     }
 
     default:
-      return none
+      return UNSELECTED
   }
 }

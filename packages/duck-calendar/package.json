@@ -11,6 +11,30 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./adapter": {
+      "types": "./dist/adapter/index.d.ts",
+      "default": "./dist/adapter/index.js"
+    },
+    "./grid": {
+      "types": "./dist/grid/index.d.ts",
+      "default": "./dist/grid/index.js"
+    },
+    "./selection": {
+      "types": "./dist/selection/index.d.ts",
+      "default": "./dist/selection/index.js"
+    },
+    "./navigation": {
+      "types": "./dist/navigation/index.d.ts",
+      "default": "./dist/navigation/index.js"
+    },
+    "./time": {
+      "types": "./dist/time/index.d.ts",
+      "default": "./dist/time/index.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "default": "./dist/react/index.js"
+    },
     "./*": {
       "types": "./dist/*/index.d.ts",
       "default": "./dist/*/index.js"

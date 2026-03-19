@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { useCallback } from 'react'
 import type { KeyboardConfig, KeyboardReturn } from './use-keyboard.types'
 
@@ -54,29 +55,32 @@ function buildActionMap<TDate>(): Record<string, Action<TDate>> {
   }
 }
 
-// built once, outside the hook — no re-creation on render
+// built once, outside the hook  -  no re-creation on render
 const ACTION_MAP = buildActionMap<any>()
 
 export function useKeyboard<TDate>(config: KeyboardConfig<TDate>): KeyboardReturn {
-  const { focusedDate, onFocusChange, onSelect, onDismiss, isDisabled, adapter, weekStartDay } = config
+  // Keep config in a ref to avoid recreating the callback on every prop change
+  const configRef = React.useRef(config)
+  configRef.current = config
 
   const onKeyDown: React.KeyboardEventHandler = useCallback(
     (e) => {
+      const cfg = configRef.current
       const key = e.shiftKey && (e.key === 'PageUp' || e.key === 'PageDown') ? `Shift+${e.key}` : e.key
 
-      // Enter / Space — select
+      // Enter / Space  -  select
       if (key === 'Enter' || key === ' ') {
         e.preventDefault()
-        if (!isDisabled(focusedDate)) {
-          onSelect(focusedDate)
+        if (!cfg.isDisabled(cfg.focusedDate)) {
+          cfg.onSelect(cfg.focusedDate)
         }
         return
       }
 
-      // Escape — dismiss
+      // Escape  -  dismiss
       if (key === 'Escape') {
         e.preventDefault()
-        onDismiss?.()
+        cfg.onDismiss?.()
         return
       }
 
@@ -84,21 +88,12 @@ export function useKeyboard<TDate>(config: KeyboardConfig<TDate>): KeyboardRetur
       if (!action) return
 
       e.preventDefault()
-      const configObj: KeyboardConfig<TDate> = {
-        focusedDate,
-        onFocusChange,
-        onSelect,
-        onDismiss,
-        isDisabled,
-        adapter,
-        weekStartDay,
-      }
-      const next = action(focusedDate, configObj)
+      const next = action(cfg.focusedDate, cfg)
       if (next !== null) {
-        onFocusChange(next)
+        cfg.onFocusChange(next)
       }
     },
-    [focusedDate, onFocusChange, onSelect, onDismiss, isDisabled, adapter, weekStartDay],
+    [], // stable  -  reads from configRef
   )
 
   return { onKeyDown }

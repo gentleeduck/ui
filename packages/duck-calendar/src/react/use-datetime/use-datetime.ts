@@ -5,6 +5,8 @@ import { useCalendar } from '../use-calendar'
 import { useTimePicker } from '../use-time-picker'
 import type { UseDateTimeConfig, UseDateTimeReturn } from './use-datetime.types'
 
+const DEFAULT_TIME: TimeValue = Object.freeze({ hour: 0, minute: 0, second: 0 })
+
 /**
  * Composes `useCalendar` (single mode) and `useTimePicker` into a unified
  * datetime picker hook. Selecting a date preserves the current time, and
@@ -29,7 +31,7 @@ export function useDateTime<TDate>(config: UseDateTimeConfig<TDate>): UseDateTim
   } = config
 
   // ---------------------------------------------------------------------------
-  // Internal state — tracks the combined datetime
+  // Internal state  -  tracks the combined datetime
   // ---------------------------------------------------------------------------
   const isControlled = controlledValue !== undefined
   const [internalValue, setInternalValue] = useState<TDate | null>(defaultValue ?? null)
@@ -49,7 +51,7 @@ export function useDateTime<TDate>(config: UseDateTimeConfig<TDate>): UseDateTim
   // ---------------------------------------------------------------------------
   const extractTime = useCallback(
     (date: TDate | null): TimeValue => {
-      if (date == null) return { hour: 0, minute: 0, second: 0 }
+      if (date == null) return DEFAULT_TIME
       return {
         hour: adapter.getHours(date),
         minute: adapter.getMinutes(date),
@@ -70,7 +72,7 @@ export function useDateTime<TDate>(config: UseDateTimeConfig<TDate>): UseDateTim
   }, [timeValue])
 
   // ---------------------------------------------------------------------------
-  // useCalendar — single mode
+  // useCalendar  -  single mode
   // ---------------------------------------------------------------------------
   const calendar = useCalendar<TDate, 'single'>({
     adapter,
@@ -88,7 +90,7 @@ export function useDateTime<TDate>(config: UseDateTimeConfig<TDate>): UseDateTim
       if (selected == null) return
       const date = selected as TDate
       const t = timeRef.current
-      const merged = adapter.setTime(date, t.hour, t.minute, t.second)
+      const merged = adapter.setTime(date, t.hour, t.minute, t.second ?? 0)
       setDateTime(merged)
     },
   })
