@@ -93,9 +93,9 @@ export interface CalendarProps {
    * ```tsx
    * renderHeader={({ title, goToPrevMonth, goToNextMonth }) => (
    *   <div className="flex items-center justify-between">
-   *     <button onClick={goToPrevMonth}>←</button>
+   *     <button onClick={goToPrevMonth}><-</button>
    *     <span>{title}</span>
-   *     <button onClick={goToNextMonth}>→</button>
+   *     <button onClick={goToNextMonth}>-></button>
    *   </div>
    * )}
    * ```
