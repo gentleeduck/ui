@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { incrementField, parseTimeInput } from '../../time/time'
+import { clampTime, incrementField, parseTimeInput } from '../../time/time'
 import { formatTimeField, getAmPm, to12Hour, to24Hour } from '../../time/time.libs'
 import type { TimeField, TimeValue } from '../../time/time.types'
 import { useControllableState } from '../utils/use-controllable-state'
@@ -127,7 +127,11 @@ export function useTimePicker(config: UseTimePickerConfig = {}): UseTimePickerRe
       const next = { ...value }
       switch (field) {
         case 'hour':
-          next.hour = fieldValue
+          // In 12h mode, convert displayed hour back to 24h using current AM/PM
+          next.hour =
+            hourCycle === '12'
+              ? to24Hour(fieldValue === 0 ? 12 : fieldValue, getAmPm(value.hour))
+              : fieldValue
           break
         case 'minute':
           next.minute = fieldValue
@@ -140,9 +144,9 @@ export function useTimePicker(config: UseTimePickerConfig = {}): UseTimePickerRe
           next.hour = fieldValue === 0 ? value.hour % 12 : (value.hour % 12) + 12
           break
       }
-      setValueRaw(next)
+      setValueRaw(clampTime(next, minTime, maxTime))
     },
-    [value, setValueRaw],
+    [value, setValueRaw, hourCycle, minTime, maxTime],
   )
 
   const increment = useCallback(
@@ -165,9 +169,9 @@ export function useTimePicker(config: UseTimePickerConfig = {}): UseTimePickerRe
     const currentAmPm = getAmPm(value.hour)
     const hour12 = to12Hour(value.hour)
     const newAmPm = currentAmPm === 'AM' ? 'PM' : 'AM'
-    const next = { ...value, hour: to24Hour(hour12, newAmPm) }
+    const next = clampTime({ ...value, hour: to24Hour(hour12, newAmPm) }, minTime, maxTime)
     setValueRaw(next)
-  }, [value, setValueRaw])
+  }, [value, setValueRaw, minTime, maxTime])
 
   const focusField = useCallback((field: TimeField) => {
     setFocusedField(field)

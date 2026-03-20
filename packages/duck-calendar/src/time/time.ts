@@ -15,15 +15,21 @@ export function isValidTime(time: TimeValue): boolean {
 
 /** Clamp a time value within min/max bounds. */
 export function clampTime(time: TimeValue, min?: TimeValue, max?: TimeValue): TimeValue {
+  const hasSeconds = time.second !== undefined
   let result = { ...time }
-  if (min && toSeconds(result) < toSeconds(min)) {
+
+  // Normalize bounds to same precision as input for accurate comparison
+  const normalizeForCompare = (t: TimeValue): TimeValue =>
+    hasSeconds ? t : { hour: t.hour, minute: t.minute }
+
+  if (min && toSeconds(normalizeForCompare(result)) < toSeconds(normalizeForCompare(min))) {
     result = { ...min }
   }
-  if (max && toSeconds(result) > toSeconds(max)) {
+  if (max && toSeconds(normalizeForCompare(result)) > toSeconds(normalizeForCompare(max))) {
     result = { ...max }
   }
   // Preserve the second field only if the original had it
-  if (time.second === undefined) {
+  if (!hasSeconds) {
     const { second: _, ...rest } = result
     return rest
   }
