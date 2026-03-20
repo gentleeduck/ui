@@ -23,16 +23,37 @@ interface CalendarEventDialogProps {
 
 const ALL_CATEGORIES = Object.keys(CATEGORY_LABELS) as EventCategory[]
 
-function parseDateStr(s: string): Date | undefined {
-  if (!s) return undefined
+function parseDateStr(s: string): Date | null {
+  if (!s) return null
   const d = new Date(s + 'T00:00:00')
-  return Number.isNaN(d.getTime()) ? undefined : d
+  return Number.isNaN(d.getTime()) ? null : d
+}
+
+function timeStringTo24h(time: string): string {
+  const m = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i)
+  if (!m) return '09:00'
+  let h = Number.parseInt(m[1]!, 10)
+  const min = m[2]!
+  const p = m[3]!.toUpperCase()
+  if (p === 'PM' && h !== 12) h += 12
+  if (p === 'AM' && h === 12) h = 0
+  return `${String(h).padStart(2, '0')}:${min}`
+}
+
+function time24hToDisplay(t: string): string {
+  const [hStr, mStr] = t.split(':')
+  let h = Number.parseInt(hStr ?? '9', 10)
+  const min = mStr ?? '00'
+  const p = h >= 12 ? 'PM' : 'AM'
+  if (h === 0) h = 12
+  else if (h > 12) h -= 12
+  return `${h}:${min} ${p}`
 }
 
 export function CalendarEventDialog({ open, onOpenChange, onSave, editingEvent, defaultDate }: CalendarEventDialogProps) {
   const [title, setTitle] = React.useState('')
   const [date, setDate] = React.useState('')
-  const [time, setTime] = React.useState('9:00 AM')
+  const [time24, setTime24] = React.useState('09:00')
   const [category, setCategory] = React.useState<EventCategory>('other')
   const [starred, setStarred] = React.useState(false)
   const [datePickerOpen, setDatePickerOpen] = React.useState(false)
@@ -42,13 +63,13 @@ export function CalendarEventDialog({ open, onOpenChange, onSave, editingEvent, 
       if (editingEvent) {
         setTitle(editingEvent.title)
         setDate(editingEvent.date)
-        setTime(editingEvent.time)
+        setTime24(timeStringTo24h(editingEvent.time))
         setCategory(editingEvent.category)
         setStarred(editingEvent.starred ?? false)
       } else {
         setTitle('')
         setDate(defaultDate ?? formatDateString(new Date()))
-        setTime('9:00 AM')
+        setTime24('09:00')
         setCategory('other')
         setStarred(false)
       }
@@ -57,12 +78,13 @@ export function CalendarEventDialog({ open, onOpenChange, onSave, editingEvent, 
 
   function handleSave() {
     if (!title.trim() || !date) return
+    const displayTime = time24hToDisplay(time24)
     onSave({
       id: editingEvent?.id ?? crypto.randomUUID(),
       title: title.trim(),
       date,
-      time,
-      timeValue: parseTimeToMinutes(time),
+      time: displayTime,
+      timeValue: parseTimeToMinutes(displayTime),
       category,
       starred: starred || undefined,
     })
@@ -72,7 +94,7 @@ export function CalendarEventDialog({ open, onOpenChange, onSave, editingEvent, 
   const selectedDate = parseDateStr(date)
   const displayDate = selectedDate
     ? selectedDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
-    : 'Pick a date'
+    : 'Select date'
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -81,30 +103,29 @@ export function CalendarEventDialog({ open, onOpenChange, onSave, editingEvent, 
           <DialogTitle>{editingEvent ? 'Edit Event' : 'Add Event'}</DialogTitle>
         </DialogHeader>
         <div className="flex flex-col gap-4 py-4">
+          {/* Title */}
           <div className="flex flex-col gap-2">
             <Label htmlFor="evt-title">Title</Label>
             <Input id="evt-title" value={title} onChange={(e) => setTitle(e.target.value)} placeholder="Event title" />
           </div>
 
+          {/* Date + Time row */}
           <div className="flex gap-4">
-            {/* Date picker with Calendar popover */}
-            <div className="flex flex-1 flex-col gap-2">
-              <Label>Date</Label>
+            <div className="flex flex-col gap-2">
+              <Label className="px-1">Date</Label>
               <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" className={cn('w-full justify-between font-normal', !date && 'text-muted-foreground')}>
-                    <span className="flex items-center gap-2">
-                      <CalendarIcon className="size-3.5" />
-                      {displayDate}
-                    </span>
-                    <ChevronDownIcon className="size-3.5 opacity-50" />
+                  <Button variant="outline" className={cn('w-40 justify-between font-normal', !date && 'text-muted-foreground')}>
+                    {displayDate}
+                    <ChevronDownIcon className="size-3.5 opacity-50" aria-hidden="true" />
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent align="start" className="w-auto p-0">
+                <PopoverContent side="top" align="start" className="w-auto p-0">
                   <Calendar
+                    showDropdowns={false}
                     mode="single"
                     selected={selectedDate}
-                    defaultMonth={selectedDate}
+                    defaultMonth={selectedDate ?? undefined}
                     onSelect={(d) => {
                       if (d) setDate(formatDateString(d))
                       setDatePickerOpen(false)
@@ -114,19 +135,24 @@ export function CalendarEventDialog({ open, onOpenChange, onSave, editingEvent, 
               </Popover>
             </div>
 
-            {/* Time input */}
-            <div className="flex flex-1 flex-col gap-2">
-              <Label htmlFor="evt-time">Time</Label>
-              <Input id="evt-time" value={time} onChange={(e) => setTime(e.target.value)} placeholder="9:00 AM" />
+            <div className="flex flex-col gap-2">
+              <Label className="px-1" htmlFor="evt-time">Time</Label>
+              <Input
+                id="evt-time"
+                type="time"
+                value={time24}
+                onChange={(e) => setTime24(e.target.value)}
+                step="60"
+                className="appearance-none bg-background [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
+              />
             </div>
           </div>
 
+          {/* Category */}
           <div className="flex flex-col gap-2">
             <Label>Category</Label>
             <Select value={category} onValueChange={(v) => setCategory(v as EventCategory)}>
-              <SelectTrigger>
-                <SelectValue />
-              </SelectTrigger>
+              <SelectTrigger><SelectValue /></SelectTrigger>
               <SelectContent>
                 {ALL_CATEGORIES.map((cat) => (
                   <SelectItem key={cat} value={cat}>
@@ -140,6 +166,7 @@ export function CalendarEventDialog({ open, onOpenChange, onSave, editingEvent, 
             </Select>
           </div>
 
+          {/* Starred */}
           <label className="flex cursor-pointer items-center gap-2 text-sm">
             <input type="checkbox" checked={starred} onChange={(e) => setStarred(e.target.checked)} className="rounded" />
             External / Shared event
