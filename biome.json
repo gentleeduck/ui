@@ -165,6 +165,7 @@
         "useNodejsImportProtocol": "warn"
       },
       "suspicious": {
+        "noGlobalIsNan": "off",
         "noArrayIndexKey": "warn",
         "noAssignInExpressions": "warn",
         "noDocumentCookie": "off",
