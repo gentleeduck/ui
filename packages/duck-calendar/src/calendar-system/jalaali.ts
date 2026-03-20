@@ -69,7 +69,17 @@ function jalCal(jy: number): { leap: number; gy: number; march: number } {
  * @param gd - Gregorian day
  * @returns Jalaali `{ jy, jm, jd }` (month is 1-indexed)
  */
+/** Number of days in a Gregorian month (for input validation). */
+function gregorianMonthLength(gy: number, gm: number): number {
+  const isLeap = gy % 4 === 0 && (gy % 100 !== 0 || gy % 400 === 0)
+  const lengths = [31, isLeap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+  return lengths[gm - 1] ?? 31
+}
+
 export function toJalaali(gy: number, gm: number, gd: number): { jy: number; jm: number; jd: number } {
+  if (gm < 1 || gm > 12 || gd < 1 || gd > gregorianMonthLength(gy, gm)) {
+    throw new RangeError(`Invalid Gregorian date: ${gy}-${gm}-${gd}`)
+  }
   return d2j(g2d(gy, gm, gd))
 }
 
