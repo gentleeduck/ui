@@ -30,8 +30,10 @@ export function selectDay<TDate, M extends SelectionMode>(
         clickedDay,
         options?.shiftKey,
       ) as CalendarValue<TDate, M>
-    default:
-      return currentValue
+    default: {
+      const _exhaustive: never = mode
+      return _exhaustive
+    }
   }
 }
 

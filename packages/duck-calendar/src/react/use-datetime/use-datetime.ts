@@ -89,6 +89,9 @@ export function useDateTime<TDate>(config: UseDateTimeConfig<TDate>): UseDateTim
     onSelect: (selected: CalendarValue<TDate, 'single'>) => {
       if (selected == null) return
       const date = selected as TDate
+      // Read timeRef eagerly - it's kept in sync via useEffect, but we also
+      // write it eagerly in timePicker.onChange to avoid stale reads within
+      // the same React batch
       const t = timeRef.current
       const merged = adapter.setTime(date, t.hour, t.minute, t.second ?? 0)
       setDateTime(merged)
