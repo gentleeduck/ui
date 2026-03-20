@@ -343,7 +343,9 @@ describe('selection', () => {
 
     it('shift+click splits a range excluding the clicked day', () => {
       const ranges: DateRange<Date>[] = [{ from: new Date(2026, 2, 1), to: new Date(2026, 2, 10) }] // 10 days
-      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 5), { shiftKey: true }) as DateRange<Date>[]
+      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 5), {
+        shiftKey: true,
+      }) as DateRange<Date>[]
       expect(result).toHaveLength(2)
       expect(result[0]!.from.getDate()).toBe(1)
       expect(result[0]!.to!.getDate()).toBe(4)
@@ -353,7 +355,9 @@ describe('selection', () => {
 
     it('shift+click on start shrinks range from left', () => {
       const ranges: DateRange<Date>[] = [{ from: new Date(2026, 2, 1), to: new Date(2026, 2, 10) }]
-      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 1), { shiftKey: true }) as DateRange<Date>[]
+      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 1), {
+        shiftKey: true,
+      }) as DateRange<Date>[]
       expect(result).toHaveLength(1)
       expect(result[0]!.from.getDate()).toBe(2)
       expect(result[0]!.to!.getDate()).toBe(10)
@@ -361,7 +365,9 @@ describe('selection', () => {
 
     it('shift+click on end shrinks range from right', () => {
       const ranges: DateRange<Date>[] = [{ from: new Date(2026, 2, 1), to: new Date(2026, 2, 10) }]
-      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 10), { shiftKey: true }) as DateRange<Date>[]
+      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 10), {
+        shiftKey: true,
+      }) as DateRange<Date>[]
       expect(result).toHaveLength(1)
       expect(result[0]!.from.getDate()).toBe(1)
       expect(result[0]!.to!.getDate()).toBe(9)
@@ -369,7 +375,9 @@ describe('selection', () => {
 
     it('shift+click does nothing for ranges <= 5 days', () => {
       const ranges: DateRange<Date>[] = [{ from: new Date(2026, 2, 1), to: new Date(2026, 2, 5) }] // exactly 5 days
-      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 3), { shiftKey: true }) as DateRange<Date>[]
+      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 3), {
+        shiftKey: true,
+      }) as DateRange<Date>[]
       expect(result).toHaveLength(1)
       expect(result[0]!.from.getDate()).toBe(1)
       expect(result[0]!.to!.getDate()).toBe(5)
@@ -377,7 +385,9 @@ describe('selection', () => {
 
     it('shift+click works for ranges of 6 days', () => {
       const ranges: DateRange<Date>[] = [{ from: new Date(2026, 2, 1), to: new Date(2026, 2, 6) }] // 6 days
-      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 3), { shiftKey: true }) as DateRange<Date>[]
+      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 3), {
+        shiftKey: true,
+      }) as DateRange<Date>[]
       expect(result).toHaveLength(2)
     })
 
