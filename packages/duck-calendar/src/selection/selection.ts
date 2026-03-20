@@ -24,7 +24,12 @@ export function selectDay<TDate, M extends SelectionMode>(
     case 'multi':
       return selectMulti(adapter, currentValue as TDate[], clickedDay) as CalendarValue<TDate, M>
     case 'multi-range':
-      return selectMultiRange(adapter, currentValue as DateRange<TDate>[], clickedDay, options?.shiftKey) as CalendarValue<TDate, M>
+      return selectMultiRange(
+        adapter,
+        currentValue as DateRange<TDate>[],
+        clickedDay,
+        options?.shiftKey,
+      ) as CalendarValue<TDate, M>
     default:
       return currentValue
   }
@@ -167,9 +172,7 @@ function mergeRanges<TDate>(adapter: DateAdapter<TDate>, ranges: DateRange<TDate
 
     // Check if curr overlaps or is adjacent (prev.to + 1 day >= curr.from)
     const prevEndPlusOne = adapter.addDays(prev.to, 1)
-    const overlaps =
-      adapter.isSameDay(curr.from, prevEndPlusOne) ||
-      adapter.isBefore(curr.from, prevEndPlusOne)
+    const overlaps = adapter.isSameDay(curr.from, prevEndPlusOne) || adapter.isBefore(curr.from, prevEndPlusOne)
 
     if (overlaps) {
       // Merge: extend prev to the further end
