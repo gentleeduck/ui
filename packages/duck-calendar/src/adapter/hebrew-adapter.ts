@@ -1,6 +1,6 @@
 import { hebrewMonthLength, hebrewMonthsInYear, hebrewToGregorian, toHebrew } from '../calendar-system/hebrew'
 import type { DateAdapter, WeekStartDay } from './adapter.types'
-import { getCachedFormatter } from './formatter-cache'
+import { formatWithCalendar } from './adapter.utils'
 
 /**
  * Hebrew calendar adapter.
@@ -161,17 +161,7 @@ export class HebrewAdapter implements DateAdapter<Date> {
   }
 
   format(date: Date, options: Intl.DateTimeFormatOptions, locale?: string): string {
-    const loc = locale ?? this.locale
-    if (loc.includes('-ca-hebrew')) return new Intl.DateTimeFormat(loc, options).format(date)
-    let tag: string
-    if (loc.includes('-ca-')) {
-      tag = loc.replace(/-ca-[a-z-]+/, '-ca-hebrew')
-    } else if (loc.includes('-u-')) {
-      tag = `${loc}-ca-hebrew`
-    } else {
-      tag = `${loc}-u-ca-hebrew`
-    }
-    return getCachedFormatter(tag, options).format(date)
+    return formatWithCalendar(date, options, this.locale, 'hebrew', locale)
   }
 
   getHours(date: Date): number {
