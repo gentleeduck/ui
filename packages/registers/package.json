@@ -33,5 +33,11 @@
     "test": "bun test"
   },
   "type": "module",
-  "version": "0.3.4"
+  "version": "0.3.4",
+  "description": "Component registry system for Duck UI.",
+  "keywords": [
+    "gentleduck",
+    "react",
+    "registry"
+  ]
 }

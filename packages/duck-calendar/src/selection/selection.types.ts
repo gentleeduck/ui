@@ -1,0 +1,47 @@
+/**
+ * The three ways a calendar can accept user selection.
+ *
+ * - `'single'` — one date at a time.
+ * - `'range'`  — a start date and an optional end date.
+ * - `'multi'`  — an unordered set of individual dates.
+ */
+export type SelectionMode = 'single' | 'range' | 'multi'
+
+/**
+ * Represents a contiguous date range.
+ *
+ * `to` is `null` while the user is mid-selection (they have clicked
+ * a start date but not yet chosen an end date).
+ *
+ * @typeParam TDate - The adapter's date type.
+ */
+export type DateRange<TDate> = {
+  /** The inclusive start of the range. Always present once selection begins. */
+  from: TDate
+  /** The inclusive end of the range, or `null` if not yet chosen. */
+  to: TDate | null
+}
+
+/**
+ * Maps a {@link SelectionMode} to its corresponding value shape.
+ *
+ * | Mode      | Resolved type                  |
+ * |-----------|--------------------------------|
+ * | `single`  | `TDate \| null`                |
+ * | `range`   | `DateRange<TDate> \| null`     |
+ * | `multi`   | `TDate[]`                      |
+ *
+ * This conditional type lets TypeScript narrow `onSelect`'s argument and
+ * `selected`'s type automatically from the `mode` prop — no casting required
+ * at call sites.
+ *
+ * @typeParam TDate - The adapter's date type.
+ * @typeParam Mode  - The active selection mode.
+ */
+export type CalendarValue<TDate, Mode extends SelectionMode> = Mode extends 'single'
+  ? TDate | null
+  : Mode extends 'range'
+    ? DateRange<TDate> | null
+    : Mode extends 'multi'
+      ? TDate[]
+      : never
