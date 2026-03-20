@@ -8,7 +8,7 @@ import { Input } from '@gentleduck/registry-ui/input'
 import { Label } from '@gentleduck/registry-ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'
-import { CalendarIcon, ChevronDownIcon } from 'lucide-react'
+import { ChevronDownIcon } from 'lucide-react'
 import * as React from 'react'
 import { CATEGORY_COLORS, CATEGORY_LABELS, type CalendarEvent, type EventCategory } from '../calendar-data'
 import { formatDateString, parseTimeToMinutes } from '../calendar-utils'
@@ -25,7 +25,13 @@ const ALL_CATEGORIES = Object.keys(CATEGORY_LABELS) as EventCategory[]
 
 import { parseDateStr, time24hToDisplay, timeStringTo24h } from '../calendar-1.libs'
 
-export function CalendarEventDialog({ open, onOpenChange, onSave, editingEvent, defaultDate }: CalendarEventDialogProps) {
+export function CalendarEventDialog({
+  open,
+  onOpenChange,
+  onSave,
+  editingEvent,
+  defaultDate,
+}: CalendarEventDialogProps) {
   const [title, setTitle] = React.useState('')
   const [date, setDate] = React.useState('')
   const [time24, setTime24] = React.useState('09:00')
@@ -90,7 +96,9 @@ export function CalendarEventDialog({ open, onOpenChange, onSave, editingEvent, 
               <Label className="px-1">Date</Label>
               <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
                 <PopoverTrigger asChild>
-                  <Button variant="outline" className={cn('w-40 justify-between font-normal', !date && 'text-muted-foreground')}>
+                  <Button
+                    variant="outline"
+                    className={cn('w-40 justify-between font-normal', !date && 'text-muted-foreground')}>
                     {displayDate}
                     <ChevronDownIcon className="size-3.5 opacity-50" aria-hidden="true" />
                   </Button>
@@ -111,7 +119,9 @@ export function CalendarEventDialog({ open, onOpenChange, onSave, editingEvent, 
             </div>
 
             <div className="flex flex-col gap-2">
-              <Label className="px-1" htmlFor="evt-time">Time</Label>
+              <Label className="px-1" htmlFor="evt-time">
+                Time
+              </Label>
               <Input
                 id="evt-time"
                 type="time"
@@ -127,7 +137,9 @@ export function CalendarEventDialog({ open, onOpenChange, onSave, editingEvent, 
           <div className="flex flex-col gap-2">
             <Label>Category</Label>
             <Select value={category} onValueChange={(v) => setCategory(v as EventCategory)}>
-              <SelectTrigger><SelectValue /></SelectTrigger>
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
               <SelectContent>
                 {ALL_CATEGORIES.map((cat) => (
                   <SelectItem key={cat} value={cat}>
@@ -143,13 +155,22 @@ export function CalendarEventDialog({ open, onOpenChange, onSave, editingEvent, 
 
           {/* Starred */}
           <label className="flex cursor-pointer items-center gap-2 text-sm">
-            <input type="checkbox" checked={starred} onChange={(e) => setStarred(e.target.checked)} className="rounded" />
+            <input
+              type="checkbox"
+              checked={starred}
+              onChange={(e) => setStarred(e.target.checked)}
+              className="rounded"
+            />
             External / Shared event
           </label>
         </div>
         <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>Cancel</Button>
-          <Button onClick={handleSave} disabled={!title.trim() || !date}>Save</Button>
+          <Button variant="outline" onClick={() => onOpenChange(false)}>
+            Cancel
+          </Button>
+          <Button onClick={handleSave} disabled={!title.trim() || !date}>
+            Save
+          </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

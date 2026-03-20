@@ -9,7 +9,7 @@ import {
   CommandItem,
   CommandList,
 } from '@gentleduck/registry-ui/command'
-import { CalendarIcon, ClockIcon, SearchIcon, StarIcon } from 'lucide-react'
+import { ClockIcon, StarIcon } from 'lucide-react'
 import * as React from 'react'
 import { CATEGORY_COLORS, CATEGORY_LABELS, type CalendarEvent } from '../calendar-data'
 import { formatFullDate } from '../calendar-utils'
@@ -73,10 +73,10 @@ export function CalendarCommandMenu({
                   className="flex items-center gap-3">
                   <span className={cn('size-2 shrink-0 rounded-full', colors.dot)} />
                   <div className="flex flex-1 flex-col">
-                    <span className="text-sm font-medium">{evt.title}</span>
-                    <span className="text-xs text-muted-foreground">{CATEGORY_LABELS[evt.category]}</span>
+                    <span className="font-medium text-sm">{evt.title}</span>
+                    <span className="text-muted-foreground text-xs">{CATEGORY_LABELS[evt.category]}</span>
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                  <div className="flex items-center gap-2 text-muted-foreground text-xs">
                     {evt.starred && <StarIcon className="size-3 fill-amber-400 text-amber-400" />}
                     <ClockIcon className="size-3" />
                     <span>{evt.time}</span>
