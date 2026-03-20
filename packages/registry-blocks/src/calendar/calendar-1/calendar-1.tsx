@@ -2,11 +2,12 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@gentleduck/registry-ui/breadcrumb'
-import { Input } from '@gentleduck/registry-ui/input'
+import { Button } from '@gentleduck/registry-ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui/tabs'
 import { CalendarIcon, HomeIcon, SearchIcon } from 'lucide-react'
 import * as React from 'react'
 import { type CalendarEvent, type CalendarView, type FilterMode, MOCK_EVENTS } from './calendar-data'
+import { CalendarCommandMenu } from './components/calendar-command-menu'
 import { CalendarEventDetail } from './components/calendar-event-detail'
 import { CalendarEventDialog } from './components/calendar-event-dialog'
 import { CalendarGrid } from './components/calendar-grid'
@@ -26,12 +27,15 @@ export default function Page() {
   const [isAddEventOpen, setIsAddEventOpen] = React.useState(false)
   const [detailEvent, setDetailEvent] = React.useState<CalendarEvent | null>(null)
   const [overflowDay, setOverflowDay] = React.useState<string | null>(null)
+  const [commandOpen, setCommandOpen] = React.useState(false)
 
-  const searchRef = React.useRef<HTMLInputElement>(null)
-
+  // Cmd+K shortcut
   React.useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); searchRef.current?.focus() }
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setCommandOpen(true)
+      }
     }
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
@@ -40,11 +44,13 @@ export default function Page() {
   const filteredEvents = React.useMemo(() => {
     let filtered = events
     if (filterMode === 'shared') filtered = filtered.filter((e) => e.starred)
-    if (searchQuery) { const q = searchQuery.toLowerCase(); filtered = filtered.filter((e) => e.title.toLowerCase().includes(q)) }
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase()
+      filtered = filtered.filter((e) => e.title.toLowerCase().includes(q))
+    }
     return filtered
   }, [events, filterMode, searchQuery])
 
-  // View-aware navigation
   function handlePrev() {
     setViewedDate((d) => {
       const n = new Date(d)
@@ -79,11 +85,17 @@ export default function Page() {
   function handleEditEvent(event: CalendarEvent) { setEditingEvent(event); setAddEventDate(null); setIsAddEventOpen(true) }
   function handleSelectEvent(event: CalendarEvent) { setDetailEvent(event); setOverflowDay(null) }
   function handleMonthClick(month: number) { setViewedDate(new Date(viewedDate.getFullYear(), month, 1)); setCalendarView('month') }
+  function handleNavigateToDate(dateStr: string) {
+    const d = new Date(dateStr + 'T00:00:00')
+    setViewedDate(d)
+    if (calendarView === 'year') setCalendarView('month')
+  }
 
   const showEmptyState = filterMode === 'public' || filterMode === 'archived'
 
   return (
     <div className="flex flex-col gap-6 p-6">
+      {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div className="flex flex-col gap-4">
           <Breadcrumb>
@@ -100,13 +112,17 @@ export default function Page() {
             <h1 className="font-bold text-2xl">Calendar</h1>
           </div>
         </div>
-        <div className="relative w-64">
-          <SearchIcon className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input ref={searchRef} value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} placeholder="Search" className="pl-8 pr-14" />
-          <kbd className="absolute right-2 top-1/2 -translate-y-1/2 rounded border bg-muted px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">{"\u2318"}K</kbd>
-        </div>
+        {/* Search trigger - opens command menu */}
+        <Button variant="outline" className="w-64 justify-between text-muted-foreground font-normal" onClick={() => setCommandOpen(true)}>
+          <span className="flex items-center gap-2">
+            <SearchIcon className="size-4" />
+            Search
+          </span>
+          <kbd className="rounded border bg-muted px-1.5 py-0.5 font-mono text-[10px]">{"\u2318"}K</kbd>
+        </Button>
       </div>
 
+      {/* Tabs */}
       <Tabs value={filterMode} onValueChange={(v) => setFilterMode(v as FilterMode)}>
         <TabsList>
           <TabsTrigger value="all">All events</TabsTrigger>
@@ -122,8 +138,6 @@ export default function Page() {
             onViewChange={setCalendarView}
             onAddEvent={() => { setEditingEvent(null); setAddEventDate(null); setIsAddEventOpen(true) }}
           />
-
-          {searchQuery && <p className="text-xs text-muted-foreground">{filteredEvents.length} result{filteredEvents.length !== 1 ? 's' : ''}</p>}
 
           {showEmptyState ? (
             <div className="flex min-h-96 flex-col items-center justify-center gap-2 rounded-lg border border-dashed">
@@ -147,6 +161,16 @@ export default function Page() {
         </TabsContent>
       </Tabs>
 
+      {/* Command menu search */}
+      <CalendarCommandMenu
+        open={commandOpen}
+        onOpenChange={setCommandOpen}
+        events={filteredEvents}
+        onSelectEvent={handleSelectEvent}
+        onNavigateToDate={handleNavigateToDate}
+      />
+
+      {/* Add/Edit dialog */}
       <CalendarEventDialog open={isAddEventOpen} onOpenChange={setIsAddEventOpen} onSave={handleSaveEvent} editingEvent={editingEvent} defaultDate={addEventDate} />
     </div>
   )
