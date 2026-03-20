@@ -75,7 +75,7 @@ export default function Page() {
   const showEmptyState = filterMode === 'public' || filterMode === 'archived'
 
   return (
-    <div className="flex flex-col gap-4 p-4">
+    <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 p-4 sm:p-6">
       {/* Toolbar - single row with everything */}
       <CalendarToolbar
         viewedDate={viewedDate} calendarView={calendarView} filterMode={filterMode}
