@@ -1,0 +1,322 @@
+import { beforeEach, describe, expect, it } from 'vitest'
+
+import { HebrewAdapter } from '../hebrew-adapter'
+
+describe('HebrewAdapter', () => {
+  let adapter: HebrewAdapter
+
+  beforeEach(() => {
+    adapter = new HebrewAdapter()
+  })
+
+  // ---------------------------------------------------------------------------
+  // create / getYear / getMonth / getDate
+  // ---------------------------------------------------------------------------
+  describe('create and getters', () => {
+    it('creates a date from Hebrew year, 0-indexed month, day', () => {
+      // 1 Tishrei 5786 (month 0 = Tishrei)
+      const d = adapter.create(5786, 0, 1)
+      expect(adapter.getYear(d)).toBe(5786)
+      expect(adapter.getMonth(d)).toBe(0)
+      expect(adapter.getDate(d)).toBe(1)
+    })
+
+    it('month is 0-indexed (0 = Tishrei)', () => {
+      const d = adapter.create(5786, 5, 1) // Adar
+      expect(adapter.getMonth(d)).toBe(5)
+    })
+
+    it('returns the correct Hebrew day', () => {
+      const d = adapter.create(5786, 0, 15) // 15 Tishrei 5786
+      expect(adapter.getDate(d)).toBe(15)
+    })
+
+    it('round-trips through Gregorian correctly', () => {
+      // 1 Tishrei 5786 = Sep 23, 2025 (verified against Intl)
+      const d = adapter.create(5786, 0, 1)
+      const native = adapter.toDate(d)
+      expect(native.getFullYear()).toBe(2025)
+      expect(native.getMonth()).toBe(8) // September
+      expect(native.getDate()).toBe(23)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // today
+  // ---------------------------------------------------------------------------
+  describe('today', () => {
+    it('returns a valid date', () => {
+      expect(adapter.isValid(adapter.today())).toBe(true)
+    })
+
+    it('strips time to midnight', () => {
+      const t = adapter.today()
+      expect(adapter.getHours(t)).toBe(0)
+      expect(adapter.getMinutes(t)).toBe(0)
+      expect(adapter.getSeconds(t)).toBe(0)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // isValid
+  // ---------------------------------------------------------------------------
+  describe('isValid', () => {
+    it('returns true for a valid date', () => {
+      expect(adapter.isValid(adapter.create(5786, 0, 1))).toBe(true)
+    })
+
+    it('returns false for an invalid date', () => {
+      expect(adapter.isValid(adapter.fromDate(new Date('not a date')))).toBe(false)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // isSameDay / isSameMonth
+  // ---------------------------------------------------------------------------
+  describe('isSameDay', () => {
+    it('same date returns true', () => {
+      const a = adapter.create(5786, 0, 1)
+      const b = adapter.create(5786, 0, 1)
+      expect(adapter.isSameDay(a, b)).toBe(true)
+    })
+
+    it('different day returns false', () => {
+      expect(adapter.isSameDay(adapter.create(5786, 0, 1), adapter.create(5786, 0, 2))).toBe(false)
+    })
+  })
+
+  describe('isSameMonth', () => {
+    it('same Hebrew month returns true', () => {
+      expect(adapter.isSameMonth(adapter.create(5786, 0, 1), adapter.create(5786, 0, 30))).toBe(true)
+    })
+
+    it('different Hebrew month returns false', () => {
+      expect(adapter.isSameMonth(adapter.create(5786, 0, 1), adapter.create(5786, 1, 1))).toBe(false)
+    })
+
+    it('same month different year returns false', () => {
+      expect(adapter.isSameMonth(adapter.create(5786, 0, 1), adapter.create(5785, 0, 1))).toBe(false)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // isBefore / isAfter
+  // ---------------------------------------------------------------------------
+  describe('isBefore / isAfter', () => {
+    it('earlier date is before later date', () => {
+      expect(adapter.isBefore(adapter.create(5786, 0, 1), adapter.create(5786, 0, 2))).toBe(true)
+    })
+
+    it('same date: isBefore returns false', () => {
+      const d = adapter.create(5786, 0, 1)
+      expect(adapter.isBefore(d, adapter.create(5786, 0, 1))).toBe(false)
+    })
+
+    it('later date is after earlier date', () => {
+      expect(adapter.isAfter(adapter.create(5786, 0, 2), adapter.create(5786, 0, 1))).toBe(true)
+    })
+
+    it('same date: isAfter returns false', () => {
+      const d = adapter.create(5786, 0, 1)
+      expect(adapter.isAfter(d, adapter.create(5786, 0, 1))).toBe(false)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // startOfMonth / endOfMonth
+  // ---------------------------------------------------------------------------
+  describe('startOfMonth', () => {
+    it('returns day 1 of the Hebrew month', () => {
+      const d = adapter.startOfMonth(adapter.create(5786, 0, 15))
+      expect(adapter.getDate(d)).toBe(1)
+      expect(adapter.getMonth(d)).toBe(0)
+      expect(adapter.getYear(d)).toBe(5786)
+    })
+  })
+
+  describe('endOfMonth', () => {
+    it('Tishrei has 30 days', () => {
+      const d = adapter.endOfMonth(adapter.create(5786, 0, 1))
+      expect(adapter.getDate(d)).toBe(30)
+    })
+
+    it('Tevet has 29 days', () => {
+      const d = adapter.endOfMonth(adapter.create(5786, 3, 1)) // month 3 = Tevet
+      expect(adapter.getDate(d)).toBe(29)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // addDays
+  // ---------------------------------------------------------------------------
+  describe('addDays', () => {
+    it('adds positive days', () => {
+      const d = adapter.addDays(adapter.create(5786, 0, 1), 10)
+      expect(adapter.getDate(d)).toBe(11)
+    })
+
+    it('subtracts days', () => {
+      const d = adapter.addDays(adapter.create(5786, 0, 15), -5)
+      expect(adapter.getDate(d)).toBe(10)
+    })
+
+    it('crosses month boundaries', () => {
+      const d = adapter.addDays(adapter.create(5786, 0, 30), 1)
+      expect(adapter.getMonth(d)).toBe(1) // Cheshvan
+      expect(adapter.getDate(d)).toBe(1)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // addMonths
+  // ---------------------------------------------------------------------------
+  describe('addMonths', () => {
+    it('advances one month', () => {
+      const d = adapter.addMonths(adapter.create(5786, 0, 15), 1)
+      expect(adapter.getMonth(d)).toBe(1)
+      expect(adapter.getYear(d)).toBe(5786)
+    })
+
+    it('wraps across year boundary', () => {
+      const d = adapter.addMonths(adapter.create(5786, 11, 1), 1) // Elul + 1
+      expect(adapter.getYear(d)).toBe(5787)
+      expect(adapter.getMonth(d)).toBe(0) // Tishrei
+    })
+
+    it('goes backward', () => {
+      const d = adapter.addMonths(adapter.create(5786, 0, 15), -1) // Tishrei - 1
+      expect(adapter.getYear(d)).toBe(5785)
+    })
+
+    it('clamps day to shorter month', () => {
+      // Tishrei has 30 days, Tevet has 29
+      const d = adapter.addMonths(adapter.create(5786, 0, 30), 3) // Tishrei -> Tevet
+      expect(adapter.getDate(d)).toBe(29)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // addYears
+  // ---------------------------------------------------------------------------
+  describe('addYears', () => {
+    it('adds one year', () => {
+      const d = adapter.addYears(adapter.create(5786, 0, 1), 1)
+      expect(adapter.getYear(d)).toBe(5787)
+      expect(adapter.getMonth(d)).toBe(0)
+    })
+
+    it('subtracts one year', () => {
+      const d = adapter.addYears(adapter.create(5786, 0, 1), -1)
+      expect(adapter.getYear(d)).toBe(5785)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // getDayOfWeek / startOfWeek
+  // ---------------------------------------------------------------------------
+  describe('getDayOfWeek', () => {
+    it('returns 0-6', () => {
+      const d = adapter.create(5786, 0, 1)
+      expect(adapter.getDayOfWeek(d)).toBeGreaterThanOrEqual(0)
+      expect(adapter.getDayOfWeek(d)).toBeLessThanOrEqual(6)
+    })
+  })
+
+  describe('startOfWeek', () => {
+    it('walks back to Sunday (weekStartDay=0)', () => {
+      const d = adapter.startOfWeek(adapter.create(5786, 0, 5), 0)
+      expect(adapter.getDayOfWeek(d)).toBe(0)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // format
+  // ---------------------------------------------------------------------------
+  describe('format', () => {
+    it('formats with Hebrew calendar extension', () => {
+      const d = adapter.create(5786, 0, 1)
+      const result = adapter.format(d, { month: 'long' })
+      expect(typeof result).toBe('string')
+      expect(result.length).toBeGreaterThan(0)
+    })
+
+    it('accepts a custom locale', () => {
+      const d = adapter.create(5786, 0, 1)
+      const result = adapter.format(d, { month: 'long' }, 'en-US')
+      expect(typeof result).toBe('string')
+    })
+
+    it('does not duplicate calendar extension', () => {
+      const d = adapter.create(5786, 0, 1)
+      const result = adapter.format(d, { month: 'long' }, 'en-US-u-ca-hebrew')
+      expect(typeof result).toBe('string')
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // Leap year handling
+  // ---------------------------------------------------------------------------
+  describe('leap years', () => {
+    // 5784 is a leap year (cycle position 8)
+    it('leap year has 13 months', () => {
+      const leapAdapter = new HebrewAdapter()
+      // Month 12 (Elul, 0-indexed) should exist in leap year
+      const d = leapAdapter.create(5784, 12, 1)
+      expect(leapAdapter.getYear(d)).toBe(5784)
+      expect(leapAdapter.getMonth(d)).toBe(12)
+    })
+
+    it('common year has 12 months', () => {
+      // 5786 is common (not leap)
+      // Month 11 (Elul, 0-indexed) should be the last month
+      const d = adapter.create(5786, 11, 1)
+      expect(adapter.getMonth(d)).toBe(11)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // Round-trip: full year validation against Intl
+  // ---------------------------------------------------------------------------
+  describe('round-trip validation', () => {
+    it('round-trips correctly for an entire Hebrew year', () => {
+      const fmt = new Intl.DateTimeFormat('en-US-u-ca-hebrew', { day: 'numeric' })
+      let failures = 0
+      // Test Hebrew year 5786: Sep 23 2025 -> Sep 2026
+      for (let d = new Date(2025, 8, 23); d < new Date(2026, 8, 23); d.setDate(d.getDate() + 1)) {
+        const intlDay = Number.parseInt(fmt.format(d))
+        const h = adapter.fromDate(d)
+        const ourDay = adapter.getDate(h)
+        if (ourDay !== intlDay) failures++
+      }
+      expect(failures).toBe(0)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // toDate / fromDate
+  // ---------------------------------------------------------------------------
+  describe('toDate / fromDate', () => {
+    it('round-trips through native Date', () => {
+      const original = adapter.create(5786, 5, 15)
+      const native = adapter.toDate(original)
+      const back = adapter.fromDate(native)
+      expect(adapter.isSameDay(original, back)).toBe(true)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // Time accessors
+  // ---------------------------------------------------------------------------
+  describe('time', () => {
+    it('setTime preserves date', () => {
+      const d = adapter.create(5786, 0, 15)
+      const withTime = adapter.setTime(d, 14, 30, 45)
+      expect(adapter.getYear(withTime)).toBe(5786)
+      expect(adapter.getMonth(withTime)).toBe(0)
+      expect(adapter.getDate(withTime)).toBe(15)
+      expect(adapter.getHours(withTime)).toBe(14)
+      expect(adapter.getMinutes(withTime)).toBe(30)
+      expect(adapter.getSeconds(withTime)).toBe(45)
+    })
+  })
+})

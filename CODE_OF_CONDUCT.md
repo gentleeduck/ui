@@ -34,7 +34,7 @@ Examples of unacceptable behavior include:
 
 * Harassment, insults, or derogatory comments
 * Trolling or deliberate intimidation
-* Publishing others’ private information without consent
+* Publishing others' private information without consent
 * Disruptive behavior that interrupts healthy collaboration
 * Any form of sexual or discriminatory language or imagery
 
@@ -48,7 +48,7 @@ They will take appropriate and fair action in response to any unacceptable behav
 Maintainers have the right and responsibility to remove, edit, or reject:
 
 * Comments, commits, code, issues, and pull requests that violate this Code of Conduct
-* Contributions that they reasonably believe are not aligned with the project’s values
+* Contributions that they reasonably believe are not aligned with the project's values
 
 ---
 

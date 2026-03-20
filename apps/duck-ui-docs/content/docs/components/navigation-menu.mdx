@@ -12,7 +12,7 @@ component: true
 
 ## Philosophy
 
-Navigation menus serve a different purpose than dropdown menus — they're for wayfinding, not actions. The distinction matters for accessibility: navigation menus use `<nav>` and link semantics, while dropdown menus use `role="menu"` and button semantics. We expose viewport and indicator sub-components for advanced hover/focus animations.
+Navigation menus serve a different purpose than dropdown menus  -  they're for wayfinding, not actions. The distinction matters for accessibility: navigation menus use `<nav>` and link semantics, while dropdown menus use `role="menu"` and button semantics. We expose viewport and indicator sub-components for advanced hover/focus animations.
 
 ## Installation
 
@@ -97,7 +97,7 @@ import {
 You can use the `asChild` prop to make another component look like a navigation menu trigger. Here's an example of a link that looks like a navigation menu trigger.
 
 ```tsx showLineNumbers title="components/example-navigation-menu.tsx"
-import { Link } from "next/link"
+import Link from "next/link"
 
 export function NavigationMenuDemo() {
   return (

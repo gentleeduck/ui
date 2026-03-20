@@ -1,7 +1,10 @@
+/** The first day of the week. */
+export type WeekStartDay = 0 | 1 | 2 | 3 | 4 | 5 | 6 // 0=Sunday
+
 /**
  * The core abstraction over any date library.
  *
- * Implement this interface to plug in a date backend — native `Date`, dayjs,
+ * Implement this interface to plug in a date backend  -  native `Date`, dayjs,
  * date-fns, Luxon, or Temporal. Every method must be pure and must not mutate
  * its arguments.
  *
@@ -22,7 +25,7 @@ export interface DateAdapter<TDate> {
    *
    * @param year  - Full four-digit year (e.g. 2026).
    * @param month - **0-indexed** month (0 = January, 11 = December).
-   * @param day   - Day of the month (1–31).
+   * @param day   - Day of the month (1-31).
    * @returns A valid date, or an invalid sentinel if the parts are out of range.
    */
   create(year: number, month: number, day: number): TDate
@@ -59,13 +62,13 @@ export interface DateAdapter<TDate> {
 
   /**
    * Returns the first day of the month that contains `date`.
-   * @example adapter.startOfMonth(May 15) → May 1
+   * @example adapter.startOfMonth(May 15) -> May 1
    */
   startOfMonth(date: TDate): TDate
 
   /**
    * Returns the last day of the month that contains `date`.
-   * @example adapter.endOfMonth(May 15) → May 31
+   * @example adapter.endOfMonth(May 15) -> May 31
    */
   endOfMonth(date: TDate): TDate
 
@@ -74,9 +77,9 @@ export interface DateAdapter<TDate> {
    * If `date` is already on that weekday, returns `date` unchanged.
    *
    * @param date         - The reference date.
-   * @param weekStartDay - The desired start-of-week day (0 = Sunday, 1 = Monday, …).
+   * @param weekStartDay - The desired start-of-week day (0 = Sunday, 1 = Monday, ...).
    */
-  startOfWeek(date: TDate, weekStartDay: 0 | 1 | 2 | 3 | 4 | 5 | 6): TDate
+  startOfWeek(date: TDate, weekStartDay: WeekStartDay): TDate
 
   /**
    * Adds (or subtracts when negative) a number of days to `date`.
@@ -90,7 +93,7 @@ export interface DateAdapter<TDate> {
    * Adds (or subtracts when negative) a number of months to `date`.
    * Overflow is clamped to the last valid day of the resulting month.
    *
-   * @example adapter.addMonths(Jan 31, 1) → Feb 28 (or 29 in a leap year)
+   * @example adapter.addMonths(Jan 31, 1) -> Feb 28 (or 29 in a leap year)
    *
    * @param date  - The base date. Not mutated.
    * @param count - Months to add. Use a negative number to go backward.
@@ -108,25 +111,25 @@ export interface DateAdapter<TDate> {
 
   /**
    * Extracts the full four-digit year.
-   * @example adapter.getYear(2026-03-17) → 2026
+   * @example adapter.getYear(2026-03-17) -> 2026
    */
   getYear(date: TDate): number
 
   /**
    * Extracts the **0-indexed** month (0 = January, 11 = December).
-   * @example adapter.getMonth(2026-03-17) → 2
+   * @example adapter.getMonth(2026-03-17) -> 2
    */
   getMonth(date: TDate): number
 
   /**
-   * Extracts the day of the month (1–31).
-   * @example adapter.getDate(2026-03-17) → 17
+   * Extracts the day of the month (1-31).
+   * @example adapter.getDate(2026-03-17) -> 17
    */
   getDate(date: TDate): number
 
   /**
    * Extracts the day of the week (0 = Sunday, 6 = Saturday).
-   * @example adapter.getDayOfWeek(2026-03-17) → 2  // Tuesday
+   * @example adapter.getDayOfWeek(2026-03-17) -> 2  // Tuesday
    */
   getDayOfWeek(date: TDate): 0 | 1 | 2 | 3 | 4 | 5 | 6
 
@@ -138,7 +141,7 @@ export interface DateAdapter<TDate> {
 
   /**
    * Constructs an adapter date from a native JS `Date`.
-   * Time components are stripped — only the calendar date is kept.
+   * Time components are stripped  -  only the calendar date is kept.
    */
   fromDate(date: Date): TDate
 
@@ -152,4 +155,23 @@ export interface DateAdapter<TDate> {
    *   Falls back to the runtime's default locale when omitted.
    */
   format(date: TDate, options: Intl.DateTimeFormatOptions, locale?: string): string
+
+  // -------------------------------------------------------------------------
+  // Time accessors (for datetime picker support)
+  // -------------------------------------------------------------------------
+
+  /** Extracts the hour (0-23). */
+  getHours(date: TDate): number
+
+  /** Extracts the minute (0-59). */
+  getMinutes(date: TDate): number
+
+  /** Extracts the second (0-59). */
+  getSeconds(date: TDate): number
+
+  /**
+   * Returns a new date with the time set to the given hour, minute, and optional second.
+   * The date (year/month/day) is preserved from the input.
+   */
+  setTime(date: TDate, hour: number, minute: number, second?: number): TDate
 }

@@ -26,7 +26,7 @@ const NavigationMenuLink = React.forwardRef<NavigationMenuLinkElement, Navigatio
           aria-current={active ? 'page' : undefined}
           {...linkProps}
           ref={forwardedRef}
-          // biome-ignore lint/a11y/useValidAnchor: navigation-menu link is a primitive that composes anchor semantics — consumers provide href
+          // biome-ignore lint/a11y/useValidAnchor: navigation-menu link is a primitive that composes anchor semantics  -  consumers provide href
           onClick={composeEventHandlers(
             props.onClick,
             (event) => {

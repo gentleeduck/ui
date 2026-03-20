@@ -174,6 +174,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       lang="en"
       suppressHydrationWarning>
       <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@type': 'SoftwareApplication',
+              name: 'gentleduck/ui',
+              description: 'Headless primitives, styled components, a CLI, and pre-built blocks for React.',
+              applicationCategory: 'DeveloperApplication',
+              operatingSystem: 'Any',
+              offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+              url: 'https://ui.gentleduck.org',
+              author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },
+              license: 'https://opensource.org/licenses/MIT',
+              programmingLanguage: ['TypeScript', 'React'],
+            }),
+          }}
+        />
         {process.env.NODE_ENV === 'development' && (
           <>
             <script crossOrigin="anonymous" src="//unpkg.com/react-scan/dist/auto.global.js" />

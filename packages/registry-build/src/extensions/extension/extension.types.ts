@@ -8,8 +8,8 @@ import type {
 /**
  * When the extension should run relative to the core pipeline.
  *
- * - `beforeBuild` — runs before any processing (validation, setup)
- * - `afterBuild` — runs after processing (output generation, cleanup)
+ * - `beforeBuild`  -  runs before any processing (validation, setup)
+ * - `afterBuild`  -  runs after processing (output generation, cleanup)
  */
 export type RegistryBuildExtensionStage = 'beforeBuild' | 'afterBuild'
 

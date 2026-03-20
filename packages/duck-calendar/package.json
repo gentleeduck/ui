@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@gentleduck/calendar",
   "version": "0.1.0",
-  "description": "calendar package for Duck UI.",
+  "description": "Headless, framework-agnostic calendar engine with date adapter pattern.",
   "type": "module",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -10,6 +10,30 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./adapter": {
+      "types": "./dist/adapter/index.d.ts",
+      "default": "./dist/adapter/index.js"
+    },
+    "./grid": {
+      "types": "./dist/grid/index.d.ts",
+      "default": "./dist/grid/index.js"
+    },
+    "./selection": {
+      "types": "./dist/selection/index.d.ts",
+      "default": "./dist/selection/index.js"
+    },
+    "./navigation": {
+      "types": "./dist/navigation/index.d.ts",
+      "default": "./dist/navigation/index.js"
+    },
+    "./time": {
+      "types": "./dist/time/index.d.ts",
+      "default": "./dist/time/index.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "default": "./dist/react/index.js"
     },
     "./*": {
       "types": "./dist/*/index.d.ts",
@@ -43,29 +67,53 @@
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-calendar#readme",
   "keywords": [
     "gentleduck",
-    "react",
-    "calendar"
+    "calendar",
+    "date-adapter",
+    "headless"
   ],
   "scripts": {
     "build": "tsdown",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "test": "vitest run",
-    "dev": "vitest"
+    "dev": "vitest",
+    "benchmark": "bun run scripts/benchmark.ts"
   },
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@testing-library/jest-dom": "^6.8.0",
+    "@testing-library/react": "^16.3.0",
+    "@types/luxon": "^3.6.2",
     "@types/node": "^25.3.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
+    "dayjs": "^1.11.13",
     "jsdom": "^29.0.0",
+    "luxon": "^3.6.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
     "tsdown": "0.21.4",
     "typescript": "5.9.3",
     "vitest": "^4.0.18"
   },
   "peerDependencies": {
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "date-fns": ">=3.0.0",
+    "dayjs": ">=1.11.0",
+    "luxon": ">=3.0.0",
+    "react": "^19.2.4"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "date-fns": {
+      "optional": true
+    },
+    "dayjs": {
+      "optional": true
+    },
+    "luxon": {
+      "optional": true
+    }
   }
 }

@@ -18,7 +18,7 @@ Not every component has all files. Primitive wrappers (Dialog, Sheet) have only 
 
 ## Pattern A: Variant-Based Component (e.g., Button)
 
-### {name}.constants.ts — Variants
+### {name}.constants.ts  -  Variants
 
 From `packages/registry-ui/src/button/button.constants.ts`:
 
@@ -68,7 +68,7 @@ export const buttonVariants: (props?: ButtonVariantOptions) => string = cva(
 )
 ```
 
-### {name}.types.ts — Props
+### {name}.types.ts  -  Props
 
 From `packages/registry-ui/src/button/button.types.ts`:
 
@@ -95,7 +95,7 @@ export interface ButtonProps
 }
 ```
 
-### {name}.tsx — Component
+### {name}.tsx  -  Component
 
 From `packages/registry-ui/src/button/button.tsx`:
 
@@ -149,7 +149,7 @@ Button.displayName = 'Button'
 export { Button, AnimationIcon }
 ```
 
-### index.ts — Barrel (variant-based)
+### index.ts  -  Barrel (variant-based)
 
 When a component has multiple files, the barrel re-exports all of them:
 
@@ -196,7 +196,7 @@ const DialogOverlay = React.forwardRef<
 DialogOverlay.displayName = DialogPrimitive.Overlay.displayName
 ```
 
-### index.ts — Barrel (primitive wrapper)
+### index.ts  -  Barrel (primitive wrapper)
 
 Re-exports from all sibling files. If the component has a responsive variant, include it:
 
@@ -212,12 +212,12 @@ export * from './dialog-responsive'
 - Always `import * as React from 'react'` (not named imports)
 - Always `import type { X }` for type-only imports
 - Always `React.forwardRef` with explicit generic types (never `React.FC`)
-- Destructure ALL props in the parameter list — never use `props.xxx`
+- Destructure ALL props in the parameter list  -  never use `props.xxx`
 - JSX: self-closing tags for empty elements, multi-line for 2+ props
-- Props on JSX (variant-based): `data-slot` first, then `{...props}`, then explicit overrides (`className`, `disabled`, `ref`, `type`) — prevents user props from overriding critical attributes. Primitive wrappers place `ref` and `className` before `{...props}` since primitives handle attribute merging internally.
+- Props on JSX (variant-based): `data-slot` first, then `{...props}`, then explicit overrides (`className`, `disabled`, `ref`, `type`)  -  prevents user props from overriding critical attributes. Primitive wrappers place `ref` and `className` before `{...props}` since primitives handle attribute merging internally.
 - Single quotes for strings, no semicolons (biome enforced)
-- Use `cn()` for every className — never raw string concatenation
-- Design tokens only — never hardcode hex colors or pixel values
+- Use `cn()` for every className  -  never raw string concatenation
+- Design tokens only  -  never hardcode hex colors or pixel values
 - `data-slot` attribute on component roots for debugging and CSS targeting
 - `aria-hidden="true"` on decorative icons
 - `type="button"` default on all buttons (prevent form submission)
@@ -262,7 +262,7 @@ import { MountMinimal } from '@gentleduck/primitives/mount'
 </MountMinimal>
 ```
 
-The `forceMount` prop keeps content mounted even when hidden — useful for preserving form state in tabs.
+The `forceMount` prop keeps content mounted even when hidden  -  useful for preserving form state in tabs.
 
 ## Smart Patterns
 
@@ -278,7 +278,7 @@ Use `asChild` when the trigger must be a specific element (e.g., a `<Button>` th
 <DialogTrigger><Button>Open</Button></DialogTrigger>
 ```
 
-Do NOT use `asChild` when passing plain text or inline content — only use it when the child is a single React element.
+Do NOT use `asChild` when passing plain text or inline content  -  only use it when the child is a single React element.
 
 ### `defaultValue` vs Controlled State
 

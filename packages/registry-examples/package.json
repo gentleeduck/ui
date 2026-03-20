@@ -4,6 +4,7 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
+    "@gentleduck/calendar": "workspace:*",
     "@gentleduck/primitives": "workspace:*",
     "@hookform/resolvers": "^5.2.2",
     "@tabler/icons-react": "3.40.0",

@@ -362,7 +362,22 @@ const _Card1 = dynamic(() => import('@gentleduck/registry-examples/card/card-1')
 const _Card2 = dynamic(() => import('@gentleduck/registry-examples/card/card-2'), { ssr: false })
 const _Card3 = dynamic(() => import('@gentleduck/registry-examples/card/card-3'), { ssr: false })
 const _Calendar1 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-1'), { ssr: false })
+const _Calendar10 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-10'), { ssr: false })
+const _Calendar11 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-11'), { ssr: false })
+const _Calendar12 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-12'), { ssr: false })
+const _Calendar13 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-13'), { ssr: false })
+const _Calendar14 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-14'), { ssr: false })
+const _Calendar15 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-15'), { ssr: false })
+const _Calendar16 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-16'), { ssr: false })
+const _Calendar17 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-17'), { ssr: false })
+const _Calendar18 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-18'), { ssr: false })
+const _Calendar19 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-19'), { ssr: false })
 const _Calendar2 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-2'), { ssr: false })
+const _Calendar20 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-20'), { ssr: false })
+const _Calendar21 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-21'), { ssr: false })
+const _Calendar22 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-22'), { ssr: false })
+const _Calendar23 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-23'), { ssr: false })
+const _Calendar24 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-24'), { ssr: false })
 const _Calendar3 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-3'), { ssr: false })
 const _Calendar4 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-4'), { ssr: false })
 const _Calendar5 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-5'), { ssr: false })
@@ -3478,6 +3493,166 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'calendar',
   },
+  'calendar-10': {
+    name: 'calendar-10',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-10.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar10,
+    source: '/registry-examples/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
+  'calendar-11': {
+    name: 'calendar-11',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-11.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar11,
+    source: '/registry-examples/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
+  'calendar-12': {
+    name: 'calendar-12',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-12.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar12,
+    source: '/registry-examples/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
+  'calendar-13': {
+    name: 'calendar-13',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-13.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar13,
+    source: '/registry-examples/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
+  'calendar-14': {
+    name: 'calendar-14',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-14.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar14,
+    source: '/registry-examples/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
+  'calendar-15': {
+    name: 'calendar-15',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-15.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar15,
+    source: '/registry-examples/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
+  'calendar-16': {
+    name: 'calendar-16',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-16.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar16,
+    source: '/registry-examples/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
+  'calendar-17': {
+    name: 'calendar-17',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-17.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar17,
+    source: '/registry-examples/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
+  'calendar-18': {
+    name: 'calendar-18',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-18.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar18,
+    source: '/registry-examples/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
+  'calendar-19': {
+    name: 'calendar-19',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-19.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar19,
+    source: '/registry-examples/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
   'calendar-2': {
     name: 'calendar-2',
     description: '',
@@ -3490,6 +3665,86 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Calendar2,
+    source: '/registry-examples/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
+  'calendar-20': {
+    name: 'calendar-20',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-20.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar20,
+    source: '/registry-examples/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
+  'calendar-21': {
+    name: 'calendar-21',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-21.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar21,
+    source: '/registry-examples/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
+  'calendar-22': {
+    name: 'calendar-22',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-22.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar22,
+    source: '/registry-examples/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
+  'calendar-23': {
+    name: 'calendar-23',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-23.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar23,
+    source: '/registry-examples/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
+  'calendar-24': {
+    name: 'calendar-24',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-24.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar24,
     source: '/registry-examples/src/calendar',
     categories: [],
     root_folder: 'calendar',

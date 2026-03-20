@@ -24,8 +24,8 @@ function formatDate(date: Date | undefined) {
 export default function CalendarDemo() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState('In 2 days')
-  const [date, setDate] = React.useState<Date | undefined>(parseDate(value) || undefined)
-  const [month, setMonth] = React.useState<Date | undefined>(date)
+  const [date, setDate] = React.useState<Date | null>(parseDate(value) || null)
+  const [month, setMonth] = React.useState<Date | null>(date)
 
   return (
     <div className="flex flex-col gap-3">
@@ -62,9 +62,9 @@ export default function CalendarDemo() {
               <span className="sr-only">Select date</span>
             </Button>
           </PopoverTrigger>
-          <PopoverContent side="top" align="end" className="w-auto overflow-hidden p-0">
+          <PopoverContent side="top" align="end" className="w-auto p-0">
             <Calendar
-              captionLayout="dropdown"
+              showDropdowns={false}
               mode="single"
               month={month}
               onMonthChange={setMonth}

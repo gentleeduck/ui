@@ -12109,7 +12109,7 @@
       "id": "left_right_arrow",
       "name": "Left Right Arrow",
       "keywords": ["shape", "direction", "horizontal", "sideways"],
-      "skins": [{ "unified": "2194-fe0f", "native": "↔️", "x": 56, "y": 36 }],
+      "skins": [{ "unified": "2194-fe0f", "native": "<->️", "x": 56, "y": 36 }],
       "version": 1
     },
     "leftwards_arrow_with_hook": {

@@ -10,7 +10,7 @@ import * as React from 'react'
 
 export default function CalendarDemo() {
   const [open, setOpen] = React.useState(false)
-  const [date, setDate] = React.useState<Date | undefined>(undefined)
+  const [date, setDate] = React.useState<Date | null>(null)
 
   return (
     <div className="flex gap-4">
@@ -25,9 +25,9 @@ export default function CalendarDemo() {
               <ChevronDownIcon aria-hidden="true" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent side="top" align="start" className="w-auto overflow-hidden p-0">
+          <PopoverContent side="top" align="start" className="w-auto p-0">
             <Calendar
-              captionLayout="dropdown"
+              showDropdowns={false}
               mode="single"
               onSelect={(date) => {
                 setDate(date)

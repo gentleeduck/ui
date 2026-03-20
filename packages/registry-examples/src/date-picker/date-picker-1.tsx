@@ -23,9 +23,9 @@ export default function CalendarDemo() {
             <ChevronDownIcon aria-hidden="true" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent side="top" align="start" className="min-w-auto overflow-hidden p-0">
+        <PopoverContent side="top" align="start" className="w-auto p-0">
           <Calendar
-            captionLayout="dropdown"
+            showDropdowns={false}
             mode="single"
             onSelect={(date) => {
               setDate(date)

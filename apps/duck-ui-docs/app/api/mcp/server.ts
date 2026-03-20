@@ -2,12 +2,12 @@
  * MCP server for @gentleduck/ui documentation.
  *
  * This file wires the tool handlers. Domain logic lives in:
- * - text.ts        — frontmatter parsing, MDX stripping, section extraction
- * - tokenize.ts    — stemming, tokenization, synonym expansion
- * - tfidf.ts       — TF-IDF vectors, cosine similarity
- * - fuzzy.ts       — edit distance, fuzzy matching, keyword scoring
- * - docs-index.ts  — doc types, file system, index building, caching
- * - rate-limit.ts  — rate limiting, slug validation, request logging
+ * - text.ts         -  frontmatter parsing, MDX stripping, section extraction
+ * - tokenize.ts     -  stemming, tokenization, synonym expansion
+ * - tfidf.ts        -  TF-IDF vectors, cosine similarity
+ * - fuzzy.ts        -  edit distance, fuzzy matching, keyword scoring
+ * - docs-index.ts   -  doc types, file system, index building, caching
+ * - rate-limit.ts   -  rate limiting, slug validation, request logging
  */
 
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
@@ -94,7 +94,7 @@ export function createMcpServer(): McpServer {
       capabilities: { tools: {} },
       instructions: [
         'MCP server for @gentleduck/ui documentation (ui.gentleduck.org).',
-        'Tools: list_docs → browse catalog, search_docs → keyword search (fuzzy), semantic_search → natural language search (TF-IDF), read_doc → full page, get_component_api → props only, get_examples → code only, get_changelog → version history, get_installation → setup guide, suggest_components → find the right component.',
+        'Tools: list_docs -> browse catalog, search_docs -> keyword search (fuzzy), semantic_search -> natural language search (TF-IDF), read_doc -> full page, get_component_api -> props only, get_examples -> code only, get_changelog -> version history, get_installation -> setup guide, suggest_components -> find the right component.',
         'Tip: use semantic_search for conceptual queries ("how to handle forms"), search_docs for specific keywords. Use list_docs to browse, then read_doc for details.',
         'Categories: components, installation, packages, changelog, dark-theme, general.',
       ].join(' '),
@@ -121,7 +121,7 @@ export function createMcpServer(): McpServer {
       const start = (safePage - 1) * pageSize
       const slice = filtered.slice(start, start + pageSize)
 
-      const lines = slice.map((d) => `- **${d.title}** \`${d.slug}\` — ${d.description || '(no description)'}`)
+      const lines = slice.map((d) => `- **${d.title}** \`${d.slug}\`  -  ${d.description || '(no description)'}`)
       const pagination =
         totalPages > 1
           ? `\n\n*Page ${safePage}/${totalPages} (${filtered.length} total). Use page=${safePage + 1} for more.*`
@@ -312,7 +312,10 @@ export function createMcpServer(): McpServer {
 
       return {
         content: [
-          { type: 'text' as const, text: truncate(`# ${doc.title} — API Reference\n\n${apiLines.join('\n').trim()}`) },
+          {
+            type: 'text' as const,
+            text: truncate(`# ${doc.title}  -  API Reference\n\n${apiLines.join('\n').trim()}`),
+          },
         ],
       }
     },
@@ -342,7 +345,7 @@ export function createMcpServer(): McpServer {
           {
             type: 'text' as const,
             text: truncate(
-              `# ${doc.title} — Code Examples (${doc.codeBlocks.length})\n\n${doc.codeBlocks.join('\n\n')}`,
+              `# ${doc.title}  -  Code Examples (${doc.codeBlocks.length})\n\n${doc.codeBlocks.join('\n\n')}`,
             ),
           },
         ],
@@ -502,7 +505,7 @@ export function createMcpServer(): McpServer {
         }
 
       const output = top
-        .map((r, i) => `${i + 1}. **${r.title}** \`${r.slug}\` — ${r.description || '(no description)'}`)
+        .map((r, i) => `${i + 1}. **${r.title}** \`${r.slug}\`  -  ${r.description || '(no description)'}`)
         .join('\n')
       return {
         content: [
@@ -577,7 +580,7 @@ export function createMcpServer(): McpServer {
       const output = top
         .map((r) => {
           const score = `(${(r.similarity * 100).toFixed(1)}%)`
-          return `- **${r.title}** \`${r.slug}\` ${score}${r.description ? ` — ${r.description}` : ''}${r.snippet ? `\n  > ${r.snippet}` : ''}`
+          return `- **${r.title}** \`${r.slug}\` ${score}${r.description ? `  -  ${r.description}` : ''}${r.snippet ? `\n  > ${r.snippet}` : ''}`
         })
         .join('\n')
 

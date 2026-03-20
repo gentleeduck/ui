@@ -1,9 +1,9 @@
 /**
  * The three ways a calendar can accept user selection.
  *
- * - `'single'` — one date at a time.
- * - `'range'`  — a start date and an optional end date.
- * - `'multi'`  — an unordered set of individual dates.
+ * - `'single'`  -  one date at a time.
+ * - `'range'`   -  a start date and an optional end date.
+ * - `'multi'`   -  an unordered set of individual dates.
  */
 export type SelectionMode = 'single' | 'range' | 'multi'
 
@@ -32,7 +32,7 @@ export type DateRange<TDate> = {
  * | `multi`   | `TDate[]`                      |
  *
  * This conditional type lets TypeScript narrow `onSelect`'s argument and
- * `selected`'s type automatically from the `mode` prop — no casting required
+ * `selected`'s type automatically from the `mode` prop  -  no casting required
  * at call sites.
  *
  * @typeParam TDate - The adapter's date type.
@@ -45,3 +45,17 @@ export type CalendarValue<TDate, Mode extends SelectionMode> = Mode extends 'sin
     : Mode extends 'multi'
       ? TDate[]
       : never
+
+/**
+ * Constraints that restrict which dates can be selected or navigated to.
+ *
+ * @typeParam TDate - The adapter's date type.
+ */
+export interface SelectionConstraints<TDate> {
+  /** Array of specific disabled dates, or a predicate returning true for disabled dates. */
+  disabled?: TDate[] | ((date: TDate) => boolean)
+  /** Minimum selectable date (inclusive). Days before this are disabled. */
+  fromDate?: TDate
+  /** Maximum selectable date (inclusive). Days after this are disabled. */
+  toDate?: TDate
+}

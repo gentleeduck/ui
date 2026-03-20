@@ -1,37 +1,31 @@
 # @gentleduck/libs
 
-A collection of tiny, framework-agnostic utilities. Each utility lives in its own folder and can be imported individually or all together.
+Shared utilities for the gentleduck ecosystem.
 
-## Installation
-
-```bash
-npm install @gentleduck/libs
-```
-
-or with yarn:
+## Quick Start
 
 ```bash
-yarn add @gentleduck/libs
+bun add @gentleduck/libs
 ```
-
-## Available Utilities
-
-* `cn` - Utility for conditional className merging.
-* `filtered-object` - Create a new object with only selected keys or values.
-* `group-array` - Group array items by a given key or function.
-* `group-data-by-numbers` - Group numbers into ranges or buckets.
-* `parse-date` - Parse strings or values into valid Date objects.
-
-## Usage
 
 ```tsx
-import { cn } from '@gentleduck/libs'
+import { cn } from '@gentleduck/libs/cn'
 
-function MyComponent({ active }: { active: boolean }) {
-  return <div className={cn('base', active && 'active')} />
-}
+<div className={cn('base', active && 'bg-blue-500')} />
 ```
+
+## Utilities
+
+| Utility | Import | Description |
+| --- | --- | --- |
+| `cn` | `@gentleduck/libs/cn` | Conditional className merging (clsx + tailwind-merge) |
+| `filteredObject` | `@gentleduck/libs/filtered-object` | Pick/omit keys from an object |
+| `groupArray` | `@gentleduck/libs/group-array` | Group array items by key or function |
+| `groupDataByNumbers` | `@gentleduck/libs/group-data-by-numbers` | Bucket numbers into ranges |
+| `parseDate` | `@gentleduck/libs/parse-date` | Parse values into Date objects |
+
+Each utility is tree-shakeable via its own subpath export. Zero framework dependencies.
 
 ## License
 
-[MIT (c) gentleduck](./LICENSE)
+MIT

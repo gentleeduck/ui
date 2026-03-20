@@ -153,9 +153,9 @@ const classes = card({ tone: 'success', className: [{ 'animate-pulse': isLoading
 
 ## Troubleshooting & FAQ
 
-<Accordion>
+<Accordion type="multiple" className="w-full">
 
-<AccordionItem>
+<AccordionItem value="item-1">
 
 <AccordionTrigger>
 **Q: Why aren't my compoundVariants applying?**
@@ -170,7 +170,7 @@ application).
 
 </AccordionItem>
 
-<AccordionItem>
+<AccordionItem value="item-2">
 
 <AccordionTrigger>
 **Q: My classes are out of order or duplicated.**
@@ -184,7 +184,7 @@ base-critical tokens appear first.
 
 </AccordionItem>
 
-<AccordionItem>
+<AccordionItem value="item-3">
 
 <AccordionTrigger>
 **Q: How do I completely disable a variant's default?**

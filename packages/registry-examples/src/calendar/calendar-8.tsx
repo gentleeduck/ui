@@ -6,7 +6,6 @@ import { Calendar } from '@gentleduck/registry-ui/calendar'
 import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@gentleduck/registry-ui/field'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { format } from 'date-fns'
 import { CalendarIcon } from 'lucide-react'
 import { Controller, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -34,7 +33,7 @@ export default function CalendarDemo() {
   }
 
   return (
-    <form className="space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
+    <form className="w-full max-w-sm space-y-8" onSubmit={form.handleSubmit(onSubmit)}>
       <FieldGroup>
         <Controller
           control={form.control}
@@ -50,14 +49,18 @@ export default function CalendarDemo() {
                     variant="outline"
                     aria-invalid={fieldState.invalid}>
                     <div className="flex w-full items-center justify-between">
-                      {field.value ? format(field.value, 'PPP') : <span>Pick a date</span>}
+                      {field.value ? (
+                        field.value.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+                      ) : (
+                        <span>Pick a date</span>
+                      )}
                       <CalendarIcon className="h-4 w-4 opacity-50" />
                     </div>
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="w-auto p-0">
                   <Calendar
-                    captionLayout="dropdown"
+                    showDropdowns={false}
                     disabled={(date) => date > new Date() || date < new Date('1900-01-01')}
                     mode="single"
                     onSelect={field.onChange}
