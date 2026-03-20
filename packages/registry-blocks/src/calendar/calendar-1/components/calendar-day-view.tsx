@@ -1,17 +1,21 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import * as React from 'react'
 import { CATEGORY_COLORS, type CalendarEvent } from '../calendar-data'
-import { formatDateString, getEventsForDay } from '../calendar-utils'
+import { getEventsForDay } from '../calendar-utils'
+import { CalendarEventDetail } from './calendar-event-detail'
 
 interface CalendarDayViewProps {
   viewedDate: Date
   events: CalendarEvent[]
   onSelectEvent: (event: CalendarEvent) => void
+  onEditEvent: (event: CalendarEvent) => void
+  onDeleteEvent: (id: string) => void
 }
 
 const HOURS = Array.from({ length: 24 }, (_, i) => i)
-const HOUR_HEIGHT = 60 // px per hour
+const HOUR_HEIGHT = 60
 
 function formatHour(h: number): string {
   if (h === 0) return '12 AM'
@@ -20,50 +24,55 @@ function formatHour(h: number): string {
   return `${h - 12} PM`
 }
 
-export function CalendarDayView({ viewedDate, events, onSelectEvent }: CalendarDayViewProps) {
+function EventBlock({ event, onEdit, onDelete }: {
+  event: CalendarEvent; onEdit: (e: CalendarEvent) => void; onDelete: (id: string) => void
+}) {
+  const [open, setOpen] = React.useState(false)
+  const colors = CATEGORY_COLORS[event.category]
+  const top = (event.timeValue / 60) * HOUR_HEIGHT
+
+  return (
+    <CalendarEventDetail event={event} open={open} onOpenChange={setOpen} onEdit={onEdit} onDelete={onDelete}>
+      <button
+        type="button"
+        className={cn(
+          'absolute left-1 right-4 z-10 rounded-lg px-3 py-1.5 text-left text-xs shadow-sm transition-shadow hover:shadow-md',
+          colors.bg, colors.text,
+        )}
+        style={{ top, minHeight: HOUR_HEIGHT * 0.7 }}
+        onClick={() => setOpen(true)}
+      >
+        <p className="font-semibold truncate">{event.title}</p>
+        <p className="opacity-60 text-[10px]">{event.time}</p>
+      </button>
+    </CalendarEventDetail>
+  )
+}
+
+export function CalendarDayView({ viewedDate, events, onSelectEvent, onEditEvent, onDeleteEvent }: CalendarDayViewProps) {
   const dayEvents = getEventsForDay(events, viewedDate)
 
   return (
-    <div className="overflow-hidden rounded-lg border">
-      <div className="border-b bg-muted/40 px-4 py-2 text-center text-sm font-semibold">
+    <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
+      <div className="border-b bg-muted/50 px-4 py-2.5 text-center text-sm font-semibold">
         {viewedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
       </div>
       <div className="max-h-[700px] overflow-y-auto">
         <div className="relative flex">
-          {/* Hour labels */}
-          <div className="shrink-0">
+          <div className="w-14 shrink-0">
             {HOURS.map((hour) => (
-              <div key={hour} className="flex items-start justify-end border-b pr-2 text-xs text-muted-foreground" style={{ height: HOUR_HEIGHT }}>
+              <div key={hour} className="flex items-start justify-end border-b border-border/50 pr-2 text-[11px] text-muted-foreground" style={{ height: HOUR_HEIGHT }}>
                 <span className="relative -top-2">{formatHour(hour)}</span>
               </div>
             ))}
           </div>
-          {/* Timeline column */}
           <div className="relative flex-1 border-l">
-            {/* Grid lines */}
             {HOURS.map((hour) => (
-              <div key={hour} className="border-b" style={{ height: HOUR_HEIGHT }} />
+              <div key={hour} className="border-b border-border/50" style={{ height: HOUR_HEIGHT }} />
             ))}
-            {/* Events positioned absolutely */}
-            {dayEvents.map((evt) => {
-              const colors = CATEGORY_COLORS[evt.category]
-              const top = (evt.timeValue / 60) * HOUR_HEIGHT
-              return (
-                <button
-                  key={evt.id}
-                  type="button"
-                  className={cn(
-                    'absolute left-1 right-4 rounded-md border-l-3 px-2 py-1 text-left text-xs transition-opacity hover:opacity-80',
-                    colors.bg, colors.text,
-                  )}
-                  style={{ top, minHeight: HOUR_HEIGHT * 0.75, borderLeftColor: 'currentColor' }}
-                  onClick={() => onSelectEvent(evt)}
-                >
-                  <p className="font-medium truncate">{evt.title}</p>
-                  <p className="text-[10px] opacity-70">{evt.time}</p>
-                </button>
-              )
-            })}
+            {dayEvents.map((evt) => (
+              <EventBlock key={evt.id} event={evt} onEdit={onEditEvent} onDelete={onDeleteEvent} />
+            ))}
           </div>
         </div>
       </div>

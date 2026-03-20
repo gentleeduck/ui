@@ -1,12 +1,14 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import * as React from 'react'
 import { CATEGORY_COLORS, type CalendarEvent } from '../calendar-data'
 import { formatDateString, getDaysForWeek, getEventsForDay, isToday, isWeekend } from '../calendar-utils'
+import { CalendarEventDetail } from './calendar-event-detail'
 
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 const HOURS = Array.from({ length: 24 }, (_, i) => i)
-const HOUR_HEIGHT = 56 // px per hour
+const HOUR_HEIGHT = 52
 
 function formatHour(h: number): string {
   if (h === 0) return '12 AM'
@@ -15,24 +17,47 @@ function formatHour(h: number): string {
   return `${h - 12} PM`
 }
 
-interface CalendarWeekViewProps {
-  viewedDate: Date
-  events: CalendarEvent[]
-  onDayClick: (dateStr: string) => void
-  onSelectEvent: (event: CalendarEvent) => void
+function WeekEventBlock({ event, onEdit, onDelete }: {
+  event: CalendarEvent; onEdit: (e: CalendarEvent) => void; onDelete: (id: string) => void
+}) {
+  const [open, setOpen] = React.useState(false)
+  const colors = CATEGORY_COLORS[event.category]
+  const top = (event.timeValue / 60) * HOUR_HEIGHT
+
+  return (
+    <CalendarEventDetail event={event} open={open} onOpenChange={setOpen} onEdit={onEdit} onDelete={onDelete}>
+      <button
+        type="button"
+        className={cn(
+          'absolute inset-x-0.5 z-10 rounded-md px-1.5 py-0.5 text-left text-[10px] leading-tight shadow-sm transition-shadow hover:shadow-md',
+          colors.bg, colors.text,
+        )}
+        style={{ top, minHeight: HOUR_HEIGHT * 0.55 }}
+        onClick={(e) => { e.stopPropagation(); setOpen(true) }}
+      >
+        <p className="truncate font-semibold">{event.title}</p>
+        <p className="opacity-60">{event.time}</p>
+      </button>
+    </CalendarEventDetail>
+  )
 }
 
-export function CalendarWeekView({ viewedDate, events, onDayClick, onSelectEvent }: CalendarWeekViewProps) {
+interface CalendarWeekViewProps {
+  viewedDate: Date; events: CalendarEvent[]
+  onDayClick: (dateStr: string) => void; onSelectEvent: (event: CalendarEvent) => void
+  onEditEvent: (event: CalendarEvent) => void; onDeleteEvent: (id: string) => void
+}
+
+export function CalendarWeekView({ viewedDate, events, onDayClick, onSelectEvent, onEditEvent, onDeleteEvent }: CalendarWeekViewProps) {
   const days = getDaysForWeek(viewedDate)
 
   return (
-    <div className="overflow-hidden rounded-lg border">
-      {/* Header with day names and dates */}
-      <div className="grid border-b bg-muted/40" style={{ gridTemplateColumns: '56px repeat(7, 1fr)' }}>
-        <div /> {/* spacer for hour labels */}
+    <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
+      <div className="grid border-b bg-muted/50" style={{ gridTemplateColumns: '52px repeat(7, 1fr)' }}>
+        <div />
         {days.map((d, i) => (
           <div key={i} className={cn('border-l px-2 py-2 text-center', isWeekend(d) && 'bg-muted/30')}>
-            <span className="text-xs font-semibold text-muted-foreground">{WEEKDAYS[i]}</span>
+            <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">{WEEKDAYS[i]}</span>
             <span className={cn(
               'ml-1.5 inline-flex size-6 items-center justify-center rounded-full text-xs font-medium',
               isToday(d) && 'bg-primary text-primary-foreground font-bold',
@@ -40,56 +65,26 @@ export function CalendarWeekView({ viewedDate, events, onDayClick, onSelectEvent
           </div>
         ))}
       </div>
-
-      {/* Timeline body */}
       <div className="max-h-[700px] overflow-y-auto">
-        <div className="grid" style={{ gridTemplateColumns: '56px repeat(7, 1fr)' }}>
-          {/* Hour labels column */}
+        <div className="grid" style={{ gridTemplateColumns: '52px repeat(7, 1fr)' }}>
           <div>
             {HOURS.map((hour) => (
-              <div key={hour} className="flex items-start justify-end border-b pr-2 text-xs text-muted-foreground" style={{ height: HOUR_HEIGHT }}>
+              <div key={hour} className="flex items-start justify-end border-b border-border/50 pr-2 text-[11px] text-muted-foreground" style={{ height: HOUR_HEIGHT }}>
                 <span className="relative -top-2">{formatHour(hour)}</span>
               </div>
             ))}
           </div>
-
-          {/* 7 day columns */}
           {days.map((d, di) => {
             const dayEvents = getEventsForDay(events, d)
             const dateStr = formatDateString(d)
             return (
-              <div
-                key={di}
-                className={cn('relative border-l', isWeekend(d) && 'bg-muted/10')}
-                onClick={() => onDayClick(dateStr)}
-                role="gridcell"
-                tabIndex={0}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onDayClick(dateStr) } }}
-              >
-                {/* Hour grid lines */}
-                {HOURS.map((hour) => (
-                  <div key={hour} className="border-b" style={{ height: HOUR_HEIGHT }} />
+              <div key={di} className={cn('relative border-l', isWeekend(d) && 'bg-muted/10')}
+                onClick={() => onDayClick(dateStr)} role="gridcell" tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onDayClick(dateStr) } }}>
+                {HOURS.map((hour) => <div key={hour} className="border-b border-border/50" style={{ height: HOUR_HEIGHT }} />)}
+                {dayEvents.map((evt) => (
+                  <WeekEventBlock key={evt.id} event={evt} onEdit={onEditEvent} onDelete={onDeleteEvent} />
                 ))}
-                {/* Positioned events */}
-                {dayEvents.map((evt) => {
-                  const colors = CATEGORY_COLORS[evt.category]
-                  const top = (evt.timeValue / 60) * HOUR_HEIGHT
-                  return (
-                    <button
-                      key={evt.id}
-                      type="button"
-                      className={cn(
-                        'absolute inset-x-0.5 z-10 rounded border-l-2 px-1 py-0.5 text-left text-[10px] leading-tight transition-opacity hover:opacity-80',
-                        colors.bg, colors.text,
-                      )}
-                      style={{ top, minHeight: HOUR_HEIGHT * 0.6, borderLeftColor: 'currentColor' }}
-                      onClick={(e) => { e.stopPropagation(); onSelectEvent(evt) }}
-                    >
-                      <p className="truncate font-medium">{evt.title}</p>
-                      <p className="opacity-70">{evt.time}</p>
-                    </button>
-                  )
-                })}
               </div>
             )
           })}
