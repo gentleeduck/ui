@@ -1,3 +1,4 @@
+import { getCachedFormatter } from './formatter-cache'
 import { hijriMonthLength, toGregorian, toHijri } from '../calendar-system/hijri'
 import type { DateAdapter, WeekStartDay } from './adapter.types'
 
@@ -175,13 +176,13 @@ export class IslamicAdapter implements DateAdapter<Date> {
     // Replace wrong calendar, or append if none
     let tag: string
     if (loc.includes('-ca-')) {
-      tag = loc.replace(/-ca-[a-z]+/, '-ca-islamic')
+      tag = loc.replace(/-ca-[a-z-]+/, '-ca-islamic')
     } else if (loc.includes('-u-')) {
       tag = `${loc}-ca-islamic`
     } else {
       tag = `${loc}-u-ca-islamic`
     }
-    return new Intl.DateTimeFormat(tag, options).format(date)
+    return getCachedFormatter(tag, options).format(date)
   }
 
   getHours(date: Date): number {

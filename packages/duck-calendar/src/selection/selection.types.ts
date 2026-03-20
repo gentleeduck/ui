@@ -5,7 +5,7 @@
  * - `'range'`   -  a start date and an optional end date.
  * - `'multi'`   -  an unordered set of individual dates.
  */
-export type SelectionMode = 'single' | 'range' | 'multi'
+export type SelectionMode = 'single' | 'range' | 'multi' | 'multi-range'
 
 /**
  * Represents a contiguous date range.
@@ -30,6 +30,7 @@ export type DateRange<TDate> = {
  * | `single`  | `TDate \| null`                |
  * | `range`   | `DateRange<TDate> \| null`     |
  * | `multi`   | `TDate[]`                      |
+ * | `multi-range` | `DateRange<TDate>[]`         |
  *
  * This conditional type lets TypeScript narrow `onSelect`'s argument and
  * `selected`'s type automatically from the `mode` prop  -  no casting required
@@ -44,7 +45,9 @@ export type CalendarValue<TDate, Mode extends SelectionMode> = Mode extends 'sin
     ? DateRange<TDate> | null
     : Mode extends 'multi'
       ? TDate[]
-      : never
+      : Mode extends 'multi-range'
+        ? DateRange<TDate>[]
+        : never
 
 /**
  * Constraints that restrict which dates can be selected or navigated to.

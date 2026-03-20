@@ -175,13 +175,13 @@ describe('useKeyboard', () => {
     it('Enter triggers onSelect with focused date', () => {
       pressKey(makeConfig(), 'Enter')
       expect(onSelect).toHaveBeenCalledTimes(1)
-      expect(onSelect).toHaveBeenCalledWith(baseDate)
+      expect(onSelect).toHaveBeenCalledWith(baseDate, { shiftKey: false })
     })
 
     it('Space triggers onSelect with focused date', () => {
       pressKey(makeConfig(), ' ')
       expect(onSelect).toHaveBeenCalledTimes(1)
-      expect(onSelect).toHaveBeenCalledWith(baseDate)
+      expect(onSelect).toHaveBeenCalledWith(baseDate, { shiftKey: false })
     })
 
     it('Enter on disabled date does NOT trigger onSelect', () => {

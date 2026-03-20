@@ -7,7 +7,7 @@ export function buildDayProps<TDate>(
   day: CalendarDay<TDate>,
   focusedDate: TDate,
   adapter: DateAdapter<TDate>,
-  selectDate: (date: TDate) => void,
+  selectDate: (date: TDate, options?: { shiftKey?: boolean }) => void,
   focusDate: (date: TDate) => void,
   onKeyDown: React.KeyboardEventHandler,
   locale?: string,
@@ -31,7 +31,7 @@ export function buildDayProps<TDate>(
     'data-range-end': day.isRangeEnd ? 'true' : undefined,
     'data-focused': isFocused ? 'true' : undefined,
     'data-weekend': day.isWeekend ? 'true' : undefined,
-    onClick: () => selectDate(day.date),
+    onClick: (e?: { shiftKey?: boolean }) => selectDate(day.date, e?.shiftKey ? { shiftKey: true } : undefined),
     onMouseEnter: () => focusDate(day.date),
     onKeyDown,
   }

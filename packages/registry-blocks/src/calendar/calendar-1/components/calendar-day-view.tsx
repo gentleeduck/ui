@@ -17,12 +17,7 @@ interface CalendarDayViewProps {
 const HOURS = Array.from({ length: 24 }, (_, i) => i)
 const HOUR_HEIGHT = 60
 
-function formatHour(h: number): string {
-  if (h === 0) return '12 AM'
-  if (h < 12) return `${h} AM`
-  if (h === 12) return '12 PM'
-  return `${h - 12} PM`
-}
+import { formatHour } from '../calendar-1.libs'
 
 function EventBlock({ event, onEdit, onDelete }: {
   event: CalendarEvent; onEdit: (e: CalendarEvent) => void; onDelete: (id: string) => void

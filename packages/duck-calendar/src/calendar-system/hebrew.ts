@@ -168,11 +168,11 @@ function isGregorianLeap(y: number): boolean {
 function fixedToGregorian(rd: number): { gy: number; gm: number; gd: number } {
   const d0 = rd - 1
   const n400 = Math.floor(d0 / 146097)
-  const d1 = d0 % 146097
+  const d1 = ((d0 % 146097) + 146097) % 146097
   const n100 = Math.floor(d1 / 36524)
-  const d2 = d1 % 36524
+  const d2 = ((d1 % 36524) + 36524) % 36524
   const n4 = Math.floor(d2 / 1461)
-  const d3 = d2 % 1461
+  const d3 = ((d2 % 1461) + 1461) % 1461
   const n1 = Math.floor(d3 / 365)
   const gy = 400 * n400 + 100 * n100 + 4 * n4 + n1 + (n100 === 4 || n1 === 4 ? 0 : 1)
   const jan1 = gregorianToFixed(gy, 1, 1)

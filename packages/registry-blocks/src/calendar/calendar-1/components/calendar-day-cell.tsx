@@ -8,8 +8,6 @@ import { CalendarEventChip } from './calendar-event-chip'
 import { CalendarEventDetail } from './calendar-event-detail'
 import { CalendarOverflow } from './calendar-overflow'
 
-const MAX_VISIBLE = 3
-
 interface CalendarDayCellProps {
   date: Date
   viewedMonth: Date
@@ -42,40 +40,49 @@ export function CalendarDayCell({
   const today = isToday(date)
   const wkend = isWeekend(date)
   const dateStr = formatDateString(date)
-  const visible = events.slice(0, MAX_VISIBLE)
-  const hidden = events.length - MAX_VISIBLE
+
+  const hasOverflow = events.length > 3
+  const visible = hasOverflow ? events.slice(0, 2) : events.slice(0, 3)
+  const hiddenCount = events.length - visible.length
 
   return (
     <div
       role="gridcell"
       tabIndex={inMonth ? 0 : -1}
       className={cn(
-        'flex min-h-28 flex-col border-b border-r p-1.5 transition-colors',
-        wkend && 'bg-muted/30',
+        'flex min-h-28 flex-col overflow-hidden border-r border-border p-1.5 transition-colors last:border-r-0',
+        today && 'bg-primary/10 ring-1 ring-inset ring-primary/30',
+        wkend && !today && 'bg-muted/20',
         !inMonth && 'opacity-40',
-        inMonth && 'cursor-pointer hover:bg-accent/40',
+        inMonth && !today && 'cursor-pointer hover:bg-accent/30',
+        inMonth && today && 'cursor-pointer hover:bg-primary/15',
       )}
       onClick={() => { if (inMonth) onDayClick(dateStr) }}
       onKeyDown={(e) => { if (inMonth && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); onDayClick(dateStr) } }}
     >
-      <div className="mb-1 flex justify-start">
+      <div className="mb-1 flex shrink-0 justify-start">
         <span className={cn(
           'flex size-7 items-center justify-center rounded-full text-xs font-medium',
-          today && 'bg-primary text-primary-foreground font-bold',
+          today && 'bg-primary text-primary-foreground font-bold shadow-sm',
           !today && inMonth && 'text-foreground',
           !today && !inMonth && 'text-muted-foreground',
         )}>
           {date.getDate()}
         </span>
       </div>
-      <div className="flex flex-1 flex-col gap-0.5">
+      <div className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-hidden">
         {visible.map((evt) => (
           <EventChipWithPopover key={evt.id} event={evt} onEdit={onEditEvent} onDelete={onDeleteEvent} />
         ))}
-        {hidden > 0 && (
-          <CalendarOverflow events={events} hiddenCount={hidden} open={overflowDay === dateStr}
+        {hiddenCount > 0 && (
+          <CalendarOverflow
+            events={events}
+            hiddenCount={hiddenCount}
+            open={overflowDay === dateStr}
             onOpenChange={(o) => onOverflowChange(o ? dateStr : null)}
-            onSelectEvent={(evt) => { /* handled by chips inside overflow */ }} />
+            onEditEvent={onEditEvent}
+            onDeleteEvent={onDeleteEvent}
+          />
         )}
       </div>
     </div>

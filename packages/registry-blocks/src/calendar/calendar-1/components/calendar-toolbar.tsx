@@ -1,8 +1,22 @@
 'use client'
 
 import { Button } from '@gentleduck/registry-ui/button'
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@gentleduck/registry-ui/dropdown-menu'
-import { CalendarIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, FilterIcon, PlusIcon, SearchIcon } from 'lucide-react'
+import { ButtonGroup } from '@gentleduck/registry-ui/button-group'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@gentleduck/registry-ui/dropdown-menu'
+import {
+  CalendarIcon,
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  FilterIcon,
+  PlusIcon,
+  SearchIcon,
+} from 'lucide-react'
 import type { CalendarView, FilterMode } from '../calendar-data'
 import { formatViewHeading, formatViewSubheading } from '../calendar-utils'
 
@@ -19,12 +33,30 @@ interface CalendarToolbarProps {
   onAddEvent: () => void
 }
 
-const VIEW_LABELS: Record<CalendarView, string> = { month: 'Month view', week: 'Week view', day: 'Day view', year: 'Year view' }
-const FILTER_LABELS: Record<FilterMode, string> = { all: 'All events', shared: 'Shared', public: 'Public', archived: 'Archived' }
+const VIEW_LABELS: Record<CalendarView, string> = {
+  month: 'Month view',
+  week: 'Week view',
+  day: 'Day view',
+  year: 'Year view',
+}
+const FILTER_LABELS: Record<FilterMode, string> = {
+  all: 'All events',
+  shared: 'Shared',
+  public: 'Public',
+  archived: 'Archived',
+}
 
 export function CalendarToolbar({
-  viewedDate, calendarView, filterMode,
-  onPrev, onNext, onToday, onViewChange, onFilterChange, onSearchOpen, onAddEvent,
+  viewedDate,
+  calendarView,
+  filterMode,
+  onPrev,
+  onNext,
+  onToday,
+  onViewChange,
+  onFilterChange,
+  onSearchOpen,
+  onAddEvent,
 }: CalendarToolbarProps) {
   const today = new Date()
   const todayMonth = today.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()
@@ -68,13 +100,17 @@ export function CalendarToolbar({
           <SearchIcon className="size-4" />
         </Button>
 
-        <Button variant="outline" size="icon" className="size-8" onClick={onPrev} aria-label="Previous">
-          <ChevronLeftIcon className="size-4" />
-        </Button>
-        <Button variant="outline" size="sm" onClick={onToday} aria-label="Go to today">Today</Button>
-        <Button variant="outline" size="icon" className="size-8" onClick={onNext} aria-label="Next">
-          <ChevronRightIcon className="size-4" />
-        </Button>
+        <ButtonGroup>
+          <Button variant="outline" size="icon" className="size-8" onClick={onPrev} aria-label="Previous">
+            <ChevronLeftIcon className="size-4" />
+          </Button>
+          <Button variant="outline" size="sm" onClick={onToday} aria-label="Go to today">
+            Today
+          </Button>
+          <Button variant="outline" size="icon" className="size-8" onClick={onNext} aria-label="Next">
+            <ChevronRightIcon className="size-4" />
+          </Button>
+        </ButtonGroup>
 
         {/* View switcher */}
         <DropdownMenu>

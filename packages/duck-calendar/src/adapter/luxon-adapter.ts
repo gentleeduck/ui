@@ -1,3 +1,4 @@
+import { getCachedFormatter } from './formatter-cache'
 import { DateTime } from 'luxon'
 
 import type { DateAdapter, WeekStartDay } from './adapter.types'
@@ -130,7 +131,7 @@ export class LuxonAdapter implements DateAdapter<DateTime> {
 
   /** Formats using Intl.DateTimeFormat via the native JS Date. */
   format(date: DateTime, options: Intl.DateTimeFormatOptions, locale?: string): string {
-    return new Intl.DateTimeFormat(locale, options).format(date.toJSDate())
+    return getCachedFormatter(locale, options).format(date.toJSDate())
   }
 
   /** Returns the hour (0-23). */

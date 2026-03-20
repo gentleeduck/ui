@@ -1,3 +1,4 @@
+import { getCachedFormatter } from './formatter-cache'
 import { jalaaliMonthLength, toGregorian, toJalaali } from '../calendar-system'
 import type { DateAdapter, WeekStartDay } from './adapter.types'
 
@@ -153,7 +154,7 @@ export class PersianAdapter implements DateAdapter<Date> {
     // Replace or append calendar and numbering extensions
     let tag = base
     if (tag.includes('-ca-')) {
-      tag = tag.replace(/-ca-[a-z]+/, '-ca-persian')
+      tag = tag.replace(/-ca-[a-z-]+/, '-ca-persian')
     } else if (tag.includes('-u-')) {
       tag = `${tag}-ca-persian`
     } else {
@@ -164,7 +165,7 @@ export class PersianAdapter implements DateAdapter<Date> {
     } else {
       tag = `${tag}-nu-arabext`
     }
-    return new Intl.DateTimeFormat(tag, options).format(date)
+    return getCachedFormatter(tag, options).format(date)
   }
 
   getHours(date: Date): number {

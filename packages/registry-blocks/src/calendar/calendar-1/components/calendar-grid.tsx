@@ -1,5 +1,6 @@
 'use client'
 
+import { Separator } from '@gentleduck/registry-ui/separator'
 import type { CalendarEvent } from '../calendar-data'
 import { getEventsForDay, getWeeksForMonth } from '../calendar-utils'
 import { CalendarDayCell } from './calendar-day-cell'
@@ -16,20 +17,32 @@ interface CalendarGridProps {
   onDeleteEvent: (id: string) => void
 }
 
-export function CalendarGrid({ viewedMonth, events, overflowDay, onOverflowChange, onDayClick, onEditEvent, onDeleteEvent }: CalendarGridProps) {
+export function CalendarGrid({
+  viewedMonth,
+  events,
+  overflowDay,
+  onOverflowChange,
+  onDayClick,
+  onEditEvent,
+  onDeleteEvent,
+}: CalendarGridProps) {
   const weeks = getWeeksForMonth(viewedMonth.getFullYear(), viewedMonth.getMonth())
 
   return (
-    <div role="grid" className="overflow-hidden rounded-xl border bg-card shadow-sm">
-      <div role="row" className="grid grid-cols-7 border-b bg-muted/50">
+    <div role="grid" className="rounded-b-xl border-border bg-card">
+      <div role="row" className="grid grid-cols-7 border-border">
         {WEEKDAYS.map((d) => (
-          <div key={d} role="columnheader" className="px-2 py-2.5 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+          <div
+            key={d}
+            role="columnheader"
+            className="border-r border-border px-2 py-2.5 text-center text-xs font-semibold text-muted-foreground uppercase tracking-wide last:border-r-0">
             {d}
           </div>
         ))}
       </div>
+      <Separator />
       {weeks.map((week, wi) => (
-        <div key={wi} role="row" className="grid grid-cols-7">
+        <div key={wi} role="row" className="grid grid-cols-7 border-b border-border last:border-b-0">
           {week.map((date, di) => (
             <CalendarDayCell
               key={di}

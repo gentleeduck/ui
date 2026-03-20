@@ -10,6 +10,8 @@ import { CalendarWeekView } from './components/calendar-week-view'
 import { CalendarDayView } from './components/calendar-day-view'
 import { CalendarYearView } from './components/calendar-year-view'
 import { CalendarIcon } from 'lucide-react'
+import { Card } from '@gentleduck/registry-ui/card'
+import { Separator } from '@gentleduck/registry-ui/separator'
 
 export default function Page() {
   const [events, setEvents] = React.useState<CalendarEvent[]>(MOCK_EVENTS)
@@ -24,7 +26,10 @@ export default function Page() {
 
   React.useEffect(() => {
     function handleKeyDown(e: KeyboardEvent) {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') { e.preventDefault(); setCommandOpen(true) }
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setCommandOpen(true)
+      }
     }
     document.addEventListener('keydown', handleKeyDown)
     return () => document.removeEventListener('keydown', handleKeyDown)
@@ -39,10 +44,18 @@ export default function Page() {
     setViewedDate((d) => {
       const n = new Date(d)
       switch (calendarView) {
-        case 'day': n.setDate(n.getDate() - 1); break
-        case 'week': n.setDate(n.getDate() - 7); break
-        case 'month': n.setMonth(n.getMonth() - 1); break
-        case 'year': n.setFullYear(n.getFullYear() - 1); break
+        case 'day':
+          n.setDate(n.getDate() - 1)
+          break
+        case 'week':
+          n.setDate(n.getDate() - 7)
+          break
+        case 'month':
+          n.setMonth(n.getMonth() - 1)
+          break
+        case 'year':
+          n.setFullYear(n.getFullYear() - 1)
+          break
       }
       return n
     })
@@ -51,62 +64,139 @@ export default function Page() {
     setViewedDate((d) => {
       const n = new Date(d)
       switch (calendarView) {
-        case 'day': n.setDate(n.getDate() + 1); break
-        case 'week': n.setDate(n.getDate() + 7); break
-        case 'month': n.setMonth(n.getMonth() + 1); break
-        case 'year': n.setFullYear(n.getFullYear() + 1); break
+        case 'day':
+          n.setDate(n.getDate() + 1)
+          break
+        case 'week':
+          n.setDate(n.getDate() + 7)
+          break
+        case 'month':
+          n.setMonth(n.getMonth() + 1)
+          break
+        case 'year':
+          n.setFullYear(n.getFullYear() + 1)
+          break
       }
       return n
     })
   }
-  function handleToday() { setViewedDate(new Date()) }
-  function handleDayClick(dateStr: string) { setAddEventDate(dateStr); setEditingEvent(null); setIsAddEventOpen(true) }
-  function handleSaveEvent(event: CalendarEvent) {
-    setEvents((prev) => { const idx = prev.findIndex((e) => e.id === event.id); if (idx >= 0) { const next = [...prev]; next[idx] = event; return next } return [...prev, event] })
+  function handleToday() {
+    setViewedDate(new Date())
   }
-  function handleDeleteEvent(id: string) { setEvents((prev) => prev.filter((e) => e.id !== id)) }
-  function handleEditEvent(event: CalendarEvent) { setEditingEvent(event); setAddEventDate(null); setIsAddEventOpen(true) }
-  function handleMonthClick(month: number) { setViewedDate(new Date(viewedDate.getFullYear(), month, 1)); setCalendarView('month') }
+  function handleDayClick(dateStr: string) {
+    setAddEventDate(dateStr)
+    setEditingEvent(null)
+    setIsAddEventOpen(true)
+  }
+  function handleSaveEvent(event: CalendarEvent) {
+    setEvents((prev) => {
+      const idx = prev.findIndex((e) => e.id === event.id)
+      if (idx >= 0) {
+        const next = [...prev]
+        next[idx] = event
+        return next
+      }
+      return [...prev, event]
+    })
+  }
+  function handleDeleteEvent(id: string) {
+    setEvents((prev) => prev.filter((e) => e.id !== id))
+  }
+  function handleEditEvent(event: CalendarEvent) {
+    setEditingEvent(event)
+    setAddEventDate(null)
+    setIsAddEventOpen(true)
+  }
+  function handleMonthClick(month: number) {
+    setViewedDate(new Date(viewedDate.getFullYear(), month, 1))
+    setCalendarView('month')
+  }
   function handleNavigateToDate(dateStr: string) {
-    const d = new Date(dateStr + 'T00:00:00'); setViewedDate(d)
+    const d = new Date(dateStr + 'T00:00:00')
+    setViewedDate(d)
     if (calendarView === 'year') setCalendarView('month')
   }
 
   const showEmptyState = filterMode === 'public' || filterMode === 'archived'
 
   return (
-    <div className="mx-auto flex w-full max-w-7xl flex-col gap-4 p-4 sm:p-6">
-      {/* Toolbar - single row with everything */}
-      <CalendarToolbar
-        viewedDate={viewedDate} calendarView={calendarView} filterMode={filterMode}
-        onPrev={handlePrev} onNext={handleNext} onToday={handleToday}
-        onViewChange={setCalendarView} onFilterChange={setFilterMode}
-        onSearchOpen={() => setCommandOpen(true)}
-        onAddEvent={() => { setEditingEvent(null); setAddEventDate(null); setIsAddEventOpen(true) }}
-      />
-
-      {/* Calendar content */}
-      {showEmptyState ? (
-        <div className="flex min-h-96 flex-col items-center justify-center gap-2 rounded-xl border border-dashed bg-card">
-          <CalendarIcon className="size-12 text-muted-foreground/30" />
-          <p className="text-sm text-muted-foreground">No {filterMode} events yet</p>
+    <div className="items-center mx-auto flex h-screen w-full max-w-7xl flex-col justify-center">
+      <Card className="gap-0 p-0">
+        {/* Toolbar - single row with everything */}
+        <div className="p-4">
+          <CalendarToolbar
+            viewedDate={viewedDate}
+            calendarView={calendarView}
+            filterMode={filterMode}
+            onPrev={handlePrev}
+            onNext={handleNext}
+            onToday={handleToday}
+            onViewChange={setCalendarView}
+            onFilterChange={setFilterMode}
+            onSearchOpen={() => setCommandOpen(true)}
+            onAddEvent={() => {
+              setEditingEvent(null)
+              setAddEventDate(null)
+              setIsAddEventOpen(true)
+            }}
+          />
         </div>
-      ) : calendarView === 'month' ? (
-        <CalendarGrid viewedMonth={viewedDate} events={filteredEvents} overflowDay={overflowDay}
-          onOverflowChange={setOverflowDay} onDayClick={handleDayClick} onEditEvent={handleEditEvent} onDeleteEvent={handleDeleteEvent} />
-      ) : calendarView === 'week' ? (
-        <CalendarWeekView viewedDate={viewedDate} events={filteredEvents} onDayClick={handleDayClick}
-          onSelectEvent={() => {}} onEditEvent={handleEditEvent} onDeleteEvent={handleDeleteEvent} />
-      ) : calendarView === 'day' ? (
-        <CalendarDayView viewedDate={viewedDate} events={filteredEvents}
-          onSelectEvent={() => {}} onEditEvent={handleEditEvent} onDeleteEvent={handleDeleteEvent} />
-      ) : (
-        <CalendarYearView viewedDate={viewedDate} events={filteredEvents} onMonthClick={handleMonthClick} />
-      )}
+        <Separator />
 
-      <CalendarCommandMenu open={commandOpen} onOpenChange={setCommandOpen} events={filteredEvents}
-        onSelectEvent={(evt) => handleEditEvent(evt)} onNavigateToDate={handleNavigateToDate} />
-      <CalendarEventDialog open={isAddEventOpen} onOpenChange={setIsAddEventOpen} onSave={handleSaveEvent} editingEvent={editingEvent} defaultDate={addEventDate} />
+        {/* Calendar content */}
+        <div>
+          {showEmptyState ? (
+            <div className="flex min-h-96 flex-col items-center justify-center gap-2 rounded-xl border border-dashed bg-card">
+              <CalendarIcon className="size-12 text-muted-foreground/30" />
+              <p className="text-sm text-muted-foreground">No {filterMode} events yet</p>
+            </div>
+          ) : calendarView === 'month' ? (
+            <CalendarGrid
+              viewedMonth={viewedDate}
+              events={filteredEvents}
+              overflowDay={overflowDay}
+              onOverflowChange={setOverflowDay}
+              onDayClick={handleDayClick}
+              onEditEvent={handleEditEvent}
+              onDeleteEvent={handleDeleteEvent}
+            />
+          ) : calendarView === 'week' ? (
+            <CalendarWeekView
+              viewedDate={viewedDate}
+              events={filteredEvents}
+              onDayClick={handleDayClick}
+              onSelectEvent={() => {}}
+              onEditEvent={handleEditEvent}
+              onDeleteEvent={handleDeleteEvent}
+            />
+          ) : calendarView === 'day' ? (
+            <CalendarDayView
+              viewedDate={viewedDate}
+              events={filteredEvents}
+              onSelectEvent={() => {}}
+              onEditEvent={handleEditEvent}
+              onDeleteEvent={handleDeleteEvent}
+            />
+          ) : (
+            <CalendarYearView viewedDate={viewedDate} events={filteredEvents} onMonthClick={handleMonthClick} />
+          )}
+        </div>
+
+        <CalendarCommandMenu
+          open={commandOpen}
+          onOpenChange={setCommandOpen}
+          events={filteredEvents}
+          onSelectEvent={(evt) => handleEditEvent(evt)}
+          onNavigateToDate={handleNavigateToDate}
+        />
+        <CalendarEventDialog
+          open={isAddEventOpen}
+          onOpenChange={setIsAddEventOpen}
+          onSave={handleSaveEvent}
+          editingEvent={editingEvent}
+          defaultDate={addEventDate}
+        />
+      </Card>
     </div>
   )
 }

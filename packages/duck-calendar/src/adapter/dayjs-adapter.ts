@@ -1,3 +1,4 @@
+import { getCachedFormatter } from './formatter-cache'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
 
@@ -111,7 +112,7 @@ export class DayjsAdapter implements DateAdapter<Dayjs> {
 
   /** Formats using `Intl.DateTimeFormat`. Pass standard options like `{ month: 'long' }`. */
   format(date: Dayjs, options: Intl.DateTimeFormatOptions, locale?: string): string {
-    return new Intl.DateTimeFormat(locale, options).format(date.toDate())
+    return getCachedFormatter(locale, options).format(date.toDate())
   }
 
   /** Extracts the hour (0-23). */

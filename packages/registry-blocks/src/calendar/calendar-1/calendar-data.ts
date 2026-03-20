@@ -1,26 +1,5 @@
-export type CalendarView = 'month' | 'week' | 'day' | 'year'
-export type FilterMode = 'all' | 'shared' | 'public' | 'archived'
-export type EventCategory = 'standup' | 'one-on-one' | 'deep-work' | 'design' | 'all-hands' | 'social' | 'external' | 'planning' | 'review' | 'personal' | 'other'
-
-export type Attendee = {
-  name: string
-  email: string
-  avatar?: string
-}
-
-export type CalendarEvent = {
-  id: string
-  title: string
-  date: string
-  time: string
-  timeValue: number
-  category: EventCategory
-  starred?: boolean
-  description?: string
-  location?: string
-  link?: string
-  attendees?: Attendee[]
-}
+export type { Attendee, CalendarEvent, CalendarView, EventCategory, FilterMode } from './calendar-1.types'
+import type { CalendarEvent, EventCategory } from './calendar-1.types'
 
 export const CATEGORY_COLORS: Record<EventCategory, { bg: string; dot: string; text: string; border: string }> = {
   standup: { bg: 'bg-sky-50 dark:bg-sky-500/15', dot: 'bg-sky-500', text: 'text-sky-700 dark:text-sky-300', border: 'border-sky-400' },
@@ -60,6 +39,7 @@ export const MOCK_EVENTS: CalendarEvent[] = [
   { id: 'e05', title: 'One-on-one with PM', date: '2025-01-02', time: '10:00 AM', timeValue: 600, category: 'one-on-one', attendees: [{ name: 'Alex Chen', email: 'alex@untitledui.com', avatar: AVATARS[1] }], link: 'https://zoom.us/j/123456', description: 'Weekly sync on product roadmap and Q1 priorities.' },
   { id: 'e06', title: 'All-hands meeting', date: '2025-01-02', time: '4:00 PM', timeValue: 960, category: 'all-hands', location: 'Main Conference Room', attendees: [{ name: 'Sienna Hewitt', email: 'sienna@untitledui.com', avatar: AVATARS[5] }, { name: 'Olivia Rhye', email: 'olivia@untitledui.com', avatar: AVATARS[0] }, { name: 'Alex Chen', email: 'alex@untitledui.com', avatar: AVATARS[1] }] },
   { id: 'e07', title: 'Dinner with Chloe', date: '2025-01-02', time: '6:30 PM', timeValue: 1110, category: 'external', starred: true, location: 'Nobu Downtown' },
+  { id: 'e07b', title: 'Sprint retro', date: '2025-01-02', time: '2:00 PM', timeValue: 840, category: 'review' },
   { id: 'e08', title: 'Friday standup', date: '2025-01-03', time: '9:00 AM', timeValue: 540, category: 'standup' },
   { id: 'e09', title: 'House inspection', date: '2025-01-04', time: '10:30 AM', timeValue: 630, category: 'review', starred: true, location: '42 Oak Street' },
   { id: 'e10', title: "Ava's engagement party", date: '2025-01-05', time: '1:00 PM', timeValue: 780, category: 'social', starred: true, location: 'Rooftop Lounge' },
@@ -71,6 +51,8 @@ export const MOCK_EVENTS: CalendarEvent[] = [
   { id: 'e15', title: 'Deep work', date: '2025-01-08', time: '9:00 AM', timeValue: 540, category: 'deep-work', description: 'Focus block - no meetings. Working on new component API.' },
   { id: 'e16', title: 'Design sync', date: '2025-01-08', time: '10:30 AM', timeValue: 630, category: 'design', link: 'https://www.figma.com/file/xyz', attendees: [{ name: 'Olivia Rhye', email: 'olivia@untitledui.com', avatar: AVATARS[0] }, { name: 'Riley Park', email: 'riley@untitledui.com', avatar: AVATARS[4] }] },
   { id: 'e17', title: 'SEO planning', date: '2025-01-08', time: '1:30 PM', timeValue: 810, category: 'planning' },
+  { id: 'e17b', title: 'API review', date: '2025-01-08', time: '3:00 PM', timeValue: 900, category: 'review' },
+  { id: 'e17c', title: 'Team sync', date: '2025-01-08', time: '4:30 PM', timeValue: 990, category: 'all-hands' },
   { id: 'e18', title: 'Lunch with Jordan', date: '2025-01-09', time: '12:00 PM', timeValue: 720, category: 'social', starred: true, location: 'Sweetgreen', attendees: [{ name: 'Jordan Lee', email: 'jordan@external.com' }] },
   { id: 'e19', title: 'Friday standup', date: '2025-01-10', time: '9:00 AM', timeValue: 540, category: 'standup' },
   { id: 'e20', title: 'Olivia x Riley', date: '2025-01-10', time: '10:00 AM', timeValue: 600, category: 'one-on-one', attendees: [{ name: 'Olivia Rhye', email: 'olivia@untitledui.com', avatar: AVATARS[0] }, { name: 'Riley Park', email: 'riley@untitledui.com', avatar: AVATARS[4] }] },
@@ -99,6 +81,7 @@ export const MOCK_EVENTS: CalendarEvent[] = [
   { id: 'e41', title: 'Friday standup', date: '2025-01-24', time: '9:00 AM', timeValue: 540, category: 'standup' },
   { id: 'e42', title: 'Accountant', date: '2025-01-24', time: '1:45 PM', timeValue: 825, category: 'personal' },
   { id: 'e43', title: 'Marketing site review', date: '2025-01-24', time: '2:30 PM', timeValue: 870, category: 'planning' },
+  { id: 'e43b', title: 'Investor update', date: '2025-01-24', time: '4:00 PM', timeValue: 960, category: 'external' },
   // Week 5
   { id: 'e44', title: 'Monday standup', date: '2025-01-27', time: '9:00 AM', timeValue: 540, category: 'standup' },
   { id: 'e45', title: 'Content planning', date: '2025-01-28', time: '11:00 AM', timeValue: 660, category: 'planning' },
