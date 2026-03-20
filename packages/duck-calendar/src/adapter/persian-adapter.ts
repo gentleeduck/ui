@@ -1,6 +1,6 @@
 import { jalaaliMonthLength, toGregorian, toJalaali } from '../calendar-system'
 import type { DateAdapter, WeekStartDay } from './adapter.types'
-import { getCachedFormatter } from './formatter-cache'
+import { formatWithCalendar } from './adapter.utils'
 
 /**
  * Persian (Jalaali / Solar Hijri) date adapter.
@@ -146,26 +146,7 @@ export class PersianAdapter implements DateAdapter<Date> {
    * Appends `-u-ca-persian-nu-arabext` to the locale tag for correct rendering.
    */
   format(date: Date, options: Intl.DateTimeFormatOptions, locale?: string): string {
-    const base = locale ?? this.locale
-    // If already has the right calendar and numbering, use as-is
-    if (base.includes('-ca-persian') && base.includes('-nu-arabext')) {
-      return new Intl.DateTimeFormat(base, options).format(date)
-    }
-    // Replace or append calendar and numbering extensions
-    let tag = base
-    if (tag.includes('-ca-')) {
-      tag = tag.replace(/-ca-[a-z-]+/, '-ca-persian')
-    } else if (tag.includes('-u-')) {
-      tag = `${tag}-ca-persian`
-    } else {
-      tag = `${tag}-u-ca-persian`
-    }
-    if (tag.includes('-nu-')) {
-      tag = tag.replace(/-nu-[a-z]+/, '-nu-arabext')
-    } else {
-      tag = `${tag}-nu-arabext`
-    }
-    return getCachedFormatter(tag, options).format(date)
+    return formatWithCalendar(date, options, this.locale, 'persian', locale, 'arabext')
   }
 
   getHours(date: Date): number {
