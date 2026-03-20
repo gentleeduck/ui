@@ -49,11 +49,10 @@ export function CalendarDayCell({
     <div
       role="gridcell"
       tabIndex={inMonth ? 0 : -1}
-      aria-disabled={!inMonth}
       className={cn(
         'flex min-h-28 flex-col border-b border-r p-1.5 transition-colors',
-        wkend && inMonth && 'bg-muted/30',
-        !inMonth && 'pointer-events-none select-none opacity-20',
+        wkend && 'bg-muted/30',
+        !inMonth && 'opacity-40',
         inMonth && 'cursor-pointer hover:bg-accent/40',
       )}
       onClick={() => { if (inMonth) onDayClick(dateStr) }}
