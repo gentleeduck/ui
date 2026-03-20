@@ -23,15 +23,18 @@ export function CalendarDayCell({ date, viewedMonth, events, overflowDay, onOver
 
   return (
     <div role="gridcell" tabIndex={inMonth ? 0 : -1}
-      className={cn('flex min-h-24 flex-col border-b border-r p-1', wkend && 'bg-muted/30', !inMonth && 'opacity-40')}
+      className={cn('flex min-h-28 flex-col border-b border-r p-1.5', wkend && 'bg-muted/20', !inMonth && 'opacity-40')}
       onClick={() => { if (inMonth) onDayClick(dateStr) }}
       onKeyDown={(e) => { if (inMonth && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); onDayClick(dateStr) } }}>
-      <div className="mb-0.5 flex justify-end">
-        <span className={cn('flex size-6 items-center justify-center text-xs', today && 'rounded-full bg-primary font-semibold text-primary-foreground', !today && !inMonth && 'text-muted-foreground')}>
+      <div className="mb-1 flex justify-start">
+        <span className={cn('flex size-6 items-center justify-center text-xs font-medium',
+          today && 'rounded-full bg-primary text-primary-foreground',
+          !today && inMonth && 'text-foreground',
+          !today && !inMonth && 'text-muted-foreground')}>
           {date.getDate()}
         </span>
       </div>
-      <div className="flex flex-1 flex-col gap-0.5">
+      <div className="flex flex-1 flex-col gap-px">
         {visible.map((evt) => <CalendarEventChip key={evt.id} event={evt} onSelect={onSelectEvent} />)}
         {hidden > 0 && <CalendarOverflow events={events} hiddenCount={hidden} open={overflowDay === dateStr} onOpenChange={(o) => onOverflowChange(o ? dateStr : null)} onSelectEvent={onSelectEvent} />}
       </div>

@@ -9,13 +9,17 @@ interface CalendarEventChipProps { event: CalendarEvent; onSelect: (event: Calen
 export function CalendarEventChip({ event, onSelect }: CalendarEventChipProps) {
   const colors = CATEGORY_COLORS[event.category]
   return (
-    <button type="button" role="button" tabIndex={0}
-      className={cn('flex w-full items-center gap-1.5 rounded-md px-1.5 py-0.5 text-left text-xs transition-colors cursor-pointer hover:opacity-80', colors.bg)}
+    <button type="button" tabIndex={0}
+      className="flex w-full items-center gap-1 rounded px-1 py-px text-left text-[11px] leading-tight transition-colors cursor-pointer hover:bg-accent/50"
       onClick={(e) => { e.stopPropagation(); onSelect(event) }}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); onSelect(event) } }}>
-      {event.starred ? <StarIcon className="size-3 shrink-0 fill-amber-400 text-amber-400" /> : <span className={cn('size-1.5 shrink-0 rounded-full', colors.dot)} />}
-      <span className="flex-1 truncate">{event.title}</span>
-      <span className="shrink-0 text-muted-foreground">{event.time}</span>
+      {event.starred ? (
+        <StarIcon className={cn('size-2.5 shrink-0 fill-current', colors.text)} />
+      ) : (
+        <span className={cn('size-1.5 shrink-0 rounded-full', colors.dot)} />
+      )}
+      <span className={cn('truncate font-medium', colors.text)}>{event.title}</span>
+      <span className="ml-auto shrink-0 text-muted-foreground">{event.time}</span>
     </button>
   )
 }
