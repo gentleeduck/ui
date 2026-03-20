@@ -66,3 +66,59 @@ export function isWeekend(date: Date): boolean {
   const d = date.getDay()
   return d === 0 || d === 6
 }
+
+/** Get the Monday of the week containing the given date. */
+export function getWeekStart(date: Date): Date {
+  const d = new Date(date)
+  const dow = d.getDay()
+  d.setDate(d.getDate() - (dow === 0 ? 6 : dow - 1))
+  return d
+}
+
+/** Get 7 days starting from Monday of the week containing date. */
+export function getDaysForWeek(date: Date): Date[] {
+  const start = getWeekStart(date)
+  return Array.from({ length: 7 }, (_, i) => {
+    const d = new Date(start)
+    d.setDate(d.getDate() + i)
+    return d
+  })
+}
+
+/** Format heading based on view. */
+export function formatViewHeading(date: Date, view: string): string {
+  switch (view) {
+    case 'day':
+      return date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
+    case 'week': {
+      const start = getWeekStart(date)
+      const end = new Date(start)
+      end.setDate(end.getDate() + 6)
+      const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      return `${fmt(start)} - ${fmt(end)}, ${end.getFullYear()}`
+    }
+    case 'year':
+      return String(date.getFullYear())
+    default:
+      return formatMonthYear(date)
+  }
+}
+
+/** Format subheading based on view. */
+export function formatViewSubheading(date: Date, view: string): string {
+  switch (view) {
+    case 'day':
+      return ''
+    case 'week': {
+      const start = getWeekStart(date)
+      const end = new Date(start)
+      end.setDate(end.getDate() + 6)
+      const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+      return `${fmt(start)} - ${fmt(end)}`
+    }
+    case 'year':
+      return `Jan 1, ${date.getFullYear()} - Dec 31, ${date.getFullYear()}`
+    default:
+      return formatDateRange(date)
+  }
+}

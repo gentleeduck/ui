@@ -1,4 +1,4 @@
-export type CalendarView = 'month' | 'week' | 'day'
+export type CalendarView = 'month' | 'week' | 'day' | 'year'
 export type FilterMode = 'all' | 'shared' | 'public' | 'archived'
 export type EventCategory = 'standup' | 'one-on-one' | 'deep-work' | 'design' | 'all-hands' | 'social' | 'external' | 'planning' | 'review' | 'personal' | 'other'
 
