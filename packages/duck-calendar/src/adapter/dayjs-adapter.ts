@@ -1,8 +1,7 @@
-import { getCachedFormatter } from './formatter-cache'
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
-
 import type { DateAdapter, WeekStartDay } from './adapter.types'
+import { getCachedFormatter } from './formatter-cache'
 
 /**
  * Dayjs date adapter for `@gentleduck/calendar`.

@@ -1,6 +1,6 @@
-import { getCachedFormatter } from './formatter-cache'
 import { hebrewMonthLength, hebrewMonthsInYear, hebrewToGregorian, toHebrew } from '../calendar-system/hebrew'
 import type { DateAdapter, WeekStartDay } from './adapter.types'
+import { getCachedFormatter } from './formatter-cache'
 
 /**
  * Hebrew calendar adapter.
