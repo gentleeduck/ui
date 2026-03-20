@@ -241,6 +241,10 @@ export function toHebrew(gy: number, gm: number, gd: number): { hy: number; hm: 
  * @returns Gregorian year, month (1-indexed), and day
  */
 export function hebrewToGregorian(hy: number, hm: number, hd: number): { gy: number; gm: number; gd: number } {
+  const months = hebrewMonthsInYear(hy)
+  if (hm < 1 || hm > months || hd < 1 || hd > hebrewMonthLength(hy, hm)) {
+    throw new RangeError(`Invalid Hebrew date: ${hy}-${hm}-${hd}`)
+  }
   let rd = hebrewNewYear(hy)
   for (let m = 1; m < hm; m++) {
     rd += hebrewMonthLength(hy, m)
