@@ -2,19 +2,30 @@
 
 import { Button } from '@gentleduck/registry-ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@gentleduck/registry-ui/dropdown-menu'
-import { CalendarIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, PlusIcon, SearchIcon } from 'lucide-react'
-import type { CalendarView } from '../calendar-data'
+import { CalendarIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, FilterIcon, PlusIcon, SearchIcon } from 'lucide-react'
+import type { CalendarView, FilterMode } from '../calendar-data'
 import { formatViewHeading, formatViewSubheading } from '../calendar-utils'
 
 interface CalendarToolbarProps {
-  viewedDate: Date; calendarView: CalendarView
-  onPrev: () => void; onNext: () => void; onToday: () => void
-  onViewChange: (view: CalendarView) => void; onAddEvent: () => void
+  viewedDate: Date
+  calendarView: CalendarView
+  filterMode: FilterMode
+  onPrev: () => void
+  onNext: () => void
+  onToday: () => void
+  onViewChange: (view: CalendarView) => void
+  onFilterChange: (filter: FilterMode) => void
+  onSearchOpen: () => void
+  onAddEvent: () => void
 }
 
 const VIEW_LABELS: Record<CalendarView, string> = { month: 'Month view', week: 'Week view', day: 'Day view', year: 'Year view' }
+const FILTER_LABELS: Record<FilterMode, string> = { all: 'All events', shared: 'Shared', public: 'Public', archived: 'Archived' }
 
-export function CalendarToolbar({ viewedDate, calendarView, onPrev, onNext, onToday, onViewChange, onAddEvent }: CalendarToolbarProps) {
+export function CalendarToolbar({
+  viewedDate, calendarView, filterMode,
+  onPrev, onNext, onToday, onViewChange, onFilterChange, onSearchOpen, onAddEvent,
+}: CalendarToolbarProps) {
   const today = new Date()
   const todayMonth = today.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()
   const todayDay = today.getDate()
@@ -22,6 +33,7 @@ export function CalendarToolbar({ viewedDate, calendarView, onPrev, onNext, onTo
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-4">
+      {/* Left: date badge + heading */}
       <div className="flex items-center gap-3">
         <div className="flex flex-col items-center rounded-lg border px-3 py-1.5">
           <span className="text-[10px] font-bold leading-tight text-primary">{todayMonth}</span>
@@ -32,14 +44,46 @@ export function CalendarToolbar({ viewedDate, calendarView, onPrev, onNext, onTo
           {sub && <p className="text-xs text-muted-foreground">{sub}</p>}
         </div>
       </div>
+
+      {/* Right: filter + search + nav + view + add */}
       <div className="flex flex-wrap items-center gap-1.5">
-        <Button variant="ghost" size="icon" className="size-8"><SearchIcon className="size-4" /></Button>
-        <Button variant="outline" size="icon" className="size-8" onClick={onPrev} aria-label="Previous"><ChevronLeftIcon className="size-4" /></Button>
-        <Button variant="outline" size="sm" onClick={onToday} aria-label="Go to today">Today</Button>
-        <Button variant="outline" size="icon" className="size-8" onClick={onNext} aria-label="Next"><ChevronRightIcon className="size-4" /></Button>
+        {/* Filter dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" size="sm"><CalendarIcon className="mr-1.5 size-3.5" />{VIEW_LABELS[calendarView]}<ChevronDownIcon className="ml-1 size-3" /></Button>
+            <Button variant="outline" size="sm">
+              <FilterIcon className="mr-1.5 size-3.5" />
+              {FILTER_LABELS[filterMode]}
+              <ChevronDownIcon className="ml-1 size-3" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => onFilterChange('all')}>All events</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onFilterChange('shared')}>Shared</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onFilterChange('public')}>Public</DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onFilterChange('archived')}>Archived</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+
+        <Button variant="ghost" size="icon" className="size-8" onClick={onSearchOpen}>
+          <SearchIcon className="size-4" />
+        </Button>
+
+        <Button variant="outline" size="icon" className="size-8" onClick={onPrev} aria-label="Previous">
+          <ChevronLeftIcon className="size-4" />
+        </Button>
+        <Button variant="outline" size="sm" onClick={onToday} aria-label="Go to today">Today</Button>
+        <Button variant="outline" size="icon" className="size-8" onClick={onNext} aria-label="Next">
+          <ChevronRightIcon className="size-4" />
+        </Button>
+
+        {/* View switcher */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="sm">
+              <CalendarIcon className="mr-1.5 size-3.5" />
+              {VIEW_LABELS[calendarView]}
+              <ChevronDownIcon className="ml-1 size-3" />
+            </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuItem onClick={() => onViewChange('day')}>Day view</DropdownMenuItem>
@@ -48,7 +92,11 @@ export function CalendarToolbar({ viewedDate, calendarView, onPrev, onNext, onTo
             <DropdownMenuItem onClick={() => onViewChange('year')}>Year view</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-        <Button size="sm" onClick={onAddEvent}><PlusIcon className="mr-1.5 size-3.5" />Add event</Button>
+
+        <Button size="sm" onClick={onAddEvent}>
+          <PlusIcon className="mr-1.5 size-3.5" />
+          Add event
+        </Button>
       </div>
     </div>
   )
