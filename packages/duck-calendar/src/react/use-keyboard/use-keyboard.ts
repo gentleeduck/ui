@@ -72,7 +72,7 @@ export function useKeyboard<TDate>(config: KeyboardConfig<TDate>): KeyboardRetur
       if (key === 'Enter' || key === ' ') {
         e.preventDefault()
         if (!cfg.isDisabled(cfg.focusedDate)) {
-          cfg.onSelect(cfg.focusedDate)
+          cfg.onSelect(cfg.focusedDate, { shiftKey: e.shiftKey })
         }
         return
       }

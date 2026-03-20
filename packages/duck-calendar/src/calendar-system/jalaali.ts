@@ -169,5 +169,5 @@ function div(a: number, b: number): number {
 
 /** Positive modulus (always >= 0) */
 function mod(a: number, b: number): number {
-  return a - ~~(a / b) * b
+  return ((a % b) + b) % b
 }

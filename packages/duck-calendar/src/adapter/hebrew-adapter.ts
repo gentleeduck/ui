@@ -1,3 +1,4 @@
+import { getCachedFormatter } from './formatter-cache'
 import { hebrewMonthLength, hebrewMonthsInYear, hebrewToGregorian, toHebrew } from '../calendar-system/hebrew'
 import type { DateAdapter, WeekStartDay } from './adapter.types'
 
@@ -164,13 +165,13 @@ export class HebrewAdapter implements DateAdapter<Date> {
     if (loc.includes('-ca-hebrew')) return new Intl.DateTimeFormat(loc, options).format(date)
     let tag: string
     if (loc.includes('-ca-')) {
-      tag = loc.replace(/-ca-[a-z]+/, '-ca-hebrew')
+      tag = loc.replace(/-ca-[a-z-]+/, '-ca-hebrew')
     } else if (loc.includes('-u-')) {
       tag = `${loc}-ca-hebrew`
     } else {
       tag = `${loc}-u-ca-hebrew`
     }
-    return new Intl.DateTimeFormat(tag, options).format(date)
+    return getCachedFormatter(tag, options).format(date)
   }
 
   getHours(date: Date): number {

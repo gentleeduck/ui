@@ -92,7 +92,7 @@ export const CalendarDayCell = React.memo(function CalendarDayCell({
         tabIndex={day.isDisabled ? -1 : dayProps.tabIndex}
         onClick={(e) => {
           if (day.isDisabled) return
-          dayProps.onClick()
+          dayProps.onClick({ shiftKey: e.shiftKey })
           onFocusDate(day.date)
           // Remove browser focus so the cell returns to neutral visual state
           ;(e.currentTarget as HTMLElement).blur()

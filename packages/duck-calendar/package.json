@@ -51,7 +51,7 @@
   "license": "MIT",
   "author": "gentleduck contributors",
   "engines": {
-    "node": ">=22.0.0"
+    "node": ">=18.0.0"
   },
   "publishConfig": {
     "access": "public"
@@ -90,7 +90,7 @@
     "dayjs": "^1.11.13",
     "jsdom": "^29.0.0",
     "luxon": "^3.6.1",
-    "react": "^19.2.4",
+    "react": ">=18.0.0",
     "react-dom": "^19.2.4",
     "tsdown": "0.21.4",
     "typescript": "5.9.3",
@@ -100,7 +100,7 @@
     "date-fns": ">=3.0.0",
     "dayjs": ">=1.11.0",
     "luxon": ">=3.0.0",
-    "react": "^19.2.4"
+    "react": ">=18.0.0"
   },
   "peerDependenciesMeta": {
     "react": {

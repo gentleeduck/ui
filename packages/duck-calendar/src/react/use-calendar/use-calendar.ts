@@ -67,7 +67,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // -------------------------------------------------------------------------
   const initialValue: CalendarValue<TDate, M> =
     (defaultSelected as CalendarValue<TDate, M>) ??
-    (mode === 'multi' ? ([] as unknown as CalendarValue<TDate, M>) : (null as CalendarValue<TDate, M>))
+    (mode === 'multi' || mode === 'multi-range' ? ([] as unknown as CalendarValue<TDate, M>) : (null as CalendarValue<TDate, M>))
 
   const [value, setValue] = useControllableState<CalendarValue<TDate, M>>(controlledSelected, initialValue, onSelect)
 
@@ -178,12 +178,12 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // Selection
   // -------------------------------------------------------------------------
   const selectDate = useCallback(
-    (date: TDate) => {
+    (date: TDate, options?: { shiftKey?: boolean }) => {
       if (isDisabledFn(date)) {
         announce(buildDateDisabledMessage(adapter.format(date, { month: 'long', day: 'numeric' }, locale?.locale)))
         return
       }
-      const next = selectDay(adapter, mode, value, date)
+      const next = selectDay(adapter, mode, value, date, options)
       setValue(next)
     },
     [adapter, mode, value, setValue, isDisabledFn, locale, announce],

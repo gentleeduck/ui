@@ -1,7 +1,14 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { CommandDialog, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '@gentleduck/registry-ui/command'
+import {
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from '@gentleduck/registry-ui/command'
 import { CalendarIcon, ClockIcon, SearchIcon, StarIcon } from 'lucide-react'
 import * as React from 'react'
 import { CATEGORY_COLORS, CATEGORY_LABELS, type CalendarEvent } from '../calendar-data'
@@ -15,7 +22,13 @@ interface CalendarCommandMenuProps {
   onNavigateToDate: (dateStr: string) => void
 }
 
-export function CalendarCommandMenu({ open, onOpenChange, events, onSelectEvent, onNavigateToDate }: CalendarCommandMenuProps) {
+export function CalendarCommandMenu({
+  open,
+  onOpenChange,
+  events,
+  onSelectEvent,
+  onNavigateToDate,
+}: CalendarCommandMenuProps) {
   const [query, setQuery] = React.useState('')
 
   React.useEffect(() => {
@@ -42,7 +55,7 @@ export function CalendarCommandMenu({ open, onOpenChange, events, onSelectEvent,
   return (
     <CommandDialog open={open} onOpenChange={onOpenChange} shouldFilter={false}>
       <CommandInput placeholder="Search events..." value={query} onValueChange={setQuery} />
-      <CommandList>
+      <CommandList className="max-h-full">
         <CommandEmpty>No events found.</CommandEmpty>
         {grouped.map(([dateStr, evts]) => (
           <CommandGroup key={dateStr} heading={formatFullDate(dateStr)}>
@@ -57,14 +70,11 @@ export function CalendarCommandMenu({ open, onOpenChange, events, onSelectEvent,
                     onNavigateToDate(evt.date)
                     onOpenChange(false)
                   }}
-                  className="flex items-center gap-3"
-                >
+                  className="flex items-center gap-3">
                   <span className={cn('size-2 shrink-0 rounded-full', colors.dot)} />
                   <div className="flex flex-1 flex-col">
                     <span className="text-sm font-medium">{evt.title}</span>
-                    <span className="text-xs text-muted-foreground">
-                      {CATEGORY_LABELS[evt.category]}
-                    </span>
+                    <span className="text-xs text-muted-foreground">{CATEGORY_LABELS[evt.category]}</span>
                   </div>
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     {evt.starred && <StarIcon className="size-3 fill-amber-400 text-amber-400" />}
