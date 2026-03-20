@@ -156,7 +156,17 @@ function jdnToHijri(jdn: number): { hy: number; hm: number; hd: number } {
  * toHijri(2026, 6, 27) // -> { hy: 1448, hm: 1, hd: 1 }
  * ```
  */
+/** Number of days in a Gregorian month (for input validation). */
+function gregorianMonthLength(gy: number, gm: number): number {
+  const isLeap = gy % 4 === 0 && (gy % 100 !== 0 || gy % 400 === 0)
+  const lengths = [31, isLeap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+  return lengths[gm - 1] ?? 31
+}
+
 export function toHijri(gy: number, gm: number, gd: number): { hy: number; hm: number; hd: number } {
+  if (gm < 1 || gm > 12 || gd < 1 || gd > gregorianMonthLength(gy, gm)) {
+    throw new RangeError(`Invalid Gregorian date: ${gy}-${gm}-${gd}`)
+  }
   const jdn = gregorianToJdn(gy, gm, gd)
   return jdnToHijri(jdn)
 }
@@ -175,6 +185,13 @@ export function toHijri(gy: number, gm: number, gd: number): { hy: number; hm: n
  * ```
  */
 export function toGregorian(hy: number, hm: number, hd: number): { gy: number; gm: number; gd: number } {
+  // Validate month before using it to compute day bounds
+  if (hm < 1 || hm > 12) {
+    throw new RangeError(`Invalid Hijri date: ${hy}-${hm}-${hd}`)
+  }
+  if (hd < 1 || hd > hijriMonthLength(hy, hm)) {
+    throw new RangeError(`Invalid Hijri date: ${hy}-${hm}-${hd}`)
+  }
   const jdn = hijriToJdn(hy, hm, hd)
   return jdnToGregorian(jdn)
 }

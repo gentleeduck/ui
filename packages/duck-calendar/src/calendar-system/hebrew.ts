@@ -143,6 +143,12 @@ export function hebrewMonthLength(hy: number, hm: number): number {
 // Fixed-day (R.D.) conversions  -  Reingold/Dershowitz epoch = Jan 1, 1 CE
 // ---------------------------------------------------------------------------
 
+/** Number of days in a Gregorian month (for input validation). */
+function gregorianMonthLength(gy: number, gm: number): number {
+  const lengths = [31, isGregorianLeap(gy) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+  return lengths[gm - 1] ?? 31
+}
+
 /** R.D. date of Hebrew epoch (1 Tishrei, year 1). */
 const HEBREW_EPOCH = -1373428
 
@@ -197,19 +203,27 @@ function hebrewNewYear(hy: number): number {
  * @returns Hebrew year, month (1-indexed), and day
  */
 export function toHebrew(gy: number, gm: number, gd: number): { hy: number; hm: number; hd: number } {
+  if (gm < 1 || gm > 12 || gd < 1 || gd > gregorianMonthLength(gy, gm)) {
+    throw new RangeError(`Invalid Gregorian date: ${gy}-${gm}-${gd}`)
+  }
   const rd = gregorianToFixed(gy, gm, gd)
   // Approximate Hebrew year (Tishrei falls in Sep/Oct, so before that we're still in the previous Hebrew year)
   let hy = gy + 3761
-  // Search downward  -  the approximation can overshoot
-  while (hebrewNewYear(hy) > rd) hy--
-  // Then search upward to find the correct year
-  while (hebrewNewYear(hy + 1) <= rd) hy++
 
-  // Find month
+  // Search downward - the approximation can overshoot.
+  // The offset is at most 1 year, but we allow a generous bound and throw if exhausted.
+  let i: number
+  for (i = 0; i < 100 && hebrewNewYear(hy) > rd; i++) hy--
+  if (i === 100) throw new RangeError(`Hebrew year search failed for Gregorian date: ${gy}-${gm}-${gd}`)
+  // Then search upward to find the correct year
+  for (i = 0; i < 100 && hebrewNewYear(hy + 1) <= rd; i++) hy++
+  if (i === 100) throw new RangeError(`Hebrew year search failed for Gregorian date: ${gy}-${gm}-${gd}`)
+
+  // Find month - use <= so the last month (Elul) is reachable
   let hm = 1
   let remaining = rd - hebrewNewYear(hy) + 1
   const months = hebrewMonthsInYear(hy)
-  while (hm < months) {
+  while (hm <= months) {
     const ml = hebrewMonthLength(hy, hm)
     if (remaining <= ml) break
     remaining -= ml
