@@ -129,9 +129,7 @@ export function useTimePicker(config: UseTimePickerConfig = {}): UseTimePickerRe
         case 'hour':
           // In 12h mode, convert displayed hour back to 24h using current AM/PM
           next.hour =
-            hourCycle === '12'
-              ? to24Hour(fieldValue === 0 ? 12 : fieldValue, getAmPm(value.hour))
-              : fieldValue
+            hourCycle === '12' ? to24Hour(fieldValue === 0 ? 12 : fieldValue, getAmPm(value.hour)) : fieldValue
           break
         case 'minute':
           next.minute = fieldValue

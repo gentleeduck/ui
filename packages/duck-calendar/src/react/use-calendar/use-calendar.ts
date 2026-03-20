@@ -67,7 +67,9 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // -------------------------------------------------------------------------
   const initialValue: CalendarValue<TDate, M> =
     (defaultSelected as CalendarValue<TDate, M>) ??
-    (mode === 'multi' || mode === 'multi-range' ? ([] as unknown as CalendarValue<TDate, M>) : (null as CalendarValue<TDate, M>))
+    (mode === 'multi' || mode === 'multi-range'
+      ? ([] as unknown as CalendarValue<TDate, M>)
+      : (null as CalendarValue<TDate, M>))
 
   const [value, setValue] = useControllableState<CalendarValue<TDate, M>>(controlledSelected, initialValue, onSelect)
 
@@ -228,6 +230,14 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // -------------------------------------------------------------------------
   // Focus management  -  auto-advance month when focus leaves the visible month
   // -------------------------------------------------------------------------
+  // RAF id for focus management - cancelled on unmount to prevent memory leaks
+  const rafRef = useRef<number>(0)
+  useEffect(() => {
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
+  }, [])
+
   const handleFocusChange = useCallback(
     (date: TDate) => {
       keyboardFocusRef.current = true
@@ -236,7 +246,9 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
         setMonthState(adapter.startOfMonth(date))
       }
       // Move DOM focus after React re-render (keyboard nav only)
-      requestAnimationFrame(() => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = 0
         const el = document.querySelector<HTMLElement>('[data-calendar-day][data-focused="true"]')
         if (el && document.activeElement !== el) {
           el.focus({ preventScroll: true })
