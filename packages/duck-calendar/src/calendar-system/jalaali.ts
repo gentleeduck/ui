@@ -92,6 +92,9 @@ export function toJalaali(gy: number, gm: number, gd: number): { jy: number; jm:
  * @returns Gregorian `{ gy, gm, gd }` (month is 1-indexed)
  */
 export function toGregorian(jy: number, jm: number, jd: number): { gy: number; gm: number; gd: number } {
+  if (jm < 1 || jm > 12 || jd < 1 || jd > jalaaliMonthLength(jy, jm)) {
+    throw new RangeError(`Invalid Jalaali date: ${jy}-${jm}-${jd}`)
+  }
   return d2g(j2d(jy, jm, jd))
 }
 
@@ -113,6 +116,7 @@ export function isLeapJalaaliYear(jy: number): boolean {
  * @returns Number of days (29, 30, or 31)
  */
 export function jalaaliMonthLength(jy: number, jm: number): number {
+  if (jm < 1 || jm > 12) return 0
   if (jm <= 6) return 31
   if (jm <= 11) return 30
   return isLeapJalaaliYear(jy) ? 30 : 29
