@@ -1,8 +1,9 @@
 'use client'
 
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@gentleduck/registry-ui/breadcrumb'
+import { Input } from '@gentleduck/registry-ui/input'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui/tabs'
-import { CalendarIcon, HomeIcon } from 'lucide-react'
+import { CalendarIcon, HomeIcon, SearchIcon } from 'lucide-react'
 import * as React from 'react'
 import { type CalendarEvent, type CalendarView, type FilterMode, MOCK_EVENTS } from './calendar-data'
 import { CalendarEventDetail } from './components/calendar-event-detail'
@@ -21,6 +22,20 @@ export default function Page() {
   const [isAddEventOpen, setIsAddEventOpen] = React.useState(false)
   const [detailEvent, setDetailEvent] = React.useState<CalendarEvent | null>(null)
   const [overflowDay, setOverflowDay] = React.useState<string | null>(null)
+
+  const searchRef = React.useRef<HTMLInputElement>(null)
+
+  // Cmd+K shortcut
+  React.useEffect(() => {
+    function handleKeyDown(e: KeyboardEvent) {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        searchRef.current?.focus()
+      }
+    }
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [])
 
   const filteredEvents = React.useMemo(() => {
     let filtered = events
@@ -50,40 +65,44 @@ export default function Page() {
     })
   }
 
-  function handleDeleteEvent(id: string) {
-    setEvents((prev) => prev.filter((e) => e.id !== id))
-    setDetailEvent(null)
-  }
-
-  function handleEditEvent(event: CalendarEvent) {
-    setEditingEvent(event)
-    setAddEventDate(null)
-    setIsAddEventOpen(true)
-  }
-
-  function handleSelectEvent(event: CalendarEvent) {
-    setDetailEvent(event)
-    setOverflowDay(null)
-  }
+  function handleDeleteEvent(id: string) { setEvents((prev) => prev.filter((e) => e.id !== id)); setDetailEvent(null) }
+  function handleEditEvent(event: CalendarEvent) { setEditingEvent(event); setAddEventDate(null); setIsAddEventOpen(true) }
+  function handleSelectEvent(event: CalendarEvent) { setDetailEvent(event); setOverflowDay(null) }
 
   const showEmptyState = filterMode === 'public' || filterMode === 'archived'
 
   return (
     <div className="flex flex-col gap-6 p-6">
-      {/* Header */}
-      <div className="flex flex-col gap-4">
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem><BreadcrumbLink href="#"><HomeIcon className="size-4" /></BreadcrumbLink></BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem><BreadcrumbLink href="#">Untitled UI</BreadcrumbLink></BreadcrumbItem>
-            <BreadcrumbSeparator />
-            <BreadcrumbItem><BreadcrumbPage>Calendar</BreadcrumbPage></BreadcrumbItem>
-          </BreadcrumbList>
-        </Breadcrumb>
-        <div className="flex items-center gap-2">
-          <CalendarIcon className="size-6" />
-          <h1 className="font-bold text-2xl">Calendar</h1>
+      {/* Header row */}
+      <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-col gap-4">
+          <Breadcrumb>
+            <BreadcrumbList>
+              <BreadcrumbItem><BreadcrumbLink href="#"><HomeIcon className="size-4" /></BreadcrumbLink></BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem><BreadcrumbLink href="#">Untitled UI</BreadcrumbLink></BreadcrumbItem>
+              <BreadcrumbSeparator />
+              <BreadcrumbItem><BreadcrumbPage>Calendar</BreadcrumbPage></BreadcrumbItem>
+            </BreadcrumbList>
+          </Breadcrumb>
+          <div className="flex items-center gap-2">
+            <CalendarIcon className="size-6" />
+            <h1 className="font-bold text-2xl">Calendar</h1>
+          </div>
+        </div>
+        {/* Search with Cmd+K */}
+        <div className="relative w-64">
+          <SearchIcon className="absolute left-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            ref={searchRef}
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search"
+            className="pl-8 pr-14"
+          />
+          <kbd className="absolute right-2 top-1/2 -translate-y-1/2 rounded border bg-muted px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
+            {"\u2318"}K
+          </kbd>
         </div>
       </div>
 
@@ -97,7 +116,6 @@ export default function Page() {
         </TabsList>
 
         <TabsContent value={filterMode} className="mt-6 flex flex-col gap-4">
-          {/* Toolbar */}
           <CalendarToolbar
             viewedMonth={viewedMonth} calendarView={calendarView} searchQuery={searchQuery}
             onPrevMonth={handlePrevMonth} onNextMonth={handleNextMonth} onToday={handleToday}
@@ -105,10 +123,8 @@ export default function Page() {
             onAddEvent={() => { setEditingEvent(null); setAddEventDate(null); setIsAddEventOpen(true) }}
           />
 
-          {/* Search results count */}
           {searchQuery && <p className="text-xs text-muted-foreground">{filteredEvents.length} result{filteredEvents.length !== 1 ? 's' : ''}</p>}
 
-          {/* Content */}
           {showEmptyState ? (
             <div className="flex min-h-96 flex-col items-center justify-center gap-2 rounded-lg border border-dashed">
               <CalendarIcon className="size-12 text-muted-foreground/40" />
@@ -124,16 +140,13 @@ export default function Page() {
           ) : (
             <div className="flex min-h-96 flex-col items-center justify-center gap-2 rounded-lg border border-dashed">
               <CalendarIcon className="size-12 text-muted-foreground/40" />
-              <p className="font-medium text-sm">
-                {calendarView === 'week' ? 'Week' : 'Day'} view coming soon
-              </p>
+              <p className="font-medium text-sm">{calendarView === 'week' ? 'Week' : 'Day'} view coming soon</p>
               <p className="text-xs text-muted-foreground">Switch to Month view to see your events</p>
             </div>
           )}
         </TabsContent>
       </Tabs>
 
-      {/* Add/Edit Dialog */}
       <CalendarEventDialog open={isAddEventOpen} onOpenChange={setIsAddEventOpen} onSave={handleSaveEvent} editingEvent={editingEvent} defaultDate={addEventDate} />
     </div>
   )

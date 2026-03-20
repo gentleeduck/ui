@@ -1,0 +1,23 @@
+import type { RegistryEntry } from '../registry-schema'
+
+export const registry_calendar: RegistryEntry[] = [
+  {
+    categories: ['calendar', 'application'],
+    files: [],
+    name: 'calendar-block-1',
+    registryDependencies: [
+      'button',
+      'input',
+      'label',
+      'dialog',
+      'popover',
+      'tabs',
+      'breadcrumb',
+      'dropdown-menu',
+      'select',
+      'badge',
+    ],
+    root_folder: 'calendar/calendar-1',
+    type: 'registry:block',
+  },
+]
