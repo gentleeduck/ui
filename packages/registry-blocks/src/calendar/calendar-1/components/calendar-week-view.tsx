@@ -53,6 +53,7 @@ export function CalendarWeekView({ viewedDate, events, onDayClick, onSelectEvent
 
   return (
     <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
+      {/* Header */}
       <div className="grid border-b bg-muted/50" style={{ gridTemplateColumns: '52px repeat(7, 1fr)' }}>
         <div />
         {days.map((d, i) => (
@@ -65,15 +66,18 @@ export function CalendarWeekView({ viewedDate, events, onDayClick, onSelectEvent
           </div>
         ))}
       </div>
+      {/* Body */}
       <div className="max-h-[700px] overflow-y-auto">
         <div className="grid" style={{ gridTemplateColumns: '52px repeat(7, 1fr)' }}>
+          {/* Hour labels */}
           <div>
             {HOURS.map((hour) => (
-              <div key={hour} className="flex items-start justify-end border-b border-border/50 pr-2 text-[11px] text-muted-foreground" style={{ height: HOUR_HEIGHT }}>
-                <span className="relative -top-2">{formatHour(hour)}</span>
+              <div key={hour} className="relative border-b border-border/50" style={{ height: HOUR_HEIGHT }}>
+                <span className="absolute -top-2.5 right-2 text-[10px] text-muted-foreground">{hour > 0 ? formatHour(hour) : ''}</span>
               </div>
             ))}
           </div>
+          {/* Day columns */}
           {days.map((d, di) => {
             const dayEvents = getEventsForDay(events, d)
             const dateStr = formatDateString(d)
