@@ -1,8 +1,5 @@
 'use client'
 
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@gentleduck/registry-ui/breadcrumb'
-import { Button } from '@gentleduck/registry-ui/button'
-import { CalendarIcon, HomeIcon, SearchIcon } from 'lucide-react'
 import * as React from 'react'
 import { type CalendarEvent, type CalendarView, type FilterMode, MOCK_EVENTS } from './calendar-data'
 import { CalendarCommandMenu } from './components/calendar-command-menu'
@@ -12,6 +9,7 @@ import { CalendarToolbar } from './components/calendar-toolbar'
 import { CalendarWeekView } from './components/calendar-week-view'
 import { CalendarDayView } from './components/calendar-day-view'
 import { CalendarYearView } from './components/calendar-year-view'
+import { CalendarIcon } from 'lucide-react'
 
 export default function Page() {
   const [events, setEvents] = React.useState<CalendarEvent[]>(MOCK_EVENTS)
@@ -77,31 +75,8 @@ export default function Page() {
   const showEmptyState = filterMode === 'public' || filterMode === 'archived'
 
   return (
-    <div className="flex flex-col gap-6 p-6">
-      {/* Header */}
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex flex-col gap-2">
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem><BreadcrumbLink href="#"><HomeIcon className="size-4" /></BreadcrumbLink></BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem><BreadcrumbLink href="#">Untitled UI</BreadcrumbLink></BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem><BreadcrumbPage>Calendar</BreadcrumbPage></BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-          <div className="flex items-center gap-2">
-            <CalendarIcon className="size-6" />
-            <h1 className="font-bold text-2xl">Calendar</h1>
-          </div>
-        </div>
-        <Button variant="outline" className="w-64 justify-between text-muted-foreground font-normal" onClick={() => setCommandOpen(true)}>
-          <span className="flex items-center gap-2"><SearchIcon className="size-4" />Search</span>
-          <kbd className="rounded border bg-muted px-1.5 py-0.5 font-mono text-[10px]">{"\u2318"}K</kbd>
-        </Button>
-      </div>
-
-      {/* Toolbar with filter integrated */}
+    <div className="flex flex-col gap-4 p-4">
+      {/* Toolbar - single row with everything */}
       <CalendarToolbar
         viewedDate={viewedDate} calendarView={calendarView} filterMode={filterMode}
         onPrev={handlePrev} onNext={handleNext} onToday={handleToday}
