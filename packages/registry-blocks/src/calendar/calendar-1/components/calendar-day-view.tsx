@@ -59,13 +59,15 @@ export function CalendarDayView({ viewedDate, events, onSelectEvent, onEditEvent
       </div>
       <div className="max-h-[700px] overflow-y-auto">
         <div className="relative flex">
-          <div className="w-14 shrink-0">
+          {/* Hour labels */}
+          <div className="w-16 shrink-0">
             {HOURS.map((hour) => (
-              <div key={hour} className="flex items-start justify-end border-b border-border/50 pr-2 text-[11px] text-muted-foreground" style={{ height: HOUR_HEIGHT }}>
-                <span className="relative -top-2">{formatHour(hour)}</span>
+              <div key={hour} className="relative border-b border-border/50" style={{ height: HOUR_HEIGHT }}>
+                <span className="absolute -top-3 right-2 text-[11px] text-muted-foreground">{hour > 0 ? formatHour(hour) : ''}</span>
               </div>
             ))}
           </div>
+          {/* Timeline */}
           <div className="relative flex-1 border-l">
             {HOURS.map((hour) => (
               <div key={hour} className="border-b border-border/50" style={{ height: HOUR_HEIGHT }} />

@@ -3,7 +3,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
-import { EditIcon, StarIcon, Trash2Icon } from 'lucide-react'
+import { ClockIcon, EditIcon, ExternalLinkIcon, LinkIcon, MapPinIcon, MailIcon, StarIcon, Trash2Icon, UsersIcon } from 'lucide-react'
 import * as React from 'react'
 import { CATEGORY_COLORS, CATEGORY_LABELS, type CalendarEvent } from '../calendar-data'
 import { formatFullDate } from '../calendar-utils'
@@ -26,30 +26,98 @@ export function CalendarEventDetail({ event, open, onOpenChange, onEdit, onDelet
   return (
     <Popover open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>{children}</PopoverTrigger>
-      <PopoverContent className="w-80 p-0" side="right" align="start" sideOffset={8}>
-        {/* Colored top bar */}
-        <div className={cn('h-2 rounded-t-md', colors.dot)} />
-        <div className="flex flex-col gap-3 p-4">
-          <div>
-            <h4 className="font-semibold">{event.title}</h4>
-            <p className="text-xs text-muted-foreground mt-0.5">{formatFullDate(event.date)}</p>
-            <p className="text-xs text-muted-foreground">{event.time}</p>
-          </div>
+      <PopoverContent className="w-96 p-0 shadow-lg" side="right" align="start" sideOffset={8}>
+        {/* Colored header bar */}
+        <div className={cn('h-2.5 rounded-t-md', colors.dot)} />
 
-          <div className="flex items-center gap-2">
-            <span className={cn('size-2.5 rounded-full', colors.dot)} />
-            <span className="text-sm">{CATEGORY_LABELS[event.category]}</span>
+        <div className="p-4">
+          {/* Title + starred */}
+          <div className="flex items-start justify-between gap-2">
+            <h3 className="font-semibold text-base leading-tight">{event.title}</h3>
             {event.starred && (
-              <span className="ml-auto flex items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-xs font-medium text-amber-600 dark:text-amber-400">
+              <span className="flex shrink-0 items-center gap-1 rounded-full bg-amber-500/10 px-2 py-0.5 text-[11px] font-medium text-amber-600 dark:text-amber-400">
                 <StarIcon className="size-3 fill-current" />
                 Shared
               </span>
             )}
           </div>
 
-          <div className="flex items-center gap-2 border-t pt-3">
+          {/* Date & time */}
+          <div className="mt-2 flex items-center gap-2 text-sm text-muted-foreground">
+            <ClockIcon className="size-3.5 shrink-0" />
+            <span>{formatFullDate(event.date)} - {event.time}</span>
+          </div>
+
+          {/* Category badge */}
+          <div className="mt-3 flex items-center gap-2">
+            <span className={cn('size-3 rounded-full', colors.dot)} />
+            <span className={cn('text-sm font-medium', colors.text)}>{CATEGORY_LABELS[event.category]}</span>
+          </div>
+
+          {/* Description */}
+          {event.description && (
+            <p className="mt-3 rounded-lg bg-muted/50 p-3 text-sm text-muted-foreground leading-relaxed">
+              {event.description}
+            </p>
+          )}
+
+          {/* Location */}
+          {event.location && (
+            <div className="mt-3 flex items-center gap-2 text-sm">
+              <MapPinIcon className="size-3.5 shrink-0 text-muted-foreground" />
+              <span>{event.location}</span>
+            </div>
+          )}
+
+          {/* Meeting link */}
+          {event.link && (
+            <div className="mt-2 flex items-center gap-2 text-sm">
+              <LinkIcon className="size-3.5 shrink-0 text-muted-foreground" />
+              <a href={event.link} target="_blank" rel="noopener noreferrer"
+                className="flex items-center gap-1 truncate text-primary hover:underline"
+                onClick={(e) => e.stopPropagation()}>
+                Join meeting
+                <ExternalLinkIcon className="size-3" />
+              </a>
+            </div>
+          )}
+
+          {/* Attendees */}
+          {event.attendees && event.attendees.length > 0 && (
+            <div className="mt-4">
+              <div className="mb-2 flex items-center gap-1.5 text-xs font-medium text-muted-foreground uppercase tracking-wide">
+                <UsersIcon className="size-3.5" />
+                {event.attendees.length} attendee{event.attendees.length > 1 ? 's' : ''}
+              </div>
+              <div className="flex flex-col gap-2">
+                {event.attendees.map((person) => (
+                  <div key={person.email} className="flex items-center gap-2.5">
+                    {person.avatar ? (
+                      <img src={person.avatar} alt={person.name} className="size-7 rounded-full ring-2 ring-background" />
+                    ) : (
+                      <div className="flex size-7 items-center justify-center rounded-full bg-muted text-[11px] font-semibold ring-2 ring-background">
+                        {person.name.charAt(0)}
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-medium truncate">{person.name}</p>
+                      <p className="text-[11px] text-muted-foreground truncate">{person.email}</p>
+                    </div>
+                    <a href={`mailto:${person.email}`} onClick={(e) => e.stopPropagation()}
+                      className="shrink-0 rounded-md p-1 text-muted-foreground hover:bg-muted hover:text-foreground transition-colors">
+                      <MailIcon className="size-3.5" />
+                    </a>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Actions */}
+          <div className="mt-4 flex items-center gap-2 border-t pt-3">
             <Button variant="outline" size="sm" className="flex-1 gap-1.5" onClick={() => { onEdit(event); onOpenChange(false) }}>
-              <EditIcon className="size-3.5" /> Edit
+              <EditIcon className="size-3.5" />
+              Edit
             </Button>
             {confirmDelete ? (
               <div className="flex flex-1 gap-1.5">
@@ -58,7 +126,8 @@ export function CalendarEventDetail({ event, open, onOpenChange, onEdit, onDelet
               </div>
             ) : (
               <Button variant="outline" size="sm" className="flex-1 gap-1.5 text-destructive hover:text-destructive" onClick={() => setConfirmDelete(true)}>
-                <Trash2Icon className="size-3.5" /> Delete
+                <Trash2Icon className="size-3.5" />
+                Delete
               </Button>
             )}
           </div>
