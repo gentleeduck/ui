@@ -1,6 +1,6 @@
-import { getCachedFormatter } from './formatter-cache'
 import { jalaaliMonthLength, toGregorian, toJalaali } from '../calendar-system'
 import type { DateAdapter, WeekStartDay } from './adapter.types'
+import { getCachedFormatter } from './formatter-cache'
 
 /**
  * Persian (Jalaali / Solar Hijri) date adapter.

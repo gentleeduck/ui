@@ -1,4 +1,3 @@
-import { getCachedFormatter } from './formatter-cache'
 import {
   addDays as dfAddDays,
   addMonths as dfAddMonths,
@@ -21,8 +20,8 @@ import {
   set,
   startOfDay,
 } from 'date-fns'
-
 import type { DateAdapter, WeekStartDay } from './adapter.types'
+import { getCachedFormatter } from './formatter-cache'
 
 /**
  * Date adapter backed by `date-fns` for date arithmetic and `Intl.DateTimeFormat`

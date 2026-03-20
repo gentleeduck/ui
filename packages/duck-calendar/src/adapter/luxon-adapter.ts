@@ -1,7 +1,6 @@
-import { getCachedFormatter } from './formatter-cache'
 import { DateTime } from 'luxon'
-
 import type { DateAdapter, WeekStartDay } from './adapter.types'
+import { getCachedFormatter } from './formatter-cache'
 
 /**
  * Luxon date adapter wrapping `DateTime`.

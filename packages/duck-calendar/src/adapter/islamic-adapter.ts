@@ -1,6 +1,6 @@
-import { getCachedFormatter } from './formatter-cache'
 import { hijriMonthLength, toGregorian, toHijri } from '../calendar-system/hijri'
 import type { DateAdapter, WeekStartDay } from './adapter.types'
+import { getCachedFormatter } from './formatter-cache'
 
 /**
  * Islamic (Hijri) calendar adapter.

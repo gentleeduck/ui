@@ -1,6 +1,5 @@
-import { getCachedFormatter } from './formatter-cache'
 import type { DateAdapter, WeekStartDay } from './adapter.types'
-
+import { getCachedFormatter } from './formatter-cache'
 
 /**
  * Native date adapter using built-in `Date` and `Intl.DateTimeFormat`.
