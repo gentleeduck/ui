@@ -1,34 +1,39 @@
 # @gentleduck/hooks
 
-This package provides a collection of reusable React hooks for the @gentleduck/ui component library.
+React utility hooks.
 
-## Available Hooks
+## Quick Start
 
-- `use-composed-refs`: A hook to merge multiple refs into a single ref.
-- `use-computed-timeout-transition`: A hook to manage timeout-based transitions.
-- `use-copy-to-clipboard`: A hook to copy text to the clipboard.
-- `use-debounce`: A hook to debounce a value.
-- `use-is-mobile`: A hook to detect if the user is on a mobile device.
-- `use-media-query`: A hook to use media queries in your components.
-- `use-on-open-change`: A hook to handle open/close state changes.
-- `use-stable-id`: A hook to generate a stable ID.
+```bash
+bun add @gentleduck/hooks
+```
 
-## Usage
+```tsx
+import { useDebounce } from '@gentleduck/hooks/use-debounce'
 
-To use a hook, import it from the corresponding directory:
+function Search() {
+  const [value, setValue] = useState('')
+  const debounced = useDebounce(value, 300)
 
-```typescript
-import { useDebounce } from '@gentleduck/hooks/use-debounce';
-
-function MyComponent() {
-  const [value, setValue] = useState('');
-  const debouncedValue = useDebounce(value, 500);
-
-  // ...
+  return <input value={value} onChange={(e) => setValue(e.target.value)} />
 }
 ```
 
+## Hooks
+
+| Hook | Import | Description |
+| --- | --- | --- |
+| `useComposedRefs` | `@gentleduck/hooks/use-composed-refs` | Merge multiple refs into one |
+| `useComputedTimeoutTransition` | `@gentleduck/hooks/use-computed-timeout-transition` | Timeout-based transitions |
+| `useCopyToClipboard` | `@gentleduck/hooks/use-copy-to-clipboard` | Copy text to clipboard |
+| `useDebounce` | `@gentleduck/hooks/use-debounce` | Debounce a value |
+| `useIsMobile` | `@gentleduck/hooks/use-is-mobile` | Detect mobile viewport |
+| `useMediaQuery` | `@gentleduck/hooks/use-media-query` | Subscribe to media queries |
+| `useOnOpenChange` | `@gentleduck/hooks/use-on-open-change` | Handle open/close state |
+| `useStableId` | `@gentleduck/hooks/use-stable-id` | Generate a stable ID |
+
+Each hook is tree-shakeable via its own subpath export.
+
 ## License
 
-[MIT © gentleduck](./LICENSE)
-
+MIT

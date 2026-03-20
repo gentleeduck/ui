@@ -1,211 +1,223 @@
 'use client'
 
+import { NativeAdapter, useCalendar } from '@gentleduck/calendar'
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
-import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
+import { useDirection } from '@gentleduck/primitives/direction'
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import * as React from 'react'
-import { type DayButton, DayPicker, getDefaultClassNames } from 'react-day-picker'
-import { Button, buttonVariants } from '../button'
+import { buttonVariants } from '../button'
+import type { CalendarProps } from './calendar.types'
+import { CalendarDayCell } from './calendar-day'
+import { CalendarHeader } from './calendar-header'
 
-function mergeRefs<T>(...refs: (React.Ref<T> | undefined)[]): React.RefCallback<T> {
-  return (node) => {
-    for (const ref of refs) {
-      if (typeof ref === 'function') {
-        ref(node)
-      } else if (ref != null) {
-        ;(ref as React.MutableRefObject<T | null>).current = node
-      }
-    }
-  }
-}
+const defaultAdapter = new NativeAdapter()
 
-const Calendar = React.forwardRef<
-  HTMLDivElement,
-  React.ComponentProps<typeof DayPicker> & {
-    buttonVariant?: React.ComponentProps<typeof Button>['variant']
-  }
->(
+const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
   (
     {
       className,
-      classNames,
-      showOutsideDays = true,
-      captionLayout = 'label',
+      adapter = defaultAdapter,
       buttonVariant = 'ghost',
-      formatters,
-      components,
+      mode = 'single',
+      selected,
+      onSelect,
+      disabled,
+      defaultMonth,
+      month: controlledMonth,
+      onMonthChange,
+      showOutsideDays = true,
+      fixedWeeks = false,
+      numberOfMonths = 1,
+      locale,
       dir,
-      ...props
+      fromDate,
+      toDate,
+      onDismiss,
+      showDropdowns = true,
+      yearRange,
+      renderDay,
+      renderHeader,
+      renderWeekday,
+      renderFooter,
     },
     ref,
   ) => {
-    const direction = useDirection(dir as Direction)
-    const defaultClassNames = getDefaultClassNames()
-    const localeTag = React.useMemo(() => {
-      const code = props.locale?.code
-      if (!code) return undefined
-      return code.startsWith('ar') ? `${code}-u-nu-arab` : code
-    }, [props.locale])
+    const direction = useDirection(dir)
+    const currentYear = new Date().getFullYear()
+    const resolvedYearRange = yearRange ?? { from: currentYear - 100, to: currentYear + 10 }
+    // Build full locale tag with numbering system for Arabic
+    const formatLocale = locale?.startsWith('ar') ? `${locale}-u-nu-arab` : locale
 
-    const monthFormatter = React.useMemo(() => {
-      return new Intl.DateTimeFormat(localeTag, { month: 'short' })
-    }, [localeTag])
+    const calendar = useCalendar({
+      adapter,
+      mode,
+      locale: locale ? { locale, weekStartDay: 0, direction } : { weekStartDay: 0, direction },
+      month: controlledMonth,
+      defaultMonth,
+      selected,
+      onSelect,
+      onMonthChange,
+      showOutsideDays,
+      fixedWeeks,
+      numberOfMonths,
+      disabled,
+      fromDate,
+      toDate,
+      onDismiss,
+    })
 
-    const captionFormatter = React.useMemo(() => {
-      return new Intl.DateTimeFormat(localeTag, { month: 'long', year: 'numeric' })
-    }, [localeTag])
+    const { state, getDayProps, getGridProps, getNavProps, getHeaderProps, announcer } = calendar
 
-    const numberFormatter = React.useMemo(() => {
-      return new Intl.NumberFormat(localeTag)
-    }, [localeTag])
+    // Only show focus ring during keyboard navigation, not on mouse clicks
+    const [keyboardActive, setKeyboardActive] = React.useState(false)
 
-    const formatLocalizedNumber = React.useCallback(
-      (value: number) => {
-        return numberFormatter.format(value)
-      },
-      [numberFormatter],
-    )
+    const prevNavProps = getNavProps('prev')
+    const nextNavProps = getNavProps('next')
 
     return (
-      <DayPicker
+      <div
+        ref={ref}
+        data-slot="calendar"
         dir={direction}
-        captionLayout={captionLayout}
+        onKeyDown={() => {
+          if (!keyboardActive) setKeyboardActive(true)
+        }}
+        onPointerDown={() => {
+          if (keyboardActive) setKeyboardActive(false)
+        }}
         className={cn(
-          'group/calendar bg-background in-data-[slot=card-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent p-3 [--cell-size:--spacing(8)]',
-          String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
-          String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
+          'group/calendar w-fit bg-background p-3 [--gentleduck-calendar-cell:--spacing(8)]',
+          'rounded-md in-data-[slot=card-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent',
           className,
-        )}
-        classNames={{
-          button_next: cn(
-            buttonVariants({ variant: buttonVariant }),
-            'size-(--cell-size) select-none p-0 aria-disabled:opacity-50',
-            defaultClassNames.button_next,
-          ),
-          button_previous: cn(
-            buttonVariants({ variant: buttonVariant }),
-            'size-(--cell-size) select-none p-0 aria-disabled:opacity-50',
-            defaultClassNames.button_previous,
-          ),
-          caption_label: cn(
-            'select-none font-medium',
-            captionLayout === 'label'
-              ? 'text-sm'
-              : 'flex h-8 items-center gap-1 rounded-md ps-2 pe-1 text-sm [&>svg]:size-3.5 [&>svg]:text-muted-foreground',
-            defaultClassNames.caption_label,
-          ),
-          day: cn(
-            'group/day relative aspect-square h-full w-full select-none p-0 text-center [&:first-child[data-selected=true]_button]:rounded-s-md [&:last-child[data-selected=true]_button]:rounded-e-md',
-            defaultClassNames.day,
-          ),
-          disabled: cn('text-muted-foreground opacity-50', defaultClassNames.disabled),
-          dropdown: cn('absolute inset-0 bg-popover opacity-0', defaultClassNames.dropdown),
-          dropdown_root: cn(
-            'relative rounded-md border border-input shadow-xs has-focus:border-ring has-focus:ring-[3px] has-focus:ring-ring/50',
-            defaultClassNames.dropdown_root,
-          ),
-          dropdowns: cn(
-            'flex h-(--cell-size) w-full items-center justify-center gap-1.5 font-medium text-sm',
-            defaultClassNames.dropdowns,
-          ),
-          hidden: cn('invisible', defaultClassNames.hidden),
-          month: cn('flex w-full flex-col gap-4', defaultClassNames.month),
-          month_caption: cn(
-            'flex h-(--cell-size) w-full items-center justify-center px-(--cell-size)',
-            defaultClassNames.month_caption,
-          ),
-          months: cn('relative flex flex-col gap-4 md:flex-row', defaultClassNames.months),
-          nav: cn('absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1', defaultClassNames.nav),
-          outside: cn('text-muted-foreground aria-selected:text-muted-foreground', defaultClassNames.outside),
-          range_end: cn('rounded-e-md bg-accent', defaultClassNames.range_end),
-          range_middle: cn('rounded-none', defaultClassNames.range_middle),
-          range_start: cn('rounded-s-md bg-accent', defaultClassNames.range_start),
-          root: cn('w-fit', defaultClassNames.root),
-          table: 'w-full border-collapse',
-          today: cn(
-            'rounded-md bg-accent text-accent-foreground data-[selected=true]:rounded-none',
-            defaultClassNames.today,
-          ),
-          week: cn('mt-2 flex w-full', defaultClassNames.week),
-          week_number: cn('select-none text-[0.8rem] text-muted-foreground', defaultClassNames.week_number),
-          week_number_header: cn('w-(--cell-size) select-none', defaultClassNames.week_number_header),
-          weekday: cn(
-            'flex-1 select-none rounded-md font-normal text-[0.8rem] text-muted-foreground',
-            defaultClassNames.weekday,
-          ),
-          weekdays: cn('flex', defaultClassNames.weekdays),
-          ...classNames,
-        }}
-        components={{
-          Chevron: ({ className, orientation, ...props }) => {
-            if (orientation === 'left') {
-              return <ChevronLeftIcon className={cn('size-4', className)} {...props} />
-            }
+        )}>
+        <div className="relative flex flex-col gap-4">
+          {/* Nav header  -  spans full width above all months */}
+          {renderHeader ? (
+            renderHeader({
+              month: state.month,
+              title: adapter.format(state.month, { month: 'long', year: 'numeric' }, formatLocale),
+              direction,
+              goToPrevMonth: prevNavProps.onClick,
+              goToNextMonth: nextNavProps.onClick,
+              isPrevDisabled: prevNavProps.disabled,
+              isNextDisabled: nextNavProps.disabled,
+            })
+          ) : numberOfMonths <= 1 ? (
+            <CalendarHeader
+              adapter={adapter}
+              month={state.month}
+              title={adapter.format(state.month, { month: 'long', year: 'numeric' }, formatLocale)}
+              direction={direction}
+              locale={locale}
+              buttonVariant={buttonVariant}
+              showDropdowns={showDropdowns}
+              yearRange={resolvedYearRange}
+              getNavProps={getNavProps}
+              getHeaderProps={getHeaderProps}
+              onMonthSelect={calendar.actions.setMonth}
+            />
+          ) : (
+            <div className="relative flex w-full items-center">
+              <button
+                type="button"
+                {...prevNavProps}
+                className={cn(
+                  buttonVariants({ variant: buttonVariant as 'ghost' }),
+                  'absolute start-0 z-10 size-(--gentleduck-calendar-cell) select-none p-0 aria-disabled:opacity-50',
+                )}>
+                <ChevronLeftIcon className={cn('size-4', direction === 'rtl' && 'rotate-180')} />
+              </button>
+              {state.months.map((m) => (
+                <span key={m.month.getTime()} className="flex-1 select-none text-center font-medium text-sm">
+                  {adapter.format(m.month, { month: 'long', year: 'numeric' }, formatLocale)}
+                </span>
+              ))}
+              <button
+                type="button"
+                {...nextNavProps}
+                className={cn(
+                  buttonVariants({ variant: buttonVariant as 'ghost' }),
+                  'absolute end-0 z-10 size-(--gentleduck-calendar-cell) select-none p-0 aria-disabled:opacity-50',
+                )}>
+                <ChevronRightIcon className={cn('size-4', direction === 'rtl' && 'rotate-180')} />
+              </button>
+            </div>
+          )}
 
-            if (orientation === 'right') {
-              return <ChevronRightIcon className={cn('size-4', className)} {...props} />
-            }
-
-            return <ChevronDownIcon className={cn('size-4', className)} {...props} />
-          },
-          DayButton: CalendarDayButton,
-          Root: ({ className, rootRef, ...props }) => {
-            return <div className={cn(className)} data-slot="calendar" ref={mergeRefs(ref, rootRef)} {...props} />
-          },
-          WeekNumber: ({ children, ...props }) => {
-            return (
-              <td {...props}>
-                <div className="flex size-(--cell-size) items-center justify-center text-center">{children}</div>
-              </td>
-            )
-          },
-          ...components,
-        }}
-        formatters={{
-          formatCaption: (date) => captionFormatter.format(date),
-          formatDay: (date) => formatLocalizedNumber(date.getDate()),
-          formatMonthDropdown: (date) => monthFormatter.format(date),
-          formatWeekNumber: (weekNumber) => formatLocalizedNumber(weekNumber),
-          formatYearDropdown: (date) => String(date.getFullYear()),
-          ...formatters,
-        }}
-        showOutsideDays={showOutsideDays}
-        {...props}
-      />
+          <div className="flex flex-col gap-4 md:flex-row">
+            {state.months.map((monthGrid) => {
+              const gridProps = getGridProps()
+              return (
+                <div key={monthGrid.month.getTime()} className="flex w-full flex-col gap-4">
+                  <div {...gridProps}>
+                    {/* biome-ignore lint/a11y/useSemanticElements: role="row" on div per WAI-ARIA grid pattern */}
+                    {/* biome-ignore lint/a11y/useFocusableInteractive: weekday header row is not interactive */}
+                    <div role="row" className="flex">
+                      {state.weekdays.map((day, index) => (
+                        // biome-ignore lint/a11y/useSemanticElements: columnheader on div per WAI-ARIA grid pattern
+                        // biome-ignore lint/a11y/useFocusableInteractive: weekday headers are not interactive
+                        <div
+                          key={day}
+                          role="columnheader"
+                          className="flex-1 select-none rounded-md text-center font-normal text-[0.8rem] text-muted-foreground">
+                          {renderWeekday
+                            ? renderWeekday(day, index)
+                            : locale?.startsWith('ar')
+                              ? day.replace(/^ال/, '')
+                              : locale?.startsWith('fa')
+                                ? day.slice(0, 2)
+                                : locale?.startsWith('he')
+                                  ? day.replace(/^יום\s*/, '')
+                                  : day}
+                        </div>
+                      ))}
+                    </div>
+                    {monthGrid.weeks.map((week) => (
+                      // biome-ignore lint/a11y/useSemanticElements: role="row" on div per WAI-ARIA grid pattern
+                      // biome-ignore lint/a11y/useFocusableInteractive: grid rows are not interactive
+                      <div key={week.weekNumber} role="row" className="mt-2 flex w-full">
+                        {week.days.map((day, dayIdx) => {
+                          const {
+                            onMouseEnter: _,
+                            role: _role,
+                            'aria-selected': _ariaSel,
+                            ...dayProps
+                          } = getDayProps(day)
+                          const isSelectedSingle =
+                            day.isSelected && !day.isRangeStart && !day.isRangeEnd && !day.isRangeMiddle
+                          const isFocused = keyboardActive && day.date.getTime() === state.focusedDate.getTime()
+                          return (
+                            <CalendarDayCell
+                              key={day.date.getTime()}
+                              day={day}
+                              dayProps={dayProps}
+                              isFocused={isFocused}
+                              isSelectedSingle={isSelectedSingle}
+                              isFirstInRow={dayIdx === 0}
+                              isLastInRow={dayIdx === 6}
+                              locale={locale}
+                              onFocusDate={(date) => {
+                                setKeyboardActive(false)
+                                calendar.actions.focusDate(date)
+                              }}
+                              renderDay={renderDay}
+                            />
+                          )
+                        })}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+          {renderFooter && renderFooter(state.months)}
+        </div>
+        <announcer.AnnouncerPortal />
+      </div>
     )
   },
 )
 Calendar.displayName = 'Calendar'
 
-function CalendarDayButton({ className, day, modifiers, ...props }: React.ComponentProps<typeof DayButton>) {
-  const defaultClassNames = getDefaultClassNames()
-
-  const ref = React.useRef<HTMLButtonElement>(null)
-  React.useEffect(() => {
-    if (modifiers.focused) ref.current?.focus()
-  }, [modifiers.focused])
-
-  return (
-    <Button
-      className={cn(
-        'flex aspect-square size-auto w-full min-w-(--cell-size) flex-col gap-1 font-normal leading-none data-[range-end=true]:rounded-md data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-md data-[range-start=true]:rounded-s-md data-[range-end=true]:rounded-e-md data-[range-end=true]:bg-primary data-[range-middle=true]:bg-accent data-[range-start=true]:bg-primary data-[selected-single=true]:bg-primary data-[range-end=true]:text-primary-foreground data-[range-middle=true]:text-accent-foreground data-[range-start=true]:text-primary-foreground data-[selected-single=true]:text-primary-foreground group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-[3px] group-data-[focused=true]/day:ring-ring/50 [&>span]:text-xs [&>span]:opacity-70',
-        defaultClassNames.day,
-        className,
-      )}
-      data-day={day.date.toLocaleDateString()}
-      data-range-end={modifiers.range_end}
-      data-range-middle={modifiers.range_middle}
-      data-range-start={modifiers.range_start}
-      data-selected-single={
-        modifiers.selected && !modifiers.range_start && !modifiers.range_end && !modifiers.range_middle
-      }
-      ref={ref}
-      size="icon"
-      variant="ghost"
-      {...props}
-    />
-  )
-}
-CalendarDayButton.displayName = 'CalendarDayButton'
-
-export { Calendar, CalendarDayButton }
+export { Calendar }

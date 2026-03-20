@@ -52,7 +52,7 @@ function MountMinimal({
         timeoutRef.current = null
       } else {
         timeoutRef.current =
-          // biome-ignore lint/correctness/useHookAtTopLevel: useComputedTimeoutTransition is not a React hook despite the naming — it's a utility that computes CSS transition duration
+          // biome-ignore lint/correctness/useHookAtTopLevel: useComputedTimeoutTransition is not a React hook despite the naming  -  it's a utility that computes CSS transition duration
           useComputedTimeoutTransition(element, () => {
             setIsVisible(false)
             timeoutRef.current = null

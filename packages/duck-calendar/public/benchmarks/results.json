@@ -1,0 +1,77 @@
+{
+  "competitors": [
+    {
+      "name": "@gentleduck/calendar",
+      "bundleKB": 4.9,
+      "deps": 0,
+      "cssKB": 0,
+      "calendars": 4
+    },
+    {
+      "name": "react-day-picker v9",
+      "bundleKB": 20,
+      "deps": 1,
+      "cssKB": 3,
+      "calendars": 1
+    },
+    {
+      "name": "react-aria (DatePicker)",
+      "bundleKB": 45,
+      "deps": 8,
+      "cssKB": 0,
+      "calendars": 1
+    },
+    {
+      "name": "react-datepicker",
+      "bundleKB": 32,
+      "deps": 3,
+      "cssKB": 8,
+      "calendars": 1
+    },
+    {
+      "name": "react-calendar",
+      "bundleKB": 15,
+      "deps": 0,
+      "cssKB": 5,
+      "calendars": 1
+    }
+  ],
+  "corePerformance": {
+    "buildMonth": 0.00806726,
+    "buildMulti3": 0.0229899475,
+    "buildMulti12": 0.0793284805,
+    "applySelection": 0.013740976499999988,
+    "applySelectionRange": 0.014228012500000005
+  },
+  "adapterPerformance": {
+    "Native (Gregorian)": {
+      "buildMonth": 0.00569742549999998,
+      "getYear": 0.000015102200000001177,
+      "create": 0.00008263660000000073,
+      "addMonths": 0.00028043279999999415,
+      "format": 0.0006760350000000131
+    },
+    "Islamic (Hijri)": {
+      "buildMonth": 0.009960592999999988,
+      "getYear": 0.00004694579999999178,
+      "create": 0.00018446519999999964,
+      "addMonths": 0.00017144479999999475,
+      "format": 0.02225833799999998
+    },
+    "Persian (Jalali)": {
+      "buildMonth": 0.011157547499999993,
+      "getYear": 0.00006508779999999206,
+      "create": 0.00020159919999999828,
+      "addMonths": 0.00023229460000000017,
+      "format": 0.024202405999999996
+    },
+    "Hebrew": {
+      "buildMonth": 0.016527630500000015,
+      "getYear": 0.0000692955999999981,
+      "create": 0.0004682360000000017,
+      "addMonths": 0.0006362123999999994,
+      "format": 0.02538964800000008
+    }
+  },
+  "generatedAt": "2026-03-19T03:35:13.002Z"
+}

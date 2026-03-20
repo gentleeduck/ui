@@ -181,7 +181,7 @@ export function AIChatPanel({
   )
 }
 
-// ── Shiki code block — debounced highlighting ──────────────────────────────────
+// ── Shiki code block  -  debounced highlighting ──────────────────────────────────
 
 const ShikiCodeBlock = React.memo(function ShikiCodeBlock({ code, language }: { code: string; language: string }) {
   const [html, setHtml] = React.useState<string | null>(null)
@@ -189,7 +189,7 @@ const ShikiCodeBlock = React.memo(function ShikiCodeBlock({ code, language }: { 
   const timerRef = React.useRef<ReturnType<typeof setTimeout>>(undefined)
 
   React.useEffect(() => {
-    // Debounce — wait 150ms after last code change before highlighting
+    // Debounce  -  wait 150ms after last code change before highlighting
     // Prevents hammering shiki on every streaming chunk
     clearTimeout(timerRef.current)
     timerRef.current = setTimeout(() => {
@@ -255,7 +255,7 @@ const ShikiCodeBlock = React.memo(function ShikiCodeBlock({ code, language }: { 
   )
 })
 
-// ── Markdown component map — static, never recreated ───────────────────────────
+// ── Markdown component map  -  static, never recreated ───────────────────────────
 
 const markdownComponents = {
   h1: ({ children, ...props }: React.HTMLAttributes<HTMLHeadingElement>) => (
@@ -360,7 +360,7 @@ const markdownComponents = {
   ),
 }
 
-// ── Message bubble — memoized to prevent re-rendering unchanged messages ───────
+// ── Message bubble  -  memoized to prevent re-rendering unchanged messages ───────
 
 function MessageBubble({
   message,

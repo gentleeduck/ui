@@ -18,7 +18,7 @@
     },
     "test": {
       "cache": true,
-      "dependsOn": ["^test"]
+      "dependsOn": ["^build", "^test"]
     },
     "format": {
       "outputLogs": "new-only"

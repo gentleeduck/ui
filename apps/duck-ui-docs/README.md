@@ -19,13 +19,13 @@ bun --filter @gentleduck/ui-docs dev
 ```
 
 ## Scripts
-- `bun --filter @gentleduck/ui-docs dev` – run the dev server
-- `bun --filter @gentleduck/ui-docs build` – production build
-- `bun --filter @gentleduck/ui-docs start` – serve the build
-- `bun --filter @gentleduck/ui-docs dev:docs` – watch/generate MDX content
-- `bun --filter @gentleduck/ui-docs build:docs` – one-time MDX build
-- `bun --filter @gentleduck/ui-docs build:reg` – rebuild the UI registry and format output
-- `bun --filter @gentleduck/ui-docs lint` – lint
+- `bun --filter @gentleduck/ui-docs dev` - run the dev server
+- `bun --filter @gentleduck/ui-docs build` - production build
+- `bun --filter @gentleduck/ui-docs start` - serve the build
+- `bun --filter @gentleduck/ui-docs dev:docs` - watch/generate MDX content
+- `bun --filter @gentleduck/ui-docs build:docs` - one-time MDX build
+- `bun --filter @gentleduck/ui-docs build:reg` - rebuild the UI registry and format output
+- `bun --filter @gentleduck/ui-docs lint` - lint
 
 ## Environment
 - `.env` is optional; see `.env.example` for defaults.

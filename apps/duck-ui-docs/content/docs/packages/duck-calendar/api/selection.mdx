@@ -1,0 +1,96 @@
+---
+title: "Selection"
+description: "Pure functions for computing and applying selection state to calendar grids."
+---
+
+```tsx
+import { selectDay, applySelection } from '@gentleduck/calendar'
+```
+
+## Functions
+
+### `selectDay`
+
+Compute the new selection value when a user clicks a day. Pure function -- does not mutate state.
+
+```tsx
+selectDay(adapter: DateAdapter<TDate>, mode: SelectionMode, current: CalendarValue<TDate, M>, date: TDate) => CalendarValue<TDate, M>
+```
+
+| Param | Type | Description |
+| :--- | :--- | :--- |
+| `adapter` | `DateAdapter<TDate>` | Date adapter |
+| `mode` | `SelectionMode` | `'single'`, `'range'`, or `'multi'` |
+| `current` | `CalendarValue<TDate, M>` | Current selection value |
+| `date` | `TDate` | The clicked date |
+
+**Returns** the updated selection value. Shape depends on mode:
+
+| Mode | Type | Description |
+| :--- | :--- | :--- |
+| `'single'` | `TDate \| null` | The selected date, or `null` |
+| `'range'` | `DateRange<TDate> \| null` | `{ from, to }` range object |
+| `'multi'` | `TDate[]` | Array of selected dates |
+
+---
+
+### `applySelection`
+
+Decorate an array of weeks with selection flags (`isSelected`, `isRangeStart`, `isRangeMiddle`, `isRangeEnd`, `isDisabled`). This is what makes the `data-*` attributes work.
+
+```tsx
+applySelection(
+  weeks: CalendarWeek<TDate>[],
+  adapter: DateAdapter<TDate>,
+  mode: SelectionMode,
+  value: CalendarValue<TDate, M>,
+  constraints?: SelectionConstraints<TDate> // default: {}
+) => CalendarWeek<TDate>[]
+```
+
+| Param | Type | Description |
+| :--- | :--- | :--- |
+| `weeks` | `CalendarWeek<TDate>[]` | Raw weeks from `buildCalendarMonth` |
+| `adapter` | `DateAdapter<TDate>` | Date adapter |
+| `mode` | `SelectionMode` | Selection mode |
+| `value` | `CalendarValue<TDate, M>` | Current selection |
+| `constraints` | `SelectionConstraints<TDate>` | Optional. Disabled dates, fromDate, toDate. Defaults to `{}` |
+
+**SelectionConstraints:**
+
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `disabled` | `TDate[] \| (date) => boolean` | Disabled dates |
+| `fromDate` | `TDate` | Earliest selectable date |
+| `toDate` | `TDate` | Latest selectable date |
+
+---
+
+## Types
+
+### `SelectionMode`
+
+```tsx
+type SelectionMode = 'single' | 'range' | 'multi'
+```
+
+### `CalendarValue<TDate, M>`
+
+Conditional type that resolves based on the selection mode:
+
+```tsx showLineNumbers
+type CalendarValue<TDate, M extends SelectionMode> =
+  M extends 'single' ? TDate | null :
+  M extends 'range' ? DateRange<TDate> | null :
+  M extends 'multi' ? TDate[] :
+  never
+```
+
+### `DateRange<TDate>`
+
+```tsx showLineNumbers
+type DateRange<TDate> = {
+  from: TDate
+  to: TDate | null
+}
+```

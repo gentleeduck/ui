@@ -9,5 +9,5 @@ If you need help:
 - Found a bug? [Open a Bug Report](https://github.com/gentleeduck/duck-ui/issues/new?template=bug_report.md)  
 - Have an idea? [Submit a Feature Request](https://github.com/gentleeduck/duck-ui/issues/new?template=feature_request.md)  
 
-⚠️ Please **don’t use GitHub Issues for support requests** — use Discussions or Chat instead.
+⚠️ Please **don't use GitHub Issues for support requests**  -  use Discussions or Chat instead.
 

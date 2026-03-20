@@ -19,13 +19,13 @@ bun --filter @acme/docs dev
 ```
 
 ## Scripts
-- `bun --filter @acme/docs dev` – run the dev server
-- `bun --filter @acme/docs build` – production build
-- `bun --filter @acme/docs start` – serve the build
-- `bun --filter @acme/docs dev:docs` – watch/generate MDX content
-- `bun --filter @acme/docs build:docs` – one-time MDX build
-- `bun --filter @acme/docs build:reg` – rebuild the UI registry and format output
-- `bun --filter @acme/docs lint` – lint
+- `bun --filter @acme/docs dev` - run the dev server
+- `bun --filter @acme/docs build` - production build
+- `bun --filter @acme/docs start` - serve the build
+- `bun --filter @acme/docs dev:docs` - watch/generate MDX content
+- `bun --filter @acme/docs build:docs` - one-time MDX build
+- `bun --filter @acme/docs build:reg` - rebuild the UI registry and format output
+- `bun --filter @acme/docs lint` - lint
 
 ## Environment
 - `.env` is optional; see `.env.example` for defaults.

@@ -48,7 +48,7 @@ export function useAIChat(): UseAIChatReturn {
   const [isSearching] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
   const controllerRef = React.useRef<AbortController | null>(null)
-  // Use ref to avoid stale closures in send — no need for messages in deps
+  // Use ref to avoid stale closures in send  -  no need for messages in deps
   const messagesRef = React.useRef(messages)
   messagesRef.current = messages
 
@@ -105,7 +105,7 @@ export function useAIChat(): UseAIChatReturn {
         const reader = response.body.getReader()
         const decoder = new TextDecoder()
         let buffer = ''
-        // Batch text chunks — accumulate then flush via rAF
+        // Batch text chunks  -  accumulate then flush via rAF
         let pendingText = ''
         let rafId = 0
 
@@ -178,7 +178,7 @@ export function useAIChat(): UseAIChatReturn {
         setIsStreaming(false)
       }
     },
-    [], // No deps — uses refs for current state
+    [], // No deps  -  uses refs for current state
   )
 
   const selectSource = React.useCallback(

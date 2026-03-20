@@ -3,13 +3,13 @@ title: calendar
 description: A date field component that allows users to enter and edit date.
 component: true
 links:
-  doc: https://react-day-picker.js.org
+  doc: /docs/packages/duck-calendar
 ---
 
 <ComponentPreview
   name="calendar-1"
   title="Calendar"
-  description="A calendar showing the current date."
+  description="A calendar showing the current date with month/year dropdowns."
 />
 
 ## Blocks
@@ -18,24 +18,30 @@ We have built a collection of 30+ calendar blocks that you can use to build your
 
 See all calendar blocks in the [Blocks Library](/blocks/calendar) page.
 
+## Migrated from react-day-picker
+
+<Callout icon={<TriangleAlert />} tone="warning" title="Migrated from react-day-picker">
+We have replaced `react-day-picker` with our own headless calendar engine  -  [`@gentleduck/calendar`](/docs/packages/duck-calendar). The result is **75% smaller bundle** (~5 KB vs ~20 KB gzipped), zero external dependencies, full keyboard navigation, and complete ARIA compliance. See the [performance benchmarks](/docs/packages/duck-calendar#performance) for detailed comparisons.
+</Callout>
+
 ## Philosophy
 
-Calendars are complex accessibility challenges disguised as simple grids. We build on React DayPicker's battle-tested foundation for keyboard navigation, ARIA labels, and locale support, then style it to match the design system. The split between Calendar and CalendarDayButton gives you control over individual day rendering without reimplementing the grid logic.
+Calendars are complex accessibility challenges disguised as simple grids. We own the entire calendar stack  -  from the headless engine ([`@gentleduck/calendar`](/docs/packages/duck-calendar)) to the compound primitives (`@gentleduck/primitives/calendar`) to this styled component. The adapter pattern lets you swap date libraries, the hook layer handles state management, and this component applies Tailwind styling via `data-*` attribute selectors.
 
 ## How It's Built
 
 <MermaidDiagram chart={`graph TD
   Calendar[Calendar]
-  Calendar --> rdp["react-day-picker"]:::external
+  Calendar --> hook["useCalendar"]:::internal
   Calendar --> libs["@gentleduck/libs"]:::internal
-  Calendar --> Button["Button"]:::component
   Calendar --> lucide["lucide-react"]:::external
+  Calendar --> select["Select"]:::component
 
-  rdp --> |"provides"| DayGrid["Day Grid Layout"]
-  rdp --> |"provides"| DateLogic["Date Selection Logic"]
-  rdp --> |"provides"| A11y["ARIA & Keyboard Nav"]
-  Calendar --> |"adds"| CustomDayButton["CalendarDayButton"]
-  Calendar --> |"adds"| Styling["Tailwind Styling"]
+  hook --> adapter["DateAdapter"]:::internal
+  hook --> grid["buildCalendarMonth"]:::internal
+  hook --> selection["selectDay / applySelection"]:::internal
+  hook --> keyboard["useKeyboard"]:::internal
+  hook --> announcer["useAnnouncer"]:::internal
 
   classDef external fill:#818cf8,stroke:#6366f1,color:#fff
   classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
@@ -65,12 +71,12 @@ npx @gentleduck/cli add calendar
 <Step>Install the following dependencies:</Step>
 
 ```bash
-npm install react-day-picker date-fns @gentleduck/libs
+npm install @gentleduck/calendar @gentleduck/libs
 ```
 
-<Step>Add the `Button` component to your project.</Step>
+<Step>Add the `Button` and `Select` components to your project.</Step>
 
-The `Calendar` component uses the [`Button`](/docs/components/button) component. Make sure you have it installed in your project.
+The `Calendar` uses the [`Button`](/docs/components/button) variant styles and the [`Select`](/docs/components/select) component for month/year dropdowns.
 
 <Step>Copy and paste the following code into your project.</Step>
 
@@ -103,344 +109,189 @@ return (
 )
 ```
 
-See the [React DayPicker](https://react-day-picker.js.org) documentation for more information.
-
-## About
-
-The `Calendar` component is built on top of [React DayPicker](https://react-day-picker.js.org).
-
-## Customization
-
-See the [React DayPicker](https://react-day-picker.js.org/docs/customization) documentation for more information on how to customize the `Calendar` component.
+See the [@gentleduck/calendar package docs](/docs/packages/duck-calendar) for more information on the headless engine, date adapters, and advanced features.
 
 ## Date Picker
 
 You can use the `<Calendar>` component to build a date picker. See the [Date Picker](/docs/components/date-picker) page for more information.
 
-## Persian / Hijri / Jalali Calendar
+## Examples
 
-To use the Persian calendar, edit `components/ui/calendar.tsx` and replace `react-day-picker` with `react-day-picker/persian`.
+### Date Picker (Popover)
 
-```diff showLineNumbers
-- import { DayPicker } from "react-day-picker"
-+ import { DayPicker } from "react-day-picker/persian"
-```
+<ComponentPreview
+  name="calendar-5"
+  title="Date Picker"
+  description="Date picker in a popover with year dropdown."
+/>
+
+### Date Picker (Input)
+
+<ComponentPreview
+  name="calendar-6"
+  title="Date and Time Picker"
+  description="Date and time picker in popovers."
+/>
+
+### Date Input (Natural Language)
+
+<ComponentPreview
+  name="calendar-7"
+  title="Schedule Date Input"
+  description="Schedule date input with natural language parsing."
+/>
+
+### Form Integration
+
+<ComponentPreview
+  name="calendar-8"
+  title="Form Integration"
+  description="Date picker with React Hook Form and Zod validation."
+/>
+
+### Multi-Month Range Picker
 
 <ComponentPreview
   name="calendar-2"
-  title="Persian / Hijri / Jalali Calendar"
-  description="A Persian calendar."
+  title="Multi-Month Range Picker"
+  description="Two months side-by-side with range selection."
 />
-
-## Examples
 
 ### Range Calendar
 
 <ComponentPreview
   name="calendar-3"
   title="Range Calendar"
-  description="A calendar showing the current date and range selection."
-  className="**:[.preview]:h-auto lg:**:[.preview]:h-[450px]"
+  description="Select a date range with start and end dates."
 />
 
-### Month and Year Selector
+### Date Constraints
 
 <ComponentPreview
   name="calendar-4"
-  title="Month and Year Selector"
-  description="A calendar with month and year dropdowns."
+  title="Date Constraints"
+  description="Calendar with min/max date boundaries (today to 3 months ahead)."
 />
 
-### Date of Birth Picker
+### Multi-Select
 
 <ComponentPreview
-  name="calendar-5"
-  title="Date of Birth Picker"
-  description="A calendar with date of birth picker."
+  name="calendar-10"
+  title="Multi-Select Calendar"
+  description="Select multiple individual dates."
 />
 
-### Date and Time Picker
+### Event Calendar
 
 <ComponentPreview
-  name="calendar-6"
-  title="Date and Time Picker"
-  description="A calendar with date and time picker."
+  name="calendar-11"
+  title="Event Calendar"
+  description="Calendar with event dots via renderDay and a detail sidebar."
 />
 
-### Natural Language Picker
-
-This component uses the `chrono-node` library to parse natural language dates.
+### Custom Cell Size
 
 <ComponentPreview
-  name="calendar-7"
-  title="Natural Language Picker"
-  description="A calendar with natural language picker."
+  name="calendar-14"
+  title="Custom Cell Size"
+  description="Calendar with larger cells using the --gentleduck-calendar-cell CSS variable."
 />
 
-### Form
+### Click to View Events (Popover)
 
-<ComponentPreview name="calendar-8" description="A date of birth calendar picker integrated with React Hook Form and Zod validation." />
+<ComponentPreview
+  name="calendar-15"
+  title="Click to View Events"
+  description="Click a day cell to open a popover with event details. Uses renderDay for event dots and inline Popover."
+/>
 
-## Upgrade Guide
+### Booked Dates (Strikethrough)
 
-### Tailwind v4
+<ComponentPreview
+  name="calendar-16"
+  title="Booked Dates"
+  description="Booked dates shown with strikethrough via renderDay, legend via renderFooter. Only available dates are selectable."
+/>
 
-If you're already using Tailwind v4, you can upgrade to the latest version of the `Calendar` component by running the following command:
+### Booking Calendar
 
-```bash
-npx @gentleduck/cli@latest add calendar
-```
+<ComponentPreview
+  name="calendar-12"
+  title="Booking Calendar"
+  description="Booking calendar with disabled dates."
+/>
 
-When you're prompted to overwrite the existing `Calendar` component, select `Yes`. **If you have made any changes to the `Calendar` component, you will need to merge your changes with the new version.**
+### Multi-Range Selection
 
-This will update the `Calendar` component and `react-day-picker` to the latest version.
+<ComponentPreview
+  name="calendar-13"
+  title="Multi-Range Calendar"
+  description="Select multiple separate date ranges."
+/>
 
-Next, follow the [React DayPicker](https://daypicker.dev/upgrading) upgrade guide to upgrade your existing components to the latest version.
+### Multi-Range with Shift+Click
 
-#### Installing Blocks
+<ComponentPreview
+  name="calendar-24"
+  title="Multi-Range Selection"
+  description="Click to start a range, click again to complete. Shift+click to exclude days. Supports multiple disjoint ranges."
+/>
 
-After upgrading the `Calendar` component, you can install the new blocks by running the `@gentleduck/cli@latest add` command.
+### Presets
 
-```bash
-npx @gentleduck/cli@latest add calendar-02
-```
+<ComponentPreview
+  name="calendar-17"
+  title="Calendar with Presets"
+  description="Quick date selection with preset buttons (Today, Tomorrow, In 3 days, etc.)."
+/>
 
-This will install the latest version of the calendar blocks.
+### Persian (Jalali) Calendar
 
-### Tailwind v3
+<ComponentPreview
+  name="calendar-18"
+  title="Persian Calendar"
+  description="Solar Hijri / Jalali calendar with Persian numerals and RTL layout."
+/>
 
-If you're using Tailwind v3, you can upgrade to the latest version of the `Calendar` by copying the following code to your `calendar.tsx` file.
+### Islamic (Hijri) Calendar
 
+<ComponentPreview
+  name="calendar-19"
+  title="Islamic Calendar"
+  description="Hijri calendar with Arabic numerals and RTL layout."
+/>
 
-```tsx showLineNumbers
-// components/ui/calendar.tsx
+### Hebrew Calendar
 
-"use client"
+<ComponentPreview
+  name="calendar-20"
+  title="Hebrew Calendar"
+  description="Hebrew calendar with Hebrew numerals, RTL layout, and year/month dropdowns."
+/>
 
-import * as React from "react"
-import {
-  ChevronDownIcon,
-  ChevronLeftIcon,
-  ChevronRightIcon,
-} from "lucide-react"
-import { DayButton, DayPicker, getDefaultClassNames } from "react-day-picker"
+### Hebrew Calendar (English)
 
-import { cn } from "@/lib/utils"
-import { Button, buttonVariants } from "@/components/ui/button"
+<ComponentPreview
+  name="calendar-21"
+  title="Hebrew Calendar (English)"
+  description="Hebrew calendar system with English month names and LTR layout."
+/>
 
-function Calendar({
-  className,
-  classNames,
-  showOutsideDays = true,
-  captionLayout = "label",
-  buttonVariant = "ghost",
-  formatters,
-  components,
-  ...props
-}: React.ComponentProps<typeof DayPicker> & {
-  buttonVariant?: React.ComponentProps<typeof Button>["variant"]
-}) {
-  const defaultClassNames = getDefaultClassNames()
+### Islamic Calendar (English)
 
-  return (
-    <DayPicker
-      showOutsideDays={showOutsideDays}
-      className={cn(
-        "bg-background group/calendar p-3 [--cell-size:2rem] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
-        String.raw`rtl:**:[.rdp-button\_next>svg]:rotate-180`,
-        String.raw`rtl:**:[.rdp-button\_previous>svg]:rotate-180`,
-        className
-      )}
-      captionLayout={captionLayout}
-      formatters={{
-        formatMonthDropdown: (date) =>
-          date.toLocaleString("default", { month: "short" }),
-        ...formatters,
-      }}
-      classNames={{
-        root: cn("w-fit", defaultClassNames.root),
-        months: cn(
-          "relative flex flex-col gap-4 md:flex-row",
-          defaultClassNames.months
-        ),
-        month: cn("flex w-full flex-col gap-4", defaultClassNames.month),
-        nav: cn(
-          "absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1",
-          defaultClassNames.nav
-        ),
-        button_previous: cn(
-          buttonVariants({ variant: buttonVariant }),
-          "h-[--cell-size] w-[--cell-size] select-none p-0 aria-disabled:opacity-50",
-          defaultClassNames.button_previous
-        ),
-        button_next: cn(
-          buttonVariants({ variant: buttonVariant }),
-          "h-[--cell-size] w-[--cell-size] select-none p-0 aria-disabled:opacity-50",
-          defaultClassNames.button_next
-        ),
-        month_caption: cn(
-          "flex h-[--cell-size] w-full items-center justify-center px-[--cell-size]",
-          defaultClassNames.month_caption
-        ),
-        dropdowns: cn(
-          "flex h-[--cell-size] w-full items-center justify-center gap-1.5 text-sm font-medium",
-          defaultClassNames.dropdowns
-        ),
-        dropdown_root: cn(
-          "has-focus:border-ring border-input shadow-xs has-focus:ring-ring/50 has-focus:ring-[3px] relative rounded-md border",
-          defaultClassNames.dropdown_root
-        ),
-        dropdown: cn("absolute inset-0 opacity-0", defaultClassNames.dropdown),
-        caption_label: cn(
-          "select-none font-medium",
-          captionLayout === "label"
-            ? "text-sm"
-            : "[&>svg]:text-muted-foreground flex h-8 items-center gap-1 rounded-md pl-2 pr-1 text-sm [&>svg]:size-3.5",
-          defaultClassNames.caption_label
-        ),
-        table: "w-full border-collapse",
-        weekdays: cn("flex", defaultClassNames.weekdays),
-        weekday: cn(
-          "text-muted-foreground flex-1 select-none rounded-md text-[0.8rem] font-normal",
-          defaultClassNames.weekday
-        ),
-        week: cn("mt-2 flex w-full", defaultClassNames.week),
-        week_number_header: cn(
-          "w-[--cell-size] select-none",
-          defaultClassNames.week_number_header
-        ),
-        week_number: cn(
-          "text-muted-foreground select-none text-[0.8rem]",
-          defaultClassNames.week_number
-        ),
-        day: cn(
-          "group/day relative aspect-square h-full w-full select-none p-0 text-center [&:first-child[data-selected=true]_button]:rounded-l-md [&:last-child[data-selected=true]_button]:rounded-r-md",
-          defaultClassNames.day
-        ),
-        range_start: cn(
-          "bg-accent rounded-l-md",
-          defaultClassNames.range_start
-        ),
-        range_middle: cn("rounded-none", defaultClassNames.range_middle),
-        range_end: cn("bg-accent rounded-r-md", defaultClassNames.range_end),
-        today: cn(
-          "bg-accent text-accent-foreground rounded-md data-[selected=true]:rounded-none",
-          defaultClassNames.today
-        ),
-        outside: cn(
-          "text-muted-foreground aria-selected:text-muted-foreground",
-          defaultClassNames.outside
-        ),
-        disabled: cn(
-          "text-muted-foreground opacity-50",
-          defaultClassNames.disabled
-        ),
-        hidden: cn("invisible", defaultClassNames.hidden),
-        ...classNames,
-      }}
-      components={{
-        Root: ({ className, rootRef, ...props }) => {
-          return (
-            <div
-              data-slot="calendar"
-              ref={rootRef}
-              className={cn(className)}
-              {...props}
-            />
-          )
-        },
-        Chevron: ({ className, orientation, ...props }) => {
-          if (orientation === "left") {
-            return (
-              <ChevronLeftIcon className={cn("size-4", className)} {...props} />
-            )
-          }
+<ComponentPreview
+  name="calendar-22"
+  title="Islamic Calendar (English)"
+  description="Hijri calendar system with English month names and LTR layout."
+/>
 
-          if (orientation === "right") {
-            return (
-              <ChevronRightIcon
-                className={cn("size-4", className)}
-                {...props}
-              />
-            )
-          }
+### Persian Calendar (English)
 
-          return (
-            <ChevronDownIcon className={cn("size-4", className)} {...props} />
-          )
-        },
-        DayButton: CalendarDayButton,
-        WeekNumber: ({ children, ...props }) => {
-          return (
-            <td {...props}>
-              <div className="flex size-[--cell-size] items-center justify-center text-center">
-                {children}
-              </div>
-            </td>
-          )
-        },
-        ...components,
-      }}
-      {...props}
-    />
-  )
-}
-
-function CalendarDayButton({
-  className,
-  day,
-  modifiers,
-  ...props
-}: React.ComponentProps<typeof DayButton>) {
-  const defaultClassNames = getDefaultClassNames()
-
-  const ref = React.useRef<HTMLButtonElement>(null)
-  React.useEffect(() => {
-    if (modifiers.focused) ref.current?.focus()
-  }, [modifiers.focused])
-
-  return (
-    <Button
-      ref={ref}
-      variant="ghost"
-      size="icon"
-      data-day={day.date.toLocaleDateString()}
-      data-selected-single={
-        modifiers.selected &&
-        !modifiers.range_start &&
-        !modifiers.range_end &&
-        !modifiers.range_middle
-      }
-      data-range-start={modifiers.range_start}
-      data-range-end={modifiers.range_end}
-      data-range-middle={modifiers.range_middle}
-      className={cn(
-        "data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-ring/50 flex aspect-square h-auto w-full min-w-[--cell-size] flex-col gap-1 font-normal leading-none data-[range-end=true]:rounded-md data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-md group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:ring-[3px] [&>span]:text-xs [&>span]:opacity-70",
-        defaultClassNames.day,
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-export { Calendar, CalendarDayButton }
-```
-
-
-**If you have made any changes to the `Calendar` component, you will need to merge your changes with the new version.**
-
-Then follow the [React DayPicker](https://daypicker.dev/upgrading) upgrade guide to upgrade your dependencies and existing components to the latest version.
-
-#### Installing Blocks
-
-After upgrading the `Calendar` component, you can install the new blocks by running the `@gentleduck/cli@latest add` command.
-
-```bash
-npx @gentleduck/cli@latest add calendar-02
-```
-
-This will install the latest version of the calendar blocks.
+<ComponentPreview
+  name="calendar-23"
+  title="Persian Calendar (English)"
+  description="Jalali calendar system with English month names and LTR layout."
+/>
 
 ## API Reference
 
@@ -448,24 +299,118 @@ This will install the latest version of the calendar blocks.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `buttonVariant` | `React.ComponentProps<typeof Button>['variant']` | `'ghost'` | Variant style for the calendar's navigation buttons |
-| `className` | `string` | -- | Additional class names for the root calendar container |
-| `classNames` | `Partial<ReturnType<typeof getDefaultClassNames>>` | -- | Overrides for internal DayPicker class names |
-| `showOutsideDays` | `boolean` | `true` | Whether to show days from the previous/next month in the current month view |
-| `captionLayout` | `'buttons' \| 'dropdown' \| 'label'` | `'label'` | Layout for the month/year caption |
-| `formatters` | `DayPicker['formatters']` | -- | Custom formatting functions for dates and labels |
-| `components` | `DayPicker['components']` | -- | Custom component overrides for internal DayPicker parts |
-| `...props` | `React.ComponentProps<typeof DayPicker>` | -- | Additional standard component props. |
+| `adapter` | `DateAdapter<Date>` | `NativeAdapter` | Date adapter for alternative calendar systems (Islamic, Persian, Hebrew) |
+| `mode` | `'single' \| 'range' \| 'multi'` | `'single'` | Selection mode |
+| `selected` | `Date \| DateRange<Date> \| Date[] \| null` | -- | Controlled selection value |
+| `onSelect` | `(value) => void` | -- | Called when the selection changes |
+| `disabled` | `Date[] \| ((date: Date) => boolean)` | -- | Dates that cannot be selected |
+| `defaultMonth` | `Date` | -- | Default month to display (uncontrolled) |
+| `month` | `Date` | -- | Controlled displayed month |
+| `onMonthChange` | `(month: Date) => void` | -- | Called when the displayed month changes |
+| `showOutsideDays` | `boolean` | `true` | Show days from adjacent months |
+| `fixedWeeks` | `boolean` | `false` | Always show 6 weeks |
+| `numberOfMonths` | `number` | `1` | How many months to show side by side |
+| `showDropdowns` | `boolean` | `true` | Show month/year dropdown selectors |
+| `yearRange` | `{ from: number; to: number }` | `{ from: now-100, to: now+10 }` | Range of years in the year dropdown |
+| `locale` | `string` | -- | BCP 47 locale tag (e.g. `'ar-SA'`, `'ja-JP'`) |
+| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override |
+| `fromDate` | `Date` | -- | Earliest selectable date |
+| `toDate` | `Date` | -- | Latest selectable date |
+| `buttonVariant` | `string` | `'ghost'` | Variant style for navigation buttons |
+| `onDismiss` | `() => void` | -- | Called when the user presses Escape |
+| `className` | `string` | -- | Additional CSS classes for the root container |
+| `renderDay` | `(day: CalendarDay<Date>, children: ReactNode) => ReactNode` | -- | Custom render function for day cell content |
+| `renderHeader` | `(context: CalendarHeaderContext) => ReactNode` | -- | Custom render function for the navigation header |
+| `renderWeekday` | `(day: string, index: number) => ReactNode` | -- | Custom render function for weekday column labels |
+| `renderFooter` | `(months: CalendarMonth<Date>[]) => ReactNode` | -- | Render content below the calendar grid |
 
-### CalendarDayButton
+### Render Props
 
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `day` | `CalendarDay` | (required) | The day object for this cell from `react-day-picker` |
-| `modifiers` | `Modifiers` | (required) | Selection and state flags for the day (e.g., `selected`, `range_start`, `range_end`) |
-| `className` | `string` | -- | Additional CSS classes for styling the day button |
-| `...props` | `React.ComponentProps<typeof DayButton>` | -- | Additional standard component props. |
+The Calendar component exposes render props that let you customize every visual part without forking the component.
+
+#### renderDay
+
+Customize the content inside each day cell. Receives the `CalendarDay` object and the default children (the date number).
+
+```tsx showLineNumbers
+<Calendar
+  renderDay={(day, children) => (
+    <>
+      {children}
+      {hasEvents(day.date) && (
+        <span className="size-1 rounded-full bg-primary" />
+      )}
+    </>
+  )}
+/>
+```
+
+The `day` object exposes: `date`, `isToday`, `isSelected`, `isDisabled`, `isOutside`, `isRangeStart`, `isRangeEnd`, `isRangeMiddle`.
+
+#### renderHeader
+
+Replace the entire navigation header. Receives a context object with navigation controls.
+
+```tsx showLineNumbers
+<Calendar
+  renderHeader={({ title, goToPrevMonth, goToNextMonth, isPrevDisabled, isNextDisabled }) => (
+    <div className="flex items-center justify-between px-2">
+      <button onClick={goToPrevMonth} disabled={isPrevDisabled}><-</button>
+      <span className="font-semibold">{title}</span>
+      <button onClick={goToNextMonth} disabled={isNextDisabled}>-></button>
+    </div>
+  )}
+/>
+```
+
+#### renderWeekday
+
+Customize individual weekday column headers. Receives the abbreviation and column index.
+
+```tsx showLineNumbers
+<Calendar
+  renderWeekday={(day, index) => (
+    <span className={index === 0 || index === 6 ? "text-red-400" : ""}>
+      {day}
+    </span>
+  )}
+/>
+```
+
+#### renderFooter
+
+Add content below the calendar grid. Receives the current months array for context.
+
+```tsx showLineNumbers
+<Calendar
+  renderFooter={() => (
+    <div className="mt-2 text-xs text-muted-foreground">
+      Pick a date to continue
+    </div>
+  )}
+/>
+```
+
+### Data Attributes
+
+The calendar uses `data-*` attributes on day cells for styling. Target these in your CSS:
+
+| Attribute | When Present |
+| --- | --- |
+| `data-selected="true"` | Day is selected |
+| `data-selected-single="true"` | Day is selected (single mode, not part of range) |
+| `data-today="true"` | Day is today |
+| `data-focused="true"` | Day has keyboard focus |
+| `data-range-start="true"` | Day is the start of a range |
+| `data-range-end="true"` | Day is the end of a range |
+| `data-range-middle="true"` | Day is between range start and end |
+| `data-day` | Formatted date string for the day (always present) |
+
+### CSS Variables
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `--gentleduck-calendar-cell` | `--spacing(8)` (32px) | Size of day cells and nav buttons |
 
 ## RTL Support
 

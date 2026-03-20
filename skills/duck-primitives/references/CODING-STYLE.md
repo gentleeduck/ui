@@ -2,7 +2,7 @@
 
 Follow this exact pattern when creating or modifying a primitive. All snippets below are from real code in the codebase.
 
-## index.ts — Named Exports Only
+## index.ts  -  Named Exports Only
 
 Real example from `dialog/index.ts`:
 
@@ -33,7 +33,7 @@ Rules:
 
 ## Root Component Pattern (React.FC)
 
-Root components are providers — they render no DOM element and do not forward refs. They use `React.FC`.
+Root components are providers  -  they render no DOM element and do not forward refs. They use `React.FC`.
 
 Real code from `dialog/dialog.tsx`:
 
@@ -109,7 +109,7 @@ Dialog.displayName = DIALOG_NAME
 ```
 
 Key details:
-- `createContextScope` returns `[createDialogContext, createDialogScope]` — a factory + a scope hook
+- `createContextScope` returns `[createDialogContext, createDialogScope]`  -  a factory + a scope hook
 - `createDialogContext<T>(NAME)` returns `[Provider, useHook]`
 - Provider receives `scope={__scopeDialog}` prop
 - `useControllableState` requires `caller` param
@@ -249,7 +249,7 @@ Key: `shards={[context.contentRef]}` tells `RemoveScroll` to allow scrolling ins
 
 ## Content Pattern (Presence + FocusScope + DismissableLayer)
 
-Real code from `dialog/content.tsx` — shows the layered composition:
+Real code from `dialog/content.tsx`  -  shows the layered composition:
 
 ```tsx
 export const DialogContent = React.forwardRef<DialogContentElement, DialogContentProps>(
@@ -303,7 +303,7 @@ The modal variant (`DialogContentModal`) does five extra things:
 
 The non-modal variant (`DialogContentNonModal`):
 1. Does NOT trap focus (`trapped={false}`)
-2. Tracks `hasInteractedOutsideRef` to decide focus restoration — only restores to trigger if user did NOT interact outside
+2. Tracks `hasInteractedOutsideRef` to decide focus restoration  -  only restores to trigger if user did NOT interact outside
 3. Prevents dismiss when clicking the trigger itself (avoids close-then-reopen flicker)
 
 ## Scope Composition Pattern

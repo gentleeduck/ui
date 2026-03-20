@@ -63,9 +63,9 @@ export default function CalendarDemo() {
               <span className="sr-only">Select date</span>
             </Button>
           </PopoverTrigger>
-          <PopoverContent side="top" align="end" className="min-w-auto overflow-hidden p-0">
+          <PopoverContent side="top" align="end" className="w-auto p-0">
             <Calendar
-              captionLayout="dropdown"
+              showDropdowns={false}
               mode="single"
               month={month}
               onMonthChange={setMonth}

@@ -4,7 +4,7 @@ description: >-
   Use when building or modifying headless, unstyled @gentleduck/primitives components.
   Covers the accessibility-first primitive layer: ARIA roles, keyboard navigation,
   focus management, state machines, scoped context, Slot/asChild, Presence animations,
-  and the compound component architecture. Not for styled components — use duck-ui for that.
+  and the compound component architecture. Not for styled components  -  use duck-ui for that.
 allowed-tools: Read Grep Glob
 argument-hint: "[primitive-name]"
 ---
@@ -79,7 +79,7 @@ Root components are provider-only (no DOM), so they use `React.FC`. Sub-componen
 
 ### DismissableLayer vs useEscapeKeydown
 - Use `DismissableLayer` when you need: Escape to close, click-outside to close, focus-outside to close, and correct stacking with nested layers (e.g., Dialog, Popover, DropdownMenu).
-- Use `useEscapeKeydown` alone only for lightweight components that never stack and only need Escape (rare — Tooltip uses its own timer-based close instead).
+- Use `useEscapeKeydown` alone only for lightweight components that never stack and only need Escape (rare  -  Tooltip uses its own timer-based close instead).
 
 ### Presence vs conditional rendering (`{open && <Content />}`)
 - Use `<Presence present={...}>` when the component needs exit animations. Presence keeps the element in the DOM during the leave animation and removes it after.
@@ -110,30 +110,30 @@ Libs (`src/libs/`): `createContext`/`createContextScope`, `createCollection`, `c
 
 1. Create `packages/duck-primitives/src/{name}/` directory.
 2. **Read `dialog/` first** as the canonical reference primitive.
-3. Create `{name}.tsx` — define `COMPONENT_NAME` const, `ScopedProps<P>`, `createContextScope`, context value type, `useControllableState` for state, `useDirection(dir)`, `useId()` for IDs. Export `getState` helper. Set `displayName`.
-4. Create sub-part files (trigger, content, etc.) — each defines its own `COMPONENT_NAME`, uses `useComposedRefs`, `composeEventHandlers`, `Primitive.{tag}`. Required attrs: `data-slot`, `data-state`, `dir`, `type="button"` on buttons. Props spread after data/aria attrs, `ref` last.
+3. Create `{name}.tsx`  -  define `COMPONENT_NAME` const, `ScopedProps<P>`, `createContextScope`, context value type, `useControllableState` for state, `useDirection(dir)`, `useId()` for IDs. Export `getState` helper. Set `displayName`.
+4. Create sub-part files (trigger, content, etc.)  -  each defines its own `COMPONENT_NAME`, uses `useComposedRefs`, `composeEventHandlers`, `Primitive.{tag}`. Required attrs: `data-slot`, `data-state`, `dir`, `type="button"` on buttons. Props spread after data/aria attrs, `ref` last.
 5. If the primitive needs a popup layer: create `portal.tsx` (FC, not forwardRef) with its own context providing `forceMount`; create `content.tsx` wrapping children in `<Presence>` > `<FocusScope>` > `<DismissableLayer>`.
 6. If modal: add `overlay.tsx` with `RemoveScroll`, `hideOthers` in content, `disableOutsidePointerEvents`.
 7. If item-based (menu, select): use `createCollection` for keyboard nav and typeahead.
-8. Create `index.ts` — named exports with full name + short alias. Export `create{Name}Scope` for composition.
+8. Create `index.ts`  -  named exports with full name + short alias. Export `create{Name}Scope` for composition.
 9. Follow the [Conventions Checklist](references/CODING-STYLE.md#conventions-checklist) before finishing.
 
 ## Common Errors
 
-1. **Context error** — sub-component outside its Provider (check `__scope` threading)
-2. **Event swallowing** — not using `composeEventHandlers` (replaces consumer's handler)
-3. **State desync** — mixing controlled/uncontrolled; forgetting `caller` in `useControllableState`
-4. **SSR hydration** — using `useLayoutEffect` instead of the isomorphic version from `../hooks/use-layout-effect`
+1. **Context error**  -  sub-component outside its Provider (check `__scope` threading)
+2. **Event swallowing**  -  not using `composeEventHandlers` (replaces consumer's handler)
+3. **State desync**  -  mixing controlled/uncontrolled; forgetting `caller` in `useControllableState`
+4. **SSR hydration**  -  using `useLayoutEffect` instead of the isomorphic version from `../hooks/use-layout-effect`
 
 ## Do Not
 
-- Use wildcard exports in index.ts — always named exports with full + short alias
-- Import from registry-ui or from sibling primitives — only from `../libs/`, `../hooks/`, and shared primitives like `../portal`, `../presence`, `../primitive-elements`
-- Use `React.forwardRef` for root/provider components — use `React.FC` (no DOM)
-- Use `React.FC` for sub-components that render DOM — use `React.forwardRef`
+- Use wildcard exports in index.ts  -  always named exports with full + short alias
+- Import from registry-ui or from sibling primitives  -  only from `../libs/`, `../hooks/`, and shared primitives like `../portal`, `../presence`, `../primitive-elements`
+- Use `React.forwardRef` for root/provider components  -  use `React.FC` (no DOM)
+- Use `React.FC` for sub-components that render DOM  -  use `React.forwardRef`
 - Omit the `caller` param from `useControllableState`
-- Call the scoped context hook with only one arg — always `(COMPONENT_NAME, __scope)`
-- Use `data-disabled="true"` — use `data-disabled=""` (empty string) to match `[data-disabled]`
+- Call the scoped context hook with only one arg  -  always `(COMPONENT_NAME, __scope)`
+- Use `data-disabled="true"`  -  use `data-disabled=""` (empty string) to match `[data-disabled]`
 - Skip `data-slot`, `data-state`, `dir`, or `type="button"` attributes
 - Create a primitive without `COMPONENT_NAME` constant at top of each file
 - Forget `displayName` on every component (including internal impl components)

@@ -1,11 +1,31 @@
-import type { DateAdapter } from './adapter.types'
+import type { DateAdapter, WeekStartDay } from './adapter.types'
 
+// Shared formatter cache  -  keyed by "locale|options-json"
+const FORMATTER_CACHE = new Map<string, Intl.DateTimeFormat>()
+
+function getCachedFormatter(locale: string | undefined, options: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
+  const key = `${locale ?? ''}|${JSON.stringify(options)}`
+  let f = FORMATTER_CACHE.get(key)
+  if (!f) {
+    f = new Intl.DateTimeFormat(locale, options)
+    FORMATTER_CACHE.set(key, f)
+  }
+  return f
+}
+
+/**
+ * Native date adapter using built-in `Date` and `Intl.DateTimeFormat`.
+ * Zero external dependencies. Handles month-overflow clamping (Jan 31 + 1 month = Feb 28).
+ * All methods return new Date instances  -  never mutates inputs.
+ */
 export class NativeAdapter implements DateAdapter<Date> {
+  /** Returns today's date with time stripped to midnight. */
   today(): Date {
     const d = new Date()
     return new Date(d.getFullYear(), d.getMonth(), d.getDate())
   }
 
+  /** Creates a date from year, month (0-indexed), and day. */
   create(year: number, month: number, day: number): Date {
     return new Date(year, month, day)
   }
@@ -39,7 +59,8 @@ export class NativeAdapter implements DateAdapter<Date> {
     return new Date(date.getFullYear(), date.getMonth() + 1, 0)
   }
 
-  startOfWeek(date: Date, weekStartDay: 0 | 1 | 2 | 3 | 4 | 5 | 6): Date {
+  /** Walks backward to the given weekStartDay (0=Sunday). */
+  startOfWeek(date: Date, weekStartDay: WeekStartDay): Date {
     const d = new Date(date.getFullYear(), date.getMonth(), date.getDate())
     const diff = (d.getDay() - weekStartDay + 7) % 7
     d.setDate(d.getDate() - diff)
@@ -52,6 +73,7 @@ export class NativeAdapter implements DateAdapter<Date> {
     return d
   }
 
+  /** Adds months with day clamping  -  Jan 31 + 1 = Feb 28, not Mar 3. */
   addMonths(date: Date, count: number): Date {
     const originalDay = date.getDate()
     const d = new Date(date.getFullYear(), date.getMonth(), 1)
@@ -61,6 +83,7 @@ export class NativeAdapter implements DateAdapter<Date> {
     return d
   }
 
+  /** Adds years with day clamping  -  Feb 29 2024 + 1 = Feb 28 2025. */
   addYears(date: Date, count: number): Date {
     const originalDay = date.getDate()
     const d = new Date(date.getFullYear(), date.getMonth(), 1)
@@ -82,8 +105,8 @@ export class NativeAdapter implements DateAdapter<Date> {
     return date.getDate()
   }
 
-  getDayOfWeek(date: Date): 0 | 1 | 2 | 3 | 4 | 5 | 6 {
-    return date.getDay() as 0 | 1 | 2 | 3 | 4 | 5 | 6
+  getDayOfWeek(date: Date): WeekStartDay {
+    return date.getDay() as WeekStartDay
   }
 
   toDate(date: Date): Date {
@@ -94,7 +117,24 @@ export class NativeAdapter implements DateAdapter<Date> {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate())
   }
 
+  /** Formats using Intl.DateTimeFormat with cached formatter instances. */
   format(date: Date, options: Intl.DateTimeFormatOptions, locale?: string): string {
-    return new Intl.DateTimeFormat(locale, options).format(date)
+    return getCachedFormatter(locale, options).format(date)
+  }
+
+  getHours(date: Date): number {
+    return date.getHours()
+  }
+
+  getMinutes(date: Date): number {
+    return date.getMinutes()
+  }
+
+  getSeconds(date: Date): number {
+    return date.getSeconds()
+  }
+
+  setTime(date: Date, hour: number, minute: number, second?: number): Date {
+    return new Date(date.getFullYear(), date.getMonth(), date.getDate(), hour, minute, second ?? 0)
   }
 }

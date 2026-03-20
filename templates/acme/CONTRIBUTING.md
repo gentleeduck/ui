@@ -1,7 +1,7 @@
 # Contributing to acme/ui
 
 First off, thank you for considering contributing to **acme/ui**!
-We welcome all kinds of contributions — from bug reports and documentation improvements to feature requests and new packages.
+We welcome all kinds of contributions  -  from bug reports and documentation improvements to feature requests and new packages.
 
 This document provides guidelines to help you get started.
 

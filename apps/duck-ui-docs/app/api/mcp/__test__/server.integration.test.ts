@@ -107,7 +107,7 @@ describe('MCP server integration', () => {
 
     const text = getTextContent(result)
 
-    expect(text).toContain('# button — API Reference')
+    expect(text).toContain('# button  -  API Reference')
     expect(text).toContain('| Prop | Type | Default | Description |')
   })
 
@@ -119,7 +119,7 @@ describe('MCP server integration', () => {
 
     const text = getTextContent(result)
 
-    expect(text).toContain('# button — Code Examples')
+    expect(text).toContain('# button  -  Code Examples')
     expect(text).toContain('```tsx')
     expect(text).toContain('<Button>Button</Button>')
   })
