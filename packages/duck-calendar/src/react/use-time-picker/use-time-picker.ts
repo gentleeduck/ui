@@ -244,6 +244,7 @@ export function useTimePicker(config: UseTimePickerConfig = {}): UseTimePickerRe
             commitBuffer(field, inputBuffer.current)
           } else {
             inputTimeout.current = setTimeout(() => {
+              inputTimeout.current = null
               commitBuffer(field, inputBuffer.current)
             }, 500)
           }
