@@ -2,7 +2,6 @@
 
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@gentleduck/registry-ui/breadcrumb'
 import { Button } from '@gentleduck/registry-ui/button'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui/tabs'
 import { CalendarIcon, HomeIcon, SearchIcon } from 'lucide-react'
 import * as React from 'react'
 import { type CalendarEvent, type CalendarView, type FilterMode, MOCK_EVENTS } from './calendar-data'
@@ -34,9 +33,8 @@ export default function Page() {
   }, [])
 
   const filteredEvents = React.useMemo(() => {
-    let filtered = events
-    if (filterMode === 'shared') filtered = filtered.filter((e) => e.starred)
-    return filtered
+    if (filterMode === 'shared') return events.filter((e) => e.starred)
+    return events
   }, [events, filterMode])
 
   function handlePrev() {
@@ -72,8 +70,7 @@ export default function Page() {
   function handleEditEvent(event: CalendarEvent) { setEditingEvent(event); setAddEventDate(null); setIsAddEventOpen(true) }
   function handleMonthClick(month: number) { setViewedDate(new Date(viewedDate.getFullYear(), month, 1)); setCalendarView('month') }
   function handleNavigateToDate(dateStr: string) {
-    const d = new Date(dateStr + 'T00:00:00')
-    setViewedDate(d)
+    const d = new Date(dateStr + 'T00:00:00'); setViewedDate(d)
     if (calendarView === 'year') setCalendarView('month')
   }
 
@@ -81,8 +78,9 @@ export default function Page() {
 
   return (
     <div className="flex flex-col gap-6 p-6">
+      {/* Header */}
       <div className="flex items-start justify-between gap-4">
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-2">
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem><BreadcrumbLink href="#"><HomeIcon className="size-4" /></BreadcrumbLink></BreadcrumbItem>
@@ -103,42 +101,36 @@ export default function Page() {
         </Button>
       </div>
 
-      <Tabs value={filterMode} onValueChange={(v) => setFilterMode(v as FilterMode)}>
-        <TabsList>
-          <TabsTrigger value="all">All events</TabsTrigger>
-          <TabsTrigger value="shared">Shared</TabsTrigger>
-          <TabsTrigger value="public">Public</TabsTrigger>
-          <TabsTrigger value="archived">Archived</TabsTrigger>
-        </TabsList>
+      {/* Toolbar with filter integrated */}
+      <CalendarToolbar
+        viewedDate={viewedDate} calendarView={calendarView} filterMode={filterMode}
+        onPrev={handlePrev} onNext={handleNext} onToday={handleToday}
+        onViewChange={setCalendarView} onFilterChange={setFilterMode}
+        onSearchOpen={() => setCommandOpen(true)}
+        onAddEvent={() => { setEditingEvent(null); setAddEventDate(null); setIsAddEventOpen(true) }}
+      />
 
-        <TabsContent value={filterMode} className="mt-6 flex flex-col gap-4">
-          <CalendarToolbar viewedDate={viewedDate} calendarView={calendarView}
-            onPrev={handlePrev} onNext={handleNext} onToday={handleToday}
-            onViewChange={setCalendarView}
-            onAddEvent={() => { setEditingEvent(null); setAddEventDate(null); setIsAddEventOpen(true) }} />
-
-          {showEmptyState ? (
-            <div className="flex min-h-96 flex-col items-center justify-center gap-2 rounded-xl border border-dashed bg-card">
-              <CalendarIcon className="size-12 text-muted-foreground/30" />
-              <p className="text-sm text-muted-foreground">No {filterMode} events yet</p>
-            </div>
-          ) : calendarView === 'month' ? (
-            <CalendarGrid viewedMonth={viewedDate} events={filteredEvents} overflowDay={overflowDay}
-              onOverflowChange={setOverflowDay} onDayClick={handleDayClick} onEditEvent={handleEditEvent} onDeleteEvent={handleDeleteEvent} />
-          ) : calendarView === 'week' ? (
-            <CalendarWeekView viewedDate={viewedDate} events={filteredEvents} onDayClick={handleDayClick}
-              onSelectEvent={() => {}} onEditEvent={handleEditEvent} onDeleteEvent={handleDeleteEvent} />
-          ) : calendarView === 'day' ? (
-            <CalendarDayView viewedDate={viewedDate} events={filteredEvents}
-              onSelectEvent={() => {}} onEditEvent={handleEditEvent} onDeleteEvent={handleDeleteEvent} />
-          ) : (
-            <CalendarYearView viewedDate={viewedDate} events={filteredEvents} onMonthClick={handleMonthClick} />
-          )}
-        </TabsContent>
-      </Tabs>
+      {/* Calendar content */}
+      {showEmptyState ? (
+        <div className="flex min-h-96 flex-col items-center justify-center gap-2 rounded-xl border border-dashed bg-card">
+          <CalendarIcon className="size-12 text-muted-foreground/30" />
+          <p className="text-sm text-muted-foreground">No {filterMode} events yet</p>
+        </div>
+      ) : calendarView === 'month' ? (
+        <CalendarGrid viewedMonth={viewedDate} events={filteredEvents} overflowDay={overflowDay}
+          onOverflowChange={setOverflowDay} onDayClick={handleDayClick} onEditEvent={handleEditEvent} onDeleteEvent={handleDeleteEvent} />
+      ) : calendarView === 'week' ? (
+        <CalendarWeekView viewedDate={viewedDate} events={filteredEvents} onDayClick={handleDayClick}
+          onSelectEvent={() => {}} onEditEvent={handleEditEvent} onDeleteEvent={handleDeleteEvent} />
+      ) : calendarView === 'day' ? (
+        <CalendarDayView viewedDate={viewedDate} events={filteredEvents}
+          onSelectEvent={() => {}} onEditEvent={handleEditEvent} onDeleteEvent={handleDeleteEvent} />
+      ) : (
+        <CalendarYearView viewedDate={viewedDate} events={filteredEvents} onMonthClick={handleMonthClick} />
+      )}
 
       <CalendarCommandMenu open={commandOpen} onOpenChange={setCommandOpen} events={filteredEvents}
-        onSelectEvent={(evt) => { handleEditEvent(evt) }} onNavigateToDate={handleNavigateToDate} />
+        onSelectEvent={(evt) => handleEditEvent(evt)} onNavigateToDate={handleNavigateToDate} />
       <CalendarEventDialog open={isAddEventOpen} onOpenChange={setIsAddEventOpen} onSave={handleSaveEvent} editingEvent={editingEvent} defaultDate={addEventDate} />
     </div>
   )
