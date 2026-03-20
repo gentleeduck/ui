@@ -13,17 +13,17 @@ export type CalendarEvent = {
 }
 
 export const CATEGORY_COLORS: Record<EventCategory, { bg: string; dot: string; text: string }> = {
-  standup: { bg: 'bg-blue-500/10', dot: 'bg-blue-500', text: 'text-blue-700 dark:text-blue-400' },
-  'one-on-one': { bg: 'bg-violet-500/10', dot: 'bg-violet-500', text: 'text-violet-700 dark:text-violet-400' },
-  'deep-work': { bg: 'bg-blue-500/10', dot: 'bg-blue-500', text: 'text-blue-700 dark:text-blue-400' },
-  design: { bg: 'bg-pink-500/10', dot: 'bg-pink-500', text: 'text-pink-700 dark:text-pink-400' },
-  'all-hands': { bg: 'bg-amber-500/10', dot: 'bg-amber-500', text: 'text-amber-700 dark:text-amber-400' },
-  social: { bg: 'bg-orange-500/10', dot: 'bg-orange-500', text: 'text-orange-700 dark:text-orange-400' },
-  external: { bg: 'bg-emerald-500/10', dot: 'bg-emerald-500', text: 'text-emerald-700 dark:text-emerald-400' },
-  planning: { bg: 'bg-indigo-500/10', dot: 'bg-indigo-500', text: 'text-indigo-700 dark:text-indigo-400' },
-  review: { bg: 'bg-rose-500/10', dot: 'bg-rose-500', text: 'text-rose-700 dark:text-rose-400' },
-  personal: { bg: 'bg-teal-500/10', dot: 'bg-teal-500', text: 'text-teal-700 dark:text-teal-400' },
-  other: { bg: 'bg-zinc-500/10', dot: 'bg-zinc-500', text: 'text-zinc-700 dark:text-zinc-400' },
+  standup: { bg: 'bg-sky-50 dark:bg-sky-500/15', dot: 'bg-sky-500', text: 'text-sky-600 dark:text-sky-300' },
+  'one-on-one': { bg: 'bg-purple-50 dark:bg-purple-500/15', dot: 'bg-purple-500', text: 'text-purple-600 dark:text-purple-300' },
+  'deep-work': { bg: 'bg-blue-50 dark:bg-blue-500/15', dot: 'bg-blue-500', text: 'text-blue-600 dark:text-blue-300' },
+  design: { bg: 'bg-fuchsia-50 dark:bg-fuchsia-500/15', dot: 'bg-fuchsia-500', text: 'text-fuchsia-600 dark:text-fuchsia-300' },
+  'all-hands': { bg: 'bg-yellow-50 dark:bg-yellow-500/15', dot: 'bg-yellow-500', text: 'text-yellow-700 dark:text-yellow-300' },
+  social: { bg: 'bg-orange-50 dark:bg-orange-500/15', dot: 'bg-orange-500', text: 'text-orange-600 dark:text-orange-300' },
+  external: { bg: 'bg-emerald-50 dark:bg-emerald-500/15', dot: 'bg-emerald-500', text: 'text-emerald-600 dark:text-emerald-300' },
+  planning: { bg: 'bg-indigo-50 dark:bg-indigo-500/15', dot: 'bg-indigo-500', text: 'text-indigo-600 dark:text-indigo-300' },
+  review: { bg: 'bg-rose-50 dark:bg-rose-500/15', dot: 'bg-rose-500', text: 'text-rose-600 dark:text-rose-300' },
+  personal: { bg: 'bg-teal-50 dark:bg-teal-500/15', dot: 'bg-teal-500', text: 'text-teal-600 dark:text-teal-300' },
+  other: { bg: 'bg-zinc-100 dark:bg-zinc-500/15', dot: 'bg-zinc-400', text: 'text-zinc-600 dark:text-zinc-300' },
 }
 
 export const CATEGORY_LABELS: Record<EventCategory, string> = {
