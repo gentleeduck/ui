@@ -1,5 +1,16 @@
 # @gentleduck/docs
 
+## 0.3.1
+
+### Patch Changes
+
+- 76e824b: fix: presence animation interrupt, breadcrumb keys, theme hydration, nested buttons
+
+  - Presence: cancel in-flight exit animation on re-mount to prevent stale animationend from unmounting re-opened content
+  - Breadcrumb: move key from BreadcrumbItem to Fragment (React key warning)
+  - ModeSwitcher: use stable aria-label until mounted to prevent hydration mismatch
+  - PopoverTrigger: add asChild to calendar-7 and combobox-7 to prevent nested buttons
+
 ## 0.3.0
 
 ### Minor Changes
@@ -75,7 +86,7 @@
 
 ### Patch Changes
 
-- 9afd136: Fix copy button icon sizing in DocsCopyPage  -  add explicit size-3.5 to Copy, Check, and ChevronDown icons.
+- 9afd136: Fix copy button icon sizing in DocsCopyPage - add explicit size-3.5 to Copy, Check, and ChevronDown icons.
 
 ## 0.2.4
 
