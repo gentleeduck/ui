@@ -211,7 +211,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
               )
             })}
           </div>
-          {renderFooter && renderFooter(state.months)}
+          {renderFooter?.(state.months)}
         </div>
         <announcer.AnnouncerPortal />
       </div>
