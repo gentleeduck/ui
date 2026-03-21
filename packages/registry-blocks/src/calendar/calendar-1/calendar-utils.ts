@@ -57,8 +57,8 @@ export function isSameMonth(date: Date, month: Date): boolean {
 export function parseTimeToMinutes(time: string): number {
   const m = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i)
   if (!m) return 0
-  let h = Number.parseInt(m[1]!, 10)
-  const min = Number.parseInt(m[2]!, 10)
+  let h = Number.parseInt(m[1] ?? '0', 10)
+  const min = Number.parseInt(m[2] ?? '0', 10)
   const p = m[3]?.toUpperCase()
   if (p === 'PM' && h !== 12) h += 12
   if (p === 'AM' && h === 12) h = 0

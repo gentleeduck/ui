@@ -23,8 +23,8 @@ export function parseDateStr(s: string): Date | null {
 export function timeStringTo24h(time: string): string {
   const m = time.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i)
   if (!m) return '09:00'
-  let h = Number.parseInt(m[1]!, 10)
-  const min = m[2]!
+  let h = Number.parseInt(m[1] ?? '0', 10)
+  const min = m[2] ?? '00'
   const p = m[3]?.toUpperCase()
   if (p === 'PM' && h !== 12) h += 12
   if (p === 'AM' && h === 12) h = 0

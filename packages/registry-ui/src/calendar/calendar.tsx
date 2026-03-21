@@ -75,6 +75,7 @@ const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
     const nextNavProps = getNavProps('next')
 
     return (
+      // biome-ignore lint/a11y/noStaticElementInteractions: keyboard/pointer tracking for focus ring management
       <div
         ref={ref}
         data-slot="calendar"

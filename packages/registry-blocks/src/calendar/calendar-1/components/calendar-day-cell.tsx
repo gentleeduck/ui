@@ -58,6 +58,7 @@ export function CalendarDayCell({
   const hiddenCount = events.length - visible.length
 
   return (
+    // biome-ignore lint/a11y/useSemanticElements: WAI-ARIA grid pattern requires div with role="gridcell"
     <div
       role="gridcell"
       tabIndex={inMonth ? 0 : -1}

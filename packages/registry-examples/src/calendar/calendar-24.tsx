@@ -37,10 +37,13 @@ function getRanges(dates: Date[]): { from: Date; to: Date }[] {
   if (dates.length === 0) return []
   const sorted = [...dates].sort((a, b) => a.getTime() - b.getTime())
   const ranges: { from: Date; to: Date }[] = []
-  let from = sorted[0]!
-  let to = sorted[0]!
+  const first = sorted[0]
+  if (!first) return []
+  let from = first
+  let to = first
   for (let i = 1; i < sorted.length; i++) {
-    const d = sorted[i]!
+    const d = sorted[i]
+    if (!d) continue
     if (d.getTime() - to.getTime() <= MS_PER_DAY) {
       to = d
     } else {

@@ -245,6 +245,7 @@ const ShikiCodeBlock = React.memo(function ShikiCodeBlock({ code, language }: { 
         </button>
       </div>
       {html ? (
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: pre-sanitized HTML from syntax highlighter
         <div className="[&_pre]:!m-0" dangerouslySetInnerHTML={{ __html: html }} />
       ) : (
         <pre className="overflow-x-auto px-4 py-3.5 font-mono text-[13px] leading-relaxed">

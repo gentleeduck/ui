@@ -53,7 +53,7 @@ function EventBlock({
 export function CalendarDayView({
   viewedDate,
   events,
-  onSelectEvent,
+  onSelectEvent: _onSelectEvent,
   onEditEvent,
   onDeleteEvent,
 }: CalendarDayViewProps) {
