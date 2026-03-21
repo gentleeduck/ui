@@ -10,7 +10,10 @@ export function getWeeksForMonth(year: number, month: number): Date[][] {
   const current = new Date(startDay)
   while (current <= lastDay || weeks.length < 5) {
     const week: Date[] = []
-    for (let i = 0; i < 7; i++) { week.push(new Date(current)); current.setDate(current.getDate() + 1) }
+    for (let i = 0; i < 7; i++) {
+      week.push(new Date(current))
+      current.setDate(current.getDate() + 1)
+    }
     weeks.push(week)
     if (weeks.length >= 6) break
   }

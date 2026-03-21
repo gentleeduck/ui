@@ -1,6 +1,10 @@
 import { hijriMonthLength, toGregorian, toHijri } from '../calendar-system/hijri'
 import type { DateAdapter, WeekStartDay } from './adapter.types'
-import { formatWithCalendar } from './adapter.utils'
+import { createConversionCache, formatWithCalendar } from './adapter.utils'
+
+const hijriCache = createConversionCache((date: Date) =>
+  toHijri(date.getFullYear(), date.getMonth() + 1, date.getDate()),
+)
 
 /**
  * Islamic (Hijri) calendar adapter.
@@ -27,9 +31,9 @@ export class IslamicAdapter implements DateAdapter<Date> {
   // Helpers
   // ---------------------------------------------------------------------------
 
-  /** Convert a native Date to its Hijri parts. */
+  /** Convert a native Date to its Hijri parts (cached per-instance). */
   private hijri(date: Date): { hy: number; hm: number; hd: number } {
-    return toHijri(date.getFullYear(), date.getMonth() + 1, date.getDate())
+    return hijriCache.get(this, date)
   }
 
   /** Build a native Date from Hijri parts (month is 1-indexed internally). */

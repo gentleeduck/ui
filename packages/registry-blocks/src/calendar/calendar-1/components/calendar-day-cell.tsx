@@ -1,9 +1,9 @@
 'use client'
 
-import * as React from 'react'
 import { cn } from '@gentleduck/libs/cn'
+import * as React from 'react'
 import type { CalendarEvent } from '../calendar-data'
-import { formatDateString, isToday, isSameMonth, isWeekend } from '../calendar-utils'
+import { formatDateString, isSameMonth, isToday, isWeekend } from '../calendar-utils'
 import { CalendarEventChip } from './calendar-event-chip'
 import { CalendarEventDetail } from './calendar-event-detail'
 import { CalendarOverflow } from './calendar-overflow'
@@ -19,7 +19,11 @@ interface CalendarDayCellProps {
   onDeleteEvent: (id: string) => void
 }
 
-function EventChipWithPopover({ event, onEdit, onDelete }: {
+function EventChipWithPopover({
+  event,
+  onEdit,
+  onDelete,
+}: {
   event: CalendarEvent
   onEdit: (event: CalendarEvent) => void
   onDelete: (id: string) => void
@@ -27,14 +31,22 @@ function EventChipWithPopover({ event, onEdit, onDelete }: {
   const [open, setOpen] = React.useState(false)
   return (
     <CalendarEventDetail event={event} open={open} onOpenChange={setOpen} onEdit={onEdit} onDelete={onDelete}>
-      <div><CalendarEventChip event={event} onSelect={() => setOpen(true)} /></div>
+      <div>
+        <CalendarEventChip event={event} onSelect={() => setOpen(true)} />
+      </div>
     </CalendarEventDetail>
   )
 }
 
 export function CalendarDayCell({
-  date, viewedMonth, events, overflowDay, onOverflowChange,
-  onDayClick, onEditEvent, onDeleteEvent,
+  date,
+  viewedMonth,
+  events,
+  overflowDay,
+  onOverflowChange,
+  onDayClick,
+  onEditEvent,
+  onDeleteEvent,
 }: CalendarDayCellProps) {
   const inMonth = isSameMonth(date, viewedMonth)
   const today = isToday(date)
@@ -50,23 +62,30 @@ export function CalendarDayCell({
       role="gridcell"
       tabIndex={inMonth ? 0 : -1}
       className={cn(
-        'flex min-h-28 flex-col overflow-hidden border-r border-border p-1.5 transition-colors last:border-r-0',
-        today && 'bg-primary/10 ring-1 ring-inset ring-primary/30',
+        'flex min-h-28 flex-col overflow-hidden border-border border-r p-1.5 transition-colors last:border-r-0',
+        today && 'bg-primary/10 ring-1 ring-primary/30 ring-inset',
         wkend && !today && 'bg-muted/20',
         !inMonth && 'opacity-40',
         inMonth && !today && 'cursor-pointer hover:bg-accent/30',
         inMonth && today && 'cursor-pointer hover:bg-primary/15',
       )}
-      onClick={() => { if (inMonth) onDayClick(dateStr) }}
-      onKeyDown={(e) => { if (inMonth && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); onDayClick(dateStr) } }}
-    >
+      onClick={() => {
+        if (inMonth) onDayClick(dateStr)
+      }}
+      onKeyDown={(e) => {
+        if (inMonth && (e.key === 'Enter' || e.key === ' ')) {
+          e.preventDefault()
+          onDayClick(dateStr)
+        }
+      }}>
       <div className="mb-1 flex shrink-0 justify-start">
-        <span className={cn(
-          'flex size-7 items-center justify-center rounded-full text-xs font-medium',
-          today && 'bg-primary text-primary-foreground font-bold shadow-sm',
-          !today && inMonth && 'text-foreground',
-          !today && !inMonth && 'text-muted-foreground',
-        )}>
+        <span
+          className={cn(
+            'flex size-7 items-center justify-center rounded-full font-medium text-xs',
+            today && 'bg-primary font-bold text-primary-foreground shadow-sm',
+            !today && inMonth && 'text-foreground',
+            !today && !inMonth && 'text-muted-foreground',
+          )}>
           {date.getDate()}
         </span>
       </div>

@@ -20,9 +20,17 @@ export function CalendarEventChip({ event, onSelect }: CalendarEventChipProps) {
         'cursor-pointer transition-all hover:shadow-sm',
         colors.bg,
       )}
-      onClick={(e) => { e.stopPropagation(); onSelect(event) }}
-      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); onSelect(event) } }}
-    >
+      onClick={(e) => {
+        e.stopPropagation()
+        onSelect(event)
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          e.stopPropagation()
+          onSelect(event)
+        }
+      }}>
       {event.starred ? (
         <StarIcon className={cn('size-2.5 shrink-0 fill-current', colors.text)} />
       ) : (

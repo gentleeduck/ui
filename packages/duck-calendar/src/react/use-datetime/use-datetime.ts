@@ -38,12 +38,18 @@ export function useDateTime<TDate>(config: UseDateTimeConfig<TDate>): UseDateTim
 
   const currentValue = isControlled ? controlledValue : internalValue
 
+  // Stable ref for onChange to avoid cascading callback invalidation
+  const onChangeRef = useRef(onChange)
+  useEffect(() => {
+    onChangeRef.current = onChange
+  }, [onChange])
+
   const setDateTime = useCallback(
     (next: TDate) => {
       if (!isControlled) setInternalValue(next)
-      onChange?.(next)
+      onChangeRef.current?.(next)
     },
-    [isControlled, onChange],
+    [isControlled],
   )
 
   // ---------------------------------------------------------------------------
@@ -72,6 +78,36 @@ export function useDateTime<TDate>(config: UseDateTimeConfig<TDate>): UseDateTim
   }, [timeValue])
 
   // ---------------------------------------------------------------------------
+  // Stable callbacks for sub-hooks
+  // ---------------------------------------------------------------------------
+  const currentValueRef = useRef(currentValue)
+  useEffect(() => {
+    currentValueRef.current = currentValue
+  }, [currentValue])
+
+  const handleCalendarSelect = useCallback(
+    (selected: CalendarValue<TDate, 'single'>) => {
+      if (selected == null) return
+      const date = selected as TDate
+      const t = timeRef.current
+      const merged = adapter.setTime(date, t.hour, t.minute, t.second ?? 0)
+      setDateTime(merged)
+    },
+    [adapter, setDateTime],
+  )
+
+  const handleTimeChange = useCallback(
+    (newTime: TimeValue) => {
+      timeRef.current = newTime
+      if (currentValueRef.current != null) {
+        const merged = adapter.setTime(currentValueRef.current, newTime.hour, newTime.minute, newTime.second ?? 0)
+        setDateTime(merged)
+      }
+    },
+    [adapter, setDateTime],
+  )
+
+  // ---------------------------------------------------------------------------
   // useCalendar  -  single mode
   // ---------------------------------------------------------------------------
   const calendar = useCalendar<TDate, 'single'>({
@@ -86,16 +122,7 @@ export function useDateTime<TDate>(config: UseDateTimeConfig<TDate>): UseDateTim
     toDate,
     onDismiss,
     selected: currentValue ?? undefined,
-    onSelect: (selected: CalendarValue<TDate, 'single'>) => {
-      if (selected == null) return
-      const date = selected as TDate
-      // Read timeRef eagerly - it's kept in sync via useEffect, but we also
-      // write it eagerly in timePicker.onChange to avoid stale reads within
-      // the same React batch
-      const t = timeRef.current
-      const merged = adapter.setTime(date, t.hour, t.minute, t.second ?? 0)
-      setDateTime(merged)
-    },
+    onSelect: handleCalendarSelect,
   })
 
   // ---------------------------------------------------------------------------
@@ -105,13 +132,7 @@ export function useDateTime<TDate>(config: UseDateTimeConfig<TDate>): UseDateTim
     value: timeValue,
     hourCycle,
     showSeconds,
-    onChange: (newTime: TimeValue) => {
-      timeRef.current = newTime
-      if (currentValue != null) {
-        const merged = adapter.setTime(currentValue, newTime.hour, newTime.minute, newTime.second ?? 0)
-        setDateTime(merged)
-      }
-    },
+    onChange: handleTimeChange,
   })
 
   // ---------------------------------------------------------------------------

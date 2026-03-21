@@ -82,7 +82,7 @@ export function parseTimeInput(input: string, field: TimeField, hourCycle: HourC
       const max = hourCycle === '12' ? 12 : 23
       const min = hourCycle === '12' ? 1 : 0
       if (num < min || num > max) return null
-      return hourCycle === '12' ? num % 12 : num // 12 in 12h mode -> 0
+      return hourCycle === '12' ? (num === 12 ? 0 : num) : num
     }
     case 'minute':
       if (num < 0 || num > 59) return null

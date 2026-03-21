@@ -19,8 +19,14 @@ const HOUR_HEIGHT = 60
 
 import { formatHour } from '../calendar-1.libs'
 
-function EventBlock({ event, onEdit, onDelete }: {
-  event: CalendarEvent; onEdit: (e: CalendarEvent) => void; onDelete: (id: string) => void
+function EventBlock({
+  event,
+  onEdit,
+  onDelete,
+}: {
+  event: CalendarEvent
+  onEdit: (e: CalendarEvent) => void
+  onDelete: (id: string) => void
 }) {
   const [open, setOpen] = React.useState(false)
   const colors = CATEGORY_COLORS[event.category]
@@ -31,25 +37,31 @@ function EventBlock({ event, onEdit, onDelete }: {
       <button
         type="button"
         className={cn(
-          'absolute left-1 right-4 z-10 rounded-lg px-3 py-1.5 text-left text-xs shadow-sm transition-shadow hover:shadow-md',
-          colors.bg, colors.text,
+          'absolute right-4 left-1 z-10 rounded-lg px-3 py-1.5 text-left text-xs shadow-sm transition-shadow hover:shadow-md',
+          colors.bg,
+          colors.text,
         )}
         style={{ top, minHeight: HOUR_HEIGHT * 0.7 }}
-        onClick={() => setOpen(true)}
-      >
-        <p className="font-semibold truncate">{event.title}</p>
-        <p className="opacity-60 text-[10px]">{event.time}</p>
+        onClick={() => setOpen(true)}>
+        <p className="truncate font-semibold">{event.title}</p>
+        <p className="text-[10px] opacity-60">{event.time}</p>
       </button>
     </CalendarEventDetail>
   )
 }
 
-export function CalendarDayView({ viewedDate, events, onSelectEvent, onEditEvent, onDeleteEvent }: CalendarDayViewProps) {
+export function CalendarDayView({
+  viewedDate,
+  events,
+  onSelectEvent,
+  onEditEvent,
+  onDeleteEvent,
+}: CalendarDayViewProps) {
   const dayEvents = getEventsForDay(events, viewedDate)
 
   return (
     <div className="overflow-hidden rounded-xl border bg-card shadow-sm">
-      <div className="border-b bg-muted/50 px-4 py-2.5 text-center text-sm font-semibold">
+      <div className="border-b bg-muted/50 px-4 py-2.5 text-center font-semibold text-sm">
         {viewedDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
       </div>
       <div className="max-h-[700px] overflow-y-auto">
@@ -57,15 +69,17 @@ export function CalendarDayView({ viewedDate, events, onSelectEvent, onEditEvent
           {/* Hour labels */}
           <div className="w-16 shrink-0">
             {HOURS.map((hour) => (
-              <div key={hour} className="relative border-b border-border/50" style={{ height: HOUR_HEIGHT }}>
-                <span className="absolute -top-3 right-2 text-[11px] text-muted-foreground">{hour > 0 ? formatHour(hour) : ''}</span>
+              <div key={hour} className="relative border-border/50 border-b" style={{ height: HOUR_HEIGHT }}>
+                <span className="absolute -top-3 right-2 text-[11px] text-muted-foreground">
+                  {hour > 0 ? formatHour(hour) : ''}
+                </span>
               </div>
             ))}
           </div>
           {/* Timeline */}
           <div className="relative flex-1 border-l">
             {HOURS.map((hour) => (
-              <div key={hour} className="border-b border-border/50" style={{ height: HOUR_HEIGHT }} />
+              <div key={hour} className="border-border/50 border-b" style={{ height: HOUR_HEIGHT }} />
             ))}
             {dayEvents.map((evt) => (
               <EventBlock key={evt.id} event={evt} onEdit={onEditEvent} onDelete={onDeleteEvent} />
