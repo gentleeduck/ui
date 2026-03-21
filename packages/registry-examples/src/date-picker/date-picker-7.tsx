@@ -32,7 +32,7 @@ export default function DatePickerRtlDemo() {
             mode="single"
             onSelect={(d) => {
               if (d instanceof Date) setDate(d)
-              setOpen(false)
+              requestAnimationFrame(() => setOpen(false))
             }}
             selected={date}
           />
