@@ -37,6 +37,13 @@ function usePresence(present: boolean) {
       const currentAnimationName = getAnimationName(styles)
 
       if (present) {
+        // Interrupt any in-flight exit animation so its animationend
+        // doesn't fire and accidentally unmount the re-opened content.
+        if (node) {
+          ;(node as HTMLElement).style.animationName = 'none'
+          void (node as HTMLElement).offsetWidth
+          ;(node as HTMLElement).style.animationName = ''
+        }
         send('MOUNT')
       } else if (currentAnimationName === 'none' || styles?.display === 'none') {
         // No exit animation or element is hidden -- unmount immediately.
