@@ -30,8 +30,8 @@ export default function DatePickerRtlDemo() {
             dir="rtl"
             locale="ar-SA"
             mode="single"
-            onSelect={(date) => {
-              setDate(date)
+            onSelect={(d) => {
+              if (d instanceof Date) setDate(d)
               setOpen(false)
             }}
             selected={date}

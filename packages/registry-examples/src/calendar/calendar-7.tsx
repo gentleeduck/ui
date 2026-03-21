@@ -25,7 +25,7 @@ export default function CalendarDemo() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState('In 2 days')
   const [date, setDate] = React.useState<Date | null>(parseDate(value) || null)
-  const [month, setMonth] = React.useState<Date | null>(date)
+  const [month, setMonth] = React.useState<Date | undefined>(date ?? undefined)
 
   return (
     <div className="flex flex-col gap-3">
@@ -79,7 +79,7 @@ export default function CalendarDemo() {
         </Popover>
       </div>
       <div className="px-1 text-muted-foreground text-sm">
-        Your post will be published on <span className="font-medium">{formatDate(date)}</span>.
+        Your post will be published on <span className="font-medium">{formatDate(date ?? undefined)}</span>.
       </div>
     </div>
   )

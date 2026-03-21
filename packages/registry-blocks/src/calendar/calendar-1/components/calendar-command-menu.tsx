@@ -54,7 +54,11 @@ export function CalendarCommandMenu({
 
   return (
     <CommandDialog open={open} onOpenChange={onOpenChange} shouldFilter={false}>
-      <CommandInput placeholder="Search events..." value={query} onValueChange={setQuery} />
+      <CommandInput
+        placeholder="Search events..."
+        value={query}
+        onInput={(e) => setQuery((e.target as HTMLInputElement).value)}
+      />
       <CommandList className="max-h-full">
         <CommandEmpty>No events found.</CommandEmpty>
         {grouped.map(([dateStr, evts]) => (

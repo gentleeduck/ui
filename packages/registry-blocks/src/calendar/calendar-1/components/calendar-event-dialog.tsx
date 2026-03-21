@@ -110,7 +110,7 @@ export function CalendarEventDialog({
                     selected={selectedDate}
                     defaultMonth={selectedDate ?? undefined}
                     onSelect={(d) => {
-                      if (d) setDate(formatDateString(d))
+                      if (d instanceof Date) setDate(formatDateString(d))
                       setDatePickerOpen(false)
                     }}
                   />

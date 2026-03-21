@@ -1,4 +1,4 @@
-import type { CalendarDay, CalendarMonth, CalendarValue, DateAdapter, SelectionMode } from '@gentleduck/calendar'
+import type { CalendarDay, CalendarMonth, DateAdapter, SelectionMode } from '@gentleduck/calendar'
 import type { Direction } from '@gentleduck/primitives/direction'
 import type { Button } from '../button'
 
@@ -30,10 +30,12 @@ export interface CalendarProps {
   buttonVariant?: React.ComponentProps<typeof Button>['variant']
   /** Selection mode. Default `'single'`. */
   mode?: SelectionMode
-  /** Controlled selection value. */
-  selected?: CalendarValue<Date, SelectionMode>
-  /** Called when the selection changes. */
-  onSelect?: (value: CalendarValue<Date, SelectionMode>) => void
+  /** Controlled selection value. Shape depends on `mode`. */
+  // biome-ignore lint/suspicious/noExplicitAny: CalendarValue union is narrowed by mode at runtime
+  selected?: any
+  /** Called when the selection changes. Value shape depends on `mode`. */
+  // biome-ignore lint/suspicious/noExplicitAny: CalendarValue union is narrowed by mode at runtime
+  onSelect?: (value: any) => void
   /** Dates that cannot be selected. */
   disabled?: Date[] | ((date: Date) => boolean)
   /** Default month to display (uncontrolled). */
