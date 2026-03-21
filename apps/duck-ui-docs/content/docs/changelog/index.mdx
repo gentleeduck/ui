@@ -5,10 +5,10 @@ description: A complete history of updates, features, fixes, and improvements to
 
 ## Latest -- March 2026
 
-Registry-build extension-driven architecture, CLI v1.2.0 with interactive merge/diff GUI, docs MDX pipeline overhaul, vim keyboard engine modules, and version release across all packages.
+@gentleduck/calendar headless engine with 4 calendar systems, full calendar block, Presence animation interrupt fix, registry-build extensions, CLI v1.2.0, vim engine, and 16 package releases.
 
 <LinkedCard href="/docs/changelog/march-2026">
-  March 2026 -- Registry Build, CLI v1.2.0, Docs Pipeline, Vim Engine, Version Release
+  March 2026 -- Calendar Engine, Calendar Block, Presence Fix, Registry Build, CLI v1.2.0
 </LinkedCard>
 
 ---
@@ -23,6 +23,7 @@ Registry-build extension-driven architecture, CLI v1.2.0 with interactive merge/
   UI --> Libs["@gentleduck/libs\ncn, Slot, Portal"]:::pkg
   UI --> Hooks["@gentleduck/hooks\nReact hooks"]:::pkg
   UI --> CLI["@gentleduck/cli\nScaffolding tool"]:::pkg
+  UI --> Calendar["@gentleduck/calendar\nHeadless calendar engine"]:::pkg
   UI --> Vim["@gentleduck/vim\nKeyboard engine"]:::pkg
   UI --> Lazy["@gentleduck/lazy\nLazy-loading"]:::pkg
   UI --> Docs["@gentleduck/docs\nDocs framework"]:::pkg
@@ -37,11 +38,12 @@ Registry-build extension-driven architecture, CLI v1.2.0 with interactive merge/
 
 | Stat | Count |
 | --- | --- |
-| **Packages** | 9 core packages |
+| **Packages** | 10 core packages |
 | **Primitives** | 40+ headless components |
+| **Calendar systems** | 4 (Gregorian, Islamic, Persian, Hebrew) |
 | **Styled components** | 57 in the registry |
 | **Examples** | 300+ across all components |
-| **Blocks** | 16 sidebar + 6 auth blocks |
+| **Blocks** | 16 sidebar + 6 auth + 1 calendar block |
 | **Themes** | 16 color palettes |
 | **Commits** | 1700+ since January 2024 |
 
@@ -53,7 +55,7 @@ Registry-build extension-driven architecture, CLI v1.2.0 with interactive merge/
 
 | Month | Highlights |
 | --- | --- |
-| [March 2026](/docs/changelog/march-2026) | Registry-build extension architecture, CLI v1.2.0 merge/diff GUI, docs pipeline, vim engine |
+| [March 2026](/docs/changelog/march-2026) | Calendar engine, calendar block, Presence fix, registry-build, CLI v1.2.0, vim engine |
 | [February 2026](/docs/changelog/february-2026) | Rebrand, 40+ primitives, RTL/i18n, a11y audit, Recharts v3, JSON Editor |
 | [January 2026](/docs/changelog/january-2026) | duck-gen, duck-docs package, CodeQL CI/CD |
 
