@@ -117,6 +117,7 @@ export function CalendarEventDetail({
                 {event.attendees.map((person) => (
                   <div key={person.email} className="flex items-center gap-2.5">
                     {person.avatar ? (
+                      // biome-ignore lint/performance/noImgElement: registry block, not a Next.js page
                       <img
                         src={person.avatar}
                         alt={person.name}

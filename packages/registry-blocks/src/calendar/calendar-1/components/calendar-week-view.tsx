@@ -59,7 +59,7 @@ export function CalendarWeekView({
   viewedDate,
   events,
   onDayClick,
-  onSelectEvent,
+  onSelectEvent: _onSelectEvent,
   onEditEvent,
   onDeleteEvent,
 }: CalendarWeekViewProps) {
@@ -71,6 +71,7 @@ export function CalendarWeekView({
       <div className="grid border-b bg-muted/50" style={{ gridTemplateColumns: '52px repeat(7, 1fr)' }}>
         <div />
         {days.map((d, i) => (
+          // biome-ignore lint/suspicious/noArrayIndexKey: days order is stable within a week
           <div key={i} className={cn('border-l px-2 py-2 text-center', isWeekend(d) && 'bg-muted/30')}>
             <span className="font-semibold text-[11px] text-muted-foreground uppercase tracking-wide">
               {WEEKDAYS[i]}
@@ -99,12 +100,13 @@ export function CalendarWeekView({
             ))}
           </div>
           {/* Day columns */}
-          {days.map((d, di) => {
+          {days.map((d) => {
             const dayEvents = getEventsForDay(events, d)
             const dateStr = formatDateString(d)
             return (
+              // biome-ignore lint/a11y/useSemanticElements: WAI-ARIA grid pattern requires div with role="gridcell"
               <div
-                key={di}
+                key={d.getTime()}
                 className={cn('relative border-l', isWeekend(d) && 'bg-muted/10')}
                 onClick={() => onDayClick(dateStr)}
                 role="gridcell"

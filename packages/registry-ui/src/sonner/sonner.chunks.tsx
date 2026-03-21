@@ -31,7 +31,6 @@ const SonnerUpload = ({
         )}
       />
       <div className="flex w-full flex-col gap-2">
-        {/* biome-ignore lint/a11y/useSemanticElements: status role on div is intentional for live region announcements */}
         <div className="flex w-full justify-between" role="status">
           <p className="text-foreground text-sm">
             {progress >= 100
