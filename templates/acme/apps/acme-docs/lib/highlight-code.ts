@@ -19,7 +19,7 @@ export async function highlightCode(code: string) {
         },
         pre(node) {
           node.properties.class =
-            'no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 outline-none has-[[data-highlighted-line]]:px-0 has-[[data-line-numbers]]:px-0 has-[[acme-tabs]]:p-0 !bg-transparent'
+            'no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 outline-none has-[[data-highlighted-line]]:px-0 has-[[data-line-numbers]]:px-0 !bg-transparent'
         },
       },
     ],

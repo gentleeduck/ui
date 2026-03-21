@@ -1,6 +1,172 @@
 ---
 title: March 2026
-description: Registry-build extension-driven architecture, CLI v1.2.0 with merge/diff GUI, docs MDX pipeline overhaul, vim keyboard engine modules, and version release across all packages.
+description: "@gentleduck/calendar headless engine, full calendar block, Presence animation fix, registry-build extensions, CLI v1.2.0, vim engine, and version releases."
+---
+
+## @gentleduck/calendar -- Headless Calendar Engine <Badge>feat</Badge>
+
+Published [`@gentleduck/calendar`](https://www.npmjs.com/package/@gentleduck/calendar) -- a headless, zero-dependency calendar engine for React.
+
+### What it does
+
+One hook (`useCalendar`) gives you grid generation, selection state, keyboard navigation, ARIA announcements, and month traversal. You bring your own UI.
+
+```tsx
+import { useCalendar, NativeAdapter } from '@gentleduck/calendar'
+
+const adapter = new NativeAdapter()
+
+function MyCalendar() {
+  const { state, getDayProps, getGridProps } = useCalendar({
+    adapter,
+    mode: 'single',
+  })
+
+  return (
+    <div {...getGridProps()}>
+      {state.weeks.map((week) => (
+        <div key={week.weekNumber} role="row">
+          {week.days.map((day) => (
+            <button key={day.date.toISOString()} {...getDayProps(day)}>
+              {day.date.getDate()}
+            </button>
+          ))}
+        </div>
+      ))}
+    </div>
+  )
+}
+```
+
+### Date adapter pattern
+
+All date operations go through the `DateAdapter<TDate>` interface. Swap date libraries or calendar systems without changing component code:
+
+```tsx
+// Native Date (0 dependencies)
+import { NativeAdapter } from '@gentleduck/calendar'
+
+// Or use dayjs, date-fns, Luxon
+import { DayjsAdapter } from '@gentleduck/calendar/adapter'
+
+// Or switch to non-Gregorian calendars
+import { IslamicAdapter, PersianAdapter, HebrewAdapter } from '@gentleduck/calendar/adapter'
+```
+
+### 4 calendar systems
+
+| Calendar | Adapter | Leap year support |
+| --- | --- | --- |
+| Gregorian | `NativeAdapter` | Standard |
+| Islamic (Hijri) | `IslamicAdapter` | 30-year tabular cycle |
+| Persian (Jalali) | `PersianAdapter` | 2820-year Borkowski cycle |
+| Hebrew | `HebrewAdapter` | 19-year Metonic cycle (13 months) |
+
+### Selection modes
+
+```tsx
+// Single date
+useCalendar({ adapter, mode: 'single' })
+
+// Date range with auto-swap
+useCalendar({ adapter, mode: 'range' })
+
+// Multi-select
+useCalendar({ adapter, mode: 'multi' })
+
+// Multi-range with shift+click splitting
+useCalendar({ adapter, mode: 'multi-range' })
+```
+
+### Compound primitives
+
+Built compound components in `@gentleduck/primitives/calendar`:
+
+```tsx
+<Calendar.Root adapter={adapter} mode="single">
+  <Calendar.Header />
+  <Calendar.Nav />
+  <Calendar.Grid>
+    <Calendar.Weekdays />
+    {/* Calendar.Day for each day */}
+  </Calendar.Grid>
+  <Calendar.MonthView />
+  <Calendar.YearView />
+</Calendar.Root>
+```
+
+### Styled component
+
+Shipped a fully styled `Calendar` in `@gentleduck/registry-ui` with month/year dropdowns, render props, RTL support, and locale-aware numeral rendering (Arabic, Persian, Hebrew).
+
+### Benchmarks
+
+| Metric | Value |
+| --- | --- |
+| Bundle size (gzipped) | ~5 KB |
+| Dependencies | 0 |
+| `buildCalendarMonth` | ~7 us |
+| `applySelection` | ~13 us |
+| Tests | 857 across 21 files |
+
+### v0.2.0 -- Code Review Hardening
+
+Ran 60+ automated review agents across every file. Key fixes:
+
+- Implemented `showOutsideDays` with `isHidden`/`isDisabled` flags
+- Added `getMonthsInYear()` to `DateAdapter` for Hebrew 13-month leap years
+- Fixed `applySelection` overwriting `isDisabled` from grid
+- Fixed dayjs `startOfWeek` not stripping time
+- Fixed ARIA range `min > max` in 12-hour time picker
+- Fixed `useControllableState` cascading callback re-renders
+- Added `data-hidden` attribute for hidden outside days
+- Exported `clearFormatterCache`/`getCachedFormatter` from main entry
+
+---
+
+## Calendar Block <Badge>feat</Badge>
+
+Built a full production calendar block on top of `@gentleduck/calendar`:
+
+- **Month view** with color-coded event chips, overflow handling (+N more), today highlighting
+- **Week view** with 24-hour timeline and positioned event blocks
+- **Day view** with detailed timeline and event rendering
+- **Year view** with 12 mini month grids
+- **Command menu** (Cmd+K) for searching events across all dates
+- **Event dialog** with date picker, time input, category selector, and attendee list
+- **Toolbar** with view switching, month navigation, and filter controls
+
+---
+
+## Presence Animation Interrupt <Badge>fix</Badge>
+
+Fixed a critical bug in `@gentleduck/primitives` where rapidly opening and closing popover/dialog/sheet would cause the content to glitch or disappear.
+
+**Root cause:** When re-opening during an exit animation, the old animation's `animationend` event fired after the re-mount, causing `Presence` to unmount the re-opened content.
+
+**Fix:** Cancel in-flight exit animations by resetting `animationName` on the DOM node when `present` flips back to `true`. The enter animation starts fresh with no stale events.
+
+```tsx
+// Before: rapid open/close would glitch
+<Popover open={open} onOpenChange={setOpen}>
+  {/* Content would flash or disappear */}
+</Popover>
+
+// After: each click interrupts and snaps to the new state
+```
+
+This fix applies to all animated primitives: Popover, Dialog, AlertDialog, Sheet, Tooltip, HoverCard, DropdownMenu, ContextMenu, Select, and NavigationMenu.
+
+---
+
+## Hydration and Accessibility Fixes <Badge>fix</Badge>
+
+- **Breadcrumb key warning** -- moved React `key` from `BreadcrumbItem` to `Fragment` wrapper in `DocsPathBreadcrumb`
+- **Theme toggle hydration mismatch** -- server rendered "Switch to dark theme" while client resolved to "Switch to light theme". Fixed with a `mounted` guard that shows "Toggle theme" until client hydration completes
+- **Nested button violation** -- `PopoverTrigger` wrapping `Button` without `asChild` produced `<button>` inside `<button>`. Fixed in `calendar-7` and `combobox-7` examples
+- **Primitives useMemo stability** -- `Calendar` root's `useMemo` depended on `useCalendar` return object (new ref every render). Destructured into stable individual values
+- **Registry-ui NumberFormat cache** -- added LRU eviction (max 20) to prevent unbounded memory growth
+
 ---
 
 ## Registry Build -- Extension-Driven Architecture <Badge>feat</Badge>
@@ -115,12 +281,13 @@ Published new versions across all packages:
 
 | Package | Version | Type |
 | --- | --- | --- |
+| `@gentleduck/calendar` | 0.2.0 | minor (new) |
 | `@gentleduck/registry-build` | 0.1.0 | minor |
 | `@gentleduck/cli` | 1.2.0 | minor |
 | `@gentleduck/registers` | 0.3.0 | minor |
-| `@gentleduck/primitives` | 0.2.1 | patch |
-| `@gentleduck/docs` | 0.0.14 | patch |
-| `@gentleduck/registry-ui` | 0.2.1 | patch |
+| `@gentleduck/primitives` | 0.2.8 | patch |
+| `@gentleduck/docs` | 0.3.1 | patch |
+| `@gentleduck/registry-ui` | 0.3.1 | patch |
 | `@gentleduck/vim` | 0.1.13 | patch |
 | `@gentleduck/motion` | 0.1.14 | patch |
 | `@gentleduck/hooks` | 0.1.9 | patch |
@@ -180,3 +347,11 @@ Migrated the `Resizable` component to `react-resizable-panels` v4.
 - Aligned biome and tsconfig build info exclusions across all packages
 - Rewrote all CHANGELOG.md files with comprehensive descriptions
 - Resolved all `bun install` peer dependency warnings for vitest, react, and react-dom
+- Fixed all type errors across `registry-blocks` and `registry-examples` (CalendarValue union types)
+- Resolved all biome lint warnings across the monorepo (26 warnings to 0)
+- Fixed `CalendarProps.onSelect`/`selected` types for mode-narrowed values
+- Fixed `CommandInput` `onValueChange` compatibility with cmdk
+- Fixed popover `setOpen(false)` race condition in calendar `onSelect` callbacks
+- Fixed Jalaali calendar lint warnings (non-null assertions, template literals)
+- Fixed corrupt git object for `duck-emoji/data/i18n/zh.json`
+- Removed stale `duck-tabs`/`acme-tabs` CSS attribute selectors from highlight-code
