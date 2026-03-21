@@ -93,9 +93,6 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   })
   const [viewMode, setViewMode] = useState<ViewMode>('days')
 
-  // Track whether focus change came from keyboard (vs click/programmatic)
-  const keyboardFocusRef = useRef(false)
-
   // -------------------------------------------------------------------------
   // Constraints (memoised to keep a stable reference)
   // -------------------------------------------------------------------------
@@ -116,7 +113,11 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // Grid  -  rebuild when month, value, or constraints change
   // -------------------------------------------------------------------------
   const months: CalendarMonth<TDate>[] = useMemo(() => {
-    const gridConfig = { showOutsideDays, fixedWeeks, locale }
+    const resolvedLocale =
+      localeTag || localeDirection || weekStartDay
+        ? { locale: localeTag, weekStartDay, direction: localeDirection }
+        : undefined
+    const gridConfig = { showOutsideDays, fixedWeeks, locale: resolvedLocale }
     const rawMonths =
       numberOfMonths <= 1
         ? [buildCalendarMonth(adapter, month, gridConfig)]
@@ -126,7 +127,6 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
       ...m,
       weeks: applySelection(m.weeks, adapter, mode, value, constraints),
     }))
-    // Use primitive locale values instead of the locale object to avoid unnecessary rebuilds
   }, [
     adapter,
     month,
@@ -182,13 +182,13 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   const selectDate = useCallback(
     (date: TDate, options?: { shiftKey?: boolean }) => {
       if (isDisabledFn(date)) {
-        announce(buildDateDisabledMessage(adapter.format(date, { month: 'long', day: 'numeric' }, locale?.locale)))
+        announce(buildDateDisabledMessage(adapter.format(date, { month: 'long', day: 'numeric' }, localeTag)))
         return
       }
       const next = selectDay(adapter, mode, value, date, options)
       setValue(next)
     },
-    [adapter, mode, value, setValue, isDisabledFn, locale, announce],
+    [adapter, mode, value, setValue, isDisabledFn, localeTag, announce],
   )
 
   // -------------------------------------------------------------------------
@@ -199,13 +199,13 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
     if (prevMonthRef.current !== null && !adapter.isSameMonth(prevMonthRef.current, month)) {
       announce(
         buildMonthNavigationMessage(
-          adapter.format(month, { month: 'long' }, locale?.locale),
-          adapter.format(month, { year: 'numeric' }, locale?.locale),
+          adapter.format(month, { month: 'long' }, localeTag),
+          adapter.format(month, { year: 'numeric' }, localeTag),
         ),
       )
     }
     prevMonthRef.current = month
-  }, [month, adapter, announce, locale])
+  }, [month, adapter, announce, localeTag])
 
   // Announce on value change
   const prevValueRef = useRef<CalendarValue<TDate, M> | null>(null)
@@ -215,7 +215,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
 
     if (value === null) return
 
-    const fmt = (d: TDate) => adapter.format(d, { month: 'long', day: 'numeric' }, locale?.locale)
+    const fmt = (d: TDate) => adapter.format(d, { month: 'long', day: 'numeric' }, localeTag)
 
     if (mode === 'single' && value !== null) {
       announce(buildDateSelectedMessage(fmt(value as TDate)))
@@ -225,7 +225,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
         announce(buildRangeSelectedMessage(fmt(range.from), fmt(range.to)))
       }
     }
-  }, [value, mode, adapter, announce, locale])
+  }, [value, mode, adapter, announce, localeTag])
 
   // -------------------------------------------------------------------------
   // Focus management  -  auto-advance month when focus leaves the visible month
@@ -240,7 +240,6 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
 
   const handleFocusChange = useCallback(
     (date: TDate) => {
-      keyboardFocusRef.current = true
       setFocusedDate(date)
       if (!adapter.isSameMonth(date, month)) {
         setMonthState(adapter.startOfMonth(date))
@@ -253,7 +252,6 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
         if (el && document.activeElement !== el) {
           el.focus({ preventScroll: true })
         }
-        keyboardFocusRef.current = false
       })
     },
     [adapter, month, setMonthState],

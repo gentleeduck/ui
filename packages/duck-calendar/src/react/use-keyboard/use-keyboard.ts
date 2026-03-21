@@ -56,7 +56,7 @@ function buildActionMap<TDate>(): Record<string, Action<TDate>> {
 }
 
 // built once, outside the hook  -  no re-creation on render
-const ACTION_MAP = buildActionMap<any>()
+const ACTION_MAP: Record<string, Action<unknown>> = buildActionMap<unknown>()
 
 export function useKeyboard<TDate>(config: KeyboardConfig<TDate>): KeyboardReturn {
   // Keep config in a ref to avoid recreating the callback on every prop change
@@ -84,7 +84,7 @@ export function useKeyboard<TDate>(config: KeyboardConfig<TDate>): KeyboardRetur
         return
       }
 
-      const action = (ACTION_MAP as Record<string, Action<TDate>>)[key]
+      const action = ACTION_MAP[key] as Action<TDate> | undefined
       if (!action) return
 
       e.preventDefault()

@@ -26,6 +26,7 @@ export function buildDayProps<TDate>(
     'data-today': day.isToday ? 'true' : undefined,
     'data-disabled': day.isDisabled ? 'true' : undefined,
     'data-outside-month': day.isOutside ? 'true' : undefined,
+    'data-hidden': day.isHidden ? 'true' : undefined,
     'data-range-middle': day.isRangeMiddle ? 'true' : undefined,
     'data-range-start': day.isRangeStart ? 'true' : undefined,
     'data-range-end': day.isRangeEnd ? 'true' : undefined,
