@@ -22,20 +22,20 @@ import {
 Build a single month grid with weeks and day cells.
 
 ```tsx
-buildCalendarMonth(adapter: DateAdapter<TDate>, date: TDate, config?: Pick<CalendarConfig<TDate, any>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>) => CalendarMonth<TDate>
+buildCalendarMonth(adapter: DateAdapter<TDate>, viewDate: TDate, config: Pick<CalendarConfig<TDate, any>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>) => CalendarMonth<TDate>
 ```
 
 | Param | Type | Description |
 | :--- | :--- | :--- |
 | `adapter` | `DateAdapter<TDate>` | Date adapter |
-| `date` | `TDate` | Any date in the target month |
+| `viewDate` | `TDate` | Any date in the target month |
 | `config` | `Pick<CalendarConfig<TDate, any>, 'showOutsideDays' \| 'fixedWeeks' \| 'locale'>` | Grid options |
 
 **Config properties:**
 
 | Property | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `showOutsideDays` | `boolean` | `true` | Show days from adjacent months |
+| `showOutsideDays` | `boolean` | `true` | When false, outside days are marked as hidden and disabled |
 | `fixedWeeks` | `boolean` | `false` | Always produce 6 weeks |
 | `locale` | `CalendarLocaleConfig` | - | Locale config containing `weekStartDay`, `locale`, `direction`, etc. |
 
@@ -60,6 +60,7 @@ Each `CalendarDay<TDate>` has:
 | `date` | `TDate` | The date |
 | `isToday` | `boolean` | Whether this is today |
 | `isOutside` | `boolean` | Whether this day is from an adjacent month |
+| `isHidden` | `boolean` | Whether this day should be hidden (outside day when `showOutsideDays` is false) |
 | `isWeekend` | `boolean` | Whether this is a weekend |
 | `isSelected` | `boolean` | Whether this day is selected (set by `applySelection`) |
 | `isDisabled` | `boolean` | Whether this day is disabled (set by `applySelection`) |
@@ -74,13 +75,13 @@ Each `CalendarDay<TDate>` has:
 Build multiple consecutive month grids.
 
 ```tsx
-buildMultiMonth(adapter: DateAdapter<TDate>, date: TDate, count: number, config?: Pick<CalendarConfig<TDate, any>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>) => CalendarMonth<TDate>[]
+buildMultiMonth(adapter: DateAdapter<TDate>, startMonth: TDate, count: number, config: Pick<CalendarConfig<TDate, any>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>) => CalendarMonth<TDate>[]
 ```
 
 | Param | Type | Description |
 | :--- | :--- | :--- |
 | `adapter` | `DateAdapter<TDate>` | Date adapter |
-| `date` | `TDate` | Starting month |
+| `startMonth` | `TDate` | Any date in the first month |
 | `count` | `number` | Number of months |
 | `config` | `Pick<CalendarConfig<TDate, any>, 'showOutsideDays' \| 'fixedWeeks' \| 'locale'>` | Grid options |
 
@@ -88,23 +89,23 @@ buildMultiMonth(adapter: DateAdapter<TDate>, date: TDate, count: number, config?
 
 ### `buildCalendarYear`
 
-Build a 12-month picker for year navigation.
+Build month entries for year navigation. Queries the adapter for the actual month count to support calendars with variable months (e.g. Hebrew leap years with 13 months).
 
 ```tsx
-buildCalendarYear(adapter: DateAdapter<TDate>, date: TDate, locale?: string) => YearEntry[]
+buildCalendarYear(adapter: DateAdapter<TDate>, viewDate: TDate, locale?: string) => YearEntry[]
 ```
 
 | Param | Type | Description |
 | :--- | :--- | :--- |
 | `adapter` | `DateAdapter<TDate>` | Date adapter |
-| `date` | `TDate` | Any date in the target year |
+| `viewDate` | `TDate` | Any date in the target year |
 | `locale` | `string` | BCP 47 locale for month names |
 
 Each `YearEntry` has:
 
 | Property | Type | Description |
 | :--- | :--- | :--- |
-| `month` | `number` | Month index (0-11) |
+| `month` | `number` | Month index (0-based) |
 | `label` | `string` | Localized month name |
 | `isCurrent` | `boolean` | Whether this is the current month (today's month and year) |
 
@@ -115,7 +116,7 @@ Each `YearEntry` has:
 Build a decade year picker.
 
 ```tsx
-buildDecadeView(adapter: DateAdapter<TDate>, date: TDate) => DecadeEntry[]
+buildDecadeView(adapter: DateAdapter<TDate>, viewDate: TDate) => DecadeEntry[]
 ```
 
 Each `DecadeEntry` has:
@@ -153,20 +154,21 @@ const weekdays = getLocalizedWeekdays(adapter, 'en-US', 1) // Monday-first
 
 ### `getLocalizedMonthNames`
 
-Returns 12 localized month names in calendar order (Jan-Dec).
+Returns localized month names for a given year. Queries the adapter for the actual month count to support calendar systems with variable months (e.g. Hebrew leap years with 13 months).
 
 ```tsx
-getLocalizedMonthNames(adapter: DateAdapter<TDate>, locale?: string, format?: 'long' | 'short' | 'narrow') => string[]
+getLocalizedMonthNames(adapter: DateAdapter<TDate>, year: number, locale?: string, format?: 'long' | 'short' | 'narrow') => string[]
 ```
 
 | Param | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `adapter` | `DateAdapter<TDate>` | - | Date adapter |
+| `year` | `number` | - | Year to query month count for |
 | `locale` | `string` | runtime default | BCP 47 locale tag |
 | `format` | `'long' \| 'short' \| 'narrow'` | `'long'` | Intl month format |
 
 ```tsx
-const months = getLocalizedMonthNames(adapter, 'ar-SA')
+const months = getLocalizedMonthNames(adapter, 2026, 'ar-SA')
 // Arabic month names
 ```
 

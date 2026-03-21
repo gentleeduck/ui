@@ -14,15 +14,16 @@ import { selectDay, applySelection } from '@gentleduck/calendar'
 Compute the new selection value when a user clicks a day. Pure function -- does not mutate state.
 
 ```tsx
-selectDay(adapter: DateAdapter<TDate>, mode: SelectionMode, current: CalendarValue<TDate, M>, date: TDate) => CalendarValue<TDate, M>
+selectDay(adapter: DateAdapter<TDate>, mode: SelectionMode, current: CalendarValue<TDate, M>, date: TDate, options?: { shiftKey?: boolean }) => CalendarValue<TDate, M>
 ```
 
 | Param | Type | Description |
 | :--- | :--- | :--- |
 | `adapter` | `DateAdapter<TDate>` | Date adapter |
-| `mode` | `SelectionMode` | `'single'`, `'range'`, or `'multi'` |
+| `mode` | `SelectionMode` | `'single'`, `'range'`, `'multi'`, or `'multi-range'` |
 | `current` | `CalendarValue<TDate, M>` | Current selection value |
 | `date` | `TDate` | The clicked date |
+| `options` | `{ shiftKey?: boolean }` | Optional. When `shiftKey` is true in `multi-range` mode, extends the last range |
 
 **Returns** the updated selection value. Shape depends on mode:
 
@@ -31,6 +32,7 @@ selectDay(adapter: DateAdapter<TDate>, mode: SelectionMode, current: CalendarVal
 | `'single'` | `TDate \| null` | The selected date, or `null` |
 | `'range'` | `DateRange<TDate> \| null` | `{ from, to }` range object |
 | `'multi'` | `TDate[]` | Array of selected dates |
+| `'multi-range'` | `DateRange<TDate>[]` | Array of range objects |
 
 ---
 
@@ -43,7 +45,7 @@ applySelection(
   weeks: CalendarWeek<TDate>[],
   adapter: DateAdapter<TDate>,
   mode: SelectionMode,
-  value: CalendarValue<TDate, M>,
+  selected: CalendarValue<TDate, M>,
   constraints?: SelectionConstraints<TDate> // default: {}
 ) => CalendarWeek<TDate>[]
 ```
@@ -53,7 +55,7 @@ applySelection(
 | `weeks` | `CalendarWeek<TDate>[]` | Raw weeks from `buildCalendarMonth` |
 | `adapter` | `DateAdapter<TDate>` | Date adapter |
 | `mode` | `SelectionMode` | Selection mode |
-| `value` | `CalendarValue<TDate, M>` | Current selection |
+| `selected` | `CalendarValue<TDate, M>` | Current selection |
 | `constraints` | `SelectionConstraints<TDate>` | Optional. Disabled dates, fromDate, toDate. Defaults to `{}` |
 
 **SelectionConstraints:**
@@ -71,7 +73,7 @@ applySelection(
 ### `SelectionMode`
 
 ```tsx
-type SelectionMode = 'single' | 'range' | 'multi'
+type SelectionMode = 'single' | 'range' | 'multi' | 'multi-range'
 ```
 
 ### `CalendarValue<TDate, M>`
@@ -83,6 +85,7 @@ type CalendarValue<TDate, M extends SelectionMode> =
   M extends 'single' ? TDate | null :
   M extends 'range' ? DateRange<TDate> | null :
   M extends 'multi' ? TDate[] :
+  M extends 'multi-range' ? DateRange<TDate>[] :
   never
 ```
 

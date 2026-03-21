@@ -44,6 +44,7 @@ Each field is a `spinbutton` -- users can:
 - **Type** a number to set the value directly
 - Press <Kbd>ArrowUp</Kbd> / <Kbd>ArrowDown</Kbd> to increment/decrement
 - Press <Kbd>Tab</Kbd> to move between fields
+- On the AM/PM field: press <Kbd>A</Kbd> for AM, <Kbd>P</Kbd> for PM
 
 The `getFieldProps` prop getter applies:
 
@@ -113,6 +114,7 @@ useTimePicker({
   minTime: { hour: 9, minute: 0 },
   maxTime: { hour: 17, minute: 0 },
   minuteStep: 15, // 15-minute increments
+  secondStep: 5,  // 5-second increments (when showSeconds is true)
 })
 ```
 
