@@ -460,6 +460,18 @@ export function runAdapterTests<TDate>(
     })
 
     // -----------------------------------------------------------------------
+    // getMonthsInYear() (optional)
+    // -----------------------------------------------------------------------
+    describe('getMonthsInYear', () => {
+      it('returns 12 by default (or adapter-specific count)', () => {
+        const d = adapter.create(2026, 0, 1)
+        const count = adapter.getMonthsInYear?.(d) ?? 12
+        expect(count).toBeGreaterThanOrEqual(12)
+        expect(count).toBeLessThanOrEqual(13)
+      })
+    })
+
+    // -----------------------------------------------------------------------
     // getHours() / getMinutes() / getSeconds()
     // -----------------------------------------------------------------------
     describe('getHours', () => {
@@ -598,6 +610,16 @@ export function runAdapterTests<TDate>(
         expect(result.length).toBeGreaterThan(0)
         // Should not be the English name
         expect(result).not.toBe('March')
+        // Should contain non-ASCII characters (Arabic script)
+        // biome-ignore lint/suspicious/noControlCharactersInRegex: intentional ASCII range check
+        expect(/[^\u0000-\u007F]/.test(result)).toBe(true)
+      })
+
+      it('format gracefully handles unknown locale by falling back', () => {
+        const d = adapter.create(2026, 2, 17)
+        const result = adapter.format(d, { month: 'long' }, 'xx-XX')
+        expect(typeof result).toBe('string')
+        expect(result.length).toBeGreaterThan(0)
       })
 
       it('format with { day: "numeric" } returns day number as string', () => {

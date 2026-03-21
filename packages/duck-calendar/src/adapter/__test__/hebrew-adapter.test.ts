@@ -272,6 +272,16 @@ describe('HebrewAdapter', () => {
       const d = adapter.create(5786, 11, 1)
       expect(adapter.getMonth(d)).toBe(11)
     })
+
+    it('getMonthsInYear returns 13 for leap year', () => {
+      const d = adapter.create(5784, 0, 1)
+      expect(adapter.getMonthsInYear(d)).toBe(13)
+    })
+
+    it('getMonthsInYear returns 12 for common year', () => {
+      const d = adapter.create(5786, 0, 1)
+      expect(adapter.getMonthsInYear(d)).toBe(12)
+    })
   })
 
   // ---------------------------------------------------------------------------

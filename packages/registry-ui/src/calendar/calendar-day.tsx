@@ -75,15 +75,16 @@ export const CalendarDayCell = React.memo(function CalendarDayCell({
       data-focused={isFocused ? 'true' : undefined}
       className={cn(
         'group/day relative aspect-square h-full w-full select-none p-0 text-center',
+        day.isHidden && 'invisible',
         isInRange && 'overflow-hidden',
         day.isRangeStart && 'rounded-s-md bg-accent',
         day.isRangeEnd && 'rounded-e-md bg-accent',
         day.isRangeMiddle && 'bg-accent',
         isInRange && isFirstInRow && !day.isRangeStart && 'rounded-s-md',
         isInRange && isLastInRow && !day.isRangeEnd && 'rounded-e-md',
-        day.isOutside && 'text-muted-foreground',
-        day.isOutside && day.isSelected && 'text-muted-foreground',
-        day.isDisabled && 'pointer-events-none text-muted-foreground opacity-50',
+        day.isOutside && !day.isHidden && 'text-muted-foreground',
+        day.isOutside && !day.isHidden && day.isSelected && 'text-muted-foreground',
+        day.isDisabled && !day.isHidden && 'pointer-events-none text-muted-foreground opacity-50',
       )}>
       <button
         type="button"

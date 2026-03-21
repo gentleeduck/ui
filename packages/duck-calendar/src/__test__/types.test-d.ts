@@ -35,11 +35,16 @@ describe('CalendarValue conditional type', () => {
     expectTypeOf<CalendarValue<Date, 'multi'>>().toEqualTypeOf<Date[]>()
   })
 
+  it('resolves to DateRange<TDate>[] for multi-range mode', () => {
+    expectTypeOf<CalendarValue<Date, 'multi-range'>>().toEqualTypeOf<DateRange<Date>[]>()
+  })
+
   it('works with custom TDate types', () => {
     type CustomDate = { _brand: 'custom'; value: number }
     expectTypeOf<CalendarValue<CustomDate, 'single'>>().toEqualTypeOf<CustomDate | null>()
     expectTypeOf<CalendarValue<CustomDate, 'range'>>().toEqualTypeOf<DateRange<CustomDate> | null>()
     expectTypeOf<CalendarValue<CustomDate, 'multi'>>().toEqualTypeOf<CustomDate[]>()
+    expectTypeOf<CalendarValue<CustomDate, 'multi-range'>>().toEqualTypeOf<DateRange<CustomDate>[]>()
   })
 
   it('resolves to never for invalid mode', () => {
@@ -386,5 +391,6 @@ describe('CalendarDay type', () => {
     expectTypeOf<CalendarDay<Date>['isRangeStart']>().toEqualTypeOf<boolean>()
     expectTypeOf<CalendarDay<Date>['isRangeEnd']>().toEqualTypeOf<boolean>()
     expectTypeOf<CalendarDay<Date>['isRangeMiddle']>().toEqualTypeOf<boolean>()
+    expectTypeOf<CalendarDay<Date>['isHidden']>().toEqualTypeOf<boolean>()
   })
 })

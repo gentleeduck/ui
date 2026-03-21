@@ -31,14 +31,14 @@ function jalCal(jy: number): { leap: number; gy: number; march: number } {
   const bl = BREAKS.length
   const gy = jy + 621
   let leapJ = -14
-  let jp = BREAKS[0]!
+  let jp = BREAKS[0] ?? 0
 
-  if (jy < jp || jy >= BREAKS[bl - 1]!) throw new Error('Invalid Jalaali year ' + jy)
+  if (jy < jp || jy >= (BREAKS[bl - 1] ?? 0)) throw new Error(`Invalid Jalaali year ${jy}`)
 
   let jump = 0
   let leap = 0
   for (let i = 1; i < bl; i += 1) {
-    const jm = BREAKS[i]!
+    const jm = BREAKS[i] ?? 0
     jump = jm - jp
     if (jy < jm) break
     leapJ = leapJ + div(jump, 33) * 8 + div(mod(jump, 33), 4)
