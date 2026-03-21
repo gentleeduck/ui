@@ -44,12 +44,12 @@ The package includes 7 ready-to-use adapters. Adapters marked with a peer depend
 | Adapter | Import | Description | Peer dependency |
 | :--- | :--- | :--- | :--- |
 | `NativeAdapter` | `@gentleduck/calendar` | Zero-dep adapter for the built-in `Date` object | None |
-| `DateFnsAdapter` | `@gentleduck/calendar/adapters/date-fns` | Adapter for date-fns | `date-fns` |
-| `DayjsAdapter` | `@gentleduck/calendar/adapters/dayjs` | Adapter for dayjs | `dayjs` |
-| `LuxonAdapter` | `@gentleduck/calendar/adapters/luxon` | Adapter for Luxon | `luxon` |
-| `PersianAdapter` | `@gentleduck/calendar/adapters/persian` | Persian / Jalali calendar | None |
-| `IslamicAdapter` | `@gentleduck/calendar/adapters/islamic` | Islamic / Hijri calendar | None |
-| `HebrewAdapter` | `@gentleduck/calendar/adapters/hebrew` | Hebrew calendar | None |
+| `DateFnsAdapter` | `@gentleduck/calendar/adapter` | Adapter for date-fns | `date-fns` |
+| `DayjsAdapter` | `@gentleduck/calendar/adapter` | Adapter for dayjs | `dayjs` |
+| `LuxonAdapter` | `@gentleduck/calendar/adapter` | Adapter for Luxon | `luxon` |
+| `PersianAdapter` | `@gentleduck/calendar/adapter` | Persian / Jalali calendar | None |
+| `IslamicAdapter` | `@gentleduck/calendar/adapter` | Islamic / Hijri calendar | None |
+| `HebrewAdapter` | `@gentleduck/calendar/adapter` | Hebrew calendar | None |
 
 ---
 
@@ -126,6 +126,7 @@ Every adapter must implement these methods:
 | `getMinutes` | `(d) => number` | Extract minutes |
 | `getSeconds` | `(d) => number` | Extract seconds |
 | `setTime` | `(d, h, m, s?) => TDate` | Set time on a date |
+| `getMonthsInYear?` | `(d) => number` | Optional. Month count for the year (defaults to 12). Hebrew leap years return 13. |
 
 <Callout icon={<TriangleAlert />} tone="warning">
 

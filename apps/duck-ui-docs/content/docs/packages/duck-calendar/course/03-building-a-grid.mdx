@@ -44,7 +44,13 @@ const month = buildCalendarMonth(adapter, march2026, {
           date: Date,           // The date
           isToday: false,       // Is this today?
           isOutside: true,      // From adjacent month?
+          isHidden: false,      // Hidden when showOutsideDays is false?
           isWeekend: true,      // Saturday or Sunday?
+          isSelected: false,    // Set by applySelection()
+          isDisabled: false,    // Set by applySelection()
+          isRangeStart: false,  // Set by applySelection()
+          isRangeEnd: false,    // Set by applySelection()
+          isRangeMiddle: false, // Set by applySelection()
         },
         // ... 6 more days
       ]
@@ -124,7 +130,7 @@ const months = buildMultiMonth(adapter, new Date(), 3, {
 
 | Option | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `showOutsideDays` | `boolean` | `true` | Include days from adjacent months |
+| `showOutsideDays` | `boolean` | `true` | When false, outside days are marked as hidden and disabled |
 | `fixedWeeks` | `boolean` | `false` | Always produce 6 weeks |
 | `locale` | `CalendarLocaleConfig` | `{}` | Locale settings (see below) |
 

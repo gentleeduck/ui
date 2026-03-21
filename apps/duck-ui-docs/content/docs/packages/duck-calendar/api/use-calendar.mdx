@@ -26,7 +26,7 @@ const { state, actions, getDayProps, getGridProps, getNavProps, getHeaderProps, 
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `adapter` | `DateAdapter<TDate>` | **required** | Date adapter instance |
-| `mode` | `SelectionMode` | **required** | `'single'`, `'range'`, or `'multi'` |
+| `mode` | `SelectionMode` | **required** | `'single'`, `'range'`, `'multi'`, or `'multi-range'` |
 | `locale` | `CalendarLocaleConfig` | -- | Locale, week start day, and direction |
 | `month` | `TDate` | -- | Controlled displayed month |
 | `defaultMonth` | `TDate` | `adapter.today()` | Default month (uncontrolled) |
@@ -49,8 +49,6 @@ const { state, actions, getDayProps, getGridProps, getNavProps, getHeaderProps, 
 | `locale` | `string` | BCP 47 locale tag (e.g. 'en-US', 'ar-SA', 'fa-IR') |
 | `weekStartDay` | `0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6` | Day the week starts on (0 = Sunday) |
 | `direction` | `'ltr' \| 'rtl'` | Text direction |
-| `numberingSystem` | `string` | Intl numbering system (e.g. 'arab', 'arabext') |
-| `calendar` | `string` | Intl calendar system (e.g. 'islamic', 'persian', 'hebrew') |
 
 ---
 
