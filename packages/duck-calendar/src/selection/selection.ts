@@ -96,16 +96,13 @@ function selectMultiRange<TDate>(
     })
     if (idx < 0) return current
 
-    const range = current[idx]!
-    if (range.to === null) return current
+    const range = current[idx]
+    if (!range || range.to === null) return current
 
-    // Count days in range
-    let dayCount = 0
-    let cursor = range.from
-    while (!adapter.isAfter(cursor, range.to)) {
-      dayCount++
-      cursor = adapter.addDays(cursor, 1)
-    }
+    // Count days in range (O(1) via native Date diff)
+    const fromMs = adapter.toDate(range.from).getTime()
+    const toMs = adapter.toDate(range.to).getTime()
+    const dayCount = Math.round((toMs - fromMs) / 86_400_000) + 1
     if (dayCount <= 5) return current
 
     const result = current.filter((_, i) => i !== idx)
@@ -134,7 +131,8 @@ function selectMultiRange<TDate>(
     return [{ from: clicked, to: null }]
   }
 
-  const last = current[current.length - 1]!
+  const last = current[current.length - 1]
+  if (!last) return [{ from: clicked, to: null }]
 
   // Still selecting end of last range
   if (last.to === null) {
@@ -166,11 +164,13 @@ function mergeRanges<TDate>(adapter: DateAdapter<TDate>, ranges: DateRange<TDate
   // Sort by start date
   completed.sort((a, b) => (adapter.isBefore(a.from, b.from) ? -1 : adapter.isAfter(a.from, b.from) ? 1 : 0))
 
-  const merged: DateRange<TDate>[] = [completed[0]!]
+  const first = completed[0]
+  if (!first) return [...inProgress]
+  const merged: DateRange<TDate>[] = [first]
 
   for (let i = 1; i < completed.length; i++) {
-    const prev = merged[merged.length - 1]! as { from: TDate; to: TDate }
-    const curr = completed[i]!
+    const prev = merged[merged.length - 1] as { from: TDate; to: TDate }
+    const curr = completed[i] as { from: TDate; to: TDate }
 
     // Check if curr overlaps or is adjacent (prev.to + 1 day >= curr.from)
     const prevEndPlusOne = adapter.addDays(prev.to, 1)
@@ -207,7 +207,7 @@ export function applySelection<TDate, M extends SelectionMode>(
     ...week,
     days: week.days.map((day) => ({
       ...day,
-      isDisabled: isDateDisabled(adapter, day.date, constraints),
+      isDisabled: day.isDisabled || isDateDisabled(adapter, day.date, constraints),
       ...resolveSelectionFlags(adapter, mode, selected, day.date),
     })),
   }))
@@ -277,7 +277,9 @@ function resolveSelectionFlags<TDate, M extends SelectionMode>(
       return UNSELECTED
     }
 
-    default:
-      return UNSELECTED
+    default: {
+      const _exhaustive: never = mode
+      return _exhaustive
+    }
   }
 }

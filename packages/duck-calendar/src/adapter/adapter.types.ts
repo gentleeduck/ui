@@ -122,6 +122,12 @@ export interface DateAdapter<TDate> {
   getMonth(date: TDate): number
 
   /**
+   * Returns the number of months in the year that contains `date`.
+   * Defaults to 12 for Gregorian-based adapters. Hebrew leap years return 13.
+   */
+  getMonthsInYear?(date: TDate): number
+
+  /**
    * Extracts the day of the month (1-31).
    * @example adapter.getDate(2026-03-17) -> 17
    */

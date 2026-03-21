@@ -1,6 +1,10 @@
 import { hebrewMonthLength, hebrewMonthsInYear, hebrewToGregorian, toHebrew } from '../calendar-system/hebrew'
 import type { DateAdapter, WeekStartDay } from './adapter.types'
-import { formatWithCalendar } from './adapter.utils'
+import { createConversionCache, formatWithCalendar } from './adapter.utils'
+
+const hebrewCache = createConversionCache((date: Date) =>
+  toHebrew(date.getFullYear(), date.getMonth() + 1, date.getDate()),
+)
 
 /**
  * Hebrew calendar adapter.
@@ -27,9 +31,9 @@ export class HebrewAdapter implements DateAdapter<Date> {
   // Helpers
   // ---------------------------------------------------------------------------
 
-  /** Convert a native Date to its Hebrew parts. */
+  /** Convert a native Date to its Hebrew parts (cached per-instance). */
   private hebrew(date: Date): { hy: number; hm: number; hd: number } {
-    return toHebrew(date.getFullYear(), date.getMonth() + 1, date.getDate())
+    return hebrewCache.get(this, date)
   }
 
   /** Build a native Date from Hebrew parts (month is 1-indexed internally). */
@@ -142,6 +146,10 @@ export class HebrewAdapter implements DateAdapter<Date> {
 
   getMonth(date: Date): number {
     return this.hebrew(date).hm - 1
+  }
+
+  getMonthsInYear(date: Date): number {
+    return hebrewMonthsInYear(this.hebrew(date).hy)
   }
 
   getDate(date: Date): number {
