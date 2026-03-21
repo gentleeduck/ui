@@ -1,60 +1,104 @@
+<p align="center">
+  <img src="./apps/duck-ui-docs/public/og/ui-home-67.png" alt="gentleduck/ui homepage snapshot (67%)" width="800"/>
+</p>
+
 # gentleduck/ui
 
-Build accessible React apps faster. 50+ components. 10+ packages. Zero compromises.
+A Bun-based monorepo for the gentleduck/ui component system, docs, and related tooling.
+ 
+## Documentation
+- Docs app: `apps/duck-ui-docs`
+- GitHub: https://github.com/gentleeduck/duck-ui
 
-[![npm version](https://img.shields.io/npm/v/@gentleduck/cli?label=cli)](https://www.npmjs.com/package/@gentleduck/cli)
-[![license](https://img.shields.io/github/license/gentleeduck/duck-ui)](./LICENSE)
-[![tests](https://img.shields.io/github/actions/workflow/status/gentleeduck/duck-ui/ci.yml?label=tests)](https://github.com/gentleeduck/duck-ui/actions)
-[![bundle size](https://img.shields.io/bundlephobia/minzip/@gentleduck/primitives?label=primitives%20size)](https://bundlephobia.com/package/@gentleduck/primitives)
+## Workspace Matrix
 
-## Packages
+### Apps
 
-| Package | Description | Version |
-| --- | --- | --- |
-| [`@gentleduck/calendar`](./packages/duck-calendar) | Headless calendar engine with date adapter pattern (~5 KB) | [![npm](https://img.shields.io/npm/v/@gentleduck/calendar)](https://www.npmjs.com/package/@gentleduck/calendar) |
-| [`@gentleduck/primitives`](./packages/duck-primitives) | Accessibility-first headless UI primitives | [![npm](https://img.shields.io/npm/v/@gentleduck/primitives)](https://www.npmjs.com/package/@gentleduck/primitives) |
-| [`@gentleduck/vim`](./packages/duck-vim) | Keyboard command engine with sequences and recording | [![npm](https://img.shields.io/npm/v/@gentleduck/vim)](https://www.npmjs.com/package/@gentleduck/vim) |
-| [`@gentleduck/variants`](./packages/duck-variants) | Type-safe component variants with cva() | [![npm](https://img.shields.io/npm/v/@gentleduck/variants)](https://www.npmjs.com/package/@gentleduck/variants) |
-| [`@gentleduck/motion`](./packages/duck-motion) | Animation tokens and reduced motion | [![npm](https://img.shields.io/npm/v/@gentleduck/motion)](https://www.npmjs.com/package/@gentleduck/motion) |
-| [`@gentleduck/hooks`](./packages/duck-hooks) | React utility hooks | [![npm](https://img.shields.io/npm/v/@gentleduck/hooks)](https://www.npmjs.com/package/@gentleduck/hooks) |
-| [`@gentleduck/libs`](./packages/duck-libs) | Shared utilities (cn, etc.) | [![npm](https://img.shields.io/npm/v/@gentleduck/libs)](https://www.npmjs.com/package/@gentleduck/libs) |
-| [`@gentleduck/cli`](./packages/duck-cli) | CLI for adding and managing components | [![npm](https://img.shields.io/npm/v/@gentleduck/cli)](https://www.npmjs.com/package/@gentleduck/cli) |
-| [`@gentleduck/lazy`](./packages/duck-lazy) | Lazy loading components | [![npm](https://img.shields.io/npm/v/@gentleduck/lazy)](https://www.npmjs.com/package/@gentleduck/lazy) |
-| [`@gentleduck/state`](./packages/duck-state) | Atom-based state management | [![npm](https://img.shields.io/npm/v/@gentleduck/state)](https://www.npmjs.com/package/@gentleduck/state) |
-| [`@gentleduck/docs`](./packages/duck-docs) | Shared docs app kit | [![npm](https://img.shields.io/npm/v/@gentleduck/docs)](https://www.npmjs.com/package/@gentleduck/docs) |
-| [`registry-ui`](./packages/registry-ui) | 50+ styled Tailwind components | source-exported |
+| Path | Package | Role | Status |
+| --- | --- | --- | --- |
+| `apps/duck-ui-docs` | `@gentleduck/ui-docs` | Public docs site, registry explorer, MCP server | Active |
+| `apps/benchmark` | `benchmark` | Standalone benchmark app | Standalone, excluded from default root workspace scripts |
 
-## Quick Start
+### Published Packages
 
+| Path | Package | Role | Status |
+| --- | --- | --- | --- |
+| `packages/duck-benchmark` | [`@gentleduck/benchmark`](https://www.npmjs.com/package/@gentleduck/benchmark) | Benchmarking package | Active |
+| `packages/duck-calendar` | [`@gentleduck/calendar`](https://www.npmjs.com/package/@gentleduck/calendar) | Headless calendar engine with date adapter pattern (~5 KB) | Active |
+| `packages/duck-cli` | [`@gentleduck/cli`](https://www.npmjs.com/package/@gentleduck/cli) | CLI for installing and updating duck-ui pieces | Active |
+| `packages/duck-docs` | [`@gentleduck/docs`](https://www.npmjs.com/package/@gentleduck/docs) | Shared docs app kit | Active |
+| `packages/duck-hooks` | [`@gentleduck/hooks`](https://www.npmjs.com/package/@gentleduck/hooks) | React hooks | Active |
+| `packages/duck-lazy` | [`@gentleduck/lazy`](https://www.npmjs.com/package/@gentleduck/lazy) | Lazy-loading helpers | Active |
+| `packages/duck-libs` | [`@gentleduck/libs`](https://www.npmjs.com/package/@gentleduck/libs) | Shared utility helpers | Active |
+| `packages/duck-motion` | [`@gentleduck/motion`](https://www.npmjs.com/package/@gentleduck/motion) | Motion tokens and helpers | Active |
+| `packages/duck-primitives` | [`@gentleduck/primitives`](https://www.npmjs.com/package/@gentleduck/primitives) | Accessibility-first unstyled primitives | Active |
+| `packages/duck-shortcut` | [`@gentleduck/shortcut`](https://www.npmjs.com/package/@gentleduck/shortcut) | Legacy shortcut package | Deprecated, frozen in favor of `@gentleduck/vim` |
+| `packages/duck-state` | [`@gentleduck/state`](https://www.npmjs.com/package/@gentleduck/state) | Lightweight state primitives | Active |
+| `packages/duck-variants` | [`@gentleduck/variants`](https://www.npmjs.com/package/@gentleduck/variants) | Variant and class composition helpers | Active |
+| `packages/duck-vim` | [`@gentleduck/vim`](https://www.npmjs.com/package/@gentleduck/vim) | Keyboard command engine | Active |
+| `packages/registers` | [`@gentleduck/registers`](https://www.npmjs.com/package/@gentleduck/registers) | Registry schema and aggregate data exports | Active |
+| `packages/registry-ui` | [`@gentleduck/registry-ui`](https://www.npmjs.com/package/@gentleduck/registry-ui) | Source exports for UI components | Active |
+
+### Private / Internal Packages
+
+| Path | Package | Role | Status |
+| --- | --- | --- | --- |
+| `packages/duck-extension` | `@gentleduck/duck-extension` | Browser extension experiments | Private, active |
+| `packages/registry-blocks` | `@gentleduck/registry-blocks` | Registry block content | Private, active |
+| `packages/registry-build` | `@gentleduck/registry-build` | Registry generation tooling | Private, active |
+| `packages/registry-examples` | `@gentleduck/registry-examples` | Example source content | Private, active |
+| `packages/registry-internals` | `@gentleduck/registry-internals` | Internal registry content | Private, active |
+| `packages/types` | `@gentleduck/types` | Shared type-only package | Private, active |
+
+### Tooling Packages
+
+| Path | Package | Role | Status |
+| --- | --- | --- | --- |
+| `tooling/biome` | `@gentleduck/biome-config` | Shared Biome config | Internal |
+| `tooling/github` | `@gentleduck/github` | GitHub/project automation support | Internal |
+| `tooling/tailwind` | `@gentleduck/tailwind-config` | Shared Tailwind config | Internal |
+| `tooling/tsdown` | `@gentleduck/tsdown-config` | Shared `tsdown` config | Internal |
+| `tooling/typescript` | `@gentleduck/typescript-config` | Shared TypeScript config | Internal |
+| `tooling/vitest` | `@gentleduck/vitest-config` | Shared Vitest config | Internal |
+| `tooling/bash` | `bash` | Shell utilities and misc scripts | Internal |
+
+### Archived / Planned
+
+| Path | Package | Role | Status |
+| --- | --- | --- | --- |
+| `packages/_oldstuff_refactor` | `@duck-ui/oldstuff-refactor` | Archived refactor material | Archived, excluded from root workspace automation |
+| `packages/duck-emoji` | `@gentleduck/emoji` | Planned emoji package | Placeholder, excluded from root workspace automation |
+
+## Workspace Policy
+
+- Root quality scripts target the active workspace graph only.
+- Archived and placeholder packages stay in the repo for reference, but are excluded from root workspace automation.
+- Deprecated published packages remain documented until they are formally removed from maintenance or npm distribution.
+
+## Getting Started
 ```bash
-# 1. Install the CLI
-npx @gentleduck/cli@latest init
-
-# 2. Initialize your project
-npx @gentleduck/cli@latest init
-
-# 3. Add a component
-npx @gentleduck/cli@latest add button
+git clone https://github.com/gentleeduck/duck-ui.git
+cd duck-ui
+bun install
 ```
 
-## Key Features
+## Run a Single App
+```bash
+bun --filter @gentleduck/ui-docs dev
+```
 
-- **Tailwind v4**  -  Built on Tailwind CSS v4 with native CSS layers
-- **Dark mode**  -  First-class dark mode support out of the box
-- **RTL + i18n**  -  Right-to-left layout and internationalization ready
-- **ARIA compliant**  -  WAI-ARIA patterns across all primitives
-- **Tree-shakeable**  -  Every package ships ESM with no side effects
-- **TypeScript**  -  Full type coverage with strict mode
-- **Persian / Hijri calendars**  -  Multi-calendar system support via date adapters
-
-## Documentation
-
-[gentleduck.dev](https://gentleduck.dev)
+## Common Workspace Commands
+```bash
+bun run dev          # run all workspace dev tasks
+bun run build        # build all packages/apps
+bun run test         # run tests across workspaces
+bun run check        # biome checks
+bun run check-types  # TypeScript type checks
+bun run ci           # non-mutating repo verification (check, workspace lint, types, tests, build)
+```
 
 ## Contributing
-
-Contributions are welcome. See [`CONTRIBUTING.md`](./CONTRIBUTING.md) and [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md) for guidelines.
+We welcome contributions. Please read [`CONTRIBUTING.md`](./CONTRIBUTING.md) and [`CODE_OF_CONDUCT.md`](./CODE_OF_CONDUCT.md).
 
 ## License
-
-[MIT](./LICENSE)
+MIT. See [`LICENSE`](./LICENSE) for more information.
