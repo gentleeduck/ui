@@ -18,6 +18,7 @@ const HIDDEN_STYLE: React.CSSProperties = {
 function LiveRegion({ messageRef }: { messageRef: React.RefObject<string> }) {
   const [text, setText] = useState('')
 
+  // Sync ref → state on every render (ref.current can't be a dep)
   useEffect(() => {
     if (messageRef.current !== text) {
       setText(messageRef.current)
