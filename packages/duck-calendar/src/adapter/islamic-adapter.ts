@@ -1,5 +1,10 @@
 import { hijriMonthLength, toGregorian, toHijri } from '../calendar-system/hijri'
 import type { DateAdapter, WeekStartDay } from './adapter.types'
+import { createConversionCache, formatWithCalendar } from './adapter.utils'
+
+const hijriCache = createConversionCache((date: Date) =>
+  toHijri(date.getFullYear(), date.getMonth() + 1, date.getDate()),
+)
 
 /**
  * Islamic (Hijri) calendar adapter.
@@ -26,9 +31,9 @@ export class IslamicAdapter implements DateAdapter<Date> {
   // Helpers
   // ---------------------------------------------------------------------------
 
-  /** Convert a native Date to its Hijri parts. */
+  /** Convert a native Date to its Hijri parts (cached per-instance). */
   private hijri(date: Date): { hy: number; hm: number; hd: number } {
-    return toHijri(date.getFullYear(), date.getMonth() + 1, date.getDate())
+    return hijriCache.get(this, date)
   }
 
   /** Build a native Date from Hijri parts (month is 1-indexed internally). */
@@ -169,19 +174,7 @@ export class IslamicAdapter implements DateAdapter<Date> {
    * Islamic month names and year numbering.
    */
   format(date: Date, options: Intl.DateTimeFormatOptions, locale?: string): string {
-    const loc = locale ?? this.locale
-    // If already has the right calendar, use as-is
-    if (loc.includes('-ca-islamic')) return new Intl.DateTimeFormat(loc, options).format(date)
-    // Replace wrong calendar, or append if none
-    let tag: string
-    if (loc.includes('-ca-')) {
-      tag = loc.replace(/-ca-[a-z]+/, '-ca-islamic')
-    } else if (loc.includes('-u-')) {
-      tag = `${loc}-ca-islamic`
-    } else {
-      tag = `${loc}-u-ca-islamic`
-    }
-    return new Intl.DateTimeFormat(tag, options).format(date)
+    return formatWithCalendar(date, options, this.locale, 'islamic', locale)
   }
 
   getHours(date: Date): number {

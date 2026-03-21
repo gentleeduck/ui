@@ -3,7 +3,7 @@ import type { DateAdapter, WeekStartDay } from '../../adapter'
 export interface KeyboardConfig<TDate> {
   focusedDate: TDate
   onFocusChange: (date: TDate) => void
-  onSelect: (date: TDate) => void
+  onSelect: (date: TDate, options?: { shiftKey?: boolean }) => void
   onDismiss?: () => void
   isDisabled: (date: TDate) => boolean
   adapter: DateAdapter<TDate>

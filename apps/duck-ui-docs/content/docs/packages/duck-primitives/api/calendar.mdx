@@ -69,7 +69,7 @@ The root component. Wraps `useCalendar` and provides context to all children. Re
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `adapter` | `DateAdapter<Date>` | **required** | Date adapter instance |
-| `mode` | `SelectionMode` | **required** | `'single'`, `'range'`, or `'multi'` |
+| `mode` | `SelectionMode` | **required** | `'single'`, `'range'`, `'multi'`, or `'multi-range'` |
 | `locale` | `CalendarLocaleConfig` | -- | Locale, week start day, and direction |
 | `month` | `Date` | -- | Controlled displayed month |
 | `defaultMonth` | `Date` | -- | Default month (uncontrolled) |
@@ -209,6 +209,7 @@ Automatically applies all day props from context: `aria-label`, `aria-selected`,
 | `data-today` | `"true"` for today |
 | `data-disabled` | `"true"` when disabled |
 | `data-outside-month` | `"true"` for adjacent month days |
+| `data-hidden` | `"true"` when `showOutsideDays` is false and day is outside |
 | `data-range-start` | `"true"` for range start |
 | `data-range-middle` | `"true"` for range middle |
 | `data-range-end` | `"true"` for range end |

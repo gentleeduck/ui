@@ -20,12 +20,13 @@ export interface DayProps {
   'data-today': 'true' | undefined
   'data-disabled': 'true' | undefined
   'data-outside-month': 'true' | undefined
+  'data-hidden': 'true' | undefined
   'data-range-middle': 'true' | undefined
   'data-range-start': 'true' | undefined
   'data-range-end': 'true' | undefined
   'data-focused': 'true' | undefined
   'data-weekend': 'true' | undefined
-  onClick: () => void
+  onClick: (e?: { shiftKey?: boolean }) => void
   onMouseEnter: () => void
   onKeyDown: React.KeyboardEventHandler
 }
@@ -73,7 +74,7 @@ export interface UseCalendarReturn<TDate, M extends SelectionMode> {
     setViewMode: (mode: ViewMode) => void
     goToNext: () => void
     goToPrevious: () => void
-    selectDate: (date: TDate) => void
+    selectDate: (date: TDate, options?: { shiftKey?: boolean }) => void
     focusDate: (date: TDate) => void
   }
   /** Spread onto each day cell element. */

@@ -276,6 +276,201 @@
   },
   {
     "categories": [
+      "calendar",
+      "application"
+    ],
+    "files": [
+      {
+        "path": "calendar/calendar-1/calendar-1.atoms.ts",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/calendar-1.libs.ts",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/calendar-1.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/calendar-1.types.ts",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/calendar-data.ts",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/calendar-utils.ts",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/index.ts",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/components/calendar-command-menu.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/components/calendar-day-cell.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/components/calendar-day-view.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/components/calendar-event-chip.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/components/calendar-event-detail.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/components/calendar-event-dialog.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/components/calendar-grid.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/components/calendar-overflow.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/components/calendar-toolbar.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/components/calendar-week-view.tsx",
+        "type": "registry:block"
+      },
+      {
+        "path": "calendar/calendar-1/components/calendar-year-view.tsx",
+        "type": "registry:block"
+      }
+    ],
+    "name": "calendar-block-1",
+    "registryDependencies": [
+      "button",
+      "input",
+      "label",
+      "dialog",
+      "popover",
+      "tabs",
+      "breadcrumb",
+      "dropdown-menu",
+      "select",
+      "badge"
+    ],
+    "root_folder": "calendar/calendar-1",
+    "type": "registry:block",
+    "source": "/registry-blocks/src/calendar/calendar-1",
+    "tree": [
+      {
+        "name": "calendar-1.atoms.ts",
+        "path": "calendar/calendar-1/calendar-1.atoms.ts",
+        "type": "file"
+      },
+      {
+        "name": "calendar-1.libs.ts",
+        "path": "calendar/calendar-1/calendar-1.libs.ts",
+        "type": "file"
+      },
+      {
+        "name": "calendar-1.tsx",
+        "path": "calendar/calendar-1/calendar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "calendar-1.types.ts",
+        "path": "calendar/calendar-1/calendar-1.types.ts",
+        "type": "file"
+      },
+      {
+        "name": "calendar-data.ts",
+        "path": "calendar/calendar-1/calendar-data.ts",
+        "type": "file"
+      },
+      {
+        "name": "calendar-utils.ts",
+        "path": "calendar/calendar-1/calendar-utils.ts",
+        "type": "file"
+      },
+      {
+        "name": "index.ts",
+        "path": "calendar/calendar-1/index.ts",
+        "type": "file"
+      },
+      {
+        "children": [
+          {
+            "name": "calendar-command-menu.tsx",
+            "path": "calendar/calendar-1/components/calendar-command-menu.tsx",
+            "type": "file"
+          },
+          {
+            "name": "calendar-day-cell.tsx",
+            "path": "calendar/calendar-1/components/calendar-day-cell.tsx",
+            "type": "file"
+          },
+          {
+            "name": "calendar-day-view.tsx",
+            "path": "calendar/calendar-1/components/calendar-day-view.tsx",
+            "type": "file"
+          },
+          {
+            "name": "calendar-event-chip.tsx",
+            "path": "calendar/calendar-1/components/calendar-event-chip.tsx",
+            "type": "file"
+          },
+          {
+            "name": "calendar-event-detail.tsx",
+            "path": "calendar/calendar-1/components/calendar-event-detail.tsx",
+            "type": "file"
+          },
+          {
+            "name": "calendar-event-dialog.tsx",
+            "path": "calendar/calendar-1/components/calendar-event-dialog.tsx",
+            "type": "file"
+          },
+          {
+            "name": "calendar-grid.tsx",
+            "path": "calendar/calendar-1/components/calendar-grid.tsx",
+            "type": "file"
+          },
+          {
+            "name": "calendar-overflow.tsx",
+            "path": "calendar/calendar-1/components/calendar-overflow.tsx",
+            "type": "file"
+          },
+          {
+            "name": "calendar-toolbar.tsx",
+            "path": "calendar/calendar-1/components/calendar-toolbar.tsx",
+            "type": "file"
+          },
+          {
+            "name": "calendar-week-view.tsx",
+            "path": "calendar/calendar-1/components/calendar-week-view.tsx",
+            "type": "file"
+          },
+          {
+            "name": "calendar-year-view.tsx",
+            "path": "calendar/calendar-1/components/calendar-year-view.tsx",
+            "type": "file"
+          }
+        ],
+        "name": "components",
+        "path": "calendar/calendar-1/components",
+        "type": "folder"
+      }
+    ]
+  },
+  {
+    "categories": [
       "dashboards",
       "dashboard"
     ],

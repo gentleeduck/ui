@@ -10,6 +10,8 @@ export interface CalendarDay<TDate> {
   isDisabled: boolean
   /** Whether this date belongs to the previous or next month. */
   isOutside: boolean
+  /** Whether this day should be hidden (outside day when `showOutsideDays` is false). */
+  isHidden: boolean
   /** Whether this date is Saturday or Sunday. */
   isWeekend: boolean
   /** Whether this date is the start of a selected range. Filled by `applySelection()`. */

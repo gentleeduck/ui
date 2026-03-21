@@ -23,7 +23,7 @@ mkdirSync(OUT_DIR, { recursive: true })
 // ---------------------------------------------------------------------------
 // Zinc color palette (matches docs dark theme)
 // ---------------------------------------------------------------------------
-const zinc = {
+const zinc: Record<number, string> = {
   950: '#09090b',
   900: '#18181b',
   800: '#27272a',
@@ -41,7 +41,7 @@ const blue = '#3b82f6'
 const amber = '#f59e0b'
 const red = '#ef4444'
 const purple = '#a855f7'
-const cyan = '#06b6d4'
+const _cyan = '#06b6d4'
 const pink = '#ec4899'
 
 // ---------------------------------------------------------------------------
@@ -204,7 +204,8 @@ function generateBundleSVG(): string {
 
   let bars = ''
   for (let i = 0; i < competitors.length; i++) {
-    const c = competitors[i]!
+    const c = competitors[i]
+    if (!c) continue
     const y = startY + i * 46
     const barW = scale(c.bundle)
     const isWinner = i === 0
@@ -246,7 +247,8 @@ function generateDepsSVG(): string {
 
   let bars = ''
   for (let i = 0; i < competitors.length; i++) {
-    const c = competitors[i]!
+    const c = competitors[i]
+    if (!c) continue
     const y = startY + i * 46
     const barW = Math.max(scale(c.deps), 4)
     const isWinner = c.deps === 0
@@ -286,8 +288,10 @@ function generateFeaturesSVG(): string {
 
   let headers = ''
   for (let i = 0; i < competitors.length; i++) {
-    const c = competitors[i]!
-    headers += `<text x="${leftPad + i * colW + colW / 2}" y="${startY - 8}" text-anchor="middle" fill="${c.color}" font-size="9" font-weight="600">${c.name.split(' ')[0]!.replace('@gentleduck/', '')}</text>`
+    const c = competitors[i]
+    if (!c) continue
+    const shortName = c.name.split(' ')[0]?.replace('@gentleduck/', '') ?? c.name
+    headers += `<text x="${leftPad + i * colW + colW / 2}" y="${startY - 8}" text-anchor="middle" fill="${c.color}" font-size="9" font-weight="600">${shortName}</text>`
   }
 
   const featureData: (boolean | string)[][] = [
@@ -310,7 +314,7 @@ function generateFeaturesSVG(): string {
 
     for (let c = 0; c < competitors.length; c++) {
       const x = leftPad + c * colW + colW / 2
-      const val = featureData[f]![c]
+      const val = featureData[f]?.[c]
       if (typeof val === 'string') {
         const isWinner = c === 0
         cells += `<text x="${x}" y="${y + 4}" text-anchor="middle" fill="${isWinner ? green : zinc[400]}" font-size="12" font-weight="${isWinner ? '700' : '400'}">${val}</text>`
@@ -353,17 +357,18 @@ function generatePerfSVG(): string {
 
   let bars = ''
   for (let i = 0; i < entries.length; i++) {
-    const e = entries[i]!
+    const e = entries[i]
+    if (!e) continue
     const y = startY + i * 44
     const barW = Math.max(scale(e.value), 4)
 
     bars += `
     <text x="${leftPad - 12}" y="${y + barH / 2 + 4}" text-anchor="end" fill="${zinc[400]}" font-size="11">${e.label}</text>
     <rect x="${leftPad}" y="${y}" width="${barW}" height="${barH}" fill="${e.color}" rx="4"/>
-    <text x="${leftPad + barW + 10}" y="${y + barH / 2 + 4}" fill="${e.color}" font-size="11" font-weight="600">${e.value.toFixed(1)} μs</text>`
+    <text x="${leftPad + barW + 10}" y="${y + barH / 2 + 4}" fill="${e.color}" font-size="11" font-weight="600">${e.value.toFixed(1)} us</text>`
   }
 
-  return `${svgHeader(w, h, 'Core Engine Performance', 'Average of 2,000 iterations (μs per call)')}
+  return `${svgHeader(w, h, 'Core Engine Performance', 'Average of 2,000 iterations (us per call)')}
   ${bars}
 </svg>`
 }
@@ -399,7 +404,8 @@ function generateAdapterPerfSVG(): string {
     content += `<text x="${leftPad - 12}" y="${y - 4}" fill="${zinc[300]}" font-size="11" font-weight="600">${op.label}</text>`
 
     for (let i = 0; i < adapterPerf.length; i++) {
-      const a = adapterPerf[i]!
+      const a = adapterPerf[i]
+      if (!a) continue
       const val = a[op.key] * 1000
       const barW = Math.max((val / maxVal) * barMaxW, 4)
       const barY = y + i * (barH + 4)
@@ -407,13 +413,13 @@ function generateAdapterPerfSVG(): string {
       content += `
       <text x="${leftPad - 12}" y="${barY + barH / 2 + 3}" text-anchor="end" fill="${zinc[500]}" font-size="9">${a.name.split(' ')[0]}</text>
       <rect x="${leftPad}" y="${barY}" width="${barW}" height="${barH}" fill="${a.color}" rx="3" opacity="0.8"/>
-      <text x="${leftPad + barW + 6}" y="${barY + barH / 2 + 3}" fill="${a.color}" font-size="9" font-weight="600">${val.toFixed(1)} μs</text>`
+      <text x="${leftPad + barW + 6}" y="${barY + barH / 2 + 3}" fill="${a.color}" font-size="9" font-weight="600">${val.toFixed(1)} us</text>`
     }
 
     y += adapterPerf.length * (barH + 4) + 24
   }
 
-  return `${svgHeader(w, h, 'Adapter Performance Comparison', 'All 4 calendar systems  -  average of 5,000 iterations (μs per call)')}
+  return `${svgHeader(w, h, 'Adapter Performance Comparison', 'All 4 calendar systems  -  average of 5,000 iterations (us per call)')}
   ${content}
 </svg>`
 }
@@ -441,12 +447,15 @@ function generateCalendarSystemsSVG(): string {
 
   let headers = ''
   for (let i = 0; i < cols.length; i++) {
-    headers += `<text x="${leftPad + i * colW + colW / 2}" y="${startY - 6}" text-anchor="middle" fill="${zinc[500]}" font-size="10" font-weight="600" letter-spacing="0.05em">${cols[i]!.toUpperCase()}</text>`
+    const col = cols[i]
+    if (!col) continue
+    headers += `<text x="${leftPad + i * colW + colW / 2}" y="${startY - 6}" text-anchor="middle" fill="${zinc[500]}" font-size="10" font-weight="600" letter-spacing="0.05em">${col.toUpperCase()}</text>`
   }
 
   let rows = ''
   for (let r = 0; r < systems.length; r++) {
-    const s = systems[r]!
+    const s = systems[r]
+    if (!s) continue
     const y = startY + r * rowH + 20
     const vals = [s.name, s.adapter, s.locale, s.epoch]
     if (r < systems.length - 1) {
@@ -534,14 +543,14 @@ console.log('Benchmarks generated:')
 for (const name of Object.keys(svgs)) {
   console.log(`  Yes ${name}.svg`)
 }
-console.log(`  Yes results.json`)
+console.log('  Yes results.json')
 console.log()
 console.log('Core Performance:')
 for (const [k, v] of Object.entries(corePerf)) {
-  console.log(`  ${k}: ${(v * 1000).toFixed(1)} μs`)
+  console.log(`  ${k}: ${(v * 1000).toFixed(1)} us`)
 }
 console.log()
 console.log('Adapter Performance (buildCalendarMonth):')
 for (const a of adapterPerf) {
-  console.log(`  ${a.name}: ${(a.buildMonth * 1000).toFixed(1)} μs`)
+  console.log(`  ${a.name}: ${(a.buildMonth * 1000).toFixed(1)} us`)
 }

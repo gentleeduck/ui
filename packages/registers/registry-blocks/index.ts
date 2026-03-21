@@ -1,4 +1,5 @@
 export * from './registry-auth'
+export * from './registry-calendar'
 export * from './registry-charts'
 export * from './registry-dashboards'
 export * from './registry-sidebar'

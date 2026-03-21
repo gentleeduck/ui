@@ -31,14 +31,14 @@ function jalCal(jy: number): { leap: number; gy: number; march: number } {
   const bl = BREAKS.length
   const gy = jy + 621
   let leapJ = -14
-  let jp = BREAKS[0]!
+  let jp = BREAKS[0] ?? 0
 
-  if (jy < jp || jy >= BREAKS[bl - 1]!) throw new Error('Invalid Jalaali year ' + jy)
+  if (jy < jp || jy >= (BREAKS[bl - 1] ?? 0)) throw new Error(`Invalid Jalaali year ${jy}`)
 
   let jump = 0
   let leap = 0
   for (let i = 1; i < bl; i += 1) {
-    const jm = BREAKS[i]!
+    const jm = BREAKS[i] ?? 0
     jump = jm - jp
     if (jy < jm) break
     leapJ = leapJ + div(jump, 33) * 8 + div(mod(jump, 33), 4)
@@ -69,7 +69,17 @@ function jalCal(jy: number): { leap: number; gy: number; march: number } {
  * @param gd - Gregorian day
  * @returns Jalaali `{ jy, jm, jd }` (month is 1-indexed)
  */
+/** Number of days in a Gregorian month (for input validation). */
+function gregorianMonthLength(gy: number, gm: number): number {
+  const isLeap = gy % 4 === 0 && (gy % 100 !== 0 || gy % 400 === 0)
+  const lengths = [31, isLeap ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+  return lengths[gm - 1] ?? 31
+}
+
 export function toJalaali(gy: number, gm: number, gd: number): { jy: number; jm: number; jd: number } {
+  if (gm < 1 || gm > 12 || gd < 1 || gd > gregorianMonthLength(gy, gm)) {
+    throw new RangeError(`Invalid Gregorian date: ${gy}-${gm}-${gd}`)
+  }
   return d2j(g2d(gy, gm, gd))
 }
 
@@ -82,6 +92,9 @@ export function toJalaali(gy: number, gm: number, gd: number): { jy: number; jm:
  * @returns Gregorian `{ gy, gm, gd }` (month is 1-indexed)
  */
 export function toGregorian(jy: number, jm: number, jd: number): { gy: number; gm: number; gd: number } {
+  if (jm < 1 || jm > 12 || jd < 1 || jd > jalaaliMonthLength(jy, jm)) {
+    throw new RangeError(`Invalid Jalaali date: ${jy}-${jm}-${jd}`)
+  }
   return d2g(j2d(jy, jm, jd))
 }
 
@@ -103,6 +116,7 @@ export function isLeapJalaaliYear(jy: number): boolean {
  * @returns Number of days (29, 30, or 31)
  */
 export function jalaaliMonthLength(jy: number, jm: number): number {
+  if (jm < 1 || jm > 12) return 0
   if (jm <= 6) return 31
   if (jm <= 11) return 30
   return isLeapJalaaliYear(jy) ? 30 : 29
@@ -169,5 +183,5 @@ function div(a: number, b: number): number {
 
 /** Positive modulus (always >= 0) */
 function mod(a: number, b: number): number {
-  return a - ~~(a / b) * b
+  return ((a % b) + b) % b
 }

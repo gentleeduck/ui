@@ -175,13 +175,13 @@ describe('useKeyboard', () => {
     it('Enter triggers onSelect with focused date', () => {
       pressKey(makeConfig(), 'Enter')
       expect(onSelect).toHaveBeenCalledTimes(1)
-      expect(onSelect).toHaveBeenCalledWith(baseDate)
+      expect(onSelect).toHaveBeenCalledWith(baseDate, { shiftKey: false })
     })
 
     it('Space triggers onSelect with focused date', () => {
       pressKey(makeConfig(), ' ')
       expect(onSelect).toHaveBeenCalledTimes(1)
-      expect(onSelect).toHaveBeenCalledWith(baseDate)
+      expect(onSelect).toHaveBeenCalledWith(baseDate, { shiftKey: false })
     })
 
     it('Enter on disabled date does NOT trigger onSelect', () => {
@@ -263,6 +263,32 @@ describe('useKeyboard', () => {
       const result: Date = onFocusChange.mock.calls[0][0]
       expect(result.getDate()).toBe(1)
       expect(result.getMonth()).toBe(2)
+    })
+
+    it('ArrowLeft skips multiple consecutive disabled dates', () => {
+      // March 12, 13, 14 are disabled, so ArrowLeft from March 15 should land on 11
+      pressKey(
+        makeConfig({
+          isDisabled: (d) => d.getDate() >= 12 && d.getDate() <= 14,
+        }),
+        'ArrowLeft',
+      )
+      expect(onFocusChange).toHaveBeenCalledTimes(1)
+      const result: Date = onFocusChange.mock.calls[0][0]
+      expect(result.getDate()).toBe(11)
+    })
+
+    it('ArrowRight skips multiple consecutive disabled dates', () => {
+      // March 16, 17, 18 are disabled, so ArrowRight from March 15 should land on 19
+      pressKey(
+        makeConfig({
+          isDisabled: (d) => d.getDate() >= 16 && d.getDate() <= 18,
+        }),
+        'ArrowRight',
+      )
+      expect(onFocusChange).toHaveBeenCalledTimes(1)
+      const result: Date = onFocusChange.mock.calls[0][0]
+      expect(result.getDate()).toBe(19)
     })
 
     it('Home skips disabled start-of-week and finds next enabled day', () => {

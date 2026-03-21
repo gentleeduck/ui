@@ -257,37 +257,6 @@ describe('CalendarWeekdays', () => {
 // CalendarDay
 // ---------------------------------------------------------------------------
 describe('CalendarDay', () => {
-  function DayRenderer() {
-    return (
-      <Calendar adapter={adapter} mode="single" defaultMonth={march2026}>
-        <DayGrid />
-      </Calendar>
-    )
-  }
-
-  function DayGrid() {
-    return null
-  }
-
-  // We need a helper that gets the day data from context
-  function FullCalendar(props: { onSelect?: (val: unknown) => void }) {
-    return (
-      <Calendar adapter={adapter} mode="single" defaultMonth={march2026} onSelect={props.onSelect}>
-        <CalendarHeader />
-        <CalendarGrid>
-          <CalendarWeekdays />
-          <DayRows />
-        </CalendarGrid>
-      </Calendar>
-    )
-  }
-
-  // Component that renders all day buttons using context
-  function DayRows() {
-    const context = React.useContext(CalendarInternalContext)
-    return null
-  }
-
   it('renders as button with data-slot="calendar-day"', () => {
     // Create a simple day object
     const day = {
@@ -296,6 +265,7 @@ describe('CalendarDay', () => {
       isSelected: false,
       isDisabled: false,
       isOutside: false,
+      isHidden: false,
       isWeekend: false,
       isRangeStart: false,
       isRangeEnd: false,
@@ -314,6 +284,7 @@ describe('CalendarDay', () => {
       isSelected: false,
       isDisabled: false,
       isOutside: false,
+      isHidden: false,
       isWeekend: false,
       isRangeStart: false,
       isRangeEnd: false,
@@ -331,6 +302,7 @@ describe('CalendarDay', () => {
       isSelected: false,
       isDisabled: false,
       isOutside: false,
+      isHidden: false,
       isWeekend: false,
       isRangeStart: false,
       isRangeEnd: false,
@@ -348,6 +320,7 @@ describe('CalendarDay', () => {
       isSelected: true,
       isDisabled: false,
       isOutside: false,
+      isHidden: false,
       isWeekend: false,
       isRangeStart: false,
       isRangeEnd: false,
@@ -365,6 +338,7 @@ describe('CalendarDay', () => {
       isSelected: false,
       isDisabled: true,
       isOutside: false,
+      isHidden: false,
       isWeekend: false,
       isRangeStart: false,
       isRangeEnd: false,
@@ -382,6 +356,7 @@ describe('CalendarDay', () => {
       isSelected: false,
       isDisabled: false,
       isOutside: false,
+      isHidden: false,
       isWeekend: false,
       isRangeStart: false,
       isRangeEnd: false,
@@ -399,6 +374,7 @@ describe('CalendarDay', () => {
       isSelected: false,
       isDisabled: false,
       isOutside: true,
+      isHidden: false,
       isWeekend: false,
       isRangeStart: false,
       isRangeEnd: false,
@@ -417,6 +393,7 @@ describe('CalendarDay', () => {
       isSelected: false,
       isDisabled: false,
       isOutside: false,
+      isHidden: false,
       isWeekend: false,
       isRangeStart: false,
       isRangeEnd: false,
@@ -660,6 +637,7 @@ describe('Calendar integration', () => {
       isSelected: false,
       isDisabled: false,
       isOutside: false,
+      isHidden: false,
       isWeekend: false,
       isRangeStart: false,
       isRangeEnd: false,

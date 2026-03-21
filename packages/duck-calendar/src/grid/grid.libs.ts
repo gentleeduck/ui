@@ -25,19 +25,28 @@ export function getLocalizedWeekdays<TDate>(
 }
 
 /**
- * Returns 12 localized month names in calendar order (Jan-Dec).
+ * Returns localized month names for the given year.
+ *
+ * Queries the adapter for the actual month count via `getMonthsInYear()`
+ * to support calendar systems with variable months (e.g. Hebrew leap years
+ * with 13 months). Falls back to 12 for adapters that don't implement it.
  *
  * @param adapter - Any DateAdapter instance.
+ * @param year    - The year to query month count for.
  * @param locale  - BCP 47 locale tag. Falls back to runtime default.
  * @param format  - Intl month format. Defaults to `'long'`.
  */
 export function getLocalizedMonthNames<TDate>(
   adapter: DateAdapter<TDate>,
+  year: number,
   locale: string | undefined,
   format: 'long' | 'short' | 'narrow' = 'long',
 ): string[] {
-  return Array.from({ length: 12 }, (_, month) => {
-    const date = adapter.create(2025, month, 1)
+  const probe = adapter.create(year, 0, 1)
+  const monthCount = adapter.getMonthsInYear?.(probe) ?? 12
+
+  return Array.from({ length: monthCount }, (_, month) => {
+    const date = adapter.create(year, month, 1)
     return adapter.format(date, { month: format }, locale)
   })
 }
