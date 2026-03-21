@@ -10,9 +10,10 @@ import type { CalendarDay, CalendarMonth, CalendarWeek, DecadeEntry, YearEntry }
 export function buildCalendarMonth<TDate>(
   adapter: DateAdapter<TDate>,
   viewDate: TDate,
-  config: Pick<CalendarConfig<TDate, any>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>,
+  config: Pick<CalendarConfig<TDate, 'single'>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>,
 ): CalendarMonth<TDate> {
   const weekStartDay = config.locale?.weekStartDay ?? 0
+  const showOutsideDays = config.showOutsideDays ?? true
   const today = adapter.today()
 
   const firstOfMonth = adapter.startOfMonth(viewDate)
@@ -41,12 +42,13 @@ export function buildCalendarMonth<TDate>(
 
       days.push({
         date: cursor,
-        isToday: adapter.isSameDay(cursor, today),
+        isToday: !isOutside && adapter.isSameDay(cursor, today),
         isOutside,
+        isHidden: isOutside && !showOutsideDays,
         isWeekend: dayOfWeek === 0 || dayOfWeek === 6,
         // selection module fills these
         isSelected: false,
-        isDisabled: false,
+        isDisabled: isOutside && !showOutsideDays,
         isRangeStart: false,
         isRangeEnd: false,
         isRangeMiddle: false,
@@ -56,7 +58,8 @@ export function buildCalendarMonth<TDate>(
     }
 
     weeks.push({
-      weekNumber: getWeekNumber(adapter, days[0]?.date),
+      // biome-ignore lint/style/noNonNullAssertion: days always has exactly 7 elements from the inner loop
+      weekNumber: getWeekNumber(adapter, days[0]!.date),
       days,
     })
   }
@@ -75,7 +78,7 @@ export function buildMultiMonth<TDate>(
   adapter: DateAdapter<TDate>,
   startMonth: TDate,
   count: number,
-  config: Pick<CalendarConfig<TDate, any>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>,
+  config: Pick<CalendarConfig<TDate, 'single'>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>,
 ): CalendarMonth<TDate>[] {
   const months: CalendarMonth<TDate>[] = []
   for (let i = 0; i < count; i++) {
@@ -85,14 +88,19 @@ export function buildMultiMonth<TDate>(
   return months
 }
 
-/** Build 12 month entries for the year picker view. */
+/**
+ * Build month entries for the year picker view.
+ *
+ * Queries the adapter for the actual month count to support calendar systems
+ * with variable months (e.g. Hebrew leap years with 13 months).
+ */
 export function buildCalendarYear<TDate>(adapter: DateAdapter<TDate>, viewDate: TDate, locale?: string): YearEntry[] {
   const today = adapter.today()
   const currentMonth = adapter.getMonth(today)
   const currentYear = adapter.getYear(today)
   const viewYear = adapter.getYear(viewDate)
 
-  const monthNames = getLocalizedMonthNames(adapter, locale)
+  const monthNames = getLocalizedMonthNames(adapter, viewYear, locale)
 
   return monthNames.map((label, month) => ({
     month,
