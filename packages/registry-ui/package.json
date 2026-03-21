@@ -56,7 +56,7 @@
     "test": "bun test"
   },
   "type": "module",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Styled Tailwind components for Duck UI.",
   "keywords": [
     "gentleduck",
