@@ -1,17 +1,17 @@
 'use client'
 
+import { Card } from '@gentleduck/registry-ui/card'
+import { Separator } from '@gentleduck/registry-ui/separator'
+import { CalendarIcon } from 'lucide-react'
 import * as React from 'react'
 import { type CalendarEvent, type CalendarView, type FilterMode, MOCK_EVENTS } from './calendar-data'
 import { CalendarCommandMenu } from './components/calendar-command-menu'
+import { CalendarDayView } from './components/calendar-day-view'
 import { CalendarEventDialog } from './components/calendar-event-dialog'
 import { CalendarGrid } from './components/calendar-grid'
 import { CalendarToolbar } from './components/calendar-toolbar'
 import { CalendarWeekView } from './components/calendar-week-view'
-import { CalendarDayView } from './components/calendar-day-view'
 import { CalendarYearView } from './components/calendar-year-view'
-import { CalendarIcon } from 'lucide-react'
-import { Card } from '@gentleduck/registry-ui/card'
-import { Separator } from '@gentleduck/registry-ui/separator'
 
 export default function Page() {
   const [events, setEvents] = React.useState<CalendarEvent[]>(MOCK_EVENTS)
@@ -120,7 +120,7 @@ export default function Page() {
   const showEmptyState = filterMode === 'public' || filterMode === 'archived'
 
   return (
-    <div className="items-center mx-auto flex h-screen w-full max-w-7xl flex-col justify-center">
+    <div className="mx-auto flex h-screen w-full max-w-7xl flex-col items-center justify-center">
       <Card className="gap-0 p-0">
         {/* Toolbar - single row with everything */}
         <div className="p-4">
@@ -148,7 +148,7 @@ export default function Page() {
           {showEmptyState ? (
             <div className="flex min-h-96 flex-col items-center justify-center gap-2 rounded-xl border border-dashed bg-card">
               <CalendarIcon className="size-12 text-muted-foreground/30" />
-              <p className="text-sm text-muted-foreground">No {filterMode} events yet</p>
+              <p className="text-muted-foreground text-sm">No {filterMode} events yet</p>
             </div>
           ) : calendarView === 'month' ? (
             <CalendarGrid

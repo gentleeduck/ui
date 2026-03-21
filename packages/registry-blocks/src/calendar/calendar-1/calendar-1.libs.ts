@@ -43,4 +43,3 @@ export function time24hToDisplay(t: string): string {
   else if (h > 12) h -= 12
   return `${h}:${min} ${p}`
 }
-

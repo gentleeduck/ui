@@ -20,7 +20,8 @@ export default function CalendarDemo() {
       />
       <div className="space-y-1 px-1">
         <p className="font-medium text-sm">
-          {ranges.filter((r) => r.to !== null).length} range{ranges.filter((r) => r.to !== null).length !== 1 ? 's' : ''} selected
+          {ranges.filter((r) => r.to !== null).length} range
+          {ranges.filter((r) => r.to !== null).length !== 1 ? 's' : ''} selected
         </p>
         {ranges
           .filter((r) => r.to !== null)

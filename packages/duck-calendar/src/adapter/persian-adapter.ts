@@ -1,6 +1,10 @@
 import { jalaaliMonthLength, toGregorian, toJalaali } from '../calendar-system'
 import type { DateAdapter, WeekStartDay } from './adapter.types'
-import { formatWithCalendar } from './adapter.utils'
+import { createConversionCache, formatWithCalendar } from './adapter.utils'
+
+const persianCache = createConversionCache((date: Date) =>
+  toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate()),
+)
 
 /**
  * Persian (Jalaali / Solar Hijri) date adapter.
@@ -40,22 +44,24 @@ export class PersianAdapter implements DateAdapter<Date> {
     return !isNaN(date.getTime())
   }
 
+  /** Convert a native Date to its Jalaali parts (cached per-instance). */
+  private persian(date: Date): { jy: number; jm: number; jd: number } {
+    return persianCache.get(this, date)
+  }
+
   /** Returns the Persian year for the given date. */
   getYear(date: Date): number {
-    const { jy } = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate())
-    return jy
+    return this.persian(date).jy
   }
 
   /** Returns the **0-indexed** Persian month (0 = Farvardin). */
   getMonth(date: Date): number {
-    const { jm } = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate())
-    return jm - 1
+    return this.persian(date).jm - 1
   }
 
   /** Returns the day of the Persian month. */
   getDate(date: Date): number {
-    const { jd } = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate())
-    return jd
+    return this.persian(date).jd
   }
 
   isSameDay(a: Date, b: Date): boolean {
@@ -64,8 +70,8 @@ export class PersianAdapter implements DateAdapter<Date> {
 
   /** Compares Persian year and month. */
   isSameMonth(a: Date, b: Date): boolean {
-    const ja = toJalaali(a.getFullYear(), a.getMonth() + 1, a.getDate())
-    const jb = toJalaali(b.getFullYear(), b.getMonth() + 1, b.getDate())
+    const ja = this.persian(a)
+    const jb = this.persian(b)
     return ja.jy === jb.jy && ja.jm === jb.jm
   }
 
@@ -79,14 +85,14 @@ export class PersianAdapter implements DateAdapter<Date> {
 
   /** Returns the Gregorian date corresponding to the first day of the Persian month. */
   startOfMonth(date: Date): Date {
-    const { jy, jm } = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate())
+    const { jy, jm } = this.persian(date)
     const { gy, gm, gd } = toGregorian(jy, jm, 1)
     return new Date(gy, gm - 1, gd)
   }
 
   /** Returns the Gregorian date corresponding to the last day of the Persian month. */
   endOfMonth(date: Date): Date {
-    const { jy, jm } = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate())
+    const { jy, jm } = this.persian(date)
     const len = jalaaliMonthLength(jy, jm)
     const { gy, gm, gd } = toGregorian(jy, jm, len)
     return new Date(gy, gm - 1, gd)
@@ -108,7 +114,7 @@ export class PersianAdapter implements DateAdapter<Date> {
 
   /** Adds Persian months with day clamping. */
   addMonths(date: Date, count: number): Date {
-    const { jy, jm, jd } = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate())
+    const { jy, jm, jd } = this.persian(date)
     const totalMonths = jy * 12 + (jm - 1) + count
     // Use ((n % d) + d) % d to handle negative modulo correctly
     const newJy = Math.floor(totalMonths / 12)
@@ -121,7 +127,7 @@ export class PersianAdapter implements DateAdapter<Date> {
 
   /** Adds Persian years with day clamping. */
   addYears(date: Date, count: number): Date {
-    const { jy, jm, jd } = toJalaali(date.getFullYear(), date.getMonth() + 1, date.getDate())
+    const { jy, jm, jd } = this.persian(date)
     const newJy = jy + count
     const maxDay = jalaaliMonthLength(newJy, jm)
     const newJd = Math.min(jd, maxDay)

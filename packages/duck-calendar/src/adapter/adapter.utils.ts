@@ -1,7 +1,7 @@
 import { getCachedFormatter } from './formatter-cache'
 
 /** Fast day-level comparison without allocating Date objects. */
-export function dateToOrdinal(d: Date): number {
+function dateToOrdinal(d: Date): number {
   return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate()
 }
 
@@ -13,7 +13,9 @@ export function buildCalendarLocaleTag(locale: string, calendar: string): string
   const calTag = `-ca-${calendar}`
   if (locale.includes(calTag)) return locale
   if (locale.includes('-ca-')) {
-    return locale.replace(/-ca-[a-z]+(?:-[a-z]+)*/, calTag)
+    // Match -ca-<value> segments. Calendar subtags (e.g. islamic-civil) have 3+ char
+    // segments; Unicode extension keys are exactly 2 chars. Stop before the next key.
+    return locale.replace(/-ca-[a-z]+(?:-[a-z]{3,})*/, calTag)
   }
   if (locale.includes('-u-')) {
     return `${locale}${calTag}`
@@ -64,7 +66,7 @@ export function formatWithCalendar(
     const nuTag = `-nu-${numberingSystem}`
     if (!tag.includes(nuTag)) {
       if (tag.includes('-nu-')) {
-        tag = tag.replace(/-nu-[a-z]+/, nuTag)
+        tag = tag.replace(/-nu-[a-z]+(?:-[a-z]{3,})*/, nuTag)
       } else {
         tag = `${tag}${nuTag}`
       }

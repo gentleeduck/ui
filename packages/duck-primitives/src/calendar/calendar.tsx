@@ -90,16 +90,37 @@ const Calendar = React.forwardRef<CalendarElement, CalendarRootProps>(
 
     const { state, actions, getDayProps, getGridProps, getNavProps, getHeaderProps, announcer } = calendar
 
-    const contextValue = React.useMemo<CalendarContextValue>(
-      () => {
-        const resolvedLocale =
-          localeTag || localeDirection || weekStartDay !== undefined
-            ? { locale: localeTag, weekStartDay, direction: localeDirection }
-            : undefined
-        return { state, actions, getDayProps, getGridProps, getNavProps, getHeaderProps, announcer, adapter, mode, locale: resolvedLocale }
-      },
-      [state, actions, getDayProps, getGridProps, getNavProps, getHeaderProps, announcer, adapter, mode, localeTag, weekStartDay, localeDirection],
-    )
+    const contextValue = React.useMemo<CalendarContextValue>(() => {
+      const resolvedLocale =
+        localeTag || localeDirection || weekStartDay !== undefined
+          ? { locale: localeTag, weekStartDay, direction: localeDirection }
+          : undefined
+      return {
+        state,
+        actions,
+        getDayProps,
+        getGridProps,
+        getNavProps,
+        getHeaderProps,
+        announcer,
+        adapter,
+        mode,
+        locale: resolvedLocale,
+      }
+    }, [
+      state,
+      actions,
+      getDayProps,
+      getGridProps,
+      getNavProps,
+      getHeaderProps,
+      announcer,
+      adapter,
+      mode,
+      localeTag,
+      weekStartDay,
+      localeDirection,
+    ])
 
     return (
       <CalendarProvider scope={__scopeCalendar} {...contextValue}>

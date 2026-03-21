@@ -12,8 +12,14 @@ const HOUR_HEIGHT = 52
 
 import { formatHour } from '../calendar-1.libs'
 
-function WeekEventBlock({ event, onEdit, onDelete }: {
-  event: CalendarEvent; onEdit: (e: CalendarEvent) => void; onDelete: (id: string) => void
+function WeekEventBlock({
+  event,
+  onEdit,
+  onDelete,
+}: {
+  event: CalendarEvent
+  onEdit: (e: CalendarEvent) => void
+  onDelete: (id: string) => void
 }) {
   const [open, setOpen] = React.useState(false)
   const colors = CATEGORY_COLORS[event.category]
@@ -25,11 +31,14 @@ function WeekEventBlock({ event, onEdit, onDelete }: {
         type="button"
         className={cn(
           'absolute inset-x-0.5 z-10 rounded-md px-1.5 py-0.5 text-left text-[10px] leading-tight shadow-sm transition-shadow hover:shadow-md',
-          colors.bg, colors.text,
+          colors.bg,
+          colors.text,
         )}
         style={{ top, minHeight: HOUR_HEIGHT * 0.55 }}
-        onClick={(e) => { e.stopPropagation(); setOpen(true) }}
-      >
+        onClick={(e) => {
+          e.stopPropagation()
+          setOpen(true)
+        }}>
         <p className="truncate font-semibold">{event.title}</p>
         <p className="opacity-60">{event.time}</p>
       </button>
@@ -38,12 +47,22 @@ function WeekEventBlock({ event, onEdit, onDelete }: {
 }
 
 interface CalendarWeekViewProps {
-  viewedDate: Date; events: CalendarEvent[]
-  onDayClick: (dateStr: string) => void; onSelectEvent: (event: CalendarEvent) => void
-  onEditEvent: (event: CalendarEvent) => void; onDeleteEvent: (id: string) => void
+  viewedDate: Date
+  events: CalendarEvent[]
+  onDayClick: (dateStr: string) => void
+  onSelectEvent: (event: CalendarEvent) => void
+  onEditEvent: (event: CalendarEvent) => void
+  onDeleteEvent: (id: string) => void
 }
 
-export function CalendarWeekView({ viewedDate, events, onDayClick, onSelectEvent, onEditEvent, onDeleteEvent }: CalendarWeekViewProps) {
+export function CalendarWeekView({
+  viewedDate,
+  events,
+  onDayClick,
+  onSelectEvent,
+  onEditEvent,
+  onDeleteEvent,
+}: CalendarWeekViewProps) {
   const days = getDaysForWeek(viewedDate)
 
   return (
@@ -53,11 +72,16 @@ export function CalendarWeekView({ viewedDate, events, onDayClick, onSelectEvent
         <div />
         {days.map((d, i) => (
           <div key={i} className={cn('border-l px-2 py-2 text-center', isWeekend(d) && 'bg-muted/30')}>
-            <span className="text-[11px] font-semibold uppercase tracking-wide text-muted-foreground">{WEEKDAYS[i]}</span>
-            <span className={cn(
-              'ml-1.5 inline-flex size-6 items-center justify-center rounded-full text-xs font-medium',
-              isToday(d) && 'bg-primary text-primary-foreground font-bold',
-            )}>{d.getDate()}</span>
+            <span className="font-semibold text-[11px] text-muted-foreground uppercase tracking-wide">
+              {WEEKDAYS[i]}
+            </span>
+            <span
+              className={cn(
+                'ml-1.5 inline-flex size-6 items-center justify-center rounded-full font-medium text-xs',
+                isToday(d) && 'bg-primary font-bold text-primary-foreground',
+              )}>
+              {d.getDate()}
+            </span>
           </div>
         ))}
       </div>
@@ -67,8 +91,10 @@ export function CalendarWeekView({ viewedDate, events, onDayClick, onSelectEvent
           {/* Hour labels */}
           <div>
             {HOURS.map((hour) => (
-              <div key={hour} className="relative border-b border-border/50" style={{ height: HOUR_HEIGHT }}>
-                <span className="absolute -top-2.5 right-2 text-[10px] text-muted-foreground">{hour > 0 ? formatHour(hour) : ''}</span>
+              <div key={hour} className="relative border-border/50 border-b" style={{ height: HOUR_HEIGHT }}>
+                <span className="absolute -top-2.5 right-2 text-[10px] text-muted-foreground">
+                  {hour > 0 ? formatHour(hour) : ''}
+                </span>
               </div>
             ))}
           </div>
@@ -77,10 +103,21 @@ export function CalendarWeekView({ viewedDate, events, onDayClick, onSelectEvent
             const dayEvents = getEventsForDay(events, d)
             const dateStr = formatDateString(d)
             return (
-              <div key={di} className={cn('relative border-l', isWeekend(d) && 'bg-muted/10')}
-                onClick={() => onDayClick(dateStr)} role="gridcell" tabIndex={0}
-                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onDayClick(dateStr) } }}>
-                {HOURS.map((hour) => <div key={hour} className="border-b border-border/50" style={{ height: HOUR_HEIGHT }} />)}
+              <div
+                key={di}
+                className={cn('relative border-l', isWeekend(d) && 'bg-muted/10')}
+                onClick={() => onDayClick(dateStr)}
+                role="gridcell"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    onDayClick(dateStr)
+                  }
+                }}>
+                {HOURS.map((hour) => (
+                  <div key={hour} className="border-border/50 border-b" style={{ height: HOUR_HEIGHT }} />
+                ))}
                 {dayEvents.map((evt) => (
                   <WeekEventBlock key={evt.id} event={evt} onEdit={onEditEvent} onDelete={onDeleteEvent} />
                 ))}

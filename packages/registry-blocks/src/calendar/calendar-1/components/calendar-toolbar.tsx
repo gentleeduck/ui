@@ -68,12 +68,12 @@ export function CalendarToolbar({
       {/* Left: date badge + heading */}
       <div className="flex items-center gap-3">
         <div className="flex flex-col items-center rounded-lg border px-3 py-1.5">
-          <span className="text-[10px] font-bold leading-tight text-primary">{todayMonth}</span>
-          <span className="text-lg font-bold leading-tight">{todayDay}</span>
+          <span className="font-bold text-[10px] text-primary leading-tight">{todayMonth}</span>
+          <span className="font-bold text-lg leading-tight">{todayDay}</span>
         </div>
         <div>
           <h2 className="font-semibold text-lg">{formatViewHeading(viewedDate, calendarView)}</h2>
-          {sub && <p className="text-xs text-muted-foreground">{sub}</p>}
+          {sub && <p className="text-muted-foreground text-xs">{sub}</p>}
         </div>
       </div>
 

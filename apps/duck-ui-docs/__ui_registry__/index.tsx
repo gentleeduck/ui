@@ -15,6 +15,9 @@ const _Login2 = dynamic(() => import('@gentleduck/registry-blocks/authentication
 const _Login3 = dynamic(() => import('@gentleduck/registry-blocks/authentications/login-3/login-3'), { ssr: false })
 const _Login4 = dynamic(() => import('@gentleduck/registry-blocks/authentications/login-4/login-4'), { ssr: false })
 const _Login5 = dynamic(() => import('@gentleduck/registry-blocks/authentications/login-5/login-5'), { ssr: false })
+const _CalendarBlock1 = dynamic(() => import('@gentleduck/registry-blocks/calendar/calendar-1/calendar-1'), {
+  ssr: false,
+})
 const _Dashboard1 = dynamic(() => import('@gentleduck/registry-blocks/dashboards/dashboard-1/dashboard-1'), {
   ssr: false,
 })
@@ -727,10 +730,6 @@ const _TooltipDelayProvider = dynamic(
   () => import('@gentleduck/registry-internals/internal-primitives/tooltip-delay-provider/tooltip-delay-provider'),
   { ssr: false },
 )
-const _Calendar1 = dynamic(
-  () => import('@gentleduck/registry-blocks/calendar/calendar-1/calendar-1'),
-  { ssr: false },
-)
 
 export const Index: Record<string, any> = {
   'signup-1': {
@@ -853,24 +852,97 @@ export const Index: Record<string, any> = {
     categories: ['authentications', 'login'],
     root_folder: 'authentications/login-5',
   },
-  'calendar-1': {
-    name: 'calendar-1',
-    description: 'Interactive calendar block with event CRUD, month navigation, search, and filtering.',
+  'calendar-block-1': {
+    name: 'calendar-block-1',
+    description: '',
     type: 'registry:block',
-    registryDependencies: ['button', 'input', 'label', 'dialog', 'popover', 'tabs', 'breadcrumb', 'dropdown-menu', 'select', 'badge'],
-    files: [
-      { path: 'calendar/calendar-1/calendar-1.tsx', type: 'registry:block' },
-      { path: 'calendar/calendar-1/calendar-data.ts', type: 'registry:block' },
-      { path: 'calendar/calendar-1/calendar-utils.ts', type: 'registry:block' },
-      { path: 'calendar/calendar-1/components/calendar-toolbar.tsx', type: 'registry:block' },
-      { path: 'calendar/calendar-1/components/calendar-grid.tsx', type: 'registry:block' },
-      { path: 'calendar/calendar-1/components/calendar-day-cell.tsx', type: 'registry:block' },
-      { path: 'calendar/calendar-1/components/calendar-event-chip.tsx', type: 'registry:block' },
-      { path: 'calendar/calendar-1/components/calendar-event-dialog.tsx', type: 'registry:block' },
-      { path: 'calendar/calendar-1/components/calendar-event-detail.tsx', type: 'registry:block' },
-      { path: 'calendar/calendar-1/components/calendar-overflow.tsx', type: 'registry:block' },
+    registryDependencies: [
+      'button',
+      'input',
+      'label',
+      'dialog',
+      'popover',
+      'tabs',
+      'breadcrumb',
+      'dropdown-menu',
+      'select',
+      'badge',
     ],
-    component: _Calendar1,
+    files: [
+      {
+        path: 'calendar/calendar-1/calendar-1.atoms.ts',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/calendar-1.libs.ts',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/calendar-1.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/calendar-1.types.ts',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/calendar-data.ts',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/calendar-utils.ts',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/index.ts',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/components/calendar-command-menu.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/components/calendar-day-cell.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/components/calendar-day-view.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/components/calendar-event-chip.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/components/calendar-event-detail.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/components/calendar-event-dialog.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/components/calendar-grid.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/components/calendar-overflow.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/components/calendar-toolbar.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/components/calendar-week-view.tsx',
+        type: 'registry:block',
+      },
+      {
+        path: 'calendar/calendar-1/components/calendar-year-view.tsx',
+        type: 'registry:block',
+      },
+    ],
+    component: _CalendarBlock1,
     source: '/registry-blocks/src/calendar/calendar-1',
     categories: ['calendar', 'application'],
     root_folder: 'calendar/calendar-1',
