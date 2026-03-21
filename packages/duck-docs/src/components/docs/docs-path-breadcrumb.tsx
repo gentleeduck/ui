@@ -9,6 +9,7 @@ import {
   BreadcrumbSeparator,
 } from '@gentleduck/registry-ui/breadcrumb'
 import Link from 'next/link'
+import * as React from 'react'
 
 function toTitleCase(segment: string) {
   return segment
@@ -30,9 +31,9 @@ export function DocsPathBreadcrumb({ segments }: { segments: string[] }) {
           const href = `/docs/${segments.slice(0, index + 1).join('/')}`
 
           return (
-            <>
+            <React.Fragment key={href}>
               {index > 0 && <BreadcrumbSeparator />}
-              <BreadcrumbItem key={href} className="min-w-0">
+              <BreadcrumbItem className="min-w-0">
                 {isLast ? (
                   <BreadcrumbPage className="block max-w-40 truncate">{toTitleCase(segment)}</BreadcrumbPage>
                 ) : (
@@ -43,7 +44,7 @@ export function DocsPathBreadcrumb({ segments }: { segments: string[] }) {
                   </BreadcrumbLink>
                 )}
               </BreadcrumbItem>
-            </>
+            </React.Fragment>
           )
         })}
       </BreadcrumbList>

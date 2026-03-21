@@ -17,6 +17,8 @@ export function ModeSwitcher() {
   const { setMetaColor } = useMetaColor()
   const siteConfig = useSiteConfig()
   const metaThemeColors = siteConfig.metaThemeColors ?? DEFAULT_META_THEME_COLORS
+  const [mounted, setMounted] = React.useState(false)
+  React.useEffect(() => setMounted(true), [])
 
   const toggleTheme = React.useCallback(() => {
     setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')
@@ -25,7 +27,7 @@ export function ModeSwitcher() {
 
   return (
     <Button
-      aria-label={`Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} theme`}
+      aria-label={mounted ? `Switch to ${resolvedTheme === 'dark' ? 'light' : 'dark'} theme` : 'Toggle theme'}
       className="group/toggle"
       icon={
         <>

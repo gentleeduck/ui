@@ -31,7 +31,7 @@ export default function ComboboxRtlDemo() {
 
   return (
     <Popover dir="rtl" onOpenChange={setOpen} open={open}>
-      <PopoverTrigger>
+      <PopoverTrigger asChild>
         <Button aria-expanded={open} className="w-57.5 justify-between text-start" role="combobox" variant="outline">
           {selectedLabel ?? 'اختر نوع المشروع...'}
           <ChevronsUpDown className="opacity-50" />
