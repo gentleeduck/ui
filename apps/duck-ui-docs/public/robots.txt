@@ -1,9 +1,9 @@
+# *
 User-agent: *
 Allow: /
-Disallow: /api/
-Disallow: /_next/
-Disallow: /r/
 
+# Host
 Host: https://ui.gentleduck.org
 
+# Sitemaps
 Sitemap: https://ui.gentleduck.org/sitemap.xml
