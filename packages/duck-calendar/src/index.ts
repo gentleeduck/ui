@@ -1,8 +1,10 @@
 // Adapter
 export type { DateAdapter, WeekStartDay } from './adapter'
 export {
+  clearFormatterCache,
   DateFnsAdapter,
   DayjsAdapter,
+  getCachedFormatter,
   HebrewAdapter,
   IslamicAdapter,
   LuxonAdapter,

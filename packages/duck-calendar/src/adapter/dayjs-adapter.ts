@@ -61,7 +61,7 @@ export class DayjsAdapter implements DateAdapter<Dayjs> {
   /** Walks backward from `date` until reaching the target weekday. */
   startOfWeek(date: Dayjs, weekStartDay: WeekStartDay): Dayjs {
     const diff = (date.day() - weekStartDay + 7) % 7
-    return date.subtract(diff, 'day')
+    return date.subtract(diff, 'day').startOf('day')
   }
 
   /** Adds (or subtracts) a number of days. */
