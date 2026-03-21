@@ -1,5 +1,12 @@
 # @gentleduck/primitives
 
+## 0.2.7
+
+### Patch Changes
+
+- Updated dependencies [58d1c61]
+  - @gentleduck/calendar@0.2.0
+
 ## 0.2.6
 
 ### Patch Changes
