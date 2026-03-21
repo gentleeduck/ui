@@ -300,7 +300,7 @@ You can use the `<Calendar>` component to build a date picker. See the [Date Pic
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `adapter` | `DateAdapter<Date>` | `NativeAdapter` | Date adapter for alternative calendar systems (Islamic, Persian, Hebrew) |
-| `mode` | `'single' \| 'range' \| 'multi'` | `'single'` | Selection mode |
+| `mode` | `'single' \| 'range' \| 'multi' \| 'multi-range'` | `'single'` | Selection mode |
 | `selected` | `Date \| DateRange<Date> \| Date[] \| null` | -- | Controlled selection value |
 | `onSelect` | `(value) => void` | -- | Called when the selection changes |
 | `disabled` | `Date[] \| ((date: Date) => boolean)` | -- | Dates that cannot be selected |
@@ -345,7 +345,7 @@ Customize the content inside each day cell. Receives the `CalendarDay` object an
 />
 ```
 
-The `day` object exposes: `date`, `isToday`, `isSelected`, `isDisabled`, `isOutside`, `isRangeStart`, `isRangeEnd`, `isRangeMiddle`.
+The `day` object exposes: `date`, `isToday`, `isSelected`, `isDisabled`, `isOutside`, `isHidden`, `isWeekend`, `isRangeStart`, `isRangeEnd`, `isRangeMiddle`.
 
 #### renderHeader
 
@@ -353,7 +353,7 @@ Replace the entire navigation header. Receives a context object with navigation 
 
 ```tsx showLineNumbers
 <Calendar
-  renderHeader={({ title, goToPrevMonth, goToNextMonth, isPrevDisabled, isNextDisabled }) => (
+  renderHeader={({ month, title, direction, goToPrevMonth, goToNextMonth, isPrevDisabled, isNextDisabled }) => (
     <div className="flex items-center justify-between px-2">
       <button onClick={goToPrevMonth} disabled={isPrevDisabled}><-</button>
       <span className="font-semibold">{title}</span>
