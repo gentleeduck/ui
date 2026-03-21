@@ -31,7 +31,7 @@ export default function CalendarDemo() {
               mode="single"
               onSelect={(date) => {
                 setDate(date)
-                setOpen(false)
+                requestAnimationFrame(() => setOpen(false))
               }}
               selected={date}
             />

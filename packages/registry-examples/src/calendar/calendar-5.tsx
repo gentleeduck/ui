@@ -29,7 +29,7 @@ export default function CalendarDemo() {
             yearRange={{ from: 1920, to: new Date().getFullYear() }}
             onSelect={(date) => {
               setDate(date)
-              setOpen(false)
+              requestAnimationFrame(() => setOpen(false))
             }}
             selected={date}
           />

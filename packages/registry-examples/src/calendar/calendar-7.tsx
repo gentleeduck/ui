@@ -71,7 +71,7 @@ export default function CalendarDemo() {
               onSelect={(date) => {
                 setDate(date)
                 setValue(formatDate(date))
-                setOpen(false)
+                requestAnimationFrame(() => setOpen(false))
               }}
               selected={date}
             />

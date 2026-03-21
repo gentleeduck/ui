@@ -111,7 +111,7 @@ export function CalendarEventDialog({
                     defaultMonth={selectedDate ?? undefined}
                     onSelect={(d) => {
                       if (d instanceof Date) setDate(formatDateString(d))
-                      setDatePickerOpen(false)
+                      requestAnimationFrame(() => setDatePickerOpen(false))
                     }}
                   />
                 </PopoverContent>
