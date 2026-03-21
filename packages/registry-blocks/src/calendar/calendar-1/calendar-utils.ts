@@ -41,7 +41,7 @@ export function formatDateRange(date: Date): string {
 }
 
 export function formatFullDate(dateStr: string): string {
-  const d = new Date(dateStr + 'T00:00:00')
+  const d = new Date(`${dateStr}T00:00:00`)
   return d.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
 }
 
@@ -59,7 +59,7 @@ export function parseTimeToMinutes(time: string): number {
   if (!m) return 0
   let h = Number.parseInt(m[1]!, 10)
   const min = Number.parseInt(m[2]!, 10)
-  const p = m[3]!.toUpperCase()
+  const p = m[3]?.toUpperCase()
   if (p === 'PM' && h !== 12) h += 12
   if (p === 'AM' && h === 12) h = 0
   return h * 60 + min

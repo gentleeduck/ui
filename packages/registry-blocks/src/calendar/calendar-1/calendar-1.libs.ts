@@ -25,7 +25,7 @@ export function timeStringTo24h(time: string): string {
   if (!m) return '09:00'
   let h = Number.parseInt(m[1]!, 10)
   const min = m[2]!
-  const p = m[3]!.toUpperCase()
+  const p = m[3]?.toUpperCase()
   if (p === 'PM' && h !== 12) h += 12
   if (p === 'AM' && h === 12) h = 0
   return `${String(h).padStart(2, '0')}:${min}`

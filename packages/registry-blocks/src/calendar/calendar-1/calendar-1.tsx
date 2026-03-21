@@ -112,7 +112,7 @@ export default function Page() {
     setCalendarView('month')
   }
   function handleNavigateToDate(dateStr: string) {
-    const d = new Date(dateStr + 'T00:00:00')
+    const d = new Date(`${dateStr}T00:00:00`)
     setViewedDate(d)
     if (calendarView === 'year') setCalendarView('month')
   }
