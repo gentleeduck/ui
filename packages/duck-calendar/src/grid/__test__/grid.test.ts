@@ -285,29 +285,29 @@ describe('grid', () => {
   // ---------------------------------------------------------------------------
   describe('getLocalizedMonthNames', () => {
     it('returns 12 entries', () => {
-      const result = getLocalizedMonthNames(adapter, 'en-US')
+      const result = getLocalizedMonthNames(adapter, 2025, 'en-US')
       expect(result).toHaveLength(12)
     })
 
     it('first entry is January, last is December', () => {
-      const result = getLocalizedMonthNames(adapter, 'en-US')
+      const result = getLocalizedMonthNames(adapter, 2025, 'en-US')
       expect(result[0]).toBe('January')
       expect(result[11]).toBe('December')
     })
 
     it('short format', () => {
-      const result = getLocalizedMonthNames(adapter, 'en-US', 'short')
+      const result = getLocalizedMonthNames(adapter, 2025, 'en-US', 'short')
       expect(result[0]).toBe('Jan')
       expect(result[11]).toBe('Dec')
     })
 
     it('narrow format', () => {
-      const result = getLocalizedMonthNames(adapter, 'en-US', 'narrow')
+      const result = getLocalizedMonthNames(adapter, 2025, 'en-US', 'narrow')
       expect(result[0]).toBe('J')
     })
 
     it('all 12 names are non-empty strings', () => {
-      const result = getLocalizedMonthNames(adapter, 'en-US')
+      const result = getLocalizedMonthNames(adapter, 2025, 'en-US')
       for (const name of result) {
         expect(typeof name).toBe('string')
         expect(name.length).toBeGreaterThan(0)

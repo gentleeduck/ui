@@ -143,6 +143,12 @@ export function hebrewMonthLength(hy: number, hm: number): number {
 // Fixed-day (R.D.) conversions  -  Reingold/Dershowitz epoch = Jan 1, 1 CE
 // ---------------------------------------------------------------------------
 
+/** Number of days in a Gregorian month (for input validation). */
+function gregorianMonthLength(gy: number, gm: number): number {
+  const lengths = [31, isGregorianLeap(gy) ? 29 : 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+  return lengths[gm - 1] ?? 31
+}
+
 /** R.D. date of Hebrew epoch (1 Tishrei, year 1). */
 const HEBREW_EPOCH = -1373428
 
@@ -168,11 +174,11 @@ function isGregorianLeap(y: number): boolean {
 function fixedToGregorian(rd: number): { gy: number; gm: number; gd: number } {
   const d0 = rd - 1
   const n400 = Math.floor(d0 / 146097)
-  const d1 = d0 % 146097
+  const d1 = ((d0 % 146097) + 146097) % 146097
   const n100 = Math.floor(d1 / 36524)
-  const d2 = d1 % 36524
+  const d2 = ((d1 % 36524) + 36524) % 36524
   const n4 = Math.floor(d2 / 1461)
-  const d3 = d2 % 1461
+  const d3 = ((d2 % 1461) + 1461) % 1461
   const n1 = Math.floor(d3 / 365)
   const gy = 400 * n400 + 100 * n100 + 4 * n4 + n1 + (n100 === 4 || n1 === 4 ? 0 : 1)
   const jan1 = gregorianToFixed(gy, 1, 1)
@@ -197,19 +203,27 @@ function hebrewNewYear(hy: number): number {
  * @returns Hebrew year, month (1-indexed), and day
  */
 export function toHebrew(gy: number, gm: number, gd: number): { hy: number; hm: number; hd: number } {
+  if (gm < 1 || gm > 12 || gd < 1 || gd > gregorianMonthLength(gy, gm)) {
+    throw new RangeError(`Invalid Gregorian date: ${gy}-${gm}-${gd}`)
+  }
   const rd = gregorianToFixed(gy, gm, gd)
   // Approximate Hebrew year (Tishrei falls in Sep/Oct, so before that we're still in the previous Hebrew year)
   let hy = gy + 3761
-  // Search downward  -  the approximation can overshoot
-  while (hebrewNewYear(hy) > rd) hy--
-  // Then search upward to find the correct year
-  while (hebrewNewYear(hy + 1) <= rd) hy++
 
-  // Find month
+  // Search downward - the approximation can overshoot.
+  // The offset is at most 1 year, but we allow a generous bound and throw if exhausted.
+  let i: number
+  for (i = 0; i < 100 && hebrewNewYear(hy) > rd; i++) hy--
+  if (i === 100) throw new RangeError(`Hebrew year search failed for Gregorian date: ${gy}-${gm}-${gd}`)
+  // Then search upward to find the correct year
+  for (i = 0; i < 100 && hebrewNewYear(hy + 1) <= rd; i++) hy++
+  if (i === 100) throw new RangeError(`Hebrew year search failed for Gregorian date: ${gy}-${gm}-${gd}`)
+
+  // Find month - use <= so the last month (Elul) is reachable
   let hm = 1
   let remaining = rd - hebrewNewYear(hy) + 1
   const months = hebrewMonthsInYear(hy)
-  while (hm < months) {
+  while (hm <= months) {
     const ml = hebrewMonthLength(hy, hm)
     if (remaining <= ml) break
     remaining -= ml
@@ -227,6 +241,10 @@ export function toHebrew(gy: number, gm: number, gd: number): { hy: number; hm: 
  * @returns Gregorian year, month (1-indexed), and day
  */
 export function hebrewToGregorian(hy: number, hm: number, hd: number): { gy: number; gm: number; gd: number } {
+  const months = hebrewMonthsInYear(hy)
+  if (hm < 1 || hm > months || hd < 1 || hd > hebrewMonthLength(hy, hm)) {
+    throw new RangeError(`Invalid Hebrew date: ${hy}-${hm}-${hd}`)
+  }
   let rd = hebrewNewYear(hy)
   for (let m = 1; m < hm; m++) {
     rd += hebrewMonthLength(hy, m)

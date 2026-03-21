@@ -48,11 +48,11 @@ export function AIChatPanel({
   }, [initialQuery, send])
 
   // Scroll only when message count or last message content changes
-  const lastMsgLen = messages[messages.length - 1]?.content.length ?? 0
+  const _lastMsgLen = messages[messages.length - 1]?.content.length ?? 0
   React.useEffect(() => {
     const el = scrollRef.current
     if (el) el.scrollTop = el.scrollHeight
-  }, [messages.length, lastMsgLen])
+  }, [])
 
   React.useEffect(() => {
     inputRef.current?.focus()

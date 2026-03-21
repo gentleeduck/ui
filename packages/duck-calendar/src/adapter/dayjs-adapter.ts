@@ -1,7 +1,7 @@
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
-
 import type { DateAdapter, WeekStartDay } from './adapter.types'
+import { getCachedFormatter } from './formatter-cache'
 
 /**
  * Dayjs date adapter for `@gentleduck/calendar`.
@@ -61,7 +61,7 @@ export class DayjsAdapter implements DateAdapter<Dayjs> {
   /** Walks backward from `date` until reaching the target weekday. */
   startOfWeek(date: Dayjs, weekStartDay: WeekStartDay): Dayjs {
     const diff = (date.day() - weekStartDay + 7) % 7
-    return date.subtract(diff, 'day')
+    return date.subtract(diff, 'day').startOf('day')
   }
 
   /** Adds (or subtracts) a number of days. */
@@ -111,7 +111,7 @@ export class DayjsAdapter implements DateAdapter<Dayjs> {
 
   /** Formats using `Intl.DateTimeFormat`. Pass standard options like `{ month: 'long' }`. */
   format(date: Dayjs, options: Intl.DateTimeFormatOptions, locale?: string): string {
-    return new Intl.DateTimeFormat(locale, options).format(date.toDate())
+    return getCachedFormatter(locale, options).format(date.toDate())
   }
 
   /** Extracts the hour (0-23). */

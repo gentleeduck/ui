@@ -20,8 +20,8 @@ import {
   set,
   startOfDay,
 } from 'date-fns'
-
 import type { DateAdapter, WeekStartDay } from './adapter.types'
+import { getCachedFormatter } from './formatter-cache'
 
 /**
  * Date adapter backed by `date-fns` for date arithmetic and `Intl.DateTimeFormat`
@@ -116,7 +116,7 @@ export class DateFnsAdapter implements DateAdapter<Date> {
 
   /** Formats using Intl.DateTimeFormat. Pass standard options like `{ month: 'long' }`. */
   format(date: Date, options: Intl.DateTimeFormatOptions, locale?: string): string {
-    return new Intl.DateTimeFormat(locale, options).format(date)
+    return getCachedFormatter(locale, options).format(date)
   }
 
   getHours(date: Date): number {

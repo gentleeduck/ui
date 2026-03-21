@@ -18,10 +18,11 @@ const FIELD_ORDERS: Record<string, TimeField[]> = {
 }
 
 function nextField(current: TimeField, showSeconds: boolean, hourCycle: '12' | '24'): TimeField | null {
-  const available = FIELD_ORDERS[`${hourCycle}_${showSeconds}`]!
+  const available = FIELD_ORDERS[`${hourCycle}_${showSeconds}`]
+  if (!available) return null
   const idx = available.indexOf(current)
   if (idx < 0 || idx >= available.length - 1) return null
-  return available[idx + 1]!
+  return available[idx + 1] ?? null
 }
 
 // ---------------------------------------------------------------------------
@@ -35,11 +36,23 @@ const FIELD_LABELS: Record<TimeField, string> = {
   ampm: 'AM/PM',
 }
 
-function getFieldRange(field: TimeField, hourCycle: '12' | '24'): { min: number; max: number } {
+function getFieldRange(
+  field: TimeField,
+  hourCycle: '12' | '24',
+  minTime?: TimeValue,
+  maxTime?: TimeValue,
+): { min: number; max: number } {
   switch (field) {
-    case 'hour':
-      return hourCycle === '12' ? { min: 1, max: 12 } : { min: 0, max: 23 }
+    case 'hour': {
+      const base = hourCycle === '12' ? { min: 1, max: 12 } : { min: 0, max: 23 }
+      if (minTime) base.min = Math.max(base.min, hourCycle === '12' ? to12Hour(minTime.hour) : minTime.hour)
+      if (maxTime) base.max = Math.min(base.max, hourCycle === '12' ? to12Hour(maxTime.hour) : maxTime.hour)
+      // Guard against contradictory constraints
+      if (base.min > base.max) return hourCycle === '12' ? { min: 1, max: 12 } : { min: 0, max: 23 }
+      return base
+    }
     case 'minute':
+      return { min: 0, max: 59 }
     case 'second':
       return { min: 0, max: 59 }
     case 'ampm':
@@ -129,9 +142,7 @@ export function useTimePicker(config: UseTimePickerConfig = {}): UseTimePickerRe
         case 'hour':
           // In 12h mode, convert displayed hour back to 24h using current AM/PM
           next.hour =
-            hourCycle === '12'
-              ? to24Hour(fieldValue === 0 ? 12 : fieldValue, getAmPm(value.hour))
-              : fieldValue
+            hourCycle === '12' ? to24Hour(fieldValue === 0 ? 12 : fieldValue, getAmPm(value.hour)) : fieldValue
           break
         case 'minute':
           next.minute = fieldValue
@@ -201,7 +212,7 @@ export function useTimePicker(config: UseTimePickerConfig = {}): UseTimePickerRe
 
   const getFieldProps = useCallback(
     (field: TimeField): TimeFieldProps => {
-      const range = getFieldRange(field, hourCycle)
+      const range = getFieldRange(field, hourCycle, minTime, maxTime)
       const now = getFieldNow(field, value, hourCycle)
       const text = getFieldText(field, value, hourCycle)
 
@@ -246,6 +257,7 @@ export function useTimePicker(config: UseTimePickerConfig = {}): UseTimePickerRe
             commitBuffer(field, inputBuffer.current)
           } else {
             inputTimeout.current = setTimeout(() => {
+              inputTimeout.current = null
               commitBuffer(field, inputBuffer.current)
             }, 500)
           }
@@ -273,7 +285,7 @@ export function useTimePicker(config: UseTimePickerConfig = {}): UseTimePickerRe
         onFocus,
       }
     },
-    [value, focusedField, hourCycle, increment, decrement, toggleAmPm, commitBuffer, displayAmPm],
+    [value, focusedField, hourCycle, increment, decrement, toggleAmPm, commitBuffer, displayAmPm, minTime, maxTime],
   )
 
   // -------------------------------------------------------------------------

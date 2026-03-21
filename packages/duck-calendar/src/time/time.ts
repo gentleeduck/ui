@@ -15,12 +15,14 @@ export function isValidTime(time: TimeValue): boolean {
 
 /** Clamp a time value within min/max bounds. */
 export function clampTime(time: TimeValue, min?: TimeValue, max?: TimeValue): TimeValue {
+  // When min > max, the constraints are contradictory - return time unchanged
+  if (min && max && toSeconds(min) > toSeconds(max)) return { ...time }
+
   const hasSeconds = time.second !== undefined
   let result = { ...time }
 
   // Normalize bounds to same precision as input for accurate comparison
-  const normalizeForCompare = (t: TimeValue): TimeValue =>
-    hasSeconds ? t : { hour: t.hour, minute: t.minute }
+  const normalizeForCompare = (t: TimeValue): TimeValue => (hasSeconds ? t : { hour: t.hour, minute: t.minute })
 
   if (min && toSeconds(normalizeForCompare(result)) < toSeconds(normalizeForCompare(min))) {
     result = { ...min }
@@ -80,7 +82,7 @@ export function parseTimeInput(input: string, field: TimeField, hourCycle: HourC
       const max = hourCycle === '12' ? 12 : 23
       const min = hourCycle === '12' ? 1 : 0
       if (num < min || num > max) return null
-      return hourCycle === '12' ? num % 12 : num // 12 in 12h mode -> 0
+      return hourCycle === '12' ? (num === 12 ? 0 : num) : num
     }
     case 'minute':
       if (num < 0 || num > 59) return null

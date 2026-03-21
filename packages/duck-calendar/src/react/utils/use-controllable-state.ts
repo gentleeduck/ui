@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 
 /**
  * Tiny controlled/uncontrolled state helper.
@@ -15,12 +15,15 @@ export function useControllableState<T>(
 
   const value = isControlled ? controlled : internal
 
+  const onChangeRef = useRef(onChange)
+  onChangeRef.current = onChange
+
   const setValue = useCallback(
     (next: T) => {
       if (!isControlled) setInternal(next)
-      onChange?.(next)
+      onChangeRef.current?.(next)
     },
-    [isControlled, onChange],
+    [isControlled],
   )
 
   return [value, setValue]

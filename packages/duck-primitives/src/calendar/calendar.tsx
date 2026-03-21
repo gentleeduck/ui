@@ -84,12 +84,43 @@ const Calendar = React.forwardRef<CalendarElement, CalendarRootProps>(
 
     const calendar = useCalendar(config)
 
-    const contextValue = React.useMemo<CalendarContextValue>(
-      () => ({ ...calendar, adapter, mode, locale }),
-      // Use primitive deps from calendar.state to avoid rebuilds on locale object identity changes
-      // biome-ignore lint/correctness/useExhaustiveDependencies: calendar already captures internal state changes
-      [calendar, adapter, mode, locale?.locale, locale?.weekStartDay, locale?.direction],
-    )
+    const localeTag = locale?.locale
+    const weekStartDay = locale?.weekStartDay
+    const localeDirection = locale?.direction
+
+    const { state, actions, getDayProps, getGridProps, getNavProps, getHeaderProps, announcer } = calendar
+
+    const contextValue = React.useMemo<CalendarContextValue>(() => {
+      const resolvedLocale =
+        localeTag || localeDirection || weekStartDay !== undefined
+          ? { locale: localeTag, weekStartDay, direction: localeDirection }
+          : undefined
+      return {
+        state,
+        actions,
+        getDayProps,
+        getGridProps,
+        getNavProps,
+        getHeaderProps,
+        announcer,
+        adapter,
+        mode,
+        locale: resolvedLocale,
+      }
+    }, [
+      state,
+      actions,
+      getDayProps,
+      getGridProps,
+      getNavProps,
+      getHeaderProps,
+      announcer,
+      adapter,
+      mode,
+      localeTag,
+      weekStartDay,
+      localeDirection,
+    ])
 
     return (
       <CalendarProvider scope={__scopeCalendar} {...contextValue}>

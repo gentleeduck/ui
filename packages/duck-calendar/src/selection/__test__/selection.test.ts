@@ -300,4 +300,169 @@ describe('selection', () => {
       expect(allDays.every((d) => !d.isRangeMiddle && !d.isRangeEnd)).toBe(true)
     })
   })
+
+  // ---------------------------------------------------------------------------
+  // selectDay / multi-range
+  // ---------------------------------------------------------------------------
+  describe('selectDay / multi-range', () => {
+    it('starts a new range on first click', () => {
+      const result = selectDay(adapter, 'multi-range', [] as DateRange<Date>[], new Date(2026, 2, 5))
+      expect(result).toHaveLength(1)
+      expect((result as DateRange<Date>[])[0]!.to).toBeNull()
+    })
+
+    it('completes the range on second click', () => {
+      const start: DateRange<Date>[] = [{ from: new Date(2026, 2, 5), to: null }]
+      const result = selectDay(adapter, 'multi-range', start, new Date(2026, 2, 10)) as DateRange<Date>[]
+      expect(result).toHaveLength(1)
+      expect(result[0]!.to).not.toBeNull()
+      expect(result[0]!.from.getDate()).toBe(5)
+      expect(result[0]!.to!.getDate()).toBe(10)
+    })
+
+    it('auto-swaps when end is before start', () => {
+      const start: DateRange<Date>[] = [{ from: new Date(2026, 2, 10), to: null }]
+      const result = selectDay(adapter, 'multi-range', start, new Date(2026, 2, 5)) as DateRange<Date>[]
+      expect(result[0]!.from.getDate()).toBe(5)
+      expect(result[0]!.to!.getDate()).toBe(10)
+    })
+
+    it('cancels in-progress range when clicking same start', () => {
+      const start: DateRange<Date>[] = [{ from: new Date(2026, 2, 5), to: null }]
+      const result = selectDay(adapter, 'multi-range', start, new Date(2026, 2, 5)) as DateRange<Date>[]
+      expect(result).toHaveLength(0)
+    })
+
+    it('starts a new range after completing one', () => {
+      const completed: DateRange<Date>[] = [{ from: new Date(2026, 2, 5), to: new Date(2026, 2, 10) }]
+      const result = selectDay(adapter, 'multi-range', completed, new Date(2026, 2, 20)) as DateRange<Date>[]
+      expect(result).toHaveLength(2)
+      expect(result[1]!.from.getDate()).toBe(20)
+      expect(result[1]!.to).toBeNull()
+    })
+
+    it('shift+click splits a range excluding the clicked day', () => {
+      const ranges: DateRange<Date>[] = [{ from: new Date(2026, 2, 1), to: new Date(2026, 2, 10) }] // 10 days
+      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 5), {
+        shiftKey: true,
+      }) as DateRange<Date>[]
+      expect(result).toHaveLength(2)
+      expect(result[0]!.from.getDate()).toBe(1)
+      expect(result[0]!.to!.getDate()).toBe(4)
+      expect(result[1]!.from.getDate()).toBe(6)
+      expect(result[1]!.to!.getDate()).toBe(10)
+    })
+
+    it('shift+click on start shrinks range from left', () => {
+      const ranges: DateRange<Date>[] = [{ from: new Date(2026, 2, 1), to: new Date(2026, 2, 10) }]
+      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 1), {
+        shiftKey: true,
+      }) as DateRange<Date>[]
+      expect(result).toHaveLength(1)
+      expect(result[0]!.from.getDate()).toBe(2)
+      expect(result[0]!.to!.getDate()).toBe(10)
+    })
+
+    it('shift+click on end shrinks range from right', () => {
+      const ranges: DateRange<Date>[] = [{ from: new Date(2026, 2, 1), to: new Date(2026, 2, 10) }]
+      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 10), {
+        shiftKey: true,
+      }) as DateRange<Date>[]
+      expect(result).toHaveLength(1)
+      expect(result[0]!.from.getDate()).toBe(1)
+      expect(result[0]!.to!.getDate()).toBe(9)
+    })
+
+    it('shift+click does nothing for ranges <= 5 days', () => {
+      const ranges: DateRange<Date>[] = [{ from: new Date(2026, 2, 1), to: new Date(2026, 2, 5) }] // exactly 5 days
+      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 3), {
+        shiftKey: true,
+      }) as DateRange<Date>[]
+      expect(result).toHaveLength(1)
+      expect(result[0]!.from.getDate()).toBe(1)
+      expect(result[0]!.to!.getDate()).toBe(5)
+    })
+
+    it('shift+click works for ranges of 6 days', () => {
+      const ranges: DateRange<Date>[] = [{ from: new Date(2026, 2, 1), to: new Date(2026, 2, 6) }] // 6 days
+      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 3), {
+        shiftKey: true,
+      }) as DateRange<Date>[]
+      expect(result).toHaveLength(2)
+    })
+
+    it('merges adjacent ranges (1-5 then 6-9 becomes 1-9)', () => {
+      let ranges: DateRange<Date>[] = []
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 1)) as DateRange<Date>[]
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 5)) as DateRange<Date>[]
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 6)) as DateRange<Date>[]
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 9)) as DateRange<Date>[]
+      expect(ranges).toHaveLength(1)
+      expect(ranges[0]!.from.getDate()).toBe(1)
+      expect(ranges[0]!.to!.getDate()).toBe(9)
+    })
+
+    it('merges overlapping ranges (1-7 then 5-12 becomes 1-12)', () => {
+      let ranges: DateRange<Date>[] = []
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 1)) as DateRange<Date>[]
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 7)) as DateRange<Date>[]
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 5)) as DateRange<Date>[]
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 12)) as DateRange<Date>[]
+      expect(ranges).toHaveLength(1)
+      expect(ranges[0]!.from.getDate()).toBe(1)
+      expect(ranges[0]!.to!.getDate()).toBe(12)
+    })
+
+    it('does not merge non-adjacent ranges (1-5 and 8-12)', () => {
+      let ranges: DateRange<Date>[] = []
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 1)) as DateRange<Date>[]
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 5)) as DateRange<Date>[]
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 8)) as DateRange<Date>[]
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 12)) as DateRange<Date>[]
+      expect(ranges).toHaveLength(2)
+    })
+
+    it('accumulates multiple completed ranges', () => {
+      let ranges: DateRange<Date>[] = []
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 1)) as DateRange<Date>[]
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 5)) as DateRange<Date>[]
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 10)) as DateRange<Date>[]
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 15)) as DateRange<Date>[]
+      expect(ranges).toHaveLength(2)
+      expect(ranges[0]!.from.getDate()).toBe(1)
+      expect(ranges[0]!.to!.getDate()).toBe(5)
+      expect(ranges[1]!.from.getDate()).toBe(10)
+      expect(ranges[1]!.to!.getDate()).toBe(15)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // applySelection / multi-range
+  // ---------------------------------------------------------------------------
+  describe('applySelection / multi-range', () => {
+    it('highlights multiple ranges correctly', () => {
+      const grid = buildCalendarMonth(adapter, march2026, baseConfig)
+      const ranges: DateRange<Date>[] = [
+        { from: adapter.create(2026, 2, 3), to: adapter.create(2026, 2, 6) },
+        { from: adapter.create(2026, 2, 15), to: adapter.create(2026, 2, 18) },
+      ]
+      const result = applySelection(grid.weeks, adapter, 'multi-range', ranges, {})
+      const allDays = result.flatMap((w) => w.days)
+
+      const mar3 = allDays.find((d) => d.date.getDate() === 3 && d.date.getMonth() === 2)!
+      const mar5 = allDays.find((d) => d.date.getDate() === 5 && d.date.getMonth() === 2)!
+      const mar6 = allDays.find((d) => d.date.getDate() === 6 && d.date.getMonth() === 2)!
+      const mar15 = allDays.find((d) => d.date.getDate() === 15 && d.date.getMonth() === 2)!
+      const mar18 = allDays.find((d) => d.date.getDate() === 18 && d.date.getMonth() === 2)!
+      const mar10 = allDays.find((d) => d.date.getDate() === 10 && d.date.getMonth() === 2)!
+
+      expect(mar3.isRangeStart).toBe(true)
+      expect(mar5.isRangeMiddle).toBe(true)
+      expect(mar6.isRangeEnd).toBe(true)
+      expect(mar15.isRangeStart).toBe(true)
+      expect(mar18.isRangeEnd).toBe(true)
+      expect(mar10.isRangeMiddle).toBe(false)
+      expect(mar10.isSelected).toBe(false)
+    })
+  })
 })

@@ -1,17 +1,5 @@
 import type { DateAdapter, WeekStartDay } from './adapter.types'
-
-// Shared formatter cache  -  keyed by "locale|options-json"
-const FORMATTER_CACHE = new Map<string, Intl.DateTimeFormat>()
-
-function getCachedFormatter(locale: string | undefined, options: Intl.DateTimeFormatOptions): Intl.DateTimeFormat {
-  const key = `${locale ?? ''}|${JSON.stringify(options)}`
-  let f = FORMATTER_CACHE.get(key)
-  if (!f) {
-    f = new Intl.DateTimeFormat(locale, options)
-    FORMATTER_CACHE.set(key, f)
-  }
-  return f
-}
+import { getCachedFormatter } from './formatter-cache'
 
 /**
  * Native date adapter using built-in `Date` and `Intl.DateTimeFormat`.
@@ -68,25 +56,27 @@ export class NativeAdapter implements DateAdapter<Date> {
   }
 
   addDays(date: Date, count: number): Date {
-    const d = new Date(date.getFullYear(), date.getMonth(), date.getDate())
+    const d = new Date(date.getTime())
     d.setDate(d.getDate() + count)
     return d
   }
 
-  /** Adds months with day clamping  -  Jan 31 + 1 = Feb 28, not Mar 3. */
+  /** Adds months with day clamping  -  Jan 31 + 1 = Feb 28, not Mar 3. Preserves time. */
   addMonths(date: Date, count: number): Date {
-    const originalDay = date.getDate()
-    const d = new Date(date.getFullYear(), date.getMonth(), 1)
+    const d = new Date(date.getTime())
+    const originalDay = d.getDate()
+    d.setDate(1)
     d.setMonth(d.getMonth() + count)
     const lastDay = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate()
     d.setDate(Math.min(originalDay, lastDay))
     return d
   }
 
-  /** Adds years with day clamping  -  Feb 29 2024 + 1 = Feb 28 2025. */
+  /** Adds years with day clamping  -  Feb 29 2024 + 1 = Feb 28 2025. Preserves time. */
   addYears(date: Date, count: number): Date {
-    const originalDay = date.getDate()
-    const d = new Date(date.getFullYear(), date.getMonth(), 1)
+    const d = new Date(date.getTime())
+    const originalDay = d.getDate()
+    d.setDate(1)
     d.setFullYear(d.getFullYear() + count)
     const lastDay = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate()
     d.setDate(Math.min(originalDay, lastDay))

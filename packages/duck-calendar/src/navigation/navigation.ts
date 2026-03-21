@@ -22,6 +22,10 @@ export function navigate<TDate>(
       return adapter.addYears(date, sign)
     case 'decade':
       return adapter.addYears(date, sign * 10)
+    default: {
+      const _exhaustive: never = unit
+      return _exhaustive
+    }
   }
 }
 

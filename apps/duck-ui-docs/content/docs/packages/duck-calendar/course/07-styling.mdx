@@ -28,10 +28,12 @@ Every day cell gets these attributes via `getDayProps`:
 
 | Attribute | When set |
 | :--- | :--- |
+| `data-calendar-day` | Always present on day cells |
 | `data-selected="true"` | Day is selected |
 | `data-today="true"` | Day is today |
 | `data-disabled="true"` | Day is disabled |
 | `data-outside-month="true"` | Day belongs to adjacent month |
+| `data-hidden="true"` | Day should be hidden (`showOutsideDays` is false) |
 | `data-range-start="true"` | First day in range |
 | `data-range-middle="true"` | Day is within range |
 | `data-range-end="true"` | Last day in range |

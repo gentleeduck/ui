@@ -67,7 +67,9 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // -------------------------------------------------------------------------
   const initialValue: CalendarValue<TDate, M> =
     (defaultSelected as CalendarValue<TDate, M>) ??
-    (mode === 'multi' ? ([] as unknown as CalendarValue<TDate, M>) : (null as CalendarValue<TDate, M>))
+    (mode === 'multi' || mode === 'multi-range'
+      ? ([] as unknown as CalendarValue<TDate, M>)
+      : (null as CalendarValue<TDate, M>))
 
   const [value, setValue] = useControllableState<CalendarValue<TDate, M>>(controlledSelected, initialValue, onSelect)
 
@@ -91,9 +93,6 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   })
   const [viewMode, setViewMode] = useState<ViewMode>('days')
 
-  // Track whether focus change came from keyboard (vs click/programmatic)
-  const keyboardFocusRef = useRef(false)
-
   // -------------------------------------------------------------------------
   // Constraints (memoised to keep a stable reference)
   // -------------------------------------------------------------------------
@@ -114,7 +113,11 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // Grid  -  rebuild when month, value, or constraints change
   // -------------------------------------------------------------------------
   const months: CalendarMonth<TDate>[] = useMemo(() => {
-    const gridConfig = { showOutsideDays, fixedWeeks, locale }
+    const resolvedLocale =
+      localeTag || localeDirection || weekStartDay
+        ? { locale: localeTag, weekStartDay, direction: localeDirection }
+        : undefined
+    const gridConfig = { showOutsideDays, fixedWeeks, locale: resolvedLocale }
     const rawMonths =
       numberOfMonths <= 1
         ? [buildCalendarMonth(adapter, month, gridConfig)]
@@ -124,7 +127,6 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
       ...m,
       weeks: applySelection(m.weeks, adapter, mode, value, constraints),
     }))
-    // Use primitive locale values instead of the locale object to avoid unnecessary rebuilds
   }, [
     adapter,
     month,
@@ -178,15 +180,15 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // Selection
   // -------------------------------------------------------------------------
   const selectDate = useCallback(
-    (date: TDate) => {
+    (date: TDate, options?: { shiftKey?: boolean }) => {
       if (isDisabledFn(date)) {
-        announce(buildDateDisabledMessage(adapter.format(date, { month: 'long', day: 'numeric' }, locale?.locale)))
+        announce(buildDateDisabledMessage(adapter.format(date, { month: 'long', day: 'numeric' }, localeTag)))
         return
       }
-      const next = selectDay(adapter, mode, value, date)
+      const next = selectDay(adapter, mode, value, date, options)
       setValue(next)
     },
-    [adapter, mode, value, setValue, isDisabledFn, locale, announce],
+    [adapter, mode, value, setValue, isDisabledFn, localeTag, announce],
   )
 
   // -------------------------------------------------------------------------
@@ -197,13 +199,13 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
     if (prevMonthRef.current !== null && !adapter.isSameMonth(prevMonthRef.current, month)) {
       announce(
         buildMonthNavigationMessage(
-          adapter.format(month, { month: 'long' }, locale?.locale),
-          adapter.format(month, { year: 'numeric' }, locale?.locale),
+          adapter.format(month, { month: 'long' }, localeTag),
+          adapter.format(month, { year: 'numeric' }, localeTag),
         ),
       )
     }
     prevMonthRef.current = month
-  }, [month, adapter, announce, locale])
+  }, [month, adapter, announce, localeTag])
 
   // Announce on value change
   const prevValueRef = useRef<CalendarValue<TDate, M> | null>(null)
@@ -213,7 +215,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
 
     if (value === null) return
 
-    const fmt = (d: TDate) => adapter.format(d, { month: 'long', day: 'numeric' }, locale?.locale)
+    const fmt = (d: TDate) => adapter.format(d, { month: 'long', day: 'numeric' }, localeTag)
 
     if (mode === 'single' && value !== null) {
       announce(buildDateSelectedMessage(fmt(value as TDate)))
@@ -223,25 +225,33 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
         announce(buildRangeSelectedMessage(fmt(range.from), fmt(range.to)))
       }
     }
-  }, [value, mode, adapter, announce, locale])
+  }, [value, mode, adapter, announce, localeTag])
 
   // -------------------------------------------------------------------------
   // Focus management  -  auto-advance month when focus leaves the visible month
   // -------------------------------------------------------------------------
+  // RAF id for focus management - cancelled on unmount to prevent memory leaks
+  const rafRef = useRef<number>(0)
+  useEffect(() => {
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    }
+  }, [])
+
   const handleFocusChange = useCallback(
     (date: TDate) => {
-      keyboardFocusRef.current = true
       setFocusedDate(date)
       if (!adapter.isSameMonth(date, month)) {
         setMonthState(adapter.startOfMonth(date))
       }
       // Move DOM focus after React re-render (keyboard nav only)
-      requestAnimationFrame(() => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      rafRef.current = requestAnimationFrame(() => {
+        rafRef.current = 0
         const el = document.querySelector<HTMLElement>('[data-calendar-day][data-focused="true"]')
         if (el && document.activeElement !== el) {
           el.focus({ preventScroll: true })
         }
-        keyboardFocusRef.current = false
       })
     },
     [adapter, month, setMonthState],
@@ -265,8 +275,8 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // -------------------------------------------------------------------------
   const getDayProps = useCallback(
     (day: CalendarDay<TDate>) =>
-      buildDayProps(day, focusedDate, adapter, selectDate, setFocusedDate, keyboard.onKeyDown, locale?.locale),
-    [focusedDate, adapter, selectDate, keyboard.onKeyDown, locale],
+      buildDayProps(day, focusedDate, adapter, selectDate, setFocusedDate, keyboard.onKeyDown, localeTag),
+    [focusedDate, adapter, selectDate, keyboard.onKeyDown, localeTag],
   )
 
   const getGridProps = useCallback(() => buildGridProps(headerId), [headerId])
