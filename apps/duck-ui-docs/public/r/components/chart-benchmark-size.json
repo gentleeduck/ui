@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui/card'\nimport { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@gentleduck/registry-ui/chart'\nimport { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts'\n\nconst data = [\n  { name: 'Alert Dialog', gentleduck: 1.6, radix: 18.6 },\n  { name: 'Popover', gentleduck: 2.4, radix: 19.6 },\n  { name: 'Tooltip', gentleduck: 3.5, radix: 15.5 },\n  { name: 'Dialog', gentleduck: 3.1, radix: 10.6 },\n  { name: 'Select', gentleduck: 7.5, radix: 23.7 },\n  { name: 'Toggle', gentleduck: 0.6, radix: 1.7 },\n  { name: 'Avatar', gentleduck: 1.1, radix: 2.5 },\n  { name: 'Radio Group', gentleduck: 1.9, radix: 1.0 },\n]\n\nconst config = {\n  gentleduck: { label: 'gentleduck', color: 'var(--chart-1)' },\n  radix: { label: 'Radix UI', color: 'var(--chart-2)' },\n} satisfies ChartConfig\n\nexport default function BenchmarkSizeChart() {\n  return (\n    <Card className=\"rounded-sm border-none\">\n      <CardHeader>\n        <CardTitle>Bundle Size: gentleduck vs Radix UI</CardTitle>\n        <CardDescription>Per-component gzipped size in KB (verified via bundlephobia API, 2026-03-22)</CardDescription>\n      </CardHeader>\n      <CardContent>\n        <ChartContainer className=\"aspect-auto h-[350px] w-full\" config={config}>\n          <BarChart data={data} layout=\"vertical\" margin={{ left: 20, right: 20 }}>\n            <CartesianGrid horizontal={false} />\n            <YAxis dataKey=\"name\" type=\"category\" width={100} tickLine={false} axisLine={false} fontSize={12} />\n            <XAxis type=\"number\" unit=\" KB\" tickLine={false} axisLine={false} fontSize={11} />\n            <ChartTooltip\n              content={<ChartTooltipContent className=\"w-[180px]\" />}\n              formatter={(value) => `${value} KB`}\n            />\n            <Bar dataKey=\"gentleduck\" fill=\"var(--chart-1)\" radius={[0, 4, 4, 0]} barSize={14} />\n            <Bar dataKey=\"radix\" fill=\"var(--chart-2)\" radius={[0, 4, 4, 0]} barSize={14} />\n          </BarChart>\n        </ChartContainer>\n      </CardContent>\n    </Card>\n  )\n}\n",
+      "path": "chart/chart-benchmark-size.tsx",
+      "target": "components/chart-benchmark-size.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "chart-benchmark-size",
+  "registryDependencies": [
+    "chart"
+  ],
+  "root_folder": "chart",
+  "source": "/registry-examples/src/chart",
+  "type": "registry:example"
+}
