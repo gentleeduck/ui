@@ -69,7 +69,7 @@ export default function PrimitivesBenchmarkDashboard() {
 
   return (
     <div className="w-full space-y-4">
-      <div className="flex gap-1 rounded-lg bg-muted p-1">
+      <div className="flex w-fit gap-1 rounded-lg bg-muted p-1">
         {tabs.map((t) => (
           <button
             key={t}
@@ -81,70 +81,74 @@ export default function PrimitivesBenchmarkDashboard() {
         ))}
       </div>
 
-      {tab === 'vs Radix' && (
-        <div>
-          <p className="mb-3 text-muted-foreground text-xs">
-            Per-component gzipped size (KB). Radix sizes verified via bundlephobia API.
-          </p>
-          <ChartContainer className="aspect-[2/1] min-h-[300px] w-full" config={vsRadixConfig}>
-            <BarChart data={vsRadixData} layout="vertical" margin={{ left: 20, right: 20, top: 5, bottom: 5 }}>
-              <CartesianGrid horizontal={false} />
-              <YAxis dataKey="name" type="category" width={100} tickLine={false} axisLine={false} fontSize={11} />
-              <XAxis type="number" tickLine={false} axisLine={false} fontSize={10} />
-              <ChartTooltip content={<ChartTooltipContent indicator="dashed" />} />
-              <ChartLegend content={<ChartLegendContent />} />
-              <Bar dataKey="gentleduck" fill="var(--color-gentleduck)" radius={[0, 4, 4, 0]} barSize={12} />
-              <Bar dataKey="radix" fill="var(--color-radix)" radius={[0, 4, 4, 0]} barSize={12} />
-            </BarChart>
-          </ChartContainer>
-        </div>
-      )}
+      <div className="min-h-[320px]">
+        {tab === 'vs Radix' && (
+          <div>
+            <p className="mb-3 text-muted-foreground text-xs">
+              Per-component gzipped size (KB). Radix sizes verified via bundlephobia API.
+            </p>
+            <ChartContainer className="aspect-[2/1] min-h-[300px] w-full" config={vsRadixConfig}>
+              <BarChart data={vsRadixData} layout="vertical" margin={{ left: 20, right: 20, top: 5, bottom: 5 }}>
+                <CartesianGrid horizontal={false} />
+                <YAxis dataKey="name" type="category" width={100} tickLine={false} axisLine={false} fontSize={11} />
+                <XAxis type="number" tickLine={false} axisLine={false} fontSize={10} />
+                <ChartTooltip content={<ChartTooltipContent indicator="dashed" />} />
+                <ChartLegend content={<ChartLegendContent />} />
+                <Bar dataKey="gentleduck" fill="var(--color-gentleduck)" radius={[0, 4, 4, 0]} barSize={12} />
+                <Bar dataKey="radix" fill="var(--color-radix)" radius={[0, 4, 4, 0]} barSize={12} />
+              </BarChart>
+            </ChartContainer>
+          </div>
+        )}
 
-      {tab === 'Module Sizes' && (
-        <div>
-          <p className="mb-3 text-muted-foreground text-xs">Internal module breakdown. Top 8 + rest grouped.</p>
-          <ChartContainer className="mx-auto aspect-square min-h-[280px] max-w-[320px]" config={pieConfig}>
-            <PieChart>
-              <ChartTooltip content={<ChartTooltipContent hideLabel indicator="dot" />} cursor={false} />
-              <Pie data={pieData} dataKey="size" nameKey="name" innerRadius={60} strokeWidth={3}>
-                <Label
-                  content={({ viewBox }) => {
-                    if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
-                      return (
-                        <text dominantBaseline="middle" textAnchor="middle" x={viewBox.cx} y={viewBox.cy}>
-                          <tspan className="fill-foreground font-bold text-2xl" x={viewBox.cx} y={viewBox.cy}>
-                            {totalKB.toFixed(0)}
-                          </tspan>
-                          <tspan className="fill-muted-foreground text-xs" x={viewBox.cx} y={(viewBox.cy || 0) + 20}>
-                            KB total
-                          </tspan>
-                        </text>
-                      )
-                    }
-                  }}
-                />
-              </Pie>
-            </PieChart>
-          </ChartContainer>
-        </div>
-      )}
+        {tab === 'Module Sizes' && (
+          <div>
+            <p className="mb-3 text-muted-foreground text-xs">Internal module breakdown. Top 8 + rest grouped.</p>
+            <ChartContainer className="mx-auto aspect-square min-h-[280px] max-w-[320px]" config={pieConfig}>
+              <PieChart>
+                <ChartTooltip content={<ChartTooltipContent hideLabel indicator="dot" />} cursor={false} />
+                <Pie data={pieData} dataKey="size" nameKey="name" innerRadius={60} strokeWidth={3}>
+                  <Label
+                    content={({ viewBox }) => {
+                      if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
+                        return (
+                          <text dominantBaseline="middle" textAnchor="middle" x={viewBox.cx} y={viewBox.cy}>
+                            <tspan className="fill-foreground font-bold text-2xl" x={viewBox.cx} y={viewBox.cy}>
+                              {totalKB.toFixed(0)}
+                            </tspan>
+                            <tspan className="fill-muted-foreground text-xs" x={viewBox.cx} y={(viewBox.cy || 0) + 20}>
+                              KB total
+                            </tspan>
+                          </text>
+                        )
+                      }
+                    }}
+                  />
+                </Pie>
+              </PieChart>
+            </ChartContainer>
+          </div>
+        )}
 
-      {tab === 'Total' && (
-        <div>
-          <p className="mb-3 text-muted-foreground text-xs">Total package size vs component count across libraries.</p>
-          <ChartContainer className="aspect-[2/1] min-h-[250px] w-full" config={totalConfig}>
-            <BarChart data={data.totalComparison} margin={{ left: 10, right: 20, top: 10, bottom: 10 }}>
-              <CartesianGrid vertical={false} />
-              <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={11} />
-              <YAxis tickLine={false} axisLine={false} fontSize={10} />
-              <ChartTooltip content={<ChartTooltipContent indicator="dashed" />} />
-              <ChartLegend content={<ChartLegendContent />} />
-              <Bar dataKey="sizeKB" fill="var(--color-sizeKB)" radius={[4, 4, 0, 0]} barSize={28} />
-              <Bar dataKey="components" fill="var(--color-components)" radius={[4, 4, 0, 0]} barSize={28} />
-            </BarChart>
-          </ChartContainer>
-        </div>
-      )}
+        {tab === 'Total' && (
+          <div>
+            <p className="mb-3 text-muted-foreground text-xs">
+              Total package size vs component count across libraries.
+            </p>
+            <ChartContainer className="aspect-[2/1] min-h-[250px] w-full" config={totalConfig}>
+              <BarChart data={data.totalComparison} margin={{ left: 10, right: 20, top: 10, bottom: 10 }}>
+                <CartesianGrid vertical={false} />
+                <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={11} />
+                <YAxis tickLine={false} axisLine={false} fontSize={10} />
+                <ChartTooltip content={<ChartTooltipContent indicator="dashed" />} />
+                <ChartLegend content={<ChartLegendContent />} />
+                <Bar dataKey="sizeKB" fill="var(--color-sizeKB)" radius={[4, 4, 0, 0]} barSize={28} />
+                <Bar dataKey="components" fill="var(--color-components)" radius={[4, 4, 0, 0]} barSize={28} />
+              </BarChart>
+            </ChartContainer>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
