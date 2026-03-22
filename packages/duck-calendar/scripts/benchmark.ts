@@ -7,7 +7,8 @@
  * Usage: bun run benchmark
  */
 
-import { mkdirSync, writeFileSync } from 'node:fs'
+import { execSync } from 'node:child_process'
+import { mkdirSync, readdirSync, statSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { HebrewAdapter } from '../src/adapter/hebrew-adapter'
 import { IslamicAdapter } from '../src/adapter/islamic-adapter'
@@ -130,6 +131,39 @@ const features = [
 ]
 
 // ---------------------------------------------------------------------------
+// 5. Module sizes (measured from dist)
+// ---------------------------------------------------------------------------
+
+function getModuleSizes(): { name: string; sizeKB: number }[] {
+  const distDir = join(import.meta.dirname, '..', 'dist')
+  const sizes: { name: string; sizeKB: number }[] = []
+  for (const name of readdirSync(distDir)) {
+    const dir = join(distDir, name)
+    if (!statSync(dir).isDirectory()) continue
+    try {
+      statSync(join(dir, 'index.js'))
+    } catch {
+      continue
+    }
+    const jsFiles = readdirSync(dir)
+      .filter((f) => f.endsWith('.js') && !f.endsWith('.map'))
+      .map((f) => join(dir, f))
+    if (jsFiles.length === 0) continue
+    try {
+      const gz = execSync(`cat ${jsFiles.map((f) => `"${f}"`).join(' ')} | gzip -c | wc -c`, {
+        encoding: 'utf-8',
+      }).trim()
+      sizes.push({ name, sizeKB: +(Number.parseInt(gz, 10) / 1024).toFixed(1) })
+    } catch {
+      /* skip */
+    }
+  }
+  return sizes.sort((a, b) => b.sizeKB - a.sizeKB)
+}
+
+const moduleSizes = getModuleSizes()
+
+// ---------------------------------------------------------------------------
 // Write JSON output
 // ---------------------------------------------------------------------------
 
@@ -138,6 +172,7 @@ const results = {
   adapterPerformance,
   bundleSize,
   features,
+  moduleSizes,
   generatedAt: new Date().toISOString(),
 }
 

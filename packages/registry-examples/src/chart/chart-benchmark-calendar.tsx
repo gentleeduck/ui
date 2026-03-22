@@ -2,24 +2,39 @@
 
 import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@gentleduck/registry-ui/chart'
 import * as React from 'react'
-import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts'
+import { Bar, BarChart, CartesianGrid, Label, Pie, PieChart, XAxis, YAxis } from 'recharts'
 import data from '../../../../apps/duck-ui-docs/public/data/benchmarks/calendar.json'
 
-const tabs = ['Bundle Size', 'Engine Perf', 'Adapters'] as const
+const tabs = ['Bundle Size', 'Modules', 'Engine Perf', 'Adapters'] as const
 type Tab = (typeof tabs)[number]
 
-const bundleConfig = {
-  sizeKB: { label: 'Size (KB)', color: 'var(--chart-1)' },
-} satisfies ChartConfig
+const COLORS = [
+  'var(--chart-1)',
+  'var(--chart-2)',
+  'var(--chart-3)',
+  'var(--chart-4)',
+  'var(--chart-5)',
+  'hsl(200 70% 50%)',
+  'hsl(280 65% 55%)',
+]
 
-const perfConfig = {
-  us: { label: 'Time (us)', color: 'var(--chart-1)' },
-} satisfies ChartConfig
-
+const bundleConfig = { sizeKB: { label: 'Size (KB)', color: 'var(--chart-1)' } } satisfies ChartConfig
+const perfConfig = { us: { label: 'Time (us)', color: 'var(--chart-1)' } } satisfies ChartConfig
 const adapterConfig = {
   buildMonth: { label: 'buildMonth (us)', color: 'var(--chart-1)' },
   format: { label: 'format (us)', color: 'var(--chart-3)' },
 } satisfies ChartConfig
+
+// Module pie data
+const modules = (data as Record<string, unknown>).moduleSizes as { name: string; sizeKB: number }[] | undefined
+const pieData = modules
+  ? modules.map((m, i) => ({ name: m.name, size: m.sizeKB, fill: COLORS[i % COLORS.length] }))
+  : []
+const pieConfig = Object.fromEntries([
+  ...(modules ?? []).map((m, i) => [m.name, { label: m.name, color: COLORS[i % COLORS.length] }]),
+  ['size', { label: 'Size (KB)' }],
+]) as ChartConfig
+const totalKB = modules ? modules.reduce((sum, m) => sum + m.sizeKB, 0) : 0
 
 export default function CalendarBenchmarkDashboard() {
   const [tab, setTab] = React.useState<Tab>('Bundle Size')
@@ -51,6 +66,35 @@ export default function CalendarBenchmarkDashboard() {
               <ChartTooltip content={<ChartTooltipContent />} formatter={(v) => `${v} KB`} />
               <Bar dataKey="sizeKB" fill="var(--chart-1)" radius={[0, 4, 4, 0]} barSize={16} />
             </BarChart>
+          </ChartContainer>
+        </div>
+      )}
+
+      {tab === 'Modules' && pieData.length > 0 && (
+        <div>
+          <p className="mb-3 text-muted-foreground text-xs">Internal module breakdown of @gentleduck/calendar.</p>
+          <ChartContainer className="mx-auto aspect-square min-h-[280px] max-w-[320px]" config={pieConfig}>
+            <PieChart>
+              <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
+              <Pie data={pieData} dataKey="size" nameKey="name" innerRadius={60} strokeWidth={3}>
+                <Label
+                  content={({ viewBox }) => {
+                    if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
+                      return (
+                        <text dominantBaseline="middle" textAnchor="middle" x={viewBox.cx} y={viewBox.cy}>
+                          <tspan className="fill-foreground font-bold text-2xl" x={viewBox.cx} y={viewBox.cy}>
+                            {totalKB.toFixed(1)}
+                          </tspan>
+                          <tspan className="fill-muted-foreground text-xs" x={viewBox.cx} y={(viewBox.cy || 0) + 20}>
+                            KB total
+                          </tspan>
+                        </text>
+                      )
+                    }
+                  }}
+                />
+              </Pie>
+            </PieChart>
           </ChartContainer>
         </div>
       )}
