@@ -1,6 +1,13 @@
 'use client'
 
-import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@gentleduck/registry-ui/chart'
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@gentleduck/registry-ui/chart'
 import * as React from 'react'
 import { Bar, BarChart, CartesianGrid, Label, Pie, PieChart, XAxis, YAxis } from 'recharts'
 import data from '../../../../apps/duck-ui-docs/public/data/benchmarks/primitives.json'
@@ -31,7 +38,6 @@ const totalConfig = {
   components: { label: 'Components', color: 'var(--chart-3)' },
 } satisfies ChartConfig
 
-// Build pie data from top modules
 const topModules = data.allSizes.slice(0, 8)
 const otherSize = data.allSizes.slice(8).reduce((sum: number, m: { sizeKB: number }) => sum + m.sizeKB, 0)
 const pieData = [
@@ -42,16 +48,16 @@ const pieData = [
   })),
   { name: 'other', size: +otherSize.toFixed(1), fill: 'var(--chart-5)' },
 ]
-
-const pieConfig = Object.fromEntries([
-  ...topModules.map((m: { name: string }, i: number) => [m.name, { label: m.name, color: COLORS[i % COLORS.length] }]),
-  ['other', { label: 'Other (27 modules)', color: 'var(--chart-5)' }],
-  ['size', { label: 'Size (KB)' }],
-]) as ChartConfig
+const pieConfig = {
+  ...Object.fromEntries(
+    topModules.map((m: { name: string }, i: number) => [m.name, { label: m.name, color: COLORS[i % COLORS.length] }]),
+  ),
+  other: { label: `Other (${data.allSizes.length - 8} modules)`, color: 'var(--chart-5)' },
+  size: { label: 'Size (KB)' },
+} as ChartConfig
 
 const totalKB = data.allSizes.reduce((sum: number, m: { sizeKB: number }) => sum + m.sizeKB, 0)
 
-// vs Radix bar data
 const vsRadixData = data.savings.map((s: { name: string; gentleduckKB: number; radixKB: number }) => ({
   name: s.name,
   gentleduck: s.gentleduckKB,
@@ -78,16 +84,17 @@ export default function PrimitivesBenchmarkDashboard() {
       {tab === 'vs Radix' && (
         <div>
           <p className="mb-3 text-muted-foreground text-xs">
-            Per-component gzipped size. Verified via bundlephobia API.
+            Per-component gzipped size (KB). Radix sizes verified via bundlephobia API.
           </p>
           <ChartContainer className="aspect-[2/1] min-h-[300px] w-full" config={vsRadixConfig}>
             <BarChart data={vsRadixData} layout="vertical" margin={{ left: 20, right: 20, top: 5, bottom: 5 }}>
               <CartesianGrid horizontal={false} />
               <YAxis dataKey="name" type="category" width={100} tickLine={false} axisLine={false} fontSize={11} />
-              <XAxis type="number" unit=" KB" tickLine={false} axisLine={false} fontSize={10} />
-              <ChartTooltip content={<ChartTooltipContent />} formatter={(v) => `${v} KB`} />
-              <Bar dataKey="gentleduck" fill="var(--chart-1)" radius={[0, 4, 4, 0]} barSize={12} />
-              <Bar dataKey="radix" fill="var(--chart-2)" radius={[0, 4, 4, 0]} barSize={12} />
+              <XAxis type="number" tickLine={false} axisLine={false} fontSize={10} />
+              <ChartTooltip content={<ChartTooltipContent indicator="dashed" />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="gentleduck" fill="var(--color-gentleduck)" radius={[0, 4, 4, 0]} barSize={12} />
+              <Bar dataKey="radix" fill="var(--color-radix)" radius={[0, 4, 4, 0]} barSize={12} />
             </BarChart>
           </ChartContainer>
         </div>
@@ -95,12 +102,10 @@ export default function PrimitivesBenchmarkDashboard() {
 
       {tab === 'Module Sizes' && (
         <div>
-          <p className="mb-3 text-muted-foreground text-xs">
-            Internal module breakdown. Top 8 modules + rest grouped as "other".
-          </p>
+          <p className="mb-3 text-muted-foreground text-xs">Internal module breakdown. Top 8 + rest grouped.</p>
           <ChartContainer className="mx-auto aspect-square min-h-[280px] max-w-[320px]" config={pieConfig}>
             <PieChart>
-              <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
+              <ChartTooltip content={<ChartTooltipContent hideLabel indicator="dot" />} cursor={false} />
               <Pie data={pieData} dataKey="size" nameKey="name" innerRadius={60} strokeWidth={3}>
                 <Label
                   content={({ viewBox }) => {
@@ -126,20 +131,16 @@ export default function PrimitivesBenchmarkDashboard() {
 
       {tab === 'Total' && (
         <div>
-          <p className="mb-3 text-muted-foreground text-xs">
-            Total package size vs component count across headless UI libraries.
-          </p>
+          <p className="mb-3 text-muted-foreground text-xs">Total package size vs component count across libraries.</p>
           <ChartContainer className="aspect-[2/1] min-h-[250px] w-full" config={totalConfig}>
             <BarChart data={data.totalComparison} margin={{ left: 10, right: 20, top: 10, bottom: 10 }}>
               <CartesianGrid vertical={false} />
               <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={11} />
               <YAxis tickLine={false} axisLine={false} fontSize={10} />
-              <ChartTooltip
-                content={<ChartTooltipContent />}
-                formatter={(value, name) => `${value}${name === 'sizeKB' ? ' KB' : ' components'}`}
-              />
-              <Bar dataKey="sizeKB" fill="var(--chart-1)" radius={[4, 4, 0, 0]} barSize={28} />
-              <Bar dataKey="components" fill="var(--chart-3)" radius={[4, 4, 0, 0]} barSize={28} />
+              <ChartTooltip content={<ChartTooltipContent indicator="dashed" />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="sizeKB" fill="var(--color-sizeKB)" radius={[4, 4, 0, 0]} barSize={28} />
+              <Bar dataKey="components" fill="var(--color-components)" radius={[4, 4, 0, 0]} barSize={28} />
             </BarChart>
           </ChartContainer>
         </div>

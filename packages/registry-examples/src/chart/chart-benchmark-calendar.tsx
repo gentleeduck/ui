@@ -1,6 +1,13 @@
 'use client'
 
-import { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@gentleduck/registry-ui/chart'
+import {
+  type ChartConfig,
+  ChartContainer,
+  ChartLegend,
+  ChartLegendContent,
+  ChartTooltip,
+  ChartTooltipContent,
+} from '@gentleduck/registry-ui/chart'
 import * as React from 'react'
 import { Bar, BarChart, CartesianGrid, Label, Pie, PieChart, XAxis, YAxis } from 'recharts'
 import data from '../../../../apps/duck-ui-docs/public/data/benchmarks/calendar.json'
@@ -18,22 +25,26 @@ const COLORS = [
   'hsl(280 65% 55%)',
 ]
 
-const bundleConfig = { sizeKB: { label: 'Size (KB)', color: 'var(--chart-1)' } } satisfies ChartConfig
-const perfConfig = { us: { label: 'Time (us)', color: 'var(--chart-1)' } } satisfies ChartConfig
-const adapterConfig = {
-  buildMonth: { label: 'buildMonth (us)', color: 'var(--chart-1)' },
-  format: { label: 'format (us)', color: 'var(--chart-3)' },
+const bundleConfig = {
+  sizeKB: { label: 'Bundle Size', color: 'var(--chart-1)' },
+  deps: { label: 'Dependencies', color: 'var(--chart-3)' },
 } satisfies ChartConfig
 
-// Module pie data
+const perfConfig = { us: { label: 'Time', color: 'var(--chart-1)' } } satisfies ChartConfig
+
+const adapterConfig = {
+  buildMonth: { label: 'buildMonth', color: 'var(--chart-1)' },
+  format: { label: 'format', color: 'var(--chart-3)' },
+} satisfies ChartConfig
+
 const modules = (data as Record<string, unknown>).moduleSizes as { name: string; sizeKB: number }[] | undefined
 const pieData = modules
   ? modules.map((m, i) => ({ name: m.name, size: m.sizeKB, fill: COLORS[i % COLORS.length] }))
   : []
-const pieConfig = Object.fromEntries([
-  ...(modules ?? []).map((m, i) => [m.name, { label: m.name, color: COLORS[i % COLORS.length] }]),
-  ['size', { label: 'Size (KB)' }],
-]) as ChartConfig
+const pieConfig = {
+  ...Object.fromEntries((modules ?? []).map((m, i) => [m.name, { label: m.name, color: COLORS[i % COLORS.length] }])),
+  size: { label: 'Size (KB)' },
+} as ChartConfig
 const totalKB = modules ? modules.reduce((sum, m) => sum + m.sizeKB, 0) : 0
 
 export default function CalendarBenchmarkDashboard() {
@@ -56,15 +67,17 @@ export default function CalendarBenchmarkDashboard() {
       {tab === 'Bundle Size' && (
         <div>
           <p className="mb-3 text-muted-foreground text-xs">
-            Gzipped bundle size. @gentleduck/calendar is ~5 KB with zero dependencies.
+            Gzipped bundle size in KB. @gentleduck/calendar is ~5 KB with zero dependencies.
           </p>
           <ChartContainer className="aspect-[2/1] min-h-[250px] w-full" config={bundleConfig}>
             <BarChart data={data.bundleSize} layout="vertical" margin={{ left: 10, right: 30, top: 5, bottom: 5 }}>
               <CartesianGrid horizontal={false} />
               <YAxis dataKey="name" type="category" width={160} tickLine={false} axisLine={false} fontSize={11} />
-              <XAxis type="number" unit=" KB" tickLine={false} axisLine={false} fontSize={10} />
-              <ChartTooltip content={<ChartTooltipContent />} formatter={(v) => `${v} KB`} />
-              <Bar dataKey="sizeKB" fill="var(--chart-1)" radius={[0, 4, 4, 0]} barSize={16} />
+              <XAxis type="number" tickLine={false} axisLine={false} fontSize={10} />
+              <ChartTooltip content={<ChartTooltipContent indicator="dashed" />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="sizeKB" fill="var(--color-sizeKB)" radius={[0, 4, 4, 0]} barSize={14} />
+              <Bar dataKey="deps" fill="var(--color-deps)" radius={[0, 4, 4, 0]} barSize={14} />
             </BarChart>
           </ChartContainer>
         </div>
@@ -75,7 +88,7 @@ export default function CalendarBenchmarkDashboard() {
           <p className="mb-3 text-muted-foreground text-xs">Internal module breakdown of @gentleduck/calendar.</p>
           <ChartContainer className="mx-auto aspect-square min-h-[280px] max-w-[320px]" config={pieConfig}>
             <PieChart>
-              <ChartTooltip content={<ChartTooltipContent hideLabel />} cursor={false} />
+              <ChartTooltip content={<ChartTooltipContent hideLabel indicator="dot" />} cursor={false} />
               <Pie data={pieData} dataKey="size" nameKey="name" innerRadius={60} strokeWidth={3}>
                 <Label
                   content={({ viewBox }) => {
@@ -102,15 +115,19 @@ export default function CalendarBenchmarkDashboard() {
       {tab === 'Engine Perf' && (
         <div>
           <p className="mb-3 text-muted-foreground text-xs">
-            Core engine operations. Average of 2,000 iterations (microseconds per call).
+            Core operations. Average of 2,000 iterations (microseconds).
           </p>
           <ChartContainer className="aspect-[2/1] min-h-[220px] w-full" config={perfConfig}>
             <BarChart data={data.corePerformance} layout="vertical" margin={{ left: 10, right: 30, top: 5, bottom: 5 }}>
               <CartesianGrid horizontal={false} />
               <YAxis dataKey="label" type="category" width={160} tickLine={false} axisLine={false} fontSize={11} />
-              <XAxis type="number" unit=" us" tickLine={false} axisLine={false} fontSize={10} />
-              <ChartTooltip content={<ChartTooltipContent />} formatter={(v) => `${v} us`} />
-              <Bar dataKey="us" fill="var(--chart-1)" radius={[0, 4, 4, 0]} barSize={14} />
+              <XAxis type="number" tickLine={false} axisLine={false} fontSize={10} />
+              <ChartTooltip
+                content={
+                  <ChartTooltipContent indicator="line" labelFormatter={(_, payload) => payload[0]?.payload?.label} />
+                }
+              />
+              <Bar dataKey="us" fill="var(--color-us)" radius={[0, 4, 4, 0]} barSize={14} />
             </BarChart>
           </ChartContainer>
         </div>
@@ -125,10 +142,11 @@ export default function CalendarBenchmarkDashboard() {
             <BarChart data={data.adapterPerformance} margin={{ left: 10, right: 20, top: 5, bottom: 5 }}>
               <CartesianGrid vertical={false} />
               <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={10} />
-              <YAxis tickLine={false} axisLine={false} fontSize={10} unit=" us" />
-              <ChartTooltip content={<ChartTooltipContent />} formatter={(v) => `${v} us`} />
-              <Bar dataKey="buildMonth" fill="var(--chart-1)" radius={[4, 4, 0, 0]} barSize={20} />
-              <Bar dataKey="format" fill="var(--chart-3)" radius={[4, 4, 0, 0]} barSize={20} />
+              <YAxis tickLine={false} axisLine={false} fontSize={10} />
+              <ChartTooltip content={<ChartTooltipContent indicator="dashed" />} />
+              <ChartLegend content={<ChartLegendContent />} />
+              <Bar dataKey="buildMonth" fill="var(--color-buildMonth)" radius={[4, 4, 0, 0]} barSize={20} />
+              <Bar dataKey="format" fill="var(--color-format)" radius={[4, 4, 0, 0]} barSize={20} />
             </BarChart>
           </ChartContainer>
         </div>

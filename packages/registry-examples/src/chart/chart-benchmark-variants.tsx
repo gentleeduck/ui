@@ -8,8 +8,13 @@ import data from '../../../../apps/duck-ui-docs/public/data/benchmarks/variants.
 const tabs = ['Bundle Size', 'Runtime'] as const
 type Tab = (typeof tabs)[number]
 
-const sizeConfig = { sizeKB: { label: 'Size (KB)', color: 'var(--chart-1)' } } satisfies ChartConfig
-const runtimeConfig = { ns: { label: 'Time (ns)', color: 'var(--chart-1)' } } satisfies ChartConfig
+const sizeConfig = {
+  sizeKB: { label: 'Size (KB)', color: 'var(--chart-1)' },
+} satisfies ChartConfig
+
+const runtimeConfig = {
+  ns: { label: 'Time (ns)', color: 'var(--chart-1)' },
+} satisfies ChartConfig
 
 export default function VariantsBenchmarkDashboard() {
   const [tab, setTab] = React.useState<Tab>('Bundle Size')
@@ -30,16 +35,14 @@ export default function VariantsBenchmarkDashboard() {
 
       {tab === 'Bundle Size' && (
         <div>
-          <p className="mb-3 text-muted-foreground text-xs">
-            Gzipped bundle size. @gentleduck/variants is smaller than CVA and tailwind-variants.
-          </p>
+          <p className="mb-3 text-muted-foreground text-xs">Gzipped bundle size comparison across variant libraries.</p>
           <ChartContainer className="aspect-[2/1] min-h-[200px] w-full" config={sizeConfig}>
             <BarChart data={data.bundleSize} layout="vertical" margin={{ left: 10, right: 30, top: 5, bottom: 5 }}>
               <CartesianGrid horizontal={false} />
               <YAxis dataKey="name" type="category" width={180} tickLine={false} axisLine={false} fontSize={11} />
-              <XAxis type="number" unit=" KB" tickLine={false} axisLine={false} fontSize={10} />
-              <ChartTooltip content={<ChartTooltipContent />} formatter={(v) => `${v} KB`} />
-              <Bar dataKey="sizeKB" fill="var(--chart-1)" radius={[0, 4, 4, 0]} barSize={16} />
+              <XAxis type="number" tickLine={false} axisLine={false} fontSize={10} />
+              <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
+              <Bar dataKey="sizeKB" fill="var(--color-sizeKB)" radius={[0, 4, 4, 0]} barSize={16} />
             </BarChart>
           </ChartContainer>
         </div>
@@ -48,7 +51,7 @@ export default function VariantsBenchmarkDashboard() {
       {tab === 'Runtime' && (
         <div>
           <p className="mb-3 text-muted-foreground text-xs">
-            cva() call speed. Average of 10,000 iterations (nanoseconds per call).
+            cva() call speed. Average of 10,000 iterations (nanoseconds).
           </p>
           <ChartContainer className="aspect-[2/1] min-h-[200px] w-full" config={runtimeConfig}>
             <BarChart
@@ -57,9 +60,13 @@ export default function VariantsBenchmarkDashboard() {
               margin={{ left: 10, right: 30, top: 5, bottom: 5 }}>
               <CartesianGrid horizontal={false} />
               <YAxis dataKey="label" type="category" width={180} tickLine={false} axisLine={false} fontSize={11} />
-              <XAxis type="number" unit=" ns" tickLine={false} axisLine={false} fontSize={10} />
-              <ChartTooltip content={<ChartTooltipContent />} formatter={(v) => `${v} ns`} />
-              <Bar dataKey="ns" fill="var(--chart-1)" radius={[0, 4, 4, 0]} barSize={14} />
+              <XAxis type="number" tickLine={false} axisLine={false} fontSize={10} />
+              <ChartTooltip
+                content={
+                  <ChartTooltipContent indicator="line" labelFormatter={(_, payload) => payload[0]?.payload?.label} />
+                }
+              />
+              <Bar dataKey="ns" fill="var(--color-ns)" radius={[0, 4, 4, 0]} barSize={14} />
             </BarChart>
           </ChartContainer>
         </div>
