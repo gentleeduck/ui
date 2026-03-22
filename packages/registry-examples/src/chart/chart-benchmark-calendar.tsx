@@ -25,10 +25,10 @@ const COLORS = [
   'hsl(280 65% 55%)',
 ]
 
-const perfConfig = { us: { label: 'Time', color: 'var(--chart-1)' } } satisfies ChartConfig
+const perfConfig = { us: { label: 'Time (μs)', color: 'var(--chart-1)' } } satisfies ChartConfig
 const adapterConfig = {
-  buildMonth: { label: 'buildMonth', color: 'var(--chart-1)' },
-  format: { label: 'format', color: 'var(--chart-3)' },
+  buildMonth: { label: 'buildMonth (μs)', color: 'var(--chart-1)' },
+  format: { label: 'format (μs)', color: 'var(--chart-3)' },
 } satisfies ChartConfig
 
 const modules = (data as Record<string, unknown>).moduleSizes as { name: string; sizeKB: number }[] | undefined

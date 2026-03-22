@@ -29,8 +29,8 @@ const COLORS = [
 ]
 
 const vsRadixConfig = {
-  gentleduck: { label: 'gentleduck', color: 'var(--chart-1)' },
-  radix: { label: 'Radix UI', color: 'var(--chart-2)' },
+  gentleduck: { label: 'gentleduck (KB)', color: 'var(--chart-1)' },
+  radix: { label: 'Radix UI (KB)', color: 'var(--chart-2)' },
 } satisfies ChartConfig
 
 const totalConfig = {

@@ -16,13 +16,13 @@ const tabs = ['Bundle Size', 'Total Cost', 'vs RDP', 'vs Aria', 'vs Datepicker',
 type Tab = (typeof tabs)[number]
 
 const bundleConfig = {
-  sizeKB: { label: 'JS Size', color: 'var(--chart-1)' },
+  sizeKB: { label: 'JS Size (KB)', color: 'var(--chart-1)' },
   deps: { label: 'Dependencies', color: 'var(--chart-3)' },
 } satisfies ChartConfig
 
 const totalCostConfig = {
-  js: { label: 'JavaScript', color: 'var(--chart-1)' },
-  css: { label: 'CSS', color: 'var(--chart-2)' },
+  js: { label: 'JavaScript (KB)', color: 'var(--chart-1)' },
+  css: { label: 'CSS (KB)', color: 'var(--chart-2)' },
 } satisfies ChartConfig
 
 const comparisons = (data as Record<string, unknown>).libraryComparisons as
