@@ -14,7 +14,7 @@ export function TabTrigger({ className, ...props }: React.ComponentProps<typeof 
   return (
     <TabsTrigger
       className={cn(
-        "cursor-pointer rounded-none border-b-[2px] border-b-transparent px-12 py-2 font-semibold [&[aria-selected='true']]:border-b-primary [&[aria-selected='true']]:shadow-none",
+        'cursor-pointer rounded-none border-b-2 border-b-transparent px-12 py-2 font-semibold aria-selected:border-b-primary aria-selected:shadow-none',
         className,
       )}
       {...props}

@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui/card'\nimport { type ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '@gentleduck/registry-ui/chart'\nimport { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from 'recharts'\n\nconst data = [\n  { name: 'Alert Dialog', saving: 92 },\n  { name: 'Popover', saving: 88 },\n  { name: 'Tooltip', saving: 77 },\n  { name: 'Dialog', saving: 71 },\n  { name: 'Select', saving: 68 },\n  { name: 'Toggle', saving: 65 },\n  { name: 'Avatar', saving: 54 },\n  { name: 'Radio Group', saving: -83 },\n]\n\nconst config = {\n  saving: { label: 'Size reduction', color: 'var(--chart-1)' },\n} satisfies ChartConfig\n\nexport default function BenchmarkSavingsChart() {\n  return (\n    <Card className=\"rounded-sm border-none\">\n      <CardHeader>\n        <CardTitle>Size Savings vs Radix UI</CardTitle>\n        <CardDescription>\n          Percentage smaller (negative means Radix is smaller). Verified bundlephobia data.\n        </CardDescription>\n      </CardHeader>\n      <CardContent>\n        <ChartContainer className=\"aspect-auto h-[320px] w-full\" config={config}>\n          <BarChart data={data} layout=\"vertical\" margin={{ left: 20, right: 30 }}>\n            <CartesianGrid horizontal={false} />\n            <YAxis dataKey=\"name\" type=\"category\" width={100} tickLine={false} axisLine={false} fontSize={12} />\n            <XAxis type=\"number\" unit=\"%\" tickLine={false} axisLine={false} fontSize={11} domain={[-100, 100]} />\n            <ChartTooltip\n              content={<ChartTooltipContent className=\"w-[200px]\" />}\n              formatter={(value) => `${Number(value) > 0 ? `${value}% smaller` : `${Math.abs(Number(value))}% larger`}`}\n            />\n            <Bar dataKey=\"saving\" radius={[0, 4, 4, 0]} barSize={16}>\n              {data.map((entry) => (\n                <Cell key={entry.name} fill={entry.saving > 0 ? 'var(--chart-1)' : 'var(--chart-5)'} />\n              ))}\n            </Bar>\n          </BarChart>\n        </ChartContainer>\n      </CardContent>\n    </Card>\n  )\n}\n",
+      "path": "chart/chart-benchmark-savings.tsx",
+      "target": "components/chart-benchmark-savings.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "chart-benchmark-savings",
+  "registryDependencies": [
+    "chart"
+  ],
+  "root_folder": "chart",
+  "source": "/registry-examples/src/chart",
+  "type": "registry:example"
+}
