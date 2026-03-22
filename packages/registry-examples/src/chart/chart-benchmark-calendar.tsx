@@ -12,7 +12,7 @@ import * as React from 'react'
 import { Bar, BarChart, CartesianGrid, Label, Pie, PieChart, XAxis, YAxis } from 'recharts'
 import data from '../../../../apps/duck-ui-docs/public/data/benchmarks/calendar.json'
 
-const tabs = ['Bundle Size', 'Modules', 'Engine Perf', 'Adapters'] as const
+const tabs = ['Modules', 'Performance', 'Adapters'] as const
 type Tab = (typeof tabs)[number]
 
 const COLORS = [
@@ -25,13 +25,7 @@ const COLORS = [
   'hsl(280 65% 55%)',
 ]
 
-const bundleConfig = {
-  sizeKB: { label: 'Bundle Size', color: 'var(--chart-1)' },
-  deps: { label: 'Dependencies', color: 'var(--chart-3)' },
-} satisfies ChartConfig
-
 const perfConfig = { us: { label: 'Time', color: 'var(--chart-1)' } } satisfies ChartConfig
-
 const adapterConfig = {
   buildMonth: { label: 'buildMonth', color: 'var(--chart-1)' },
   format: { label: 'format', color: 'var(--chart-3)' },
@@ -47,8 +41,8 @@ const pieConfig = {
 } as ChartConfig
 const totalKB = modules ? modules.reduce((sum, m) => sum + m.sizeKB, 0) : 0
 
-export default function CalendarBenchmarkDashboard() {
-  const [tab, setTab] = React.useState<Tab>('Bundle Size')
+export default function CalendarBenchmarkSelf() {
+  const [tab, setTab] = React.useState<Tab>('Modules')
 
   return (
     <div className="w-full space-y-4">
@@ -63,25 +57,6 @@ export default function CalendarBenchmarkDashboard() {
           </button>
         ))}
       </div>
-
-      {tab === 'Bundle Size' && (
-        <div>
-          <p className="mb-3 text-muted-foreground text-xs">
-            Gzipped bundle size in KB. @gentleduck/calendar is ~5 KB with zero dependencies.
-          </p>
-          <ChartContainer className="aspect-[2/1] min-h-[250px] w-full" config={bundleConfig}>
-            <BarChart data={data.bundleSize} layout="vertical" margin={{ left: 10, right: 30, top: 5, bottom: 5 }}>
-              <CartesianGrid horizontal={false} />
-              <YAxis dataKey="name" type="category" width={160} tickLine={false} axisLine={false} fontSize={11} />
-              <XAxis type="number" tickLine={false} axisLine={false} fontSize={10} />
-              <ChartTooltip content={<ChartTooltipContent indicator="dashed" />} />
-              <ChartLegend content={<ChartLegendContent />} />
-              <Bar dataKey="sizeKB" fill="var(--color-sizeKB)" radius={[0, 4, 4, 0]} barSize={14} />
-              <Bar dataKey="deps" fill="var(--color-deps)" radius={[0, 4, 4, 0]} barSize={14} />
-            </BarChart>
-          </ChartContainer>
-        </div>
-      )}
 
       {tab === 'Modules' && pieData.length > 0 && (
         <div>
@@ -112,10 +87,10 @@ export default function CalendarBenchmarkDashboard() {
         </div>
       )}
 
-      {tab === 'Engine Perf' && (
+      {tab === 'Performance' && (
         <div>
           <p className="mb-3 text-muted-foreground text-xs">
-            Core operations. Average of 2,000 iterations (microseconds).
+            Core engine operations. Average of 2,000 iterations (us).
           </p>
           <ChartContainer className="aspect-[2/1] min-h-[220px] w-full" config={perfConfig}>
             <BarChart data={data.corePerformance} layout="vertical" margin={{ left: 10, right: 30, top: 5, bottom: 5 }}>
@@ -135,9 +110,7 @@ export default function CalendarBenchmarkDashboard() {
 
       {tab === 'Adapters' && (
         <div>
-          <p className="mb-3 text-muted-foreground text-xs">
-            buildCalendarMonth + format across all 4 calendar systems (us per call).
-          </p>
+          <p className="mb-3 text-muted-foreground text-xs">buildCalendarMonth + format across 4 calendar systems.</p>
           <ChartContainer className="aspect-[2/1] min-h-[200px] w-full" config={adapterConfig}>
             <BarChart data={data.adapterPerformance} margin={{ left: 10, right: 20, top: 5, bottom: 5 }}>
               <CartesianGrid vertical={false} />

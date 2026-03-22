@@ -2,57 +2,57 @@
   "corePerformance": [
     {
       "label": "buildCalendarMonth",
-      "us": 7.6
+      "us": 7.8
     },
     {
       "label": "buildMultiMonth(3)",
-      "us": 17.8
+      "us": 19.9
     },
     {
       "label": "buildMultiMonth(12)",
-      "us": 61
+      "us": 60.8
     },
     {
       "label": "applySelection (single)",
-      "us": 12.3
+      "us": 12.2
     },
     {
       "label": "applySelection (range)",
-      "us": 12.1
+      "us": 12.2
     }
   ],
   "adapterPerformance": [
     {
       "name": "Native (Gregorian)",
-      "buildMonth": 4.4,
+      "buildMonth": 4.3,
       "getYear": 0.01,
-      "create": 0.07,
-      "addMonths": 0.27,
-      "format": 1
+      "create": 0.06,
+      "addMonths": 0.25,
+      "format": 0.9
     },
     {
       "name": "Islamic (Hijri)",
-      "buildMonth": 8.9,
-      "getYear": 0.02,
-      "create": 0.13,
-      "addMonths": 0.12,
+      "buildMonth": 9.3,
+      "getYear": 0.01,
+      "create": 0.11,
+      "addMonths": 0.13,
       "format": 1.4
     },
     {
       "name": "Persian (Jalali)",
-      "buildMonth": 13.4,
-      "getYear": 0.03,
+      "buildMonth": 13.8,
+      "getYear": 0.02,
       "create": 0.17,
-      "addMonths": 0.16,
+      "addMonths": 0.17,
       "format": 1.2
     },
     {
       "name": "Hebrew",
-      "buildMonth": 14.6,
+      "buildMonth": 14.5,
       "getYear": 0.02,
-      "create": 0.27,
-      "addMonths": 0.34,
-      "format": 1.3
+      "create": 0.26,
+      "addMonths": 0.32,
+      "format": 1.2
     }
   ],
   "bundleSize": [
@@ -90,6 +90,38 @@
       "deps": 0,
       "cssKB": 5,
       "calendars": 1
+    }
+  ],
+  "totalCost": [
+    {
+      "name": "@gentleduck/calendar",
+      "js": 4.9,
+      "css": 0,
+      "total": 4.9
+    },
+    {
+      "name": "react-day-picker v9",
+      "js": 20,
+      "css": 3,
+      "total": 23
+    },
+    {
+      "name": "react-aria (DatePicker)",
+      "js": 45,
+      "css": 0,
+      "total": 45
+    },
+    {
+      "name": "react-datepicker",
+      "js": 32,
+      "css": 8,
+      "total": 40
+    },
+    {
+      "name": "react-calendar",
+      "js": 15,
+      "css": 5,
+      "total": 20
     }
   ],
   "features": [
@@ -150,6 +182,250 @@
       "reactCal": false
     }
   ],
+  "libraryComparisons": [
+    {
+      "name": "react-day-picker",
+      "comparison": [
+        {
+          "metric": "Bundle size",
+          "gentleduck": "4.9 KB",
+          "competitor": "20 KB",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Dependencies",
+          "gentleduck": "0",
+          "competitor": "1 (date-fns)",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "CSS required",
+          "gentleduck": "None",
+          "competitor": "3 KB",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Calendar systems",
+          "gentleduck": "4",
+          "competitor": "1",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Date adapters",
+          "gentleduck": "7",
+          "competitor": "0",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Selection modes",
+          "gentleduck": "4",
+          "competitor": "3",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Headless hook",
+          "gentleduck": "useCalendar",
+          "competitor": "None",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Compound primitives",
+          "gentleduck": "Yes",
+          "competitor": "No",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "RTL support",
+          "gentleduck": "Yes",
+          "competitor": "Partial",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Maturity",
+          "gentleduck": "New",
+          "competitor": "Established",
+          "winner": "competitor"
+        },
+        {
+          "metric": "React 18",
+          "gentleduck": "No (19+)",
+          "competitor": "Yes",
+          "winner": "competitor"
+        }
+      ]
+    },
+    {
+      "name": "react-aria",
+      "comparison": [
+        {
+          "metric": "Bundle size",
+          "gentleduck": "4.9 KB",
+          "competitor": "45 KB",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Dependencies",
+          "gentleduck": "0",
+          "competitor": "8",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Architecture",
+          "gentleduck": "Headless hook",
+          "competitor": "Hooks + Components",
+          "winner": "tie"
+        },
+        {
+          "metric": "Calendar systems",
+          "gentleduck": "4",
+          "competitor": "1",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Date adapters",
+          "gentleduck": "7 (pluggable)",
+          "competitor": "0 (built-in)",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "ARIA compliance",
+          "gentleduck": "Full",
+          "competitor": "Full",
+          "winner": "tie"
+        },
+        {
+          "metric": "Keyboard nav",
+          "gentleduck": "Full",
+          "competitor": "Full",
+          "winner": "tie"
+        },
+        {
+          "metric": "Internationalization",
+          "gentleduck": "Via adapters",
+          "competitor": "Built-in",
+          "winner": "competitor"
+        },
+        {
+          "metric": "Maturity",
+          "gentleduck": "New",
+          "competitor": "Battle-tested",
+          "winner": "competitor"
+        }
+      ]
+    },
+    {
+      "name": "react-datepicker",
+      "comparison": [
+        {
+          "metric": "Bundle size",
+          "gentleduck": "4.9 KB",
+          "competitor": "32 KB",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Dependencies",
+          "gentleduck": "0",
+          "competitor": "3",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "CSS required",
+          "gentleduck": "None",
+          "competitor": "8 KB",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Headless",
+          "gentleduck": "Yes",
+          "competitor": "No (styled)",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "ARIA compliance",
+          "gentleduck": "Full",
+          "competitor": "Partial",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Keyboard nav",
+          "gentleduck": "Full",
+          "competitor": "Partial",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "SSR safe",
+          "gentleduck": "Yes",
+          "competitor": "No",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Time picker",
+          "gentleduck": "useTimePicker",
+          "competitor": "Built-in",
+          "winner": "tie"
+        },
+        {
+          "metric": "Popularity",
+          "gentleduck": "New",
+          "competitor": "10M+ downloads/mo",
+          "winner": "competitor"
+        }
+      ]
+    },
+    {
+      "name": "react-calendar",
+      "comparison": [
+        {
+          "metric": "Bundle size",
+          "gentleduck": "4.9 KB",
+          "competitor": "15 KB",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "CSS required",
+          "gentleduck": "None",
+          "competitor": "5 KB",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Headless",
+          "gentleduck": "Yes",
+          "competitor": "No (styled)",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Calendar systems",
+          "gentleduck": "4",
+          "competitor": "1",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Selection modes",
+          "gentleduck": "4",
+          "competitor": "1",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "ARIA compliance",
+          "gentleduck": "Full",
+          "competitor": "Partial",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "React 18",
+          "gentleduck": "No (19+)",
+          "competitor": "Yes",
+          "winner": "competitor"
+        },
+        {
+          "metric": "Simplicity",
+          "gentleduck": "Hook-based",
+          "competitor": "Drop-in",
+          "winner": "competitor"
+        }
+      ]
+    }
+  ],
   "moduleSizes": [
     {
       "name": "adapter",
@@ -180,5 +456,5 @@
       "sizeKB": 0.2
     }
   ],
-  "generatedAt": "2026-03-22T15:33:48.270Z"
+  "generatedAt": "2026-03-22T16:09:18.955Z"
 }
