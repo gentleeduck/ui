@@ -1,0 +1,186 @@
+{
+  "gentleduck": {
+    "sheet": 261,
+    "slider": 3755,
+    "slot": 838,
+    "toggle": 594,
+    "toggle-group": 1186,
+    "tooltip": 3604,
+    "visibility-hidden": 372,
+    "input-otp": 1577,
+    "menu": 5812,
+    "alert-dialog": 1607,
+    "arrow": 340,
+    "avatar": 1157,
+    "calendar": 2015,
+    "checkers": 102,
+    "command": 2844,
+    "context-menu": 2240,
+    "dialog": 3132,
+    "direction": 350,
+    "dismissable-layer": 1632,
+    "dropdown-menu": 2159,
+    "mount": 655,
+    "navigation-menu": 5616,
+    "pagination": 581,
+    "popover": 2488,
+    "popper": 2442,
+    "portal": 361,
+    "presence": 1024,
+    "primitive-elements": 397,
+    "progress": 1167,
+    "menubar": 3095,
+    "focus-scope": 1642,
+    "hover-card": 2199,
+    "radio-group": 1950,
+    "roving-focus": 1899,
+    "select": 7719
+  },
+  "components": [
+    {
+      "name": "Alert Dialog",
+      "gentleduck": 1607,
+      "radix": 19029,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Avatar",
+      "gentleduck": 1157,
+      "radix": 2532,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Calendar",
+      "gentleduck": 2015,
+      "radix": 0,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Command",
+      "gentleduck": 2844,
+      "radix": 0,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Context Menu",
+      "gentleduck": 2240,
+      "radix": 0,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Dialog",
+      "gentleduck": 3132,
+      "radix": 10830,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Dropdown Menu",
+      "gentleduck": 2159,
+      "radix": 0,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Hover Card",
+      "gentleduck": 2199,
+      "radix": 0,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Menubar",
+      "gentleduck": 3095,
+      "radix": 0,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Nav Menu",
+      "gentleduck": 5616,
+      "radix": 0,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Popover",
+      "gentleduck": 2488,
+      "radix": 20073,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Progress",
+      "gentleduck": 1167,
+      "radix": 0,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Radio Group",
+      "gentleduck": 1950,
+      "radix": 1066,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Select",
+      "gentleduck": 7719,
+      "radix": 24251,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Slider",
+      "gentleduck": 3755,
+      "radix": 0,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Toggle",
+      "gentleduck": 594,
+      "radix": 1707,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Toggle Group",
+      "gentleduck": 1186,
+      "radix": 0,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    },
+    {
+      "name": "Tooltip",
+      "gentleduck": 3604,
+      "radix": 15916,
+      "baseui": 0,
+      "ark": 0,
+      "headless": 0
+    }
+  ],
+  "generatedAt": "2026-03-22T13:56:43.822Z"
+}
