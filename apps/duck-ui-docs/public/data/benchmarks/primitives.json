@@ -1,0 +1,349 @@
+{
+  "perComponent": [
+    {
+      "name": "Alert Dialog",
+      "gentleduck": 1607,
+      "radix": 19029
+    },
+    {
+      "name": "Avatar",
+      "gentleduck": 1157,
+      "radix": 2532
+    },
+    {
+      "name": "Calendar",
+      "gentleduck": 2015,
+      "radix": 0
+    },
+    {
+      "name": "Command",
+      "gentleduck": 2844,
+      "radix": 0
+    },
+    {
+      "name": "Context Menu",
+      "gentleduck": 2240,
+      "radix": 0
+    },
+    {
+      "name": "Dialog",
+      "gentleduck": 3132,
+      "radix": 10830
+    },
+    {
+      "name": "Dropdown Menu",
+      "gentleduck": 2159,
+      "radix": 0
+    },
+    {
+      "name": "Hover Card",
+      "gentleduck": 2199,
+      "radix": 0
+    },
+    {
+      "name": "Menubar",
+      "gentleduck": 3095,
+      "radix": 0
+    },
+    {
+      "name": "Nav Menu",
+      "gentleduck": 5616,
+      "radix": 0
+    },
+    {
+      "name": "Popover",
+      "gentleduck": 2488,
+      "radix": 20073
+    },
+    {
+      "name": "Progress",
+      "gentleduck": 1167,
+      "radix": 0
+    },
+    {
+      "name": "Radio Group",
+      "gentleduck": 1950,
+      "radix": 1066
+    },
+    {
+      "name": "Select",
+      "gentleduck": 7719,
+      "radix": 24251
+    },
+    {
+      "name": "Slider",
+      "gentleduck": 3755,
+      "radix": 0
+    },
+    {
+      "name": "Toggle",
+      "gentleduck": 594,
+      "radix": 1707
+    },
+    {
+      "name": "Toggle Group",
+      "gentleduck": 1186,
+      "radix": 0
+    },
+    {
+      "name": "Tooltip",
+      "gentleduck": 3604,
+      "radix": 15916
+    }
+  ],
+  "savings": [
+    {
+      "name": "Alert Dialog",
+      "gentleduckKB": 1.6,
+      "radixKB": 18.6,
+      "savingPercent": 92
+    },
+    {
+      "name": "Avatar",
+      "gentleduckKB": 1.1,
+      "radixKB": 2.5,
+      "savingPercent": 54
+    },
+    {
+      "name": "Dialog",
+      "gentleduckKB": 3.1,
+      "radixKB": 10.6,
+      "savingPercent": 71
+    },
+    {
+      "name": "Popover",
+      "gentleduckKB": 2.4,
+      "radixKB": 19.6,
+      "savingPercent": 88
+    },
+    {
+      "name": "Radio Group",
+      "gentleduckKB": 1.9,
+      "radixKB": 1,
+      "savingPercent": -83
+    },
+    {
+      "name": "Select",
+      "gentleduckKB": 7.5,
+      "radixKB": 23.7,
+      "savingPercent": 68
+    },
+    {
+      "name": "Toggle",
+      "gentleduckKB": 0.6,
+      "radixKB": 1.7,
+      "savingPercent": 65
+    },
+    {
+      "name": "Tooltip",
+      "gentleduckKB": 3.5,
+      "radixKB": 15.5,
+      "savingPercent": 77
+    }
+  ],
+  "totalComparison": [
+    {
+      "name": "Headless UI",
+      "sizeKB": 35,
+      "components": 10
+    },
+    {
+      "name": "Base UI",
+      "sizeKB": 45,
+      "components": 15
+    },
+    {
+      "name": "gentleduck",
+      "sizeKB": 67,
+      "components": 35
+    },
+    {
+      "name": "Ark UI",
+      "sizeKB": 95,
+      "components": 30
+    },
+    {
+      "name": "Radix UI",
+      "sizeKB": 180,
+      "components": 28
+    }
+  ],
+  "allSizes": [
+    {
+      "name": "select",
+      "sizeBytes": 7719,
+      "sizeKB": 7.5
+    },
+    {
+      "name": "menu",
+      "sizeBytes": 5812,
+      "sizeKB": 5.7
+    },
+    {
+      "name": "navigation-menu",
+      "sizeBytes": 5616,
+      "sizeKB": 5.5
+    },
+    {
+      "name": "slider",
+      "sizeBytes": 3755,
+      "sizeKB": 3.7
+    },
+    {
+      "name": "tooltip",
+      "sizeBytes": 3604,
+      "sizeKB": 3.5
+    },
+    {
+      "name": "dialog",
+      "sizeBytes": 3132,
+      "sizeKB": 3.1
+    },
+    {
+      "name": "menubar",
+      "sizeBytes": 3095,
+      "sizeKB": 3
+    },
+    {
+      "name": "command",
+      "sizeBytes": 2844,
+      "sizeKB": 2.8
+    },
+    {
+      "name": "popover",
+      "sizeBytes": 2488,
+      "sizeKB": 2.4
+    },
+    {
+      "name": "popper",
+      "sizeBytes": 2442,
+      "sizeKB": 2.4
+    },
+    {
+      "name": "context-menu",
+      "sizeBytes": 2240,
+      "sizeKB": 2.2
+    },
+    {
+      "name": "hover-card",
+      "sizeBytes": 2199,
+      "sizeKB": 2.1
+    },
+    {
+      "name": "dropdown-menu",
+      "sizeBytes": 2159,
+      "sizeKB": 2.1
+    },
+    {
+      "name": "calendar",
+      "sizeBytes": 2015,
+      "sizeKB": 2
+    },
+    {
+      "name": "radio-group",
+      "sizeBytes": 1950,
+      "sizeKB": 1.9
+    },
+    {
+      "name": "roving-focus",
+      "sizeBytes": 1899,
+      "sizeKB": 1.9
+    },
+    {
+      "name": "focus-scope",
+      "sizeBytes": 1642,
+      "sizeKB": 1.6
+    },
+    {
+      "name": "dismissable-layer",
+      "sizeBytes": 1632,
+      "sizeKB": 1.6
+    },
+    {
+      "name": "alert-dialog",
+      "sizeBytes": 1607,
+      "sizeKB": 1.6
+    },
+    {
+      "name": "input-otp",
+      "sizeBytes": 1577,
+      "sizeKB": 1.5
+    },
+    {
+      "name": "toggle-group",
+      "sizeBytes": 1186,
+      "sizeKB": 1.2
+    },
+    {
+      "name": "progress",
+      "sizeBytes": 1167,
+      "sizeKB": 1.1
+    },
+    {
+      "name": "avatar",
+      "sizeBytes": 1157,
+      "sizeKB": 1.1
+    },
+    {
+      "name": "presence",
+      "sizeBytes": 1024,
+      "sizeKB": 1
+    },
+    {
+      "name": "slot",
+      "sizeBytes": 838,
+      "sizeKB": 0.8
+    },
+    {
+      "name": "mount",
+      "sizeBytes": 655,
+      "sizeKB": 0.6
+    },
+    {
+      "name": "toggle",
+      "sizeBytes": 594,
+      "sizeKB": 0.6
+    },
+    {
+      "name": "pagination",
+      "sizeBytes": 581,
+      "sizeKB": 0.6
+    },
+    {
+      "name": "primitive-elements",
+      "sizeBytes": 397,
+      "sizeKB": 0.4
+    },
+    {
+      "name": "visibility-hidden",
+      "sizeBytes": 372,
+      "sizeKB": 0.4
+    },
+    {
+      "name": "portal",
+      "sizeBytes": 361,
+      "sizeKB": 0.4
+    },
+    {
+      "name": "direction",
+      "sizeBytes": 350,
+      "sizeKB": 0.3
+    },
+    {
+      "name": "arrow",
+      "sizeBytes": 340,
+      "sizeKB": 0.3
+    },
+    {
+      "name": "sheet",
+      "sizeBytes": 261,
+      "sizeKB": 0.3
+    },
+    {
+      "name": "checkers",
+      "sizeBytes": 102,
+      "sizeKB": 0.1
+    }
+  ],
+  "generatedAt": "2026-03-22T15:16:00.489Z"
+}

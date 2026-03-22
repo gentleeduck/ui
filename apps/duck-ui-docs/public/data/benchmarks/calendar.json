@@ -1,0 +1,154 @@
+{
+  "corePerformance": [
+    {
+      "label": "buildCalendarMonth",
+      "us": 7.5
+    },
+    {
+      "label": "buildMultiMonth(3)",
+      "us": 18.3
+    },
+    {
+      "label": "buildMultiMonth(12)",
+      "us": 63.7
+    },
+    {
+      "label": "applySelection (single)",
+      "us": 12.1
+    },
+    {
+      "label": "applySelection (range)",
+      "us": 12.1
+    }
+  ],
+  "adapterPerformance": [
+    {
+      "name": "Native (Gregorian)",
+      "buildMonth": 4.3,
+      "getYear": 0.01,
+      "create": 0.06,
+      "addMonths": 0.25,
+      "format": 0.9
+    },
+    {
+      "name": "Islamic (Hijri)",
+      "buildMonth": 8.8,
+      "getYear": 0.01,
+      "create": 0.11,
+      "addMonths": 0.12,
+      "format": 1.4
+    },
+    {
+      "name": "Persian (Jalali)",
+      "buildMonth": 13.2,
+      "getYear": 0.02,
+      "create": 0.16,
+      "addMonths": 0.18,
+      "format": 1.8
+    },
+    {
+      "name": "Hebrew",
+      "buildMonth": 14.6,
+      "getYear": 0.02,
+      "create": 0.25,
+      "addMonths": 0.33,
+      "format": 1.2
+    }
+  ],
+  "bundleSize": [
+    {
+      "name": "@gentleduck/calendar",
+      "sizeKB": 4.9,
+      "deps": 0,
+      "cssKB": 0,
+      "calendars": 4
+    },
+    {
+      "name": "react-day-picker v9",
+      "sizeKB": 20,
+      "deps": 1,
+      "cssKB": 3,
+      "calendars": 1
+    },
+    {
+      "name": "react-aria (DatePicker)",
+      "sizeKB": 45,
+      "deps": 8,
+      "cssKB": 0,
+      "calendars": 1
+    },
+    {
+      "name": "react-datepicker",
+      "sizeKB": 32,
+      "deps": 3,
+      "cssKB": 8,
+      "calendars": 1
+    },
+    {
+      "name": "react-calendar",
+      "sizeKB": 15,
+      "deps": 0,
+      "cssKB": 5,
+      "calendars": 1
+    }
+  ],
+  "features": [
+    {
+      "feature": "Tree-shakeable",
+      "gentleduck": true,
+      "rdp": false,
+      "reactAria": false,
+      "datepicker": false,
+      "reactCal": false
+    },
+    {
+      "feature": "Zero CSS",
+      "gentleduck": true,
+      "rdp": false,
+      "reactAria": true,
+      "datepicker": false,
+      "reactCal": false
+    },
+    {
+      "feature": "Date Adapter",
+      "gentleduck": true,
+      "rdp": false,
+      "reactAria": false,
+      "datepicker": false,
+      "reactCal": false
+    },
+    {
+      "feature": "Multi-Calendar",
+      "gentleduck": "4",
+      "rdp": "1",
+      "reactAria": "1",
+      "datepicker": "1",
+      "reactCal": "1"
+    },
+    {
+      "feature": "SSR Safe",
+      "gentleduck": true,
+      "rdp": true,
+      "reactAria": true,
+      "datepicker": false,
+      "reactCal": true
+    },
+    {
+      "feature": "ARIA Compliant",
+      "gentleduck": true,
+      "rdp": true,
+      "reactAria": true,
+      "datepicker": false,
+      "reactCal": false
+    },
+    {
+      "feature": "Keyboard Nav",
+      "gentleduck": true,
+      "rdp": true,
+      "reactAria": true,
+      "datepicker": false,
+      "reactCal": false
+    }
+  ],
+  "generatedAt": "2026-03-22T15:16:00.275Z"
+}

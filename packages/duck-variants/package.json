@@ -63,6 +63,7 @@
     "directory": "packages/duck-variants"
   },
   "scripts": {
+    "benchmark": "bun run scripts/benchmark.ts",
     "build": "tsdown",
     "test": "vitest",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
