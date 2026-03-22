@@ -102,6 +102,22 @@ Radix provides a Presence primitive for mount/unmount animations. gentleduck ext
 
 Radix ships each primitive as a separate npm package (`@radix-ui/react-dialog`, `@radix-ui/react-popover`, etc.), each with their own internal utilities. gentleduck ships all primitives from a single package with shared internals (`@gentleduck/primitives/dialog`, `@gentleduck/primitives/popover`), reducing duplication.
 
+### Bundle size
+
+Real numbers from bundlephobia.com (Radix) and built dist measurement (gentleduck), verified 2026-03-22:
+
+![gentleduck vs Radix bundle sizes](/images/benchmarks/primitives/vs-radix.svg)
+
+![Size savings vs Radix](/images/benchmarks/primitives/savings-vs-radix.svg)
+
+<Callout icon={<Lightbulb />}>
+
+**Note:** Radio Group is one case where Radix is actually smaller (1.0 KB vs 1.9 KB). We include honest numbers -- not every primitive is smaller.
+
+</Callout>
+
+See the full [primitives benchmark](/docs/packages/duck-primitives/benchmarks) for the comparison table across all libraries.
+
 ---
 
 ## Migration

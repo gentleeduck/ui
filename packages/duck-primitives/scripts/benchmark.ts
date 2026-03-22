@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+
 /**
  * Generates professional benchmark comparison SVGs for @gentleduck/primitives.
  * Compares bundle sizes against Radix UI, Base UI, Ark UI, and Headless UI.
@@ -7,8 +8,8 @@
  * Usage: bun run benchmark
  */
 
-import { mkdirSync, readdirSync, statSync, writeFileSync } from 'node:fs'
 import { execSync } from 'node:child_process'
+import { mkdirSync, readdirSync, statSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 const OUT_DIR = join(import.meta.dirname, '..', 'public', 'benchmarks')
@@ -318,14 +319,14 @@ function generateFeaturesSVG(): string {
   }
 
   const data: (boolean | string)[][] = [
-    [true, false, false, false, true],    // Single Package
-    [true, true, false, false, false],     // Slot / asChild
-    [true, true, false, true, false],      // Compound Components
-    ['4', '0', '0', '0', '0'],             // Calendar System
-    [true, true, true, true, true],        // Zero CSS
-    [true, true, true, true, true],        // SSR Safe
-    [true, true, true, true, true],        // ARIA Compliant
-    [true, true, true, true, true],        // Tree-shakeable
+    [true, false, false, false, true], // Single Package
+    [true, true, false, false, false], // Slot / asChild
+    [true, true, false, true, false], // Compound Components
+    ['4', '0', '0', '0', '0'], // Calendar System
+    [true, true, true, true, true], // Zero CSS
+    [true, true, true, true, true], // SSR Safe
+    [true, true, true, true, true], // ARIA Compliant
+    [true, true, true, true, true], // Tree-shakeable
   ]
 
   let cells = ''
@@ -415,7 +416,18 @@ writeFileSync(
 )
 
 // Copy to docs
-const DOCS_DIR = join(import.meta.dirname, '..', '..', '..', 'apps', 'duck-ui-docs', 'public', 'images', 'benchmarks', 'primitives')
+const DOCS_DIR = join(
+  import.meta.dirname,
+  '..',
+  '..',
+  '..',
+  'apps',
+  'duck-ui-docs',
+  'public',
+  'images',
+  'benchmarks',
+  'primitives',
+)
 mkdirSync(DOCS_DIR, { recursive: true })
 for (const [name, svg] of Object.entries(svgs)) {
   writeFileSync(join(DOCS_DIR, `${name}.svg`), svg)

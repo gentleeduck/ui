@@ -1,0 +1,89 @@
+---
+title: "Benchmarks"
+description: "Real bundle size measurements for @gentleduck/primitives compared to Radix UI, Base UI, Ark UI, and Headless UI."
+---
+
+All gentleduck sizes are measured from the built `dist/` output via `gzip -c | wc -c`. Radix sizes are verified via the [bundlephobia.com](https://bundlephobia.com) API. Only verified data is included -- entries without confirmed sizes are excluded.
+
+Run `bun run benchmark` in `packages/duck-primitives` to regenerate these.
+
+---
+
+## gentleduck vs Radix UI
+
+Per-component gzipped bundle size comparison:
+
+![gentleduck vs Radix bundle sizes](/images/benchmarks/primitives/vs-radix.svg)
+
+---
+
+## Size Savings
+
+How much smaller each gentleduck primitive is compared to its Radix equivalent:
+
+![Savings vs Radix](/images/benchmarks/primitives/savings-vs-radix.svg)
+
+<Callout icon={<TriangleAlert />} tone="warning">
+
+**Radio Group** is one case where Radix is smaller (1.0 KB vs 1.9 KB). We show honest numbers.
+
+</Callout>
+
+---
+
+## All Libraries
+
+Comparison table across gentleduck, Radix UI, Base UI, Ark UI, and Headless UI:
+
+![Comparison table](/images/benchmarks/primitives/comparison-table.svg)
+
+---
+
+## Total Package Size
+
+Full package size when importing all components:
+
+![Total bundle size](/images/benchmarks/primitives/total-bundle-size.svg)
+
+gentleduck's shared internals (Slot, Primitive, Presence, Popper, focus-scope, dismissable-layer, etc.) are paid once (~5 KB). Each additional primitive adds only its own code. Radix duplicates these internals in every package.
+
+---
+
+## Feature Comparison
+
+![Feature comparison](/images/benchmarks/primitives/features.svg)
+
+---
+
+## Why the difference
+
+Radix ships each primitive as a **separate npm package** (`@radix-ui/react-dialog`, `@radix-ui/react-popover`, etc.). Each package bundles its own copy of shared internals:
+
+- `@radix-ui/react-compose-refs` (~0.3 KB per package)
+- `@radix-ui/react-context` (~0.4 KB per package)
+- `@radix-ui/react-slot` (~0.8 KB per package)
+- `@radix-ui/react-primitive` (~0.3 KB per package)
+- `@radix-ui/react-use-callback-ref` (~0.2 KB per package)
+- `@radix-ui/react-dismissable-layer` (~1.5 KB per package)
+- `@radix-ui/react-focus-scope` (~1.5 KB per package)
+
+When you install 5 Radix primitives, these internals are duplicated 5 times. With gentleduck, they're shared across all primitives from a single package.
+
+---
+
+## Methodology
+
+- **gentleduck**: sizes measured from `packages/duck-primitives/dist/` by concatenating all `.js` files per primitive directory and running `gzip -c | wc -c`
+- **Radix UI**: sizes from the [bundlephobia.com API](https://bundlephobia.com), queried per-package on 2026-03-22
+- **Base UI / Ark UI / Headless UI**: entries left blank where bundlephobia data was unavailable or rate-limited. Only verified data is shown.
+- All sizes are **minified + gzipped**
+- Gentleduck `dist/` is built with tsdown (`minify: true`, `treeshake: true`, `format: 'esm'`)
+
+To regenerate:
+
+```bash
+cd packages/duck-primitives
+bun run benchmark
+```
+
+Output goes to `public/benchmarks/` and `apps/duck-ui-docs/public/images/benchmarks/primitives/`.
