@@ -3591,6 +3591,11 @@
         "name": "accordion-5.tsx",
         "path": "accordion/accordion-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "accordion-6.tsx",
+        "path": "accordion/accordion-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -3632,6 +3637,11 @@
       {
         "name": "accordion-5.tsx",
         "path": "accordion/accordion-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-6.tsx",
+        "path": "accordion/accordion-6.tsx",
         "type": "file"
       }
     ]
@@ -3675,6 +3685,11 @@
         "name": "accordion-5.tsx",
         "path": "accordion/accordion-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "accordion-6.tsx",
+        "path": "accordion/accordion-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -3717,6 +3732,11 @@
         "name": "accordion-5.tsx",
         "path": "accordion/accordion-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "accordion-6.tsx",
+        "path": "accordion/accordion-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -3758,6 +3778,58 @@
       {
         "name": "accordion-5.tsx",
         "path": "accordion/accordion-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-6.tsx",
+        "path": "accordion/accordion-6.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "accordion/accordion-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "accordion-6",
+    "registryDependencies": [
+      "accordion"
+    ],
+    "root_folder": "accordion",
+    "type": "registry:example",
+    "source": "/registry-examples/src/accordion",
+    "tree": [
+      {
+        "name": "accordion-1.tsx",
+        "path": "accordion/accordion-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-2.tsx",
+        "path": "accordion/accordion-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-3.tsx",
+        "path": "accordion/accordion-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-4.tsx",
+        "path": "accordion/accordion-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-5.tsx",
+        "path": "accordion/accordion-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-6.tsx",
+        "path": "accordion/accordion-6.tsx",
         "type": "file"
       }
     ]
@@ -11415,6 +11487,11 @@
         "name": "drawer-7.tsx",
         "path": "drawer/drawer-7.tsx",
         "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
+        "type": "file"
       }
     ]
   },
@@ -11466,6 +11543,11 @@
       {
         "name": "drawer-7.tsx",
         "path": "drawer/drawer-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
         "type": "file"
       }
     ]
@@ -11519,6 +11601,11 @@
         "name": "drawer-7.tsx",
         "path": "drawer/drawer-7.tsx",
         "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
+        "type": "file"
       }
     ]
   },
@@ -11570,6 +11657,11 @@
       {
         "name": "drawer-7.tsx",
         "path": "drawer/drawer-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
         "type": "file"
       }
     ]
@@ -11623,6 +11715,11 @@
         "name": "drawer-7.tsx",
         "path": "drawer/drawer-7.tsx",
         "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
+        "type": "file"
       }
     ]
   },
@@ -11675,6 +11772,11 @@
         "name": "drawer-7.tsx",
         "path": "drawer/drawer-7.tsx",
         "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
+        "type": "file"
       }
     ]
   },
@@ -11726,6 +11828,68 @@
       {
         "name": "drawer-7.tsx",
         "path": "drawer/drawer-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "drawer/drawer-8.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "drawer-8",
+    "registryDependencies": [
+      "drawer"
+    ],
+    "root_folder": "drawer",
+    "type": "registry:example",
+    "source": "/registry-examples/src/drawer",
+    "tree": [
+      {
+        "name": "drawer-1.tsx",
+        "path": "drawer/drawer-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-2.tsx",
+        "path": "drawer/drawer-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-3.tsx",
+        "path": "drawer/drawer-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-4.tsx",
+        "path": "drawer/drawer-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-5.tsx",
+        "path": "drawer/drawer-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-6.tsx",
+        "path": "drawer/drawer-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-7.tsx",
+        "path": "drawer/drawer-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
         "type": "file"
       }
     ]
@@ -12680,6 +12844,11 @@
         "name": "select-4.tsx",
         "path": "select/select-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "select-5.tsx",
+        "path": "select/select-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -12716,6 +12885,11 @@
       {
         "name": "select-4.tsx",
         "path": "select/select-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "select-5.tsx",
+        "path": "select/select-5.tsx",
         "type": "file"
       }
     ]
@@ -12754,6 +12928,11 @@
         "name": "select-4.tsx",
         "path": "select/select-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "select-5.tsx",
+        "path": "select/select-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -12790,6 +12969,53 @@
       {
         "name": "select-4.tsx",
         "path": "select/select-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "select-5.tsx",
+        "path": "select/select-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "select/select-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "select-5",
+    "registryDependencies": [
+      "select"
+    ],
+    "root_folder": "select",
+    "type": "registry:example",
+    "source": "/registry-examples/src/select",
+    "tree": [
+      {
+        "name": "select-1.tsx",
+        "path": "select/select-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "select-2.tsx",
+        "path": "select/select-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "select-3.tsx",
+        "path": "select/select-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "select-4.tsx",
+        "path": "select/select-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "select-5.tsx",
+        "path": "select/select-5.tsx",
         "type": "file"
       }
     ]
@@ -19072,6 +19298,11 @@
         "name": "collapsible-2.tsx",
         "path": "collapsible/collapsible-2.tsx",
         "type": "file"
+      },
+      {
+        "name": "collapsible-3.tsx",
+        "path": "collapsible/collapsible-3.tsx",
+        "type": "file"
       }
     ]
   },
@@ -19098,6 +19329,43 @@
       {
         "name": "collapsible-2.tsx",
         "path": "collapsible/collapsible-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "collapsible-3.tsx",
+        "path": "collapsible/collapsible-3.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "collapsible/collapsible-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "collapsible-3",
+    "registryDependencies": [
+      "collapsible"
+    ],
+    "root_folder": "collapsible",
+    "type": "registry:example",
+    "source": "/registry-examples/src/collapsible",
+    "tree": [
+      {
+        "name": "collapsible-1.tsx",
+        "path": "collapsible/collapsible-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "collapsible-2.tsx",
+        "path": "collapsible/collapsible-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "collapsible-3.tsx",
+        "path": "collapsible/collapsible-3.tsx",
         "type": "file"
       }
     ]
