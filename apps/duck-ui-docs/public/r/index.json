@@ -19804,6 +19804,11 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-calendar.tsx",
         "path": "chart/chart-benchmark-calendar.tsx",
         "type": "file"
@@ -19811,21 +19816,6 @@
       {
         "name": "chart-benchmark-primitives.tsx",
         "path": "chart/chart-benchmark-primitives.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-savings.tsx",
-        "path": "chart/chart-benchmark-savings.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-size.tsx",
-        "path": "chart/chart-benchmark-size.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-total.tsx",
-        "path": "chart/chart-benchmark-total.tsx",
         "type": "file"
       },
       {
@@ -19891,6 +19881,11 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-calendar.tsx",
         "path": "chart/chart-benchmark-calendar.tsx",
         "type": "file"
@@ -19898,21 +19893,6 @@
       {
         "name": "chart-benchmark-primitives.tsx",
         "path": "chart/chart-benchmark-primitives.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-savings.tsx",
-        "path": "chart/chart-benchmark-savings.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-size.tsx",
-        "path": "chart/chart-benchmark-size.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-total.tsx",
-        "path": "chart/chart-benchmark-total.tsx",
         "type": "file"
       },
       {
@@ -19978,6 +19958,11 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-calendar.tsx",
         "path": "chart/chart-benchmark-calendar.tsx",
         "type": "file"
@@ -19985,21 +19970,6 @@
       {
         "name": "chart-benchmark-primitives.tsx",
         "path": "chart/chart-benchmark-primitives.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-savings.tsx",
-        "path": "chart/chart-benchmark-savings.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-size.tsx",
-        "path": "chart/chart-benchmark-size.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-total.tsx",
-        "path": "chart/chart-benchmark-total.tsx",
         "type": "file"
       },
       {
@@ -20065,6 +20035,11 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-calendar.tsx",
         "path": "chart/chart-benchmark-calendar.tsx",
         "type": "file"
@@ -20072,21 +20047,6 @@
       {
         "name": "chart-benchmark-primitives.tsx",
         "path": "chart/chart-benchmark-primitives.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-savings.tsx",
-        "path": "chart/chart-benchmark-savings.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-size.tsx",
-        "path": "chart/chart-benchmark-size.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-total.tsx",
-        "path": "chart/chart-benchmark-total.tsx",
         "type": "file"
       },
       {
@@ -20152,6 +20112,11 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-calendar.tsx",
         "path": "chart/chart-benchmark-calendar.tsx",
         "type": "file"
@@ -20159,21 +20124,6 @@
       {
         "name": "chart-benchmark-primitives.tsx",
         "path": "chart/chart-benchmark-primitives.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-savings.tsx",
-        "path": "chart/chart-benchmark-savings.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-size.tsx",
-        "path": "chart/chart-benchmark-size.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-total.tsx",
-        "path": "chart/chart-benchmark-total.tsx",
         "type": "file"
       },
       {
@@ -20239,6 +20189,11 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-calendar.tsx",
         "path": "chart/chart-benchmark-calendar.tsx",
         "type": "file"
@@ -20246,21 +20201,6 @@
       {
         "name": "chart-benchmark-primitives.tsx",
         "path": "chart/chart-benchmark-primitives.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-savings.tsx",
-        "path": "chart/chart-benchmark-savings.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-size.tsx",
-        "path": "chart/chart-benchmark-size.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-total.tsx",
-        "path": "chart/chart-benchmark-total.tsx",
         "type": "file"
       },
       {
@@ -20326,6 +20266,11 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-calendar.tsx",
         "path": "chart/chart-benchmark-calendar.tsx",
         "type": "file"
@@ -20333,21 +20278,6 @@
       {
         "name": "chart-benchmark-primitives.tsx",
         "path": "chart/chart-benchmark-primitives.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-savings.tsx",
-        "path": "chart/chart-benchmark-savings.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-size.tsx",
-        "path": "chart/chart-benchmark-size.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-total.tsx",
-        "path": "chart/chart-benchmark-total.tsx",
         "type": "file"
       },
       {
@@ -20413,6 +20343,11 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-calendar.tsx",
         "path": "chart/chart-benchmark-calendar.tsx",
         "type": "file"
@@ -20423,18 +20358,80 @@
         "type": "file"
       },
       {
-        "name": "chart-benchmark-savings.tsx",
-        "path": "chart/chart-benchmark-savings.tsx",
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "chart-benchmark-calendar-vs",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "type": "registry:example",
+    "source": "/registry-examples/src/chart",
+    "tree": [
+      {
+        "name": "chart-1.tsx",
+        "path": "chart/chart-1.tsx",
         "type": "file"
       },
       {
-        "name": "chart-benchmark-size.tsx",
-        "path": "chart/chart-benchmark-size.tsx",
+        "name": "chart-2.tsx",
+        "path": "chart/chart-2.tsx",
         "type": "file"
       },
       {
-        "name": "chart-benchmark-total.tsx",
-        "path": "chart/chart-benchmark-total.tsx",
+        "name": "chart-3.tsx",
+        "path": "chart/chart-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-4.tsx",
+        "path": "chart/chart-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-5.tsx",
+        "path": "chart/chart-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-6.tsx",
+        "path": "chart/chart-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-7.tsx",
+        "path": "chart/chart-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
         "type": "file"
       },
       {
@@ -20500,6 +20497,11 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-calendar.tsx",
         "path": "chart/chart-benchmark-calendar.tsx",
         "type": "file"
@@ -20507,21 +20509,6 @@
       {
         "name": "chart-benchmark-primitives.tsx",
         "path": "chart/chart-benchmark-primitives.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-savings.tsx",
-        "path": "chart/chart-benchmark-savings.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-size.tsx",
-        "path": "chart/chart-benchmark-size.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-total.tsx",
-        "path": "chart/chart-benchmark-total.tsx",
         "type": "file"
       },
       {
@@ -20587,90 +20574,8 @@
         "type": "file"
       },
       {
-        "name": "chart-benchmark-calendar.tsx",
-        "path": "chart/chart-benchmark-calendar.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-primitives.tsx",
-        "path": "chart/chart-benchmark-primitives.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-savings.tsx",
-        "path": "chart/chart-benchmark-savings.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-size.tsx",
-        "path": "chart/chart-benchmark-size.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-total.tsx",
-        "path": "chart/chart-benchmark-total.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-variants.tsx",
-        "path": "chart/chart-benchmark-variants.tsx",
-        "type": "file"
-      }
-    ]
-  },
-  {
-    "files": [
-      {
-        "path": "chart/chart-benchmark-savings.tsx",
-        "type": "registry:example"
-      }
-    ],
-    "name": "chart-benchmark-savings",
-    "registryDependencies": [
-      "chart"
-    ],
-    "root_folder": "chart",
-    "type": "registry:example",
-    "source": "/registry-examples/src/chart",
-    "tree": [
-      {
-        "name": "chart-1.tsx",
-        "path": "chart/chart-1.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-2.tsx",
-        "path": "chart/chart-2.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-3.tsx",
-        "path": "chart/chart-3.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-4.tsx",
-        "path": "chart/chart-4.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-5.tsx",
-        "path": "chart/chart-5.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-6.tsx",
-        "path": "chart/chart-6.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-7.tsx",
-        "path": "chart/chart-7.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-8.tsx",
-        "path": "chart/chart-8.tsx",
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
         "type": "file"
       },
       {
@@ -20681,195 +20586,6 @@
       {
         "name": "chart-benchmark-primitives.tsx",
         "path": "chart/chart-benchmark-primitives.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-savings.tsx",
-        "path": "chart/chart-benchmark-savings.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-size.tsx",
-        "path": "chart/chart-benchmark-size.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-total.tsx",
-        "path": "chart/chart-benchmark-total.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-variants.tsx",
-        "path": "chart/chart-benchmark-variants.tsx",
-        "type": "file"
-      }
-    ]
-  },
-  {
-    "files": [
-      {
-        "path": "chart/chart-benchmark-size.tsx",
-        "type": "registry:example"
-      }
-    ],
-    "name": "chart-benchmark-size",
-    "registryDependencies": [
-      "chart"
-    ],
-    "root_folder": "chart",
-    "type": "registry:example",
-    "source": "/registry-examples/src/chart",
-    "tree": [
-      {
-        "name": "chart-1.tsx",
-        "path": "chart/chart-1.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-2.tsx",
-        "path": "chart/chart-2.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-3.tsx",
-        "path": "chart/chart-3.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-4.tsx",
-        "path": "chart/chart-4.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-5.tsx",
-        "path": "chart/chart-5.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-6.tsx",
-        "path": "chart/chart-6.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-7.tsx",
-        "path": "chart/chart-7.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-8.tsx",
-        "path": "chart/chart-8.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-calendar.tsx",
-        "path": "chart/chart-benchmark-calendar.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-primitives.tsx",
-        "path": "chart/chart-benchmark-primitives.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-savings.tsx",
-        "path": "chart/chart-benchmark-savings.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-size.tsx",
-        "path": "chart/chart-benchmark-size.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-total.tsx",
-        "path": "chart/chart-benchmark-total.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-variants.tsx",
-        "path": "chart/chart-benchmark-variants.tsx",
-        "type": "file"
-      }
-    ]
-  },
-  {
-    "files": [
-      {
-        "path": "chart/chart-benchmark-total.tsx",
-        "type": "registry:example"
-      }
-    ],
-    "name": "chart-benchmark-total",
-    "registryDependencies": [
-      "chart"
-    ],
-    "root_folder": "chart",
-    "type": "registry:example",
-    "source": "/registry-examples/src/chart",
-    "tree": [
-      {
-        "name": "chart-1.tsx",
-        "path": "chart/chart-1.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-2.tsx",
-        "path": "chart/chart-2.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-3.tsx",
-        "path": "chart/chart-3.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-4.tsx",
-        "path": "chart/chart-4.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-5.tsx",
-        "path": "chart/chart-5.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-6.tsx",
-        "path": "chart/chart-6.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-7.tsx",
-        "path": "chart/chart-7.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-8.tsx",
-        "path": "chart/chart-8.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-calendar.tsx",
-        "path": "chart/chart-benchmark-calendar.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-primitives.tsx",
-        "path": "chart/chart-benchmark-primitives.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-savings.tsx",
-        "path": "chart/chart-benchmark-savings.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-size.tsx",
-        "path": "chart/chart-benchmark-size.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-total.tsx",
-        "path": "chart/chart-benchmark-total.tsx",
         "type": "file"
       },
       {
@@ -20935,6 +20651,11 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-calendar.tsx",
         "path": "chart/chart-benchmark-calendar.tsx",
         "type": "file"
@@ -20942,21 +20663,6 @@
       {
         "name": "chart-benchmark-primitives.tsx",
         "path": "chart/chart-benchmark-primitives.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-savings.tsx",
-        "path": "chart/chart-benchmark-savings.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-size.tsx",
-        "path": "chart/chart-benchmark-size.tsx",
-        "type": "file"
-      },
-      {
-        "name": "chart-benchmark-total.tsx",
-        "path": "chart/chart-benchmark-total.tsx",
         "type": "file"
       },
       {

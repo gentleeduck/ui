@@ -131,6 +131,81 @@ const features = [
 ]
 
 // ---------------------------------------------------------------------------
+// 4b. Per-library detailed comparison
+// ---------------------------------------------------------------------------
+
+const vsReactDayPicker = {
+  name: 'react-day-picker',
+  comparison: [
+    { metric: 'Bundle size', gentleduck: '4.9 KB', competitor: '20 KB', winner: 'gentleduck' },
+    { metric: 'Dependencies', gentleduck: '0', competitor: '1 (date-fns)', winner: 'gentleduck' },
+    { metric: 'CSS required', gentleduck: 'None', competitor: '3 KB', winner: 'gentleduck' },
+    { metric: 'Calendar systems', gentleduck: '4', competitor: '1', winner: 'gentleduck' },
+    { metric: 'Date adapters', gentleduck: '7', competitor: '0', winner: 'gentleduck' },
+    { metric: 'Selection modes', gentleduck: '4', competitor: '3', winner: 'gentleduck' },
+    { metric: 'Headless hook', gentleduck: 'useCalendar', competitor: 'None', winner: 'gentleduck' },
+    { metric: 'Compound primitives', gentleduck: 'Yes', competitor: 'No', winner: 'gentleduck' },
+    { metric: 'RTL support', gentleduck: 'Yes', competitor: 'Partial', winner: 'gentleduck' },
+    { metric: 'Maturity', gentleduck: 'New', competitor: 'Established', winner: 'competitor' },
+    { metric: 'React 18', gentleduck: 'No (19+)', competitor: 'Yes', winner: 'competitor' },
+  ],
+}
+
+const vsReactAria = {
+  name: 'react-aria',
+  comparison: [
+    { metric: 'Bundle size', gentleduck: '4.9 KB', competitor: '45 KB', winner: 'gentleduck' },
+    { metric: 'Dependencies', gentleduck: '0', competitor: '8', winner: 'gentleduck' },
+    { metric: 'Architecture', gentleduck: 'Headless hook', competitor: 'Hooks + Components', winner: 'tie' },
+    { metric: 'Calendar systems', gentleduck: '4', competitor: '1', winner: 'gentleduck' },
+    { metric: 'Date adapters', gentleduck: '7 (pluggable)', competitor: '0 (built-in)', winner: 'gentleduck' },
+    { metric: 'ARIA compliance', gentleduck: 'Full', competitor: 'Full', winner: 'tie' },
+    { metric: 'Keyboard nav', gentleduck: 'Full', competitor: 'Full', winner: 'tie' },
+    { metric: 'Internationalization', gentleduck: 'Via adapters', competitor: 'Built-in', winner: 'competitor' },
+    { metric: 'Maturity', gentleduck: 'New', competitor: 'Battle-tested', winner: 'competitor' },
+  ],
+}
+
+const vsReactDatepicker = {
+  name: 'react-datepicker',
+  comparison: [
+    { metric: 'Bundle size', gentleduck: '4.9 KB', competitor: '32 KB', winner: 'gentleduck' },
+    { metric: 'Dependencies', gentleduck: '0', competitor: '3', winner: 'gentleduck' },
+    { metric: 'CSS required', gentleduck: 'None', competitor: '8 KB', winner: 'gentleduck' },
+    { metric: 'Headless', gentleduck: 'Yes', competitor: 'No (styled)', winner: 'gentleduck' },
+    { metric: 'ARIA compliance', gentleduck: 'Full', competitor: 'Partial', winner: 'gentleduck' },
+    { metric: 'Keyboard nav', gentleduck: 'Full', competitor: 'Partial', winner: 'gentleduck' },
+    { metric: 'SSR safe', gentleduck: 'Yes', competitor: 'No', winner: 'gentleduck' },
+    { metric: 'Time picker', gentleduck: 'useTimePicker', competitor: 'Built-in', winner: 'tie' },
+    { metric: 'Popularity', gentleduck: 'New', competitor: '10M+ downloads/mo', winner: 'competitor' },
+  ],
+}
+
+const vsReactCalendar = {
+  name: 'react-calendar',
+  comparison: [
+    { metric: 'Bundle size', gentleduck: '4.9 KB', competitor: '15 KB', winner: 'gentleduck' },
+    { metric: 'CSS required', gentleduck: 'None', competitor: '5 KB', winner: 'gentleduck' },
+    { metric: 'Headless', gentleduck: 'Yes', competitor: 'No (styled)', winner: 'gentleduck' },
+    { metric: 'Calendar systems', gentleduck: '4', competitor: '1', winner: 'gentleduck' },
+    { metric: 'Selection modes', gentleduck: '4', competitor: '1', winner: 'gentleduck' },
+    { metric: 'ARIA compliance', gentleduck: 'Full', competitor: 'Partial', winner: 'gentleduck' },
+    { metric: 'React 18', gentleduck: 'No (19+)', competitor: 'Yes', winner: 'competitor' },
+    { metric: 'Simplicity', gentleduck: 'Hook-based', competitor: 'Drop-in', winner: 'competitor' },
+  ],
+}
+
+const libraryComparisons = [vsReactDayPicker, vsReactAria, vsReactDatepicker, vsReactCalendar]
+
+// Total cost (JS + CSS)
+const totalCost = bundleSize.map((b) => ({
+  name: b.name,
+  js: b.sizeKB,
+  css: b.cssKB,
+  total: +(b.sizeKB + b.cssKB).toFixed(1),
+}))
+
+// ---------------------------------------------------------------------------
 // 5. Module sizes (measured from dist)
 // ---------------------------------------------------------------------------
 
@@ -171,7 +246,9 @@ const results = {
   corePerformance: Object.values(corePerformance),
   adapterPerformance,
   bundleSize,
+  totalCost,
   features,
+  libraryComparisons,
   moduleSizes,
   generatedAt: new Date().toISOString(),
 }
