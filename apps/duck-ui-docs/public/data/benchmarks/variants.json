@@ -1,0 +1,101 @@
+{
+  "bundleSize": [
+    {
+      "name": "@gentleduck/variants",
+      "sizeBytes": 665,
+      "sizeKB": 0.65
+    },
+    {
+      "name": "class-variance-authority",
+      "sizeBytes": 1800,
+      "sizeKB": 1.76
+    },
+    {
+      "name": "tailwind-variants",
+      "sizeBytes": 5400,
+      "sizeKB": 5.27
+    },
+    {
+      "name": "clsx",
+      "sizeBytes": 330,
+      "sizeKB": 0.32
+    }
+  ],
+  "runtimePerformance": [
+    {
+      "label": "cva() with defaults",
+      "ns": 83
+    },
+    {
+      "label": "cva() with variant",
+      "ns": 195
+    },
+    {
+      "label": "cva() with variant + size",
+      "ns": 325
+    },
+    {
+      "label": "cva() with className merge",
+      "ns": 449
+    }
+  ],
+  "features": [
+    {
+      "feature": "TypeScript types",
+      "gentleduck": true,
+      "cva": true,
+      "tv": true,
+      "clsx": false
+    },
+    {
+      "feature": "Default variants",
+      "gentleduck": true,
+      "cva": true,
+      "tv": true,
+      "clsx": false
+    },
+    {
+      "feature": "Compound variants",
+      "gentleduck": true,
+      "cva": true,
+      "tv": true,
+      "clsx": false
+    },
+    {
+      "feature": "Responsive variants",
+      "gentleduck": false,
+      "cva": false,
+      "tv": true,
+      "clsx": false
+    },
+    {
+      "feature": "Slots",
+      "gentleduck": false,
+      "cva": false,
+      "tv": true,
+      "clsx": false
+    },
+    {
+      "feature": "Zero dependencies",
+      "gentleduck": true,
+      "cva": true,
+      "tv": false,
+      "clsx": true
+    },
+    {
+      "feature": "VariantProps extraction",
+      "gentleduck": true,
+      "cva": true,
+      "tv": true,
+      "clsx": false
+    },
+    {
+      "feature": "className merge",
+      "gentleduck": true,
+      "cva": true,
+      "tv": true,
+      "clsx": true
+    }
+  ],
+  "generatedAt": "2026-03-22T15:16:00.527Z"
+}

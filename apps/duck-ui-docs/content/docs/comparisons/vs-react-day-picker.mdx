@@ -23,15 +23,9 @@ description: "Side-by-side comparison of @gentleduck/calendar and react-day-pick
 
 ## Bundle size
 
-![Bundle Size](/images/benchmarks/calendar/bundle-size.svg)
+<ComponentPreview name="chart-benchmark-calendar" description="Calendar benchmark dashboard" />
 
 `@gentleduck/calendar` ships ~5 KB gzipped with zero runtime dependencies. react-day-picker pulls in date-fns, bringing total bundle impact to ~20 KB gzipped. The adapter pattern means you only pay for the date library you already use.
-
----
-
-## Features
-
-![Features](/images/benchmarks/calendar/features.svg)
 
 Both libraries cover the core calendar feature set. The key differences are in architecture:
 
