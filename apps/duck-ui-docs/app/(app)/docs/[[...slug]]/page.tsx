@@ -72,9 +72,11 @@ const PostLayout = async ({ params }: { params: Promise<{ slug?: string[] }> }) 
   return (
     <main className="relative py-6 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]" id="top">
       <div className="relative mx-auto w-full min-w-0 max-w-2xl">
-        <div className="mb-4 flex h-8 items-center justify-between gap-2">
-          <DocsPathBreadcrumb segments={_params.slug ?? []} />
-          <div className="flex shrink-0 items-center gap-2">
+        <div className="mb-4 flex h-8 items-center gap-4">
+          <div className="min-w-0 flex-1">
+            <DocsPathBreadcrumb segments={_params.slug ?? []} />
+          </div>
+          <div className="flex shrink-0 items-center gap-1.5">
             <DocsCopyPage page={doc.content} url={absoluteUrl(doc.slug)} />
             <DocsPagerTop doc={doc} />
           </div>
