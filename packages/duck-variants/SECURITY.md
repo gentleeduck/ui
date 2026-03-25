@@ -1,20 +1,19 @@
 # Security Policy
 
 ## Supported Versions
-
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
-
-| Version | Supported          |
-| ------- | ------------------ |
-| 0.1.12  | :white_check_mark: |
-| 0.1.6   | :white_check_mark: |
-| 0.1.5   | :white_check_mark: |
+We provide security updates for the latest major release of gentleduck/ui.  
+Older versions may not receive patches.
 
 ## Reporting a Vulnerability
+⚠️ **Please do not disclose security issues publicly.**  
+If you discover a vulnerability in gentleduck/ui:
 
-Use this section to tell people how to report a vulnerability.
+1. Report it privately by emailing: **security@gentleduck.org**
+2. Include a detailed description of the vulnerability and how to reproduce it.
+3. We will confirm receipt within **48 hours** and provide a timeline for a fix.
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+## Responsible Disclosure
+We ask security researchers to give us **90 days** to address issues before public disclosure.  
+We will credit you in release notes unless you prefer to remain anonymous.
+
+Thank you for helping keep gentleduck/ui secure.
