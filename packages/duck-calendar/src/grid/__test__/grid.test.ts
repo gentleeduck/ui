@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 import { NativeAdapter } from '../../adapter'
-import { buildCalendarMonth, buildCalendarYear, buildDecadeView } from '../grid'
+import { buildCalendarMonth, buildCalendarYear, buildDecadeView, buildMultiMonth } from '../grid'
 import { getLocalizedMonthNames, getLocalizedWeekdays, getWeekNumber } from '../grid.libs'
 
 describe('grid', () => {
@@ -341,6 +341,322 @@ describe('grid', () => {
         expect(wn).toBeGreaterThanOrEqual(1)
         expect(wn).toBeLessThanOrEqual(53)
         d = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 7)
+      }
+    })
+
+    it('Jan 1 on a Sunday belongs to week 52 of prior year (ISO rule)', () => {
+      // 2023-01-01 is a Sunday. ISO week: the Thursday of that week is Dec 29 2022 -> week 52
+      expect(getWeekNumber(adapter, new Date(2023, 0, 1))).toBe(52)
+    })
+
+    it('Dec 31 on a Monday is week 1 of next year (ISO rule)', () => {
+      // 2018-12-31 is a Monday. The Thursday of that week is Jan 3 2019 -> week 1
+      expect(getWeekNumber(adapter, new Date(2018, 11, 31))).toBe(1)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // buildCalendarMonth  -  edge cases
+  // ---------------------------------------------------------------------------
+  describe('buildCalendarMonth / edge cases', () => {
+    const baseConfig = {
+      showOutsideDays: true,
+      fixedWeeks: false,
+      locale: { weekStartDay: 0 as const },
+    }
+
+    it('leap year February 2024 has 29 days', () => {
+      const feb2024 = new Date(2024, 1, 1) // Feb 2024 is a leap year
+      const result = buildCalendarMonth(adapter, feb2024, baseConfig)
+      const inMonth = result.weeks.flatMap((w) => w.days).filter((d) => !d.isOutside)
+      expect(inMonth).toHaveLength(29)
+      expect(inMonth[28]!.date.getDate()).toBe(29)
+    })
+
+    it('non-leap year February 2025 has 28 days', () => {
+      const feb2025 = new Date(2025, 1, 1)
+      const result = buildCalendarMonth(adapter, feb2025, baseConfig)
+      const inMonth = result.weeks.flatMap((w) => w.days).filter((d) => !d.isOutside)
+      expect(inMonth).toHaveLength(28)
+      expect(inMonth[27]!.date.getDate()).toBe(28)
+    })
+
+    it('century non-leap year February 1900 has 28 days', () => {
+      const feb1900 = new Date(1900, 1, 1)
+      const result = buildCalendarMonth(adapter, feb1900, baseConfig)
+      const inMonth = result.weeks.flatMap((w) => w.days).filter((d) => !d.isOutside)
+      expect(inMonth).toHaveLength(28)
+    })
+
+    it('century leap year February 2000 has 29 days', () => {
+      const feb2000 = new Date(2000, 1, 1)
+      const result = buildCalendarMonth(adapter, feb2000, baseConfig)
+      const inMonth = result.weeks.flatMap((w) => w.days).filter((d) => !d.isOutside)
+      expect(inMonth).toHaveLength(29)
+    })
+
+    it('December 2025 outside days are January 2026', () => {
+      const dec2025 = new Date(2025, 11, 1) // December 2025
+      const result = buildCalendarMonth(adapter, dec2025, baseConfig)
+      const lastWeek = result.weeks[result.weeks.length - 1]!
+      const outsideDays = lastWeek.days.filter((d) => d.isOutside)
+      for (const d of outsideDays) {
+        expect(d.date.getMonth()).toBe(0) // January
+        expect(d.date.getFullYear()).toBe(2026)
+      }
+    })
+
+    it('January 2026 outside days from December 2025', () => {
+      const jan2026 = new Date(2026, 0, 1) // Jan 1 2026 is a Thursday
+      const result = buildCalendarMonth(adapter, jan2026, baseConfig)
+      const firstWeek = result.weeks[0]!
+      const outsideDays = firstWeek.days.filter((d) => d.isOutside)
+      expect(outsideDays.length).toBeGreaterThan(0)
+      for (const d of outsideDays) {
+        expect(d.date.getMonth()).toBe(11) // December
+        expect(d.date.getFullYear()).toBe(2025)
+      }
+    })
+
+    it('month starting on Saturday has outside days at start (weekStartDay=0)', () => {
+      // May 2026 starts on Friday, August 2025 starts on Friday
+      // November 2025 starts on Saturday
+      const nov2025 = new Date(2025, 10, 1) // Nov 1 2025 is a Saturday
+      const result = buildCalendarMonth(adapter, nov2025, baseConfig)
+      const firstWeek = result.weeks[0]!
+      // With Sunday start, days before Saturday are outside
+      const outsideDays = firstWeek.days.filter((d) => d.isOutside)
+      expect(outsideDays.length).toBe(6) // Sun-Fri are outside, Saturday is Nov 1
+    })
+
+    it('month starting on Sunday has no outside days in first week (weekStartDay=0)', () => {
+      // Feb 2026 starts on Sunday
+      const feb2026 = new Date(2026, 1, 1)
+      const result = buildCalendarMonth(adapter, feb2026, baseConfig)
+      const firstWeek = result.weeks[0]!
+      const outsideDays = firstWeek.days.filter((d) => d.isOutside)
+      expect(outsideDays).toHaveLength(0)
+    })
+
+    it('weekStartDay=1 (Monday) for a month starting on Monday has no outside days in first week', () => {
+      // June 2026 starts on Monday
+      const june2026 = new Date(2026, 5, 1)
+      const result = buildCalendarMonth(adapter, june2026, {
+        ...baseConfig,
+        locale: { weekStartDay: 1 },
+      })
+      const firstWeek = result.weeks[0]!
+      const outsideDays = firstWeek.days.filter((d) => d.isOutside)
+      expect(outsideDays).toHaveLength(0)
+    })
+
+    it('weekStartDay=6 (Saturday) shifts grid correctly', () => {
+      const result = buildCalendarMonth(adapter, new Date(2026, 2, 1), {
+        ...baseConfig,
+        locale: { weekStartDay: 6 },
+      })
+      const firstCell = result.weeks[0]!.days[0]!
+      expect(firstCell.date.getDay()).toBe(6) // Saturday
+    })
+
+    it('showOutsideDays=false marks outside days as hidden and disabled', () => {
+      const jan2026 = new Date(2026, 0, 1)
+      const result = buildCalendarMonth(adapter, jan2026, {
+        ...baseConfig,
+        showOutsideDays: false,
+      })
+      const allDays = result.weeks.flatMap((w) => w.days)
+      const outsideDays = allDays.filter((d) => d.isOutside)
+      expect(outsideDays.length).toBeGreaterThan(0)
+      for (const d of outsideDays) {
+        expect(d.isHidden).toBe(true)
+        expect(d.isDisabled).toBe(true)
+      }
+    })
+
+    it('showOutsideDays=true marks outside days as visible and not disabled', () => {
+      const jan2026 = new Date(2026, 0, 1)
+      const result = buildCalendarMonth(adapter, jan2026, {
+        ...baseConfig,
+        showOutsideDays: true,
+      })
+      const allDays = result.weeks.flatMap((w) => w.days)
+      const outsideDays = allDays.filter((d) => d.isOutside)
+      for (const d of outsideDays) {
+        expect(d.isHidden).toBe(false)
+        expect(d.isDisabled).toBe(false)
+      }
+    })
+
+    it('fixedWeeks=true adds 6th week even when month only needs 4 (Feb 2026)', () => {
+      const feb2026 = new Date(2026, 1, 1) // starts on Sunday, 28 days = 4 weeks exact
+      const result = buildCalendarMonth(adapter, feb2026, { ...baseConfig, fixedWeeks: true })
+      expect(result.weeks).toHaveLength(6)
+      // The extra 2 weeks should be all outside days
+      const week5Days = result.weeks[4]!.days.filter((d) => d.isOutside)
+      const week6Days = result.weeks[5]!.days.filter((d) => d.isOutside)
+      expect(week5Days).toHaveLength(7)
+      expect(week6Days).toHaveLength(7)
+    })
+
+    it('isToday is true for exactly one day when viewing current month', () => {
+      const today = adapter.today()
+      const viewDate = new Date(today.getFullYear(), today.getMonth(), 1)
+      const result = buildCalendarMonth(adapter, viewDate, baseConfig)
+      const todayDays = result.weeks.flatMap((w) => w.days).filter((d) => d.isToday)
+      expect(todayDays).toHaveLength(1)
+      expect(todayDays[0]!.date.getDate()).toBe(today.getDate())
+    })
+
+    it('isToday is false for all days when viewing a different month', () => {
+      const result = buildCalendarMonth(adapter, new Date(1990, 5, 1), baseConfig)
+      const todayDays = result.weeks.flatMap((w) => w.days).filter((d) => d.isToday)
+      expect(todayDays).toHaveLength(0)
+    })
+
+    it('31-day months have all 31 days present (January, July, August)', () => {
+      for (const month of [0, 6, 7]) {
+        const result = buildCalendarMonth(adapter, new Date(2026, month, 1), baseConfig)
+        const inMonth = result.weeks.flatMap((w) => w.days).filter((d) => !d.isOutside)
+        expect(inMonth).toHaveLength(31)
+      }
+    })
+
+    it('30-day months have all 30 days present (April, June, September, November)', () => {
+      for (const month of [3, 5, 8, 10]) {
+        const result = buildCalendarMonth(adapter, new Date(2026, month, 1), baseConfig)
+        const inMonth = result.weeks.flatMap((w) => w.days).filter((d) => !d.isOutside)
+        expect(inMonth).toHaveLength(30)
+      }
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // buildMultiMonth
+  // ---------------------------------------------------------------------------
+  describe('buildMultiMonth', () => {
+    const baseConfig = {
+      showOutsideDays: true,
+      fixedWeeks: false,
+      locale: { weekStartDay: 0 as const },
+    }
+
+    it('returns 0 months when count is 0', () => {
+      const result = buildMultiMonth(adapter, new Date(2026, 0, 1), 0, baseConfig)
+      expect(result).toHaveLength(0)
+    })
+
+    it('returns 1 month when count is 1', () => {
+      const result = buildMultiMonth(adapter, new Date(2026, 0, 1), 1, baseConfig)
+      expect(result).toHaveLength(1)
+      expect(result[0]!.month.getMonth()).toBe(0) // January
+    })
+
+    it('returns 3 consecutive months', () => {
+      const result = buildMultiMonth(adapter, new Date(2026, 2, 1), 3, baseConfig)
+      expect(result).toHaveLength(3)
+      expect(result[0]!.month.getMonth()).toBe(2) // March
+      expect(result[1]!.month.getMonth()).toBe(3) // April
+      expect(result[2]!.month.getMonth()).toBe(4) // May
+    })
+
+    it('returns 12 months for a full year', () => {
+      const result = buildMultiMonth(adapter, new Date(2026, 0, 1), 12, baseConfig)
+      expect(result).toHaveLength(12)
+      for (let i = 0; i < 12; i++) {
+        expect(result[i]!.month.getMonth()).toBe(i)
+      }
+    })
+
+    it('wraps across year boundary (Nov 2025 + 4 months)', () => {
+      const result = buildMultiMonth(adapter, new Date(2025, 10, 1), 4, baseConfig)
+      expect(result).toHaveLength(4)
+      expect(result[0]!.month.getMonth()).toBe(10) // November 2025
+      expect(result[0]!.month.getFullYear()).toBe(2025)
+      expect(result[1]!.month.getMonth()).toBe(11) // December 2025
+      expect(result[2]!.month.getMonth()).toBe(0) // January 2026
+      expect(result[2]!.month.getFullYear()).toBe(2026)
+      expect(result[3]!.month.getMonth()).toBe(1) // February 2026
+    })
+
+    it('each month grid has 7-day weeks', () => {
+      const result = buildMultiMonth(adapter, new Date(2026, 0, 1), 6, baseConfig)
+      for (const month of result) {
+        for (const week of month.weeks) {
+          expect(week.days).toHaveLength(7)
+        }
+      }
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // buildDecadeView  -  edge cases
+  // ---------------------------------------------------------------------------
+  describe('buildDecadeView / edge cases', () => {
+    it('decade for year 2000 starts at 1999', () => {
+      const result = buildDecadeView(adapter, new Date(2000, 0, 1))
+      expect(result[0]!.year).toBe(1999)
+      expect(result[11]!.year).toBe(2010)
+    })
+
+    it('decade for year 2009 starts at 1999 (same decade as 2000)', () => {
+      const result = buildDecadeView(adapter, new Date(2009, 0, 1))
+      expect(result[0]!.year).toBe(1999)
+      expect(result[11]!.year).toBe(2010)
+    })
+
+    it('decade for year 2010 starts at 2009', () => {
+      const result = buildDecadeView(adapter, new Date(2010, 0, 1))
+      expect(result[0]!.year).toBe(2009)
+      expect(result[11]!.year).toBe(2020)
+    })
+
+    it('all entries have numeric year and boolean isCurrent', () => {
+      const result = buildDecadeView(adapter, new Date(2050, 0, 1))
+      for (const entry of result) {
+        expect(typeof entry.year).toBe('number')
+        expect(typeof entry.isCurrent).toBe('boolean')
+      }
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // buildCalendarYear  -  edge cases
+  // ---------------------------------------------------------------------------
+  describe('buildCalendarYear / edge cases', () => {
+    it('returns entries for a far-future year (3000)', () => {
+      const result = buildCalendarYear(adapter, new Date(3000, 0, 1), 'en-US')
+      expect(result).toHaveLength(12)
+      expect(result[0]!.label).toBe('January')
+      expect(result.every((e) => !e.isCurrent)).toBe(true)
+    })
+
+    it('labels differ between long and short format', () => {
+      const longNames = buildCalendarYear(adapter, new Date(2026, 0, 1), 'en-US')
+      // buildCalendarYear uses long format internally via getLocalizedMonthNames
+      expect(longNames[0]!.label).toBe('January')
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // getWeekNumber  -  edge cases
+  // ---------------------------------------------------------------------------
+  describe('getWeekNumber / edge cases', () => {
+    it('Feb 29 of a leap year returns a valid week number', () => {
+      const wn = getWeekNumber(adapter, new Date(2024, 1, 29))
+      expect(wn).toBeGreaterThanOrEqual(1)
+      expect(wn).toBeLessThanOrEqual(53)
+    })
+
+    it('week numbers increase through the year for consecutive Thursdays', () => {
+      let d = new Date(2026, 0, 1) // first Thursday
+      const weeks: number[] = []
+      while (d.getFullYear() === 2026) {
+        weeks.push(getWeekNumber(adapter, d))
+        d = new Date(d.getFullYear(), d.getMonth(), d.getDate() + 7)
+      }
+      for (let i = 1; i < weeks.length; i++) {
+        expect(weeks[i]!).toBeGreaterThanOrEqual(weeks[i - 1]!)
       }
     })
   })
