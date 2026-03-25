@@ -72,3 +72,57 @@ describe('Slottable', () => {
     expect(container.querySelector('a')?.getAttribute('href')).toBe('/test')
   })
 })
+
+describe('Slot (edge cases)', () => {
+  it('passes data-* attributes to child', () => {
+    const { container } = render(
+      <Slot data-testid="slot-data">
+        <div>content</div>
+      </Slot>,
+    )
+    expect(container.querySelector('[data-testid="slot-data"]')).not.toBeNull()
+  })
+
+  it('passes aria-* attributes to child', () => {
+    const { container } = render(
+      <Slot aria-label="accessible">
+        <button>labeled</button>
+      </Slot>,
+    )
+    expect(container.querySelector('[aria-label="accessible"]')).not.toBeNull()
+  })
+
+  it('child style takes precedence over slot style for same properties', () => {
+    const { container } = render(
+      <Slot style={{ color: 'red', fontSize: '12px' }}>
+        <div style={{ color: 'blue' }}>styled</div>
+      </Slot>,
+    )
+    const div = container.querySelector('div')!
+    // child style overrides slot style for same prop
+    expect(div.style.color).toBe('blue')
+    // slot style preserved when not overridden
+    expect(div.style.fontSize).toBe('12px')
+  })
+
+  it('child event handlers run before slot handlers', () => {
+    const order: string[] = []
+    const { container } = render(
+      <Slot onClick={() => order.push('slot')}>
+        <button onClick={() => order.push('child')}>click</button>
+      </Slot>,
+    )
+    container.querySelector('button')!.click()
+    expect(order[0]).toBe('child')
+    expect(order[1]).toBe('slot')
+  })
+
+  it('handles single text child', () => {
+    const { container } = render(
+      <Slot>
+        <span>just text</span>
+      </Slot>,
+    )
+    expect(container.textContent).toBe('just text')
+  })
+})
