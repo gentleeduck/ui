@@ -153,4 +153,134 @@ describe('useAnnouncer', () => {
       vi.advanceTimersByTime(1)
     })
   })
+
+  it('multiple announcements in sequence only show the latest after full debounce', () => {
+    const { result } = renderHook(() => useAnnouncer())
+
+    const Wrapper = () => <result.current.AnnouncerPortal />
+    const { rerender } = render(<Wrapper />)
+
+    // Fire 5 rapid announcements
+    for (const msg of ['First', 'Second', 'Third', 'Fourth', 'Fifth']) {
+      act(() => {
+        result.current.announce(msg)
+      })
+      act(() => {
+        vi.advanceTimersByTime(30)
+      })
+    }
+
+    // Advance past the debounce from the last call
+    act(() => {
+      vi.advanceTimersByTime(150)
+    })
+    rerender(<Wrapper />)
+
+    act(() => {
+      vi.advanceTimersByTime(1)
+    })
+    rerender(<Wrapper />)
+
+    expect(screen.getByRole('status').textContent).toBe('Fifth')
+  })
+
+  it('announcing an empty string clears the message', () => {
+    const { result } = renderHook(() => useAnnouncer())
+
+    const Wrapper = () => <result.current.AnnouncerPortal />
+    const { rerender } = render(<Wrapper />)
+
+    // First set a message
+    act(() => {
+      result.current.announce('Hello')
+    })
+    act(() => {
+      vi.advanceTimersByTime(150)
+    })
+    act(() => {
+      vi.advanceTimersByTime(1)
+    })
+    rerender(<Wrapper />)
+    expect(screen.getByRole('status').textContent).toBe('Hello')
+
+    // Now announce empty
+    act(() => {
+      result.current.announce('')
+    })
+    act(() => {
+      vi.advanceTimersByTime(150)
+    })
+    act(() => {
+      vi.advanceTimersByTime(1)
+    })
+    rerender(<Wrapper />)
+
+    expect(screen.getByRole('status').textContent).toBe('')
+  })
+
+  it('announce after a completed debounce delivers a second message', () => {
+    const { result } = renderHook(() => useAnnouncer())
+
+    const Wrapper = () => <result.current.AnnouncerPortal />
+    const { rerender } = render(<Wrapper />)
+
+    // First message
+    act(() => {
+      result.current.announce('Message 1')
+    })
+    act(() => {
+      vi.advanceTimersByTime(150)
+    })
+    act(() => {
+      vi.advanceTimersByTime(1)
+    })
+    rerender(<Wrapper />)
+    expect(screen.getByRole('status').textContent).toBe('Message 1')
+
+    // Second message after the first completed
+    act(() => {
+      result.current.announce('Message 2')
+    })
+    act(() => {
+      vi.advanceTimersByTime(150)
+    })
+    act(() => {
+      vi.advanceTimersByTime(1)
+    })
+    rerender(<Wrapper />)
+    expect(screen.getByRole('status').textContent).toBe('Message 2')
+  })
+
+  it('AnnouncerPortal renders with visually hidden styles', () => {
+    const { result } = renderHook(() => useAnnouncer())
+
+    render(<result.current.AnnouncerPortal />)
+
+    const status = screen.getByRole('status')
+    expect(status.style.position).toBe('absolute')
+    expect(status.style.width).toBe('1px')
+    expect(status.style.height).toBe('1px')
+    expect(status.style.overflow).toBe('hidden')
+  })
+
+  it('cleanup after multiple unmount/remount cycles does not leak timers', () => {
+    const { result: r1, unmount: u1 } = renderHook(() => useAnnouncer())
+
+    act(() => {
+      r1.current.announce('First hook')
+    })
+    u1()
+
+    const { result: r2, unmount: u2 } = renderHook(() => useAnnouncer())
+
+    act(() => {
+      r2.current.announce('Second hook')
+    })
+    u2()
+
+    // Should not throw or cause warnings
+    act(() => {
+      vi.advanceTimersByTime(300)
+    })
+  })
 })
