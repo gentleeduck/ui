@@ -208,4 +208,362 @@ describe('@gentleduck/variants - cva', () => {
       expect(result).toEqual('btn btn-primary btn-lg')
     })
   })
+
+  describe('#cva - Large Variant Groups (10+ variant keys)', () => {
+    const megaComponent = cva('mega-base', {
+      defaultVariants: {
+        align: 'left',
+        border: 'none',
+        color: 'red',
+        display: 'block',
+        font: 'sans',
+        gap: 'sm',
+        height: 'auto',
+        intent: 'default',
+        justify: 'start',
+        kind: 'primary',
+        layout: 'flex',
+        mode: 'light',
+      },
+      variants: {
+        align: { center: 'align-center', left: 'align-left', right: 'align-right' },
+        border: { none: 'border-none', solid: 'border-solid', dashed: 'border-dashed' },
+        color: { red: 'color-red', blue: 'color-blue', green: 'color-green' },
+        display: { block: 'display-block', inline: 'display-inline', flex: 'display-flex' },
+        font: { sans: 'font-sans', serif: 'font-serif', mono: 'font-mono' },
+        gap: { sm: 'gap-sm', md: 'gap-md', lg: 'gap-lg' },
+        height: { auto: 'height-auto', full: 'height-full', screen: 'height-screen' },
+        intent: { default: 'intent-default', primary: 'intent-primary', danger: 'intent-danger' },
+        justify: { start: 'justify-start', center: 'justify-center', end: 'justify-end' },
+        kind: { primary: 'kind-primary', secondary: 'kind-secondary', tertiary: 'kind-tertiary' },
+        layout: { flex: 'layout-flex', grid: 'layout-grid', absolute: 'layout-absolute' },
+        mode: { light: 'mode-light', dark: 'mode-dark' },
+      },
+    })
+
+    it('should apply all 12 default variants correctly', () => {
+      const result = megaComponent()
+      expect(result).toEqual(
+        'mega-base align-left border-none color-red display-block font-sans gap-sm height-auto intent-default justify-start kind-primary layout-flex mode-light',
+      )
+    })
+
+    it('should override a subset of the 12 variants', () => {
+      const result = megaComponent({
+        color: 'blue',
+        font: 'mono',
+        mode: 'dark',
+      })
+      expect(result).toContain('color-blue')
+      expect(result).toContain('font-mono')
+      expect(result).toContain('mode-dark')
+      expect(result).toContain('align-left')
+      expect(result).not.toContain('color-red')
+    })
+
+    it('should override all 12 variants at once', () => {
+      const result = megaComponent({
+        align: 'right',
+        border: 'dashed',
+        color: 'green',
+        display: 'inline',
+        font: 'serif',
+        gap: 'lg',
+        height: 'screen',
+        intent: 'danger',
+        justify: 'end',
+        kind: 'tertiary',
+        layout: 'grid',
+        mode: 'dark',
+      })
+      expect(result).toEqual(
+        'mega-base align-right border-dashed color-green display-inline font-serif gap-lg height-screen intent-danger justify-end kind-tertiary layout-grid mode-dark',
+      )
+    })
+  })
+
+  describe('#cva - Deep Compound Variant Combinations', () => {
+    const deepCompound = cva('deep-base', {
+      compoundVariants: [
+        { color: 'red', size: 'lg', variant: 'filled', class: 'compound-red-lg-filled' },
+        { color: 'blue', size: 'sm', variant: 'outlined', className: 'compound-blue-sm-outlined' },
+        { color: 'red', size: 'sm', class: 'compound-red-sm' },
+        { size: 'lg', variant: 'filled', class: 'compound-lg-filled' },
+      ],
+      defaultVariants: {
+        color: 'red',
+        size: 'sm',
+        variant: 'filled',
+      },
+      variants: {
+        color: { red: 'c-red', blue: 'c-blue' },
+        size: { sm: 'sz-sm', lg: 'sz-lg' },
+        variant: { filled: 'v-filled', outlined: 'v-outlined' },
+      },
+    })
+
+    it('should match a 3-key compound variant', () => {
+      const result = deepCompound({ color: 'red', size: 'lg', variant: 'filled' })
+      expect(result).toContain('compound-red-lg-filled')
+      expect(result).toContain('compound-lg-filled')
+    })
+
+    it('should match a 2-key compound when all keys present match', () => {
+      const result = deepCompound({ color: 'red', size: 'sm', variant: 'filled' })
+      expect(result).toContain('compound-red-sm')
+    })
+
+    it('should match multiple overlapping compound variants simultaneously', () => {
+      const result = deepCompound({ color: 'red', size: 'lg', variant: 'filled' })
+      expect(result).toContain('compound-red-lg-filled')
+      expect(result).toContain('compound-lg-filled')
+    })
+
+    it('should not match 3-key compound when one key differs', () => {
+      const result = deepCompound({ color: 'blue', size: 'lg', variant: 'filled' })
+      expect(result).not.toContain('compound-red-lg-filled')
+      expect(result).toContain('compound-lg-filled')
+    })
+  })
+
+  describe('#cva - Null and Undefined Variant Values', () => {
+    // Note: explicit undefined/null in props overrides the default via spread,
+    // so the merged value is null/undefined and the variant is skipped entirely.
+    it('should skip variant when value is explicitly undefined (overrides default)', () => {
+      const result = button({ color: undefined })
+      // color is skipped (undefined overrides default in spread), size defaults to sm
+      expect(result).toEqual('btn btn-sm')
+    })
+
+    it('should skip variant when value is explicitly null (overrides default)', () => {
+      const result = button({ color: null } as unknown as Record<string, unknown>)
+      expect(result).toEqual('btn btn-sm')
+    })
+
+    it('should return only base when all variants are explicitly undefined', () => {
+      const result = button({ color: undefined, size: undefined })
+      expect(result).toEqual('btn')
+    })
+  })
+
+  describe('#cva - Boolean and Numeric ClassValue Handling', () => {
+    it('should handle boolean true in className (class dictionary)', () => {
+      const result = button({
+        className: { 'conditional-class': true, 'excluded-class': false },
+      })
+      expect(result).toContain('conditional-class')
+      expect(result).not.toContain('excluded-class')
+    })
+
+    it('should handle number as className', () => {
+      const result = button({ className: 42 as unknown as string })
+      expect(result).toContain('42')
+    })
+
+    it('should handle nested arrays in className', () => {
+      const result = button({
+        className: [['deeply', ['nested', 'classes']], 'top-level'],
+      })
+      expect(result).toContain('deeply')
+      expect(result).toContain('nested')
+      expect(result).toContain('classes')
+      expect(result).toContain('top-level')
+    })
+
+    it('should handle mixed ClassValue types in className array', () => {
+      const result = button({
+        className: [
+          'string-class',
+          { 'dict-on': true, 'dict-off': false },
+          ['nested-array-class'],
+        ],
+      })
+      expect(result).toContain('string-class')
+      expect(result).toContain('dict-on')
+      expect(result).not.toContain('dict-off')
+      expect(result).toContain('nested-array-class')
+    })
+  })
+
+  describe('#cva - Empty String Classes in Variants', () => {
+    const emptyVariant = cva('base-class', {
+      defaultVariants: { status: 'none' },
+      variants: {
+        status: {
+          active: 'is-active',
+          none: '',
+        },
+      },
+    })
+
+    it('should handle empty string variant value gracefully', () => {
+      const result = emptyVariant()
+      expect(result).toEqual('base-class')
+    })
+
+    it('should apply non-empty variant after empty default', () => {
+      const result = emptyVariant({ status: 'active' })
+      expect(result).toEqual('base-class is-active')
+    })
+  })
+
+  describe('#cva - Class Deduplication Edge Cases', () => {
+    it('should deduplicate when base, variant, and className all share a token', () => {
+      const dup = cva('shared-class extra', {
+        defaultVariants: { v: 'a' },
+        variants: { v: { a: 'shared-class another' } },
+      })
+      const result = dup({ className: 'shared-class final' })
+      expect(result).toEqual('shared-class extra another final')
+    })
+
+    it('should deduplicate across base, variant, compound, and className', () => {
+      const dup = cva('token-a token-b', {
+        compoundVariants: [
+          { v: 'x', class: 'token-a token-c' },
+        ],
+        defaultVariants: { v: 'x' },
+        variants: { v: { x: 'token-b token-d' } },
+      })
+      const result = dup({ className: 'token-c token-e' })
+      expect(result).toEqual('token-a token-b token-d token-c token-e')
+    })
+
+    it('should deduplicate when class and className both have the same token', () => {
+      const result = button({ class: 'dup-token', className: 'dup-token' })
+      expect(result).toEqual('btn btn-primary btn-sm dup-token')
+    })
+  })
+
+  describe('#cva - Performance Stress Test', () => {
+    it('should handle 10000 invocations in under 500ms', () => {
+      const perf = cva('perf-base', {
+        compoundVariants: [
+          { color: 'a', size: 'x', class: 'compound-hit' },
+        ],
+        defaultVariants: { color: 'a', size: 'x' },
+        variants: {
+          color: { a: 'color-a', b: 'color-b', c: 'color-c' },
+          size: { x: 'size-x', y: 'size-y', z: 'size-z' },
+        },
+      })
+
+      const start = performance.now()
+      for (let i = 0; i < 10000; i++) {
+        perf({ color: i % 2 === 0 ? 'a' : 'b', size: i % 3 === 0 ? 'x' : 'y' })
+      }
+      const elapsed = performance.now() - start
+
+      expect(elapsed).toBeLessThan(500)
+    })
+
+    it('should benefit from caching on repeated identical calls', () => {
+      const perf = cva('cached-base', {
+        defaultVariants: { v: 'a' },
+        variants: { v: { a: 'v-a', b: 'v-b' } },
+      })
+
+      // Warm up cache
+      perf({ v: 'a' })
+      perf({ v: 'b' })
+
+      const start = performance.now()
+      for (let i = 0; i < 10000; i++) {
+        perf({ v: 'a' })
+      }
+      const cachedElapsed = performance.now() - start
+
+      expect(cachedElapsed).toBeLessThan(200)
+    })
+  })
+
+  describe('#cva - No Variants / No Default Variants', () => {
+    it('should work with no variants at all', () => {
+      const minimal = cva('only-base', {} as { variants: Record<string, never> })
+      expect(minimal()).toEqual('only-base')
+    })
+
+    it('should work with variants but no defaultVariants', () => {
+      const noDefaults = cva('nd-base', {
+        variants: {
+          color: { red: 'nd-red', blue: 'nd-blue' },
+        },
+      })
+      // No default, no override -> only base
+      expect(noDefaults()).toEqual('nd-base')
+      expect(noDefaults({ color: 'red' })).toEqual('nd-base nd-red')
+    })
+
+    it('should work with empty base string', () => {
+      const emptyBase = cva('', {
+        defaultVariants: { v: 'a' },
+        variants: { v: { a: 'just-variant' } },
+      })
+      expect(emptyBase()).toEqual('just-variant')
+    })
+  })
+
+  describe('#cva - Single-Argument Call Signature', () => {
+    it('should accept options object with base property', () => {
+      const singleArg = cva({
+        base: 'single-arg-base',
+        defaultVariants: { size: 'sm' },
+        variants: {
+          size: { sm: 'sa-sm', lg: 'sa-lg' },
+        },
+      })
+      expect(singleArg()).toEqual('single-arg-base sa-sm')
+      expect(singleArg({ size: 'lg' })).toEqual('single-arg-base sa-lg')
+    })
+
+    it('should default base to empty string in single-arg form', () => {
+      const noBase = cva({
+        defaultVariants: { v: 'x' },
+        variants: { v: { x: 'v-x' } },
+      })
+      expect(noBase()).toEqual('v-x')
+    })
+  })
+
+  describe('#cva - Compound Variants with Array Conditions', () => {
+    const arrayCondition = cva('ac-base', {
+      compoundVariants: [
+        {
+          color: ['red', 'blue'],
+          size: 'lg',
+          class: 'array-compound-hit',
+        },
+      ],
+      defaultVariants: { color: 'red', size: 'sm' },
+      variants: {
+        color: { red: 'ac-red', blue: 'ac-blue', green: 'ac-green' },
+        size: { sm: 'ac-sm', lg: 'ac-lg' },
+      },
+    })
+
+    it('should match compound when value is in the array condition', () => {
+      const result = arrayCondition({ color: 'red', size: 'lg' })
+      expect(result).toContain('array-compound-hit')
+    })
+
+    it('should match compound for second value in array condition', () => {
+      const result = arrayCondition({ color: 'blue', size: 'lg' })
+      expect(result).toContain('array-compound-hit')
+    })
+
+    it('should NOT match compound when value is outside the array condition', () => {
+      const result = arrayCondition({ color: 'green', size: 'lg' })
+      expect(result).not.toContain('array-compound-hit')
+    })
+  })
+
+  describe('#cva - Unset Variant Behavior', () => {
+    it('should skip variant classes when value is "unset"', () => {
+      const result = button({ color: 'unset' as 'primary' | 'secondary' })
+      expect(result).not.toContain('btn-primary')
+      expect(result).not.toContain('btn-secondary')
+      expect(result).toContain('btn')
+      expect(result).toContain('btn-sm')
+    })
+  })
 })
