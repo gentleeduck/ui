@@ -35,18 +35,18 @@ export function DocsPathBreadcrumb({ segments }: { segments: string[] }) {
   }))
 
   return (
-    <Breadcrumb>
-      <BreadcrumbList className="flex-nowrap">
+    <Breadcrumb className="min-w-0 overflow-hidden">
+      <BreadcrumbList className="flex-nowrap overflow-hidden">
         {items.length <= COLLAPSE_THRESHOLD ? (
           items.map((item, index) => (
             <React.Fragment key={item.href}>
               {index > 0 && <BreadcrumbSeparator />}
               <BreadcrumbItem className="min-w-0">
                 {item.isLast ? (
-                  <BreadcrumbPage className="block max-w-44 truncate font-medium">{item.label}</BreadcrumbPage>
+                  <BreadcrumbPage className="block max-w-28 truncate font-medium sm:max-w-44">{item.label}</BreadcrumbPage>
                 ) : (
                   <BreadcrumbLink asChild>
-                    <Link href={item.href} className="block max-w-32 truncate">
+                    <Link href={item.href} className="block max-w-24 truncate sm:max-w-32">
                       {item.label}
                     </Link>
                   </BreadcrumbLink>
@@ -59,7 +59,7 @@ export function DocsPathBreadcrumb({ segments }: { segments: string[] }) {
             {/* First segment */}
             <BreadcrumbItem className="hidden min-w-0 sm:inline-flex">
               <BreadcrumbLink asChild>
-                <Link href={items[0]!.href} className="block max-w-32 truncate">
+                <Link href={items[0]!.href} className="block max-w-24 truncate sm:max-w-32">
                   {items[0]!.label}
                 </Link>
               </BreadcrumbLink>
@@ -82,7 +82,7 @@ export function DocsPathBreadcrumb({ segments }: { segments: string[] }) {
                 {index > 0 && <BreadcrumbSeparator className="hidden sm:list-item" />}
                 <BreadcrumbItem className="hidden min-w-0 sm:inline-flex">
                   <BreadcrumbLink asChild>
-                    <Link href={item.href} className="block max-w-32 truncate">
+                    <Link href={item.href} className="block max-w-24 truncate sm:max-w-32">
                       {item.label}
                     </Link>
                   </BreadcrumbLink>
@@ -93,7 +93,7 @@ export function DocsPathBreadcrumb({ segments }: { segments: string[] }) {
 
             {/* Last segment — always visible */}
             <BreadcrumbItem className="min-w-0">
-              <BreadcrumbPage className="block max-w-44 truncate font-medium">{items.at(-1)!.label}</BreadcrumbPage>
+              <BreadcrumbPage className="block max-w-28 truncate font-medium sm:max-w-44">{items.at(-1)!.label}</BreadcrumbPage>
             </BreadcrumbItem>
           </>
         )}
