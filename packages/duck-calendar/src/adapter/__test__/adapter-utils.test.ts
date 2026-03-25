@@ -30,9 +30,7 @@ describe('buildCalendarLocaleTag', () => {
   })
 
   it('handles locale with both -u- and -ca- already present', () => {
-    expect(buildCalendarLocaleTag('fa-u-nu-arabext-ca-buddhist', 'persian')).toBe(
-      'fa-u-nu-arabext-ca-persian',
-    )
+    expect(buildCalendarLocaleTag('fa-u-nu-arabext-ca-buddhist', 'persian')).toBe('fa-u-nu-arabext-ca-persian')
   })
 })
 
@@ -128,13 +126,7 @@ describe('formatWithCalendar', () => {
 
   it('uses the locale override when provided', () => {
     const date = new Date(2026, 2, 15)
-    const result = formatWithCalendar(
-      date,
-      { month: 'long' },
-      'en-US',
-      'gregory',
-      'fr-FR',
-    )
+    const result = formatWithCalendar(date, { month: 'long' }, 'en-US', 'gregory', 'fr-FR')
     // French month name for March
     expect(result.toLowerCase()).toBe('mars')
   })
@@ -147,14 +139,7 @@ describe('formatWithCalendar', () => {
 
   it('applies a numbering system', () => {
     const date = new Date(2026, 2, 15)
-    const result = formatWithCalendar(
-      date,
-      { day: 'numeric' },
-      'en-US',
-      'gregory',
-      undefined,
-      'arab',
-    )
+    const result = formatWithCalendar(date, { day: 'numeric' }, 'en-US', 'gregory', undefined, 'arab')
     // Arabic-Indic numeral for 15 is ١٥
     expect(result).toBe('\u0661\u0665')
   })
@@ -162,14 +147,7 @@ describe('formatWithCalendar', () => {
   it('replaces an existing numbering system', () => {
     const date = new Date(2026, 2, 15)
     // Base locale already has a -nu- tag; formatWithCalendar should replace it
-    const result = formatWithCalendar(
-      date,
-      { day: 'numeric' },
-      'en-US',
-      'gregory',
-      'fa-u-nu-latn',
-      'arabext',
-    )
+    const result = formatWithCalendar(date, { day: 'numeric' }, 'en-US', 'gregory', 'fa-u-nu-latn', 'arabext')
     // Should use arabext numbering (Extended Arabic-Indic)
     // The day 15 in arabext is ۱۵
     expect(result).toBe('\u06F1\u06F5')
@@ -177,26 +155,14 @@ describe('formatWithCalendar', () => {
 
   it('does not duplicate an existing numbering system tag', () => {
     const date = new Date(2026, 2, 15)
-    const result = formatWithCalendar(
-      date,
-      { day: 'numeric' },
-      'en-US',
-      'gregory',
-      'en-u-nu-arab',
-      'arab',
-    )
+    const result = formatWithCalendar(date, { day: 'numeric' }, 'en-US', 'gregory', 'en-u-nu-arab', 'arab')
     // Should still work correctly with arab numerals
     expect(result).toBe('\u0661\u0665')
   })
 
   it('formats a full date with calendar and numbering system', () => {
     const date = new Date(2026, 0, 1) // January 1, 2026
-    const result = formatWithCalendar(
-      date,
-      { year: 'numeric', month: 'numeric', day: 'numeric' },
-      'en-US',
-      'gregory',
-    )
+    const result = formatWithCalendar(date, { year: 'numeric', month: 'numeric', day: 'numeric' }, 'en-US', 'gregory')
     // Should produce a formatted date string containing 1/1/2026
     expect(result).toContain('1')
     expect(result).toContain('2026')
@@ -204,12 +170,7 @@ describe('formatWithCalendar', () => {
 
   it('works with non-Gregorian calendars', () => {
     const date = new Date(2026, 2, 15) // March 15, 2026
-    const result = formatWithCalendar(
-      date,
-      { year: 'numeric', era: 'short' },
-      'en-US',
-      'buddhist',
-    )
+    const result = formatWithCalendar(date, { year: 'numeric', era: 'short' }, 'en-US', 'buddhist')
     // Buddhist year for 2026 CE is 2569
     expect(result).toContain('2569')
   })

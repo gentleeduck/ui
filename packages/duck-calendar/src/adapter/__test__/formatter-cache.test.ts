@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach } from 'vitest'
-import { getCachedFormatter, clearFormatterCache } from '../formatter-cache'
+import { beforeEach, describe, expect, it } from 'vitest'
+import { clearFormatterCache, getCachedFormatter } from '../formatter-cache'
 
 beforeEach(() => {
   clearFormatterCache()
@@ -102,12 +102,58 @@ describe('clearFormatterCache', () => {
 describe('LRU eviction', () => {
   // 52 valid BCP 47 locale tags to fill and overflow the 50-entry cache
   const LOCALES = [
-    'af', 'am', 'ar', 'az', 'be', 'bg', 'bn', 'bs', 'ca', 'cs',
-    'cy', 'da', 'de', 'el', 'en', 'es', 'et', 'eu', 'fa', 'fi',
-    'fr', 'ga', 'gl', 'gu', 'he', 'hi', 'hr', 'hu', 'hy', 'id',
-    'is', 'it', 'ja', 'ka', 'kk', 'km', 'kn', 'ko', 'ky', 'lo',
-    'lt', 'lv', 'mk', 'ml', 'mn', 'mr', 'ms', 'my', 'nb', 'ne',
-    'nl', 'pl',
+    'af',
+    'am',
+    'ar',
+    'az',
+    'be',
+    'bg',
+    'bn',
+    'bs',
+    'ca',
+    'cs',
+    'cy',
+    'da',
+    'de',
+    'el',
+    'en',
+    'es',
+    'et',
+    'eu',
+    'fa',
+    'fi',
+    'fr',
+    'ga',
+    'gl',
+    'gu',
+    'he',
+    'hi',
+    'hr',
+    'hu',
+    'hy',
+    'id',
+    'is',
+    'it',
+    'ja',
+    'ka',
+    'kk',
+    'km',
+    'kn',
+    'ko',
+    'ky',
+    'lo',
+    'lt',
+    'lv',
+    'mk',
+    'ml',
+    'mn',
+    'mr',
+    'ms',
+    'my',
+    'nb',
+    'ne',
+    'nl',
+    'pl',
   ]
   const OPTS: Intl.DateTimeFormatOptions = { year: 'numeric' }
 
