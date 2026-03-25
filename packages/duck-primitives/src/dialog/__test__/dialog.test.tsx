@@ -124,4 +124,46 @@ describe('Dialog', () => {
     fireEvent.click(container.querySelector('[data-slot="dialog-trigger"]')!)
     expect(handler).toHaveBeenCalledWith(true)
   })
+
+  // --- Additional hardening ---
+
+  it('trigger has type="button"', () => {
+    const { container } = renderDialog()
+    expect(container.querySelector('[data-slot="dialog-trigger"]')?.getAttribute('type')).toBe('button')
+  })
+
+  it('trigger has aria-controls when open', () => {
+    const { container } = renderDialog()
+    const trigger = container.querySelector('[data-slot="dialog-trigger"]')!
+    fireEvent.click(trigger)
+    expect(trigger.getAttribute('aria-controls')).toBeTruthy()
+  })
+
+  it('title renders as h2', () => {
+    const { baseElement } = renderDialog({ defaultOpen: true })
+    const title = baseElement.querySelector('[data-slot="dialog-title"]')!
+    expect(title.tagName.toLowerCase()).toBe('h2')
+  })
+
+  it('description renders as p', () => {
+    const { baseElement } = renderDialog({ defaultOpen: true })
+    const desc = baseElement.querySelector('[data-slot="dialog-description"]')!
+    expect(desc.tagName.toLowerCase()).toBe('p')
+  })
+
+  it('close button has type="button"', () => {
+    const { baseElement } = renderDialog({ defaultOpen: true })
+    const close = baseElement.querySelector('[data-slot="dialog-close"]')!
+    expect(close.getAttribute('type')).toBe('button')
+  })
+
+  it('forwards ref to trigger', () => {
+    const ref = React.createRef<HTMLButtonElement>()
+    render(
+      <Dialog>
+        <DialogTrigger ref={ref}>Open</DialogTrigger>
+      </Dialog>,
+    )
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement)
+  })
 })

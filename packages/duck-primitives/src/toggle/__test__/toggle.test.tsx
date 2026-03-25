@@ -77,4 +77,29 @@ describe('Toggle', () => {
     render(<Toggle ref={ref}>Bold</Toggle>)
     expect(ref.current).toBeInstanceOf(HTMLButtonElement)
   })
+
+  it('passes className through', () => {
+    const { container } = render(<Toggle className="custom-toggle">Bold</Toggle>)
+    expect(container.querySelector('button')?.className).toContain('custom-toggle')
+  })
+
+  it('defaults to ltr direction', () => {
+    const { container } = render(<Toggle>Bold</Toggle>)
+    expect(container.querySelector('button')?.getAttribute('dir')).toBe('ltr')
+  })
+
+  it('renders children as button text', () => {
+    const { container } = render(<Toggle>Bold</Toggle>)
+    expect(container.querySelector('button')?.textContent).toBe('Bold')
+  })
+
+  it('multiple rapid clicks toggle correctly', () => {
+    const { container } = render(<Toggle>Bold</Toggle>)
+    const btn = container.querySelector('button')!
+    fireEvent.click(btn)
+    fireEvent.click(btn)
+    fireEvent.click(btn)
+    expect(btn.getAttribute('aria-pressed')).toBe('true')
+    expect(btn.getAttribute('data-state')).toBe('on')
+  })
 })
