@@ -65,7 +65,7 @@
   "scripts": {
     "benchmark": "bun run scripts/benchmark.ts",
     "build": "tsdown",
-    "test": "vitest",
+    "test": "vitest run",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
   },
   "type": "module",
