@@ -16,7 +16,7 @@ A date adapter is an object that implements the `DateAdapter<TDate>` interface. 
 ```tsx showLineNumbers
 import type { DateAdapter } from '@gentleduck/calendar'
 
-// TDate is a generic -- it can be Date, Dayjs, DateTime, etc.
+// TDate is a generic - it can be Date, Dayjs, DateTime, etc.
 // The adapter tells the engine how to work with that type
 ```
 
@@ -28,7 +28,7 @@ Without an adapter, the calendar engine would have to call `new Date()`, `date.g
 
 With an adapter:
 
-- The engine is **date-library agnostic** -- swap adapters without changing any rendering code
+- The engine is **date-library agnostic** - swap adapters without changing any rendering code
 - You can write **isomorphic helpers** that work with any `TDate`
 - The adapter is the **single source of truth** for date operations
 
@@ -108,7 +108,7 @@ const dayjsAdapter: DateAdapter<Dayjs> = {
 
 <Callout icon={<TriangleAlert />} tone="warning">
 
-All adapter methods must be **immutable**. Never mutate the input date -- always return a new instance.
+All adapter methods must be **immutable**. Never mutate the input date - always return a new instance.
 
 </Callout>
 
@@ -116,13 +116,13 @@ All adapter methods must be **immutable**. Never mutate the input date -- always
 
 ## Key takeaways
 
-- The adapter is a plain object -- no classes, no inheritance
+- The adapter is a plain object - no classes, no inheritance
 - Every date operation goes through the adapter
 - The `NativeAdapter` is good enough for most projects
 - Custom adapters are ~30 lines of code
 
 <Callout icon={<MapIcon />}>
 
-Next: [Lesson 3 -- Building a Grid](/docs/packages/duck-calendar/course/03-building-a-grid)
+Next: [Lesson 3 - Building a Grid](/docs/packages/duck-calendar/course/03-building-a-grid)
 
 </Callout>

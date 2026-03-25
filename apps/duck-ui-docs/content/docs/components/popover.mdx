@@ -138,15 +138,15 @@ Style the trigger to appear active while the popover is open using `data-[state=
 | `open` | `boolean` | `--` | Controlled open state |
 | `onOpenChange` | `(open: boolean) => void` | `--` | Callback when open state changes |
 | `modal` | `boolean` | `false` | Enables modal focus/interaction behavior |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>` | -- | Additional props inherited from `Popover.Root`. |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>` | - | Additional props inherited from `Popover.Root`. |
 
 ### PopoverTrigger
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `asChild` | `boolean` | `--` | Use the child element as the trigger |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Trigger>` | -- | Additional props inherited from `Popover.Trigger`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Trigger>` | - | Additional props inherited from `Popover.Trigger`. |
 
 ### PopoverContent
 
@@ -157,7 +157,7 @@ Style the trigger to appear active while the popover is open using `data-[state=
 | `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment on the chosen side |
 | `sideOffset` | `number` | `4` | Main-axis offset from trigger |
 | `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>` | -- | Additional props inherited from `Popover.Content`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>` | - | Additional props inherited from `Popover.Content`. |
 
 ### PopoverClose
 
@@ -166,8 +166,8 @@ Element that closes the popover when interacted with.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `asChild` | `boolean` | `false` | Renders child as the close control |
-| `children` | `React.ReactNode` | -- | Close control content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Close>` | -- | Additional props inherited from `PopoverPrimitive.Close` |
+| `children` | `React.ReactNode` | - | Close control content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Close>` | - | Additional props inherited from `PopoverPrimitive.Close` |
 
 ### PopoverAnchor
 
@@ -175,7 +175,7 @@ Optional custom anchor element for positioning.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Anchor>` | -- | Additional props inherited from `Popover.Anchor`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Anchor>` | - | Additional props inherited from `Popover.Anchor`. |
 
 ## RTL Support
 

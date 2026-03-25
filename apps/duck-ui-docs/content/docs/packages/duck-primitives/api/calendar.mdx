@@ -70,20 +70,20 @@ The root component. Wraps `useCalendar` and provides context to all children. Re
 | :--- | :--- | :--- | :--- |
 | `adapter` | `DateAdapter<Date>` | **required** | Date adapter instance |
 | `mode` | `SelectionMode` | **required** | `'single'`, `'range'`, `'multi'`, or `'multi-range'` |
-| `locale` | `CalendarLocaleConfig` | -- | Locale, week start day, and direction |
-| `month` | `Date` | -- | Controlled displayed month |
-| `defaultMonth` | `Date` | -- | Default month (uncontrolled) |
-| `selected` | `CalendarValue<Date, M>` | -- | Controlled selection |
-| `defaultSelected` | `CalendarValue<Date, M>` | -- | Default selection (uncontrolled) |
-| `onSelect` | `(value) => void` | -- | Called when selection changes |
-| `onMonthChange` | `(month: Date) => void` | -- | Called when displayed month changes |
-| `onDismiss` | `() => void` | -- | Called on <Kbd>Escape</Kbd> |
+| `locale` | `CalendarLocaleConfig` | - | Locale, week start day, and direction |
+| `month` | `Date` | - | Controlled displayed month |
+| `defaultMonth` | `Date` | - | Default month (uncontrolled) |
+| `selected` | `CalendarValue<Date, M>` | - | Controlled selection |
+| `defaultSelected` | `CalendarValue<Date, M>` | - | Default selection (uncontrolled) |
+| `onSelect` | `(value) => void` | - | Called when selection changes |
+| `onMonthChange` | `(month: Date) => void` | - | Called when displayed month changes |
+| `onDismiss` | `() => void` | - | Called on <Kbd>Escape</Kbd> |
 | `numberOfMonths` | `number` | `1` | Months to show side by side |
 | `showOutsideDays` | `boolean` | `true` | Show days from adjacent months |
 | `fixedWeeks` | `boolean` | `false` | Always show 6 weeks |
-| `disabled` | `Date[] \| (date) => boolean` | -- | Disabled dates |
-| `fromDate` | `Date` | -- | Earliest selectable date |
-| `toDate` | `Date` | -- | Latest selectable date |
+| `disabled` | `Date[] \| (date) => boolean` | - | Disabled dates |
+| `fromDate` | `Date` | - | Earliest selectable date |
+| `toDate` | `Date` | - | Latest selectable date |
 
 **Data attributes:**
 
@@ -100,7 +100,7 @@ Displays the current month and year. Renders a `div` with `aria-live="polite"`.
 
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `formatMonth` | `(month: Date, adapter: DateAdapter<Date>) => string` | -- | Custom formatter for the title. Defaults to `"March 2026"` format |
+| `formatMonth` | `(month: Date, adapter: DateAdapter<Date>) => string` | - | Custom formatter for the title. Defaults to `"March 2026"` format |
 
 **Data attributes:**
 
@@ -128,7 +128,7 @@ Navigates to the previous month. Renders a `button`.
 
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| All `button` props | -- | -- | Standard button HTML attributes |
+| All `button` props | - | - | Standard button HTML attributes |
 
 Automatically applies `aria-label="Go to previous month"` and `disabled` from context.
 
@@ -147,7 +147,7 @@ Navigates to the next month. Renders a `button`.
 
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| All `button` props | -- | -- | Standard button HTML attributes |
+| All `button` props | - | - | Standard button HTML attributes |
 
 Automatically applies `aria-label="Go to next month"` and `disabled` from context.
 
@@ -178,7 +178,7 @@ Renders the weekday header row as a `div` with `role="row"`. Each weekday render
 
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `renderWeekday` | `(weekday: string, index: number) => ReactNode` | -- | Custom render function for each weekday cell |
+| `renderWeekday` | `(weekday: string, index: number) => ReactNode` | - | Custom render function for each weekday cell |
 
 **Data attributes:**
 
@@ -204,7 +204,7 @@ Automatically applies all day props from context: `aria-label`, `aria-selected`,
 | Attribute | Value |
 | :--- | :--- |
 | `data-slot` | `"calendar-day"` |
-| `data-calendar-day` | `""` -- marker attribute used internally for focus queries |
+| `data-calendar-day` | `""` - marker attribute used internally for focus queries |
 | `data-selected` | `"true"` when selected |
 | `data-today` | `"true"` for today |
 | `data-disabled` | `"true"` when disabled |

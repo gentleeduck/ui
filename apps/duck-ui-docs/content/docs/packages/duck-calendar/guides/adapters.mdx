@@ -5,7 +5,7 @@ description: "Understand the DateAdapter pattern and how to plug in any date lib
 
 ## The adapter pattern
 
-The `DateAdapter<TDate>` interface abstracts all date operations. The engine never calls `new Date()` or `date.getMonth()` directly -- everything goes through the adapter.
+The `DateAdapter<TDate>` interface abstracts all date operations. The engine never calls `new Date()` or `date.getMonth()` directly - everything goes through the adapter.
 
 This means you can swap `Date` for dayjs, date-fns, Luxon, or a non-Gregorian calendar without changing any calendar logic.
 
@@ -130,6 +130,6 @@ Every adapter must implement these methods:
 
 <Callout icon={<TriangleAlert />} tone="warning">
 
-All date operations must be immutable -- never mutate the input date. Return a new instance instead.
+All date operations must be immutable - never mutate the input date. Return a new instance instead.
 
 </Callout>

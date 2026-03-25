@@ -82,18 +82,18 @@ The root component that manages open/closed state, selected value, and provides 
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string` | -- | Controlled selected value |
-| `defaultValue` | `string` | -- | Initial value (uncontrolled) |
-| `onValueChange` | `(value: string) => void` | -- | Called when the selected value changes |
-| `open` | `boolean` | -- | Controlled open state |
+| `value` | `string` | - | Controlled selected value |
+| `defaultValue` | `string` | - | Initial value (uncontrolled) |
+| `onValueChange` | `(value: string) => void` | - | Called when the selected value changes |
+| `open` | `boolean` | - | Controlled open state |
 | `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
-| `onOpenChange` | `(open: boolean) => void` | -- | Called when the open state should change |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved with `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `name` | `string` | -- | Name for native form submission |
-| `autoComplete` | `string` | -- | Hint for browser autofill |
-| `disabled` | `boolean` | -- | Disables the select |
-| `required` | `boolean` | -- | Marks as required for form validation |
-| `form` | `string` | -- | Associates with a form element by ID |
+| `onOpenChange` | `(open: boolean) => void` | - | Called when the open state should change |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved with `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `name` | `string` | - | Name for native form submission |
+| `autoComplete` | `string` | - | Hint for browser autofill |
+| `disabled` | `boolean` | - | Disables the select |
+| `required` | `boolean` | - | Marks as required for form validation |
+| `form` | `string` | - | Associates with a form element by ID |
 
 ### `Select.Trigger`
 
@@ -101,7 +101,7 @@ Button that toggles the dropdown. Renders a `<button>` with `role="combobox"`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `asChild` | `boolean` | -- | Render as the child element instead of a `<button>` |
+| `asChild` | `boolean` | - | Render as the child element instead of a `<button>` |
 | `disabled` | `boolean` | `false` | Disables the trigger |
 
 Sets `aria-expanded`, `aria-controls`, `aria-autocomplete="none"`, `data-state`, and `data-placeholder` automatically.
@@ -120,7 +120,7 @@ Decorative icon next to the value. Renders a `<span>` with `aria-hidden`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `asChild` | `boolean` | -- | Render as child element |
+| `asChild` | `boolean` | - | Render as child element |
 
 ### `Select.Portal`
 
@@ -138,18 +138,18 @@ The dropdown content. Handles focus trapping, dismiss-on-click-outside, escape-t
 | --- | --- | --- | --- |
 | `position` | `'item-aligned' \| 'popper'` | `'item-aligned'` | Positioning strategy |
 | `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Preferred side (popper only) |
-| `sideOffset` | `number` | -- | Main-axis offset (popper only) |
+| `sideOffset` | `number` | - | Main-axis offset (popper only) |
 | `align` | `'start' \| 'center' \| 'end'` | `'start'` | Cross-axis alignment (popper only) |
-| `alignOffset` | `number` | -- | Cross-axis offset (popper only) |
+| `alignOffset` | `number` | - | Cross-axis offset (popper only) |
 | `avoidCollisions` | `boolean` | `true` | Flip to avoid viewport overflow (popper only) |
-| `collisionBoundary` | `Element \| Element[]` | -- | Custom collision boundary (popper only) |
+| `collisionBoundary` | `Element \| Element[]` | - | Custom collision boundary (popper only) |
 | `collisionPadding` | `number` | `10` | Padding from viewport edges |
 | `arrowPadding` | `number` | `0` | Minimum padding between arrow and content edges (popper only) |
 | `sticky` | `'partial' \| 'always'` | `'partial'` | Keep content in view when trigger is partially hidden (popper only) |
 | `hideWhenDetached` | `boolean` | `false` | Hide content when trigger is fully occluded (popper only) |
-| `onCloseAutoFocus` | `(event: Event) => void` | -- | Called when focus returns to trigger on close |
-| `onEscapeKeyDown` | `(event: KeyboardEvent) => void` | -- | Called when Escape is pressed |
-| `onPointerDownOutside` | `(event) => void` | -- | Called when clicking outside |
+| `onCloseAutoFocus` | `(event: Event) => void` | - | Called when focus returns to trigger on close |
+| `onEscapeKeyDown` | `(event: KeyboardEvent) => void` | - | Called when Escape is pressed |
+| `onPointerDownOutside` | `(event) => void` | - | Called when clicking outside |
 
 Exposes `data-state="open"` / `data-state="closed"` and `data-side` for CSS animation.
 
@@ -167,7 +167,7 @@ Scrollable container for items inside the content.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `nonce` | `string` | -- | Nonce for the injected scrollbar-hiding style element |
+| `nonce` | `string` | - | Nonce for the injected scrollbar-hiding style element |
 
 ### `Select.Group`
 
@@ -185,7 +185,7 @@ A selectable item. Renders a `<div>` with `role="option"`.
 | --- | --- | --- | --- |
 | `value` | `string` | (required) | The value for this item. Must not be empty string. |
 | `disabled` | `boolean` | `false` | Disables the item |
-| `textValue` | `string` | -- | Text override for typeahead search (defaults to text content) |
+| `textValue` | `string` | - | Text override for typeahead search (defaults to text content) |
 
 Exposes `data-state="checked"` / `data-state="unchecked"`, `data-highlighted`, and `data-disabled`.
 
@@ -227,4 +227,4 @@ Arrow pointing to the trigger. Only renders when `position="popper"`.
 | <Kbd>End</Kbd> | Moves focus to last item |
 | <Kbd>Escape</Kbd> | Closes the select |
 | <Kbd>Tab</Kbd> | Prevented while open (standard select behavior) |
-| Type characters | Typeahead search -- focuses matching items |
+| Type characters | Typeahead search - focuses matching items |

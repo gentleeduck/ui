@@ -118,31 +118,31 @@ Root container that wraps the navigation menu and optionally renders the viewpor
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string` | -- | Controlled value of the active menu item |
-| `defaultValue` | `string` | -- | Default active value for uncontrolled usage |
-| `onValueChange` | `(value: string) => void` | -- | Callback when the active value changes |
+| `value` | `string` | - | Controlled value of the active menu item |
+| `defaultValue` | `string` | - | Default active value for uncontrolled usage |
+| `onValueChange` | `(value: string) => void` | - | Callback when the active value changes |
 | `viewport` | `boolean` | `true` | Whether to render the `NavigationMenuViewport` automatically |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`) and inherited by descendants. |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`) and inherited by descendants. |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | The orientation of the menu |
 | `delayDuration` | `number` | `200` | Duration in ms from when the pointer enters a trigger until the content opens |
 | `skipDelayDuration` | `number` | `300` | Duration in ms a user has to enter another trigger without incurring a delay again |
-| `className` | `string` | -- | Additional CSS classes for the root element |
-| `children` | `React.ReactNode` | -- | Navigation menu list and other elements |
-| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root>` | -- | Additional props inherited from `NavigationMenu.Root`. |
+| `className` | `string` | - | Additional CSS classes for the root element |
+| `children` | `React.ReactNode` | - | Navigation menu list and other elements |
+| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root>` | - | Additional props inherited from `NavigationMenu.Root`. |
 
 ### NavigationMenuList
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the list element |
-| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.List>` | -- | Additional props inherited from `NavigationMenu.List`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.List>` | - | Additional props inherited from `NavigationMenu.List`. |
 
 ### NavigationMenuItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the menu item |
-| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Item>` | -- | Additional props inherited from `NavigationMenu.Item`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Item>` | - | Additional props inherited from `NavigationMenu.Item`. |
 
 ### NavigationMenuTrigger
 
@@ -150,35 +150,35 @@ Root container that wraps the navigation menu and optionally renders the viewpor
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the trigger |
 | `children` | `React.ReactNode` | `--` | Trigger label content. A chevron icon is appended automatically |
-| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Trigger>` | -- | Additional props inherited from `NavigationMenu.Trigger`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Trigger>` | - | Additional props inherited from `NavigationMenu.Trigger`. |
 
 ### NavigationMenuContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the content panel |
-| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Content>` | -- | Additional props inherited from `NavigationMenu.Content`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Content>` | - | Additional props inherited from `NavigationMenu.Content`. |
 
 ### NavigationMenuLink
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the link |
-| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Link>` | -- | Additional props inherited from `NavigationMenu.Link`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Link>` | - | Additional props inherited from `NavigationMenu.Link`. |
 
 ### NavigationMenuViewport
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the viewport |
-| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Viewport>` | -- | Additional props inherited from `NavigationMenu.Viewport`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Viewport>` | - | Additional props inherited from `NavigationMenu.Viewport`. |
 
 ### NavigationMenuIndicator
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional CSS classes for the indicator |
-| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Indicator>` | -- | Additional props inherited from `NavigationMenu.Indicator`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Indicator>` | - | Additional props inherited from `NavigationMenu.Indicator`. |
 
 ### navigationMenuTriggerStyle
 

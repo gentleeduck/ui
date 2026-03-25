@@ -3,9 +3,9 @@ title: March 2026
 description: "@gentleduck/calendar headless engine, full calendar block, Presence animation fix, registry-build extensions, CLI v1.2.0, vim engine, and version releases."
 ---
 
-## @gentleduck/calendar -- Headless Calendar Engine <Badge>feat</Badge>
+## @gentleduck/calendar - Headless Calendar Engine <Badge>feat</Badge>
 
-Published [`@gentleduck/calendar`](https://www.npmjs.com/package/@gentleduck/calendar) -- a headless, zero-dependency calendar engine for React.
+Published [`@gentleduck/calendar`](https://www.npmjs.com/package/@gentleduck/calendar) - a headless, zero-dependency calendar engine for React.
 
 ### What it does
 
@@ -109,7 +109,7 @@ Shipped a fully styled `Calendar` in `@gentleduck/registry-ui` with month/year d
 | `applySelection` | ~13 us |
 | Tests | 857 across 21 files |
 
-### v0.2.0 -- Code Review Hardening
+### v0.2.0 - Code Review Hardening
 
 Ran 60+ automated review agents across every file. Key fixes:
 
@@ -161,15 +161,15 @@ This fix applies to all animated primitives: Popover, Dialog, AlertDialog, Sheet
 
 ## Hydration and Accessibility Fixes <Badge>fix</Badge>
 
-- **Breadcrumb key warning** -- moved React `key` from `BreadcrumbItem` to `Fragment` wrapper in `DocsPathBreadcrumb`
-- **Theme toggle hydration mismatch** -- server rendered "Switch to dark theme" while client resolved to "Switch to light theme". Fixed with a `mounted` guard that shows "Toggle theme" until client hydration completes
-- **Nested button violation** -- `PopoverTrigger` wrapping `Button` without `asChild` produced `<button>` inside `<button>`. Fixed in `calendar-7` and `combobox-7` examples
-- **Primitives useMemo stability** -- `Calendar` root's `useMemo` depended on `useCalendar` return object (new ref every render). Destructured into stable individual values
-- **Registry-ui NumberFormat cache** -- added LRU eviction (max 20) to prevent unbounded memory growth
+- **Breadcrumb key warning** - moved React `key` from `BreadcrumbItem` to `Fragment` wrapper in `DocsPathBreadcrumb`
+- **Theme toggle hydration mismatch** - server rendered "Switch to dark theme" while client resolved to "Switch to light theme". Fixed with a `mounted` guard that shows "Toggle theme" until client hydration completes
+- **Nested button violation** - `PopoverTrigger` wrapping `Button` without `asChild` produced `<button>` inside `<button>`. Fixed in `calendar-7` and `combobox-7` examples
+- **Primitives useMemo stability** - `Calendar` root's `useMemo` depended on `useCalendar` return object (new ref every render). Destructured into stable individual values
+- **Registry-ui NumberFormat cache** - added LRU eviction (max 20) to prevent unbounded memory growth
 
 ---
 
-## Registry Build -- Extension-Driven Architecture <Badge>feat</Badge>
+## Registry Build - Extension-Driven Architecture <Badge>feat</Badge>
 
 Major refactoring of `@gentleduck/registry-build` into a fully extension-driven build system with generic collections support.
 
@@ -177,12 +177,12 @@ Major refactoring of `@gentleduck/registry-build` into a fully extension-driven 
 
 The core runner no longer has built-in index or components phases. All processing is now performed by explicit extensions that consumers register in their config:
 
-- `bannerExtension()` -- CLI banner output (beforeBuild)
-- `validateExtension()` -- source path and registry entry validation (beforeBuild)
-- `indexBuildExtension()` -- registry entry materialization and `index.json` generation (afterBuild)
-- `componentsExtension()` -- per-item JSON component payload generation (afterBuild)
-- `componentIndexExtension()` -- framework-specific import index generation (afterBuild)
-- `colorsExtension()` -- theme CSS and color JSON generation (afterBuild)
+- `bannerExtension()` - CLI banner output (beforeBuild)
+- `validateExtension()` - source path and registry entry validation (beforeBuild)
+- `indexBuildExtension()` - registry entry materialization and `index.json` generation (afterBuild)
+- `componentsExtension()` - per-item JSON component payload generation (afterBuild)
+- `componentIndexExtension()` - framework-specific import index generation (afterBuild)
+- `colorsExtension()` - theme CSS and color JSON generation (afterBuild)
 
 Use `uiRegistryPreset()` to bundle all standard UI extensions, or register them individually for full control.
 
@@ -208,7 +208,7 @@ See the full [registry-build docs](/docs/packages/duck-registry-build).
 
 ---
 
-## CLI v1.2.0 -- Merge and Diff GUI <Badge>feat</Badge>
+## CLI v1.2.0 - Merge and Diff GUI <Badge>feat</Badge>
 
 Major overhaul of `@gentleduck/cli` with an interactive terminal UI for resolving merge conflicts and reviewing diffs.
 

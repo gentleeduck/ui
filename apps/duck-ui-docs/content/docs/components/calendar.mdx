@@ -301,28 +301,28 @@ You can use the `<Calendar>` component to build a date picker. See the [Date Pic
 | --- | --- | --- | --- |
 | `adapter` | `DateAdapter<Date>` | `NativeAdapter` | Date adapter for alternative calendar systems (Islamic, Persian, Hebrew) |
 | `mode` | `'single' \| 'range' \| 'multi' \| 'multi-range'` | `'single'` | Selection mode |
-| `selected` | `Date \| DateRange<Date> \| Date[] \| null` | -- | Controlled selection value |
-| `onSelect` | `(value) => void` | -- | Called when the selection changes |
-| `disabled` | `Date[] \| ((date: Date) => boolean)` | -- | Dates that cannot be selected |
-| `defaultMonth` | `Date` | -- | Default month to display (uncontrolled) |
-| `month` | `Date` | -- | Controlled displayed month |
-| `onMonthChange` | `(month: Date) => void` | -- | Called when the displayed month changes |
+| `selected` | `Date \| DateRange<Date> \| Date[] \| null` | - | Controlled selection value |
+| `onSelect` | `(value) => void` | - | Called when the selection changes |
+| `disabled` | `Date[] \| ((date: Date) => boolean)` | - | Dates that cannot be selected |
+| `defaultMonth` | `Date` | - | Default month to display (uncontrolled) |
+| `month` | `Date` | - | Controlled displayed month |
+| `onMonthChange` | `(month: Date) => void` | - | Called when the displayed month changes |
 | `showOutsideDays` | `boolean` | `true` | Show days from adjacent months |
 | `fixedWeeks` | `boolean` | `false` | Always show 6 weeks |
 | `numberOfMonths` | `number` | `1` | How many months to show side by side |
 | `showDropdowns` | `boolean` | `true` | Show month/year dropdown selectors |
 | `yearRange` | `{ from: number; to: number }` | `{ from: now-100, to: now+10 }` | Range of years in the year dropdown |
-| `locale` | `string` | -- | BCP 47 locale tag (e.g. `'ar-SA'`, `'ja-JP'`) |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override |
-| `fromDate` | `Date` | -- | Earliest selectable date |
-| `toDate` | `Date` | -- | Latest selectable date |
+| `locale` | `string` | - | BCP 47 locale tag (e.g. `'ar-SA'`, `'ja-JP'`) |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override |
+| `fromDate` | `Date` | - | Earliest selectable date |
+| `toDate` | `Date` | - | Latest selectable date |
 | `buttonVariant` | `string` | `'ghost'` | Variant style for navigation buttons |
-| `onDismiss` | `() => void` | -- | Called when the user presses Escape |
-| `className` | `string` | -- | Additional CSS classes for the root container |
-| `renderDay` | `(day: CalendarDay<Date>, children: ReactNode) => ReactNode` | -- | Custom render function for day cell content |
-| `renderHeader` | `(context: CalendarHeaderContext) => ReactNode` | -- | Custom render function for the navigation header |
-| `renderWeekday` | `(day: string, index: number) => ReactNode` | -- | Custom render function for weekday column labels |
-| `renderFooter` | `(months: CalendarMonth<Date>[]) => ReactNode` | -- | Render content below the calendar grid |
+| `onDismiss` | `() => void` | - | Called when the user presses Escape |
+| `className` | `string` | - | Additional CSS classes for the root container |
+| `renderDay` | `(day: CalendarDay<Date>, children: ReactNode) => ReactNode` | - | Custom render function for day cell content |
+| `renderHeader` | `(context: CalendarHeaderContext) => ReactNode` | - | Custom render function for the navigation header |
+| `renderWeekday` | `(day: string, index: number) => ReactNode` | - | Custom render function for weekday column labels |
+| `renderFooter` | `(months: CalendarMonth<Date>[]) => ReactNode` | - | Render content below the calendar grid |
 
 ### Render Props
 

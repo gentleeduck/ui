@@ -21,9 +21,9 @@ function MyDateTimePicker() {
     hourCycle: '12',
   })
 
-  // calendar -- full UseCalendarReturn (state, actions, prop getters)
-  // timePicker -- full UseTimePickerReturn (state, actions, getFieldProps)
-  // state.value -- combined Date with both date and time
+  // calendar - full UseCalendarReturn (state, actions, prop getters)
+  // timePicker - full UseTimePickerReturn (state, actions, getFieldProps)
+  // state.value - combined Date with both date and time
 }
 ```
 
@@ -34,19 +34,19 @@ function MyDateTimePicker() {
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `adapter` | `DateAdapter<TDate>` | **required** | Date adapter instance |
-| `locale` | `CalendarLocaleConfig` | -- | Locale and direction settings |
-| `value` | `TDate` | -- | Controlled datetime value |
-| `defaultValue` | `TDate` | -- | Default datetime (uncontrolled) |
-| `onChange` | `(value: TDate) => void` | -- | Called when date or time changes |
+| `locale` | `CalendarLocaleConfig` | - | Locale and direction settings |
+| `value` | `TDate` | - | Controlled datetime value |
+| `defaultValue` | `TDate` | - | Default datetime (uncontrolled) |
+| `onChange` | `(value: TDate) => void` | - | Called when date or time changes |
 | `hourCycle` | `HourCycle` | `'24'` | `'12'` or `'24'` hour display |
 | `showSeconds` | `boolean` | `false` | Show the seconds field |
-| `month` | `TDate` | -- | Controlled displayed month |
-| `defaultMonth` | `TDate` | -- | Default month (uncontrolled) |
-| `onMonthChange` | `(month: TDate) => void` | -- | Called when month changes |
-| `disabled` | `TDate[] \| (date) => boolean` | -- | Disabled dates |
-| `fromDate` | `TDate` | -- | Earliest selectable date |
-| `toDate` | `TDate` | -- | Latest selectable date |
-| `onDismiss` | `() => void` | -- | Called on <Kbd>Escape</Kbd> |
+| `month` | `TDate` | - | Controlled displayed month |
+| `defaultMonth` | `TDate` | - | Default month (uncontrolled) |
+| `onMonthChange` | `(month: TDate) => void` | - | Called when month changes |
+| `disabled` | `TDate[] \| (date) => boolean` | - | Disabled dates |
+| `fromDate` | `TDate` | - | Earliest selectable date |
+| `toDate` | `TDate` | - | Latest selectable date |
+| `onDismiss` | `() => void` | - | Called on <Kbd>Escape</Kbd> |
 
 ---
 
