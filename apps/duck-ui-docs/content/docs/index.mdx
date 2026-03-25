@@ -1,6 +1,6 @@
 ---
 title: introduction
-description: A versatile and feature-rich UI component library built for modern web applications.
+description: React component library with its own primitives, calendar engine, and keyboard system.
 ---
 
 ## What is @gentleduck/ui?
@@ -37,26 +37,20 @@ than a frontend developer's first CSS file. @gentleduck/ui refuses to pick a sid
 
 **What you actually get:**
 
-- **Themes that bend to your will**: Light mode, dark mode, chaos mode customize everything without 
-fighting specificity wars or using `!important` like a caveman.
+- **Themes that bend to your will**: Light mode, dark mode, chaos mode — customize everything through CSS variables and design tokens.
 
-- **Responsive by default**: Your components work on a 4K monitor and a potato phone. No media query 
-gymnastics required.
+- **Responsive by default**: No media query gymnastics required.
 
 - **Accessibility baked in**: ARIA labels, keyboard navigation, screen reader support all there from 
 day one because shipping inaccessible products in 2026 is embarrassing.
 
-- **Performance that matters**: These components are optimized to load fast and stay fast. We've 
-done the bundle size optimization so you don't have to explain to your manager why your app loads 
-like it's 2010.
+- **Performance that matters**: Tree-shakeable, small bundles, optimized renders. We did the work so you don't have to.
 
 - **Actually extensible**: Want to modify a component? Go ahead. We won't lock you into our way of 
 doing things. Build your own components using our primitives. Fork what you need. We trust 
 you're not an idiot.
 
-- **APIs that make sense**: We've designed our component APIs to match patterns from popular 
-libraries you already know. Migrating from other UI frameworks? You'll feel right at home. 
-No need to relearn everything or fight muscle memory.
+- **APIs that make sense**: Patterns match what you already know from popular libraries. Migrating from another UI framework? You'll feel right at home.
 
 ## Contributing (Yes, Actually)
 
@@ -106,27 +100,25 @@ Was it inspired by other UI libraries, [Radix UI](https://www.radix-ui.com/),
 developers learn from what works. But @gentleduck/ui isn't just another clone it's built from the 
 ground up with its own primitives, utilities, and ecosystem.
 
-We're standing on the shoulders of giants while building something genuinely different. If you're 
-looking for another clone, this isn't it. If you're looking for the fastest, most complete 
-component library maintained by someone who gives a damn, welcome home.
+We're standing on the shoulders of giants while building something genuinely different. If you're
+looking for another clone, this isn't it. If you want a component library maintained by someone
+who gives a damn, welcome home.
 
-## The Ecosystem (Or: How Deep This Rabbit Hole Goes)
+## The Ecosystem
 
-Here's where things get interesting. @gentleduck/ui isn't just a component library it's the 
-centerpiece of an entire ecosystem built from the ground up for one purpose: being the absolute 
-best UI library you'll ever use.
+@gentleduck/ui is the component layer, but it sits on top of a stack we built ourselves:
 
-We're talking custom primitives, performance utilities, development tools, and yes rewrites of 
-popular libraries that weren't fast enough or flexible enough for what we needed. When existing 
-solutions didn't meet our standards, we didn't compromise. We rebuilt them. Better. Faster. More 
-aligned with modern web development.
+- **@gentleduck/primitives** — headless, a11y-first building blocks (our own, not Radix)
+- **@gentleduck/calendar** — headless calendar engine with pluggable date adapters
+- **@gentleduck/vim** — keyboard command system for complex shortcuts
+- **@gentleduck/variants** — cva()-based variant API for styling
+- **@gentleduck/motion** — animation tokens with reduced-motion support
+- **@gentleduck/state** — atom-based state management
+- **@gentleduck/cli** — scaffolding and component installation
+- **@gentleduck/hooks** — shared React utility hooks
+- **@gentleduck/libs** — cn(), general utilities
 
-This isn't duct tape and wishful thinking. This is a cohesive, intentionally designed system where 
-every piece works together seamlessly. The CLI, the primitives, the utilities, the components 
-they're all part of a larger vision to give you the most powerful, performant UI development 
-experience possible.
-
-Other libraries give you components. We give you an unfair advantage.
+When existing solutions didn't cut it, we rebuilt them. The pieces are designed to work together, but each package stands on its own too.
 
 ---
 
