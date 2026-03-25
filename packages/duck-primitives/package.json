@@ -73,6 +73,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsdown",
+    "benchmark": "bun run scripts/benchmark.ts",
     "dev": "tsdown --watch",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "test": "bun test"

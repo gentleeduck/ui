@@ -174,9 +174,38 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/comp
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `asChild` | `boolean` | `false` | Renders the child element as the trigger instead of a `button` |
+| `disableCloseOnClick` | `boolean` | `false` | Prevents tooltip from closing on click and from overriding the child's `data-state`/`data-slot`. Use when wrapping interactive elements like `Toggle`. |
 | `children` | `React.ReactNode` | -- | Content rendered inside the trigger |
 | `className` | `string` | -- | Additional CSS class names to apply |
 | `...props` | `Omit<React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger>, 'size'>` | -- | Additional props to spread to the button element |
+
+### Tooltip with Toggle
+
+When wrapping a `Toggle` (or any interactive element that manages its own pressed/active state), use `disableCloseOnClick` to prevent the tooltip from intercepting clicks and overriding `data-state`:
+
+```tsx
+import { Toggle } from '@/components/ui/toggle'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Bold } from 'lucide-react'
+
+<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger asChild disableCloseOnClick>
+      <Toggle aria-label="Toggle bold">
+        <Bold className="h-4 w-4" />
+      </Toggle>
+    </TooltipTrigger>
+    <TooltipContent>Toggle bold</TooltipContent>
+  </Tooltip>
+</TooltipProvider>
+```
+
+Without `disableCloseOnClick`, the tooltip's `onClick` handler prevents the Toggle from toggling, and its `data-state="closed"` overrides the Toggle's `data-state="on"/"off"`, breaking the visual feedback.
+
+<ComponentPreview
+  name="tooltip-4"
+  description="Tooltip wrapping a Toggle with disableCloseOnClick."
+/>
 
 ### TooltipContent
 

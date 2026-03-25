@@ -9,6 +9,7 @@ export default function DropdownMenuSelectionInternalExample() {
   const [view, setView] = React.useState<'grid' | 'list'>('grid')
 
   return (
+    <div className={styles.frame}>
     <DropdownMenu.Root>
       <DropdownMenu.Trigger className={styles.trigger}>View mode</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
@@ -32,5 +33,6 @@ export default function DropdownMenuSelectionInternalExample() {
         </DropdownMenu.Content>
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
+    </div>
   )
 }

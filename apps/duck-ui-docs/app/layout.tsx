@@ -304,9 +304,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <DirectionProvider dir="ltr">
               <DocsAppProvider docs={docsEntries} docsConfig={docsConfig} siteConfig={docsSiteConfig}>
                 <ThemeWrapper>
-                  <div vaul-drawer-wrapper="">
-                    <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
-                  </div>
+                  <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
 
                   <SpeedInsights />
                   <VercelAnalytics />

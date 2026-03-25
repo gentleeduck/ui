@@ -3591,6 +3591,11 @@
         "name": "accordion-5.tsx",
         "path": "accordion/accordion-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "accordion-6.tsx",
+        "path": "accordion/accordion-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -3632,6 +3637,11 @@
       {
         "name": "accordion-5.tsx",
         "path": "accordion/accordion-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-6.tsx",
+        "path": "accordion/accordion-6.tsx",
         "type": "file"
       }
     ]
@@ -3675,6 +3685,11 @@
         "name": "accordion-5.tsx",
         "path": "accordion/accordion-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "accordion-6.tsx",
+        "path": "accordion/accordion-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -3717,6 +3732,11 @@
         "name": "accordion-5.tsx",
         "path": "accordion/accordion-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "accordion-6.tsx",
+        "path": "accordion/accordion-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -3758,6 +3778,58 @@
       {
         "name": "accordion-5.tsx",
         "path": "accordion/accordion-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-6.tsx",
+        "path": "accordion/accordion-6.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "accordion/accordion-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "accordion-6",
+    "registryDependencies": [
+      "accordion"
+    ],
+    "root_folder": "accordion",
+    "type": "registry:example",
+    "source": "/registry-examples/src/accordion",
+    "tree": [
+      {
+        "name": "accordion-1.tsx",
+        "path": "accordion/accordion-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-2.tsx",
+        "path": "accordion/accordion-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-3.tsx",
+        "path": "accordion/accordion-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-4.tsx",
+        "path": "accordion/accordion-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-5.tsx",
+        "path": "accordion/accordion-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-6.tsx",
+        "path": "accordion/accordion-6.tsx",
         "type": "file"
       }
     ]
@@ -3934,6 +4006,11 @@
         "name": "alert-dialog-2.tsx",
         "path": "alert-dialog/alert-dialog-2.tsx",
         "type": "file"
+      },
+      {
+        "name": "alert-dialog-3.tsx",
+        "path": "alert-dialog/alert-dialog-3.tsx",
+        "type": "file"
       }
     ]
   },
@@ -3960,6 +4037,43 @@
       {
         "name": "alert-dialog-2.tsx",
         "path": "alert-dialog/alert-dialog-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "alert-dialog-3.tsx",
+        "path": "alert-dialog/alert-dialog-3.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "alert-dialog/alert-dialog-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "alert-dialog-3",
+    "registryDependencies": [
+      "alert-dialog"
+    ],
+    "root_folder": "alert-dialog",
+    "type": "registry:example",
+    "source": "/registry-examples/src/alert-dialog",
+    "tree": [
+      {
+        "name": "alert-dialog-1.tsx",
+        "path": "alert-dialog/alert-dialog-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "alert-dialog-2.tsx",
+        "path": "alert-dialog/alert-dialog-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "alert-dialog-3.tsx",
+        "path": "alert-dialog/alert-dialog-3.tsx",
         "type": "file"
       }
     ]
@@ -7725,6 +7839,11 @@
         "name": "dialog-3.tsx",
         "path": "dialog/dialog-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "dialog-4.tsx",
+        "path": "dialog/dialog-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -7757,6 +7876,11 @@
         "name": "dialog-3.tsx",
         "path": "dialog/dialog-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "dialog-4.tsx",
+        "path": "dialog/dialog-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -7788,6 +7912,48 @@
       {
         "name": "dialog-3.tsx",
         "path": "dialog/dialog-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dialog-4.tsx",
+        "path": "dialog/dialog-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "dialog/dialog-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "dialog-4",
+    "registryDependencies": [
+      "dialog"
+    ],
+    "root_folder": "dialog",
+    "type": "registry:example",
+    "source": "/registry-examples/src/dialog",
+    "tree": [
+      {
+        "name": "dialog-1.tsx",
+        "path": "dialog/dialog-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dialog-2.tsx",
+        "path": "dialog/dialog-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dialog-3.tsx",
+        "path": "dialog/dialog-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dialog-4.tsx",
+        "path": "dialog/dialog-4.tsx",
         "type": "file"
       }
     ]
@@ -11321,6 +11487,11 @@
         "name": "drawer-7.tsx",
         "path": "drawer/drawer-7.tsx",
         "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
+        "type": "file"
       }
     ]
   },
@@ -11372,6 +11543,11 @@
       {
         "name": "drawer-7.tsx",
         "path": "drawer/drawer-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
         "type": "file"
       }
     ]
@@ -11425,6 +11601,11 @@
         "name": "drawer-7.tsx",
         "path": "drawer/drawer-7.tsx",
         "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
+        "type": "file"
       }
     ]
   },
@@ -11476,6 +11657,11 @@
       {
         "name": "drawer-7.tsx",
         "path": "drawer/drawer-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
         "type": "file"
       }
     ]
@@ -11529,6 +11715,11 @@
         "name": "drawer-7.tsx",
         "path": "drawer/drawer-7.tsx",
         "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
+        "type": "file"
       }
     ]
   },
@@ -11580,6 +11771,11 @@
       {
         "name": "drawer-7.tsx",
         "path": "drawer/drawer-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
         "type": "file"
       }
     ]
@@ -11633,6 +11829,68 @@
         "name": "drawer-7.tsx",
         "path": "drawer/drawer-7.tsx",
         "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "drawer/drawer-8.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "drawer-8",
+    "registryDependencies": [
+      "drawer"
+    ],
+    "root_folder": "drawer",
+    "type": "registry:example",
+    "source": "/registry-examples/src/drawer",
+    "tree": [
+      {
+        "name": "drawer-1.tsx",
+        "path": "drawer/drawer-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-2.tsx",
+        "path": "drawer/drawer-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-3.tsx",
+        "path": "drawer/drawer-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-4.tsx",
+        "path": "drawer/drawer-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-5.tsx",
+        "path": "drawer/drawer-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-6.tsx",
+        "path": "drawer/drawer-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-7.tsx",
+        "path": "drawer/drawer-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "drawer-8.tsx",
+        "path": "drawer/drawer-8.tsx",
+        "type": "file"
       }
     ]
   },
@@ -11682,6 +11940,11 @@
         "name": "hover-card-2.tsx",
         "path": "hover-card/hover-card-2.tsx",
         "type": "file"
+      },
+      {
+        "name": "hover-card-3.tsx",
+        "path": "hover-card/hover-card-3.tsx",
+        "type": "file"
       }
     ]
   },
@@ -11708,6 +11971,43 @@
       {
         "name": "hover-card-2.tsx",
         "path": "hover-card/hover-card-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "hover-card-3.tsx",
+        "path": "hover-card/hover-card-3.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "hover-card/hover-card-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "hover-card-3",
+    "registryDependencies": [
+      "hover-card"
+    ],
+    "root_folder": "hover-card",
+    "type": "registry:example",
+    "source": "/registry-examples/src/hover-card",
+    "tree": [
+      {
+        "name": "hover-card-1.tsx",
+        "path": "hover-card/hover-card-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "hover-card-2.tsx",
+        "path": "hover-card/hover-card-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "hover-card-3.tsx",
+        "path": "hover-card/hover-card-3.tsx",
         "type": "file"
       }
     ]
@@ -12544,6 +12844,11 @@
         "name": "select-4.tsx",
         "path": "select/select-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "select-5.tsx",
+        "path": "select/select-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -12580,6 +12885,11 @@
       {
         "name": "select-4.tsx",
         "path": "select/select-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "select-5.tsx",
+        "path": "select/select-5.tsx",
         "type": "file"
       }
     ]
@@ -12618,6 +12928,11 @@
         "name": "select-4.tsx",
         "path": "select/select-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "select-5.tsx",
+        "path": "select/select-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -12654,6 +12969,53 @@
       {
         "name": "select-4.tsx",
         "path": "select/select-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "select-5.tsx",
+        "path": "select/select-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "select/select-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "select-5",
+    "registryDependencies": [
+      "select"
+    ],
+    "root_folder": "select",
+    "type": "registry:example",
+    "source": "/registry-examples/src/select",
+    "tree": [
+      {
+        "name": "select-1.tsx",
+        "path": "select/select-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "select-2.tsx",
+        "path": "select/select-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "select-3.tsx",
+        "path": "select/select-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "select-4.tsx",
+        "path": "select/select-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "select-5.tsx",
+        "path": "select/select-5.tsx",
         "type": "file"
       }
     ]
@@ -12741,6 +13103,11 @@
         "name": "sheet-3.tsx",
         "path": "sheet/sheet-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "sheet-4.tsx",
+        "path": "sheet/sheet-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -12773,6 +13140,11 @@
         "name": "sheet-3.tsx",
         "path": "sheet/sheet-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "sheet-4.tsx",
+        "path": "sheet/sheet-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -12804,6 +13176,48 @@
       {
         "name": "sheet-3.tsx",
         "path": "sheet/sheet-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sheet-4.tsx",
+        "path": "sheet/sheet-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "sheet/sheet-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "sheet-4",
+    "registryDependencies": [
+      "sheet"
+    ],
+    "root_folder": "sheet",
+    "type": "registry:example",
+    "source": "/registry-examples/src/sheet",
+    "tree": [
+      {
+        "name": "sheet-1.tsx",
+        "path": "sheet/sheet-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sheet-2.tsx",
+        "path": "sheet/sheet-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sheet-3.tsx",
+        "path": "sheet/sheet-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sheet-4.tsx",
+        "path": "sheet/sheet-4.tsx",
         "type": "file"
       }
     ]
@@ -14943,6 +15357,11 @@
         "name": "tooltip-3.tsx",
         "path": "tooltip/tooltip-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "tooltip-4.tsx",
+        "path": "tooltip/tooltip-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -14975,6 +15394,11 @@
         "name": "tooltip-3.tsx",
         "path": "tooltip/tooltip-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "tooltip-4.tsx",
+        "path": "tooltip/tooltip-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -15006,6 +15430,48 @@
       {
         "name": "tooltip-3.tsx",
         "path": "tooltip/tooltip-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "tooltip-4.tsx",
+        "path": "tooltip/tooltip-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "tooltip/tooltip-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "tooltip-4",
+    "registryDependencies": [
+      "tooltip"
+    ],
+    "root_folder": "tooltip",
+    "type": "registry:example",
+    "source": "/registry-examples/src/tooltip",
+    "tree": [
+      {
+        "name": "tooltip-1.tsx",
+        "path": "tooltip/tooltip-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "tooltip-2.tsx",
+        "path": "tooltip/tooltip-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "tooltip-3.tsx",
+        "path": "tooltip/tooltip-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "tooltip-4.tsx",
+        "path": "tooltip/tooltip-4.tsx",
         "type": "file"
       }
     ]
@@ -18004,6 +18470,11 @@
         "name": "popover-4.tsx",
         "path": "popover/popover-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "popover-5.tsx",
+        "path": "popover/popover-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -18040,6 +18511,11 @@
       {
         "name": "popover-4.tsx",
         "path": "popover/popover-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "popover-5.tsx",
+        "path": "popover/popover-5.tsx",
         "type": "file"
       }
     ]
@@ -18078,6 +18554,11 @@
         "name": "popover-4.tsx",
         "path": "popover/popover-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "popover-5.tsx",
+        "path": "popover/popover-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -18114,6 +18595,53 @@
       {
         "name": "popover-4.tsx",
         "path": "popover/popover-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "popover-5.tsx",
+        "path": "popover/popover-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "popover/popover-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "popover-5",
+    "registryDependencies": [
+      "popover"
+    ],
+    "root_folder": "popover",
+    "type": "registry:example",
+    "source": "/registry-examples/src/popover",
+    "tree": [
+      {
+        "name": "popover-1.tsx",
+        "path": "popover/popover-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "popover-2.tsx",
+        "path": "popover/popover-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "popover-3.tsx",
+        "path": "popover/popover-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "popover-4.tsx",
+        "path": "popover/popover-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "popover-5.tsx",
+        "path": "popover/popover-5.tsx",
         "type": "file"
       }
     ]
@@ -18206,6 +18734,11 @@
         "name": "dropdown-menu-4.tsx",
         "path": "dropdown-menu/dropdown-menu-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "dropdown-menu-5.tsx",
+        "path": "dropdown-menu/dropdown-menu-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -18242,6 +18775,11 @@
       {
         "name": "dropdown-menu-4.tsx",
         "path": "dropdown-menu/dropdown-menu-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dropdown-menu-5.tsx",
+        "path": "dropdown-menu/dropdown-menu-5.tsx",
         "type": "file"
       }
     ]
@@ -18280,6 +18818,11 @@
         "name": "dropdown-menu-4.tsx",
         "path": "dropdown-menu/dropdown-menu-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "dropdown-menu-5.tsx",
+        "path": "dropdown-menu/dropdown-menu-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -18316,6 +18859,53 @@
       {
         "name": "dropdown-menu-4.tsx",
         "path": "dropdown-menu/dropdown-menu-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dropdown-menu-5.tsx",
+        "path": "dropdown-menu/dropdown-menu-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "dropdown-menu/dropdown-menu-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "dropdown-menu-5",
+    "registryDependencies": [
+      "dropdown-menu"
+    ],
+    "root_folder": "dropdown-menu",
+    "type": "registry:example",
+    "source": "/registry-examples/src/dropdown-menu",
+    "tree": [
+      {
+        "name": "dropdown-menu-1.tsx",
+        "path": "dropdown-menu/dropdown-menu-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dropdown-menu-2.tsx",
+        "path": "dropdown-menu/dropdown-menu-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dropdown-menu-3.tsx",
+        "path": "dropdown-menu/dropdown-menu-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dropdown-menu-4.tsx",
+        "path": "dropdown-menu/dropdown-menu-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dropdown-menu-5.tsx",
+        "path": "dropdown-menu/dropdown-menu-5.tsx",
         "type": "file"
       }
     ]
@@ -18708,6 +19298,11 @@
         "name": "collapsible-2.tsx",
         "path": "collapsible/collapsible-2.tsx",
         "type": "file"
+      },
+      {
+        "name": "collapsible-3.tsx",
+        "path": "collapsible/collapsible-3.tsx",
+        "type": "file"
       }
     ]
   },
@@ -18734,6 +19329,43 @@
       {
         "name": "collapsible-2.tsx",
         "path": "collapsible/collapsible-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "collapsible-3.tsx",
+        "path": "collapsible/collapsible-3.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "collapsible/collapsible-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "collapsible-3",
+    "registryDependencies": [
+      "collapsible"
+    ],
+    "root_folder": "collapsible",
+    "type": "registry:example",
+    "source": "/registry-examples/src/collapsible",
+    "tree": [
+      {
+        "name": "collapsible-1.tsx",
+        "path": "collapsible/collapsible-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "collapsible-2.tsx",
+        "path": "collapsible/collapsible-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "collapsible-3.tsx",
+        "path": "collapsible/collapsible-3.tsx",
         "type": "file"
       }
     ]
@@ -19170,6 +19802,41 @@
         "name": "chart-8.tsx",
         "path": "chart/chart-8.tsx",
         "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
       }
     ]
   },
@@ -19226,6 +19893,41 @@
       {
         "name": "chart-8.tsx",
         "path": "chart/chart-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
         "type": "file"
       }
     ]
@@ -19284,6 +19986,41 @@
         "name": "chart-8.tsx",
         "path": "chart/chart-8.tsx",
         "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
       }
     ]
   },
@@ -19340,6 +20077,41 @@
       {
         "name": "chart-8.tsx",
         "path": "chart/chart-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
         "type": "file"
       }
     ]
@@ -19398,6 +20170,41 @@
         "name": "chart-8.tsx",
         "path": "chart/chart-8.tsx",
         "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
       }
     ]
   },
@@ -19454,6 +20261,41 @@
       {
         "name": "chart-8.tsx",
         "path": "chart/chart-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
         "type": "file"
       }
     ]
@@ -19512,6 +20354,41 @@
         "name": "chart-8.tsx",
         "path": "chart/chart-8.tsx",
         "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
       }
     ]
   },
@@ -19568,6 +20445,685 @@
       {
         "name": "chart-8.tsx",
         "path": "chart/chart-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "chart-benchmark-calendar-compare",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "type": "registry:example",
+    "source": "/registry-examples/src/chart",
+    "tree": [
+      {
+        "name": "chart-1.tsx",
+        "path": "chart/chart-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-2.tsx",
+        "path": "chart/chart-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-3.tsx",
+        "path": "chart/chart-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-4.tsx",
+        "path": "chart/chart-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-5.tsx",
+        "path": "chart/chart-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-6.tsx",
+        "path": "chart/chart-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-7.tsx",
+        "path": "chart/chart-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "chart-benchmark-calendar-vs",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "type": "registry:example",
+    "source": "/registry-examples/src/chart",
+    "tree": [
+      {
+        "name": "chart-1.tsx",
+        "path": "chart/chart-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-2.tsx",
+        "path": "chart/chart-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-3.tsx",
+        "path": "chart/chart-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-4.tsx",
+        "path": "chart/chart-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-5.tsx",
+        "path": "chart/chart-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-6.tsx",
+        "path": "chart/chart-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-7.tsx",
+        "path": "chart/chart-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "chart-benchmark-calendar",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "type": "registry:example",
+    "source": "/registry-examples/src/chart",
+    "tree": [
+      {
+        "name": "chart-1.tsx",
+        "path": "chart/chart-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-2.tsx",
+        "path": "chart/chart-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-3.tsx",
+        "path": "chart/chart-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-4.tsx",
+        "path": "chart/chart-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-5.tsx",
+        "path": "chart/chart-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-6.tsx",
+        "path": "chart/chart-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-7.tsx",
+        "path": "chart/chart-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "chart-benchmark-primitives-all",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "type": "registry:example",
+    "source": "/registry-examples/src/chart",
+    "tree": [
+      {
+        "name": "chart-1.tsx",
+        "path": "chart/chart-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-2.tsx",
+        "path": "chart/chart-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-3.tsx",
+        "path": "chart/chart-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-4.tsx",
+        "path": "chart/chart-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-5.tsx",
+        "path": "chart/chart-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-6.tsx",
+        "path": "chart/chart-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-7.tsx",
+        "path": "chart/chart-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "chart-benchmark-primitives-vs",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "type": "registry:example",
+    "source": "/registry-examples/src/chart",
+    "tree": [
+      {
+        "name": "chart-1.tsx",
+        "path": "chart/chart-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-2.tsx",
+        "path": "chart/chart-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-3.tsx",
+        "path": "chart/chart-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-4.tsx",
+        "path": "chart/chart-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-5.tsx",
+        "path": "chart/chart-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-6.tsx",
+        "path": "chart/chart-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-7.tsx",
+        "path": "chart/chart-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "chart-benchmark-primitives",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "type": "registry:example",
+    "source": "/registry-examples/src/chart",
+    "tree": [
+      {
+        "name": "chart-1.tsx",
+        "path": "chart/chart-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-2.tsx",
+        "path": "chart/chart-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-3.tsx",
+        "path": "chart/chart-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-4.tsx",
+        "path": "chart/chart-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-5.tsx",
+        "path": "chart/chart-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-6.tsx",
+        "path": "chart/chart-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-7.tsx",
+        "path": "chart/chart-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "chart-benchmark-variants",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "type": "registry:example",
+    "source": "/registry-examples/src/chart",
+    "tree": [
+      {
+        "name": "chart-1.tsx",
+        "path": "chart/chart-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-2.tsx",
+        "path": "chart/chart-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-3.tsx",
+        "path": "chart/chart-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-4.tsx",
+        "path": "chart/chart-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-5.tsx",
+        "path": "chart/chart-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-6.tsx",
+        "path": "chart/chart-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-7.tsx",
+        "path": "chart/chart-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
         "type": "file"
       }
     ]

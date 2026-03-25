@@ -64,6 +64,16 @@ Avoid copying examples ad hoc into apps. Build wrappers once, then consume wrapp
 
 ---
 
+## Bundle size
+
+gentleduck primitives are 50-92% smaller than their Radix equivalents because shared internals (Slot, Presence, Popper, focus-scope) are deduplicated across all primitives.
+
+<ComponentPreview name="chart-benchmark-primitives" description="Module breakdown and totals" />
+
+See the full [benchmark results](/docs/packages/duck-primitives/benchmarks) for per-component comparisons and methodology.
+
+---
+
 ## Architecture snapshot
 
 <MermaidDiagram chart={`graph TD

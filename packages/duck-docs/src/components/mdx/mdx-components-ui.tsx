@@ -3,10 +3,11 @@ import { Alert, AlertDescription, AlertTitle } from '@gentleduck/registry-ui/ale
 import { AspectRatio } from '@gentleduck/registry-ui/aspect-ratio'
 import { Badge } from '@gentleduck/registry-ui/badge'
 import { Button } from '@gentleduck/registry-ui/button'
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui/card'
 import { Kbd } from '@gentleduck/registry-ui/kbd'
 import type { MdxComponentMap } from './mdx-component-registry.types'
 
-export const mdxUiComponents = {
+export const mdxUiComponents: MdxComponentMap = {
   Accordion,
   AccordionContent,
   AccordionItem,
@@ -17,5 +18,10 @@ export const mdxUiComponents = {
   AspectRatio,
   Badge,
   Button,
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
   Kbd,
 } satisfies MdxComponentMap

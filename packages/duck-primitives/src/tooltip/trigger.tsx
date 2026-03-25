@@ -11,11 +11,18 @@ const TRIGGER_NAME = 'TooltipTrigger'
 
 type TooltipTriggerElement = React.ComponentRef<typeof Primitive.button>
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
-export interface TooltipTriggerProps extends PrimitiveButtonProps {}
+export interface TooltipTriggerProps extends PrimitiveButtonProps {
+  /**
+   * When `true`, clicking the trigger will not dismiss the tooltip.
+   * Useful when wrapping interactive elements like `Toggle` with `asChild`.
+   * @default false
+   */
+  disableCloseOnClick?: boolean
+}
 
 export const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTriggerProps>(
   (props: ScopedProps<TooltipTriggerProps>, forwardedRef) => {
-    const { __scopeTooltip, ...triggerProps } = props
+    const { __scopeTooltip, disableCloseOnClick = false, ...triggerProps } = props
     const context = useTooltipContext(TRIGGER_NAME, __scopeTooltip)
     const providerContext = useTooltipProviderContext(TRIGGER_NAME, __scopeTooltip)
     const popperScope = usePopperScope(__scopeTooltip)
@@ -32,11 +39,11 @@ export const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTri
     return (
       <PopperPrimitive.PopperAnchor asChild {...popperScope}>
         <Primitive.button
-          data-slot="tooltip-trigger"
+          {...(disableCloseOnClick ? {} : { 'data-slot': 'tooltip-trigger', 'data-state': context.stateAttribute })}
+          {...(!disableCloseOnClick ? {} : { 'data-tooltip-state': context.stateAttribute })}
           // We purposefully avoid adding `type=button` here because tooltip triggers are also
           // commonly anchors and the anchor `type` attribute signifies MIME type.
           aria-describedby={context.open ? context.contentId : undefined}
-          data-state={context.stateAttribute}
           dir={context.dir}
           {...triggerProps}
           ref={composedRefs}
@@ -52,7 +59,7 @@ export const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTri
             hasPointerMoveOpenedRef.current = false
           })}
           onPointerDown={composeEventHandlers(props.onPointerDown, () => {
-            if (context.open) {
+            if (!disableCloseOnClick && context.open) {
               context.onClose()
             }
             isPointerDownRef.current = true
@@ -62,7 +69,7 @@ export const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTri
             if (!isPointerDownRef.current) context.onOpen()
           })}
           onBlur={composeEventHandlers(props.onBlur, context.onClose)}
-          onClick={composeEventHandlers(props.onClick, context.onClose)}
+          {...(disableCloseOnClick ? {} : { onClick: composeEventHandlers(props.onClick, context.onClose) })}
         />
       </PopperPrimitive.PopperAnchor>
     )

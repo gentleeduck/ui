@@ -18,10 +18,7 @@ export function TableRow({ className, ...props }: React.HTMLAttributes<HTMLTable
 export function TableHeader({ className, ...props }: React.ThHTMLAttributes<HTMLTableCellElement>) {
   return (
     <th
-      className={cn(
-        'px-4 py-2 text-left font-bold [&[align=center]]:text-center [&[align=right]]:text-right',
-        className,
-      )}
+      className={cn('px-4 py-2 text-left font-bold [[align=center]]:text-center [[align=right]]:text-right', className)}
       scope="col"
       {...props}
     />
@@ -32,7 +29,7 @@ export function TableCell({ className, ...props }: React.HTMLAttributes<HTMLTabl
   return (
     <td
       className={cn(
-        'whitespace-nowrap px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right',
+        'whitespace-nowrap px-4 py-2 text-left [[align=center]]:text-center [[align=right]]:text-right',
         className,
       )}
       {...props}

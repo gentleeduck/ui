@@ -1,21 +1,17 @@
 'use client'
 
 import * as Popover from '@gentleduck/primitives/popover'
-import * as React from 'react'
 import styles from './styles.module.css'
 
 export default function PopoverSideAwareInternalExample() {
-  const [portalContainer, setPortalContainer] = React.useState<HTMLDivElement | null>(null)
-
   return (
-    <div className={styles.frame} ref={setPortalContainer}>
+    <div className={styles.frame}>
       <Popover.Root>
         <Popover.Trigger className={styles.trigger}>Open filters</Popover.Trigger>
-        <Popover.Portal container={portalContainer}>
+        <Popover.Portal>
           <Popover.Content
             align="start"
             className={styles.content}
-            collisionBoundary={portalContainer ?? undefined}
             collisionPadding={10}
             side="bottom"
             sideOffset={10}>
