@@ -83,16 +83,22 @@ useKeymap({
 
 ### CLI
 
-| Command | gentleduck | shadcn |
+| Feature | gentleduck | shadcn |
 |---|---|---|
 | `init` | Yes | Yes |
 | `add` | Yes | Yes |
-| `diff` | Yes | Yes |
-| `list` | Yes | No |
-| `update` | Yes | No |
-| `remove` | Yes | No |
+| `diff` (view changes) | Yes, with interactive TUI | Yes |
+| `list` (installed components) | Yes | No |
+| `update` (pull latest + merge) | Yes, with interactive merge TUI | No |
+| `remove` (clean uninstall) | Yes | No |
+| Template scaffolding | `--template` flag for full project scaffold | No |
+| Monorepo support | `--monorepo` flag, workspace-aware config | No |
+| Interactive merge TUI | Hunk-by-hunk resolution with vim keys | No |
+| Syntax-highlighted diffs | Side-by-side terminal view | No |
 
-`update` pulls the latest version of a component and applies a diff. `remove` cleanly deletes a component and its unused dependencies. `list` shows all available components with their install status.
+The `update` command is the standout. When you update a component, it detects your local modifications and launches an interactive merge screen in your terminal. You see each change as a hunk and choose per-hunk: keep your version (1), take the registry version (2), or keep both (3). Navigate with vim keys (h/l between files, j/k between hunks), preview the merged result before writing, and confirm with Enter. No manual conflict resolution. No git merge markers.
+
+`remove` cleanly deletes a component and its unused dependencies. `list` shows every available component with its install status. `diff` shows what changed between your local copy and the latest registry version in a syntax-highlighted side-by-side TUI.
 
 ---
 
@@ -143,37 +149,58 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 ### gentleduck/ui
 
 ```tsx
-import { cva, type VariantProps } from '@gentleduck/variants'
+import { cva } from '@gentleduck/variants'
 import { cn } from '@gentleduck/libs/cn'
-import { Slot } from '@gentleduck/primitives/slot'
+import { Slot, Slottable } from '@gentleduck/primitives/slot'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center rounded-md text-sm font-medium ...',
+  'relative inline-flex shrink-0 cursor-pointer items-center justify-center gap-2 ...',
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground hover:bg-primary/90',
-        outline: 'border border-input bg-background hover:bg-accent',
+        default: 'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90',
+        outline: 'border border-input bg-background shadow-xs hover:bg-accent',
+        destructive: 'bg-destructive/90 text-destructive-foreground shadow-xs hover:bg-destructive/70',
+        ghost: 'text-accent-foreground hover:bg-accent',
+        link: 'text-primary underline-offset-4 hover:underline',
+        dashed: 'border border-input border-dashed bg-background shadow-xs hover:bg-accent/50',
       },
       size: {
-        default: 'h-10 px-4 py-2',
-        sm: 'h-9 rounded-md px-3',
+        default: 'h-9 px-4 py-2 has-[>svg]:px-3',
+        sm: 'h-8 gap-1.5 px-3 has-[>svg]:px-2.5',
+        lg: 'h-10 px-6 has-[>svg]:px-4',
+        icon: 'size-9',
+      },
+      border: {
+        default: '',
+        primary: 'border border-border/40 hover:border-border/80',
+        destructive: 'border border-destructive/40 bg-destructive/40 hover:border-destructive',
       },
     },
-    defaultVariants: { variant: 'default', size: 'default' },
+    defaultVariants: { variant: 'default', size: 'default', border: 'default' },
   },
 )
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ className, variant, size, asChild, ...props }, ref) => {
-    const Comp = asChild ? Slot : 'button'
-    return <Comp className={cn(buttonVariants({ variant, size, className }))} ref={ref} {...props} data-slot="button" />
+  ({ children, variant, size, border, asChild, className, loading, icon, ...props }, ref) => {
+    const Comp = (asChild ? Slot : 'button') as React.ElementType
+    return (
+      <Comp
+        data-slot="button"
+        className={cn(buttonVariants({ border, variant, size, className }))}
+        disabled={loading || props.disabled}
+        ref={ref}
+        {...props}>
+        {loading ? <Loader className="animate-spin" /> : icon}
+        <Slottable>{children}</Slottable>
+      </Comp>
+    )
   },
 )
 Button.displayName = 'Button'
 ```
 
-Three import swaps. The `cva` API is identical - `@gentleduck/variants` adds memoization so repeated calls with the same props return a cached result instead of recomputing. The `data-slot` attribute enables parent-scoped styling without fragile descendant selectors.
+The gentleduck Button ships more out of the box: a `loading` state with spinner, `icon` prop, `border` variant dimension, `dashed` and `warning` variants, and `Slottable` for proper `asChild` content projection. The `cva` API is the same but `@gentleduck/variants` adds memoization - repeated calls with the same props return a cached result. The `data-slot` attribute enables parent-scoped styling without fragile descendant selectors.
 
 ---
 
