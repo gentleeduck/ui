@@ -136,31 +136,31 @@ const PaginationLink = ({...props }: ) => (
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `className` | `string` | `--` | Additional CSS classes for the `nav` element |
-| `...props` | `React.ComponentPropsWithoutRef<'nav'>` | -- | Additional props to spread to the nav element |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | `-` | Additional CSS classes for the `nav` element |
+| `...props` | `React.ComponentPropsWithoutRef<'nav'>` | - | Additional props to spread to the nav element |
 
 ### PaginationContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional CSS classes for the `ul` element |
-| `...props` | `React.ComponentPropsWithoutRef<'ul'>` | -- | Additional props to spread to the ul element |
+| `className` | `string` | `-` | Additional CSS classes for the `ul` element |
+| `...props` | `React.ComponentPropsWithoutRef<'ul'>` | - | Additional props to spread to the ul element |
 
 ### PaginationItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional CSS classes for the `li` element |
-| `...props` | `React.ComponentPropsWithoutRef<'li'>` | -- | Additional props to spread to the li element |
+| `className` | `string` | `-` | Additional CSS classes for the `li` element |
+| `...props` | `React.ComponentPropsWithoutRef<'li'>` | - | Additional props to spread to the li element |
 
 ### PaginationLink
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `isActive` | `boolean` | -- | Marks the link as active/current page (adds `aria-current="page"` and styles) |
+| `isActive` | `boolean` | - | Marks the link as active/current page (adds `aria-current="page"` and styles) |
 | `size` | `'icon' \| 'default' \| 'sm'` | `'icon'` | Size variant for the button style |
-| `...props` | `React.ComponentPropsWithoutRef<'a'>` | -- | Additional props to spread to the a element |
+| `...props` | `React.ComponentPropsWithoutRef<'a'>` | - | Additional props to spread to the a element |
 
 ### PaginationPrevious
 
@@ -169,8 +169,8 @@ Extends `PaginationLink` with `aria-label="Go to previous page"`, left arrow ico
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `text` | `string` | `'Previous'` | Visible label text. Override for i18n / RTL support. |
-| `className` | `string` | `--` | Additional CSS classes for the previous link |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PaginationLink>` | -- | Additional props inherited from `PaginationLink`. |
+| `className` | `string` | `-` | Additional CSS classes for the previous link |
+| `...props` | `React.ComponentPropsWithoutRef<typeof PaginationLink>` | - | Additional props inherited from `PaginationLink`. |
 
 ### PaginationNext
 
@@ -179,28 +179,28 @@ Extends `PaginationLink` with `aria-label="Go to next page"`, text "Next", and r
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `text` | `string` | `'Next'` | Visible label text. Override for i18n / RTL support. |
-| `className` | `string` | `--` | Additional CSS classes for the next link |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PaginationLink>` | -- | Additional props inherited from `PaginationLink`. |
+| `className` | `string` | `-` | Additional CSS classes for the next link |
+| `...props` | `React.ComponentPropsWithoutRef<typeof PaginationLink>` | - | Additional props inherited from `PaginationLink`. |
 
 ### PaginationEllipsis
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `text` | `string` | `'More pages'` | Screen-reader label text. Override for i18n / RTL support. |
-| `className` | `string` | `--` | Additional CSS classes for the ellipsis element |
-| `...props` | `React.ComponentPropsWithoutRef<'span'>` | -- | Additional props to spread to the span element |
+| `className` | `string` | `-` | Additional CSS classes for the ellipsis element |
+| `...props` | `React.ComponentPropsWithoutRef<'span'>` | - | Additional props to spread to the span element |
 
 ### PaginationWrapper
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `wrapper` | `React.ComponentPropsWithoutRef<typeof Pagination>` | -- | Props for the pagination container |
-| `content` | `React.ComponentPropsWithoutRef<typeof PaginationContent>` | -- | Props for the content list |
-| `item` | `React.ComponentPropsWithoutRef<typeof PaginationItem>` | -- | Props for each pagination item |
-| `right` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Props for the "Next" button |
-| `maxRight` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Props for the "Last" button |
-| `left` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Props for the "Previous" button |
-| `maxLeft` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Props for the "First" button |
+| `wrapper` | `React.ComponentPropsWithoutRef<typeof Pagination>` | - | Props for the pagination container |
+| `content` | `React.ComponentPropsWithoutRef<typeof PaginationContent>` | - | Props for the content list |
+| `item` | `React.ComponentPropsWithoutRef<typeof PaginationItem>` | - | Props for each pagination item |
+| `right` | `React.ComponentPropsWithoutRef<typeof Button>` | - | Props for the "Next" button |
+| `maxRight` | `React.ComponentPropsWithoutRef<typeof Button>` | - | Props for the "Last" button |
+| `left` | `React.ComponentPropsWithoutRef<typeof Button>` | - | Props for the "Previous" button |
+| `maxLeft` | `React.ComponentPropsWithoutRef<typeof Button>` | - | Props for the "First" button |
 
 You can pass `dir: 'rtl'` through `wrapper` to make wrapper controls direction-aware:
 

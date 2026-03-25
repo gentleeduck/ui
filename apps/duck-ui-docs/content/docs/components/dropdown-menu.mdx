@@ -1,6 +1,6 @@
 ---
 title: dropdown-menu
-description: Displays a menu to the user -- such as a set of actions or functions -- triggered by a button.
+description: Displays a menu to the user  -  such as a set of actions or functions  -  triggered by a button.
 component: true
 ---
 
@@ -147,10 +147,10 @@ The root component that manages open/closed state and provides context to all ch
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `open` | `boolean` | -- | Controlled open state |
+| `open` | `boolean` | - | Controlled open state |
 | `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
-| `onOpenChange` | `(open: boolean) => void` | -- | Callback when open state changes |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `onOpenChange` | `(open: boolean) => void` | - | Callback when open state changes |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `modal` | `boolean` | `true` | When true, interaction with outside elements is disabled and only menu content is visible to screen readers |
 
 ### DropdownMenuTrigger
@@ -159,7 +159,7 @@ Button that toggles the dropdown menu. Renders a `<button>` with `aria-haspopup=
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `asChild` | `boolean` | -- | Render as the child element instead of a `<button>` |
+| `asChild` | `boolean` | - | Render as the child element instead of a `<button>` |
 | `disabled` | `boolean` | `false` | Disables the trigger |
 
 Sets `aria-expanded`, `aria-controls`, and `data-state` automatically.
@@ -173,10 +173,10 @@ The dropdown content area. Handles positioning, focus management, keyboard navig
 | `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Preferred side relative to the trigger |
 | `sideOffset` | `number` | `4` | Main-axis offset from trigger |
 | `align` | `'start' \| 'center' \| 'end'` | `'start'` | Cross-axis alignment |
-| `alignOffset` | `number` | -- | Cross-axis offset |
+| `alignOffset` | `number` | - | Cross-axis offset |
 | `avoidCollisions` | `boolean` | `true` | Flip to avoid viewport overflow |
-| `collisionPadding` | `number` | -- | Padding from viewport edges |
-| `className` | `string` | -- | Additional CSS class names |
+| `collisionPadding` | `number` | - | Padding from viewport edges |
+| `className` | `string` | - | Additional CSS class names |
 
 Exposes `data-state="open"` / `data-state="closed"` and `data-side` for CSS animation.
 
@@ -194,7 +194,7 @@ Groups related items together. Renders a `<div>` with `role="group"`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names |
+| `className` | `string` | - | Additional CSS class names |
 
 ### DropdownMenuLabel
 
@@ -202,8 +202,8 @@ A non-interactive label for grouping menu items.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `inset` | `boolean` | -- | Adds start padding to align with items that have icons |
-| `className` | `string` | -- | Additional CSS class names |
+| `inset` | `boolean` | - | Adds start padding to align with items that have icons |
+| `className` | `string` | - | Additional CSS class names |
 
 ### DropdownMenuItem
 
@@ -212,11 +212,11 @@ An individual menu action item. Renders a `<div>` with `role="menuitem"`.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `variant` | `'default' \| 'destructive'` | `'default'` | Style variant for the item |
-| `inset` | `boolean` | -- | Adds start padding to align with items that have icons |
-| `disabled` | `boolean` | -- | Prevents interaction and styles the item as disabled |
-| `onSelect` | `(event: Event) => void` | -- | Called when the item is selected via click or keyboard |
-| `textValue` | `string` | -- | Text override for typeahead search |
-| `className` | `string` | -- | Additional CSS class names |
+| `inset` | `boolean` | - | Adds start padding to align with items that have icons |
+| `disabled` | `boolean` | - | Prevents interaction and styles the item as disabled |
+| `onSelect` | `(event: Event) => void` | - | Called when the item is selected via click or keyboard |
+| `textValue` | `string` | - | Text override for typeahead search |
+| `className` | `string` | - | Additional CSS class names |
 
 Exposes `data-highlighted` when focused and `data-disabled` when disabled.
 
@@ -226,10 +226,10 @@ A menu item with a toggleable checkbox indicator.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `checked` | `boolean \| 'indeterminate'` | -- | Controlled checked state |
-| `onCheckedChange` | `(checked: boolean) => void` | -- | Callback when checked state changes |
-| `disabled` | `boolean` | -- | Prevents interaction |
-| `className` | `string` | -- | Additional CSS class names |
+| `checked` | `boolean \| 'indeterminate'` | - | Controlled checked state |
+| `onCheckedChange` | `(checked: boolean) => void` | - | Callback when checked state changes |
+| `disabled` | `boolean` | - | Prevents interaction |
+| `className` | `string` | - | Additional CSS class names |
 
 ### DropdownMenuRadioGroup
 
@@ -237,8 +237,8 @@ Groups radio items together for single-selection behavior.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string` | -- | The currently selected radio value |
-| `onValueChange` | `(value: string) => void` | -- | Callback when the selected value changes |
+| `value` | `string` | - | The currently selected radio value |
+| `onValueChange` | `(value: string) => void` | - | Callback when the selected value changes |
 
 ### DropdownMenuRadioItem
 
@@ -247,8 +247,8 @@ A radio-selectable menu item. Must be used inside `DropdownMenuRadioGroup`.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `string` | (required) | The value representing this radio item |
-| `disabled` | `boolean` | -- | Prevents interaction |
-| `className` | `string` | -- | Additional CSS class names |
+| `disabled` | `boolean` | - | Prevents interaction |
+| `className` | `string` | - | Additional CSS class names |
 
 ### DropdownMenuSeparator
 
@@ -256,7 +256,7 @@ A visual divider between groups of menu items. Renders a styled `<div>`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names |
+| `className` | `string` | - | Additional CSS class names |
 
 ### DropdownMenuShortcut
 
@@ -264,7 +264,7 @@ Displays a keyboard shortcut hint next to a menu item.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names |
+| `className` | `string` | - | Additional CSS class names |
 
 ### DropdownMenuSub
 
@@ -272,9 +272,9 @@ Wrapper for a submenu. Manages nested open state.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `open` | `boolean` | -- | Controlled open state |
+| `open` | `boolean` | - | Controlled open state |
 | `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
-| `onOpenChange` | `(open: boolean) => void` | -- | Callback when open state changes |
+| `onOpenChange` | `(open: boolean) => void` | - | Callback when open state changes |
 
 ### DropdownMenuSubTrigger
 
@@ -282,9 +282,9 @@ Trigger element for a submenu. Displays a chevron icon indicating a nested menu.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `inset` | `boolean` | -- | Adds start padding to align with inset menu items |
-| `disabled` | `boolean` | -- | Disables the trigger |
-| `className` | `string` | -- | Additional CSS class names |
+| `inset` | `boolean` | - | Adds start padding to align with inset menu items |
+| `disabled` | `boolean` | - | Disables the trigger |
+| `className` | `string` | - | Additional CSS class names |
 
 ### DropdownMenuSubContent
 
@@ -292,9 +292,9 @@ Content container for a submenu. Positioned to the side of the sub-trigger.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `sideOffset` | `number` | -- | Main-axis offset from trigger |
-| `alignOffset` | `number` | -- | Cross-axis offset |
-| `className` | `string` | -- | Additional CSS class names |
+| `sideOffset` | `number` | - | Main-axis offset from trigger |
+| `alignOffset` | `number` | - | Cross-axis offset |
+| `className` | `string` | - | Additional CSS class names |
 
 Exposes the same `--gentleduck-dropdown-menu-*` CSS custom properties as `DropdownMenuContent`.
 

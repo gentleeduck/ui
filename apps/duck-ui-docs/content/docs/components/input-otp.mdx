@@ -175,17 +175,17 @@ The root component that provides OTP context and manages slot focus, paste, and 
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names for the wrapper div |
-| `children` | `React.ReactNode` | -- | OTP groups, slots, and separators |
-| `value` | `string` | -- | Controlled value of the OTP input |
-| `onValueChange` | `(value: string) => void` | -- | Callback fired when the combined slot value changes |
+| `className` | `string` | - | Additional class names for the wrapper div |
+| `children` | `React.ReactNode` | - | OTP groups, slots, and separators |
+| `value` | `string` | - | Controlled value of the OTP input |
+| `onValueChange` | `(value: string) => void` | - | Callback fired when the combined slot value changes |
 | `pattern` | `RegExp` | `/^.$/` | Regex used to validate each entered character |
-| `maxLength` | `number` | -- | Optional cap for active slots used by keyboard and paste behavior |
-| `name` | `string` | -- | Optional field name (useful with form libraries) |
+| `maxLength` | `number` | - | Optional cap for active slots used by keyboard and paste behavior |
+| `name` | `string` | - | Optional field name (useful with form libraries) |
 | `dir` | `'ltr' \| 'rtl'` | inherited | Local direction override |
-| `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the wrapper div |
+| `ref` | `React.Ref<HTMLDivElement>` | - | Ref forwarded to the wrapper div |
 | `aria-label` | `string` | `"otp-one-time-password"` | Accessible label for the OTP region |
-| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'pattern'>` | -- | Additional props to spread to the content div |
+| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'pattern'>` | - | Additional props to spread to the content div |
 
 ### InputOTPGroup
 
@@ -193,10 +193,10 @@ Groups related OTP slots together with flex layout.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names for the group div |
-| `children` | `React.ReactNode` | -- | OTP slots to group together |
-| `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the group div |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `className` | `string` | - | Additional class names for the group div |
+| `children` | `React.ReactNode` | - | OTP slots to group together |
+| `ref` | `React.Ref<HTMLDivElement>` | - | Ref forwarded to the group div |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### InputOTPSlot
 
@@ -204,9 +204,9 @@ An individual input element representing a single OTP digit.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names for the input element |
-| `ref` | `React.Ref<HTMLInputElement>` | -- | Ref forwarded to the input element |
-| `...props` | `React.HTMLProps<HTMLInputElement>` | -- | Additional props to spread to the input element |
+| `className` | `string` | - | Additional class names for the input element |
+| `ref` | `React.Ref<HTMLInputElement>` | - | Ref forwarded to the input element |
+| `...props` | `React.HTMLProps<HTMLInputElement>` | - | Additional props to spread to the input element |
 
 ### InputOTPSeparator
 
@@ -214,10 +214,10 @@ A visual separator rendered between OTP groups.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names for the separator div |
+| `className` | `string` | - | Additional class names for the separator div |
 | `customIndicator` | `React.ReactNode` | `<Dot />` | Custom element to render instead of the default dot icon |
-| `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the separator div |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `ref` | `React.Ref<HTMLDivElement>` | - | Ref forwarded to the separator div |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ## RTL Support
 

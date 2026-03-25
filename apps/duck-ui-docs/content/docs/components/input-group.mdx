@@ -223,10 +223,10 @@ The root container that wraps inputs and addons into a unified group with shared
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `className` | `string` | `--` | Additional CSS classes to apply |
-| `children` | `React.ReactNode` | `--` | InputGroup sub-components to render inside the group |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | `-` | Additional CSS classes to apply |
+| `children` | `React.ReactNode` | `-` | InputGroup sub-components to render inside the group |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### InputGroupAddon
 
@@ -240,9 +240,9 @@ Displays icons, text, buttons, or other content alongside inputs.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `align` | `'inline-start' \| 'inline-end' \| 'block-start' \| 'block-end'` | `'inline-start'` | Position of the addon relative to the input. Use `inline-start`/`inline-end` with `InputGroupInput` and `block-start`/`block-end` with `InputGroupTextarea`. |
-| `className` | `string` | `--` | Additional CSS classes to apply |
-| `children` | `React.ReactNode` | `--` | Icons, text, buttons, or other content |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `className` | `string` | `-` | Additional CSS classes to apply |
+| `children` | `React.ReactNode` | `-` | Icons, text, buttons, or other content |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### InputGroupButton
 
@@ -253,8 +253,8 @@ A button styled for use within input groups. Renders a `Button` with compact siz
 | `size` | `'xs' \| 'icon-xs' \| 'sm' \| 'icon-sm'` | `'xs'` | Size of the button |
 | `variant` | `'default' \| 'destructive' \| 'outline' \| 'secondary' \| 'ghost' \| 'link' \| 'dashed' \| 'warning' \| 'nothing' \| 'expand_icon'` | `'ghost'` | Visual variant of the button |
 | `type` | `string` | `'button'` | The HTML button type attribute |
-| `className` | `string` | `--` | Additional CSS classes to apply |
-| `...props` | `Omit<React.ComponentPropsWithoutRef<typeof Button>, 'size'>` | -- | Additional props inherited from `Button` (excluding `size`). |
+| `className` | `string` | `-` | Additional CSS classes to apply |
+| `...props` | `Omit<React.ComponentPropsWithoutRef<typeof Button>, 'size'>` | - | Additional props inherited from `Button` (excluding `size`). |
 
 ### InputGroupText
 
@@ -262,9 +262,9 @@ A styled span for displaying static text within input groups.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional CSS classes to apply |
-| `children` | `React.ReactNode` | `--` | Text or icon content to display |
-| `...props` | `React.HTMLProps<HTMLSpanElement>` | -- | Additional props to spread to the span element |
+| `className` | `string` | `-` | Additional CSS classes to apply |
+| `children` | `React.ReactNode` | `-` | Text or icon content to display |
+| `...props` | `React.HTMLProps<HTMLSpanElement>` | - | Additional props to spread to the span element |
 
 ### InputGroupInput
 
@@ -272,9 +272,9 @@ Replacement for `<Input />` when building input groups. Has input group styles p
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `className` | `string` | `--` | Additional CSS classes to apply |
-| `...props` | `React.HTMLProps<HTMLInputElement>` | -- | Additional props to spread to the input element |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | `-` | Additional CSS classes to apply |
+| `...props` | `React.HTMLProps<HTMLInputElement>` | - | Additional props to spread to the input element |
 
 ### InputGroupTextarea
 
@@ -282,9 +282,9 @@ Replacement for `<Textarea />` when building input groups. Has textarea group st
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `className` | `string` | `--` | Additional CSS classes to apply |
-| `...props` | `React.HTMLProps<HTMLTextAreaElement>` | -- | Additional props to spread to the textarea element |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | `-` | Additional CSS classes to apply |
+| `...props` | `React.HTMLProps<HTMLTextAreaElement>` | - | Additional props to spread to the textarea element |
 
 ## RTL Support
 

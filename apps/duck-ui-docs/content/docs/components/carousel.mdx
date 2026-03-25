@@ -340,28 +340,28 @@ See the [Embla Carousel docs](https://www.embla-carousel.com/api/plugins/) for m
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `opts` | `CarouselOptions` | -- | Configuration options passed to `embla-carousel` |
-| `plugins` | `CarouselPlugin` | -- | Array of Embla plugins |
+| `opts` | `CarouselOptions` | - | Configuration options passed to `embla-carousel` |
+| `plugins` | `CarouselPlugin` | - | Array of Embla plugins |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Carousel axis direction |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `setApi` | `(api: CarouselApi) => void` | -- | Callback to expose the Embla API |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `setApi` | `(api: CarouselApi) => void` | - | Callback to expose the Embla API |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### CarouselContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS classes applied to the content container |
-| `children` | `React.ReactNode` | -- | `CarouselItem` elements |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `className` | `string` | - | Additional CSS classes applied to the content container |
+| `children` | `React.ReactNode` | - | `CarouselItem` elements |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### CarouselItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS classes applied to the item (use `basis-*` utilities to control size) |
-| `children` | `React.ReactNode` | -- | Slide content |
-| `...props` | `React.HTMLProps<HTMLLIElement>` | -- | Additional props to spread to the li element |
+| `className` | `string` | - | Additional CSS classes applied to the item (use `basis-*` utilities to control size) |
+| `children` | `React.ReactNode` | - | Slide content |
+| `...props` | `React.HTMLProps<HTMLLIElement>` | - | Additional props to spread to the li element |
 
 ### CarouselPrevious
 
@@ -370,7 +370,7 @@ See the [Embla Carousel docs](https://www.embla-carousel.com/api/plugins/) for m
 | `variant` | `string` | `'outline'` | Variant prop for the `Button` component |
 | `size` | `string` | `'icon'` | Size prop for the `Button` component |
 | `text` | `string` | `'Previous slide'` | Accessible label for the button (`aria-label`) |
-| `...props` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Additional props inherited from `Button`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof Button>` | - | Additional props inherited from `Button`. |
 
 ### CarouselNext
 
@@ -379,7 +379,7 @@ See the [Embla Carousel docs](https://www.embla-carousel.com/api/plugins/) for m
 | `variant` | `string` | `'outline'` | Variant prop for the `Button` component |
 | `size` | `string` | `'icon'` | Size prop for the `Button` component |
 | `text` | `string` | `'Next slide'` | Accessible label for the button (`aria-label`) |
-| `...props` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Additional props inherited from `Button`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof Button>` | - | Additional props inherited from `Button`. |
 
 ### Types
 
