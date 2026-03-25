@@ -110,6 +110,107 @@ This means you do not lose access to the shadcn ecosystem by switching. You gain
 
 ---
 
+## Same components, more features
+
+Every gentleduck component is a drop-in replacement for its shadcn equivalent. Same JSX, same props, same Tailwind classes. The difference is what you get for free.
+
+### Button
+
+shadcn ships a basic button with variant and size props. gentleduck adds:
+
+| Feature | gentleduck | shadcn |
+|---|---|---|
+| Loading state with spinner | `loading` prop, auto-disables | Manual implementation |
+| Icon placement | `icon` and `secondIcon` props | Manual children |
+| Collapsed mode | `isCollapsed` for sidebar toggles | Manual implementation |
+| Animated icon | `AnimationIcon` with slide/fade on hover | Not available |
+| Border variants | `border` prop (primary, destructive, warning) | Not available |
+| Dashed variant | `variant="dashed"` | Not available |
+| Extra sizes | `icon-lg`, `icon-sm` | Not available |
+
+```tsx
+// shadcn: you build loading state yourself
+<Button disabled={isLoading}>
+  {isLoading ? <Loader className="animate-spin" /> : null}
+  {isLoading ? 'Saving...' : 'Save'}
+</Button>
+
+// gentleduck: one prop
+<Button loading={isLoading} icon={<Save />}>Save</Button>
+```
+
+### Dialog
+
+shadcn ships a basic dialog. gentleduck adds a `DialogResponsive` variant that automatically switches between Dialog on desktop and Drawer on mobile at 768px. No media query code. No conditional rendering. One component.
+
+```tsx
+// shadcn: you build responsive behavior yourself
+const isDesktop = useMediaQuery('(min-width: 768px)')
+return isDesktop ? <Dialog>...</Dialog> : <Drawer>...</Drawer>
+
+// gentleduck: built-in
+<DialogResponsive>
+  <DialogTriggerResponsive>Open</DialogTriggerResponsive>
+  <DialogContentResponsive>
+    {/* Same content, renders as Dialog or Drawer automatically */}
+  </DialogContentResponsive>
+</DialogResponsive>
+```
+
+### Calendar
+
+shadcn wraps react-day-picker (~20 KB + date-fns). gentleduck ships a full calendar system at ~5 KB with zero dependencies:
+
+| Feature | gentleduck | shadcn |
+|---|---|---|
+| Bundle size | ~5 KB gzipped | ~20 KB + date-fns |
+| Calendar systems | 4 (Gregorian, Islamic, Persian, Hebrew) | 1 (Gregorian) |
+| Date adapters | 7 (Native, date-fns, dayjs, luxon, + 3 calendar-specific) | date-fns only |
+| Selection modes | Single, range, multi | Single, range, multi |
+| Render props | `renderDay`, `renderHeader`, `renderWeekday`, `renderFooter` | Limited |
+| Month/year dropdowns | `showDropdowns` prop | Manual implementation |
+| Multiple months | `numberOfMonths` prop | `numberOfMonths` prop |
+| Locale/RTL | Full i18n with Arabic numerals, Persian text | Basic locale |
+
+### Combobox
+
+shadcn documents a combobox pattern using Command + Popover manually. gentleduck ships a dedicated `Combobox` component:
+
+| Feature | gentleduck | shadcn |
+|---|---|---|
+| Single + multi select | Generic type for both modes | Manual implementation |
+| Search filtering | `withSearch` prop | Manual Command integration |
+| Selected item display | Badges with "+N Selected" truncation | Manual implementation |
+| RTL support | Built-in `dir` prop | Not available |
+
+### InputGroup and ButtonGroup
+
+These components do not exist in shadcn at all.
+
+**InputGroup** provides addon slots (icons, buttons, labels) that attach to inputs with proper focus delegation - clicking the addon focuses the input. Supports inline-start, inline-end, block-start, block-end positions. Error states cascade from input to the group wrapper automatically.
+
+**ButtonGroup** provides horizontal/vertical grouping with separators and text labels, with full RTL support.
+
+### Tooltip
+
+gentleduck's tooltip supports `disableCloseOnClick` for wrapping interactive elements like toggles. In shadcn, putting a tooltip on a toggle button causes the tooltip to intercept the click and close instead of toggling. gentleduck solves this at the primitive level.
+
+### Sidebar
+
+Both ship a sidebar component. gentleduck adds:
+
+| Feature | gentleduck | shadcn |
+|---|---|---|
+| Collapse modes | `offcanvas`, `icon`, `none` | `offcanvas`, `icon`, `none` |
+| Cookie persistence | Auto-saves state to cookies | Auto-saves state to cookies |
+| Keyboard shortcut | Cmd/Ctrl+B toggles sidebar | Cmd/Ctrl+B toggles sidebar |
+| RTL support | Built-in `side` + `dir` props | `side` prop |
+| Mobile sheet | Auto-switches to Sheet on mobile | Auto-switches to Sheet on mobile |
+
+The sidebar implementations are nearly identical. This is an example of where shadcn got it right and gentleduck matches the behavior while running on lighter primitives underneath.
+
+---
+
 ## Code comparison
 
 The same Button component in both:
