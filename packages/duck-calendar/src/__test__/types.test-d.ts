@@ -4,19 +4,21 @@ import { NativeAdapter } from '../adapter'
 import type { CalendarDay, CalendarMonth, CalendarWeek } from '../grid'
 import { buildCalendarMonth, buildMultiMonth } from '../grid'
 import type { CalendarConfig, CalendarLocaleConfig, ViewMode } from '../index.types'
+import type { NavigationDirection, NavigationUnit } from '../navigation'
 import { canNavigate, navigate } from '../navigation'
 import type {
   DayProps,
   GridProps,
   HeaderProps,
   NavProps,
+  UseCalendarConfig,
   UseCalendarReturn,
 } from '../react/use-calendar/use-calendar.types'
-import type { UseDateTimeReturn } from '../react/use-datetime/use-datetime.types'
+import type { UseDateTimeConfig, UseDateTimeReturn } from '../react/use-datetime/use-datetime.types'
 import type { TimeFieldProps, UseTimePickerReturn } from '../react/use-time-picker/use-time-picker.types'
 import type { CalendarValue, DateRange, SelectionConstraints, SelectionMode } from '../selection'
 import { applySelection, selectDay } from '../selection'
-import type { HourCycle, TimeField, TimeValue } from '../time'
+import type { HourCycle, TimeField, TimePickerConfig, TimeValue } from '../time'
 import { clampTime, incrementField, parseTimeInput } from '../time'
 
 // ---------------------------------------------------------------------------
@@ -392,5 +394,388 @@ describe('CalendarDay type', () => {
     expectTypeOf<CalendarDay<Date>['isRangeEnd']>().toEqualTypeOf<boolean>()
     expectTypeOf<CalendarDay<Date>['isRangeMiddle']>().toEqualTypeOf<boolean>()
     expectTypeOf<CalendarDay<Date>['isHidden']>().toEqualTypeOf<boolean>()
+  })
+
+  it('preserves generic TDate through CalendarWeek and CalendarMonth', () => {
+    type CustomDate = { _brand: 'custom'; value: number }
+    expectTypeOf<CalendarDay<CustomDate>['date']>().toEqualTypeOf<CustomDate>()
+    expectTypeOf<CalendarWeek<CustomDate>['days']>().toEqualTypeOf<CalendarDay<CustomDate>[]>()
+    expectTypeOf<CalendarMonth<CustomDate>['month']>().toEqualTypeOf<CustomDate>()
+    expectTypeOf<CalendarMonth<CustomDate>['weeks']>().toEqualTypeOf<CalendarWeek<CustomDate>[]>()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Mode-narrowed callback types
+// ---------------------------------------------------------------------------
+describe('Mode-narrowed callback types', () => {
+  it('onSelect for single mode accepts Date | null', () => {
+    type SingleConfig = CalendarConfig<Date, 'single'>
+    type OnSelect = NonNullable<SingleConfig['onSelect']>
+    expectTypeOf<OnSelect>().parameter(0).toEqualTypeOf<Date | null>()
+    expectTypeOf<OnSelect>().returns.toEqualTypeOf<void>()
+  })
+
+  it('onSelect for range mode accepts DateRange<Date> | null', () => {
+    type RangeConfig = CalendarConfig<Date, 'range'>
+    type OnSelect = NonNullable<RangeConfig['onSelect']>
+    expectTypeOf<OnSelect>().parameter(0).toEqualTypeOf<DateRange<Date> | null>()
+    expectTypeOf<OnSelect>().returns.toEqualTypeOf<void>()
+  })
+
+  it('onSelect for multi mode accepts Date[]', () => {
+    type MultiConfig = CalendarConfig<Date, 'multi'>
+    type OnSelect = NonNullable<MultiConfig['onSelect']>
+    expectTypeOf<OnSelect>().parameter(0).toEqualTypeOf<Date[]>()
+    expectTypeOf<OnSelect>().returns.toEqualTypeOf<void>()
+  })
+
+  it('onSelect for multi-range mode accepts DateRange<Date>[]', () => {
+    type MultiRangeConfig = CalendarConfig<Date, 'multi-range'>
+    type OnSelect = NonNullable<MultiRangeConfig['onSelect']>
+    expectTypeOf<OnSelect>().parameter(0).toEqualTypeOf<DateRange<Date>[]>()
+    expectTypeOf<OnSelect>().returns.toEqualTypeOf<void>()
+  })
+
+  it('selectDay return type narrows per mode', () => {
+    const adapter = new NativeAdapter()
+    const singleResult = selectDay(adapter, 'single', null, new Date())
+    expectTypeOf(singleResult).toEqualTypeOf<Date | null>()
+
+    const rangeResult = selectDay(adapter, 'range', null, new Date())
+    expectTypeOf(rangeResult).toEqualTypeOf<DateRange<Date> | null>()
+
+    const multiResult = selectDay(adapter, 'multi', [], new Date())
+    expectTypeOf(multiResult).toEqualTypeOf<Date[]>()
+
+    const multiRangeResult = selectDay(adapter, 'multi-range', [], new Date())
+    expectTypeOf(multiRangeResult).toEqualTypeOf<DateRange<Date>[]>()
+  })
+
+  it('onMonthChange receives TDate', () => {
+    type Config = CalendarConfig<Date, 'single'>
+    type OnMonthChange = NonNullable<Config['onMonthChange']>
+    expectTypeOf<OnMonthChange>().parameter(0).toEqualTypeOf<Date>()
+    expectTypeOf<OnMonthChange>().returns.toEqualTypeOf<void>()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Adapter generic constraints
+// ---------------------------------------------------------------------------
+describe('Adapter generic constraints', () => {
+  it('DateAdapter methods are constrained to TDate', () => {
+    type BrandedDate = { _brand: 'branded'; ts: number }
+    type BA = DateAdapter<BrandedDate>
+
+    // Creation and manipulation return TDate
+    expectTypeOf<BA['today']>().returns.toEqualTypeOf<BrandedDate>()
+    expectTypeOf<BA['create']>().returns.toEqualTypeOf<BrandedDate>()
+    expectTypeOf<BA['addDays']>().returns.toEqualTypeOf<BrandedDate>()
+    expectTypeOf<BA['addMonths']>().returns.toEqualTypeOf<BrandedDate>()
+    expectTypeOf<BA['addYears']>().returns.toEqualTypeOf<BrandedDate>()
+    expectTypeOf<BA['startOfMonth']>().returns.toEqualTypeOf<BrandedDate>()
+    expectTypeOf<BA['endOfMonth']>().returns.toEqualTypeOf<BrandedDate>()
+    expectTypeOf<BA['startOfWeek']>().returns.toEqualTypeOf<BrandedDate>()
+    expectTypeOf<BA['fromDate']>().returns.toEqualTypeOf<BrandedDate>()
+    expectTypeOf<BA['setTime']>().returns.toEqualTypeOf<BrandedDate>()
+  })
+
+  it('toDate always returns native Date regardless of TDate', () => {
+    type BrandedDate = { _brand: 'branded'; ts: number }
+    type BA = DateAdapter<BrandedDate>
+    expectTypeOf<BA['toDate']>().returns.toEqualTypeOf<Date>()
+  })
+
+  it('fromDate always accepts native Date regardless of TDate', () => {
+    type BrandedDate = { _brand: 'branded'; ts: number }
+    type BA = DateAdapter<BrandedDate>
+    expectTypeOf<BA['fromDate']>().parameter(0).toEqualTypeOf<Date>()
+  })
+
+  it('NativeAdapter satisfies DateAdapter<Date> assignment', () => {
+    const adapter: DateAdapter<Date> = new NativeAdapter()
+    expectTypeOf(adapter).toMatchTypeOf<DateAdapter<Date>>()
+  })
+
+  it('getMonthsInYear is optional', () => {
+    type Adapter = DateAdapter<Date>
+    expectTypeOf<Adapter['getMonthsInYear']>().toEqualTypeOf<((date: Date) => number) | undefined>()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// UseCalendarReturn exhaustive type assertions
+// ---------------------------------------------------------------------------
+describe('UseCalendarReturn exhaustive type assertions', () => {
+  it('actions.selectDate accepts TDate and optional options', () => {
+    type Return = UseCalendarReturn<Date, 'single'>
+    expectTypeOf<Return['actions']['selectDate']>().parameter(0).toEqualTypeOf<Date>()
+  })
+
+  it('actions.setMonth accepts TDate', () => {
+    type Return = UseCalendarReturn<Date, 'single'>
+    expectTypeOf<Return['actions']['setMonth']>().parameter(0).toEqualTypeOf<Date>()
+  })
+
+  it('actions.setViewMode accepts ViewMode', () => {
+    type Return = UseCalendarReturn<Date, 'single'>
+    expectTypeOf<Return['actions']['setViewMode']>().parameter(0).toEqualTypeOf<ViewMode>()
+  })
+
+  it('actions.focusDate accepts TDate', () => {
+    type Return = UseCalendarReturn<Date, 'single'>
+    expectTypeOf<Return['actions']['focusDate']>().parameter(0).toEqualTypeOf<Date>()
+  })
+
+  it('getNavProps accepts direction parameter', () => {
+    type Return = UseCalendarReturn<Date, 'single'>
+    expectTypeOf<Return['getNavProps']>().parameter(0).toEqualTypeOf<'prev' | 'next'>()
+  })
+
+  it('getNavProps returns NavProps with correct shape', () => {
+    expectTypeOf<NavProps['aria-label']>().toEqualTypeOf<string>()
+    expectTypeOf<NavProps['disabled']>().toEqualTypeOf<boolean>()
+    expectTypeOf<NavProps['onClick']>().toBeFunction()
+  })
+
+  it('getHeaderProps returns HeaderProps with correct shape', () => {
+    expectTypeOf<HeaderProps['id']>().toEqualTypeOf<string>()
+    expectTypeOf<HeaderProps['aria-live']>().toEqualTypeOf<'polite'>()
+  })
+
+  it('multi-range mode has correct state.value type', () => {
+    type Return = UseCalendarReturn<Date, 'multi-range'>
+    expectTypeOf<Return['state']['value']>().toEqualTypeOf<DateRange<Date>[]>()
+  })
+
+  it('return type preserves custom TDate through all fields', () => {
+    type CustomDate = { _brand: 'dayjs' }
+    type Return = UseCalendarReturn<CustomDate, 'single'>
+    expectTypeOf<Return['state']['month']>().toEqualTypeOf<CustomDate>()
+    expectTypeOf<Return['state']['focusedDate']>().toEqualTypeOf<CustomDate>()
+    expectTypeOf<Return['state']['value']>().toEqualTypeOf<CustomDate | null>()
+    expectTypeOf<Return['state']['weeks']>().toEqualTypeOf<CalendarWeek<CustomDate>[]>()
+    expectTypeOf<Return['state']['months']>().toEqualTypeOf<CalendarMonth<CustomDate>[]>()
+    expectTypeOf<Return['getDayProps']>().parameter(0).toEqualTypeOf<CalendarDay<CustomDate>>()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// UseTimePickerReturn exhaustive type assertions
+// ---------------------------------------------------------------------------
+describe('UseTimePickerReturn exhaustive type assertions', () => {
+  it('actions.setValue accepts TimeValue', () => {
+    type Return = UseTimePickerReturn
+    expectTypeOf<Return['actions']['setValue']>().parameter(0).toEqualTypeOf<TimeValue>()
+  })
+
+  it('actions.setField accepts TimeField and number', () => {
+    type Return = UseTimePickerReturn
+    expectTypeOf<Return['actions']['setField']>().parameter(0).toEqualTypeOf<TimeField>()
+    expectTypeOf<Return['actions']['setField']>().parameter(1).toEqualTypeOf<number>()
+  })
+
+  it('actions.increment and decrement accept TimeField', () => {
+    type Return = UseTimePickerReturn
+    expectTypeOf<Return['actions']['increment']>().parameter(0).toEqualTypeOf<TimeField>()
+    expectTypeOf<Return['actions']['decrement']>().parameter(0).toEqualTypeOf<TimeField>()
+  })
+
+  it('actions.toggleAmPm returns void', () => {
+    type Return = UseTimePickerReturn
+    expectTypeOf<Return['actions']['toggleAmPm']>().returns.toEqualTypeOf<void>()
+  })
+
+  it('actions.focusField accepts TimeField', () => {
+    type Return = UseTimePickerReturn
+    expectTypeOf<Return['actions']['focusField']>().parameter(0).toEqualTypeOf<TimeField>()
+  })
+
+  it('getFieldProps accepts TimeField parameter', () => {
+    type Return = UseTimePickerReturn
+    expectTypeOf<Return['getFieldProps']>().parameter(0).toEqualTypeOf<TimeField>()
+  })
+
+  it('TimeFieldProps has correct ARIA spinbutton attributes', () => {
+    expectTypeOf<TimeFieldProps['aria-label']>().toEqualTypeOf<string>()
+    expectTypeOf<TimeFieldProps['aria-valuemin']>().toEqualTypeOf<number>()
+    expectTypeOf<TimeFieldProps['aria-valuemax']>().toEqualTypeOf<number>()
+    expectTypeOf<TimeFieldProps['aria-valuenow']>().toEqualTypeOf<number>()
+    expectTypeOf<TimeFieldProps['aria-valuetext']>().toEqualTypeOf<string>()
+    expectTypeOf<TimeFieldProps['tabIndex']>().toEqualTypeOf<0 | -1>()
+    expectTypeOf<TimeFieldProps['data-focused']>().toEqualTypeOf<'true' | undefined>()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Invalid mode type errors
+// ---------------------------------------------------------------------------
+describe('Invalid mode type errors', () => {
+  it('CalendarConfig rejects invalid mode', () => {
+    // @ts-expect-error - 'weekly' is not a valid SelectionMode
+    type _InvalidConfig = CalendarConfig<Date, 'weekly'>
+  })
+
+  it('selectDay rejects invalid mode at the type level', () => {
+    const adapter = new NativeAdapter()
+    // @ts-expect-error - 'toggle' is not a valid SelectionMode
+    selectDay(adapter, 'toggle', null, new Date())
+  })
+
+  it('CalendarValue resolves to never for unsupported mode', () => {
+    // @ts-expect-error - 'week' is not a valid SelectionMode
+    type _WeekValue = CalendarValue<Date, 'week'>
+  })
+
+  it('UseCalendarReturn rejects invalid mode', () => {
+    // @ts-expect-error - 'custom' is not a valid SelectionMode
+    type _InvalidReturn = UseCalendarReturn<Date, 'custom'>
+  })
+})
+
+// ---------------------------------------------------------------------------
+// Navigation types
+// ---------------------------------------------------------------------------
+describe('Navigation types', () => {
+  it('NavigationDirection is prev | next', () => {
+    expectTypeOf<'prev'>().toMatchTypeOf<NavigationDirection>()
+    expectTypeOf<'next'>().toMatchTypeOf<NavigationDirection>()
+  })
+
+  it('NavigationUnit is month | year | decade', () => {
+    expectTypeOf<'month'>().toMatchTypeOf<NavigationUnit>()
+    expectTypeOf<'year'>().toMatchTypeOf<NavigationUnit>()
+    expectTypeOf<'decade'>().toMatchTypeOf<NavigationUnit>()
+  })
+
+  it('navigate returns TDate matching the adapter', () => {
+    type CustomDate = { _brand: 'custom' }
+    type Result = ReturnType<typeof navigate<CustomDate>>
+    expectTypeOf<Result>().toEqualTypeOf<CustomDate>()
+  })
+
+  it('canNavigate returns boolean', () => {
+    type Result = ReturnType<typeof canNavigate<Date>>
+    expectTypeOf<Result>().toEqualTypeOf<boolean>()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// SelectionConstraints type
+// ---------------------------------------------------------------------------
+describe('SelectionConstraints type', () => {
+  it('all fields are optional', () => {
+    expectTypeOf<SelectionConstraints<Date>>().toMatchTypeOf<{}>()
+  })
+
+  it('disabled accepts array or predicate', () => {
+    expectTypeOf<SelectionConstraints<Date>['disabled']>().toEqualTypeOf<
+      Date[] | ((date: Date) => boolean) | undefined
+    >()
+  })
+
+  it('fromDate and toDate are optional TDate', () => {
+    expectTypeOf<SelectionConstraints<Date>['fromDate']>().toEqualTypeOf<Date | undefined>()
+    expectTypeOf<SelectionConstraints<Date>['toDate']>().toEqualTypeOf<Date | undefined>()
+  })
+
+  it('preserves generic TDate', () => {
+    type CustomDate = { _brand: 'custom' }
+    expectTypeOf<SelectionConstraints<CustomDate>['fromDate']>().toEqualTypeOf<CustomDate | undefined>()
+    expectTypeOf<SelectionConstraints<CustomDate>['toDate']>().toEqualTypeOf<CustomDate | undefined>()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// CalendarLocaleConfig type
+// ---------------------------------------------------------------------------
+describe('CalendarLocaleConfig type', () => {
+  it('locale is optional string', () => {
+    expectTypeOf<CalendarLocaleConfig['locale']>().toEqualTypeOf<string | undefined>()
+  })
+
+  it('weekStartDay is optional WeekStartDay', () => {
+    expectTypeOf<CalendarLocaleConfig['weekStartDay']>().toEqualTypeOf<WeekStartDay | undefined>()
+  })
+
+  it('direction is optional ltr | rtl', () => {
+    expectTypeOf<CalendarLocaleConfig['direction']>().toEqualTypeOf<'ltr' | 'rtl' | undefined>()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// UseCalendarConfig extends CalendarConfig
+// ---------------------------------------------------------------------------
+describe('UseCalendarConfig type', () => {
+  it('extends CalendarConfig with defaultSelected', () => {
+    type Config = UseCalendarConfig<Date, 'single'>
+    expectTypeOf<Config['defaultSelected']>().toEqualTypeOf<Date | null | undefined>()
+  })
+
+  it('inherits adapter field from CalendarConfig', () => {
+    type Config = UseCalendarConfig<Date, 'range'>
+    expectTypeOf<Config['adapter']>().toEqualTypeOf<DateAdapter<Date>>()
+  })
+
+  it('inherits mode field from CalendarConfig', () => {
+    type Config = UseCalendarConfig<Date, 'multi'>
+    expectTypeOf<Config['mode']>().toEqualTypeOf<'multi'>()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// TimePickerConfig type
+// ---------------------------------------------------------------------------
+describe('TimePickerConfig type', () => {
+  it('value and defaultValue are optional TimeValue', () => {
+    expectTypeOf<TimePickerConfig['value']>().toEqualTypeOf<TimeValue | undefined>()
+    expectTypeOf<TimePickerConfig['defaultValue']>().toEqualTypeOf<TimeValue | undefined>()
+  })
+
+  it('onChange receives TimeValue', () => {
+    type OnChange = NonNullable<TimePickerConfig['onChange']>
+    expectTypeOf<OnChange>().parameter(0).toEqualTypeOf<TimeValue>()
+  })
+
+  it('hourCycle is optional HourCycle', () => {
+    expectTypeOf<TimePickerConfig['hourCycle']>().toEqualTypeOf<HourCycle | undefined>()
+  })
+
+  it('minTime and maxTime are optional TimeValue', () => {
+    expectTypeOf<TimePickerConfig['minTime']>().toEqualTypeOf<TimeValue | undefined>()
+    expectTypeOf<TimePickerConfig['maxTime']>().toEqualTypeOf<TimeValue | undefined>()
+  })
+
+  it('step options are optional numbers', () => {
+    expectTypeOf<TimePickerConfig['minuteStep']>().toEqualTypeOf<number | undefined>()
+    expectTypeOf<TimePickerConfig['secondStep']>().toEqualTypeOf<number | undefined>()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// UseDateTimeConfig type
+// ---------------------------------------------------------------------------
+describe('UseDateTimeConfig type', () => {
+  it('adapter is DateAdapter<TDate>', () => {
+    type Config = UseDateTimeConfig<Date>
+    expectTypeOf<Config['adapter']>().toEqualTypeOf<DateAdapter<Date>>()
+  })
+
+  it('onChange receives TDate', () => {
+    type Config = UseDateTimeConfig<Date>
+    type OnChange = NonNullable<Config['onChange']>
+    expectTypeOf<OnChange>().parameter(0).toEqualTypeOf<Date>()
+  })
+
+  it('preserves custom TDate through all fields', () => {
+    type CustomDate = { _brand: 'temporal' }
+    type Config = UseDateTimeConfig<CustomDate>
+    expectTypeOf<Config['adapter']>().toEqualTypeOf<DateAdapter<CustomDate>>()
+    expectTypeOf<Config['value']>().toEqualTypeOf<CustomDate | undefined>()
+    expectTypeOf<Config['defaultValue']>().toEqualTypeOf<CustomDate | undefined>()
+    expectTypeOf<Config['month']>().toEqualTypeOf<CustomDate | undefined>()
+    expectTypeOf<Config['fromDate']>().toEqualTypeOf<CustomDate | undefined>()
+    expectTypeOf<Config['toDate']>().toEqualTypeOf<CustomDate | undefined>()
   })
 })
