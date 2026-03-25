@@ -12,7 +12,7 @@ import * as React from 'react'
 import { Bar, BarChart, CartesianGrid, Label, Pie, PieChart, XAxis, YAxis } from 'recharts'
 import data from '../../../../apps/duck-ui-docs/public/data/benchmarks/primitives.json'
 
-const tabs = ['vs Radix', 'Module Sizes', 'Total'] as const
+const tabs = ['vs Radix', 'All Components', 'Module Sizes', 'Total'] as const
 type Tab = (typeof tabs)[number]
 
 const COLORS = [
@@ -64,6 +64,13 @@ const vsRadixData = data.savings.map((s: { name: string; gentleduckKB: number; r
   radix: s.radixKB,
 }))
 
+// All components (including those only in one library)
+const allComponentsData = data.perComponent.map((c: { name: string; gentleduck: number; radix: number }) => ({
+  name: c.name,
+  gentleduck: c.gentleduck > 0 ? +(c.gentleduck / 1024).toFixed(1) : 0,
+  radix: c.radix > 0 ? +(c.radix / 1024).toFixed(1) : 0,
+}))
+
 export default function PrimitivesBenchmarkDashboard() {
   const [tab, setTab] = React.useState<Tab>('vs Radix')
 
@@ -96,6 +103,25 @@ export default function PrimitivesBenchmarkDashboard() {
                 <ChartLegend content={<ChartLegendContent />} />
                 <Bar dataKey="gentleduck" fill="var(--color-gentleduck)" radius={[0, 4, 4, 0]} barSize={12} />
                 <Bar dataKey="radix" fill="var(--color-radix)" radius={[0, 4, 4, 0]} barSize={12} />
+              </BarChart>
+            </ChartContainer>
+          </div>
+        )}
+
+        {tab === 'All Components' && (
+          <div>
+            <p className="mb-3 text-muted-foreground text-xs">
+              All {allComponentsData.length} components. 0 = not available from that library.
+            </p>
+            <ChartContainer className="aspect-[1/1.4] min-h-[650px] w-full" config={vsRadixConfig}>
+              <BarChart data={allComponentsData} layout="vertical" margin={{ left: 20, right: 20, top: 5, bottom: 5 }}>
+                <CartesianGrid horizontal={false} />
+                <YAxis dataKey="name" type="category" width={110} tickLine={false} axisLine={false} fontSize={10} />
+                <XAxis type="number" tickLine={false} axisLine={false} fontSize={10} />
+                <ChartTooltip content={<ChartTooltipContent indicator="dashed" />} />
+                <ChartLegend content={<ChartLegendContent />} />
+                <Bar dataKey="gentleduck" fill="var(--color-gentleduck)" radius={[0, 4, 4, 0]} barSize={8} />
+                <Bar dataKey="radix" fill="var(--color-radix)" radius={[0, 4, 4, 0]} barSize={8} />
               </BarChart>
             </ChartContainer>
           </div>

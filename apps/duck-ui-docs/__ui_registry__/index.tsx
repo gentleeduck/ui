@@ -575,6 +575,10 @@ const _Chart5 = dynamic(() => import('@gentleduck/registry-examples/chart/chart-
 const _Chart6 = dynamic(() => import('@gentleduck/registry-examples/chart/chart-6'), { ssr: false })
 const _Chart7 = dynamic(() => import('@gentleduck/registry-examples/chart/chart-7'), { ssr: false })
 const _Chart8 = dynamic(() => import('@gentleduck/registry-examples/chart/chart-8'), { ssr: false })
+const _ChartBenchmarkCalendarCompare = dynamic(
+  () => import('@gentleduck/registry-examples/chart/chart-benchmark-calendar-compare'),
+  { ssr: false },
+)
 const _ChartBenchmarkCalendarVs = dynamic(
   () => import('@gentleduck/registry-examples/chart/chart-benchmark-calendar-vs'),
   { ssr: false },
@@ -6814,6 +6818,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Chart8,
+    source: '/registry-examples/src/chart',
+    categories: [],
+    root_folder: 'chart',
+  },
+  'chart-benchmark-calendar-compare': {
+    name: 'chart-benchmark-calendar-compare',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['chart'],
+    files: [
+      {
+        path: 'chart/chart-benchmark-calendar-compare.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _ChartBenchmarkCalendarCompare,
     source: '/registry-examples/src/chart',
     categories: [],
     root_folder: 'chart',
