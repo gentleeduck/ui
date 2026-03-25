@@ -16,7 +16,7 @@ description: "Side-by-side comparison of @gentleduck/calendar and react-day-pick
 | **CSS approach** | Headless (BYO styles), styled component uses `data-*` selectors + Tailwind | CSS modules, classNames prop, or custom styles |
 | **Multi-month** | Built-in (`numberOfMonths` prop) | Built-in (`numberOfMonths` prop) |
 | **Keyboard navigation** | Arrow keys, Home/End, PageUp/PageDown, Escape | Arrow keys, PageUp/PageDown |
-| **Framework** | React 19 (hook-based) | React 18+ |
+| **Framework** | React 18+ | React 18+ |
 | **Date library lock-in** | None (adapter pattern) | date-fns required |
 
 ---
@@ -181,4 +181,4 @@ If you were using date-fns `format()` only for the calendar trigger label, you c
 **Use react-day-picker when:**
 - You need the `react-day-picker/persian` variant that uses observation-based Islamic calendar rules specific to the Persian DayPicker implementation
 - Your project is deeply coupled to date-fns and you don't want to introduce an adapter layer
-- You need React 18 support (gentleduck/calendar targets React 19)
+- Your project is heavily invested in the react-day-picker API and migration cost outweighs the benefits
