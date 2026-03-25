@@ -166,10 +166,10 @@ export default function Example() {
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `orientation` | `"horizontal" \| "vertical"` | (required) | Layout orientation of the panels |
-| `className` | `string` | `--` | Additional CSS classes for the panel group |
-| `dir` | `"ltr" \| "rtl"` | `--` | Text direction override for RTL support |
-| `children` | `React.ReactNode` | `--` | `ResizablePanel` and `ResizableHandle` elements |
-| `...props` | `React.ComponentPropsWithoutRef<typeof Group>` | -- | Additional props inherited from `Group`. |
+| `className` | `string` | `-` | Additional CSS classes for the panel group |
+| `dir` | `"ltr" \| "rtl"` | `-` | Text direction override for RTL support |
+| `children` | `React.ReactNode` | `-` | `ResizablePanel` and `ResizableHandle` elements |
+| `...props` | `React.ComponentPropsWithoutRef<typeof Group>` | - | Additional props inherited from `Group`. |
 
 ### ResizablePanel
 
@@ -177,21 +177,21 @@ Re-exports `Panel` from `react-resizable-panels` directly.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `defaultSize` | `number` | `--` | Default size of the panel as a percentage (0-100) |
-| `minSize` | `number` | `--` | Minimum size of the panel as a percentage |
-| `maxSize` | `number` | `--` | Maximum size of the panel as a percentage |
+| `defaultSize` | `number` | `-` | Default size of the panel as a percentage (0-100) |
+| `minSize` | `number` | `-` | Minimum size of the panel as a percentage |
+| `maxSize` | `number` | `-` | Maximum size of the panel as a percentage |
 | `collapsible` | `boolean` | `false` | Whether the panel can be collapsed |
-| `className` | `string` | `--` | Additional CSS classes for the panel |
-| `children` | `React.ReactNode` | `--` | Panel content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof Panel>` | -- | Additional props inherited from `Panel`. |
+| `className` | `string` | `-` | Additional CSS classes for the panel |
+| `children` | `React.ReactNode` | `-` | Panel content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof Panel>` | - | Additional props inherited from `Panel`. |
 
 ### ResizableHandle
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `withHandle` | `boolean` | `--` | Whether to render the visible grip icon handle |
-| `className` | `string` | `--` | Additional CSS classes for the resize handle |
-| `...props` | `React.ComponentPropsWithoutRef<typeof PanelResizeHandle>` | -- | Additional props inherited from `Separator`. |
+| `withHandle` | `boolean` | `-` | Whether to render the visible grip icon handle |
+| `className` | `string` | `-` | Additional CSS classes for the resize handle |
+| `...props` | `React.ComponentPropsWithoutRef<typeof PanelResizeHandle>` | - | Additional props inherited from `Separator`. |
 
 ## RTL Support
 
