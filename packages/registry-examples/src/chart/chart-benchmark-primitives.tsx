@@ -73,7 +73,7 @@ export default function PrimitivesBenchmarkOverview() {
         {tab === 'Module Sizes' && (
           <div>
             <p className="mb-3 text-muted-foreground text-xs">Internal module breakdown. Top 8 + rest grouped.</p>
-            <ChartContainer className="mx-auto aspect-square min-h-[300px] max-w-[350px]" config={pieConfig}>
+            <ChartContainer className="mx-auto aspect-square min-h-[380px] max-w-[400px]" config={pieConfig}>
               <PieChart>
                 <ChartTooltip content={<ChartTooltipContent hideLabel indicator="dot" />} cursor={false} />
                 <Pie data={pieData} dataKey="size" nameKey="name" innerRadius={65} strokeWidth={3}>
