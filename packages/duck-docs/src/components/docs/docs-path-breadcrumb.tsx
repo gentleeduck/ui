@@ -39,8 +39,6 @@ function toTitleCase(segment: string) {
     .join(' ')
 }
 
-const ITEMS_TO_DISPLAY = 3
-
 export function DocsPathBreadcrumb({ segments }: { segments: string[] }) {
   const [open, setOpen] = React.useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
@@ -53,37 +51,33 @@ export function DocsPathBreadcrumb({ segments }: { segments: string[] }) {
     label: toTitleCase(segment),
   }))
 
-  const needsCollapse = items.length > ITEMS_TO_DISPLAY
-  const collapsedItems = needsCollapse ? items.slice(1, -2) : []
-  const trailingItems = needsCollapse ? items.slice(-ITEMS_TO_DISPLAY + 1) : items.slice(1)
-  const firstItem = items[0]
+  // Always show: first + last. Collapse everything in between.
+  const first = items[0]
+  const last = items.length > 1 ? items[items.length - 1] : null
+  const middle = items.length > 2 ? items.slice(1, -1) : []
 
   return (
-    <Breadcrumb className="min-w-0">
-      <BreadcrumbList className="flex-nowrap">
-        {/* First segment — always visible */}
-        {firstItem && (
-          <>
-            <BreadcrumbItem className="min-w-0">
-              {firstItem.isLast ? (
-                <BreadcrumbPage className="block max-w-28 truncate font-medium sm:max-w-44">
-                  {firstItem.label}
-                </BreadcrumbPage>
-              ) : (
-                <BreadcrumbLink asChild>
-                  <Link href={firstItem.href} className="block max-w-24 truncate sm:max-w-32">
-                    {firstItem.label}
-                  </Link>
-                </BreadcrumbLink>
-              )}
-            </BreadcrumbItem>
-            {!firstItem.isLast && <BreadcrumbSeparator />}
-          </>
+    <Breadcrumb className="min-w-0 overflow-hidden">
+      <BreadcrumbList className="flex-nowrap overflow-hidden">
+        {/* First segment */}
+        {first && (
+          <BreadcrumbItem className="min-w-0 shrink-0">
+            {first.isLast ? (
+              <BreadcrumbPage className="truncate font-medium">{first.label}</BreadcrumbPage>
+            ) : (
+              <BreadcrumbLink asChild>
+                <Link href={first.href} className="truncate">
+                  {first.label}
+                </Link>
+              </BreadcrumbLink>
+            )}
+          </BreadcrumbItem>
         )}
 
-        {/* Collapsed middle segments — ellipsis with dropdown/drawer */}
-        {needsCollapse && (
+        {/* Middle: collapsed into ellipsis with dropdown/drawer */}
+        {middle.length > 0 && (
           <>
+            <BreadcrumbSeparator />
             <BreadcrumbItem>
               {isDesktop ? (
                 <DropdownMenu onOpenChange={setOpen} open={open}>
@@ -91,7 +85,7 @@ export function DocsPathBreadcrumb({ segments }: { segments: string[] }) {
                     <BreadcrumbEllipsis className="size-4" />
                   </DropdownMenuTrigger>
                   <DropdownMenuContent side="bottom" align="start">
-                    {collapsedItems.map((item) => (
+                    {middle.map((item) => (
                       <DropdownMenuItem key={item.href} asChild>
                         <Link href={item.href}>{item.label}</Link>
                       </DropdownMenuItem>
@@ -109,7 +103,7 @@ export function DocsPathBreadcrumb({ segments }: { segments: string[] }) {
                       <DrawerDescription>Select a page to navigate to.</DrawerDescription>
                     </DrawerHeader>
                     <div className="grid gap-1 px-4">
-                      {collapsedItems.map((item) => (
+                      {middle.map((item) => (
                         <Link className="py-1 text-sm" href={item.href} key={item.href}>
                           {item.label}
                         </Link>
@@ -124,29 +118,20 @@ export function DocsPathBreadcrumb({ segments }: { segments: string[] }) {
                 </Drawer>
               )}
             </BreadcrumbItem>
-            <BreadcrumbSeparator />
           </>
         )}
 
-        {/* Trailing segments */}
-        {trailingItems.map((item) => (
-          <React.Fragment key={item.href}>
+        {/* Last segment */}
+        {last && (
+          <>
+            <BreadcrumbSeparator />
             <BreadcrumbItem className="min-w-0">
-              {item.isLast ? (
-                <BreadcrumbPage className="block max-w-28 truncate font-medium sm:max-w-44">
-                  {item.label}
-                </BreadcrumbPage>
-              ) : (
-                <>
-                  <BreadcrumbLink asChild className="max-w-20 truncate md:max-w-none">
-                    <Link href={item.href}>{item.label}</Link>
-                  </BreadcrumbLink>
-                  <BreadcrumbSeparator />
-                </>
-              )}
+              <BreadcrumbPage className="block max-w-32 truncate font-medium sm:max-w-48">
+                {last.label}
+              </BreadcrumbPage>
             </BreadcrumbItem>
-          </React.Fragment>
-        ))}
+          </>
+        )}
       </BreadcrumbList>
     </Breadcrumb>
   )
