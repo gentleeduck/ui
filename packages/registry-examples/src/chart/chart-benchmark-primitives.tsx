@@ -12,7 +12,7 @@ import * as React from 'react'
 import { Bar, BarChart, CartesianGrid, Label, Pie, PieChart, XAxis, YAxis } from 'recharts'
 import data from '../../../../apps/duck-ui-docs/public/data/benchmarks/primitives.json'
 
-const tabs = ['vs Radix', 'All Components', 'Module Sizes', 'Total'] as const
+const tabs = ['Module Sizes', 'Total'] as const
 type Tab = (typeof tabs)[number]
 
 const COLORS = [
@@ -25,13 +25,7 @@ const COLORS = [
   'hsl(280 65% 55%)',
   'hsl(340 75% 55%)',
   'hsl(160 60% 45%)',
-  'hsl(30 80% 55%)',
 ]
-
-const vsRadixConfig = {
-  gentleduck: { label: 'gentleduck (KB)', color: 'var(--chart-1)' },
-  radix: { label: 'Radix UI (KB)', color: 'var(--chart-2)' },
-} satisfies ChartConfig
 
 const totalConfig = {
   sizeKB: { label: 'Size (KB)', color: 'var(--chart-1)' },
@@ -58,21 +52,8 @@ const pieConfig = {
 
 const totalKB = data.allSizes.reduce((sum: number, m: { sizeKB: number }) => sum + m.sizeKB, 0)
 
-const vsRadixData = data.savings.map((s: { name: string; gentleduckKB: number; radixKB: number }) => ({
-  name: s.name,
-  gentleduck: s.gentleduckKB,
-  radix: s.radixKB,
-}))
-
-// All components (including those only in one library)
-const allComponentsData = data.perComponent.map((c: { name: string; gentleduck: number; radix: number }) => ({
-  name: c.name,
-  gentleduck: c.gentleduck > 0 ? +(c.gentleduck / 1024).toFixed(1) : 0,
-  radix: c.radix > 0 ? +(c.radix / 1024).toFixed(1) : 0,
-}))
-
-export default function PrimitivesBenchmarkDashboard() {
-  const [tab, setTab] = React.useState<Tab>('vs Radix')
+export default function PrimitivesBenchmarkOverview() {
+  const [tab, setTab] = React.useState<Tab>('Module Sizes')
 
   return (
     <div className="w-full space-y-4">
@@ -89,60 +70,22 @@ export default function PrimitivesBenchmarkDashboard() {
       </div>
 
       <div className="min-h-[320px]">
-        {tab === 'vs Radix' && (
-          <div>
-            <p className="mb-3 text-muted-foreground text-xs">
-              Per-component gzipped size (KB). Radix sizes verified via bundlephobia API.
-            </p>
-            <ChartContainer className="aspect-[2/1] min-h-[300px] w-full" config={vsRadixConfig}>
-              <BarChart data={vsRadixData} layout="vertical" margin={{ left: 20, right: 20, top: 5, bottom: 5 }}>
-                <CartesianGrid horizontal={false} />
-                <YAxis dataKey="name" type="category" width={100} tickLine={false} axisLine={false} fontSize={11} />
-                <XAxis type="number" tickLine={false} axisLine={false} fontSize={10} />
-                <ChartTooltip content={<ChartTooltipContent indicator="dashed" />} />
-                <ChartLegend content={<ChartLegendContent />} />
-                <Bar dataKey="gentleduck" fill="var(--color-gentleduck)" radius={[0, 4, 4, 0]} barSize={12} />
-                <Bar dataKey="radix" fill="var(--color-radix)" radius={[0, 4, 4, 0]} barSize={12} />
-              </BarChart>
-            </ChartContainer>
-          </div>
-        )}
-
-        {tab === 'All Components' && (
-          <div>
-            <p className="mb-3 text-muted-foreground text-xs">
-              All {allComponentsData.length} components. 0 = not available from that library.
-            </p>
-            <ChartContainer className="aspect-[1/1.4] min-h-[650px] w-full" config={vsRadixConfig}>
-              <BarChart data={allComponentsData} layout="vertical" margin={{ left: 20, right: 20, top: 5, bottom: 5 }}>
-                <CartesianGrid horizontal={false} />
-                <YAxis dataKey="name" type="category" width={110} tickLine={false} axisLine={false} fontSize={10} />
-                <XAxis type="number" tickLine={false} axisLine={false} fontSize={10} />
-                <ChartTooltip content={<ChartTooltipContent indicator="dashed" />} />
-                <ChartLegend content={<ChartLegendContent />} />
-                <Bar dataKey="gentleduck" fill="var(--color-gentleduck)" radius={[0, 4, 4, 0]} barSize={8} />
-                <Bar dataKey="radix" fill="var(--color-radix)" radius={[0, 4, 4, 0]} barSize={8} />
-              </BarChart>
-            </ChartContainer>
-          </div>
-        )}
-
         {tab === 'Module Sizes' && (
           <div>
             <p className="mb-3 text-muted-foreground text-xs">Internal module breakdown. Top 8 + rest grouped.</p>
-            <ChartContainer className="mx-auto aspect-square min-h-[280px] max-w-[320px]" config={pieConfig}>
+            <ChartContainer className="mx-auto aspect-square min-h-[300px] max-w-[350px]" config={pieConfig}>
               <PieChart>
                 <ChartTooltip content={<ChartTooltipContent hideLabel indicator="dot" />} cursor={false} />
-                <Pie data={pieData} dataKey="size" nameKey="name" innerRadius={60} strokeWidth={3}>
+                <Pie data={pieData} dataKey="size" nameKey="name" innerRadius={65} strokeWidth={3}>
                   <Label
                     content={({ viewBox }) => {
                       if (viewBox && 'cx' in viewBox && 'cy' in viewBox) {
                         return (
                           <text dominantBaseline="middle" textAnchor="middle" x={viewBox.cx} y={viewBox.cy}>
-                            <tspan className="fill-foreground font-bold text-2xl" x={viewBox.cx} y={viewBox.cy}>
+                            <tspan className="fill-foreground font-bold text-3xl" x={viewBox.cx} y={viewBox.cy}>
                               {totalKB.toFixed(0)}
                             </tspan>
-                            <tspan className="fill-muted-foreground text-xs" x={viewBox.cx} y={(viewBox.cy || 0) + 20}>
+                            <tspan className="fill-muted-foreground text-xs" x={viewBox.cx} y={(viewBox.cy || 0) + 22}>
                               KB total
                             </tspan>
                           </text>
@@ -159,9 +102,9 @@ export default function PrimitivesBenchmarkDashboard() {
         {tab === 'Total' && (
           <div>
             <p className="mb-3 text-muted-foreground text-xs">
-              Total package size vs component count across libraries.
+              Total package size vs component count across headless UI libraries.
             </p>
-            <ChartContainer className="aspect-[2/1] min-h-[250px] w-full" config={totalConfig}>
+            <ChartContainer className="aspect-[2/1] min-h-[280px] w-full" config={totalConfig}>
               <BarChart data={data.totalComparison} margin={{ left: 10, right: 20, top: 10, bottom: 10 }}>
                 <CartesianGrid vertical={false} />
                 <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={11} />
