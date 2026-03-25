@@ -5,7 +5,11 @@ import { Slot, Slottable } from '../slot'
 
 describe('Slot', () => {
   it('renders children directly when no asChild', () => {
-    const { container } = render(<Slot><span>hello</span></Slot>)
+    const { container } = render(
+      <Slot>
+        <span>hello</span>
+      </Slot>,
+    )
     expect(container.querySelector('span')?.textContent).toBe('hello')
   })
 

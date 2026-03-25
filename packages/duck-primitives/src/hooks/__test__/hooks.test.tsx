@@ -1,12 +1,12 @@
 import { describe, expect, it, mock } from 'bun:test'
-import { render, fireEvent, act } from '@testing-library/react'
+import { act, fireEvent, render } from '@testing-library/react'
 import * as React from 'react'
 import { useCallbackRef } from '../use-callback-ref'
-import { usePrevious } from '../use-previous'
-import { useStateMachine } from '../use-state-machine'
+import { useControllableState } from '../use-controllable-state'
 import { useEscapeKeydown } from '../use-escape-keydown'
 import { useId } from '../use-id'
-import { useControllableState } from '../use-controllable-state'
+import { usePrevious } from '../use-previous'
+import { useStateMachine } from '../use-state-machine'
 
 // --- useCallbackRef ---
 
@@ -27,7 +27,13 @@ describe('useCallbackRef', () => {
     let result = ''
     function Comp({ cb }: { cb: () => string }) {
       const stable = useCallbackRef(cb)
-      return <button onClick={() => { result = stable() }} />
+      return (
+        <button
+          onClick={() => {
+            result = stable()
+          }}
+        />
+      )
     }
     const { rerender, container } = render(<Comp cb={() => 'first'} />)
     rerender(<Comp cb={() => 'second'} />)

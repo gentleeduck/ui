@@ -36,9 +36,7 @@ describe('Progress', () => {
   })
 
   it('uses custom getValueLabel', () => {
-    const { container } = render(
-      <Progress value={3} max={10} getValueLabel={(v, m) => `${v} of ${m} steps`} />,
-    )
+    const { container } = render(<Progress value={3} max={10} getValueLabel={(v, m) => `${v} of ${m} steps`} />)
     const el = container.querySelector('[role="progressbar"]')!
     expect(el.getAttribute('aria-valuetext')).toBe('3 of 10 steps')
   })

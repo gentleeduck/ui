@@ -1,5 +1,5 @@
 import { describe, expect, it, mock } from 'bun:test'
-import { render, fireEvent } from '@testing-library/react'
+import { fireEvent, render } from '@testing-library/react'
 import * as React from 'react'
 import { Toggle } from '../toggle'
 
@@ -51,7 +51,11 @@ describe('Toggle', () => {
 
   it('does not toggle when disabled', () => {
     const handler = mock(() => {})
-    const { container } = render(<Toggle disabled onPressedChange={handler}>Bold</Toggle>)
+    const { container } = render(
+      <Toggle disabled onPressedChange={handler}>
+        Bold
+      </Toggle>,
+    )
     const btn = container.querySelector('button')!
     expect(btn.getAttribute('data-disabled')).toBe('')
     expect(btn.disabled).toBe(true)
