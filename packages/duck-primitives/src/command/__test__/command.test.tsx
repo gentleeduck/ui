@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'bun:test'
 import { render } from '@testing-library/react'
 import * as React from 'react'
-import { Command, CommandInput, CommandList, CommandItem, CommandEmpty, CommandGroup } from '../index'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../index'
 
 function renderCommand(props: Record<string, unknown> = {}) {
   return render(

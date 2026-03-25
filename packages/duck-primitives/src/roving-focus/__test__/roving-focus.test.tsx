@@ -21,7 +21,9 @@ describe('RovingFocusGroup', () => {
   it('renders group as a div by default', () => {
     const { container } = render(
       <RovingFocusGroup>
-        <RovingFocusGroupItem><button>A</button></RovingFocusGroupItem>
+        <RovingFocusGroupItem>
+          <button>A</button>
+        </RovingFocusGroupItem>
       </RovingFocusGroup>,
     )
     expect(container.querySelector('div')).not.toBeNull()
@@ -49,7 +51,9 @@ describe('RovingFocusGroup', () => {
     const ref = React.createRef<HTMLDivElement>()
     render(
       <RovingFocusGroup ref={ref}>
-        <RovingFocusGroupItem><button>A</button></RovingFocusGroupItem>
+        <RovingFocusGroupItem>
+          <button>A</button>
+        </RovingFocusGroupItem>
       </RovingFocusGroup>,
     )
     expect(ref.current).toBeInstanceOf(HTMLDivElement)
@@ -59,7 +63,9 @@ describe('RovingFocusGroup', () => {
     expect(() =>
       render(
         <RovingFocusGroup orientation="horizontal">
-          <RovingFocusGroupItem><button>A</button></RovingFocusGroupItem>
+          <RovingFocusGroupItem>
+            <button>A</button>
+          </RovingFocusGroupItem>
         </RovingFocusGroup>,
       ),
     ).not.toThrow()
