@@ -99,4 +99,36 @@ describe('AlertDialog', () => {
     )
     expect(ref.current).toBeInstanceOf(HTMLButtonElement)
   })
+
+  it('trigger has type="button"', () => {
+    const { container } = renderAlertDialog()
+    expect(container.querySelector('[data-slot="dialog-trigger"]')?.getAttribute('type')).toBe('button')
+  })
+
+  it('is always modal (no non-modal option)', () => {
+    // AlertDialog wraps Dialog with modal=true forced
+    const { baseElement } = renderAlertDialog({ defaultOpen: true })
+    const content = baseElement.querySelector('[role="alertdialog"]')
+    expect(content).not.toBeNull()
+  })
+
+  it('content has data-state="open" when open', () => {
+    const { baseElement } = renderAlertDialog({ defaultOpen: true })
+    const content = baseElement.querySelector('[role="alertdialog"]')!
+    expect(content.getAttribute('data-state')).toBe('open')
+  })
+
+  it('title renders as h2', () => {
+    const { baseElement } = renderAlertDialog({ defaultOpen: true })
+    const title = baseElement.querySelector('[data-slot="dialog-title"]')!
+    expect(title.tagName.toLowerCase()).toBe('h2')
+  })
+
+  it('action buttons have type="button"', () => {
+    const { baseElement } = renderAlertDialog({ defaultOpen: true })
+    const buttons = baseElement.querySelectorAll('[data-slot="dialog-close"]')
+    for (const btn of buttons) {
+      expect(btn.getAttribute('type')).toBe('button')
+    }
+  })
 })

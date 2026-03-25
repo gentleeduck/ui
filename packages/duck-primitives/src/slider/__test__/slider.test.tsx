@@ -79,4 +79,51 @@ describe('Slider', () => {
     )
     expect(ref.current).toBeInstanceOf(HTMLSpanElement)
   })
+
+  it('custom min/max range', () => {
+    const { container } = renderSlider({ min: 10, max: 50, defaultValue: [30] })
+    const thumb = container.querySelector('[role="slider"]')!
+    expect(thumb.getAttribute('aria-valuemin')).toBe('10')
+    expect(thumb.getAttribute('aria-valuemax')).toBe('50')
+    expect(thumb.getAttribute('aria-valuenow')).toBe('30')
+  })
+
+  it('multiple thumbs render multiple sliders', () => {
+    const { container } = render(
+      <Slider defaultValue={[25, 75]}>
+        <SliderTrack>
+          <SliderRange />
+        </SliderTrack>
+        <SliderThumb />
+        <SliderThumb />
+      </Slider>,
+    )
+    const thumbs = container.querySelectorAll('[role="slider"]')
+    expect(thumbs.length).toBe(2)
+    expect(thumbs[0]!.getAttribute('aria-valuenow')).toBe('25')
+    expect(thumbs[1]!.getAttribute('aria-valuenow')).toBe('75')
+  })
+
+  it('slider renders as span elements', () => {
+    const { container } = renderSlider()
+    expect(container.querySelector('span[data-slot="slider"]')).not.toBeNull()
+    expect(container.querySelector('span[data-slot="slider-track"]')).not.toBeNull()
+  })
+
+  it('passes className', () => {
+    const { container } = render(
+      <Slider className="custom-slider">
+        <SliderTrack>
+          <SliderRange />
+        </SliderTrack>
+        <SliderThumb />
+      </Slider>,
+    )
+    expect(container.querySelector('.custom-slider')).not.toBeNull()
+  })
+
+  it('sets dir attribute', () => {
+    const { container } = renderSlider({ dir: 'rtl' })
+    expect(container.querySelector('[data-slot="slider"]')?.getAttribute('dir')).toBe('rtl')
+  })
 })

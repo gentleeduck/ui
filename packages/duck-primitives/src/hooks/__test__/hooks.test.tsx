@@ -257,4 +257,68 @@ describe('useControllableState', () => {
     act(() => setValue((prev) => prev + 1))
     expect(onChange).toHaveBeenCalledWith(6)
   })
+
+  it('does not call onChange when setting the same controlled value', () => {
+    const onChange = mock(() => {})
+    let setValue: React.Dispatch<React.SetStateAction<string>> = () => {}
+    function Comp() {
+      const [, set] = useControllableState({ prop: 'same', defaultProp: 'same', onChange })
+      setValue = set
+      return null
+    }
+    render(<Comp />)
+    act(() => setValue('same'))
+    expect(onChange).not.toHaveBeenCalled()
+  })
+
+  it('works with boolean values', () => {
+    let value = false
+    function Comp() {
+      const [v] = useControllableState({ defaultProp: true })
+      value = v
+      return null
+    }
+    render(<Comp />)
+    expect(value).toBe(true)
+  })
+
+  it('works with numeric values', () => {
+    let value = 0
+    let setValue: React.Dispatch<React.SetStateAction<number>> = () => {}
+    function Comp() {
+      const [v, set] = useControllableState({ defaultProp: 42 })
+      value = v
+      setValue = set
+      return null
+    }
+    render(<Comp />)
+    expect(value).toBe(42)
+    act(() => setValue(100))
+    expect(value).toBe(100)
+  })
+})
+
+// --- useStateMachine (additional) ---
+
+describe('useStateMachine (edge cases)', () => {
+  const machine = {
+    idle: { START: 'running' },
+    running: { STOP: 'idle' },
+  } as const
+
+  it('handles rapid state transitions', () => {
+    let state: string = ''
+    let send: (event: string) => void = () => {}
+    function Comp() {
+      const [s, d] = useStateMachine('idle', machine)
+      state = s as string
+      send = d as (event: string) => void
+      return null
+    }
+    render(<Comp />)
+    act(() => send('START'))
+    act(() => send('STOP'))
+    act(() => send('START'))
+    expect(state).toBe('running')
+  })
 })

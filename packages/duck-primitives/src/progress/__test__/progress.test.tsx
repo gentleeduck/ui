@@ -64,4 +64,41 @@ describe('Progress', () => {
     render(<Progress ref={ref} value={50} />)
     expect(ref.current).toBeInstanceOf(HTMLDivElement)
   })
+
+  it('value=0 is loading, not indeterminate', () => {
+    const { container } = render(<Progress value={0} />)
+    const el = container.querySelector('[role="progressbar"]')!
+    expect(el.getAttribute('data-state')).toBe('loading')
+    expect(el.getAttribute('aria-valuenow')).toBe('0')
+  })
+
+  it('handles custom max value', () => {
+    const { container } = render(<Progress value={5} max={10} />)
+    const el = container.querySelector('[role="progressbar"]')!
+    expect(el.getAttribute('aria-valuemax')).toBe('10')
+    expect(el.getAttribute('aria-valuenow')).toBe('5')
+  })
+
+  it('sets data-value and data-max attributes', () => {
+    const { container } = render(<Progress value={30} max={100} />)
+    const el = container.querySelector('[role="progressbar"]')!
+    expect(el.getAttribute('data-value')).toBe('30')
+    expect(el.getAttribute('data-max')).toBe('100')
+  })
+
+  it('indeterminate has no aria-valuenow', () => {
+    const { container } = render(<Progress value={null} />)
+    const el = container.querySelector('[role="progressbar"]')!
+    expect(el.getAttribute('aria-valuenow')).toBeNull()
+  })
+
+  it('passes className', () => {
+    const { container } = render(<Progress value={50} className="my-progress" />)
+    expect(container.querySelector('.my-progress')).not.toBeNull()
+  })
+
+  it('sets dir attribute', () => {
+    const { container } = render(<Progress value={50} dir="rtl" />)
+    expect(container.querySelector('[role="progressbar"]')?.getAttribute('dir')).toBe('rtl')
+  })
 })
