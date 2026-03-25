@@ -79,7 +79,8 @@ describe('AlertDialog', () => {
 
   it('renders action and cancel buttons', () => {
     const { baseElement } = renderAlertDialog({ defaultOpen: true })
-    const buttons = baseElement.querySelectorAll('[data-slot="dialog-close"]')
+    const content = baseElement.querySelector('[role="alertdialog"]')!
+    const buttons = content.querySelectorAll('[data-slot="dialog-close"]')
     expect(buttons.length).toBe(2)
   })
 
