@@ -18,7 +18,7 @@ description: "Compare gentleduck/ui with shadcn/ui. Same philosophy, different e
 | **Styling** | Tailwind + `data-*` selectors | Tailwind + `cn()` |
 | **Source ownership** | Full (copy-paste) | Full (copy-paste) |
 | **TypeScript** | Full type safety | Full type safety |
-| **Framework** | React 19 | React 19 (v2), React 18 (v1) |
+| **Framework** | React 18+ | React 19 (v2), React 18 (v1) |
 
 ---
 
@@ -221,15 +221,13 @@ The API is the same. `@gentleduck/variants` adds memoization.
 
 ## When to use which
 
-**Use gentleduck/ui when:**
-- You want to own the full stack (primitives, calendar, keyboard, motion, state)
-- Bundle size is a priority (especially for calendar: ~5 KB vs 20 KB)
-- You need non-Gregorian calendar support
-- You want keyboard command infrastructure (vim-style bindings, command palette)
-- You want CLI commands for updating and removing components
+**Why teams switch to gentleduck/ui:**
+- You own everything. Primitives, calendar, keyboard engine, motion tokens, state management -- no black-box dependencies. When something breaks at 2am, you can fix it yourself instead of waiting for an upstream release.
+- Bundle size drops immediately. The calendar alone goes from ~20 KB (react-day-picker + date-fns) to ~5 KB with zero dependencies. Primitives are 50-92% smaller than Radix because shared internals are deduplicated.
+- You get more out of the box. Keyboard command system, animation tokens with reduced-motion support, atom-based state, and a CLI that can update and remove components -- not just add them.
+- Non-Gregorian calendar support. Hijri, Persian, and Hebrew calendars work through pluggable adapters. No other copy-paste component library ships this.
+- shadcn ecosystem compatibility. gentleduck/ui uses the same component structure, same Tailwind approach, same compound patterns. Any shadcn template or third-party integration works -- you just swap the base components. Migration is incremental, not all-or-nothing.
 
-**Use shadcn/ui when:**
-- You want the largest community and ecosystem of examples, templates, and third-party integrations
-- You prefer depending on Radix UI as a well-funded, externally maintained primitive layer
-- You don't need calendar, keyboard, motion, or state management packages
-- You need to stay on shadcn v1 for React 18 compatibility (v2 also requires React 19)
+**Why some teams stay on shadcn/ui:**
+- They prefer depending on Radix UI as an externally maintained primitive layer rather than owning the source
+- They only need styled components and don't use the additional packages (calendar, keyboard, motion, state)
