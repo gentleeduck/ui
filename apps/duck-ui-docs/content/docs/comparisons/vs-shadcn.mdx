@@ -47,7 +47,7 @@ The difference is what happens underneath.
 
 shadcn/ui imports Radix UI from node_modules. You own the styled layer, but the accessibility, focus management, dismiss behavior, and animation logic live in packages you cannot modify. When Radix ships a breaking change or deprecates an API, your components break and you wait for a fix.
 
-gentleduck/ui uses `@gentleduck/primitives` -- 35 headless components with the same compound-component API as Radix, but 50-92% smaller because shared internals (Slot, Presence, Popper, focus scope) are deduplicated across all primitives instead of bundled per-package. You own the source. Modify focus trapping, dismiss behavior, or animation hooks directly.
+gentleduck/ui uses `@gentleduck/primitives` - 35 headless components with the same compound-component API as Radix, but 50-92% smaller because shared internals (Slot, Presence, Popper, focus scope) are deduplicated across all primitives instead of bundled per-package. You own the source. Modify focus trapping, dismiss behavior, or animation hooks directly.
 
 See the [full primitives comparison](/docs/comparisons/vs-radix).
 
@@ -55,13 +55,13 @@ See the [full primitives comparison](/docs/comparisons/vs-radix).
 
 shadcn/ui wraps react-day-picker, which pulls in date-fns. That is ~20 KB gzipped for a single calendar system (Gregorian) with no adapter pattern.
 
-gentleduck/ui uses `@gentleduck/calendar` -- ~5 KB gzipped with zero required dependencies. The adapter pattern lets you use native Date, date-fns, dayjs, or luxon without changing your components. Non-Gregorian calendars (Islamic, Persian, Hebrew) work through pluggable adapters. No other copy-paste component library ships this.
+gentleduck/ui uses `@gentleduck/calendar` - ~5 KB gzipped with zero required dependencies. The adapter pattern lets you use native Date, date-fns, dayjs, or luxon without changing your components. Non-Gregorian calendars (Islamic, Persian, Hebrew) work through pluggable adapters. No other copy-paste component library ships this.
 
 See the [full calendar comparison](/docs/comparisons/vs-react-day-picker).
 
 ### Keyboard engine
 
-`@gentleduck/vim` provides key bindings, multi-key sequences (vim-style), macro recording, and platform-aware formatting (`Cmd` on Mac, `Ctrl` elsewhere). shadcn/ui has no keyboard abstraction -- you wire up event listeners manually.
+`@gentleduck/vim` provides key bindings, multi-key sequences (vim-style), macro recording, and platform-aware formatting (`Cmd` on Mac, `Ctrl` elsewhere). shadcn/ui has no keyboard abstraction - you wire up event listeners manually.
 
 ```tsx
 import { useKeymap } from '@gentleduck/vim/react'
@@ -98,7 +98,7 @@ useKeymap({
 
 ## shadcn ecosystem compatibility
 
-gentleduck/ui is structurally compatible with the shadcn ecosystem. Same component names, same compound patterns, same Tailwind approach, same CSS variable theming. Any shadcn template, block, or third-party integration works with gentleduck -- you swap the base component imports and everything else stays the same.
+gentleduck/ui is structurally compatible with the shadcn ecosystem. Same component names, same compound patterns, same Tailwind approach, same CSS variable theming. Any shadcn template, block, or third-party integration works with gentleduck - you swap the base component imports and everything else stays the same.
 
 This means you do not lose access to the shadcn ecosystem by switching. You gain a deeper stack underneath it.
 
@@ -173,7 +173,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = 'Button'
 ```
 
-Three import swaps. The `cva` API is identical -- `@gentleduck/variants` adds memoization so repeated calls with the same props return a cached result instead of recomputing. The `data-slot` attribute enables parent-scoped styling without fragile descendant selectors.
+Three import swaps. The `cva` API is identical - `@gentleduck/variants` adds memoization so repeated calls with the same props return a cached result instead of recomputing. The `data-slot` attribute enables parent-scoped styling without fragile descendant selectors.
 
 ---
 
@@ -217,10 +217,10 @@ Same API. No code changes needed beyond the import path.
 
 ## Why teams switch
 
-You get a smaller bundle immediately. The calendar drops from ~20 KB to ~5 KB. Each primitive is 50-92% lighter than its Radix equivalent. The variant system adds memoization. These improvements land the moment you swap a component -- no refactoring required.
+You get a smaller bundle immediately. The calendar drops from ~20 KB to ~5 KB. Each primitive is 50-92% lighter than its Radix equivalent. The variant system adds memoization. These improvements land the moment you swap a component - no refactoring required.
 
 You own the full stack. With shadcn, you own the styled layer but depend on Radix for behavior. With gentleduck, you own primitives, calendar, keyboard engine, motion tokens, and state management. When something breaks, you fix it in your repo instead of filing an issue and waiting.
 
-You get more out of the box. A keyboard command system, animation tokens with automatic reduced-motion support, an atom-based state manager, and a CLI that can update, remove, and list components -- not just add them.
+You get more out of the box. A keyboard command system, animation tokens with automatic reduced-motion support, an atom-based state manager, and a CLI that can update, remove, and list components - not just add them.
 
 You keep the shadcn ecosystem. Templates, blocks, and third-party integrations built for shadcn work with gentleduck because the component structure is the same. Switching does not mean starting over.

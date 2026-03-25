@@ -71,11 +71,11 @@ The root component that manages open/closed state and provides context to all ch
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `open` | `boolean` | -- | Controlled open state |
+| `open` | `boolean` | - | Controlled open state |
 | `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
-| `onOpenChange` | `(open: boolean) => void` | -- | Called when the open state should change |
+| `onOpenChange` | `(open: boolean) => void` | - | Called when the open state should change |
 | `modal` | `boolean` | `true` | When `true`, enables focus trapping, scroll lock, and hides other content from screen readers |
-| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction for keyboard navigation |
+| `dir` | `'ltr' \| 'rtl'` | - | Reading direction for keyboard navigation |
 
 ### `Dialog.Trigger`
 
@@ -83,7 +83,7 @@ Button that toggles the dialog. Renders a `<button>` by default.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `asChild` | `boolean` | -- | Render as the child element instead of a `<button>` |
+| `asChild` | `boolean` | - | Render as the child element instead of a `<button>` |
 
 Sets `aria-haspopup="dialog"`, `aria-expanded`, `aria-controls`, and `data-state` automatically.
 
@@ -94,7 +94,7 @@ Renders children into `document.body` (or a custom container) via React portal.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `container` | `Element \| null` | `document.body` | Portal target |
-| `forceMount` | `true` | -- | Force mount content (bypasses Presence) |
+| `forceMount` | `true` | - | Force mount content (bypasses Presence) |
 
 ### `Dialog.Overlay`
 
@@ -102,8 +102,8 @@ Renders an overlay behind the content. Only renders when `modal` is `true`. Auto
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `forceMount` | `true` | -- | Keep mounted regardless of open state |
-| `asChild` | `boolean` | -- | Render as child element |
+| `forceMount` | `true` | - | Keep mounted regardless of open state |
+| `asChild` | `boolean` | - | Render as child element |
 
 Exposes `data-state="open"` / `data-state="closed"` for CSS animation.
 
@@ -113,13 +113,13 @@ The content area. Handles focus trapping (modal), dismiss-on-click-outside, and 
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `forceMount` | `true` | -- | Keep mounted regardless of open state |
-| `onOpenAutoFocus` | `(event: Event) => void` | -- | Called when focus moves into content on open. Call `event.preventDefault()` to prevent auto-focus. |
-| `onCloseAutoFocus` | `(event: Event) => void` | -- | Called when focus moves back to trigger on close |
-| `onPointerDownOutside` | `(event) => void` | -- | Called when clicking outside. Prevent default to block close. |
-| `onFocusOutside` | `(event) => void` | -- | Called when focus moves outside |
-| `onInteractOutside` | `(event) => void` | -- | Called for any outside interaction |
-| `onEscapeKeyDown` | `(event) => void` | -- | Called when <Kbd>Escape</Kbd> is pressed. Prevent default to block close. |
+| `forceMount` | `true` | - | Keep mounted regardless of open state |
+| `onOpenAutoFocus` | `(event: Event) => void` | - | Called when focus moves into content on open. Call `event.preventDefault()` to prevent auto-focus. |
+| `onCloseAutoFocus` | `(event: Event) => void` | - | Called when focus moves back to trigger on close |
+| `onPointerDownOutside` | `(event) => void` | - | Called when clicking outside. Prevent default to block close. |
+| `onFocusOutside` | `(event) => void` | - | Called when focus moves outside |
+| `onInteractOutside` | `(event) => void` | - | Called for any outside interaction |
+| `onEscapeKeyDown` | `(event) => void` | - | Called when <Kbd>Escape</Kbd> is pressed. Prevent default to block close. |
 
 Sets `role="dialog"`, `aria-labelledby` (linked to Title), and `aria-describedby` (linked to Description).
 
@@ -143,7 +143,7 @@ Button that closes the dialog. Renders a `<button>` by default.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `asChild` | `boolean` | -- | Render as child element |
+| `asChild` | `boolean` | - | Render as child element |
 
 ---
 

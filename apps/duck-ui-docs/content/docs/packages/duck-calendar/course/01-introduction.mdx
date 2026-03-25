@@ -13,17 +13,17 @@ description: "Why we built our own calendar engine and what problems it solves."
 
 Every React calendar library we evaluated had at least one of these problems:
 
-- **Too large** -- `react-datepicker` ships 32 KB gzipped with 3 runtime dependencies
-- **Coupled to a date library** -- `react-day-picker` requires `date-fns` (adds ~15 KB)
-- **Not tree-shakeable** -- monolithic components that bundle everything even if you only need a date picker
-- **Ships CSS** -- forces you to import and override stylesheets
+- **Too large** - `react-datepicker` ships 32 KB gzipped with 3 runtime dependencies
+- **Coupled to a date library** - `react-day-picker` requires `date-fns` (adds ~15 KB)
+- **Not tree-shakeable** - monolithic components that bundle everything even if you only need a date picker
+- **Ships CSS** - forces you to import and override stylesheets
 
 We wanted something that was:
 
 - Under 10 KB gzipped with zero dependencies
 - Pluggable for any date library via an adapter
-- Fully headless -- no opinions on rendering
-- Accessible by default -- WAI-ARIA grid pattern baked in
+- Fully headless - no opinions on rendering
+- Accessible by default - WAI-ARIA grid pattern baked in
 
 ---
 
@@ -54,6 +54,6 @@ By the end of this course, you will have:
 
 <Callout icon={<MapIcon />}>
 
-Next: [Lesson 2 -- Adapter Pattern](/docs/packages/duck-calendar/course/02-adapter-pattern)
+Next: [Lesson 2 - Adapter Pattern](/docs/packages/duck-calendar/course/02-adapter-pattern)
 
 </Callout>
