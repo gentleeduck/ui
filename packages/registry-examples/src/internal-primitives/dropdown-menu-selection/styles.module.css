@@ -1,4 +1,8 @@
 .frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 14rem;
   padding: 1rem;
   border-radius: 14px;
   border: 1px solid var(--border);

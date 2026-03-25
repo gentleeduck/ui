@@ -137,6 +137,16 @@ const classes = card({ tone: 'success', className: [{ 'animate-pulse': isLoading
 
 ---
 
+## Benchmarks
+
+Real bundle size and runtime performance compared to class-variance-authority, tailwind-variants, and clsx:
+
+<ComponentPreview name="chart-benchmark-variants" description="Variants benchmark dashboard" />
+
+Run `bun run benchmark` in `packages/duck-variants` to regenerate. Data in `public/data/benchmarks/variants.json`.
+
+---
+
 ## Best practices & performance tips
 
 * **Prefer defaultVariants** for the most common case - it reduces caller

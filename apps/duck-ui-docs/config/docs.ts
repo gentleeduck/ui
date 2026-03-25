@@ -504,6 +504,12 @@ export const docsConfig: DocsConfig = {
               title: 'Core Concepts',
             },
             {
+              href: '/docs/packages/duck-primitives/benchmarks',
+              items: [],
+              title: 'Benchmarks',
+              label: 'new',
+            },
+            {
               href: '/docs/packages/duck-primitives/guides',
               title: 'Guides',
               collapsible: true,
@@ -807,6 +813,12 @@ export const docsConfig: DocsConfig = {
               href: '/docs/packages/duck-calendar/getting-started',
               items: [],
               title: 'Getting Started',
+            },
+            {
+              href: '/docs/packages/duck-calendar/benchmarks',
+              items: [],
+              title: 'Benchmarks',
+              label: 'new',
             },
             {
               collapsible: true,
