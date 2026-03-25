@@ -18,7 +18,7 @@ description: "Compare gentleduck/ui with shadcn/ui. Same philosophy, different e
 | **Styling** | Tailwind + `data-*` selectors | Tailwind + `cn()` |
 | **Source ownership** | Full (copy-paste) | Full (copy-paste) |
 | **TypeScript** | Full type safety | Full type safety |
-| **Framework** | React 19 | React 18+ |
+| **Framework** | React 19 | React 19 (v2), React 18 (v1) |
 
 ---
 
@@ -230,6 +230,6 @@ The API is the same. `@gentleduck/variants` adds memoization.
 
 **Use shadcn/ui when:**
 - You want the largest community and ecosystem of examples, templates, and third-party integrations
-- You need React 18 support
 - You prefer depending on Radix UI as a well-funded, externally maintained primitive layer
 - You don't need calendar, keyboard, motion, or state management packages
+- You need to stay on shadcn v1 for React 18 compatibility (v2 also requires React 19)
