@@ -2,6 +2,7 @@ import { describe, expect, test } from 'bun:test'
 import { clamp } from '../clamp'
 import { composeEventHandlers } from '../compose-event-handler'
 import { getState } from '../get-state'
+import { isPointInPolygon, wrapArray } from '../shared-utils'
 
 describe('duck-primitives utils', () => {
   test('clamp constrains numbers within an inclusive range', () => {
@@ -72,5 +73,54 @@ describe('duck-primitives utils', () => {
 
     handler({ defaultPrevented: false })
     expect(calls).toEqual(['original', 'ours'])
+  })
+})
+
+describe('wrapArray', () => {
+  test('wraps from a given start index', () => {
+    expect(wrapArray(['a', 'b', 'c', 'd'], 2)).toEqual(['c', 'd', 'a', 'b'])
+  })
+
+  test('wraps from index 0 returns same order', () => {
+    expect(wrapArray([1, 2, 3], 0)).toEqual([1, 2, 3])
+  })
+
+  test('wraps from last index', () => {
+    expect(wrapArray([1, 2, 3], 2)).toEqual([3, 1, 2])
+  })
+
+  test('empty array returns empty', () => {
+    expect(wrapArray([], 0)).toEqual([])
+  })
+})
+
+describe('isPointInPolygon', () => {
+  const square = [
+    { x: 0, y: 0 },
+    { x: 10, y: 0 },
+    { x: 10, y: 10 },
+    { x: 0, y: 10 },
+  ]
+
+  test('point inside returns true', () => {
+    expect(isPointInPolygon({ x: 5, y: 5 }, square)).toBe(true)
+  })
+
+  test('point outside returns false', () => {
+    expect(isPointInPolygon({ x: 15, y: 5 }, square)).toBe(false)
+  })
+
+  test('point far outside returns false', () => {
+    expect(isPointInPolygon({ x: -10, y: -10 }, square)).toBe(false)
+  })
+
+  test('works with triangle', () => {
+    const triangle = [
+      { x: 0, y: 0 },
+      { x: 10, y: 0 },
+      { x: 5, y: 10 },
+    ]
+    expect(isPointInPolygon({ x: 5, y: 3 }, triangle)).toBe(true)
+    expect(isPointInPolygon({ x: 0, y: 10 }, triangle)).toBe(false)
   })
 })
