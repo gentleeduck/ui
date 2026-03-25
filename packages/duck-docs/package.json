@@ -52,7 +52,7 @@
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.2.0",
     "tsdown": "0.21.4",
-    "typescript": "5.9.3"
+    "typescript": "6.0.2"
   },
   "peerDependencies": {
     "@excalidraw/excalidraw": "^0.18.0",

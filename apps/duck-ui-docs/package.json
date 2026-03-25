@@ -51,7 +51,7 @@
     "@types/react-dom": "19.2.3",
     "tailwindcss": "^4.2.0",
     "ts-morph": "^27.0.2",
-    "typescript": "5.9.3",
+    "typescript": "6.0.2",
     "velite": "^0.3.1"
   },
   "name": "@gentleduck/ui-docs",
