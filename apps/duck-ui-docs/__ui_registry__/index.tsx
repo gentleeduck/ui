@@ -586,6 +586,14 @@ const _ChartBenchmarkCalendarVs = dynamic(
 const _ChartBenchmarkCalendar = dynamic(() => import('@gentleduck/registry-examples/chart/chart-benchmark-calendar'), {
   ssr: false,
 })
+const _ChartBenchmarkPrimitivesAll = dynamic(
+  () => import('@gentleduck/registry-examples/chart/chart-benchmark-primitives-all'),
+  { ssr: false },
+)
+const _ChartBenchmarkPrimitivesVs = dynamic(
+  () => import('@gentleduck/registry-examples/chart/chart-benchmark-primitives-vs'),
+  { ssr: false },
+)
 const _ChartBenchmarkPrimitives = dynamic(
   () => import('@gentleduck/registry-examples/chart/chart-benchmark-primitives'),
   { ssr: false },
@@ -6866,6 +6874,38 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _ChartBenchmarkCalendar,
+    source: '/registry-examples/src/chart',
+    categories: [],
+    root_folder: 'chart',
+  },
+  'chart-benchmark-primitives-all': {
+    name: 'chart-benchmark-primitives-all',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['chart'],
+    files: [
+      {
+        path: 'chart/chart-benchmark-primitives-all.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _ChartBenchmarkPrimitivesAll,
+    source: '/registry-examples/src/chart',
+    categories: [],
+    root_folder: 'chart',
+  },
+  'chart-benchmark-primitives-vs': {
+    name: 'chart-benchmark-primitives-vs',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['chart'],
+    files: [
+      {
+        path: 'chart/chart-benchmark-primitives-vs.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _ChartBenchmarkPrimitivesVs,
     source: '/registry-examples/src/chart',
     categories: [],
     root_folder: 'chart',

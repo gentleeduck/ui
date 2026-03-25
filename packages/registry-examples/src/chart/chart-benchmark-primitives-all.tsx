@@ -28,7 +28,7 @@ export default function PrimitivesAllComponents() {
       <p className="mb-3 text-muted-foreground text-xs">
         All {chartData.length} components. 0 KB means the library does not ship that primitive.
       </p>
-      <ChartContainer className="aspect-[1/1.6] min-h-[750px] w-full" config={config}>
+      <ChartContainer className="aspect-[1/2] min-h-[950px] w-full" config={config}>
         <BarChart data={chartData} layout="vertical" margin={{ left: 20, right: 20, top: 10, bottom: 10 }}>
           <CartesianGrid horizontal={false} />
           <YAxis dataKey="name" type="category" width={110} tickLine={false} axisLine={false} fontSize={11} />
