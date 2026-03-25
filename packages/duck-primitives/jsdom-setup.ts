@@ -36,14 +36,18 @@ Object.assign(globalThis, {
   SVGElement: dom.window.SVGElement,
   Range: dom.window.Range,
   DOMRect: dom.window.DOMRect,
-  ResizeObserver: dom.window.ResizeObserver ?? class ResizeObserver {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
-  },
-  IntersectionObserver: dom.window.IntersectionObserver ?? class IntersectionObserver {
-    observe() {}
-    unobserve() {}
-    disconnect() {}
-  },
+  ResizeObserver:
+    dom.window.ResizeObserver ??
+    class ResizeObserver {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    },
+  IntersectionObserver:
+    dom.window.IntersectionObserver ??
+    class IntersectionObserver {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    },
 })
