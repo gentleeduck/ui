@@ -225,4 +225,246 @@ describe('navigation', () => {
       expect(result.getMonth()).toBe(5)
     })
   })
+
+  // ---------------------------------------------------------------------------
+  // edge cases: year-boundary navigation
+  // ---------------------------------------------------------------------------
+  describe('navigate – year boundary edge cases', () => {
+    it('Dec 31 -> next month -> Jan 1 of next year', () => {
+      const result = navigate(adapter, adapter.create(2026, 11, 31), 'next', 'month')
+      expect(result.getMonth()).toBe(0)
+      expect(result.getFullYear()).toBe(2027)
+      expect(result.getDate()).toBe(31)
+    })
+
+    it('Jan 1 -> prev month -> Dec 1 of prev year', () => {
+      const result = navigate(adapter, adapter.create(2027, 0, 1), 'prev', 'month')
+      expect(result.getMonth()).toBe(11)
+      expect(result.getFullYear()).toBe(2026)
+    })
+
+    it('Dec -> next year -> Dec of next year', () => {
+      const result = navigate(adapter, adapter.create(2026, 11, 15), 'next', 'year')
+      expect(result.getFullYear()).toBe(2027)
+      expect(result.getMonth()).toBe(11)
+    })
+
+    it('Jan -> prev year -> Jan of prev year', () => {
+      const result = navigate(adapter, adapter.create(2026, 0, 15), 'prev', 'year')
+      expect(result.getFullYear()).toBe(2025)
+      expect(result.getMonth()).toBe(0)
+    })
+
+    it('navigate prev decade from year 2005 goes to 1995', () => {
+      const result = navigate(adapter, adapter.create(2005, 6, 1), 'prev', 'decade')
+      expect(result.getFullYear()).toBe(1995)
+      expect(result.getMonth()).toBe(6)
+    })
+
+    it('navigate next decade from year 2095 goes to 2105', () => {
+      const result = navigate(adapter, adapter.create(2095, 0, 1), 'next', 'decade')
+      expect(result.getFullYear()).toBe(2105)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // edge cases: day clamping across month boundaries
+  // ---------------------------------------------------------------------------
+  describe('navigate – day clamping', () => {
+    it('Jan 31 -> next month clamps to Feb 28 (non-leap)', () => {
+      const result = navigate(adapter, adapter.create(2026, 0, 31), 'next', 'month')
+      expect(result.getMonth()).toBe(1)
+      expect(result.getDate()).toBe(28)
+    })
+
+    it('Jan 31 -> next month clamps to Feb 29 (leap year)', () => {
+      const result = navigate(adapter, adapter.create(2028, 0, 31), 'next', 'month')
+      expect(result.getMonth()).toBe(1)
+      expect(result.getDate()).toBe(29)
+    })
+
+    it('Mar 31 -> prev month clamps to Feb 28 (non-leap)', () => {
+      const result = navigate(adapter, adapter.create(2026, 2, 31), 'prev', 'month')
+      expect(result.getMonth()).toBe(1)
+      expect(result.getDate()).toBe(28)
+    })
+
+    it('Feb 29 (leap) -> next year clamps to Feb 28 (non-leap)', () => {
+      const result = navigate(adapter, adapter.create(2028, 1, 29), 'next', 'year')
+      expect(result.getFullYear()).toBe(2029)
+      expect(result.getMonth()).toBe(1)
+      expect(result.getDate()).toBe(28)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // edge cases: canNavigate with constraints at exact boundaries
+  // ---------------------------------------------------------------------------
+  describe('canNavigate – tight boundary constraints', () => {
+    it('cannot go prev month when fromDate is start of current month', () => {
+      const result = canNavigate(adapter, adapter.create(2026, 5, 1), 'prev', 'month', {
+        fromDate: adapter.create(2026, 5, 1),
+      })
+      expect(result).toBe(false)
+    })
+
+    it('cannot go next month when toDate is end of current month', () => {
+      const result = canNavigate(adapter, adapter.create(2026, 5, 1), 'next', 'month', {
+        toDate: adapter.create(2026, 5, 30),
+      })
+      expect(result).toBe(false)
+    })
+
+    it('can go prev month when fromDate is in the previous month', () => {
+      const result = canNavigate(adapter, adapter.create(2026, 5, 1), 'prev', 'month', {
+        fromDate: adapter.create(2026, 4, 15),
+      })
+      expect(result).toBe(true)
+    })
+
+    it('can go next month when toDate is in the next month', () => {
+      const result = canNavigate(adapter, adapter.create(2026, 5, 1), 'next', 'month', {
+        toDate: adapter.create(2026, 6, 1),
+      })
+      expect(result).toBe(true)
+    })
+
+    it('canNavigate prev across year boundary with fromDate in Dec of prev year', () => {
+      const result = canNavigate(adapter, adapter.create(2027, 0, 1), 'prev', 'month', {
+        fromDate: adapter.create(2026, 11, 1),
+      })
+      expect(result).toBe(true)
+    })
+
+    it('canNavigate next across year boundary with toDate in Jan of next year', () => {
+      const result = canNavigate(adapter, adapter.create(2026, 11, 1), 'next', 'month', {
+        toDate: adapter.create(2027, 0, 15),
+      })
+      expect(result).toBe(true)
+    })
+
+    it('canNavigate prev decade blocked by fromDate', () => {
+      const result = canNavigate(adapter, adapter.create(2026, 6, 1), 'prev', 'decade', {
+        fromDate: adapter.create(2020, 0, 1),
+      })
+      // target is July 2016; end of Jul 2016 (Jul 31) is still after Jan 1 2020? No: Jul 31 2016 < Jan 1 2020
+      expect(result).toBe(false)
+    })
+
+    it('canNavigate next decade blocked by toDate', () => {
+      const result = canNavigate(adapter, adapter.create(2026, 6, 1), 'next', 'decade', {
+        toDate: adapter.create(2030, 0, 1),
+      })
+      // target is July 2036; start of Jul 2036 (Jul 1) is after Jan 1 2030
+      expect(result).toBe(false)
+    })
+
+    it('canNavigate prev with both fromDate and toDate, only fromDate matters', () => {
+      const result = canNavigate(adapter, adapter.create(2026, 3, 1), 'prev', 'month', {
+        fromDate: adapter.create(2026, 2, 1),
+        toDate: adapter.create(2026, 8, 1),
+      })
+      expect(result).toBe(true)
+    })
+
+    it('canNavigate next with both fromDate and toDate, only toDate matters', () => {
+      const result = canNavigate(adapter, adapter.create(2026, 7, 1), 'next', 'month', {
+        fromDate: adapter.create(2026, 2, 1),
+        toDate: adapter.create(2026, 8, 15),
+      })
+      expect(result).toBe(true)
+    })
+
+    it('canNavigate returns true for no constraints (decade)', () => {
+      expect(canNavigate(adapter, adapter.create(2026, 6, 1), 'prev', 'decade')).toBe(true)
+      expect(canNavigate(adapter, adapter.create(2026, 6, 1), 'next', 'decade')).toBe(true)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // edge cases: goToMonth boundary months
+  // ---------------------------------------------------------------------------
+  describe('goToMonth – edge cases', () => {
+    it('going to Feb from a 31-day month gives Feb 1', () => {
+      const result = goToMonth(adapter, adapter.create(2026, 0, 31), 1)
+      expect(result.getMonth()).toBe(1)
+      expect(result.getDate()).toBe(1)
+    })
+
+    it('going to same month is a no-op on month value', () => {
+      const result = goToMonth(adapter, adapter.create(2026, 5, 15), 5)
+      expect(result.getMonth()).toBe(5)
+      expect(result.getDate()).toBe(1)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // edge cases: goToYear leap year and distant years
+  // ---------------------------------------------------------------------------
+  describe('goToYear – edge cases', () => {
+    it('handles leap year source: Feb keeps month when going to non-leap year', () => {
+      const result = goToYear(adapter, adapter.create(2028, 1, 29), 2026)
+      expect(result.getFullYear()).toBe(2026)
+      expect(result.getMonth()).toBe(1)
+      expect(result.getDate()).toBe(1)
+    })
+
+    it('handles distant future year', () => {
+      const result = goToYear(adapter, adapter.create(2026, 3, 10), 3000)
+      expect(result.getFullYear()).toBe(3000)
+      expect(result.getMonth()).toBe(3)
+    })
+
+    it('handles very early year', () => {
+      const result = goToYear(adapter, adapter.create(2026, 3, 10), 1900)
+      expect(result.getFullYear()).toBe(1900)
+      expect(result.getMonth()).toBe(3)
+    })
+
+    it('going to same year is a no-op on year value', () => {
+      const result = goToYear(adapter, adapter.create(2026, 7, 20), 2026)
+      expect(result.getFullYear()).toBe(2026)
+      expect(result.getMonth()).toBe(7)
+      expect(result.getDate()).toBe(1)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // edge cases: consecutive navigation
+  // ---------------------------------------------------------------------------
+  describe('consecutive navigation', () => {
+    it('12 next months returns to same month, next year', () => {
+      let date = adapter.create(2026, 3, 15)
+      for (let i = 0; i < 12; i++) {
+        date = navigate(adapter, date, 'next', 'month')
+      }
+      expect(date.getMonth()).toBe(3)
+      expect(date.getFullYear()).toBe(2027)
+    })
+
+    it('12 prev months returns to same month, prev year', () => {
+      let date = adapter.create(2026, 3, 15)
+      for (let i = 0; i < 12; i++) {
+        date = navigate(adapter, date, 'prev', 'month')
+      }
+      expect(date.getMonth()).toBe(3)
+      expect(date.getFullYear()).toBe(2025)
+    })
+
+    it('next then prev month is identity', () => {
+      const original = adapter.create(2026, 5, 1)
+      const forward = navigate(adapter, original, 'next', 'month')
+      const back = navigate(adapter, forward, 'prev', 'month')
+      expect(back.getMonth()).toBe(original.getMonth())
+      expect(back.getFullYear()).toBe(original.getFullYear())
+    })
+
+    it('next then prev year is identity', () => {
+      const original = adapter.create(2026, 5, 15)
+      const forward = navigate(adapter, original, 'next', 'year')
+      const back = navigate(adapter, forward, 'prev', 'year')
+      expect(back.getFullYear()).toBe(original.getFullYear())
+      expect(back.getMonth()).toBe(original.getMonth())
+    })
+  })
 })
