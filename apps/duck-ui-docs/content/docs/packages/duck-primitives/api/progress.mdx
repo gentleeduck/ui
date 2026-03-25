@@ -41,7 +41,7 @@ Renders a `<div>` with `role="progressbar"` and appropriate ARIA attributes.
 | `value` | `number \| null` | `null` | Current value. `null` = indeterminate. |
 | `max` | `number` | `100` | Maximum value |
 | `getValueLabel` | `(value: number, max: number) => string` | Percentage | Custom label for screen readers |
-| `dir` | `'ltr' \| 'rtl'` | -- | Reading direction |
+| `dir` | `'ltr' \| 'rtl'` | - | Reading direction |
 
 Exposes `data-state` as `indeterminate`, `loading`, or `complete`, and `data-value` / `data-max`.
 
