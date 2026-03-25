@@ -174,4 +174,281 @@ describe('matcher', () => {
       expect(fn2).not.toHaveBeenCalled()
     })
   })
+
+  describe('isInputElement - edge cases', () => {
+    it('returns true for password input', () => {
+      const input = document.createElement('input')
+      input.type = 'password'
+      expect(isInputElement(input)).toBe(true)
+    })
+
+    it('returns true for email input', () => {
+      const input = document.createElement('input')
+      input.type = 'email'
+      expect(isInputElement(input)).toBe(true)
+    })
+
+    it('returns true for number input', () => {
+      const input = document.createElement('input')
+      input.type = 'number'
+      expect(isInputElement(input)).toBe(true)
+    })
+
+    it('returns true for search input', () => {
+      const input = document.createElement('input')
+      input.type = 'search'
+      expect(isInputElement(input)).toBe(true)
+    })
+
+    it('returns true for tel input', () => {
+      const input = document.createElement('input')
+      input.type = 'tel'
+      expect(isInputElement(input)).toBe(true)
+    })
+
+    it('returns true for url input', () => {
+      const input = document.createElement('input')
+      input.type = 'url'
+      expect(isInputElement(input)).toBe(true)
+    })
+
+    it('returns false for reset input', () => {
+      const input = document.createElement('input')
+      input.type = 'reset'
+      expect(isInputElement(input)).toBe(false)
+    })
+
+    it('returns true for input with no explicit type (defaults to text)', () => {
+      const input = document.createElement('input')
+      expect(isInputElement(input)).toBe(true)
+    })
+
+    it('returns false for checkbox input', () => {
+      // checkbox is not in BUTTON_INPUT_TYPES, but it IS an INPUT tag
+      // so it returns true because only button/submit/reset are excluded
+      const input = document.createElement('input')
+      input.type = 'checkbox'
+      expect(isInputElement(input)).toBe(true)
+    })
+
+    it('returns false for span element', () => {
+      const span = document.createElement('span')
+      expect(isInputElement(span)).toBe(false)
+    })
+
+    it('returns false for button element', () => {
+      const button = document.createElement('button')
+      expect(isInputElement(button)).toBe(false)
+    })
+
+    it('returns true for contenteditable set via property', () => {
+      const div = document.createElement('div')
+      div.contentEditable = 'true'
+      expect(isInputElement(div)).toBe(true)
+    })
+
+    it('returns false for contenteditable=false', () => {
+      const div = document.createElement('div')
+      div.contentEditable = 'false'
+      expect(isInputElement(div)).toBe(false)
+    })
+  })
+
+  describe('matchesKeyboardEvent - edge cases', () => {
+    it('does not match when alt is required but not pressed', () => {
+      const parsed = parseKeyBind('alt+k')
+      expect(matchesKeyboardEvent(parsed, createEvent('k'))).toBe(false)
+    })
+
+    it('does not match when meta is required but not pressed', () => {
+      const parsed = parseKeyBind('meta+k')
+      expect(matchesKeyboardEvent(parsed, createEvent('k'))).toBe(false)
+    })
+
+    it('does not match when shift is required but not pressed', () => {
+      const parsed = parseKeyBind('shift+k')
+      expect(matchesKeyboardEvent(parsed, createEvent('k'))).toBe(false)
+    })
+
+    it('fails when extra alt modifier is pressed', () => {
+      const parsed = parseKeyBind('ctrl+s')
+      expect(matchesKeyboardEvent(parsed, createEvent('s', { ctrlKey: true, altKey: true }))).toBe(false)
+    })
+
+    it('fails when extra meta modifier is pressed', () => {
+      const parsed = parseKeyBind('ctrl+s')
+      expect(matchesKeyboardEvent(parsed, createEvent('s', { ctrlKey: true, metaKey: true }))).toBe(false)
+    })
+
+    it('matches case sensitively when ignoreCase is false', () => {
+      const parsed = parseKeyBind('s')
+      // parsed.key is lowercase 's'; event key is uppercase 'S'
+      expect(matchesKeyboardEvent(parsed, createEvent('S'), { ignoreCase: false })).toBe(false)
+    })
+
+    it('matches case sensitively for exact match', () => {
+      const parsed = parseKeyBind('s')
+      expect(matchesKeyboardEvent(parsed, createEvent('s'), { ignoreCase: false })).toBe(true)
+    })
+
+    it('matches F-key bindings', () => {
+      const parsed = parseKeyBind('f1')
+      expect(matchesKeyboardEvent(parsed, createEvent('F1'))).toBe(true)
+    })
+
+    it('matches F12 with modifier', () => {
+      const parsed = parseKeyBind('ctrl+f12')
+      expect(matchesKeyboardEvent(parsed, createEvent('F12', { ctrlKey: true }))).toBe(true)
+    })
+
+    it('matches Tab key', () => {
+      const parsed = parseKeyBind('tab')
+      expect(matchesKeyboardEvent(parsed, createEvent('Tab'))).toBe(true)
+    })
+
+    it('matches Backspace key', () => {
+      const parsed = parseKeyBind('backspace')
+      expect(matchesKeyboardEvent(parsed, createEvent('Backspace'))).toBe(true)
+    })
+
+    it('matches Delete key', () => {
+      const parsed = parseKeyBind('delete')
+      expect(matchesKeyboardEvent(parsed, createEvent('Delete'))).toBe(true)
+    })
+
+    it('matches Enter key', () => {
+      const parsed = parseKeyBind('enter')
+      expect(matchesKeyboardEvent(parsed, createEvent('Enter'))).toBe(true)
+    })
+
+    it('matches all four modifiers at once', () => {
+      const parsed = parseKeyBind('ctrl+shift+alt+meta+s')
+      const event = createEvent('s', { ctrlKey: true, shiftKey: true, altKey: true, metaKey: true })
+      expect(matchesKeyboardEvent(parsed, event)).toBe(true)
+    })
+
+    it('fails when all four modifiers expected but one missing', () => {
+      const parsed = parseKeyBind('ctrl+shift+alt+meta+s')
+      const event = createEvent('s', { ctrlKey: true, shiftKey: true, altKey: true })
+      expect(matchesKeyboardEvent(parsed, event)).toBe(false)
+    })
+
+    it('matches digit keys', () => {
+      const parsed = parseKeyBind('ctrl+1')
+      expect(matchesKeyboardEvent(parsed, createEvent('1', { ctrlKey: true }))).toBe(true)
+    })
+  })
+
+  describe('createKeyBindHandler - edge cases', () => {
+    it('skips when ignoreInputs is set and target is input', () => {
+      const fn = vi.fn()
+      const input = document.createElement('input')
+      input.type = 'text'
+      const handler = createKeyBindHandler({
+        binding: 'ctrl+s',
+        handler: fn,
+        options: { ignoreInputs: true },
+      })
+      const event = createEvent('s', { ctrlKey: true })
+      Object.defineProperty(event, 'target', { value: input })
+      handler(event)
+      expect(fn).not.toHaveBeenCalled()
+    })
+
+    it('does not skip when ignoreInputs is set and target is div', () => {
+      const fn = vi.fn()
+      const handler = createKeyBindHandler({
+        binding: 'ctrl+s',
+        handler: fn,
+        options: { ignoreInputs: true },
+      })
+      const event = createEvent('s', { ctrlKey: true })
+      handler(event)
+      expect(fn).toHaveBeenCalledOnce()
+    })
+
+    it('passes the event object to the handler', () => {
+      const fn = vi.fn()
+      const handler = createKeyBindHandler({ binding: 'k', handler: fn })
+      const event = createEvent('k')
+      handler(event)
+      expect(fn).toHaveBeenCalledWith(event)
+    })
+
+    it('handles both preventDefault and stopPropagation together', () => {
+      const fn = vi.fn()
+      const handler = createKeyBindHandler({
+        binding: 'ctrl+s',
+        handler: fn,
+        options: { preventDefault: true, stopPropagation: true },
+      })
+      const event = createEvent('s', { ctrlKey: true })
+      const pdSpy = vi.spyOn(event, 'preventDefault')
+      const spSpy = vi.spyOn(event, 'stopPropagation')
+      handler(event)
+      expect(pdSpy).toHaveBeenCalled()
+      expect(spSpy).toHaveBeenCalled()
+      expect(fn).toHaveBeenCalled()
+    })
+  })
+
+  describe('createMultiKeyBindHandler - edge cases', () => {
+    it('no handler is called when no binding matches', () => {
+      const fn1 = vi.fn()
+      const fn2 = vi.fn()
+      const handler = createMultiKeyBindHandler([
+        { binding: 'ctrl+s', handler: fn1 },
+        { binding: 'ctrl+k', handler: fn2 },
+      ])
+      handler(createEvent('x'))
+      expect(fn1).not.toHaveBeenCalled()
+      expect(fn2).not.toHaveBeenCalled()
+    })
+
+    it('skips disabled entries and matches next', () => {
+      const fn1 = vi.fn()
+      const fn2 = vi.fn()
+      const handler = createMultiKeyBindHandler([
+        { binding: 'ctrl+s', handler: fn1, options: { enabled: false } },
+        { binding: 'ctrl+s', handler: fn2 },
+      ])
+      handler(createEvent('s', { ctrlKey: true }))
+      expect(fn1).not.toHaveBeenCalled()
+      expect(fn2).toHaveBeenCalledOnce()
+    })
+
+    it('skips entries with ignoreInputs when target is input', () => {
+      const fn1 = vi.fn()
+      const fn2 = vi.fn()
+      const input = document.createElement('input')
+      input.type = 'text'
+      const handler = createMultiKeyBindHandler([
+        { binding: 'ctrl+s', handler: fn1, options: { ignoreInputs: true } },
+        { binding: 'ctrl+s', handler: fn2 },
+      ])
+      const event = createEvent('s', { ctrlKey: true })
+      Object.defineProperty(event, 'target', { value: input })
+      handler(event)
+      expect(fn1).not.toHaveBeenCalled()
+      expect(fn2).toHaveBeenCalledOnce()
+    })
+
+    it('handles empty configs array without error', () => {
+      const handler = createMultiKeyBindHandler([])
+      expect(() => handler(createEvent('k'))).not.toThrow()
+    })
+
+    it('applies preventDefault and stopPropagation on matched entry', () => {
+      const fn = vi.fn()
+      const handler = createMultiKeyBindHandler([
+        { binding: 'ctrl+s', handler: fn, options: { preventDefault: true, stopPropagation: true } },
+      ])
+      const event = createEvent('s', { ctrlKey: true })
+      const pdSpy = vi.spyOn(event, 'preventDefault')
+      const spSpy = vi.spyOn(event, 'stopPropagation')
+      handler(event)
+      expect(pdSpy).toHaveBeenCalled()
+      expect(spSpy).toHaveBeenCalled()
+    })
+  })
 })
