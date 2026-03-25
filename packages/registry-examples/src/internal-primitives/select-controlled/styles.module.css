@@ -48,3 +48,15 @@
   font-size: 0.78rem;
   color: var(--muted-foreground);
 }
+
+.frame {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 14rem;
+  padding: 1rem;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: linear-gradient(180deg, color-mix(in oklab, var(--card) 92%, var(--muted)) 0%, var(--muted) 100%);
+  color: var(--foreground);
+}

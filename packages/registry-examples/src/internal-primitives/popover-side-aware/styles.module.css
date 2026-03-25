@@ -3,19 +3,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 14rem;
-  overflow: hidden;
-  padding: 1rem;
+  min-height: 6rem;
+  padding: 1.5rem 1rem;
   border-radius: 14px;
   border: 1px solid var(--border);
   background: linear-gradient(160deg, color-mix(in oklab, var(--card) 92%, var(--muted)) 0%, var(--muted) 100%);
   color: var(--foreground);
-}
-
-.label {
-  margin: 0 0 0.6rem;
-  font-size: 0.75rem;
-  color: var(--muted-foreground);
 }
 
 .trigger {
@@ -25,9 +18,14 @@
   color: var(--foreground);
   padding: 0.45rem 0.75rem;
   font-size: 0.85rem;
+  cursor: pointer;
+}
+.trigger:hover {
+  background: var(--accent);
 }
 
 .content {
+  z-index: 50;
   width: 18rem;
   border-radius: 14px;
   border: 1px solid var(--border);
