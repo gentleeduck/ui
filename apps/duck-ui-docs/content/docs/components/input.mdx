@@ -119,11 +119,11 @@ A styled `<input>` element that accepts all standard HTML input attributes.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `type` | `React.HTMLInputTypeAttribute` | `--` | The HTML input type (e.g., `'text'`, `'password'`, `'email'`, `'file'`). Browsers default to `'text'`. |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `className` | `string` | `--` | Additional CSS classes to apply |
-| `ref` | `React.Ref<HTMLInputElement>` | `--` | Ref forwarded to the underlying `<input>` element |
-| `...props` | `React.HTMLProps<HTMLInputElement>` | -- | Additional props to spread to the input element |
+| `type` | `React.HTMLInputTypeAttribute` | `-` | The HTML input type (e.g., `'text'`, `'password'`, `'email'`, `'file'`). Browsers default to `'text'`. |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | `-` | Additional CSS classes to apply |
+| `ref` | `React.Ref<HTMLInputElement>` | `-` | Ref forwarded to the underlying `<input>` element |
+| `...props` | `React.HTMLProps<HTMLInputElement>` | - | Additional props to spread to the input element |
 
 ## RTL Support
 

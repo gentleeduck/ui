@@ -115,92 +115,92 @@ Style the trigger to appear active while the alert dialog is open using `data-[s
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `defaultOpen` | `boolean` | `--` | Determines if the dialog should be open by default |
-| `open` | `boolean` | `--` | Controls the visibility of the dialog |
-| `onOpenChange` | `(open: boolean) => void` | `--` | Callback fired when the dialog opens or closes |
-| `dir` | `'ltr' \| 'rtl'` | `--` | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). Inherited from the Dialog primitive. |
+| `defaultOpen` | `boolean` | `-` | Determines if the dialog should be open by default |
+| `open` | `boolean` | `-` | Controls the visibility of the dialog |
+| `onOpenChange` | `(open: boolean) => void` | `-` | Callback fired when the dialog opens or closes |
+| `dir` | `'ltr' \| 'rtl'` | `-` | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). Inherited from the Dialog primitive. |
 | `children` | `React.ReactNode` | (required) | Child elements (typically Trigger and Content) |
-| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Root>` | -- | Additional props inherited from `AlertDialogPrimitive.Root` |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Root>` | - | Additional props inherited from `AlertDialogPrimitive.Root` |
 
 ### AlertDialogTrigger
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `asChild` | `boolean` | `false` | If `true`, renders using a `Slot` instead of a `button` element |
-| `children` | `React.ReactNode` | `--` | Content of the trigger |
-| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Trigger>` | -- | Additional props inherited from `AlertDialogPrimitive.Trigger` |
+| `children` | `React.ReactNode` | `-` | Content of the trigger |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Trigger>` | - | Additional props inherited from `AlertDialogPrimitive.Trigger` |
 
 ### AlertDialogPortal
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `container` | `HTMLElement` | -- | Optional portal container |
-| `forceMount` | `true` | -- | Forces mounted state for all portal children |
-| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Portal>` | -- | Additional props inherited from `AlertDialogPrimitive.Portal` |
+| `container` | `HTMLElement` | - | Optional portal container |
+| `forceMount` | `true` | - | Forces mounted state for all portal children |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Portal>` | - | Additional props inherited from `AlertDialogPrimitive.Portal` |
 
 ### AlertDialogOverlay
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names to apply |
-| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>` | -- | Additional props inherited from `AlertDialogPrimitive.Overlay` |
+| `className` | `string` | - | Additional class names to apply |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Overlay>` | - | Additional props inherited from `AlertDialogPrimitive.Overlay` |
 
 ### AlertDialogContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional class names to apply |
-| `children` | `React.ReactNode` | `--` | Content displayed inside the dialog |
+| `className` | `string` | `-` | Additional class names to apply |
+| `children` | `React.ReactNode` | `-` | Content displayed inside the dialog |
 | `forceMount` | `boolean` | `false` | If `true`, forces the content to stay mounted in the DOM |
-| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>` | -- | Additional props inherited from `AlertDialogPrimitive.Content` |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>` | - | Additional props inherited from `AlertDialogPrimitive.Content` |
 
 ### AlertDialogHeader
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional class names to apply |
-| `children` | `React.ReactNode` | `--` | Header content (typically Title and Description) |
-| `...props` | `React.HTMLAttributes<HTMLDivElement>` | -- | Additional props to spread to the header container |
+| `className` | `string` | `-` | Additional class names to apply |
+| `children` | `React.ReactNode` | `-` | Header content (typically Title and Description) |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | - | Additional props to spread to the header container |
 
 ### AlertDialogFooter
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional class names to apply |
-| `children` | `React.ReactNode` | `--` | Footer content (typically Action and Cancel buttons) |
-| `...props` | `React.HTMLAttributes<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `className` | `string` | `-` | Additional class names to apply |
+| `children` | `React.ReactNode` | `-` | Footer content (typically Action and Cancel buttons) |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### AlertDialogTitle
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional class names to apply |
-| `children` | `React.ReactNode` | `--` | Title text content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>` | -- | Additional props inherited from `AlertDialogPrimitive.Title` |
+| `className` | `string` | `-` | Additional class names to apply |
+| `children` | `React.ReactNode` | `-` | Title text content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Title>` | - | Additional props inherited from `AlertDialogPrimitive.Title` |
 
 ### AlertDialogDescription
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional class names to apply |
-| `children` | `React.ReactNode` | `--` | Description text content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>` | -- | Additional props inherited from `AlertDialogPrimitive.Description` |
+| `className` | `string` | `-` | Additional class names to apply |
+| `children` | `React.ReactNode` | `-` | Description text content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Description>` | - | Additional props inherited from `AlertDialogPrimitive.Description` |
 
 ### AlertDialogAction
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names merged with default button styles |
-| `children` | `React.ReactNode` | -- | Action button content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>` | -- | Additional props inherited from `AlertDialogPrimitive.Action` |
+| `className` | `string` | - | Additional class names merged with default button styles |
+| `children` | `React.ReactNode` | - | Action button content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Action>` | - | Additional props inherited from `AlertDialogPrimitive.Action` |
 
 ### AlertDialogCancel
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names merged with outline button styles |
-| `children` | `React.ReactNode` | -- | Cancel button content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>` | -- | Additional props inherited from `AlertDialogPrimitive.Cancel` |
+| `className` | `string` | - | Additional class names merged with outline button styles |
+| `children` | `React.ReactNode` | - | Cancel button content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>` | - | Additional props inherited from `AlertDialogPrimitive.Cancel` |
 
 ## RTL Support
 

@@ -1,6 +1,6 @@
 ---
 title: radio-group
-description: A set of checkable buttons -- known as radio buttons -- where no more than one of the buttons can be checked at a time.
+description: A set of checkable buttons  -  known as radio buttons  -  where no more than one of the buttons can be checked at a time.
 component: true
 ---
 
@@ -123,16 +123,16 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string` | -- | Controlled value of the selected radio item |
-| `defaultValue` | `string` | -- | Initial selected value when uncontrolled |
-| `onValueChange` | `(value: string) => void` | -- | Callback fired when selection changes |
+| `value` | `string` | - | Controlled value of the selected radio item |
+| `defaultValue` | `string` | - | Initial selected value when uncontrolled |
+| `onValueChange` | `(value: string) => void` | - | Callback fired when selection changes |
 | `disabled` | `boolean` | `false` | Whether the entire group is disabled |
 | `required` | `boolean` | `false` | Whether the group is required in a form |
-| `name` | `string` | -- | The name used when submitting an HTML form |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `orientation` | `'horizontal' \| 'vertical'` | -- | The orientation of the group for arrow key navigation |
+| `name` | `string` | - | The name used when submitting an HTML form |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `orientation` | `'horizontal' \| 'vertical'` | - | The orientation of the group for arrow key navigation |
 | `loop` | `boolean` | `true` | Whether keyboard navigation should loop |
-| `className` | `string` | -- | Additional CSS classes |
+| `className` | `string` | - | Additional CSS classes |
 
 ### RadioGroupItem
 
@@ -140,11 +140,11 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 | --- | --- | --- | --- |
 | `value` | `string` | (required) | Unique value for the radio item |
 | `disabled` | `boolean` | `false` | Whether this item is disabled |
-| `indicator` | `React.ReactElement` | -- | Custom SVG or element for unchecked state indicator |
-| `checkedIndicator` | `React.ReactElement` | -- | Custom SVG or element for checked state indicator |
-| `textValue` | `string` | -- | Optional text used for keyboard typeahead matching (`a-z`). In the registry component, plain string/number children are inferred automatically. |
-| `children` | `React.ReactNode` | -- | Label content. When provided, a clickable label is rendered next to the control and selects the item on click. |
-| `className` | `string` | -- | Additional CSS classes for the radio button control |
+| `indicator` | `React.ReactElement` | - | Custom SVG or element for unchecked state indicator |
+| `checkedIndicator` | `React.ReactElement` | - | Custom SVG or element for checked state indicator |
+| `textValue` | `string` | - | Optional text used for keyboard typeahead matching (`a-z`). In the registry component, plain string/number children are inferred automatically. |
+| `children` | `React.ReactNode` | - | Label content. When provided, a clickable label is rendered next to the control and selects the item on click. |
+| `className` | `string` | - | Additional CSS classes for the radio button control |
 
 ## RTL Support
 
