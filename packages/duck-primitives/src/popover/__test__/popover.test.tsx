@@ -69,4 +69,33 @@ describe('Popover', () => {
     )
     expect(ref.current).toBeInstanceOf(HTMLButtonElement)
   })
+
+  it('toggles closed on second click', () => {
+    const handler = mock(() => {})
+    const { container } = renderPopover({ onOpenChange: handler })
+    const trigger = container.querySelector('[data-slot="popover-trigger"]')!
+    fireEvent.click(trigger)
+    expect(handler).toHaveBeenCalledWith(true)
+    fireEvent.click(trigger)
+    expect(handler).toHaveBeenCalledWith(false)
+  })
+
+  it('defaults to ltr direction', () => {
+    const { container } = renderPopover()
+    expect(container.querySelector('[data-slot="popover-trigger"]')?.getAttribute('dir')).toBe('ltr')
+  })
+
+  it('supports rtl direction', () => {
+    const { container } = renderPopover({ dir: 'rtl' })
+    expect(container.querySelector('[data-slot="popover-trigger"]')?.getAttribute('dir')).toBe('rtl')
+  })
+
+  it('passes className to trigger', () => {
+    const { container } = render(
+      <Popover>
+        <PopoverTrigger className="my-popover-trigger">Open</PopoverTrigger>
+      </Popover>,
+    )
+    expect(container.querySelector('.my-popover-trigger')).not.toBeNull()
+  })
 })

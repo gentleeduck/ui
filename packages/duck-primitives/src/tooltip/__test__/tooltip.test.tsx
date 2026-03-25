@@ -78,4 +78,43 @@ describe('Tooltip', () => {
     )
     expect(container.querySelector('[data-testid="child"]')).not.toBeNull()
   })
+
+  // --- Additional hardening ---
+
+  it('trigger renders as a button', () => {
+    const { container } = renderTooltip()
+    const trigger = container.querySelector('[data-slot="tooltip-trigger"]')!
+    expect(trigger.tagName.toLowerCase()).toBe('button')
+  })
+
+  it('trigger passes className', () => {
+    const { container } = renderTooltip({}, { className: 'my-tooltip-trigger' })
+    expect(container.querySelector('.my-tooltip-trigger')).not.toBeNull()
+  })
+
+  it('multiple tooltips can coexist', () => {
+    const { container } = render(
+      <TooltipProvider>
+        <Tooltip>
+          <TooltipTrigger>First</TooltipTrigger>
+          <TooltipContent>Tooltip 1</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger>Second</TooltipTrigger>
+          <TooltipContent>Tooltip 2</TooltipContent>
+        </Tooltip>
+      </TooltipProvider>,
+    )
+    const triggers = container.querySelectorAll('[data-slot="tooltip-trigger"]')
+    expect(triggers.length).toBe(2)
+    expect(triggers[0]!.textContent).toBe('First')
+    expect(triggers[1]!.textContent).toBe('Second')
+  })
+
+  it('trigger without disableCloseOnClick closes on click', () => {
+    const onOpenChange = mock(() => {})
+    const { container } = renderTooltip({ open: true, onOpenChange })
+    fireEvent.click(container.querySelector('[data-slot="tooltip-trigger"]')!)
+    expect(onOpenChange).toHaveBeenCalledWith(false)
+  })
 })
