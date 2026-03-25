@@ -1,14 +1,7 @@
 import { describe, expect, it, mock } from 'bun:test'
 import { fireEvent, render } from '@testing-library/react'
 import * as React from 'react'
-import {
-  Menubar,
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarPortal,
-  MenubarTrigger,
-} from '../index'
+import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarPortal, MenubarTrigger } from '../index'
 
 function renderMenubar() {
   return render(

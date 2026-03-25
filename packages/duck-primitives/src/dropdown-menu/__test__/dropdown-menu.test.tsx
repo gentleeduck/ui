@@ -88,4 +88,25 @@ describe('DropdownMenu', () => {
     )
     expect(ref.current).toBeInstanceOf(HTMLButtonElement)
   })
+
+  it('trigger has aria-controls when open', () => {
+    const { container } = renderDropdown({ defaultOpen: true })
+    const trigger = container.querySelector('[data-slot="dropdown-menu-trigger"]')!
+    expect(trigger.getAttribute('aria-controls')).toBeTruthy()
+  })
+
+  it('trigger has no aria-controls when closed', () => {
+    const { container } = renderDropdown()
+    const trigger = container.querySelector('[data-slot="dropdown-menu-trigger"]')!
+    expect(trigger.getAttribute('aria-controls')).toBeNull()
+  })
+
+  it('passes className through to trigger', () => {
+    const { container } = render(
+      <DropdownMenu>
+        <DropdownMenuTrigger className="my-trigger">Menu</DropdownMenuTrigger>
+      </DropdownMenu>,
+    )
+    expect(container.querySelector('.my-trigger')).not.toBeNull()
+  })
 })

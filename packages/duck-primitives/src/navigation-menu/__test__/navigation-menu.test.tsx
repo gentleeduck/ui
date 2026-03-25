@@ -1,12 +1,7 @@
 import { describe, expect, it } from 'bun:test'
 import { render } from '@testing-library/react'
 import * as React from 'react'
-import {
-  NavigationMenu,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-} from '../index'
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from '../index'
 
 describe('NavigationMenu', () => {
   it('renders with data-slot="navigation-menu"', () => {
@@ -68,7 +63,9 @@ describe('NavigationMenu', () => {
       <NavigationMenu>
         <NavigationMenuList>
           <NavigationMenuItem>
-            <NavigationMenuLink href="/" active>Current</NavigationMenuLink>
+            <NavigationMenuLink href="/" active>
+              Current
+            </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>,

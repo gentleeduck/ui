@@ -86,4 +86,23 @@ describe('Select', () => {
     fireEvent.keyDown(container.querySelector('[data-slot="select-trigger"]')!, { key: 'ArrowDown' })
     expect(handler).toHaveBeenCalledWith(true)
   })
+
+  it('opens on Enter key', () => {
+    const handler = mock(() => {})
+    const { container } = renderSelect({ onOpenChange: handler })
+    fireEvent.keyDown(container.querySelector('[data-slot="select-trigger"]')!, { key: 'Enter' })
+    expect(handler).toHaveBeenCalledWith(true)
+  })
+
+  it('opens on Space key', () => {
+    const handler = mock(() => {})
+    const { container } = renderSelect({ onOpenChange: handler })
+    fireEvent.keyDown(container.querySelector('[data-slot="select-trigger"]')!, { key: ' ' })
+    expect(handler).toHaveBeenCalledWith(true)
+  })
+
+  it('shows selected value instead of placeholder', () => {
+    const { container } = renderSelect({ defaultValue: 'banana' })
+    expect(container.querySelector('[data-slot="select-trigger"]')?.hasAttribute('data-placeholder')).toBe(false)
+  })
 })
