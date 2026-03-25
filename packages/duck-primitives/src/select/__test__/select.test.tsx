@@ -105,4 +105,46 @@ describe('Select', () => {
     const { container } = renderSelect({ defaultValue: 'banana' })
     expect(container.querySelector('[data-slot="select-trigger"]')?.hasAttribute('data-placeholder')).toBe(false)
   })
+
+  it('value element has data-slot="select-value"', () => {
+    const { container } = renderSelect()
+    expect(container.querySelector('[data-slot="select-value"]')).not.toBeNull()
+  })
+
+  it('value element shows placeholder text', () => {
+    const { container } = renderSelect()
+    expect(container.querySelector('[data-slot="select-value"]')?.textContent).toBe('Choose')
+  })
+
+  it('value element has pointer-events none', () => {
+    const { container } = renderSelect()
+    const value = container.querySelector('[data-slot="select-value"]') as HTMLElement
+    expect(value.style.pointerEvents).toBe('none')
+  })
+
+  it('trigger has aria-controls attribute', () => {
+    const { container } = renderSelect()
+    expect(container.querySelector('[data-slot="select-trigger"]')?.getAttribute('aria-controls')).toBeTruthy()
+  })
+
+  it('passes className to trigger', () => {
+    const { container } = render(
+      <Select>
+        <SelectTrigger className="my-select">
+          <SelectValue />
+        </SelectTrigger>
+      </Select>,
+    )
+    expect(container.querySelector('.my-select')).not.toBeNull()
+  })
+
+  it('sets dir on trigger', () => {
+    const { container } = renderSelect({ dir: 'rtl' })
+    expect(container.querySelector('[data-slot="select-trigger"]')?.getAttribute('dir')).toBe('rtl')
+  })
+
+  it('required select has aria-required', () => {
+    const { container } = renderSelect({ required: true })
+    expect(container.querySelector('[data-slot="select-trigger"]')?.getAttribute('aria-required')).toBe('true')
+  })
 })

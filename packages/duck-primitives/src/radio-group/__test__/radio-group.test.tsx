@@ -159,4 +159,63 @@ describe('RadioGroup', () => {
     const { container } = renderRadioGroup({ dir: 'rtl' })
     expect(container.querySelector('[role="radiogroup"]')?.getAttribute('dir')).toBe('rtl')
   })
+
+  it('items have type="button"', () => {
+    const { container } = renderRadioGroup()
+    const radios = container.querySelectorAll('[role="radio"]')
+    for (const radio of radios) {
+      expect(radio.getAttribute('type')).toBe('button')
+    }
+  })
+
+  it('items have data-slot="radio-group-item"', () => {
+    const { container } = renderRadioGroup()
+    expect(container.querySelectorAll('[data-slot="radio-group-item"]').length).toBe(3)
+  })
+
+  it('items have data-value attribute', () => {
+    const { container } = renderRadioGroup()
+    const items = container.querySelectorAll('[data-slot="radio-group-item"]')
+    expect(items[0]!.getAttribute('data-value')).toBe('a')
+    expect(items[1]!.getAttribute('data-value')).toBe('b')
+    expect(items[2]!.getAttribute('data-value')).toBe('c')
+  })
+
+  it('renders hidden radio input for form submission when name is set', () => {
+    const { container } = render(
+      <RadioGroup name="color" defaultValue="red">
+        <RadioGroupItem value="red"><RadioGroupIndicator /></RadioGroupItem>
+        <RadioGroupItem value="blue"><RadioGroupIndicator /></RadioGroupItem>
+      </RadioGroup>,
+    )
+    const hiddenInputs = container.querySelectorAll('input[type="radio"][aria-hidden]')
+    expect(hiddenInputs.length).toBe(2)
+  })
+
+  it('hidden inputs have correct name and value', () => {
+    const { container } = render(
+      <RadioGroup name="fruit" defaultValue="apple">
+        <RadioGroupItem value="apple"><RadioGroupIndicator /></RadioGroupItem>
+        <RadioGroupItem value="banana"><RadioGroupIndicator /></RadioGroupItem>
+      </RadioGroup>,
+    )
+    const inputs = container.querySelectorAll('input[type="radio"]')
+    expect(inputs[0]!.getAttribute('name')).toBe('fruit')
+    expect(inputs[0]!.getAttribute('value')).toBe('apple')
+    expect((inputs[0] as HTMLInputElement).checked).toBe(true)
+    expect(inputs[1]!.getAttribute('value')).toBe('banana')
+    expect((inputs[1] as HTMLInputElement).checked).toBe(false)
+  })
+
+  it('disabled item has disabled attribute on button', () => {
+    const { container } = render(
+      <RadioGroup>
+        <RadioGroupItem value="a" disabled><RadioGroupIndicator /></RadioGroupItem>
+        <RadioGroupItem value="b"><RadioGroupIndicator /></RadioGroupItem>
+      </RadioGroup>,
+    )
+    const items = container.querySelectorAll('[role="radio"]')
+    expect((items[0] as HTMLButtonElement).disabled).toBe(true)
+    expect((items[1] as HTMLButtonElement).disabled).toBe(false)
+  })
 })
