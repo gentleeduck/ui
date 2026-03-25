@@ -52,4 +52,33 @@ describe('Presence', () => {
     // In jsdom without animations, unmount is immediate
     expect(container.querySelector('[data-testid="toggle"]')).toBeNull()
   })
+
+  it('preserves child element type', () => {
+    const { container } = render(
+      <Presence present={true}>
+        <button>I am a button</button>
+      </Presence>,
+    )
+    expect(container.querySelector('button')?.textContent).toBe('I am a button')
+  })
+
+  it('initial present=false does not mount', () => {
+    const { container } = render(
+      <Presence present={false}>
+        <span>never visible</span>
+      </Presence>,
+    )
+    expect(container.querySelector('span')).toBeNull()
+  })
+
+  it('render function always mounts (forceMount behavior)', () => {
+    const { container } = render(
+      <Presence present={false}>
+        {({ present }) => <div data-testid="force">{present ? 'visible' : 'hidden'}</div>}
+      </Presence>,
+    )
+    // render function children are always mounted
+    expect(container.querySelector('[data-testid="force"]')).not.toBeNull()
+    expect(container.querySelector('[data-testid="force"]')?.textContent).toBe('hidden')
+  })
 })

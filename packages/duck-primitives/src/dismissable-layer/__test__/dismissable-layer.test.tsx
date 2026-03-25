@@ -53,4 +53,38 @@ describe('DismissableLayer', () => {
     )
     expect(ref.current).toBeInstanceOf(HTMLDivElement)
   })
+
+  it('does not call onDismiss on non-Escape keys', () => {
+    const handler = mock(() => {})
+    render(
+      <DismissableLayer onDismiss={handler}>
+        <span>content</span>
+      </DismissableLayer>,
+    )
+    fireEvent.keyDown(document, { key: 'Enter' })
+    fireEvent.keyDown(document, { key: 'Tab' })
+    fireEvent.keyDown(document, { key: 'ArrowDown' })
+    expect(handler).not.toHaveBeenCalled()
+  })
+
+  it('onEscapeKeyDown receives the keyboard event', () => {
+    let receivedEvent: KeyboardEvent | null = null
+    render(
+      <DismissableLayer onEscapeKeyDown={(e) => { receivedEvent = e }}>
+        <span>content</span>
+      </DismissableLayer>,
+    )
+    fireEvent.keyDown(document, { key: 'Escape' })
+    expect(receivedEvent).not.toBeNull()
+    expect(receivedEvent!.key).toBe('Escape')
+  })
+
+  it('passes className through', () => {
+    const { container } = render(
+      <DismissableLayer className="my-layer">
+        <span>content</span>
+      </DismissableLayer>,
+    )
+    expect(container.querySelector('.my-layer')).not.toBeNull()
+  })
 })

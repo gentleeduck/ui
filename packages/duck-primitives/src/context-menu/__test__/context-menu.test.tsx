@@ -69,4 +69,35 @@ describe('ContextMenu', () => {
     )
     expect(ref.current).toBeInstanceOf(HTMLSpanElement)
   })
+
+  it('trigger changes data-state to open when right-clicked', () => {
+    const { container } = renderContextMenu()
+    const trigger = container.querySelector('[data-slot="context-menu-trigger"]')!
+    fireEvent.contextMenu(trigger)
+    expect(trigger.getAttribute('data-state')).toBe('open')
+  })
+
+  it('passes className to trigger', () => {
+    const { container } = render(
+      <ContextMenu>
+        <ContextMenuTrigger className="ctx-trigger">Right click</ContextMenuTrigger>
+      </ContextMenu>,
+    )
+    expect(container.querySelector('.ctx-trigger')).not.toBeNull()
+  })
+
+  it('sets dir attribute on trigger', () => {
+    const { container } = render(
+      <ContextMenu dir="rtl">
+        <ContextMenuTrigger>Right click</ContextMenuTrigger>
+      </ContextMenu>,
+    )
+    expect(container.querySelector('[data-slot="context-menu-trigger"]')?.getAttribute('dir')).toBe('rtl')
+  })
+
+  it('trigger renders children as text', () => {
+    const { container } = renderContextMenu()
+    expect(container.querySelector('[data-slot="context-menu-trigger"]')?.textContent).toBe('Right click me')
+  })
+
 })

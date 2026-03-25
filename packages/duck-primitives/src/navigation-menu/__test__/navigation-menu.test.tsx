@@ -87,4 +87,63 @@ describe('NavigationMenu', () => {
     )
     expect(ref.current?.tagName).toBe('NAV')
   })
+
+  it('passes className', () => {
+    const { container } = render(
+      <NavigationMenu className="my-nav">
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/">Home</NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>,
+    )
+    expect(container.querySelector('.my-nav')).not.toBeNull()
+  })
+
+  it('list renders as ul element', () => {
+    const { container } = render(
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/">Home</NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>,
+    )
+    expect(container.querySelector('ul[data-slot="navigation-menu-list"]')).not.toBeNull()
+  })
+
+  it('link without active has no data-active', () => {
+    const { container } = render(
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/about">About</NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>,
+    )
+    const link = container.querySelector('[data-slot="navigation-menu-link"]')!
+    expect(link.hasAttribute('data-active')).toBe(false)
+  })
+
+  it('renders multiple items', () => {
+    const { container } = render(
+      <NavigationMenu>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/">Home</NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/about">About</NavigationMenuLink>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink href="/contact">Contact</NavigationMenuLink>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>,
+    )
+    expect(container.querySelectorAll('[data-slot="navigation-menu-link"]').length).toBe(3)
+  })
 })

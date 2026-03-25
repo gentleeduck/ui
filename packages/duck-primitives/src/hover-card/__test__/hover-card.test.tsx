@@ -50,4 +50,28 @@ describe('HoverCard', () => {
     )
     expect(ref.current).toBeInstanceOf(HTMLAnchorElement)
   })
+
+  it('trigger has href attribute', () => {
+    const { container } = renderHoverCard()
+    expect(container.querySelector('[data-slot="hover-card-trigger"]')?.getAttribute('href')).toBe('#')
+  })
+
+  it('passes className to trigger', () => {
+    const { container } = render(
+      <HoverCard>
+        <HoverCardTrigger href="#" className="hc-trigger">Link</HoverCardTrigger>
+      </HoverCard>,
+    )
+    expect(container.querySelector('.hc-trigger')).not.toBeNull()
+  })
+
+  it('sets dir on trigger', () => {
+    const { container } = renderHoverCard({ dir: 'rtl' })
+    expect(container.querySelector('[data-slot="hover-card-trigger"]')?.getAttribute('dir')).toBe('rtl')
+  })
+
+  it('open=false shows data-state closed', () => {
+    const { container } = renderHoverCard({ open: false })
+    expect(container.querySelector('[data-slot="hover-card-trigger"]')?.getAttribute('data-state')).toBe('closed')
+  })
 })
