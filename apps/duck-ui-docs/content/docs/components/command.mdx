@@ -205,10 +205,10 @@ export function CommandMenu() {
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`) and inherited by children. |
-| `className` | `string` | -- | Additional CSS classes applied to the command container |
-| `children` | `React.ReactNode` | -- | Command content (`CommandInput`, `CommandList`, etc.) |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the root div |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`) and inherited by children. |
+| `className` | `string` | - | Additional CSS classes applied to the command container |
+| `children` | `React.ReactNode` | - | Command content (`CommandInput`, `CommandList`, etc.) |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the root div |
 
 ### CommandInput
 
@@ -216,10 +216,10 @@ export function CommandMenu() {
 | --- | --- | --- | --- |
 | `placeholder` | `string` | `'Search...'` | Placeholder text in the input |
 | `autoFocus` | `boolean` | `false` | Automatically focus input on mount |
-| `wrapperClassName` | `string` | -- | Additional CSS classes applied to the input wrapper div |
-| `children` | `React.ReactNode` | -- | Extra elements rendered inside the input wrapper (after the input), e.g. action buttons |
-| `onChange` | `React.ChangeEventHandler` | -- | Triggered when the input value changes. Also drives internal search filtering. |
-| `...props` | `React.HTMLProps<HTMLInputElement>` | -- | Additional props to spread to the input element |
+| `wrapperClassName` | `string` | - | Additional CSS classes applied to the input wrapper div |
+| `children` | `React.ReactNode` | - | Extra elements rendered inside the input wrapper (after the input), e.g. action buttons |
+| `onChange` | `React.ChangeEventHandler` | - | Triggered when the input value changes. Also drives internal search filtering. |
+| `...props` | `React.HTMLProps<HTMLInputElement>` | - | Additional props to spread to the input element |
 
 ### CommandList
 
@@ -227,9 +227,9 @@ Handles search filtering internally: items are hidden/shown based on the current
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS classes applied to the list |
-| `children` | `React.ReactNode` | -- | `CommandGroup`, `CommandItem`, `CommandEmpty`, and `CommandSeparator` elements |
-| `...props` | `React.HTMLProps<HTMLUListElement>` | -- | Additional props to spread to the ul element (`role="listbox"`) |
+| `className` | `string` | - | Additional CSS classes applied to the list |
+| `children` | `React.ReactNode` | - | `CommandGroup`, `CommandItem`, `CommandEmpty`, and `CommandSeparator` elements |
+| `...props` | `React.HTMLProps<HTMLUListElement>` | - | Additional props to spread to the ul element (`role="listbox"`) |
 
 ### CommandItem
 
@@ -237,16 +237,16 @@ Handles search filtering internally: items are hidden/shown based on the current
 | --- | --- | --- | --- |
 | `value` | `string` | `''` | The internal value for selection |
 | `disabled` | `boolean` | `false` | Whether the item is disabled |
-| `textValue` | `string` | -- | Optional text used for filtering/typeahead. Defaults to the item's text content. |
-| `onSelect` | `(value: string) => void` | -- | Called when the item is selected (via Enter, Space, or pointer) |
-| `...props` | `React.HTMLProps<HTMLLIElement>` | -- | Additional props to spread to the li element (`role="option"`) |
+| `textValue` | `string` | - | Optional text used for filtering/typeahead. Defaults to the item's text content. |
+| `onSelect` | `(value: string) => void` | - | Called when the item is selected (via Enter, Space, or pointer) |
+| `...props` | `React.HTMLProps<HTMLLIElement>` | - | Additional props to spread to the li element (`role="option"`) |
 
 ### CommandGroup
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `heading` | `React.ReactNode` | -- | Optional heading for the group. Renders a div with `data-slot="command-group-heading"`. |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the group div (`role="group"`) |
+| `heading` | `React.ReactNode` | - | Optional heading for the group. Renders a div with `data-slot="command-group-heading"`. |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the group div (`role="group"`) |
 
 ### CommandEmpty
 
@@ -254,18 +254,18 @@ Renders a `div` with `role="status"` and `aria-live="polite"`. Hidden by default
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS classes applied to the empty state |
-| `children` | `React.ReactNode` | -- | Content shown when no items match the search query |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the div element |
+| `className` | `string` | - | Additional CSS classes applied to the empty state |
+| `children` | `React.ReactNode` | - | Content shown when no items match the search query |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the div element |
 
 ### CommandShortcut
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `keys` | `string` (optional) | -- | Keyboard shortcut string (e.g. `"ctrl+K"`) |
-| `onKeysPressed` | `() => void` (optional) | -- | Triggered when shortcut is pressed |
+| `keys` | `string` (optional) | - | Keyboard shortcut string (e.g. `"ctrl+K"`) |
+| `onKeysPressed` | `() => void` (optional) | - | Triggered when shortcut is pressed |
 | `variant` | `'default' \| 'secondary'` | `'default'` | Visual style variant |
-| `...props` | `React.HTMLProps<HTMLElement>` | -- | Additional props to spread to the kbd element |
+| `...props` | `React.HTMLProps<HTMLElement>` | - | Additional props to spread to the kbd element |
 
 ### CommandSeparator
 
@@ -273,17 +273,17 @@ Renders a `div` with `role="separator"` and `aria-hidden`. Visibility is automat
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS classes applied to the separator |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the separator div |
+| `className` | `string` | - | Additional CSS classes applied to the separator |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the separator div |
 
 ### CommandDialog
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children` | `React.ReactNode` | -- | Command content rendered inside the dialog (typically `CommandInput`, `CommandList`, etc.) |
-| `shouldFilter` | `boolean` | -- | Whether the command primitive should filter items internally |
-| `contentClassName` | `string` | -- | Additional CSS classes applied to the inner `DialogContent`, useful for controlling dialog size |
-| `...props` | `React.ComponentPropsWithRef<typeof Dialog>` | -- | Additional props inherited from `Dialog`. |
+| `children` | `React.ReactNode` | - | Command content rendered inside the dialog (typically `CommandInput`, `CommandList`, etc.) |
+| `shouldFilter` | `boolean` | - | Whether the command primitive should filter items internally |
+| `contentClassName` | `string` | - | Additional CSS classes applied to the inner `DialogContent`, useful for controlling dialog size |
+| `...props` | `React.ComponentPropsWithRef<typeof Dialog>` | - | Additional props inherited from `Dialog`. |
 
 ## Types
 

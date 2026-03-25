@@ -148,19 +148,19 @@ The core pan-zoom container.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `maxHeight` | `string` | `--` | Maximum height of the panel container (e.g. `"400px"`) |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `maxHeight` | `string` | `-` | Maximum height of the panel container (e.g. `"400px"`) |
 | `minZoom` | `number` | `0.25` | Minimum zoom level |
 | `maxZoom` | `number` | `4` | Maximum zoom level |
 | `initialZoom` | `number` | `1` | Starting zoom level |
 | `showControls` | `boolean` | `true` | Whether to show the zoom controls overlay |
-| `html` | `string` | `--` | Raw HTML string to render inside the panel. Takes priority over `children` |
-| `children` | `React.ReactNode` | `--` | Content to render inside the panel |
-| `className` | `string` | `--` | Additional CSS classes for the outer container |
-| `style` | `React.CSSProperties` | `--` | Inline styles for the outer container |
-| `onStateChange` | `(state: PreviewPanelState) => void` | `--` | Called whenever zoom or position changes. Use to sync with another panel |
-| `syncState` | `PreviewPanelState` | `--` | External state to apply. The panel syncs to this state when set |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `html` | `string` | `-` | Raw HTML string to render inside the panel. Takes priority over `children` |
+| `children` | `React.ReactNode` | `-` | Content to render inside the panel |
+| `className` | `string` | `-` | Additional CSS classes for the outer container |
+| `style` | `React.CSSProperties` | `-` | Inline styles for the outer container |
+| `onStateChange` | `(state: PreviewPanelState) => void` | `-` | Called whenever zoom or position changes. Use to sync with another panel |
+| `syncState` | `PreviewPanelState` | `-` | External state to apply. The panel syncs to this state when set |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### PreviewPanelDialog
 
@@ -168,12 +168,12 @@ Combines an inline `PreviewPanel` with a fullscreen `Dialog`. Includes an expand
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `children` | `React.ReactNode` | -- | Content rendered in both inline and dialog panels |
-| `html` | `string` | -- | Raw HTML string. Takes priority over `children` |
-| `className` | `string` | -- | Class name for the outer wrapper |
-| `panelClassName` | `string` | -- | Class name applied to both `PreviewPanel` instances |
-| `maxHeight` | `string` | -- | Maximum height of the inline panel |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `children` | `React.ReactNode` | - | Content rendered in both inline and dialog panels |
+| `html` | `string` | - | Raw HTML string. Takes priority over `children` |
+| `className` | `string` | - | Class name for the outer wrapper |
+| `panelClassName` | `string` | - | Class name applied to both `PreviewPanel` instances |
+| `maxHeight` | `string` | - | Maximum height of the inline panel |
 | `minZoom` | `number` | `0.25` | Minimum zoom level |
 | `maxZoom` | `number` | `4` | Maximum zoom level |
 | `initialZoom` | `number` | `1` | Starting zoom level |

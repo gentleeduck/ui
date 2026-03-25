@@ -94,27 +94,27 @@ Style the trigger to appear active while the collapsible is expanded using `data
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `open` | `boolean` | -- | Controlled open state |
-| `onOpenChange` | `(open: boolean) => void` | -- | Callback fired when open state changes |
+| `open` | `boolean` | - | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Callback fired when open state changes |
 | `defaultOpen` | `boolean` | `false` | Initial open state when uncontrolled |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### CollapsibleTrigger
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `variant` | `ButtonVariant` | `'ghost'` | Button variant passed to the underlying `Button` component |
-| `children` | `React.ReactNode` | -- | Trigger content |
-| `onClick` | `React.MouseEventHandler` | -- | Additional click handler; open/close toggle is handled internally |
-| `...props` | `React.ComponentPropsWithoutRef<typeof Button>` | -- | Additional props inherited from `Button`. |
+| `children` | `React.ReactNode` | - | Trigger content |
+| `onClick` | `React.MouseEventHandler` | - | Additional click handler; open/close toggle is handled internally |
+| `...props` | `React.ComponentPropsWithoutRef<typeof Button>` | - | Additional props inherited from `Button`. |
 
 ### CollapsibleContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `forceMount` | `boolean` | `false` | When `true`, content is always mounted in the DOM regardless of open state |
-| `...props` | `React.HTMLProps<HTMLElement>` | -- | Additional props to spread to the section element |
+| `...props` | `React.HTMLProps<HTMLElement>` | - | Additional props to spread to the section element |
 
 ### useCollapsible
 

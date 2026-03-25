@@ -1,6 +1,6 @@
 ---
 title: select
-description: Displays a list of options for the user to pick from -- triggered by a button.
+description: Displays a list of options for the user to pick from  -  triggered by a button.
 component: true
 ---
 
@@ -134,18 +134,18 @@ The root component that manages open/closed state, value state, and provides con
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string` | -- | Controlled selected value |
-| `defaultValue` | `string` | -- | Initial value (uncontrolled) |
-| `onValueChange` | `(value: string) => void` | -- | Callback fired when the selected value changes |
-| `open` | `boolean` | -- | Controlled open state |
+| `value` | `string` | - | Controlled selected value |
+| `defaultValue` | `string` | - | Initial value (uncontrolled) |
+| `onValueChange` | `(value: string) => void` | - | Callback fired when the selected value changes |
+| `open` | `boolean` | - | Controlled open state |
 | `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
-| `onOpenChange` | `(open: boolean) => void` | -- | Callback fired when dropdown open state changes |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `name` | `string` | -- | Name attribute for native form submission |
-| `disabled` | `boolean` | -- | Disables the entire select |
-| `required` | `boolean` | -- | Marks the select as required for form validation |
-| `form` | `string` | -- | Associates the select with a form element by ID |
-| `autoComplete` | `string` | -- | Hint for browser autofill |
+| `onOpenChange` | `(open: boolean) => void` | - | Callback fired when dropdown open state changes |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `name` | `string` | - | Name attribute for native form submission |
+| `disabled` | `boolean` | - | Disables the entire select |
+| `required` | `boolean` | - | Marks the select as required for form validation |
+| `form` | `string` | - | Associates the select with a form element by ID |
+| `autoComplete` | `string` | - | Hint for browser autofill |
 
 ### SelectTrigger
 
@@ -153,8 +153,8 @@ Button that toggles the dropdown. Renders a styled `<button>` with a chevron ico
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names |
-| `disabled` | `boolean` | -- | Disables the trigger |
+| `className` | `string` | - | Additional CSS class names |
+| `disabled` | `boolean` | - | Disables the trigger |
 
 Sets `role="combobox"`, `aria-expanded`, `aria-controls`, `aria-autocomplete="none"`, and `data-state` automatically.
 
@@ -174,12 +174,12 @@ The dropdown content area. Handles positioning, focus management, keyboard navig
 | --- | --- | --- | --- |
 | `position` | `'item-aligned' \| 'popper'` | `'popper'` | Positioning strategy. `item-aligned` aligns selected item with trigger. `popper` uses floating positioning. |
 | `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Preferred side (popper position only) |
-| `sideOffset` | `number` | -- | Offset from trigger on the main axis |
+| `sideOffset` | `number` | - | Offset from trigger on the main axis |
 | `align` | `'start' \| 'center' \| 'end'` | `'start'` | Alignment on the cross axis |
-| `alignOffset` | `number` | -- | Offset on the cross axis |
+| `alignOffset` | `number` | - | Offset on the cross axis |
 | `avoidCollisions` | `boolean` | `true` | Whether to flip to avoid viewport overflow |
 | `collisionPadding` | `number` | `10` | Padding from viewport edges |
-| `className` | `string` | -- | Additional CSS class names |
+| `className` | `string` | - | Additional CSS class names |
 
 Exposes `data-state="open"` / `data-state="closed"` and `data-side` for CSS animation.
 
@@ -189,7 +189,7 @@ Groups related items together. Renders a `<div>` with `role="group"`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names |
+| `className` | `string` | - | Additional CSS class names |
 
 ### SelectLabel
 
@@ -197,7 +197,7 @@ Label for a `SelectGroup`. Renders a `<div>` linked to its group via `aria-label
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names |
+| `className` | `string` | - | Additional CSS class names |
 
 ### SelectItem
 
@@ -207,8 +207,8 @@ An individual selectable item. Renders a `<div>` with `role="option"`.
 | --- | --- | --- | --- |
 | `value` | `string` | (required) | The value representing this item. Must not be empty string. |
 | `disabled` | `boolean` | `false` | Whether the item is disabled |
-| `textValue` | `string` | -- | Optional text override for typeahead search |
-| `className` | `string` | -- | Additional CSS class names |
+| `textValue` | `string` | - | Optional text override for typeahead search |
+| `className` | `string` | - | Additional CSS class names |
 
 Exposes `data-state="checked"` / `data-state="unchecked"`, `data-highlighted`, and `data-disabled`.
 
@@ -218,7 +218,7 @@ Visual separator between items. Renders a styled `<div>`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names |
+| `className` | `string` | - | Additional CSS class names |
 
 ### SelectScrollUpButton / SelectScrollDownButton
 
@@ -226,7 +226,7 @@ Scroll navigation buttons that appear when content overflows the viewport.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names |
+| `className` | `string` | - | Additional CSS class names |
 
 ## RTL Support
 
