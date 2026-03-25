@@ -144,34 +144,34 @@ Style the trigger to appear active while the sheet is open using `data-[state=op
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `defaultOpen` | `boolean` | `false` | Initial open state for uncontrolled usage |
-| `open` | `boolean` | -- | Controlled open state |
-| `onOpenChange` | `(open: boolean) => void` | -- | Callback when open state changes |
+| `open` | `boolean` | - | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Callback when open state changes |
 | `modal` | `boolean` | `true` | Enables modal focus/interaction behavior |
-| `children` | `React.ReactNode` | -- | Sheet sub-components (`SheetTrigger`, `SheetContent`, etc.) |
-| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Root>` | -- | Additional props inherited from `SheetPrimitive.Root` |
+| `children` | `React.ReactNode` | - | Sheet sub-components (`SheetTrigger`, `SheetContent`, etc.) |
+| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Root>` | - | Additional props inherited from `SheetPrimitive.Root` |
 
 ### SheetTrigger
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `asChild` | `boolean` | `false` | Renders child as trigger element instead of a default button |
-| `children` | `React.ReactNode` | -- | Trigger content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Trigger>` | -- | Additional props inherited from `SheetPrimitive.Trigger` |
+| `children` | `React.ReactNode` | - | Trigger content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Trigger>` | - | Additional props inherited from `SheetPrimitive.Trigger` |
 
 ### SheetPortal
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `container` | `HTMLElement` | -- | Optional portal container |
-| `forceMount` | `true` | -- | Forces mounted state for all portal children |
-| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Portal>` | -- | Additional props inherited from `SheetPrimitive.Portal` |
+| `container` | `HTMLElement` | - | Optional portal container |
+| `forceMount` | `true` | - | Forces mounted state for all portal children |
+| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Portal>` | - | Additional props inherited from `SheetPrimitive.Portal` |
 
 ### SheetOverlay
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names |
-| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>` | -- | Additional props inherited from `SheetPrimitive.Overlay` |
+| `className` | `string` | - | Additional CSS class names |
+| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Overlay>` | - | Additional props inherited from `SheetPrimitive.Overlay` |
 
 ### SheetContent
 
@@ -179,9 +179,9 @@ Style the trigger to appear active while the sheet is open using `data-[state=op
 | --- | --- | --- | --- |
 | `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'right'` | The side from which the sheet slides in |
 | `closeText` | `string` | `'Close'` | Screen-reader label for the built-in close button |
-| `className` | `string` | -- | Additional CSS class names |
-| `children` | `React.ReactNode` | -- | Sheet content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content> & VariantProps<typeof sheetVariants>` | -- | Additional props inherited from `SheetPrimitive.Content` and the local `sheetVariants` |
+| `className` | `string` | - | Additional CSS class names |
+| `children` | `React.ReactNode` | - | Sheet content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content> & VariantProps<typeof sheetVariants>` | - | Additional props inherited from `SheetPrimitive.Content` and the local `sheetVariants` |
 
 `SheetContent` renders a built-in close button in the top-right corner.
 
@@ -189,37 +189,37 @@ Style the trigger to appear active while the sheet is open using `data-[state=op
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names |
-| `...props` | `React.HTMLAttributes<HTMLDivElement>` | -- | Additional props to spread to the header container |
+| `className` | `string` | - | Additional CSS class names |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | - | Additional props to spread to the header container |
 
 ### SheetFooter
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names |
-| `...props` | `React.HTMLAttributes<HTMLDivElement>` | -- | Additional props to spread to the footer div |
+| `className` | `string` | - | Additional CSS class names |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | - | Additional props to spread to the footer div |
 
 ### SheetTitle
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names |
-| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>` | -- | Additional props inherited from `SheetPrimitive.Title` |
+| `className` | `string` | - | Additional CSS class names |
+| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Title>` | - | Additional props inherited from `SheetPrimitive.Title` |
 
 ### SheetDescription
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional CSS class names |
-| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>` | -- | Additional props inherited from `SheetPrimitive.Description` |
+| `className` | `string` | - | Additional CSS class names |
+| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Description>` | - | Additional props inherited from `SheetPrimitive.Description` |
 
 ### SheetClose
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `asChild` | `boolean` | `false` | Renders child as close control |
-| `children` | `React.ReactNode` | -- | Close control content |
-| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Close>` | -- | Additional props inherited from `SheetPrimitive.Close` |
+| `children` | `React.ReactNode` | - | Close control content |
+| `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Close>` | - | Additional props inherited from `SheetPrimitive.Close` |
 
 ## RTL Support
 

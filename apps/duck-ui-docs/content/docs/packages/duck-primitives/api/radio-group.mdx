@@ -47,16 +47,16 @@ Container for a single-selection radio set. Uses roving focus and form-compatibl
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string` | -- | Controlled selected value |
-| `defaultValue` | `string` | -- | Initial selected value (uncontrolled) |
-| `onValueChange` | `(value: string) => void` | -- | Called when selected value changes |
+| `value` | `string` | - | Controlled selected value |
+| `defaultValue` | `string` | - | Initial selected value (uncontrolled) |
+| `onValueChange` | `(value: string) => void` | - | Called when selected value changes |
 | `disabled` | `boolean` | `false` | Disables all items in the group |
 | `required` | `boolean` | `false` | Marks the group required for form validation |
-| `name` | `string` | -- | Name used for hidden native radio inputs |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved with `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `orientation` | `'horizontal' \| 'vertical'` | -- | Limits arrow-key navigation axis |
+| `name` | `string` | - | Name used for hidden native radio inputs |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved with `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `orientation` | `'horizontal' \| 'vertical'` | - | Limits arrow-key navigation axis |
 | `loop` | `boolean` | `true` | Wraps focus from end to start (and reverse) |
-| `...props` | `React.ComponentPropsWithoutRef<'div'>` | -- | Additional props for the radiogroup container |
+| `...props` | `React.ComponentPropsWithoutRef<'div'>` | - | Additional props for the radiogroup container |
 
 ### `RadioGroup.Item`
 
@@ -65,9 +65,9 @@ A single radio control. Renders a `button` with `role="radio"` and associated st
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `string` | (required) | Unique value for the item |
-| `textValue` | `string` | -- | Optional text override used for typeahead matching |
+| `textValue` | `string` | - | Optional text override used for typeahead matching |
 | `disabled` | `boolean` | `false` | Disables this item |
-| `...props` | `React.ComponentPropsWithoutRef<'button'>` | -- | Additional props for the radio button element |
+| `...props` | `React.ComponentPropsWithoutRef<'button'>` | - | Additional props for the radio button element |
 
 ### `RadioGroup.Indicator`
 
@@ -75,8 +75,8 @@ Indicator content that mounts when the parent item is checked.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `forceMount` | `true` | -- | Force indicator to stay mounted for animation control |
-| `...props` | `React.ComponentPropsWithoutRef<'span'>` | -- | Additional props for the indicator element |
+| `forceMount` | `true` | - | Force indicator to stay mounted for animation control |
+| `...props` | `React.ComponentPropsWithoutRef<'span'>` | - | Additional props for the indicator element |
 
 ## Keyboard interactions
 

@@ -107,12 +107,12 @@ Root wrapper that provides hover-card state and context. Wraps `HoverCardPrimiti
 | `defaultOpen` | `boolean` | `--` | Initial open state for uncontrolled usage |
 | `openDelay` | `number` | `700` | Delay before opening on hover/focus |
 | `closeDelay` | `number` | `300` | Delay before closing on pointer leave/blur |
-| `delayDuration` | `number` | -- | Alias for `openDelay`. If both are provided, `openDelay` takes precedence |
-| `skipDelayDuration` | `number` | -- | Reserved for future use (currently ignored) |
+| `delayDuration` | `number` | - | Alias for `openDelay`. If both are provided, `openDelay` takes precedence |
+| `skipDelayDuration` | `number` | - | Reserved for future use (currently ignored) |
 | `placement` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` | Default side for `HoverCardContent` positioning |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `children` | `React.ReactNode` | `--` | HoverCard sub-components |
-| `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Root>` | -- | Additional props inherited from `HoverCard.Root`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Root>` | - | Additional props inherited from `HoverCard.Root`. |
 
 ### HoverCardTrigger
 
@@ -125,7 +125,7 @@ The element that triggers the hover card on hover. Applies `buttonVariants` styl
 | `border` | `ButtonBorder` | `'default'` | Button border style |
 | `asChild` | `boolean` | `false` | Whether to use the child as the trigger element directly |
 | `children` | `React.ReactNode` | `--` | Content rendered inside the trigger button |
-| `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Trigger> & React.ComponentPropsWithoutRef<typeof Button>` | -- | Additional props inherited from `HoverCard.Trigger` and `Button`. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Trigger> & React.ComponentPropsWithoutRef<typeof Button>` | - | Additional props inherited from `HoverCard.Trigger` and `Button`. |
 
 ### HoverCardContent
 
@@ -140,7 +140,7 @@ The content displayed when the hover card is open. Wraps `HoverCardPrimitive.Con
 | `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment on the chosen side |
 | `sideOffset` | `number` | `4` | Main-axis offset from trigger |
 | `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
-| `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content> & React.HTMLProps<HTMLDivElement>` | -- | Additional props inherited from `HoverCard.Content` and standard content div props. |
+| `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content> & React.HTMLProps<HTMLDivElement>` | - | Additional props inherited from `HoverCard.Content` and standard content div props. |
 
 ## RTL Support
 

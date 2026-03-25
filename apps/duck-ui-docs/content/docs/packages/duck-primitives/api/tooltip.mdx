@@ -71,11 +71,11 @@ Manages state for a single tooltip instance.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `open` | `boolean` | -- | Controlled open state |
+| `open` | `boolean` | - | Controlled open state |
 | `defaultOpen` | `boolean` | `false` | Initial open state |
-| `onOpenChange` | `(open: boolean) => void` | -- | Called on state change |
-| `delayDuration` | `number` | -- | Override Provider's delay for this tooltip |
-| `disableHoverableContent` | `boolean` | -- | Override Provider's setting |
+| `onOpenChange` | `(open: boolean) => void` | - | Called on state change |
+| `delayDuration` | `number` | - | Override Provider's delay for this tooltip |
+| `disableHoverableContent` | `boolean` | - | Override Provider's setting |
 
 ### `Tooltip.Trigger`
 
@@ -116,14 +116,14 @@ The floating tooltip content. Positioned by the Popper engine.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `aria-label` | `string` | -- | Accessible label when content is purely visual |
+| `aria-label` | `string` | - | Accessible label when content is purely visual |
 | `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` | Preferred side |
 | `sideOffset` | `number` | `0` | Distance from anchor in pixels |
 | `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment along the side |
 | `alignOffset` | `number` | `0` | Alignment offset in pixels |
-| `forceMount` | `true` | -- | Keep mounted always |
-| `onEscapeKeyDown` | `(event) => void` | -- | Called on <Kbd>Escape</Kbd> press |
-| `onPointerDownOutside` | `(event) => void` | -- | Called on outside click |
+| `forceMount` | `true` | - | Keep mounted always |
+| `onEscapeKeyDown` | `(event) => void` | - | Called on <Kbd>Escape</Kbd> press |
+| `onPointerDownOutside` | `(event) => void` | - | Called on outside click |
 
 ### `Tooltip.Arrow`
 

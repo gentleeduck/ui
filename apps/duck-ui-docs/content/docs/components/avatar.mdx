@@ -73,8 +73,8 @@ The root container rendered as a `span`. Provides context for `AvatarImage` and 
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names for styling the avatar container |
-| `...props` | `React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>` | -- | Additional props inherited from the avatar primitive root (span element) |
+| `className` | `string` | - | Additional class names for styling the avatar container |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>` | - | Additional props inherited from the avatar primitive root (span element) |
 
 ### AvatarImage
 
@@ -82,11 +82,11 @@ The `img` element inside the avatar. Automatically tracks loading status and hid
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `src` | `string` | -- | Image source URL |
-| `alt` | `string` | -- | Alternate text for the image |
-| `onLoadingStatusChange` | `(status: 'idle' \| 'loading' \| 'loaded' \| 'error') => void` | -- | Callback when the image loading status changes |
-| `className` | `string` | -- | Additional class names for styling the image |
-| `...props` | `React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>` | -- | Additional props inherited from the avatar image primitive |
+| `src` | `string` | - | Image source URL |
+| `alt` | `string` | - | Alternate text for the image |
+| `onLoadingStatusChange` | `(status: 'idle' \| 'loading' \| 'loaded' \| 'error') => void` | - | Callback when the image loading status changes |
+| `className` | `string` | - | Additional class names for styling the image |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>` | - | Additional props inherited from the avatar image primitive |
 
 ### AvatarFallback
 
@@ -94,10 +94,10 @@ Content displayed when the image has not loaded. Typically initials or an icon.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `delayMs` | `number` | -- | Optional delay in milliseconds before showing the fallback (avoids flicker for fast-loading images) |
-| `className` | `string` | -- | Additional class names for styling the fallback |
-| `children` | `React.ReactNode` | -- | Fallback content (e.g. initials) |
-| `...props` | `React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>` | -- | Additional props inherited from the avatar fallback primitive |
+| `delayMs` | `number` | - | Optional delay in milliseconds before showing the fallback (avoids flicker for fast-loading images) |
+| `className` | `string` | - | Additional class names for styling the fallback |
+| `children` | `React.ReactNode` | - | Fallback content (e.g. initials) |
+| `...props` | `React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>` | - | Additional props inherited from the avatar fallback primitive |
 
 ### AvatarGroup
 
@@ -105,8 +105,8 @@ Content displayed when the image has not loaded. Typically initials or an icon.
 | --- | --- | --- | --- |
 | `imgs` | `{ src?: string; alt?: string; fallback?: string; id?: string }[]` | (required) | Array of avatar data objects. Fallback text is truncated to 2 characters. |
 | `maxVisible` | `number` | `3` | Maximum number of avatars to display before showing a `+N` overflow counter |
-| `className` | `string` | -- | Additional class names for styling the avatar group container |
-| `...props` | `React.HTMLAttributes<HTMLDivElement>` | -- | Additional props to spread to the container div |
+| `className` | `string` | - | Additional class names for styling the avatar group container |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | - | Additional props to spread to the container div |
 
 ## RTL Support
 
