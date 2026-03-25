@@ -5,7 +5,7 @@ description: "Headless, framework-agnostic calendar engine with date adapter pat
 
 <Callout icon={<Zap />}>
 
-`@gentleduck/calendar` is a headless calendar engine that owns the entire date-picking stack. No opinions on how your calendar looks -- only on how it works.
+`@gentleduck/calendar` is a headless calendar engine that owns the entire date-picking stack. No opinions on how your calendar looks  -  only on how it works.
 
 </Callout>
 
@@ -42,13 +42,13 @@ We built this to replace `react-day-picker`. The numbers speak for themselves:
 
 <Steps>
 
-<Step>**Core** -- Pure functions for grid building, selection logic, and navigation. No React, no state, no side effects.</Step>
+<Step>**Core**  -  Pure functions for grid building, selection logic, and navigation. No React, no state, no side effects.</Step>
 
-<Step>**Adapter** -- A `DateAdapter<TDate>` interface that abstracts date operations. Ships with a zero-dependency `NativeAdapter` for `Date`. Plug in dayjs, date-fns, or Temporal when needed.</Step>
+<Step>**Adapter**  -  A `DateAdapter<TDate>` interface that abstracts date operations. Ships with a zero-dependency `NativeAdapter` for `Date`. Plug in dayjs, date-fns, or Temporal when needed.</Step>
 
-<Step>**React hooks** -- `useCalendar`, `useTimePicker`, `useDateTime` manage state and produce prop getters you spread onto your elements.</Step>
+<Step>**React hooks**  -  `useCalendar`, `useTimePicker`, `useDateTime` manage state and produce prop getters you spread onto your elements.</Step>
 
-<Step>**Compound components** -- Available in `@gentleduck/primitives/calendar` for consumers who want convenience. Optional -- hooks are first-class.</Step>
+<Step>**Compound components**  -  Available in `@gentleduck/primitives/calendar` for consumers who want convenience. Optional  -  hooks are first-class.</Step>
 
 </Steps>
 
@@ -58,11 +58,11 @@ We built this to replace `react-day-picker`. The numbers speak for themselves:
 
 We replaced `react-day-picker` with this package. Every existing React calendar library either bundles too much CSS, mandates a specific date library, or ships a monolithic component you cannot tree-shake. `@gentleduck/calendar` solves all three:
 
-- **~5 KB gzipped** -- 3-9x smaller than every alternative
-- **Zero runtime dependencies** -- the `NativeAdapter` uses only `Date` + `Intl.DateTimeFormat`
-- **Pluggable date backend** -- swap `Date` for dayjs, date-fns, or the Temporal API without changing any calendar code
-- **Headless** -- no CSS shipped, style with data attributes and Tailwind
-- **Accessible** -- full WAI-ARIA grid pattern, keyboard navigation, screen reader announcements
+- **~5 KB gzipped**  -  3-9x smaller than every alternative
+- **Zero runtime dependencies**  -  the `NativeAdapter` uses only `Date` + `Intl.DateTimeFormat`
+- **Pluggable date backend**  -  swap `Date` for dayjs, date-fns, or the Temporal API without changing any calendar code
+- **Headless**  -  no CSS shipped, style with data attributes and Tailwind
+- **Accessible**  -  full WAI-ARIA grid pattern, keyboard navigation, screen reader announcements
 
 ---
 
@@ -88,9 +88,9 @@ We replaced `react-day-picker` with this package. Every existing React calendar 
 
 <Callout icon={<MapIcon />} className="[&_ul]:my-0">
 
-- [Getting Started](/docs/packages/duck-calendar/getting-started) -- Install and build your first calendar in under 5 minutes.
-- [Guides](/docs/packages/duck-calendar/guides) -- Adapters, styling, and accessibility.
-- [API Reference](/docs/packages/duck-calendar/api) -- Full prop and return type reference.
-- [Course](/docs/packages/duck-calendar/course) -- Hands-on lessons from zero to production.
+- [Getting Started](/docs/packages/duck-calendar/getting-started)  -  Install and build your first calendar in under 5 minutes.
+- [Guides](/docs/packages/duck-calendar/guides)  -  Adapters, styling, and accessibility.
+- [API Reference](/docs/packages/duck-calendar/api)  -  Full prop and return type reference.
+- [Course](/docs/packages/duck-calendar/course)  -  Hands-on lessons from zero to production.
 
 </Callout>
