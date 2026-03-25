@@ -1,6 +1,11 @@
 {
   "perComponent": [
     {
+      "name": "Accordion",
+      "gentleduck": 0,
+      "radix": 4793
+    },
+    {
       "name": "Alert Dialog",
       "gentleduck": 1607,
       "radix": 19029
@@ -12,32 +17,52 @@
     },
     {
       "name": "Calendar",
-      "gentleduck": 2015,
+      "gentleduck": 2014,
+      "radix": 0
+    },
+    {
+      "name": "Checkers",
+      "gentleduck": 102,
+      "radix": 2849
+    },
+    {
+      "name": "Collapsible",
+      "gentleduck": 0,
       "radix": 0
     },
     {
       "name": "Command",
-      "gentleduck": 2844,
+      "gentleduck": 2845,
       "radix": 0
     },
     {
       "name": "Context Menu",
       "gentleduck": 2240,
-      "radix": 0
+      "radix": 17707
     },
     {
       "name": "Dialog",
-      "gentleduck": 3132,
+      "gentleduck": 3123,
       "radix": 10830
     },
     {
       "name": "Dropdown Menu",
       "gentleduck": 2159,
-      "radix": 0
+      "radix": 24812
     },
     {
       "name": "Hover Card",
       "gentleduck": 2199,
+      "radix": 14564
+    },
+    {
+      "name": "Input OTP",
+      "gentleduck": 1577,
+      "radix": 0
+    },
+    {
+      "name": "Menu",
+      "gentleduck": 5836,
       "radix": 0
     },
     {
@@ -48,17 +73,22 @@
     {
       "name": "Nav Menu",
       "gentleduck": 5616,
+      "radix": 7958
+    },
+    {
+      "name": "Pagination",
+      "gentleduck": 581,
       "radix": 0
     },
     {
       "name": "Popover",
-      "gentleduck": 2488,
-      "radix": 20073
+      "gentleduck": 2493,
+      "radix": 0
     },
     {
       "name": "Progress",
       "gentleduck": 1167,
-      "radix": 0
+      "radix": 2162
     },
     {
       "name": "Radio Group",
@@ -66,14 +96,34 @@
       "radix": 1066
     },
     {
+      "name": "Scroll Area",
+      "gentleduck": 0,
+      "radix": 5569
+    },
+    {
       "name": "Select",
-      "gentleduck": 7719,
+      "gentleduck": 7718,
       "radix": 24251
+    },
+    {
+      "name": "Separator",
+      "gentleduck": 0,
+      "radix": 1310
+    },
+    {
+      "name": "Sheet",
+      "gentleduck": 261,
+      "radix": 0
     },
     {
       "name": "Slider",
       "gentleduck": 3755,
-      "radix": 0
+      "radix": 5215
+    },
+    {
+      "name": "Tabs",
+      "gentleduck": 0,
+      "radix": 4969
     },
     {
       "name": "Toggle",
@@ -83,11 +133,16 @@
     {
       "name": "Toggle Group",
       "gentleduck": 1186,
-      "radix": 0
+      "radix": 4372
+    },
+    {
+      "name": "Toolbar",
+      "gentleduck": 0,
+      "radix": 4862
     },
     {
       "name": "Tooltip",
-      "gentleduck": 3604,
+      "gentleduck": 3608,
       "radix": 15916
     }
   ],
@@ -105,16 +160,46 @@
       "savingPercent": 54
     },
     {
+      "name": "Checkers",
+      "gentleduckKB": 0.1,
+      "radixKB": 2.8,
+      "savingPercent": 96
+    },
+    {
+      "name": "Context Menu",
+      "gentleduckKB": 2.2,
+      "radixKB": 17.3,
+      "savingPercent": 87
+    },
+    {
       "name": "Dialog",
-      "gentleduckKB": 3.1,
+      "gentleduckKB": 3,
       "radixKB": 10.6,
       "savingPercent": 71
     },
     {
-      "name": "Popover",
-      "gentleduckKB": 2.4,
-      "radixKB": 19.6,
-      "savingPercent": 88
+      "name": "Dropdown Menu",
+      "gentleduckKB": 2.1,
+      "radixKB": 24.2,
+      "savingPercent": 91
+    },
+    {
+      "name": "Hover Card",
+      "gentleduckKB": 2.1,
+      "radixKB": 14.2,
+      "savingPercent": 85
+    },
+    {
+      "name": "Nav Menu",
+      "gentleduckKB": 5.5,
+      "radixKB": 7.8,
+      "savingPercent": 29
+    },
+    {
+      "name": "Progress",
+      "gentleduckKB": 1.1,
+      "radixKB": 2.1,
+      "savingPercent": 46
     },
     {
       "name": "Radio Group",
@@ -129,10 +214,22 @@
       "savingPercent": 68
     },
     {
+      "name": "Slider",
+      "gentleduckKB": 3.7,
+      "radixKB": 5.1,
+      "savingPercent": 28
+    },
+    {
       "name": "Toggle",
       "gentleduckKB": 0.6,
       "radixKB": 1.7,
       "savingPercent": 65
+    },
+    {
+      "name": "Toggle Group",
+      "gentleduckKB": 1.2,
+      "radixKB": 4.3,
+      "savingPercent": 73
     },
     {
       "name": "Tooltip",
@@ -171,12 +268,12 @@
   "allSizes": [
     {
       "name": "select",
-      "sizeBytes": 7719,
+      "sizeBytes": 7718,
       "sizeKB": 7.5
     },
     {
       "name": "menu",
-      "sizeBytes": 5812,
+      "sizeBytes": 5836,
       "sizeKB": 5.7
     },
     {
@@ -191,13 +288,13 @@
     },
     {
       "name": "tooltip",
-      "sizeBytes": 3604,
+      "sizeBytes": 3608,
       "sizeKB": 3.5
     },
     {
       "name": "dialog",
-      "sizeBytes": 3132,
-      "sizeKB": 3.1
+      "sizeBytes": 3123,
+      "sizeKB": 3
     },
     {
       "name": "menubar",
@@ -206,12 +303,12 @@
     },
     {
       "name": "command",
-      "sizeBytes": 2844,
+      "sizeBytes": 2845,
       "sizeKB": 2.8
     },
     {
       "name": "popover",
-      "sizeBytes": 2488,
+      "sizeBytes": 2493,
       "sizeKB": 2.4
     },
     {
@@ -236,7 +333,7 @@
     },
     {
       "name": "calendar",
-      "sizeBytes": 2015,
+      "sizeBytes": 2014,
       "sizeKB": 2
     },
     {
@@ -246,7 +343,7 @@
     },
     {
       "name": "roving-focus",
-      "sizeBytes": 1899,
+      "sizeBytes": 1901,
       "sizeKB": 1.9
     },
     {
@@ -345,5 +442,5 @@
       "sizeKB": 0.1
     }
   ],
-  "generatedAt": "2026-03-22T15:16:00.489Z"
+  "generatedAt": "2026-03-25T10:22:42.998Z"
 }
