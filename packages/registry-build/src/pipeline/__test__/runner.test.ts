@@ -486,4 +486,360 @@ export default {
       outputs: [],
     })
   })
+
+  test('runner with no extensions produces no phase results or outputs', async () => {
+    const tempDir = await createTempDir()
+
+    await fs.writeFile(
+      path.join(tempDir, 'registry-build.config.json'),
+      JSON.stringify({
+        output: {
+          dir: './dist',
+        },
+      }),
+      'utf8',
+    )
+
+    const result = await build({ cwd: tempDir, silent: true })
+
+    expect(result.phaseResults).toEqual([])
+    expect(result.outputs).toEqual([])
+    expect(result.artifacts.collections).toEqual({})
+  })
+
+  test('runner with only beforeBuild extensions runs them and skips afterBuild', async () => {
+    const tempDir = await createTempDir()
+
+    await fs.mkdir(path.join(tempDir, 'sources', 'ui', 'chip'), { recursive: true })
+    await fs.writeFile(
+      path.join(tempDir, 'sources', 'ui', 'chip', 'chip.tsx'),
+      'export const Chip = () => null\n',
+      'utf8',
+    )
+
+    const packageSourceUrl = pathToFileURL(path.resolve(import.meta.dir, '../../index.ts')).href
+
+    await fs.writeFile(
+      path.join(tempDir, 'registry-build.config.ts'),
+      `import { validateExtension } from ${JSON.stringify(packageSourceUrl)}
+
+export default {
+  output: {
+    dir: './dist'
+  },
+  extensions: [
+    validateExtension()
+  ],
+  registries: {
+    uis: [
+      {
+        files: [],
+        name: 'chip',
+        root_folder: 'chip',
+        type: 'registry:ui'
+      }
+    ]
+  },
+  sources: {
+    'registry:ui': {
+      path: './sources/ui',
+      referencePath: '/registry-ui/src'
+    }
+  }
+}
+`,
+      'utf8',
+    )
+
+    const result = await build({ cwd: tempDir, silent: true })
+
+    expect(result.phaseResults).toHaveLength(1)
+    expect(result.phaseResults[0]?.name).toBe('validate')
+    expect(result.outputs).toEqual([])
+  })
+
+  test('runner respects extension stage ordering (beforeBuild runs before afterBuild)', async () => {
+    const tempDir = await createTempDir()
+    const executionOrder: string[] = []
+
+    await fs.writeFile(
+      path.join(tempDir, 'registry-build.config.ts'),
+      `export default {
+  output: {
+    dir: './dist'
+  },
+  extensions: [
+    {
+      name: 'after-first',
+      stage: 'afterBuild',
+      run() {
+        return { name: 'after-first', itemCount: 0 }
+      }
+    },
+    {
+      name: 'before-first',
+      stage: 'beforeBuild',
+      run() {
+        return { name: 'before-first', itemCount: 0 }
+      }
+    },
+    {
+      name: 'before-second',
+      stage: 'beforeBuild',
+      run() {
+        return { name: 'before-second', itemCount: 0 }
+      }
+    },
+    {
+      name: 'after-second',
+      stage: 'afterBuild',
+      run() {
+        return { name: 'after-second', itemCount: 0 }
+      }
+    }
+  ]
+}
+`,
+      'utf8',
+    )
+
+    const result = await build({ cwd: tempDir, silent: true })
+
+    expect(result.phaseResults.map((p) => p.name)).toEqual([
+      'before-first',
+      'before-second',
+      'after-first',
+      'after-second',
+    ])
+  })
+
+  test('runner passes context to extension run functions with config and path access', async () => {
+    const tempDir = await createTempDir()
+
+    await fs.writeFile(
+      path.join(tempDir, 'registry-build.config.ts'),
+      `export default {
+  output: {
+    dir: './custom-out'
+  },
+  extensions: [
+    {
+      name: 'inspector',
+      stage: 'afterBuild',
+      run(api) {
+        const hasConfig = api.config !== undefined
+        const hasGetPath = typeof api.getPath === 'function'
+        const hasRegisterOutput = typeof api.registerOutput === 'function'
+        const hasSetArtifact = typeof api.setArtifact === 'function'
+        const hasGetArtifact = typeof api.getArtifact === 'function'
+        const hasListOutputs = typeof api.listOutputs === 'function'
+        const registryDir = api.getPath('registryDir')
+
+        api.setArtifact('inspected', {
+          hasConfig,
+          hasGetArtifact,
+          hasGetPath,
+          hasListOutputs,
+          hasRegisterOutput,
+          hasSetArtifact,
+          registryDirEndsCorrectly: registryDir.length > 0
+        })
+
+        return { name: 'inspector', itemCount: 0 }
+      }
+    }
+  ]
+}
+`,
+      'utf8',
+    )
+
+    const result = await build({ cwd: tempDir, silent: true })
+    const inspected = result.artifacts.inspected as Record<string, boolean>
+
+    expect(inspected.hasConfig).toBe(true)
+    expect(inspected.hasGetPath).toBe(true)
+    expect(inspected.hasRegisterOutput).toBe(true)
+    expect(inspected.hasSetArtifact).toBe(true)
+    expect(inspected.hasGetArtifact).toBe(true)
+    expect(inspected.hasListOutputs).toBe(true)
+    expect(inspected.registryDirEndsCorrectly).toBe(true)
+  })
+
+  test('runner handles extension errors gracefully by propagating them', async () => {
+    const tempDir = await createTempDir()
+
+    await fs.writeFile(
+      path.join(tempDir, 'registry-build.config.ts'),
+      `export default {
+  output: {
+    dir: './dist'
+  },
+  extensions: [
+    {
+      name: 'exploder',
+      stage: 'afterBuild',
+      run() {
+        throw new Error('Extension failed intentionally')
+      }
+    }
+  ]
+}
+`,
+      'utf8',
+    )
+
+    await expect(build({ cwd: tempDir, silent: true })).rejects.toThrow('Extension failed intentionally')
+  })
+
+  test('runner propagates async extension errors', async () => {
+    const tempDir = await createTempDir()
+
+    await fs.writeFile(
+      path.join(tempDir, 'registry-build.config.ts'),
+      `export default {
+  output: {
+    dir: './dist'
+  },
+  extensions: [
+    {
+      name: 'async-exploder',
+      stage: 'afterBuild',
+      async run() {
+        throw new Error('Async extension failed')
+      }
+    }
+  ]
+}
+`,
+      'utf8',
+    )
+
+    await expect(build({ cwd: tempDir, silent: true })).rejects.toThrow('Async extension failed')
+  })
+
+  test('runner with changedOnly flag and no changed paths skips component output', async () => {
+    const tempDir = await createTempDir()
+
+    await writeFullPipelineFixture(tempDir)
+    await build({ cwd: tempDir, silent: true })
+
+    const result = await build({
+      changedOnly: true,
+      changedPaths: [],
+      cwd: tempDir,
+      silent: true,
+    })
+    const phaseResultMap = new Map(result.phaseResults.map((phase) => [phase.name, phase]))
+
+    expect(phaseResultMap.get('components')?.outputFiles).toEqual([])
+  })
+
+  test('extensions can pass artifacts between stages', async () => {
+    const tempDir = await createTempDir()
+
+    await fs.writeFile(
+      path.join(tempDir, 'registry-build.config.ts'),
+      `export default {
+  output: {
+    dir: './dist'
+  },
+  extensions: [
+    {
+      name: 'producer',
+      stage: 'beforeBuild',
+      run(api) {
+        api.setArtifact('shared-data', { message: 'hello from before' })
+        return { name: 'producer', itemCount: 1 }
+      }
+    },
+    {
+      name: 'consumer',
+      stage: 'afterBuild',
+      run(api) {
+        const data = api.getArtifact('shared-data')
+        api.setArtifact('consumed', data)
+        return { name: 'consumer', itemCount: 1 }
+      }
+    }
+  ]
+}
+`,
+      'utf8',
+    )
+
+    const result = await build({ cwd: tempDir, silent: true })
+
+    expect(result.artifacts['shared-data']).toEqual({ message: 'hello from before' })
+    expect(result.artifacts.consumed).toEqual({ message: 'hello from before' })
+    expect(result.phaseResults.map((p) => p.name)).toEqual(['producer', 'consumer'])
+  })
+
+  test('extension returning void is silently skipped in phase results', async () => {
+    const tempDir = await createTempDir()
+
+    await fs.writeFile(
+      path.join(tempDir, 'registry-build.config.ts'),
+      `export default {
+  output: {
+    dir: './dist'
+  },
+  extensions: [
+    {
+      name: 'silent-ext',
+      stage: 'afterBuild',
+      run() {
+        // returns void
+      }
+    },
+    {
+      name: 'reporting-ext',
+      stage: 'afterBuild',
+      run() {
+        return { name: 'reporting-ext', itemCount: 5 }
+      }
+    }
+  ]
+}
+`,
+      'utf8',
+    )
+
+    const result = await build({ cwd: tempDir, silent: true })
+
+    expect(result.phaseResults).toHaveLength(1)
+    expect(result.phaseResults[0]?.name).toBe('reporting-ext')
+  })
+
+  test('extension returning an array of phase results spreads them into the results list', async () => {
+    const tempDir = await createTempDir()
+
+    await fs.writeFile(
+      path.join(tempDir, 'registry-build.config.ts'),
+      `export default {
+  output: {
+    dir: './dist'
+  },
+  extensions: [
+    {
+      name: 'multi-phase',
+      stage: 'afterBuild',
+      run() {
+        return [
+          { name: 'phase-a', itemCount: 1 },
+          { name: 'phase-b', itemCount: 2 }
+        ]
+      }
+    }
+  ]
+}
+`,
+      'utf8',
+    )
+
+    const result = await build({ cwd: tempDir, silent: true })
+
+    expect(result.phaseResults).toHaveLength(2)
+    expect(result.phaseResults.map((p) => p.name)).toEqual(['phase-a', 'phase-b'])
+  })
 })
