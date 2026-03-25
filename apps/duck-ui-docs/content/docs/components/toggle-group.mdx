@@ -149,31 +149,31 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `type` | `'single' \| 'multiple'` | (required) | Determines selection behavior. `'single'` allows one toggle at a time; `'multiple'` allows multiple |
-| `value` | `string \| string[]` | -- | Controlled selected value(s) |
-| `defaultValue` | `string \| string[]` | -- | Uncontrolled initial selected value(s) |
-| `onValueChange` | `(value: string \| string[]) => void` | -- | Callback invoked when the value changes |
+| `value` | `string \| string[]` | - | Controlled selected value(s) |
+| `defaultValue` | `string \| string[]` | - | Uncontrolled initial selected value(s) |
+| `onValueChange` | `(value: string \| string[]) => void` | - | Callback invoked when the value changes |
 | `variant` | `'default' \| 'outline'` | `'default'` | Visual style variant for the toggles (passed to items via context) |
 | `size` | `'default' \| 'sm' \| 'lg'` | `'default'` | Size variant for the toggles (passed to items via context) |
 | `disabled` | `boolean` | `false` | Disables all items in the group |
 | `rovingFocus` | `boolean` | `true` | Whether to use roving focus for keyboard navigation |
 | `loop` | `boolean` | `true` | Whether keyboard navigation should loop at boundaries |
-| `orientation` | `'horizontal' \| 'vertical'` | -- | The orientation of the group for arrow key navigation |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `className` | `string` | -- | Additional CSS class names to apply |
-| `children` | `React.ReactNode` | -- | ToggleGroupItem elements to render inside the group |
-| `ref` | `React.Ref<HTMLDivElement>` | -- | Ref forwarded to the underlying div element |
+| `orientation` | `'horizontal' \| 'vertical'` | - | The orientation of the group for arrow key navigation |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | - | Additional CSS class names to apply |
+| `children` | `React.ReactNode` | - | ToggleGroupItem elements to render inside the group |
+| `ref` | `React.Ref<HTMLDivElement>` | - | Ref forwarded to the underlying div element |
 
 ### ToggleGroupItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `string` | (required) | The unique value identifying this toggle item |
-| `variant` | `'default' \| 'outline'` | -- | Visual style variant for this item (overrides group context) |
-| `size` | `'default' \| 'sm' \| 'lg'` | -- | Size variant for this item (overrides group context) |
+| `variant` | `'default' \| 'outline'` | - | Visual style variant for this item (overrides group context) |
+| `size` | `'default' \| 'sm' \| 'lg'` | - | Size variant for this item (overrides group context) |
 | `disabled` | `boolean` | `false` | Disables this specific item |
-| `className` | `string` | -- | Additional CSS class names to apply |
-| `children` | `React.ReactNode` | -- | Content rendered inside the toggle item |
-| `ref` | `React.Ref<HTMLButtonElement>` | -- | Ref forwarded to the underlying button element |
+| `className` | `string` | - | Additional CSS class names to apply |
+| `children` | `React.ReactNode` | - | Content rendered inside the toggle item |
+| `ref` | `React.Ref<HTMLButtonElement>` | - | Ref forwarded to the underlying button element |
 
 ### Data Attributes
 

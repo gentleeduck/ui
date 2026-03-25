@@ -167,12 +167,12 @@ The main component for displaying content with media, title, description, and ac
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names for the item container |
+| `className` | `string` | - | Additional class names for the item container |
 | `variant` | `"default" \| "muted" \| "outline"` | `"default"` | Visual variant of the item |
 | `size` | `"default" \| "sm"` | `"default"` | Size of the item |
 | `asChild` | `boolean` | `false` | Render as a child element using `Slot` |
-| `children` | `React.ReactNode` | -- | Item content (media, content, actions, etc.) |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `children` | `React.ReactNode` | - | Item content (media, content, actions, etc.) |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 You can use the `asChild` prop to render a custom component as the item, for example a link. The hover and focus states will be applied to the custom component.
 
@@ -210,9 +210,9 @@ A container that groups related items together with consistent styling.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names for the group container |
-| `children` | `React.ReactNode` | -- | Item elements to group together |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `className` | `string` | - | Additional class names for the group container |
+| `children` | `React.ReactNode` | - | Item elements to group together |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### ItemSeparator
 
@@ -220,8 +220,8 @@ A horizontal separator between items in a group.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names for the separator |
-| `...props` | `React.ComponentPropsWithoutRef<typeof Separator>` | -- | Additional props inherited from `Separator`. |
+| `className` | `string` | - | Additional class names for the separator |
+| `...props` | `React.ComponentPropsWithoutRef<typeof Separator>` | - | Additional props inherited from `Separator`. |
 
 ### ItemMedia
 
@@ -229,10 +229,10 @@ Displays media content such as icons, images, or avatars.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names for the media container |
+| `className` | `string` | - | Additional class names for the media container |
 | `variant` | `"default" \| "icon" \| "image"` | `"default"` | Visual variant of the media container |
-| `children` | `React.ReactNode` | -- | Media content (icon, image, avatar, etc.) |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `children` | `React.ReactNode` | - | Media content (icon, image, avatar, etc.) |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### ItemContent
 
@@ -240,9 +240,9 @@ Wraps the title and description of the item.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names for the content wrapper |
-| `children` | `React.ReactNode` | -- | Title and description elements |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `className` | `string` | - | Additional class names for the content wrapper |
+| `children` | `React.ReactNode` | - | Title and description elements |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### ItemTitle
 
@@ -250,9 +250,9 @@ Displays the title of the item.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names for the title |
-| `children` | `React.ReactNode` | -- | Title text or elements |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `className` | `string` | - | Additional class names for the title |
+| `children` | `React.ReactNode` | - | Title text or elements |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### ItemDescription
 
@@ -260,9 +260,9 @@ Displays the description of the item.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names for the description |
-| `children` | `React.ReactNode` | -- | Description text or elements |
-| `...props` | `React.HTMLProps<HTMLParagraphElement>` | -- | Additional props to spread to the p element |
+| `className` | `string` | - | Additional class names for the description |
+| `children` | `React.ReactNode` | - | Description text or elements |
+| `...props` | `React.HTMLProps<HTMLParagraphElement>` | - | Additional props to spread to the p element |
 
 ### ItemActions
 
@@ -270,9 +270,9 @@ Displays action buttons or other interactive elements.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names for the actions container |
-| `children` | `React.ReactNode` | -- | Action buttons or interactive elements |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `className` | `string` | - | Additional class names for the actions container |
+| `children` | `React.ReactNode` | - | Action buttons or interactive elements |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### ItemHeader
 
@@ -280,9 +280,9 @@ Displays a header spanning the full width of the item.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names for the header |
-| `children` | `React.ReactNode` | -- | Header content |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `className` | `string` | - | Additional class names for the header |
+| `children` | `React.ReactNode` | - | Header content |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### ItemFooter
 
@@ -290,9 +290,9 @@ Displays a footer spanning the full width of the item.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | -- | Additional class names for the footer |
-| `children` | `React.ReactNode` | -- | Footer content |
-| `...props` | `React.HTMLProps<HTMLDivElement>` | -- | Additional props to spread to the content div |
+| `className` | `string` | - | Additional class names for the footer |
+| `children` | `React.ReactNode` | - | Footer content |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ## RTL Support
 

@@ -250,11 +250,11 @@ A responsive breadcrumb that collapses intermediate items behind an ellipsis, di
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `separator` | `React.ReactNode` | `--` | Custom separator element between breadcrumb items |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Breadcrumb content (typically a `BreadcrumbList`) |
-| `...props` | `React.HTMLProps<HTMLElement>` | -- | Additional props to spread to the nav element |
+| `...props` | `React.HTMLProps<HTMLElement>` | - | Additional props to spread to the nav element |
 
 ### BreadcrumbList
 
@@ -262,7 +262,7 @@ A responsive breadcrumb that collapses intermediate items behind an ellipsis, di
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | List of `BreadcrumbItem` elements |
-| `...props` | `React.HTMLProps<HTMLOListElement>` | -- | Additional props to spread to the ol element |
+| `...props` | `React.HTMLProps<HTMLOListElement>` | - | Additional props to spread to the ol element |
 
 ### BreadcrumbItem
 
@@ -270,7 +270,7 @@ A responsive breadcrumb that collapses intermediate items behind an ellipsis, di
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Item content (typically a `BreadcrumbLink` or `BreadcrumbPage`) |
-| `...props` | `React.HTMLProps<HTMLLIElement>` | -- | Additional props to spread to the li element |
+| `...props` | `React.HTMLProps<HTMLLIElement>` | - | Additional props to spread to the li element |
 
 ### BreadcrumbLink
 
@@ -279,7 +279,7 @@ A responsive breadcrumb that collapses intermediate items behind an ellipsis, di
 | `asChild` | `boolean` | `--` | If `true`, uses the `Slot` component instead of rendering an `<a>` directly |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Link content |
-| `...props` | `React.HTMLProps<HTMLAnchorElement>` | -- | Additional props to spread to the a element |
+| `...props` | `React.HTMLProps<HTMLAnchorElement>` | - | Additional props to spread to the a element |
 
 ### BreadcrumbPage
 
@@ -287,7 +287,7 @@ A responsive breadcrumb that collapses intermediate items behind an ellipsis, di
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Page content (rendered with `aria-current="page"`) |
-| `...props` | `React.ComponentPropsWithoutRef<'span'>` | -- | Additional props to spread to the span element |
+| `...props` | `React.ComponentPropsWithoutRef<'span'>` | - | Additional props to spread to the span element |
 
 ### BreadcrumbSeparator
 
@@ -295,7 +295,7 @@ A responsive breadcrumb that collapses intermediate items behind an ellipsis, di
 | --- | --- | --- | --- |
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `<ChevronRight />` | Custom separator icon; defaults to a `ChevronRight` icon |
-| `...props` | `React.ComponentPropsWithoutRef<'li'>` | -- | Additional props to spread to the li element |
+| `...props` | `React.ComponentPropsWithoutRef<'li'>` | - | Additional props to spread to the li element |
 
 ### BreadcrumbEllipsis
 
@@ -303,7 +303,7 @@ A responsive breadcrumb that collapses intermediate items behind an ellipsis, di
 | --- | --- | --- | --- |
 | `text` | `string` | `'More'` | Accessible label used for `aria-label` on the ellipsis element |
 | `className` | `string` | `--` | Additional class names to apply |
-| `...props` | `React.ComponentPropsWithoutRef<'span'>` | -- | Additional props to spread to the span element |
+| `...props` | `React.ComponentPropsWithoutRef<'span'>` | - | Additional props to spread to the span element |
 
 ## RTL Support
 

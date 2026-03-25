@@ -95,10 +95,10 @@ The root component that manages open/closed state and provides context. Wraps th
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `open` | `boolean` | -- | Controlled open state |
+| `open` | `boolean` | - | Controlled open state |
 | `defaultOpen` | `boolean` | `false` | Initial open state (uncontrolled) |
-| `onOpenChange` | `(open: boolean) => void` | -- | Called when the open state should change |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction. Resolved with `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `onOpenChange` | `(open: boolean) => void` | - | Called when the open state should change |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved with `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `modal` | `boolean` | `true` | When true, interaction with outside elements is disabled and only menu content is visible to screen readers |
 
 ### `DropdownMenu.Trigger`
@@ -107,7 +107,7 @@ Button that toggles the dropdown menu. Renders a `<button>` with `aria-haspopup=
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `asChild` | `boolean` | -- | Render as the child element instead of a `<button>` |
+| `asChild` | `boolean` | - | Render as the child element instead of a `<button>` |
 | `disabled` | `boolean` | `false` | Disables the trigger |
 
 Sets `aria-expanded`, `aria-controls`, and `data-state` automatically.
@@ -127,15 +127,15 @@ The dropdown content. Handles focus management, keyboard navigation, and dismiss
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Preferred side relative to the trigger |
-| `sideOffset` | `number` | -- | Main-axis offset from trigger |
-| `align` | `'start' \| 'center' \| 'end'` | -- | Cross-axis alignment |
-| `alignOffset` | `number` | -- | Cross-axis offset |
+| `sideOffset` | `number` | - | Main-axis offset from trigger |
+| `align` | `'start' \| 'center' \| 'end'` | - | Cross-axis alignment |
+| `alignOffset` | `number` | - | Cross-axis offset |
 | `avoidCollisions` | `boolean` | `true` | Flip to avoid viewport overflow |
-| `collisionPadding` | `number` | -- | Padding from viewport edges |
-| `onCloseAutoFocus` | `(event: Event) => void` | -- | Called when focus returns to trigger on close |
-| `onEscapeKeyDown` | `(event: KeyboardEvent) => void` | -- | Called when Escape is pressed |
-| `onPointerDownOutside` | `(event) => void` | -- | Called when clicking outside |
-| `onInteractOutside` | `(event) => void` | -- | Called on any interaction outside |
+| `collisionPadding` | `number` | - | Padding from viewport edges |
+| `onCloseAutoFocus` | `(event: Event) => void` | - | Called when focus returns to trigger on close |
+| `onEscapeKeyDown` | `(event: KeyboardEvent) => void` | - | Called when Escape is pressed |
+| `onPointerDownOutside` | `(event) => void` | - | Called when clicking outside |
+| `onInteractOutside` | `(event) => void` | - | Called on any interaction outside |
 
 Exposes `data-state="open"` / `data-state="closed"` and `data-side` for CSS animation.
 
@@ -162,8 +162,8 @@ An interactive menu item. Fires `onSelect` when activated.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `disabled` | `boolean` | `false` | Disable the item |
-| `onSelect` | `(event: Event) => void` | -- | Called when item is selected |
-| `textValue` | `string` | -- | Text override for typeahead search |
+| `onSelect` | `(event: Event) => void` | - | Called when item is selected |
+| `textValue` | `string` | - | Text override for typeahead search |
 
 Exposes `data-highlighted` when focused and `data-disabled` when disabled.
 
@@ -173,8 +173,8 @@ A toggleable menu item with checked state.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `checked` | `boolean \| 'indeterminate'` | -- | Checked state |
-| `onCheckedChange` | `(checked: boolean) => void` | -- | Called on toggle |
+| `checked` | `boolean \| 'indeterminate'` | - | Checked state |
+| `onCheckedChange` | `(checked: boolean) => void` | - | Called on toggle |
 | `disabled` | `boolean` | `false` | Disable the item |
 
 ### `DropdownMenu.RadioGroup` / `DropdownMenu.RadioItem`
@@ -183,12 +183,12 @@ Mutually exclusive menu items.
 
 | Prop (RadioGroup) | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string` | -- | Currently selected value |
-| `onValueChange` | `(value: string) => void` | -- | Called when selection changes |
+| `value` | `string` | - | Currently selected value |
+| `onValueChange` | `(value: string) => void` | - | Called when selection changes |
 
 | Prop (RadioItem) | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string` | -- | Value for this item |
+| `value` | `string` | - | Value for this item |
 | `disabled` | `boolean` | `false` | Disable the item |
 
 ### `DropdownMenu.ItemIndicator`
@@ -197,7 +197,7 @@ Renders only when the parent item is checked. Use for check marks or radio dots.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `forceMount` | `boolean` | -- | Keep mounted for animation control |
+| `forceMount` | `boolean` | - | Keep mounted for animation control |
 
 ### `DropdownMenu.Sub` / `DropdownMenu.SubTrigger` / `DropdownMenu.SubContent`
 
@@ -205,9 +205,9 @@ Nested submenus.
 
 | Prop (Sub) | Type | Default | Description |
 | --- | --- | --- | --- |
-| `open` | `boolean` | -- | Controlled open state |
+| `open` | `boolean` | - | Controlled open state |
 | `defaultOpen` | `boolean` | `false` | Initial open state |
-| `onOpenChange` | `(open: boolean) => void` | -- | Called when open state changes |
+| `onOpenChange` | `(open: boolean) => void` | - | Called when open state changes |
 
 `SubContent` exposes the same `--gentleduck-dropdown-menu-*` CSS custom properties as `Content`.
 
