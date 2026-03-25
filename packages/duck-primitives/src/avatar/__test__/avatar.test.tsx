@@ -47,4 +47,45 @@ describe('AvatarFallback', () => {
     )
     expect(container.querySelector('span[data-slot="avatar-fallback"]')).not.toBeNull()
   })
+
+  it('fallback forwards ref', () => {
+    const ref = React.createRef<HTMLSpanElement>()
+    render(
+      <Avatar>
+        <AvatarFallback ref={ref}>JD</AvatarFallback>
+      </Avatar>,
+    )
+    expect(ref.current).toBeInstanceOf(HTMLSpanElement)
+  })
+
+  it('fallback passes className', () => {
+    const { container } = render(
+      <Avatar>
+        <AvatarFallback className="fb-class">JD</AvatarFallback>
+      </Avatar>,
+    )
+    expect(container.querySelector('.fb-class')).not.toBeNull()
+  })
+})
+
+describe('Avatar (composition)', () => {
+  it('renders avatar with children', () => {
+    const { container } = render(
+      <Avatar>
+        <AvatarFallback>WD</AvatarFallback>
+      </Avatar>,
+    )
+    expect(container.querySelector('[data-slot="avatar"]')).not.toBeNull()
+    expect(container.querySelector('[data-slot="avatar-fallback"]')?.textContent).toBe('WD')
+  })
+
+  it('sets dir on avatar', () => {
+    const { container } = render(<Avatar dir="rtl" />)
+    expect(container.querySelector('[data-slot="avatar"]')?.getAttribute('dir')).toBe('rtl')
+  })
+
+  it('defaults to ltr', () => {
+    const { container } = render(<Avatar />)
+    expect(container.querySelector('[data-slot="avatar"]')?.getAttribute('dir')).toBe('ltr')
+  })
 })

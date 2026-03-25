@@ -1,7 +1,7 @@
 import { describe, expect, it, mock } from 'bun:test'
 import { fireEvent, render } from '@testing-library/react'
 import * as React from 'react'
-import { Popover, PopoverContent, PopoverPortal, PopoverTrigger } from '../index'
+import { Popover, PopoverClose, PopoverContent, PopoverPortal, PopoverTrigger } from '../index'
 
 function renderPopover(props: Record<string, unknown> = {}) {
   return render(
@@ -97,5 +97,50 @@ describe('Popover', () => {
       </Popover>,
     )
     expect(container.querySelector('.my-popover-trigger')).not.toBeNull()
+  })
+})
+
+describe('PopoverClose', () => {
+  it('renders with data-slot="popover-close"', () => {
+    const { baseElement } = render(
+      <Popover defaultOpen>
+        <PopoverTrigger>Open</PopoverTrigger>
+        <PopoverPortal>
+          <PopoverContent>
+            <PopoverClose>X</PopoverClose>
+          </PopoverContent>
+        </PopoverPortal>
+      </Popover>,
+    )
+    expect(baseElement.querySelector('[data-slot="popover-close"]')).not.toBeNull()
+  })
+
+  it('close button has type="button"', () => {
+    const { baseElement } = render(
+      <Popover defaultOpen>
+        <PopoverTrigger>Open</PopoverTrigger>
+        <PopoverPortal>
+          <PopoverContent>
+            <PopoverClose>X</PopoverClose>
+          </PopoverContent>
+        </PopoverPortal>
+      </Popover>,
+    )
+    expect(baseElement.querySelector('[data-slot="popover-close"]')?.getAttribute('type')).toBe('button')
+  })
+
+  it('close button forwards ref', () => {
+    const ref = React.createRef<HTMLButtonElement>()
+    render(
+      <Popover defaultOpen>
+        <PopoverTrigger>Open</PopoverTrigger>
+        <PopoverPortal>
+          <PopoverContent>
+            <PopoverClose ref={ref}>X</PopoverClose>
+          </PopoverContent>
+        </PopoverPortal>
+      </Popover>,
+    )
+    expect(ref.current).toBeInstanceOf(HTMLButtonElement)
   })
 })

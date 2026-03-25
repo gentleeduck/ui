@@ -59,7 +59,9 @@ describe('HoverCard', () => {
   it('passes className to trigger', () => {
     const { container } = render(
       <HoverCard>
-        <HoverCardTrigger href="#" className="hc-trigger">Link</HoverCardTrigger>
+        <HoverCardTrigger href="#" className="hc-trigger">
+          Link
+        </HoverCardTrigger>
       </HoverCard>,
     )
     expect(container.querySelector('.hc-trigger')).not.toBeNull()

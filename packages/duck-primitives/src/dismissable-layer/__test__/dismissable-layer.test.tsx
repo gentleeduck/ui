@@ -70,7 +70,10 @@ describe('DismissableLayer', () => {
   it('onEscapeKeyDown receives the keyboard event', () => {
     let receivedEvent: KeyboardEvent | null = null
     render(
-      <DismissableLayer onEscapeKeyDown={(e) => { receivedEvent = e }}>
+      <DismissableLayer
+        onEscapeKeyDown={(e) => {
+          receivedEvent = e
+        }}>
         <span>content</span>
       </DismissableLayer>,
     )
