@@ -99,5 +99,4 @@ describe('ContextMenu', () => {
     const { container } = renderContextMenu()
     expect(container.querySelector('[data-slot="context-menu-trigger"]')?.textContent).toBe('Right click me')
   })
-
 })
