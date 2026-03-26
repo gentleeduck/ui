@@ -17,9 +17,7 @@ Or you can ask it on our [GitHub repository](https://github.com/gentleeduck/duck
       What makes @gentleduck/ui different from other UI libraries?
     </AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      @gentleduck/ui is built as part of a complete ecosystem, not just a collection of components.
-      We've rewritten popular libraries to optimize performance, created custom primitives, and designed
-      APIs that match familiar patterns from other frameworks.
+      57 styled components backed by 35 headless primitives we built ourselves - not Radix. The primitives are 50-92% smaller than Radix (Alert Dialog: 1.6 KB vs 18.6 KB). The calendar engine is ~5 KB with 4 calendar systems vs react-day-picker's ~20 KB with 1. We also ship a keyboard command system, animation tokens, atom-based state management, and a CLI with interactive merge TUI. See the <a href="/docs/comparisons/vs-shadcn" className="text-primary hover:underline">full comparison with shadcn/ui</a>.
     </AccordionContent>
   </AccordionItem>
 
@@ -28,9 +26,7 @@ Or you can ask it on our [GitHub repository](https://github.com/gentleeduck/duck
       Is @gentleduck/ui just another UI clone?
     </AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      No. While inspired by modern UI libraries, Radix UI, and Fluent UI, @gentleduck/ui is built from scratch with
-      its own primitives, utilities, and ecosystem. The primitives are headless and a11y-first, the variant
-      system is custom, and the CLI scaffolds components into your project rather than hiding them in node_modules.
+      No. The primitives are written from scratch with shared internals (Slot, Presence, Popper, focus scope) deduplicated across all 35 components. The calendar engine supports 4 calendar systems with 7 date adapters. The variant system adds memoization over class-variance-authority. The CLI has an interactive merge TUI for updating components without losing local changes. These are not wrappers around existing libraries - they are independent implementations with the same API patterns so migration is easy.
     </AccordionContent>
   </AccordionItem>
 
@@ -39,8 +35,7 @@ Or you can ask it on our [GitHub repository](https://github.com/gentleeduck/duck
       Can I migrate from my current UI library?
     </AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      Our component APIs are designed to match patterns from popular libraries, so migration is
-      incremental. Start by swapping one component at a time, or go all in. Both approaches work.
+      Yes. If you are on shadcn/ui, migration is a namespace swap - same component names, same compound patterns, same Tailwind classes. Both component sets coexist in the same project. Replace one component at a time with <code className="bg-muted px-2 py-1 rounded">npx @gentleduck/cli add button</code>. If you are on Radix, the primitive imports change from <code className="bg-muted px-2 py-1 rounded">@radix-ui/react-dialog</code> to <code className="bg-muted px-2 py-1 rounded">@gentleduck/primitives/dialog</code> with the same API. See the <a href="/docs/comparisons/vs-shadcn#migration" className="text-primary hover:underline">shadcn migration guide</a> or <a href="/docs/comparisons/vs-radix#migration" className="text-primary hover:underline">Radix migration guide</a>.
     </AccordionContent>
   </AccordionItem>
 
@@ -115,8 +110,7 @@ Or you can ask it on our [GitHub repository](https://github.com/gentleeduck/duck
       What's the performance like?
     </AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      We've optimized bundle sizes, eliminated unnecessary re-renders, and rewritten some popular
-      libraries for performance. Your components load quickly and stay responsive.
+      Real numbers: primitives are 50-92% smaller than Radix equivalents (Popover: 2.4 KB vs 19.6 KB, Dialog: 3.1 KB vs 10.6 KB). The calendar engine is ~5 KB vs react-day-picker's ~20 KB. The variant system caches results with a Map-based memoizer so repeated cva() calls in hot render paths return instantly. All packages are tree-shakeable ESM with <code className="bg-muted px-2 py-1 rounded">sideEffects: false</code>. See the <a href="/docs/packages/duck-primitives/benchmarks" className="text-primary hover:underline">full benchmarks</a>.
     </AccordionContent>
   </AccordionItem>
 
@@ -165,8 +159,7 @@ Or you can ask it on our [GitHub repository](https://github.com/gentleeduck/duck
       Can I use this with Next.js, Remix, or other frameworks?
     </AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
-      It works with any React-based framework — Next.js, Remix, Vite. If it runs React, it runs
-      @gentleduck/ui.
+      Yes. We ship installation guides for <a href="/docs/installation/next" className="text-primary hover:underline">Next.js</a>, <a href="/docs/installation/vite" className="text-primary hover:underline">Vite</a>, <a href="/docs/installation/react-router" className="text-primary hover:underline">React Router</a>, <a href="/docs/installation/astro" className="text-primary hover:underline">Astro</a>, <a href="/docs/installation/laravel" className="text-primary hover:underline">Laravel</a>, <a href="/docs/installation/tanstack" className="text-primary hover:underline">TanStack Start</a>, and <a href="/docs/installation/manual" className="text-primary hover:underline">manual setup</a>. The CLI auto-detects your project type. React 18+ required.
     </AccordionContent>
   </AccordionItem>
 </Accordion>

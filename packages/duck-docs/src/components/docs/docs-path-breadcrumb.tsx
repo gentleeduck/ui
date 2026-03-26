@@ -1,13 +1,32 @@
 'use client'
 
+import { useMediaQuery } from '@gentleduck/hooks/use-media-query'
 import {
   Breadcrumb,
+  BreadcrumbEllipsis,
   BreadcrumbItem,
   BreadcrumbLink,
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@gentleduck/registry-ui/breadcrumb'
+import { Button } from '@gentleduck/registry-ui/button'
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from '@gentleduck/registry-ui/drawer'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@gentleduck/registry-ui/dropdown-menu'
 import Link from 'next/link'
 import * as React from 'react'
 
@@ -21,32 +40,96 @@ function toTitleCase(segment: string) {
 }
 
 export function DocsPathBreadcrumb({ segments }: { segments: string[] }) {
+  const [open, setOpen] = React.useState(false)
+  const isDesktop = useMediaQuery('(min-width: 768px)')
+
   if (!segments.length) return null
 
-  return (
-    <Breadcrumb className="hidden md:flex">
-      <BreadcrumbList className="flex-nowrap">
-        {segments.map((segment, index) => {
-          const isLast = index === segments.length - 1
-          const href = `/docs/${segments.slice(0, index + 1).join('/')}`
+  const items = segments.map((segment, index) => ({
+    href: `/docs/${segments.slice(0, index + 1).join('/')}`,
+    isLast: index === segments.length - 1,
+    label: toTitleCase(segment),
+  }))
 
-          return (
-            <React.Fragment key={href}>
-              {index > 0 && <BreadcrumbSeparator />}
-              <BreadcrumbItem className="min-w-0">
-                {isLast ? (
-                  <BreadcrumbPage className="block max-w-40 truncate">{toTitleCase(segment)}</BreadcrumbPage>
-                ) : (
-                  <BreadcrumbLink asChild>
-                    <Link href={href} className="block max-w-40 truncate">
-                      {toTitleCase(segment)}
-                    </Link>
-                  </BreadcrumbLink>
-                )}
-              </BreadcrumbItem>
-            </React.Fragment>
-          )
-        })}
+  // Always show: first + last. Collapse everything in between.
+  const first = items[0]
+  const last = items.length > 1 ? items[items.length - 1] : null
+  const middle = items.length > 2 ? items.slice(1, -1) : []
+
+  return (
+    <Breadcrumb className="min-w-0 overflow-hidden">
+      <BreadcrumbList className="flex-nowrap overflow-hidden">
+        {/* First segment */}
+        {first && (
+          <BreadcrumbItem className="min-w-0 shrink-0">
+            {first.isLast ? (
+              <BreadcrumbPage className="truncate font-medium">{first.label}</BreadcrumbPage>
+            ) : (
+              <BreadcrumbLink asChild>
+                <Link href={first.href} className="truncate">
+                  {first.label}
+                </Link>
+              </BreadcrumbLink>
+            )}
+          </BreadcrumbItem>
+        )}
+
+        {/* Middle: collapsed into ellipsis with dropdown/drawer */}
+        {middle.length > 0 && (
+          <>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              {isDesktop ? (
+                <DropdownMenu onOpenChange={setOpen} open={open}>
+                  <DropdownMenuTrigger aria-label="Show more" className="flex items-center gap-1">
+                    <BreadcrumbEllipsis className="size-4" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent side="bottom" align="start">
+                    {middle.map((item) => (
+                      <DropdownMenuItem key={item.href} asChild>
+                        <Link href={item.href}>{item.label}</Link>
+                      </DropdownMenuItem>
+                    ))}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Drawer onOpenChange={setOpen} open={open}>
+                  <DrawerTrigger aria-label="Show more">
+                    <BreadcrumbEllipsis className="size-4" />
+                  </DrawerTrigger>
+                  <DrawerContent>
+                    <DrawerHeader className="text-left">
+                      <DrawerTitle>Navigate to</DrawerTitle>
+                      <DrawerDescription>Select a page to navigate to.</DrawerDescription>
+                    </DrawerHeader>
+                    <div className="grid gap-1 px-4">
+                      {middle.map((item) => (
+                        <Link className="py-1 text-sm" href={item.href} key={item.href}>
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                    <DrawerFooter className="pt-4">
+                      <DrawerClose asChild>
+                        <Button variant="outline">Close</Button>
+                      </DrawerClose>
+                    </DrawerFooter>
+                  </DrawerContent>
+                </Drawer>
+              )}
+            </BreadcrumbItem>
+          </>
+        )}
+
+        {/* Last segment */}
+        {last && (
+          <>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem className="min-w-0">
+              <BreadcrumbPage className="block max-w-32 truncate font-medium sm:max-w-48">{last.label}</BreadcrumbPage>
+            </BreadcrumbItem>
+          </>
+        )}
       </BreadcrumbList>
     </Breadcrumb>
   )

@@ -20,11 +20,30 @@ describe('duckEasing', () => {
     expect(x2).toBeGreaterThanOrEqual(0)
     expect(x2).toBeLessThanOrEqual(1)
   })
+
+  test('standard is exactly cubic-bezier(0.4, 0, 0.2, 1)', () => {
+    expect(duckEasing.standard).toBe('cubic-bezier(0.4, 0, 0.2, 1)')
+  })
+
+  test('spring is exactly cubic-bezier(1, 0.23995, 0, 1.65)', () => {
+    expect(duckEasing.spring).toBe('cubic-bezier(1, 0.23995, 0, 1.65)')
+  })
+
+  test('has exactly two easing presets', () => {
+    expect(Object.keys(duckEasing)).toEqual(['standard', 'spring'])
+  })
+
+  test('spring y-values exceed 0-1 range for overshoot effect', () => {
+    const match = duckEasing.spring.match(/cubic-bezier\(([-\d.]+),\s*([-\d.]+),\s*([-\d.]+),\s*([-\d.]+)\)/)
+    expect(match).not.toBeNull()
+    const y2 = Number(match![4])
+    expect(y2).toBeGreaterThan(1)
+  })
 })
 
 describe('duckDuration', () => {
   test('all duration values are non-negative numbers', () => {
-    for (const [key, value] of Object.entries(duckDuration)) {
+    for (const [, value] of Object.entries(duckDuration)) {
       expect(typeof value).toBe('number')
       expect(value).toBeGreaterThanOrEqual(0)
     }
@@ -50,6 +69,16 @@ describe('duckDuration', () => {
 
   test('slow is 300ms', () => {
     expect(duckDuration.slow).toBe(300)
+  })
+
+  test('has exactly four duration tokens', () => {
+    expect(Object.keys(duckDuration)).toEqual(['instant', 'fast', 'normal', 'slow'])
+  })
+
+  test('all durations are integers', () => {
+    for (const [, value] of Object.entries(duckDuration)) {
+      expect(Number.isInteger(value)).toBe(true)
+    }
   })
 })
 
@@ -78,5 +107,27 @@ describe('duckMotionCssVar', () => {
   test('easing fallback is a cubic-bezier', () => {
     const fallback = duckMotionCssVar.easing.match(/,\s*(.+)\)$/)?.[1]
     expect(fallback).toMatch(/^cubic-bezier\(/)
+  })
+
+  test('duration is exactly var(--duck-motion-dur, 150ms)', () => {
+    expect(duckMotionCssVar.duration).toBe('var(--duck-motion-dur, 150ms)')
+  })
+
+  test('easing is exactly var(--duck-motion-ease, cubic-bezier(0.4, 0, 0.2, 1))', () => {
+    expect(duckMotionCssVar.easing).toBe('var(--duck-motion-ease, cubic-bezier(0.4, 0, 0.2, 1))')
+  })
+
+  test('duration fallback matches duckDuration.fast', () => {
+    const fallback = duckMotionCssVar.duration.match(/,\s*(\d+)ms\)$/)?.[1]
+    expect(Number(fallback)).toBe(duckDuration.fast)
+  })
+
+  test('easing fallback matches duckEasing.standard', () => {
+    const fallback = duckMotionCssVar.easing.match(/,\s*(.+)\)$/)?.[1]
+    expect(fallback).toBe(duckEasing.standard)
+  })
+
+  test('has exactly two CSS variable entries', () => {
+    expect(Object.keys(duckMotionCssVar)).toEqual(['duration', 'easing'])
   })
 })

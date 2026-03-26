@@ -198,4 +198,233 @@ describe('useDateTime', () => {
       expect(typeof result.current.timePicker.state.value.minute).toBe('number')
     })
   })
+
+  // ---------------------------------------------------------------------------
+  // Combined date + time selection
+  // ---------------------------------------------------------------------------
+  describe('combined date + time selection', () => {
+    it('selecting a date when no prior value uses default time (00:00)', () => {
+      const { result } = renderHook(() =>
+        useDateTime({
+          adapter,
+          defaultMonth: new Date(2026, 2, 1),
+        }),
+      )
+
+      expect(result.current.state.value).toBeNull()
+
+      const march10 = new Date(2026, 2, 10)
+      act(() => {
+        result.current.calendar.actions.selectDate(march10)
+      })
+
+      const val = result.current.state.value!
+      expect(val.getDate()).toBe(10)
+      expect(val.getHours()).toBe(0)
+      expect(val.getMinutes()).toBe(0)
+    })
+
+    it('selecting multiple dates in sequence each preserves the current time', () => {
+      const { result } = renderHook(() =>
+        useDateTime({
+          adapter,
+          defaultValue: march15_1430,
+          defaultMonth: new Date(2026, 2, 1),
+        }),
+      )
+
+      // Select March 20
+      const march20 = new Date(2026, 2, 20)
+      act(() => {
+        result.current.calendar.actions.selectDate(march20)
+      })
+
+      expect(result.current.state.value!.getDate()).toBe(20)
+      expect(result.current.state.value!.getHours()).toBe(14)
+      expect(result.current.state.value!.getMinutes()).toBe(30)
+
+      // Select March 25
+      const march25 = new Date(2026, 2, 25)
+      act(() => {
+        result.current.calendar.actions.selectDate(march25)
+      })
+
+      expect(result.current.state.value!.getDate()).toBe(25)
+      expect(result.current.state.value!.getHours()).toBe(14)
+      expect(result.current.state.value!.getMinutes()).toBe(30)
+    })
+
+    it('changing time then selecting date preserves the new time', () => {
+      const { result } = renderHook(() =>
+        useDateTime({
+          adapter,
+          defaultValue: march15_1430,
+          defaultMonth: new Date(2026, 2, 1),
+        }),
+      )
+
+      // Change time to 18:00
+      act(() => {
+        result.current.timePicker.actions.setValue({ hour: 18, minute: 0, second: 0 })
+      })
+
+      // Select a new date
+      const march22 = new Date(2026, 2, 22)
+      act(() => {
+        result.current.calendar.actions.selectDate(march22)
+      })
+
+      const val = result.current.state.value!
+      expect(val.getDate()).toBe(22)
+      expect(val.getHours()).toBe(18)
+      expect(val.getMinutes()).toBe(0)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // Clearing / deselecting
+  // ---------------------------------------------------------------------------
+  describe('clearing selection', () => {
+    it('deselecting in calendar (toggle) keeps the last known value since onSelect ignores null', () => {
+      const { result } = renderHook(() =>
+        useDateTime({
+          adapter,
+          defaultValue: march15_1430,
+          defaultMonth: new Date(2026, 2, 1),
+        }),
+      )
+
+      // Select March 15 explicitly
+      const march15 = new Date(2026, 2, 15)
+      act(() => {
+        result.current.calendar.actions.selectDate(march15)
+      })
+
+      // Click the same date to deselect in the calendar
+      act(() => {
+        result.current.calendar.actions.selectDate(march15)
+      })
+
+      // useDateTime's handleCalendarSelect ignores null, so value should persist
+      expect(result.current.state.value).not.toBeNull()
+    })
+
+    it('setValue action directly sets the combined datetime', () => {
+      const { result } = renderHook(() =>
+        useDateTime({
+          adapter,
+          defaultValue: march15_1430,
+        }),
+      )
+
+      const newDate = new Date(2026, 5, 20, 9, 15, 30)
+      act(() => {
+        result.current.actions.setValue(newDate)
+      })
+
+      const val = result.current.state.value!
+      expect(val.getMonth()).toBe(5)
+      expect(val.getDate()).toBe(20)
+      expect(val.getHours()).toBe(9)
+      expect(val.getMinutes()).toBe(15)
+      expect(val.getSeconds()).toBe(30)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // Time picker extracts time from datetime value
+  // ---------------------------------------------------------------------------
+  describe('time extraction', () => {
+    it('timePicker state reflects the time portion of the datetime value', () => {
+      const { result } = renderHook(() =>
+        useDateTime({
+          adapter,
+          defaultValue: march15_1430,
+        }),
+      )
+
+      expect(result.current.timePicker.state.value.hour).toBe(14)
+      expect(result.current.timePicker.state.value.minute).toBe(30)
+    })
+
+    it('timePicker state updates when controlled value changes', () => {
+      const { result, rerender } = renderHook(
+        ({ value }) =>
+          useDateTime({
+            adapter,
+            value,
+          }),
+        { initialProps: { value: march15_1430 } },
+      )
+
+      expect(result.current.timePicker.state.value.hour).toBe(14)
+
+      const newValue = new Date(2026, 5, 10, 8, 45, 0)
+      rerender({ value: newValue })
+
+      expect(result.current.timePicker.state.value.hour).toBe(8)
+      expect(result.current.timePicker.state.value.minute).toBe(45)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // onChange with both date and time changes
+  // ---------------------------------------------------------------------------
+  describe('onChange combined scenarios', () => {
+    it('onChange fires once per time change even with rapid increments', () => {
+      const onChange = vi.fn()
+      const { result } = renderHook(() =>
+        useDateTime({
+          adapter,
+          defaultValue: march15_1430,
+          onChange,
+        }),
+      )
+
+      act(() => {
+        result.current.timePicker.actions.increment('hour')
+      })
+
+      act(() => {
+        result.current.timePicker.actions.increment('hour')
+      })
+
+      expect(onChange).toHaveBeenCalledTimes(2)
+      // The last call should have hour=16 (14 + 2)
+      const lastCall = onChange.mock.calls[1]![0] as Date
+      expect(lastCall.getHours()).toBe(16)
+    })
+
+    it('onChange is not called on initial render', () => {
+      const onChange = vi.fn()
+      renderHook(() =>
+        useDateTime({
+          adapter,
+          defaultValue: march15_1430,
+          onChange,
+        }),
+      )
+
+      expect(onChange).not.toHaveBeenCalled()
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // hourCycle passthrough
+  // ---------------------------------------------------------------------------
+  describe('hourCycle passthrough', () => {
+    it('passes hourCycle to the time picker', () => {
+      const { result } = renderHook(() =>
+        useDateTime({
+          adapter,
+          defaultValue: march15_1430,
+          hourCycle: '12',
+        }),
+      )
+
+      expect(result.current.timePicker.state.hourCycle).toBe('12')
+      expect(result.current.timePicker.state.displayAmPm).toBe('PM')
+      expect(result.current.timePicker.state.displayHour).toBe(2)
+    })
+  })
 })

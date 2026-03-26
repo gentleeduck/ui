@@ -7,6 +7,9 @@
       "devDependencies": {
         "@biomejs/biome": "2.4.7",
         "@changesets/cli": "^2.30.0",
+        "@gentleduck/vim": "workspace:*",
+        "@testing-library/jest-dom": "^6.9.1",
+        "@testing-library/react": "^16.3.2",
         "husky": "^9.1.7",
         "sherif": "1.10.0",
         "turbo": "^2.8.14",
@@ -498,8 +501,8 @@
         "tsdown": "0.21.4",
       },
       "peerDependencies": {
-        "react": "^19.2.4",
-        "react-dom": "^19.2.4",
+        "react": ">=18.0.0",
+        "react-dom": ">=18.0.0",
         "tabbable": "6.2.0",
       },
     },
@@ -530,8 +533,10 @@
       "devDependencies": {
         "@gentleduck/tsdown-config": "workspace:*",
         "@gentleduck/typescript-config": "workspace:*",
+        "@testing-library/react": "^16.3.2",
         "@types/react": "19.2.14",
         "@types/react-dom": "19.2.3",
+        "jsdom": "^29.0.0",
         "tsdown": "0.21.4",
       },
       "peerDependencies": {

@@ -3,7 +3,7 @@ import fs from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { build } from '../..'
+import { build, loadRegistryBuildConfig } from '../..'
 
 const fixtureDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../__fixtures__/golden/basic')
 const packageSourceUrl = new URL('../../index.ts', import.meta.url).href
@@ -167,5 +167,230 @@ export default {
 
       expect(actualContent.trimEnd()).toBe(expectedContent.trimEnd())
     }
+  })
+
+  test('build with empty config (no registries, no extensions) succeeds with no outputs', async () => {
+    const tempDir = await createTempDir()
+
+    await fs.writeFile(
+      path.join(tempDir, 'registry-build.config.json'),
+      JSON.stringify({
+        output: {
+          dir: './dist',
+        },
+      }),
+      'utf8',
+    )
+
+    const result = await build({ cwd: tempDir, silent: true })
+
+    expect(result.phaseResults).toEqual([])
+    expect(result.outputs).toEqual([])
+  })
+
+  test('build with minimal config (one source, one entry) creates output directory', async () => {
+    const tempDir = await createTempDir()
+    const outputDir = path.join(tempDir, 'dist')
+
+    await fs.mkdir(path.join(tempDir, 'sources', 'ui', 'tag'), { recursive: true })
+    await fs.writeFile(path.join(tempDir, 'sources', 'ui', 'tag', 'tag.tsx'), 'export const Tag = () => null\n', 'utf8')
+
+    await fs.writeFile(
+      path.join(tempDir, 'registry-build.config.ts'),
+      `import { indexBuildExtension } from ${JSON.stringify(packageSourceUrl)}
+
+export default {
+  output: {
+    dir: './dist'
+  },
+  extensions: [
+    indexBuildExtension()
+  ],
+  registries: {
+    uis: [
+      {
+        files: [],
+        name: 'tag',
+        root_folder: 'tag',
+        type: 'registry:ui'
+      }
+    ]
+  },
+  sources: {
+    'registry:ui': {
+      path: './sources/ui',
+      referencePath: '/registry-ui/src'
+    }
+  }
+}
+`,
+      'utf8',
+    )
+
+    const result = await build({ cwd: tempDir, silent: true })
+    const dirStat = await fs.stat(path.join(outputDir, 'public', 'r'))
+
+    expect(dirStat.isDirectory()).toBe(true)
+    expect(result.phaseResults.map((p) => p.name)).toEqual(['index'])
+  })
+
+  test('index.json is generated when indexBuild extension runs', async () => {
+    const tempDir = await createTempDir()
+
+    await fs.mkdir(path.join(tempDir, 'sources', 'ui', 'card'), { recursive: true })
+    await fs.writeFile(
+      path.join(tempDir, 'sources', 'ui', 'card', 'card.tsx'),
+      'export const Card = () => null\n',
+      'utf8',
+    )
+
+    await fs.writeFile(
+      path.join(tempDir, 'registry-build.config.ts'),
+      `import { indexBuildExtension } from ${JSON.stringify(packageSourceUrl)}
+
+export default {
+  output: {
+    dir: './dist'
+  },
+  extensions: [
+    indexBuildExtension()
+  ],
+  registries: {
+    uis: [
+      {
+        files: [],
+        name: 'card',
+        root_folder: 'card',
+        type: 'registry:ui'
+      }
+    ]
+  },
+  sources: {
+    'registry:ui': {
+      path: './sources/ui',
+      referencePath: '/registry-ui/src'
+    }
+  }
+}
+`,
+      'utf8',
+    )
+
+    const result = await build({ cwd: tempDir, silent: true })
+
+    await expect(fs.access(result.outputPaths.indexFile)).resolves.toBeNull()
+
+    const indexContent = JSON.parse(await fs.readFile(result.outputPaths.indexFile, 'utf8')) as Array<
+      Record<string, unknown>
+    >
+
+    expect(indexContent).toHaveLength(1)
+    expect(indexContent[0]?.name).toBe('card')
+    expect(indexContent[0]?.type).toBe('registry:ui')
+    expect(indexContent[0]?.source).toBe('/registry-ui/src/card')
+  })
+
+  test('output structure matches expected format with files, tree, and source fields', async () => {
+    const tempDir = await createTempDir()
+
+    await fs.mkdir(path.join(tempDir, 'sources', 'ui', 'badge'), { recursive: true })
+    await fs.writeFile(
+      path.join(tempDir, 'sources', 'ui', 'badge', 'badge.tsx'),
+      'export const Badge = () => null\n',
+      'utf8',
+    )
+    await fs.writeFile(path.join(tempDir, 'sources', 'ui', 'badge', 'index.ts'), "export * from './badge'\n", 'utf8')
+
+    await fs.writeFile(
+      path.join(tempDir, 'registry-build.config.ts'),
+      `import { indexBuildExtension } from ${JSON.stringify(packageSourceUrl)}
+
+export default {
+  output: {
+    dir: './dist'
+  },
+  extensions: [
+    indexBuildExtension()
+  ],
+  registries: {
+    uis: [
+      {
+        files: [],
+        name: 'badge',
+        root_folder: 'badge',
+        type: 'registry:ui'
+      }
+    ]
+  },
+  sources: {
+    'registry:ui': {
+      path: './sources/ui',
+      referencePath: '/registry-ui/src'
+    }
+  }
+}
+`,
+      'utf8',
+    )
+
+    const result = await build({ cwd: tempDir, silent: true })
+    const indexContent = JSON.parse(await fs.readFile(result.outputPaths.indexFile, 'utf8')) as Array<
+      Record<string, unknown>
+    >
+    const entry = indexContent[0] as Record<string, unknown>
+
+    expect(entry).toHaveProperty('name')
+    expect(entry).toHaveProperty('type')
+    expect(entry).toHaveProperty('source')
+    expect(entry).toHaveProperty('files')
+    expect(entry).toHaveProperty('tree')
+    expect(entry).toHaveProperty('root_folder')
+
+    const files = entry.files as Array<{ path: string; type: string }>
+    expect(files.map((f) => f.path).sort()).toEqual(['badge/badge.tsx', 'badge/index.ts'])
+    expect(files.every((f) => f.type === 'registry:ui')).toBe(true)
+
+    const tree = entry.tree as Array<{ name: string; path: string; type: string }>
+    expect(tree.map((n) => n.name).sort()).toEqual(['badge.tsx', 'index.ts'])
+    expect(tree.every((n) => n.type === 'file')).toBe(true)
+  })
+
+  test('build with no registries but with extensions still runs extensions', async () => {
+    const tempDir = await createTempDir()
+
+    await fs.writeFile(
+      path.join(tempDir, 'registry-build.config.ts'),
+      `import fs from 'node:fs/promises'
+import path from 'node:path'
+
+export default {
+  output: {
+    dir: './dist'
+  },
+  extensions: [
+    {
+      name: 'stamp',
+      stage: 'afterBuild',
+      async run(api) {
+        const stampPath = path.join(api.getPath('registryDir'), 'stamp.txt')
+        await fs.mkdir(path.dirname(stampPath), { recursive: true })
+        await fs.writeFile(stampPath, 'built', 'utf8')
+        api.registerOutput('stamp', stampPath)
+        return { name: 'stamp', itemCount: 1, outputFiles: [stampPath] }
+      }
+    }
+  ]
+}
+`,
+      'utf8',
+    )
+
+    const result = await build({ cwd: tempDir, silent: true })
+    const stampPath = path.join(result.outputPaths.registryDir, 'stamp.txt')
+    const stampContent = await fs.readFile(stampPath, 'utf8')
+
+    expect(result.phaseResults).toHaveLength(1)
+    expect(result.phaseResults[0]?.name).toBe('stamp')
+    expect(stampContent).toBe('built')
   })
 })

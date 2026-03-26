@@ -69,7 +69,7 @@ Each module is a separate subpath export and can be used independently:
 
 ## Docs
 
-[duck-ui.vercel.app](https://duck-ui.vercel.app)
+[gentleduck.org](https://gentleduck.org)
 
 ## License
 

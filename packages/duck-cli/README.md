@@ -41,7 +41,7 @@ npx @gentleduck/cli add button --workspace apps/web
 
 ## Docs
 
-[duck-ui.vercel.app](https://duck-ui.vercel.app)
+[gentleduck.org](https://gentleduck.org)
 
 ## License
 
