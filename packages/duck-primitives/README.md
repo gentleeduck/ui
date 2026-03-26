@@ -4,9 +4,10 @@ Unstyled, accessibility-first UI primitives for React.
 
 ## Why primitives
 
-- **Full keyboard navigation + ARIA compliance out of the box**  -  every component ships with correct roles, states, and keyboard interactions so you don't have to wire them yourself.
-- **Compound component pattern**  -  compose `Root`, `Trigger`, `Content`, and friends to build exactly the UI you need without prop drilling.
-- **Compatible with Radix API**  -  familiar naming and structure make migration from Radix straightforward.
+- **50-92% smaller than Radix** - Alert Dialog: 1.6 KB vs 18.6 KB. Popover: 2.4 KB vs 19.6 KB. Dialog: 3.1 KB vs 10.6 KB. Shared internals (Slot, Presence, Popper, focus scope) load once instead of being duplicated per-package.
+- **Full keyboard navigation + ARIA compliance out of the box** - every component ships with correct roles, states, and keyboard interactions so you don't have to wire them yourself.
+- **Compound component pattern** - compose `Root`, `Trigger`, `Content`, and friends to build exactly the UI you need without prop drilling.
+- **Compatible with Radix API** - same naming, same `asChild` pattern, same `data-state` attributes. Migration from Radix is a namespace change in your imports.
 
 ## Components
 
@@ -86,7 +87,7 @@ function Demo() {
 
 ## Documentation
 
-[duck-ui.vercel.app/docs/packages/duck-primitives](https://duck-ui.vercel.app/docs/packages/duck-primitives)
+[gentleduck.org/docs/packages/duck-primitives](https://gentleduck.org/docs/packages/duck-primitives)
 
 ## License
 
