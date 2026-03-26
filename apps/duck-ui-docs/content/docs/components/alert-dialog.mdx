@@ -115,10 +115,10 @@ Style the trigger to appear active while the alert dialog is open using `data-[s
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `defaultOpen` | `boolean` | `--` | Determines if the dialog should be open by default |
-| `open` | `boolean` | `--` | Controls the visibility of the dialog |
-| `onOpenChange` | `(open: boolean) => void` | `--` | Callback fired when the dialog opens or closes |
-| `dir` | `'ltr' \| 'rtl'` | `--` | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). Inherited from the Dialog primitive. |
+| `defaultOpen` | `boolean` | `-` | Determines if the dialog should be open by default |
+| `open` | `boolean` | `-` | Controls the visibility of the dialog |
+| `onOpenChange` | `(open: boolean) => void` | `-` | Callback fired when the dialog opens or closes |
+| `dir` | `'ltr' \| 'rtl'` | `-` | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). Inherited from the Dialog primitive. |
 | `children` | `React.ReactNode` | (required) | Child elements (typically Trigger and Content) |
 | `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Root>` | - | Additional props inherited from `AlertDialogPrimitive.Root` |
 
@@ -149,8 +149,8 @@ Style the trigger to appear active while the alert dialog is open using `data-[s
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional class names to apply |
-| `children` | `React.ReactNode` | `--` | Content displayed inside the dialog |
+| `className` | `string` | `-` | Additional class names to apply |
+| `children` | `React.ReactNode` | `-` | Content displayed inside the dialog |
 | `forceMount` | `boolean` | `false` | If `true`, forces the content to stay mounted in the DOM |
 | `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>` | - | Additional props inherited from `AlertDialogPrimitive.Content` |
 

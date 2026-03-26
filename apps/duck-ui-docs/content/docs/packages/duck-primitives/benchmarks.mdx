@@ -88,7 +88,7 @@ Per-component gzipped size (verified via bundlephobia API, 15 components with da
 | Avatar | 1.1 KB | 2.5 KB | **54% smaller** |
 | Radio Group | 1.9 KB | 1.0 KB | Radix is 45% smaller |
 
-<Callout icon={<TriangleAlert />} tone="warning">
+<Callout icon={<Lightbulb />}>
 
 **Radio Group** is one case where Radix is smaller (1.0 KB vs 1.9 KB). We show honest numbers - not every primitive is smaller.
 
@@ -100,7 +100,7 @@ Per-component gzipped size (verified via bundlephobia API, 15 components with da
 
 Every primitive from both libraries, side by side. 0 KB means the library does not ship that component.
 
-<ComponentPreview name="chart-benchmark-primitives-all" description="All 29 components compared" className="[&_[data-value='preview']>div:last-child]:h-300" />
+<ComponentPreview name="chart-benchmark-primitives-all" description="All 29 components compared" className="[&_[data-value='preview']>div:last-child]:h-330" />
 
 ---
 
@@ -131,6 +131,29 @@ Every primitive from both libraries, side by side. 0 KB means the library does n
 | **Zero CSS** | Yes | Yes | Yes | Yes | Yes |
 | **SSR safe** | Yes | Yes | Yes | Yes | Yes |
 | **TypeScript** | Yes | Yes | Yes | Yes | Yes |
+
+---
+
+## Size vs features: why some primitives are larger
+
+A smaller bundle is not always the better primitive. gentleduck intentionally ships **more behavior per component** than minimal alternatives:
+
+| Built-in capability | What it saves you | Size cost |
+|---|---|---|
+| **Roving focus** | No manual `tabIndex` management or arrow-key handlers | ~0.4 KB |
+| **Collection** | No manual item registration or index tracking | ~0.3 KB |
+| **Compound components** | No prop-drilling through `SubMenu > Item > Label` trees | ~0.2 KB |
+| **Presence (animation)** | No manual mount/unmount orchestration for CSS animations | ~0.5 KB |
+| **Dismissable layer** | No manual `Escape` key + click-outside + nested layer handling | ~0.3 KB |
+| **Popper (positioning)** | No separate Floating UI dependency or manual positioning | ~1.2 KB |
+
+When a gentleduck primitive is **larger** than a competitor (like Radio Group at 1.9 KB vs Radix at 1.0 KB), it's because the competitor either:
+
+1. **Delegates to separate packages**  -  Radix splits focus, dismissal, and collection into internal packages. Each looks small, but install 5 primitives and you pay the overhead 5 times.
+2. **Omits the behavior entirely**  -  Base UI and Headless UI skip compound components, roving focus, and presence animations. You write that code yourself.
+3. **Uses external state machines**  -  Ark UI offloads to xstate/zag.js, which adds ~15 KB of runtime not counted in the component size.
+
+The honest comparison is **total application cost**: primitive size + the code you write to fill the gaps. gentleduck trades a few hundred bytes of primitive size for thousands of lines you never need to write.
 
 ---
 

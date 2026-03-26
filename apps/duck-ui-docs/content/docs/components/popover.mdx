@@ -133,10 +133,10 @@ Style the trigger to appear active while the popover is open using `data-[state=
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children` | `React.ReactNode` | `--` | Popover sub-components (`PopoverTrigger`, `PopoverContent`) |
-| `defaultOpen` | `boolean` | `--` | Initial open state for uncontrolled usage |
-| `open` | `boolean` | `--` | Controlled open state |
-| `onOpenChange` | `(open: boolean) => void` | `--` | Callback when open state changes |
+| `children` | `React.ReactNode` | `-` | Popover sub-components (`PopoverTrigger`, `PopoverContent`) |
+| `defaultOpen` | `boolean` | `-` | Initial open state for uncontrolled usage |
+| `open` | `boolean` | `-` | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | `-` | Callback when open state changes |
 | `modal` | `boolean` | `false` | Enables modal focus/interaction behavior |
 | `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>` | - | Additional props inherited from `Popover.Root`. |
@@ -152,7 +152,7 @@ Style the trigger to appear active while the popover is open using `data-[state=
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `forceMount` | `boolean` | `--` | Keep content mounted for animation control |
+| `forceMount` | `boolean` | `-` | Keep content mounted for animation control |
 | `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'bottom'` | Preferred side relative to the trigger |
 | `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment on the chosen side |
 | `sideOffset` | `number` | `4` | Main-axis offset from trigger |
