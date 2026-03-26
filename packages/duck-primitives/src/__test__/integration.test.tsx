@@ -25,7 +25,7 @@ import { ToggleGroup, ToggleGroupItem } from '../toggle-group'
 // 1. Dialog full lifecycle
 // ---------------------------------------------------------------------------
 
-describe('Dialog full lifecycle', { timeout: 15000 }, () => {
+describe('Dialog full lifecycle', () => {
   function renderFullDialog(props: Record<string, unknown> = {}) {
     return render(
       <Dialog {...props}>
@@ -42,7 +42,7 @@ describe('Dialog full lifecycle', { timeout: 15000 }, () => {
     )
   }
 
-  it('clicking trigger opens dialog and content appears', () => {
+  it('clicking trigger opens dialog and content appears', { timeout: 15000 }, () => {
     const { container, baseElement } = renderFullDialog()
     const trigger = container.querySelector('[data-slot="dialog-trigger"]')!
 
