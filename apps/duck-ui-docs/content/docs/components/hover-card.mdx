@@ -102,9 +102,9 @@ Root wrapper that provides hover-card state and context. Wraps `HoverCardPrimiti
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `open` | `boolean` | `--` | Controlled open state |
-| `onOpenChange` | `(open: boolean) => void` | `--` | Callback when open state changes |
-| `defaultOpen` | `boolean` | `--` | Initial open state for uncontrolled usage |
+| `open` | `boolean` | `-` | Controlled open state |
+| `onOpenChange` | `(open: boolean) => void` | `-` | Callback when open state changes |
+| `defaultOpen` | `boolean` | `-` | Initial open state for uncontrolled usage |
 | `openDelay` | `number` | `700` | Delay before opening on hover/focus |
 | `closeDelay` | `number` | `300` | Delay before closing on pointer leave/blur |
 | `delayDuration` | `number` | - | Alias for `openDelay`. If both are provided, `openDelay` takes precedence |
@@ -133,9 +133,9 @@ The content displayed when the hover card is open. Wraps `HoverCardPrimitive.Con
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `--` | Additional CSS classes to apply to the content container |
-| `children` | `React.ReactNode` | `--` | Content rendered inside the hover card |
-| `forceMount` | `boolean` | `--` | Keep content mounted for animation control |
+| `className` | `string` | `-` | Additional CSS classes to apply to the content container |
+| `children` | `React.ReactNode` | `-` | Content rendered inside the hover card |
+| `forceMount` | `boolean` | `-` | Keep content mounted for animation control |
 | `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` | Preferred side relative to the trigger. Defaults to the `placement` value from `HoverCard` |
 | `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment on the chosen side |
 | `sideOffset` | `number` | `4` | Main-axis offset from trigger |
