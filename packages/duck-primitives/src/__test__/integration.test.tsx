@@ -55,7 +55,7 @@ describe('Dialog full lifecycle', () => {
     expect(trigger.getAttribute('data-state')).toBe('open')
     expect(trigger.getAttribute('aria-expanded')).toBe('true')
     expect(baseElement.querySelector('[role="dialog"]')).not.toBeNull()
-  }, 15000)
+  })
 
   it('content has correct ARIA linking to title and description', () => {
     const { baseElement } = renderFullDialog({ defaultOpen: true })
