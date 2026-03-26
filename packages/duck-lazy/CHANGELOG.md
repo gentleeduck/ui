@@ -1,5 +1,11 @@
 # @gentleduck/lazy
 
+## 1.2.15
+
+### Patch Changes
+
+- 32d0136: fix: update React peer dependency to >=18.0.0 (was ^19.2.4)
+
 ## 1.2.14
 
 ### Patch Changes

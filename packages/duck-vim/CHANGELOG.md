@@ -1,5 +1,11 @@
 # @gentleduck/vim
 
+## 0.1.18
+
+### Patch Changes
+
+- 32d0136: fix: use optional chain in parser for biome lint compliance
+
 ## 0.1.17
 
 ### Patch Changes
