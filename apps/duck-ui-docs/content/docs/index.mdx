@@ -108,17 +108,17 @@ who gives a damn, welcome home.
 
 @gentleduck/ui is the component layer, but it sits on top of a stack we built ourselves:
 
-- **@gentleduck/primitives** — headless, a11y-first building blocks (our own, not Radix)
-- **@gentleduck/calendar** — headless calendar engine with pluggable date adapters
-- **@gentleduck/vim** — keyboard command system for complex shortcuts
-- **@gentleduck/variants** — cva()-based variant API for styling
-- **@gentleduck/motion** — animation tokens with reduced-motion support
-- **@gentleduck/state** — atom-based state management
-- **@gentleduck/cli** — scaffolding and component installation
-- **@gentleduck/hooks** — shared React utility hooks
-- **@gentleduck/libs** — cn(), general utilities
+- **@gentleduck/primitives** — 35 headless, a11y-first primitives. 50-92% smaller than Radix because shared internals load once. [Benchmarks](/docs/packages/duck-primitives/benchmarks).
+- **@gentleduck/calendar** — headless calendar engine. ~5 KB gzipped, 0 dependencies, 4 calendar systems (Gregorian, Islamic, Persian, Hebrew), 7 date adapters. [Benchmarks](/docs/packages/duck-calendar/benchmarks).
+- **@gentleduck/vim** — keyboard command system. Key bindings, multi-key sequences, macro recording, platform-aware formatting.
+- **@gentleduck/variants** — cva() with memoization. Same API as class-variance-authority, cached results for repeated calls.
+- **@gentleduck/motion** — animation tokens with automatic reduced-motion support.
+- **@gentleduck/state** — atom-based state management.
+- **@gentleduck/cli** — init, add, diff, update, remove, list. Interactive merge TUI with hunk-by-hunk resolution.
+- **@gentleduck/hooks** — shared React utility hooks.
+- **@gentleduck/libs** — cn(), general utilities.
 
-When existing solutions didn't cut it, we rebuilt them. The pieces are designed to work together, but each package stands on its own too.
+57 styled components. 6 block categories. Compatible with the shadcn ecosystem - same component structure, same Tailwind approach. [Full comparison](/docs/comparisons/vs-shadcn).
 
 ---
 
