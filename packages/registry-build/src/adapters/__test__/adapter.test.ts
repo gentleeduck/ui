@@ -1,16 +1,16 @@
 import { describe, expect, test } from 'bun:test'
-import {
-  getComponentIndexAdapter,
-  createNextjsComponentImport,
-  createViteComponentImport,
-  createComponentIndexEntry,
-  NEXTJS_COMPONENT_INDEX_HEADER,
-  VITE_COMPONENT_INDEX_HEADER,
-} from '../..'
 import type {
   RegistryBuildComponentIndexAdapter,
-  RegistryBuildComponentIndexImportOptions,
   RegistryBuildComponentIndexEntryOptions,
+  RegistryBuildComponentIndexImportOptions,
+} from '../..'
+import {
+  createComponentIndexEntry,
+  createNextjsComponentImport,
+  createViteComponentImport,
+  getComponentIndexAdapter,
+  NEXTJS_COMPONENT_INDEX_HEADER,
+  VITE_COMPONENT_INDEX_HEADER,
 } from '../..'
 
 describe('getComponentIndexAdapter', () => {
@@ -422,9 +422,7 @@ describe('createComponentIndexEntry with rich items', () => {
       source: 'https://github.com/example/combobox',
       categories: ['forms', 'inputs', 'autocomplete'],
       registryDependencies: ['popover', 'command', 'badge'],
-      files: [
-        { path: 'components/ui/combobox.tsx', type: 'registry:ui' as const },
-      ],
+      files: [{ path: 'components/ui/combobox.tsx', type: 'registry:ui' as const }],
       dependencies: ['cmdk'],
       devDependencies: ['@types/cmdk'],
     }

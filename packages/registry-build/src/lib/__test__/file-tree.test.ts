@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test'
-import { createRegistryFileTree } from '../file-tree'
 import type { RegistryFileTreeNode } from '../file-tree'
+import { createRegistryFileTree } from '../file-tree'
 
 describe('createRegistryFileTree', () => {
   test('returns empty array for empty input', () => {

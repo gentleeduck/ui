@@ -184,8 +184,12 @@ describe('RadioGroup', () => {
   it('renders hidden radio input for form submission when name is set', () => {
     const { container } = render(
       <RadioGroup name="color" defaultValue="red">
-        <RadioGroupItem value="red"><RadioGroupIndicator /></RadioGroupItem>
-        <RadioGroupItem value="blue"><RadioGroupIndicator /></RadioGroupItem>
+        <RadioGroupItem value="red">
+          <RadioGroupIndicator />
+        </RadioGroupItem>
+        <RadioGroupItem value="blue">
+          <RadioGroupIndicator />
+        </RadioGroupItem>
       </RadioGroup>,
     )
     const hiddenInputs = container.querySelectorAll('input[type="radio"][aria-hidden]')
@@ -195,8 +199,12 @@ describe('RadioGroup', () => {
   it('hidden inputs have correct name and value', () => {
     const { container } = render(
       <RadioGroup name="fruit" defaultValue="apple">
-        <RadioGroupItem value="apple"><RadioGroupIndicator /></RadioGroupItem>
-        <RadioGroupItem value="banana"><RadioGroupIndicator /></RadioGroupItem>
+        <RadioGroupItem value="apple">
+          <RadioGroupIndicator />
+        </RadioGroupItem>
+        <RadioGroupItem value="banana">
+          <RadioGroupIndicator />
+        </RadioGroupItem>
       </RadioGroup>,
     )
     const inputs = container.querySelectorAll('input[type="radio"]')
@@ -210,8 +218,12 @@ describe('RadioGroup', () => {
   it('disabled item has disabled attribute on button', () => {
     const { container } = render(
       <RadioGroup>
-        <RadioGroupItem value="a" disabled><RadioGroupIndicator /></RadioGroupItem>
-        <RadioGroupItem value="b"><RadioGroupIndicator /></RadioGroupItem>
+        <RadioGroupItem value="a" disabled>
+          <RadioGroupIndicator />
+        </RadioGroupItem>
+        <RadioGroupItem value="b">
+          <RadioGroupIndicator />
+        </RadioGroupItem>
       </RadioGroup>,
     )
     const items = container.querySelectorAll('[role="radio"]')

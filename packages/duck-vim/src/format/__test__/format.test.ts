@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { LABEL_MAP, SYMBOL_MAP, formatForDisplay, formatWithLabels } from '../format'
+import { formatForDisplay, formatWithLabels, LABEL_MAP, SYMBOL_MAP } from '../format'
 
 describe('format', () => {
   describe('formatForDisplay', () => {
@@ -237,9 +237,7 @@ describe('format', () => {
     })
 
     it('formats all 4 modifiers with label on windows', () => {
-      expect(formatWithLabels('ctrl+shift+alt+meta+k', { platform: 'windows' })).toBe(
-        'Alt + Ctrl + Win + Shift + K',
-      )
+      expect(formatWithLabels('ctrl+shift+alt+meta+k', { platform: 'windows' })).toBe('Alt + Ctrl + Win + Shift + K')
     })
 
     it('does not expand F-keys (no LABEL_MAP entry)', () => {

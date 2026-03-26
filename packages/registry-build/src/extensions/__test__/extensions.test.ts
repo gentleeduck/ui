@@ -1,18 +1,22 @@
 import { describe, expect, test } from 'bun:test'
+import { uiRegistryPreset } from '../../config/presets/ui-registry.preset'
 import { bannerExtension } from '../banner'
 import { colorsExtension } from '../colors'
 import { componentIndexExtension } from '../component-index'
 import type { RegistryBuildExtension, RegistryBuildExtensionStage } from '../extension'
 import { componentsExtension, indexBuildExtension } from '../ui/ui.extensions'
 import { validateExtension } from '../validate'
-import { uiRegistryPreset } from '../../config/presets/ui-registry.preset'
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
 
 /** Assert the structural contract every extension must satisfy. */
-function assertExtensionShape(ext: RegistryBuildExtension, expectedName: string, expectedStage: RegistryBuildExtensionStage) {
+function assertExtensionShape(
+  ext: RegistryBuildExtension,
+  expectedName: string,
+  expectedStage: RegistryBuildExtensionStage,
+) {
   expect(ext).toBeDefined()
   expect(typeof ext.name).toBe('string')
   expect(ext.name).toBe(expectedName)
