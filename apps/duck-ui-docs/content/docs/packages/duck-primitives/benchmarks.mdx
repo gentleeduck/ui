@@ -1,6 +1,6 @@
 ---
 title: "Benchmarks"
-description: "Full comparison of @gentleduck/primitives against Radix UI, Base UI, Ark UI, and Headless UI  -  bundle size, component count, features, and architecture."
+description: "Full comparison of @gentleduck/primitives against Radix UI, Base UI, Ark UI, and Headless UI - bundle size, component count, features, and architecture."
 ---
 
 All gentleduck sizes are measured from the built `dist/` output via `gzip -c | wc -c`. Radix sizes are verified via the [bundlephobia.com](https://bundlephobia.com) API on 2026-03-22. Only verified data is included.
@@ -24,7 +24,7 @@ Run `bun run benchmark` in `packages/duck-primitives` to regenerate.
 | **Calendar** | Yes (4 systems) | No | No | No | No |
 | **Command palette** | Yes (cmdk-based) | No (separate cmdk) | No | No | No |
 | **RTL / i18n** | Direction primitive | Direction primitive | RTL prop | Locale context | No |
-| **React version** | 19+ | 18+ | 18+ | 18+ | 18+ |
+| **React version** | 18+ | 18+ | 18+ | 18+ | 18+ |
 | **License** | MIT | MIT | MIT | MIT | MIT |
 
 ---
@@ -38,26 +38,26 @@ Which primitives each library ships:
 | Accordion | Yes | Yes | Yes | Yes | - |
 | Alert Dialog | Yes | Yes | - | Yes | - |
 | Avatar | Yes | Yes | - | Yes | - |
-| Calendar | Yes | - |  -  | - |  -  |
+| Calendar | Yes | - | - | - | - |
 | Checkbox | Yes | Yes | Yes | Yes | - |
 | Collapsible | Yes | Yes | Yes | Yes | - |
-| Color Picker | - |  -  | - | Yes | - |
-| Combobox | - |  -  | - | Yes | Yes |
-| Command | Yes | - |  -  | - |  -  |
+| Color Picker | - | - | - | Yes | - |
+| Combobox | - | - | - | Yes | Yes |
+| Command | Yes | - | - | - | - |
 | Context Menu | Yes | Yes | - | Yes | - |
 | Dialog | Yes | Yes | Yes | Yes | Yes |
 | Dropdown Menu | Yes | Yes | Yes | Yes | Yes |
 | Hover Card | Yes | Yes | - | Yes | - |
-| Input OTP | Yes | - |  -  | - |  -  |
+| Input OTP | Yes | - | - | - | - |
 | Menu | Yes | - | Yes | - | Yes |
-| Menubar | Yes | Yes | - |  -  | - |
-| Navigation Menu | Yes | Yes | - |  -  | - |
+| Menubar | Yes | Yes | - | - | - |
+| Navigation Menu | Yes | Yes | - | - | - |
 | Pagination | Yes | - | Yes | Yes | - |
 | Popover | Yes | Yes | Yes | Yes | Yes |
 | Progress | Yes | Yes | Yes | Yes | - |
 | Radio Group | Yes | Yes | Yes | Yes | Yes |
 | Select | Yes | Yes | Yes | Yes | Yes |
-| Sheet | Yes | - |  -  | - |  -  |
+| Sheet | Yes | - | - | - | - |
 | Slider | Yes | Yes | Yes | Yes | - |
 | Switch | Yes | Yes | Yes | Yes | Yes |
 | Tabs | - | Yes | Yes | Yes | Yes |
@@ -90,7 +90,7 @@ Per-component gzipped size (verified via bundlephobia API, 15 components with da
 
 <Callout icon={<Lightbulb />}>
 
-**Radio Group** is one case where Radix is smaller (1.0 KB vs 1.9 KB). The extra size comes from built-in roving focus, arrow-key navigation, and collection management that gentleduck bakes into the primitive. Radix Radio Group delegates some of this to separate internal packages, which appear smaller per-component but add up across your full install. We show honest numbers  -  not every primitive is smaller in isolation.
+**Radio Group** is one case where Radix is smaller (1.0 KB vs 1.9 KB). We show honest numbers - not every primitive is smaller.
 
 </Callout>
 
@@ -124,7 +124,7 @@ Every primitive from both libraries, side by side. 0 KB means the library does n
 | **Focus scope** | Built-in | Built-in | No | Built-in | No |
 | **Dismissable layer** | Built-in | Built-in | Click away | Built-in | No |
 | **Direction (RTL)** | Primitive | Primitive | Prop | Context | No |
-| **Calendar system** | 4 (Gregorian, Islamic, Persian, Hebrew) | - |  -  | - |  -  |
+| **Calendar system** | 4 (Gregorian, Islamic, Persian, Hebrew) | - | - | - | - |
 | **Roving focus** | Built-in | Built-in | No | Built-in | No |
 | **Collection** | Built-in | Built-in | No | No | No |
 | **Tree-shakeable** | Yes | Yes | Yes | Yes | Yes |
@@ -161,36 +161,35 @@ The honest comparison is **total application cost**: primitive size + the code y
 
 ### gentleduck wins on
 
-- **Bundle size**  -  50-92% smaller than Radix for most components due to shared internals
-- **Component count**  -  35+ primitives including Calendar, Command, Sheet, Input OTP that others don't ship
-- **Single package**  -  no dependency management across 28+ separate packages
-- **Calendar**  -  only headless library with a multi-calendar-system primitive
-- **Source ownership**  -  primitives live in your monorepo, not in node_modules
+- **Bundle size** - 50-92% smaller than Radix for most components due to shared internals
+- **Component count** - 35+ primitives including Calendar, Command, Sheet, Input OTP that others don't ship
+- **Single package** - no dependency management across 28+ separate packages
+- **Calendar** - only headless library with a multi-calendar-system primitive
+- **Source ownership** - primitives live in your monorepo, not in node_modules
 
 ### Radix wins on
 
-- **Maturity**  -  battle-tested in production at thousands of companies
-- **Ecosystem**  -  shadcn/ui, Vercel, and many design systems are built on Radix
-- **React 18 support**  -  gentleduck requires React 19
-- **Radio Group size**  -  1.0 KB vs 1.9 KB (one case where Radix is lighter)
-- **Tabs**  -  gentleduck doesn't ship a Tabs primitive yet
+- **Maturity** - battle-tested in production at thousands of companies, years of trust at scale
+- **Ecosystem** - shadcn/ui, Vercel, and many design systems are built on Radix
+- **Radio Group size** - 1.0 KB vs 1.9 KB (one case where Radix is lighter)
+- **Tabs** - gentleduck doesn't ship a Tabs primitive yet
 
 ### Base UI wins on
 
-- **Per-component size**  -  some components are slightly smaller because they skip compound-component overhead
-- **No compound pattern overhead**  -  simpler render-prop API can be lighter for basic use cases
-- **Google backing**  -  part of the MUI ecosystem
+- **Per-component size** - some components are slightly smaller because they skip compound-component overhead
+- **No compound pattern overhead** - simpler render-prop API can be lighter for basic use cases
+- **Google backing** - part of the MUI ecosystem
 
 ### Ark UI wins on
 
-- **State machines**  -  xstate/zag.js gives deterministic state transitions, useful for complex interactions
-- **Color Picker**  -  ships a color picker primitive others don't have
-- **Combobox**  -  dedicated combobox primitive (gentleduck uses Command instead)
+- **State machines** - xstate/zag.js gives deterministic state transitions, useful for complex interactions
+- **Color Picker** - ships a color picker primitive others don't have
+- **Combobox** - dedicated combobox primitive (gentleduck uses Command instead)
 
 ### Headless UI wins on
 
-- **Smallest total size**  -  ~35 KB for all components, but only 10 components
-- **Tailwind integration**  -  class-based API designed specifically for Tailwind CSS
+- **Smallest total size** - ~35 KB for all components, but only 10 components
+- **Tailwind integration** - class-based API designed specifically for Tailwind CSS
 
 ---
 

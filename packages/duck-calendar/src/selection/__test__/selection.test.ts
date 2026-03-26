@@ -465,4 +465,378 @@ describe('selection', () => {
       expect(mar10.isSelected).toBe(false)
     })
   })
+
+  // ---------------------------------------------------------------------------
+  // selectDay / range  -  edge cases
+  // ---------------------------------------------------------------------------
+  describe('selectDay / range  -  edge cases', () => {
+    it('range with same start and end date has no middle days', () => {
+      const partial: DateRange<Date> = { from: adapter.create(2026, 2, 15), to: null }
+      const result = selectDay(adapter, 'range', partial, adapter.create(2026, 2, 15))
+      // Clicking the same date as from deselects
+      expect(result).toBeNull()
+    })
+
+    it('2nd click on same day as from (with complete range) resets to new from', () => {
+      const complete: DateRange<Date> = {
+        from: adapter.create(2026, 2, 10),
+        to: adapter.create(2026, 2, 20),
+      }
+      const result = selectDay(adapter, 'range', complete, adapter.create(2026, 2, 10)) as DateRange<Date>
+      // When range is complete, any click resets to a new from
+      expect(adapter.isSameDay(result.from, adapter.create(2026, 2, 10))).toBe(true)
+      expect(result.to).toBeNull()
+    })
+
+    it('range crossing month boundary (March -> April)', () => {
+      const partial: DateRange<Date> = { from: adapter.create(2026, 2, 28), to: null }
+      const result = selectDay(adapter, 'range', partial, adapter.create(2026, 3, 5)) as DateRange<Date>
+      expect(adapter.isSameDay(result.from, adapter.create(2026, 2, 28))).toBe(true)
+      expect(adapter.isSameDay(result.to!, adapter.create(2026, 3, 5))).toBe(true)
+    })
+
+    it('range crossing year boundary (Dec 2025 -> Jan 2026)', () => {
+      const partial: DateRange<Date> = { from: adapter.create(2025, 11, 28), to: null }
+      const result = selectDay(adapter, 'range', partial, adapter.create(2026, 0, 5)) as DateRange<Date>
+      expect(result.from.getFullYear()).toBe(2025)
+      expect(result.to!.getFullYear()).toBe(2026)
+    })
+
+    it('creating a single-day range via applySelection sets both start and end', () => {
+      const grid = buildCalendarMonth(adapter, march2026, baseConfig)
+      const selected: DateRange<Date> = {
+        from: adapter.create(2026, 2, 15),
+        to: adapter.create(2026, 2, 15),
+      }
+      const result = applySelection(grid.weeks, adapter, 'range', selected)
+      const allDays = result.flatMap((w) => w.days)
+      const day15 = allDays.find((d) => adapter.isSameDay(d.date, adapter.create(2026, 2, 15)))!
+      expect(day15.isRangeStart).toBe(true)
+      expect(day15.isRangeEnd).toBe(true)
+      expect(day15.isSelected).toBe(true)
+      expect(day15.isRangeMiddle).toBe(false)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // selectDay / single  -  edge cases
+  // ---------------------------------------------------------------------------
+  describe('selectDay / single  -  edge cases', () => {
+    it('selecting null then clicking returns a date (not wrapped)', () => {
+      const result = selectDay(adapter, 'single', null, adapter.create(2026, 0, 1))
+      expect(result).not.toBeNull()
+      expect((result as Date).getFullYear()).toBe(2026)
+    })
+
+    it('selecting a date then selecting the same date twice returns null', () => {
+      const date = adapter.create(2026, 2, 15)
+      let result = selectDay(adapter, 'single', null, date)
+      result = selectDay(adapter, 'single', result as Date, date)
+      expect(result).toBeNull()
+    })
+
+    it('rapidly replacing selections always holds the last clicked date', () => {
+      let current: Date | null = null
+      for (let day = 1; day <= 15; day++) {
+        current = selectDay(adapter, 'single', current, adapter.create(2026, 2, day)) as Date
+      }
+      expect(adapter.isSameDay(current!, adapter.create(2026, 2, 15))).toBe(true)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // selectDay / multi  -  edge cases
+  // ---------------------------------------------------------------------------
+  describe('selectDay / multi  -  edge cases', () => {
+    it('toggling all dates off returns empty array', () => {
+      let current = [adapter.create(2026, 2, 1), adapter.create(2026, 2, 2)]
+      current = selectDay(adapter, 'multi', current, adapter.create(2026, 2, 1)) as Date[]
+      current = selectDay(adapter, 'multi', current, adapter.create(2026, 2, 2)) as Date[]
+      expect(current).toHaveLength(0)
+    })
+
+    it('adding many dates (31 days) works correctly', () => {
+      let current: Date[] = []
+      for (let day = 1; day <= 31; day++) {
+        current = selectDay(adapter, 'multi', current, adapter.create(2026, 2, day)) as Date[]
+      }
+      expect(current).toHaveLength(31)
+    })
+
+    it('removing a date from the middle preserves other dates in order', () => {
+      const existing = [adapter.create(2026, 2, 5), adapter.create(2026, 2, 10), adapter.create(2026, 2, 15)]
+      const result = selectDay(adapter, 'multi', existing, adapter.create(2026, 2, 10)) as Date[]
+      expect(result).toHaveLength(2)
+      expect(adapter.isSameDay(result[0]!, adapter.create(2026, 2, 5))).toBe(true)
+      expect(adapter.isSameDay(result[1]!, adapter.create(2026, 2, 15))).toBe(true)
+    })
+
+    it('selecting with empty array (null-like start) works', () => {
+      const result = selectDay(adapter, 'multi', [], adapter.create(2026, 2, 1)) as Date[]
+      expect(result).toHaveLength(1)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // isInRange  -  edge cases
+  // ---------------------------------------------------------------------------
+  describe('isInRange / edge cases', () => {
+    it('single-day range (from === to) includes that day', () => {
+      const range: DateRange<Date> = {
+        from: adapter.create(2026, 2, 15),
+        to: adapter.create(2026, 2, 15),
+      }
+      expect(isInRange(adapter, adapter.create(2026, 2, 15), range)).toBe(true)
+    })
+
+    it('single-day range excludes adjacent days', () => {
+      const range: DateRange<Date> = {
+        from: adapter.create(2026, 2, 15),
+        to: adapter.create(2026, 2, 15),
+      }
+      expect(isInRange(adapter, adapter.create(2026, 2, 14), range)).toBe(false)
+      expect(isInRange(adapter, adapter.create(2026, 2, 16), range)).toBe(false)
+    })
+
+    it('range spanning month boundary', () => {
+      const range: DateRange<Date> = {
+        from: adapter.create(2026, 2, 28),
+        to: adapter.create(2026, 3, 5),
+      }
+      expect(isInRange(adapter, adapter.create(2026, 2, 31), range)).toBe(true)
+      expect(isInRange(adapter, adapter.create(2026, 3, 1), range)).toBe(true)
+      expect(isInRange(adapter, adapter.create(2026, 2, 27), range)).toBe(false)
+      expect(isInRange(adapter, adapter.create(2026, 3, 6), range)).toBe(false)
+    })
+
+    it('range spanning year boundary', () => {
+      const range: DateRange<Date> = {
+        from: adapter.create(2025, 11, 25),
+        to: adapter.create(2026, 0, 5),
+      }
+      expect(isInRange(adapter, adapter.create(2025, 11, 31), range)).toBe(true)
+      expect(isInRange(adapter, adapter.create(2026, 0, 1), range)).toBe(true)
+      expect(isInRange(adapter, adapter.create(2025, 11, 24), range)).toBe(false)
+    })
+
+    it('very large range (entire year)', () => {
+      const range: DateRange<Date> = {
+        from: adapter.create(2026, 0, 1),
+        to: adapter.create(2026, 11, 31),
+      }
+      expect(isInRange(adapter, adapter.create(2026, 5, 15), range)).toBe(true)
+      expect(isInRange(adapter, adapter.create(2025, 11, 31), range)).toBe(false)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // isDateDisabled  -  edge cases
+  // ---------------------------------------------------------------------------
+  describe('isDateDisabled / edge cases', () => {
+    it('both fromDate and toDate constrain to a window', () => {
+      const constraints = {
+        fromDate: adapter.create(2026, 2, 10),
+        toDate: adapter.create(2026, 2, 20),
+      }
+      expect(isDateDisabled(adapter, adapter.create(2026, 2, 9), constraints)).toBe(true)
+      expect(isDateDisabled(adapter, adapter.create(2026, 2, 10), constraints)).toBe(false)
+      expect(isDateDisabled(adapter, adapter.create(2026, 2, 15), constraints)).toBe(false)
+      expect(isDateDisabled(adapter, adapter.create(2026, 2, 20), constraints)).toBe(false)
+      expect(isDateDisabled(adapter, adapter.create(2026, 2, 21), constraints)).toBe(true)
+    })
+
+    it('disabled predicate + fromDate + toDate all apply', () => {
+      const constraints = {
+        disabled: (d: Date) => d.getDay() === 0, // disable Sundays
+        fromDate: adapter.create(2026, 2, 10),
+        toDate: adapter.create(2026, 2, 20),
+      }
+      // Mar 15 2026 is Sunday, within date window but disabled by predicate
+      expect(isDateDisabled(adapter, adapter.create(2026, 2, 15), constraints)).toBe(true)
+      // Mar 16 2026 is Monday, within window and not a Sunday
+      expect(isDateDisabled(adapter, adapter.create(2026, 2, 16), constraints)).toBe(false)
+      // Mar 9 is before fromDate
+      expect(isDateDisabled(adapter, adapter.create(2026, 2, 9), constraints)).toBe(true)
+    })
+
+    it('empty disabled array does not disable anything', () => {
+      const constraints = { disabled: [] as Date[] }
+      expect(isDateDisabled(adapter, adapter.create(2026, 2, 15), constraints)).toBe(false)
+    })
+
+    it('disabled predicate that always returns false disables nothing', () => {
+      const constraints = { disabled: () => false }
+      expect(isDateDisabled(adapter, adapter.create(2026, 2, 15), constraints)).toBe(false)
+    })
+
+    it('disabled predicate that always returns true disables everything', () => {
+      const constraints = { disabled: () => true }
+      expect(isDateDisabled(adapter, adapter.create(2026, 2, 15), constraints)).toBe(true)
+      expect(isDateDisabled(adapter, adapter.create(2026, 0, 1), constraints)).toBe(true)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // applySelection  -  edge cases
+  // ---------------------------------------------------------------------------
+  describe('applySelection / edge cases', () => {
+    it('single mode with null selection marks nothing as selected', () => {
+      const grid = buildCalendarMonth(adapter, march2026, baseConfig)
+      const result = applySelection(grid.weeks, adapter, 'single', null)
+      const allDays = result.flatMap((w) => w.days)
+      expect(allDays.every((d) => !d.isSelected)).toBe(true)
+    })
+
+    it('multi mode with empty array marks nothing as selected', () => {
+      const grid = buildCalendarMonth(adapter, march2026, baseConfig)
+      const result = applySelection(grid.weeks, adapter, 'multi', [])
+      const allDays = result.flatMap((w) => w.days)
+      expect(allDays.every((d) => !d.isSelected)).toBe(true)
+    })
+
+    it('multi-range mode with empty array marks nothing', () => {
+      const grid = buildCalendarMonth(adapter, march2026, baseConfig)
+      const result = applySelection(grid.weeks, adapter, 'multi-range', [])
+      const allDays = result.flatMap((w) => w.days)
+      expect(allDays.every((d) => !d.isSelected && !d.isRangeStart && !d.isRangeEnd && !d.isRangeMiddle)).toBe(true)
+    })
+
+    it('disabled constraint + range selection: disabled days are marked but range flags still apply', () => {
+      const grid = buildCalendarMonth(adapter, march2026, baseConfig)
+      const selected: DateRange<Date> = {
+        from: adapter.create(2026, 2, 10),
+        to: adapter.create(2026, 2, 20),
+      }
+      const constraints = { disabled: [adapter.create(2026, 2, 15)] }
+      const result = applySelection(grid.weeks, adapter, 'range', selected, constraints)
+      const allDays = result.flatMap((w) => w.days)
+
+      const day15 = allDays.find((d) => adapter.isSameDay(d.date, adapter.create(2026, 2, 15)))!
+      // Day 15 is disabled AND in the middle of the range
+      expect(day15.isDisabled).toBe(true)
+      expect(day15.isRangeMiddle).toBe(true)
+    })
+
+    it('toDate constraint disables all days after the boundary', () => {
+      const grid = buildCalendarMonth(adapter, march2026, baseConfig)
+      const result = applySelection(grid.weeks, adapter, 'single', null, {
+        toDate: adapter.create(2026, 2, 15),
+      })
+      const allDays = result.flatMap((w) => w.days).filter((d) => !d.isOutside)
+      const disabled = allDays.filter((d) => d.isDisabled)
+      // Days 16-31 should be disabled = 16 days
+      expect(disabled.length).toBe(16)
+    })
+
+    it('fromDate + toDate constraining to single day leaves only that day enabled', () => {
+      const grid = buildCalendarMonth(adapter, march2026, baseConfig)
+      const onlyDay = adapter.create(2026, 2, 15)
+      const result = applySelection(grid.weeks, adapter, 'single', null, {
+        fromDate: onlyDay,
+        toDate: onlyDay,
+      })
+      const inMonth = result.flatMap((w) => w.days).filter((d) => !d.isOutside)
+      const enabled = inMonth.filter((d) => !d.isDisabled)
+      expect(enabled).toHaveLength(1)
+      expect(adapter.isSameDay(enabled[0]!.date, onlyDay)).toBe(true)
+    })
+
+    it('applySelection preserves week structure (same number of weeks and days per week)', () => {
+      const grid = buildCalendarMonth(adapter, march2026, baseConfig)
+      const result = applySelection(grid.weeks, adapter, 'single', adapter.create(2026, 2, 15))
+      expect(result).toHaveLength(grid.weeks.length)
+      for (let i = 0; i < result.length; i++) {
+        expect(result[i]!.days).toHaveLength(7)
+        expect(result[i]!.weekNumber).toBe(grid.weeks[i]!.weekNumber)
+      }
+    })
+
+    it('selecting an outside day in single mode still marks it as selected', () => {
+      // Jan 2026 starts on Thursday, so Sun-Wed are outside (December 2025)
+      const jan2026 = new Date(2026, 0, 1)
+      const grid = buildCalendarMonth(adapter, jan2026, baseConfig)
+      const outsideDay = grid.weeks[0]!.days[0]! // A December day
+      expect(outsideDay.isOutside).toBe(true)
+      const result = applySelection(grid.weeks, adapter, 'single', outsideDay.date)
+      const allDays = result.flatMap((w) => w.days)
+      const selected = allDays.filter((d) => d.isSelected)
+      expect(selected).toHaveLength(1)
+      expect(selected[0]!.isOutside).toBe(true)
+    })
+  })
+
+  // ---------------------------------------------------------------------------
+  // selectDay / multi-range  -  additional edge cases
+  // ---------------------------------------------------------------------------
+  describe('selectDay / multi-range  -  additional edge cases', () => {
+    it('shift+click outside any range does nothing', () => {
+      const ranges: DateRange<Date>[] = [{ from: new Date(2026, 2, 1), to: new Date(2026, 2, 10) }]
+      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 20), {
+        shiftKey: true,
+      }) as DateRange<Date>[]
+      expect(result).toHaveLength(1)
+      expect(result[0]!.from.getDate()).toBe(1)
+      expect(result[0]!.to!.getDate()).toBe(10)
+    })
+
+    it('shift+click on in-progress range (to=null) does nothing', () => {
+      const ranges: DateRange<Date>[] = [{ from: new Date(2026, 2, 5), to: null }]
+      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 5), {
+        shiftKey: true,
+      }) as DateRange<Date>[]
+      // In-progress ranges are skipped in shift+click logic
+      expect(result).toHaveLength(1)
+      expect(result[0]!.to).toBeNull()
+    })
+
+    it('completing a range that overlaps existing range triggers merge', () => {
+      let ranges: DateRange<Date>[] = [{ from: new Date(2026, 2, 5), to: new Date(2026, 2, 10) }]
+      // Start a new range overlapping
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 8)) as DateRange<Date>[]
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 15)) as DateRange<Date>[]
+      expect(ranges).toHaveLength(1)
+      expect(ranges[0]!.from.getDate()).toBe(5)
+      expect(ranges[0]!.to!.getDate()).toBe(15)
+    })
+
+    it('three non-adjacent ranges stay separate', () => {
+      let ranges: DateRange<Date>[] = []
+      // Range 1: 1-3
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 1)) as DateRange<Date>[]
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 3)) as DateRange<Date>[]
+      // Range 2: 10-12
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 10)) as DateRange<Date>[]
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 12)) as DateRange<Date>[]
+      // Range 3: 20-22
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 20)) as DateRange<Date>[]
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 22)) as DateRange<Date>[]
+      expect(ranges).toHaveLength(3)
+    })
+
+    it('cancelling an in-progress range preserves completed ranges', () => {
+      let ranges: DateRange<Date>[] = [{ from: new Date(2026, 2, 1), to: new Date(2026, 2, 5) }]
+      // Start a new range
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 20)) as DateRange<Date>[]
+      expect(ranges).toHaveLength(2)
+      // Cancel it
+      ranges = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 20)) as DateRange<Date>[]
+      expect(ranges).toHaveLength(1)
+      expect(ranges[0]!.from.getDate()).toBe(1)
+      expect(ranges[0]!.to!.getDate()).toBe(5)
+    })
+
+    it('shift+click splitting preserves other ranges', () => {
+      const ranges: DateRange<Date>[] = [
+        { from: new Date(2026, 2, 1), to: new Date(2026, 2, 5) },
+        { from: new Date(2026, 2, 10), to: new Date(2026, 2, 20) },
+      ]
+      const result = selectDay(adapter, 'multi-range', ranges, new Date(2026, 2, 15), {
+        shiftKey: true,
+      }) as DateRange<Date>[]
+      // First range preserved, second split into two
+      expect(result).toHaveLength(3)
+      expect(result[0]!.from.getDate()).toBe(1)
+      expect(result[0]!.to!.getDate()).toBe(5)
+    })
+  })
 })

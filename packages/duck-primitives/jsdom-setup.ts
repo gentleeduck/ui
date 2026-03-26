@@ -27,4 +27,27 @@ Object.assign(globalThis, {
   Text: dom.window.Text,
   HTMLCollection: dom.window.HTMLCollection,
   NodeList: dom.window.NodeList,
+  NodeFilter: dom.window.NodeFilter,
+  HTMLInputElement: dom.window.HTMLInputElement,
+  HTMLTextAreaElement: dom.window.HTMLTextAreaElement,
+  HTMLSelectElement: dom.window.HTMLSelectElement,
+  HTMLAnchorElement: dom.window.HTMLAnchorElement,
+  HTMLFormElement: dom.window.HTMLFormElement,
+  SVGElement: dom.window.SVGElement,
+  Range: dom.window.Range,
+  DOMRect: dom.window.DOMRect,
+  ResizeObserver:
+    dom.window.ResizeObserver ??
+    class ResizeObserver {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    },
+  IntersectionObserver:
+    dom.window.IntersectionObserver ??
+    class IntersectionObserver {
+      observe() {}
+      unobserve() {}
+      disconnect() {}
+    },
 })

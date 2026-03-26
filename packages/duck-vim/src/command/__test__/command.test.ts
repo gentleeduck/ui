@@ -271,3 +271,289 @@ describe('KeyHandler - enhanced features', () => {
     expect(spy).not.toHaveBeenCalled()
   })
 })
+
+describe('Registry - edge cases', () => {
+  let registry: Registry
+
+  beforeEach(() => {
+    registry = new Registry(false)
+  })
+
+  it('getCommand returns undefined for non-existent key', () => {
+    expect(registry.getCommand('ctrl+z')).toBeUndefined()
+  })
+
+  it('getEntry returns undefined for non-existent key', () => {
+    expect(registry.getEntry('ctrl+z')).toBeUndefined()
+  })
+
+  it('getOptions returns undefined for non-existent key', () => {
+    expect(registry.getOptions('ctrl+z')).toBeUndefined()
+  })
+
+  it('hasCommand returns false for non-existent key', () => {
+    expect(registry.hasCommand('ctrl+z')).toBe(false)
+  })
+
+  it('isPrefix returns false when no commands registered', () => {
+    expect(registry.isPrefix('g')).toBe(false)
+  })
+
+  it('getAllCommands returns empty map when no commands', () => {
+    expect(registry.getAllCommands().size).toBe(0)
+  })
+
+  it('clear on empty registry does not throw', () => {
+    expect(() => registry.clear()).not.toThrow()
+  })
+
+  it('allows re-registration after unregister', () => {
+    const fn1 = vi.fn()
+    const fn2 = vi.fn()
+    registry.register('k', { execute: fn1, name: 'first' })
+    registry.unregister('k')
+    registry.register('k', { execute: fn2, name: 'second' })
+    expect(registry.getCommand('k')?.name).toBe('second')
+  })
+
+  it('handle unregister is idempotent', () => {
+    const handle = registry.register('k', { execute: vi.fn(), name: 'test' })
+    handle.unregister()
+    expect(registry.hasCommand('k')).toBe(false)
+    // Second call should not throw
+    expect(() => handle.unregister()).not.toThrow()
+  })
+
+  it('setEnabled toggles and isEnabled reflects it', () => {
+    const handle = registry.register('k', { execute: vi.fn(), name: 'test' })
+    handle.setEnabled(false)
+    expect(handle.isEnabled()).toBe(false)
+    handle.setEnabled(true)
+    expect(handle.isEnabled()).toBe(true)
+  })
+
+  it('builds prefixes for multi-segment keys', () => {
+    registry.register('g+d+w', { execute: vi.fn(), name: 'deep' })
+    expect(registry.isPrefix('g')).toBe(true)
+    expect(registry.isPrefix('g+d')).toBe(true)
+    expect(registry.isPrefix('g+d+w')).toBe(true)
+  })
+
+  it('prefixes update when multiple commands share prefix and one is removed', () => {
+    registry.register('g+d', { execute: vi.fn(), name: 'gd' })
+    registry.register('g+w', { execute: vi.fn(), name: 'gw' })
+    expect(registry.isPrefix('g')).toBe(true)
+
+    registry.unregister('g+d')
+    // 'g' is still a prefix because g+w exists
+    expect(registry.isPrefix('g')).toBe(true)
+
+    registry.unregister('g+w')
+    expect(registry.isPrefix('g')).toBe(false)
+  })
+
+  it('conflict behavior allow does not warn', () => {
+    const spy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    registry.register('k', { execute: vi.fn(), name: 'first' })
+    registry.register('k', { execute: vi.fn(), name: 'second' }, { conflictBehavior: 'allow' })
+    expect(spy).not.toHaveBeenCalled()
+    spy.mockRestore()
+  })
+
+  it('debug mode logs on register and unregister', () => {
+    const debugRegistry = new Registry(true)
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
+    debugRegistry.register('k', { execute: vi.fn(), name: 'test' })
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("Registered 'k'"))
+    debugRegistry.unregister('k')
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining("Unregistered 'k'"))
+    spy.mockRestore()
+  })
+
+  it('debug mode logs on clear', () => {
+    const debugRegistry = new Registry(true)
+    const spy = vi.spyOn(console, 'log').mockImplementation(() => {})
+    debugRegistry.register('k', { execute: vi.fn(), name: 'test' })
+    debugRegistry.clear()
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('Cleared all commands'))
+    spy.mockRestore()
+  })
+})
+
+describe('KeyHandler - edge cases', () => {
+  let registry: Registry
+  let handler: KeyHandler
+  let target: HTMLElement
+
+  beforeEach(() => {
+    registry = new Registry(false)
+    target = document.createElement('div')
+    document.body.appendChild(target)
+  })
+
+  afterEach(() => {
+    handler?.detach(target)
+    if (target.parentNode) document.body.removeChild(target)
+  })
+
+  it('ignores pure modifier key presses', () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach(target)
+
+    const fn = vi.fn()
+    registry.register('k', { execute: fn, name: 'test' })
+
+    target.dispatchEvent(createTestKeyboardEvent('Shift'))
+    target.dispatchEvent(createTestKeyboardEvent('Control'))
+    target.dispatchEvent(createTestKeyboardEvent('Alt'))
+    target.dispatchEvent(createTestKeyboardEvent('Meta'))
+    expect(fn).not.toHaveBeenCalled()
+  })
+
+  it('normalizes space key in sequences', () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach(target)
+
+    const fn = vi.fn()
+    registry.register('space', { execute: fn, name: 'space-cmd' })
+    target.dispatchEvent(createTestKeyboardEvent(' '))
+    expect(fn).toHaveBeenCalled()
+  })
+
+  it('normalizes escape key in sequences', () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach(target)
+
+    const fn = vi.fn()
+    registry.register('esc', { execute: fn, name: 'esc-cmd' })
+    target.dispatchEvent(createTestKeyboardEvent('Escape'))
+    expect(fn).toHaveBeenCalled()
+  })
+
+  it('normalizes control key descriptor to ctrl', () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach(target)
+
+    const fn = vi.fn()
+    registry.register('ctrl+s', { execute: fn, name: 'save' })
+    target.dispatchEvent(createTestKeyboardEvent('s', { ctrlKey: true }))
+    expect(fn).toHaveBeenCalled()
+  })
+
+  it('skips command when ignoreInputs is set and target is input', () => {
+    handler = new KeyHandler(registry, 100)
+
+    const input = document.createElement('input')
+    input.type = 'text'
+    document.body.appendChild(input)
+    handler.attach(input)
+
+    const fn = vi.fn()
+    registry.register('k', { execute: fn, name: 'test' }, { ignoreInputs: true })
+    input.dispatchEvent(createTestKeyboardEvent('k'))
+    expect(fn).not.toHaveBeenCalled()
+
+    handler.detach(input)
+    document.body.removeChild(input)
+  })
+
+  it('handles modifier key combinations in descriptor', () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach(target)
+
+    const fn = vi.fn()
+    registry.register('ctrl+alt+shift+s', { execute: fn, name: 'complex' })
+    target.dispatchEvent(createTestKeyboardEvent('s', { ctrlKey: true, altKey: true, shiftKey: true }))
+    expect(fn).toHaveBeenCalled()
+  })
+
+  it('builds descriptor with meta modifier', () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach(target)
+
+    const fn = vi.fn()
+    registry.register('meta+s', { execute: fn, name: 'meta-save' })
+    target.dispatchEvent(createTestKeyboardEvent('s', { metaKey: true }))
+    expect(fn).toHaveBeenCalled()
+  })
+
+  it('retries last key as prefix after failed sequence', async () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach(target)
+
+    const fn = vi.fn()
+    registry.register('g+d', { execute: fn, name: 'gd' })
+
+    // 'x' is not a command or prefix, so sequence resets
+    // 'g' is then retried and becomes a prefix
+    target.dispatchEvent(createTestKeyboardEvent('x'))
+    target.dispatchEvent(createTestKeyboardEvent('g'))
+    target.dispatchEvent(createTestKeyboardEvent('d'))
+
+    await new Promise((r) => setTimeout(r, 50))
+    expect(fn).toHaveBeenCalled()
+  })
+
+  it('attach to document by default works', () => {
+    handler = new KeyHandler(registry, 100)
+    // attach() with no arguments defaults to document
+    expect(() => handler.attach()).not.toThrow()
+    handler.detach()
+  })
+
+  it('detach from document by default works', () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach()
+    expect(() => handler.detach()).not.toThrow()
+  })
+
+  it('handles F-key bindings', () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach(target)
+
+    const fn = vi.fn()
+    registry.register('f1', { execute: fn, name: 'help' })
+    target.dispatchEvent(createTestKeyboardEvent('F1'))
+    expect(fn).toHaveBeenCalled()
+  })
+
+  it('handles Tab key', () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach(target)
+
+    const fn = vi.fn()
+    registry.register('tab', { execute: fn, name: 'tab-cmd' })
+    target.dispatchEvent(createTestKeyboardEvent('Tab'))
+    expect(fn).toHaveBeenCalled()
+  })
+
+  it('handles Backspace key', () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach(target)
+
+    const fn = vi.fn()
+    registry.register('backspace', { execute: fn, name: 'backspace-cmd' })
+    target.dispatchEvent(createTestKeyboardEvent('Backspace'))
+    expect(fn).toHaveBeenCalled()
+  })
+
+  it('handles Delete key', () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach(target)
+
+    const fn = vi.fn()
+    registry.register('delete', { execute: fn, name: 'delete-cmd' })
+    target.dispatchEvent(createTestKeyboardEvent('Delete'))
+    expect(fn).toHaveBeenCalled()
+  })
+
+  it('handles Enter key', () => {
+    handler = new KeyHandler(registry, 100)
+    handler.attach(target)
+
+    const fn = vi.fn()
+    registry.register('enter', { execute: fn, name: 'enter-cmd' })
+    target.dispatchEvent(createTestKeyboardEvent('Enter'))
+    expect(fn).toHaveBeenCalled()
+  })
+})
