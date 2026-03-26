@@ -6,7 +6,6 @@
       "dom",
       "dom.iterable"
     ],
-    "baseUrl": ".",
     "incremental": false,
     "rootDir": "./",
     "outDir": "./dist",

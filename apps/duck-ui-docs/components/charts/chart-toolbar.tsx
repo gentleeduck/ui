@@ -2,7 +2,7 @@
 
 import { cn } from '@gentleduck/libs/cn'
 
-import 'public/r/themes.css'
+import '~/public/r/themes.css'
 import type { Block } from '@gentleduck/registers'
 import { Separator } from '@gentleduck/registry-ui/separator'
 import { AreaChart, BarChartBig, Hexagon, LineChart, MousePointer2, PieChart, Radar } from 'lucide-react'
