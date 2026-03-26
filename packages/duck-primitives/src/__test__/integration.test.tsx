@@ -42,24 +42,20 @@ describe('Dialog full lifecycle', () => {
     )
   }
 
-  it(
-    'clicking trigger opens dialog and content appears',
-    () => {
-      const { container, baseElement } = renderFullDialog()
-      const trigger = container.querySelector('[data-slot="dialog-trigger"]')!
+  it('clicking trigger opens dialog and content appears', () => {
+    const { container, baseElement } = renderFullDialog()
+    const trigger = container.querySelector('[data-slot="dialog-trigger"]')!
 
-      // Initially closed
-      expect(trigger.getAttribute('data-state')).toBe('closed')
-      expect(baseElement.querySelector('[role="dialog"]')).toBeNull()
+    // Initially closed
+    expect(trigger.getAttribute('data-state')).toBe('closed')
+    expect(baseElement.querySelector('[role="dialog"]')).toBeNull()
 
-      // Click to open
-      fireEvent.click(trigger)
-      expect(trigger.getAttribute('data-state')).toBe('open')
-      expect(trigger.getAttribute('aria-expanded')).toBe('true')
-      expect(baseElement.querySelector('[role="dialog"]')).not.toBeNull()
-    },
-    15000,
-  )
+    // Click to open
+    fireEvent.click(trigger)
+    expect(trigger.getAttribute('data-state')).toBe('open')
+    expect(trigger.getAttribute('aria-expanded')).toBe('true')
+    expect(baseElement.querySelector('[role="dialog"]')).not.toBeNull()
+  }, 15000)
 
   it('content has correct ARIA linking to title and description', () => {
     const { baseElement } = renderFullDialog({ defaultOpen: true })
