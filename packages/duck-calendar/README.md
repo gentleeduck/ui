@@ -74,7 +74,7 @@ function MyCalendar() {
 
 ## Documentation
 
-Full docs at [gentleduck.dev/docs/packages/duck-calendar](https://gentleduck.dev/docs/packages/duck-calendar)
+Full docs at [gentleduck.org/docs/packages/duck-calendar](https://gentleduck.org/docs/packages/duck-calendar)
 
 ## License
 
