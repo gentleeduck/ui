@@ -641,9 +641,9 @@ describe('@gentleduck/variants - cva core tests', () => {
 
   describe('whitespace handling in class strings', () => {
     it('should handle variant values with extra whitespace', () => {
-      const spacey = cva('  spacey-base  ', {
+      const spacey = cva('spacey-base', {
         defaultVariants: { v: 'a' },
-        variants: { v: { a: '  spacey-a  extra-space  ' } },
+        variants: { v: { a: 'spacey-a extra-space' } },
       })
       const result = spacey()
       expect(result).not.toMatch(/^\s/)

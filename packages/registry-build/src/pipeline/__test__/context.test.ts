@@ -16,7 +16,9 @@ async function createTempDir() {
   return tempDir
 }
 
-function createMinimalResolvedConfig(overrides: Partial<ResolvedRegistryBuildConfig> = {}): ResolvedRegistryBuildConfig {
+function createMinimalResolvedConfig(
+  overrides: Partial<ResolvedRegistryBuildConfig> = {},
+): ResolvedRegistryBuildConfig {
   return {
     branding: { font: 'default', name: 'test' },
     collections: {},
@@ -346,10 +348,7 @@ describe('createRegistryBuildContext', () => {
         },
         { configPath },
       )
-      const context = await createRegistryBuildContext(
-        { config, configDir: tempDir, configPath },
-        { silent: true },
-      )
+      const context = await createRegistryBuildContext({ config, configDir: tempDir, configPath }, { silent: true })
 
       expect(context.getArtifact('collections')).toEqual(config.collections)
       expect(context.config.collections.packages?.metadata.channel).toBe('stable')

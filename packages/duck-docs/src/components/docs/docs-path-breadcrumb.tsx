@@ -126,9 +126,7 @@ export function DocsPathBreadcrumb({ segments }: { segments: string[] }) {
           <>
             <BreadcrumbSeparator />
             <BreadcrumbItem className="min-w-0">
-              <BreadcrumbPage className="block max-w-32 truncate font-medium sm:max-w-48">
-                {last.label}
-              </BreadcrumbPage>
+              <BreadcrumbPage className="block max-w-32 truncate font-medium sm:max-w-48">{last.label}</BreadcrumbPage>
             </BreadcrumbItem>
           </>
         )}

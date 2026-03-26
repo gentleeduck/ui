@@ -235,9 +235,7 @@ describe('KeyRecorder - edge cases', () => {
     document.body.appendChild(target)
 
     recorder.start(target)
-    target.dispatchEvent(
-      createKeyEvent('keydown', 'k', { ctrlKey: true, altKey: true, metaKey: true, shiftKey: true }),
-    )
+    target.dispatchEvent(createKeyEvent('keydown', 'k', { ctrlKey: true, altKey: true, metaKey: true, shiftKey: true }))
     expect(onRecord).toHaveBeenCalledWith('alt+ctrl+meta+shift+k')
   })
 

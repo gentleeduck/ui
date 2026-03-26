@@ -1,6 +1,6 @@
+import { describe, expect, test } from 'bun:test'
 import { act, render, renderHook } from '@testing-library/react'
 import React from 'react'
-import { describe, expect, test } from 'bun:test'
 import { atom } from '../primitive/atom'
 import { createStore } from '../primitive/store'
 import { Provider, useStore } from '../react/provider'
@@ -69,9 +69,7 @@ describe('useStore', () => {
     const myStore = createStore()
 
     const { result } = renderHook(() => useStore(), {
-      wrapper: ({ children }: { children: React.ReactNode }) => (
-        <Provider store={myStore}>{children}</Provider>
-      ),
+      wrapper: ({ children }: { children: React.ReactNode }) => <Provider store={myStore}>{children}</Provider>,
     })
 
     expect(result.current).toBe(myStore)
@@ -82,9 +80,7 @@ describe('useStore', () => {
     const contextStore = createStore()
 
     const { result } = renderHook(() => useStore({ store: explicit }), {
-      wrapper: ({ children }: { children: React.ReactNode }) => (
-        <Provider store={contextStore}>{children}</Provider>
-      ),
+      wrapper: ({ children }: { children: React.ReactNode }) => <Provider store={contextStore}>{children}</Provider>,
     })
 
     expect(result.current).toBe(explicit)
@@ -193,9 +189,7 @@ describe('useSetAtom', () => {
     const store = createStore()
 
     const { result } = renderHook(() => useSetAtom(countAtom), {
-      wrapper: ({ children }: { children: React.ReactNode }) => (
-        <Provider store={store}>{children}</Provider>
-      ),
+      wrapper: ({ children }: { children: React.ReactNode }) => <Provider store={store}>{children}</Provider>,
     })
 
     expect(typeof result.current).toBe('function')
@@ -272,9 +266,7 @@ describe('useAtom', () => {
     const store = createStore()
 
     const { result } = renderHook(() => useAtom(countAtom), {
-      wrapper: ({ children }: { children: React.ReactNode }) => (
-        <Provider store={store}>{children}</Provider>
-      ),
+      wrapper: ({ children }: { children: React.ReactNode }) => <Provider store={store}>{children}</Provider>,
     })
 
     const [value, setter] = result.current
