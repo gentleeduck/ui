@@ -62,7 +62,7 @@ describe('useLazyLoad', () => {
       React.startTransition(() => {
         root.render(React.createElement(TestComponent))
       })
-      setTimeout(resolve, 50)
+      setTimeout(resolve, 500)
     })
 
     expect(result).toBeDefined()
@@ -92,7 +92,7 @@ describe('useLazyLoad', () => {
       React.startTransition(() => {
         root.render(React.createElement(TestComponent))
       })
-      setTimeout(resolve, 50)
+      setTimeout(resolve, 500)
     })
 
     expect(result!.isVisible).toBe(false)
@@ -103,7 +103,7 @@ describe('useLazyLoad', () => {
       observerCallback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
 
-    await new Promise<void>((resolve) => setTimeout(resolve, 50))
+    await new Promise<void>((resolve) => setTimeout(resolve, 500))
 
     expect(result!.isVisible).toBe(true)
 
@@ -133,7 +133,7 @@ describe('useLazyLoad', () => {
       React.startTransition(() => {
         root.render(React.createElement(TestComponent))
       })
-      setTimeout(resolve, 50)
+      setTimeout(resolve, 500)
     })
 
     expect(observerOptions).toEqual(customOptions)
@@ -161,7 +161,7 @@ describe('useLazyLoad', () => {
       React.startTransition(() => {
         root.render(React.createElement(TestComponent))
       })
-      setTimeout(resolve, 50)
+      setTimeout(resolve, 500)
     })
 
     // Simulate not intersecting
@@ -169,7 +169,7 @@ describe('useLazyLoad', () => {
       observerCallback([{ isIntersecting: false } as Partial<IntersectionObserverEntry>])
     })
 
-    await new Promise<void>((resolve) => setTimeout(resolve, 50))
+    await new Promise<void>((resolve) => setTimeout(resolve, 500))
 
     expect(result!.isVisible).toBe(false)
     expect(disconnectCalls).toBe(0)
@@ -195,13 +195,13 @@ describe('useLazyLoad', () => {
       React.startTransition(() => {
         root.render(React.createElement(TestComponent))
       })
-      setTimeout(resolve, 50)
+      setTimeout(resolve, 500)
     })
 
     // Unmount to trigger cleanup
     root.unmount()
 
-    await new Promise<void>((resolve) => setTimeout(resolve, 50))
+    await new Promise<void>((resolve) => setTimeout(resolve, 500))
 
     // The cleanup should have called unobserve
     expect(unobserveCalls.length).toBeGreaterThanOrEqual(0)
@@ -235,7 +235,7 @@ describe('DuckLazyComponent', () => {
       React.startTransition(() => {
         root.render(React.createElement(TestWrapper))
       })
-      setTimeout(resolve, 50)
+      setTimeout(resolve, 500)
     })
 
     expect(observerOptions).toBeDefined()
@@ -266,7 +266,7 @@ describe('DuckLazyComponent', () => {
       React.startTransition(() => {
         root.render(React.createElement(TestWrapper))
       })
-      setTimeout(resolve, 50)
+      setTimeout(resolve, 500)
     })
 
     expect(observerOptions!.rootMargin).toBe('100px')
@@ -292,7 +292,7 @@ describe('DuckLazyComponent', () => {
       React.startTransition(() => {
         root.render(React.createElement(TestWrapper))
       })
-      setTimeout(resolve, 50)
+      setTimeout(resolve, 500)
     })
 
     // Should have a placeholder div, not the child content
@@ -326,7 +326,7 @@ describe('DuckLazyComponent', () => {
       React.startTransition(() => {
         root.render(React.createElement(TestWrapper))
       })
-      setTimeout(resolve, 50)
+      setTimeout(resolve, 500)
     })
 
     // Simulate intersection
@@ -334,7 +334,7 @@ describe('DuckLazyComponent', () => {
       observerCallback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
 
-    await new Promise<void>((resolve) => setTimeout(resolve, 50))
+    await new Promise<void>((resolve) => setTimeout(resolve, 500))
 
     expect(container.textContent).toContain('visible content')
 

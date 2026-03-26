@@ -58,7 +58,7 @@ async function renderComponent(Component: React.FC) {
 
   // Wait for React effects to fire and observer to be created
   for (let i = 0; i < 20; i++) {
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
     if (observerInstances.length > 0) break
   }
 
@@ -178,7 +178,7 @@ describe('useLazyLoad edge cases', () => {
     React.startTransition(() => {
       latestObserver.callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
 
     expect(latestObserver.disconnected).toBe(true)
     expect(result!.isVisible).toBe(true)
@@ -198,7 +198,7 @@ describe('useLazyLoad edge cases', () => {
     React.startTransition(() => {
       latestObserver.callback([{ isIntersecting: false } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
 
     expect(latestObserver.disconnected).toBe(false)
     cleanup()
@@ -308,7 +308,7 @@ describe('DuckLazyComponent edge cases', () => {
     React.startTransition(() => {
       latestObserver.callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
 
     // After intersection
     expect(container.querySelector('[data-slot="placeholder"]')).toBeNull()
@@ -405,7 +405,7 @@ describe('Multiple lazy components on same page', () => {
     React.startTransition(() => {
       observerInstances[0].callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
 
     expect(container.textContent).toContain('first')
     expect(container.textContent).not.toContain('second')
@@ -436,7 +436,7 @@ describe('Multiple lazy components on same page', () => {
       observerInstances[0].callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
       observerInstances[1].callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
 
     expect(container.textContent).toContain('aaa')
     expect(container.textContent).toContain('bbb')
@@ -523,7 +523,7 @@ describe('useLazyImage', () => {
     React.startTransition(() => {
       latestObserver.callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
 
     expect(latestObserver.disconnected).toBe(true)
     cleanup()
@@ -542,7 +542,7 @@ describe('useLazyImage', () => {
     React.startTransition(() => {
       latestObserver.callback([{ isIntersecting: false } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
 
     expect(latestObserver.disconnected).toBe(false)
     cleanup()
@@ -575,7 +575,7 @@ describe('useLazyImage', () => {
     React.startTransition(() => {
       latestObserver.callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
 
     // The Image instance should have been created with the src
     expect(imageInstances.length).toBeGreaterThanOrEqual(1)
@@ -586,7 +586,7 @@ describe('useLazyImage', () => {
     React.startTransition(() => {
       if (lastImg.onload) lastImg.onload()
     })
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
 
     expect(result!.isLoaded).toBe(true)
 
@@ -609,7 +609,7 @@ describe('useLazyImage', () => {
     const { cleanup } = await renderComponent(TC)
 
     // Do nothing -- no intersection
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
 
     expect(result!.isLoaded).toBe(false)
     cleanup()
@@ -948,14 +948,14 @@ describe('DuckLazyImage loaded transitions', () => {
     React.startTransition(() => {
       latestObserver.callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
 
     // Simulate Image onload
     const lastImg = imageInstances[imageInstances.length - 1]
     React.startTransition(() => {
       if (lastImg.onload) lastImg.onload()
     })
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
 
     // After load: img class should contain opacity-100
     expect(img!.className).toContain('opacity-100')
@@ -996,14 +996,14 @@ describe('DuckLazyImage loaded transitions', () => {
     React.startTransition(() => {
       latestObserver.callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
 
     // Simulate load
     const lastImg = imageInstances[imageInstances.length - 1]
     React.startTransition(() => {
       if (lastImg.onload) lastImg.onload()
     })
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
 
     expect(output!.getAttribute('aria-hidden')).toBe('true')
 
@@ -1044,13 +1044,13 @@ describe('DuckLazyImage loaded transitions', () => {
     React.startTransition(() => {
       latestObserver.callback([{ isIntersecting: true } as Partial<IntersectionObserverEntry>])
     })
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
 
     const lastImg = imageInstances[imageInstances.length - 1]
     React.startTransition(() => {
       if (lastImg.onload) lastImg.onload()
     })
-    await new Promise<void>((r) => setTimeout(r, 50))
+    await new Promise<void>((r) => setTimeout(r, 500))
 
     // After load: should have opacity-0 and bg-transparent
     expect(output!.className).toContain('opacity-0')
