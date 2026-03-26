@@ -6,6 +6,9 @@
   "devDependencies": {
     "@biomejs/biome": "2.4.7",
     "@changesets/cli": "^2.30.0",
+    "@gentleduck/vim": "workspace:*",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "husky": "^9.1.7",
     "sherif": "1.10.0",
     "turbo": "^2.8.14",
