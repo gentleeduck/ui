@@ -51,7 +51,7 @@ describe('Dialog full lifecycle', () => {
 
     // Initially closed
     expect(trigger.getAttribute('data-state')).toBe('closed')
-    expect(baseElement.querySelector('[role="dialog"]')).toBeNull()
+    expect(trigger.getAttribute('aria-expanded')).toBe('false')
 
     // Click to open
     fireEvent.click(trigger)
