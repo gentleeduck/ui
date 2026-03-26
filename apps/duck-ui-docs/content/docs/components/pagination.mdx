@@ -137,21 +137,21 @@ const PaginationLink = ({...props }: ) => (
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `className` | `string` | `-` | Additional CSS classes for the `nav` element |
+| `className` | `string` | `--` | Additional CSS classes for the `nav` element |
 | `...props` | `React.ComponentPropsWithoutRef<'nav'>` | - | Additional props to spread to the nav element |
 
 ### PaginationContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `-` | Additional CSS classes for the `ul` element |
+| `className` | `string` | `--` | Additional CSS classes for the `ul` element |
 | `...props` | `React.ComponentPropsWithoutRef<'ul'>` | - | Additional props to spread to the ul element |
 
 ### PaginationItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `-` | Additional CSS classes for the `li` element |
+| `className` | `string` | `--` | Additional CSS classes for the `li` element |
 | `...props` | `React.ComponentPropsWithoutRef<'li'>` | - | Additional props to spread to the li element |
 
 ### PaginationLink
@@ -169,7 +169,7 @@ Extends `PaginationLink` with `aria-label="Go to previous page"`, left arrow ico
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `text` | `string` | `'Previous'` | Visible label text. Override for i18n / RTL support. |
-| `className` | `string` | `-` | Additional CSS classes for the previous link |
+| `className` | `string` | `--` | Additional CSS classes for the previous link |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PaginationLink>` | - | Additional props inherited from `PaginationLink`. |
 
 ### PaginationNext
@@ -179,7 +179,7 @@ Extends `PaginationLink` with `aria-label="Go to next page"`, text "Next", and r
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `text` | `string` | `'Next'` | Visible label text. Override for i18n / RTL support. |
-| `className` | `string` | `-` | Additional CSS classes for the next link |
+| `className` | `string` | `--` | Additional CSS classes for the next link |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PaginationLink>` | - | Additional props inherited from `PaginationLink`. |
 
 ### PaginationEllipsis
@@ -187,7 +187,7 @@ Extends `PaginationLink` with `aria-label="Go to next page"`, text "Next", and r
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `text` | `string` | `'More pages'` | Screen-reader label text. Override for i18n / RTL support. |
-| `className` | `string` | `-` | Additional CSS classes for the ellipsis element |
+| `className` | `string` | `--` | Additional CSS classes for the ellipsis element |
 | `...props` | `React.ComponentPropsWithoutRef<'span'>` | - | Additional props to spread to the span element |
 
 ### PaginationWrapper

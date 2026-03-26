@@ -13,7 +13,7 @@ A simple component that mounts children when `open` is true and unmounts after `
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `open` | `boolean` | -- | Whether to show children |
+| `open` | `boolean` | - | Whether to show children |
 | `renderOnce` | `boolean` | `false` | Unmount completely after close (no re-render) |
 | `animationDuration` | `number` | `400` | Delay before unmounting (ms) |
 
@@ -33,7 +33,7 @@ A more advanced mount helper that reads the element's CSS `transition-duration` 
 | `forceMount` | `boolean` | `false` | Force mount regardless of open state |
 | `skipWaiting` | `boolean` | `false` | Unmount immediately without waiting for transitions |
 | `renderOnce` | `boolean` | `false` | Keep mounted after first render |
-| `ref` | `HTMLDialogElement \| null` | -- | Element to observe for transition duration |
+| `ref` | `HTMLDialogElement \| null` | - | Element to observe for transition duration |
 
 <Callout icon={<Lightbulb />}>
 

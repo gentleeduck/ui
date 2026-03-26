@@ -204,8 +204,8 @@ Use with a `Popover` component.
 | --- | --- | --- | --- |
 | `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Layout direction of the button group |
 | `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `className` | `string` | `-` | Additional class names to apply |
-| `children` | `React.ReactNode` | `-` | Grouped content (buttons, separators, text, or nested groups) |
+| `className` | `string` | `--` | Additional class names to apply |
+| `children` | `React.ReactNode` | `--` | Grouped content (buttons, separators, text, or nested groups) |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### ButtonGroupSeparator
@@ -213,7 +213,7 @@ Use with a `Popover` component.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `orientation` | `'horizontal' \| 'vertical'` | `'vertical'` | Orientation of the separator line |
-| `className` | `string` | `-` | Additional class names to apply |
+| `className` | `string` | `--` | Additional class names to apply |
 | `...props` | `React.ComponentPropsWithoutRef<typeof Separator>` | - | Additional props inherited from `Separator`. |
 
 ### ButtonGroupText
@@ -221,8 +221,8 @@ Use with a `Popover` component.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `asChild` | `boolean` | `false` | If `true`, uses the `Slot` component instead of rendering a `div` |
-| `className` | `string` | `-` | Additional class names to apply |
-| `children` | `React.ReactNode` | `-` | Text content to display |
+| `className` | `string` | `--` | Additional class names to apply |
+| `children` | `React.ReactNode` | `--` | Text content to display |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ## RTL Support
