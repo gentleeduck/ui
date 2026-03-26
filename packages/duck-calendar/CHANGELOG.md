@@ -1,5 +1,11 @@
 # @gentleduck/calendar
 
+## 0.2.1
+
+### Patch Changes
+
+- 32d0136: fix: update React peer dependency to >=18.0.0 (was ^19.2.4)
+
 ## 0.2.0
 
 ### Minor Changes

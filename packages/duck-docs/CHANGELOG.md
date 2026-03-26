@@ -1,5 +1,14 @@
 # @gentleduck/docs
 
+## 0.3.2
+
+### Patch Changes
+
+- bff0977: fix: responsive breadcrumb with ellipsis on mobile, pager now includes index pages with children
+- 32d0136: fix: replace removed lucide-react brand icons (Github, Twitter) with inline SVGs, fix import ordering
+- Updated dependencies [32d0136]
+  - @gentleduck/vim@0.1.18
+
 ## 0.3.1
 
 ### Patch Changes

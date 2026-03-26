@@ -1,5 +1,13 @@
 # @gentleduck/primitives
 
+## 0.2.9
+
+### Patch Changes
+
+- 5136398: fix: popover and tooltip arrow components now use PopperArrow instead of PopperAnchor, fixing positioning when arrows are present
+- Updated dependencies [32d0136]
+  - @gentleduck/calendar@0.2.1
+
 ## 0.2.8
 
 ### Patch Changes
