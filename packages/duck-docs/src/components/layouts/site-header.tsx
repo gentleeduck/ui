@@ -15,6 +15,9 @@ import {
 import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import { Type } from 'lucide-react'
+import Link from 'next/link'
+import React from 'react'
+import { HeaderContainer, HeaderRoot } from './header-shell'
 
 function Github(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -31,9 +34,6 @@ function Twitter(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   )
 }
-import Link from 'next/link'
-import React from 'react'
-import { HeaderContainer, HeaderRoot } from './header-shell'
 
 const CommandMenu = React.lazy(() =>
   import('@duck-docs/components/layouts/command-menu').then((m) => ({ default: m.CommandMenu })),
