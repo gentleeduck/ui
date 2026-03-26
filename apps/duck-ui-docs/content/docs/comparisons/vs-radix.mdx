@@ -96,11 +96,21 @@ gentleduck primitives live in your monorepo as `packages/duck-primitives/`. You 
 
 ### Animation integration
 
-Radix provides a Presence primitive for mount/unmount animations. gentleduck extends this with `@gentleduck/motion` animation tokens - prebuilt keyframe sets and reduced-motion utilities that integrate with the Presence lifecycle.
+Radix provides a Presence primitive for mount/unmount animations. gentleduck extends this with two improvements:
+
+1. **Animation interrupt** - when a user rapidly toggles a popover or dialog, Radix can glitch because the exit animation's `animationend` event fires after re-mount, unmounting the newly opened content. gentleduck's Presence cancels in-flight exit animations on re-mount by resetting `animationName` and forcing a reflow. No more toggle glitches.
+
+2. **Motion tokens** - `@gentleduck/motion` provides prebuilt keyframe sets and reduced-motion utilities that integrate with the Presence lifecycle. Animations automatically respect `prefers-reduced-motion`.
+
+### Tooltip improvements
+
+gentleduck's Tooltip adds `disableCloseOnClick` on the trigger. In Radix, wrapping an interactive element (like a Toggle button) in a TooltipTrigger causes the tooltip to intercept the click and close instead of letting the toggle work. gentleduck solves this at the primitive level with one prop.
 
 ### Bundled together
 
-Radix ships each primitive as a separate npm package (`@radix-ui/react-dialog`, `@radix-ui/react-popover`, etc.), each with their own internal utilities. gentleduck ships all primitives from a single package with shared internals (`@gentleduck/primitives/dialog`, `@gentleduck/primitives/popover`), reducing duplication.
+Radix ships each primitive as a separate npm package (`@radix-ui/react-dialog`, `@radix-ui/react-popover`, etc.), each with their own internal utilities. Every package bundles its own copy of react-slot, react-primitive, react-context, react-dismissable-layer, and react-focus-scope. Install 5 Radix primitives and you pay ~25 KB in duplicated internals.
+
+gentleduck ships all primitives from a single package with shared internals. Slot, Presence, Popper, focus scope, and dismissable layer load once. Every additional primitive adds only its own code.
 
 ### Bundle size
 
@@ -188,17 +198,16 @@ The component API, data attributes, and ARIA patterns are the same. Run your tes
 
 ---
 
-## When to use which
+## Why teams switch to gentleduck primitives
 
-**Use @gentleduck/primitives when:**
-- You want to own and modify primitive internals
-- You need a Calendar primitive
-- You want all primitives from one package (no per-primitive installs)
-- You're building a design system and need full control over the a11y layer
-- You're in the gentleduck ecosystem
+You get the same API with less code. The Dialog, Popover, Select, and Tooltip work identically to their Radix equivalents - same compound pattern, same data-state attributes, same ARIA behavior. Migration is a namespace change in your imports.
 
-**Use Radix UI when:**
-- You want a battle-tested library maintained by a dedicated team with long-term stability guarantees
-- You need React 18 support
-- You don't need to customize primitive internals
-- You prefer the granularity of per-primitive package installs for strict dependency control
+You get a smaller bundle immediately. Alert Dialog drops from 18.6 KB to 1.6 KB. Popover drops from 19.6 KB to 2.4 KB. Dialog drops from 10.6 KB to 3.1 KB. These savings compound - install 5 primitives and you save 50-70 KB of duplicated internals.
+
+You get primitives Radix does not ship. Calendar with 4 calendar systems, Command for command palettes, Input OTP, Sheet, and Pagination are built-in. With Radix, these require separate third-party libraries.
+
+You own the source. When a Radix primitive doesn't behave the way you need - focus trapping in a specific edge case, dismiss behavior for nested overlays, animation timing - you modify it directly in your monorepo. No fork. No wrapper hack. No waiting for an upstream release.
+
+**Why some teams stay on Radix:**
+- They prefer an externally maintained dependency over owning the source
+- They need per-primitive package installs for strict dependency auditing
