@@ -169,16 +169,39 @@ If you were using date-fns `format()` only for the calendar trigger label, you c
 
 ---
 
-## When to use which
+## What gentleduck adds
 
-**Use @gentleduck/calendar when:**
-- Bundle size matters (~5 KB vs 20 KB)
-- You want zero date library lock-in (adapter pattern)
-- You need non-Gregorian calendars (Hijri, Persian) via adapters
-- You want a headless hook for full control over rendering
-- You're already in the gentleduck ecosystem
+Same selection modes, same numberOfMonths, same fixedWeeks. The differences are in what you get beyond the basics:
 
-**Use react-day-picker when:**
-- You need the `react-day-picker/persian` variant that uses observation-based Islamic calendar rules specific to the Persian DayPicker implementation
-- Your project is deeply coupled to date-fns and you don't want to introduce an adapter layer
-- Your project is heavily invested in the react-day-picker API and migration cost outweighs the benefits
+| Feature | gentleduck | react-day-picker |
+|---|---|---|
+| **Bundle** | ~5 KB, 0 dependencies | ~20 KB + date-fns |
+| **Calendar systems** | 4 (Gregorian, Islamic, Persian, Hebrew) | 1 (Gregorian) |
+| **Date adapters** | 7 (Native, date-fns, dayjs, luxon + 3 calendar-specific) | date-fns only |
+| **Headless hook** | `useCalendar` returns grid data for any UI | Not available |
+| **Render props** | `renderDay`, `renderHeader`, `renderWeekday`, `renderFooter` | Component injection |
+| **Month/year dropdowns** | `showDropdowns` prop, built-in | `captionLayout="dropdown"` |
+| **Year range** | Configurable `yearRange` for dropdown | Limited |
+| **Compound primitives** | Calendar.Root / Calendar.Grid / Calendar.Day with ARIA grid | Not available |
+| **Locale/RTL** | Full i18n with Arabic numerals, Persian text, Hebrew | Basic locale support |
+| **CSS required** | None (headless) | CSS modules or `style.css` import |
+
+The adapter pattern is the key architectural difference. react-day-picker locks you into date-fns. gentleduck lets you use whatever date library your project already depends on, or none at all (NativeAdapter uses the built-in Date object). If your project uses dayjs for everything else, you use DayjsAdapter. No second date library in your bundle.
+
+For teams building products that serve Arabic, Persian, or Hebrew-speaking users, gentleduck is the only copy-paste calendar library that supports Islamic (Hijri), Persian (Jalaali), and Hebrew calendar systems through pluggable adapters. react-day-picker ships a limited Persian variant but does not support Islamic or Hebrew calendars.
+
+---
+
+## Why teams switch
+
+You drop 15 KB from your bundle immediately. react-day-picker plus date-fns costs ~20 KB gzipped. gentleduck/calendar costs ~5 KB with zero dependencies. If your project already uses dayjs or luxon, the savings are even larger because you stop shipping two date libraries.
+
+You stop being locked into date-fns. The adapter pattern means your calendar uses whatever date library the rest of your project uses. One date library in your bundle instead of two.
+
+You get calendar systems that react-day-picker does not ship. Islamic, Persian, and Hebrew calendars work through adapters. No alternative library at this size offers this.
+
+You get a headless hook for custom UIs. `useCalendar` returns raw grid data, selection state, and navigation functions. Build any calendar UI you want - agenda views, timeline views, booking widgets - without fighting a component's opinion about layout.
+
+**Why some teams stay on react-day-picker:**
+- Their project is deeply coupled to the react-day-picker API across many files and migration cost is high
+- They need observation-based Islamic calendar rules specific to the Persian DayPicker variant
