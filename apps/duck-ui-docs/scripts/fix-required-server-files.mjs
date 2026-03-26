@@ -1,7 +1,8 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
 
-const manifestPath = path.join(process.cwd(), '.next/required-server-files.json')
+const cwd = process.cwd()
+const manifestPath = path.join(cwd, '.next/required-server-files.json')
 
 const getPathSegments = (input) => path.normalize(input).split(path.sep).filter(Boolean)
 
@@ -24,7 +25,7 @@ const endsWithSegments = (fullPath, suffixPath) => {
   return true
 }
 
-const main = async () => {
+const fixRelativeAppDir = async () => {
   try {
     const raw = await fs.readFile(manifestPath, 'utf8')
     const manifest = JSON.parse(raw)
@@ -56,4 +57,41 @@ const main = async () => {
   }
 }
 
-await main()
+const fixStandaloneStructure = async () => {
+  const standaloneDotNext = path.join(cwd, '.next/standalone/.next')
+  try {
+    await fs.access(standaloneDotNext)
+    return
+  } catch {}
+
+  const raw = await fs.readFile(manifestPath, 'utf8').catch(() => null)
+  if (!raw) return
+
+  const manifest = JSON.parse(raw)
+  const relativeAppDir = manifest.relativeAppDir || ''
+  if (!relativeAppDir) return
+
+  const nestedDotNext = path.join(cwd, '.next/standalone', relativeAppDir, '.next')
+  try {
+    await fs.access(nestedDotNext)
+  } catch {
+    return
+  }
+
+  await fs.cp(nestedDotNext, standaloneDotNext, { recursive: true })
+
+  const standaloneManifest = path.join(standaloneDotNext, 'required-server-files.json')
+  const standaloneRaw = await fs.readFile(standaloneManifest, 'utf8').catch(() => null)
+  if (standaloneRaw) {
+    const standaloneJson = JSON.parse(standaloneRaw)
+    standaloneJson.relativeAppDir = ''
+    await fs.writeFile(standaloneManifest, `${JSON.stringify(standaloneJson, null, 2)}\n`, 'utf8')
+  }
+
+  console.log(
+    `[fix-required-server-files] Copied standalone .next from ${relativeAppDir}/.next to .next/standalone/.next for Netlify compatibility.`,
+  )
+}
+
+await fixStandaloneStructure()
+await fixRelativeAppDir()
