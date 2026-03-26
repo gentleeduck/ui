@@ -52,12 +52,15 @@ async function renderComponent(Component: React.FC) {
   const { createRoot } = await import('react-dom/client')
   const root = createRoot(container)
 
-  await new Promise<void>((resolve) => {
-    React.startTransition(() => {
-      root.render(React.createElement(Component))
-    })
-    setTimeout(resolve, 150)
+  React.startTransition(() => {
+    root.render(React.createElement(Component))
   })
+
+  // Wait for React effects to fire and observer to be created
+  for (let i = 0; i < 20; i++) {
+    await new Promise<void>((r) => setTimeout(r, 50))
+    if (observerInstances.length > 0) break
+  }
 
   return {
     container,
