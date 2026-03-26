@@ -1,6 +1,7 @@
 import { describe, expect, it, mock, setDefaultTimeout } from 'bun:test'
 
 setDefaultTimeout(15_000)
+
 import { fireEvent, render } from '@testing-library/react'
 import * as React from 'react'
 
