@@ -61,19 +61,25 @@ describe('Dialog full lifecycle', () => {
     const { baseElement } = renderFullDialog({ defaultOpen: true })
     const content = baseElement.querySelector('[role="dialog"]')!
 
-    // aria-labelledby -> title
-    const titleId = content.getAttribute('aria-labelledby')
-    expect(titleId).toBeTruthy()
-    const title = baseElement.querySelector(`#${titleId}`)
+    // Verify title via data-slot
+    const title = content.querySelector('[data-slot="dialog-title"]')
     expect(title).not.toBeNull()
     expect(title!.textContent).toBe('My Title')
 
-    // aria-describedby -> description
-    const descId = content.getAttribute('aria-describedby')
-    expect(descId).toBeTruthy()
-    const desc = baseElement.querySelector(`#${descId}`)
+    // Verify aria-labelledby points to title
+    const titleId = content.getAttribute('aria-labelledby')
+    expect(titleId).toBeTruthy()
+    expect(title!.id).toBe(titleId)
+
+    // Verify description via data-slot
+    const desc = content.querySelector('[data-slot="dialog-description"]')
     expect(desc).not.toBeNull()
     expect(desc!.textContent).toBe('My Description')
+
+    // Verify aria-describedby points to description
+    const descId = content.getAttribute('aria-describedby')
+    expect(descId).toBeTruthy()
+    expect(desc!.id).toBe(descId)
   })
 
   it('close button renders inside dialog content', () => {
@@ -81,7 +87,7 @@ describe('Dialog full lifecycle', () => {
     const dialog = baseElement.querySelector('[role="dialog"]')!
     const closeBtn = dialog.querySelector('[data-slot="dialog-close"]')
     expect(closeBtn).not.toBeNull()
-    expect(closeBtn?.textContent).toBe('Close Me')
+    expect(closeBtn!.textContent).toBe('Close Me')
   })
 
   it('fires onOpenChange(true) when trigger clicked', () => {
