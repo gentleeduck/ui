@@ -212,8 +212,8 @@ Container that renders a semantic `fieldset` with spacing presets.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `className` | `string` | `-` | Additional CSS classes |
-| `children` | `React.ReactNode` | `-` | Fieldset content |
+| `className` | `string` | `--` | Additional CSS classes |
+| `children` | `React.ReactNode` | `--` | Fieldset content |
 | `...props` | `React.HTMLProps<HTMLFieldSetElement>` | - | Additional props to spread to the fieldset element |
 
 ### FieldLegend
@@ -223,7 +223,7 @@ Legend element for a `FieldSet`. Switch to the `label` variant to align with lab
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `variant` | `'legend' \| 'label'` | `'legend'` | Visual variant controlling text size |
-| `className` | `string` | `-` | Additional CSS classes |
+| `className` | `string` | `--` | Additional CSS classes |
 | `...props` | `React.HTMLProps<HTMLLegendElement>` | - | Additional props to spread to the legend element |
 
 ### FieldGroup
@@ -232,8 +232,8 @@ Layout wrapper that stacks `Field` components and enables container queries for 
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `-` | Additional CSS classes |
-| `children` | `React.ReactNode` | `-` | Field components |
+| `className` | `string` | `--` | Additional CSS classes |
+| `children` | `React.ReactNode` | `--` | Field components |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### Field
@@ -243,8 +243,8 @@ The core wrapper for a single field. Provides orientation control, invalid state
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `orientation` | `'vertical' \| 'horizontal' \| 'responsive'` | `'vertical'` | Layout orientation of the field |
-| `className` | `string` | `-` | Additional CSS classes |
-| `children` | `React.ReactNode` | `-` | Field content |
+| `className` | `string` | `--` | Additional CSS classes |
+| `children` | `React.ReactNode` | `--` | Field content |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div; set `data-invalid` to render in an error state |
 
 ### FieldContent
@@ -253,8 +253,8 @@ Flex column that groups control and descriptions when the label sits beside the 
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `-` | Additional CSS classes |
-| `children` | `React.ReactNode` | `-` | Label, description, and control content |
+| `className` | `string` | `--` | Additional CSS classes |
+| `children` | `React.ReactNode` | `--` | Label, description, and control content |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### FieldLabel
@@ -263,8 +263,8 @@ Label styled for both direct inputs and nested `Field` children.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `-` | Additional CSS classes |
-| `children` | `React.ReactNode` | `-` | Label text or nested field content |
+| `className` | `string` | `--` | Additional CSS classes |
+| `children` | `React.ReactNode` | `--` | Label text or nested field content |
 | `...props` | `React.ComponentPropsWithoutRef<typeof Label>` | - | Additional props inherited from `Label`. |
 
 ### FieldTitle
@@ -273,8 +273,8 @@ Renders a title with label styling inside `FieldContent`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `-` | Additional CSS classes |
-| `children` | `React.ReactNode` | `-` | Title text |
+| `className` | `string` | `--` | Additional CSS classes |
+| `children` | `React.ReactNode` | `--` | Title text |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### FieldDescription
@@ -283,8 +283,8 @@ Helper text slot that automatically balances long lines in horizontal layouts.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `className` | `string` | `-` | Additional CSS classes |
-| `children` | `React.ReactNode` | `-` | Description text |
+| `className` | `string` | `--` | Additional CSS classes |
+| `children` | `React.ReactNode` | `--` | Description text |
 | `...props` | `React.HTMLProps<HTMLParagraphElement>` | - | Additional props to spread to the p element |
 
 ### FieldSeparator
@@ -293,8 +293,8 @@ Visual divider to separate sections inside a `FieldGroup`. Accepts optional inli
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `children` | `React.ReactNode` | `-` | Optional inline content displayed over the separator |
-| `className` | `string` | `-` | Additional CSS classes |
+| `children` | `React.ReactNode` | `--` | Optional inline content displayed over the separator |
+| `className` | `string` | `--` | Additional CSS classes |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 ### FieldError
@@ -303,9 +303,9 @@ Accessible error container that accepts children or an `errors` array (e.g., fro
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `errors` | `Array<{ message?: string } \| undefined>` | `-` | Array of error objects from a form library |
-| `children` | `React.ReactNode` | `-` | Custom error content (takes precedence over `errors`) |
-| `className` | `string` | `-` | Additional CSS classes |
+| `errors` | `Array<{ message?: string } \| undefined>` | `--` | Array of error objects from a form library |
+| `children` | `React.ReactNode` | `--` | Custom error content (takes precedence over `errors`) |
+| `className` | `string` | `--` | Additional CSS classes |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
 When the `errors` array contains multiple messages, the component renders a list automatically.

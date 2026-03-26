@@ -60,9 +60,9 @@ The root container that manages search state, filtering, and keyboard navigation
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `dir` | `'ltr' \| 'rtl'` | -- | Text direction |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction |
 | `shouldFilter` | `boolean` | `true` | Enable internal search filtering |
-| `asChild` | `boolean` | -- | Render as child element |
+| `asChild` | `boolean` | - | Render as child element |
 
 ### `Command.Input`
 
@@ -70,7 +70,7 @@ The search input field. Renders an `<input>`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `asChild` | `boolean` | -- | Render as child element |
+| `asChild` | `boolean` | - | Render as child element |
 
 Accepts all standard HTML input attributes.
 
@@ -80,7 +80,7 @@ Container for items and groups. Renders a `<ul>`. Handles internal filtering and
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `asChild` | `boolean` | -- | Render as child element |
+| `asChild` | `boolean` | - | Render as child element |
 
 ### `Command.Item`
 
@@ -88,11 +88,11 @@ A selectable item within the list. Renders a `<li>`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `value` | `string` | -- | Item value passed to `onSelect` |
+| `value` | `string` | - | Item value passed to `onSelect` |
 | `disabled` | `boolean` | `false` | Disables the item |
-| `textValue` | `string` | -- | Text for search matching (auto-derived from text content if not provided) |
-| `onSelect` | `(value: string) => void` | -- | Called when the item is selected |
-| `asChild` | `boolean` | -- | Render as child element |
+| `textValue` | `string` | - | Text for search matching (auto-derived from text content if not provided) |
+| `onSelect` | `(value: string) => void` | - | Called when the item is selected |
+| `asChild` | `boolean` | - | Render as child element |
 
 ### `Command.Group`
 
@@ -100,8 +100,8 @@ Groups items with an optional heading. Renders a `<div>`. Items inside a group a
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `heading` | `React.ReactNode` | -- | Optional group heading |
-| `asChild` | `boolean` | -- | Render as child element |
+| `heading` | `React.ReactNode` | - | Optional group heading |
+| `asChild` | `boolean` | - | Render as child element |
 
 ### `Command.Empty`
 
@@ -109,7 +109,7 @@ Displays when all items are filtered out. Renders a `<div>`.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `asChild` | `boolean` | -- | Render as child element |
+| `asChild` | `boolean` | - | Render as child element |
 
 ### `Command.Separator`
 
@@ -117,7 +117,7 @@ A visual separator between groups. Renders a `<div>`. Hidden when adjacent group
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `asChild` | `boolean` | -- | Render as child element |
+| `asChild` | `boolean` | - | Render as child element |
 
 ---
 
