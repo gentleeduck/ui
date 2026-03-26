@@ -6,23 +6,15 @@ Headless, framework-agnostic calendar engine with date adapter pattern, React ho
 
 ## Benchmarks
 
-### Bundle Size  -  vs All Competitors
+| Library | Size (gzipped) | Dependencies |
+|---|---|---|
+| **@gentleduck/calendar** | **~5 KB** | **0** |
+| react-day-picker | ~20 KB | date-fns |
+| react-calendar | ~18 KB | 0 |
+| react-datepicker | ~38 KB | date-fns, react-popper |
+| react-aria (DatePicker) | ~45 KB | @internationalized/date + 5 more |
 
-![Bundle Size Comparison](./public/benchmarks/bundle-size.svg)
-
-### Dependencies
-
-![Dependencies](./public/benchmarks/dependencies.svg)
-
-### Feature Comparison
-
-![Feature Comparison](./public/benchmarks/features.svg)
-
-### Render Performance
-
-![Render Performance](./public/benchmarks/render-performance.svg)
-
-Run benchmarks locally:
+4 calendar systems (Gregorian, Islamic, Persian, Hebrew). 7 date adapters (Native, date-fns, dayjs, luxon + 3 calendar-specific). See the [full benchmarks](https://gentleduck.org/docs/packages/duck-calendar/benchmarks) for feature comparisons.
 
 ```bash
 bun run benchmark
