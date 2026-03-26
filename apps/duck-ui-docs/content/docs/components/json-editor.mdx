@@ -142,12 +142,12 @@ Set `expandMode="callback"` to hand off full-screen editing to your own flow.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `control` | `Control<TFieldValues>` | `--` | React Hook Form control object from `useForm` |
-| `name` | `FieldPath<TFieldValues>` | `--` | Field path in your form values |
-| `label` | `string` | `--` | Visible label rendered above the editor |
-| `description` | `string` | `--` | Helper text rendered under the label |
-| `className` | `string` | `--` | Additional CSS classes for the field root |
-| `actionsClassName` | `string` | `--` | Additional CSS classes for the action buttons row |
+| `control` | `Control<TFieldValues>` | `-` | React Hook Form control object from `useForm` |
+| `name` | `FieldPath<TFieldValues>` | `-` | Field path in your form values |
+| `label` | `string` | `-` | Visible label rendered above the editor |
+| `description` | `string` | `-` | Helper text rendered under the label |
+| `className` | `string` | `-` | Additional CSS classes for the field root |
+| `actionsClassName` | `string` | `-` | Additional CSS classes for the action buttons row |
 | `isEditable` | `boolean` | `true` | Disables editing and save actions when set to `false` |
 | `allowArray` | `boolean` | `true` | When `false`, only JSON objects are accepted (arrays rejected) |
 | `mode` | `'inline' \| 'popover'` | `'inline'` | Presentation mode for the editor |
@@ -161,7 +161,7 @@ Set `expandMode="callback"` to hand off full-screen editing to your own flow.
 | `sheetSide` | `'left' \| 'right'` | `'right'` | Side used when `expandMode="sheet"` |
 | `sheetTitle` | `string` | `'Edit JSON'` | Title displayed in the sheet header |
 | `text` | `JsonEditorText` | See below | Object of translatable UI strings for i18n support |
-| `onExpandEditor` | `(payload: JsonEditorExpandPayload<TFieldValues>) => void` | `--` | Callback invoked when `expandMode="callback"` and `Full` is pressed |
+| `onExpandEditor` | `(payload: JsonEditorExpandPayload<TFieldValues>) => void` | `-` | Callback invoked when `expandMode="callback"` and `Full` is pressed |
 
 ### JsonEditorText
 
