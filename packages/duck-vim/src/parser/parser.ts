@@ -50,7 +50,7 @@ function normalizeKeyPart(part: string): string {
  * // { key: 's', ctrl: false, shift: false, alt: false, meta: true, modifiers: ['meta'] }
  */
 export function parseKeyBind(binding: string, platform?: Platform): ParsedKeyBind {
-  if (!binding || !binding.trim()) {
+  if (!binding?.trim()) {
     throw new Error('Key binding string cannot be empty')
   }
 
@@ -122,7 +122,7 @@ export function validateKeyBind(binding: string): ValidationResult {
   const errors: string[] = []
   const warnings: string[] = []
 
-  if (!binding || !binding.trim()) {
+  if (!binding?.trim()) {
     errors.push('Key binding string cannot be empty')
     return { valid: false, warnings, errors }
   }
