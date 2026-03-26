@@ -2,7 +2,6 @@
 import type { Metadata } from 'next'
 import 'public/r/themes.css'
 import './globals.css'
-import '@gentleduck/motion/css'
 import { TailwindIndicator, ThemeProvider } from '@gentleduck/docs/client'
 import { cn } from '@gentleduck/libs/cn'
 import { DirectionProvider } from '@gentleduck/registry-ui/direction'

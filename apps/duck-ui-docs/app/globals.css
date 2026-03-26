@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "@gentleduck/docs/styles/docs.css";
+@import "@gentleduck/motion/css";
 @import "./themes.css";
 @import "tw-animate-css";
 
