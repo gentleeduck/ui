@@ -22,6 +22,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
 import { ScrollArea } from '@gentleduck/registry-ui/scroll-area'
 import { Ban, Check, ChevronsUpDown, Power, Trash2 } from 'lucide-react'
+import React from 'react'
 
 function Github(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -30,7 +31,6 @@ function Github(props: React.SVGProps<SVGSVGElement>) {
     </svg>
   )
 }
-import React from 'react'
 
 // Minimal Chrome Extension API type declarations
 declare const chrome:
