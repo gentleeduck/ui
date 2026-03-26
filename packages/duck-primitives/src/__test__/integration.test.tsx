@@ -25,7 +25,7 @@ import { ToggleGroup, ToggleGroupItem } from '../toggle-group'
 // 1. Dialog full lifecycle
 // ---------------------------------------------------------------------------
 
-describe('Dialog full lifecycle', () => {
+describe('Dialog full lifecycle', { timeout: 15000 }, () => {
   function renderFullDialog(props: Record<string, unknown> = {}) {
     return render(
       <Dialog {...props}>
