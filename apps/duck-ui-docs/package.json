@@ -81,7 +81,7 @@
     "format:reg": "bunx biome format --write ./__ui_registry__/index.tsx",
     "lint": "next lint",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
-    "postbuild": "next-sitemap && node scripts/fix-required-server-files.mjs",
+    "postbuild": "next-sitemap",
     "start": "next start --port 3008",
     "preview": "next build && next start"
   },
