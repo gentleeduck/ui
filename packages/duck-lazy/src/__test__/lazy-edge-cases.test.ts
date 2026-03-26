@@ -56,7 +56,7 @@ async function renderComponent(Component: React.FC) {
     React.startTransition(() => {
       root.render(React.createElement(Component))
     })
-    setTimeout(resolve, 50)
+    setTimeout(resolve, 150)
   })
 
   return {
