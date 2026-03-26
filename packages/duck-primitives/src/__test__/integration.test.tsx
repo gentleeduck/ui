@@ -29,13 +29,13 @@ describe('Dialog full lifecycle', () => {
   function renderFullDialog(props: Record<string, unknown> = {}) {
     return render(
       <Dialog {...props}>
-        <DialogTrigger>Open Dialog</DialogTrigger>
+        <DialogTrigger>OpenDialog</DialogTrigger>
         <DialogPortal>
           <DialogOverlay />
           <DialogContent>
-            <DialogTitle>My Title</DialogTitle>
-            <DialogDescription>My Description</DialogDescription>
-            <DialogClose>Close Me</DialogClose>
+            <DialogTitle>DialogHeading</DialogTitle>
+            <DialogDescription>DialogBody</DialogDescription>
+            <DialogClose>CloseButton</DialogClose>
           </DialogContent>
         </DialogPortal>
       </Dialog>,
@@ -64,7 +64,7 @@ describe('Dialog full lifecycle', () => {
     // Verify title via data-slot
     const title = content.querySelector('[data-slot="dialog-title"]')
     expect(title).not.toBeNull()
-    expect(title!.textContent).toBe('My Title')
+    expect(title!.textContent).toBe('DialogHeading')
 
     // Verify aria-labelledby points to title
     const titleId = content.getAttribute('aria-labelledby')
@@ -74,7 +74,7 @@ describe('Dialog full lifecycle', () => {
     // Verify description via data-slot
     const desc = content.querySelector('[data-slot="dialog-description"]')
     expect(desc).not.toBeNull()
-    expect(desc!.textContent).toBe('My Description')
+    expect(desc!.textContent).toBe('DialogBody')
 
     // Verify aria-describedby points to description
     const descId = content.getAttribute('aria-describedby')
@@ -87,7 +87,7 @@ describe('Dialog full lifecycle', () => {
     const dialog = baseElement.querySelector('[role="dialog"]')!
     const closeBtn = dialog.querySelector('[data-slot="dialog-close"]')
     expect(closeBtn).not.toBeNull()
-    expect(closeBtn!.textContent).toBe('Close Me')
+    expect(closeBtn!.textContent).toBe('CloseButton')
   })
 
   it('fires onOpenChange(true) when trigger clicked', () => {
