@@ -6,6 +6,7 @@ const currentDir = path.dirname(fileURLToPath(import.meta.url))
 const monorepoRoot = path.join(currentDir, '../..')
 
 const nextConfig: NextConfig = {
+  output: 'standalone',
   devIndicators: false,
   outputFileTracingRoot: monorepoRoot,
   turbopack: {
