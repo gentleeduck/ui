@@ -1,5 +1,5 @@
 export const useDebounce = <const T extends (...args: unknown[]) => void>(callback: T, delay?: number) => {
-  let timeoutRef: NodeJS.Timeout | null = null
+  let timeoutRef: ReturnType<typeof setTimeout> | null = null
 
   return (...args: Parameters<T>) => {
     if (timeoutRef) {
@@ -13,7 +13,7 @@ export const useDebounce = <const T extends (...args: unknown[]) => void>(callba
 }
 
 export const debounce = <const T extends (...args: unknown[]) => void>(callback: T, delay?: number) => {
-  let timeoutRef: NodeJS.Timeout | null = null
+  let timeoutRef: ReturnType<typeof setTimeout> | null = null
 
   return (...args: Parameters<T>) => {
     if (timeoutRef) {
