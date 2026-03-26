@@ -2,6 +2,7 @@ import { describe, expect, it, mock } from 'bun:test'
 import { fireEvent, render } from '@testing-library/react'
 import * as React from 'react'
 
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../command'
 import {
   Dialog,
   DialogClose,
@@ -13,8 +14,11 @@ import {
   DialogTrigger,
 } from '../dialog'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuPortal, DropdownMenuTrigger } from '../dropdown-menu'
+import { Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarPortal, MenubarTrigger } from '../menubar'
 import { Popover, PopoverClose, PopoverContent, PopoverPortal, PopoverTrigger } from '../popover'
 import { RadioGroup, RadioGroupIndicator, RadioGroupItem } from '../radio-group'
+import { Select, SelectTrigger, SelectValue } from '../select'
+import { Slider, SliderRange, SliderThumb, SliderTrack } from '../slider'
 import { ToggleGroup, ToggleGroupItem } from '../toggle-group'
 
 // ---------------------------------------------------------------------------
@@ -535,5 +539,491 @@ describe('DropdownMenu trigger keyboard', () => {
 
     fireEvent.keyDown(trigger, { key: 'Enter' })
     expect(handler).not.toHaveBeenCalled()
+  })
+})
+
+// ---------------------------------------------------------------------------
+// 6. Command compound
+// ---------------------------------------------------------------------------
+
+describe('Command compound', () => {
+  function renderCommand() {
+    return render(
+      <Command>
+        <CommandInput placeholder="Search..." />
+        <CommandList>
+          <CommandEmpty>No results.</CommandEmpty>
+          <CommandGroup heading="Fruits">
+            <CommandItem value="apple">Apple</CommandItem>
+            <CommandItem value="banana">Banana</CommandItem>
+          </CommandGroup>
+          <CommandGroup heading="Vegetables">
+            <CommandItem value="carrot">Carrot</CommandItem>
+          </CommandGroup>
+        </CommandList>
+      </Command>,
+    )
+  }
+
+  it('renders all slots: command, input, list, group, items', () => {
+    const { container } = renderCommand()
+
+    expect(container.querySelector('[data-slot="command"]')).not.toBeNull()
+    expect(container.querySelector('[data-slot="command-input"]')).not.toBeNull()
+    expect(container.querySelector('[data-slot="command-list"]')).not.toBeNull()
+    expect(container.querySelectorAll('[data-slot="command-group"]').length).toBe(2)
+    expect(container.querySelectorAll('[data-slot="command-item"]').length).toBe(3)
+  })
+
+  it('input has role="combobox" and aria-expanded', () => {
+    const { container } = renderCommand()
+    const input = container.querySelector('[data-slot="command-input"]')!
+
+    expect(input.getAttribute('role')).toBe('combobox')
+    expect(input.getAttribute('aria-expanded')).toBe('true')
+    expect(input.getAttribute('aria-autocomplete')).toBe('list')
+  })
+
+  it('input aria-controls points to the list id', () => {
+    const { container } = renderCommand()
+    const input = container.querySelector('[data-slot="command-input"]')!
+    const list = container.querySelector('[data-slot="command-list"]')!
+
+    const controlsId = input.getAttribute('aria-controls')
+    expect(controlsId).toBeTruthy()
+    expect(list.getAttribute('id')).toBe(controlsId)
+  })
+
+  it('items have role="option"', () => {
+    const { container } = renderCommand()
+    const items = container.querySelectorAll('[data-slot="command-item"]')
+
+    for (const item of items) {
+      expect(item.getAttribute('role')).toBe('option')
+    }
+  })
+
+  it('list has role="listbox"', () => {
+    const { container } = renderCommand()
+    const list = container.querySelector('[data-slot="command-list"]')!
+
+    expect(list.getAttribute('role')).toBe('listbox')
+  })
+
+  it('group has role="group" with heading via aria-labelledby', () => {
+    const { container } = renderCommand()
+    const groups = container.querySelectorAll('[data-slot="command-group"]')
+
+    for (const group of groups) {
+      expect(group.getAttribute('role')).toBe('group')
+      const labelledBy = group.getAttribute('aria-labelledby')
+      expect(labelledBy).toBeTruthy()
+      const heading = container.querySelector(`#${labelledBy}`)
+      expect(heading).not.toBeNull()
+      expect(heading!.getAttribute('data-slot')).toBe('command-group-heading')
+    }
+  })
+
+  it('group headings render correct text', () => {
+    const { container } = renderCommand()
+    const headings = container.querySelectorAll('[data-slot="command-group-heading"]')
+
+    expect(headings.length).toBe(2)
+    expect(headings[0]!.textContent).toBe('Fruits')
+    expect(headings[1]!.textContent).toBe('Vegetables')
+  })
+
+  it('items have data-value attribute matching their value prop', () => {
+    const { container } = renderCommand()
+    const items = container.querySelectorAll('[data-slot="command-item"]')
+
+    expect(items[0]!.getAttribute('data-value')).toBe('apple')
+    expect(items[1]!.getAttribute('data-value')).toBe('banana')
+    expect(items[2]!.getAttribute('data-value')).toBe('carrot')
+  })
+
+  it('empty element has role="status" and is initially hidden', () => {
+    const { container } = renderCommand()
+    const empty = container.querySelector('[data-slot="command-empty"]')!
+
+    expect(empty.getAttribute('role')).toBe('status')
+    expect(empty.getAttribute('aria-live')).toBe('polite')
+    expect(empty.hidden).toBe(true)
+  })
+
+  it('disabled item has aria-disabled', () => {
+    const { container } = render(
+      <Command>
+        <CommandList>
+          <CommandItem value="x" disabled>
+            Disabled
+          </CommandItem>
+        </CommandList>
+      </Command>,
+    )
+    const item = container.querySelector('[data-slot="command-item"]')!
+
+    expect(item.getAttribute('aria-disabled')).toBe('true')
+    expect(item.getAttribute('data-disabled')).toBe('')
+  })
+})
+
+// ---------------------------------------------------------------------------
+// 7. Menubar compound
+// ---------------------------------------------------------------------------
+
+describe('Menubar compound', () => {
+  function renderMenubar(props: Record<string, unknown> = {}) {
+    return render(
+      <Menubar {...props}>
+        <MenubarMenu value="file">
+          <MenubarTrigger>File</MenubarTrigger>
+          <MenubarPortal>
+            <MenubarContent>
+              <MenubarItem>New File</MenubarItem>
+              <MenubarItem>Open</MenubarItem>
+            </MenubarContent>
+          </MenubarPortal>
+        </MenubarMenu>
+        <MenubarMenu value="edit">
+          <MenubarTrigger>Edit</MenubarTrigger>
+          <MenubarPortal>
+            <MenubarContent>
+              <MenubarItem>Undo</MenubarItem>
+            </MenubarContent>
+          </MenubarPortal>
+        </MenubarMenu>
+      </Menubar>,
+    )
+  }
+
+  it('renders all triggers with data-slot', () => {
+    const { container } = renderMenubar()
+    const triggers = container.querySelectorAll('[data-slot="menubar-trigger"]')
+
+    expect(triggers.length).toBe(2)
+    expect(triggers[0]!.textContent).toBe('File')
+    expect(triggers[1]!.textContent).toBe('Edit')
+  })
+
+  it('root has role="menubar"', () => {
+    const { container } = renderMenubar()
+    expect(container.querySelector('[role="menubar"]')).not.toBeNull()
+    expect(container.querySelector('[data-slot="menubar"]')).not.toBeNull()
+  })
+
+  it('triggers have role="menuitem" and aria-haspopup="menu"', () => {
+    const { container } = renderMenubar()
+    const triggers = container.querySelectorAll('[data-slot="menubar-trigger"]')
+
+    for (const trigger of triggers) {
+      expect(trigger.getAttribute('role')).toBe('menuitem')
+      expect(trigger.getAttribute('aria-haspopup')).toBe('menu')
+      expect(trigger.getAttribute('type')).toBe('button')
+    }
+  })
+
+  it('triggers have aria-expanded="false" and data-state="closed" initially', () => {
+    const { container } = renderMenubar()
+    const triggers = container.querySelectorAll('[data-slot="menubar-trigger"]')
+
+    for (const trigger of triggers) {
+      expect(trigger.getAttribute('aria-expanded')).toBe('false')
+      expect(trigger.getAttribute('data-state')).toBe('closed')
+    }
+  })
+
+  it('Enter key opens a menu (trigger state updates)', () => {
+    const handler = mock(() => {})
+    const { container } = renderMenubar({ onValueChange: handler })
+    const triggers = container.querySelectorAll('[data-slot="menubar-trigger"]')
+
+    fireEvent.keyDown(triggers[0]!, { key: 'Enter' })
+    expect(triggers[0]!.getAttribute('data-state')).toBe('open')
+    expect(triggers[0]!.getAttribute('aria-expanded')).toBe('true')
+    expect(handler).toHaveBeenCalledWith('file')
+  })
+
+  it('Space key opens a menu', () => {
+    const handler = mock(() => {})
+    const { container } = renderMenubar({ onValueChange: handler })
+    const triggers = container.querySelectorAll('[data-slot="menubar-trigger"]')
+
+    fireEvent.keyDown(triggers[1]!, { key: ' ' })
+    expect(triggers[1]!.getAttribute('data-state')).toBe('open')
+    expect(handler).toHaveBeenCalledWith('edit')
+  })
+
+  it('ArrowDown key opens a menu', () => {
+    const handler = mock(() => {})
+    const { container } = renderMenubar({ onValueChange: handler })
+    const triggers = container.querySelectorAll('[data-slot="menubar-trigger"]')
+
+    fireEvent.keyDown(triggers[0]!, { key: 'ArrowDown' })
+    expect(triggers[0]!.getAttribute('data-state')).toBe('open')
+    expect(handler).toHaveBeenCalledWith('file')
+  })
+
+  it('disabled trigger does not open on key press', () => {
+    const handler = mock(() => {})
+    const { container } = render(
+      <Menubar onValueChange={handler}>
+        <MenubarMenu value="file">
+          <MenubarTrigger disabled>File</MenubarTrigger>
+          <MenubarPortal>
+            <MenubarContent>
+              <MenubarItem>New</MenubarItem>
+            </MenubarContent>
+          </MenubarPortal>
+        </MenubarMenu>
+      </Menubar>,
+    )
+    const trigger = container.querySelector('[data-slot="menubar-trigger"]')!
+
+    fireEvent.keyDown(trigger, { key: 'Enter' })
+    expect(handler).not.toHaveBeenCalled()
+    expect(trigger.getAttribute('data-state')).toBe('closed')
+  })
+})
+
+// ---------------------------------------------------------------------------
+// 8. Select compound
+// ---------------------------------------------------------------------------
+
+describe('Select compound', () => {
+  function renderSelect(props: Record<string, unknown> = {}) {
+    return render(
+      <Select {...props}>
+        <SelectTrigger>
+          <SelectValue placeholder="Pick a fruit" />
+        </SelectTrigger>
+      </Select>,
+    )
+  }
+
+  it('trigger renders with role="combobox"', () => {
+    const { container } = renderSelect()
+    const trigger = container.querySelector('[data-slot="select-trigger"]')!
+
+    expect(trigger.getAttribute('role')).toBe('combobox')
+    expect(trigger.getAttribute('type')).toBe('button')
+  })
+
+  it('trigger has aria-expanded="false" when closed', () => {
+    const { container } = renderSelect()
+    const trigger = container.querySelector('[data-slot="select-trigger"]')!
+
+    expect(trigger.getAttribute('aria-expanded')).toBe('false')
+    expect(trigger.getAttribute('data-state')).toBe('closed')
+  })
+
+  it('trigger has aria-autocomplete="none"', () => {
+    const { container } = renderSelect()
+    const trigger = container.querySelector('[data-slot="select-trigger"]')!
+
+    expect(trigger.getAttribute('aria-autocomplete')).toBe('none')
+  })
+
+  it('placeholder text shows in value slot when no value set', () => {
+    const { container } = renderSelect()
+    const value = container.querySelector('[data-slot="select-value"]')!
+
+    expect(value.textContent).toBe('Pick a fruit')
+  })
+
+  it('trigger has data-placeholder when no value is selected', () => {
+    const { container } = renderSelect()
+    const trigger = container.querySelector('[data-slot="select-trigger"]')!
+
+    expect(trigger.hasAttribute('data-placeholder')).toBe(true)
+  })
+
+  it('trigger aria-controls points to content id', () => {
+    const { container } = renderSelect()
+    const trigger = container.querySelector('[data-slot="select-trigger"]')!
+
+    const controlsId = trigger.getAttribute('aria-controls')
+    expect(controlsId).toBeTruthy()
+  })
+
+  it('fires onOpenChange(true) when trigger is activated via keyboard', () => {
+    const handler = mock(() => {})
+    const { container } = renderSelect({ onOpenChange: handler })
+    const trigger = container.querySelector('[data-slot="select-trigger"]')!
+
+    fireEvent.keyDown(trigger, { key: 'Enter' })
+    expect(handler).toHaveBeenCalledWith(true)
+  })
+
+  it('ArrowDown key also opens the select', () => {
+    const handler = mock(() => {})
+    const { container } = renderSelect({ onOpenChange: handler })
+    const trigger = container.querySelector('[data-slot="select-trigger"]')!
+
+    fireEvent.keyDown(trigger, { key: 'ArrowDown' })
+    expect(handler).toHaveBeenCalledWith(true)
+  })
+
+  it('disabled trigger does not open', () => {
+    const handler = mock(() => {})
+    const { container } = renderSelect({ disabled: true, onOpenChange: handler })
+    const trigger = container.querySelector('[data-slot="select-trigger"]')!
+
+    expect(trigger.getAttribute('disabled')).toBe('')
+    expect(trigger.getAttribute('data-disabled')).toBe('')
+    fireEvent.keyDown(trigger, { key: 'Enter' })
+    expect(handler).not.toHaveBeenCalled()
+  })
+
+  it('aria-required is set when required prop is true', () => {
+    const { container } = renderSelect({ required: true })
+    const trigger = container.querySelector('[data-slot="select-trigger"]')!
+
+    expect(trigger.getAttribute('aria-required')).toBe('true')
+  })
+})
+
+// ---------------------------------------------------------------------------
+// 9. Slider compound
+// ---------------------------------------------------------------------------
+
+describe('Slider compound', () => {
+  function renderSlider(props: Record<string, unknown> = {}) {
+    return render(
+      <Slider defaultValue={[50]} min={0} max={100} step={1} {...props}>
+        <SliderTrack>
+          <SliderRange />
+        </SliderTrack>
+        <SliderThumb />
+      </Slider>,
+    )
+  }
+
+  it('renders all slots: slider, track, range, thumb', () => {
+    const { container } = renderSlider()
+
+    expect(container.querySelector('[data-slot="slider"]')).not.toBeNull()
+    expect(container.querySelector('[data-slot="slider-track"]')).not.toBeNull()
+    expect(container.querySelector('[data-slot="slider-range"]')).not.toBeNull()
+    expect(container.querySelector('[data-slot="slider-thumb"]')).not.toBeNull()
+  })
+
+  it('thumb has role="slider" with correct ARIA values', () => {
+    const { container } = renderSlider()
+    const thumb = container.querySelector('[data-slot="slider-thumb"]')!
+
+    expect(thumb.getAttribute('role')).toBe('slider')
+    expect(thumb.getAttribute('aria-valuemin')).toBe('0')
+    expect(thumb.getAttribute('aria-valuemax')).toBe('100')
+    expect(thumb.getAttribute('aria-valuenow')).toBe('50')
+    expect(thumb.getAttribute('aria-orientation')).toBe('horizontal')
+  })
+
+  it('thumb is focusable (tabindex=0) when not disabled', () => {
+    const { container } = renderSlider()
+    const thumb = container.querySelector('[data-slot="slider-thumb"]')!
+
+    expect(thumb.getAttribute('tabindex')).toBe('0')
+  })
+
+  it('track and range have data-orientation="horizontal" by default', () => {
+    const { container } = renderSlider()
+
+    expect(container.querySelector('[data-slot="slider-track"]')!.getAttribute('data-orientation')).toBe('horizontal')
+    expect(container.querySelector('[data-slot="slider-range"]')!.getAttribute('data-orientation')).toBe('horizontal')
+  })
+
+  it('slider range style reflects value position', () => {
+    const { container } = renderSlider({ defaultValue: [25] })
+    const range = container.querySelector('[data-slot="slider-range"]') as HTMLElement
+
+    // With value=25, min=0, max=100: start=0%, end=75%
+    expect(range.style.left).toBe('0%')
+    expect(range.style.right).toBe('75%')
+  })
+
+  it('multiple thumbs for range slider', () => {
+    const { container } = render(
+      <Slider defaultValue={[20, 80]} min={0} max={100}>
+        <SliderTrack>
+          <SliderRange />
+        </SliderTrack>
+        <SliderThumb />
+        <SliderThumb />
+      </Slider>,
+    )
+
+    const thumbs = container.querySelectorAll('[data-slot="slider-thumb"]')
+    expect(thumbs.length).toBe(2)
+
+    expect(thumbs[0]!.getAttribute('role')).toBe('slider')
+    expect(thumbs[1]!.getAttribute('role')).toBe('slider')
+
+    // First thumb = value 20, second thumb = value 80
+    expect(thumbs[0]!.getAttribute('aria-valuenow')).toBe('20')
+    expect(thumbs[1]!.getAttribute('aria-valuenow')).toBe('80')
+  })
+
+  it('range slider range element spans between thumb positions', () => {
+    const { container } = render(
+      <Slider defaultValue={[20, 80]} min={0} max={100}>
+        <SliderTrack>
+          <SliderRange />
+        </SliderTrack>
+        <SliderThumb />
+        <SliderThumb />
+      </Slider>,
+    )
+    const range = container.querySelector('[data-slot="slider-range"]') as HTMLElement
+
+    // With values [20, 80]: start=20%, end=20%
+    expect(range.style.left).toBe('20%')
+    expect(range.style.right).toBe('20%')
+  })
+
+  it('disabled slider sets data-disabled on all parts', () => {
+    const { container } = renderSlider({ disabled: true })
+    const slider = container.querySelector('[data-slot="slider"]')!
+    const track = container.querySelector('[data-slot="slider-track"]')!
+    const range = container.querySelector('[data-slot="slider-range"]')!
+    const thumb = container.querySelector('[data-slot="slider-thumb"]')!
+
+    expect(slider.getAttribute('data-disabled')).toBe('')
+    expect(track.getAttribute('data-disabled')).toBe('')
+    expect(range.getAttribute('data-disabled')).toBe('')
+    expect(thumb.getAttribute('data-disabled')).toBe('')
+  })
+
+  it('disabled slider thumb has no tabindex', () => {
+    const { container } = renderSlider({ disabled: true })
+    const thumb = container.querySelector('[data-slot="slider-thumb"]')!
+
+    expect(thumb.getAttribute('tabindex')).toBeNull()
+  })
+
+  it('custom min/max/step are reflected in thumb ARIA', () => {
+    const { container } = render(
+      <Slider defaultValue={[5]} min={1} max={10} step={1}>
+        <SliderTrack>
+          <SliderRange />
+        </SliderTrack>
+        <SliderThumb />
+      </Slider>,
+    )
+    const thumb = container.querySelector('[data-slot="slider-thumb"]')!
+
+    expect(thumb.getAttribute('aria-valuemin')).toBe('1')
+    expect(thumb.getAttribute('aria-valuemax')).toBe('10')
+    expect(thumb.getAttribute('aria-valuenow')).toBe('5')
+  })
+
+  it('vertical orientation sets data-orientation="vertical"', () => {
+    const { container } = renderSlider({ orientation: 'vertical' })
+    const thumb = container.querySelector('[data-slot="slider-thumb"]')!
+    const track = container.querySelector('[data-slot="slider-track"]')!
+
+    expect(thumb.getAttribute('data-orientation')).toBe('vertical')
+    expect(thumb.getAttribute('aria-orientation')).toBe('vertical')
+    expect(track.getAttribute('data-orientation')).toBe('vertical')
   })
 })
