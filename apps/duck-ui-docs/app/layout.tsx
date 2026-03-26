@@ -1,6 +1,6 @@
 /* biome-ignore-all lint/security/noDangerouslySetInnerHtml: This layout bootstraps the stored font preset before hydration. */
 import type { Metadata } from 'next'
-import 'public/r/themes.css'
+import '~/public/r/themes.css'
 import './globals.css'
 import { TailwindIndicator, ThemeProvider } from '@gentleduck/docs/client'
 import { cn } from '@gentleduck/libs/cn'

@@ -3,7 +3,6 @@
   "extends": "@gentleduck/typescript-config/base.json",
   "compilerOptions": {
     "lib": ["ES2022", "dom", "dom.iterable"],
-    "baseUrl": ".",
     "incremental": false,
     "rootDir": "./",
     "outDir": "./dist",
