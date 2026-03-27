@@ -1,0 +1,12 @@
+[package]
+name = "duck-md-lexer"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+duck-diagnostic.workspace = true
+serde_yaml.workspace = true
+serde.workspace = true
+
+[dev-dependencies]
+pretty_assertions.workspace = true

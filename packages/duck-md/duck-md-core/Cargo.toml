@@ -1,0 +1,7 @@
+[package]
+name = "duck-md-core"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+duck-md-lexer.workspace = true
