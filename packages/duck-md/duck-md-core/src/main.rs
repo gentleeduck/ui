@@ -1,9 +1,11 @@
-use std::fs;
+use std::{cell::RefCell, fs, rc::Rc};
 
+use duck_diagnostic::{Diagnostic, DiagnosticEngine};
 use duck_md_lexer::Lexer;
 
-fn main() {
+fn main() -> Result<(), std::io::Error> {
   let path = String::from("./tmp/index.mdx");
+  let engine = Rc::new(RefCell::new(DiagnosticEngine::new()));
 
   let source = match fs::read_to_string(&path) {
     Ok(content) => content,
@@ -13,12 +15,24 @@ fn main() {
     },
   };
 
-  let mut lexer = Lexer::new(source);
+  println!("=== Source ===");
+  println!("{}", source);
+
+  // NOTE: later one when we use incremental parsing, we can pass the source obj instead of the
+  // string cloning
+  let mut lexer = Lexer::new(source.clone(), engine.borrow_mut());
   lexer.scan_tokens();
 
   println!("=== tokens ===");
-  println!("{:#?}", lexer.tokens);
+  println!("{:?}", lexer.tokens);
 
+  drop(lexer);
+  let engine = engine.borrow();
+  if engine.has_errors() || engine.has_warnings() {
+    engine.print_all(&source);
+  }
+
+  Ok(())
   // match lexer.scan_tokens() {
   //   Ok(_) => {
   //     println!("=== tokens ===");
