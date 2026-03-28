@@ -3,14 +3,15 @@ use duck_diagnostic::{Diagnostic, Label, Span};
 use crate::{Lexer, diagnostic::Code, token::TokenKind};
 
 impl<'engine> Lexer<'engine> {
-  pub(crate) fn lex_frontmatter(&mut self) -> Result<TokenKind, ()> {
+  pub(crate) fn lex_frontmatter(&mut self) {
     // first '-' already consumed by caller, consume remaining two
 
-    self.lex_frontmatter_bound()?;
+    self.consume_while(|c, _| c == '-');
 
-    // if we're at the end of the file, emit a ThematicBreak
-    if self.frontmatter_reserved {
-      return Ok(TokenKind::ThematicBreak);
+    // if we're at the end of the file, emit a ThematicBreak or it's length is not 3 or it's already reserved
+    if self.get_current_lexeme().len() != 3 || (self.frontmatter_reserved || self.current > 3) {
+      self.emit(TokenKind::ThematicBreak);
+      return;
     }
 
     // emit the opening ---
@@ -35,7 +36,6 @@ impl<'engine> Lexer<'engine> {
             ))
             .with_help("add a closing --- on its own line"),
         );
-        return Err(());
       }
 
       // at the start of a line, check for closing ---
@@ -54,7 +54,8 @@ impl<'engine> Lexer<'engine> {
           self.current = saved_current;
           self.frontmatter_reserved = true;
 
-          return Ok(TokenKind::FrontmatterEnd);
+          self.emit(TokenKind::FrontmatterEnd);
+          break;
         }
 
         // not exactly 3 dashes, keep consuming
@@ -71,21 +72,5 @@ impl<'engine> Lexer<'engine> {
         self.column = 0;
       }
     }
-  }
-
-  fn lex_frontmatter_bound(&mut self) -> Result<(), ()> {
-    self.consume_while(|c, _| c == '-');
-    if self.get_current_lexeme().len() != 3 {
-      self.emit_diagnostic(
-        Diagnostic::new(Code::InvalidFrontMatter, "invalid frontmatter")
-          .with_label(Label::primary(
-            Span::new("", self.line, self.column - 1, self.current - 1),
-            Some("frontmatter must be three dashes".to_string()),
-          ))
-          .with_help("add three dashes to the frontmatter"),
-      );
-      return Err(());
-    }
-    Ok(())
   }
 }
