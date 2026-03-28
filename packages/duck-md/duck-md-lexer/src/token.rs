@@ -6,81 +6,94 @@ use duck_diagnostic::Span;
 pub struct Token {
   pub kind: TokenKind,
   pub span: Span,
+  pub raw: String,
 }
 
 impl Token {
-  pub fn new(kind: TokenKind, span: Span) -> Self {
-    Self { kind, span }
+  pub fn new(kind: TokenKind, span: Span, raw: String) -> Self {
+    Self { kind, span, raw }
   }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum TokenKind {
-  FrontmatterStart,
-  FrontmatterEnd,
+  // Frontmatter
+  FrontmatterStart,   // opening ---
+  FrontmatterContent, // raw YAML content between --- delimiters
+  FrontmatterEnd,     // closing ---
+  ThematicBreak,      // ---
 
-  FrontmatterContent(String),
-  Import,
-  Export,
-  Heading(u8),
-  Text,
+  // Top-level MDX statements
+  Import, // import ... from '...'
+  Export, // export const ...
 
-  ExpressionStart,
-  ExpressionEnd,
+  // Block-level Markdown
+  Heading(u8), // # level 1-6
 
-  BoldStart,
-  BoldEnd,
+  // Inline Markdown
+  Text,       // plain text content
+  Bold(u8),   // ** or __ — carries the delimiter count
+  Italic(u8), // * or _ — carries the delimiter count
 
-  ItalicStart,
-  ItalicEnd,
+  // JSX
+  JsxOpenTagStart,   //
+  JsxCloseTagStart,  // </
+  JsxOpenTagEnd,     // >
+  JsxSelfClosingEnd, // />
+  JsxTagName,        // component or element name e.g. Button
+  JsxAttributeName,  // attribute name e.g. color
+  JsxAttributeValue, // attribute value e.g. "red" or {expr}
 
-  JsxStartTag,
-  JsxEndTag,
-  JsxSelfClosingTag,
-  JsxAttribute,
-  JsxAttributeValue,
+  // Expressions
+  ExpressionStart, // {
+  ExpressionEnd,   // }
 
-  Newline,
-  Whitespace,
+  // Punctuation
+  Eq,     // = (used in JSX attribute assignment)
+  String, // quoted string literal e.g. "red"
+
+  // Trivia
+  Newline,    // \n
+  Whitespace, // spaces and tabs
+  Quote,      // " | '
+
+  // End of file
   Eof,
 }
 
 impl TokenKind {
   pub fn is_trivia(&self) -> bool {
-    matches!(self, TokenKind::Whitespace)
+    matches!(self, TokenKind::Whitespace | TokenKind::Newline | TokenKind::Quote)
   }
 }
 
 impl fmt::Display for TokenKind {
   fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
     let s = match self {
-      TokenKind::FrontmatterStart => "FrontMatterStart",
-      TokenKind::FrontmatterEnd => "FrontMatterEnd",
-
-      TokenKind::FrontmatterContent(_) => "FrontMatterContent",
+      TokenKind::FrontmatterStart => "FrontmatterStart",
+      TokenKind::FrontmatterContent => "FrontmatterContent",
+      TokenKind::FrontmatterEnd => "FrontmatterEnd",
+      TokenKind::ThematicBreak => "ThematicBreak",
       TokenKind::Import => "Import",
       TokenKind::Export => "Export",
       TokenKind::Heading(_) => "Heading",
       TokenKind::Text => "Text",
-
+      TokenKind::Bold(_) => "Bold",
+      TokenKind::Italic(_) => "Italic",
+      TokenKind::JsxOpenTagStart => "JsxOpenTagStart",
+      TokenKind::JsxCloseTagStart => "JsxCloseTagStart",
+      TokenKind::JsxOpenTagEnd => "JsxOpenTagEnd",
+      TokenKind::JsxSelfClosingEnd => "JsxSelfClosingEnd",
+      TokenKind::JsxTagName => "JsxTagName",
+      TokenKind::JsxAttributeName => "JsxAttribute",
+      TokenKind::JsxAttributeValue => "JsxAttributeValue",
       TokenKind::ExpressionStart => "ExpressionStart",
       TokenKind::ExpressionEnd => "ExpressionEnd",
-
-      TokenKind::BoldStart => "BoldStart",
-      TokenKind::BoldEnd => "BoldEnd",
-
-      TokenKind::ItalicStart => "ItalicStart",
-      TokenKind::ItalicEnd => "ItalicEnd",
-
-      TokenKind::JsxStartTag => "JsxStartTag",
-      TokenKind::JsxEndTag => "JsxEndTag",
-      TokenKind::JsxSelfClosingTag => "JsxSelfClosingTag",
-      TokenKind::JsxAttribute => "JsxAttribute",
-      TokenKind::JsxAttributeValue => "JsxAttributeValue",
-
+      TokenKind::Eq => "Eq",
+      TokenKind::String => "String",
       TokenKind::Newline => "Newline",
-
       TokenKind::Whitespace => "Whitespace",
+      TokenKind::Quote => "Qoute",
       TokenKind::Eof => "Eof",
     };
     write!(f, "{}", s)

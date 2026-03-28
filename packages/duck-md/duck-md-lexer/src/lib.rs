@@ -1,3 +1,6 @@
+use std::cell::{RefCell, RefMut};
+use std::rc::Rc;
+
 use duck_diagnostic::{Diagnostic, DiagnosticEngine, Span};
 
 use crate::diagnostic::Code;
@@ -8,18 +11,19 @@ mod lexers;
 pub mod token;
 mod utils;
 
-pub struct Lexer {
+pub struct Lexer<'engine> {
   pub source: String,
   pub tokens: Vec<Token>,
   pub start: usize,
   pub current: usize,
   pub line: usize,
   pub column: usize,
-  pub engine: DiagnosticEngine<Code>,
+  pub engine: RefMut<'engine, DiagnosticEngine<Code>>,
+  pub frontmatter_reserved: bool,
 }
 
-impl Lexer {
-  pub fn new(source: String) -> Self {
+impl<'engine> Lexer<'engine> {
+  pub fn new(source: String, engine: RefMut<'engine, DiagnosticEngine<Code>>) -> Self {
     Self {
       source,
       tokens: Vec::new(),
@@ -27,7 +31,8 @@ impl Lexer {
       current: 0,
       line: 0,
       column: 0,
-      engine: DiagnosticEngine::new(),
+      engine: engine,
+      frontmatter_reserved: false,
     }
   }
 
@@ -55,12 +60,13 @@ impl Lexer {
 
   fn emit(&mut self, kind: TokenKind) {
     if kind.is_trivia() {
+      self.start = self.current;
       return;
     }
 
-    let span = Span::new("index.mdx", self.start, self.current, self.column);
+    let span = Span::new("index.mdx", self.line, self.column, self.current - self.start);
 
-    self.tokens.push(Token::new(kind, span));
+    self.tokens.push(Token::new(kind, span, self.get_current_lexeme().to_string()));
     self.start = self.current;
   }
 }

@@ -1,6 +1,6 @@
 use crate::{Lexer, token::TokenKind};
 
-impl Lexer {
+impl<'engine> Lexer<'engine> {
   pub(crate) fn lex_whitespace(&mut self) -> Result<TokenKind, ()> {
     while let Some(c) = self.peek() {
       if c == ' ' || c == '\t' || c == '\r' {

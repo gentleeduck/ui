@@ -2,17 +2,19 @@ use duck_diagnostic::{Diagnostic, Label, Span};
 
 use crate::{Lexer, diagnostic::Code, token::TokenKind};
 
-impl Lexer {
+impl<'engine> Lexer<'engine> {
   pub(crate) fn lex_tokens(&mut self, c: char) -> Result<TokenKind, ()> {
     match c {
       '-' if self.peek() == Some('-') && self.peek_next() == Some('-') => self.lex_frontmatter(),
-
       '\n' => self.lex_newline(),
       '\r' | '\t' | ' ' => self.lex_whitespace(),
 
-      '*' => self.lex_bold(),
       '#' => self.lex_heading(),
-
+      '*' => self.lex_bold(),
+      '_' => self.lex_italic(),
+      '<' => self.lex_jsx_tag(),
+      '=' => Ok(TokenKind::Eq),
+      '"' => self.lex_string(),
       _ => self.lex_text(),
     }
   }
@@ -60,7 +62,7 @@ impl Lexer {
     self.source.get(self.start..self.current).unwrap_or("")
   }
 
-  pub(crate) fn match_char(&mut self, expected: char) -> bool {
+  pub(crate) fn match_next_char_consume(&mut self, expected: char) -> bool {
     if let Some(c) = self.peek() {
       if c == expected {
         self.advance();
@@ -68,5 +70,54 @@ impl Lexer {
       }
     }
     false
+  }
+
+  pub(crate) fn match_current_char(&mut self, expected: char) -> bool {
+    if let Some(c) = self.source[self.current..].chars().next() {
+      if c == expected {
+        return true;
+      }
+    }
+    false
+  }
+
+  pub(crate) fn consume_while(&mut self, mut predicate: impl FnMut(char, Option<char>) -> bool) {
+    while let Some(c) = self.peek() {
+      let next = self.peek_next();
+      if predicate(c, next) {
+        self.advance();
+      } else {
+        break;
+      }
+    }
+  }
+
+  pub(crate) fn consume_till(&mut self, c: char) {
+    while let Some(cc) = self.peek() {
+      if c != cc {
+        self.advance();
+      } else {
+        break;
+      }
+    }
+  }
+
+  pub(crate) fn get_current_char(&mut self) -> Option<char> {
+    self.source[self.current..].chars().next()
+  }
+
+  pub(crate) fn consume_whitespaces(&mut self) {
+    let mut n = 0;
+    while let Some(c) = self.get_current_char() {
+      if c == ' ' || c == '\t' {
+        self.advance();
+        n += 1;
+      } else {
+        break;
+      }
+    }
+    if n > 0 {
+      self.emit(TokenKind::Whitespace);
+    }
   }
 }
