@@ -15,6 +15,13 @@ impl Token {
   }
 }
 
+impl fmt::Display for Token {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    let escaped = self.raw.replace('\n', "\\n").replace('\t', "\\t");
+    write!(f, "{}({:?})", self.kind, escaped)
+  }
+}
+
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum TokenKind {
   // Frontmatter
@@ -37,8 +44,9 @@ pub enum TokenKind {
 
   // JSX
   JsxOpenTagStart,   //
-  JsxCloseTagStart,  // </
   JsxOpenTagEnd,     // >
+  JsxCloseTagStart,  // </
+  JsxCloseTagEnd,    // >
   JsxSelfClosingEnd, // />
   JsxTagName,        // component or element name e.g. Button
   JsxAttributeName,  // attribute name e.g. color
@@ -82,6 +90,7 @@ impl fmt::Display for TokenKind {
       TokenKind::Italic(_) => "Italic",
       TokenKind::JsxOpenTagStart => "JsxOpenTagStart",
       TokenKind::JsxCloseTagStart => "JsxCloseTagStart",
+      TokenKind::JsxCloseTagEnd => "JsxCloseTagEnd",
       TokenKind::JsxOpenTagEnd => "JsxOpenTagEnd",
       TokenKind::JsxSelfClosingEnd => "JsxSelfClosingEnd",
       TokenKind::JsxTagName => "JsxTagName",
