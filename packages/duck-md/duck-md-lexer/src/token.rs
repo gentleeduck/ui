@@ -58,13 +58,21 @@ pub enum TokenKind {
   BlockQuote,        // >
   OrderedListItem,   // 1. or 1)
   UnorderedListItem, // * or -
-  CodeStart(u8),     // ` | ```
-  CodeEnd(u8),       // ` | ```
-  Link,              // [text](href)
-  Image,             // ![alt](src)
+  CodeStart(u8),
+  CodeEnd(u8),
+  Bracket,
+  Bang,
+  ParenOpen,
+  ParenClose,
   // Punctuation
   Eq,     // = (used in JSX attribute assignment)
   String, // quoted string literal e.g. "red"
+
+  HTMLCommentStart, // <!--
+  HTMLCommentEnd,   //  -->
+
+  MarkdownCommentStart, // {/*
+  MarkdownCommentEnd,   //  */}
 
   // Trivia
   Newline,    // \n
@@ -109,8 +117,14 @@ impl fmt::Display for TokenKind {
       TokenKind::UnorderedListItem => "UnorderedListItem",
       TokenKind::CodeEnd(_) => "CodeBlock",
       TokenKind::CodeStart(_) => "InlineCode",
-      TokenKind::Link => "Link",
-      TokenKind::Image => "Image",
+      TokenKind::Bracket => "Link",
+      TokenKind::Bang => "Image",
+      TokenKind::ParenOpen => "Paren",
+      TokenKind::ParenClose => "ParenClose",
+      TokenKind::HTMLCommentStart => "HTMLCommentStart",
+      TokenKind::HTMLCommentEnd => "HTMLCommentEnd",
+      TokenKind::MarkdownCommentStart => "MarkdownCommentStart",
+      TokenKind::MarkdownCommentEnd => "MarkdownCommentEnd",
       TokenKind::Eq => "Eq",
       TokenKind::String => "String",
       TokenKind::Newline => "Newline",
