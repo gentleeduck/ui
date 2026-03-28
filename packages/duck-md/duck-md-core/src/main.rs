@@ -24,7 +24,9 @@ fn main() -> Result<(), std::io::Error> {
   lexer.scan_tokens();
 
   println!("=== tokens ===");
-  println!("{:?}", lexer.tokens);
+  for token in &lexer.tokens {
+    println!("  {}", token);
+  }
 
   drop(lexer);
   let engine = engine.borrow();
