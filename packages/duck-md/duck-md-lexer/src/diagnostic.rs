@@ -8,6 +8,10 @@ pub enum Code {
   UnterminatedString,
   UnterminatedExpression,
   UnexpectedEof,
+  InvalidJsxSelfClosingTag,
+  UnterminatedJsxTag,
+  InvalidJsxClosingTag,
+  InvalidJsxAttribute,
 
   // Warnings
   EmptyFrontMatter,
@@ -21,6 +25,11 @@ impl DiagnosticCode for Code {
       Self::UnterminatedString => "E003",
       Self::UnterminatedExpression => "E004",
       Self::UnexpectedEof => "E005",
+      Self::InvalidJsxSelfClosingTag => "E006",
+      Self::UnterminatedJsxTag => "E007",
+      Self::InvalidJsxClosingTag => "E008",
+      Self::InvalidJsxAttribute => "E009",
+
       Self::EmptyFrontMatter => "W001",
     }
   }
@@ -31,6 +40,10 @@ impl DiagnosticCode for Code {
       | Self::InvalidFrontMatter
       | Self::UnterminatedString
       | Self::UnterminatedExpression
+      | Self::InvalidJsxSelfClosingTag
+      | Self::UnterminatedJsxTag
+      | Self::InvalidJsxClosingTag
+      | Self::InvalidJsxAttribute
       | Self::UnexpectedEof => Severity::Error,
 
       Self::EmptyFrontMatter => Severity::Warning,
