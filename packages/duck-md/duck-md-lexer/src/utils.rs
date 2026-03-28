@@ -6,6 +6,10 @@ impl<'engine> Lexer<'engine> {
       '\n' => self.lex_newline(),
       '\r' | '\t' | ' ' => self.lex_whitespace(),
 
+      '(' => self.emit(TokenKind::ParenOpen),
+      ')' => self.emit(TokenKind::ParenClose),
+      '[' => self.lex_link(),
+      '!' if self.peek() == Some('[') => self.lex_image(),
       '`' => self.lex_code(),
       '-' if self.peek() == Some(' ') => self.lex_unordered_list_item(),
       '0'..='9' if self.peek() == Some('.') => self.lex_ordered_list_item(),
@@ -13,6 +17,7 @@ impl<'engine> Lexer<'engine> {
       '#' => self.lex_heading(),
       '*' => self.lex_bold(),
       '_' => self.lex_italic(),
+      '<' if self.peek() == Some('!') => self.lex_comment(),
       '<' => self.lex_jsx_tag(),
       '>' => self.emit(TokenKind::BlockQuote),
       '=' => self.emit(TokenKind::Eq),
