@@ -22,6 +22,7 @@ impl<'engine> Lexer<'engine> {
   pub(crate) fn lex_text(&mut self) {
     while let Some(c) = self.peek() {
       if c == '\n'
+        || c == '`'
         || c == '/'
         || c == '*'
           && !self.is_eof()

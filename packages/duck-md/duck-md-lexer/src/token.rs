@@ -53,9 +53,15 @@ pub enum TokenKind {
   JsxAttributeValue, // attribute value e.g. "red" or {expr}
 
   // Expressions
-  ExpressionStart, // {
-  ExpressionEnd,   // }
-
+  ExpressionStart,   // {
+  ExpressionEnd,     // }
+  BlockQuote,        // >
+  OrderedListItem,   // 1. or 1)
+  UnorderedListItem, // * or -
+  CodeStart(u8),     // ` | ```
+  CodeEnd(u8),       // ` | ```
+  Link,              // [text](href)
+  Image,             // ![alt](src)
   // Punctuation
   Eq,     // = (used in JSX attribute assignment)
   String, // quoted string literal e.g. "red"
@@ -98,6 +104,13 @@ impl fmt::Display for TokenKind {
       TokenKind::JsxAttributeValue => "JsxAttributeValue",
       TokenKind::ExpressionStart => "ExpressionStart",
       TokenKind::ExpressionEnd => "ExpressionEnd",
+      TokenKind::BlockQuote => "BlockQuote",
+      TokenKind::OrderedListItem => "OrderedListItem",
+      TokenKind::UnorderedListItem => "UnorderedListItem",
+      TokenKind::CodeEnd(_) => "CodeBlock",
+      TokenKind::CodeStart(_) => "InlineCode",
+      TokenKind::Link => "Link",
+      TokenKind::Image => "Image",
       TokenKind::Eq => "Eq",
       TokenKind::String => "String",
       TokenKind::Newline => "Newline",
