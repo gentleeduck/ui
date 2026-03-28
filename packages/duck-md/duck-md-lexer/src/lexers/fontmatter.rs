@@ -1,6 +1,4 @@
-use duck_diagnostic::{Diagnostic, Label, Span};
-
-use crate::{Lexer, diagnostic::Code, token::TokenKind};
+use crate::{Lexer, token::TokenKind};
 
 impl<'engine> Lexer<'engine> {
   pub(crate) fn lex_frontmatter(&mut self) {
@@ -8,8 +6,13 @@ impl<'engine> Lexer<'engine> {
 
     self.consume_while(|c, _| c == '-');
 
-    // if we're at the end of the file, emit a ThematicBreak or it's length is not 3 or it's already reserved
-    if self.get_current_lexeme().len() != 3 || (self.frontmatter_reserved || self.current > 3) {
+    // thematic break if: not exactly 3 dashes, already reserved, not at file start,
+    // or no closing --- exists in the remaining source
+    if self.get_current_lexeme().len() != 3
+      || self.frontmatter_reserved
+      || self.current > 3
+      || !self.source[self.current..].contains("\n---")
+    {
       self.emit(TokenKind::ThematicBreak);
       return;
     }
@@ -28,14 +31,9 @@ impl<'engine> Lexer<'engine> {
     // consume content line by line until closing --- at column 0
     loop {
       if self.is_eof() {
-        self.emit_diagnostic(
-          Diagnostic::new(Code::InvalidFrontMatter, "unterminated frontmatter")
-            .with_label(Label::primary(
-              Span::new("", self.line, self.column, self.current - self.start),
-              Some("frontmatter opened here but never closed".to_string()),
-            ))
-            .with_help("add a closing --- on its own line"),
-        );
+        // no closing --- found, treat the opening --- as a thematic break
+        self.emit(TokenKind::FrontmatterContent);
+        break;
       }
 
       // at the start of a line, check for closing ---
