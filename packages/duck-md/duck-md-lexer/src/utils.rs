@@ -3,16 +3,19 @@ use crate::{Lexer, token::TokenKind};
 impl<'engine> Lexer<'engine> {
   pub(crate) fn lex_tokens(&mut self, c: char) {
     match c {
-      '-' if self.peek() == Some('-') && self.peek_next() == Some('-') => self.lex_frontmatter(),
       '\n' => self.lex_newline(),
       '\r' | '\t' | ' ' => self.lex_whitespace(),
 
+      '`' => self.lex_code(),
+      '-' if self.peek() == Some(' ') => self.lex_unordered_list_item(),
+      '0'..='9' if self.peek() == Some('.') => self.lex_ordered_list_item(),
+      '-' if self.peek() == Some('-') && self.peek_next() == Some('-') => self.lex_frontmatter(),
       '#' => self.lex_heading(),
       '*' => self.lex_bold(),
       '_' => self.lex_italic(),
       '<' => self.lex_jsx_tag(),
+      '>' => self.emit(TokenKind::BlockQuote),
       '=' => self.emit(TokenKind::Eq),
-      '"' => self.lex_string(),
       _ => self.lex_text(),
     };
   }
