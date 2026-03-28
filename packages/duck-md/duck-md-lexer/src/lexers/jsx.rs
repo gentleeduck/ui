@@ -79,20 +79,6 @@ impl<'engine> Lexer<'engine> {
     }
   }
 
-  pub(crate) fn lex_string(&mut self) {
-    // opening " already consumed by caller
-    self.consume_while(|c, _| c != '"' && c != '\n');
-
-    if !self.match_next_char_consume('"') {
-      self.emit_diagnostic(
-        Diagnostic::new(Code::UnterminatedString, "unterminated string")
-          .with_help("add a closing `\"` to the string"),
-      );
-    }
-
-    self.emit(TokenKind::String)
-  }
-
   pub(crate) fn lex_expression(&mut self) {
     // opening '{' already consumed by caller
     self.emit(TokenKind::ExpressionStart);
