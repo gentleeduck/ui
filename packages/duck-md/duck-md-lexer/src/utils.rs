@@ -1,9 +1,7 @@
-use duck_diagnostic::{Diagnostic, Label, Span};
-
-use crate::{Lexer, diagnostic::Code, token::TokenKind};
+use crate::{Lexer, token::TokenKind};
 
 impl<'engine> Lexer<'engine> {
-  pub(crate) fn lex_tokens(&mut self, c: char) -> Result<TokenKind, ()> {
+  pub(crate) fn lex_tokens(&mut self, c: char) {
     match c {
       '-' if self.peek() == Some('-') && self.peek_next() == Some('-') => self.lex_frontmatter(),
       '\n' => self.lex_newline(),
@@ -13,10 +11,10 @@ impl<'engine> Lexer<'engine> {
       '*' => self.lex_bold(),
       '_' => self.lex_italic(),
       '<' => self.lex_jsx_tag(),
-      '=' => Ok(TokenKind::Eq),
+      '=' => self.emit(TokenKind::Eq),
       '"' => self.lex_string(),
       _ => self.lex_text(),
-    }
+    };
   }
 
   pub(crate) fn is_eof(&self) -> bool {

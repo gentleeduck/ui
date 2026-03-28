@@ -3,9 +3,12 @@ use duck_diagnostic::{Diagnostic, Label, Span};
 use crate::{Lexer, diagnostic::Code, token::TokenKind};
 
 impl<'engine> Lexer<'engine> {
-  pub(crate) fn lex_jsx_tag(&mut self) -> Result<TokenKind, ()> {
+  pub(crate) fn lex_jsx_tag(&mut self) {
+    let mut is_close_tag = false;
+
     if self.peek() == Some('/') {
       self.advance();
+      is_close_tag = true;
       self.emit(TokenKind::JsxCloseTagStart); //  </
     } else {
       self.emit(TokenKind::JsxOpenTagStart); // <
@@ -23,30 +26,32 @@ impl<'engine> Lexer<'engine> {
     if c == Some('/') {
       self.advance(); // consume the /
       self.advance(); // consume the >
-      return Ok(TokenKind::JsxSelfClosingEnd);
+      return self.emit(TokenKind::JsxSelfClosingEnd);
     }
 
     while let Some(cc) = self.get_current_char()
       && cc.is_alphabetic()
     {
-      self.lex_jsx_attribute()?;
+      self.lex_jsx_attribute();
       if self.get_current_char() == Some(' ') {
         self.consume_whitespaces();
       }
     }
 
     self.advance();
-    return Ok(TokenKind::JsxOpenTagEnd);
+    if is_close_tag {
+      return self.emit(TokenKind::JsxCloseTagEnd);
+    }
+    return self.emit(TokenKind::JsxOpenTagEnd);
   }
 
-  pub(crate) fn lex_jsx_attribute(&mut self) -> Result<(), ()> {
+  pub(crate) fn lex_jsx_attribute(&mut self) {
     self.consume_while(|c, _| c != '=' && c.is_alphabetic());
     self.emit(TokenKind::JsxAttributeName);
 
     if let Some(c) = self.get_current_char() {
       if c != '=' {
         self.emit_diagnostic(Diagnostic::new(Code::InvalidJsxAttribute, "invlaid jsx attribute"));
-        return Err(());
       }
 
       self.advance(); // consume the =
@@ -61,7 +66,6 @@ impl<'engine> Lexer<'engine> {
         self.emit(TokenKind::Quote);
 
         self.consume_till('\"');
-        println!("{:?}", self.get_current_char());
         self.emit(TokenKind::String);
 
         if let Some(c) = self.get_current_char()
@@ -73,10 +77,9 @@ impl<'engine> Lexer<'engine> {
         }
       }
     }
-    Ok(())
   }
 
-  pub(crate) fn lex_string(&mut self) -> Result<TokenKind, ()> {
+  pub(crate) fn lex_string(&mut self) {
     // opening " already consumed by caller
     self.consume_while(|c, _| c != '"' && c != '\n');
 
@@ -85,13 +88,12 @@ impl<'engine> Lexer<'engine> {
         Diagnostic::new(Code::UnterminatedString, "unterminated string")
           .with_help("add a closing `\"` to the string"),
       );
-      return Err(());
     }
 
-    Ok(TokenKind::String)
+    self.emit(TokenKind::String)
   }
 
-  pub(crate) fn lex_expression(&mut self) -> Result<TokenKind, ()> {
+  pub(crate) fn lex_expression(&mut self) {
     // opening '{' already consumed by caller
     self.emit(TokenKind::ExpressionStart);
 
@@ -110,7 +112,7 @@ impl<'engine> Lexer<'engine> {
             // emit the raw expression content before consuming '}'
             self.emit(TokenKind::Text);
             self.advance(); // consume closing '}'
-            return Ok(TokenKind::ExpressionEnd);
+            return self.emit(TokenKind::ExpressionEnd);
           }
           self.advance();
         },
@@ -125,7 +127,6 @@ impl<'engine> Lexer<'engine> {
                 ))
                 .with_help("close the expression with `}`"),
             );
-            return Err(());
           }
           self.advance();
         },
@@ -144,6 +145,5 @@ impl<'engine> Lexer<'engine> {
         ))
         .with_help("close the expression with `}`"),
     );
-    Err(())
   }
 }

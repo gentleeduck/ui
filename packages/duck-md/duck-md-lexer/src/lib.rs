@@ -1,5 +1,4 @@
-use std::cell::{RefCell, RefMut};
-use std::rc::Rc;
+use std::cell::RefMut;
 
 use duck_diagnostic::{Diagnostic, DiagnosticEngine, Span};
 
@@ -41,13 +40,7 @@ impl<'engine> Lexer<'engine> {
       self.start = self.current;
       let c = self.advance();
 
-      let token = match self.lex_tokens(c) {
-        Ok(token) => token,
-        Err(_) => {
-          return Err(std::io::Error::other("lexing error"));
-        },
-      };
-      self.emit(token);
+      self.lex_tokens(c);
     }
 
     self.emit(TokenKind::Eof);
