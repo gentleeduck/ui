@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 0.3.3
+
+### Patch Changes
+
+- 3971d93: Make all text and heading sizes responsive across docs
+
 ## 0.3.2
 
 ### Patch Changes
