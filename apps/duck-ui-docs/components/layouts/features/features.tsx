@@ -6,8 +6,8 @@ import { Blocks, Code2, Keyboard, Layers, LayoutTemplate, Terminal } from 'lucid
 export function SectionTitle({ title, subtitle }: { title: string; subtitle: string }) {
   return (
     <div className="mx-auto mb-12 max-w-2xl text-center md:mb-16">
-      <h2 className="font-medium text-5xl uppercase sm:text-4xl">{title}</h2>
-      <p className="mt-4 max-w-2xl text-center text-lg text-muted-foreground">{subtitle}</p>
+      <h2 className="font-medium text-2xl uppercase sm:text-3xl md:text-4xl lg:text-5xl">{title}</h2>
+      <p className="mt-4 max-w-2xl text-center text-base text-muted-foreground sm:text-lg">{subtitle}</p>
     </div>
   )
 }
@@ -25,7 +25,7 @@ function FeatureCard({
           className={`mb-3 flex h-14 w-14 items-center justify-center rounded-lg ${feature.bgColor} ${feature.textColor} transition-all duration-300 group-hover:scale-105`}>
           {feature.icon}
         </div>
-        <CardTitle className="mb-1 font-semibold text-xl tracking-tight">{feature.title}</CardTitle>
+        <CardTitle className="mb-1 font-semibold text-lg tracking-tight sm:text-xl">{feature.title}</CardTitle>
         <p className="text-muted-foreground">{feature.description}</p>
       </div>
     </Card>

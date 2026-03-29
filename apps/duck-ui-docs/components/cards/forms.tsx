@@ -29,7 +29,7 @@ export function CardsForms() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-lg">Upgrade your subscription</CardTitle>
+        <CardTitle className="text-base sm:text-lg">Upgrade your subscription</CardTitle>
         <CardDescription className="text-balance">
           You are currently on the free plan. Upgrade to the pro plan to get access to all features.
         </CardDescription>

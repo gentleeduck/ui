@@ -57,7 +57,7 @@ export function CardsStats() {
       <Card className="h-[265px]">
         <CardHeader>
           <CardDescription>Total Revenue</CardDescription>
-          <CardTitle className="text-3xl">$15,231.89</CardTitle>
+          <CardTitle className="text-2xl sm:text-3xl">$15,231.89</CardTitle>
           <CardDescription>+20.1% from last month</CardDescription>
         </CardHeader>
         <CardContent className="pb-0">
@@ -86,7 +86,7 @@ export function CardsStats() {
       <Card className="h-[265px] pb-0 lg:hidden xl:flex">
         <CardHeader>
           <CardDescription>Subscriptions</CardDescription>
-          <CardTitle className="text-3xl">+2,350</CardTitle>
+          <CardTitle className="text-2xl sm:text-3xl">+2,350</CardTitle>
           <CardDescription>+180.1% from last month</CardDescription>
           <CardAction>
             <Button size="sm" variant="ghost">

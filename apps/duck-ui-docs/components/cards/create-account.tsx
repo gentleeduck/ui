@@ -9,7 +9,7 @@ export function CardsCreateAccount() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-2xl">Create an account</CardTitle>
+        <CardTitle className="text-xl sm:text-2xl">Create an account</CardTitle>
         <CardDescription>Enter your email below to create your account</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col gap-4">
