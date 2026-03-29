@@ -17,7 +17,7 @@ import {
 import { Separator } from '@gentleduck/registry-ui/separator'
 import { useKeyCommands } from '@gentleduck/vim/react'
 import { useVirtualizer } from '@tanstack/react-virtual'
-import { Circle, Command, CornerDownLeft, FileIcon, Moon, Sparkles, Sun } from 'lucide-react'
+import { Circle, Command, CornerDownLeft, FileIcon, Moon, Search, Sparkles, Sun } from 'lucide-react'
 import lunr from 'lunr'
 import { useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
@@ -211,15 +211,16 @@ export function CommandMenu() {
     <>
       <Button
         className={cn(
-          'relative h-8 w-full bg-muted/50 text-muted-foreground text-sm shadow-none md:w-40 lg:w-64 ltr:pr-2 rtl:pl-2 [&>div]:w-full [&>div]:justify-between',
+          'relative size-8 bg-muted/50 p-0 text-muted-foreground text-sm shadow-none md:w-40 md:px-3 lg:w-64 ltr:md:pr-2 rtl:md:pl-2 md:[&>div]:w-full md:[&>div]:justify-between',
         )}
         onClick={() => setOpen(true)}
-        size={'sm'}
+        size={'icon'}
         variant="outline">
+        <Search aria-hidden="true" className="size-4 md:hidden" />
         <span className="hidden lg:inline-flex">Search documentation...</span>
-        <span className="inline-flex lg:hidden">Search...</span>
+        <span className="hidden md:inline-flex lg:hidden">Search...</span>
         <CommandShortcut
-          className="bg-secondary"
+          className="hidden bg-secondary md:flex"
           keys={'ctrl+k'}
           onKeysPressed={() => {
             setOpen((prev) => !prev)
