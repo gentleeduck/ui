@@ -14,7 +14,7 @@ import {
 } from '@gentleduck/registry-ui/dropdown-menu'
 import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
-import { Type } from 'lucide-react'
+import { Search, Type } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { HeaderContainer, HeaderRoot } from './header-shell'
@@ -121,11 +121,12 @@ export function SiteHeader() {
               fallback={
                 <div
                   className={cn(
-                    buttonVariants({ size: 'sm', variant: 'outline' }),
-                    'relative h-8 w-full bg-muted/50 text-muted-foreground text-sm shadow-none md:w-40 lg:w-64',
+                    buttonVariants({ size: 'icon', variant: 'outline' }),
+                    'relative size-8 bg-muted/50 p-0 text-muted-foreground text-sm shadow-none md:w-40 md:px-3 lg:w-64',
                   )}>
+                  <Search aria-hidden="true" className="size-4 md:hidden" />
                   <span className="hidden lg:inline-flex">Search documentation...</span>
-                  <span className="inline-flex lg:hidden">Search...</span>
+                  <span className="hidden md:inline-flex lg:hidden">Search...</span>
                 </div>
               }>
               <CommandMenu />
