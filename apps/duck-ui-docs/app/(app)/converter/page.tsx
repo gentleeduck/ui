@@ -164,7 +164,7 @@ export default function ConverterPage() {
       <div className="mb-8">
         <div className="mb-4 flex items-center justify-between">
           <div>
-            <h1 className="mb-2 font-bold text-3xl">Theme Format Converter</h1>
+            <h1 className="mb-2 font-bold text-2xl sm:text-3xl">Theme Format Converter</h1>
             <p className="text-muted-foreground">Convert between JavaScript theme objects and CSS custom properties</p>
           </div>
           <Button asChild className="flex items-center gap-2 bg-transparent" variant="outline">

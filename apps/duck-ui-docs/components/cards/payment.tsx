@@ -175,7 +175,7 @@ export function CardsPayments() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="text-xl">Payments</CardTitle>
+        <CardTitle className="text-lg sm:text-xl">Payments</CardTitle>
         <CardDescription>Manage your payments.</CardDescription>
         <Button className="shadow-none" size="sm" variant="secondary">
           Add Payment

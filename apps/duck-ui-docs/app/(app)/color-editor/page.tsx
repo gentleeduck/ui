@@ -560,7 +560,7 @@ export default function ColorThemeManager() {
       <Card className={`relative transition-all hover:shadow-lg ${isActive ? 'ring-2 ring-primary' : ''}`}>
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2 text-lg">
+            <CardTitle className="flex items-center gap-2 text-base sm:text-lg">
               {theme.name}
               {isActive && (
                 <Badge className="text-xs" variant="default">
@@ -902,7 +902,7 @@ export default function ColorThemeManager() {
     return (
       <div className="space-y-8">
         <div className="text-center">
-          <h2 className="mb-2 font-bold text-2xl">Theme Preview</h2>
+          <h2 className="mb-2 font-bold text-xl sm:text-2xl">Theme Preview</h2>
           <p className="text-muted-foreground">See how your active theme looks on various UI components</p>
         </div>
         <CardsDemo />
@@ -994,7 +994,7 @@ export default function ColorThemeManager() {
       <div className="container mx-auto space-y-6">
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="font-bold text-3xl">Color Theme Manager</h1>
+            <h1 className="font-bold text-2xl sm:text-3xl">Color Theme Manager</h1>
             <p className="text-muted-foreground">Create, edit, and manage your color themes</p>
           </div>
           <div className="flex items-center gap-2">

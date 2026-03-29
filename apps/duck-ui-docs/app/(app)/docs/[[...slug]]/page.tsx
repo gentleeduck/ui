@@ -83,7 +83,7 @@ const PostLayout = async ({ params }: { params: Promise<{ slug?: string[] }> }) 
         </div>
         <div className="space-y-2">
           <div className="space-y-2">
-            <h1 className={cn('scroll-m-20 font-bold text-3xl capitalize tracking-tight')}>
+            <h1 className={cn('scroll-m-20 font-bold text-2xl capitalize tracking-tight sm:text-3xl')}>
               {doc.title.split('-').join(' ')}
             </h1>
             {doc.description && <p className="text-base text-muted-foreground">{doc.description}</p>}
