@@ -32,7 +32,7 @@ function SponsorCell({ sponsor }: { sponsor: Sponsor }) {
         unoptimized
         width={32}
       />
-      <span className="font-semibold text-foreground text-base tracking-tight sm:text-lg">{sponsor.name}</span>
+      <span className="font-semibold text-base text-foreground tracking-tight sm:text-lg">{sponsor.name}</span>
     </Link>
   )
 }
