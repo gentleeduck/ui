@@ -5,8 +5,6 @@ import './globals.css'
 import { TailwindIndicator, ThemeProvider } from '@gentleduck/docs/client'
 import { cn } from '@gentleduck/libs/cn'
 import { DirectionProvider } from '@gentleduck/registry-ui/direction'
-import { Analytics as VercelAnalytics } from '@vercel/analytics/react'
-import { SpeedInsights } from '@vercel/speed-insights/next'
 import localFont from 'next/font/local'
 import { AppClientProviders } from '~/components/app-client-providers'
 import { DocsAppProvider } from '~/components/docs-provider'
@@ -305,8 +303,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <ThemeWrapper>
                   <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
 
-                  <SpeedInsights />
-                  <VercelAnalytics />
+                  {/* <SpeedInsights /> */}
+                  {/* <VercelAnalytics /> */}
                   {process.env.NODE_ENV === 'development' && <TailwindIndicator />}
                 </ThemeWrapper>
               </DocsAppProvider>
