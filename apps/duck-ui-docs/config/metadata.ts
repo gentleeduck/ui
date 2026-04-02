@@ -80,7 +80,7 @@ export const METADATA: Metadata = {
     'UI toolkit for developers',
     'shadcn alternative',
   ],
-  manifest: `${siteConfig.url}/site.webmanifest`,
+  manifest: `/site.webmanifest`,
   metadataBase: new URL(
     siteConfig.url.startsWith('http') ? siteConfig.url : `https://${process.env.VERCEL_URL ?? 'localhost:3000'}`,
   ),
