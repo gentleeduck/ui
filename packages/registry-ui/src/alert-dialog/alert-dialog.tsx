@@ -1,7 +1,10 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { duckMotionTransition } from '@gentleduck/motion/motion-tokens'
+import { useDuckReducedMotion } from '@gentleduck/motion'
 import * as AlertDialogPrimitive from '@gentleduck/primitives/alert-dialog'
+import { AnimatePresence, m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from '../button'
 
@@ -99,6 +102,49 @@ const AlertDialogCancel = React.forwardRef<
 ))
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
 
+const MotionAlertDialogContent = React.forwardRef<
+  React.ComponentRef<typeof AlertDialogPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content> & { open: boolean }
+>(({ className, open, ...props }, ref) => {
+  const reduced = useDuckReducedMotion()
+  const overlayTransition = reduced ? { duration: 0 } : { ...duckMotionTransition.normal }
+  const contentTransition = reduced
+    ? { duration: 0 }
+    : { type: 'spring' as const, stiffness: 400, damping: 30 }
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <AlertDialogPortal forceMount>
+          <AlertDialogPrimitive.Overlay forceMount asChild>
+            <m.div
+              className={cn('fixed inset-0 z-50 bg-black/80')}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={overlayTransition}
+            />
+          </AlertDialogPrimitive.Overlay>
+          <AlertDialogPrimitive.Content forceMount ref={ref} asChild {...props}>
+            <m.div
+              className={cn(
+                'fixed top-1/2 left-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg',
+                className,
+              )}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={contentTransition}>
+              {props.children}
+            </m.div>
+          </AlertDialogPrimitive.Content>
+        </AlertDialogPortal>
+      )}
+    </AnimatePresence>
+  )
+})
+MotionAlertDialogContent.displayName = 'MotionAlertDialogContent'
+
 export {
   AlertDialog,
   AlertDialogAction,
@@ -111,4 +157,5 @@ export {
   AlertDialogPortal,
   AlertDialogTitle,
   AlertDialogTrigger,
+  MotionAlertDialogContent,
 }
