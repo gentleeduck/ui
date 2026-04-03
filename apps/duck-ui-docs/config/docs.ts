@@ -976,6 +976,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/alert-dialog',
           items: [],
+          label: 'new',
           title: 'Alert Dialog',
         },
         {
@@ -1053,6 +1054,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/context-menu',
           items: [],
+          label: 'new',
           title: 'Context Menu',
         },
         {
@@ -1074,6 +1076,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/dialog',
           items: [],
+          label: 'new',
           title: 'Dialog',
         },
         {
@@ -1084,6 +1087,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/dropdown-menu',
           items: [],
+          label: 'new',
           title: 'Dropdown Menu',
         },
         {
@@ -1160,6 +1164,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/popover',
           items: [],
+          label: 'new',
           title: 'Popover',
         },
         {
