@@ -87,6 +87,15 @@ import {
 </AlertDialog>
 ```
 
+### Animated Alert Dialog (Motion)
+
+Use `MotionAlertDialogContent` for smooth enter/exit animations. Uses a stiffer spring (stiffness 400, damping 30) to convey urgency compared to the regular dialog. Requires `motion` to be installed and a controlled `open` state.
+
+<ComponentPreview
+  name="alert-dialog-4"
+  description="An alert dialog with motion-powered spring animations."
+/>
+
 ## Component Composition
 
 <MermaidDiagram chart={`graph TD
@@ -153,6 +162,16 @@ Style the trigger to appear active while the alert dialog is open using `data-[s
 | `children` | `React.ReactNode` | `-` | Content displayed inside the dialog |
 | `forceMount` | `boolean` | `false` | If `true`, forces the content to stay mounted in the DOM |
 | `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>` | - | Additional props inherited from `AlertDialogPrimitive.Content` |
+
+### MotionAlertDialogContent
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `open` | `boolean` | - | **Required.** Controlled open state for AnimatePresence enter/exit |
+| `className` | `string` | `-` | Additional class names to apply |
+| `children` | `React.ReactNode` | `-` | Content displayed inside the dialog |
+
+Requires `motion` package installed. Uses a spring transition (stiffness 400, damping 30) for a snappier feel that conveys urgency. Automatically respects `prefers-reduced-motion`.
 
 ### AlertDialogHeader
 

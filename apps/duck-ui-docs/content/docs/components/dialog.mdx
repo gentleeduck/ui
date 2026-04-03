@@ -106,6 +106,19 @@ import {
   description="A controlled dialog for editing profile details with open state management."
 />
 
+### Animated Dialog (Motion)
+
+Use `MotionDialogContent` for smooth enter/exit animations powered by the [motion](https://motion.dev) library. The dialog scales from 0.95 to 1 while fading in, and reverses on exit. Requires `motion` to be installed and a controlled `open` state.
+
+<ComponentPreview
+  name="dialog-5"
+  description="A dialog with motion-powered enter/exit animations."
+/>
+
+<Callout title="Requirements">
+`MotionDialogContent` requires the `motion` package to be installed and a controlled `open` prop. Wrap your app in `MotionProvider` from `@gentleduck/motion/motion-provider` for consistent defaults.
+</Callout>
+
 ## Notes
 
 To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, you must encase the `Context Menu` or
@@ -248,6 +261,18 @@ Style the trigger to appear active while the dialog is open using `data-[state=o
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | - | Close control content |
 | `...props` | `React.ComponentPropsWithoutRef<typeof DialogPrimitive.Close>` | - | Additional props inherited from `DialogPrimitive.Close` |
+
+### MotionDialogContent
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `open` | `boolean` | - | **Required.** Controlled open state for AnimatePresence enter/exit |
+| `closeText` | `string` | `'Close'` | Accessible label for the built-in close button |
+| `hideClose` | `boolean` | `false` | When `true`, hides the built-in close button |
+| `className` | `string` | - | Additional CSS classes applied to the content panel |
+| `children` | `React.ReactNode` | - | Dialog inner content |
+
+Requires `motion` package installed. Uses `AnimatePresence` + `m.div` for ~5KB bundle. Automatically respects `prefers-reduced-motion`.
 
 ### Responsive Variants
 
