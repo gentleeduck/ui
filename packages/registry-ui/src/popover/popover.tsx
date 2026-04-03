@@ -1,7 +1,11 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import * as PopoverPrimitive from '@gentleduck/primitives/popover'
+import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const Popover = PopoverPrimitive.Root
@@ -36,4 +40,44 @@ PopoverContent.displayName = PopoverPrimitive.Content.displayName
 export const PopoverClose: typeof PopoverPrimitive.Close = PopoverPrimitive.Close
 PopoverClose.displayName = 'PopoverClose'
 
-export { Popover, PopoverAnchor, PopoverContent, PopoverTrigger }
+const MotionPopoverContent = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<'div'> & {
+    open: boolean
+    align?: 'start' | 'center' | 'end'
+    sideOffset?: number
+  }
+>(({ className, open, align = 'center', sideOffset = 4, children, ...props }, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <AnimatePresence>
+        {open ? (
+          <PopoverPrimitive.Portal forceMount>
+            <PopoverPrimitive.Content
+              ref={ref}
+              align={align}
+              sideOffset={sideOffset}
+              forceMount
+              asChild
+              {...props}>
+              {/* @ts-expect-error -- motion preset types are compatible at runtime */}
+              <m.div
+                className={cn(
+                  'z-50 w-72 origin-(--gentleduck-popover-content-transform-origin) rounded-md border bg-popover p-4 text-start text-popover-foreground shadow-md outline-none',
+                  className,
+                )}
+                {...content}>
+                {children}
+              </m.div>
+            </PopoverPrimitive.Content>
+          </PopoverPrimitive.Portal>
+        ) : null}
+      </AnimatePresence>
+    </LazyMotion>
+  )
+})
+MotionPopoverContent.displayName = 'MotionPopoverContent'
+
+export { Popover, PopoverAnchor, PopoverContent, PopoverTrigger, MotionPopoverContent }

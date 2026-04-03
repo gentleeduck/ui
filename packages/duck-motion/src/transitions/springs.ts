@@ -9,6 +9,9 @@ export const springSnappy: MotionTransitionConfig = { type: 'spring', visualDura
 /** Gentle spring with more bounce and longer duration. Use for dialogs, sheets, drawers. visualDuration 0.35s, bounce 0.25. */
 export const springGentle: MotionTransitionConfig = { type: 'spring', visualDuration: 0.35, bounce: 0.25 }
 
+/** Bouncy spring for menus and popovers. Slight overshoot that feels responsive without being distracting. stiffness 500, damping 28. */
+export const springBouncy: MotionTransitionConfig = { type: 'spring', stiffness: 500, damping: 28 }
+
 /** Stiff spring for urgent interactions. Use for alert dialogs and destructive confirmations. stiffness 400, damping 30. */
 export const springStiff: MotionTransitionConfig = { type: 'spring', stiffness: 400, damping: 30 }
 

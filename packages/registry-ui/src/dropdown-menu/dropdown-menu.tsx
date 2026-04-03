@@ -1,8 +1,12 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import * as DropdownMenuPrimitive from '@gentleduck/primitives/dropdown-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'
+import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const DropdownMenu = DropdownMenuPrimitive.Root
@@ -170,6 +174,39 @@ const DropdownMenuShortcut = React.forwardRef<HTMLSpanElement, React.HTMLAttribu
 )
 DropdownMenuShortcut.displayName = 'DropdownMenuShortcut'
 
+const MotionDropdownMenuContent = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<'div'> & {
+    open: boolean
+    sideOffset?: number
+  }
+>(({ className, open, sideOffset = 4, children, ...props }, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <AnimatePresence>
+        {open ? (
+          <DropdownMenuPrimitive.Portal forceMount>
+            <DropdownMenuPrimitive.Content ref={ref} sideOffset={sideOffset} forceMount asChild {...props}>
+              {/* @ts-expect-error -- motion preset types are compatible at runtime */}
+              <m.div
+                className={cn(
+                  'z-50 max-h-(--gentleduck-dropdown-menu-content-available-height) min-w-32 origin-(--gentleduck-dropdown-menu-content-transform-origin) overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
+                  className,
+                )}
+                {...content}>
+                {children}
+              </m.div>
+            </DropdownMenuPrimitive.Content>
+          </DropdownMenuPrimitive.Portal>
+        ) : null}
+      </AnimatePresence>
+    </LazyMotion>
+  )
+})
+MotionDropdownMenuContent.displayName = 'MotionDropdownMenuContent'
+
 export {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -186,4 +223,5 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
+  MotionDropdownMenuContent,
 }
