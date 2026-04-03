@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport { DirectionProvider } from '@gentleduck/registry-ui/direction'\nimport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'\n\nexport default function TooltipRtlDemo() {\n  return (\n    <DirectionProvider dir=\"rtl\">\n      <TooltipProvider>\n        <Tooltip>\n          <TooltipTrigger asChild>\n            <Button variant=\"outline\">{'تمرير'}</Button>\n          </TooltipTrigger>\n\n          <TooltipContent>\n            <p>{'أضف إلى المكتبة'}</p>\n          </TooltipContent>\n        </Tooltip>\n      </TooltipProvider>\n    </DirectionProvider>\n  )\n}\n",
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport { DirectionProvider } from '@gentleduck/registry-ui/direction'\nimport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'\n\nexport default function Demo() {\n  return (\n    <DirectionProvider dir=\"rtl\">\n      <TooltipProvider>\n        <Tooltip>\n          <TooltipTrigger asChild>\n            <Button variant=\"outline\">{'تمرير'}</Button>\n          </TooltipTrigger>\n\n          <TooltipContent>\n            <p>{'أضف إلى المكتبة'}</p>\n          </TooltipContent>\n        </Tooltip>\n      </TooltipProvider>\n    </DirectionProvider>\n  )\n}\n",
       "path": "tooltip/tooltip-3.tsx",
       "target": "components/tooltip-3.tsx",
       "type": "registry:example"

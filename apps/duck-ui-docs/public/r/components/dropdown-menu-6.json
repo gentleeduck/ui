@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { Button } from '@gentleduck/registry-ui/button'\nimport {\n  DropdownMenu,\n  DropdownMenuItem,\n  DropdownMenuLabel,\n  DropdownMenuSeparator,\n  DropdownMenuTrigger,\n  MotionDropdownMenuContent,\n} from '@gentleduck/registry-ui/dropdown-menu'\nimport { LogOut, Settings, User } from 'lucide-react'\nimport React from 'react'\n\nexport default function Demo() {\n  const [open, setOpen] = React.useState(false)\n\n  return (\n    <DropdownMenu onOpenChange={setOpen} open={open}>\n      <DropdownMenuTrigger asChild>\n        <Button variant=\"outline\">Open Animated Menu</Button>\n      </DropdownMenuTrigger>\n      <MotionDropdownMenuContent className=\"w-56\" open={open}>\n        <DropdownMenuLabel>My Account</DropdownMenuLabel>\n        <DropdownMenuSeparator />\n        <DropdownMenuItem>\n          <User className=\"mr-2 h-4 w-4\" />\n          Profile\n        </DropdownMenuItem>\n        <DropdownMenuItem>\n          <Settings className=\"mr-2 h-4 w-4\" />\n          Settings\n        </DropdownMenuItem>\n        <DropdownMenuSeparator />\n        <DropdownMenuItem>\n          <LogOut className=\"mr-2 h-4 w-4\" />\n          Log out\n        </DropdownMenuItem>\n      </MotionDropdownMenuContent>\n    </DropdownMenu>\n  )\n}\n",
+      "path": "dropdown-menu/dropdown-menu-6.tsx",
+      "target": "components/dropdown-menu-6.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "dropdown-menu-6",
+  "registryDependencies": [
+    "dropdown-menu"
+  ],
+  "root_folder": "dropdown-menu",
+  "source": "/registry-examples/src/dropdown-menu",
+  "type": "registry:example"
+}
