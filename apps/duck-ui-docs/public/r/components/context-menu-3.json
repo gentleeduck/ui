@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport {\n  ContextMenu,\n  ContextMenuItem,\n  ContextMenuSeparator,\n  ContextMenuTrigger,\n  MotionContextMenuContent,\n} from '@gentleduck/registry-ui/context-menu'\nimport React from 'react'\n\nexport default function Demo() {\n  const [open, setOpen] = React.useState(false)\n\n  return (\n    <ContextMenu onOpenChange={setOpen}>\n      <ContextMenuTrigger className=\"flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm\">\n        Right click here (animated)\n      </ContextMenuTrigger>\n      <MotionContextMenuContent className=\"w-64\" open={open}>\n        <ContextMenuItem>Back</ContextMenuItem>\n        <ContextMenuItem>Forward</ContextMenuItem>\n        <ContextMenuItem>Reload</ContextMenuItem>\n        <ContextMenuSeparator />\n        <ContextMenuItem>View Page Source</ContextMenuItem>\n        <ContextMenuItem>Inspect</ContextMenuItem>\n      </MotionContextMenuContent>\n    </ContextMenu>\n  )\n}\n",
+      "path": "context-menu/context-menu-3.tsx",
+      "target": "components/context-menu-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "context-menu-3",
+  "registryDependencies": [
+    "context-menu"
+  ],
+  "root_folder": "context-menu",
+  "source": "/registry-examples/src/context-menu",
+  "type": "registry:example"
+}

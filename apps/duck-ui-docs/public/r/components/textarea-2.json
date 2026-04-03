@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Textarea } from '@gentleduck/registry-ui/textarea'\n\nexport default function Textarea2Demo() {\n  return <Textarea placeholder=\"Type your message here.\" />\n}\n",
+      "content": "import { Textarea } from '@gentleduck/registry-ui/textarea'\n\nexport default function Demo() {\n  return <Textarea placeholder=\"Type your message here.\" />\n}\n",
       "path": "textarea/textarea-2.tsx",
       "target": "components/textarea-2.tsx",
       "type": "registry:example"

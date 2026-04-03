@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Input } from '@gentleduck/registry-ui/input'\n\nexport default function InputRtlDemo() {\n  return <Input placeholder=\"البريد الالكتروني\" type=\"email\" dir=\"rtl\" className=\"max-w-xs\" />\n}\n",
+      "content": "import { Input } from '@gentleduck/registry-ui/input'\n\nexport default function Demo() {\n  return <Input placeholder=\"البريد الالكتروني\" type=\"email\" dir=\"rtl\" className=\"max-w-xs\" />\n}\n",
       "path": "input/input-8.tsx",
       "target": "components/input-8.tsx",
       "type": "registry:example"

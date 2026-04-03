@@ -535,6 +535,7 @@ const _Popover2 = dynamic(() => import('@gentleduck/registry-examples/popover/po
 const _Popover3 = dynamic(() => import('@gentleduck/registry-examples/popover/popover-3'), { ssr: false })
 const _Popover4 = dynamic(() => import('@gentleduck/registry-examples/popover/popover-4'), { ssr: false })
 const _Popover5 = dynamic(() => import('@gentleduck/registry-examples/popover/popover-5'), { ssr: false })
+const _Popover6 = dynamic(() => import('@gentleduck/registry-examples/popover/popover-6'), { ssr: false })
 const _Menubar1 = dynamic(() => import('@gentleduck/registry-examples/menubar/menubar-1'), { ssr: false })
 const _Menubar2 = dynamic(() => import('@gentleduck/registry-examples/menubar/menubar-2'), { ssr: false })
 const _DropdownMenu1 = dynamic(() => import('@gentleduck/registry-examples/dropdown-menu/dropdown-menu-1'), {
@@ -550,6 +551,9 @@ const _DropdownMenu4 = dynamic(() => import('@gentleduck/registry-examples/dropd
   ssr: false,
 })
 const _DropdownMenu5 = dynamic(() => import('@gentleduck/registry-examples/dropdown-menu/dropdown-menu-5'), {
+  ssr: false,
+})
+const _DropdownMenu6 = dynamic(() => import('@gentleduck/registry-examples/dropdown-menu/dropdown-menu-6'), {
   ssr: false,
 })
 const _Combobox1 = dynamic(() => import('@gentleduck/registry-examples/combobox/combobox-1'), { ssr: false })
@@ -611,6 +615,7 @@ const _NavigationMenu2 = dynamic(() => import('@gentleduck/registry-examples/nav
 })
 const _ContextMenu1 = dynamic(() => import('@gentleduck/registry-examples/context-menu/context-menu-1'), { ssr: false })
 const _ContextMenu2 = dynamic(() => import('@gentleduck/registry-examples/context-menu/context-menu-2'), { ssr: false })
+const _ContextMenu3 = dynamic(() => import('@gentleduck/registry-examples/context-menu/context-menu-3'), { ssr: false })
 const _DataTable1 = dynamic(() => import('@gentleduck/registry-examples/data-table/data-table-1'), { ssr: false })
 const _Cva1 = dynamic(() => import('@gentleduck/registry-examples/cva/cva-1'), { ssr: false })
 const _ButtonGroup1 = dynamic(() => import('@gentleduck/registry-examples/button-group/button-group-1'), { ssr: false })
@@ -6352,6 +6357,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'popover',
   },
+  'popover-6': {
+    name: 'popover-6',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['popover'],
+    files: [
+      {
+        path: 'popover/popover-6.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Popover6,
+    source: '/registry-examples/src/popover',
+    categories: [],
+    root_folder: 'popover',
+  },
   'menubar-1': {
     name: 'menubar-1',
     description: '',
@@ -6460,6 +6481,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _DropdownMenu5,
+    source: '/registry-examples/src/dropdown-menu',
+    categories: [],
+    root_folder: 'dropdown-menu',
+  },
+  'dropdown-menu-6': {
+    name: 'dropdown-menu-6',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['dropdown-menu'],
+    files: [
+      {
+        path: 'dropdown-menu/dropdown-menu-6.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _DropdownMenu6,
     source: '/registry-examples/src/dropdown-menu',
     categories: [],
     root_folder: 'dropdown-menu',
@@ -7036,6 +7073,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _ContextMenu2,
+    source: '/registry-examples/src/context-menu',
+    categories: [],
+    root_folder: 'context-menu',
+  },
+  'context-menu-3': {
+    name: 'context-menu-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['context-menu'],
+    files: [
+      {
+        path: 'context-menu/context-menu-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _ContextMenu3,
     source: '/registry-examples/src/context-menu',
     categories: [],
     root_folder: 'context-menu',

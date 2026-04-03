@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "export default function TypographyMuted() {\n  return <p className=\"text-muted-foreground text-sm\">Enter your email address.</p>\n}\n",
+      "content": "export default function Demo() {\n  return <p className=\"text-muted-foreground text-sm\">Enter your email address.</p>\n}\n",
       "path": "typography/typography-14.tsx",
       "target": "components/typography-14.tsx",
       "type": "registry:example"
