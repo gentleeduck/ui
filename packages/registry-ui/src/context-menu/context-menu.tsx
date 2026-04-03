@@ -1,8 +1,12 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import * as ContextMenuPrimitive from '@gentleduck/primitives/context-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'
+import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const ContextMenu = ContextMenuPrimitive.Root
@@ -167,6 +171,37 @@ const ContextMenuShortcut = React.forwardRef<HTMLSpanElement, React.HTMLAttribut
 )
 ContextMenuShortcut.displayName = 'ContextMenuShortcut'
 
+const MotionContextMenuContent = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<'div'> & { open: boolean }
+>(({ className, open, children, ...props }, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <AnimatePresence>
+        {open ? (
+          <ContextMenuPrimitive.Portal forceMount>
+            <ContextMenuPrimitive.Content ref={ref} forceMount asChild {...props}>
+              {/* @ts-expect-error -- motion preset types are compatible at runtime */}
+              <m.div
+                className={cn(
+                  'z-50 max-h-(--gentleduck-context-menu-content-available-height) min-w-32 overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
+                  className,
+                )}
+                style={{ transformOrigin: 'top left' }}
+                {...content}>
+                {children}
+              </m.div>
+            </ContextMenuPrimitive.Content>
+          </ContextMenuPrimitive.Portal>
+        ) : null}
+      </AnimatePresence>
+    </LazyMotion>
+  )
+})
+MotionContextMenuContent.displayName = 'MotionContextMenuContent'
+
 export {
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -183,4 +218,5 @@ export {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
+  MotionContextMenuContent,
 }
