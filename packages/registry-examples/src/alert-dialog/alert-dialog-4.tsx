@@ -14,7 +14,7 @@ import {
 import { Button } from '@gentleduck/registry-ui/button'
 import React from 'react'
 
-export default function AlertDialogMotionDemo() {
+export default function Demo() {
   const [open, setOpen] = React.useState(false)
 
   return (

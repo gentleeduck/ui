@@ -11,6 +11,7 @@
         "@testing-library/jest-dom": "^6.9.1",
         "@testing-library/react": "^16.3.2",
         "husky": "^9.1.7",
+        "motion": "^12.26.2",
         "sherif": "1.11.0",
         "turbo": "^2.8.14",
         "typescript": "6.0.2",
@@ -276,7 +277,7 @@
     },
     "packages/duck-docs": {
       "name": "@gentleduck/docs",
-      "version": "0.3.2",
+      "version": "0.3.3",
       "dependencies": {
         "@shikijs/compat": "1.12.1",
         "@tanstack/react-virtual": "^3.13.19",
@@ -464,13 +465,17 @@
       "devDependencies": {
         "@gentleduck/tsdown-config": "workspace:*",
         "@gentleduck/typescript-config": "workspace:*",
+        "@types/react": "19.2.14",
+        "motion": "^12.26.2",
         "tsdown": "0.21.4",
       },
       "peerDependencies": {
         "@gentleduck/variants": "workspace:*",
+        "motion": ">=12.0.0",
         "react": "^18 || ^19",
       },
       "optionalPeers": [
+        "motion",
         "react",
       ],
     },
@@ -740,6 +745,12 @@
         "@types/react-dom": "19.2.3",
         "typescript": "6.0.2",
       },
+      "peerDependencies": {
+        "motion": ">=12.0.0",
+      },
+      "optionalPeers": [
+        "motion",
+      ],
     },
     "packages/types": {
       "name": "@gentleduck/types",

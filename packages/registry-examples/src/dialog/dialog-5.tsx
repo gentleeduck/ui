@@ -15,7 +15,7 @@ import { Input } from '@gentleduck/registry-ui/input'
 import { Label } from '@gentleduck/registry-ui/label'
 import React from 'react'
 
-export default function DialogMotionDemo() {
+export default function Demo() {
   const [open, setOpen] = React.useState(false)
 
   return (
