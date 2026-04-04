@@ -54,7 +54,7 @@ const invoices = [
   },
 ]
 
-export default function TableRtlDemo() {
+export default function Demo() {
   return (
     <Table dir="rtl">
       <TableCaption>{'قائمة بفواتيرك الأخيرة.'}</TableCaption>

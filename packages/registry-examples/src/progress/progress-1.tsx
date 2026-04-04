@@ -3,7 +3,7 @@
 import { Progress } from '@gentleduck/registry-ui/progress'
 import * as React from 'react'
 
-export default function ProgressDemo() {
+export default function Demo() {
   const [progress, setProgress] = React.useState(13)
 
   React.useEffect(() => {

@@ -1,7 +1,7 @@
 import { Alert, AlertDescription, AlertTitle } from '@gentleduck/registry-ui/alert'
 import { AlertCircleIcon, CheckCircle2Icon, PopcornIcon } from 'lucide-react'
 
-export default function AlertDemo() {
+export default function Demo() {
   return (
     <div className="grid w-full max-w-xl items-start gap-4">
       <Alert>

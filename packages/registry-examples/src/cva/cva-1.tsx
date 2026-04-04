@@ -58,7 +58,7 @@ export const buttonVariants = cva(
 
 type ButtonVariantProps = VariantProps<typeof buttonVariants>
 
-export default function CvaDemo() {
+export default function Demo() {
   const [variant, setVariant] = React.useState<ButtonVariantProps['variant']>('default')
   const [size, setSize] = React.useState<ButtonVariantProps['size']>('default')
   const [border, setBorder] = React.useState<ButtonVariantProps['border']>('default')

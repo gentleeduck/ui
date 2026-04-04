@@ -4,7 +4,7 @@ import { Field, FieldDescription, FieldTitle } from '@gentleduck/registry-ui/fie
 import { Slider } from '@gentleduck/registry-ui/slider'
 import { useState } from 'react'
 
-export default function FieldSlider() {
+export default function Demo() {
   const [value, setValue] = useState([200, 800])
   return (
     <div className="w-full max-w-md">

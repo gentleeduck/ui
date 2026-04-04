@@ -2,7 +2,7 @@ import { Toggle } from '@gentleduck/registry-ui/toggle'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'
 import { Bold } from 'lucide-react'
 
-export default function Tooltip4Demo() {
+export default function Demo() {
   return (
     <TooltipProvider>
       <Tooltip>

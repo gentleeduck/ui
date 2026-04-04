@@ -16,7 +16,7 @@ const PRESETS = [
   { label: '1 month', days: 30 },
 ]
 
-export default function CalendarDemo() {
+export default function Demo() {
   const [date, setDate] = React.useState<Date | null>(new Date())
   const [month, setMonth] = React.useState<Date>(new Date(new Date().getFullYear(), new Date().getMonth(), 1))
 

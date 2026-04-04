@@ -2,7 +2,7 @@
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'
 
-export default function SelectActiveDemo() {
+export default function Demo() {
   return (
     <Select>
       <SelectTrigger className="w-48 data-[state=open]:border-ring data-[state=open]:ring-2 data-[state=open]:ring-ring">

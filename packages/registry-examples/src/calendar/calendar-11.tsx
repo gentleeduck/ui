@@ -31,7 +31,7 @@ function getEvents(d: Date) {
   return EVENTS[getKey(d)] ?? []
 }
 
-export default function CalendarDemo() {
+export default function Demo() {
   const [selected, setSelected] = React.useState<Date | null>(new Date())
   const selectedEvents = selected ? getEvents(selected) : []
 

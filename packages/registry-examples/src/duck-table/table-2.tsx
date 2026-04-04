@@ -51,7 +51,7 @@
 //   type TableHeaderType,
 // } from '@/registry/registry-ui-components/table'
 //
-// export default function Table1Demo() {
+// export default function Demo() {
 //   return (
 //     <>
 //       <DuckTableProvider>

@@ -1,5 +1,5 @@
 import { Textarea } from '@gentleduck/registry-ui/textarea'
 
-export default function Textarea2Demo() {
+export default function Demo() {
   return <Textarea placeholder="Type your message here." />
 }

@@ -409,7 +409,7 @@ function NavUser({
   )
 }
 
-export default function SidebarDemo() {
+export default function Demo() {
   return (
     <div className="relative flex h-full w-full overflow-hidden [transform:translateZ(0)]">
       <SidebarProvider>

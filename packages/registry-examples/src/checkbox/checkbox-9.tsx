@@ -4,7 +4,7 @@ import { Checkbox } from '@gentleduck/registry-ui/checkbox'
 import { DirectionProvider } from '@gentleduck/registry-ui/direction'
 import { Label } from '@gentleduck/registry-ui/label'
 
-export default function CheckboxRtlDemo() {
+export default function Demo() {
   return (
     <DirectionProvider dir="rtl">
       <div className="flex flex-col gap-6" dir="rtl">

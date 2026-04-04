@@ -18,7 +18,7 @@ function isBooked(date: Date): boolean {
   return BOOKED_DATES.some((d) => adapter.isSameDay(d, date))
 }
 
-export default function CalendarDemo() {
+export default function Demo() {
   const [selected, setSelected] = React.useState<Date | null>(null)
   const today = new Date()
 

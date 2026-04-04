@@ -1,7 +1,7 @@
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from '@gentleduck/registry-ui/field'
 import { Textarea } from '@gentleduck/registry-ui/textarea'
 
-export default function FieldTextarea() {
+export default function Demo() {
   return (
     <div className="w-full max-w-md">
       <FieldSet>

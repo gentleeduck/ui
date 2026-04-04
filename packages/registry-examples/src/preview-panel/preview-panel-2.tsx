@@ -8,6 +8,6 @@ const SVG_HTML = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" 
   <text x="100" y="105" text-anchor="middle" font-size="12" fill="currentColor">SVG Content</text>
 </svg>`
 
-export default function PreviewPanelHtml() {
+export default function Demo() {
   return <PreviewPanel html={SVG_HTML} maxHeight="350px" className="rounded-lg border bg-card" />
 }

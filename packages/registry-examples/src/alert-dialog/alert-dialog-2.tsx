@@ -11,7 +11,7 @@ import {
 } from '@gentleduck/registry-ui/alert-dialog'
 import { Button } from '@gentleduck/registry-ui/button'
 
-export default function AlertDialogRtlDemo() {
+export default function Demo() {
   return (
     <AlertDialog dir="rtl">
       <AlertDialogTrigger asChild>

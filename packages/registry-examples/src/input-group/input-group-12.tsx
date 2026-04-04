@@ -20,7 +20,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentl
 import { IconCheck, IconInfoCircle, IconPaperclip } from '@tabler/icons-react'
 import { ArrowUpIcon, FilterIcon } from 'lucide-react'
 
-export default function InputGroupRtlDemo() {
+export default function Demo() {
   return (
     <DirectionProvider dir="rtl">
       <TooltipProvider>

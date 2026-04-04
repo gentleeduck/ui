@@ -5,7 +5,7 @@ function Spinner({ className, ...props }: React.ComponentProps<'svg'>) {
   return <Loader aria-label="Loading" className={'size-4 animate-spin'} role="status" {...props} />
 }
 
-export default function InputGroupSpinner() {
+export default function Demo() {
   return (
     <div className="grid w-full max-w-sm gap-4">
       <InputGroup data-disabled>

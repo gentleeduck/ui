@@ -1,7 +1,7 @@
 import { CheckboxGroup, type CheckboxGroupSubtasks } from '@gentleduck/registry-ui/checkbox'
 import { toast } from 'sonner'
 
-export default function Example() {
+export default function Demo() {
   const subtasks: CheckboxGroupSubtasks[] = [
     { id: 'subtask-1', title: 'Design wireframes' },
     { id: 'subtask-2', title: 'Build UI components' },

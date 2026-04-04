@@ -2,7 +2,7 @@
 
 import { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui/radio-group'
 
-export default function RadioGroupRtlDemo() {
+export default function Demo() {
   return (
     <RadioGroup
       dir="rtl"

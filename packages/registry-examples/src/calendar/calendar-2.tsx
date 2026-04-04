@@ -3,7 +3,7 @@
 import { Calendar } from '@gentleduck/registry-ui/calendar'
 import * as React from 'react'
 
-export default function CalendarDemo() {
+export default function Demo() {
   const today = new Date()
   const initialFrom = new Date(today.getFullYear(), 0, 12)
   const initialTo = new Date(today.getFullYear(), 1, 11)

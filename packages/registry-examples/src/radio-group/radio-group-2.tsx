@@ -42,7 +42,7 @@ const notificationTypes = [
   },
 ] as const
 
-export default function RadioGroupDemo() {
+export default function Demo() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   })

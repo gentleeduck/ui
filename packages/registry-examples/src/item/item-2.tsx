@@ -1,7 +1,7 @@
 import { Button } from '@gentleduck/registry-ui/button'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@gentleduck/registry-ui/item'
 
-export default function ItemVariant() {
+export default function Demo() {
   return (
     <div className="flex flex-col gap-6">
       <Item>

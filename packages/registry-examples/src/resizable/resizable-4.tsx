@@ -1,6 +1,6 @@
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui/resizable'
 
-export default function ResizableRtlDemo() {
+export default function Demo() {
   return (
     <ResizablePanelGroup className="max-w-md rounded-lg border md:min-w-[450px]" orientation="horizontal" dir="rtl">
       <ResizablePanel defaultSize={50}>

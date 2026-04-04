@@ -3,7 +3,7 @@
 import { Button } from '@gentleduck/registry-ui/button'
 import { toast } from 'sonner'
 
-export default function SonnerTypesDemo() {
+export default function Demo() {
   return (
     <div className="flex flex-wrap items-center gap-2">
       <Button onClick={() => toast.success('File uploaded successfully')} variant="outline">

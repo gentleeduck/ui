@@ -10,7 +10,7 @@ import {
 import { IconInbox } from '@tabler/icons-react'
 import { ArrowUpRightIcon } from 'lucide-react'
 
-export default function EmptyDemo() {
+export default function Demo() {
   return (
     <Empty>
       <EmptyHeader>

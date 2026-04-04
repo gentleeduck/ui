@@ -9,7 +9,7 @@ type JsonEditorPopoverValues = {
   filters: Record<string, unknown> | null
 }
 
-export default function JsonEditorPopoverExample() {
+export default function Demo() {
   const form = useForm<JsonEditorPopoverValues>({
     defaultValues: {
       filters: {

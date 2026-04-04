@@ -44,7 +44,7 @@
 // } from '@/registry/registry-ui-components/table'
 // import { optionsData, type PriorityType, type StatusType, type TableDataType, tableHeaderDropDown } from './asdf'
 //
-// export default function Table1Demo() {
+// export default function Demo() {
 //   return (
 //     <>
 //       <DuckTableProvider>

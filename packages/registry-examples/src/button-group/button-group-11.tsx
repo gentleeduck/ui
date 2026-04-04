@@ -7,7 +7,7 @@ import { Separator } from '@gentleduck/registry-ui/separator'
 import { Textarea } from '@gentleduck/registry-ui/textarea'
 import { BotIcon, ChevronDownIcon } from 'lucide-react'
 
-export default function ButtonGroupPopover() {
+export default function Demo() {
   return (
     <ButtonGroup>
       <Button variant="outline">

@@ -16,7 +16,7 @@ import {
 
 const SHEET_SIDES = ['right'] as const
 
-export default function SheetRtlDemo() {
+export default function Demo() {
   return (
     <div className="grid grid-cols-1 gap-2">
       {SHEET_SIDES.map((side) => (

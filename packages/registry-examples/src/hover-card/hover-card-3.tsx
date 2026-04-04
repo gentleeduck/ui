@@ -1,7 +1,7 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui/avatar'
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@gentleduck/registry-ui/hover-card'
 
-export default function HoverCardActiveDemo() {
+export default function Demo() {
   return (
     <HoverCard>
       <HoverCardTrigger asChild>

@@ -7,7 +7,7 @@ import { ArrowBigUpDash, Command } from 'lucide-react'
 import React from 'react'
 import { toast } from 'sonner'
 
-export default function ButtonRtlDemo() {
+export default function Demo() {
   const [open, setOpen] = React.useState<boolean>(false)
 
   return (

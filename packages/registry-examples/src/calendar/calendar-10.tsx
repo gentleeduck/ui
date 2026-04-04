@@ -3,7 +3,7 @@
 import { Calendar } from '@gentleduck/registry-ui/calendar'
 import * as React from 'react'
 
-export default function CalendarDemo() {
+export default function Demo() {
   const [dates, setDates] = React.useState<Date[]>([])
 
   return (

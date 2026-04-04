@@ -9,7 +9,7 @@ import {
 } from '@gentleduck/registry-ui/dropdown-menu'
 import { ChevronDown, LogOut, Settings, User } from 'lucide-react'
 
-export default function DropdownMenuActiveDemo() {
+export default function Demo() {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

@@ -3,7 +3,7 @@
 import { InputGroup, InputGroupAddon, InputGroupButton } from '@gentleduck/registry-ui/input-group'
 import { Textarea } from '@gentleduck/registry-ui/textarea'
 
-export default function InputGroupCustom() {
+export default function Demo() {
   return (
     <div className="grid w-full max-w-sm gap-6">
       <InputGroup>

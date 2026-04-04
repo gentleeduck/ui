@@ -6,7 +6,7 @@ import * as React from 'react'
 
 const adapter = new HebrewAdapter()
 
-export default function CalendarDemo() {
+export default function Demo() {
   const [date, setDate] = React.useState<Date | null>(new Date())
 
   return (

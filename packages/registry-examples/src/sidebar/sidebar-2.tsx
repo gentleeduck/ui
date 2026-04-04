@@ -45,7 +45,7 @@ const data = {
   ],
 }
 
-export default function SidebarSimpleDemo() {
+export default function Demo() {
   const [selectedVersion, setSelectedVersion] = React.useState(data.versions[0])
 
   return (

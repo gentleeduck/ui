@@ -39,7 +39,7 @@ const AR_TEXT: JsonEditorText = {
   nullPreview: 'فارغ',
 }
 
-export default function JsonEditorRtlDemo() {
+export default function Demo() {
   const form = useForm<JsonEditorValues>({
     defaultValues: {
       settings: DEFAULT_SETTINGS,

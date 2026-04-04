@@ -11,7 +11,7 @@ import {
 } from '@gentleduck/registry-ui/drawer'
 import { Menu } from 'lucide-react'
 
-export default function DrawerActiveDemo() {
+export default function Demo() {
   return (
     <Drawer>
       <DrawerTrigger asChild>

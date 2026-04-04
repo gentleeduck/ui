@@ -4,7 +4,7 @@ import { Button } from '@gentleduck/registry-ui/button'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
 import { Settings } from 'lucide-react'
 
-export default function PopoverActiveDemo() {
+export default function Demo() {
   return (
     <Popover>
       <PopoverTrigger asChild>

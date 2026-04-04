@@ -8,7 +8,7 @@ import {
   FieldSet,
 } from '@gentleduck/registry-ui/field'
 
-export default function FieldGroupExample() {
+export default function Demo() {
   return (
     <div className="w-full max-w-md">
       <FieldGroup>

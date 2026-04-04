@@ -1,7 +1,7 @@
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@gentleduck/registry-ui/input-otp'
 import { Minus } from 'lucide-react'
 
-export default function InputOTPDemo() {
+export default function Demo() {
   return (
     <InputOTP maxLength={6}>
       <InputOTPGroup>

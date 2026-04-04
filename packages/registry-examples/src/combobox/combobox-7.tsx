@@ -23,7 +23,7 @@ const options = [
   { label: 'نظام حجوزات', value: 'booking' },
 ]
 
-export default function ComboboxRtlDemo() {
+export default function Demo() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState('')
 

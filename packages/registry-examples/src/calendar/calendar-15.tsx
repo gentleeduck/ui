@@ -28,7 +28,7 @@ function getEvents(d: Date) {
   return EVENTS[getKey(d)] ?? []
 }
 
-export default function CalendarDemo() {
+export default function Demo() {
   const [selected, setSelected] = React.useState<Date | null>(null)
   const [popoverDate, setPopoverDate] = React.useState<Date | null>(null)
   const calendarRef = React.useRef<HTMLDivElement>(null)

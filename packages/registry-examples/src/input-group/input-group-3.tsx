@@ -6,7 +6,7 @@ import {
   InputGroupTextarea,
 } from '@gentleduck/registry-ui/input-group'
 
-export default function InputGroupTextExample() {
+export default function Demo() {
   return (
     <div className="grid w-full max-w-sm gap-6">
       <InputGroup>

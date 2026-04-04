@@ -14,7 +14,7 @@ import { Input } from '@gentleduck/registry-ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'
 import { Textarea } from '@gentleduck/registry-ui/textarea'
 
-export default function FieldRtlDemo() {
+export default function Demo() {
   return (
     <DirectionProvider dir="rtl">
       <div className="w-full max-w-lg">

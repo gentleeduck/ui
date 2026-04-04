@@ -21,13 +21,13 @@ export const works: Artwork[] = [
   },
 ]
 
-export default function ScrollAreaHorizontalDemo() {
+export default function Demo() {
   return (
     <ScrollArea className="w-96 whitespace-nowrap rounded-md border">
       <div className="flex w-max space-x-4 p-4">
         {works.map((artwork) => (
           <figure className="shrink-0" key={artwork.artist}>
-            <div className="overflow-hiddend">
+            <div className="overflow-hidden">
               <Image
                 alt={`Photo by ${artwork.artist}`}
                 className="max-h-[300px] select-none rounded-md object-cover"

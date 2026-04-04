@@ -1,4 +1,4 @@
-export default function TypographyRtlDemo() {
+export default function Demo() {
   return (
     <div dir="rtl">
       <div>

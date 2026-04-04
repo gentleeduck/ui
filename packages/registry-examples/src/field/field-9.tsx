@@ -1,7 +1,7 @@
 import { Field, FieldContent, FieldDescription, FieldLabel } from '@gentleduck/registry-ui/field'
 import { Switch } from '@gentleduck/registry-ui/switch'
 
-export default function FieldSwitch() {
+export default function Demo() {
   return (
     <div className="w-full max-w-md">
       <Field orientation="horizontal">

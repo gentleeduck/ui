@@ -4,7 +4,7 @@ import { Input } from '@gentleduck/registry-ui/input'
 import { Label } from '@gentleduck/registry-ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui/tabs'
 
-export default function DuckTabsDemo() {
+export default function Demo() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-6">
       <Tabs className="w-[400px]" defaultValue="account">

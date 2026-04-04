@@ -9,7 +9,7 @@ import {
   CarouselPrevious,
 } from '@gentleduck/registry-ui/carousel'
 
-export default function CarouselRtlDemo() {
+export default function Demo() {
   return (
     <Carousel
       className="w-full max-w-xs"

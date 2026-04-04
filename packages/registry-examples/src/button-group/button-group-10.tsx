@@ -21,7 +21,7 @@ const CURRENCIES = [
   },
 ]
 
-export default function ButtonGroupSelect() {
+export default function Demo() {
   const [currency, setCurrency] = React.useState('$')
 
   return (

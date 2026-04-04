@@ -1,7 +1,7 @@
 import { Checkbox } from '@gentleduck/registry-ui/checkbox'
 import { Label } from '@gentleduck/registry-ui/label'
 
-export default function LabelDemo() {
+export default function Demo() {
   return (
     <div>
       <div className="flex items-center gap-2">

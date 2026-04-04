@@ -9,7 +9,7 @@ import {
 } from '@gentleduck/registry-ui/empty'
 import { IconBookmark } from '@tabler/icons-react'
 
-export default function EmptyOutline() {
+export default function Demo() {
   return (
     <Empty className="border border-dashed">
       <EmptyHeader>

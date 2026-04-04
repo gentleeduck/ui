@@ -12,7 +12,7 @@ import {
 import { Input } from '@gentleduck/registry-ui/input'
 import { Label } from '@gentleduck/registry-ui/label'
 
-export default function DialogDemo() {
+export default function Demo() {
   return (
     <Dialog>
       <form onSubmit={(e) => e.preventDefault()}>

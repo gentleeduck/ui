@@ -9,7 +9,7 @@
 //   UploadTrigger,
 // } from '@/registry/registry-ui-components/upload'
 //
-// export default function Upload2Demo() {
+// export default function Demo() {
 //   return (
 //     <>
 //       <UploadProvider>

@@ -3,7 +3,7 @@
 import { Button } from '@gentleduck/registry-ui/button'
 import { ButtonGroup, ButtonGroupSeparator } from '@gentleduck/registry-ui/button-group'
 
-export default function ButtonGroupSeparatorDemo() {
+export default function Demo() {
   return (
     <ButtonGroup>
       <Button size="sm" variant="secondary">

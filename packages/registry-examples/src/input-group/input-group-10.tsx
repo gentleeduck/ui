@@ -3,7 +3,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from '@gentleduck/regist
 import { Label } from '@gentleduck/registry-ui/label'
 import { SendIcon } from 'lucide-react'
 
-export default function InputGroupButtonGroup() {
+export default function Demo() {
   return (
     <div className="grid w-full max-w-sm gap-6">
       <ButtonGroup>

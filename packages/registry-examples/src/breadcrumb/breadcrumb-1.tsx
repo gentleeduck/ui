@@ -15,7 +15,7 @@ import {
 } from '@gentleduck/registry-ui/dropdown-menu'
 import Link from 'next/link'
 
-export default function BreadcrumbDemo() {
+export default function Demo() {
   return (
     <Breadcrumb>
       <BreadcrumbList>

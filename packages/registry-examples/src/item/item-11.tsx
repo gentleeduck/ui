@@ -2,7 +2,7 @@ import { Button } from '@gentleduck/registry-ui/button'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@gentleduck/registry-ui/item'
 import { ChevronLeftIcon, ClipboardListIcon } from 'lucide-react'
 
-export default function ItemRtlDemo() {
+export default function Demo() {
   return (
     <div dir="rtl">
       <div className="flex w-full max-w-md flex-col gap-6">

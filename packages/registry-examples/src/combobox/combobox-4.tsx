@@ -26,7 +26,7 @@ import { MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
 
 const labels = ['feature', 'bug', 'enhancement', 'documentation', 'design', 'question', 'maintenance']
-export default function ComboboxDropdownMenu() {
+export default function Demo() {
   const [label, setLabel] = React.useState('feature')
   const [open, setOpen] = React.useState(false)
   return (

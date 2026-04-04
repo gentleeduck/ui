@@ -11,7 +11,7 @@ import {
 } from '@gentleduck/registry-ui/sheet'
 import { Menu } from 'lucide-react'
 
-export default function SheetActiveDemo() {
+export default function Demo() {
   return (
     <Sheet>
       <SheetTrigger asChild>

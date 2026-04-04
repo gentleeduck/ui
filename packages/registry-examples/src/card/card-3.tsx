@@ -5,7 +5,7 @@ import { Input } from '@gentleduck/registry-ui/input'
 import { Label } from '@gentleduck/registry-ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'
 
-export default function CardRtlDemo() {
+export default function Demo() {
   return (
     <DirectionProvider dir="rtl">
       <Card className="w-[350px]" dir="rtl">

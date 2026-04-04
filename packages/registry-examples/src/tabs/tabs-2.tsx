@@ -4,10 +4,10 @@ import { Input } from '@gentleduck/registry-ui/input'
 import { Label } from '@gentleduck/registry-ui/label'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui/tabs'
 
-export default function TabsRtlDemo() {
+export default function Demo() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-6">
-      <Tabs className="w-100" defaultValue="account" dir="rtl">
+      <Tabs className="w-full" defaultValue="account" dir="rtl">
         <TabsList>
           <TabsTrigger className="w-full" value="account">
             {'الحساب'}

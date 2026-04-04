@@ -1,7 +1,7 @@
 import { AspectRatio } from '@gentleduck/registry-ui/aspect-ratio'
 import Image from 'next/image'
 
-export default function AspectRatioDemo() {
+export default function Demo() {
   return (
     <AspectRatio className="rounded-lg bg-muted" ratio={'16/9'}>
       <Image

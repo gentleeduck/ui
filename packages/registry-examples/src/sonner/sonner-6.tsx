@@ -3,7 +3,7 @@
 import { Button } from '@gentleduck/registry-ui/button'
 import { toast } from 'sonner'
 
-export default function SonnerRtlDemo() {
+export default function Demo() {
   return (
     <div dir="rtl">
       <Button

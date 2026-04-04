@@ -9,7 +9,7 @@ type JsonEditorCallbackValues = {
   payload: Record<string, unknown> | null
 }
 
-export default function JsonEditorCallbackExample() {
+export default function Demo() {
   const form = useForm<JsonEditorCallbackValues>({
     defaultValues: {
       payload: {

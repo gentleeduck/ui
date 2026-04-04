@@ -24,7 +24,7 @@ import { Input } from '@gentleduck/registry-ui/input'
 import { Label } from '@gentleduck/registry-ui/label'
 import * as React from 'react'
 
-export default function DrawerDialogDemo() {
+export default function Demo() {
   const [open, setOpen] = React.useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
 

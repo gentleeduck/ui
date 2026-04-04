@@ -9,7 +9,7 @@ import {
 import { SlashIcon } from 'lucide-react'
 import Link from 'next/link'
 
-export default function BreadcrumbDemo() {
+export default function Demo() {
   return (
     <Breadcrumb>
       <BreadcrumbList>

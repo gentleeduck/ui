@@ -16,7 +16,7 @@ import {
 
 const SHEET_SIDES = ['top', 'right', 'bottom', 'left'] as const
 
-export default function SheetSide() {
+export default function Demo() {
   return (
     <div className="grid grid-cols-2 gap-2">
       {SHEET_SIDES.map((side) => (

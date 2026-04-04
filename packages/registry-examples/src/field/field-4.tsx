@@ -1,7 +1,7 @@
 import { Field, FieldDescription, FieldLabel } from '@gentleduck/registry-ui/field'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'
 
-export default function FieldSelect() {
+export default function Demo() {
   return (
     <div className="w-full max-w-md">
       <Field>

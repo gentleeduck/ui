@@ -2,7 +2,7 @@ import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'
 import { HelpCircle, InfoIcon } from 'lucide-react'
 
-export default function InputGroupTooltip() {
+export default function Demo() {
   return (
     <TooltipProvider>
       <div className="grid w-full max-w-sm gap-4">

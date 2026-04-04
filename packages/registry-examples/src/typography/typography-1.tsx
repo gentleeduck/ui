@@ -1,4 +1,4 @@
-export default function TypographyDemo() {
+export default function Demo() {
   return (
     <div>
       <h1 className="scroll-m-20 font-extrabold text-4xl tracking-tight lg:text-5xl">The Joke Tax Chronicles</h1>

@@ -1,7 +1,7 @@
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@gentleduck/registry-ui/input-group'
 import { AtSignIcon, CheckCircleIcon, GlobeIcon, LinkIcon, PackageIcon, PhoneIcon } from 'lucide-react'
 
-export default function InputGroupIcon() {
+export default function Demo() {
   return (
     <div className="grid w-full max-w-sm gap-6">
       <InputGroup>

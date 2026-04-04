@@ -1,7 +1,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui/accordion'
 import { Plus } from 'lucide-react'
 
-export default function Accordion1Demo() {
+export default function Demo() {
   return (
     <Accordion className="w-full" type="multiple">
       <AccordionItem value="item-1">

@@ -36,7 +36,7 @@ const frameworks = [
     value: 'astro',
   },
 ]
-export default function ComboboxDemo() {
+export default function Demo() {
   const [open, setOpen] = React.useState(false)
   const [value, setValue] = React.useState('')
   return (

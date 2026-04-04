@@ -27,7 +27,7 @@ function isValidDate(date: Date | undefined) {
   return !Number.isNaN(date.getTime())
 }
 
-export default function CalendarDemo() {
+export default function Demo() {
   const [open, setOpen] = React.useState(false)
   const [date, setDate] = React.useState<Date | undefined>(new Date('2025-06-01'))
   const [month, setMonth] = React.useState<Date | undefined>(date)
