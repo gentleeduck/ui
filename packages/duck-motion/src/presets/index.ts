@@ -1,5 +1,6 @@
 export { createDirectionalPreset } from './directional'
 export { fadeIn } from './fade-in'
+export { heightAuto } from './height-auto'
 export { fadeOut } from './fade-out'
 export { scaleIn } from './scale-in'
 export { slideDown } from './slide-down'
