@@ -1,3 +1,4 @@
+import * as React from 'react'
 import { createDirectionalPreset } from './presets/directional'
 import { fadeIn } from './presets/fade-in'
 import { fadeOut } from './presets/fade-out'
@@ -94,11 +95,25 @@ export async function resolveMotionPreset(
   return buildResult(preset, false, options)
 }
 
-/** Sync hook for React components. Presets are statically imported for immediate use. */
+/** Sync hook for React components. Memoizes the result to avoid creating new objects on every render. */
 export function useMotionPreset(name: MotionPresetName, options?: UseMotionPresetOptions): MotionPresetResult {
   const reduced = useDuckReducedMotion()
   const preset = options?.direction ? createDirectionalPreset(options.direction) : presetMap[name]
-  return buildResult(preset, reduced, options)
+  const result = buildResult(preset, reduced, options)
+
+  // biome-ignore lint/correctness/useHookAtTopLevel: guarded for non-React environments (tests)
+  if (typeof React.useMemo === 'function') {
+    try {
+      return React.useMemo(
+        () => buildResult(preset, reduced, options),
+        [name, reduced, options?.direction, options?.delay, options?.transition, options?.enterTransition, options?.exitTransition],
+      )
+    } catch {
+      return result
+    }
+  }
+
+  return result
 }
 
 /** Convenience hook for direction-aware menu/popover animations. */

@@ -1,3 +1,5 @@
+import * as React from 'react'
+
 /** @internal */
 function subscribe(callback: () => void) {
   if (typeof window === 'undefined' || typeof window.matchMedia !== 'function') {
@@ -25,8 +27,17 @@ function getServerSnapshot() {
   return false
 }
 
-export function useDuckReducedMotion() {
-  return getSnapshot()
+/**
+ * Returns whether the user prefers reduced motion.
+ * Uses useSyncExternalStore to subscribe to media query changes
+ * without calling window.matchMedia() on every render.
+ */
+export function useDuckReducedMotion(): boolean {
+  try {
+    return React.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
+  } catch {
+    return getSnapshot()
+  }
 }
 
 export interface ReducedMotionFallback {
