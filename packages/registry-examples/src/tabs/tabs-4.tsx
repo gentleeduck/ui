@@ -50,16 +50,16 @@ export default function Demo() {
                 </div>
               </div>
               <div className="space-y-1.5">
-                <h4 className="font-medium text-xs text-muted-foreground">Recent</h4>
+                <h4 className="font-medium text-muted-foreground text-xs">Recent</h4>
                 {activity.map((item) => (
                   <div
                     key={item.time}
                     className="flex items-center justify-between rounded-md bg-muted/50 px-2.5 py-1.5">
                     <div>
                       <p className="text-xs">{item.action}</p>
-                      <p className="text-muted-foreground text-[10px]">{item.user}</p>
+                      <p className="text-[10px] text-muted-foreground">{item.user}</p>
                     </div>
-                    <p className="shrink-0 text-muted-foreground text-[10px]">{item.time}</p>
+                    <p className="shrink-0 text-[10px] text-muted-foreground">{item.time}</p>
                   </div>
                 ))}
               </div>
@@ -71,19 +71,19 @@ export default function Demo() {
               <div className="grid grid-cols-3 gap-2">
                 <div className="rounded-md bg-muted p-2.5 text-center">
                   <p className="font-bold text-lg">24.5k</p>
-                  <p className="text-muted-foreground text-[10px]">Visitors</p>
+                  <p className="text-[10px] text-muted-foreground">Visitors</p>
                 </div>
                 <div className="rounded-md bg-muted p-2.5 text-center">
                   <p className="font-bold text-lg">12.1k</p>
-                  <p className="text-muted-foreground text-[10px]">Views</p>
+                  <p className="text-[10px] text-muted-foreground">Views</p>
                 </div>
                 <div className="rounded-md bg-muted p-2.5 text-center">
                   <p className="font-bold text-lg">3.2%</p>
-                  <p className="text-muted-foreground text-[10px]">CVR</p>
+                  <p className="text-[10px] text-muted-foreground">CVR</p>
                 </div>
               </div>
               <div className="rounded-md border">
-                <div className="grid grid-cols-4 border-b px-2.5 py-1.5 text-muted-foreground text-[10px] font-medium">
+                <div className="grid grid-cols-4 border-b px-2.5 py-1.5 font-medium text-[10px] text-muted-foreground">
                   <span>Page</span>
                   <span className="text-right">Views</span>
                   <span className="text-right">Uniques</span>
