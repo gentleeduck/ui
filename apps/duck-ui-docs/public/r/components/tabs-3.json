@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { Button } from '@gentleduck/registry-ui/button'\nimport { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@gentleduck/registry-ui/card'\nimport { Input } from '@gentleduck/registry-ui/input'\nimport { Label } from '@gentleduck/registry-ui/label'\nimport { MotionTabs, MotionTabsContent, MotionTabsList, MotionTabsTrigger } from '@gentleduck/registry-ui/tabs'\n\nexport default function Demo() {\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-6\">\n      <MotionTabs className=\"w-[400px]\" defaultValue=\"account\">\n        <MotionTabsList>\n          <MotionTabsTrigger className=\"w-full\" value=\"account\">\n            Account\n          </MotionTabsTrigger>\n          <MotionTabsTrigger className=\"w-full\" value=\"password\">\n            Password\n          </MotionTabsTrigger>\n        </MotionTabsList>\n        <MotionTabsContent value=\"account\">\n          <Card>\n            <CardHeader>\n              <CardTitle>Account</CardTitle>\n              <CardDescription>Make changes to your account here. Click save when you&apos;re done.</CardDescription>\n            </CardHeader>\n            <CardContent className=\"grid gap-6\">\n              <div className=\"grid gap-3\">\n                <Label htmlFor=\"tabs-motion-name\">Name</Label>\n                <Input defaultValue=\"Pedro Duarte\" id=\"tabs-motion-name\" />\n              </div>\n              <div className=\"grid gap-3\">\n                <Label htmlFor=\"tabs-motion-username\">Username</Label>\n                <Input defaultValue=\"@peduarte\" id=\"tabs-motion-username\" />\n              </div>\n            </CardContent>\n            <CardFooter className=\"justify-end\">\n              <Button>Save changes</Button>\n            </CardFooter>\n          </Card>\n        </MotionTabsContent>\n        <MotionTabsContent value=\"password\">\n          <Card>\n            <CardHeader>\n              <CardTitle>Password</CardTitle>\n              <CardDescription>Change your password here. After saving, you&apos;ll be logged out.</CardDescription>\n            </CardHeader>\n            <CardContent className=\"grid gap-6\">\n              <div className=\"grid gap-3\">\n                <Label htmlFor=\"tabs-motion-current\">Current password</Label>\n                <Input id=\"tabs-motion-current\" type=\"password\" />\n              </div>\n              <div className=\"grid gap-3\">\n                <Label htmlFor=\"tabs-motion-new\">New password</Label>\n                <Input id=\"tabs-motion-new\" type=\"password\" />\n              </div>\n            </CardContent>\n            <CardFooter className=\"justify-end\">\n              <Button>Save password</Button>\n            </CardFooter>\n          </Card>\n        </MotionTabsContent>\n      </MotionTabs>\n    </div>\n  )\n}\n",
+      "path": "tabs/tabs-3.tsx",
+      "target": "components/tabs-3.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "tabs-3",
+  "registryDependencies": [
+    "tabs"
+  ],
+  "root_folder": "tabs",
+  "source": "/registry-examples/src/tabs",
+  "type": "registry:example"
+}
