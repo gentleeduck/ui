@@ -966,6 +966,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/accordion',
           items: [],
+          label: 'new',
           title: 'Accordion',
         },
         {
@@ -1206,6 +1207,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/sheet',
           items: [],
+          label: 'new',
           title: 'Sheet',
         },
         {
@@ -1246,6 +1248,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/tabs',
           items: [],
+          label: 'new',
           title: 'Tabs',
         },
         {
