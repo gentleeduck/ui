@@ -309,6 +309,7 @@ const _Accordion3 = dynamic(() => import('@gentleduck/registry-examples/accordio
 const _Accordion4 = dynamic(() => import('@gentleduck/registry-examples/accordion/accordion-4'), { ssr: false })
 const _Accordion5 = dynamic(() => import('@gentleduck/registry-examples/accordion/accordion-5'), { ssr: false })
 const _Accordion6 = dynamic(() => import('@gentleduck/registry-examples/accordion/accordion-6'), { ssr: false })
+const _Accordion7 = dynamic(() => import('@gentleduck/registry-examples/accordion/accordion-7'), { ssr: false })
 const _Alert1 = dynamic(() => import('@gentleduck/registry-examples/alert/alert-1'), { ssr: false })
 const _Alert2 = dynamic(() => import('@gentleduck/registry-examples/alert/alert-2'), { ssr: false })
 const _Alert3 = dynamic(() => import('@gentleduck/registry-examples/alert/alert-3'), { ssr: false })
@@ -2737,6 +2738,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Accordion6,
+    source: '/registry-examples/src/accordion',
+    categories: [],
+    root_folder: 'accordion',
+  },
+  'accordion-7': {
+    name: 'accordion-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['accordion'],
+    files: [
+      {
+        path: 'accordion/accordion-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Accordion7,
     source: '/registry-examples/src/accordion',
     categories: [],
     root_folder: 'accordion',
