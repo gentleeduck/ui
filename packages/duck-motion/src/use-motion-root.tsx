@@ -77,7 +77,7 @@ export function useMotionRoot(props: {
         })
       } else {
         if (ignoreNextCloseRef.current) {
-          // This close is from DismissableLayer on the same event as the open — skip it.
+          // This close is from DismissableLayer on the same event as the open - skip it.
           ignoreNextCloseRef.current = false
           return
         }
