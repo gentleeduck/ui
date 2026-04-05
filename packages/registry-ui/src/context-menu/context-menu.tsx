@@ -209,7 +209,7 @@ const MotionContextMenuContent = React.forwardRef<
                 style={{ transformOrigin: 'top left' }}
                 initial={content.initial}
                 animate={content.animate}
-                exit={content.exit}
+                exit={{ ...content.exit, pointerEvents: 'none' }}
                 transition={content.transition}>
                 {children}
               </m.div>
@@ -221,6 +221,57 @@ const MotionContextMenuContent = React.forwardRef<
   )
 })
 MotionContextMenuContent.displayName = 'MotionContextMenuContent'
+
+function MotionContextMenuSub({
+  children,
+  open,
+  defaultOpen,
+  onOpenChange,
+  ...rest
+}: React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Sub>) {
+  const { rootProps, contextValue } = useMotionRoot({ open, defaultOpen, onOpenChange })
+  return (
+    <MotionRootContext.Provider value={contextValue}>
+      <ContextMenuPrimitive.Sub {...rootProps} {...rest}>
+        {children}
+      </ContextMenuPrimitive.Sub>
+    </MotionRootContext.Provider>
+  )
+}
+MotionContextMenuSub.displayName = 'MotionContextMenuSub'
+
+const MotionContextMenuSubContent = React.forwardRef<
+  React.ComponentRef<typeof ContextMenuPrimitive.SubContent>,
+  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubContent>
+>(({ className, children, ...props }, ref) => {
+  const { isOpen, setShowContent } = useMotionContent()
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <AnimatePresence onExitComplete={() => setShowContent(false)}>
+        {isOpen && (
+          <ContextMenuPrimitive.Portal forceMount>
+            <ContextMenuPrimitive.SubContent ref={ref} forceMount asChild {...props}>
+              <m.div
+                className={cn(
+                  'z-50 min-w-32 origin-(--gentleduck-context-menu-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg',
+                  className,
+                )}
+                initial={content.initial}
+                animate={content.animate}
+                exit={{ ...content.exit, pointerEvents: 'none' }}
+                transition={content.transition}>
+                {children}
+              </m.div>
+            </ContextMenuPrimitive.SubContent>
+          </ContextMenuPrimitive.Portal>
+        )}
+      </AnimatePresence>
+    </LazyMotion>
+  )
+})
+MotionContextMenuSubContent.displayName = 'MotionContextMenuSubContent'
 
 export {
   ContextMenu,
@@ -240,4 +291,6 @@ export {
   ContextMenuTrigger,
   MotionContextMenu,
   MotionContextMenuContent,
+  MotionContextMenuSub,
+  MotionContextMenuSubContent,
 }

@@ -140,7 +140,7 @@ const MotionDialogContent = React.forwardRef<
                 className="fixed inset-0 z-50 bg-black/80"
                 initial={overlay.initial}
                 animate={overlay.animate}
-                exit={overlay.exit}
+                exit={{ ...overlay.exit, pointerEvents: 'none' }}
                 transition={overlay.transition}
               />
             </DialogPrimitive.Overlay>
@@ -152,7 +152,7 @@ const MotionDialogContent = React.forwardRef<
                 )}
                 initial={content.initial}
                 animate={content.animate}
-                exit={content.exit}
+                exit={{ ...content.exit, pointerEvents: 'none' }}
                 transition={content.transition}>
                 {children}
                 {!hideClose && (
