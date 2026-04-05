@@ -1114,6 +1114,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/hover-card',
           items: [],
+          label: 'new',
           title: 'Hover Card',
         },
         {
@@ -1269,6 +1270,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/tooltip',
           items: [],
+          label: 'new',
           title: 'Tooltip',
         },
         // {
