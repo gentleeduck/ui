@@ -1,33 +1,36 @@
-import { duckDuration } from './tokens'
-
 /**
- * Duck duration values converted to seconds for the motion library.
- * Maps directly from `duckDuration` (ms) to seconds.
+ * Re-exports from transitions module for backwards compatibility.
+ * Prefer importing directly from @gentleduck/motion/transitions for tree-shaking.
  */
-export const duckMotionDuration = {
-  instant: 0,
-  fast: duckDuration.fast / 1000,
-  normal: duckDuration.normal / 1000,
-  slow: duckDuration.slow / 1000,
-} as const
+export {
+  blurHeavy as duckBlurHeavy,
+  blurLight as duckBlurLight,
+  blurMedium as duckBlurMedium,
+  springDefault as duckSpringDefault,
+  springGentle as duckSpringGentle,
+  springInstant as duckSpringInstant,
+  springSnappy as duckSpringSnappy,
+  springStiff as duckSpringStiff,
+  tweenExit as duckExitTween,
+} from './transitions'
+
+export {
+  duckMotionDuration,
+  duckMotionEasing,
+  tweenFast,
+  tweenInstant,
+  tweenNormal,
+  tweenSlow,
+} from './transitions/tweens'
 
 /**
- * Duck easing values as cubic-bezier arrays for the motion library.
- * Parsed from the CSS `cubic-bezier()` strings in `duckEasing`.
- */
-export const duckMotionEasing = {
-  standard: [0.4, 0, 0.2, 1] as const,
-  spring: [1, 0.23995, 0, 1.65] as const,
-} as const
-
-/**
- * Pre-built motion `Transition` objects combining duration and easing.
- * Ready to spread onto motion components: `<m.div transition={duckMotionTransition.fast} />`
+ * Pre-built motion Transition objects combining duration and easing.
+ * @deprecated Use individual exports from @gentleduck/motion/transitions instead.
  */
 export const duckMotionTransition = {
-  instant: { duration: duckMotionDuration.instant },
-  fast: { duration: duckMotionDuration.fast, ease: [...duckMotionEasing.standard] },
-  normal: { duration: duckMotionDuration.normal, ease: [...duckMotionEasing.standard] },
-  slow: { duration: duckMotionDuration.slow, ease: [...duckMotionEasing.standard] },
-  spring: { duration: duckMotionDuration.normal, ease: [...duckMotionEasing.spring] },
+  instant: { duration: 0 },
+  fast: { duration: 0.15, ease: [0.4, 0, 0.2, 1] },
+  normal: { duration: 0.2, ease: [0.4, 0, 0.2, 1] },
+  slow: { duration: 0.3, ease: [0.4, 0, 0.2, 1] },
+  spring: { duration: 0.2, ease: [1, 0.23995, 0, 1.65] },
 } as const

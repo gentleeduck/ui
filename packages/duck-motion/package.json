@@ -20,11 +20,35 @@
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
     },
+    "./variants": {
+      "types": "./dist/variants/index.d.ts",
+      "default": "./dist/variants/index.js"
+    },
+    "./variants/*": {
+      "types": "./dist/variants/*.d.ts",
+      "default": "./dist/variants/*.js"
+    },
+    "./transitions": {
+      "types": "./dist/transitions/index.d.ts",
+      "default": "./dist/transitions/index.js"
+    },
+    "./transitions/*": {
+      "types": "./dist/transitions/*.d.ts",
+      "default": "./dist/transitions/*.js"
+    },
+    "./presets": {
+      "types": "./dist/presets/index.d.ts",
+      "default": "./dist/presets/index.js"
+    },
+    "./presets/*": {
+      "types": "./dist/presets/*.d.ts",
+      "default": "./dist/presets/*.js"
+    },
     "./*": {
       "types": "./dist/*.d.ts",
       "default": "./dist/*.js"
     },
-    "./css": "./src/index.css"
+    "./css": "./src/css/index.css"
   },
   "files": [
     "dist",
