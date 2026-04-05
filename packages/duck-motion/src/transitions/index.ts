@@ -11,10 +11,12 @@ export {
 export {
   duckMotionDuration,
   duckMotionEasing,
+  shakeKeyframes,
   tweenExit,
   tweenExpand,
   tweenFast,
   tweenInstant,
   tweenNormal,
+  tweenShake,
   tweenSlow,
 } from './tweens'

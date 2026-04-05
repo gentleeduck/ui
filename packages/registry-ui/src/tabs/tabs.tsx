@@ -4,7 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { loadDomMax } from '@gentleduck/motion/motion-features'
 import { blurLight } from '@gentleduck/motion/transitions/blur'
 import { springSmooth } from '@gentleduck/motion/transitions/springs'
-import { tweenExpand } from '@gentleduck/motion/transitions/tweens'
+import { shakeKeyframes, tweenExpand, tweenShake } from '@gentleduck/motion/transitions/tweens'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
 import { AnimatePresence, LayoutGroup, LazyMotion, m } from 'motion/react'
@@ -239,9 +239,8 @@ const MotionTabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
     const { setActiveItem, activeItem, tabsId } = useTabs()
     const { registerTrigger } = React.useContext(MotionTabsContext)
     const isActive = value === activeItem
+    const [shake, setShake] = React.useState(false)
 
-    // Register synchronously during render so order is available
-    // before any click handler fires.
     registerTrigger(value)
 
     React.useEffect(() => {
@@ -249,18 +248,25 @@ const MotionTabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
     }, [defaultChecked, setActiveItem, value])
 
     return (
-      <button
+      <m.button
         aria-controls={`${tabsId}-content-${value}`}
         aria-selected={isActive}
+        aria-disabled={disabled || undefined}
+        animate={shake ? { x: shakeKeyframes } : { x: 0 }}
+        transition={shake ? tweenShake : undefined}
+        onAnimationComplete={() => shake && setShake(false)}
         className={cn(
           'relative inline-flex h-[29.04px] items-center justify-center gap-2 whitespace-nowrap rounded-sm px-3 font-medium text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-          disabled && 'pointer-events-none opacity-50',
+          disabled && 'cursor-not-allowed opacity-50',
           className,
         )}
         data-value={value}
-        disabled={disabled}
         id={`${tabsId}-trigger-${value}`}
         onClick={(e) => {
+          if (disabled) {
+            setShake(true)
+            return
+          }
           setActiveItem(value)
           onClick?.(e as React.MouseEvent<HTMLButtonElement>)
         }}
@@ -273,13 +279,12 @@ const MotionTabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
         {isActive && (
           <m.span
             layoutId={`tab-indicator-${tabsId}`}
-            className="absolute inset-0 rounded-sm bg-background shadow-sm"
-            style={{ borderRadius: 6 }}
+            className="absolute inset-0 rounded-[inherit] bg-background shadow-sm"
             transition={springSmooth}
           />
         )}
         <span className={cn('relative z-10', isActive ? 'text-foreground' : 'text-muted-foreground')}>{children}</span>
-      </button>
+      </m.button>
     )
   },
 )
@@ -338,7 +343,7 @@ const MotionTabsContents = React.forwardRef<
                 x: `${dir * 30}%`,
                 filter: `blur(${blurLight}px)`,
               }),
-              center: { opacity: 1, x: 0, filter: 'blur(0px)' },
+              center: { opacity: 1, x: 0, filter: `blur(0px)` },
               exit: (dir: number) => ({
                 opacity: 0,
                 x: `${dir * -30}%`,
