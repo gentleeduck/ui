@@ -213,7 +213,7 @@ const MotionDropdownMenuContent = React.forwardRef<
                 )}
                 initial={content.initial}
                 animate={content.animate}
-                exit={content.exit}
+                exit={{ ...content.exit, pointerEvents: 'none' }}
                 transition={content.transition}>
                 {children}
               </m.div>
@@ -225,6 +225,57 @@ const MotionDropdownMenuContent = React.forwardRef<
   )
 })
 MotionDropdownMenuContent.displayName = 'MotionDropdownMenuContent'
+
+function MotionDropdownMenuSub({
+  children,
+  open,
+  defaultOpen,
+  onOpenChange,
+  ...rest
+}: React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Sub>) {
+  const { rootProps, contextValue } = useMotionRoot({ open, defaultOpen, onOpenChange })
+  return (
+    <MotionRootContext.Provider value={contextValue}>
+      <DropdownMenuPrimitive.Sub {...rootProps} {...rest}>
+        {children}
+      </DropdownMenuPrimitive.Sub>
+    </MotionRootContext.Provider>
+  )
+}
+MotionDropdownMenuSub.displayName = 'MotionDropdownMenuSub'
+
+const MotionDropdownMenuSubContent = React.forwardRef<
+  React.ComponentRef<typeof DropdownMenuPrimitive.SubContent>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>
+>(({ className, children, ...props }, ref) => {
+  const { isOpen, setShowContent } = useMotionContent()
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <AnimatePresence onExitComplete={() => setShowContent(false)}>
+        {isOpen && (
+          <DropdownMenuPrimitive.Portal forceMount>
+            <DropdownMenuPrimitive.SubContent ref={ref} forceMount asChild {...props}>
+              <m.div
+                className={cn(
+                  'z-50 min-w-32 origin-(--gentleduck-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg',
+                  className,
+                )}
+                initial={content.initial}
+                animate={content.animate}
+                exit={{ ...content.exit, pointerEvents: 'none' }}
+                transition={content.transition}>
+                {children}
+              </m.div>
+            </DropdownMenuPrimitive.SubContent>
+          </DropdownMenuPrimitive.Portal>
+        )}
+      </AnimatePresence>
+    </LazyMotion>
+  )
+})
+MotionDropdownMenuSubContent.displayName = 'MotionDropdownMenuSubContent'
 
 export {
   DropdownMenu,
@@ -244,4 +295,6 @@ export {
   DropdownMenuTrigger,
   MotionDropdownMenu,
   MotionDropdownMenuContent,
+  MotionDropdownMenuSub,
+  MotionDropdownMenuSubContent,
 }
