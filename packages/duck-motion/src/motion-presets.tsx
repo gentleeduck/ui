@@ -6,7 +6,6 @@ import { slideDown } from './presets/slide-down'
 import { slideFromLeft } from './presets/slide-from-left'
 import { slideFromRight } from './presets/slide-from-right'
 import { slideUp } from './presets/slide-up'
-import { springDefault } from './transitions/springs'
 import type {
   Direction,
   MotionAnimationState,
@@ -16,8 +15,16 @@ import type {
   MotionTransitionConfig,
 } from './presets/types'
 import { useDuckReducedMotion } from './react'
+import { springDefault } from './transitions/springs'
 
-export type { Direction, MotionAnimationState, MotionPreset, MotionPresetName, MotionPresetResult, MotionTransitionConfig }
+export type {
+  Direction,
+  MotionAnimationState,
+  MotionPreset,
+  MotionPresetName,
+  MotionPresetResult,
+  MotionTransitionConfig,
+}
 
 const presetMap: Record<MotionPresetName, MotionPreset> = {
   fadeIn,
@@ -68,9 +75,7 @@ function buildResult(preset: MotionPreset, reduced: boolean, options?: UseMotion
   const enterTransition: MotionTransitionConfig = reduced
     ? { duration: 0 }
     : { ...(options?.enterTransition ?? baseTransition), ...(options?.delay ? { delay: options.delay } : {}) }
-  const exitTransition: MotionTransitionConfig = reduced
-    ? { duration: 0 }
-    : (options?.exitTransition ?? baseTransition)
+  const exitTransition: MotionTransitionConfig = reduced ? { duration: 0 } : (options?.exitTransition ?? baseTransition)
 
   return {
     initial: { ...preset.initial },

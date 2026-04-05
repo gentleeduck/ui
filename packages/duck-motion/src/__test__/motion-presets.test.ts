@@ -1,14 +1,14 @@
 import { describe, expect, test } from 'bun:test'
-import { useDirectionalPreset, useMotionPreset } from '../motion-presets'
 import type { MotionPresetName } from '../motion-presets'
+import { useDirectionalPreset, useMotionPreset } from '../motion-presets'
+import { createDirectionalPreset } from '../presets/directional'
 import { fadeIn } from '../presets/fade-in'
 import { fadeOut } from '../presets/fade-out'
 import { scaleIn } from '../presets/scale-in'
-import { slideUp } from '../presets/slide-up'
 import { slideDown } from '../presets/slide-down'
 import { slideFromLeft } from '../presets/slide-from-left'
 import { slideFromRight } from '../presets/slide-from-right'
-import { createDirectionalPreset } from '../presets/directional'
+import { slideUp } from '../presets/slide-up'
 
 const ALL_PRESETS: MotionPresetName[] = [
   'fadeIn',

@@ -1,4 +1,3 @@
-export { AnimVariants, checkersStylePattern } from './variants'
 export type { ReducedMotionFallback } from './react'
 export {
   getDuckReducedMotionServerSnapshot,
@@ -7,3 +6,4 @@ export {
   useDuckReducedMotion,
 } from './react'
 export { duckDuration, duckEasing, duckMotionCssVar } from './tokens'
+export { AnimVariants, checkersStylePattern } from './variants'
