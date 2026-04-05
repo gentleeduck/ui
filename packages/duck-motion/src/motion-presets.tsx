@@ -106,7 +106,15 @@ export function useMotionPreset(name: MotionPresetName, options?: UseMotionPrese
     try {
       return React.useMemo(
         () => buildResult(preset, reduced, options),
-        [name, reduced, options?.direction, options?.delay, options?.transition, options?.enterTransition, options?.exitTransition],
+        [
+          name,
+          reduced,
+          options?.direction,
+          options?.delay,
+          options?.transition,
+          options?.enterTransition,
+          options?.exitTransition,
+        ],
       )
     } catch {
       return result
