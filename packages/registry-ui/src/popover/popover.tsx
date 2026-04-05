@@ -4,6 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
+import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as PopoverPrimitive from '@gentleduck/primitives/popover'
 import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
@@ -40,44 +41,55 @@ PopoverContent.displayName = PopoverPrimitive.Content.displayName
 export const PopoverClose: typeof PopoverPrimitive.Close = PopoverPrimitive.Close
 PopoverClose.displayName = 'PopoverClose'
 
+function MotionPopover({
+  children,
+  open,
+  defaultOpen,
+  onOpenChange,
+  ...rest
+}: React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Root>) {
+  const { rootProps, contextValue } = useMotionRoot({ open, defaultOpen, onOpenChange })
+  return (
+    <MotionRootContext.Provider value={contextValue}>
+      <PopoverPrimitive.Root {...rootProps} {...rest}>
+        {children}
+      </PopoverPrimitive.Root>
+    </MotionRootContext.Provider>
+  )
+}
+MotionPopover.displayName = 'MotionPopover'
+
 const MotionPopoverContent = React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'> & {
-    open: boolean
-    align?: 'start' | 'center' | 'end'
-    sideOffset?: number
-  }
->(({ className, open, align = 'center', sideOffset = 4, children, ...props }, ref) => {
+  React.ComponentRef<typeof PopoverPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
+>(({ className, align = 'center', sideOffset = 4, children, ...props }, ref) => {
+  const { isOpen, setShowContent } = useMotionContent()
   const content = useMotionPreset('scaleIn', { transition: springBouncy })
 
   return (
     <LazyMotion features={loadDomAnimation}>
-      <AnimatePresence>
-        {open ? (
+      <AnimatePresence onExitComplete={() => setShowContent(false)}>
+        {isOpen && (
           <PopoverPrimitive.Portal forceMount>
-            <PopoverPrimitive.Content
-              ref={ref}
-              align={align}
-              sideOffset={sideOffset}
-              forceMount
-              asChild
-              {...props}>
-              {/* @ts-expect-error -- motion preset types are compatible at runtime */}
+            <PopoverPrimitive.Content ref={ref} align={align} sideOffset={sideOffset} forceMount asChild {...props}>
               <m.div
                 className={cn(
                   'z-50 w-72 origin-(--gentleduck-popover-content-transform-origin) rounded-md border bg-popover p-4 text-start text-popover-foreground shadow-md outline-none',
                   className,
                 )}
-                {...content}>
+                initial={content.initial}
+                animate={content.animate}
+                exit={content.exit}
+                transition={content.transition}>
                 {children}
               </m.div>
             </PopoverPrimitive.Content>
           </PopoverPrimitive.Portal>
-        ) : null}
+        )}
       </AnimatePresence>
     </LazyMotion>
   )
 })
 MotionPopoverContent.displayName = 'MotionPopoverContent'
 
-export { Popover, PopoverAnchor, PopoverContent, PopoverTrigger, MotionPopoverContent }
+export { MotionPopover, MotionPopoverContent, Popover, PopoverAnchor, PopoverContent, PopoverTrigger }
