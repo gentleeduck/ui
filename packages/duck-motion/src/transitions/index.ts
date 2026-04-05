@@ -1,5 +1,13 @@
 export { blurHeavy, blurLight, blurMedium } from './blur'
-export { springBouncy, springDefault, springGentle, springInstant, springSmooth, springSnappy, springStiff } from './springs'
+export {
+  springBouncy,
+  springDefault,
+  springGentle,
+  springInstant,
+  springSmooth,
+  springSnappy,
+  springStiff,
+} from './springs'
 export {
   duckMotionDuration,
   duckMotionEasing,

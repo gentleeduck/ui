@@ -123,15 +123,14 @@ const TabsContent = React.forwardRef<
 
   return (
     <div
-      aria-hidden={activeItem !== value}
       aria-labelledby={`${tabsId}-trigger-${value}`}
       className={cn(
         'mt-2 shrink-0 list-none ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-        activeItem === value ? 'h-auto opacity-100' : 'h-0 opacity-0',
+        activeItem === value ? 'opacity-100' : 'hidden opacity-0',
         className,
       )}
       data-value={value}
-      hidden={activeItem !== value}
+      aria-hidden={activeItem !== value}
       id={`${tabsId}-content-${value}`}
       ref={(node) => {
         ;(localRef as React.RefObject<HTMLDivElement | null>).current = node
@@ -295,74 +294,73 @@ const MotionTabsContents = React.forwardRef<
   HTMLDivElement,
   Omit<React.HTMLProps<HTMLDivElement>, 'ref' | 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
 >(({ children, className, ...props }, ref) => {
-    const { activeItem } = useTabs()
-    const { direction } = React.useContext(MotionTabsContext)
-    const containerRef = React.useRef<HTMLDivElement>(null)
-    const [height, setHeight] = React.useState<number | undefined>(undefined)
+  const { activeItem } = useTabs()
+  const { direction } = React.useContext(MotionTabsContext)
+  const containerRef = React.useRef<HTMLDivElement>(null)
+  const [height, setHeight] = React.useState<number | undefined>(undefined)
 
-    // Find the active panel from children
-    let activeChild: React.ReactNode = null
-    React.Children.forEach(children, (child) => {
-      if (React.isValidElement<{ value: string }>(child) && child.props.value === activeItem) {
-        activeChild = child
-      }
-    })
+  // Find the active panel from children
+  let activeChild: React.ReactNode = null
+  React.Children.forEach(children, (child) => {
+    if (React.isValidElement<{ value: string }>(child) && child.props.value === activeItem) {
+      activeChild = child
+    }
+  })
 
-    return (
-      <m.div
-        ref={(node) => {
-          ;(containerRef as React.MutableRefObject<HTMLDivElement | null>).current = node
-          if (typeof ref === 'function') ref(node)
-          else if (ref) ref.current = node
-        }}
-        animate={{ height: height ?? 'auto' }}
-        transition={tweenExpand}
-        className={cn('relative mt-2 overflow-hidden', className)}
-        {...props}
-        data-slot="tabs-contents">
-        <AnimatePresence
-          mode="popLayout"
-          initial={false}
-          custom={direction}
-          onExitComplete={() => {
-            if (containerRef.current) {
-              setHeight(containerRef.current.scrollHeight)
-            }
-          }}>
-          {activeChild && React.isValidElement(activeChild) ? (
-            <m.div
-              key={activeItem}
-              custom={direction}
-              variants={{
-                enter: (dir: number) => ({
-                  opacity: 0,
-                  x: `${dir * 30}%`,
-                  filter: `blur(${blurLight}px)`,
-                }),
-                center: { opacity: 1, x: 0, filter: 'blur(0px)' },
-                exit: (dir: number) => ({
-                  opacity: 0,
-                  x: `${dir * -30}%`,
-                  filter: `blur(${blurLight}px)`,
-                }),
-              }}
-              initial="enter"
-              animate="center"
-              exit="exit"
-              transition={tweenExpand}
-              onAnimationComplete={() => {
-                if (containerRef.current) {
-                  setHeight(containerRef.current.scrollHeight)
-                }
-              }}>
-              {activeChild}
-            </m.div>
-          ) : null}
-        </AnimatePresence>
-      </m.div>
-    )
-  },
-)
+  return (
+    <m.div
+      ref={(node) => {
+        ;(containerRef as React.MutableRefObject<HTMLDivElement | null>).current = node
+        if (typeof ref === 'function') ref(node)
+        else if (ref) ref.current = node
+      }}
+      animate={{ height: height ?? 'auto' }}
+      transition={tweenExpand}
+      className={cn('relative mt-2 overflow-hidden', className)}
+      {...props}
+      data-slot="tabs-contents">
+      <AnimatePresence
+        mode="popLayout"
+        initial={false}
+        custom={direction}
+        onExitComplete={() => {
+          if (containerRef.current) {
+            setHeight(containerRef.current.scrollHeight)
+          }
+        }}>
+        {activeChild && React.isValidElement(activeChild) ? (
+          <m.div
+            key={activeItem}
+            custom={direction}
+            variants={{
+              enter: (dir: number) => ({
+                opacity: 0,
+                x: `${dir * 30}%`,
+                filter: `blur(${blurLight}px)`,
+              }),
+              center: { opacity: 1, x: 0, filter: 'blur(0px)' },
+              exit: (dir: number) => ({
+                opacity: 0,
+                x: `${dir * -30}%`,
+                filter: `blur(${blurLight}px)`,
+              }),
+            }}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={tweenExpand}
+            onAnimationComplete={() => {
+              if (containerRef.current) {
+                setHeight(containerRef.current.scrollHeight)
+              }
+            }}>
+            {activeChild}
+          </m.div>
+        ) : null}
+      </AnimatePresence>
+    </m.div>
+  )
+})
 MotionTabsContents.displayName = 'MotionTabsContents'
 
 /** Individual tab panel - just renders its children, no animation logic. */
