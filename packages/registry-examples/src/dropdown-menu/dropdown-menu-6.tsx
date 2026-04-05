@@ -2,36 +2,70 @@
 
 import { Button } from '@gentleduck/registry-ui/button'
 import {
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   MotionDropdownMenu,
   MotionDropdownMenuContent,
+  MotionDropdownMenuSub,
+  MotionDropdownMenuSubContent,
 } from '@gentleduck/registry-ui/dropdown-menu'
-import { LogOut, Settings, User } from 'lucide-react'
 
 export default function Demo() {
   return (
     <MotionDropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open Animated Menu</Button>
+        <Button variant="outline">Open</Button>
       </DropdownMenuTrigger>
       <MotionDropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            Profile
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Billing
+            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Settings
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Keyboard shortcuts
+            <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>Team</DropdownMenuItem>
+          <MotionDropdownMenuSub>
+            <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
+            <MotionDropdownMenuSubContent>
+              <DropdownMenuItem>Email</DropdownMenuItem>
+              <DropdownMenuItem>Message</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>More...</DropdownMenuItem>
+            </MotionDropdownMenuSubContent>
+          </MotionDropdownMenuSub>
+          <DropdownMenuItem>
+            New Team
+            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>GitHub</DropdownMenuItem>
+        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuItem disabled>API</DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <User className="mr-2 h-4 w-4" />
-          Profile
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Settings className="mr-2 h-4 w-4" />
-          Settings
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <LogOut className="mr-2 h-4 w-4" />
           Log out
+          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </MotionDropdownMenuContent>
     </MotionDropdownMenu>
