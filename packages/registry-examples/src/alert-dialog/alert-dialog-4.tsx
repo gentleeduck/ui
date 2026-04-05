@@ -17,14 +17,13 @@ export default function Demo() {
   return (
     <MotionAlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="outline">Delete Account</Button>
+        <Button variant="outline">Open</Button>
       </AlertDialogTrigger>
       <MotionAlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your account and remove your data from our
-            servers. This alert dialog uses a stiffer spring animation to convey urgency.
+            This action cannot be undone This will permanently delete your account and remove your data from our servers
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -32,7 +31,7 @@ export default function Demo() {
             <Button variant="outline">Cancel</Button>
           </AlertDialogCancel>
           <AlertDialogAction asChild>
-            <Button>Yes, delete my account</Button>
+            <Button>Continue</Button>
           </AlertDialogAction>
         </AlertDialogFooter>
       </MotionAlertDialogContent>

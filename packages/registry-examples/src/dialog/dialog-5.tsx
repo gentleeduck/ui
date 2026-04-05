@@ -19,15 +19,14 @@ export default function Demo() {
     <MotionDialog>
       <form onSubmit={(e) => e.preventDefault()}>
         <DialogTrigger asChild>
-          <Button variant={'outline'}>Open Animated Dialog</Button>
+          <Button variant={'outline'}>Open Dialog</Button>
         </DialogTrigger>
         <MotionDialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
-            <DialogDescription>
-              This dialog uses motion-powered enter/exit animations. Notice the smooth scale and fade transition.
-            </DialogDescription>
+            <DialogDescription>Make changes to your profile here. Click save when you&apos;re done.</DialogDescription>
           </DialogHeader>
+
           <div className="grid gap-4">
             <div className="grid gap-3">
               <Label htmlFor="name-5">Name</Label>
