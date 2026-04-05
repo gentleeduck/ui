@@ -3596,6 +3596,11 @@
         "name": "accordion-6.tsx",
         "path": "accordion/accordion-6.tsx",
         "type": "file"
+      },
+      {
+        "name": "accordion-7.tsx",
+        "path": "accordion/accordion-7.tsx",
+        "type": "file"
       }
     ]
   },
@@ -3642,6 +3647,11 @@
       {
         "name": "accordion-6.tsx",
         "path": "accordion/accordion-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-7.tsx",
+        "path": "accordion/accordion-7.tsx",
         "type": "file"
       }
     ]
@@ -3690,6 +3700,11 @@
         "name": "accordion-6.tsx",
         "path": "accordion/accordion-6.tsx",
         "type": "file"
+      },
+      {
+        "name": "accordion-7.tsx",
+        "path": "accordion/accordion-7.tsx",
+        "type": "file"
       }
     ]
   },
@@ -3736,6 +3751,11 @@
       {
         "name": "accordion-6.tsx",
         "path": "accordion/accordion-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-7.tsx",
+        "path": "accordion/accordion-7.tsx",
         "type": "file"
       }
     ]
@@ -3784,6 +3804,11 @@
         "name": "accordion-6.tsx",
         "path": "accordion/accordion-6.tsx",
         "type": "file"
+      },
+      {
+        "name": "accordion-7.tsx",
+        "path": "accordion/accordion-7.tsx",
+        "type": "file"
       }
     ]
   },
@@ -3830,6 +3855,63 @@
       {
         "name": "accordion-6.tsx",
         "path": "accordion/accordion-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-7.tsx",
+        "path": "accordion/accordion-7.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "accordion/accordion-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "accordion-7",
+    "registryDependencies": [
+      "accordion"
+    ],
+    "root_folder": "accordion",
+    "type": "registry:example",
+    "source": "/registry-examples/src/accordion",
+    "tree": [
+      {
+        "name": "accordion-1.tsx",
+        "path": "accordion/accordion-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-2.tsx",
+        "path": "accordion/accordion-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-3.tsx",
+        "path": "accordion/accordion-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-4.tsx",
+        "path": "accordion/accordion-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-5.tsx",
+        "path": "accordion/accordion-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-6.tsx",
+        "path": "accordion/accordion-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "accordion-7.tsx",
+        "path": "accordion/accordion-7.tsx",
         "type": "file"
       }
     ]
