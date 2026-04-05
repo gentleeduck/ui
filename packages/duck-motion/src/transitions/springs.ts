@@ -15,5 +15,8 @@ export const springBouncy: MotionTransitionConfig = { type: 'spring', stiffness:
 /** Stiff spring for urgent interactions. Use for alert dialogs and destructive confirmations. stiffness 400, damping 30. */
 export const springStiff: MotionTransitionConfig = { type: 'spring', stiffness: 400, damping: 30 }
 
+/** Smooth spring for layout indicators and sliding elements. Moderate overshoot with quick settle. stiffness 350, damping 30. */
+export const springSmooth: MotionTransitionConfig = { type: 'spring', stiffness: 350, damping: 30 }
+
 /** Near-instant spring for reduced motion fallback. Resolves immediately while keeping AnimatePresence lifecycle. stiffness 1000, damping 100. */
 export const springInstant: MotionTransitionConfig = { type: 'spring', stiffness: 1000, damping: 100 }

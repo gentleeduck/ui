@@ -3,7 +3,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { heightAuto } from '@gentleduck/motion/presets/height-auto'
-import { tweenExpand } from '@gentleduck/motion/transitions/tweens'
+import { duckMotionDuration, tweenExpand } from '@gentleduck/motion/transitions/tweens'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Mount } from '@gentleduck/primitives/mount'
 import { ChevronDown } from 'lucide-react'
@@ -342,8 +342,8 @@ const MotionAccordionContent = React.forwardRef<
       initial={false}
       transition={{
         height: tweenExpand,
-        opacity: { duration: 0.2, delay: isActive ? 0.05 : 0 },
-        filter: { duration: 0.2, delay: isActive ? 0.05 : 0 },
+        opacity: { duration: duckMotionDuration.normal, delay: isActive ? 0.05 : 0 },
+        filter: { duration: duckMotionDuration.normal, delay: isActive ? 0.05 : 0 },
       }}
       style={{ overflow: 'hidden' }}
       data-slot="accordion-content"
