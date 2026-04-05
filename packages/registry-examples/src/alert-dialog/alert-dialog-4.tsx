@@ -1,7 +1,6 @@
 'use client'
 
 import {
-  AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogDescription,
@@ -9,20 +8,18 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
+  MotionAlertDialog,
   MotionAlertDialogContent,
 } from '@gentleduck/registry-ui/alert-dialog'
 import { Button } from '@gentleduck/registry-ui/button'
-import React from 'react'
 
 export default function Demo() {
-  const [open, setOpen] = React.useState(false)
-
   return (
-    <AlertDialog onOpenChange={setOpen} open={open}>
+    <MotionAlertDialog>
       <AlertDialogTrigger asChild>
         <Button variant="outline">Delete Account</Button>
       </AlertDialogTrigger>
-      <MotionAlertDialogContent open={open}>
+      <MotionAlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
@@ -39,6 +36,6 @@ export default function Demo() {
           </AlertDialogAction>
         </AlertDialogFooter>
       </MotionAlertDialogContent>
-    </AlertDialog>
+    </MotionAlertDialog>
   )
 }

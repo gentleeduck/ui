@@ -2,29 +2,26 @@
 
 import { Button } from '@gentleduck/registry-ui/button'
 import {
-  Dialog,
   DialogClose,
   DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  MotionDialog,
   MotionDialogContent,
 } from '@gentleduck/registry-ui/dialog'
 import { Input } from '@gentleduck/registry-ui/input'
 import { Label } from '@gentleduck/registry-ui/label'
-import React from 'react'
 
 export default function Demo() {
-  const [open, setOpen] = React.useState(false)
-
   return (
-    <Dialog onOpenChange={setOpen} open={open}>
+    <MotionDialog>
       <form onSubmit={(e) => e.preventDefault()}>
         <DialogTrigger asChild>
           <Button variant={'outline'}>Open Animated Dialog</Button>
         </DialogTrigger>
-        <MotionDialogContent className="sm:max-w-[425px]" open={open}>
+        <MotionDialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Edit profile</DialogTitle>
             <DialogDescription>
@@ -49,6 +46,6 @@ export default function Demo() {
           </DialogFooter>
         </MotionDialogContent>
       </form>
-    </Dialog>
+    </MotionDialog>
   )
 }
