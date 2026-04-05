@@ -79,7 +79,7 @@ const MotionPopoverContent = React.forwardRef<
                 )}
                 initial={content.initial}
                 animate={content.animate}
-                exit={content.exit}
+                exit={{ ...content.exit, pointerEvents: 'none' }}
                 transition={content.transition}>
                 {children}
               </m.div>
