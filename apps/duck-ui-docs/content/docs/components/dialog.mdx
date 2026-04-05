@@ -106,19 +106,6 @@ import {
   description="A controlled dialog for editing profile details with open state management."
 />
 
-### Animated Dialog (Motion)
-
-Use `MotionDialogContent` for smooth enter/exit animations powered by the [motion](https://motion.dev) library. The dialog scales from 0.95 to 1 while fading in, and reverses on exit. Requires `motion` to be installed and a controlled `open` state.
-
-<ComponentPreview
-  name="dialog-5"
-  description="A dialog with motion-powered enter/exit animations."
-/>
-
-<Callout title="Requirements">
-`MotionDialogContent` requires the `motion` package to be installed and a controlled `open` prop. Wrap your app in `MotionProvider` from `@gentleduck/motion/motion-provider` for consistent defaults.
-</Callout>
-
 ## Notes
 
 To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, you must encase the `Context Menu` or
@@ -194,6 +181,19 @@ Set `dir="rtl"` on `Dialog` for a local override, or set `DirectionProvider` onc
   name="dialog-3"
   description="A dialog with RTL support."
 />
+
+## Motion
+
+Use `MotionDialog` and `MotionDialogContent` for smooth enter/exit animations powered by [motion](https://motion.dev). The dialog scales and fades in with a blur effect, and reverses on exit.
+
+<ComponentPreview
+  name="dialog-5"
+  description="A dialog with motion-powered enter/exit animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionDialog` instead of `Dialog` and `MotionDialogContent` instead of `DialogContent`. All other sub-components (`DialogTrigger`, `DialogHeader`, etc.) stay the same.
+</Callout>
 
 ## See also
 
