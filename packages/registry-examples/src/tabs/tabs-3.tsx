@@ -29,7 +29,9 @@ export default function Demo() {
             <Card>
               <CardHeader>
                 <CardTitle>Account</CardTitle>
-                <CardDescription>Make changes to your account here. Click save when you&apos;re done.</CardDescription>
+                <CardDescription>
+                  Make changes to your account here. Click save when you&apos;re done.
+                </CardDescription>
               </CardHeader>
               <CardContent className="grid gap-6">
                 <div className="grid gap-3">
@@ -50,7 +52,9 @@ export default function Demo() {
             <Card>
               <CardHeader>
                 <CardTitle>Password</CardTitle>
-                <CardDescription>Change your password here. After saving, you&apos;ll be logged out.</CardDescription>
+                <CardDescription>
+                  Change your password here. After saving, you&apos;ll be logged out.
+                </CardDescription>
               </CardHeader>
               <CardContent className="grid gap-6">
                 <div className="grid gap-3">
