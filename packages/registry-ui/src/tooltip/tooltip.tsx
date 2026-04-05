@@ -62,7 +62,7 @@ MotionTooltip.displayName = 'MotionTooltip'
 const MotionTooltipContent = React.forwardRef<
   React.ComponentRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
->(({ className, sideOffset = 4, side = 'top', ...props }, ref) => {
+>(({ className, sideOffset = 4, side = 'top', children, ...props }, ref) => {
   const { isOpen, setShowContent } = useMotionContent()
   const preset = React.useMemo(() => createTooltipPreset(side ?? 'top'), [side])
 
@@ -80,8 +80,9 @@ const MotionTooltipContent = React.forwardRef<
                 initial={preset.initial}
                 animate={preset.animate}
                 exit={{ ...preset.exit, pointerEvents: 'none' }}
-                transition={tweenMicro}
-              />
+                transition={tweenMicro}>
+                {children}
+              </m.div>
             </TooltipPrimitive.Content>
           </TooltipPrimitive.Portal>
         )}
