@@ -456,6 +456,7 @@ const _Sonner5 = dynamic(() => import('@gentleduck/registry-examples/sonner/sonn
 const _Sonner6 = dynamic(() => import('@gentleduck/registry-examples/sonner/sonner-6'), { ssr: false })
 const _Tabs1 = dynamic(() => import('@gentleduck/registry-examples/tabs/tabs-1'), { ssr: false })
 const _Tabs2 = dynamic(() => import('@gentleduck/registry-examples/tabs/tabs-2'), { ssr: false })
+const _Tabs3 = dynamic(() => import('@gentleduck/registry-examples/tabs/tabs-3'), { ssr: false })
 const _Textarea1 = dynamic(() => import('@gentleduck/registry-examples/textarea/textarea-1'), { ssr: false })
 const _Textarea2 = dynamic(() => import('@gentleduck/registry-examples/textarea/textarea-2'), { ssr: false })
 const _Textarea3 = dynamic(() => import('@gentleduck/registry-examples/textarea/textarea-3'), { ssr: false })
@@ -5091,6 +5092,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Tabs2,
+    source: '/registry-examples/src/tabs',
+    categories: [],
+    root_folder: 'tabs',
+  },
+  'tabs-3': {
+    name: 'tabs-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['tabs'],
+    files: [
+      {
+        path: 'tabs/tabs-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Tabs3,
     source: '/registry-examples/src/tabs',
     categories: [],
     root_folder: 'tabs',
