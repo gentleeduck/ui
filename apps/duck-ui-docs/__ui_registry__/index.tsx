@@ -436,6 +436,7 @@ const _Sheet1 = dynamic(() => import('@gentleduck/registry-examples/sheet/sheet-
 const _Sheet2 = dynamic(() => import('@gentleduck/registry-examples/sheet/sheet-2'), { ssr: false })
 const _Sheet3 = dynamic(() => import('@gentleduck/registry-examples/sheet/sheet-3'), { ssr: false })
 const _Sheet4 = dynamic(() => import('@gentleduck/registry-examples/sheet/sheet-4'), { ssr: false })
+const _Sheet5 = dynamic(() => import('@gentleduck/registry-examples/sheet/sheet-5'), { ssr: false })
 const _Skeleton1 = dynamic(() => import('@gentleduck/registry-examples/skeleton/skeleton-1'), { ssr: false })
 const _Skeleton2 = dynamic(() => import('@gentleduck/registry-examples/skeleton/skeleton-2'), { ssr: false })
 const _Skeleton3 = dynamic(() => import('@gentleduck/registry-examples/skeleton/skeleton-3'), { ssr: false })
@@ -4770,6 +4771,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Sheet4,
+    source: '/registry-examples/src/sheet',
+    categories: [],
+    root_folder: 'sheet',
+  },
+  'sheet-5': {
+    name: 'sheet-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['sheet'],
+    files: [
+      {
+        path: 'sheet/sheet-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Sheet5,
     source: '/registry-examples/src/sheet',
     categories: [],
     root_folder: 'sheet',

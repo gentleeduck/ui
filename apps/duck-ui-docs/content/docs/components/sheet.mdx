@@ -144,6 +144,19 @@ Style the trigger to appear active while the sheet is open using `data-[state=op
   description="A sheet with RTL support."
 />
 
+## Motion
+
+Use `MotionSheet` and `MotionSheetContent` for smooth slide-in/out animations powered by [motion](https://motion.dev). The content slides from the edge based on the `side` prop while the overlay fades.
+
+<ComponentPreview
+  name="sheet-5"
+  description="A sheet with motion-powered slide animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionSheet` instead of `Sheet` and `MotionSheetContent` instead of `SheetContent`. All other sub-components (`SheetTrigger`, `SheetHeader`, etc.) stay the same.
+</Callout>
+
 ## See also
 
 - [Dialog](/docs/components/dialog)  -  Centered modal overlay
