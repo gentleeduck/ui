@@ -4,6 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
+import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as ContextMenuPrimitive from '@gentleduck/primitives/context-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'
 import { AnimatePresence, LazyMotion, m } from 'motion/react'
@@ -171,31 +172,50 @@ const ContextMenuShortcut = React.forwardRef<HTMLSpanElement, React.HTMLAttribut
 )
 ContextMenuShortcut.displayName = 'ContextMenuShortcut'
 
+function MotionContextMenu({
+  children,
+  onOpenChange,
+  ...rest
+}: React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Root>) {
+  const { rootProps, contextValue } = useMotionRoot({ onOpenChange })
+  return (
+    <MotionRootContext.Provider value={contextValue}>
+      <ContextMenuPrimitive.Root onOpenChange={rootProps.onOpenChange} {...rest}>
+        {children}
+      </ContextMenuPrimitive.Root>
+    </MotionRootContext.Provider>
+  )
+}
+MotionContextMenu.displayName = 'MotionContextMenu'
+
 const MotionContextMenuContent = React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'> & { open: boolean }
->(({ className, open, children, ...props }, ref) => {
+  React.ComponentRef<typeof ContextMenuPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Content>
+>(({ className, children, ...props }, ref) => {
+  const { isOpen, setShowContent } = useMotionContent()
   const content = useMotionPreset('scaleIn', { transition: springBouncy })
 
   return (
     <LazyMotion features={loadDomAnimation}>
-      <AnimatePresence>
-        {open ? (
+      <AnimatePresence onExitComplete={() => setShowContent(false)}>
+        {isOpen && (
           <ContextMenuPrimitive.Portal forceMount>
             <ContextMenuPrimitive.Content ref={ref} forceMount asChild {...props}>
-              {/* @ts-expect-error -- motion preset types are compatible at runtime */}
               <m.div
                 className={cn(
                   'z-50 max-h-(--gentleduck-context-menu-content-available-height) min-w-32 overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
                   className,
                 )}
                 style={{ transformOrigin: 'top left' }}
-                {...content}>
+                initial={content.initial}
+                animate={content.animate}
+                exit={content.exit}
+                transition={content.transition}>
                 {children}
               </m.div>
             </ContextMenuPrimitive.Content>
           </ContextMenuPrimitive.Portal>
-        ) : null}
+        )}
       </AnimatePresence>
     </LazyMotion>
   )
@@ -218,5 +238,6 @@ export {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
+  MotionContextMenu,
   MotionContextMenuContent,
 }

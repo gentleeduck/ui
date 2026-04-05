@@ -3,6 +3,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as DialogPrimitive from '@gentleduck/primitives/dialog'
 import { X } from 'lucide-react'
 import { AnimatePresence, LazyMotion, m } from 'motion/react'
@@ -96,48 +97,75 @@ const DialogDescription = React.forwardRef<
 ))
 DialogDescription.displayName = DialogPrimitive.Description.displayName
 
+/* ------------------------------------------------------------------ */
+/*  MotionDialog + MotionDialogContent                                 */
+/* ------------------------------------------------------------------ */
+
+function MotionDialog({
+  children,
+  open,
+  defaultOpen,
+  onOpenChange,
+  ...rest
+}: React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>) {
+  const { rootProps, contextValue } = useMotionRoot({ open, defaultOpen, onOpenChange })
+  return (
+    <MotionRootContext.Provider value={contextValue}>
+      <DialogPrimitive.Root {...rootProps} {...rest}>
+        {children}
+      </DialogPrimitive.Root>
+    </MotionRootContext.Provider>
+  )
+}
+MotionDialog.displayName = 'MotionDialog'
+
 const MotionDialogContent = React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'> & {
+  React.ComponentRef<typeof DialogPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content> & {
     closeText?: string
     hideClose?: boolean
-    open: boolean
   }
->(({ className, children, closeText = 'Close', hideClose = false, open, ...props }, ref) => {
+>(({ className, children, closeText = 'Close', hideClose = false, ...props }, ref) => {
+  const { isOpen, setShowContent } = useMotionContent()
   const overlay = useMotionPreset('fadeIn')
   const content = useMotionPreset('scaleIn')
 
   return (
     <LazyMotion features={loadDomAnimation}>
-      <DialogPortal forceMount>
-        <AnimatePresence>
-          {open ? (
-            <m.div key="motion-dialog-wrapper">
-              <DialogPrimitive.Overlay forceMount asChild>
-                {/* @ts-expect-error -- motion preset types are compatible at runtime */}
-                <m.div className="fixed inset-0 z-50 bg-black/80" {...overlay} />
-              </DialogPrimitive.Overlay>
-              <DialogPrimitive.Content ref={ref} forceMount asChild {...props}>
-                {/* @ts-expect-error -- motion preset types are compatible at runtime */}
-                <m.div
-                  className={cn(
-                    'fixed top-1/2 left-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg',
-                    className,
-                  )}
-                  {...content}>
-                  {children}
-                  {!hideClose && (
-                    <DialogPrimitive.Close className="absolute end-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
-                      <X aria-hidden="true" className="h-4 w-4" />
-                      <span className="sr-only">{closeText}</span>
-                    </DialogPrimitive.Close>
-                  )}
-                </m.div>
-              </DialogPrimitive.Content>
-            </m.div>
-          ) : null}
-        </AnimatePresence>
-      </DialogPortal>
+      <AnimatePresence onExitComplete={() => setShowContent(false)}>
+        {isOpen && (
+          <DialogPortal forceMount>
+            <DialogPrimitive.Overlay forceMount asChild>
+              <m.div
+                className="fixed inset-0 z-50 bg-black/80"
+                initial={overlay.initial}
+                animate={overlay.animate}
+                exit={overlay.exit}
+                transition={overlay.transition}
+              />
+            </DialogPrimitive.Overlay>
+            <DialogPrimitive.Content ref={ref} forceMount asChild {...props}>
+              <m.div
+                className={cn(
+                  'fixed top-1/2 left-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg',
+                  className,
+                )}
+                initial={content.initial}
+                animate={content.animate}
+                exit={content.exit}
+                transition={content.transition}>
+                {children}
+                {!hideClose && (
+                  <DialogPrimitive.Close className="absolute end-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-accent data-[state=open]:text-muted-foreground">
+                    <X aria-hidden="true" className="h-4 w-4" />
+                    <span className="sr-only">{closeText}</span>
+                  </DialogPrimitive.Close>
+                )}
+              </m.div>
+            </DialogPrimitive.Content>
+          </DialogPortal>
+        )}
+      </AnimatePresence>
     </LazyMotion>
   )
 })
@@ -154,5 +182,6 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
+  MotionDialog,
   MotionDialogContent,
 }
