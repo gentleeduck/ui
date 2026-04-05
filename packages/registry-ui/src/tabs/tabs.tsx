@@ -234,8 +234,10 @@ const MotionTabsList = React.forwardRef<HTMLDivElement, TabsListProps>(({ classN
 })
 MotionTabsList.displayName = 'MotionTabsList'
 
-const MotionTabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
-  ({ className, children, defaultChecked, onClick, value, disabled, ...props }, ref) => {
+const MotionTabsTrigger = React.forwardRef<
+  HTMLButtonElement,
+  Omit<TabsTriggerProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+>(({ className, children, defaultChecked, onClick, value, disabled, ...props }, ref) => {
     const { setActiveItem, activeItem, tabsId } = useTabs()
     const { registerTrigger } = React.useContext(MotionTabsContext)
     const isActive = value === activeItem
