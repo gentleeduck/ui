@@ -57,9 +57,36 @@ export function useMotionRoot(props: {
 
   const [showContent, setShowContent] = React.useState(!!isOpen)
   const prevOpenRef = React.useRef(!!isOpen)
+  // When re-opening (e.g. dropdown trigger toggle during exit animation),
+  // DismissableLayer fires a close on the same pointerdown event. This ref
+  // tells handleOpenChange to ignore that immediate close.
+  const ignoreNextCloseRef = React.useRef(false)
 
   const handleOpenChange = React.useCallback(
     (next: boolean) => {
+      if (next) {
+        // Opening: ensure showContent is true so content mounts immediately.
+        // This handles re-opening during an exit animation.
+        setShowContent(true)
+        // Ignore the DismissableLayer close that fires on the same event frame.
+        // Dropdown/popover triggers use pointerdown to toggle, and the still-mounted
+        // DismissableLayer catches the same pointerdown as an "outside click".
+        ignoreNextCloseRef.current = true
+        requestAnimationFrame(() => {
+          ignoreNextCloseRef.current = false
+        })
+      } else {
+        if (ignoreNextCloseRef.current) {
+          // This close is from DismissableLayer on the same event as the open — skip it.
+          ignoreNextCloseRef.current = false
+          return
+        }
+        // Closing: immediately restore body pointer events.
+        // DismissableLayer sets body.style.pointerEvents='none' while mounted,
+        // and with forceMount it stays mounted during exit animation.
+        // Without this, the trigger is unclickable until exit completes.
+        document.body.style.pointerEvents = ''
+      }
       if (!isControlled) setInternalOpen(next)
       onOpenChange?.(next)
     },
@@ -77,8 +104,8 @@ export function useMotionRoot(props: {
   )
 
   const rootProps = React.useMemo(
-    () => ({ open: isOpen || showContent, onOpenChange: handleOpenChange }),
-    [isOpen, showContent, handleOpenChange],
+    () => ({ open: !!isOpen, onOpenChange: handleOpenChange }),
+    [isOpen, handleOpenChange],
   )
 
   return { rootProps, contextValue }
