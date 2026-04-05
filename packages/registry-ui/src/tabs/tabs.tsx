@@ -238,58 +238,57 @@ const MotionTabsTrigger = React.forwardRef<
   HTMLButtonElement,
   Omit<TabsTriggerProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
 >(({ className, children, defaultChecked, onClick, value, disabled, ...props }, ref) => {
-    const { setActiveItem, activeItem, tabsId } = useTabs()
-    const { registerTrigger } = React.useContext(MotionTabsContext)
-    const isActive = value === activeItem
-    const [shake, setShake] = React.useState(false)
+  const { setActiveItem, activeItem, tabsId } = useTabs()
+  const { registerTrigger } = React.useContext(MotionTabsContext)
+  const isActive = value === activeItem
+  const [shake, setShake] = React.useState(false)
 
-    registerTrigger(value)
+  registerTrigger(value)
 
-    React.useEffect(() => {
-      if (defaultChecked) setActiveItem(value)
-    }, [defaultChecked, setActiveItem, value])
+  React.useEffect(() => {
+    if (defaultChecked) setActiveItem(value)
+  }, [defaultChecked, setActiveItem, value])
 
-    return (
-      <m.button
-        aria-controls={`${tabsId}-content-${value}`}
-        aria-selected={isActive}
-        aria-disabled={disabled || undefined}
-        animate={shake ? { x: shakeKeyframes } : { x: 0 }}
-        transition={shake ? tweenShake : undefined}
-        onAnimationComplete={() => shake && setShake(false)}
-        className={cn(
-          'relative inline-flex h-[29.04px] items-center justify-center gap-2 whitespace-nowrap rounded-sm px-3 font-medium text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-          disabled && 'cursor-not-allowed opacity-50',
-          className,
-        )}
-        data-value={value}
-        id={`${tabsId}-trigger-${value}`}
-        onClick={(e) => {
-          if (disabled) {
-            setShake(true)
-            return
-          }
-          setActiveItem(value)
-          onClick?.(e as React.MouseEvent<HTMLButtonElement>)
-        }}
-        ref={ref}
-        role="tab"
-        tabIndex={isActive ? 0 : -1}
-        {...props}
-        type="button"
-        data-slot="tabs-trigger">
-        {isActive && (
-          <m.span
-            layoutId={`tab-indicator-${tabsId}`}
-            className="absolute inset-0 rounded-[inherit] bg-background shadow-sm"
-            transition={springSmooth}
-          />
-        )}
-        <span className={cn('relative z-10', isActive ? 'text-foreground' : 'text-muted-foreground')}>{children}</span>
-      </m.button>
-    )
-  },
-)
+  return (
+    <m.button
+      aria-controls={`${tabsId}-content-${value}`}
+      aria-selected={isActive}
+      aria-disabled={disabled || undefined}
+      animate={shake ? { x: shakeKeyframes } : { x: 0 }}
+      transition={shake ? tweenShake : undefined}
+      onAnimationComplete={() => shake && setShake(false)}
+      className={cn(
+        'relative inline-flex h-[29.04px] items-center justify-center gap-2 whitespace-nowrap rounded-sm px-3 font-medium text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        disabled && 'cursor-not-allowed opacity-50',
+        className,
+      )}
+      data-value={value}
+      id={`${tabsId}-trigger-${value}`}
+      onClick={(e) => {
+        if (disabled) {
+          setShake(true)
+          return
+        }
+        setActiveItem(value)
+        onClick?.(e as React.MouseEvent<HTMLButtonElement>)
+      }}
+      ref={ref}
+      role="tab"
+      tabIndex={isActive ? 0 : -1}
+      {...props}
+      type="button"
+      data-slot="tabs-trigger">
+      {isActive && (
+        <m.span
+          layoutId={`tab-indicator-${tabsId}`}
+          className="absolute inset-0 rounded-[inherit] bg-background shadow-sm"
+          transition={springSmooth}
+        />
+      )}
+      <span className={cn('relative z-10', isActive ? 'text-foreground' : 'text-muted-foreground')}>{children}</span>
+    </m.button>
+  )
+})
 MotionTabsTrigger.displayName = 'MotionTabsTrigger'
 
 /**
