@@ -3,10 +3,9 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { tweenFast } from '@gentleduck/motion/transitions/tweens'
-import { springSnappy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
-import { AnimatePresence, LazyMotion, LayoutGroup, m } from 'motion/react'
+import { AnimatePresence, LayoutGroup, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 export function useTabs() {
@@ -167,21 +166,18 @@ const MotionTabs = React.forwardRef<HTMLDivElement, TabsProps>(
     const [motionDir, setMotionDir] = React.useState(1)
     const triggerOrderRef = React.useRef<string[]>([])
 
-    const wrappedSetActiveItem: React.Dispatch<React.SetStateAction<string>> = React.useCallback(
-      (val) => {
-        setActiveItem((prev) => {
-          const next = typeof val === 'function' ? val(prev) : val
-          const prevIdx = triggerOrderRef.current.indexOf(prev)
-          const nextIdx = triggerOrderRef.current.indexOf(next)
-          if (prevIdx !== -1 && nextIdx !== -1) {
-            setMotionDir(nextIdx > prevIdx ? 1 : -1)
-          }
-          prevIndexRef.current = nextIdx
-          return next
-        })
-      },
-      [],
-    )
+    const wrappedSetActiveItem: React.Dispatch<React.SetStateAction<string>> = React.useCallback((val) => {
+      setActiveItem((prev) => {
+        const next = typeof val === 'function' ? val(prev) : val
+        const prevIdx = triggerOrderRef.current.indexOf(prev)
+        const nextIdx = triggerOrderRef.current.indexOf(next)
+        if (prevIdx !== -1 && nextIdx !== -1) {
+          setMotionDir(nextIdx > prevIdx ? 1 : -1)
+        }
+        prevIndexRef.current = nextIdx
+        return next
+      })
+    }, [])
 
     React.useEffect(() => {
       if (onValueChange) onValueChange(activeItem)
@@ -205,7 +201,10 @@ MotionTabs.displayName = 'MotionTabs'
 function MotionTabsOrderCollector({
   children,
   orderRef,
-}: { children: React.ReactNode; orderRef: React.RefObject<string[]> }) {
+}: {
+  children: React.ReactNode
+  orderRef: React.RefObject<string[]>
+}) {
   const collected = React.useRef(false)
   React.useEffect(() => {
     if (!collected.current) {
@@ -293,10 +292,16 @@ const MotionTabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
           <m.span
             layoutId={`tab-indicator-${tabsId}`}
             className="absolute inset-0 rounded-sm bg-background shadow-sm"
-            transition={springSnappy}
+            style={{ borderRadius: 6 }}
+            transition={{ type: 'spring', stiffness: 350, damping: 30 }}
           />
         )}
-        <span className="relative z-10">{children}</span>
+        <m.span
+          className="relative z-10"
+          animate={{ color: isActive ? 'var(--foreground)' : 'var(--muted-foreground)' }}
+          transition={tweenFast}>
+          {children}
+        </m.span>
       </button>
     )
   },
@@ -316,10 +321,10 @@ const MotionTabsContent = React.forwardRef<
       {isActive && (
         <m.div
           key={value}
-          initial={{ opacity: 0, y: direction * 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: direction * -10 }}
-          transition={tweenFast}
+          initial={{ opacity: 0, x: direction * 20, filter: 'blur(4px)' }}
+          animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+          exit={{ opacity: 0, x: direction * -20, filter: 'blur(4px)' }}
+          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
           aria-labelledby={`${tabsId}-trigger-${value}`}
           className={cn(
             'mt-2 shrink-0 list-none ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
@@ -340,13 +345,4 @@ const MotionTabsContent = React.forwardRef<
 })
 MotionTabsContent.displayName = 'MotionTabsContent'
 
-export {
-  MotionTabs,
-  MotionTabsContent,
-  MotionTabsList,
-  MotionTabsTrigger,
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-}
+export { MotionTabs, MotionTabsContent, MotionTabsList, MotionTabsTrigger, Tabs, TabsContent, TabsList, TabsTrigger }
