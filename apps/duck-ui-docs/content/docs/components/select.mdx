@@ -135,6 +135,19 @@ Set `dir="rtl"` on `Select` for a local override, or set `DirectionProvider` onc
   description="A select with RTL support."
 />
 
+## Motion
+
+Use `MotionSelect` and `MotionSelectContent` for smooth enter/exit animations powered by [motion](https://motion.dev). The dropdown scales and fades with blur using a bouncy spring.
+
+<ComponentPreview
+  name="select-6"
+  description="A select with motion-powered enter/exit animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionSelect` instead of `Select` and `MotionSelectContent` instead of `SelectContent`. All other sub-components stay the same.
+</Callout>
+
 ## API Reference
 
 ### Select

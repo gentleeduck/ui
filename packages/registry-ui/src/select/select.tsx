@@ -1,9 +1,14 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
+import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import type { SelectTriggerProps as PrimitiveSelectTriggerProps } from '@gentleduck/primitives/select'
 import * as SelectPrimitive from '@gentleduck/primitives/select'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
+import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const Select = SelectPrimitive.Root
@@ -129,7 +134,75 @@ const SelectSeparator = React.forwardRef<
 ))
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName
 
+/* ------------------------------------------------------------------ */
+/*  MotionSelect + MotionSelectContent                                 */
+/* ------------------------------------------------------------------ */
+
+function MotionSelect({
+  children,
+  open,
+  defaultOpen,
+  onOpenChange,
+  ...rest
+}: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>) {
+  const { rootProps, contextValue } = useMotionRoot({ open, defaultOpen, onOpenChange })
+  return (
+    <MotionRootContext.Provider value={contextValue}>
+      <SelectPrimitive.Root {...rootProps} {...rest}>
+        {children}
+      </SelectPrimitive.Root>
+    </MotionRootContext.Provider>
+  )
+}
+MotionSelect.displayName = 'MotionSelect'
+
+const MotionSelectContent = React.forwardRef<
+  React.ComponentRef<typeof SelectPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
+>(({ className, children, position = 'popper', ...props }, ref) => {
+  const { isOpen, setShowContent } = useMotionContent()
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <AnimatePresence onExitComplete={() => setShowContent(false)}>
+        {isOpen && (
+          <SelectPrimitive.Portal>
+            <SelectPrimitive.Content ref={ref} position={position} forceMount asChild {...props}>
+              <m.div
+                className={cn(
+                  'relative z-50 max-h-(--gentleduck-select-content-available-height) min-w-32 origin-(--gentleduck-select-content-transform-origin) overflow-y-auto overflow-x-hidden rounded-md border bg-popover text-popover-foreground shadow-md',
+                  position === 'popper' &&
+                    'data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1',
+                  className,
+                )}
+                initial={content.initial}
+                animate={content.animate}
+                exit={{ ...content.exit, pointerEvents: 'none' }}
+                transition={content.transition}>
+                <SelectScrollUpButton />
+                <SelectPrimitive.Viewport
+                  className={cn(
+                    'p-1',
+                    position === 'popper' &&
+                      'h-(--gentleduck-select-trigger-height) w-full min-w-(--gentleduck-select-trigger-width)',
+                  )}>
+                  {children}
+                </SelectPrimitive.Viewport>
+                <SelectScrollDownButton />
+              </m.div>
+            </SelectPrimitive.Content>
+          </SelectPrimitive.Portal>
+        )}
+      </AnimatePresence>
+    </LazyMotion>
+  )
+})
+MotionSelectContent.displayName = 'MotionSelectContent'
+
 export {
+  MotionSelect,
+  MotionSelectContent,
   Select,
   SelectContent,
   SelectGroup,

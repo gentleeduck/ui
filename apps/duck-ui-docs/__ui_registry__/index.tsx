@@ -431,6 +431,7 @@ const _Select2 = dynamic(() => import('@gentleduck/registry-examples/select/sele
 const _Select3 = dynamic(() => import('@gentleduck/registry-examples/select/select-3'), { ssr: false })
 const _Select4 = dynamic(() => import('@gentleduck/registry-examples/select/select-4'), { ssr: false })
 const _Select5 = dynamic(() => import('@gentleduck/registry-examples/select/select-5'), { ssr: false })
+const _Select6 = dynamic(() => import('@gentleduck/registry-examples/select/select-6'), { ssr: false })
 const _Separator1 = dynamic(() => import('@gentleduck/registry-examples/separator/separator-1'), { ssr: false })
 const _Separator2 = dynamic(() => import('@gentleduck/registry-examples/separator/separator-2'), { ssr: false })
 const _Sheet1 = dynamic(() => import('@gentleduck/registry-examples/sheet/sheet-1'), { ssr: false })
@@ -4696,6 +4697,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Select5,
+    source: '/registry-examples/src/select',
+    categories: [],
+    root_folder: 'select',
+  },
+  'select-6': {
+    name: 'select-6',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['select'],
+    files: [
+      {
+        path: 'select/select-6.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Select6,
     source: '/registry-examples/src/select',
     categories: [],
     root_folder: 'select',
