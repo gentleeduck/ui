@@ -2,9 +2,10 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { tweenExpand } from '@gentleduck/motion/transitions/tweens'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
-import { AnimatePresence, LayoutGroup, LazyMotion, m } from 'motion/react'
+import { LayoutGroup, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 export function useTabs() {
@@ -286,34 +287,41 @@ const MotionTabsContent = React.forwardRef<
   Omit<React.HTMLProps<HTMLDivElement>, 'ref'> & { value: string }
 >(({ children, className, value, ...props }, ref) => {
   const { activeItem, tabsId } = useTabs()
-  const { direction } = React.useContext(MotionTabsContext)
   const isActive = activeItem === value
 
   return (
-    <AnimatePresence mode="popLayout" initial={false}>
-      {isActive && (
-        <m.div
-          key={value}
-          initial={{ opacity: 0, x: direction * 24, filter: 'blur(4px)', scale: 0.98 }}
-          animate={{ opacity: 1, x: 0, filter: 'blur(0px)', scale: 1 }}
-          exit={{ opacity: 0, x: direction * -24, filter: 'blur(4px)', scale: 0.98 }}
-          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          aria-labelledby={`${tabsId}-trigger-${value}`}
-          className={cn(
-            'mt-2 shrink-0 list-none ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-            className,
-          )}
-          data-value={value}
-          id={`${tabsId}-content-${value}`}
-          ref={ref}
-          role="tabpanel"
-          tabIndex={-1}
-          {...props}
-          data-slot="tabs-content">
-          {children}
-        </m.div>
-      )}
-    </AnimatePresence>
+    <m.div
+      animate={isActive ? { height: 'auto' } : { height: 0 }}
+      initial={false}
+      transition={tweenExpand}
+      style={{ overflow: 'hidden' }}
+      aria-hidden={!isActive}
+      aria-labelledby={`${tabsId}-trigger-${value}`}
+      data-value={value}
+      id={`${tabsId}-content-${value}`}
+      ref={ref}
+      role="tabpanel"
+      tabIndex={isActive ? 0 : -1}
+      {...props}
+      data-slot="tabs-content">
+      <m.div
+        animate={
+          isActive
+            ? { opacity: 1, filter: 'blur(0px)' }
+            : { opacity: 0, filter: 'blur(4px)' }
+        }
+        initial={false}
+        transition={{
+          opacity: { duration: 0.2, delay: isActive ? 0.05 : 0 },
+          filter: { duration: 0.2, delay: isActive ? 0.05 : 0 },
+        }}
+        className={cn(
+          'mt-2 shrink-0 list-none ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+          className,
+        )}>
+        {children}
+      </m.div>
+    </m.div>
   )
 })
 MotionTabsContent.displayName = 'MotionTabsContent'
