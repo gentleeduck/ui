@@ -1,10 +1,11 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { useDuckReducedMotion } from '@gentleduck/motion'
-import { duckMotionTransition } from '@gentleduck/motion/motion-tokens'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springStiff } from '@gentleduck/motion/transitions/springs'
 import * as AlertDialogPrimitive from '@gentleduck/primitives/alert-dialog'
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from '../button'
 
@@ -106,41 +107,37 @@ const MotionAlertDialogContent = React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<'div'> & { open: boolean }
 >(({ className, open, children, ...props }, ref) => {
-  const reduced = useDuckReducedMotion()
-  const overlayTransition = reduced ? { duration: 0 } : { ...duckMotionTransition.normal }
-  const contentTransition = reduced ? { duration: 0 } : { type: 'spring' as const, stiffness: 400, damping: 30 }
+  const overlay = useMotionPreset('fadeIn')
+  const content = useMotionPreset('scaleIn', {
+    transition: springStiff,
+  })
 
   return (
-    <AlertDialogPortal forceMount>
-      <AnimatePresence>
-        {open ? (
-          <motion.div key="motion-alert-wrapper">
-            <AlertDialogPrimitive.Overlay forceMount asChild>
-              <motion.div
-                className={cn('fixed inset-0 z-50 bg-black/80')}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={overlayTransition}
-              />
-            </AlertDialogPrimitive.Overlay>
-            <AlertDialogPrimitive.Content ref={ref} forceMount asChild {...props}>
-              <motion.div
-                className={cn(
-                  'fixed top-1/2 left-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg',
-                  className,
-                )}
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={contentTransition}>
-                {children}
-              </motion.div>
-            </AlertDialogPrimitive.Content>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
-    </AlertDialogPortal>
+    <LazyMotion features={loadDomAnimation}>
+      <AlertDialogPortal forceMount>
+        <AnimatePresence>
+          {open ? (
+            <m.div key="motion-alert-wrapper">
+              <AlertDialogPrimitive.Overlay forceMount asChild>
+                {/* @ts-expect-error -- motion preset types are compatible at runtime */}
+                <m.div className={cn('fixed inset-0 z-50 bg-black/80')} {...overlay} />
+              </AlertDialogPrimitive.Overlay>
+              <AlertDialogPrimitive.Content ref={ref} forceMount asChild {...props}>
+                {/* @ts-expect-error -- motion preset types are compatible at runtime */}
+                <m.div
+                  className={cn(
+                    'fixed top-1/2 left-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg',
+                    className,
+                  )}
+                  {...content}>
+                  {children}
+                </m.div>
+              </AlertDialogPrimitive.Content>
+            </m.div>
+          ) : null}
+        </AnimatePresence>
+      </AlertDialogPortal>
+    </LazyMotion>
   )
 })
 MotionAlertDialogContent.displayName = 'MotionAlertDialogContent'
