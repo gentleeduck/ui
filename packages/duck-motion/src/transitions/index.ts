@@ -4,6 +4,7 @@ export {
   duckMotionDuration,
   duckMotionEasing,
   tweenExit,
+  tweenExpand,
   tweenFast,
   tweenInstant,
   tweenNormal,
