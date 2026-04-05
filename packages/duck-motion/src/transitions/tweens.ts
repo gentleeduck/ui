@@ -15,7 +15,7 @@ export const duckMotionEasing = {
   spring: [1, 0.23995, 0, 1.65] as const,
 } as const
 
-const standardEase = [...duckMotionEasing.standard]
+const standardEase: [number, number, number, number] = [0.4, 0, 0.2, 1]
 
 /** Instant transition with zero duration. Use for state changes that should appear immediately. */
 export const tweenInstant: MotionTransitionConfig = { duration: 0 }
