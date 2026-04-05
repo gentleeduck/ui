@@ -1,23 +1,20 @@
 'use client'
 
 import {
-  ContextMenu,
   ContextMenuItem,
   ContextMenuSeparator,
   ContextMenuTrigger,
+  MotionContextMenu,
   MotionContextMenuContent,
 } from '@gentleduck/registry-ui/context-menu'
-import React from 'react'
 
 export default function Demo() {
-  const [open, setOpen] = React.useState(false)
-
   return (
-    <ContextMenu onOpenChange={setOpen}>
+    <MotionContextMenu>
       <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm">
         Right click here (animated)
       </ContextMenuTrigger>
-      <MotionContextMenuContent className="w-64" open={open}>
+      <MotionContextMenuContent className="w-64">
         <ContextMenuItem>Back</ContextMenuItem>
         <ContextMenuItem>Forward</ContextMenuItem>
         <ContextMenuItem>Reload</ContextMenuItem>
@@ -25,6 +22,6 @@ export default function Demo() {
         <ContextMenuItem>View Page Source</ContextMenuItem>
         <ContextMenuItem>Inspect</ContextMenuItem>
       </MotionContextMenuContent>
-    </ContextMenu>
+    </MotionContextMenu>
   )
 }
