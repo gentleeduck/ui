@@ -9,7 +9,7 @@
     "disableSourceOfProjectReferenceRedirect": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "incremental": true,
+    "incremental": false,
     "inlineSources": false,
     "jsx": "preserve",
     "lib": ["DOM", "ES2022"],
