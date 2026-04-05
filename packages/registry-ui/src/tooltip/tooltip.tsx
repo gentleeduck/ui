@@ -1,7 +1,12 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { createTooltipPreset } from '@gentleduck/motion/presets/tooltip'
+import { tweenMicro } from '@gentleduck/motion/transitions/tweens'
+import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as TooltipPrimitive from '@gentleduck/primitives/tooltip'
+import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const TooltipProvider = TooltipPrimitive.Provider
@@ -32,4 +37,58 @@ const TooltipContent = React.forwardRef<
 ))
 TooltipContent.displayName = TooltipPrimitive.Content.displayName
 
-export { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger }
+/* ------------------------------------------------------------------ */
+/*  MotionTooltip + MotionTooltipContent                               */
+/* ------------------------------------------------------------------ */
+
+function MotionTooltip({
+  children,
+  open,
+  defaultOpen,
+  onOpenChange,
+  ...rest
+}: React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Root>) {
+  const { rootProps, contextValue } = useMotionRoot({ open, defaultOpen, onOpenChange })
+  return (
+    <MotionRootContext.Provider value={contextValue}>
+      <TooltipPrimitive.Root {...rootProps} {...rest}>
+        {children}
+      </TooltipPrimitive.Root>
+    </MotionRootContext.Provider>
+  )
+}
+MotionTooltip.displayName = 'MotionTooltip'
+
+const MotionTooltipContent = React.forwardRef<
+  React.ComponentRef<typeof TooltipPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
+>(({ className, sideOffset = 4, side = 'top', ...props }, ref) => {
+  const { isOpen, setShowContent } = useMotionContent()
+  const preset = React.useMemo(() => createTooltipPreset(side ?? 'top'), [side])
+
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <AnimatePresence onExitComplete={() => setShowContent(false)}>
+        {isOpen && (
+          <TooltipPrimitive.Portal forceMount>
+            <TooltipPrimitive.Content ref={ref} sideOffset={sideOffset} side={side} forceMount asChild {...props}>
+              <m.div
+                className={cn(
+                  'z-50 origin-(--gentleduck-tooltip-content-transform-origin) overflow-hidden rounded-md border bg-background px-3 py-1.5 text-base text-foreground',
+                  className,
+                )}
+                initial={preset.initial}
+                animate={preset.animate}
+                exit={{ ...preset.exit, pointerEvents: 'none' }}
+                transition={tweenMicro}
+              />
+            </TooltipPrimitive.Content>
+          </TooltipPrimitive.Portal>
+        )}
+      </AnimatePresence>
+    </LazyMotion>
+  )
+})
+MotionTooltipContent.displayName = 'MotionTooltipContent'
+
+export { MotionTooltip, MotionTooltipContent, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger }

@@ -163,6 +163,19 @@ Set `dir="rtl"` on `Tooltip` for a local override, or set `DirectionProvider` on
   description="A tooltip with RTL support."
 />
 
+## Motion
+
+Use `MotionTooltip` and `MotionTooltipContent` for smooth enter/exit animations powered by [motion](https://motion.dev). The tooltip fades in with a subtle scale and directional shift toward the trigger.
+
+<ComponentPreview
+  name="tooltip-5"
+  description="A tooltip with motion-powered enter/exit animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionTooltip` instead of `Tooltip` and `MotionTooltipContent` instead of `TooltipContent`. `TooltipProvider` and `TooltipTrigger` stay the same.
+</Callout>
+
 ## API Reference
 
 ### TooltipProvider

@@ -406,6 +406,7 @@ const _Direction1 = dynamic(() => import('@gentleduck/registry-examples/directio
 const _HoverCard1 = dynamic(() => import('@gentleduck/registry-examples/hover-card/hover-card-1'), { ssr: false })
 const _HoverCard2 = dynamic(() => import('@gentleduck/registry-examples/hover-card/hover-card-2'), { ssr: false })
 const _HoverCard3 = dynamic(() => import('@gentleduck/registry-examples/hover-card/hover-card-3'), { ssr: false })
+const _HoverCard4 = dynamic(() => import('@gentleduck/registry-examples/hover-card/hover-card-4'), { ssr: false })
 const _Input1 = dynamic(() => import('@gentleduck/registry-examples/input/input-1'), { ssr: false })
 const _Input2 = dynamic(() => import('@gentleduck/registry-examples/input/input-2'), { ssr: false })
 const _Input3 = dynamic(() => import('@gentleduck/registry-examples/input/input-3'), { ssr: false })
@@ -486,6 +487,7 @@ const _Tooltip1 = dynamic(() => import('@gentleduck/registry-examples/tooltip/to
 const _Tooltip2 = dynamic(() => import('@gentleduck/registry-examples/tooltip/tooltip-2'), { ssr: false })
 const _Tooltip3 = dynamic(() => import('@gentleduck/registry-examples/tooltip/tooltip-3'), { ssr: false })
 const _Tooltip4 = dynamic(() => import('@gentleduck/registry-examples/tooltip/tooltip-4'), { ssr: false })
+const _Tooltip5 = dynamic(() => import('@gentleduck/registry-examples/tooltip/tooltip-5'), { ssr: false })
 const _AspectRatio1 = dynamic(() => import('@gentleduck/registry-examples/aspect-ratio/aspect-ratio-1'), { ssr: false })
 const _AspectRatio2 = dynamic(() => import('@gentleduck/registry-examples/aspect-ratio/aspect-ratio-2'), { ssr: false })
 const _Typography1 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-1'), { ssr: false })
@@ -4297,6 +4299,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'hover-card',
   },
+  'hover-card-4': {
+    name: 'hover-card-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['hover-card'],
+    files: [
+      {
+        path: 'hover-card/hover-card-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _HoverCard4,
+    source: '/registry-examples/src/hover-card',
+    categories: [],
+    root_folder: 'hover-card',
+  },
   'input-1': {
     name: 'input-1',
     description: '',
@@ -5573,6 +5591,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Tooltip4,
+    source: '/registry-examples/src/tooltip',
+    categories: [],
+    root_folder: 'tooltip',
+  },
+  'tooltip-5': {
+    name: 'tooltip-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['tooltip'],
+    files: [
+      {
+        path: 'tooltip/tooltip-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Tooltip5,
     source: '/registry-examples/src/tooltip',
     categories: [],
     root_folder: 'tooltip',
