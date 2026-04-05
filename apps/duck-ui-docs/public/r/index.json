@@ -19913,6 +19913,11 @@
         "name": "collapsible-3.tsx",
         "path": "collapsible/collapsible-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "collapsible-4.tsx",
+        "path": "collapsible/collapsible-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -19945,6 +19950,11 @@
         "name": "collapsible-3.tsx",
         "path": "collapsible/collapsible-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "collapsible-4.tsx",
+        "path": "collapsible/collapsible-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -19976,6 +19986,48 @@
       {
         "name": "collapsible-3.tsx",
         "path": "collapsible/collapsible-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "collapsible-4.tsx",
+        "path": "collapsible/collapsible-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "collapsible/collapsible-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "collapsible-4",
+    "registryDependencies": [
+      "collapsible"
+    ],
+    "root_folder": "collapsible",
+    "type": "registry:example",
+    "source": "/registry-examples/src/collapsible",
+    "tree": [
+      {
+        "name": "collapsible-1.tsx",
+        "path": "collapsible/collapsible-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "collapsible-2.tsx",
+        "path": "collapsible/collapsible-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "collapsible-3.tsx",
+        "path": "collapsible/collapsible-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "collapsible-4.tsx",
+        "path": "collapsible/collapsible-4.tsx",
         "type": "file"
       }
     ]

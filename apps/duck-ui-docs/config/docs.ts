@@ -1040,6 +1040,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/collapsible',
           items: [],
+          label: 'new',
           title: 'Collapsible',
         },
         {

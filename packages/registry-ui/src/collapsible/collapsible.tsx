@@ -1,8 +1,12 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { heightAuto } from '@gentleduck/motion/presets/height-auto'
+import { duckMotionDuration, tweenExpand } from '@gentleduck/motion/transitions/tweens'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Button } from '../button'
 
@@ -149,4 +153,38 @@ const CollapsibleContent = React.forwardRef<
 })
 CollapsibleContent.displayName = 'CollapsibleContent'
 
-export { Collapsible, CollapsibleContent, CollapsibleTrigger }
+/* ------------------------------------------------------------------ */
+/*  MotionCollapsibleContent                                           */
+/* ------------------------------------------------------------------ */
+
+const MotionCollapsibleContent = React.forwardRef<
+  HTMLDivElement,
+  Omit<React.HTMLAttributes<HTMLDivElement>, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+>(({ children, className, ...props }, ref) => {
+  const { open, contentId } = useCollapsible()
+
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <m.section
+        animate={open ? heightAuto.open : heightAuto.closed}
+        initial={false}
+        transition={{
+          height: tweenExpand,
+          opacity: { duration: duckMotionDuration.normal, delay: open ? 0.05 : 0 },
+          filter: { duration: duckMotionDuration.normal, delay: open ? 0.05 : 0 },
+        }}
+        style={{ overflow: 'hidden' }}
+        aria-hidden={!open}
+        inert={!open || undefined}
+        data-slot="collapsible-content"
+        id={contentId}
+        ref={ref}
+        {...props}>
+        <div className={cn(className)}>{children}</div>
+      </m.section>
+    </LazyMotion>
+  )
+})
+MotionCollapsibleContent.displayName = 'MotionCollapsibleContent'
+
+export { Collapsible, CollapsibleContent, CollapsibleTrigger, MotionCollapsibleContent }

@@ -572,6 +572,7 @@ const _Combobox7 = dynamic(() => import('@gentleduck/registry-examples/combobox/
 const _Collapsible1 = dynamic(() => import('@gentleduck/registry-examples/collapsible/collapsible-1'), { ssr: false })
 const _Collapsible2 = dynamic(() => import('@gentleduck/registry-examples/collapsible/collapsible-2'), { ssr: false })
 const _Collapsible3 = dynamic(() => import('@gentleduck/registry-examples/collapsible/collapsible-3'), { ssr: false })
+const _Collapsible4 = dynamic(() => import('@gentleduck/registry-examples/collapsible/collapsible-4'), { ssr: false })
 const _InputOtp1 = dynamic(() => import('@gentleduck/registry-examples/input-otp/input-otp-1'), { ssr: false })
 const _InputOtp2 = dynamic(() => import('@gentleduck/registry-examples/input-otp/input-otp-2'), { ssr: false })
 const _InputOtp3 = dynamic(() => import('@gentleduck/registry-examples/input-otp/input-otp-3'), { ssr: false })
@@ -6759,6 +6760,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Collapsible3,
+    source: '/registry-examples/src/collapsible',
+    categories: [],
+    root_folder: 'collapsible',
+  },
+  'collapsible-4': {
+    name: 'collapsible-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['collapsible'],
+    files: [
+      {
+        path: 'collapsible/collapsible-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Collapsible4,
     source: '/registry-examples/src/collapsible',
     categories: [],
     root_folder: 'collapsible',
