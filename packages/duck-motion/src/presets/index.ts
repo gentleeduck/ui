@@ -8,6 +8,7 @@ export { createSlideEdge } from './slide-edge'
 export { slideFromLeft } from './slide-from-left'
 export { slideFromRight } from './slide-from-right'
 export { slideUp } from './slide-up'
+export { createTooltipPreset } from './tooltip'
 export type {
   Direction,
   MotionAnimationState,

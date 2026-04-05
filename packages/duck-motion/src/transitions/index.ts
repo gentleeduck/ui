@@ -15,6 +15,7 @@ export {
   tweenExit,
   tweenExpand,
   tweenFast,
+  tweenMicro,
   tweenInstant,
   tweenNormal,
   tweenShake,
