@@ -36,11 +36,24 @@ const ContextMenu: React.FC<ContextMenuProps> = (props: ScopedProps<ContextMenuP
   const [open, setOpen] = React.useState(false)
   const menuScope = useMenuScope(__scopeContextMenu)
   const handleOpenChangeProp = useCallbackRef(onOpenChange)
+  const skipNextOpenRef = React.useRef(false)
 
   const handleOpenChange = React.useCallback(
-    (open: boolean) => {
-      setOpen(open)
-      handleOpenChangeProp(open)
+    (next: boolean) => {
+      if (next && skipNextOpenRef.current) {
+        // A close just happened in this frame (DismissableLayer pointerdown),
+        // skip the immediate reopen from the contextmenu event.
+        skipNextOpenRef.current = false
+        return
+      }
+      setOpen(next)
+      handleOpenChangeProp(next)
+      if (!next) {
+        skipNextOpenRef.current = true
+        requestAnimationFrame(() => {
+          skipNextOpenRef.current = false
+        })
+      }
     },
     [handleOpenChangeProp],
   )
