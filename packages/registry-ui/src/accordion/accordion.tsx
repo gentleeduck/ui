@@ -1,9 +1,13 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { heightAuto } from '@gentleduck/motion/presets/height-auto'
+import { tweenExpand } from '@gentleduck/motion/transitions/tweens'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Mount } from '@gentleduck/primitives/mount'
 import { ChevronDown } from 'lucide-react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const AccordionContext = React.createContext<{
@@ -244,4 +248,120 @@ const AccordionContent = React.forwardRef<HTMLDivElement, React.HTMLProps<HTMLDi
 )
 AccordionContent.displayName = 'AccordionContent'
 
-export { Accordion, AccordionContent, AccordionItem, AccordionTrigger }
+/* ------------------------------------------------------------------ */
+/*  Motion variants                                                    */
+/* ------------------------------------------------------------------ */
+
+const MotionAccordionItemContext = React.createContext<{ isActive: boolean }>({ isActive: false })
+
+const MotionAccordionItem = React.forwardRef<
+  HTMLDetailsElement,
+  Omit<React.HTMLProps<HTMLDetailsElement>, 'value' | 'ref'> & { value?: string }
+>(({ className, children, onClick, onKeyUp, value, dir, ...props }, ref) => {
+  const { onItemChange, value: _value = [] } = React.useContext(AccordionContext) ?? {}
+  const isActive = _value.includes(value as string)
+  const detailsRef = React.useRef<HTMLDetailsElement>(null)
+  const direction = useDirection(dir as Direction)
+
+  // Keep <details> always open so motion can animate the content height.
+  // The accordion root's onItemChange sets .open on DOM elements directly,
+  // so we force it back after every render.
+  React.useEffect(() => {
+    if (detailsRef.current) detailsRef.current.open = true
+  })
+
+  return (
+    <MotionAccordionItemContext.Provider value={{ isActive }}>
+      <LazyMotion features={loadDomAnimation}>
+        <details
+          className={cn('group overflow-hidden border-border border-b', className)}
+          id={value}
+          open
+          onClick={(e) => {
+            e.preventDefault()
+            const summary = (e.currentTarget as HTMLDetailsElement).querySelector('summary')
+            if (!summary?.contains(e.target as Node)) return
+            onClick?.(e)
+            onItemChange?.(value ?? '', e)
+          }}
+          onKeyUp={onKeyUp}
+          dir={direction}
+          ref={(node) => {
+            detailsRef.current = node
+            if (typeof ref === 'function') ref(node)
+            else if (ref) ref.current = node
+          }}
+          {...props}
+          data-slot="accordion-item">
+          {children}
+        </details>
+      </LazyMotion>
+    </MotionAccordionItemContext.Provider>
+  )
+})
+MotionAccordionItem.displayName = 'MotionAccordionItem'
+
+const MotionAccordionTrigger = React.forwardRef<
+  HTMLElement,
+  React.HTMLProps<HTMLElement> & { icon?: React.ReactNode; value?: string }
+>(({ className, children, icon, value, ...props }, ref) => {
+  const { isActive } = React.useContext(MotionAccordionItemContext)
+
+  return (
+    <summary
+      className={cn(
+        'flex flex-1 cursor-pointer items-center justify-between py-4 font-medium text-base ring-offset-background transition-all hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        className,
+      )}
+      ref={ref as React.Ref<HTMLElement>}
+      {...props}
+      data-slot="accordion-trigger">
+      {children}
+      <m.span
+        animate={{ rotate: isActive ? 180 : 0 }}
+        transition={tweenExpand}
+        className="[&>svg]:size-4 [&>svg]:shrink-0"
+        data-slot="accordion-icon">
+        {icon ? icon : <ChevronDown aria-hidden="true" />}
+      </m.span>
+    </summary>
+  )
+})
+MotionAccordionTrigger.displayName = 'MotionAccordionTrigger'
+
+const MotionAccordionContent = React.forwardRef<
+  HTMLDivElement,
+  Omit<React.HTMLProps<HTMLDivElement>, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+>(({ className, children, dir, ...props }, ref) => {
+  const { isActive } = React.useContext(MotionAccordionItemContext)
+  const direction = useDirection(dir as Direction)
+
+  return (
+    <m.div
+      animate={isActive ? heightAuto.open : heightAuto.closed}
+      initial={false}
+      transition={{
+        height: tweenExpand,
+        opacity: { duration: 0.2, delay: isActive ? 0.05 : 0 },
+        filter: { duration: 0.2, delay: isActive ? 0.05 : 0 },
+      }}
+      style={{ overflow: 'hidden' }}
+      data-slot="accordion-content"
+      dir={direction}
+      ref={ref}
+      {...props}>
+      <div className={cn('pt-0 pb-4 text-base', className)}>{children}</div>
+    </m.div>
+  )
+})
+MotionAccordionContent.displayName = 'MotionAccordionContent'
+
+export {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+  MotionAccordionContent,
+  MotionAccordionItem,
+  MotionAccordionTrigger,
+}
