@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="../../public/logo-dark.svg" alt="gentleduck/ui" width="80"/>
+</p>
+
 # @gentleduck/calendar
 
 Headless, framework-agnostic calendar engine with date adapter pattern, React hooks, and compound components.

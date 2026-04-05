@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./apps/duck-ui-docs/public/og/ui-home-67.png" alt="gentleduck/ui homepage snapshot (67%)" width="800"/>
+  <img src="./public/logo-dark.svg" alt="gentleduck/ui" width="120"/>
 </p>
 
 # gentleduck/ui

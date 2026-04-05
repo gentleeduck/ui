@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="../../public/logo-dark.svg" alt="gentleduck/ui" width="80"/>
+</p>
+
 # @gentleduck/docs
 
 Shared docs app kit for building documentation sites.
