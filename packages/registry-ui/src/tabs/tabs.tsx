@@ -2,7 +2,6 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
-import { tweenFast } from '@gentleduck/motion/transitions/tweens'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
 import { AnimatePresence, LayoutGroup, LazyMotion, m } from 'motion/react'
@@ -155,26 +154,38 @@ TabsContent.displayName = 'TabsContent'
 /*  Motion variants                                                    */
 /* ------------------------------------------------------------------ */
 
-const MotionTabsContext = React.createContext<{ direction: number }>({ direction: 1 })
+interface MotionTabsContextValue {
+  direction: number
+  registerTrigger: (value: string) => void
+}
+
+const MotionTabsContext = React.createContext<MotionTabsContextValue>({
+  direction: 1,
+  registerTrigger: () => {},
+})
 
 const MotionTabs = React.forwardRef<HTMLDivElement, TabsProps>(
   ({ value, defaultValue, onValueChange, dir, children, ...props }, ref) => {
-    const direction = useDirection(dir as Direction)
+    const resolvedDir = useDirection(dir as Direction)
     const [activeItem, setActiveItem] = React.useState<string>(defaultValue ?? value ?? '')
     const tabsId = React.useId()
-    const prevIndexRef = React.useRef(0)
     const [motionDir, setMotionDir] = React.useState(1)
     const triggerOrderRef = React.useRef<string[]>([])
+
+    const registerTrigger = React.useCallback((triggerValue: string) => {
+      if (!triggerOrderRef.current.includes(triggerValue)) {
+        triggerOrderRef.current.push(triggerValue)
+      }
+    }, [])
 
     const wrappedSetActiveItem: React.Dispatch<React.SetStateAction<string>> = React.useCallback((val) => {
       setActiveItem((prev) => {
         const next = typeof val === 'function' ? val(prev) : val
         const prevIdx = triggerOrderRef.current.indexOf(prev)
         const nextIdx = triggerOrderRef.current.indexOf(next)
-        if (prevIdx !== -1 && nextIdx !== -1) {
+        if (prevIdx !== -1 && nextIdx !== -1 && prevIdx !== nextIdx) {
           setMotionDir(nextIdx > prevIdx ? 1 : -1)
         }
-        prevIndexRef.current = nextIdx
         return next
       })
     }, [])
@@ -183,12 +194,14 @@ const MotionTabs = React.forwardRef<HTMLDivElement, TabsProps>(
       if (onValueChange) onValueChange(activeItem)
     }, [activeItem, onValueChange])
 
+    const motionCtx = React.useMemo(() => ({ direction: motionDir, registerTrigger }), [motionDir, registerTrigger])
+
     return (
       <TabsContext.Provider value={{ activeItem, setActiveItem: wrappedSetActiveItem, tabsId }}>
-        <MotionTabsContext.Provider value={{ direction: motionDir }}>
+        <MotionTabsContext.Provider value={motionCtx}>
           <LazyMotion features={loadDomAnimation}>
-            <div {...props} data-slot="tabs" dir={direction} ref={ref}>
-              <MotionTabsOrderCollector orderRef={triggerOrderRef}>{children}</MotionTabsOrderCollector>
+            <div {...props} data-slot="tabs" dir={resolvedDir} ref={ref}>
+              {children}
             </div>
           </LazyMotion>
         </MotionTabsContext.Provider>
@@ -197,44 +210,6 @@ const MotionTabs = React.forwardRef<HTMLDivElement, TabsProps>(
   },
 )
 MotionTabs.displayName = 'MotionTabs'
-
-function MotionTabsOrderCollector({
-  children,
-  orderRef,
-}: {
-  children: React.ReactNode
-  orderRef: React.RefObject<string[]>
-}) {
-  const collected = React.useRef(false)
-  React.useEffect(() => {
-    if (!collected.current) {
-      collected.current = true
-    }
-  }, [])
-
-  // Collect trigger values from children on first render
-  if (!collected.current) {
-    const order: string[] = []
-    const collectValues = (nodes: React.ReactNode) => {
-      React.Children.forEach(nodes, (child) => {
-        if (!React.isValidElement(child)) return
-        if (child.props && 'value' in child.props && child.props.role === undefined) {
-          // This is likely a TabsTrigger or MotionTabsTrigger
-          order.push(child.props.value as string)
-        }
-        if (child.props?.children) {
-          collectValues(child.props.children)
-        }
-      })
-    }
-    collectValues(children)
-    if (order.length > 0) {
-      orderRef.current = order
-    }
-  }
-
-  return <>{children}</>
-}
 
 const MotionTabsList = React.forwardRef<HTMLDivElement, TabsListProps>(({ className, ...props }, ref) => {
   const { tabsId } = useTabs()
@@ -258,7 +233,12 @@ MotionTabsList.displayName = 'MotionTabsList'
 const MotionTabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
   ({ className, children, defaultChecked, onClick, value, disabled, ...props }, ref) => {
     const { setActiveItem, activeItem, tabsId } = useTabs()
+    const { registerTrigger } = React.useContext(MotionTabsContext)
     const isActive = value === activeItem
+
+    React.useEffect(() => {
+      registerTrigger(value)
+    }, [value, registerTrigger])
 
     React.useEffect(() => {
       if (defaultChecked) setActiveItem(value)
@@ -269,9 +249,7 @@ const MotionTabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
         aria-controls={`${tabsId}-content-${value}`}
         aria-selected={isActive}
         className={cn(
-          'relative inline-flex h-[29.04px] items-center justify-center gap-2 whitespace-nowrap rounded-sm px-3 font-medium text-sm ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-          isActive && 'text-foreground',
-          !isActive && 'text-muted-foreground',
+          'relative inline-flex h-[29.04px] items-center justify-center gap-2 whitespace-nowrap rounded-sm px-3 font-medium text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
           disabled && 'pointer-events-none opacity-50',
           className,
         )}
@@ -296,12 +274,7 @@ const MotionTabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
             transition={{ type: 'spring', stiffness: 350, damping: 30 }}
           />
         )}
-        <m.span
-          className="relative z-10"
-          animate={{ color: isActive ? 'var(--foreground)' : 'var(--muted-foreground)' }}
-          transition={tweenFast}>
-          {children}
-        </m.span>
+        <span className={cn('relative z-10', isActive ? 'text-foreground' : 'text-muted-foreground')}>{children}</span>
       </button>
     )
   },
@@ -317,14 +290,14 @@ const MotionTabsContent = React.forwardRef<
   const isActive = activeItem === value
 
   return (
-    <AnimatePresence mode="wait" initial={false} custom={direction}>
+    <AnimatePresence mode="popLayout" initial={false}>
       {isActive && (
         <m.div
           key={value}
-          initial={{ opacity: 0, x: direction * 20, filter: 'blur(4px)' }}
-          animate={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
-          exit={{ opacity: 0, x: direction * -20, filter: 'blur(4px)' }}
-          transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, x: direction * 24, filter: 'blur(4px)', scale: 0.98 }}
+          animate={{ opacity: 1, x: 0, filter: 'blur(0px)', scale: 1 }}
+          exit={{ opacity: 0, x: direction * -24, filter: 'blur(4px)', scale: 0.98 }}
+          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
           aria-labelledby={`${tabsId}-trigger-${value}`}
           className={cn(
             'mt-2 shrink-0 list-none ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
