@@ -13304,6 +13304,11 @@
         "name": "sheet-4.tsx",
         "path": "sheet/sheet-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "sheet-5.tsx",
+        "path": "sheet/sheet-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -13340,6 +13345,11 @@
       {
         "name": "sheet-4.tsx",
         "path": "sheet/sheet-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sheet-5.tsx",
+        "path": "sheet/sheet-5.tsx",
         "type": "file"
       }
     ]
@@ -13378,6 +13388,11 @@
         "name": "sheet-4.tsx",
         "path": "sheet/sheet-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "sheet-5.tsx",
+        "path": "sheet/sheet-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -13414,6 +13429,53 @@
       {
         "name": "sheet-4.tsx",
         "path": "sheet/sheet-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sheet-5.tsx",
+        "path": "sheet/sheet-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "sheet/sheet-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "sheet-5",
+    "registryDependencies": [
+      "sheet"
+    ],
+    "root_folder": "sheet",
+    "type": "registry:example",
+    "source": "/registry-examples/src/sheet",
+    "tree": [
+      {
+        "name": "sheet-1.tsx",
+        "path": "sheet/sheet-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sheet-2.tsx",
+        "path": "sheet/sheet-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sheet-3.tsx",
+        "path": "sheet/sheet-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sheet-4.tsx",
+        "path": "sheet/sheet-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sheet-5.tsx",
+        "path": "sheet/sheet-5.tsx",
         "type": "file"
       }
     ]
