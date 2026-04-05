@@ -167,6 +167,15 @@ You can use the `value` and `onValueChange` props to control the input value.
 
 <ComponentPreview name="input-otp-6" description="An input OTP integrated with React Hook Form and Zod validation." />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="input-otp-7"
+  description="An input OTP with RTL support."
+/>
+
 ## API Reference
 
 ### InputOTP
@@ -218,12 +227,3 @@ A visual separator rendered between OTP groups.
 | `customIndicator` | `React.ReactNode` | `<Dot />` | Custom element to render instead of the default dot icon |
 | `ref` | `React.Ref<HTMLDivElement>` | - | Ref forwarded to the separator div |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="input-otp-7"
-  description="An input OTP with RTL support."
-/>

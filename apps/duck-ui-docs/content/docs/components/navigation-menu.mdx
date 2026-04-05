@@ -110,6 +110,16 @@ export function NavigationMenuDemo() {
 }
 ```
 
+## RTL Support
+
+Set `dir="rtl"` on `NavigationMenu` for a local override, or set `DirectionProvider` once at app/root level for global direction.
+
+<ComponentPreview
+  name="navigation-menu-2"
+  className="[&>div>div>div[duck-preview]]:overflow-visible [&>div>div>div[duck-preview]]:items-start" 
+  description="A navigation menu with RTL support."
+/>
+
 ## API Reference
 
 ### NavigationMenu
@@ -191,13 +201,3 @@ import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
   Documentation
 </NavigationMenuLink>
 ```
-
-## RTL Support
-
-Set `dir="rtl"` on `NavigationMenu` for a local override, or set `DirectionProvider` once at app/root level for global direction.
-
-<ComponentPreview
-  name="navigation-menu-2"
-  className="[&>div>div>div[duck-preview]]:overflow-visible [&>div>div>div[duck-preview]]:items-start" 
-  description="A navigation menu with RTL support."
-/>

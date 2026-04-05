@@ -117,6 +117,22 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
     B --> F[SVG Indicator]
 `} />
 
+## RTL Support
+
+Set `dir="rtl"` on `RadioGroup` for a local override, or set `DirectionProvider` once at app/root level for global direction.
+
+<ComponentPreview
+  name="radio-group-3"
+  description="A radio group with RTL support."
+/>
+
+## See also
+
+- [Checkbox](/docs/components/checkbox)  -  Multi-selection toggle control
+- [Switch](/docs/components/switch)  -  Toggle between on and off states
+- [Select](/docs/components/select)  -  Dropdown selection from a list
+- [Radio Group Primitive API](/docs/packages/duck-primitives/api/radio-group)  -  Headless primitive reference (`Root`, `Item`, `Indicator`)
+
 ## API Reference
 
 ### RadioGroup
@@ -145,19 +161,3 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 | `textValue` | `string` | - | Optional text used for keyboard typeahead matching (`a-z`). In the registry component, plain string/number children are inferred automatically. |
 | `children` | `React.ReactNode` | - | Label content. When provided, a clickable label is rendered next to the control and selects the item on click. |
 | `className` | `string` | - | Additional CSS classes for the radio button control |
-
-## RTL Support
-
-Set `dir="rtl"` on `RadioGroup` for a local override, or set `DirectionProvider` once at app/root level for global direction.
-
-<ComponentPreview
-  name="radio-group-3"
-  description="A radio group with RTL support."
-/>
-
-## See also
-
-- [Checkbox](/docs/components/checkbox)  -  Multi-selection toggle control
-- [Switch](/docs/components/switch)  -  Toggle between on and off states
-- [Select](/docs/components/select)  -  Dropdown selection from a list
-- [Radio Group Primitive API](/docs/packages/duck-primitives/api/radio-group)  -  Headless primitive reference (`Root`, `Item`, `Indicator`)

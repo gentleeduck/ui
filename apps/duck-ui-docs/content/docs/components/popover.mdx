@@ -127,6 +127,22 @@ Style the trigger to appear active while the popover is open using `data-[state=
     A --> E[PopoverClose]
 `} />
 
+## RTL Support
+
+Set `dir="rtl"` on `Popover` for a local override, or set `DirectionProvider` once at app/root level for global direction. In RTL mode, `side="left"` and `side="right"` are logically swapped.
+
+```tsx
+<Popover dir="rtl">
+  <PopoverTrigger>افتح</PopoverTrigger>
+  <PopoverContent>محتوى النافذة المنبثقة هنا.</PopoverContent>
+</Popover>
+```
+
+<ComponentPreview
+  name="popover-4"
+  description="A popover with RTL support."
+/>
+
 ## API Reference
 
 ### Popover
@@ -176,19 +192,3 @@ Optional custom anchor element for positioning.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Anchor>` | - | Additional props inherited from `Popover.Anchor`. |
-
-## RTL Support
-
-Set `dir="rtl"` on `Popover` for a local override, or set `DirectionProvider` once at app/root level for global direction. In RTL mode, `side="left"` and `side="right"` are logically swapped.
-
-```tsx
-<Popover dir="rtl">
-  <PopoverTrigger>افتح</PopoverTrigger>
-  <PopoverContent>محتوى النافذة المنبثقة هنا.</PopoverContent>
-</Popover>
-```
-
-<ComponentPreview
-  name="popover-4"
-  description="A popover with RTL support."
-/>

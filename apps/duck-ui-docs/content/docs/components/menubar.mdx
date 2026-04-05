@@ -97,6 +97,15 @@ import {
     K --> M[MenubarSubContent]
 `} />
 
+## RTL Support
+
+Set `dir="rtl"` on `Menubar` for a local override, or set `DirectionProvider` once at app/root level for global direction.
+
+<ComponentPreview
+  name="menubar-2"
+  description="A menubar with RTL support."
+/>
+
 ## API Reference
 
 Components in this file wrap `@gentleduck/primitives/menubar`.
@@ -232,12 +241,3 @@ Components in this file wrap `@gentleduck/primitives/menubar`.
 | `sideOffset` | `number` | - | Main-axis offset from sub-trigger |
 | `alignOffset` | `number` | - | Cross-axis offset from sub-trigger |
 | `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.SubContent>` | - | Additional props inherited from `MenubarPrimitive.SubContent` |
-
-## RTL Support
-
-Set `dir="rtl"` on `Menubar` for a local override, or set `DirectionProvider` once at app/root level for global direction.
-
-<ComponentPreview
-  name="menubar-2"
-  description="A menubar with RTL support."
-/>

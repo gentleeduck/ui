@@ -130,6 +130,15 @@ const PaginationLink = ({...props }: ) => (
     A -.-> H[PaginationWrapper]
 `} />
 
+## RTL Support
+
+Use the `text` prop on `PaginationPrevious`, `PaginationNext`, and `PaginationEllipsis` to provide translated labels. Set `dir="rtl"` on `Pagination` for a local override, or set `DirectionProvider` once at app/root level for global direction. Keep markup in logical order (`Previous`, pages, `Next`): visual mirroring is handled automatically.
+
+<ComponentPreview
+  name="pagination-2"
+  description="A pagination with full RTL and Arabic i18n support."
+/>
+
 ## API Reference
 
 ### Pagination
@@ -207,12 +216,3 @@ You can pass `dir: 'rtl'` through `wrapper` to make wrapper controls direction-a
 ```tsx
 <PaginationWrapper wrapper={{ dir: 'rtl' }} />
 ```
-
-## RTL Support
-
-Use the `text` prop on `PaginationPrevious`, `PaginationNext`, and `PaginationEllipsis` to provide translated labels. Set `dir="rtl"` on `Pagination` for a local override, or set `DirectionProvider` once at app/root level for global direction. Keep markup in logical order (`Previous`, pages, `Next`): visual mirroring is handled automatically.
-
-<ComponentPreview
-  name="pagination-2"
-  description="A pagination with full RTL and Arabic i18n support."
-/>

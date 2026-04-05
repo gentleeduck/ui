@@ -244,6 +244,15 @@ A responsive breadcrumb that collapses intermediate items behind an ellipsis, di
     B --> G[BreadcrumbEllipsis]
 `} />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="breadcrumb-9"
+  description="A breadcrumb with RTL support."
+/>
+
 ## API Reference
 
 ### Breadcrumb
@@ -304,12 +313,3 @@ A responsive breadcrumb that collapses intermediate items behind an ellipsis, di
 | `text` | `string` | `'More'` | Accessible label used for `aria-label` on the ellipsis element |
 | `className` | `string` | `--` | Additional class names to apply |
 | `...props` | `React.ComponentPropsWithoutRef<'span'>` | - | Additional props to spread to the span element |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="breadcrumb-9"
-  description="A breadcrumb with RTL support."
-/>

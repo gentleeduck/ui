@@ -61,6 +61,15 @@ import { Progress } from "@/components/ui/progress"
 <Progress value={33} />
 ```
 
+## RTL Support
+
+Set `dir="rtl"` on `Progress` for a local override, or set `DirectionProvider` once at app/root level for global direction.
+
+<ComponentPreview
+  name="progress-2"
+  description="A progress bar with RTL support."
+/>
+
 ## API Reference
 
 ### Progress
@@ -71,12 +80,3 @@ import { Progress } from "@/components/ui/progress"
 | `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | `--` | Additional CSS classes for the progress bar container |
 | `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'value'>` | - | Additional props to spread to the content div |
-
-## RTL Support
-
-Set `dir="rtl"` on `Progress` for a local override, or set `DirectionProvider` once at app/root level for global direction.
-
-<ComponentPreview
-  name="progress-2"
-  description="A progress bar with RTL support."
-/>

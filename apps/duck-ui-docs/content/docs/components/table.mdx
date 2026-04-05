@@ -110,6 +110,15 @@ You can also see data-table examples in the [Blocks Library](/blocks).
     F --> H[TableCell]
 `} />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="table-2"
+  description="A table with RTL support."
+/>
+
 ## API Reference
 
 ### Table
@@ -177,12 +186,3 @@ You can also see data-table examples in the [Blocks Library](/blocks).
 | `className` | `string` | - | Additional CSS class names |
 | `children` | `React.ReactNode` | - | Caption text |
 | `...props` | `React.HTMLProps<HTMLTableCaptionElement>` | - | Additional props to spread to the caption element |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="table-2"
-  description="A table with RTL support."
-/>

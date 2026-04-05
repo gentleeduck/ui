@@ -215,6 +215,15 @@ export function InputGroupCustom() {
 }
 ```
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="input-group-12"
+  description="An input group with RTL support."
+/>
+
 ## API Reference
 
 ### InputGroup
@@ -285,12 +294,3 @@ Replacement for `<Textarea />` when building input groups. Has textarea group st
 | `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | `--` | Additional CSS classes to apply |
 | `...props` | `React.HTMLProps<HTMLTextAreaElement>` | - | Additional props to spread to the textarea element |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="input-group-12"
-  description="An input group with RTL support."
-/>

@@ -199,6 +199,15 @@ You can create a responsive combobox by using the `<Popover />` on desktop and t
   description="A combobox integrated with React Hook Form for language selection with validation."
 />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="combobox-7"
+  description="A combobox with RTL support."
+/>
+
 ## API Reference
 
 ### Combobox\<TData, TType\>
@@ -241,12 +250,3 @@ A convenience wrapper around `CommandGroup` for grouping combobox items.
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | - | (required) `ComboboxItem` elements or other content to render inside the group. |
 | `...props` | `React.ComponentPropsWithoutRef<typeof CommandGroup>` | - | Additional props inherited from `CommandGroup`. |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="combobox-7"
-  description="A combobox with RTL support."
-/>

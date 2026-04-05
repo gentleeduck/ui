@@ -90,6 +90,15 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
   description="Alert variants including default and destructive styles."
 />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="alert-4"
+  description="An alert with RTL support."
+/>
+
 ## API Reference
 
 ### Alert
@@ -117,13 +126,3 @@ import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 | `className` | `string` | - | Additional CSS classes applied to the description element |
 | `children` | `React.ReactNode` | - | Description text content |
 | `...props` | `React.ComponentProps<'div'>` | - | Additional standard component props. |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="alert-4"
-  description="An alert with RTL support."
-/>
-

@@ -604,6 +604,17 @@ This prop adds keyboard access and screen reader support to your charts.
 <LineChart accessibilityLayer />
 ```
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="chart-8"
+  description="A chart with RTL support."
+  className="[&_.preview]:h-auto [&_.preview]:p-0 [&_.preview]:lg:min-h-[404px] [&_.preview>div]:w-full [&_.preview>div]:border-none [&_.preview>div]:shadow-none"
+  hideCode
+/>
+
 ## API Reference
 
 ### ChartContainer
@@ -696,14 +707,3 @@ type ChartConfig = {
 ```
 
 Each key maps to a data series. Use either `color` (single value) or `theme` (light/dark pair)  -  never both.
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="chart-8"
-  description="A chart with RTL support."
-  className="[&_.preview]:h-auto [&_.preview]:p-0 [&_.preview]:lg:min-h-[404px] [&_.preview>div]:w-full [&_.preview>div]:border-none [&_.preview>div]:shadow-none"
-  hideCode
-/>

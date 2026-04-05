@@ -123,6 +123,15 @@ import { Toggle } from '@/components/ui/toggle'
   description="A disabled toggle component."
 />
 
+## RTL Support
+
+Set `dir="rtl"` on `Toggle` for a local override, or set `DirectionProvider` once at app/root level for global direction.
+
+<ComponentPreview
+  name="toggle-8"
+  description="A toggle with RTL support."
+/>
+
 ## API Reference
 
 ### Toggle
@@ -146,12 +155,3 @@ import { Toggle } from '@/components/ui/toggle'
 | --- | --- | --- |
 | `data-state` | `"on" \| "off"` | The pressed state of the toggle |
 | `data-disabled` | Present when disabled | Whether the toggle is disabled |
-
-## RTL Support
-
-Set `dir="rtl"` on `Toggle` for a local override, or set `DirectionProvider` once at app/root level for global direction.
-
-<ComponentPreview
-  name="toggle-8"
-  description="A toggle with RTL support."
-/>

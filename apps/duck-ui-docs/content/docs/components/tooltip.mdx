@@ -145,6 +145,24 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/comp
 - **`data-side`** - Set on content (`top`, `right`, `bottom`, `left`) for placement-aware styles.
 - **`--gentleduck-tooltip-content-transform-origin`** - CSS variable for animation transform origin.
 
+## RTL Support
+
+Set `dir="rtl"` on `Tooltip` for a local override, or set `DirectionProvider` once at app/root level for global direction. This mirrors tooltip positioning in right-to-left layouts.
+
+```tsx
+<TooltipProvider>
+  <Tooltip dir="rtl">
+    <TooltipTrigger>مرر الماوس</TooltipTrigger>
+    <TooltipContent>نص التلميح</TooltipContent>
+  </Tooltip>
+</TooltipProvider>
+```
+
+<ComponentPreview
+  name="tooltip-3"
+  description="A tooltip with RTL support."
+/>
+
 ## API Reference
 
 ### TooltipProvider
@@ -220,21 +238,3 @@ Without `disableCloseOnClick`, the tooltip's `onClick` handler prevents the Togg
 | `sideOffset` | `number` | `4` | Main-axis offset from trigger |
 | `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
 | `...props` | `React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>` | - | Additional props to spread to the content div |
-
-## RTL Support
-
-Set `dir="rtl"` on `Tooltip` for a local override, or set `DirectionProvider` once at app/root level for global direction. This mirrors tooltip positioning in right-to-left layouts.
-
-```tsx
-<TooltipProvider>
-  <Tooltip dir="rtl">
-    <TooltipTrigger>مرر الماوس</TooltipTrigger>
-    <TooltipContent>نص التلميح</TooltipContent>
-  </Tooltip>
-</TooltipProvider>
-```
-
-<ComponentPreview
-  name="tooltip-3"
-  description="A tooltip with RTL support."
-/>

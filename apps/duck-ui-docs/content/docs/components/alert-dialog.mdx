@@ -118,6 +118,33 @@ Style the trigger to appear active while the alert dialog is open using `data-[s
   description="An alert dialog with an active trigger style when open."
 />
 
+## RTL Support
+
+Set `dir="rtl"` on `AlertDialog` for a local override, or set `DirectionProvider` once at app/root level for global direction. `AlertDialog` extends `Dialog`, so direction is inherited by all child parts.
+
+```tsx
+<AlertDialog dir="rtl">
+  <AlertDialogTrigger>Open</AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>هل انت متاكد؟</AlertDialogTitle>
+      <AlertDialogDescription>
+        هذا الاجراء لا يمكن التراجع عنه.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>الغاء</AlertDialogCancel>
+      <AlertDialogAction>متابعة</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+<ComponentPreview
+  name="alert-dialog-2"
+  description="An alert dialog with RTL support."
+/>
+
 ## API Reference
 
 ### AlertDialog
@@ -220,30 +247,3 @@ Requires `motion` package installed. Uses a spring transition (stiffness 400, da
 | `className` | `string` | - | Additional class names merged with outline button styles |
 | `children` | `React.ReactNode` | - | Cancel button content |
 | `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>` | - | Additional props inherited from `AlertDialogPrimitive.Cancel` |
-
-## RTL Support
-
-Set `dir="rtl"` on `AlertDialog` for a local override, or set `DirectionProvider` once at app/root level for global direction. `AlertDialog` extends `Dialog`, so direction is inherited by all child parts.
-
-```tsx
-<AlertDialog dir="rtl">
-  <AlertDialogTrigger>Open</AlertDialogTrigger>
-  <AlertDialogContent>
-    <AlertDialogHeader>
-      <AlertDialogTitle>هل انت متاكد؟</AlertDialogTitle>
-      <AlertDialogDescription>
-        هذا الاجراء لا يمكن التراجع عنه.
-      </AlertDialogDescription>
-    </AlertDialogHeader>
-    <AlertDialogFooter>
-      <AlertDialogCancel>الغاء</AlertDialogCancel>
-      <AlertDialogAction>متابعة</AlertDialogAction>
-    </AlertDialogFooter>
-  </AlertDialogContent>
-</AlertDialog>
-```
-
-<ComponentPreview
-  name="alert-dialog-2"
-  description="An alert dialog with RTL support."
-/>

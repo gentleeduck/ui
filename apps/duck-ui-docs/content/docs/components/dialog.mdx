@@ -174,6 +174,33 @@ Style the trigger to appear active while the dialog is open using `data-[state=o
   description="A dialog with an active trigger style when open."
 />
 
+## RTL Support
+
+Set `dir="rtl"` on `Dialog` for a local override, or set `DirectionProvider` once at app/root level for global direction. Dialog content parts inherit direction automatically.
+
+```tsx
+<Dialog dir="rtl">
+  <DialogTrigger>Open</DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>عنوان الحوار</DialogTitle>
+      <DialogDescription>وصف الحوار هنا.</DialogDescription>
+    </DialogHeader>
+  </DialogContent>
+</Dialog>
+```
+
+<ComponentPreview
+  name="dialog-3"
+  description="A dialog with RTL support."
+/>
+
+## See also
+
+- [Sheet](/docs/components/sheet)  -  Side panel overlay, extends Dialog
+- [Drawer](/docs/components/drawer)  -  Bottom drawer overlay, great for mobile
+- [Alert Dialog](/docs/components/alert-dialog)  -  Confirmation dialog that requires user action
+
 ## API Reference
 
 ### Dialog
@@ -288,30 +315,3 @@ The following responsive components automatically render a `Dialog` on desktop (
 | `DialogTitleResponsive` | `DialogTitle` | `DrawerTitle` |
 | `DialogDescriptionResponsive` | `DialogDescription` | `DrawerDescription` |
 | `DialogCloseResponsive` | `DialogClose` | `DrawerClose` |
-
-## RTL Support
-
-Set `dir="rtl"` on `Dialog` for a local override, or set `DirectionProvider` once at app/root level for global direction. Dialog content parts inherit direction automatically.
-
-```tsx
-<Dialog dir="rtl">
-  <DialogTrigger>Open</DialogTrigger>
-  <DialogContent>
-    <DialogHeader>
-      <DialogTitle>عنوان الحوار</DialogTitle>
-      <DialogDescription>وصف الحوار هنا.</DialogDescription>
-    </DialogHeader>
-  </DialogContent>
-</Dialog>
-```
-
-<ComponentPreview
-  name="dialog-3"
-  description="A dialog with RTL support."
-/>
-
-## See also
-
-- [Sheet](/docs/components/sheet)  -  Side panel overlay, extends Dialog
-- [Drawer](/docs/components/drawer)  -  Bottom drawer overlay, great for mobile
-- [Alert Dialog](/docs/components/alert-dialog)  -  Confirmation dialog that requires user action

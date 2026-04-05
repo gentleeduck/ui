@@ -94,6 +94,24 @@ Style the trigger to appear active while the hover card is open using `data-[sta
   description="A hover card with an active trigger style when open."
 />
 
+## RTL Support
+
+Set `dir="rtl"` on `HoverCard` for a local override, or set `DirectionProvider` once at app/root level for global direction. This mirrors hover-card positioning for right-to-left layouts.
+
+```tsx
+<HoverCard dir="rtl">
+  <HoverCardTrigger>مرر الماوس</HoverCardTrigger>
+  <HoverCardContent>
+    محتوى البطاقة هنا.
+  </HoverCardContent>
+</HoverCard>
+```
+
+<ComponentPreview
+  name="hover-card-2"
+  description="A hover card with RTL support."
+/>
+
 ## API Reference
 
 ### HoverCard
@@ -141,21 +159,3 @@ The content displayed when the hover card is open. Wraps `HoverCardPrimitive.Con
 | `sideOffset` | `number` | `4` | Main-axis offset from trigger |
 | `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
 | `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content> & React.HTMLProps<HTMLDivElement>` | - | Additional props inherited from `HoverCard.Content` and standard content div props. |
-
-## RTL Support
-
-Set `dir="rtl"` on `HoverCard` for a local override, or set `DirectionProvider` once at app/root level for global direction. This mirrors hover-card positioning for right-to-left layouts.
-
-```tsx
-<HoverCard dir="rtl">
-  <HoverCardTrigger>مرر الماوس</HoverCardTrigger>
-  <HoverCardContent>
-    محتوى البطاقة هنا.
-  </HoverCardContent>
-</HoverCard>
-```
-
-<ComponentPreview
-  name="hover-card-2"
-  description="A hover card with RTL support."
-/>

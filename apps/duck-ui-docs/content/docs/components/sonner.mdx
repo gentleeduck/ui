@@ -162,6 +162,15 @@ toast('Event has been created.')
   description="Upload toast with multiple files and remaining time."
 />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="sonner-6"
+  description="A toast notification with RTL support."
+/>
+
 ## API Reference
 
 ### Toaster
@@ -216,12 +225,3 @@ export type UploadSonnerProps = {
 
 export type ToasterProps = React.ComponentProps<typeof Sonner>
 ```
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="sonner-6"
-  description="A toast notification with RTL support."
-/>

@@ -159,6 +159,15 @@ export default function Example() {
     A --> D[ResizablePanel]
 `} />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="resizable-4"
+  description="A resizable panel with RTL support."
+/>
+
 ## API Reference
 
 ### ResizablePanelGroup
@@ -192,12 +201,3 @@ Re-exports `Panel` from `react-resizable-panels` directly.
 | `withHandle` | `boolean` | `--` | Whether to render the visible grip icon handle |
 | `className` | `string` | `--` | Additional CSS classes for the resize handle |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PanelResizeHandle>` | - | Additional props inherited from `Separator`. |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="resizable-4"
-  description="A resizable panel with RTL support."
-/>

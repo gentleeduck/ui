@@ -80,6 +80,15 @@ import { AspectRatio } from "@/components/ui/aspect-ratio"
 </div>
 ```
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="aspect-ratio-2"
+  description="An aspect ratio with RTL support."
+/>
+
 ## API Reference
 
 ### AspectRatio
@@ -94,13 +103,3 @@ import { AspectRatio } from "@/components/ui/aspect-ratio"
 | `...props` | `React.ComponentPropsWithoutRef<typeof Slot>` | - | Additional props inherited from `Slot`. |
 
 *Uses a `Slot` wrapper, so the child element receives the aspect-ratio styles.*
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="aspect-ratio-2"
-  description="An aspect ratio with RTL support."
-/>
-

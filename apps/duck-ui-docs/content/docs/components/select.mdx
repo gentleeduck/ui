@@ -126,6 +126,15 @@ Style the trigger to appear active while the select dropdown is open using `data
 
 <ComponentPreview name="select-5" description="A select with an active trigger style when open." />
 
+## RTL Support
+
+Set `dir="rtl"` on `Select` for a local override, or set `DirectionProvider` once at app/root level for global direction.
+
+<ComponentPreview
+  name="select-4"
+  description="A select with RTL support."
+/>
+
 ## API Reference
 
 ### Select
@@ -227,12 +236,3 @@ Scroll navigation buttons that appear when content overflows the viewport.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `className` | `string` | - | Additional CSS class names |
-
-## RTL Support
-
-Set `dir="rtl"` on `Select` for a local override, or set `DirectionProvider` once at app/root level for global direction.
-
-<ComponentPreview
-  name="select-4"
-  description="A select with RTL support."
-/>

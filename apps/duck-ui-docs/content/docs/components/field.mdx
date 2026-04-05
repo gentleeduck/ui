@@ -203,6 +203,16 @@ Stack `Field` components with `FieldGroup`. Add `FieldSeparator` to divide them.
     D --> J[FieldError]
 `} />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="field-13"
+  className="[&_.preview]:h-200 [&_.preview]:p-6 [&_.preview>div]:w-full md:[&_.preview]:h-200"
+  description="A field with RTL support."
+/>
+
 ## API Reference
 
 ### FieldSet
@@ -311,13 +321,3 @@ Accessible error container that accepts children or an `errors` array (e.g., fro
 When the `errors` array contains multiple messages, the component renders a list automatically.
 
 `FieldError` also accepts issues produced by any validator that implements [Standard Schema](https://standardschema.dev/), including Zod, Valibot, and ArkType. Pass the `issues` array from the schema result directly to render a unified error list across libraries.
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="field-13"
-  className="[&_.preview]:h-200 [&_.preview]:p-6 [&_.preview>div]:w-full md:[&_.preview]:h-200"
-  description="A field with RTL support."
-/>

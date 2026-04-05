@@ -142,6 +142,15 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 | `End` | Moves focus to the last item |
 | `Space` / `Enter` | Toggles the focused item |
 
+## RTL Support
+
+Set `dir="rtl"` on `ToggleGroup` for a local override, or set `DirectionProvider` once at app/root level for global direction.
+
+<ComponentPreview
+  name="toggle-group-8"
+  description="A toggle group with RTL support."
+/>
+
 ## API Reference
 
 ### ToggleGroup
@@ -181,12 +190,3 @@ import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group'
 | --- | --- | --- |
 | `data-state` | `"on" \| "off"` | The pressed state of the item |
 | `data-disabled` | Present when disabled | Whether the item is disabled |
-
-## RTL Support
-
-Set `dir="rtl"` on `ToggleGroup` for a local override, or set `DirectionProvider` once at app/root level for global direction.
-
-<ComponentPreview
-  name="toggle-group-8"
-  description="A toggle group with RTL support."
-/>

@@ -82,6 +82,20 @@ import { Switch } from "@/components/ui/switch"
 
 <ComponentPreview name="switch-2" description="A switch integrated with React Hook Form for toggling email notification preferences." />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="switch-3"
+  description="A switch with RTL support."
+/>
+
+## See also
+
+- [Checkbox](/docs/components/checkbox)  -  Multi-selection toggle control
+- [Radio Group](/docs/components/radio-group)  -  Single selection from a set of options
+
 ## API Reference
 
 ### Switch
@@ -97,17 +111,3 @@ import { Switch } from "@/components/ui/switch"
 | `ref` | `React.Ref<HTMLInputElement>` | - | Ref forwarded to the native checkbox input |
 | `style` | `React.CSSProperties` | - | Inline styles applied to the input element |
 | `...props` | `React.HTMLProps<HTMLInputElement>` | - | Additional props to spread to the input element |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="switch-3"
-  description="A switch with RTL support."
-/>
-
-## See also
-
-- [Checkbox](/docs/components/checkbox)  -  Multi-selection toggle control
-- [Radio Group](/docs/components/radio-group)  -  Single selection from a set of options
