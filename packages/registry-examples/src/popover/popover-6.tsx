@@ -3,18 +3,15 @@
 import { Button } from '@gentleduck/registry-ui/button'
 import { Input } from '@gentleduck/registry-ui/input'
 import { Label } from '@gentleduck/registry-ui/label'
-import { MotionPopoverContent, Popover, PopoverTrigger } from '@gentleduck/registry-ui/popover'
-import React from 'react'
+import { MotionPopover, MotionPopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
 
 export default function Demo() {
-  const [open, setOpen] = React.useState(false)
-
   return (
-    <Popover onOpenChange={setOpen} open={open}>
+    <MotionPopover>
       <PopoverTrigger asChild>
         <Button variant="outline">Open Animated Popover</Button>
       </PopoverTrigger>
-      <MotionPopoverContent className="w-80" open={open}>
+      <MotionPopoverContent className="w-80">
         <div className="grid gap-4">
           <div className="space-y-2">
             <h4 className="font-medium leading-none">Dimensions</h4>
@@ -32,6 +29,6 @@ export default function Demo() {
           </div>
         </div>
       </MotionPopoverContent>
-    </Popover>
+    </MotionPopover>
   )
 }
