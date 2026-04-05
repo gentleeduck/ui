@@ -1,11 +1,13 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { loadDomMax } from '@gentleduck/motion/motion-features'
+import { blurLight } from '@gentleduck/motion/transitions/blur'
+import { springSmooth } from '@gentleduck/motion/transitions/springs'
 import { tweenExpand } from '@gentleduck/motion/transitions/tweens'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
-import { LayoutGroup, LazyMotion, m } from 'motion/react'
+import { AnimatePresence, LayoutGroup, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 export function useTabs() {
@@ -173,8 +175,10 @@ const MotionTabs = React.forwardRef<HTMLDivElement, TabsProps>(
     const [motionDir, setMotionDir] = React.useState(1)
     const triggerOrderRef = React.useRef<string[]>([])
 
+    const registeredRef = React.useRef(new Set<string>())
     const registerTrigger = React.useCallback((triggerValue: string) => {
-      if (!triggerOrderRef.current.includes(triggerValue)) {
+      if (!registeredRef.current.has(triggerValue)) {
+        registeredRef.current.add(triggerValue)
         triggerOrderRef.current.push(triggerValue)
       }
     }, [])
@@ -200,7 +204,7 @@ const MotionTabs = React.forwardRef<HTMLDivElement, TabsProps>(
     return (
       <TabsContext.Provider value={{ activeItem, setActiveItem: wrappedSetActiveItem, tabsId }}>
         <MotionTabsContext.Provider value={motionCtx}>
-          <LazyMotion features={loadDomAnimation}>
+          <LazyMotion features={loadDomMax}>
             <div {...props} data-slot="tabs" dir={resolvedDir} ref={ref}>
               {children}
             </div>
@@ -237,9 +241,9 @@ const MotionTabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
     const { registerTrigger } = React.useContext(MotionTabsContext)
     const isActive = value === activeItem
 
-    React.useEffect(() => {
-      registerTrigger(value)
-    }, [value, registerTrigger])
+    // Register synchronously during render so order is available
+    // before any click handler fires.
+    registerTrigger(value)
 
     React.useEffect(() => {
       if (defaultChecked) setActiveItem(value)
@@ -272,7 +276,7 @@ const MotionTabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
             layoutId={`tab-indicator-${tabsId}`}
             className="absolute inset-0 rounded-sm bg-background shadow-sm"
             style={{ borderRadius: 6 }}
-            transition={{ type: 'spring', stiffness: 350, damping: 30 }}
+            transition={springSmooth}
           />
         )}
         <span className={cn('relative z-10', isActive ? 'text-foreground' : 'text-muted-foreground')}>{children}</span>
@@ -282,48 +286,119 @@ const MotionTabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
 )
 MotionTabsTrigger.displayName = 'MotionTabsTrigger'
 
+/**
+ * Wrapper around all MotionTabsContent panels. Provides a single
+ * AnimatePresence with overflow-hidden so content slides left/right
+ * and fades at the container edges.
+ */
+const MotionTabsContents = React.forwardRef<
+  HTMLDivElement,
+  Omit<React.HTMLProps<HTMLDivElement>, 'ref' | 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+>(({ children, className, ...props }, ref) => {
+    const { activeItem } = useTabs()
+    const { direction } = React.useContext(MotionTabsContext)
+    const containerRef = React.useRef<HTMLDivElement>(null)
+    const [height, setHeight] = React.useState<number | undefined>(undefined)
+
+    // Find the active panel from children
+    let activeChild: React.ReactNode = null
+    React.Children.forEach(children, (child) => {
+      if (React.isValidElement<{ value: string }>(child) && child.props.value === activeItem) {
+        activeChild = child
+      }
+    })
+
+    return (
+      <m.div
+        ref={(node) => {
+          ;(containerRef as React.MutableRefObject<HTMLDivElement | null>).current = node
+          if (typeof ref === 'function') ref(node)
+          else if (ref) ref.current = node
+        }}
+        animate={{ height: height ?? 'auto' }}
+        transition={tweenExpand}
+        className={cn('relative mt-2 overflow-hidden', className)}
+        {...props}
+        data-slot="tabs-contents">
+        <AnimatePresence
+          mode="popLayout"
+          initial={false}
+          custom={direction}
+          onExitComplete={() => {
+            if (containerRef.current) {
+              setHeight(containerRef.current.scrollHeight)
+            }
+          }}>
+          {activeChild && React.isValidElement(activeChild) ? (
+            <m.div
+              key={activeItem}
+              custom={direction}
+              variants={{
+                enter: (dir: number) => ({
+                  opacity: 0,
+                  x: `${dir * 30}%`,
+                  filter: `blur(${blurLight}px)`,
+                }),
+                center: { opacity: 1, x: 0, filter: 'blur(0px)' },
+                exit: (dir: number) => ({
+                  opacity: 0,
+                  x: `${dir * -30}%`,
+                  filter: `blur(${blurLight}px)`,
+                }),
+              }}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={tweenExpand}
+              onAnimationComplete={() => {
+                if (containerRef.current) {
+                  setHeight(containerRef.current.scrollHeight)
+                }
+              }}>
+              {activeChild}
+            </m.div>
+          ) : null}
+        </AnimatePresence>
+      </m.div>
+    )
+  },
+)
+MotionTabsContents.displayName = 'MotionTabsContents'
+
+/** Individual tab panel - just renders its children, no animation logic. */
 const MotionTabsContent = React.forwardRef<
   HTMLDivElement,
   Omit<React.HTMLProps<HTMLDivElement>, 'ref'> & { value: string }
 >(({ children, className, value, ...props }, ref) => {
-  const { activeItem, tabsId } = useTabs()
-  const isActive = activeItem === value
+  const { tabsId } = useTabs()
 
   return (
-    <m.div
-      animate={isActive ? { height: 'auto' } : { height: 0 }}
-      initial={false}
-      transition={tweenExpand}
-      style={{ overflow: 'hidden' }}
-      aria-hidden={!isActive}
+    <div
+      ref={ref}
       aria-labelledby={`${tabsId}-trigger-${value}`}
+      className={cn(
+        'shrink-0 list-none ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        className,
+      )}
       data-value={value}
       id={`${tabsId}-content-${value}`}
-      ref={ref}
       role="tabpanel"
-      tabIndex={isActive ? 0 : -1}
-      {...props}
-      data-slot="tabs-content">
-      <m.div
-        animate={
-          isActive
-            ? { opacity: 1, filter: 'blur(0px)' }
-            : { opacity: 0, filter: 'blur(4px)' }
-        }
-        initial={false}
-        transition={{
-          opacity: { duration: 0.2, delay: isActive ? 0.05 : 0 },
-          filter: { duration: 0.2, delay: isActive ? 0.05 : 0 },
-        }}
-        className={cn(
-          'mt-2 shrink-0 list-none ring-offset-background focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
-          className,
-        )}>
-        {children}
-      </m.div>
-    </m.div>
+      tabIndex={-1}
+      {...props}>
+      {children}
+    </div>
   )
 })
 MotionTabsContent.displayName = 'MotionTabsContent'
 
-export { MotionTabs, MotionTabsContent, MotionTabsList, MotionTabsTrigger, Tabs, TabsContent, TabsList, TabsTrigger }
+export {
+  MotionTabs,
+  MotionTabsContent,
+  MotionTabsContents,
+  MotionTabsList,
+  MotionTabsTrigger,
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+}
