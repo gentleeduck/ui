@@ -1,8 +1,10 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { contentTransition, scaleBlur } from '@gentleduck/motion/presets/content'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
+import { motion } from 'motion/react'
 import React from 'react'
 
 const AspectRatio = React.forwardRef<
@@ -28,4 +30,12 @@ const AspectRatio = React.forwardRef<
 })
 AspectRatio.displayName = 'AspectRatio'
 
-export { AspectRatio }
+type MotionSafe<T> = Omit<T, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+const MotionAspectRatioBase = motion.create(AspectRatio)
+const MotionAspectRatio = React.forwardRef<
+  React.ComponentRef<typeof AspectRatio>,
+  MotionSafe<React.ComponentPropsWithoutRef<typeof AspectRatio>>
+>((props, ref) => <MotionAspectRatioBase ref={ref} {...scaleBlur} transition={contentTransition} {...(props as any)} />)
+MotionAspectRatio.displayName = 'MotionAspectRatio'
+
+export { AspectRatio, MotionAspectRatio }
