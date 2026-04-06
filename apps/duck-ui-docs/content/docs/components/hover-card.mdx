@@ -174,3 +174,12 @@ The content displayed when the hover card is open. Wraps `HoverCardPrimitive.Con
 | `sideOffset` | `number` | `4` | Main-axis offset from trigger |
 | `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
 | `...props` | `React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content> & React.HTMLProps<HTMLDivElement>` | - | Additional props inherited from `HoverCard.Content` and standard content div props. |
+
+
+### MotionHoverCard
+
+Same props as `HoverCard`. Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+### MotionHoverCardContent
+
+Same props as `HoverCardContent`. Adds directional scale, blur, and opacity enter/exit animation. Requires the `motion` package.

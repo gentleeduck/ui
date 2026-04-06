@@ -270,3 +270,19 @@ Components in this file wrap `@gentleduck/primitives/context-menu`.
 | `sideOffset` | `number` | - | Main-axis offset from sub-trigger |
 | `alignOffset` | `number` | - | Cross-axis offset from sub-trigger |
 | `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubContent>` | - | Additional props inherited from `ContextMenuPrimitive.SubContent` |
+
+### MotionContextMenu
+
+Same props as `ContextMenu`. Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+### MotionContextMenuContent
+
+Same props as `ContextMenuContent`. Adds scale, blur, and opacity enter/exit animation with springBouncy transition. Transform origin fixed to top-left. Requires the `motion` package.
+
+### MotionContextMenuSub
+
+Same props as `ContextMenuSub`. Wraps sub-menu with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+### MotionContextMenuSubContent
+
+Same props as `ContextMenuSubContent`. Adds scale and blur enter/exit animation in a Portal. Requires the `motion` package.

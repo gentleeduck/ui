@@ -196,6 +196,10 @@ Requires the `motion` package. Use `MotionAlertDialog` instead of `AlertDialog` 
 | `forceMount` | `boolean` | `false` | If `true`, forces the content to stay mounted in the DOM |
 | `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>` | - | Additional props inherited from `AlertDialogPrimitive.Content` |
 
+### MotionAlertDialog
+
+Same props as `AlertDialog`. Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
 ### MotionAlertDialogContent
 
 | Prop | Type | Default | Description |

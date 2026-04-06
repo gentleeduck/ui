@@ -249,3 +249,12 @@ Requires the `motion` package. Use `MotionTooltip` instead of `Tooltip` and `Mot
 | `sideOffset` | `number` | `4` | Main-axis offset from trigger |
 | `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
 | `...props` | `React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>` | - | Additional props to spread to the content div |
+
+
+### MotionTooltip
+
+Same props as `Tooltip`. Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+### MotionTooltipContent
+
+Same props as `TooltipContent`. Adds directional scale, blur, and opacity enter/exit animation with ultra-fast tweenMicro (100ms) transition. Requires the `motion` package.
