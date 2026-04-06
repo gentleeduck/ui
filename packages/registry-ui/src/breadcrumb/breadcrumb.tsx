@@ -1,7 +1,11 @@
+'use client'
+
 import { cn } from '@gentleduck/libs/cn'
+import { contentTransition, fadeUp } from '@gentleduck/motion/presets/content'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import { ChevronRight, MoreHorizontal } from 'lucide-react'
+import { motion } from 'motion/react'
 import * as React from 'react'
 
 const Breadcrumb = React.forwardRef<
@@ -108,6 +112,26 @@ const BreadcrumbEllipsis = React.forwardRef<
 ))
 BreadcrumbEllipsis.displayName = 'BreadcrumbEllipsis'
 
+/* ------------------------------------------------------------------ */
+/*  MotionBreadcrumbList                                               */
+/* ------------------------------------------------------------------ */
+
+type MotionSafe<T> = Omit<T, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+
+const MotionBreadcrumbItemBase = motion.create(BreadcrumbItem)
+const MotionBreadcrumbItem = React.forwardRef<
+  HTMLLIElement,
+  MotionSafe<React.ComponentPropsWithoutRef<'li'>> & { index?: number }
+>(({ index = 0, ...props }, ref) => (
+  <MotionBreadcrumbItemBase
+    ref={ref}
+    {...fadeUp}
+    transition={{ ...contentTransition, delay: index * 0.05 }}
+    {...(props as any)}
+  />
+))
+MotionBreadcrumbItem.displayName = 'MotionBreadcrumbItem'
+
 export {
   Breadcrumb,
   BreadcrumbEllipsis,
@@ -116,4 +140,5 @@ export {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
+  MotionBreadcrumbItem,
 }
