@@ -2,7 +2,7 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
-import { contentTransition, fadeUp } from '@gentleduck/motion/presets/content'
+import { contentTransition, fadeUp, tapScale } from '@gentleduck/motion/presets/content'
 import * as TogglePrimitive from '@gentleduck/primitives/toggle'
 import type { VariantProps } from '@gentleduck/variants'
 import { LazyMotion, m } from 'motion/react'
@@ -35,7 +35,7 @@ const MotionToggle = React.forwardRef<
     <LazyMotion features={loadDomAnimation}>
       <TogglePrimitive.Root asChild ref={ref} {...props}>
         <m.button
-          whileTap={{ scale: 0.97 }}
+          whileTap={tapScale}
           transition={{ scale: { duration: 0, type: 'tween' } }}
           className={cn(toggleVariants({ className, size, variant }))}
           data-slot="toggle">
