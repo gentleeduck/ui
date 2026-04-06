@@ -89,6 +89,16 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 <ComponentPreview name="radio-group-2" description="A radio group integrated with React Hook Form for notification type selection." />
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[RadioGroup] --> B[RadioGroupItem]
+    B --> C[Primitive.button]
+    B --> D[Label]
+    B --> E[BubbleInput]
+    B --> F[SVG Indicator]
+`} />
+
 ## Keyboard Navigation
 
 | Key | Description |
@@ -106,16 +116,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 | `G` | Jump to last item and select it |
 | `Tab` | Move focus into/out of the radio group |
 | `Space` | Select the focused item (if not already selected) |
-
-## Component Composition
-
-<MermaidDiagram chart={`graph TD
-    A[RadioGroup] --> B[RadioGroupItem]
-    B --> C[Primitive.button]
-    B --> D[Label]
-    B --> E[BubbleInput]
-    B --> F[SVG Indicator]
-`} />
 
 ## RTL Support
 
