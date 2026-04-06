@@ -302,7 +302,7 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, SelectConte
             })}>
             <DismissableLayer
               asChild
-              disableOutsidePointerEvents
+              disableOutsidePointerEvents={context.open}
               onEscapeKeyDown={onEscapeKeyDown}
               onPointerDownOutside={onPointerDownOutside}
               // When focus is trapped, a focusout event may still happen.
