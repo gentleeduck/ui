@@ -1263,6 +1263,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/toggle',
           items: [],
+          label: 'new',
           title: 'Toggle',
         },
         {
