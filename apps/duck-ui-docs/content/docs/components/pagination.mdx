@@ -13,6 +13,18 @@ component: true
 
 Pagination is a navigation pattern, not a data-fetching pattern. We provide the visual components (page buttons, next/previous, ellipsis) and let you wire them to your data layer. This separation means the same pagination UI works whether you're paginating a client-side array, an API, or a database cursor. Under the hood, this component composes `@gentleduck/primitives/pagination` for semantic structure and direction-aware behavior.
 
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+    A[Pagination] --> B[PaginationContent]
+    B --> C[PaginationItem]
+    C --> D[PaginationPrevious]
+    C --> E[PaginationLink]
+    C --> F[PaginationNext]
+    C --> G[PaginationEllipsis]
+    A -.-> H[PaginationWrapper]
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -88,6 +100,8 @@ import {
 </Pagination>
 ```
 
+## Examples
+
 ### Next.js
 
 By default the `<PaginationLink />` component will render an `<a />` tag.
@@ -118,6 +132,13 @@ const PaginationLink = ({...props }: ) => (
 
 </Callout>
 
+### RTL
+
+<ComponentPreview
+  name="pagination-2"
+  description="A pagination with full RTL and Arabic i18n support."
+/>
+
 ## Component Composition
 
 <MermaidDiagram chart={`graph TD
@@ -133,11 +154,6 @@ const PaginationLink = ({...props }: ) => (
 ## RTL Support
 
 Use the `text` prop on `PaginationPrevious`, `PaginationNext`, and `PaginationEllipsis` to provide translated labels. Set `dir="rtl"` on `Pagination` for a local override, or set `DirectionProvider` once at app/root level for global direction. Keep markup in logical order (`Previous`, pages, `Next`): visual mirroring is handled automatically.
-
-<ComponentPreview
-  name="pagination-2"
-  description="A pagination with full RTL and Arabic i18n support."
-/>
 
 ## API Reference
 
