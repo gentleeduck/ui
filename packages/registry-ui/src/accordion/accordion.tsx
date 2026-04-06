@@ -2,6 +2,7 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { contentTransition, fadeUp } from '@gentleduck/motion/presets/content'
 import { heightAuto } from '@gentleduck/motion/presets/height-auto'
 import { duckMotionDuration, tweenExpand } from '@gentleduck/motion/transitions/tweens'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
@@ -316,7 +317,9 @@ const MotionAccordionTrigger = React.forwardRef<
       ref={ref as React.Ref<HTMLElement>}
       {...props}
       data-slot="accordion-trigger">
-      {children}
+      <m.span {...fadeUp} transition={contentTransition} className="flex-1">
+        {children}
+      </m.span>
       <m.span
         animate={{ rotate: isActive ? 180 : 0 }}
         transition={tweenExpand}
