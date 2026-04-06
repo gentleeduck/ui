@@ -177,3 +177,15 @@ Requires the `motion` package. Replace `AccordionItem` with `MotionAccordionItem
 | `className` | `string` | - | Additional CSS classes applied to the content div |
 | `children` | `React.ReactNode` | - | Content to reveal when the accordion item is expanded |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### MotionAccordionItem
+
+Replaces `AccordionItem`. Keeps the `<details>` element open for motion height animation. Same props. Requires the `motion` package.
+
+### MotionAccordionTrigger
+
+Replaces `AccordionTrigger`. Chevron rotation driven by motion instead of CSS `group-open`. Same props. Requires the `motion` package.
+
+### MotionAccordionContent
+
+Replaces `AccordionContent`. Animates height from 0 to auto with staggered blur and opacity fade using heightAuto preset. Requires the `motion` package.

@@ -176,3 +176,8 @@ const { open, onOpenChange } = useCollapsible()
 | `triggerRef` | `React.RefObject<HTMLButtonElement \| null>` | Ref to the trigger button |
 | `contentRef` | `React.RefObject<HTMLDivElement \| null>` | Ref to the content section |
 | `contentId` | `string` | Auto-generated ID linking trigger and content via `aria-controls` |
+
+
+### MotionCollapsibleContent
+
+Same props as `CollapsibleContent`. Animates height from 0 to auto with staggered blur and opacity fade. Requires the `motion` package.

@@ -307,3 +307,8 @@ Requires the `motion` package. Use `MotionButton` instead of `Button`. Same prop
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | (required) | Content inside the animation icon wrapper |
 | `animationIcon` | `{ icon?: React.ReactNode; iconPlacement?: 'left' \| 'right' }` | `-` | Animation icon configuration with icon element and placement direction |
+
+
+### MotionButton
+
+Same props as `Button` except `asChild` is not supported. Adds `whileTap` press feedback and animated icon/text transitions via `AnimatePresence`. Requires the `motion` package.

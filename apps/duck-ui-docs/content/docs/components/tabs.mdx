@@ -166,3 +166,23 @@ Use `MotionTabs`, `MotionTabsList`, `MotionTabsTrigger`, and `MotionTabsContent`
 | `className` | `string` | - | Additional CSS class names |
 | `children` | `React.ReactNode` | - | Tab panel content |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### MotionTabs
+
+Replaces `Tabs`. Tracks tab order for directional content animation. Uses `domMax` for layout animations. Requires the `motion` package.
+
+### MotionTabsList
+
+Replaces `TabsList`. Wraps with `LayoutGroup` for shared layoutId indicator animation. Requires the `motion` package.
+
+### MotionTabsTrigger
+
+Replaces `TabsTrigger`. Adds sliding `layoutId` indicator and disabled tab shake feedback. Requires the `motion` package.
+
+### MotionTabsContents
+
+Wrapper around all `MotionTabsContent` panels. Provides a single `AnimatePresence` with overflow-hidden for directional slide animation. Requires the `motion` package.
+
+### MotionTabsContent
+
+Individual tab panel inside `MotionTabsContents`. Renders content with proper ARIA attributes. Requires the `motion` package.

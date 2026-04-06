@@ -207,3 +207,12 @@ Optional custom anchor element for positioning.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Anchor>` | - | Additional props inherited from `Popover.Anchor`. |
+
+
+### MotionPopover
+
+Same props as `Popover`. Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+### MotionPopoverContent
+
+Same props as `PopoverContent`. Adds scale, blur, and opacity enter/exit animation with springBouncy transition. Requires the `motion` package.
