@@ -87,6 +87,15 @@ import {
 </AlertDialog>
 ```
 
+### Active Trigger on Open
+
+Style the trigger to appear active while the alert dialog is open using `data-[state=open]`:
+
+<ComponentPreview
+  name="alert-dialog-3"
+  description="An alert dialog with an active trigger style when open."
+/>
+
 ## Component Composition
 
 <MermaidDiagram chart={`graph TD
@@ -99,15 +108,6 @@ import {
     E --> H[AlertDialogAction]
     E --> I[AlertDialogCancel]
 `} />
-
-### Active Trigger on Open
-
-Style the trigger to appear active while the alert dialog is open using `data-[state=open]`:
-
-<ComponentPreview
-  name="alert-dialog-3"
-  description="An alert dialog with an active trigger style when open."
-/>
 
 ## RTL Support
 

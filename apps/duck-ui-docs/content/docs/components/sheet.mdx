@@ -116,6 +116,15 @@ You can adjust the size of the sheet using CSS classes:
 </Sheet>
 ```
 
+### Active Trigger on Open
+
+Style the trigger to appear active while the sheet is open using `data-[state=open]`:
+
+<ComponentPreview
+  name="sheet-4"
+  description="A sheet with an active trigger style when open."
+/>
+
 ## Component Composition
 
 <MermaidDiagram chart={`graph TD
@@ -127,15 +136,6 @@ You can adjust the size of the sheet using CSS classes:
     D --> G[SheetDescription]
     C --> H[SheetClose]
 `} />
-
-### Active Trigger on Open
-
-Style the trigger to appear active while the sheet is open using `data-[state=open]`:
-
-<ComponentPreview
-  name="sheet-4"
-  description="A sheet with an active trigger style when open."
-/>
 
 ## RTL Support
 
