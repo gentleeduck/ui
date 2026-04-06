@@ -13,6 +13,14 @@ component: true
 
 Tabs organize content into parallel views  -  only one is visible at a time, but all are equally important. We keep the component controlled-optional (works with or without state management) because simple use cases shouldn't pay the complexity tax. The TabsList/TabsTrigger/TabsContent split keeps styling separate from behavior.
 
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+    A[Tabs] --> B[TabsList]
+    B --> C[TabsTrigger]
+    A --> D[TabsContent]
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -71,24 +79,16 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 </Tabs>
 ```
 
-## Component Composition
+## Examples
 
-<MermaidDiagram chart={`graph TD
-    A[Tabs] --> B[TabsList]
-    B --> C[TabsTrigger]
-    A --> D[TabsContent]
-`} />
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+### RTL
 
 <ComponentPreview
   name="tabs-2"
   description="Tabs with RTL support."
 />
 
-## Motion
+### Motion Tabs
 
 Use `MotionTabs`, `MotionTabsList`, `MotionTabsTrigger`, and `MotionTabsContent` for a sliding active indicator and direction-aware content crossfade powered by [motion](https://motion.dev). The indicator slides between tabs via `layoutId` and content panels fade with a directional y-shift.
 
@@ -109,6 +109,22 @@ A pill-shaped segmented control with a sliding indicator and disabled tab suppor
 <Callout icon={<Zap />}>
 Requires the `motion` package. Replace `Tabs` with `MotionTabs`, `TabsList` with `MotionTabsList`, `TabsTrigger` with `MotionTabsTrigger`, and `TabsContent` with `MotionTabsContent`. Wrap content panels in `MotionTabsContents` for coordinated directional slide animations.
 </Callout>
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Tabs] --> B[TabsList]
+    B --> C[TabsTrigger]
+    A --> D[TabsContent]
+`} />
+
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+## Motion
+
+Use `MotionTabs`, `MotionTabsList`, `MotionTabsTrigger`, and `MotionTabsContent` for a sliding active indicator and direction-aware content crossfade powered by [motion](https://motion.dev). The indicator slides between tabs via `layoutId` and content panels fade with a directional y-shift.
 
 ## API Reference
 
