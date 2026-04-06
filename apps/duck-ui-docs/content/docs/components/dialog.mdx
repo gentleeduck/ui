@@ -106,6 +106,27 @@ import {
   description="A controlled dialog for editing profile details with open state management."
 />
 
+### Active Trigger on Open
+
+Style the trigger to appear active while the dialog is open using `data-[state=open]`:
+
+<ComponentPreview
+  name="dialog-4"
+  description="A dialog with an active trigger style when open."
+/>
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Dialog] --> B[DialogTrigger]
+    A --> C[DialogContent]
+    C --> D[DialogHeader]
+    C --> E[DialogFooter]
+    D --> F[DialogTitle]
+    D --> G[DialogDescription]
+    C --> H[DialogClose]
+`} />
+
 ## Notes
 
 To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, you must encase the `Context Menu` or
@@ -139,27 +160,6 @@ To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, y
   </DialogContent>
 </Dialog>
 ```
-
-### Active Trigger on Open
-
-Style the trigger to appear active while the dialog is open using `data-[state=open]`:
-
-<ComponentPreview
-  name="dialog-4"
-  description="A dialog with an active trigger style when open."
-/>
-
-## Component Composition
-
-<MermaidDiagram chart={`graph TD
-    A[Dialog] --> B[DialogTrigger]
-    A --> C[DialogContent]
-    C --> D[DialogHeader]
-    C --> E[DialogFooter]
-    D --> F[DialogTitle]
-    D --> G[DialogDescription]
-    C --> H[DialogClose]
-`} />
 
 ## RTL Support
 
