@@ -1,7 +1,7 @@
 'use client'
 
 import { MotionToggle } from '@gentleduck/registry-ui/toggle'
-import { AlignLeft, Bold, Italic, Star, Underline } from 'lucide-react'
+import { Bold, Italic, Underline, AlignLeft, Star } from 'lucide-react'
 
 export default function Demo() {
   return (

@@ -720,6 +720,7 @@ const _Sidebar3 = dynamic(() => import('@gentleduck/registry-examples/sidebar/si
 const _Sidebar4 = dynamic(() => import('@gentleduck/registry-examples/sidebar/sidebar-4'), { ssr: false })
 const _Sidebar5 = dynamic(() => import('@gentleduck/registry-examples/sidebar/sidebar-5'), { ssr: false })
 const _Sidebar6 = dynamic(() => import('@gentleduck/registry-examples/sidebar/sidebar-6'), { ssr: false })
+const _Sidebar7 = dynamic(() => import('@gentleduck/registry-examples/sidebar/sidebar-7'), { ssr: false })
 const _Upload1 = dynamic(() => import('@gentleduck/registry-examples/upload/upload-1'), { ssr: false })
 const _Upload2 = dynamic(() => import('@gentleduck/registry-examples/upload/upload-2'), { ssr: false })
 const _Upload3 = dynamic(() => import('@gentleduck/registry-examples/upload/upload-3'), { ssr: false })
@@ -5427,7 +5428,12 @@ export const Index: Record<string, any> = {
     description: '',
     type: 'registry:example',
     registryDependencies: ['toggle'],
-    files: [{ path: 'toggle/toggle-9.tsx', type: 'registry:example' }],
+    files: [
+      {
+        path: 'toggle/toggle-9.tsx',
+        type: 'registry:example',
+      },
+    ],
     component: _Toggle9,
     source: '/registry-examples/src/toggle',
     categories: [],
@@ -8501,6 +8507,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Sidebar6,
+    source: '/registry-examples/src/sidebar',
+    categories: [],
+    root_folder: 'sidebar',
+  },
+  'sidebar-7': {
+    name: 'sidebar-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['sidebar'],
+    files: [
+      {
+        path: 'sidebar/sidebar-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Sidebar7,
     source: '/registry-examples/src/sidebar',
     categories: [],
     root_folder: 'sidebar',
