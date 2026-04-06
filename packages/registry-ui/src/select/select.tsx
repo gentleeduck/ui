@@ -1,14 +1,13 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import type { SelectTriggerProps as PrimitiveSelectTriggerProps } from '@gentleduck/primitives/select'
 import * as SelectPrimitive from '@gentleduck/primitives/select'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
-import { AnimatePresence, LazyMotion, m } from 'motion/react'
+import { AnimatePresence, motion } from 'motion/react'
 import * as React from 'react'
 
 const Select = SelectPrimitive.Root
@@ -28,7 +27,7 @@ const SelectTrigger = React.forwardRef<React.ComponentRef<typeof SelectPrimitive
       ref={ref}
       data-slot="select-trigger"
       className={cn(
-        'flex h-9 min-w-32 items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-muted-foreground [&>span]:line-clamp-1',
+        'flex h-9 min-w-32 select-none items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-muted-foreground [&>span]:line-clamp-1',
         className,
       )}
       {...props}>
@@ -164,38 +163,36 @@ const MotionSelectContent = React.forwardRef<
   const content = useMotionPreset('scaleIn', { transition: springBouncy })
 
   return (
-    <LazyMotion features={loadDomAnimation}>
-      <AnimatePresence onExitComplete={() => setShowContent(false)}>
-        {isOpen && (
-          <SelectPrimitive.Portal>
-            <SelectPrimitive.Content ref={ref} position={position} forceMount asChild {...props}>
-              <m.div
+    <AnimatePresence onExitComplete={() => setShowContent(false)}>
+      {isOpen && (
+        <SelectPrimitive.Portal>
+          <SelectPrimitive.Content ref={ref} position={position} forceMount asChild {...props}>
+            <motion.div
+              className={cn(
+                'relative z-50 max-h-(--gentleduck-select-content-available-height) min-w-32 origin-(--gentleduck-select-content-transform-origin) overflow-y-auto overflow-x-hidden rounded-md border bg-popover text-popover-foreground shadow-md',
+                position === 'popper' &&
+                  'data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1',
+                className,
+              )}
+              initial={content.initial}
+              animate={content.animate}
+              exit={content.exit}
+              transition={content.transition}>
+              <SelectScrollUpButton />
+              <SelectPrimitive.Viewport
                 className={cn(
-                  'relative z-50 max-h-(--gentleduck-select-content-available-height) min-w-32 origin-(--gentleduck-select-content-transform-origin) overflow-y-auto overflow-x-hidden rounded-md border bg-popover text-popover-foreground shadow-md',
+                  'p-1',
                   position === 'popper' &&
-                    'data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1',
-                  className,
-                )}
-                initial={content.initial}
-                animate={content.animate}
-                exit={{ ...content.exit, pointerEvents: 'none' }}
-                transition={content.transition}>
-                <SelectScrollUpButton />
-                <SelectPrimitive.Viewport
-                  className={cn(
-                    'p-1',
-                    position === 'popper' &&
-                      'h-(--gentleduck-select-trigger-height) w-full min-w-(--gentleduck-select-trigger-width)',
-                  )}>
-                  {children}
-                </SelectPrimitive.Viewport>
-                <SelectScrollDownButton />
-              </m.div>
-            </SelectPrimitive.Content>
-          </SelectPrimitive.Portal>
-        )}
-      </AnimatePresence>
-    </LazyMotion>
+                    'h-(--gentleduck-select-trigger-height) w-full min-w-(--gentleduck-select-trigger-width)',
+                )}>
+                {children}
+              </SelectPrimitive.Viewport>
+              <SelectScrollDownButton />
+            </motion.div>
+          </SelectPrimitive.Content>
+        </SelectPrimitive.Portal>
+      )}
+    </AnimatePresence>
   )
 })
 MotionSelectContent.displayName = 'MotionSelectContent'
