@@ -1217,6 +1217,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/sidebar',
           items: [],
+          label: 'new',
           title: 'Sidebar',
         },
         {

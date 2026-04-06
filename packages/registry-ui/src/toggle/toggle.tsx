@@ -40,7 +40,11 @@ const MotionToggle = React.forwardRef<
           className={cn(toggleVariants({ className, size, variant }))}
           data-slot="toggle">
           {React.Children.map(children, (child, i) => (
-            <m.span key={i} {...fadeUp} transition={{ ...contentTransition, delay: i * 0.05 }} className="inline-flex">
+            <m.span
+              key={i}
+              {...fadeUp}
+              transition={{ ...contentTransition, delay: i * 0.05 }}
+              className="inline-flex">
               {child}
             </m.span>
           ))}

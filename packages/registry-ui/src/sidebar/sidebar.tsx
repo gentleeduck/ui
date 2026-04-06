@@ -2,10 +2,13 @@
 
 import { useIsMobile } from '@gentleduck/hooks/use-is-mobile'
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { contentTransition } from '@gentleduck/motion/presets/content'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import type { VariantProps } from '@gentleduck/variants'
 import { PanelLeftIcon } from 'lucide-react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Button } from '../button'
 import { Input } from '../input'
@@ -185,7 +188,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
         <div
           data-slot="sidebar-gap"
           className={cn(
-            'relative w-(--sidebar-width) bg-transparent transition-[width] duration-250 ease-[cubic-bezier(0.16,1,0.3,1)]',
+            'relative w-(--sidebar-width) bg-transparent transition-[width] duration-200 ease-linear',
             'group-data-[collapsible=offcanvas]:w-0',
             variant === 'floating' || variant === 'inset'
               ? 'group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]'
@@ -196,7 +199,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
           data-slot="sidebar-container"
           data-side={side}
           className={cn(
-            'fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-250 ease-[cubic-bezier(0.16,1,0.3,1)] data-[side=right]:right-0 data-[side=left]:left-0 data-[side=right]:group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)] data-[side=left]:group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)] md:flex',
+            'fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) transition-[left,right,width] duration-200 ease-linear data-[side=right]:right-0 data-[side=left]:left-0 data-[side=right]:group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)] data-[side=left]:group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)] md:flex',
             // Adjust the padding for floating and inset variants.
             variant === 'floating' || variant === 'inset'
               ? 'p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]'
@@ -260,7 +263,7 @@ const SidebarRail = React.forwardRef<HTMLButtonElement, React.ComponentPropsWith
         onClick={toggleSidebar}
         dir={direction}
         className={cn(
-          'absolute inset-y-0 z-20 hidden w-4 transition-all ease-[cubic-bezier(0.16,1,0.3,1)] after:absolute after:inset-y-0 after:start-1/2 after:w-0.5 hover:after:bg-sidebar-border group-data-[side=left]:-right-4 group-data-[side=right]:left-0 sm:flex ltr:-translate-x-1/2 rtl:-translate-x-1/2',
+          'absolute inset-y-0 z-20 hidden w-4 transition-all ease-linear after:absolute after:inset-y-0 after:start-1/2 after:w-0.5 hover:after:bg-sidebar-border group-data-[side=left]:-right-4 group-data-[side=right]:left-0 sm:flex ltr:-translate-x-1/2 rtl:-translate-x-1/2',
           'in-data-[side=left]:cursor-w-resize in-data-[side=right]:cursor-e-resize',
           '[[data-side=left][data-state=collapsed]_&]:cursor-e-resize [[data-side=right][data-state=collapsed]_&]:cursor-w-resize',
           'group-data-[collapsible=offcanvas]:translate-x-0 hover:group-data-[collapsible=offcanvas]:bg-sidebar group-data-[collapsible=offcanvas]:after:left-full',
@@ -422,7 +425,7 @@ const SidebarGroupLabel = React.forwardRef<
       data-sidebar="group-label"
       dir={direction}
       className={cn(
-        'flex h-8 shrink-0 items-center rounded-md px-2 font-medium text-sidebar-foreground/70 text-xs outline-hidden ring-sidebar-ring transition-[margin,opacity] duration-250 ease-[cubic-bezier(0.16,1,0.3,1)] focus-visible:ring-2 group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0 [&>svg]:size-4 [&>svg]:shrink-0',
+        'flex h-8 shrink-0 items-center rounded-md px-2 font-medium text-sidebar-foreground/70 text-xs outline-hidden ring-sidebar-ring transition-[margin,opacity] duration-200 ease-linear focus-visible:ring-2 group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0 [&>svg]:size-4 [&>svg]:shrink-0',
         className,
       )}
       {...props}
@@ -707,7 +710,134 @@ const SidebarMenuSubButton = React.forwardRef<
 })
 SidebarMenuSubButton.displayName = 'SidebarMenuSubButton'
 
+/* ------------------------------------------------------------------ */
+/*  MotionSidebar                                                      */
+/* ------------------------------------------------------------------ */
+
+const MotionSidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
+  (
+    {
+      side = 'left',
+      variant = 'sidebar',
+      collapsible = 'offcanvas',
+      className,
+      children,
+      dir,
+      mobileTitle = 'Sidebar',
+      mobileDescription = 'Displays the mobile sidebar.',
+      ...props
+    },
+    ref,
+  ) => {
+    const { isMobile, state, openMobile, setOpenMobile, open } = useSidebar()
+    const direction = useDirection(dir as Direction)
+
+    if (collapsible === 'none') {
+      return (
+        <div
+          ref={ref}
+          dir={direction}
+          data-slot="sidebar"
+          className={cn('flex h-full w-(--sidebar-width) flex-col bg-sidebar text-sidebar-foreground', className)}
+          {...props}>
+          {children}
+        </div>
+      )
+    }
+
+    if (isMobile) {
+      return (
+        <Sheet dir={direction} open={openMobile} onOpenChange={setOpenMobile} {...props}>
+          <SheetContent
+            dir={direction}
+            data-sidebar="sidebar"
+            data-slot="sidebar"
+            data-mobile="true"
+            className="w-[--sidebar-width] bg-sidebar p-0 text-sidebar-foreground [&>button]:hidden"
+            style={{ '--sidebar-width': SIDEBAR_WIDTH_MOBILE } as React.CSSProperties}
+            side={side}>
+            <SheetHeader className="sr-only">
+              <SheetTitle>{mobileTitle}</SheetTitle>
+              <SheetDescription>{mobileDescription}</SheetDescription>
+            </SheetHeader>
+            <div className="flex h-full w-full flex-col">{children}</div>
+          </SheetContent>
+        </Sheet>
+      )
+    }
+
+    const isIcon = collapsible === 'icon' && !open
+    const isOffcanvas = collapsible === 'offcanvas' && !open
+
+    const gapWidth = isOffcanvas
+      ? 0
+      : isIcon
+        ? variant === 'floating' || variant === 'inset'
+          ? 'calc(3rem + 1rem)'
+          : '3rem'
+        : '16rem'
+
+    const containerWidth = isIcon
+      ? variant === 'floating' || variant === 'inset'
+        ? 'calc(3rem + 1rem + 2px)'
+        : '3rem'
+      : '16rem'
+
+    return (
+      <LazyMotion features={loadDomAnimation}>
+        <div
+          ref={ref}
+          dir={direction}
+          className="group peer hidden text-sidebar-foreground md:block"
+          data-state={state}
+          data-collapsible={state === 'collapsed' ? collapsible : ''}
+          data-variant={variant}
+          data-side={side}
+          data-slot="sidebar">
+          <m.div
+            data-slot="sidebar-gap"
+            animate={{ width: gapWidth }}
+            transition={contentTransition}
+            className="relative bg-transparent"
+          />
+          <m.div
+            data-slot="sidebar-container"
+            data-side={side}
+            animate={{
+              width: containerWidth,
+              ...(isOffcanvas
+                ? side === 'left'
+                  ? { left: 'calc(-16rem)' }
+                  : { right: 'calc(-16rem)' }
+                : side === 'left'
+                  ? { left: 0 }
+                  : { right: 0 }),
+            }}
+            transition={contentTransition}
+            className={cn(
+              'fixed inset-y-0 z-10 hidden h-svh md:flex',
+              side === 'right' ? 'right-0' : 'left-0',
+              variant === 'floating' || variant === 'inset'
+                ? 'p-2'
+                : cn(side === 'left' && 'border-r', side === 'right' && 'border-l'),
+              className,
+            )}>
+            <div
+              data-sidebar="sidebar"
+              data-slot="sidebar-inner"
+              className="flex size-full flex-col overflow-hidden bg-sidebar group-data-[variant=floating]:rounded-lg group-data-[variant=floating]:shadow-sm group-data-[variant=floating]:ring-1 group-data-[variant=floating]:ring-sidebar-border">
+              {children}
+            </div>
+          </m.div>
+        </div>
+      </LazyMotion>
+    )
+  },
+)
+MotionSidebar.displayName = 'MotionSidebar'
+
 export {
+  MotionSidebar,
   Sidebar,
   SidebarContent,
   SidebarFooter,
