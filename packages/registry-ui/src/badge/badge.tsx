@@ -1,6 +1,10 @@
+'use client'
+
 import { cn } from '@gentleduck/libs/cn'
+import { contentTransition, fadeUp } from '@gentleduck/motion/presets/content'
 import { Slot } from '@gentleduck/primitives/slot'
 import type { VariantProps } from '@gentleduck/variants'
+import { motion } from 'motion/react'
 import * as React from 'react'
 import { badgeVariants } from './badge.constants'
 
@@ -16,4 +20,12 @@ const Badge = React.forwardRef<
 })
 Badge.displayName = 'Badge'
 
-export { Badge }
+type MotionSafe<T> = Omit<T, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+const MotionBadgeBase = motion.create(Badge)
+
+const MotionBadge = React.forwardRef<HTMLDivElement, MotionSafe<React.ComponentPropsWithoutRef<typeof Badge>>>(
+  (props, ref) => <MotionBadgeBase ref={ref} {...fadeUp} transition={contentTransition} {...(props as any)} />,
+)
+MotionBadge.displayName = 'MotionBadge'
+
+export { Badge, MotionBadge }
