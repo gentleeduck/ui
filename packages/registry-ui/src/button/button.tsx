@@ -1,6 +1,8 @@
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { Slot, Slottable } from '@gentleduck/primitives/slot'
 import { Loader } from 'lucide-react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from './button.constants'
 import type { AnimationIconProps, ButtonProps } from './button.types'
@@ -76,4 +78,58 @@ function AnimationIcon({ children, animationIcon }: AnimationIconProps): React.J
 }
 AnimationIcon.displayName = 'AnimationIcon'
 
-export { AnimationIcon, Button }
+/* ------------------------------------------------------------------ */
+/*  MotionButton                                                       */
+/* ------------------------------------------------------------------ */
+
+const MotionButton = React.forwardRef<
+  HTMLButtonElement,
+  Omit<ButtonProps, 'asChild' | 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+>(
+  (
+    {
+      children,
+      variant = 'default',
+      size = 'default',
+      border = 'default',
+      className,
+      loading,
+      isCollapsed,
+      icon,
+      secondIcon,
+      type = 'button',
+      disabled,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <LazyMotion features={loadDomAnimation}>
+        <m.button
+          data-slot="button"
+          whileTap={{ scale: 0.97 }}
+          transition={{ duration: 0.1 }}
+          {...props}
+          aria-busy={loading ? true : undefined}
+          className={cn(
+            buttonVariants({
+              border,
+              className,
+              size: isCollapsed ? 'icon' : size,
+              variant,
+            }),
+          )}
+          disabled={Boolean(loading) || disabled}
+          ref={ref}
+          type={type as 'button' | 'submit' | 'reset'}>
+          {loading ? <Loader aria-hidden="true" className="animate-spin" /> : icon}
+          {!isCollapsed && children}
+          {!isCollapsed && secondIcon && secondIcon}
+        </m.button>
+      </LazyMotion>
+    )
+  },
+)
+MotionButton.displayName = 'MotionButton'
+
+export { AnimationIcon, Button, MotionButton }
