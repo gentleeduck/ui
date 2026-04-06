@@ -12,18 +12,6 @@ links:
   description="A calendar showing the current date with month/year dropdowns."
 />
 
-## Blocks
-
-We have built a collection of 30+ calendar blocks that you can use to build your own calendar components.
-
-See all calendar blocks in the [Blocks Library](/blocks/calendar) page.
-
-## Migrated from react-day-picker
-
-<Callout icon={<TriangleAlert />} tone="warning" title="Migrated from react-day-picker">
-We have replaced `react-day-picker` with our own headless calendar engine  -  [`@gentleduck/calendar`](/docs/packages/duck-calendar). The result is **75% smaller bundle** (~5 KB vs ~20 KB gzipped), zero external dependencies, full keyboard navigation, and complete ARIA compliance. See the [performance benchmarks](/docs/packages/duck-calendar#performance) for detailed comparisons.
-</Callout>
-
 ## Philosophy
 
 Calendars are complex accessibility challenges disguised as simple grids. We own the entire calendar stack  -  from the headless engine ([`@gentleduck/calendar`](/docs/packages/duck-calendar)) to the compound primitives (`@gentleduck/primitives/calendar`) to this styled component. The adapter pattern lets you swap date libraries, the hook layer handles state management, and this component applies Tailwind styling via `data-*` attribute selectors.
@@ -110,10 +98,6 @@ return (
 ```
 
 See the [@gentleduck/calendar package docs](/docs/packages/duck-calendar) for more information on the headless engine, date adapters, and advanced features.
-
-## Date Picker
-
-You can use the `<Calendar>` component to build a date picker. See the [Date Picker](/docs/components/date-picker) page for more information.
 
 ## Examples
 
@@ -292,6 +276,24 @@ You can use the `<Calendar>` component to build a date picker. See the [Date Pic
   title="Persian Calendar (English)"
   description="Jalali calendar system with English month names and LTR layout."
 />
+
+## Notes
+
+### Blocks
+
+We have built a collection of 30+ calendar blocks that you can use to build your own calendar components.
+
+See all calendar blocks in the [Blocks Library](/blocks/calendar) page.
+
+### Migrated from react-day-picker
+
+<Callout icon={<TriangleAlert />} tone="warning" title="Migrated from react-day-picker">
+We have replaced `react-day-picker` with our own headless calendar engine  -  [`@gentleduck/calendar`](/docs/packages/duck-calendar). The result is **75% smaller bundle** (~5 KB vs ~20 KB gzipped), zero external dependencies, full keyboard navigation, and complete ARIA compliance. See the [performance benchmarks](/docs/packages/duck-calendar#performance) for detailed comparisons.
+</Callout>
+
+### Date Picker
+
+You can use the `<Calendar>` component to build a date picker. See the [Date Picker](/docs/components/date-picker) page for more information.
 
 ## RTL Support
 

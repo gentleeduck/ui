@@ -199,7 +199,34 @@ Use the `orientation` prop to set the orientation of the carousel.
 </Carousel>
 ```
 
-## Options
+### Slide Counter (API)
+
+<ComponentPreview
+  name="carousel-5"
+  title="Carousel"
+  description="A carousel with a slide counter."
+/>
+
+### Autoplay Plugin
+
+<ComponentPreview
+  name="carousel-6"
+  title="Carousel"
+  description="A carousel with the autoplay plugin."
+/>
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Carousel] --> B[CarouselContent]
+    B --> C[CarouselItem]
+    A --> D[CarouselPrevious]
+    A --> E[CarouselNext]
+`} />
+
+## Behavior
+
+### Options
 
 You can pass options to the carousel using the `opts` prop. See the [Embla Carousel docs](https://www.embla-carousel.com/api/options/) for more information.
 
@@ -218,15 +245,9 @@ You can pass options to the carousel using the `opts` prop. See the [Embla Carou
 </Carousel>
 ```
 
-## API
+### API
 
 Use a state and the `setApi` props to get an instance of the carousel API.
-
-<ComponentPreview
-  name="carousel-5"
-  title="Carousel"
-  description="A carousel with a slide counter."
-/>
 
 ```tsx showLineNumbers {1,4,22}
 import { type CarouselApi } from "@/components/ui/carousel"
@@ -261,7 +282,7 @@ export function Example() {
 }
 ```
 
-## Events
+### Events
 
 You can listen to events using the api instance from `setApi`.
 
@@ -295,7 +316,7 @@ export function Example() {
 
 See the [Embla Carousel docs](https://www.embla-carousel.com/api/events/) for more information on using events.
 
-## Plugins
+### Plugins
 
 You can use the `plugins` prop to add plugins to the carousel.
 
@@ -317,22 +338,7 @@ export function Example() {
 }
 ```
 
-<ComponentPreview
-  name="carousel-6"
-  title="Carousel"
-  description="A carousel with the autoplay plugin."
-/>
-
 See the [Embla Carousel docs](https://www.embla-carousel.com/api/plugins/) for more information on using plugins.
-
-## Component Composition
-
-<MermaidDiagram chart={`graph TD
-    A[Carousel] --> B[CarouselContent]
-    B --> C[CarouselItem]
-    A --> D[CarouselPrevious]
-    A --> E[CarouselNext]
-`} />
 
 ## RTL Support
 
