@@ -140,6 +140,15 @@ To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, y
 </Dialog>
 ```
 
+### Active Trigger on Open
+
+Style the trigger to appear active while the dialog is open using `data-[state=open]`:
+
+<ComponentPreview
+  name="dialog-4"
+  description="A dialog with an active trigger style when open."
+/>
+
 ## Component Composition
 
 <MermaidDiagram chart={`graph TD
@@ -151,15 +160,6 @@ To use the `Dialog` component from within a `Context Menu` or `Dropdown Menu`, y
     D --> G[DialogDescription]
     C --> H[DialogClose]
 `} />
-
-### Active Trigger on Open
-
-Style the trigger to appear active while the dialog is open using `data-[state=open]`:
-
-<ComponentPreview
-  name="dialog-4"
-  description="A dialog with an active trigger style when open."
-/>
 
 ## RTL Support
 
