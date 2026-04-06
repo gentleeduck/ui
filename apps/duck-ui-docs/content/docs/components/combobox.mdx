@@ -145,21 +145,6 @@ export function ExampleCombobox() {
 
 Note: The `Combobox` wrapper component (`@/components/ui/combobox`) uses item `value`s for `value`, `defaultValue`, and `onValueChange`. Use `label` for display only.
 
-## Component Composition
-
-<MermaidDiagram chart={`graph TD
-    A[Combobox] --> B[Popover]
-    A --> C[Command]
-    B --> D[PopoverTrigger]
-    B --> E[PopoverContent]
-    E --> C
-    C --> F[CommandInput]
-    C --> G[CommandList]
-    G --> H[CommandEmpty]
-    G --> I[ComboboxGroup]
-    I --> J[ComboboxItem]
-`} />
-
 ## Examples
 
 ### Combobox
@@ -198,6 +183,21 @@ You can create a responsive combobox by using the `<Popover />` on desktop and t
   name="combobox-6"
   description="A combobox integrated with React Hook Form for language selection with validation."
 />
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Combobox] --> B[Popover]
+    A --> C[Command]
+    B --> D[PopoverTrigger]
+    B --> E[PopoverContent]
+    E --> C
+    C --> F[CommandInput]
+    C --> G[CommandList]
+    G --> H[CommandEmpty]
+    G --> I[ComboboxGroup]
+    I --> J[ComboboxItem]
+`} />
 
 ## RTL Support
 
