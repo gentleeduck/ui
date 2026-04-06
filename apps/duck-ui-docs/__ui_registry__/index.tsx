@@ -314,13 +314,16 @@ const _Alert1 = dynamic(() => import('@gentleduck/registry-examples/alert/alert-
 const _Alert2 = dynamic(() => import('@gentleduck/registry-examples/alert/alert-2'), { ssr: false })
 const _Alert3 = dynamic(() => import('@gentleduck/registry-examples/alert/alert-3'), { ssr: false })
 const _Alert4 = dynamic(() => import('@gentleduck/registry-examples/alert/alert-4'), { ssr: false })
+const _Alert5 = dynamic(() => import('@gentleduck/registry-examples/alert/alert-5'), { ssr: false })
 const _AlertDialog1 = dynamic(() => import('@gentleduck/registry-examples/alert-dialog/alert-dialog-1'), { ssr: false })
 const _AlertDialog2 = dynamic(() => import('@gentleduck/registry-examples/alert-dialog/alert-dialog-2'), { ssr: false })
 const _AlertDialog3 = dynamic(() => import('@gentleduck/registry-examples/alert-dialog/alert-dialog-3'), { ssr: false })
 const _AlertDialog4 = dynamic(() => import('@gentleduck/registry-examples/alert-dialog/alert-dialog-4'), { ssr: false })
 const _Avatar1 = dynamic(() => import('@gentleduck/registry-examples/avatar/avatar-1'), { ssr: false })
 const _Avatar2 = dynamic(() => import('@gentleduck/registry-examples/avatar/avatar-2'), { ssr: false })
+const _Avatar3 = dynamic(() => import('@gentleduck/registry-examples/avatar/avatar-3'), { ssr: false })
 const _Badge1 = dynamic(() => import('@gentleduck/registry-examples/badge/badge-1'), { ssr: false })
+const _Badge10 = dynamic(() => import('@gentleduck/registry-examples/badge/badge-10'), { ssr: false })
 const _Badge2 = dynamic(() => import('@gentleduck/registry-examples/badge/badge-2'), { ssr: false })
 const _Badge3 = dynamic(() => import('@gentleduck/registry-examples/badge/badge-3'), { ssr: false })
 const _Badge4 = dynamic(() => import('@gentleduck/registry-examples/badge/badge-4'), { ssr: false })
@@ -351,6 +354,7 @@ const _Button7 = dynamic(() => import('@gentleduck/registry-examples/button/butt
 const _Button8 = dynamic(() => import('@gentleduck/registry-examples/button/button-8'), { ssr: false })
 const _Button9 = dynamic(() => import('@gentleduck/registry-examples/button/button-9'), { ssr: false })
 const _Breadcrumb1 = dynamic(() => import('@gentleduck/registry-examples/breadcrumb/breadcrumb-1'), { ssr: false })
+const _Breadcrumb10 = dynamic(() => import('@gentleduck/registry-examples/breadcrumb/breadcrumb-10'), { ssr: false })
 const _Breadcrumb2 = dynamic(() => import('@gentleduck/registry-examples/breadcrumb/breadcrumb-2'), { ssr: false })
 const _Breadcrumb3 = dynamic(() => import('@gentleduck/registry-examples/breadcrumb/breadcrumb-3'), { ssr: false })
 const _Breadcrumb4 = dynamic(() => import('@gentleduck/registry-examples/breadcrumb/breadcrumb-4'), { ssr: false })
@@ -492,6 +496,7 @@ const _Tooltip4 = dynamic(() => import('@gentleduck/registry-examples/tooltip/to
 const _Tooltip5 = dynamic(() => import('@gentleduck/registry-examples/tooltip/tooltip-5'), { ssr: false })
 const _AspectRatio1 = dynamic(() => import('@gentleduck/registry-examples/aspect-ratio/aspect-ratio-1'), { ssr: false })
 const _AspectRatio2 = dynamic(() => import('@gentleduck/registry-examples/aspect-ratio/aspect-ratio-2'), { ssr: false })
+const _AspectRatio3 = dynamic(() => import('@gentleduck/registry-examples/aspect-ratio/aspect-ratio-3'), { ssr: false })
 const _Typography1 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-1'), { ssr: false })
 const _Typography10 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-10'), { ssr: false })
 const _Typography11 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-11'), { ssr: false })
@@ -635,6 +640,9 @@ const _ButtonGroup11 = dynamic(() => import('@gentleduck/registry-examples/butto
   ssr: false,
 })
 const _ButtonGroup12 = dynamic(() => import('@gentleduck/registry-examples/button-group/button-group-12'), {
+  ssr: false,
+})
+const _ButtonGroup13 = dynamic(() => import('@gentleduck/registry-examples/button-group/button-group-13'), {
   ssr: false,
 })
 const _ButtonGroup2 = dynamic(() => import('@gentleduck/registry-examples/button-group/button-group-2'), { ssr: false })
@@ -2831,6 +2839,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'alert',
   },
+  'alert-5': {
+    name: 'alert-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['alert'],
+    files: [
+      {
+        path: 'alert/alert-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Alert5,
+    source: '/registry-examples/src/alert',
+    categories: [],
+    root_folder: 'alert',
+  },
   'alert-dialog-1': {
     name: 'alert-dialog-1',
     description: '',
@@ -2927,6 +2951,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'avatar',
   },
+  'avatar-3': {
+    name: 'avatar-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['avatar'],
+    files: [
+      {
+        path: 'avatar/avatar-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Avatar3,
+    source: '/registry-examples/src/avatar',
+    categories: [],
+    root_folder: 'avatar',
+  },
   'badge-1': {
     name: 'badge-1',
     description: '',
@@ -2939,6 +2979,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Badge1,
+    source: '/registry-examples/src/badge',
+    categories: [],
+    root_folder: 'badge',
+  },
+  'badge-10': {
+    name: 'badge-10',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['badge'],
+    files: [
+      {
+        path: 'badge/badge-10.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Badge10,
     source: '/registry-examples/src/badge',
     categories: [],
     root_folder: 'badge',
@@ -3419,6 +3475,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Breadcrumb1,
+    source: '/registry-examples/src/breadcrumb',
+    categories: [],
+    root_folder: 'breadcrumb',
+  },
+  'breadcrumb-10': {
+    name: 'breadcrumb-10',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['breadcrumb'],
+    files: [
+      {
+        path: 'breadcrumb/breadcrumb-10.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Breadcrumb10,
     source: '/registry-examples/src/breadcrumb',
     categories: [],
     root_folder: 'breadcrumb',
@@ -5679,6 +5751,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'aspect-ratio',
   },
+  'aspect-ratio-3': {
+    name: 'aspect-ratio-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['aspect-ratio'],
+    files: [
+      {
+        path: 'aspect-ratio/aspect-ratio-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _AspectRatio3,
+    source: '/registry-examples/src/aspect-ratio',
+    categories: [],
+    root_folder: 'aspect-ratio',
+  },
   'typography-1': {
     name: 'typography-1',
     description: '',
@@ -7339,6 +7427,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _ButtonGroup12,
+    source: '/registry-examples/src/button-group',
+    categories: [],
+    root_folder: 'button-group',
+  },
+  'button-group-13': {
+    name: 'button-group-13',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['button-group'],
+    files: [
+      {
+        path: 'button-group/button-group-13.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _ButtonGroup13,
     source: '/registry-examples/src/button-group',
     categories: [],
     root_folder: 'button-group',
