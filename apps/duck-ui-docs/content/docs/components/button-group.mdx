@@ -205,6 +205,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="A button group with RTL support."
 />
 
+## Motion
+
+Use `MotionButtonGroup` for a smooth fade-up entrance animation powered by [motion](https://motion.dev).
+
+<ComponentPreview
+  name="button-group-13"
+  description="A button group with motion-powered fade-up entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionButtonGroup` instead of `ButtonGroup`. All other sub-components stay the same.
+</Callout>
+
 ## API Reference
 
 ### ButtonGroup
@@ -233,3 +246,7 @@ Direction is resolved through the shared primitives direction module. Use a loca
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Text content to display |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### MotionButtonGroup
+
+Same props as `ButtonGroup`. Fades up with blur on mount using the `fadeUp` preset. Requires the `motion` package.

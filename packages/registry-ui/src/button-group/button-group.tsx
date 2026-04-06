@@ -1,7 +1,11 @@
+'use client'
+
 import { cn } from '@gentleduck/libs/cn'
+import { contentTransition, fadeUp } from '@gentleduck/motion/presets/content'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import type { VariantProps } from '@gentleduck/variants'
+import { motion } from 'motion/react'
 import * as React from 'react'
 import { Separator } from '../separator'
 import { buttonGroupVariants } from './button-group.constants'
@@ -63,4 +67,17 @@ const ButtonGroupSeparator = React.forwardRef<
 })
 ButtonGroupSeparator.displayName = 'ButtonGroupSeparator'
 
-export { ButtonGroup, ButtonGroupSeparator, ButtonGroupText }
+/* ------------------------------------------------------------------ */
+/*  MotionButtonGroup                                                  */
+/* ------------------------------------------------------------------ */
+
+type MotionSafe<T> = Omit<T, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+const MotionButtonGroupBase = motion.create(ButtonGroup)
+
+const MotionButtonGroup = React.forwardRef<
+  HTMLDivElement,
+  MotionSafe<React.ComponentPropsWithoutRef<typeof ButtonGroup>>
+>((props, ref) => <MotionButtonGroupBase ref={ref} {...fadeUp} transition={contentTransition} {...(props as any)} />)
+MotionButtonGroup.displayName = 'MotionButtonGroup'
+
+export { ButtonGroup, ButtonGroupSeparator, ButtonGroupText, MotionButtonGroup }
