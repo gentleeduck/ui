@@ -14946,6 +14946,11 @@
         "name": "toggle-8.tsx",
         "path": "toggle/toggle-8.tsx",
         "type": "file"
+      },
+      {
+        "name": "toggle-9.tsx",
+        "path": "toggle/toggle-9.tsx",
+        "type": "file"
       }
     ]
   },
@@ -15002,6 +15007,11 @@
       {
         "name": "toggle-8.tsx",
         "path": "toggle/toggle-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-9.tsx",
+        "path": "toggle/toggle-9.tsx",
         "type": "file"
       }
     ]
@@ -15060,6 +15070,11 @@
         "name": "toggle-8.tsx",
         "path": "toggle/toggle-8.tsx",
         "type": "file"
+      },
+      {
+        "name": "toggle-9.tsx",
+        "path": "toggle/toggle-9.tsx",
+        "type": "file"
       }
     ]
   },
@@ -15116,6 +15131,11 @@
       {
         "name": "toggle-8.tsx",
         "path": "toggle/toggle-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-9.tsx",
+        "path": "toggle/toggle-9.tsx",
         "type": "file"
       }
     ]
@@ -15174,6 +15194,11 @@
         "name": "toggle-8.tsx",
         "path": "toggle/toggle-8.tsx",
         "type": "file"
+      },
+      {
+        "name": "toggle-9.tsx",
+        "path": "toggle/toggle-9.tsx",
+        "type": "file"
       }
     ]
   },
@@ -15230,6 +15255,11 @@
       {
         "name": "toggle-8.tsx",
         "path": "toggle/toggle-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-9.tsx",
+        "path": "toggle/toggle-9.tsx",
         "type": "file"
       }
     ]
@@ -15288,6 +15318,11 @@
         "name": "toggle-8.tsx",
         "path": "toggle/toggle-8.tsx",
         "type": "file"
+      },
+      {
+        "name": "toggle-9.tsx",
+        "path": "toggle/toggle-9.tsx",
+        "type": "file"
       }
     ]
   },
@@ -15344,6 +15379,73 @@
       {
         "name": "toggle-8.tsx",
         "path": "toggle/toggle-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-9.tsx",
+        "path": "toggle/toggle-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "toggle/toggle-9.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "toggle-9",
+    "registryDependencies": [
+      "toggle"
+    ],
+    "root_folder": "toggle",
+    "type": "registry:example",
+    "source": "/registry-examples/src/toggle",
+    "tree": [
+      {
+        "name": "toggle-1.tsx",
+        "path": "toggle/toggle-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-2.tsx",
+        "path": "toggle/toggle-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-3.tsx",
+        "path": "toggle/toggle-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-4.tsx",
+        "path": "toggle/toggle-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-5.tsx",
+        "path": "toggle/toggle-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-6.tsx",
+        "path": "toggle/toggle-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-7.tsx",
+        "path": "toggle/toggle-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-8.tsx",
+        "path": "toggle/toggle-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-9.tsx",
+        "path": "toggle/toggle-9.tsx",
         "type": "file"
       }
     ]
@@ -26829,6 +26931,11 @@
         "name": "sidebar-6.tsx",
         "path": "sidebar/sidebar-6.tsx",
         "type": "file"
+      },
+      {
+        "name": "sidebar-7.tsx",
+        "path": "sidebar/sidebar-7.tsx",
+        "type": "file"
       }
     ]
   },
@@ -26875,6 +26982,11 @@
       {
         "name": "sidebar-6.tsx",
         "path": "sidebar/sidebar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-7.tsx",
+        "path": "sidebar/sidebar-7.tsx",
         "type": "file"
       }
     ]
@@ -26923,6 +27035,11 @@
         "name": "sidebar-6.tsx",
         "path": "sidebar/sidebar-6.tsx",
         "type": "file"
+      },
+      {
+        "name": "sidebar-7.tsx",
+        "path": "sidebar/sidebar-7.tsx",
+        "type": "file"
       }
     ]
   },
@@ -26969,6 +27086,11 @@
       {
         "name": "sidebar-6.tsx",
         "path": "sidebar/sidebar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-7.tsx",
+        "path": "sidebar/sidebar-7.tsx",
         "type": "file"
       }
     ]
@@ -27017,6 +27139,11 @@
         "name": "sidebar-6.tsx",
         "path": "sidebar/sidebar-6.tsx",
         "type": "file"
+      },
+      {
+        "name": "sidebar-7.tsx",
+        "path": "sidebar/sidebar-7.tsx",
+        "type": "file"
       }
     ]
   },
@@ -27063,6 +27190,63 @@
       {
         "name": "sidebar-6.tsx",
         "path": "sidebar/sidebar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-7.tsx",
+        "path": "sidebar/sidebar-7.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "sidebar/sidebar-7.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "sidebar-7",
+    "registryDependencies": [
+      "sidebar"
+    ],
+    "root_folder": "sidebar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/sidebar",
+    "tree": [
+      {
+        "name": "sidebar-1.tsx",
+        "path": "sidebar/sidebar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-2.tsx",
+        "path": "sidebar/sidebar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-3.tsx",
+        "path": "sidebar/sidebar-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-4.tsx",
+        "path": "sidebar/sidebar-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-5.tsx",
+        "path": "sidebar/sidebar-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-6.tsx",
+        "path": "sidebar/sidebar-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "sidebar-7.tsx",
+        "path": "sidebar/sidebar-7.tsx",
         "type": "file"
       }
     ]

@@ -99,8 +99,6 @@ export function AppSidebar() {
 
 The `SidebarProvider` component is used to provide the sidebar context to the `Sidebar` component. You should always wrap your application in a `SidebarProvider` component.
 
-### Props
-
 | Name           | Type                      | Description                                  |
 | -------------- | ------------------------- | -------------------------------------------- |
 | `defaultOpen`  | `boolean`                 | Default open state of the sidebar.           |
@@ -143,8 +141,6 @@ const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 ## Sidebar
 
 The main `Sidebar` component used to render a collapsible sidebar.
-
-### Props
 
 | Property | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -274,8 +270,6 @@ Use the `SidebarFooter` component to add a sticky footer to the sidebar.
 
 The `SidebarContent` component is used to wrap the content of the sidebar. This is where you add your `SidebarGroup` components. It is scrollable.
 
-### Props
-
 | Name       | Type      | Default | Description                                       |
 | ---------- | --------- | ------- | ------------------------------------------------- |
 | `noScroll` | `boolean` | `true`  | Hides the scrollbar while keeping scroll behavior. |
@@ -356,8 +350,6 @@ The `SidebarMenuButton` component is used to render a menu button within a `Side
 
 By default, the `SidebarMenuButton` renders a button but you can use the `asChild` prop to render a different component such as a `Link` or an `a` tag.
 
-### Props
-
 | Name       | Type                                          | Default     | Description                                    |
 | ---------- | --------------------------------------------- | ----------- | ---------------------------------------------- |
 | `asChild`  | `boolean`                                     | `false`     | Render as child element.                       |
@@ -401,8 +393,6 @@ You can also pass `TooltipContent` props for more control:
 ## SidebarMenuAction
 
 The `SidebarMenuAction` component is used to render a menu action within a `SidebarMenuItem`.
-
-### Props
 
 | Name          | Type      | Default | Description                                      |
 | ------------- | --------- | ------- | ------------------------------------------------ |
@@ -469,8 +459,6 @@ The `SidebarMenuBadge` component is used to render a badge within a `SidebarMenu
 ## SidebarMenuSkeleton
 
 The `SidebarMenuSkeleton` component is used to render a skeleton for a `SidebarMenu`.
-
-### Props
 
 | Name       | Type      | Default | Description                          |
 | ---------- | --------- | ------- | ------------------------------------ |
@@ -637,3 +625,17 @@ Set `dir="rtl"` on `Sidebar` for a local override, or set `DirectionProvider` on
   {/* ... */}
 </Sidebar>
 ```
+
+## Motion
+
+Use `MotionSidebar` for smooth width animations powered by [motion](https://motion.dev). The sidebar width animates with expo-out easing when collapsing and expanding.
+
+<ComponentPreview
+  name="sidebar-7"
+  description="A sidebar with motion-powered collapse animation."
+  className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch"
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionSidebar` instead of `Sidebar`. All other sub-components (`SidebarProvider`, `SidebarContent`, `SidebarTrigger`, etc.) stay the same.
+</Callout>
