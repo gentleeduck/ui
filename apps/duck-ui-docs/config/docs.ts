@@ -972,6 +972,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/alert',
           items: [],
+          label: 'new',
           title: 'Alert',
         },
         {
@@ -983,21 +984,25 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/aspect-ratio',
           items: [],
+          label: 'new',
           title: 'Aspect Ratio',
         },
         {
           href: '/docs/components/avatar',
           items: [],
+          label: 'new',
           title: 'Avatar',
         },
         {
           href: '/docs/components/badge',
           items: [],
+          label: 'new',
           title: 'Badge',
         },
         {
           href: '/docs/components/breadcrumb',
           items: [],
+          label: 'new',
           title: 'Breadcrumb',
         },
         {
@@ -1009,6 +1014,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/button-group',
           items: [],
+          label: 'new',
           title: 'Button Group',
         },
         {

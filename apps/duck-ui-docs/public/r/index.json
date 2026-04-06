@@ -3950,6 +3950,11 @@
         "name": "alert-4.tsx",
         "path": "alert/alert-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "alert-5.tsx",
+        "path": "alert/alert-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -3986,6 +3991,11 @@
       {
         "name": "alert-4.tsx",
         "path": "alert/alert-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "alert-5.tsx",
+        "path": "alert/alert-5.tsx",
         "type": "file"
       }
     ]
@@ -4024,6 +4034,11 @@
         "name": "alert-4.tsx",
         "path": "alert/alert-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "alert-5.tsx",
+        "path": "alert/alert-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -4060,6 +4075,53 @@
       {
         "name": "alert-4.tsx",
         "path": "alert/alert-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "alert-5.tsx",
+        "path": "alert/alert-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "alert/alert-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "alert-5",
+    "registryDependencies": [
+      "alert"
+    ],
+    "root_folder": "alert",
+    "type": "registry:example",
+    "source": "/registry-examples/src/alert",
+    "tree": [
+      {
+        "name": "alert-1.tsx",
+        "path": "alert/alert-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "alert-2.tsx",
+        "path": "alert/alert-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "alert-3.tsx",
+        "path": "alert/alert-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "alert-4.tsx",
+        "path": "alert/alert-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "alert-5.tsx",
+        "path": "alert/alert-5.tsx",
         "type": "file"
       }
     ]
@@ -4236,6 +4298,11 @@
         "name": "avatar-2.tsx",
         "path": "avatar/avatar-2.tsx",
         "type": "file"
+      },
+      {
+        "name": "avatar-3.tsx",
+        "path": "avatar/avatar-3.tsx",
+        "type": "file"
       }
     ]
   },
@@ -4263,6 +4330,43 @@
         "name": "avatar-2.tsx",
         "path": "avatar/avatar-2.tsx",
         "type": "file"
+      },
+      {
+        "name": "avatar-3.tsx",
+        "path": "avatar/avatar-3.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "avatar/avatar-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "avatar-3",
+    "registryDependencies": [
+      "avatar"
+    ],
+    "root_folder": "avatar",
+    "type": "registry:example",
+    "source": "/registry-examples/src/avatar",
+    "tree": [
+      {
+        "name": "avatar-1.tsx",
+        "path": "avatar/avatar-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "avatar-2.tsx",
+        "path": "avatar/avatar-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "avatar-3.tsx",
+        "path": "avatar/avatar-3.tsx",
+        "type": "file"
       }
     ]
   },
@@ -4284,6 +4388,78 @@
       {
         "name": "badge-1.tsx",
         "path": "badge/badge-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "badge-10.tsx",
+        "path": "badge/badge-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "badge-2.tsx",
+        "path": "badge/badge-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "badge-3.tsx",
+        "path": "badge/badge-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "badge-4.tsx",
+        "path": "badge/badge-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "badge-5.tsx",
+        "path": "badge/badge-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "badge-6.tsx",
+        "path": "badge/badge-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "badge-7.tsx",
+        "path": "badge/badge-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "badge-8.tsx",
+        "path": "badge/badge-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "badge-9.tsx",
+        "path": "badge/badge-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "badge/badge-10.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "badge-10",
+    "registryDependencies": [
+      "badge"
+    ],
+    "root_folder": "badge",
+    "type": "registry:example",
+    "source": "/registry-examples/src/badge",
+    "tree": [
+      {
+        "name": "badge-1.tsx",
+        "path": "badge/badge-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "badge-10.tsx",
+        "path": "badge/badge-10.tsx",
         "type": "file"
       },
       {
@@ -4349,6 +4525,11 @@
         "type": "file"
       },
       {
+        "name": "badge-10.tsx",
+        "path": "badge/badge-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "badge-2.tsx",
         "path": "badge/badge-2.tsx",
         "type": "file"
@@ -4408,6 +4589,11 @@
       {
         "name": "badge-1.tsx",
         "path": "badge/badge-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "badge-10.tsx",
+        "path": "badge/badge-10.tsx",
         "type": "file"
       },
       {
@@ -4473,6 +4659,11 @@
         "type": "file"
       },
       {
+        "name": "badge-10.tsx",
+        "path": "badge/badge-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "badge-2.tsx",
         "path": "badge/badge-2.tsx",
         "type": "file"
@@ -4532,6 +4723,11 @@
       {
         "name": "badge-1.tsx",
         "path": "badge/badge-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "badge-10.tsx",
+        "path": "badge/badge-10.tsx",
         "type": "file"
       },
       {
@@ -4597,6 +4793,11 @@
         "type": "file"
       },
       {
+        "name": "badge-10.tsx",
+        "path": "badge/badge-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "badge-2.tsx",
         "path": "badge/badge-2.tsx",
         "type": "file"
@@ -4656,6 +4857,11 @@
       {
         "name": "badge-1.tsx",
         "path": "badge/badge-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "badge-10.tsx",
+        "path": "badge/badge-10.tsx",
         "type": "file"
       },
       {
@@ -4721,6 +4927,11 @@
         "type": "file"
       },
       {
+        "name": "badge-10.tsx",
+        "path": "badge/badge-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "badge-2.tsx",
         "path": "badge/badge-2.tsx",
         "type": "file"
@@ -4780,6 +4991,11 @@
       {
         "name": "badge-1.tsx",
         "path": "badge/badge-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "badge-10.tsx",
+        "path": "badge/badge-10.tsx",
         "type": "file"
       },
       {
@@ -7407,6 +7623,78 @@
         "type": "file"
       },
       {
+        "name": "breadcrumb-10.tsx",
+        "path": "breadcrumb/breadcrumb-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "breadcrumb-2.tsx",
+        "path": "breadcrumb/breadcrumb-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "breadcrumb-3.tsx",
+        "path": "breadcrumb/breadcrumb-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "breadcrumb-4.tsx",
+        "path": "breadcrumb/breadcrumb-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "breadcrumb-5.tsx",
+        "path": "breadcrumb/breadcrumb-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "breadcrumb-6.tsx",
+        "path": "breadcrumb/breadcrumb-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "breadcrumb-7.tsx",
+        "path": "breadcrumb/breadcrumb-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "breadcrumb-8.tsx",
+        "path": "breadcrumb/breadcrumb-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "breadcrumb-9.tsx",
+        "path": "breadcrumb/breadcrumb-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "breadcrumb/breadcrumb-10.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "breadcrumb-10",
+    "registryDependencies": [
+      "breadcrumb"
+    ],
+    "root_folder": "breadcrumb",
+    "type": "registry:example",
+    "source": "/registry-examples/src/breadcrumb",
+    "tree": [
+      {
+        "name": "breadcrumb-1.tsx",
+        "path": "breadcrumb/breadcrumb-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "breadcrumb-10.tsx",
+        "path": "breadcrumb/breadcrumb-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "breadcrumb-2.tsx",
         "path": "breadcrumb/breadcrumb-2.tsx",
         "type": "file"
@@ -7466,6 +7754,11 @@
       {
         "name": "breadcrumb-1.tsx",
         "path": "breadcrumb/breadcrumb-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "breadcrumb-10.tsx",
+        "path": "breadcrumb/breadcrumb-10.tsx",
         "type": "file"
       },
       {
@@ -7531,6 +7824,11 @@
         "type": "file"
       },
       {
+        "name": "breadcrumb-10.tsx",
+        "path": "breadcrumb/breadcrumb-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "breadcrumb-2.tsx",
         "path": "breadcrumb/breadcrumb-2.tsx",
         "type": "file"
@@ -7590,6 +7888,11 @@
       {
         "name": "breadcrumb-1.tsx",
         "path": "breadcrumb/breadcrumb-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "breadcrumb-10.tsx",
+        "path": "breadcrumb/breadcrumb-10.tsx",
         "type": "file"
       },
       {
@@ -7655,6 +7958,11 @@
         "type": "file"
       },
       {
+        "name": "breadcrumb-10.tsx",
+        "path": "breadcrumb/breadcrumb-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "breadcrumb-2.tsx",
         "path": "breadcrumb/breadcrumb-2.tsx",
         "type": "file"
@@ -7714,6 +8022,11 @@
       {
         "name": "breadcrumb-1.tsx",
         "path": "breadcrumb/breadcrumb-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "breadcrumb-10.tsx",
+        "path": "breadcrumb/breadcrumb-10.tsx",
         "type": "file"
       },
       {
@@ -7779,6 +8092,11 @@
         "type": "file"
       },
       {
+        "name": "breadcrumb-10.tsx",
+        "path": "breadcrumb/breadcrumb-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "breadcrumb-2.tsx",
         "path": "breadcrumb/breadcrumb-2.tsx",
         "type": "file"
@@ -7841,6 +8159,11 @@
         "type": "file"
       },
       {
+        "name": "breadcrumb-10.tsx",
+        "path": "breadcrumb/breadcrumb-10.tsx",
+        "type": "file"
+      },
+      {
         "name": "breadcrumb-2.tsx",
         "path": "breadcrumb/breadcrumb-2.tsx",
         "type": "file"
@@ -7900,6 +8223,11 @@
       {
         "name": "breadcrumb-1.tsx",
         "path": "breadcrumb/breadcrumb-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "breadcrumb-10.tsx",
+        "path": "breadcrumb/breadcrumb-10.tsx",
         "type": "file"
       },
       {
@@ -16140,6 +16468,11 @@
         "name": "aspect-ratio-2.tsx",
         "path": "aspect-ratio/aspect-ratio-2.tsx",
         "type": "file"
+      },
+      {
+        "name": "aspect-ratio-3.tsx",
+        "path": "aspect-ratio/aspect-ratio-3.tsx",
+        "type": "file"
       }
     ]
   },
@@ -16166,6 +16499,43 @@
       {
         "name": "aspect-ratio-2.tsx",
         "path": "aspect-ratio/aspect-ratio-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "aspect-ratio-3.tsx",
+        "path": "aspect-ratio/aspect-ratio-3.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "aspect-ratio/aspect-ratio-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "aspect-ratio-3",
+    "registryDependencies": [
+      "aspect-ratio"
+    ],
+    "root_folder": "aspect-ratio",
+    "type": "registry:example",
+    "source": "/registry-examples/src/aspect-ratio",
+    "tree": [
+      {
+        "name": "aspect-ratio-1.tsx",
+        "path": "aspect-ratio/aspect-ratio-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "aspect-ratio-2.tsx",
+        "path": "aspect-ratio/aspect-ratio-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "aspect-ratio-3.tsx",
+        "path": "aspect-ratio/aspect-ratio-3.tsx",
         "type": "file"
       }
     ]
@@ -22193,6 +22563,11 @@
         "type": "file"
       },
       {
+        "name": "button-group-13.tsx",
+        "path": "button-group/button-group-13.tsx",
+        "type": "file"
+      },
+      {
         "name": "button-group-2.tsx",
         "path": "button-group/button-group-2.tsx",
         "type": "file"
@@ -22267,6 +22642,11 @@
       {
         "name": "button-group-12.tsx",
         "path": "button-group/button-group-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-13.tsx",
+        "path": "button-group/button-group-13.tsx",
         "type": "file"
       },
       {
@@ -22347,6 +22727,11 @@
         "type": "file"
       },
       {
+        "name": "button-group-13.tsx",
+        "path": "button-group/button-group-13.tsx",
+        "type": "file"
+      },
+      {
         "name": "button-group-2.tsx",
         "path": "button-group/button-group-2.tsx",
         "type": "file"
@@ -22421,6 +22806,93 @@
       {
         "name": "button-group-12.tsx",
         "path": "button-group/button-group-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-13.tsx",
+        "path": "button-group/button-group-13.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-2.tsx",
+        "path": "button-group/button-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-3.tsx",
+        "path": "button-group/button-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-4.tsx",
+        "path": "button-group/button-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-5.tsx",
+        "path": "button-group/button-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-6.tsx",
+        "path": "button-group/button-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-7.tsx",
+        "path": "button-group/button-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-8.tsx",
+        "path": "button-group/button-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-9.tsx",
+        "path": "button-group/button-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "button-group/button-group-13.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "button-group-13",
+    "registryDependencies": [
+      "button-group"
+    ],
+    "root_folder": "button-group",
+    "type": "registry:example",
+    "source": "/registry-examples/src/button-group",
+    "tree": [
+      {
+        "name": "button-group-1.tsx",
+        "path": "button-group/button-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-10.tsx",
+        "path": "button-group/button-group-10.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-11.tsx",
+        "path": "button-group/button-group-11.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-12.tsx",
+        "path": "button-group/button-group-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-13.tsx",
+        "path": "button-group/button-group-13.tsx",
         "type": "file"
       },
       {
@@ -22501,6 +22973,11 @@
         "type": "file"
       },
       {
+        "name": "button-group-13.tsx",
+        "path": "button-group/button-group-13.tsx",
+        "type": "file"
+      },
+      {
         "name": "button-group-2.tsx",
         "path": "button-group/button-group-2.tsx",
         "type": "file"
@@ -22575,6 +23052,11 @@
       {
         "name": "button-group-12.tsx",
         "path": "button-group/button-group-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-13.tsx",
+        "path": "button-group/button-group-13.tsx",
         "type": "file"
       },
       {
@@ -22655,6 +23137,11 @@
         "type": "file"
       },
       {
+        "name": "button-group-13.tsx",
+        "path": "button-group/button-group-13.tsx",
+        "type": "file"
+      },
+      {
         "name": "button-group-2.tsx",
         "path": "button-group/button-group-2.tsx",
         "type": "file"
@@ -22729,6 +23216,11 @@
       {
         "name": "button-group-12.tsx",
         "path": "button-group/button-group-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-13.tsx",
+        "path": "button-group/button-group-13.tsx",
         "type": "file"
       },
       {
@@ -22809,6 +23301,11 @@
         "type": "file"
       },
       {
+        "name": "button-group-13.tsx",
+        "path": "button-group/button-group-13.tsx",
+        "type": "file"
+      },
+      {
         "name": "button-group-2.tsx",
         "path": "button-group/button-group-2.tsx",
         "type": "file"
@@ -22883,6 +23380,11 @@
       {
         "name": "button-group-12.tsx",
         "path": "button-group/button-group-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-13.tsx",
+        "path": "button-group/button-group-13.tsx",
         "type": "file"
       },
       {
@@ -22963,6 +23465,11 @@
         "type": "file"
       },
       {
+        "name": "button-group-13.tsx",
+        "path": "button-group/button-group-13.tsx",
+        "type": "file"
+      },
+      {
         "name": "button-group-2.tsx",
         "path": "button-group/button-group-2.tsx",
         "type": "file"
@@ -23037,6 +23544,11 @@
       {
         "name": "button-group-12.tsx",
         "path": "button-group/button-group-12.tsx",
+        "type": "file"
+      },
+      {
+        "name": "button-group-13.tsx",
+        "path": "button-group/button-group-13.tsx",
         "type": "file"
       },
       {
