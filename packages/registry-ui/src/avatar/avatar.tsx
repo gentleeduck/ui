@@ -1,7 +1,9 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { contentTransition, spinIn } from '@gentleduck/motion/presets/content'
 import * as AvatarPrimitive from '@gentleduck/primitives/avatar'
+import { motion } from 'motion/react'
 import * as React from 'react'
 
 const Avatar = React.forwardRef<
@@ -75,4 +77,48 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
 )
 AvatarGroup.displayName = 'AvatarGroup'
 
-export { Avatar, AvatarFallback, AvatarGroup, AvatarImage }
+/* ------------------------------------------------------------------ */
+/*  Motion variants via motion.create()                                */
+/* ------------------------------------------------------------------ */
+
+type MotionSafe<T> = Omit<T, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+const MotionAvatarBase = motion.create(Avatar)
+const MotionAvatar = React.forwardRef<
+  React.ComponentRef<typeof Avatar>,
+  MotionSafe<React.ComponentPropsWithoutRef<typeof Avatar>>
+>((props, ref) => <MotionAvatarBase ref={ref} {...spinIn} transition={contentTransition} {...(props as any)} />)
+MotionAvatar.displayName = 'MotionAvatar'
+
+const MotionAvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
+  ({ imgs, maxVisible = 3, className, ...props }, ref) => {
+    const visibleImgs = imgs.slice(0, maxVisible)
+    const overflowCount = imgs.length > maxVisible ? imgs.length - maxVisible : 0
+    const MotionDiv = motion.div
+
+    return (
+      <div className={cn('flex items-center -space-x-5', className)} ref={ref} {...props}>
+        {visibleImgs.map((img, i) => (
+          <MotionDiv key={img.id} {...spinIn} transition={{ ...contentTransition, delay: i * 0.08 }}>
+            <Avatar className={cn('border-2 border-border')}>
+              <AvatarImage alt={img.alt} src={img.src} />
+              <AvatarFallback>{img.fallback?.slice(0, 2) ?? img.alt?.slice(0, 2)}</AvatarFallback>
+            </Avatar>
+          </MotionDiv>
+        ))}
+        {overflowCount > 0 && (
+          <MotionDiv
+            {...spinIn}
+            transition={{ ...contentTransition, delay: visibleImgs.length * 0.08 }}
+            className="relative z-10 inline-block">
+            <div className="flex size-10 items-center justify-center rounded-full bg-primary font-medium text-primary-foreground text-sm ring-2 ring-background">
+              +{overflowCount}
+            </div>
+          </MotionDiv>
+        )}
+      </div>
+    )
+  },
+)
+MotionAvatarGroup.displayName = 'MotionAvatarGroup'
+
+export { Avatar, AvatarFallback, AvatarGroup, AvatarImage, MotionAvatar, MotionAvatarGroup }

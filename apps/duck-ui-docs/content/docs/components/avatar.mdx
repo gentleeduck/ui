@@ -72,6 +72,19 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
   description="An avatar with RTL support."
 />
 
+## Motion
+
+Use `MotionAvatar` and `MotionAvatarGroup` for animated entrance powered by [motion](https://motion.dev). Avatars spin in with scale, rotate, and blur. The group staggers each avatar 80ms apart.
+
+<ComponentPreview
+  name="avatar-3"
+  description="Avatars and avatar group with motion-powered spin-in entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionAvatar` instead of `Avatar` and `MotionAvatarGroup` instead of `AvatarGroup`. `AvatarImage` and `AvatarFallback` stay the same.
+</Callout>
+
 ## API Reference
 
 ### Avatar
@@ -114,3 +127,11 @@ Content displayed when the image has not loaded. Typically initials or an icon.
 | `maxVisible` | `number` | `3` | Maximum number of avatars to display before showing a `+N` overflow counter |
 | `className` | `string` | - | Additional class names for styling the avatar group container |
 | `...props` | `React.HTMLAttributes<HTMLDivElement>` | - | Additional props to spread to the container div |
+
+### MotionAvatar
+
+Same props as `Avatar`. Content spins in on mount with rotate, scale, and blur using the `spinIn` preset. Requires the `motion` package.
+
+### MotionAvatarGroup
+
+Same props as `AvatarGroup`. Each avatar staggers in 80ms apart with `spinIn` animation. The overflow counter staggers last. Requires the `motion` package.
