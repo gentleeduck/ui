@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Button } from '@gentleduck/registry-ui/button'\n\nexport default function Demo() {\n  return (\n    <Button aria-label=\"Inbox button\" type=\"button\" variant={'nothing'}>\n      Button\n    </Button>\n  )\n}\n",
+      "content": "'use client'\n\nimport { MotionButton } from '@gentleduck/registry-ui/button'\nimport { ArrowRight, Mail } from 'lucide-react'\n\nexport default function Demo() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-4\">\n      <MotionButton>Default</MotionButton>\n      <MotionButton variant=\"secondary\">Secondary</MotionButton>\n      <MotionButton variant=\"outline\" icon={<Mail />}>\n        Email\n      </MotionButton>\n      <MotionButton variant=\"ghost\" secondIcon={<ArrowRight />}>\n        Next\n      </MotionButton>\n      <MotionButton variant=\"destructive\" size=\"sm\">\n        Delete\n      </MotionButton>\n      <MotionButton loading>Loading</MotionButton>\n    </div>\n  )\n}\n",
       "path": "button/button-10.tsx",
       "target": "components/button-10.tsx",
       "type": "registry:example"

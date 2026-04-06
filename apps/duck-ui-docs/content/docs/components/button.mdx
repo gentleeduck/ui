@@ -272,6 +272,19 @@ When `loading` is `true`, `Button` renders a `lucide-react` `<Loader />` with `a
   description="button with RTL direction support"
 />
 
+## Motion
+
+Use `MotionButton` for subtle press feedback powered by [motion](https://motion.dev). The button scales to 0.97 on tap for a physical press feel.
+
+<ComponentPreview
+  name="button-10"
+  description="Buttons with motion-powered tap feedback."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionButton` instead of `Button`. Same props except `asChild` is not supported. The regular `Button` is perfectly fine - this is an optional enhancement.
+</Callout>
+
 ## API Reference
 
 ### Button Props

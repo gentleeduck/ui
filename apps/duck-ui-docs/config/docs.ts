@@ -1003,6 +1003,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/button',
           items: [],
+          label: 'new',
           title: 'Button',
         },
         {
