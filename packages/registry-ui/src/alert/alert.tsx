@@ -1,6 +1,10 @@
+'use client'
+
 import { cn } from '@gentleduck/libs/cn'
+import { contentTransition, fadeUp } from '@gentleduck/motion/presets/content'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import type { VariantProps } from '@gentleduck/variants'
+import { motion } from 'motion/react'
 import * as React from 'react'
 import { alertVariants } from './alert.constants'
 
@@ -49,4 +53,39 @@ const AlertDescription = React.forwardRef<HTMLDivElement, React.HTMLAttributes<H
 )
 AlertDescription.displayName = 'AlertDescription'
 
-export { Alert, AlertDescription, AlertTitle }
+/* ------------------------------------------------------------------ */
+/*  Motion variants via motion.create()                                */
+/* ------------------------------------------------------------------ */
+
+type MotionSafe<T> = Omit<T, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+
+const MotionAlertBase = motion.create(Alert)
+const MotionAlert = React.forwardRef<HTMLDivElement, MotionSafe<React.ComponentPropsWithoutRef<typeof Alert>>>(
+  ({ ...props }, ref) => <MotionAlertBase ref={ref} {...fadeUp} transition={contentTransition} {...(props as any)} />,
+)
+MotionAlert.displayName = 'MotionAlert'
+
+const MotionAlertTitleBase = motion.create(AlertTitle)
+const MotionAlertTitle = React.forwardRef<
+  HTMLDivElement,
+  MotionSafe<React.ComponentPropsWithoutRef<typeof AlertTitle>>
+>((props, ref) => (
+  <MotionAlertTitleBase ref={ref} {...fadeUp} transition={{ ...contentTransition, delay: 0.1 }} {...(props as any)} />
+))
+MotionAlertTitle.displayName = 'MotionAlertTitle'
+
+const MotionAlertDescriptionBase = motion.create(AlertDescription)
+const MotionAlertDescription = React.forwardRef<
+  HTMLDivElement,
+  MotionSafe<React.ComponentPropsWithoutRef<typeof AlertDescription>>
+>((props, ref) => (
+  <MotionAlertDescriptionBase
+    ref={ref}
+    {...fadeUp}
+    transition={{ ...contentTransition, delay: 0.18 }}
+    {...(props as any)}
+  />
+))
+MotionAlertDescription.displayName = 'MotionAlertDescription'
+
+export { Alert, AlertDescription, AlertTitle, MotionAlert, MotionAlertDescription, MotionAlertTitle }

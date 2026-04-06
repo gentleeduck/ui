@@ -99,6 +99,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="An alert with RTL support."
 />
 
+## Motion
+
+Use `MotionAlert` for a smooth fade-up entrance animation powered by [motion](https://motion.dev). The alert slides up with blur and opacity on mount.
+
+<ComponentPreview
+  name="alert-5"
+  description="Alerts with motion-powered fade-up entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionAlert` instead of `Alert`, `MotionAlertTitle` instead of `AlertTitle`, and `MotionAlertDescription` instead of `AlertDescription`. The icon stays as a plain SVG.
+</Callout>
+
 ## API Reference
 
 ### Alert
@@ -126,3 +139,15 @@ Direction is resolved through the shared primitives direction module. Use a loca
 | `className` | `string` | - | Additional CSS classes applied to the description element |
 | `children` | `React.ReactNode` | - | Description text content |
 | `...props` | `React.ComponentProps<'div'>` | - | Additional standard component props. |
+
+### MotionAlert
+
+Same props as `Alert`. Animates on mount with fade-up (slide up 6px + blur + opacity) using the `fadeUp` preset and `contentTransition` (250ms expo-out). Requires the `motion` package.
+
+### MotionAlertTitle
+
+Same props as `AlertTitle`. Fades up with blur at 100ms delay after the container. Requires the `motion` package.
+
+### MotionAlertDescription
+
+Same props as `AlertDescription`. Fades up with blur at 180ms delay after the title. Requires the `motion` package.
