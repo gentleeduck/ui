@@ -91,6 +91,12 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
   description="accordion multiple"
 />
 
+### Active Trigger on Open
+
+Style the trigger to appear highlighted when its section is expanded using `data-[state=open]`:
+
+<ComponentPreview name="accordion-6" description="An accordion with active trigger styling when expanded." />
+
 ## Component Composition
 
 <MermaidDiagram chart={`graph TD
@@ -98,12 +104,6 @@ import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/
     B --> C[AccordionTrigger]
     B --> D[AccordionContent]
 `} />
-
-### Active Trigger on Open
-
-Style the trigger to appear highlighted when its section is expanded using `data-[state=open]`:
-
-<ComponentPreview name="accordion-6" description="An accordion with active trigger styling when expanded." />
 
 ## RTL Support
 
