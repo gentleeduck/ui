@@ -13,6 +13,24 @@ component: true
 
 Collapsible is the simplest disclosure primitive  -  it shows and hides content. Unlike Accordion, it doesn't manage a group of items or enforce single-selection. Use it for individual expand/collapse needs like "show more" sections, advanced settings, or code blocks. It's the building block that Accordion is built on.
 
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Collapsible[Collapsible]
+  Collapsible --> primitives["@gentleduck/primitives\n/collapsible"]:::internal
+  Collapsible --> libs["@gentleduck/libs"]:::internal
+  Collapsible --> motion["@gentleduck/motion"]:::internal
+
+  primitives --> |"provides"| OpenState["Open/Close\nState"]
+  primitives --> |"provides"| A11y["ARIA\nAttributes"]
+  Collapsible --> |"adds"| Trigger["CollapsibleTrigger"]
+  Collapsible --> |"adds"| Content["CollapsibleContent"]
+  motion --> |"provides"| HeightAnim["Height Animation"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -74,6 +92,8 @@ import {
   </CollapsibleContent>
 </Collapsible>
 ```
+
+## Examples
 
 ### Active Trigger on Open
 
