@@ -476,6 +476,7 @@ const _Toggle5 = dynamic(() => import('@gentleduck/registry-examples/toggle/togg
 const _Toggle6 = dynamic(() => import('@gentleduck/registry-examples/toggle/toggle-6'), { ssr: false })
 const _Toggle7 = dynamic(() => import('@gentleduck/registry-examples/toggle/toggle-7'), { ssr: false })
 const _Toggle8 = dynamic(() => import('@gentleduck/registry-examples/toggle/toggle-8'), { ssr: false })
+const _Toggle9 = dynamic(() => import('@gentleduck/registry-examples/toggle/toggle-9'), { ssr: false })
 const _ToggleGroup1 = dynamic(() => import('@gentleduck/registry-examples/toggle-group/toggle-group-1'), { ssr: false })
 const _ToggleGroup2 = dynamic(() => import('@gentleduck/registry-examples/toggle-group/toggle-group-2'), { ssr: false })
 const _ToggleGroup3 = dynamic(() => import('@gentleduck/registry-examples/toggle-group/toggle-group-3'), { ssr: false })
@@ -5417,6 +5418,17 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Toggle8,
+    source: '/registry-examples/src/toggle',
+    categories: [],
+    root_folder: 'toggle',
+  },
+  'toggle-9': {
+    name: 'toggle-9',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['toggle'],
+    files: [{ path: 'toggle/toggle-9.tsx', type: 'registry:example' }],
+    component: _Toggle9,
     source: '/registry-examples/src/toggle',
     categories: [],
     root_folder: 'toggle',

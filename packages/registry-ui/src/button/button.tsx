@@ -1,8 +1,9 @@
 import { cn } from '@gentleduck/libs/cn'
-import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { loadDomMax } from '@gentleduck/motion/motion-features'
+import { contentTransition, slideUpBlur, spinIn } from '@gentleduck/motion/presets/content'
 import { Slot, Slottable } from '@gentleduck/primitives/slot'
 import { Loader } from 'lucide-react'
-import { LazyMotion, m } from 'motion/react'
+import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from './button.constants'
 import type { AnimationIconProps, ButtonProps } from './button.types'
@@ -104,11 +105,15 @@ const MotionButton = React.forwardRef<
     ref,
   ) => {
     return (
-      <LazyMotion features={loadDomAnimation}>
+      <LazyMotion features={loadDomMax}>
         <m.button
           data-slot="button"
+          layout
           whileTap={{ scale: 0.97 }}
-          transition={{ duration: 0.1 }}
+          transition={{
+            layout: { duration: 0.25, ease: [0.16, 1, 0.3, 1] },
+            scale: { duration: 0, type: 'tween' },
+          }}
           {...props}
           aria-busy={loading ? true : undefined}
           className={cn(
@@ -118,13 +123,36 @@ const MotionButton = React.forwardRef<
               size: isCollapsed ? 'icon' : size,
               variant,
             }),
+            'overflow-hidden',
           )}
           disabled={Boolean(loading) || disabled}
           ref={ref}
           type={type as 'button' | 'submit' | 'reset'}>
-          {loading ? <Loader aria-hidden="true" className="animate-spin" /> : icon}
-          {!isCollapsed && children}
-          {!isCollapsed && secondIcon && secondIcon}
+          <AnimatePresence mode="wait" initial={false}>
+            {loading ? (
+              <m.span key="loader" layout {...spinIn} transition={contentTransition} className="inline-flex">
+                <Loader aria-hidden="true" className="animate-spin" />
+              </m.span>
+            ) : icon ? (
+              <m.span key="icon" layout {...spinIn} transition={contentTransition} className="inline-flex">
+                {icon}
+              </m.span>
+            ) : null}
+          </AnimatePresence>
+          <AnimatePresence mode="wait" initial={false}>
+            {!isCollapsed && (
+              <m.span key="text" layout {...slideUpBlur} transition={contentTransition} className="inline-flex">
+                {children}
+              </m.span>
+            )}
+          </AnimatePresence>
+          <AnimatePresence mode="wait" initial={false}>
+            {!isCollapsed && secondIcon && (
+              <m.span key="second-icon" layout {...spinIn} transition={contentTransition} className="inline-flex">
+                {secondIcon}
+              </m.span>
+            )}
+          </AnimatePresence>
         </m.button>
       </LazyMotion>
     )

@@ -3,7 +3,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomMax } from '@gentleduck/motion/motion-features'
 import { blurLight } from '@gentleduck/motion/transitions/blur'
-import { springSmooth } from '@gentleduck/motion/transitions/springs'
+import { springDefault } from '@gentleduck/motion/transitions/springs'
 import { shakeKeyframes, tweenExpand, tweenShake } from '@gentleduck/motion/transitions/tweens'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
@@ -86,7 +86,7 @@ const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
         aria-controls={`${tabsId}-content-${value}`}
         aria-selected={isActive}
         className={cn(
-          'relative inline-flex h-[29.04px] items-center justify-center gap-2 whitespace-nowrap rounded-sm px-3 font-medium text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+          'relative inline-flex h-[29.04px] select-none items-center justify-center gap-2 whitespace-nowrap rounded-sm px-3 font-medium text-sm ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
           isActive && 'bg-background text-foreground shadow-sm',
           disabled && 'pointer-events-none opacity-50',
           className,
@@ -282,7 +282,7 @@ const MotionTabsTrigger = React.forwardRef<
         <m.span
           layoutId={`tab-indicator-${tabsId}`}
           className="absolute inset-0 rounded-[inherit] bg-background shadow-sm"
-          transition={springSmooth}
+          transition={springDefault}
         />
       )}
       <span className={cn('relative z-10', isActive ? 'text-foreground' : 'text-muted-foreground')}>{children}</span>

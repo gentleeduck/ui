@@ -132,6 +132,19 @@ Set `dir="rtl"` on `Toggle` for a local override, or set `DirectionProvider` onc
   description="A toggle with RTL support."
 />
 
+## Motion
+
+Use `MotionToggle` for subtle press feedback powered by [motion](https://motion.dev). The toggle scales to 0.97 on tap for a physical press feel.
+
+<ComponentPreview
+  name="toggle-9"
+  description="Toggles with motion-powered tap feedback."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionToggle` instead of `Toggle`. Same props. The regular `Toggle` is perfectly fine - this is an optional enhancement.
+</Callout>
+
 ## API Reference
 
 ### Toggle

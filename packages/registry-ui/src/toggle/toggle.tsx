@@ -2,6 +2,7 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { contentTransition, fadeUp } from '@gentleduck/motion/presets/content'
 import * as TogglePrimitive from '@gentleduck/primitives/toggle'
 import type { VariantProps } from '@gentleduck/variants'
 import { LazyMotion, m } from 'motion/react'
@@ -29,16 +30,25 @@ const MotionToggle = React.forwardRef<
     React.ComponentPropsWithoutRef<typeof TogglePrimitive.Root> & VariantProps<typeof toggleVariants>,
     'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
   >
->(({ className, variant = 'default', size = 'default', ...props }, ref) => {
+>(({ className, variant = 'default', size = 'default', children, ...props }, ref) => {
   return (
     <LazyMotion features={loadDomAnimation}>
       <TogglePrimitive.Root asChild ref={ref} {...props}>
         <m.button
-          whileTap={{ scale: 0.95 }}
-          transition={{ duration: 0.1 }}
+          whileTap={{ scale: 0.97 }}
+          transition={{ scale: { duration: 0, type: 'tween' } }}
           className={cn(toggleVariants({ className, size, variant }))}
-          data-slot="toggle"
-        />
+          data-slot="toggle">
+          {React.Children.map(children, (child, i) => (
+            <m.span
+              key={i}
+              {...fadeUp}
+              transition={{ ...contentTransition, delay: i * 0.05 }}
+              className="inline-flex">
+              {child}
+            </m.span>
+          ))}
+        </m.button>
       </TogglePrimitive.Root>
     </LazyMotion>
   )
