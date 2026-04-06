@@ -14,6 +14,14 @@ component: true
 
 Accordions solve the progressive disclosure problem  -  show the outline, hide the details until requested. We use a compound component pattern (Accordion -> AccordionItem -> AccordionTrigger + AccordionContent) because each piece needs independent control while sharing open/close state. The `type="single"` vs `type="multiple"` distinction maps directly to whether sections are mutually exclusive.
 
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+    A[Accordion] --> B[AccordionItem]
+    B --> C[AccordionTrigger]
+    B --> D[AccordionContent]
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -144,7 +152,7 @@ Requires the `motion` package. Replace `AccordionItem` with `MotionAccordionItem
 | `children` | `React.ReactNode` | - | AccordionItem elements to render inside the accordion |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
-### AccordionItem Props
+### AccordionItem
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -153,7 +161,7 @@ Requires the `motion` package. Replace `AccordionItem` with `MotionAccordionItem
 | `className` | `string` | - | Additional CSS classes applied to the details element |
 | `...props` | `React.HTMLProps<HTMLDetailsElement>` | - | Additional props to spread to the details element |
 
-### AccordionTrigger Props
+### AccordionTrigger
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -162,7 +170,7 @@ Requires the `motion` package. Replace `AccordionItem` with `MotionAccordionItem
 | `children` | `React.ReactNode` | - | Content rendered as the trigger label |
 | `...props` | `React.HTMLProps<HTMLElement>` | - | Additional props to spread to the summary element |
 
-### AccordionContent Props
+### AccordionContent
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
