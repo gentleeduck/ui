@@ -1,5 +1,9 @@
+'use client'
+
 import { cn } from '@gentleduck/libs/cn'
+import { contentTransition, fadeBlur } from '@gentleduck/motion/presets/content'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import { motion } from 'motion/react'
 import * as React from 'react'
 
 const Kbd = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<'kbd'>>(
@@ -36,4 +40,13 @@ const KbdGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef
 )
 KbdGroup.displayName = 'KbdGroup'
 
-export { Kbd, KbdGroup }
+const MotionKbd = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<'kbd'> & { index?: number }>(
+  ({ index = 0, ...props }, ref) => (
+    <motion.div {...fadeBlur} transition={{ ...contentTransition, delay: index * 0.03 }} className="inline-flex">
+      <Kbd ref={ref} {...props} />
+    </motion.div>
+  ),
+)
+MotionKbd.displayName = 'MotionKbd'
+
+export { Kbd, KbdGroup, MotionKbd }
