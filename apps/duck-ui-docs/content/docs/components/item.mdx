@@ -170,6 +170,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="An item with RTL support."
 />
 
+## Motion
+
+Use `MotionItem` and `MotionItemGroup` for staggered fade-up entrance animations powered by [motion](https://motion.dev). Pass `index` to `MotionItem` for stagger delay.
+
+<ComponentPreview
+  name="item-12"
+  description="Items with motion-powered staggered entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionItem` instead of `Item` and `MotionItemGroup` instead of `ItemGroup`. All other sub-components stay the same.
+</Callout>
+
 ## API Reference
 
 ### Item
@@ -304,3 +317,11 @@ Displays a footer spanning the full width of the item.
 | `className` | `string` | - | Additional class names for the footer |
 | `children` | `React.ReactNode` | - | Footer content |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### MotionItem
+
+Same props as `Item` plus an optional `index` prop for stagger delay (40ms per index). Adds fadeUp entrance animation. Requires the `motion` package.
+
+### MotionItemGroup
+
+Same props as `ItemGroup`. Adds fadeUp entrance animation. Requires the `motion` package.

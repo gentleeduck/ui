@@ -1,7 +1,11 @@
+'use client'
+
 import { cn } from '@gentleduck/libs/cn'
+import { contentTransition, fadeUp } from '@gentleduck/motion/presets/content'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import { cva, type VariantProps } from '@gentleduck/variants'
+import { motion } from 'motion/react'
 import * as React from 'react'
 import { Separator } from '../separator'
 import { itemVariants } from './item.constants'
@@ -172,6 +176,27 @@ const ItemFooter = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutR
 )
 ItemFooter.displayName = 'ItemFooter'
 
+/* ------------------------------------------------------------------ */
+/*  Motion variants                                                    */
+/* ------------------------------------------------------------------ */
+
+const MotionItem = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<'div'> & VariantProps<typeof itemVariants> & { asChild?: boolean; index?: number }
+>(({ index = 0, ...props }, ref) => (
+  <motion.div {...fadeUp} transition={{ ...contentTransition, delay: index * 0.04 }}>
+    <Item ref={ref} {...props} />
+  </motion.div>
+))
+MotionItem.displayName = 'MotionItem'
+
+const MotionItemGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>((props, ref) => (
+  <motion.div {...fadeUp} transition={contentTransition}>
+    <ItemGroup ref={ref} {...props} />
+  </motion.div>
+))
+MotionItemGroup.displayName = 'MotionItemGroup'
+
 export {
   Item,
   ItemActions,
@@ -183,4 +208,6 @@ export {
   ItemMedia,
   ItemSeparator,
   ItemTitle,
+  MotionItem,
+  MotionItemGroup,
 }
