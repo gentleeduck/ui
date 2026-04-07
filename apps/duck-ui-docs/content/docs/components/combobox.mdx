@@ -208,6 +208,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="A combobox with RTL support."
 />
 
+## Motion
+
+Use `MotionCombobox` and `MotionComboboxItem` for motion-powered popover and checkbox animations. The trigger uses `MotionButton`, the dropdown uses `MotionPopoverContent`, and each item's checkbox bounces on toggle.
+
+<ComponentPreview
+  name="combobox-8"
+  description="A combobox with motion-powered animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionCombobox` instead of `Combobox` and `MotionComboboxItem` instead of `ComboboxItem`. All other sub-components stay the same.
+</Callout>
+
 ## API Reference
 
 ### Combobox\<TData, TType\>
@@ -250,3 +263,11 @@ A convenience wrapper around `CommandGroup` for grouping combobox items.
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | - | (required) `ComboboxItem` elements or other content to render inside the group. |
 | `...props` | `React.ComponentPropsWithoutRef<typeof CommandGroup>` | - | Additional props inherited from `CommandGroup`. |
+
+### MotionCombobox
+
+Same props as `Combobox`. Uses `MotionButton` for the trigger and `MotionPopoverContent` for the dropdown with spring enter/exit animations. Requires the `motion` package.
+
+### MotionComboboxItem
+
+Same props as `ComboboxItem`. Uses `MotionCheckbox` with bounce animation on toggle. Requires the `motion` package.
