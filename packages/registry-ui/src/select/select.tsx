@@ -2,6 +2,7 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { tapScale } from '@gentleduck/motion/presets/content'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import type { SelectTriggerProps as PrimitiveSelectTriggerProps } from '@gentleduck/primitives/select'
@@ -197,9 +198,31 @@ const MotionSelectContent = React.forwardRef<
 })
 MotionSelectContent.displayName = 'MotionSelectContent'
 
+const MotionSelectTrigger = React.forwardRef<React.ComponentRef<typeof SelectPrimitive.Trigger>, SelectTriggerProps>(
+  ({ className, children, ...props }, ref) => (
+    <motion.div whileTap={tapScale}>
+      <SelectPrimitive.Trigger
+        ref={ref}
+        data-slot="select-trigger"
+        className={cn(
+          'flex h-9 min-w-32 select-none items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-muted-foreground [&>span]:line-clamp-1',
+          className,
+        )}
+        {...props}>
+        {children}
+        <SelectPrimitive.Icon asChild>
+          <ChevronDown aria-hidden="true" className="size-4 opacity-50" />
+        </SelectPrimitive.Icon>
+      </SelectPrimitive.Trigger>
+    </motion.div>
+  ),
+)
+MotionSelectTrigger.displayName = 'MotionSelectTrigger'
+
 export {
   MotionSelect,
   MotionSelectContent,
+  MotionSelectTrigger,
   Select,
   SelectContent,
   SelectGroup,
