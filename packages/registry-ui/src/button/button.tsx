@@ -145,7 +145,7 @@ const MotionButton = React.forwardRef<
                 key="text"
                 {...fadeBlurPopOut}
                 transition={contentTransitionFast}
-                className="inline-flex origin-left">
+                className="inline-flex w-full origin-left items-center justify-between">
                 {children}
               </m.span>
             )}
