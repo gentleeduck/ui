@@ -704,6 +704,7 @@ const _InputGroup1 = dynamic(() => import('@gentleduck/registry-examples/input-g
 const _InputGroup10 = dynamic(() => import('@gentleduck/registry-examples/input-group/input-group-10'), { ssr: false })
 const _InputGroup11 = dynamic(() => import('@gentleduck/registry-examples/input-group/input-group-11'), { ssr: false })
 const _InputGroup12 = dynamic(() => import('@gentleduck/registry-examples/input-group/input-group-12'), { ssr: false })
+const _InputGroup13 = dynamic(() => import('@gentleduck/registry-examples/input-group/input-group-13'), { ssr: false })
 const _InputGroup2 = dynamic(() => import('@gentleduck/registry-examples/input-group/input-group-2'), { ssr: false })
 const _InputGroup3 = dynamic(() => import('@gentleduck/registry-examples/input-group/input-group-3'), { ssr: false })
 const _InputGroup4 = dynamic(() => import('@gentleduck/registry-examples/input-group/input-group-4'), { ssr: false })
@@ -8397,6 +8398,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _InputGroup12,
+    source: '/registry-examples/src/input-group',
+    categories: [],
+    root_folder: 'input-group',
+  },
+  'input-group-13': {
+    name: 'input-group-13',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['input-group'],
+    files: [
+      {
+        path: 'input-group/input-group-13.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _InputGroup13,
     source: '/registry-examples/src/input-group',
     categories: [],
     root_folder: 'input-group',
