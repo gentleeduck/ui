@@ -1,12 +1,16 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { contentTransition, fadeUp } from '@gentleduck/motion/presets/content'
 import { checkersStylePattern } from '@gentleduck/motion/variants'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import { motion } from 'motion/react'
 import * as React from 'react'
 import { Label } from '../label'
 import type { CheckboxGroupProps, CheckboxProps, CheckboxWithLabelProps, CheckedState } from './checkbox.types'
+
+type MotionSafe<T> = Omit<T, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
 
 const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
   (
@@ -142,4 +146,47 @@ const CheckboxGroup = React.forwardRef<HTMLDivElement, Omit<CheckboxGroupProps, 
 )
 CheckboxGroup.displayName = 'CheckboxGroup'
 
-export { Checkbox, CheckboxGroup, CheckboxWithLabel }
+/* ------------------------------------------------------------------ */
+/*  MotionCheckboxWithLabel + MotionCheckboxGroup                       */
+/* ------------------------------------------------------------------ */
+
+const MotionCheckboxWithLabelBase = motion.create(CheckboxWithLabel)
+const MotionCheckboxWithLabel = React.forwardRef<
+  HTMLDivElement,
+  MotionSafe<Omit<CheckboxWithLabelProps, 'ref'>> & { index?: number }
+>(({ index = 0, ...props }, ref) => (
+  <MotionCheckboxWithLabelBase
+    ref={ref}
+    {...fadeUp}
+    transition={{ ...contentTransition, delay: index * 0.05 }}
+    {...(props as any)}
+  />
+))
+MotionCheckboxWithLabel.displayName = 'MotionCheckboxWithLabel'
+
+const MotionCheckboxGroup = React.forwardRef<HTMLDivElement, MotionSafe<Omit<CheckboxGroupProps, 'ref'>>>(
+  ({ subtasks, subtasks_default_values, ...props }, ref) => {
+    const { _checkbox, _label } = subtasks_default_values || {}
+    return (
+      <div className={cn('mb-3 flex flex-col gap-2')} {...(props as any)} data-slot="checkbox-group" ref={ref}>
+        {subtasks.map(({ id, title, checked }, i) => (
+          <MotionCheckboxWithLabel
+            _checkbox={{
+              ..._checkbox,
+              checked,
+              className: 'w-4 h-4 rounded-full border-muted-foreground/80',
+            }}
+            _label={{ ..._label, children: title }}
+            data-slot="checkbox-with-label"
+            id={id}
+            key={id}
+            index={i}
+          />
+        ))}
+      </div>
+    )
+  },
+)
+MotionCheckboxGroup.displayName = 'MotionCheckboxGroup'
+
+export { Checkbox, CheckboxGroup, CheckboxWithLabel, MotionCheckboxGroup, MotionCheckboxWithLabel }

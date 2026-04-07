@@ -531,6 +531,7 @@ const _Checkbox6 = dynamic(() => import('@gentleduck/registry-examples/checkbox/
 const _Checkbox7 = dynamic(() => import('@gentleduck/registry-examples/checkbox/checkbox-7'), { ssr: false })
 const _Checkbox8 = dynamic(() => import('@gentleduck/registry-examples/checkbox/checkbox-8'), { ssr: false })
 const _Checkbox9 = dynamic(() => import('@gentleduck/registry-examples/checkbox/checkbox-9'), { ssr: false })
+const _Checkbox10 = dynamic(() => import('@gentleduck/registry-examples/checkbox/checkbox-10'), { ssr: false })
 const _Carousel1 = dynamic(() => import('@gentleduck/registry-examples/carousel/carousel-1'), { ssr: false })
 const _Carousel2 = dynamic(() => import('@gentleduck/registry-examples/carousel/carousel-2'), { ssr: false })
 const _Carousel3 = dynamic(() => import('@gentleduck/registry-examples/carousel/carousel-3'), { ssr: false })
@@ -6309,6 +6310,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Checkbox9,
+    source: '/registry-examples/src/checkbox',
+    categories: [],
+    root_folder: 'checkbox',
+  },
+  'checkbox-10': {
+    name: 'checkbox-10',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['checkbox'],
+    files: [
+      {
+        path: 'checkbox/checkbox-10.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Checkbox10,
     source: '/registry-examples/src/checkbox',
     categories: [],
     root_folder: 'checkbox',
