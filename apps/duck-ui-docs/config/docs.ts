@@ -1106,6 +1106,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/empty',
           items: [],
+          label: 'new',
           title: 'Empty',
         },
         {
