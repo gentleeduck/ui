@@ -3,12 +3,11 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
-import { contentTransition, fadeBlur } from '@gentleduck/motion/presets/content'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as ContextMenuPrimitive from '@gentleduck/primitives/context-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'
-import { AnimatePresence, LazyMotion, m, motion } from 'motion/react'
+import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const ContextMenu = ContextMenuPrimitive.Root
@@ -286,16 +285,6 @@ const MotionContextMenuSubContent = React.forwardRef<
 })
 MotionContextMenuSubContent.displayName = 'MotionContextMenuSubContent'
 
-const MotionContextMenuItem = React.forwardRef<
-  React.ComponentRef<typeof ContextMenuPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Item> & { inset?: boolean; index?: number }
->(({ index = 0, ...props }, ref) => (
-  <motion.div {...fadeBlur} transition={{ ...contentTransition, delay: index * 0.03 }}>
-    <ContextMenuItem ref={ref} {...props} />
-  </motion.div>
-))
-MotionContextMenuItem.displayName = 'MotionContextMenuItem'
-
 export {
   ContextMenu,
   ContextMenuCheckboxItem,
@@ -314,7 +303,6 @@ export {
   ContextMenuTrigger,
   MotionContextMenu,
   MotionContextMenuContent,
-  MotionContextMenuItem,
   MotionContextMenuSub,
   MotionContextMenuSubContent,
 }
