@@ -176,14 +176,13 @@ InputGroupTextarea.displayName = 'InputGroupTextarea'
 /*  Motion variants                                                    */
 /* ------------------------------------------------------------------ */
 
-const MotionInputGroup = React.forwardRef<
-  HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'> & { index?: number }
->(({ index = 0, ...props }, ref) => (
-  <motion.div {...fadeBlur} transition={{ ...contentTransition, delay: index * 0.05 }}>
-    <InputGroup ref={ref} {...props} />
-  </motion.div>
-))
+const MotionInputGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'> & { index?: number }>(
+  ({ index = 0, ...props }, ref) => (
+    <motion.div {...fadeBlur} transition={{ ...contentTransition, delay: index * 0.05 }}>
+      <InputGroup ref={ref} {...props} />
+    </motion.div>
+  ),
+)
 MotionInputGroup.displayName = 'MotionInputGroup'
 
 export {

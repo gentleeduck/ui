@@ -1,11 +1,6 @@
 'use client'
 
-import {
-  InputGroupAddon,
-  InputGroupInput,
-  InputGroupText,
-  MotionInputGroup,
-} from '@gentleduck/registry-ui/input-group'
+import { InputGroupAddon, InputGroupInput, InputGroupText, MotionInputGroup } from '@gentleduck/registry-ui/input-group'
 import { Label } from '@gentleduck/registry-ui/label'
 import { AtSignIcon, GlobeIcon, LockIcon } from 'lucide-react'
 
