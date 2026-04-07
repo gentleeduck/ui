@@ -80,7 +80,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
               ? ''
               : 'after:mb-0.5 after:h-2.25 after:w-1 after:border-[2px] after:border-t-0 after:border-l-0 after:bg-transparent',
             'data-[checked="indeterminate"]:border-primary data-[checked="indeterminate"]:bg-primary data-[checked="indeterminate"]:text-primary-foreground',
-            'data-[checked="indeterminate"]:after:opacity-100 data-[checked="indeterminate"]:after:mb-0 data-[checked="indeterminate"]:after:h-0.5 data-[checked="indeterminate"]:after:w-2 data-[checked="indeterminate"]:after:rotate-0 data-[checked="indeterminate"]:after:rounded-full data-[checked="indeterminate"]:after:border-0 data-[checked="indeterminate"]:after:bg-current data-[checked="indeterminate"]:after:mask-none data-[checked="indeterminate"]:after:scale-100',
+            'data-[checked="indeterminate"]:after:mask-none data-[checked="indeterminate"]:after:mb-0 data-[checked="indeterminate"]:after:h-0.5 data-[checked="indeterminate"]:after:w-2 data-[checked="indeterminate"]:after:rotate-0 data-[checked="indeterminate"]:after:scale-100 data-[checked="indeterminate"]:after:rounded-full data-[checked="indeterminate"]:after:border-0 data-[checked="indeterminate"]:after:bg-current data-[checked="indeterminate"]:after:opacity-100',
             'rounded-sm bg-transparent',
             className,
           )}
