@@ -10,8 +10,6 @@ import * as React from 'react'
 import { Label } from '../label'
 import type { CheckboxGroupProps, CheckboxProps, CheckboxWithLabelProps, CheckedState } from './checkbox.types'
 
-type MotionSafe<T> = Omit<T, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
-
 const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
   (
     {
@@ -147,28 +145,56 @@ const CheckboxGroup = React.forwardRef<HTMLDivElement, Omit<CheckboxGroupProps, 
 CheckboxGroup.displayName = 'CheckboxGroup'
 
 /* ------------------------------------------------------------------ */
-/*  MotionCheckboxWithLabel + MotionCheckboxGroup                       */
+/*  MotionCheckbox + MotionCheckboxWithLabel + MotionCheckboxGroup       */
 /* ------------------------------------------------------------------ */
 
-const MotionCheckboxWithLabelBase = motion.create(CheckboxWithLabel)
+const MotionCheckbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
+  ({ onCheckedChange, ...props }, ref) => {
+    const [bounce, setBounce] = React.useState(false)
+    return (
+      <motion.div
+        animate={bounce ? { scale: [0.8, 1.1, 1] } : {}}
+        transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+        onAnimationComplete={() => setBounce(false)}
+        className="inline-flex">
+        <Checkbox
+          ref={ref}
+          onCheckedChange={(next) => {
+            setBounce(true)
+            onCheckedChange?.(next)
+          }}
+          {...props}
+        />
+      </motion.div>
+    )
+  },
+)
+MotionCheckbox.displayName = 'MotionCheckbox'
+
 const MotionCheckboxWithLabel = React.forwardRef<
   HTMLDivElement,
-  MotionSafe<Omit<CheckboxWithLabelProps, 'ref'>> & { index?: number }
->(({ index = 0, ...props }, ref) => (
-  <MotionCheckboxWithLabelBase
-    ref={ref}
-    {...fadeUp}
-    transition={{ ...contentTransition, delay: index * 0.05 }}
-    {...(props as any)}
-  />
-))
+  Omit<CheckboxWithLabelProps, 'ref'> & { index?: number }
+>(({ id, _checkbox, _label, className, index = 0 }, ref) => {
+  const { className: labelClassName, ...labelProps } = _label
+  return (
+    <motion.div
+      className={cn('flex items-center justify-start gap-2', className)}
+      ref={ref}
+      {...fadeUp}
+      transition={{ ...contentTransition, delay: index * 0.05 }}
+      data-slot="checkbox-with-label">
+      <MotionCheckbox id={id} {..._checkbox} />
+      <Label className={cn('cursor-pointer', labelClassName)} htmlFor={id} {...labelProps} />
+    </motion.div>
+  )
+})
 MotionCheckboxWithLabel.displayName = 'MotionCheckboxWithLabel'
 
-const MotionCheckboxGroup = React.forwardRef<HTMLDivElement, MotionSafe<Omit<CheckboxGroupProps, 'ref'>>>(
+const MotionCheckboxGroup = React.forwardRef<HTMLDivElement, Omit<CheckboxGroupProps, 'ref'>>(
   ({ subtasks, subtasks_default_values, ...props }, ref) => {
     const { _checkbox, _label } = subtasks_default_values || {}
     return (
-      <div className={cn('mb-3 flex flex-col gap-2')} {...(props as any)} data-slot="checkbox-group" ref={ref}>
+      <div className={cn('mb-3 flex flex-col gap-2')} {...props} data-slot="checkbox-group" ref={ref}>
         {subtasks.map(({ id, title, checked }, i) => (
           <MotionCheckboxWithLabel
             _checkbox={{
@@ -189,4 +215,4 @@ const MotionCheckboxGroup = React.forwardRef<HTMLDivElement, MotionSafe<Omit<Che
 )
 MotionCheckboxGroup.displayName = 'MotionCheckboxGroup'
 
-export { Checkbox, CheckboxGroup, CheckboxWithLabel, MotionCheckboxGroup, MotionCheckboxWithLabel }
+export { Checkbox, CheckboxGroup, CheckboxWithLabel, MotionCheckbox, MotionCheckboxGroup, MotionCheckboxWithLabel }
