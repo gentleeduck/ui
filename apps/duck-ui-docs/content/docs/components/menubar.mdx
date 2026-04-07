@@ -97,6 +97,25 @@ import {
     K --> M[MenubarSubContent]
 `} />
 
+## RTL Support
+
+Set `dir="rtl"` on `Menubar` for a local override, or set `DirectionProvider` once at app/root level for global direction.
+
+<ComponentPreview
+  name="menubar-2"
+  description="A menubar with RTL support."
+/>
+
+## Motion
+
+Use `MotionMenubarContent` for a spring-powered enter animation with blur powered by [motion](https://motion.dev). Exit uses the primitive's built-in CSS animation.
+
+<ComponentPreview name="menubar-3" description="A menubar with motion-powered animations." />
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionMenubarContent` instead of `MenubarContent`. All other sub-components stay the same.
+</Callout>
+
 ## API Reference
 
 Components in this file wrap `@gentleduck/primitives/menubar`.
@@ -233,11 +252,6 @@ Components in this file wrap `@gentleduck/primitives/menubar`.
 | `alignOffset` | `number` | - | Cross-axis offset from sub-trigger |
 | `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.SubContent>` | - | Additional props inherited from `MenubarPrimitive.SubContent` |
 
-## RTL Support
+### MotionMenubarContent
 
-Set `dir="rtl"` on `Menubar` for a local override, or set `DirectionProvider` once at app/root level for global direction.
-
-<ComponentPreview
-  name="menubar-2"
-  description="A menubar with RTL support."
-/>
+Same props as `MenubarContent`. Adds spring scaleIn+blur enter animation via motion. Exit uses the primitive's CSS animation. Requires the `motion` package.
