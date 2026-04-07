@@ -103,6 +103,16 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="A keyboard shortcut with RTL support."
 />
 
+## Motion
+
+Use `MotionKbd` for staggered fade+blur entrance on keyboard shortcuts powered by [motion](https://motion.dev).
+
+<ComponentPreview name="kbd-7" description="Keyboard shortcuts with motion-powered staggered entrance." />
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionKbd` instead of `Kbd`. Pass `index` for stagger order.
+</Callout>
+
 ## API Reference
 
 ### Kbd
@@ -125,3 +135,7 @@ Groups multiple `Kbd` components together in an inline layout.
 | `className` | `string` | - | Additional class names for the group |
 | `children` | `React.ReactNode` | - | `Kbd` elements to group together |
 | `...props` | `React.ComponentPropsWithoutRef<'div'>` | - | Additional props to spread to the group element (renders as a `kbd`) |
+
+### MotionKbd
+
+Same props as `Kbd` plus an optional `index` prop for stagger delay (30ms per index). Adds fade+blur entrance. Requires the `motion` package.
