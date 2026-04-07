@@ -97,7 +97,12 @@ MotionCard.displayName = 'MotionCard'
 const MotionCardHeaderBase = motion.create(CardHeader)
 const MotionCardHeader = React.forwardRef<HTMLDivElement, MotionSafe<React.HTMLAttributes<HTMLDivElement>>>(
   (props, ref) => (
-    <MotionCardHeaderBase ref={ref} {...fadeUp} transition={{ ...contentTransition, delay: 0.05 }} {...(props as any)} />
+    <MotionCardHeaderBase
+      ref={ref}
+      {...fadeUp}
+      transition={{ ...contentTransition, delay: 0.05 }}
+      {...(props as any)}
+    />
   ),
 )
 MotionCardHeader.displayName = 'MotionCardHeader'

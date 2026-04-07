@@ -2,12 +2,12 @@
 
 import { MotionButton } from '@gentleduck/registry-ui/button'
 import {
+  CardDescription,
+  CardTitle,
   MotionCard,
   MotionCardContent,
   MotionCardFooter,
   MotionCardHeader,
-  CardDescription,
-  CardTitle,
 } from '@gentleduck/registry-ui/card'
 import { Input } from '@gentleduck/registry-ui/input'
 import { Label } from '@gentleduck/registry-ui/label'
