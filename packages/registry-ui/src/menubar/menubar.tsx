@@ -225,7 +225,8 @@ const MotionMenubarContent = React.forwardRef<
           {...props}>
           <m.div
             className={cn(
-              'z-50 min-w-48 origin-(--gentleduck-menubar-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
+              'data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 z-50 min-w-48 origin-(--gentleduck-menubar-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=closed]:animate-out',
+              'transition-all transition-discrete duration-150 ease-(--duck-motion-ease)',
               className,
             )}
             initial={content.initial}
