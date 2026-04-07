@@ -97,25 +97,6 @@ import {
     K --> M[MenubarSubContent]
 `} />
 
-## RTL Support
-
-Set `dir="rtl"` on `Menubar` for a local override, or set `DirectionProvider` once at app/root level for global direction.
-
-<ComponentPreview
-  name="menubar-2"
-  description="A menubar with RTL support."
-/>
-
-## Motion
-
-Use `MotionMenubarContent` for a spring-animated dropdown with scale+blur entrance powered by [motion](https://motion.dev).
-
-<ComponentPreview name="menubar-3" description="A menubar with motion-powered animations." />
-
-<Callout icon={<Zap />}>
-Requires the `motion` package. Use `MotionMenubarContent` instead of `MenubarContent`. All other sub-components stay the same.
-</Callout>
-
 ## API Reference
 
 Components in this file wrap `@gentleduck/primitives/menubar`.
@@ -252,6 +233,11 @@ Components in this file wrap `@gentleduck/primitives/menubar`.
 | `alignOffset` | `number` | - | Cross-axis offset from sub-trigger |
 | `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.SubContent>` | - | Additional props inherited from `MenubarPrimitive.SubContent` |
 
-### MotionMenubarContent
+## RTL Support
 
-Same props as `MenubarContent`. Adds spring scaleIn+blur entrance animation. Requires the `motion` package.
+Set `dir="rtl"` on `Menubar` for a local override, or set `DirectionProvider` once at app/root level for global direction.
+
+<ComponentPreview
+  name="menubar-2"
+  description="A menubar with RTL support."
+/>
