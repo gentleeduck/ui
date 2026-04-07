@@ -1026,6 +1026,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/card',
           items: [],
+          label: 'new',
           title: 'Card',
         },
         {
