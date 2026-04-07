@@ -422,6 +422,7 @@ const _Input5 = dynamic(() => import('@gentleduck/registry-examples/input/input-
 const _Input6 = dynamic(() => import('@gentleduck/registry-examples/input/input-6'), { ssr: false })
 const _Input7 = dynamic(() => import('@gentleduck/registry-examples/input/input-7'), { ssr: false })
 const _Input8 = dynamic(() => import('@gentleduck/registry-examples/input/input-8'), { ssr: false })
+const _Input9 = dynamic(() => import('@gentleduck/registry-examples/input/input-9'), { ssr: false })
 const _Label1 = dynamic(() => import('@gentleduck/registry-examples/label/label-1'), { ssr: false })
 const _Label2 = dynamic(() => import('@gentleduck/registry-examples/label/label-2'), { ssr: false })
 const _Label3 = dynamic(() => import('@gentleduck/registry-examples/label/label-3'), { ssr: false })
@@ -4572,6 +4573,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Input8,
+    source: '/registry-examples/src/input',
+    categories: [],
+    root_folder: 'input',
+  },
+  'input-9': {
+    name: 'input-9',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['input'],
+    files: [
+      {
+        path: 'input/input-9.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Input9,
     source: '/registry-examples/src/input',
     categories: [],
     root_folder: 'input',
