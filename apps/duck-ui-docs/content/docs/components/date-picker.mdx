@@ -157,13 +157,24 @@ This component uses the `chrono-node` library to parse natural language dates.
   description="A date picker with form validation."
 />
 
-### RTL
+## RTL Support
+
+RTL is supported through the underlying Calendar and Popover components. Set `dir="rtl"` on the Calendar or use `DirectionProvider` at app/root level for global direction.
 
 <ComponentPreview
   name="date-picker-7"
   description="A date picker with RTL support."
 />
 
-## RTL Support
+## Motion
 
-RTL is supported through the underlying Calendar and Popover components. Set `dir="rtl"` on the Calendar or use `DirectionProvider` at app/root level for global direction.
+Use `MotionPopover`, `MotionPopoverContent`, and `MotionCalendar` for animated date picking. The popover enters/exits with spring animation and the calendar has directional month transitions with staggered day cells.
+
+<ComponentPreview
+  name="date-picker-8"
+  description="A date picker with motion-powered animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionPopover` instead of `Popover`, `MotionPopoverContent` instead of `PopoverContent`, and `MotionCalendar` instead of `Calendar`.
+</Callout>

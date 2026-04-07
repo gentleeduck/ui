@@ -547,6 +547,7 @@ const _DatePicker4 = dynamic(() => import('@gentleduck/registry-examples/date-pi
 const _DatePicker5 = dynamic(() => import('@gentleduck/registry-examples/date-picker/date-picker-5'), { ssr: false })
 const _DatePicker6 = dynamic(() => import('@gentleduck/registry-examples/date-picker/date-picker-6'), { ssr: false })
 const _DatePicker7 = dynamic(() => import('@gentleduck/registry-examples/date-picker/date-picker-7'), { ssr: false })
+const _DatePicker8 = dynamic(() => import('@gentleduck/registry-examples/date-picker/date-picker-8'), { ssr: false })
 const _Popover1 = dynamic(() => import('@gentleduck/registry-examples/popover/popover-1'), { ssr: false })
 const _Popover2 = dynamic(() => import('@gentleduck/registry-examples/popover/popover-2'), { ssr: false })
 const _Popover3 = dynamic(() => import('@gentleduck/registry-examples/popover/popover-3'), { ssr: false })
@@ -6568,6 +6569,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _DatePicker7,
+    source: '/registry-examples/src/date-picker',
+    categories: [],
+    root_folder: 'date-picker',
+  },
+  'date-picker-8': {
+    name: 'date-picker-8',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar', 'popover', 'button'],
+    files: [
+      {
+        path: 'date-picker/date-picker-8.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _DatePicker8,
     source: '/registry-examples/src/date-picker',
     categories: [],
     root_folder: 'date-picker',
