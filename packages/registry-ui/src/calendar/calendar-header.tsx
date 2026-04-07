@@ -121,20 +121,25 @@ function DropdownTrigger({
   onClick: () => void
   useMotion?: boolean
 }) {
-  // biome-ignore lint/suspicious/noExplicitAny: conditionally use m.button or plain button
-  const Btn = (useMotion ? m.button : 'button') as any
-  const motionProps = useMotion ? { whileTap: tapScale } : {}
-  return (
-    <Btn
-      type="button"
-      dir="ltr"
-      aria-expanded={open}
-      onClick={onClick}
-      {...motionProps}
-      className="flex h-7 w-fit shrink-0 items-center gap-1 whitespace-nowrap rounded-md border px-2 font-medium text-sm shadow-xs">
+  const cls =
+    'flex h-7 w-fit shrink-0 items-center gap-1 whitespace-nowrap rounded-md border px-2 font-medium text-sm shadow-xs'
+  const children = (
+    <>
       <span dir="auto">{label}</span>
       <ChevronDownIcon className="size-3 text-muted-foreground" />
-    </Btn>
+    </>
+  )
+  if (useMotion) {
+    return (
+      <m.button type="button" dir="ltr" aria-expanded={open} onClick={onClick} whileTap={tapScale} className={cls}>
+        {children}
+      </m.button>
+    )
+  }
+  return (
+    <button type="button" dir="ltr" aria-expanded={open} onClick={onClick} className={cls}>
+      {children}
+    </button>
   )
 }
 
@@ -158,6 +163,30 @@ interface CalendarHeaderProps {
   useMotionButtons?: boolean
 }
 
+function NavButton({
+  useMotion,
+  className,
+  children,
+  onDrag: _d,
+  onDragStart: _ds,
+  onDragEnd: _de,
+  onAnimationStart: _as,
+  ...props
+}: React.ButtonHTMLAttributes<HTMLButtonElement> & { useMotion?: boolean }) {
+  if (useMotion) {
+    return (
+      <m.button type="button" whileTap={tapScale} className={className} {...props}>
+        {children}
+      </m.button>
+    )
+  }
+  return (
+    <button type="button" className={className} {...props}>
+      {children}
+    </button>
+  )
+}
+
 /** Prevents Select portal interactions from dismissing parent Popover. */
 function stopPopoverDismiss(e: React.PointerEvent) {
   e.stopPropagation()
@@ -178,9 +207,6 @@ export function CalendarHeader({
   useMotionButtons = false,
 }: CalendarHeaderProps) {
   const adapter = adapterProp ?? defaultAdapter
-  // biome-ignore lint/suspicious/noExplicitAny: conditionally use m.button or plain button
-  const Btn = (useMotionButtons ? m.button : 'button') as any
-  const btnMotion = useMotionButtons ? { whileTap: tapScale } : {}
   const headerProps = getHeaderProps()
   const currentYear = adapter.getYear(month)
   const currentMonth = adapter.getMonth(month)
@@ -224,16 +250,15 @@ export function CalendarHeader({
   return (
     <div className="flex h-(--gentleduck-calendar-cell) w-full items-center justify-center px-(--gentleduck-calendar-cell)">
       <div className="absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1">
-        <Btn
-          type="button"
+        <NavButton
+          useMotion={useMotionButtons}
           {...getNavProps('prev')}
-          {...btnMotion}
           className={cn(
             buttonVariants({ variant: buttonVariant as 'ghost' }),
             'size-(--gentleduck-calendar-cell) select-none p-0 aria-disabled:opacity-50',
           )}>
           <ChevronLeftIcon className={cn('size-4', direction === 'rtl' && 'rotate-180')} />
-        </Btn>
+        </NavButton>
 
         {showDropdowns ? (
           <div
@@ -299,16 +324,15 @@ export function CalendarHeader({
           </div>
         )}
 
-        <Btn
-          type="button"
+        <NavButton
+          useMotion={useMotionButtons}
           {...getNavProps('next')}
-          {...btnMotion}
           className={cn(
             buttonVariants({ variant: buttonVariant as 'ghost' }),
             'size-(--gentleduck-calendar-cell) select-none p-0 aria-disabled:opacity-50',
           )}>
           <ChevronRightIcon className={cn('size-4', direction === 'rtl' && 'rotate-180')} />
-        </Btn>
+        </NavButton>
       </div>
     </div>
   )

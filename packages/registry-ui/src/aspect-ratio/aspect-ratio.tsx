@@ -30,12 +30,14 @@ const AspectRatio = React.forwardRef<
 })
 AspectRatio.displayName = 'AspectRatio'
 
-type MotionSafe<T> = Omit<T, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
-const MotionAspectRatioBase = motion.create(AspectRatio)
 const MotionAspectRatio = React.forwardRef<
   React.ComponentRef<typeof AspectRatio>,
-  MotionSafe<React.ComponentPropsWithoutRef<typeof AspectRatio>>
->((props, ref) => <MotionAspectRatioBase ref={ref} {...scaleBlur} transition={contentTransition} {...(props as any)} />)
+  React.ComponentPropsWithoutRef<typeof AspectRatio>
+>((props, ref) => (
+  <motion.div {...scaleBlur} transition={contentTransition}>
+    <AspectRatio ref={ref} {...props} />
+  </motion.div>
+))
 MotionAspectRatio.displayName = 'MotionAspectRatio'
 
 export { AspectRatio, MotionAspectRatio }

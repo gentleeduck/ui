@@ -20,12 +20,11 @@ const Badge = React.forwardRef<
 })
 Badge.displayName = 'Badge'
 
-type MotionSafe<T> = Omit<T, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
-const MotionBadgeBase = motion.create(Badge)
-
-const MotionBadge = React.forwardRef<HTMLDivElement, MotionSafe<React.ComponentPropsWithoutRef<typeof Badge>>>(
-  (props, ref) => <MotionBadgeBase ref={ref} {...fadeUp} transition={contentTransition} {...(props as any)} />,
-)
+const MotionBadge = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof Badge>>((props, ref) => (
+  <motion.div {...fadeUp} transition={contentTransition} className="inline-flex">
+    <Badge ref={ref} {...props} />
+  </motion.div>
+))
 MotionBadge.displayName = 'MotionBadge'
 
 export { Badge, MotionBadge }

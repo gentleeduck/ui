@@ -54,37 +54,32 @@ const AlertDescription = React.forwardRef<HTMLDivElement, React.HTMLAttributes<H
 AlertDescription.displayName = 'AlertDescription'
 
 /* ------------------------------------------------------------------ */
-/*  Motion variants via motion.create()                                */
+/*  Motion variants                                                    */
 /* ------------------------------------------------------------------ */
 
-type MotionSafe<T> = Omit<T, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
-
-const MotionAlertBase = motion.create(Alert)
-const MotionAlert = React.forwardRef<HTMLDivElement, MotionSafe<React.ComponentPropsWithoutRef<typeof Alert>>>(
-  ({ ...props }, ref) => <MotionAlertBase ref={ref} {...fadeUp} transition={contentTransition} {...(props as any)} />,
-)
+const MotionAlert = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof Alert>>((props, ref) => (
+  <motion.div {...fadeUp} transition={contentTransition}>
+    <Alert ref={ref} {...props} />
+  </motion.div>
+))
 MotionAlert.displayName = 'MotionAlert'
 
-const MotionAlertTitleBase = motion.create(AlertTitle)
-const MotionAlertTitle = React.forwardRef<
-  HTMLDivElement,
-  MotionSafe<React.ComponentPropsWithoutRef<typeof AlertTitle>>
->((props, ref) => (
-  <MotionAlertTitleBase ref={ref} {...fadeUp} transition={{ ...contentTransition, delay: 0.1 }} {...(props as any)} />
-))
+const MotionAlertTitle = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof AlertTitle>>(
+  (props, ref) => (
+    <motion.div {...fadeUp} transition={{ ...contentTransition, delay: 0.1 }}>
+      <AlertTitle ref={ref} {...props} />
+    </motion.div>
+  ),
+)
 MotionAlertTitle.displayName = 'MotionAlertTitle'
 
-const MotionAlertDescriptionBase = motion.create(AlertDescription)
 const MotionAlertDescription = React.forwardRef<
   HTMLDivElement,
-  MotionSafe<React.ComponentPropsWithoutRef<typeof AlertDescription>>
+  React.ComponentPropsWithoutRef<typeof AlertDescription>
 >((props, ref) => (
-  <MotionAlertDescriptionBase
-    ref={ref}
-    {...fadeUp}
-    transition={{ ...contentTransition, delay: 0.18 }}
-    {...(props as any)}
-  />
+  <motion.div {...fadeUp} transition={{ ...contentTransition, delay: 0.18 }}>
+    <AlertDescription ref={ref} {...props} />
+  </motion.div>
 ))
 MotionAlertDescription.displayName = 'MotionAlertDescription'
 

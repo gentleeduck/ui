@@ -71,13 +71,13 @@ ButtonGroupSeparator.displayName = 'ButtonGroupSeparator'
 /*  MotionButtonGroup                                                  */
 /* ------------------------------------------------------------------ */
 
-type MotionSafe<T> = Omit<T, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
-const MotionButtonGroupBase = motion.create(ButtonGroup)
-
-const MotionButtonGroup = React.forwardRef<
-  HTMLDivElement,
-  MotionSafe<React.ComponentPropsWithoutRef<typeof ButtonGroup>>
->((props, ref) => <MotionButtonGroupBase ref={ref} {...fadeUp} transition={contentTransition} {...(props as any)} />)
+const MotionButtonGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof ButtonGroup>>(
+  (props, ref) => (
+    <motion.div {...fadeUp} transition={contentTransition}>
+      <ButtonGroup ref={ref} {...props} />
+    </motion.div>
+  ),
+)
 MotionButtonGroup.displayName = 'MotionButtonGroup'
 
 export { ButtonGroup, ButtonGroupSeparator, ButtonGroupText, MotionButtonGroup }
