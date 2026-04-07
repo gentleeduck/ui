@@ -558,6 +558,7 @@ const _Popover5 = dynamic(() => import('@gentleduck/registry-examples/popover/po
 const _Popover6 = dynamic(() => import('@gentleduck/registry-examples/popover/popover-6'), { ssr: false })
 const _Menubar1 = dynamic(() => import('@gentleduck/registry-examples/menubar/menubar-1'), { ssr: false })
 const _Menubar2 = dynamic(() => import('@gentleduck/registry-examples/menubar/menubar-2'), { ssr: false })
+const _Menubar3 = dynamic(() => import('@gentleduck/registry-examples/menubar/menubar-3'), { ssr: false })
 const _DropdownMenu1 = dynamic(() => import('@gentleduck/registry-examples/dropdown-menu/dropdown-menu-1'), {
   ssr: false,
 })
@@ -6753,6 +6754,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Menubar2,
+    source: '/registry-examples/src/menubar',
+    categories: [],
+    root_folder: 'menubar',
+  },
+  'menubar-3': {
+    name: 'menubar-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['menubar'],
+    files: [
+      {
+        path: 'menubar/menubar-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Menubar3,
     source: '/registry-examples/src/menubar',
     categories: [],
     root_folder: 'menubar',

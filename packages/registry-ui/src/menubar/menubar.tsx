@@ -1,9 +1,13 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { contentTransition, fadeBlur } from '@gentleduck/motion/presets/content'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { AnimVariants } from '@gentleduck/motion/variants'
 import * as MenubarPrimitive from '@gentleduck/primitives/menubar'
 import { Check, ChevronRight, Circle } from 'lucide-react'
+import { motion } from 'motion/react'
 import * as React from 'react'
 
 const MenubarMenu: typeof MenubarPrimitive.Menu = MenubarPrimitive.Menu
@@ -200,6 +204,50 @@ const MenubarShortcut = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<H
 )
 MenubarShortcut.displayName = 'MenubarShortcut'
 
+/* ------------------------------------------------------------------ */
+/*  Motion variants                                                    */
+/* ------------------------------------------------------------------ */
+
+const MotionMenubarContent = React.forwardRef<
+  React.ComponentRef<typeof MenubarPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Content>
+>(({ className, align = 'start', alignOffset = -4, sideOffset = 8, ...props }, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  return (
+    <MenubarPrimitive.Portal>
+      <MenubarPrimitive.Content
+        ref={ref}
+        align={align}
+        alignOffset={alignOffset}
+        sideOffset={sideOffset}
+        asChild
+        {...props}>
+        <motion.div
+          className={cn(
+            'z-50 min-w-48 origin-(--gentleduck-menubar-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
+            className,
+          )}
+          initial={content.initial}
+          animate={content.animate}
+          transition={content.transition}>
+          {props.children}
+        </motion.div>
+      </MenubarPrimitive.Content>
+    </MenubarPrimitive.Portal>
+  )
+})
+MotionMenubarContent.displayName = 'MotionMenubarContent'
+
+const MotionMenubarItem = React.forwardRef<
+  React.ComponentRef<typeof MenubarPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Item> & { inset?: boolean; index?: number }
+>(({ className, inset, index = 0, ...props }, ref) => (
+  <motion.div {...fadeBlur} transition={{ ...contentTransition, delay: index * 0.03 }}>
+    <MenubarItem ref={ref} className={className} inset={inset} {...props} />
+  </motion.div>
+))
+MotionMenubarItem.displayName = 'MotionMenubarItem'
+
 export {
   Menubar,
   MenubarCheckboxItem,
@@ -217,4 +265,6 @@ export {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
+  MotionMenubarContent,
+  MotionMenubarItem,
 }
