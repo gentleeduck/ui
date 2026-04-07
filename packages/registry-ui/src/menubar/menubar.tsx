@@ -4,7 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
+import { MotionRootContext, useMotionContent } from '@gentleduck/motion/use-motion-root'
 import { AnimVariants } from '@gentleduck/motion/variants'
 import * as MenubarPrimitive from '@gentleduck/primitives/menubar'
 import { Check, ChevronRight, Circle } from 'lucide-react'
@@ -214,10 +214,21 @@ function MotionMenubarMenu({
   onOpenChange,
   ...rest
 }: React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Menu>) {
-  const { rootProps, contextValue } = useMotionRoot({ onOpenChange })
+  const [isOpen, setIsOpen] = React.useState(false)
+  const [showContent, setShowContent] = React.useState(false)
+  const contextValue = React.useMemo(
+    () => ({ isOpen, showContent, setShowContent }),
+    [isOpen, showContent],
+  )
   return (
     <MotionRootContext.Provider value={contextValue}>
-      <MenubarPrimitive.Menu {...rest} onOpenChange={rootProps.onOpenChange}>
+      <MenubarPrimitive.Menu
+        {...rest}
+        onOpenChange={(next) => {
+          setIsOpen(next)
+          if (next) setShowContent(true)
+          onOpenChange?.(next)
+        }}>
         {children}
       </MenubarPrimitive.Menu>
     </MotionRootContext.Provider>
