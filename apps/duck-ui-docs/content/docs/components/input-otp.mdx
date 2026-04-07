@@ -176,6 +176,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="An input OTP with RTL support."
 />
 
+## Motion
+
+Use `MotionInputOTP` and `MotionInputOTPSlot` for staggered scale+blur entrance animations powered by [motion](https://motion.dev). Each slot pops in sequentially.
+
+<ComponentPreview
+  name="input-otp-8"
+  description="OTP input with motion-powered staggered slot entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionInputOTP` instead of `InputOTP` and `MotionInputOTPSlot` instead of `InputOTPSlot`. Pass `index` to each slot for stagger order. All other sub-components stay the same.
+</Callout>
+
 ## API Reference
 
 ### InputOTP
@@ -227,3 +240,11 @@ A visual separator rendered between OTP groups.
 | `customIndicator` | `React.ReactNode` | `<Dot />` | Custom element to render instead of the default dot icon |
 | `ref` | `React.Ref<HTMLDivElement>` | - | Ref forwarded to the separator div |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### MotionInputOTP
+
+Same props as `InputOTP`. Adds fadeBlur entrance animation on the container. Requires the `motion` package.
+
+### MotionInputOTPSlot
+
+Same props as `InputOTPSlot` plus an optional `index` prop for stagger delay (50ms per index). Each slot scales in from 0.8 with blur. Requires the `motion` package.
