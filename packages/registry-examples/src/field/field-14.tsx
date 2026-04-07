@@ -35,7 +35,9 @@ export default function Demo() {
           </FieldSet>
           <MotionField index={3} orientation="horizontal">
             <MotionButton type="submit">Submit</MotionButton>
-            <MotionButton type="button" variant="outline">Cancel</MotionButton>
+            <MotionButton type="button" variant="outline">
+              Cancel
+            </MotionButton>
           </MotionField>
         </MotionFieldGroup>
       </form>
