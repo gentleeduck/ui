@@ -3,11 +3,12 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { contentTransition, fadeBlur } from '@gentleduck/motion/presets/content'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as DropdownMenuPrimitive from '@gentleduck/primitives/dropdown-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'
-import { AnimatePresence, LazyMotion, m } from 'motion/react'
+import { AnimatePresence, LazyMotion, m, motion } from 'motion/react'
 import * as React from 'react'
 
 const DropdownMenu = DropdownMenuPrimitive.Root
@@ -277,6 +278,16 @@ const MotionDropdownMenuSubContent = React.forwardRef<
 })
 MotionDropdownMenuSubContent.displayName = 'MotionDropdownMenuSubContent'
 
+const MotionDropdownMenuItem = React.forwardRef<
+  React.ComponentRef<typeof DropdownMenuPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & { inset?: boolean; index?: number }
+>(({ index = 0, ...props }, ref) => (
+  <motion.div {...fadeBlur} transition={{ ...contentTransition, delay: index * 0.03 }}>
+    <DropdownMenuItem ref={ref} {...props} />
+  </motion.div>
+))
+MotionDropdownMenuItem.displayName = 'MotionDropdownMenuItem'
+
 export {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -295,6 +306,7 @@ export {
   DropdownMenuTrigger,
   MotionDropdownMenu,
   MotionDropdownMenuContent,
+  MotionDropdownMenuItem,
   MotionDropdownMenuSub,
   MotionDropdownMenuSubContent,
 }
