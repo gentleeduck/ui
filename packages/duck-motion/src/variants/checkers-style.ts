@@ -36,7 +36,9 @@ export const checkersStylePattern = cva(
         checkbox: `
           justify-center rounded p-2
           after:rounded-none after:text-base
-          checked:after:translate-y-0 after:translate-y-1/3 text-xs
+          after:translate-y-1/3 after:scale-0 after:rotate-[20deg]
+          checked:after:translate-y-0 checked:after:scale-100 checked:after:rotate-45
+          text-xs
             `,
         radio: `
           justify-center p-2 after:text-[10px]
