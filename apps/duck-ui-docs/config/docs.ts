@@ -1150,6 +1150,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/menubar',
           items: [],
+          label: 'new',
           title: 'Menubar',
         },
         {
