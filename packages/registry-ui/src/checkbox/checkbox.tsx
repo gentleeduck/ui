@@ -75,11 +75,12 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
               type: 'checkbox',
             }),
             'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
-            '[&:before,&:after]:transition-gpu [&:before,&:after]:duration-[inherit] [&:before,&:after]:ease-[inherit] [&:before,&:after]:will-change-[inherit]',
+            '[&:before,&:after]:transition-gpu [&:before,&:after]:duration-200 [&:before,&:after]:ease-[cubic-bezier(0.34,1.56,0.64,1)] [&:before,&:after]:will-change-[inherit]',
             (indicatorReady && checkedIndicatorReady) || indicatorReady
               ? ''
-              : 'after:mb-0.5 after:h-2.25 after:w-1 after:rotate-45 after:border-[1.5px] after:border-t-0 after:border-l-0 after:bg-transparent',
-            'data-[checked="indeterminate"]:border-border data-[checked="indeterminate"]:bg-transparent data-[checked="indeterminate"]:text-foreground',
+              : 'after:mb-0.5 after:h-2.25 after:w-1 after:border-[2px] after:border-t-0 after:border-l-0 after:bg-transparent',
+            'data-[checked="indeterminate"]:border-primary data-[checked="indeterminate"]:bg-primary data-[checked="indeterminate"]:text-primary-foreground',
+            'data-[checked="indeterminate"]:after:opacity-100 data-[checked="indeterminate"]:after:mb-0 data-[checked="indeterminate"]:after:h-0.5 data-[checked="indeterminate"]:after:w-2 data-[checked="indeterminate"]:after:rotate-0 data-[checked="indeterminate"]:after:rounded-full data-[checked="indeterminate"]:after:border-0 data-[checked="indeterminate"]:after:bg-current data-[checked="indeterminate"]:after:mask-none data-[checked="indeterminate"]:after:scale-100',
             'rounded-sm bg-transparent',
             className,
           )}
@@ -148,27 +149,25 @@ CheckboxGroup.displayName = 'CheckboxGroup'
 /*  MotionCheckbox + MotionCheckboxWithLabel + MotionCheckboxGroup       */
 /* ------------------------------------------------------------------ */
 
-const MotionCheckbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
-  ({ onCheckedChange, ...props }, ref) => {
-    const [bounce, setBounce] = React.useState(false)
-    return (
-      <motion.div
-        animate={bounce ? { scale: [0.8, 1.1, 1] } : {}}
-        transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-        onAnimationComplete={() => setBounce(false)}
-        className="inline-flex">
-        <Checkbox
-          ref={ref}
-          onCheckedChange={(next) => {
-            setBounce(true)
-            onCheckedChange?.(next)
-          }}
-          {...props}
-        />
-      </motion.div>
-    )
-  },
-)
+const MotionCheckbox = React.forwardRef<HTMLInputElement, CheckboxProps>(({ onCheckedChange, ...props }, ref) => {
+  const [bounce, setBounce] = React.useState(false)
+  return (
+    <motion.div
+      animate={bounce ? { scale: [1, 0.88, 1.08, 1], rotate: [0, -3, 2, 0] } : {}}
+      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+      onAnimationComplete={() => setBounce(false)}
+      className="inline-flex">
+      <Checkbox
+        ref={ref}
+        onCheckedChange={(next) => {
+          setBounce(true)
+          onCheckedChange?.(next)
+        }}
+        {...props}
+      />
+    </motion.div>
+  )
+})
 MotionCheckbox.displayName = 'MotionCheckbox'
 
 const MotionCheckboxWithLabel = React.forwardRef<
