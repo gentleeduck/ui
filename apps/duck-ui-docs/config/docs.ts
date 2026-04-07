@@ -1146,6 +1146,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/input-group',
           items: [],
+          label: 'new',
           title: 'Input Group',
         },
         {

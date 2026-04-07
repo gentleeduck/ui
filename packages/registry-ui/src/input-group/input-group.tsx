@@ -1,8 +1,10 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { contentTransition, fadeBlur } from '@gentleduck/motion/presets/content'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { cva, type VariantProps } from '@gentleduck/variants'
+import { motion } from 'motion/react'
 import * as React from 'react'
 import { Button } from '../button'
 import { Input } from '../input'
@@ -170,4 +172,26 @@ const InputGroupTextarea = React.forwardRef<HTMLTextAreaElement, React.Component
 )
 InputGroupTextarea.displayName = 'InputGroupTextarea'
 
-export { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, InputGroupTextarea }
+/* ------------------------------------------------------------------ */
+/*  Motion variants                                                    */
+/* ------------------------------------------------------------------ */
+
+const MotionInputGroup = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<'div'> & { index?: number }
+>(({ index = 0, ...props }, ref) => (
+  <motion.div {...fadeBlur} transition={{ ...contentTransition, delay: index * 0.05 }}>
+    <InputGroup ref={ref} {...props} />
+  </motion.div>
+))
+MotionInputGroup.displayName = 'MotionInputGroup'
+
+export {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+  InputGroupTextarea,
+  MotionInputGroup,
+}

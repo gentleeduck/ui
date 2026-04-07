@@ -224,6 +224,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="An input group with RTL support."
 />
 
+## Motion
+
+Use `MotionInputGroup` for a fade+blur entrance animation powered by [motion](https://motion.dev). Pass `index` for stagger delay when using multiple groups.
+
+<ComponentPreview
+  name="input-group-13"
+  description="Input groups with motion-powered staggered entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionInputGroup` instead of `InputGroup`. All other sub-components stay the same.
+</Callout>
+
 ## API Reference
 
 ### InputGroup
@@ -294,3 +307,7 @@ Replacement for `<Textarea />` when building input groups. Has textarea group st
 | `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | `--` | Additional CSS classes to apply |
 | `...props` | `React.HTMLProps<HTMLTextAreaElement>` | - | Additional props to spread to the textarea element |
+
+### MotionInputGroup
+
+Same props as `InputGroup` plus an optional `index` prop for stagger delay (50ms per index). Adds fade+blur entrance animation. Requires the `motion` package.
