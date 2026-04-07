@@ -1140,6 +1140,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/input',
           items: [],
+          label: 'new',
           title: 'Input',
         },
         {

@@ -1,5 +1,9 @@
+'use client'
+
 import { cn } from '@gentleduck/libs/cn'
+import { contentTransition, fadeBlur } from '@gentleduck/motion/presets/content'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import { motion } from 'motion/react'
 import * as React from 'react'
 
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
@@ -42,4 +46,13 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
 
 Input.displayName = 'Input'
 
-export { Input }
+const MotionInput = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'> & { index?: number }>(
+  ({ index = 0, ...props }, ref) => (
+    <motion.div {...fadeBlur} transition={{ ...contentTransition, delay: index * 0.05 }}>
+      <Input ref={ref} {...props} />
+    </motion.div>
+  ),
+)
+MotionInput.displayName = 'MotionInput'
+
+export { Input, MotionInput }
