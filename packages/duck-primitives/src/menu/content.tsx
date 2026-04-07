@@ -222,7 +222,9 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, MenuContentImpl
     const lastPointerXRef = React.useRef(0)
 
     const ScrollLockWrapper = disableOutsideScroll ? RemoveScroll : React.Fragment
-    const scrollLockWrapperProps = disableOutsideScroll ? { as: Slot, allowPinchZoom: true } : undefined
+    const scrollLockWrapperProps = disableOutsideScroll
+      ? { as: Slot, allowPinchZoom: true, enabled: context.open }
+      : undefined
 
     const [, handleTypeaheadSearch, resetTypeahead] = useTypeaheadListNavigation({
       getItems: () => getItems().filter((item) => !item.disabled),

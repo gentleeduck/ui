@@ -41,7 +41,7 @@ const DialogOverlayImpl = React.forwardRef<DialogOverlayImplElement, DialogOverl
     const { __scopeDialog, ...overlayProps } = props
     const context = useDialogContext(OVERLAY_NAME, __scopeDialog)
     return (
-      <RemoveScroll as={Slot} allowPinchZoom shards={[context.contentRef]}>
+      <RemoveScroll as={Slot} allowPinchZoom enabled={context.open} shards={[context.contentRef]}>
         <Primitive.div
           data-slot="dialog-overlay"
           data-state={getState(context.open)}

@@ -286,7 +286,7 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, SelectConte
         isPositioned={isPositioned}
         searchRef={searchRef}
         allowTextPortal={context.open}>
-        <RemoveScroll as={Slot} allowPinchZoom>
+        <RemoveScroll as={Slot} allowPinchZoom enabled={context.open}>
           <FocusScope
             asChild
             // we make sure we're not trapping once it's been closed

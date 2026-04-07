@@ -67,7 +67,7 @@ const DialogContentModal = React.forwardRef<DialogContentTypeElement, DialogCont
         {...props}
         ref={composedRefs}
         trapFocus={context.open}
-        disableOutsidePointerEvents
+        disableOutsidePointerEvents={context.open}
         onCloseAutoFocus={composeEventHandlers(props.onCloseAutoFocus, (event) => {
           event.preventDefault()
           context.triggerRef.current?.focus()
