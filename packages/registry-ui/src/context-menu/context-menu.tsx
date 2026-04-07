@@ -194,13 +194,25 @@ const MotionContextMenuContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => {
   const { isOpen, setShowContent } = useMotionContent()
   const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const isOpenRef = React.useRef(isOpen)
+  isOpenRef.current = isOpen
 
   return (
     <LazyMotion features={loadDomAnimation}>
       <AnimatePresence onExitComplete={() => setShowContent(false)}>
         {isOpen && (
           <ContextMenuPrimitive.Portal forceMount>
-            <ContextMenuPrimitive.Content ref={ref} forceMount asChild {...props}>
+            <ContextMenuPrimitive.Content
+              ref={ref}
+              forceMount
+              asChild
+              onPointerDownOutside={(e) => {
+                if (!isOpenRef.current) e.preventDefault()
+              }}
+              onFocusOutside={(e) => {
+                if (!isOpenRef.current) e.preventDefault()
+              }}
+              {...props}>
               <m.div
                 className={cn(
                   'z-50 max-h-(--gentleduck-context-menu-content-available-height) min-w-32 overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
