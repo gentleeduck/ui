@@ -120,6 +120,20 @@ Set `dir="rtl"` on `NavigationMenu` for a local override, or set `DirectionProvi
   description="A navigation menu with RTL support."
 />
 
+## Motion
+
+Use `MotionNavigationMenu`, `MotionNavigationMenuContent`, and `MotionNavigationMenuLink` for motion-enhanced animations powered by [motion](https://motion.dev). The viewport enters with a spring scale+blur, content slides with blur, and links fade in with stagger.
+
+<ComponentPreview
+  name="navigation-menu-3"
+  className="[&>div>div>div[duck-preview]]:overflow-visible [&>div>div>div[duck-preview]]:items-start"
+  description="A navigation menu with motion-powered animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionNavigationMenu` instead of `NavigationMenu`, `MotionNavigationMenuContent` instead of `NavigationMenuContent`, and `MotionNavigationMenuLink` instead of `NavigationMenuLink`. All other sub-components stay the same.
+</Callout>
+
 ## API Reference
 
 ### NavigationMenu
@@ -201,3 +215,15 @@ import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
   Documentation
 </NavigationMenuLink>
 ```
+
+### MotionNavigationMenu
+
+Same props as `NavigationMenu`. Uses `MotionNavigationMenuViewport` with spring scaleIn+blur animation. Requires the `motion` package.
+
+### MotionNavigationMenuContent
+
+Same props as `NavigationMenuContent`. Adds blur to the directional slide transitions. Requires the `motion` package.
+
+### MotionNavigationMenuLink
+
+Same props as `NavigationMenuLink` plus an optional `index` prop for stagger delay (30ms per index). Adds fade+blur entrance animation. Requires the `motion` package.

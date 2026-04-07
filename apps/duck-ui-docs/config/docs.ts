@@ -1118,6 +1118,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/navigation-menu',
           items: [],
+          label: 'new',
           title: 'Navigation Menu',
         },
         {
