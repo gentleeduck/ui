@@ -58,7 +58,11 @@ DialogContent.displayName = CONTENT_NAME
 
 const DialogContentModal = React.forwardRef<DialogContentTypeElement, DialogContentTypeProps>(
   (props: ScopedProps<DialogContentTypeProps>, forwardedRef) => {
-    const { trapFocus: trapFocusProp, disableOutsidePointerEvents: disableOutsidePointerEventsProp, ...restProps } = props
+    const {
+      trapFocus: trapFocusProp,
+      disableOutsidePointerEvents: disableOutsidePointerEventsProp,
+      ...restProps
+    } = props
     const context = useDialogContext(CONTENT_NAME, props.__scopeDialog)
     const contentRef = React.useRef<HTMLDivElement>(null)
     const composedRefs = useComposedRefs(forwardedRef, context.contentRef, contentRef)
