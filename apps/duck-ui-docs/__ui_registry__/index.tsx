@@ -391,6 +391,7 @@ const _Calendar21 = dynamic(() => import('@gentleduck/registry-examples/calendar
 const _Calendar22 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-22'), { ssr: false })
 const _Calendar23 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-23'), { ssr: false })
 const _Calendar24 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-24'), { ssr: false })
+const _Calendar25 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-25'), { ssr: false })
 const _Calendar3 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-3'), { ssr: false })
 const _Calendar4 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-4'), { ssr: false })
 const _Calendar5 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-5'), { ssr: false })
@@ -4067,6 +4068,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Calendar24,
+    source: '/registry-examples/src/calendar',
+    categories: [],
+    root_folder: 'calendar',
+  },
+  'calendar-25': {
+    name: 'calendar-25',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['calendar'],
+    files: [
+      {
+        path: 'calendar/calendar-25.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Calendar25,
     source: '/registry-examples/src/calendar',
     categories: [],
     root_folder: 'calendar',
