@@ -2,6 +2,8 @@
 
 import type { CalendarDay as CalendarDayType, DayProps } from '@gentleduck/calendar'
 import { cn } from '@gentleduck/libs/cn'
+import { tapScale } from '@gentleduck/motion/presets/content'
+import { m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from '../button'
 import { getCachedNumberFormat } from './calendar.utils'
@@ -42,6 +44,8 @@ interface CalendarDayCellProps {
   locale?: string
   onFocusDate: (date: Date) => void
   renderDay?: (day: CalendarDayType<Date>, children: React.ReactNode) => React.ReactNode
+  /** When true, renders motion-powered button with tap feedback. Must be inside LazyMotion. */
+  useMotion?: boolean
 }
 
 function formatDayNumber(d: number, locale?: string): React.ReactNode {
@@ -61,9 +65,14 @@ export const CalendarDayCell = React.memo(function CalendarDayCell({
   locale,
   onFocusDate,
   renderDay,
+  useMotion = false,
 }: CalendarDayCellProps) {
   const isInRange = day.isRangeStart || day.isRangeEnd || day.isRangeMiddle
   const dayNum = formatDayNumber(day.date.getDate(), locale)
+
+  // biome-ignore lint/suspicious/noExplicitAny: conditionally use m.button or plain button
+  const Btn = (useMotion ? m.button : 'button') as any
+  const motionProps = useMotion && !day.isDisabled ? { whileTap: tapScale } : {}
 
   return (
     // biome-ignore lint/a11y/useSemanticElements: gridcell on div per WAI-ARIA grid pattern
@@ -86,16 +95,16 @@ export const CalendarDayCell = React.memo(function CalendarDayCell({
         day.isOutside && !day.isHidden && day.isSelected && 'text-muted-foreground',
         day.isDisabled && !day.isHidden && 'pointer-events-none text-muted-foreground opacity-50',
       )}>
-      <button
+      <Btn
         type="button"
         {...dayProps}
+        {...motionProps}
         disabled={day.isDisabled}
         tabIndex={day.isDisabled ? -1 : dayProps.tabIndex}
-        onClick={(e) => {
+        onClick={(e: React.MouseEvent) => {
           if (day.isDisabled) return
           dayProps.onClick({ shiftKey: e.shiftKey })
           onFocusDate(day.date)
-          // Remove browser focus so the cell returns to neutral visual state
           ;(e.currentTarget as HTMLElement).blur()
         }}
         data-day={day.date.toLocaleDateString()}
@@ -108,22 +117,17 @@ export const CalendarDayCell = React.memo(function CalendarDayCell({
         className={cn(
           buttonVariants({ variant: 'ghost', size: 'icon' }),
           'flex aspect-square size-auto w-full min-w-(--gentleduck-calendar-cell) flex-col gap-1 font-normal leading-none focus-visible:ring-0 focus-visible:ring-offset-0',
-          // Single selection
           'data-[selected-single=true]:rounded-md data-[selected-single=true]:bg-primary data-[selected-single=true]:text-primary-foreground',
-          // Range selection
           'data-[range-start=true]:rounded-s-md data-[range-start=true]:bg-primary data-[range-start=true]:text-primary-foreground',
           'data-[range-end=true]:rounded-e-md data-[range-end=true]:bg-primary data-[range-end=true]:text-primary-foreground',
           'data-[range-middle=true]:rounded-none data-[range-middle=true]:bg-accent data-[range-middle=true]:text-accent-foreground',
-          // Outside month
           day.isOutside && 'text-muted-foreground/50',
-          // Today
           'data-[today=true]:font-semibold',
-          // Focus ring
           'group-data-[focused=true]/day:relative group-data-[focused=true]/day:z-10 group-data-[focused=true]/day:rounded-md group-data-[focused=true]/day:border group-data-[focused=true]/day:border-ring group-data-[focused=true]/day:ring-1 group-data-[focused=true]/day:ring-ring/50',
           '[&>span]:text-xs [&>span]:opacity-70',
         )}>
         {renderDay ? renderDay(day, dayNum) : dayNum}
-      </button>
+      </Btn>
     </div>
   )
 })
