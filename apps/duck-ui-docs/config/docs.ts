@@ -1112,6 +1112,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/field',
           items: [],
+          label: 'new',
           title: 'Field',
         },
         {
