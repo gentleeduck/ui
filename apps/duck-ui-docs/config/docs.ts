@@ -1043,6 +1043,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/checkbox',
           items: [],
+          label: 'new',
           title: 'Checkbox',
         },
         {

@@ -126,6 +126,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="A checkbox with RTL support."
 />
 
+## Motion
+
+Use `MotionCheckboxWithLabel` for staggered fade-up entrance animations powered by [motion](https://motion.dev). Pass `index` for stagger delay.
+
+<ComponentPreview
+  name="checkbox-10"
+  description="Checkboxes with motion-powered staggered entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionCheckboxWithLabel` instead of `CheckboxWithLabel`, or `MotionCheckboxGroup` instead of `CheckboxGroup`. The `Checkbox` component stays the same.
+</Callout>
+
 ## API Reference
 
 ### Checkbox
@@ -173,6 +186,14 @@ type CheckboxGroupSubtasks = {
   checked?: boolean | 'indeterminate'
 }
 ```
+
+### MotionCheckboxWithLabel
+
+Same props as `CheckboxWithLabel` plus an optional `index` prop for stagger delay (50ms per index). Requires the `motion` package.
+
+### MotionCheckboxGroup
+
+Same props as `CheckboxGroup`. Wraps the group with fadeUp and renders each item as `MotionCheckboxWithLabel` with automatic stagger. Requires the `motion` package.
 
 ## See also
 
