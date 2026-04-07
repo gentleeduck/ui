@@ -371,6 +371,7 @@ const _Dialog5 = dynamic(() => import('@gentleduck/registry-examples/dialog/dial
 const _Command1 = dynamic(() => import('@gentleduck/registry-examples/command/command-1'), { ssr: false })
 const _Command2 = dynamic(() => import('@gentleduck/registry-examples/command/command-2'), { ssr: false })
 const _Command3 = dynamic(() => import('@gentleduck/registry-examples/command/command-3'), { ssr: false })
+const _Command4 = dynamic(() => import('@gentleduck/registry-examples/command/command-4'), { ssr: false })
 const _Card1 = dynamic(() => import('@gentleduck/registry-examples/card/card-1'), { ssr: false })
 const _Card2 = dynamic(() => import('@gentleduck/registry-examples/card/card-2'), { ssr: false })
 const _Card3 = dynamic(() => import('@gentleduck/registry-examples/card/card-3'), { ssr: false })
@@ -523,6 +524,7 @@ const _Resizable4 = dynamic(() => import('@gentleduck/registry-examples/resizabl
 const _Pagination1 = dynamic(() => import('@gentleduck/registry-examples/pagination/pagination-1'), { ssr: false })
 const _Pagination2 = dynamic(() => import('@gentleduck/registry-examples/pagination/pagination-2'), { ssr: false })
 const _Checkbox1 = dynamic(() => import('@gentleduck/registry-examples/checkbox/checkbox-1'), { ssr: false })
+const _Checkbox10 = dynamic(() => import('@gentleduck/registry-examples/checkbox/checkbox-10'), { ssr: false })
 const _Checkbox2 = dynamic(() => import('@gentleduck/registry-examples/checkbox/checkbox-2'), { ssr: false })
 const _Checkbox3 = dynamic(() => import('@gentleduck/registry-examples/checkbox/checkbox-3'), { ssr: false })
 const _Checkbox4 = dynamic(() => import('@gentleduck/registry-examples/checkbox/checkbox-4'), { ssr: false })
@@ -531,7 +533,6 @@ const _Checkbox6 = dynamic(() => import('@gentleduck/registry-examples/checkbox/
 const _Checkbox7 = dynamic(() => import('@gentleduck/registry-examples/checkbox/checkbox-7'), { ssr: false })
 const _Checkbox8 = dynamic(() => import('@gentleduck/registry-examples/checkbox/checkbox-8'), { ssr: false })
 const _Checkbox9 = dynamic(() => import('@gentleduck/registry-examples/checkbox/checkbox-9'), { ssr: false })
-const _Checkbox10 = dynamic(() => import('@gentleduck/registry-examples/checkbox/checkbox-10'), { ssr: false })
 const _Carousel1 = dynamic(() => import('@gentleduck/registry-examples/carousel/carousel-1'), { ssr: false })
 const _Carousel2 = dynamic(() => import('@gentleduck/registry-examples/carousel/carousel-2'), { ssr: false })
 const _Carousel3 = dynamic(() => import('@gentleduck/registry-examples/carousel/carousel-3'), { ssr: false })
@@ -579,6 +580,7 @@ const _Combobox4 = dynamic(() => import('@gentleduck/registry-examples/combobox/
 const _Combobox5 = dynamic(() => import('@gentleduck/registry-examples/combobox/combobox-5'), { ssr: false })
 const _Combobox6 = dynamic(() => import('@gentleduck/registry-examples/combobox/combobox-6'), { ssr: false })
 const _Combobox7 = dynamic(() => import('@gentleduck/registry-examples/combobox/combobox-7'), { ssr: false })
+const _Combobox8 = dynamic(() => import('@gentleduck/registry-examples/combobox/combobox-8'), { ssr: false })
 const _Collapsible1 = dynamic(() => import('@gentleduck/registry-examples/collapsible/collapsible-1'), { ssr: false })
 const _Collapsible2 = dynamic(() => import('@gentleduck/registry-examples/collapsible/collapsible-2'), { ssr: false })
 const _Collapsible3 = dynamic(() => import('@gentleduck/registry-examples/collapsible/collapsible-3'), { ssr: false })
@@ -3754,6 +3756,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'command',
   },
+  'command-4': {
+    name: 'command-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['command'],
+    files: [
+      {
+        path: 'command/command-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Command4,
+    source: '/registry-examples/src/command',
+    categories: [],
+    root_folder: 'command',
+  },
   'card-1': {
     name: 'card-1',
     description: '',
@@ -6186,6 +6204,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'checkbox',
   },
+  'checkbox-10': {
+    name: 'checkbox-10',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['checkbox'],
+    files: [
+      {
+        path: 'checkbox/checkbox-10.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Checkbox10,
+    source: '/registry-examples/src/checkbox',
+    categories: [],
+    root_folder: 'checkbox',
+  },
   'checkbox-2': {
     name: 'checkbox-2',
     description: '',
@@ -6310,22 +6344,6 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Checkbox9,
-    source: '/registry-examples/src/checkbox',
-    categories: [],
-    root_folder: 'checkbox',
-  },
-  'checkbox-10': {
-    name: 'checkbox-10',
-    description: '',
-    type: 'registry:example',
-    registryDependencies: ['checkbox'],
-    files: [
-      {
-        path: 'checkbox/checkbox-10.tsx',
-        type: 'registry:example',
-      },
-    ],
-    component: _Checkbox10,
     source: '/registry-examples/src/checkbox',
     categories: [],
     root_folder: 'checkbox',
@@ -6886,6 +6904,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Combobox7,
+    source: '/registry-examples/src/combobox',
+    categories: [],
+    root_folder: 'combobox',
+  },
+  'combobox-8': {
+    name: 'combobox-8',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['combobox'],
+    files: [
+      {
+        path: 'combobox/combobox-8.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Combobox8,
     source: '/registry-examples/src/combobox',
     categories: [],
     root_folder: 'combobox',
