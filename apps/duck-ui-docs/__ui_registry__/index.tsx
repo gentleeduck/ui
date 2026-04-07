@@ -594,6 +594,7 @@ const _InputOtp4 = dynamic(() => import('@gentleduck/registry-examples/input-otp
 const _InputOtp5 = dynamic(() => import('@gentleduck/registry-examples/input-otp/input-otp-5'), { ssr: false })
 const _InputOtp6 = dynamic(() => import('@gentleduck/registry-examples/input-otp/input-otp-6'), { ssr: false })
 const _InputOtp7 = dynamic(() => import('@gentleduck/registry-examples/input-otp/input-otp-7'), { ssr: false })
+const _InputOtp8 = dynamic(() => import('@gentleduck/registry-examples/input-otp/input-otp-8'), { ssr: false })
 const _Chart1 = dynamic(() => import('@gentleduck/registry-examples/chart/chart-1'), { ssr: false })
 const _Chart2 = dynamic(() => import('@gentleduck/registry-examples/chart/chart-2'), { ssr: false })
 const _Chart3 = dynamic(() => import('@gentleduck/registry-examples/chart/chart-3'), { ssr: false })
@@ -7134,6 +7135,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _InputOtp7,
+    source: '/registry-examples/src/input-otp',
+    categories: [],
+    root_folder: 'input-otp',
+  },
+  'input-otp-8': {
+    name: 'input-otp-8',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['input-otp'],
+    files: [
+      {
+        path: 'input-otp/input-otp-8.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _InputOtp8,
     source: '/registry-examples/src/input-otp',
     categories: [],
     root_folder: 'input-otp',
