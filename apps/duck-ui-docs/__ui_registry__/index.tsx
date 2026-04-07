@@ -672,6 +672,7 @@ const _Empty4 = dynamic(() => import('@gentleduck/registry-examples/empty/empty-
 const _Empty5 = dynamic(() => import('@gentleduck/registry-examples/empty/empty-5'), { ssr: false })
 const _Empty6 = dynamic(() => import('@gentleduck/registry-examples/empty/empty-6'), { ssr: false })
 const _Empty7 = dynamic(() => import('@gentleduck/registry-examples/empty/empty-7'), { ssr: false })
+const _Empty8 = dynamic(() => import('@gentleduck/registry-examples/empty/empty-8'), { ssr: false })
 const _Field1 = dynamic(() => import('@gentleduck/registry-examples/field/field-1'), { ssr: false })
 const _Field10 = dynamic(() => import('@gentleduck/registry-examples/field/field-10'), { ssr: false })
 const _Field11 = dynamic(() => import('@gentleduck/registry-examples/field/field-11'), { ssr: false })
@@ -7881,6 +7882,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Empty7,
+    source: '/registry-examples/src/empty',
+    categories: [],
+    root_folder: 'empty',
+  },
+  'empty-8': {
+    name: 'empty-8',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['empty'],
+    files: [
+      {
+        path: 'empty/empty-8.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Empty8,
     source: '/registry-examples/src/empty',
     categories: [],
     root_folder: 'empty',

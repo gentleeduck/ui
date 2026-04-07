@@ -1,6 +1,10 @@
+'use client'
+
 import { cn } from '@gentleduck/libs/cn'
+import { contentTransition, fadeUp, scaleBlur } from '@gentleduck/motion/presets/content'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import type { VariantProps } from '@gentleduck/variants'
+import { motion } from 'motion/react'
 import React from 'react'
 import { emptyMediaVariants } from './empty.constants'
 
@@ -83,4 +87,58 @@ const EmptyContent = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'
 })
 EmptyContent.displayName = 'EmptyContent'
 
-export { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle }
+/* ------------------------------------------------------------------ */
+/*  Motion variants                                                    */
+/* ------------------------------------------------------------------ */
+
+const MotionEmpty = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>((props, ref) => (
+  <motion.div {...fadeUp} transition={contentTransition}>
+    <Empty ref={ref} {...props} />
+  </motion.div>
+))
+MotionEmpty.displayName = 'MotionEmpty'
+
+const MotionEmptyMedia = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<'div'> & VariantProps<typeof emptyMediaVariants>
+>((props, ref) => (
+  <motion.div {...scaleBlur} transition={{ ...contentTransition, delay: 0.05 }}>
+    <EmptyMedia ref={ref} {...props} />
+  </motion.div>
+))
+MotionEmptyMedia.displayName = 'MotionEmptyMedia'
+
+const MotionEmptyTitle = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>((props, ref) => (
+  <motion.div {...fadeUp} transition={{ ...contentTransition, delay: 0.1 }}>
+    <EmptyTitle ref={ref} {...props} />
+  </motion.div>
+))
+MotionEmptyTitle.displayName = 'MotionEmptyTitle'
+
+const MotionEmptyDescription = React.forwardRef<HTMLDivElement, React.ComponentProps<'p'>>((props, ref) => (
+  <motion.div {...fadeUp} transition={{ ...contentTransition, delay: 0.15 }}>
+    <EmptyDescription ref={ref} {...props} />
+  </motion.div>
+))
+MotionEmptyDescription.displayName = 'MotionEmptyDescription'
+
+const MotionEmptyContent = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>((props, ref) => (
+  <motion.div {...fadeUp} transition={{ ...contentTransition, delay: 0.2 }}>
+    <EmptyContent ref={ref} {...props} />
+  </motion.div>
+))
+MotionEmptyContent.displayName = 'MotionEmptyContent'
+
+export {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+  MotionEmpty,
+  MotionEmptyContent,
+  MotionEmptyDescription,
+  MotionEmptyMedia,
+  MotionEmptyTitle,
+}
