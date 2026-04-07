@@ -1164,11 +1164,13 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/kbd',
           items: [],
+          label: 'new',
           title: 'Kbd',
         },
         {
           href: '/docs/components/label',
           items: [],
+          label: 'new',
           title: 'Label',
         },
         {
