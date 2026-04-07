@@ -108,12 +108,12 @@ Set `dir="rtl"` on `Menubar` for a local override, or set `DirectionProvider` on
 
 ## Motion
 
-Use `MotionMenubarContent` for spring-animated dropdown and `MotionMenubarItem` for staggered fade+blur item entrance powered by [motion](https://motion.dev).
+Use `MotionMenubarContent` for a spring-animated dropdown with scale+blur entrance powered by [motion](https://motion.dev).
 
 <ComponentPreview name="menubar-3" description="A menubar with motion-powered animations." />
 
 <Callout icon={<Zap />}>
-Requires the `motion` package. Use `MotionMenubarContent` instead of `MenubarContent` and `MotionMenubarItem` instead of `MenubarItem`. All other sub-components stay the same.
+Requires the `motion` package. Use `MotionMenubarContent` instead of `MenubarContent`. All other sub-components stay the same.
 </Callout>
 
 ## API Reference
@@ -255,7 +255,3 @@ Components in this file wrap `@gentleduck/primitives/menubar`.
 ### MotionMenubarContent
 
 Same props as `MenubarContent`. Adds spring scaleIn+blur entrance animation. Requires the `motion` package.
-
-### MotionMenubarItem
-
-Same props as `MenubarItem` plus an optional `index` prop for stagger delay (30ms per index). Adds fade+blur entrance. Requires the `motion` package.

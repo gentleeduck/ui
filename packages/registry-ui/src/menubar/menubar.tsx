@@ -1,13 +1,13 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
-import { contentTransition, fadeBlur } from '@gentleduck/motion/presets/content'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { AnimVariants } from '@gentleduck/motion/variants'
 import * as MenubarPrimitive from '@gentleduck/primitives/menubar'
 import { Check, ChevronRight, Circle } from 'lucide-react'
-import { motion } from 'motion/react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const MenubarMenu: typeof MenubarPrimitive.Menu = MenubarPrimitive.Menu
@@ -214,6 +214,7 @@ const MotionMenubarContent = React.forwardRef<
 >(({ className, align = 'start', alignOffset = -4, sideOffset = 8, ...props }, ref) => {
   const content = useMotionPreset('scaleIn', { transition: springBouncy })
   return (
+    <LazyMotion features={loadDomAnimation}>
     <MenubarPrimitive.Portal>
       <MenubarPrimitive.Content
         ref={ref}
@@ -222,7 +223,7 @@ const MotionMenubarContent = React.forwardRef<
         sideOffset={sideOffset}
         asChild
         {...props}>
-        <motion.div
+        <m.div
           className={cn(
             'z-50 min-w-48 origin-(--gentleduck-menubar-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
             className,
@@ -231,22 +232,13 @@ const MotionMenubarContent = React.forwardRef<
           animate={content.animate}
           transition={content.transition}>
           {props.children}
-        </motion.div>
+        </m.div>
       </MenubarPrimitive.Content>
     </MenubarPrimitive.Portal>
+    </LazyMotion>
   )
 })
 MotionMenubarContent.displayName = 'MotionMenubarContent'
-
-const MotionMenubarItem = React.forwardRef<
-  React.ComponentRef<typeof MenubarPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Item> & { inset?: boolean; index?: number }
->(({ className, inset, index = 0, ...props }, ref) => (
-  <motion.div {...fadeBlur} transition={{ ...contentTransition, delay: index * 0.03 }}>
-    <MenubarItem ref={ref} className={className} inset={inset} {...props} />
-  </motion.div>
-))
-MotionMenubarItem.displayName = 'MotionMenubarItem'
 
 export {
   Menubar,
@@ -266,5 +258,4 @@ export {
   MenubarSubTrigger,
   MenubarTrigger,
   MotionMenubarContent,
-  MotionMenubarItem,
 }

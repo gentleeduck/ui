@@ -2,12 +2,12 @@
 
 import {
   Menubar,
+  MenubarItem,
   MenubarMenu,
   MenubarSeparator,
   MenubarShortcut,
   MenubarTrigger,
   MotionMenubarContent,
-  MotionMenubarItem,
 } from '@gentleduck/registry-ui/menubar'
 
 export default function Demo() {
@@ -16,40 +16,38 @@ export default function Demo() {
       <MenubarMenu>
         <MenubarTrigger>File</MenubarTrigger>
         <MotionMenubarContent>
-          <MotionMenubarItem index={0}>
+          <MenubarItem>
             New Tab <MenubarShortcut>⌘T</MenubarShortcut>
-          </MotionMenubarItem>
-          <MotionMenubarItem index={1}>
+          </MenubarItem>
+          <MenubarItem>
             New Window <MenubarShortcut>⌘N</MenubarShortcut>
-          </MotionMenubarItem>
-          <MotionMenubarItem index={2} disabled>
-            New Incognito Window
-          </MotionMenubarItem>
+          </MenubarItem>
+          <MenubarItem disabled>New Incognito Window</MenubarItem>
           <MenubarSeparator />
-          <MotionMenubarItem index={3}>
+          <MenubarItem>
             Print <MenubarShortcut>⌘P</MenubarShortcut>
-          </MotionMenubarItem>
+          </MenubarItem>
         </MotionMenubarContent>
       </MenubarMenu>
       <MenubarMenu>
         <MenubarTrigger>Edit</MenubarTrigger>
         <MotionMenubarContent>
-          <MotionMenubarItem index={0}>
+          <MenubarItem>
             Undo <MenubarShortcut>⌘Z</MenubarShortcut>
-          </MotionMenubarItem>
-          <MotionMenubarItem index={1}>
+          </MenubarItem>
+          <MenubarItem>
             Redo <MenubarShortcut>⇧⌘Z</MenubarShortcut>
-          </MotionMenubarItem>
+          </MenubarItem>
           <MenubarSeparator />
-          <MotionMenubarItem index={2}>
+          <MenubarItem>
             Cut <MenubarShortcut>⌘X</MenubarShortcut>
-          </MotionMenubarItem>
-          <MotionMenubarItem index={3}>
+          </MenubarItem>
+          <MenubarItem>
             Copy <MenubarShortcut>⌘C</MenubarShortcut>
-          </MotionMenubarItem>
-          <MotionMenubarItem index={4}>
+          </MenubarItem>
+          <MenubarItem>
             Paste <MenubarShortcut>⌘V</MenubarShortcut>
-          </MotionMenubarItem>
+          </MenubarItem>
         </MotionMenubarContent>
       </MenubarMenu>
     </Menubar>
