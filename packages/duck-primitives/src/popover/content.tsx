@@ -37,7 +37,14 @@ type PopoverContentImplProps = Omit<PopperContentProps, 'onPlaced'> &
     onCloseAutoFocus?: FocusScopeProps['onUnmountAutoFocus']
   }
 
-type PopoverContentTypeProps = Omit<PopoverContentImplProps, 'trapFocus' | 'disableOutsidePointerEvents'>
+type PopoverContentTypeProps = Omit<PopoverContentImplProps, 'trapFocus' | 'disableOutsidePointerEvents'> & {
+  /** Override whether focus is trapped. Defaults to `context.open`. */
+  trapFocus?: FocusScopeProps['trapped']
+  /** Override whether outside pointer events are disabled. Defaults to `context.open`. */
+  disableOutsidePointerEvents?: DismissableLayerProps['disableOutsidePointerEvents']
+  /** Override whether scroll is locked. Defaults to `context.open`. */
+  lockScroll?: boolean
+}
 
 export interface PopoverContentProps extends PopoverContentTypeProps {
   /** Force mounting for animation control. */
@@ -75,6 +82,12 @@ const Slot = createSlot('PopoverContent.RemoveScroll')
 
 const PopoverContentModal = React.forwardRef<PopoverContentElement, PopoverContentTypeProps>(
   (props: ScopedProps<PopoverContentTypeProps>, forwardedRef) => {
+    const {
+      trapFocus: trapFocusProp,
+      disableOutsidePointerEvents: disableOutsidePointerEventsProp,
+      lockScroll: lockScrollProp,
+      ...restProps
+    } = props
     const context = usePopoverContext(CONTENT_NAME, props.__scopePopover)
 
     const contentRef = React.useRef<HTMLDivElement>(null)
@@ -82,7 +95,6 @@ const PopoverContentModal = React.forwardRef<PopoverContentElement, PopoverConte
 
     const isRightClickOutsideRef = React.useRef(false)
 
-    // aria-hide everything except the content (better supported than aria-modal in some UAs)
     React.useEffect(() => {
       const content = contentRef.current
       if (content) return hideOthers(content)
@@ -90,13 +102,12 @@ const PopoverContentModal = React.forwardRef<PopoverContentElement, PopoverConte
     }, [])
 
     return (
-      <RemoveScroll as={Slot} allowPinchZoom enabled={context.open}>
+      <RemoveScroll as={Slot} allowPinchZoom enabled={lockScrollProp ?? context.open}>
         <PopoverContentImpl
-          {...props}
+          {...restProps}
           ref={composedRefs}
-          // Keep focus trapped only while open; when animating out we do not want to keep trapping.
-          trapFocus={context.open}
-          disableOutsidePointerEvents={context.open}
+          trapFocus={trapFocusProp ?? context.open}
+          disableOutsidePointerEvents={disableOutsidePointerEventsProp ?? context.open}
           onCloseAutoFocus={composeEventHandlers(props.onCloseAutoFocus, (event) => {
             event.preventDefault()
             if (!isRightClickOutsideRef.current) context.triggerRef.current?.focus()
