@@ -678,6 +678,7 @@ const _Field10 = dynamic(() => import('@gentleduck/registry-examples/field/field
 const _Field11 = dynamic(() => import('@gentleduck/registry-examples/field/field-11'), { ssr: false })
 const _Field12 = dynamic(() => import('@gentleduck/registry-examples/field/field-12'), { ssr: false })
 const _Field13 = dynamic(() => import('@gentleduck/registry-examples/field/field-13'), { ssr: false })
+const _Field14 = dynamic(() => import('@gentleduck/registry-examples/field/field-14'), { ssr: false })
 const _Field2 = dynamic(() => import('@gentleduck/registry-examples/field/field-2'), { ssr: false })
 const _Field3 = dynamic(() => import('@gentleduck/registry-examples/field/field-3'), { ssr: false })
 const _Field4 = dynamic(() => import('@gentleduck/registry-examples/field/field-4'), { ssr: false })
@@ -7978,6 +7979,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Field13,
+    source: '/registry-examples/src/field',
+    categories: [],
+    root_folder: 'field',
+  },
+  'field-14': {
+    name: 'field-14',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['field'],
+    files: [
+      {
+        path: 'field/field-14.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Field14,
     source: '/registry-examples/src/field',
     categories: [],
     root_folder: 'field',

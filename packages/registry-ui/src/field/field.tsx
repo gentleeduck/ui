@@ -1,8 +1,10 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { contentTransition, fadeUp } from '@gentleduck/motion/presets/content'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import type { VariantProps } from '@gentleduck/variants'
+import { motion } from 'motion/react'
 import React, { useMemo } from 'react'
 import { Label } from '../label'
 import { Separator } from '../separator'
@@ -218,6 +220,37 @@ const FieldError = React.forwardRef<
 })
 FieldError.displayName = 'FieldError'
 
+/* ------------------------------------------------------------------ */
+/*  Motion variants                                                    */
+/* ------------------------------------------------------------------ */
+
+const MotionField = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<'div'> & VariantProps<typeof fieldVariants> & { index?: number }
+>(({ index = 0, ...props }, ref) => (
+  <motion.div {...fadeUp} transition={{ ...contentTransition, delay: index * 0.05 }}>
+    <Field ref={ref} {...props} />
+  </motion.div>
+))
+MotionField.displayName = 'MotionField'
+
+const MotionFieldGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>((props, ref) => (
+  <motion.div {...fadeUp} transition={contentTransition}>
+    <FieldGroup ref={ref} {...props} />
+  </motion.div>
+))
+MotionFieldGroup.displayName = 'MotionFieldGroup'
+
+const MotionFieldError = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<'div'> & { errors?: Array<{ message?: string } | undefined> }
+>((props, ref) => (
+  <motion.div {...fadeUp} transition={{ ...contentTransition, delay: 0.05 }}>
+    <FieldError ref={ref} {...props} />
+  </motion.div>
+))
+MotionFieldError.displayName = 'MotionFieldError'
+
 export {
   Field,
   FieldContent,
@@ -229,4 +262,7 @@ export {
   FieldSeparator,
   FieldSet,
   FieldTitle,
+  MotionField,
+  MotionFieldError,
+  MotionFieldGroup,
 }
