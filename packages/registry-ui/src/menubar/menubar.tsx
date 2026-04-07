@@ -7,7 +7,7 @@ import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { AnimVariants } from '@gentleduck/motion/variants'
 import * as MenubarPrimitive from '@gentleduck/primitives/menubar'
 import { Check, ChevronRight, Circle } from 'lucide-react'
-import { AnimatePresence, LazyMotion, m } from 'motion/react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const MenubarMenu: typeof MenubarPrimitive.Menu = MenubarPrimitive.Menu
@@ -211,56 +211,28 @@ MenubarShortcut.displayName = 'MenubarShortcut'
 const MotionMenubarContent = React.forwardRef<
   React.ComponentRef<typeof MenubarPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Content>
->(({ className, align = 'start', alignOffset = -4, sideOffset = 8, children, ...props }, ref) => {
+>(({ className, align = 'start', alignOffset = -4, sideOffset = 8, ...props }, ref) => {
   const content = useMotionPreset('scaleIn', { transition: springBouncy })
-  const [isOpen, setIsOpen] = React.useState(false)
-  const [showContent, setShowContent] = React.useState(false)
-  const contentRef = React.useRef<HTMLDivElement>(null)
-
-  React.useEffect(() => {
-    const el = contentRef.current
-    if (!el) return
-    const check = () => {
-      const open = el.getAttribute('data-state') === 'open'
-      setIsOpen(open)
-      if (open) setShowContent(true)
-    }
-    check()
-    const observer = new MutationObserver(check)
-    observer.observe(el, { attributes: true, attributeFilter: ['data-state'] })
-    return () => observer.disconnect()
-  }, [])
-
   return (
     <LazyMotion features={loadDomAnimation}>
-      <MenubarPrimitive.Portal forceMount>
+      <MenubarPrimitive.Portal>
         <MenubarPrimitive.Content
-          ref={(node) => {
-            contentRef.current = node
-            if (typeof ref === 'function') ref(node)
-            else if (ref) ref.current = node
-          }}
+          ref={ref}
           align={align}
           alignOffset={alignOffset}
           sideOffset={sideOffset}
-          forceMount
           asChild
           {...props}>
-          <AnimatePresence onExitComplete={() => setShowContent(false)}>
-            {isOpen && (
-              <m.div
-                className={cn(
-                  'z-50 min-w-48 origin-(--gentleduck-menubar-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
-                  className,
-                )}
-                initial={content.initial}
-                animate={content.animate}
-                exit={{ ...content.exit, pointerEvents: 'none' }}
-                transition={content.transition}>
-                {children}
-              </m.div>
+          <m.div
+            className={cn(
+              'z-50 min-w-48 origin-(--gentleduck-menubar-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
+              className,
             )}
-          </AnimatePresence>
+            initial={content.initial}
+            animate={content.animate}
+            transition={content.transition}>
+            {props.children}
+          </m.div>
         </MenubarPrimitive.Content>
       </MenubarPrimitive.Portal>
     </LazyMotion>
