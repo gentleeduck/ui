@@ -211,30 +211,31 @@ MenubarShortcut.displayName = 'MenubarShortcut'
 const MotionMenubarContent = React.forwardRef<
   React.ComponentRef<typeof MenubarPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Content>
->(({ className, align = 'start', alignOffset = -4, sideOffset = 8, ...props }, ref) => {
+>(({ className, align = 'start', alignOffset = -4, sideOffset = 8, children, ...props }, ref) => {
   const content = useMotionPreset('scaleIn', { transition: springBouncy })
+
   return (
     <LazyMotion features={loadDomAnimation}>
-    <MenubarPrimitive.Portal>
-      <MenubarPrimitive.Content
-        ref={ref}
-        align={align}
-        alignOffset={alignOffset}
-        sideOffset={sideOffset}
-        asChild
-        {...props}>
-        <m.div
-          className={cn(
-            'z-50 min-w-48 origin-(--gentleduck-menubar-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
-            className,
-          )}
-          initial={content.initial}
-          animate={content.animate}
-          transition={content.transition}>
-          {props.children}
-        </m.div>
-      </MenubarPrimitive.Content>
-    </MenubarPrimitive.Portal>
+      <MenubarPrimitive.Portal>
+        <MenubarPrimitive.Content
+          ref={ref}
+          align={align}
+          alignOffset={alignOffset}
+          sideOffset={sideOffset}
+          asChild
+          {...props}>
+          <m.div
+            className={cn(
+              'z-50 min-w-48 origin-(--gentleduck-menubar-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
+              className,
+            )}
+            initial={content.initial}
+            animate={content.animate}
+            transition={content.transition}>
+            {children}
+          </m.div>
+        </MenubarPrimitive.Content>
+      </MenubarPrimitive.Portal>
     </LazyMotion>
   )
 })
