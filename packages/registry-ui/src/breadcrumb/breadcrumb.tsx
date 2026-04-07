@@ -116,20 +116,13 @@ BreadcrumbEllipsis.displayName = 'BreadcrumbEllipsis'
 /*  MotionBreadcrumbList                                               */
 /* ------------------------------------------------------------------ */
 
-type MotionSafe<T> = Omit<T, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
-
-const MotionBreadcrumbItemBase = motion.create(BreadcrumbItem)
-const MotionBreadcrumbItem = React.forwardRef<
-  HTMLLIElement,
-  MotionSafe<React.ComponentPropsWithoutRef<'li'>> & { index?: number }
->(({ index = 0, ...props }, ref) => (
-  <MotionBreadcrumbItemBase
-    ref={ref}
-    {...fadeUp}
-    transition={{ ...contentTransition, delay: index * 0.05 }}
-    {...(props as any)}
-  />
-))
+const MotionBreadcrumbItem = React.forwardRef<HTMLLIElement, React.ComponentPropsWithoutRef<'li'> & { index?: number }>(
+  ({ index = 0, ...props }, ref) => (
+    <motion.li {...fadeUp} transition={{ ...contentTransition, delay: index * 0.05 }}>
+      <BreadcrumbItem ref={ref} {...props} />
+    </motion.li>
+  ),
+)
 MotionBreadcrumbItem.displayName = 'MotionBreadcrumbItem'
 
 export {

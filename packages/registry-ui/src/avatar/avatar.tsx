@@ -78,15 +78,16 @@ const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
 AvatarGroup.displayName = 'AvatarGroup'
 
 /* ------------------------------------------------------------------ */
-/*  Motion variants via motion.create()                                */
+/*  Motion variants                                                    */
 /* ------------------------------------------------------------------ */
 
-type MotionSafe<T> = Omit<T, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
-const MotionAvatarBase = motion.create(Avatar)
-const MotionAvatar = React.forwardRef<
-  React.ComponentRef<typeof Avatar>,
-  MotionSafe<React.ComponentPropsWithoutRef<typeof Avatar>>
->((props, ref) => <MotionAvatarBase ref={ref} {...spinIn} transition={contentTransition} {...(props as any)} />)
+const MotionAvatar = React.forwardRef<React.ComponentRef<typeof Avatar>, React.ComponentPropsWithoutRef<typeof Avatar>>(
+  (props, ref) => (
+    <motion.div {...spinIn} transition={contentTransition} className="inline-flex">
+      <Avatar ref={ref} {...props} />
+    </motion.div>
+  ),
+)
 MotionAvatar.displayName = 'MotionAvatar'
 
 const MotionAvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
