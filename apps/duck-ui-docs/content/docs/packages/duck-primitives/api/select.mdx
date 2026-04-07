@@ -150,6 +150,14 @@ The dropdown content. Handles focus trapping, dismiss-on-click-outside, escape-t
 | `onCloseAutoFocus` | `(event: Event) => void` | - | Called when focus returns to trigger on close |
 | `onEscapeKeyDown` | `(event: KeyboardEvent) => void` | - | Called when Escape is pressed |
 | `onPointerDownOutside` | `(event) => void` | - | Called when clicking outside |
+| `onFocusOutside` | `(event) => void` | - | Called when focus moves outside. Default prevents dismiss on focus out. |
+| `trapFocus` | `boolean` | `context.open` | Override whether focus is trapped inside the content |
+| `disableOutsidePointerEvents` | `boolean` | `context.open` | Override whether pointer events outside are blocked |
+| `lockScroll` | `boolean` | `context.open` | Override whether body scroll is locked while open |
+
+<Callout>
+The `trapFocus`, `disableOutsidePointerEvents`, and `lockScroll` props default to the select's open state. Override them when integrating with animation libraries like [motion](https://motion.dev) that need custom lifecycle control during exit animations.
+</Callout>
 
 Exposes `data-state="open"` / `data-state="closed"` and `data-side` for CSS animation.
 
