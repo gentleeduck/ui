@@ -14,7 +14,11 @@ import {
 import Link from 'next/link'
 
 const components: { title: string; href: string; description: string }[] = [
-  { title: 'Alert Dialog', href: '/docs/components/alert-dialog', description: 'A modal dialog for important content.' },
+  {
+    title: 'Alert Dialog',
+    href: '/docs/components/alert-dialog',
+    description: 'A modal dialog for important content.',
+  },
   { title: 'Hover Card', href: '/docs/components/hover-card', description: 'Preview content behind a link.' },
   { title: 'Progress', href: '/docs/components/progress', description: 'Shows task completion progress.' },
   { title: 'Tabs', href: '/docs/components/tabs', description: 'Layered sections displayed one at a time.' },
