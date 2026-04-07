@@ -1,13 +1,7 @@
-'use client'
-
 import { cn } from '@gentleduck/libs/cn'
-import { useMotionPreset } from '@gentleduck/motion/motion-presets'
-import { contentTransition, fadeBlur } from '@gentleduck/motion/presets/content'
-import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import * as NavigationMenuPrimitive from '@gentleduck/primitives/navigation-menu'
 import { cva } from '@gentleduck/variants'
 import { ChevronDown } from 'lucide-react'
-import { motion } from 'motion/react'
 import * as React from 'react'
 
 const NavigationMenu = React.forwardRef<
@@ -145,83 +139,7 @@ const NavigationMenuIndicator = React.forwardRef<
 ))
 NavigationMenuIndicator.displayName = NavigationMenuPrimitive.Indicator.displayName
 
-/* ------------------------------------------------------------------ */
-/*  Motion variants                                                    */
-/* ------------------------------------------------------------------ */
-
-const MotionNavigationMenuContent = React.forwardRef<
-  React.ComponentRef<typeof NavigationMenuPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Content>
->(({ className, ...props }, ref) => (
-  <NavigationMenuPrimitive.Content
-    ref={ref}
-    className={cn(
-      'data-[motion^=from-]:fade-in data-[motion^=to-]:fade-out data-[motion=from-end]:slide-in-from-right-52 data-[motion=from-start]:slide-in-from-left-52 data-[motion=to-end]:slide-out-to-right-52 data-[motion=to-start]:slide-out-to-left-52 group-data-[viewport=false]/navigation-menu:data-[state=closed]:zoom-out-95 group-data-[viewport=false]/navigation-menu:data-[state=open]:zoom-in-95 group-data-[viewport=false]/navigation-menu:data-[state=open]:fade-in-0 group-data-[viewport=false]/navigation-menu:data-[state=closed]:fade-out-0 start-0 top-0 w-full p-2 pe-2.5 data-[motion^=from-]:animate-in data-[motion^=to-]:animate-out **:data-[slot=navigation-menu-link]:focus:outline-none **:data-[slot=navigation-menu-link]:focus:ring-0 group-data-[viewport=false]/navigation-menu:top-full group-data-[viewport=false]/navigation-menu:mt-1.5 group-data-[viewport=false]/navigation-menu:overflow-hidden group-data-[viewport=false]/navigation-menu:rounded-md group-data-[viewport=false]/navigation-menu:border group-data-[viewport=false]/navigation-menu:bg-popover group-data-[viewport=false]/navigation-menu:text-popover-foreground group-data-[viewport=false]/navigation-menu:shadow group-data-[viewport=false]/navigation-menu:duration-200 group-data-[viewport=false]/navigation-menu:data-[state=closed]:animate-out group-data-[viewport=false]/navigation-menu:data-[state=open]:animate-in md:absolute md:w-auto',
-      'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
-      'data-[motion^=from-]:blur-in-sm data-[motion^=to-]:blur-out-sm',
-      className,
-    )}
-    data-slot="navigation-menu-content"
-    {...props}
-  />
-))
-MotionNavigationMenuContent.displayName = 'MotionNavigationMenuContent'
-
-const MotionNavigationMenuViewport = React.forwardRef<
-  React.ComponentRef<typeof NavigationMenuPrimitive.Viewport>,
-  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Viewport>
->(({ className, ...props }, ref) => {
-  const preset = useMotionPreset('scaleIn', { transition: springBouncy })
-  return (
-    <div className={cn('absolute start-0 top-full isolate flex justify-center')}>
-      <NavigationMenuPrimitive.Viewport ref={ref} asChild {...props}>
-        <motion.div
-          className={cn(
-            'relative mt-1.5 h-(--radix-navigation-menu-viewport-height) w-full origin-top-center overflow-hidden rounded-md border bg-popover text-popover-foreground shadow md:w-(--radix-navigation-menu-viewport-width)',
-            className,
-          )}
-          data-slot="navigation-menu-viewport"
-          initial={preset.initial}
-          animate={preset.animate}
-          transition={preset.transition}
-        />
-      </NavigationMenuPrimitive.Viewport>
-    </div>
-  )
-})
-MotionNavigationMenuViewport.displayName = 'MotionNavigationMenuViewport'
-
-const MotionNavigationMenu = React.forwardRef<
-  React.ComponentRef<typeof NavigationMenuPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Root> & { viewport?: boolean }
->(({ className, children, viewport = true, ...props }, ref) => (
-  <NavigationMenuPrimitive.Root
-    ref={ref}
-    className={cn('group/navigation-menu relative flex max-w-max flex-1 items-center justify-center', className)}
-    data-slot="navigation-menu"
-    data-viewport={viewport}
-    {...props}>
-    {children}
-    {viewport && <MotionNavigationMenuViewport />}
-  </NavigationMenuPrimitive.Root>
-))
-MotionNavigationMenu.displayName = 'MotionNavigationMenu'
-
-const MotionNavigationMenuLink = React.forwardRef<
-  React.ComponentRef<typeof NavigationMenuPrimitive.Link>,
-  React.ComponentPropsWithoutRef<typeof NavigationMenuPrimitive.Link> & { index?: number }
->(({ index = 0, ...props }, ref) => (
-  <motion.div {...fadeBlur} transition={{ ...contentTransition, delay: index * 0.03 }}>
-    <NavigationMenuLink ref={ref} {...props} />
-  </motion.div>
-))
-MotionNavigationMenuLink.displayName = 'MotionNavigationMenuLink'
-
 export {
-  MotionNavigationMenu,
-  MotionNavigationMenuContent,
-  MotionNavigationMenuLink,
-  MotionNavigationMenuViewport,
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuIndicator,
