@@ -14,7 +14,7 @@ import { FileTextIcon, InboxIcon, StarIcon } from 'lucide-react'
 
 export default function Demo() {
   return (
-    <MotionItemGroup className="w-full max-w-md">
+    <MotionItemGroup className="w-full max-w-md gap-3 p-4">
       <MotionItem variant="outline" index={0}>
         <ItemMedia variant="icon">
           <InboxIcon />
@@ -24,7 +24,9 @@ export default function Demo() {
           <ItemDescription>3 unread messages waiting for review.</ItemDescription>
         </ItemContent>
         <ItemActions>
-          <MotionButton size="sm" variant="outline">Open</MotionButton>
+          <MotionButton size="sm" variant="outline">
+            Open
+          </MotionButton>
         </ItemActions>
       </MotionItem>
       <MotionItem variant="outline" index={1}>
