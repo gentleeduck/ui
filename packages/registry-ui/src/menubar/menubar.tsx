@@ -4,10 +4,11 @@ import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
+import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import { AnimVariants } from '@gentleduck/motion/variants'
 import * as MenubarPrimitive from '@gentleduck/primitives/menubar'
 import { Check, ChevronRight, Circle } from 'lucide-react'
-import { LazyMotion, m } from 'motion/react'
+import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const MenubarMenu: typeof MenubarPrimitive.Menu = MenubarPrimitive.Menu
@@ -208,34 +209,57 @@ MenubarShortcut.displayName = 'MenubarShortcut'
 /*  Motion variants                                                    */
 /* ------------------------------------------------------------------ */
 
+function MotionMenubarMenu({
+  children,
+  onOpenChange,
+  ...rest
+}: React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Menu>) {
+  const { rootProps, contextValue } = useMotionRoot({ onOpenChange })
+  return (
+    <MotionRootContext.Provider value={contextValue}>
+      <MenubarPrimitive.Menu {...rest} onOpenChange={rootProps.onOpenChange}>
+        {children}
+      </MenubarPrimitive.Menu>
+    </MotionRootContext.Provider>
+  )
+}
+MotionMenubarMenu.displayName = 'MotionMenubarMenu'
+
 const MotionMenubarContent = React.forwardRef<
   React.ComponentRef<typeof MenubarPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Content>
->(({ className, align = 'start', alignOffset = -4, sideOffset = 8, ...props }, ref) => {
+>(({ className, align = 'start', alignOffset = -4, sideOffset = 8, children, ...props }, ref) => {
+  const { isOpen, setShowContent } = useMotionContent()
   const content = useMotionPreset('scaleIn', { transition: springBouncy })
+
   return (
     <LazyMotion features={loadDomAnimation}>
-      <MenubarPrimitive.Portal>
-        <MenubarPrimitive.Content
-          ref={ref}
-          align={align}
-          alignOffset={alignOffset}
-          sideOffset={sideOffset}
-          asChild
-          {...props}>
-          <m.div
-            className={cn(
-              'data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 z-50 min-w-48 origin-(--gentleduck-menubar-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=closed]:animate-out',
-              'transition-all transition-discrete duration-150 ease-(--duck-motion-ease)',
-              className,
-            )}
-            initial={content.initial}
-            animate={content.animate}
-            transition={content.transition}>
-            {props.children}
-          </m.div>
-        </MenubarPrimitive.Content>
-      </MenubarPrimitive.Portal>
+      <AnimatePresence onExitComplete={() => setShowContent(false)}>
+        {isOpen && (
+          <MenubarPrimitive.Portal forceMount>
+            <MenubarPrimitive.Content
+              ref={ref}
+              align={align}
+              alignOffset={alignOffset}
+              sideOffset={sideOffset}
+              forceMount
+              asChild
+              {...props}>
+              <m.div
+                className={cn(
+                  'z-50 min-w-48 origin-(--gentleduck-menubar-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
+                  className,
+                )}
+                initial={content.initial}
+                animate={content.animate}
+                exit={{ ...content.exit, pointerEvents: 'none' }}
+                transition={content.transition}>
+                {children}
+              </m.div>
+            </MenubarPrimitive.Content>
+          </MenubarPrimitive.Portal>
+        )}
+      </AnimatePresence>
     </LazyMotion>
   )
 })
@@ -259,4 +283,5 @@ export {
   MenubarSubTrigger,
   MenubarTrigger,
   MotionMenubarContent,
+  MotionMenubarMenu,
 }

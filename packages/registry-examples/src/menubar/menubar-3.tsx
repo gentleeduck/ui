@@ -3,17 +3,17 @@
 import {
   Menubar,
   MenubarItem,
-  MenubarMenu,
   MenubarSeparator,
   MenubarShortcut,
   MenubarTrigger,
   MotionMenubarContent,
+  MotionMenubarMenu,
 } from '@gentleduck/registry-ui/menubar'
 
 export default function Demo() {
   return (
     <Menubar>
-      <MenubarMenu>
+      <MotionMenubarMenu>
         <MenubarTrigger>File</MenubarTrigger>
         <MotionMenubarContent>
           <MenubarItem>
@@ -28,8 +28,8 @@ export default function Demo() {
             Print <MenubarShortcut>⌘P</MenubarShortcut>
           </MenubarItem>
         </MotionMenubarContent>
-      </MenubarMenu>
-      <MenubarMenu>
+      </MotionMenubarMenu>
+      <MotionMenubarMenu>
         <MenubarTrigger>Edit</MenubarTrigger>
         <MotionMenubarContent>
           <MenubarItem>
@@ -49,7 +49,7 @@ export default function Demo() {
             Paste <MenubarShortcut>⌘V</MenubarShortcut>
           </MenubarItem>
         </MotionMenubarContent>
-      </MenubarMenu>
+      </MotionMenubarMenu>
     </Menubar>
   )
 }
