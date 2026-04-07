@@ -1,6 +1,12 @@
+'use client'
+
 import { cn } from '@gentleduck/libs/cn'
+import { contentTransition, fadeUp } from '@gentleduck/motion/presets/content'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import { motion } from 'motion/react'
 import * as React from 'react'
+
+type MotionSafe<T> = Omit<T, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
 
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
   ({ className, dir, ...props }, ref) => {
@@ -78,4 +84,60 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 )
 CardFooter.displayName = 'CardFooter'
 
-export { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
+/* ------------------------------------------------------------------ */
+/*  MotionCard                                                         */
+/* ------------------------------------------------------------------ */
+
+const MotionCardBase = motion.create(Card)
+const MotionCard = React.forwardRef<HTMLDivElement, MotionSafe<React.ComponentPropsWithoutRef<typeof Card>>>(
+  (props, ref) => <MotionCardBase ref={ref} {...fadeUp} transition={contentTransition} {...(props as any)} />,
+)
+MotionCard.displayName = 'MotionCard'
+
+const MotionCardHeaderBase = motion.create(CardHeader)
+const MotionCardHeader = React.forwardRef<HTMLDivElement, MotionSafe<React.HTMLAttributes<HTMLDivElement>>>(
+  (props, ref) => (
+    <MotionCardHeaderBase ref={ref} {...fadeUp} transition={{ ...contentTransition, delay: 0.05 }} {...(props as any)} />
+  ),
+)
+MotionCardHeader.displayName = 'MotionCardHeader'
+
+const MotionCardContentBase = motion.create(CardContent)
+const MotionCardContent = React.forwardRef<HTMLDivElement, MotionSafe<React.HTMLAttributes<HTMLDivElement>>>(
+  (props, ref) => (
+    <MotionCardContentBase
+      ref={ref}
+      {...fadeUp}
+      transition={{ ...contentTransition, delay: 0.1 }}
+      {...(props as any)}
+    />
+  ),
+)
+MotionCardContent.displayName = 'MotionCardContent'
+
+const MotionCardFooterBase = motion.create(CardFooter)
+const MotionCardFooter = React.forwardRef<HTMLDivElement, MotionSafe<React.HTMLAttributes<HTMLDivElement>>>(
+  (props, ref) => (
+    <MotionCardFooterBase
+      ref={ref}
+      {...fadeUp}
+      transition={{ ...contentTransition, delay: 0.15 }}
+      {...(props as any)}
+    />
+  ),
+)
+MotionCardFooter.displayName = 'MotionCardFooter'
+
+export {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  MotionCard,
+  MotionCardContent,
+  MotionCardFooter,
+  MotionCardHeader,
+}

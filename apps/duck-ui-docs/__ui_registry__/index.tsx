@@ -374,6 +374,7 @@ const _Command3 = dynamic(() => import('@gentleduck/registry-examples/command/co
 const _Card1 = dynamic(() => import('@gentleduck/registry-examples/card/card-1'), { ssr: false })
 const _Card2 = dynamic(() => import('@gentleduck/registry-examples/card/card-2'), { ssr: false })
 const _Card3 = dynamic(() => import('@gentleduck/registry-examples/card/card-3'), { ssr: false })
+const _Card4 = dynamic(() => import('@gentleduck/registry-examples/card/card-4'), { ssr: false })
 const _Calendar1 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-1'), { ssr: false })
 const _Calendar10 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-10'), { ssr: false })
 const _Calendar11 = dynamic(() => import('@gentleduck/registry-examples/calendar/calendar-11'), { ssr: false })
@@ -3796,6 +3797,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Card3,
+    source: '/registry-examples/src/card',
+    categories: [],
+    root_folder: 'card',
+  },
+  'card-4': {
+    name: 'card-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['card'],
+    files: [
+      {
+        path: 'card/card-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Card4,
     source: '/registry-examples/src/card',
     categories: [],
     root_folder: 'card',
