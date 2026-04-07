@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { contentTransition, fadeBlur } from '@gentleduck/motion/presets/content'
+import { contentTransition } from '@gentleduck/motion/presets/content'
 import * as InputOTPPrimitive from '@gentleduck/primitives/input-otp'
 import { Dot } from 'lucide-react'
 import { motion } from 'motion/react'
@@ -73,24 +73,14 @@ const MotionInputOTP = React.forwardRef<
   React.ComponentRef<typeof InputOTPPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof InputOTPPrimitive.Root>
 >((props, ref) => (
-  <motion.div {...fadeBlur} transition={contentTransition}>
+  <motion.div
+    initial={{ opacity: 0, scale: 0.95, filter: 'blur(4px)' }}
+    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+    transition={contentTransition}>
     <InputOTP ref={ref} {...props} />
   </motion.div>
 ))
 MotionInputOTP.displayName = 'MotionInputOTP'
-
-const MotionInputOTPSlot = React.forwardRef<
-  React.ComponentRef<typeof InputOTPPrimitive.Slot>,
-  React.ComponentPropsWithoutRef<typeof InputOTPPrimitive.Slot> & { index?: number }
->(({ index = 0, ...props }, ref) => (
-  <motion.div
-    initial={{ opacity: 0, scale: 0.8, filter: 'blur(4px)' }}
-    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-    transition={{ ...contentTransition, delay: index * 0.05 }}>
-    <InputOTPSlot ref={ref} {...props} />
-  </motion.div>
-))
-MotionInputOTPSlot.displayName = 'MotionInputOTPSlot'
 
 export {
   InputOTP,
@@ -98,7 +88,6 @@ export {
   InputOTPSeparator,
   InputOTPSlot,
   MotionInputOTP,
-  MotionInputOTPSlot,
   REGEXP_ONLY_DIGITS,
   REGEXP_ONLY_DIGITS_AND_CHARS,
 }
