@@ -20,10 +20,12 @@ const [MenubarMenuProvider, useMenubarMenuContext] = createMenubarContext<Menuba
 interface MenubarMenuProps {
   children?: React.ReactNode
   value?: string
+  /** Called when the menu opens or closes. */
+  onOpenChange?: (open: boolean) => void
 }
 
 const MenubarMenu = (props: ScopedProps<MenubarMenuProps>) => {
-  const { __scopeMenubar, value: valueProp, ...menuProps } = props
+  const { __scopeMenubar, value: valueProp, onOpenChange: onOpenChangeProp, ...menuProps } = props
   const autoValue = useId()
   // We need to provide an initial deterministic value as `useId` will return
   // empty string on the first render and we don't want to match our internal "closed" value.
@@ -36,7 +38,8 @@ const MenubarMenu = (props: ScopedProps<MenubarMenuProps>) => {
 
   React.useEffect(() => {
     if (!open) wasKeyboardTriggerOpenRef.current = false
-  }, [open])
+    onOpenChangeProp?.(open)
+  }, [open, onOpenChangeProp])
 
   return (
     <MenubarMenuProvider
