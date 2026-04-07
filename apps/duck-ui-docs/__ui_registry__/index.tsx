@@ -426,6 +426,7 @@ const _Input9 = dynamic(() => import('@gentleduck/registry-examples/input/input-
 const _Label1 = dynamic(() => import('@gentleduck/registry-examples/label/label-1'), { ssr: false })
 const _Label2 = dynamic(() => import('@gentleduck/registry-examples/label/label-2'), { ssr: false })
 const _Label3 = dynamic(() => import('@gentleduck/registry-examples/label/label-3'), { ssr: false })
+const _Label4 = dynamic(() => import('@gentleduck/registry-examples/label/label-4'), { ssr: false })
 const _Progress1 = dynamic(() => import('@gentleduck/registry-examples/progress/progress-1'), { ssr: false })
 const _Progress2 = dynamic(() => import('@gentleduck/registry-examples/progress/progress-2'), { ssr: false })
 const _RadioGroup1 = dynamic(() => import('@gentleduck/registry-examples/radio-group/radio-group-1'), { ssr: false })
@@ -667,6 +668,7 @@ const _Kbd3 = dynamic(() => import('@gentleduck/registry-examples/kbd/kbd-3'), {
 const _Kbd4 = dynamic(() => import('@gentleduck/registry-examples/kbd/kbd-4'), { ssr: false })
 const _Kbd5 = dynamic(() => import('@gentleduck/registry-examples/kbd/kbd-5'), { ssr: false })
 const _Kbd6 = dynamic(() => import('@gentleduck/registry-examples/kbd/kbd-6'), { ssr: false })
+const _Kbd7 = dynamic(() => import('@gentleduck/registry-examples/kbd/kbd-7'), { ssr: false })
 const _Empty1 = dynamic(() => import('@gentleduck/registry-examples/empty/empty-1'), { ssr: false })
 const _Empty2 = dynamic(() => import('@gentleduck/registry-examples/empty/empty-2'), { ssr: false })
 const _Empty3 = dynamic(() => import('@gentleduck/registry-examples/empty/empty-3'), { ssr: false })
@@ -4643,6 +4645,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'label',
   },
+  'label-4': {
+    name: 'label-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['label', 'input'],
+    files: [
+      {
+        path: 'label/label-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Label4,
+    source: '/registry-examples/src/label',
+    categories: [],
+    root_folder: 'label',
+  },
   'progress-1': {
     name: 'progress-1',
     description: '',
@@ -7807,6 +7825,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Kbd6,
+    source: '/registry-examples/src/kbd',
+    categories: [],
+    root_folder: 'kbd',
+  },
+  'kbd-7': {
+    name: 'kbd-7',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['kbd'],
+    files: [
+      {
+        path: 'kbd/kbd-7.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Kbd7,
     source: '/registry-examples/src/kbd',
     categories: [],
     root_folder: 'kbd',
