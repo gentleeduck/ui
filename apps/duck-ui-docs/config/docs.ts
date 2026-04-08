@@ -966,6 +966,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/accordion',
           items: [],
+          label: 'new',
           title: 'Accordion',
         },
         {
@@ -977,6 +978,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/alert-dialog',
           items: [],
+          label: 'new',
           title: 'Alert Dialog',
         },
         {
@@ -1000,6 +1002,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/breadcrumb',
           items: [],
+          label: 'new',
           title: 'Breadcrumb',
         },
         {
@@ -1023,6 +1026,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/card',
           items: [],
+          label: 'new',
           title: 'Card',
         },
         {
@@ -1057,6 +1061,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/command',
           items: [],
+          label: 'new',
           title: 'Command',
         },
         {
@@ -1084,6 +1089,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/dialog',
           items: [],
+          label: 'new',
           title: 'Dialog',
         },
         {
@@ -1100,11 +1106,13 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/empty',
           items: [],
+          label: 'new',
           title: 'Empty',
         },
         {
           href: '/docs/components/field',
           items: [],
+          label: 'new',
           title: 'Field',
         },
         {
@@ -1126,6 +1134,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/item',
           items: [],
+          label: 'new',
           title: 'Item',
         },
         {
@@ -1137,6 +1146,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/input-group',
           items: [],
+          label: 'new',
           title: 'Input Group',
         },
         {
@@ -1148,6 +1158,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/input-otp',
           items: [],
+          label: 'new',
           title: 'Input OTP',
         },
         {
@@ -1225,6 +1236,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/sidebar',
           items: [],
+          label: 'new',
           title: 'Sidebar',
         },
         {
@@ -1260,6 +1272,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/tabs',
           items: [],
+          label: 'new',
           title: 'Tabs',
         },
         {
