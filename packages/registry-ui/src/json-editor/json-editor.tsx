@@ -1,8 +1,12 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { Portal } from '@gentleduck/primitives/portal'
 import { Maximize } from 'lucide-react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import type { FieldValues } from 'react-hook-form'
 import { useController } from 'react-hook-form'
@@ -422,3 +426,17 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
   )
 }
 JsonTextareaField.displayName = 'JsonTextareaField'
+
+export function MotionJsonTextareaField<TFieldValues extends FieldValues>(
+  props: JsonTextareaFieldProps<TFieldValues>,
+): React.JSX.Element {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
+        <JsonTextareaField {...props} />
+      </m.div>
+    </LazyMotion>
+  )
+}
+MotionJsonTextareaField.displayName = 'MotionJsonTextareaField'

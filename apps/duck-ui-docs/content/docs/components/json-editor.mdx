@@ -145,6 +145,20 @@ Set `dir="rtl"` on `JsonEditor` for a local override, or set `DirectionProvider`
   description="A JSON editor with full RTL and Arabic i18n support."
 />
 
+## Motion
+
+Use `MotionJsonTextareaField` for a spring-powered entrance animation with blur powered by [motion](https://motion.dev).
+
+<ComponentPreview
+  name="json-editor-5"
+  className="mb-4! [&_.preview]:h-165 [&_.preview]:p-6"
+  description="A JSON editor with motion entrance animation."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionJsonTextareaField` instead of `JsonTextareaField`. Same props, animated entrance.
+</Callout>
+
 ## API Reference
 
 ### JsonTextareaField
@@ -204,6 +218,10 @@ type JsonEditorExpandPayload<TFieldValues extends FieldValues> = {
   value: unknown
 }
 ```
+
+### MotionJsonTextareaField
+
+Same props as `JsonTextareaField`. Adds spring scaleIn+blur entrance animation via motion. Requires the `motion` package.
 
 ### Keyboard shortcuts
 
