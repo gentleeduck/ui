@@ -211,32 +211,28 @@ MenubarShortcut.displayName = 'MenubarShortcut'
 const MotionMenubarContent = React.forwardRef<
   React.ComponentRef<typeof MenubarPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Content>
->(({ className, align = 'start', alignOffset = -4, sideOffset = 8, ...props }, ref) => {
+>(({ className, align = 'start', alignOffset = -4, sideOffset = 8, children, ...props }, ref) => {
   const content = useMotionPreset('scaleIn', { transition: springBouncy })
   return (
-    <LazyMotion features={loadDomAnimation}>
-      <MenubarPrimitive.Portal>
-        <MenubarPrimitive.Content
-          ref={ref}
-          align={align}
-          alignOffset={alignOffset}
-          sideOffset={sideOffset}
-          asChild
-          {...props}>
-          <m.div
-            className={cn(
-              'data-[state=closed]:fade-out-0 data-[state=closed]:zoom-out-95 z-50 min-w-48 origin-(--gentleduck-menubar-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=closed]:animate-out',
-              'transition-all transition-discrete duration-150 ease-(--duck-motion-ease)',
-              className,
-            )}
-            initial={content.initial}
-            animate={content.animate}
-            transition={content.transition}>
-            {props.children}
+    <MenubarPrimitive.Portal>
+      <MenubarPrimitive.Content
+        ref={ref}
+        align={align}
+        alignOffset={alignOffset}
+        sideOffset={sideOffset}
+        className={cn(
+          'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-48 origin-(--gentleduck-menubar-content-transform-origin) overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=open]:animate-in',
+          AnimVariants(),
+          className,
+        )}
+        {...props}>
+        <LazyMotion features={loadDomAnimation}>
+          <m.div className="p-1" initial={content.initial} animate={content.animate} transition={content.transition}>
+            {children}
           </m.div>
-        </MenubarPrimitive.Content>
-      </MenubarPrimitive.Portal>
-    </LazyMotion>
+        </LazyMotion>
+      </MenubarPrimitive.Content>
+    </MenubarPrimitive.Portal>
   )
 })
 MotionMenubarContent.displayName = 'MotionMenubarContent'

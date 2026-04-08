@@ -4650,7 +4650,7 @@ export const Index: Record<string, any> = {
     name: 'label-4',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['label', 'input'],
+    registryDependencies: ['label'],
     files: [
       {
         path: 'label/label-4.tsx',
@@ -7178,7 +7178,7 @@ export const Index: Record<string, any> = {
     name: 'input-otp-8',
     description: '',
     type: 'registry:example',
-    registryDependencies: ['input-otp'],
+    registryDependencies: ['input-otp', 'button', 'field'],
     files: [
       {
         path: 'input-otp/input-otp-8.tsx',
