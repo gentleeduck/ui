@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { MotionInput } from '@gentleduck/registry-ui/input'\nimport { Label } from '@gentleduck/registry-ui/label'\n\nexport default function Demo() {\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-4 p-4\">\n      <div className=\"flex flex-col gap-1.5\">\n        <Label htmlFor=\"motion-name\">Name</Label>\n        <MotionInput id=\"motion-name\" placeholder=\"Jane Doe\" index={0} />\n      </div>\n      <div className=\"flex flex-col gap-1.5\">\n        <Label htmlFor=\"motion-email\">Email</Label>\n        <MotionInput id=\"motion-email\" type=\"email\" placeholder=\"jane@example.com\" index={1} />\n      </div>\n      <div className=\"flex flex-col gap-1.5\">\n        <Label htmlFor=\"motion-password\">Password</Label>\n        <MotionInput id=\"motion-password\" type=\"password\" placeholder=\"Enter password\" index={2} />\n      </div>\n    </div>\n  )\n}\n",
+      "path": "input/input-9.tsx",
+      "target": "components/input-9.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "input-9",
+  "registryDependencies": [
+    "input"
+  ],
+  "root_folder": "input",
+  "source": "/registry-examples/src/input",
+  "type": "registry:example"
+}
