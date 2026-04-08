@@ -43,14 +43,10 @@ export default function Demo() {
           expandMode="callback"
           label="Payment Payload"
           name="payload"
-          onExpandEditor={({ rawText }) => {
-            toast('External editor callback', {
-              description: (
-                <pre className="max-w-[520px] overflow-x-auto rounded-md border bg-muted p-3 text-xs">
-                  {rawText || '{}'}
-                </pre>
-              ),
-            })
+          onExpandEditor={({ name, rawText }) => {
+            // In a real app you would open your own editor modal here.
+            // This demo just logs to the console.
+            console.log(`[onExpandEditor] field "${name}"`, rawText)
           }}
           rows={12}
         />
