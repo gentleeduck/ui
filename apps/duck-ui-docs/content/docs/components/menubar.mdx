@@ -137,6 +137,7 @@ Components in this file wrap `@gentleduck/primitives/menubar`.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `string` | auto-generated | Unique identifier for this menu |
+| `onOpenChange` | `(open: boolean) => void` | - | Callback when the menu opens or closes |
 | `children` | `React.ReactNode` | - | Trigger and content elements for this menu |
 | `...props` | `React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Menu>` | - | Additional props inherited from `MenubarPrimitive.Menu` |
 

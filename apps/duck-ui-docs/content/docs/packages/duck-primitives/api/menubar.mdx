@@ -80,6 +80,32 @@ Groups a trigger and its content into one menu entry.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `string` | - | Unique value identifying this menu |
+| `onOpenChange` | `(open: boolean) => void` | - | Called when this menu opens or closes. Useful for integrating with animation libraries like `motion` |
+
+### `Menubar.Content`
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `align` | `'start' \| 'center' \| 'end'` | `'start'` | Alignment relative to the trigger |
+| `sideOffset` | `number` | `0` | Distance from the trigger |
+| `alignOffset` | `number` | `0` | Cross-axis offset |
+| `forceMount` | `true` | - | Force content to stay mounted. Useful for animation libraries |
+| `asChild` | `boolean` | `false` | Render as child element instead of wrapper |
+| `loop` | `boolean` | `false` | Whether keyboard navigation loops around |
+| `trapFocus` | `boolean` | `context.open` | Override whether focus is trapped inside the content |
+| `disableOutsidePointerEvents` | `boolean` | `context.open` | Override whether outside pointer events are disabled |
+| `disableOutsideScroll` | `boolean` | - | Override whether scroll is locked when content is open |
+| `onCloseAutoFocus` | `(event: Event) => void` | - | Called when auto-focusing on close |
+| `onEscapeKeyDown` | `(event: KeyboardEvent) => void` | - | Called when Escape is pressed |
+| `onPointerDownOutside` | `(event: PointerDownOutsideEvent) => void` | - | Called when a pointer down event occurs outside |
+| `onFocusOutside` | `(event: FocusOutsideEvent) => void` | - | Called when focus moves outside the content |
+| `onInteractOutside` | `(event: PointerDownOutsideEvent \| FocusOutsideEvent) => void` | - | Called on any outside interaction |
+
+<Callout icon={<Lightbulb />}>
+
+The `forceMount`, `asChild`, `trapFocus`, `disableOutsidePointerEvents`, and `onPointerDownOutside` / `onFocusOutside` props give you full control over the content lifecycle. This is especially useful when integrating with animation libraries like [motion](https://motion.dev) — use `forceMount` + `asChild` to keep the content mounted during exit animations, and the outside-interaction handlers to prevent premature dismissal.
+
+</Callout>
 
 ---
 
