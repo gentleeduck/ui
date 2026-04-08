@@ -637,6 +637,9 @@ const _NavigationMenu1 = dynamic(() => import('@gentleduck/registry-examples/nav
 const _NavigationMenu2 = dynamic(() => import('@gentleduck/registry-examples/navigation-menu/navigation-menu-2'), {
   ssr: false,
 })
+const _NavigationMenu3 = dynamic(() => import('@gentleduck/registry-examples/navigation-menu/navigation-menu-3'), {
+  ssr: false,
+})
 const _ContextMenu1 = dynamic(() => import('@gentleduck/registry-examples/context-menu/context-menu-1'), { ssr: false })
 const _ContextMenu2 = dynamic(() => import('@gentleduck/registry-examples/context-menu/context-menu-2'), { ssr: false })
 const _ContextMenu3 = dynamic(() => import('@gentleduck/registry-examples/context-menu/context-menu-3'), { ssr: false })
@@ -7459,6 +7462,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _NavigationMenu2,
+    source: '/registry-examples/src/navigation-menu',
+    categories: [],
+    root_folder: 'navigation-menu',
+  },
+  'navigation-menu-3': {
+    name: 'navigation-menu-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['navigation-menu'],
+    files: [
+      {
+        path: 'navigation-menu/navigation-menu-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _NavigationMenu3,
     source: '/registry-examples/src/navigation-menu',
     categories: [],
     root_folder: 'navigation-menu',
