@@ -971,6 +971,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/alert',
           items: [],
+          label: 'new',
           title: 'Alert',
         },
         {
@@ -981,16 +982,19 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/aspect-ratio',
           items: [],
+          label: 'new',
           title: 'Aspect Ratio',
         },
         {
           href: '/docs/components/avatar',
           items: [],
+          label: 'new',
           title: 'Avatar',
         },
         {
           href: '/docs/components/badge',
           items: [],
+          label: 'new',
           title: 'Badge',
         },
         {
@@ -1001,11 +1005,13 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/button',
           items: [],
+          label: 'new',
           title: 'Button',
         },
         {
           href: '/docs/components/button-group',
           items: [],
+          label: 'new',
           title: 'Button Group',
         },
         {
@@ -1033,16 +1039,19 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/checkbox',
           items: [],
+          label: 'new',
           title: 'Checkbox',
         },
         {
           href: '/docs/components/collapsible',
           items: [],
+          label: 'new',
           title: 'Collapsible',
         },
         {
           href: '/docs/components/combobox',
           items: [],
+          label: 'new',
           title: 'Combobox',
         },
         {
@@ -1053,6 +1062,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/context-menu',
           items: [],
+          label: 'new',
           title: 'Context Menu',
         },
         {
@@ -1084,6 +1094,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/dropdown-menu',
           items: [],
+          label: 'new',
           title: 'Dropdown Menu',
         },
         {
@@ -1109,6 +1120,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/hover-card',
           items: [],
+          label: 'new',
           title: 'Hover Card',
         },
         {
@@ -1119,6 +1131,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/input',
           items: [],
+          label: 'new',
           title: 'Input',
         },
         {
@@ -1140,11 +1153,13 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/kbd',
           items: [],
+          label: 'new',
           title: 'Kbd',
         },
         {
           href: '/docs/components/label',
           items: [],
+          label: 'new',
           title: 'Label',
         },
         {
@@ -1161,6 +1176,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/popover',
           items: [],
+          label: 'new',
           title: 'Popover',
         },
         {
@@ -1192,6 +1208,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/select',
           items: [],
+          label: 'new',
           title: 'Select',
         },
         {
@@ -1202,6 +1219,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/sheet',
           items: [],
+          label: 'new',
           title: 'Sheet',
         },
         {
@@ -1252,6 +1270,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/toggle',
           items: [],
+          label: 'new',
           title: 'Toggle',
         },
         {
@@ -1262,6 +1281,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/tooltip',
           items: [],
+          label: 'new',
           title: 'Tooltip',
         },
         // {
