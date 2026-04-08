@@ -721,6 +721,7 @@ const _JsonEditor1 = dynamic(() => import('@gentleduck/registry-examples/json-ed
 const _JsonEditor2 = dynamic(() => import('@gentleduck/registry-examples/json-editor/json-editor-2'), { ssr: false })
 const _JsonEditor3 = dynamic(() => import('@gentleduck/registry-examples/json-editor/json-editor-3'), { ssr: false })
 const _JsonEditor4 = dynamic(() => import('@gentleduck/registry-examples/json-editor/json-editor-4'), { ssr: false })
+const _JsonEditor5 = dynamic(() => import('@gentleduck/registry-examples/json-editor/json-editor-5'), { ssr: false })
 const _ThemeToggle1 = dynamic(() => import('@gentleduck/registry-examples/theme-toggle/theme-toggle-1'), { ssr: false })
 const _PreviewPanel1 = dynamic(() => import('@gentleduck/registry-examples/preview-panel/preview-panel-1'), {
   ssr: false,
@@ -8674,6 +8675,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _JsonEditor4,
+    source: '/registry-examples/src/json-editor',
+    categories: [],
+    root_folder: 'json-editor',
+  },
+  'json-editor-5': {
+    name: 'json-editor-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['json-editor'],
+    files: [
+      {
+        path: 'json-editor/json-editor-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _JsonEditor5,
     source: '/registry-examples/src/json-editor',
     categories: [],
     root_folder: 'json-editor',
