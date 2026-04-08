@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@gentleduck/registry-ui/button'
+import { MotionButton } from '@gentleduck/registry-ui/button'
 import { MotionJsonTextareaField } from '@gentleduck/registry-ui/json-editor'
 import { FormProvider, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -51,15 +51,15 @@ export default function Demo() {
         />
 
         <div className="flex items-center justify-end gap-2">
-          <Button
+          <MotionButton
             onClick={() => {
               form.reset({ settings: DEFAULT_SETTINGS })
             }}
             type="button"
             variant="outline">
             Reset
-          </Button>
-          <Button type="submit">Save settings</Button>
+          </MotionButton>
+          <MotionButton type="submit">Save settings</MotionButton>
         </div>
       </form>
     </FormProvider>

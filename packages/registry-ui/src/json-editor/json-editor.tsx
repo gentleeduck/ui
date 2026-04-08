@@ -21,17 +21,34 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '../alert-dialog'
-import { Button } from '../button'
+import { Button, MotionButton } from '../button'
 import { Field, FieldDescription, FieldError, FieldLabel } from '../field'
-import { Popover, PopoverContent, PopoverTrigger } from '../popover'
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../sheet'
+import { MotionPopover, MotionPopoverContent, Popover, PopoverContent, PopoverTrigger } from '../popover'
+import { MotionSheet, MotionSheetContent, Sheet, SheetContent, SheetHeader, SheetTitle } from '../sheet'
 import { useJsonEditorHotkeys } from './json-editor.hooks'
 import { formatJson, isObjectLike, safeStringify, tryParseJson } from './json-editor.libs'
 import type { JsonEditorText, JsonTextareaFieldProps } from './json-editor.types'
 import { JsonEditorView } from './json-editor.view'
 
+type ComponentOverrides = {
+  Button: typeof Button
+  Popover: typeof Popover
+  PopoverContent: typeof PopoverContent
+  Sheet: typeof Sheet
+  SheetContent: typeof SheetContent
+}
+
+const defaultComponents: ComponentOverrides = { Button, Popover, PopoverContent, Sheet, SheetContent }
+const motionComponents: ComponentOverrides = {
+  Button: MotionButton,
+  Popover: MotionPopover as typeof Popover,
+  PopoverContent: MotionPopoverContent as typeof PopoverContent,
+  Sheet: MotionSheet as typeof Sheet,
+  SheetContent: MotionSheetContent as typeof SheetContent,
+}
+
 export function JsonTextareaField<TFieldValues extends FieldValues>(
-  props: JsonTextareaFieldProps<TFieldValues>,
+  props: JsonTextareaFieldProps<TFieldValues> & { _components?: ComponentOverrides },
 ): React.JSX.Element {
   const {
     control,
@@ -54,7 +71,10 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
     sheetTitle = 'Edit JSON',
     text: textProp,
     onExpandEditor,
+    _components: componentOverrides,
   } = props
+
+  const C = componentOverrides ?? defaultComponents
 
   const t: Required<JsonEditorText> = {
     format: textProp?.format ?? 'Format',
@@ -287,31 +307,31 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
         </div>
 
         <div className={cn('flex items-center gap-2', actionsClassName)} data-slot="json-editor-actions">
-          <Button
+          <C.Button
             disabled={!isEditable || !canFormatDraft}
             onClick={formatInline}
             size="sm"
             type="button"
             variant="outline">
             {t.format}
-          </Button>
+          </C.Button>
 
           {dirty ? (
             <>
-              <Button onClick={cancelInline} size="sm" type="button" variant="outline">
+              <C.Button onClick={cancelInline} size="sm" type="button" variant="outline">
                 {t.cancel}
-              </Button>
-              <Button disabled={!isEditable} onClick={saveInline} size="sm" type="button">
+              </C.Button>
+              <C.Button disabled={!isEditable} onClick={saveInline} size="sm" type="button">
                 {t.save}
-              </Button>
+              </C.Button>
             </>
           ) : null}
 
           {expandMode !== 'none' ? (
-            <Button onClick={handleExpand} size="sm" type="button" variant="outline">
+            <C.Button onClick={handleExpand} size="sm" type="button" variant="outline">
               <Maximize aria-hidden="true" size={14} />
               <span className="ms-2">{t.full}</span>
-            </Button>
+            </C.Button>
           ) : null}
         </div>
       </div>
@@ -321,17 +341,17 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
           inlineEditor
         ) : (
           <div data-slot="json-editor-popover">
-            <Popover onOpenChange={setPopoverOpen} open={popoverOpen}>
+            <C.Popover onOpenChange={setPopoverOpen} open={popoverOpen}>
               <PopoverTrigger asChild>
-                <Button
+                <C.Button
                   className="w-full justify-start overflow-hidden text-start font-mono text-xs"
                   type="button"
                   variant="outline">
                   <span className="truncate">{preview}</span>
-                </Button>
+                </C.Button>
               </PopoverTrigger>
-              <PopoverContent className="w-[min(96vw,720px)] p-2">{inlineEditor}</PopoverContent>
-            </Popover>
+              <C.PopoverContent className="w-[min(96vw,720px)] p-2">{inlineEditor}</C.PopoverContent>
+            </C.Popover>
           </div>
         )}
       </div>
@@ -339,7 +359,7 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
       {fieldState.error ? <FieldError errors={[fieldState.error]} /> : null}
 
       {expandMode === 'sheet' ? (
-        <Sheet
+        <C.Sheet
           onOpenChange={(nextOpen) => {
             if (nextOpen) {
               openSheet()
@@ -349,7 +369,7 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
             requestCloseSheet()
           }}
           open={sheetOpen}>
-          <SheetContent className="w-full sm:max-w-3xl" dir={dir} side={sheetSide}>
+          <C.SheetContent className="w-full sm:max-w-3xl" dir={dir} side={sheetSide}>
             <SheetHeader>
               <SheetTitle>{sheetTitle}</SheetTitle>
             </SheetHeader>
@@ -377,27 +397,27 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
                 <div className="text-muted-foreground text-xs">{t.sheetStatusHint}</div>
 
                 <div className="flex items-center gap-2">
-                  <Button
+                  <C.Button
                     disabled={!isEditable || !canFormatSheet}
                     onClick={formatSheet}
                     size="sm"
                     type="button"
                     variant="outline">
                     {t.format}
-                  </Button>
+                  </C.Button>
 
-                  <Button onClick={requestCloseSheet} size="sm" type="button" variant="outline">
+                  <C.Button onClick={requestCloseSheet} size="sm" type="button" variant="outline">
                     {t.close}
-                  </Button>
+                  </C.Button>
 
-                  <Button disabled={!isEditable} onClick={saveSheet} size="sm" type="button">
+                  <C.Button disabled={!isEditable} onClick={saveSheet} size="sm" type="button">
                     {t.save}
-                  </Button>
+                  </C.Button>
                 </div>
               </div>
             </div>
-          </SheetContent>
-        </Sheet>
+          </C.SheetContent>
+        </C.Sheet>
       ) : null}
 
       <Portal>
@@ -409,14 +429,14 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
             </AlertDialogHeader>
             <AlertDialogFooter>
               <AlertDialogCancel asChild onClick={() => setConfirmDiscardOpen(false)}>
-                <Button variant="outline" size="sm">
+                <C.Button variant="outline" size="sm">
                   {t.keepEditing}
-                </Button>
+                </C.Button>
               </AlertDialogCancel>
               <AlertDialogAction asChild onClick={discardSheetChanges}>
-                <Button variant="default" size="sm">
+                <C.Button variant="default" size="sm">
                   {t.discard}
-                </Button>
+                </C.Button>
               </AlertDialogAction>
             </AlertDialogFooter>
           </AlertDialogContent>
@@ -434,7 +454,7 @@ export function MotionJsonTextareaField<TFieldValues extends FieldValues>(
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
-        <JsonTextareaField {...props} />
+        <JsonTextareaField {...props} _components={motionComponents} />
       </m.div>
     </LazyMotion>
   )
