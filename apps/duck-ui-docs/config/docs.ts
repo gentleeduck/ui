@@ -1206,6 +1206,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/radio-group',
           items: [],
+          label: 'new',
           title: 'Radio Group',
         },
         {
