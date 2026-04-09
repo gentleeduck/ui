@@ -1246,6 +1246,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/skeleton',
           items: [],
+          label: 'new',
           title: 'Skeleton',
         },
         {
