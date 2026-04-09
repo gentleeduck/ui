@@ -66,7 +66,8 @@ const MotionSlider = React.forwardRef<
       <m.div
         initial={content.initial}
         animate={content.animate}
-        transition={content.transition}>
+        transition={content.transition}
+        className="w-full">
         <Slider ref={ref} {...props} />
       </m.div>
     </LazyMotion>
