@@ -1,1 +1,1 @@
-export * from './switch'
+export { MotionSwitch, Switch } from './switch'

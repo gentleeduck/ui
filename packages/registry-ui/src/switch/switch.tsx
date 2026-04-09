@@ -1,9 +1,11 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { checkersStylePattern } from '@gentleduck/motion/variants'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const Switch = React.forwardRef<
@@ -61,4 +63,35 @@ const Switch = React.forwardRef<
 })
 Switch.displayName = 'Switch'
 
-export { Switch }
+const MotionSwitch = React.forwardRef<
+  HTMLInputElement,
+  Omit<React.HTMLProps<HTMLInputElement>, 'ref'> & {
+    indicator?: React.ReactElement
+    checkedIndicator?: React.ReactElement
+    onCheckedChange?: (checked: boolean) => void
+  }
+>(({ onCheckedChange, onChange, ...props }, ref) => {
+  const [bounce, setBounce] = React.useState(false)
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <m.div
+        animate={bounce ? { scale: [1, 0.88, 1.08, 1], rotate: [0, -3, 2, 0] } : {}}
+        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+        onAnimationComplete={() => setBounce(false)}
+        className="inline-flex">
+        <Switch
+          ref={ref}
+          onChange={(e) => {
+            setBounce(true)
+            onChange?.(e)
+          }}
+          onCheckedChange={onCheckedChange}
+          {...props}
+        />
+      </m.div>
+    </LazyMotion>
+  )
+})
+MotionSwitch.displayName = 'MotionSwitch'
+
+export { MotionSwitch, Switch }
