@@ -47,7 +47,11 @@ const MotionKbd = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<'
     const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.03 })
     return (
       <LazyMotion features={loadDomAnimation}>
-        <m.div initial={content.initial} animate={content.animate} transition={content.transition} className="inline-flex">
+        <m.div
+          initial={content.initial}
+          animate={content.animate}
+          transition={content.transition}
+          className="inline-flex">
           <Kbd ref={ref} {...props} />
         </m.div>
       </LazyMotion>

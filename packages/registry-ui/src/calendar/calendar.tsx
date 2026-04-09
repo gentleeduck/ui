@@ -325,182 +325,183 @@ const MotionCalendar = React.forwardRef<HTMLDivElement, CalendarProps>(
     return (
       <LazyMotion features={loadDomAnimation}>
         <m.div initial={calContent.initial} animate={calContent.animate} transition={calContent.transition}>
-        {/* biome-ignore lint/a11y/noStaticElementInteractions: keyboard/pointer tracking for focus ring management */}
-        <div
-          ref={ref}
-          data-slot="calendar"
-          dir={direction}
-          onKeyDown={() => {
-            if (!keyboardActive) setKeyboardActive(true)
-          }}
-          onPointerDown={() => {
-            if (keyboardActive) setKeyboardActive(false)
-          }}
-          className={cn(
-            'group/calendar w-fit bg-background p-3 [--gentleduck-calendar-cell:--spacing(8)]',
-            'rounded-md in-data-[slot=card-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent',
-            className,
-          )}>
-          <div className="relative flex flex-col gap-4">
-            {renderHeader ? (
-              renderHeader({
-                month: state.month,
-                title: adapter.format(state.month, { month: 'long', year: 'numeric' }, formatLocale),
-                direction,
-                goToPrevMonth: wrapNavClick(prevNavProps.onClick, -1),
-                goToNextMonth: wrapNavClick(nextNavProps.onClick, 1),
-                isPrevDisabled: prevNavProps.disabled,
-                isNextDisabled: nextNavProps.disabled,
-              })
-            ) : numberOfMonths <= 1 ? (
-              <CalendarHeader
-                adapter={adapter}
-                month={state.month}
-                title={adapter.format(state.month, { month: 'long', year: 'numeric' }, formatLocale)}
-                direction={direction}
-                locale={locale}
-                buttonVariant={buttonVariant}
-                showDropdowns={showDropdowns}
-                yearRange={resolvedYearRange}
-                useMotionButtons
-                getNavProps={(dir) => {
-                  const props = getNavProps(dir)
-                  return { ...props, onClick: wrapNavClick(props.onClick, dir === 'prev' ? -1 : 1) }
-                }}
-                getHeaderProps={getHeaderProps}
-                onMonthSelect={calendar.actions.setMonth}
-              />
-            ) : (
-              <div className="relative flex w-full items-center">
-                <m.button
-                  type="button"
-                  {...prevNavProps}
-                  whileTap={tapScale}
-                  onClick={wrapNavClick(prevNavProps.onClick, -1)}
-                  className={cn(
-                    buttonVariants({ variant: buttonVariant as 'ghost' }),
-                    'absolute start-0 z-10 size-(--gentleduck-calendar-cell) select-none p-0 aria-disabled:opacity-50',
-                  )}>
-                  <ChevronLeftIcon className={cn('size-4', direction === 'rtl' && 'rotate-180')} />
-                </m.button>
-                {state.months.map((mo) => (
-                  <span key={mo.month.getTime()} className="flex-1 select-none text-center font-medium text-sm">
-                    {adapter.format(mo.month, { month: 'long', year: 'numeric' }, formatLocale)}
-                  </span>
-                ))}
-                <m.button
-                  type="button"
-                  {...nextNavProps}
-                  whileTap={tapScale}
-                  onClick={wrapNavClick(nextNavProps.onClick, 1)}
-                  className={cn(
-                    buttonVariants({ variant: buttonVariant as 'ghost' }),
-                    'absolute end-0 z-10 size-(--gentleduck-calendar-cell) select-none p-0 aria-disabled:opacity-50',
-                  )}>
-                  <ChevronRightIcon className={cn('size-4', direction === 'rtl' && 'rotate-180')} />
-                </m.button>
-              </div>
-            )}
-
-            <div className="relative">
-              <AnimatePresence mode="wait" initial={false} custom={navDirection}>
-                <m.div
-                  key={monthKey}
-                  custom={navDirection}
-                  variants={{
-                    enter: (dir: number) => ({
-                      opacity: 0,
-                      y: dir * 6,
-                      filter: blur,
-                    }),
-                    center: { opacity: 1, y: 0, filter: 'blur(0px)' },
-                    exit: (dir: number) => ({
-                      opacity: 0,
-                      y: dir * -6,
-                      filter: blur,
-                    }),
+          {/* biome-ignore lint/a11y/noStaticElementInteractions: keyboard/pointer tracking for focus ring management */}
+          <div
+            ref={ref}
+            data-slot="calendar"
+            dir={direction}
+            onKeyDown={() => {
+              if (!keyboardActive) setKeyboardActive(true)
+            }}
+            onPointerDown={() => {
+              if (keyboardActive) setKeyboardActive(false)
+            }}
+            className={cn(
+              'group/calendar w-fit bg-background p-3 [--gentleduck-calendar-cell:--spacing(8)]',
+              'rounded-md in-data-[slot=card-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent',
+              className,
+            )}>
+            <div className="relative flex flex-col gap-4">
+              {renderHeader ? (
+                renderHeader({
+                  month: state.month,
+                  title: adapter.format(state.month, { month: 'long', year: 'numeric' }, formatLocale),
+                  direction,
+                  goToPrevMonth: wrapNavClick(prevNavProps.onClick, -1),
+                  goToNextMonth: wrapNavClick(nextNavProps.onClick, 1),
+                  isPrevDisabled: prevNavProps.disabled,
+                  isNextDisabled: nextNavProps.disabled,
+                })
+              ) : numberOfMonths <= 1 ? (
+                <CalendarHeader
+                  adapter={adapter}
+                  month={state.month}
+                  title={adapter.format(state.month, { month: 'long', year: 'numeric' }, formatLocale)}
+                  direction={direction}
+                  locale={locale}
+                  buttonVariant={buttonVariant}
+                  showDropdowns={showDropdowns}
+                  yearRange={resolvedYearRange}
+                  useMotionButtons
+                  getNavProps={(dir) => {
+                    const props = getNavProps(dir)
+                    return { ...props, onClick: wrapNavClick(props.onClick, dir === 'prev' ? -1 : 1) }
                   }}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={tweenExpand}
-                  className="flex flex-col gap-4 md:flex-row">
-                  {state.months.map((monthGrid) => {
-                    const gridProps = getGridProps()
-                    return (
-                      <div key={monthGrid.month.getTime()} className="flex w-full flex-col gap-4">
-                        <div {...gridProps}>
-                          {/* biome-ignore lint/a11y/useSemanticElements: role="row" on div per WAI-ARIA grid pattern */}
-                          {/* biome-ignore lint/a11y/useFocusableInteractive: weekday header row is not interactive */}
-                          <div role="row" className="flex">
-                            {state.weekdays.map((day, index) => (
-                              // biome-ignore lint/a11y/useSemanticElements: columnheader on div per WAI-ARIA grid pattern
-                              // biome-ignore lint/a11y/useFocusableInteractive: weekday headers are not interactive
-                              <div
-                                key={day}
-                                role="columnheader"
-                                className="flex-1 select-none rounded-md text-center font-normal text-[0.8rem] text-muted-foreground">
-                                {renderWeekday
-                                  ? renderWeekday(day, index)
-                                  : locale?.startsWith('ar')
-                                    ? day.replace(/^ال/, '')
-                                    : locale?.startsWith('fa')
-                                      ? day.slice(0, 2)
-                                      : locale?.startsWith('he')
-                                        ? day.replace(/^יום\s*/, '')
-                                        : day}
-                              </div>
-                            ))}
+                  getHeaderProps={getHeaderProps}
+                  onMonthSelect={calendar.actions.setMonth}
+                />
+              ) : (
+                <div className="relative flex w-full items-center">
+                  <m.button
+                    type="button"
+                    {...prevNavProps}
+                    whileTap={tapScale}
+                    onClick={wrapNavClick(prevNavProps.onClick, -1)}
+                    className={cn(
+                      buttonVariants({ variant: buttonVariant as 'ghost' }),
+                      'absolute start-0 z-10 size-(--gentleduck-calendar-cell) select-none p-0 aria-disabled:opacity-50',
+                    )}>
+                    <ChevronLeftIcon className={cn('size-4', direction === 'rtl' && 'rotate-180')} />
+                  </m.button>
+                  {state.months.map((mo) => (
+                    <span key={mo.month.getTime()} className="flex-1 select-none text-center font-medium text-sm">
+                      {adapter.format(mo.month, { month: 'long', year: 'numeric' }, formatLocale)}
+                    </span>
+                  ))}
+                  <m.button
+                    type="button"
+                    {...nextNavProps}
+                    whileTap={tapScale}
+                    onClick={wrapNavClick(nextNavProps.onClick, 1)}
+                    className={cn(
+                      buttonVariants({ variant: buttonVariant as 'ghost' }),
+                      'absolute end-0 z-10 size-(--gentleduck-calendar-cell) select-none p-0 aria-disabled:opacity-50',
+                    )}>
+                    <ChevronRightIcon className={cn('size-4', direction === 'rtl' && 'rotate-180')} />
+                  </m.button>
+                </div>
+              )}
+
+              <div className="relative">
+                <AnimatePresence mode="wait" initial={false} custom={navDirection}>
+                  <m.div
+                    key={monthKey}
+                    custom={navDirection}
+                    variants={{
+                      enter: (dir: number) => ({
+                        opacity: 0,
+                        y: dir * 6,
+                        filter: blur,
+                      }),
+                      center: { opacity: 1, y: 0, filter: 'blur(0px)' },
+                      exit: (dir: number) => ({
+                        opacity: 0,
+                        y: dir * -6,
+                        filter: blur,
+                      }),
+                    }}
+                    initial="enter"
+                    animate="center"
+                    exit="exit"
+                    transition={tweenExpand}
+                    className="flex flex-col gap-4 md:flex-row">
+                    {state.months.map((monthGrid) => {
+                      const gridProps = getGridProps()
+                      return (
+                        <div key={monthGrid.month.getTime()} className="flex w-full flex-col gap-4">
+                          <div {...gridProps}>
+                            {/* biome-ignore lint/a11y/useSemanticElements: role="row" on div per WAI-ARIA grid pattern */}
+                            {/* biome-ignore lint/a11y/useFocusableInteractive: weekday header row is not interactive */}
+                            <div role="row" className="flex">
+                              {state.weekdays.map((day, index) => (
+                                // biome-ignore lint/a11y/useSemanticElements: columnheader on div per WAI-ARIA grid pattern
+                                // biome-ignore lint/a11y/useFocusableInteractive: weekday headers are not interactive
+                                <div
+                                  key={day}
+                                  role="columnheader"
+                                  className="flex-1 select-none rounded-md text-center font-normal text-[0.8rem] text-muted-foreground">
+                                  {renderWeekday
+                                    ? renderWeekday(day, index)
+                                    : locale?.startsWith('ar')
+                                      ? day.replace(/^ال/, '')
+                                      : locale?.startsWith('fa')
+                                        ? day.slice(0, 2)
+                                        : locale?.startsWith('he')
+                                          ? day.replace(/^יום\s*/, '')
+                                          : day}
+                                </div>
+                              ))}
+                            </div>
+                            <m.div variants={staggerContainer} initial="hidden" animate="visible">
+                              {monthGrid.weeks.map((week) => (
+                                // biome-ignore lint/a11y/useSemanticElements: role="row" on div per WAI-ARIA grid pattern
+                                // biome-ignore lint/a11y/useFocusableInteractive: grid rows are not interactive
+                                <div key={week.weekNumber} role="row" className="mt-2 flex w-full">
+                                  {week.days.map((day, dayIdx) => {
+                                    const {
+                                      onMouseEnter: _,
+                                      role: _role,
+                                      'aria-selected': _ariaSel,
+                                      ...dayProps
+                                    } = getDayProps(day)
+                                    const isSelectedSingle =
+                                      day.isSelected && !day.isRangeStart && !day.isRangeEnd && !day.isRangeMiddle
+                                    const isFocused =
+                                      keyboardActive && day.date.getTime() === state.focusedDate.getTime()
+                                    return (
+                                      <m.div key={day.date.getTime()} variants={staggerChild} className="flex-1">
+                                        <CalendarDayCell
+                                          day={day}
+                                          dayProps={dayProps}
+                                          isFocused={isFocused}
+                                          isSelectedSingle={isSelectedSingle}
+                                          isFirstInRow={dayIdx === 0}
+                                          isLastInRow={dayIdx === 6}
+                                          locale={locale}
+                                          useMotion
+                                          onFocusDate={(date) => {
+                                            setKeyboardActive(false)
+                                            calendar.actions.focusDate(date)
+                                          }}
+                                          renderDay={renderDay}
+                                        />
+                                      </m.div>
+                                    )
+                                  })}
+                                </div>
+                              ))}
+                            </m.div>
                           </div>
-                          <m.div variants={staggerContainer} initial="hidden" animate="visible">
-                            {monthGrid.weeks.map((week) => (
-                              // biome-ignore lint/a11y/useSemanticElements: role="row" on div per WAI-ARIA grid pattern
-                              // biome-ignore lint/a11y/useFocusableInteractive: grid rows are not interactive
-                              <div key={week.weekNumber} role="row" className="mt-2 flex w-full">
-                                {week.days.map((day, dayIdx) => {
-                                  const {
-                                    onMouseEnter: _,
-                                    role: _role,
-                                    'aria-selected': _ariaSel,
-                                    ...dayProps
-                                  } = getDayProps(day)
-                                  const isSelectedSingle =
-                                    day.isSelected && !day.isRangeStart && !day.isRangeEnd && !day.isRangeMiddle
-                                  const isFocused = keyboardActive && day.date.getTime() === state.focusedDate.getTime()
-                                  return (
-                                    <m.div key={day.date.getTime()} variants={staggerChild} className="flex-1">
-                                      <CalendarDayCell
-                                        day={day}
-                                        dayProps={dayProps}
-                                        isFocused={isFocused}
-                                        isSelectedSingle={isSelectedSingle}
-                                        isFirstInRow={dayIdx === 0}
-                                        isLastInRow={dayIdx === 6}
-                                        locale={locale}
-                                        useMotion
-                                        onFocusDate={(date) => {
-                                          setKeyboardActive(false)
-                                          calendar.actions.focusDate(date)
-                                        }}
-                                        renderDay={renderDay}
-                                      />
-                                    </m.div>
-                                  )
-                                })}
-                              </div>
-                            ))}
-                          </m.div>
                         </div>
-                      </div>
-                    )
-                  })}
-                </m.div>
-              </AnimatePresence>
+                      )
+                    })}
+                  </m.div>
+                </AnimatePresence>
+              </div>
+              {renderFooter?.(state.months)}
             </div>
-            {renderFooter?.(state.months)}
+            <announcer.AnnouncerPortal />
           </div>
-          <announcer.AnnouncerPortal />
-        </div>
         </m.div>
       </LazyMotion>
     )
