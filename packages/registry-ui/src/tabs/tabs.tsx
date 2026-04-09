@@ -3,7 +3,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomMax } from '@gentleduck/motion/motion-features'
 import { blurLight } from '@gentleduck/motion/transitions/blur'
-import { springDefault } from '@gentleduck/motion/transitions/springs'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { shakeKeyframes, tweenExpand, tweenShake } from '@gentleduck/motion/transitions/tweens'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
@@ -282,7 +282,7 @@ const MotionTabsTrigger = React.forwardRef<
         <m.span
           layoutId={`tab-indicator-${tabsId}`}
           className="absolute inset-0 rounded-[inherit] bg-background shadow-sm"
-          transition={springDefault}
+          transition={springBouncy}
         />
       )}
       <span className={cn('relative z-10', isActive ? 'text-foreground' : 'text-muted-foreground')}>{children}</span>

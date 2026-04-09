@@ -1,11 +1,13 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { contentTransition, fadeBlur } from '@gentleduck/motion/presets/content'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import * as CommandPrimitive from '@gentleduck/primitives/command'
 import { useKeyCommands } from '@gentleduck/vim/react'
 import { Search } from 'lucide-react'
-import { motion } from 'motion/react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '../dialog'
 import { ScrollArea } from '../scroll-area'
@@ -195,19 +197,24 @@ function useCommandListContext(__scopeCommand: Parameters<typeof CommandPrimitiv
 const MotionCommandItem = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item> & { index?: number }
->(({ className, index = 0, ...props }, ref) => (
-  <motion.div {...fadeBlur} transition={{ ...contentTransition, delay: index * 0.03 }}>
-    <CommandPrimitive.Item
-      ref={ref}
-      data-slot="command-item"
-      className={cn(
-        'relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 hover:bg-muted hover:text-accent-foreground data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-50 [&_svg]:size-4',
-        className,
-      )}
-      {...props}
-    />
-  </motion.div>
-))
+>(({ className, index = 0, ...props }, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.03 })
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
+        <CommandPrimitive.Item
+          ref={ref}
+          data-slot="command-item"
+          className={cn(
+            'relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 hover:bg-muted hover:text-accent-foreground data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-50 [&_svg]:size-4',
+            className,
+          )}
+          {...props}
+        />
+      </m.div>
+    </LazyMotion>
+  )
+})
 MotionCommandItem.displayName = 'MotionCommandItem'
 
 export {

@@ -3,8 +3,10 @@
 import { NativeAdapter, useCalendar } from '@gentleduck/calendar'
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { tapScale } from '@gentleduck/motion/presets/content'
 import { blurLight } from '@gentleduck/motion/transitions/blur'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { tweenExpand } from '@gentleduck/motion/transitions/tweens'
 import { useDirection } from '@gentleduck/primitives/direction'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
@@ -318,8 +320,11 @@ const MotionCalendar = React.forwardRef<HTMLDivElement, CalendarProps>(
       original()
     }
 
+    const calContent = useMotionPreset('scaleIn', { transition: springBouncy })
+
     return (
       <LazyMotion features={loadDomAnimation}>
+        <m.div initial={calContent.initial} animate={calContent.animate} transition={calContent.transition}>
         {/* biome-ignore lint/a11y/noStaticElementInteractions: keyboard/pointer tracking for focus ring management */}
         <div
           ref={ref}
@@ -496,6 +501,7 @@ const MotionCalendar = React.forwardRef<HTMLDivElement, CalendarProps>(
           </div>
           <announcer.AnnouncerPortal />
         </div>
+        </m.div>
       </LazyMotion>
     )
   },

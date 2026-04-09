@@ -3,7 +3,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { createTooltipPreset } from '@gentleduck/motion/presets/tooltip'
-import { tweenFast } from '@gentleduck/motion/transitions/tweens'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as HoverCardPrimitive from '@gentleduck/primitives/hover-card'
 import type { VariantProps } from '@gentleduck/variants'
@@ -143,7 +143,7 @@ const MotionHoverCardContent = React.forwardRef<
                 initial={preset.initial}
                 animate={preset.animate}
                 exit={{ ...preset.exit, pointerEvents: 'none' }}
-                transition={tweenFast}>
+                transition={springBouncy}>
                 {children}
               </m.div>
             </HoverCardPrimitive.Content>

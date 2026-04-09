@@ -1,10 +1,12 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { contentTransition, fadeBlur } from '@gentleduck/motion/presets/content'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { cva, type VariantProps } from '@gentleduck/variants'
-import { motion } from 'motion/react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Button } from '../button'
 import { Input } from '../input'
@@ -177,11 +179,16 @@ InputGroupTextarea.displayName = 'InputGroupTextarea'
 /* ------------------------------------------------------------------ */
 
 const MotionInputGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'> & { index?: number }>(
-  ({ index = 0, ...props }, ref) => (
-    <motion.div {...fadeBlur} transition={{ ...contentTransition, delay: index * 0.05 }}>
-      <InputGroup ref={ref} {...props} />
-    </motion.div>
-  ),
+  ({ index = 0, ...props }, ref) => {
+    const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.05 })
+    return (
+      <LazyMotion features={loadDomAnimation}>
+        <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
+          <InputGroup ref={ref} {...props} />
+        </m.div>
+      </LazyMotion>
+    )
+  },
 )
 MotionInputGroup.displayName = 'MotionInputGroup'
 

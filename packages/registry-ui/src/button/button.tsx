@@ -1,14 +1,15 @@
 'use client'
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import {
-  blurMount,
   contentTransition,
   contentTransitionFast,
   fadeBlurPopOut,
   spinIn,
   tapScale,
 } from '@gentleduck/motion/presets/content'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { Slot, Slottable } from '@gentleduck/primitives/slot'
 import { Loader } from 'lucide-react'
 import { AnimatePresence, LazyMotion, m } from 'motion/react'
@@ -112,13 +113,15 @@ const MotionButton = React.forwardRef<
     },
     ref,
   ) => {
+    const content = useMotionPreset('scaleIn', { transition: springBouncy })
     return (
       <LazyMotion features={loadDomAnimation}>
         <m.button
           data-slot="button"
-          {...blurMount}
+          initial={content.initial}
+          animate={content.animate}
           whileTap={tapScale}
-          transition={{ ...contentTransition, scale: { duration: 0, type: 'tween' } }}
+          transition={{ ...content.transition, scale: { duration: 0, type: 'tween' } }}
           {...props}
           aria-busy={loading ? true : undefined}
           className={cn(

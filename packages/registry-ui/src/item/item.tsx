@@ -1,11 +1,13 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { contentTransition, fadeUp } from '@gentleduck/motion/presets/content'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import { cva, type VariantProps } from '@gentleduck/variants'
-import { motion } from 'motion/react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Separator } from '../separator'
 import { itemVariants } from './item.constants'
@@ -183,18 +185,28 @@ ItemFooter.displayName = 'ItemFooter'
 const MotionItem = React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<'div'> & VariantProps<typeof itemVariants> & { asChild?: boolean; index?: number }
->(({ index = 0, ...props }, ref) => (
-  <motion.div {...fadeUp} transition={{ ...contentTransition, delay: index * 0.04 }}>
-    <Item ref={ref} {...props} />
-  </motion.div>
-))
+>(({ index = 0, ...props }, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.04 })
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
+        <Item ref={ref} {...props} />
+      </m.div>
+    </LazyMotion>
+  )
+})
 MotionItem.displayName = 'MotionItem'
 
-const MotionItemGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>((props, ref) => (
-  <motion.div {...fadeUp} transition={contentTransition}>
-    <ItemGroup ref={ref} {...props} />
-  </motion.div>
-))
+const MotionItemGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>((props, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
+        <ItemGroup ref={ref} {...props} />
+      </m.div>
+    </LazyMotion>
+  )
+})
 MotionItemGroup.displayName = 'MotionItemGroup'
 
 export {
