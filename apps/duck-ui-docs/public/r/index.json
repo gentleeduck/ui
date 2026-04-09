@@ -13684,6 +13684,11 @@
         "name": "progress-2.tsx",
         "path": "progress/progress-2.tsx",
         "type": "file"
+      },
+      {
+        "name": "progress-3.tsx",
+        "path": "progress/progress-3.tsx",
+        "type": "file"
       }
     ]
   },
@@ -13710,6 +13715,43 @@
       {
         "name": "progress-2.tsx",
         "path": "progress/progress-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "progress-3.tsx",
+        "path": "progress/progress-3.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "progress/progress-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "progress-3",
+    "registryDependencies": [
+      "progress"
+    ],
+    "root_folder": "progress",
+    "type": "registry:example",
+    "source": "/registry-examples/src/progress",
+    "tree": [
+      {
+        "name": "progress-1.tsx",
+        "path": "progress/progress-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "progress-2.tsx",
+        "path": "progress/progress-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "progress-3.tsx",
+        "path": "progress/progress-3.tsx",
         "type": "file"
       }
     ]
