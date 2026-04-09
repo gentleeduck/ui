@@ -180,4 +180,8 @@ const { open, onOpenChange } = useCollapsible()
 
 ### MotionCollapsibleContent
 
-Same props as `CollapsibleContent`. Animates height from 0 to auto with staggered blur and opacity fade. Requires the `motion` package.
+Animates height from 0 to auto with staggered blur and opacity fade. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `Omit<CollapsibleContentProps, 'onDrag' \| 'onDragStart' \| 'onDragEnd' \| 'onAnimationStart'>` | - | All props from `CollapsibleContent` except motion event handlers |

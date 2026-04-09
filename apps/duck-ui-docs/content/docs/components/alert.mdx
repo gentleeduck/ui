@@ -142,12 +142,24 @@ Requires the `motion` package. Use `MotionAlert` instead of `Alert`, `MotionAler
 
 ### MotionAlert
 
-Same props as `Alert`. Animates on mount with fade-up (slide up 6px + blur + opacity) using the `fadeUp` preset and `contentTransition` (250ms expo-out). Requires the `motion` package.
+Animates on mount with fade-up (slide up 6px + blur + opacity) using the `fadeUp` preset and `contentTransition` (250ms expo-out). Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `AlertProps` | - | All props from `Alert` are supported |
 
 ### MotionAlertTitle
 
-Same props as `AlertTitle`. Fades up with blur at 100ms delay after the container. Requires the `motion` package.
+Fades up with blur at 100ms delay after the container. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `AlertTitleProps` | - | All props from `AlertTitle` are supported |
 
 ### MotionAlertDescription
 
-Same props as `AlertDescription`. Fades up with blur at 180ms delay after the title. Requires the `motion` package.
+Fades up with blur at 180ms delay after the title. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `AlertDescriptionProps` | - | All props from `AlertDescription` are supported |

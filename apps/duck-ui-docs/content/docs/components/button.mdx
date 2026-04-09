@@ -311,4 +311,8 @@ Requires the `motion` package. Use `MotionButton` instead of `Button`. Same prop
 
 ### MotionButton
 
-Same props as `Button` except `asChild` is not supported. Adds `whileTap` press feedback and animated icon/text transitions via `AnimatePresence`. Requires the `motion` package.
+Adds `whileTap` press feedback (scale 0.97) and animated icon/text transitions via `AnimatePresence`. `asChild` is not supported. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `Omit<ButtonProps, 'asChild'>` | - | All props from `Button` except `asChild` |

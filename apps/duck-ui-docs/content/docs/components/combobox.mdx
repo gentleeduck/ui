@@ -266,8 +266,17 @@ A convenience wrapper around `CommandGroup` for grouping combobox items.
 
 ### MotionCombobox
 
-Same props as `Combobox`. Uses `MotionButton` for the trigger and `MotionPopoverContent` for the dropdown with spring enter/exit animations. Requires the `motion` package.
+Uses `MotionButton` for the trigger and `MotionPopoverContent` for the dropdown with spring enter/exit animations. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `ComboboxProps` | - | All props from `Combobox` are supported |
 
 ### MotionComboboxItem
 
-Same props as `ComboboxItem`. Uses `MotionCheckbox` with bounce animation on toggle. Requires the `motion` package.
+Uses `MotionCheckbox` with bounce animation on toggle. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | - | Stagger delay index for entrance animation |
+| `...props` | `ComboboxItemProps` | - | All props from `ComboboxItem` are supported |
