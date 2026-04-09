@@ -97,3 +97,12 @@ Requires the `motion` package. Use `MotionProgress` instead of `Progress`. Same 
 | `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | `--` | Additional CSS classes for the progress bar container |
 | `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'value'>` | - | Additional props to spread to the content div |
+
+### MotionProgress
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `number` | (required) | Progress value from `0` to `100`. Value changes animate with a `springBouncy` spring transition. |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | - | Additional CSS classes for the progress bar container |
+| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'value'>` | - | Additional props to spread to the content div |

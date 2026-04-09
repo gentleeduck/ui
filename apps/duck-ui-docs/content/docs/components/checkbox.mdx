@@ -187,13 +187,31 @@ type CheckboxGroupSubtasks = {
 }
 ```
 
+### MotionCheckbox
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `onCheckedChange` | `(checked: boolean \| 'indeterminate') => void` | - | Callback fired when checked state changes. Also triggers the bounce animation. |
+| `...props` | `CheckboxProps` | - | All props from `Checkbox` are supported |
+
+Wraps `Checkbox` with a bounce animation (scale + rotate) on check. Requires the `motion` package.
+
 ### MotionCheckboxWithLabel
 
-Same props as `CheckboxWithLabel` plus an optional `index` prop for stagger delay (50ms per index). Requires the `motion` package.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | `0` | Stagger delay index (50ms per index) for entrance animation |
+| `...props` | `CheckboxWithLabelProps` | - | All props from `CheckboxWithLabel` are supported |
+
+Wraps `CheckboxWithLabel` with a staggered `scaleIn` entrance. Uses `MotionCheckbox` internally. Requires the `motion` package.
 
 ### MotionCheckboxGroup
 
-Same props as `CheckboxGroup`. Wraps the group with fadeUp and renders each item as `MotionCheckboxWithLabel` with automatic stagger. Requires the `motion` package.
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `CheckboxGroupProps` | - | All props from `CheckboxGroup` are supported |
+
+Same as `CheckboxGroup` but renders each item as `MotionCheckboxWithLabel` with automatic stagger index. Requires the `motion` package.
 
 ## See also
 
