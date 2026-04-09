@@ -460,6 +460,7 @@ const _Slider2 = dynamic(() => import('@gentleduck/registry-examples/slider/slid
 const _Slider3 = dynamic(() => import('@gentleduck/registry-examples/slider/slider-3'), { ssr: false })
 const _Slider4 = dynamic(() => import('@gentleduck/registry-examples/slider/slider-4'), { ssr: false })
 const _Slider5 = dynamic(() => import('@gentleduck/registry-examples/slider/slider-5'), { ssr: false })
+const _Slider6 = dynamic(() => import('@gentleduck/registry-examples/slider/slider-6'), { ssr: false })
 const _Switch1 = dynamic(() => import('@gentleduck/registry-examples/switch/switch-1'), { ssr: false })
 const _Switch2 = dynamic(() => import('@gentleduck/registry-examples/switch/switch-2'), { ssr: false })
 const _Switch3 = dynamic(() => import('@gentleduck/registry-examples/switch/switch-3'), { ssr: false })
@@ -5195,6 +5196,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Slider5,
+    source: '/registry-examples/src/slider',
+    categories: [],
+    root_folder: 'slider',
+  },
+  'slider-6': {
+    name: 'slider-6',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['slider'],
+    files: [
+      {
+        path: 'slider/slider-6.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Slider6,
     source: '/registry-examples/src/slider',
     categories: [],
     root_folder: 'slider',

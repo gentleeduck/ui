@@ -14775,6 +14775,11 @@
         "name": "slider-5.tsx",
         "path": "slider/slider-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "slider-6.tsx",
+        "path": "slider/slider-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -14816,6 +14821,11 @@
       {
         "name": "slider-5.tsx",
         "path": "slider/slider-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "slider-6.tsx",
+        "path": "slider/slider-6.tsx",
         "type": "file"
       }
     ]
@@ -14859,6 +14869,11 @@
         "name": "slider-5.tsx",
         "path": "slider/slider-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "slider-6.tsx",
+        "path": "slider/slider-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -14901,6 +14916,11 @@
         "name": "slider-5.tsx",
         "path": "slider/slider-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "slider-6.tsx",
+        "path": "slider/slider-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -14942,6 +14962,58 @@
       {
         "name": "slider-5.tsx",
         "path": "slider/slider-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "slider-6.tsx",
+        "path": "slider/slider-6.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "slider/slider-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "slider-6",
+    "registryDependencies": [
+      "slider"
+    ],
+    "root_folder": "slider",
+    "type": "registry:example",
+    "source": "/registry-examples/src/slider",
+    "tree": [
+      {
+        "name": "slider-1.tsx",
+        "path": "slider/slider-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "slider-2.tsx",
+        "path": "slider/slider-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "slider-3.tsx",
+        "path": "slider/slider-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "slider-4.tsx",
+        "path": "slider/slider-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "slider-5.tsx",
+        "path": "slider/slider-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "slider-6.tsx",
+        "path": "slider/slider-6.tsx",
         "type": "file"
       }
     ]
