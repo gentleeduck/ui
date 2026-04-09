@@ -483,6 +483,7 @@ const _Textarea5 = dynamic(() => import('@gentleduck/registry-examples/textarea/
 const _Textarea6 = dynamic(() => import('@gentleduck/registry-examples/textarea/textarea-6'), { ssr: false })
 const _Textarea7 = dynamic(() => import('@gentleduck/registry-examples/textarea/textarea-7'), { ssr: false })
 const _Textarea8 = dynamic(() => import('@gentleduck/registry-examples/textarea/textarea-8'), { ssr: false })
+const _Textarea9 = dynamic(() => import('@gentleduck/registry-examples/textarea/textarea-9'), { ssr: false })
 const _Toggle1 = dynamic(() => import('@gentleduck/registry-examples/toggle/toggle-1'), { ssr: false })
 const _Toggle2 = dynamic(() => import('@gentleduck/registry-examples/toggle/toggle-2'), { ssr: false })
 const _Toggle3 = dynamic(() => import('@gentleduck/registry-examples/toggle/toggle-3'), { ssr: false })
@@ -5566,6 +5567,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Textarea8,
+    source: '/registry-examples/src/textarea',
+    categories: [],
+    root_folder: 'textarea',
+  },
+  'textarea-9': {
+    name: 'textarea-9',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['textarea'],
+    files: [
+      {
+        path: 'textarea/textarea-9.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Textarea9,
     source: '/registry-examples/src/textarea',
     categories: [],
     root_folder: 'textarea',

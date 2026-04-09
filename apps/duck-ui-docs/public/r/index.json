@@ -15650,6 +15650,11 @@
         "name": "textarea-8.tsx",
         "path": "textarea/textarea-8.tsx",
         "type": "file"
+      },
+      {
+        "name": "textarea-9.tsx",
+        "path": "textarea/textarea-9.tsx",
+        "type": "file"
       }
     ]
   },
@@ -15706,6 +15711,11 @@
       {
         "name": "textarea-8.tsx",
         "path": "textarea/textarea-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "textarea-9.tsx",
+        "path": "textarea/textarea-9.tsx",
         "type": "file"
       }
     ]
@@ -15764,6 +15774,11 @@
         "name": "textarea-8.tsx",
         "path": "textarea/textarea-8.tsx",
         "type": "file"
+      },
+      {
+        "name": "textarea-9.tsx",
+        "path": "textarea/textarea-9.tsx",
+        "type": "file"
       }
     ]
   },
@@ -15820,6 +15835,11 @@
       {
         "name": "textarea-8.tsx",
         "path": "textarea/textarea-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "textarea-9.tsx",
+        "path": "textarea/textarea-9.tsx",
         "type": "file"
       }
     ]
@@ -15878,6 +15898,11 @@
         "name": "textarea-8.tsx",
         "path": "textarea/textarea-8.tsx",
         "type": "file"
+      },
+      {
+        "name": "textarea-9.tsx",
+        "path": "textarea/textarea-9.tsx",
+        "type": "file"
       }
     ]
   },
@@ -15934,6 +15959,11 @@
       {
         "name": "textarea-8.tsx",
         "path": "textarea/textarea-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "textarea-9.tsx",
+        "path": "textarea/textarea-9.tsx",
         "type": "file"
       }
     ]
@@ -15992,6 +16022,11 @@
         "name": "textarea-8.tsx",
         "path": "textarea/textarea-8.tsx",
         "type": "file"
+      },
+      {
+        "name": "textarea-9.tsx",
+        "path": "textarea/textarea-9.tsx",
+        "type": "file"
       }
     ]
   },
@@ -16048,6 +16083,73 @@
       {
         "name": "textarea-8.tsx",
         "path": "textarea/textarea-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "textarea-9.tsx",
+        "path": "textarea/textarea-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "textarea/textarea-9.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "textarea-9",
+    "registryDependencies": [
+      "textarea"
+    ],
+    "root_folder": "textarea",
+    "type": "registry:example",
+    "source": "/registry-examples/src/textarea",
+    "tree": [
+      {
+        "name": "textarea-1.tsx",
+        "path": "textarea/textarea-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "textarea-2.tsx",
+        "path": "textarea/textarea-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "textarea-3.tsx",
+        "path": "textarea/textarea-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "textarea-4.tsx",
+        "path": "textarea/textarea-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "textarea-5.tsx",
+        "path": "textarea/textarea-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "textarea-6.tsx",
+        "path": "textarea/textarea-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "textarea-7.tsx",
+        "path": "textarea/textarea-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "textarea-8.tsx",
+        "path": "textarea/textarea-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "textarea-9.tsx",
+        "path": "textarea/textarea-9.tsx",
         "type": "file"
       }
     ]
