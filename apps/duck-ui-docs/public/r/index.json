@@ -14617,6 +14617,11 @@
         "name": "skeleton-3.tsx",
         "path": "skeleton/skeleton-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "skeleton-4.tsx",
+        "path": "skeleton/skeleton-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -14649,6 +14654,11 @@
         "name": "skeleton-3.tsx",
         "path": "skeleton/skeleton-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "skeleton-4.tsx",
+        "path": "skeleton/skeleton-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -14680,6 +14690,48 @@
       {
         "name": "skeleton-3.tsx",
         "path": "skeleton/skeleton-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "skeleton-4.tsx",
+        "path": "skeleton/skeleton-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "skeleton/skeleton-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "skeleton-4",
+    "registryDependencies": [
+      "skeleton"
+    ],
+    "root_folder": "skeleton",
+    "type": "registry:example",
+    "source": "/registry-examples/src/skeleton",
+    "tree": [
+      {
+        "name": "skeleton-1.tsx",
+        "path": "skeleton/skeleton-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "skeleton-2.tsx",
+        "path": "skeleton/skeleton-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "skeleton-3.tsx",
+        "path": "skeleton/skeleton-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "skeleton-4.tsx",
+        "path": "skeleton/skeleton-4.tsx",
         "type": "file"
       }
     ]
