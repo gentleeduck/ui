@@ -102,16 +102,14 @@ import { Textarea } from '@/components/ui/textarea'
 
 <ComponentPreview name="textarea-7" description="A textarea integrated with React Hook Form for bio input with validation." />
 
-### RTL
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
 
 <ComponentPreview
   name="textarea-8"
   description="A textarea with RTL support."
 />
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
 
 ## Motion
 

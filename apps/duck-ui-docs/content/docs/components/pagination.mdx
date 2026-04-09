@@ -132,13 +132,6 @@ const PaginationLink = ({...props }: ) => (
 
 </Callout>
 
-### RTL
-
-<ComponentPreview
-  name="pagination-2"
-  description="A pagination with full RTL and Arabic i18n support."
-/>
-
 ## Component Composition
 
 <MermaidDiagram chart={`graph TD
@@ -154,6 +147,11 @@ const PaginationLink = ({...props }: ) => (
 ## RTL Support
 
 Use the `text` prop on `PaginationPrevious`, `PaginationNext`, and `PaginationEllipsis` to provide translated labels. Set `dir="rtl"` on `Pagination` for a local override, or set `DirectionProvider` once at app/root level for global direction. Keep markup in logical order (`Previous`, pages, `Next`): visual mirroring is handled automatically.
+
+<ComponentPreview
+  name="pagination-2"
+  description="A pagination with full RTL and Arabic i18n support."
+/>
 
 ## API Reference
 
