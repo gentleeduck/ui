@@ -14306,6 +14306,11 @@
         "name": "separator-2.tsx",
         "path": "separator/separator-2.tsx",
         "type": "file"
+      },
+      {
+        "name": "separator-3.tsx",
+        "path": "separator/separator-3.tsx",
+        "type": "file"
       }
     ]
   },
@@ -14332,6 +14337,43 @@
       {
         "name": "separator-2.tsx",
         "path": "separator/separator-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "separator-3.tsx",
+        "path": "separator/separator-3.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "separator/separator-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "separator-3",
+    "registryDependencies": [
+      "separator"
+    ],
+    "root_folder": "separator",
+    "type": "registry:example",
+    "source": "/registry-examples/src/separator",
+    "tree": [
+      {
+        "name": "separator-1.tsx",
+        "path": "separator/separator-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "separator-2.tsx",
+        "path": "separator/separator-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "separator-3.tsx",
+        "path": "separator/separator-3.tsx",
         "type": "file"
       }
     ]
