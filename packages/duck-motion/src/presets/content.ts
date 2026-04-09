@@ -59,6 +59,9 @@ export const blurMount = {
 /** Tap press feedback. Use for buttons, toggles, interactive elements. */
 export const tapScale = { scale: 0.97 }
 
+/** Bounce keyframes for toggle controls. Use for checkboxes, radio buttons, switches. */
+export const checkerBounce = { scale: [1, 0.88, 1.08, 1], rotate: [0, -3, 2, 0] }
+
 /** Content transition. 250ms expo-out for smooth reveals. */
 export const contentTransition = { duration: 0.25, ease: [0.16, 1, 0.3, 1] } as const
 
