@@ -1252,6 +1252,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/slider',
           items: [],
+          label: 'new',
           title: 'Slider',
         },
         {
