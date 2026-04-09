@@ -341,20 +341,22 @@ const MotionTabsContents = React.forwardRef<
             variants={{
               enter: (dir: number) => ({
                 opacity: 0,
-                x: `${dir * 30}%`,
+                x: `${dir * 8}%`,
+                scale: 0.98,
                 filter: `blur(${blurLight}px)`,
               }),
-              center: { opacity: 1, x: 0, filter: `blur(0px)` },
+              center: { opacity: 1, x: 0, scale: 1, filter: 'blur(0px)' },
               exit: (dir: number) => ({
                 opacity: 0,
-                x: `${dir * -30}%`,
+                x: `${dir * -8}%`,
+                scale: 0.98,
                 filter: `blur(${blurLight}px)`,
               }),
             }}
             initial="enter"
             animate="center"
             exit="exit"
-            transition={tweenExpand}
+            transition={springSmooth}
             onAnimationComplete={() => {
               if (containerRef.current) {
                 setHeight(containerRef.current.scrollHeight)
