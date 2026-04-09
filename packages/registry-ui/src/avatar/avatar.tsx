@@ -88,7 +88,11 @@ const MotionAvatar = React.forwardRef<React.ComponentRef<typeof Avatar>, React.C
     const content = useMotionPreset('scaleIn', { transition: springBouncy })
     return (
       <LazyMotion features={loadDomAnimation}>
-        <m.div initial={content.initial} animate={content.animate} transition={content.transition} className="inline-flex">
+        <m.div
+          initial={content.initial}
+          animate={content.animate}
+          transition={content.transition}
+          className="inline-flex">
           <Avatar ref={ref} {...props} />
         </m.div>
       </LazyMotion>

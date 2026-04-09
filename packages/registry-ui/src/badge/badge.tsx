@@ -26,7 +26,11 @@ const MotionBadge = React.forwardRef<HTMLDivElement, React.ComponentPropsWithout
   const content = useMotionPreset('scaleIn', { transition: springBouncy })
   return (
     <LazyMotion features={loadDomAnimation}>
-      <m.div initial={content.initial} animate={content.animate} transition={content.transition} className="inline-flex">
+      <m.div
+        initial={content.initial}
+        animate={content.animate}
+        transition={content.transition}
+        className="inline-flex">
         <Badge ref={ref} {...props} />
       </m.div>
     </LazyMotion>
