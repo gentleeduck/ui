@@ -1,7 +1,11 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import * as SliderPrimitive from '@gentleduck/primitives/slider'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const Slider = React.forwardRef<
@@ -52,4 +56,22 @@ const Slider = React.forwardRef<
 })
 Slider.displayName = 'Slider'
 
-export { Slider }
+const MotionSlider = React.forwardRef<
+  React.ComponentRef<typeof SliderPrimitive.Root>,
+  React.ComponentProps<typeof SliderPrimitive.Root>
+>((props, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <m.div
+        initial={content.initial}
+        animate={content.animate}
+        transition={content.transition}>
+        <Slider ref={ref} {...props} />
+      </m.div>
+    </LazyMotion>
+  )
+})
+MotionSlider.displayName = 'MotionSlider'
+
+export { MotionSlider, Slider }
