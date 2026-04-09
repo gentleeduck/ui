@@ -429,6 +429,7 @@ const _Label3 = dynamic(() => import('@gentleduck/registry-examples/label/label-
 const _Label4 = dynamic(() => import('@gentleduck/registry-examples/label/label-4'), { ssr: false })
 const _Progress1 = dynamic(() => import('@gentleduck/registry-examples/progress/progress-1'), { ssr: false })
 const _Progress2 = dynamic(() => import('@gentleduck/registry-examples/progress/progress-2'), { ssr: false })
+const _Progress3 = dynamic(() => import('@gentleduck/registry-examples/progress/progress-3'), { ssr: false })
 const _RadioGroup1 = dynamic(() => import('@gentleduck/registry-examples/radio-group/radio-group-1'), { ssr: false })
 const _RadioGroup2 = dynamic(() => import('@gentleduck/registry-examples/radio-group/radio-group-2'), { ssr: false })
 const _RadioGroup3 = dynamic(() => import('@gentleduck/registry-examples/radio-group/radio-group-3'), { ssr: false })
@@ -4695,6 +4696,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Progress2,
+    source: '/registry-examples/src/progress',
+    categories: [],
+    root_folder: 'progress',
+  },
+  'progress-3': {
+    name: 'progress-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['progress'],
+    files: [
+      {
+        path: 'progress/progress-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Progress3,
     source: '/registry-examples/src/progress',
     categories: [],
     root_folder: 'progress',
