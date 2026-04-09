@@ -1286,6 +1286,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/textarea',
           items: [],
+          label: 'new',
           title: 'Text Area',
         },
         {
