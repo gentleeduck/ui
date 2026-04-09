@@ -433,6 +433,7 @@ const _Progress3 = dynamic(() => import('@gentleduck/registry-examples/progress/
 const _RadioGroup1 = dynamic(() => import('@gentleduck/registry-examples/radio-group/radio-group-1'), { ssr: false })
 const _RadioGroup2 = dynamic(() => import('@gentleduck/registry-examples/radio-group/radio-group-2'), { ssr: false })
 const _RadioGroup3 = dynamic(() => import('@gentleduck/registry-examples/radio-group/radio-group-3'), { ssr: false })
+const _RadioGroup4 = dynamic(() => import('@gentleduck/registry-examples/radio-group/radio-group-4'), { ssr: false })
 const _ScrollArea1 = dynamic(() => import('@gentleduck/registry-examples/scroll-area/scroll-area-1'), { ssr: false })
 const _ScrollArea2 = dynamic(() => import('@gentleduck/registry-examples/scroll-area/scroll-area-2'), { ssr: false })
 const _ScrollArea3 = dynamic(() => import('@gentleduck/registry-examples/scroll-area/scroll-area-3'), { ssr: false })
@@ -4760,6 +4761,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _RadioGroup3,
+    source: '/registry-examples/src/radio-group',
+    categories: [],
+    root_folder: 'radio-group',
+  },
+  'radio-group-4': {
+    name: 'radio-group-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['radio-group'],
+    files: [
+      {
+        path: 'radio-group/radio-group-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _RadioGroup4,
     source: '/registry-examples/src/radio-group',
     categories: [],
     root_folder: 'radio-group',
