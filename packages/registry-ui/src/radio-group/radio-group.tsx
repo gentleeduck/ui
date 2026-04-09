@@ -1,8 +1,12 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
 import * as RadioGroupPrimitive from '@gentleduck/primitives/radio-group'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const RadioGroup = React.forwardRef<
@@ -89,4 +93,49 @@ const RadioGroupItem = React.forwardRef<
 })
 RadioGroupItem.displayName = 'RadioGroupItem'
 
-export { RadioGroup, RadioGroupItem }
+/* ------------------------------------------------------------------ */
+/*  MotionRadioGroupItem + MotionRadioGroup                            */
+/* ------------------------------------------------------------------ */
+
+const MotionRadioGroupItem = React.forwardRef<
+  React.ComponentRef<typeof RadioGroupPrimitive.Item>,
+  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Item> & {
+    indicator?: React.ReactElement
+    checkedIndicator?: React.ReactElement
+    textValue?: string
+    index?: number
+  }
+>(({ index = 0, ...props }, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.05 })
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <m.div
+        initial={content.initial}
+        animate={content.animate}
+        transition={content.transition}
+        className="inline-flex">
+        <RadioGroupItem ref={ref} {...props} />
+      </m.div>
+    </LazyMotion>
+  )
+})
+MotionRadioGroupItem.displayName = 'MotionRadioGroupItem'
+
+const MotionRadioGroup = React.forwardRef<
+  React.ComponentRef<typeof RadioGroupPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof RadioGroupPrimitive.Root>
+>(({ children, ...props }, ref) => {
+  return (
+    <RadioGroup ref={ref} {...props}>
+      {React.Children.map(children, (child, i) => {
+        if (React.isValidElement(child) && child.type === MotionRadioGroupItem) {
+          return React.cloneElement(child as React.ReactElement<{ index?: number }>, { index: i })
+        }
+        return child
+      })}
+    </RadioGroup>
+  )
+})
+MotionRadioGroup.displayName = 'MotionRadioGroup'
+
+export { MotionRadioGroup, MotionRadioGroupItem, RadioGroup, RadioGroupItem }
