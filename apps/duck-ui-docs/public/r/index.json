@@ -18636,6 +18636,11 @@
         "name": "pagination-2.tsx",
         "path": "pagination/pagination-2.tsx",
         "type": "file"
+      },
+      {
+        "name": "pagination-3.tsx",
+        "path": "pagination/pagination-3.tsx",
+        "type": "file"
       }
     ]
   },
@@ -18662,6 +18667,43 @@
       {
         "name": "pagination-2.tsx",
         "path": "pagination/pagination-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "pagination-3.tsx",
+        "path": "pagination/pagination-3.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "pagination/pagination-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "pagination-3",
+    "registryDependencies": [
+      "pagination"
+    ],
+    "root_folder": "pagination",
+    "type": "registry:example",
+    "source": "/registry-examples/src/pagination",
+    "tree": [
+      {
+        "name": "pagination-1.tsx",
+        "path": "pagination/pagination-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "pagination-2.tsx",
+        "path": "pagination/pagination-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "pagination-3.tsx",
+        "path": "pagination/pagination-3.tsx",
         "type": "file"
       }
     ]
@@ -23312,6 +23354,11 @@
         "name": "navigation-menu-2.tsx",
         "path": "navigation-menu/navigation-menu-2.tsx",
         "type": "file"
+      },
+      {
+        "name": "navigation-menu-3.tsx",
+        "path": "navigation-menu/navigation-menu-3.tsx",
+        "type": "file"
       }
     ]
   },
@@ -23338,6 +23385,43 @@
       {
         "name": "navigation-menu-2.tsx",
         "path": "navigation-menu/navigation-menu-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "navigation-menu-3.tsx",
+        "path": "navigation-menu/navigation-menu-3.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "navigation-menu/navigation-menu-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "navigation-menu-3",
+    "registryDependencies": [
+      "navigation-menu"
+    ],
+    "root_folder": "navigation-menu",
+    "type": "registry:example",
+    "source": "/registry-examples/src/navigation-menu",
+    "tree": [
+      {
+        "name": "navigation-menu-1.tsx",
+        "path": "navigation-menu/navigation-menu-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "navigation-menu-2.tsx",
+        "path": "navigation-menu/navigation-menu-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "navigation-menu-3.tsx",
+        "path": "navigation-menu/navigation-menu-3.tsx",
         "type": "file"
       }
     ]
@@ -28609,6 +28693,11 @@
         "name": "json-editor-4.tsx",
         "path": "json-editor/json-editor-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "json-editor-5.tsx",
+        "path": "json-editor/json-editor-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -28645,6 +28734,11 @@
       {
         "name": "json-editor-4.tsx",
         "path": "json-editor/json-editor-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "json-editor-5.tsx",
+        "path": "json-editor/json-editor-5.tsx",
         "type": "file"
       }
     ]
@@ -28683,6 +28777,11 @@
         "name": "json-editor-4.tsx",
         "path": "json-editor/json-editor-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "json-editor-5.tsx",
+        "path": "json-editor/json-editor-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -28719,6 +28818,53 @@
       {
         "name": "json-editor-4.tsx",
         "path": "json-editor/json-editor-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "json-editor-5.tsx",
+        "path": "json-editor/json-editor-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "json-editor/json-editor-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "json-editor-5",
+    "registryDependencies": [
+      "json-editor"
+    ],
+    "root_folder": "json-editor",
+    "type": "registry:example",
+    "source": "/registry-examples/src/json-editor",
+    "tree": [
+      {
+        "name": "json-editor-1.tsx",
+        "path": "json-editor/json-editor-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "json-editor-2.tsx",
+        "path": "json-editor/json-editor-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "json-editor-3.tsx",
+        "path": "json-editor/json-editor-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "json-editor-4.tsx",
+        "path": "json-editor/json-editor-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "json-editor-5.tsx",
+        "path": "json-editor/json-editor-5.tsx",
         "type": "file"
       }
     ]
