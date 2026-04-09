@@ -2,8 +2,9 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
-import { contentTransition, fadeUp } from '@gentleduck/motion/presets/content'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { heightAuto } from '@gentleduck/motion/presets/height-auto'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { duckMotionDuration, tweenExpand } from '@gentleduck/motion/transitions/tweens'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Mount } from '@gentleduck/primitives/mount'
@@ -307,6 +308,7 @@ const MotionAccordionTrigger = React.forwardRef<
   React.HTMLProps<HTMLElement> & { icon?: React.ReactNode; value?: string }
 >(({ className, children, icon, value, ...props }, ref) => {
   const { isActive } = React.useContext(MotionAccordionItemContext)
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
 
   return (
     <summary
@@ -317,7 +319,7 @@ const MotionAccordionTrigger = React.forwardRef<
       ref={ref as React.Ref<HTMLElement>}
       {...props}
       data-slot="accordion-trigger">
-      <m.span {...fadeUp} transition={contentTransition} className="flex-1">
+      <m.span initial={content.initial} animate={content.animate} transition={content.transition} className="flex-1">
         {children}
       </m.span>
       <m.span

@@ -1,4 +1,7 @@
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import * as PaginationPrimitive from '@gentleduck/primitives/pagination'
 import {
@@ -10,6 +13,7 @@ import {
   ChevronsRightIcon,
   MoreHorizontal,
 } from 'lucide-react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Button, buttonVariants } from '../button'
 import type { DuckPaginationProps, PaginationLinkProps } from './pagination.types'
@@ -179,7 +183,28 @@ const PaginationWrapper = (props: DuckPaginationProps) => {
   )
 }
 
+const MotionPagination = React.forwardRef<
+  React.ComponentRef<typeof PaginationPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof PaginationPrimitive.Root>
+>(({ className, ...props }, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
+        <PaginationPrimitive.Root
+          className={cn('mx-auto flex w-full justify-center', className)}
+          data-slot="pagination"
+          ref={ref}
+          {...props}
+        />
+      </m.div>
+    </LazyMotion>
+  )
+})
+MotionPagination.displayName = 'MotionPagination'
+
 export {
+  MotionPagination,
   Pagination,
   PaginationContent,
   PaginationEllipsis,

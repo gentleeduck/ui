@@ -1,9 +1,11 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { contentTransition, spinIn } from '@gentleduck/motion/presets/content'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import * as AvatarPrimitive from '@gentleduck/primitives/avatar'
-import { motion } from 'motion/react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const Avatar = React.forwardRef<
@@ -82,11 +84,16 @@ AvatarGroup.displayName = 'AvatarGroup'
 /* ------------------------------------------------------------------ */
 
 const MotionAvatar = React.forwardRef<React.ComponentRef<typeof Avatar>, React.ComponentPropsWithoutRef<typeof Avatar>>(
-  (props, ref) => (
-    <motion.div {...spinIn} transition={contentTransition} className="inline-flex">
-      <Avatar ref={ref} {...props} />
-    </motion.div>
-  ),
+  (props, ref) => {
+    const content = useMotionPreset('scaleIn', { transition: springBouncy })
+    return (
+      <LazyMotion features={loadDomAnimation}>
+        <m.div initial={content.initial} animate={content.animate} transition={content.transition} className="inline-flex">
+          <Avatar ref={ref} {...props} />
+        </m.div>
+      </LazyMotion>
+    )
+  },
 )
 MotionAvatar.displayName = 'MotionAvatar'
 
@@ -94,29 +101,36 @@ const MotionAvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
   ({ imgs, maxVisible = 3, className, ...props }, ref) => {
     const visibleImgs = imgs.slice(0, maxVisible)
     const overflowCount = imgs.length > maxVisible ? imgs.length - maxVisible : 0
-    const MotionDiv = motion.div
+    const content = useMotionPreset('scaleIn', { transition: springBouncy })
 
     return (
-      <div className={cn('flex items-center -space-x-5', className)} ref={ref} {...props}>
-        {visibleImgs.map((img, i) => (
-          <MotionDiv key={img.id} {...spinIn} transition={{ ...contentTransition, delay: i * 0.08 }}>
-            <Avatar className={cn('border-2 border-border')}>
-              <AvatarImage alt={img.alt} src={img.src} />
-              <AvatarFallback>{img.fallback?.slice(0, 2) ?? img.alt?.slice(0, 2)}</AvatarFallback>
-            </Avatar>
-          </MotionDiv>
-        ))}
-        {overflowCount > 0 && (
-          <MotionDiv
-            {...spinIn}
-            transition={{ ...contentTransition, delay: visibleImgs.length * 0.08 }}
-            className="relative z-10 inline-block">
-            <div className="flex size-10 items-center justify-center rounded-full bg-primary font-medium text-primary-foreground text-sm ring-2 ring-background">
-              +{overflowCount}
-            </div>
-          </MotionDiv>
-        )}
-      </div>
+      <LazyMotion features={loadDomAnimation}>
+        <div className={cn('flex items-center -space-x-5', className)} ref={ref} {...props}>
+          {visibleImgs.map((img, i) => (
+            <m.div
+              key={img.id}
+              initial={content.initial}
+              animate={content.animate}
+              transition={{ ...content.transition, delay: i * 0.08 }}>
+              <Avatar className={cn('border-2 border-border')}>
+                <AvatarImage alt={img.alt} src={img.src} />
+                <AvatarFallback>{img.fallback?.slice(0, 2) ?? img.alt?.slice(0, 2)}</AvatarFallback>
+              </Avatar>
+            </m.div>
+          ))}
+          {overflowCount > 0 && (
+            <m.div
+              initial={content.initial}
+              animate={content.animate}
+              transition={{ ...content.transition, delay: visibleImgs.length * 0.08 }}
+              className="relative z-10 inline-block">
+              <div className="flex size-10 items-center justify-center rounded-full bg-primary font-medium text-primary-foreground text-sm ring-2 ring-background">
+                +{overflowCount}
+              </div>
+            </m.div>
+          )}
+        </div>
+      </LazyMotion>
     )
   },
 )

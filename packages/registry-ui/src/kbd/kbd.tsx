@@ -1,9 +1,11 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { contentTransition, fadeBlur } from '@gentleduck/motion/presets/content'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
-import { motion } from 'motion/react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const Kbd = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<'kbd'>>(
@@ -41,11 +43,16 @@ const KbdGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef
 KbdGroup.displayName = 'KbdGroup'
 
 const MotionKbd = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<'kbd'> & { index?: number }>(
-  ({ index = 0, ...props }, ref) => (
-    <motion.div {...fadeBlur} transition={{ ...contentTransition, delay: index * 0.03 }} className="inline-flex">
-      <Kbd ref={ref} {...props} />
-    </motion.div>
-  ),
+  ({ index = 0, ...props }, ref) => {
+    const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.03 })
+    return (
+      <LazyMotion features={loadDomAnimation}>
+        <m.div initial={content.initial} animate={content.animate} transition={content.transition} className="inline-flex">
+          <Kbd ref={ref} {...props} />
+        </m.div>
+      </LazyMotion>
+    )
+  },
 )
 MotionKbd.displayName = 'MotionKbd'
 

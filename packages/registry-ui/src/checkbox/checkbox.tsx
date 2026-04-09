@@ -1,11 +1,13 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { contentTransition, fadeUp } from '@gentleduck/motion/presets/content'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { checkersStylePattern } from '@gentleduck/motion/variants'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
-import { motion } from 'motion/react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Label } from '../label'
 import type { CheckboxGroupProps, CheckboxProps, CheckboxWithLabelProps, CheckedState } from './checkbox.types'
@@ -152,20 +154,22 @@ CheckboxGroup.displayName = 'CheckboxGroup'
 const MotionCheckbox = React.forwardRef<HTMLInputElement, CheckboxProps>(({ onCheckedChange, ...props }, ref) => {
   const [bounce, setBounce] = React.useState(false)
   return (
-    <motion.div
-      animate={bounce ? { scale: [1, 0.88, 1.08, 1], rotate: [0, -3, 2, 0] } : {}}
-      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-      onAnimationComplete={() => setBounce(false)}
-      className="inline-flex">
-      <Checkbox
-        ref={ref}
-        onCheckedChange={(next) => {
-          setBounce(true)
-          onCheckedChange?.(next)
-        }}
-        {...props}
-      />
-    </motion.div>
+    <LazyMotion features={loadDomAnimation}>
+      <m.div
+        animate={bounce ? { scale: [1, 0.88, 1.08, 1], rotate: [0, -3, 2, 0] } : {}}
+        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+        onAnimationComplete={() => setBounce(false)}
+        className="inline-flex">
+        <Checkbox
+          ref={ref}
+          onCheckedChange={(next) => {
+            setBounce(true)
+            onCheckedChange?.(next)
+          }}
+          {...props}
+        />
+      </m.div>
+    </LazyMotion>
   )
 })
 MotionCheckbox.displayName = 'MotionCheckbox'
@@ -175,16 +179,20 @@ const MotionCheckboxWithLabel = React.forwardRef<
   Omit<CheckboxWithLabelProps, 'ref'> & { index?: number }
 >(({ id, _checkbox, _label, className, index = 0 }, ref) => {
   const { className: labelClassName, ...labelProps } = _label
+  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.05 })
   return (
-    <motion.div
-      className={cn('flex items-center justify-start gap-2', className)}
-      ref={ref}
-      {...fadeUp}
-      transition={{ ...contentTransition, delay: index * 0.05 }}
-      data-slot="checkbox-with-label">
-      <MotionCheckbox id={id} {..._checkbox} />
-      <Label className={cn('cursor-pointer', labelClassName)} htmlFor={id} {...labelProps} />
-    </motion.div>
+    <LazyMotion features={loadDomAnimation}>
+      <m.div
+        className={cn('flex items-center justify-start gap-2', className)}
+        ref={ref}
+        initial={content.initial}
+        animate={content.animate}
+        transition={content.transition}
+        data-slot="checkbox-with-label">
+        <MotionCheckbox id={id} {..._checkbox} />
+        <Label className={cn('cursor-pointer', labelClassName)} htmlFor={id} {...labelProps} />
+      </m.div>
+    </LazyMotion>
   )
 })
 MotionCheckboxWithLabel.displayName = 'MotionCheckboxWithLabel'

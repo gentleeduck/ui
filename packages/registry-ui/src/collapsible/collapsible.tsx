@@ -3,7 +3,8 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { heightAuto } from '@gentleduck/motion/presets/height-auto'
-import { duckMotionDuration, tweenExpand } from '@gentleduck/motion/transitions/tweens'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
+import { duckMotionDuration } from '@gentleduck/motion/transitions/tweens'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
 import { LazyMotion, m } from 'motion/react'
@@ -169,7 +170,7 @@ const MotionCollapsibleContent = React.forwardRef<
         animate={open ? heightAuto.open : heightAuto.closed}
         initial={false}
         transition={{
-          height: tweenExpand,
+          height: springBouncy,
           opacity: { duration: duckMotionDuration.normal, delay: open ? 0.05 : 0 },
           filter: { duration: duckMotionDuration.normal, delay: open ? 0.05 : 0 },
         }}

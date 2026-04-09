@@ -3,7 +3,7 @@
 import { useIsMobile } from '@gentleduck/hooks/use-is-mobile'
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
-import { contentTransition } from '@gentleduck/motion/presets/content'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import type { VariantProps } from '@gentleduck/variants'
@@ -797,7 +797,7 @@ const MotionSidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
           <m.div
             data-slot="sidebar-gap"
             animate={{ width: gapWidth }}
-            transition={contentTransition}
+            transition={springBouncy}
             className="relative bg-transparent"
           />
           <m.div
@@ -813,7 +813,7 @@ const MotionSidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
                   ? { left: 0 }
                   : { right: 0 }),
             }}
-            transition={contentTransition}
+            transition={springBouncy}
             className={cn(
               'fixed inset-y-0 z-10 hidden h-svh md:flex',
               side === 'right' ? 'right-0' : 'left-0',

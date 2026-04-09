@@ -1,11 +1,13 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { contentTransition, fadeUp } from '@gentleduck/motion/presets/content'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import { ChevronRight, MoreHorizontal } from 'lucide-react'
-import { motion } from 'motion/react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const Breadcrumb = React.forwardRef<
@@ -117,11 +119,16 @@ BreadcrumbEllipsis.displayName = 'BreadcrumbEllipsis'
 /* ------------------------------------------------------------------ */
 
 const MotionBreadcrumbItem = React.forwardRef<HTMLLIElement, React.ComponentPropsWithoutRef<'li'> & { index?: number }>(
-  ({ index = 0, ...props }, ref) => (
-    <motion.li {...fadeUp} transition={{ ...contentTransition, delay: index * 0.05 }}>
-      <BreadcrumbItem ref={ref} {...props} />
-    </motion.li>
-  ),
+  ({ index = 0, ...props }, ref) => {
+    const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.05 })
+    return (
+      <LazyMotion features={loadDomAnimation}>
+        <m.li initial={content.initial} animate={content.animate} transition={content.transition}>
+          <BreadcrumbItem ref={ref} {...props} />
+        </m.li>
+      </LazyMotion>
+    )
+  },
 )
 MotionBreadcrumbItem.displayName = 'MotionBreadcrumbItem'
 
