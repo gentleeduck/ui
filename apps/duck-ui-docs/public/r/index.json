@@ -16766,6 +16766,11 @@
         "name": "toggle-group-8.tsx",
         "path": "toggle-group/toggle-group-8.tsx",
         "type": "file"
+      },
+      {
+        "name": "toggle-group-9.tsx",
+        "path": "toggle-group/toggle-group-9.tsx",
+        "type": "file"
       }
     ]
   },
@@ -16822,6 +16827,11 @@
       {
         "name": "toggle-group-8.tsx",
         "path": "toggle-group/toggle-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-group-9.tsx",
+        "path": "toggle-group/toggle-group-9.tsx",
         "type": "file"
       }
     ]
@@ -16880,6 +16890,11 @@
         "name": "toggle-group-8.tsx",
         "path": "toggle-group/toggle-group-8.tsx",
         "type": "file"
+      },
+      {
+        "name": "toggle-group-9.tsx",
+        "path": "toggle-group/toggle-group-9.tsx",
+        "type": "file"
       }
     ]
   },
@@ -16936,6 +16951,11 @@
       {
         "name": "toggle-group-8.tsx",
         "path": "toggle-group/toggle-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-group-9.tsx",
+        "path": "toggle-group/toggle-group-9.tsx",
         "type": "file"
       }
     ]
@@ -16994,6 +17014,11 @@
         "name": "toggle-group-8.tsx",
         "path": "toggle-group/toggle-group-8.tsx",
         "type": "file"
+      },
+      {
+        "name": "toggle-group-9.tsx",
+        "path": "toggle-group/toggle-group-9.tsx",
+        "type": "file"
       }
     ]
   },
@@ -17050,6 +17075,11 @@
       {
         "name": "toggle-group-8.tsx",
         "path": "toggle-group/toggle-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-group-9.tsx",
+        "path": "toggle-group/toggle-group-9.tsx",
         "type": "file"
       }
     ]
@@ -17108,6 +17138,11 @@
         "name": "toggle-group-8.tsx",
         "path": "toggle-group/toggle-group-8.tsx",
         "type": "file"
+      },
+      {
+        "name": "toggle-group-9.tsx",
+        "path": "toggle-group/toggle-group-9.tsx",
+        "type": "file"
       }
     ]
   },
@@ -17164,6 +17199,73 @@
       {
         "name": "toggle-group-8.tsx",
         "path": "toggle-group/toggle-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-group-9.tsx",
+        "path": "toggle-group/toggle-group-9.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "toggle-group/toggle-group-9.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "toggle-group-9",
+    "registryDependencies": [
+      "toggle-group"
+    ],
+    "root_folder": "toggle-group",
+    "type": "registry:example",
+    "source": "/registry-examples/src/toggle-group",
+    "tree": [
+      {
+        "name": "toggle-group-1.tsx",
+        "path": "toggle-group/toggle-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-group-2.tsx",
+        "path": "toggle-group/toggle-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-group-3.tsx",
+        "path": "toggle-group/toggle-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-group-4.tsx",
+        "path": "toggle-group/toggle-group-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-group-5.tsx",
+        "path": "toggle-group/toggle-group-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-group-6.tsx",
+        "path": "toggle-group/toggle-group-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-group-7.tsx",
+        "path": "toggle-group/toggle-group-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-group-8.tsx",
+        "path": "toggle-group/toggle-group-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "toggle-group-9.tsx",
+        "path": "toggle-group/toggle-group-9.tsx",
         "type": "file"
       }
     ]
