@@ -168,6 +168,23 @@ Requires the `motion` package. Use `MotionRadioGroup` + `MotionRadioGroupItem` i
 | `children` | `React.ReactNode` | - | Label content. When provided, a clickable label is rendered next to the control and selects the item on click. |
 | `className` | `string` | - | Additional CSS classes for the radio button control |
 
+### MotionRadioGroup
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `RadioGroupProps` | - | All props from `RadioGroup` are supported |
+
+Wraps `RadioGroup` and auto-injects stagger `index` into `MotionRadioGroupItem` children. Requires the `motion` package.
+
+### MotionRadioGroupItem
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | `0` | Stagger delay index (50ms per index) for entrance animation |
+| `...props` | `RadioGroupItemProps` | - | All props from `RadioGroupItem` are supported |
+
+Wraps `RadioGroupItem` with a staggered `scaleIn` entrance animation. Requires the `motion` package.
+
 ## See also
 
 - [Checkbox](/docs/components/checkbox)  -  Multi-selection toggle control
