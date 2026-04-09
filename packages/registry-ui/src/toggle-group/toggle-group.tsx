@@ -93,16 +93,25 @@ const MotionToggleGroup: React.ForwardRefExoticComponent<
             ref={ref}
             data-slot="toggle-group"
             {...props}>
-            {React.Children.map(children, (child, i) => (
-              <m.div
-                key={i}
-                initial={content.initial}
-                animate={content.animate}
-                transition={{ ...content.transition, delay: i * 0.05 }}
-                className="inline-flex">
-                {child}
-              </m.div>
-            ))}
+            {React.Children.map(children, (child, i) => {
+              const childCount = React.Children.count(children)
+              const isFirst = i === 0
+              const isLast = i === childCount - 1
+              return (
+                <m.div
+                  key={i}
+                  initial={content.initial}
+                  animate={content.animate}
+                  transition={{ ...content.transition, delay: i * 0.05 }}
+                  className={cn(
+                    'inline-flex',
+                    isFirst && 'rounded-s-md',
+                    isLast && 'rounded-e-md',
+                  )}>
+                  {child}
+                </m.div>
+              )
+            })}
           </ToggleGroupPrimitive.Root>
         </ToggleGroupContext.Provider>
       </LazyMotion>
