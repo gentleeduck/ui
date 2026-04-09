@@ -18746,6 +18746,11 @@
         "name": "table-2.tsx",
         "path": "table/table-2.tsx",
         "type": "file"
+      },
+      {
+        "name": "table-3.tsx",
+        "path": "table/table-3.tsx",
+        "type": "file"
       }
     ]
   },
@@ -18772,6 +18777,43 @@
       {
         "name": "table-2.tsx",
         "path": "table/table-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "table-3.tsx",
+        "path": "table/table-3.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "table/table-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "table-3",
+    "registryDependencies": [
+      "table"
+    ],
+    "root_folder": "table",
+    "type": "registry:example",
+    "source": "/registry-examples/src/table",
+    "tree": [
+      {
+        "name": "table-1.tsx",
+        "path": "table/table-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "table-2.tsx",
+        "path": "table/table-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "table-3.tsx",
+        "path": "table/table-3.tsx",
         "type": "file"
       }
     ]

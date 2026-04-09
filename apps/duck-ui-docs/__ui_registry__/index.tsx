@@ -525,6 +525,7 @@ const _Typography8 = dynamic(() => import('@gentleduck/registry-examples/typogra
 const _Typography9 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-9'), { ssr: false })
 const _Table1 = dynamic(() => import('@gentleduck/registry-examples/table/table-1'), { ssr: false })
 const _Table2 = dynamic(() => import('@gentleduck/registry-examples/table/table-2'), { ssr: false })
+const _Table3 = dynamic(() => import('@gentleduck/registry-examples/table/table-3'), { ssr: false })
 const _Resizable1 = dynamic(() => import('@gentleduck/registry-examples/resizable/resizable-1'), { ssr: false })
 const _Resizable2 = dynamic(() => import('@gentleduck/registry-examples/resizable/resizable-2'), { ssr: false })
 const _Resizable3 = dynamic(() => import('@gentleduck/registry-examples/resizable/resizable-3'), { ssr: false })
@@ -6237,6 +6238,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Table2,
+    source: '/registry-examples/src/table',
+    categories: [],
+    root_folder: 'table',
+  },
+  'table-3': {
+    name: 'table-3',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['table'],
+    files: [
+      {
+        path: 'table/table-3.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Table3,
     source: '/registry-examples/src/table',
     categories: [],
     root_folder: 'table',
