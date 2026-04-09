@@ -2,6 +2,7 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { checkerBounce, contentTransition } from '@gentleduck/motion/presets/content'
 import { checkersStylePattern } from '@gentleduck/motion/variants'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
@@ -41,7 +42,8 @@ const Switch = React.forwardRef<
           '[&:before,&:after]:transition-gpu [&:before,&:after]:duration-[inherit] [&:before,&:after]:ease-[inherit] [&:before,&:after]:will-change-[inherit]',
           '[&[dir=ltr]:checked]:after:translate-x-full [&[dir=ltr]]:after:translate-x-0',
           '[&[dir=rtl]:checked]:after:-translate-x-full [&[dir=rtl]]:after:translate-x-0',
-
+          '[&:not(:checked)]:after:origin-right [&:checked]:after:origin-left',
+          'active:after:scale-x-125 active:after:scale-y-110',
           className,
         )}
         onChange={(e) => {
@@ -75,8 +77,8 @@ const MotionSwitch = React.forwardRef<
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div
-        animate={bounce ? { scale: [1, 0.88, 1.08, 1], rotate: [0, -3, 2, 0] } : {}}
-        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+        animate={bounce ? checkerBounce : {}}
+        transition={contentTransition}
         onAnimationComplete={() => setBounce(false)}
         className="inline-flex">
         <Switch
