@@ -1263,6 +1263,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/switch',
           items: [],
+          label: 'new',
           title: 'Switch',
         },
         {
