@@ -15047,6 +15047,11 @@
         "name": "switch-3.tsx",
         "path": "switch/switch-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "switch-4.tsx",
+        "path": "switch/switch-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -15079,6 +15084,11 @@
         "name": "switch-3.tsx",
         "path": "switch/switch-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "switch-4.tsx",
+        "path": "switch/switch-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -15110,6 +15120,48 @@
       {
         "name": "switch-3.tsx",
         "path": "switch/switch-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "switch-4.tsx",
+        "path": "switch/switch-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "switch/switch-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "switch-4",
+    "registryDependencies": [
+      "switch"
+    ],
+    "root_folder": "switch",
+    "type": "registry:example",
+    "source": "/registry-examples/src/switch",
+    "tree": [
+      {
+        "name": "switch-1.tsx",
+        "path": "switch/switch-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "switch-2.tsx",
+        "path": "switch/switch-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "switch-3.tsx",
+        "path": "switch/switch-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "switch-4.tsx",
+        "path": "switch/switch-4.tsx",
         "type": "file"
       }
     ]
