@@ -13785,6 +13785,11 @@
         "name": "radio-group-3.tsx",
         "path": "radio-group/radio-group-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "radio-group-4.tsx",
+        "path": "radio-group/radio-group-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -13817,6 +13822,11 @@
         "name": "radio-group-3.tsx",
         "path": "radio-group/radio-group-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "radio-group-4.tsx",
+        "path": "radio-group/radio-group-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -13848,6 +13858,48 @@
       {
         "name": "radio-group-3.tsx",
         "path": "radio-group/radio-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "radio-group-4.tsx",
+        "path": "radio-group/radio-group-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "radio-group/radio-group-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "radio-group-4",
+    "registryDependencies": [
+      "radio-group"
+    ],
+    "root_folder": "radio-group",
+    "type": "registry:example",
+    "source": "/registry-examples/src/radio-group",
+    "tree": [
+      {
+        "name": "radio-group-1.tsx",
+        "path": "radio-group/radio-group-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "radio-group-2.tsx",
+        "path": "radio-group/radio-group-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "radio-group-3.tsx",
+        "path": "radio-group/radio-group-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "radio-group-4.tsx",
+        "path": "radio-group/radio-group-4.tsx",
         "type": "file"
       }
     ]
