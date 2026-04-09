@@ -1200,6 +1200,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/progress',
           items: [],
+          label: 'new',
           title: 'Progress',
         },
         {
