@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { MotionSwitch } from '@gentleduck/registry-ui/switch'\n\nexport default function Demo() {\n  return <MotionSwitch />\n}\n",
+      "path": "switch/switch-4.tsx",
+      "target": "components/switch-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "switch-4",
+  "registryDependencies": [
+    "switch"
+  ],
+  "root_folder": "switch",
+  "source": "/registry-examples/src/switch",
+  "type": "registry:example"
+}
