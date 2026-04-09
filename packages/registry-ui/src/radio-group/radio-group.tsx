@@ -3,6 +3,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { checkerBounce, contentTransition } from '@gentleduck/motion/presets/content'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
 import * as RadioGroupPrimitive from '@gentleduck/primitives/radio-group'
@@ -134,8 +135,8 @@ const MotionRadioGroupItem = React.forwardRef<
         transition={content.transition}
         className="flex items-center gap-2">
         <m.div
-          animate={bounce ? { scale: [1, 0.88, 1.08, 1], rotate: [0, -3, 2, 0] } : {}}
-          transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+          animate={bounce ? checkerBounce : {}}
+          transition={contentTransition}
           onAnimationComplete={() => setBounce(false)}
           className="inline-flex">
           <RadioGroupPrimitive.Item
