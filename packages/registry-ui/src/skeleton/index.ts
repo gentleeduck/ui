@@ -1,1 +1,1 @@
-export * from './skeleton'
+export { MotionSkeleton, Skeleton } from './skeleton'
