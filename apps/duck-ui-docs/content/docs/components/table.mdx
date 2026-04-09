@@ -135,6 +135,19 @@ You can also see data-table examples in the [Blocks Library](/blocks).
 
 Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
 
+## Motion
+
+Use `MotionTable` and `MotionTableRow` for staggered entrance animations powered by [motion](https://motion.dev). The table fades in with scale and blur, and each row staggers by 50ms via the `index` prop.
+
+<ComponentPreview
+  name="table-3"
+  description="Table with motion-powered staggered row entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionTable` instead of `Table` and `MotionTableRow` instead of `TableRow`. All other sub-components stay the same. The regular components are perfectly fine - this is an optional enhancement.
+</Callout>
+
 ## API Reference
 
 ### Table
@@ -202,3 +215,20 @@ Direction is resolved through the shared primitives direction module. Use a loca
 | `className` | `string` | - | Additional CSS class names |
 | `children` | `React.ReactNode` | - | Caption text |
 | `...props` | `React.HTMLProps<HTMLTableCaptionElement>` | - | Additional props to spread to the caption element |
+
+### MotionTable
+
+`scaleIn` entrance with `springBouncy` transition on mount. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `TableProps` | - | All props from `Table` are supported |
+
+### MotionTableRow
+
+Staggered `scaleIn` entrance with `springBouncy` transition. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | `0` | Stagger delay index (50ms per index) for entrance animation |
+| `...props` | `TableRowProps` | - | All props from `TableRow` are supported |

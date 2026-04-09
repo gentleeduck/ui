@@ -1269,6 +1269,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/table',
           items: [],
+          label: 'new',
           title: 'Table',
         },
         {
