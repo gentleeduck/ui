@@ -107,6 +107,19 @@ Set `dir="rtl"` on `Slider` for a local override, or set `DirectionProvider` onc
   description="A slider with RTL support."
 />
 
+## Motion
+
+Use `MotionSlider` for a smooth entrance animation powered by [motion](https://motion.dev). The slider fades in with scale and blur on mount using `springBouncy`.
+
+<ComponentPreview
+  name="slider-6"
+  description="Slider with motion-powered entrance animation."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionSlider` instead of `Slider`. Same props. The regular `Slider` is perfectly fine - this is an optional enhancement.
+</Callout>
+
 ## API Reference
 
 ### Slider
@@ -123,6 +136,14 @@ A unified slider component that supports both single-thumb and multi-thumb (rang
 | `min` | `number` | `0` | Minimum allowed value |
 | `max` | `number` | `100` | Maximum allowed value |
 | `...props` | `React.ComponentProps<typeof SliderPrimitive.Root>` | - | All other props from `SliderPrimitive.Root` |
+
+### MotionSlider
+
+`scaleIn` entrance with `springBouncy` transition on mount. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `SliderProps` | - | All props from `Slider` are supported |
 
 ### Primitive Sub-components
 
