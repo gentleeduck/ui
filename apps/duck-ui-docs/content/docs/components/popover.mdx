@@ -211,8 +211,16 @@ Optional custom anchor element for positioning.
 
 ### MotionPopover
 
-Same props as `Popover`. Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `PopoverProps` | - | All props from `Popover` are supported |
 
 ### MotionPopoverContent
 
-Same props as `PopoverContent`. Adds scale, blur, and opacity enter/exit animation with springBouncy transition. Requires the `motion` package.
+Adds scale, blur, and opacity enter/exit animation with `springBouncy` transition. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `PopoverContentProps` | - | All props from `PopoverContent` are supported |

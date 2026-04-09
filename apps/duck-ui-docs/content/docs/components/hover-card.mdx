@@ -178,8 +178,16 @@ The content displayed when the hover card is open. Wraps `HoverCardPrimitive.Con
 
 ### MotionHoverCard
 
-Same props as `HoverCard`. Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `HoverCardProps` | - | All props from `HoverCard` are supported |
 
 ### MotionHoverCardContent
 
-Same props as `HoverCardContent`. Adds directional scale, blur, and opacity enter/exit animation. Requires the `motion` package.
+Adds directional scale, blur, and opacity enter/exit animation. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `HoverCardContentProps` | - | All props from `HoverCardContent` are supported |

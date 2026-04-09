@@ -195,4 +195,8 @@ Requires the `motion` package. Use `MotionBadge` instead of `Badge`. Same props 
 
 ### MotionBadge
 
-Same props as `Badge` except `asChild` is not supported. Fades up with blur on mount using the `fadeUp` preset and `contentTransition` (250ms expo-out). Requires the `motion` package.
+Fades up with blur on mount using the `fadeUp` preset and `contentTransition` (250ms expo-out). `asChild` is not supported. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `Omit<BadgeProps, 'asChild'>` | - | All props from `Badge` except `asChild` |

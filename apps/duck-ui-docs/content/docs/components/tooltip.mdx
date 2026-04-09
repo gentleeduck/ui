@@ -253,8 +253,16 @@ Requires the `motion` package. Use `MotionTooltip` instead of `Tooltip` and `Mot
 
 ### MotionTooltip
 
-Same props as `Tooltip`. Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `TooltipProps` | - | All props from `Tooltip` are supported |
 
 ### MotionTooltipContent
 
-Same props as `TooltipContent`. Adds directional scale, blur, and opacity enter/exit animation with ultra-fast tweenMicro (100ms) transition. Requires the `motion` package.
+Adds directional scale, blur, and opacity enter/exit animation with ultra-fast `tweenMicro` (100ms) transition. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `TooltipContentProps` | - | All props from `TooltipContent` are supported |
