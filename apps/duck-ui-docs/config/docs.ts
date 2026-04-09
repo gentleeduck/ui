@@ -1298,6 +1298,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/toggle-group',
           items: [],
+          label: 'new',
           title: 'Toggle Group',
         },
         {
