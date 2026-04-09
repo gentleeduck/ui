@@ -126,6 +126,19 @@ Set `dir="rtl"` on `RadioGroup` for a local override, or set `DirectionProvider`
   description="A radio group with RTL support."
 />
 
+## Motion
+
+Use `MotionRadioGroup` and `MotionRadioGroupItem` for staggered entrance animations powered by [motion](https://motion.dev). Each item fades in with scale and blur, staggered by 50ms.
+
+<ComponentPreview
+  name="radio-group-4"
+  description="Radio group with motion-powered staggered entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionRadioGroup` + `MotionRadioGroupItem` instead of `RadioGroup` + `RadioGroupItem`. Same props. The regular components are perfectly fine - this is an optional enhancement.
+</Callout>
+
 ## API Reference
 
 ### RadioGroup
