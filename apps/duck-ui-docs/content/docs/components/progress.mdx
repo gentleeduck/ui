@@ -74,6 +74,19 @@ import { Progress } from "@/components/ui/progress"
 
 Set `dir="rtl"` on `Progress` for a local override, or set `DirectionProvider` once at app/root level for global direction.
 
+## Motion
+
+Use `MotionProgress` for smooth value animations powered by [motion](https://motion.dev). The progress bar animates with a bouncy spring transition when the value changes.
+
+<ComponentPreview
+  name="progress-3"
+  description="Progress bar with motion-powered spring animation."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionProgress` instead of `Progress`. Same props. The regular `Progress` is perfectly fine - this is an optional enhancement.
+</Callout>
+
 ## API Reference
 
 ### Progress
