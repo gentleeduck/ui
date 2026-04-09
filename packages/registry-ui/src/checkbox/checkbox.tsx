@@ -3,6 +3,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { checkerBounce, contentTransition } from '@gentleduck/motion/presets/content'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { checkersStylePattern } from '@gentleduck/motion/variants'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
@@ -156,8 +157,8 @@ const MotionCheckbox = React.forwardRef<HTMLInputElement, CheckboxProps>(({ onCh
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div
-        animate={bounce ? { scale: [1, 0.88, 1.08, 1], rotate: [0, -3, 2, 0] } : {}}
-        transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+        animate={bounce ? checkerBounce : {}}
+        transition={contentTransition}
         onAnimationComplete={() => setBounce(false)}
         className="inline-flex">
         <Checkbox
