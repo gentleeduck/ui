@@ -48,13 +48,23 @@ const Slider = React.forwardRef<
           data-slot="slider-thumb"
           // biome-ignore lint/suspicious/noArrayIndexKey: thumbs are positional, index is the stable key
           key={index}
-          className="relative block size-4 shrink-0 select-none rounded-full border border-ring bg-white ring-ring/50 transition-[color,box-shadow] after:absolute after:-inset-2 hover:ring-3 focus-visible:outline-hidden focus-visible:ring-3 active:ring-3 disabled:pointer-events-none disabled:opacity-50"
+          className="relative block size-4 shrink-0 select-none rounded-full border border-ring bg-white ring-ring/50 transition-[color,box-shadow,scale] after:absolute after:-inset-2 hover:ring-3 focus-visible:outline-hidden focus-visible:ring-3 active:scale-97 active:ring-3 disabled:pointer-events-none disabled:opacity-50"
         />
       ))}
     </SliderPrimitive.Root>
   )
 })
 Slider.displayName = 'Slider'
+
+function MotionSliderThumb(props: React.ComponentPropsWithoutRef<typeof SliderPrimitive.Thumb>) {
+  return (
+    <SliderPrimitive.Thumb
+      data-slot="slider-thumb"
+      className="relative block size-4 shrink-0 select-none rounded-full border border-ring bg-white ring-ring/50 transition-[color,box-shadow,scale] after:absolute after:-inset-2 hover:ring-3 focus-visible:outline-hidden focus-visible:ring-3 active:scale-97 active:ring-3 disabled:pointer-events-none disabled:opacity-50"
+      {...props}
+    />
+  )
+}
 
 const MotionSlider = React.forwardRef<
   React.ComponentRef<typeof SliderPrimitive.Root>,
@@ -98,19 +108,11 @@ const MotionSlider = React.forwardRef<
             />
           </SliderPrimitive.Track>
           {Array.from({ length: _values.length }, (_, index) => (
-            <m.div
+            <MotionSliderThumb
               // biome-ignore lint/suspicious/noArrayIndexKey: thumbs are positional, index is the stable key
               key={index}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ ...springBouncy, delay: 0.15 + index * 0.08 }}
-              className="absolute">
-              <SliderPrimitive.Thumb
-                data-orientation={orientation}
-                data-slot="slider-thumb"
-                className="relative block size-4 shrink-0 select-none rounded-full border border-ring bg-white ring-ring/50 transition-[color,box-shadow] after:absolute after:-inset-2 hover:ring-3 focus-visible:outline-hidden focus-visible:ring-3 active:ring-3 disabled:pointer-events-none disabled:opacity-50"
-              />
-            </m.div>
+              data-orientation={orientation}
+            />
           ))}
         </SliderPrimitive.Root>
       </m.div>
