@@ -1228,6 +1228,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/separator',
           items: [],
+          label: 'new',
           title: 'Separator',
         },
         {

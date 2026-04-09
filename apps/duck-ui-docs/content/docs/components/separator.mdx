@@ -67,6 +67,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="A separator with RTL support."
 />
 
+## Motion
+
+Use `MotionSeparator` for a smooth expand-from-center animation powered by [motion](https://motion.dev). Horizontal separators scale along the X axis, vertical ones along Y.
+
+<ComponentPreview
+  name="separator-3"
+  description="Separator with motion-powered expand animation."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionSeparator` instead of `Separator`. Same props. The regular `Separator` is perfectly fine - this is an optional enhancement.
+</Callout>
+
 ## API Reference
 
 ### Separator
@@ -77,3 +90,14 @@ Direction is resolved through the shared primitives direction module. Use a loca
 | `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | - | Additional CSS class names |
 | `...props` | `React.HTMLProps<HTMLHRElement>` | - | Additional props to spread to the hr element |
+
+### MotionSeparator
+
+Expands from center with `springBouncy` transition — scales along X for horizontal, Y for vertical. Renders a `div` with `role="separator"` instead of `hr`. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Controls the orientation and animation axis |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override |
+| `className` | `string` | - | Additional CSS class names |
+| `...props` | `React.HTMLAttributes<HTMLDivElement>` | - | Additional props to spread to the div element |
