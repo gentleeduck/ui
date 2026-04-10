@@ -536,6 +536,7 @@ const _Resizable5 = dynamic(() => import('@gentleduck/registry-examples/resizabl
 const _Pagination1 = dynamic(() => import('@gentleduck/registry-examples/pagination/pagination-1'), { ssr: false })
 const _Pagination2 = dynamic(() => import('@gentleduck/registry-examples/pagination/pagination-2'), { ssr: false })
 const _Pagination3 = dynamic(() => import('@gentleduck/registry-examples/pagination/pagination-3'), { ssr: false })
+const _Pagination4 = dynamic(() => import('@gentleduck/registry-examples/pagination/pagination-4'), { ssr: false })
 const _Checkbox1 = dynamic(() => import('@gentleduck/registry-examples/checkbox/checkbox-1'), { ssr: false })
 const _Checkbox10 = dynamic(() => import('@gentleduck/registry-examples/checkbox/checkbox-10'), { ssr: false })
 const _Checkbox2 = dynamic(() => import('@gentleduck/registry-examples/checkbox/checkbox-2'), { ssr: false })
@@ -6417,6 +6418,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Pagination3,
+    source: '/registry-examples/src/pagination',
+    categories: [],
+    root_folder: 'pagination',
+  },
+  'pagination-4': {
+    name: 'pagination-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['pagination'],
+    files: [
+      {
+        path: 'pagination/pagination-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Pagination4,
     source: '/registry-examples/src/pagination',
     categories: [],
     root_folder: 'pagination',
