@@ -1212,6 +1212,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/resizable',
           items: [],
+          label: 'new',
           title: 'Resizable',
         },
         {
