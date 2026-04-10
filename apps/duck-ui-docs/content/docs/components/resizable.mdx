@@ -168,6 +168,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="A resizable panel with RTL support."
 />
 
+## Motion
+
+Use `MotionResizablePanelGroup` for a smooth entrance animation powered by [motion](https://motion.dev). The panel group fades in with scale and blur on mount using `springBouncy`.
+
+<ComponentPreview
+  name="resizable-5"
+  description="Resizable panels with motion-powered entrance animation."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionResizablePanelGroup` instead of `ResizablePanelGroup`. The rest of the components (`ResizablePanel`, `ResizableHandle`) stay the same. The regular `ResizablePanelGroup` is perfectly fine - this is an optional enhancement.
+</Callout>
+
 ## API Reference
 
 ### ResizablePanelGroup
@@ -201,3 +214,11 @@ Re-exports `Panel` from `react-resizable-panels` directly.
 | `withHandle` | `boolean` | `--` | Whether to render the visible grip icon handle |
 | `className` | `string` | `--` | Additional CSS classes for the resize handle |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PanelResizeHandle>` | - | Additional props inherited from `Separator`. |
+
+### MotionResizablePanelGroup
+
+`scaleIn` entrance with `springBouncy` transition on mount. Wraps `ResizablePanelGroup`. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `ResizablePanelGroupProps` | - | All props from `ResizablePanelGroup` are supported |
