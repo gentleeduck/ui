@@ -112,6 +112,19 @@ Set `dir="rtl"` on `HoverCard` for a local override, or set `DirectionProvider` 
   description="A hover card with RTL support."
 />
 
+## Motion
+
+Use `MotionHoverCard` and `MotionHoverCardContent` for smooth enter/exit animations powered by [motion](https://motion.dev). The card scales and fades with a directional shift matching the placement side.
+
+<ComponentPreview
+  name="hover-card-4"
+  description="A hover card with motion-powered enter/exit animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionHoverCard` instead of `HoverCard` and `MotionHoverCardContent` instead of `HoverCardContent`. `HoverCardTrigger` stays the same.
+</Callout>
+
 ## API Reference
 
 ### HoverCard
