@@ -17,7 +17,7 @@ const ResizablePanelGroup = React.forwardRef<
   const direction = useDirection(dir as Direction)
   return (
     <ResizablePrimitive.Group
-      className={cn('flex h-full w-full data-[panel-group-direction=vertical]:flex-col', className)}
+      className={cn('group/panel-group flex h-full w-full data-[panel-group-direction=vertical]:flex-col', className)}
       data-slot="panel-group"
       dir={direction}
       elementRef={ref}
@@ -40,9 +40,9 @@ const ResizableHandle = React.forwardRef<
     aria-label="Resize panels"
     className={cn(
       'relative flex w-px items-center justify-center bg-border after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1',
-      '[[data-panel-group-direction=vertical]>&]:h-px [[data-panel-group-direction=vertical]>&]:w-full',
-      '[[data-panel-group-direction=vertical]>&]:after:left-0 [[data-panel-group-direction=vertical]>&]:after:h-1 [[data-panel-group-direction=vertical]>&]:after:w-full [[data-panel-group-direction=vertical]>&]:after:translate-x-0 [[data-panel-group-direction=vertical]>&]:after:-translate-y-1/2',
-      '[[data-panel-group-direction=vertical]>&>div]:rotate-90',
+      'group-data-[panel-group-direction=vertical]/panel-group:h-px group-data-[panel-group-direction=vertical]/panel-group:w-full',
+      'group-data-[panel-group-direction=vertical]/panel-group:after:left-0 group-data-[panel-group-direction=vertical]/panel-group:after:h-1 group-data-[panel-group-direction=vertical]/panel-group:after:w-full group-data-[panel-group-direction=vertical]/panel-group:after:translate-x-0 group-data-[panel-group-direction=vertical]/panel-group:after:-translate-y-1/2',
+      'group-data-[panel-group-direction=vertical]/panel-group:[&>div]:rotate-90',
       className,
     )}
     data-slot="panel-resize-handle"
@@ -76,7 +76,7 @@ const MotionResizablePanelGroup = React.forwardRef<
         transition={content.transition}
         className={cn('h-full w-full', className)}>
         <ResizablePrimitive.Group
-          className={cn('flex h-full w-full data-[panel-group-direction=vertical]:flex-col')}
+          className={cn('group/panel-group flex h-full w-full data-[panel-group-direction=vertical]:flex-col')}
           data-slot="panel-group"
           dir={direction}
           elementRef={ref}
