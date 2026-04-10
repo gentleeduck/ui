@@ -102,8 +102,10 @@ TableCaption.displayName = 'TableCaption'
 /*  Motion variants                                                     */
 /* ------------------------------------------------------------------ */
 
-const MotionTable = React.forwardRef<HTMLTableElement, React.HTMLAttributes<HTMLTableElement>>(
-  ({ className, dir, ...props }, ref) => {
+const MotionTable = React.forwardRef<
+  HTMLTableElement,
+  Omit<React.HTMLAttributes<HTMLTableElement>, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+>(({ className, dir, ...props }, ref) => {
     const direction = useDirection(dir as Direction)
     const content = useMotionPreset('scaleIn', { transition: springBouncy })
     return (
@@ -124,7 +126,9 @@ MotionTable.displayName = 'MotionTable'
 
 const MotionTableRow = React.forwardRef<
   HTMLTableRowElement,
-  React.HTMLAttributes<HTMLTableRowElement> & { index?: number }
+  Omit<React.HTMLAttributes<HTMLTableRowElement>, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'> & {
+    index?: number
+  }
 >(({ className, index = 0, ...props }, ref) => {
   const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.05 })
   return (
