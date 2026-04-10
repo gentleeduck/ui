@@ -10,7 +10,7 @@ import {
 import { IconChartBar } from '@tabler/icons-react'
 import { RefreshCcwIcon } from 'lucide-react'
 
-export default function EmptyMuted() {
+export default function Demo() {
   return (
     <Empty className="h-full bg-gradient-to-b from-30% from-muted/50 to-background">
       <EmptyHeader>

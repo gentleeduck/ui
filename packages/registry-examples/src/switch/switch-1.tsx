@@ -2,6 +2,6 @@
 
 import { Switch } from '@gentleduck/registry-ui/switch'
 
-export default function SwitchForm() {
+export default function Demo() {
   return <Switch />
 }

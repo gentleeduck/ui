@@ -94,6 +94,15 @@ You can use the `Kbd` component inside a `InputGroupAddon` component to display 
 
 <ComponentPreview name="kbd-5" description="Kbd elements used inside an input group addon to show a search shortcut." />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="kbd-6"
+  description="A keyboard shortcut with RTL support."
+/>
+
 ## API Reference
 
 ### Kbd
@@ -116,12 +125,3 @@ Groups multiple `Kbd` components together in an inline layout.
 | `className` | `string` | - | Additional class names for the group |
 | `children` | `React.ReactNode` | - | `Kbd` elements to group together |
 | `...props` | `React.ComponentPropsWithoutRef<'div'>` | - | Additional props to spread to the group element (renders as a `kbd`) |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="kbd-6"
-  description="A keyboard shortcut with RTL support."
-/>

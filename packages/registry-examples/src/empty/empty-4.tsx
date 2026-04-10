@@ -9,7 +9,7 @@ import {
   EmptyTitle,
 } from '@gentleduck/registry-ui/empty'
 
-export default function EmptyAvatar() {
+export default function Demo() {
   return (
     <Empty>
       <EmptyHeader>

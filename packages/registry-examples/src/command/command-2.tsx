@@ -15,7 +15,7 @@ import { useKeyCommands } from '@gentleduck/vim/react'
 import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-react'
 import * as React from 'react'
 
-export default function CommandDialogDemo() {
+export default function Demo() {
   const [open, setOpen] = React.useState(false)
 
   useKeyCommands(

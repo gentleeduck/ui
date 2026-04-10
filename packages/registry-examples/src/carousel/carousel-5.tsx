@@ -11,7 +11,7 @@ import {
 } from '@gentleduck/registry-ui/carousel'
 import * as React from 'react'
 
-export default function CarouselDemo() {
+export default function Demo() {
   const [api, setApi] = React.useState<CarouselApi>()
   const [current, setCurrent] = React.useState(0)
   const [count, setCount] = React.useState(0)

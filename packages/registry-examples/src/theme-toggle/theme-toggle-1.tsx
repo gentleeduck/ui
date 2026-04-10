@@ -5,7 +5,7 @@ import { MoonIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import React from 'react'
 
-export default function ThemeToggle() {
+export default function Demo() {
   const { setTheme, resolvedTheme } = useTheme()
 
   const toggleTheme = React.useCallback(() => {

@@ -10,7 +10,7 @@ import {
 } from '@gentleduck/registry-ui/empty'
 import { PlusIcon } from 'lucide-react'
 
-export default function EmptyAvatarGroup() {
+export default function Demo() {
   return (
     <Empty>
       <EmptyHeader>

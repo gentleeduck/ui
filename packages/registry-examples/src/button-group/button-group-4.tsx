@@ -4,7 +4,7 @@ import { Button } from '@gentleduck/registry-ui/button'
 import { ButtonGroup } from '@gentleduck/registry-ui/button-group'
 import { ArrowLeftIcon, ArrowRightIcon } from 'lucide-react'
 
-export default function ButtonGroupNested() {
+export default function Demo() {
   return (
     <ButtonGroup>
       <ButtonGroup>

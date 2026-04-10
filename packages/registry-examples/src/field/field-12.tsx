@@ -12,7 +12,7 @@ import {
 import { Input } from '@gentleduck/registry-ui/input'
 import { Textarea } from '@gentleduck/registry-ui/textarea'
 
-export default function FieldResponsive() {
+export default function Demo() {
   return (
     <div className="w-full max-w-4xl">
       <form>
@@ -31,7 +31,7 @@ export default function FieldResponsive() {
             <FieldSeparator />
             <Field orientation="responsive">
               <FieldContent>
-                <FieldLabel htmlFor="lastName">Message</FieldLabel>
+                <FieldLabel htmlFor="message">Message</FieldLabel>
                 <FieldDescription>
                   You can write your message here. Keep it short, preferably under 100 characters.
                 </FieldDescription>

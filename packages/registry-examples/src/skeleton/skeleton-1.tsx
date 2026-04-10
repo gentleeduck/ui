@@ -1,6 +1,6 @@
 import { Skeleton } from '@gentleduck/registry-ui/skeleton'
 
-export default function SkeletonDemo() {
+export default function Demo() {
   return (
     <div className="flex items-center space-x-4">
       <Skeleton className="h-12 w-12 rounded-full" />

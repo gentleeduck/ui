@@ -1,6 +1,6 @@
 import { PreviewPanelDialog } from '@gentleduck/registry-ui/preview-panel'
 
-export default function PreviewPanelDialogDemo() {
+export default function Demo() {
   return (
     <PreviewPanelDialog maxHeight="350px" syncPanels>
       <div className="flex flex-col items-center gap-4 p-8">

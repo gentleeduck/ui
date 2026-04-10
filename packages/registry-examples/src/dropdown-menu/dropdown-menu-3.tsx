@@ -12,7 +12,7 @@ import {
 } from '@gentleduck/registry-ui/dropdown-menu'
 import * as React from 'react'
 
-export default function DropdownMenuRadioGroupDemo() {
+export default function Demo() {
   const [position, setPosition] = React.useState('bottom')
 
   return (

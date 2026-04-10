@@ -136,6 +136,21 @@ Set `expandMode="callback"` to hand off full-screen editing to your own flow.
   className="mb-4! [&_.preview]:h-165 [&_.preview]:p-6"
 />
 
+## RTL Support
+
+Set `dir="rtl"` on `JsonEditor` for a local override, or set `DirectionProvider` once at app/root level for global direction. Pass `lang` for locale-aware line numbers, and use `text` to translate labels/messages.
+
+<ComponentPreview
+  name="json-editor-4"
+  description="A JSON editor with full RTL and Arabic i18n support."
+/>
+
+## See also
+
+- [React Hook Form](/docs/components/react-hook-form)  -  Form context components used by `JsonTextareaField`
+- [Textarea](/docs/components/textarea)  -  Basic plain-text multiline input
+- [Field](/docs/components/field)  -  Layout primitive for label + description + error composition
+
 ## API Reference
 
 ### JsonTextareaField
@@ -200,18 +215,3 @@ type JsonEditorExpandPayload<TFieldValues extends FieldValues> = {
 
 - `Ctrl/Cmd + Enter` saves the current editor buffer.
 - `Esc` cancels inline edits or closes the expanded sheet.
-
-## RTL Support
-
-Set `dir="rtl"` on `JsonEditor` for a local override, or set `DirectionProvider` once at app/root level for global direction. Pass `lang` for locale-aware line numbers, and use `text` to translate labels/messages.
-
-<ComponentPreview
-  name="json-editor-4"
-  description="A JSON editor with full RTL and Arabic i18n support."
-/>
-
-## See also
-
-- [React Hook Form](/docs/components/react-hook-form)  -  Form context components used by `JsonTextareaField`
-- [Textarea](/docs/components/textarea)  -  Basic plain-text multiline input
-- [Field](/docs/components/field)  -  Layout primitive for label + description + error composition

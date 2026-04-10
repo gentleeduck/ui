@@ -1,6 +1,6 @@
 import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from '@gentleduck/registry-ui/input-otp'
 
-export default function InputOTPDemo() {
+export default function Demo() {
   return (
     <InputOTP maxLength={6}>
       <InputOTPGroup>

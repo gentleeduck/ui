@@ -2,7 +2,7 @@ import { Button } from '@gentleduck/registry-ui/button'
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from '@gentleduck/registry-ui/item'
 import { HardDriveIcon } from 'lucide-react'
 
-export default function ItemIcon() {
+export default function Demo() {
   return (
     <div className="flex w-full max-w-lg flex-col gap-6">
       <Item variant="outline">

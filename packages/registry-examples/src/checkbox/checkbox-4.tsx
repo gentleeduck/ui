@@ -1,7 +1,7 @@
 import { CheckboxWithLabel } from '@gentleduck/registry-ui/checkbox'
 import { toast } from 'sonner'
 
-export default function Example() {
+export default function Demo() {
   return (
     <CheckboxWithLabel
       _checkbox={{

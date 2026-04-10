@@ -4,7 +4,7 @@ import { Button } from '@gentleduck/registry-ui/button'
 import { ShieldAlert } from 'lucide-react'
 import { toast } from 'sonner'
 
-export default function SonnerDemo() {
+export default function Demo() {
   return (
     <Button
       onClick={() =>

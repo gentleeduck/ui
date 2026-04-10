@@ -4011,6 +4011,11 @@
         "name": "alert-dialog-3.tsx",
         "path": "alert-dialog/alert-dialog-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "alert-dialog-4.tsx",
+        "path": "alert-dialog/alert-dialog-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -4043,6 +4048,11 @@
         "name": "alert-dialog-3.tsx",
         "path": "alert-dialog/alert-dialog-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "alert-dialog-4.tsx",
+        "path": "alert-dialog/alert-dialog-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -4074,6 +4084,48 @@
       {
         "name": "alert-dialog-3.tsx",
         "path": "alert-dialog/alert-dialog-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "alert-dialog-4.tsx",
+        "path": "alert-dialog/alert-dialog-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "alert-dialog/alert-dialog-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "alert-dialog-4",
+    "registryDependencies": [
+      "alert-dialog"
+    ],
+    "root_folder": "alert-dialog",
+    "type": "registry:example",
+    "source": "/registry-examples/src/alert-dialog",
+    "tree": [
+      {
+        "name": "alert-dialog-1.tsx",
+        "path": "alert-dialog/alert-dialog-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "alert-dialog-2.tsx",
+        "path": "alert-dialog/alert-dialog-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "alert-dialog-3.tsx",
+        "path": "alert-dialog/alert-dialog-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "alert-dialog-4.tsx",
+        "path": "alert-dialog/alert-dialog-4.tsx",
         "type": "file"
       }
     ]
@@ -7844,6 +7896,11 @@
         "name": "dialog-4.tsx",
         "path": "dialog/dialog-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "dialog-5.tsx",
+        "path": "dialog/dialog-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -7880,6 +7937,11 @@
       {
         "name": "dialog-4.tsx",
         "path": "dialog/dialog-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dialog-5.tsx",
+        "path": "dialog/dialog-5.tsx",
         "type": "file"
       }
     ]
@@ -7918,6 +7980,11 @@
         "name": "dialog-4.tsx",
         "path": "dialog/dialog-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "dialog-5.tsx",
+        "path": "dialog/dialog-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -7954,6 +8021,53 @@
       {
         "name": "dialog-4.tsx",
         "path": "dialog/dialog-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dialog-5.tsx",
+        "path": "dialog/dialog-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "dialog/dialog-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "dialog-5",
+    "registryDependencies": [
+      "dialog"
+    ],
+    "root_folder": "dialog",
+    "type": "registry:example",
+    "source": "/registry-examples/src/dialog",
+    "tree": [
+      {
+        "name": "dialog-1.tsx",
+        "path": "dialog/dialog-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dialog-2.tsx",
+        "path": "dialog/dialog-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dialog-3.tsx",
+        "path": "dialog/dialog-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dialog-4.tsx",
+        "path": "dialog/dialog-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dialog-5.tsx",
+        "path": "dialog/dialog-5.tsx",
         "type": "file"
       }
     ]

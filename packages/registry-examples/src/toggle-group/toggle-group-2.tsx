@@ -1,9 +1,9 @@
 import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui/toggle-group'
 import { Bold, Italic, Underline } from 'lucide-react'
 
-export default function ToggleGroup1Demo() {
+export default function Demo() {
   return (
-    <ToggleGroup type="single">
+    <ToggleGroup type="multiple">
       <ToggleGroupItem aria-label="Toggle bold" value="bold">
         <Bold className="h-4 w-4" />
       </ToggleGroupItem>

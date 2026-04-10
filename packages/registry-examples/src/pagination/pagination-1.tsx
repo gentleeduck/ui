@@ -8,7 +8,7 @@ import {
   PaginationPrevious,
 } from '@gentleduck/registry-ui/pagination'
 
-export default function PaginationDemo() {
+export default function Demo() {
   return (
     <Pagination>
       <PaginationContent>

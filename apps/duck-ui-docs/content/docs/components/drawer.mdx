@@ -169,6 +169,20 @@ Style the trigger to appear active while the drawer is open using `data-[state=o
     A --> I[DrawerClose]
 `} />
 
+## RTL Support
+
+Set `dir="rtl"` on `Drawer` for a local override, or set `DirectionProvider` once at app/root level for global direction. Horizontal drawers (`left`/`right`) are resolved automatically for RTL/LTR.
+
+<ComponentPreview
+  name="drawer-7"
+  description="A drawer with RTL support."
+/>
+
+## See also
+
+- [Dialog](/docs/components/dialog)  -  Centered modal overlay
+- [Sheet](/docs/components/sheet)  -  Side panel overlay
+
 ## API Reference
 
 ### Drawer
@@ -258,17 +272,3 @@ Wrapper around `DrawerPrimitive.Close`. Closes the drawer when clicked.
 | `className` | `string` | - | Additional CSS classes applied to the description |
 | `children` | `React.ReactNode` | - | Description text |
 | `...props` | `React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>` | - | Additional props inherited from `Drawer.Description`. |
-
-## RTL Support
-
-Set `dir="rtl"` on `Drawer` for a local override, or set `DirectionProvider` once at app/root level for global direction. Horizontal drawers (`left`/`right`) are resolved automatically for RTL/LTR.
-
-<ComponentPreview
-  name="drawer-7"
-  description="A drawer with RTL support."
-/>
-
-## See also
-
-- [Dialog](/docs/components/dialog)  -  Centered modal overlay
-- [Sheet](/docs/components/sheet)  -  Side panel overlay

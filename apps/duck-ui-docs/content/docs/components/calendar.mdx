@@ -293,6 +293,15 @@ You can use the `<Calendar>` component to build a date picker. See the [Date Pic
   description="Jalali calendar system with English month names and LTR layout."
 />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="calendar-9"
+  description="A calendar with RTL support."
+/>
+
 ## API Reference
 
 ### Calendar
@@ -411,12 +420,3 @@ The calendar uses `data-*` attributes on day cells for styling. Target these in 
 | Variable | Default | Description |
 | --- | --- | --- |
 | `--gentleduck-calendar-cell` | `--spacing(8)` (32px) | Size of day cells and nav buttons |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="calendar-9"
-  description="A calendar with RTL support."
-/>

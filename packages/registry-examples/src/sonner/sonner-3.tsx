@@ -3,7 +3,7 @@ import { SonnerUpload } from '@gentleduck/registry-ui/sonner'
 import React from 'react'
 import { toast } from 'sonner'
 
-export default function SonnerDemo() {
+export default function Demo() {
   const controllerRef = React.useRef(new AbortController())
   const intervalRef = React.useRef<ReturnType<typeof setInterval> | null>(null)
   const progressRef = React.useRef(0)

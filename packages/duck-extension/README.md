@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="../../public/logo-dark.svg" alt="gentleduck/ui" width="80"/>
+</p>
+
 # @gentleduck/extention
 
 A browser extension that allows you to apply custom fonts to any website. Set different fonts for different domains and toggle the extension on/off per website with a simple floating button.

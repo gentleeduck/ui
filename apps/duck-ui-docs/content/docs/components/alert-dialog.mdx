@@ -87,6 +87,15 @@ import {
 </AlertDialog>
 ```
 
+### Animated Alert Dialog (Motion)
+
+Use `MotionAlertDialogContent` for smooth enter/exit animations. Uses a stiffer spring (stiffness 400, damping 30) to convey urgency compared to the regular dialog. Requires `motion` to be installed and a controlled `open` state.
+
+<ComponentPreview
+  name="alert-dialog-4"
+  description="An alert dialog with motion-powered spring animations."
+/>
+
 ## Component Composition
 
 <MermaidDiagram chart={`graph TD
@@ -107,6 +116,33 @@ Style the trigger to appear active while the alert dialog is open using `data-[s
 <ComponentPreview
   name="alert-dialog-3"
   description="An alert dialog with an active trigger style when open."
+/>
+
+## RTL Support
+
+Set `dir="rtl"` on `AlertDialog` for a local override, or set `DirectionProvider` once at app/root level for global direction. `AlertDialog` extends `Dialog`, so direction is inherited by all child parts.
+
+```tsx
+<AlertDialog dir="rtl">
+  <AlertDialogTrigger>Open</AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>هل انت متاكد؟</AlertDialogTitle>
+      <AlertDialogDescription>
+        هذا الاجراء لا يمكن التراجع عنه.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>الغاء</AlertDialogCancel>
+      <AlertDialogAction>متابعة</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+<ComponentPreview
+  name="alert-dialog-2"
+  description="An alert dialog with RTL support."
 />
 
 ## API Reference
@@ -153,6 +189,16 @@ Style the trigger to appear active while the alert dialog is open using `data-[s
 | `children` | `React.ReactNode` | `-` | Content displayed inside the dialog |
 | `forceMount` | `boolean` | `false` | If `true`, forces the content to stay mounted in the DOM |
 | `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>` | - | Additional props inherited from `AlertDialogPrimitive.Content` |
+
+### MotionAlertDialogContent
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `open` | `boolean` | - | **Required.** Controlled open state for AnimatePresence enter/exit |
+| `className` | `string` | `-` | Additional class names to apply |
+| `children` | `React.ReactNode` | `-` | Content displayed inside the dialog |
+
+Requires `motion` package installed. Uses a spring transition (stiffness 400, damping 30) for a snappier feel that conveys urgency. Automatically respects `prefers-reduced-motion`.
 
 ### AlertDialogHeader
 
@@ -201,30 +247,3 @@ Style the trigger to appear active while the alert dialog is open using `data-[s
 | `className` | `string` | - | Additional class names merged with outline button styles |
 | `children` | `React.ReactNode` | - | Cancel button content |
 | `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>` | - | Additional props inherited from `AlertDialogPrimitive.Cancel` |
-
-## RTL Support
-
-Set `dir="rtl"` on `AlertDialog` for a local override, or set `DirectionProvider` once at app/root level for global direction. `AlertDialog` extends `Dialog`, so direction is inherited by all child parts.
-
-```tsx
-<AlertDialog dir="rtl">
-  <AlertDialogTrigger>Open</AlertDialogTrigger>
-  <AlertDialogContent>
-    <AlertDialogHeader>
-      <AlertDialogTitle>هل انت متاكد؟</AlertDialogTitle>
-      <AlertDialogDescription>
-        هذا الاجراء لا يمكن التراجع عنه.
-      </AlertDialogDescription>
-    </AlertDialogHeader>
-    <AlertDialogFooter>
-      <AlertDialogCancel>الغاء</AlertDialogCancel>
-      <AlertDialogAction>متابعة</AlertDialogAction>
-    </AlertDialogFooter>
-  </AlertDialogContent>
-</AlertDialog>
-```
-
-<ComponentPreview
-  name="alert-dialog-2"
-  description="An alert dialog with RTL support."
-/>

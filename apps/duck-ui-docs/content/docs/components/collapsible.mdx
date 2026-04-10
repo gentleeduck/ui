@@ -88,6 +88,15 @@ Style the trigger to appear active while the collapsible is expanded using `data
 
 <ComponentPreview name="collapsible-3" description="A collapsible with an active trigger style when expanded." />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="collapsible-2"
+  description="A collapsible with RTL support."
+/>
+
 ## API Reference
 
 ### Collapsible
@@ -134,12 +143,3 @@ const { open, onOpenChange } = useCollapsible()
 | `triggerRef` | `React.RefObject<HTMLButtonElement \| null>` | Ref to the trigger button |
 | `contentRef` | `React.RefObject<HTMLDivElement \| null>` | Ref to the content section |
 | `contentId` | `string` | Auto-generated ID linking trigger and content via `aria-controls` |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="collapsible-2"
-  description="A collapsible with RTL support."
-/>

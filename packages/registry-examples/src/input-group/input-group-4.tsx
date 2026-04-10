@@ -6,7 +6,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui
 import { IconBookmark, IconCheck, IconCopy, IconInfoCircle } from '@tabler/icons-react'
 import * as React from 'react'
 
-export default function InputGroupButtonExample() {
+export default function Demo() {
   const { copyToClipboard, isCopied } = useCopyToClipboard()
   const [isBookmarked, setIsBookmarked] = React.useState(false)
 

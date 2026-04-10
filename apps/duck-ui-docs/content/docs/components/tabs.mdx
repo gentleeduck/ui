@@ -79,6 +79,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
     A --> D[TabsContent]
 `} />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="tabs-2"
+  description="Tabs with RTL support."
+/>
+
 ## API Reference
 
 ### Tabs
@@ -119,12 +128,3 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 | `className` | `string` | - | Additional CSS class names |
 | `children` | `React.ReactNode` | - | Tab panel content |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="tabs-2"
-  description="Tabs with RTL support."
-/>

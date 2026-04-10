@@ -316,6 +316,7 @@ const _Alert4 = dynamic(() => import('@gentleduck/registry-examples/alert/alert-
 const _AlertDialog1 = dynamic(() => import('@gentleduck/registry-examples/alert-dialog/alert-dialog-1'), { ssr: false })
 const _AlertDialog2 = dynamic(() => import('@gentleduck/registry-examples/alert-dialog/alert-dialog-2'), { ssr: false })
 const _AlertDialog3 = dynamic(() => import('@gentleduck/registry-examples/alert-dialog/alert-dialog-3'), { ssr: false })
+const _AlertDialog4 = dynamic(() => import('@gentleduck/registry-examples/alert-dialog/alert-dialog-4'), { ssr: false })
 const _Avatar1 = dynamic(() => import('@gentleduck/registry-examples/avatar/avatar-1'), { ssr: false })
 const _Avatar2 = dynamic(() => import('@gentleduck/registry-examples/avatar/avatar-2'), { ssr: false })
 const _Badge1 = dynamic(() => import('@gentleduck/registry-examples/badge/badge-1'), { ssr: false })
@@ -361,6 +362,7 @@ const _Dialog1 = dynamic(() => import('@gentleduck/registry-examples/dialog/dial
 const _Dialog2 = dynamic(() => import('@gentleduck/registry-examples/dialog/dialog-2'), { ssr: false })
 const _Dialog3 = dynamic(() => import('@gentleduck/registry-examples/dialog/dialog-3'), { ssr: false })
 const _Dialog4 = dynamic(() => import('@gentleduck/registry-examples/dialog/dialog-4'), { ssr: false })
+const _Dialog5 = dynamic(() => import('@gentleduck/registry-examples/dialog/dialog-5'), { ssr: false })
 const _Command1 = dynamic(() => import('@gentleduck/registry-examples/command/command-1'), { ssr: false })
 const _Command2 = dynamic(() => import('@gentleduck/registry-examples/command/command-2'), { ssr: false })
 const _Command3 = dynamic(() => import('@gentleduck/registry-examples/command/command-3'), { ssr: false })
@@ -2846,6 +2848,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'alert-dialog',
   },
+  'alert-dialog-4': {
+    name: 'alert-dialog-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['alert-dialog'],
+    files: [
+      {
+        path: 'alert-dialog/alert-dialog-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _AlertDialog4,
+    source: '/registry-examples/src/alert-dialog',
+    categories: [],
+    root_folder: 'alert-dialog',
+  },
   'avatar-1': {
     name: 'avatar-1',
     description: '',
@@ -3562,6 +3580,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Dialog4,
+    source: '/registry-examples/src/dialog',
+    categories: [],
+    root_folder: 'dialog',
+  },
+  'dialog-5': {
+    name: 'dialog-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['dialog'],
+    files: [
+      {
+        path: 'dialog/dialog-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Dialog5,
     source: '/registry-examples/src/dialog',
     categories: [],
     root_folder: 'dialog',

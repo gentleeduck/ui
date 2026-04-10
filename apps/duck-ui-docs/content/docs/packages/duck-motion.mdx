@@ -32,6 +32,90 @@ const reduced = useDuckReducedMotion()
 const transition = motionTransition(reduced, { duration: 240, easing: 'var(--duck-motion-ease)' })
 ```
 
+## Motion Library Integration
+
+`@gentleduck/motion` optionally integrates with the [motion](https://motion.dev) library (v12+) for richer animations with enter/exit transitions, layout animations, and gesture support. The motion library is an **optional peer dependency**  -  install it only when you need it.
+
+```bash
+npm install motion
+```
+
+### `motion-tokens`
+
+Maps duck-ui duration and easing tokens to motion-compatible `Transition` objects:
+
+```tsx
+import { duckMotionDuration, duckMotionEasing, duckMotionTransition } from '@gentleduck/motion/motion-tokens'
+
+// Duration in seconds (converted from ms)
+duckMotionDuration.fast    // 0.15
+duckMotionDuration.normal  // 0.2
+duckMotionDuration.slow    // 0.3
+
+// Easing as cubic-bezier arrays
+duckMotionEasing.standard  // [0.4, 0, 0.2, 1]
+duckMotionEasing.spring    // [1, 0.23995, 0, 1.65]
+
+// Ready-to-use transition objects
+<m.div transition={duckMotionTransition.fast} />
+```
+
+### `motion-features`
+
+LazyMotion feature loaders for optimal bundle size (~5KB instead of ~34KB):
+
+```tsx
+import { loadDomAnimation, loadDomMax, loadMotionFeatures } from '@gentleduck/motion/motion-features'
+import { LazyMotion, m } from 'motion/react'
+
+// Default: animate, exit, variants, hover, tap, focus (~5KB)
+<LazyMotion features={loadDomAnimation}>
+  <m.div animate={{ opacity: 1 }} />
+</LazyMotion>
+
+// Full: adds layout animations, drag, viewport detection (~34KB)
+<LazyMotion features={loadDomMax}>
+  <m.div layout />
+</LazyMotion>
+```
+
+### `motion-provider`
+
+Wraps `LazyMotion` + `MotionConfig` with duck-ui defaults and reduced-motion support:
+
+```tsx
+import { MotionProvider } from '@gentleduck/motion/motion-provider'
+
+<MotionProvider>
+  {/* All m.* components inside get consistent defaults */}
+  <m.div animate={{ opacity: 1 }} />
+</MotionProvider>
+```
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `transition` | `object` | `duckMotionTransition.fast` | Global default transition |
+| `reducedMotion` | `'user' \| 'always' \| 'never'` | `'user'` | Reduced-motion strategy |
+| `features` | `() => Promise<FeatureBundle>` | `loadDomAnimation` | LazyMotion feature loader |
+| `strict` | `boolean` | `false` | Warn on `motion.*` usage (should use `m.*`) |
+
+### `motion-presets`
+
+Pre-built animation configs ready to spread onto motion components:
+
+```tsx
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+
+function FadeInCard() {
+  const fadeIn = useMotionPreset('fadeIn')
+  return <m.div {...fadeIn}>Hello</m.div>
+}
+```
+
+Available presets: `fadeIn`, `fadeOut`, `scaleIn`, `slideUp`, `slideDown`, `slideFromLeft`, `slideFromRight`.
+
+Each returns `{ initial, animate, exit, transition }`. When `prefers-reduced-motion` is active, `transition` becomes `{ duration: 0 }`.
+
 ## API Reference
 
 ### CSS entrypoint
@@ -49,25 +133,14 @@ const transition = motionTransition(reduced, { duration: 240, easing: 'var(--duc
 - `onDuckReducedMotionChange(callback)`  -  subscribe to reduced motion preference changes
 - `getDuckReducedMotionServerSnapshot()`  -  SSR-safe snapshot for reduced motion state
 
-### `motion`
-
-- `animateIn(element, keyframes, options)`  -  animate an element with Web Animations API
-- `motion`  -  alias for `animateIn`
-
 ### `anim`
 
 - `AnimVariants`  -  CVA variant utility for animation classes
 - `checkersStylePattern`  -  CVA variant utility for checkbox/radio/switch patterns
 
-### `easing`
+### `tokens`
 
-- `duckEasing`  -  easing curve value
-- `duckDuration`  -  duration value
+- `duckEasing`  -  easing curve values (`standard`, `spring`)
+- `duckDuration`  -  duration values (`instant`, `fast`, `normal`, `slow`)
 - `duckMotionCssVar`  -  CSS variable references
-- `ease`  -  backward-compatible alias for easing
-- `spring`  -  backward-compatible alias for spring easing
 
-### `waapi`
-
-- `prefersReducedMotion()`  -  check reduced motion preference
-- `animateIfAllowed(element, keyframes, options, reducedMotion?)`  -  animate only when motion is allowed

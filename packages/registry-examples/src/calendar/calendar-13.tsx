@@ -4,7 +4,7 @@ import type { DateRange } from '@gentleduck/calendar'
 import { Calendar } from '@gentleduck/registry-ui/calendar'
 import * as React from 'react'
 
-export default function CalendarDemo() {
+export default function Demo() {
   const [ranges, setRanges] = React.useState<DateRange<Date>[]>([])
 
   return (

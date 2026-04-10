@@ -1,8 +1,8 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui/accordion'
 
-export default function Accordion1Demo() {
+export default function Demo() {
   return (
-    <Accordion className="w-[350px]" collapsible type="single">
+    <Accordion className="w-[350px]" collapsible defaultValue="item-1" type="single">
       <AccordionItem value="item-1">
         <AccordionTrigger>Is it accessible?</AccordionTrigger>
         <AccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</AccordionContent>

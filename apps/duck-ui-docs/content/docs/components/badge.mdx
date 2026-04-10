@@ -160,6 +160,15 @@ const MyBadge = () => {
   description="icon badge"
 />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="badge-9"
+  description="A badge with RTL support."
+/>
+
 ## API Reference
 
 ### Badge
@@ -172,12 +181,3 @@ const MyBadge = () => {
 | `asChild` | `boolean` | `false` | If `true`, renders using a `Slot` instead of a `span` element |
 | `className` | `string` | `--` | Additional class names to apply |
 | `...props` | `Omit<React.HTMLProps<HTMLSpanElement>, 'size'>` | - | Additional props to spread to the span element |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="badge-9"
-  description="A badge with RTL support."
-/>

@@ -1,7 +1,7 @@
 import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui/toggle-group'
 import { Bold, Italic, Underline } from 'lucide-react'
 
-export default function ToggleGroupRtlDemo() {
+export default function Demo() {
   return (
     <ToggleGroup type="single" dir="rtl">
       <ToggleGroupItem aria-label="تبديل الخط العريض" value="bold">

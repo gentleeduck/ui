@@ -37,7 +37,7 @@ const FormSchema = z.object({
   }),
 })
 
-export default function ComboboxForm() {
+export default function Demo() {
   const [open, setOpen] = useState(false)
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -54,7 +54,7 @@ export default function ComboboxForm() {
   }
 
   return (
-    <form className="w-100 space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+    <form className="w-full space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
       <FieldGroup>
         <Controller
           control={form.control}

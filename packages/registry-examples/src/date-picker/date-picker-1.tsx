@@ -7,7 +7,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui
 import { ChevronDownIcon } from 'lucide-react'
 import * as React from 'react'
 
-export default function CalendarDemo() {
+export default function Demo() {
   const [open, setOpen] = React.useState(false)
   const [date, setDate] = React.useState<Date | undefined>(undefined)
 

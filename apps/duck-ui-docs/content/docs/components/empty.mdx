@@ -153,6 +153,15 @@ You can add an `InputGroup` component to the `EmptyContent` component.
     A --> F[EmptyContent]
 `} />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="empty-7"
+  description="An empty state with RTL support."
+/>
+
 ## API Reference
 
 ### Empty
@@ -216,12 +225,3 @@ Use the `EmptyContent` component to display the content of the empty state such 
 | `className` | `string` | `--` | Additional CSS classes |
 | `children` | `React.ReactNode` | `--` | Action content (buttons, links, inputs) |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="empty-7"
-  description="An empty state with RTL support."
-/>

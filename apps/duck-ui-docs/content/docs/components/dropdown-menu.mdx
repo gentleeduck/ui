@@ -139,6 +139,15 @@ Style the trigger to appear active while the menu is open using `data-[state=ope
   description="A dropdown menu with an active trigger style when open."
 />
 
+## RTL Support
+
+Set `dir="rtl"` on `DropdownMenu` for a local override, or set `DirectionProvider` once at app/root level for global direction.
+
+<ComponentPreview
+  name="dropdown-menu-4"
+  description="A dropdown menu with RTL support."
+/>
+
 ## API Reference
 
 ### DropdownMenu
@@ -297,12 +306,3 @@ Content container for a submenu. Positioned to the side of the sub-trigger.
 | `className` | `string` | - | Additional CSS class names |
 
 Exposes the same `--gentleduck-dropdown-menu-*` CSS custom properties as `DropdownMenuContent`.
-
-## RTL Support
-
-Set `dir="rtl"` on `DropdownMenu` for a local override, or set `DirectionProvider` once at app/root level for global direction.
-
-<ComponentPreview
-  name="dropdown-menu-4"
-  description="A dropdown menu with RTL support."
-/>

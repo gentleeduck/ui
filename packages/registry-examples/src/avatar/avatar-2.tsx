@@ -1,6 +1,6 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui/avatar'
 
-export default function AvatarRtlDemo() {
+export default function Demo() {
   return (
     <div dir="rtl">
       <div className="flex flex-row flex-wrap items-center gap-12">

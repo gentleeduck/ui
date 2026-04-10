@@ -19,7 +19,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentl
 import { IconCheck, IconInfoCircle, IconPaperclip } from '@tabler/icons-react'
 import { ArrowUpIcon, FilterIcon } from 'lucide-react'
 
-export default function InputGroupDemo() {
+export default function Demo() {
   return (
     <TooltipProvider>
       <div className="grid w-full max-w-sm gap-6">

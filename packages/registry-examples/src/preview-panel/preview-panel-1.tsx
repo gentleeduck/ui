@@ -1,6 +1,6 @@
 import { PreviewPanel } from '@gentleduck/registry-ui/preview-panel'
 
-export default function PreviewPanelBasic() {
+export default function Demo() {
   return (
     <PreviewPanel maxHeight="400px" className="rounded-lg border bg-card">
       <div className="flex flex-col items-center gap-4 p-8">

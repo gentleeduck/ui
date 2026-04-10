@@ -2,7 +2,7 @@ import { Button } from '@gentleduck/registry-ui/button'
 import { DirectionProvider } from '@gentleduck/registry-ui/direction'
 import { ChevronLeft, Send } from 'lucide-react'
 
-export default function ButtonRtlDemo() {
+export default function Demo() {
   return (
     <DirectionProvider dir="rtl">
       <div className="flex flex-wrap items-center gap-4">

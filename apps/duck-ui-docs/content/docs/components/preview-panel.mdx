@@ -140,6 +140,15 @@ Use as a zoomable image viewer.
   description="Preview panel as an image viewer."
 />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="preview-panel-5"
+  description="A preview panel with RTL support."
+/>
+
 ## API Reference
 
 ### PreviewPanel
@@ -191,12 +200,3 @@ type PreviewPanelState = {
   y: number
 }
 ```
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="preview-panel-5"
-  description="A preview panel with RTL support."
-/>

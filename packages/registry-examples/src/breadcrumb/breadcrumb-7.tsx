@@ -37,7 +37,7 @@ const items: { href?: string; label: string }[] = [
   { label: 'Caching and Revalidating' },
 ]
 const ITEMS_TO_DISPLAY = 3
-export default function BreadcrumbResponsive() {
+export default function Demo() {
   const [open, setOpen] = React.useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
   return (

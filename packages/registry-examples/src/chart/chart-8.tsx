@@ -114,7 +114,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export default function ChartRtlDemo() {
+export default function Demo() {
   const [activeChart, setActiveChart] = React.useState<keyof typeof chartConfig>('desktop')
 
   const total = React.useMemo(

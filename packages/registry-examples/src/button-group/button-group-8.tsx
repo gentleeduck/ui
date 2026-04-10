@@ -7,7 +7,7 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentl
 import { AudioLinesIcon, PlusIcon } from 'lucide-react'
 import * as React from 'react'
 
-export default function ButtonGroupInputGroup() {
+export default function Demo() {
   const [voiceEnabled, setVoiceEnabled] = React.useState(false)
 
   return (

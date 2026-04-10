@@ -111,20 +111,6 @@ import { Input } from "@/components/ui/input"
   description="An input used inside a form with validation and a submit button."
 />
 
-## API Reference
-
-### Input
-
-A styled `<input>` element that accepts all standard HTML input attributes.
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `type` | `React.HTMLInputTypeAttribute` | `--` | The HTML input type (e.g., `'text'`, `'password'`, `'email'`, `'file'`). Browsers default to `'text'`. |
-| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `className` | `string` | `--` | Additional CSS classes to apply |
-| `ref` | `React.Ref<HTMLInputElement>` | `--` | Ref forwarded to the underlying `<input>` element |
-| `...props` | `React.HTMLProps<HTMLInputElement>` | - | Additional props to spread to the input element |
-
 ## RTL Support
 
 Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
@@ -138,3 +124,17 @@ Direction is resolved through the shared primitives direction module. Use a loca
 
 - [Textarea](/docs/components/textarea)  -  Multi-line text input
 - [Label](/docs/components/label)  -  Accessible label for form controls
+
+## API Reference
+
+### Input
+
+A styled `<input>` element that accepts all standard HTML input attributes.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `type` | `React.HTMLInputTypeAttribute` | `--` | The HTML input type (e.g., `'text'`, `'password'`, `'email'`, `'file'`). Browsers default to `'text'`. |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | `--` | Additional CSS classes to apply |
+| `ref` | `React.Ref<HTMLInputElement>` | `--` | Ref forwarded to the underlying `<input>` element |
+| `...props` | `React.HTMLProps<HTMLInputElement>` | - | Additional props to spread to the input element |

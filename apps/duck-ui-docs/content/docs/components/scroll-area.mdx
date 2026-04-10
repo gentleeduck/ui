@@ -122,6 +122,15 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 
 <ComponentPreview name="scroll-area-2" description="A horizontal scroll area displaying a gallery of artwork images." />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="scroll-area-3"
+  description="A scroll area with RTL support."
+/>
+
 ## API Reference
 
 ### ScrollArea
@@ -135,13 +144,3 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 | `style` | `React.CSSProperties` | `--` | Inline styles for the outer container |
 | `children` | `React.ReactNode` | `--` | Scrollable content |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="scroll-area-3"
-  description="A scroll area with RTL support."
-/>
-

@@ -13,7 +13,7 @@ import { DirectionProvider } from '@gentleduck/registry-ui/direction'
 import { Input } from '@gentleduck/registry-ui/input'
 import { Label } from '@gentleduck/registry-ui/label'
 
-export default function DialogRtlDemo() {
+export default function Demo() {
   return (
     <DirectionProvider dir="rtl">
       <Dialog>

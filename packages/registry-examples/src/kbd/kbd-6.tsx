@@ -1,6 +1,6 @@
 import { Kbd, KbdGroup } from '@gentleduck/registry-ui/kbd'
 
-export default function KbdRtlDemo() {
+export default function Demo() {
   return (
     <div dir="rtl">
       <div className="flex flex-col items-center gap-4">

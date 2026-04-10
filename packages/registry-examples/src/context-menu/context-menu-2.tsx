@@ -16,7 +16,7 @@ import {
   ContextMenuTrigger,
 } from '@gentleduck/registry-ui/context-menu'
 
-export default function ContextMenuRtlDemo() {
+export default function Demo() {
   return (
     <ContextMenu dir="rtl">
       <ContextMenuTrigger className="flex h-[150px] w-[300px] items-center justify-center rounded-md border border-dashed text-sm">

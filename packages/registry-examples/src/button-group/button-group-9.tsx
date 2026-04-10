@@ -21,7 +21,7 @@ import {
   VolumeOffIcon,
 } from 'lucide-react'
 
-export default function ButtonGroupDropdown() {
+export default function Demo() {
   return (
     <ButtonGroup>
       <Button variant="outline">Follow</Button>

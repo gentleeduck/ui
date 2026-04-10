@@ -5,7 +5,7 @@ import { Input } from '@gentleduck/registry-ui/input'
 import { Label } from '@gentleduck/registry-ui/label'
 import { Popover, PopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
 
-export default function PopoverDemo() {
+export default function Demo() {
   return (
     <div className="grid w-full max-w-sm grid-cols-2 gap-3">
       <Popover>

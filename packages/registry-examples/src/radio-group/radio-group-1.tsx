@@ -2,7 +2,7 @@
 
 import { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui/radio-group'
 
-export default function RadioGroupDemo() {
+export default function Demo() {
   return (
     <RadioGroup
       className="[&>div]:felx flex flex-col space-y-1 [&>div]:items-center [&>div]:space-x-3 [&>div]:space-y-0"

@@ -4,7 +4,7 @@ import { Button } from '@gentleduck/registry-ui/button'
 import { ButtonGroup, ButtonGroupSeparator } from '@gentleduck/registry-ui/button-group'
 import { Plus } from 'lucide-react'
 
-export default function ButtonGroupSplit() {
+export default function Demo() {
   return (
     <ButtonGroup>
       <Button variant="secondary">Button</Button>
