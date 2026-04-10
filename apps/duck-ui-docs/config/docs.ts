@@ -1199,6 +1199,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/select',
           items: [],
+          label: 'new',
           title: 'Select',
         },
         {
