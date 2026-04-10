@@ -5,5 +5,12 @@ import { useState } from 'react'
 export default function Demo() {
   const [checked, setChecked] = useState<'indeterminate' | boolean>('indeterminate')
 
-  return <Checkbox checked={checked} onCheckedChange={setChecked} />
+  return (
+    <Checkbox
+      checked={checked}
+      onCheckedChange={() => {
+        setChecked((prev) => (prev === false ? 'indeterminate' : prev === 'indeterminate' ? true : false))
+      }}
+    />
+  )
 }

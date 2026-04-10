@@ -94,23 +94,6 @@ import {
 </FieldSet>
 ```
 
-## Anatomy
-
-The `Field` family is designed for composing accessible forms. A typical field is structured as follows:
-
-```tsx showLineNumbers
-<Field>
-  <FieldLabel htmlFor="input-id">Label</FieldLabel>
-  {/* Input, Select, Switch, etc. */}
-  <FieldDescription>Optional helper text.</FieldDescription>
-  <FieldError>Validation message.</FieldError>
-</Field>
-```
-
-- `Field` is the core wrapper for a single field.
-- `FieldContent` is a flex column that groups label and description. Not required if you have no description.
-- Wrap related fields with `FieldGroup`, and use `FieldSet` with `FieldLegend` for semantic grouping.
-
 ## Examples
 
 ### Input
@@ -157,6 +140,45 @@ Stack `Field` components with `FieldGroup`. Add `FieldSeparator` to divide them.
 
 <ComponentPreview name="field-11" className="!mb-4 [&_.preview]:p-6" description="Grouped fields with separators for notification settings." />
 
+### Responsive Layout
+
+<ComponentPreview
+  name="field-12"
+  className="!mb-4 [&_.preview]:h-[650px] [&_.preview]:p-6 [&_.preview]:md:h-[500px] [&_.preview]:md:p-10"
+  description="Responsive fields that switch between vertical and horizontal orientation."
+/>
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[FieldSet] --> B[FieldLegend]
+    A --> C[FieldGroup]
+    C --> D[Field]
+    C --> E[FieldSeparator]
+    D --> F[FieldLabel]
+    D --> G[FieldContent]
+    G --> H[FieldTitle]
+    G --> I[FieldDescription]
+    D --> J[FieldError]
+`} />
+
+## Anatomy
+
+The `Field` family is designed for composing accessible forms. A typical field is structured as follows:
+
+```tsx showLineNumbers
+<Field>
+  <FieldLabel htmlFor="input-id">Label</FieldLabel>
+  {/* Input, Select, Switch, etc. */}
+  <FieldDescription>Optional helper text.</FieldDescription>
+  <FieldError>Validation message.</FieldError>
+</Field>
+```
+
+- `Field` is the core wrapper for a single field.
+- `FieldContent` is a flex column that groups label and description. Not required if you have no description.
+- Wrap related fields with `FieldGroup`, and use `FieldSet` with `FieldLegend` for semantic grouping.
+
 ## Responsive Layout
 
 - **Vertical fields:** Default orientation stacks label, control, and helper text  -  ideal for mobile-first layouts.
@@ -189,20 +211,6 @@ Stack `Field` components with `FieldGroup`. Add `FieldSeparator` to divide them.
 - `Field` outputs `role="group"` so nested controls inherit labeling from `FieldLabel` and `FieldLegend` when combined.
 - Apply `FieldSeparator` sparingly to ensure screen readers encounter clear section boundaries.
 
-## Component Composition
-
-<MermaidDiagram chart={`graph TD
-    A[FieldSet] --> B[FieldLegend]
-    A --> C[FieldGroup]
-    C --> D[Field]
-    C --> E[FieldSeparator]
-    D --> F[FieldLabel]
-    D --> G[FieldContent]
-    G --> H[FieldTitle]
-    G --> I[FieldDescription]
-    D --> J[FieldError]
-`} />
-
 ## RTL Support
 
 Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
@@ -212,6 +220,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   className="[&_.preview]:h-200 [&_.preview]:p-6 [&_.preview>div]:w-full md:[&_.preview]:h-200"
   description="A field with RTL support."
 />
+
+## Motion
+
+Use `MotionField` and `MotionFieldGroup` for staggered fade-up entrance animations powered by [motion](https://motion.dev). Pass `index` to `MotionField` for stagger delay.
+
+<ComponentPreview
+  name="field-14"
+  description="A form with motion-powered staggered field entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionField` instead of `Field` and `MotionFieldGroup` instead of `FieldGroup`. All other sub-components (`FieldLabel`, `FieldDescription`, `FieldSet`, etc.) stay the same.
+</Callout>
 
 ## API Reference
 
@@ -321,3 +342,15 @@ Accessible error container that accepts children or an `errors` array (e.g., fro
 When the `errors` array contains multiple messages, the component renders a list automatically.
 
 `FieldError` also accepts issues produced by any validator that implements [Standard Schema](https://standardschema.dev/), including Zod, Valibot, and ArkType. Pass the `issues` array from the schema result directly to render a unified error list across libraries.
+
+### MotionField
+
+Same props as `Field` plus an optional `index` prop for stagger delay (50ms per index). Adds fadeUp entrance animation. Requires the `motion` package.
+
+### MotionFieldGroup
+
+Same props as `FieldGroup`. Adds fadeUp entrance animation. Requires the `motion` package.
+
+### MotionFieldError
+
+Same props as `FieldError`. Adds fadeUp entrance with 50ms delay. Requires the `motion` package.

@@ -87,7 +87,14 @@ interface SelectContentImplProps
   onCloseAutoFocus?: FocusScopeProps['onUnmountAutoFocus']
   onEscapeKeyDown?: DismissableLayerProps['onEscapeKeyDown']
   onPointerDownOutside?: DismissableLayerProps['onPointerDownOutside']
+  onFocusOutside?: DismissableLayerProps['onFocusOutside']
   position?: 'item-aligned' | 'popper'
+  /** Override whether outside pointer events are disabled. Defaults to `context.open`. */
+  disableOutsidePointerEvents?: boolean
+  /** Override whether focus is trapped. Defaults to `context.open`. */
+  trapFocus?: boolean
+  /** Override whether scroll is locked. Defaults to `context.open`. */
+  lockScroll?: boolean
 }
 
 const Slot = createSlot('SelectContent.RemoveScroll')
@@ -100,6 +107,10 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, SelectConte
       onCloseAutoFocus,
       onEscapeKeyDown,
       onPointerDownOutside,
+      onFocusOutside: onFocusOutsideProp,
+      disableOutsidePointerEvents: disableOutsidePointerEventsProp,
+      trapFocus: trapFocusProp,
+      lockScroll: lockScrollProp,
       //
       // PopperContent props
       side,
@@ -116,6 +127,9 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, SelectConte
       ...contentProps
     } = props
     const context = useSelectContext(CONTENT_NAME, __scopeSelect)
+    const resolvedTrapFocus = trapFocusProp ?? context.open
+    const resolvedDisableOutsidePointerEvents = disableOutsidePointerEventsProp ?? context.open
+    const resolvedLockScroll = lockScrollProp ?? context.open
     const [content, setContent] = React.useState<SelectContentImplElement | null>(null)
     const [viewport, setViewport] = React.useState<HTMLDivElement | null>(null)
     const composedRefs = useComposedRefs(forwardedRef, (node: HTMLDivElement | null) => setContent(node))
@@ -286,12 +300,12 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, SelectConte
         isPositioned={isPositioned}
         searchRef={searchRef}
         allowTextPortal={context.open}>
-        <RemoveScroll as={Slot} allowPinchZoom>
+        <RemoveScroll as={Slot} allowPinchZoom enabled={resolvedLockScroll}>
           <FocusScope
             asChild
             // we make sure we're not trapping once it's been closed
             // (closed !== unmounted when animating out)
-            trapped={context.open}
+            trapped={resolvedTrapFocus}
             onMountAutoFocus={(event) => {
               // we prevent open autofocus because we manually focus the selected item
               event.preventDefault()
@@ -302,12 +316,10 @@ const SelectContentImpl = React.forwardRef<SelectContentImplElement, SelectConte
             })}>
             <DismissableLayer
               asChild
-              disableOutsidePointerEvents
+              disableOutsidePointerEvents={resolvedDisableOutsidePointerEvents}
               onEscapeKeyDown={onEscapeKeyDown}
               onPointerDownOutside={onPointerDownOutside}
-              // When focus is trapped, a focusout event may still happen.
-              // We make sure we don't trigger our `onDismiss` in such case.
-              onFocusOutside={(event) => event.preventDefault()}
+              onFocusOutside={onFocusOutsideProp ?? ((event) => event.preventDefault())}
               onDismiss={() => context.onOpenChange(false)}>
               <SelectPosition
                 data-slot="select-content"

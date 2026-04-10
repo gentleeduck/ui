@@ -87,6 +87,17 @@ import {
 </AlertDialog>
 ```
 
+## Examples
+
+### Active Trigger on Open
+
+Style the trigger to appear active while the alert dialog is open using `data-[state=open]`:
+
+<ComponentPreview
+  name="alert-dialog-3"
+  description="An alert dialog with an active trigger style when open."
+/>
+
 ## Component Composition
 
 <MermaidDiagram chart={`graph TD
@@ -99,15 +110,6 @@ import {
     E --> H[AlertDialogAction]
     E --> I[AlertDialogCancel]
 `} />
-
-### Active Trigger on Open
-
-Style the trigger to appear active while the alert dialog is open using `data-[state=open]`:
-
-<ComponentPreview
-  name="alert-dialog-3"
-  description="An alert dialog with an active trigger style when open."
-/>
 
 ## RTL Support
 
@@ -193,6 +195,10 @@ Requires the `motion` package. Use `MotionAlertDialog` instead of `AlertDialog` 
 | `children` | `React.ReactNode` | `-` | Content displayed inside the dialog |
 | `forceMount` | `boolean` | `false` | If `true`, forces the content to stay mounted in the DOM |
 | `...props` | `React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>` | - | Additional props inherited from `AlertDialogPrimitive.Content` |
+
+### MotionAlertDialog
+
+Same props as `AlertDialog`. Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
 
 ### MotionAlertDialogContent
 

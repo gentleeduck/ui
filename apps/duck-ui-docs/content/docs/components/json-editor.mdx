@@ -145,11 +145,19 @@ Set `dir="rtl"` on `JsonEditor` for a local override, or set `DirectionProvider`
   description="A JSON editor with full RTL and Arabic i18n support."
 />
 
-## See also
+## Motion
 
-- [React Hook Form](/docs/components/react-hook-form)  -  Form context components used by `JsonTextareaField`
-- [Textarea](/docs/components/textarea)  -  Basic plain-text multiline input
-- [Field](/docs/components/field)  -  Layout primitive for label + description + error composition
+Use `MotionJsonTextareaField` for a spring-powered entrance animation with blur powered by [motion](https://motion.dev).
+
+<ComponentPreview
+  name="json-editor-5"
+  className="mb-4! [&_.preview]:h-165 [&_.preview]:p-6"
+  description="A JSON editor with motion entrance animation."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionJsonTextareaField` instead of `JsonTextareaField`. Same props, animated entrance.
+</Callout>
 
 ## API Reference
 
@@ -211,7 +219,17 @@ type JsonEditorExpandPayload<TFieldValues extends FieldValues> = {
 }
 ```
 
+### MotionJsonTextareaField
+
+Same props as `JsonTextareaField`. Adds spring scaleIn+blur entrance animation via motion. Requires the `motion` package.
+
 ### Keyboard shortcuts
 
 - `Ctrl/Cmd + Enter` saves the current editor buffer.
 - `Esc` cancels inline edits or closes the expanded sheet.
+
+## See also
+
+- [React Hook Form](/docs/components/react-hook-form)  -  Form context components used by `JsonTextareaField`
+- [Textarea](/docs/components/textarea)  -  Basic plain-text multiline input
+- [Field](/docs/components/field)  -  Layout primitive for label + description + error composition

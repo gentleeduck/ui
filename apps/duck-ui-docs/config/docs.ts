@@ -972,6 +972,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/alert',
           items: [],
+          label: 'new',
           title: 'Alert',
         },
         {
@@ -983,21 +984,25 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/aspect-ratio',
           items: [],
+          label: 'new',
           title: 'Aspect Ratio',
         },
         {
           href: '/docs/components/avatar',
           items: [],
+          label: 'new',
           title: 'Avatar',
         },
         {
           href: '/docs/components/badge',
           items: [],
+          label: 'new',
           title: 'Badge',
         },
         {
           href: '/docs/components/breadcrumb',
           items: [],
+          label: 'new',
           title: 'Breadcrumb',
         },
         {
@@ -1009,6 +1014,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/button-group',
           items: [],
+          label: 'new',
           title: 'Button Group',
         },
         {
@@ -1020,6 +1026,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/card',
           items: [],
+          label: 'new',
           title: 'Card',
         },
         {
@@ -1036,6 +1043,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/checkbox',
           items: [],
+          label: 'new',
           title: 'Checkbox',
         },
         {
@@ -1047,11 +1055,13 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/combobox',
           items: [],
+          label: 'new',
           title: 'Combobox',
         },
         {
           href: '/docs/components/command',
           items: [],
+          label: 'new',
           title: 'Command',
         },
         {
@@ -1096,16 +1106,19 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/empty',
           items: [],
+          label: 'new',
           title: 'Empty',
         },
         {
           href: '/docs/components/field',
           items: [],
+          label: 'new',
           title: 'Field',
         },
         {
           href: '/docs/components/navigation-menu',
           items: [],
+          label: 'new',
           title: 'Navigation Menu',
         },
         {
@@ -1122,16 +1135,19 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/item',
           items: [],
+          label: 'new',
           title: 'Item',
         },
         {
           href: '/docs/components/input',
           items: [],
+          label: 'new',
           title: 'Input',
         },
         {
           href: '/docs/components/input-group',
           items: [],
+          label: 'new',
           title: 'Input Group',
         },
         {
@@ -1143,26 +1159,31 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/input-otp',
           items: [],
+          label: 'new',
           title: 'Input OTP',
         },
         {
           href: '/docs/components/kbd',
           items: [],
+          label: 'new',
           title: 'Kbd',
         },
         {
           href: '/docs/components/label',
           items: [],
+          label: 'new',
           title: 'Label',
         },
         {
           href: '/docs/components/menubar',
           items: [],
+          label: 'new',
           title: 'Menubar',
         },
         {
           href: '/docs/components/pagination',
           items: [],
+          label: 'new',
           title: 'Pagination',
         },
         {
@@ -1180,16 +1201,19 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/progress',
           items: [],
+          label: 'new',
           title: 'Progress',
         },
         {
           href: '/docs/components/radio-group',
           items: [],
+          label: 'new',
           title: 'Radio Group',
         },
         {
           href: '/docs/components/resizable',
           items: [],
+          label: 'new',
           title: 'Resizable',
         },
         {
@@ -1206,6 +1230,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/separator',
           items: [],
+          label: 'new',
           title: 'Separator',
         },
         {
@@ -1217,16 +1242,19 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/sidebar',
           items: [],
+          label: 'new',
           title: 'Sidebar',
         },
         {
           href: '/docs/components/skeleton',
           items: [],
+          label: 'new',
           title: 'Skeleton',
         },
         {
           href: '/docs/components/slider',
           items: [],
+          label: 'new',
           title: 'Slider',
         },
         {
@@ -1237,11 +1265,13 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/switch',
           items: [],
+          label: 'new',
           title: 'Switch',
         },
         {
           href: '/docs/components/table',
           items: [],
+          label: 'new',
           title: 'Table',
         },
         {
@@ -1258,6 +1288,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/textarea',
           items: [],
+          label: 'new',
           title: 'Text Area',
         },
         {
@@ -1269,6 +1300,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/toggle-group',
           items: [],
+          label: 'new',
           title: 'Toggle Group',
         },
         {

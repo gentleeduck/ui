@@ -10,7 +10,10 @@ const OVERLAY_NAME = 'DialogOverlay'
 
 type DialogOverlayImplElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-interface DialogOverlayImplProps extends PrimitiveDivProps {}
+interface DialogOverlayImplProps extends PrimitiveDivProps {
+  /** Override whether scroll is locked. Defaults to `context.open`. */
+  lockScroll?: boolean
+}
 
 type DialogOverlayElement = DialogOverlayImplElement
 export interface DialogOverlayProps extends DialogOverlayImplProps {
@@ -38,10 +41,10 @@ const Slot = createSlot('DialogOverlay.RemoveScroll')
 
 const DialogOverlayImpl = React.forwardRef<DialogOverlayImplElement, DialogOverlayImplProps>(
   (props: ScopedProps<DialogOverlayImplProps>, forwardedRef) => {
-    const { __scopeDialog, ...overlayProps } = props
+    const { __scopeDialog, lockScroll: lockScrollProp, ...overlayProps } = props
     const context = useDialogContext(OVERLAY_NAME, __scopeDialog)
     return (
-      <RemoveScroll as={Slot} allowPinchZoom shards={[context.contentRef]}>
+      <RemoveScroll as={Slot} allowPinchZoom enabled={lockScrollProp ?? context.open} shards={[context.contentRef]}>
         <Primitive.div
           data-slot="dialog-overlay"
           data-state={getState(context.open)}

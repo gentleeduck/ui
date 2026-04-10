@@ -9,7 +9,9 @@ component: true
   description="A button"
 />
 
-## Features
+## Philosophy
+
+Buttons are the primary call to action in any interface. We ship an intentionally rich variant system because buttons carry the most visual weight in UI decisions  -  primary, destructive, ghost, and outline each communicate different levels of commitment. The `asChild` pattern lets you render any element as a button, because sometimes a link needs to look like one.
 
 - Multiple **styles**, **sizes**, and **border** options out of the box
 - Built-in **loading state** with spinner and auto-disable
@@ -19,10 +21,6 @@ component: true
 - Fully **typed**, **accessible**, and **responsive**
 - Powered by `@gentleduck/variants` for scalable theming
 - Clean, composable, and **Tailwind-optimized**
-
-## Philosophy
-
-Buttons are the primary call to action in any interface. We ship an intentionally rich variant system because buttons carry the most visual weight in UI decisions  -  primary, destructive, ghost, and outline each communicate different levels of commitment. The `asChild` pattern lets you render any element as a button, because sometimes a link needs to look like one.
 
 ## How It's Built
 
@@ -265,7 +263,7 @@ When `loading` is `true`, `Button` renders a `lucide-react` `<Loader />` with `a
   description="expand icon button"
 />
 
-### RTL
+## RTL Support
 
 <ComponentPreview
   name="button-21"
@@ -287,7 +285,7 @@ Requires the `motion` package. Use `MotionButton` instead of `Button`. Same prop
 
 ## API Reference
 
-### Button Props
+### Button
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -303,9 +301,18 @@ Requires the `motion` package. Use `MotionButton` instead of `Button`. Same prop
 | `type` | `'button' \| 'submit' \| 'reset'` | `'button'` | Native HTML button type |
 | `...props` | `Omit<React.HTMLProps<HTMLButtonElement>, 'size'>` | - | Additional props to spread to the button element |
 
-### AnimationIcon Props
+### AnimationIcon
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | (required) | Content inside the animation icon wrapper |
 | `animationIcon` | `{ icon?: React.ReactNode; iconPlacement?: 'left' \| 'right' }` | `-` | Animation icon configuration with icon element and placement direction |
+
+
+### MotionButton
+
+Adds `whileTap` press feedback (scale 0.97) and animated icon/text transitions via `AnimatePresence`. `asChild` is not supported. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `Omit<ButtonProps, 'asChild'>` | - | All props from `Button` except `asChild` |

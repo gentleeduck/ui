@@ -67,6 +67,16 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="A label with RTL support."
 />
 
+## Motion
+
+Use `MotionLabel` for a fade+blur entrance animation powered by [motion](https://motion.dev). Pairs well with `MotionInput` for staggered form field entrance.
+
+<ComponentPreview name="label-4" description="Labels with motion-powered staggered entrance." />
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionLabel` instead of `Label`. Pass `index` for stagger delay.
+</Callout>
+
 ## API Reference
 
 ### Label
@@ -81,3 +91,7 @@ Renders an accessible label element associated with form controls.
 | `children` | `React.ReactNode` | - | Label text or elements |
 | `ref` | `React.Ref<HTMLLabelElement>` | - | Ref forwarded to the label element |
 | `...props` | `React.HTMLProps<HTMLLabelElement>` | - | Additional props to spread to the label element |
+
+### MotionLabel
+
+Same props as `Label` plus an optional `index` prop for stagger delay (50ms per index). Adds fade+blur entrance. Requires the `motion` package.

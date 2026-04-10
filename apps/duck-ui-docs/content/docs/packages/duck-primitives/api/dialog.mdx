@@ -104,6 +104,7 @@ Renders an overlay behind the content. Only renders when `modal` is `true`. Auto
 | --- | --- | --- | --- |
 | `forceMount` | `true` | - | Keep mounted regardless of open state |
 | `asChild` | `boolean` | - | Render as child element |
+| `lockScroll` | `boolean` | `context.open` | Override whether body scroll is locked |
 
 Exposes `data-state="open"` / `data-state="closed"` for CSS animation.
 
@@ -120,6 +121,12 @@ The content area. Handles focus trapping (modal), dismiss-on-click-outside, and 
 | `onFocusOutside` | `(event) => void` | - | Called when focus moves outside |
 | `onInteractOutside` | `(event) => void` | - | Called for any outside interaction |
 | `onEscapeKeyDown` | `(event) => void` | - | Called when <Kbd>Escape</Kbd> is pressed. Prevent default to block close. |
+| `trapFocus` | `boolean` | `context.open` | Override whether focus is trapped inside the content |
+| `disableOutsidePointerEvents` | `boolean` | `context.open` | Override whether pointer events outside are blocked |
+
+<Callout>
+The `trapFocus` and `disableOutsidePointerEvents` props default to the dialog's open state. Override them when integrating with animation libraries like [motion](https://motion.dev) that need custom lifecycle control during exit animations.
+</Callout>
 
 Sets `role="dialog"`, `aria-labelledby` (linked to Title), and `aria-describedby` (linked to Description).
 

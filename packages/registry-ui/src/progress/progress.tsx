@@ -1,7 +1,10 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const Progress = React.forwardRef<
@@ -29,4 +32,32 @@ const Progress = React.forwardRef<
 })
 Progress.displayName = 'Progress'
 
-export { Progress }
+const MotionProgress = React.forwardRef<
+  HTMLDivElement,
+  Omit<React.HTMLProps<HTMLDivElement>, 'value' | 'ref'> & { value: number }
+>(({ className, value, dir, ...props }, ref) => {
+  const direction = useDirection(dir as Direction)
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <div
+        className={cn('relative h-2 w-full overflow-hidden rounded-full bg-secondary', className)}
+        ref={ref}
+        {...props}
+        aria-valuemax={100}
+        aria-valuemin={0}
+        aria-valuenow={value}
+        dir={direction}
+        data-slot="progress"
+        role="progressbar">
+        <m.div
+          className="h-full w-full flex-1 bg-primary"
+          animate={{ x: `${-(100 - (value ?? 0))}%` }}
+          transition={springBouncy}
+        />
+      </div>
+    </LazyMotion>
+  )
+})
+MotionProgress.displayName = 'MotionProgress'
+
+export { MotionProgress, Progress }

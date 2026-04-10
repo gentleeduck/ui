@@ -1,7 +1,7 @@
 'use client'
 
 import { MotionButton } from '@gentleduck/registry-ui/button'
-import { ArrowRight, Mail, Send, RefreshCw, PanelLeftClose } from 'lucide-react'
+import { ArrowRight, Mail, PanelLeftClose, RefreshCw, Send } from 'lucide-react'
 import * as React from 'react'
 
 export default function Demo() {
@@ -23,11 +23,7 @@ export default function Demo() {
       <MotionButton variant="ghost" secondIcon={<ArrowRight />}>
         Next
       </MotionButton>
-      <MotionButton
-        variant="default"
-        icon={<Send />}
-        loading={loading1}
-        onClick={() => handleLoad(setLoading1)}>
+      <MotionButton variant="default" icon={<Send />} loading={loading1} onClick={() => handleLoad(setLoading1)}>
         Submit
       </MotionButton>
       <MotionButton

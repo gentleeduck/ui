@@ -3,6 +3,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as DialogPrimitive from '@gentleduck/primitives/dialog'
 import { X } from 'lucide-react'
@@ -127,8 +128,8 @@ const MotionDialogContent = React.forwardRef<
   }
 >(({ className, children, closeText = 'Close', hideClose = false, ...props }, ref) => {
   const { isOpen, setShowContent } = useMotionContent()
-  const overlay = useMotionPreset('fadeIn')
-  const content = useMotionPreset('scaleIn')
+  const overlay = useMotionPreset('fadeIn', { transition: springBouncy })
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
 
   return (
     <LazyMotion features={loadDomAnimation}>

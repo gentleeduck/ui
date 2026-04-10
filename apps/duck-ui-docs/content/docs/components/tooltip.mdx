@@ -9,7 +9,9 @@ component: true
   description="tooltip"
 />
 
-## Features
+## Philosophy
+
+Tooltips are the lightest touch of contextual help  -  they appear on hover, require no interaction, and disappear when attention moves on. We build on Floating UI because positioning against viewport edges, scroll containers, and dynamic layouts is harder than it looks. The `data-state` and `data-side` attributes give you animation hooks without JavaScript state management.
 
 - **Floating UI powered positioning** - Smart placement with `flip`, `shift`, and `offset` middleware.
 - **State-aware styling hooks** - `data-state` and `data-side` attributes for state and placement styling.
@@ -18,10 +20,6 @@ component: true
 - **Flexible triggers** - Wrap any element using `asChild`.
 - **Accessible by default** - Implements proper ARIA attributes and keyboard navigation.
 - **Portal rendering** - Renders tooltips in a portal to avoid layout clipping.
-
-## Philosophy
-
-Tooltips are the lightest touch of contextual help  -  they appear on hover, require no interaction, and disappear when attention moves on. We build on Floating UI because positioning against viewport edges, scroll containers, and dynamic layouts is harder than it looks. The `data-state` and `data-side` attributes give you animation hooks without JavaScript state management.
 
 ## How It's Built
 
@@ -139,6 +137,34 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/comp
 }
 ```
 
+### Tooltip with Toggle
+
+When wrapping a `Toggle` (or any interactive element that manages its own pressed/active state), use `disableCloseOnClick` to prevent the tooltip from intercepting clicks and overriding `data-state`:
+
+```tsx
+import { Toggle } from '@/components/ui/toggle'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
+import { Bold } from 'lucide-react'
+
+<TooltipProvider>
+  <Tooltip>
+    <TooltipTrigger asChild disableCloseOnClick>
+      <Toggle aria-label="Toggle bold">
+        <Bold className="h-4 w-4" />
+      </Toggle>
+    </TooltipTrigger>
+    <TooltipContent>Toggle bold</TooltipContent>
+  </Tooltip>
+</TooltipProvider>
+```
+
+Without `disableCloseOnClick`, the tooltip's `onClick` handler prevents the Toggle from toggling, and its `data-state="closed"` overrides the Toggle's `data-state="on"/"off"`, breaking the visual feedback.
+
+<ComponentPreview
+  name="tooltip-4"
+  description="Tooltip wrapping a Toggle with disableCloseOnClick."
+/>
+
 ## Styling Hooks
 
 - **`data-state`** - Set on trigger and content (`closed`, `delayed-open`, `instant-open`) for state-based styling.
@@ -210,34 +236,6 @@ Requires the `motion` package. Use `MotionTooltip` instead of `Tooltip` and `Mot
 | `className` | `string` | - | Additional CSS class names to apply |
 | `...props` | `Omit<React.ComponentPropsWithRef<typeof TooltipPrimitive.Trigger>, 'size'>` | - | Additional props to spread to the button element |
 
-### Tooltip with Toggle
-
-When wrapping a `Toggle` (or any interactive element that manages its own pressed/active state), use `disableCloseOnClick` to prevent the tooltip from intercepting clicks and overriding `data-state`:
-
-```tsx
-import { Toggle } from '@/components/ui/toggle'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { Bold } from 'lucide-react'
-
-<TooltipProvider>
-  <Tooltip>
-    <TooltipTrigger asChild disableCloseOnClick>
-      <Toggle aria-label="Toggle bold">
-        <Bold className="h-4 w-4" />
-      </Toggle>
-    </TooltipTrigger>
-    <TooltipContent>Toggle bold</TooltipContent>
-  </Tooltip>
-</TooltipProvider>
-```
-
-Without `disableCloseOnClick`, the tooltip's `onClick` handler prevents the Toggle from toggling, and its `data-state="closed"` overrides the Toggle's `data-state="on"/"off"`, breaking the visual feedback.
-
-<ComponentPreview
-  name="tooltip-4"
-  description="Tooltip wrapping a Toggle with disableCloseOnClick."
-/>
-
 ### TooltipContent
 
 | Prop | Type | Default | Description |
@@ -251,3 +249,20 @@ Without `disableCloseOnClick`, the tooltip's `onClick` handler prevents the Togg
 | `sideOffset` | `number` | `4` | Main-axis offset from trigger |
 | `alignOffset` | `number` | `0` | Cross-axis offset from trigger |
 | `...props` | `React.ComponentPropsWithRef<typeof TooltipPrimitive.Content>` | - | Additional props to spread to the content div |
+
+
+### MotionTooltip
+
+Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `TooltipProps` | - | All props from `Tooltip` are supported |
+
+### MotionTooltipContent
+
+Adds directional scale, blur, and opacity enter/exit animation with ultra-fast `tweenMicro` (100ms) transition. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `TooltipContentProps` | - | All props from `TooltipContent` are supported |

@@ -120,6 +120,20 @@ Set `dir="rtl"` on `NavigationMenu` for a local override, or set `DirectionProvi
   description="A navigation menu with RTL support."
 />
 
+## Motion
+
+Use `MotionNavigationMenu` for a spring-powered entrance animation with blur powered by [motion](https://motion.dev).
+
+<ComponentPreview
+  name="navigation-menu-3"
+  className="[&>div>div>div[duck-preview]]:overflow-visible [&>div>div>div[duck-preview]]:items-start"
+  description="A navigation menu with motion entrance animation."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionNavigationMenu` instead of `NavigationMenu`. All other sub-components stay the same.
+</Callout>
+
 ## API Reference
 
 ### NavigationMenu
@@ -201,3 +215,7 @@ import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
   Documentation
 </NavigationMenuLink>
 ```
+
+### MotionNavigationMenu
+
+Same props as `NavigationMenu`. Adds spring scaleIn+blur entrance animation via motion. Requires the `motion` package.

@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "'use client'\n\nimport { MotionButton } from '@gentleduck/registry-ui/button'\nimport {\n  CardDescription,\n  CardTitle,\n  MotionCard,\n  MotionCardContent,\n  MotionCardFooter,\n  MotionCardHeader,\n} from '@gentleduck/registry-ui/card'\nimport { Input } from '@gentleduck/registry-ui/input'\nimport { Label } from '@gentleduck/registry-ui/label'\n\nexport default function Demo() {\n  return (\n    <MotionCard className=\"w-[350px]\">\n      <MotionCardHeader>\n        <CardTitle>Create project</CardTitle>\n        <CardDescription>Deploy your new project in one-click.</CardDescription>\n      </MotionCardHeader>\n      <MotionCardContent>\n        <div className=\"grid w-full items-center gap-4\">\n          <div className=\"flex flex-col space-y-1.5\">\n            <Label htmlFor=\"name\">Name</Label>\n            <Input id=\"name\" placeholder=\"Name of your project\" />\n          </div>\n        </div>\n      </MotionCardContent>\n      <MotionCardFooter className=\"flex\">\n        <MotionButton variant=\"outline\">Cancel</MotionButton>\n        <MotionButton>Deploy</MotionButton>\n      </MotionCardFooter>\n    </MotionCard>\n  )\n}\n",
+      "path": "card/card-4.tsx",
+      "target": "components/card-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "card-4",
+  "registryDependencies": [
+    "card"
+  ],
+  "root_folder": "card",
+  "source": "/registry-examples/src/card",
+  "type": "registry:example"
+}

@@ -3,7 +3,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomMax } from '@gentleduck/motion/motion-features'
 import { blurLight } from '@gentleduck/motion/transitions/blur'
-import { springDefault } from '@gentleduck/motion/transitions/springs'
+import { springSmooth } from '@gentleduck/motion/transitions/springs'
 import { shakeKeyframes, tweenExpand, tweenShake } from '@gentleduck/motion/transitions/tweens'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
@@ -282,7 +282,7 @@ const MotionTabsTrigger = React.forwardRef<
         <m.span
           layoutId={`tab-indicator-${tabsId}`}
           className="absolute inset-0 rounded-[inherit] bg-background shadow-sm"
-          transition={springDefault}
+          transition={springSmooth}
         />
       )}
       <span className={cn('relative z-10', isActive ? 'text-foreground' : 'text-muted-foreground')}>{children}</span>
@@ -341,20 +341,22 @@ const MotionTabsContents = React.forwardRef<
             variants={{
               enter: (dir: number) => ({
                 opacity: 0,
-                x: `${dir * 30}%`,
+                x: `${dir * 8}%`,
+                scale: 0.98,
                 filter: `blur(${blurLight}px)`,
               }),
-              center: { opacity: 1, x: 0, filter: `blur(0px)` },
+              center: { opacity: 1, x: 0, scale: 1, filter: 'blur(0px)' },
               exit: (dir: number) => ({
                 opacity: 0,
-                x: `${dir * -30}%`,
+                x: `${dir * -8}%`,
+                scale: 0.98,
                 filter: `blur(${blurLight}px)`,
               }),
             }}
             initial="enter"
             animate="center"
             exit="exit"
-            transition={tweenExpand}
+            transition={springSmooth}
             onAnimationComplete={() => {
               if (containerRef.current) {
                 setHeight(containerRef.current.scrollHeight)

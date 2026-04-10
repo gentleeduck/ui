@@ -12,13 +12,11 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: monorepoRoot,
   },
+  allowedDevOrigins: ['192.168.1.36'],
   experimental: {
     externalDir: true,
     // swcPlugins: [['@lingui/swc-plugin', {}]],
   },
-  // typescript: {
-  //   ignoreBuildErrors: true,
-  // },
   images: {
     remotePatterns: [
       {

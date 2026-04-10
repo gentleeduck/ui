@@ -84,24 +84,6 @@ import {
 </ButtonGroup>
 ```
 
-## Accessibility
-
-- The `ButtonGroup` component has the `role` attribute set to `group`.
-- Use <Kbd>Tab</Kbd> to navigate between the buttons in the group.
-- Use `aria-label` or `aria-labelledby` to label the button group.
-
-```tsx showLineNumbers
-<ButtonGroup aria-label="Button group">
-  <Button>Button 1</Button>
-  <Button>Button 2</Button>
-</ButtonGroup>
-```
-
-## ButtonGroup vs ToggleGroup
-
-- Use the `ButtonGroup` component when you want to group buttons that perform an action.
-- Use the `ToggleGroup` component when you want to group buttons that toggle a state.
-
 ## Examples
 
 ### Orientation
@@ -196,6 +178,24 @@ Use with a `Popover` component.
   description="A Copilot button paired with a popover that opens a task description form for starting agent tasks."
 />
 
+## Accessibility
+
+- The `ButtonGroup` component has the `role` attribute set to `group`.
+- Use <Kbd>Tab</Kbd> to navigate between the buttons in the group.
+- Use `aria-label` or `aria-labelledby` to label the button group.
+
+```tsx showLineNumbers
+<ButtonGroup aria-label="Button group">
+  <Button>Button 1</Button>
+  <Button>Button 2</Button>
+</ButtonGroup>
+```
+
+## ButtonGroup vs ToggleGroup
+
+- Use the `ButtonGroup` component when you want to group buttons that perform an action.
+- Use the `ToggleGroup` component when you want to group buttons that toggle a state.
+
 ## RTL Support
 
 Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
@@ -204,6 +204,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   name="button-group-12"
   description="A button group with RTL support."
 />
+
+## Motion
+
+Use `MotionButtonGroup` for a smooth fade-up entrance animation powered by [motion](https://motion.dev).
+
+<ComponentPreview
+  name="button-group-13"
+  description="A button group with motion-powered fade-up entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionButtonGroup` instead of `ButtonGroup`. All other sub-components stay the same.
+</Callout>
 
 ## API Reference
 
@@ -233,3 +246,11 @@ Direction is resolved through the shared primitives direction module. Use a loca
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Text content to display |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### MotionButtonGroup
+
+Fades up with blur on mount using the `fadeUp` preset. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `ButtonGroupProps` | - | All props from `ButtonGroup` are supported |

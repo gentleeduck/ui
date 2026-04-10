@@ -2,19 +2,19 @@
 import {
   MotionSelect,
   MotionSelectContent,
+  MotionSelectTrigger,
   SelectGroup,
   SelectItem,
   SelectLabel,
-  SelectTrigger,
   SelectValue,
 } from '@gentleduck/registry-ui/select'
 
 export default function Demo() {
   return (
     <MotionSelect>
-      <SelectTrigger className="w-[180px]">
+      <MotionSelectTrigger className="w-[180px]">
         <SelectValue placeholder="Select a fruit" />
-      </SelectTrigger>
+      </MotionSelectTrigger>
       <MotionSelectContent>
         <SelectGroup>
           <SelectLabel>Fruits</SelectLabel>

@@ -10,7 +10,7 @@ export default function Demo() {
   return (
     <ButtonGroup>
       <Input placeholder="Search..." />
-      <Button aria-label="Search" variant="outline">
+      <Button aria-label="Search" variant="outline" size="sm">
         <SearchIcon />
       </Button>
     </ButtonGroup>

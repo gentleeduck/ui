@@ -91,10 +91,18 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="A switch with RTL support."
 />
 
-## See also
+## Motion
 
-- [Checkbox](/docs/components/checkbox)  -  Multi-selection toggle control
-- [Radio Group](/docs/components/radio-group)  -  Single selection from a set of options
+Use `MotionSwitch` for a bounce animation powered by [motion](https://motion.dev). The switch bounces (scale + rotate) on each toggle.
+
+<ComponentPreview
+  name="switch-4"
+  description="Switch with motion-powered bounce on toggle."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionSwitch` instead of `Switch`. Same props. The regular `Switch` is perfectly fine - this is an optional enhancement.
+</Callout>
 
 ## API Reference
 
@@ -111,3 +119,16 @@ Direction is resolved through the shared primitives direction module. Use a loca
 | `ref` | `React.Ref<HTMLInputElement>` | - | Ref forwarded to the native checkbox input |
 | `style` | `React.CSSProperties` | - | Inline styles applied to the input element |
 | `...props` | `React.HTMLProps<HTMLInputElement>` | - | Additional props to spread to the input element |
+
+### MotionSwitch
+
+Bounces (scale + rotate) on toggle, same as `MotionCheckbox`. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `SwitchProps` | - | All props from `Switch` are supported |
+
+## See also
+
+- [Checkbox](/docs/components/checkbox)  -  Multi-selection toggle control
+- [Radio Group](/docs/components/radio-group)  -  Single selection from a set of options

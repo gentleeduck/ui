@@ -126,10 +126,18 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="A checkbox with RTL support."
 />
 
-## See also
+## Motion
 
-- [Radio Group](/docs/components/radio-group)  -  Single selection from a set of options
-- [Switch](/docs/components/switch)  -  Toggle between on and off states
+Use `MotionCheckboxWithLabel` for staggered fade-up entrance animations powered by [motion](https://motion.dev). Pass `index` for stagger delay.
+
+<ComponentPreview
+  name="checkbox-10"
+  description="Checkboxes with motion-powered staggered entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionCheckboxWithLabel` instead of `CheckboxWithLabel`, or `MotionCheckboxGroup` instead of `CheckboxGroup`. The `Checkbox` component stays the same.
+</Callout>
 
 ## API Reference
 
@@ -178,3 +186,34 @@ type CheckboxGroupSubtasks = {
   checked?: boolean | 'indeterminate'
 }
 ```
+
+### MotionCheckbox
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `onCheckedChange` | `(checked: boolean \| 'indeterminate') => void` | - | Callback fired when checked state changes. Also triggers the bounce animation. |
+| `...props` | `CheckboxProps` | - | All props from `Checkbox` are supported |
+
+Wraps `Checkbox` with a bounce animation (scale + rotate) on check. Requires the `motion` package.
+
+### MotionCheckboxWithLabel
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | `0` | Stagger delay index (50ms per index) for entrance animation |
+| `...props` | `CheckboxWithLabelProps` | - | All props from `CheckboxWithLabel` are supported |
+
+Wraps `CheckboxWithLabel` with a staggered `scaleIn` entrance. Uses `MotionCheckbox` internally. Requires the `motion` package.
+
+### MotionCheckboxGroup
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `CheckboxGroupProps` | - | All props from `CheckboxGroup` are supported |
+
+Same as `CheckboxGroup` but renders each item as `MotionCheckboxWithLabel` with automatic stagger index. Requires the `motion` package.
+
+## See also
+
+- [Radio Group](/docs/components/radio-group)  -  Single selection from a set of options
+- [Switch](/docs/components/switch)  -  Toggle between on and off states

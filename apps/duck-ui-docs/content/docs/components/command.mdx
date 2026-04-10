@@ -12,7 +12,17 @@ component: true
   showSettings={false}
 />
 
-## Features
+## Philosophy
+
+Command palettes are the power user's best friend  -  they surface every action in the app behind a single keyboard shortcut. The command primitive provides built-in search filtering, group visibility management, keyboard navigation, and typeahead with minimal API surface. The composable sub-components let you build anything from a simple search to a full IDE-style command center.
+
+## About
+
+This component is built on top of the [@gentleduck/primitives](https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-primitives) command primitive, following the same Radix-style context/collection pattern used by Select and other primitives. The registry-layer components are thin styling wrappers around the primitives.
+
+Direction (`dir`) is resolved once at the root `Command` primitive via `useDirection` and stored in context. Every child primitive  -  `CommandInput`, `CommandList`, `CommandItem`, `CommandGroup`, `CommandEmpty`, and `CommandSeparator`  -  reads `dir` from context and applies it to its DOM element automatically. Use local `dir` on `Command` when needed, or set `DirectionProvider` at app/root level for global direction.
+
+**Features:**
 
 * **Searchable Command Dialog:** Command palette with search and real-time filtering.
 * **Groupable Command List:** Organize commands into logical groups with optional headings.
@@ -25,15 +35,6 @@ component: true
 * **Accessible & Composable:** ARIA roles (`listbox`, `option`, `combobox`, `status`) and headless architecture for complete flexibility.
 * **Responsive Design:** Adapts gracefully to different screen sizes and containers.
 * **Dialog or Inline Support:** Can be used as a floating dialog or embedded inline.
-
-## About
-This component is built on top of the [@gentleduck/primitives](https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-primitives) command primitive, following the same Radix-style context/collection pattern used by Select and other primitives. The registry-layer components are thin styling wrappers around the primitives.
-
-Direction (`dir`) is resolved once at the root `Command` primitive via `useDirection` and stored in context. Every child primitive  -  `CommandInput`, `CommandList`, `CommandItem`, `CommandGroup`, `CommandEmpty`, and `CommandSeparator`  -  reads `dir` from context and applies it to its DOM element automatically. Use local `dir` on `Command` when needed, or set `DirectionProvider` at app/root level for global direction.
-
-## Philosophy
-
-Command palettes are the power user's best friend  -  they surface every action in the app behind a single keyboard shortcut. The command primitive provides built-in search filtering, group visibility management, keyboard navigation, and typeahead with minimal API surface. The composable sub-components let you build anything from a simple search to a full IDE-style command center.
 
 ## How It's Built
 
@@ -185,6 +186,13 @@ export function CommandMenu() {
 }
 ```
 
+### RTL
+
+<ComponentPreview
+  name="command-3"
+  description="A command with RTL support."
+/>
+
 ## Component Composition
 
 <MermaidDiagram chart={`graph TD
@@ -201,7 +209,7 @@ export function CommandMenu() {
 
 ## Types
 
-### **CommandContextValue**
+**CommandContextValue**
 
 Returned by `useCommandContext()`. Provides root command state.
 
@@ -216,7 +224,7 @@ Returned by `useCommandContext()`. Provides root command state.
 
 ---
 
-### **CommandListContextValue**
+**CommandListContextValue**
 
 Returned by `useCommandListContext()`. Provides list-level state.
 
@@ -229,7 +237,7 @@ Returned by `useCommandListContext()`. Provides list-level state.
 
 ---
 
-### **CommandItemContextValue**
+**CommandItemContextValue**
 
 Per-item context. Available via `useCommandItemContext()`.
 
@@ -242,7 +250,7 @@ Per-item context. Available via `useCommandItemContext()`.
 
 ---
 
-### **CommandBadgeProps (CommandShortcut)**
+**CommandBadgeProps (CommandShortcut)**
 
 | Property | Type | Description |
 | --- | --- | --- |
@@ -265,11 +273,6 @@ RTL is handled at the primitive layer. Set `dir="rtl"` on the root `Command` for
   </CommandList>
 </Command>
 ```
-
-<ComponentPreview
-  name="command-3"
-  description="A command with RTL support."
-/>
 
 ## API Reference
 

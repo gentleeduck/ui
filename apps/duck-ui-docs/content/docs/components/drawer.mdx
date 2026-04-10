@@ -11,29 +11,13 @@ links:
   description="A drawer with an adjustable daily activity goal and a bar chart visualization."
 />
 
-## Features
+## Philosophy
 
-- **Background Scaling**: Scales the background when the drawer is open using `[vaul-drawer-wrapper]`.
-- **Custom Close Threshold**: Controls when the drawer should close based on swipe distance (0 to 1).
-- **Scroll Lock Timeout**: Sets a delay for drawer drag after scrolling (default: 500ms).
-- **Snap Points**: Defines percentage or pixel values for drawer screen coverage.
-- **Fade Effect**: Applies a fade effect from a specific snap point.
-- **Modal Control**: Allows interaction with elements outside the drawer (default: true).
-- **Handle-Only Dragging**: Restricts drawer dragging to `<Drawer.Handle />` (default: false).
-- **Directional Control**: Opens drawer from top, bottom, left, or right (default: bottom).
-- **Scroll Restoration Prevention**: Avoids restoring scroll after navigation within the drawer (default: true).
-- **Disable Scroll Prevention**: Disables scroll prevention to fix autofocus issues (default: true).
-- **No Body Styles**: Prevents Vaul from applying styles to the body (default: false).
-- **Background Color on Scale**: Controls background color change when the drawer opens (default: true).
-- **No Drag Attribute**: Prevents drawer dragging when interacting with elements marked `[data-vaul-no-drag]`.
+Drawers are the mobile-native sibling of sheets  -  they respond to drag gestures and snap to natural positions. We wrap Vaul because gesture physics and spring animations are notoriously hard to get right. The result feels native on touch devices while degrading gracefully to a standard overlay on desktop.
 
 ## About
 
 Drawer is built on [Vaul](https://github.com/emilkowalski/vaul) by [emilkowalski\_](https://twitter.com/emilkowalski_).
-
-## Philosophy
-
-Drawers are the mobile-native sibling of sheets  -  they respond to drag gestures and snap to natural positions. We wrap Vaul because gesture physics and spring animations are notoriously hard to get right. The result feels native on touch devices while degrading gracefully to a standard overlay on desktop.
 
 ## How It's Built
 
@@ -169,6 +153,22 @@ Style the trigger to appear active while the drawer is open using `data-[state=o
     A --> I[DrawerClose]
 `} />
 
+## Behavior
+
+- **Background Scaling**: Scales the background when the drawer is open using `[vaul-drawer-wrapper]`.
+- **Custom Close Threshold**: Controls when the drawer should close based on swipe distance (0 to 1).
+- **Scroll Lock Timeout**: Sets a delay for drawer drag after scrolling (default: 500ms).
+- **Snap Points**: Defines percentage or pixel values for drawer screen coverage.
+- **Fade Effect**: Applies a fade effect from a specific snap point.
+- **Modal Control**: Allows interaction with elements outside the drawer (default: true).
+- **Handle-Only Dragging**: Restricts drawer dragging to `<Drawer.Handle />` (default: false).
+- **Directional Control**: Opens drawer from top, bottom, left, or right (default: bottom).
+- **Scroll Restoration Prevention**: Avoids restoring scroll after navigation within the drawer (default: true).
+- **Disable Scroll Prevention**: Disables scroll prevention to fix autofocus issues (default: true).
+- **No Body Styles**: Prevents Vaul from applying styles to the body (default: false).
+- **Background Color on Scale**: Controls background color change when the drawer opens (default: true).
+- **No Drag Attribute**: Prevents drawer dragging when interacting with elements marked `[data-vaul-no-drag]`.
+
 ## RTL Support
 
 Set `dir="rtl"` on `Drawer` for a local override, or set `DirectionProvider` once at app/root level for global direction. Horizontal drawers (`left`/`right`) are resolved automatically for RTL/LTR.
@@ -177,11 +177,6 @@ Set `dir="rtl"` on `Drawer` for a local override, or set `DirectionProvider` onc
   name="drawer-7"
   description="A drawer with RTL support."
 />
-
-## See also
-
-- [Dialog](/docs/components/dialog)  -  Centered modal overlay
-- [Sheet](/docs/components/sheet)  -  Side panel overlay
 
 ## API Reference
 
@@ -272,3 +267,8 @@ Wrapper around `DrawerPrimitive.Close`. Closes the drawer when clicked.
 | `className` | `string` | - | Additional CSS classes applied to the description |
 | `children` | `React.ReactNode` | - | Description text |
 | `...props` | `React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description>` | - | Additional props inherited from `Drawer.Description`. |
+
+## See also
+
+- [Dialog](/docs/components/dialog)  -  Centered modal overlay
+- [Sheet](/docs/components/sheet)  -  Side panel overlay

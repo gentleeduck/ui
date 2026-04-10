@@ -253,6 +253,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="A breadcrumb with RTL support."
 />
 
+## Motion
+
+Use `MotionBreadcrumbItem` for staggered fade-up entrance powered by [motion](https://motion.dev). Each breadcrumb item cascades in from left to right.
+
+<ComponentPreview
+  name="breadcrumb-10"
+  description="A breadcrumb with motion-powered staggered entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionBreadcrumbItem` instead of `BreadcrumbItem` and pass the `index` prop for stagger delay. All other sub-components stay the same.
+</Callout>
+
 ## API Reference
 
 ### Breadcrumb
@@ -313,3 +326,7 @@ Direction is resolved through the shared primitives direction module. Use a loca
 | `text` | `string` | `'More'` | Accessible label used for `aria-label` on the ellipsis element |
 | `className` | `string` | `--` | Additional class names to apply |
 | `...props` | `React.ComponentPropsWithoutRef<'span'>` | - | Additional props to spread to the span element |
+
+### MotionBreadcrumbItem
+
+Same props as `BreadcrumbItem` plus `index` (number, default 0) for stagger delay. Each item fades up with blur at `index * 50ms` delay. Requires the `motion` package.

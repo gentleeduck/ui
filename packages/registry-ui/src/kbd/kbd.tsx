@@ -1,5 +1,11 @@
+'use client'
+
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const Kbd = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<'kbd'>>(
@@ -36,4 +42,22 @@ const KbdGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef
 )
 KbdGroup.displayName = 'KbdGroup'
 
-export { Kbd, KbdGroup }
+const MotionKbd = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<'kbd'> & { index?: number }>(
+  ({ index = 0, ...props }, ref) => {
+    const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.03 })
+    return (
+      <LazyMotion features={loadDomAnimation}>
+        <m.div
+          initial={content.initial}
+          animate={content.animate}
+          transition={content.transition}
+          className="inline-flex">
+          <Kbd ref={ref} {...props} />
+        </m.div>
+      </LazyMotion>
+    )
+  },
+)
+MotionKbd.displayName = 'MotionKbd'
+
+export { Kbd, KbdGroup, MotionKbd }

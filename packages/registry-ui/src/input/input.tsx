@@ -1,5 +1,11 @@
+'use client'
+
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
@@ -23,7 +29,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
           // responsive
           'md:text-sm',
           // dark
-          // 'dark:bg-input/30 dark:disabled:bg-input/80',
+          'dark:bg-input/30 dark:disabled:bg-input/80',
           // aria-invalid
           'aria-invalid:border-destructive aria-invalid:text-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40',
           // aria-disabled
@@ -42,4 +48,18 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'>>(
 
 Input.displayName = 'Input'
 
-export { Input }
+const MotionInput = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'> & { index?: number }>(
+  ({ index = 0, ...props }, ref) => {
+    const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.05 })
+    return (
+      <LazyMotion features={loadDomAnimation}>
+        <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
+          <Input ref={ref} {...props} />
+        </m.div>
+      </LazyMotion>
+    )
+  },
+)
+MotionInput.displayName = 'MotionInput'
+
+export { Input, MotionInput }

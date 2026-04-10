@@ -168,3 +168,12 @@ Requires the `motion` package. Use `MotionToggle` instead of `Toggle`. Same prop
 | --- | --- | --- |
 | `data-state` | `"on" \| "off"` | The pressed state of the toggle |
 | `data-disabled` | Present when disabled | Whether the toggle is disabled |
+
+
+### MotionToggle
+
+Adds `whileTap` press feedback and children fade-up animation on mount. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `Omit<ToggleProps, 'onDrag' \| 'onDragStart' \| 'onDragEnd' \| 'onAnimationStart'>` | - | All props from `Toggle` except motion event handlers |
