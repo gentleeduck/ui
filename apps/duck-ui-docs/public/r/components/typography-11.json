@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "export default function TypographyLead() {\n  return (\n    <p className=\"text-muted-foreground text-xl\">\n      A modal dialog that interrupts the user with important content and expects a response.\n    </p>\n  )\n}\n",
+      "content": "export default function Demo() {\n  return (\n    <p className=\"text-muted-foreground text-xl\">\n      A modal dialog that interrupts the user with important content and expects a response.\n    </p>\n  )\n}\n",
       "path": "typography/typography-11.tsx",
       "target": "components/typography-11.tsx",
       "type": "registry:example"

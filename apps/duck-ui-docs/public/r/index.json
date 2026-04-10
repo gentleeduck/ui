@@ -18589,6 +18589,11 @@
         "name": "popover-5.tsx",
         "path": "popover/popover-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "popover-6.tsx",
+        "path": "popover/popover-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -18630,6 +18635,11 @@
       {
         "name": "popover-5.tsx",
         "path": "popover/popover-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "popover-6.tsx",
+        "path": "popover/popover-6.tsx",
         "type": "file"
       }
     ]
@@ -18673,6 +18683,11 @@
         "name": "popover-5.tsx",
         "path": "popover/popover-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "popover-6.tsx",
+        "path": "popover/popover-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -18715,6 +18730,11 @@
         "name": "popover-5.tsx",
         "path": "popover/popover-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "popover-6.tsx",
+        "path": "popover/popover-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -18756,6 +18776,58 @@
       {
         "name": "popover-5.tsx",
         "path": "popover/popover-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "popover-6.tsx",
+        "path": "popover/popover-6.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "popover/popover-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "popover-6",
+    "registryDependencies": [
+      "popover"
+    ],
+    "root_folder": "popover",
+    "type": "registry:example",
+    "source": "/registry-examples/src/popover",
+    "tree": [
+      {
+        "name": "popover-1.tsx",
+        "path": "popover/popover-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "popover-2.tsx",
+        "path": "popover/popover-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "popover-3.tsx",
+        "path": "popover/popover-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "popover-4.tsx",
+        "path": "popover/popover-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "popover-5.tsx",
+        "path": "popover/popover-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "popover-6.tsx",
+        "path": "popover/popover-6.tsx",
         "type": "file"
       }
     ]
@@ -18853,6 +18925,11 @@
         "name": "dropdown-menu-5.tsx",
         "path": "dropdown-menu/dropdown-menu-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "dropdown-menu-6.tsx",
+        "path": "dropdown-menu/dropdown-menu-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -18894,6 +18971,11 @@
       {
         "name": "dropdown-menu-5.tsx",
         "path": "dropdown-menu/dropdown-menu-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dropdown-menu-6.tsx",
+        "path": "dropdown-menu/dropdown-menu-6.tsx",
         "type": "file"
       }
     ]
@@ -18937,6 +19019,11 @@
         "name": "dropdown-menu-5.tsx",
         "path": "dropdown-menu/dropdown-menu-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "dropdown-menu-6.tsx",
+        "path": "dropdown-menu/dropdown-menu-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -18979,6 +19066,11 @@
         "name": "dropdown-menu-5.tsx",
         "path": "dropdown-menu/dropdown-menu-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "dropdown-menu-6.tsx",
+        "path": "dropdown-menu/dropdown-menu-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -19020,6 +19112,58 @@
       {
         "name": "dropdown-menu-5.tsx",
         "path": "dropdown-menu/dropdown-menu-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dropdown-menu-6.tsx",
+        "path": "dropdown-menu/dropdown-menu-6.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "dropdown-menu/dropdown-menu-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "dropdown-menu-6",
+    "registryDependencies": [
+      "dropdown-menu"
+    ],
+    "root_folder": "dropdown-menu",
+    "type": "registry:example",
+    "source": "/registry-examples/src/dropdown-menu",
+    "tree": [
+      {
+        "name": "dropdown-menu-1.tsx",
+        "path": "dropdown-menu/dropdown-menu-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dropdown-menu-2.tsx",
+        "path": "dropdown-menu/dropdown-menu-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dropdown-menu-3.tsx",
+        "path": "dropdown-menu/dropdown-menu-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dropdown-menu-4.tsx",
+        "path": "dropdown-menu/dropdown-menu-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dropdown-menu-5.tsx",
+        "path": "dropdown-menu/dropdown-menu-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "dropdown-menu-6.tsx",
+        "path": "dropdown-menu/dropdown-menu-6.tsx",
         "type": "file"
       }
     ]
@@ -21320,6 +21464,11 @@
         "name": "context-menu-2.tsx",
         "path": "context-menu/context-menu-2.tsx",
         "type": "file"
+      },
+      {
+        "name": "context-menu-3.tsx",
+        "path": "context-menu/context-menu-3.tsx",
+        "type": "file"
       }
     ]
   },
@@ -21346,6 +21495,43 @@
       {
         "name": "context-menu-2.tsx",
         "path": "context-menu/context-menu-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "context-menu-3.tsx",
+        "path": "context-menu/context-menu-3.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "context-menu/context-menu-3.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "context-menu-3",
+    "registryDependencies": [
+      "context-menu"
+    ],
+    "root_folder": "context-menu",
+    "type": "registry:example",
+    "source": "/registry-examples/src/context-menu",
+    "tree": [
+      {
+        "name": "context-menu-1.tsx",
+        "path": "context-menu/context-menu-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "context-menu-2.tsx",
+        "path": "context-menu/context-menu-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "context-menu-3.tsx",
+        "path": "context-menu/context-menu-3.tsx",
         "type": "file"
       }
     ]

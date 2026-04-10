@@ -1,25 +1,8 @@
-export interface MotionAnimationState {
-  [key: string]: unknown
-  opacity?: number
-  scale?: number
-  x?: number
-  y?: number
-  filter?: string
-  transition?: MotionTransitionConfig
-}
+import type { TargetAndTransition, Transition } from 'motion/react'
 
-export interface MotionTransitionConfig {
-  [key: string]: unknown
-  type?: 'spring' | 'tween'
-  duration?: number
-  delay?: number
-  ease?: readonly number[] | number[]
-  bounce?: number
-  stiffness?: number
-  damping?: number
-  mass?: number
-  visualDuration?: number
-}
+export type MotionAnimationState = TargetAndTransition
+
+export type MotionTransitionConfig = Transition
 
 export interface MotionPreset {
   initial: MotionAnimationState

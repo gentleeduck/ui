@@ -148,6 +148,19 @@ Set `dir="rtl"` on `DropdownMenu` for a local override, or set `DirectionProvide
   description="A dropdown menu with RTL support."
 />
 
+## Motion
+
+Use `MotionDropdownMenu` and `MotionDropdownMenuContent` for smooth enter/exit animations powered by [motion](https://motion.dev). For animated sub-menus, use `MotionDropdownMenuSub` and `MotionDropdownMenuSubContent`.
+
+<ComponentPreview
+  name="dropdown-menu-6"
+  description="A dropdown menu with motion-powered spring animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionDropdownMenu` instead of `DropdownMenu` and `MotionDropdownMenuContent` instead of `DropdownMenuContent`. For sub-menus, use `MotionDropdownMenuSub` and `MotionDropdownMenuSubContent`. All other sub-components stay the same.
+</Callout>
+
 ## API Reference
 
 ### DropdownMenu
