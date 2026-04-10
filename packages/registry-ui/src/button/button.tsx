@@ -1,6 +1,9 @@
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomMax } from '@gentleduck/motion/motion-features'
+import { contentTransition, slideUpBlur, spinIn } from '@gentleduck/motion/presets/content'
 import { Slot, Slottable } from '@gentleduck/primitives/slot'
 import { Loader } from 'lucide-react'
+import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from './button.constants'
 import type { AnimationIconProps, ButtonProps } from './button.types'
@@ -76,4 +79,85 @@ function AnimationIcon({ children, animationIcon }: AnimationIconProps): React.J
 }
 AnimationIcon.displayName = 'AnimationIcon'
 
-export { AnimationIcon, Button }
+/* ------------------------------------------------------------------ */
+/*  MotionButton                                                       */
+/* ------------------------------------------------------------------ */
+
+const MotionButton = React.forwardRef<
+  HTMLButtonElement,
+  Omit<ButtonProps, 'asChild' | 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+>(
+  (
+    {
+      children,
+      variant = 'default',
+      size = 'default',
+      border = 'default',
+      className,
+      loading,
+      isCollapsed,
+      icon,
+      secondIcon,
+      type = 'button',
+      disabled,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <LazyMotion features={loadDomMax}>
+        <m.button
+          data-slot="button"
+          layout
+          whileTap={{ scale: 0.97 }}
+          transition={{
+            layout: { duration: 0.25, ease: [0.16, 1, 0.3, 1] },
+            scale: { duration: 0, type: 'tween' },
+          }}
+          {...props}
+          aria-busy={loading ? true : undefined}
+          className={cn(
+            buttonVariants({
+              border,
+              className,
+              size: isCollapsed ? 'icon' : size,
+              variant,
+            }),
+            'overflow-hidden',
+          )}
+          disabled={Boolean(loading) || disabled}
+          ref={ref}
+          type={type as 'button' | 'submit' | 'reset'}>
+          <AnimatePresence mode="wait" initial={false}>
+            {loading ? (
+              <m.span key="loader" layout {...spinIn} transition={contentTransition} className="inline-flex">
+                <Loader aria-hidden="true" className="animate-spin" />
+              </m.span>
+            ) : icon ? (
+              <m.span key="icon" layout {...spinIn} transition={contentTransition} className="inline-flex">
+                {icon}
+              </m.span>
+            ) : null}
+          </AnimatePresence>
+          <AnimatePresence mode="wait" initial={false}>
+            {!isCollapsed && (
+              <m.span key="text" layout {...slideUpBlur} transition={contentTransition} className="inline-flex">
+                {children}
+              </m.span>
+            )}
+          </AnimatePresence>
+          <AnimatePresence mode="wait" initial={false}>
+            {!isCollapsed && secondIcon && (
+              <m.span key="second-icon" layout {...spinIn} transition={contentTransition} className="inline-flex">
+                {secondIcon}
+              </m.span>
+            )}
+          </AnimatePresence>
+        </m.button>
+      </LazyMotion>
+    )
+  },
+)
+MotionButton.displayName = 'MotionButton'
+
+export { AnimationIcon, Button, MotionButton }
