@@ -34,7 +34,7 @@ const ResizableHandle = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof ResizablePrimitive.Separator> & {
     withHandle?: boolean
   }
->(({ withHandle, className, ...props }, ref) => (
+>(({ withHandle = true, className, ...props }, ref) => (
   <ResizablePrimitive.Separator
     elementRef={ref}
     aria-label="Resize panels"
@@ -51,7 +51,7 @@ const ResizableHandle = React.forwardRef<
     {...props}>
     {withHandle && (
       <div
-        className="z-10 flex h-4 w-3 items-center justify-center rounded-xs border bg-border"
+        className="z-10 flex h-4 w-3 items-center justify-center rounded-xs border bg-background shadow-sm"
         data-slot="panel-handle">
         <GripVertical aria-hidden="true" className="h-2.5 w-2.5" />
       </div>
