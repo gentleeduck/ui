@@ -73,18 +73,33 @@ ButtonGroupSeparator.displayName = 'ButtonGroupSeparator'
 /*  MotionButtonGroup                                                  */
 /* ------------------------------------------------------------------ */
 
-const MotionButtonGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof ButtonGroup>>(
-  (props, ref) => {
-    const content = useMotionPreset('scaleIn', { transition: springBouncy })
-    return (
-      <LazyMotion features={loadDomAnimation}>
-        <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
-          <ButtonGroup ref={ref} {...props} />
-        </m.div>
-      </LazyMotion>
-    )
-  },
-)
+const MotionButtonGroup = React.forwardRef<
+  HTMLDivElement,
+  Omit<
+    React.ComponentPropsWithoutRef<'div'> & VariantProps<typeof buttonGroupVariants>,
+    'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
+  >
+>(({ className, orientation = 'horizontal', dir, ...props }, ref) => {
+  const direction = useDirection(dir as Direction)
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      {/* biome-ignore lint/a11y/useSemanticElements: group role is semantically correct for button groups */}
+      <m.div
+        ref={ref}
+        className={cn(buttonGroupVariants({ orientation }), className)}
+        data-orientation={orientation}
+        data-slot="button-group"
+        dir={direction}
+        role="group"
+        initial={content.initial}
+        animate={content.animate}
+        transition={content.transition}
+        {...props}
+      />
+    </LazyMotion>
+  )
+})
 MotionButtonGroup.displayName = 'MotionButtonGroup'
 
 export { ButtonGroup, ButtonGroupSeparator, ButtonGroupText, MotionButtonGroup }
