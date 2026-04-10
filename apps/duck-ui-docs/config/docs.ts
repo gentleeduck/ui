@@ -1183,6 +1183,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/pagination',
           items: [],
+          label: 'new',
           title: 'Pagination',
         },
         {
