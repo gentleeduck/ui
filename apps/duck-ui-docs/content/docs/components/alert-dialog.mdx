@@ -87,15 +87,6 @@ import {
 </AlertDialog>
 ```
 
-### Animated Alert Dialog (Motion)
-
-Use `MotionAlertDialogContent` for smooth enter/exit animations. Uses a stiffer spring (stiffness 400, damping 30) to convey urgency compared to the regular dialog. Requires `motion` to be installed and a controlled `open` state.
-
-<ComponentPreview
-  name="alert-dialog-4"
-  description="An alert dialog with motion-powered spring animations."
-/>
-
 ## Component Composition
 
 <MermaidDiagram chart={`graph TD
@@ -144,6 +135,19 @@ Set `dir="rtl"` on `AlertDialog` for a local override, or set `DirectionProvider
   name="alert-dialog-2"
   description="An alert dialog with RTL support."
 />
+
+## Motion
+
+Use `MotionAlertDialog` and `MotionAlertDialogContent` for smooth enter/exit animations powered by [motion](https://motion.dev). Uses a stiffer spring to convey urgency compared to the regular dialog.
+
+<ComponentPreview
+  name="alert-dialog-4"
+  description="An alert dialog with motion-powered spring animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionAlertDialog` instead of `AlertDialog` and `MotionAlertDialogContent` instead of `AlertDialogContent`. All other sub-components (`AlertDialogTrigger`, `AlertDialogAction`, etc.) stay the same.
+</Callout>
 
 ## API Reference
 

@@ -1,7 +1,6 @@
 'use client'
 
 import {
-  AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
   AlertDialogDescription,
@@ -9,25 +8,22 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
+  MotionAlertDialog,
   MotionAlertDialogContent,
 } from '@gentleduck/registry-ui/alert-dialog'
 import { Button } from '@gentleduck/registry-ui/button'
-import React from 'react'
 
 export default function Demo() {
-  const [open, setOpen] = React.useState(false)
-
   return (
-    <AlertDialog onOpenChange={setOpen} open={open}>
+    <MotionAlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="outline">Delete Account</Button>
+        <Button variant="outline">Open</Button>
       </AlertDialogTrigger>
-      <MotionAlertDialogContent open={open}>
+      <MotionAlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
           <AlertDialogDescription>
-            This action cannot be undone. This will permanently delete your account and remove your data from our
-            servers. This alert dialog uses a stiffer spring animation to convey urgency.
+            This action cannot be undone This will permanently delete your account and remove your data from our servers
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
@@ -35,10 +31,10 @@ export default function Demo() {
             <Button variant="outline">Cancel</Button>
           </AlertDialogCancel>
           <AlertDialogAction asChild>
-            <Button>Yes, delete my account</Button>
+            <Button>Continue</Button>
           </AlertDialogAction>
         </AlertDialogFooter>
       </MotionAlertDialogContent>
-    </AlertDialog>
+    </MotionAlertDialog>
   )
 }

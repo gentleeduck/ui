@@ -124,6 +124,19 @@ Set `dir="rtl"` on `ContextMenu` for a local override, or set `DirectionProvider
   description="A context menu with RTL support."
 />
 
+## Motion
+
+Use `MotionContextMenu` and `MotionContextMenuContent` for smooth enter/exit animations powered by [motion](https://motion.dev). The transform origin is fixed to top-left since the menu appears at the cursor position. For animated sub-menus, use `MotionContextMenuSub` and `MotionContextMenuSubContent`.
+
+<ComponentPreview
+  name="context-menu-3"
+  description="A context menu with motion-powered spring animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionContextMenu` instead of `ContextMenu` and `MotionContextMenuContent` instead of `ContextMenuContent`. For sub-menus, use `MotionContextMenuSub` and `MotionContextMenuSubContent`. All other sub-components stay the same.
+</Callout>
+
 ## API Reference
 
 Components in this file wrap `@gentleduck/primitives/context-menu`.
