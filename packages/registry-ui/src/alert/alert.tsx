@@ -59,43 +59,70 @@ AlertDescription.displayName = 'AlertDescription'
 /*  Motion variants                                                    */
 /* ------------------------------------------------------------------ */
 
-const MotionAlert = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof Alert>>((props, ref) => {
+const MotionAlert = React.forwardRef<
+  HTMLDivElement,
+  Omit<
+    React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>,
+    'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
+  >
+>(({ className, variant, dir, ...props }, ref) => {
+  const direction = useDirection(dir as Direction)
   const content = useMotionPreset('scaleIn', { transition: springBouncy })
   return (
     <LazyMotion features={loadDomAnimation}>
-      <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
-        <Alert ref={ref} {...props} />
-      </m.div>
+      <m.div
+        ref={ref}
+        className={cn(alertVariants({ variant }), className)}
+        data-slot="alert"
+        dir={direction}
+        role="alert"
+        initial={content.initial}
+        animate={content.animate}
+        transition={content.transition}
+        {...props}
+      />
     </LazyMotion>
   )
 })
 MotionAlert.displayName = 'MotionAlert'
 
-const MotionAlertTitle = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof AlertTitle>>(
-  (props, ref) => {
-    const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.1 })
-    return (
-      <LazyMotion features={loadDomAnimation}>
-        <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
-          <AlertTitle ref={ref} {...props} />
-        </m.div>
-      </LazyMotion>
-    )
-  },
-)
+const MotionAlertTitle = React.forwardRef<
+  HTMLDivElement,
+  Omit<React.HTMLAttributes<HTMLDivElement>, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+>(({ className, ...props }, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.1 })
+  return (
+    <m.div
+      ref={ref}
+      className={cn('col-start-2 line-clamp-1 min-h-4 font-medium tracking-tight', className)}
+      data-slot="alert-title"
+      initial={content.initial}
+      animate={content.animate}
+      transition={content.transition}
+      {...props}
+    />
+  )
+})
 MotionAlertTitle.displayName = 'MotionAlertTitle'
 
 const MotionAlertDescription = React.forwardRef<
   HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof AlertDescription>
->((props, ref) => {
+  Omit<React.HTMLAttributes<HTMLDivElement>, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+>(({ className, ...props }, ref) => {
   const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.18 })
   return (
-    <LazyMotion features={loadDomAnimation}>
-      <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
-        <AlertDescription ref={ref} {...props} />
-      </m.div>
-    </LazyMotion>
+    <m.div
+      ref={ref}
+      className={cn(
+        'col-start-2 grid justify-items-start gap-1 text-muted-foreground text-sm [&_p]:leading-relaxed',
+        className,
+      )}
+      data-slot="alert-description"
+      initial={content.initial}
+      animate={content.animate}
+      transition={content.transition}
+      {...props}
+    />
   )
 })
 MotionAlertDescription.displayName = 'MotionAlertDescription'
