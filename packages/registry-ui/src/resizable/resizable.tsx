@@ -17,7 +17,7 @@ const ResizablePanelGroup = React.forwardRef<
   const direction = useDirection(dir as Direction)
   return (
     <ResizablePrimitive.Group
-      className={cn('group/panel-group flex h-full w-full data-[panel-group-direction=vertical]:flex-col', className)}
+      className={cn('flex h-full w-full', className)}
       data-slot="panel-group"
       dir={direction}
       elementRef={ref}
@@ -39,10 +39,12 @@ const ResizableHandle = React.forwardRef<
     elementRef={ref}
     aria-label="Resize panels"
     className={cn(
+      // Default (vertical line - sits inside a horizontal group)
       'relative flex w-px items-center justify-center bg-border after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1',
-      'group-data-[panel-group-direction=vertical]/panel-group:h-px group-data-[panel-group-direction=vertical]/panel-group:w-full',
-      'group-data-[panel-group-direction=vertical]/panel-group:after:left-0 group-data-[panel-group-direction=vertical]/panel-group:after:h-1 group-data-[panel-group-direction=vertical]/panel-group:after:w-full group-data-[panel-group-direction=vertical]/panel-group:after:translate-x-0 group-data-[panel-group-direction=vertical]/panel-group:after:-translate-y-1/2',
-      'group-data-[panel-group-direction=vertical]/panel-group:[&>div]:rotate-90',
+      // Horizontal line (sits inside a vertical group - react-resizable-panels sets aria-orientation="horizontal")
+      'aria-[orientation=horizontal]:h-px aria-[orientation=horizontal]:w-full',
+      'aria-[orientation=horizontal]:after:left-0 aria-[orientation=horizontal]:after:h-1 aria-[orientation=horizontal]:after:w-full aria-[orientation=horizontal]:after:translate-x-0 aria-[orientation=horizontal]:after:-translate-y-1/2',
+      'aria-[orientation=horizontal]:[&>div]:rotate-90',
       className,
     )}
     data-slot="panel-resize-handle"
@@ -76,7 +78,7 @@ const MotionResizablePanelGroup = React.forwardRef<
         transition={content.transition}
         className={cn('h-full w-full', className)}>
         <ResizablePrimitive.Group
-          className={cn('group/panel-group flex h-full w-full data-[panel-group-direction=vertical]:flex-col')}
+          className={cn('flex h-full w-full')}
           data-slot="panel-group"
           dir={direction}
           elementRef={ref}
