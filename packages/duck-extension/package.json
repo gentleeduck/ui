@@ -36,7 +36,7 @@
     "globals": "^17.3.0",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.2.0",
-    "tsdown": "0.21.4",
+    "tsdown": "0.21.7",
     "tsup": "^8.5.1",
     "tw-animate-css": "^1.2.4",
     "typescript": "6.0.2",

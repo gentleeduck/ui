@@ -44,7 +44,7 @@
     "@types/prompts": "^2.4.9",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
-    "tsdown": "0.21.4",
+    "tsdown": "0.21.7",
     "type-fest": "^5.0.1",
     "typescript": "6.0.2",
     "vitest": "catalog:"

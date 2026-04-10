@@ -23,7 +23,7 @@
     "axe-core": "^4.10.3",
     "jsdom": "^29.0.0",
     "mini-svg-data-uri": "^1.4.4",
-    "tsdown": "0.21.4"
+    "tsdown": "0.21.7"
   },
   "exports": {
     "./hooks/*": {
