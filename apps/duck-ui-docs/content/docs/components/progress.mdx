@@ -70,6 +70,19 @@ Set `dir="rtl"` on `Progress` for a local override, or set `DirectionProvider` o
   description="A progress bar with RTL support."
 />
 
+## Motion
+
+Use `MotionProgress` for smooth value animations powered by [motion](https://motion.dev). The progress bar animates with a bouncy spring transition when the value changes.
+
+<ComponentPreview
+  name="progress-3"
+  description="Progress bar with motion-powered spring animation."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionProgress` instead of `Progress`. Same props. The regular `Progress` is perfectly fine - this is an optional enhancement.
+</Callout>
+
 ## API Reference
 
 ### Progress
@@ -79,4 +92,13 @@ Set `dir="rtl"` on `Progress` for a local override, or set `DirectionProvider` o
 | `value` | `number` | (required) | Progress value from `0` to `100` representing the completion percentage |
 | `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | `--` | Additional CSS classes for the progress bar container |
+| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'value'>` | - | Additional props to spread to the content div |
+
+### MotionProgress
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `number` | (required) | Progress value from `0` to `100`. Value changes animate with a `springBouncy` spring transition. |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | - | Additional CSS classes for the progress bar container |
 | `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'value'>` | - | Additional props to spread to the content div |

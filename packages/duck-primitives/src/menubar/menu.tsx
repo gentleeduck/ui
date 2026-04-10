@@ -1,6 +1,7 @@
 /** MenubarMenu component with its context provider. */
 import * as React from 'react'
 import { useId } from '../hooks/use-id'
+import { useLayoutEffect } from '../hooks/use-layout-effect'
 import * as MenuPrimitive from '../menu'
 import type { MenubarTriggerElement, ScopedProps } from './menubar'
 import { createMenubarContext, useMenubarContext, useMenuScope } from './menubar'
@@ -20,10 +21,11 @@ const [MenubarMenuProvider, useMenubarMenuContext] = createMenubarContext<Menuba
 interface MenubarMenuProps {
   children?: React.ReactNode
   value?: string
+  onOpenChange?: (open: boolean) => void
 }
 
 const MenubarMenu = (props: ScopedProps<MenubarMenuProps>) => {
-  const { __scopeMenubar, value: valueProp, ...menuProps } = props
+  const { __scopeMenubar, value: valueProp, onOpenChange: onOpenChangeProp, ...menuProps } = props
   const autoValue = useId()
   // We need to provide an initial deterministic value as `useId` will return
   // empty string on the first render and we don't want to match our internal "closed" value.
@@ -37,6 +39,10 @@ const MenubarMenu = (props: ScopedProps<MenubarMenuProps>) => {
   React.useEffect(() => {
     if (!open) wasKeyboardTriggerOpenRef.current = false
   }, [open])
+
+  useLayoutEffect(() => {
+    onOpenChangeProp?.(open)
+  }, [open, onOpenChangeProp])
 
   return (
     <MenubarMenuProvider

@@ -119,19 +119,13 @@ import {
 
 Set `dir="rtl"` on `ContextMenu` for a local override, or set `DirectionProvider` once at app/root level for global direction.
 
-<ComponentPreview
-  name="context-menu-2"
-  description="A context menu with RTL support."
-/>
+<ComponentPreview name="context-menu-2" description="A context menu with RTL support." />
 
 ## Motion
 
 Use `MotionContextMenu` and `MotionContextMenuContent` for smooth enter/exit animations powered by [motion](https://motion.dev). The transform origin is fixed to top-left since the menu appears at the cursor position. For animated sub-menus, use `MotionContextMenuSub` and `MotionContextMenuSubContent`.
 
-<ComponentPreview
-  name="context-menu-3"
-  description="A context menu with motion-powered spring animations."
-/>
+<ComponentPreview name="context-menu-3" description="A context menu with motion-powered spring animations." />
 
 <Callout icon={<Zap />}>
 Requires the `motion` package. Use `MotionContextMenu` instead of `ContextMenu` and `MotionContextMenuContent` instead of `ContextMenuContent`. For sub-menus, use `MotionContextMenuSub` and `MotionContextMenuSubContent`. All other sub-components stay the same.
@@ -263,3 +257,19 @@ Components in this file wrap `@gentleduck/primitives/context-menu`.
 | `sideOffset` | `number` | - | Main-axis offset from sub-trigger |
 | `alignOffset` | `number` | - | Cross-axis offset from sub-trigger |
 | `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubContent>` | - | Additional props inherited from `ContextMenuPrimitive.SubContent` |
+
+### MotionContextMenu
+
+Same props as `ContextMenu`. Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+### MotionContextMenuContent
+
+Same props as `ContextMenuContent`. Adds scale, blur, and opacity enter/exit animation with springBouncy transition. Transform origin fixed to top-left. Requires the `motion` package.
+
+### MotionContextMenuSub
+
+Same props as `ContextMenuSub`. Wraps sub-menu with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+### MotionContextMenuSubContent
+
+Same props as `ContextMenuSubContent`. Adds scale and blur enter/exit animation in a Portal. Requires the `motion` package.

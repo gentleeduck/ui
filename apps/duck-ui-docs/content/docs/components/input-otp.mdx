@@ -92,12 +92,6 @@ import {
 </InputOTP>
 ```
 
-## Paste
-
-- Pasting fills slots starting at the focused input.
-- Characters are filtered by the `pattern` prop.
-- `onValueChange` fires after paste and per-key entry.
-
 ## Examples
 
 ### Pattern
@@ -167,6 +161,12 @@ You can use the `value` and `onValueChange` props to control the input value.
 
 <ComponentPreview name="input-otp-6" description="An input OTP integrated with React Hook Form and Zod validation." />
 
+## Paste
+
+- Pasting fills slots starting at the focused input.
+- Characters are filtered by the `pattern` prop.
+- `onValueChange` fires after paste and per-key entry.
+
 ## RTL Support
 
 Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
@@ -175,6 +175,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   name="input-otp-7"
   description="An input OTP with RTL support."
 />
+
+## Motion
+
+Use `MotionInputOTP` for a scale+blur entrance animation on the entire OTP input powered by [motion](https://motion.dev).
+
+<ComponentPreview
+  name="input-otp-8"
+  description="OTP input with motion-powered entrance animation."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionInputOTP` instead of `InputOTP`. All other sub-components stay the same.
+</Callout>
 
 ## API Reference
 
@@ -227,3 +240,7 @@ A visual separator rendered between OTP groups.
 | `customIndicator` | `React.ReactNode` | `<Dot />` | Custom element to render instead of the default dot icon |
 | `ref` | `React.Ref<HTMLDivElement>` | - | Ref forwarded to the separator div |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### MotionInputOTP
+
+Same props as `InputOTP`. Adds scale+blur entrance animation on the entire OTP container. Requires the `motion` package.

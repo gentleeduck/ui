@@ -84,12 +84,12 @@ import { Badge } from '@/components/ui/badge'
 <Badge variant="secondary">Badge</Badge>
 ```
 
-### Badge
+## Examples
+
+### Badge with Tooltip
 
 `Badge` is a flexible and customizable React component used to display small status indicators with
 `Tooltip`, ..etc.
-
-#### Example Usage:
 
 ```tsx
 import { Badge } from '@/components/ui/badge'
@@ -108,8 +108,6 @@ const MyBadge = () => {
   )
 }
 ```
-
-## Variants
 
 ### Default
 
@@ -169,6 +167,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="A badge with RTL support."
 />
 
+## Motion
+
+Use `MotionBadge` for a smooth fade-up entrance animation powered by [motion](https://motion.dev). The badge slides up with blur and opacity on mount.
+
+<ComponentPreview
+  name="badge-10"
+  description="Badges with motion-powered fade-up entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionBadge` instead of `Badge`. Same props except `asChild` is not supported.
+</Callout>
+
 ## API Reference
 
 ### Badge
@@ -181,3 +192,11 @@ Direction is resolved through the shared primitives direction module. Use a loca
 | `asChild` | `boolean` | `false` | If `true`, renders using a `Slot` instead of a `span` element |
 | `className` | `string` | `--` | Additional class names to apply |
 | `...props` | `Omit<React.HTMLProps<HTMLSpanElement>, 'size'>` | - | Additional props to spread to the span element |
+
+### MotionBadge
+
+Fades up with blur on mount using the `fadeUp` preset and `contentTransition` (250ms expo-out). `asChild` is not supported. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `Omit<BadgeProps, 'asChild'>` | - | All props from `Badge` except `asChild` |

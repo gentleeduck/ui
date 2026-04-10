@@ -52,7 +52,14 @@ const [MenuContentProvider, useMenuContentContext] = createMenuContext<MenuConte
 type MenuContentImplElement = React.ComponentRef<typeof PopperPrimitive.Content>
 
 type MenuRootContentTypeElement = MenuContentImplElement
-interface MenuRootContentTypeProps extends Omit<MenuContentImplProps, keyof MenuContentImplPrivateProps> {}
+interface MenuRootContentTypeProps extends Omit<MenuContentImplProps, keyof MenuContentImplPrivateProps> {
+  /** Override whether focus is trapped. Defaults to `context.open`. */
+  trapFocus?: FocusScopeProps['trapped']
+  /** Override whether outside pointer events are disabled. Defaults to `context.open`. */
+  disableOutsidePointerEvents?: DismissableLayerProps['disableOutsidePointerEvents']
+  /** Override whether scroll is locked. Defaults to `true` for modal. */
+  disableOutsideScroll?: boolean
+}
 
 /**
  * We purposefully don't union MenuRootContent and MenuSubContent props here because
@@ -94,11 +101,16 @@ MenuContent.displayName = CONTENT_NAME
 
 const MenuRootContentModal = React.forwardRef<MenuRootContentTypeElement, MenuRootContentTypeProps>(
   (props: ScopedProps<MenuRootContentTypeProps>, forwardedRef) => {
+    const {
+      trapFocus: trapFocusProp,
+      disableOutsidePointerEvents: disableOutsidePointerEventsProp,
+      disableOutsideScroll: disableOutsideScrollProp,
+      ...restProps
+    } = props
     const context = useMenuContext(CONTENT_NAME, props.__scopeMenu)
     const ref = React.useRef<MenuRootContentTypeElement>(null)
     const composedRefs = useComposedRefs(forwardedRef, ref)
 
-    // Hide everything from ARIA except the `MenuContent`
     React.useEffect(() => {
       const content = ref.current
       if (content) return hideOthers(content)
@@ -106,15 +118,11 @@ const MenuRootContentModal = React.forwardRef<MenuRootContentTypeElement, MenuRo
 
     return (
       <MenuContentImpl
-        {...props}
+        {...restProps}
         ref={composedRefs}
-        // we make sure we're not trapping once it's been closed
-        // (closed !== unmounted when animating out)
-        trapFocus={context.open}
-        // make sure to only disable pointer events when open
-        // this avoids blocking interactions while animating out
-        disableOutsidePointerEvents={context.open}
-        disableOutsideScroll
+        trapFocus={trapFocusProp ?? context.open}
+        disableOutsidePointerEvents={disableOutsidePointerEventsProp ?? context.open}
+        disableOutsideScroll={disableOutsideScrollProp ?? true}
         // When focus is trapped, a `focusout` event may still happen.
         // We make sure we don't trigger our `onDismiss` in such case.
         onFocusOutside={composeEventHandlers(props.onFocusOutside, (event) => event.preventDefault(), {
@@ -222,7 +230,9 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, MenuContentImpl
     const lastPointerXRef = React.useRef(0)
 
     const ScrollLockWrapper = disableOutsideScroll ? RemoveScroll : React.Fragment
-    const scrollLockWrapperProps = disableOutsideScroll ? { as: Slot, allowPinchZoom: true } : undefined
+    const scrollLockWrapperProps = disableOutsideScroll
+      ? { as: Slot, allowPinchZoom: true, enabled: context.open }
+      : undefined
 
     const [, handleTypeaheadSearch, resetTypeahead] = useTypeaheadListNavigation({
       getItems: () => getItems().filter((item) => !item.disabled),

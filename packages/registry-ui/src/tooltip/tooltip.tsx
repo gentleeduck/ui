@@ -3,7 +3,7 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { createTooltipPreset } from '@gentleduck/motion/presets/tooltip'
-import { tweenMicro } from '@gentleduck/motion/transitions/tweens'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as TooltipPrimitive from '@gentleduck/primitives/tooltip'
 import { AnimatePresence, LazyMotion, m } from 'motion/react'
@@ -80,7 +80,7 @@ const MotionTooltipContent = React.forwardRef<
                 initial={preset.initial}
                 animate={preset.animate}
                 exit={{ ...preset.exit, pointerEvents: 'none' }}
-                transition={tweenMicro}>
+                transition={springBouncy}>
                 {children}
               </m.div>
             </TooltipPrimitive.Content>

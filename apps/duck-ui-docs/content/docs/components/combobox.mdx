@@ -145,21 +145,6 @@ export function ExampleCombobox() {
 
 Note: The `Combobox` wrapper component (`@/components/ui/combobox`) uses item `value`s for `value`, `defaultValue`, and `onValueChange`. Use `label` for display only.
 
-## Component Composition
-
-<MermaidDiagram chart={`graph TD
-    A[Combobox] --> B[Popover]
-    A --> C[Command]
-    B --> D[PopoverTrigger]
-    B --> E[PopoverContent]
-    E --> C
-    C --> F[CommandInput]
-    C --> G[CommandList]
-    G --> H[CommandEmpty]
-    G --> I[ComboboxGroup]
-    I --> J[ComboboxItem]
-`} />
-
 ## Examples
 
 ### Combobox
@@ -199,6 +184,21 @@ You can create a responsive combobox by using the `<Popover />` on desktop and t
   description="A combobox integrated with React Hook Form for language selection with validation."
 />
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Combobox] --> B[Popover]
+    A --> C[Command]
+    B --> D[PopoverTrigger]
+    B --> E[PopoverContent]
+    E --> C
+    C --> F[CommandInput]
+    C --> G[CommandList]
+    G --> H[CommandEmpty]
+    G --> I[ComboboxGroup]
+    I --> J[ComboboxItem]
+`} />
+
 ## RTL Support
 
 Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
@@ -207,6 +207,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   name="combobox-7"
   description="A combobox with RTL support."
 />
+
+## Motion
+
+Use `MotionCombobox` and `MotionComboboxItem` for motion-powered popover and checkbox animations. The trigger uses `MotionButton`, the dropdown uses `MotionPopoverContent`, and each item's checkbox bounces on toggle.
+
+<ComponentPreview
+  name="combobox-8"
+  description="A combobox with motion-powered animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionCombobox` instead of `Combobox` and `MotionComboboxItem` instead of `ComboboxItem`. All other sub-components stay the same.
+</Callout>
 
 ## API Reference
 
@@ -250,3 +263,20 @@ A convenience wrapper around `CommandGroup` for grouping combobox items.
 | --- | --- | --- | --- |
 | `children` | `React.ReactNode` | - | (required) `ComboboxItem` elements or other content to render inside the group. |
 | `...props` | `React.ComponentPropsWithoutRef<typeof CommandGroup>` | - | Additional props inherited from `CommandGroup`. |
+
+### MotionCombobox
+
+Uses `MotionButton` for the trigger and `MotionPopoverContent` for the dropdown with spring enter/exit animations. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `ComboboxProps` | - | All props from `Combobox` are supported |
+
+### MotionComboboxItem
+
+Uses `MotionCheckbox` with bounce animation on toggle. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | - | Stagger delay index for entrance animation |
+| `...props` | `ComboboxItemProps` | - | All props from `ComboboxItem` are supported |

@@ -99,6 +99,13 @@ The floating content. Positioned by the Popper engine relative to the trigger.
 | `onFocusOutside` | `(event) => void` | - | Called when focus moves outside |
 | `onInteractOutside` | `(event) => void` | - | Called for any outside interaction |
 | `onEscapeKeyDown` | `(event) => void` | - | Called on <Kbd>Escape</Kbd> press |
+| `trapFocus` | `boolean` | `context.open` | Override whether focus is trapped inside the content |
+| `disableOutsidePointerEvents` | `boolean` | `context.open` | Override whether pointer events outside are blocked |
+| `lockScroll` | `boolean` | `context.open` | Override whether body scroll is locked while open |
+
+<Callout>
+The `trapFocus`, `disableOutsidePointerEvents`, and `lockScroll` props default to the popover's open state. Override them when integrating with animation libraries like [motion](https://motion.dev) that need custom lifecycle control during exit animations.
+</Callout>
 
 ### `Popover.Arrow`
 

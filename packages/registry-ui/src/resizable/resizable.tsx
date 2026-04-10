@@ -1,8 +1,12 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { GripVertical } from 'lucide-react'
+import { LazyMotion, m } from 'motion/react'
 import React from 'react'
 import * as ResizablePrimitive from 'react-resizable-panels'
 
@@ -13,7 +17,7 @@ const ResizablePanelGroup = React.forwardRef<
   const direction = useDirection(dir as Direction)
   return (
     <ResizablePrimitive.Group
-      className={cn('flex h-full w-full data-[panel-group-direction=vertical]:flex-col', className)}
+      className={cn('flex h-full w-full', className)}
       data-slot="panel-group"
       dir={direction}
       elementRef={ref}
@@ -30,19 +34,24 @@ const ResizableHandle = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof ResizablePrimitive.Separator> & {
     withHandle?: boolean
   }
->(({ withHandle, className, ...props }, ref) => (
+>(({ withHandle = true, className, ...props }, ref) => (
   <ResizablePrimitive.Separator
     elementRef={ref}
     aria-label="Resize panels"
     className={cn(
-      'relative flex w-px items-center justify-center bg-border after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1 data-[panel-group-direction=vertical]:h-px data-[panel-group-direction=vertical]:w-full data-[panel-group-direction=vertical]:after:left-0 data-[panel-group-direction=vertical]:after:h-1 data-[panel-group-direction=vertical]:after:w-full data-[panel-group-direction=vertical]:after:translate-x-0 data-[panel-group-direction=vertical]:after:-translate-y-1/2 [&[data-panel-group-direction=vertical]>div]:rotate-90',
+      // Default (vertical line - sits inside a horizontal group)
+      'relative flex w-px items-center justify-center bg-border after:absolute after:inset-y-0 after:left-1/2 after:w-1 after:-translate-x-1/2 focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-1',
+      // Horizontal line (sits inside a vertical group - react-resizable-panels sets aria-orientation="horizontal")
+      'aria-[orientation=horizontal]:h-px aria-[orientation=horizontal]:w-full',
+      'aria-[orientation=horizontal]:after:left-0 aria-[orientation=horizontal]:after:h-1 aria-[orientation=horizontal]:after:w-full aria-[orientation=horizontal]:after:translate-x-0 aria-[orientation=horizontal]:after:-translate-y-1/2',
+      'aria-[orientation=horizontal]:[&>div]:rotate-90',
       className,
     )}
     data-slot="panel-resize-handle"
     {...props}>
     {withHandle && (
       <div
-        className="z-10 flex h-4 w-3 items-center justify-center rounded-xs border bg-border"
+        className="z-10 flex h-4 w-3 items-center justify-center rounded-xs border bg-background shadow-sm"
         data-slot="panel-handle">
         <GripVertical aria-hidden="true" className="h-2.5 w-2.5" />
       </div>
@@ -51,4 +60,34 @@ const ResizableHandle = React.forwardRef<
 ))
 ResizableHandle.displayName = 'ResizableHandle'
 
-export { ResizableHandle, ResizablePanel, ResizablePanelGroup }
+/* ------------------------------------------------------------------ */
+/*  Motion variants                                                     */
+/* ------------------------------------------------------------------ */
+
+const MotionResizablePanelGroup = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<typeof ResizablePrimitive.Group> & { dir?: Direction }
+>(({ className, dir, ...props }, ref) => {
+  const direction = useDirection(dir as Direction)
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <m.div
+        initial={content.initial}
+        animate={content.animate}
+        transition={content.transition}
+        className={cn('h-full w-full', className)}>
+        <ResizablePrimitive.Group
+          className={cn('flex h-full w-full')}
+          data-slot="panel-group"
+          dir={direction}
+          elementRef={ref}
+          {...props}
+        />
+      </m.div>
+    </LazyMotion>
+  )
+})
+MotionResizablePanelGroup.displayName = 'MotionResizablePanelGroup'
+
+export { MotionResizablePanelGroup, ResizableHandle, ResizablePanel, ResizablePanelGroup }

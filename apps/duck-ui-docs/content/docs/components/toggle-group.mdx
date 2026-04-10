@@ -151,6 +151,19 @@ Set `dir="rtl"` on `ToggleGroup` for a local override, or set `DirectionProvider
   description="A toggle group with RTL support."
 />
 
+## Motion
+
+Use `MotionToggleGroup` and `MotionToggleGroupItem` for staggered entrance animations and tap press feedback powered by [motion](https://motion.dev). Each item fades in with scale and blur, and presses to 0.97 on tap.
+
+<ComponentPreview
+  name="toggle-group-9"
+  description="Toggle group with motion-powered staggered entrance and tap feedback."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionToggleGroup` + `MotionToggleGroupItem` instead of `ToggleGroup` + `ToggleGroupItem`. Same props. The regular components are perfectly fine - this is an optional enhancement.
+</Callout>
+
 ## API Reference
 
 ### ToggleGroup
@@ -190,3 +203,19 @@ Set `dir="rtl"` on `ToggleGroup` for a local override, or set `DirectionProvider
 | --- | --- | --- |
 | `data-state` | `"on" \| "off"` | The pressed state of the item |
 | `data-disabled` | Present when disabled | Whether the item is disabled |
+
+### MotionToggleGroup
+
+Staggered `scaleIn` entrance with `springBouncy` transition on each item. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `ToggleGroupProps` | - | All props from `ToggleGroup` are supported |
+
+### MotionToggleGroupItem
+
+Adds `whileTap` press feedback (scale 0.97). Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `Omit<ToggleGroupItemProps, 'onDrag' \| 'onDragStart' \| 'onDragEnd' \| 'onAnimationStart'>` | - | All props from `ToggleGroupItem` except motion event handlers |

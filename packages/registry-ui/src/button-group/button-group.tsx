@@ -1,7 +1,13 @@
+'use client'
+
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import type { VariantProps } from '@gentleduck/variants'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Separator } from '../separator'
 import { buttonGroupVariants } from './button-group.constants'
@@ -63,4 +69,22 @@ const ButtonGroupSeparator = React.forwardRef<
 })
 ButtonGroupSeparator.displayName = 'ButtonGroupSeparator'
 
-export { ButtonGroup, ButtonGroupSeparator, ButtonGroupText }
+/* ------------------------------------------------------------------ */
+/*  MotionButtonGroup                                                  */
+/* ------------------------------------------------------------------ */
+
+const MotionButtonGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof ButtonGroup>>(
+  (props, ref) => {
+    const content = useMotionPreset('scaleIn', { transition: springBouncy })
+    return (
+      <LazyMotion features={loadDomAnimation}>
+        <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
+          <ButtonGroup ref={ref} {...props} />
+        </m.div>
+      </LazyMotion>
+    )
+  },
+)
+MotionButtonGroup.displayName = 'MotionButtonGroup'
+
+export { ButtonGroup, ButtonGroupSeparator, ButtonGroupText, MotionButtonGroup }

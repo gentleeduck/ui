@@ -11,6 +11,20 @@ component: true
 
 HTML tables are semantically powerful but visually bland. Our Table components add consistent styling while preserving the native table structure  -  `<table>`, `<thead>`, `<tbody>`, `<tr>`, `<th>`, `<td>`  -  because screen readers depend on these elements for data navigation. For interactive features like sorting and filtering, see Data Table.
 
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+    A[Table] --> B[TableCaption]
+    A --> C[TableHeader]
+    A --> D[TableBody]
+    A --> E[TableFooter]
+    C --> F[TableRow]
+    D --> F
+    E --> F
+    F --> G[TableHead]
+    F --> H[TableCell]
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -85,7 +99,9 @@ import {
 </Table>
 ```
 
-## Data Table
+## Examples
+
+### Data Table
 
 You can use the `<Table />` component to build more complex data tables. Combine it with
 [@gentleduck/table](https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-table) to create tables with sorting, filtering and pagination.
@@ -93,8 +109,6 @@ You can use the `<Table />` component to build more complex data tables. Combine
 See the [Data Table](/docs/components/data-table) documentation for more information.
 
 You can also see data-table examples in the [Blocks Library](/blocks).
-
----
 
 ## Component Composition
 
@@ -118,6 +132,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   name="table-2"
   description="A table with RTL support."
 />
+
+## Motion
+
+Use `MotionTable` and `MotionTableRow` for staggered entrance animations powered by [motion](https://motion.dev). The table fades in with scale and blur, and each row staggers by 50ms via the `index` prop.
+
+<ComponentPreview
+  name="table-3"
+  description="Table with motion-powered staggered row entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionTable` instead of `Table` and `MotionTableRow` instead of `TableRow`. All other sub-components stay the same. The regular components are perfectly fine - this is an optional enhancement.
+</Callout>
 
 ## API Reference
 
@@ -186,3 +213,20 @@ Direction is resolved through the shared primitives direction module. Use a loca
 | `className` | `string` | - | Additional CSS class names |
 | `children` | `React.ReactNode` | - | Caption text |
 | `...props` | `React.HTMLProps<HTMLTableCaptionElement>` | - | Additional props to spread to the caption element |
+
+### MotionTable
+
+`scaleIn` entrance with `springBouncy` transition on mount. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `TableProps` | - | All props from `Table` are supported |
+
+### MotionTableRow
+
+Staggered `scaleIn` entrance with `springBouncy` transition. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | `0` | Stagger delay index (50ms per index) for entrance animation |
+| `...props` | `TableRowProps` | - | All props from `TableRow` are supported |

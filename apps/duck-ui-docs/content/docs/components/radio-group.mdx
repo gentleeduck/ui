@@ -89,6 +89,16 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 
 <ComponentPreview name="radio-group-2" description="A radio group integrated with React Hook Form for notification type selection." />
 
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[RadioGroup] --> B[RadioGroupItem]
+    B --> C[Primitive.button]
+    B --> D[Label]
+    B --> E[BubbleInput]
+    B --> F[SVG Indicator]
+`} />
+
 ## Keyboard Navigation
 
 | Key | Description |
@@ -107,16 +117,6 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 | `Tab` | Move focus into/out of the radio group |
 | `Space` | Select the focused item (if not already selected) |
 
-## Component Composition
-
-<MermaidDiagram chart={`graph TD
-    A[RadioGroup] --> B[RadioGroupItem]
-    B --> C[Primitive.button]
-    B --> D[Label]
-    B --> E[BubbleInput]
-    B --> F[SVG Indicator]
-`} />
-
 ## RTL Support
 
 Set `dir="rtl"` on `RadioGroup` for a local override, or set `DirectionProvider` once at app/root level for global direction.
@@ -126,12 +126,18 @@ Set `dir="rtl"` on `RadioGroup` for a local override, or set `DirectionProvider`
   description="A radio group with RTL support."
 />
 
-## See also
+## Motion
 
-- [Checkbox](/docs/components/checkbox)  -  Multi-selection toggle control
-- [Switch](/docs/components/switch)  -  Toggle between on and off states
-- [Select](/docs/components/select)  -  Dropdown selection from a list
-- [Radio Group Primitive API](/docs/packages/duck-primitives/api/radio-group)  -  Headless primitive reference (`Root`, `Item`, `Indicator`)
+Use `MotionRadioGroup` and `MotionRadioGroupItem` for staggered entrance animations powered by [motion](https://motion.dev). Each item fades in with scale and blur, staggered by 50ms.
+
+<ComponentPreview
+  name="radio-group-4"
+  description="Radio group with motion-powered staggered entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionRadioGroup` + `MotionRadioGroupItem` instead of `RadioGroup` + `RadioGroupItem`. Same props. The regular components are perfectly fine - this is an optional enhancement.
+</Callout>
 
 ## API Reference
 
@@ -161,3 +167,27 @@ Set `dir="rtl"` on `RadioGroup` for a local override, or set `DirectionProvider`
 | `textValue` | `string` | - | Optional text used for keyboard typeahead matching (`a-z`). In the registry component, plain string/number children are inferred automatically. |
 | `children` | `React.ReactNode` | - | Label content. When provided, a clickable label is rendered next to the control and selects the item on click. |
 | `className` | `string` | - | Additional CSS classes for the radio button control |
+
+### MotionRadioGroup
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `RadioGroupProps` | - | All props from `RadioGroup` are supported |
+
+Wraps `RadioGroup` and auto-injects stagger `index` into `MotionRadioGroupItem` children. Requires the `motion` package.
+
+### MotionRadioGroupItem
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | `0` | Stagger delay index (50ms per index) for entrance animation |
+| `...props` | `RadioGroupItemProps` | - | All props from `RadioGroupItem` are supported |
+
+Wraps `RadioGroupItem` with a staggered `scaleIn` entrance animation and a bounce (scale + rotate) on the radio circle when clicked. Requires the `motion` package.
+
+## See also
+
+- [Checkbox](/docs/components/checkbox)  -  Multi-selection toggle control
+- [Switch](/docs/components/switch)  -  Toggle between on and off states
+- [Select](/docs/components/select)  -  Dropdown selection from a list
+- [Radio Group Primitive API](/docs/packages/duck-primitives/api/radio-group)  -  Headless primitive reference (`Root`, `Item`, `Indicator`)

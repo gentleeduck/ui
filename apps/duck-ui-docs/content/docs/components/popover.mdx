@@ -118,6 +118,13 @@ Style the trigger to appear active while the popover is open using `data-[state=
   description="A popover with an active trigger style when open."
 />
 
+### RTL
+
+<ComponentPreview
+  name="popover-4"
+  description="A popover with RTL support."
+/>
+
 ## Component Composition
 
 <MermaidDiagram chart={`graph TD
@@ -137,11 +144,6 @@ Set `dir="rtl"` on `Popover` for a local override, or set `DirectionProvider` on
   <PopoverContent>محتوى النافذة المنبثقة هنا.</PopoverContent>
 </Popover>
 ```
-
-<ComponentPreview
-  name="popover-4"
-  description="A popover with RTL support."
-/>
 
 ## Motion
 
@@ -205,3 +207,20 @@ Optional custom anchor element for positioning.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Anchor>` | - | Additional props inherited from `Popover.Anchor`. |
+
+
+### MotionPopover
+
+Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `PopoverProps` | - | All props from `Popover` are supported |
+
+### MotionPopoverContent
+
+Adds scale, blur, and opacity enter/exit animation with `springBouncy` transition. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `PopoverContentProps` | - | All props from `PopoverContent` are supported |

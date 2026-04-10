@@ -10,6 +10,8 @@ component: true
   className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch"
 />
 
+## About
+
 Sidebars are one of the most complex components to build. They are central
 to any application and often contain a lot of moving parts.
 
@@ -41,17 +43,6 @@ npx @gentleduck/cli add sidebar
 </TabsContent>
 
 </Tabs>
-
-## Structure
-
-A `Sidebar` component is composed of the following parts:
-
-- `SidebarProvider` - Handles collapsible state.
-- `Sidebar` - The sidebar container.
-- `SidebarHeader` and `SidebarFooter` - Sticky at the top and bottom of the sidebar.
-- `SidebarContent` - Scrollable content.
-- `SidebarGroup` - Section within the `SidebarContent`.
-- `SidebarTrigger` - Trigger for the `Sidebar`.
 
 ## Usage
 
@@ -95,11 +86,72 @@ export function AppSidebar() {
 }
 ```
 
+## Examples
+### sidebar variant
+
+Use the default `sidebar` variant for a standard sidebar layout.
+
+<ComponentPreview name="sidebar-2" description="A sidebar with the default sidebar variant." className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch" />
+
+### floating variant
+
+Use the `floating` variant for a sidebar with rounded borders and a drop shadow.
+
+<ComponentPreview name="sidebar-3" description="A sidebar using the floating variant." className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch" />
+
+### inset variant
+
+Use the `inset` variant for a sidebar that sits inside the page layout.
+
+<Callout icon={<Lightbulb />}>
+  If you use the `inset` variant, remember to wrap your main content
+  in a `SidebarInset` component.
+</Callout>
+
+```tsx showLineNumbers
+<SidebarProvider>
+  <Sidebar variant="inset" />
+  <SidebarInset>
+    <main>{children}</main>
+  </SidebarInset>
+</SidebarProvider>
+```
+
+<ComponentPreview name="sidebar-4" description="A sidebar using the inset variant." className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch" />
+
+
+### Controlled Sidebar
+
+Use the `open` and `onOpenChange` props to control the sidebar.
+
+<ComponentPreview name="sidebar-5" description="A controlled sidebar with external toggle." className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch" />
+
+```tsx showLineNumbers
+export function AppSidebar() {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <SidebarProvider open={open} onOpenChange={setOpen}>
+      <Sidebar />
+    </SidebarProvider>
+  )
+}
+```
+
+## Component Composition
+
+A `Sidebar` component is composed of the following parts:
+
+- `SidebarProvider` - Handles collapsible state.
+- `Sidebar` - The sidebar container.
+- `SidebarHeader` and `SidebarFooter` - Sticky at the top and bottom of the sidebar.
+- `SidebarContent` - Scrollable content.
+- `SidebarGroup` - Section within the `SidebarContent`.
+- `SidebarTrigger` - Trigger for the `Sidebar`.
+
 ## SidebarProvider
 
 The `SidebarProvider` component is used to provide the sidebar context to the `Sidebar` component. You should always wrap your application in a `SidebarProvider` component.
-
-### Props
 
 | Name           | Type                      | Description                                  |
 | -------------- | ------------------------- | -------------------------------------------- |
@@ -144,8 +196,6 @@ const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 
 The main `Sidebar` component used to render a collapsible sidebar.
 
-### Props
-
 | Property | Type | Default | Description |
 | --- | --- | --- | --- |
 | `side` | `'left' \| 'right'` | `'left'` | The side of the sidebar. |
@@ -160,39 +210,6 @@ The main `Sidebar` component used to render a collapsible sidebar.
 | `offcanvas` | A collapsible sidebar that slides in from the left or right. |
 | `icon`      | A sidebar that collapses to icons.                           |
 | `none`      | A non-collapsible sidebar.                                   |
-
-### sidebar variant
-
-Use the default `sidebar` variant for a standard sidebar layout.
-
-<ComponentPreview name="sidebar-2" description="A sidebar with the default sidebar variant." className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch" />
-
-### floating variant
-
-Use the `floating` variant for a sidebar with rounded borders and a drop shadow.
-
-<ComponentPreview name="sidebar-3" description="A sidebar using the floating variant." className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch" />
-
-### inset variant
-
-Use the `inset` variant for a sidebar that sits inside the page layout.
-
-<Callout icon={<Lightbulb />}>
-  If you use the `inset` variant, remember to wrap your main content
-  in a `SidebarInset` component.
-</Callout>
-
-```tsx showLineNumbers
-<SidebarProvider>
-  <Sidebar variant="inset" />
-  <SidebarInset>
-    <main>{children}</main>
-  </SidebarInset>
-</SidebarProvider>
-```
-
-<ComponentPreview name="sidebar-4" description="A sidebar using the inset variant." className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch" />
-
 ## useSidebar
 
 The `useSidebar` hook is used to control the sidebar.
@@ -274,8 +291,6 @@ Use the `SidebarFooter` component to add a sticky footer to the sidebar.
 
 The `SidebarContent` component is used to wrap the content of the sidebar. This is where you add your `SidebarGroup` components. It is scrollable.
 
-### Props
-
 | Name       | Type      | Default | Description                                       |
 | ---------- | --------- | ------- | ------------------------------------------------- |
 | `noScroll` | `boolean` | `true`  | Hides the scrollbar while keeping scroll behavior. |
@@ -356,8 +371,6 @@ The `SidebarMenuButton` component is used to render a menu button within a `Side
 
 By default, the `SidebarMenuButton` renders a button but you can use the `asChild` prop to render a different component such as a `Link` or an `a` tag.
 
-### Props
-
 | Name       | Type                                          | Default     | Description                                    |
 | ---------- | --------------------------------------------- | ----------- | ---------------------------------------------- |
 | `asChild`  | `boolean`                                     | `false`     | Render as child element.                       |
@@ -402,8 +415,6 @@ You can also pass `TooltipContent` props for more control:
 
 The `SidebarMenuAction` component is used to render a menu action within a `SidebarMenuItem`.
 
-### Props
-
 | Name          | Type      | Default | Description                                      |
 | ------------- | --------- | ------- | ------------------------------------------------ |
 | `asChild`     | `boolean` | `false` | Render as child element.                         |
@@ -429,7 +440,7 @@ The `SidebarMenuSub` component is used to render a submenu within a `SidebarMenu
 
 Use `SidebarMenuSubButton` inside `SidebarMenuSubItem` for sub-menu items.
 
-### SidebarMenuSubButton Props
+#### SidebarMenuSubButton
 
 | Name       | Type              | Default | Description                    |
 | ---------- | ----------------- | ------- | ------------------------------ |
@@ -469,8 +480,6 @@ The `SidebarMenuBadge` component is used to render a badge within a `SidebarMenu
 ## SidebarMenuSkeleton
 
 The `SidebarMenuSkeleton` component is used to render a skeleton for a `SidebarMenu`.
-
-### Props
 
 | Name       | Type      | Default | Description                          |
 | ---------- | --------- | ------- | ------------------------------------ |
@@ -521,25 +530,9 @@ The `SidebarRail` component is used to render a rail within a `Sidebar`. This ra
 </Sidebar>
 ```
 
-## Controlled Sidebar
+## Notes
 
-Use the `open` and `onOpenChange` props to control the sidebar.
-
-<ComponentPreview name="sidebar-5" description="A controlled sidebar with external toggle." className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch" />
-
-```tsx showLineNumbers
-export function AppSidebar() {
-  const [open, setOpen] = React.useState(false)
-
-  return (
-    <SidebarProvider open={open} onOpenChange={setOpen}>
-      <Sidebar />
-    </SidebarProvider>
-  )
-}
-```
-
-## Data Attributes
+### Data Attributes
 
 All sidebar components expose `data-slot` attributes for precise CSS targeting.
 
@@ -569,7 +562,8 @@ All sidebar components expose `data-slot` attributes for precise CSS targeting.
 | `SidebarMenuSubItem`   | `sidebar-menu-sub-item`  |
 | `SidebarMenuSubButton` | `sidebar-menu-sub-button`|
 
-## Theming
+
+### Theming
 
 We use the following CSS variables to theme the sidebar.
 
@@ -599,7 +593,8 @@ We use the following CSS variables to theme the sidebar.
 }
 ```
 
-## Styling
+
+### Styling
 
 Here are some tips for styling the sidebar based on different states.
 
@@ -637,3 +632,21 @@ Set `dir="rtl"` on `Sidebar` for a local override, or set `DirectionProvider` on
   {/* ... */}
 </Sidebar>
 ```
+
+## Motion
+
+Use `MotionSidebar` for smooth width animations powered by [motion](https://motion.dev). The sidebar width animates with expo-out easing when collapsing and expanding.
+
+<ComponentPreview
+  name="sidebar-7"
+  description="A sidebar with motion-powered collapse animation."
+  className="[&_[duck-preview]]:!p-0 [&_[duck-preview]]:!items-stretch"
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionSidebar` instead of `Sidebar`. All other sub-components (`SidebarProvider`, `SidebarContent`, `SidebarTrigger`, etc.) stay the same.
+</Callout>
+
+### MotionSidebar
+
+Same props as `Sidebar`. Replaces CSS width transition with motion `m.div animate` using contentTransition (250ms expo-out). Handles icon collapse, offcanvas slide, and floating/inset variants. Requires the `motion` package.

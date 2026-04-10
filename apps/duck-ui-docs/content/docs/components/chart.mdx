@@ -43,32 +43,6 @@ Charts turn data into stories. We wrap Recharts because building accessible, res
   classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
 `} />
 
-## Component
-
-We use [Recharts](https://recharts.org/) under the hood.
-
-We designed the `chart` component with composition in mind. **You build your charts using Recharts components and only bring in custom components, such as `ChartTooltip`, when and where you need it**.
-
-```tsx showLineNumbers /ChartContainer/ /ChartTooltipContent/
-import { Bar, BarChart } from "recharts"
-
-import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart"
-
-export function MyChart() {
-  return (
-    <ChartContainer>
-      <BarChart data={data}>
-        <Bar dataKey="value" />
-        <ChartTooltip content={<ChartTooltipContent />} />
-      </BarChart>
-    </ChartContainer>
-  )
-}
-```
-
-We do not wrap Recharts. This means you're not locked into an abstraction. When a new Recharts version is released, you can follow the official upgrade path to upgrade your charts.
-
-
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -155,7 +129,35 @@ npm install recharts @gentleduck/libs
 
 </Tabs>
 
-## Your First Chart
+## Usage
+
+We use [Recharts](https://recharts.org/) under the hood.
+
+We designed the `chart` component with composition in mind. **You build your charts using Recharts components and only bring in custom components, such as `ChartTooltip`, when and where you need it**.
+
+```tsx showLineNumbers /ChartContainer/ /ChartTooltipContent/
+import { Bar, BarChart } from "recharts"
+
+import { ChartContainer, ChartTooltipContent } from "@/components/ui/chart"
+
+export function MyChart() {
+  return (
+    <ChartContainer>
+      <BarChart data={data}>
+        <Bar dataKey="value" />
+        <ChartTooltip content={<ChartTooltipContent />} />
+      </BarChart>
+    </ChartContainer>
+  )
+}
+```
+
+We do not wrap Recharts. This means you're not locked into an abstraction. When a new Recharts version is released, you can follow the official upgrade path to upgrade your charts.
+
+
+## Examples
+
+### Your First Chart
 
 Let's build your first chart. We'll build a bar chart, add a grid, axis, tooltip and legend.
 
@@ -508,8 +510,6 @@ import { ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
 ```tsx
 <ChartTooltip content={<ChartTooltipContent />} />
 ```
-
-### Props
 
 See the full [API Reference](#api-reference) below for all available props.
 

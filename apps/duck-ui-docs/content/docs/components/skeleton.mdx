@@ -78,12 +78,32 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="A skeleton with RTL support."
 />
 
-## API Reference
+## Motion
 
-### Skeleton
+Use `MotionSkeleton` for staggered entrance animations powered by [motion](https://motion.dev). Each skeleton block fades in with scale and blur, staggered by 50ms via the `index` prop.
+
+<ComponentPreview
+  name="skeleton-4"
+  description="Skeleton with motion-powered staggered entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionSkeleton` instead of `Skeleton`. Same props plus `index` for stagger delay. The regular `Skeleton` is perfectly fine - this is an optional enhancement.
+</Callout>
+
+## API Reference
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | - | Additional CSS class names to control shape and size |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### MotionSkeleton
+
+Staggered `scaleIn` entrance with `springBouncy` transition. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | `0` | Stagger delay index (50ms per index) for entrance animation |
+| `...props` | `SkeletonProps` | - | All props from `Skeleton` are supported |

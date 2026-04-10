@@ -13,6 +13,14 @@ component: true
 
 Tabs organize content into parallel views  -  only one is visible at a time, but all are equally important. We keep the component controlled-optional (works with or without state management) because simple use cases shouldn't pay the complexity tax. The TabsList/TabsTrigger/TabsContent split keeps styling separate from behavior.
 
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+    A[Tabs] --> B[TabsList]
+    B --> C[TabsTrigger]
+    A --> D[TabsContent]
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -90,7 +98,7 @@ Direction is resolved through the shared primitives direction module. Use a loca
 
 ## Motion
 
-Use `MotionTabs`, `MotionTabsList`, `MotionTabsTrigger`, and `MotionTabsContent` for a sliding active indicator and direction-aware content crossfade powered by [motion](https://motion.dev). The indicator slides between tabs via `layoutId` and content panels fade with a directional y-shift.
+Use `MotionTabs`, `MotionTabsList`, `MotionTabsTrigger`, and `MotionTabsContent` for a sliding active indicator and direction-aware content crossfade powered by [motion](https://motion.dev). The indicator slides between tabs via `layoutId` and content panels fade with a directional shift.
 
 <ComponentPreview
   name="tabs-3"
@@ -147,6 +155,51 @@ Requires the `motion` package. Replace `Tabs` with `MotionTabs`, `TabsList` with
 | --- | --- | --- | --- |
 | `value` | `string` | (required) | The associated value that matches a `TabsTrigger` |
 | `forceMount` | `boolean` | `false` | If true, the content stays mounted in the DOM even when hidden |
+| `className` | `string` | - | Additional CSS class names |
+| `children` | `React.ReactNode` | - | Tab panel content |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### MotionTabs
+
+Replaces `Tabs`. Tracks tab order for directional content animation. Uses `domMax` for layout animations. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `TabsProps` | - | All props from `Tabs` are supported |
+
+### MotionTabsList
+
+Replaces `TabsList`. Wraps with `LayoutGroup` for shared `layoutId` indicator animation. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `TabsListProps` | - | All props from `TabsList` are supported |
+
+### MotionTabsTrigger
+
+Replaces `TabsTrigger`. Adds sliding `layoutId` indicator and disabled tab shake feedback. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `Omit<TabsTriggerProps, 'onDrag' \| 'onDragStart' \| 'onDragEnd' \| 'onAnimationStart'>` | - | All props from `TabsTrigger` except motion event handlers |
+
+### MotionTabsContents
+
+Wrapper around all `MotionTabsContent` panels. Provides a single `AnimatePresence` with overflow-hidden for directional slide animation. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Additional CSS class names |
+| `children` | `React.ReactNode` | - | `MotionTabsContent` elements |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the container div |
+
+### MotionTabsContent
+
+Individual tab panel inside `MotionTabsContents`. Renders content with proper ARIA attributes. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | (required) | The associated value that matches a `MotionTabsTrigger` |
 | `className` | `string` | - | Additional CSS class names |
 | `children` | `React.ReactNode` | - | Tab panel content |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |

@@ -13,6 +13,24 @@ component: true
 
 Collapsible is the simplest disclosure primitive  -  it shows and hides content. Unlike Accordion, it doesn't manage a group of items or enforce single-selection. Use it for individual expand/collapse needs like "show more" sections, advanced settings, or code blocks. It's the building block that Accordion is built on.
 
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Collapsible[Collapsible]
+  Collapsible --> primitives["@gentleduck/primitives\n/collapsible"]:::internal
+  Collapsible --> libs["@gentleduck/libs"]:::internal
+  Collapsible --> motion["@gentleduck/motion"]:::internal
+
+  primitives --> |"provides"| OpenState["Open/Close\nState"]
+  primitives --> |"provides"| A11y["ARIA\nAttributes"]
+  Collapsible --> |"adds"| Trigger["CollapsibleTrigger"]
+  Collapsible --> |"adds"| Content["CollapsibleContent"]
+  motion --> |"provides"| HeightAnim["Height Animation"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
 ## Installation
 
 <Tabs defaultValue="cli">
@@ -75,18 +93,20 @@ import {
 </Collapsible>
 ```
 
-## Component Composition
-
-<MermaidDiagram chart={`graph TD
-    A[Collapsible] --> B[CollapsibleTrigger]
-    A --> C[CollapsibleContent]
-`} />
+## Examples
 
 ### Active Trigger on Open
 
 Style the trigger to appear active while the collapsible is expanded using `data-[state=open]`:
 
 <ComponentPreview name="collapsible-3" description="A collapsible with an active trigger style when expanded." />
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Collapsible] --> B[CollapsibleTrigger]
+    A --> C[CollapsibleContent]
+`} />
 
 ## RTL Support
 
@@ -156,3 +176,12 @@ const { open, onOpenChange } = useCollapsible()
 | `triggerRef` | `React.RefObject<HTMLButtonElement \| null>` | Ref to the trigger button |
 | `contentRef` | `React.RefObject<HTMLDivElement \| null>` | Ref to the content section |
 | `contentId` | `string` | Auto-generated ID linking trigger and content via `aria-controls` |
+
+
+### MotionCollapsibleContent
+
+Animates height from 0 to auto with staggered blur and opacity fade. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `Omit<CollapsibleContentProps, 'onDrag' \| 'onDragStart' \| 'onDragEnd' \| 'onAnimationStart'>` | - | All props from `CollapsibleContent` except motion event handlers |

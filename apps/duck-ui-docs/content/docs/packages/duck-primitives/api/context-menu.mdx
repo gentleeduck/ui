@@ -103,6 +103,20 @@ The area that responds to right-click. Renders a `<span>` by default.
 
 The menu content. Positioned at the cursor location.
 
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `forceMount` | `true` | - | Keep mounted regardless of open state |
+| `trapFocus` | `boolean` | `context.open` | Override whether focus is trapped inside the content |
+| `disableOutsidePointerEvents` | `boolean` | `context.open` | Override whether pointer events outside are blocked |
+| `disableOutsideScroll` | `boolean` | `true` | Override whether body scroll is locked while open |
+| `onPointerDownOutside` | `(event) => void` | - | Called when clicking outside |
+| `onFocusOutside` | `(event) => void` | - | Called when focus moves outside |
+| `onEscapeKeyDown` | `(event) => void` | - | Called when Escape is pressed |
+
+<Callout>
+The `trapFocus`, `disableOutsidePointerEvents`, and `disableOutsideScroll` props default to sensible values. Override them when integrating with animation libraries like [motion](https://motion.dev) that need custom lifecycle control during exit animations.
+</Callout>
+
 ### `ContextMenu.Item`
 
 A menu item. Fires `onSelect` when activated.

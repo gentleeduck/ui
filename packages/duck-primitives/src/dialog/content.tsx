@@ -23,7 +23,12 @@ interface DialogContentImplProps extends Omit<DismissableLayerProps, 'onDismiss'
 }
 
 type DialogContentTypeElement = DialogContentImplElement
-interface DialogContentTypeProps extends Omit<DialogContentImplProps, 'trapFocus' | 'disableOutsidePointerEvents'> {}
+interface DialogContentTypeProps extends Omit<DialogContentImplProps, 'trapFocus' | 'disableOutsidePointerEvents'> {
+  /** Override whether focus is trapped. Defaults to `context.open`. */
+  trapFocus?: FocusScopeProps['trapped']
+  /** Override whether outside pointer events are disabled. Defaults to `context.open`. */
+  disableOutsidePointerEvents?: DismissableLayerProps['disableOutsidePointerEvents']
+}
 
 type DialogContentElement = DialogContentTypeElement
 export interface DialogContentProps extends DialogContentTypeProps {
@@ -53,6 +58,11 @@ DialogContent.displayName = CONTENT_NAME
 
 const DialogContentModal = React.forwardRef<DialogContentTypeElement, DialogContentTypeProps>(
   (props: ScopedProps<DialogContentTypeProps>, forwardedRef) => {
+    const {
+      trapFocus: trapFocusProp,
+      disableOutsidePointerEvents: disableOutsidePointerEventsProp,
+      ...restProps
+    } = props
     const context = useDialogContext(CONTENT_NAME, props.__scopeDialog)
     const contentRef = React.useRef<HTMLDivElement>(null)
     const composedRefs = useComposedRefs(forwardedRef, context.contentRef, contentRef)
@@ -64,10 +74,10 @@ const DialogContentModal = React.forwardRef<DialogContentTypeElement, DialogCont
 
     return (
       <DialogContentImpl
-        {...props}
+        {...restProps}
         ref={composedRefs}
-        trapFocus={context.open}
-        disableOutsidePointerEvents
+        trapFocus={trapFocusProp ?? context.open}
+        disableOutsidePointerEvents={disableOutsidePointerEventsProp ?? context.open}
         onCloseAutoFocus={composeEventHandlers(props.onCloseAutoFocus, (event) => {
           event.preventDefault()
           context.triggerRef.current?.focus()

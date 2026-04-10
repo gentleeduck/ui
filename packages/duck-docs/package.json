@@ -168,7 +168,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "cp -r ../registers/registry-colors/registry-colors.ts ./src/lib/registry-colors-data.ts && tsdown && bun run scripts/copy-styles.ts",
+    "build": "node -e \"fs.copyFileSync('../registers/registry-colors/registry-colors.ts','./src/lib/registry-colors-data.ts')\" && tsdown && bun run scripts/copy-styles.ts",
     "check-types:test": "tsc -p tsconfig.test.json --noEmit --pretty false --skipLibCheck",
     "test": "bun test ./tests",
     "dev": "tsdown --watch",

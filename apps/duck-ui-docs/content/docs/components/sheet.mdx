@@ -61,7 +61,7 @@ npm install @gentleduck/primitives @gentleduck/libs @gentleduck/variants lucide-
 
 </Tabs>
 
-### Usage
+## Usage
 
 ```tsx
 import {
@@ -116,6 +116,15 @@ You can adjust the size of the sheet using CSS classes:
 </Sheet>
 ```
 
+### Active Trigger on Open
+
+Style the trigger to appear active while the sheet is open using `data-[state=open]`:
+
+<ComponentPreview
+  name="sheet-4"
+  description="A sheet with an active trigger style when open."
+/>
+
 ## Component Composition
 
 <MermaidDiagram chart={`graph TD
@@ -127,15 +136,6 @@ You can adjust the size of the sheet using CSS classes:
     D --> G[SheetDescription]
     C --> H[SheetClose]
 `} />
-
-### Active Trigger on Open
-
-Style the trigger to appear active while the sheet is open using `data-[state=open]`:
-
-<ComponentPreview
-  name="sheet-4"
-  description="A sheet with an active trigger style when open."
-/>
 
 ## RTL Support
 
@@ -156,11 +156,6 @@ Use `MotionSheet` and `MotionSheetContent` for smooth slide-in/out animations po
 <Callout icon={<Zap />}>
 Requires the `motion` package. Use `MotionSheet` instead of `Sheet` and `MotionSheetContent` instead of `SheetContent`. All other sub-components (`SheetTrigger`, `SheetHeader`, etc.) stay the same.
 </Callout>
-
-## See also
-
-- [Dialog](/docs/components/dialog)  -  Centered modal overlay
-- [Drawer](/docs/components/drawer)  -  Bottom drawer overlay, great for mobile
 
 ## API Reference
 
@@ -245,3 +240,16 @@ Requires the `motion` package. Use `MotionSheet` instead of `Sheet` and `MotionS
 | `asChild` | `boolean` | `false` | Renders child as close control |
 | `children` | `React.ReactNode` | - | Close control content |
 | `...props` | `React.ComponentPropsWithoutRef<typeof SheetPrimitive.Close>` | - | Additional props inherited from `SheetPrimitive.Close` |
+
+## See also
+
+- [Dialog](/docs/components/dialog)  -  Centered modal overlay
+- [Drawer](/docs/components/drawer)  -  Bottom drawer overlay, great for mobile
+
+### MotionSheet
+
+Same props as `Sheet`. Wraps with `useMotionRoot` for exit animation support. Requires the `motion` package.
+
+### MotionSheetContent
+
+Same props as `SheetContent`. Adds directional slide enter/exit animation with blur and opacity fade using tweenSlow (300ms). Requires the `motion` package.

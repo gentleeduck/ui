@@ -1,5 +1,11 @@
+'use client'
+
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
@@ -78,4 +84,68 @@ const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDiv
 )
 CardFooter.displayName = 'CardFooter'
 
-export { Card, CardAction, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
+/* ------------------------------------------------------------------ */
+/*  MotionCard                                                         */
+/* ------------------------------------------------------------------ */
+
+const MotionCard = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof Card>>((props, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
+        <Card ref={ref} {...props} />
+      </m.div>
+    </LazyMotion>
+  )
+})
+MotionCard.displayName = 'MotionCard'
+
+const MotionCardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>((props, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.05 })
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
+        <CardHeader ref={ref} {...props} />
+      </m.div>
+    </LazyMotion>
+  )
+})
+MotionCardHeader.displayName = 'MotionCardHeader'
+
+const MotionCardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>((props, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.1 })
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
+        <CardContent ref={ref} {...props} />
+      </m.div>
+    </LazyMotion>
+  )
+})
+MotionCardContent.displayName = 'MotionCardContent'
+
+const MotionCardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>((props, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.15 })
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
+        <CardFooter ref={ref} {...props} />
+      </m.div>
+    </LazyMotion>
+  )
+})
+MotionCardFooter.displayName = 'MotionCardFooter'
+
+export {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+  MotionCard,
+  MotionCardContent,
+  MotionCardFooter,
+  MotionCardHeader,
+}

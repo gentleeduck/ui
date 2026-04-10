@@ -89,6 +89,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="An aspect ratio with RTL support."
 />
 
+## Motion
+
+Use `MotionAspectRatio` for a smooth scale + blur entrance animation powered by [motion](https://motion.dev). The content scales from 0.95 and unblurs on mount.
+
+<ComponentPreview
+  name="aspect-ratio-3"
+  description="An aspect ratio container with motion-powered entrance animation."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionAspectRatio` instead of `AspectRatio`. Same props. Note: `MotionAspectRatio` renders a `div` instead of using `Slot`/`asChild`.
+</Callout>
+
 ## API Reference
 
 ### AspectRatio
@@ -103,3 +116,11 @@ Direction is resolved through the shared primitives direction module. Use a loca
 | `...props` | `React.ComponentPropsWithoutRef<typeof Slot>` | - | Additional props inherited from `Slot`. |
 
 *Uses a `Slot` wrapper, so the child element receives the aspect-ratio styles.*
+
+### MotionAspectRatio
+
+Renders a `div` (not `Slot`) that scales from 0.95 with 8px blur fade on mount using `contentTransition` (250ms expo-out). Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `AspectRatioProps` | - | All props from `AspectRatio` are supported |

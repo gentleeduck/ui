@@ -1,8 +1,13 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomMax } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { tapScale } from '@gentleduck/motion/presets/content'
+import { springBouncy, springSmooth } from '@gentleduck/motion/transitions/springs'
 import * as ToggleGroupPrimitive from '@gentleduck/primitives/toggle-group'
 import type { VariantProps } from '@gentleduck/variants'
+import { LayoutGroup, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { toggleVariants } from '../toggle/toggle.constants'
 
@@ -66,4 +71,90 @@ const ToggleGroupItem: React.ForwardRefExoticComponent<
 )
 ToggleGroupItem.displayName = 'ToggleGroupItem'
 
-export { ToggleGroup, ToggleGroupItem }
+/* ------------------------------------------------------------------ */
+/*  Motion variants                                                     */
+/* ------------------------------------------------------------------ */
+
+const MotionToggleGroupIdContext = React.createContext<string>('')
+
+const MotionToggleGroup: React.ForwardRefExoticComponent<
+  ToggleGroupProps & React.RefAttributes<ToggleGroupElement>
+> = React.forwardRef<ToggleGroupElement, ToggleGroupProps>(
+  ({ className, variant = 'default', size = 'default', children, ...props }, ref) => {
+    const groupId = React.useId()
+    return (
+      <LazyMotion features={loadDomMax}>
+        <MotionToggleGroupIdContext.Provider value={groupId}>
+          <ToggleGroupContext.Provider value={{ size, variant }}>
+            <LayoutGroup id={`toggle-group-${groupId}`}>
+              <ToggleGroupPrimitive.Root
+                className={cn(
+                  'isolate flex items-center justify-center rounded-md *:first:rounded-s-md *:last:rounded-e-md',
+                  variant === 'outline' &&
+                    '[&>*:first-child]:border-e-0 [&>*:not(:first-child):not(:last-child)]:border-e-0',
+                  className,
+                )}
+                ref={ref}
+                data-slot="toggle-group"
+                {...props}>
+                {children}
+              </ToggleGroupPrimitive.Root>
+            </LayoutGroup>
+          </ToggleGroupContext.Provider>
+        </MotionToggleGroupIdContext.Provider>
+      </LazyMotion>
+    )
+  },
+)
+MotionToggleGroup.displayName = 'MotionToggleGroup'
+
+const MotionToggleGroupItem: React.ForwardRefExoticComponent<
+  Omit<ToggleGroupItemProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'> &
+    React.RefAttributes<ToggleGroupItemElement>
+> = React.forwardRef<
+  ToggleGroupItemElement,
+  Omit<ToggleGroupItemProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+>(({ className, variant, size, children, value, ...props }, ref) => {
+  const context = React.useContext(ToggleGroupContext)
+  const groupId = React.useContext(MotionToggleGroupIdContext)
+  const btnRef = React.useRef<HTMLButtonElement>(null)
+  const [isOn, setIsOn] = React.useState(false)
+
+  React.useEffect(() => {
+    const el = btnRef.current
+    if (!el) return
+    const observer = new MutationObserver(() => {
+      setIsOn(el.getAttribute('data-state') === 'on')
+    })
+    setIsOn(el.getAttribute('data-state') === 'on')
+    observer.observe(el, { attributes: true, attributeFilter: ['data-state'] })
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <ToggleGroupPrimitive.Item asChild ref={ref} value={value} {...props}>
+      <m.button
+        ref={btnRef}
+        whileTap={tapScale}
+        transition={{ scale: { duration: 0, type: 'tween' } }}
+        className={cn(
+          toggleVariants({ variant: variant || context.variant, size: size || context.size }),
+          'relative rounded-none focus-visible:z-10 focus-visible:ring-offset-0 data-[state=on]:bg-transparent',
+          className,
+        )}
+        data-slot="toggle-group-item">
+        {isOn && (
+          <m.span
+            layoutId={`toggle-group-indicator-${groupId}`}
+            className="absolute inset-0 rounded-[inherit] bg-accent"
+            transition={springSmooth}
+          />
+        )}
+        <span className="relative z-10 inline-flex items-center justify-center">{children}</span>
+      </m.button>
+    </ToggleGroupPrimitive.Item>
+  )
+})
+MotionToggleGroupItem.displayName = 'MotionToggleGroupItem'
+
+export { MotionToggleGroup, MotionToggleGroupItem, ToggleGroup, ToggleGroupItem }
