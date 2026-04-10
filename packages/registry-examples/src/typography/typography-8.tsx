@@ -1,4 +1,4 @@
-export default function TypographyTable() {
+export default function Demo() {
   return (
     <div className="my-6 w-full overflow-y-auto">
       <table className="w-full">

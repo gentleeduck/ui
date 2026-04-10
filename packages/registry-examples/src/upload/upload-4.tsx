@@ -10,7 +10,7 @@
 //   UploadAdvancedProvider,
 // } from '@/registry/registry-ui-components/upload'
 //
-// export default function Upload4Demo() {
+// export default function Demo() {
 //   return (
 //     <>
 //       <UploadAdvancedProvider attachments={attachments} currentBucket="wildduck_attachments">

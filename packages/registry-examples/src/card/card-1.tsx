@@ -4,7 +4,7 @@ import { Input } from '@gentleduck/registry-ui/input'
 import { Label } from '@gentleduck/registry-ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'
 
-export default function CardWithForm() {
+export default function Demo() {
   return (
     <Card className="w-[350px]">
       <CardHeader>

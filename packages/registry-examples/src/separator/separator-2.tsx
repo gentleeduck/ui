@@ -1,6 +1,6 @@
 import { Separator } from '@gentleduck/registry-ui/separator'
 
-export default function SeparatorRtlDemo() {
+export default function Demo() {
   return (
     <div dir="rtl">
       <div>

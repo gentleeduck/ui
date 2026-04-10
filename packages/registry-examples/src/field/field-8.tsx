@@ -1,7 +1,7 @@
 import { Field, FieldDescription, FieldLabel, FieldSet } from '@gentleduck/registry-ui/field'
 import { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui/radio-group'
 
-export default function FieldRadio() {
+export default function Demo() {
   return (
     <div className="w-full max-w-md">
       <FieldSet>

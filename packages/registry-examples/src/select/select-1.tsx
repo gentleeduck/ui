@@ -9,7 +9,7 @@ import {
   SelectValue,
 } from '@gentleduck/registry-ui/select'
 
-export default function SelectDemo() {
+export default function Demo() {
   return (
     <Select>
       <SelectTrigger className="w-[180px]">

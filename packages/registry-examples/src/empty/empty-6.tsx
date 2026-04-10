@@ -3,7 +3,7 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from '@gentleduck/regist
 import { Kbd } from '@gentleduck/registry-ui/kbd'
 import { SearchIcon } from 'lucide-react'
 
-export default function EmptyInputGroup() {
+export default function Demo() {
   return (
     <Empty>
       <EmptyHeader>

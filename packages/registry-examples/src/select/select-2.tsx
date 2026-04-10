@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from '@gentleduck/registry-ui/select'
 
-export default function SelectScrollable() {
+export default function Demo() {
   return (
     <Select>
       <SelectTrigger className="w-[280px]">

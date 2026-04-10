@@ -11,7 +11,7 @@ import {
 } from '@gentleduck/registry-ui/alert-dialog'
 import { Button } from '@gentleduck/registry-ui/button'
 
-export default function AlertDialogMainDemo() {
+export default function Demo() {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>

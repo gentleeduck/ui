@@ -69,6 +69,15 @@ import { Skeleton } from "@/components/ui/skeleton"
   description="A card with skeleton showing a loading state."
 />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="skeleton-3"
+  description="A skeleton with RTL support."
+/>
+
 ## API Reference
 
 ### Skeleton
@@ -78,12 +87,3 @@ import { Skeleton } from "@/components/ui/skeleton"
 | `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
 | `className` | `string` | - | Additional CSS class names to control shape and size |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="skeleton-3"
-  description="A skeleton with RTL support."
-/>

@@ -31,7 +31,7 @@ const contacts = [
   },
 ]
 
-export default function ItemGroupExample() {
+export default function Demo() {
   return (
     <div className="flex w-full max-w-md flex-col gap-6">
       <ItemGroup>

@@ -11,7 +11,7 @@ function DirectionStatus() {
   )
 }
 
-export default function DirectionDemo() {
+export default function Demo() {
   return (
     <DirectionProvider dir={DIRECTION_DICTIONARY.rtl}>
       <DirectionStatus />

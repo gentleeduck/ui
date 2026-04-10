@@ -9,7 +9,7 @@ import {
 } from '@gentleduck/registry-ui/field'
 import { RadioGroup, RadioGroupItem } from '@gentleduck/registry-ui/radio-group'
 
-export default function FieldChoiceCard() {
+export default function Demo() {
   return (
     <div className="w-full max-w-md">
       <FieldGroup>

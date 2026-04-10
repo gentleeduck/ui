@@ -5,7 +5,7 @@ import { SonnerUpload } from '@gentleduck/registry-ui/sonner'
 import React from 'react'
 import { toast } from 'sonner'
 
-export default function SonnerMultiUploadDemo() {
+export default function Demo() {
   const intervalRef = React.useRef<ReturnType<typeof setInterval> | null>(null)
   const progressRef = React.useRef(0)
   const toastId = 'multi-upload'

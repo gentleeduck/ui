@@ -4,7 +4,7 @@ import { Button } from '@gentleduck/registry-ui/button'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui/collapsible'
 import { ChevronsUpDown } from 'lucide-react'
 
-export default function CollapsibleActiveDemo() {
+export default function Demo() {
   return (
     <Collapsible className="w-72 space-y-2">
       <div className="flex items-center justify-between space-x-4">

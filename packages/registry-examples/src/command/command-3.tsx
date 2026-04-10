@@ -12,7 +12,7 @@ import {
 } from '@gentleduck/registry-ui/command'
 import { Calculator, Calendar, CreditCard, Settings, Smile, User } from 'lucide-react'
 
-export default function CommandRtlDemo() {
+export default function Demo() {
   return (
     <Command className="h-fit w-80 border pt-0" dir="rtl">
       <CommandInput placeholder="...اكتب امرا او ابحث" />

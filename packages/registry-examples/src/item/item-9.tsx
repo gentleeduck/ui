@@ -1,7 +1,7 @@
 import { Item, ItemActions, ItemContent, ItemDescription, ItemTitle } from '@gentleduck/registry-ui/item'
 import { ChevronRightIcon, ExternalLinkIcon } from 'lucide-react'
 
-export default function ItemLink() {
+export default function Demo() {
   return (
     <div className="flex w-full max-w-md flex-col gap-4">
       <Item asChild>

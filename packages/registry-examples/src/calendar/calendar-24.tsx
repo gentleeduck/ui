@@ -60,7 +60,7 @@ function findOwnerRange(ranges: { from: Date; to: Date }[], date: Date) {
   return ranges.find((r) => !adapter.isBefore(date, r.from) && !adapter.isAfter(date, r.to))
 }
 
-export default function CalendarDemo() {
+export default function Demo() {
   const [dates, setDates] = React.useState<Date[]>([])
   const [anchor, setAnchor] = React.useState<Date | null>(null)
   const shiftRef = React.useRef(false)

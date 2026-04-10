@@ -78,7 +78,7 @@
 // // Generate the root folder with a set number of subfolders
 // const attachments: FolderType[] = Array.from({ length: 10 }, (_, i) => generateFolder(1)) // Start with level 1 for the root folder
 //
-// export default function Upload4Demo() {
+// export default function Demo() {
 //   // console.log('Attachments:', attachments)
 //   return (
 //     <>

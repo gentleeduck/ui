@@ -47,7 +47,7 @@ const components: { title: string; href: string; description: string }[] = [
   },
 ]
 
-export default function NavigationMenuRtlDemo() {
+export default function Demo() {
   return (
     <NavigationMenu dir="rtl">
       <NavigationMenuList>

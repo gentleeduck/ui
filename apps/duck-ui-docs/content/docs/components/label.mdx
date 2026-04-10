@@ -58,6 +58,15 @@ import { Label } from "@/components/ui/label"
 <Label htmlFor="email">Your email address</Label>
 ```
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="label-3"
+  description="A label with RTL support."
+/>
+
 ## API Reference
 
 ### Label
@@ -72,12 +81,3 @@ Renders an accessible label element associated with form controls.
 | `children` | `React.ReactNode` | - | Label text or elements |
 | `ref` | `React.Ref<HTMLLabelElement>` | - | Ref forwarded to the label element |
 | `...props` | `React.HTMLProps<HTMLLabelElement>` | - | Additional props to spread to the label element |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="label-3"
-  description="A label with RTL support."
-/>

@@ -1,6 +1,6 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui/accordion'
 
-export default function Accordion1Demo() {
+export default function Demo() {
   return (
     <Accordion className="w-[350px]" collapsible type="single">
       <AccordionItem value="item-1">

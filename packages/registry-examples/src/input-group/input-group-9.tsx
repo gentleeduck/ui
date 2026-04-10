@@ -7,7 +7,7 @@ import {
 import { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput } from '@gentleduck/registry-ui/input-group'
 import { ChevronDownIcon, MoreHorizontal } from 'lucide-react'
 
-export default function InputGroupDropdown() {
+export default function Demo() {
   return (
     <div className="grid w-full max-w-sm gap-4">
       <InputGroup>

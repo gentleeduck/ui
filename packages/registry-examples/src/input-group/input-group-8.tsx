@@ -3,7 +3,7 @@ import { Label } from '@gentleduck/registry-ui/label'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'
 import { InfoIcon } from 'lucide-react'
 
-export default function InputGroupLabel() {
+export default function Demo() {
   return (
     <TooltipProvider>
       <div className="grid w-full max-w-sm gap-4">

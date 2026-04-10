@@ -115,6 +115,15 @@ import {
 - Left-click does not open the menu.
 - Right-clicking outside closes the menu and allows the native browser menu to appear.
 
+## RTL Support
+
+Set `dir="rtl"` on `ContextMenu` for a local override, or set `DirectionProvider` once at app/root level for global direction.
+
+<ComponentPreview
+  name="context-menu-2"
+  description="A context menu with RTL support."
+/>
+
 ## API Reference
 
 Components in this file wrap `@gentleduck/primitives/context-menu`.
@@ -241,12 +250,3 @@ Components in this file wrap `@gentleduck/primitives/context-menu`.
 | `sideOffset` | `number` | - | Main-axis offset from sub-trigger |
 | `alignOffset` | `number` | - | Cross-axis offset from sub-trigger |
 | `...props` | `React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubContent>` | - | Additional props inherited from `ContextMenuPrimitive.SubContent` |
-
-## RTL Support
-
-Set `dir="rtl"` on `ContextMenu` for a local override, or set `DirectionProvider` once at app/root level for global direction.
-
-<ComponentPreview
-  name="context-menu-2"
-  description="A context menu with RTL support."
-/>

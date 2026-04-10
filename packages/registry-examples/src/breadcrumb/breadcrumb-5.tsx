@@ -8,7 +8,7 @@ import {
 } from '@gentleduck/registry-ui/breadcrumb'
 import Link from 'next/link'
 
-export default function BreadcrumbDemo() {
+export default function Demo() {
   return (
     <Breadcrumb>
       <BreadcrumbList>

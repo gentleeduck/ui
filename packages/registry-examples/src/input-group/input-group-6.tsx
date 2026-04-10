@@ -7,7 +7,7 @@ import {
 } from '@gentleduck/registry-ui/input-group'
 import { IconCopy, IconCornerDownLeft, IconDatabase, IconRefresh } from '@tabler/icons-react'
 
-export default function InputGroupTextareaExample() {
+export default function Demo() {
   return (
     <div className="grid w-full max-w-md gap-4">
       <InputGroup>

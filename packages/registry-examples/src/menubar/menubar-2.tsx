@@ -16,7 +16,7 @@ import {
   MenubarTrigger,
 } from '@gentleduck/registry-ui/menubar'
 
-export default function MenubarRtlDemo() {
+export default function Demo() {
   return (
     <Menubar dir="rtl">
       <MenubarMenu>

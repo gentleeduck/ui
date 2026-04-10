@@ -13,7 +13,7 @@ import { Input } from '@gentleduck/registry-ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'
 import { Textarea } from '@gentleduck/registry-ui/textarea'
 
-export default function FieldDemo() {
+export default function Demo() {
   return (
     <div className="w-full max-w-md">
       <form>

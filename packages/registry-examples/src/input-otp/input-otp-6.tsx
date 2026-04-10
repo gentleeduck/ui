@@ -14,7 +14,7 @@ const FormSchema = z.object({
   }),
 })
 
-export default function InputOTPForm() {
+export default function Demo() {
   const form = useForm<z.infer<typeof FormSchema>>({
     defaultValues: {
       pin: '',

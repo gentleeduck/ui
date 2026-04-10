@@ -42,7 +42,7 @@ const statuses: Status[] = [
   },
 ]
 
-export default function ComboBoxResponsive() {
+export default function Demo() {
   const [open, setOpen] = React.useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
   const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(null)

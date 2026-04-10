@@ -1,6 +1,6 @@
 import { PreviewPanel } from '@gentleduck/registry-ui/preview-panel'
 
-export default function PreviewPanelImage() {
+export default function Demo() {
   return (
     <PreviewPanel maxHeight="400px" initialZoom={0.8} className="rounded-lg border bg-card">
       {/* biome-ignore lint/performance/noImgElement: example component demonstrating PreviewPanel with a plain img */}

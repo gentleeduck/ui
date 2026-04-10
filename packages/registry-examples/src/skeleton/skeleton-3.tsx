@@ -1,6 +1,6 @@
 import { Skeleton } from '@gentleduck/registry-ui/skeleton'
 
-export default function SkeletonRtlDemo() {
+export default function Demo() {
   return (
     <div dir="rtl">
       <div className="flex items-center gap-4">

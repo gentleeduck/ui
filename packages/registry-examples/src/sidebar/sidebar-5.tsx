@@ -38,7 +38,7 @@ const data = {
   ],
 }
 
-export default function SidebarControlledDemo() {
+export default function Demo() {
   const [open, setOpen] = React.useState(true)
 
   return (

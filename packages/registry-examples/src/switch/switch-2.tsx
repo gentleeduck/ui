@@ -20,7 +20,7 @@ const FormSchema = z.object({
   security_emails: z.boolean(),
 })
 
-export default function SwitchForm() {
+export default function Demo() {
   const form = useForm<z.infer<typeof FormSchema>>({
     defaultValues: {
       security_emails: true,
@@ -82,7 +82,6 @@ export default function SwitchForm() {
                   {fieldState.invalid && fieldState.error && <FieldError errors={[fieldState.error]} />}
                 </FieldContent>
                 <Switch
-                  aria-readonly
                   id="switch-security-emails"
                   name={field.name}
                   checked={field.value}

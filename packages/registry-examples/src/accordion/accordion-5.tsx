@@ -1,7 +1,7 @@
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@gentleduck/registry-ui/accordion'
 import { DirectionProvider } from '@gentleduck/registry-ui/direction'
 
-export default function AccordionRtlDemo() {
+export default function Demo() {
   return (
     <DirectionProvider dir="rtl">
       <Accordion className="w-87.5" collapsible type="single">

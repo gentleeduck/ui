@@ -102,16 +102,6 @@ import { Textarea } from '@/components/ui/textarea'
 
 <ComponentPreview name="textarea-7" description="A textarea integrated with React Hook Form for bio input with validation." />
 
-## API Reference
-
-### Textarea
-
-| Prop | Type | Default | Description |
-| --- | --- | --- | --- |
-| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
-| `className` | `string` | - | Additional CSS class names |
-| `...props` | `React.HTMLProps<HTMLTextAreaElement>` | - | Additional props to spread to the textarea element |
-
 ## RTL Support
 
 Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
@@ -126,3 +116,12 @@ Direction is resolved through the shared primitives direction module. Use a loca
 - [Input](/docs/components/input)  -  Single-line text input
 - [Label](/docs/components/label)  -  Accessible label for form controls
 
+## API Reference
+
+### Textarea
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | - | Additional CSS class names |
+| `...props` | `React.HTMLProps<HTMLTextAreaElement>` | - | Additional props to spread to the textarea element |

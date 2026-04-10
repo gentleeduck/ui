@@ -14,7 +14,7 @@ import {
 import { Button } from '@gentleduck/registry-ui/button'
 import { Trash2 } from 'lucide-react'
 
-export default function AlertDialogActiveDemo() {
+export default function Demo() {
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>

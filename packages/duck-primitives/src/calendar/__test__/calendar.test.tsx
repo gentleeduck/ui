@@ -451,9 +451,8 @@ describe('CalendarMonthView', () => {
   it('current month is marked with data-current', () => {
     const { container } = renderCalendar({}, <CalendarMonthView />)
     const current = container.querySelector('[data-slot="calendar-month"][data-current="true"]')
-    // March (month index 2) should be marked as current
     expect(current).not.toBeNull()
-    expect(current?.getAttribute('data-month')).toBe('2')
+    expect(current?.getAttribute('data-month')).toBe(String(new Date().getMonth()))
   })
 
   it('click on month changes viewMode to days and updates header', () => {

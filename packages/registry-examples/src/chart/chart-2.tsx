@@ -23,7 +23,7 @@ const chartConfig = {
   },
 } satisfies ChartConfig
 
-export default function ChartDemo() {
+export default function Demo() {
   return (
     <ChartContainer className="min-h-[200px] w-full" config={chartConfig}>
       <BarChart data={chartData}>

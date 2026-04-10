@@ -411,7 +411,7 @@ function NavUser({
   )
 }
 
-export default function SidebarRtlDemo() {
+export default function Demo() {
   return (
     <DirectionContext.Provider value="rtl">
       <div className="transform-[translateZ(0)] relative flex h-full w-full overflow-hidden" dir="rtl">

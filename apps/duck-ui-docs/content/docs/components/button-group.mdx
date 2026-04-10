@@ -196,6 +196,15 @@ Use with a `Popover` component.
   description="A Copilot button paired with a popover that opens a task description form for starting agent tasks."
 />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="button-group-12"
+  description="A button group with RTL support."
+/>
+
 ## API Reference
 
 ### ButtonGroup
@@ -224,12 +233,3 @@ Use with a `Popover` component.
 | `className` | `string` | `--` | Additional class names to apply |
 | `children` | `React.ReactNode` | `--` | Text content to display |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="button-group-12"
-  description="A button group with RTL support."
-/>

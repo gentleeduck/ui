@@ -29,7 +29,7 @@ const workspaces = [
   },
 ]
 
-export default function ItemDropdown() {
+export default function Demo() {
   return (
     <div className="flex min-h-64 w-full max-w-md flex-col items-center gap-6">
       <DropdownMenu>

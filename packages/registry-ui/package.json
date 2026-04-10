@@ -55,6 +55,14 @@
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "test": "bun test"
   },
+  "peerDependencies": {
+    "motion": ">=12.0.0"
+  },
+  "peerDependenciesMeta": {
+    "motion": {
+      "optional": true
+    }
+  },
   "type": "module",
   "version": "0.3.2",
   "description": "Styled Tailwind components for Duck UI.",

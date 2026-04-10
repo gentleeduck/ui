@@ -98,6 +98,15 @@ import { Slider } from "@/components/ui/slider"
     A --> D[Slider.Thumb]
 `} />
 
+## RTL Support
+
+Set `dir="rtl"` on `Slider` for a local override, or set `DirectionProvider` once at app/root level for global direction.
+
+<ComponentPreview
+  name="slider-5"
+  description="A slider with RTL support."
+/>
+
 ## API Reference
 
 ### Slider
@@ -153,12 +162,3 @@ Renders a `<span>`. The thumb index is auto-detected from render order.
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `name` | `string` | - | Optional name override for this thumb's hidden input |
-
-## RTL Support
-
-Set `dir="rtl"` on `Slider` for a local override, or set `DirectionProvider` once at app/root level for global direction.
-
-<ComponentPreview
-  name="slider-5"
-  description="A slider with RTL support."
-/>

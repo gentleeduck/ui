@@ -2,7 +2,7 @@
 import { InputOTP, InputOTPGroup, InputOTPSlot } from '@gentleduck/registry-ui/input-otp'
 import React from 'react'
 
-export default function InputOTPControlled() {
+export default function Demo() {
   const [value, setValue] = React.useState('')
 
   return (

@@ -24,7 +24,7 @@ const TASKS = [
   { id: 'launch', title: 'Launch & review', description: 'Deploy and gather feedback.' },
 ]
 
-export default function DrawerChecklistDemo() {
+export default function Demo() {
   const [checked, setChecked] = React.useState<Set<string>>(new Set())
 
   const toggle = (id: string) => {

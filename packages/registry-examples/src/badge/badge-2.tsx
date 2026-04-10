@@ -1,8 +1,8 @@
 import { Badge } from '@gentleduck/registry-ui/badge'
 
-export default function Badge2Demo() {
+export default function Demo() {
   return (
-    <Badge arial-label="Badge" variant={'default'}>
+    <Badge aria-label="Badge" variant={'default'}>
       Badge
     </Badge>
   )

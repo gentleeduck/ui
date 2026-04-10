@@ -117,6 +117,20 @@ import { Checkbox } from "@/components/ui/checkbox"
     F[CheckboxGroup] --> D
 `} />
 
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="checkbox-9"
+  description="A checkbox with RTL support."
+/>
+
+## See also
+
+- [Radio Group](/docs/components/radio-group)  -  Single selection from a set of options
+- [Switch](/docs/components/switch)  -  Toggle between on and off states
+
 ## API Reference
 
 ### Checkbox
@@ -164,18 +178,3 @@ type CheckboxGroupSubtasks = {
   checked?: boolean | 'indeterminate'
 }
 ```
-
-## RTL Support
-
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
-
-<ComponentPreview
-  name="checkbox-9"
-  description="A checkbox with RTL support."
-/>
-
-## See also
-
-- [Radio Group](/docs/components/radio-group)  -  Single selection from a set of options
-- [Switch](/docs/components/switch)  -  Toggle between on and off states
-

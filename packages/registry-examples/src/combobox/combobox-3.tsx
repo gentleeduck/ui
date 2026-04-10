@@ -38,7 +38,7 @@ const statuses: Status[] = [
     value: 'canceled',
   },
 ]
-export default function ComboboxPopover() {
+export default function Demo() {
   const [open, setOpen] = React.useState(false)
   const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(null)
   return (

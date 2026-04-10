@@ -2,7 +2,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@gentleduck/registry-ui/ava
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@gentleduck/registry-ui/hover-card'
 import { CalendarIcon } from 'lucide-react'
 
-export default function HoverCardDemo() {
+export default function Demo() {
   return (
     <HoverCard>
       <HoverCardTrigger variant={'link'}>@nextjs</HoverCardTrigger>

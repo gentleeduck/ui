@@ -1,9 +1,9 @@
 import { Badge } from '@gentleduck/registry-ui/badge'
 
-export default function BadgeRtlDemo() {
+export default function Demo() {
   return (
     <div dir="rtl">
-      <Badge arial-label="Badge" size={'default'} variant={'default'}>
+      <Badge aria-label="Badge" size={'default'} variant={'default'}>
         شارة
       </Badge>
     </div>

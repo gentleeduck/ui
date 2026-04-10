@@ -4,7 +4,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck
 import { ChevronsUpDown } from 'lucide-react'
 import * as React from 'react'
 
-export default function CollapsibleRtlDemo() {
+export default function Demo() {
   const [isOpen, setIsOpen] = React.useState(false)
 
   return (

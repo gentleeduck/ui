@@ -199,6 +199,78 @@ export function CommandMenu() {
     I --> A
 `} />
 
+## Types
+
+### **CommandContextValue**
+
+Returned by `useCommandContext()`. Provides root command state.
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `search` | `string` | Current search query value. |
+| `onSearchChange` | `(search: string) => void` | Callback to update the search query. |
+| `dir` | `'ltr' \| 'rtl'` | Text direction for the command tree. Uses the same `useDirection` resolution order. |
+| `listId` | `string` | Auto-generated id linking the input to the list via `aria-controls`. |
+| `inputRef` | `React.RefObject<HTMLInputElement \| null>` | Search input field reference. |
+| `typeaheadSearchRef` | `React.RefObject<string>` | Ref tracking the current typeahead search string. |
+
+---
+
+### **CommandListContextValue**
+
+Returned by `useCommandListContext()`. Provides list-level state.
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `onItemLeave` | `() => void` | Called when pointer leaves an item; returns focus to the input. |
+| `listRef` | `React.RefObject<HTMLUListElement \| null>` | The `ul` element holding items. |
+| `emptyRef` | `React.RefObject<HTMLDivElement \| null>` | The empty state div ref. |
+| `selectedItem` | `HTMLLIElement \| null` | The first visible item after filtering. |
+
+---
+
+### **CommandItemContextValue**
+
+Per-item context. Available via `useCommandItemContext()`.
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `value` | `string` | The item's value. |
+| `disabled` | `boolean` | Whether the item is disabled. |
+| `textId` | `string` | Auto-generated id for the item's text label. |
+| `onItemTextChange` | `(node: HTMLElement \| null) => void` | Callback to update the item's text value from the DOM. |
+
+---
+
+### **CommandBadgeProps (CommandShortcut)**
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `keys` | `string` (optional) | Keyboard shortcut string (e.g. `'ctrl+K'`). |
+| `onKeysPressed` | `() => void` (optional) | Called when the shortcut is triggered. |
+| `variant` | `'default' \| 'secondary'` (optional) | Visual style. |
+| `...props` | `React.HTMLProps<HTMLElement>` | Native `kbd` element props. |
+
+## RTL Support
+
+RTL is handled at the primitive layer. Set `dir="rtl"` on the root `Command` for a local override, or set `DirectionProvider` once at app/root level for global direction. Child primitives inherit direction automatically.
+
+```tsx
+<Command dir="rtl">
+  <CommandInput placeholder="..." />
+  <CommandList>
+    <CommandGroup heading="...">
+      <CommandItem>...</CommandItem>
+    </CommandGroup>
+  </CommandList>
+</Command>
+```
+
+<ComponentPreview
+  name="command-3"
+  description="A command with RTL support."
+/>
+
 ## API Reference
 
 ### Command
@@ -284,75 +356,3 @@ Renders a `div` with `role="separator"` and `aria-hidden`. Visibility is automat
 | `shouldFilter` | `boolean` | - | Whether the command primitive should filter items internally |
 | `contentClassName` | `string` | - | Additional CSS classes applied to the inner `DialogContent`, useful for controlling dialog size |
 | `...props` | `React.ComponentPropsWithRef<typeof Dialog>` | - | Additional props inherited from `Dialog`. |
-
-## Types
-
-### **CommandContextValue**
-
-Returned by `useCommandContext()`. Provides root command state.
-
-| Property | Type | Description |
-| --- | --- | --- |
-| `search` | `string` | Current search query value. |
-| `onSearchChange` | `(search: string) => void` | Callback to update the search query. |
-| `dir` | `'ltr' \| 'rtl'` | Text direction for the command tree. Uses the same `useDirection` resolution order. |
-| `listId` | `string` | Auto-generated id linking the input to the list via `aria-controls`. |
-| `inputRef` | `React.RefObject<HTMLInputElement \| null>` | Search input field reference. |
-| `typeaheadSearchRef` | `React.RefObject<string>` | Ref tracking the current typeahead search string. |
-
----
-
-### **CommandListContextValue**
-
-Returned by `useCommandListContext()`. Provides list-level state.
-
-| Property | Type | Description |
-| --- | --- | --- |
-| `onItemLeave` | `() => void` | Called when pointer leaves an item; returns focus to the input. |
-| `listRef` | `React.RefObject<HTMLUListElement \| null>` | The `ul` element holding items. |
-| `emptyRef` | `React.RefObject<HTMLDivElement \| null>` | The empty state div ref. |
-| `selectedItem` | `HTMLLIElement \| null` | The first visible item after filtering. |
-
----
-
-### **CommandItemContextValue**
-
-Per-item context. Available via `useCommandItemContext()`.
-
-| Property | Type | Description |
-| --- | --- | --- |
-| `value` | `string` | The item's value. |
-| `disabled` | `boolean` | Whether the item is disabled. |
-| `textId` | `string` | Auto-generated id for the item's text label. |
-| `onItemTextChange` | `(node: HTMLElement \| null) => void` | Callback to update the item's text value from the DOM. |
-
----
-
-### **CommandBadgeProps (CommandShortcut)**
-
-| Property | Type | Description |
-| --- | --- | --- |
-| `keys` | `string` (optional) | Keyboard shortcut string (e.g. `'ctrl+K'`). |
-| `onKeysPressed` | `() => void` (optional) | Called when the shortcut is triggered. |
-| `variant` | `'default' \| 'secondary'` (optional) | Visual style. |
-| `...props` | `React.HTMLProps<HTMLElement>` | Native `kbd` element props. |
-
-## RTL Support
-
-RTL is handled at the primitive layer. Set `dir="rtl"` on the root `Command` for a local override, or set `DirectionProvider` once at app/root level for global direction. Child primitives inherit direction automatically.
-
-```tsx
-<Command dir="rtl">
-  <CommandInput placeholder="..." />
-  <CommandList>
-    <CommandGroup heading="...">
-      <CommandItem>...</CommandItem>
-    </CommandGroup>
-  </CommandList>
-</Command>
-```
-
-<ComponentPreview
-  name="command-3"
-  description="A command with RTL support."
-/>

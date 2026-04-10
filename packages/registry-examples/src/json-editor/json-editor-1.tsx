@@ -21,7 +21,7 @@ const DEFAULT_SETTINGS: Record<string, unknown> = {
   theme: 'system',
 }
 
-export default function JsonEditorInlineExample() {
+export default function Demo() {
   const form = useForm<JsonEditorValues>({
     defaultValues: {
       settings: DEFAULT_SETTINGS,

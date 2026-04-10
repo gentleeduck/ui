@@ -2,7 +2,7 @@ import { Button } from '@gentleduck/registry-ui/button'
 import { Inbox } from 'lucide-react'
 import React from 'react'
 
-export default function Button17Demo() {
+export default function Demo() {
   const [open, setOpen] = React.useState<boolean>(false)
 
   return (

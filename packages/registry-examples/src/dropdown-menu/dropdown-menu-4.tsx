@@ -16,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from '@gentleduck/registry-ui/dropdown-menu'
 
-export default function DropdownMenuRtlDemo() {
+export default function Demo() {
   return (
     <DropdownMenu dir="rtl">
       <DropdownMenuTrigger asChild>

@@ -2,7 +2,7 @@ import { Alert, AlertDescription, AlertTitle } from '@gentleduck/registry-ui/ale
 import { DirectionProvider } from '@gentleduck/registry-ui/direction'
 import { AlertCircleIcon, CheckCircle2Icon, PopcornIcon } from 'lucide-react'
 
-export default function AlertRtlDemo() {
+export default function Demo() {
   return (
     <DirectionProvider dir="rtl">
       <div className="grid w-full max-w-xl items-start gap-4">

@@ -1,7 +1,11 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springStiff } from '@gentleduck/motion/transitions/springs'
 import * as AlertDialogPrimitive from '@gentleduck/primitives/alert-dialog'
+import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from '../button'
 
@@ -99,6 +103,45 @@ const AlertDialogCancel = React.forwardRef<
 ))
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
 
+const MotionAlertDialogContent = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<'div'> & { open: boolean }
+>(({ className, open, children, ...props }, ref) => {
+  const overlay = useMotionPreset('fadeIn')
+  const content = useMotionPreset('scaleIn', {
+    transition: springStiff,
+  })
+
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <AlertDialogPortal forceMount>
+        <AnimatePresence>
+          {open ? (
+            <m.div key="motion-alert-wrapper">
+              <AlertDialogPrimitive.Overlay forceMount asChild>
+                {/* @ts-expect-error -- motion preset types are compatible at runtime */}
+                <m.div className={cn('fixed inset-0 z-50 bg-black/80')} {...overlay} />
+              </AlertDialogPrimitive.Overlay>
+              <AlertDialogPrimitive.Content ref={ref} forceMount asChild {...props}>
+                {/* @ts-expect-error -- motion preset types are compatible at runtime */}
+                <m.div
+                  className={cn(
+                    'fixed top-1/2 left-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg',
+                    className,
+                  )}
+                  {...content}>
+                  {children}
+                </m.div>
+              </AlertDialogPrimitive.Content>
+            </m.div>
+          ) : null}
+        </AnimatePresence>
+      </AlertDialogPortal>
+    </LazyMotion>
+  )
+})
+MotionAlertDialogContent.displayName = 'MotionAlertDialogContent'
+
 export {
   AlertDialog,
   AlertDialogAction,
@@ -111,4 +154,5 @@ export {
   AlertDialogPortal,
   AlertDialogTitle,
   AlertDialogTrigger,
+  MotionAlertDialogContent,
 }

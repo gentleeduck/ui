@@ -34,7 +34,7 @@
 // import { columns } from './table-1'
 // import { tableData } from './table-2'
 //
-// export default function TableDemo3() {
+// export default function Demo() {
 //   return (
 //     <>
 //       <DuckTableProvider table_columns={columns} table_rows={tableData}>

@@ -1,7 +1,7 @@
 import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from '@gentleduck/registry-ui/field'
 import { Input } from '@gentleduck/registry-ui/input'
 
-export default function FieldInput() {
+export default function Demo() {
   return (
     <div className="w-full max-w-md">
       <FieldSet>
