@@ -114,6 +114,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="An accordion with RTL support."
 />
 
+## Motion
+
+Use `MotionAccordionItem`, `MotionAccordionTrigger`, and `MotionAccordionContent` for smooth height animations powered by [motion](https://motion.dev). The content animates from height 0 to auto with a fade, using a 200ms ease-out curve.
+
+<ComponentPreview
+  name="accordion-7"
+  description="An accordion with motion-powered height animations."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Replace `AccordionItem` with `MotionAccordionItem`, `AccordionTrigger` with `MotionAccordionTrigger`, and `AccordionContent` with `MotionAccordionContent`. The `Accordion` root stays the same.
+</Callout>
+
 ## API Reference
 
 ### Accordion
