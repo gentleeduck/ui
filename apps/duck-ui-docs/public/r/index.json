@@ -19261,6 +19261,11 @@
         "name": "pagination-3.tsx",
         "path": "pagination/pagination-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "pagination-4.tsx",
+        "path": "pagination/pagination-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -19293,6 +19298,11 @@
         "name": "pagination-3.tsx",
         "path": "pagination/pagination-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "pagination-4.tsx",
+        "path": "pagination/pagination-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -19324,6 +19334,48 @@
       {
         "name": "pagination-3.tsx",
         "path": "pagination/pagination-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "pagination-4.tsx",
+        "path": "pagination/pagination-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "pagination/pagination-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "pagination-4",
+    "registryDependencies": [
+      "pagination"
+    ],
+    "root_folder": "pagination",
+    "type": "registry:example",
+    "source": "/registry-examples/src/pagination",
+    "tree": [
+      {
+        "name": "pagination-1.tsx",
+        "path": "pagination/pagination-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "pagination-2.tsx",
+        "path": "pagination/pagination-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "pagination-3.tsx",
+        "path": "pagination/pagination-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "pagination-4.tsx",
+        "path": "pagination/pagination-4.tsx",
         "type": "file"
       }
     ]
