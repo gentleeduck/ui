@@ -29,7 +29,10 @@ Separator.displayName = 'Separator'
 
 const MotionSeparator = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & {
+  Omit<
+    React.HTMLAttributes<HTMLDivElement>,
+    'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
+  > & {
     orientation?: 'horizontal' | 'vertical'
   }
 >(({ className, orientation = 'horizontal', dir, ...props }, ref) => {

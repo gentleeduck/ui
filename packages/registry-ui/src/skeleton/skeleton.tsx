@@ -27,7 +27,9 @@ Skeleton.displayName = 'Skeleton'
 
 const MotionSkeleton = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & { index?: number }
+  Omit<React.HTMLAttributes<HTMLDivElement>, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'> & {
+    index?: number
+  }
 >(({ className, dir, index = 0, ...props }, ref) => {
   const direction = useDirection(dir as Direction)
   const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.05 })
