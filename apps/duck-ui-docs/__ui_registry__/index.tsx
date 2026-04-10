@@ -532,6 +532,7 @@ const _Resizable1 = dynamic(() => import('@gentleduck/registry-examples/resizabl
 const _Resizable2 = dynamic(() => import('@gentleduck/registry-examples/resizable/resizable-2'), { ssr: false })
 const _Resizable3 = dynamic(() => import('@gentleduck/registry-examples/resizable/resizable-3'), { ssr: false })
 const _Resizable4 = dynamic(() => import('@gentleduck/registry-examples/resizable/resizable-4'), { ssr: false })
+const _Resizable5 = dynamic(() => import('@gentleduck/registry-examples/resizable/resizable-5'), { ssr: false })
 const _Pagination1 = dynamic(() => import('@gentleduck/registry-examples/pagination/pagination-1'), { ssr: false })
 const _Pagination2 = dynamic(() => import('@gentleduck/registry-examples/pagination/pagination-2'), { ssr: false })
 const _Pagination3 = dynamic(() => import('@gentleduck/registry-examples/pagination/pagination-3'), { ssr: false })
@@ -6352,6 +6353,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Resizable4,
+    source: '/registry-examples/src/resizable',
+    categories: [],
+    root_folder: 'resizable',
+  },
+  'resizable-5': {
+    name: 'resizable-5',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['resizable'],
+    files: [
+      {
+        path: 'resizable/resizable-5.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Resizable5,
     source: '/registry-examples/src/resizable',
     categories: [],
     root_folder: 'resizable',
