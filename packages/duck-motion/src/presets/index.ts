@@ -1,3 +1,4 @@
+export { contentTransition, fadeUp, slideUpBlur, spinIn } from './content'
 export { createDirectionalPreset } from './directional'
 export { fadeIn } from './fade-in'
 export { fadeOut } from './fade-out'

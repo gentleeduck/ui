@@ -208,7 +208,7 @@ const AccordionTrigger = React.forwardRef<
   return (
     <summary
       className={cn(
-        'flex flex-1 cursor-pointer items-center justify-between py-4 font-medium text-base ring-offset-background transition-all hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        'flex flex-1 cursor-pointer select-none items-center justify-between py-4 font-medium text-base ring-offset-background transition-all hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         className,
       )}
       ref={ref as React.Ref<HTMLElement>}
@@ -310,7 +310,7 @@ const MotionAccordionTrigger = React.forwardRef<
   return (
     <summary
       className={cn(
-        'flex flex-1 cursor-pointer items-center justify-between py-4 font-medium text-base ring-offset-background transition-all hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        'flex flex-1 cursor-pointer select-none items-center justify-between py-4 font-medium text-base ring-offset-background transition-all hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         className,
       )}
       ref={ref as React.Ref<HTMLElement>}
