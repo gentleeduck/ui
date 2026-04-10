@@ -126,7 +126,7 @@ export default function Example() {
 
 ### Handle
 
-You can set or hide the handle by using the `withHandle` prop on the `ResizableHandle` component.
+The grip handle shows by default. Pass `withHandle={false}` to render only the thin line without the visible grip.
 
 <ComponentPreview
   name="resizable-3"
@@ -144,7 +144,7 @@ export default function Example() {
   return (
     <ResizablePanelGroup orientation="horizontal">
       <ResizablePanel>One</ResizablePanel>
-      <ResizableHandle withHandle />
+      <ResizableHandle />
       <ResizablePanel>Two</ResizablePanel>
     </ResizablePanelGroup>
   )
@@ -211,7 +211,7 @@ Re-exports `Panel` from `react-resizable-panels` directly.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `withHandle` | `boolean` | `--` | Whether to render the visible grip icon handle |
+| `withHandle` | `boolean` | `true` | Whether to render the visible grip icon handle. Set to `false` to show only the thin line. |
 | `className` | `string` | `--` | Additional CSS classes for the resize handle |
 | `...props` | `React.ComponentPropsWithoutRef<typeof PanelResizeHandle>` | - | Additional props inherited from `Separator`. |
 

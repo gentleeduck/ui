@@ -21,7 +21,7 @@ export default function Demo() {
               <span className="font-semibold">Two</span>
             </div>
           </ResizablePanel>
-          <ResizableHandle />
+          <ResizableHandle withHandle />
           <ResizablePanel defaultSize={75}>
             <div className="flex h-full items-center justify-center p-6">
               <span className="font-semibold">Three</span>
