@@ -16,6 +16,7 @@ export {
   tweenExpand,
   tweenFast,
   tweenInstant,
+  tweenMicro,
   tweenNormal,
   tweenShake,
   tweenSlow,

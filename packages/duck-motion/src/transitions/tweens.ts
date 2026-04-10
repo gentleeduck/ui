@@ -35,6 +35,9 @@ export const tweenExit: MotionTransitionConfig = { duration: 0.2, ease: [0.4, 0,
 /** Expo-out tween for expand/collapse animations. Use for accordion, collapsible, and height reveals. */
 export const tweenExpand: MotionTransitionConfig = { duration: 0.25, ease: [0.16, 1, 0.3, 1] }
 
+/** Ultra-fast tween for tooltips and micro-interactions. 100ms ease-out. */
+export const tweenMicro: MotionTransitionConfig = { duration: 0.1, ease: [0, 0, 0.2, 1] }
+
 /** Tween for error shake feedback. Use for disabled buttons, invalid inputs. */
 export const tweenShake: MotionTransitionConfig = { duration: 0.4 }
 

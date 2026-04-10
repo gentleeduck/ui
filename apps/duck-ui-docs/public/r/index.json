@@ -12141,6 +12141,11 @@
         "name": "hover-card-3.tsx",
         "path": "hover-card/hover-card-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "hover-card-4.tsx",
+        "path": "hover-card/hover-card-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -12173,6 +12178,11 @@
         "name": "hover-card-3.tsx",
         "path": "hover-card/hover-card-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "hover-card-4.tsx",
+        "path": "hover-card/hover-card-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -12204,6 +12214,48 @@
       {
         "name": "hover-card-3.tsx",
         "path": "hover-card/hover-card-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "hover-card-4.tsx",
+        "path": "hover-card/hover-card-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "hover-card/hover-card-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "hover-card-4",
+    "registryDependencies": [
+      "hover-card"
+    ],
+    "root_folder": "hover-card",
+    "type": "registry:example",
+    "source": "/registry-examples/src/hover-card",
+    "tree": [
+      {
+        "name": "hover-card-1.tsx",
+        "path": "hover-card/hover-card-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "hover-card-2.tsx",
+        "path": "hover-card/hover-card-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "hover-card-3.tsx",
+        "path": "hover-card/hover-card-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "hover-card-4.tsx",
+        "path": "hover-card/hover-card-4.tsx",
         "type": "file"
       }
     ]
@@ -14193,6 +14245,11 @@
         "name": "tabs-3.tsx",
         "path": "tabs/tabs-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "tabs-4.tsx",
+        "path": "tabs/tabs-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -14225,6 +14282,11 @@
         "name": "tabs-3.tsx",
         "path": "tabs/tabs-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "tabs-4.tsx",
+        "path": "tabs/tabs-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -14256,6 +14318,48 @@
       {
         "name": "tabs-3.tsx",
         "path": "tabs/tabs-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "tabs-4.tsx",
+        "path": "tabs/tabs-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "tabs/tabs-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "tabs-4",
+    "registryDependencies": [
+      "tabs"
+    ],
+    "root_folder": "tabs",
+    "type": "registry:example",
+    "source": "/registry-examples/src/tabs",
+    "tree": [
+      {
+        "name": "tabs-1.tsx",
+        "path": "tabs/tabs-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "tabs-2.tsx",
+        "path": "tabs/tabs-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "tabs-3.tsx",
+        "path": "tabs/tabs-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "tabs-4.tsx",
+        "path": "tabs/tabs-4.tsx",
         "type": "file"
       }
     ]
@@ -15662,6 +15766,11 @@
         "name": "tooltip-4.tsx",
         "path": "tooltip/tooltip-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "tooltip-5.tsx",
+        "path": "tooltip/tooltip-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -15698,6 +15807,11 @@
       {
         "name": "tooltip-4.tsx",
         "path": "tooltip/tooltip-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "tooltip-5.tsx",
+        "path": "tooltip/tooltip-5.tsx",
         "type": "file"
       }
     ]
@@ -15736,6 +15850,11 @@
         "name": "tooltip-4.tsx",
         "path": "tooltip/tooltip-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "tooltip-5.tsx",
+        "path": "tooltip/tooltip-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -15772,6 +15891,53 @@
       {
         "name": "tooltip-4.tsx",
         "path": "tooltip/tooltip-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "tooltip-5.tsx",
+        "path": "tooltip/tooltip-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "tooltip/tooltip-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "tooltip-5",
+    "registryDependencies": [
+      "tooltip"
+    ],
+    "root_folder": "tooltip",
+    "type": "registry:example",
+    "source": "/registry-examples/src/tooltip",
+    "tree": [
+      {
+        "name": "tooltip-1.tsx",
+        "path": "tooltip/tooltip-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "tooltip-2.tsx",
+        "path": "tooltip/tooltip-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "tooltip-3.tsx",
+        "path": "tooltip/tooltip-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "tooltip-4.tsx",
+        "path": "tooltip/tooltip-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "tooltip-5.tsx",
+        "path": "tooltip/tooltip-5.tsx",
         "type": "file"
       }
     ]
