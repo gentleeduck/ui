@@ -1,8 +1,12 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
+import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { GripVertical } from 'lucide-react'
+import { LazyMotion, m } from 'motion/react'
 import React from 'react'
 import * as ResizablePrimitive from 'react-resizable-panels'
 
@@ -51,4 +55,34 @@ const ResizableHandle = React.forwardRef<
 ))
 ResizableHandle.displayName = 'ResizableHandle'
 
-export { ResizableHandle, ResizablePanel, ResizablePanelGroup }
+/* ------------------------------------------------------------------ */
+/*  Motion variants                                                     */
+/* ------------------------------------------------------------------ */
+
+const MotionResizablePanelGroup = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentPropsWithoutRef<typeof ResizablePrimitive.Group> & { dir?: Direction }
+>(({ className, dir, ...props }, ref) => {
+  const direction = useDirection(dir as Direction)
+  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <m.div
+        initial={content.initial}
+        animate={content.animate}
+        transition={content.transition}
+        className={cn('h-full w-full', className)}>
+        <ResizablePrimitive.Group
+          className={cn('flex h-full w-full data-[panel-group-direction=vertical]:flex-col')}
+          data-slot="panel-group"
+          dir={direction}
+          elementRef={ref}
+          {...props}
+        />
+      </m.div>
+    </LazyMotion>
+  )
+})
+MotionResizablePanelGroup.displayName = 'MotionResizablePanelGroup'
+
+export { MotionResizablePanelGroup, ResizableHandle, ResizablePanel, ResizablePanelGroup }
