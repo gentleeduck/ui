@@ -11,13 +11,13 @@ import {
   MotionAlertDialog,
   MotionAlertDialogContent,
 } from '@gentleduck/registry-ui/alert-dialog'
-import { Button } from '@gentleduck/registry-ui/button'
+import { Button, MotionButton } from '@gentleduck/registry-ui/button'
 
 export default function Demo() {
   return (
     <MotionAlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="outline">Open</Button>
+        <MotionButton variant="outline">Open</MotionButton>
       </AlertDialogTrigger>
       <MotionAlertDialogContent>
         <AlertDialogHeader>
