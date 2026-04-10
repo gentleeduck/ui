@@ -19056,6 +19056,11 @@
         "name": "resizable-4.tsx",
         "path": "resizable/resizable-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "resizable-5.tsx",
+        "path": "resizable/resizable-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -19092,6 +19097,11 @@
       {
         "name": "resizable-4.tsx",
         "path": "resizable/resizable-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "resizable-5.tsx",
+        "path": "resizable/resizable-5.tsx",
         "type": "file"
       }
     ]
@@ -19130,6 +19140,11 @@
         "name": "resizable-4.tsx",
         "path": "resizable/resizable-4.tsx",
         "type": "file"
+      },
+      {
+        "name": "resizable-5.tsx",
+        "path": "resizable/resizable-5.tsx",
+        "type": "file"
       }
     ]
   },
@@ -19166,6 +19181,53 @@
       {
         "name": "resizable-4.tsx",
         "path": "resizable/resizable-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "resizable-5.tsx",
+        "path": "resizable/resizable-5.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "resizable/resizable-5.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "resizable-5",
+    "registryDependencies": [
+      "resizable"
+    ],
+    "root_folder": "resizable",
+    "type": "registry:example",
+    "source": "/registry-examples/src/resizable",
+    "tree": [
+      {
+        "name": "resizable-1.tsx",
+        "path": "resizable/resizable-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "resizable-2.tsx",
+        "path": "resizable/resizable-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "resizable-3.tsx",
+        "path": "resizable/resizable-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "resizable-4.tsx",
+        "path": "resizable/resizable-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "resizable-5.tsx",
+        "path": "resizable/resizable-5.tsx",
         "type": "file"
       }
     ]
