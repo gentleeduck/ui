@@ -4,6 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
+import { slideUp } from '@gentleduck/motion/presets/slide-up'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
@@ -158,7 +159,7 @@ TypographyTd.displayName = 'TypographyTd'
 type MotionIndexProps = { index?: number }
 
 function useTypographyMotion(index: number) {
-  return useMotionPreset('slideUp', {
+  return useMotionPreset(slideUp, {
     transition: springBouncy,
     delay: index * 0.05,
   })

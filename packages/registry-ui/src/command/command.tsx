@@ -6,6 +6,7 @@ import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import * as CommandPrimitive from '@gentleduck/primitives/command'
 import { useKeyCommands } from '@gentleduck/vim/react'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { Search } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
@@ -122,7 +123,7 @@ const MotionCommandItem = React.forwardRef<
     'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
   > & { index?: number }
 >(({ className, index = 0, children, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.03 })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy, delay: index * 0.03 })
   return (
     <LazyMotion features={loadDomAnimation}>
       <CommandPrimitive.Item asChild ref={ref} {...props}>

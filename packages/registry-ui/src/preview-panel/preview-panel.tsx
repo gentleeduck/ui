@@ -5,6 +5,7 @@ import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { Minus, Plus, RotateCcw } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -501,7 +502,7 @@ const MotionPreviewPanel = React.forwardRef<
   ) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const contentRef = useRef<HTMLDivElement>(null)
-    const content = useMotionPreset('scaleIn', { transition: springBouncy })
+    const content = useMotionPreset(scaleIn, { transition: springBouncy })
 
     const s = useRef({
       zoom: initialZoom,

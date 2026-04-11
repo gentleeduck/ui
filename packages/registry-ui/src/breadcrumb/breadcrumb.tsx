@@ -6,6 +6,8 @@ import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springSnappy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
+import { slideFromLeft } from '@gentleduck/motion/presets/slide-from-left'
 import { ChevronRight, MoreHorizontal } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
@@ -124,7 +126,7 @@ const MotionBreadcrumbItem = React.forwardRef<
     index?: number
   }
 >(({ className, index = 0, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springSnappy, delay: index * 0.035 })
+  const content = useMotionPreset(scaleIn, { transition: springSnappy, delay: index * 0.035 })
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.li
@@ -147,7 +149,7 @@ const MotionBreadcrumbSeparator = React.forwardRef<
     index?: number
   }
 >(({ children, className, index = 0, ...props }, ref) => {
-  const content = useMotionPreset('slideFromLeft', { transition: springSnappy, delay: index * 0.035 })
+  const content = useMotionPreset(slideFromLeft, { transition: springSnappy, delay: index * 0.035 })
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.li

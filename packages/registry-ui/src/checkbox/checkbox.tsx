@@ -8,6 +8,7 @@ import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { checkersStylePattern } from '@gentleduck/motion/variants'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Label } from '../label'
@@ -180,7 +181,7 @@ const MotionCheckboxWithLabel = React.forwardRef<
   Omit<CheckboxWithLabelProps, 'ref'> & { index?: number }
 >(({ id, _checkbox, _label, className, index = 0 }, ref) => {
   const { className: labelClassName, ...labelProps } = _label
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.05 })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy, delay: index * 0.05 })
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div

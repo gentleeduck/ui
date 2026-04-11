@@ -5,6 +5,7 @@ import { tapScale } from '@gentleduck/motion/presets/content'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import * as PaginationPrimitive from '@gentleduck/primitives/pagination'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import {
   ChevronLeft,
   ChevronLeftIcon,
@@ -188,7 +189,7 @@ const MotionPagination = React.forwardRef<
   React.ComponentRef<typeof PaginationPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof PaginationPrimitive.Root>
 >(({ className, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy })
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
@@ -208,7 +209,7 @@ const MotionPaginationLink = React.forwardRef<
   HTMLAnchorElement,
   Omit<PaginationLinkProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'> & { index?: number }
 >(({ className, isActive, size = 'icon', index = 0, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.05 })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy, delay: index * 0.05 })
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.a

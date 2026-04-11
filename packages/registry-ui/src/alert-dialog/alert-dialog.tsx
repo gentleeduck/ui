@@ -6,6 +6,8 @@ import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springStiff } from '@gentleduck/motion/transitions/springs'
 import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as AlertDialogPrimitive from '@gentleduck/primitives/alert-dialog'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
+import { fadeIn } from '@gentleduck/motion/presets/fade-in'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from '../button'
@@ -127,8 +129,8 @@ const MotionAlertDialogContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
   const { isOpen } = useMotionContent()
-  const overlay = useMotionPreset('fadeIn')
-  const content = useMotionPreset('scaleIn', {
+  const overlay = useMotionPreset(fadeIn)
+  const content = useMotionPreset(scaleIn, {
     transition: springStiff,
   })
   const shouldRender = useMotionMount(isOpen)

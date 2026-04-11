@@ -6,6 +6,7 @@ import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import type { VariantProps } from '@gentleduck/variants'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { alertVariants } from './alert.constants'
@@ -67,7 +68,7 @@ const MotionAlert = React.forwardRef<
   >
 >(({ className, variant, dir, ...props }, ref) => {
   const direction = useDirection(dir as Direction)
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy })
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div
@@ -90,7 +91,7 @@ const MotionAlertTitle = React.forwardRef<
   HTMLDivElement,
   Omit<React.HTMLAttributes<HTMLDivElement>, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
 >(({ className, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.1 })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy, delay: 0.1 })
   return (
     <m.div
       ref={ref}
@@ -109,7 +110,7 @@ const MotionAlertDescription = React.forwardRef<
   HTMLDivElement,
   Omit<React.HTMLAttributes<HTMLDivElement>, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
 >(({ className, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.18 })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy, delay: 0.18 })
   return (
     <m.div
       ref={ref}

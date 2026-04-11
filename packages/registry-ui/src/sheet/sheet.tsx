@@ -8,6 +8,7 @@ import { tweenSlow } from '@gentleduck/motion/transitions/tweens'
 import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as SheetPrimitive from '@gentleduck/primitives/sheet'
 import type { VariantProps } from '@gentleduck/variants'
+import { fadeIn } from '@gentleduck/motion/presets/fade-in'
 import { X } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
@@ -123,7 +124,7 @@ const MotionSheetContent = React.forwardRef<
   SheetContentProps & { closeText?: string; hideClose?: boolean }
 >(({ side = 'right', className, children, closeText = 'Close', hideClose = false, ...props }, ref) => {
   const { isOpen } = useMotionContent()
-  const overlay = useMotionPreset('fadeIn')
+  const overlay = useMotionPreset(fadeIn)
   const slide = React.useMemo(() => createSlideEdge(side ?? 'right'), [side])
   // Sheet uses tweenSlow (300ms) for its slide, so give the exit a bit more
   // room before unmounting.

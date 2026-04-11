@@ -11,6 +11,7 @@ import {
 } from '@gentleduck/motion/presets/content'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { Slot, Slottable } from '@gentleduck/primitives/slot'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { Loader } from 'lucide-react'
 import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
@@ -113,7 +114,7 @@ const MotionButton = React.forwardRef<
     },
     ref,
   ) => {
-    const content = useMotionPreset('scaleIn', { transition: springBouncy })
+    const content = useMotionPreset(scaleIn, { transition: springBouncy })
     return (
       <LazyMotion features={loadDomAnimation}>
         <m.button
