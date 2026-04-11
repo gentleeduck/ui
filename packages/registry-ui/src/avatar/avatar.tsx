@@ -83,9 +83,11 @@ AvatarGroup.displayName = 'AvatarGroup'
 /*  Motion variants                                                    */
 /* ------------------------------------------------------------------ */
 
+const MOTION_AVATAR_OPTIONS = { transition: springBouncy } as const
+
 const MotionAvatar = React.forwardRef<React.ComponentRef<typeof Avatar>, React.ComponentPropsWithoutRef<typeof Avatar>>(
   (props, ref) => {
-    const content = useMotionPreset('scaleIn', { transition: springBouncy })
+    const content = useMotionPreset('scaleIn', MOTION_AVATAR_OPTIONS)
     return (
       <LazyMotion features={loadDomAnimation}>
         <m.div
@@ -105,7 +107,7 @@ const MotionAvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
   ({ imgs, maxVisible = 3, className, ...props }, ref) => {
     const visibleImgs = imgs.slice(0, maxVisible)
     const overflowCount = imgs.length > maxVisible ? imgs.length - maxVisible : 0
-    const content = useMotionPreset('scaleIn', { transition: springBouncy })
+    const content = useMotionPreset('scaleIn', MOTION_AVATAR_OPTIONS)
 
     return (
       <LazyMotion features={loadDomAnimation}>
