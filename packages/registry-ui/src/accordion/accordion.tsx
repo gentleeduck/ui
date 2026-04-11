@@ -4,11 +4,11 @@ import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { heightAuto } from '@gentleduck/motion/presets/height-auto'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { duckMotionDuration, tweenExpand } from '@gentleduck/motion/transitions/tweens'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Mount } from '@gentleduck/primitives/mount'
-import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { ChevronDown } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
@@ -142,7 +142,7 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
             value: currentValues,
             wrapperRef,
           }),
-          [handleAccordionItemChange, onValueChange, renderOnce, currentValues, wrapperRef],
+          [handleAccordionItemChange, onValueChange, renderOnce, currentValues],
         )}>
         <div
           className={cn('min-w-100 [interpolate-size:allow-keywords]', className)}

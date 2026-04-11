@@ -31,7 +31,9 @@ export default function Demo() {
         "After all," he said, "everyone enjoys a good joke, so it's only fair that they should pay for the privilege."
       </TypographyBlockquote>
       <TypographyH3 className="mt-8">The Joke Tax</TypographyH3>
-      <TypographyP>The king's subjects were not amused. They grumbled and complained, but the king was firm:</TypographyP>
+      <TypographyP>
+        The king's subjects were not amused. They grumbled and complained, but the king was firm:
+      </TypographyP>
       <TypographyList>
         <li>1st level of puns: 5 gold coins</li>
         <li>2nd level of jokes: 10 gold coins</li>

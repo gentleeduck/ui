@@ -110,12 +110,11 @@ export function useMotionPreset(
   options?: UseMotionPresetOptions,
 ): MotionPresetResult {
   const reduced = useDuckReducedMotion()
-  const preset =
-    options?.direction
-      ? createDirectionalPreset(options.direction)
-      : typeof nameOrPreset === 'string'
-        ? presetMap[nameOrPreset]
-        : nameOrPreset
+  const preset = options?.direction
+    ? createDirectionalPreset(options.direction)
+    : typeof nameOrPreset === 'string'
+      ? presetMap[nameOrPreset]
+      : nameOrPreset
   const result = buildResult(preset, reduced, options)
 
   // biome-ignore lint/correctness/useHookAtTopLevel: guarded for non-React environments (tests)
@@ -124,13 +123,14 @@ export function useMotionPreset(
       return React.useMemo(
         () => buildResult(preset, reduced, options),
         [
-          nameOrPreset,
           reduced,
           options?.direction,
           options?.delay,
           options?.transition,
           options?.enterTransition,
           options?.exitTransition,
+          preset,
+          options,
         ],
       )
     } catch {

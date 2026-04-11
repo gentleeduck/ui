@@ -3,10 +3,10 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { springSnappy } from '@gentleduck/motion/transitions/springs'
 import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as PopoverPrimitive from '@gentleduck/primitives/popover'
-import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
