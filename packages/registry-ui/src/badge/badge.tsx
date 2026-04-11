@@ -22,8 +22,10 @@ const Badge = React.forwardRef<
 })
 Badge.displayName = 'Badge'
 
+const MOTION_BADGE_OPTIONS = { transition: springBouncy } as const
+
 const MotionBadge = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof Badge>>((props, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset('scaleIn', MOTION_BADGE_OPTIONS)
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div
