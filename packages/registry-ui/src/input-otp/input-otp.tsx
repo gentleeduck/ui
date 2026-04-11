@@ -5,6 +5,7 @@ import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import * as InputOTPPrimitive from '@gentleduck/primitives/input-otp'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { Dot } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
@@ -75,7 +76,7 @@ const MotionInputOTP = React.forwardRef<
   React.ComponentRef<typeof InputOTPPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof InputOTPPrimitive.Root>
 >((props, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy })
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div initial={content.initial} animate={content.animate} transition={content.transition}>

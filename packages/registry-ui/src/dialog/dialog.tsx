@@ -6,6 +6,8 @@ import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as DialogPrimitive from '@gentleduck/primitives/dialog'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
+import { fadeIn } from '@gentleduck/motion/presets/fade-in'
 import { X } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
@@ -128,8 +130,8 @@ const MotionDialogContent = React.forwardRef<
   }
 >(({ className, children, closeText = 'Close', hideClose = false, ...props }, ref) => {
   const { isOpen } = useMotionContent()
-  const overlay = useMotionPreset('fadeIn', { transition: springBouncy })
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const overlay = useMotionPreset(fadeIn, { transition: springBouncy })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy })
   const shouldRender = useMotionMount(isOpen)
 
   if (!shouldRender) return null

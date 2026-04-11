@@ -9,6 +9,7 @@ import { blurLight } from '@gentleduck/motion/transitions/blur'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { tweenExpand } from '@gentleduck/motion/transitions/tweens'
 import { useDirection } from '@gentleduck/primitives/direction'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
@@ -320,7 +321,7 @@ const MotionCalendar = React.forwardRef<HTMLDivElement, CalendarProps>(
       original()
     }
 
-    const calContent = useMotionPreset('scaleIn', { transition: springBouncy })
+    const calContent = useMotionPreset(scaleIn, { transition: springBouncy })
 
     return (
       <LazyMotion features={loadDomAnimation}>

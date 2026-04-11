@@ -100,10 +100,22 @@ export async function resolveMotionPreset(
   return buildResult(preset, false, options)
 }
 
-/** Sync hook for React components. Memoizes the result to avoid creating new objects on every render. */
-export function useMotionPreset(name: MotionPresetName, options?: UseMotionPresetOptions): MotionPresetResult {
+/**
+ * Sync hook for React components. Accepts either a preset name (string) or a
+ * preset object directly. The object form enables tree-shaking since unused
+ * presets are never imported.
+ */
+export function useMotionPreset(
+  nameOrPreset: MotionPresetName | MotionPreset,
+  options?: UseMotionPresetOptions,
+): MotionPresetResult {
   const reduced = useDuckReducedMotion()
-  const preset = options?.direction ? createDirectionalPreset(options.direction) : presetMap[name]
+  const preset =
+    options?.direction
+      ? createDirectionalPreset(options.direction)
+      : typeof nameOrPreset === 'string'
+        ? presetMap[nameOrPreset]
+        : nameOrPreset
   const result = buildResult(preset, reduced, options)
 
   // biome-ignore lint/correctness/useHookAtTopLevel: guarded for non-React environments (tests)
@@ -112,7 +124,7 @@ export function useMotionPreset(name: MotionPresetName, options?: UseMotionPrese
       return React.useMemo(
         () => buildResult(preset, reduced, options),
         [
-          name,
+          nameOrPreset,
           reduced,
           options?.direction,
           options?.delay,

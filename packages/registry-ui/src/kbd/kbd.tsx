@@ -5,6 +5,7 @@ import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
@@ -50,7 +51,7 @@ const MotionKbd = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<'
       () => ({ transition: springBouncy, delay: index * MOTION_KBD_STAGGER }),
       [index],
     )
-    const content = useMotionPreset('scaleIn', motionOptions)
+    const content = useMotionPreset(scaleIn, motionOptions)
     return (
       <LazyMotion features={loadDomAnimation}>
         <m.div
