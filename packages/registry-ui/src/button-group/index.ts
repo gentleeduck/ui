@@ -1,2 +1,2 @@
-export * from './button-group'
-export * from './button-group.constants'
+export { ButtonGroup, ButtonGroupSeparator, ButtonGroupText, MotionButtonGroup } from './button-group'
+export { buttonGroupVariants } from './button-group.constants'

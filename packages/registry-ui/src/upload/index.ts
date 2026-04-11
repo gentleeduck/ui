@@ -1,1 +1,1 @@
-export * from './upload'
+export { useUploadDirection } from './upload'

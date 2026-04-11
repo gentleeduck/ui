@@ -1,1 +1,1 @@
-export * from './input'
+export { Input, MotionInput } from './input'

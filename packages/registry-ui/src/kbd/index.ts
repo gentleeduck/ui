@@ -1,1 +1,1 @@
-export * from './kbd'
+export { Kbd, KbdGroup, MotionKbd } from './kbd'
