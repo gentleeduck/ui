@@ -208,7 +208,11 @@ const MotionTabs = React.forwardRef<HTMLDivElement, TabsProps>(
     const motionCtx = React.useMemo(() => ({ direction: motionDir, registerTrigger }), [motionDir, registerTrigger])
 
     return (
-      <TabsContext.Provider value={React.useMemo(() => ({ activeItem, setActiveItem: wrappedSetActiveItem, tabsId }), [activeItem, wrappedSetActiveItem, tabsId])}>
+      <TabsContext.Provider
+        value={React.useMemo(
+          () => ({ activeItem, setActiveItem: wrappedSetActiveItem, tabsId }),
+          [activeItem, wrappedSetActiveItem, tabsId],
+        )}>
         <MotionTabsContext.Provider value={motionCtx}>
           <LazyMotion features={loadDomMax}>
             <div {...props} data-slot="tabs" dir={resolvedDir} ref={ref}>

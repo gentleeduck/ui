@@ -3,12 +3,12 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { fadeIn } from '@gentleduck/motion/presets/fade-in'
 import { createSlideEdge } from '@gentleduck/motion/presets/slide-edge'
 import { tweenSlow } from '@gentleduck/motion/transitions/tweens'
 import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as SheetPrimitive from '@gentleduck/primitives/sheet'
 import type { VariantProps } from '@gentleduck/variants'
-import { fadeIn } from '@gentleduck/motion/presets/fade-in'
 import { X } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
@@ -154,11 +154,7 @@ const MotionSheetContent = React.forwardRef<
         </SheetPrimitive.Overlay>
         <SheetPrimitive.Content ref={ref} forceMount asChild {...props}>
           <m.div
-            className={cn(
-              'fixed z-50 gap-4 bg-background p-6 shadow-lg',
-              positionClasses[side ?? 'right'],
-              className,
-            )}
+            className={cn('fixed z-50 gap-4 bg-background p-6 shadow-lg', positionClasses[side ?? 'right'], className)}
             initial={slide.initial}
             animate={isOpen ? slide.animate : { ...slide.exit, pointerEvents: 'none' }}
             transition={tweenSlow}>

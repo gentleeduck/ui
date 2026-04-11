@@ -3,8 +3,8 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
-import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { slideUp } from '@gentleduck/motion/presets/slide-up'
+import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
