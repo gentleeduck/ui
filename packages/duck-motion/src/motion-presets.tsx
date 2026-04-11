@@ -71,6 +71,13 @@ export function loadDirectionalPreset(
   )
 }
 
+/**
+ * Always-fast tween for the `scale` property. Merged into every returned
+ * transition so `whileTap={tapScale}` feels instant on both press and release
+ * (motion/react uses the parent transition for the tap-release direction).
+ */
+const TAP_SCALE_TRANSITION = { type: 'tween' as const, duration: 0.015, ease: 'easeOut' as const }
+
 function buildResult(preset: MotionPreset, reduced: boolean, options?: UseMotionPresetOptions): MotionPresetResult {
   const baseTransition: MotionTransitionConfig = options?.transition ?? { ...springDefault }
   const enterTransition: MotionTransitionConfig = reduced
@@ -78,11 +85,15 @@ function buildResult(preset: MotionPreset, reduced: boolean, options?: UseMotion
     : { ...(options?.enterTransition ?? baseTransition), ...(options?.delay ? { delay: options.delay } : {}) }
   const exitTransition: MotionTransitionConfig = reduced ? { duration: 0 } : (options?.exitTransition ?? baseTransition)
 
+  // Override scale specifically so tap press/release is always fast regardless
+  // of the base spring used by the preset.
+  const enterWithTapScale = reduced ? enterTransition : { ...enterTransition, scale: TAP_SCALE_TRANSITION }
+
   return {
     initial: { ...preset.initial },
-    animate: { ...preset.animate, transition: enterTransition },
+    animate: { ...preset.animate, transition: enterWithTapScale },
     exit: { ...preset.exit, transition: exitTransition },
-    transition: enterTransition,
+    transition: enterWithTapScale,
   }
 }
 

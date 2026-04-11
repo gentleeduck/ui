@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\n\nimport { Button } from '@gentleduck/registry-ui/button'\nimport { MotionTooltip, MotionTooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'\n\nexport default function Demo() {\n  return (\n    <TooltipProvider>\n      <MotionTooltip>\n        <TooltipTrigger asChild>\n          <Button variant=\"outline\">Hover</Button>\n        </TooltipTrigger>\n\n        <MotionTooltipContent>\n          <p>Add to library</p>\n        </MotionTooltipContent>\n      </MotionTooltip>\n    </TooltipProvider>\n  )\n}\n",
+      "content": "'use client'\r\n\r\nimport { Button } from '@gentleduck/registry-ui/button'\r\nimport { MotionTooltip, MotionTooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <TooltipProvider>\r\n      <MotionTooltip>\r\n        <TooltipTrigger asChild>\r\n          <Button variant=\"outline\">Hover</Button>\r\n        </TooltipTrigger>\r\n\r\n        <MotionTooltipContent>\r\n          <p>Add to library</p>\r\n        </MotionTooltipContent>\r\n      </MotionTooltip>\r\n    </TooltipProvider>\r\n  )\r\n}\r\n",
       "path": "tooltip/tooltip-5.tsx",
       "target": "components/tooltip-5.tsx",
       "type": "registry:example"

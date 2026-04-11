@@ -437,6 +437,7 @@ const _RadioGroup4 = dynamic(() => import('@gentleduck/registry-examples/radio-g
 const _ScrollArea1 = dynamic(() => import('@gentleduck/registry-examples/scroll-area/scroll-area-1'), { ssr: false })
 const _ScrollArea2 = dynamic(() => import('@gentleduck/registry-examples/scroll-area/scroll-area-2'), { ssr: false })
 const _ScrollArea3 = dynamic(() => import('@gentleduck/registry-examples/scroll-area/scroll-area-3'), { ssr: false })
+const _ScrollArea4 = dynamic(() => import('@gentleduck/registry-examples/scroll-area/scroll-area-4'), { ssr: false })
 const _Select1 = dynamic(() => import('@gentleduck/registry-examples/select/select-1'), { ssr: false })
 const _Select2 = dynamic(() => import('@gentleduck/registry-examples/select/select-2'), { ssr: false })
 const _Select3 = dynamic(() => import('@gentleduck/registry-examples/select/select-3'), { ssr: false })
@@ -517,6 +518,7 @@ const _Typography12 = dynamic(() => import('@gentleduck/registry-examples/typogr
 const _Typography13 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-13'), { ssr: false })
 const _Typography14 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-14'), { ssr: false })
 const _Typography15 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-15'), { ssr: false })
+const _Typography16 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-16'), { ssr: false })
 const _Typography2 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-2'), { ssr: false })
 const _Typography3 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-3'), { ssr: false })
 const _Typography4 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-4'), { ssr: false })
@@ -751,6 +753,9 @@ const _PreviewPanel4 = dynamic(() => import('@gentleduck/registry-examples/previ
   ssr: false,
 })
 const _PreviewPanel5 = dynamic(() => import('@gentleduck/registry-examples/preview-panel/preview-panel-5'), {
+  ssr: false,
+})
+const _PreviewPanel6 = dynamic(() => import('@gentleduck/registry-examples/preview-panel/preview-panel-6'), {
   ssr: false,
 })
 const _Sidebar1 = dynamic(() => import('@gentleduck/registry-examples/sidebar/sidebar-1'), { ssr: false })
@@ -4838,6 +4843,22 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'scroll-area',
   },
+  'scroll-area-4': {
+    name: 'scroll-area-4',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['scroll-area'],
+    files: [
+      {
+        path: 'scroll-area/scroll-area-4.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _ScrollArea4,
+    source: '/registry-examples/src/scroll-area',
+    categories: [],
+    root_folder: 'scroll-area',
+  },
   'select-1': {
     name: 'select-1',
     description: '',
@@ -6114,6 +6135,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Typography15,
+    source: '/registry-examples/src/typography',
+    categories: [],
+    root_folder: 'typography',
+  },
+  'typography-16': {
+    name: 'typography-16',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'typography/typography-16.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Typography16,
     source: '/registry-examples/src/typography',
     categories: [],
     root_folder: 'typography',
@@ -9010,6 +9047,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _PreviewPanel5,
+    source: '/registry-examples/src/preview-panel',
+    categories: [],
+    root_folder: 'preview-panel',
+  },
+  'preview-panel-6': {
+    name: 'preview-panel-6',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['preview-panel'],
+    files: [
+      {
+        path: 'preview-panel/preview-panel-6.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _PreviewPanel6,
     source: '/registry-examples/src/preview-panel',
     categories: [],
     root_folder: 'preview-panel',

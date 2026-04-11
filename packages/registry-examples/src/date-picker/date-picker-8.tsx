@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@gentleduck/registry-ui/button'
+import { MotionButton } from '@gentleduck/registry-ui/button'
 import { MotionCalendar } from '@gentleduck/registry-ui/calendar'
 import { Label } from '@gentleduck/registry-ui/label'
 import { MotionPopover, MotionPopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
@@ -18,10 +18,10 @@ export default function Demo() {
       </Label>
       <MotionPopover onOpenChange={setOpen} open={open}>
         <PopoverTrigger asChild>
-          <Button className="w-48 justify-between font-normal" id="motion-date" variant="outline">
+          <MotionButton className="w-48 justify-between font-normal" id="motion-date" variant="outline">
             {date ? date.toLocaleDateString() : 'Select date'}
             <ChevronDownIcon aria-hidden="true" />
-          </Button>
+          </MotionButton>
         </PopoverTrigger>
         <MotionPopoverContent side="top" align="start" className="w-auto p-0">
           <MotionCalendar

@@ -1,7 +1,7 @@
 'use client'
 
 import {
-  Accordion,
+  MotionAccordion,
   MotionAccordionContent,
   MotionAccordionItem,
   MotionAccordionTrigger,
@@ -9,7 +9,7 @@ import {
 
 export default function Demo() {
   return (
-    <Accordion className="w-[350px]" collapsible type="single">
+    <MotionAccordion className="w-[350px]" collapsible type="single">
       <MotionAccordionItem value="item-1">
         <MotionAccordionTrigger>Is it accessible?</MotionAccordionTrigger>
         <MotionAccordionContent>Yes. It adheres to the WAI-ARIA design pattern.</MotionAccordionContent>
@@ -26,6 +26,6 @@ export default function Demo() {
           Yes. It&apos;s animated by default, but you can disable it if you prefer.
         </MotionAccordionContent>
       </MotionAccordionItem>
-    </Accordion>
+    </MotionAccordion>
   )
 }

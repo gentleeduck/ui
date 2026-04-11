@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\n\nimport { MotionSwitch } from '@gentleduck/registry-ui/switch'\n\nexport default function Demo() {\n  return <MotionSwitch />\n}\n",
+      "content": "'use client'\r\n\r\nimport { MotionSwitch } from '@gentleduck/registry-ui/switch'\r\n\r\nexport default function Demo() {\r\n  return <MotionSwitch />\r\n}\r\n",
       "path": "switch/switch-4.tsx",
       "target": "components/switch-4.tsx",
       "type": "registry:example"

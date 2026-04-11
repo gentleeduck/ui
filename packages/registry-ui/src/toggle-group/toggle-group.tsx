@@ -136,7 +136,6 @@ const MotionToggleGroupItem: React.ForwardRefExoticComponent<
       <m.button
         ref={btnRef}
         whileTap={tapScale}
-        transition={{ scale: { duration: 0, type: 'tween' } }}
         className={cn(
           toggleVariants({ variant: variant || context.variant, size: size || context.size }),
           'relative rounded-none focus-visible:z-10 focus-visible:ring-offset-0 data-[state=on]:bg-transparent',

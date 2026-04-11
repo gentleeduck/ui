@@ -4,9 +4,9 @@ import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { createTooltipPreset } from '@gentleduck/motion/presets/tooltip'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
+import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as TooltipPrimitive from '@gentleduck/primitives/tooltip'
-import { AnimatePresence, LazyMotion, m } from 'motion/react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const TooltipProvider = TooltipPrimitive.Provider
@@ -63,30 +63,28 @@ const MotionTooltipContent = React.forwardRef<
   React.ComponentRef<typeof TooltipPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof TooltipPrimitive.Content>
 >(({ className, sideOffset = 4, side = 'top', children, ...props }, ref) => {
-  const { isOpen, setShowContent } = useMotionContent()
+  const { isOpen } = useMotionContent()
   const preset = React.useMemo(() => createTooltipPreset(side ?? 'top'), [side])
+  const shouldRender = useMotionMount(isOpen)
+
+  if (!shouldRender) return null
 
   return (
     <LazyMotion features={loadDomAnimation}>
-      <AnimatePresence onExitComplete={() => setShowContent(false)}>
-        {isOpen && (
-          <TooltipPrimitive.Portal forceMount>
-            <TooltipPrimitive.Content ref={ref} sideOffset={sideOffset} side={side} forceMount asChild {...props}>
-              <m.div
-                className={cn(
-                  'z-50 origin-(--gentleduck-tooltip-content-transform-origin) overflow-hidden rounded-md border bg-background px-3 py-1.5 text-base text-foreground',
-                  className,
-                )}
-                initial={preset.initial}
-                animate={preset.animate}
-                exit={{ ...preset.exit, pointerEvents: 'none' }}
-                transition={springBouncy}>
-                {children}
-              </m.div>
-            </TooltipPrimitive.Content>
-          </TooltipPrimitive.Portal>
-        )}
-      </AnimatePresence>
+      <TooltipPrimitive.Portal forceMount>
+        <TooltipPrimitive.Content ref={ref} sideOffset={sideOffset} side={side} forceMount asChild {...props}>
+          <m.div
+            className={cn(
+              'z-50 origin-(--gentleduck-tooltip-content-transform-origin) overflow-hidden rounded-md border bg-background px-3 py-1.5 text-base text-foreground',
+              className,
+            )}
+            initial={preset.initial}
+            animate={isOpen ? preset.animate : { ...preset.exit, pointerEvents: 'none' }}
+            transition={springBouncy}>
+            {children}
+          </m.div>
+        </TooltipPrimitive.Content>
+      </TooltipPrimitive.Portal>
     </LazyMotion>
   )
 })

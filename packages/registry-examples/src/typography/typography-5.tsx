@@ -1,3 +1,5 @@
+import { TypographyH4 } from '@gentleduck/registry-ui/typography'
+
 export default function Demo() {
-  return <h4 className="scroll-m-20 font-semibold text-xl tracking-tight">People stopped telling jokes</h4>
+  return <TypographyH4>People stopped telling jokes</TypographyH4>
 }

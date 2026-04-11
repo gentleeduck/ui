@@ -53,9 +53,12 @@ export default function Demo() {
           </MotionSelectContent>
         </MotionSelect>
       </ButtonGroup>
-      <MotionButton aria-label="Send" size="icon" variant="outline">
-        <ArrowRightIcon />
-      </MotionButton>
+
+      <ButtonGroup>
+        <MotionButton aria-label="Send" size="icon" variant="outline">
+          <ArrowRightIcon />
+        </MotionButton>
+      </ButtonGroup>
     </MotionButtonGroup>
   )
 }

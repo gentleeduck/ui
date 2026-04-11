@@ -1,14 +1,16 @@
 {
   "files": [
     {
-      "content": "export default function Demo() {\n  return (\n    <code className=\"relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono font-semibold text-sm\">\n      @gentleduck/primitives/alert-dialog\n    </code>\n  )\n}\n",
+      "content": "import { TypographyInlineCode } from '@gentleduck/registry-ui/typography'\n\nexport default function Demo() {\n  return <TypographyInlineCode>@gentleduck/primitives/alert-dialog</TypographyInlineCode>\n}\n",
       "path": "typography/typography-10.tsx",
       "target": "components/typography-10.tsx",
       "type": "registry:example"
     }
   ],
   "name": "typography-10",
-  "registryDependencies": [],
+  "registryDependencies": [
+    "typography"
+  ],
   "root_folder": "typography",
   "source": "/registry-examples/src/typography",
   "type": "registry:example"

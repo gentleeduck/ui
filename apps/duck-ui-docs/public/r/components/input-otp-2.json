@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\nimport { InputOTP, InputOTPGroup, InputOTPSlot, REGEXP_ONLY_DIGITS } from '@gentleduck/registry-ui/input-otp'\n\nexport default function Demo() {\n  return (\n    <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS}>\n      <InputOTPGroup>\n        <InputOTPSlot />\n        <InputOTPSlot />\n        <InputOTPSlot />\n        <InputOTPSlot />\n        <InputOTPSlot />\n        <InputOTPSlot />\n      </InputOTPGroup>\n    </InputOTP>\n  )\n}\n",
+      "content": "'use client'\r\nimport { InputOTP, InputOTPGroup, InputOTPSlot, REGEXP_ONLY_DIGITS } from '@gentleduck/registry-ui/input-otp'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS}>\r\n      <InputOTPGroup>\r\n        <InputOTPSlot />\r\n        <InputOTPSlot />\r\n        <InputOTPSlot />\r\n        <InputOTPSlot />\r\n        <InputOTPSlot />\r\n        <InputOTPSlot />\r\n      </InputOTPGroup>\r\n    </InputOTP>\r\n  )\r\n}\r\n",
       "path": "input-otp/input-otp-2.tsx",
       "target": "components/input-otp-2.tsx",
       "type": "registry:example"

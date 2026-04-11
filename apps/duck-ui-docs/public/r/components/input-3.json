@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Input } from '@gentleduck/registry-ui/input'\nimport { Label } from '@gentleduck/registry-ui/label'\n\nexport default function Demo() {\n  return (\n    <div className=\"grid w-full max-w-sm items-center gap-1.5\">\n      <Label htmlFor=\"picture\">Picture</Label>\n      <Input id=\"picture\" type=\"file\" />\n    </div>\n  )\n}\n",
+      "content": "import { Input } from '@gentleduck/registry-ui/input'\r\nimport { Label } from '@gentleduck/registry-ui/label'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <div className=\"grid w-full max-w-sm items-center gap-1.5\">\r\n      <Label htmlFor=\"picture\">Picture</Label>\r\n      <Input id=\"picture\" type=\"file\" />\r\n    </div>\r\n  )\r\n}\r\n",
       "path": "input/input-3.tsx",
       "target": "components/input-3.tsx",
       "type": "registry:example"

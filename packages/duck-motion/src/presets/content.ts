@@ -56,8 +56,17 @@ export const blurMount = {
   animate: { filter: 'blur(0px)' },
 }
 
-/** Tap press feedback. Use for buttons, toggles, interactive elements. */
-export const tapScale = { scale: 0.97 }
+/**
+ * Tap press feedback with a built-in 15ms ease-out transition.
+ * Use as `whileTap={tapScale}` on buttons, toggles, and interactive elements.
+ * The 15ms scoped tween keeps the scale animation fast and deterministic so
+ * the full press-release cycle fits inside a single click (~30ms) and rapid
+ * click-spam feels crisp without interpolating mid-spring.
+ */
+export const tapScale = {
+  scale: 0.97,
+  transition: { type: 'tween', duration: 0.015, ease: 'easeOut' },
+} as const
 
 /** Bounce keyframes for toggle controls. Use for checkboxes, radio buttons, switches. */
 export const checkerBounce = { scale: [1, 0.88, 1.08, 1], rotate: [0, -3, 2, 0] }

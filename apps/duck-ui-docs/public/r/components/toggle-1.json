@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Toggle } from '@gentleduck/registry-ui/toggle'\nimport { Bold } from 'lucide-react'\n\nexport default function Demo() {\n  return (\n    <Toggle aria-label=\"Toggle bold\">\n      <Bold className=\"h-4 w-4\" />\n    </Toggle>\n  )\n}\n",
+      "content": "import { Toggle } from '@gentleduck/registry-ui/toggle'\r\nimport { Bold } from 'lucide-react'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <Toggle aria-label=\"Toggle bold\">\r\n      <Bold className=\"h-4 w-4\" />\r\n    </Toggle>\r\n  )\r\n}\r\n",
       "path": "toggle/toggle-1.tsx",
       "target": "components/toggle-1.tsx",
       "type": "registry:example"

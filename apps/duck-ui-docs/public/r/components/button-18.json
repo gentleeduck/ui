@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport { Inbox } from 'lucide-react'\nimport React from 'react'\n\nexport default function Demo() {\n  const [open, setOpen] = React.useState<boolean>(false)\n\n  return (\n    <Button\n      aria-label=\"Inbox button with 23 notifications\"\n      icon={<Inbox />}\n      isCollapsed={open}\n      onClick={() => setOpen(!open)}\n      type=\"button\">\n      Button\n    </Button>\n  )\n}\n",
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\r\nimport { Inbox } from 'lucide-react'\r\nimport React from 'react'\r\n\r\nexport default function Demo() {\r\n  const [open, setOpen] = React.useState<boolean>(false)\r\n\r\n  return (\r\n    <Button\r\n      aria-label=\"Inbox button with 23 notifications\"\r\n      icon={<Inbox />}\r\n      isCollapsed={open}\r\n      onClick={() => setOpen(!open)}\r\n      type=\"button\">\r\n      Button\r\n    </Button>\r\n  )\r\n}\r\n",
       "path": "button/button-18.tsx",
       "target": "components/button-18.tsx",
       "type": "registry:example"

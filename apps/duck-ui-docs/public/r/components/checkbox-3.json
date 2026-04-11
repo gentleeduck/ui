@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\nimport { Checkbox, type CheckedState } from '@gentleduck/registry-ui/checkbox'\nimport { useState } from 'react'\n\nexport default function Demo() {\n  const [checked, setChecked] = useState<CheckedState>(false)\n\n  return <Checkbox checked={checked} onCheckedChange={setChecked} />\n}\n",
+      "content": "'use client'\r\nimport { Checkbox, type CheckedState } from '@gentleduck/registry-ui/checkbox'\r\nimport { useState } from 'react'\r\n\r\nexport default function Demo() {\r\n  const [checked, setChecked] = useState<CheckedState>(false)\r\n\r\n  return <Checkbox checked={checked} onCheckedChange={setChecked} />\r\n}\r\n",
       "path": "checkbox/checkbox-3.tsx",
       "target": "components/checkbox-3.tsx",
       "type": "registry:example"
