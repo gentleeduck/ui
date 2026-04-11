@@ -47,7 +47,7 @@ jobs:
             turbo-${{ runner.os }}-
 
       - name: Install Dependencies
-        run: bun install --frozen-lockfile
+        run: bun install
 
       - name: Lint and check
         run: bun run check && bun run lint:ws
