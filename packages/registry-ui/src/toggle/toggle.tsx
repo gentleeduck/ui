@@ -39,7 +39,6 @@ const MotionToggle = React.forwardRef<
       <TogglePrimitive.Root asChild ref={ref} {...props}>
         <m.button
           whileTap={tapScale}
-          transition={{ scale: { duration: 0, type: 'tween' } }}
           className={cn(toggleVariants({ className, size, variant }))}
           data-slot="toggle">
           {React.Children.map(children, (child, i) => (
