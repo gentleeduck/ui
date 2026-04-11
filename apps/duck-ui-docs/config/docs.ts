@@ -1318,6 +1318,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/typography',
           items: [],
+          label: 'new',
           title: 'Typography',
         },
       ],
