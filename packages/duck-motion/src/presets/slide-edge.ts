@@ -1,7 +1,5 @@
-import { blurLight } from '../transitions/blur'
+import { BLUR_CLEAR, BLUR_LIGHT, type DirectionalSide, getAxis } from './_utils'
 import type { MotionPreset } from './types'
-
-type Side = 'top' | 'right' | 'bottom' | 'left'
 
 /**
  * Creates a slide preset for edge-anchored panels (sheets, drawers).
@@ -10,13 +8,13 @@ type Side = 'top' | 'right' | 'bottom' | 'left'
  *
  * @param side - Which edge the panel is anchored to
  */
-export function createSlideEdge(side: Side): MotionPreset {
-  const axis = side === 'left' || side === 'right' ? 'x' : 'y'
+export function createSlideEdge(side: DirectionalSide): MotionPreset {
+  const axis = getAxis(side)
   const offset = side === 'right' || side === 'bottom' ? '100%' : '-100%'
 
   return {
-    initial: { [axis]: offset, opacity: 0, filter: `blur(${blurLight}px)` },
-    animate: { [axis]: 0, opacity: 1, filter: 'blur(0px)' },
-    exit: { [axis]: offset, opacity: 0, filter: `blur(${blurLight}px)` },
+    initial: { [axis]: offset, opacity: 0, filter: BLUR_LIGHT },
+    animate: { [axis]: 0, opacity: 1, filter: BLUR_CLEAR },
+    exit: { [axis]: offset, opacity: 0, filter: BLUR_LIGHT },
   }
 }
