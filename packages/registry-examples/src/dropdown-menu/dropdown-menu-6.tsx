@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@gentleduck/registry-ui/button'
+import { MotionButton } from '@gentleduck/registry-ui/button'
 import {
   DropdownMenuGroup,
   DropdownMenuItem,
@@ -19,7 +19,7 @@ export default function Demo() {
   return (
     <MotionDropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline">Open</Button>
+        <MotionButton variant="outline">Open</MotionButton>
       </DropdownMenuTrigger>
       <MotionDropdownMenuContent className="w-56">
         <DropdownMenuLabel>My Account</DropdownMenuLabel>

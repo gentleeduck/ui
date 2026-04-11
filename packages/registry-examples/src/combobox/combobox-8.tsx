@@ -7,6 +7,7 @@ import {
   CommandEmpty,
   CommandGroup,
   CommandInput,
+  CommandItem,
   CommandList,
   MotionCommandItem,
 } from '@gentleduck/registry-ui/command'
@@ -41,9 +42,8 @@ export default function Demo() {
             <CommandEmpty>No framework found.</CommandEmpty>
             <CommandGroup>
               {frameworks.map((framework, i) => (
-                <MotionCommandItem
+                <CommandItem
                   key={framework.value}
-                  index={i}
                   onSelect={(currentValue) => {
                     setValue(currentValue === value ? '' : currentValue)
                     setOpen(false)
@@ -51,7 +51,7 @@ export default function Demo() {
                   value={framework.value}>
                   {framework.label}
                   <Check className={cn('ml-auto', value === framework.value ? 'opacity-100' : 'opacity-0')} />
-                </MotionCommandItem>
+                </CommandItem>
               ))}
             </CommandGroup>
           </CommandList>
