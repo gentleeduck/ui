@@ -92,6 +92,8 @@ AnimationIcon.displayName = 'AnimationIcon'
 /*  MotionButton                                                       */
 /* ------------------------------------------------------------------ */
 
+const MOTION_BUTTON_OPTIONS = { transition: springBouncy } as const
+
 const MotionButton = React.forwardRef<
   HTMLButtonElement,
   Omit<ButtonProps, 'asChild' | 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
@@ -113,7 +115,7 @@ const MotionButton = React.forwardRef<
     },
     ref,
   ) => {
-    const content = useMotionPreset('scaleIn', { transition: springBouncy })
+    const content = useMotionPreset('scaleIn', MOTION_BUTTON_OPTIONS)
     return (
       <LazyMotion features={loadDomAnimation}>
         <m.button

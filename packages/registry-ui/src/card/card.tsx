@@ -88,8 +88,13 @@ CardFooter.displayName = 'CardFooter'
 /*  MotionCard                                                         */
 /* ------------------------------------------------------------------ */
 
+const CARD_OPTIONS = { transition: springBouncy } as const
+const CARD_HEADER_OPTIONS = { transition: springBouncy, delay: 0.05 } as const
+const CARD_CONTENT_OPTIONS = { transition: springBouncy, delay: 0.1 } as const
+const CARD_FOOTER_OPTIONS = { transition: springBouncy, delay: 0.15 } as const
+
 const MotionCard = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof Card>>((props, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset('scaleIn', CARD_OPTIONS)
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
@@ -101,7 +106,7 @@ const MotionCard = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutR
 MotionCard.displayName = 'MotionCard'
 
 const MotionCardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>((props, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.05 })
+  const content = useMotionPreset('scaleIn', CARD_HEADER_OPTIONS)
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
@@ -113,7 +118,7 @@ const MotionCardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<H
 MotionCardHeader.displayName = 'MotionCardHeader'
 
 const MotionCardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>((props, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.1 })
+  const content = useMotionPreset('scaleIn', CARD_CONTENT_OPTIONS)
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
@@ -125,7 +130,7 @@ const MotionCardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<
 MotionCardContent.displayName = 'MotionCardContent'
 
 const MotionCardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>((props, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.15 })
+  const content = useMotionPreset('scaleIn', CARD_FOOTER_OPTIONS)
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
