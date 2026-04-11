@@ -32,11 +32,13 @@ const AspectRatio = React.forwardRef<
 })
 AspectRatio.displayName = 'AspectRatio'
 
+const MOTION_ASPECT_RATIO_OPTIONS = { transition: springBouncy } as const
+
 const MotionAspectRatio = React.forwardRef<
   React.ComponentRef<typeof AspectRatio>,
   React.ComponentPropsWithoutRef<typeof AspectRatio>
 >((props, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset('scaleIn', MOTION_ASPECT_RATIO_OPTIONS)
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
