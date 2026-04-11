@@ -6,6 +6,7 @@ import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as DropdownMenuPrimitive from '@gentleduck/primitives/dropdown-menu'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { Check, ChevronRight, Circle } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
@@ -200,7 +201,7 @@ const MotionDropdownMenuContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
 >(({ className, sideOffset = 4, children, ...props }, ref) => {
   const { isOpen } = useMotionContent()
-  const content = useMotionPreset('scaleIn', CONTENT_OPTIONS)
+  const content = useMotionPreset(scaleIn, CONTENT_OPTIONS)
   const shouldRender = useMotionMount(isOpen)
 
   if (!shouldRender) return null
@@ -249,7 +250,7 @@ const MotionDropdownMenuSubContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>
 >(({ className, children, ...props }, ref) => {
   const { isOpen } = useMotionContent()
-  const content = useMotionPreset('scaleIn', CONTENT_OPTIONS)
+  const content = useMotionPreset(scaleIn, CONTENT_OPTIONS)
   const shouldRender = useMotionMount(isOpen)
 
   if (!shouldRender) return null

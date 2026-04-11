@@ -6,6 +6,7 @@ import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { LazyMotion, m } from 'motion/react'
 import React from 'react'
 
@@ -38,7 +39,7 @@ const MotionAspectRatio = React.forwardRef<
   React.ComponentRef<typeof AspectRatio>,
   React.ComponentPropsWithoutRef<typeof AspectRatio>
 >((props, ref) => {
-  const content = useMotionPreset('scaleIn', MOTION_ASPECT_RATIO_OPTIONS)
+  const content = useMotionPreset(scaleIn, MOTION_ASPECT_RATIO_OPTIONS)
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div initial={content.initial} animate={content.animate} transition={content.transition}>

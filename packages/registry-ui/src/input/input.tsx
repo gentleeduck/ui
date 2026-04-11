@@ -5,6 +5,7 @@ import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
@@ -51,7 +52,7 @@ Input.displayName = 'Input'
 const MotionInput = React.forwardRef<HTMLInputElement, React.ComponentProps<'input'> & { index?: number }>(
   ({ index = 0, ...props }, ref) => {
     const options = React.useMemo(() => ({ transition: springBouncy, delay: index * 0.05 }), [index])
-    const content = useMotionPreset('scaleIn', options)
+    const content = useMotionPreset(scaleIn, options)
     return (
       <LazyMotion features={loadDomAnimation}>
         <m.div initial={content.initial} animate={content.animate} transition={content.transition}>

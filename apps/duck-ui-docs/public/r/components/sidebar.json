@@ -8,7 +8,7 @@
   ],
   "files": [
     {
-      "content": "export * from './sidebar'\nexport * from './sidebar.constants'\nexport * from './sidebar.hooks'\nexport * from './sidebar.types'\n",
+      "content": "export { MotionSidebar, Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupAction, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarInput, SidebarInset, SidebarMenu, SidebarMenuAction, SidebarMenuBadge, SidebarMenuButton, SidebarMenuItem, SidebarMenuSkeleton, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarProvider, SidebarRail, SidebarSeparator, SidebarTrigger } from './sidebar'\r\nexport { SIDEBAR_COOKIE_MAX_AGE, SIDEBAR_COOKIE_NAME, SIDEBAR_KEYBOARD_SHORTCUT, SIDEBAR_WIDTH, SIDEBAR_WIDTH_ICON, SIDEBAR_WIDTH_MOBILE, sidebarMenuButtonVariants } from './sidebar.constants'\r\nexport { SidebarContext, useSidebar } from './sidebar.hooks'\r\nexport type { SidebarContextProps, SidebarDirection, SidebarProps, SidebarProviderProps } from './sidebar.types'\r\n",
       "path": "sidebar/index.ts",
       "target": "components/ui/index.ts",
       "type": "registry:ui"

@@ -8,6 +8,7 @@ import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { duckMotionDuration, tweenExpand } from '@gentleduck/motion/transitions/tweens'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Mount } from '@gentleduck/primitives/mount'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { ChevronDown } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
@@ -273,7 +274,7 @@ const MotionAccordionItem = React.forwardRef<
   const detailsRef = React.useRef<HTMLDetailsElement>(null)
   const direction = useDirection(dir as Direction)
   const presetOptions = React.useMemo(() => ({ transition: springBouncy, delay: index * 0.05 }), [index])
-  const content = useMotionPreset('scaleIn', presetOptions)
+  const content = useMotionPreset(scaleIn, presetOptions)
 
   // Keep <details> always open so motion can animate the content height.
   // The accordion root's onItemChange sets .open on DOM elements directly,
@@ -340,7 +341,7 @@ const MotionAccordionTrigger = React.forwardRef<
   React.HTMLProps<HTMLElement> & { icon?: React.ReactNode; value?: string }
 >(({ className, children, icon, value, ...props }, ref) => {
   const { isActive } = React.useContext(MotionAccordionItemContext)
-  const content = useMotionPreset('scaleIn', TRIGGER_OPTIONS)
+  const content = useMotionPreset(scaleIn, TRIGGER_OPTIONS)
 
   return (
     <summary

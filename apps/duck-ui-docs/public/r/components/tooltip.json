@@ -5,7 +5,7 @@
   ],
   "files": [
     {
-      "content": "export * from './tooltip'\n",
+      "content": "export { MotionTooltip, MotionTooltipContent, Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from './tooltip'\r\n",
       "path": "tooltip/index.ts",
       "target": "components/ui/index.ts",
       "type": "registry:ui"

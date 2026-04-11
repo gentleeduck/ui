@@ -7,6 +7,7 @@ import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import type { VariantProps } from '@gentleduck/variants'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Separator } from '../separator'
@@ -83,7 +84,7 @@ const MotionButtonGroup = React.forwardRef<
   >
 >(({ className, orientation = 'horizontal', dir, ...props }, ref) => {
   const direction = useDirection(dir as Direction)
-  const content = useMotionPreset('scaleIn', MOTION_BUTTON_GROUP_OPTIONS)
+  const content = useMotionPreset(scaleIn, MOTION_BUTTON_GROUP_OPTIONS)
   return (
     <LazyMotion features={loadDomAnimation}>
       {/* biome-ignore lint/a11y/useSemanticElements: group role is semantically correct for button groups */}

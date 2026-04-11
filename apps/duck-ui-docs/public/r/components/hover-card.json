@@ -12,7 +12,7 @@
       "type": "registry:ui"
     },
     {
-      "content": "export * from './hover-card'\n",
+      "content": "export { HoverCard, HoverCardContent, HoverCardTrigger, MotionHoverCard, MotionHoverCardContent } from './hover-card'\r\n",
       "path": "hover-card/index.ts",
       "target": "components/ui/index.ts",
       "type": "registry:ui"

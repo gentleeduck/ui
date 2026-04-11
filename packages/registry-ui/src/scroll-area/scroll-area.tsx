@@ -5,6 +5,7 @@ import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
@@ -44,7 +45,7 @@ const MotionScrollArea = React.forwardRef<
   Omit<ScrollAreaProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
 >(({ children, className, viewportClassName, viewportRef, style, dir, ...props }, ref) => {
   const direction = useDirection(dir as Direction)
-  const content = useMotionPreset('scaleIn', MOTION_SCROLL_AREA_OPTIONS)
+  const content = useMotionPreset(scaleIn, MOTION_SCROLL_AREA_OPTIONS)
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div
