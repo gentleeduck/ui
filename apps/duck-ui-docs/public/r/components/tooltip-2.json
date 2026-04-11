@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'\n\nexport default function Demo() {\n  return (\n    <TooltipProvider>\n      <Tooltip>\n        <TooltipTrigger asChild>\n          <Button variant=\"outline\">Hover</Button>\n        </TooltipTrigger>\n        <TooltipContent>Tooltip Content</TooltipContent>\n      </Tooltip>\n    </TooltipProvider>\n  )\n}\n",
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\r\nimport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <TooltipProvider>\r\n      <Tooltip>\r\n        <TooltipTrigger asChild>\r\n          <Button variant=\"outline\">Hover</Button>\r\n        </TooltipTrigger>\r\n        <TooltipContent>Tooltip Content</TooltipContent>\r\n      </Tooltip>\r\n    </TooltipProvider>\r\n  )\r\n}\r\n",
       "path": "tooltip/tooltip-2.tsx",
       "target": "components/tooltip-2.tsx",
       "type": "registry:example"

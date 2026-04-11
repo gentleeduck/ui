@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\nimport { Checkbox } from '@gentleduck/registry-ui/checkbox'\nimport { useState } from 'react'\n\nexport default function Demo() {\n  const [checked, setChecked] = useState<'indeterminate' | boolean>('indeterminate')\n\n  return (\n    <Checkbox\n      checked={checked}\n      onCheckedChange={() => {\n        setChecked((prev) => (prev === false ? 'indeterminate' : prev === 'indeterminate' ? true : false))\n      }}\n    />\n  )\n}\n",
+      "content": "'use client'\r\nimport { Checkbox } from '@gentleduck/registry-ui/checkbox'\r\nimport { useState } from 'react'\r\n\r\nexport default function Demo() {\r\n  const [checked, setChecked] = useState<'indeterminate' | boolean>('indeterminate')\r\n\r\n  return (\r\n    <Checkbox\r\n      checked={checked}\r\n      onCheckedChange={() => {\r\n        setChecked((prev) => (prev === false ? 'indeterminate' : prev === 'indeterminate' ? true : false))\r\n      }}\r\n    />\r\n  )\r\n}\r\n",
       "path": "checkbox/checkbox-5.tsx",
       "target": "components/checkbox-5.tsx",
       "type": "registry:example"

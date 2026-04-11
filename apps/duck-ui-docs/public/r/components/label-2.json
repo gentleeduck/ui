@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Input } from '@gentleduck/registry-ui/input'\nimport { Label } from '@gentleduck/registry-ui/label'\n\nexport default function Demo() {\n  return (\n    <div className=\"grid w-full max-w-sm gap-1.5\">\n      <Label htmlFor=\"email-2\">Email</Label>\n      <Input id=\"email-2\" placeholder=\"you@example.com\" type=\"email\" />\n    </div>\n  )\n}\n",
+      "content": "import { Input } from '@gentleduck/registry-ui/input'\r\nimport { Label } from '@gentleduck/registry-ui/label'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <div className=\"grid w-full max-w-sm gap-1.5\">\r\n      <Label htmlFor=\"email-2\">Email</Label>\r\n      <Input id=\"email-2\" placeholder=\"you@example.com\" type=\"email\" />\r\n    </div>\r\n  )\r\n}\r\n",
       "path": "label/label-2.tsx",
       "target": "components/label-2.tsx",
       "type": "registry:example"

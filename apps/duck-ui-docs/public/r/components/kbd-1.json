@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Kbd, KbdGroup } from '@gentleduck/registry-ui/kbd'\n\nexport default function Demo() {\n  return (\n    <div className=\"flex flex-col items-center gap-4\">\n      <KbdGroup>\n        <Kbd>Ctrl</Kbd>\n        <Kbd>Shift</Kbd>\n        <Kbd>Alt</Kbd>\n        <Kbd>Fn</Kbd>\n      </KbdGroup>\n      <KbdGroup>\n        <Kbd>Ctrl</Kbd>\n        <span>+</span>\n        <Kbd>S</Kbd>\n      </KbdGroup>\n    </div>\n  )\n}\n",
+      "content": "import { Kbd, KbdGroup } from '@gentleduck/registry-ui/kbd'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <div className=\"flex flex-col items-center gap-4\">\r\n      <KbdGroup>\r\n        <Kbd>Ctrl</Kbd>\r\n        <Kbd>Shift</Kbd>\r\n        <Kbd>Alt</Kbd>\r\n        <Kbd>Fn</Kbd>\r\n      </KbdGroup>\r\n      <KbdGroup>\r\n        <Kbd>Ctrl</Kbd>\r\n        <span>+</span>\r\n        <Kbd>S</Kbd>\r\n      </KbdGroup>\r\n    </div>\r\n  )\r\n}\r\n",
       "path": "kbd/kbd-1.tsx",
       "target": "components/kbd-1.tsx",
       "type": "registry:example"

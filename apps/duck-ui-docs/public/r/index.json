@@ -13933,6 +13933,11 @@
         "name": "scroll-area-3.tsx",
         "path": "scroll-area/scroll-area-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "scroll-area-4.tsx",
+        "path": "scroll-area/scroll-area-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -13965,6 +13970,11 @@
         "name": "scroll-area-3.tsx",
         "path": "scroll-area/scroll-area-3.tsx",
         "type": "file"
+      },
+      {
+        "name": "scroll-area-4.tsx",
+        "path": "scroll-area/scroll-area-4.tsx",
+        "type": "file"
       }
     ]
   },
@@ -13996,6 +14006,48 @@
       {
         "name": "scroll-area-3.tsx",
         "path": "scroll-area/scroll-area-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "scroll-area-4.tsx",
+        "path": "scroll-area/scroll-area-4.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "scroll-area/scroll-area-4.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "scroll-area-4",
+    "registryDependencies": [
+      "scroll-area"
+    ],
+    "root_folder": "scroll-area",
+    "type": "registry:example",
+    "source": "/registry-examples/src/scroll-area",
+    "tree": [
+      {
+        "name": "scroll-area-1.tsx",
+        "path": "scroll-area/scroll-area-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "scroll-area-2.tsx",
+        "path": "scroll-area/scroll-area-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "scroll-area-3.tsx",
+        "path": "scroll-area/scroll-area-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "scroll-area-4.tsx",
+        "path": "scroll-area/scroll-area-4.tsx",
         "type": "file"
       }
     ]
@@ -29600,6 +29652,11 @@
         "name": "preview-panel-5.tsx",
         "path": "preview-panel/preview-panel-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "preview-panel-6.tsx",
+        "path": "preview-panel/preview-panel-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -29641,6 +29698,11 @@
       {
         "name": "preview-panel-5.tsx",
         "path": "preview-panel/preview-panel-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-6.tsx",
+        "path": "preview-panel/preview-panel-6.tsx",
         "type": "file"
       }
     ]
@@ -29684,6 +29746,11 @@
         "name": "preview-panel-5.tsx",
         "path": "preview-panel/preview-panel-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "preview-panel-6.tsx",
+        "path": "preview-panel/preview-panel-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -29726,6 +29793,11 @@
         "name": "preview-panel-5.tsx",
         "path": "preview-panel/preview-panel-5.tsx",
         "type": "file"
+      },
+      {
+        "name": "preview-panel-6.tsx",
+        "path": "preview-panel/preview-panel-6.tsx",
+        "type": "file"
       }
     ]
   },
@@ -29767,6 +29839,58 @@
       {
         "name": "preview-panel-5.tsx",
         "path": "preview-panel/preview-panel-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-6.tsx",
+        "path": "preview-panel/preview-panel-6.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "preview-panel/preview-panel-6.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "preview-panel-6",
+    "registryDependencies": [
+      "preview-panel"
+    ],
+    "root_folder": "preview-panel",
+    "type": "registry:example",
+    "source": "/registry-examples/src/preview-panel",
+    "tree": [
+      {
+        "name": "preview-panel-1.tsx",
+        "path": "preview-panel/preview-panel-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-2.tsx",
+        "path": "preview-panel/preview-panel-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-3.tsx",
+        "path": "preview-panel/preview-panel-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-4.tsx",
+        "path": "preview-panel/preview-panel-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-5.tsx",
+        "path": "preview-panel/preview-panel-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "preview-panel-6.tsx",
+        "path": "preview-panel/preview-panel-6.tsx",
         "type": "file"
       }
     ]
