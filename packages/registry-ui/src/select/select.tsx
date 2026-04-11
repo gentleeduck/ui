@@ -4,7 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { tapScale } from '@gentleduck/motion/presets/content'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
+import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import type { SelectTriggerProps as PrimitiveSelectTriggerProps } from '@gentleduck/primitives/select'
 import * as SelectPrimitive from '@gentleduck/primitives/select'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
@@ -160,40 +160,45 @@ const MotionSelectContent = React.forwardRef<
   React.ComponentRef<typeof SelectPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
 >(({ className, children, position = 'popper', ...props }, ref) => {
-  const { isOpen, setShowContent } = useMotionContent()
+  const { isOpen } = useMotionContent()
   const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const shouldRender = useMotionMount(isOpen)
+
+  if (!shouldRender) return null
 
   return (
-    <AnimatePresence onExitComplete={() => setShowContent(false)}>
-      {isOpen && (
-        <SelectPrimitive.Portal>
-          <SelectPrimitive.Content ref={ref} position={position} forceMount asChild {...props}>
-            <motion.div
-              className={cn(
-                'relative z-50 max-h-(--gentleduck-select-content-available-height) min-w-32 origin-(--gentleduck-select-content-transform-origin) overflow-y-auto overflow-x-hidden rounded-md border bg-popover text-popover-foreground shadow-md',
-                position === 'popper' &&
-                  'data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1',
-                className,
-              )}
-              initial={content.initial}
-              animate={content.animate}
-              exit={content.exit}
-              transition={content.transition}>
-              <SelectScrollUpButton />
-              <SelectPrimitive.Viewport
-                className={cn(
-                  'p-1',
-                  position === 'popper' &&
-                    'h-(--gentleduck-select-trigger-height) w-full min-w-(--gentleduck-select-trigger-width)',
-                )}>
-                {children}
-              </SelectPrimitive.Viewport>
-              <SelectScrollDownButton />
-            </motion.div>
-          </SelectPrimitive.Content>
-        </SelectPrimitive.Portal>
-      )}
-    </AnimatePresence>
+    <SelectPrimitive.Portal>
+      <SelectPrimitive.Content
+        ref={ref}
+        position={position}
+        forceMount
+        asChild
+        disableOutsidePointerEvents={false}
+        lockScroll={false}
+        {...props}>
+        <motion.div
+          className={cn(
+            'relative z-50 max-h-(--gentleduck-select-content-available-height) min-w-32 origin-(--gentleduck-select-content-transform-origin) overflow-y-auto overflow-x-hidden rounded-md border bg-popover text-popover-foreground shadow-md',
+            position === 'popper' &&
+              'data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1',
+            className,
+          )}
+          initial={content.initial}
+          animate={isOpen ? content.animate : { ...content.exit, pointerEvents: 'none' }}
+          transition={content.transition}>
+          <SelectScrollUpButton />
+          <SelectPrimitive.Viewport
+            className={cn(
+              'p-1',
+              position === 'popper' &&
+                'h-(--gentleduck-select-trigger-height) w-full min-w-(--gentleduck-select-trigger-width)',
+            )}>
+            {children}
+          </SelectPrimitive.Viewport>
+          <SelectScrollDownButton />
+        </motion.div>
+      </SelectPrimitive.Content>
+    </SelectPrimitive.Portal>
   )
 })
 MotionSelectContent.displayName = 'MotionSelectContent'

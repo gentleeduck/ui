@@ -5,11 +5,11 @@ import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { createSlideEdge } from '@gentleduck/motion/presets/slide-edge'
 import { tweenSlow } from '@gentleduck/motion/transitions/tweens'
-import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
+import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as SheetPrimitive from '@gentleduck/primitives/sheet'
 import type { VariantProps } from '@gentleduck/variants'
 import { X } from 'lucide-react'
-import { AnimatePresence, LazyMotion, m } from 'motion/react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { sheetVariants } from './sheet.constants'
 
@@ -122,9 +122,12 @@ const MotionSheetContent = React.forwardRef<
   React.ComponentRef<typeof SheetPrimitive.Content>,
   SheetContentProps & { closeText?: string; hideClose?: boolean }
 >(({ side = 'right', className, children, closeText = 'Close', hideClose = false, ...props }, ref) => {
-  const { isOpen, setShowContent } = useMotionContent()
+  const { isOpen } = useMotionContent()
   const overlay = useMotionPreset('fadeIn')
   const slide = React.useMemo(() => createSlideEdge(side ?? 'right'), [side])
+  // Sheet uses tweenSlow (300ms) for its slide, so give the exit a bit more
+  // room before unmounting.
+  const shouldRender = useMotionMount(isOpen, 320)
 
   const positionClasses: Record<string, string> = {
     top: 'inset-x-0 top-0 border-b',
@@ -133,43 +136,39 @@ const MotionSheetContent = React.forwardRef<
     right: 'inset-y-0 right-0 h-full w-3/4 border-l sm:max-w-sm',
   }
 
+  if (!shouldRender) return null
+
   return (
     <LazyMotion features={loadDomAnimation}>
-      <AnimatePresence onExitComplete={() => setShowContent(false)}>
-        {isOpen && (
-          <SheetPortal forceMount>
-            <SheetPrimitive.Overlay forceMount asChild>
-              <m.div
-                className="fixed inset-0 z-50 bg-black/80"
-                initial={overlay.initial}
-                animate={overlay.animate}
-                exit={{ ...overlay.exit, pointerEvents: 'none' }}
-                transition={overlay.transition}
-              />
-            </SheetPrimitive.Overlay>
-            <SheetPrimitive.Content ref={ref} forceMount asChild {...props}>
-              <m.div
-                className={cn(
-                  'fixed z-50 gap-4 bg-background p-6 shadow-lg',
-                  positionClasses[side ?? 'right'],
-                  className,
-                )}
-                initial={slide.initial}
-                animate={slide.animate}
-                exit={{ ...slide.exit, pointerEvents: 'none' }}
-                transition={tweenSlow}>
-                {children}
-                {!hideClose && (
-                  <SheetPrimitive.Close className="absolute end-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
-                    <X aria-hidden="true" className="h-4 w-4" />
-                    <span className="sr-only">{closeText}</span>
-                  </SheetPrimitive.Close>
-                )}
-              </m.div>
-            </SheetPrimitive.Content>
-          </SheetPortal>
-        )}
-      </AnimatePresence>
+      <SheetPortal forceMount>
+        <SheetPrimitive.Overlay forceMount asChild>
+          <m.div
+            className="fixed inset-0 z-50 bg-black/80"
+            initial={overlay.initial}
+            animate={isOpen ? overlay.animate : { ...overlay.exit, pointerEvents: 'none' }}
+            transition={overlay.transition}
+          />
+        </SheetPrimitive.Overlay>
+        <SheetPrimitive.Content ref={ref} forceMount asChild {...props}>
+          <m.div
+            className={cn(
+              'fixed z-50 gap-4 bg-background p-6 shadow-lg',
+              positionClasses[side ?? 'right'],
+              className,
+            )}
+            initial={slide.initial}
+            animate={isOpen ? slide.animate : { ...slide.exit, pointerEvents: 'none' }}
+            transition={tweenSlow}>
+            {children}
+            {!hideClose && (
+              <SheetPrimitive.Close className="absolute end-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none data-[state=open]:bg-secondary">
+                <X aria-hidden="true" className="h-4 w-4" />
+                <span className="sr-only">{closeText}</span>
+              </SheetPrimitive.Close>
+            )}
+          </m.div>
+        </SheetPrimitive.Content>
+      </SheetPortal>
     </LazyMotion>
   )
 })
