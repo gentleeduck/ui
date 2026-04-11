@@ -99,6 +99,9 @@ const CommandGroup = React.forwardRef<
 ))
 CommandGroup.displayName = CommandPrimitive.Group.displayName
 
+const commandItemClassName =
+  'relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 hover:bg-muted hover:text-accent-foreground data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-50 [&_svg]:size-4'
+
 const CommandItem = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>
@@ -106,14 +109,36 @@ const CommandItem = React.forwardRef<
   <CommandPrimitive.Item
     ref={ref}
     data-slot="command-item"
-    className={cn(
-      'relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 hover:bg-muted hover:text-accent-foreground data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-50 [&_svg]:size-4',
-      className,
-    )}
+    className={cn(commandItemClassName, className)}
     {...props}
   />
 ))
 CommandItem.displayName = CommandPrimitive.Item.displayName
+
+const MotionCommandItem = React.forwardRef<
+  React.ComponentRef<typeof CommandPrimitive.Item>,
+  Omit<
+    React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>,
+    'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
+  > & { index?: number }
+>(({ className, index = 0, children, ...props }, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.03 })
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <CommandPrimitive.Item asChild ref={ref} {...props}>
+        <m.li
+          className={cn(commandItemClassName, className)}
+          data-slot="command-item"
+          initial={content.initial}
+          animate={content.animate}
+          transition={content.transition}>
+          {children}
+        </m.li>
+      </CommandPrimitive.Item>
+    </LazyMotion>
+  )
+})
+MotionCommandItem.displayName = 'MotionCommandItem'
 
 const CommandSeparator = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive.Separator>,
@@ -189,33 +214,6 @@ CommandDialog.displayName = 'CommandDialog'
 function useCommandListContext(__scopeCommand: Parameters<typeof CommandPrimitive.useCommandContext>[1]) {
   return CommandPrimitive.useCommandContext('Command', __scopeCommand)
 }
-
-/* ------------------------------------------------------------------ */
-/*  MotionCommandItem                                                   */
-/* ------------------------------------------------------------------ */
-
-const MotionCommandItem = React.forwardRef<
-  React.ComponentRef<typeof CommandPrimitive.Item>,
-  React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item> & { index?: number }
->(({ className, index = 0, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.03 })
-  return (
-    <LazyMotion features={loadDomAnimation}>
-      <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
-        <CommandPrimitive.Item
-          ref={ref}
-          data-slot="command-item"
-          className={cn(
-            'relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 hover:bg-muted hover:text-accent-foreground data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-50 [&_svg]:size-4',
-            className,
-          )}
-          {...props}
-        />
-      </m.div>
-    </LazyMotion>
-  )
-})
-MotionCommandItem.displayName = 'MotionCommandItem'
 
 export {
   Command,
