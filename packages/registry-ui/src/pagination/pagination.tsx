@@ -204,32 +204,36 @@ const MotionPagination = React.forwardRef<
 })
 MotionPagination.displayName = 'MotionPagination'
 
-const MotionPaginationLink = React.forwardRef<HTMLAnchorElement, PaginationLinkProps & { index?: number }>(
-  ({ className, isActive, size = 'icon', index = 0, ...props }, ref) => {
-    const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.05 })
-    return (
-      <LazyMotion features={loadDomAnimation}>
-        <m.a
-          aria-current={isActive ? 'page' : undefined}
-          className={cn(
-            buttonVariants({
-              size,
-              variant: isActive ? 'outline' : 'ghost',
-            }),
-            className,
-          )}
-          data-slot="pagination-link"
-          ref={ref}
-          initial={content.initial}
-          animate={content.animate}
-          transition={content.transition}
-          whileTap={tapScale}
-          {...(props as React.ComponentPropsWithoutRef<'a'>)}
-        />
-      </LazyMotion>
-    )
-  },
-)
+const MotionPaginationLink = React.forwardRef<
+  HTMLAnchorElement,
+  Omit<PaginationLinkProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'> & { index?: number }
+>(({ className, isActive, size = 'icon', index = 0, ...props }, ref) => {
+  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.05 })
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <m.a
+        aria-current={isActive ? 'page' : undefined}
+        className={cn(
+          buttonVariants({
+            size,
+            variant: isActive ? 'outline' : 'ghost',
+          }),
+          className,
+        )}
+        data-slot="pagination-link"
+        ref={ref}
+        initial={content.initial}
+        animate={content.animate}
+        transition={content.transition}
+        whileTap={tapScale}
+        {...(props as Omit<
+          React.ComponentPropsWithoutRef<'a'>,
+          'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
+        >)}
+      />
+    </LazyMotion>
+  )
+})
 MotionPaginationLink.displayName = 'MotionPaginationLink'
 
 const MotionPaginationPrevious = React.forwardRef<
