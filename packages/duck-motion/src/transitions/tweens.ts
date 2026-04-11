@@ -15,7 +15,11 @@ export const duckMotionEasing = {
   spring: [1, 0.23995, 0, 1.65] as const,
 } as const
 
-const standardEase: [number, number, number, number] = [0.4, 0, 0.2, 1]
+/** Standard cubic-bezier ease for tween transitions. Shared across fast/normal/slow tweens. */
+export const standardEase = [0.4, 0, 0.2, 1] as const
+
+/** Ultra-fast tween for tap press/release feedback (15ms ease-out). Used by `whileTap` handlers. */
+export const TAP_SCALE_TRANSITION = { type: 'tween' as const, duration: 0.015, ease: 'easeOut' as const }
 
 /** Instant transition with zero duration. Use for state changes that should appear immediately. */
 export const tweenInstant: MotionTransitionConfig = { duration: 0 }
