@@ -73,6 +73,8 @@ ButtonGroupSeparator.displayName = 'ButtonGroupSeparator'
 /*  MotionButtonGroup                                                  */
 /* ------------------------------------------------------------------ */
 
+const MOTION_BUTTON_GROUP_OPTIONS = { transition: springBouncy } as const
+
 const MotionButtonGroup = React.forwardRef<
   HTMLDivElement,
   Omit<
@@ -81,7 +83,7 @@ const MotionButtonGroup = React.forwardRef<
   >
 >(({ className, orientation = 'horizontal', dir, ...props }, ref) => {
   const direction = useDirection(dir as Direction)
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset('scaleIn', MOTION_BUTTON_GROUP_OPTIONS)
   return (
     <LazyMotion features={loadDomAnimation}>
       {/* biome-ignore lint/a11y/useSemanticElements: group role is semantically correct for button groups */}

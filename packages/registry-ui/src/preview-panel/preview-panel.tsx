@@ -25,6 +25,9 @@ import type { PreviewPanelProps } from './preview-panel.types'
 const ZOOM_STEP_BUTTON = 0.25
 const ZOOM_STEP_WHEEL = 0.1
 
+const MOTION_PREVIEW_PANEL_OPTIONS = { transition: springBouncy } as const
+const CONTENT_STYLE = { transformOrigin: 'center center' } as const
+
 function clamp(value: number, min: number, max: number) {
   return Math.max(min, Math.min(max, value))
 }
@@ -402,8 +405,6 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, PreviewPanelProps>(
 )
 PreviewPanel.displayName = 'PreviewPanel'
 
-const CONTENT_STYLE = { transformOrigin: 'center center' } as const
-
 /* ------------------------------------------------------------------ */
 /*  Motion variants                                                     */
 /* ------------------------------------------------------------------ */
@@ -501,7 +502,7 @@ const MotionPreviewPanel = React.forwardRef<
   ) => {
     const containerRef = useRef<HTMLDivElement>(null)
     const contentRef = useRef<HTMLDivElement>(null)
-    const content = useMotionPreset('scaleIn', { transition: springBouncy })
+    const content = useMotionPreset('scaleIn', MOTION_PREVIEW_PANEL_OPTIONS)
 
     const s = useRef({
       zoom: initialZoom,
