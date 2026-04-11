@@ -477,7 +477,10 @@ const MotionZoomControls = memo(function MotionZoomControls({
   )
 })
 
-const MotionPreviewPanel = React.forwardRef<HTMLDivElement, PreviewPanelProps>(
+const MotionPreviewPanel = React.forwardRef<
+  HTMLDivElement,
+  Omit<PreviewPanelProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+>(
   (
     {
       maxHeight,
