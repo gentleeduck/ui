@@ -1,3 +1,5 @@
+import { TypographySmall } from '@gentleduck/registry-ui/typography'
+
 export default function Demo() {
-  return <small className="font-medium text-sm leading-none">Email address</small>
+  return <TypographySmall>Email address</TypographySmall>
 }

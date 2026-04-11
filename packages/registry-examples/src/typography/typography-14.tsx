@@ -1,3 +1,5 @@
+import { TypographyMuted } from '@gentleduck/registry-ui/typography'
+
 export default function Demo() {
-  return <p className="text-muted-foreground text-sm">Enter your email address.</p>
+  return <TypographyMuted>Enter your email address.</TypographyMuted>
 }

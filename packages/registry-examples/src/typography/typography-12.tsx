@@ -1,3 +1,5 @@
+import { TypographyLarge } from '@gentleduck/registry-ui/typography'
+
 export default function Demo() {
-  return <div className="font-semibold text-lg">Are you absolutely sure?</div>
+  return <TypographyLarge>Are you absolutely sure?</TypographyLarge>
 }
