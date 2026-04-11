@@ -10,6 +10,13 @@ import { MountMinimal } from '@gentleduck/primitives/mount'
 import { AnimatePresence, LayoutGroup, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
+const BLUR = `blur(${blurLight}px)`
+const MOTION_TABS_VARIANTS = {
+  enter: (dir: number) => ({ opacity: 0, x: `${dir * 8}%`, scale: 0.98, filter: BLUR }),
+  center: { opacity: 1, x: 0, scale: 1, filter: 'blur(0px)' },
+  exit: (dir: number) => ({ opacity: 0, x: `${dir * -8}%`, scale: 0.98, filter: BLUR }),
+} as const
+
 export function useTabs() {
   const context = React.useContext(TabsContext)
   if (context === null) {
@@ -201,7 +208,7 @@ const MotionTabs = React.forwardRef<HTMLDivElement, TabsProps>(
     const motionCtx = React.useMemo(() => ({ direction: motionDir, registerTrigger }), [motionDir, registerTrigger])
 
     return (
-      <TabsContext.Provider value={{ activeItem, setActiveItem: wrappedSetActiveItem, tabsId }}>
+      <TabsContext.Provider value={React.useMemo(() => ({ activeItem, setActiveItem: wrappedSetActiveItem, tabsId }), [activeItem, wrappedSetActiveItem, tabsId])}>
         <MotionTabsContext.Provider value={motionCtx}>
           <LazyMotion features={loadDomMax}>
             <div {...props} data-slot="tabs" dir={resolvedDir} ref={ref}>
@@ -329,30 +336,16 @@ const MotionTabsContents = React.forwardRef<
         mode="popLayout"
         initial={false}
         custom={direction}
-        onExitComplete={() => {
+        onExitComplete={React.useCallback(() => {
           if (containerRef.current) {
             setHeight(containerRef.current.scrollHeight)
           }
-        }}>
+        }, [])}>
         {activeChild && React.isValidElement(activeChild) ? (
           <m.div
             key={activeItem}
             custom={direction}
-            variants={{
-              enter: (dir: number) => ({
-                opacity: 0,
-                x: `${dir * 8}%`,
-                scale: 0.98,
-                filter: `blur(${blurLight}px)`,
-              }),
-              center: { opacity: 1, x: 0, scale: 1, filter: 'blur(0px)' },
-              exit: (dir: number) => ({
-                opacity: 0,
-                x: `${dir * -8}%`,
-                scale: 0.98,
-                filter: `blur(${blurLight}px)`,
-              }),
-            }}
+            variants={MOTION_TABS_VARIANTS}
             initial="enter"
             animate="center"
             exit="exit"
