@@ -518,6 +518,7 @@ const _Typography12 = dynamic(() => import('@gentleduck/registry-examples/typogr
 const _Typography13 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-13'), { ssr: false })
 const _Typography14 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-14'), { ssr: false })
 const _Typography15 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-15'), { ssr: false })
+const _Typography16 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-16'), { ssr: false })
 const _Typography2 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-2'), { ssr: false })
 const _Typography3 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-3'), { ssr: false })
 const _Typography4 = dynamic(() => import('@gentleduck/registry-examples/typography/typography-4'), { ssr: false })
@@ -6134,6 +6135,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _Typography15,
+    source: '/registry-examples/src/typography',
+    categories: [],
+    root_folder: 'typography',
+  },
+  'typography-16': {
+    name: 'typography-16',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: [],
+    files: [
+      {
+        path: 'typography/typography-16.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _Typography16,
     source: '/registry-examples/src/typography',
     categories: [],
     root_folder: 'typography',
