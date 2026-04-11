@@ -9,6 +9,8 @@ import * as PopoverPrimitive from '@gentleduck/primitives/popover'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
+const CONTENT_OPTIONS = { transition: springSnappy } as const
+
 const Popover = PopoverPrimitive.Root
 Popover.displayName = 'Popover'
 
@@ -64,7 +66,7 @@ const MotionPopoverContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content>
 >(({ className, align = 'center', sideOffset = 4, children, ...props }, ref) => {
   const { isOpen } = useMotionContent()
-  const content = useMotionPreset('scaleIn', { transition: springSnappy })
+  const content = useMotionPreset('scaleIn', CONTENT_OPTIONS)
   const shouldRender = useMotionMount(isOpen)
 
   if (!shouldRender) return null

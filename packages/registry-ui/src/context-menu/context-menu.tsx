@@ -10,6 +10,9 @@ import { Check, ChevronRight, Circle } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
+const CONTENT_OPTIONS = { transition: springBouncy } as const
+const CONTENT_STYLE = { transformOrigin: 'top left' } as const
+
 const ContextMenu = ContextMenuPrimitive.Root
 ContextMenu.displayName = 'ContextMenu'
 
@@ -193,7 +196,7 @@ const MotionContextMenuContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
   const { isOpen } = useMotionContent()
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset('scaleIn', CONTENT_OPTIONS)
   const isOpenRef = React.useRef(isOpen)
   isOpenRef.current = isOpen
   const shouldRender = useMotionMount(isOpen)
@@ -219,7 +222,7 @@ const MotionContextMenuContent = React.forwardRef<
               'z-50 max-h-(--gentleduck-context-menu-content-available-height) min-w-32 overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
               className,
             )}
-            style={{ transformOrigin: 'top left' }}
+            style={CONTENT_STYLE}
             initial={content.initial}
             animate={isOpen ? content.animate : { ...content.exit, pointerEvents: 'none' }}
             transition={content.transition}>
@@ -255,7 +258,7 @@ const MotionContextMenuSubContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubContent>
 >(({ className, children, ...props }, ref) => {
   const { isOpen } = useMotionContent()
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset('scaleIn', CONTENT_OPTIONS)
   const shouldRender = useMotionMount(isOpen)
 
   if (!shouldRender) return null
