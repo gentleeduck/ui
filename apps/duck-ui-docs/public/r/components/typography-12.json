@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "export default function Demo() {\n  return <div className=\"font-semibold text-lg\">Are you absolutely sure?</div>\n}\n",
+      "content": "export default function Demo() {\r\n  return <div className=\"font-semibold text-lg\">Are you absolutely sure?</div>\r\n}\r\n",
       "path": "typography/typography-12.tsx",
       "target": "components/typography-12.tsx",
       "type": "registry:example"

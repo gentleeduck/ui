@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\n\nimport { MotionRadioGroup, MotionRadioGroupItem } from '@gentleduck/registry-ui/radio-group'\n\nexport default function Demo() {\n  return (\n    <MotionRadioGroup\n      className=\"[&>div]:felx flex flex-col space-y-1 [&>div]:items-center [&>div]:space-x-3 [&>div]:space-y-0\"\n      defaultValue=\"comfortable\">\n      <MotionRadioGroupItem value=\"default\">Default</MotionRadioGroupItem>\n      <MotionRadioGroupItem value=\"comfortable\">Comfortable</MotionRadioGroupItem>\n      <MotionRadioGroupItem value=\"compact\">Compact</MotionRadioGroupItem>\n    </MotionRadioGroup>\n  )\n}\n",
+      "content": "'use client'\r\n\r\nimport { MotionRadioGroup, MotionRadioGroupItem } from '@gentleduck/registry-ui/radio-group'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <MotionRadioGroup\r\n      className=\"[&>div]:felx flex flex-col space-y-1 [&>div]:items-center [&>div]:space-x-3 [&>div]:space-y-0\"\r\n      defaultValue=\"comfortable\">\r\n      <MotionRadioGroupItem value=\"default\">Default</MotionRadioGroupItem>\r\n      <MotionRadioGroupItem value=\"comfortable\">Comfortable</MotionRadioGroupItem>\r\n      <MotionRadioGroupItem value=\"compact\">Compact</MotionRadioGroupItem>\r\n    </MotionRadioGroup>\r\n  )\r\n}\r\n",
       "path": "radio-group/radio-group-4.tsx",
       "target": "components/radio-group-4.tsx",
       "type": "registry:example"

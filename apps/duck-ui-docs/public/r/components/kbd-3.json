@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport { Kbd } from '@gentleduck/registry-ui/kbd'\n\nexport default function Demo() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-4\">\n      <Button className=\"pr-2\" size=\"sm\" variant=\"outline\">\n        Confirm <Kbd>Enter</Kbd>\n      </Button>\n      <Button className=\"pr-2\" size=\"sm\" variant=\"outline\">\n        Dismiss <Kbd>Esc</Kbd>\n      </Button>\n    </div>\n  )\n}\n",
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\r\nimport { Kbd } from '@gentleduck/registry-ui/kbd'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <div className=\"flex flex-wrap items-center gap-4\">\r\n      <Button className=\"pr-2\" size=\"sm\" variant=\"outline\">\r\n        Confirm <Kbd>Enter</Kbd>\r\n      </Button>\r\n      <Button className=\"pr-2\" size=\"sm\" variant=\"outline\">\r\n        Dismiss <Kbd>Esc</Kbd>\r\n      </Button>\r\n    </div>\r\n  )\r\n}\r\n",
       "path": "kbd/kbd-3.tsx",
       "target": "components/kbd-3.tsx",
       "type": "registry:example"

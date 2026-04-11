@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { ButtonGroup, ButtonGroupText } from '@gentleduck/registry-ui/button-group'\nimport { InputGroup, InputGroupAddon, InputGroupInput } from '@gentleduck/registry-ui/input-group'\nimport { Label } from '@gentleduck/registry-ui/label'\nimport { SendIcon } from 'lucide-react'\n\nexport default function Demo() {\n  return (\n    <div className=\"grid w-full max-w-sm gap-6\">\n      <ButtonGroup>\n        <ButtonGroupText asChild>\n          <Label htmlFor=\"endpoint\">api/v1/</Label>\n        </ButtonGroupText>\n        <InputGroup>\n          <InputGroupInput id=\"endpoint\" />\n          <InputGroupAddon align=\"inline-end\">\n            <SendIcon />\n          </InputGroupAddon>\n        </InputGroup>\n      </ButtonGroup>\n    </div>\n  )\n}\n",
+      "content": "import { ButtonGroup, ButtonGroupText } from '@gentleduck/registry-ui/button-group'\r\nimport { InputGroup, InputGroupAddon, InputGroupInput } from '@gentleduck/registry-ui/input-group'\r\nimport { Label } from '@gentleduck/registry-ui/label'\r\nimport { SendIcon } from 'lucide-react'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <div className=\"grid w-full max-w-sm gap-6\">\r\n      <ButtonGroup>\r\n        <ButtonGroupText asChild>\r\n          <Label htmlFor=\"endpoint\">api/v1/</Label>\r\n        </ButtonGroupText>\r\n        <InputGroup>\r\n          <InputGroupInput id=\"endpoint\" />\r\n          <InputGroupAddon align=\"inline-end\">\r\n            <SendIcon />\r\n          </InputGroupAddon>\r\n        </InputGroup>\r\n      </ButtonGroup>\r\n    </div>\r\n  )\r\n}\r\n",
       "path": "input-group/input-group-10.tsx",
       "target": "components/input-group-10.tsx",
       "type": "registry:example"

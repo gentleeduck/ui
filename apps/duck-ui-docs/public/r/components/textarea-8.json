@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Label } from '@gentleduck/registry-ui/label'\nimport { Textarea } from '@gentleduck/registry-ui/textarea'\n\nexport default function Demo() {\n  return (\n    <div className=\"grid w-full gap-1.5\">\n      <Label htmlFor=\"message\" dir=\"rtl\">\n        {'رسالتك'}\n      </Label>\n      <Textarea id=\"message\" placeholder=\"اكتب رسالتك هنا.\" dir=\"rtl\" />\n    </div>\n  )\n}\n",
+      "content": "import { Label } from '@gentleduck/registry-ui/label'\r\nimport { Textarea } from '@gentleduck/registry-ui/textarea'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <div className=\"grid w-full gap-1.5\">\r\n      <Label htmlFor=\"message\" dir=\"rtl\">\r\n        {'رسالتك'}\r\n      </Label>\r\n      <Textarea id=\"message\" placeholder=\"اكتب رسالتك هنا.\" dir=\"rtl\" />\r\n    </div>\r\n  )\r\n}\r\n",
       "path": "textarea/textarea-8.tsx",
       "target": "components/textarea-8.tsx",
       "type": "registry:example"
