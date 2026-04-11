@@ -1,5 +1,5 @@
 import { execSync } from 'node:child_process'
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -78,14 +78,39 @@ function makeJsxStringAttr(name: string, value: string) {
 
 /** Find the system Chromium / Chrome binary. */
 function findChromium(): string {
+  // 1) Honor explicit env var
+  const envPath = process.env.PUPPETEER_EXECUTABLE_PATH || process.env.CHROME_BIN || process.env.CHROMIUM_BIN
+  if (envPath && existsSync(envPath)) return envPath
+
+  // 2) Try PATH lookups
   for (const bin of ['chromium', 'google-chrome-stable', 'google-chrome', 'chromium-browser']) {
     try {
       const p = execSync(`which ${bin}`, { encoding: 'utf-8', stdio: ['pipe', 'pipe', 'pipe'] }).trim()
-      if (p) return p
+      if (p && existsSync(p)) {
+        // Verify the resolved target exists - homebrew shims can point to deleted .app bundles
+        try {
+          execSync(`"${p}" --version`, { stdio: ['pipe', 'pipe', 'pipe'], timeout: 3000 })
+          return p
+        } catch {
+          /* stale shim, try next */
+        }
+      }
     } catch {
       /* next */
     }
   }
+
+  // 3) macOS .app bundles
+  const macPaths = [
+    '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
+    '/Applications/Google Chrome Canary.app/Contents/MacOS/Google Chrome Canary',
+    '/Applications/Chromium.app/Contents/MacOS/Chromium',
+    '/Applications/Microsoft Edge.app/Contents/MacOS/Microsoft Edge',
+  ]
+  for (const p of macPaths) {
+    if (existsSync(p)) return p
+  }
+
   throw new Error('[rehype-mermaid] No Chromium/Chrome binary found. Install chromium or google-chrome.')
 }
 
