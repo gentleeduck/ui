@@ -1,0 +1,3 @@
+# Force LF line endings for lockfiles so frozen-lockfile installs
+# produce the same result on Linux CI and macOS/Windows dev machines.
+bun.lock text eol=lf
