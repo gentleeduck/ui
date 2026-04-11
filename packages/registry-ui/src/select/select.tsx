@@ -1,6 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
+import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { tapScale } from '@gentleduck/motion/presets/content'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
@@ -8,8 +9,10 @@ import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/
 import type { SelectTriggerProps as PrimitiveSelectTriggerProps } from '@gentleduck/primitives/select'
 import * as SelectPrimitive from '@gentleduck/primitives/select'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
-import { AnimatePresence, motion } from 'motion/react'
+import { AnimatePresence, LazyMotion, m, motion } from 'motion/react'
 import * as React from 'react'
+
+const CONTENT_OPTIONS = { transition: springBouncy } as const
 
 const Select = SelectPrimitive.Root
 Select.displayName = 'Select'
@@ -161,7 +164,7 @@ const MotionSelectContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
 >(({ className, children, position = 'popper', ...props }, ref) => {
   const { isOpen, setShowContent } = useMotionContent()
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset('scaleIn', CONTENT_OPTIONS)
 
   return (
     <AnimatePresence onExitComplete={() => setShowContent(false)}>
@@ -200,21 +203,23 @@ MotionSelectContent.displayName = 'MotionSelectContent'
 
 const MotionSelectTrigger = React.forwardRef<React.ComponentRef<typeof SelectPrimitive.Trigger>, SelectTriggerProps>(
   ({ className, children, ...props }, ref) => (
-    <motion.div whileTap={tapScale}>
-      <SelectPrimitive.Trigger
-        ref={ref}
-        data-slot="select-trigger"
-        className={cn(
-          'flex h-9 min-w-32 select-none items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-muted-foreground [&>span]:line-clamp-1',
-          className,
-        )}
-        {...props}>
-        {children}
-        <SelectPrimitive.Icon asChild>
-          <ChevronDown aria-hidden="true" className="size-4 opacity-50" />
-        </SelectPrimitive.Icon>
-      </SelectPrimitive.Trigger>
-    </motion.div>
+    <LazyMotion features={loadDomAnimation}>
+      <m.div whileTap={tapScale}>
+        <SelectPrimitive.Trigger
+          ref={ref}
+          data-slot="select-trigger"
+          className={cn(
+            'flex h-9 min-w-32 select-none items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-muted-foreground [&>span]:line-clamp-1',
+            className,
+          )}
+          {...props}>
+          {children}
+          <SelectPrimitive.Icon asChild>
+            <ChevronDown aria-hidden="true" className="size-4 opacity-50" />
+          </SelectPrimitive.Icon>
+        </SelectPrimitive.Trigger>
+      </m.div>
+    </LazyMotion>
   ),
 )
 MotionSelectTrigger.displayName = 'MotionSelectTrigger'
