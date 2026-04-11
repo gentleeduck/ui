@@ -64,12 +64,14 @@ ResizableHandle.displayName = 'ResizableHandle'
 /*  Motion variants                                                     */
 /* ------------------------------------------------------------------ */
 
+const MOTION_RESIZABLE_PANEL_GROUP_OPTIONS = { transition: springBouncy } as const
+
 const MotionResizablePanelGroup = React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<typeof ResizablePrimitive.Group> & { dir?: Direction }
 >(({ className, dir, ...props }, ref) => {
   const direction = useDirection(dir as Direction)
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset('scaleIn', MOTION_RESIZABLE_PANEL_GROUP_OPTIONS)
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div
