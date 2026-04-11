@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\n\nimport { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'\n\nexport default function Demo() {\n  return (\n    <Select>\n      <SelectTrigger className=\"w-48 data-[state=open]:border-ring data-[state=open]:ring-2 data-[state=open]:ring-ring\">\n        <SelectValue placeholder=\"Select a fruit\" />\n      </SelectTrigger>\n      <SelectContent>\n        <SelectItem value=\"apple\">Apple</SelectItem>\n        <SelectItem value=\"banana\">Banana</SelectItem>\n        <SelectItem value=\"cherry\">Cherry</SelectItem>\n        <SelectItem value=\"mango\">Mango</SelectItem>\n      </SelectContent>\n    </Select>\n  )\n}\n",
+      "content": "'use client'\r\n\r\nimport { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <Select>\r\n      <SelectTrigger className=\"w-48 data-[state=open]:border-ring data-[state=open]:ring-2 data-[state=open]:ring-ring\">\r\n        <SelectValue placeholder=\"Select a fruit\" />\r\n      </SelectTrigger>\r\n      <SelectContent>\r\n        <SelectItem value=\"apple\">Apple</SelectItem>\r\n        <SelectItem value=\"banana\">Banana</SelectItem>\r\n        <SelectItem value=\"cherry\">Cherry</SelectItem>\r\n        <SelectItem value=\"mango\">Mango</SelectItem>\r\n      </SelectContent>\r\n    </Select>\r\n  )\r\n}\r\n",
       "path": "select/select-5.tsx",
       "target": "components/select-5.tsx",
       "type": "registry:example"

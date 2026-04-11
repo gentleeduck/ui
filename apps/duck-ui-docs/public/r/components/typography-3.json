@@ -1,14 +1,16 @@
 {
   "files": [
     {
-      "content": "export default function Demo() {\n  return (\n    <h2 className=\"scroll-m-20 border-b pb-2 font-semibold text-3xl tracking-tight first:mt-0\">\n      The People of the Kingdom\n    </h2>\n  )\n}\n",
+      "content": "import { TypographyH2 } from '@gentleduck/registry-ui/typography'\n\nexport default function Demo() {\n  return <TypographyH2>The People of the Kingdom</TypographyH2>\n}\n",
       "path": "typography/typography-3.tsx",
       "target": "components/typography-3.tsx",
       "type": "registry:example"
     }
   ],
   "name": "typography-3",
-  "registryDependencies": [],
+  "registryDependencies": [
+    "typography"
+  ],
   "root_folder": "typography",
   "source": "/registry-examples/src/typography",
   "type": "registry:example"

@@ -118,3 +118,62 @@ export function useMotionRoot(props: {
 export function useMotionContent() {
   return React.useContext(MotionRootContext)
 }
+
+/**
+ * Hook that manually drives mount/unmount for motion content components that
+ * live inside a primitive Portal + Slot boundary.
+ *
+ * AnimatePresence can't reliably track exit animations through
+ * `<Portal forceMount><Content asChild>...` because its direct child is a
+ * non-motion wrapper. This hook gives you a deterministic `shouldRender`
+ * boolean that:
+ *   1. Becomes `true` immediately when `isOpen` flips to true
+ *   2. Stays `true` for `exitDurationMs` after `isOpen` flips to false so the
+ *      motion.div can animate its exit in place
+ *   3. Becomes `false` after the delay so the component fully unmounts
+ *
+ * Also restores `document.body.style.pointerEvents` on close so DismissableLayer
+ * + RemoveScroll stickiness never blocks clicks on the underlying page.
+ *
+ * @example
+ * ```tsx
+ * const { isOpen } = useMotionContent()
+ * const shouldRender = useMotionMount(isOpen)
+ * if (!shouldRender) return null
+ * return (
+ *   <Portal forceMount>
+ *     <Content forceMount asChild>
+ *       <m.div
+ *         initial={content.initial}
+ *         animate={isOpen ? content.animate : content.exit}
+ *         transition={content.transition}
+ *       />
+ *     </Content>
+ *   </Portal>
+ * )
+ * ```
+ */
+export function useMotionMount(isOpen: boolean, exitDurationMs = 180): boolean {
+  const [shouldRender, setShouldRender] = React.useState(isOpen)
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setShouldRender(true)
+      return
+    }
+    // Closing: force body pointer events back on immediately so clicks on the
+    // surface underneath register without waiting for the exit animation.
+    if (typeof document !== 'undefined' && document.body.style.pointerEvents === 'none') {
+      document.body.style.pointerEvents = ''
+    }
+    const t = setTimeout(() => {
+      setShouldRender(false)
+      if (typeof document !== 'undefined' && document.body.style.pointerEvents === 'none') {
+        document.body.style.pointerEvents = ''
+      }
+    }, exitDurationMs)
+    return () => clearTimeout(t)
+  }, [isOpen, exitDurationMs])
+
+  return shouldRender
+}

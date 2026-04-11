@@ -1,3 +1,5 @@
+import { TypographyH3 } from '@gentleduck/registry-ui/typography'
+
 export default function Demo() {
-  return <h3 className="scroll-m-20 font-semibold text-2xl tracking-tight">The Joke Tax</h3>
+  return <TypographyH3>The Joke Tax</TypographyH3>
 }
