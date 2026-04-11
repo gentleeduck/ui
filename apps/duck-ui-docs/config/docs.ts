@@ -1219,6 +1219,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/scroll-area',
           items: [],
+          label: 'new',
           title: 'Scroll Area',
         },
         {
