@@ -1,2 +1,2 @@
-export * from './dialog'
-export * from './dialog-responsive'
+export { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogOverlay, DialogPortal, DialogTitle, DialogTrigger, MotionDialog, MotionDialogContent } from './dialog'
+export { DialogCloseResponsive, DialogContentResponsive, DialogDescriptionResponsive, DialogFooterResponsive, DialogHeaderResponsive, DialogResponsive, DialogTitleResponsive, DialogTriggerResponsive } from './dialog-responsive'
