@@ -17,6 +17,7 @@ import type {
 } from './presets/types'
 import { useDuckReducedMotion } from './react'
 import { springDefault } from './transitions/springs'
+import { TAP_SCALE_TRANSITION } from './transitions/tweens'
 
 export type {
   Direction,
@@ -78,11 +79,15 @@ function buildResult(preset: MotionPreset, reduced: boolean, options?: UseMotion
     : { ...(options?.enterTransition ?? baseTransition), ...(options?.delay ? { delay: options.delay } : {}) }
   const exitTransition: MotionTransitionConfig = reduced ? { duration: 0 } : (options?.exitTransition ?? baseTransition)
 
+  // Override scale specifically so tap press/release is always fast regardless
+  // of the base spring used by the preset.
+  const enterWithTapScale = reduced ? enterTransition : { ...enterTransition, scale: TAP_SCALE_TRANSITION }
+
   return {
     initial: { ...preset.initial },
-    animate: { ...preset.animate, transition: enterTransition },
+    animate: { ...preset.animate, transition: enterWithTapScale },
     exit: { ...preset.exit, transition: exitTransition },
-    transition: enterTransition,
+    transition: enterWithTapScale,
   }
 }
 
@@ -95,10 +100,22 @@ export async function resolveMotionPreset(
   return buildResult(preset, false, options)
 }
 
-/** Sync hook for React components. Memoizes the result to avoid creating new objects on every render. */
-export function useMotionPreset(name: MotionPresetName, options?: UseMotionPresetOptions): MotionPresetResult {
+/**
+ * Sync hook for React components. Accepts either a preset name (string) or a
+ * preset object directly. The object form enables tree-shaking since unused
+ * presets are never imported.
+ */
+export function useMotionPreset(
+  nameOrPreset: MotionPresetName | MotionPreset,
+  options?: UseMotionPresetOptions,
+): MotionPresetResult {
   const reduced = useDuckReducedMotion()
-  const preset = options?.direction ? createDirectionalPreset(options.direction) : presetMap[name]
+  const preset =
+    options?.direction
+      ? createDirectionalPreset(options.direction)
+      : typeof nameOrPreset === 'string'
+        ? presetMap[nameOrPreset]
+        : nameOrPreset
   const result = buildResult(preset, reduced, options)
 
   // biome-ignore lint/correctness/useHookAtTopLevel: guarded for non-React environments (tests)
@@ -107,7 +124,7 @@ export function useMotionPreset(name: MotionPresetName, options?: UseMotionPrese
       return React.useMemo(
         () => buildResult(preset, reduced, options),
         [
-          name,
+          nameOrPreset,
           reduced,
           options?.direction,
           options?.delay,

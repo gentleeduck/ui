@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\n\nimport { MotionProgress } from '@gentleduck/registry-ui/progress'\nimport * as React from 'react'\n\nexport default function Demo() {\n  const [progress, setProgress] = React.useState(13)\n\n  React.useEffect(() => {\n    const timer = setTimeout(() => setProgress(66), 500)\n    return () => clearTimeout(timer)\n  }, [])\n\n  return <MotionProgress className=\"w-[60%]\" value={progress} />\n}\n",
+      "content": "'use client'\r\n\r\nimport { MotionProgress } from '@gentleduck/registry-ui/progress'\r\nimport * as React from 'react'\r\n\r\nexport default function Demo() {\r\n  const [progress, setProgress] = React.useState(13)\r\n\r\n  React.useEffect(() => {\r\n    const timer = setTimeout(() => setProgress(66), 500)\r\n    return () => clearTimeout(timer)\r\n  }, [])\r\n\r\n  return <MotionProgress className=\"w-[60%]\" value={progress} />\r\n}\r\n",
       "path": "progress/progress-3.tsx",
       "target": "components/progress-3.tsx",
       "type": "registry:example"

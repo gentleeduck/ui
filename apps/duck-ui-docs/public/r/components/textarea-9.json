@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\n\nimport { MotionTextarea } from '@gentleduck/registry-ui/textarea'\n\nexport default function Demo() {\n  return <MotionTextarea placeholder=\"Type your message here.\" />\n}\n",
+      "content": "'use client'\r\n\r\nimport { MotionTextarea } from '@gentleduck/registry-ui/textarea'\r\n\r\nexport default function Demo() {\r\n  return <MotionTextarea placeholder=\"Type your message here.\" />\r\n}\r\n",
       "path": "textarea/textarea-9.tsx",
       "target": "components/textarea-9.tsx",
       "type": "registry:example"

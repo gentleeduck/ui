@@ -4,11 +4,14 @@ import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
+import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as DropdownMenuPrimitive from '@gentleduck/primitives/dropdown-menu'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { Check, ChevronRight, Circle } from 'lucide-react'
-import { AnimatePresence, LazyMotion, m } from 'motion/react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
+
+const CONTENT_OPTIONS = { transition: springBouncy } as const
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 DropdownMenu.displayName = 'DropdownMenu'
@@ -197,30 +200,28 @@ const MotionDropdownMenuContent = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
 >(({ className, sideOffset = 4, children, ...props }, ref) => {
-  const { isOpen, setShowContent } = useMotionContent()
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const { isOpen } = useMotionContent()
+  const content = useMotionPreset(scaleIn, CONTENT_OPTIONS)
+  const shouldRender = useMotionMount(isOpen)
+
+  if (!shouldRender) return null
 
   return (
     <LazyMotion features={loadDomAnimation}>
-      <AnimatePresence onExitComplete={() => setShowContent(false)}>
-        {isOpen && (
-          <DropdownMenuPrimitive.Portal forceMount>
-            <DropdownMenuPrimitive.Content ref={ref} sideOffset={sideOffset} forceMount asChild {...props}>
-              <m.div
-                className={cn(
-                  'z-50 max-h-(--gentleduck-dropdown-menu-content-available-height) min-w-32 origin-(--gentleduck-dropdown-menu-content-transform-origin) overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
-                  className,
-                )}
-                initial={content.initial}
-                animate={content.animate}
-                exit={{ ...content.exit, pointerEvents: 'none' }}
-                transition={content.transition}>
-                {children}
-              </m.div>
-            </DropdownMenuPrimitive.Content>
-          </DropdownMenuPrimitive.Portal>
-        )}
-      </AnimatePresence>
+      <DropdownMenuPrimitive.Portal forceMount>
+        <DropdownMenuPrimitive.Content ref={ref} sideOffset={sideOffset} forceMount asChild {...props}>
+          <m.div
+            className={cn(
+              'z-50 max-h-(--gentleduck-dropdown-menu-content-available-height) min-w-32 origin-(--gentleduck-dropdown-menu-content-transform-origin) overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
+              className,
+            )}
+            initial={content.initial}
+            animate={isOpen ? content.animate : { ...content.exit, pointerEvents: 'none' }}
+            transition={content.transition}>
+            {children}
+          </m.div>
+        </DropdownMenuPrimitive.Content>
+      </DropdownMenuPrimitive.Portal>
     </LazyMotion>
   )
 })
@@ -248,30 +249,28 @@ const MotionDropdownMenuSubContent = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.SubContent>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>
 >(({ className, children, ...props }, ref) => {
-  const { isOpen, setShowContent } = useMotionContent()
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const { isOpen } = useMotionContent()
+  const content = useMotionPreset(scaleIn, CONTENT_OPTIONS)
+  const shouldRender = useMotionMount(isOpen)
+
+  if (!shouldRender) return null
 
   return (
     <LazyMotion features={loadDomAnimation}>
-      <AnimatePresence onExitComplete={() => setShowContent(false)}>
-        {isOpen && (
-          <DropdownMenuPrimitive.Portal forceMount>
-            <DropdownMenuPrimitive.SubContent ref={ref} forceMount asChild {...props}>
-              <m.div
-                className={cn(
-                  'z-50 min-w-32 origin-(--gentleduck-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg',
-                  className,
-                )}
-                initial={content.initial}
-                animate={content.animate}
-                exit={{ ...content.exit, pointerEvents: 'none' }}
-                transition={content.transition}>
-                {children}
-              </m.div>
-            </DropdownMenuPrimitive.SubContent>
-          </DropdownMenuPrimitive.Portal>
-        )}
-      </AnimatePresence>
+      <DropdownMenuPrimitive.Portal forceMount>
+        <DropdownMenuPrimitive.SubContent ref={ref} forceMount asChild {...props}>
+          <m.div
+            className={cn(
+              'z-50 min-w-32 origin-(--gentleduck-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg',
+              className,
+            )}
+            initial={content.initial}
+            animate={isOpen ? content.animate : { ...content.exit, pointerEvents: 'none' }}
+            transition={content.transition}>
+            {children}
+          </m.div>
+        </DropdownMenuPrimitive.SubContent>
+      </DropdownMenuPrimitive.Portal>
     </LazyMotion>
   )
 })

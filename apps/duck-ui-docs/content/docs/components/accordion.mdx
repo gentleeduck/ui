@@ -178,14 +178,35 @@ Requires the `motion` package. Replace `AccordionItem` with `MotionAccordionItem
 | `children` | `React.ReactNode` | - | Content to reveal when the accordion item is expanded |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
 
+### MotionAccordion
+
+Wraps `Accordion` and auto-injects a stagger `index` into each `MotionAccordionItem` child, creating a cascading entrance. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `AccordionProps` | - | All props from `Accordion` are supported |
+
 ### MotionAccordionItem
 
-Replaces `AccordionItem`. Keeps the `<details>` element open for motion height animation. Same props. Requires the `motion` package.
+Replaces `AccordionItem`. Keeps the `<details>` element open for motion height animation, and renders with a staggered `scaleIn` entrance (50ms per index). Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | `0` | Stagger delay index (50ms per index) for entrance animation. Auto-injected when used inside `MotionAccordion`. |
+| `...props` | `AccordionItemProps` | - | All props from `AccordionItem` are supported |
 
 ### MotionAccordionTrigger
 
-Replaces `AccordionTrigger`. Chevron rotation driven by motion instead of CSS `group-open`. Same props. Requires the `motion` package.
+Replaces `AccordionTrigger`. Chevron rotation driven by motion instead of CSS `group-open`. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `AccordionTriggerProps` | - | All props from `AccordionTrigger` are supported |
 
 ### MotionAccordionContent
 
-Replaces `AccordionContent`. Animates height from 0 to auto with staggered blur and opacity fade using heightAuto preset. Requires the `motion` package.
+Replaces `AccordionContent`. Animates height from 0 to auto with staggered blur and opacity fade using the `heightAuto` preset. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `AccordionContentProps` | - | All props from `AccordionContent` are supported |

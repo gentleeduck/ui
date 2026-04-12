@@ -7,6 +7,7 @@ import { checkerBounce, contentTransition } from '@gentleduck/motion/presets/con
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
 import * as RadioGroupPrimitive from '@gentleduck/primitives/radio-group'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
@@ -107,7 +108,7 @@ const MotionRadioGroupItem = React.forwardRef<
     index?: number
   }
 >(({ className, indicator, checkedIndicator, children, textValue, index = 0, onClick, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.05 })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy, delay: index * 0.05 })
   const [bounce, setBounce] = React.useState(false)
   const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
     checkedIndicator,

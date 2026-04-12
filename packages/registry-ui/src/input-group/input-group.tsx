@@ -6,6 +6,7 @@ import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { cva, type VariantProps } from '@gentleduck/variants'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Button } from '../button'
@@ -180,7 +181,7 @@ InputGroupTextarea.displayName = 'InputGroupTextarea'
 
 const MotionInputGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'> & { index?: number }>(
   ({ index = 0, ...props }, ref) => {
-    const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.05 })
+    const content = useMotionPreset(scaleIn, { transition: springBouncy, delay: index * 0.05 })
     return (
       <LazyMotion features={loadDomAnimation}>
         <m.div initial={content.initial} animate={content.animate} transition={content.transition}>

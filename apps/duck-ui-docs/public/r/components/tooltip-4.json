@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Toggle } from '@gentleduck/registry-ui/toggle'\nimport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'\nimport { Bold } from 'lucide-react'\n\nexport default function Demo() {\n  return (\n    <TooltipProvider>\n      <Tooltip>\n        <TooltipTrigger asChild disableCloseOnClick>\n          <Toggle aria-label=\"Toggle bold\">\n            <Bold className=\"h-4 w-4\" />\n          </Toggle>\n        </TooltipTrigger>\n\n        <TooltipContent>\n          <p>Toggle bold</p>\n        </TooltipContent>\n      </Tooltip>\n    </TooltipProvider>\n  )\n}\n",
+      "content": "import { Toggle } from '@gentleduck/registry-ui/toggle'\r\nimport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'\r\nimport { Bold } from 'lucide-react'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <TooltipProvider>\r\n      <Tooltip>\r\n        <TooltipTrigger asChild disableCloseOnClick>\r\n          <Toggle aria-label=\"Toggle bold\">\r\n            <Bold className=\"h-4 w-4\" />\r\n          </Toggle>\r\n        </TooltipTrigger>\r\n\r\n        <TooltipContent>\r\n          <p>Toggle bold</p>\r\n        </TooltipContent>\r\n      </Tooltip>\r\n    </TooltipProvider>\r\n  )\r\n}\r\n",
       "path": "tooltip/tooltip-4.tsx",
       "target": "components/tooltip-4.tsx",
       "type": "registry:example"

@@ -7,6 +7,7 @@ import { tapScale } from '@gentleduck/motion/presets/content'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import * as TogglePrimitive from '@gentleduck/primitives/toggle'
 import type { VariantProps } from '@gentleduck/variants'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { toggleVariants } from './toggle.constants'
@@ -33,13 +34,13 @@ const MotionToggle = React.forwardRef<
     'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
   >
 >(({ className, variant = 'default', size = 'default', children, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const presetOptions = React.useMemo(() => ({ transition: springBouncy }), [])
+  const content = useMotionPreset(scaleIn, presetOptions)
   return (
     <LazyMotion features={loadDomAnimation}>
       <TogglePrimitive.Root asChild ref={ref} {...props}>
         <m.button
           whileTap={tapScale}
-          transition={{ scale: { duration: 0, type: 'tween' } }}
           className={cn(toggleVariants({ className, size, variant }))}
           data-slot="toggle">
           {React.Children.map(children, (child, i) => (

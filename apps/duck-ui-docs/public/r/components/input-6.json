@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport { Input } from '@gentleduck/registry-ui/input'\n\nexport default function Demo() {\n  return (\n    <div className=\"flex w-full max-w-sm items-center space-x-2\">\n      <Input placeholder=\"Email\" type=\"email\" />\n      <Button type=\"submit\">Subscribe</Button>\n    </div>\n  )\n}\n",
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\r\nimport { Input } from '@gentleduck/registry-ui/input'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <div className=\"flex w-full max-w-sm items-center space-x-2\">\r\n      <Input placeholder=\"Email\" type=\"email\" />\r\n      <Button type=\"submit\">Subscribe</Button>\r\n    </div>\r\n  )\r\n}\r\n",
       "path": "input/input-6.tsx",
       "target": "components/input-6.tsx",
       "type": "registry:example"

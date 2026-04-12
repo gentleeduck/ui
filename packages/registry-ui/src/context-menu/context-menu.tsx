@@ -4,11 +4,15 @@ import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
+import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as ContextMenuPrimitive from '@gentleduck/primitives/context-menu'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { Check, ChevronRight, Circle } from 'lucide-react'
-import { AnimatePresence, LazyMotion, m } from 'motion/react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
+
+const CONTENT_OPTIONS = { transition: springBouncy } as const
+const CONTENT_STYLE = { transformOrigin: 'top left' } as const
 
 const ContextMenu = ContextMenuPrimitive.Root
 ContextMenu.displayName = 'ContextMenu'
@@ -192,43 +196,41 @@ const MotionContextMenuContent = React.forwardRef<
   React.ComponentRef<typeof ContextMenuPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
-  const { isOpen, setShowContent } = useMotionContent()
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const { isOpen } = useMotionContent()
+  const content = useMotionPreset(scaleIn, CONTENT_OPTIONS)
   const isOpenRef = React.useRef(isOpen)
   isOpenRef.current = isOpen
+  const shouldRender = useMotionMount(isOpen)
+
+  if (!shouldRender) return null
 
   return (
     <LazyMotion features={loadDomAnimation}>
-      <AnimatePresence onExitComplete={() => setShowContent(false)}>
-        {isOpen && (
-          <ContextMenuPrimitive.Portal forceMount>
-            <ContextMenuPrimitive.Content
-              ref={ref}
-              forceMount
-              asChild
-              onPointerDownOutside={(e) => {
-                if (!isOpenRef.current) e.preventDefault()
-              }}
-              onFocusOutside={(e) => {
-                if (!isOpenRef.current) e.preventDefault()
-              }}
-              {...props}>
-              <m.div
-                className={cn(
-                  'z-50 max-h-(--gentleduck-context-menu-content-available-height) min-w-32 overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
-                  className,
-                )}
-                style={{ transformOrigin: 'top left' }}
-                initial={content.initial}
-                animate={content.animate}
-                exit={{ ...content.exit, pointerEvents: 'none' }}
-                transition={content.transition}>
-                {children}
-              </m.div>
-            </ContextMenuPrimitive.Content>
-          </ContextMenuPrimitive.Portal>
-        )}
-      </AnimatePresence>
+      <ContextMenuPrimitive.Portal forceMount>
+        <ContextMenuPrimitive.Content
+          ref={ref}
+          forceMount
+          asChild
+          onPointerDownOutside={(e) => {
+            if (!isOpenRef.current) e.preventDefault()
+          }}
+          onFocusOutside={(e) => {
+            if (!isOpenRef.current) e.preventDefault()
+          }}
+          {...props}>
+          <m.div
+            className={cn(
+              'z-50 max-h-(--gentleduck-context-menu-content-available-height) min-w-32 overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
+              className,
+            )}
+            style={CONTENT_STYLE}
+            initial={content.initial}
+            animate={isOpen ? content.animate : { ...content.exit, pointerEvents: 'none' }}
+            transition={content.transition}>
+            {children}
+          </m.div>
+        </ContextMenuPrimitive.Content>
+      </ContextMenuPrimitive.Portal>
     </LazyMotion>
   )
 })
@@ -256,30 +258,28 @@ const MotionContextMenuSubContent = React.forwardRef<
   React.ComponentRef<typeof ContextMenuPrimitive.SubContent>,
   React.ComponentPropsWithoutRef<typeof ContextMenuPrimitive.SubContent>
 >(({ className, children, ...props }, ref) => {
-  const { isOpen, setShowContent } = useMotionContent()
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const { isOpen } = useMotionContent()
+  const content = useMotionPreset(scaleIn, CONTENT_OPTIONS)
+  const shouldRender = useMotionMount(isOpen)
+
+  if (!shouldRender) return null
 
   return (
     <LazyMotion features={loadDomAnimation}>
-      <AnimatePresence onExitComplete={() => setShowContent(false)}>
-        {isOpen && (
-          <ContextMenuPrimitive.Portal forceMount>
-            <ContextMenuPrimitive.SubContent ref={ref} forceMount asChild {...props}>
-              <m.div
-                className={cn(
-                  'z-50 min-w-32 origin-(--gentleduck-context-menu-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg',
-                  className,
-                )}
-                initial={content.initial}
-                animate={content.animate}
-                exit={{ ...content.exit, pointerEvents: 'none' }}
-                transition={content.transition}>
-                {children}
-              </m.div>
-            </ContextMenuPrimitive.SubContent>
-          </ContextMenuPrimitive.Portal>
-        )}
-      </AnimatePresence>
+      <ContextMenuPrimitive.Portal forceMount>
+        <ContextMenuPrimitive.SubContent ref={ref} forceMount asChild {...props}>
+          <m.div
+            className={cn(
+              'z-50 min-w-32 origin-(--gentleduck-context-menu-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg',
+              className,
+            )}
+            initial={content.initial}
+            animate={isOpen ? content.animate : { ...content.exit, pointerEvents: 'none' }}
+            transition={content.transition}>
+            {children}
+          </m.div>
+        </ContextMenuPrimitive.SubContent>
+      </ContextMenuPrimitive.Portal>
     </LazyMotion>
   )
 })

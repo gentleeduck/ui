@@ -359,6 +359,13 @@ export const registry_ui: RegistryEntry[] = [
     type: 'registry:ui',
   },
   {
+    dependencies: ['@gentleduck/libs', '@gentleduck/motion'],
+    files: [],
+    name: 'typography',
+    root_folder: 'typography',
+    type: 'registry:ui',
+  },
+  {
     dependencies: ['@gentleduck/libs', '@gentleduck/variants', '@gentleduck/primitives'],
     files: [],
     name: 'button-group',

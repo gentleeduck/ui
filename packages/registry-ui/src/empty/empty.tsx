@@ -6,6 +6,7 @@ import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import type { VariantProps } from '@gentleduck/variants'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { LazyMotion, m } from 'motion/react'
 import React from 'react'
 import { emptyMediaVariants } from './empty.constants'
@@ -94,7 +95,7 @@ EmptyContent.displayName = 'EmptyContent'
 /* ------------------------------------------------------------------ */
 
 const MotionEmpty = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>((props, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy })
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
@@ -109,7 +110,7 @@ const MotionEmptyMedia = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<'div'> & VariantProps<typeof emptyMediaVariants>
 >((props, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.05 })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy, delay: 0.05 })
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
@@ -121,7 +122,7 @@ const MotionEmptyMedia = React.forwardRef<
 MotionEmptyMedia.displayName = 'MotionEmptyMedia'
 
 const MotionEmptyTitle = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>((props, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.1 })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy, delay: 0.1 })
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
@@ -133,7 +134,7 @@ const MotionEmptyTitle = React.forwardRef<HTMLDivElement, React.ComponentProps<'
 MotionEmptyTitle.displayName = 'MotionEmptyTitle'
 
 const MotionEmptyDescription = React.forwardRef<HTMLDivElement, React.ComponentProps<'p'>>((props, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.15 })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy, delay: 0.15 })
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
@@ -145,7 +146,7 @@ const MotionEmptyDescription = React.forwardRef<HTMLDivElement, React.ComponentP
 MotionEmptyDescription.displayName = 'MotionEmptyDescription'
 
 const MotionEmptyContent = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>((props, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.2 })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy, delay: 0.2 })
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div initial={content.initial} animate={content.animate} transition={content.transition}>

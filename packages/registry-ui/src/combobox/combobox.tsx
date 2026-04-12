@@ -3,8 +3,8 @@
 import { cn } from '@gentleduck/libs/cn'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import React from 'react'
-import { Badge } from '../badge'
-import { Button } from '../button'
+import { Badge, MotionBadge } from '../badge'
+import { Button, MotionButton } from '../button'
 import { Checkbox, MotionCheckbox } from '../checkbox'
 import {
   Command,
@@ -16,7 +16,7 @@ import {
   MotionCommandItem,
 } from '../command'
 import { MotionPopover, MotionPopoverContent, Popover, PopoverContent, PopoverTrigger } from '../popover'
-import { Separator } from '../separator'
+import { MotionSeparator, Separator } from '../separator'
 
 type ComboboxItemType = {
   label: string
@@ -197,23 +197,26 @@ const MotionCombobox = React.forwardRef<
     return (
       <MotionPopover {...popoverProps} dir={direction}>
         <PopoverTrigger asChild>
-          <Button ref={ref} {...popoverTrigger} variant={popoverTrigger?.variant ?? 'dashed'}>
+          <MotionButton ref={ref} {...popoverTrigger} variant={popoverTrigger?.variant ?? 'dashed'}>
             {popoverTrigger?.children}
             {showSelected &&
               (_value ? (
                 _value instanceof Array && _value.length ? (
                   <>
-                    <Separator orientation="vertical" />
+                    <MotionSeparator orientation="vertical" />
                     <div className="flex gap-1">
                       {_value.length > MAX_SELECTION ? (
-                        <Badge className="px-2 py-0.75 rounded-sm font-normal" variant={'secondary'}>
+                        <MotionBadge className="px-2 py-0.75 rounded-sm font-normal" variant={'secondary'}>
                           +{_value.length} Selected
-                        </Badge>
+                        </MotionBadge>
                       ) : (
                         _value.map((item) => (
-                          <Badge className="px-2 py-0.5 rounded-[3px] capitalize" key={item} variant={'secondary'}>
+                          <MotionBadge
+                            className="px-2 py-0.5 rounded-[3px] capitalize"
+                            key={item}
+                            variant={'secondary'}>
                             {item}
-                          </Badge>
+                          </MotionBadge>
                         ))
                       )}
                     </div>
@@ -224,7 +227,7 @@ const MotionCombobox = React.forwardRef<
               ) : (
                 commandTriggerPlaceholder
               ))}
-          </Button>
+          </MotionButton>
         </PopoverTrigger>
         <MotionPopoverContent
           {...popoverContent}
@@ -249,17 +252,20 @@ const MotionCombobox = React.forwardRef<
 const MotionComboboxItem = React.forwardRef<
   React.ComponentRef<typeof MotionCommandItem>,
   ComboboxItemProps<ComboboxItemType> & { index?: number }
->(({ item, onSelect, checked, index = 0, ...props }, ref) => (
-  <MotionCommandItem ref={ref} index={index} onSelect={() => onSelect?.(item.value)} {...props}>
-    <MotionCheckbox
-      aria-hidden="true"
-      checked={checked}
-      className="border-foreground/50 pointer-events-none"
-      tabIndex={-1}
-    />
-    {item?.label}
-  </MotionCommandItem>
-)) as <T extends ComboboxItemType>(
+>(({ item, onSelect, checked, index = 0, ...props }, ref) => {
+  const handleSelect = React.useCallback(() => onSelect?.(item.value), [onSelect, item.value])
+  return (
+    <MotionCommandItem ref={ref} index={index} onSelect={handleSelect} {...props}>
+      <MotionCheckbox
+        aria-hidden="true"
+        checked={checked}
+        className="border-foreground/50 pointer-events-none"
+        tabIndex={-1}
+      />
+      {item?.label}
+    </MotionCommandItem>
+  )
+}) as <T extends ComboboxItemType>(
   props: ComboboxItemProps<T> & { index?: number } & React.RefAttributes<React.ComponentRef<typeof MotionCommandItem>>,
 ) => React.ReactElement
 ;(MotionComboboxItem as React.FC).displayName = 'MotionComboboxItem'

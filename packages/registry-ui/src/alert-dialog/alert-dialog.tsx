@@ -4,9 +4,11 @@ import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springStiff } from '@gentleduck/motion/transitions/springs'
-import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
+import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as AlertDialogPrimitive from '@gentleduck/primitives/alert-dialog'
-import { AnimatePresence, LazyMotion, m } from 'motion/react'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
+import { fadeIn } from '@gentleduck/motion/presets/fade-in'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from '../button'
 
@@ -126,42 +128,39 @@ const MotionAlertDialogContent = React.forwardRef<
   React.ComponentRef<typeof AlertDialogPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
-  const { isOpen, setShowContent } = useMotionContent()
-  const overlay = useMotionPreset('fadeIn')
-  const content = useMotionPreset('scaleIn', {
+  const { isOpen } = useMotionContent()
+  const overlay = useMotionPreset(fadeIn)
+  const content = useMotionPreset(scaleIn, {
     transition: springStiff,
   })
+  const shouldRender = useMotionMount(isOpen)
+
+  if (!shouldRender) return null
 
   return (
     <LazyMotion features={loadDomAnimation}>
-      <AnimatePresence onExitComplete={() => setShowContent(false)}>
-        {isOpen && (
-          <AlertDialogPortal forceMount>
-            <AlertDialogPrimitive.Overlay forceMount asChild>
-              <m.div
-                className={cn('fixed inset-0 z-50 bg-black/80')}
-                initial={overlay.initial}
-                animate={overlay.animate}
-                exit={{ ...overlay.exit, pointerEvents: 'none' }}
-                transition={overlay.transition}
-              />
-            </AlertDialogPrimitive.Overlay>
-            <AlertDialogPrimitive.Content ref={ref} forceMount asChild {...props}>
-              <m.div
-                className={cn(
-                  'fixed top-1/2 left-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg',
-                  className,
-                )}
-                initial={content.initial}
-                animate={content.animate}
-                exit={{ ...content.exit, pointerEvents: 'none' }}
-                transition={content.transition}>
-                {children}
-              </m.div>
-            </AlertDialogPrimitive.Content>
-          </AlertDialogPortal>
-        )}
-      </AnimatePresence>
+      <AlertDialogPortal forceMount>
+        <AlertDialogPrimitive.Overlay forceMount asChild>
+          <m.div
+            className={cn('fixed inset-0 z-50 bg-black/80')}
+            initial={overlay.initial}
+            animate={isOpen ? overlay.animate : { ...overlay.exit, pointerEvents: 'none' }}
+            transition={overlay.transition}
+          />
+        </AlertDialogPrimitive.Overlay>
+        <AlertDialogPrimitive.Content ref={ref} forceMount asChild {...props}>
+          <m.div
+            className={cn(
+              'fixed top-1/2 left-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg',
+              className,
+            )}
+            initial={content.initial}
+            animate={isOpen ? content.animate : { ...content.exit, pointerEvents: 'none' }}
+            transition={content.transition}>
+            {children}
+          </m.div>
+        </AlertDialogPrimitive.Content>
+      </AlertDialogPortal>
     </LazyMotion>
   )
 })

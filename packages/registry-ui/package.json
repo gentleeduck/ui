@@ -64,6 +64,7 @@
     }
   },
   "type": "module",
+  "sideEffects": false,
   "version": "0.3.2",
   "description": "Styled Tailwind components for Duck UI.",
   "keywords": [

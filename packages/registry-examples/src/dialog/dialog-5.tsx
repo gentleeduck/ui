@@ -1,6 +1,6 @@
 'use client'
 
-import { Button } from '@gentleduck/registry-ui/button'
+import { Button, MotionButton } from '@gentleduck/registry-ui/button'
 import {
   DialogClose,
   DialogDescription,
@@ -19,7 +19,7 @@ export default function Demo() {
     <MotionDialog>
       <form onSubmit={(e) => e.preventDefault()}>
         <DialogTrigger asChild>
-          <Button variant={'outline'}>Open Dialog</Button>
+          <MotionButton variant={'outline'}>Open Dialog</MotionButton>
         </DialogTrigger>
         <MotionDialogContent className="sm:max-w-[425px]">
           <DialogHeader>
@@ -39,9 +39,9 @@ export default function Demo() {
           </div>
           <DialogFooter>
             <DialogClose asChild>
-              <Button variant={'outline'}>Cancel</Button>
+              <MotionButton variant={'outline'}>Cancel</MotionButton>
             </DialogClose>
-            <Button type="submit">Save changes</Button>
+            <MotionButton type="submit">Save changes</MotionButton>
           </DialogFooter>
         </MotionDialogContent>
       </form>

@@ -140,16 +140,27 @@ Use as a zoomable image viewer.
   description="Preview panel as an image viewer."
 />
 
-### RTL
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
 
 <ComponentPreview
   name="preview-panel-5"
   description="A preview panel with RTL support."
 />
 
-## RTL Support
+## Motion
 
-Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+Use `MotionPreviewPanel` for a smooth entrance animation powered by [motion](https://motion.dev). The panel fades in with scale and blur on mount, and its internal controls (buttons, separators, badges, tooltips) use the full motion stack.
+
+<ComponentPreview
+  name="preview-panel-6"
+  description="A preview panel with motion-powered entrance and motion controls."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionPreviewPanel` instead of `PreviewPanel`. Same props. The internal zoom controls automatically use `MotionButton`, `MotionBadge`, `MotionSeparator`, and `MotionTooltip`.
+</Callout>
 
 ## API Reference
 
@@ -172,6 +183,14 @@ The core pan-zoom container.
 | `onStateChange` | `(state: PreviewPanelState) => void` | `--` | Called whenever zoom or position changes. Use to sync with another panel |
 | `syncState` | `PreviewPanelState` | `--` | External state to apply. The panel syncs to this state when set |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### MotionPreviewPanel
+
+`scaleIn` entrance with `springBouncy` transition on mount. Zoom controls use `MotionButton`, `MotionBadge`, `MotionSeparator`, and `MotionTooltip` internally. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `PreviewPanelProps` | - | All props from `PreviewPanel` are supported |
 
 ### PreviewPanelDialog
 
