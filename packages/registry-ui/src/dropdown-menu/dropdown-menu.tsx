@@ -10,6 +10,8 @@ import { Check, ChevronRight, Circle } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
+const CONTENT_OPTIONS = { transition: springBouncy } as const
+
 const DropdownMenu = DropdownMenuPrimitive.Root
 DropdownMenu.displayName = 'DropdownMenu'
 
@@ -198,7 +200,7 @@ const MotionDropdownMenuContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
 >(({ className, sideOffset = 4, children, ...props }, ref) => {
   const { isOpen } = useMotionContent()
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset('scaleIn', CONTENT_OPTIONS)
   const shouldRender = useMotionMount(isOpen)
 
   if (!shouldRender) return null
@@ -247,7 +249,7 @@ const MotionDropdownMenuSubContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>
 >(({ className, children, ...props }, ref) => {
   const { isOpen } = useMotionContent()
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset('scaleIn', CONTENT_OPTIONS)
   const shouldRender = useMotionMount(isOpen)
 
   if (!shouldRender) return null
