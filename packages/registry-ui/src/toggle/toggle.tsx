@@ -33,7 +33,8 @@ const MotionToggle = React.forwardRef<
     'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
   >
 >(({ className, variant = 'default', size = 'default', children, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const presetOptions = React.useMemo(() => ({ transition: springBouncy }), [])
+  const content = useMotionPreset('scaleIn', presetOptions)
   return (
     <LazyMotion features={loadDomAnimation}>
       <TogglePrimitive.Root asChild ref={ref} {...props}>
