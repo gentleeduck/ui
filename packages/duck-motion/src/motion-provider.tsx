@@ -2,12 +2,14 @@ import type { FeatureBundle } from 'motion/react'
 import { LazyMotion, MotionConfig } from 'motion/react'
 import type * as React from 'react'
 import { loadDomAnimation } from './motion-features'
-import { duckMotionTransition } from './motion-tokens'
 import { useDuckReducedMotion } from './react'
+
+const DEFAULT_TRANSITION = { duration: 0.15, ease: [0.4, 0, 0.2, 1] as const } as const
+const REDUCED_TRANSITION = { duration: 0 } as const
 
 export interface MotionProviderProps {
   children: React.ReactNode
-  /** Global default transition. Falls back to `duckMotionTransition.fast`. */
+  /** Global default transition. Falls back to a fast tween (150ms, standard ease). */
   transition?: Record<string, unknown>
   /**
    * Reduced-motion strategy passed to `MotionConfig`.
@@ -48,7 +50,7 @@ export function MotionProvider({
   strict = false,
 }: MotionProviderProps) {
   const prefersReduced = useDuckReducedMotion()
-  const resolvedTransition = prefersReduced ? { duration: 0 } : (transition ?? { ...duckMotionTransition.fast })
+  const resolvedTransition = prefersReduced ? REDUCED_TRANSITION : (transition ?? DEFAULT_TRANSITION)
 
   return (
     <LazyMotion features={features} strict={strict}>
