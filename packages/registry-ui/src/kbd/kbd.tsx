@@ -42,9 +42,15 @@ const KbdGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef
 )
 KbdGroup.displayName = 'KbdGroup'
 
+const MOTION_KBD_STAGGER = 0.03
+
 const MotionKbd = React.forwardRef<HTMLElement, React.ComponentPropsWithoutRef<'kbd'> & { index?: number }>(
   ({ index = 0, ...props }, ref) => {
-    const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.03 })
+    const motionOptions = React.useMemo(
+      () => ({ transition: springBouncy, delay: index * MOTION_KBD_STAGGER }),
+      [index],
+    )
+    const content = useMotionPreset('scaleIn', motionOptions)
     return (
       <LazyMotion features={loadDomAnimation}>
         <m.div

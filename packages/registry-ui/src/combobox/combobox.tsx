@@ -252,17 +252,20 @@ const MotionCombobox = React.forwardRef<
 const MotionComboboxItem = React.forwardRef<
   React.ComponentRef<typeof MotionCommandItem>,
   ComboboxItemProps<ComboboxItemType> & { index?: number }
->(({ item, onSelect, checked, index = 0, ...props }, ref) => (
-  <MotionCommandItem ref={ref} index={index} onSelect={() => onSelect?.(item.value)} {...props}>
-    <MotionCheckbox
-      aria-hidden="true"
-      checked={checked}
-      className="border-foreground/50 pointer-events-none"
-      tabIndex={-1}
-    />
-    {item?.label}
-  </MotionCommandItem>
-)) as <T extends ComboboxItemType>(
+>(({ item, onSelect, checked, index = 0, ...props }, ref) => {
+  const handleSelect = React.useCallback(() => onSelect?.(item.value), [onSelect, item.value])
+  return (
+    <MotionCommandItem ref={ref} index={index} onSelect={handleSelect} {...props}>
+      <MotionCheckbox
+        aria-hidden="true"
+        checked={checked}
+        className="border-foreground/50 pointer-events-none"
+        tabIndex={-1}
+      />
+      {item?.label}
+    </MotionCommandItem>
+  )
+}) as <T extends ComboboxItemType>(
   props: ComboboxItemProps<T> & { index?: number } & React.RefAttributes<React.ComponentRef<typeof MotionCommandItem>>,
 ) => React.ReactElement
 ;(MotionComboboxItem as React.FC).displayName = 'MotionComboboxItem'
