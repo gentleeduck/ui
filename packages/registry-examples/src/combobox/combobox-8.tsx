@@ -9,7 +9,6 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  MotionCommandItem,
 } from '@gentleduck/registry-ui/command'
 import { MotionPopover, MotionPopoverContent, PopoverTrigger } from '@gentleduck/registry-ui/popover'
 import { Check, ChevronsUpDown } from 'lucide-react'
@@ -41,7 +40,7 @@ export default function Demo() {
           <CommandList>
             <CommandEmpty>No framework found.</CommandEmpty>
             <CommandGroup>
-              {frameworks.map((framework, i) => (
+              {frameworks.map((framework, _i) => (
                 <CommandItem
                   key={framework.value}
                   onSelect={(currentValue) => {

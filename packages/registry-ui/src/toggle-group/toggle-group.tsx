@@ -2,9 +2,8 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomMax } from '@gentleduck/motion/motion-features'
-import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { tapScale } from '@gentleduck/motion/presets/content'
-import { springBouncy, springSmooth } from '@gentleduck/motion/transitions/springs'
+import { springSmooth } from '@gentleduck/motion/transitions/springs'
 import * as ToggleGroupPrimitive from '@gentleduck/primitives/toggle-group'
 import type { VariantProps } from '@gentleduck/variants'
 import { LayoutGroup, LazyMotion, m } from 'motion/react'
@@ -78,36 +77,35 @@ ToggleGroupItem.displayName = 'ToggleGroupItem'
 
 const MotionToggleGroupIdContext = React.createContext<string>('')
 
-const MotionToggleGroup: React.ForwardRefExoticComponent<
-  ToggleGroupProps & React.RefAttributes<ToggleGroupElement>
-> = React.forwardRef<ToggleGroupElement, ToggleGroupProps>(
-  ({ className, variant = 'default', size = 'default', children, ...props }, ref) => {
-    const groupId = React.useId()
-    const contextValue = React.useMemo<ToggleGroupContextProps>(() => ({ size, variant }), [size, variant])
-    return (
-      <LazyMotion features={loadDomMax}>
-        <MotionToggleGroupIdContext.Provider value={groupId}>
-          <ToggleGroupContext.Provider value={contextValue}>
-            <LayoutGroup id={`toggle-group-${groupId}`}>
-              <ToggleGroupPrimitive.Root
-                className={cn(
-                  'isolate flex items-center justify-center rounded-md *:first:rounded-s-md *:last:rounded-e-md',
-                  variant === 'outline' &&
-                    '[&>*:first-child]:border-e-0 [&>*:not(:first-child):not(:last-child)]:border-e-0',
-                  className,
-                )}
-                ref={ref}
-                data-slot="toggle-group"
-                {...props}>
-                {children}
-              </ToggleGroupPrimitive.Root>
-            </LayoutGroup>
-          </ToggleGroupContext.Provider>
-        </MotionToggleGroupIdContext.Provider>
-      </LazyMotion>
-    )
-  },
-)
+const MotionToggleGroup: React.ForwardRefExoticComponent<ToggleGroupProps & React.RefAttributes<ToggleGroupElement>> =
+  React.forwardRef<ToggleGroupElement, ToggleGroupProps>(
+    ({ className, variant = 'default', size = 'default', children, ...props }, ref) => {
+      const groupId = React.useId()
+      const contextValue = React.useMemo<ToggleGroupContextProps>(() => ({ size, variant }), [size, variant])
+      return (
+        <LazyMotion features={loadDomMax}>
+          <MotionToggleGroupIdContext.Provider value={groupId}>
+            <ToggleGroupContext.Provider value={contextValue}>
+              <LayoutGroup id={`toggle-group-${groupId}`}>
+                <ToggleGroupPrimitive.Root
+                  className={cn(
+                    'isolate flex items-center justify-center rounded-md *:first:rounded-s-md *:last:rounded-e-md',
+                    variant === 'outline' &&
+                      '[&>*:first-child]:border-e-0 [&>*:not(:first-child):not(:last-child)]:border-e-0',
+                    className,
+                  )}
+                  ref={ref}
+                  data-slot="toggle-group"
+                  {...props}>
+                  {children}
+                </ToggleGroupPrimitive.Root>
+              </LayoutGroup>
+            </ToggleGroupContext.Provider>
+          </MotionToggleGroupIdContext.Provider>
+        </LazyMotion>
+      )
+    },
+  )
 MotionToggleGroup.displayName = 'MotionToggleGroup'
 
 const MotionToggleGroupItem: React.ForwardRefExoticComponent<
