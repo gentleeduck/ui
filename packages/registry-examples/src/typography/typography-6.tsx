@@ -1,7 +1,9 @@
+import { TypographyP } from '@gentleduck/registry-ui/typography'
+
 export default function Demo() {
   return (
-    <p className="leading-7 [&:not(:first-child)]:mt-6">
+    <TypographyP>
       The king, seeing how much happier his subjects were, realized the error of his ways and repealed the joke tax.
-    </p>
+    </TypographyP>
   )
 }

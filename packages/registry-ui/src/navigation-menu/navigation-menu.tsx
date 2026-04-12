@@ -4,6 +4,7 @@ import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import * as NavigationMenuPrimitive from '@gentleduck/primitives/navigation-menu'
 import { cva } from '@gentleduck/variants'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { ChevronDown } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
@@ -149,7 +150,7 @@ const MotionNavigationMenu = React.forwardRef<
     viewport?: boolean
   }
 >(({ className, children, viewport = true, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy })
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div initial={content.initial} animate={content.animate} transition={content.transition}>

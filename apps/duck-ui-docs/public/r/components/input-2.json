@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Input } from '@gentleduck/registry-ui/input'\n\nexport default function Demo() {\n  return <Input defaultValue=\"user@example.com\" placeholder=\"Email\" type=\"email\" />\n}\n",
+      "content": "import { Input } from '@gentleduck/registry-ui/input'\r\n\r\nexport default function Demo() {\r\n  return <Input defaultValue=\"user@example.com\" placeholder=\"Email\" type=\"email\" />\r\n}\r\n",
       "path": "input/input-2.tsx",
       "target": "components/input-2.tsx",
       "type": "registry:example"

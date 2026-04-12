@@ -44,9 +44,21 @@
       "types": "./dist/presets/*.d.ts",
       "default": "./dist/presets/*.js"
     },
-    "./*": {
-      "types": "./dist/*.d.ts",
-      "default": "./dist/*.js"
+    "./motion-features": {
+      "types": "./dist/motion-features.d.ts",
+      "default": "./dist/motion-features.js"
+    },
+    "./motion-presets": {
+      "types": "./dist/motion-presets.d.ts",
+      "default": "./dist/motion-presets.js"
+    },
+    "./motion-provider": {
+      "types": "./dist/motion-provider.d.ts",
+      "default": "./dist/motion-provider.js"
+    },
+    "./use-motion-root": {
+      "types": "./dist/use-motion-root.d.ts",
+      "default": "./dist/use-motion-root.js"
     },
     "./css": "./src/css/index.css"
   },

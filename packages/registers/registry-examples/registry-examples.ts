@@ -228,8 +228,7 @@ export const registry_examples: RegistryEntry[] = [
   {
     files: [],
     name: 'typography-examples',
-    registryDependencies: [],
-    // registryDependencies: ['typography'],
+    registryDependencies: ['typography'],
     root_folder: 'typography',
     type: 'registry:example',
   },

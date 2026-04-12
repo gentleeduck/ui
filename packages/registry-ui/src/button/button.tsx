@@ -11,6 +11,7 @@ import {
 } from '@gentleduck/motion/presets/content'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { Slot, Slottable } from '@gentleduck/primitives/slot'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { Loader } from 'lucide-react'
 import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
@@ -92,6 +93,8 @@ AnimationIcon.displayName = 'AnimationIcon'
 /*  MotionButton                                                       */
 /* ------------------------------------------------------------------ */
 
+const MOTION_BUTTON_OPTIONS = { transition: springBouncy } as const
+
 const MotionButton = React.forwardRef<
   HTMLButtonElement,
   Omit<ButtonProps, 'asChild' | 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
@@ -113,7 +116,7 @@ const MotionButton = React.forwardRef<
     },
     ref,
   ) => {
-    const content = useMotionPreset('scaleIn', { transition: springBouncy })
+    const content = useMotionPreset(scaleIn, MOTION_BUTTON_OPTIONS)
     return (
       <LazyMotion features={loadDomAnimation}>
         <m.button
@@ -121,7 +124,7 @@ const MotionButton = React.forwardRef<
           initial={content.initial}
           animate={content.animate}
           whileTap={tapScale}
-          transition={{ ...content.transition, scale: { duration: 0, type: 'tween' } }}
+          transition={content.transition}
           {...props}
           aria-busy={loading ? true : undefined}
           className={cn(
@@ -148,7 +151,13 @@ const MotionButton = React.forwardRef<
                 key="text"
                 {...fadeBlurPopOut}
                 transition={contentTransitionFast}
-                className="inline-flex w-full origin-left items-center justify-between">
+                className={cn(
+                  'inline-flex flex-1 origin-left items-center gap-2',
+                  // Single child: center it (default button behavior). Multiple
+                  // children: spread them via justify-between so e.g. combobox
+                  // triggers can have "label ... icon".
+                  React.Children.count(children) > 1 ? 'justify-between' : 'justify-center',
+                )}>
                 {children}
               </m.span>
             )}

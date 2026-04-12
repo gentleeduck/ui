@@ -131,6 +131,19 @@ Direction is resolved through the shared primitives direction module. Use a loca
   description="A scroll area with RTL support."
 />
 
+## Motion
+
+Use `MotionScrollArea` for a smooth entrance animation powered by [motion](https://motion.dev). The container fades in with scale and blur on mount using the shared `scaleIn` preset with a `springBouncy` transition.
+
+<ComponentPreview
+  name="scroll-area-4"
+  description="A scroll area with a motion-powered entrance animation."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionScrollArea` instead of `ScrollArea`. Same props. The regular `ScrollArea` is perfectly fine - this is an optional enhancement.
+</Callout>
+
 ## API Reference
 
 ### ScrollArea
@@ -144,3 +157,11 @@ Direction is resolved through the shared primitives direction module. Use a loca
 | `style` | `React.CSSProperties` | `--` | Inline styles for the outer container |
 | `children` | `React.ReactNode` | `--` | Scrollable content |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### MotionScrollArea
+
+`scaleIn` entrance with `springBouncy` transition on mount. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `ScrollAreaProps` | - | All props from `ScrollArea` are supported (drag handlers are omitted for motion type safety) |

@@ -4,10 +4,10 @@ import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { createTooltipPreset } from '@gentleduck/motion/presets/tooltip'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import { MotionRootContext, useMotionContent, useMotionRoot } from '@gentleduck/motion/use-motion-root'
+import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as HoverCardPrimitive from '@gentleduck/primitives/hover-card'
 import type { VariantProps } from '@gentleduck/variants'
-import { AnimatePresence, LazyMotion, m } from 'motion/react'
+import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from '../button'
 
@@ -117,39 +117,37 @@ const MotionHoverCardContent = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content>
 >(({ className, children, side, align = 'center', sideOffset = 4, ...props }, ref) => {
   const defaultSide = React.useContext(HoverCardPlacementContext)
-  const { isOpen, setShowContent } = useMotionContent()
+  const { isOpen } = useMotionContent()
   const resolvedSide = side ?? defaultSide ?? 'top'
   const preset = React.useMemo(() => createTooltipPreset(resolvedSide, 6), [resolvedSide])
+  const shouldRender = useMotionMount(isOpen)
+
+  if (!shouldRender) return null
 
   return (
     <LazyMotion features={loadDomAnimation}>
-      <AnimatePresence onExitComplete={() => setShowContent(false)}>
-        {isOpen && (
-          <HoverCardPrimitive.Portal forceMount>
-            <HoverCardPrimitive.Content
-              ref={ref}
-              align={align}
-              side={resolvedSide}
-              sideOffset={sideOffset}
-              forceMount
-              asChild
-              {...props}>
-              <m.div
-                className={cn(
-                  'z-50 w-64 overflow-hidden rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-hidden',
-                  className,
-                )}
-                data-slot="hover-card-content"
-                initial={preset.initial}
-                animate={preset.animate}
-                exit={{ ...preset.exit, pointerEvents: 'none' }}
-                transition={springBouncy}>
-                {children}
-              </m.div>
-            </HoverCardPrimitive.Content>
-          </HoverCardPrimitive.Portal>
-        )}
-      </AnimatePresence>
+      <HoverCardPrimitive.Portal forceMount>
+        <HoverCardPrimitive.Content
+          ref={ref}
+          align={align}
+          side={resolvedSide}
+          sideOffset={sideOffset}
+          forceMount
+          asChild
+          {...props}>
+          <m.div
+            className={cn(
+              'z-50 w-64 overflow-hidden rounded-md border bg-popover p-4 text-popover-foreground shadow-md outline-hidden',
+              className,
+            )}
+            data-slot="hover-card-content"
+            initial={preset.initial}
+            animate={isOpen ? preset.animate : { ...preset.exit, pointerEvents: 'none' }}
+            transition={springBouncy}>
+            {children}
+          </m.div>
+        </HoverCardPrimitive.Content>
+      </HoverCardPrimitive.Portal>
     </LazyMotion>
   )
 })

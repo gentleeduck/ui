@@ -327,6 +327,29 @@ Requires the `motion` package. Use `MotionBreadcrumbItem` instead of `Breadcrumb
 | `className` | `string` | `--` | Additional class names to apply |
 | `...props` | `React.ComponentPropsWithoutRef<'span'>` | - | Additional props to spread to the span element |
 
+### MotionBreadcrumbList
+
+Wraps `BreadcrumbList` and auto-injects a stagger `index` into each `MotionBreadcrumbItem` and `MotionBreadcrumbSeparator` child. Items and separators share the same counter, so they cascade together across the whole trail. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `React.ComponentPropsWithoutRef<'ol'>` | - | All props from `BreadcrumbList` are supported |
+
 ### MotionBreadcrumbItem
 
-Same props as `BreadcrumbItem` plus `index` (number, default 0) for stagger delay. Each item fades up with blur at `index * 50ms` delay. Requires the `motion` package.
+Renders directly as `m.li` with a `scaleIn` entrance using `springSnappy` for a tight, responsive feel. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | `0` | Stagger delay index (35ms per index). Auto-injected when used inside `MotionBreadcrumbList`. |
+| `...props` | `React.ComponentPropsWithoutRef<'li'>` | - | All props from `BreadcrumbItem` are supported |
+
+### MotionBreadcrumbSeparator
+
+Renders directly as `m.li` with a `slideFromLeft` entrance so the chevron slides in from the previous item. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | `0` | Stagger delay index (35ms per index). Auto-injected when used inside `MotionBreadcrumbList`. |
+| `children` | `React.ReactNode` | `<ChevronRight />` | Custom separator content |
+| `...props` | `React.ComponentPropsWithoutRef<'li'>` | - | All props from `BreadcrumbSeparator` are supported |

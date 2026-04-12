@@ -186,13 +186,6 @@ export function CommandMenu() {
 }
 ```
 
-### RTL
-
-<ComponentPreview
-  name="command-3"
-  description="A command with RTL support."
-/>
-
 ## Component Composition
 
 <MermaidDiagram chart={`graph TD
@@ -273,6 +266,24 @@ RTL is handled at the primitive layer. Set `dir="rtl"` on the root `Command` for
   </CommandList>
 </Command>
 ```
+
+<ComponentPreview
+  name="command-3"
+  description="A command with RTL support."
+/>
+
+## Motion
+
+Use `MotionCommandItem` for staggered entrance animations powered by [motion](https://motion.dev). Each item fades in with scale and blur, staggered by 30ms via the `index` prop.
+
+<ComponentPreview
+  name="command-4"
+  description="A command with motion-powered staggered item entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionCommandItem` instead of `CommandItem`. Same props plus `index` for stagger delay. All other sub-components stay the same.
+</Callout>
 
 ## API Reference
 
@@ -359,3 +370,16 @@ Renders a `div` with `role="separator"` and `aria-hidden`. Visibility is automat
 | `shouldFilter` | `boolean` | - | Whether the command primitive should filter items internally |
 | `contentClassName` | `string` | - | Additional CSS classes applied to the inner `DialogContent`, useful for controlling dialog size |
 | `...props` | `React.ComponentPropsWithRef<typeof Dialog>` | - | Additional props inherited from `Dialog`. |
+
+### MotionCommandItem
+
+Renders directly as `m.li` with a staggered `scaleIn` entrance using `springBouncy`. Drop-in replacement for `CommandItem`. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `index` | `number` | `0` | Stagger delay index (30ms per index) for entrance animation |
+| `value` | `string` | `''` | The internal value for selection |
+| `disabled` | `boolean` | `false` | Whether the item is disabled |
+| `textValue` | `string` | - | Optional text used for filtering/typeahead. Defaults to the item's text content. |
+| `onSelect` | `(value: string) => void` | - | Called when the item is selected (via Enter, Space, or pointer) |
+| `...props` | `Omit<CommandItemProps, 'onDrag' \| 'onDragStart' \| 'onDragEnd' \| 'onAnimationStart'>` | - | All props from `CommandItem` except motion event handlers |

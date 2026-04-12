@@ -8,9 +8,12 @@ import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { duckMotionDuration, tweenExpand } from '@gentleduck/motion/transitions/tweens'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { Mount } from '@gentleduck/primitives/mount'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { ChevronDown } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
+
+const TRIGGER_OPTIONS = { transition: springBouncy } as const
 
 const AccordionContext = React.createContext<{
   value: string[]
@@ -131,13 +134,16 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
 
     return (
       <AccordionContext.Provider
-        value={{
-          onItemChange: handleAccordionItemChange,
-          onValueChange: onValueChange as never,
-          renderOnce,
-          value: currentValues,
-          wrapperRef,
-        }}>
+        value={React.useMemo(
+          () => ({
+            onItemChange: handleAccordionItemChange,
+            onValueChange: onValueChange as never,
+            renderOnce,
+            value: currentValues,
+            wrapperRef,
+          }),
+          [handleAccordionItemChange, onValueChange, renderOnce, currentValues, wrapperRef],
+        )}>
         <div
           className={cn('min-w-100 [interpolate-size:allow-keywords]', className)}
           dir={direction}
@@ -258,12 +264,17 @@ const MotionAccordionItemContext = React.createContext<{ isActive: boolean }>({ 
 
 const MotionAccordionItem = React.forwardRef<
   HTMLDetailsElement,
-  Omit<React.HTMLProps<HTMLDetailsElement>, 'value' | 'ref'> & { value?: string }
->(({ className, children, onClick, onKeyUp, value, dir, ...props }, ref) => {
+  Omit<
+    React.HTMLProps<HTMLDetailsElement>,
+    'value' | 'ref' | 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
+  > & { value?: string; index?: number }
+>(({ className, children, onClick, onKeyUp, value, dir, index = 0, ...props }, ref) => {
   const { onItemChange, value: _value = [] } = React.useContext(AccordionContext) ?? {}
   const isActive = _value.includes(value as string)
   const detailsRef = React.useRef<HTMLDetailsElement>(null)
   const direction = useDirection(dir as Direction)
+  const presetOptions = React.useMemo(() => ({ transition: springBouncy, delay: index * 0.05 }), [index])
+  const content = useMotionPreset(scaleIn, presetOptions)
 
   // Keep <details> always open so motion can animate the content height.
   // The accordion root's onItemChange sets .open on DOM elements directly,
@@ -275,10 +286,13 @@ const MotionAccordionItem = React.forwardRef<
   return (
     <MotionAccordionItemContext.Provider value={{ isActive }}>
       <LazyMotion features={loadDomAnimation}>
-        <details
+        <m.details
           className={cn('group overflow-hidden border-border border-b', className)}
           id={value}
           open
+          initial={content.initial}
+          animate={content.animate}
+          transition={content.transition}
           onClick={(e) => {
             e.preventDefault()
             const summary = (e.currentTarget as HTMLDetailsElement).querySelector('summary')
@@ -296,19 +310,38 @@ const MotionAccordionItem = React.forwardRef<
           {...props}
           data-slot="accordion-item">
           {children}
-        </details>
+        </m.details>
       </LazyMotion>
     </MotionAccordionItemContext.Provider>
   )
 })
 MotionAccordionItem.displayName = 'MotionAccordionItem'
 
+const MotionAccordion = React.forwardRef<HTMLDivElement, AccordionProps>(({ children, ...props }, ref) => {
+  let index = 0
+  const injectIndex = (child: React.ReactNode): React.ReactNode => {
+    if (React.isValidElement(child) && child.type === MotionAccordionItem) {
+      const injected = React.cloneElement(child as React.ReactElement<{ index?: number }>, {
+        index: index++,
+      })
+      return injected
+    }
+    return child
+  }
+  return (
+    <Accordion ref={ref} {...props}>
+      {React.Children.map(children, injectIndex)}
+    </Accordion>
+  )
+})
+MotionAccordion.displayName = 'MotionAccordion'
+
 const MotionAccordionTrigger = React.forwardRef<
   HTMLElement,
   React.HTMLProps<HTMLElement> & { icon?: React.ReactNode; value?: string }
 >(({ className, children, icon, value, ...props }, ref) => {
   const { isActive } = React.useContext(MotionAccordionItemContext)
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset(scaleIn, TRIGGER_OPTIONS)
 
   return (
     <summary
@@ -366,6 +399,7 @@ export {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
+  MotionAccordion,
   MotionAccordionContent,
   MotionAccordionItem,
   MotionAccordionTrigger,

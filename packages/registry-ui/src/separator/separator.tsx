@@ -7,6 +7,10 @@ import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
+const MOTION_SEPARATOR_ANIMATE = { opacity: 1, scaleX: 1, scaleY: 1 } as const
+const MOTION_SEPARATOR_INITIAL_HORIZONTAL = { opacity: 0, scaleX: 0, scaleY: 1 } as const
+const MOTION_SEPARATOR_INITIAL_VERTICAL = { opacity: 0, scaleX: 1, scaleY: 0 } as const
+
 const Separator = React.forwardRef<
   HTMLHRElement,
   React.HTMLAttributes<HTMLHRElement> & {
@@ -50,8 +54,8 @@ const MotionSeparator = React.forwardRef<
           className,
         )}
         dir={direction}
-        initial={{ opacity: 0, scaleX: isHorizontal ? 0 : 1, scaleY: isHorizontal ? 1 : 0 }}
-        animate={{ opacity: 1, scaleX: 1, scaleY: 1 }}
+        initial={isHorizontal ? MOTION_SEPARATOR_INITIAL_HORIZONTAL : MOTION_SEPARATOR_INITIAL_VERTICAL}
+        animate={MOTION_SEPARATOR_ANIMATE}
         transition={springBouncy}
         {...props}
         data-slot="separator"

@@ -1,8 +1,10 @@
+import { TypographyBlockquote } from '@gentleduck/registry-ui/typography'
+
 export default function Demo() {
   return (
-    <blockquote className="mt-6 border-l-2 pl-6 italic">
+    <TypographyBlockquote>
       &quot;After all,&quot; he said, &quot;everyone enjoys a good joke, so it&apos;s only fair that they should pay for
       the privilege.&quot;
-    </blockquote>
+    </TypographyBlockquote>
   )
 }

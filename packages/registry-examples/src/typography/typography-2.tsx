@@ -1,7 +1,5 @@
+import { TypographyH1 } from '@gentleduck/registry-ui/typography'
+
 export default function Demo() {
-  return (
-    <h1 className="scroll-m-20 text-balance text-center font-extrabold text-4xl tracking-tight">
-      Taxing Laughter: The Joke Tax Chronicles
-    </h1>
-  )
+  return <TypographyH1 className="text-balance text-center">Taxing Laughter: The Joke Tax Chronicles</TypographyH1>
 }

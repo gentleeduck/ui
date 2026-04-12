@@ -3,39 +3,39 @@
 import {
   Breadcrumb,
   BreadcrumbLink,
-  BreadcrumbList,
   BreadcrumbPage,
-  BreadcrumbSeparator,
   MotionBreadcrumbItem,
+  MotionBreadcrumbList,
+  MotionBreadcrumbSeparator,
 } from '@gentleduck/registry-ui/breadcrumb'
 import Link from 'next/link'
 
 export default function Demo() {
   return (
     <Breadcrumb>
-      <BreadcrumbList>
-        <MotionBreadcrumbItem index={0}>
+      <MotionBreadcrumbList>
+        <MotionBreadcrumbItem>
           <BreadcrumbLink asChild>
             <Link href="/">Home</Link>
           </BreadcrumbLink>
         </MotionBreadcrumbItem>
-        <BreadcrumbSeparator />
-        <MotionBreadcrumbItem index={1}>
+        <MotionBreadcrumbSeparator />
+        <MotionBreadcrumbItem>
           <BreadcrumbLink asChild>
             <Link href="/docs">Docs</Link>
           </BreadcrumbLink>
         </MotionBreadcrumbItem>
-        <BreadcrumbSeparator />
-        <MotionBreadcrumbItem index={2}>
+        <MotionBreadcrumbSeparator />
+        <MotionBreadcrumbItem>
           <BreadcrumbLink asChild>
             <Link href="/docs/components">Components</Link>
           </BreadcrumbLink>
         </MotionBreadcrumbItem>
-        <BreadcrumbSeparator />
-        <MotionBreadcrumbItem index={3}>
+        <MotionBreadcrumbSeparator />
+        <MotionBreadcrumbItem>
           <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
         </MotionBreadcrumbItem>
-      </BreadcrumbList>
+      </MotionBreadcrumbList>
     </Breadcrumb>
   )
 }

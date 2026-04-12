@@ -93,15 +93,15 @@ Direction is resolved through the shared primitives direction module. Use a loca
 
 ## Motion
 
-Use `MotionSwitch` for a bounce animation powered by [motion](https://motion.dev). The switch bounces (scale + rotate) on each toggle.
+Use `MotionSwitch` for a physical-feeling toggle powered by [motion](https://motion.dev). The thumb slides with a bouncy spring, stretches in the direction of travel when pressed, and the track color crossfades between border and primary.
 
 <ComponentPreview
   name="switch-4"
-  description="Switch with motion-powered bounce on toggle."
+  description="Switch with a motion-driven spring thumb, press stretch, and track color fade."
 />
 
 <Callout icon={<Zap />}>
-Requires the `motion` package. Use `MotionSwitch` instead of `Switch`. Same props. The regular `Switch` is perfectly fine - this is an optional enhancement.
+Requires the `motion` package. Use `MotionSwitch` instead of `Switch`. The motion variant renders its own track + thumb so it does not support the `indicator` / `checkedIndicator` props — use the base `Switch` if you need custom SVG indicators.
 </Callout>
 
 ## API Reference
@@ -122,11 +122,19 @@ Requires the `motion` package. Use `MotionSwitch` instead of `Switch`. Same prop
 
 ### MotionSwitch
 
-Bounces (scale + rotate) on toggle, same as `MotionCheckbox`. Requires the `motion` package.
+Renders its own motion-controlled track and thumb. The thumb slides with a bouncy spring, stretches in the direction of travel while pressed, and the track color crossfades between `border` and `primary`. Requires the `motion` package. Does **not** support the `indicator` / `checkedIndicator` props — use the base `Switch` for custom SVG indicators.
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `...props` | `SwitchProps` | - | All props from `Switch` are supported |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. In RTL the thumb starts on the right and the stretch origin flips. |
+| `checked` | `boolean` | - | Controlled checked state |
+| `defaultChecked` | `boolean` | `false` | Uncontrolled initial checked state |
+| `disabled` | `boolean` | `false` | Disables interaction and lowers opacity |
+| `onChange` | `(event: ChangeEvent) => void` | - | Native checkbox `change` event handler |
+| `onCheckedChange` | `(checked: boolean) => void` | - | Callback with the new checked boolean when toggled |
+| `className` | `string` | - | Additional class names for the outer track label |
+| `style` | `React.CSSProperties` | - | Inline styles applied to the outer track label |
+| `...props` | `React.HTMLProps<HTMLInputElement>` | - | Additional props spread onto the hidden input element |
 
 ## See also
 

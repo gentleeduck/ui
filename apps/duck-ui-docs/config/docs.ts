@@ -1219,6 +1219,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/scroll-area',
           items: [],
+          label: 'new',
           title: 'Scroll Area',
         },
         {
@@ -1317,6 +1318,7 @@ export const docsConfig: DocsConfig = {
         {
           href: '/docs/components/typography',
           items: [],
+          label: 'new',
           title: 'Typography',
         },
       ],

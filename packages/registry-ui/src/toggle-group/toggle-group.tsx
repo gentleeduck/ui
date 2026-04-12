@@ -25,8 +25,9 @@ type ToggleGroupProps = React.ComponentPropsWithoutRef<typeof ToggleGroupPrimiti
 const ToggleGroup: React.ForwardRefExoticComponent<ToggleGroupProps & React.RefAttributes<ToggleGroupElement>> =
   React.forwardRef<ToggleGroupElement, ToggleGroupProps>(
     ({ className, variant = 'default', size = 'default', children, ...props }, ref) => {
+      const contextValue = React.useMemo<ToggleGroupContextProps>(() => ({ size, variant }), [size, variant])
       return (
-        <ToggleGroupContext.Provider value={{ size, variant }}>
+        <ToggleGroupContext.Provider value={contextValue}>
           <ToggleGroupPrimitive.Root
             className={cn(
               'isolate flex items-center justify-center rounded-md *:first:rounded-s-md *:last:rounded-e-md',
@@ -82,10 +83,11 @@ const MotionToggleGroup: React.ForwardRefExoticComponent<
 > = React.forwardRef<ToggleGroupElement, ToggleGroupProps>(
   ({ className, variant = 'default', size = 'default', children, ...props }, ref) => {
     const groupId = React.useId()
+    const contextValue = React.useMemo<ToggleGroupContextProps>(() => ({ size, variant }), [size, variant])
     return (
       <LazyMotion features={loadDomMax}>
         <MotionToggleGroupIdContext.Provider value={groupId}>
-          <ToggleGroupContext.Provider value={{ size, variant }}>
+          <ToggleGroupContext.Provider value={contextValue}>
             <LayoutGroup id={`toggle-group-${groupId}`}>
               <ToggleGroupPrimitive.Root
                 className={cn(
@@ -123,10 +125,9 @@ const MotionToggleGroupItem: React.ForwardRefExoticComponent<
   React.useEffect(() => {
     const el = btnRef.current
     if (!el) return
-    const observer = new MutationObserver(() => {
-      setIsOn(el.getAttribute('data-state') === 'on')
-    })
-    setIsOn(el.getAttribute('data-state') === 'on')
+    const readState = () => setIsOn(el.getAttribute('data-state') === 'on')
+    readState()
+    const observer = new MutationObserver(readState)
     observer.observe(el, { attributes: true, attributeFilter: ['data-state'] })
     return () => observer.disconnect()
   }, [])
@@ -136,7 +137,6 @@ const MotionToggleGroupItem: React.ForwardRefExoticComponent<
       <m.button
         ref={btnRef}
         whileTap={tapScale}
-        transition={{ scale: { duration: 0, type: 'tween' } }}
         className={cn(
           toggleVariants({ variant: variant || context.variant, size: size || context.size }),
           'relative rounded-none focus-visible:z-10 focus-visible:ring-offset-0 data-[state=on]:bg-transparent',

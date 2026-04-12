@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { CheckboxWithLabel } from '@gentleduck/registry-ui/checkbox'\nimport { toast } from 'sonner'\n\nexport default function Demo() {\n  return (\n    <CheckboxWithLabel\n      _checkbox={{\n        defaultChecked: false,\n        onCheckedChange: (state) => toast.info(`Checkbox ${state ? 'checked' : 'unchecked'}`),\n      }}\n      _label={{ children: 'I agree to the terms and conditions' }}\n      id=\"termss\"\n    />\n  )\n}\n",
+      "content": "import { CheckboxWithLabel } from '@gentleduck/registry-ui/checkbox'\r\nimport { toast } from 'sonner'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <CheckboxWithLabel\r\n      _checkbox={{\r\n        defaultChecked: false,\r\n        onCheckedChange: (state) => toast.info(`Checkbox ${state ? 'checked' : 'unchecked'}`),\r\n      }}\r\n      _label={{ children: 'I agree to the terms and conditions' }}\r\n      id=\"termss\"\r\n    />\r\n  )\r\n}\r\n",
       "path": "checkbox/checkbox-4.tsx",
       "target": "components/checkbox-4.tsx",
       "type": "registry:example"

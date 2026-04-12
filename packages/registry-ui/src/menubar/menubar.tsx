@@ -6,6 +6,7 @@ import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { AnimVariants } from '@gentleduck/motion/variants'
 import * as MenubarPrimitive from '@gentleduck/primitives/menubar'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { Check, ChevronRight, Circle } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
@@ -212,7 +213,7 @@ const MotionMenubarContent = React.forwardRef<
   React.ComponentRef<typeof MenubarPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof MenubarPrimitive.Content>
 >(({ className, align = 'start', alignOffset = -4, sideOffset = 8, children, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset(scaleIn, { transition: springBouncy })
   return (
     <MenubarPrimitive.Portal>
       <MenubarPrimitive.Content
