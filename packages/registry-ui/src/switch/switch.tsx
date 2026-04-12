@@ -9,6 +9,13 @@ import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
+const TRACK_TRANSITION = { duration: 0.22, ease: [0.16, 1, 0.3, 1] as const } as const
+const THUMB_TRANSITION = {
+  x: { ...springBouncy, mass: 0.6 },
+  scaleX: { type: 'tween', duration: 0.12, ease: 'easeOut' },
+  scaleY: { type: 'tween', duration: 0.12, ease: 'easeOut' },
+} as const
+
 const Switch = React.forwardRef<
   HTMLInputElement,
   Omit<React.HTMLProps<HTMLInputElement>, 'ref'> & {
@@ -78,18 +85,32 @@ const MotionSwitch = React.forwardRef<
   const value = isControlled ? (checked ?? false) : internalChecked
   const [pressed, setPressed] = React.useState(false)
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!isControlled) setInternalChecked(e.target.checked)
-    onChange?.(e)
-    onCheckedChange?.(e.target.checked)
-  }
+  const handleChange = React.useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!isControlled) setInternalChecked(e.target.checked)
+      onChange?.(e)
+      onCheckedChange?.(e.target.checked)
+    },
+    [isControlled, onChange, onCheckedChange],
+  )
 
-  const releasePress = () => setPressed(false)
+  const releasePress = React.useCallback(() => setPressed(false), [])
+  const handlePointerDown = React.useCallback(() => setPressed(true), [])
 
   // Stretch direction: the thumb pulls toward where it's about to travel so
   // the squish reads as "about to launch". Unchecked -> growing right,
   // checked -> growing left (inverted in RTL).
   const stretchOrigin = !value ? (isRtl ? 'right center' : 'left center') : isRtl ? 'left center' : 'right center'
+
+  const trackAnimate = React.useMemo(
+    () => ({
+      backgroundColor: value ? 'var(--primary)' : 'var(--border)',
+      borderColor: value ? 'var(--primary)' : 'var(--border)',
+    }),
+    [value],
+  )
+
+  const thumbStyle = React.useMemo(() => ({ transformOrigin: stretchOrigin }), [stretchOrigin])
 
   return (
     <LazyMotion features={loadDomAnimation}>
@@ -105,13 +126,10 @@ const MotionSwitch = React.forwardRef<
         )}
         style={style}
         initial={false}
-        animate={{
-          backgroundColor: value ? 'var(--primary)' : 'var(--border)',
-          borderColor: value ? 'var(--primary)' : 'var(--border)',
-        }}
-        transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+        animate={trackAnimate}
+        transition={TRACK_TRANSITION}
         whileTap={disabled ? undefined : { scale: 0.97 }}
-        onPointerDown={disabled ? undefined : () => setPressed(true)}
+        onPointerDown={disabled ? undefined : handlePointerDown}
         onPointerUp={releasePress}
         onPointerLeave={releasePress}
         onPointerCancel={releasePress}>
@@ -131,17 +149,13 @@ const MotionSwitch = React.forwardRef<
         <m.span
           aria-hidden="true"
           className="pointer-events-none block size-[1.375em] rounded-full bg-background shadow-sm"
-          style={{ transformOrigin: stretchOrigin }}
+          style={thumbStyle}
           animate={{
             x: value ? (isRtl ? '-1.25em' : '1.25em') : '0em',
             scaleX: pressed ? 1.3 : 1,
             scaleY: pressed ? 0.92 : 1,
           }}
-          transition={{
-            x: { ...springBouncy, mass: 0.6 },
-            scaleX: { type: 'tween', duration: 0.12, ease: 'easeOut' },
-            scaleY: { type: 'tween', duration: 0.12, ease: 'easeOut' },
-          }}
+          transition={THUMB_TRANSITION}
         />
       </m.label>
     </LazyMotion>
