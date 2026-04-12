@@ -104,6 +104,8 @@ const AlertDialogCancel = React.forwardRef<
 ))
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
 
+const CONTENT_OPTIONS = { transition: springStiff } as const
+
 function MotionAlertDialog({
   children,
   open,
@@ -128,9 +130,7 @@ const MotionAlertDialogContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => {
   const { isOpen, setShowContent } = useMotionContent()
   const overlay = useMotionPreset('fadeIn')
-  const content = useMotionPreset('scaleIn', {
-    transition: springStiff,
-  })
+  const content = useMotionPreset('scaleIn', CONTENT_OPTIONS)
 
   return (
     <LazyMotion features={loadDomAnimation}>

@@ -102,6 +102,9 @@ DialogDescription.displayName = DialogPrimitive.Description.displayName
 /*  MotionDialog + MotionDialogContent                                 */
 /* ------------------------------------------------------------------ */
 
+const OVERLAY_OPTIONS = { transition: springBouncy } as const
+const CONTENT_OPTIONS = { transition: springBouncy } as const
+
 function MotionDialog({
   children,
   open,
@@ -128,8 +131,8 @@ const MotionDialogContent = React.forwardRef<
   }
 >(({ className, children, closeText = 'Close', hideClose = false, ...props }, ref) => {
   const { isOpen, setShowContent } = useMotionContent()
-  const overlay = useMotionPreset('fadeIn', { transition: springBouncy })
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const overlay = useMotionPreset('fadeIn', OVERLAY_OPTIONS)
+  const content = useMotionPreset('scaleIn', CONTENT_OPTIONS)
 
   return (
     <LazyMotion features={loadDomAnimation}>
