@@ -124,7 +124,8 @@ const MotionBreadcrumbItem = React.forwardRef<
     index?: number
   }
 >(({ className, index = 0, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springSnappy, delay: index * 0.035 })
+  const options = React.useMemo(() => ({ transition: springSnappy, delay: index * 0.035 }), [index])
+  const content = useMotionPreset('scaleIn', options)
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.li
@@ -147,7 +148,8 @@ const MotionBreadcrumbSeparator = React.forwardRef<
     index?: number
   }
 >(({ children, className, index = 0, ...props }, ref) => {
-  const content = useMotionPreset('slideFromLeft', { transition: springSnappy, delay: index * 0.035 })
+  const options = React.useMemo(() => ({ transition: springSnappy, delay: index * 0.035 }), [index])
+  const content = useMotionPreset('slideFromLeft', options)
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.li
@@ -171,7 +173,10 @@ const MotionBreadcrumbList = React.forwardRef<HTMLOListElement, React.ComponentP
   ({ className, children, ...props }, ref) => {
     let cursor = 0
     const injectIndex = (child: React.ReactNode): React.ReactNode => {
-      if (React.isValidElement(child) && (child.type === MotionBreadcrumbItem || child.type === MotionBreadcrumbSeparator)) {
+      if (
+        React.isValidElement(child) &&
+        (child.type === MotionBreadcrumbItem || child.type === MotionBreadcrumbSeparator)
+      ) {
         const injected = React.cloneElement(child as React.ReactElement<{ index?: number }>, {
           index: cursor++,
         })
