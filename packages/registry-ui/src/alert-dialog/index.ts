@@ -1,1 +1,1 @@
-export * from './alert-dialog'
+export { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogOverlay, AlertDialogPortal, AlertDialogTitle, AlertDialogTrigger, MotionAlertDialog, MotionAlertDialogContent } from './alert-dialog'
