@@ -3,9 +3,9 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
-import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
@@ -33,11 +33,7 @@ const MotionTextarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLA
     const content = useMotionPreset(scaleIn, { transition: springBouncy })
     return (
       <LazyMotion features={loadDomAnimation}>
-        <m.div
-          initial={content.initial}
-          animate={content.animate}
-          transition={content.transition}
-          className="w-full">
+        <m.div initial={content.initial} animate={content.animate} transition={content.transition} className="w-full">
           <Textarea ref={ref} {...props} />
         </m.div>
       </LazyMotion>

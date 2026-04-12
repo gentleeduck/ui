@@ -70,7 +70,7 @@ const Collapsible = React.forwardRef<
 
   const ctxValue = React.useMemo(
     () => ({ contentId, contentRef, onOpenChange: handleOpenChange, open, triggerRef, wrapperRef }),
-    [contentId, contentRef, handleOpenChange, open, triggerRef, wrapperRef],
+    [contentId, handleOpenChange, open],
   )
 
   return (

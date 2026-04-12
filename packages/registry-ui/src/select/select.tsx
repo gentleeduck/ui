@@ -3,13 +3,13 @@
 import { cn } from '@gentleduck/libs/cn'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { tapScale } from '@gentleduck/motion/presets/content'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import type { SelectTriggerProps as PrimitiveSelectTriggerProps } from '@gentleduck/primitives/select'
 import * as SelectPrimitive from '@gentleduck/primitives/select'
-import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
-import { AnimatePresence, motion } from 'motion/react'
+import { motion } from 'motion/react'
 import * as React from 'react'
 
 const Select = SelectPrimitive.Root

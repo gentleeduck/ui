@@ -2,10 +2,10 @@ import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { tapScale } from '@gentleduck/motion/presets/content'
+import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import * as PaginationPrimitive from '@gentleduck/primitives/pagination'
-import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import {
   ChevronLeft,
   ChevronLeftIcon,

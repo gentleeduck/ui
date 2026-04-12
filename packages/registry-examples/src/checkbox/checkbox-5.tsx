@@ -9,7 +9,7 @@ export default function Demo() {
     <Checkbox
       checked={checked}
       onCheckedChange={() => {
-        setChecked((prev) => (prev === false ? 'indeterminate' : prev === 'indeterminate' ? true : false))
+        setChecked((prev) => (prev === false ? 'indeterminate' : prev === 'indeterminate'))
       }}
     />
   )

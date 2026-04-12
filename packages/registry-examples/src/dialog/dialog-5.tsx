@@ -1,6 +1,6 @@
 'use client'
 
-import { Button, MotionButton } from '@gentleduck/registry-ui/button'
+import { MotionButton } from '@gentleduck/registry-ui/button'
 import {
   DialogClose,
   DialogDescription,
