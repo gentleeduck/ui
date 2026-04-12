@@ -17,6 +17,7 @@ import type {
 } from './presets/types'
 import { useDuckReducedMotion } from './react'
 import { springDefault } from './transitions/springs'
+import { TAP_SCALE_TRANSITION } from './transitions/tweens'
 
 export type {
   Direction,
@@ -70,13 +71,6 @@ export function loadDirectionalPreset(
     m.createDirectionalPreset(direction, enterOffset, exitOffset, blur),
   )
 }
-
-/**
- * Always-fast tween for the `scale` property. Merged into every returned
- * transition so `whileTap={tapScale}` feels instant on both press and release
- * (motion/react uses the parent transition for the tap-release direction).
- */
-const TAP_SCALE_TRANSITION = { type: 'tween' as const, duration: 0.015, ease: 'easeOut' as const }
 
 function buildResult(preset: MotionPreset, reduced: boolean, options?: UseMotionPresetOptions): MotionPresetResult {
   const baseTransition: MotionTransitionConfig = options?.transition ?? { ...springDefault }
