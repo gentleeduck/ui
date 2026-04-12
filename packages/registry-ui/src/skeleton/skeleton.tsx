@@ -32,7 +32,8 @@ const MotionSkeleton = React.forwardRef<
   }
 >(({ className, dir, index = 0, ...props }, ref) => {
   const direction = useDirection(dir as Direction)
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.05 })
+  const motionOptions = React.useMemo(() => ({ transition: springBouncy, delay: index * 0.05 }), [index])
+  const content = useMotionPreset('scaleIn', motionOptions)
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div

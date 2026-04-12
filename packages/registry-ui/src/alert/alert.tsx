@@ -59,6 +59,10 @@ AlertDescription.displayName = 'AlertDescription'
 /*  Motion variants                                                    */
 /* ------------------------------------------------------------------ */
 
+const MOTION_ALERT_OPTIONS = { transition: springBouncy } as const
+const MOTION_ALERT_TITLE_OPTIONS = { transition: springBouncy, delay: 0.1 } as const
+const MOTION_ALERT_DESCRIPTION_OPTIONS = { transition: springBouncy, delay: 0.18 } as const
+
 const MotionAlert = React.forwardRef<
   HTMLDivElement,
   Omit<
@@ -67,7 +71,7 @@ const MotionAlert = React.forwardRef<
   >
 >(({ className, variant, dir, ...props }, ref) => {
   const direction = useDirection(dir as Direction)
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset('scaleIn', MOTION_ALERT_OPTIONS)
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div
@@ -90,7 +94,7 @@ const MotionAlertTitle = React.forwardRef<
   HTMLDivElement,
   Omit<React.HTMLAttributes<HTMLDivElement>, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
 >(({ className, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.1 })
+  const content = useMotionPreset('scaleIn', MOTION_ALERT_TITLE_OPTIONS)
   return (
     <m.div
       ref={ref}
@@ -109,7 +113,7 @@ const MotionAlertDescription = React.forwardRef<
   HTMLDivElement,
   Omit<React.HTMLAttributes<HTMLDivElement>, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
 >(({ className, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: 0.18 })
+  const content = useMotionPreset('scaleIn', MOTION_ALERT_DESCRIPTION_OPTIONS)
   return (
     <m.div
       ref={ref}

@@ -6,6 +6,21 @@ import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
+const MOTION_PROGRESS_BAR_STYLE = { originX: 0 } as const
+const MOTION_PROGRESS_BAR_INITIAL = { scaleX: 0, opacity: 0.5 } as const
+const MOTION_PROGRESS_BAR_TRANSITION = {
+  scaleX: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+  opacity: { duration: 0.2, ease: 'easeOut' },
+} as const
+const MOTION_PROGRESS_SHIMMER_INITIAL = { x: '-100%' } as const
+const MOTION_PROGRESS_SHIMMER_ANIMATE = { x: '200%' } as const
+const MOTION_PROGRESS_SHIMMER_TRANSITION = {
+  duration: 2,
+  ease: 'easeInOut',
+  repeat: Number.POSITIVE_INFINITY,
+  repeatDelay: 0.5,
+} as const
+
 const Progress = React.forwardRef<
   HTMLDivElement,
   Omit<React.HTMLProps<HTMLDivElement>, 'value' | 'ref'> & { value: number }
@@ -37,6 +52,7 @@ const MotionProgress = React.forwardRef<
 >(({ className, value, dir, ...props }, ref) => {
   const direction = useDirection(dir as Direction)
   const safeValue = Math.max(0, Math.min(100, value ?? 0))
+  const barAnimate = React.useMemo(() => ({ scaleX: safeValue / 100, opacity: 1 }), [safeValue])
   return (
     <LazyMotion features={loadDomAnimation}>
       <div
@@ -51,25 +67,17 @@ const MotionProgress = React.forwardRef<
         role="progressbar">
         <m.div
           className="relative h-full bg-primary"
-          style={{ originX: 0 }}
-          initial={{ scaleX: 0, opacity: 0.5 }}
-          animate={{ scaleX: safeValue / 100, opacity: 1 }}
-          transition={{
-            scaleX: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
-            opacity: { duration: 0.2, ease: 'easeOut' },
-          }}>
+          style={MOTION_PROGRESS_BAR_STYLE}
+          initial={MOTION_PROGRESS_BAR_INITIAL}
+          animate={barAnimate}
+          transition={MOTION_PROGRESS_BAR_TRANSITION}>
           {/* Subtle shine sweep for a smoother, more alive feel */}
           <m.span
             aria-hidden="true"
             className="absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(255,255,255,0.25)_50%,transparent_100%)]"
-            initial={{ x: '-100%' }}
-            animate={{ x: '200%' }}
-            transition={{
-              duration: 2,
-              ease: 'easeInOut',
-              repeat: Number.POSITIVE_INFINITY,
-              repeatDelay: 0.5,
-            }}
+            initial={MOTION_PROGRESS_SHIMMER_INITIAL}
+            animate={MOTION_PROGRESS_SHIMMER_ANIMATE}
+            transition={MOTION_PROGRESS_SHIMMER_TRANSITION}
           />
         </m.div>
       </div>

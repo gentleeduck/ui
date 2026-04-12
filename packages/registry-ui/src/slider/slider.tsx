@@ -66,11 +66,13 @@ function MotionSliderThumb(props: React.ComponentPropsWithoutRef<typeof SliderPr
   )
 }
 
+const MOTION_SLIDER_OPTIONS = { transition: springBouncy } as const
+
 const MotionSlider = React.forwardRef<
   React.ComponentRef<typeof SliderPrimitive.Root>,
   React.ComponentProps<typeof SliderPrimitive.Root>
 >(({ className, defaultValue, orientation = 'horizontal', value, min = 0, max = 100, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset('scaleIn', MOTION_SLIDER_OPTIONS)
   const _values = React.useMemo(
     () => (Array.isArray(value) ? value : Array.isArray(defaultValue) ? defaultValue : [min, max]),
     [value, defaultValue, min, max],

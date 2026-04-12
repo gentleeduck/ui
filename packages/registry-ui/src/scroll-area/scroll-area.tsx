@@ -37,12 +37,14 @@ ScrollArea.displayName = 'ScrollArea'
 /*  Motion variant                                                      */
 /* ------------------------------------------------------------------ */
 
+const MOTION_SCROLL_AREA_OPTIONS = { transition: springBouncy } as const
+
 const MotionScrollArea = React.forwardRef<
   HTMLDivElement,
   Omit<ScrollAreaProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
 >(({ children, className, viewportClassName, viewportRef, style, dir, ...props }, ref) => {
   const direction = useDirection(dir as Direction)
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset('scaleIn', MOTION_SCROLL_AREA_OPTIONS)
   return (
     <LazyMotion features={loadDomAnimation}>
       <m.div
