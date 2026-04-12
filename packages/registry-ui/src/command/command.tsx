@@ -122,7 +122,8 @@ const MotionCommandItem = React.forwardRef<
     'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
   > & { index?: number }
 >(({ className, index = 0, children, ...props }, ref) => {
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.03 })
+  const options = React.useMemo(() => ({ transition: springBouncy, delay: index * 0.03 }), [index])
+  const content = useMotionPreset('scaleIn', options)
   return (
     <LazyMotion features={loadDomAnimation}>
       <CommandPrimitive.Item asChild ref={ref} {...props}>

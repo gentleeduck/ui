@@ -158,10 +158,8 @@ TypographyTd.displayName = 'TypographyTd'
 type MotionIndexProps = { index?: number }
 
 function useTypographyMotion(index: number) {
-  return useMotionPreset('slideUp', {
-    transition: springBouncy,
-    delay: index * 0.05,
-  })
+  const options = React.useMemo(() => ({ transition: springBouncy, delay: index * 0.05 }), [index])
+  return useMotionPreset('slideUp', options)
 }
 
 type MotionHeadingProps = Omit<
