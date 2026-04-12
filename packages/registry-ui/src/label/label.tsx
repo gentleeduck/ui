@@ -32,7 +32,8 @@ Label.displayName = 'Label'
 
 const MotionLabel = React.forwardRef<HTMLLabelElement, LabelProps & { index?: number }>(
   ({ index = 0, ...props }, ref) => {
-    const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.05 })
+    const options = React.useMemo(() => ({ transition: springBouncy, delay: index * 0.05 }), [index])
+    const content = useMotionPreset('scaleIn', options)
     return (
       <LazyMotion features={loadDomAnimation}>
         <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
