@@ -7,7 +7,7 @@
     "@gentleduck/calendar": "workspace:*",
     "@gentleduck/hooks": "^0.1.12",
     "@gentleduck/libs": "^0.1.15",
-    "@gentleduck/motion": "^0.1.17",
+    "@gentleduck/motion": "^0.2.0",
     "@gentleduck/primitives": "^0.2.5",
     "@gentleduck/variants": "^0.1.20",
     "@gentleduck/vim": "^0.1.16",
@@ -65,7 +65,7 @@
   },
   "type": "module",
   "sideEffects": false,
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Styled Tailwind components for Duck UI.",
   "keywords": [
     "gentleduck",
