@@ -43,29 +43,38 @@ const Collapsible = React.forwardRef<
 
   const contentId = React.useId()
 
-  function handleOpenChange(state: boolean) {
-    setOpen(state)
-    onOpenChange?.(state)
-  }
+  const handleOpenChange = React.useCallback(
+    (state: boolean) => {
+      setOpen(state)
+      onOpenChange?.(state)
+    },
+    [onOpenChange],
+  )
 
-  // biome-ignore lint/correctness/useExhaustiveDependencies: handleOpenChange and triggerRef are stable refs
+  const handleClick = React.useCallback(() => {
+    const nextOpen = triggerRef.current?.getAttribute('data-open') === 'true'
+    onOpenChange?.(nextOpen)
+  }, [onOpenChange])
+
   React.useEffect(() => {
     if (open) {
       handleOpenChange(open)
     }
+  }, [open, handleOpenChange])
 
-    function handleClick() {
-      const open = triggerRef.current?.getAttribute('data-open') === 'true'
-      onOpenChange?.(open)
-    }
+  React.useEffect(() => {
+    const node = triggerRef.current
+    node?.addEventListener('click', handleClick)
+    return () => node?.removeEventListener('click', handleClick)
+  }, [handleClick])
 
-    triggerRef.current?.addEventListener('click', handleClick)
-    return () => triggerRef.current?.removeEventListener('click', handleClick)
-  }, [open, onOpenChange])
+  const ctxValue = React.useMemo(
+    () => ({ contentId, contentRef, onOpenChange: handleOpenChange, open, triggerRef, wrapperRef }),
+    [contentId, contentRef, handleOpenChange, open, triggerRef, wrapperRef],
+  )
 
   return (
-    <CollapsibleContext.Provider
-      value={{ contentId, contentRef, onOpenChange: handleOpenChange, open, triggerRef, wrapperRef }}>
+    <CollapsibleContext.Provider value={ctxValue}>
       <div
         className={cn('flex flex-col gap-2', className)}
         dir={direction}
