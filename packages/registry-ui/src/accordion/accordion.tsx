@@ -12,6 +12,8 @@ import { ChevronDown } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
+const TRIGGER_OPTIONS = { transition: springBouncy } as const
+
 const AccordionContext = React.createContext<{
   value: string[]
   readonly onValueChange?: (value: string | string[]) => void
@@ -131,13 +133,16 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
 
     return (
       <AccordionContext.Provider
-        value={{
-          onItemChange: handleAccordionItemChange,
-          onValueChange: onValueChange as never,
-          renderOnce,
-          value: currentValues,
-          wrapperRef,
-        }}>
+        value={React.useMemo(
+          () => ({
+            onItemChange: handleAccordionItemChange,
+            onValueChange: onValueChange as never,
+            renderOnce,
+            value: currentValues,
+            wrapperRef,
+          }),
+          [handleAccordionItemChange, onValueChange, renderOnce, currentValues, wrapperRef],
+        )}>
         <div
           className={cn('min-w-100 [interpolate-size:allow-keywords]', className)}
           dir={direction}
@@ -267,7 +272,8 @@ const MotionAccordionItem = React.forwardRef<
   const isActive = _value.includes(value as string)
   const detailsRef = React.useRef<HTMLDetailsElement>(null)
   const direction = useDirection(dir as Direction)
-  const content = useMotionPreset('scaleIn', { transition: springBouncy, delay: index * 0.05 })
+  const presetOptions = React.useMemo(() => ({ transition: springBouncy, delay: index * 0.05 }), [index])
+  const content = useMotionPreset('scaleIn', presetOptions)
 
   // Keep <details> always open so motion can animate the content height.
   // The accordion root's onItemChange sets .open on DOM elements directly,
@@ -334,7 +340,7 @@ const MotionAccordionTrigger = React.forwardRef<
   React.HTMLProps<HTMLElement> & { icon?: React.ReactNode; value?: string }
 >(({ className, children, icon, value, ...props }, ref) => {
   const { isActive } = React.useContext(MotionAccordionItemContext)
-  const content = useMotionPreset('scaleIn', { transition: springBouncy })
+  const content = useMotionPreset('scaleIn', TRIGGER_OPTIONS)
 
   return (
     <summary

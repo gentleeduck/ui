@@ -13,6 +13,8 @@ import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { sheetVariants } from './sheet.constants'
 
+const OVERLAY_OPTIONS = {} as const
+
 const Sheet = SheetPrimitive.Root
 Sheet.displayName = 'Sheet'
 
@@ -123,7 +125,7 @@ const MotionSheetContent = React.forwardRef<
   SheetContentProps & { closeText?: string; hideClose?: boolean }
 >(({ side = 'right', className, children, closeText = 'Close', hideClose = false, ...props }, ref) => {
   const { isOpen } = useMotionContent()
-  const overlay = useMotionPreset('fadeIn')
+  const overlay = useMotionPreset('fadeIn', OVERLAY_OPTIONS)
   const slide = React.useMemo(() => createSlideEdge(side ?? 'right'), [side])
   // Sheet uses tweenSlow (300ms) for its slide, so give the exit a bit more
   // room before unmounting.
