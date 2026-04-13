@@ -1,5 +1,5 @@
 import { structuredPatch } from 'diff'
-import type { DiffDisplayLine } from '~/utils/diff-format'
+import type { Diff } from '~/utils/diff-format'
 import { computeWordSegments, splitSegmentsByNewline } from '~/utils/diff-format'
 import type { MergeHunk } from './merge.types'
 
@@ -118,7 +118,7 @@ export function buildMergeHunks(filePath: string, localContent: string, registry
 }
 
 /**
- * Build DiffDisplayLine[] for a single change block with word-level highlighting.
+ * Build Diff.DisplayLine[] for a single change block with word-level highlighting.
  */
 function buildHunkDisplayLines(
   localLines: string[],
@@ -126,8 +126,8 @@ function buildHunkDisplayLines(
   contextBefore: string[],
   oldStart: number,
   newStart: number,
-): DiffDisplayLine[] {
-  const lines: DiffDisplayLine[] = []
+): Diff.DisplayLine[] {
+  const lines: Diff.DisplayLine[] = []
   let oldLine = oldStart - contextBefore.length
   let newLine = newStart - contextBefore.length
 
@@ -290,9 +290,9 @@ export function applyMergeChoices(localContent: string, hunks: MergeHunk[]): str
  *   (registry lines)
  *   >>>>>>> REGISTRY
  */
-export function buildMergePreviewLines(localContent: string, hunks: MergeHunk[]): DiffDisplayLine[] {
+export function buildMergePreviewLines(localContent: string, hunks: MergeHunk[]): Diff.DisplayLine[] {
   const localLines = localContent.split('\n')
-  const result: DiffDisplayLine[] = []
+  const result: Diff.DisplayLine[] = []
   let localCursor = 0
   let outputLine = 1
 

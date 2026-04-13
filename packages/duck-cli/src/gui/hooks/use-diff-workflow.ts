@@ -9,17 +9,9 @@ import {
 } from '~/services/component.service'
 import { resolveInstallPath } from '~/services/install.service'
 import { readDuckuiConfig, readTsConfig } from '~/services/preflight.service'
-import {
-  buildDisplayLines,
-  buildSideBySidePairs,
-  type DiffDisplayLine,
-  getHunkOffsets,
-  getMaxLineNumber,
-  type SideBySidePair,
-} from '~/utils/diff-format'
+import { buildDisplayLines, buildSideBySidePairs, type Diff, getHunkOffsets, getMaxLineNumber } from '~/utils/diff-format'
 import { resolveProjectCwd } from '~/utils/workspace'
 import { InitialArgsContext, TerminalSizeContext } from '../app'
-import type { ViewMode } from '../screens/diff-screen.types'
 import type { AsyncTaskState } from './use-async-task'
 import { useAsyncTask } from './use-async-task'
 
@@ -40,14 +32,14 @@ export type DiffWorkflowState = {
   installed: InstalledComponent[]
 
   diffResult: ComponentDiff | null
-  displayLinesPerFile: DiffDisplayLine[][]
-  sideBySidePairsPerFile: SideBySidePair[][]
+  displayLinesPerFile: Diff.DisplayLine[][]
+  sideBySidePairsPerFile: Diff.SideBySidePair[][]
   hunkOffsetsPerFile: number[][]
   numWidth: number
 
   scrollOffset: number
   activeFileIndex: number
-  viewMode: ViewMode
+  viewMode: Diff.ViewMode
   columns: number
 
   visibleRows: number
@@ -58,7 +50,7 @@ export type DiffWorkflowState = {
   setStep: (step: Step) => void
   setScrollOffset: (v: number | ((prev: number) => number)) => void
   setActiveFileIndex: (v: number | ((prev: number) => number)) => void
-  setViewMode: (v: ViewMode | ((prev: ViewMode) => ViewMode)) => void
+  setViewMode: (v: Diff.ViewMode | ((prev: Diff.ViewMode) => Diff.ViewMode)) => void
 }
 
 /**
@@ -79,10 +71,10 @@ export function useDiffWorkflow(_options: { onBack: () => void }): DiffWorkflowS
   const initialArgs = useContext(InitialArgsContext)
   const visibleRows = Math.max(3, rows - RESULTS_CHROME)
 
-  const [viewMode, setViewMode] = useState<ViewMode>('unified')
+  const [viewMode, setViewMode] = useState<Diff.ViewMode>('unified')
   const [activeFileIndex, setActiveFileIndex] = useState(0)
-  const [displayLinesPerFile, setDisplayLinesPerFile] = useState<DiffDisplayLine[][]>([])
-  const [sideBySidePairsPerFile, setSideBySidePairsPerFile] = useState<SideBySidePair[][]>([])
+  const [displayLinesPerFile, setDisplayLinesPerFile] = useState<Diff.DisplayLine[][]>([])
+  const [sideBySidePairsPerFile, setSideBySidePairsPerFile] = useState<Diff.SideBySidePair[][]>([])
   const [hunkOffsetsPerFile, setHunkOffsetsPerFile] = useState<number[][]>([])
   const [numWidth, setNumWidth] = useState(3)
   const [autoSelected, setAutoSelected] = useState(false)
@@ -168,22 +160,22 @@ export function useDiffWorkflow(_options: { onBack: () => void }): DiffWorkflowS
 
         if (result.data.isIdentical) {
           // Show a simple "identical" message as a file-header line
-          const identicalLine: DiffDisplayLine = {
+          const identicalLine: Diff.DisplayLine = {
             type: 'file-header',
             oldLineNum: null,
             newLineNum: null,
             segments: [{ text: `${name}: identical to registry`, highlight: false }],
             rawText: `${name}: identical to registry`,
           }
-          const identicalLines: DiffDisplayLine[] = [identicalLine]
+          const identicalLines: Diff.DisplayLine[] = [identicalLine]
           setDisplayLinesPerFile([identicalLines])
           setSideBySidePairsPerFile([[{ left: identicalLine, right: identicalLine }]])
           setHunkOffsetsPerFile([[]])
           setNumWidth(3)
         } else {
           // Build display lines, side-by-side pairs, and hunk offsets per file
-          const allDisplayLines: DiffDisplayLine[][] = []
-          const allSbsPairs: SideBySidePair[][] = []
+          const allDisplayLines: Diff.DisplayLine[][] = []
+          const allSbsPairs: Diff.SideBySidePair[][] = []
           const allHunkOffsets: number[][] = []
           let maxNum = 0
 

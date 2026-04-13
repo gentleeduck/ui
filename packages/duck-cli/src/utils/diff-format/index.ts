@@ -7,4 +7,4 @@ export {
   getMaxLineNumber,
   splitSegmentsByNewline,
 } from './diff-format'
-export type { DiffDisplayLine, DiffLineType, DiffSegment, SideBySidePair } from './diff-format.types'
+export type { Diff } from './diff-format.types'
