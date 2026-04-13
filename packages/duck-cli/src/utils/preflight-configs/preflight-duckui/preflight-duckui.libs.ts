@@ -3,7 +3,7 @@ import fs from 'fs-extra'
 import type { Ora } from 'ora'
 import type { ThemeResponse } from '~/utils/get-registry/get-registry.dto'
 import { highlighter } from '~/utils/text-styling'
-import type { WorkspaceTarget } from '~/utils/workspace'
+import type { Workspace } from '~/utils/workspace'
 import { BASE_LAYER_STYLES } from '../preflight-tailwindcss/preflight-tailwindcss.constants'
 import type { DuckUI } from './preflight-duckui.dto'
 
@@ -11,7 +11,7 @@ export async function initDuckuiConfig(
   cwd: string,
   spinner: Ora,
   duckConfig: DuckUI.Prompts,
-  workspace: WorkspaceTarget = { root: '.', project: '.' },
+  workspace: Workspace.Target = { root: '.', project: '.' },
   cssWorkspace?: string,
 ) {
   try {
@@ -81,7 +81,7 @@ ${BASE_LAYER_STYLES}
 
 export const defaultDuckuiConfig = (
   { projectType, monorepo, css, prefix, alias, baseColor, cssVariables }: DuckUI.Prompts,
-  workspace: WorkspaceTarget = { root: '.', project: '.' },
+  workspace: Workspace.Target = { root: '.', project: '.' },
   cssWorkspace?: string,
 ) => {
   return JSON.stringify(

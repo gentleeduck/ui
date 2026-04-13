@@ -13,22 +13,19 @@ import {
   formatMonorepoKind,
   pickDefaultWorkspace,
   validateWorkspaceTarget,
-  type WorkspaceTarget,
+  type Workspace,
 } from '../../workspace'
 import { duckuiPrompts, duckuiRestPrompts, makeDuckuiMonorepoPrompt } from './preflight-duckui.constants'
-import { DuckUI, duckuiPromptsSchema, preflightDuckuiOptionsSchema } from './preflight-duckui.dto'
+import { type DuckUI, duckuiPromptsSchema, preflightDuckuiOptionsSchema } from './preflight-duckui.dto'
 import { generateThemeCSS, initDuckuiConfig } from './preflight-duckui.libs'
 
 // When the config lives inside the workspace, both root and project are '.' relative
 // to the config location.
-const WORKSPACE_LOCAL_TARGET: WorkspaceTarget = { project: '.', root: '.' }
+const WORKSPACE_LOCAL_TARGET: Workspace.Target = { project: '.', root: '.' }
 
 const SAME_AS_COMPONENTS = '__same__'
 
-export async function preflightDuckuiResolveWorkspace(
-  _options: InitOptions,
-  spinner: Ora,
-): Promise<DuckUI.Resolution> {
+export async function preflightDuckuiResolveWorkspace(_options: InitOptions, spinner: Ora): Promise<DuckUI.Resolution> {
   const cwd = path.resolve(_options.cwd)
 
   const flagMonorepo = typeof _options.monorepo === 'boolean' ? _options.monorepo : null

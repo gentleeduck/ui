@@ -5,14 +5,17 @@ import type { PackageJson } from 'type-fest'
 import { IGNORED_DIRECTORIES } from '~/utils/get-project-info'
 import type { DuckUI } from '~/utils/preflight-configs/preflight-duckui'
 
-export type WorkspaceTarget = {
-  root: string
-  project: string
+// biome-ignore lint/style/noNamespace: namespace groups workspace-related types per the project's TypeScript conventions doc
+export namespace Workspace {
+  export interface Target {
+    root: string
+    project: string
+  }
+
+  export type MonorepoKind = 'package-json-workspaces' | 'pnpm' | 'turbo' | 'nx' | 'lerna' | 'rush'
 }
 
-export type MonorepoKind = 'package-json-workspaces' | 'pnpm' | 'turbo' | 'nx' | 'lerna' | 'rush'
-
-const MONOREPO_KIND_LABELS: Record<MonorepoKind, string> = {
+const MONOREPO_KIND_LABELS: Record<Workspace.MonorepoKind, string> = {
   lerna: 'lerna.json',
   nx: 'nx.json',
   'package-json-workspaces': 'package.json workspaces',
@@ -21,7 +24,7 @@ const MONOREPO_KIND_LABELS: Record<MonorepoKind, string> = {
   turbo: 'turbo.json',
 }
 
-export function formatMonorepoKind(kind: MonorepoKind): string {
+export function formatMonorepoKind(kind: Workspace.MonorepoKind): string {
   return MONOREPO_KIND_LABELS[kind]
 }
 
@@ -120,7 +123,7 @@ export function readPnpmWorkspacePackages(cwd: string): string[] {
   return patterns
 }
 
-export function detectMonorepoKind(cwd: string): MonorepoKind | null {
+export function detectMonorepoKind(cwd: string): Workspace.MonorepoKind | null {
   const pkgPath = path.join(cwd, 'package.json')
   if (fs.existsSync(pkgPath)) {
     try {
