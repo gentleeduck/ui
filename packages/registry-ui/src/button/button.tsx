@@ -97,7 +97,7 @@ const MOTION_BUTTON_OPTIONS = { transition: springBouncy } as const
 
 const MotionButton = React.forwardRef<
   HTMLButtonElement,
-  Omit<ButtonProps, 'asChild' | 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+  Omit<ButtonProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
 >(
   (
     {
@@ -105,6 +105,7 @@ const MotionButton = React.forwardRef<
       variant = 'default',
       size = 'default',
       border = 'default',
+      asChild,
       className,
       loading,
       isCollapsed,
@@ -117,21 +118,51 @@ const MotionButton = React.forwardRef<
     ref,
   ) => {
     const content = useMotionPreset(scaleIn, MOTION_BUTTON_OPTIONS)
+    const isDisabled = Boolean(loading) || Boolean(disabled)
+    const animateState = isDisabled
+      ? { ...(content.animate as Record<string, unknown>), opacity: 0.5 }
+      : content.animate
+
+    // asChild mode: wrap the slot child in a motion div for entrance + tap animation
+    if (asChild) {
+      return (
+        <LazyMotion features={loadDomAnimation}>
+          <m.span
+            data-slot="button"
+            initial={content.initial}
+            animate={animateState}
+            whileTap={isDisabled ? undefined : tapScale}
+            transition={content.transition}
+            className={cn('inline-flex', isDisabled && 'pointer-events-none')}>
+            <Slot
+              {...(props as React.HTMLAttributes<HTMLElement>)}
+              aria-disabled={isDisabled || undefined}
+              className={cn(buttonVariants({ border, className, size: isCollapsed ? 'icon' : size, variant }))}
+              ref={ref as React.Ref<HTMLElement>}>
+              {children}
+            </Slot>
+          </m.span>
+        </LazyMotion>
+      )
+    }
+
     return (
       <LazyMotion features={loadDomAnimation}>
         <m.button
           data-slot="button"
           initial={content.initial}
-          animate={content.animate}
-          whileTap={tapScale}
+          animate={animateState}
+          whileTap={isDisabled ? undefined : tapScale}
           transition={content.transition}
           {...props}
           aria-busy={loading ? true : undefined}
+          aria-disabled={isDisabled || undefined}
           className={cn(
             buttonVariants({ border, className, size: isCollapsed ? 'icon' : size, variant }),
             'overflow-hidden',
+            isDisabled && 'pointer-events-none',
           )}
-          disabled={Boolean(loading) || disabled}
+          disabled={isDisabled}
           ref={ref}
           type={type as 'button' | 'submit' | 'reset'}>
           <AnimatePresence mode="wait" initial={false}>
@@ -145,32 +176,31 @@ const MotionButton = React.forwardRef<
               </m.span>
             ) : null}
           </AnimatePresence>
-          <AnimatePresence mode="popLayout">
-            {!isCollapsed && (
-              <m.span
-                key="text"
-                {...fadeBlurPopOut}
-                transition={contentTransitionFast}
-                className={cn(
-                  'inline-flex flex-1 origin-left items-center gap-2',
-                  // Single child: center it (default button behavior). Multiple
-                  // children: spread them via justify-between so e.g. combobox
-                  // triggers can have "label ... icon".
-                  React.Children.count(children) > 1 ? 'justify-between' : 'justify-center',
-                )}>
-                {children}
-              </m.span>
-            )}
-            {!isCollapsed && secondIcon && (
-              <m.span
-                key="second-icon"
-                {...fadeBlurPopOut}
-                transition={contentTransitionFast}
-                className="inline-flex origin-left">
-                {secondIcon}
-              </m.span>
-            )}
-          </AnimatePresence>
+          {(children || secondIcon) && (
+            <AnimatePresence mode="popLayout">
+              {!isCollapsed && children && (
+                <m.span
+                  key="text"
+                  {...fadeBlurPopOut}
+                  transition={contentTransitionFast}
+                  className={cn(
+                    'inline-flex flex-1 origin-left items-center gap-2',
+                    React.Children.count(children) > 1 ? 'justify-between' : 'justify-center',
+                  )}>
+                  {children}
+                </m.span>
+              )}
+              {!isCollapsed && secondIcon && (
+                <m.span
+                  key="second-icon"
+                  {...fadeBlurPopOut}
+                  transition={contentTransitionFast}
+                  className="inline-flex origin-left">
+                  {secondIcon}
+                </m.span>
+              )}
+            </AnimatePresence>
+          )}
         </m.button>
       </LazyMotion>
     )
