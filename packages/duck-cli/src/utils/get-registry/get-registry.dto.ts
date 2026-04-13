@@ -1,11 +1,8 @@
 import { z } from 'zod'
 
-export type HSL = `${number} ${number}% ${number}%`
-export type Radius = `${number}px` | `${number}rem`
-
 // HSL color schema
-export const hslSchema = z.string() as z.ZodType<HSL>
-export const radiusSchema = z.string() as z.ZodType<Radius>
+export const hslSchema = z.string() as z.ZodType<Registry.HSL>
+export const radiusSchema = z.string() as z.ZodType<Registry.Radius>
 
 // CSS variables schema
 export const cssVarsSchema = z.object({
@@ -35,9 +32,8 @@ export const cssVarsSchema = z.object({
   secondary: hslSchema,
   'secondary-foreground': hslSchema,
 })
-export type CSSVars = z.infer<typeof cssVarsSchema>
 
-export const registrycolorScheme = z.object({
+export const registryColorScheme = z.object({
   activeColor: z.object({
     dark: hslSchema,
     light: hslSchema,
@@ -49,12 +45,10 @@ export const registrycolorScheme = z.object({
   label: z.string(),
   name: z.string(),
 })
-export type ColorScheme = z.infer<typeof registrycolorScheme>
 
-export const registryColorBaseSchema = z.array(registrycolorScheme).min(1, {
+export const registryColorBaseSchema = z.array(registryColorScheme).min(1, {
   message: 'At least one color scheme is required',
 })
-export type ColorBase = z.infer<typeof registryColorBaseSchema>
 
 export const registryItemTypeSchema = z.enum([
   'registry:ui',
@@ -72,8 +66,6 @@ export const registryItemFileSchema = z.object({
   target: z.string().optional(),
   type: registryItemTypeSchema,
 })
-
-export type RegistryItemFile = z.infer<typeof registryItemFileSchema>
 
 export const registryItemTailwindSchema = z.object({
   config: z.object({
@@ -118,16 +110,30 @@ export const registryEntrySchema = z.object({
   type: registryItemTypeSchema,
 })
 
-export type RegistryEntry = z.infer<typeof registryEntrySchema>
-
 export const registrySchema = z.array(registryEntrySchema)
 
-export type Registry = z.infer<typeof registrySchema>
+// biome-ignore lint/style/noNamespace: namespace groups registry-related types per the project's TypeScript conventions doc
+export namespace Registry {
+  export type HSL = `${number} ${number}% ${number}%`
+  export type Radius = `${number}px` | `${number}rem`
 
-export type ThemeResponse = {
-  name: string
-  label?: string
-  light: Record<string, string>
-  dark: Record<string, string>
-  radius?: string
+  export interface CssVars extends z.infer<typeof cssVarsSchema> {}
+
+  export interface ColorScheme extends z.infer<typeof registryColorScheme> {}
+
+  export type ColorBase = z.infer<typeof registryColorBaseSchema>
+
+  export interface ItemFile extends z.infer<typeof registryItemFileSchema> {}
+
+  export interface Entry extends z.infer<typeof registryEntrySchema> {}
+
+  export type Collection = Entry[]
+
+  export interface ThemeResponse {
+    name: string
+    label?: string
+    light: Record<string, string>
+    dark: Record<string, string>
+    radius?: string
+  }
 }

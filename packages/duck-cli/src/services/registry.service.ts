@@ -1,9 +1,8 @@
 import { getRegistryBaseColor, getRegistryIndex, getRegistryItem, type Registry } from '~/utils/get-registry'
-import type { RegistryEntry } from '~/utils/get-registry/get-registry.dto'
 import type { ProgressCallback, ServiceResult } from './service.types'
 
 /** Fetch the full component registry index. */
-export async function fetchRegistry(): Promise<ServiceResult<Registry>> {
+export async function fetchRegistry(): Promise<ServiceResult<Registry.Collection>> {
   const index = await getRegistryIndex()
   if (!index || index.length === 0) {
     return { ok: false, error: 'No components found in registry.' }
@@ -12,7 +11,7 @@ export async function fetchRegistry(): Promise<ServiceResult<Registry>> {
 }
 
 /** Fetch a single component entry from the registry by name. */
-export async function fetchComponent(name: string): Promise<ServiceResult<RegistryEntry>> {
+export async function fetchComponent(name: string): Promise<ServiceResult<Registry.Entry>> {
   const item = await getRegistryItem(name)
   if (!item) {
     return { ok: false, error: `Component "${name}" not found in registry.` }
@@ -24,8 +23,8 @@ export async function fetchComponent(name: string): Promise<ServiceResult<Regist
 export async function fetchComponents(
   names: string[],
   onProgress: ProgressCallback,
-): Promise<ServiceResult<RegistryEntry[]>> {
-  const results: RegistryEntry[] = []
+): Promise<ServiceResult<Registry.Entry[]>> {
+  const results: Registry.Entry[] = []
   for (const [index, name] of names.entries()) {
     onProgress(`Fetching component ${index + 1}/${names.length}: ${name}`)
     const item = await getRegistryItem(name)

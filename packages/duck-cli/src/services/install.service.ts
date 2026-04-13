@@ -4,7 +4,6 @@ import fs from 'fs-extra'
 import { getPackageManager } from '~/utils/get-package-manager'
 import type { TsConfig } from '~/utils/get-project-info'
 import { getRegistryItem, type Registry } from '~/utils/get-registry'
-import type { RegistryEntry } from '~/utils/get-registry/get-registry.dto'
 import type { DuckUI } from '~/utils/preflight-configs/preflight-duckui'
 import type { ProgressCallback, ServiceResult } from './service.types'
 
@@ -38,7 +37,7 @@ export type ConflictAction = 'overwrite' | 'skip' | 'merge'
  * and recursive BFS resolution of registry dependencies.
  */
 export async function installComponents(
-  components: Registry,
+  components: Registry.Collection,
   duckConfig: DuckUI,
   writePath: string,
   force: boolean,
@@ -90,7 +89,7 @@ export async function installComponents(
             return getRegistryItem(name)
           }),
         )
-      ).filter((item): item is RegistryEntry => item !== null)
+      ).filter((item): item is Registry.Entry => item !== null)
 
       for (const comp of fetched) {
         allDeps.push(...(comp.dependencies ?? []))
@@ -126,7 +125,7 @@ export async function installComponents(
  * when force=false, and delegates conflict resolution to callbacks.
  */
 async function writeComponent(
-  component: RegistryEntry,
+  component: Registry.Entry,
   writeTypePath: string,
   _from_root_path: string,
   force: boolean,

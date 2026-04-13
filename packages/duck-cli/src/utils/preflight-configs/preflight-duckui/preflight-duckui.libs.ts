@@ -1,7 +1,7 @@
 import path from 'node:path'
 import fs from 'fs-extra'
 import type { Ora } from 'ora'
-import type { ThemeResponse } from '~/utils/get-registry/get-registry.dto'
+import type { Registry } from '~/utils/get-registry/get-registry.dto'
 import { highlighter } from '~/utils/text-styling'
 import type { Workspace } from '~/utils/workspace'
 import { BASE_LAYER_STYLES } from '../preflight-tailwindcss/preflight-tailwindcss.constants'
@@ -33,7 +33,7 @@ export async function initDuckuiConfig(
   }
 }
 
-export function generateThemeCSS(name: string, entry: ThemeResponse) {
+export function generateThemeCSS(name: string, entry: Registry.ThemeResponse) {
   const radius = entry.radius || '0.5rem'
 
   const lightVars = Object.entries(entry.light)

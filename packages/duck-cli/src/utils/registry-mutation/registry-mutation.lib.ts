@@ -90,7 +90,7 @@ Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info
 
 export async function processComponents(
   duckConfig: DuckUI,
-  components: Registry,
+  components: Registry.Collection,
   writePath: string,
   spinner: Ora,
   options: InstallOptions,
@@ -139,9 +139,9 @@ async function installComponent(
   duckConfig: DuckUI,
   dependencies: DependenciesType,
   idx: number,
-  component: Registry[number],
+  component: Registry.Entry,
   registry: boolean,
-  components: Registry,
+  components: Registry.Collection,
   writePath: string,
   spinner: Ora,
   force: boolean,
@@ -188,7 +188,7 @@ export async function installRegistryDependencies(
   exclude?: Set<string>,
 ) {
   const visited = new Set<string>(exclude) // avoid infinite loops and double-installs
-  const allComponents: Registry = []
+  const allComponents: Registry.Collection = []
 
   async function fetchAndProcess(deps: Set<string>) {
     if (deps.size === 0) return
@@ -202,7 +202,7 @@ export async function installRegistryDependencies(
           return await getRegistryItem(item)
         }),
       )
-    ).filter((item): item is Registry[number] => item !== null)
+    ).filter((item): item is Registry.Entry => item !== null)
 
     spinner.succeed(`Fetched ${components.length} necessary component${components.length > 1 ? 's' : ''} from registry`)
 
@@ -244,7 +244,7 @@ export async function installRegistryDependencies(
 }
 
 export async function processComponentFiles(
-  component: Registry[0],
+  component: Registry.Entry,
   writePath: string,
   fromRootWritePath: string,
   spinner: Ora,
