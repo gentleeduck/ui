@@ -1,6 +1,6 @@
 import type { RegistryEntry } from '../registry-schema'
 
-export const registry_calendar: RegistryEntry[] = [
+export const registryCalendar: RegistryEntry[] = [
   {
     categories: ['calendar', 'application'],
     files: [],

@@ -5,7 +5,7 @@ import { getIconForLanguageExtension } from '@gentleduck/docs/client'
 import { trackEvent } from '@gentleduck/docs/lib'
 import { useCopyToClipboard } from '@gentleduck/hooks/use-copy-to-clipboard'
 import { cn } from '@gentleduck/libs/cn'
-import type { registry_entry_schema, registry_item_file_schema } from '@gentleduck/registers'
+import type { registryEntrySchema, registryItemFileSchema } from '@gentleduck/registers'
 import { Button } from '@gentleduck/registry-ui/button'
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@gentleduck/registry-ui/collapsible'
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@gentleduck/registry-ui/resizable'
@@ -44,7 +44,7 @@ import type { z } from 'zod'
 import type { createFileTreeForRegistryItemFiles, FileTree } from '~/lib/get-registry-item'
 
 type BlockViewerContext = {
-  item: z.infer<typeof registry_entry_schema>
+  item: z.infer<typeof registryEntrySchema>
   view: 'code' | 'preview'
   setView: (view: 'code' | 'preview') => void
   activeFile: string | null
@@ -52,7 +52,7 @@ type BlockViewerContext = {
   resizablePanelRef: React.RefObject<PanelImperativeHandle | null> | null
   tree: ReturnType<typeof createFileTreeForRegistryItemFiles> | null
   highlightedFiles:
-    | (z.infer<typeof registry_item_file_schema> & {
+    | (z.infer<typeof registryItemFileSchema> & {
         highlightedContent: string
       })[]
     | null

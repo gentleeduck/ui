@@ -1,6 +1,6 @@
 import type { RegistryEntry } from '../registry-schema'
 
-export const registry_examples: RegistryEntry[] = [
+export const registryExamples: RegistryEntry[] = [
   {
     files: [],
     name: 'accordion-examples',

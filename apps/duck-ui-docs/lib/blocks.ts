@@ -1,11 +1,11 @@
 'use server'
 
-import { registry_entry_schema } from '@gentleduck/registers'
+import { registryEntrySchema } from '@gentleduck/registers'
 import { z } from 'zod'
 import { getRegistryIndex } from '~/lib/registry-index.server'
 
 export async function getAllBlockIds(
-  types: z.infer<typeof registry_entry_schema>['type'][] = ['registry:block'],
+  types: z.infer<typeof registryEntrySchema>['type'][] = ['registry:block'],
   categories: string[] = [],
 ): Promise<string[]> {
   const blocks = await getAllBlocks(types, categories)
@@ -14,11 +14,11 @@ export async function getAllBlockIds(
 }
 
 export async function getAllBlocks(
-  types: z.infer<typeof registry_entry_schema>['type'][] = ['registry:block'],
+  types: z.infer<typeof registryEntrySchema>['type'][] = ['registry:block'],
   categories: string[] = [],
 ) {
   const indexData = getRegistryIndex()
-  const index = z.record(z.string(), registry_entry_schema).parse(indexData)
+  const index = z.record(z.string(), registryEntrySchema).parse(indexData)
 
   return Object.values(index).filter((block) => {
     if (!types.includes(block.type)) return false

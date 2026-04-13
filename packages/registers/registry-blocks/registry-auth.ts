@@ -1,6 +1,6 @@
 import type { RegistryEntry } from '../registry-schema'
 
-export const registry_auth: RegistryEntry[] = [
+export const registryAuth: RegistryEntry[] = [
   // Signup
   {
     categories: ['authentications', 'signup'],

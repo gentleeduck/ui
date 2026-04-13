@@ -1,6 +1,6 @@
 import type { RegistryEntry } from '../registry-schema'
 
-export const registry_charts: RegistryEntry[] = [
+export const registryCharts: RegistryEntry[] = [
   // Area Charts
   {
     categories: ['charts', 'charts-area'],

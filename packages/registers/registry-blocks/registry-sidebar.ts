@@ -1,6 +1,6 @@
 import type { RegistryEntry } from '../registry-schema'
 
-export const registry_sidebar: RegistryEntry[] = [
+export const registrySidebar: RegistryEntry[] = [
   {
     categories: ['sidebar'],
     files: [],

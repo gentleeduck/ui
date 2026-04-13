@@ -1,6 +1,6 @@
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { registry_colors, themeRegistry } from '@gentleduck/registers'
+import { registryColors, themeRegistry } from '@gentleduck/registers'
 import {
   bannerExtension,
   colorsExtension,
@@ -40,7 +40,7 @@ export default defineConfig(
       }),
       colorsExtension({
         colors: {
-          data: registry_colors,
+          data: registryColors,
         },
         themes: {
           cssVarKeys: [...MONOREPO_THEME_CSS_VAR_KEYS],

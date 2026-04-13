@@ -1,6 +1,6 @@
 'use client'
 
-import { buildCalendarYear, type IDateAdapter, goToMonth, goToYear, NativeAdapter } from '@gentleduck/calendar'
+import { buildCalendarYear, goToMonth, goToYear, type IDateAdapter, NativeAdapter } from '@gentleduck/calendar'
 import { cn } from '@gentleduck/libs/cn'
 import { tapScale } from '@gentleduck/motion/presets/content'
 import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
