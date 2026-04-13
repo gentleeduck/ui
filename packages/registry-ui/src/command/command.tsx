@@ -12,7 +12,7 @@ import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '../dialog'
 import { ScrollArea } from '../scroll-area'
-import type { CommandBadgeProps } from './command.types'
+import type { ICommandBadgeProps } from './command.types'
 
 const Command = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive.Root>,
@@ -155,7 +155,7 @@ const CommandSeparator = React.forwardRef<
 ))
 CommandSeparator.displayName = CommandPrimitive.Separator.displayName
 
-const CommandShortcut = React.forwardRef<HTMLElement, CommandBadgeProps>(
+const CommandShortcut = React.forwardRef<HTMLElement, ICommandBadgeProps>(
   ({ className, keys, onKeysPressed, variant = 'default', ...props }, ref) => {
     const commands = React.useMemo(
       () =>

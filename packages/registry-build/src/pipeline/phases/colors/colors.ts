@@ -9,9 +9,9 @@ import {
   writeJsonIfChanged,
 } from '../../../lib/fs'
 import { hashValue } from '../../../lib/hash'
-import type { RegistryBuildContext, RegistryBuildPhaseResult } from '../../types'
+import type { IRegistryBuildContext, IRegistryBuildPhaseResult } from '../../types'
 import { getColorsOutputFiles, processTheme, resolveColorsPhaseConfig } from './colors.lib'
-import type { RegistryBuildColorsCacheState, RegistryBuildColorsPhaseOptions } from './colors.types'
+import type { IRegistryBuildColorsCacheState, IRegistryBuildColorsPhaseOptions } from './colors.types'
 
 /**
  * Run the colors phase: process color data and theme entries, writing JSON
@@ -19,10 +19,10 @@ import type { RegistryBuildColorsCacheState, RegistryBuildColorsPhaseOptions } f
  * and all expected output files already exist.
  */
 export async function runColorsPhase(
-  context: RegistryBuildContext,
-  options: RegistryBuildColorsPhaseOptions = {},
-): Promise<RegistryBuildPhaseResult> {
-  const previousCacheState = context.cache.getPhaseData<RegistryBuildColorsCacheState>('colors')
+  context: IRegistryBuildContext,
+  options: IRegistryBuildColorsPhaseOptions = {},
+): Promise<IRegistryBuildPhaseResult> {
+  const previousCacheState = context.cache.getPhaseData<IRegistryBuildColorsCacheState>('colors')
   const { colors, cssTemplates, cssVarKeys, defaultRadius, themeNames, themes } = resolveColorsPhaseConfig(
     context,
     options,
@@ -72,7 +72,7 @@ export async function runColorsPhase(
   if (themeNames.length === 0) {
     const removedFiles = await removeStaleFiles(outputFiles, previousOutputFiles)
 
-    context.cache.setPhaseData<RegistryBuildColorsCacheState>('colors', {
+    context.cache.setPhaseData<IRegistryBuildColorsCacheState>('colors', {
       outputFiles,
       signature,
     })
@@ -110,7 +110,7 @@ export async function runColorsPhase(
 
   const removedFiles = await removeStaleFiles(outputFiles, previousOutputFiles)
 
-  context.cache.setPhaseData<RegistryBuildColorsCacheState>('colors', {
+  context.cache.setPhaseData<IRegistryBuildColorsCacheState>('colors', {
     outputFiles,
     signature,
   })

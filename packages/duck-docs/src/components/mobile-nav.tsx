@@ -100,13 +100,13 @@ function MobileSidebarNavItems({
   )
 }
 
-interface MobileLinkProps extends LinkProps {
+interface IMobileLinkProps extends LinkProps {
   onOpenChange?: (open: boolean) => void
   children: React.ReactNode
   className?: string
 }
 
-function MobileLink({ href, onOpenChange, className, children, ...props }: MobileLinkProps) {
+function MobileLink({ href, onOpenChange, className, children, ...props }: IMobileLinkProps) {
   const pathname = usePathname()
   return (
     <Link

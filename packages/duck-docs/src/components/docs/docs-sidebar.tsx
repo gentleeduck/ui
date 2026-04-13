@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import * as React from 'react'
 
-export interface DocsSidebarNavProps {
+export interface IDocsSidebarNavProps {
   config?: DocsConfig
 }
 
@@ -30,7 +30,7 @@ function hasActivePath(item: SidebarNavItem, pathname: string | null): boolean {
   return Boolean(item.items?.some((child) => hasActivePath(child, pathname)))
 }
 
-export function DocsSidebarNav({ config }: DocsSidebarNavProps) {
+export function DocsSidebarNav({ config }: IDocsSidebarNavProps) {
   const pathname = usePathname()
   const fallbackConfig = useDocsConfig()
   const resolvedConfig = config ?? fallbackConfig
@@ -69,7 +69,7 @@ const CategoryItem = ({ item, pathname }: { item: SidebarNavItem; pathname: stri
   )
 }
 
-interface DocsSidebarNavItemsProps {
+interface IDocsSidebarNavItemsProps {
   items: SidebarNavItem[]
   pathname: string | null
   className?: string
@@ -83,7 +83,7 @@ export function DocsSidebarNavItems({
   className,
   depth = 0,
   accordionDefault = false,
-}: DocsSidebarNavItemsProps) {
+}: IDocsSidebarNavItemsProps) {
   const activeAccordionIndex = React.useMemo(
     () =>
       items.findIndex((item) => {

@@ -11,4 +11,4 @@ export {
   MotionCommandItem,
   useCommandListContext,
 } from './command'
-export type { CommandBadgeProps } from './command.types'
+export type { ICommandBadgeProps } from './command.types'

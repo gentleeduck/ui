@@ -70,5 +70,5 @@ const MenubarMenu = (props: ScopedProps<IMenubarMenuProps>) => {
 
 MenubarMenu.displayName = MENU_NAME
 
-export type { MenubarMenuContextValue, IMenubarMenuProps }
+export type { IMenubarMenuProps, MenubarMenuContextValue }
 export { MenubarMenu, MenubarMenuProvider, useMenubarMenuContext }

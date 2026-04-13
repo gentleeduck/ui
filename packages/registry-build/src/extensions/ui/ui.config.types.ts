@@ -1,42 +1,42 @@
-import type { RegistryEntry, RegistryItemType } from './ui.registry.types'
+import type { IRegistryEntry, RegistryItemType } from './ui.registry.types'
 
 /**
  * UI-specific config types layered on top of the generic builder config.
  */
-export interface RegistryBuildContentRewrite {
+export interface IRegistryBuildContentRewrite {
   pattern: string
   replacement: string
 }
 
 export type RegistryBuildFramework = 'nextjs' | 'vite' | 'custom'
 
-export interface RegistryBuildComponentIndex<TType extends RegistryItemType = RegistryItemType> {
+export interface IRegistryBuildComponentIndex<TType extends RegistryItemType = RegistryItemType> {
   excludeTypes?: TType[]
   framework?: RegistryBuildFramework
-  generator?: (items: RegistryEntry<TType>[]) => string
+  generator?: (items: IRegistryEntry<TType>[]) => string
   header?: string
   ssr?: boolean
 }
 
-export interface RegistryBuildThemeEntry {
+export interface IRegistryBuildThemeEntry {
   dark: Record<string, string>
   label: string
   light: Record<string, string>
   radius: string
 }
 
-export interface RegistryBuildColorsConfig {
+export interface IRegistryBuildColorsConfig {
   data?: Record<string, unknown> | string
 }
 
-export interface RegistryBuildThemesConfig {
+export interface IRegistryBuildThemesConfig {
   cssVarKeys?: string[]
-  data?: Record<string, RegistryBuildThemeEntry> | string
+  data?: Record<string, IRegistryBuildThemeEntry> | string
   defaultRadius?: string
   names?: string[]
 }
 
-export interface RegistryBuildCssTemplates {
+export interface IRegistryBuildCssTemplates {
   baseLayerRules?: string
   baseStyles?: string
 }

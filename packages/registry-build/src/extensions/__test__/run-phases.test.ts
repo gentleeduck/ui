@@ -2,11 +2,11 @@ import { afterEach, describe, expect, mock, test } from 'bun:test'
 import fs from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import type { ResolvedRegistryBuildConfig } from '../../config/types'
+import type { IResolvedRegistryBuildConfig } from '../../config/types'
 import { config as mainConfig } from '../../main/main.constants'
 import { runBannerPhase } from '../../pipeline/phases/banner'
 import { runValidatePhase } from '../../pipeline/phases/validate'
-import type { RegistryBuildContext } from '../../pipeline/types'
+import type { IRegistryBuildContext } from '../../pipeline/types'
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -24,7 +24,7 @@ afterEach(async () => {
   await Promise.all(tempDirs.splice(0).map((dir) => fs.rm(dir, { force: true, recursive: true })))
 })
 
-function createMinimalConfig(overrides: Partial<ResolvedRegistryBuildConfig> = {}): ResolvedRegistryBuildConfig {
+function createMinimalConfig(overrides: Partial<IResolvedRegistryBuildConfig> = {}): IResolvedRegistryBuildConfig {
   return {
     branding: { font: 'default', name: 'test-project' },
     collections: {},
@@ -55,13 +55,13 @@ function createMinimalConfig(overrides: Partial<ResolvedRegistryBuildConfig> = {
     stripVariables: [],
     targetPaths: {},
     ...overrides,
-  } as ResolvedRegistryBuildConfig
+  } as IResolvedRegistryBuildConfig
 }
 
 function createMockContext(
-  configOverrides: Partial<ResolvedRegistryBuildConfig> = {},
-  contextOverrides: Partial<RegistryBuildContext> = {},
-): RegistryBuildContext {
+  configOverrides: Partial<IResolvedRegistryBuildConfig> = {},
+  contextOverrides: Partial<IRegistryBuildContext> = {},
+): IRegistryBuildContext {
   const config = createMinimalConfig(configOverrides)
   return {
     artifacts: {},
@@ -98,12 +98,12 @@ function createMockContext(
     },
     outputs: [],
     paths: { baseDir: '/tmp/test-output', named: {} },
-    project: {} as RegistryBuildContext['project'],
+    project: {} as IRegistryBuildContext['project'],
     registerOutput: () => ({ name: '', paths: [] }),
     setArtifact: <TValue>(_name: string, value: TValue) => value,
     silent: false,
     ...contextOverrides,
-  } as RegistryBuildContext
+  } as IRegistryBuildContext
 }
 
 // ---------------------------------------------------------------------------
@@ -424,7 +424,7 @@ describe('runBannerPhase', () => {
     console.log = (...args: unknown[]) => calls.push(args)
 
     const context = createMockContext(
-      { branding: undefined as unknown as ResolvedRegistryBuildConfig['branding'] },
+      { branding: undefined as unknown as IResolvedRegistryBuildConfig['branding'] },
       { silent: false },
     )
     await runBannerPhase(context)

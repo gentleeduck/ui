@@ -1,8 +1,8 @@
 import kleur from 'kleur'
-import type { BuildResult } from '../../pipeline'
+import type { IBuildResult } from '../../pipeline'
 
 type RegistryBuildSerializableResult = Pick<
-  BuildResult,
+  IBuildResult,
   'artifacts' | 'configPath' | 'outputPaths' | 'outputs' | 'paths' | 'phaseResults'
 >
 
@@ -11,7 +11,7 @@ type RegistryBuildSerializableResult = Pick<
  * serialized shape stays local to this module because nothing else should
  * depend on the CLI JSON contract.
  */
-export function toSerializableResult(result: BuildResult) {
+export function toSerializableResult(result: IBuildResult) {
   return {
     artifacts: result.artifacts,
     configPath: result.configPath,
@@ -63,7 +63,7 @@ function createTable(headers: string[], rows: string[][]) {
 /**
  * Render a compact phase summary that stays readable in a terminal.
  */
-export function formatPhaseSummary(result: BuildResult) {
+export function formatPhaseSummary(result: IBuildResult) {
   const rows = result.phaseResults.map((phase) => {
     const status = phase.skipped ? kleur.yellow('skipped') : kleur.green('done')
     const items = typeof phase.itemCount === 'number' ? String(phase.itemCount) : '-'

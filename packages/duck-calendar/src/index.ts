@@ -50,7 +50,7 @@ export type { CalendarValue, DateRange, ISelectionConstraints, SelectionMode } f
 // Selection
 export { applySelection, isDateDisabled, isInRange, selectDay } from './selection'
 // Time
-export type { HourCycle, TimeField, ITimePickerConfig, ITimeValue } from './time'
+export type { HourCycle, ITimePickerConfig, ITimeValue, TimeField } from './time'
 export {
   clampTime,
   formatTimeField,

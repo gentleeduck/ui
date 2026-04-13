@@ -107,11 +107,11 @@ type MenuItemElement = React.ComponentRef<typeof import('../primitive-elements')
 
 export type {
   Direction,
+  IMenuProps,
   ItemData,
   MenuContentElement,
   MenuContextValue,
   MenuItemElement,
-  IMenuProps,
   MenuRootContextValue,
   ScopedProps,
 }

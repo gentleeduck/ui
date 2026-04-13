@@ -1,3 +1,3 @@
-export type { MdxCodeNodeProperties, MdxNodeData, NpmCommands } from './mdx-runtime'
-export type { MainNavItem, NavItem, NavItemWithChildren, SidebarNavItem } from './nav'
-export type { UnistNode, UnistTree } from './unist'
+export type { IMdxCodeNodeProperties, IMdxNodeData, INpmCommands } from './mdx-runtime'
+export type { IMainNavItem, INavItem, INavItemWithChildren, ISidebarNavItem } from './nav'
+export type { IUnistNode, IUnistTree } from './unist'

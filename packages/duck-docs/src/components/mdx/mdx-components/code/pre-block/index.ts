@@ -1,2 +1,2 @@
 export { PreBlock } from './pre-block'
-export type { CodeBlockProps } from './types'
+export type { ICodeBlockProps } from './types'

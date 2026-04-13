@@ -4,10 +4,10 @@ import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Presence } from '../presence'
 import {
+  type IMenuContentImplProps,
   MenuContentImpl,
   type MenuContentImplElement,
   type MenuContentImplPrivateProps,
-  type IMenuContentImplProps,
 } from './content'
 import { Collection, type ScopedProps, useMenuContext, useMenuRootContext } from './menu'
 import { SUB_CLOSE_KEYS } from './menu.libs'
@@ -93,5 +93,5 @@ const MenuSubContent = React.forwardRef<MenuSubContentElement, IMenuSubContentPr
 
 MenuSubContent.displayName = SUB_CONTENT_NAME
 
-export type { MenuSubContentElement, IMenuSubContentProps }
+export type { IMenuSubContentProps, MenuSubContentElement }
 export { MenuSubContent }

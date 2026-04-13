@@ -1,10 +1,10 @@
-import type { ResolvedRegistryBuildConfig } from '../types'
+import type { IResolvedRegistryBuildConfig } from '../types'
 
 /**
  * Loader return value pairing the resolved config with its filesystem origin.
  */
-export interface LoadedRegistryBuildConfig {
-  config: ResolvedRegistryBuildConfig
+export interface ILoadedRegistryBuildConfig {
+  config: IResolvedRegistryBuildConfig
   configDir: string
   configPath: string
 }
@@ -12,7 +12,7 @@ export interface LoadedRegistryBuildConfig {
 /**
  * Inputs accepted by config discovery and loading helpers.
  */
-export interface LoadRegistryBuildConfigOptions {
+export interface ILoadRegistryBuildConfigOptions {
   configFile?: string
   cwd?: string
 }

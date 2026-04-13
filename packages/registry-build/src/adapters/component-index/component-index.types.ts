@@ -1,21 +1,21 @@
-import type { RegistryEntry } from '../../extensions/ui/ui.registry.types'
+import type { IRegistryEntry } from '../../extensions/ui/ui.registry.types'
 
 /**
  * Shared type contract for framework-specific component-index adapters.
  */
-export interface RegistryBuildComponentIndexImportOptions {
+export interface IRegistryBuildComponentIndexImportOptions {
   componentPath: string
   id: string
   ssr: boolean
 }
 
-export interface RegistryBuildComponentIndexEntryOptions {
+export interface IRegistryBuildComponentIndexEntryOptions {
   id: string
-  item: RegistryEntry
+  item: IRegistryEntry
 }
 
-export interface RegistryBuildComponentIndexAdapter {
+export interface IRegistryBuildComponentIndexAdapter {
   defaultHeader: string
-  renderEntry: (options: RegistryBuildComponentIndexEntryOptions) => string
-  renderImport: (options: RegistryBuildComponentIndexImportOptions) => string
+  renderEntry: (options: IRegistryBuildComponentIndexEntryOptions) => string
+  renderImport: (options: IRegistryBuildComponentIndexImportOptions) => string
 }

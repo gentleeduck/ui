@@ -10,9 +10,9 @@ import { LayoutGroup, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { toggleVariants } from '../toggle/toggle.constants'
 
-interface ToggleGroupContextProps extends VariantProps<typeof toggleVariants> {}
+interface IToggleGroupContextProps extends VariantProps<typeof toggleVariants> {}
 
-const ToggleGroupContext = React.createContext<ToggleGroupContextProps>({
+const ToggleGroupContext = React.createContext<IToggleGroupContextProps>({
   size: 'default',
   variant: 'default',
 })
@@ -24,7 +24,7 @@ type ToggleGroupProps = React.ComponentPropsWithoutRef<typeof ToggleGroupPrimiti
 const ToggleGroup: React.ForwardRefExoticComponent<ToggleGroupProps & React.RefAttributes<ToggleGroupElement>> =
   React.forwardRef<ToggleGroupElement, ToggleGroupProps>(
     ({ className, variant = 'default', size = 'default', children, ...props }, ref) => {
-      const contextValue = React.useMemo<ToggleGroupContextProps>(() => ({ size, variant }), [size, variant])
+      const contextValue = React.useMemo<IToggleGroupContextProps>(() => ({ size, variant }), [size, variant])
       return (
         <ToggleGroupContext.Provider value={contextValue}>
           <ToggleGroupPrimitive.Root
@@ -81,7 +81,7 @@ const MotionToggleGroup: React.ForwardRefExoticComponent<ToggleGroupProps & Reac
   React.forwardRef<ToggleGroupElement, ToggleGroupProps>(
     ({ className, variant = 'default', size = 'default', children, ...props }, ref) => {
       const groupId = React.useId()
-      const contextValue = React.useMemo<ToggleGroupContextProps>(() => ({ size, variant }), [size, variant])
+      const contextValue = React.useMemo<IToggleGroupContextProps>(() => ({ size, variant }), [size, variant])
       return (
         <LazyMotion features={loadDomMax}>
           <MotionToggleGroupIdContext.Provider value={groupId}>

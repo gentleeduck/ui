@@ -2,27 +2,27 @@
 
 import * as React from 'react'
 
-export interface ChatSource {
+export interface IChatSource {
   slug: string
   title: string
   href: string
 }
 
-export interface ChatMessage {
+export interface IChatMessage {
   id: string
   role: 'user' | 'assistant'
   content: string
-  sources?: ChatSource[]
+  sources?: IChatSource[]
   status: 'pending' | 'streaming' | 'done' | 'error' | 'picking'
 }
 
-export interface UseAIChatReturn {
-  messages: ChatMessage[]
+export interface IUseAIChatReturn {
+  messages: IChatMessage[]
   isStreaming: boolean
   isSearching: boolean
   error: string | null
   send: (content: string) => void
-  selectSource: (messageId: string, source: ChatSource) => void
+  selectSource: (messageId: string, source: IChatSource) => void
   abort: () => void
   reset: () => void
 }
@@ -32,7 +32,7 @@ function createId(): string {
   return `msg_${Date.now()}_${++messageCounter}`
 }
 
-function updateMessage(prev: ChatMessage[], id: string, patch: Partial<ChatMessage>): ChatMessage[] {
+function updateMessage(prev: IChatMessage[], id: string, patch: Partial<IChatMessage>): IChatMessage[] {
   const idx = prev.findIndex((m) => m.id === id)
   if (idx === -1) return prev
   const msg = prev[idx]
@@ -42,8 +42,8 @@ function updateMessage(prev: ChatMessage[], id: string, patch: Partial<ChatMessa
   return updated
 }
 
-export function useAIChat(): UseAIChatReturn {
-  const [messages, setMessages] = React.useState<ChatMessage[]>([])
+export function useAIChat(): IUseAIChatReturn {
+  const [messages, setMessages] = React.useState<IChatMessage[]>([])
   const [isStreaming, setIsStreaming] = React.useState(false)
   const [isSearching] = React.useState(false)
   const [error, setError] = React.useState<string | null>(null)
@@ -182,7 +182,7 @@ export function useAIChat(): UseAIChatReturn {
   )
 
   const selectSource = React.useCallback(
-    (_messageId: string, source: ChatSource) => {
+    (_messageId: string, source: IChatSource) => {
       send(`Tell me about ${source.title}`)
     },
     [send],

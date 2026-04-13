@@ -9,7 +9,7 @@ export {
 export type {
   CheckboxGroupProps,
   CheckboxGroupSubtasks,
-  CheckboxProps,
-  CheckboxWithLabelProps,
+  ICheckboxProps,
+  ICheckboxWithLabelProps,
   CheckedState,
 } from './checkbox.types'

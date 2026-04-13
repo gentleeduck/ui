@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-u
 import * as React from 'react'
 import { FigcaptionBlock } from './figcaption-block'
 
-interface ComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
+interface IComponentSourceProps extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode
   path?: string
 }
@@ -24,7 +24,7 @@ function getChildLabel(child: React.ReactNode): string {
   )
 }
 
-export function ComponentSource({ children, className, ...props }: ComponentSourceProps) {
+export function ComponentSource({ children, className, ...props }: IComponentSourceProps) {
   const items = React.Children.toArray(children)
 
   if (items.length === 0) {

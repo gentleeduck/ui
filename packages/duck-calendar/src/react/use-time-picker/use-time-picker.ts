@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { clampTime, incrementField, parseTimeInput } from '../../time/time'
 import { formatTimeField, getAmPm, to12Hour, to24Hour } from '../../time/time.libs'
-import type { TimeField, ITimeValue } from '../../time/time.types'
+import type { ITimeValue, TimeField } from '../../time/time.types'
 import { useControllableState } from '../utils/use-controllable-state'
 import type { ITimeFieldProps, IUseTimePickerConfig, IUseTimePickerReturn } from './use-time-picker.types'
 

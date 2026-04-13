@@ -3,11 +3,11 @@ import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 
 /** @internal */
-interface ThemesConfig {
+interface IThemesConfig {
   activeTheme: Theme
 }
 
-const configAtom = atomWithStorage<ThemesConfig>('themes:config', {
+const configAtom = atomWithStorage<IThemesConfig>('themes:config', {
   activeTheme: THEMES[0] as Theme,
 })
 

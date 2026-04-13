@@ -10,7 +10,7 @@ import { Crown } from 'lucide-react'
 import Image from 'next/image'
 import * as React from 'react'
 
-interface ComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
+interface IComponentPreviewProps extends React.HTMLAttributes<HTMLDivElement> {
   name: string
   extractClassname?: boolean
   extractedClassNames?: string
@@ -60,7 +60,7 @@ export function ComponentPreview({
   hideCode = false,
   showSettings = false,
   ...props
-}: ComponentPreviewProps) {
+}: IComponentPreviewProps) {
   const Codes = React.Children.toArray(children) as React.ReactElement[]
   const Code = Codes[0]
   const registryIndex = useRegistryIndex()

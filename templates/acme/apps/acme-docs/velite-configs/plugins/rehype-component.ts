@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import type { UnistNode, UnistTree } from '@gentleduck/docs/types'
+import type { IUnistNode, IUnistTree } from '@gentleduck/docs/types'
 import { u } from 'unist-builder'
 import { visit } from 'unist-util-visit'
 
@@ -34,8 +34,8 @@ function loadRegistryIndex(): Record<string, RegistryEntry> {
 const registryIndex = loadRegistryIndex()
 
 export function rehypeComponent() {
-  return async (tree: UnistTree) => {
-    visit(tree, (node: UnistNode) => {
+  return async (tree: IUnistTree) => {
+    visit(tree, (node: IUnistNode) => {
       if (node.name === 'ComponentSource') {
         componentSource({ node })
       }
@@ -46,7 +46,7 @@ export function rehypeComponent() {
   }
 }
 
-function getNodeAttributeByName(node: UnistNode, name: string) {
+function getNodeAttributeByName(node: IUnistNode, name: string) {
   return node.attributes?.find((attribute) => attribute.name === name)
 }
 
@@ -113,7 +113,7 @@ function createCodeNode(source: string, lang: string) {
 
 // -- ComponentSource ----------------------------------------------------------
 
-export function componentSource({ node }: { node: UnistNode }) {
+export function componentSource({ node }: { node: IUnistNode }) {
   const sourcePath = getNodeAttributeByName(node, 'path')?.value as string | undefined
 
   if (!sourcePath) {
@@ -161,7 +161,7 @@ export function componentSource({ node }: { node: UnistNode }) {
 
 // -- ComponentPreview ---------------------------------------------------------
 
-export function componentPreview({ node }: { node: UnistNode }) {
+export function componentPreview({ node }: { node: IUnistNode }) {
   const name = getNodeAttributeByName(node, 'name')?.value as string
 
   if (!name) {

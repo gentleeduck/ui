@@ -1,11 +1,11 @@
 import kleur from 'kleur'
-import type { RegistryBuildBranding } from '../../../config/types'
+import type { IRegistryBuildBranding } from '../../../config/types'
 import { config as mainConfig } from '../../../main/main.constants'
-import type { RegistryBuildContext } from '../../types'
+import type { IRegistryBuildContext } from '../../types'
 
 export async function runBannerPhase(
-  context: RegistryBuildContext,
-  branding: RegistryBuildBranding = {},
+  context: IRegistryBuildContext,
+  branding: IRegistryBuildBranding = {},
 ): Promise<void> {
   if (context.silent) {
     return

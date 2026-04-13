@@ -2,7 +2,7 @@ import type { CalendarDay, CalendarMonth, DateAdapter, SelectionMode } from '@ge
 import type { Direction } from '@gentleduck/primitives/direction'
 import type { Button } from '../button'
 
-export interface CalendarHeaderContext {
+export interface ICalendarHeaderContext {
   /** The current displayed month Date. */
   month: Date
   /** Formatted title string (e.g. "March 2026"). */
@@ -19,7 +19,7 @@ export interface CalendarHeaderContext {
   isNextDisabled: boolean
 }
 
-export interface CalendarProps {
+export interface ICalendarProps {
   className?: string
   /**
    * Date adapter for alternative calendar systems (Islamic, Persian, etc.).
@@ -102,7 +102,7 @@ export interface CalendarProps {
    * )}
    * ```
    */
-  renderHeader?: (context: CalendarHeaderContext) => React.ReactNode
+  renderHeader?: (context: ICalendarHeaderContext) => React.ReactNode
   /**
    * Custom render function for weekday column headers.
    * Receives the weekday abbreviation (e.g. "Sun") and its index (0-6).

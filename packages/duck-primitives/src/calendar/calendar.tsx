@@ -1,9 +1,9 @@
 import type {
   ICalendarLocaleConfig,
   IDateAdapter,
-  SelectionMode,
   IUseCalendarConfig,
   IUseCalendarReturn,
+  SelectionMode,
 } from '@gentleduck/calendar'
 import { useCalendar } from '@gentleduck/calendar'
 import * as React from 'react'

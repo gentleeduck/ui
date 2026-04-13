@@ -5,7 +5,7 @@ export type {
   ClassValue,
   CvaProps,
   InferVariants,
+  IVariantsOptions,
   VariantParams,
   VariantProps,
-  IVariantsOptions,
 } from './variants.types'

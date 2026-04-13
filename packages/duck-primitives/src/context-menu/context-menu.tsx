@@ -74,7 +74,7 @@ const ContextMenu: React.FC<IContextMenuProps> = (props: ScopedProps<IContextMen
 
 ContextMenu.displayName = CONTEXT_MENU_NAME
 
-export type { ContextMenuContextValue, IContextMenuProps, Direction, ScopedProps }
+export type { ContextMenuContextValue, Direction, IContextMenuProps, ScopedProps }
 export {
   CONTEXT_MENU_NAME,
   ContextMenu,

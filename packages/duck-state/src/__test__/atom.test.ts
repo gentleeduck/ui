@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import type { Getter, Setter, IWritableAtom } from '../primitive/atom'
+import type { Getter, IWritableAtom, Setter } from '../primitive/atom'
 import { atom } from '../primitive/atom'
 
 describe('atom', () => {

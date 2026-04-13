@@ -1,4 +1,4 @@
-import type { HourCycle, TimeField, ITimePickerConfig, ITimeValue } from './time.types'
+import type { HourCycle, ITimePickerConfig, ITimeValue, TimeField } from './time.types'
 
 /** Convert a TimeValue to total seconds for comparison. */
 function toSeconds(t: ITimeValue): number {

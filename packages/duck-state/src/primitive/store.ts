@@ -1,4 +1,4 @@
-import type { IAtom, Getter, SetStateAction, Setter, IWritableAtom } from './atom'
+import type { Getter, IAtom, IWritableAtom, SetStateAction, Setter } from './atom'
 
 /** @internal */
 type Listener = () => void

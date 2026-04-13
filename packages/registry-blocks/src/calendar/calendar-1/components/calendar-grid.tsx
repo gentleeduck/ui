@@ -7,7 +7,7 @@ import { CalendarDayCell } from './calendar-day-cell'
 
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
 
-interface CalendarGridProps {
+interface ICalendarGridProps {
   viewedMonth: Date
   events: CalendarEvent[]
   overflowDay: string | null
@@ -25,7 +25,7 @@ export function CalendarGrid({
   onDayClick,
   onEditEvent,
   onDeleteEvent,
-}: CalendarGridProps) {
+}: ICalendarGridProps) {
   const weeks = getWeeksForMonth(viewedMonth.getFullYear(), viewedMonth.getMonth())
 
   return (

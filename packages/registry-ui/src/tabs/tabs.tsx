@@ -25,21 +25,21 @@ export function useTabs() {
   return context
 }
 
-export interface TabsContextProps {
+export interface ITabsContextProps {
   activeItem: string
   setActiveItem: React.Dispatch<React.SetStateAction<string>>
   tabsId: string
 }
 
-const TabsContext = React.createContext<TabsContextProps | null>(null)
+const TabsContext = React.createContext<ITabsContextProps | null>(null)
 
-export interface TabsProps extends Omit<React.HTMLProps<HTMLDivElement>, 'defaultValue' | 'ref'> {
+export interface ITabsProps extends Omit<React.HTMLProps<HTMLDivElement>, 'defaultValue' | 'ref'> {
   value?: string
   defaultValue?: string
   onValueChange?: (value: string) => void
 }
 
-const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
+const Tabs = React.forwardRef<HTMLDivElement, ITabsProps>(
   ({ value, defaultValue, onValueChange, dir, ...props }, ref) => {
     const direction = useDirection(dir as Direction)
     const [activeItem, setActiveItem] = React.useState<string>(defaultValue ?? value ?? '')
@@ -58,9 +58,9 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
 )
 Tabs.displayName = 'Tabs'
 
-export interface TabsListProps extends Omit<React.HTMLProps<HTMLDivElement>, 'ref' | 'role'> {}
+export interface ITabsListProps extends Omit<React.HTMLProps<HTMLDivElement>, 'ref' | 'role'> {}
 
-const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(({ className, ...props }, ref) => (
+const TabsList = React.forwardRef<HTMLDivElement, ITabsListProps>(({ className, ...props }, ref) => (
   <div
     className={cn(
       'inline-flex w-fit items-center justify-center gap-2 rounded-md bg-muted p-1 text-muted-foreground',
@@ -74,12 +74,12 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(({ className, .
 ))
 TabsList.displayName = 'TabsList'
 
-export interface TabsTriggerProps extends Omit<React.HTMLProps<HTMLButtonElement>, 'ref' | 'value'> {
+export interface ITabsTriggerProps extends Omit<React.HTMLProps<HTMLButtonElement>, 'ref' | 'value'> {
   value: string
   defaultChecked?: boolean
 }
 
-const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
+const TabsTrigger = React.forwardRef<HTMLButtonElement, ITabsTriggerProps>(
   ({ className, children, defaultChecked, onClick, value, disabled, ...props }, ref) => {
     const { setActiveItem, activeItem, tabsId } = useTabs()
     const isActive = value === activeItem
@@ -163,17 +163,17 @@ TabsContent.displayName = 'TabsContent'
 /*  Motion variants                                                    */
 /* ------------------------------------------------------------------ */
 
-interface MotionTabsContextValue {
+interface IMotionTabsContextValue {
   direction: number
   registerTrigger: (value: string) => void
 }
 
-const MotionTabsContext = React.createContext<MotionTabsContextValue>({
+const MotionTabsContext = React.createContext<IMotionTabsContextValue>({
   direction: 1,
   registerTrigger: () => {},
 })
 
-const MotionTabs = React.forwardRef<HTMLDivElement, TabsProps>(
+const MotionTabs = React.forwardRef<HTMLDivElement, ITabsProps>(
   ({ value, defaultValue, onValueChange, dir, children, ...props }, ref) => {
     const resolvedDir = useDirection(dir as Direction)
     const [activeItem, setActiveItem] = React.useState<string>(defaultValue ?? value ?? '')
@@ -226,7 +226,7 @@ const MotionTabs = React.forwardRef<HTMLDivElement, TabsProps>(
 )
 MotionTabs.displayName = 'MotionTabs'
 
-const MotionTabsList = React.forwardRef<HTMLDivElement, TabsListProps>(({ className, ...props }, ref) => {
+const MotionTabsList = React.forwardRef<HTMLDivElement, ITabsListProps>(({ className, ...props }, ref) => {
   const { tabsId } = useTabs()
   return (
     <LayoutGroup id={`tabs-${tabsId}`}>
@@ -247,7 +247,7 @@ MotionTabsList.displayName = 'MotionTabsList'
 
 const MotionTabsTrigger = React.forwardRef<
   HTMLButtonElement,
-  Omit<TabsTriggerProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+  Omit<ITabsTriggerProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
 >(({ className, children, defaultChecked, onClick, value, disabled, ...props }, ref) => {
   const { setActiveItem, activeItem, tabsId } = useTabs()
   const { registerTrigger } = React.useContext(MotionTabsContext)

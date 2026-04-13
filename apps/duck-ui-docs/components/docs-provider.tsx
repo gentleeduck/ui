@@ -1,15 +1,15 @@
 'use client'
 
-import type { DocsConfig, DocsEntry, DocsSiteConfig } from '@gentleduck/docs'
+import type { IDocsConfig, IDocsEntry, IDocsSiteConfig } from '@gentleduck/docs'
 import { DocsProvider } from '@gentleduck/docs/client'
 import type React from 'react'
 import { Index } from '~/__ui_registry__'
 
 type DocsProviderProps = {
   children: React.ReactNode
-  docs?: DocsEntry[]
-  docsConfig: DocsConfig
-  siteConfig: DocsSiteConfig
+  docs?: IDocsEntry[]
+  docsConfig: IDocsConfig
+  siteConfig: IDocsSiteConfig
 }
 
 export function DocsAppProvider({ children, docs, docsConfig, siteConfig }: DocsProviderProps) {

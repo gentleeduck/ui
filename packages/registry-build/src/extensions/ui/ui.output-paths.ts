@@ -1,9 +1,9 @@
 import path from 'node:path'
-import type { RegistryBuildContext } from '../../pipeline/types'
+import type { IRegistryBuildContext } from '../../pipeline/types'
 
 /**
  * Resolve an extension-owned output path relative to the build output root.
  */
-export function resolveOutputPath(context: RegistryBuildContext, relativePath: string) {
+export function resolveOutputPath(context: IRegistryBuildContext, relativePath: string) {
   return path.join(context.outputPaths.baseDir, relativePath)
 }

@@ -34,7 +34,7 @@ function toHebrewNumeral(n: number): string {
   return `${t}\u05F4${o}`
 }
 
-interface CalendarDayCellProps {
+interface ICalendarDayCellProps {
   day: CalendarDayType<Date>
   dayProps: Omit<DayProps, 'role' | 'aria-selected' | 'onMouseEnter'>
   isFocused: boolean
@@ -66,7 +66,7 @@ export const CalendarDayCell = React.memo(function CalendarDayCell({
   onFocusDate,
   renderDay,
   useMotion = false,
-}: CalendarDayCellProps) {
+}: ICalendarDayCellProps) {
   const isInRange = day.isRangeStart || day.isRangeEnd || day.isRangeMiddle
   const dayNum = formatDayNumber(day.date.getDate(), locale)
 

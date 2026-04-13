@@ -6,11 +6,11 @@ import {
   DEFAULT_SOURCE_IGNORE,
   withRegistryBuildDefaults,
 } from '../..'
-import type { RegistryBuildConfig } from '../types'
+import type { IRegistryBuildConfig } from '../types'
 
 describe('withRegistryBuildDefaults', () => {
   test('applies DEFAULT_SOURCE_GLOB to sources missing glob', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       sources: {
         'registry:ui': { path: './src/ui' },
       },
@@ -21,7 +21,7 @@ describe('withRegistryBuildDefaults', () => {
   })
 
   test('applies DEFAULT_SOURCE_IGNORE to sources missing ignore', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       sources: {
         'registry:ui': { path: './src/ui' },
       },
@@ -47,7 +47,7 @@ describe('withRegistryBuildDefaults', () => {
   })
 
   test('preserves user-provided values and does not override them with defaults', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       branding: { name: 'my-tool' },
       performance: { cacheDir: '.my-cache', incremental: false, parallelism: 2 },
       sources: {
@@ -67,7 +67,7 @@ describe('withRegistryBuildDefaults', () => {
   })
 
   test('applies collection source defaults', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       collections: {
         packages: {
           sources: {

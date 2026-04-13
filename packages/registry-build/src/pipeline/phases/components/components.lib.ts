@@ -4,14 +4,14 @@ import { registryEntrySchema } from '../../../config/schema'
 import { getRegistryFileTarget } from '../../../extensions/ui/lib/file-target'
 import { applyContentRewrites } from '../../../extensions/ui/lib/import-rewriter'
 import { stripSourceVariables } from '../../../extensions/ui/lib/ts-morph'
-import type { IndexedRegistryEntry } from '../../../extensions/ui/ui.registry.types'
+import type { IIndexedRegistryEntry } from '../../../extensions/ui/ui.registry.types'
 import { hashValue } from '../../../lib/hash'
-import type { RegistryBuildContext } from '../../types'
+import type { IRegistryBuildContext } from '../../types'
 
 async function readRegistryFileContent(
-  context: RegistryBuildContext,
-  item: IndexedRegistryEntry,
-  file: NonNullable<IndexedRegistryEntry['files']>[number],
+  context: IRegistryBuildContext,
+  item: IIndexedRegistryEntry,
+  file: NonNullable<IIndexedRegistryEntry['files']>[number],
 ) {
   if (typeof file.content === 'string') {
     return file.content
@@ -28,7 +28,7 @@ async function readRegistryFileContent(
 }
 
 /** Hash the component's config and output targets, excluding source file contents. */
-export function createComponentStaticSignature(context: RegistryBuildContext, item: IndexedRegistryEntry) {
+export function createComponentStaticSignature(context: IRegistryBuildContext, item: IIndexedRegistryEntry) {
   const { tree: _tree, ...componentItem } = item
 
   return hashValue({
@@ -48,8 +48,8 @@ export function createComponentStaticSignature(context: RegistryBuildContext, it
  * skip unchanged components safely.
  */
 export async function createComponentSignature(
-  context: RegistryBuildContext,
-  item: IndexedRegistryEntry,
+  context: IRegistryBuildContext,
+  item: IIndexedRegistryEntry,
   staticSignature: string,
 ) {
   const source = context.config.sources[item.type]
@@ -85,7 +85,7 @@ export async function createComponentSignature(
  * Materialize a registry component payload with stripped variables and rewritten
  * imports so the emitted JSON matches the configured output contract.
  */
-export async function buildComponentPayload(context: RegistryBuildContext, item: IndexedRegistryEntry) {
+export async function buildComponentPayload(context: IRegistryBuildContext, item: IIndexedRegistryEntry) {
   const { tree: _tree, ...componentItem } = item
   const transformedFiles = await Promise.all(
     (item.files ?? []).map(async (file) => {

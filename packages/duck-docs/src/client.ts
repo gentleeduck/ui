@@ -8,7 +8,7 @@ export { CopyButton } from './components/copy-button'
 export { DocsCopyPage } from './components/docs/docs-copy-page'
 export { DocsPagerBottom, DocsPagerTop, flatten, getPagerForDoc } from './components/docs/docs-pager'
 export { DocsPathBreadcrumb } from './components/docs/docs-path-breadcrumb'
-export type { DocsSidebarNavProps } from './components/docs/docs-sidebar'
+export type { IDocsSidebarNavProps } from './components/docs/docs-sidebar'
 export { DocsSidebarNav, DocsSidebarNavItem, DocsSidebarNavItems } from './components/docs/docs-sidebar'
 export { DashboardTableOfContents } from './components/docs/docs-toc'
 
@@ -42,7 +42,7 @@ export {
   PreBlock,
   TABS,
 } from './components/mdx/mdx-components/code'
-export type { MermaidBlockProps } from './components/mdx/mdx-components/code/mermaid-block'
+export type { IMermaidBlockProps } from './components/mdx/mdx-components/code/mermaid-block'
 export { ComponentsList } from './components/mdx/mdx-components/components-list'
 export { Table, TableCell, TableHeader, TableRow } from './components/mdx/mdx-components/table'
 export { Tab, TabContent, TabList, TabTrigger } from './components/mdx/mdx-components/tabs'
@@ -84,12 +84,12 @@ export {
 } from './context/context'
 // context
 export type {
-  DocsConfig,
-  DocsContextValue,
-  DocsEntry,
-  DocsSiteConfig,
+  IDocsConfig,
+  IDocsContextValue,
+  IDocsEntry,
+  IDocsSiteConfig,
   RegistryIndex,
-  TocEntry,
+  ITocEntry,
 } from './context/context.types'
 
 // hooks

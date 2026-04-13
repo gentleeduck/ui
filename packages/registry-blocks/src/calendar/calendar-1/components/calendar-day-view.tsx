@@ -6,7 +6,7 @@ import { CATEGORY_COLORS, type CalendarEvent } from '../calendar-data'
 import { getEventsForDay } from '../calendar-utils'
 import { CalendarEventDetail } from './calendar-event-detail'
 
-interface CalendarDayViewProps {
+interface ICalendarDayViewProps {
   viewedDate: Date
   events: CalendarEvent[]
   onSelectEvent: (event: CalendarEvent) => void
@@ -56,7 +56,7 @@ export function CalendarDayView({
   onSelectEvent: _onSelectEvent,
   onEditEvent,
   onDeleteEvent,
-}: CalendarDayViewProps) {
+}: ICalendarDayViewProps) {
   const dayEvents = getEventsForDay(events, viewedDate)
 
   return (

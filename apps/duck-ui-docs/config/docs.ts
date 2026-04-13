@@ -1,6 +1,6 @@
-import type { DocsConfig } from '@gentleduck/docs/context'
+import type { IDocsConfig } from '@gentleduck/docs/context'
 
-export const docsConfig: DocsConfig = {
+export const docsConfig: IDocsConfig = {
   chartsNav: [],
   mainNav: [
     {

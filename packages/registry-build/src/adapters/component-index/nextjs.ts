@@ -1,6 +1,6 @@
 import type {
-  RegistryBuildComponentIndexEntryOptions,
-  RegistryBuildComponentIndexImportOptions,
+  IRegistryBuildComponentIndexEntryOptions,
+  IRegistryBuildComponentIndexImportOptions,
 } from './component-index.types'
 
 export const NEXTJS_COMPONENT_INDEX_HEADER = `// @ts-nocheck
@@ -12,11 +12,11 @@ let dynamic: any
 try { dynamic = (await import("next/dynamic.js")).default } catch { dynamic = () => () => null }
 `
 
-export function createNextjsComponentImport(options: RegistryBuildComponentIndexImportOptions) {
+export function createNextjsComponentImport(options: IRegistryBuildComponentIndexImportOptions) {
   return `const ${options.id} = dynamic(() => import("${options.componentPath}"), { ssr: ${String(options.ssr)} })\n`
 }
 
-export function createComponentIndexEntry(options: RegistryBuildComponentIndexEntryOptions) {
+export function createComponentIndexEntry(options: IRegistryBuildComponentIndexEntryOptions) {
   const item = options.item
 
   return `

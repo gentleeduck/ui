@@ -5,12 +5,12 @@ import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Presence } from '../presence'
 import type {
-  NavigationMenuContentImplElement,
   INavigationMenuContentImplPrivateProps,
   INavigationMenuContentImplProps,
+  IViewportContentMounterProps,
+  NavigationMenuContentImplElement,
   ScopedProps,
   ViewportContentMounterElement,
-  IViewportContentMounterProps,
 } from './navigation-menu'
 import { useCollection, useNavigationMenuContext, useNavigationMenuItemContext } from './navigation-menu'
 import {

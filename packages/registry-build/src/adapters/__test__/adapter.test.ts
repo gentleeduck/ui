@@ -1,8 +1,8 @@
 import { describe, expect, test } from 'bun:test'
 import type {
-  RegistryBuildComponentIndexAdapter,
-  RegistryBuildComponentIndexEntryOptions,
-  RegistryBuildComponentIndexImportOptions,
+  IRegistryBuildComponentIndexAdapter,
+  IRegistryBuildComponentIndexEntryOptions,
+  IRegistryBuildComponentIndexImportOptions,
 } from '../..'
 import {
   createComponentIndexEntry,

@@ -17,7 +17,7 @@ function getShiki() {
 
 // ── Panel ──────────────────────────────────────────────────────────────────────
 
-interface AIChatPanelProps {
+interface IAIChatPanelProps {
   initialQuery?: string
   onBack: () => void
   onClose?: () => void
@@ -33,7 +33,7 @@ export function AIChatPanel({
   title = 'Ask about gentleduck/ui',
   placeholder = 'Ask a question...',
   emptyMessage = 'Ask anything about components, installation, or usage.',
-}: AIChatPanelProps) {
+}: IAIChatPanelProps) {
   const { messages, isStreaming, isSearching, error, send, selectSource, abort, reset } = useAIChat()
   const [input, setInput] = React.useState('')
   const scrollRef = React.useRef<HTMLDivElement>(null)

@@ -1,3 +1,3 @@
-import type { RegistryBuildBranding } from '../../config/types'
+import type { IRegistryBuildBranding } from '../../config/types'
 
-export interface RegistryBuildBannerExtensionOptions extends RegistryBuildBranding {}
+export interface IRegistryBuildBannerExtensionOptions extends IRegistryBuildBranding {}

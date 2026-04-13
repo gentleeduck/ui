@@ -1,13 +1,13 @@
 import type { Node } from 'unist'
-import type { MdxCodeNodeProperties, MdxNodeData } from './mdx-runtime'
+import type { IMdxCodeNodeProperties, IMdxNodeData } from './mdx-runtime'
 
-export type { NpmCommands } from './mdx-runtime'
+export type { INpmCommands } from './mdx-runtime'
 
 declare module 'unist' {
-  interface Data extends MdxNodeData {}
+  interface Data extends IMdxNodeData {}
 }
 
-export interface UnistNode extends Node {
+export interface IUnistNode extends Node {
   type: string
   name?: string
   tagName?: string
@@ -15,15 +15,15 @@ export interface UnistNode extends Node {
   properties?: {
     className?: string[]
     [key: string]: unknown
-  } & MdxCodeNodeProperties
+  } & IMdxCodeNodeProperties
   attributes?: {
     name: string
     value: unknown
     type?: string
   }[]
-  children?: UnistNode[]
+  children?: IUnistNode[]
 }
 
-export interface UnistTree extends Node {
-  children: UnistNode[]
+export interface IUnistTree extends Node {
+  children: IUnistNode[]
 }

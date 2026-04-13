@@ -39,5 +39,5 @@ const MenuItemIndicator = React.forwardRef<MenuItemIndicatorElement, IMenuItemIn
 
 MenuItemIndicator.displayName = ITEM_INDICATOR_NAME
 
-export type { MenuItemIndicatorElement, IMenuItemIndicatorProps }
+export type { IMenuItemIndicatorProps, MenuItemIndicatorElement }
 export { MenuItemIndicator }

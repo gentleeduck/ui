@@ -1,4 +1,4 @@
-import type { IAtom, PrimitiveAtom, SetStateAction, IWritableAtom } from '../primitive/atom'
+import type { IAtom, IWritableAtom, PrimitiveAtom, SetStateAction } from '../primitive/atom'
 import type { ExtractAtomArgs, ExtractAtomResult, ExtractAtomValue } from '../primitive/types'
 import { useAtomValue } from './useAtomValue'
 import { useSetAtom } from './useSetAtom'

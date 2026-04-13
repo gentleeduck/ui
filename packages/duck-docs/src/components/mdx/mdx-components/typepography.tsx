@@ -2,11 +2,11 @@ import { cn } from '@gentleduck/libs/cn'
 import Link from 'next/link'
 import type React from 'react'
 
-interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {}
-interface AnchorProps extends React.HTMLAttributes<HTMLAnchorElement> {}
-interface ParagraphProps extends React.HTMLAttributes<HTMLParagraphElement> {}
+interface IHeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {}
+interface IAnchorProps extends React.HTMLAttributes<HTMLAnchorElement> {}
+interface IParagraphProps extends React.HTMLAttributes<HTMLParagraphElement> {}
 
-export function H1({ className, ...props }: HeadingProps) {
+export function H1({ className, ...props }: IHeadingProps) {
   return (
     <h1
       className={cn('mt-2 scroll-m-20 font-bold font-heading text-2xl sm:text-3xl md:text-4xl', className)}
@@ -15,7 +15,7 @@ export function H1({ className, ...props }: HeadingProps) {
   )
 }
 
-export function H2({ className, ...props }: HeadingProps) {
+export function H2({ className, ...props }: IHeadingProps) {
   return (
     <h2
       className={cn(
@@ -27,7 +27,7 @@ export function H2({ className, ...props }: HeadingProps) {
   )
 }
 
-export function H3({ className, ...props }: HeadingProps) {
+export function H3({ className, ...props }: IHeadingProps) {
   return (
     <h3
       className={cn('mt-8 scroll-m-20 font-heading font-semibold text-lg tracking-tight sm:text-xl', className)}
@@ -36,7 +36,7 @@ export function H3({ className, ...props }: HeadingProps) {
   )
 }
 
-export function H4({ className, ...props }: HeadingProps) {
+export function H4({ className, ...props }: IHeadingProps) {
   return (
     <h4
       className={cn('mt-8 scroll-m-20 font-heading font-semibold text-base tracking-tight sm:text-lg', className)}
@@ -45,21 +45,21 @@ export function H4({ className, ...props }: HeadingProps) {
   )
 }
 
-export function H5({ className, ...props }: HeadingProps) {
+export function H5({ className, ...props }: IHeadingProps) {
   return (
     <h5 className={cn('mt-8 scroll-m-20 font-semibold text-base tracking-tight sm:text-lg', className)} {...props} />
   )
 }
 
-export function H6({ className, ...props }: HeadingProps) {
+export function H6({ className, ...props }: IHeadingProps) {
   return <h6 className={cn('mt-8 scroll-m-20 font-semibold text-base tracking-tight', className)} {...props} />
 }
 
-export function A({ className, ...props }: AnchorProps) {
+export function A({ className, ...props }: IAnchorProps) {
   return <a className={cn('font-medium underline underline-offset-4', className)} {...props} />
 }
 
-export function P({ className, ...props }: ParagraphProps) {
+export function P({ className, ...props }: IParagraphProps) {
   return <p className={cn('leading-7 [&:not(:first-child)]:mt-6', className)} {...props} />
 }
 

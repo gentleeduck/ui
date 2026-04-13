@@ -1,9 +1,9 @@
 import { loadRegistryBuildConfig } from '../../config/loader/loader'
-import type { RegistryBuildExtensionApi } from '../../extensions/extension'
+import type { IRegistryBuildExtensionApi } from '../../extensions/extension'
 import { createRegistryBuildContext } from '../context/context'
-import type { BuildOptions, BuildResult, RegistryBuildContext, RegistryBuildPhaseResult } from '../types'
+import type { IBuildOptions, IBuildResult, IRegistryBuildContext, IRegistryBuildPhaseResult } from '../types'
 
-function createExtensionApi(context: RegistryBuildContext): RegistryBuildExtensionApi {
+function createExtensionApi(context: IRegistryBuildContext): IRegistryBuildExtensionApi {
   return {
     artifacts: context.artifacts,
     config: context.config,
@@ -18,8 +18,8 @@ function createExtensionApi(context: RegistryBuildContext): RegistryBuildExtensi
   }
 }
 
-async function runExtensionStage(context: RegistryBuildContext, stage: 'beforeBuild' | 'afterBuild') {
-  const phaseResults: RegistryBuildPhaseResult[] = []
+async function runExtensionStage(context: IRegistryBuildContext, stage: 'beforeBuild' | 'afterBuild') {
+  const phaseResults: IRegistryBuildPhaseResult[] = []
   const extensionApi = createExtensionApi(context)
 
   for (const extension of context.config.extensions) {
@@ -51,13 +51,13 @@ async function runExtensionStage(context: RegistryBuildContext, stage: 'beforeBu
  * (index-build, components, colors, etc.) is provided by extensions registered
  * in the config or via a preset like `uiRegistryPreset()`.
  */
-export async function build(options: BuildOptions = {}): Promise<BuildResult> {
+export async function build(options: IBuildOptions = {}): Promise<IBuildResult> {
   const loaded = await loadRegistryBuildConfig({
     configFile: options.configFile,
     cwd: options.cwd,
   })
   const context = await createRegistryBuildContext(loaded, options)
-  const phaseResults: RegistryBuildPhaseResult[] = []
+  const phaseResults: IRegistryBuildPhaseResult[] = []
 
   phaseResults.push(...(await runExtensionStage(context, 'beforeBuild')))
   phaseResults.push(...(await runExtensionStage(context, 'afterBuild')))

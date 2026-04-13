@@ -14,13 +14,13 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from '../button'
-import type { CalendarProps } from './calendar.types'
+import type { ICalendarProps } from './calendar.types'
 import { CalendarDayCell } from './calendar-day'
 import { CalendarHeader } from './calendar-header'
 
 const defaultAdapter = new NativeAdapter()
 
-const Calendar = React.forwardRef<HTMLDivElement, CalendarProps>(
+const Calendar = React.forwardRef<HTMLDivElement, ICalendarProps>(
   (
     {
       className,
@@ -245,7 +245,7 @@ const staggerChild = {
   visible: { opacity: 1, y: 0, filter: 'blur(0px)' },
 }
 
-const MotionCalendar = React.forwardRef<HTMLDivElement, CalendarProps>(
+const MotionCalendar = React.forwardRef<HTMLDivElement, ICalendarProps>(
   (
     {
       className,

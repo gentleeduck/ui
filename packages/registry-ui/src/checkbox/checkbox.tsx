@@ -12,9 +12,9 @@ import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Label } from '../label'
-import type { CheckboxGroupProps, CheckboxProps, CheckboxWithLabelProps, CheckedState } from './checkbox.types'
+import type { CheckboxGroupProps, ICheckboxProps, ICheckboxWithLabelProps, CheckedState } from './checkbox.types'
 
-const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
+const Checkbox = React.forwardRef<HTMLInputElement, ICheckboxProps>(
   (
     {
       className,
@@ -108,7 +108,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
 )
 Checkbox.displayName = 'Checkbox'
 
-const CheckboxWithLabel = React.forwardRef<HTMLDivElement, Omit<CheckboxWithLabelProps, 'ref'>>(
+const CheckboxWithLabel = React.forwardRef<HTMLDivElement, Omit<ICheckboxWithLabelProps, 'ref'>>(
   ({ id, _checkbox, _label, className, ...props }, ref) => {
     const { className: labelClassName, ...labelProps } = _label
     return (
@@ -153,7 +153,7 @@ CheckboxGroup.displayName = 'CheckboxGroup'
 /*  MotionCheckbox + MotionCheckboxWithLabel + MotionCheckboxGroup       */
 /* ------------------------------------------------------------------ */
 
-const MotionCheckbox = React.forwardRef<HTMLInputElement, CheckboxProps>(({ onCheckedChange, ...props }, ref) => {
+const MotionCheckbox = React.forwardRef<HTMLInputElement, ICheckboxProps>(({ onCheckedChange, ...props }, ref) => {
   const [bounce, setBounce] = React.useState(false)
   return (
     <LazyMotion features={loadDomAnimation}>
@@ -178,7 +178,7 @@ MotionCheckbox.displayName = 'MotionCheckbox'
 
 const MotionCheckboxWithLabel = React.forwardRef<
   HTMLDivElement,
-  Omit<CheckboxWithLabelProps, 'ref'> & { index?: number }
+  Omit<ICheckboxWithLabelProps, 'ref'> & { index?: number }
 >(({ id, _checkbox, _label, className, index = 0 }, ref) => {
   const { className: labelClassName, ...labelProps } = _label
   const content = useMotionPreset(scaleIn, { transition: springBouncy, delay: index * 0.05 })

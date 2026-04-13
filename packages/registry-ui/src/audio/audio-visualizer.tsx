@@ -8,12 +8,12 @@ import { useAudioDataProvider } from './audio-record'
 export const new_audio = (url: string) => new Audio(url)
 
 // Calculate bar data
-export interface dataPoint {
+export interface IdataPoint {
   max: number
   min: number
 }
 
-export interface CalculateBarDataParams {
+export interface ICalculateBarDataParams {
   buffer: AudioBuffer
   width: number
   height: number
@@ -24,7 +24,7 @@ export interface CalculateBarDataParams {
 export const calculate_bar_data_handler = (() => {
   const cache = new Map()
 
-  return ({ buffer, width, height, barWidth, gap }: CalculateBarDataParams): dataPoint[] => {
+  return ({ buffer, width, height, barWidth, gap }: ICalculateBarDataParams): IdataPoint[] => {
     // Create a unique key based on the input parameters
     const key = `${buffer.length}-${width}-${height}-${barWidth}-${gap}`
 
@@ -38,7 +38,7 @@ export const calculate_bar_data_handler = (() => {
     const step = Math.floor(bufferData.length / units)
     const amp = height / 2
 
-    const data: dataPoint[] = new Array(units)
+    const data: IdataPoint[] = new Array(units)
     let maxDataPoint = 0
 
     for (let i = 0; i < units; i++) {
@@ -85,8 +85,8 @@ export const calculate_bar_data_handler = (() => {
 })()
 
 // Draw Handler
-export interface DrawHandlerParams {
-  data: dataPoint[]
+export interface IDrawHandlerParams {
+  data: IdataPoint[]
   canvas: HTMLCanvasElement | null
   barWidth: number
   gap: number
@@ -111,7 +111,7 @@ export const draw_handler = ({
   duration = 1,
   minBarHeight = 5,
   animationProgress = 1,
-}: DrawHandlerParams): void => {
+}: IDrawHandlerParams): void => {
   if (!canvas || !data.length) return
 
   const ctx = canvas.getContext('2d')
@@ -137,7 +137,7 @@ export const draw_handler = ({
 }
 
 // Process Blob
-export interface ProcessBlobParams {
+export interface IProcessBlobParams {
   canvasRef: React.RefObject<HTMLCanvasElement>
   blob: Blob | null
   barWidth: number
@@ -147,7 +147,7 @@ export interface ProcessBlobParams {
   barPlayedColor?: string
   minBarHeight: number
   setLoading: React.Dispatch<React.SetStateAction<boolean>>
-  setData: React.Dispatch<React.SetStateAction<dataPoint[]>>
+  setData: React.Dispatch<React.SetStateAction<IdataPoint[]>>
   setDuration: React.Dispatch<React.SetStateAction<number>>
   setAnimationProgress: React.Dispatch<React.SetStateAction<number>>
   width: number
@@ -169,7 +169,7 @@ export const process_blob = async ({
   setAnimationProgress,
   width,
   height,
-}: ProcessBlobParams): Promise<void> => {
+}: IProcessBlobParams): Promise<void> => {
   if (!canvasRef.current || !blob) return
 
   const defaultBars = Array.from({ length: Math.floor(width / (barWidth + gap)) }, () => ({
@@ -256,22 +256,22 @@ export const process_blob = async ({
   })
 }
 
-export interface ThemeColor {
+export interface IThemeColor {
   light: string
   dark: string
 }
 
 // Audio Visualizer
-interface AudioVisualizerProps {
+interface IAudioVisualizerProps {
   blob: Blob | null
   width: number
   height: number
   dir?: 'ltr' | 'rtl'
   barWidth?: number
   gap?: number
-  backgroundColor?: ThemeColor
-  barColor?: ThemeColor
-  barPlayedColor?: ThemeColor
+  backgroundColor?: IThemeColor
+  barColor?: IThemeColor
+  barPlayedColor?: IThemeColor
   currentTime?: number
   minBarHeight?: number
   style?: React.CSSProperties
@@ -280,7 +280,7 @@ interface AudioVisualizerProps {
   setCurrentTime: React.Dispatch<React.SetStateAction<number>>
 }
 
-const AudioVisualizer: React.FC<AudioVisualizerProps> = ({
+const AudioVisualizer: React.FC<IAudioVisualizerProps> = ({
   blob,
   width,
   height,

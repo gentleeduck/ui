@@ -142,55 +142,57 @@ function useInputOTPBehavior({
   }, [value, onValueChange, pattern, direction, maxLength, inputsRef, wrapperRef])
 }
 
-const InputOTP = React.forwardRef<InputOTPElement, IInputOTPProps>((props: ScopedProps<IInputOTPProps>, forwardedRef) => {
-  const {
-    __scopeInputOTP,
-    value,
-    onValueChange,
-    pattern = REGEXP_ONLY_DIGITS_AND_CHARS,
-    dir,
-    maxLength,
-    children,
-    'aria-label': ariaLabel = 'otp-one-time-password',
-    ...inputOTPProps
-  } = props
-  const direction = useDirection(dir)
-  const inputsRef = React.useRef<HTMLInputElement[]>([])
-  const wrapperRef = React.useRef<HTMLDivElement>(null)
-  const composedRef = useComposedRefs(forwardedRef, wrapperRef)
+const InputOTP = React.forwardRef<InputOTPElement, IInputOTPProps>(
+  (props: ScopedProps<IInputOTPProps>, forwardedRef) => {
+    const {
+      __scopeInputOTP,
+      value,
+      onValueChange,
+      pattern = REGEXP_ONLY_DIGITS_AND_CHARS,
+      dir,
+      maxLength,
+      children,
+      'aria-label': ariaLabel = 'otp-one-time-password',
+      ...inputOTPProps
+    } = props
+    const direction = useDirection(dir)
+    const inputsRef = React.useRef<HTMLInputElement[]>([])
+    const wrapperRef = React.useRef<HTMLDivElement>(null)
+    const composedRef = useComposedRefs(forwardedRef, wrapperRef)
 
-  useInputOTPBehavior({
-    value,
-    onValueChange,
-    pattern,
-    direction,
-    inputsRef,
-    wrapperRef,
-    maxLength,
-  })
+    useInputOTPBehavior({
+      value,
+      onValueChange,
+      pattern,
+      direction,
+      inputsRef,
+      wrapperRef,
+      maxLength,
+    })
 
-  return (
-    <InputOTPProvider
-      scope={__scopeInputOTP}
-      value={value}
-      inputsRef={inputsRef}
-      wrapperRef={wrapperRef}
-      dir={direction}
-      maxLength={maxLength}>
-      <Primitive.div
-        {...inputOTPProps}
-        ref={composedRef}
-        role="region"
+    return (
+      <InputOTPProvider
+        scope={__scopeInputOTP}
+        value={value}
+        inputsRef={inputsRef}
+        wrapperRef={wrapperRef}
         dir={direction}
-        aria-label={ariaLabel}
-        data-slot="input-otp">
-        {children}
-      </Primitive.div>
-    </InputOTPProvider>
-  )
-})
+        maxLength={maxLength}>
+        <Primitive.div
+          {...inputOTPProps}
+          ref={composedRef}
+          role="region"
+          dir={direction}
+          aria-label={ariaLabel}
+          data-slot="input-otp">
+          {children}
+        </Primitive.div>
+      </InputOTPProvider>
+    )
+  },
+)
 
 InputOTP.displayName = INPUT_OTP_NAME
 
-export type { InputOTPContextValue, IInputOTPProps, ScopedProps }
+export type { IInputOTPProps, InputOTPContextValue, ScopedProps }
 export { createInputOTPScope, INPUT_OTP_NAME, InputOTP, InputOTPProvider, useInputOTPContext }

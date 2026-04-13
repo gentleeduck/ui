@@ -1,7 +1,7 @@
 /**
  * Commander-facing CLI options for the `registry-build build` command.
  */
-export interface RegistryBuildCommandOptions {
+export interface IRegistryBuildCommandOptions {
   changed?: string[]
   changedOnly: boolean
   config?: string

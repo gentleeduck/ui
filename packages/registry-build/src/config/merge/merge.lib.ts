@@ -1,4 +1,4 @@
-import type { RegistryBuildCollection, RegistryBuildSource } from '../types'
+import type { IRegistryBuildCollection, IRegistryBuildSource } from '../types'
 
 /** Merge two optional string arrays, deduplicating entries. */
 export function mergeUniqueStrings<T extends string = string>(left?: T[], right?: T[]) {
@@ -18,11 +18,11 @@ export function mergeRecordOrString<T extends Record<string, unknown> = Record<s
 
 /** Deep-merge two source maps, combining ignore patterns with deduplication. */
 export function mergeSources(
-  baseSources?: Record<string, RegistryBuildSource | undefined>,
-  nextSources?: Record<string, RegistryBuildSource | undefined>,
+  baseSources?: Record<string, IRegistryBuildSource | undefined>,
+  nextSources?: Record<string, IRegistryBuildSource | undefined>,
 ) {
   const keys = new Set<string>([...Object.keys(baseSources ?? {}), ...Object.keys(nextSources ?? {})])
-  const result: Record<string, RegistryBuildSource> = {}
+  const result: Record<string, IRegistryBuildSource> = {}
 
   for (const key of keys) {
     const base = baseSources?.[key]
@@ -80,11 +80,11 @@ export function mergeCollectionData(baseData?: unknown | string, nextData?: unkn
 
 /** Deep-merge two collection maps, combining their sources, metadata, and data. */
 export function mergeCollections(
-  baseCollections?: Record<string, RegistryBuildCollection>,
-  nextCollections?: Record<string, RegistryBuildCollection>,
+  baseCollections?: Record<string, IRegistryBuildCollection>,
+  nextCollections?: Record<string, IRegistryBuildCollection>,
 ) {
   const keys = new Set([...Object.keys(baseCollections ?? {}), ...Object.keys(nextCollections ?? {})])
-  const result: Record<string, RegistryBuildCollection> = {}
+  const result: Record<string, IRegistryBuildCollection> = {}
 
   for (const key of keys) {
     const base = baseCollections?.[key]

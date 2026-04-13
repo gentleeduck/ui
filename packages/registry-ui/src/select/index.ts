@@ -1,4 +1,4 @@
-export type { SelectTriggerProps } from './select'
+export type { ISelectTriggerProps } from './select'
 export {
   MotionSelect,
   MotionSelectContent,

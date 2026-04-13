@@ -9,10 +9,10 @@ import { slideFromRight } from './presets/slide-from-right'
 import { slideUp } from './presets/slide-up'
 import type {
   Direction,
-  MotionAnimationState,
   IMotionPreset,
-  MotionPresetName,
   IMotionPresetResult,
+  MotionAnimationState,
+  MotionPresetName,
   MotionTransitionConfig,
 } from './presets/types'
 import { useDuckReducedMotion } from './react'
@@ -21,10 +21,10 @@ import { TAP_SCALE_TRANSITION } from './transitions/tweens'
 
 export type {
   Direction,
-  MotionAnimationState,
   IMotionPreset,
-  MotionPresetName,
   IMotionPresetResult,
+  MotionAnimationState,
+  MotionPresetName,
   MotionTransitionConfig,
 }
 

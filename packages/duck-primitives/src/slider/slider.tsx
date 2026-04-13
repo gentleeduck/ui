@@ -427,5 +427,5 @@ const SliderImpl = React.forwardRef<SliderImplElement, ISliderImplProps>(
 
 SliderImpl.displayName = 'SliderImpl'
 
-export type { PrimitiveSpanProps, ScopedProps, ISliderProps, SliderThumbElement }
+export type { ISliderProps, PrimitiveSpanProps, ScopedProps, SliderThumbElement }
 export { Collection, createSliderScope, Slider, useCollection, useSliderContext, useSliderOrientationContext }

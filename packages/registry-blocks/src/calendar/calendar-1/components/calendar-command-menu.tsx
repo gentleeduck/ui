@@ -14,7 +14,7 @@ import * as React from 'react'
 import { CATEGORY_COLORS, CATEGORY_LABELS, type CalendarEvent } from '../calendar-data'
 import { formatFullDate } from '../calendar-utils'
 
-interface CalendarCommandMenuProps {
+interface ICalendarCommandMenuProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   events: CalendarEvent[]
@@ -28,7 +28,7 @@ export function CalendarCommandMenu({
   events,
   onSelectEvent,
   onNavigateToDate,
-}: CalendarCommandMenuProps) {
+}: ICalendarCommandMenuProps) {
   const [query, setQuery] = React.useState('')
 
   React.useEffect(() => {
