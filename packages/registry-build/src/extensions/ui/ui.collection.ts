@@ -62,7 +62,8 @@ export function getUiRegistryCollection<TType extends RegistryItemType = Registr
     throw new Error(`Collection "${collectionName}" was not found in the registry build config.`)
   }
 
-  const metadata = (collection.metadata ?? {}) as Partial<IUiRegistryCollectionMetadata<TType>> & Record<string, unknown>
+  const metadata = (collection.metadata ?? {}) as Partial<IUiRegistryCollectionMetadata<TType>> &
+    Record<string, unknown>
   if (metadata.kind !== 'ui-registry') {
     throw new Error(
       `Collection "${collectionName}" is not a UI registry collection. Expected metadata.kind to be "ui-registry".`,

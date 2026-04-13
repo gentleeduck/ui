@@ -46,7 +46,9 @@ export async function createRegistryBuildCache(options: {
 }): Promise<IRegistryBuildCacheStore> {
   const manifest =
     options.enabled && (await pathExists(options.filePath))
-      ? await fs.readFile(options.filePath, 'utf8').then((content) => JSON.parse(content) as IRegistryBuildCacheManifest)
+      ? await fs
+          .readFile(options.filePath, 'utf8')
+          .then((content) => JSON.parse(content) as IRegistryBuildCacheManifest)
       : createEmptyManifest()
   const cacheManifest = manifest.version === REGISTRY_BUILD_CACHE_VERSION ? manifest : createEmptyManifest()
   let dirty = cacheManifest.version !== manifest.version

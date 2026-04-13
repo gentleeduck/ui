@@ -1,6 +1,6 @@
 'use client'
 
-import type { TocEntry } from '@duck-docs/context'
+import type { ITocEntry } from '@duck-docs/context'
 import { useMounted } from '@duck-docs/hooks/use-mounted'
 import { cn } from '@gentleduck/libs/cn'
 import { BookOpenText } from 'lucide-react'
@@ -9,7 +9,7 @@ import * as React from 'react'
 // -- Types -------------------------------------------------------------------
 
 interface ITocProps {
-  toc: TocEntry[]
+  toc: ITocEntry[]
 }
 
 interface IFlatTocItem {
@@ -20,7 +20,7 @@ interface IFlatTocItem {
 
 // -- Helpers -----------------------------------------------------------------
 
-function flattenToc(toc: TocEntry[], depth = 1): IFlatTocItem[] {
+function flattenToc(toc: ITocEntry[], depth = 1): IFlatTocItem[] {
   const result: IFlatTocItem[] = []
   for (const entry of toc) {
     result.push({ url: entry.url, title: entry.title, depth })

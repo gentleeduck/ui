@@ -1,6 +1,6 @@
 'use client'
 
-import { buildCalendarYear, type DateAdapter, goToMonth, goToYear, NativeAdapter } from '@gentleduck/calendar'
+import { buildCalendarYear, type IDateAdapter, goToMonth, goToYear, NativeAdapter } from '@gentleduck/calendar'
 import { cn } from '@gentleduck/libs/cn'
 import { tapScale } from '@gentleduck/motion/presets/content'
 import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
@@ -148,7 +148,7 @@ function DropdownTrigger({
 // ---------------------------------------------------------------------------
 
 interface ICalendarHeaderProps {
-  adapter?: DateAdapter<Date>
+  adapter?: IDateAdapter<Date>
   month: Date
   title: string
   direction: 'ltr' | 'rtl'

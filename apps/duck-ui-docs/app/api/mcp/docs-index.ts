@@ -7,8 +7,8 @@ import { join, resolve, sep } from 'node:path'
 import {
   clearPersistedDocsIndex,
   getPersistedDocsIndexPath,
-  loadPersistedDocsIndex,
   type IPersistedDocsIndexEntry,
+  loadPersistedDocsIndex,
   writePersistedDocsIndex,
 } from './docs-index-persistence'
 import { extractCodeBlocks, parseFrontmatter, stripMdxSyntax } from './text'

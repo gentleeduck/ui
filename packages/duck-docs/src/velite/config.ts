@@ -1,4 +1,4 @@
-import type { UnistNode } from '@duck-docs/types'
+import type { IUnistNode } from '@duck-docs/types'
 import { getHighlighter } from '@shikijs/compat'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 // @ts-expect-error -- rehype-pretty-code has no published type declarations
@@ -27,13 +27,13 @@ function buildDefaultRehypePlugins({
     rehypePrettyCode,
     {
       getHighlighter,
-      onVisitHighlightedLine(node: UnistNode) {
+      onVisitHighlightedLine(node: IUnistNode) {
         ;(node.properties?.className as string[]).push('line--highlighted')
       },
-      onVisitHighlightedWord(node: UnistNode) {
+      onVisitHighlightedWord(node: IUnistNode) {
         if (node.properties) node.properties.className = ['word--highlighted']
       },
-      onVisitLine(node: UnistNode) {
+      onVisitLine(node: IUnistNode) {
         if (node.children?.length === 0) {
           node.children = [{ type: 'text', value: ' ' }]
         }

@@ -10,7 +10,11 @@ import type { IRegistryBuildContext } from '../../types'
 /**
  * Derive the source reference stored in generated index entries.
  */
-export function getSourceReference(source: IRegistryBuildSource, context: IRegistryBuildContext, entry: IRegistryEntry) {
+export function getSourceReference(
+  source: IRegistryBuildSource,
+  context: IRegistryBuildContext,
+  entry: IRegistryEntry,
+) {
   const baseReference = source.referencePath ?? normalizeSlashes(path.relative(context.configDir, source.path))
   return joinPosix(baseReference, entry.root_folder)
 }

@@ -1,9 +1,9 @@
-import type { MainNavItem, SidebarNavItem } from '@duck-docs/types/nav'
+import type { IMainNavItem, ISidebarNavItem } from '@duck-docs/types/nav'
 
 export interface IDocsConfig {
-  chartsNav?: SidebarNavItem[]
-  mainNav: MainNavItem[]
-  sidebarNav: SidebarNavItem[]
+  chartsNav?: ISidebarNavItem[]
+  mainNav: IMainNavItem[]
+  sidebarNav: ISidebarNavItem[]
 }
 
 export interface IDocsSiteConfig {

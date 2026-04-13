@@ -59,7 +59,8 @@ export interface IRegistryEntry<TType extends RegistryItemType = RegistryItemTyp
   [key: string]: unknown
 }
 
-export interface IIndexedRegistryEntry<TType extends RegistryItemType = RegistryItemType> extends IRegistryEntry<TType> {
+export interface IIndexedRegistryEntry<TType extends RegistryItemType = RegistryItemType>
+  extends IRegistryEntry<TType> {
   source?: string
   tree?: IRegistryFileTreeNode[]
 }
