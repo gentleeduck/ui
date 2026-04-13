@@ -1,1 +1,1 @@
-export { type ScaffoldTemplateOptions, scaffold_template } from './template-scaffold'
+export { type ScaffoldTemplateOptions, scaffoldTemplate } from './template-scaffold'

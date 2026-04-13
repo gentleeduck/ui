@@ -1,20 +1,20 @@
 import { Command } from 'commander'
-import { require_config_value } from '~/utils/require-config-value'
-import { list_command_config } from './list.constants'
-import { list_command_action } from './list.libs'
+import { requireConfigValue } from '~/utils/require-config-value'
+import { listCommandConfig } from './list.constants'
+import { listCommandAction } from './list.libs'
 
-const { name, description, options } = list_command_config
-const option_1 = require_config_value(options.option_1, 'missing list command option_1 config')
-const option_2 = require_config_value(options.option_2, 'missing list command option_2 config')
+const { name, description, options } = listCommandConfig
+const option1 = requireConfigValue(options.option1, 'missing list command option1 config')
+const option2 = requireConfigValue(options.option2, 'missing list command option2 config')
 
-export function list_command(): Command {
+export function listCommand(): Command {
   const cmd = new Command(name)
 
   cmd
     .description(description)
-    .option(option_1.flags, option_1.description, option_1.defaultValue)
-    .option(option_2.flags, option_2.description, option_2.defaultValue)
-    .action(list_command_action)
+    .option(option1.flags, option1.description, option1.defaultValue)
+    .option(option2.flags, option2.description, option2.defaultValue)
+    .action(listCommandAction)
 
   return cmd
 }

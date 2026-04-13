@@ -1,7 +1,7 @@
 import type { PromptObject } from 'prompts'
 import { highlighter } from '../../text-styling'
 
-export const typescript_prompts: PromptObject<'typescript'>[] = [
+export const typescriptPrompts: PromptObject<'typescript'>[] = [
   {
     active: 'yes',
     inactive: 'no',
@@ -12,9 +12,9 @@ export const typescript_prompts: PromptObject<'typescript'>[] = [
   },
 ]
 
-export const typescript_dependencies = ['typescript']
+export const typescriptDependencies = ['typescript']
 
-const ts_config_base = `{
+const tsConfigBase = `{
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "lib": [
@@ -67,12 +67,12 @@ const ts_config_base = `{
 }
 `
 
-const nextjs_plugins = `,
+const nextjsPlugins = `,
     "plugins": [
       {
         "name": "next"
       }
     ]`
 
-export const ts_config_nextjs = ts_config_base.replace('PLUGINS_PLACEHOLDER', nextjs_plugins)
-export const ts_config_generic = ts_config_base.replace('PLUGINS_PLACEHOLDER', '')
+export const tsConfigNextjs = tsConfigBase.replace('PLUGINS_PLACEHOLDER', nextjsPlugins)
+export const tsConfigGeneric = tsConfigBase.replace('PLUGINS_PLACEHOLDER', '')

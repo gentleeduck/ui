@@ -5,36 +5,36 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createMockDuckUIConfig, createMockRegistryEntry, createMockRegistryIndex } from '../helpers/fixtures'
 import { createMockFetch } from '../helpers/mock-fetch'
 
-describe('resolve_write_type_path', () => {
-  it('resolves path from config aliases and write_path', async () => {
-    const { resolve_write_type_path } = await import('~/services/component.service')
+describe('resolveWriteTypePath', () => {
+  it('resolves path from config aliases and writePath', async () => {
+    const { resolveWriteTypePath } = await import('~/services/component.service')
     const config = createMockDuckUIConfig({
       aliases: { ui: '~/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
     })
-    const result = resolve_write_type_path(config, 'src')
+    const result = resolveWriteTypePath(config, 'src')
     expect(result).toBe(path.resolve('src/ui'))
   })
 
   it('handles nested alias paths', async () => {
-    const { resolve_write_type_path } = await import('~/services/component.service')
+    const { resolveWriteTypePath } = await import('~/services/component.service')
     const config = createMockDuckUIConfig({
       aliases: { ui: '~/components/ui', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
     })
-    const result = resolve_write_type_path(config, 'src')
+    const result = resolveWriteTypePath(config, 'src')
     expect(result).toBe(path.resolve('src/components/ui'))
   })
 
   it('handles alias with no subdirectory', async () => {
-    const { resolve_write_type_path } = await import('~/services/component.service')
+    const { resolveWriteTypePath } = await import('~/services/component.service')
     const config = createMockDuckUIConfig({
       aliases: { ui: '~', libs: '~/libs', hooks: '~/hooks', pages: '~/pages', layouts: '~/layouts' },
     })
-    const result = resolve_write_type_path(config, 'src')
+    const result = resolveWriteTypePath(config, 'src')
     expect(result).toBe(path.resolve('src'))
   })
 })
 
-describe('scan_installed_components', () => {
+describe('scanInstalledComponents', () => {
   let tmpDir: string
 
   beforeEach(() => {
@@ -50,8 +50,8 @@ describe('scan_installed_components', () => {
   })
 
   it('returns empty array when directory does not exist', async () => {
-    const { scan_installed_components } = await import('~/services/component.service')
-    const result = await scan_installed_components(path.join(tmpDir, 'nonexistent'))
+    const { scanInstalledComponents } = await import('~/services/component.service')
+    const result = await scanInstalledComponents(path.join(tmpDir, 'nonexistent'))
     expect(result.ok).toBe(true)
     if (result.ok) {
       expect(result.data).toHaveLength(0)
@@ -59,8 +59,8 @@ describe('scan_installed_components', () => {
   })
 
   it('returns empty array when directory is empty', async () => {
-    const { scan_installed_components } = await import('~/services/component.service')
-    const result = await scan_installed_components(tmpDir)
+    const { scanInstalledComponents } = await import('~/services/component.service')
+    const result = await scanInstalledComponents(tmpDir)
     expect(result.ok).toBe(true)
     if (result.ok) {
       expect(result.data).toHaveLength(0)
@@ -74,8 +74,8 @@ describe('scan_installed_components', () => {
     fs.writeFileSync(path.join(tmpDir, 'button', 'button.tsx'), 'export function Button() {}')
     fs.writeFileSync(path.join(tmpDir, 'input', 'input.tsx'), 'export function Input() {}')
 
-    const { scan_installed_components } = await import('~/services/component.service')
-    const result = await scan_installed_components(tmpDir)
+    const { scanInstalledComponents } = await import('~/services/component.service')
+    const result = await scanInstalledComponents(tmpDir)
 
     expect(result.ok).toBe(true)
     if (result.ok) {
@@ -85,21 +85,21 @@ describe('scan_installed_components', () => {
       expect(names).toContain('input')
       // Registry entry should be attached
       const button = result.data.find((c) => c.name === 'button')
-      expect(button?.registry_entry).not.toBeNull()
+      expect(button?.registryEntry).not.toBeNull()
     }
   })
 
   it('handles local directories not in registry', async () => {
     fs.mkdirSync(path.join(tmpDir, 'custom-component'), { recursive: true })
 
-    const { scan_installed_components } = await import('~/services/component.service')
-    const result = await scan_installed_components(tmpDir)
+    const { scanInstalledComponents } = await import('~/services/component.service')
+    const result = await scanInstalledComponents(tmpDir)
 
     expect(result.ok).toBe(true)
     if (result.ok) {
       expect(result.data).toHaveLength(1)
       expect(result.data[0].name).toBe('custom-component')
-      expect(result.data[0].registry_entry).toBeNull()
+      expect(result.data[0].registryEntry).toBeNull()
     }
   })
 
@@ -107,8 +107,8 @@ describe('scan_installed_components', () => {
     fs.writeFileSync(path.join(tmpDir, 'index.ts'), 'export {}')
     fs.mkdirSync(path.join(tmpDir, 'button'), { recursive: true })
 
-    const { scan_installed_components } = await import('~/services/component.service')
-    const result = await scan_installed_components(tmpDir)
+    const { scanInstalledComponents } = await import('~/services/component.service')
+    const result = await scanInstalledComponents(tmpDir)
 
     expect(result.ok).toBe(true)
     if (result.ok) {
@@ -118,7 +118,7 @@ describe('scan_installed_components', () => {
   })
 })
 
-describe('remove_component', () => {
+describe('removeComponent', () => {
   let tmpDir: string
 
   beforeEach(() => {
@@ -135,12 +135,12 @@ describe('remove_component', () => {
     fs.mkdirSync(compDir, { recursive: true })
     fs.writeFileSync(path.join(compDir, 'button.tsx'), 'content')
 
-    const { remove_component } = await import('~/services/component.service')
-    const result = await remove_component({
+    const { removeComponent } = await import('~/services/component.service')
+    const result = await removeComponent({
       name: 'button',
       root_folder: 'button',
-      local_path: compDir,
-      registry_entry: null,
+      localPath: compDir,
+      registryEntry: null,
     })
 
     expect(result.ok).toBe(true)
@@ -148,19 +148,19 @@ describe('remove_component', () => {
   })
 
   it('returns error for invalid path', async () => {
-    const { remove_component } = await import('~/services/component.service')
+    const { removeComponent } = await import('~/services/component.service')
     // This should succeed even if path does not exist (fs.remove is idempotent)
-    const result = await remove_component({
+    const result = await removeComponent({
       name: 'nonexistent',
       root_folder: 'nonexistent',
-      local_path: path.join(tmpDir, 'nonexistent'),
-      registry_entry: null,
+      localPath: path.join(tmpDir, 'nonexistent'),
+      registryEntry: null,
     })
     expect(result.ok).toBe(true)
   })
 })
 
-describe('remove_components', () => {
+describe('removeComponents', () => {
   let tmpDir: string
 
   beforeEach(() => {
@@ -181,11 +181,11 @@ describe('remove_components', () => {
     fs.writeFileSync(path.join(dir2, 'input.tsx'), 'content')
 
     const progress: string[] = []
-    const { remove_components } = await import('~/services/component.service')
-    const result = await remove_components(
+    const { removeComponents } = await import('~/services/component.service')
+    const result = await removeComponents(
       [
-        { name: 'button', root_folder: 'button', local_path: dir1, registry_entry: null },
-        { name: 'input', root_folder: 'input', local_path: dir2, registry_entry: null },
+        { name: 'button', root_folder: 'button', localPath: dir1, registryEntry: null },
+        { name: 'input', root_folder: 'input', localPath: dir2, registryEntry: null },
       ],
       (msg) => progress.push(msg),
     )
@@ -199,7 +199,7 @@ describe('remove_components', () => {
   })
 })
 
-describe('diff_component', () => {
+describe('diffComponent', () => {
   let tmpDir: string
 
   beforeEach(() => {
@@ -218,15 +218,15 @@ describe('diff_component', () => {
 
     const entry = createMockRegistryEntry({ name: 'button' })
 
-    const { diff_component } = await import('~/services/component.service')
-    const result = await diff_component(
-      { name: 'button', root_folder: 'button', local_path: compDir, registry_entry: entry },
+    const { diffComponent } = await import('~/services/component.service')
+    const result = await diffComponent(
+      { name: 'button', root_folder: 'button', localPath: compDir, registryEntry: entry },
       entry,
     )
 
     expect(result.ok).toBe(true)
     if (result.ok) {
-      expect(result.data.is_identical).toBe(true)
+      expect(result.data.isIdentical).toBe(true)
       expect(result.data.diffs).toHaveLength(0)
     }
   })
@@ -238,19 +238,19 @@ describe('diff_component', () => {
 
     const entry = createMockRegistryEntry({ name: 'button' })
 
-    const { diff_component } = await import('~/services/component.service')
-    const result = await diff_component(
-      { name: 'button', root_folder: 'button', local_path: compDir, registry_entry: entry },
+    const { diffComponent } = await import('~/services/component.service')
+    const result = await diffComponent(
+      { name: 'button', root_folder: 'button', localPath: compDir, registryEntry: entry },
       entry,
     )
 
     expect(result.ok).toBe(true)
     if (result.ok) {
-      expect(result.data.is_identical).toBe(false)
+      expect(result.data.isIdentical).toBe(false)
       expect(result.data.diffs).toHaveLength(1)
       expect(result.data.diffs[0].status).toBe('modified')
-      expect(result.data.diffs[0].local_content).toContain('modified')
-      expect(result.data.diffs[0].registry_content).toContain('return null')
+      expect(result.data.diffs[0].localContent).toContain('modified')
+      expect(result.data.diffs[0].registryContent).toContain('return null')
     }
   })
 
@@ -261,15 +261,15 @@ describe('diff_component', () => {
 
     const entry = createMockRegistryEntry({ name: 'button' })
 
-    const { diff_component } = await import('~/services/component.service')
-    const result = await diff_component(
-      { name: 'button', root_folder: 'button', local_path: compDir, registry_entry: entry },
+    const { diffComponent } = await import('~/services/component.service')
+    const result = await diffComponent(
+      { name: 'button', root_folder: 'button', localPath: compDir, registryEntry: entry },
       entry,
     )
 
     expect(result.ok).toBe(true)
     if (result.ok) {
-      expect(result.data.is_identical).toBe(false)
+      expect(result.data.isIdentical).toBe(false)
       const added = result.data.diffs.filter((d) => d.status === 'added')
       expect(added.length).toBeGreaterThan(0)
     }
@@ -283,9 +283,9 @@ describe('diff_component', () => {
 
     const entry = createMockRegistryEntry({ name: 'button' })
 
-    const { diff_component } = await import('~/services/component.service')
-    const result = await diff_component(
-      { name: 'button', root_folder: 'button', local_path: compDir, registry_entry: entry },
+    const { diffComponent } = await import('~/services/component.service')
+    const result = await diffComponent(
+      { name: 'button', root_folder: 'button', localPath: compDir, registryEntry: entry },
       entry,
     )
 
@@ -293,7 +293,7 @@ describe('diff_component', () => {
     if (result.ok) {
       const deleted = result.data.diffs.filter((d) => d.status === 'deleted')
       expect(deleted.length).toBe(1)
-      expect(deleted[0].file_path).toBe('custom.tsx')
+      expect(deleted[0].filePath).toBe('custom.tsx')
     }
   })
 
@@ -304,9 +304,9 @@ describe('diff_component', () => {
 
     const entry = createMockRegistryEntry({ name: 'empty', root_folder: 'empty', files: [] })
 
-    const { diff_component } = await import('~/services/component.service')
-    const result = await diff_component(
-      { name: 'empty', root_folder: 'empty', local_path: compDir, registry_entry: entry },
+    const { diffComponent } = await import('~/services/component.service')
+    const result = await diffComponent(
+      { name: 'empty', root_folder: 'empty', localPath: compDir, registryEntry: entry },
       entry,
     )
 
@@ -319,7 +319,7 @@ describe('diff_component', () => {
   })
 })
 
-describe('diff_components', () => {
+describe('diffComponents', () => {
   let tmpDir: string
 
   beforeEach(() => {
@@ -346,11 +346,11 @@ describe('diff_components', () => {
     const inputEntry = createMockRegistryEntry({ name: 'input', root_folder: 'input' })
 
     const progress: string[] = []
-    const { diff_components } = await import('~/services/component.service')
-    const result = await diff_components(
+    const { diffComponents } = await import('~/services/component.service')
+    const result = await diffComponents(
       [
-        { name: 'button', root_folder: 'button', local_path: btnDir, registry_entry: btnEntry },
-        { name: 'input', root_folder: 'input', local_path: inputDir, registry_entry: inputEntry },
+        { name: 'button', root_folder: 'button', localPath: btnDir, registryEntry: btnEntry },
+        { name: 'input', root_folder: 'input', localPath: inputDir, registryEntry: inputEntry },
       ],
       (msg) => progress.push(msg),
     )
@@ -367,9 +367,9 @@ describe('diff_components', () => {
     fs.mkdirSync(btnDir, { recursive: true })
     fs.writeFileSync(path.join(btnDir, 'button.tsx'), 'export function Button() { return null }')
 
-    const { diff_components } = await import('~/services/component.service')
-    const result = await diff_components([
-      { name: 'button', root_folder: 'button', local_path: btnDir, registry_entry: null },
+    const { diffComponents } = await import('~/services/component.service')
+    const result = await diffComponents([
+      { name: 'button', root_folder: 'button', localPath: btnDir, registryEntry: null },
     ])
 
     expect(result.ok).toBe(true)

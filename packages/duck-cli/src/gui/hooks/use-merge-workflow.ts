@@ -2,19 +2,19 @@ import path from 'node:path'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import {
   type ComponentDiff,
-  diff_component,
+  diffComponent,
   type InstalledComponent,
-  resolve_write_type_path,
-  scan_installed_components,
+  resolveWriteTypePath,
+  scanInstalledComponents,
 } from '~/services/component.service'
-import { resolve_install_path } from '~/services/install.service'
-import { build_component_merge_state, write_merge_results } from '~/services/merge.service'
-import { read_duckui_config, read_ts_config } from '~/services/preflight.service'
-import { highlight_diff_lines, warm_highlighter } from '~/services/syntax-highlight.service'
+import { resolveInstallPath } from '~/services/install.service'
+import { buildComponentMergeState, writeMergeResults } from '~/services/merge.service'
+import { readDuckuiConfig, readTsConfig } from '~/services/preflight.service'
+import { highlightDiffLines, warmHighlighter } from '~/services/syntax-highlight.service'
 import type { DiffDisplayLine } from '~/utils/diff-format'
 import type { ComponentMergeState, FileMergeState, HunkChoice, MergeHunk, MergeResult } from '~/utils/merge'
-import { build_merge_preview_lines } from '~/utils/merge'
-import { resolve_project_cwd } from '~/utils/workspace'
+import { buildMergePreviewLines } from '~/utils/merge'
+import { resolveProjectCwd } from '~/utils/workspace'
 import { InitialArgsContext, TerminalSizeContext } from '../app'
 import type { MergeStep } from '../screens/merge-screen.types'
 import type { AsyncTaskState } from './use-async-task'
@@ -45,11 +45,11 @@ export type MergeWorkflowState = {
   writeResults: MergeResult[]
   highlightedPreview: DiffDisplayLine[]
 
-  active_file: FileMergeState | null
-  active_hunks: MergeHunk[]
-  active_hunk: MergeHunk | null
-  total_hunks: number
-  all_resolved: boolean
+  activeFile: FileMergeState | null
+  activeHunks: MergeHunk[]
+  activeHunk: MergeHunk | null
+  totalHunks: number
+  allResolved: boolean
 
   visibleRows: number
   summaryVisibleRows: number
@@ -59,10 +59,10 @@ export type MergeWorkflowState = {
 
   handleSelect: (name: string) => Promise<void>
   handleWrite: () => Promise<void>
-  update_hunk_choice: (choice: HunkChoice) => void
-  update_file_choice: (choice: 'keep' | 'remove') => void
-  find_next_unresolved: () => { fileIdx: number; hunkIdx: number } | null
-  find_prev_unresolved: () => { fileIdx: number; hunkIdx: number } | null
+  updateHunkChoice: (choice: HunkChoice) => void
+  updateFileChoice: (choice: 'keep' | 'remove') => void
+  findNextUnresolved: () => { fileIdx: number; hunkIdx: number } | null
+  findPrevUnresolved: () => { fileIdx: number; hunkIdx: number } | null
   setStep: (step: MergeStep) => void
   setActiveFileIndex: (v: number | ((prev: number) => number)) => void
   setActiveHunkIndex: (v: number | ((prev: number) => number)) => void
@@ -116,32 +116,32 @@ export function useMergeWorkflow(options: {
     const load = async () => {
       const cwd = process.cwd()
 
-      const configResult = await read_duckui_config(cwd)
+      const configResult = await readDuckuiConfig(cwd)
       if (!configResult.ok) {
         setErrorMessage(configResult.error)
         setStep('error')
         return
       }
 
-      const project_cwd = resolve_project_cwd(cwd, configResult.data)
-      const tsResult = await read_ts_config(project_cwd)
+      const projectCwd = resolveProjectCwd(cwd, configResult.data)
+      const tsResult = await readTsConfig(projectCwd)
       if (!tsResult.ok) {
         setErrorMessage(tsResult.error)
         setStep('error')
         return
       }
 
-      const pathResult = resolve_install_path(configResult.data, tsResult.data)
+      const pathResult = resolveInstallPath(configResult.data, tsResult.data)
       if (!pathResult.ok) {
         setErrorMessage(pathResult.error)
         setStep('error')
         return
       }
 
-      const write_type_path = resolve_write_type_path(configResult.data, path.resolve(project_cwd, pathResult.data))
-      setWritePath(write_type_path)
+      const writeTypePath = resolveWriteTypePath(configResult.data, path.resolve(projectCwd, pathResult.data))
+      setWritePath(writeTypePath)
 
-      const scanResult = await scan_installed_components(write_type_path)
+      const scanResult = await scanInstalledComponents(writeTypePath)
       if (!scanResult.ok) {
         setErrorMessage(scanResult.error)
         setStep('error')
@@ -167,7 +167,7 @@ export function useMergeWorkflow(options: {
   useEffect(() => {
     if (step !== 'resolving' || !mergeState) return
     for (const file of mergeState.files) {
-      warm_highlighter(file.file_path).catch(() => {})
+      warmHighlighter(file.filePath).catch(() => {})
       break
     }
   }, [step, mergeState])
@@ -177,32 +177,32 @@ export function useMergeWorkflow(options: {
   useEffect(() => {
     if (step !== 'summary' || !mergeState) return
 
-    const preview_file = mergeState.files.find((f) => f.status === 'modified')
-    if (!preview_file) {
+    const previewFile = mergeState.files.find((f) => f.status === 'modified')
+    if (!previewFile) {
       setHighlightedPreview([])
       return
     }
 
-    const raw_lines = build_merge_preview_lines(preview_file.local_content, preview_file.hunks)
-    setHighlightedPreview(raw_lines)
+    const rawLines = buildMergePreviewLines(previewFile.localContent, previewFile.hunks)
+    setHighlightedPreview(rawLines)
 
-    const full_code = raw_lines.map((l) => l.raw_text).join('\n')
-    highlight_diff_lines(raw_lines, full_code, preview_file.file_path)
+    const fullCode = rawLines.map((l) => l.rawText).join('\n')
+    highlightDiffLines(rawLines, fullCode, previewFile.filePath)
       .then((highlighted) => setHighlightedPreview(highlighted))
       .catch(() => {})
   }, [step, mergeState])
 
   // -- Derived state --
 
-  const active_file = mergeState?.files[activeFileIndex] ?? null
-  const active_hunks = active_file?.hunks ?? []
-  const active_hunk = active_hunks[activeHunkIndex] ?? null
-  const total_hunks = active_hunks.length
+  const activeFile = mergeState?.files[activeFileIndex] ?? null
+  const activeHunks = activeFile?.hunks ?? []
+  const activeHunk = activeHunks[activeHunkIndex] ?? null
+  const totalHunks = activeHunks.length
 
   // Check if every file and hunk has been resolved
-  const all_resolved = mergeState
+  const allResolved = mergeState
     ? mergeState.files.every((f) => {
-        if (f.status === 'deleted') return f.file_choice !== 'pending'
+        if (f.status === 'deleted') return f.fileChoice !== 'pending'
         if (f.status === 'added') return true
         return f.hunks.every((h) => h.choice !== 'pending')
       })
@@ -211,59 +211,59 @@ export function useMergeWorkflow(options: {
   // -- Mutation helpers --
 
   /** Set the choice for the currently active hunk in a modified file. */
-  const update_hunk_choice = useCallback(
+  const updateHunkChoice = useCallback(
     (choice: HunkChoice) => {
-      if (!mergeState || !active_file || active_file.status !== 'modified') return
+      if (!mergeState || !activeFile || activeFile.status !== 'modified') return
 
-      const new_files = [...mergeState.files]
-      const currentFile = new_files[activeFileIndex]
+      const newFiles = [...mergeState.files]
+      const currentFile = newFiles[activeFileIndex]
       if (!currentFile) return
       const file = { ...currentFile }
-      const new_hunks = [...file.hunks]
-      const currentHunk = new_hunks[activeHunkIndex]
+      const newHunks = [...file.hunks]
+      const currentHunk = newHunks[activeHunkIndex]
       if (!currentHunk) return
-      new_hunks[activeHunkIndex] = { ...currentHunk, choice }
-      file.hunks = new_hunks
-      file.is_resolved = new_hunks.every((h) => h.choice !== 'pending')
-      new_files[activeFileIndex] = file
+      newHunks[activeHunkIndex] = { ...currentHunk, choice }
+      file.hunks = newHunks
+      file.isResolved = newHunks.every((h) => h.choice !== 'pending')
+      newFiles[activeFileIndex] = file
 
-      setMergeState({ ...mergeState, files: new_files })
+      setMergeState({ ...mergeState, files: newFiles })
     },
-    [mergeState, activeFileIndex, activeHunkIndex, active_file],
+    [mergeState, activeFileIndex, activeHunkIndex, activeFile],
   )
 
   /** Set the keep/remove choice for a deleted file. */
-  const update_file_choice = useCallback(
+  const updateFileChoice = useCallback(
     (choice: 'keep' | 'remove') => {
-      if (!mergeState || !active_file || active_file.status !== 'deleted') return
+      if (!mergeState || !activeFile || activeFile.status !== 'deleted') return
 
-      const new_files = [...mergeState.files]
-      const currentFile = new_files[activeFileIndex]
+      const newFiles = [...mergeState.files]
+      const currentFile = newFiles[activeFileIndex]
       if (!currentFile) return
       const file = { ...currentFile }
-      file.file_choice = choice
-      file.is_resolved = true
-      new_files[activeFileIndex] = file
+      file.fileChoice = choice
+      file.isResolved = true
+      newFiles[activeFileIndex] = file
 
-      setMergeState({ ...mergeState, files: new_files })
+      setMergeState({ ...mergeState, files: newFiles })
     },
-    [mergeState, activeFileIndex, active_file],
+    [mergeState, activeFileIndex, activeFile],
   )
 
   /** Find the next unresolved hunk/file, wrapping around to the start. */
-  const find_next_unresolved = useCallback((): { fileIdx: number; hunkIdx: number } | null => {
+  const findNextUnresolved = useCallback((): { fileIdx: number; hunkIdx: number } | null => {
     if (!mergeState) return null
 
     // Search forward from current position
     for (let fi = activeFileIndex; fi < mergeState.files.length; fi++) {
       const file = mergeState.files[fi]
       if (!file) continue
-      if (file.status === 'deleted' && file.file_choice === 'pending') {
+      if (file.status === 'deleted' && file.fileChoice === 'pending') {
         return { fileIdx: fi, hunkIdx: 0 }
       }
       if (file.status === 'modified') {
-        const start_hunk = fi === activeFileIndex ? activeHunkIndex + 1 : 0
-        for (let hi = start_hunk; hi < file.hunks.length; hi++) {
+        const startHunk = fi === activeFileIndex ? activeHunkIndex + 1 : 0
+        for (let hi = startHunk; hi < file.hunks.length; hi++) {
           const hunk = file.hunks[hi]
           if (hunk?.choice === 'pending') {
             return { fileIdx: fi, hunkIdx: hi }
@@ -276,12 +276,12 @@ export function useMergeWorkflow(options: {
     for (let fi = 0; fi <= activeFileIndex; fi++) {
       const file = mergeState.files[fi]
       if (!file) continue
-      if (file.status === 'deleted' && file.file_choice === 'pending') {
+      if (file.status === 'deleted' && file.fileChoice === 'pending') {
         return { fileIdx: fi, hunkIdx: 0 }
       }
       if (file.status === 'modified') {
-        const end_hunk = fi === activeFileIndex ? activeHunkIndex : file.hunks.length
-        for (let hi = 0; hi < end_hunk; hi++) {
+        const endHunk = fi === activeFileIndex ? activeHunkIndex : file.hunks.length
+        for (let hi = 0; hi < endHunk; hi++) {
           const hunk = file.hunks[hi]
           if (hunk?.choice === 'pending') {
             return { fileIdx: fi, hunkIdx: hi }
@@ -294,22 +294,22 @@ export function useMergeWorkflow(options: {
   }, [mergeState, activeFileIndex, activeHunkIndex])
 
   /** Find the previous unresolved hunk/file, searching backwards. */
-  const find_prev_unresolved = useCallback((): { fileIdx: number; hunkIdx: number } | null => {
+  const findPrevUnresolved = useCallback((): { fileIdx: number; hunkIdx: number } | null => {
     if (!mergeState) return null
 
     for (let fi = activeFileIndex; fi >= 0; fi--) {
       const file = mergeState.files[fi]
       if (!file) continue
       if (file.status === 'modified') {
-        const start_hunk = fi === activeFileIndex ? activeHunkIndex - 1 : file.hunks.length - 1
-        for (let hi = start_hunk; hi >= 0; hi--) {
+        const startHunk = fi === activeFileIndex ? activeHunkIndex - 1 : file.hunks.length - 1
+        for (let hi = startHunk; hi >= 0; hi--) {
           const hunk = file.hunks[hi]
           if (hunk?.choice === 'pending') {
             return { fileIdx: fi, hunkIdx: hi }
           }
         }
       }
-      if (file.status === 'deleted' && file.file_choice === 'pending' && fi !== activeFileIndex) {
+      if (file.status === 'deleted' && file.fileChoice === 'pending' && fi !== activeFileIndex) {
         return { fileIdx: fi, hunkIdx: 0 }
       }
     }
@@ -335,27 +335,27 @@ export function useMergeWorkflow(options: {
       const result = await diffTask.run(async (onProgress) => {
         onProgress(`Fetching registry version of ${name}...`)
 
-        if (!comp.registry_entry) {
-          const { get_registry_item } = await import('~/utils/get-registry')
-          const entry = await get_registry_item(name)
+        if (!comp.registryEntry) {
+          const { getRegistryItem } = await import('~/utils/get-registry')
+          const entry = await getRegistryItem(name)
           if (!entry) {
             return { ok: false as const, error: `Component "${name}" not found in registry.` }
           }
-          comp.registry_entry = entry
+          comp.registryEntry = entry
         }
 
         onProgress('Comparing files...')
-        return diff_component(comp, comp.registry_entry)
+        return diffComponent(comp, comp.registryEntry)
       })
 
       if (result.ok) {
-        if (result.data.is_identical) {
+        if (result.data.isIdentical) {
           setErrorMessage(`${name}: identical to registry. Nothing to merge.`)
           setStep('error')
           return
         }
 
-        const state = build_component_merge_state(result.data, writePath, comp.root_folder)
+        const state = buildComponentMergeState(result.data, writePath, comp.root_folder)
         setMergeState(state)
         setActiveFileIndex(0)
         setActiveHunkIndex(0)
@@ -387,7 +387,7 @@ export function useMergeWorkflow(options: {
 
     setStep('writing')
     const result = await writeTask.run(async (onProgress) => {
-      return write_merge_results(mergeState, onProgress)
+      return writeMergeResults(mergeState, onProgress)
     })
 
     if (result.ok) {
@@ -414,21 +414,21 @@ export function useMergeWorkflow(options: {
     scrollOffset,
     writeResults,
     highlightedPreview,
-    active_file,
-    active_hunks,
-    active_hunk,
-    total_hunks,
-    all_resolved,
+    activeFile,
+    activeHunks,
+    activeHunk,
+    totalHunks,
+    allResolved,
     visibleRows,
     summaryVisibleRows,
     diffTask,
     writeTask,
     handleSelect,
     handleWrite,
-    update_hunk_choice,
-    update_file_choice,
-    find_next_unresolved,
-    find_prev_unresolved,
+    updateHunkChoice,
+    updateFileChoice,
+    findNextUnresolved,
+    findPrevUnresolved,
     setStep,
     setActiveFileIndex,
     setActiveHunkIndex,

@@ -8,10 +8,10 @@ export type DiffSegment = {
 
 export type DiffDisplayLine = {
   type: DiffLineType
-  old_line_num: number | null
-  new_line_num: number | null
+  oldLineNum: number | null
+  newLineNum: number | null
   segments: DiffSegment[]
-  raw_text: string
+  rawText: string
 }
 
 export type SideBySidePair = {

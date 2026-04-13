@@ -2,7 +2,7 @@ import type { PromptObject } from 'prompts'
 import { highlighter } from '../../text-styling'
 import { PROJECT_TYPE } from '../preflight-duckui/preflight-duckui.constants'
 
-export const tailwindcss_prompts: PromptObject<string>[] = [
+export const tailwindcssPrompts: PromptObject<string>[] = [
   {
     active: 'yes',
     inactive: 'no',
@@ -13,7 +13,7 @@ export const tailwindcss_prompts: PromptObject<string>[] = [
   },
 ]
 
-export const tailwindcss_install_prompts: PromptObject<string>[] = [
+export const tailwindcssInstallPrompts: PromptObject<string>[] = [
   {
     choices: PROJECT_TYPE.map((project) => ({
       title: project,
@@ -21,7 +21,7 @@ export const tailwindcss_install_prompts: PromptObject<string>[] = [
     })),
     initial: 0,
     message: `Select your ${highlighter.info('project type')} to install TailwindCSS correctly`,
-    name: 'project_type',
+    name: 'projectType',
     type: 'select',
   },
   {
@@ -32,14 +32,14 @@ export const tailwindcss_install_prompts: PromptObject<string>[] = [
   },
 ]
 
-export const post_css_nextjs = `const config = {
+export const postCssNextjs = `const config = {
   plugins: {
     "@tailwindcss/postcss": {},
   },
 };
 export default config;`
 
-export const tailwindcss_vite = `import { defineConfig } from 'vite'
+export const tailwindcssVite = `import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [
@@ -47,13 +47,13 @@ export default defineConfig({
   ],
 })`
 
-export const tailwindcss_boilerplate = `@import "tailwindcss";
+export const tailwindcssBoilerplate = `@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 `
 
-export const base_layer_styles = `@layer base {
+export const baseLayerStyles = `@layer base {
   * {
     @apply border-border font-medium;
   }

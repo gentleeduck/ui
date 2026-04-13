@@ -4,15 +4,15 @@ import type { Ora } from 'ora'
 import type { ThemeResponse } from '~/utils/get-registry/get-registry.dto'
 import { highlighter } from '~/utils/text-styling'
 import type { WorkspaceTarget } from '~/utils/workspace'
-import { base_layer_styles } from '../preflight-tailwindcss/preflight-tailwindcss.constants'
+import { baseLayerStyles } from '../preflight-tailwindcss/preflight-tailwindcss.constants'
 import type { DuckuiPrompts } from './preflight-duckui.dto'
 
-export async function init_duckui_config(
+export async function initDuckuiConfig(
   cwd: string,
   spinner: Ora,
-  duck_config: DuckuiPrompts,
+  duckConfig: DuckuiPrompts,
   workspace: WorkspaceTarget = { root: '.', project: '.' },
-  css_workspace?: string,
+  cssWorkspace?: string,
 ) {
   try {
     spinner.text = `Initializing ${highlighter.info('duck-ui')} config...`
@@ -20,7 +20,7 @@ export async function init_duckui_config(
     spinner.text = `Writing ${highlighter.info('duck-ui')} config...`
     await fs.writeFile(
       path.join(cwd, 'duck-ui.config.json'),
-      default_duckui_config(duck_config, workspace, css_workspace),
+      defaultDuckuiConfig(duckConfig, workspace, cssWorkspace),
       'utf-8',
     )
 
@@ -75,26 +75,26 @@ ${tailwindVars}
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-${base_layer_styles}
+${baseLayerStyles}
 `.trim()
 }
 
-export const default_duckui_config = (
-  { project_type, monorepo, css, prefix, alias, base_color, css_variables }: DuckuiPrompts,
+export const defaultDuckuiConfig = (
+  { projectType, monorepo, css, prefix, alias, baseColor, cssVariables }: DuckuiPrompts,
   workspace: WorkspaceTarget = { root: '.', project: '.' },
-  css_workspace?: string,
+  cssWorkspace?: string,
 ) => {
   return JSON.stringify(
     {
       schema: 'https://ui.gentleduck.org/schema.json',
-      rsc: ['NEXT_JS'].includes(project_type),
+      rsc: ['NEXT_JS'].includes(projectType),
       monorepo,
       workspace,
       tailwind: {
-        baseColor: base_color,
+        baseColor: baseColor,
         css,
-        ...(css_workspace && css_workspace !== '.' ? { cssWorkspace: css_workspace } : {}),
-        cssVariables: css_variables,
+        ...(cssWorkspace && cssWorkspace !== '.' ? { cssWorkspace: cssWorkspace } : {}),
+        cssVariables: cssVariables,
         prefix: prefix || '',
       },
       aliases: {

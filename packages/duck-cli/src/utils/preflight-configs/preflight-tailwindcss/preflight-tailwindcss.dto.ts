@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const preflight_tailwindcss_options_schema = z.object({
+export const preflightTailwindcssOptionsSchema = z.object({
   tailwind: z
     .boolean({
       error: 'You have to pick one option',

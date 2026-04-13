@@ -7,9 +7,9 @@ export type OptionType = {
 export type CommandConfig = {
   name: string
   description: string
-  options: Record<`option_${number}`, OptionType>
+  options: Record<`option${number}`, OptionType>
   arguments_: Record<
-    `arg_${number}`,
+    `arg${number}`,
     {
       name: string
       description: string

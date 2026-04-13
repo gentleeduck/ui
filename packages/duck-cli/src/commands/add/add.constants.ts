@@ -1,8 +1,8 @@
-import type { addCommandConfig } from './add.types'
+import type { AddCommandConfig } from './add.types'
 
-export const add_command_config: addCommandConfig = {
+export const addCommandConfig: AddCommandConfig = {
   arguments_: {
-    arg_1: {
+    arg1: {
       defaultValue: [],
       description:
         'names, url or local path to component to install when you do not provide this you will be directed to a list of the components to select from',
@@ -12,17 +12,17 @@ export const add_command_config: addCommandConfig = {
   description: 'add components to your project',
   name: 'add',
   options: {
-    option_1: {
+    option1: {
       defaultValue: false,
       description: 'skip confirmation prompt.',
       flags: '-y, --yes',
     },
-    option_2: {
+    option2: {
       defaultValue: false,
       description: 'overwrite existing components',
       flags: '-f, --force',
     },
-    option_3: {
+    option3: {
       defaultValue: process.cwd(),
       description: 'the working directory. defaults to the current directory.',
       flags: '-c, --cwd <cwd>',

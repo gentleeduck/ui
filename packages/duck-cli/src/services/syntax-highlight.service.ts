@@ -18,10 +18,10 @@ const EXT_TO_LANG: Record<string, string> = {
   '.svg': 'xml',
 }
 
-export function detect_language(file_path: string): string | null {
-  const dot_index = file_path.lastIndexOf('.')
-  if (dot_index === -1) return null
-  const ext = file_path.slice(dot_index).toLowerCase()
+export function detectLanguage(filePath: string): string | null {
+  const dotIndex = filePath.lastIndexOf('.')
+  if (dotIndex === -1) return null
+  const ext = filePath.slice(dotIndex).toLowerCase()
   return EXT_TO_LANG[ext] ?? null
 }
 
@@ -47,7 +47,7 @@ let _init_promise: Promise<ShikiHighlighter> | null = null
  * Uses a promise lock (_init_promise) to prevent concurrent initialization.
  * Loads additional languages on demand via loadLanguage().
  */
-async function get_highlighter(lang: string): Promise<ShikiHighlighter> {
+async function getHighlighter(lang: string): Promise<ShikiHighlighter> {
   if (_highlighter && _loaded_langs.has(lang)) {
     return _highlighter
   }
@@ -92,14 +92,14 @@ type SyntaxToken = {
  * Tokenize source code into colored token arrays using shiki.
  * Returns a 2D array (line -> token[]) or null on failure.
  */
-async function tokenize_code(code: string, lang: string): Promise<SyntaxToken[][] | null> {
+async function tokenizeCode(code: string, lang: string): Promise<SyntaxToken[][] | null> {
   try {
-    const highlighter = await get_highlighter(lang)
-    const token_lines = await highlighter.codeToTokensBase(code, {
+    const highlighter = await getHighlighter(lang)
+    const tokenLines = await highlighter.codeToTokensBase(code, {
       lang,
       theme: SHIKI_THEME,
     })
-    return token_lines.map((line) =>
+    return tokenLines.map((line) =>
       line.map((token) => ({
         content: token.content,
         color: token.color ?? DEFAULT_COLOR,
@@ -113,9 +113,9 @@ async function tokenize_code(code: string, lang: string): Promise<SyntaxToken[][
 // -- Build per-line token lookup (1-based line numbers) --
 
 /** Convert tokenized output into a Map keyed by 1-based line numbers for O(1) lookup. */
-function build_line_token_map(token_lines: SyntaxToken[][]): Map<number, SyntaxToken[]> {
+function buildLineTokenMap(tokenLines: SyntaxToken[][]): Map<number, SyntaxToken[]> {
   const map = new Map<number, SyntaxToken[]>()
-  for (const [index, line] of token_lines.entries()) {
+  for (const [index, line] of tokenLines.entries()) {
     map.set(index + 1, line)
   }
   return map
@@ -127,10 +127,10 @@ function build_line_token_map(token_lines: SyntaxToken[][]): Map<number, SyntaxT
  * Pre-warm the shiki highlighter for a given file type.
  * Call this early (fire-and-forget) so tokenization is instant later.
  */
-export async function warm_highlighter(file_path: string): Promise<void> {
-  const lang = detect_language(file_path)
+export async function warmHighlighter(filePath: string): Promise<void> {
+  const lang = detectLanguage(filePath)
   if (!lang) return
-  await get_highlighter(lang)
+  await getHighlighter(lang)
 }
 
 /**
@@ -138,34 +138,34 @@ export async function warm_highlighter(file_path: string): Promise<void> {
  * Tokenizes the full code with shiki, then overlays syntax colors
  * onto existing diff segments. Word-level diff highlights are preserved.
  */
-export async function highlight_diff_lines(
+export async function highlightDiffLines(
   lines: DiffDisplayLine[],
-  full_code: string,
-  file_path: string,
+  fullCode: string,
+  filePath: string,
 ): Promise<DiffDisplayLine[]> {
-  const lang = detect_language(file_path)
+  const lang = detectLanguage(filePath)
   if (!lang) return lines
 
-  const token_lines = await tokenize_code(full_code, lang)
-  if (!token_lines) return lines
+  const tokenLines = await tokenizeCode(fullCode, lang)
+  if (!tokenLines) return lines
 
-  const token_map = build_line_token_map(token_lines)
-  return lines.map((line) => apply_tokens_to_line(line, token_map))
+  const tokenMap = buildLineTokenMap(tokenLines)
+  return lines.map((line) => applyTokensToLine(line, tokenMap))
 }
 
-function apply_tokens_to_line(line: DiffDisplayLine, token_map: Map<number, SyntaxToken[]>): DiffDisplayLine {
+function applyTokensToLine(line: DiffDisplayLine, tokenMap: Map<number, SyntaxToken[]>): DiffDisplayLine {
   if (line.type === 'hunk-header' || line.type === 'file-header') {
     return line
   }
 
-  const line_num = line.old_line_num ?? line.new_line_num
-  if (line_num === null) return line
+  const lineNum = line.oldLineNum ?? line.newLineNum
+  if (lineNum === null) return line
 
-  const tokens = token_map.get(line_num)
+  const tokens = tokenMap.get(lineNum)
   if (!tokens || tokens.length === 0) return line
 
-  const new_segments = overlay_syntax_on_segments(line.segments, tokens)
-  return { ...line, segments: new_segments }
+  const newSegments = overlaySyntaxOnSegments(line.segments, tokens)
+  return { ...line, segments: newSegments }
 }
 
 /**
@@ -173,18 +173,18 @@ function apply_tokens_to_line(line: DiffDisplayLine, token_map: Map<number, Synt
  * Word-level diff highlights (seg.highlight === true) pass through unchanged.
  * Non-highlighted segments get split at syntax token color boundaries.
  */
-function overlay_syntax_on_segments(diff_segments: DiffSegment[], syntax_tokens: SyntaxToken[]): DiffSegment[] {
+function overlaySyntaxOnSegments(diffSegments: DiffSegment[], syntaxTokens: SyntaxToken[]): DiffSegment[] {
   // Step 1: Reconstruct the full line text from diff segments so we can
   // build a character-level color map from the shiki tokens.
-  const line_text = diff_segments.map((s) => s.text).join('')
+  const lineText = diffSegments.map((s) => s.text).join('')
 
   // Build a per-character color array from syntax tokens.
   // Each character gets the hex color from its corresponding shiki token.
-  const char_colors: string[] = new Array(line_text.length).fill(DEFAULT_COLOR)
+  const charColors: string[] = new Array(lineText.length).fill(DEFAULT_COLOR)
   let pos = 0
-  for (const token of syntax_tokens) {
-    for (let i = 0; i < token.content.length && pos < char_colors.length; i++) {
-      char_colors[pos] = token.color
+  for (const token of syntaxTokens) {
+    for (let i = 0; i < token.content.length && pos < charColors.length; i++) {
+      charColors[pos] = token.color
       pos++
     }
   }
@@ -194,44 +194,44 @@ function overlay_syntax_on_segments(diff_segments: DiffSegment[], syntax_tokens:
   // over syntax colors. For non-highlighted segments, split at color
   // boundaries to apply per-character syntax coloring.
   const result: DiffSegment[] = []
-  let char_offset = 0
+  let charOffset = 0
 
-  for (const seg of diff_segments) {
+  for (const seg of diffSegments) {
     if (seg.highlight) {
       // Word-level diff highlight takes priority -- keep as-is
       result.push(seg)
-      char_offset += seg.text.length
+      charOffset += seg.text.length
       continue
     }
 
-    let run_start = 0
-    let current_color = char_colors[char_offset] ?? DEFAULT_COLOR
+    let runStart = 0
+    let currentColor = charColors[charOffset] ?? DEFAULT_COLOR
 
     for (let i = 0; i < seg.text.length; i++) {
-      const c = char_colors[char_offset + i] ?? DEFAULT_COLOR
-      if (c !== current_color) {
-        if (i > run_start) {
+      const c = charColors[charOffset + i] ?? DEFAULT_COLOR
+      if (c !== currentColor) {
+        if (i > runStart) {
           result.push({
-            text: seg.text.slice(run_start, i),
+            text: seg.text.slice(runStart, i),
             highlight: false,
-            color: current_color,
+            color: currentColor,
           })
         }
-        run_start = i
-        current_color = c
+        runStart = i
+        currentColor = c
       }
     }
 
     // Emit final run
-    if (run_start < seg.text.length) {
+    if (runStart < seg.text.length) {
       result.push({
-        text: seg.text.slice(run_start),
+        text: seg.text.slice(runStart),
         highlight: false,
-        color: current_color,
+        color: currentColor,
       })
     }
 
-    char_offset += seg.text.length
+    charOffset += seg.text.length
   }
 
   return result

@@ -1,34 +1,34 @@
 import { Command } from 'commander'
-import { add_command } from '~/commands/add'
-import { diff_command } from '~/commands/diff'
-import { init_command } from '~/commands/init'
-import { list_command } from '~/commands/list'
-import { remove_command } from '~/commands/remove'
-import { update_command } from '~/commands/update'
-import { get_package_json } from '~/utils'
-import { set_verbose } from '~/utils/verbose'
+import { addCommand } from '~/commands/add'
+import { diffCommand } from '~/commands/diff'
+import { initCommand } from '~/commands/init'
+import { listCommand } from '~/commands/list'
+import { removeCommand } from '~/commands/remove'
+import { updateCommand } from '~/commands/update'
+import { getPackageJson } from '~/utils'
+import { setVerbose } from '~/utils/verbose'
 import { config } from './main.constants'
 
 export async function init() {
-  const duck_ui = new Command()
-  const packageJson = get_package_json()
+  const duckUi = new Command()
+  const packageJson = getPackageJson()
 
-  duck_ui.name(packageJson?.name || config.name)
-  duck_ui.description(packageJson?.description || config.description)
-  duck_ui.version(packageJson?.version || config.version)
-  duck_ui.option('--verbose', 'show detailed error output for debugging', false)
-  duck_ui.hook('preAction', (thisCommand) => {
+  duckUi.name(packageJson?.name || config.name)
+  duckUi.description(packageJson?.description || config.description)
+  duckUi.version(packageJson?.version || config.version)
+  duckUi.option('--verbose', 'show detailed error output for debugging', false)
+  duckUi.hook('preAction', (thisCommand) => {
     const opts = thisCommand.opts()
     if (opts.verbose) {
-      set_verbose(true)
+      setVerbose(true)
     }
   })
-  duck_ui.addCommand(init_command())
-  duck_ui.addCommand(add_command())
-  duck_ui.addCommand(update_command())
-  duck_ui.addCommand(remove_command())
-  duck_ui.addCommand(diff_command())
-  duck_ui.addCommand(list_command())
+  duckUi.addCommand(initCommand())
+  duckUi.addCommand(addCommand())
+  duckUi.addCommand(updateCommand())
+  duckUi.addCommand(removeCommand())
+  duckUi.addCommand(diffCommand())
+  duckUi.addCommand(listCommand())
 
-  duck_ui.parse()
+  duckUi.parse()
 }

@@ -1,7 +1,7 @@
 import { z } from 'zod'
 import { BASE_COLORS, PROJECT_TYPE } from './preflight-duckui.constants'
 
-export const preflight_duckui_options_schema = z.object({
+export const preflightDuckuiOptionsSchema = z.object({
   duckui: z
     .boolean({
       error: 'You have to pick one option',
@@ -10,7 +10,7 @@ export const preflight_duckui_options_schema = z.object({
     .describe('Would you like to use @gentleduck/ui? (yes/no) -default: no'),
 })
 
-export const duckui_prompts_schema = z.object({
+export const duckuiPromptsSchema = z.object({
   alias: z
     .string()
     .min(1, {
@@ -18,7 +18,7 @@ export const duckui_prompts_schema = z.object({
     })
     .default('~')
     .describe('Defines the alias used for importing modules.'),
-  base_color: z
+  baseColor: z
     .enum(BASE_COLORS, {
       error: 'Please select a valid base color.',
     })
@@ -31,7 +31,7 @@ export const duckui_prompts_schema = z.object({
     })
     .describe('Specifies the location of your global CSS file.'),
 
-  css_variables: z
+  cssVariables: z
     .boolean({
       error: 'Invalid value for cssVariables.',
     })
@@ -44,16 +44,16 @@ export const duckui_prompts_schema = z.object({
     .describe('Indicates if your project is inside a monorepo.'),
 
   prefix: z.string().optional().default('').describe('A custom prefix for component class names or variables.'),
-  project_type: z
+  projectType: z
     .enum(PROJECT_TYPE, {
       error: 'Invalid value for projectType.',
     })
     .describe('Please select a valid project type.'),
 })
 
-export type DuckuiPrompts = z.infer<typeof duckui_prompts_schema>
+export type DuckuiPrompts = z.infer<typeof duckuiPromptsSchema>
 
-export const duck_ui_schema = z.object({
+export const duckUiSchema = z.object({
   aliases: z.object({
     hooks: z.string(),
     layouts: z.string(),
@@ -79,4 +79,4 @@ export const duck_ui_schema = z.object({
     prefix: z.string(),
   }),
 })
-export type DuckUI = z.infer<typeof duck_ui_schema>
+export type DuckUI = z.infer<typeof duckUiSchema>

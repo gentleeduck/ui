@@ -1,8 +1,8 @@
 import { REGISTRY_URL } from '~/main'
 import { highlighter, logger } from '../text-styling'
-import { error_messages } from './get-registry.constants'
+import { errorMessages } from './get-registry.constants'
 
-export function is_url(path: string) {
+export function isUrl(path: string) {
   try {
     new URL(path)
     return true
@@ -11,8 +11,8 @@ export function is_url(path: string) {
   }
 }
 
-export function get_registry_url(path: string) {
-  if (is_url(path)) {
+export function getRegistryUrl(path: string) {
+  if (isUrl(path)) {
     // If the url contains /chat/b/, we assume it's the v0 registry.
     // We need to add the /json suffix if it's missing.
     const url = new URL(path)
@@ -26,15 +26,15 @@ export function get_registry_url(path: string) {
   return `${REGISTRY_URL}/${path}`
 }
 
-export async function fetch_registry_url(paths: string[]) {
+export async function fetchRegistryUrl(paths: string[]) {
   try {
     const results = await Promise.all(
       paths.map(async (path) => {
-        const url = get_registry_url(path)
+        const url = getRegistryUrl(path)
         const response = await fetch(url, { signal: AbortSignal.timeout(30_000) })
 
         if (!response.ok) {
-          check_status(response.status, response.statusText, url, await response.text())
+          checkStatus(response.status, response.statusText, url, await response.text())
         }
 
         return await response.json()
@@ -45,13 +45,13 @@ export async function fetch_registry_url(paths: string[]) {
   } catch (error) {
     logger.error({
       args: [`\nFailed to fetch from registry.\n${error instanceof Error ? error.message : String(error)}`],
-      with_icon: true,
+      withIcon: true,
     })
     return []
   }
 }
 
-export function check_status(status: number, statusText: string, url: string, body: string) {
+export function checkStatus(status: number, statusText: string, url: string, body: string) {
   if (status === 401) {
     throw new Error(
       `You are not authorized to access the component at ${highlighter.info(
@@ -82,9 +82,9 @@ export function check_status(status: number, statusText: string, url: string, bo
     message =
       result && typeof result === 'object' && 'error' in result
         ? String(result.error)
-        : statusText || error_messages[status] || 'Unknown registry error'
+        : statusText || errorMessages[status] || 'Unknown registry error'
   } catch {
-    message = statusText || error_messages[status] || 'Unknown registry error'
+    message = statusText || errorMessages[status] || 'Unknown registry error'
   }
   throw new Error(`Failed to fetch from ${highlighter.info(url)}.\n${message}`)
 }

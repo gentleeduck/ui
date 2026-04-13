@@ -2,26 +2,26 @@ import { Box, Text } from 'ink'
 import { memo } from 'react'
 import { THEME } from '../app.constants'
 import type { DiffDisplayLine } from '../screens/diff-screen.types'
-import { get_conflict_marker_color } from './conflict-markers'
-import { get_renderable_diff_segments } from './diff-line.libs'
+import { getConflictMarkerColor } from './conflict-markers'
+import { getRenderableDiffSegments } from './diff-line.libs'
 
 type DiffLineProps = {
   line: DiffDisplayLine
-  num_width: number
-  single_num?: boolean
+  numWidth: number
+  singleNum?: boolean
 }
 
 /**
  * Renders a single unified diff line with syntax highlighting and word-level highlights.
  * Supports dual-gutter (old+new line numbers) and single-gutter modes.
  */
-export const DiffLineView = memo(function DiffLineView({ line, num_width, single_num }: DiffLineProps) {
-  const marker_color = get_conflict_marker_color(line.raw_text)
-  if (marker_color) {
+export const DiffLineView = memo(function DiffLineView({ line, numWidth, singleNum }: DiffLineProps) {
+  const markerColor = getConflictMarkerColor(line.rawText)
+  if (markerColor) {
     return (
       <Box>
-        <Text bold color={marker_color}>
-          {line.raw_text}
+        <Text bold color={markerColor}>
+          {line.rawText}
         </Text>
       </Box>
     )
@@ -31,7 +31,7 @@ export const DiffLineView = memo(function DiffLineView({ line, num_width, single
     return (
       <Box>
         <Text bold color={THEME.foreground}>
-          {line.raw_text}
+          {line.rawText}
         </Text>
       </Box>
     )
@@ -40,26 +40,26 @@ export const DiffLineView = memo(function DiffLineView({ line, num_width, single
   if (line.type === 'hunk-header') {
     return (
       <Box>
-        <Text color={THEME.ring}>{line.raw_text}</Text>
+        <Text color={THEME.ring}>{line.rawText}</Text>
       </Box>
     )
   }
 
   const prefix = line.type === 'add' ? '+' : line.type === 'remove' ? '-' : ' '
 
-  const base_color =
+  const baseColor =
     line.type === 'add' ? THEME.success : line.type === 'remove' ? THEME.destructive : THEME.mutedForeground
-  const renderable_segments = get_renderable_diff_segments(line.segments)
+  const renderableSegments = getRenderableDiffSegments(line.segments)
 
-  if (single_num) {
-    const num = line.new_line_num ?? line.old_line_num
-    const num_str = num !== null ? String(num).padStart(num_width) : ' '.repeat(num_width)
+  if (singleNum) {
+    const num = line.newLineNum ?? line.oldLineNum
+    const numStr = num !== null ? String(num).padStart(numWidth) : ' '.repeat(numWidth)
 
     return (
       <Box>
-        <Text color={THEME.mutedForeground}>{num_str} </Text>
-        <Text color={base_color}>{prefix} </Text>
-        {renderable_segments.map((seg) => {
+        <Text color={THEME.mutedForeground}>{numStr} </Text>
+        <Text color={baseColor}>{prefix} </Text>
+        {renderableSegments.map((seg) => {
           if (seg.highlight) {
             return (
               <Text
@@ -72,7 +72,7 @@ export const DiffLineView = memo(function DiffLineView({ line, num_width, single
           }
 
           return (
-            <Text key={seg.key} color={seg.color ?? base_color}>
+            <Text key={seg.key} color={seg.color ?? baseColor}>
               {seg.text}
             </Text>
           )
@@ -81,16 +81,16 @@ export const DiffLineView = memo(function DiffLineView({ line, num_width, single
     )
   }
 
-  const old_num = line.old_line_num !== null ? String(line.old_line_num).padStart(num_width) : ' '.repeat(num_width)
-  const new_num = line.new_line_num !== null ? String(line.new_line_num).padStart(num_width) : ' '.repeat(num_width)
+  const oldNum = line.oldLineNum !== null ? String(line.oldLineNum).padStart(numWidth) : ' '.repeat(numWidth)
+  const newNum = line.newLineNum !== null ? String(line.newLineNum).padStart(numWidth) : ' '.repeat(numWidth)
 
   return (
     <Box>
       <Text color={THEME.mutedForeground}>
-        {old_num} {new_num}{' '}
+        {oldNum} {newNum}{' '}
       </Text>
-      <Text color={base_color}>{prefix} </Text>
-      {renderable_segments.map((seg) => {
+      <Text color={baseColor}>{prefix} </Text>
+      {renderableSegments.map((seg) => {
         if (seg.highlight) {
           return (
             <Text
@@ -103,7 +103,7 @@ export const DiffLineView = memo(function DiffLineView({ line, num_width, single
         }
 
         return (
-          <Text key={seg.key} color={seg.color ?? base_color}>
+          <Text key={seg.key} color={seg.color ?? baseColor}>
             {seg.text}
           </Text>
         )

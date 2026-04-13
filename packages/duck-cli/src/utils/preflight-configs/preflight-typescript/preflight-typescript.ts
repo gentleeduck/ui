@@ -4,23 +4,23 @@ import type { Ora } from 'ora'
 import prompts from 'prompts'
 import type { InitOptions } from '~/commands/init'
 import { highlighter } from '../../text-styling'
-import { typescript_prompts } from './preflight-typescript.constants'
-import { preflight_typescript_options_schema } from './preflight-typescript.dto'
-import { adding_typescript_config, install_typescript } from './preflight-typescript.libs'
+import { typescriptPrompts } from './preflight-typescript.constants'
+import { preflightTypescriptOptionsSchema } from './preflight-typescript.dto'
+import { addingTypescriptConfig, installTypescript } from './preflight-typescript.libs'
 
-export async function preflight_typescript(_options: InitOptions, spinner: Ora) {
+export async function preflightTypescript(_options: InitOptions, spinner: Ora) {
   try {
     spinner.text = `Checking for ${highlighter.info('TypeScript')}...`
-    const is_ts_installed = await fs.pathExists(path.resolve(_options.cwd, 'tsconfig.json'))
-    if (is_ts_installed) {
+    const isTsInstalled = await fs.pathExists(path.resolve(_options.cwd, 'tsconfig.json'))
+    if (isTsInstalled) {
       spinner.text = `${highlighter.info('TypeScript')} is already installed...`
       return
     }
 
     if (!_options.yes) {
       spinner.stop()
-      const options = await prompts(typescript_prompts)
-      const { typescript } = preflight_typescript_options_schema.parse(options)
+      const options = await prompts(typescriptPrompts)
+      const { typescript } = preflightTypescriptOptionsSchema.parse(options)
       spinner.start()
 
       if (!typescript) {
@@ -29,8 +29,8 @@ export async function preflight_typescript(_options: InitOptions, spinner: Ora) 
       }
     }
 
-    await install_typescript(_options.cwd, spinner)
-    await adding_typescript_config(_options.cwd, spinner)
+    await installTypescript(_options.cwd, spinner)
+    await addingTypescriptConfig(_options.cwd, spinner)
   } catch (error) {
     spinner.fail(
       `Failed to preflight required ${highlighter.error('TypeScript')} configs...\n ${highlighter.error(

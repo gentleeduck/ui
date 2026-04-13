@@ -7,10 +7,10 @@ describe('highlighter', () => {
     expect(typeof highlighter.info).toBe('function')
     expect(typeof highlighter.success).toBe('function')
     expect(typeof highlighter.warn).toBe('function')
-    expect(typeof highlighter.bg_error).toBe('function')
-    expect(typeof highlighter.bg_info).toBe('function')
-    expect(typeof highlighter.bg_success).toBe('function')
-    expect(typeof highlighter.bg_warn).toBe('function')
+    expect(typeof highlighter.bgError).toBe('function')
+    expect(typeof highlighter.bgInfo).toBe('function')
+    expect(typeof highlighter.bgSuccess).toBe('function')
+    expect(typeof highlighter.bgWarn).toBe('function')
   })
 
   it('returns strings from each method', () => {

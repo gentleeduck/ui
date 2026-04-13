@@ -54,11 +54,11 @@ export function useDiffKeyboard(workflow: DiffWorkflowState, onBack: () => void)
 
       // Scroll down (clamped to content length)
       if (key.downArrow || input === 'j') {
-        const total_lines =
+        const totalLines =
           viewMode === 'unified'
             ? (displayLinesPerFile[activeFileIndex]?.length ?? 0)
             : (sideBySidePairsPerFile[activeFileIndex]?.length ?? 0)
-        setScrollOffset((prev: number) => Math.min(Math.max(0, total_lines - visibleRows), prev + 1))
+        setScrollOffset((prev: number) => Math.min(Math.max(0, totalLines - visibleRows), prev + 1))
         return
       }
 
@@ -101,8 +101,8 @@ export function useDiffKeyboard(workflow: DiffWorkflowState, onBack: () => void)
 
       // Switch to next file
       if (key.rightArrow || input === 'l') {
-        const max_index = (diffResult?.diffs.length ?? 1) - 1
-        if (activeFileIndex < max_index) {
+        const maxIndex = (diffResult?.diffs.length ?? 1) - 1
+        if (activeFileIndex < maxIndex) {
           setActiveFileIndex((prev: number) => prev + 1)
           setScrollOffset(0)
         }

@@ -1,27 +1,27 @@
 import type { RegistryEntry } from '@gentleduck/registers'
 import type { Ora } from 'ora'
 import prompts from 'prompts'
-import { get_registry_index, get_registry_item } from './get-registry'
+import { getRegistryIndex, getRegistryItem } from './get-registry'
 import { highlighter } from './text-styling'
 
 /**
  * Resolves components either from explicit names or by prompting the user
  * to select from the registry. Returns a filtered array with no null entries.
  */
-export async function resolve_components(component_names: string[], spinner: Ora): Promise<RegistryEntry[]> {
+export async function resolveComponents(componentNames: string[], spinner: Ora): Promise<RegistryEntry[]> {
   let components: RegistryEntry[] = []
 
-  if (component_names.length > 0) {
+  if (componentNames.length > 0) {
     const results = await Promise.all(
-      component_names.map(async (item, idx) => {
-        spinner.text = `Fetching components... ${highlighter.info(`[${idx + 1}/${component_names.length}]`)}`
-        return await get_registry_item(item)
+      componentNames.map(async (item, idx) => {
+        spinner.text = `Fetching components... ${highlighter.info(`[${idx + 1}/${componentNames.length}]`)}`
+        return await getRegistryItem(item)
       }),
     )
     components = results.filter((item): item is RegistryEntry => item !== null)
   } else {
-    const registry = await get_registry_index()
-    const filtered_registry = registry?.filter((item) => item.type === 'registry:ui')
+    const registry = await getRegistryIndex()
+    const filteredRegistry = registry?.filter((item) => item.type === 'registry:ui')
     const INSTALL_ALL_VALUE = '__install_all__'
 
     spinner.stop()
@@ -32,7 +32,7 @@ export async function resolve_components(component_names: string[], spinner: Ora
             title: 'Install all components',
             value: INSTALL_ALL_VALUE,
           },
-          ...(filtered_registry?.map((item) => ({
+          ...(filteredRegistry?.map((item) => ({
             title: item.name,
             value: item.name,
           })) ?? []),
@@ -49,14 +49,14 @@ export async function resolve_components(component_names: string[], spinner: Ora
       process.exit(0)
     }
 
-    const selected_component_names = prompt.component.includes(INSTALL_ALL_VALUE)
-      ? (filtered_registry?.map((item) => item.name) ?? [])
+    const selectedComponentNames = prompt.component.includes(INSTALL_ALL_VALUE)
+      ? (filteredRegistry?.map((item) => item.name) ?? [])
       : prompt.component
 
     const promptResults = await Promise.all(
-      selected_component_names.map(async (item, idx) => {
-        spinner.text = `Fetching components... ${highlighter.info(`[${idx + 1}/${selected_component_names.length}]`)}`
-        return await get_registry_item(item)
+      selectedComponentNames.map(async (item, idx) => {
+        spinner.text = `Fetching components... ${highlighter.info(`[${idx + 1}/${selectedComponentNames.length}]`)}`
+        return await getRegistryItem(item)
       }),
     )
     components = promptResults.filter((item): item is RegistryEntry => item !== null)

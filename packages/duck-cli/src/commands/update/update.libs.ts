@@ -1,70 +1,70 @@
 import path from 'node:path'
 import prompts from 'prompts'
-import { launch_merge_gui_and_wait } from '~/gui'
-import { diff_component, resolve_write_type_path, scan_installed_components } from '~/services/component.service'
-import { install_components, install_npm_deps, resolve_install_path } from '~/services/install.service'
-import { build_component_merge_state } from '~/services/merge.service'
-import { print_banner } from '~/utils/banner'
-import { get_duckui_config, get_ts_config } from '~/utils/get-project-info'
-import { get_registry_item } from '~/utils/get-registry'
+import { launchMergeGuiAndWait } from '~/gui'
+import { diffComponent, resolveWriteTypePath, scanInstalledComponents } from '~/services/component.service'
+import { installComponents, installNpmDeps, resolveInstallPath } from '~/services/install.service'
+import { buildComponentMergeState } from '~/services/merge.service'
+import { printBanner } from '~/utils/banner'
+import { getDuckuiConfig, getTsConfig } from '~/utils/get-project-info'
+import { getRegistryItem } from '~/utils/get-registry'
 import { spinner as Spinner } from '~/utils/spinner'
 import { highlighter } from '~/utils/text-styling'
-import { is_verbose } from '~/utils/verbose'
-import { resolve_project_cwd, validate_workspace_target } from '~/utils/workspace'
-import { type UpdateOptions, update_arguments_schema, update_options_schema } from './update.dto'
+import { isVerbose } from '~/utils/verbose'
+import { resolveProjectCwd, validateWorkspaceTarget } from '~/utils/workspace'
+import { type UpdateOptions, updateArgumentsSchema, updateOptionsSchema } from './update.dto'
 
-export async function update_command_action(args: string[], opt: UpdateOptions) {
-  const options = update_options_schema.parse(opt)
-  const component_names = update_arguments_schema.parse(args)
+export async function updateCommandAction(args: string[], opt: UpdateOptions) {
+  const options = updateOptionsSchema.parse(opt)
+  const componentNames = updateArgumentsSchema.parse(args)
 
-  print_banner()
+  printBanner()
   const spinner = Spinner('initializing...').start()
   try {
     const cwd = path.resolve(options.cwd)
 
     // In monorepo mode, config lives in the workspace directory
-    const config_cwd = options.workspace ? path.resolve(cwd, options.workspace) : cwd
-    const duckui_config = await get_duckui_config(config_cwd, spinner)
-    const project_cwd = resolve_project_cwd(config_cwd, duckui_config)
-    const workspace_error = validate_workspace_target(project_cwd, true)
-    if (workspace_error) {
-      spinner.fail(workspace_error)
+    const configCwd = options.workspace ? path.resolve(cwd, options.workspace) : cwd
+    const duckuiConfig = await getDuckuiConfig(configCwd, spinner)
+    const projectCwd = resolveProjectCwd(configCwd, duckuiConfig)
+    const workspaceError = validateWorkspaceTarget(projectCwd, true)
+    if (workspaceError) {
+      spinner.fail(workspaceError)
       process.exit(1)
     }
-    spinner.info(`Using workspace: ${project_cwd}`)
-    const ts_config = await get_ts_config(project_cwd, spinner)
+    spinner.info(`Using workspace: ${projectCwd}`)
+    const tsConfig = await getTsConfig(projectCwd, spinner)
 
-    const path_result = resolve_install_path(duckui_config, ts_config)
-    if (!path_result.ok) {
-      spinner.fail(path_result.error)
+    const pathResult = resolveInstallPath(duckuiConfig, tsConfig)
+    if (!pathResult.ok) {
+      spinner.fail(pathResult.error)
       process.exit(1)
     }
 
-    const write_type_path = resolve_write_type_path(duckui_config, path.resolve(project_cwd, path_result.data))
+    const writeTypePath = resolveWriteTypePath(duckuiConfig, path.resolve(projectCwd, pathResult.data))
 
     spinner.text = 'Scanning installed components...'
-    const scan_result = await scan_installed_components(write_type_path)
-    if (!scan_result.ok) {
-      spinner.fail(scan_result.error)
+    const scanResult = await scanInstalledComponents(writeTypePath)
+    if (!scanResult.ok) {
+      spinner.fail(scanResult.error)
       process.exit(1)
     }
 
-    if (scan_result.data.length === 0) {
+    if (scanResult.data.length === 0) {
       spinner.fail('No installed components found.')
       process.exit(1)
     }
 
-    let selected = scan_result.data
+    let selected = scanResult.data
 
     if (options.all) {
       // Update everything
-    } else if (component_names.length === 0) {
+    } else if (componentNames.length === 0) {
       spinner.stop()
       const { picked } = await prompts({
         type: 'autocompleteMultiselect',
         name: 'picked',
         message: 'Select components to update',
-        choices: scan_result.data.map((c) => ({ title: c.name, value: c.name })),
+        choices: scanResult.data.map((c) => ({ title: c.name, value: c.name })),
       })
       spinner.start()
 
@@ -73,13 +73,13 @@ export async function update_command_action(args: string[], opt: UpdateOptions) 
         process.exit(0)
       }
 
-      selected = scan_result.data.filter((c) => picked.includes(c.name))
+      selected = scanResult.data.filter((c) => picked.includes(c.name))
     } else {
-      selected = scan_result.data.filter((c) => component_names.some((n) => n.toLowerCase() === c.name.toLowerCase()))
+      selected = scanResult.data.filter((c) => componentNames.some((n) => n.toLowerCase() === c.name.toLowerCase()))
 
       if (selected.length === 0) {
         spinner.fail(
-          `None of the specified components are installed: ${component_names.map((n) => highlighter.info(n)).join(', ')}`,
+          `None of the specified components are installed: ${componentNames.map((n) => highlighter.info(n)).join(', ')}`,
         )
         process.exit(1)
       }
@@ -107,33 +107,33 @@ export async function update_command_action(args: string[], opt: UpdateOptions) 
 
     // Fetch latest versions from registry
     spinner.text = 'Fetching latest versions from registry...'
-    const registry_entries = []
+    const registryEntries = []
     for (const comp of selected) {
-      const entry = await get_registry_item(comp.name)
+      const entry = await getRegistryItem(comp.name)
       if (entry) {
-        registry_entries.push(entry)
+        registryEntries.push(entry)
       } else {
         spinner.warn(`Component "${comp.name}" not found in registry, skipping.`)
       }
     }
 
-    if (registry_entries.length === 0) {
+    if (registryEntries.length === 0) {
       spinner.fail('No components could be fetched from registry.')
       process.exit(1)
     }
 
     // For each component, check for local modifications and offer merge
-    const merge_handled = new Set<string>()
+    const mergeHandled = new Set<string>()
 
     if (!options.yes) {
-      for (const entry of registry_entries) {
-        const installed_comp = selected.find((c) => c.name === entry.name)
-        if (!installed_comp) continue
+      for (const entry of registryEntries) {
+        const installedComp = selected.find((c) => c.name === entry.name)
+        if (!installedComp) continue
 
         spinner.text = `Checking ${entry.name} for local changes...`
-        const diff_result = await diff_component(installed_comp, entry)
+        const diffResult = await diffComponent(installedComp, entry)
 
-        if (diff_result.ok && !diff_result.data.is_identical) {
+        if (diffResult.ok && !diffResult.data.isIdentical) {
           spinner.stop()
           const { action } = await prompts({
             message: `${highlighter.info(entry.name)} has local modifications. What do you want to do?`,
@@ -148,83 +148,83 @@ export async function update_command_action(args: string[], opt: UpdateOptions) 
           spinner.start()
 
           if (action === 'skip' || !action) {
-            merge_handled.add(entry.name)
+            mergeHandled.add(entry.name)
             spinner.warn(`Skipped ${highlighter.info(entry.name)}.`)
             continue
           }
 
           if (action === 'merge') {
-            merge_handled.add(entry.name)
-            const merge_state = build_component_merge_state(diff_result.data, write_type_path, entry.root_folder)
+            mergeHandled.add(entry.name)
+            const mergeState = buildComponentMergeState(diffResult.data, writeTypePath, entry.root_folder)
             spinner.stop()
-            const merge_results = await launch_merge_gui_and_wait(merge_state)
+            const mergeResults = await launchMergeGuiAndWait(mergeState)
             spinner.start()
 
-            if (merge_results) {
+            if (mergeResults) {
               spinner.succeed(`Merge complete for ${highlighter.info(entry.name)}.`)
             } else {
               spinner.warn(`Merge aborted for ${highlighter.info(entry.name)}.`)
             }
           }
-          // action === 'overwrite' -- will be handled by install_components below
+          // action === 'overwrite' -- will be handled by installComponents below
         }
       }
     }
 
     // Install remaining components that were not handled by merge (force overwrite)
-    const remaining_entries = registry_entries.filter((e) => !merge_handled.has(e.name))
+    const remainingEntries = registryEntries.filter((e) => !mergeHandled.has(e.name))
 
-    let all_deps: string[] = []
-    let all_dev_deps: string[] = []
+    let allDeps: string[] = []
+    let allDevDeps: string[] = []
 
-    if (remaining_entries.length > 0) {
-      const install_result = await install_components(
-        remaining_entries,
-        duckui_config,
-        path.resolve(project_cwd, path_result.data),
+    if (remainingEntries.length > 0) {
+      const installResult = await installComponents(
+        remainingEntries,
+        duckuiConfig,
+        path.resolve(projectCwd, pathResult.data),
         true,
         (msg) => {
           spinner.text = msg
         },
       )
 
-      if (!install_result.ok) {
-        spinner.fail(install_result.error)
+      if (!installResult.ok) {
+        spinner.fail(installResult.error)
         process.exit(1)
       }
 
-      all_deps = install_result.data.dependencies
-      all_dev_deps = install_result.data.devDependencies
+      allDeps = installResult.data.dependencies
+      allDevDeps = installResult.data.devDependencies
     }
 
     // Also collect deps from merge-handled components
-    for (const entry of registry_entries) {
-      if (merge_handled.has(entry.name)) {
-        all_deps.push(...(entry.dependencies ?? []))
-        all_dev_deps.push(...(entry.devDependencies ?? []))
+    for (const entry of registryEntries) {
+      if (mergeHandled.has(entry.name)) {
+        allDeps.push(...(entry.dependencies ?? []))
+        allDevDeps.push(...(entry.devDependencies ?? []))
       }
     }
 
     // Install any new/updated npm dependencies
-    const deps_result = await install_npm_deps(
-      [...new Set(all_deps)],
-      [...new Set(all_dev_deps)],
-      project_cwd,
+    const depsResult = await installNpmDeps(
+      [...new Set(allDeps)],
+      [...new Set(allDevDeps)],
+      projectCwd,
       (msg) => {
         spinner.text = msg
       },
     )
 
-    if (!deps_result.ok) {
-      spinner.fail(deps_result.error)
+    if (!depsResult.ok) {
+      spinner.fail(depsResult.error)
       process.exit(1)
     }
 
-    spinner.succeed(`Updated ${registry_entries.length} component${registry_entries.length > 1 ? 's' : ''}.`)
+    spinner.succeed(`Updated ${registryEntries.length} component${registryEntries.length > 1 ? 's' : ''}.`)
     process.exit(0)
   } catch (error) {
     spinner.fail(`Something went wrong: ${error instanceof Error ? error.message : String(error)}`)
-    if (is_verbose() && error instanceof Error) {
+    if (isVerbose() && error instanceof Error) {
       console.error(error.stack)
     }
     process.exit(1)

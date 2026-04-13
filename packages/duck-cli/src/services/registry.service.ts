@@ -1,10 +1,10 @@
-import { get_registry_base_color, get_registry_index, get_registry_item, type Registry } from '~/utils/get-registry'
+import { getRegistryBaseColor, getRegistryIndex, getRegistryItem, type Registry } from '~/utils/get-registry'
 import type { RegistryEntry } from '~/utils/get-registry/get-registry.dto'
 import type { ProgressCallback, ServiceResult } from './service.types'
 
 /** Fetch the full component registry index. */
-export async function fetch_registry(): Promise<ServiceResult<Registry>> {
-  const index = await get_registry_index()
+export async function fetchRegistry(): Promise<ServiceResult<Registry>> {
+  const index = await getRegistryIndex()
   if (!index || index.length === 0) {
     return { ok: false, error: 'No components found in registry.' }
   }
@@ -12,8 +12,8 @@ export async function fetch_registry(): Promise<ServiceResult<Registry>> {
 }
 
 /** Fetch a single component entry from the registry by name. */
-export async function fetch_component(name: string): Promise<ServiceResult<RegistryEntry>> {
-  const item = await get_registry_item(name)
+export async function fetchComponent(name: string): Promise<ServiceResult<RegistryEntry>> {
+  const item = await getRegistryItem(name)
   if (!item) {
     return { ok: false, error: `Component "${name}" not found in registry.` }
   }
@@ -21,14 +21,14 @@ export async function fetch_component(name: string): Promise<ServiceResult<Regis
 }
 
 /** Fetch multiple components by name with progress reporting. */
-export async function fetch_components(
+export async function fetchComponents(
   names: string[],
   onProgress: ProgressCallback,
 ): Promise<ServiceResult<RegistryEntry[]>> {
   const results: RegistryEntry[] = []
   for (const [index, name] of names.entries()) {
     onProgress(`Fetching component ${index + 1}/${names.length}: ${name}`)
-    const item = await get_registry_item(name)
+    const item = await getRegistryItem(name)
     if (item) results.push(item)
   }
   if (results.length === 0) {
@@ -38,8 +38,8 @@ export async function fetch_components(
 }
 
 /** Fetch a base color theme definition from the registry. */
-export async function fetch_theme(name: string): Promise<ServiceResult<unknown>> {
-  const result = await get_registry_base_color(name)
+export async function fetchTheme(name: string): Promise<ServiceResult<unknown>> {
+  const result = await getRegistryBaseColor(name)
   if (!result) {
     return { ok: false, error: `Theme "${name}" not found in registry.` }
   }
