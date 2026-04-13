@@ -1,7 +1,7 @@
 'use client'
 
-import { type DocsConfig, useDocsConfig } from '@duck-docs/context'
-import type { NavItem, NavItemWithChildren } from '@duck-docs/types/nav'
+import { type IDocsConfig, useDocsConfig } from '@duck-docs/context'
+import type { INavItem, INavItemWithChildren } from '@duck-docs/types/nav'
 import { cn } from '@gentleduck/libs/cn'
 import { buttonVariants } from '@gentleduck/registry-ui/button'
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
@@ -99,7 +99,7 @@ export function DocsPagerTop({ doc }: IDocsPagerProps) {
   )
 }
 
-export function getPagerForDoc(doc: IDocsPagerProps['doc'], docsConfig: DocsConfig) {
+export function getPagerForDoc(doc: IDocsPagerProps['doc'], docsConfig: IDocsConfig) {
   const allNav = [...(docsConfig.sidebarNav ?? []), ...(docsConfig.chartsNav ?? [])]
   const flattenedLinks = [null, ...flatten(allNav), null]
 
@@ -120,9 +120,9 @@ export function getPagerForDoc(doc: IDocsPagerProps['doc'], docsConfig: DocsConf
 }
 
 /** @internal */
-export function flatten(links: NavItemWithChildren[]): NavItem[] {
+export function flatten(links: INavItemWithChildren[]): INavItem[] {
   return links
-    .reduce<NavItem[]>((flat, link) => {
+    .reduce<INavItem[]>((flat, link) => {
       if (link.items?.length) {
         // Include the parent itself if it has an href (it's a real page), then flatten children
         return flat.concat(link.href ? [link] : [], flatten(link.items))

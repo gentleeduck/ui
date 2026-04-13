@@ -1,7 +1,7 @@
 'use client'
 
-import { type DocsConfig, useDocsConfig } from '@duck-docs/context'
-import type { SidebarNavItem } from '@duck-docs/types/nav'
+import { type IDocsConfig, useDocsConfig } from '@duck-docs/context'
+import type { ISidebarNavItem } from '@duck-docs/types/nav'
 import { cn } from '@gentleduck/libs/cn'
 import { ChevronRight } from 'lucide-react'
 import Link from 'next/link'
@@ -9,10 +9,10 @@ import { usePathname } from 'next/navigation'
 import * as React from 'react'
 
 export interface IDocsSidebarNavProps {
-  config?: DocsConfig
+  config?: IDocsConfig
 }
 
-function getSidebarItemKey(item: SidebarNavItem) {
+function getSidebarItemKey(item: ISidebarNavItem) {
   return item.href ?? `${item.title}-${item.label ?? 'item'}`
 }
 
@@ -24,7 +24,7 @@ function isPathCurrent(pathname: string, href: string) {
   return pathname === href
 }
 
-function hasActivePath(item: SidebarNavItem, pathname: string | null): boolean {
+function hasActivePath(item: ISidebarNavItem, pathname: string | null): boolean {
   if (!pathname) return false
   if (item.href && isPathActive(pathname, item.href)) return true
   return Boolean(item.items?.some((child) => hasActivePath(child, pathname)))
@@ -49,7 +49,7 @@ export function DocsSidebarNav({ config }: IDocsSidebarNavProps) {
 }
 
 // Memoized category component to prevent unnecessary re-renders
-const CategoryItem = ({ item, pathname }: { item: SidebarNavItem; pathname: string | null }) => {
+const CategoryItem = ({ item, pathname }: { item: ISidebarNavItem; pathname: string | null }) => {
   return (
     <div className="mb-2 flex flex-col">
       <div className="flex h-[36px] w-full items-center justify-between text-start font-semibold text-sm [&>div]:w-full [&>div]:justify-between">
@@ -70,7 +70,7 @@ const CategoryItem = ({ item, pathname }: { item: SidebarNavItem; pathname: stri
 }
 
 interface IDocsSidebarNavItemsProps {
-  items: SidebarNavItem[]
+  items: ISidebarNavItem[]
   pathname: string | null
   className?: string
   depth?: number
@@ -121,7 +121,7 @@ export function DocsSidebarNavItem({
   forceOpen = false,
   forceClose = false,
 }: {
-  item: SidebarNavItem
+  item: ISidebarNavItem
   pathname: string | null
   depth?: number
   accordionDefault?: boolean

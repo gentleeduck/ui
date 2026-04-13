@@ -1,15 +1,15 @@
-import type { MdxCodeNodeProperties, UnistNode, UnistTree } from '@duck-docs/types'
+import type { IMdxCodeNodeProperties, IUnistNode, IUnistTree } from '@duck-docs/types'
 import { visit } from 'unist-util-visit'
 import { readNodeProperties } from './hast-properties'
 
 export function rehypeNpmCommand() {
-  return (tree: UnistTree) => {
-    visit(tree, (node: UnistNode) => {
+  return (tree: IUnistTree) => {
+    visit(tree, (node: IUnistNode) => {
       if (node.type !== 'element' || node?.tagName !== 'pre') {
         return
       }
 
-      const props = readNodeProperties<MdxCodeNodeProperties>(node)
+      const props = readNodeProperties<IMdxCodeNodeProperties>(node)
       const raw = props.__rawString__
 
       if (!raw) {

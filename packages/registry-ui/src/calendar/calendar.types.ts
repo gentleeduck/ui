@@ -1,4 +1,4 @@
-import type { CalendarDay, CalendarMonth, DateAdapter, SelectionMode } from '@gentleduck/calendar'
+import type { ICalendarDay, ICalendarMonth, IDateAdapter, SelectionMode } from '@gentleduck/calendar'
 import type { Direction } from '@gentleduck/primitives/direction'
 import type { Button } from '../button'
 
@@ -25,7 +25,7 @@ export interface ICalendarProps {
    * Date adapter for alternative calendar systems (Islamic, Persian, etc.).
    * Default uses `NativeAdapter` (Gregorian).
    */
-  adapter?: DateAdapter<Date>
+  adapter?: IDateAdapter<Date>
   /** Variant style for navigation buttons. Default `'ghost'`. */
   buttonVariant?: React.ComponentProps<typeof Button>['variant']
   /** Selection mode. Default `'single'`. */
@@ -85,7 +85,7 @@ export interface ICalendarProps {
    * )}
    * ```
    */
-  renderDay?: (day: CalendarDay<Date>, children: React.ReactNode) => React.ReactNode
+  renderDay?: (day: ICalendarDay<Date>, children: React.ReactNode) => React.ReactNode
   /**
    * Custom render function for the navigation header.
    * Receives header context with month info and navigation controls.
@@ -131,5 +131,5 @@ export interface ICalendarProps {
    * )}
    * ```
    */
-  renderFooter?: (months: CalendarMonth<Date>[]) => React.ReactNode
+  renderFooter?: (months: ICalendarMonth<Date>[]) => React.ReactNode
 }

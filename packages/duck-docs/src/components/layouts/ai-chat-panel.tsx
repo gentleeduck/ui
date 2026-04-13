@@ -1,6 +1,6 @@
 'use client'
 
-import { type ChatMessage, type ChatSource, useAIChat } from '@duck-docs/hooks'
+import { type IChatMessage, type IChatSource, useAIChat } from '@duck-docs/hooks'
 import { cn } from '@gentleduck/libs/cn'
 import { ArrowLeft, ArrowUp, Check, Copy, FileText, Loader, Sparkles, Square, X } from 'lucide-react'
 import Link from 'next/link'
@@ -367,8 +367,8 @@ function MessageBubble({
   message,
   onSelectSource,
 }: {
-  message: ChatMessage
-  onSelectSource: (messageId: string, source: ChatSource) => void
+  message: IChatMessage
+  onSelectSource: (messageId: string, source: IChatSource) => void
 }) {
   const isUser = message.role === 'user'
   const isPicking = message.status === 'picking'

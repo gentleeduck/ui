@@ -88,8 +88,8 @@ export type {
   IDocsContextValue,
   IDocsEntry,
   IDocsSiteConfig,
-  RegistryIndex,
   ITocEntry,
+  RegistryIndex,
 } from './context/context.types'
 
 // hooks

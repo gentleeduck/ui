@@ -1,7 +1,7 @@
 'use client'
 
 import { useDocsConfig } from '@duck-docs/context'
-import type { SidebarNavItem } from '@duck-docs/types/nav'
+import type { ISidebarNavItem } from '@duck-docs/types/nav'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui/button'
 import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from '@gentleduck/registry-ui/drawer'
@@ -61,7 +61,7 @@ function MobileSidebarNavItems({
   onOpenChange,
   depth = 0,
 }: {
-  items: SidebarNavItem[]
+  items: ISidebarNavItem[]
   onOpenChange: (open: boolean) => void
   depth?: number
 }) {

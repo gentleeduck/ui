@@ -4,9 +4,9 @@ import type {
   IRegistryBuildComponentIndex,
   IRegistryBuildContentRewrite,
   IRegistryBuildCssTemplates,
-  RegistryBuildFramework,
   IRegistryBuildThemeEntry,
   IRegistryBuildThemesConfig,
+  RegistryBuildFramework,
 } from '../extensions/ui/ui.config.types'
 import type { IRegistryEntry, RegistryItemType, RegistryItemTypeMap } from '../extensions/ui/ui.registry.types'
 

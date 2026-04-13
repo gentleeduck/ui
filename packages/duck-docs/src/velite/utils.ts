@@ -1,6 +1,6 @@
-import type { TocEntry } from '@duck-docs/context'
+import type { ITocEntry } from '@duck-docs/context'
 
-export function cleanTocItems(items: TocEntry[]): TocEntry[] {
+export function cleanTocItems(items: ITocEntry[]): ITocEntry[] {
   return items.map((item) => {
     return {
       ...item,

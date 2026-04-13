@@ -13,11 +13,11 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { z } from 'zod'
 import {
-  type ICachedDoc,
   getCandidateDocs,
   getDoc,
   getDocsForCategory,
   getDocsIndex,
+  type ICachedDoc,
   sortChangelogDocs,
   truncate,
 } from './docs-index'

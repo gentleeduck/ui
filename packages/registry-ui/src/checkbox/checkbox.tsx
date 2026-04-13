@@ -12,7 +12,7 @@ import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Label } from '../label'
-import type { CheckboxGroupProps, ICheckboxProps, ICheckboxWithLabelProps, CheckedState } from './checkbox.types'
+import type { CheckboxGroupProps, CheckedState, ICheckboxProps, ICheckboxWithLabelProps } from './checkbox.types'
 
 const Checkbox = React.forwardRef<HTMLInputElement, ICheckboxProps>(
   (

@@ -1,13 +1,13 @@
-import type { MdxCodeNodeProperties, UnistNode, UnistTree } from '@duck-docs/types'
+import type { IMdxCodeNodeProperties, IUnistNode, IUnistTree } from '@duck-docs/types'
 import { visit } from 'unist-util-visit'
 import { assignNodeProperties } from './hast-properties'
 import { parseCodeFenceMeta } from './metadata-utils'
 
 export function rehypeMetadataPlugin() {
-  return (tree: UnistTree): UnistTree => {
-    visit(tree, 'element', (node: UnistNode) => {
+  return (tree: IUnistTree): IUnistTree => {
+    visit(tree, 'element', (node: IUnistNode) => {
       if (node.tagName === 'code' && node.children) {
-        const nextProperties: Partial<MdxCodeNodeProperties> = {
+        const nextProperties: Partial<IMdxCodeNodeProperties> = {
           __rawString__: node.children?.[0]?.value,
         }
 

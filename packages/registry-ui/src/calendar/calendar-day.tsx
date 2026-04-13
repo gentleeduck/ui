@@ -1,6 +1,6 @@
 'use client'
 
-import type { CalendarDay as CalendarDayType, DayProps } from '@gentleduck/calendar'
+import type { ICalendarDay as CalendarDayType, IDayProps } from '@gentleduck/calendar'
 import { cn } from '@gentleduck/libs/cn'
 import { tapScale } from '@gentleduck/motion/presets/content'
 import { m } from 'motion/react'
@@ -36,7 +36,7 @@ function toHebrewNumeral(n: number): string {
 
 interface ICalendarDayCellProps {
   day: CalendarDayType<Date>
-  dayProps: Omit<DayProps, 'role' | 'aria-selected' | 'onMouseEnter'>
+  dayProps: Omit<IDayProps, 'role' | 'aria-selected' | 'onMouseEnter'>
   isFocused: boolean
   isSelectedSingle: boolean
   isFirstInRow: boolean

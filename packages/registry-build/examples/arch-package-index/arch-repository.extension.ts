@@ -1,7 +1,7 @@
 import path from 'node:path'
-import type { RegistryBuildExtension } from '../../src'
+import type { IRegistryBuildExtension } from '../../src'
 import { writeFileIfChanged, writeJsonIfChanged } from '../../src'
-import type { ResolvedRegistryBuildCollection } from '../../src/config/types'
+import type { IResolvedRegistryBuildCollection } from '../../src/config/types'
 
 interface ArchPackageRecord {
   arch: string
@@ -33,13 +33,13 @@ function toPackageArray(value: unknown): ArchPackageRecord[] {
   return value as ArchPackageRecord[]
 }
 
-export function archRepositoryExtension(options: ArchRepositoryExtensionOptions): RegistryBuildExtension {
+export function archRepositoryExtension(options: ArchRepositoryExtensionOptions): IRegistryBuildExtension {
   return {
     name: 'archRepository',
     stage: 'afterBuild',
     async run(api) {
       const collections =
-        api.getArtifact<Record<string, ResolvedRegistryBuildCollection>>('collections') ?? api.config.collections
+        api.getArtifact<Record<string, IResolvedRegistryBuildCollection>>('collections') ?? api.config.collections
       const collection = collections[options.collection]
 
       if (!collection) {

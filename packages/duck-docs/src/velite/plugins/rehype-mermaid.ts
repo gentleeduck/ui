@@ -3,7 +3,7 @@ import { existsSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import type { UnistNode, UnistTree } from '@duck-docs/types'
+import type { IUnistNode, IUnistTree } from '@duck-docs/types'
 import type { Nodes } from 'hast'
 import { toString as hastToString } from 'hast-util-to-string'
 import { visit } from 'unist-util-visit'
@@ -12,7 +12,7 @@ import { visit } from 'unist-util-visit'
 // Helpers
 // ---------------------------------------------------------------------------
 
-function isMermaidCode(node: UnistNode): boolean {
+function isMermaidCode(node: IUnistNode): boolean {
   const codeChild = node.children?.[0]
   if (!codeChild || codeChild.type !== 'element' || codeChild.tagName !== 'code') return false
   const dataLang = codeChild.properties?.['data-language']
@@ -26,7 +26,7 @@ interface IMdxJsxAttribute {
   value: string | { type: string; value: string } | null | undefined
 }
 
-interface IMdxJsxFlowElement extends UnistNode {
+interface IMdxJsxFlowElement extends IUnistNode {
   type: 'mdxJsxFlowElement'
   name?: string
   attributes?: IMdxJsxAttribute[]
@@ -188,15 +188,15 @@ async function renderSvgBatch(
 // ---------------------------------------------------------------------------
 
 export function rehypeMermaid() {
-  return async (tree: UnistTree) => {
+  return async (tree: IUnistTree) => {
     // Two kinds of entries: code-fence <pre> blocks and <MermaidDiagram> JSX elements
-    type CodeFenceEntry = { kind: 'fence'; node: UnistNode; pre: UnistNode; source: string }
-    type JsxEntry = { kind: 'jsx'; node: UnistNode; source: string }
+    type CodeFenceEntry = { kind: 'fence'; node: IUnistNode; pre: IUnistNode; source: string }
+    type JsxEntry = { kind: 'jsx'; node: IUnistNode; source: string }
     type Entry = CodeFenceEntry | JsxEntry
 
     const entries: Entry[] = []
 
-    visit(tree, (node: UnistNode) => {
+    visit(tree, (node: IUnistNode) => {
       // 1. <MermaidDiagram chart={`...`} /> JSX elements
       const mdxNode = node as IMdxJsxFlowElement
       if (mdxNode.type === 'mdxJsxFlowElement' && mdxNode.name === 'MermaidDiagram') {
@@ -216,8 +216,8 @@ export function rehypeMermaid() {
         node.properties &&
         'data-rehype-pretty-code-fragment' in node.properties
       ) {
-        const pres = (node.children || []).filter((c: UnistNode) => c.type === 'element' && c.tagName === 'pre')
-        const mPre = pres.find((c: UnistNode) => isMermaidCode(c))
+        const pres = (node.children || []).filter((c: IUnistNode) => c.type === 'element' && c.tagName === 'pre')
+        const mPre = pres.find((c: IUnistNode) => isMermaidCode(c))
         if (!mPre) return
         const src = (mPre.properties?.__rawString__ as string) || hastToString(mPre as Nodes)
         if (src) entries.push({ kind: 'fence', node, pre: mPre, source: src.trim() })
