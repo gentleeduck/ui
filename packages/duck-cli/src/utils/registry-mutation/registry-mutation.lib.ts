@@ -239,17 +239,7 @@ export async function installRegistryDependencies(
 
   // Install all collected components
   for (const [index, component] of allComponents.entries()) {
-    await installComponent(
-      duckConfig,
-      dependencies,
-      index,
-      component,
-      true,
-      allComponents,
-      writePath,
-      spinner,
-      force,
-    )
+    await installComponent(duckConfig, dependencies, index, component, true, allComponents, writePath, spinner, force)
   }
 }
 

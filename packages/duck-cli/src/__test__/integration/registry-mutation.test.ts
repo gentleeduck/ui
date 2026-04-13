@@ -3,10 +3,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { execa } from 'execa'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import {
-  processComponentDependencies,
-  processComponentFiles,
-} from '~/utils/registry-mutation/registry-mutation.lib'
+import { processComponentDependencies, processComponentFiles } from '~/utils/registry-mutation/registry-mutation.lib'
 import { createMockDuckUIConfig, createMockRegistryEntry } from '../helpers/fixtures'
 import { createMockFetch } from '../helpers/mock-fetch'
 import { createMockSpinner } from '../helpers/mock-spinner'

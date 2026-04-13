@@ -105,9 +105,7 @@ describe('removeCommandAction', () => {
   it('removes multiple components with --yes flag', async () => {
     const { removeCommandAction } = await import('~/commands/remove/remove.libs')
 
-    await expect(removeCommandAction(['button', 'input'], { cwd: tmpDir, yes: true })).rejects.toThrow(
-      /process\.exit/,
-    )
+    await expect(removeCommandAction(['button', 'input'], { cwd: tmpDir, yes: true })).rejects.toThrow(/process\.exit/)
 
     expect(exitCodes[0]).toBe(0)
 

@@ -11,13 +11,13 @@ import { getPackageManager } from '~/utils/get-package-manager'
 import { highlighter } from '~/utils/text-styling'
 import { TEMPLATE_SCAFFOLD_CONFIG } from './template-scaffold.constants'
 
-export interface ScaffoldTemplateOptions {
+export interface IScaffoldTemplateOptions {
   template: string
   cwd: string
   yes?: boolean
 }
 
-export async function scaffoldTemplate(options: ScaffoldTemplateOptions, spinner: Ora) {
+export async function scaffoldTemplate(options: IScaffoldTemplateOptions, spinner: Ora) {
   const { template, cwd, yes } = options
   const { repo, branch, tarballUrl, templatesDir, ignoreSegments } = TEMPLATE_SCAFFOLD_CONFIG
 

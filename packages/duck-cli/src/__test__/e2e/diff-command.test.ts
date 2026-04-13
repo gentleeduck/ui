@@ -239,9 +239,9 @@ describe('diffCommandAction', () => {
 
     const { diffCommandAction } = await import('~/commands/diff/diff.libs')
 
-    await expect(
-      diffCommandAction(['button'], { cwd: tmpDir, workspace: 'apps/missing', gui: false }),
-    ).rejects.toThrow(/process\.exit/)
+    await expect(diffCommandAction(['button'], { cwd: tmpDir, workspace: 'apps/missing', gui: false })).rejects.toThrow(
+      /process\.exit/,
+    )
 
     expect(exitCodes[0]).toBe(1)
   })
