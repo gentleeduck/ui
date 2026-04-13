@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\r\n\r\nimport { Button } from '@gentleduck/registry-ui/button'\r\nimport { toast } from 'sonner'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <Button\r\n      onClick={() =>\r\n        toast('Event has been created', {\r\n          action: {\r\n            label: 'Undo',\r\n            onClick: () => console.log('Undo'),\r\n          },\r\n          description: 'Sunday, December 03, 2023 at 9:00 AM',\r\n        })\r\n      }\r\n      variant=\"outline\">\r\n      Show Toast\r\n    </Button>\r\n  )\r\n}\r\n",
+      "content": "'use client'\n\nimport { Button } from '@gentleduck/registry-ui/button'\nimport { toast } from 'sonner'\n\nexport default function Demo() {\n  return (\n    <Button\n      onClick={() =>\n        toast('Event has been created', {\n          action: {\n            label: 'Undo',\n            onClick: () => console.log('Undo'),\n          },\n          description: 'Sunday, December 03, 2023 at 9:00 AM',\n        })\n      }\n      variant=\"outline\">\n      Show Toast\n    </Button>\n  )\n}\n",
       "path": "sonner/sonner-1.tsx",
       "target": "components/sonner-1.tsx",
       "type": "registry:example"

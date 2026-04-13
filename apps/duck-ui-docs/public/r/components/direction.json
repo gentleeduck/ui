@@ -10,7 +10,7 @@
       "type": "registry:ui"
     },
     {
-      "content": "export { DIRECTION_DICTIONARY, DirectionContext, DirectionProvider, Provider, useDirection } from './direction'\r\nexport type { Direction, DirectionProviderProps } from './direction'\r\n",
+      "content": "export type { Direction, DirectionProviderProps } from './direction'\nexport { DIRECTION_DICTIONARY, DirectionContext, DirectionProvider, Provider, useDirection } from './direction'\n",
       "path": "direction/index.ts",
       "target": "components/ui/index.ts",
       "type": "registry:ui"

@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\r\n\r\nimport { KbdGroup, MotionKbd } from '@gentleduck/registry-ui/kbd'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <div className=\"flex items-center gap-4 p-4\">\r\n      <KbdGroup>\r\n        <MotionKbd index={0}>⌘</MotionKbd>\r\n        <MotionKbd index={1}>K</MotionKbd>\r\n      </KbdGroup>\r\n      <KbdGroup>\r\n        <MotionKbd index={2}>⌘</MotionKbd>\r\n        <MotionKbd index={3}>⇧</MotionKbd>\r\n        <MotionKbd index={4}>P</MotionKbd>\r\n      </KbdGroup>\r\n    </div>\r\n  )\r\n}\r\n",
+      "content": "'use client'\n\nimport { KbdGroup, MotionKbd } from '@gentleduck/registry-ui/kbd'\n\nexport default function Demo() {\n  return (\n    <div className=\"flex items-center gap-4 p-4\">\n      <KbdGroup>\n        <MotionKbd index={0}>⌘</MotionKbd>\n        <MotionKbd index={1}>K</MotionKbd>\n      </KbdGroup>\n      <KbdGroup>\n        <MotionKbd index={2}>⌘</MotionKbd>\n        <MotionKbd index={3}>⇧</MotionKbd>\n        <MotionKbd index={4}>P</MotionKbd>\n      </KbdGroup>\n    </div>\n  )\n}\n",
       "path": "kbd/kbd-7.tsx",
       "target": "components/kbd-7.tsx",
       "type": "registry:example"

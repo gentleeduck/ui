@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\r\n\r\nimport { MotionBadge } from '@gentleduck/registry-ui/badge'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <div className=\"flex flex-wrap items-center gap-3\">\r\n      <MotionBadge>Default</MotionBadge>\r\n      <MotionBadge variant=\"secondary\">Secondary</MotionBadge>\r\n      <MotionBadge variant=\"destructive\">Destructive</MotionBadge>\r\n      <MotionBadge variant=\"outline\">Outline</MotionBadge>\r\n    </div>\r\n  )\r\n}\r\n",
+      "content": "'use client'\n\nimport { MotionBadge } from '@gentleduck/registry-ui/badge'\n\nexport default function Demo() {\n  return (\n    <div className=\"flex flex-wrap items-center gap-3\">\n      <MotionBadge>Default</MotionBadge>\n      <MotionBadge variant=\"secondary\">Secondary</MotionBadge>\n      <MotionBadge variant=\"destructive\">Destructive</MotionBadge>\n      <MotionBadge variant=\"outline\">Outline</MotionBadge>\n    </div>\n  )\n}\n",
       "path": "badge/badge-10.tsx",
       "target": "components/badge-10.tsx",
       "type": "registry:example"

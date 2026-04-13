@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\r\n\r\nimport { MotionSkeleton } from '@gentleduck/registry-ui/skeleton'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <div className=\"flex items-center space-x-4\">\r\n      <MotionSkeleton className=\"h-12 w-12 rounded-full\" index={0} />\r\n      <div className=\"space-y-2\">\r\n        <MotionSkeleton className=\"h-4 w-[250px]\" index={1} />\r\n        <MotionSkeleton className=\"h-4 w-[200px]\" index={2} />\r\n      </div>\r\n    </div>\r\n  )\r\n}\r\n",
+      "content": "'use client'\n\nimport { MotionSkeleton } from '@gentleduck/registry-ui/skeleton'\n\nexport default function Demo() {\n  return (\n    <div className=\"flex items-center space-x-4\">\n      <MotionSkeleton className=\"h-12 w-12 rounded-full\" index={0} />\n      <div className=\"space-y-2\">\n        <MotionSkeleton className=\"h-4 w-[250px]\" index={1} />\n        <MotionSkeleton className=\"h-4 w-[200px]\" index={2} />\n      </div>\n    </div>\n  )\n}\n",
       "path": "skeleton/skeleton-4.tsx",
       "target": "components/skeleton-4.tsx",
       "type": "registry:example"

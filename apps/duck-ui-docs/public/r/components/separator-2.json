@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Separator } from '@gentleduck/registry-ui/separator'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <div dir=\"rtl\">\r\n      <div>\r\n        <div className=\"space-y-1\">\r\n          <h4 className=\"font-medium text-sm leading-none\">مكونات Radix الاساسية</h4>\r\n          <p className=\"text-muted-foreground text-sm\">مكتبة مكونات واجهة مستخدم مفتوحة المصدر.</p>\r\n        </div>\r\n        <Separator className=\"my-4\" />\r\n        <div className=\"flex h-5 items-center space-x-4 text-sm\">\r\n          <div>المدونة</div>\r\n          <Separator orientation=\"vertical\" />\r\n          <div>التوثيق</div>\r\n          <Separator orientation=\"vertical\" />\r\n          <div>المصدر</div>\r\n        </div>\r\n      </div>\r\n    </div>\r\n  )\r\n}\r\n",
+      "content": "import { Separator } from '@gentleduck/registry-ui/separator'\n\nexport default function Demo() {\n  return (\n    <div dir=\"rtl\">\n      <div>\n        <div className=\"space-y-1\">\n          <h4 className=\"font-medium text-sm leading-none\">مكونات Radix الاساسية</h4>\n          <p className=\"text-muted-foreground text-sm\">مكتبة مكونات واجهة مستخدم مفتوحة المصدر.</p>\n        </div>\n        <Separator className=\"my-4\" />\n        <div className=\"flex h-5 items-center space-x-4 text-sm\">\n          <div>المدونة</div>\n          <Separator orientation=\"vertical\" />\n          <div>التوثيق</div>\n          <Separator orientation=\"vertical\" />\n          <div>المصدر</div>\n        </div>\n      </div>\n    </div>\n  )\n}\n",
       "path": "separator/separator-2.tsx",
       "target": "components/separator-2.tsx",
       "type": "registry:example"

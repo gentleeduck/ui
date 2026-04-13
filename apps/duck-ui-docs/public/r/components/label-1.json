@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Checkbox } from '@gentleduck/registry-ui/checkbox'\r\nimport { Label } from '@gentleduck/registry-ui/label'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <div>\r\n      <div className=\"flex items-center gap-2\">\r\n        <Checkbox id=\"terms\" />\r\n        <Label htmlFor=\"terms\">Accept terms and conditions</Label>\r\n      </div>\r\n    </div>\r\n  )\r\n}\r\n",
+      "content": "import { Checkbox } from '@gentleduck/registry-ui/checkbox'\nimport { Label } from '@gentleduck/registry-ui/label'\n\nexport default function Demo() {\n  return (\n    <div>\n      <div className=\"flex items-center gap-2\">\n        <Checkbox id=\"terms\" />\n        <Label htmlFor=\"terms\">Accept terms and conditions</Label>\n      </div>\n    </div>\n  )\n}\n",
       "path": "label/label-1.tsx",
       "target": "components/label-1.tsx",
       "type": "registry:example"

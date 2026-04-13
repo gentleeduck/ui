@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Button } from '@gentleduck/registry-ui/button'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <Button aria-label=\"Inbox button\" type=\"button\" variant={'ghost'}>\r\n      Button\r\n    </Button>\r\n  )\r\n}\r\n",
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\n\nexport default function Demo() {\n  return (\n    <Button aria-label=\"Inbox button\" type=\"button\" variant={'ghost'}>\n      Button\n    </Button>\n  )\n}\n",
       "path": "button/button-4.tsx",
       "target": "components/button-4.tsx",
       "type": "registry:example"
