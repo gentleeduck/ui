@@ -1,42 +1,47 @@
 import type { Diff } from '~/utils/diff-format'
 
-export type HunkChoice = 'local' | 'registry' | 'both' | 'pending'
+// biome-ignore lint/style/noNamespace: namespace groups merge-related types per the project's TypeScript conventions doc
+export namespace Merge {
+  export type HunkChoice = 'local' | 'registry' | 'both' | 'pending'
 
-export type FileChoice = 'keep' | 'remove' | 'pending'
+  export type FileChoice = 'keep' | 'remove' | 'pending'
 
-export type MergeHunk = {
-  index: number
-  oldStart: number
-  oldLines: number
-  newStart: number
-  newLines: number
-  localLines: string[]
-  registryLines: string[]
-  contextBefore: string[]
-  contextAfter: string[]
-  choice: HunkChoice
-  displayLines: Diff.DisplayLine[]
-}
+  export interface Hunk {
+    index: number
+    oldStart: number
+    oldLines: number
+    newStart: number
+    newLines: number
+    localLines: string[]
+    registryLines: string[]
+    contextBefore: string[]
+    contextAfter: string[]
+    choice: HunkChoice
+    displayLines: Diff.DisplayLine[]
+  }
 
-export type FileMergeState = {
-  filePath: string
-  status: 'modified' | 'added' | 'deleted'
-  localContent: string
-  registryContent: string
-  hunks: MergeHunk[]
-  fileChoice: FileChoice
-  isResolved: boolean
-}
+  export interface FileState {
+    filePath: string
+    status: 'modified' | 'added' | 'deleted'
+    localContent: string
+    registryContent: string
+    hunks: Hunk[]
+    fileChoice: FileChoice
+    isResolved: boolean
+  }
 
-export type ComponentMergeState = {
-  name: string
-  files: FileMergeState[]
-  writeTypePath: string
-  root_folder: string
-}
+  export interface ComponentState {
+    name: string
+    files: FileState[]
+    writeTypePath: string
+    root_folder: string
+  }
 
-export type MergeResult = {
-  filePath: string
-  mergedContent: string
-  action: 'write' | 'skip' | 'delete'
+  export interface Result {
+    filePath: string
+    mergedContent: string
+    action: 'write' | 'skip' | 'delete'
+  }
+
+  export type Step = 'loading' | 'select' | 'diffing' | 'resolving' | 'summary' | 'writing' | 'done' | 'error'
 }

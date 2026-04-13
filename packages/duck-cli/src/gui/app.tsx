@@ -1,6 +1,6 @@
 import { Box, render, useApp } from 'ink'
 import { createContext, useCallback, useMemo } from 'react'
-import type { ComponentMergeState, MergeResult } from '~/utils/merge'
+import type { Merge } from '~/utils/merge'
 import { THEME } from './app.constants'
 import type { AppProps, GuiLaunchOptions } from './app.types'
 import type { ITerminalSize } from './hooks/use-terminal-size'
@@ -40,7 +40,7 @@ function App({ vimStdin, initialArgs, screen, mergeData, onComplete }: AppProps)
   }, [exit])
 
   const handleMergeComplete = useCallback(
-    (results: MergeResult[]) => {
+    (results: Merge.Result[]) => {
       if (onComplete) {
         onComplete(results)
       }
@@ -106,10 +106,10 @@ export function launchGui(options?: GuiLaunchOptions) {
 
 /**
  * Launch merge GUI and wait for it to complete.
- * Returns MergeResult[] if the user confirmed, or null if aborted.
+ * Returns Merge.Result[] if the user confirmed, or null if aborted.
  * Used by CLI commands (add/update) to integrate merge into headless flows.
  */
-export function launchMergeGuiAndWait(mergeData: ComponentMergeState): Promise<MergeResult[] | null> {
+export function launchMergeGuiAndWait(mergeData: Merge.ComponentState): Promise<Merge.Result[] | null> {
   return new Promise((resolve) => {
     let resolved = false
 

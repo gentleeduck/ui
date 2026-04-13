@@ -1,10 +1,10 @@
 import { Box, Text } from 'ink'
 import { memo } from 'react'
-import type { ComponentMergeState } from '~/utils/merge'
+import type { Merge } from '~/utils/merge'
 import { THEME } from '../app.constants'
 
 type MergeSummaryProps = {
-  mergeState: ComponentMergeState
+  mergeState: Merge.ComponentState
 }
 
 /** Pre-write summary of all merge decisions with per-file status and aggregate counts. */

@@ -1,7 +1,7 @@
 import { Select, Spinner, StatusMessage } from '@inkjs/ui'
 import { Box, Text } from 'ink'
 import { memo } from 'react'
-import type { ComponentMergeState, MergeResult } from '~/utils/merge'
+import type { Merge } from '~/utils/merge'
 import { THEME } from '../app.constants'
 import { Banner } from '../components/banner'
 import { DiffLineView } from '../components/diff-line'
@@ -15,9 +15,9 @@ import { useMergeKeyboard } from '../hooks/use-merge-keyboard'
 import { useMergeWorkflow } from '../hooks/use-merge-workflow'
 
 type MergeScreenProps = {
-  mergeData?: ComponentMergeState
+  mergeData?: Merge.ComponentState
   onBack: () => void
-  onComplete?: (results: MergeResult[]) => void
+  onComplete?: (results: Merge.Result[]) => void
 }
 
 /**
