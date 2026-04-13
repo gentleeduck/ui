@@ -1,5 +1,5 @@
-import type { DateAdapter } from '../adapter'
-import type { SelectionConstraints } from '../selection'
+import type { IDateAdapter } from '../adapter'
+import type { ISelectionConstraints } from '../selection'
 
 /** Direction to navigate: backward or forward. */
 export type NavigationDirection = 'prev' | 'next'
@@ -8,7 +8,7 @@ export type NavigationUnit = 'month' | 'year' | 'decade'
 
 /** Move the view date by one unit in the given direction. */
 export function navigate<TDate>(
-  adapter: DateAdapter<TDate>,
+  adapter: IDateAdapter<TDate>,
   date: TDate,
   direction: NavigationDirection,
   unit: NavigationUnit,
@@ -31,11 +31,11 @@ export function navigate<TDate>(
 
 /** Check if navigation in the given direction is within fromDate/toDate bounds. */
 export function canNavigate<TDate>(
-  adapter: DateAdapter<TDate>,
+  adapter: IDateAdapter<TDate>,
   date: TDate,
   direction: NavigationDirection,
   unit: NavigationUnit,
-  constraints: Pick<SelectionConstraints<TDate>, 'fromDate' | 'toDate'> = {},
+  constraints: Pick<ISelectionConstraints<TDate>, 'fromDate' | 'toDate'> = {},
 ): boolean {
   const { fromDate, toDate } = constraints
 
@@ -57,11 +57,11 @@ export function canNavigate<TDate>(
   return true
 }
 
-export function goToNextMonth<TDate>(adapter: DateAdapter<TDate>, current: TDate): TDate {
+export function goToNextMonth<TDate>(adapter: IDateAdapter<TDate>, current: TDate): TDate {
   return adapter.addMonths(current, 1)
 }
 
-export function goToPrevMonth<TDate>(adapter: DateAdapter<TDate>, current: TDate): TDate {
+export function goToPrevMonth<TDate>(adapter: IDateAdapter<TDate>, current: TDate): TDate {
   return adapter.addMonths(current, -1)
 }
 
@@ -69,13 +69,13 @@ export function goToPrevMonth<TDate>(adapter: DateAdapter<TDate>, current: TDate
  * Jumps to a specific month within the same year.
  * @param month - 0-indexed month (0 = January, 11 = December).
  */
-export function goToMonth<TDate>(adapter: DateAdapter<TDate>, current: TDate, month: number): TDate {
+export function goToMonth<TDate>(adapter: IDateAdapter<TDate>, current: TDate, month: number): TDate {
   return adapter.create(adapter.getYear(current), month, 1)
 }
 
 /**
  * Jumps to the same month in a different year.
  */
-export function goToYear<TDate>(adapter: DateAdapter<TDate>, current: TDate, year: number): TDate {
+export function goToYear<TDate>(adapter: IDateAdapter<TDate>, current: TDate, year: number): TDate {
   return adapter.create(year, adapter.getMonth(current), 1)
 }

@@ -8,10 +8,10 @@ const SUB_TRIGGER_NAME = 'MenubarSubTrigger'
 
 type MenubarSubTriggerElement = React.ComponentRef<typeof MenuPrimitive.SubTrigger>
 type MenuSubTriggerProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.SubTrigger>
-interface MenubarSubTriggerProps extends MenuSubTriggerProps {}
+interface IMenubarSubTriggerProps extends MenuSubTriggerProps {}
 
-const MenubarSubTrigger = React.forwardRef<MenubarSubTriggerElement, MenubarSubTriggerProps>(
-  (props: ScopedProps<MenubarSubTriggerProps>, forwardedRef) => {
+const MenubarSubTrigger = React.forwardRef<MenubarSubTriggerElement, IMenubarSubTriggerProps>(
+  (props: ScopedProps<IMenubarSubTriggerProps>, forwardedRef) => {
     const { __scopeMenubar, ...subTriggerProps } = props
     const menuScope = useMenuScope(__scopeMenubar)
     return (
@@ -22,5 +22,5 @@ const MenubarSubTrigger = React.forwardRef<MenubarSubTriggerElement, MenubarSubT
 
 MenubarSubTrigger.displayName = SUB_TRIGGER_NAME
 
-export type { MenubarSubTriggerProps }
+export type { IMenubarSubTriggerProps }
 export { MenubarSubTrigger }

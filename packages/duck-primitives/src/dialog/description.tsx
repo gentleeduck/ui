@@ -6,11 +6,11 @@ const DESCRIPTION_NAME = 'DialogDescription'
 
 type DialogDescriptionElement = React.ComponentRef<typeof Primitive.p>
 type PrimitiveParagraphProps = React.ComponentPropsWithoutRef<typeof Primitive.p>
-export interface DialogDescriptionProps extends PrimitiveParagraphProps {}
+export interface IDialogDescriptionProps extends PrimitiveParagraphProps {}
 
 /** Accessible description for the dialog. */
-export const DialogDescription = React.forwardRef<DialogDescriptionElement, DialogDescriptionProps>(
-  (props: ScopedProps<DialogDescriptionProps>, forwardedRef) => {
+export const DialogDescription = React.forwardRef<DialogDescriptionElement, IDialogDescriptionProps>(
+  (props: ScopedProps<IDialogDescriptionProps>, forwardedRef) => {
     const { __scopeDialog, ...descriptionProps } = props
     const context = useDialogContext(DESCRIPTION_NAME, __scopeDialog)
     return (

@@ -7,14 +7,14 @@ import { useMenuScope } from './context-menu'
 
 const SUB_NAME = 'ContextMenuSub'
 
-interface ContextMenuSubProps {
+interface IContextMenuSubProps {
   children?: React.ReactNode
   open?: boolean
   defaultOpen?: boolean
   onOpenChange?(open: boolean): void
 }
 
-const ContextMenuSub: React.FC<ContextMenuSubProps> = (props: ScopedProps<ContextMenuSubProps>) => {
+const ContextMenuSub: React.FC<IContextMenuSubProps> = (props: ScopedProps<IContextMenuSubProps>) => {
   const { __scopeContextMenu, children, onOpenChange, open: openProp, defaultOpen } = props
   const menuScope = useMenuScope(__scopeContextMenu)
   const [open, setOpen] = useControllableState({
@@ -33,5 +33,5 @@ const ContextMenuSub: React.FC<ContextMenuSubProps> = (props: ScopedProps<Contex
 
 ContextMenuSub.displayName = SUB_NAME
 
-export type { ContextMenuSubProps }
+export type { IContextMenuSubProps }
 export { ContextMenuSub }

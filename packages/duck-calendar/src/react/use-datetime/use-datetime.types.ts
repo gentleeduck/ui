@@ -1,12 +1,12 @@
-import type { DateAdapter } from '../../adapter'
-import type { CalendarLocaleConfig } from '../../index.types'
+import type { IDateAdapter } from '../../adapter'
+import type { ICalendarLocaleConfig } from '../../index.types'
 import type { HourCycle } from '../../time'
-import type { UseCalendarReturn } from '../use-calendar/use-calendar.types'
-import type { UseTimePickerReturn } from '../use-time-picker/use-time-picker.types'
+import type { IUseCalendarReturn } from '../use-calendar/use-calendar.types'
+import type { IUseTimePickerReturn } from '../use-time-picker/use-time-picker.types'
 
-export interface UseDateTimeConfig<TDate> {
-  adapter: DateAdapter<TDate>
-  locale?: CalendarLocaleConfig
+export interface IUseDateTimeConfig<TDate> {
+  adapter: IDateAdapter<TDate>
+  locale?: ICalendarLocaleConfig
   value?: TDate
   defaultValue?: TDate
   onChange?: (value: TDate) => void
@@ -22,9 +22,9 @@ export interface UseDateTimeConfig<TDate> {
   onDismiss?: () => void
 }
 
-export interface UseDateTimeReturn<TDate> {
-  calendar: UseCalendarReturn<TDate, 'single'>
-  timePicker: UseTimePickerReturn
+export interface IUseDateTimeReturn<TDate> {
+  calendar: IUseCalendarReturn<TDate, 'single'>
+  timePicker: IUseTimePickerReturn
   state: {
     value: TDate | null
   }

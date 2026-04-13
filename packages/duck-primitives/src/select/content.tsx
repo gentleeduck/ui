@@ -33,12 +33,12 @@ const CONTENT_NAME = 'SelectContent'
 
 type SelectContentImplElement = HTMLDivElement
 
-export interface SelectContentProps extends SelectContentImplProps {
+export interface ISelectContentProps extends ISelectContentImplProps {
   forceMount?: true
 }
 
-export const SelectContent = React.forwardRef<SelectContentImplElement, SelectContentProps>(
-  (props: ScopedProps<SelectContentProps>, forwardedRef) => {
+export const SelectContent = React.forwardRef<SelectContentImplElement, ISelectContentProps>(
+  (props: ScopedProps<ISelectContentProps>, forwardedRef) => {
     const { forceMount, ...contentProps } = props
     const context = useSelectContext(CONTENT_NAME, props.__scopeSelect)
     const [fragment, setFragment] = React.useState<DocumentFragment>()
@@ -81,9 +81,9 @@ type FocusScopeProps = React.ComponentPropsWithoutRef<typeof FocusScope>
 
 type SelectPopperPrivateProps = { onPlaced?: PopperContentProps['onPlaced'] }
 
-interface SelectContentImplProps
-  extends Omit<SelectPopperPositionProps, keyof SelectPopperPrivateProps>,
-    Omit<SelectItemAlignedPositionProps, keyof SelectPopperPrivateProps> {
+interface ISelectContentImplProps
+  extends Omit<ISelectPopperPositionProps, keyof SelectPopperPrivateProps>,
+    Omit<ISelectItemAlignedPositionProps, keyof SelectPopperPrivateProps> {
   onCloseAutoFocus?: FocusScopeProps['onUnmountAutoFocus']
   onEscapeKeyDown?: DismissableLayerProps['onEscapeKeyDown']
   onPointerDownOutside?: DismissableLayerProps['onPointerDownOutside']
@@ -99,8 +99,8 @@ interface SelectContentImplProps
 
 const Slot = createSlot('SelectContent.RemoveScroll')
 
-const SelectContentImpl = React.forwardRef<SelectContentImplElement, SelectContentImplProps>(
-  (props: ScopedProps<SelectContentImplProps>, forwardedRef) => {
+const SelectContentImpl = React.forwardRef<SelectContentImplElement, ISelectContentImplProps>(
+  (props: ScopedProps<ISelectContentImplProps>, forwardedRef) => {
     const {
       __scopeSelect,
       position = 'item-aligned',
@@ -376,12 +376,12 @@ const ITEM_ALIGNED_POSITION_NAME = 'SelectItemAlignedPosition'
 type SelectItemAlignedPositionElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-interface SelectItemAlignedPositionProps extends PrimitiveDivProps {
+interface ISelectItemAlignedPositionProps extends PrimitiveDivProps {
   onPlaced?: () => void
 }
 
-const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElement, SelectItemAlignedPositionProps>(
-  (props: ScopedProps<SelectItemAlignedPositionProps>, forwardedRef) => {
+const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElement, ISelectItemAlignedPositionProps>(
+  (props: ScopedProps<ISelectItemAlignedPositionProps>, forwardedRef) => {
     const { __scopeSelect, onPlaced, ...popperProps } = props
     const context = useSelectContext(CONTENT_NAME, __scopeSelect)
     const contentContext = useSelectContentContext(CONTENT_NAME, __scopeSelect)
@@ -583,12 +583,12 @@ const POPPER_POSITION_NAME = 'SelectPopperPosition'
 type SelectPopperPositionElement = React.ComponentRef<typeof PopperPrimitive.Content>
 type PopperContentProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.Content>
 
-interface SelectPopperPositionProps extends PopperContentProps {
+interface ISelectPopperPositionProps extends PopperContentProps {
   onPlaced?: () => void
 }
 
-const SelectPopperPosition = React.forwardRef<SelectPopperPositionElement, SelectPopperPositionProps>(
-  (props: ScopedProps<SelectPopperPositionProps>, forwardedRef) => {
+const SelectPopperPosition = React.forwardRef<SelectPopperPositionElement, ISelectPopperPositionProps>(
+  (props: ScopedProps<ISelectPopperPositionProps>, forwardedRef) => {
     const { __scopeSelect, align = 'start', collisionPadding = CONTENT_MARGIN, ...popperProps } = props
     const popperScope = usePopperScope(__scopeSelect)
 

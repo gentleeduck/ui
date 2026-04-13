@@ -27,7 +27,7 @@ const [InputOTPProvider, useInputOTPContext] = createInputOTPContext<InputOTPCon
 type InputOTPElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-interface InputOTPProps extends Omit<PrimitiveDivProps, 'onChange'> {
+interface IInputOTPProps extends Omit<PrimitiveDivProps, 'onChange'> {
   value?: string
   onValueChange?: (value: string) => void
   pattern?: RegExp
@@ -142,7 +142,7 @@ function useInputOTPBehavior({
   }, [value, onValueChange, pattern, direction, maxLength, inputsRef, wrapperRef])
 }
 
-const InputOTP = React.forwardRef<InputOTPElement, InputOTPProps>((props: ScopedProps<InputOTPProps>, forwardedRef) => {
+const InputOTP = React.forwardRef<InputOTPElement, IInputOTPProps>((props: ScopedProps<IInputOTPProps>, forwardedRef) => {
   const {
     __scopeInputOTP,
     value,
@@ -192,5 +192,5 @@ const InputOTP = React.forwardRef<InputOTPElement, InputOTPProps>((props: Scoped
 
 InputOTP.displayName = INPUT_OTP_NAME
 
-export type { InputOTPContextValue, InputOTPProps, ScopedProps }
+export type { InputOTPContextValue, IInputOTPProps, ScopedProps }
 export { createInputOTPScope, INPUT_OTP_NAME, InputOTP, InputOTPProvider, useInputOTPContext }

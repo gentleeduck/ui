@@ -8,7 +8,7 @@ import { type ScopedProps, usePopoverContext, usePopperScope } from './popover'
 
 const TRIGGER_NAME = 'PopoverTrigger'
 
-export interface PopoverTriggerProps extends React.ComponentPropsWithRef<typeof Primitive.button> {}
+export interface IPopoverTriggerProps extends React.ComponentPropsWithRef<typeof Primitive.button> {}
 
 /**
  * Button that toggles the popover open state.
@@ -16,7 +16,7 @@ export interface PopoverTriggerProps extends React.ComponentPropsWithRef<typeof 
  */
 export const PopoverTrigger = React.forwardRef<
   React.ComponentRef<typeof Primitive.button>,
-  ScopedProps<PopoverTriggerProps>
+  ScopedProps<IPopoverTriggerProps>
 >((props, forwardedRef) => {
   const { __scopePopover, ...triggerProps } = props
   const context = usePopoverContext(TRIGGER_NAME, __scopePopover)

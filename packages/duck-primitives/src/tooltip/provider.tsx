@@ -17,7 +17,7 @@ type TooltipProviderContextValue = {
 export const [TooltipProviderContextProvider, useTooltipProviderContext] =
   createTooltipContext<TooltipProviderContextValue>(PROVIDER_NAME)
 
-export interface TooltipProviderProps {
+export interface ITooltipProviderProps {
   children: React.ReactNode
   /**
    * The duration from when the pointer enters the trigger until the tooltip gets opened.
@@ -36,7 +36,7 @@ export interface TooltipProviderProps {
   disableHoverableContent?: boolean
 }
 
-export const TooltipProvider: React.FC<TooltipProviderProps> = (props: ScopedProps<TooltipProviderProps>) => {
+export const TooltipProvider: React.FC<ITooltipProviderProps> = (props: ScopedProps<ITooltipProviderProps>) => {
   const {
     __scopeTooltip,
     delayDuration = DEFAULT_DELAY_DURATION,

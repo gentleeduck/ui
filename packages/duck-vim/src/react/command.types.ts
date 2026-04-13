@@ -1,11 +1,11 @@
 import type { KeyHandler, Registry } from '../command'
-import type { KeyBindOptions } from '../command/command.types'
+import type { IKeyBindOptions } from '../command/command.types'
 import type { SequenceManager } from '../sequence/sequence'
 
 /**
  * The shape of the value provided by `KeyContext`.
  */
-export interface KeyContextValue {
+export interface IKeyContextValue {
   /**
    * The command registry instance, used to register key bindings.
    */
@@ -29,5 +29,5 @@ export interface KeyContextValue {
   /**
    * Default key binding options applied to all registrations unless overridden.
    */
-  defaultOptions?: Partial<KeyBindOptions>
+  defaultOptions?: Partial<IKeyBindOptions>
 }

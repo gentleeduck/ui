@@ -33,7 +33,7 @@ type TooltipContentImplElement = React.ComponentRef<typeof PopperPrimitive.Poppe
 type DismissableLayerProps = React.ComponentPropsWithoutRef<typeof DismissableLayer>
 type PopperContentProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.PopperContent>
 
-interface TooltipContentImplProps extends Omit<PopperContentProps, 'onPlaced'> {
+interface ITooltipContentImplProps extends Omit<PopperContentProps, 'onPlaced'> {
   /**
    * A more descriptive label for accessibility purpose
    */
@@ -53,7 +53,7 @@ interface TooltipContentImplProps extends Omit<PopperContentProps, 'onPlaced'> {
 
 type TooltipContentElement = TooltipContentImplElement
 
-export interface TooltipContentProps extends TooltipContentImplProps {
+export interface ITooltipContentProps extends ITooltipContentImplProps {
   /**
    * Used to force mounting when more control is needed. Useful when
    * controlling animation with React animation libraries.
@@ -61,8 +61,8 @@ export interface TooltipContentProps extends TooltipContentImplProps {
   forceMount?: true
 }
 
-export const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentProps>(
-  (props: ScopedProps<TooltipContentProps>, forwardedRef) => {
+export const TooltipContent = React.forwardRef<TooltipContentElement, ITooltipContentProps>(
+  (props: ScopedProps<ITooltipContentProps>, forwardedRef) => {
     const portalContext = usePortalContext(CONTENT_NAME, props.__scopeTooltip)
     const { forceMount = portalContext.forceMount, side = 'top', ...contentProps } = props
     const context = useTooltipContext(CONTENT_NAME, props.__scopeTooltip)
@@ -82,10 +82,10 @@ export const TooltipContent = React.forwardRef<TooltipContentElement, TooltipCon
 TooltipContent.displayName = CONTENT_NAME
 
 type TooltipContentHoverableElement = TooltipContentImplElement
-interface TooltipContentHoverableProps extends TooltipContentImplProps {}
+interface ITooltipContentHoverableProps extends ITooltipContentImplProps {}
 
-const TooltipContentHoverable = React.forwardRef<TooltipContentHoverableElement, TooltipContentHoverableProps>(
-  (props: ScopedProps<TooltipContentHoverableProps>, forwardedRef) => {
+const TooltipContentHoverable = React.forwardRef<TooltipContentHoverableElement, ITooltipContentHoverableProps>(
+  (props: ScopedProps<ITooltipContentHoverableProps>, forwardedRef) => {
     const context = useTooltipContext(CONTENT_NAME, props.__scopeTooltip)
     const providerContext = useTooltipProviderContext(CONTENT_NAME, props.__scopeTooltip)
     const ref = React.useRef<TooltipContentHoverableElement>(null)
@@ -162,8 +162,8 @@ TooltipContentHoverable.displayName = `${CONTENT_NAME}Hoverable`
 
 const Slottable = createSlottable('TooltipContent')
 
-const TooltipContentImpl = React.forwardRef<TooltipContentImplElement, TooltipContentImplProps>(
-  (props: ScopedProps<TooltipContentImplProps>, forwardedRef) => {
+const TooltipContentImpl = React.forwardRef<TooltipContentImplElement, ITooltipContentImplProps>(
+  (props: ScopedProps<ITooltipContentImplProps>, forwardedRef) => {
     const {
       __scopeTooltip,
       children,

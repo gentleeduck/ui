@@ -33,7 +33,7 @@ type ToggleGroupElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 type RovingFocusGroupProps = React.ComponentPropsWithoutRef<typeof RovingFocusGroup.Root>
 
-type ToggleGroupSingleProps = ToggleGroupImplProps & {
+type ToggleGroupSingleProps = IToggleGroupImplProps & {
   /**
    * Allow only one button to be pressed at a time.
    */
@@ -52,7 +52,7 @@ type ToggleGroupSingleProps = ToggleGroupImplProps & {
   onValueChange?(value: string): void
 }
 
-type ToggleGroupMultipleProps = ToggleGroupImplProps & {
+type ToggleGroupMultipleProps = IToggleGroupImplProps & {
   /**
    * Allow multiple buttons to be pressed at the same time.
    */
@@ -150,7 +150,7 @@ ToggleGroupMultiple.displayName = `${TOGGLE_GROUP_NAME}Multiple`
 
 type ToggleGroupImplElement = React.ComponentRef<typeof Primitive.div>
 
-interface ToggleGroupImplProps extends PrimitiveDivProps {
+interface IToggleGroupImplProps extends PrimitiveDivProps {
   type: 'single' | 'multiple'
   /**
    * Whether roving focus should be used for keyboard navigation.
@@ -177,14 +177,14 @@ interface ToggleGroupImplProps extends PrimitiveDivProps {
   loop?: RovingFocusGroupProps['loop']
 }
 
-interface ToggleGroupImplPrivateProps extends ToggleGroupImplProps {
+interface IToggleGroupImplPrivateProps extends IToggleGroupImplProps {
   value: string[]
   onItemActivate(value: string): void
   onItemDeactivate(value: string): void
 }
 
-const ToggleGroupImpl = React.forwardRef<ToggleGroupImplElement, ToggleGroupImplPrivateProps>(
-  (props: ScopedProps<ToggleGroupImplPrivateProps>, forwardedRef) => {
+const ToggleGroupImpl = React.forwardRef<ToggleGroupImplElement, IToggleGroupImplPrivateProps>(
+  (props: ScopedProps<IToggleGroupImplPrivateProps>, forwardedRef) => {
     const {
       __scopeToggleGroup,
       type,
@@ -238,7 +238,7 @@ const ToggleGroupImpl = React.forwardRef<ToggleGroupImplElement, ToggleGroupImpl
 
 ToggleGroupImpl.displayName = `${TOGGLE_GROUP_NAME}Impl`
 
-export type { ScopedProps, ToggleGroupImplProps, ToggleGroupMultipleProps, ToggleGroupProps, ToggleGroupSingleProps }
+export type { ScopedProps, IToggleGroupImplProps, ToggleGroupMultipleProps, ToggleGroupProps, ToggleGroupSingleProps }
 export {
   createToggleGroupScope,
   TOGGLE_GROUP_NAME,

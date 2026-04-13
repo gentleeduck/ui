@@ -1,7 +1,7 @@
 import { parseKeyBind } from '../parser/parser'
 import { detectPlatform } from '../platform/platform'
 import type { Platform } from '../platform/platform.types'
-import type { FormatOptions } from './format.types'
+import type { IFormatOptions } from './format.types'
 
 /**
  * Platform-specific modifier display names (ASCII only).
@@ -64,7 +64,7 @@ export const LABEL_MAP: Record<string, string> = {
  * formatForDisplay('Mod+S', { platform: 'linux' })
  * // 'Ctrl+S'
  */
-export function formatForDisplay(binding: string, options?: FormatOptions): string {
+export function formatForDisplay(binding: string, options?: IFormatOptions): string {
   const platform = options?.platform ?? detectPlatform()
   const separator = options?.separator ?? '+'
   const parsed = parseKeyBind(binding, platform)
@@ -94,7 +94,7 @@ export function formatForDisplay(binding: string, options?: FormatOptions): stri
  * formatWithLabels('Mod+Shift+S', { platform: 'linux' })
  * // 'Ctrl + Shift + S'
  */
-export function formatWithLabels(binding: string, options?: FormatOptions): string {
+export function formatWithLabels(binding: string, options?: IFormatOptions): string {
   const platform = options?.platform ?? detectPlatform()
   const separator = options?.separator ?? ' + '
   const parsed = parseKeyBind(binding, platform)

@@ -11,12 +11,12 @@ const TRIGGER_NAME = 'DropdownMenuTrigger'
 
 type DropdownMenuTriggerElement = React.ComponentRef<typeof Primitive.button>
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
-interface DropdownMenuTriggerProps extends PrimitiveButtonProps {
+interface IDropdownMenuTriggerProps extends PrimitiveButtonProps {
   disabled?: boolean
 }
 
-const DropdownMenuTrigger = React.forwardRef<DropdownMenuTriggerElement, DropdownMenuTriggerProps>(
-  (props: ScopedProps<DropdownMenuTriggerProps>, forwardedRef) => {
+const DropdownMenuTrigger = React.forwardRef<DropdownMenuTriggerElement, IDropdownMenuTriggerProps>(
+  (props: ScopedProps<IDropdownMenuTriggerProps>, forwardedRef) => {
     const { __scopeDropdownMenu, disabled = false, ...triggerProps } = props
     const context = useDropdownMenuContext(TRIGGER_NAME, __scopeDropdownMenu)
     const menuScope = useMenuScope(__scopeDropdownMenu)
@@ -61,5 +61,5 @@ const DropdownMenuTrigger = React.forwardRef<DropdownMenuTriggerElement, Dropdow
 
 DropdownMenuTrigger.displayName = TRIGGER_NAME
 
-export type { DropdownMenuTriggerProps }
+export type { IDropdownMenuTriggerProps }
 export { DropdownMenuTrigger }

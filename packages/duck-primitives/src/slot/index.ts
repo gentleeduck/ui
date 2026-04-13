@@ -1,2 +1,2 @@
-export type { SlotProps } from './slot'
+export type { ISlotProps } from './slot'
 export { createSlot, createSlottable, Slot, Slottable } from './slot'

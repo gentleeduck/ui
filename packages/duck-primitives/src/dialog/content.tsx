@@ -16,14 +16,14 @@ type DialogContentImplElement = React.ComponentRef<typeof DismissableLayer>
 type DismissableLayerProps = React.ComponentPropsWithoutRef<typeof DismissableLayer>
 type FocusScopeProps = React.ComponentPropsWithoutRef<typeof FocusScope>
 
-interface DialogContentImplProps extends Omit<DismissableLayerProps, 'onDismiss'> {
+interface IDialogContentImplProps extends Omit<DismissableLayerProps, 'onDismiss'> {
   trapFocus?: FocusScopeProps['trapped']
   onOpenAutoFocus?: FocusScopeProps['onMountAutoFocus']
   onCloseAutoFocus?: FocusScopeProps['onUnmountAutoFocus']
 }
 
 type DialogContentTypeElement = DialogContentImplElement
-interface DialogContentTypeProps extends Omit<DialogContentImplProps, 'trapFocus' | 'disableOutsidePointerEvents'> {
+interface IDialogContentTypeProps extends Omit<IDialogContentImplProps, 'trapFocus' | 'disableOutsidePointerEvents'> {
   /** Override whether focus is trapped. Defaults to `context.open`. */
   trapFocus?: FocusScopeProps['trapped']
   /** Override whether outside pointer events are disabled. Defaults to `context.open`. */
@@ -31,14 +31,14 @@ interface DialogContentTypeProps extends Omit<DialogContentImplProps, 'trapFocus
 }
 
 type DialogContentElement = DialogContentTypeElement
-export interface DialogContentProps extends DialogContentTypeProps {
+export interface IDialogContentProps extends IDialogContentTypeProps {
   /** Force mounting for animation control. */
   forceMount?: true
 }
 
 /** Dialog content area. Delegates to modal or non-modal variant. */
-export const DialogContent = React.forwardRef<DialogContentElement, DialogContentProps>(
-  (props: ScopedProps<DialogContentProps>, forwardedRef) => {
+export const DialogContent = React.forwardRef<DialogContentElement, IDialogContentProps>(
+  (props: ScopedProps<IDialogContentProps>, forwardedRef) => {
     const portalContext = usePortalContext(CONTENT_NAME, props.__scopeDialog)
     const { forceMount = portalContext.forceMount, ...contentProps } = props
     const context = useDialogContext(CONTENT_NAME, props.__scopeDialog)
@@ -56,8 +56,8 @@ export const DialogContent = React.forwardRef<DialogContentElement, DialogConten
 
 DialogContent.displayName = CONTENT_NAME
 
-const DialogContentModal = React.forwardRef<DialogContentTypeElement, DialogContentTypeProps>(
-  (props: ScopedProps<DialogContentTypeProps>, forwardedRef) => {
+const DialogContentModal = React.forwardRef<DialogContentTypeElement, IDialogContentTypeProps>(
+  (props: ScopedProps<IDialogContentTypeProps>, forwardedRef) => {
     const {
       trapFocus: trapFocusProp,
       disableOutsidePointerEvents: disableOutsidePointerEventsProp,
@@ -96,8 +96,8 @@ const DialogContentModal = React.forwardRef<DialogContentTypeElement, DialogCont
 
 DialogContentModal.displayName = 'DialogContentModal'
 
-const DialogContentNonModal = React.forwardRef<DialogContentTypeElement, DialogContentTypeProps>(
-  (props: ScopedProps<DialogContentTypeProps>, forwardedRef) => {
+const DialogContentNonModal = React.forwardRef<DialogContentTypeElement, IDialogContentTypeProps>(
+  (props: ScopedProps<IDialogContentTypeProps>, forwardedRef) => {
     const context = useDialogContext(CONTENT_NAME, props.__scopeDialog)
     const hasInteractedOutsideRef = React.useRef(false)
     const hasPointerDownOutsideRef = React.useRef(false)
@@ -139,8 +139,8 @@ const DialogContentNonModal = React.forwardRef<DialogContentTypeElement, DialogC
 
 DialogContentNonModal.displayName = 'DialogContentNonModal'
 
-const DialogContentImpl = React.forwardRef<DialogContentImplElement, DialogContentImplProps>(
-  (props: ScopedProps<DialogContentImplProps>, forwardedRef) => {
+const DialogContentImpl = React.forwardRef<DialogContentImplElement, IDialogContentImplProps>(
+  (props: ScopedProps<IDialogContentImplProps>, forwardedRef) => {
     const { __scopeDialog, trapFocus, onOpenAutoFocus, onCloseAutoFocus, ...contentProps } = props
     const context = useDialogContext(CONTENT_NAME, __scopeDialog)
     const contentRef = React.useRef<HTMLDivElement>(null)

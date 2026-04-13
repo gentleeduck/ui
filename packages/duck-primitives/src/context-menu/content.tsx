@@ -8,10 +8,10 @@ const CONTENT_NAME = 'ContextMenuContent'
 
 type ContextMenuContentElement = React.ComponentRef<typeof MenuPrimitive.Content>
 type MenuContentProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Content>
-interface ContextMenuContentProps extends Omit<MenuContentProps, 'onEntryFocus' | 'side' | 'sideOffset' | 'align'> {}
+interface IContextMenuContentProps extends Omit<MenuContentProps, 'onEntryFocus' | 'side' | 'sideOffset' | 'align'> {}
 
-const ContextMenuContent = React.forwardRef<ContextMenuContentElement, ContextMenuContentProps>(
-  (props: ScopedProps<ContextMenuContentProps>, forwardedRef) => {
+const ContextMenuContent = React.forwardRef<ContextMenuContentElement, IContextMenuContentProps>(
+  (props: ScopedProps<IContextMenuContentProps>, forwardedRef) => {
     const { __scopeContextMenu, ...contentProps } = props
     const context = useContextMenuContext(CONTENT_NAME, __scopeContextMenu)
     const menuScope = useMenuScope(__scopeContextMenu)
@@ -57,5 +57,5 @@ const ContextMenuContent = React.forwardRef<ContextMenuContentElement, ContextMe
 
 ContextMenuContent.displayName = CONTENT_NAME
 
-export type { ContextMenuContentProps }
+export type { IContextMenuContentProps }
 export { ContextMenuContent }

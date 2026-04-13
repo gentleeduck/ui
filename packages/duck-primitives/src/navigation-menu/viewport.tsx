@@ -17,14 +17,14 @@ const VIEWPORT_NAME = 'NavigationMenuViewport'
 const CONTENT_NAME = 'NavigationMenuContent'
 
 type NavigationMenuViewportImplElement = React.ComponentRef<typeof Primitive.div>
-interface NavigationMenuViewportImplProps extends PrimitiveDivProps {}
+interface INavigationMenuViewportImplProps extends PrimitiveDivProps {}
 
-interface NavigationMenuViewportProps extends Omit<NavigationMenuViewportImplProps, 'activeContentValue'> {
+interface INavigationMenuViewportProps extends Omit<INavigationMenuViewportImplProps, 'activeContentValue'> {
   forceMount?: true
 }
 
-const NavigationMenuViewport = React.forwardRef<NavigationMenuViewportElement, NavigationMenuViewportProps>(
-  (props: ScopedProps<NavigationMenuViewportProps>, forwardedRef) => {
+const NavigationMenuViewport = React.forwardRef<NavigationMenuViewportElement, INavigationMenuViewportProps>(
+  (props: ScopedProps<INavigationMenuViewportProps>, forwardedRef) => {
     const { forceMount, ...viewportProps } = props
     const context = useNavigationMenuContext(VIEWPORT_NAME, props.__scopeNavigationMenu)
     const open = Boolean(context.value)
@@ -41,8 +41,8 @@ NavigationMenuViewport.displayName = VIEWPORT_NAME
 
 /* ----- NavigationMenuViewportImpl (internal) ----- */
 
-const NavigationMenuViewportImpl = React.forwardRef<NavigationMenuViewportImplElement, NavigationMenuViewportImplProps>(
-  (props: ScopedProps<NavigationMenuViewportImplProps>, forwardedRef) => {
+const NavigationMenuViewportImpl = React.forwardRef<NavigationMenuViewportImplElement, INavigationMenuViewportImplProps>(
+  (props: ScopedProps<INavigationMenuViewportImplProps>, forwardedRef) => {
     const { __scopeNavigationMenu, children, ...viewportImplProps } = props
     const context = useNavigationMenuContext(VIEWPORT_NAME, __scopeNavigationMenu)
     const composedRefs = useComposedRefs(forwardedRef, context.onViewportChange)
@@ -105,5 +105,5 @@ const NavigationMenuViewportImpl = React.forwardRef<NavigationMenuViewportImplEl
 
 NavigationMenuViewportImpl.displayName = 'NavigationMenuViewportImpl'
 
-export type { NavigationMenuViewportProps }
+export type { INavigationMenuViewportProps }
 export { NavigationMenuViewport }

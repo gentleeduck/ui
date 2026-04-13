@@ -10,10 +10,10 @@ const CONTENT_NAME = 'MenubarContent'
 
 type MenubarContentElement = React.ComponentRef<typeof MenuPrimitive.Content>
 type MenuContentProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Content>
-interface MenubarContentProps extends Omit<MenuContentProps, 'onEntryFocus'> {}
+interface IMenubarContentProps extends Omit<MenuContentProps, 'onEntryFocus'> {}
 
-const MenubarContent = React.forwardRef<MenubarContentElement, MenubarContentProps>(
-  (props: ScopedProps<MenubarContentProps>, forwardedRef) => {
+const MenubarContent = React.forwardRef<MenubarContentElement, IMenubarContentProps>(
+  (props: ScopedProps<IMenubarContentProps>, forwardedRef) => {
     const { __scopeMenubar, align = 'start', ...contentProps } = props
     const menuScope = useMenuScope(__scopeMenubar)
     const context = useMenubarContext(CONTENT_NAME, __scopeMenubar)
@@ -120,5 +120,5 @@ const MenubarContent = React.forwardRef<MenubarContentElement, MenubarContentPro
 
 MenubarContent.displayName = CONTENT_NAME
 
-export type { MenubarContentProps }
+export type { IMenubarContentProps }
 export { MenubarContent }

@@ -50,7 +50,7 @@ type RadioGroupElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 type RovingFocusGroupProps = React.ComponentPropsWithoutRef<typeof RovingFocusGroup.Root>
 
-interface RadioGroupProps extends PrimitiveDivProps {
+interface IRadioGroupProps extends PrimitiveDivProps {
   /**
    * The controlled value of the checked radio item.
    */
@@ -92,8 +92,8 @@ interface RadioGroupProps extends PrimitiveDivProps {
   loop?: RovingFocusGroupProps['loop']
 }
 
-const RadioGroup = React.forwardRef<RadioGroupElement, RadioGroupProps>(
-  (props: ScopedProps<RadioGroupProps>, forwardedRef) => {
+const RadioGroup = React.forwardRef<RadioGroupElement, IRadioGroupProps>(
+  (props: ScopedProps<IRadioGroupProps>, forwardedRef) => {
     const {
       __scopeRadioGroup,
       value: valueProp,
@@ -252,7 +252,7 @@ const RadioGroup = React.forwardRef<RadioGroupElement, RadioGroupProps>(
 
 RadioGroup.displayName = RADIO_GROUP_NAME
 
-export type { RadioGroupProps, ScopedProps }
+export type { IRadioGroupProps, ScopedProps }
 export {
   createRadioGroupScope,
   RADIO_GROUP_NAME,

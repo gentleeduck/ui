@@ -18,13 +18,13 @@ type MenubarMenuContextValue = {
 
 const [MenubarMenuProvider, useMenubarMenuContext] = createMenubarContext<MenubarMenuContextValue>(MENU_NAME)
 
-interface MenubarMenuProps {
+interface IMenubarMenuProps {
   children?: React.ReactNode
   value?: string
   onOpenChange?: (open: boolean) => void
 }
 
-const MenubarMenu = (props: ScopedProps<MenubarMenuProps>) => {
+const MenubarMenu = (props: ScopedProps<IMenubarMenuProps>) => {
   const { __scopeMenubar, value: valueProp, onOpenChange: onOpenChangeProp, ...menuProps } = props
   const autoValue = useId()
   // We need to provide an initial deterministic value as `useId` will return
@@ -70,5 +70,5 @@ const MenubarMenu = (props: ScopedProps<MenubarMenuProps>) => {
 
 MenubarMenu.displayName = MENU_NAME
 
-export type { MenubarMenuContextValue, MenubarMenuProps }
+export type { MenubarMenuContextValue, IMenubarMenuProps }
 export { MenubarMenu, MenubarMenuProvider, useMenubarMenuContext }

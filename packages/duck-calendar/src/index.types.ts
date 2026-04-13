@@ -1,11 +1,11 @@
-import type { DateAdapter, WeekStartDay } from './adapter'
+import type { IDateAdapter, WeekStartDay } from './adapter'
 import type { CalendarValue, SelectionMode } from './selection'
 
 /** Which view the calendar is showing. */
 export type ViewMode = 'days' | 'months' | 'years'
 
 /** Locale and direction settings for the calendar. */
-export interface CalendarLocaleConfig {
+export interface ICalendarLocaleConfig {
   /** BCP 47 language tag, e.g. `'en-US'`, `'ar-SA'`, `'fa-IR'`. */
   locale?: string
   /** Which day starts the week. 0 = Sunday (default), 1 = Monday, etc. */
@@ -18,13 +18,13 @@ export interface CalendarLocaleConfig {
  * Full configuration for a calendar instance.
  * Generic over `TDate` (from the adapter) and `M` (selection mode).
  */
-export interface CalendarConfig<TDate, M extends SelectionMode = 'single'> {
+export interface ICalendarConfig<TDate, M extends SelectionMode = 'single'> {
   /** The date adapter to use (e.g. `new NativeAdapter()`). */
-  adapter: DateAdapter<TDate>
+  adapter: IDateAdapter<TDate>
   /** Selection mode: `'single'`, `'range'`, or `'multi'`. */
   mode: M
   /** Locale and direction settings. */
-  locale?: CalendarLocaleConfig
+  locale?: ICalendarLocaleConfig
 
   /** Controlled month  -  the month currently displayed. */
   month?: TDate

@@ -8,10 +8,10 @@ const GROUP_NAME = 'MenubarGroup'
 
 type MenubarGroupElement = React.ComponentRef<typeof MenuPrimitive.Group>
 type MenuGroupProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Group>
-interface MenubarGroupProps extends MenuGroupProps {}
+interface IMenubarGroupProps extends MenuGroupProps {}
 
-const MenubarGroup = React.forwardRef<MenubarGroupElement, MenubarGroupProps>(
-  (props: ScopedProps<MenubarGroupProps>, forwardedRef) => {
+const MenubarGroup = React.forwardRef<MenubarGroupElement, IMenubarGroupProps>(
+  (props: ScopedProps<IMenubarGroupProps>, forwardedRef) => {
     const { __scopeMenubar, ...groupProps } = props
     const menuScope = useMenuScope(__scopeMenubar)
     return <MenuPrimitive.Group {...menuScope} {...groupProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const MenubarGroup = React.forwardRef<MenubarGroupElement, MenubarGroupProps>(
 
 MenubarGroup.displayName = GROUP_NAME
 
-export type { MenubarGroupProps }
+export type { IMenubarGroupProps }
 export { MenubarGroup }

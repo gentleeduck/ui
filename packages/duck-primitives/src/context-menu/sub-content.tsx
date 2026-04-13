@@ -8,10 +8,10 @@ const SUB_CONTENT_NAME = 'ContextMenuSubContent'
 
 type ContextMenuSubContentElement = React.ComponentRef<typeof MenuPrimitive.Content>
 type MenuSubContentProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.SubContent>
-interface ContextMenuSubContentProps extends MenuSubContentProps {}
+interface IContextMenuSubContentProps extends MenuSubContentProps {}
 
-const ContextMenuSubContent = React.forwardRef<ContextMenuSubContentElement, ContextMenuSubContentProps>(
-  (props: ScopedProps<ContextMenuSubContentProps>, forwardedRef) => {
+const ContextMenuSubContent = React.forwardRef<ContextMenuSubContentElement, IContextMenuSubContentProps>(
+  (props: ScopedProps<IContextMenuSubContentProps>, forwardedRef) => {
     const { __scopeContextMenu, ...subContentProps } = props
     const menuScope = useMenuScope(__scopeContextMenu)
 
@@ -38,5 +38,5 @@ const ContextMenuSubContent = React.forwardRef<ContextMenuSubContentElement, Con
 
 ContextMenuSubContent.displayName = SUB_CONTENT_NAME
 
-export type { ContextMenuSubContentProps }
+export type { IContextMenuSubContentProps }
 export { ContextMenuSubContent }

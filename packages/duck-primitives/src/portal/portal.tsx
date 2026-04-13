@@ -7,12 +7,12 @@ const PORTAL_NAME = 'Portal'
 
 type PortalElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-interface PortalProps extends PrimitiveDivProps {
+interface IPortalProps extends PrimitiveDivProps {
   /** The container element to portal into. Defaults to document.body. */
   container?: Element | DocumentFragment | null
 }
 
-const Portal = React.forwardRef<PortalElement, PortalProps>((props, forwardedRef) => {
+const Portal = React.forwardRef<PortalElement, IPortalProps>((props, forwardedRef) => {
   const { container: containerProp, ...portalProps } = props
   const [mounted, setMounted] = React.useState(false)
   useLayoutEffect(() => setMounted(true), [])
@@ -24,5 +24,5 @@ const Portal = React.forwardRef<PortalElement, PortalProps>((props, forwardedRef
 
 Portal.displayName = PORTAL_NAME
 
-export type { PortalProps }
+export type { IPortalProps }
 export { Portal }

@@ -1,5 +1,5 @@
 import { hebrewMonthLength, hebrewMonthsInYear, hebrewToGregorian, toHebrew } from '../calendar-system/hebrew'
-import type { DateAdapter, WeekStartDay } from './adapter.types'
+import type { IDateAdapter, WeekStartDay } from './adapter.types'
 import { createConversionCache, formatWithCalendar } from './adapter.utils'
 
 const hebrewCache = createConversionCache((date: Date) =>
@@ -20,7 +20,7 @@ const hebrewCache = createConversionCache((date: Date) =>
  *   `Intl.DateTimeFormat` renders Hebrew dates.
  * - Default locale: `'he-IL'`.
  */
-export class HebrewAdapter implements DateAdapter<Date> {
+export class HebrewAdapter implements IDateAdapter<Date> {
   private readonly locale: string
 
   constructor(locale = 'he-IL') {

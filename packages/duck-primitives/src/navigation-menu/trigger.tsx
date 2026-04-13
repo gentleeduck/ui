@@ -10,10 +10,10 @@ import { FocusGroupItem, getOpenState, makeContentId, makeTriggerId, whenMouse }
 const TRIGGER_NAME = 'NavigationMenuTrigger'
 
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
-interface NavigationMenuTriggerProps extends PrimitiveButtonProps {}
+interface INavigationMenuTriggerProps extends PrimitiveButtonProps {}
 
-const NavigationMenuTrigger = React.forwardRef<NavigationMenuTriggerElement, NavigationMenuTriggerProps>(
-  (props: ScopedProps<NavigationMenuTriggerProps>, forwardedRef) => {
+const NavigationMenuTrigger = React.forwardRef<NavigationMenuTriggerElement, INavigationMenuTriggerProps>(
+  (props: ScopedProps<INavigationMenuTriggerProps>, forwardedRef) => {
     const { __scopeNavigationMenu, disabled, ...triggerProps } = props
     const context = useNavigationMenuContext(TRIGGER_NAME, props.__scopeNavigationMenu)
     const itemContext = useNavigationMenuItemContext(TRIGGER_NAME, props.__scopeNavigationMenu)
@@ -112,5 +112,5 @@ const NavigationMenuTrigger = React.forwardRef<NavigationMenuTriggerElement, Nav
 
 NavigationMenuTrigger.displayName = TRIGGER_NAME
 
-export type { NavigationMenuTriggerProps }
+export type { INavigationMenuTriggerProps }
 export { NavigationMenuTrigger }

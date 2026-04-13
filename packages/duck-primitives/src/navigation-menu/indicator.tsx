@@ -9,12 +9,12 @@ import { useResizeObserver } from './navigation-menu.libs'
 const INDICATOR_NAME = 'NavigationMenuIndicator'
 
 type NavigationMenuIndicatorElement = NavigationMenuIndicatorImplElement
-interface NavigationMenuIndicatorProps extends NavigationMenuIndicatorImplProps {
+interface INavigationMenuIndicatorProps extends INavigationMenuIndicatorImplProps {
   forceMount?: true
 }
 
-const NavigationMenuIndicator = React.forwardRef<NavigationMenuIndicatorElement, NavigationMenuIndicatorProps>(
-  (props: ScopedProps<NavigationMenuIndicatorProps>, forwardedRef) => {
+const NavigationMenuIndicator = React.forwardRef<NavigationMenuIndicatorElement, INavigationMenuIndicatorProps>(
+  (props: ScopedProps<INavigationMenuIndicatorProps>, forwardedRef) => {
     const { forceMount, ...indicatorProps } = props
     const context = useNavigationMenuContext(INDICATOR_NAME, props.__scopeNavigationMenu)
     const isVisible = Boolean(context.value)
@@ -33,12 +33,12 @@ const NavigationMenuIndicator = React.forwardRef<NavigationMenuIndicatorElement,
 NavigationMenuIndicator.displayName = INDICATOR_NAME
 
 type NavigationMenuIndicatorImplElement = React.ComponentRef<typeof Primitive.div>
-interface NavigationMenuIndicatorImplProps extends PrimitiveDivProps {}
+interface INavigationMenuIndicatorImplProps extends PrimitiveDivProps {}
 
 const NavigationMenuIndicatorImpl = React.forwardRef<
   NavigationMenuIndicatorImplElement,
-  NavigationMenuIndicatorImplProps
->((props: ScopedProps<NavigationMenuIndicatorImplProps>, forwardedRef) => {
+  INavigationMenuIndicatorImplProps
+>((props: ScopedProps<INavigationMenuIndicatorImplProps>, forwardedRef) => {
   const { __scopeNavigationMenu, ...indicatorProps } = props
   const context = useNavigationMenuContext(INDICATOR_NAME, __scopeNavigationMenu)
   const getItems = useCollection(__scopeNavigationMenu)
@@ -98,5 +98,5 @@ const NavigationMenuIndicatorImpl = React.forwardRef<
 
 NavigationMenuIndicatorImpl.displayName = 'NavigationMenuIndicatorImpl'
 
-export type { NavigationMenuIndicatorProps }
+export type { INavigationMenuIndicatorProps }
 export { NavigationMenuIndicator }

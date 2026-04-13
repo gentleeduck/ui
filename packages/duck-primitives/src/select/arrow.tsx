@@ -6,10 +6,10 @@ const ARROW_NAME = 'SelectArrow'
 
 type SelectArrowElement = React.ComponentRef<typeof PopperPrimitive.Arrow>
 
-export interface SelectArrowProps extends React.ComponentPropsWithRef<typeof PopperPrimitive.Arrow> {}
+export interface ISelectArrowProps extends React.ComponentPropsWithRef<typeof PopperPrimitive.Arrow> {}
 
-export const SelectArrow = React.forwardRef<SelectArrowElement, SelectArrowProps>(
-  (props: ScopedProps<SelectArrowProps>, forwardedRef) => {
+export const SelectArrow = React.forwardRef<SelectArrowElement, ISelectArrowProps>(
+  (props: ScopedProps<ISelectArrowProps>, forwardedRef) => {
     const { __scopeSelect, ...arrowProps } = props
     const popperScope = usePopperScope(__scopeSelect)
     const context = useSelectContext(ARROW_NAME, __scopeSelect)

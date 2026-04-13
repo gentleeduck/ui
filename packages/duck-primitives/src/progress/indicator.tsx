@@ -8,10 +8,10 @@ const INDICATOR_NAME = 'ProgressIndicator'
 
 type ProgressIndicatorElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-interface ProgressIndicatorProps extends PrimitiveDivProps {}
+interface IProgressIndicatorProps extends PrimitiveDivProps {}
 
-const ProgressIndicator = React.forwardRef<ProgressIndicatorElement, ProgressIndicatorProps>(
-  (props: ScopedProps<ProgressIndicatorProps>, forwardedRef) => {
+const ProgressIndicator = React.forwardRef<ProgressIndicatorElement, IProgressIndicatorProps>(
+  (props: ScopedProps<IProgressIndicatorProps>, forwardedRef) => {
     const { __scopeProgress, ...indicatorProps } = props
     const context = useProgressContext(INDICATOR_NAME, __scopeProgress)
     return (
@@ -30,5 +30,5 @@ const ProgressIndicator = React.forwardRef<ProgressIndicatorElement, ProgressInd
 
 ProgressIndicator.displayName = INDICATOR_NAME
 
-export type { ProgressIndicatorProps }
+export type { IProgressIndicatorProps }
 export { ProgressIndicator }

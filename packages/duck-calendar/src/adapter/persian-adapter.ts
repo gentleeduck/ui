@@ -1,5 +1,5 @@
 import { jalaaliMonthLength, toGregorian, toJalaali } from '../calendar-system'
-import type { DateAdapter, WeekStartDay } from './adapter.types'
+import type { IDateAdapter, WeekStartDay } from './adapter.types'
 import { createConversionCache, formatWithCalendar } from './adapter.utils'
 
 const persianCache = createConversionCache((date: Date) =>
@@ -15,7 +15,7 @@ const persianCache = createConversionCache((date: Date) =>
  * in Persian calendar space.  Universal operations (addDays, isBefore, isAfter,
  * getDayOfWeek, startOfWeek, time accessors) delegate directly to Gregorian.
  */
-export class PersianAdapter implements DateAdapter<Date> {
+export class PersianAdapter implements IDateAdapter<Date> {
   private readonly locale: string
 
   constructor(locale = 'fa-IR') {

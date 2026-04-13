@@ -8,10 +8,10 @@ const INDICATOR_NAME = 'ContextMenuItemIndicator'
 
 type ContextMenuItemIndicatorElement = React.ComponentRef<typeof MenuPrimitive.ItemIndicator>
 type MenuItemIndicatorProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.ItemIndicator>
-interface ContextMenuItemIndicatorProps extends MenuItemIndicatorProps {}
+interface IContextMenuItemIndicatorProps extends MenuItemIndicatorProps {}
 
-const ContextMenuItemIndicator = React.forwardRef<ContextMenuItemIndicatorElement, ContextMenuItemIndicatorProps>(
-  (props: ScopedProps<ContextMenuItemIndicatorProps>, forwardedRef) => {
+const ContextMenuItemIndicator = React.forwardRef<ContextMenuItemIndicatorElement, IContextMenuItemIndicatorProps>(
+  (props: ScopedProps<IContextMenuItemIndicatorProps>, forwardedRef) => {
     const { __scopeContextMenu, ...itemIndicatorProps } = props
     const menuScope = useMenuScope(__scopeContextMenu)
     return <MenuPrimitive.ItemIndicator {...menuScope} {...itemIndicatorProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const ContextMenuItemIndicator = React.forwardRef<ContextMenuItemIndicatorElemen
 
 ContextMenuItemIndicator.displayName = INDICATOR_NAME
 
-export type { ContextMenuItemIndicatorProps }
+export type { IContextMenuItemIndicatorProps }
 export { ContextMenuItemIndicator }

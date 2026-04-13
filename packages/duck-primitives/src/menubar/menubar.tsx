@@ -43,7 +43,7 @@ const [MenubarContextProvider, useMenubarContext] = createMenubarContext<Menubar
 type MenubarElement = React.ComponentRef<typeof Primitive.div>
 type RovingFocusGroupProps = React.ComponentPropsWithoutRef<typeof RovingFocusGroup.Root>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-interface MenubarProps extends PrimitiveDivProps {
+interface IMenubarProps extends PrimitiveDivProps {
   value?: string
   defaultValue?: string
   onValueChange?: (value: string) => void
@@ -51,7 +51,7 @@ interface MenubarProps extends PrimitiveDivProps {
   dir?: RovingFocusGroupProps['dir']
 }
 
-const Menubar = React.forwardRef<MenubarElement, MenubarProps>((props: ScopedProps<MenubarProps>, forwardedRef) => {
+const Menubar = React.forwardRef<MenubarElement, IMenubarProps>((props: ScopedProps<IMenubarProps>, forwardedRef) => {
   const { __scopeMenubar, value: valueProp, onValueChange, defaultValue, loop = true, dir, ...menubarProps } = props
   const direction = useDirection(dir)
   const rovingFocusGroupScope = useRovingFocusGroupScope(__scopeMenubar)
@@ -110,7 +110,7 @@ const Menubar = React.forwardRef<MenubarElement, MenubarProps>((props: ScopedPro
 
 Menubar.displayName = MENUBAR_NAME
 
-export type { Direction, MenubarProps, MenubarTriggerElement, ScopedProps }
+export type { Direction, IMenubarProps, MenubarTriggerElement, ScopedProps }
 export {
   Collection,
   createMenubarContext,

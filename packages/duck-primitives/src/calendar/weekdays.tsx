@@ -7,13 +7,13 @@ const WEEKDAYS_NAME = 'CalendarWeekdays'
 type CalendarWeekdaysElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-export interface CalendarWeekdaysProps extends PrimitiveDivProps {
+export interface ICalendarWeekdaysProps extends PrimitiveDivProps {
   /** Render function for each weekday cell. Defaults to the localized weekday name. */
   renderWeekday?: (weekday: string, index: number) => React.ReactNode
 }
 
-export const CalendarWeekdays = React.forwardRef<CalendarWeekdaysElement, CalendarWeekdaysProps>(
-  (props: ScopedProps<CalendarWeekdaysProps>, forwardedRef) => {
+export const CalendarWeekdays = React.forwardRef<CalendarWeekdaysElement, ICalendarWeekdaysProps>(
+  (props: ScopedProps<ICalendarWeekdaysProps>, forwardedRef) => {
     const { __scopeCalendar, renderWeekday, children, ...weekdayProps } = props
     const context = useCalendarContext(WEEKDAYS_NAME, __scopeCalendar)
     const { weekdays } = context.state

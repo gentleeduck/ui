@@ -20,14 +20,14 @@ export const [AlertDialogContentProvider, useAlertDialogContentContext] =
 
 type AlertDialogContentElement = React.ComponentRef<typeof DialogPrimitive.Content>
 type DialogContentProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
-export interface AlertDialogContentProps
+export interface IAlertDialogContentProps
   extends Omit<DialogContentProps, 'onPointerDownOutside' | 'onInteractOutside'> {}
 
 const Slottable = createSlottable('AlertDialogContent')
 
 /** Alert dialog content area with forced modal behavior and accessibility defaults. */
-export const AlertDialogContent = React.forwardRef<AlertDialogContentElement, AlertDialogContentProps>(
-  (props: ScopedProps<AlertDialogContentProps>, forwardedRef) => {
+export const AlertDialogContent = React.forwardRef<AlertDialogContentElement, IAlertDialogContentProps>(
+  (props: ScopedProps<IAlertDialogContentProps>, forwardedRef) => {
     const { __scopeAlertDialog, children, ...contentProps } = props
     const dialogScope = useDialogScope(__scopeAlertDialog)
     const contentRef = React.useRef<AlertDialogContentElement>(null)

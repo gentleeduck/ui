@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { composeRefs } from '../libs/compose-ref'
 
-interface SlotProps extends React.HTMLAttributes<HTMLElement> {
+interface ISlotProps extends React.HTMLAttributes<HTMLElement> {
   children?: React.ReactNode
 }
 
 /* @__NO_SIDE_EFFECTS__ */ export function createSlot(ownerName: string) {
   const SlotClone = createSlotClone(ownerName)
-  const Slot = React.forwardRef<HTMLElement, SlotProps>((props, forwardedRef) => {
+  const Slot = React.forwardRef<HTMLElement, ISlotProps>((props, forwardedRef) => {
     const { children, ...slotProps } = props
     const childrenArray = React.Children.toArray(children)
     const slottable = childrenArray.find(isSlottable)
@@ -48,12 +48,12 @@ interface SlotProps extends React.HTMLAttributes<HTMLElement> {
 const Slot = createSlot('Slot')
 
 /** @internal */
-interface SlotCloneProps {
+interface ISlotCloneProps {
   children: React.ReactNode
 }
 
 /* @__NO_SIDE_EFFECTS__ */ function createSlotClone(ownerName: string) {
-  const SlotClone = React.forwardRef<HTMLElement, SlotCloneProps>((props, forwardedRef) => {
+  const SlotClone = React.forwardRef<HTMLElement, ISlotCloneProps>((props, forwardedRef) => {
     const { children, ...slotProps } = props
 
     if (React.isValidElement(children)) {
@@ -75,16 +75,16 @@ interface SlotCloneProps {
 
 const SLOTTABLE_IDENTIFIER = Symbol('gentleduck.slottable')
 
-interface SlottableProps {
+interface ISlottableProps {
   children: React.ReactNode
 }
 
-interface SlottableComponent extends React.FC<SlottableProps> {
+interface ISlottableComponent extends React.FC<ISlottableProps> {
   __radixId: symbol
 }
 
 /* @__NO_SIDE_EFFECTS__ */ export function createSlottable(ownerName: string) {
-  const Slottable: SlottableComponent = ({ children }) => {
+  const Slottable: ISlottableComponent = ({ children }) => {
     return <>{children}</>
   }
   Slottable.displayName = `${ownerName}.Slottable`
@@ -98,7 +98,7 @@ const Slottable = createSlottable('Slottable')
 type AnyProps = Record<string, unknown>
 
 /** @internal */
-function isSlottable(child: React.ReactNode): child is React.ReactElement<SlottableProps, typeof Slottable> {
+function isSlottable(child: React.ReactNode): child is React.ReactElement<ISlottableProps, typeof Slottable> {
   return (
     React.isValidElement(child) &&
     typeof child.type === 'function' &&
@@ -172,5 +172,5 @@ function getComponentRef(element: React.ReactElement) {
   )
 }
 
-export type { SlotProps }
+export type { ISlotProps }
 export { Slot, Slottable }

@@ -9,13 +9,13 @@ const LINK_NAME = 'NavigationMenuLink'
 
 type NavigationMenuLinkElement = React.ComponentRef<typeof Primitive.a>
 type PrimitiveLinkProps = React.ComponentPropsWithoutRef<typeof Primitive.a>
-interface NavigationMenuLinkProps extends Omit<PrimitiveLinkProps, 'onSelect'> {
+interface INavigationMenuLinkProps extends Omit<PrimitiveLinkProps, 'onSelect'> {
   active?: boolean
   onSelect?: (event: Event) => void
 }
 
-const NavigationMenuLink = React.forwardRef<NavigationMenuLinkElement, NavigationMenuLinkProps>(
-  (props: ScopedProps<NavigationMenuLinkProps>, forwardedRef) => {
+const NavigationMenuLink = React.forwardRef<NavigationMenuLinkElement, INavigationMenuLinkProps>(
+  (props: ScopedProps<INavigationMenuLinkProps>, forwardedRef) => {
     const { __scopeNavigationMenu, active, onSelect, ...linkProps } = props
 
     return (
@@ -56,5 +56,5 @@ const NavigationMenuLink = React.forwardRef<NavigationMenuLinkElement, Navigatio
 
 NavigationMenuLink.displayName = LINK_NAME
 
-export type { NavigationMenuLinkProps }
+export type { INavigationMenuLinkProps }
 export { NavigationMenuLink }

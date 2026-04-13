@@ -14,17 +14,17 @@ const ITEM_SELECT = 'menu.itemSelect'
 
 type MenuItemImplElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-interface MenuItemImplProps extends PrimitiveDivProps {
+interface IMenuItemImplProps extends PrimitiveDivProps {
   disabled?: boolean
   textValue?: string
 }
 
 type MenuItemElement = MenuItemImplElement
-interface MenuItemProps extends Omit<MenuItemImplProps, 'onSelect'> {
+interface IMenuItemProps extends Omit<IMenuItemImplProps, 'onSelect'> {
   onSelect?: (event: Event) => void
 }
 
-const MenuItem = React.forwardRef<MenuItemElement, MenuItemProps>((props: ScopedProps<MenuItemProps>, forwardedRef) => {
+const MenuItem = React.forwardRef<MenuItemElement, IMenuItemProps>((props: ScopedProps<IMenuItemProps>, forwardedRef) => {
   const { disabled = false, onSelect, ...itemProps } = props
   const ref = React.useRef<HTMLDivElement>(null)
   const rootContext = useMenuRootContext(ITEM_NAME, props.__scopeMenu)
@@ -82,8 +82,8 @@ const MenuItem = React.forwardRef<MenuItemElement, MenuItemProps>((props: Scoped
 
 MenuItem.displayName = ITEM_NAME
 
-const MenuItemImpl = React.forwardRef<MenuItemImplElement, MenuItemImplProps>(
-  (props: ScopedProps<MenuItemImplProps>, forwardedRef) => {
+const MenuItemImpl = React.forwardRef<MenuItemImplElement, IMenuItemImplProps>(
+  (props: ScopedProps<IMenuItemImplProps>, forwardedRef) => {
     const { __scopeMenu, disabled = false, textValue, ...itemProps } = props
     const rootContext = useMenuRootContext(ITEM_NAME, __scopeMenu)
     const contentContext = useMenuContentContext(ITEM_NAME, __scopeMenu)
@@ -153,5 +153,5 @@ const MenuItemImpl = React.forwardRef<MenuItemImplElement, MenuItemImplProps>(
 
 MenuItemImpl.displayName = 'MenuItemImpl'
 
-export type { MenuItemElement, MenuItemImplProps, MenuItemProps }
+export type { MenuItemElement, IMenuItemImplProps, IMenuItemProps }
 export { MenuItem, MenuItemImpl }

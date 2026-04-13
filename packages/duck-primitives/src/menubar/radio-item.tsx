@@ -8,10 +8,10 @@ const RADIO_ITEM_NAME = 'MenubarRadioItem'
 
 type MenubarRadioItemElement = React.ComponentRef<typeof MenuPrimitive.RadioItem>
 type MenuRadioItemProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.RadioItem>
-interface MenubarRadioItemProps extends MenuRadioItemProps {}
+interface IMenubarRadioItemProps extends MenuRadioItemProps {}
 
-const MenubarRadioItem = React.forwardRef<MenubarRadioItemElement, MenubarRadioItemProps>(
-  (props: ScopedProps<MenubarRadioItemProps>, forwardedRef) => {
+const MenubarRadioItem = React.forwardRef<MenubarRadioItemElement, IMenubarRadioItemProps>(
+  (props: ScopedProps<IMenubarRadioItemProps>, forwardedRef) => {
     const { __scopeMenubar, ...radioItemProps } = props
     const menuScope = useMenuScope(__scopeMenubar)
     return <MenuPrimitive.RadioItem {...menuScope} {...radioItemProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const MenubarRadioItem = React.forwardRef<MenubarRadioItemElement, MenubarRadioI
 
 MenubarRadioItem.displayName = RADIO_ITEM_NAME
 
-export type { MenubarRadioItemProps }
+export type { IMenubarRadioItemProps }
 export { MenubarRadioItem }

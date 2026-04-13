@@ -6,11 +6,11 @@ const INPUT_OTP_SEPARATOR_NAME = 'InputOTPSeparator'
 type InputOTPSeparatorElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-interface InputOTPSeparatorProps extends PrimitiveDivProps {
+interface IInputOTPSeparatorProps extends PrimitiveDivProps {
   customIndicator?: React.ReactNode
 }
 
-const InputOTPSeparator = React.forwardRef<InputOTPSeparatorElement, InputOTPSeparatorProps>((props, forwardedRef) => {
+const InputOTPSeparator = React.forwardRef<InputOTPSeparatorElement, IInputOTPSeparatorProps>((props, forwardedRef) => {
   const { customIndicator, children, ...separatorProps } = props
   return (
     <Primitive.div
@@ -26,5 +26,5 @@ const InputOTPSeparator = React.forwardRef<InputOTPSeparatorElement, InputOTPSep
 
 InputOTPSeparator.displayName = INPUT_OTP_SEPARATOR_NAME
 
-export type { InputOTPSeparatorProps }
+export type { IInputOTPSeparatorProps }
 export { INPUT_OTP_SEPARATOR_NAME, InputOTPSeparator }

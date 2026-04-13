@@ -1,4 +1,4 @@
-export type { DateAdapter, WeekStartDay } from './adapter.types'
+export type { IDateAdapter, WeekStartDay } from './adapter.types'
 export { DateFnsAdapter } from './date-fns-adapter'
 export { DayjsAdapter } from './dayjs-adapter'
 export { clearFormatterCache, getCachedFormatter } from './formatter-cache'

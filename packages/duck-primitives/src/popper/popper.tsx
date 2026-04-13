@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { createContextScope, type Scope } from '../libs/create-context'
-import type { Measurable } from '../libs/observe-element-rect'
+import type { IMeasurable } from '../libs/observe-element-rect'
 
 export const SIDE_OPTIONS = ['top', 'right', 'bottom', 'left'] as const
 export const ALIGN_OPTIONS = ['start', 'center', 'end'] as const
@@ -17,8 +17,8 @@ const POPPER_NAME = 'Popper'
 export const [createPopperContext, createPopperScope] = createContextScope(POPPER_NAME)
 
 type PopperContextValue = {
-  anchor: Measurable | null
-  onAnchorChange(anchor: Measurable | null): void
+  anchor: IMeasurable | null
+  onAnchorChange(anchor: IMeasurable | null): void
 }
 
 export const [PopperProvider, usePopperContext] = createPopperContext<PopperContextValue>(POPPER_NAME)
@@ -29,7 +29,7 @@ export function Popper(
   }>,
 ) {
   const { __scopePopper, children } = props
-  const [anchor, setAnchor] = React.useState<Measurable | null>(null)
+  const [anchor, setAnchor] = React.useState<IMeasurable | null>(null)
 
   return (
     <PopperProvider scope={__scopePopper} anchor={anchor} onAnchorChange={setAnchor}>

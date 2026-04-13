@@ -9,7 +9,7 @@ const INDICATOR_NAME = 'RadioGroupIndicator'
 type RadioGroupIndicatorElement = React.ComponentRef<typeof Primitive.span>
 type PrimitiveSpanProps = React.ComponentPropsWithoutRef<typeof Primitive.span>
 
-interface RadioGroupIndicatorProps extends PrimitiveSpanProps {
+interface IRadioGroupIndicatorProps extends PrimitiveSpanProps {
   /**
    * Used to force mounting when more control is needed. Useful when
    * controlling animation with React animation libraries.
@@ -17,8 +17,8 @@ interface RadioGroupIndicatorProps extends PrimitiveSpanProps {
   forceMount?: true
 }
 
-const RadioGroupIndicator = React.forwardRef<RadioGroupIndicatorElement, RadioGroupIndicatorProps>(
-  (props: ScopedProps<RadioGroupIndicatorProps>, forwardedRef) => {
+const RadioGroupIndicator = React.forwardRef<RadioGroupIndicatorElement, IRadioGroupIndicatorProps>(
+  (props: ScopedProps<IRadioGroupIndicatorProps>, forwardedRef) => {
     const { __scopeRadioGroup, forceMount, ...indicatorProps } = props
     const itemContext = useRadioGroupItemContext(INDICATOR_NAME, __scopeRadioGroup)
 
@@ -38,5 +38,5 @@ const RadioGroupIndicator = React.forwardRef<RadioGroupIndicatorElement, RadioGr
 
 RadioGroupIndicator.displayName = INDICATOR_NAME
 
-export type { RadioGroupIndicatorProps }
+export type { IRadioGroupIndicatorProps }
 export { RadioGroupIndicator }

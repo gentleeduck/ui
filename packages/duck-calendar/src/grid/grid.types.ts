@@ -1,5 +1,5 @@
 /** A single day cell in the calendar grid. */
-export interface CalendarDay<TDate> {
+export interface ICalendarDay<TDate> {
   /** The date this cell represents. */
   date: TDate
   /** Whether this date is today. */
@@ -23,23 +23,23 @@ export interface CalendarDay<TDate> {
 }
 
 /** A single row (week) in the calendar grid. */
-export interface CalendarWeek<TDate> {
+export interface ICalendarWeek<TDate> {
   /** ISO week number. */
   weekNumber: number
   /** The 7 days in this week. Always exactly 7 items. */
-  days: CalendarDay<TDate>[]
+  days: ICalendarDay<TDate>[]
 }
 
 /** A full month grid ready to render. */
-export interface CalendarMonth<TDate> {
+export interface ICalendarMonth<TDate> {
   /** The first day of this month. */
   month: TDate
   /** The weeks in this month (5 or 6 depending on `fixedWeeks`). */
-  weeks: CalendarWeek<TDate>[]
+  weeks: ICalendarWeek<TDate>[]
 }
 
 /** A month entry for the year picker view. */
-export interface YearEntry {
+export interface IYearEntry {
   /** Month index, 0-indexed (Jan = 0). */
   month: number
   /** Localized month name. */
@@ -49,7 +49,7 @@ export interface YearEntry {
 }
 
 /** A year entry for the decade picker view. */
-export interface DecadeEntry {
+export interface IDecadeEntry {
   /** Full year number. */
   year: number
   /** Whether this is the current year. */

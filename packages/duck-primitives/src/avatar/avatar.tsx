@@ -20,11 +20,11 @@ type AvatarContextValue = {
 const [AvatarProvider, useAvatarContext] = createAvatarContext<AvatarContextValue>(AVATAR_NAME)
 
 type AvatarElement = React.ComponentRef<typeof Primitive.span>
-interface AvatarProps extends React.ComponentPropsWithoutRef<typeof Primitive.span> {
+interface IAvatarProps extends React.ComponentPropsWithoutRef<typeof Primitive.span> {
   dir?: Direction
 }
 
-const Avatar = React.forwardRef<AvatarElement, AvatarProps>((props: ScopedProps<AvatarProps>, forwardedRef) => {
+const Avatar = React.forwardRef<AvatarElement, IAvatarProps>((props: ScopedProps<IAvatarProps>, forwardedRef) => {
   const { __scopeAvatar, dir, ...avatarProps } = props
   const direction = useDirection(dir)
   const [imageLoadingStatus, setImageLoadingStatus] = React.useState<ImageLoadingStatus>('idle')
@@ -41,5 +41,5 @@ const Avatar = React.forwardRef<AvatarElement, AvatarProps>((props: ScopedProps<
 
 Avatar.displayName = AVATAR_NAME
 
-export type { AvatarProps, ScopedProps }
+export type { IAvatarProps, ScopedProps }
 export { Avatar, createAvatarScope, useAvatarContext }

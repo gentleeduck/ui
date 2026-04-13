@@ -8,11 +8,11 @@ const CANCEL_NAME = 'AlertDialogCancel'
 
 type AlertDialogCancelElement = React.ComponentRef<typeof DialogPrimitive.Close>
 type DialogCloseProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Close>
-export interface AlertDialogCancelProps extends DialogCloseProps {}
+export interface IAlertDialogCancelProps extends DialogCloseProps {}
 
 /** Button that cancels the alert dialog action and closes it. Receives initial focus. */
-export const AlertDialogCancel = React.forwardRef<AlertDialogCancelElement, AlertDialogCancelProps>(
-  (props: ScopedProps<AlertDialogCancelProps>, forwardedRef) => {
+export const AlertDialogCancel = React.forwardRef<AlertDialogCancelElement, IAlertDialogCancelProps>(
+  (props: ScopedProps<IAlertDialogCancelProps>, forwardedRef) => {
     const { __scopeAlertDialog, ...cancelProps } = props
     const { cancelRef } = useAlertDialogContentContext(CANCEL_NAME, __scopeAlertDialog)
     const dialogScope = useDialogScope(__scopeAlertDialog)

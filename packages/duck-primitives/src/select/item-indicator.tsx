@@ -6,9 +6,9 @@ const ITEM_INDICATOR_NAME = 'SelectItemIndicator'
 
 type SelectItemIndicatorElement = React.ComponentRef<typeof Primitive.span>
 
-export interface SelectItemIndicatorProps extends React.ComponentPropsWithRef<typeof Primitive.span> {}
+export interface ISelectItemIndicatorProps extends React.ComponentPropsWithRef<typeof Primitive.span> {}
 
-export const SelectItemIndicator = React.forwardRef<SelectItemIndicatorElement, ScopedProps<SelectItemIndicatorProps>>(
+export const SelectItemIndicator = React.forwardRef<SelectItemIndicatorElement, ScopedProps<ISelectItemIndicatorProps>>(
   (props, forwardedRef) => {
     const { __scopeSelect, ...itemIndicatorProps } = props
     const context = useSelectContext(ITEM_INDICATOR_NAME, __scopeSelect)

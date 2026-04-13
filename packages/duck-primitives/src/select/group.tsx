@@ -7,10 +7,10 @@ const GROUP_NAME = 'SelectGroup'
 
 type SelectGroupElement = React.ComponentRef<typeof Primitive.div>
 
-export interface SelectGroupProps extends React.ComponentPropsWithRef<typeof Primitive.div> {}
+export interface ISelectGroupProps extends React.ComponentPropsWithRef<typeof Primitive.div> {}
 
-export const SelectGroup = React.forwardRef<SelectGroupElement, SelectGroupProps>(
-  (props: ScopedProps<SelectGroupProps>, forwardedRef) => {
+export const SelectGroup = React.forwardRef<SelectGroupElement, ISelectGroupProps>(
+  (props: ScopedProps<ISelectGroupProps>, forwardedRef) => {
     const { __scopeSelect, ...groupProps } = props
     const context = useSelectContext(GROUP_NAME, __scopeSelect)
     const groupId = useId()

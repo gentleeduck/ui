@@ -23,14 +23,14 @@ type ContextMenuContextValue = {
 const [ContextMenuProvider, useContextMenuContext] =
   createContextMenuContext<ContextMenuContextValue>(CONTEXT_MENU_NAME)
 
-interface ContextMenuProps {
+interface IContextMenuProps {
   children?: React.ReactNode
   onOpenChange?(open: boolean): void
   dir?: Direction
   modal?: boolean
 }
 
-const ContextMenu: React.FC<ContextMenuProps> = (props: ScopedProps<ContextMenuProps>) => {
+const ContextMenu: React.FC<IContextMenuProps> = (props: ScopedProps<IContextMenuProps>) => {
   const { __scopeContextMenu, children, onOpenChange, dir, modal = true } = props
   const direction = useDirection(dir)
   const [open, setOpen] = React.useState(false)
@@ -74,7 +74,7 @@ const ContextMenu: React.FC<ContextMenuProps> = (props: ScopedProps<ContextMenuP
 
 ContextMenu.displayName = CONTEXT_MENU_NAME
 
-export type { ContextMenuContextValue, ContextMenuProps, Direction, ScopedProps }
+export type { ContextMenuContextValue, IContextMenuProps, Direction, ScopedProps }
 export {
   CONTEXT_MENU_NAME,
   ContextMenu,

@@ -1,5 +1,5 @@
 import { BLUR_CLEAR, BLUR_LIGHT, type DirectionalSide, getAxis } from './_utils'
-import type { MotionPreset } from './types'
+import type { IMotionPreset } from './types'
 
 /**
  * Creates a slide preset for edge-anchored panels (sheets, drawers).
@@ -8,7 +8,7 @@ import type { MotionPreset } from './types'
  *
  * @param side - Which edge the panel is anchored to
  */
-export function createSlideEdge(side: DirectionalSide): MotionPreset {
+export function createSlideEdge(side: DirectionalSide): IMotionPreset {
   const axis = getAxis(side)
   const offset = side === 'right' || side === 'bottom' ? '100%' : '-100%'
 

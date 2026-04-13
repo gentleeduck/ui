@@ -28,7 +28,7 @@ type DropdownMenuContextValue = {
 const [DropdownMenuProvider, useDropdownMenuContext] =
   createDropdownMenuContext<DropdownMenuContextValue>(DROPDOWN_MENU_NAME)
 
-interface DropdownMenuProps {
+interface IDropdownMenuProps {
   children?: React.ReactNode
   dir?: Direction
   open?: boolean
@@ -37,7 +37,7 @@ interface DropdownMenuProps {
   modal?: boolean
 }
 
-const DropdownMenu: React.FC<DropdownMenuProps> = (props: ScopedProps<DropdownMenuProps>) => {
+const DropdownMenu: React.FC<IDropdownMenuProps> = (props: ScopedProps<IDropdownMenuProps>) => {
   const { __scopeDropdownMenu, children, dir, open: openProp, defaultOpen, onOpenChange, modal = true } = props
   const direction = useDirection(dir)
   const menuScope = useMenuScope(__scopeDropdownMenu)
@@ -69,7 +69,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = (props: ScopedProps<DropdownMe
 
 DropdownMenu.displayName = DROPDOWN_MENU_NAME
 
-export type { Direction, DropdownMenuContextValue, DropdownMenuProps, ScopedProps }
+export type { Direction, DropdownMenuContextValue, IDropdownMenuProps, ScopedProps }
 export {
   createDropdownMenuScope,
   DROPDOWN_MENU_NAME,

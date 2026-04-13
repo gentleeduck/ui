@@ -118,12 +118,12 @@ export function useTypeaheadSearch(
   return [searchRef, handleTypeaheadSearch, resetTypeahead] as const
 }
 
-interface TypeaheadListState {
+interface ITypeaheadListState {
   activeElement: Element | null
   lastMatchedElement: HTMLElement | null
 }
 
-interface TypeaheadListNavigationOptions<T> {
+interface ITypeaheadListNavigationOptions<T> {
   /**
    * Returns candidate items to search. Callers should pre-filter out disabled/hidden items.
    */
@@ -143,7 +143,7 @@ interface TypeaheadListNavigationOptions<T> {
   /**
    * Optional current-item resolver override (e.g. SelectTrigger uses selected value instead of focus).
    */
-  getCurrentItem?: (items: T[], state: TypeaheadListState) => T | undefined
+  getCurrentItem?: (items: T[], state: ITypeaheadListState) => T | undefined
   /**
    * Optional external ref to keep typeahead search state in shared context.
    */
@@ -159,7 +159,7 @@ interface TypeaheadListNavigationOptions<T> {
  *
  * Returns [searchRef, handleTypeaheadSearch, resetTypeaheadState].
  */
-export function useTypeaheadListNavigation<T>(options: TypeaheadListNavigationOptions<T>) {
+export function useTypeaheadListNavigation<T>(options: ITypeaheadListNavigationOptions<T>) {
   const lastMatchedRefObject = React.useRef<HTMLElement | null>(null)
 
   const [searchRef, handleTypeaheadSearch, resetTypeahead] = useTypeaheadSearch((search, key) => {
@@ -173,7 +173,7 @@ export function useTypeaheadListNavigation<T>(options: TypeaheadListNavigationOp
 
     if (searchableItems.length === 0) return ''
 
-    const state: TypeaheadListState = {
+    const state: ITypeaheadListState = {
       activeElement: document.activeElement,
       lastMatchedElement: lastMatchedRefObject.current,
     }
@@ -215,7 +215,7 @@ export function useTypeaheadListNavigation<T>(options: TypeaheadListNavigationOp
   return [searchRef, handleTypeaheadSearch, resetTypeaheadState] as const
 }
 
-interface VimNavigationOptions {
+interface IVimNavigationOptions {
   onNavigate?: () => void
   ggTimeoutMs?: number
 }
@@ -233,7 +233,7 @@ interface VimNavigationOptions {
  *
  * The first g press returns false so typeahead still fires for 'g' items.
  */
-export function useVimNavigation(options: VimNavigationOptions = {}) {
+export function useVimNavigation(options: IVimNavigationOptions = {}) {
   const { ggTimeoutMs = 300 } = options
   const lastGPressRef = React.useRef(0)
   const onNavigate = useCallbackRef(options.onNavigate ?? (() => {}))

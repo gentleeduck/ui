@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import type { DateAdapter, WeekStartDay } from './adapter.types'
+import type { IDateAdapter, WeekStartDay } from './adapter.types'
 import { getCachedFormatter } from './formatter-cache'
 
 /**
@@ -7,7 +7,7 @@ import { getCachedFormatter } from './formatter-cache'
  * Converts between Luxon's 1-indexed months and the adapter's 0-indexed convention.
  * All methods return new DateTime instances  -  never mutates inputs.
  */
-export class LuxonAdapter implements DateAdapter<DateTime> {
+export class LuxonAdapter implements IDateAdapter<DateTime> {
   /** Returns today's date with time stripped to midnight. */
   today(): DateTime {
     return DateTime.now().startOf('day')

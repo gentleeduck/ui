@@ -20,7 +20,7 @@ import {
   set,
   startOfDay,
 } from 'date-fns'
-import type { DateAdapter, WeekStartDay } from './adapter.types'
+import type { IDateAdapter, WeekStartDay } from './adapter.types'
 import { getCachedFormatter } from './formatter-cache'
 
 /**
@@ -32,7 +32,7 @@ import { getCachedFormatter } from './formatter-cache'
  *
  * Requires `date-fns` as a peer dependency.
  */
-export class DateFnsAdapter implements DateAdapter<Date> {
+export class DateFnsAdapter implements IDateAdapter<Date> {
   /** Returns today's date with time stripped to midnight. */
   today(): Date {
     return startOfDay(new Date())

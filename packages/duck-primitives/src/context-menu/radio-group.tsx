@@ -8,10 +8,10 @@ const RADIO_GROUP_NAME = 'ContextMenuRadioGroup'
 
 type ContextMenuRadioGroupElement = React.ComponentRef<typeof MenuPrimitive.RadioGroup>
 type MenuRadioGroupProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.RadioGroup>
-interface ContextMenuRadioGroupProps extends MenuRadioGroupProps {}
+interface IContextMenuRadioGroupProps extends MenuRadioGroupProps {}
 
-const ContextMenuRadioGroup = React.forwardRef<ContextMenuRadioGroupElement, ContextMenuRadioGroupProps>(
-  (props: ScopedProps<ContextMenuRadioGroupProps>, forwardedRef) => {
+const ContextMenuRadioGroup = React.forwardRef<ContextMenuRadioGroupElement, IContextMenuRadioGroupProps>(
+  (props: ScopedProps<IContextMenuRadioGroupProps>, forwardedRef) => {
     const { __scopeContextMenu, ...radioGroupProps } = props
     const menuScope = useMenuScope(__scopeContextMenu)
     return <MenuPrimitive.RadioGroup {...menuScope} {...radioGroupProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const ContextMenuRadioGroup = React.forwardRef<ContextMenuRadioGroupElement, Con
 
 ContextMenuRadioGroup.displayName = RADIO_GROUP_NAME
 
-export type { ContextMenuRadioGroupProps }
+export type { IContextMenuRadioGroupProps }
 export { ContextMenuRadioGroup }

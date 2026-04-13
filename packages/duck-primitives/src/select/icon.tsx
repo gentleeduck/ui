@@ -6,10 +6,10 @@ const ICON_NAME = 'SelectIcon'
 
 type SelectIconElement = React.ComponentRef<typeof Primitive.span>
 
-export interface SelectIconProps extends React.ComponentPropsWithRef<typeof Primitive.span> {}
+export interface ISelectIconProps extends React.ComponentPropsWithRef<typeof Primitive.span> {}
 
-export const SelectIcon = React.forwardRef<SelectIconElement, SelectIconProps>(
-  (props: ScopedProps<SelectIconProps>, forwardedRef) => {
+export const SelectIcon = React.forwardRef<SelectIconElement, ISelectIconProps>(
+  (props: ScopedProps<ISelectIconProps>, forwardedRef) => {
     const { __scopeSelect, children, ...iconProps } = props
     const context = useSelectContext(ICON_NAME, __scopeSelect)
     return (

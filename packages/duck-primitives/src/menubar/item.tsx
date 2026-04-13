@@ -8,10 +8,10 @@ const ITEM_NAME = 'MenubarItem'
 
 type MenubarItemElement = React.ComponentRef<typeof MenuPrimitive.Item>
 type MenuItemProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Item>
-interface MenubarItemProps extends MenuItemProps {}
+interface IMenubarItemProps extends MenuItemProps {}
 
-const MenubarItem = React.forwardRef<MenubarItemElement, MenubarItemProps>(
-  (props: ScopedProps<MenubarItemProps>, forwardedRef) => {
+const MenubarItem = React.forwardRef<MenubarItemElement, IMenubarItemProps>(
+  (props: ScopedProps<IMenubarItemProps>, forwardedRef) => {
     const { __scopeMenubar, ...itemProps } = props
     const menuScope = useMenuScope(__scopeMenubar)
     return <MenuPrimitive.Item {...menuScope} {...itemProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const MenubarItem = React.forwardRef<MenubarItemElement, MenubarItemProps>(
 
 MenubarItem.displayName = ITEM_NAME
 
-export type { MenubarItemProps }
+export type { IMenubarItemProps }
 export { MenubarItem }

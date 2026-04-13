@@ -1,6 +1,6 @@
 'use client'
 import { isInputElement } from '../matcher/matcher'
-import type { Command, KeyBindOptions, RegistrationHandle, RegistryClass, RegistryEntry } from './command.types'
+import type { ICommand, IKeyBindOptions, IRegistrationHandle, RegistryClass, IRegistryEntry } from './command.types'
 
 /**
  * A registry for keyboard command sequences.
@@ -10,7 +10,7 @@ import type { Command, KeyBindOptions, RegistrationHandle, RegistryClass, Regist
  * to support multi-key bindings like `g+d`.
  */
 export class Registry implements RegistryClass {
-  private entries = new Map<string, RegistryEntry>()
+  private entries = new Map<string, IRegistryEntry>()
   private prefixes = new Set<string>()
 
   /**
@@ -24,9 +24,9 @@ export class Registry implements RegistryClass {
    * Registers a new command with a given key sequence.
    *
    * @param {string} key - A key sequence like `ctrl+k` or `g+d`.
-   * @param {Command} command - A command object containing an `execute()` function.
-   * @param {KeyBindOptions} [options] - Optional per-binding options.
-   * @returns {RegistrationHandle} A handle for unregistering and controlling the binding.
+   * @param {ICommand} command - A command object containing an `execute()` function.
+   * @param {IKeyBindOptions} [options] - Optional per-binding options.
+   * @returns {IRegistrationHandle} A handle for unregistering and controlling the binding.
    *
    * @example
    * const handle = registry.register('ctrl+k', {
@@ -37,8 +37,8 @@ export class Registry implements RegistryClass {
    * // Later:
    * handle.unregister()
    */
-  public register(key: string, command: Command, options?: KeyBindOptions): RegistrationHandle {
-    const opts: KeyBindOptions = { ...options }
+  public register(key: string, command: ICommand, options?: IKeyBindOptions): IRegistrationHandle {
+    const opts: IKeyBindOptions = { ...options }
 
     // Conflict detection
     if (this.entries.has(key)) {
@@ -52,7 +52,7 @@ export class Registry implements RegistryClass {
       // 'replace' and 'allow' silently proceed
     }
 
-    const entry: RegistryEntry = { command, options: opts, fired: false }
+    const entry: IRegistryEntry = { command, options: opts, fired: false }
     this.entries.set(key, entry)
     this.rebuildPrefixes()
     this.debug && console.log(`[Registry] Registered '${key}'`)
@@ -94,21 +94,21 @@ export class Registry implements RegistryClass {
   /**
    * Retrieves a registered command for the given key sequence.
    */
-  public getCommand(key: string): Command | undefined {
+  public getCommand(key: string): ICommand | undefined {
     return this.entries.get(key)?.command
   }
 
   /**
    * Retrieves the full registry entry (command + options + state) for a key.
    */
-  public getEntry(key: string): RegistryEntry | undefined {
+  public getEntry(key: string): IRegistryEntry | undefined {
     return this.entries.get(key)
   }
 
   /**
    * Retrieves the options for a registered key binding.
    */
-  public getOptions(key: string): KeyBindOptions | undefined {
+  public getOptions(key: string): IKeyBindOptions | undefined {
     return this.entries.get(key)?.options
   }
 
@@ -122,8 +122,8 @@ export class Registry implements RegistryClass {
   /**
    * Returns all registered commands.
    */
-  public getAllCommands(): Map<string, Command> {
-    const result = new Map<string, Command>()
+  public getAllCommands(): Map<string, ICommand> {
+    const result = new Map<string, ICommand>()
     for (const [key, entry] of this.entries) {
       result.set(key, entry.command)
     }
@@ -160,17 +160,17 @@ export class KeyHandler {
   private seq: string[] = []
   private timeoutId: ReturnType<typeof setTimeout> | null = null
   private TIMEOUT_MS: number
-  private defaultOptions: Partial<KeyBindOptions>
+  private defaultOptions: Partial<IKeyBindOptions>
 
   /**
    * @param {Registry} registry - The command registry to use for key resolution.
    * @param {number} [timeoutMs=600] - Timeout in milliseconds between key presses in a sequence.
-   * @param {Partial<KeyBindOptions>} [defaultOptions={}] - Default options merged with per-binding options.
+   * @param {Partial<IKeyBindOptions>} [defaultOptions={}] - Default options merged with per-binding options.
    */
   constructor(
     private registry: Registry,
     timeoutMs: number = 600,
-    defaultOptions: Partial<KeyBindOptions> = {},
+    defaultOptions: Partial<IKeyBindOptions> = {},
   ) {
     this.TIMEOUT_MS = timeoutMs
     this.defaultOptions = defaultOptions
@@ -228,7 +228,7 @@ export class KeyHandler {
     const entry = this.registry.getEntry(key)
     if (!entry) return false
 
-    const opts: KeyBindOptions = { ...this.defaultOptions, ...entry.options }
+    const opts: IKeyBindOptions = { ...this.defaultOptions, ...entry.options }
 
     // Check enabled
     if (opts.enabled === false) return false

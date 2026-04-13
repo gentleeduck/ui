@@ -42,7 +42,7 @@ type MenuRootContextValue = {
 
 const [MenuRootProvider, useMenuRootContext] = createMenuContext<MenuRootContextValue>(MENU_NAME)
 
-interface MenuProps {
+interface IMenuProps {
   children?: React.ReactNode
   open?: boolean
   onOpenChange?(open: boolean): void
@@ -50,7 +50,7 @@ interface MenuProps {
   modal?: boolean
 }
 
-const Menu: React.FC<MenuProps> = (props: ScopedProps<MenuProps>) => {
+const Menu: React.FC<IMenuProps> = (props: ScopedProps<IMenuProps>) => {
   const { __scopeMenu, open = false, children, dir, onOpenChange, modal = true } = props
   const popperScope = usePopperScope(__scopeMenu)
   const [content, setContent] = React.useState<MenuContentElement | null>(null)
@@ -111,7 +111,7 @@ export type {
   MenuContentElement,
   MenuContextValue,
   MenuItemElement,
-  MenuProps,
+  IMenuProps,
   MenuRootContextValue,
   ScopedProps,
 }

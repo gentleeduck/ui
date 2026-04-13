@@ -10,20 +10,20 @@ const OVERLAY_NAME = 'DialogOverlay'
 
 type DialogOverlayImplElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-interface DialogOverlayImplProps extends PrimitiveDivProps {
+interface IDialogOverlayImplProps extends PrimitiveDivProps {
   /** Override whether scroll is locked. Defaults to `context.open`. */
   lockScroll?: boolean
 }
 
 type DialogOverlayElement = DialogOverlayImplElement
-export interface DialogOverlayProps extends DialogOverlayImplProps {
+export interface IDialogOverlayProps extends IDialogOverlayImplProps {
   /** Force mounting for animation control. */
   forceMount?: true
 }
 
 /** Renders an overlay behind the dialog content. Only renders in modal mode. */
-export const DialogOverlay = React.forwardRef<DialogOverlayElement, DialogOverlayProps>(
-  (props: ScopedProps<DialogOverlayProps>, forwardedRef) => {
+export const DialogOverlay = React.forwardRef<DialogOverlayElement, IDialogOverlayProps>(
+  (props: ScopedProps<IDialogOverlayProps>, forwardedRef) => {
     const portalContext = usePortalContext(OVERLAY_NAME, props.__scopeDialog)
     const { forceMount = portalContext.forceMount, ...overlayProps } = props
     const context = useDialogContext(OVERLAY_NAME, props.__scopeDialog)
@@ -39,8 +39,8 @@ DialogOverlay.displayName = OVERLAY_NAME
 
 const Slot = createSlot('DialogOverlay.RemoveScroll')
 
-const DialogOverlayImpl = React.forwardRef<DialogOverlayImplElement, DialogOverlayImplProps>(
-  (props: ScopedProps<DialogOverlayImplProps>, forwardedRef) => {
+const DialogOverlayImpl = React.forwardRef<DialogOverlayImplElement, IDialogOverlayImplProps>(
+  (props: ScopedProps<IDialogOverlayImplProps>, forwardedRef) => {
     const { __scopeDialog, lockScroll: lockScrollProp, ...overlayProps } = props
     const context = useDialogContext(OVERLAY_NAME, __scopeDialog)
     return (

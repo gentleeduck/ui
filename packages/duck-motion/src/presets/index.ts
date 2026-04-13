@@ -25,8 +25,8 @@ export { createTooltipPreset } from './tooltip'
 export type {
   Direction,
   MotionAnimationState,
-  MotionPreset,
+  IMotionPreset,
   MotionPresetName,
-  MotionPresetResult,
+  IMotionPresetResult,
   MotionTransitionConfig,
 } from './types'

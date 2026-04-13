@@ -17,13 +17,13 @@ const ITEM_NAME = 'SelectItem'
 
 type SelectItemElement = React.ComponentRef<typeof Primitive.div>
 
-export interface SelectItemProps extends React.ComponentPropsWithRef<typeof Primitive.div> {
+export interface ISelectItemProps extends React.ComponentPropsWithRef<typeof Primitive.div> {
   value: string
   disabled?: boolean
   textValue?: string
 }
 
-export const SelectItem = React.forwardRef<SelectItemElement, ScopedProps<SelectItemProps>>((props, forwardedRef) => {
+export const SelectItem = React.forwardRef<SelectItemElement, ScopedProps<ISelectItemProps>>((props, forwardedRef) => {
   const { __scopeSelect, value, disabled = false, textValue: textValueProp, ...itemProps } = props
   const context = useSelectContext(ITEM_NAME, __scopeSelect)
   const contentContext = useSelectContentContext(ITEM_NAME, __scopeSelect)

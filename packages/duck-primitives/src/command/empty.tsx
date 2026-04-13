@@ -7,10 +7,10 @@ const EMPTY_NAME = 'CommandEmpty'
 
 type CommandEmptyElement = React.ComponentRef<typeof Primitive.div>
 
-export interface CommandEmptyProps extends React.ComponentPropsWithRef<typeof Primitive.div> {}
+export interface ICommandEmptyProps extends React.ComponentPropsWithRef<typeof Primitive.div> {}
 
-export const CommandEmpty = React.forwardRef<CommandEmptyElement, CommandEmptyProps>(
-  (props: ScopedProps<CommandEmptyProps>, forwardedRef) => {
+export const CommandEmpty = React.forwardRef<CommandEmptyElement, ICommandEmptyProps>(
+  (props: ScopedProps<ICommandEmptyProps>, forwardedRef) => {
     const { __scopeCommand, ...emptyProps } = props
     const context = useCommandContext(EMPTY_NAME, __scopeCommand)
     const listContext = useCommandListContext(EMPTY_NAME, __scopeCommand)

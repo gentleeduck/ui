@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { clampTime, incrementField, parseTimeInput } from '../../time/time'
 import { formatTimeField, getAmPm, to12Hour, to24Hour } from '../../time/time.libs'
-import type { TimeField, TimeValue } from '../../time/time.types'
+import type { TimeField, ITimeValue } from '../../time/time.types'
 import { useControllableState } from '../utils/use-controllable-state'
-import type { TimeFieldProps, UseTimePickerConfig, UseTimePickerReturn } from './use-time-picker.types'
+import type { ITimeFieldProps, IUseTimePickerConfig, IUseTimePickerReturn } from './use-time-picker.types'
 
 // ---------------------------------------------------------------------------
 // Field ordering for tab-through
@@ -39,8 +39,8 @@ const FIELD_LABELS: Record<TimeField, string> = {
 function getFieldRange(
   field: TimeField,
   hourCycle: '12' | '24',
-  minTime?: TimeValue,
-  maxTime?: TimeValue,
+  minTime?: ITimeValue,
+  maxTime?: ITimeValue,
 ): { min: number; max: number } {
   switch (field) {
     case 'hour': {
@@ -60,7 +60,7 @@ function getFieldRange(
   }
 }
 
-function getFieldNow(field: TimeField, value: TimeValue, hourCycle: '12' | '24'): number {
+function getFieldNow(field: TimeField, value: ITimeValue, hourCycle: '12' | '24'): number {
   switch (field) {
     case 'hour':
       return hourCycle === '12' ? to12Hour(value.hour) : value.hour
@@ -73,7 +73,7 @@ function getFieldNow(field: TimeField, value: TimeValue, hourCycle: '12' | '24')
   }
 }
 
-function getFieldText(field: TimeField, value: TimeValue, hourCycle: '12' | '24'): string {
+function getFieldText(field: TimeField, value: ITimeValue, hourCycle: '12' | '24'): string {
   switch (field) {
     case 'hour':
       return formatTimeField(hourCycle === '12' ? to12Hour(value.hour) : value.hour)
@@ -90,7 +90,7 @@ function getFieldText(field: TimeField, value: TimeValue, hourCycle: '12' | '24'
 // useTimePicker
 // ---------------------------------------------------------------------------
 
-export function useTimePicker(config: UseTimePickerConfig = {}): UseTimePickerReturn {
+export function useTimePicker(config: IUseTimePickerConfig = {}): IUseTimePickerReturn {
   const {
     value: controlledValue,
     defaultValue,
@@ -103,9 +103,9 @@ export function useTimePicker(config: UseTimePickerConfig = {}): UseTimePickerRe
     secondStep,
   } = config
 
-  const initialValue: TimeValue = defaultValue ?? { hour: 0, minute: 0 }
+  const initialValue: ITimeValue = defaultValue ?? { hour: 0, minute: 0 }
 
-  const [value, setValueRaw] = useControllableState<TimeValue>(controlledValue, initialValue, onChange)
+  const [value, setValueRaw] = useControllableState<ITimeValue>(controlledValue, initialValue, onChange)
 
   const [focusedField, setFocusedField] = useState<TimeField>('hour')
 
@@ -129,7 +129,7 @@ export function useTimePicker(config: UseTimePickerConfig = {}): UseTimePickerRe
   // -------------------------------------------------------------------------
 
   const setValue = useCallback(
-    (next: TimeValue) => {
+    (next: ITimeValue) => {
       setValueRaw(next)
     },
     [setValueRaw],
@@ -211,7 +211,7 @@ export function useTimePicker(config: UseTimePickerConfig = {}): UseTimePickerRe
   // -------------------------------------------------------------------------
 
   const getFieldProps = useCallback(
-    (field: TimeField): TimeFieldProps => {
+    (field: TimeField): ITimeFieldProps => {
       const range = getFieldRange(field, hourCycle, minTime, maxTime)
       const now = getFieldNow(field, value, hourCycle)
       const text = getFieldText(field, value, hourCycle)

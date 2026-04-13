@@ -28,12 +28,12 @@ function createContext<ContextValueType extends object | null>(
 // biome-ignore lint/suspicious/noExplicitAny: Scope requires `any` default for Context covariance across component boundaries
 type Scope<C = any> = { [scopeName: string]: React.Context<C>[] } | undefined
 type ScopeHook = (scope: Scope) => { [__scopeProp: string]: Scope }
-interface CreateScope {
+interface ICreateScope {
   scopeName: string
   (): ScopeHook
 }
 
-function createContextScope(scopeName: string, createContextScopeDeps: CreateScope[] = []) {
+function createContextScope(scopeName: string, createContextScopeDeps: ICreateScope[] = []) {
   let defaultContexts: unknown[] = []
 
   function createContext<ContextValueType extends object | null>(
@@ -67,7 +67,7 @@ function createContextScope(scopeName: string, createContextScopeDeps: CreateSco
     return [Provider, useContext] as const
   }
 
-  const createScope: CreateScope = () => {
+  const createScope: ICreateScope = () => {
     const scopeContexts = defaultContexts.map((defaultContext) => {
       return React.createContext(defaultContext)
     })
@@ -81,11 +81,11 @@ function createContextScope(scopeName: string, createContextScopeDeps: CreateSco
   return [createContext, composeContextScopes(createScope, ...createContextScopeDeps)] as const
 }
 
-function composeContextScopes(...scopes: [CreateScope, ...CreateScope[]]): CreateScope {
+function composeContextScopes(...scopes: [ICreateScope, ...ICreateScope[]]): ICreateScope {
   const baseScope = scopes[0]
   if (scopes.length === 1) return baseScope
 
-  const createScope: CreateScope = () => {
+  const createScope: ICreateScope = () => {
     const scopeHooks = scopes.map((createScope) => ({
       useScope: createScope(),
       scopeName: createScope.scopeName,
@@ -110,5 +110,5 @@ function composeContextScopes(...scopes: [CreateScope, ...CreateScope[]]): Creat
   return createScope
 }
 
-export type { CreateScope, Scope }
+export type { ICreateScope, Scope }
 export { createContext, createContextScope }

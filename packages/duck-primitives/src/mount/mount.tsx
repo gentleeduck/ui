@@ -2,14 +2,14 @@
 
 import * as React from 'react'
 
-export interface MountProps {
+export interface IMountProps {
   open: boolean
   renderOnce?: boolean
   children?: React.ReactNode
   animationDuration?: number
 }
 
-function Mount({ open, renderOnce = false, children, animationDuration = 400 }: MountProps) {
+function Mount({ open, renderOnce = false, children, animationDuration = 400 }: IMountProps) {
   const [mounted, setMounted] = React.useState(open)
 
   React.useEffect(() => {

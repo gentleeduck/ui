@@ -7,7 +7,7 @@ import {
   MenuContentImpl,
   type MenuContentImplElement,
   type MenuContentImplPrivateProps,
-  type MenuContentImplProps,
+  type IMenuContentImplProps,
 } from './content'
 import { Collection, type ScopedProps, useMenuContext, useMenuRootContext } from './menu'
 import { SUB_CLOSE_KEYS } from './menu.libs'
@@ -18,9 +18,9 @@ const CONTENT_NAME = 'MenuContent'
 const SUB_CONTENT_NAME = 'MenuSubContent'
 
 type MenuSubContentElement = MenuContentImplElement
-interface MenuSubContentProps
+interface IMenuSubContentProps
   extends Omit<
-    MenuContentImplProps,
+    IMenuContentImplProps,
     keyof MenuContentImplPrivateProps | 'onCloseAutoFocus' | 'onEntryFocus' | 'side' | 'align'
   > {
   /**
@@ -30,8 +30,8 @@ interface MenuSubContentProps
   forceMount?: true
 }
 
-const MenuSubContent = React.forwardRef<MenuSubContentElement, MenuSubContentProps>(
-  (props: ScopedProps<MenuSubContentProps>, forwardedRef) => {
+const MenuSubContent = React.forwardRef<MenuSubContentElement, IMenuSubContentProps>(
+  (props: ScopedProps<IMenuSubContentProps>, forwardedRef) => {
     const portalContext = usePortalContext(CONTENT_NAME, props.__scopeMenu)
     const { forceMount = portalContext.forceMount, ...subContentProps } = props
     const context = useMenuContext(CONTENT_NAME, props.__scopeMenu)
@@ -93,5 +93,5 @@ const MenuSubContent = React.forwardRef<MenuSubContentElement, MenuSubContentPro
 
 MenuSubContent.displayName = SUB_CONTENT_NAME
 
-export type { MenuSubContentElement, MenuSubContentProps }
+export type { MenuSubContentElement, IMenuSubContentProps }
 export { MenuSubContent }

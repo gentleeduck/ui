@@ -2,7 +2,7 @@
 import * as React from 'react'
 
 import { composeEventHandlers } from '../libs/compose-event-handler'
-import { MenuItem, type MenuItemProps } from './item'
+import { MenuItem, type IMenuItemProps } from './item'
 import { createMenuContext, type ScopedProps } from './menu'
 import { type CheckedState, getCheckedState, isIndeterminate } from './menu.libs'
 
@@ -11,7 +11,7 @@ const ITEM_INDICATOR_NAME = 'MenuItemIndicator'
 
 type MenuCheckboxItemElement = React.ComponentRef<typeof MenuItem>
 
-interface MenuCheckboxItemProps extends MenuItemProps {
+interface IMenuCheckboxItemProps extends IMenuItemProps {
   checked?: CheckedState
   // `onCheckedChange` can never be called with `"indeterminate"` from the inside
   onCheckedChange?: (checked: boolean) => void
@@ -23,8 +23,8 @@ const [ItemIndicatorProvider, useItemIndicatorContext] = createMenuContext<Check
   checked: false,
 })
 
-const MenuCheckboxItem = React.forwardRef<MenuCheckboxItemElement, MenuCheckboxItemProps>(
-  (props: ScopedProps<MenuCheckboxItemProps>, forwardedRef) => {
+const MenuCheckboxItem = React.forwardRef<MenuCheckboxItemElement, IMenuCheckboxItemProps>(
+  (props: ScopedProps<IMenuCheckboxItemProps>, forwardedRef) => {
     const { checked = false, onCheckedChange, ...checkboxItemProps } = props
     return (
       <ItemIndicatorProvider scope={props.__scopeMenu} checked={checked}>
@@ -47,5 +47,5 @@ const MenuCheckboxItem = React.forwardRef<MenuCheckboxItemElement, MenuCheckboxI
 
 MenuCheckboxItem.displayName = CHECKBOX_ITEM_NAME
 
-export type { MenuCheckboxItemElement, MenuCheckboxItemProps }
+export type { MenuCheckboxItemElement, IMenuCheckboxItemProps }
 export { ItemIndicatorProvider, MenuCheckboxItem, useItemIndicatorContext }

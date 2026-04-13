@@ -7,7 +7,7 @@ import { useDuckReducedMotion } from './react'
 const DEFAULT_TRANSITION = { duration: 0.15, ease: [0.4, 0, 0.2, 1] as const } as const
 const REDUCED_TRANSITION = { duration: 0 } as const
 
-export interface MotionProviderProps {
+export interface IMotionProviderProps {
   children: React.ReactNode
   /** Global default transition. Falls back to a fast tween (150ms, standard ease). */
   transition?: Record<string, unknown>
@@ -48,7 +48,7 @@ export function MotionProvider({
   reducedMotion = 'user',
   features = loadDomAnimation,
   strict = false,
-}: MotionProviderProps) {
+}: IMotionProviderProps) {
   const prefersReduced = useDuckReducedMotion()
   const resolvedTransition = prefersReduced ? REDUCED_TRANSITION : (transition ?? DEFAULT_TRANSITION)
 

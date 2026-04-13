@@ -1,9 +1,9 @@
 export { useCalendar } from './use-calendar'
 export type {
-  DayProps,
-  GridProps,
-  HeaderProps,
-  NavProps,
-  UseCalendarConfig,
-  UseCalendarReturn,
+  IDayProps,
+  IGridProps,
+  IHeaderProps,
+  INavProps,
+  IUseCalendarConfig,
+  IUseCalendarReturn,
 } from './use-calendar.types'

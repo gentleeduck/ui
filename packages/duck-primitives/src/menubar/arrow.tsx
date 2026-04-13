@@ -8,10 +8,10 @@ const ARROW_NAME = 'MenubarArrow'
 
 type MenubarArrowElement = React.ComponentRef<typeof MenuPrimitive.Arrow>
 type MenuArrowProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Arrow>
-interface MenubarArrowProps extends MenuArrowProps {}
+interface IMenubarArrowProps extends MenuArrowProps {}
 
-const MenubarArrow = React.forwardRef<MenubarArrowElement, MenubarArrowProps>(
-  (props: ScopedProps<MenubarArrowProps>, forwardedRef) => {
+const MenubarArrow = React.forwardRef<MenubarArrowElement, IMenubarArrowProps>(
+  (props: ScopedProps<IMenubarArrowProps>, forwardedRef) => {
     const { __scopeMenubar, ...arrowProps } = props
     const menuScope = useMenuScope(__scopeMenubar)
     return <MenuPrimitive.Arrow {...menuScope} {...arrowProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const MenubarArrow = React.forwardRef<MenubarArrowElement, MenubarArrowProps>(
 
 MenubarArrow.displayName = ARROW_NAME
 
-export type { MenubarArrowProps }
+export type { IMenubarArrowProps }
 export { MenubarArrow }

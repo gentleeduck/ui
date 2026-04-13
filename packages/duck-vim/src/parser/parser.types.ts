@@ -1,7 +1,7 @@
 /**
  * A parsed key binding broken down into its components.
  */
-export interface ParsedKeyBind {
+export interface IParsedKeyBind {
   /** The non-modifier key, lowercased (e.g. 's', 'space', 'enter') */
   key: string
   ctrl: boolean
@@ -15,7 +15,7 @@ export interface ParsedKeyBind {
 /**
  * Result of validating a key binding string.
  */
-export interface ValidationResult {
+export interface IValidationResult {
   valid: boolean
   warnings: string[]
   errors: string[]

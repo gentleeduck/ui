@@ -1,8 +1,8 @@
 export { createSequenceMatcher, SequenceManager } from './sequence'
 export type {
-  SequenceHandle,
-  SequenceOptions,
-  SequenceRegistration,
-  SequenceState,
-  SequenceStep,
+  ISequenceHandle,
+  ISequenceOptions,
+  ISequenceRegistration,
+  ISequenceState,
+  ISequenceStep,
 } from './sequence.types'

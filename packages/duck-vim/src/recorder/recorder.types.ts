@@ -1,7 +1,7 @@
 /**
  * State of the key recorder.
  */
-export interface KeyRecorderState {
+export interface IKeyRecorderState {
   /** Currently held key descriptors during recording */
   activeKeys: string[]
   /** The final recorded key binding string (canonical form), or null if nothing recorded */
@@ -13,7 +13,7 @@ export interface KeyRecorderState {
 /**
  * Options for KeyRecorder.
  */
-export interface KeyRecorderOptions {
+export interface IKeyRecorderOptions {
   /** Called when a new combination is recorded */
   onRecord?: (binding: string) => void
   /** Called when recording starts */
@@ -25,7 +25,7 @@ export interface KeyRecorderOptions {
 /**
  * Snapshot of currently pressed keys from KeyStateTracker.
  */
-export interface KeyStateSnapshot {
+export interface IKeyStateSnapshot {
   /** Set of currently pressed key descriptors */
   pressed: ReadonlySet<string>
   /** Whether any modifier is currently held */

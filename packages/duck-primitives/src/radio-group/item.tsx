@@ -23,7 +23,7 @@ const [RadioGroupItemProvider, useRadioGroupItemContext] =
 type RadioGroupItemElement = React.ComponentRef<typeof Primitive.button>
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
 
-interface RadioGroupItemProps extends PrimitiveButtonProps {
+interface IRadioGroupItemProps extends PrimitiveButtonProps {
   /**
    * The unique value for this radio item.
    */
@@ -35,8 +35,8 @@ interface RadioGroupItemProps extends PrimitiveButtonProps {
   textValue?: string
 }
 
-const RadioGroupItem = React.forwardRef<RadioGroupItemElement, RadioGroupItemProps>(
-  (props: ScopedProps<RadioGroupItemProps>, forwardedRef) => {
+const RadioGroupItem = React.forwardRef<RadioGroupItemElement, IRadioGroupItemProps>(
+  (props: ScopedProps<IRadioGroupItemProps>, forwardedRef) => {
     const { __scopeRadioGroup, value, textValue, disabled: disabledProp, ...itemProps } = props
     const context = useRadioGroupContext(ITEM_NAME, __scopeRadioGroup)
     const rovingFocusGroupScope = useRovingFocusGroupScope(__scopeRadioGroup)
@@ -82,14 +82,14 @@ const RadioGroupItem = React.forwardRef<RadioGroupItemElement, RadioGroupItemPro
 
 RadioGroupItem.displayName = ITEM_NAME
 
-interface BubbleInputProps {
+interface IBubbleInputProps {
   name: string
   value: string
   checked: boolean
   disabled: boolean
 }
 
-function BubbleInput(props: BubbleInputProps) {
+function BubbleInput(props: IBubbleInputProps) {
   const { name, value, checked, disabled } = props
   return (
     <input
@@ -116,5 +116,5 @@ function BubbleInput(props: BubbleInputProps) {
   )
 }
 
-export type { RadioGroupItemProps }
+export type { IRadioGroupItemProps }
 export { RadioGroupItem, RadioGroupItemProvider, useRadioGroupItemContext }

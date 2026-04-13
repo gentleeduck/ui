@@ -1,15 +1,15 @@
-import type { DateAdapter, WeekStartDay } from '../../adapter'
+import type { IDateAdapter, WeekStartDay } from '../../adapter'
 
-export interface KeyboardConfig<TDate> {
+export interface IKeyboardConfig<TDate> {
   focusedDate: TDate
   onFocusChange: (date: TDate) => void
   onSelect: (date: TDate, options?: { shiftKey?: boolean }) => void
   onDismiss?: () => void
   isDisabled: (date: TDate) => boolean
-  adapter: DateAdapter<TDate>
+  adapter: IDateAdapter<TDate>
   weekStartDay?: WeekStartDay
 }
 
-export interface KeyboardReturn {
+export interface IKeyboardReturn {
   onKeyDown: React.KeyboardEventHandler
 }

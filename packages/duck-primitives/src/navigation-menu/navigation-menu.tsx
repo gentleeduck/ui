@@ -47,7 +47,7 @@ type FocusProxyElement = React.ComponentRef<typeof VisuallyHiddenPrimitive.Root>
 
 type DismissableLayerProps = React.ComponentPropsWithoutRef<typeof DismissableLayer>
 
-interface NavigationMenuContentImplPrivateProps {
+interface INavigationMenuContentImplPrivateProps {
   value: string
   triggerRef: React.RefObject<NavigationMenuTriggerElement | null>
   focusProxyRef: React.RefObject<FocusProxyElement | null>
@@ -56,18 +56,18 @@ interface NavigationMenuContentImplPrivateProps {
   onRootContentClose(): void
 }
 
-interface NavigationMenuContentImplProps
+interface INavigationMenuContentImplProps
   extends Omit<DismissableLayerProps, 'onDismiss' | 'disableOutsidePointerEvents'>,
-    NavigationMenuContentImplPrivateProps {}
+    INavigationMenuContentImplPrivateProps {}
 
 type ViewportContentMounterElement = NavigationMenuContentImplElement
-interface ViewportContentMounterProps extends NavigationMenuContentImplProps {
+interface IViewportContentMounterProps extends INavigationMenuContentImplProps {
   forceMount?: true
 }
 
 type ContentData = {
   ref?: React.Ref<ViewportContentMounterElement>
-} & ViewportContentMounterProps
+} & IViewportContentMounterProps
 
 /* ----- Contexts ----- */
 
@@ -118,8 +118,8 @@ const [NavigationMenuItemContextProvider, useNavigationMenuItemContext] =
 /* ----- NavigationMenu ----- */
 
 type PrimitiveNavProps = React.ComponentPropsWithoutRef<typeof Primitive.nav>
-interface NavigationMenuProps
-  extends Omit<NavigationMenuProviderProps, keyof NavigationMenuProviderPrivateProps>,
+interface INavigationMenuProps
+  extends Omit<INavigationMenuProviderProps, keyof INavigationMenuProviderPrivateProps>,
     PrimitiveNavProps {
   value?: string
   defaultValue?: string
@@ -130,8 +130,8 @@ interface NavigationMenuProps
   skipDelayDuration?: number
 }
 
-const NavigationMenu = React.forwardRef<NavigationMenuElement, NavigationMenuProps>(
-  (props: ScopedProps<NavigationMenuProps>, forwardedRef) => {
+const NavigationMenu = React.forwardRef<NavigationMenuElement, INavigationMenuProps>(
+  (props: ScopedProps<INavigationMenuProps>, forwardedRef) => {
     const {
       __scopeNavigationMenu,
       value: valueProp,
@@ -250,8 +250,8 @@ const SUB_NAME = 'NavigationMenuSub'
 
 type NavigationMenuSubElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-interface NavigationMenuSubProps
-  extends Omit<NavigationMenuProviderProps, keyof NavigationMenuProviderPrivateProps>,
+interface INavigationMenuSubProps
+  extends Omit<INavigationMenuProviderProps, keyof INavigationMenuProviderPrivateProps>,
     PrimitiveDivProps {
   value?: string
   defaultValue?: string
@@ -259,8 +259,8 @@ interface NavigationMenuSubProps
   orientation?: Orientation
 }
 
-const NavigationMenuSub = React.forwardRef<NavigationMenuSubElement, NavigationMenuSubProps>(
-  (props: ScopedProps<NavigationMenuSubProps>, forwardedRef) => {
+const NavigationMenuSub = React.forwardRef<NavigationMenuSubElement, INavigationMenuSubProps>(
+  (props: ScopedProps<INavigationMenuSubProps>, forwardedRef) => {
     const {
       __scopeNavigationMenu,
       value: valueProp,
@@ -303,7 +303,7 @@ NavigationMenuSub.displayName = SUB_NAME
 
 /* ----- NavigationMenuProvider (internal) ----- */
 
-interface NavigationMenuProviderPrivateProps {
+interface INavigationMenuProviderPrivateProps {
   isRootMenu: boolean
   scope: Scope
   children: React.ReactNode
@@ -319,10 +319,10 @@ interface NavigationMenuProviderPrivateProps {
   onItemDismiss(): void
 }
 
-interface NavigationMenuProviderProps extends NavigationMenuProviderPrivateProps {}
+interface INavigationMenuProviderProps extends INavigationMenuProviderPrivateProps {}
 
-const NavigationMenuProvider: React.FC<NavigationMenuProviderProps> = (
-  props: ScopedProps<NavigationMenuProviderProps>,
+const NavigationMenuProvider: React.FC<INavigationMenuProviderProps> = (
+  props: ScopedProps<INavigationMenuProviderProps>,
 ) => {
   const {
     scope,
@@ -391,19 +391,19 @@ export type {
   FocusGroupItemElement,
   FocusProxyElement,
   NavigationMenuContentImplElement,
-  NavigationMenuContentImplPrivateProps,
-  NavigationMenuContentImplProps,
+  INavigationMenuContentImplPrivateProps,
+  INavigationMenuContentImplProps,
   NavigationMenuContextValue,
   NavigationMenuItemContextValue,
-  NavigationMenuProps,
-  NavigationMenuSubProps,
+  INavigationMenuProps,
+  INavigationMenuSubProps,
   NavigationMenuTriggerElement,
   NavigationMenuViewportElement,
   Orientation,
   PrimitiveDivProps,
   ScopedProps,
   ViewportContentMounterElement,
-  ViewportContentMounterProps,
+  IViewportContentMounterProps,
 }
 export {
   Collection,

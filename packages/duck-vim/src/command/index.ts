@@ -1,8 +1,8 @@
 export { KeyHandler, Registry } from './command'
 export type {
-  Command,
-  KeyBindOptions,
-  RegistrationHandle,
+  ICommand,
+  IKeyBindOptions,
+  IRegistrationHandle,
   RegistryClass,
-  RegistryEntry,
+  IRegistryEntry,
 } from './command.types'

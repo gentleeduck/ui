@@ -46,7 +46,7 @@ type PopoverContentTypeProps = Omit<PopoverContentImplProps, 'trapFocus' | 'disa
   lockScroll?: boolean
 }
 
-export interface PopoverContentProps extends PopoverContentTypeProps {
+export interface IPopoverContentProps extends PopoverContentTypeProps {
   /** Force mounting for animation control. */
   forceMount?: true
 }
@@ -56,8 +56,8 @@ export interface PopoverContentProps extends PopoverContentTypeProps {
  * the root Popover's modal prop. Handles focus trapping, outside interactions,
  * scroll locking (modal), and accessible dismissal.
  */
-export const PopoverContent = React.forwardRef<PopoverContentElement, PopoverContentProps>(
-  (props: ScopedProps<PopoverContentProps>, forwardedRef) => {
+export const PopoverContent = React.forwardRef<PopoverContentElement, IPopoverContentProps>(
+  (props: ScopedProps<IPopoverContentProps>, forwardedRef) => {
     const portalContext = usePortalContext(CONTENT_NAME, props.__scopePopover)
     const { forceMount = portalContext.forceMount, ...contentProps } = props
     const context = usePopoverContext(CONTENT_NAME, props.__scopePopover)

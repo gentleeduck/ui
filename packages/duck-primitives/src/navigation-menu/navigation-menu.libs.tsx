@@ -112,10 +112,10 @@ function useResizeObserver(element: HTMLElement | null, onResize: () => void) {
 const FOCUS_GROUP_NAME = 'FocusGroup'
 
 type FocusGroupElement = React.ComponentRef<typeof Primitive.div>
-interface FocusGroupProps extends PrimitiveDivProps {}
+interface IFocusGroupProps extends PrimitiveDivProps {}
 
-const FocusGroup = React.forwardRef<FocusGroupElement, FocusGroupProps>(
-  (props: ScopedProps<FocusGroupProps>, forwardedRef) => {
+const FocusGroup = React.forwardRef<FocusGroupElement, IFocusGroupProps>(
+  (props: ScopedProps<IFocusGroupProps>, forwardedRef) => {
     const { __scopeNavigationMenu, ...groupProps } = props
     const context = useNavigationMenuContext(FOCUS_GROUP_NAME, __scopeNavigationMenu)
 
@@ -136,10 +136,10 @@ FocusGroup.displayName = FOCUS_GROUP_NAME
 const FOCUS_GROUP_ITEM_NAME = 'FocusGroupItem'
 
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
-interface FocusGroupItemProps extends PrimitiveButtonProps {}
+interface IFocusGroupItemProps extends PrimitiveButtonProps {}
 
-const FocusGroupItem = React.forwardRef<FocusGroupItemElement, FocusGroupItemProps>(
-  (props: ScopedProps<FocusGroupItemProps>, forwardedRef) => {
+const FocusGroupItem = React.forwardRef<FocusGroupItemElement, IFocusGroupItemProps>(
+  (props: ScopedProps<IFocusGroupItemProps>, forwardedRef) => {
     const { __scopeNavigationMenu, ...groupProps } = props
     const getItems = useFocusGroupCollection(__scopeNavigationMenu)
     const context = useNavigationMenuContext(FOCUS_GROUP_ITEM_NAME, __scopeNavigationMenu)

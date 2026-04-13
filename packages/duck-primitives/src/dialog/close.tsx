@@ -7,11 +7,11 @@ const CLOSE_NAME = 'DialogClose'
 
 type DialogCloseElement = React.ComponentRef<typeof Primitive.button>
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
-export interface DialogCloseProps extends PrimitiveButtonProps {}
+export interface IDialogCloseProps extends PrimitiveButtonProps {}
 
 /** Button that closes the dialog when clicked. */
-export const DialogClose = React.forwardRef<DialogCloseElement, DialogCloseProps>(
-  (props: ScopedProps<DialogCloseProps>, forwardedRef) => {
+export const DialogClose = React.forwardRef<DialogCloseElement, IDialogCloseProps>(
+  (props: ScopedProps<IDialogCloseProps>, forwardedRef) => {
     const { __scopeDialog, ...closeProps } = props
     const context = useDialogContext(CLOSE_NAME, __scopeDialog)
     return (

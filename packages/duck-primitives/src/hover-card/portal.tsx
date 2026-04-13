@@ -13,7 +13,7 @@ export const [PortalProvider, usePortalContext] = createHoverCardContext<PortalC
 
 type PortalProps = React.ComponentPropsWithoutRef<typeof PortalPrimitive>
 
-export interface HoverCardPortalProps {
+export interface IHoverCardPortalProps {
   children?: React.ReactNode
   /** Specify a container element to portal the content into. */
   container?: PortalProps['container']
@@ -22,7 +22,7 @@ export interface HoverCardPortalProps {
 }
 
 /** Portals hover card content into a specified container or document.body. */
-export const HoverCardPortal: React.FC<HoverCardPortalProps> = (props: ScopedProps<HoverCardPortalProps>) => {
+export const HoverCardPortal: React.FC<IHoverCardPortalProps> = (props: ScopedProps<IHoverCardPortalProps>) => {
   const { __scopeHoverCard, forceMount, children, container } = props
   const context = useHoverCardContext(PORTAL_NAME, __scopeHoverCard)
   return (

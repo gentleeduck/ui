@@ -23,7 +23,7 @@ const [ToggleProvider, useToggleContext] = createToggleContext<ToggleContextValu
 type ToggleElement = React.ComponentRef<typeof Primitive.button>
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
 
-interface ToggleProps extends PrimitiveButtonProps {
+interface IToggleProps extends PrimitiveButtonProps {
   /**
    * The controlled pressed state of the toggle.
    */
@@ -42,7 +42,7 @@ interface ToggleProps extends PrimitiveButtonProps {
   dir?: Direction
 }
 
-const Toggle = React.forwardRef<ToggleElement, ToggleProps>((props: ScopedProps<ToggleProps>, forwardedRef) => {
+const Toggle = React.forwardRef<ToggleElement, IToggleProps>((props: ScopedProps<IToggleProps>, forwardedRef) => {
   const {
     __scopeToggle,
     pressed: pressedProp,
@@ -85,5 +85,5 @@ const Toggle = React.forwardRef<ToggleElement, ToggleProps>((props: ScopedProps<
 
 Toggle.displayName = TOGGLE_NAME
 
-export type { ScopedProps, ToggleContextValue, ToggleProps }
+export type { ScopedProps, ToggleContextValue, IToggleProps }
 export { createToggleScope, TOGGLE_NAME, Toggle, ToggleProvider, useToggleContext }

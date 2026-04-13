@@ -8,10 +8,10 @@ const INPUT_NAME = 'CommandInput'
 
 type CommandInputElement = React.ComponentRef<typeof Primitive.input>
 
-export interface CommandInputProps extends React.ComponentPropsWithRef<typeof Primitive.input> {}
+export interface ICommandInputProps extends React.ComponentPropsWithRef<typeof Primitive.input> {}
 
-export const CommandInput = React.forwardRef<CommandInputElement, CommandInputProps>(
-  (props: ScopedProps<CommandInputProps>, forwardedRef) => {
+export const CommandInput = React.forwardRef<CommandInputElement, ICommandInputProps>(
+  (props: ScopedProps<ICommandInputProps>, forwardedRef) => {
     const { __scopeCommand, ...inputProps } = props
     const context = useCommandContext(INPUT_NAME, __scopeCommand)
     const composedRef = useComposedRefs(forwardedRef, context.inputRef)

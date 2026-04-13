@@ -1,4 +1,4 @@
-import type { DateAdapter, WeekStartDay } from './adapter.types'
+import type { IDateAdapter, WeekStartDay } from './adapter.types'
 import { getCachedFormatter } from './formatter-cache'
 
 /**
@@ -6,7 +6,7 @@ import { getCachedFormatter } from './formatter-cache'
  * Zero external dependencies. Handles month-overflow clamping (Jan 31 + 1 month = Feb 28).
  * All methods return new Date instances  -  never mutates inputs.
  */
-export class NativeAdapter implements DateAdapter<Date> {
+export class NativeAdapter implements IDateAdapter<Date> {
   /** Returns today's date with time stripped to midnight. */
   today(): Date {
     const d = new Date()

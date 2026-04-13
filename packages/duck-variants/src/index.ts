@@ -7,5 +7,5 @@ export type {
   InferVariants,
   VariantParams,
   VariantProps,
-  VariantsOptions,
+  IVariantsOptions,
 } from './variants.types'

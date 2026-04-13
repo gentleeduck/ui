@@ -1,2 +1,2 @@
-export type { PortalProps } from './portal'
+export type { IPortalProps } from './portal'
 export { Portal } from './portal'

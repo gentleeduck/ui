@@ -8,10 +8,10 @@ import { convertValueToPercentage } from './slider.libs'
 const RANGE_NAME = 'SliderRange'
 
 type SliderRangeElement = React.ComponentRef<typeof Primitive.span>
-interface SliderRangeProps extends PrimitiveSpanProps {}
+interface ISliderRangeProps extends PrimitiveSpanProps {}
 
-const SliderRange = React.forwardRef<SliderRangeElement, SliderRangeProps>(
-  (props: ScopedProps<SliderRangeProps>, forwardedRef) => {
+const SliderRange = React.forwardRef<SliderRangeElement, ISliderRangeProps>(
+  (props: ScopedProps<ISliderRangeProps>, forwardedRef) => {
     const { __scopeSlider, ...rangeProps } = props
     const context = useSliderContext(RANGE_NAME, __scopeSlider)
     const orientation = useSliderOrientationContext(RANGE_NAME, __scopeSlider)
@@ -42,5 +42,5 @@ const SliderRange = React.forwardRef<SliderRangeElement, SliderRangeProps>(
 
 SliderRange.displayName = RANGE_NAME
 
-export type { SliderRangeProps }
+export type { ISliderRangeProps }
 export { SliderRange }

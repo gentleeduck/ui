@@ -4,16 +4,16 @@ import * as React from 'react'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { Primitive } from '../primitive-elements'
 import { type ScopedProps, usePopoverContext } from './popover'
-import type { PopoverTriggerProps } from './trigger'
+import type { IPopoverTriggerProps } from './trigger'
 
 const CLOSE_NAME = 'PopoverClose'
 
-export interface PopoverCloseProps extends PopoverTriggerProps {}
+export interface IPopoverCloseProps extends IPopoverTriggerProps {}
 
 /** Button that closes the popover when clicked. */
 export const PopoverClose = React.forwardRef<
   React.ComponentRef<typeof Primitive.button>,
-  ScopedProps<PopoverCloseProps>
+  ScopedProps<IPopoverCloseProps>
 >((props, forwardedRef) => {
   const { __scopePopover, ...closeProps } = props
   const context = usePopoverContext(CLOSE_NAME, __scopePopover)

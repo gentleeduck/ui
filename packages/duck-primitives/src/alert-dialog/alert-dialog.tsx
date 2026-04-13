@@ -11,10 +11,10 @@ export const [createAlertDialogContext, createAlertDialogScope] = createContextS
 export const useDialogScope = createDialogScope()
 
 type DialogProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Root>
-export interface AlertDialogProps extends Omit<DialogProps, 'modal'> {}
+export interface IAlertDialogProps extends Omit<DialogProps, 'modal'> {}
 
 /** Root component that wraps Dialog with modal behavior forced on. */
-const AlertDialog: React.FC<AlertDialogProps> = (props: ScopedProps<AlertDialogProps>) => {
+const AlertDialog: React.FC<IAlertDialogProps> = (props: ScopedProps<IAlertDialogProps>) => {
   const { __scopeAlertDialog, ...alertDialogProps } = props
   const dialogScope = useDialogScope(__scopeAlertDialog)
   return <DialogPrimitive.Root {...dialogScope} {...alertDialogProps} modal={true} />

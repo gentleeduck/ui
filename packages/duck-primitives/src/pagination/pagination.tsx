@@ -14,12 +14,12 @@ type PaginationContextValue = { dir: Direction }
 const [PaginationProvider, usePaginationContext] = createPaginationContext<PaginationContextValue>(PAGINATION_NAME)
 
 type PaginationElement = React.ComponentRef<typeof Primitive.nav>
-interface PaginationProps extends React.ComponentPropsWithoutRef<typeof Primitive.nav> {
+interface IPaginationProps extends React.ComponentPropsWithoutRef<typeof Primitive.nav> {
   dir?: Direction
 }
 
-const Pagination = React.forwardRef<PaginationElement, PaginationProps>(
-  (props: ScopedProps<PaginationProps>, forwardedRef) => {
+const Pagination = React.forwardRef<PaginationElement, IPaginationProps>(
+  (props: ScopedProps<IPaginationProps>, forwardedRef) => {
     const { __scopePagination, dir, ...paginationProps } = props
     const direction = useDirection(dir)
     return (
@@ -38,5 +38,5 @@ const Pagination = React.forwardRef<PaginationElement, PaginationProps>(
 
 Pagination.displayName = PAGINATION_NAME
 
-export type { PaginationContextValue, PaginationProps, ScopedProps }
+export type { PaginationContextValue, IPaginationProps, ScopedProps }
 export { createPaginationScope, PAGINATION_NAME, Pagination, PaginationProvider, usePaginationContext }

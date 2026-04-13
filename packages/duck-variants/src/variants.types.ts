@@ -58,7 +58,7 @@ export type VariantParams<TVariants extends Record<string, Record<string, string
  * }
  * ```
  */
-export interface VariantsOptions<TVariants extends Record<string, Record<string, string | string[]>>> {
+export interface IVariantsOptions<TVariants extends Record<string, Record<string, string | string[]>>> {
   variants: TVariants
   defaultVariants?: VariantParams<TVariants>
   compoundVariants?: Array<
@@ -171,4 +171,4 @@ export type ClassValue = string | number | boolean | ClassDictionary | ClassArra
  * // => { size: { sm: string; lg: string }; intent: { primary: string; danger: string } }
  * ```
  */
-export type InferVariants<T extends VariantsOptions<Record<string, Record<string, string | string[]>>>> = T['variants']
+export type InferVariants<T extends IVariantsOptions<Record<string, Record<string, string | string[]>>>> = T['variants']

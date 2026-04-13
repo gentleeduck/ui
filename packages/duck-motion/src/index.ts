@@ -1,5 +1,5 @@
 export { MotionProvider } from './motion-provider'
-export type { ReducedMotionFallback } from './react'
+export type { IReducedMotionFallback } from './react'
 export {
   getDuckReducedMotionServerSnapshot,
   motionTransition,

@@ -2,13 +2,13 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import {
   buildCalendarMonth,
   buildMultiMonth,
-  type CalendarDay,
-  type CalendarMonth,
+  type ICalendarDay,
+  type ICalendarMonth,
   getLocalizedWeekdays,
 } from '../../grid'
 import type { ViewMode } from '../../index.types'
 import { canNavigate, navigate } from '../../navigation'
-import type { CalendarValue, DateRange, SelectionConstraints, SelectionMode } from '../../selection'
+import type { CalendarValue, DateRange, ISelectionConstraints, SelectionMode } from '../../selection'
 import { applySelection, isDateDisabled, selectDay } from '../../selection'
 import {
   buildDateDisabledMessage,
@@ -20,15 +20,15 @@ import {
 import { useKeyboard } from '../use-keyboard'
 import { useControllableState } from '../utils/use-controllable-state'
 import { buildDayProps, buildGridProps, buildHeaderProps, buildNavProps } from './use-calendar.libs'
-import type { UseCalendarConfig, UseCalendarReturn } from './use-calendar.types'
+import type { IUseCalendarConfig, IUseCalendarReturn } from './use-calendar.types'
 
 // ---------------------------------------------------------------------------
 // useCalendar
 // ---------------------------------------------------------------------------
 
 export function useCalendar<TDate, M extends SelectionMode = 'single'>(
-  config: UseCalendarConfig<TDate, M>,
-): UseCalendarReturn<TDate, M> {
+  config: IUseCalendarConfig<TDate, M>,
+): IUseCalendarReturn<TDate, M> {
   const {
     adapter,
     mode,
@@ -96,7 +96,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // -------------------------------------------------------------------------
   // Constraints (memoised to keep a stable reference)
   // -------------------------------------------------------------------------
-  const constraints: SelectionConstraints<TDate> = useMemo(
+  const constraints: ISelectionConstraints<TDate> = useMemo(
     () => ({ disabled, fromDate, toDate }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [fromDate, toDate, disabled],
@@ -112,7 +112,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // -------------------------------------------------------------------------
   // Grid  -  rebuild when month, value, or constraints change
   // -------------------------------------------------------------------------
-  const months: CalendarMonth<TDate>[] = useMemo(() => {
+  const months: ICalendarMonth<TDate>[] = useMemo(() => {
     const resolvedLocale =
       localeTag || localeDirection || weekStartDay
         ? { locale: localeTag, weekStartDay, direction: localeDirection }
@@ -274,7 +274,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // Prop getters
   // -------------------------------------------------------------------------
   const getDayProps = useCallback(
-    (day: CalendarDay<TDate>) =>
+    (day: ICalendarDay<TDate>) =>
       buildDayProps(day, focusedDate, adapter, selectDate, setFocusedDate, keyboard.onKeyDown, localeTag),
     [focusedDate, adapter, selectDate, keyboard.onKeyDown, localeTag],
   )

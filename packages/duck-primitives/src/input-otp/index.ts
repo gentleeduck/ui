@@ -1,6 +1,6 @@
-export type { InputOTPGroupProps } from './group'
+export type { IInputOTPGroupProps } from './group'
 export { InputOTPGroup, InputOTPGroup as Group } from './group'
-export type { InputOTPProps } from './input-otp'
+export type { IInputOTPProps } from './input-otp'
 export {
   createInputOTPScope,
   InputOTP,
@@ -10,7 +10,7 @@ export {
   REGEXP_ONLY_DIGITS_AND_CHARS,
   useInputOTPContext,
 } from './input-otp'
-export type { InputOTPSeparatorProps } from './separator'
+export type { IInputOTPSeparatorProps } from './separator'
 export { InputOTPSeparator, InputOTPSeparator as Separator } from './separator'
-export type { InputOTPSlotProps } from './slot'
+export type { IInputOTPSlotProps } from './slot'
 export { InputOTPSlot, InputOTPSlot as Slot } from './slot'

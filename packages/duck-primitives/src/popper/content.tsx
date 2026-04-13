@@ -40,7 +40,7 @@ export const [PopperContentProvider, useContentContext] = createPopperContext<Po
 
 type PrimitiveDivProps = React.ComponentPropsWithRef<typeof Primitive.div>
 
-export interface PopperContentProps extends PrimitiveDivProps {
+export interface IPopperContentProps extends PrimitiveDivProps {
   side?: Side
   sideOffset?: number
   align?: Align
@@ -55,7 +55,7 @@ export interface PopperContentProps extends PrimitiveDivProps {
   onPlaced?: () => void
 }
 
-export const PopperContent = ({ ref: forwardedRef, ...props }: ScopedProps<PopperContentProps>) => {
+export const PopperContent = ({ ref: forwardedRef, ...props }: ScopedProps<IPopperContentProps>) => {
   const {
     __scopePopper,
     side = 'bottom',

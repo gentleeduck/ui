@@ -8,11 +8,11 @@ const TRIGGER_NAME = 'DialogTrigger'
 
 type DialogTriggerElement = React.ComponentRef<typeof Primitive.button>
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
-export interface DialogTriggerProps extends PrimitiveButtonProps {}
+export interface IDialogTriggerProps extends PrimitiveButtonProps {}
 
 /** Button that toggles the dialog open state. */
-export const DialogTrigger = React.forwardRef<DialogTriggerElement, DialogTriggerProps>(
-  (props: ScopedProps<DialogTriggerProps>, forwardedRef) => {
+export const DialogTrigger = React.forwardRef<DialogTriggerElement, IDialogTriggerProps>(
+  (props: ScopedProps<IDialogTriggerProps>, forwardedRef) => {
     const { __scopeDialog, ...triggerProps } = props
     const context = useDialogContext(TRIGGER_NAME, __scopeDialog)
     const composedTriggerRef = useComposedRefs(forwardedRef, context.triggerRef)

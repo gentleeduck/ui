@@ -8,10 +8,10 @@ const CHECKBOX_ITEM_NAME = 'ContextMenuCheckboxItem'
 
 type ContextMenuCheckboxItemElement = React.ComponentRef<typeof MenuPrimitive.CheckboxItem>
 type MenuCheckboxItemProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.CheckboxItem>
-interface ContextMenuCheckboxItemProps extends MenuCheckboxItemProps {}
+interface IContextMenuCheckboxItemProps extends MenuCheckboxItemProps {}
 
-const ContextMenuCheckboxItem = React.forwardRef<ContextMenuCheckboxItemElement, ContextMenuCheckboxItemProps>(
-  (props: ScopedProps<ContextMenuCheckboxItemProps>, forwardedRef) => {
+const ContextMenuCheckboxItem = React.forwardRef<ContextMenuCheckboxItemElement, IContextMenuCheckboxItemProps>(
+  (props: ScopedProps<IContextMenuCheckboxItemProps>, forwardedRef) => {
     const { __scopeContextMenu, ...checkboxItemProps } = props
     const menuScope = useMenuScope(__scopeContextMenu)
     return <MenuPrimitive.CheckboxItem {...menuScope} {...checkboxItemProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const ContextMenuCheckboxItem = React.forwardRef<ContextMenuCheckboxItemElement,
 
 ContextMenuCheckboxItem.displayName = CHECKBOX_ITEM_NAME
 
-export type { ContextMenuCheckboxItemProps }
+export type { IContextMenuCheckboxItemProps }
 export { ContextMenuCheckboxItem }
