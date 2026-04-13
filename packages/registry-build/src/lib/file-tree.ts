@@ -1,8 +1,8 @@
 import { joinPosix, normalizeSlashes } from './path'
 
 /** Represents a file or folder node in a registry file tree. */
-export interface RegistryFileTreeNode {
-  children?: RegistryFileTreeNode[]
+export interface IRegistryFileTreeNode {
+  children?: IRegistryFileTreeNode[]
   name: string
   path: string
   type: 'file' | 'folder'
@@ -10,7 +10,7 @@ export interface RegistryFileTreeNode {
 
 /** Builds a hierarchical file tree from a flat list of file paths. */
 export function createRegistryFileTree(paths: string[], options?: { basePath?: string }) {
-  const root: RegistryFileTreeNode[] = []
+  const root: IRegistryFileTreeNode[] = []
   const basePath = options?.basePath ? normalizeSlashes(options.basePath).replace(/\/$/, '') : ''
 
   for (const filePath of paths.map((value) => normalizeSlashes(value))) {
@@ -43,7 +43,7 @@ export function createRegistryFileTree(paths: string[], options?: { basePath?: s
         continue
       }
 
-      const createdNode: RegistryFileTreeNode = {
+      const createdNode: IRegistryFileTreeNode = {
         ...(isFile ? {} : { children: [] }),
         name: part,
         path: nextPath,

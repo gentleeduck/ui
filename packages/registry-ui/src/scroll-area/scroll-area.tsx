@@ -9,12 +9,12 @@ import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
-interface ScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {
+interface IScrollAreaProps extends React.HTMLAttributes<HTMLDivElement> {
   viewportClassName?: string
   viewportRef?: React.Ref<HTMLDivElement>
 }
 
-const ScrollArea = React.forwardRef<HTMLDivElement, ScrollAreaProps>(
+const ScrollArea = React.forwardRef<HTMLDivElement, IScrollAreaProps>(
   ({ children, className, viewportClassName, viewportRef, style, dir, ...props }, ref) => {
     const direction = useDirection(dir as Direction)
     return (
@@ -42,7 +42,7 @@ const MOTION_SCROLL_AREA_OPTIONS = { transition: springBouncy } as const
 
 const MotionScrollArea = React.forwardRef<
   HTMLDivElement,
-  Omit<ScrollAreaProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+  Omit<IScrollAreaProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
 >(({ children, className, viewportClassName, viewportRef, style, dir, ...props }, ref) => {
   const direction = useDirection(dir as Direction)
   const content = useMotionPreset(scaleIn, MOTION_SCROLL_AREA_OPTIONS)

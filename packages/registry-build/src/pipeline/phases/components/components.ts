@@ -1,16 +1,16 @@
 import fs from 'node:fs/promises'
 import path from 'node:path'
-import type { IndexedRegistryEntry } from '../../../extensions/ui/ui.registry.types'
+import type { IIndexedRegistryEntry } from '../../../extensions/ui/ui.registry.types'
 import { mapConcurrently } from '../../../lib/concurrency'
 import { listFilesRecursively, pathExists, removeStaleFiles, writeJsonIfChanged } from '../../../lib/fs'
 import { createRegistryEntryCacheKey, isRegistryEntryAffectedByChangedPaths } from '../../change-detection'
-import type { RegistryBuildContext, RegistryBuildPhaseResult } from '../../types'
+import type { IRegistryBuildContext, IRegistryBuildPhaseResult } from '../../types'
 import { buildComponentPayload, createComponentSignature, createComponentStaticSignature } from './components.lib'
-import type { RegistryBuildComponentsCacheEntry, RegistryBuildComponentsCacheState } from './components.types'
+import type { IRegistryBuildComponentsCacheEntry, IRegistryBuildComponentsCacheState } from './components.types'
 
-export async function runComponentsPhase(context: RegistryBuildContext): Promise<RegistryBuildPhaseResult> {
-  const index = context.getArtifact<IndexedRegistryEntry[]>('index') ?? []
-  const previousCacheState = context.cache.getPhaseData<RegistryBuildComponentsCacheState>('components') ?? {
+export async function runComponentsPhase(context: IRegistryBuildContext): Promise<IRegistryBuildPhaseResult> {
+  const index = context.getArtifact<IIndexedRegistryEntry[]>('index') ?? []
+  const previousCacheState = context.cache.getPhaseData<IRegistryBuildComponentsCacheState>('components') ?? {
     entries: {},
     outputFiles: [],
   }
@@ -18,7 +18,7 @@ export async function runComponentsPhase(context: RegistryBuildContext): Promise
     previousCacheState.outputFiles.length > 0
       ? previousCacheState.outputFiles
       : await listFilesRecursively(context.getPath('componentsDir'))
-  const nextCacheEntries: RegistryBuildComponentsCacheState['entries'] = {}
+  const nextCacheEntries: IRegistryBuildComponentsCacheState['entries'] = {}
   await fs.mkdir(context.getPath('componentsDir'), { recursive: true })
   const componentResults = await mapConcurrently(index, context.config.performance.parallelism, async (item) => {
     const cacheKey = createRegistryEntryCacheKey(item)
@@ -58,7 +58,7 @@ export async function runComponentsPhase(context: RegistryBuildContext): Promise
 
     const payload = await buildComponentPayload(context, item)
     const wroteFile = await writeJsonIfChanged(outputFile, payload)
-    const cacheEntry: RegistryBuildComponentsCacheEntry = {
+    const cacheEntry: IRegistryBuildComponentsCacheEntry = {
       outputFile,
       signature,
       staticSignature,
@@ -84,7 +84,7 @@ export async function runComponentsPhase(context: RegistryBuildContext): Promise
   const rebuiltCount = componentResults.filter((result) => result.rebuilt).length
   const reusedCount = componentResults.length - rebuiltCount
 
-  context.cache.setPhaseData<RegistryBuildComponentsCacheState>('components', {
+  context.cache.setPhaseData<IRegistryBuildComponentsCacheState>('components', {
     entries: nextCacheEntries,
     outputFiles,
   })

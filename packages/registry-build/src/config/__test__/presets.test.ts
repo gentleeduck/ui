@@ -1,6 +1,6 @@
 import { describe, expect, test } from 'bun:test'
 import { uiRegistryPreset } from '../..'
-import type { UiRegistryPresetOptions } from '../presets/ui-registry.preset'
+import type { IUiRegistryPresetOptions } from '../presets/ui-registry.preset'
 
 describe('uiRegistryPreset', () => {
   test('returns an array of extensions', () => {

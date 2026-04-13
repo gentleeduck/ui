@@ -1,10 +1,10 @@
 import { bannerExtension } from '../../extensions/banner'
-import type { RegistryBuildBannerExtensionOptions } from '../../extensions/banner/banner.types'
+import type { IRegistryBuildBannerExtensionOptions } from '../../extensions/banner/banner.types'
 import { colorsExtension } from '../../extensions/colors'
 import type { RegistryBuildColorsExtensionOptions } from '../../extensions/colors/colors.types'
 import { componentIndexExtension } from '../../extensions/component-index'
 import type { RegistryBuildComponentIndexExtensionOptions } from '../../extensions/component-index/component-index.types'
-import type { RegistryBuildExtension } from '../../extensions/extension'
+import type { IRegistryBuildExtension } from '../../extensions/extension'
 import { componentsExtension, indexBuildExtension } from '../../extensions/ui/ui.extensions'
 import { validateExtension } from '../../extensions/validate'
 
@@ -14,9 +14,9 @@ import { validateExtension } from '../../extensions/validate'
  * Each key toggles or configures a built-in extension. Set a key to `false`
  * to exclude that extension entirely.
  */
-export interface UiRegistryPresetOptions {
+export interface IUiRegistryPresetOptions {
   /** Show the CLI banner before the build. Default: `true`. */
-  banner?: false | RegistryBuildBannerExtensionOptions
+  banner?: false | IRegistryBuildBannerExtensionOptions
   /** Generate theme CSS and color JSON outputs. Default: `false`. */
   colors?: false | RegistryBuildColorsExtensionOptions
   /** Generate a framework-specific component loader file. Default: `false`. */
@@ -48,8 +48,8 @@ export interface UiRegistryPresetOptions {
  * })
  * ```
  */
-export function uiRegistryPreset(options: UiRegistryPresetOptions = {}): RegistryBuildExtension[] {
-  const extensions: RegistryBuildExtension[] = []
+export function uiRegistryPreset(options: IUiRegistryPresetOptions = {}): IRegistryBuildExtension[] {
+  const extensions: IRegistryBuildExtension[] = []
 
   if (options.banner !== false) {
     extensions.push(bannerExtension(options.banner || {}))

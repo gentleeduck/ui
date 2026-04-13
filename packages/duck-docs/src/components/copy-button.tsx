@@ -13,7 +13,7 @@ export async function copyToClipboardWithMeta(value: string, event?: Event) {
   }
 }
 
-export type CopyButtonProps = import('@gentleduck/registry-ui/button').ButtonProps & {
+export type CopyButtonProps = import('@gentleduck/registry-ui/button').IButtonProps & {
   value: string
   event?: Event['name']
 }

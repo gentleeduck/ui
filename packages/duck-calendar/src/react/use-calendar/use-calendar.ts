@@ -2,9 +2,9 @@ import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import {
   buildCalendarMonth,
   buildMultiMonth,
+  getLocalizedWeekdays,
   type ICalendarDay,
   type ICalendarMonth,
-  getLocalizedWeekdays,
 } from '../../grid'
 import type { ViewMode } from '../../index.types'
 import { canNavigate, navigate } from '../../navigation'

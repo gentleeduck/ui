@@ -3,6 +3,6 @@ export type {
   ICommand,
   IKeyBindOptions,
   IRegistrationHandle,
-  RegistryClass,
   IRegistryEntry,
+  RegistryClass,
 } from './command.types'

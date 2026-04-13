@@ -1,12 +1,12 @@
 import { ScrollArea } from '@gentleduck/registry-ui/scroll-area'
 import Image from 'next/image'
 
-export interface Artwork {
+export interface IArtwork {
   artist: string
   art: string
 }
 
-export const works: Artwork[] = [
+export const works: IArtwork[] = [
   {
     art: 'https://images.pexels.com/photos/27309761/pexels-photo-27309761.jpeg',
     artist: 'Lina Escobar',

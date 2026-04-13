@@ -2,7 +2,7 @@
 import * as React from 'react'
 
 import { useCallbackRef } from '../hooks/use-callback-ref'
-import { MenuGroup, type IMenuGroupProps } from './group'
+import { type IMenuGroupProps, MenuGroup } from './group'
 import { createMenuContext, type ScopedProps } from './menu'
 
 const RADIO_GROUP_NAME = 'MenuRadioGroup'
@@ -32,5 +32,5 @@ const MenuRadioGroup = React.forwardRef<MenuRadioGroupElement, IMenuRadioGroupPr
 
 MenuRadioGroup.displayName = RADIO_GROUP_NAME
 
-export type { MenuRadioGroupElement, IMenuRadioGroupProps }
+export type { IMenuRadioGroupProps, MenuRadioGroupElement }
 export { MenuRadioGroup, RadioGroupProvider, useRadioGroupContext }

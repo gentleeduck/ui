@@ -11,7 +11,7 @@ export {
   PreBlock,
   TABS,
 } from './code'
-export type { MermaidBlockProps } from './code/mermaid-block'
+export type { IMermaidBlockProps } from './code/mermaid-block'
 export { ComponentsList } from './components-list'
 export { Table, TableCell, TableHeader, TableRow } from './table'
 export { Tab, TabContent, TabList, TabTrigger } from './tabs'

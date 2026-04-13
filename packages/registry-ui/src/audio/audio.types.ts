@@ -1,30 +1,30 @@
-export interface RecordingParams {
-  setRecordings: React.Dispatch<React.SetStateAction<RecordingtType[]>>
+export interface IRecordingParams {
+  setRecordings: React.Dispatch<React.SetStateAction<IRecordingtType[]>>
   setRecordedDuration: React.Dispatch<React.SetStateAction<number>>
   audioChunksRef: React.RefObject<Blob[]>
 }
 
-export interface StopRecordingHandlerParam {
+export interface IStopRecordingHandlerParam {
   setRecording: React.Dispatch<React.SetStateAction<boolean>>
   intervalRef: React.RefObject<ReturnType<typeof setInterval> | null>
   mediaRecorderRef: React.RefObject<MediaRecorder | null>
   durationRef: React.RefObject<number>
 }
 
-export interface DeleteRecordingHandlerParams
-  extends Pick<RecordingParams, 'audioChunksRef'>,
-    StopRecordingHandlerParam {}
+export interface IDeleteRecordingHandlerParams
+  extends Pick<IRecordingParams, 'audioChunksRef'>,
+    IStopRecordingHandlerParam {}
 
-export interface StopRecordingHandlerParams
-  extends Omit<StopRecordingHandlerParam, 'setRecording' | 'mediaRecorderRef' | 'durationRef'>,
-    Omit<RecordingParams, 'setRecordedDuration'> {}
+export interface IStopRecordingHandlerParams
+  extends Omit<IStopRecordingHandlerParam, 'setRecording' | 'mediaRecorderRef' | 'durationRef'>,
+    Omit<IRecordingParams, 'setRecordedDuration'> {}
 
-export interface StartTimerParams
-  extends Omit<StopRecordingHandlerParam, 'setRecording' | 'mediaRecorderRef'>,
-    Pick<RecordingParams, 'setRecordedDuration'> {}
+export interface IStartTimerParams
+  extends Omit<IStopRecordingHandlerParam, 'setRecording' | 'mediaRecorderRef'>,
+    Pick<IRecordingParams, 'setRecordedDuration'> {}
 
-export interface StartRecordingHandlerParams extends StopRecordingHandlerParam, RecordingParams {}
-export interface RecordingtType {
+export interface IStartRecordingHandlerParams extends IStopRecordingHandlerParam, IRecordingParams {}
+export interface IRecordingtType {
   id: string
   file: File | null
   url: string | null
@@ -33,13 +33,13 @@ export interface RecordingtType {
   size: string
 }
 
-export interface VisualizerClickHandlerParams {
+export interface IVisualizerClickHandlerParams {
   audioRef: React.RefObject<HTMLAudioElement | null>
   setCurrentTime: React.Dispatch<React.SetStateAction<number>>
   event: React.MouseEvent<HTMLDivElement>
 }
 
-export interface AttachmentType {
+export interface IAttachmentType {
   id: string
   file: Blob | null
   url: string | null

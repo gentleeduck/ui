@@ -8,7 +8,7 @@ import {
   resolveCollectionSources,
   resolveSources,
 } from '../resolution/resolution.lib'
-import type { RegistryBuildConfig, RegistryBuildSource } from '../types'
+import type { IRegistryBuildConfig, IRegistryBuildSource } from '../types'
 
 describe('deriveDeclaredItemTypes', () => {
   test('returns empty array for empty config', () => {
@@ -17,7 +17,7 @@ describe('deriveDeclaredItemTypes', () => {
   })
 
   test('collects types from sources keys', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       sources: {
         'registry:ui': { path: './ui' },
         'registry:block': { path: './blocks' },
@@ -29,7 +29,7 @@ describe('deriveDeclaredItemTypes', () => {
   })
 
   test('collects types from targetPaths keys', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       targetPaths: {
         'registry:ui': 'components/ui',
       },
@@ -39,7 +39,7 @@ describe('deriveDeclaredItemTypes', () => {
   })
 
   test('collects types from schema.itemTypes', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       schema: {
         itemTypes: ['registry:ui', 'registry:hook'],
       },
@@ -50,7 +50,7 @@ describe('deriveDeclaredItemTypes', () => {
   })
 
   test('collects types from importMappings.packageMappings', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       importMappings: {
         packageMappings: { 'registry:ui': '@gentleduck/ui' },
       },
@@ -60,7 +60,7 @@ describe('deriveDeclaredItemTypes', () => {
   })
 
   test('collects types from componentIndex.excludeTypes', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       componentIndex: {
         excludeTypes: ['registry:hook'],
       },
@@ -70,7 +70,7 @@ describe('deriveDeclaredItemTypes', () => {
   })
 
   test('deduplicates types from multiple sections', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       sources: { 'registry:ui': { path: './ui' } },
       targetPaths: { 'registry:ui': 'components/ui' },
       schema: { itemTypes: ['registry:ui'] },
@@ -81,7 +81,7 @@ describe('deriveDeclaredItemTypes', () => {
   })
 
   test('returns sorted types', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       sources: {
         'registry:ui': { path: './ui' },
         'registry:block': { path: './blocks' },
@@ -101,7 +101,7 @@ describe('deriveLegacyCollections', () => {
   })
 
   test('materializes a collection from registries with matching sources', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       registries: {
         uis: [
           { name: 'button', root_folder: 'button', type: 'registry:ui' },
@@ -125,7 +125,7 @@ describe('deriveLegacyCollections', () => {
   })
 
   test('collects multiple item types from a single registry group', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       registries: {
         mixed: [
           { name: 'button', root_folder: 'button', type: 'registry:ui' },
@@ -146,7 +146,7 @@ describe('deriveLegacyCollections', () => {
   })
 
   test('omits sources that do not exist in config.sources', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       registries: {
         uis: [{ name: 'button', root_folder: 'button', type: 'registry:ui' }],
       },
@@ -214,7 +214,7 @@ describe('deriveThemeCssVarKeys', () => {
 describe('resolveSources', () => {
   test('resolves relative path from config dir', () => {
     const sources = {
-      'registry:ui': { path: './src/ui' } as RegistryBuildSource,
+      'registry:ui': { path: './src/ui' } as IRegistryBuildSource,
     }
     const result = resolveSources('/project/root', sources)
     expect(result['registry:ui']?.path).toBe(path.resolve('/project/root', './src/ui'))
@@ -222,7 +222,7 @@ describe('resolveSources', () => {
 
   test('preserves absolute paths unchanged', () => {
     const sources = {
-      'registry:ui': { path: '/absolute/ui' } as RegistryBuildSource,
+      'registry:ui': { path: '/absolute/ui' } as IRegistryBuildSource,
     }
     const result = resolveSources('/project/root', sources)
     expect(result['registry:ui']?.path).toBe('/absolute/ui')
@@ -230,7 +230,7 @@ describe('resolveSources', () => {
 
   test('applies default glob when not specified', () => {
     const sources = {
-      'registry:ui': { path: './src/ui' } as RegistryBuildSource,
+      'registry:ui': { path: './src/ui' } as IRegistryBuildSource,
     }
     const result = resolveSources('/project', sources)
     expect(result['registry:ui']?.glob).toBe(DEFAULT_SOURCE_GLOB)
@@ -238,7 +238,7 @@ describe('resolveSources', () => {
 
   test('preserves user-provided glob', () => {
     const sources = {
-      'registry:ui': { path: './src/ui', glob: '**/*.vue' } as RegistryBuildSource,
+      'registry:ui': { path: './src/ui', glob: '**/*.vue' } as IRegistryBuildSource,
     }
     const result = resolveSources('/project', sources)
     expect(result['registry:ui']?.glob).toBe('**/*.vue')
@@ -246,7 +246,7 @@ describe('resolveSources', () => {
 
   test('applies default ignore when not specified', () => {
     const sources = {
-      'registry:ui': { path: './src/ui' } as RegistryBuildSource,
+      'registry:ui': { path: './src/ui' } as IRegistryBuildSource,
     }
     const result = resolveSources('/project', sources)
     expect(result['registry:ui']?.ignore).toEqual([...DEFAULT_SOURCE_IGNORE])
@@ -254,7 +254,7 @@ describe('resolveSources', () => {
 
   test('merges user-provided ignore with DEFAULT_SOURCE_IGNORE', () => {
     const sources = {
-      'registry:ui': { path: './src/ui', ignore: ['**/dist/**'] } as RegistryBuildSource,
+      'registry:ui': { path: './src/ui', ignore: ['**/dist/**'] } as IRegistryBuildSource,
     }
     const result = resolveSources('/project', sources)
     expect(result['registry:ui']?.ignore).toEqual([...DEFAULT_SOURCE_IGNORE, '**/dist/**'])
@@ -262,7 +262,7 @@ describe('resolveSources', () => {
 
   test('applies default indexStrategy when not specified', () => {
     const sources = {
-      'registry:ui': { path: './src/ui' } as RegistryBuildSource,
+      'registry:ui': { path: './src/ui' } as IRegistryBuildSource,
     }
     const result = resolveSources('/project', sources)
     expect(result['registry:ui']?.indexStrategy).toBe(DEFAULT_SOURCE_INDEX_STRATEGY)
@@ -275,8 +275,8 @@ describe('resolveSources', () => {
 
   test('resolves multiple sources', () => {
     const sources = {
-      'registry:ui': { path: './src/ui' } as RegistryBuildSource,
-      'registry:block': { path: './src/blocks' } as RegistryBuildSource,
+      'registry:ui': { path: './src/ui' } as IRegistryBuildSource,
+      'registry:block': { path: './src/blocks' } as IRegistryBuildSource,
     }
     const result = resolveSources('/project', sources)
     expect(result['registry:ui']?.path).toBe(path.resolve('/project', './src/ui'))

@@ -1,13 +1,13 @@
 import path from 'node:path'
-import type { RegistryBuildSource } from '../../../config/types'
+import type { IRegistryBuildSource } from '../../../config/types'
 import type { RegistryItemType } from '../../../extensions/ui/ui.registry.types'
 import { pathExists } from '../../../lib/fs'
-import type { RegistryBuildContext, RegistryBuildPhaseResult } from '../../types'
+import type { IRegistryBuildContext, IRegistryBuildPhaseResult } from '../../types'
 
 /**
  * Validate the legacy UI-registry surface used by the built-in phases.
  */
-export async function runValidatePhase(context: RegistryBuildContext): Promise<RegistryBuildPhaseResult> {
+export async function runValidatePhase(context: IRegistryBuildContext): Promise<IRegistryBuildPhaseResult> {
   const issues: string[] = []
   const itemTypes = context.config.schema.itemTypes
   const seenNames = new Map<string, string>()
@@ -17,7 +17,7 @@ export async function runValidatePhase(context: RegistryBuildContext): Promise<R
   }
 
   for (const [type, source] of Object.entries(context.config.sources) as Array<
-    [RegistryItemType, RegistryBuildSource]
+    [RegistryItemType, IRegistryBuildSource]
   >) {
     if (!(await pathExists(source.path))) {
       issues.push(`Source path does not exist for "${type}": ${source.path}`)

@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import type { RegistryBuildExtension } from '../extensions/extension'
-import type { RegistryEntry } from '../extensions/ui/ui.registry.types'
+import type { IRegistryBuildExtension } from '../extensions/extension'
+import type { IRegistryEntry } from '../extensions/ui/ui.registry.types'
 import { registryEntryListSchema, registryItemTypeSchema, themeEntriesSchema } from '../extensions/ui/ui.schema'
 
 const nonEmptyStringSchema = z.string().trim().min(1)
@@ -29,7 +29,7 @@ export const registryBuildCollectionSchema = z.object({
   sources: z.record(nonEmptyStringSchema, registryBuildSourceSchema).optional(),
 })
 
-export const registryBuildExtensionSchema = z.custom<RegistryBuildExtension>((value) => {
+export const registryBuildExtensionSchema = z.custom<IRegistryBuildExtension>((value) => {
   return (
     typeof value === 'object' &&
     value !== null &&
@@ -57,7 +57,7 @@ export const registryBuildConfigSchema = z.object({
     .object({
       excludeTypes: z.array(registryItemTypeSchema).optional(),
       framework: z.enum(['nextjs', 'vite', 'custom']).optional(),
-      generator: z.custom<(items: RegistryEntry[]) => string>((value) => typeof value === 'function').optional(),
+      generator: z.custom<(items: IRegistryEntry[]) => string>((value) => typeof value === 'function').optional(),
       header: z.string().optional(),
       ssr: z.boolean().optional(),
     })

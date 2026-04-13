@@ -1,7 +1,7 @@
-import type { IndexedRegistryEntry, RegistryItemTypeMap } from '../../../extensions/ui/ui.registry.types'
+import type { IIndexedRegistryEntry, RegistryItemTypeMap } from '../../../extensions/ui/ui.registry.types'
 import { hashValue } from '../../../lib/hash'
 import { normalizeSlashes } from '../../../lib/path'
-import type { RegistryBuildContext } from '../../types'
+import type { IRegistryBuildContext } from '../../types'
 
 /**
  * Convert a registry item name into a stable local variable identifier.
@@ -17,7 +17,7 @@ export function toComponentIdentifier(name: string) {
  * Pick the file that best represents the registry item for dynamic import
  * generation.
  */
-export function getPrimaryFilePath(item: IndexedRegistryEntry) {
+export function getPrimaryFilePath(item: IIndexedRegistryEntry) {
   const files = item.files ?? []
   if (files.length === 0) {
     return undefined
@@ -48,8 +48,8 @@ export function getPrimaryFilePath(item: IndexedRegistryEntry) {
  * Resolve the import path used by the framework adapter for one item.
  */
 export function createComponentPath(
-  context: RegistryBuildContext,
-  item: IndexedRegistryEntry,
+  context: IRegistryBuildContext,
+  item: IIndexedRegistryEntry,
   packageMappings: RegistryItemTypeMap<string>,
 ) {
   const source = context.config.sources[item.type]
@@ -74,9 +74,9 @@ export function createComponentPath(
  * generated component index file.
  */
 export function createComponentIndexSignature(options: {
-  filteredItems: IndexedRegistryEntry[]
+  filteredItems: IIndexedRegistryEntry[]
   framework: string | undefined
-  generator: ((items: IndexedRegistryEntry[]) => string) | undefined
+  generator: ((items: IIndexedRegistryEntry[]) => string) | undefined
   header: string
   packageMappings: RegistryItemTypeMap<string>
   ssr: boolean
@@ -105,14 +105,14 @@ export function createComponentIndexSignature(options: {
  */
 export function renderComponentIndexContent(options: {
   adapter: {
-    renderEntry: (options: { id: string; item: IndexedRegistryEntry }) => string
+    renderEntry: (options: { id: string; item: IIndexedRegistryEntry }) => string
     renderImport: (options: { componentPath: string; id: string; ssr: boolean }) => string
   }
-  filteredItems: IndexedRegistryEntry[]
+  filteredItems: IIndexedRegistryEntry[]
   header: string
   packageMappings: RegistryItemTypeMap<string>
   ssr: boolean
-  context: RegistryBuildContext
+  context: IRegistryBuildContext
 }) {
   let imports = ''
   let entries = ''

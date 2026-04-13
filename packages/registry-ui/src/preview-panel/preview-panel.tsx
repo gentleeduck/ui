@@ -21,7 +21,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '../tooltip'
-import type { PreviewPanelProps } from './preview-panel.types'
+import type { IPreviewPanelProps } from './preview-panel.types'
 
 const ZOOM_STEP_BUTTON = 0.25
 const ZOOM_STEP_WHEEL = 0.1
@@ -104,7 +104,7 @@ const ZoomControls = memo(function ZoomControls({
 // All transforms bypass React via direct DOM writes for zero re-renders
 // during continuous interactions (drag, wheel, pinch).
 
-const PreviewPanel = React.forwardRef<HTMLDivElement, PreviewPanelProps>(
+const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
   (
     {
       maxHeight,
@@ -481,7 +481,7 @@ const MotionZoomControls = memo(function MotionZoomControls({
 
 const MotionPreviewPanel = React.forwardRef<
   HTMLDivElement,
-  Omit<PreviewPanelProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+  Omit<IPreviewPanelProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
 >(
   (
     {

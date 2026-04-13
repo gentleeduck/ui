@@ -147,7 +147,7 @@ function DropdownTrigger({
 // CalendarHeader
 // ---------------------------------------------------------------------------
 
-interface CalendarHeaderProps {
+interface ICalendarHeaderProps {
   adapter?: DateAdapter<Date>
   month: Date
   title: string
@@ -205,7 +205,7 @@ export function CalendarHeader({
   getHeaderProps,
   onMonthSelect,
   useMotionButtons = false,
-}: CalendarHeaderProps) {
+}: ICalendarHeaderProps) {
   const adapter = adapterProp ?? defaultAdapter
   const headerProps = getHeaderProps()
   const currentYear = adapter.getYear(month)

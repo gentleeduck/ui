@@ -1,10 +1,10 @@
-import type { IndexedRegistryEntry } from '../../../extensions/ui/ui.registry.types'
+import type { IIndexedRegistryEntry } from '../../../extensions/ui/ui.registry.types'
 
 /**
  * Cached index signature persisted for a single registry entry.
  */
-export interface RegistryBuildIndexCacheEntry {
-  indexedEntries: IndexedRegistryEntry[]
+export interface IRegistryBuildIndexCacheEntry {
+  indexedEntries: IIndexedRegistryEntry[]
   signature: string
   staticSignature: string
 }
@@ -12,16 +12,16 @@ export interface RegistryBuildIndexCacheEntry {
 /**
  * Cache state for the index phase.
  */
-export interface RegistryBuildIndexCacheState {
-  entries: Record<string, RegistryBuildIndexCacheEntry>
+export interface IRegistryBuildIndexCacheState {
+  entries: Record<string, IRegistryBuildIndexCacheEntry>
 }
 
 /**
  * Result of materializing one registry entry for the index phase.
  */
-export interface RegistryBuildMaterializedEntry {
-  cacheEntry: RegistryBuildIndexCacheEntry
+export interface IRegistryBuildMaterializedEntry {
+  cacheEntry: IRegistryBuildIndexCacheEntry
   cacheKey: string
-  indexedEntries: IndexedRegistryEntry[]
+  indexedEntries: IIndexedRegistryEntry[]
   rebuilt: boolean
 }

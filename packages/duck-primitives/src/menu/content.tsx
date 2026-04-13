@@ -396,5 +396,5 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, IMenuContentImp
 
 MenuContentImpl.displayName = 'MenuContentImpl'
 
-export type { MenuContentImplElement, MenuContentImplPrivateProps, IMenuContentImplProps, IMenuContentProps }
+export type { IMenuContentImplProps, IMenuContentProps, MenuContentImplElement, MenuContentImplPrivateProps }
 export { MenuContent, MenuContentImpl, MenuContentProvider, useMenuContentContext }

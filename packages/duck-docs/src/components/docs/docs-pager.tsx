@@ -7,14 +7,14 @@ import { buttonVariants } from '@gentleduck/registry-ui/button'
 import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
 
-interface DocsPagerProps {
+interface IDocsPagerProps {
   doc: {
     slug?: string
     title: string
   }
 }
 
-export function DocsPagerBottom({ doc }: DocsPagerProps) {
+export function DocsPagerBottom({ doc }: IDocsPagerProps) {
   const docsConfig = useDocsConfig()
   const pager = getPagerForDoc(doc, docsConfig)
 
@@ -55,7 +55,7 @@ export function DocsPagerBottom({ doc }: DocsPagerProps) {
     </div>
   )
 }
-export function DocsPagerTop({ doc }: DocsPagerProps) {
+export function DocsPagerTop({ doc }: IDocsPagerProps) {
   const docsConfig = useDocsConfig()
   const pager = getPagerForDoc(doc, docsConfig)
 
@@ -99,7 +99,7 @@ export function DocsPagerTop({ doc }: DocsPagerProps) {
   )
 }
 
-export function getPagerForDoc(doc: DocsPagerProps['doc'], docsConfig: DocsConfig) {
+export function getPagerForDoc(doc: IDocsPagerProps['doc'], docsConfig: DocsConfig) {
   const allNav = [...(docsConfig.sidebarNav ?? []), ...(docsConfig.chartsNav ?? [])]
   const flattenedLinks = [null, ...flatten(allNav), null]
 

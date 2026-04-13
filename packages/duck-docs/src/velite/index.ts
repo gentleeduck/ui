@@ -1,4 +1,4 @@
-export type { DocsVeliteConfigOptions } from './config'
+export type { IDocsVeliteConfigOptions } from './config'
 export { createDocsVeliteConfig, docsVeliteConfig } from './config'
 export { rehypeMetadataPlugin, rhypeMetadataPlugin } from './plugins/metadata-plugin'
 export { rehypeMermaid } from './plugins/rehype-mermaid'

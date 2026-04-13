@@ -1,1 +1,1 @@
-export type { RegistryBuildComponentIndexPhaseOptions as RegistryBuildComponentIndexExtensionOptions } from '../../pipeline/phases/component-index/component-index.types'
+export type { IRegistryBuildComponentIndexPhaseOptions as RegistryBuildComponentIndexExtensionOptions } from '../../pipeline/phases/component-index/component-index.types'

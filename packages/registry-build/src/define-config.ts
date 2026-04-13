@@ -1,4 +1,4 @@
-import type { RegistryBuildConfig } from './config/types'
+import type { IRegistryBuildConfig } from './config/types'
 
 /**
  * Define a registry build configuration with full type inference.
@@ -18,6 +18,6 @@ import type { RegistryBuildConfig } from './config/types'
  * })
  * ```
  */
-export function defineConfig<const TConfig extends RegistryBuildConfig>(config: TConfig) {
+export function defineConfig<const TConfig extends IRegistryBuildConfig>(config: TConfig) {
   return config
 }

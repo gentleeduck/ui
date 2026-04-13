@@ -3,8 +3,8 @@ import fs from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { resolveRegistryBuildConfig } from '../../config'
-import type { LoadedRegistryBuildConfig } from '../../config/loader/loader.types'
-import type { ResolvedRegistryBuildConfig } from '../../config/types'
+import type { ILoadedRegistryBuildConfig } from '../../config/loader/loader.types'
+import type { IResolvedRegistryBuildConfig } from '../../config/types'
 import { createRegistryBuildContext } from '../context'
 import { createOutputPaths, createPathRegistry } from '../context/context.paths'
 
@@ -17,8 +17,8 @@ async function createTempDir() {
 }
 
 function createMinimalResolvedConfig(
-  overrides: Partial<ResolvedRegistryBuildConfig> = {},
-): ResolvedRegistryBuildConfig {
+  overrides: Partial<IResolvedRegistryBuildConfig> = {},
+): IResolvedRegistryBuildConfig {
   return {
     branding: { font: 'default', name: 'test' },
     collections: {},
@@ -49,13 +49,13 @@ function createMinimalResolvedConfig(
     stripVariables: [],
     targetPaths: {},
     ...overrides,
-  } as ResolvedRegistryBuildConfig
+  } as IResolvedRegistryBuildConfig
 }
 
 function createLoadedConfig(
-  overrides: Partial<ResolvedRegistryBuildConfig> = {},
+  overrides: Partial<IResolvedRegistryBuildConfig> = {},
   configDir?: string,
-): LoadedRegistryBuildConfig {
+): ILoadedRegistryBuildConfig {
   const dir = configDir ?? '/tmp/test-project'
   return {
     config: createMinimalResolvedConfig(overrides),
@@ -233,7 +233,7 @@ describe('createRegistryBuildContext', () => {
           sources: {},
         },
       }
-      const loaded = createLoadedConfig({ collections } as Partial<ResolvedRegistryBuildConfig>)
+      const loaded = createLoadedConfig({ collections } as Partial<IResolvedRegistryBuildConfig>)
       const context = await createRegistryBuildContext(loaded, { silent: true })
 
       expect(context.getArtifact('collections')).toEqual(collections)

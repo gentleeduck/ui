@@ -46,7 +46,7 @@ function WeekEventBlock({
   )
 }
 
-interface CalendarWeekViewProps {
+interface ICalendarWeekViewProps {
   viewedDate: Date
   events: CalendarEvent[]
   onDayClick: (dateStr: string) => void
@@ -62,7 +62,7 @@ export function CalendarWeekView({
   onSelectEvent: _onSelectEvent,
   onEditEvent,
   onDeleteEvent,
-}: CalendarWeekViewProps) {
+}: ICalendarWeekViewProps) {
   const days = getDaysForWeek(viewedDate)
 
   return (

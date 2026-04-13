@@ -1,20 +1,20 @@
 import { getComponentIndexAdapter } from '../../../adapters'
 import { DEFAULT_COMPONENT_INDEX_HEADER } from '../../../config'
-import type { IndexedRegistryEntry } from '../../../extensions/ui/ui.registry.types'
+import type { IIndexedRegistryEntry } from '../../../extensions/ui/ui.registry.types'
 import { pathExists, writeFileIfChanged } from '../../../lib/fs'
-import type { RegistryBuildContext, RegistryBuildPhaseResult } from '../../types'
+import type { IRegistryBuildContext, IRegistryBuildPhaseResult } from '../../types'
 import { createComponentIndexSignature, renderComponentIndexContent } from './component-index.lib'
 import type {
-  RegistryBuildComponentIndexCacheState,
-  RegistryBuildComponentIndexPhaseOptions,
+  IRegistryBuildComponentIndexCacheState,
+  IRegistryBuildComponentIndexPhaseOptions,
 } from './component-index.types'
 
 export async function runComponentIndexPhase(
-  context: RegistryBuildContext,
-  options: RegistryBuildComponentIndexPhaseOptions = {},
-): Promise<RegistryBuildPhaseResult> {
-  const previousCacheState = context.cache.getPhaseData<RegistryBuildComponentIndexCacheState>('componentIndex')
-  const index = context.getArtifact<IndexedRegistryEntry[]>('index') ?? []
+  context: IRegistryBuildContext,
+  options: IRegistryBuildComponentIndexPhaseOptions = {},
+): Promise<IRegistryBuildPhaseResult> {
+  const previousCacheState = context.cache.getPhaseData<IRegistryBuildComponentIndexCacheState>('componentIndex')
+  const index = context.getArtifact<IIndexedRegistryEntry[]>('index') ?? []
   const componentIndex = {
     ...context.config.componentIndex,
     ...options,
@@ -61,7 +61,7 @@ export async function runComponentIndexPhase(
   if (componentIndex.generator) {
     const wroteFile = await writeFileIfChanged(outputFile, componentIndex.generator(filteredItems))
 
-    context.cache.setPhaseData<RegistryBuildComponentIndexCacheState>('componentIndex', {
+    context.cache.setPhaseData<IRegistryBuildComponentIndexCacheState>('componentIndex', {
       outputFiles: [outputFile],
       signature,
     })
@@ -88,7 +88,7 @@ export async function runComponentIndexPhase(
 
   const wroteFile = await writeFileIfChanged(outputFile, content)
 
-  context.cache.setPhaseData<RegistryBuildComponentIndexCacheState>('componentIndex', {
+  context.cache.setPhaseData<IRegistryBuildComponentIndexCacheState>('componentIndex', {
     outputFiles: [outputFile],
     signature,
   })

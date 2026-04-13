@@ -3,13 +3,13 @@ import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 
 /** @internal */
-interface Config {
+interface IConfig {
   style: Style['name']
   theme: string
   radius: number
 }
 
-const configAtom = atomWithStorage<Config>('config', {
+const configAtom = atomWithStorage<IConfig>('config', {
   radius: 0.5,
   style: 'default',
   theme: 'zinc',

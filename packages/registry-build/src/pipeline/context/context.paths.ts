@@ -1,12 +1,12 @@
 import path from 'node:path'
-import type { LoadedRegistryBuildConfig } from '../../config/loader/loader.types'
-import type { RegistryBuildOutputPaths, RegistryBuildPathRegistry } from '../types'
+import type { ILoadedRegistryBuildConfig } from '../../config/loader/loader.types'
+import type { IRegistryBuildOutputPaths, IRegistryBuildPathRegistry } from '../types'
 
 /**
  * Derive all normalized output paths from a resolved build configuration.
  * Each path is fully resolved so downstream code never needs to join segments.
  */
-export function createOutputPaths(config: LoadedRegistryBuildConfig['config']): RegistryBuildOutputPaths {
+export function createOutputPaths(config: ILoadedRegistryBuildConfig['config']): IRegistryBuildOutputPaths {
   const baseDir = config.output.dir
   const registryDir = path.join(baseDir, config.output.registryDir)
   const componentIndexDir = path.join(baseDir, config.output.componentIndexDir)
@@ -31,7 +31,7 @@ export function createOutputPaths(config: LoadedRegistryBuildConfig['config']): 
  * Create a path registry from pre-computed output paths, providing a
  * name-based lookup for any registered path.
  */
-export function createPathRegistry(outputPaths: RegistryBuildOutputPaths): RegistryBuildPathRegistry {
+export function createPathRegistry(outputPaths: IRegistryBuildOutputPaths): IRegistryBuildPathRegistry {
   return {
     baseDir: outputPaths.baseDir,
     named: {

@@ -1,4 +1,4 @@
-export type { TabsContextProps, TabsListProps, TabsProps, TabsTriggerProps } from './tabs'
+export type { ITabsContextProps, ITabsListProps, ITabsProps, ITabsTriggerProps } from './tabs'
 export {
   MotionTabs,
   MotionTabsContent,

@@ -18,7 +18,7 @@ import type { IUseDateTimeConfig, IUseDateTimeReturn } from '../react/use-dateti
 import type { ITimeFieldProps, IUseTimePickerReturn } from '../react/use-time-picker/use-time-picker.types'
 import type { CalendarValue, DateRange, ISelectionConstraints, SelectionMode } from '../selection'
 import { applySelection, selectDay } from '../selection'
-import type { HourCycle, TimeField, ITimePickerConfig, ITimeValue } from '../time'
+import type { HourCycle, ITimePickerConfig, ITimeValue, TimeField } from '../time'
 import { clampTime, incrementField, parseTimeInput } from '../time'
 
 // ---------------------------------------------------------------------------

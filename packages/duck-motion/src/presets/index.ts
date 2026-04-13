@@ -24,9 +24,9 @@ export { slideUp } from './slide-up'
 export { createTooltipPreset } from './tooltip'
 export type {
   Direction,
-  MotionAnimationState,
   IMotionPreset,
-  MotionPresetName,
   IMotionPresetResult,
+  MotionAnimationState,
+  MotionPresetName,
   MotionTransitionConfig,
 } from './types'

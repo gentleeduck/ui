@@ -11,7 +11,7 @@ import { defineConfig, s, type ZodMeta } from 'velite'
 import { rehypeMermaid, rehypeMetadataPlugin, rehypeNpmCommand, rehypePreBlockSource, rehypeTitle } from './plugins'
 import { cleanTocItems } from './utils'
 
-export interface DocsVeliteConfigOptions {
+export interface IDocsVeliteConfigOptions {
   docsPattern?: string
   rehypePlugins?: Pluggable[]
   rehypePluginsBefore?: Pluggable[]
@@ -22,7 +22,7 @@ export interface DocsVeliteConfigOptions {
 function buildDefaultRehypePlugins({
   rehypePlugins = [],
   rehypePluginsBefore = [],
-}: Pick<DocsVeliteConfigOptions, 'rehypePlugins' | 'rehypePluginsBefore'>): Pluggable[] {
+}: Pick<IDocsVeliteConfigOptions, 'rehypePlugins' | 'rehypePluginsBefore'>): Pluggable[] {
   const prettyCodePlugin = [
     rehypePrettyCode,
     {
@@ -71,7 +71,7 @@ function buildDefaultRehypePlugins({
 function buildDefaultRemarkPlugins({
   remarkPlugins = [],
   remarkPluginsBefore = [],
-}: Pick<DocsVeliteConfigOptions, 'remarkPlugins' | 'remarkPluginsBefore'>): Pluggable[] {
+}: Pick<IDocsVeliteConfigOptions, 'remarkPlugins' | 'remarkPluginsBefore'>): Pluggable[] {
   return [...remarkPluginsBefore, remarkGfm, codeImport, ...remarkPlugins]
 }
 
@@ -81,7 +81,7 @@ export function createDocsVeliteConfig({
   rehypePluginsBefore = [],
   remarkPlugins = [],
   remarkPluginsBefore = [],
-}: DocsVeliteConfigOptions = {}) {
+}: IDocsVeliteConfigOptions = {}) {
   return defineConfig({
     collections: {
       docs: {

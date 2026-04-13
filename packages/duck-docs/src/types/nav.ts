@@ -1,4 +1,4 @@
-export interface NavItem {
+export interface INavItem {
   title: string
   href?: string
   disabled?: boolean
@@ -10,10 +10,10 @@ export interface NavItem {
   collapsible?: boolean
 }
 
-export interface NavItemWithChildren extends NavItem {
-  items?: NavItemWithChildren[]
+export interface INavItemWithChildren extends INavItem {
+  items?: INavItemWithChildren[]
 }
 
-export interface MainNavItem extends NavItem {}
+export interface IMainNavItem extends INavItem {}
 
-export interface SidebarNavItem extends NavItemWithChildren {}
+export interface ISidebarNavItem extends INavItemWithChildren {}

@@ -11,7 +11,7 @@ import {
   loadRegistryBuildConfig,
   resolveRegistryBuildConfig,
 } from '../..'
-import type { RegistryBuildConfig } from '../types'
+import type { IRegistryBuildConfig } from '../types'
 
 const tempDirs: string[] = []
 
@@ -27,7 +27,7 @@ afterEach(async () => {
 
 describe('registry build config loader', () => {
   test('defineConfig returns the provided config object unchanged', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       output: {
         dir: './dist',
       },

@@ -9,7 +9,8 @@ export type Setter = Parameters<IWritableAtom<unknown, unknown[], unknown>['writ
 export type ExtractAtomValue<AtomType> = AtomType extends IAtom<infer Value> ? Value : never
 
 /** @internal */
-export type ExtractAtomArgs<AtomType> = AtomType extends IWritableAtom<unknown, infer Args, infer _Result> ? Args : never
+export type ExtractAtomArgs<AtomType> =
+  AtomType extends IWritableAtom<unknown, infer Args, infer _Result> ? Args : never
 
 /** @internal */
 export type ExtractAtomResult<AtomType> =

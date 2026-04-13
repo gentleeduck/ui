@@ -6,7 +6,7 @@ export { CopyButton } from './copy-button'
 export { DocsCopyPage } from './docs/docs-copy-page'
 export { DocsPagerBottom, DocsPagerTop, flatten, getPagerForDoc } from './docs/docs-pager'
 export { DocsPathBreadcrumb } from './docs/docs-path-breadcrumb'
-export type { DocsSidebarNavProps } from './docs/docs-sidebar'
+export type { IDocsSidebarNavProps } from './docs/docs-sidebar'
 export { DocsSidebarNav, DocsSidebarNavItem, DocsSidebarNavItems } from './docs/docs-sidebar'
 export { DashboardTableOfContents } from './docs/docs-toc'
 
@@ -33,7 +33,7 @@ export {
   PreBlock,
   TABS,
 } from './mdx/mdx-components/code'
-export type { MermaidBlockProps } from './mdx/mdx-components/code/mermaid-block'
+export type { IMermaidBlockProps } from './mdx/mdx-components/code/mermaid-block'
 export { ComponentsList } from './mdx/mdx-components/components-list'
 export { Table, TableCell, TableHeader, TableRow } from './mdx/mdx-components/table'
 export { Tab, TabContent, TabList, TabTrigger } from './mdx/mdx-components/tabs'

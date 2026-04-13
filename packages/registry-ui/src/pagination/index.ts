@@ -12,4 +12,4 @@ export {
   PaginationPrevious,
   PaginationWrapper,
 } from './pagination'
-export type { DuckPaginationProps, PaginationLinkProps } from './pagination.types'
+export type { IDuckPaginationProps, PaginationLinkProps } from './pagination.types'

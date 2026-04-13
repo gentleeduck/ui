@@ -1,7 +1,7 @@
 import { mapConcurrently } from '../../../lib/concurrency'
 import { writeFileIfChanged } from '../../../lib/fs'
 import { createRegistryEntryCacheKey, isRegistryEntryAffectedByChangedPaths } from '../../change-detection'
-import type { RegistryBuildContext, RegistryBuildPhaseResult } from '../../types'
+import type { IRegistryBuildContext, IRegistryBuildPhaseResult } from '../../types'
 import {
   createIndexEntrySignature,
   createIndexEntryStaticSignature,
@@ -9,14 +9,14 @@ import {
   resolveRegistryFiles,
 } from './index-build.lib'
 import type {
-  RegistryBuildIndexCacheEntry,
-  RegistryBuildIndexCacheState,
-  RegistryBuildMaterializedEntry,
+  IRegistryBuildIndexCacheEntry,
+  IRegistryBuildIndexCacheState,
+  IRegistryBuildMaterializedEntry,
 } from './index-build.types'
 
-export async function runIndexBuildPhase(context: RegistryBuildContext): Promise<RegistryBuildPhaseResult> {
-  const previousCacheState = context.cache.getPhaseData<RegistryBuildIndexCacheState>('index') ?? { entries: {} }
-  const nextCacheEntries: RegistryBuildIndexCacheState['entries'] = {}
+export async function runIndexBuildPhase(context: IRegistryBuildContext): Promise<IRegistryBuildPhaseResult> {
+  const previousCacheState = context.cache.getPhaseData<IRegistryBuildIndexCacheState>('index') ?? { entries: {} }
+  const nextCacheEntries: IRegistryBuildIndexCacheState['entries'] = {}
   const allEntries = Object.values(context.config.registries).flat()
   let rebuiltEntryCount = 0
   let reusedEntryCount = 0
@@ -24,7 +24,7 @@ export async function runIndexBuildPhase(context: RegistryBuildContext): Promise
   const materializedEntries = await mapConcurrently(
     allEntries,
     context.config.performance.parallelism,
-    async (entry): Promise<RegistryBuildMaterializedEntry> => {
+    async (entry): Promise<IRegistryBuildMaterializedEntry> => {
       const cacheKey = createRegistryEntryCacheKey(entry)
       const previousCacheEntry = previousCacheState.entries[cacheKey]
       const affectedByChanges = isRegistryEntryAffectedByChangedPaths(context, entry)
@@ -58,7 +58,7 @@ export async function runIndexBuildPhase(context: RegistryBuildContext): Promise
       }
 
       const indexedEntries = materializeIndexedEntries(context, entry, source, files)
-      const cacheEntry: RegistryBuildIndexCacheEntry = {
+      const cacheEntry: IRegistryBuildIndexCacheEntry = {
         indexedEntries,
         signature,
         staticSignature,
@@ -80,7 +80,7 @@ export async function runIndexBuildPhase(context: RegistryBuildContext): Promise
   const outputContent = JSON.stringify(index, null, 2)
   const wroteIndexFile = await writeFileIfChanged(context.getPath('indexFile'), outputContent)
 
-  context.cache.setPhaseData<RegistryBuildIndexCacheState>('index', {
+  context.cache.setPhaseData<IRegistryBuildIndexCacheState>('index', {
     entries: nextCacheEntries,
   })
   context.setArtifact('index', index)

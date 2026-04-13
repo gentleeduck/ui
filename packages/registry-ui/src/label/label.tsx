@@ -9,9 +9,9 @@ import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
-export interface LabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {}
+export interface ILabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {}
 
-const Label = React.forwardRef<HTMLLabelElement, LabelProps>(({ className, htmlFor, dir, ...props }, ref) => {
+const Label = React.forwardRef<HTMLLabelElement, ILabelProps>(({ className, htmlFor, dir, ...props }, ref) => {
   const direction = useDirection(dir as Direction)
 
   return (
@@ -31,7 +31,7 @@ const Label = React.forwardRef<HTMLLabelElement, LabelProps>(({ className, htmlF
 })
 Label.displayName = 'Label'
 
-const MotionLabel = React.forwardRef<HTMLLabelElement, LabelProps & { index?: number }>(
+const MotionLabel = React.forwardRef<HTMLLabelElement, ILabelProps & { index?: number }>(
   ({ index = 0, ...props }, ref) => {
     const options = React.useMemo(() => ({ transition: springBouncy, delay: index * 0.05 }), [index])
     const content = useMotionPreset(scaleIn, options)

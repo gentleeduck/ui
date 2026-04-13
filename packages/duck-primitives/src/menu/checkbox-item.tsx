@@ -2,7 +2,7 @@
 import * as React from 'react'
 
 import { composeEventHandlers } from '../libs/compose-event-handler'
-import { MenuItem, type IMenuItemProps } from './item'
+import { type IMenuItemProps, MenuItem } from './item'
 import { createMenuContext, type ScopedProps } from './menu'
 import { type CheckedState, getCheckedState, isIndeterminate } from './menu.libs'
 
@@ -47,5 +47,5 @@ const MenuCheckboxItem = React.forwardRef<MenuCheckboxItemElement, IMenuCheckbox
 
 MenuCheckboxItem.displayName = CHECKBOX_ITEM_NAME
 
-export type { MenuCheckboxItemElement, IMenuCheckboxItemProps }
+export type { IMenuCheckboxItemProps, MenuCheckboxItemElement }
 export { ItemIndicatorProvider, MenuCheckboxItem, useItemIndicatorContext }

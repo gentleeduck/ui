@@ -1,5 +1,5 @@
 import { Command } from 'commander'
-import type { RegistryBuildCommandOptions } from '../commands'
+import type { IRegistryBuildCommandOptions } from '../commands'
 import { buildCommand, runBuildCommand, withBuildOptions } from '../commands'
 import { config } from './main.constants'
 
@@ -11,7 +11,7 @@ export function createProgram() {
   program.version(config.version)
   program.showHelpAfterError()
   program.addCommand(buildCommand())
-  program.action(async (options: RegistryBuildCommandOptions) => {
+  program.action(async (options: IRegistryBuildCommandOptions) => {
     await runBuildCommand(options)
   })
 

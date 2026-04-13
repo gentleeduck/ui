@@ -20,20 +20,20 @@ function isMermaidCode(node: UnistNode): boolean {
   return dataLang === 'mermaid' || (Array.isArray(classes) && classes.includes('language-mermaid'))
 }
 
-interface MdxJsxAttribute {
+interface IMdxJsxAttribute {
   type: string
   name: string
   value: string | { type: string; value: string } | null | undefined
 }
 
-interface MdxJsxFlowElement extends UnistNode {
+interface IMdxJsxFlowElement extends UnistNode {
   type: 'mdxJsxFlowElement'
   name?: string
-  attributes?: MdxJsxAttribute[]
+  attributes?: IMdxJsxAttribute[]
 }
 
 /** Safely extract a string value from an mdxJsxAttribute. */
-function extractAttrValue(attr: MdxJsxAttribute | undefined): string | null {
+function extractAttrValue(attr: IMdxJsxAttribute | undefined): string | null {
   if (!attr?.value) return null
   if (typeof attr.value === 'string') return attr.value
   if (attr.value?.type === 'mdxJsxAttributeValueExpression') {
@@ -198,7 +198,7 @@ export function rehypeMermaid() {
 
     visit(tree, (node: UnistNode) => {
       // 1. <MermaidDiagram chart={`...`} /> JSX elements
-      const mdxNode = node as MdxJsxFlowElement
+      const mdxNode = node as IMdxJsxFlowElement
       if (mdxNode.type === 'mdxJsxFlowElement' && mdxNode.name === 'MermaidDiagram') {
         const attrs = mdxNode.attributes || []
         const chartAttr = attrs.find((a) => a.type === 'mdxJsxAttribute' && a.name === 'chart')
@@ -263,7 +263,7 @@ export function rehypeMermaid() {
       }
 
       if (entry.kind === 'jsx') {
-        const jsxNode = entry.node as MdxJsxFlowElement
+        const jsxNode = entry.node as IMdxJsxFlowElement
         const attrs = jsxNode.attributes || []
         if (lightSvg) attrs.push(makeJsxStringAttr('lightSvg', lightSvg))
         if (darkSvg) attrs.push(makeJsxStringAttr('darkSvg', darkSvg))

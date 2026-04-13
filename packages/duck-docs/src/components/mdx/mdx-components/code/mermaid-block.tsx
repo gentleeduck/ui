@@ -6,7 +6,7 @@ import { Loader } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import { useEffect, useState } from 'react'
 
-export interface MermaidBlockProps {
+export interface IMermaidBlockProps {
   chart?: string
   lightSvg?: string
   darkSvg?: string
@@ -17,7 +17,7 @@ export interface MermaidBlockProps {
   [key: string]: unknown
 }
 
-export function MermaidBlock(props: MermaidBlockProps) {
+export function MermaidBlock(props: IMermaidBlockProps) {
   const chart = props.chart || props.__rawString__ || ''
   const preLight = props.lightSvg || props.__mermaidLightSvg__ || ''
   const preDark = props.darkSvg || props.__mermaidDarkSvg__ || ''

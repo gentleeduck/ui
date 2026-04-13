@@ -16,12 +16,12 @@ import { Loader } from 'lucide-react'
 import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from './button.constants'
-import type { AnimationIconProps, ButtonProps } from './button.types'
+import type { AnimationIconProps, IButtonProps } from './button.types'
 
 /**
  * Renders a customizable button component, supporting various styles and behaviors.
  */
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
   (
     {
       children,
@@ -97,7 +97,7 @@ const MOTION_BUTTON_OPTIONS = { transition: springBouncy } as const
 
 const MotionButton = React.forwardRef<
   HTMLButtonElement,
-  Omit<ButtonProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+  Omit<IButtonProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
 >(
   (
     {

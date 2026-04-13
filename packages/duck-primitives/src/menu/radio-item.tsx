@@ -3,7 +3,7 @@ import * as React from 'react'
 
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { ItemIndicatorProvider } from './checkbox-item'
-import { MenuItem, type IMenuItemProps } from './item'
+import { type IMenuItemProps, MenuItem } from './item'
 import type { ScopedProps } from './menu'
 import { getCheckedState } from './menu.libs'
 import { useRadioGroupContext } from './radio-group'
@@ -39,5 +39,5 @@ const MenuRadioItem = React.forwardRef<MenuRadioItemElement, IMenuRadioItemProps
 
 MenuRadioItem.displayName = RADIO_ITEM_NAME
 
-export type { MenuRadioItemElement, IMenuRadioItemProps }
+export type { IMenuRadioItemProps, MenuRadioItemElement }
 export { MenuRadioItem }

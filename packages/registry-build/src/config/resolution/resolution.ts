@@ -4,7 +4,7 @@ import { resolveFrom } from '../loader/loader.path'
 import { loadValueFile } from '../loader/loader.value'
 import { mergeRegistryBuildConfigs } from '../merge'
 import { registryBuildConfigSchema, registryEntriesSchema, themeEntriesSchema } from '../schema'
-import type { RegistryBuildConfig, ResolvedRegistryBuildCollection, ResolvedRegistryBuildConfig } from '../types'
+import type { IRegistryBuildConfig, IResolvedRegistryBuildCollection, IResolvedRegistryBuildConfig } from '../types'
 import {
   deriveDeclaredItemTypes,
   deriveLegacyCollections,
@@ -13,7 +13,7 @@ import {
   resolveSources,
 } from './resolution.lib'
 
-function toResolvedConfig(config: RegistryBuildConfig, configPath: string): ResolvedRegistryBuildConfig {
+function toResolvedConfig(config: IRegistryBuildConfig, configPath: string): IResolvedRegistryBuildConfig {
   const withDefaults = withRegistryBuildDefaults(registryBuildConfigSchema.parse(config))
 
   if (!withDefaults.output?.dir) {
@@ -59,7 +59,7 @@ function toResolvedConfig(config: RegistryBuildConfig, configPath: string): Reso
           defaultRadius: withDefaults.themes.defaultRadius ?? DEFAULT_THEME_RADIUS,
         }
       : undefined,
-  } as ResolvedRegistryBuildConfig
+  } as IResolvedRegistryBuildConfig
 }
 
 /**
@@ -67,11 +67,11 @@ function toResolvedConfig(config: RegistryBuildConfig, configPath: string): Reso
  * memory instead of loading them from disk.
  */
 export async function resolveRegistryBuildConfig(
-  config: RegistryBuildConfig,
+  config: IRegistryBuildConfig,
   options: {
     configPath: string
   },
-): Promise<ResolvedRegistryBuildConfig> {
+): Promise<IResolvedRegistryBuildConfig> {
   const resolved = toResolvedConfig(config, options.configPath)
   const configDir = path.dirname(options.configPath)
   let collections = resolved.collections
@@ -103,7 +103,7 @@ export async function resolveRegistryBuildConfig(
           ] as const
         }),
       ),
-    ) as Record<string, ResolvedRegistryBuildCollection>
+    ) as Record<string, IResolvedRegistryBuildCollection>
 
     collections = {
       ...resolved.collections,

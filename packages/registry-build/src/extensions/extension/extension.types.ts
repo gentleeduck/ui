@@ -1,8 +1,8 @@
 import type {
-  RegistryBuildContext,
-  RegistryBuildOutputRecord,
-  RegistryBuildPathRegistry,
-  RegistryBuildPhaseResult,
+  IRegistryBuildContext,
+  IRegistryBuildOutputRecord,
+  IRegistryBuildPathRegistry,
+  IRegistryBuildPhaseResult,
 } from '../../pipeline/types'
 
 /**
@@ -20,35 +20,35 @@ export type RegistryBuildExtensionStage = 'beforeBuild' | 'afterBuild'
  * access to the resolved config, shared artifacts, output registration,
  * and path resolution.
  */
-export interface RegistryBuildExtensionApi {
+export interface IRegistryBuildExtensionApi {
   /** Shared key-value store for passing data between extensions. */
-  artifacts: RegistryBuildContext['artifacts']
+  artifacts: IRegistryBuildContext['artifacts']
   /** The fully resolved build config. */
-  config: RegistryBuildContext['config']
+  config: IRegistryBuildContext['config']
   /** Full runtime context (for advanced use cases). */
-  context: RegistryBuildContext
+  context: IRegistryBuildContext
   /** Retrieve a named artifact set by a previous extension. */
-  getArtifact: RegistryBuildContext['getArtifact']
+  getArtifact: IRegistryBuildContext['getArtifact']
   /** Look up a registered output record by name. */
-  getOutput: RegistryBuildContext['getOutput']
+  getOutput: IRegistryBuildContext['getOutput']
   /** Resolve a named path from the path registry. */
-  getPath: RegistryBuildContext['getPath']
+  getPath: IRegistryBuildContext['getPath']
   /** List all output records registered so far. */
-  listOutputs: () => RegistryBuildOutputRecord[]
+  listOutputs: () => IRegistryBuildOutputRecord[]
   /** Path registry with `baseDir` and named paths. */
-  paths: RegistryBuildPathRegistry
+  paths: IRegistryBuildPathRegistry
   /** Register output files produced by this extension. */
-  registerOutput: RegistryBuildContext['registerOutput']
+  registerOutput: IRegistryBuildContext['registerOutput']
   /** Store a named artifact for downstream extensions. */
-  setArtifact: RegistryBuildContext['setArtifact']
+  setArtifact: IRegistryBuildContext['setArtifact']
 }
 
 export type RegistryBuildExtensionRunResult =
   | void
-  | RegistryBuildPhaseResult
-  | RegistryBuildPhaseResult[]
+  | IRegistryBuildPhaseResult
+  | IRegistryBuildPhaseResult[]
   // biome-ignore lint/suspicious/noConfusingVoidType: void is required for async functions returning nothing
-  | Promise<void | RegistryBuildPhaseResult | RegistryBuildPhaseResult[]>
+  | Promise<void | IRegistryBuildPhaseResult | IRegistryBuildPhaseResult[]>
 
 /**
  * A build extension that plugs into the registry build pipeline.
@@ -75,11 +75,11 @@ export type RegistryBuildExtensionRunResult =
  * }
  * ```
  */
-export interface RegistryBuildExtension {
+export interface IRegistryBuildExtension {
   /** Unique name identifying this extension in logs and phase results. */
   name: string
   /** The function that performs the extension's work. */
-  run: (api: RegistryBuildExtensionApi) => RegistryBuildExtensionRunResult
+  run: (api: IRegistryBuildExtensionApi) => RegistryBuildExtensionRunResult
   /** When to run: `'beforeBuild'` or `'afterBuild'` (default). */
   stage?: RegistryBuildExtensionStage
 }

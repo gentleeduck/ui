@@ -1,4 +1,4 @@
-import type { HourCycle, TimeField, ITimePickerConfig, ITimeValue } from '../../time'
+import type { HourCycle, ITimePickerConfig, ITimeValue, TimeField } from '../../time'
 
 export interface IUseTimePickerConfig extends ITimePickerConfig {}
 

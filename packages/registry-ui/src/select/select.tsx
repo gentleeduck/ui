@@ -21,9 +21,9 @@ SelectGroup.displayName = 'SelectGroup'
 const SelectValue = SelectPrimitive.Value
 SelectValue.displayName = 'SelectValue'
 
-export interface SelectTriggerProps extends PrimitiveSelectTriggerProps {}
+export interface ISelectTriggerProps extends PrimitiveSelectTriggerProps {}
 
-const SelectTrigger = React.forwardRef<React.ComponentRef<typeof SelectPrimitive.Trigger>, SelectTriggerProps>(
+const SelectTrigger = React.forwardRef<React.ComponentRef<typeof SelectPrimitive.Trigger>, ISelectTriggerProps>(
   ({ className, children, ...props }, ref) => (
     <SelectPrimitive.Trigger
       ref={ref}
@@ -204,7 +204,7 @@ const MotionSelectContent = React.forwardRef<
 })
 MotionSelectContent.displayName = 'MotionSelectContent'
 
-const MotionSelectTrigger = React.forwardRef<React.ComponentRef<typeof SelectPrimitive.Trigger>, SelectTriggerProps>(
+const MotionSelectTrigger = React.forwardRef<React.ComponentRef<typeof SelectPrimitive.Trigger>, ISelectTriggerProps>(
   ({ className, children, ...props }, ref) => (
     <motion.div whileTap={tapScale}>
       <SelectPrimitive.Trigger

@@ -44,13 +44,13 @@ const SheetOverlay = React.forwardRef<
 ))
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
-interface SheetContentProps
+interface ISheetContentProps
   extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
     VariantProps<typeof sheetVariants> {}
 
 const SheetContent = React.forwardRef<
   React.ComponentRef<typeof SheetPrimitive.Content>,
-  SheetContentProps & { closeText?: string }
+  ISheetContentProps & { closeText?: string }
 >(({ side = 'right', className, children, closeText = 'Close', ...props }, ref) => (
   <SheetPortal>
     <SheetOverlay />
@@ -123,7 +123,7 @@ MotionSheet.displayName = 'MotionSheet'
 
 const MotionSheetContent = React.forwardRef<
   React.ComponentRef<typeof SheetPrimitive.Content>,
-  SheetContentProps & { closeText?: string; hideClose?: boolean }
+  ISheetContentProps & { closeText?: string; hideClose?: boolean }
 >(({ side = 'right', className, children, closeText = 'Close', hideClose = false, ...props }, ref) => {
   const { isOpen } = useMotionContent()
   const overlay = useMotionPreset(fadeIn, OVERLAY_OPTIONS)

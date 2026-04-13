@@ -1,6 +1,6 @@
 import type { Command } from 'commander'
-import type { BuildOptions } from '../../pipeline'
-import type { RegistryBuildCommandOptions } from './build.types'
+import type { IBuildOptions } from '../../pipeline'
+import type { IRegistryBuildCommandOptions } from './build.types'
 
 /**
  * Attach the shared build flags to a Commander command. This stays separate so
@@ -24,7 +24,7 @@ export function applyBuildOptions(command: Command) {
 /**
  * Convert CLI flags into the runtime build options consumed by the runner.
  */
-export function toBuildOptions(options: RegistryBuildCommandOptions): BuildOptions {
+export function toBuildOptions(options: IRegistryBuildCommandOptions): IBuildOptions {
   return {
     changedOnly: options.changedOnly || (options.changed?.length ?? 0) > 0,
     changedPaths: options.changed ?? [],

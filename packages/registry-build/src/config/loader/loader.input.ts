@@ -2,11 +2,11 @@ import path from 'node:path'
 import type { RegistryItemType, RegistryItemTypeMap } from '../../extensions/ui/ui.registry.types'
 import { mergeRegistryBuildConfigs } from '../merge'
 import { registryBuildConfigSchema, registryEntriesSchema, themeEntriesSchema } from '../schema'
-import type { RegistryBuildCollection, RegistryBuildConfig, RegistryBuildSource } from '../types'
+import type { IRegistryBuildCollection, IRegistryBuildConfig, IRegistryBuildSource } from '../types'
 import { resolveFrom } from './loader.path'
 import { loadValueFile } from './loader.value'
 
-async function materializeCollectionData(collections: Record<string, RegistryBuildCollection>) {
+async function materializeCollectionData(collections: Record<string, IRegistryBuildCollection>) {
   return Object.fromEntries(
     await Promise.all(
       Object.entries(collections).map(async ([name, collection]) => {
@@ -29,11 +29,11 @@ async function materializeCollectionData(collections: Record<string, RegistryBui
 /**
  * Resolve config-local file references before merge/default resolution.
  */
-function normalizeConfigFileInput(config: RegistryBuildConfig, configPath: string): RegistryBuildConfig {
+function normalizeConfigFileInput(config: IRegistryBuildConfig, configPath: string): IRegistryBuildConfig {
   const configDir = path.dirname(configPath)
   const extendEntries = config.extends ? (Array.isArray(config.extends) ? config.extends : [config.extends]) : undefined
-  const collectionEntries = Object.entries(config.collections ?? {}) as Array<[string, RegistryBuildCollection]>
-  const sourceEntries = Object.entries(config.sources ?? {}) as Array<[RegistryItemType, RegistryBuildSource]>
+  const collectionEntries = Object.entries(config.collections ?? {}) as Array<[string, IRegistryBuildCollection]>
+  const sourceEntries = Object.entries(config.sources ?? {}) as Array<[RegistryItemType, IRegistryBuildSource]>
 
   return {
     ...config,
@@ -81,7 +81,7 @@ function normalizeConfigFileInput(config: RegistryBuildConfig, configPath: strin
           path: resolveFrom(configDir, source.path),
         },
       ]),
-    ) as RegistryItemTypeMap<RegistryBuildSource>,
+    ) as RegistryItemTypeMap<IRegistryBuildSource>,
     themes:
       typeof config.themes?.data === 'string'
         ? {
@@ -95,7 +95,7 @@ function normalizeConfigFileInput(config: RegistryBuildConfig, configPath: strin
 /**
  * Load file-backed config sections eagerly so merge semantics remain simple.
  */
-async function materializeConfigReferences(config: RegistryBuildConfig): Promise<RegistryBuildConfig> {
+async function materializeConfigReferences(config: IRegistryBuildConfig): Promise<IRegistryBuildConfig> {
   let materializedConfig = { ...config }
 
   if (materializedConfig.collections) {
@@ -156,7 +156,7 @@ export async function loadRegistryBuildConfigInput(
   options: {
     visitedPaths?: Set<string>
   } = {},
-): Promise<RegistryBuildConfig> {
+): Promise<IRegistryBuildConfig> {
   const visitedPaths = options.visitedPaths ?? new Set<string>()
   const normalizedConfigPath = path.resolve(configPath)
 
@@ -168,7 +168,7 @@ export async function loadRegistryBuildConfigInput(
 
   try {
     const rawConfig = registryBuildConfigSchema.parse(
-      (await loadValueFile(normalizedConfigPath)) as RegistryBuildConfig,
+      (await loadValueFile(normalizedConfigPath)) as IRegistryBuildConfig,
     )
     const normalizedConfig = await materializeConfigReferences(
       normalizeConfigFileInput(rawConfig, normalizedConfigPath),
@@ -179,7 +179,7 @@ export async function loadRegistryBuildConfigInput(
         : [normalizedConfig.extends]
       : []
 
-    let mergedConfig: RegistryBuildConfig = {}
+    let mergedConfig: IRegistryBuildConfig = {}
 
     for (const extendPath of extendPaths) {
       const extendedConfig = await loadRegistryBuildConfigInput(extendPath, { visitedPaths })

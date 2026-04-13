@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'bun:test'
 import { defineConfig } from '../../define-config'
-import type { RegistryBuildConfig } from '../types'
+import type { IRegistryBuildConfig } from '../types'
 
 describe('defineConfig', () => {
   test('returns the exact same config object (identity)', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       output: { dir: './dist' },
     }
     const result = defineConfig(config)
@@ -12,12 +12,12 @@ describe('defineConfig', () => {
   })
 
   test('returns empty config unchanged', () => {
-    const config: RegistryBuildConfig = {}
+    const config: IRegistryBuildConfig = {}
     expect(defineConfig(config)).toBe(config)
   })
 
   test('preserves all config properties', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       branding: { name: 'my-tool', font: 'Mono' },
       output: { dir: './build' },
       performance: { incremental: true, parallelism: 2 },
@@ -36,7 +36,7 @@ describe('defineConfig', () => {
 
   test('preserves config with extensions', () => {
     const ext = { name: 'test-ext', run: () => {}, phases: [] }
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       extensions: [ext],
       output: { dir: './dist' },
     }
@@ -46,7 +46,7 @@ describe('defineConfig', () => {
   })
 
   test('preserves config with collections', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       collections: {
         packages: {
           data: [{ name: 'bash' }],

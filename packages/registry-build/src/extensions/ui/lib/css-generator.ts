@@ -1,4 +1,4 @@
-import type { RegistryBuildThemeEntry } from '../ui.config.types'
+import type { IRegistryBuildThemeEntry } from '../ui.config.types'
 
 function generateVarBlock(scheme: Record<string, string>, cssVarKeys: string[], indent: string) {
   return cssVarKeys
@@ -16,7 +16,7 @@ export function generateBaseStylesWithVariables(options: {
   baseLayerRules: string
   baseStyles: string
   cssVarKeys: string[]
-  entry: RegistryBuildThemeEntry
+  entry: IRegistryBuildThemeEntry
   radius: string
 }) {
   const lightVars = generateVarBlock(options.entry.light, options.cssVarKeys, '    ')
@@ -40,7 +40,7 @@ ${options.baseLayerRules.trim()}`
 
 export function generateThemeCss(options: {
   cssVarKeys: string[]
-  entry: RegistryBuildThemeEntry
+  entry: IRegistryBuildThemeEntry
   name: string
   radius: string
 }) {
