@@ -1,7 +1,7 @@
 export type { PossibleRef } from './use-composed-refs'
 export { composeRefs, useComposedRefs } from './use-composed-refs'
 export { useComputedTimeoutTransition } from './use-computed-timeout-transition'
-export type { UseCopyToClipboardOptions } from './use-copy-to-clipboard'
+export type { IUseCopyToClipboardOptions } from './use-copy-to-clipboard'
 export { useCopyToClipboard } from './use-copy-to-clipboard'
 export { debounce, useDebounce } from './use-debounce'
 export { useIsMobile } from './use-is-mobile'

@@ -2,14 +2,14 @@
 import type { StaticImport } from 'next/dist/shared/lib/get-img-props'
 import Image from 'next/image'
 import { useLazyImage } from './lazy-image.hooks'
-import type { LazyImageProps } from './lazy-image.types'
+import type { ILazyImageProps } from './lazy-image.types'
 
 /**
  * `DuckLazyImage` is a React component that lazily loads an image when it comes into view.
  * It supports lazy loading of images to improve performance, shows a placeholder image while the main image loads,
  * and includes several accessibility features to ensure compatibility with assistive technologies like screen readers.
  *
- * @param {LazyImageProps} props - The props to configure the component.
+ * @param {ILazyImageProps} props - The props to configure the component.
  *
  * @returns {React.JSX.Element} The `DuckLazyImage` component. A div wrapping an `img` tag with lazy loading and placeholder functionality.
  *
@@ -22,7 +22,7 @@ import type { LazyImageProps } from './lazy-image.types'
  * />
  * ```
  */
-export function DuckLazyImage(props: LazyImageProps): React.JSX.Element {
+export function DuckLazyImage(props: ILazyImageProps): React.JSX.Element {
   if (!props.src) {
     throw new Error('src is required')
   }
@@ -61,7 +61,7 @@ export function DuckLazyImage(props: LazyImageProps): React.JSX.Element {
  * It can be used to display a placeholder image while the main image is being loaded.
  *
  * @internal
- * @param {Omit<LazyImageProps, 'placeholder'>} props - The props to configure the component.
+ * @param {Omit<ILazyImageProps, 'placeholder'>} props - The props to configure the component.
  *
  * @returns {React.JSX.Element} The `PlaceHolder` component. An `img` tag with lazy loading and placeholder functionality.
  *
@@ -75,7 +75,7 @@ function PlaceHolder({
   alt,
   nextImage,
   ...props
-}: Omit<LazyImageProps, 'placeholder'>): React.JSX.Element {
+}: Omit<ILazyImageProps, 'placeholder'>): React.JSX.Element {
   const Component = nextImage ? Image : 'img'
   return (
     <Component

@@ -1,9 +1,2 @@
-export type {
-  Atom,
-  Getter,
-  PrimitiveAtom,
-  SetStateAction,
-  Setter,
-  WritableAtom,
-} from './primitive'
+export type { Getter, IAtom, IWritableAtom, PrimitiveAtom, SetStateAction, Setter } from './primitive'
 export { atom, createStore } from './primitive'

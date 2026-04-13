@@ -1,18 +1,18 @@
 /**
- * `UseLazyImageReturn` is the return type of the `useLazyImage` hook.
+ * `IUseLazyImageReturn` is the return type of the `useLazyImage` hook.
  * It provides the loading state of an image and a reference to the DOM element being observed by the IntersectionObserver.
  *
  * @interface
  * @property {boolean} isLoaded - A boolean indicating if the image has finished loading.
  * @property {React.RefObject<HTMLImageElement|null>} imageRef - A React ref object pointing to the DOM image element being observed.
  */
-export interface UseLazyImageReturn {
+export interface IUseLazyImageReturn {
   isLoaded: boolean
   imageRef: React.RefObject<HTMLImageElement | null>
 }
 
 /**
- * `LazyImageProps` defines the props for the `LazyImageComponent` component.
+ * `ILazyImageProps` defines the props for the `LazyImageComponent` component.
  * It extends the basic HTML properties of an `img` element with additional `options` and `placeholder` props for lazy-loading images.
  *
  * @interface
@@ -23,7 +23,7 @@ export interface UseLazyImageReturn {
  * @property {string} [placeholder] - The URL of the placeholder image to display while the target image is being loaded.
  * @property {boolean} [nextImage] - A boolean indicating whether the image is being used in a Next.js application.
  */
-export interface LazyImageProps
+export interface ILazyImageProps
   extends React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
   options?: IntersectionObserverInit
   placeholder?: string | undefined

@@ -1,5 +1,5 @@
 import { useLazyLoad } from './lazy-component.hooks'
-import type { DuckLazyProps } from './lazy-component.types'
+import type { IDuckLazyProps } from './lazy-component.types'
 
 /**
  * `DuckLazyComponent` is a React component that lazily loads its content based on visibility within the viewport.
@@ -45,7 +45,7 @@ import type { DuckLazyProps } from './lazy-component.types'
  *   );
  * };
  */
-export function DuckLazyComponent({ children, options, ...props }: DuckLazyProps): React.JSX.Element {
+export function DuckLazyComponent({ children, options, ...props }: IDuckLazyProps): React.JSX.Element {
   const { isVisible, ComponentRef } = useLazyLoad({
     rootMargin: '0px', // Adjust this to trigger rendering earlier or later
     threshold: 0, // Trigger when 10% of the element is visible

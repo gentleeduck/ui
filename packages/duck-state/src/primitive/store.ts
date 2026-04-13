@@ -1,19 +1,19 @@
-import type { Atom, Getter, SetStateAction, Setter, WritableAtom } from './atom'
+import type { IAtom, Getter, SetStateAction, Setter, IWritableAtom } from './atom'
 
 /** @internal */
 type Listener = () => void
 
 export function createStore() {
-  const atomState = new WeakMap<Atom<unknown>, unknown>()
-  const listeners = new WeakMap<Atom<unknown>, Set<Listener>>()
+  const atomState = new WeakMap<IAtom<unknown>, unknown>()
+  const listeners = new WeakMap<IAtom<unknown>, Set<Listener>>()
 
   // Dependency maps
-  const dependencies = new WeakMap<Atom<unknown>, Set<Atom<unknown>>>()
-  const dependents = new WeakMap<Atom<unknown>, Set<Atom<unknown>>>()
+  const dependencies = new WeakMap<IAtom<unknown>, Set<IAtom<unknown>>>()
+  const dependents = new WeakMap<IAtom<unknown>, Set<IAtom<unknown>>>()
 
-  let currentlyReadingAtom: Atom<unknown> | null = null
+  let currentlyReadingAtom: IAtom<unknown> | null = null
 
-  function trackDependency(parent: Atom<unknown>, dep: Atom<unknown>) {
+  function trackDependency(parent: IAtom<unknown>, dep: IAtom<unknown>) {
     let deps = dependencies.get(parent)
     if (!deps) {
       deps = new Set()
@@ -29,7 +29,7 @@ export function createStore() {
     revDeps.add(parent)
   }
 
-  function invalidateDependents(atom: Atom<unknown>) {
+  function invalidateDependents(atom: IAtom<unknown>) {
     const dependentsSet = dependents.get(atom)
     if (!dependentsSet) return
 
@@ -43,14 +43,14 @@ export function createStore() {
 
   const store = {
     // For testing/debugging
-    _getRaw<Value>(atom: Atom<Value>): Value | undefined {
+    _getRaw<Value>(atom: IAtom<Value>): Value | undefined {
       return atomState.get(atom) as Value | undefined
     },
 
-    _setRaw<Value>(atom: Atom<Value>, value: Value) {
+    _setRaw<Value>(atom: IAtom<Value>, value: Value) {
       atomState.set(atom, value)
     },
-    get<Value>(atom: Atom<Value>): Value {
+    get<Value>(atom: IAtom<Value>): Value {
       if (currentlyReadingAtom) {
         trackDependency(currentlyReadingAtom, atom)
       }
@@ -78,7 +78,7 @@ export function createStore() {
       return result
     },
 
-    set<Value, Args extends unknown[], Result>(atom: WritableAtom<Value, Args, Result>, ...args: Args): Result {
+    set<Value, Args extends unknown[], Result>(atom: IWritableAtom<Value, Args, Result>, ...args: Args): Result {
       if ('initValue' in atom && args.length === 1) {
         const update = args[0] as SetStateAction<Value>
         const prev = store.get(atom)
@@ -111,7 +111,7 @@ export function createStore() {
       return result
     },
 
-    subscribe<Value>(atom: Atom<Value>, listener: Listener): () => void {
+    subscribe<Value>(atom: IAtom<Value>, listener: Listener): () => void {
       let atomListeners = listeners.get(atom)
       if (!atomListeners) {
         atomListeners = new Set()

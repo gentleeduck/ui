@@ -12,13 +12,13 @@
  *   threshold: 0.25, // Trigger when 25% of the component is visible
  * });
  */
-export interface UseLazyLoadReturn {
+export interface IUseLazyLoadReturn {
   isVisible: boolean
   ComponentRef: React.RefObject<HTMLDivElement | null>
 }
 
 /**
- * `DuckLazyProps` defines the props for the `DuckLazyComponent` component.
+ * `IDuckLazyProps` defines the props for the `DuckLazyComponent` component.
  * It extends the basic HTML properties of a `div` element with an additional `options` prop to configure the `IntersectionObserver`.
  *
  * @interface
@@ -26,7 +26,7 @@ export interface UseLazyLoadReturn {
  * @property {IntersectionObserverInit} [options] - Configuration for the IntersectionObserver to control when the lazy-loaded component becomes visible.
  *
  * @example
- * // Example of using DuckLazyProps
+ * // Example of using IDuckLazyProps
  * <DuckLazyComponent
  *   options={{
  *     rootMargin: '50px', // Starts rendering 50px earlier
@@ -36,6 +36,6 @@ export interface UseLazyLoadReturn {
  *   <div>This content is lazily loaded when 50% of it is in the viewport.</div>
  * </DuckLazyComponent>
  */
-export interface DuckLazyProps extends React.HTMLProps<HTMLDivElement> {
+export interface IDuckLazyProps extends React.HTMLProps<HTMLDivElement> {
   options?: IntersectionObserverInit
 }
