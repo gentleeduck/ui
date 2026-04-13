@@ -13,7 +13,7 @@ import { tailwindcssDependencies } from '~/utils/preflight-configs/preflight-tai
 import {
   tsConfigGeneric,
   tsConfigNextjs,
-  typescriptDependencies,
+  TYPESCRIPT_DEPENDENCIES,
 } from '~/utils/preflight-configs/preflight-typescript/preflight-typescript.constants'
 import { findDuckuiRootCwd } from '~/utils/workspace'
 import type { ProgressCallback, ServiceResult } from './service.types'
@@ -38,7 +38,7 @@ export async function runInstallTypescript(
     onProgress?.('Installing TypeScript...')
     const { failed } = await execa(
       packageManager,
-      [packageManager === 'npm' ? 'install' : 'add', ...typescriptDependencies, '-D'],
+      [packageManager === 'npm' ? 'install' : 'add', ...TYPESCRIPT_DEPENDENCIES, '-D'],
       { cwd },
     )
     if (failed) {

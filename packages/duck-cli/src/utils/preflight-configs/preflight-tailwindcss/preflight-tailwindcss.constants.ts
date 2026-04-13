@@ -32,14 +32,14 @@ export const tailwindcssInstallPrompts: PromptObject<string>[] = [
   },
 ]
 
-export const postCssNextjs = `const config = {
+export const POST_CSS_NEXTJS = `const config = {
   plugins: {
     "@tailwindcss/postcss": {},
   },
 };
 export default config;`
 
-export const tailwindcssVite = `import { defineConfig } from 'vite'
+export const TAILWINDCSS_VITE = `import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [
@@ -47,13 +47,13 @@ export default defineConfig({
   ],
 })`
 
-export const tailwindcssBoilerplate = `@import "tailwindcss";
+export const TAILWINDCSS_BOILERPLATE = `@import "tailwindcss";
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 `
 
-export const baseLayerStyles = `@layer base {
+export const BASE_LAYER_STYLES = `@layer base {
   * {
     @apply border-border font-medium;
   }
