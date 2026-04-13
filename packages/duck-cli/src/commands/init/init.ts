@@ -1,21 +1,21 @@
 import { Command } from 'commander'
-import { require_config_value } from '~/utils/require-config-value'
-import { init_command_config } from './init.constants'
-import { init_command_action } from './init.libs'
+import { requireConfigValue } from '~/utils/require-config-value'
+import { initCommandConfig } from './init.constants'
+import { initCommandAction } from './init.libs'
 
-const { name, description, options, arguments_ } = init_command_config
-const option_1 = require_config_value(options.option_1, 'missing init command option_1 config')
-const option_2 = require_config_value(options.option_2, 'missing init command option_2 config')
-const arg_1 = require_config_value(arguments_.arg_1, 'missing init command arg_1 config')
+const { name, description, options, arguments_ } = initCommandConfig
+const option1 = requireConfigValue(options.option1, 'missing init command option1 config')
+const option2 = requireConfigValue(options.option2, 'missing init command option2 config')
+const arg1 = requireConfigValue(arguments_.arg1, 'missing init command arg1 config')
 
-export function init_command(): Command {
-  const init_command = new Command(name)
+export function initCommand(): Command {
+  const initCommand = new Command(name)
 
-  init_command
+  initCommand
     .description(description)
-    .argument(arg_1.name, arg_1.description, arg_1.defaultValue)
-    .option(option_1.flags, option_1.description, option_1.defaultValue)
-    .option(option_2.flags, option_2.description, option_2.defaultValue)
+    .argument(arg1.name, arg1.description, arg1.defaultValue)
+    .option(option1.flags, option1.description, option1.defaultValue)
+    .option(option2.flags, option2.description, option2.defaultValue)
     .option('-p, --project-type <type>', 'project type (NEXT_JS, VITE, TANSTACK_START, UNKNOWN)')
     .option(
       '-b, --base-color <color>',
@@ -31,7 +31,7 @@ export function init_command(): Command {
     .option('--prefix <prefix>', 'Tailwind prefix')
     .option('-a, --all', 'install all available components', false)
     .option('-t, --template <name>', 'scaffold a project from a template (e.g., acme)')
-    .action(init_command_action)
+    .action(initCommandAction)
 
-  return init_command
+  return initCommand
 }

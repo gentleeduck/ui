@@ -22,16 +22,16 @@ vi.mock('execa', () => ({
   execa: vi.fn().mockResolvedValue({ failed: false, stdout: '', stderr: '' }),
 }))
 
-// Mock get_package_manager
+// Mock getPackageManager
 vi.mock('~/utils/get-package-manager', () => ({
-  get_package_manager: vi.fn().mockResolvedValue('npm'),
+  getPackageManager: vi.fn().mockResolvedValue('npm'),
 }))
 
 // Mock prompts
 const mockPrompts = vi.fn()
 vi.mock('prompts', () => ({ default: mockPrompts }))
 
-describe('remove_command_action', () => {
+describe('removeCommandAction', () => {
   let tmpDir: string
   const originalCwd = process.cwd
   let exitCodes: number[]
@@ -90,9 +90,9 @@ describe('remove_command_action', () => {
   })
 
   it('removes a component with --yes flag', async () => {
-    const { remove_command_action } = await import('~/commands/remove/remove.libs')
+    const { removeCommandAction } = await import('~/commands/remove/remove.libs')
 
-    await expect(remove_command_action(['button'], { cwd: tmpDir, yes: true })).rejects.toThrow(/process\.exit/)
+    await expect(removeCommandAction(['button'], { cwd: tmpDir, yes: true })).rejects.toThrow(/process\.exit/)
 
     expect(exitCodes[0]).toBe(0)
 
@@ -103,9 +103,9 @@ describe('remove_command_action', () => {
   })
 
   it('removes multiple components with --yes flag', async () => {
-    const { remove_command_action } = await import('~/commands/remove/remove.libs')
+    const { removeCommandAction } = await import('~/commands/remove/remove.libs')
 
-    await expect(remove_command_action(['button', 'input'], { cwd: tmpDir, yes: true })).rejects.toThrow(
+    await expect(removeCommandAction(['button', 'input'], { cwd: tmpDir, yes: true })).rejects.toThrow(
       /process\.exit/,
     )
 
@@ -116,9 +116,9 @@ describe('remove_command_action', () => {
   })
 
   it('fails when specified component is not installed', async () => {
-    const { remove_command_action } = await import('~/commands/remove/remove.libs')
+    const { removeCommandAction } = await import('~/commands/remove/remove.libs')
 
-    await expect(remove_command_action(['nonexistent'], { cwd: tmpDir, yes: true })).rejects.toThrow(/process\.exit/)
+    await expect(removeCommandAction(['nonexistent'], { cwd: tmpDir, yes: true })).rejects.toThrow(/process\.exit/)
 
     expect(exitCodes[0]).toBe(1)
   })
@@ -128,9 +128,9 @@ describe('remove_command_action', () => {
     fs.rmSync(path.join(tmpDir, 'src', 'ui', 'button'), { recursive: true })
     fs.rmSync(path.join(tmpDir, 'src', 'ui', 'input'), { recursive: true })
 
-    const { remove_command_action } = await import('~/commands/remove/remove.libs')
+    const { removeCommandAction } = await import('~/commands/remove/remove.libs')
 
-    await expect(remove_command_action([], { cwd: tmpDir, yes: true })).rejects.toThrow(/process\.exit/)
+    await expect(removeCommandAction([], { cwd: tmpDir, yes: true })).rejects.toThrow(/process\.exit/)
 
     expect(exitCodes[0]).toBe(1)
   })
@@ -138,9 +138,9 @@ describe('remove_command_action', () => {
   it('aborts when user declines confirmation', async () => {
     mockPrompts.mockResolvedValue({ confirm: false })
 
-    const { remove_command_action } = await import('~/commands/remove/remove.libs')
+    const { removeCommandAction } = await import('~/commands/remove/remove.libs')
 
-    await expect(remove_command_action(['button'], { cwd: tmpDir, yes: false })).rejects.toThrow(/process\.exit/)
+    await expect(removeCommandAction(['button'], { cwd: tmpDir, yes: false })).rejects.toThrow(/process\.exit/)
 
     expect(exitCodes[0]).toBe(0)
     // Component should still exist
@@ -148,9 +148,9 @@ describe('remove_command_action', () => {
   })
 
   it('case-insensitive component name matching', async () => {
-    const { remove_command_action } = await import('~/commands/remove/remove.libs')
+    const { removeCommandAction } = await import('~/commands/remove/remove.libs')
 
-    await expect(remove_command_action(['Button'], { cwd: tmpDir, yes: true })).rejects.toThrow(/process\.exit/)
+    await expect(removeCommandAction(['Button'], { cwd: tmpDir, yes: true })).rejects.toThrow(/process\.exit/)
 
     expect(exitCodes[0]).toBe(0)
     expect(fs.existsSync(path.join(tmpDir, 'src', 'ui', 'button'))).toBe(false)
@@ -188,9 +188,9 @@ describe('remove_command_action', () => {
       'export function Button() { return null }',
     )
 
-    const { remove_command_action } = await import('~/commands/remove/remove.libs')
+    const { removeCommandAction } = await import('~/commands/remove/remove.libs')
 
-    await expect(remove_command_action(['button'], { cwd: tmpDir, workspace: 'apps/web', yes: true })).rejects.toThrow(
+    await expect(removeCommandAction(['button'], { cwd: tmpDir, workspace: 'apps/web', yes: true })).rejects.toThrow(
       /process\.exit/,
     )
 
@@ -214,10 +214,10 @@ describe('remove_command_action', () => {
       }),
     )
 
-    const { remove_command_action } = await import('~/commands/remove/remove.libs')
+    const { removeCommandAction } = await import('~/commands/remove/remove.libs')
 
     await expect(
-      remove_command_action(['button'], { cwd: tmpDir, workspace: 'apps/missing', yes: true }),
+      removeCommandAction(['button'], { cwd: tmpDir, workspace: 'apps/missing', yes: true }),
     ).rejects.toThrow(/process\.exit/)
 
     expect(exitCodes[0]).toBe(1)

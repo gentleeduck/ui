@@ -1,65 +1,65 @@
 import path from 'node:path'
 import prompts from 'prompts'
-import { remove_components, resolve_write_type_path, scan_installed_components } from '~/services/component.service'
-import { resolve_install_path } from '~/services/install.service'
-import { print_banner } from '~/utils/banner'
-import { get_duckui_config, get_ts_config } from '~/utils/get-project-info'
+import { removeComponents, resolveWriteTypePath, scanInstalledComponents } from '~/services/component.service'
+import { resolveInstallPath } from '~/services/install.service'
+import { printBanner } from '~/utils/banner'
+import { getDuckuiConfig, getTsConfig } from '~/utils/get-project-info'
 import { spinner as Spinner } from '~/utils/spinner'
 import { highlighter } from '~/utils/text-styling'
-import { is_verbose } from '~/utils/verbose'
-import { resolve_project_cwd, validate_workspace_target } from '~/utils/workspace'
-import { type RemoveOptions, remove_arguments_schema, remove_options_schema } from './remove.dto'
+import { isVerbose } from '~/utils/verbose'
+import { resolveProjectCwd, validateWorkspaceTarget } from '~/utils/workspace'
+import { type RemoveOptions, removeArgumentsSchema, removeOptionsSchema } from './remove.dto'
 
-export async function remove_command_action(args: string[], opt: RemoveOptions) {
-  const options = remove_options_schema.parse(opt)
-  const component_names = remove_arguments_schema.parse(args)
+export async function removeCommandAction(args: string[], opt: RemoveOptions) {
+  const options = removeOptionsSchema.parse(opt)
+  const componentNames = removeArgumentsSchema.parse(args)
 
-  print_banner()
+  printBanner()
   const spinner = Spinner('initializing...').start()
   try {
     const cwd = path.resolve(options.cwd)
 
     // In monorepo mode, config lives in the workspace directory
-    const config_cwd = options.workspace ? path.resolve(cwd, options.workspace) : cwd
-    const duckui_config = await get_duckui_config(config_cwd, spinner)
-    const project_cwd = resolve_project_cwd(config_cwd, duckui_config)
-    const workspace_error = validate_workspace_target(project_cwd, true)
-    if (workspace_error) {
-      spinner.fail(workspace_error)
+    const configCwd = options.workspace ? path.resolve(cwd, options.workspace) : cwd
+    const duckuiConfig = await getDuckuiConfig(configCwd, spinner)
+    const projectCwd = resolveProjectCwd(configCwd, duckuiConfig)
+    const workspaceError = validateWorkspaceTarget(projectCwd, true)
+    if (workspaceError) {
+      spinner.fail(workspaceError)
       process.exit(1)
     }
-    spinner.info(`Using workspace: ${project_cwd}`)
-    const ts_config = await get_ts_config(project_cwd, spinner)
+    spinner.info(`Using workspace: ${projectCwd}`)
+    const tsConfig = await getTsConfig(projectCwd, spinner)
 
-    const path_result = resolve_install_path(duckui_config, ts_config)
-    if (!path_result.ok) {
-      spinner.fail(path_result.error)
+    const pathResult = resolveInstallPath(duckuiConfig, tsConfig)
+    if (!pathResult.ok) {
+      spinner.fail(pathResult.error)
       process.exit(1)
     }
 
-    const write_type_path = resolve_write_type_path(duckui_config, path.resolve(project_cwd, path_result.data))
+    const writeTypePath = resolveWriteTypePath(duckuiConfig, path.resolve(projectCwd, pathResult.data))
 
     spinner.text = 'Scanning installed components...'
-    const scan_result = await scan_installed_components(write_type_path)
-    if (!scan_result.ok) {
-      spinner.fail(scan_result.error)
+    const scanResult = await scanInstalledComponents(writeTypePath)
+    if (!scanResult.ok) {
+      spinner.fail(scanResult.error)
       process.exit(1)
     }
 
-    if (scan_result.data.length === 0) {
+    if (scanResult.data.length === 0) {
       spinner.fail('No installed components found.')
       process.exit(1)
     }
 
-    let selected = scan_result.data
+    let selected = scanResult.data
 
-    if (component_names.length === 0) {
+    if (componentNames.length === 0) {
       spinner.stop()
       const { picked } = await prompts({
         type: 'autocompleteMultiselect',
         name: 'picked',
         message: 'Select components to remove',
-        choices: scan_result.data.map((c) => ({ title: c.name, value: c.name })),
+        choices: scanResult.data.map((c) => ({ title: c.name, value: c.name })),
       })
       spinner.start()
 
@@ -68,13 +68,13 @@ export async function remove_command_action(args: string[], opt: RemoveOptions) 
         process.exit(0)
       }
 
-      selected = scan_result.data.filter((c) => picked.includes(c.name))
+      selected = scanResult.data.filter((c) => picked.includes(c.name))
     } else {
-      selected = scan_result.data.filter((c) => component_names.some((n) => n.toLowerCase() === c.name.toLowerCase()))
+      selected = scanResult.data.filter((c) => componentNames.some((n) => n.toLowerCase() === c.name.toLowerCase()))
 
       if (selected.length === 0) {
         spinner.fail(
-          `None of the specified components are installed: ${component_names.map((n) => highlighter.info(n)).join(', ')}`,
+          `None of the specified components are installed: ${componentNames.map((n) => highlighter.info(n)).join(', ')}`,
         )
         process.exit(1)
       }
@@ -84,7 +84,7 @@ export async function remove_command_action(args: string[], opt: RemoveOptions) 
       spinner.stop()
       console.log(`\nComponents to remove:`)
       for (const c of selected) {
-        console.log(`  ${highlighter.warn(c.name)} (${c.local_path})`)
+        console.log(`  ${highlighter.warn(c.name)} (${c.localPath})`)
       }
       const { confirm } = await prompts({
         type: 'confirm',
@@ -100,7 +100,7 @@ export async function remove_command_action(args: string[], opt: RemoveOptions) 
       }
     }
 
-    const result = await remove_components(selected, (msg) => {
+    const result = await removeComponents(selected, (msg) => {
       spinner.text = msg
     })
 
@@ -113,7 +113,7 @@ export async function remove_command_action(args: string[], opt: RemoveOptions) 
     process.exit(0)
   } catch (error) {
     spinner.fail(`Something went wrong: ${error instanceof Error ? error.message : String(error)}`)
-    if (is_verbose() && error instanceof Error) {
+    if (isVerbose() && error instanceof Error) {
       console.error(error.stack)
     }
     process.exit(1)

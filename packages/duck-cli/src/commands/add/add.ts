@@ -1,26 +1,26 @@
 import { Command } from 'commander'
-import { require_config_value } from '~/utils/require-config-value'
-import { add_command_config } from './add.constants'
-import { add_command_action } from './add.libs'
+import { requireConfigValue } from '~/utils/require-config-value'
+import { addCommandConfig } from './add.constants'
+import { addCommandAction } from './add.libs'
 
-const { name, description, options, arguments_ } = add_command_config
-const option_1 = require_config_value(options.option_1, 'missing add command option_1 config')
-const option_2 = require_config_value(options.option_2, 'missing add command option_2 config')
-const option_3 = require_config_value(options.option_3, 'missing add command option_3 config')
-const arg_1 = require_config_value(arguments_.arg_1, 'missing add command arg_1 config')
+const { name, description, options, arguments_ } = addCommandConfig
+const option1 = requireConfigValue(options.option1, 'missing add command option1 config')
+const option2 = requireConfigValue(options.option2, 'missing add command option2 config')
+const option3 = requireConfigValue(options.option3, 'missing add command option3 config')
+const arg1 = requireConfigValue(arguments_.arg1, 'missing add command arg1 config')
 
-export function add_command(): Command {
-  const add_command = new Command(name)
+export function addCommand(): Command {
+  const addCommand = new Command(name)
 
-  add_command
+  addCommand
     .description(description)
-    .argument(arg_1.name, arg_1.description, arg_1.defaultValue)
-    .option(option_1.flags, option_1.description, option_1.defaultValue)
-    .option(option_2.flags, option_2.description, option_2.defaultValue)
-    .option(option_3.flags, option_3.description, option_3.defaultValue)
+    .argument(arg1.name, arg1.description, arg1.defaultValue)
+    .option(option1.flags, option1.description, option1.defaultValue)
+    .option(option2.flags, option2.description, option2.defaultValue)
+    .option(option3.flags, option3.description, option3.defaultValue)
     .option('-w, --workspace <path>', 'workspace path override (relative to monorepo root)')
     .option('-a, --all', 'add all available components', false)
-    .action(add_command_action)
+    .action(addCommandAction)
 
-  return add_command
+  return addCommand
 }

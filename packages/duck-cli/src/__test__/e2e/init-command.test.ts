@@ -23,24 +23,24 @@ vi.mock('execa', () => ({
   execa: vi.fn().mockResolvedValue({ failed: false, stdout: '', stderr: '' }),
 }))
 
-// Mock get_package_manager
+// Mock getPackageManager
 vi.mock('~/utils/get-package-manager', () => ({
-  get_package_manager: vi.fn().mockResolvedValue('npm'),
+  getPackageManager: vi.fn().mockResolvedValue('npm'),
 }))
 
-// Mock preflight_configs to skip the full preflight checks. The real flow now
+// Mock preflightConfigs to skip the full preflight checks. The real flow now
 // returns the resolved workspace path so init.libs.ts can route writes through
 // the correct cwd; the mock mirrors that shape against the test's tmpDir.
 const mockPreflightConfigs = vi.fn()
 vi.mock('~/utils/preflight-configs', () => ({
-  preflight_configs: mockPreflightConfigs,
+  preflightConfigs: mockPreflightConfigs,
 }))
 
 // Mock prompts
 const mockPrompts = vi.fn()
 vi.mock('prompts', () => ({ default: mockPrompts }))
 
-describe('init_command_action', () => {
+describe('initCommandAction', () => {
   let tmpDir: string
   const originalCwd = process.cwd
   let exitCodes: number[]
@@ -87,7 +87,7 @@ describe('init_command_action', () => {
     }) as never)
     mockPrompts.mockReset()
     mockPreflightConfigs.mockReset()
-    mockPreflightConfigs.mockResolvedValue({ workspace_cwd: tmpDir, monorepo: false })
+    mockPreflightConfigs.mockResolvedValue({ workspaceCwd: tmpDir, monorepo: false })
   })
 
   afterEach(() => {
@@ -100,9 +100,9 @@ describe('init_command_action', () => {
   it('exits with 0 when user declines component installation', async () => {
     mockPrompts.mockResolvedValue({ install: false })
 
-    const { init_command_action } = await import('~/commands/init/init.libs')
+    const { initCommandAction } = await import('~/commands/init/init.libs')
 
-    await expect(init_command_action([], { yes: false, cwd: tmpDir, all: false })).rejects.toThrow(/process\.exit/)
+    await expect(initCommandAction([], { yes: false, cwd: tmpDir, all: false })).rejects.toThrow(/process\.exit/)
 
     // First exit call should be 0 (user declined)
     expect(exitCodes[0]).toBe(0)
@@ -132,9 +132,9 @@ describe('init_command_action', () => {
       }),
     )
 
-    const { init_command_action } = await import('~/commands/init/init.libs')
+    const { initCommandAction } = await import('~/commands/init/init.libs')
 
-    await expect(init_command_action(['button'], { yes: true, cwd: tmpDir, all: false })).rejects.toThrow(
+    await expect(initCommandAction(['button'], { yes: true, cwd: tmpDir, all: false })).rejects.toThrow(
       /process\.exit/,
     )
 
@@ -174,9 +174,9 @@ describe('init_command_action', () => {
       }),
     )
 
-    const { init_command_action } = await import('~/commands/init/init.libs')
+    const { initCommandAction } = await import('~/commands/init/init.libs')
 
-    await expect(init_command_action(['button'], { yes: true, cwd: tmpDir, all: false })).rejects.toThrow(
+    await expect(initCommandAction(['button'], { yes: true, cwd: tmpDir, all: false })).rejects.toThrow(
       /process\.exit/,
     )
 
@@ -211,9 +211,9 @@ describe('init_command_action', () => {
       }),
     )
 
-    const { init_command_action } = await import('~/commands/init/init.libs')
+    const { initCommandAction } = await import('~/commands/init/init.libs')
 
-    await expect(init_command_action(['button'], { yes: true, cwd: tmpDir, all: false })).rejects.toThrow(
+    await expect(initCommandAction(['button'], { yes: true, cwd: tmpDir, all: false })).rejects.toThrow(
       /process\.exit/,
     )
 

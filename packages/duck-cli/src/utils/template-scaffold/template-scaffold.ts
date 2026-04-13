@@ -7,7 +7,7 @@ import fs from 'fs-extra'
 import type { Ora } from 'ora'
 import prompts from 'prompts'
 import { extract } from 'tar'
-import { get_package_manager } from '~/utils/get-package-manager'
+import { getPackageManager } from '~/utils/get-package-manager'
 import { highlighter } from '~/utils/text-styling'
 import { TEMPLATE_SCAFFOLD_CONFIG } from './template-scaffold.constants'
 
@@ -17,22 +17,22 @@ export interface ScaffoldTemplateOptions {
   yes?: boolean
 }
 
-export async function scaffold_template(options: ScaffoldTemplateOptions, spinner: Ora) {
+export async function scaffoldTemplate(options: ScaffoldTemplateOptions, spinner: Ora) {
   const { template, cwd, yes } = options
-  const { repo, branch, tarball_url, templates_dir, ignore_segments } = TEMPLATE_SCAFFOLD_CONFIG
+  const { repo, branch, tarballUrl, templatesDir, ignoreSegments } = TEMPLATE_SCAFFOLD_CONFIG
 
-  const target_dir = path.resolve(cwd)
+  const targetDir = path.resolve(cwd)
 
   // Validate target directory
-  if (await fs.pathExists(target_dir)) {
-    const files = await fs.readdir(target_dir)
+  if (await fs.pathExists(targetDir)) {
+    const files = await fs.readdir(targetDir)
     if (files.length > 0) {
       if (!yes) {
         spinner.stop()
         const { proceed } = await prompts({
           type: 'confirm',
           name: 'proceed',
-          message: `Directory ${highlighter.warn(target_dir)} is not empty. Continue?`,
+          message: `Directory ${highlighter.warn(targetDir)} is not empty. Continue?`,
           initial: false,
         })
         if (!proceed) {
@@ -43,11 +43,11 @@ export async function scaffold_template(options: ScaffoldTemplateOptions, spinne
     }
   }
 
-  await fs.ensureDir(target_dir)
+  await fs.ensureDir(targetDir)
 
   // Download tarball
   spinner.text = `Downloading template ${highlighter.info(template)}...`
-  const url = tarball_url(repo, branch)
+  const url = tarballUrl(repo, branch)
   const response = await fetch(url)
 
   if (!response.ok || !response.body) {
@@ -56,9 +56,9 @@ export async function scaffold_template(options: ScaffoldTemplateOptions, spinne
 
   // Extract matching entries
   // The tarball root dir name varies (e.g., "duck-ui-master/"), so match with a pattern
-  const template_path_pattern = new RegExp(`^[^/]+/${templates_dir}/${template}/`)
-  // strip: 3 removes "<root>/<templates_dir>/<template>/" prefix
-  const strip_count = 3
+  const templatePathPattern = new RegExp(`^[^/]+/${templatesDir}/${template}/`)
+  // strip: 3 removes "<root>/<templatesDir>/<template>/" prefix
+  const stripCount = 3
 
   spinner.text = `Extracting template ${highlighter.info(template)}...`
 
@@ -68,29 +68,29 @@ export async function scaffold_template(options: ScaffoldTemplateOptions, spinne
     readable,
     createGunzip(),
     extract({
-      cwd: target_dir,
-      strip: strip_count,
-      filter: (entry_path: string) => {
-        if (!template_path_pattern.test(entry_path)) return false
-        const segments = entry_path.split('/')
-        return !segments.some((s) => ignore_segments.has(s))
+      cwd: targetDir,
+      strip: stripCount,
+      filter: (entryPath: string) => {
+        if (!templatePathPattern.test(entryPath)) return false
+        const segments = entryPath.split('/')
+        return !segments.some((s) => ignoreSegments.has(s))
       },
     }),
   )
 
   // Verify extraction
-  const extracted = await fs.readdir(target_dir)
+  const extracted = await fs.readdir(targetDir)
   if (extracted.length === 0) {
     throw new Error(
-      `Template "${template}" not found. Check available templates at https://github.com/${repo}/tree/${branch}/${templates_dir}`,
+      `Template "${template}" not found. Check available templates at https://github.com/${repo}/tree/${branch}/${templatesDir}`,
     )
   }
 
   // Install dependencies
   spinner.text = 'Installing dependencies...'
   try {
-    const pm = await get_package_manager(target_dir)
-    await execa(pm, ['install'], { cwd: target_dir, stdio: 'ignore' })
+    const pm = await getPackageManager(targetDir)
+    await execa(pm, ['install'], { cwd: targetDir, stdio: 'ignore' })
     spinner.info(`Dependencies installed with ${highlighter.info(pm)}.`)
   } catch {
     spinner.warn('Could not install dependencies automatically. Run install manually.')

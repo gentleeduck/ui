@@ -4,66 +4,66 @@ import type { ComponentMergeState } from '~/utils/merge'
 import { THEME } from '../app.constants'
 
 type MergeSummaryProps = {
-  merge_state: ComponentMergeState
+  mergeState: ComponentMergeState
 }
 
 /** Pre-write summary of all merge decisions with per-file status and aggregate counts. */
-export const MergeSummary = memo(function MergeSummary({ merge_state }: MergeSummaryProps) {
-  let total_hunks = 0
-  let local_count = 0
-  let registry_count = 0
-  let both_count = 0
+export const MergeSummary = memo(function MergeSummary({ mergeState }: MergeSummaryProps) {
+  let totalHunks = 0
+  let localCount = 0
+  let registryCount = 0
+  let bothCount = 0
 
-  for (const file of merge_state.files) {
+  for (const file of mergeState.files) {
     for (const hunk of file.hunks) {
-      total_hunks++
-      if (hunk.choice === 'local') local_count++
-      else if (hunk.choice === 'registry') registry_count++
-      else if (hunk.choice === 'both') both_count++
+      totalHunks++
+      if (hunk.choice === 'local') localCount++
+      else if (hunk.choice === 'registry') registryCount++
+      else if (hunk.choice === 'both') bothCount++
     }
   }
 
   return (
     <Box flexDirection="column" gap={1}>
       <Text bold color={THEME.foreground}>
-        Merge Summary: {merge_state.name}
+        Merge Summary: {mergeState.name}
       </Text>
 
       <Box flexDirection="column">
-        {merge_state.files.map((file) => {
+        {mergeState.files.map((file) => {
           if (file.status === 'added') {
             return (
-              <Box key={file.file_path} gap={1}>
+              <Box key={file.filePath} gap={1}>
                 <Text color={THEME.success}>[NEW]</Text>
-                <Text>{file.file_path}</Text>
+                <Text>{file.filePath}</Text>
               </Box>
             )
           }
 
           if (file.status === 'deleted') {
-            const tag = file.file_choice === 'remove' ? 'REMOVE' : 'KEEP'
-            const color = file.file_choice === 'remove' ? THEME.destructive : THEME.success
+            const tag = file.fileChoice === 'remove' ? 'REMOVE' : 'KEEP'
+            const color = file.fileChoice === 'remove' ? THEME.destructive : THEME.success
             return (
-              <Box key={file.file_path} gap={1}>
+              <Box key={file.filePath} gap={1}>
                 <Text color={color}>[{tag}]</Text>
-                <Text>{file.file_path}</Text>
+                <Text>{file.filePath}</Text>
               </Box>
             )
           }
 
           // Modified
-          const file_local = file.hunks.filter((h) => h.choice === 'local').length
-          const file_registry = file.hunks.filter((h) => h.choice === 'registry').length
-          const file_both = file.hunks.filter((h) => h.choice === 'both').length
+          const fileLocal = file.hunks.filter((h) => h.choice === 'local').length
+          const fileRegistry = file.hunks.filter((h) => h.choice === 'registry').length
+          const fileBoth = file.hunks.filter((h) => h.choice === 'both').length
           const parts: string[] = []
-          if (file_local > 0) parts.push(`${file_local} local`)
-          if (file_registry > 0) parts.push(`${file_registry} registry`)
-          if (file_both > 0) parts.push(`${file_both} both`)
+          if (fileLocal > 0) parts.push(`${fileLocal} local`)
+          if (fileRegistry > 0) parts.push(`${fileRegistry} registry`)
+          if (fileBoth > 0) parts.push(`${fileBoth} both`)
 
           return (
-            <Box key={file.file_path} gap={1}>
+            <Box key={file.filePath} gap={1}>
               <Text color={THEME.warning}>[MERGE]</Text>
-              <Text>{file.file_path}</Text>
+              <Text>{file.filePath}</Text>
               <Text color={THEME.mutedForeground}>
                 ({file.hunks.length} hunks -- {parts.join(', ')})
               </Text>
@@ -74,11 +74,11 @@ export const MergeSummary = memo(function MergeSummary({ merge_state }: MergeSum
 
       <Box gap={2}>
         <Text color={THEME.mutedForeground}>
-          Total: {merge_state.files.length} files, {total_hunks} hunks
+          Total: {mergeState.files.length} files, {totalHunks} hunks
         </Text>
-        {local_count > 0 && <Text color={THEME.destructive}>{local_count} local</Text>}
-        {registry_count > 0 && <Text color={THEME.success}>{registry_count} registry</Text>}
-        {both_count > 0 && <Text color={THEME.warning}>{both_count} both</Text>}
+        {localCount > 0 && <Text color={THEME.destructive}>{localCount} local</Text>}
+        {registryCount > 0 && <Text color={THEME.success}>{registryCount} registry</Text>}
+        {bothCount > 0 && <Text color={THEME.warning}>{bothCount} both</Text>}
       </Box>
     </Box>
   )

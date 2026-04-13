@@ -48,7 +48,7 @@ function App({ vimStdin, initialArgs, screen, mergeData, onComplete }: AppProps)
     [onComplete],
   )
 
-  const active_screen = screen ?? 'diff'
+  const activeScreen = screen ?? 'diff'
 
   return (
     <TerminalSizeContext.Provider value={size}>
@@ -63,7 +63,7 @@ function App({ vimStdin, initialArgs, screen, mergeData, onComplete }: AppProps)
             paddingY={1}
             flexDirection="column"
             overflow="hidden">
-            {active_screen === 'merge' ? (
+            {activeScreen === 'merge' ? (
               <MergeScreen mergeData={mergeData} onBack={handleBack} onComplete={handleMergeComplete} />
             ) : (
               <DiffScreen onBack={handleBack} />
@@ -75,16 +75,16 @@ function App({ vimStdin, initialArgs, screen, mergeData, onComplete }: AppProps)
   )
 }
 
-function enter_alt_screen() {
+function enterAltScreen() {
   process.stdout.write('\x1b[?1049h')
 }
 
-function leave_alt_screen() {
+function leaveAltScreen() {
   process.stdout.write('\x1b[?1049l')
 }
 
-export function launch_gui(options?: GuiLaunchOptions) {
-  enter_alt_screen()
+export function launchGui(options?: GuiLaunchOptions) {
+  enterAltScreen()
   const vimStdin = new VimStdin()
   process.stdin.pipe(vimStdin)
   const instance = render(
@@ -99,7 +99,7 @@ export function launch_gui(options?: GuiLaunchOptions) {
   )
   instance.waitUntilExit().then(() => {
     instance.clear()
-    leave_alt_screen()
+    leaveAltScreen()
     process.exit(0)
   })
 }
@@ -109,11 +109,11 @@ export function launch_gui(options?: GuiLaunchOptions) {
  * Returns MergeResult[] if the user confirmed, or null if aborted.
  * Used by CLI commands (add/update) to integrate merge into headless flows.
  */
-export function launch_merge_gui_and_wait(mergeData: ComponentMergeState): Promise<MergeResult[] | null> {
+export function launchMergeGuiAndWait(mergeData: ComponentMergeState): Promise<MergeResult[] | null> {
   return new Promise((resolve) => {
     let resolved = false
 
-    enter_alt_screen()
+    enterAltScreen()
     const vimStdin = new VimStdin()
     process.stdin.pipe(vimStdin)
 
@@ -132,7 +132,7 @@ export function launch_merge_gui_and_wait(mergeData: ComponentMergeState): Promi
 
     instance.waitUntilExit().then(() => {
       instance.clear()
-      leave_alt_screen()
+      leaveAltScreen()
       vimStdin.unpipe()
       if (!resolved) {
         resolve(null)

@@ -2,21 +2,21 @@ import type { Ora } from 'ora'
 import type { Registry } from '../get-registry'
 import type { DuckUI } from '../preflight-configs/preflight-duckui'
 import { highlighter } from '../text-styling'
-import { get_installation_config, process_components } from './registry-mutation.lib'
+import { getInstallationConfig, processComponents } from './registry-mutation.lib'
 import type { InstallOptions } from './registry-mutation.types'
 
-export async function registry_component_install(
+export async function registryComponentInstall(
   components: Registry,
-  duck_config: DuckUI,
+  duckConfig: DuckUI,
   options: InstallOptions,
   spinner: Ora,
 ) {
   try {
     spinner.text = `Installing ${highlighter.info('components')} ${highlighter.info(components.length)}...`
 
-    const write_path = await get_installation_config(duck_config, spinner, options)
+    const writePath = await getInstallationConfig(duckConfig, spinner, options)
 
-    await process_components(duck_config, components, write_path, spinner, options)
+    await processComponents(duckConfig, components, writePath, spinner, options)
   } catch (_error) {
     spinner.fail('Failed to install components')
     process.exit(1)

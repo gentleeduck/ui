@@ -1,1 +1,1 @@
-export type { CommandConfig as addCommandConfig, OptionType } from '../shared.types'
+export type { CommandConfig as AddCommandConfig, OptionType } from '../shared.types'

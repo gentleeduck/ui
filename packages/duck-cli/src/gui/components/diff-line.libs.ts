@@ -4,7 +4,7 @@ export type RenderableDiffSegment = DiffSegment & {
   key: string
 }
 
-export function get_renderable_diff_segments(segments: DiffSegment[]): RenderableDiffSegment[] {
+export function getRenderableDiffSegments(segments: DiffSegment[]): RenderableDiffSegment[] {
   const occurrences = new Map<string, number>()
 
   return segments.map((segment) => {
@@ -20,13 +20,13 @@ export function get_renderable_diff_segments(segments: DiffSegment[]): Renderabl
   })
 }
 
-export function get_diff_line_key(line: DiffDisplayLine): string {
-  return `${line.type}\u0000${line.old_line_num ?? 'null'}\u0000${line.new_line_num ?? 'null'}\u0000${line.raw_text}`
+export function getDiffLineKey(line: DiffDisplayLine): string {
+  return `${line.type}\u0000${line.oldLineNum ?? 'null'}\u0000${line.newLineNum ?? 'null'}\u0000${line.rawText}`
 }
 
-export function get_side_by_side_pair_key(pair: SideBySidePair): string {
-  const left = pair.left ? get_diff_line_key(pair.left) : 'null'
-  const right = pair.right ? get_diff_line_key(pair.right) : 'null'
+export function getSideBySidePairKey(pair: SideBySidePair): string {
+  const left = pair.left ? getDiffLineKey(pair.left) : 'null'
+  const right = pair.right ? getDiffLineKey(pair.right) : 'null'
 
   return `${left}\u0001${right}`
 }

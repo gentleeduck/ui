@@ -9,9 +9,9 @@ import { THEME } from '../app.constants'
  *   "======="          -> THEME.warning (yellow)
  *   ">>>>>>> REGISTRY" -> THEME.success (green)
  */
-export function get_conflict_marker_color(raw_text: string): string | null {
-  if (raw_text === '<<<<<<< LOCAL') return THEME.destructive
-  if (raw_text === '=======') return THEME.warning
-  if (raw_text === '>>>>>>> REGISTRY') return THEME.success
+export function getConflictMarkerColor(rawText: string): string | null {
+  if (rawText === '<<<<<<< LOCAL') return THEME.destructive
+  if (rawText === '=======') return THEME.warning
+  if (rawText === '>>>>>>> REGISTRY') return THEME.success
   return null
 }

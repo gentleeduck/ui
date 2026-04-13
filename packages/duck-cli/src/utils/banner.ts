@@ -1,7 +1,7 @@
 import kleur from 'kleur'
 import pkg from '../../package.json'
 
-export function print_banner() {
+export function printBanner() {
   const text = `\n 🦆 duck-cli ${pkg.version}`
   const line = '\u2500'.repeat(text.length)
   console.log(kleur.white(text))

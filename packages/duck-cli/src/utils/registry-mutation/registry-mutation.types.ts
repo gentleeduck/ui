@@ -1,7 +1,7 @@
 export type DependenciesType = {
   dependencies: string[]
-  dev_dependencies: string[]
-  registry_dependencies: string[]
+  devDependencies: string[]
+  registryDependencies: string[]
 }
 
 export type InstallOptions = {

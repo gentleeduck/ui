@@ -23,10 +23,10 @@ vi.mock('execa', () => ({
 
 // Mock package manager detection
 vi.mock('~/utils/get-package-manager', () => ({
-  get_package_manager: vi.fn().mockResolvedValue('npm'),
+  getPackageManager: vi.fn().mockResolvedValue('npm'),
 }))
 
-describe('init_command_action workspace validation', () => {
+describe('initCommandAction workspace validation', () => {
   let tmpDir: string
   const originalCwd = process.cwd
   let exitCodes: number[]
@@ -51,10 +51,10 @@ describe('init_command_action workspace validation', () => {
   })
 
   it('exits 1 for invalid --workspace during preflight', async () => {
-    const { init_command_action } = await import('~/commands/init/init.libs')
+    const { initCommandAction } = await import('~/commands/init/init.libs')
 
     await expect(
-      init_command_action([], {
+      initCommandAction([], {
         all: false,
         cwd: tmpDir,
         workspace: 'apps/missing',

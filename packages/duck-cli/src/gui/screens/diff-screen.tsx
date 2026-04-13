@@ -4,7 +4,7 @@ import { memo } from 'react'
 import { THEME } from '../app.constants'
 import { Banner } from '../components/banner'
 import { DiffLineView } from '../components/diff-line'
-import { get_diff_line_key, get_side_by_side_pair_key } from '../components/diff-line.libs'
+import { getDiffLineKey, getSideBySidePairKey } from '../components/diff-line.libs'
 import { FileTabs } from '../components/file-tabs'
 import { SideBySideLine } from '../components/side-by-side-line'
 import { StatusLine } from '../components/status-line'
@@ -94,94 +94,94 @@ export const DiffScreen = memo(function DiffScreen({ onBack }: { onBack: () => v
 
   // -- Results --
   if (step === 'results') {
-    const file_names = diffResult?.diffs.map((d) => d.file_path) ?? []
+    const fileNames = diffResult?.diffs.map((d) => d.filePath) ?? []
     // 7 accounts for the " | " separator (3) + border chrome (2+2)
-    const half_width = Math.floor((columns - 7) / 2)
+    const halfWidth = Math.floor((columns - 7) / 2)
 
-    const status_items = [
+    const statusItems = [
       { key: 'j/k', label: 'scroll' },
       { key: 'n/p', label: 'next/prev hunk' },
       { key: 'tab', label: viewMode === 'unified' ? 'split view' : 'unified view' },
     ]
 
-    if (file_names.length > 1) {
-      status_items.push({ key: 'h/l', label: 'switch file' })
+    if (fileNames.length > 1) {
+      statusItems.push({ key: 'h/l', label: 'switch file' })
     }
 
-    status_items.push({ key: 'esc', label: 'back to list' })
+    statusItems.push({ key: 'esc', label: 'back to list' })
 
     if (viewMode === 'unified') {
-      const current_lines = displayLinesPerFile[activeFileIndex] ?? []
-      const visible = current_lines.slice(scrollOffset, scrollOffset + visibleRows)
+      const currentLines = displayLinesPerFile[activeFileIndex] ?? []
+      const visible = currentLines.slice(scrollOffset, scrollOffset + visibleRows)
 
       return (
         <Box flexDirection="column">
           <Banner compact />
           <StepIndicator current={2} total={2} label={`Diff: ${diffResult?.name ?? ''} [${viewMode}]`} />
 
-          <FileTabs files={file_names} active_index={activeFileIndex} />
+          <FileTabs files={fileNames} activeIndex={activeFileIndex} />
 
           <Box marginTop={1} flexDirection="column">
             {visible.map((line) => (
-              <DiffLineView key={get_diff_line_key(line)} line={line} num_width={numWidth} />
+              <DiffLineView key={getDiffLineKey(line)} line={line} numWidth={numWidth} />
             ))}
           </Box>
 
-          {current_lines.length > visibleRows ? (
+          {currentLines.length > visibleRows ? (
             <Text color={THEME.mutedForeground}>
-              Line {scrollOffset + 1}-{Math.min(scrollOffset + visibleRows, current_lines.length)} of{' '}
-              {current_lines.length}
+              Line {scrollOffset + 1}-{Math.min(scrollOffset + visibleRows, currentLines.length)} of{' '}
+              {currentLines.length}
             </Text>
           ) : null}
 
-          <StatusLine items={status_items} />
+          <StatusLine items={statusItems} />
         </Box>
       )
     }
 
     // Side-by-side view
-    const current_pairs = sideBySidePairsPerFile[activeFileIndex] ?? []
-    const visible_pairs = current_pairs.slice(scrollOffset, scrollOffset + visibleRows)
+    const currentPairs = sideBySidePairsPerFile[activeFileIndex] ?? []
+    const visiblePairs = currentPairs.slice(scrollOffset, scrollOffset + visibleRows)
 
     return (
       <Box flexDirection="column">
         <Banner compact />
         <StepIndicator current={2} total={2} label={`Diff: ${diffResult?.name ?? ''} [${viewMode}]`} />
 
-        <FileTabs files={file_names} active_index={activeFileIndex} />
+        <FileTabs files={fileNames} activeIndex={activeFileIndex} />
 
         <Box marginTop={1} flexDirection="column" gap={0}>
           <Box>
-            <Box width={half_width}>
+            <Box width={halfWidth}>
               <Text bold color={THEME.mutedForeground}>
                 LOCAL
               </Text>
             </Box>
             <Text color={THEME.border}> | </Text>
-            <Box width={half_width}>
+            <Box width={halfWidth}>
               <Text bold color={THEME.mutedForeground}>
                 REGISTRY
               </Text>
             </Box>
           </Box>
-          {visible_pairs.map((pair) => (
+          {visiblePairs.map((pair) => (
             <SideBySideLine
-              key={get_side_by_side_pair_key(pair)}
+              key={getSideBySidePairKey(pair)}
               pair={pair}
-              num_width={numWidth}
-              half_width={half_width}
+              numWidth={numWidth}
+              halfWidth={halfWidth}
             />
           ))}
         </Box>
 
-        {current_pairs.length > visibleRows ? (
+        {currentPairs.length > visibleRows ? (
           <Text color={THEME.mutedForeground}>
-            Line {scrollOffset + 1}-{Math.min(scrollOffset + visibleRows, current_pairs.length)} of{' '}
-            {current_pairs.length}
+            Line {scrollOffset + 1}-{Math.min(scrollOffset + visibleRows, currentPairs.length)} of{' '}
+            {currentPairs.length}
           </Text>
         ) : null}
 
-        <StatusLine items={status_items} />
+        <StatusLine items={statusItems} />
       </Box>
     )
   }

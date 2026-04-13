@@ -1,17 +1,17 @@
-import { print_banner } from '~/utils/banner'
-import { get_registry_index } from '~/utils/get-registry'
+import { printBanner } from '~/utils/banner'
+import { getRegistryIndex } from '~/utils/get-registry'
 import { spinner as Spinner } from '~/utils/spinner'
 import { highlighter } from '~/utils/text-styling'
-import { is_verbose } from '~/utils/verbose'
-import { type ListOptions, list_options_schema } from './list.dto'
+import { isVerbose } from '~/utils/verbose'
+import { type ListOptions, listOptionsSchema } from './list.dto'
 
-export async function list_command_action(opt: ListOptions) {
-  const options = list_options_schema.parse(opt)
+export async function listCommandAction(opt: ListOptions) {
+  const options = listOptionsSchema.parse(opt)
 
-  print_banner()
+  printBanner()
   const spinner = Spinner('Fetching registry...').start()
   try {
-    const index = await get_registry_index()
+    const index = await getRegistryIndex()
 
     if (!index || index.length === 0) {
       spinner.fail('No components found in registry.')
@@ -54,7 +54,7 @@ export async function list_command_action(opt: ListOptions) {
     process.exit(0)
   } catch (error) {
     spinner.fail(`Failed to list components: ${error instanceof Error ? error.message : String(error)}`)
-    if (is_verbose() && error instanceof Error) {
+    if (isVerbose() && error instanceof Error) {
       console.error(error.stack)
     }
     process.exit(1)

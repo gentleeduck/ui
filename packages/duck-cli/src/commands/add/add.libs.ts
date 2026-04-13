@@ -1,51 +1,51 @@
 import path from 'node:path'
-import { print_banner } from '~/utils/banner'
-import { get_duckui_config } from '~/utils/get-project-info'
-import { get_registry_index } from '~/utils/get-registry'
-import { registry_component_install } from '~/utils/registry-mutation'
-import { resolve_components } from '~/utils/resolve-components'
+import { printBanner } from '~/utils/banner'
+import { getDuckuiConfig } from '~/utils/get-project-info'
+import { getRegistryIndex } from '~/utils/get-registry'
+import { registryComponentInstall } from '~/utils/registry-mutation'
+import { resolveComponents } from '~/utils/resolve-components'
 import { spinner as Spinner } from '~/utils/spinner'
-import { is_verbose } from '~/utils/verbose'
-import { resolve_project_cwd, validate_workspace_target } from '~/utils/workspace'
-import { add_arguments_schema, add_options_schema, type addOptions } from './add.dto'
+import { isVerbose } from '~/utils/verbose'
+import { resolveProjectCwd, validateWorkspaceTarget } from '~/utils/workspace'
+import { addArgumentsSchema, addOptionsSchema, type AddOptions } from './add.dto'
 
-export async function add_command_action(args: string[], opt: addOptions) {
-  const options = add_options_schema.parse(opt)
-  const component_names = add_arguments_schema.parse(args)
+export async function addCommandAction(args: string[], opt: AddOptions) {
+  const options = addOptionsSchema.parse(opt)
+  const componentNames = addArgumentsSchema.parse(args)
 
-  print_banner()
+  printBanner()
   const spinner = Spinner('initializing...').start()
   try {
     const cwd = path.resolve(options.cwd)
 
-    let components_names = component_names
+    let componentsNames = componentNames
 
-    if (options.all && components_names.length === 0) {
+    if (options.all && componentsNames.length === 0) {
       spinner.text = 'Fetching all components from registry...'
-      const index = await get_registry_index()
+      const index = await getRegistryIndex()
       if (index) {
-        components_names = index.filter((c) => c.type === 'registry:ui').map((c) => c.name)
+        componentsNames = index.filter((c) => c.type === 'registry:ui').map((c) => c.name)
       }
     }
 
-    const components = await resolve_components(components_names, spinner)
+    const components = await resolveComponents(componentsNames, spinner)
 
     // In monorepo mode, config lives in the workspace directory
-    const config_cwd = options.workspace ? path.resolve(cwd, options.workspace) : cwd
-    const duckui_config = await get_duckui_config(config_cwd, spinner)
-    const project_cwd = resolve_project_cwd(config_cwd, duckui_config)
-    const workspace_error = validate_workspace_target(project_cwd, true)
-    if (workspace_error) {
-      spinner.fail(workspace_error)
+    const configCwd = options.workspace ? path.resolve(cwd, options.workspace) : cwd
+    const duckuiConfig = await getDuckuiConfig(configCwd, spinner)
+    const projectCwd = resolveProjectCwd(configCwd, duckuiConfig)
+    const workspaceError = validateWorkspaceTarget(projectCwd, true)
+    if (workspaceError) {
+      spinner.fail(workspaceError)
       process.exit(1)
     }
 
-    spinner.info(`Using workspace: ${project_cwd}`)
+    spinner.info(`Using workspace: ${projectCwd}`)
 
-    await registry_component_install(
+    await registryComponentInstall(
       components,
-      duckui_config,
-      { ...options, cwd: config_cwd, workspace: undefined },
+      duckuiConfig,
+      { ...options, cwd: configCwd, workspace: undefined },
       spinner,
     )
 
@@ -53,7 +53,7 @@ export async function add_command_action(args: string[], opt: addOptions) {
     process.exit(0)
   } catch (error) {
     spinner.fail(`Something went wrong: ${error instanceof Error ? error.message : String(error)}`)
-    if (is_verbose() && error instanceof Error) {
+    if (isVerbose() && error instanceof Error) {
       console.error(error.stack)
     }
     process.exit(1)

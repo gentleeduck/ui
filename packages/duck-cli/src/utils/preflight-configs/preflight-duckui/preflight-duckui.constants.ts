@@ -6,7 +6,7 @@ export const BASE_COLORS = THEME_NAMES
 
 export const PROJECT_TYPE = ['NEXT_JS', 'TANSTACK_START', 'VITE', 'UNKNOWN'] as const
 
-export const duckui_prompts: PromptObject<'duckui'>[] = [
+export const duckuiPrompts: PromptObject<'duckui'>[] = [
   {
     active: 'yes',
     inactive: 'no',
@@ -17,22 +17,22 @@ export const duckui_prompts: PromptObject<'duckui'>[] = [
   },
 ]
 
-export function make_duckui_monorepo_prompt(detected_label: string | null): PromptObject<'monorepo'> {
-  const message = detected_label
-    ? `Looks like a monorepo (${highlighter.info(detected_label)}). Treat this as a monorepo?`
+export function makeDuckuiMonorepoPrompt(detectedLabel: string | null): PromptObject<'monorepo'> {
+  const message = detectedLabel
+    ? `Looks like a monorepo (${highlighter.info(detectedLabel)}). Treat this as a monorepo?`
     : `Are you working inside a ${highlighter.info('monorepo')}?`
 
   return {
     active: 'yes',
     inactive: 'no',
-    initial: detected_label !== null,
+    initial: detectedLabel !== null,
     message,
     name: 'monorepo',
     type: 'confirm',
   }
 }
 
-export const duckui_rest_prompts: PromptObject[] = [
+export const duckuiRestPrompts: PromptObject[] = [
   {
     choices: PROJECT_TYPE.map((project) => ({
       title: project,
@@ -41,7 +41,7 @@ export const duckui_rest_prompts: PromptObject[] = [
 
     initial: 0,
     message: `Select your ${highlighter.info('project type')}`,
-    name: 'project_type',
+    name: 'projectType',
     type: 'select',
   },
   {
@@ -51,7 +51,7 @@ export const duckui_rest_prompts: PromptObject[] = [
     })),
     initial: 0,
     message: `Select a ${highlighter.info('base color')} for your project`,
-    name: 'base_color',
+    name: 'baseColor',
     type: 'select',
   },
   {
@@ -71,7 +71,7 @@ export const duckui_rest_prompts: PromptObject[] = [
     inactive: 'no',
     initial: true,
     message: `Do you want to use ${highlighter.info('CSS')} variables?`,
-    name: 'css_variables',
+    name: 'cssVariables',
     type: 'confirm',
   },
   {

@@ -1,8 +1,8 @@
 import type { UpdateCommandConfig } from './update.types'
 
-export const update_command_config: UpdateCommandConfig = {
+export const updateCommandConfig: UpdateCommandConfig = {
   arguments_: {
-    arg_1: {
+    arg1: {
       defaultValue: [],
       description: 'component name(s) to update. If omitted, shows an interactive picker.',
       name: '[components...]',
@@ -11,17 +11,17 @@ export const update_command_config: UpdateCommandConfig = {
   description: 'update installed components to the latest registry version',
   name: 'update',
   options: {
-    option_1: {
+    option1: {
       defaultValue: false,
       description: 'update all installed components.',
       flags: '-a, --all',
     },
-    option_2: {
+    option2: {
       defaultValue: false,
       description: 'skip confirmation prompt.',
       flags: '-y, --yes',
     },
-    option_3: {
+    option3: {
       defaultValue: process.cwd(),
       description: 'the working directory. defaults to the current directory.',
       flags: '-c, --cwd <cwd>',
