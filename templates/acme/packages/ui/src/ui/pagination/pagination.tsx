@@ -12,7 +12,7 @@ import {
 } from 'lucide-react'
 import * as React from 'react'
 import { Button, buttonVariants } from '../button'
-import type { DuckPaginationProps, PaginationLinkProps } from './pagination.types'
+import type { IDuckPaginationProps, PaginationLinkProps } from './pagination.types'
 
 const Pagination = React.forwardRef<
   React.ComponentRef<typeof PaginationPrimitive.Root>,
@@ -117,7 +117,7 @@ const PaginationEllipsis = React.forwardRef<
 ))
 PaginationEllipsis.displayName = 'PaginationEllipsis'
 
-const PaginationWrapper = (props: DuckPaginationProps) => {
+const PaginationWrapper = (props: IDuckPaginationProps) => {
   const { className: wrapperClassName, dir, ...wrapperProps } = props.wrapper ?? {}
   const { className: contentClassName, ...contentProps } = props.content ?? {}
   const { className: itemClassName, ...itemProps } = props.item ?? {}

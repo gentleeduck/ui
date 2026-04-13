@@ -73,23 +73,23 @@ import {
 
 type ChartComponent = React.ComponentType
 
-interface ChartItem {
+interface IChartItem {
   id: string
   component: ChartComponent
   fullWidth?: boolean
 }
 
-interface ChartGroups {
-  area: ChartItem[]
-  bar: ChartItem[]
-  line: ChartItem[]
-  pie: ChartItem[]
-  radar: ChartItem[]
-  radial: ChartItem[]
-  tooltip: ChartItem[]
+interface IChartGroups {
+  area: IChartItem[]
+  bar: IChartItem[]
+  line: IChartItem[]
+  pie: IChartItem[]
+  radar: IChartItem[]
+  radial: IChartItem[]
+  tooltip: IChartItem[]
 }
 
-export const charts: ChartGroups = {
+export const charts: IChartGroups = {
   area: [
     {
       component: ChartAreaInteractive,

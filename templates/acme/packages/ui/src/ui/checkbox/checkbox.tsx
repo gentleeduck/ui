@@ -6,9 +6,9 @@ import { useSvgIndicator } from '@gentleduck/primitives/checkers'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 import { Label } from '../label'
-import type { CheckboxGroupProps, CheckboxProps, CheckboxWithLabelProps, CheckedState } from './checkbox.types'
+import type { CheckboxGroupProps, ICheckboxProps, ICheckboxWithLabelProps, CheckedState } from './checkbox.types'
 
-const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
+const Checkbox = React.forwardRef<HTMLInputElement, ICheckboxProps>(
   (
     {
       className,
@@ -101,7 +101,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
 )
 Checkbox.displayName = 'Checkbox'
 
-const CheckboxWithLabel = React.forwardRef<HTMLDivElement, Omit<CheckboxWithLabelProps, 'ref'>>(
+const CheckboxWithLabel = React.forwardRef<HTMLDivElement, Omit<ICheckboxWithLabelProps, 'ref'>>(
   ({ id, _checkbox, _label, className, ...props }, ref) => {
     const { className: labelClassName, ...labelProps } = _label
     return (

@@ -65,27 +65,27 @@ export function fuzzyScore(term: string, target: string): number {
   return 0
 }
 
-export interface WeightedSearchField {
+export interface IWeightedSearchField {
   text: string
   exactWeight: number
   fuzzyWeight: number
   stemmedExactWeight?: number
 }
 
-export interface WeightedBodyField {
+export interface IWeightedBodyField {
   text: string
   exactCap: number
   stemmedExactCap?: number
 }
 
-export interface ScoreKeywordQueryOptions {
+export interface IScoreKeywordQueryOptions {
   terms: string[]
   stemmedTerms?: string[]
-  fields: WeightedSearchField[]
-  body?: WeightedBodyField
+  fields: IWeightedSearchField[]
+  body?: IWeightedBodyField
 }
 
-export function scoreKeywordQuery({ terms, stemmedTerms = terms, fields, body }: ScoreKeywordQueryOptions): number {
+export function scoreKeywordQuery({ terms, stemmedTerms = terms, fields, body }: IScoreKeywordQueryOptions): number {
   let score = 0
 
   for (let index = 0; index < terms.length; index++) {

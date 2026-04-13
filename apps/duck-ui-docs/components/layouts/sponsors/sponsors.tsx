@@ -3,13 +3,13 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { SectionTitle } from '~/components/layouts/features'
 
-interface Sponsor {
+interface ISponsor {
   name: string
   href: string
   avatar: string
 }
 
-const sponsors: Sponsor[] = [
+const sponsors: ISponsor[] = [
   {
     avatar: 'https://aibrush.co/sparkles.svg',
     href: 'https://aibrush.co',
@@ -17,7 +17,7 @@ const sponsors: Sponsor[] = [
   },
 ]
 
-function SponsorCell({ sponsor }: { sponsor: Sponsor }) {
+function SponsorCell({ sponsor }: { sponsor: ISponsor }) {
   return (
     <Link
       className="group flex items-center justify-center gap-3 border-border/60 border-r border-b px-8 py-6 transition-colors last:border-r-0 hover:bg-muted/40"

@@ -6,7 +6,7 @@ export type PreviewPanelState = {
   y: number
 }
 
-export interface PreviewPanelProps extends React.HTMLProps<HTMLDivElement> {
+export interface IPreviewPanelProps extends React.HTMLProps<HTMLDivElement> {
   /** Maximum height of the panel container. */
   maxHeight?: string
   /** Minimum zoom level. Default 0.25. */
@@ -25,7 +25,7 @@ export interface PreviewPanelProps extends React.HTMLProps<HTMLDivElement> {
   syncState?: PreviewPanelState
 }
 
-export interface PreviewPanelDialogProps {
+export interface IPreviewPanelDialogProps {
   /** Content to render in both the inline panel and the dialog panel. */
   children?: React.ReactNode
   /** Raw HTML string to render. Takes priority over children. */
