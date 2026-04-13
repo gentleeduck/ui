@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "'use client'\r\n\r\nimport { Calendar } from '@gentleduck/registry-ui/calendar'\r\nimport * as React from 'react'\r\n\r\nexport default function Demo() {\r\n  const [date, setDate] = React.useState<Date | null>(new Date())\r\n\r\n  return (\r\n    <Calendar\r\n      className=\"rounded-md border shadow-sm [--gentleduck-calendar-cell:--spacing(12)]\"\r\n      mode=\"single\"\r\n      selected={date}\r\n      onSelect={setDate}\r\n      fixedWeeks\r\n      showDropdowns={false}\r\n    />\r\n  )\r\n}\r\n",
+      "content": "'use client'\n\nimport { Calendar } from '@gentleduck/registry-ui/calendar'\nimport * as React from 'react'\n\nexport default function Demo() {\n  const [date, setDate] = React.useState<Date | null>(new Date())\n\n  return (\n    <Calendar\n      className=\"rounded-md border shadow-sm [--gentleduck-calendar-cell:--spacing(12)]\"\n      mode=\"single\"\n      selected={date}\n      onSelect={setDate}\n      fixedWeeks\n      showDropdowns={false}\n    />\n  )\n}\n",
       "path": "calendar/calendar-14.tsx",
       "target": "components/calendar-14.tsx",
       "type": "registry:example"

@@ -12,7 +12,7 @@
       "type": "registry:ui"
     },
     {
-      "content": "export { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerOverlay, DrawerPortal, DrawerTitle, DrawerTrigger } from './drawer'\r\n",
+      "content": "export {\n  Drawer,\n  DrawerClose,\n  DrawerContent,\n  DrawerDescription,\n  DrawerFooter,\n  DrawerHeader,\n  DrawerOverlay,\n  DrawerPortal,\n  DrawerTitle,\n  DrawerTrigger,\n} from './drawer'\n",
       "path": "drawer/index.ts",
       "target": "components/ui/index.ts",
       "type": "registry:ui"

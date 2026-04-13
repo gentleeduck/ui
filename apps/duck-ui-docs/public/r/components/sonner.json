@@ -8,7 +8,7 @@
   ],
   "files": [
     {
-      "content": "export { Toaster } from './sonner'\r\nexport { SonnerUpload } from './sonner.chunks'\r\nexport { formatTime } from './sonner.libs'\r\nexport type { ToasterProps, UploadSonnerProps } from './sonner.types'\r\n",
+      "content": "export { Toaster } from './sonner'\nexport { SonnerUpload } from './sonner.chunks'\nexport { formatTime } from './sonner.libs'\nexport type { ToasterProps, UploadSonnerProps } from './sonner.types'\n",
       "path": "sonner/index.ts",
       "target": "components/ui/index.ts",
       "type": "registry:ui"

@@ -24,7 +24,7 @@
       "type": "registry:ui"
     },
     {
-      "content": "export { ChartContainer, ChartLegend, ChartLegendContent, ChartStyle, ChartTooltip, ChartTooltipContent, THEMES } from './chart'\r\nexport { getPayloadConfigFromPayload } from './chart.libs'\r\nexport type { ChartConfig, ChartContainerProps, ChartContextProps, ChartLegendContentProps, ChartStyleProps, ChartTooltipContentProps } from './chart.types'\r\n",
+      "content": "export {\n  ChartContainer,\n  ChartLegend,\n  ChartLegendContent,\n  ChartStyle,\n  ChartTooltip,\n  ChartTooltipContent,\n  THEMES,\n} from './chart'\nexport { getPayloadConfigFromPayload } from './chart.libs'\nexport type {\n  ChartConfig,\n  ChartContainerProps,\n  ChartContextProps,\n  ChartLegendContentProps,\n  ChartStyleProps,\n  ChartTooltipContentProps,\n} from './chart.types'\n",
       "path": "chart/index.ts",
       "target": "components/ui/index.ts",
       "type": "registry:ui"

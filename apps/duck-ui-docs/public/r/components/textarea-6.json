@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Button } from '@gentleduck/registry-ui/button'\r\nimport { Textarea } from '@gentleduck/registry-ui/textarea'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <div className=\"grid w-full gap-2\">\r\n      <Textarea placeholder=\"Type your message here.\" />\r\n      <Button>Send message</Button>\r\n    </div>\r\n  )\r\n}\r\n",
+      "content": "import { Button } from '@gentleduck/registry-ui/button'\nimport { Textarea } from '@gentleduck/registry-ui/textarea'\n\nexport default function Demo() {\n  return (\n    <div className=\"grid w-full gap-2\">\n      <Textarea placeholder=\"Type your message here.\" />\n      <Button>Send message</Button>\n    </div>\n  )\n}\n",
       "path": "textarea/textarea-6.tsx",
       "target": "components/textarea-6.tsx",
       "type": "registry:example"
