@@ -15,12 +15,12 @@ const VIEWPORT_NAME = 'SelectViewport'
 
 type SelectViewportElement = React.ComponentRef<typeof Primitive.div>
 
-export interface SelectViewportProps extends React.ComponentPropsWithRef<typeof Primitive.div> {
+export interface ISelectViewportProps extends React.ComponentPropsWithRef<typeof Primitive.div> {
   nonce?: string
 }
 
-export const SelectViewport = React.forwardRef<SelectViewportElement, SelectViewportProps>(
-  (props: ScopedProps<SelectViewportProps>, forwardedRef) => {
+export const SelectViewport = React.forwardRef<SelectViewportElement, ISelectViewportProps>(
+  (props: ScopedProps<ISelectViewportProps>, forwardedRef) => {
     const { __scopeSelect, nonce, ...viewportProps } = props
     const context = useSelectContext(VIEWPORT_NAME, __scopeSelect)
     const contentContext = useSelectContentContext(VIEWPORT_NAME, __scopeSelect)

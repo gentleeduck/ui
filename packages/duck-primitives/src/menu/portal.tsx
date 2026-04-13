@@ -13,7 +13,7 @@ const [PortalProvider, usePortalContext] = createMenuContext<PortalContextValue>
 })
 
 type PortalProps = React.ComponentPropsWithoutRef<typeof PortalPrimitive>
-interface MenuPortalProps {
+interface IMenuPortalProps {
   children?: React.ReactNode
   /**
    * Specify a container element to portal the content into.
@@ -26,7 +26,7 @@ interface MenuPortalProps {
   forceMount?: true
 }
 
-const MenuPortal: React.FC<MenuPortalProps> = (props: ScopedProps<MenuPortalProps>) => {
+const MenuPortal: React.FC<IMenuPortalProps> = (props: ScopedProps<IMenuPortalProps>) => {
   const { __scopeMenu, forceMount, children, container } = props
   const context = useMenuContext(PORTAL_NAME, __scopeMenu)
   return (
@@ -42,5 +42,5 @@ const MenuPortal: React.FC<MenuPortalProps> = (props: ScopedProps<MenuPortalProp
 
 MenuPortal.displayName = PORTAL_NAME
 
-export type { MenuPortalProps }
+export type { IMenuPortalProps }
 export { MenuPortal, PortalProvider, usePortalContext }

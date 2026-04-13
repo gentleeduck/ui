@@ -8,10 +8,10 @@ const ARROW_NAME = 'ContextMenuArrow'
 
 type ContextMenuArrowElement = React.ComponentRef<typeof MenuPrimitive.Arrow>
 type MenuArrowProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Arrow>
-interface ContextMenuArrowProps extends MenuArrowProps {}
+interface IContextMenuArrowProps extends MenuArrowProps {}
 
-const ContextMenuArrow = React.forwardRef<ContextMenuArrowElement, ContextMenuArrowProps>(
-  (props: ScopedProps<ContextMenuArrowProps>, forwardedRef) => {
+const ContextMenuArrow = React.forwardRef<ContextMenuArrowElement, IContextMenuArrowProps>(
+  (props: ScopedProps<IContextMenuArrowProps>, forwardedRef) => {
     const { __scopeContextMenu, ...arrowProps } = props
     const menuScope = useMenuScope(__scopeContextMenu)
     return <MenuPrimitive.Arrow {...menuScope} {...arrowProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const ContextMenuArrow = React.forwardRef<ContextMenuArrowElement, ContextMenuAr
 
 ContextMenuArrow.displayName = ARROW_NAME
 
-export type { ContextMenuArrowProps }
+export type { IContextMenuArrowProps }
 export { ContextMenuArrow }

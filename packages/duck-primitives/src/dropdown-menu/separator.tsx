@@ -8,10 +8,10 @@ const SEPARATOR_NAME = 'DropdownMenuSeparator'
 
 type DropdownMenuSeparatorElement = React.ComponentRef<typeof MenuPrimitive.Separator>
 type MenuSeparatorProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Separator>
-interface DropdownMenuSeparatorProps extends MenuSeparatorProps {}
+interface IDropdownMenuSeparatorProps extends MenuSeparatorProps {}
 
-const DropdownMenuSeparator = React.forwardRef<DropdownMenuSeparatorElement, DropdownMenuSeparatorProps>(
-  (props: ScopedProps<DropdownMenuSeparatorProps>, forwardedRef) => {
+const DropdownMenuSeparator = React.forwardRef<DropdownMenuSeparatorElement, IDropdownMenuSeparatorProps>(
+  (props: ScopedProps<IDropdownMenuSeparatorProps>, forwardedRef) => {
     const { __scopeDropdownMenu, ...separatorProps } = props
     const menuScope = useMenuScope(__scopeDropdownMenu)
     return <MenuPrimitive.Separator {...menuScope} {...separatorProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const DropdownMenuSeparator = React.forwardRef<DropdownMenuSeparatorElement, Dro
 
 DropdownMenuSeparator.displayName = SEPARATOR_NAME
 
-export type { DropdownMenuSeparatorProps }
+export type { IDropdownMenuSeparatorProps }
 export { DropdownMenuSeparator }

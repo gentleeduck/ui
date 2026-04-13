@@ -6,10 +6,10 @@ const SEPARATOR_NAME = 'SelectSeparator'
 
 type SelectSeparatorElement = React.ComponentRef<typeof Primitive.div>
 
-export interface SelectSeparatorProps extends React.ComponentPropsWithRef<typeof Primitive.div> {}
+export interface ISelectSeparatorProps extends React.ComponentPropsWithRef<typeof Primitive.div> {}
 
-export const SelectSeparator = React.forwardRef<SelectSeparatorElement, SelectSeparatorProps>(
-  (props: ScopedProps<SelectSeparatorProps>, forwardedRef) => {
+export const SelectSeparator = React.forwardRef<SelectSeparatorElement, ISelectSeparatorProps>(
+  (props: ScopedProps<ISelectSeparatorProps>, forwardedRef) => {
     const { __scopeSelect, ...separatorProps } = props
     const context = useSelectContext(SEPARATOR_NAME, __scopeSelect)
     return (

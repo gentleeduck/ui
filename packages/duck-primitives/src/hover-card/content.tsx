@@ -18,7 +18,7 @@ type PopperContentProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.
 
 type HoverCardContentElement = HoverCardContentImplElement
 
-interface HoverCardContentImplProps extends Omit<PopperContentProps, 'onPlaced'> {
+interface IHoverCardContentImplProps extends Omit<PopperContentProps, 'onPlaced'> {
   /** Event handler called when the escape key is down. Can be prevented. */
   onEscapeKeyDown?: DismissableLayerProps['onEscapeKeyDown']
   /** Event handler called when a pointerdown event happens outside the HoverCard. Can be prevented. */
@@ -29,14 +29,14 @@ interface HoverCardContentImplProps extends Omit<PopperContentProps, 'onPlaced'>
   onInteractOutside?: DismissableLayerProps['onInteractOutside']
 }
 
-export interface HoverCardContentProps extends HoverCardContentImplProps {
+export interface IHoverCardContentProps extends IHoverCardContentImplProps {
   /** Used to force mounting when more control is needed. Useful when controlling animation with React animation libraries. */
   forceMount?: true
 }
 
 /** Content area of the hover card with dismissable layer and popper positioning. */
-export const HoverCardContent = React.forwardRef<HoverCardContentElement, HoverCardContentProps>(
-  (props: ScopedProps<HoverCardContentProps>, forwardedRef) => {
+export const HoverCardContent = React.forwardRef<HoverCardContentElement, IHoverCardContentProps>(
+  (props: ScopedProps<IHoverCardContentProps>, forwardedRef) => {
     const portalContext = usePortalContext(CONTENT_NAME, props.__scopeHoverCard)
     const { forceMount = portalContext.forceMount, ...contentProps } = props
     const context = useHoverCardContext(CONTENT_NAME, props.__scopeHoverCard)
@@ -56,8 +56,8 @@ export const HoverCardContent = React.forwardRef<HoverCardContentElement, HoverC
 
 HoverCardContent.displayName = CONTENT_NAME
 
-const HoverCardContentImpl = React.forwardRef<HoverCardContentImplElement, HoverCardContentImplProps>(
-  (props: ScopedProps<HoverCardContentImplProps>, forwardedRef) => {
+const HoverCardContentImpl = React.forwardRef<HoverCardContentImplElement, IHoverCardContentImplProps>(
+  (props: ScopedProps<IHoverCardContentImplProps>, forwardedRef) => {
     const {
       __scopeHoverCard,
       onEscapeKeyDown,

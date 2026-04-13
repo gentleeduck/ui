@@ -15,11 +15,11 @@ const SCROLL_UP_BUTTON_NAME = 'SelectScrollUpButton'
 
 type SelectScrollButtonImplElement = React.ComponentRef<typeof Primitive.div>
 
-export interface SelectScrollUpButtonProps
+export interface ISelectScrollUpButtonProps
   extends Omit<React.ComponentPropsWithRef<typeof Primitive.div>, 'onAutoScroll'> {}
 
-export const SelectScrollUpButton = React.forwardRef<SelectScrollButtonImplElement, SelectScrollUpButtonProps>(
-  (props: ScopedProps<SelectScrollUpButtonProps>, forwardedRef) => {
+export const SelectScrollUpButton = React.forwardRef<SelectScrollButtonImplElement, ISelectScrollUpButtonProps>(
+  (props: ScopedProps<ISelectScrollUpButtonProps>, forwardedRef) => {
     const contentContext = useSelectContentContext(SCROLL_UP_BUTTON_NAME, props.__scopeSelect)
     const viewportContext = useSelectViewportContext(SCROLL_UP_BUTTON_NAME, props.__scopeSelect)
     const [canScrollUp, setCanScrollUp] = React.useState(false)
@@ -57,11 +57,11 @@ export const SelectScrollUpButton = React.forwardRef<SelectScrollButtonImplEleme
 SelectScrollUpButton.displayName = SCROLL_UP_BUTTON_NAME
 const SCROLL_DOWN_BUTTON_NAME = 'SelectScrollDownButton'
 
-export interface SelectScrollDownButtonProps
+export interface ISelectScrollDownButtonProps
   extends Omit<React.ComponentPropsWithRef<typeof Primitive.div>, 'onAutoScroll'> {}
 
-export const SelectScrollDownButton = React.forwardRef<SelectScrollButtonImplElement, SelectScrollDownButtonProps>(
-  (props: ScopedProps<SelectScrollDownButtonProps>, forwardedRef) => {
+export const SelectScrollDownButton = React.forwardRef<SelectScrollButtonImplElement, ISelectScrollDownButtonProps>(
+  (props: ScopedProps<ISelectScrollDownButtonProps>, forwardedRef) => {
     const contentContext = useSelectContentContext(SCROLL_DOWN_BUTTON_NAME, props.__scopeSelect)
     const viewportContext = useSelectViewportContext(SCROLL_DOWN_BUTTON_NAME, props.__scopeSelect)
     const [canScrollDown, setCanScrollDown] = React.useState(false)
@@ -100,11 +100,11 @@ export const SelectScrollDownButton = React.forwardRef<SelectScrollButtonImplEle
 )
 
 SelectScrollDownButton.displayName = SCROLL_DOWN_BUTTON_NAME
-interface SelectScrollButtonImplProps extends React.ComponentPropsWithRef<typeof Primitive.div> {
+interface ISelectScrollButtonImplProps extends React.ComponentPropsWithRef<typeof Primitive.div> {
   onAutoScroll(): void
 }
 
-const SelectScrollButtonImpl = React.forwardRef<HTMLDivElement, ScopedProps<SelectScrollButtonImplProps>>(
+const SelectScrollButtonImpl = React.forwardRef<HTMLDivElement, ScopedProps<ISelectScrollButtonImplProps>>(
   (props, forwardedRef) => {
     const { __scopeSelect, onAutoScroll, ...scrollIndicatorProps } = props
     const context = useSelectContext('SelectScrollButton', __scopeSelect)

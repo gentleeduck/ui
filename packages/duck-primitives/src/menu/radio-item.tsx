@@ -3,7 +3,7 @@ import * as React from 'react'
 
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { ItemIndicatorProvider } from './checkbox-item'
-import { MenuItem, type MenuItemProps } from './item'
+import { MenuItem, type IMenuItemProps } from './item'
 import type { ScopedProps } from './menu'
 import { getCheckedState } from './menu.libs'
 import { useRadioGroupContext } from './radio-group'
@@ -11,12 +11,12 @@ import { useRadioGroupContext } from './radio-group'
 const RADIO_ITEM_NAME = 'MenuRadioItem'
 
 type MenuRadioItemElement = React.ComponentRef<typeof MenuItem>
-interface MenuRadioItemProps extends MenuItemProps {
+interface IMenuRadioItemProps extends IMenuItemProps {
   value: string
 }
 
-const MenuRadioItem = React.forwardRef<MenuRadioItemElement, MenuRadioItemProps>(
-  (props: ScopedProps<MenuRadioItemProps>, forwardedRef) => {
+const MenuRadioItem = React.forwardRef<MenuRadioItemElement, IMenuRadioItemProps>(
+  (props: ScopedProps<IMenuRadioItemProps>, forwardedRef) => {
     const { value, ...radioItemProps } = props
     const context = useRadioGroupContext(RADIO_ITEM_NAME, props.__scopeMenu)
     const checked = value === context.value
@@ -39,5 +39,5 @@ const MenuRadioItem = React.forwardRef<MenuRadioItemElement, MenuRadioItemProps>
 
 MenuRadioItem.displayName = RADIO_ITEM_NAME
 
-export type { MenuRadioItemElement, MenuRadioItemProps }
+export type { MenuRadioItemElement, IMenuRadioItemProps }
 export { MenuRadioItem }

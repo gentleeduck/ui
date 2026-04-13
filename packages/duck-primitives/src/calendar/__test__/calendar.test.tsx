@@ -3,7 +3,7 @@ import { NativeAdapter } from '@gentleduck/calendar'
 import { act, fireEvent, render, screen } from '@testing-library/react'
 import * as React from 'react'
 import { Calendar } from '../calendar'
-import { CalendarDay } from '../day'
+import { ICalendarDay } from '../day'
 import { CalendarGrid } from '../grid'
 import { CalendarHeader } from '../header'
 import { CalendarMonthView } from '../month-view'
@@ -254,9 +254,9 @@ describe('CalendarWeekdays', () => {
 })
 
 // ---------------------------------------------------------------------------
-// CalendarDay
+// ICalendarDay
 // ---------------------------------------------------------------------------
-describe('CalendarDay', () => {
+describe('ICalendarDay', () => {
   it('renders as button with data-slot="calendar-day"', () => {
     // Create a simple day object
     const day = {
@@ -271,7 +271,7 @@ describe('CalendarDay', () => {
       isRangeEnd: false,
       isRangeMiddle: false,
     }
-    const { container } = renderCalendar({}, <CalendarDay day={day} />)
+    const { container } = renderCalendar({}, <ICalendarDay day={day} />)
     const btn = container.querySelector('[data-slot="calendar-day"]')
     expect(btn).not.toBeNull()
     expect(btn?.tagName.toLowerCase()).toBe('button')
@@ -290,7 +290,7 @@ describe('CalendarDay', () => {
       isRangeEnd: false,
       isRangeMiddle: false,
     }
-    const { container } = renderCalendar({}, <CalendarDay day={day} />)
+    const { container } = renderCalendar({}, <ICalendarDay day={day} />)
     const btn = container.querySelector('[data-slot="calendar-day"]')
     expect(btn?.getAttribute('role')).toBe('gridcell')
   })
@@ -308,7 +308,7 @@ describe('CalendarDay', () => {
       isRangeEnd: false,
       isRangeMiddle: false,
     }
-    const { container } = renderCalendar({}, <CalendarDay day={day} />)
+    const { container } = renderCalendar({}, <ICalendarDay day={day} />)
     const btn = container.querySelector('[data-slot="calendar-day"]')
     expect(btn?.textContent).toBe('15')
   })
@@ -326,7 +326,7 @@ describe('CalendarDay', () => {
       isRangeEnd: false,
       isRangeMiddle: false,
     }
-    const { container } = renderCalendar({}, <CalendarDay day={day} />)
+    const { container } = renderCalendar({}, <ICalendarDay day={day} />)
     const btn = container.querySelector('[data-slot="calendar-day"]')
     expect(btn?.getAttribute('aria-selected')).toBe('true')
   })
@@ -344,7 +344,7 @@ describe('CalendarDay', () => {
       isRangeEnd: false,
       isRangeMiddle: false,
     }
-    const { container } = renderCalendar({}, <CalendarDay day={day} />)
+    const { container } = renderCalendar({}, <ICalendarDay day={day} />)
     const btn = container.querySelector('[data-slot="calendar-day"]')
     expect(btn?.getAttribute('aria-disabled')).toBe('true')
   })
@@ -362,7 +362,7 @@ describe('CalendarDay', () => {
       isRangeEnd: false,
       isRangeMiddle: false,
     }
-    const { container } = renderCalendar({}, <CalendarDay day={day} />)
+    const { container } = renderCalendar({}, <ICalendarDay day={day} />)
     const btn = container.querySelector('[data-slot="calendar-day"]')
     expect(btn?.getAttribute('aria-current')).toBe('date')
   })
@@ -380,7 +380,7 @@ describe('CalendarDay', () => {
       isRangeEnd: false,
       isRangeMiddle: false,
     }
-    const { container } = renderCalendar({}, <CalendarDay day={day} />)
+    const { container } = renderCalendar({}, <ICalendarDay day={day} />)
     const btn = container.querySelector('[data-slot="calendar-day"]')
     expect(btn?.getAttribute('data-outside-month')).toBe('true')
   })
@@ -399,7 +399,7 @@ describe('CalendarDay', () => {
       isRangeEnd: false,
       isRangeMiddle: false,
     }
-    const { container } = renderCalendar({ onSelect }, <CalendarDay day={day} />)
+    const { container } = renderCalendar({ onSelect }, <ICalendarDay day={day} />)
     const btn = container.querySelector('[data-slot="calendar-day"]') as HTMLButtonElement
     fireEvent.click(btn)
     expect(onSelect).toHaveBeenCalledTimes(1)
@@ -574,7 +574,7 @@ describe('Calendar integration', () => {
 
   function WeeksRendererInner() {
     // We cannot easily access the context from outside. We use a workaround:
-    // Render CalendarDay for each day using the context hook from the calendar module.
+    // Render ICalendarDay for each day using the context hook from the calendar module.
     return null
   }
 
@@ -644,7 +644,7 @@ describe('Calendar integration', () => {
     }
     const { container } = render(
       <Calendar adapter={adapter} mode="single" defaultMonth={march2026} onSelect={onSelect}>
-        <CalendarDay day={day} />
+        <ICalendarDay day={day} />
       </Calendar>,
     )
     const btn = container.querySelector('[data-slot="calendar-day"]') as HTMLButtonElement

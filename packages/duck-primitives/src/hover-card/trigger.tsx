@@ -8,11 +8,11 @@ const TRIGGER_NAME = 'HoverCardTrigger'
 
 type HoverCardTriggerElement = React.ComponentRef<typeof Primitive.a>
 type PrimitiveLinkProps = React.ComponentPropsWithoutRef<typeof Primitive.a>
-export interface HoverCardTriggerProps extends PrimitiveLinkProps {}
+export interface IHoverCardTriggerProps extends PrimitiveLinkProps {}
 
 /** Anchor element that opens the hover card on pointer enter and focus. */
-export const HoverCardTrigger = React.forwardRef<HoverCardTriggerElement, HoverCardTriggerProps>(
-  (props: ScopedProps<HoverCardTriggerProps>, forwardedRef) => {
+export const HoverCardTrigger = React.forwardRef<HoverCardTriggerElement, IHoverCardTriggerProps>(
+  (props: ScopedProps<IHoverCardTriggerProps>, forwardedRef) => {
     const { __scopeHoverCard, ...triggerProps } = props
     const context = useHoverCardContext(TRIGGER_NAME, __scopeHoverCard)
     const popperScope = usePopperScope(__scopeHoverCard)

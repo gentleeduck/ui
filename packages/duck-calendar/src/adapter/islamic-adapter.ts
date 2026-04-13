@@ -1,5 +1,5 @@
 import { hijriMonthLength, toGregorian, toHijri } from '../calendar-system/hijri'
-import type { DateAdapter, WeekStartDay } from './adapter.types'
+import type { IDateAdapter, WeekStartDay } from './adapter.types'
 import { createConversionCache, formatWithCalendar } from './adapter.utils'
 
 const hijriCache = createConversionCache((date: Date) =>
@@ -20,7 +20,7 @@ const hijriCache = createConversionCache((date: Date) =>
  *   `Intl.DateTimeFormat` renders Islamic dates.
  * - Default locale: `'ar-SA'`.
  */
-export class IslamicAdapter implements DateAdapter<Date> {
+export class IslamicAdapter implements IDateAdapter<Date> {
   private readonly locale: string
 
   constructor(locale = 'ar-SA') {

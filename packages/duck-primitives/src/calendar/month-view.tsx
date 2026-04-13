@@ -8,10 +8,10 @@ const MONTH_VIEW_NAME = 'CalendarMonthView'
 type CalendarMonthViewElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-export interface CalendarMonthViewProps extends PrimitiveDivProps {}
+export interface ICalendarMonthViewProps extends PrimitiveDivProps {}
 
-export const CalendarMonthView = React.forwardRef<CalendarMonthViewElement, CalendarMonthViewProps>(
-  (props: ScopedProps<CalendarMonthViewProps>, forwardedRef) => {
+export const CalendarMonthView = React.forwardRef<CalendarMonthViewElement, ICalendarMonthViewProps>(
+  (props: ScopedProps<ICalendarMonthViewProps>, forwardedRef) => {
     const { __scopeCalendar, children, ...viewProps } = props
     const context = useCalendarContext(MONTH_VIEW_NAME, __scopeCalendar)
     const { adapter, locale } = context

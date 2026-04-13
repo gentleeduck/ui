@@ -29,7 +29,7 @@ type TooltipContextValue = {
 
 export const [TooltipContextProvider, useTooltipContext] = createTooltipContext<TooltipContextValue>(TOOLTIP_NAME)
 
-export interface TooltipProps {
+export interface ITooltipProps {
   children?: React.ReactNode
   open?: boolean
   defaultOpen?: boolean
@@ -48,7 +48,7 @@ export interface TooltipProps {
   dir?: Direction
 }
 
-export const Tooltip: React.FC<TooltipProps> = (props: ScopedProps<TooltipProps>) => {
+export const Tooltip: React.FC<ITooltipProps> = (props: ScopedProps<ITooltipProps>) => {
   const {
     __scopeTooltip,
     children,

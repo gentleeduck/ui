@@ -8,10 +8,10 @@ const ARROW_NAME = 'MenuArrow'
 
 type MenuArrowElement = React.ComponentRef<typeof PopperPrimitive.PopperArrow>
 type PopperArrowProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.PopperArrow>
-interface MenuArrowProps extends PopperArrowProps {}
+interface IMenuArrowProps extends PopperArrowProps {}
 
-const MenuArrow = React.forwardRef<MenuArrowElement, MenuArrowProps>(
-  (props: ScopedProps<MenuArrowProps>, forwardedRef) => {
+const MenuArrow = React.forwardRef<MenuArrowElement, IMenuArrowProps>(
+  (props: ScopedProps<IMenuArrowProps>, forwardedRef) => {
     const { __scopeMenu, ...arrowProps } = props
     const popperScope = usePopperScope(__scopeMenu)
     return <PopperPrimitive.PopperArrow {...popperScope} {...arrowProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const MenuArrow = React.forwardRef<MenuArrowElement, MenuArrowProps>(
 
 MenuArrow.displayName = ARROW_NAME
 
-export type { MenuArrowElement, MenuArrowProps }
+export type { MenuArrowElement, IMenuArrowProps }
 export { MenuArrow }

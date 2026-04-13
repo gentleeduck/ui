@@ -5,9 +5,9 @@ const NAME = 'VisuallyHidden'
 
 type VisuallyHiddenElement = React.ComponentRef<typeof Primitive.span>
 type PrimitiveSpanProps = React.ComponentPropsWithoutRef<typeof Primitive.span>
-interface VisuallyHiddenProps extends PrimitiveSpanProps {}
+interface IVisuallyHiddenProps extends PrimitiveSpanProps {}
 
-const VisuallyHidden = React.forwardRef<VisuallyHiddenElement, VisuallyHiddenProps>((props, forwardedRef) => {
+const VisuallyHidden = React.forwardRef<VisuallyHiddenElement, IVisuallyHiddenProps>((props, forwardedRef) => {
   return (
     <Primitive.span
       data-slot="visually-hidden"
@@ -34,5 +34,5 @@ VisuallyHidden.displayName = NAME
 
 const Root = VisuallyHidden
 
-export type { VisuallyHiddenProps }
+export type { IVisuallyHiddenProps }
 export { Root, VisuallyHidden }

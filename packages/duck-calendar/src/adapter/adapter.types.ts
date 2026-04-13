@@ -13,7 +13,7 @@ export type WeekStartDay = 0 | 1 | 2 | 3 | 4 | 5 | 6 // 0=Sunday
  *   - dayjs:    `Dayjs`
  *   - Temporal: `Temporal.PlainDate`
  */
-export interface DateAdapter<TDate> {
+export interface IDateAdapter<TDate> {
   /**
    * Returns today's date with the time component stripped (midnight local).
    * Equivalent to `startOfDay(new Date())`.

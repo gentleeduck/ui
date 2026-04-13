@@ -47,7 +47,7 @@ type SliderContextValue = {
   values: number[]
   valueIndexToChangeRef: React.RefObject<number>
   thumbs: Set<SliderThumbElement>
-  orientation: SliderProps['orientation']
+  orientation: ISliderProps['orientation']
   dir: Direction
   form: string | undefined
 }
@@ -57,8 +57,8 @@ const [SliderProvider, useSliderContext] = createSliderContext<SliderContextValu
 type SliderElement = SliderHorizontalElement | SliderVerticalElement
 type PrimitiveSpanProps = React.ComponentPropsWithoutRef<typeof Primitive.span>
 
-interface SliderProps
-  extends Omit<SliderHorizontalProps | SliderVerticalProps, keyof SliderOrientationPrivateProps | 'defaultValue'> {
+interface ISliderProps
+  extends Omit<ISliderHorizontalProps | ISliderVerticalProps, keyof SliderOrientationPrivateProps | 'defaultValue'> {
   name?: string
   disabled?: boolean
   orientation?: React.AriaAttributes['aria-orientation']
@@ -75,7 +75,7 @@ interface SliderProps
   form?: string
 }
 
-const Slider = React.forwardRef<SliderElement, SliderProps>((props: ScopedProps<SliderProps>, forwardedRef) => {
+const Slider = React.forwardRef<SliderElement, ISliderProps>((props: ScopedProps<ISliderProps>, forwardedRef) => {
   const {
     name,
     min = 0,
@@ -223,17 +223,17 @@ type SliderOrientationPrivateProps = {
   onEndKeyDown(event: React.KeyboardEvent): void
   onStepKeyDown(step: { event: React.KeyboardEvent; direction: number }): void
 }
-interface SliderOrientationProps
-  extends Omit<SliderImplProps, keyof SliderImplPrivateProps>,
+interface ISliderOrientationProps
+  extends Omit<ISliderImplProps, keyof SliderImplPrivateProps>,
     SliderOrientationPrivateProps {}
 
 type SliderHorizontalElement = SliderImplElement
-interface SliderHorizontalProps extends SliderOrientationProps {
+interface ISliderHorizontalProps extends ISliderOrientationProps {
   dir?: Direction
 }
 
-const SliderHorizontal = React.forwardRef<SliderHorizontalElement, SliderHorizontalProps>(
-  (props: ScopedProps<SliderHorizontalProps>, forwardedRef) => {
+const SliderHorizontal = React.forwardRef<SliderHorizontalElement, ISliderHorizontalProps>(
+  (props: ScopedProps<ISliderHorizontalProps>, forwardedRef) => {
     const { min, max, dir, inverted, onSlideStart, onSlideMove, onSlideEnd, onStepKeyDown, ...sliderProps } = props
     const [slider, setSlider] = React.useState<SliderImplElement | null>(null)
     const composedRefs = useComposedRefs(forwardedRef, (node) => setSlider(node))
@@ -295,10 +295,10 @@ const SliderHorizontal = React.forwardRef<SliderHorizontalElement, SliderHorizon
 SliderHorizontal.displayName = 'SliderHorizontal'
 
 type SliderVerticalElement = SliderImplElement
-interface SliderVerticalProps extends SliderOrientationProps {}
+interface ISliderVerticalProps extends ISliderOrientationProps {}
 
-const SliderVertical = React.forwardRef<SliderVerticalElement, SliderVerticalProps>(
-  (props: ScopedProps<SliderVerticalProps>, forwardedRef) => {
+const SliderVertical = React.forwardRef<SliderVerticalElement, ISliderVerticalProps>(
+  (props: ScopedProps<ISliderVerticalProps>, forwardedRef) => {
     const { min, max, inverted, onSlideStart, onSlideMove, onSlideEnd, onStepKeyDown, ...sliderProps } = props
     const sliderRef = React.useRef<SliderImplElement>(null)
     const ref = useComposedRefs(forwardedRef, sliderRef)
@@ -366,10 +366,10 @@ type SliderImplPrivateProps = {
   onEndKeyDown(event: React.KeyboardEvent): void
   onStepKeyDown(event: React.KeyboardEvent): void
 }
-interface SliderImplProps extends PrimitiveDivProps, SliderImplPrivateProps {}
+interface ISliderImplProps extends PrimitiveDivProps, SliderImplPrivateProps {}
 
-const SliderImpl = React.forwardRef<SliderImplElement, SliderImplProps>(
-  (props: ScopedProps<SliderImplProps>, forwardedRef) => {
+const SliderImpl = React.forwardRef<SliderImplElement, ISliderImplProps>(
+  (props: ScopedProps<ISliderImplProps>, forwardedRef) => {
     const {
       __scopeSlider,
       onSlideStart,
@@ -427,5 +427,5 @@ const SliderImpl = React.forwardRef<SliderImplElement, SliderImplProps>(
 
 SliderImpl.displayName = 'SliderImpl'
 
-export type { PrimitiveSpanProps, ScopedProps, SliderProps, SliderThumbElement }
+export type { PrimitiveSpanProps, ScopedProps, ISliderProps, SliderThumbElement }
 export { Collection, createSliderScope, Slider, useCollection, useSliderContext, useSliderOrientationContext }

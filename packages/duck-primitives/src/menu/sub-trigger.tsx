@@ -5,7 +5,7 @@ import { composeEventHandlers } from '../libs/compose-event-handler'
 import { composeRefs } from '../libs/compose-ref'
 import { MenuAnchor } from './anchor'
 import { useMenuContentContext } from './content'
-import { MenuItemImpl, type MenuItemImplProps } from './item'
+import { MenuItemImpl, type IMenuItemImplProps } from './item'
 import { type ScopedProps, useMenuContext, useMenuRootContext } from './menu'
 import { getOpenState, type Side, SUB_OPEN_KEYS, whenMouse } from './menu.libs'
 import { useMenuSubContext } from './sub'
@@ -13,10 +13,10 @@ import { useMenuSubContext } from './sub'
 const SUB_TRIGGER_NAME = 'MenuSubTrigger'
 
 type MenuSubTriggerElement = React.ComponentRef<typeof MenuItemImpl>
-interface MenuSubTriggerProps extends MenuItemImplProps {}
+interface IMenuSubTriggerProps extends IMenuItemImplProps {}
 
-const MenuSubTrigger = React.forwardRef<MenuSubTriggerElement, MenuSubTriggerProps>(
-  (props: ScopedProps<MenuSubTriggerProps>, forwardedRef) => {
+const MenuSubTrigger = React.forwardRef<MenuSubTriggerElement, IMenuSubTriggerProps>(
+  (props: ScopedProps<IMenuSubTriggerProps>, forwardedRef) => {
     const context = useMenuContext(SUB_TRIGGER_NAME, props.__scopeMenu)
     const rootContext = useMenuRootContext(SUB_TRIGGER_NAME, props.__scopeMenu)
     const subContext = useMenuSubContext(SUB_TRIGGER_NAME, props.__scopeMenu)
@@ -139,5 +139,5 @@ const MenuSubTrigger = React.forwardRef<MenuSubTriggerElement, MenuSubTriggerPro
 
 MenuSubTrigger.displayName = SUB_TRIGGER_NAME
 
-export type { MenuSubTriggerElement, MenuSubTriggerProps }
+export type { MenuSubTriggerElement, IMenuSubTriggerProps }
 export { MenuSubTrigger }

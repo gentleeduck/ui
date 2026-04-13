@@ -6,11 +6,11 @@ const TRIGGER_NAME = 'AlertDialogTrigger'
 
 type AlertDialogTriggerElement = React.ComponentRef<typeof DialogPrimitive.Trigger>
 type DialogTriggerProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Trigger>
-export interface AlertDialogTriggerProps extends DialogTriggerProps {}
+export interface IAlertDialogTriggerProps extends DialogTriggerProps {}
 
 /** Button that opens the alert dialog. */
-export const AlertDialogTrigger = React.forwardRef<AlertDialogTriggerElement, AlertDialogTriggerProps>(
-  (props: ScopedProps<AlertDialogTriggerProps>, forwardedRef) => {
+export const AlertDialogTrigger = React.forwardRef<AlertDialogTriggerElement, IAlertDialogTriggerProps>(
+  (props: ScopedProps<IAlertDialogTriggerProps>, forwardedRef) => {
     const { __scopeAlertDialog, ...triggerProps } = props
     const dialogScope = useDialogScope(__scopeAlertDialog)
     return <DialogPrimitive.Trigger {...dialogScope} {...triggerProps} ref={forwardedRef} />

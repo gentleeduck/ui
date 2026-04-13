@@ -5,7 +5,7 @@ import * as React from 'react'
  * The root keeps the primitive open during exit animations by passing
  * `open={isOpen || showContent}` to the primitive root.
  */
-export interface MotionRootContextValue {
+export interface IMotionRootContextValue {
   /** Whether the user intends the component to be open. */
   isOpen: boolean
   /** Whether the content is still visually mounted (including during exit animation). */
@@ -14,7 +14,7 @@ export interface MotionRootContextValue {
   setShowContent: (v: boolean) => void
 }
 
-export const MotionRootContext = React.createContext<MotionRootContextValue>({
+export const MotionRootContext = React.createContext<IMotionRootContextValue>({
   isOpen: false,
   showContent: false,
   setShowContent: () => {},
@@ -98,7 +98,7 @@ export function useMotionRoot(props: {
     prevOpenRef.current = !!isOpen
   }, [isOpen])
 
-  const contextValue = React.useMemo<MotionRootContextValue>(
+  const contextValue = React.useMemo<IMotionRootContextValue>(
     () => ({ isOpen: !!isOpen, showContent, setShowContent }),
     [isOpen, showContent],
   )

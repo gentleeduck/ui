@@ -8,10 +8,10 @@ const SEPARATOR_NAME = 'ContextMenuSeparator'
 
 type ContextMenuSeparatorElement = React.ComponentRef<typeof MenuPrimitive.Separator>
 type MenuSeparatorProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Separator>
-interface ContextMenuSeparatorProps extends MenuSeparatorProps {}
+interface IContextMenuSeparatorProps extends MenuSeparatorProps {}
 
-const ContextMenuSeparator = React.forwardRef<ContextMenuSeparatorElement, ContextMenuSeparatorProps>(
-  (props: ScopedProps<ContextMenuSeparatorProps>, forwardedRef) => {
+const ContextMenuSeparator = React.forwardRef<ContextMenuSeparatorElement, IContextMenuSeparatorProps>(
+  (props: ScopedProps<IContextMenuSeparatorProps>, forwardedRef) => {
     const { __scopeContextMenu, ...separatorProps } = props
     const menuScope = useMenuScope(__scopeContextMenu)
     return <MenuPrimitive.Separator {...menuScope} {...separatorProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const ContextMenuSeparator = React.forwardRef<ContextMenuSeparatorElement, Conte
 
 ContextMenuSeparator.displayName = SEPARATOR_NAME
 
-export type { ContextMenuSeparatorProps }
+export type { IContextMenuSeparatorProps }
 export { ContextMenuSeparator }

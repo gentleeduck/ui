@@ -26,14 +26,14 @@ const [ProgressProvider, useProgressContext] = createProgressContext<ProgressCon
 
 type ProgressElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-interface ProgressProps extends PrimitiveDivProps {
+interface IProgressProps extends PrimitiveDivProps {
   value?: number | null | undefined
   max?: number
   getValueLabel?(value: number, max: number): string
   dir?: Direction
 }
 
-const Progress = React.forwardRef<ProgressElement, ProgressProps>((props: ScopedProps<ProgressProps>, forwardedRef) => {
+const Progress = React.forwardRef<ProgressElement, IProgressProps>((props: ScopedProps<IProgressProps>, forwardedRef) => {
   const {
     __scopeProgress,
     value: valueProp = null,
@@ -79,5 +79,5 @@ const Progress = React.forwardRef<ProgressElement, ProgressProps>((props: Scoped
 
 Progress.displayName = PROGRESS_NAME
 
-export type { ProgressContextValue, ProgressProps, ScopedProps }
+export type { ProgressContextValue, IProgressProps, ScopedProps }
 export { createProgressScope, getProgressState, PROGRESS_NAME, Progress, ProgressProvider, useProgressContext }

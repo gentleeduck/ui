@@ -10,15 +10,15 @@ const ITEM_NAME = 'ToggleGroupItem'
 type ToggleGroupItemElement = React.ComponentRef<typeof Primitive.button>
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
 
-interface ToggleGroupItemProps extends PrimitiveButtonProps {
+interface IToggleGroupItemProps extends PrimitiveButtonProps {
   /**
    * A unique value for this item.
    */
   value: string
 }
 
-const ToggleGroupItem = React.forwardRef<ToggleGroupItemElement, ToggleGroupItemProps>(
-  (props: ScopedProps<ToggleGroupItemProps>, forwardedRef) => {
+const ToggleGroupItem = React.forwardRef<ToggleGroupItemElement, IToggleGroupItemProps>(
+  (props: ScopedProps<IToggleGroupItemProps>, forwardedRef) => {
     const { __scopeToggleGroup, value, disabled: disabledProp, ...itemProps } = props
     const context = useToggleGroupContext(ITEM_NAME, __scopeToggleGroup)
     const rovingFocusGroupScope = useRovingFocusGroupScope(__scopeToggleGroup)
@@ -58,5 +58,5 @@ const ToggleGroupItem = React.forwardRef<ToggleGroupItemElement, ToggleGroupItem
 
 ToggleGroupItem.displayName = ITEM_NAME
 
-export type { ToggleGroupItemProps }
+export type { IToggleGroupItemProps }
 export { ToggleGroupItem }

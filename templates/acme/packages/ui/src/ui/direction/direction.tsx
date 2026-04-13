@@ -5,9 +5,9 @@ import {
   type Direction,
   DirectionContext,
   DirectionProvider,
-  type DirectionProviderProps,
+  type IDirectionProviderProps,
   Provider,
   useDirection,
 } from '@gentleduck/primitives/direction'
-export type { Direction, DirectionProviderProps }
+export type { Direction, IDirectionProviderProps }
 export { useDirection, Provider, DirectionProvider, DirectionContext, DIRECTION_DICTIONARY }

@@ -8,10 +8,10 @@ const SUB_CONTENT_NAME = 'DropdownMenuSubContent'
 
 type DropdownMenuSubContentElement = React.ComponentRef<typeof MenuPrimitive.Content>
 type MenuSubContentProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.SubContent>
-interface DropdownMenuSubContentProps extends MenuSubContentProps {}
+interface IDropdownMenuSubContentProps extends MenuSubContentProps {}
 
-const DropdownMenuSubContent = React.forwardRef<DropdownMenuSubContentElement, DropdownMenuSubContentProps>(
-  (props: ScopedProps<DropdownMenuSubContentProps>, forwardedRef) => {
+const DropdownMenuSubContent = React.forwardRef<DropdownMenuSubContentElement, IDropdownMenuSubContentProps>(
+  (props: ScopedProps<IDropdownMenuSubContentProps>, forwardedRef) => {
     const { __scopeDropdownMenu, ...subContentProps } = props
     const menuScope = useMenuScope(__scopeDropdownMenu)
 
@@ -38,5 +38,5 @@ const DropdownMenuSubContent = React.forwardRef<DropdownMenuSubContentElement, D
 
 DropdownMenuSubContent.displayName = SUB_CONTENT_NAME
 
-export type { DropdownMenuSubContentProps }
+export type { IDropdownMenuSubContentProps }
 export { DropdownMenuSubContent }

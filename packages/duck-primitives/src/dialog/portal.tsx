@@ -11,7 +11,7 @@ export const [PortalProvider, usePortalContext] = createDialogContext<PortalCont
 })
 
 type PortalProps = React.ComponentPropsWithoutRef<typeof PortalPrimitive>
-export interface DialogPortalProps {
+export interface IDialogPortalProps {
   children?: React.ReactNode
   /** Container element to portal the content into. */
   container?: PortalProps['container']
@@ -20,7 +20,7 @@ export interface DialogPortalProps {
 }
 
 /** Portals dialog content into a specified container (or document.body). */
-const DialogPortal: React.FC<DialogPortalProps> = (props: ScopedProps<DialogPortalProps>) => {
+const DialogPortal: React.FC<IDialogPortalProps> = (props: ScopedProps<IDialogPortalProps>) => {
   const { __scopeDialog, forceMount, children, container } = props
   const context = useDialogContext(PORTAL_NAME, __scopeDialog)
   return (

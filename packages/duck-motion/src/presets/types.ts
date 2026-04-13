@@ -4,13 +4,13 @@ export type MotionAnimationState = TargetAndTransition
 
 export type MotionTransitionConfig = Transition
 
-export interface MotionPreset {
+export interface IMotionPreset {
   initial: MotionAnimationState
   animate: MotionAnimationState
   exit: MotionAnimationState
 }
 
-export interface MotionPresetResult {
+export interface IMotionPresetResult {
   initial: MotionAnimationState
   animate: MotionAnimationState
   exit: MotionAnimationState

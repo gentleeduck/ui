@@ -1,5 +1,5 @@
 'use client'
 export { KeyContext, KeyProvider, useKeyCommands } from './command'
-export type { KeyContextValue } from './command.types'
+export type { IKeyContextValue } from './command.types'
 export { useKeyBind, useKeyRecorder, useKeySequence } from './hooks'
-export type { KeyBindHookOptions, KeyRecorderReturn, SequenceHookOptions } from './hooks.types'
+export type { IKeyBindHookOptions, IKeyRecorderReturn, ISequenceHookOptions } from './hooks.types'

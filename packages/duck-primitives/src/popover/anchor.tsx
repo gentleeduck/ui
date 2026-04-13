@@ -4,7 +4,7 @@ import { type ScopedProps, usePopoverContext, usePopperScope } from './popover'
 
 const ANCHOR_NAME = 'PopoverAnchor'
 
-export interface PopoverAnchorProps extends React.ComponentPropsWithRef<typeof PopperPrimitive.PopperAnchor> {}
+export interface IPopoverAnchorProps extends React.ComponentPropsWithRef<typeof PopperPrimitive.PopperAnchor> {}
 
 /**
  * Registers a custom anchor element with the popover context.
@@ -12,7 +12,7 @@ export interface PopoverAnchorProps extends React.ComponentPropsWithRef<typeof P
  */
 export const PopoverAnchor = React.forwardRef<
   React.ComponentRef<typeof PopperPrimitive.PopperAnchor>,
-  ScopedProps<PopoverAnchorProps>
+  ScopedProps<IPopoverAnchorProps>
 >((props, forwardedRef) => {
   const { __scopePopover, ...anchorProps } = props
   const context = usePopoverContext(ANCHOR_NAME, __scopePopover)

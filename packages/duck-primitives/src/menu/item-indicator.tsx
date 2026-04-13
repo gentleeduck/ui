@@ -10,7 +10,7 @@ const ITEM_INDICATOR_NAME = 'MenuItemIndicator'
 
 type MenuItemIndicatorElement = React.ComponentRef<typeof Primitive.span>
 type PrimitiveSpanProps = React.ComponentPropsWithoutRef<typeof Primitive.span>
-interface MenuItemIndicatorProps extends PrimitiveSpanProps {
+interface IMenuItemIndicatorProps extends PrimitiveSpanProps {
   /**
    * Used to force mounting when more control is needed. Useful when
    * controlling animation with React animation libraries.
@@ -18,8 +18,8 @@ interface MenuItemIndicatorProps extends PrimitiveSpanProps {
   forceMount?: true
 }
 
-const MenuItemIndicator = React.forwardRef<MenuItemIndicatorElement, MenuItemIndicatorProps>(
-  (props: ScopedProps<MenuItemIndicatorProps>, forwardedRef) => {
+const MenuItemIndicator = React.forwardRef<MenuItemIndicatorElement, IMenuItemIndicatorProps>(
+  (props: ScopedProps<IMenuItemIndicatorProps>, forwardedRef) => {
     const { __scopeMenu, forceMount, ...itemIndicatorProps } = props
     const rootContext = useMenuRootContext(ITEM_INDICATOR_NAME, __scopeMenu)
     const indicatorContext = useItemIndicatorContext(ITEM_INDICATOR_NAME, __scopeMenu)
@@ -39,5 +39,5 @@ const MenuItemIndicator = React.forwardRef<MenuItemIndicatorElement, MenuItemInd
 
 MenuItemIndicator.displayName = ITEM_INDICATOR_NAME
 
-export type { MenuItemIndicatorElement, MenuItemIndicatorProps }
+export type { MenuItemIndicatorElement, IMenuItemIndicatorProps }
 export { MenuItemIndicator }

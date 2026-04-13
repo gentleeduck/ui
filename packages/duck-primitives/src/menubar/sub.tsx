@@ -7,14 +7,14 @@ import { useMenuScope } from './menubar'
 
 const SUB_NAME = 'MenubarSub'
 
-interface MenubarSubProps {
+interface IMenubarSubProps {
   children?: React.ReactNode
   open?: boolean
   defaultOpen?: boolean
   onOpenChange?(open: boolean): void
 }
 
-const MenubarSub: React.FC<MenubarSubProps> = (props: ScopedProps<MenubarSubProps>) => {
+const MenubarSub: React.FC<IMenubarSubProps> = (props: ScopedProps<IMenubarSubProps>) => {
   const { __scopeMenubar, children, open: openProp, onOpenChange, defaultOpen } = props
   const menuScope = useMenuScope(__scopeMenubar)
   const [open, setOpen] = useControllableState({
@@ -33,5 +33,5 @@ const MenubarSub: React.FC<MenubarSubProps> = (props: ScopedProps<MenubarSubProp
 
 MenubarSub.displayName = SUB_NAME
 
-export type { MenubarSubProps }
+export type { IMenubarSubProps }
 export { MenubarSub }

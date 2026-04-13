@@ -26,13 +26,13 @@ type MenuSubContextValue = {
 
 const [MenuSubProvider, useMenuSubContext] = createMenuContext<MenuSubContextValue>(SUB_NAME)
 
-interface MenuSubProps {
+interface IMenuSubProps {
   children?: React.ReactNode
   open?: boolean
   onOpenChange?(open: boolean): void
 }
 
-const MenuSub: React.FC<MenuSubProps> = (props: ScopedProps<MenuSubProps>) => {
+const MenuSub: React.FC<IMenuSubProps> = (props: ScopedProps<IMenuSubProps>) => {
   const { __scopeMenu, children, open = false, onOpenChange } = props
   const parentMenuContext = useMenuContext(SUB_NAME, __scopeMenu)
   const popperScope = usePopperScope(__scopeMenu)
@@ -69,5 +69,5 @@ const MenuSub: React.FC<MenuSubProps> = (props: ScopedProps<MenuSubProps>) => {
 
 MenuSub.displayName = SUB_NAME
 
-export type { MenuSubContextValue, MenuSubProps, MenuSubTriggerElement }
+export type { MenuSubContextValue, IMenuSubProps, MenuSubTriggerElement }
 export { MenuSub, MenuSubProvider, useMenuSubContext }

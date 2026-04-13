@@ -77,13 +77,13 @@ export const [CommandGroupContextProvider, useCommandGroupContext] =
 
 type CommandElement = React.ComponentRef<typeof Primitive.div>
 
-export interface CommandProps extends React.ComponentPropsWithRef<typeof Primitive.div> {
+export interface ICommandProps extends React.ComponentPropsWithRef<typeof Primitive.div> {
   dir?: Direction
   shouldFilter?: boolean
 }
 
-export const Command = React.forwardRef<CommandElement, CommandProps>(
-  (props: ScopedProps<CommandProps>, forwardedRef) => {
+export const Command = React.forwardRef<CommandElement, ICommandProps>(
+  (props: ScopedProps<ICommandProps>, forwardedRef) => {
     const { __scopeCommand, dir: dirProp, shouldFilter = true, children, ...commandProps } = props
 
     const direction = useDirection(dirProp)

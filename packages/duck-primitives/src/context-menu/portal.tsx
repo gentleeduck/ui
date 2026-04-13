@@ -7,9 +7,9 @@ import { useMenuScope } from './context-menu'
 const PORTAL_NAME = 'ContextMenuPortal'
 
 type MenuPortalProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Portal>
-interface ContextMenuPortalProps extends MenuPortalProps {}
+interface IContextMenuPortalProps extends MenuPortalProps {}
 
-const ContextMenuPortal: React.FC<ContextMenuPortalProps> = (props: ScopedProps<ContextMenuPortalProps>) => {
+const ContextMenuPortal: React.FC<IContextMenuPortalProps> = (props: ScopedProps<IContextMenuPortalProps>) => {
   const { __scopeContextMenu, ...portalProps } = props
   const menuScope = useMenuScope(__scopeContextMenu)
   return <MenuPrimitive.Portal {...menuScope} {...portalProps} />
@@ -17,5 +17,5 @@ const ContextMenuPortal: React.FC<ContextMenuPortalProps> = (props: ScopedProps<
 
 ContextMenuPortal.displayName = PORTAL_NAME
 
-export type { ContextMenuPortalProps }
+export type { IContextMenuPortalProps }
 export { ContextMenuPortal }

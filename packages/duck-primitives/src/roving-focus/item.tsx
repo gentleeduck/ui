@@ -10,14 +10,14 @@ const ITEM_NAME = 'RovingFocusGroupItem'
 
 type RovingFocusItemElement = React.ComponentRef<typeof Primitive.span>
 type PrimitiveSpanProps = React.ComponentPropsWithoutRef<typeof Primitive.span>
-interface RovingFocusGroupItemProps extends PrimitiveSpanProps {
+interface IRovingFocusGroupItemProps extends PrimitiveSpanProps {
   tabStopId?: string
   focusable?: boolean
   active?: boolean
 }
 
-const RovingFocusGroupItem = React.forwardRef<RovingFocusItemElement, RovingFocusGroupItemProps>(
-  (props: ScopedProps<RovingFocusGroupItemProps>, forwardedRef) => {
+const RovingFocusGroupItem = React.forwardRef<RovingFocusItemElement, IRovingFocusGroupItemProps>(
+  (props: ScopedProps<IRovingFocusGroupItemProps>, forwardedRef) => {
     const { __scopeRovingFocusGroup, focusable = true, active = false, tabStopId, ...itemProps } = props
     const autoId = useId()
     const id = tabStopId || autoId
@@ -91,5 +91,5 @@ const RovingFocusGroupItem = React.forwardRef<RovingFocusItemElement, RovingFocu
 
 RovingFocusGroupItem.displayName = ITEM_NAME
 
-export type { RovingFocusGroupItemProps }
+export type { IRovingFocusGroupItemProps }
 export { RovingFocusGroupItem }

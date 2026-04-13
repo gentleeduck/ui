@@ -27,7 +27,7 @@ export const DismissableLayerContext = React.createContext({
   branches: new Set<React.ComponentRef<typeof Primitive.div>>(),
 })
 
-export interface DismissableLayerProps extends PrimitiveDivProps {
+export interface IDismissableLayerProps extends PrimitiveDivProps {
   /** When true, disables pointer interactions on elements outside this layer. */
   disableOutsidePointerEvents?: boolean
   /** Called when the Escape key is pressed. Can be prevented. */
@@ -42,7 +42,7 @@ export interface DismissableLayerProps extends PrimitiveDivProps {
   onDismiss?: () => void
 }
 
-const DismissableLayer = React.forwardRef<DismissableLayerElement, DismissableLayerProps>((props, forwardedRef) => {
+const DismissableLayer = React.forwardRef<DismissableLayerElement, IDismissableLayerProps>((props, forwardedRef) => {
   const {
     disableOutsidePointerEvents = false,
     onEscapeKeyDown,

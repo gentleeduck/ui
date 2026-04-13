@@ -15,9 +15,9 @@ const ITEM_TEXT_NAME = 'SelectItemText'
 
 type SelectItemTextElement = React.ComponentRef<typeof Primitive.span>
 
-export interface SelectItemTextProps extends React.ComponentPropsWithRef<typeof Primitive.span> {}
+export interface ISelectItemTextProps extends React.ComponentPropsWithRef<typeof Primitive.span> {}
 
-export const SelectItemText = React.forwardRef<SelectItemTextElement, ScopedProps<SelectItemTextProps>>(
+export const SelectItemText = React.forwardRef<SelectItemTextElement, ScopedProps<ISelectItemTextProps>>(
   (props, forwardedRef) => {
     // We ignore `className` and `style` as this part shouldn't be styled.
     const { __scopeSelect, className, style, ...itemTextProps } = props

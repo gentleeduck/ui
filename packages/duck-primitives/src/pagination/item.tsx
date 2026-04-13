@@ -6,10 +6,10 @@ const ITEM_NAME = 'PaginationItem'
 
 type PaginationItemElement = React.ComponentRef<typeof Primitive.li>
 type PrimitiveLiProps = React.ComponentPropsWithoutRef<typeof Primitive.li>
-interface PaginationItemProps extends PrimitiveLiProps {}
+interface IPaginationItemProps extends PrimitiveLiProps {}
 
-const PaginationItem = React.forwardRef<PaginationItemElement, PaginationItemProps>(
-  (props: ScopedProps<PaginationItemProps>, forwardedRef) => {
+const PaginationItem = React.forwardRef<PaginationItemElement, IPaginationItemProps>(
+  (props: ScopedProps<IPaginationItemProps>, forwardedRef) => {
     const { __scopePagination, ...itemProps } = props
     const context = usePaginationContext(ITEM_NAME, __scopePagination)
     return <Primitive.li data-slot="pagination-item" dir={context.dir} {...itemProps} ref={forwardedRef} />
@@ -18,5 +18,5 @@ const PaginationItem = React.forwardRef<PaginationItemElement, PaginationItemPro
 
 PaginationItem.displayName = ITEM_NAME
 
-export type { PaginationItemProps }
+export type { IPaginationItemProps }
 export { PaginationItem }

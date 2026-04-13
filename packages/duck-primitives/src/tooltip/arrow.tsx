@@ -7,10 +7,10 @@ const ARROW_NAME = 'TooltipArrow'
 
 type TooltipArrowElement = React.ComponentRef<typeof PopperPrimitive.PopperAnchor>
 type PopperArrowProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.PopperAnchor>
-export interface TooltipArrowProps extends PopperArrowProps {}
+export interface ITooltipArrowProps extends PopperArrowProps {}
 
-export const TooltipArrow = React.forwardRef<TooltipArrowElement, TooltipArrowProps>(
-  (props: ScopedProps<TooltipArrowProps>, forwardedRef) => {
+export const TooltipArrow = React.forwardRef<TooltipArrowElement, ITooltipArrowProps>(
+  (props: ScopedProps<ITooltipArrowProps>, forwardedRef) => {
     const { __scopeTooltip, ...arrowProps } = props
     const popperScope = usePopperScope(__scopeTooltip)
     const visuallyHiddenContentContext = useVisuallyHiddenContentContext(ARROW_NAME, __scopeTooltip)

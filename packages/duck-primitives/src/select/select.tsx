@@ -110,7 +110,7 @@ const GROUP_NAME = 'SelectGroup'
 export const [SelectGroupContextProvider, useSelectGroupContext] =
   createSelectContext<SelectGroupContextValue>(GROUP_NAME)
 
-interface SelectSharedProps {
+interface ISelectSharedProps {
   children?: React.ReactNode
   open?: boolean
   defaultOpen?: boolean
@@ -123,7 +123,7 @@ interface SelectSharedProps {
   form?: string
 }
 
-export type SelectProps = SelectSharedProps & {
+export type SelectProps = ISelectSharedProps & {
   value?: string
   defaultValue?: string
   onValueChange?(value: string): void

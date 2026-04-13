@@ -8,10 +8,10 @@ const INDICATOR_NAME = 'MenubarItemIndicator'
 
 type MenubarItemIndicatorElement = React.ComponentRef<typeof MenuPrimitive.ItemIndicator>
 type MenuItemIndicatorProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.ItemIndicator>
-interface MenubarItemIndicatorProps extends MenuItemIndicatorProps {}
+interface IMenubarItemIndicatorProps extends MenuItemIndicatorProps {}
 
-const MenubarItemIndicator = React.forwardRef<MenubarItemIndicatorElement, MenubarItemIndicatorProps>(
-  (props: ScopedProps<MenubarItemIndicatorProps>, forwardedRef) => {
+const MenubarItemIndicator = React.forwardRef<MenubarItemIndicatorElement, IMenubarItemIndicatorProps>(
+  (props: ScopedProps<IMenubarItemIndicatorProps>, forwardedRef) => {
     const { __scopeMenubar, ...itemIndicatorProps } = props
     const menuScope = useMenuScope(__scopeMenubar)
     return <MenuPrimitive.ItemIndicator {...menuScope} {...itemIndicatorProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const MenubarItemIndicator = React.forwardRef<MenubarItemIndicatorElement, Menub
 
 MenubarItemIndicator.displayName = INDICATOR_NAME
 
-export type { MenubarItemIndicatorProps }
+export type { IMenubarItemIndicatorProps }
 export { MenubarItemIndicator }

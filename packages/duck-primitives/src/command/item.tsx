@@ -16,15 +16,15 @@ const ITEM_NAME = 'CommandItem'
 
 type CommandItemElement = React.ComponentRef<typeof Primitive.li>
 
-export interface CommandItemProps extends Omit<React.ComponentPropsWithRef<typeof Primitive.li>, 'onSelect'> {
+export interface ICommandItemProps extends Omit<React.ComponentPropsWithRef<typeof Primitive.li>, 'onSelect'> {
   value?: string
   disabled?: boolean
   textValue?: string
   onSelect?: (value: string) => void
 }
 
-export const CommandItem = React.forwardRef<CommandItemElement, CommandItemProps>(
-  (props: ScopedProps<CommandItemProps>, forwardedRef) => {
+export const CommandItem = React.forwardRef<CommandItemElement, ICommandItemProps>(
+  (props: ScopedProps<ICommandItemProps>, forwardedRef) => {
     const {
       __scopeCommand,
       value = '',

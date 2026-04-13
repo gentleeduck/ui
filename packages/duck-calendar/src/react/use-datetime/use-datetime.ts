@@ -1,18 +1,18 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import type { CalendarValue } from '../../selection'
-import type { TimeValue } from '../../time'
+import type { ITimeValue } from '../../time'
 import { useCalendar } from '../use-calendar'
 import { useTimePicker } from '../use-time-picker'
-import type { UseDateTimeConfig, UseDateTimeReturn } from './use-datetime.types'
+import type { IUseDateTimeConfig, IUseDateTimeReturn } from './use-datetime.types'
 
-const DEFAULT_TIME: TimeValue = Object.freeze({ hour: 0, minute: 0, second: 0 })
+const DEFAULT_TIME: ITimeValue = Object.freeze({ hour: 0, minute: 0, second: 0 })
 
 /**
  * Composes `useCalendar` (single mode) and `useTimePicker` into a unified
  * datetime picker hook. Selecting a date preserves the current time, and
  * changing the time preserves the current date.
  */
-export function useDateTime<TDate>(config: UseDateTimeConfig<TDate>): UseDateTimeReturn<TDate> {
+export function useDateTime<TDate>(config: IUseDateTimeConfig<TDate>): IUseDateTimeReturn<TDate> {
   const {
     adapter,
     locale,
@@ -56,7 +56,7 @@ export function useDateTime<TDate>(config: UseDateTimeConfig<TDate>): UseDateTim
   // Extract time from the current value (memoized to avoid new objects each render)
   // ---------------------------------------------------------------------------
   const extractTime = useCallback(
-    (date: TDate | null): TimeValue => {
+    (date: TDate | null): ITimeValue => {
       if (date == null) return DEFAULT_TIME
       return {
         hour: adapter.getHours(date),
@@ -70,7 +70,7 @@ export function useDateTime<TDate>(config: UseDateTimeConfig<TDate>): UseDateTim
   const timeValue = useMemo(() => extractTime(currentValue), [currentValue, extractTime])
 
   // Keep a ref of the latest time so calendar selection can read it synchronously
-  const timeRef = useRef<TimeValue>(timeValue)
+  const timeRef = useRef<ITimeValue>(timeValue)
 
   // Sync timeRef when the controlled value changes externally
   useEffect(() => {
@@ -97,7 +97,7 @@ export function useDateTime<TDate>(config: UseDateTimeConfig<TDate>): UseDateTim
   )
 
   const handleTimeChange = useCallback(
-    (newTime: TimeValue) => {
+    (newTime: ITimeValue) => {
       timeRef.current = newTime
       if (currentValueRef.current != null) {
         const merged = adapter.setTime(currentValueRef.current, newTime.hour, newTime.minute, newTime.second ?? 0)

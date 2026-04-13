@@ -10,13 +10,13 @@ import { useImageLoadingStatus } from './avatar.libs'
 const IMAGE_NAME = 'AvatarImage'
 
 type AvatarImageElement = React.ComponentRef<typeof Primitive.img>
-interface AvatarImageProps extends React.ComponentPropsWithoutRef<typeof Primitive.img> {
+interface IAvatarImageProps extends React.ComponentPropsWithoutRef<typeof Primitive.img> {
   src?: string
   onLoadingStatusChange?: (status: ImageLoadingStatus) => void
 }
 
-const AvatarImage = React.forwardRef<AvatarImageElement, AvatarImageProps>(
-  (props: ScopedProps<AvatarImageProps>, forwardedRef) => {
+const AvatarImage = React.forwardRef<AvatarImageElement, IAvatarImageProps>(
+  (props: ScopedProps<IAvatarImageProps>, forwardedRef) => {
     const { __scopeAvatar, src, onLoadingStatusChange = () => {}, ...imageProps } = props
     const context = useAvatarContext(IMAGE_NAME, __scopeAvatar)
     const imageLoadingStatus = useImageLoadingStatus(src, imageProps)
@@ -40,5 +40,5 @@ const AvatarImage = React.forwardRef<AvatarImageElement, AvatarImageProps>(
 
 AvatarImage.displayName = IMAGE_NAME
 
-export type { AvatarImageProps }
+export type { IAvatarImageProps }
 export { AvatarImage }

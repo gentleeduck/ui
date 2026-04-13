@@ -1,20 +1,20 @@
 import { describe, expect, it } from 'vitest'
 
-import type { DateAdapter, WeekStartDay } from '../adapter.types'
+import type { IDateAdapter, WeekStartDay } from '../adapter.types'
 import { NativeAdapter } from '../native-adapter'
 
 // ---------------------------------------------------------------------------
 // Try to import optional peer-dep adapters. If a peer dependency is missing
 // the adapter is silently excluded from the consistency matrix.
 // ---------------------------------------------------------------------------
-interface AdapterEntry {
+interface IAdapterEntry {
   name: string
-  create: () => DateAdapter<unknown>
+  create: () => IDateAdapter<unknown>
   /** Build the adapter's date type from calendar parts (for toDate comparison). */
-  toNative: (adapter: DateAdapter<unknown>, y: number, m: number, d: number) => Date
+  toNative: (adapter: IDateAdapter<unknown>, y: number, m: number, d: number) => Date
 }
 
-const adapters: AdapterEntry[] = [
+const adapters: IAdapterEntry[] = [
   {
     name: 'NativeAdapter',
     create: () => new NativeAdapter(),
@@ -60,7 +60,7 @@ try {
 // ---------------------------------------------------------------------------
 
 /** Extract y/m/d triple from any adapter date via the adapter itself. */
-function triple(adapter: DateAdapter<unknown>, date: unknown): [number, number, number] {
+function triple(adapter: IDateAdapter<unknown>, date: unknown): [number, number, number] {
   return [adapter.getYear(date), adapter.getMonth(date), adapter.getDate(date)]
 }
 

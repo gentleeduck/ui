@@ -8,10 +8,10 @@ const RADIO_GROUP_NAME = 'MenubarRadioGroup'
 
 type MenubarRadioGroupElement = React.ComponentRef<typeof MenuPrimitive.RadioGroup>
 type MenuRadioGroupProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.RadioGroup>
-interface MenubarRadioGroupProps extends MenuRadioGroupProps {}
+interface IMenubarRadioGroupProps extends MenuRadioGroupProps {}
 
-const MenubarRadioGroup = React.forwardRef<MenubarRadioGroupElement, MenubarRadioGroupProps>(
-  (props: ScopedProps<MenubarRadioGroupProps>, forwardedRef) => {
+const MenubarRadioGroup = React.forwardRef<MenubarRadioGroupElement, IMenubarRadioGroupProps>(
+  (props: ScopedProps<IMenubarRadioGroupProps>, forwardedRef) => {
     const { __scopeMenubar, ...radioGroupProps } = props
     const menuScope = useMenuScope(__scopeMenubar)
     return <MenuPrimitive.RadioGroup {...menuScope} {...radioGroupProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const MenubarRadioGroup = React.forwardRef<MenubarRadioGroupElement, MenubarRadi
 
 MenubarRadioGroup.displayName = RADIO_GROUP_NAME
 
-export type { MenubarRadioGroupProps }
+export type { IMenubarRadioGroupProps }
 export { MenubarRadioGroup }

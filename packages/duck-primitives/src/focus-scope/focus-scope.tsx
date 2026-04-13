@@ -20,7 +20,7 @@ const FOCUS_SCOPE_NAME = 'FocusScope'
 type FocusScopeElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-export interface FocusScopeProps extends PrimitiveDivProps {
+export interface IFocusScopeProps extends PrimitiveDivProps {
   /** When true, Tab from last item wraps to first and Shift+Tab from first wraps to last. */
   loop?: boolean
   /** When true, focus cannot leave the scope via keyboard, pointer, or programmatic focus. */
@@ -31,7 +31,7 @@ export interface FocusScopeProps extends PrimitiveDivProps {
   onUnmountAutoFocus?: (event: Event) => void
 }
 
-const FocusScope = React.forwardRef<FocusScopeElement, FocusScopeProps>((props, forwardedRef) => {
+const FocusScope = React.forwardRef<FocusScopeElement, IFocusScopeProps>((props, forwardedRef) => {
   const {
     loop = false,
     trapped = false,

@@ -25,13 +25,13 @@ const [createRovingFocusGroupContext, createRovingFocusGroupScope] = createConte
   createCollectionScope,
 ])
 
-interface RovingFocusGroupOptions {
+interface IRovingFocusGroupOptions {
   orientation?: Orientation
   dir?: Direction
   loop?: boolean
 }
 
-type RovingContextValue = RovingFocusGroupOptions & {
+type RovingContextValue = IRovingFocusGroupOptions & {
   currentTabStopId: string | null
   onItemFocus(tabStopId: string): void
   onItemShiftTab(): void
@@ -43,11 +43,11 @@ export const [RovingFocusProvider, useRovingFocusContext] =
   createRovingFocusGroupContext<RovingContextValue>(GROUP_NAME)
 
 type RovingFocusGroupElement = RovingFocusGroupImplElement
-export interface RovingFocusGroupProps extends RovingFocusGroupImplProps {}
+export interface IRovingFocusGroupProps extends IRovingFocusGroupImplProps {}
 
 /** Container that manages roving tabindex focus within a group of items. */
-const RovingFocusGroup = React.forwardRef<RovingFocusGroupElement, RovingFocusGroupProps>(
-  (props: ScopedProps<RovingFocusGroupProps>, forwardedRef) => {
+const RovingFocusGroup = React.forwardRef<RovingFocusGroupElement, IRovingFocusGroupProps>(
+  (props: ScopedProps<IRovingFocusGroupProps>, forwardedRef) => {
     return (
       <Collection.Provider scope={props.__scopeRovingFocusGroup}>
         <Collection.Slot scope={props.__scopeRovingFocusGroup}>
@@ -62,7 +62,7 @@ RovingFocusGroup.displayName = GROUP_NAME
 
 type RovingFocusGroupImplElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-interface RovingFocusGroupImplProps extends Omit<PrimitiveDivProps, 'dir'>, RovingFocusGroupOptions {
+interface IRovingFocusGroupImplProps extends Omit<PrimitiveDivProps, 'dir'>, IRovingFocusGroupOptions {
   currentTabStopId?: string | null
   defaultCurrentTabStopId?: string
   onCurrentTabStopIdChange?: (tabStopId: string | null) => void
@@ -70,8 +70,8 @@ interface RovingFocusGroupImplProps extends Omit<PrimitiveDivProps, 'dir'>, Rovi
   preventScrollOnEntryFocus?: boolean
 }
 
-const RovingFocusGroupImpl = React.forwardRef<RovingFocusGroupImplElement, RovingFocusGroupImplProps>(
-  (props: ScopedProps<RovingFocusGroupImplProps>, forwardedRef) => {
+const RovingFocusGroupImpl = React.forwardRef<RovingFocusGroupImplElement, IRovingFocusGroupImplProps>(
+  (props: ScopedProps<IRovingFocusGroupImplProps>, forwardedRef) => {
     const {
       __scopeRovingFocusGroup,
       orientation,

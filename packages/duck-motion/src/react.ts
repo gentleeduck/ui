@@ -40,14 +40,14 @@ export function useDuckReducedMotion(): boolean {
   }
 }
 
-export interface ReducedMotionFallback {
+export interface IReducedMotionFallback {
   duration: 0
 }
 
 export function motionTransition<T extends Record<string, unknown>>(
   reduced: boolean,
   normal: T,
-): T | ReducedMotionFallback {
+): T | IReducedMotionFallback {
   if (reduced) return { duration: 0 }
   return normal
 }

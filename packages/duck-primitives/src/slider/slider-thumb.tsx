@@ -10,10 +10,10 @@ import { BubbleInput } from './slider-input'
 
 const THUMB_NAME = 'SliderThumb'
 
-interface SliderThumbProps extends Omit<SliderThumbImplProps, 'index'> {}
+interface ISliderThumbProps extends Omit<ISliderThumbImplProps, 'index'> {}
 
-const SliderThumb = React.forwardRef<SliderThumbElement, SliderThumbProps>(
-  (props: ScopedProps<SliderThumbProps>, forwardedRef) => {
+const SliderThumb = React.forwardRef<SliderThumbElement, ISliderThumbProps>(
+  (props: ScopedProps<ISliderThumbProps>, forwardedRef) => {
     const getItems = useCollection(props.__scopeSlider)
     const [thumb, setThumb] = React.useState<SliderThumbImplElement | null>(null)
     const composedRefs = useComposedRefs(forwardedRef, (node) => setThumb(node))
@@ -26,13 +26,13 @@ const SliderThumb = React.forwardRef<SliderThumbElement, SliderThumbProps>(
 )
 
 type SliderThumbImplElement = React.ComponentRef<typeof Primitive.span>
-interface SliderThumbImplProps extends PrimitiveSpanProps {
+interface ISliderThumbImplProps extends PrimitiveSpanProps {
   index: number
   name?: string
 }
 
-const SliderThumbImpl = React.forwardRef<SliderThumbImplElement, SliderThumbImplProps>(
-  (props: ScopedProps<SliderThumbImplProps>, forwardedRef) => {
+const SliderThumbImpl = React.forwardRef<SliderThumbImplElement, ISliderThumbImplProps>(
+  (props: ScopedProps<ISliderThumbImplProps>, forwardedRef) => {
     const { __scopeSlider, index, name, ...thumbProps } = props
     const context = useSliderContext(THUMB_NAME, __scopeSlider)
     const orientation = useSliderOrientationContext(THUMB_NAME, __scopeSlider)
@@ -104,5 +104,5 @@ SliderThumbImpl.displayName = 'SliderThumbImpl'
 
 SliderThumb.displayName = THUMB_NAME
 
-export type { SliderThumbProps }
+export type { ISliderThumbProps }
 export { SliderThumb }

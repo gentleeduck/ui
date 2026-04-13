@@ -6,7 +6,7 @@ import { createContextScope } from './create-context'
 
 type SlotProps = React.ComponentPropsWithoutRef<typeof Slot>
 type CollectionElement = HTMLElement
-interface CollectionProps extends SlotProps {
+interface ICollectionProps extends SlotProps {
   scope: Scope
 }
 
@@ -42,7 +42,7 @@ function createCollection<ItemElement extends HTMLElement, ItemData = {}>(name: 
   const COLLECTION_SLOT_NAME = `${name}CollectionSlot`
 
   const CollectionSlotImpl = createSlot(COLLECTION_SLOT_NAME)
-  const CollectionSlot = React.forwardRef<CollectionElement, CollectionProps>((props, forwardedRef) => {
+  const CollectionSlot = React.forwardRef<CollectionElement, ICollectionProps>((props, forwardedRef) => {
     const { scope, children } = props
     const context = useCollectionContext(COLLECTION_SLOT_NAME, scope)
     const composedRefs = useComposedRefs(forwardedRef, context.collectionRef)
@@ -107,5 +107,5 @@ function createCollection<ItemElement extends HTMLElement, ItemData = {}>(name: 
   ] as const
 }
 
-export type { CollectionProps }
+export type { ICollectionProps }
 export { createCollection }

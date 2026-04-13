@@ -8,10 +8,10 @@ const SUB_CONTENT_NAME = 'MenubarSubContent'
 
 type MenubarSubContentElement = React.ComponentRef<typeof MenuPrimitive.Content>
 type MenuSubContentProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.SubContent>
-interface MenubarSubContentProps extends MenuSubContentProps {}
+interface IMenubarSubContentProps extends MenuSubContentProps {}
 
-const MenubarSubContent = React.forwardRef<MenubarSubContentElement, MenubarSubContentProps>(
-  (props: ScopedProps<MenubarSubContentProps>, forwardedRef) => {
+const MenubarSubContent = React.forwardRef<MenubarSubContentElement, IMenubarSubContentProps>(
+  (props: ScopedProps<IMenubarSubContentProps>, forwardedRef) => {
     const { __scopeMenubar, ...subContentProps } = props
     const menuScope = useMenuScope(__scopeMenubar)
 
@@ -39,5 +39,5 @@ const MenubarSubContent = React.forwardRef<MenubarSubContentElement, MenubarSubC
 
 MenubarSubContent.displayName = SUB_CONTENT_NAME
 
-export type { MenubarSubContentProps }
+export type { IMenubarSubContentProps }
 export { MenubarSubContent }

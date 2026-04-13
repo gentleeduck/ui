@@ -1,5 +1,5 @@
 /** @internal */
-interface Measurable {
+interface IMeasurable {
   getBoundingClientRect(): DOMRect
 }
 
@@ -12,7 +12,7 @@ interface Measurable {
  * Multiple callbacks can observe the same element -- the loop only runs
  * while at least one element is being observed.
  */
-function observeElementRect(elementToObserve: Measurable, callback: CallbackFn) {
+function observeElementRect(elementToObserve: IMeasurable, callback: CallbackFn) {
   const observedData = observedElements.get(elementToObserve)
 
   if (observedData === undefined) {
@@ -49,16 +49,16 @@ function observeElementRect(elementToObserve: Measurable, callback: CallbackFn) 
 
 type CallbackFn = (rect: DOMRect) => void
 
-interface ObservedData {
+interface IObservedData {
   rect: DOMRect
   callbacks: Array<CallbackFn>
 }
 
 let rafId: number
-const observedElements: Map<Measurable, ObservedData> = new Map()
+const observedElements: Map<IMeasurable, IObservedData> = new Map()
 
 function runLoop() {
-  const changedRectsData: Array<ObservedData> = []
+  const changedRectsData: Array<IObservedData> = []
 
   // DOM reads
   observedElements.forEach((data, element) => {
@@ -90,5 +90,5 @@ function rectEquals(rect1: DOMRect, rect2: DOMRect) {
   )
 }
 
-export type { Measurable }
+export type { IMeasurable }
 export { observeElementRect }

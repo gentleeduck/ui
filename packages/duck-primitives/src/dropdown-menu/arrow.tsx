@@ -8,10 +8,10 @@ const ARROW_NAME = 'DropdownMenuArrow'
 
 type DropdownMenuArrowElement = React.ComponentRef<typeof MenuPrimitive.Arrow>
 type MenuArrowProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Arrow>
-interface DropdownMenuArrowProps extends MenuArrowProps {}
+interface IDropdownMenuArrowProps extends MenuArrowProps {}
 
-const DropdownMenuArrow = React.forwardRef<DropdownMenuArrowElement, DropdownMenuArrowProps>(
-  (props: ScopedProps<DropdownMenuArrowProps>, forwardedRef) => {
+const DropdownMenuArrow = React.forwardRef<DropdownMenuArrowElement, IDropdownMenuArrowProps>(
+  (props: ScopedProps<IDropdownMenuArrowProps>, forwardedRef) => {
     const { __scopeDropdownMenu, ...arrowProps } = props
     const menuScope = useMenuScope(__scopeDropdownMenu)
     return <MenuPrimitive.Arrow {...menuScope} {...arrowProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const DropdownMenuArrow = React.forwardRef<DropdownMenuArrowElement, DropdownMen
 
 DropdownMenuArrow.displayName = ARROW_NAME
 
-export type { DropdownMenuArrowProps }
+export type { IDropdownMenuArrowProps }
 export { DropdownMenuArrow }

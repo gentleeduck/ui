@@ -8,10 +8,10 @@ const YEAR_VIEW_NAME = 'CalendarYearView'
 type CalendarYearViewElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-export interface CalendarYearViewProps extends PrimitiveDivProps {}
+export interface ICalendarYearViewProps extends PrimitiveDivProps {}
 
-export const CalendarYearView = React.forwardRef<CalendarYearViewElement, CalendarYearViewProps>(
-  (props: ScopedProps<CalendarYearViewProps>, forwardedRef) => {
+export const CalendarYearView = React.forwardRef<CalendarYearViewElement, ICalendarYearViewProps>(
+  (props: ScopedProps<ICalendarYearViewProps>, forwardedRef) => {
     const { __scopeCalendar, children, ...viewProps } = props
     const context = useCalendarContext(YEAR_VIEW_NAME, __scopeCalendar)
     const { adapter } = context

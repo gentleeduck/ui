@@ -6,9 +6,9 @@ const INPUT_OTP_SLOT_NAME = 'InputOTPSlot'
 type InputOTPSlotElement = React.ComponentRef<typeof Primitive.input>
 type PrimitiveInputProps = React.ComponentPropsWithoutRef<typeof Primitive.input>
 
-interface InputOTPSlotProps extends PrimitiveInputProps {}
+interface IInputOTPSlotProps extends PrimitiveInputProps {}
 
-const InputOTPSlot = React.forwardRef<InputOTPSlotElement, InputOTPSlotProps>((props, forwardedRef) => {
+const InputOTPSlot = React.forwardRef<InputOTPSlotElement, IInputOTPSlotProps>((props, forwardedRef) => {
   const { maxLength = 1, ...slotProps } = props
   return (
     <Primitive.input
@@ -23,5 +23,5 @@ const InputOTPSlot = React.forwardRef<InputOTPSlotElement, InputOTPSlotProps>((p
 
 InputOTPSlot.displayName = INPUT_OTP_SLOT_NAME
 
-export type { InputOTPSlotProps }
+export type { IInputOTPSlotProps }
 export { INPUT_OTP_SLOT_NAME, InputOTPSlot }

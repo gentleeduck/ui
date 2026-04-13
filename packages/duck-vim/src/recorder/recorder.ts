@@ -1,5 +1,5 @@
 import { MODIFIER_KEYS } from '../parser/parser'
-import type { KeyRecorderOptions, KeyRecorderState, KeyStateSnapshot } from './recorder.types'
+import type { IKeyRecorderOptions, IKeyRecorderState, IKeyStateSnapshot } from './recorder.types'
 
 /**
  * Records key combinations for settings UIs.
@@ -17,14 +17,14 @@ import type { KeyRecorderOptions, KeyRecorderState, KeyStateSnapshot } from './r
  * recorder.stop()
  */
 export class KeyRecorder {
-  private options: KeyRecorderOptions
+  private options: IKeyRecorderOptions
   private target: HTMLElement | Document | null = null
   private heldModifiers = new Set<string>()
   private currentKey: string | null = null
   private _recorded: string | null = null
   private _isRecording = false
 
-  constructor(options?: KeyRecorderOptions) {
+  constructor(options?: IKeyRecorderOptions) {
     this.options = options ?? {}
   }
 
@@ -72,7 +72,7 @@ export class KeyRecorder {
   /**
    * Get the current recorder state.
    */
-  getState(): KeyRecorderState {
+  getState(): IKeyRecorderState {
     const activeKeys = [...this.heldModifiers]
     if (this.currentKey) activeKeys.push(this.currentKey)
 
@@ -193,7 +193,7 @@ export class KeyStateTracker {
   /**
    * Get a snapshot of currently pressed keys.
    */
-  getSnapshot(): KeyStateSnapshot {
+  getSnapshot(): IKeyStateSnapshot {
     let hasModifier = false
     for (const key of this.pressed) {
       if (MODIFIER_KEYS.has(key)) {

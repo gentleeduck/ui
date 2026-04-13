@@ -8,10 +8,10 @@ const SEPARATOR_NAME = 'MenubarSeparator'
 
 type MenubarSeparatorElement = React.ComponentRef<typeof MenuPrimitive.Separator>
 type MenuSeparatorProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Separator>
-interface MenubarSeparatorProps extends MenuSeparatorProps {}
+interface IMenubarSeparatorProps extends MenuSeparatorProps {}
 
-const MenubarSeparator = React.forwardRef<MenubarSeparatorElement, MenubarSeparatorProps>(
-  (props: ScopedProps<MenubarSeparatorProps>, forwardedRef) => {
+const MenubarSeparator = React.forwardRef<MenubarSeparatorElement, IMenubarSeparatorProps>(
+  (props: ScopedProps<IMenubarSeparatorProps>, forwardedRef) => {
     const { __scopeMenubar, ...separatorProps } = props
     const menuScope = useMenuScope(__scopeMenubar)
     return <MenuPrimitive.Separator {...menuScope} {...separatorProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const MenubarSeparator = React.forwardRef<MenubarSeparatorElement, MenubarSepara
 
 MenubarSeparator.displayName = SEPARATOR_NAME
 
-export type { MenubarSeparatorProps }
+export type { IMenubarSeparatorProps }
 export { MenubarSeparator }

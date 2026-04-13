@@ -1,4 +1,4 @@
-import type { ClassValue, CvaProps, VariantsOptions } from './variants.types'
+import type { ClassValue, CvaProps, IVariantsOptions } from './variants.types'
 
 /**
  * Build a stable cache key by serializing props entries in sorted order.
@@ -89,9 +89,9 @@ function flattenClasses(input: ClassValue | undefined, tokens: string[]): void {
  * @template TVariants
  *   A record mapping variant keys to a record of allowed values and their classes.
  *
- * @param {string | (VariantsOptions<TVariants> & { base?: string })} baseOrOptions
+ * @param {string | (IVariantsOptions<TVariants> & { base?: string })} baseOrOptions
  *   Either the base class string, or an options object including `base`.
- * @param {VariantsOptions<TVariants>} [maybeOptions]
+ * @param {IVariantsOptions<TVariants>} [maybeOptions]
  *   The options object when using the two-arg signature.
  *
  * @returns {(props?: CvaProps<TVariants>) => string}
@@ -125,8 +125,8 @@ function flattenClasses(input: ClassValue | undefined, tokens: string[]): void {
  * ```
  */
 export function cva<TVariants extends Record<string, Record<string, string | string[]>>>(
-  baseOrOptions: string | (VariantsOptions<TVariants> & { base?: string }),
-  maybeOptions?: VariantsOptions<TVariants>,
+  baseOrOptions: string | (IVariantsOptions<TVariants> & { base?: string }),
+  maybeOptions?: IVariantsOptions<TVariants>,
 ): (props?: CvaProps<TVariants>) => string {
   // Normalize the two possible call signatures
   const config = typeof baseOrOptions === 'string' ? { base: baseOrOptions, ...maybeOptions } : baseOrOptions

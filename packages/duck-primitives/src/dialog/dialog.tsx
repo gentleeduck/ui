@@ -28,7 +28,7 @@ export type DialogContextValue = {
 
 export const [DialogProvider, useDialogContext] = createDialogContext<DialogContextValue>(DIALOG_NAME)
 
-export interface DialogProps {
+export interface IDialogProps {
   children?: React.ReactNode
   open?: boolean
   defaultOpen?: boolean
@@ -38,7 +38,7 @@ export interface DialogProps {
 }
 
 /** Manages open/closed state and provides context to all child components. */
-const Dialog: React.FC<DialogProps> = (props: ScopedProps<DialogProps>) => {
+const Dialog: React.FC<IDialogProps> = (props: ScopedProps<IDialogProps>) => {
   const { __scopeDialog, children, open: openProp, defaultOpen, onOpenChange, dir, modal = true } = props
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const contentRef = React.useRef<DialogContentElement>(null)

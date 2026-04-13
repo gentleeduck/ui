@@ -27,7 +27,7 @@ type HoverCardContextValue = {
 
 export const [HoverCardProvider, useHoverCardContext] = createHoverCardContext<HoverCardContextValue>(HOVERCARD_NAME)
 
-export interface HoverCardProps {
+export interface IHoverCardProps {
   children?: React.ReactNode
   open?: boolean
   defaultOpen?: boolean
@@ -38,7 +38,7 @@ export interface HoverCardProps {
 }
 
 /** Root HoverCard component that manages open/close state and timing delays. */
-export const HoverCard: React.FC<HoverCardProps> = (props: ScopedProps<HoverCardProps>) => {
+export const HoverCard: React.FC<IHoverCardProps> = (props: ScopedProps<IHoverCardProps>) => {
   const {
     __scopeHoverCard,
     children,

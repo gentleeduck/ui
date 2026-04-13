@@ -8,10 +8,10 @@ const ANCHOR_NAME = 'MenuAnchor'
 
 type MenuAnchorElement = React.ComponentRef<typeof PopperPrimitive.Anchor>
 type PopperAnchorProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.Anchor>
-interface MenuAnchorProps extends PopperAnchorProps {}
+interface IMenuAnchorProps extends PopperAnchorProps {}
 
-const MenuAnchor = React.forwardRef<MenuAnchorElement, MenuAnchorProps>(
-  (props: ScopedProps<MenuAnchorProps>, forwardedRef) => {
+const MenuAnchor = React.forwardRef<MenuAnchorElement, IMenuAnchorProps>(
+  (props: ScopedProps<IMenuAnchorProps>, forwardedRef) => {
     const { __scopeMenu, ...anchorProps } = props
     const popperScope = usePopperScope(__scopeMenu)
     return <PopperPrimitive.Anchor {...popperScope} {...anchorProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const MenuAnchor = React.forwardRef<MenuAnchorElement, MenuAnchorProps>(
 
 MenuAnchor.displayName = ANCHOR_NAME
 
-export type { MenuAnchorElement, MenuAnchorProps }
+export type { MenuAnchorElement, IMenuAnchorProps }
 export { MenuAnchor }

@@ -1,2 +1,2 @@
-export type { PresenceProps } from './presence'
+export type { IPresenceProps } from './presence'
 export { Presence } from './presence'

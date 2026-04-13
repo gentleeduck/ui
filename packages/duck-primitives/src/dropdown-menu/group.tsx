@@ -8,10 +8,10 @@ const GROUP_NAME = 'DropdownMenuGroup'
 
 type DropdownMenuGroupElement = React.ComponentRef<typeof MenuPrimitive.Group>
 type MenuGroupProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Group>
-interface DropdownMenuGroupProps extends MenuGroupProps {}
+interface IDropdownMenuGroupProps extends MenuGroupProps {}
 
-const DropdownMenuGroup = React.forwardRef<DropdownMenuGroupElement, DropdownMenuGroupProps>(
-  (props: ScopedProps<DropdownMenuGroupProps>, forwardedRef) => {
+const DropdownMenuGroup = React.forwardRef<DropdownMenuGroupElement, IDropdownMenuGroupProps>(
+  (props: ScopedProps<IDropdownMenuGroupProps>, forwardedRef) => {
     const { __scopeDropdownMenu, ...groupProps } = props
     const menuScope = useMenuScope(__scopeDropdownMenu)
     return <MenuPrimitive.Group {...menuScope} {...groupProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const DropdownMenuGroup = React.forwardRef<DropdownMenuGroupElement, DropdownMen
 
 DropdownMenuGroup.displayName = GROUP_NAME
 
-export type { DropdownMenuGroupProps }
+export type { IDropdownMenuGroupProps }
 export { DropdownMenuGroup }

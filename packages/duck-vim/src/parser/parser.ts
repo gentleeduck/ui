@@ -1,6 +1,6 @@
 import { resolveMod } from '../platform/platform'
 import type { Platform } from '../platform/platform.types'
-import type { ParsedKeyBind, ValidationResult } from './parser.types'
+import type { IParsedKeyBind, IValidationResult } from './parser.types'
 
 /**
  * Map of raw key aliases to their canonical names.
@@ -49,7 +49,7 @@ function normalizeKeyPart(part: string): string {
  * parseKeyBind('Mod+S', 'mac')
  * // { key: 's', ctrl: false, shift: false, alt: false, meta: true, modifiers: ['meta'] }
  */
-export function parseKeyBind(binding: string, platform?: Platform): ParsedKeyBind {
+export function parseKeyBind(binding: string, platform?: Platform): IParsedKeyBind {
   if (!binding?.trim()) {
     throw new Error('Key binding string cannot be empty')
   }
@@ -118,7 +118,7 @@ export function normalizeKeyBind(binding: string, platform?: Platform): string {
  * @param binding - A key binding string to validate
  * @returns The validation result
  */
-export function validateKeyBind(binding: string): ValidationResult {
+export function validateKeyBind(binding: string): IValidationResult {
   const errors: string[] = []
   const warnings: string[] = []
 

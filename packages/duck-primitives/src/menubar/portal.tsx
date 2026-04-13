@@ -7,9 +7,9 @@ import { useMenuScope } from './menubar'
 const PORTAL_NAME = 'MenubarPortal'
 
 type MenuPortalProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Portal>
-interface MenubarPortalProps extends MenuPortalProps {}
+interface IMenubarPortalProps extends MenuPortalProps {}
 
-const MenubarPortal: React.FC<MenubarPortalProps> = (props: ScopedProps<MenubarPortalProps>) => {
+const MenubarPortal: React.FC<IMenubarPortalProps> = (props: ScopedProps<IMenubarPortalProps>) => {
   const { __scopeMenubar, ...portalProps } = props
   const menuScope = useMenuScope(__scopeMenubar)
   return <MenuPrimitive.Portal {...menuScope} {...portalProps} />
@@ -17,5 +17,5 @@ const MenubarPortal: React.FC<MenubarPortalProps> = (props: ScopedProps<MenubarP
 
 MenubarPortal.displayName = PORTAL_NAME
 
-export type { MenubarPortalProps }
+export type { IMenubarPortalProps }
 export { MenubarPortal }

@@ -1,5 +1,5 @@
 /** A time value with hour, minute, and optional second. */
-export interface TimeValue {
+export interface ITimeValue {
   /** 0-23 */
   hour: number
   /** 0-59 */
@@ -15,21 +15,21 @@ export type TimeField = 'hour' | 'minute' | 'second' | 'ampm'
 export type HourCycle = '12' | '24'
 
 /** Configuration for the time picker. */
-export interface TimePickerConfig {
+export interface ITimePickerConfig {
   /** Controlled time value. */
-  value?: TimeValue
+  value?: ITimeValue
   /** Default time value for uncontrolled usage. */
-  defaultValue?: TimeValue
+  defaultValue?: ITimeValue
   /** Called when the time changes. */
-  onChange?: (value: TimeValue) => void
+  onChange?: (value: ITimeValue) => void
   /** 12-hour or 24-hour display. Default `'24'`. */
   hourCycle?: HourCycle
   /** Whether to show the seconds field. Default `false`. */
   showSeconds?: boolean
   /** Minimum selectable time. */
-  minTime?: TimeValue
+  minTime?: ITimeValue
   /** Maximum selectable time. */
-  maxTime?: TimeValue
+  maxTime?: ITimeValue
   /** Step increment for minutes. Default `1`. */
   minuteStep?: number
   /** Step increment for seconds. Default `1`. */

@@ -14,10 +14,10 @@ const NAV_BUTTON_NAME = 'CalendarNavButton'
 type CalendarNavElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-export interface CalendarNavProps extends PrimitiveDivProps {}
+export interface ICalendarNavProps extends PrimitiveDivProps {}
 
-export const CalendarNav = React.forwardRef<CalendarNavElement, CalendarNavProps>(
-  (props: ScopedProps<CalendarNavProps>, forwardedRef) => {
+export const CalendarNav = React.forwardRef<CalendarNavElement, ICalendarNavProps>(
+  (props: ScopedProps<ICalendarNavProps>, forwardedRef) => {
     const { __scopeCalendar, children, ...navProps } = props
     useCalendarContext(NAV_NAME, __scopeCalendar)
 
@@ -48,12 +48,12 @@ CalendarNav.displayName = NAV_NAME
 type CalendarNavButtonElement = React.ComponentRef<typeof Primitive.button>
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
 
-export interface CalendarPrevButtonProps extends PrimitiveButtonProps {
+export interface ICalendarPrevButtonProps extends PrimitiveButtonProps {
   __scopeCalendar?: Scope
 }
 
-export const CalendarPrevButton = React.forwardRef<CalendarNavButtonElement, CalendarPrevButtonProps>(
-  (props: ScopedProps<CalendarPrevButtonProps>, forwardedRef) => {
+export const CalendarPrevButton = React.forwardRef<CalendarNavButtonElement, ICalendarPrevButtonProps>(
+  (props: ScopedProps<ICalendarPrevButtonProps>, forwardedRef) => {
     const { __scopeCalendar, ...buttonProps } = props
     const context = useCalendarContext(NAV_BUTTON_NAME, __scopeCalendar)
     const navProps = context.getNavProps('prev')
@@ -79,12 +79,12 @@ CalendarPrevButton.displayName = 'CalendarPrevButton'
 // CalendarNextButton
 // ---------------------------------------------------------------------------
 
-export interface CalendarNextButtonProps extends PrimitiveButtonProps {
+export interface ICalendarNextButtonProps extends PrimitiveButtonProps {
   __scopeCalendar?: Scope
 }
 
-export const CalendarNextButton = React.forwardRef<CalendarNavButtonElement, CalendarNextButtonProps>(
-  (props: ScopedProps<CalendarNextButtonProps>, forwardedRef) => {
+export const CalendarNextButton = React.forwardRef<CalendarNavButtonElement, ICalendarNextButtonProps>(
+  (props: ScopedProps<ICalendarNextButtonProps>, forwardedRef) => {
     const { __scopeCalendar, ...buttonProps } = props
     const context = useCalendarContext(NAV_BUTTON_NAME, __scopeCalendar)
     const navProps = context.getNavProps('next')

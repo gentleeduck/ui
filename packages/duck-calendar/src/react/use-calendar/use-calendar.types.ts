@@ -1,14 +1,14 @@
-import type { CalendarDay, CalendarMonth, CalendarWeek } from '../../grid'
-import type { CalendarConfig, ViewMode } from '../../index.types'
+import type { ICalendarDay, ICalendarMonth, ICalendarWeek } from '../../grid'
+import type { ICalendarConfig, ViewMode } from '../../index.types'
 import type { CalendarValue, SelectionMode } from '../../selection'
-import type { AnnouncerReturn } from '../use-announcer'
+import type { IAnnouncerReturn } from '../use-announcer'
 
-export interface UseCalendarConfig<TDate, M extends SelectionMode = 'single'> extends CalendarConfig<TDate, M> {
+export interface IUseCalendarConfig<TDate, M extends SelectionMode = 'single'> extends ICalendarConfig<TDate, M> {
   /** Initial selected value for uncontrolled usage. */
   defaultSelected?: CalendarValue<TDate, M>
 }
 
-export interface DayProps {
+export interface IDayProps {
   role: 'gridcell'
   'aria-label': string
   'aria-selected': boolean
@@ -31,24 +31,24 @@ export interface DayProps {
   onKeyDown: React.KeyboardEventHandler
 }
 
-export interface GridProps {
+export interface IGridProps {
   role: 'grid'
   'aria-labelledby': string
   'aria-roledescription': string
 }
 
-export interface NavProps {
+export interface INavProps {
   'aria-label': string
   disabled: boolean
   onClick: () => void
 }
 
-export interface HeaderProps {
+export interface IHeaderProps {
   id: string
   'aria-live': 'polite'
 }
 
-export interface UseCalendarReturn<TDate, M extends SelectionMode> {
+export interface IUseCalendarReturn<TDate, M extends SelectionMode> {
   state: {
     /** The currently visible month. */
     month: TDate
@@ -59,9 +59,9 @@ export interface UseCalendarReturn<TDate, M extends SelectionMode> {
     /** Whether we're showing the day grid, month picker, or year picker. */
     viewMode: ViewMode
     /** Decorated weeks for the first (or only) month. */
-    weeks: CalendarWeek<TDate>[]
+    weeks: ICalendarWeek<TDate>[]
     /** All month grids when numberOfMonths > 1. */
-    months: CalendarMonth<TDate>[]
+    months: ICalendarMonth<TDate>[]
     /** Localised weekday header labels (7 items). */
     weekdays: string[]
     /** Whether forward navigation is possible (respects toDate). */
@@ -78,13 +78,13 @@ export interface UseCalendarReturn<TDate, M extends SelectionMode> {
     focusDate: (date: TDate) => void
   }
   /** Spread onto each day cell element. */
-  getDayProps: (day: CalendarDay<TDate>) => DayProps
+  getDayProps: (day: ICalendarDay<TDate>) => IDayProps
   /** Spread onto the grid container element. */
-  getGridProps: () => GridProps
+  getGridProps: () => IGridProps
   /** Spread onto prev/next navigation buttons. */
-  getNavProps: (direction: 'prev' | 'next') => NavProps
+  getNavProps: (direction: 'prev' | 'next') => INavProps
   /** Spread onto the month/year header element. */
-  getHeaderProps: () => HeaderProps
+  getHeaderProps: () => IHeaderProps
   /** Render announcer inside the calendar tree for screen reader announcements. */
-  announcer: AnnouncerReturn
+  announcer: IAnnouncerReturn
 }

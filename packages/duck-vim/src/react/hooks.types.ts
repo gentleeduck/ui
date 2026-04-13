@@ -1,11 +1,11 @@
-import type { KeyBindOptions } from '../command/command.types'
-import type { KeyRecorderState } from '../recorder/recorder.types'
-import type { SequenceOptions } from '../sequence/sequence.types'
+import type { IKeyBindOptions } from '../command/command.types'
+import type { IKeyRecorderState } from '../recorder/recorder.types'
+import type { ISequenceOptions } from '../sequence/sequence.types'
 
 /**
  * Options for the useKeyBind hook.
  */
-export interface KeyBindHookOptions extends Partial<KeyBindOptions> {
+export interface IKeyBindHookOptions extends Partial<IKeyBindOptions> {
   /** Optional ref to scope the key binding to a specific element */
   targetRef?: React.RefObject<HTMLElement | null>
 }
@@ -13,7 +13,7 @@ export interface KeyBindHookOptions extends Partial<KeyBindOptions> {
 /**
  * Options for the useKeySequence hook.
  */
-export interface SequenceHookOptions extends SequenceOptions {
+export interface ISequenceHookOptions extends ISequenceOptions {
   /** Optional ref to scope the sequence listener to a specific element */
   targetRef?: React.RefObject<HTMLElement | null>
 }
@@ -21,8 +21,8 @@ export interface SequenceHookOptions extends SequenceOptions {
 /**
  * Return type from useKeyRecorder.
  */
-export interface KeyRecorderReturn {
-  state: KeyRecorderState
+export interface IKeyRecorderReturn {
+  state: IKeyRecorderState
   start: (target?: HTMLElement) => void
   stop: () => void
   reset: () => void

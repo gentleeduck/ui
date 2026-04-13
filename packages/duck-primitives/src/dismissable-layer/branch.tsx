@@ -7,9 +7,9 @@ const BRANCH_NAME = 'DismissableLayerBranch'
 
 type DismissableLayerBranchElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-export interface DismissableLayerBranchProps extends PrimitiveDivProps {}
+export interface IDismissableLayerBranchProps extends PrimitiveDivProps {}
 
-export const DismissableLayerBranch = React.forwardRef<DismissableLayerBranchElement, DismissableLayerBranchProps>(
+export const DismissableLayerBranch = React.forwardRef<DismissableLayerBranchElement, IDismissableLayerBranchProps>(
   (props, forwardedRef) => {
     const context = React.useContext(DismissableLayerContext)
     const ref = React.useRef<DismissableLayerBranchElement>(null)

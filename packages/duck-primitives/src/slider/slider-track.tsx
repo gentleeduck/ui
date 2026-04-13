@@ -6,10 +6,10 @@ import { useSliderContext } from './slider'
 const TRACK_NAME = 'SliderTrack'
 
 type SliderTrackElement = React.ComponentRef<typeof Primitive.span>
-interface SliderTrackProps extends PrimitiveSpanProps {}
+interface ISliderTrackProps extends PrimitiveSpanProps {}
 
-const SliderTrack = React.forwardRef<SliderTrackElement, SliderTrackProps>(
-  (props: ScopedProps<SliderTrackProps>, forwardedRef) => {
+const SliderTrack = React.forwardRef<SliderTrackElement, ISliderTrackProps>(
+  (props: ScopedProps<ISliderTrackProps>, forwardedRef) => {
     const { __scopeSlider, ...trackProps } = props
     const context = useSliderContext(TRACK_NAME, __scopeSlider)
     return (
@@ -27,5 +27,5 @@ const SliderTrack = React.forwardRef<SliderTrackElement, SliderTrackProps>(
 
 SliderTrack.displayName = TRACK_NAME
 
-export type { SliderTrackProps }
+export type { ISliderTrackProps }
 export { SliderTrack }

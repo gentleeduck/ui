@@ -30,7 +30,7 @@ type PopoverContextValue = {
 
 export const [PopoverProvider, usePopoverContext] = createPopoverContext<PopoverContextValue>(POPOVER_NAME)
 
-export interface PopoverProps {
+export interface IPopoverProps {
   children?: React.ReactNode
   open?: boolean
   defaultOpen?: boolean
@@ -43,7 +43,7 @@ export interface PopoverProps {
  * Root popover component. Manages open/closed state and provides context
  * to all child components. Supports both controlled and uncontrolled usage.
  */
-export function Popover(props: ScopedProps<PopoverProps>) {
+export function Popover(props: ScopedProps<IPopoverProps>) {
   const { __scopePopover, children, open: openProp, defaultOpen, onOpenChange, dir, modal = false } = props
 
   const popperScope = usePopperScope(__scopePopover)

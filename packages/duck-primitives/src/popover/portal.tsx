@@ -11,7 +11,7 @@ export const [PortalProvider, usePortalContext] = createPopoverContext<PortalCon
   forceMount: undefined,
 })
 
-export interface PopoverPortalProps {
+export interface IPopoverPortalProps {
   children?: React.ReactNode
   /** The container element to portal into. Defaults to document.body. */
   container?: React.ComponentPropsWithoutRef<typeof PortalPrimitive>['container']
@@ -23,7 +23,7 @@ export interface PopoverPortalProps {
  * Portals popover content into a specified container (or document.body).
  * Wraps children in Presence so content only mounts when open or force-mounted.
  */
-export function PopoverPortal(props: ScopedProps<PopoverPortalProps>) {
+export function PopoverPortal(props: ScopedProps<IPopoverPortalProps>) {
   const { __scopePopover, forceMount, children, container } = props
   const context = usePopoverContext(PORTAL_NAME, __scopePopover)
 

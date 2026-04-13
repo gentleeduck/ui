@@ -11,7 +11,7 @@ const TRIGGER_NAME = 'TooltipTrigger'
 
 type TooltipTriggerElement = React.ComponentRef<typeof Primitive.button>
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
-export interface TooltipTriggerProps extends PrimitiveButtonProps {
+export interface ITooltipTriggerProps extends PrimitiveButtonProps {
   /**
    * When `true`, clicking the trigger will not dismiss the tooltip.
    * Useful when wrapping interactive elements like `Toggle` with `asChild`.
@@ -20,8 +20,8 @@ export interface TooltipTriggerProps extends PrimitiveButtonProps {
   disableCloseOnClick?: boolean
 }
 
-export const TooltipTrigger = React.forwardRef<TooltipTriggerElement, TooltipTriggerProps>(
-  (props: ScopedProps<TooltipTriggerProps>, forwardedRef) => {
+export const TooltipTrigger = React.forwardRef<TooltipTriggerElement, ITooltipTriggerProps>(
+  (props: ScopedProps<ITooltipTriggerProps>, forwardedRef) => {
     const { __scopeTooltip, disableCloseOnClick = false, ...triggerProps } = props
     const context = useTooltipContext(TRIGGER_NAME, __scopeTooltip)
     const providerContext = useTooltipProviderContext(TRIGGER_NAME, __scopeTooltip)

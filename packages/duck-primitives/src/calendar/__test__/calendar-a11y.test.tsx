@@ -3,9 +3,9 @@ import { buildCalendarMonth, NativeAdapter } from '@gentleduck/calendar'
 import { render } from '@testing-library/react'
 import axe from 'axe-core'
 import * as React from 'react'
-import type { CalendarRootProps } from '../calendar'
+import type { ICalendarRootProps } from '../calendar'
 import { Calendar } from '../calendar'
-import { CalendarDay } from '../day'
+import { ICalendarDay } from '../day'
 import { CalendarGrid } from '../grid'
 import { CalendarHeader } from '../header'
 import { CalendarMonthView } from '../month-view'
@@ -29,7 +29,7 @@ function getWeeks(viewDate: Date = march2026) {
  * Full calendar with all sub-components rendered,
  * including actual day cells from buildCalendarMonth.
  */
-function FullDaysCalendar(props: Partial<CalendarRootProps> & { weeks?: ReturnType<typeof getWeeks> }) {
+function FullDaysCalendar(props: Partial<ICalendarRootProps> & { weeks?: ReturnType<typeof getWeeks> }) {
   const { weeks: weeksProp, ...rest } = props
   const weeks = weeksProp ?? getWeeks()
   return (
@@ -41,7 +41,7 @@ function FullDaysCalendar(props: Partial<CalendarRootProps> & { weeks?: ReturnTy
         {weeks.map((week) => (
           <div key={week.weekNumber} role="row">
             {week.days.map((day) => (
-              <CalendarDay key={day.date.toISOString()} day={day} />
+              <ICalendarDay key={day.date.toISOString()} day={day} />
             ))}
           </div>
         ))}

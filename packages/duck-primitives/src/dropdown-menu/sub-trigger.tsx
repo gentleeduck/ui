@@ -8,10 +8,10 @@ const SUB_TRIGGER_NAME = 'DropdownMenuSubTrigger'
 
 type DropdownMenuSubTriggerElement = React.ComponentRef<typeof MenuPrimitive.SubTrigger>
 type MenuSubTriggerProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.SubTrigger>
-interface DropdownMenuSubTriggerProps extends MenuSubTriggerProps {}
+interface IDropdownMenuSubTriggerProps extends MenuSubTriggerProps {}
 
-const DropdownMenuSubTrigger = React.forwardRef<DropdownMenuSubTriggerElement, DropdownMenuSubTriggerProps>(
-  (props: ScopedProps<DropdownMenuSubTriggerProps>, forwardedRef) => {
+const DropdownMenuSubTrigger = React.forwardRef<DropdownMenuSubTriggerElement, IDropdownMenuSubTriggerProps>(
+  (props: ScopedProps<IDropdownMenuSubTriggerProps>, forwardedRef) => {
     const { __scopeDropdownMenu, ...subTriggerProps } = props
     const menuScope = useMenuScope(__scopeDropdownMenu)
     return <MenuPrimitive.SubTrigger {...menuScope} {...subTriggerProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const DropdownMenuSubTrigger = React.forwardRef<DropdownMenuSubTriggerElement, D
 
 DropdownMenuSubTrigger.displayName = SUB_TRIGGER_NAME
 
-export type { DropdownMenuSubTriggerProps }
+export type { IDropdownMenuSubTriggerProps }
 export { DropdownMenuSubTrigger }

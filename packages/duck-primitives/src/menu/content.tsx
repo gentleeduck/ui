@@ -52,7 +52,7 @@ const [MenuContentProvider, useMenuContentContext] = createMenuContext<MenuConte
 type MenuContentImplElement = React.ComponentRef<typeof PopperPrimitive.Content>
 
 type MenuRootContentTypeElement = MenuContentImplElement
-interface MenuRootContentTypeProps extends Omit<MenuContentImplProps, keyof MenuContentImplPrivateProps> {
+interface IMenuRootContentTypeProps extends Omit<IMenuContentImplProps, keyof MenuContentImplPrivateProps> {
   /** Override whether focus is trapped. Defaults to `context.open`. */
   trapFocus?: FocusScopeProps['trapped']
   /** Override whether outside pointer events are disabled. Defaults to `context.open`. */
@@ -66,7 +66,7 @@ interface MenuRootContentTypeProps extends Omit<MenuContentImplProps, keyof Menu
  * they have conflicting prop types. We agreed that we would allow MenuSubContent to
  * accept props that it would just ignore.
  */
-interface MenuContentProps extends MenuRootContentTypeProps {
+interface IMenuContentProps extends IMenuRootContentTypeProps {
   /**
    * Used to force mounting when more control is needed. Useful when
    * controlling animation with React animation libraries.
@@ -74,8 +74,8 @@ interface MenuContentProps extends MenuRootContentTypeProps {
   forceMount?: true
 }
 
-const MenuContent = React.forwardRef<MenuContentElement, MenuContentProps>(
-  (props: ScopedProps<MenuContentProps>, forwardedRef) => {
+const MenuContent = React.forwardRef<MenuContentElement, IMenuContentProps>(
+  (props: ScopedProps<IMenuContentProps>, forwardedRef) => {
     const portalContext = usePortalContext(CONTENT_NAME, props.__scopeMenu)
     const { forceMount = portalContext.forceMount, ...contentProps } = props
     const context = useMenuContext(CONTENT_NAME, props.__scopeMenu)
@@ -99,8 +99,8 @@ const MenuContent = React.forwardRef<MenuContentElement, MenuContentProps>(
 
 MenuContent.displayName = CONTENT_NAME
 
-const MenuRootContentModal = React.forwardRef<MenuRootContentTypeElement, MenuRootContentTypeProps>(
-  (props: ScopedProps<MenuRootContentTypeProps>, forwardedRef) => {
+const MenuRootContentModal = React.forwardRef<MenuRootContentTypeElement, IMenuRootContentTypeProps>(
+  (props: ScopedProps<IMenuRootContentTypeProps>, forwardedRef) => {
     const {
       trapFocus: trapFocusProp,
       disableOutsidePointerEvents: disableOutsidePointerEventsProp,
@@ -136,8 +136,8 @@ const MenuRootContentModal = React.forwardRef<MenuRootContentTypeElement, MenuRo
 
 MenuRootContentModal.displayName = 'MenuRootContentModal'
 
-const MenuRootContentNonModal = React.forwardRef<MenuRootContentTypeElement, MenuRootContentTypeProps>(
-  (props: ScopedProps<MenuRootContentTypeProps>, forwardedRef) => {
+const MenuRootContentNonModal = React.forwardRef<MenuRootContentTypeElement, IMenuRootContentTypeProps>(
+  (props: ScopedProps<IMenuRootContentTypeProps>, forwardedRef) => {
     const context = useMenuContext(CONTENT_NAME, props.__scopeMenu)
     return (
       <MenuContentImpl
@@ -175,7 +175,7 @@ type MenuContentImplPrivateProps = {
    */
   trapFocus?: FocusScopeProps['trapped']
 }
-interface MenuContentImplProps extends MenuContentImplPrivateProps, Omit<PopperContentProps, 'dir' | 'onPlaced'> {
+interface IMenuContentImplProps extends MenuContentImplPrivateProps, Omit<PopperContentProps, 'dir' | 'onPlaced'> {
   /**
    * Event handler called when auto-focusing on close.
    * Can be prevented.
@@ -197,8 +197,8 @@ interface MenuContentImplProps extends MenuContentImplPrivateProps, Omit<PopperC
 
 const Slot = createSlot('MenuContent.ScrollLock')
 
-const MenuContentImpl = React.forwardRef<MenuContentImplElement, MenuContentImplProps>(
-  (props: ScopedProps<MenuContentImplProps>, forwardedRef) => {
+const MenuContentImpl = React.forwardRef<MenuContentImplElement, IMenuContentImplProps>(
+  (props: ScopedProps<IMenuContentImplProps>, forwardedRef) => {
     const {
       __scopeMenu,
       loop = false,
@@ -396,5 +396,5 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, MenuContentImpl
 
 MenuContentImpl.displayName = 'MenuContentImpl'
 
-export type { MenuContentImplElement, MenuContentImplPrivateProps, MenuContentImplProps, MenuContentProps }
+export type { MenuContentImplElement, MenuContentImplPrivateProps, IMenuContentImplProps, IMenuContentProps }
 export { MenuContent, MenuContentImpl, MenuContentProvider, useMenuContentContext }

@@ -8,10 +8,10 @@ const LABEL_NAME = 'DropdownMenuLabel'
 
 type DropdownMenuLabelElement = React.ComponentRef<typeof MenuPrimitive.Label>
 type MenuLabelProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Label>
-interface DropdownMenuLabelProps extends MenuLabelProps {}
+interface IDropdownMenuLabelProps extends MenuLabelProps {}
 
-const DropdownMenuLabel = React.forwardRef<DropdownMenuLabelElement, DropdownMenuLabelProps>(
-  (props: ScopedProps<DropdownMenuLabelProps>, forwardedRef) => {
+const DropdownMenuLabel = React.forwardRef<DropdownMenuLabelElement, IDropdownMenuLabelProps>(
+  (props: ScopedProps<IDropdownMenuLabelProps>, forwardedRef) => {
     const { __scopeDropdownMenu, ...labelProps } = props
     const menuScope = useMenuScope(__scopeDropdownMenu)
     return <MenuPrimitive.Label {...menuScope} {...labelProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const DropdownMenuLabel = React.forwardRef<DropdownMenuLabelElement, DropdownMen
 
 DropdownMenuLabel.displayName = LABEL_NAME
 
-export type { DropdownMenuLabelProps }
+export type { IDropdownMenuLabelProps }
 export { DropdownMenuLabel }

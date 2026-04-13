@@ -8,10 +8,10 @@ const GROUP_NAME = 'ContextMenuGroup'
 
 type ContextMenuGroupElement = React.ComponentRef<typeof MenuPrimitive.Group>
 type MenuGroupProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Group>
-interface ContextMenuGroupProps extends MenuGroupProps {}
+interface IContextMenuGroupProps extends MenuGroupProps {}
 
-const ContextMenuGroup = React.forwardRef<ContextMenuGroupElement, ContextMenuGroupProps>(
-  (props: ScopedProps<ContextMenuGroupProps>, forwardedRef) => {
+const ContextMenuGroup = React.forwardRef<ContextMenuGroupElement, IContextMenuGroupProps>(
+  (props: ScopedProps<IContextMenuGroupProps>, forwardedRef) => {
     const { __scopeContextMenu, ...groupProps } = props
     const menuScope = useMenuScope(__scopeContextMenu)
     return <MenuPrimitive.Group {...menuScope} {...groupProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const ContextMenuGroup = React.forwardRef<ContextMenuGroupElement, ContextMenuGr
 
 ContextMenuGroup.displayName = GROUP_NAME
 
-export type { ContextMenuGroupProps }
+export type { IContextMenuGroupProps }
 export { ContextMenuGroup }

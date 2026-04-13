@@ -8,10 +8,10 @@ const LABEL_NAME = 'ContextMenuLabel'
 
 type ContextMenuLabelElement = React.ComponentRef<typeof MenuPrimitive.Label>
 type MenuLabelProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Label>
-interface ContextMenuLabelProps extends MenuLabelProps {}
+interface IContextMenuLabelProps extends MenuLabelProps {}
 
-const ContextMenuLabel = React.forwardRef<ContextMenuLabelElement, ContextMenuLabelProps>(
-  (props: ScopedProps<ContextMenuLabelProps>, forwardedRef) => {
+const ContextMenuLabel = React.forwardRef<ContextMenuLabelElement, IContextMenuLabelProps>(
+  (props: ScopedProps<IContextMenuLabelProps>, forwardedRef) => {
     const { __scopeContextMenu, ...labelProps } = props
     const menuScope = useMenuScope(__scopeContextMenu)
     return <MenuPrimitive.Label {...menuScope} {...labelProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const ContextMenuLabel = React.forwardRef<ContextMenuLabelElement, ContextMenuLa
 
 ContextMenuLabel.displayName = LABEL_NAME
 
-export type { ContextMenuLabelProps }
+export type { IContextMenuLabelProps }
 export { ContextMenuLabel }

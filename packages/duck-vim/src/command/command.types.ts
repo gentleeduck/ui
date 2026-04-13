@@ -1,7 +1,7 @@
 /**
  * Represents a command that can be triggered by a keyboard shortcut.
  */
-export interface Command {
+export interface ICommand {
   /**
    * A human-readable name for the command.
    * Used for debugging, display in menus, etc.
@@ -28,7 +28,7 @@ export interface Command {
 /**
  * Per-key-binding options that control behavior when the binding is matched.
  */
-export interface KeyBindOptions {
+export interface IKeyBindOptions {
   /** Whether this key binding is active. Default: true */
   enabled?: boolean
   /** Call event.preventDefault() when matched. Default: false */
@@ -49,7 +49,7 @@ export interface KeyBindOptions {
  * A handle returned from registering a command.
  * Used for unregistering and controlling the binding.
  */
-export interface RegistrationHandle {
+export interface IRegistrationHandle {
   /** Remove this binding from the registry */
   unregister: () => void
   /** Enable or disable this binding */
@@ -64,9 +64,9 @@ export interface RegistrationHandle {
  * Internal storage entry for a registered command.
  * @internal
  */
-export interface RegistryEntry {
-  command: Command
-  options: KeyBindOptions
+export interface IRegistryEntry {
+  command: ICommand
+  options: IKeyBindOptions
   fired: boolean
 }
 
@@ -82,9 +82,9 @@ export declare class RegistryClass {
    * Registers a command to be triggered by a key sequence.
    *
    * @param {string} key - A key sequence like `'ctrl+k'` or `'g+d'`.
-   * @param {Command} command - The command to associate with the key sequence.
+   * @param {ICommand} command - The command to associate with the key sequence.
    */
-  public register(key: string, command: Command): void
+  public register(key: string, command: ICommand): void
 
   /**
    * Checks if a command is registered for the given key sequence.
@@ -98,9 +98,9 @@ export declare class RegistryClass {
    * Retrieves the command registered to the given key sequence.
    *
    * @param {string} key - The full key sequence.
-   * @returns {Command | undefined} The command, if found.
+   * @returns {ICommand | undefined} The command, if found.
    */
-  public getCommand(key: string): Command | undefined
+  public getCommand(key: string): ICommand | undefined
 
   /**
    * Determines whether a given key sequence is a known prefix

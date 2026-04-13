@@ -9,12 +9,12 @@ const ITEM_NAME = 'NavigationMenuItem'
 
 type NavigationMenuItemElement = React.ComponentRef<typeof Primitive.li>
 type PrimitiveListItemProps = React.ComponentPropsWithoutRef<typeof Primitive.li>
-interface NavigationMenuItemProps extends PrimitiveListItemProps {
+interface INavigationMenuItemProps extends PrimitiveListItemProps {
   value?: string
 }
 
-const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, NavigationMenuItemProps>(
-  (props: ScopedProps<NavigationMenuItemProps>, forwardedRef) => {
+const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, INavigationMenuItemProps>(
+  (props: ScopedProps<INavigationMenuItemProps>, forwardedRef) => {
     const { __scopeNavigationMenu, value: valueProp, ...itemProps } = props
     const autoValue = useId()
     // We need to provide an initial deterministic value as `useId` will return
@@ -61,5 +61,5 @@ const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, Navigatio
 
 NavigationMenuItem.displayName = ITEM_NAME
 
-export type { NavigationMenuItemProps }
+export type { INavigationMenuItemProps }
 export { NavigationMenuItem }

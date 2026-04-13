@@ -1,7 +1,7 @@
 import { renderHook } from '@testing-library/react'
 import { NativeAdapter } from '../../../adapter'
 import { useKeyboard } from '../use-keyboard'
-import type { KeyboardConfig } from '../use-keyboard.types'
+import type { IKeyboardConfig } from '../use-keyboard.types'
 
 describe('useKeyboard', () => {
   let adapter: NativeAdapter
@@ -12,7 +12,7 @@ describe('useKeyboard', () => {
   // March 15 2026 is a Sunday
   const baseDate = new Date(2026, 2, 15)
 
-  function makeConfig(overrides?: Partial<KeyboardConfig<Date>>): KeyboardConfig<Date> {
+  function makeConfig(overrides?: Partial<IKeyboardConfig<Date>>): IKeyboardConfig<Date> {
     return {
       focusedDate: baseDate,
       onFocusChange,
@@ -26,7 +26,7 @@ describe('useKeyboard', () => {
   }
 
   /** Creates a fake React keyboard event and invokes the hook's onKeyDown handler. */
-  function pressKey(config: KeyboardConfig<Date>, key: string, options?: { shiftKey?: boolean }) {
+  function pressKey(config: IKeyboardConfig<Date>, key: string, options?: { shiftKey?: boolean }) {
     const { result } = renderHook(() => useKeyboard(config))
 
     let wasDefaultPrevented = false

@@ -6,11 +6,11 @@ import { useComposedRefs } from '../libs/compose-ref'
 import { Presence } from '../presence'
 import type {
   NavigationMenuContentImplElement,
-  NavigationMenuContentImplPrivateProps,
-  NavigationMenuContentImplProps,
+  INavigationMenuContentImplPrivateProps,
+  INavigationMenuContentImplProps,
   ScopedProps,
   ViewportContentMounterElement,
-  ViewportContentMounterProps,
+  IViewportContentMounterProps,
 } from './navigation-menu'
 import { useCollection, useNavigationMenuContext, useNavigationMenuItemContext } from './navigation-menu'
 import {
@@ -27,13 +27,13 @@ import {
 const CONTENT_NAME = 'NavigationMenuContent'
 
 type NavigationMenuContentElement = NavigationMenuContentImplElement
-interface NavigationMenuContentProps
-  extends Omit<NavigationMenuContentImplProps, keyof NavigationMenuContentImplPrivateProps> {
+interface INavigationMenuContentProps
+  extends Omit<INavigationMenuContentImplProps, keyof INavigationMenuContentImplPrivateProps> {
   forceMount?: true
 }
 
-const NavigationMenuContent = React.forwardRef<NavigationMenuContentElement, NavigationMenuContentProps>(
-  (props: ScopedProps<NavigationMenuContentProps>, forwardedRef) => {
+const NavigationMenuContent = React.forwardRef<NavigationMenuContentElement, INavigationMenuContentProps>(
+  (props: ScopedProps<INavigationMenuContentProps>, forwardedRef) => {
     const { forceMount, ...contentProps } = props
     const context = useNavigationMenuContext(CONTENT_NAME, props.__scopeNavigationMenu)
     const itemContext = useNavigationMenuItemContext(CONTENT_NAME, props.__scopeNavigationMenu)
@@ -75,8 +75,8 @@ NavigationMenuContent.displayName = CONTENT_NAME
 
 /* ----- ViewportContentMounter (internal) ----- */
 
-const ViewportContentMounter = React.forwardRef<ViewportContentMounterElement, ViewportContentMounterProps>(
-  (props: ScopedProps<ViewportContentMounterProps>, forwardedRef) => {
+const ViewportContentMounter = React.forwardRef<ViewportContentMounterElement, IViewportContentMounterProps>(
+  (props: ScopedProps<IViewportContentMounterProps>, forwardedRef) => {
     const context = useNavigationMenuContext(CONTENT_NAME, props.__scopeNavigationMenu)
     const { onViewportContentChange, onViewportContentRemove } = context
 
@@ -102,8 +102,8 @@ ViewportContentMounter.displayName = 'ViewportContentMounter'
 
 type MotionAttribute = 'to-start' | 'to-end' | 'from-start' | 'from-end'
 
-const NavigationMenuContentImpl = React.forwardRef<NavigationMenuContentImplElement, NavigationMenuContentImplProps>(
-  (props: ScopedProps<NavigationMenuContentImplProps>, forwardedRef) => {
+const NavigationMenuContentImpl = React.forwardRef<NavigationMenuContentImplElement, INavigationMenuContentImplProps>(
+  (props: ScopedProps<INavigationMenuContentImplProps>, forwardedRef) => {
     const {
       __scopeNavigationMenu,
       value,
@@ -233,5 +233,5 @@ const NavigationMenuContentImpl = React.forwardRef<NavigationMenuContentImplElem
 )
 NavigationMenuContentImpl.displayName = 'NavigationMenuContentImpl'
 
-export type { NavigationMenuContentProps }
+export type { INavigationMenuContentProps }
 export { NavigationMenuContent, NavigationMenuContentImpl }

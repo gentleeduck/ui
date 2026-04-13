@@ -9,12 +9,12 @@ const DIRECTION_DICTIONARY = {
 
 const DirectionContext = React.createContext<Direction | undefined>(undefined)
 
-interface DirectionProviderProps {
+interface IDirectionProviderProps {
   children?: React.ReactNode
   dir: Direction
 }
 
-const DirectionProvider: React.FC<DirectionProviderProps> = (props) => {
+const DirectionProvider: React.FC<IDirectionProviderProps> = (props) => {
   const { dir, children } = props
   return (
     <DirectionContext.Provider value={dir}>
@@ -36,5 +36,5 @@ function useDirection(localDir?: Direction): Direction {
 
 const Provider = DirectionProvider
 
-export type { Direction, DirectionProviderProps }
+export type { Direction, IDirectionProviderProps }
 export { DIRECTION_DICTIONARY, DirectionContext, DirectionProvider, Provider, useDirection }

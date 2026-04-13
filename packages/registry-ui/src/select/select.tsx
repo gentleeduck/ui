@@ -6,7 +6,7 @@ import { tapScale } from '@gentleduck/motion/presets/content'
 import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
-import type { SelectTriggerProps as PrimitiveSelectTriggerProps } from '@gentleduck/primitives/select'
+import type { ISelectTriggerProps as PrimitiveSelectTriggerProps } from '@gentleduck/primitives/select'
 import * as SelectPrimitive from '@gentleduck/primitives/select'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
 import { motion } from 'motion/react'
@@ -107,7 +107,7 @@ const SelectLabel = React.forwardRef<
 ))
 SelectLabel.displayName = SelectPrimitive.Label.displayName
 
-const SelectItem = React.forwardRef<HTMLDivElement, SelectPrimitive.SelectItemProps>(
+const SelectItem = React.forwardRef<HTMLDivElement, SelectPrimitive.ISelectItemProps>(
   ({ className, children, ...props }, ref) => (
     <SelectPrimitive.Item
       ref={ref}

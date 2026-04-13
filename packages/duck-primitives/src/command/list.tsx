@@ -7,10 +7,10 @@ const LIST_NAME = 'CommandList'
 
 type CommandListElement = React.ComponentRef<typeof Primitive.ul>
 
-export interface CommandListProps extends React.ComponentPropsWithRef<typeof Primitive.ul> {}
+export interface ICommandListProps extends React.ComponentPropsWithRef<typeof Primitive.ul> {}
 
-export const CommandList = React.forwardRef<CommandListElement, CommandListProps>(
-  (props: ScopedProps<CommandListProps>, forwardedRef) => {
+export const CommandList = React.forwardRef<CommandListElement, ICommandListProps>(
+  (props: ScopedProps<ICommandListProps>, forwardedRef) => {
     const { __scopeCommand, ...listProps } = props
     const context = useCommandContext(LIST_NAME, __scopeCommand)
     const getItems = useCollection(__scopeCommand)

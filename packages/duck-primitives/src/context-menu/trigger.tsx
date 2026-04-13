@@ -1,7 +1,7 @@
 /** ContextMenuTrigger -- opens the context menu on right-click or long-press. */
 import * as React from 'react'
 import { composeEventHandlers } from '../libs/compose-event-handler'
-import type { Point } from '../libs/shared-utils'
+import type { IPoint } from '../libs/shared-utils'
 import * as MenuPrimitive from '../menu'
 import { Primitive } from '../primitive-elements'
 import type { ScopedProps } from './context-menu'
@@ -11,16 +11,16 @@ const TRIGGER_NAME = 'ContextMenuTrigger'
 
 type ContextMenuTriggerElement = React.ComponentRef<typeof Primitive.span>
 type PrimitiveSpanProps = React.ComponentPropsWithoutRef<typeof Primitive.span>
-interface ContextMenuTriggerProps extends PrimitiveSpanProps {
+interface IContextMenuTriggerProps extends PrimitiveSpanProps {
   disabled?: boolean
 }
 
-const ContextMenuTrigger = React.forwardRef<ContextMenuTriggerElement, ContextMenuTriggerProps>(
-  (props: ScopedProps<ContextMenuTriggerProps>, forwardedRef) => {
+const ContextMenuTrigger = React.forwardRef<ContextMenuTriggerElement, IContextMenuTriggerProps>(
+  (props: ScopedProps<IContextMenuTriggerProps>, forwardedRef) => {
     const { __scopeContextMenu, disabled = false, ...triggerProps } = props
     const context = useContextMenuContext(TRIGGER_NAME, __scopeContextMenu)
     const menuScope = useMenuScope(__scopeContextMenu)
-    const pointRef = React.useRef<Point>({ x: 0, y: 0 })
+    const pointRef = React.useRef<IPoint>({ x: 0, y: 0 })
     const virtualRef = React.useRef({
       getBoundingClientRect: () => DOMRect.fromRect({ width: 0, height: 0, ...pointRef.current }),
     })
@@ -94,5 +94,5 @@ function whenTouchOrPen<E>(handler: React.PointerEventHandler<E>): React.Pointer
   return (event) => (event.pointerType !== 'mouse' ? handler(event) : undefined)
 }
 
-export type { ContextMenuTriggerProps }
+export type { IContextMenuTriggerProps }
 export { ContextMenuTrigger, whenTouchOrPen }

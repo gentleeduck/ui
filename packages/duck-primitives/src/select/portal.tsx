@@ -6,7 +6,7 @@ const PORTAL_NAME = 'SelectPortal'
 
 type PortalProps = React.ComponentPropsWithoutRef<typeof PortalPrimitive>
 
-export interface SelectPortalProps {
+export interface ISelectPortalProps {
   children?: React.ReactNode
   /**
    * Specify a container element to portal the content into.
@@ -14,7 +14,7 @@ export interface SelectPortalProps {
   container?: PortalProps['container']
 }
 
-export const SelectPortal: React.FC<SelectPortalProps> = (props: ScopedProps<SelectPortalProps>) => {
+export const SelectPortal: React.FC<ISelectPortalProps> = (props: ScopedProps<ISelectPortalProps>) => {
   return <PortalPrimitive asChild {...props} />
 }
 

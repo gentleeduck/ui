@@ -10,10 +10,10 @@ const TRIGGER_NAME = 'SelectTrigger'
 
 type SelectTriggerElement = React.ComponentRef<typeof Primitive.button>
 
-export interface SelectTriggerProps extends React.ComponentPropsWithRef<typeof Primitive.button> {}
+export interface ISelectTriggerProps extends React.ComponentPropsWithRef<typeof Primitive.button> {}
 
-export const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>(
-  (props: ScopedProps<SelectTriggerProps>, forwardedRef) => {
+export const SelectTrigger = React.forwardRef<SelectTriggerElement, ISelectTriggerProps>(
+  (props: ScopedProps<ISelectTriggerProps>, forwardedRef) => {
     const { __scopeSelect, disabled = false, ...triggerProps } = props
     const popperScope = usePopperScope(__scopeSelect)
     const context = useSelectContext(TRIGGER_NAME, __scopeSelect)

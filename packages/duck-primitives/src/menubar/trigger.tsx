@@ -12,10 +12,10 @@ import { Collection, useMenubarContext, useMenuScope, useRovingFocusGroupScope }
 const TRIGGER_NAME = 'MenubarTrigger'
 
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
-interface MenubarTriggerProps extends PrimitiveButtonProps {}
+interface IMenubarTriggerProps extends PrimitiveButtonProps {}
 
-const MenubarTrigger = React.forwardRef<MenubarTriggerElement, MenubarTriggerProps>(
-  (props: ScopedProps<MenubarTriggerProps>, forwardedRef) => {
+const MenubarTrigger = React.forwardRef<MenubarTriggerElement, IMenubarTriggerProps>(
+  (props: ScopedProps<IMenubarTriggerProps>, forwardedRef) => {
     const { __scopeMenubar, disabled = false, ...triggerProps } = props
     const rovingFocusGroupScope = useRovingFocusGroupScope(__scopeMenubar)
     const menuScope = useMenuScope(__scopeMenubar)
@@ -84,5 +84,5 @@ const MenubarTrigger = React.forwardRef<MenubarTriggerElement, MenubarTriggerPro
 
 MenubarTrigger.displayName = TRIGGER_NAME
 
-export type { MenubarTriggerProps }
+export type { IMenubarTriggerProps }
 export { MenubarTrigger }

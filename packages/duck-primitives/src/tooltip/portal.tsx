@@ -14,7 +14,7 @@ export const [PortalProvider, usePortalContext] = createTooltipContext<PortalCon
 
 type PortalProps = React.ComponentPropsWithoutRef<typeof PortalPrimitive>
 
-export interface TooltipPortalProps {
+export interface ITooltipPortalProps {
   children?: React.ReactNode
   /**
    * Specify a container element to portal the content into.
@@ -27,7 +27,7 @@ export interface TooltipPortalProps {
   forceMount?: true
 }
 
-export const TooltipPortal: React.FC<TooltipPortalProps> = (props: ScopedProps<TooltipPortalProps>) => {
+export const TooltipPortal: React.FC<ITooltipPortalProps> = (props: ScopedProps<ITooltipPortalProps>) => {
   const { __scopeTooltip, forceMount, children, container } = props
   const context = useTooltipContext(PORTAL_NAME, __scopeTooltip)
   return (

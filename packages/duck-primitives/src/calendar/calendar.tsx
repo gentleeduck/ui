@@ -1,9 +1,9 @@
 import type {
-  CalendarLocaleConfig,
-  DateAdapter,
+  ICalendarLocaleConfig,
+  IDateAdapter,
   SelectionMode,
-  UseCalendarConfig,
-  UseCalendarReturn,
+  IUseCalendarConfig,
+  IUseCalendarReturn,
 } from '@gentleduck/calendar'
 import { useCalendar } from '@gentleduck/calendar'
 import * as React from 'react'
@@ -17,10 +17,10 @@ export type ScopedProps<P> = P & { __scopeCalendar?: Scope }
 
 export const [createCalendarContext, createCalendarScope] = createContextScope(CALENDAR_NAME)
 
-export type CalendarContextValue = UseCalendarReturn<Date, SelectionMode> & {
-  adapter: DateAdapter<Date>
+export type CalendarContextValue = IUseCalendarReturn<Date, SelectionMode> & {
+  adapter: IDateAdapter<Date>
   mode: SelectionMode
-  locale?: CalendarLocaleConfig
+  locale?: ICalendarLocaleConfig
 }
 
 export const [CalendarProvider, useCalendarContext] = createCalendarContext<CalendarContextValue>(CALENDAR_NAME)
@@ -28,20 +28,20 @@ export const [CalendarProvider, useCalendarContext] = createCalendarContext<Cale
 type CalendarElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-/** Props that conflict between HTMLDivElement and CalendarConfig. */
+/** Props that conflict between HTMLDivElement and ICalendarConfig. */
 type ConflictingProps = 'onSelect' | 'disabled' | 'children'
 
-export interface CalendarRootProps
+export interface ICalendarRootProps
   extends Omit<PrimitiveDivProps, ConflictingProps>,
-    UseCalendarConfig<Date, SelectionMode> {
+    IUseCalendarConfig<Date, SelectionMode> {
   children?: React.ReactNode
 }
 
-const Calendar = React.forwardRef<CalendarElement, CalendarRootProps>(
-  (props: ScopedProps<CalendarRootProps>, forwardedRef) => {
+const Calendar = React.forwardRef<CalendarElement, ICalendarRootProps>(
+  (props: ScopedProps<ICalendarRootProps>, forwardedRef) => {
     const {
       __scopeCalendar,
-      // UseCalendarConfig props
+      // IUseCalendarConfig props
       adapter,
       mode,
       locale,
@@ -63,7 +63,7 @@ const Calendar = React.forwardRef<CalendarElement, CalendarRootProps>(
       ...divProps
     } = props
 
-    const config: UseCalendarConfig<Date, SelectionMode> = {
+    const config: IUseCalendarConfig<Date, SelectionMode> = {
       adapter,
       mode,
       locale,

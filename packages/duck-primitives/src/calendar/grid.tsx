@@ -7,10 +7,10 @@ const GRID_NAME = 'CalendarGrid'
 type CalendarGridElement = React.ComponentRef<typeof Primitive.div>
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-export interface CalendarGridProps extends PrimitiveDivProps {}
+export interface ICalendarGridProps extends PrimitiveDivProps {}
 
-export const CalendarGrid = React.forwardRef<CalendarGridElement, CalendarGridProps>(
-  (props: ScopedProps<CalendarGridProps>, forwardedRef) => {
+export const CalendarGrid = React.forwardRef<CalendarGridElement, ICalendarGridProps>(
+  (props: ScopedProps<ICalendarGridProps>, forwardedRef) => {
     const { __scopeCalendar, children, ...gridProps } = props
     const context = useCalendarContext(GRID_NAME, __scopeCalendar)
     const gridDomProps = context.getGridProps()

@@ -8,10 +8,10 @@ const CHECKBOX_ITEM_NAME = 'MenubarCheckboxItem'
 
 type MenubarCheckboxItemElement = React.ComponentRef<typeof MenuPrimitive.CheckboxItem>
 type MenuCheckboxItemProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.CheckboxItem>
-interface MenubarCheckboxItemProps extends MenuCheckboxItemProps {}
+interface IMenubarCheckboxItemProps extends MenuCheckboxItemProps {}
 
-const MenubarCheckboxItem = React.forwardRef<MenubarCheckboxItemElement, MenubarCheckboxItemProps>(
-  (props: ScopedProps<MenubarCheckboxItemProps>, forwardedRef) => {
+const MenubarCheckboxItem = React.forwardRef<MenubarCheckboxItemElement, IMenubarCheckboxItemProps>(
+  (props: ScopedProps<IMenubarCheckboxItemProps>, forwardedRef) => {
     const { __scopeMenubar, ...checkboxItemProps } = props
     const menuScope = useMenuScope(__scopeMenubar)
     return <MenuPrimitive.CheckboxItem {...menuScope} {...checkboxItemProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const MenubarCheckboxItem = React.forwardRef<MenubarCheckboxItemElement, Menubar
 
 MenubarCheckboxItem.displayName = CHECKBOX_ITEM_NAME
 
-export type { MenubarCheckboxItemProps }
+export type { IMenubarCheckboxItemProps }
 export { MenubarCheckboxItem }

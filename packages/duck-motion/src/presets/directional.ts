@@ -1,12 +1,12 @@
 import { BLUR_CLEAR, getAxis, getSign } from './_utils'
-import type { Direction, MotionPreset } from './types'
+import type { Direction, IMotionPreset } from './types'
 
 export function createDirectionalPreset(
   direction: Direction,
   enterOffset = 8,
   exitOffset = 30,
   blur = 8,
-): MotionPreset {
+): IMotionPreset {
   const axis = getAxis(direction)
   const sign = getSign(direction)
   const blurFilter = `blur(${blur}px)`

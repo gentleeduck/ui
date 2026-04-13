@@ -7,12 +7,12 @@ const GROUP_NAME = 'CommandGroup'
 
 type CommandGroupElement = React.ComponentRef<typeof Primitive.div>
 
-export interface CommandGroupProps extends React.ComponentPropsWithRef<typeof Primitive.div> {
+export interface ICommandGroupProps extends React.ComponentPropsWithRef<typeof Primitive.div> {
   heading?: React.ReactNode
 }
 
-export const CommandGroup = React.forwardRef<CommandGroupElement, CommandGroupProps>(
-  (props: ScopedProps<CommandGroupProps>, forwardedRef) => {
+export const CommandGroup = React.forwardRef<CommandGroupElement, ICommandGroupProps>(
+  (props: ScopedProps<ICommandGroupProps>, forwardedRef) => {
     const { __scopeCommand, heading, children, ...groupProps } = props
     const context = useCommandContext(GROUP_NAME, __scopeCommand)
     const headingId = useId()

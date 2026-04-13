@@ -54,7 +54,7 @@ export type CalendarValue<TDate, Mode extends SelectionMode> = Mode extends 'sin
  *
  * @typeParam TDate - The adapter's date type.
  */
-export interface SelectionConstraints<TDate> {
+export interface ISelectionConstraints<TDate> {
   /** Array of specific disabled dates, or a predicate returning true for disabled dates. */
   disabled?: TDate[] | ((date: TDate) => boolean)
   /** Minimum selectable date (inclusive). Days before this are disabled. */

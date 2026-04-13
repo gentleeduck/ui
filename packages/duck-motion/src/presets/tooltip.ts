@@ -1,5 +1,5 @@
 import { BLUR_CLEAR, BLUR_LIGHT, type DirectionalSide, getAxis, getSign } from './_utils'
-import type { MotionPreset } from './types'
+import type { IMotionPreset } from './types'
 
 /**
  * Creates a tooltip/hover-card preset with a subtle directional shift.
@@ -8,7 +8,7 @@ import type { MotionPreset } from './types'
  * @param side - Which side the tooltip appears on relative to the trigger
  * @param offset - Pixel offset for the directional shift (default 4)
  */
-export function createTooltipPreset(side: DirectionalSide, offset = 4): MotionPreset {
+export function createTooltipPreset(side: DirectionalSide, offset = 4): IMotionPreset {
   const axis = getAxis(side)
   // Shift toward the trigger: top tooltip shifts down, bottom shifts up, etc.
   const sign = getSign(side)

@@ -8,10 +8,10 @@ const LABEL_NAME = 'MenubarLabel'
 
 type MenubarLabelElement = React.ComponentRef<typeof MenuPrimitive.Label>
 type MenuLabelProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Label>
-interface MenubarLabelProps extends MenuLabelProps {}
+interface IMenubarLabelProps extends MenuLabelProps {}
 
-const MenubarLabel = React.forwardRef<MenubarLabelElement, MenubarLabelProps>(
-  (props: ScopedProps<MenubarLabelProps>, forwardedRef) => {
+const MenubarLabel = React.forwardRef<MenubarLabelElement, IMenubarLabelProps>(
+  (props: ScopedProps<IMenubarLabelProps>, forwardedRef) => {
     const { __scopeMenubar, ...labelProps } = props
     const menuScope = useMenuScope(__scopeMenubar)
     return <MenuPrimitive.Label {...menuScope} {...labelProps} ref={forwardedRef} />
@@ -20,5 +20,5 @@ const MenubarLabel = React.forwardRef<MenubarLabelElement, MenubarLabelProps>(
 
 MenubarLabel.displayName = LABEL_NAME
 
-export type { MenubarLabelProps }
+export type { IMenubarLabelProps }
 export { MenubarLabel }
