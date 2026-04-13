@@ -86,7 +86,7 @@ export function resolveCollectionSources(configDir: string, collections: Record<
             {
               ...source,
               glob: source.glob ?? DEFAULT_SOURCE_GLOB,
-              ignore: source.ignore ?? [...DEFAULT_SOURCE_IGNORE],
+              ignore: [...new Set([...DEFAULT_SOURCE_IGNORE, ...(source.ignore ?? [])])],
               indexStrategy: source.indexStrategy ?? DEFAULT_SOURCE_INDEX_STRATEGY,
               path: resolveFrom(configDir, source.path),
             },
@@ -111,7 +111,7 @@ export function resolveSources(configDir: string, sources: RegistryItemTypeMap<R
       {
         ...source,
         glob: source.glob ?? DEFAULT_SOURCE_GLOB,
-        ignore: source.ignore ?? [...DEFAULT_SOURCE_IGNORE],
+        ignore: [...new Set([...DEFAULT_SOURCE_IGNORE, ...(source.ignore ?? [])])],
         indexStrategy: source.indexStrategy ?? DEFAULT_SOURCE_INDEX_STRATEGY,
         path: resolveFrom(configDir, source.path),
       },
