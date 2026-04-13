@@ -17,7 +17,22 @@ export const duckui_prompts: PromptObject<'duckui'>[] = [
   },
 ]
 
-export const duckui_config_prompts: PromptObject[] = [
+export function make_duckui_monorepo_prompt(detected_label: string | null): PromptObject<'monorepo'> {
+  const message = detected_label
+    ? `Looks like a monorepo (${highlighter.info(detected_label)}). Treat this as a monorepo?`
+    : `Are you working inside a ${highlighter.info('monorepo')}?`
+
+  return {
+    active: 'yes',
+    inactive: 'no',
+    initial: detected_label !== null,
+    message,
+    name: 'monorepo',
+    type: 'confirm',
+  }
+}
+
+export const duckui_rest_prompts: PromptObject[] = [
   {
     choices: PROJECT_TYPE.map((project) => ({
       title: project,
@@ -44,14 +59,6 @@ export const duckui_config_prompts: PromptObject[] = [
     message: `Type your import ${highlighter.info('alias')}`,
     name: 'alias',
     type: 'text',
-  },
-  {
-    active: 'yes',
-    inactive: 'no',
-    initial: false,
-    message: `Do you have a ${highlighter.info('monorepo?')}`,
-    name: 'monorepo',
-    type: 'confirm',
   },
   {
     initial: './src/styles.css',

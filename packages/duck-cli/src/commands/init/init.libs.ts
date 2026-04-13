@@ -28,7 +28,7 @@ export async function init_command_action(args: string[], opt: InitOptions) {
 
     const components_names = component_names
 
-    await preflight_configs({ ...options, cwd }, spinner)
+    const { workspace_cwd } = await preflight_configs({ ...options, cwd }, spinner)
 
     if (components_names.length === 0 && !options.all) {
       if (options.yes) {
@@ -64,22 +64,20 @@ export async function init_command_action(args: string[], opt: InitOptions) {
 
     const components = await resolve_components(final_names, spinner)
 
-    // In monorepo mode, config lives in the workspace directory
-    const config_cwd = options.workspace ? path.resolve(cwd, options.workspace) : cwd
-    const duckui_config = await get_duckui_config(config_cwd, spinner)
-    const project_cwd = resolve_project_cwd(config_cwd, duckui_config)
+    const duckui_config = await get_duckui_config(workspace_cwd, spinner)
+    const project_cwd = resolve_project_cwd(workspace_cwd, duckui_config)
     const workspace_error = validate_workspace_target(project_cwd, true)
     if (workspace_error) {
       spinner.fail(workspace_error)
       process.exit(1)
     }
 
-    spinner.info(`Using workspace: ${project_cwd}`)
+    spinner.info(`Installing components into: ${project_cwd}`)
 
     await registry_component_install(
       components,
       duckui_config,
-      { cwd: config_cwd, yes: options.yes, force: false },
+      { cwd: workspace_cwd, yes: options.yes, force: false },
       spinner,
     )
 
