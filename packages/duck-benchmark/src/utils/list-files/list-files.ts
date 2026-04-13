@@ -4,7 +4,7 @@ import { highlighter } from '../text-styling'
 import { FolderInfo } from './list-files.dto'
 import { IListFilesOptions } from './list-files.types'
 
-export async function list_files({
+export async function listFiles({
   cwds,
   depth = Number.POSITIVE_INFINITY,
   filter = [],

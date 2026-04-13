@@ -10,23 +10,23 @@ export const logger: LoggerType = {
     console.log('')
     return logger
   },
-  error: ({ with_icon = true, args }: ILoggerParams): LoggerType => {
-    console.log(kleur.red([with_icon ? error : '', 'ERROR:'].join(' ')), kleur.red(args.join(' ')))
+  error: ({ withIcon = true, args }: ILoggerParams): LoggerType => {
+    console.log(kleur.red([withIcon ? error : '', 'ERROR:'].join(' ')), kleur.red(args.join(' ')))
     return logger
   },
 
-  info: ({ with_icon = true, args }: ILoggerParams): LoggerType => {
-    console.log(kleur.green([with_icon ? info : '', 'INFO:'].join(' ')), kleur.green(args.join(' ')))
+  info: ({ withIcon = true, args }: ILoggerParams): LoggerType => {
+    console.log(kleur.green([withIcon ? info : '', 'INFO:'].join(' ')), kleur.green(args.join(' ')))
     return logger
   },
 
-  success: ({ args, with_icon }: ILoggerParams): LoggerType => {
-    console.log(kleur.green([with_icon ? success : '', 'SUCCESS:'].join(' ')), kleur.green(args.join(' ')))
+  success: ({ args, withIcon }: ILoggerParams): LoggerType => {
+    console.log(kleur.green([withIcon ? success : '', 'SUCCESS:'].join(' ')), kleur.green(args.join(' ')))
     return logger
   },
 
-  warn: ({ with_icon = true, args }: ILoggerParams): LoggerType => {
-    console.log(kleur.yellow([with_icon ? warning : '', 'WARN:'].join(' ')), kleur.yellow(args.join(' ')))
+  warn: ({ withIcon = true, args }: ILoggerParams): LoggerType => {
+    console.log(kleur.yellow([withIcon ? warning : '', 'WARN:'].join(' ')), kleur.yellow(args.join(' ')))
     return logger
   },
 }

@@ -6,7 +6,7 @@ import { logger } from '../text-styling'
 import { IGNORED_DIRECTORIES } from './get-project-info.constants'
 
 // Get package.json
-export function get_package_json(): PackageJson | null {
+export function getPackageJson(): PackageJson | null {
   const files = fg.sync(['package.json'], {
     cwd: process.cwd(),
     deep: 1,
@@ -18,9 +18,9 @@ export function get_package_json(): PackageJson | null {
     return process.exit(1)
   }
 
-  const package_json_path = path.join(process.cwd(), 'package.json')
+  const packageJsonPath = path.join(process.cwd(), 'package.json')
 
-  const package_json: PackageJson = JSON.parse(fs.readFileSync(package_json_path, 'utf8'))
+  const packageJson: PackageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
 
-  return package_json
+  return packageJson
 }

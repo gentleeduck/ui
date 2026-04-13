@@ -1,14 +1,14 @@
 import { z } from 'zod'
 
 export const fileInfoSchema = z.object({
-  bundle_size: z.number().optional(),
-  compile_time_ms: z.number().optional(),
+  bundleSize: z.number().optional(),
+  compileTimeMs: z.number().optional(),
   created_at: z.date(),
   errors: z.array(z.string()).optional(),
   modified_at: z.date(),
   name: z.string(),
   path: z.string(),
-  render_time_ms: z.number().optional(),
+  renderTimeMs: z.number().optional(),
   size: z.number(),
 })
 
