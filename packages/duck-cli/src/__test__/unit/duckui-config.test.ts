@@ -76,6 +76,18 @@ describe('default_duckui_config', () => {
     )
     expect(result.workspace).toEqual({ root: '.', project: 'apps/web' })
   })
+
+  it('omits tailwind.cssWorkspace when no css workspace is provided', () => {
+    const result = JSON.parse(default_duckui_config(baseInput))
+    expect(result.tailwind).not.toHaveProperty('cssWorkspace')
+  })
+
+  it('writes tailwind.cssWorkspace when a separate css workspace is provided', () => {
+    const result = JSON.parse(
+      default_duckui_config(baseInput, { root: '.', project: '.' }, '../../packages/styles'),
+    )
+    expect(result.tailwind.cssWorkspace).toBe('../../packages/styles')
+  })
 })
 
 describe('generateThemeCSS', () => {

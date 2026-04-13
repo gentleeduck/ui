@@ -50,14 +50,13 @@ describe('init_command_action workspace validation', () => {
     vi.restoreAllMocks()
   })
 
-  it('exits 1 for invalid --monorepo --workspace during preflight', async () => {
+  it('exits 1 for invalid --workspace during preflight', async () => {
     const { init_command_action } = await import('~/commands/init/init.libs')
 
     await expect(
       init_command_action([], {
         all: false,
         cwd: tmpDir,
-        monorepo: true,
         workspace: 'apps/missing',
         yes: true,
       }),

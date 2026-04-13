@@ -16,10 +16,17 @@ export async function preflight_configs(_options: InitOptions, spinner: Ora): Pr
 
     if (resolution.monorepo) {
       spinner.info(`Using workspace: ${highlighter.info(resolution.workspace_cwd)}`)
+      if (resolution.css_workspace_cwd !== resolution.workspace_cwd) {
+        spinner.info(`CSS workspace: ${highlighter.info(resolution.css_workspace_cwd)}`)
+      }
     }
 
+    // Tailwind belongs to whichever package owns the CSS file; when the user picks a
+    // dedicated styles package, that's where tailwindcss + the CSS file get installed.
+    const css_options: InitOptions = { ..._options, cwd: resolution.css_workspace_cwd }
+
     await preflight_typescript(workspace_options, spinner)
-    await preflight_tailwindcss(workspace_options, spinner)
+    await preflight_tailwindcss(css_options, spinner)
     await preflight_duckui(workspace_options, resolution, spinner)
 
     spinner.text = `${highlighter.info('Configs preflighted...')}`
