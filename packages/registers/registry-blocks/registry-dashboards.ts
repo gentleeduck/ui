@@ -1,6 +1,6 @@
 import type { RegistryEntry } from '../registry-schema'
 
-export const registry_dashboards: RegistryEntry[] = [
+export const registryDashboards: RegistryEntry[] = [
   // Signup
   {
     categories: ['dashboards', 'dashboard'],

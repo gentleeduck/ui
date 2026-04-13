@@ -1,7 +1,7 @@
 import fs from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
-import { registry_entry_schema, type registry_item_file_schema } from '@gentleduck/registers'
+import { registryEntrySchema, type registryItemFileSchema } from '@gentleduck/registers'
 import { Project, ScriptKind } from 'ts-morph'
 import type { z } from 'zod'
 import { getRegistryIndex } from '~/lib/registry-index.server'
@@ -27,7 +27,7 @@ export async function getRegistryItem(name: string) {
   }
 
   // Fail early before doing expensive file operations.
-  const result = registry_entry_schema.safeParse(item)
+  const result = registryEntrySchema.safeParse(item)
   if (!result.success) {
     return null
   }
@@ -59,7 +59,7 @@ export async function getRegistryItem(name: string) {
   // Fix file paths.
   files = fixFilePaths(files)
 
-  const parsed = registry_entry_schema.safeParse({
+  const parsed = registryEntrySchema.safeParse({
     ...result.data,
     files,
     meta,
@@ -128,7 +128,7 @@ async function getFileMeta(filePath: string, fileType: string) {
   }
 }
 
-function getFileTarget(file: z.infer<typeof registry_item_file_schema>) {
+function getFileTarget(file: z.infer<typeof registryItemFileSchema>) {
   let target = file.target
 
   if (!target || target === '') {
@@ -158,7 +158,7 @@ async function createTempSourceFile(filename: string) {
   return path.join(dir, filename)
 }
 
-function fixFilePaths(files: z.infer<typeof registry_entry_schema>['files']) {
+function fixFilePaths(files: z.infer<typeof registryEntrySchema>['files']) {
   if (!files) {
     return []
   }

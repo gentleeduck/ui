@@ -1,6 +1,6 @@
 import type { RegistryEntry } from '../registry-schema'
 
-export const registry_ui: RegistryEntry[] = [
+export const registryUi: RegistryEntry[] = [
   {
     dependencies: ['@gentleduck/primitives', '@gentleduck/libs', 'lucide-react'],
     files: [],

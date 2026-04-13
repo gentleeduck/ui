@@ -1,5 +1,5 @@
 import { ComponentPreview } from '@gentleduck/docs/client'
-import type { registry_item_file_schema } from '@gentleduck/registers'
+import type { registryItemFileSchema } from '@gentleduck/registers'
 import * as React from 'react'
 import type { z } from 'zod'
 import { createFileTreeForRegistryItemFiles, getRegistryItem } from '~/lib/get-registry-item'
@@ -37,7 +37,7 @@ const getCachedFileTree = React.cache(async (files: Array<{ path: string; target
   return createFileTreeForRegistryItemFiles(files)
 })
 
-const getCachedHighlightedFiles = React.cache(async (files: z.infer<typeof registry_item_file_schema>[]) => {
+const getCachedHighlightedFiles = React.cache(async (files: z.infer<typeof registryItemFileSchema>[]) => {
   return await Promise.all(
     files.map(async (file) => ({
       ...file,
