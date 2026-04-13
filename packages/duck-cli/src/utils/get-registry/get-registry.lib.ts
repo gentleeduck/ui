@@ -1,6 +1,6 @@
 import { REGISTRY_URL } from '~/main'
 import { highlighter, logger } from '../text-styling'
-import { errorMessages } from './get-registry.constants'
+import { ERROR_MESSAGES } from './get-registry.constants'
 
 export function isUrl(path: string) {
   try {
@@ -82,9 +82,9 @@ export function checkStatus(status: number, statusText: string, url: string, bod
     message =
       result && typeof result === 'object' && 'error' in result
         ? String(result.error)
-        : statusText || errorMessages[status] || 'Unknown registry error'
+        : statusText || ERROR_MESSAGES[status] || 'Unknown registry error'
   } catch {
-    message = statusText || errorMessages[status] || 'Unknown registry error'
+    message = statusText || ERROR_MESSAGES[status] || 'Unknown registry error'
   }
   throw new Error(`Failed to fetch from ${highlighter.info(url)}.\n${message}`)
 }

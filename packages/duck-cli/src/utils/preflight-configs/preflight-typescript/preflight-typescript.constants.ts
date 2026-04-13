@@ -12,7 +12,7 @@ export const typescriptPrompts: PromptObject<'typescript'>[] = [
   },
 ]
 
-export const typescriptDependencies = ['typescript']
+export const TYPESCRIPT_DEPENDENCIES = ['typescript']
 
 const tsConfigBase = `{
   "$schema": "https://json.schemastore.org/tsconfig",

@@ -12,10 +12,10 @@ import { duckuiPromptsSchema, type PROJECT_TYPE } from '../preflight-duckui'
 type ProjectType = (typeof PROJECT_TYPE)[number]
 
 import {
-  postCssNextjs,
-  tailwindcssBoilerplate,
+  POST_CSS_NEXTJS,
+  TAILWINDCSS_BOILERPLATE,
   tailwindcssInstallPrompts,
-  tailwindcssVite,
+  TAILWINDCSS_VITE,
 } from './preflight-tailwindcss.constants'
 
 export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
@@ -138,10 +138,10 @@ function writeCssFile(cssFile: string) {
       return
     }
     // Prepend the Tailwind boilerplate before existing content
-    fs.writeFileSync(cssFile, `${tailwindcssBoilerplate}\n${existing}`)
+    fs.writeFileSync(cssFile, `${TAILWINDCSS_BOILERPLATE}\n${existing}`)
     return
   }
-  fs.writeFileSync(cssFile, tailwindcssBoilerplate)
+  fs.writeFileSync(cssFile, TAILWINDCSS_BOILERPLATE)
 }
 
 /**
@@ -166,7 +166,7 @@ function writePostcssConfig(cwd: string) {
     }
   }
   // No config found, create fresh
-  fs.writeFileSync(path.join(cwd, 'postcss.config.mjs'), postCssNextjs)
+  fs.writeFileSync(path.join(cwd, 'postcss.config.mjs'), POST_CSS_NEXTJS)
 }
 
 /**
@@ -191,7 +191,7 @@ function writeViteConfig(cwd: string) {
     }
   }
   // No config found, create fresh
-  fs.writeFileSync(path.join(cwd, 'vite.config.ts'), tailwindcssVite)
+  fs.writeFileSync(path.join(cwd, 'vite.config.ts'), TAILWINDCSS_VITE)
 }
 
 /**
