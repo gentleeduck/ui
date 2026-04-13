@@ -51,8 +51,6 @@ export const duckuiPromptsSchema = z.object({
     .describe('Please select a valid project type.'),
 })
 
-export type DuckuiPrompts = z.infer<typeof duckuiPromptsSchema>
-
 export const duckUiSchema = z.object({
   aliases: z.object({
     hooks: z.string(),
@@ -79,4 +77,14 @@ export const duckUiSchema = z.object({
     prefix: z.string(),
   }),
 })
-export type DuckUI = z.infer<typeof duckUiSchema>
+export interface DuckUI extends z.infer<typeof duckUiSchema> {}
+
+export namespace DuckUI {
+  export interface Prompts extends z.infer<typeof duckuiPromptsSchema> {}
+
+  export interface Resolution {
+    workspaceCwd: string
+    monorepo: boolean
+    cssWorkspaceCwd: string
+  }
+}

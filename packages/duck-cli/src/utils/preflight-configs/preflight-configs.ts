@@ -1,11 +1,12 @@
 import type { Ora } from 'ora'
 import type { InitOptions } from '~/commands/init'
 import { highlighter } from '../text-styling'
-import { type DuckuiResolution, preflightDuckui, preflightDuckuiResolveWorkspace } from './preflight-duckui'
+import type { DuckUI } from './preflight-duckui'
+import { preflightDuckui, preflightDuckuiResolveWorkspace } from './preflight-duckui'
 import { preflightTailwindcss } from './preflight-tailwindcss'
 import { preflightTypescript } from './preflight-typescript'
 
-export async function preflightConfigs(_options: InitOptions, spinner: Ora): Promise<DuckuiResolution> {
+export async function preflightConfigs(_options: InitOptions, spinner: Ora): Promise<DuckUI.Resolution> {
   try {
     spinner.text = `${highlighter.info('Preflighting required configs...')}`
 

@@ -7,7 +7,7 @@ import { IGNORED_DIRECTORIES, type TsConfig } from '~/utils/get-project-info'
 import { getRegistryBaseColor } from '~/utils/get-registry'
 import { duckUiSchema } from '~/utils/preflight-configs/preflight-duckui'
 import type { PROJECT_TYPE } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.constants'
-import type { DuckUI, DuckuiPrompts } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.dto'
+import type { DuckUI } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.dto'
 import { defaultDuckuiConfig, generateThemeCSS } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs'
 import { tailwindcssDependencies } from '~/utils/preflight-configs/preflight-tailwindcss/preflight-tailwindcss.lib'
 import {
@@ -125,7 +125,7 @@ export function checkDuckuiConfigExists(cwd: string): boolean {
  */
 export async function runInitDuckuiConfig(
   cwd: string,
-  options: DuckuiPrompts,
+  options: DuckUI.Prompts,
   onProgress?: ProgressCallback,
 ): Promise<ServiceResult<void>> {
   try {
