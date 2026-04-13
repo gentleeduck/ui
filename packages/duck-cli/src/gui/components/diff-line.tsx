@@ -1,12 +1,12 @@
 import { Box, Text } from 'ink'
 import { memo } from 'react'
 import { THEME } from '../app.constants'
-import type { DiffDisplayLine } from '../screens/diff-screen.types'
+import type { Diff } from '~/utils/diff-format'
 import { getConflictMarkerColor } from './conflict-markers'
 import { getRenderableDiffSegments } from './diff-line.libs'
 
 type DiffLineProps = {
-  line: DiffDisplayLine
+  line: Diff.DisplayLine
   numWidth: number
   singleNum?: boolean
 }

@@ -1,4 +1,4 @@
-import type { DiffDisplayLine, DiffSegment } from '~/utils/diff-format'
+import type { Diff } from '~/utils/diff-format'
 
 // -- Language detection --
 
@@ -134,15 +134,15 @@ export async function warmHighlighter(filePath: string): Promise<void> {
 }
 
 /**
- * Apply syntax highlighting colors to DiffDisplayLine[].
+ * Apply syntax highlighting colors to Diff.DisplayLine[].
  * Tokenizes the full code with shiki, then overlays syntax colors
  * onto existing diff segments. Word-level diff highlights are preserved.
  */
 export async function highlightDiffLines(
-  lines: DiffDisplayLine[],
+  lines: Diff.DisplayLine[],
   fullCode: string,
   filePath: string,
-): Promise<DiffDisplayLine[]> {
+): Promise<Diff.DisplayLine[]> {
   const lang = detectLanguage(filePath)
   if (!lang) return lines
 
@@ -153,7 +153,7 @@ export async function highlightDiffLines(
   return lines.map((line) => applyTokensToLine(line, tokenMap))
 }
 
-function applyTokensToLine(line: DiffDisplayLine, tokenMap: Map<number, SyntaxToken[]>): DiffDisplayLine {
+function applyTokensToLine(line: Diff.DisplayLine, tokenMap: Map<number, SyntaxToken[]>): Diff.DisplayLine {
   if (line.type === 'hunk-header' || line.type === 'file-header') {
     return line
   }
@@ -173,7 +173,7 @@ function applyTokensToLine(line: DiffDisplayLine, tokenMap: Map<number, SyntaxTo
  * Word-level diff highlights (seg.highlight === true) pass through unchanged.
  * Non-highlighted segments get split at syntax token color boundaries.
  */
-function overlaySyntaxOnSegments(diffSegments: DiffSegment[], syntaxTokens: SyntaxToken[]): DiffSegment[] {
+function overlaySyntaxOnSegments(diffSegments: Diff.Segment[], syntaxTokens: SyntaxToken[]): Diff.Segment[] {
   // Step 1: Reconstruct the full line text from diff segments so we can
   // build a character-level color map from the shiki tokens.
   const lineText = diffSegments.map((s) => s.text).join('')
@@ -193,7 +193,7 @@ function overlaySyntaxOnSegments(diffSegments: DiffSegment[], syntaxTokens: Synt
   // diff markers), preserve them as-is -- diff highlighting takes priority
   // over syntax colors. For non-highlighted segments, split at color
   // boundaries to apply per-character syntax coloring.
-  const result: DiffSegment[] = []
+  const result: Diff.Segment[] = []
   let charOffset = 0
 
   for (const seg of diffSegments) {

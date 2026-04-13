@@ -11,7 +11,7 @@ import { resolveInstallPath } from '~/services/install.service'
 import { buildComponentMergeState, writeMergeResults } from '~/services/merge.service'
 import { readDuckuiConfig, readTsConfig } from '~/services/preflight.service'
 import { highlightDiffLines, warmHighlighter } from '~/services/syntax-highlight.service'
-import type { DiffDisplayLine } from '~/utils/diff-format'
+import type { Diff } from '~/utils/diff-format'
 import type { ComponentMergeState, FileMergeState, HunkChoice, MergeHunk, MergeResult } from '~/utils/merge'
 import { buildMergePreviewLines } from '~/utils/merge'
 import { resolveProjectCwd } from '~/utils/workspace'
@@ -43,7 +43,7 @@ export type MergeWorkflowState = {
   activeHunkIndex: number
   scrollOffset: number
   writeResults: MergeResult[]
-  highlightedPreview: DiffDisplayLine[]
+  highlightedPreview: Diff.DisplayLine[]
 
   activeFile: FileMergeState | null
   activeHunks: MergeHunk[]
@@ -95,7 +95,7 @@ export function useMergeWorkflow(options: {
   const [activeHunkIndex, setActiveHunkIndex] = useState(0)
   const [writeResults, setWriteResults] = useState<MergeResult[]>([])
   const [autoSelected, setAutoSelected] = useState(false)
-  const [highlightedPreview, setHighlightedPreview] = useState<DiffDisplayLine[]>([])
+  const [highlightedPreview, setHighlightedPreview] = useState<Diff.DisplayLine[]>([])
 
   const diffTask = useAsyncTask<ComponentDiff>()
   const writeTask = useAsyncTask<MergeResult[]>()

@@ -1,17 +1,17 @@
 import { Box, Text } from 'ink'
 import { memo } from 'react'
 import { THEME } from '../app.constants'
-import type { DiffDisplayLine, SideBySidePair } from '../screens/diff-screen.types'
+import type { Diff } from '~/utils/diff-format'
 import { getConflictMarkerColor } from './conflict-markers'
 import { getRenderableDiffSegments } from './diff-line.libs'
 
 type SideBySideLineProps = {
-  pair: SideBySidePair
+  pair: Diff.SideBySidePair
   numWidth: number
   halfWidth: number
 }
 
-function renderSide(line: DiffDisplayLine | null, numWidth: number, side: 'left' | 'right') {
+function renderSide(line: Diff.DisplayLine | null, numWidth: number, side: 'left' | 'right') {
   if (!line) {
     return null
   }

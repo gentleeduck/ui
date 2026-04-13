@@ -1,4 +1,4 @@
-import type { DiffDisplayLine } from '~/utils/diff-format'
+import type { Diff } from '~/utils/diff-format'
 
 export type HunkChoice = 'local' | 'registry' | 'both' | 'pending'
 
@@ -15,7 +15,7 @@ export type MergeHunk = {
   contextBefore: string[]
   contextAfter: string[]
   choice: HunkChoice
-  displayLines: DiffDisplayLine[]
+  displayLines: Diff.DisplayLine[]
 }
 
 export type FileMergeState = {
