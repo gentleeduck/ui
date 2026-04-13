@@ -36,62 +36,62 @@ function formatExecaError(error: unknown) {
   return [shortMessage, stderr, message].filter(Boolean).join('\n')
 }
 
-export async function compile_file({ file, spinner, cwd }: CompileFileParams) {
+export async function compileFile({ file, spinner, cwd }: CompileFileParams) {
   if (!isTsOrTsxFile(file.name)) {
-    return { bundle_size: 0, compile_time_ms: 0 }
+    return { bundleSize: 0, compileTimeMs: 0 }
   }
 
-  const out_dir = path.join('dist', file.name.replace(/\.(ts|tsx)$/, '.js'))
+  const outDir = path.join('dist', file.name.replace(/\.(ts|tsx)$/, '.js'))
   const start = performance.now()
 
-  const temp_config_path = path.resolve(cwd, `vite.temp.config.ts`)
+  const tempConfigPath = path.resolve(cwd, `vite.temp.config.ts`)
 
   try {
     spinner.text = `Compiling ${file.name}`
-    fs.writeFileSync(temp_config_path, VITE_CONFIG_CONTENT({ fileInfo: file }))
+    fs.writeFileSync(tempConfigPath, VITE_CONFIG_CONTENT({ fileInfo: file }))
 
     await execa('vite', ['build', '--config', path.resolve(cwd, 'vite.temp.config.ts')], {
       cwd: cwd,
       preferLocal: true,
     })
 
-    const compile_time_ms = performance.now() - start
-    const bundle_size = fs.existsSync(`${cwd}/${out_dir}`) ? fs.statSync(`${cwd}/${out_dir}`).size : 12
+    const compileTimeMs = performance.now() - start
+    const bundleSize = fs.existsSync(`${cwd}/${outDir}`) ? fs.statSync(`${cwd}/${outDir}`).size : 12
 
-    spinner.text = `Compiled ${file.name} in ${compile_time_ms.toFixed(2)}ms (${(bundle_size / 1024).toFixed(2)}kb)`
+    spinner.text = `Compiled ${file.name} in ${compileTimeMs.toFixed(2)}ms (${(bundleSize / 1024).toFixed(2)}kb)`
     return {
-      bundle_size,
-      compile_time_ms,
+      bundleSize,
+      compileTimeMs,
     }
   } catch (error) {
     spinner.fail(`Failed to compile ${file.name}\n${formatExecaError(error)}`)
     return {
-      bundle_size: 0,
-      compile_time_ms: performance.now() - start,
+      bundleSize: 0,
+      compileTimeMs: performance.now() - start,
       errors: [error],
     }
   } finally {
-    if (fs.existsSync(temp_config_path)) {
-      fs.unlinkSync(temp_config_path)
+    if (fs.existsSync(tempConfigPath)) {
+      fs.unlinkSync(tempConfigPath)
     }
   }
 }
 
-export async function render_file({ file, spinner, cwd }: CompileFileParams) {
+export async function renderFile({ file, spinner, cwd }: CompileFileParams) {
   if (!isRenderableComponentFile(file.name)) {
     return { renderTimeMs: 0 }
   }
 
   try {
-    const built_file_path = path.resolve(cwd, 'dist', file.name.replace(/\.(tsx|jsx)$/, '.js'))
-    if (!fs.existsSync(built_file_path)) {
+    const builtFilePath = path.resolve(cwd, 'dist', file.name.replace(/\.(tsx|jsx)$/, '.js'))
+    if (!fs.existsSync(builtFilePath)) {
       spinner.warn(`Built file not found for ${file.path}`)
       return { renderTimeMs: 0 }
     }
 
-    const built_file_url = pathToFileURL(built_file_path).href
+    const builtFileUrl = pathToFileURL(builtFilePath).href
 
-    const module = await import(built_file_url)
+    const module = await import(builtFileUrl)
     const Component = module.default
 
     if (!Component) {

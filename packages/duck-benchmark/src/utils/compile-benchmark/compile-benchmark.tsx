@@ -1,8 +1,8 @@
 import { highlighter } from '../text-styling'
-import { compile_file, render_file } from './compile-benchmark.libs'
+import { compileFile, renderFile } from './compile-benchmark.libs'
 import { CompileBenchmarkParams, RenderBenchmarkParams } from './compile-benchmark.types'
 
-export async function compile_benchmark({
+export async function compileBenchmark({
   folders,
   visited = new Set<string>(),
   spinner,
@@ -17,14 +17,14 @@ export async function compile_benchmark({
 
       // Process files in the current folder
       for (const file of folder.files) {
-        const res = await compile_file({ cwd, file, spinner })
-        file.compile_time_ms = res.compile_time_ms
-        file.bundle_size = res.bundle_size
+        const res = await compileFile({ cwd, file, spinner })
+        file.compileTimeMs = res.compileTimeMs
+        file.bundleSize = res.bundleSize
       }
 
       // Recursively process subdirectories
       if (folder.subdirectories.length > 0) {
-        await compile_benchmark({
+        await compileBenchmark({
           cwd,
           folders: folder.subdirectories,
           spinner,
@@ -39,7 +39,7 @@ export async function compile_benchmark({
   }
 }
 
-export async function render_benchmark({ folders, visited = new Set<string>(), spinner, cwd }: RenderBenchmarkParams) {
+export async function renderBenchmark({ folders, visited = new Set<string>(), spinner, cwd }: RenderBenchmarkParams) {
   try {
     // spinner.text = `Rendering ${folders.length} folders`
 
@@ -49,13 +49,13 @@ export async function render_benchmark({ folders, visited = new Set<string>(), s
 
       // Process files in the current folder
       for (const file of folder.files) {
-        const res = await render_file({ cwd, file, spinner })
-        file.render_time_ms = res.renderTimeMs
+        const res = await renderFile({ cwd, file, spinner })
+        file.renderTimeMs = res.renderTimeMs
       }
 
       // Recursively process subdirectories
       if (folder.subdirectories.length > 0) {
-        await render_benchmark({
+        await renderBenchmark({
           cwd,
           folders: folder.subdirectories,
           spinner,

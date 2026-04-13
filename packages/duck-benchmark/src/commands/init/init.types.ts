@@ -1,7 +1,7 @@
 export type InitCommandConfig = {
   name: string
   description: string
-  options: Record<`option_${number}`, OptionType>
+  options: Record<`option${number}`, OptionType>
 }
 
 export type OptionType = {
