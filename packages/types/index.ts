@@ -1,15 +1,15 @@
 /**
- * **Utility Type: REQUEST_STATUS**
+ * **Utility Type: RequestStatus**
  * Represents the possible states of a request.
  *
  * @example
  * ```ts
- * let status: REQUEST_STATUS = 'loading'; // Valid
+ * let status: RequestStatus = 'loading'; // Valid
  * status = 'success'; // Valid
- * status = 'unknown'; // Error: Type '"unknown"' is not assignable to type 'REQUEST_STATUS'
+ * status = 'unknown'; // Error: Type '"unknown"' is not assignable to type 'RequestStatus'
  * ```
  */
-export type REQUEST_STATUS = 'idle' | 'loading' | 'success' | 'error'
+export type RequestStatus = 'idle' | 'loading' | 'success' | 'error'
 
 /**
  * **Utility Type: FilterValidKeys**

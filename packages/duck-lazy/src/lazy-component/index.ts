@@ -6,4 +6,4 @@
  */
 export { DuckLazyComponent } from './lazy-component'
 export { useLazyLoad } from './lazy-component.hooks'
-export type { DuckLazyProps, UseLazyLoadReturn } from './lazy-component.types'
+export type { IDuckLazyProps, IUseLazyLoadReturn } from './lazy-component.types'
