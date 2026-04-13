@@ -30,7 +30,13 @@ export const DEFAULT_CONFIG_FILENAMES = [
 /** Source defaults shared by legacy registries and generic collections. */
 export const DEFAULT_SOURCE_GLOB = '**/*.{ts,tsx}'
 export const DEFAULT_SOURCE_INDEX_STRATEGY = 'item' as const
-export const DEFAULT_SOURCE_IGNORE = ['**/__test__/**', '**/*.test.*', '**/*.spec.*'] as const
+export const DEFAULT_SOURCE_IGNORE = [
+  '**/__test__/**',
+  '**/__tests__/**',
+  '**/__snapshots__/**',
+  '**/*.test.*',
+  '**/*.spec.*',
+] as const
 
 // ---------------------------------------------------------------------------
 // UI extension defaults (used by built-in UI extensions)
@@ -107,12 +113,19 @@ export const DEFAULT_SCHEMA_ITEM_TYPES = [] as const
 // Default application helpers
 // ---------------------------------------------------------------------------
 
-/** Apply source defaults (glob, ignore, indexStrategy) to a single source entry. */
+/**
+ * Apply source defaults (glob, ignore, indexStrategy) to a single source entry.
+ *
+ * `ignore` is always merged with `DEFAULT_SOURCE_IGNORE` so users never
+ * accidentally opt out of the test/snapshot exclusions by supplying their own
+ * array. Duplicates are removed via `Set`.
+ */
 function withSourceDefaults(source: RegistryBuildSource): RegistryBuildSource {
+  const userIgnore = source.ignore ?? []
   return {
     ...source,
     glob: source.glob ?? DEFAULT_SOURCE_GLOB,
-    ignore: source.ignore ?? [...DEFAULT_SOURCE_IGNORE],
+    ignore: [...new Set([...DEFAULT_SOURCE_IGNORE, ...userIgnore])],
     indexStrategy: source.indexStrategy ?? DEFAULT_SOURCE_INDEX_STRATEGY,
   }
 }

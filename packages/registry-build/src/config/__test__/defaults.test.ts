@@ -61,7 +61,9 @@ describe('withRegistryBuildDefaults', () => {
     expect(result.performance!.incremental).toBe(false)
     expect(result.performance!.parallelism).toBe(2)
     expect(result.sources!['registry:ui']!.glob).toBe('**/*.vue')
-    expect(result.sources!['registry:ui']!.ignore).toEqual(['**/dist/**'])
+    // User-provided ignore is merged with DEFAULT_SOURCE_IGNORE so the
+    // built-in test/snapshot exclusions are never accidentally dropped.
+    expect(result.sources!['registry:ui']!.ignore).toEqual([...DEFAULT_SOURCE_IGNORE, '**/dist/**'])
   })
 
   test('applies collection source defaults', () => {

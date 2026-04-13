@@ -252,12 +252,12 @@ describe('resolveSources', () => {
     expect(result['registry:ui']?.ignore).toEqual([...DEFAULT_SOURCE_IGNORE])
   })
 
-  test('preserves user-provided ignore', () => {
+  test('merges user-provided ignore with DEFAULT_SOURCE_IGNORE', () => {
     const sources = {
       'registry:ui': { path: './src/ui', ignore: ['**/dist/**'] } as RegistryBuildSource,
     }
     const result = resolveSources('/project', sources)
-    expect(result['registry:ui']?.ignore).toEqual(['**/dist/**'])
+    expect(result['registry:ui']?.ignore).toEqual([...DEFAULT_SOURCE_IGNORE, '**/dist/**'])
   })
 
   test('applies default indexStrategy when not specified', () => {
