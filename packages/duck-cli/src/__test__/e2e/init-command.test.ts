@@ -28,9 +28,12 @@ vi.mock('~/utils/get-package-manager', () => ({
   get_package_manager: vi.fn().mockResolvedValue('npm'),
 }))
 
-// Mock preflight_configs to skip the full preflight checks
+// Mock preflight_configs to skip the full preflight checks. The real flow now
+// returns the resolved workspace path so init.libs.ts can route writes through
+// the correct cwd; the mock mirrors that shape against the test's tmpDir.
+const mockPreflightConfigs = vi.fn()
 vi.mock('~/utils/preflight-configs', () => ({
-  preflight_configs: vi.fn().mockResolvedValue(undefined),
+  preflight_configs: mockPreflightConfigs,
 }))
 
 // Mock prompts
@@ -83,6 +86,8 @@ describe('init_command_action', () => {
       throw new Error(`process.exit(${code})`)
     }) as never)
     mockPrompts.mockReset()
+    mockPreflightConfigs.mockReset()
+    mockPreflightConfigs.mockResolvedValue({ workspace_cwd: tmpDir, monorepo: false })
   })
 
   afterEach(() => {
