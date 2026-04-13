@@ -71,6 +71,10 @@ export const duck_ui_schema = z.object({
   tailwind: z.object({
     baseColor: z.enum(BASE_COLORS),
     css: z.string(),
+    // Optional path (relative to this config file's directory) pointing at a
+    // separate workspace that owns the CSS file. When absent, the CSS lives in
+    // the same workspace as the config and `css` is interpreted relative to it.
+    cssWorkspace: z.string().optional(),
     cssVariables: z.boolean(),
     prefix: z.string(),
   }),

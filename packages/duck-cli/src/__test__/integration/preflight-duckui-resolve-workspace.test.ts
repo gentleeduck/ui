@@ -1,8 +1,8 @@
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import oraDefault from 'ora'
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { preflight_duckui_resolve_workspace } from '~/utils/preflight-configs/preflight-duckui'
 
 vi.mock('ora', () => ({
@@ -43,20 +43,18 @@ describe('preflight_duckui_resolve_workspace', () => {
     vi.restoreAllMocks()
   })
 
-  it('asks the monorepo question FIRST, before any workspace selection', async () => {
-    fs.writeFileSync(
-      path.join(tmpDir, 'package.json'),
-      JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }),
-    )
+  it('asks prompts in order: monorepo → component workspace → CSS workspace', async () => {
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }))
     fs.mkdirSync(path.join(tmpDir, 'apps/web'), { recursive: true })
     fs.mkdirSync(path.join(tmpDir, 'apps/api'), { recursive: true })
     fs.writeFileSync(path.join(tmpDir, 'apps/web/package.json'), JSON.stringify({ name: 'web' }))
     fs.writeFileSync(path.join(tmpDir, 'apps/api/package.json'), JSON.stringify({ name: 'api' }))
 
-    // First call: monorepo confirm. Second call: workspace pick (only fires when 2+ workspaces).
+    // Three sequential prompts. The third (CSS workspace) defaults to "same as components".
     mockPrompts
       .mockResolvedValueOnce({ monorepo: true })
       .mockResolvedValueOnce({ workspace_project: 'apps/web' })
+      .mockResolvedValueOnce({ css_workspace: '__same__' })
 
     const spinner = makeSpinner()
     const resolution = await preflight_duckui_resolve_workspace(
@@ -64,15 +62,14 @@ describe('preflight_duckui_resolve_workspace', () => {
       spinner as never,
     )
 
-    expect(mockPrompts).toHaveBeenCalledTimes(2)
-    const first_call = mockPrompts.mock.calls[0]?.[0]
-    expect(first_call?.name).toBe('monorepo')
-
-    const second_call = mockPrompts.mock.calls[1]?.[0]
-    expect(second_call?.name).toBe('workspace_project')
+    expect(mockPrompts).toHaveBeenCalledTimes(3)
+    expect(mockPrompts.mock.calls[0]?.[0]?.name).toBe('monorepo')
+    expect(mockPrompts.mock.calls[1]?.[0]?.name).toBe('workspace_project')
+    expect(mockPrompts.mock.calls[2]?.[0]?.name).toBe('css_workspace')
 
     expect(resolution.monorepo).toBe(true)
     expect(resolution.workspace_cwd).toBe(path.resolve(tmpDir, 'apps/web'))
+    expect(resolution.css_workspace_cwd).toBe(path.resolve(tmpDir, 'apps/web'))
   })
 
   it('seeds the monorepo prompt default to Yes when a monorepo signal is present', async () => {
@@ -82,10 +79,7 @@ describe('preflight_duckui_resolve_workspace', () => {
     mockPrompts.mockResolvedValueOnce({ monorepo: false })
 
     const spinner = makeSpinner()
-    await preflight_duckui_resolve_workspace(
-      { all: false, cwd: tmpDir, yes: false },
-      spinner as never,
-    )
+    await preflight_duckui_resolve_workspace({ all: false, cwd: tmpDir, yes: false }, spinner as never)
 
     const prompt = mockPrompts.mock.calls[0]?.[0]
     expect(prompt?.initial).toBe(true)
@@ -109,30 +103,8 @@ describe('preflight_duckui_resolve_workspace', () => {
     expect(resolution.workspace_cwd).toBe(path.resolve(tmpDir))
   })
 
-  it('skips both prompts when --monorepo --workspace flags are passed', async () => {
-    fs.writeFileSync(
-      path.join(tmpDir, 'package.json'),
-      JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }),
-    )
-    fs.mkdirSync(path.join(tmpDir, 'apps/web'), { recursive: true })
-    fs.writeFileSync(path.join(tmpDir, 'apps/web/package.json'), JSON.stringify({ name: 'web' }))
-
-    const spinner = makeSpinner()
-    const resolution = await preflight_duckui_resolve_workspace(
-      { all: false, cwd: tmpDir, monorepo: true, workspace: 'apps/web', yes: false },
-      spinner as never,
-    )
-
-    expect(mockPrompts).not.toHaveBeenCalled()
-    expect(resolution.monorepo).toBe(true)
-    expect(resolution.workspace_cwd).toBe(path.resolve(tmpDir, 'apps/web'))
-  })
-
-  it('treats a bare --workspace flag as monorepo intent', async () => {
-    fs.writeFileSync(
-      path.join(tmpDir, 'package.json'),
-      JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }),
-    )
+  it('a bare --workspace flag implies monorepo and skips all prompts', async () => {
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }))
     fs.mkdirSync(path.join(tmpDir, 'apps/web'), { recursive: true })
     fs.writeFileSync(path.join(tmpDir, 'apps/web/package.json'), JSON.stringify({ name: 'web' }))
 
@@ -145,13 +117,82 @@ describe('preflight_duckui_resolve_workspace', () => {
     expect(mockPrompts).not.toHaveBeenCalled()
     expect(resolution.monorepo).toBe(true)
     expect(resolution.workspace_cwd).toBe(path.resolve(tmpDir, 'apps/web'))
+    expect(resolution.css_workspace_cwd).toBe(path.resolve(tmpDir, 'apps/web'))
+  })
+
+  it('--workspace + --css-workspace routes CSS to a separate package', async () => {
+    fs.writeFileSync(
+      path.join(tmpDir, 'package.json'),
+      JSON.stringify({ name: 'repo', workspaces: ['apps/*', 'packages/*'] }),
+    )
+    fs.mkdirSync(path.join(tmpDir, 'apps/web'), { recursive: true })
+    fs.mkdirSync(path.join(tmpDir, 'packages/styles'), { recursive: true })
+    fs.writeFileSync(path.join(tmpDir, 'apps/web/package.json'), JSON.stringify({ name: 'web' }))
+    fs.writeFileSync(path.join(tmpDir, 'packages/styles/package.json'), JSON.stringify({ name: 'styles' }))
+
+    const spinner = makeSpinner()
+    const resolution = await preflight_duckui_resolve_workspace(
+      { all: false, cwd: tmpDir, cssWorkspace: 'packages/styles', workspace: 'apps/web', yes: false },
+      spinner as never,
+    )
+
+    expect(mockPrompts).not.toHaveBeenCalled()
+    expect(resolution.workspace_cwd).toBe(path.resolve(tmpDir, 'apps/web'))
+    expect(resolution.css_workspace_cwd).toBe(path.resolve(tmpDir, 'packages/styles'))
+  })
+
+  it('CSS workspace picker offers "Same as components" plus the other workspaces', async () => {
+    fs.writeFileSync(
+      path.join(tmpDir, 'package.json'),
+      JSON.stringify({ name: 'repo', workspaces: ['apps/*', 'packages/*'] }),
+    )
+    fs.mkdirSync(path.join(tmpDir, 'apps/web'), { recursive: true })
+    fs.mkdirSync(path.join(tmpDir, 'packages/styles'), { recursive: true })
+    fs.writeFileSync(path.join(tmpDir, 'apps/web/package.json'), JSON.stringify({ name: 'web' }))
+    fs.writeFileSync(path.join(tmpDir, 'packages/styles/package.json'), JSON.stringify({ name: 'styles' }))
+
+    mockPrompts
+      .mockResolvedValueOnce({ monorepo: true })
+      .mockResolvedValueOnce({ workspace_project: 'apps/web' })
+      .mockResolvedValueOnce({ css_workspace: 'packages/styles' })
+
+    const spinner = makeSpinner()
+    const resolution = await preflight_duckui_resolve_workspace(
+      { all: false, cwd: tmpDir, yes: false },
+      spinner as never,
+    )
+
+    expect(mockPrompts).toHaveBeenCalledTimes(3)
+    const css_prompt = mockPrompts.mock.calls[2]?.[0]
+    expect(css_prompt?.name).toBe('css_workspace')
+    const choices = css_prompt?.choices as Array<{ value: string; title: string }>
+    expect(choices[0]?.value).toBe('__same__')
+    expect(choices[0]?.title).toContain('apps/web')
+    expect(choices.slice(1).map((c) => c.value)).toEqual(['packages/styles'])
+
+    expect(resolution.workspace_cwd).toBe(path.resolve(tmpDir, 'apps/web'))
+    expect(resolution.css_workspace_cwd).toBe(path.resolve(tmpDir, 'packages/styles'))
+  })
+
+  it('does not ask the CSS workspace picker when there is only one workspace', async () => {
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }))
+    fs.mkdirSync(path.join(tmpDir, 'apps/web'), { recursive: true })
+    fs.writeFileSync(path.join(tmpDir, 'apps/web/package.json'), JSON.stringify({ name: 'web' }))
+
+    mockPrompts.mockResolvedValueOnce({ monorepo: true })
+
+    const spinner = makeSpinner()
+    const resolution = await preflight_duckui_resolve_workspace(
+      { all: false, cwd: tmpDir, yes: false },
+      spinner as never,
+    )
+
+    expect(mockPrompts).toHaveBeenCalledTimes(1)
+    expect(resolution.css_workspace_cwd).toBe(resolution.workspace_cwd)
   })
 
   it('honors --no-monorepo even with auto-detection signals', async () => {
-    fs.writeFileSync(
-      path.join(tmpDir, 'package.json'),
-      JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }),
-    )
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }))
     fs.writeFileSync(path.join(tmpDir, 'turbo.json'), '{}')
 
     const spinner = makeSpinner()
@@ -166,15 +207,12 @@ describe('preflight_duckui_resolve_workspace', () => {
   })
 
   it('exits 1 when the picked workspace path has no package.json', async () => {
-    fs.writeFileSync(
-      path.join(tmpDir, 'package.json'),
-      JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }),
-    )
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }))
 
     const spinner = makeSpinner()
     await expect(
       preflight_duckui_resolve_workspace(
-        { all: false, cwd: tmpDir, monorepo: true, workspace: 'apps/missing', yes: false },
+        { all: false, cwd: tmpDir, workspace: 'apps/missing', yes: false },
         spinner as never,
       ),
     ).rejects.toThrow(/process\.exit/)
@@ -183,10 +221,7 @@ describe('preflight_duckui_resolve_workspace', () => {
   })
 
   it('uses auto-detection in --yes mode without prompting', async () => {
-    fs.writeFileSync(
-      path.join(tmpDir, 'package.json'),
-      JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }),
-    )
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }))
     fs.mkdirSync(path.join(tmpDir, 'apps/web'), { recursive: true })
     fs.writeFileSync(path.join(tmpDir, 'apps/web/package.json'), JSON.stringify({ name: 'web' }))
     fs.writeFileSync(path.join(tmpDir, 'apps/web/tsconfig.json'), JSON.stringify({}))

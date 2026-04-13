@@ -12,12 +12,17 @@ export async function init_duckui_config(
   spinner: Ora,
   duck_config: DuckuiPrompts,
   workspace: WorkspaceTarget = { root: '.', project: '.' },
+  css_workspace?: string,
 ) {
   try {
     spinner.text = `Initializing ${highlighter.info('duck-ui')} config...`
 
     spinner.text = `Writing ${highlighter.info('duck-ui')} config...`
-    await fs.writeFile(path.join(cwd, 'duck-ui.config.json'), default_duckui_config(duck_config, workspace), 'utf-8')
+    await fs.writeFile(
+      path.join(cwd, 'duck-ui.config.json'),
+      default_duckui_config(duck_config, workspace, css_workspace),
+      'utf-8',
+    )
 
     spinner.succeed(`${highlighter.info('duck-ui')} config initialized...`)
   } catch (error) {
@@ -77,6 +82,7 @@ ${base_layer_styles}
 export const default_duckui_config = (
   { project_type, monorepo, css, prefix, alias, base_color, css_variables }: DuckuiPrompts,
   workspace: WorkspaceTarget = { root: '.', project: '.' },
+  css_workspace?: string,
 ) => {
   return JSON.stringify(
     {
@@ -87,6 +93,7 @@ export const default_duckui_config = (
       tailwind: {
         baseColor: base_color,
         css,
+        ...(css_workspace && css_workspace !== '.' ? { cssWorkspace: css_workspace } : {}),
         cssVariables: css_variables,
         prefix: prefix || '',
       },

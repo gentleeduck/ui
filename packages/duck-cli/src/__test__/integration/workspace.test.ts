@@ -181,10 +181,7 @@ describe('detect_monorepo_kind', () => {
   })
 
   it('detects package.json workspaces', () => {
-    fs.writeFileSync(
-      path.join(tmpDir, 'package.json'),
-      JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }),
-    )
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }))
     expect(detect_monorepo_kind(tmpDir)).toBe('package-json-workspaces')
   })
 
@@ -215,10 +212,7 @@ describe('detect_monorepo_kind', () => {
   })
 
   it('prefers package.json workspaces over orchestrator configs when both are present', () => {
-    fs.writeFileSync(
-      path.join(tmpDir, 'package.json'),
-      JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }),
-    )
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }))
     fs.writeFileSync(path.join(tmpDir, 'turbo.json'), '{}')
     expect(detect_monorepo_kind(tmpDir)).toBe('package-json-workspaces')
   })
@@ -252,7 +246,7 @@ describe('read_pnpm_workspace_packages', () => {
   it('handles single quotes and unquoted entries', () => {
     fs.writeFileSync(
       path.join(tmpDir, 'pnpm-workspace.yaml'),
-      ["packages:", "  - 'apps/*'", '  - tooling/*', ''].join('\n'),
+      ['packages:', "  - 'apps/*'", '  - tooling/*', ''].join('\n'),
     )
     expect(read_pnpm_workspace_packages(tmpDir)).toEqual(['apps/*', 'tooling/*'])
   })
@@ -266,7 +260,7 @@ describe('read_pnpm_workspace_packages', () => {
         '  - "apps/*" # frontends',
         '  - "packages/*"',
         'shared-workspace-lockfile: true',
-        ''
+        '',
       ].join('\n'),
     )
     expect(read_pnpm_workspace_packages(tmpDir)).toEqual(['apps/*', 'packages/*'])
@@ -302,10 +296,7 @@ describe('find_workspace_projects pnpm fallback', () => {
   })
 
   it('still prefers package.json workspaces when both sources exist', async () => {
-    fs.writeFileSync(
-      path.join(tmpDir, 'package.json'),
-      JSON.stringify({ name: 'repo', workspaces: ['packages/*'] }),
-    )
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'repo', workspaces: ['packages/*'] }))
     fs.writeFileSync(path.join(tmpDir, 'pnpm-workspace.yaml'), 'packages:\n  - "apps/*"\n')
     fs.mkdirSync(path.join(tmpDir, 'apps/web'), { recursive: true })
     fs.mkdirSync(path.join(tmpDir, 'packages/ui'), { recursive: true })

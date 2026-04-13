@@ -7,6 +7,7 @@ export const init_options_schema = z.object({
   baseColor: z.enum(BASE_COLORS).optional(),
   css: z.string().optional(),
   cssVariables: z.boolean().optional(),
+  cssWorkspace: z.string().optional(),
   cwd: z.string().default(process.cwd()),
   monorepo: z.boolean().optional(),
   workspace: z.string().optional(),
