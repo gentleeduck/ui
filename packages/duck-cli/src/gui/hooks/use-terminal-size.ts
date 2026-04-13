@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 /** Terminal dimensions in character cells. */
-export interface TerminalSize {
+export interface ITerminalSize {
   columns: number
   rows: number
 }
@@ -11,8 +11,8 @@ export interface TerminalSize {
  * Listens to stdout 'resize' and updates only when size changes.
  * Falls back to 80x24 if dimensions are unavailable.
  */
-export function useTerminalSize(): TerminalSize {
-  const [size, setSize] = useState<TerminalSize>({
+export function useTerminalSize(): ITerminalSize {
+  const [size, setSize] = useState<ITerminalSize>({
     columns: process.stdout.columns ?? 80,
     rows: process.stdout.rows ?? 24,
   })

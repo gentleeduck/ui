@@ -57,10 +57,7 @@ describe('preflightDuckuiResolveWorkspace', () => {
       .mockResolvedValueOnce({ cssWorkspace: '__same__' })
 
     const spinner = makeSpinner()
-    const resolution = await preflightDuckuiResolveWorkspace(
-      { all: false, cwd: tmpDir, yes: false },
-      spinner as never,
-    )
+    const resolution = await preflightDuckuiResolveWorkspace({ all: false, cwd: tmpDir, yes: false }, spinner as never)
 
     expect(mockPrompts).toHaveBeenCalledTimes(3)
     expect(mockPrompts.mock.calls[0]?.[0]?.name).toBe('monorepo')
@@ -92,10 +89,7 @@ describe('preflightDuckuiResolveWorkspace', () => {
     mockPrompts.mockResolvedValueOnce({ monorepo: false })
 
     const spinner = makeSpinner()
-    const resolution = await preflightDuckuiResolveWorkspace(
-      { all: false, cwd: tmpDir, yes: false },
-      spinner as never,
-    )
+    const resolution = await preflightDuckuiResolveWorkspace({ all: false, cwd: tmpDir, yes: false }, spinner as never)
 
     const prompt = mockPrompts.mock.calls[0]?.[0]
     expect(prompt?.initial).toBe(false)
@@ -157,10 +151,7 @@ describe('preflightDuckuiResolveWorkspace', () => {
       .mockResolvedValueOnce({ cssWorkspace: 'packages/styles' })
 
     const spinner = makeSpinner()
-    const resolution = await preflightDuckuiResolveWorkspace(
-      { all: false, cwd: tmpDir, yes: false },
-      spinner as never,
-    )
+    const resolution = await preflightDuckuiResolveWorkspace({ all: false, cwd: tmpDir, yes: false }, spinner as never)
 
     expect(mockPrompts).toHaveBeenCalledTimes(3)
     const cssPrompt = mockPrompts.mock.calls[2]?.[0]
@@ -182,10 +173,7 @@ describe('preflightDuckuiResolveWorkspace', () => {
     mockPrompts.mockResolvedValueOnce({ monorepo: true })
 
     const spinner = makeSpinner()
-    const resolution = await preflightDuckuiResolveWorkspace(
-      { all: false, cwd: tmpDir, yes: false },
-      spinner as never,
-    )
+    const resolution = await preflightDuckuiResolveWorkspace({ all: false, cwd: tmpDir, yes: false }, spinner as never)
 
     expect(mockPrompts).toHaveBeenCalledTimes(1)
     expect(resolution.cssWorkspaceCwd).toBe(resolution.workspaceCwd)
@@ -227,10 +215,7 @@ describe('preflightDuckuiResolveWorkspace', () => {
     fs.writeFileSync(path.join(tmpDir, 'apps/web/tsconfig.json'), JSON.stringify({}))
 
     const spinner = makeSpinner()
-    const resolution = await preflightDuckuiResolveWorkspace(
-      { all: false, cwd: tmpDir, yes: true },
-      spinner as never,
-    )
+    const resolution = await preflightDuckuiResolveWorkspace({ all: false, cwd: tmpDir, yes: true }, spinner as never)
 
     expect(mockPrompts).not.toHaveBeenCalled()
     expect(resolution.monorepo).toBe(true)

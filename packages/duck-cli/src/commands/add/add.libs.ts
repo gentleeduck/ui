@@ -7,7 +7,7 @@ import { resolveComponents } from '~/utils/resolve-components'
 import { spinner as Spinner } from '~/utils/spinner'
 import { isVerbose } from '~/utils/verbose'
 import { resolveProjectCwd, validateWorkspaceTarget } from '~/utils/workspace'
-import { addArgumentsSchema, addOptionsSchema, type AddOptions } from './add.dto'
+import { type AddOptions, addArgumentsSchema, addOptionsSchema } from './add.dto'
 
 export async function addCommandAction(args: string[], opt: AddOptions) {
   const options = addOptionsSchema.parse(opt)

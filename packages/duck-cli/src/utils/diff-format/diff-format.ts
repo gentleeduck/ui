@@ -45,11 +45,7 @@ export function formatLineNumber(num: number | null, width: number): string {
  *    contiguous removed/added lines and running computeWordSegments,
  *    then splitting back into per-line segments.
  */
-export function buildDisplayLines(
-  filePath: string,
-  localContent: string,
-  registryContent: string,
-): DiffDisplayLine[] {
+export function buildDisplayLines(filePath: string, localContent: string, registryContent: string): DiffDisplayLine[] {
   const patch = structuredPatch(
     `local/${filePath}`,
     `registry/${filePath}`,

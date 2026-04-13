@@ -33,10 +33,7 @@ export type DuckuiResolution = {
 
 const SAME_AS_COMPONENTS = '__same__'
 
-export async function preflightDuckuiResolveWorkspace(
-  _options: InitOptions,
-  spinner: Ora,
-): Promise<DuckuiResolution> {
+export async function preflightDuckuiResolveWorkspace(_options: InitOptions, spinner: Ora): Promise<DuckuiResolution> {
   const cwd = path.resolve(_options.cwd)
 
   const flagMonorepo = typeof _options.monorepo === 'boolean' ? _options.monorepo : null
@@ -46,9 +43,7 @@ export async function preflightDuckuiResolveWorkspace(
     spinner.warn(`${highlighter.warn('--workspace')} ignored because ${highlighter.warn('--no-monorepo')} was set.`)
   }
   if (flagCssWorkspace && flagMonorepo === false) {
-    spinner.warn(
-      `${highlighter.warn('--css-workspace')} ignored because ${highlighter.warn('--no-monorepo')} was set.`,
-    )
+    spinner.warn(`${highlighter.warn('--css-workspace')} ignored because ${highlighter.warn('--no-monorepo')} was set.`)
   }
 
   const detectedKind = detectMonorepoKind(cwd)
@@ -64,9 +59,7 @@ export async function preflightDuckuiResolveWorkspace(
     monorepo = detectedKind !== null
   } else {
     spinner.stop()
-    const answer = await prompts(
-      makeDuckuiMonorepoPrompt(detectedKind ? formatMonorepoKind(detectedKind) : null),
-    )
+    const answer = await prompts(makeDuckuiMonorepoPrompt(detectedKind ? formatMonorepoKind(detectedKind) : null))
     spinner.start()
     if (typeof answer.monorepo !== 'boolean') {
       spinner.text = `${highlighter.info('init')} aborted...`
@@ -278,9 +271,7 @@ export async function preflightDuckui(
     }
 
     const cssWorkspaceRelative =
-      resolution.cssWorkspaceCwd === configCwd
-        ? undefined
-        : path.relative(configCwd, resolution.cssWorkspaceCwd)
+      resolution.cssWorkspaceCwd === configCwd ? undefined : path.relative(configCwd, resolution.cssWorkspaceCwd)
     await initDuckuiConfig(configCwd, spinner, parseConfigOptions, WORKSPACE_LOCAL_TARGET, cssWorkspaceRelative)
   } catch (error) {
     spinner.fail(

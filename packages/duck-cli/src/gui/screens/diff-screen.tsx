@@ -165,19 +165,13 @@ export const DiffScreen = memo(function DiffScreen({ onBack }: { onBack: () => v
             </Box>
           </Box>
           {visiblePairs.map((pair) => (
-            <SideBySideLine
-              key={getSideBySidePairKey(pair)}
-              pair={pair}
-              numWidth={numWidth}
-              halfWidth={halfWidth}
-            />
+            <SideBySideLine key={getSideBySidePairKey(pair)} pair={pair} numWidth={numWidth} halfWidth={halfWidth} />
           ))}
         </Box>
 
         {currentPairs.length > visibleRows ? (
           <Text color={THEME.mutedForeground}>
-            Line {scrollOffset + 1}-{Math.min(scrollOffset + visibleRows, currentPairs.length)} of{' '}
-            {currentPairs.length}
+            Line {scrollOffset + 1}-{Math.min(scrollOffset + visibleRows, currentPairs.length)} of {currentPairs.length}
           </Text>
         ) : null}
 

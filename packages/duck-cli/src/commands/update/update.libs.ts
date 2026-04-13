@@ -206,14 +206,9 @@ export async function updateCommandAction(args: string[], opt: UpdateOptions) {
     }
 
     // Install any new/updated npm dependencies
-    const depsResult = await installNpmDeps(
-      [...new Set(allDeps)],
-      [...new Set(allDevDeps)],
-      projectCwd,
-      (msg) => {
-        spinner.text = msg
-      },
-    )
+    const depsResult = await installNpmDeps([...new Set(allDeps)], [...new Set(allDevDeps)], projectCwd, (msg) => {
+      spinner.text = msg
+    })
 
     if (!depsResult.ok) {
       spinner.fail(depsResult.error)

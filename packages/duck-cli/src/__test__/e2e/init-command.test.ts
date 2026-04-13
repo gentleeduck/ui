@@ -134,9 +134,7 @@ describe('initCommandAction', () => {
 
     const { initCommandAction } = await import('~/commands/init/init.libs')
 
-    await expect(initCommandAction(['button'], { yes: true, cwd: tmpDir, all: false })).rejects.toThrow(
-      /process\.exit/,
-    )
+    await expect(initCommandAction(['button'], { yes: true, cwd: tmpDir, all: false })).rejects.toThrow(/process\.exit/)
 
     // First exit call should be 0 (success)
     expect(exitCodes[0]).toBe(0)
@@ -176,9 +174,7 @@ describe('initCommandAction', () => {
 
     const { initCommandAction } = await import('~/commands/init/init.libs')
 
-    await expect(initCommandAction(['button'], { yes: true, cwd: tmpDir, all: false })).rejects.toThrow(
-      /process\.exit/,
-    )
+    await expect(initCommandAction(['button'], { yes: true, cwd: tmpDir, all: false })).rejects.toThrow(/process\.exit/)
 
     // Should fail because duck-ui config is missing
     expect(exitCodes[0]).toBe(1)
@@ -213,9 +209,7 @@ describe('initCommandAction', () => {
 
     const { initCommandAction } = await import('~/commands/init/init.libs')
 
-    await expect(initCommandAction(['button'], { yes: true, cwd: tmpDir, all: false })).rejects.toThrow(
-      /process\.exit/,
-    )
+    await expect(initCommandAction(['button'], { yes: true, cwd: tmpDir, all: false })).rejects.toThrow(/process\.exit/)
 
     // Should fail because tsconfig is missing (needed for write path resolution)
     expect(exitCodes[0]).toBe(1)

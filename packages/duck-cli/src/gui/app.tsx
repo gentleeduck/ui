@@ -3,7 +3,7 @@ import { createContext, useCallback, useMemo } from 'react'
 import type { ComponentMergeState, MergeResult } from '~/utils/merge'
 import { THEME } from './app.constants'
 import type { AppProps, GuiLaunchOptions } from './app.types'
-import type { TerminalSize } from './hooks/use-terminal-size'
+import type { ITerminalSize } from './hooks/use-terminal-size'
 import { useTerminalSize } from './hooks/use-terminal-size'
 import { DiffScreen } from './screens/diff-screen'
 import { MergeScreen } from './screens/merge-screen'
@@ -15,7 +15,7 @@ export const VimContext = createContext<{ setEnabled: (v: boolean) => void }>({
   setEnabled: () => {},
 })
 
-export const TerminalSizeContext = createContext<TerminalSize>({
+export const TerminalSizeContext = createContext<ITerminalSize>({
   columns: 80,
   rows: 24,
 })

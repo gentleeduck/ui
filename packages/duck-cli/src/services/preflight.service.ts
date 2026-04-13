@@ -8,10 +8,7 @@ import { getRegistryBaseColor } from '~/utils/get-registry'
 import { duckUiSchema } from '~/utils/preflight-configs/preflight-duckui'
 import type { PROJECT_TYPE } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.constants'
 import type { DuckUI, DuckuiPrompts } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.dto'
-import {
-  defaultDuckuiConfig,
-  generateThemeCSS,
-} from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs'
+import { defaultDuckuiConfig, generateThemeCSS } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs'
 import { tailwindcssDependencies } from '~/utils/preflight-configs/preflight-tailwindcss/preflight-tailwindcss.lib'
 import {
   tsConfigGeneric,

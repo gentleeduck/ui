@@ -1,9 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { ThemeResponse } from '~/utils/get-registry/get-registry.dto'
-import {
-  defaultDuckuiConfig,
-  generateThemeCSS,
-} from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs'
+import { defaultDuckuiConfig, generateThemeCSS } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs'
 
 describe('defaultDuckuiConfig', () => {
   const baseInput = {
@@ -83,9 +80,7 @@ describe('defaultDuckuiConfig', () => {
   })
 
   it('writes tailwind.cssWorkspace when a separate css workspace is provided', () => {
-    const result = JSON.parse(
-      defaultDuckuiConfig(baseInput, { root: '.', project: '.' }, '../../packages/styles'),
-    )
+    const result = JSON.parse(defaultDuckuiConfig(baseInput, { root: '.', project: '.' }, '../../packages/styles'))
     expect(result.tailwind.cssWorkspace).toBe('../../packages/styles')
   })
 })
