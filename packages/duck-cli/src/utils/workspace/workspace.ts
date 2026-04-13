@@ -10,6 +10,21 @@ export type WorkspaceTarget = {
   project: string
 }
 
+export type MonorepoKind = 'package-json-workspaces' | 'pnpm' | 'turbo' | 'nx' | 'lerna' | 'rush'
+
+const MONOREPO_KIND_LABELS: Record<MonorepoKind, string> = {
+  lerna: 'lerna.json',
+  nx: 'nx.json',
+  'package-json-workspaces': 'package.json workspaces',
+  pnpm: 'pnpm-workspace.yaml',
+  rush: 'rush.json',
+  turbo: 'turbo.json',
+}
+
+export function format_monorepo_kind(kind: MonorepoKind): string {
+  return MONOREPO_KIND_LABELS[kind]
+}
+
 export function find_upward_dir_with_file(startCwd: string, fileName: string): string | null {
   let current = path.resolve(startCwd)
 
@@ -69,14 +84,73 @@ function get_workspace_patterns(pkg: PackageJson): string[] {
   return []
 }
 
-export async function find_workspace_projects(cwd: string): Promise<string[]> {
-  const package_json_path = path.join(cwd, 'package.json')
-  if (!(await fs.pathExists(package_json_path))) {
-    return []
+// Minimal parser for the `packages:` list in pnpm-workspace.yaml. We avoid a
+// YAML dependency because the field has a stable, simple shape in practice.
+export function read_pnpm_workspace_packages(cwd: string): string[] {
+  const yaml_path = path.join(cwd, 'pnpm-workspace.yaml')
+  if (!fs.existsSync(yaml_path)) return []
+
+  const content = fs.readFileSync(yaml_path, 'utf-8')
+  const lines = content.split(/\r?\n/)
+  const patterns: string[] = []
+  let in_packages = false
+
+  for (const raw of lines) {
+    const line = raw.replace(/#.*$/, '').replace(/\s+$/, '')
+    if (!line.trim()) continue
+
+    if (/^packages\s*:\s*$/.test(line)) {
+      in_packages = true
+      continue
+    }
+
+    if (in_packages) {
+      const item = line.match(/^\s*-\s*['"]?(.+?)['"]?\s*$/)
+      if (item?.[1]) {
+        patterns.push(item[1])
+        continue
+      }
+      // A non-list, non-indented line means we've left the packages block.
+      if (/^\S/.test(line)) {
+        in_packages = false
+      }
+    }
   }
 
-  const package_json = (await fs.readJson(package_json_path)) as PackageJson
-  const patterns = get_workspace_patterns(package_json)
+  return patterns
+}
+
+export function detect_monorepo_kind(cwd: string): MonorepoKind | null {
+  const pkg_path = path.join(cwd, 'package.json')
+  if (fs.existsSync(pkg_path)) {
+    try {
+      const pkg = fs.readJsonSync(pkg_path) as PackageJson
+      if (get_workspace_patterns(pkg).length > 0) return 'package-json-workspaces'
+    } catch {
+      // ignore malformed package.json
+    }
+  }
+  if (fs.existsSync(path.join(cwd, 'pnpm-workspace.yaml'))) return 'pnpm'
+  if (fs.existsSync(path.join(cwd, 'turbo.json'))) return 'turbo'
+  if (fs.existsSync(path.join(cwd, 'nx.json'))) return 'nx'
+  if (fs.existsSync(path.join(cwd, 'lerna.json'))) return 'lerna'
+  if (fs.existsSync(path.join(cwd, 'rush.json'))) return 'rush'
+  return null
+}
+
+export async function find_workspace_projects(cwd: string): Promise<string[]> {
+  let patterns: string[] = []
+
+  const package_json_path = path.join(cwd, 'package.json')
+  if (await fs.pathExists(package_json_path)) {
+    const package_json = (await fs.readJson(package_json_path)) as PackageJson
+    patterns = get_workspace_patterns(package_json)
+  }
+
+  if (!patterns.length) {
+    patterns = read_pnpm_workspace_packages(cwd)
+  }
+
   if (!patterns.length) return []
 
   const package_files = fg.sync(
