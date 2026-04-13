@@ -1,12 +1,6 @@
 import path from 'node:path'
 import fs from 'fs-extra'
-import {
-  applyMergeChoices,
-  buildMergeHunks,
-  type ComponentMergeState,
-  type FileMergeState,
-  type MergeResult,
-} from '~/utils/merge'
+import { applyMergeChoices, buildMergeHunks, type Merge } from '~/utils/merge'
 import type { ComponentDiff } from './component.service'
 import type { ProgressCallback, ServiceResult } from './service.types'
 
@@ -23,8 +17,8 @@ export function buildComponentMergeState(
   componentDiff: ComponentDiff,
   writeTypePath: string,
   root_folder: string,
-): ComponentMergeState {
-  const files: FileMergeState[] = componentDiff.diffs.map((fd) => {
+): Merge.ComponentState {
+  const files: Merge.FileState[] = componentDiff.diffs.map((fd) => {
     if (fd.status === 'added') {
       return {
         filePath: fd.filePath,
@@ -73,7 +67,7 @@ export function buildComponentMergeState(
 /**
  * Check if all files in a merge state are fully resolved.
  */
-export function isMergeResolved(mergeState: ComponentMergeState): boolean {
+export function isMergeResolved(mergeState: Merge.ComponentState): boolean {
   return mergeState.files.every((f) => {
     if (f.status === 'deleted') return f.fileChoice !== 'pending'
     if (f.status === 'added') return true
@@ -90,11 +84,11 @@ export function isMergeResolved(mergeState: ComponentMergeState): boolean {
  *   to produce the merged content, then writes to disk.
  */
 export async function writeMergeResults(
-  mergeState: ComponentMergeState,
+  mergeState: Merge.ComponentState,
   onProgress?: ProgressCallback,
-): Promise<ServiceResult<MergeResult[]>> {
+): Promise<ServiceResult<Merge.Result[]>> {
   try {
-    const results: MergeResult[] = []
+    const results: Merge.Result[] = []
     const basePath = path.join(mergeState.writeTypePath, mergeState.root_folder)
 
     for (const file of mergeState.files) {

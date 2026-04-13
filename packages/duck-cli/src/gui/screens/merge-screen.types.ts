@@ -1,1 +1,1 @@
-export type MergeStep = 'loading' | 'select' | 'diffing' | 'resolving' | 'summary' | 'writing' | 'done' | 'error'
+export type { Merge } from '~/utils/merge'

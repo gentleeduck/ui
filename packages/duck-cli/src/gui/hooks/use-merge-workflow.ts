@@ -12,11 +12,9 @@ import { buildComponentMergeState, writeMergeResults } from '~/services/merge.se
 import { readDuckuiConfig, readTsConfig } from '~/services/preflight.service'
 import { highlightDiffLines, warmHighlighter } from '~/services/syntax-highlight.service'
 import type { Diff } from '~/utils/diff-format'
-import type { ComponentMergeState, FileMergeState, HunkChoice, MergeHunk, MergeResult } from '~/utils/merge'
-import { buildMergePreviewLines } from '~/utils/merge'
+import { buildMergePreviewLines, type Merge } from '~/utils/merge'
 import { resolveProjectCwd } from '~/utils/workspace'
 import { InitialArgsContext, TerminalSizeContext } from '../app'
-import type { MergeStep } from '../screens/merge-screen.types'
 import type { AsyncTaskState } from './use-async-task'
 import { useAsyncTask } from './use-async-task'
 
@@ -33,21 +31,21 @@ const SUMMARY_CHROME = 16
  * All state and actions needed by the merge screen for rendering.
  */
 export type MergeWorkflowState = {
-  step: MergeStep
+  step: Merge.Step
   errorMessage: string
 
   installed: InstalledComponent[]
 
-  mergeState: ComponentMergeState | null
+  mergeState: Merge.ComponentState | null
   activeFileIndex: number
   activeHunkIndex: number
   scrollOffset: number
-  writeResults: MergeResult[]
+  writeResults: Merge.Result[]
   highlightedPreview: Diff.DisplayLine[]
 
-  activeFile: FileMergeState | null
-  activeHunks: MergeHunk[]
-  activeHunk: MergeHunk | null
+  activeFile: Merge.FileState | null
+  activeHunks: Merge.Hunk[]
+  activeHunk: Merge.Hunk | null
   totalHunks: number
   allResolved: boolean
 
@@ -55,15 +53,15 @@ export type MergeWorkflowState = {
   summaryVisibleRows: number
 
   diffTask: { state: AsyncTaskState<ComponentDiff> }
-  writeTask: { state: AsyncTaskState<MergeResult[]> }
+  writeTask: { state: AsyncTaskState<Merge.Result[]> }
 
   handleSelect: (name: string) => Promise<void>
   handleWrite: () => Promise<void>
-  updateHunkChoice: (choice: HunkChoice) => void
+  updateHunkChoice: (choice: Merge.HunkChoice) => void
   updateFileChoice: (choice: 'keep' | 'remove') => void
   findNextUnresolved: () => { fileIdx: number; hunkIdx: number } | null
   findPrevUnresolved: () => { fileIdx: number; hunkIdx: number } | null
-  setStep: (step: MergeStep) => void
+  setStep: (step: Merge.Step) => void
   setActiveFileIndex: (v: number | ((prev: number) => number)) => void
   setActiveHunkIndex: (v: number | ((prev: number) => number)) => void
   setScrollOffset: (v: number | ((prev: number) => number)) => void
@@ -80,25 +78,25 @@ export type MergeWorkflowState = {
  * and starts directly at 'resolving'.
  */
 export function useMergeWorkflow(options: {
-  mergeData?: ComponentMergeState
+  mergeData?: Merge.ComponentState
   onBack: () => void
-  onComplete?: (results: MergeResult[]) => void
+  onComplete?: (results: Merge.Result[]) => void
 }): MergeWorkflowState {
   const { mergeData, onBack, onComplete } = options
 
-  const [step, setStep] = useState<MergeStep>(mergeData ? 'resolving' : 'loading')
+  const [step, setStep] = useState<Merge.Step>(mergeData ? 'resolving' : 'loading')
   const [installed, setInstalled] = useState<InstalledComponent[]>([])
-  const [mergeState, setMergeState] = useState<ComponentMergeState | null>(mergeData ?? null)
+  const [mergeState, setMergeState] = useState<Merge.ComponentState | null>(mergeData ?? null)
   const [errorMessage, setErrorMessage] = useState('')
   const [scrollOffset, setScrollOffset] = useState(0)
   const [activeFileIndex, setActiveFileIndex] = useState(0)
   const [activeHunkIndex, setActiveHunkIndex] = useState(0)
-  const [writeResults, setWriteResults] = useState<MergeResult[]>([])
+  const [writeResults, setWriteResults] = useState<Merge.Result[]>([])
   const [autoSelected, setAutoSelected] = useState(false)
   const [highlightedPreview, setHighlightedPreview] = useState<Diff.DisplayLine[]>([])
 
   const diffTask = useAsyncTask<ComponentDiff>()
-  const writeTask = useAsyncTask<MergeResult[]>()
+  const writeTask = useAsyncTask<Merge.Result[]>()
   const { rows } = useContext(TerminalSizeContext)
   const initialArgs = useContext(InitialArgsContext)
 
@@ -212,7 +210,7 @@ export function useMergeWorkflow(options: {
 
   /** Set the choice for the currently active hunk in a modified file. */
   const updateHunkChoice = useCallback(
-    (choice: HunkChoice) => {
+    (choice: Merge.HunkChoice) => {
       if (!mergeState || !activeFile || activeFile.status !== 'modified') return
 
       const newFiles = [...mergeState.files]

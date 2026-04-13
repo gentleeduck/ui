@@ -1,11 +1,11 @@
 import { Box, Text } from 'ink'
 import { memo } from 'react'
-import type { MergeHunk } from '~/utils/merge'
+import type { Merge } from '~/utils/merge'
 import { THEME } from '../app.constants'
 import { getRenderableDiffSegments } from './diff-line.libs'
 
 type MergeHunkViewProps = {
-  hunk: MergeHunk
+  hunk: Merge.Hunk
   isActive: boolean
   numWidth: number
   hunkNumber: number

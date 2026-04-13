@@ -1,7 +1,7 @@
 import { structuredPatch } from 'diff'
 import type { Diff } from '~/utils/diff-format'
 import { computeWordSegments, splitSegmentsByNewline } from '~/utils/diff-format'
-import type { MergeHunk } from './merge.types'
+import type { Merge } from './merge.types'
 
 /**
  * Build resolvable merge hunks from local and registry content.
@@ -10,12 +10,12 @@ import type { MergeHunk } from './merge.types'
  * Each hunk contains interleaved context (' '), removed ('-'), and
  * added ('+') lines. We walk through each hunk and extract contiguous
  * change blocks, where each block of removed+added lines becomes one
- * MergeHunk that the user can resolve independently.
+ * Merge.Hunk that the user can resolve independently.
  *
  * Line numbers are tracked separately for old (local) and new (registry)
  * to maintain accurate 1-based references for display.
  */
-export function buildMergeHunks(filePath: string, localContent: string, registryContent: string): MergeHunk[] {
+export function buildMergeHunks(filePath: string, localContent: string, registryContent: string): Merge.Hunk[] {
   const patch = structuredPatch(
     `local/${filePath}`,
     `registry/${filePath}`,
@@ -26,7 +26,7 @@ export function buildMergeHunks(filePath: string, localContent: string, registry
     { context: 3 },
   )
 
-  const hunks: MergeHunk[] = []
+  const hunks: Merge.Hunk[] = []
   let hunkIndex = 0
 
   for (const hunk of patch.hunks) {
@@ -219,7 +219,7 @@ function buildHunkDisplayLines(
  * localCursor is a 0-based index into localLines.
  * hunk.oldStart is 1-based, so we convert with hunkStart0 = oldStart - 1.
  */
-export function applyMergeChoices(localContent: string, hunks: MergeHunk[]): string {
+export function applyMergeChoices(localContent: string, hunks: Merge.Hunk[]): string {
   const localLines = localContent.split('\n')
   const result: string[] = []
   let localCursor = 0 // 0-based index into localLines
@@ -290,7 +290,7 @@ export function applyMergeChoices(localContent: string, hunks: MergeHunk[]): str
  *   (registry lines)
  *   >>>>>>> REGISTRY
  */
-export function buildMergePreviewLines(localContent: string, hunks: MergeHunk[]): Diff.DisplayLine[] {
+export function buildMergePreviewLines(localContent: string, hunks: Merge.Hunk[]): Diff.DisplayLine[] {
   const localLines = localContent.split('\n')
   const result: Diff.DisplayLine[] = []
   let localCursor = 0
