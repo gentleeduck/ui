@@ -16,10 +16,10 @@ describe('getRegistryIndex', () => {
   it('fetches and parses the registry index', async () => {
     const { getRegistryIndex } = await import('~/utils/get-registry')
     const result = await getRegistryIndex()
-    expect(result).toBeDefined()
+    if (!result) throw new Error('expected getRegistryIndex to return a populated array')
     expect(Array.isArray(result)).toBe(true)
-    expect(result!.length).toBe(3)
-    expect(result![0].name).toBe('button')
+    expect(result.length).toBe(3)
+    expect(result[0].name).toBe('button')
   })
 
   it('returns null on network error', async () => {
@@ -59,9 +59,9 @@ describe('getRegistryItem', () => {
   it('fetches a component by name', async () => {
     const { getRegistryItem } = await import('~/utils/get-registry')
     const result = await getRegistryItem('button')
-    expect(result).toBeDefined()
-    expect(result!.name).toBe('button')
-    expect(result!.type).toBe('registry:ui')
+    if (!result) throw new Error('expected getRegistryItem to return an entry')
+    expect(result.name).toBe('button')
+    expect(result.type).toBe('registry:ui')
   })
 
   it('returns null for nonexistent component', async () => {
@@ -82,8 +82,8 @@ describe('getRegistryItem', () => {
     )
     const { getRegistryItem } = await import('~/utils/get-registry')
     const result = await getRegistryItem('https://example.com/components/button.json')
-    expect(result).toBeDefined()
-    expect(result!.name).toBe('remote-button')
+    if (!result) throw new Error('expected getRegistryItem to return an entry')
+    expect(result.name).toBe('remote-button')
   })
 })
 
