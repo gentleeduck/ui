@@ -6,9 +6,9 @@ import type { VariantProps } from '@gentleduck/variants'
 import * as React from 'react'
 import { toggleVariants } from '../toggle/toggle.constants'
 
-interface ToggleGroupContextProps extends VariantProps<typeof toggleVariants> {}
+interface IToggleGroupContextProps extends VariantProps<typeof toggleVariants> {}
 
-const ToggleGroupContext = React.createContext<ToggleGroupContextProps>({
+const ToggleGroupContext = React.createContext<IToggleGroupContextProps>({
   size: 'default',
   variant: 'default',
 })

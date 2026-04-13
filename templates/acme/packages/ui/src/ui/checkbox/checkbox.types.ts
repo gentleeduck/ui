@@ -3,7 +3,7 @@ import type { Checkbox } from './checkbox'
 
 export type CheckedState = boolean | 'indeterminate'
 
-export interface CheckboxProps
+export interface ICheckboxProps
   extends Omit<React.HTMLProps<HTMLInputElement>, 'checked' | 'onChange' | 'defaultChecked'> {
   indicator?: React.ReactElement
   checkedIndicator?: React.ReactElement
@@ -12,7 +12,7 @@ export interface CheckboxProps
   onCheckedChange?: (checked: CheckedState) => void
 }
 
-export interface CheckboxWithLabelProps extends React.HTMLProps<HTMLDivElement> {
+export interface ICheckboxWithLabelProps extends React.HTMLProps<HTMLDivElement> {
   _checkbox: React.ComponentPropsWithoutRef<typeof Checkbox>
   _label: React.ComponentPropsWithoutRef<typeof Label>
 }
@@ -20,5 +20,5 @@ export interface CheckboxWithLabelProps extends React.HTMLProps<HTMLDivElement> 
 export type CheckboxGroupSubtasks = { id: string; title: string; checked?: CheckedState }
 export type CheckboxGroupProps = React.HTMLProps<HTMLDivElement> & {
   subtasks: CheckboxGroupSubtasks[]
-  subtasks_default_values?: CheckboxWithLabelProps
+  subtasks_default_values?: ICheckboxWithLabelProps
 }

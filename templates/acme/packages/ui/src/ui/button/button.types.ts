@@ -4,7 +4,7 @@ import type { buttonVariants } from './button.constants'
 /**
  * Props for the Button component, combining native button attributes, variant styles, and custom options.
  */
-export interface ButtonProps
+export interface IButtonProps
   extends Omit<React.HTMLProps<HTMLButtonElement>, 'size'>,
     VariantProps<typeof buttonVariants> {
   /** Render as child component using Slot (e.g., for custom wrappers) */

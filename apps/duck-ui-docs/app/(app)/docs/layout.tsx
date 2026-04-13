@@ -1,11 +1,11 @@
 import { DocsSidebarNav } from '@gentleduck/docs/client'
 import { DocsRouteScrollReset } from './route-scroll-reset'
 
-interface DocsLayoutProps {
+interface IDocsLayoutProps {
   children: React.ReactNode
 }
 
-export default function DocsLayout({ children }: DocsLayoutProps) {
+export default function DocsLayout({ children }: IDocsLayoutProps) {
   return (
     <div className="container-wrapper">
       <DocsRouteScrollReset />

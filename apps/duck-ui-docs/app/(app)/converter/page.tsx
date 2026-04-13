@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { useState } from 'react'
 import { toast } from 'sonner'
 
-interface ThemeObject {
+interface IThemeObject {
   light: Record<string, string>
   dark: Record<string, string>
 }
@@ -18,7 +18,7 @@ export default function ConverterPage() {
   const [output, setOutput] = useState('')
   const [isJsToCSS, setIsJsToCSS] = useState(true)
 
-  const convertJsToCSS = (jsObject: ThemeObject): string => {
+  const convertJsToCSS = (jsObject: IThemeObject): string => {
     let css = ':root {\n'
 
     // Add light theme variables
@@ -85,7 +85,7 @@ export default function ConverterPage() {
     try {
       if (isJsToCSS) {
         // Convert JS object to CSS
-        const parsed = JSON.parse(input) as ThemeObject
+        const parsed = JSON.parse(input) as IThemeObject
         const cssOutput = convertJsToCSS(parsed)
         setOutput(cssOutput)
       } else {

@@ -6,7 +6,7 @@ import { dirname, join, resolve } from 'node:path'
 const CACHE_DIR_ENV_VAR = 'DUCK_UI_DOCS_MCP_CACHE_DIR'
 const PERSISTED_INDEX_VERSION = 1
 
-export interface PersistedDocsIndexEntry {
+export interface IPersistedDocsIndexEntry {
   slug: string
   relativePath: string
   mtimeMs: number
@@ -24,11 +24,11 @@ export interface PersistedDocsIndexEntry {
   tfEntries: [string, number][]
 }
 
-export interface PersistedDocsIndexSnapshot {
+export interface IPersistedDocsIndexSnapshot {
   version: number
   contentDir: string
   updatedAt: string
-  entries: PersistedDocsIndexEntry[]
+  entries: IPersistedDocsIndexEntry[]
 }
 
 function getResolvedCacheDir(): string {
@@ -41,10 +41,10 @@ export function getPersistedDocsIndexPath(contentDir: string): string {
   return join(getResolvedCacheDir(), `docs-index-${hash}.json`)
 }
 
-function isPersistedSnapshot(value: unknown): value is PersistedDocsIndexSnapshot {
+function isPersistedSnapshot(value: unknown): value is IPersistedDocsIndexSnapshot {
   if (!value || typeof value !== 'object') return false
 
-  const snapshot = value as Partial<PersistedDocsIndexSnapshot>
+  const snapshot = value as Partial<IPersistedDocsIndexSnapshot>
   return (
     snapshot.version === PERSISTED_INDEX_VERSION &&
     typeof snapshot.contentDir === 'string' &&
@@ -53,7 +53,7 @@ function isPersistedSnapshot(value: unknown): value is PersistedDocsIndexSnapsho
   )
 }
 
-export async function loadPersistedDocsIndex(contentDir: string): Promise<PersistedDocsIndexSnapshot | null> {
+export async function loadPersistedDocsIndex(contentDir: string): Promise<IPersistedDocsIndexSnapshot | null> {
   const filePath = getPersistedDocsIndexPath(contentDir)
 
   try {
@@ -68,7 +68,7 @@ export async function loadPersistedDocsIndex(contentDir: string): Promise<Persis
 
 export async function writePersistedDocsIndex(
   contentDir: string,
-  snapshot: PersistedDocsIndexSnapshot,
+  snapshot: IPersistedDocsIndexSnapshot,
 ): Promise<string | null> {
   const filePath = getPersistedDocsIndexPath(contentDir)
   const tempPath = `${filePath}.${process.pid}.${Date.now()}.tmp`

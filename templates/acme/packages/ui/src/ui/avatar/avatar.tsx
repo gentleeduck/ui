@@ -43,12 +43,12 @@ const AvatarFallback = React.forwardRef<
 ))
 AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
 
-export interface AvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface IAvatarGroupProps extends React.HTMLAttributes<HTMLDivElement> {
   imgs: { src?: string; alt?: string; fallback?: string; id?: string }[]
   maxVisible?: number
 }
 
-const AvatarGroup = React.forwardRef<HTMLDivElement, AvatarGroupProps>(
+const AvatarGroup = React.forwardRef<HTMLDivElement, IAvatarGroupProps>(
   ({ imgs, maxVisible = 3, className, ...props }, ref) => {
     const visibleImgs = imgs.slice(0, maxVisible)
     const overflowCount = imgs.length > maxVisible ? imgs.length - maxVisible : 0

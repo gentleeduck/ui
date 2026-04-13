@@ -2,14 +2,14 @@ import path from 'node:path'
 import fs from 'fs-extra'
 import { highlighter } from '../text-styling'
 import { FolderInfo } from './list-files.dto'
-import { ListFilesOptions } from './list-files.types'
+import { IListFilesOptions } from './list-files.types'
 
 export async function list_files({
   cwds,
   depth = Number.POSITIVE_INFINITY,
   filter = [],
   spinner,
-}: ListFilesOptions): Promise<FolderInfo[]> {
+}: IListFilesOptions): Promise<FolderInfo[]> {
   async function processDirectory(cwd: string, depth: number): Promise<FolderInfo> {
     if (depth === 0) return {} as FolderInfo
     spinner.text = `Processing directory: ${cwd}`

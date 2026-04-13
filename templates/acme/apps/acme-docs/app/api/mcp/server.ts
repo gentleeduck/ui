@@ -6,7 +6,7 @@ import {
   clearPersistedDocsIndex,
   getPersistedDocsIndexPath,
   loadPersistedDocsIndex,
-  type PersistedDocsIndexEntry,
+  type IPersistedDocsIndexEntry,
   writePersistedDocsIndex,
 } from './docs-index-persistence'
 
@@ -25,7 +25,7 @@ export const MCP_TOOL_NAMES = [
 ] as const
 export const MCP_TOOL_COUNT = MCP_TOOL_NAMES.length
 
-interface CachedDoc {
+interface ICachedDoc {
   slug: string
   title: string
   description: string
@@ -37,25 +37,25 @@ interface CachedDoc {
   tfidfVector: Map<string, number>
 }
 
-type CachedDocSnapshot = Omit<CachedDoc, 'tfidfVector'>
+type CachedDocSnapshot = Omit<ICachedDoc, 'tfidfVector'>
 
-interface CachedDocsIndex {
-  docs: CachedDoc[]
-  docsBySlug: Map<string, CachedDoc>
-  docsByCategory: Map<string, CachedDoc[]>
+interface ICachedDocsIndex {
+  docs: ICachedDoc[]
+  docsBySlug: Map<string, ICachedDoc>
+  docsByCategory: Map<string, ICachedDoc[]>
   termToDocIndexes: Map<string, number[]>
   idf: Map<string, number>
 }
 
-interface DocSourceFile {
+interface IDocSourceFile {
   slug: string
   relativePath: string
   mtimeMs: number
   size: number
 }
 
-interface IndexedDocEntry {
-  source: DocSourceFile
+interface IIndexedDocEntry {
+  source: IDocSourceFile
   doc: CachedDocSnapshot
   tf: Map<string, number>
 }
@@ -66,7 +66,7 @@ type DocsIndexLoadSource = 'memory' | 'persistent' | 'incremental' | 'rebuild'
 
 const CACHE_TTL = 60_000 // 1 minute
 
-let cachedIndex: CachedDocsIndex | null = null
+let cachedIndex: ICachedDocsIndex | null = null
 let cacheTimestamp = 0
 let cachedContentDir: string | null = null
 let lastIndexLoadSource: DocsIndexLoadSource = 'rebuild'
@@ -138,7 +138,7 @@ async function readDocFile(slug: string, baseDir: string = getContentDirResolved
 async function getDocSourceFile(
   slug: string,
   baseDir: string = getContentDirResolved(),
-): Promise<DocSourceFile | null> {
+): Promise<IDocSourceFile | null> {
   const candidates = [`${slug}.mdx`, join(slug, 'index.mdx')]
 
   for (const candidate of candidates) {
@@ -161,7 +161,7 @@ async function getDocSourceFile(
   return null
 }
 
-async function readIndexedDocEntry(source: DocSourceFile, baseDir: string): Promise<IndexedDocEntry | null> {
+async function readIndexedDocEntry(source: IDocSourceFile, baseDir: string): Promise<IIndexedDocEntry | null> {
   const content = await readDocFile(source.slug, baseDir)
   if (!content) return null
 
@@ -582,11 +582,11 @@ export function cosineSimilarity(a: Map<string, number>, b: Map<string, number>)
   return dot
 }
 
-function getDocsForCategory(index: CachedDocsIndex, category: string): CachedDoc[] {
+function getDocsForCategory(index: ICachedDocsIndex, category: string): ICachedDoc[] {
   return category === 'all' ? index.docs : (index.docsByCategory.get(category) ?? [])
 }
 
-function getCandidateDocs(index: CachedDocsIndex, query: string, category: string): CachedDoc[] {
+function getCandidateDocs(index: ICachedDocsIndex, query: string, category: string): ICachedDoc[] {
   const queryTokens = [...new Set(tokenize(expandSearchText(query)))]
   const candidateIndexes = new Set<number>()
 
@@ -604,7 +604,7 @@ function getCandidateDocs(index: CachedDocsIndex, query: string, category: strin
 
   const candidateDocs = [...candidateIndexes]
     .map((docIndex) => index.docs[docIndex])
-    .filter((doc): doc is CachedDoc => Boolean(doc))
+    .filter((doc): doc is ICachedDoc => Boolean(doc))
   return category === 'all' ? candidateDocs : candidateDocs.filter((doc) => doc.category === category)
 }
 
@@ -612,7 +612,7 @@ function getCandidateDocs(index: CachedDocsIndex, query: string, category: strin
  * Build (or return cached) in-memory index of all docs.
  * Uses a persistent on-disk snapshot plus incremental rebuilds for changed docs.
  */
-async function getDocsIndex(): Promise<CachedDocsIndex> {
+async function getDocsIndex(): Promise<ICachedDocsIndex> {
   const now = Date.now()
   const contentDir = getContentDirResolved()
   if (cachedIndex && cachedContentDir === contentDir && now - cacheTimestamp < CACHE_TTL) {
@@ -622,13 +622,13 @@ async function getDocsIndex(): Promise<CachedDocsIndex> {
 
   const slugs = (await getAllDocPaths(contentDir, '', contentDir)).sort()
   const sourceFiles = (await Promise.all(slugs.map((slug) => getDocSourceFile(slug, contentDir)))).filter(
-    (source): source is DocSourceFile => source !== null,
+    (source): source is IDocSourceFile => source !== null,
   )
   const persistedSnapshot = await loadPersistedDocsIndex(contentDir)
   const persistedEntries = new Map(persistedSnapshot?.entries.map((entry) => [entry.slug, entry]) ?? [])
   const indexedEntries = (
     await Promise.all(
-      sourceFiles.map(async (source): Promise<IndexedDocEntry | null> => {
+      sourceFiles.map(async (source): Promise<IIndexedDocEntry | null> => {
         const persistedEntry = persistedEntries.get(source.slug)
 
         if (
@@ -647,7 +647,7 @@ async function getDocsIndex(): Promise<CachedDocsIndex> {
         return readIndexedDocEntry(source, contentDir)
       }),
     )
-  ).filter((entry): entry is IndexedDocEntry => entry !== null)
+  ).filter((entry): entry is IIndexedDocEntry => entry !== null)
 
   const rawDocs = indexedEntries.map((entry) => entry.doc)
   const tfMaps = indexedEntries.map((entry) => entry.tf)
@@ -655,13 +655,13 @@ async function getDocsIndex(): Promise<CachedDocsIndex> {
   // Second pass: compute IDF and TF-IDF vectors
   const idf = computeIdf(tfMaps, rawDocs.length)
 
-  const docs: CachedDoc[] = rawDocs.map((doc, i) => ({
+  const docs: ICachedDoc[] = rawDocs.map((doc, i) => ({
     ...doc,
     tfidfVector: computeTfidfVector(tfMaps[i] ?? new Map<string, number>(), idf),
   }))
 
   const docsBySlug = new Map(docs.map((doc) => [doc.slug, doc]))
-  const docsByCategory = new Map<string, CachedDoc[]>()
+  const docsByCategory = new Map<string, ICachedDoc[]>()
   const termToDocIndexes = new Map<string, number[]>()
 
   docs.forEach((doc, docIndex) => {
@@ -723,7 +723,7 @@ async function getDocsIndex(): Promise<CachedDocsIndex> {
     persistedSnapshot.entries.length !== sourceFiles.length
 
   if (shouldWriteSnapshot) {
-    const snapshotEntries: PersistedDocsIndexEntry[] = indexedEntries.map((entry) => ({
+    const snapshotEntries: IPersistedDocsIndexEntry[] = indexedEntries.map((entry) => ({
       slug: entry.source.slug,
       relativePath: entry.source.relativePath,
       mtimeMs: entry.source.mtimeMs,
@@ -785,7 +785,7 @@ export async function resetDocsIndexStateForTests(options?: { clearPersistent?: 
   }
 }
 
-function getDoc(index: CachedDocsIndex, slug: string): CachedDoc | undefined {
+function getDoc(index: ICachedDocsIndex, slug: string): ICachedDoc | undefined {
   return index.docsBySlug.get(slug)
 }
 
@@ -875,7 +875,7 @@ const CHANGELOG_MONTHS = new Map([
   ['december', 12],
 ])
 
-function getChangelogSortKey(doc: CachedDoc): number {
+function getChangelogSortKey(doc: ICachedDoc): number {
   const slug = doc.slug.replace(/^changelog\//, '')
   if (slug === 'index') return Number.NEGATIVE_INFINITY
 
@@ -894,7 +894,7 @@ function getChangelogSortKey(doc: CachedDoc): number {
   return year * 100 + month
 }
 
-function sortChangelogDocs(docs: CachedDoc[]): CachedDoc[] {
+function sortChangelogDocs(docs: ICachedDoc[]): ICachedDoc[] {
   return [...docs].sort((a, b) => getChangelogSortKey(b) - getChangelogSortKey(a))
 }
 
@@ -971,27 +971,27 @@ export function fuzzyScore(term: string, target: string): number {
   return 0
 }
 
-interface WeightedSearchField {
+interface IWeightedSearchField {
   text: string
   exactWeight: number
   fuzzyWeight: number
   stemmedExactWeight?: number
 }
 
-interface WeightedBodyField {
+interface IWeightedBodyField {
   text: string
   exactCap: number
   stemmedExactCap?: number
 }
 
-interface ScoreKeywordQueryOptions {
+interface IScoreKeywordQueryOptions {
   terms: string[]
   stemmedTerms?: string[]
-  fields: WeightedSearchField[]
-  body?: WeightedBodyField
+  fields: IWeightedSearchField[]
+  body?: IWeightedBodyField
 }
 
-export function scoreKeywordQuery({ terms, stemmedTerms = terms, fields, body }: ScoreKeywordQueryOptions): number {
+export function scoreKeywordQuery({ terms, stemmedTerms = terms, fields, body }: IScoreKeywordQueryOptions): number {
   let score = 0
 
   for (let index = 0; index < terms.length; index++) {
@@ -1229,7 +1229,7 @@ export function createMcpServer(): McpServer {
       const queryLower = query.toLowerCase()
       const queryTerms = expandSearchTerms(query)
       const stemmedTerms = queryTerms.map((t) => stem(t))
-      const scoreDocs = (docs: CachedDoc[]) => {
+      const scoreDocs = (docs: ICachedDoc[]) => {
         const results: { slug: string; title: string; score: number; snippet: string }[] = []
 
         for (const doc of docs) {
@@ -1588,7 +1588,7 @@ export function createMcpServer(): McpServer {
       logRequest('suggest_components', { need, limit })
       const index = await getDocsIndex()
       const terms = expandSearchTerms(need)
-      const scoreComponents = (components: CachedDoc[]) =>
+      const scoreComponents = (components: ICachedDoc[]) =>
         components
           .map((doc) => {
             const titleLower = doc.title.toLowerCase()

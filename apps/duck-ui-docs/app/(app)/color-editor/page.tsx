@@ -16,42 +16,42 @@ import { useCallback, useEffect, useState } from 'react'
 
 const CardsDemo = dynamic(() => import('~/components/cards').then((m) => ({ default: m.CardsDemo })), { ssr: false })
 
-interface ColorVariable {
+interface IColorVariable {
   name: string
   value: string
   originalFormat: string
 }
 
-interface Theme {
+interface ITheme {
   id: string
   name: string
-  lightColors: ColorVariable[]
-  darkColors: ColorVariable[]
+  lightColors: IColorVariable[]
+  darkColors: IColorVariable[]
 }
 
 type ColorFormat = 'oklch' | 'hsl' | 'rgb' | 'hex' | 'srgb' | 'p3' | 'lab' | 'lch'
 
 export default function ColorThemeManager() {
   const [cssInput, setCssInput] = useState('')
-  const [currentTheme, setCurrentTheme] = useState<Theme | null>(null)
-  const [themes, setThemes] = useState<Theme[]>([])
+  const [currentTheme, setCurrentTheme] = useState<ITheme | null>(null)
+  const [themes, setThemes] = useState<ITheme[]>([])
   const [themeName, setThemeName] = useState('')
   const [colorFormat, setColorFormat] = useState<ColorFormat>('oklch')
   const [outputFormat, setOutputFormat] = useState<ColorFormat>('oklch')
   const [previewModalOpen, setPreviewModalOpen] = useState(false)
-  const [previewTheme, setPreviewTheme] = useState<Theme | null>(null)
-  const [activeTheme, setActiveTheme] = useState<Theme | null>(null)
+  const [previewTheme, setPreviewTheme] = useState<ITheme | null>(null)
+  const [activeTheme, setActiveTheme] = useState<ITheme | null>(null)
   const [themeChangerOpen, setThemeChangerOpen] = useState(false)
   const [isDarkMode, setIsDarkMode] = useState(false)
 
   const [advancedPickerOpen, setAdvancedPickerOpen] = useState(false)
-  const [selectedColor, setSelectedColor] = useState<ColorVariable | null>(null)
+  const [selectedColor, setSelectedColor] = useState<IColorVariable | null>(null)
   const [selectedColorMode, setSelectedColorMode] = useState<'light' | 'dark'>('light')
   const [tempColorValue, setTempColorValue] = useState('')
 
-  const parseCSSVariables = (css: string): { light: ColorVariable[]; dark: ColorVariable[] } => {
-    const light: ColorVariable[] = []
-    const dark: ColorVariable[] = []
+  const parseCSSVariables = (css: string): { light: IColorVariable[]; dark: IColorVariable[] } => {
+    const light: IColorVariable[] = []
+    const dark: IColorVariable[] = []
 
     const rootMatch = css.match(/:root\s*{([^}]*)}/s)
     if (rootMatch) {
@@ -262,7 +262,7 @@ export default function ColorThemeManager() {
 
   const handleParseCss = () => {
     const parsed = parseCSSVariables(cssInput)
-    const newTheme: Theme = {
+    const newTheme: ITheme = {
       darkColors: parsed.dark,
       id: Date.now().toString(),
       lightColors: parsed.light,
@@ -299,7 +299,7 @@ export default function ColorThemeManager() {
     setThemes(themes.filter((t) => t.id !== themeId))
   }
 
-  const openPreviewModal = (theme: Theme) => {
+  const openPreviewModal = (theme: ITheme) => {
     setPreviewTheme(theme)
     setPreviewModalOpen(true)
   }
@@ -321,7 +321,7 @@ export default function ColorThemeManager() {
   }
 
   const applyTheme = useCallback(
-    (theme: Theme) => {
+    (theme: ITheme) => {
       // console.log('[v0] Applying theme:', theme.name, 'Dark mode:', isDarkMode)
       setActiveTheme(theme)
       const root = document.documentElement
@@ -437,7 +437,7 @@ export default function ColorThemeManager() {
     }
   }
 
-  const convertThemeFormat = (theme: Theme, newFormat: ColorFormat): Theme => {
+  const convertThemeFormat = (theme: ITheme, newFormat: ColorFormat): ITheme => {
     return {
       ...theme,
       darkColors: theme.darkColors.map((color) => ({
@@ -466,7 +466,7 @@ export default function ColorThemeManager() {
     onColorChange,
     showPicker = false,
   }: {
-    color: ColorVariable
+    color: IColorVariable
     isDark: boolean
     onColorChange: (name: string, value: string) => void
     showPicker?: boolean
@@ -553,7 +553,7 @@ export default function ColorThemeManager() {
     )
   }
 
-  const ThemePreviewCard = ({ theme }: { theme: Theme }) => {
+  const ThemePreviewCard = ({ theme }: { theme: ITheme }) => {
     const isActive = activeTheme?.id === theme.id
 
     return (
@@ -658,7 +658,7 @@ export default function ColorThemeManager() {
     )
   }
 
-  const PreviewModalContent = ({ theme }: { theme: Theme }) => {
+  const PreviewModalContent = ({ theme }: { theme: ITheme }) => {
     return (
       <div className="grid max-h-[70vh] grid-cols-1 gap-6 overflow-y-auto lg:grid-cols-2">
         <div className="space-y-4">

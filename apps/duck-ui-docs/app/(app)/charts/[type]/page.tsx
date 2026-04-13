@@ -9,7 +9,7 @@ export const revalidate = false
 export const dynamic = 'force-static'
 export const dynamicParams = false
 
-interface ChartPageProps {
+interface IChartPageProps {
   params: Promise<{
     type: string
   }>
@@ -24,7 +24,7 @@ export async function generateStaticParams() {
   }))
 }
 
-export async function generateMetadata({ params }: ChartPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: IChartPageProps): Promise<Metadata> {
   const { type } = await params
   return {
     alternates: {
@@ -33,7 +33,7 @@ export async function generateMetadata({ params }: ChartPageProps): Promise<Meta
   }
 }
 
-export default async function ChartPage({ params }: ChartPageProps) {
+export default async function ChartPage({ params }: IChartPageProps) {
   const { type } = await params
 
   if (!chartTypes.includes(type as ChartType)) {
