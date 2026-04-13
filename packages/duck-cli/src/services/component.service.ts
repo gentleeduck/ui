@@ -1,7 +1,6 @@
 import path from 'node:path'
 import fs from 'fs-extra'
-import { getRegistryIndex, getRegistryItem } from '~/utils/get-registry'
-import type { RegistryEntry } from '~/utils/get-registry/get-registry.dto'
+import { getRegistryIndex, getRegistryItem, type Registry } from '~/utils/get-registry'
 import type { DuckUI } from '~/utils/preflight-configs/preflight-duckui'
 import type { ProgressCallback, ServiceResult } from './service.types'
 
@@ -14,7 +13,7 @@ export type InstalledComponent = {
   name: string
   root_folder: string
   localPath: string
-  registryEntry: RegistryEntry | null
+  registryEntry: Registry.Entry | null
 }
 
 /**
@@ -133,7 +132,7 @@ export async function removeComponents(
  */
 export async function diffComponent(
   component: InstalledComponent,
-  registryEntry: RegistryEntry,
+  registryEntry: Registry.Entry,
 ): Promise<ServiceResult<ComponentDiff>> {
   try {
     const diffs: FileDiff[] = []

@@ -1,6 +1,5 @@
 import { logger } from '../text-styling'
-import { registryEntrySchema, registrySchema, type ThemeResponse } from './get-registry.dto'
-
+import { type Registry, registryEntrySchema, registrySchema } from './get-registry.dto'
 import { fetchRegistryUrl, isUrl } from './get-registry.lib'
 
 export async function getRegistryIndex() {
@@ -26,11 +25,11 @@ export async function getRegistryItem(name: string) {
   }
 }
 
-export async function getRegistryBaseColor(theme: string): Promise<ThemeResponse | null> {
+export async function getRegistryBaseColor(theme: string): Promise<Registry.ThemeResponse | null> {
   try {
     const [result] = await fetchRegistryUrl([`themes/${theme}.json`])
 
-    return result as ThemeResponse
+    return result as Registry.ThemeResponse
   } catch (error) {
     logger.error({ args: [`Failed to fetch from registry.`, error] })
     return null

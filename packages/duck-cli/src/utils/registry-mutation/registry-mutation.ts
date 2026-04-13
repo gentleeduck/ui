@@ -6,7 +6,7 @@ import { getInstallationConfig, processComponents } from './registry-mutation.li
 import type { InstallOptions } from './registry-mutation.types'
 
 export async function registryComponentInstall(
-  components: Registry,
+  components: Registry.Collection,
   duckConfig: DuckUI,
   options: InstallOptions,
   spinner: Ora,
