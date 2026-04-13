@@ -5,12 +5,12 @@ import type { ThemeResponse } from '~/utils/get-registry/get-registry.dto'
 import { highlighter } from '~/utils/text-styling'
 import type { WorkspaceTarget } from '~/utils/workspace'
 import { BASE_LAYER_STYLES } from '../preflight-tailwindcss/preflight-tailwindcss.constants'
-import type { DuckuiPrompts } from './preflight-duckui.dto'
+import type { DuckUI } from './preflight-duckui.dto'
 
 export async function initDuckuiConfig(
   cwd: string,
   spinner: Ora,
-  duckConfig: DuckuiPrompts,
+  duckConfig: DuckUI.Prompts,
   workspace: WorkspaceTarget = { root: '.', project: '.' },
   cssWorkspace?: string,
 ) {
@@ -80,7 +80,7 @@ ${BASE_LAYER_STYLES}
 }
 
 export const defaultDuckuiConfig = (
-  { projectType, monorepo, css, prefix, alias, baseColor, cssVariables }: DuckuiPrompts,
+  { projectType, monorepo, css, prefix, alias, baseColor, cssVariables }: DuckUI.Prompts,
   workspace: WorkspaceTarget = { root: '.', project: '.' },
   cssWorkspace?: string,
 ) => {

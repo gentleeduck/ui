@@ -16,24 +16,19 @@ import {
   type WorkspaceTarget,
 } from '../../workspace'
 import { duckuiPrompts, duckuiRestPrompts, makeDuckuiMonorepoPrompt } from './preflight-duckui.constants'
-import { duckuiPromptsSchema, preflightDuckuiOptionsSchema } from './preflight-duckui.dto'
+import { DuckUI, duckuiPromptsSchema, preflightDuckuiOptionsSchema } from './preflight-duckui.dto'
 import { generateThemeCSS, initDuckuiConfig } from './preflight-duckui.libs'
 
 // When the config lives inside the workspace, both root and project are '.' relative
 // to the config location.
 const WORKSPACE_LOCAL_TARGET: WorkspaceTarget = { project: '.', root: '.' }
 
-export type DuckuiResolution = {
-  workspaceCwd: string
-  monorepo: boolean
-  // Where the CSS file lives. Equals workspaceCwd unless the user picked a
-  // separate package for styles.
-  cssWorkspaceCwd: string
-}
-
 const SAME_AS_COMPONENTS = '__same__'
 
-export async function preflightDuckuiResolveWorkspace(_options: InitOptions, spinner: Ora): Promise<DuckuiResolution> {
+export async function preflightDuckuiResolveWorkspace(
+  _options: InitOptions,
+  spinner: Ora,
+): Promise<DuckUI.Resolution> {
   const cwd = path.resolve(_options.cwd)
 
   const flagMonorepo = typeof _options.monorepo === 'boolean' ? _options.monorepo : null
@@ -159,7 +154,7 @@ export async function preflightDuckuiResolveWorkspace(_options: InitOptions, spi
 
 export async function preflightDuckui(
   _options: InitOptions,
-  resolution: DuckuiResolution,
+  resolution: DuckUI.Resolution,
   spinner: Ora,
 ): Promise<void> {
   try {
