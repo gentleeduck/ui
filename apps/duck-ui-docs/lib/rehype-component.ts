@@ -30,7 +30,7 @@ export function rehypeComponent() {
           const component = index[`${name}`]
           if (!component?.files?.[0]) return null
           const files = component.files
-          const items: ItemType[] = get_component_source(files as { type: string; path: string }[])
+          const items: ItemType[] = getComponentSource(files as { type: string; path: string }[])
 
           node.children?.push(
             ...items.map((item) =>
@@ -200,7 +200,7 @@ function getNodeAttributeByName(node: IUnistNode, name: string) {
 }
 
 type ItemType = { name: string; type: string; src: string }
-function get_component_source(files: { type: string; path: string }[]) {
+function getComponentSource(files: { type: string; path: string }[]) {
   const item: ItemType[] = []
   for (let i = 0; i < files.length; i++) {
     // ! NOTE: This is a temporary solution
