@@ -1,26 +1,11 @@
 'use client'
 import { cn } from '@gentleduck/libs/cn'
-import { loadDomAnimation } from '@gentleduck/motion/motion-features'
-import { useMotionPreset } from '@gentleduck/motion/motion-presets'
-import {
-  contentTransition,
-  contentTransitionFast,
-  fadeBlurPopOut,
-  spinIn,
-  tapScale,
-} from '@gentleduck/motion/presets/content'
-import { scaleIn } from '@gentleduck/motion/presets/scale-in'
-import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { Slot, Slottable } from '@gentleduck/primitives/slot'
 import { Loader } from 'lucide-react'
-import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from './button.constants'
-import type { AnimationIconProps, IButtonProps } from './button.types'
+import type { IButtonAnimationIconProps, IButtonProps } from './button.types'
 
-/**
- * Renders a customizable button component, supporting various styles and behaviors.
- */
 const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
   (
     {
@@ -67,10 +52,7 @@ const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
 )
 Button.displayName = 'Button'
 
-/**
- * Renders an animation icon component.
- */
-function AnimationIcon({ children, animationIcon }: AnimationIconProps): React.JSX.Element {
+function AnimationIcon({ children, animationIcon }: IButtonAnimationIconProps): React.JSX.Element {
   return (
     <>
       {animationIcon?.icon && animationIcon.iconPlacement === 'left' && (
@@ -89,123 +71,4 @@ function AnimationIcon({ children, animationIcon }: AnimationIconProps): React.J
 }
 AnimationIcon.displayName = 'AnimationIcon'
 
-/* ------------------------------------------------------------------ */
-/*  MotionButton                                                       */
-/* ------------------------------------------------------------------ */
-
-const MOTION_BUTTON_OPTIONS = { transition: springBouncy } as const
-
-const MotionButton = React.forwardRef<
-  HTMLButtonElement,
-  Omit<IButtonProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
->(
-  (
-    {
-      children,
-      variant = 'default',
-      size = 'default',
-      border = 'default',
-      asChild,
-      className,
-      loading,
-      isCollapsed,
-      icon,
-      secondIcon,
-      type = 'button',
-      disabled,
-      ...props
-    },
-    ref,
-  ) => {
-    const content = useMotionPreset(scaleIn, MOTION_BUTTON_OPTIONS)
-    const isDisabled = Boolean(loading) || Boolean(disabled)
-    const animateState = isDisabled
-      ? { ...(content.animate as Record<string, unknown>), opacity: 0.5 }
-      : content.animate
-
-    // asChild mode: wrap the slot child in a motion div for entrance + tap animation
-    if (asChild) {
-      return (
-        <LazyMotion features={loadDomAnimation}>
-          <m.span
-            data-slot="button"
-            initial={content.initial}
-            animate={animateState}
-            whileTap={isDisabled ? undefined : tapScale}
-            transition={content.transition}
-            className={cn('inline-flex', isDisabled && 'pointer-events-none')}>
-            <Slot
-              {...(props as React.HTMLAttributes<HTMLElement>)}
-              aria-disabled={isDisabled || undefined}
-              className={cn(buttonVariants({ border, className, size: isCollapsed ? 'icon' : size, variant }))}
-              ref={ref as React.Ref<HTMLElement>}>
-              {children}
-            </Slot>
-          </m.span>
-        </LazyMotion>
-      )
-    }
-
-    return (
-      <LazyMotion features={loadDomAnimation}>
-        <m.button
-          data-slot="button"
-          initial={content.initial}
-          animate={animateState}
-          whileTap={isDisabled ? undefined : tapScale}
-          transition={content.transition}
-          {...props}
-          aria-busy={loading ? true : undefined}
-          aria-disabled={isDisabled || undefined}
-          className={cn(
-            buttonVariants({ border, className, size: isCollapsed ? 'icon' : size, variant }),
-            'overflow-hidden',
-            isDisabled && 'pointer-events-none',
-          )}
-          disabled={isDisabled}
-          ref={ref}
-          type={type as 'button' | 'submit' | 'reset'}>
-          <AnimatePresence mode="wait" initial={false}>
-            {loading ? (
-              <m.span key="loader" {...spinIn} transition={contentTransition} className="inline-flex">
-                <Loader aria-hidden="true" className="animate-spin" />
-              </m.span>
-            ) : icon ? (
-              <m.span key="icon" {...spinIn} transition={contentTransition} className="inline-flex">
-                {icon}
-              </m.span>
-            ) : null}
-          </AnimatePresence>
-          {(children || secondIcon) && (
-            <AnimatePresence mode="popLayout">
-              {!isCollapsed && children && (
-                <m.span
-                  key="text"
-                  {...fadeBlurPopOut}
-                  transition={contentTransitionFast}
-                  className={cn(
-                    'inline-flex flex-1 origin-left items-center gap-2',
-                    React.Children.count(children) > 1 ? 'justify-between' : 'justify-center',
-                  )}>
-                  {children}
-                </m.span>
-              )}
-              {!isCollapsed && secondIcon && (
-                <m.span
-                  key="second-icon"
-                  {...fadeBlurPopOut}
-                  transition={contentTransitionFast}
-                  className="inline-flex origin-left">
-                  {secondIcon}
-                </m.span>
-              )}
-            </AnimatePresence>
-          )}
-        </m.button>
-      </LazyMotion>
-    )
-  },
-)
-MotionButton.displayName = 'MotionButton'
-
-export { AnimationIcon, Button, MotionButton }
+export { AnimationIcon, Button }

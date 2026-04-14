@@ -3,13 +3,14 @@ import type { Control, FieldPath, FieldValues } from 'react-hook-form'
 export type JsonEditorMode = 'inline' | 'popover'
 export type JsonEditorExpandMode = 'none' | 'callback' | 'sheet'
 
-export type JsonEditorExpandPayload<TFieldValues extends FieldValues> = {
+export interface IJsonEditorExpandPayload<TFieldValues extends FieldValues> {
   name: FieldPath<TFieldValues>
   rawText: string
   value: unknown
 }
+export type JsonEditorExpandPayload<TFieldValues extends FieldValues> = IJsonEditorExpandPayload<TFieldValues>
 
-export type JsonTextareaFieldProps<TFieldValues extends FieldValues> = {
+export interface IJsonTextareaFieldProps<TFieldValues extends FieldValues> {
   control: Control<TFieldValues>
   name: FieldPath<TFieldValues>
   label: string
@@ -34,12 +35,13 @@ export type JsonTextareaFieldProps<TFieldValues extends FieldValues> = {
   sheetSide?: 'left' | 'right'
   sheetTitle?: string
 
-  text?: JsonEditorText
+  text?: IJsonEditorText
 
-  onExpandEditor?: (payload: JsonEditorExpandPayload<TFieldValues>) => void
+  onExpandEditor?: (payload: IJsonEditorExpandPayload<TFieldValues>) => void
 }
+export type JsonTextareaFieldProps<TFieldValues extends FieldValues> = IJsonTextareaFieldProps<TFieldValues>
 
-export type JsonEditorText = {
+export interface IJsonEditorText {
   format?: string
   cancel?: string
   save?: string
@@ -55,10 +57,12 @@ export type JsonEditorText = {
   saved?: string
   nullPreview?: string
 }
+export type JsonEditorText = IJsonEditorText
 
-export type JsonParseResult = { ok: true; value: unknown } | { ok: false; message: string }
+export type IJsonParseResult = { ok: true; value: unknown } | { ok: false; message: string }
+export type JsonParseResult = IJsonParseResult
 
-export type JsonEditorViewProps = {
+export interface IJsonEditorViewProps {
   value: string
   onChange: (value: string) => void
   onScroll?: (scrollTop: number) => void
@@ -72,9 +76,11 @@ export type JsonEditorViewProps = {
   lang?: string
   onKeyDown: (event: React.KeyboardEvent<HTMLTextAreaElement>) => void
 }
+export type JsonEditorViewProps = IJsonEditorViewProps
 
-export type UseJsonEditorHotkeysOptions = {
+export interface IUseJsonEditorHotkeysOptions {
   enabled: boolean
   onEscape: () => void
   onSave: () => void
 }
+export type UseJsonEditorHotkeysOptions = IUseJsonEditorHotkeysOptions

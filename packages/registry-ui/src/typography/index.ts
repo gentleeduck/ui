@@ -13,6 +13,8 @@ export {
   MotionTypographyP,
   MotionTypographySmall,
   MotionTypographyTable,
+} from './motion-typography'
+export {
   TypographyBlockquote,
   TypographyH1,
   TypographyH2,

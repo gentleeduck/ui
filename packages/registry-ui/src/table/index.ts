@@ -1,6 +1,5 @@
+export { MotionTable, MotionTableRow } from './motion-table'
 export {
-  MotionTable,
-  MotionTableRow,
   Table,
   TableBody,
   TableCaption,

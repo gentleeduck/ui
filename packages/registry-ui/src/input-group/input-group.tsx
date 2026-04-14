@@ -1,13 +1,8 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { loadDomAnimation } from '@gentleduck/motion/motion-features'
-import { useMotionPreset } from '@gentleduck/motion/motion-presets'
-import { scaleIn } from '@gentleduck/motion/presets/scale-in'
-import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import { cva, type VariantProps } from '@gentleduck/variants'
-import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Button } from '../button'
 import { Input } from '../input'
@@ -175,30 +170,4 @@ const InputGroupTextarea = React.forwardRef<HTMLTextAreaElement, React.Component
 )
 InputGroupTextarea.displayName = 'InputGroupTextarea'
 
-/* ------------------------------------------------------------------ */
-/*  Motion variants                                                    */
-/* ------------------------------------------------------------------ */
-
-const MotionInputGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'> & { index?: number }>(
-  ({ index = 0, ...props }, ref) => {
-    const content = useMotionPreset(scaleIn, { transition: springBouncy, delay: index * 0.05 })
-    return (
-      <LazyMotion features={loadDomAnimation}>
-        <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
-          <InputGroup ref={ref} {...props} />
-        </m.div>
-      </LazyMotion>
-    )
-  },
-)
-MotionInputGroup.displayName = 'MotionInputGroup'
-
-export {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupButton,
-  InputGroupInput,
-  InputGroupText,
-  InputGroupTextarea,
-  MotionInputGroup,
-}
+export { InputGroup, InputGroupAddon, InputGroupButton, InputGroupInput, InputGroupText, InputGroupTextarea }

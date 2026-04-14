@@ -104,7 +104,7 @@ export default function Demo() {
       <div
         data-slot="event-popover"
         data-state={popoverDate ? 'open' : 'closed'}
-        className="data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2 absolute z-50 w-auto -translate-x-1/2 rounded-md border bg-popover p-3 text-popover-foreground shadow-md transition-all transition-discrete duration-150 ease-(--duck-motion-ease) data-[state=closed]:hidden data-[state=closed]:animate-out data-[state=open]:animate-in"
+        className="data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-top-2 data-[state=open]:slide-in-from-top-2 absolute z-50 w-auto -translate-x-1/2 rounded-md border bg-popover p-3 text-popover-foreground shadow-md transition-all transition-discrete duration-150 ease-(--gentleduck-motion-ease) data-[state=closed]:hidden data-[state=closed]:animate-out data-[state=open]:animate-in"
         style={popoverPos ? { top: popoverPos.top, left: popoverPos.left } : undefined}>
         {popoverDate && (
           <>

@@ -21,7 +21,7 @@ const AlertDialogOverlay = React.forwardRef<
   <AlertDialogPrimitive.Overlay
     className={cn(
       'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/80 data-[state=closed]:animate-out data-[state=open]:animate-in',
-      'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+      'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
       className,
     )}
     {...props}
@@ -40,7 +40,7 @@ const AlertDialogContent = React.forwardRef<
       ref={ref}
       className={cn(
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-1/2 left-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg data-[state=closed]:animate-out data-[state=open]:animate-in sm:rounded-lg',
-        'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+        'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
         className,
       )}
       {...props}

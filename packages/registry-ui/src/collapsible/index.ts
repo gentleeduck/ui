@@ -2,6 +2,7 @@ export {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-  MotionCollapsibleContent,
   useCollapsible,
 } from './collapsible'
+
+export { MotionCollapsibleContent } from './motion-collapsible'

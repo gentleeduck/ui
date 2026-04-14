@@ -1,7 +1,7 @@
 import * as React from 'react'
-import type { UseJsonEditorHotkeysOptions } from './json-editor.types'
+import type { IUseJsonEditorHotkeysOptions } from './json-editor.types'
 
-export function useJsonEditorHotkeys(options: UseJsonEditorHotkeysOptions) {
+export function useJsonEditorHotkeys(options: IUseJsonEditorHotkeysOptions) {
   return React.useCallback(
     (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
       if (!options.enabled) return

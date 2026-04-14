@@ -1,6 +1,5 @@
+export { MotionTooltip, MotionTooltipContent } from './motion-tooltip'
 export {
-  MotionTooltip,
-  MotionTooltipContent,
   Tooltip,
   TooltipContent,
   TooltipProvider,

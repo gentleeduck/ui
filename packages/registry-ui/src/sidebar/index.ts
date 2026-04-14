@@ -1,5 +1,5 @@
+export { MotionSidebar } from './motion-sidebar'
 export {
-  MotionSidebar,
   Sidebar,
   SidebarContent,
   SidebarFooter,
@@ -34,4 +34,12 @@ export {
   sidebarMenuButtonVariants,
 } from './sidebar.constants'
 export { SidebarContext, useSidebar } from './sidebar.hooks'
-export type { SidebarContextProps, SidebarDirection, SidebarProps, SidebarProviderProps } from './sidebar.types'
+export type {
+  ISidebarContextProps,
+  ISidebarProps,
+  ISidebarProviderProps,
+  SidebarContextProps,
+  SidebarDirection,
+  SidebarProps,
+  SidebarProviderProps,
+} from './sidebar.types'

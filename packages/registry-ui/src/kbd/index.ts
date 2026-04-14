@@ -1,1 +1,2 @@
-export { Kbd, KbdGroup, MotionKbd } from './kbd'
+export { Kbd, KbdGroup } from './kbd'
+export { MotionKbd } from './motion-kbd'

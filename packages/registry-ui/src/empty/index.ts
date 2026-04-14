@@ -5,10 +5,12 @@ export {
   EmptyHeader,
   EmptyMedia,
   EmptyTitle,
+} from './empty'
+export { emptyMediaVariants } from './empty.constants'
+export {
   MotionEmpty,
   MotionEmptyContent,
   MotionEmptyDescription,
   MotionEmptyMedia,
   MotionEmptyTitle,
-} from './empty'
-export { emptyMediaVariants } from './empty.constants'
+} from './motion-empty'

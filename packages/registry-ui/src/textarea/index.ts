@@ -1,1 +1,2 @@
-export { MotionTextarea, Textarea } from './textarea'
+export { MotionTextarea } from './motion-textarea'
+export { Textarea } from './textarea'

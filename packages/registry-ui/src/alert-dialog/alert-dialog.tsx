@@ -1,25 +1,15 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { loadDomAnimation } from '@gentleduck/motion/motion-features'
-import { useMotionPreset } from '@gentleduck/motion/motion-presets'
-import { fadeIn } from '@gentleduck/motion/presets/fade-in'
-import { scaleIn } from '@gentleduck/motion/presets/scale-in'
-import { springStiff } from '@gentleduck/motion/transitions/springs'
-import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as AlertDialogPrimitive from '@gentleduck/primitives/alert-dialog'
-import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from '../button'
 
 const AlertDialog = AlertDialogPrimitive.Root
-AlertDialog.displayName = 'AlertDialog'
 
 const AlertDialogTrigger = AlertDialogPrimitive.Trigger
-AlertDialogTrigger.displayName = 'AlertDialogTrigger'
 
 const AlertDialogPortal = AlertDialogPrimitive.Portal
-AlertDialogPortal.displayName = 'AlertDialogPortal'
 
 const AlertDialogOverlay = React.forwardRef<
   React.ComponentRef<typeof AlertDialogPrimitive.Overlay>,
@@ -28,7 +18,7 @@ const AlertDialogOverlay = React.forwardRef<
   <AlertDialogPrimitive.Overlay
     className={cn(
       'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/80 data-[state=closed]:animate-out data-[state=open]:animate-in',
-      'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+      'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
       className,
     )}
     {...props}
@@ -47,7 +37,7 @@ const AlertDialogContent = React.forwardRef<
       ref={ref}
       className={cn(
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-1/2 left-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg data-[state=closed]:animate-out data-[state=open]:animate-in sm:rounded-lg',
-        'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+        'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
         className,
       )}
       {...props}
@@ -98,73 +88,9 @@ const AlertDialogCancel = React.forwardRef<
   React.ComponentRef<typeof AlertDialogPrimitive.Cancel>,
   React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Cancel>
 >(({ className, ...props }, ref) => (
-  <AlertDialogPrimitive.Cancel
-    ref={ref}
-    className={cn(buttonVariants({ variant: 'outline' }), 'mt-2 sm:mt-0', className)}
-    {...props}
-  />
+  <AlertDialogPrimitive.Cancel ref={ref} className={cn(buttonVariants({ variant: 'outline' }), className)} {...props} />
 ))
 AlertDialogCancel.displayName = AlertDialogPrimitive.Cancel.displayName
-
-function MotionAlertDialog({
-  children,
-  open,
-  defaultOpen,
-  onOpenChange,
-  ...rest
-}: React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Root>) {
-  const { rootProps, contextValue } = useMotionRoot({ open, defaultOpen, onOpenChange })
-  return (
-    <MotionRootContext.Provider value={contextValue}>
-      <AlertDialogPrimitive.Root {...rootProps} {...rest}>
-        {children}
-      </AlertDialogPrimitive.Root>
-    </MotionRootContext.Provider>
-  )
-}
-MotionAlertDialog.displayName = 'MotionAlertDialog'
-
-const MotionAlertDialogContent = React.forwardRef<
-  React.ComponentRef<typeof AlertDialogPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof AlertDialogPrimitive.Content>
->(({ className, children, ...props }, ref) => {
-  const { isOpen } = useMotionContent()
-  const overlay = useMotionPreset(fadeIn)
-  const content = useMotionPreset(scaleIn, {
-    transition: springStiff,
-  })
-  const shouldRender = useMotionMount(isOpen)
-
-  if (!shouldRender) return null
-
-  return (
-    <LazyMotion features={loadDomAnimation}>
-      <AlertDialogPortal forceMount>
-        <AlertDialogPrimitive.Overlay forceMount asChild>
-          <m.div
-            className={cn('fixed inset-0 z-50 bg-black/80')}
-            initial={overlay.initial}
-            animate={isOpen ? overlay.animate : { ...overlay.exit, pointerEvents: 'none' }}
-            transition={overlay.transition}
-          />
-        </AlertDialogPrimitive.Overlay>
-        <AlertDialogPrimitive.Content ref={ref} forceMount asChild {...props}>
-          <m.div
-            className={cn(
-              'fixed top-1/2 left-1/2 z-50 grid w-full max-w-lg -translate-x-1/2 -translate-y-1/2 gap-4 border bg-background p-6 shadow-lg sm:rounded-lg',
-              className,
-            )}
-            initial={content.initial}
-            animate={isOpen ? content.animate : { ...content.exit, pointerEvents: 'none' }}
-            transition={content.transition}>
-            {children}
-          </m.div>
-        </AlertDialogPrimitive.Content>
-      </AlertDialogPortal>
-    </LazyMotion>
-  )
-})
-MotionAlertDialogContent.displayName = 'MotionAlertDialogContent'
 
 export {
   AlertDialog,
@@ -178,6 +104,4 @@ export {
   AlertDialogPortal,
   AlertDialogTitle,
   AlertDialogTrigger,
-  MotionAlertDialog,
-  MotionAlertDialogContent,
 }

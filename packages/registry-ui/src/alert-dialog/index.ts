@@ -10,6 +10,9 @@ export {
   AlertDialogPortal,
   AlertDialogTitle,
   AlertDialogTrigger,
+} from './alert-dialog'
+
+export {
   MotionAlertDialog,
   MotionAlertDialogContent,
-} from './alert-dialog'
+} from './motion-alert-dialog'

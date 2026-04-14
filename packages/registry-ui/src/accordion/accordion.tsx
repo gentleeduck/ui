@@ -18,7 +18,7 @@ const Accordion = React.forwardRef<HTMLDivElement, IAccordionProps>(
     <AccordionRenderOnceContext.Provider value={renderOnce}>
       <AccordionPrimitive.Root
         ref={ref}
-        className={cn('min-w-100 [interpolate-size:allow-keywords] font-sans not-italic', className)}
+        className={cn('min-w-100 font-sans not-italic [interpolate-size:allow-keywords]', className)}
         {...props}
       />
     </AccordionRenderOnceContext.Provider>
@@ -47,7 +47,7 @@ const AccordionTrigger = React.forwardRef<
     <AccordionPrimitive.Trigger
       ref={ref}
       className={cn(
-        'group/accordion-trigger flex w-full cursor-pointer select-none items-center justify-between py-4 font-sans font-medium not-italic text-base ring-offset-background transition-all hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+        'group/accordion-trigger flex w-full cursor-pointer select-none items-center justify-between py-4 font-medium font-sans text-base not-italic ring-offset-background transition-all hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
         className,
       )}
       {...props}>
@@ -86,7 +86,7 @@ const AccordionContent = React.forwardRef<
       forceMount
       inert={!open || undefined}
       className={cn(
-        'block overflow-hidden font-sans not-italic text-base will-change-[height,opacity]',
+        'block overflow-hidden font-sans text-base not-italic will-change-[height,opacity]',
         'data-[state=closed]:h-0 data-[state=open]:h-auto',
         'data-[state=closed]:opacity-0 data-[state=open]:opacity-100',
         'data-[state=closed]:pointer-events-none',

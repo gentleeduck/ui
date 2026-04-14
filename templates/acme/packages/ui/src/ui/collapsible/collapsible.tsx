@@ -125,7 +125,7 @@ const CollapsibleContent = React.forwardRef<
       aria-hidden={!open}
       className={cn(
         'h-0 overflow-hidden transition-all data-[open=true]:h-auto',
-        'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+        'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
         className,
       )}
       data-open={open}

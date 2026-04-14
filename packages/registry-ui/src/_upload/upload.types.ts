@@ -1,7 +1,7 @@
 import { Button } from '../button'
 import { ScrollArea } from '../scroll-area'
 
-export type FileType = {
+export interface IFileType {
   id: string
   file: File
   name: string
@@ -9,14 +9,16 @@ export type FileType = {
   type: string
   size: number
 }
+export type FileType = IFileType
 
-export type UploadRenameAttachmentButtonProps = {
-  attachment: FileType[]
+export interface IUploadRenameAttachmentButtonProps {
+  attachment: IFileType[]
 }
+export type UploadRenameAttachmentButtonProps = IUploadRenameAttachmentButtonProps
 
-export interface IUploadContextType<T extends Record<string, any>> {
-  attachments: FileType[]
-  setAttachments: React.Dispatch<React.SetStateAction<FileType[]>>
+export interface IUploadContextType<T extends Record<string, unknown>> {
+  attachments: IFileType[]
+  setAttachments: React.Dispatch<React.SetStateAction<IFileType[]>>
   attachmentsState: T[]
   setAttachmentsState: React.Dispatch<React.SetStateAction<T[]>>
 }
@@ -24,7 +26,7 @@ export interface IUploadContextType<T extends Record<string, any>> {
 export interface IUploadInputProps extends React.HTMLProps<HTMLDivElement> {}
 
 export interface IUploadItemProps extends React.HTMLProps<HTMLDivElement> {
-  attachment: FileType
+  attachment: IFileType
 }
 
 export interface IUploadProps extends Omit<React.HTMLProps<HTMLDivElement>, 'content'> {
@@ -34,11 +36,12 @@ export interface IUploadProps extends Omit<React.HTMLProps<HTMLDivElement>, 'con
 
 export interface IUploadTriggerProps extends React.HTMLProps<HTMLDivElement> {}
 
-export interface IUploadtItemRemoveProps extends React.HTMLProps<HTMLDivElement> {}
+export interface IUploadItemRemoveProps extends React.HTMLProps<HTMLDivElement> {}
+export type IUploadtItemRemoveProps = IUploadItemRemoveProps
 
 export interface IUploadContentProps extends React.ComponentPropsWithRef<typeof ScrollArea> {}
 
-export interface IStateWithExtraFeatures<T extends Record<string, any>> {
+export interface IStateWithExtraFeatures<T extends Record<string, unknown>> {
   data: T | null
   state: 'pending' | 'success' | 'error'
 }

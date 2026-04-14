@@ -6,7 +6,6 @@ export {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-  MotionBreadcrumbItem,
-  MotionBreadcrumbList,
-  MotionBreadcrumbSeparator,
 } from './breadcrumb'
+
+export { MotionBreadcrumbItem, MotionBreadcrumbList, MotionBreadcrumbSeparator } from './motion-breadcrumb'

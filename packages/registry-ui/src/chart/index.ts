@@ -15,4 +15,10 @@ export type {
   ChartLegendContentProps,
   ChartStyleProps,
   ChartTooltipContentProps,
+  IChartConfig,
+  IChartContainerProps,
+  IChartContextProps,
+  IChartLegendContentProps,
+  IChartStyleProps,
+  IChartTooltipContentProps,
 } from './chart.types'

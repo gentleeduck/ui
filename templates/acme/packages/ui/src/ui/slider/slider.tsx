@@ -8,7 +8,7 @@ const Slider = React.forwardRef<
   React.ComponentRef<typeof SliderPrimitive.Root>,
   React.ComponentProps<typeof SliderPrimitive.Root>
 >(({ className, defaultValue, orientation = 'horizontal', value, min = 0, max = 100, ...props }, ref) => {
-  const _values = React.useMemo(
+  const values = React.useMemo(
     () => (Array.isArray(value) ? value : Array.isArray(defaultValue) ? defaultValue : [min, max]),
     [value, defaultValue, min, max],
   )
@@ -38,7 +38,7 @@ const Slider = React.forwardRef<
           className="absolute select-none bg-primary data-[orientation='horizontal']:h-full data-[orientation='vertical']:w-full"
         />
       </SliderPrimitive.Track>
-      {Array.from({ length: _values.length }, (_, index) => (
+      {Array.from({ length: values.length }, (_, index) => (
         <SliderPrimitive.Thumb
           data-orientation={orientation}
           data-slot="slider-thumb"

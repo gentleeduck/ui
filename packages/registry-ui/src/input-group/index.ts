@@ -5,5 +5,5 @@ export {
   InputGroupInput,
   InputGroupText,
   InputGroupTextarea,
-  MotionInputGroup,
 } from './input-group'
+export { MotionInputGroup } from './motion-input-group'

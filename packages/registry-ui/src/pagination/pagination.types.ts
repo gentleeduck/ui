@@ -11,7 +11,10 @@ export interface IDuckPaginationProps {
   maxLeft?: React.ComponentPropsWithoutRef<typeof Button>
 }
 
-export type PaginationLinkProps = {
+export interface IPaginationLinkProps
+  extends Pick<IButtonProps, 'size'>,
+    Omit<React.ComponentPropsWithoutRef<'a'>, 'size'> {
   isActive?: boolean
-} & Pick<IButtonProps, 'size'> &
-  Omit<React.ComponentPropsWithoutRef<'a'>, 'size'>
+}
+
+export type PaginationLinkProps = IPaginationLinkProps

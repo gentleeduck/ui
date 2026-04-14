@@ -14,8 +14,10 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
+} from './dropdown-menu'
+export {
   MotionDropdownMenu,
   MotionDropdownMenuContent,
   MotionDropdownMenuSub,
   MotionDropdownMenuSubContent,
-} from './dropdown-menu'
+} from './motion-dropdown-menu'
