@@ -6031,7 +6031,7 @@ export const Index: Record<string, any> = {
     name: 'typography-1',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['typography'],
     files: [
       {
         path: 'typography/typography-1.tsx',
@@ -6047,7 +6047,7 @@ export const Index: Record<string, any> = {
     name: 'typography-10',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['typography'],
     files: [
       {
         path: 'typography/typography-10.tsx',
@@ -6063,7 +6063,7 @@ export const Index: Record<string, any> = {
     name: 'typography-11',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['typography'],
     files: [
       {
         path: 'typography/typography-11.tsx',
@@ -6079,7 +6079,7 @@ export const Index: Record<string, any> = {
     name: 'typography-12',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['typography'],
     files: [
       {
         path: 'typography/typography-12.tsx',
@@ -6095,7 +6095,7 @@ export const Index: Record<string, any> = {
     name: 'typography-13',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['typography'],
     files: [
       {
         path: 'typography/typography-13.tsx',
@@ -6111,7 +6111,7 @@ export const Index: Record<string, any> = {
     name: 'typography-14',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['typography'],
     files: [
       {
         path: 'typography/typography-14.tsx',
@@ -6127,7 +6127,7 @@ export const Index: Record<string, any> = {
     name: 'typography-15',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['typography'],
     files: [
       {
         path: 'typography/typography-15.tsx',
@@ -6143,7 +6143,7 @@ export const Index: Record<string, any> = {
     name: 'typography-16',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['typography'],
     files: [
       {
         path: 'typography/typography-16.tsx',
@@ -6159,7 +6159,7 @@ export const Index: Record<string, any> = {
     name: 'typography-2',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['typography'],
     files: [
       {
         path: 'typography/typography-2.tsx',
@@ -6175,7 +6175,7 @@ export const Index: Record<string, any> = {
     name: 'typography-3',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['typography'],
     files: [
       {
         path: 'typography/typography-3.tsx',
@@ -6191,7 +6191,7 @@ export const Index: Record<string, any> = {
     name: 'typography-4',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['typography'],
     files: [
       {
         path: 'typography/typography-4.tsx',
@@ -6207,7 +6207,7 @@ export const Index: Record<string, any> = {
     name: 'typography-5',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['typography'],
     files: [
       {
         path: 'typography/typography-5.tsx',
@@ -6223,7 +6223,7 @@ export const Index: Record<string, any> = {
     name: 'typography-6',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['typography'],
     files: [
       {
         path: 'typography/typography-6.tsx',
@@ -6239,7 +6239,7 @@ export const Index: Record<string, any> = {
     name: 'typography-7',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['typography'],
     files: [
       {
         path: 'typography/typography-7.tsx',
@@ -6255,7 +6255,7 @@ export const Index: Record<string, any> = {
     name: 'typography-8',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['typography'],
     files: [
       {
         path: 'typography/typography-8.tsx',
@@ -6271,7 +6271,7 @@ export const Index: Record<string, any> = {
     name: 'typography-9',
     description: '',
     type: 'registry:example',
-    registryDependencies: [],
+    registryDependencies: ['typography'],
     files: [
       {
         path: 'typography/typography-9.tsx',
