@@ -11,9 +11,9 @@ export default function Demo() {
   return (
     <CheckboxGroup
       subtasks={subtasks}
-      subtasks_default_values={{
-        _checkbox: { onCheckedChange: (state) => toast.info(`Checkbox ${state ? 'checked' : 'unchecked'}`) },
-        _label: { className: 'text-sm text-muted-foreground' },
+      defaults={{
+        checkbox: { onCheckedChange: (state) => toast.info(`Checkbox ${state ? 'checked' : 'unchecked'}`) },
+        label: { className: 'text-sm text-muted-foreground' },
       }}
     />
   )

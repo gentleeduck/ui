@@ -109,15 +109,15 @@ const Checkbox = React.forwardRef<HTMLInputElement, ICheckboxProps>(
 Checkbox.displayName = 'Checkbox'
 
 const CheckboxWithLabel = React.forwardRef<HTMLDivElement, Omit<ICheckboxWithLabelProps, 'ref'>>(
-  ({ id, _checkbox, _label, className, ...props }, ref) => {
-    const { className: labelClassName, ...labelProps } = _label
+  ({ id, checkbox, label, className, ...props }, ref) => {
+    const { className: labelClassName, ...labelProps } = label
     return (
       <div
         className={cn('flex items-center justify-start gap-2', className)}
         ref={ref}
         {...props}
         data-slot="checkbox-with-label">
-        <Checkbox id={id} {..._checkbox} />
+        <Checkbox id={id} {...checkbox} />
         <Label className={cn('cursor-pointer', labelClassName)} htmlFor={id} {...labelProps} />
       </div>
     )
@@ -126,18 +126,18 @@ const CheckboxWithLabel = React.forwardRef<HTMLDivElement, Omit<ICheckboxWithLab
 CheckboxWithLabel.displayName = 'CheckboxWithLabel'
 
 const CheckboxGroup = React.forwardRef<HTMLDivElement, Omit<CheckboxGroupProps, 'ref'>>(
-  ({ subtasks, subtasks_default_values, ...props }, ref) => {
-    const { _checkbox, _label } = subtasks_default_values || {}
+  ({ subtasks, defaults, ...props }, ref) => {
+    const { checkbox, label } = defaults || {}
     return (
       <div className={cn('mb-3 flex flex-col gap-2')} {...props} data-slot="checkbox-group" ref={ref}>
         {subtasks.map(({ id, title, checked }) => (
           <CheckboxWithLabel
-            _checkbox={{
-              ..._checkbox,
+            checkbox={{
+              ...checkbox,
               checked,
               className: 'w-4 h-4 rounded-full border-muted-foreground/80',
             }}
-            _label={{ ..._label, children: title }}
+            label={{ ...label, children: title }}
             data-slot="checkbox-with-label"
             id={id}
             key={id}
@@ -179,8 +179,8 @@ MotionCheckbox.displayName = 'MotionCheckbox'
 const MotionCheckboxWithLabel = React.forwardRef<
   HTMLDivElement,
   Omit<ICheckboxWithLabelProps, 'ref'> & { index?: number }
->(({ id, _checkbox, _label, className, index = 0 }, ref) => {
-  const { className: labelClassName, ...labelProps } = _label
+>(({ id, checkbox, label, className, index = 0 }, ref) => {
+  const { className: labelClassName, ...labelProps } = label
   const content = useMotionPreset(scaleIn, { transition: springBouncy, delay: index * 0.05 })
   return (
     <LazyMotion features={loadDomAnimation}>
@@ -191,7 +191,7 @@ const MotionCheckboxWithLabel = React.forwardRef<
         animate={content.animate}
         transition={content.transition}
         data-slot="checkbox-with-label">
-        <MotionCheckbox id={id} {..._checkbox} />
+        <MotionCheckbox id={id} {...checkbox} />
         <Label className={cn('cursor-pointer', labelClassName)} htmlFor={id} {...labelProps} />
       </m.div>
     </LazyMotion>
@@ -200,18 +200,18 @@ const MotionCheckboxWithLabel = React.forwardRef<
 MotionCheckboxWithLabel.displayName = 'MotionCheckboxWithLabel'
 
 const MotionCheckboxGroup = React.forwardRef<HTMLDivElement, Omit<CheckboxGroupProps, 'ref'>>(
-  ({ subtasks, subtasks_default_values, ...props }, ref) => {
-    const { _checkbox, _label } = subtasks_default_values || {}
+  ({ subtasks, defaults, ...props }, ref) => {
+    const { checkbox, label } = defaults || {}
     return (
       <div className={cn('mb-3 flex flex-col gap-2')} {...props} data-slot="checkbox-group" ref={ref}>
         {subtasks.map(({ id, title, checked }, i) => (
           <MotionCheckboxWithLabel
-            _checkbox={{
-              ..._checkbox,
+            checkbox={{
+              ...checkbox,
               checked,
               className: 'w-4 h-4 rounded-full border-muted-foreground/80',
             }}
-            _label={{ ..._label, children: title }}
+            label={{ ...label, children: title }}
             data-slot="checkbox-with-label"
             id={id}
             key={id}
