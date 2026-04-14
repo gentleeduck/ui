@@ -8,7 +8,6 @@ import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { duckMotionDuration, tweenExpand } from '@gentleduck/motion/transitions/tweens'
 import * as AccordionPrimitive from '@gentleduck/primitives/accordion'
-import { Mount } from '@gentleduck/primitives/mount'
 import { ChevronDown } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
@@ -74,20 +73,20 @@ const MotionAccordionTrigger = React.forwardRef<
         <m.button
           ref={ref}
           className={cn(
-            'flex w-full cursor-pointer select-none items-center justify-between py-4 font-medium text-base ring-offset-background transition-all hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+            'flex w-full cursor-pointer select-none items-center justify-between py-4 font-sans font-medium not-italic text-base ring-offset-background transition-all hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
             className,
           )}>
           <m.span
             initial={content.initial}
             animate={content.animate}
             transition={content.transition}
-            className="flex-1">
+            className="flex-1 text-left">
             {children}
           </m.span>
           <m.span
             animate={{ rotate: open ? 180 : 0 }}
             transition={tweenExpand}
-            className="[&>svg]:size-4 [&>svg]:shrink-0"
+            className="ml-2 [&>svg]:size-4 [&>svg]:shrink-0"
             data-slot="accordion-icon">
             {icon ? icon : <ChevronDown aria-hidden="true" />}
           </m.span>
@@ -104,30 +103,31 @@ const MotionAccordionContent = React.forwardRef<
 >(({ className, children, ...props }, ref) => {
   const renderOnce = React.useContext(AccordionRenderOnceContext)
   const { open } = AccordionPrimitive.useAccordionItemContext('MotionAccordionContent', undefined)
+  const [hasOpened, setHasOpened] = React.useState(open)
 
-  const content = (
-    <AccordionPrimitive.Content forceMount asChild {...props}>
-      <m.div
-        ref={ref}
-        animate={open ? heightAuto.open : heightAuto.closed}
-        initial={false}
-        transition={{
-          height: tweenExpand,
-          opacity: { duration: duckMotionDuration.normal, delay: open ? 0.05 : 0 },
-          filter: { duration: duckMotionDuration.normal, delay: open ? 0.05 : 0 },
-        }}
-        style={{ overflow: 'hidden' }}>
-        <div className={cn('pt-0 pb-4 text-base', className)}>{children}</div>
-      </m.div>
-    </AccordionPrimitive.Content>
-  )
+  React.useEffect(() => {
+    if (open) setHasOpened(true)
+  }, [open])
 
-  return renderOnce ? (
-    <Mount open={open} renderOnce>
-      {content}
-    </Mount>
-  ) : (
-    content
+  if (renderOnce && !hasOpened) return null
+
+  return (
+    <LazyMotion features={loadDomAnimation}>
+      <AccordionPrimitive.Content forceMount asChild inert={!open || undefined} {...props}>
+        <m.div
+          ref={ref}
+          animate={open ? heightAuto.open : heightAuto.closed}
+          initial={open ? heightAuto.open : heightAuto.closed}
+          transition={{
+            height: tweenExpand,
+            opacity: { duration: duckMotionDuration.normal, delay: open ? 0.05 : 0 },
+            filter: { duration: duckMotionDuration.normal, delay: open ? 0.05 : 0 },
+          }}
+          style={{ overflow: 'hidden' }}>
+          <div className={cn('pt-0 pb-4 font-sans not-italic text-base', className)}>{children}</div>
+        </m.div>
+      </AccordionPrimitive.Content>
+    </LazyMotion>
   )
 })
 MotionAccordionContent.displayName = 'MotionAccordionContent'
