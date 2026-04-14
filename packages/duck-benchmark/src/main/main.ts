@@ -4,13 +4,13 @@ import { getPackageJson } from '../utils'
 import { config } from './main.constants'
 
 export function init() {
-  const duck_ui = new Command()
+  const duckUi = new Command()
   const packageJson = getPackageJson()
 
-  duck_ui.name(packageJson?.name || config.name)
-  duck_ui.description(packageJson?.description || config.description)
-  duck_ui.version(packageJson?.version || config.version)
-  duck_ui.addCommand(initCommand())
+  duckUi.name(packageJson?.name || config.name)
+  duckUi.description(packageJson?.description || config.description)
+  duckUi.version(packageJson?.version || config.version)
+  duckUi.addCommand(initCommand())
 
-  duck_ui.parse()
+  duckUi.parse()
 }
