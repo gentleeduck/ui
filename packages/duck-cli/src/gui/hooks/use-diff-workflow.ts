@@ -9,7 +9,13 @@ import {
 } from '~/services/component.service'
 import { resolveInstallPath } from '~/services/install.service'
 import { readDuckuiConfig, readTsConfig } from '~/services/preflight.service'
-import { buildDisplayLines, buildSideBySidePairs, type Diff, getHunkOffsets, getMaxLineNumber } from '~/utils/diff-format'
+import {
+  buildDisplayLines,
+  buildSideBySidePairs,
+  type Diff,
+  getHunkOffsets,
+  getMaxLineNumber,
+} from '~/utils/diff-format'
 import { resolveProjectCwd } from '~/utils/workspace'
 import { InitialArgsContext, TerminalSizeContext } from '../app'
 import type { AsyncTaskState } from './use-async-task'

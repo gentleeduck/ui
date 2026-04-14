@@ -11,9 +11,9 @@ import type { DuckUI } from '~/utils/preflight-configs/preflight-duckui/prefligh
 import { defaultDuckuiConfig, generateThemeCSS } from '~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs'
 import { tailwindcssDependencies } from '~/utils/preflight-configs/preflight-tailwindcss/preflight-tailwindcss.lib'
 import {
+  TYPESCRIPT_DEPENDENCIES,
   tsConfigGeneric,
   tsConfigNextjs,
-  TYPESCRIPT_DEPENDENCIES,
 } from '~/utils/preflight-configs/preflight-typescript/preflight-typescript.constants'
 import { findDuckuiRootCwd } from '~/utils/workspace'
 import type { ProgressCallback, ServiceResult } from './service.types'
