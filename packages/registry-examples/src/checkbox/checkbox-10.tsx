@@ -34,12 +34,12 @@ export default function Demo() {
             key={task.id}
             id={task.id}
             index={i}
-            _checkbox={{
+            checkbox={{
               checked: task.checked,
               onCheckedChange: (next) =>
                 setTasks((prev) => prev.map((t) => (t.id === task.id ? { ...t, checked: !!next } : t))),
             }}
-            _label={{ children: task.label }}
+            label={{ children: task.label }}
           />
         ))}
       </div>

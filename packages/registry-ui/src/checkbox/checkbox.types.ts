@@ -12,13 +12,13 @@ export interface ICheckboxProps
   onCheckedChange?: (checked: CheckedState) => void
 }
 
-export interface ICheckboxWithLabelProps extends React.HTMLProps<HTMLDivElement> {
-  _checkbox: React.ComponentPropsWithoutRef<typeof Checkbox>
-  _label: React.ComponentPropsWithoutRef<typeof Label>
+export interface ICheckboxWithLabelProps extends Omit<React.HTMLProps<HTMLDivElement>, 'label'> {
+  checkbox: React.ComponentPropsWithoutRef<typeof Checkbox>
+  label: React.ComponentPropsWithoutRef<typeof Label>
 }
 
 export type CheckboxGroupSubtasks = { id: string; title: string; checked?: CheckedState }
 export type CheckboxGroupProps = React.HTMLProps<HTMLDivElement> & {
   subtasks: CheckboxGroupSubtasks[]
-  subtasks_default_values?: ICheckboxWithLabelProps
+  defaults?: ICheckboxWithLabelProps
 }
