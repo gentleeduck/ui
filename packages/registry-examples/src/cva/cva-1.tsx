@@ -43,7 +43,7 @@ export const buttonVariants = cva(
           'border border-input border-dashed bg-background text-accent-foreground shadow-xs hover:bg-accent/50 hover:text-accent-foreground',
         default: 'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90',
         destructive: 'bg-destructive/90 text-destructive-foreground shadow-xs hover:bg-destructive/70',
-        expand_icon: 'group relative bg-primary text-primary-foreground hover:bg-primary/90',
+        expandIcon: 'group relative bg-primary text-primary-foreground hover:bg-primary/90',
         ghost: 'text-accent-foreground hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         nothing: '',
