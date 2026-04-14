@@ -25,12 +25,12 @@ const WORKSPACE_LOCAL_TARGET: Workspace.Target = { project: '.', root: '.' }
 
 const SAME_AS_COMPONENTS = '__same__'
 
-export async function preflightDuckuiResolveWorkspace(_options: InitOptions, spinner: Ora): Promise<DuckUI.Resolution> {
-  const cwd = path.resolve(_options.cwd)
+export async function preflightDuckuiResolveWorkspace(options: InitOptions, spinner: Ora): Promise<DuckUI.Resolution> {
+  const cwd = path.resolve(options.cwd)
 
-  const flagMonorepo = typeof _options.monorepo === 'boolean' ? _options.monorepo : null
-  const flagWorkspace = _options.workspace ?? null
-  const flagCssWorkspace = _options.cssWorkspace ?? null
+  const flagMonorepo = typeof options.monorepo === 'boolean' ? options.monorepo : null
+  const flagWorkspace = options.workspace ?? null
+  const flagCssWorkspace = options.cssWorkspace ?? null
   if (flagWorkspace && flagMonorepo === false) {
     spinner.warn(`${highlighter.warn('--workspace')} ignored because ${highlighter.warn('--no-monorepo')} was set.`)
   }
@@ -45,7 +45,7 @@ export async function preflightDuckuiResolveWorkspace(_options: InitOptions, spi
     monorepo = false
   } else if (flagMonorepo === true || flagWorkspace || flagCssWorkspace) {
     monorepo = true
-  } else if (_options.yes) {
+  } else if (options.yes) {
     // Non-interactive runs default to whatever auto-detection found, so a -y in a
     // turbo/pnpm/etc. repo doesn't silently fall back to single-project mode.
     monorepo = detectedKind !== null
@@ -87,7 +87,7 @@ export async function preflightDuckuiResolveWorkspace(_options: InitOptions, spi
     } else if (workspaceProjects.length === 1) {
       selected = workspaceProjects[0] ?? '.'
       spinner.info(`Using only detected workspace: ${highlighter.info(selected)}`)
-    } else if (_options.yes) {
+    } else if (options.yes) {
       selected = pickDefaultWorkspace(cwd, workspaceProjects) ?? workspaceProjects[0] ?? '.'
     } else {
       const defaultPick = pickDefaultWorkspace(cwd, workspaceProjects) ?? workspaceProjects[0] ?? null
@@ -114,7 +114,7 @@ export async function preflightDuckuiResolveWorkspace(_options: InitOptions, spi
   let cssSelected: string = selected
   if (flagCssWorkspace) {
     cssSelected = flagCssWorkspace
-  } else if (!_options.yes) {
+  } else if (!options.yes) {
     const workspaceProjects = await getWorkspaceProjects()
     const otherWorkspaces = workspaceProjects.filter((project) => path.resolve(cwd, project) !== workspaceCwd)
     if (otherWorkspaces.length > 0) {
@@ -150,7 +150,7 @@ export async function preflightDuckuiResolveWorkspace(_options: InitOptions, spi
 }
 
 export async function preflightDuckui(
-  _options: InitOptions,
+  options: InitOptions,
   resolution: DuckUI.Resolution,
   spinner: Ora,
 ): Promise<void> {
@@ -169,7 +169,7 @@ export async function preflightDuckui(
       return
     }
 
-    if (!_options.yes) {
+    if (!options.yes) {
       spinner.stop()
       const options = await prompts(duckuiPrompts)
       const { duckui } = preflightDuckuiOptionsSchema.parse(options)
@@ -183,15 +183,15 @@ export async function preflightDuckui(
 
     let parseConfigOptions: ReturnType<typeof duckuiPromptsSchema.parse>
 
-    if (_options.yes) {
+    if (options.yes) {
       parseConfigOptions = duckuiPromptsSchema.parse({
-        alias: _options.alias || '~',
-        baseColor: _options.baseColor || 'zinc',
-        css: _options.css || './src/styles.css',
-        cssVariables: _options.cssVariables ?? true,
+        alias: options.alias || '~',
+        baseColor: options.baseColor || 'zinc',
+        css: options.css || './src/styles.css',
+        cssVariables: options.cssVariables ?? true,
         monorepo: resolution.monorepo,
-        prefix: _options.prefix || '',
-        projectType: _options.projectType || 'VITE',
+        prefix: options.prefix || '',
+        projectType: options.projectType || 'VITE',
       })
     } else {
       spinner.text = `Initializing ${highlighter.info('duck-ui')} config...`
@@ -222,8 +222,8 @@ export async function preflightDuckui(
     if (exists) {
       const oldContent = await fs.readFile(cssFilePath, 'utf-8')
       if (oldContent.length > 50) {
-        let overwrite = _options.yes
-        if (!_options.yes) {
+        let overwrite = options.yes
+        if (!options.yes) {
           spinner.stop()
           ;({ overwrite } = await prompts({
             message: `The ${highlighter.info('tailwindCss')} settings already exists, do you want to overwrite it?`,
