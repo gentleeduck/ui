@@ -1,5 +1,5 @@
 export const icons = {
-  user_filled: ({ ...props }: React.SVGProps<SVGSVGElement>) => (
+  userFilled: ({ ...props }: React.SVGProps<SVGSVGElement>) => (
     <svg
       fill="currentColor"
       height="200px"
