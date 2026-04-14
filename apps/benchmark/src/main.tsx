@@ -135,7 +135,7 @@ const table_data: DuckTableOptions<Headers> = {
   sortConfig: [],
 }
 
-export const duck_table = createDuckTable<Headers>(table_data)
+export const duckTable = createDuckTable<Headers>(table_data)
 
 export function MyTable() {
   return (

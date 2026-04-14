@@ -11,7 +11,7 @@ import { useAtom, useAtomValue, useSetAtom } from '@gentleduck/state/react'
 import { ArrowDown01, ArrowUp10, Command, Minus, ToggleLeft } from 'lucide-react'
 import React from 'react'
 import { cn } from './lib/utils'
-import { duck_table } from './main'
+import { duckTable } from './main'
 import { DuckColumnValues } from './table.types'
 
 export function DuckTableBar({ className, ...props }: React.HtmlHTMLAttributes<HTMLDivElement>) {
@@ -30,7 +30,7 @@ export function DuckTableSearch({
   placeholder = 'Search Rows...',
   ...props
 }: React.ComponentPropsWithoutRef<typeof Input>) {
-  const [query, setQuery] = useAtom(duck_table.atoms.query)
+  const [query, setQuery] = useAtom(duckTable.atoms.query)
   const inputValue = typeof query === 'string' ? query : ''
 
   return (
@@ -128,8 +128,8 @@ export function DuckTableFilter<T extends readonly ComboboxItemType[]>({
 /** cool */
 
 export function DuckTableColumnView() {
-  const columns = useAtomValue(duck_table.atoms.columns)
-  const setVisibleColumns = useSetAtom(duck_table.atoms.visibleColumns)
+  const columns = useAtomValue(duckTable.atoms.columns)
+  const setVisibleColumns = useSetAtom(duckTable.atoms.visibleColumns)
   const _columns = Object.keys(columns).map((key) => {
     return {
       label: key,
@@ -184,7 +184,7 @@ export function DuckTableColumnView() {
 }
 
 export function DuckTableSortable({ header }: { header: DuckColumnValues }) {
-  const [columns, setColumns] = useAtom(duck_table.atoms.columnSort)
+  const [columns, setColumns] = useAtom(duckTable.atoms.columnSort)
   const [open, setOpen] = React.useState(false)
 
   const sort = columns.find((column) => column.label === header.label)?.direction

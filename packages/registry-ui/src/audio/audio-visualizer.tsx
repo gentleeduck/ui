@@ -5,7 +5,7 @@ import { useTheme } from 'next-themes'
 import React from 'react'
 import { useAudioDataProvider } from './audio-record'
 
-export const new_audio = (url: string) => new Audio(url)
+export const newAudio = (url: string) => new Audio(url)
 
 // Calculate bar data
 export interface IdataPoint {
@@ -21,7 +21,7 @@ export interface ICalculateBarDataParams {
   gap: number
 }
 
-export const calculate_bar_data_handler = (() => {
+export const calculateBarDataHandler = (() => {
   const cache = new Map()
 
   return ({ buffer, width, height, barWidth, gap }: ICalculateBarDataParams): IdataPoint[] => {
@@ -99,7 +99,7 @@ export interface IDrawHandlerParams {
   animationProgress: number
 }
 
-export const draw_handler = ({
+export const drawHandler = ({
   data,
   canvas,
   barWidth,
@@ -154,7 +154,7 @@ export interface IProcessBlobParams {
   height: number
 }
 
-export const process_blob = async ({
+export const processBlob = async ({
   canvasRef,
   blob,
   barWidth,
@@ -177,7 +177,7 @@ export const process_blob = async ({
     min: minBarHeight,
   }))
 
-  draw_handler({
+  drawHandler({
     animationProgress: 1,
     backgroundColor,
     barColor,
@@ -201,7 +201,7 @@ export const process_blob = async ({
     setDuration(buffer.duration)
 
     // Calculate the waveform data for the entire audio buffer
-    const barsData = calculate_bar_data_handler({
+    const barsData = calculateBarDataHandler({
       barWidth,
       buffer,
       gap,
@@ -225,7 +225,7 @@ export const process_blob = async ({
       // Update animation progress using a ref
       setAnimationProgress(progress)
 
-      draw_handler({
+      drawHandler({
         animationProgress: progress,
         backgroundColor,
         barColor,
@@ -353,7 +353,7 @@ const AudioVisualizer: React.FC<IAudioVisualizerProps> = ({
 
   React.useEffect(() => {
     if (!canvasRef.current) return
-    draw_handler({
+    drawHandler({
       animationProgress,
       backgroundColor: currentColors.backgroundColor,
       barColor: currentColors.barColor,
