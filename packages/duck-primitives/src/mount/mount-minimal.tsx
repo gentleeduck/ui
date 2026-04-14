@@ -20,16 +20,16 @@ function MountMinimal({
   skipWaiting = false,
   renderOnce = false,
 }: MountMinimalProps) {
-  const [_shouldRender, setShouldRender] = React.useState(false)
+  const [hasForceMounted, setHasForceMounted] = React.useState(false)
   const [isVisible, setIsVisible] = React.useState(false)
   const [hasRenderedOnce, setHasRenderedOnce] = React.useState(false)
   const timeoutRef = React.useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const shouldRender = forceMount ? _shouldRender : open
+  const shouldRender = forceMount ? hasForceMounted : open
 
   React.useEffect(() => {
     if (open && forceMount) {
-      setShouldRender(true)
+      setHasForceMounted(true)
     }
 
     if (shouldRender) {
