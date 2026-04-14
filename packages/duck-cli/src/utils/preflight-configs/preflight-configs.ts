@@ -6,14 +6,14 @@ import { preflightDuckui, preflightDuckuiResolveWorkspace } from './preflight-du
 import { preflightTailwindcss } from './preflight-tailwindcss'
 import { preflightTypescript } from './preflight-typescript'
 
-export async function preflightConfigs(_options: InitOptions, spinner: Ora): Promise<DuckUI.Resolution> {
+export async function preflightConfigs(options: InitOptions, spinner: Ora): Promise<DuckUI.Resolution> {
   try {
     spinner.text = `${highlighter.info('Preflighting required configs...')}`
 
     // Resolve workspace BEFORE running typescript/tailwind preflights — those write into
     // the cwd we hand them, and that cwd needs to be the picked workspace, not the root.
-    const resolution = await preflightDuckuiResolveWorkspace(_options, spinner)
-    const workspaceOptions: InitOptions = { ..._options, cwd: resolution.workspaceCwd }
+    const resolution = await preflightDuckuiResolveWorkspace(options, spinner)
+    const workspaceOptions: InitOptions = { ...options, cwd: resolution.workspaceCwd }
 
     if (resolution.monorepo) {
       spinner.info(`Using workspace: ${highlighter.info(resolution.workspaceCwd)}`)
@@ -24,7 +24,7 @@ export async function preflightConfigs(_options: InitOptions, spinner: Ora): Pro
 
     // Tailwind belongs to whichever package owns the CSS file; when the user picks a
     // dedicated styles package, that's where tailwindcss + the CSS file get installed.
-    const cssOptions: InitOptions = { ..._options, cwd: resolution.cssWorkspaceCwd }
+    const cssOptions: InitOptions = { ...options, cwd: resolution.cssWorkspaceCwd }
 
     await preflightTypescript(workspaceOptions, spinner)
     await preflightTailwindcss(cssOptions, spinner)
