@@ -2,7 +2,6 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import * as AccordionPrimitive from '@gentleduck/primitives/accordion'
-import { MountMinimal } from '@gentleduck/primitives/mount'
 import { ChevronDown } from 'lucide-react'
 import * as React from 'react'
 
@@ -73,42 +72,31 @@ const AccordionContent = React.forwardRef<
 >(({ className, children, rerender: _rerender = false, ...props }, ref) => {
   const renderOnce = React.useContext(AccordionRenderOnceContext)
   const { open } = AccordionPrimitive.useAccordionItemContext('AccordionContent', undefined)
-  const contentRef = React.useRef<HTMLDivElement | null>(null)
+  const [hasOpened, setHasOpened] = React.useState(open)
+
+  React.useEffect(() => {
+    if (open) setHasOpened(true)
+  }, [open])
+
+  if (renderOnce && !hasOpened) return null
 
   return (
-    <MountMinimal open={open} ref={contentRef.current as never} renderOnce={renderOnce}>
-      <AccordionPrimitive.Content
-        ref={(node) => {
-          contentRef.current = node
-          if (typeof ref === 'function') {
-            ref(node)
-          } else if (ref) {
-            ref.current = node
-          }
-        }}
-        forceMount
-        inert={!open || undefined}
-        className={cn(
-          'group/accordion-content grid overflow-hidden will-change-[grid-template-rows,opacity]',
-          'data-[state=closed]:grid-rows-[0fr] data-[state=open]:grid-rows-[1fr]',
-          'data-[state=closed]:opacity-0 data-[state=open]:opacity-100',
-          'data-[state=closed]:pointer-events-none',
-          'transition-[grid-template-rows,opacity] transition-discrete duration-[240ms,200ms] ease-(--gentleduck-motion-ease)',
-          'motion-reduce:transition-none',
-          className,
-        )}
-        {...props}>
-        <div
-          className={cn(
-            'min-h-0 overflow-hidden pt-0 pb-4 font-sans not-italic text-base will-change-transform',
-            'transition-[transform,opacity] duration-[240ms] ease-(--gentleduck-motion-ease) motion-reduce:transition-none',
-            'group-data-[state=closed]/accordion-content:-translate-y-1 group-data-[state=closed]/accordion-content:opacity-0',
-            'group-data-[state=open]/accordion-content:translate-y-0 group-data-[state=open]/accordion-content:opacity-100',
-          )}>
-          {children}
-        </div>
-      </AccordionPrimitive.Content>
-    </MountMinimal>
+    <AccordionPrimitive.Content
+      ref={ref}
+      forceMount
+      inert={!open || undefined}
+      className={cn(
+        'block overflow-hidden font-sans not-italic text-base will-change-[height,opacity]',
+        'data-[state=closed]:h-0 data-[state=open]:h-auto',
+        'data-[state=closed]:opacity-0 data-[state=open]:opacity-100',
+        'data-[state=closed]:pointer-events-none',
+        'transition-[height,opacity] duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
+        'motion-reduce:transition-none',
+        className,
+      )}
+      {...props}>
+      <div className="pt-0 pb-4">{children}</div>
+    </AccordionPrimitive.Content>
   )
 })
 AccordionContent.displayName = 'AccordionContent'
