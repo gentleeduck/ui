@@ -14,8 +14,8 @@ type ProjectType = (typeof PROJECT_TYPE)[number]
 import {
   POST_CSS_NEXTJS,
   TAILWINDCSS_BOILERPLATE,
-  tailwindcssInstallPrompts,
   TAILWINDCSS_VITE,
+  tailwindcssInstallPrompts,
 } from './preflight-tailwindcss.constants'
 
 export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {

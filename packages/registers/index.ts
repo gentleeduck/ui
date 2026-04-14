@@ -1,10 +1,4 @@
-import {
-  registryAuth,
-  registryCalendar,
-  registryCharts,
-  registryDashboards,
-  registrySidebar,
-} from './registry-blocks'
+import { registryAuth, registryCalendar, registryCharts, registryDashboards, registrySidebar } from './registry-blocks'
 import { registryExamples } from './registry-examples'
 import { registryInternal } from './registry-internal'
 import type { Registry } from './registry-schema'

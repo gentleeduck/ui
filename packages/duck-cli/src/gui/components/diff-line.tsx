@@ -1,7 +1,7 @@
 import { Box, Text } from 'ink'
 import { memo } from 'react'
-import { THEME } from '../app.constants'
 import type { Diff } from '~/utils/diff-format'
+import { THEME } from '../app.constants'
 import { getConflictMarkerColor } from './conflict-markers'
 import { getRenderableDiffSegments } from './diff-line.libs'
 

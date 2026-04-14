@@ -4,7 +4,7 @@ import fs from 'fs-extra'
 import type { Ora } from 'ora'
 import { getPackageManager } from '../../get-package-manager'
 import { highlighter } from '../../text-styling'
-import { tsConfigGeneric, tsConfigNextjs, TYPESCRIPT_DEPENDENCIES } from './preflight-typescript.constants'
+import { TYPESCRIPT_DEPENDENCIES, tsConfigGeneric, tsConfigNextjs } from './preflight-typescript.constants'
 
 export async function installTypescript(cwd: string, spinner: Ora) {
   try {
