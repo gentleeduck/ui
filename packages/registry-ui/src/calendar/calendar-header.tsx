@@ -1,13 +1,12 @@
 'use client'
 
-import { buildCalendarYear, goToMonth, goToYear, type IDateAdapter, NativeAdapter } from '@gentleduck/calendar'
+import { buildCalendarYear, goToMonth, goToYear, NativeAdapter } from '@gentleduck/calendar'
 import { cn } from '@gentleduck/libs/cn'
-import { tapScale } from '@gentleduck/motion/presets/content'
 import { CheckIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
-import { m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from '../button'
-import { getCachedNumberFormat } from './calendar.utils'
+import { getCachedNumberFormat } from './calendar.libs'
+import type { ICalendarHeaderProps } from './calendar.types'
 
 const defaultAdapter = new NativeAdapter()
 
@@ -66,7 +65,7 @@ function VirtualizedDropdown({
       className={cn(
         'overflow-y-auto rounded-md border bg-popover p-1 shadow-md',
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=open]:slide-in-from-top-2 data-[state=closed]:slide-out-to-top-2 origin-top data-[state=closed]:hidden data-[state=closed]:animate-out data-[state=open]:animate-in',
-        'transition-all transition-discrete duration-150 ease-(--duck-motion-ease)',
+        'transition-all transition-discrete duration-150 ease-(--gentleduck-motion-ease)',
       )}
       style={{ height: LIST_HEIGHT, scrollBehavior: 'auto' }}
       onScroll={(e) => setScrollTop(e.currentTarget.scrollTop)}>
@@ -110,35 +109,16 @@ function VirtualizedDropdown({
 // DropdownTrigger  -  shared trigger button
 // ---------------------------------------------------------------------------
 
-function DropdownTrigger({
-  label,
-  open,
-  onClick,
-  useMotion,
-}: {
-  label: string
-  open: boolean
-  onClick: () => void
-  useMotion?: boolean
-}) {
-  const cls =
-    'flex h-7 w-fit shrink-0 items-center gap-1 whitespace-nowrap rounded-md border px-2 font-medium text-sm shadow-xs'
-  const children = (
-    <>
+function DropdownTrigger({ label, open, onClick }: { label: string; open: boolean; onClick: () => void }) {
+  return (
+    <button
+      type="button"
+      dir="ltr"
+      aria-expanded={open}
+      onClick={onClick}
+      className="flex h-7 w-fit shrink-0 items-center gap-1 whitespace-nowrap rounded-md border px-2 font-medium text-sm shadow-xs">
       <span dir="auto">{label}</span>
       <ChevronDownIcon className="size-3 text-muted-foreground" />
-    </>
-  )
-  if (useMotion) {
-    return (
-      <m.button type="button" dir="ltr" aria-expanded={open} onClick={onClick} whileTap={tapScale} className={cls}>
-        {children}
-      </m.button>
-    )
-  }
-  return (
-    <button type="button" dir="ltr" aria-expanded={open} onClick={onClick} className={cls}>
-      {children}
     </button>
   )
 }
@@ -147,24 +127,7 @@ function DropdownTrigger({
 // CalendarHeader
 // ---------------------------------------------------------------------------
 
-interface ICalendarHeaderProps {
-  adapter?: IDateAdapter<Date>
-  month: Date
-  title: string
-  direction: 'ltr' | 'rtl'
-  locale?: string
-  buttonVariant: string
-  showDropdowns: boolean
-  yearRange: { from: number; to: number }
-  getNavProps: (dir: 'prev' | 'next') => { 'aria-label': string; disabled: boolean; onClick: () => void }
-  getHeaderProps: () => { id: string; 'aria-live': 'polite' }
-  onMonthSelect: (date: Date) => void
-  /** When true, renders motion-powered buttons with tap feedback. Must be inside LazyMotion. */
-  useMotionButtons?: boolean
-}
-
 function NavButton({
-  useMotion,
   className,
   children,
   onDrag: _d,
@@ -172,14 +135,7 @@ function NavButton({
   onDragEnd: _de,
   onAnimationStart: _as,
   ...props
-}: React.ButtonHTMLAttributes<HTMLButtonElement> & { useMotion?: boolean }) {
-  if (useMotion) {
-    return (
-      <m.button type="button" whileTap={tapScale} className={className} {...props}>
-        {children}
-      </m.button>
-    )
-  }
+}: React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button type="button" className={className} {...props}>
       {children}
@@ -204,7 +160,6 @@ export function CalendarHeader({
   getNavProps,
   getHeaderProps,
   onMonthSelect,
-  useMotionButtons = false,
 }: ICalendarHeaderProps) {
   const adapter = adapterProp ?? defaultAdapter
   const headerProps = getHeaderProps()
@@ -251,7 +206,6 @@ export function CalendarHeader({
     <div className="flex h-(--gentleduck-calendar-cell) w-full items-center justify-center px-(--gentleduck-calendar-cell)">
       <div className="absolute inset-x-0 top-0 flex w-full items-center justify-between gap-1">
         <NavButton
-          useMotion={useMotionButtons}
           {...getNavProps('prev')}
           className={cn(
             buttonVariants({ variant: buttonVariant as 'ghost' }),
@@ -271,7 +225,6 @@ export function CalendarHeader({
               <DropdownTrigger
                 label={adapter.format(month, { month: isArabic ? 'long' : 'short' }, formatLocaleTag)}
                 open={monthOpen}
-                useMotion={useMotionButtons}
                 onClick={() => {
                   setMonthOpen((o) => !o)
                   setYearOpen(false)
@@ -299,7 +252,6 @@ export function CalendarHeader({
                     : String(currentYear)
                 }
                 open={yearOpen}
-                useMotion={useMotionButtons}
                 onClick={() => {
                   setYearOpen((o) => !o)
                   setMonthOpen(false)
@@ -325,7 +277,6 @@ export function CalendarHeader({
         )}
 
         <NavButton
-          useMotion={useMotionButtons}
           {...getNavProps('next')}
           className={cn(
             buttonVariants({ variant: buttonVariant as 'ghost' }),

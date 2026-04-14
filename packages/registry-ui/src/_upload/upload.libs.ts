@@ -1,7 +1,7 @@
 import { toast } from 'sonner'
 import { uuidv7 } from 'uuidv7'
 import { FileTypeEnum } from './upload.constants'
-import { FileType } from './upload.types'
+import type { IFileType } from './upload.types'
 
 export const getFileType = (type: string): string => {
   if (!type) return FileTypeEnum.Unknown
@@ -18,13 +18,13 @@ export const getAttachmentsToState = ({
   setAttachmentsState,
 }: {
   e: React.ChangeEvent<HTMLInputElement>
-  setAttachmentsState: React.Dispatch<React.SetStateAction<FileType[]>>
+  setAttachmentsState: React.Dispatch<React.SetStateAction<IFileType[]>>
 }) => {
   const files = e.currentTarget.files
 
   if (!files) return toast.error('Please select a file')
 
-  const newAttachments: FileType[] = []
+  const newAttachments: IFileType[] = []
 
   for (let i = 0; i < files.length; i++) {
     const file = files[i]
@@ -38,7 +38,7 @@ export const getAttachmentsToState = ({
     //   // continue // Skip this file and continue with the next
     // }
 
-    const attachment: FileType = {
+    const attachment: IFileType = {
       file: file,
       id: uuidv7(),
       name: file.name,
@@ -54,7 +54,7 @@ export const getAttachmentsToState = ({
   e.currentTarget.value = ''
 }
 
-export const downloadAttachment = async ({ attachment }: { attachment: FileType }) => {
+export const downloadAttachment = async ({ attachment }: { attachment: IFileType }) => {
   if (attachment.file) {
     const file: Blob = attachment.file as Blob
     return download(file, attachment.name ?? 'image.jpg')

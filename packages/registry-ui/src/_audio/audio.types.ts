@@ -1,5 +1,5 @@
 export interface IRecordingParams {
-  setRecordings: React.Dispatch<React.SetStateAction<IRecordingtType[]>>
+  setRecordings: React.Dispatch<React.SetStateAction<IRecordingType[]>>
   setRecordedDuration: React.Dispatch<React.SetStateAction<number>>
   audioChunksRef: React.RefObject<Blob[]>
 }
@@ -24,7 +24,7 @@ export interface IStartTimerParams
     Pick<IRecordingParams, 'setRecordedDuration'> {}
 
 export interface IStartRecordingHandlerParams extends IStopRecordingHandlerParam, IRecordingParams {}
-export interface IRecordingtType {
+export interface IRecordingType {
   id: string
   file: File | null
   url: string | null
@@ -32,6 +32,7 @@ export interface IRecordingtType {
   name: string
   size: string
 }
+export type IRecordingtType = IRecordingType
 
 export interface IVisualizerClickHandlerParams {
   audioRef: React.RefObject<HTMLAudioElement | null>

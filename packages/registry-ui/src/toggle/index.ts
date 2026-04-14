@@ -1,2 +1,3 @@
-export { MotionToggle, Toggle } from './toggle'
+export { MotionToggle } from './motion-toggle'
+export { Toggle } from './toggle'
 export { toggleVariants } from './toggle.constants'

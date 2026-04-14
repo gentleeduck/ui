@@ -1,13 +1,8 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { loadDomAnimation } from '@gentleduck/motion/motion-features'
-import { useMotionPreset } from '@gentleduck/motion/motion-presets'
-import { scaleIn } from '@gentleduck/motion/presets/scale-in'
-import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import * as InputOTPPrimitive from '@gentleduck/primitives/input-otp'
 import { Dot } from 'lucide-react'
-import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
 const InputOTP = React.forwardRef<
@@ -68,31 +63,4 @@ InputOTPSeparator.displayName = 'InputOTPSeparator'
 const REGEXP_ONLY_DIGITS_AND_CHARS = InputOTPPrimitive.REGEXP_ONLY_DIGITS_AND_CHARS
 const REGEXP_ONLY_DIGITS = InputOTPPrimitive.REGEXP_ONLY_DIGITS
 
-/* ------------------------------------------------------------------ */
-/*  Motion variants                                                    */
-/* ------------------------------------------------------------------ */
-
-const MotionInputOTP = React.forwardRef<
-  React.ComponentRef<typeof InputOTPPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof InputOTPPrimitive.Root>
->((props, ref) => {
-  const content = useMotionPreset(scaleIn, { transition: springBouncy })
-  return (
-    <LazyMotion features={loadDomAnimation}>
-      <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
-        <InputOTP ref={ref} {...props} />
-      </m.div>
-    </LazyMotion>
-  )
-})
-MotionInputOTP.displayName = 'MotionInputOTP'
-
-export {
-  InputOTP,
-  InputOTPGroup,
-  InputOTPSeparator,
-  InputOTPSlot,
-  MotionInputOTP,
-  REGEXP_ONLY_DIGITS,
-  REGEXP_ONLY_DIGITS_AND_CHARS,
-}
+export { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot, REGEXP_ONLY_DIGITS, REGEXP_ONLY_DIGITS_AND_CHARS }

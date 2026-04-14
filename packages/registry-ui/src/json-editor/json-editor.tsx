@@ -1,13 +1,8 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { loadDomAnimation } from '@gentleduck/motion/motion-features'
-import { useMotionPreset } from '@gentleduck/motion/motion-presets'
-import { scaleIn } from '@gentleduck/motion/presets/scale-in'
-import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { Portal } from '@gentleduck/primitives/portal'
 import { Maximize } from 'lucide-react'
-import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import type { FieldValues } from 'react-hook-form'
 import { useController } from 'react-hook-form'
@@ -22,16 +17,16 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '../alert-dialog'
-import { Button, MotionButton } from '../button'
+import { Button } from '../button'
 import { Field, FieldDescription, FieldError, FieldLabel } from '../field'
-import { MotionPopover, MotionPopoverContent, Popover, PopoverContent, PopoverTrigger } from '../popover'
-import { MotionSheet, MotionSheetContent, Sheet, SheetContent, SheetHeader, SheetTitle } from '../sheet'
+import { Popover, PopoverContent, PopoverTrigger } from '../popover'
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '../sheet'
 import { useJsonEditorHotkeys } from './json-editor.hooks'
 import { formatJson, isObjectLike, safeStringify, tryParseJson } from './json-editor.libs'
-import type { JsonEditorText, JsonTextareaFieldProps } from './json-editor.types'
+import type { IJsonEditorText, IJsonTextareaFieldProps } from './json-editor.types'
 import { JsonEditorView } from './json-editor.view'
 
-type ComponentOverrides = {
+interface IComponentOverrides {
   Button: typeof Button
   Popover: typeof Popover
   PopoverContent: typeof PopoverContent
@@ -39,17 +34,10 @@ type ComponentOverrides = {
   SheetContent: typeof SheetContent
 }
 
-const defaultComponents: ComponentOverrides = { Button, Popover, PopoverContent, Sheet, SheetContent }
-const motionComponents: ComponentOverrides = {
-  Button: MotionButton,
-  Popover: MotionPopover as typeof Popover,
-  PopoverContent: MotionPopoverContent as typeof PopoverContent,
-  Sheet: MotionSheet as typeof Sheet,
-  SheetContent: MotionSheetContent as typeof SheetContent,
-}
+const defaultComponents: IComponentOverrides = { Button, Popover, PopoverContent, Sheet, SheetContent }
 
 export function JsonTextareaField<TFieldValues extends FieldValues>(
-  props: JsonTextareaFieldProps<TFieldValues> & { _components?: ComponentOverrides },
+  props: IJsonTextareaFieldProps<TFieldValues> & { components?: IComponentOverrides },
 ): React.JSX.Element {
   const {
     control,
@@ -72,12 +60,12 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
     sheetTitle = 'Edit JSON',
     text: textProp,
     onExpandEditor,
-    _components: componentOverrides,
+    components: componentOverrides,
   } = props
 
   const C = componentOverrides ?? defaultComponents
 
-  const t: Required<JsonEditorText> = {
+  const t: Required<IJsonEditorText> = {
     format: textProp?.format ?? 'Format',
     cancel: textProp?.cancel ?? 'Cancel',
     save: textProp?.save ?? 'Save',
@@ -447,17 +435,3 @@ export function JsonTextareaField<TFieldValues extends FieldValues>(
   )
 }
 JsonTextareaField.displayName = 'JsonTextareaField'
-
-export function MotionJsonTextareaField<TFieldValues extends FieldValues>(
-  props: JsonTextareaFieldProps<TFieldValues>,
-): React.JSX.Element {
-  const content = useMotionPreset(scaleIn, { transition: springBouncy })
-  return (
-    <LazyMotion features={loadDomAnimation}>
-      <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
-        <JsonTextareaField {...props} _components={motionComponents} />
-      </m.div>
-    </LazyMotion>
-  )
-}
-MotionJsonTextareaField.displayName = 'MotionJsonTextareaField'

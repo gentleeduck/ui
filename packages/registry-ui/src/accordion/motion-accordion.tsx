@@ -73,7 +73,7 @@ const MotionAccordionTrigger = React.forwardRef<
         <m.button
           ref={ref}
           className={cn(
-            'flex w-full cursor-pointer select-none items-center justify-between py-4 font-sans font-medium not-italic text-base ring-offset-background transition-all hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
+            'flex w-full cursor-pointer select-none items-center justify-between py-4 font-medium font-sans text-base not-italic ring-offset-background transition-all hover:underline focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2',
             className,
           )}>
           <m.span
@@ -124,7 +124,7 @@ const MotionAccordionContent = React.forwardRef<
             filter: { duration: duckMotionDuration.normal, delay: open ? 0.05 : 0 },
           }}
           style={{ overflow: 'hidden' }}>
-          <div className={cn('pt-0 pb-4 font-sans not-italic text-base', className)}>{children}</div>
+          <div className={cn('pt-0 pb-4 font-sans text-base not-italic', className)}>{children}</div>
         </m.div>
       </AccordionPrimitive.Content>
     </LazyMotion>

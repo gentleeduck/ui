@@ -1,14 +1,9 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { loadDomAnimation } from '@gentleduck/motion/motion-features'
-import { useMotionPreset } from '@gentleduck/motion/motion-presets'
-import { scaleIn } from '@gentleduck/motion/presets/scale-in'
-import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import * as CommandPrimitive from '@gentleduck/primitives/command'
 import { useKeyCommands } from '@gentleduck/vim/react'
 import { Search } from 'lucide-react'
-import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '../dialog'
 import { ScrollArea } from '../scroll-area'
@@ -100,7 +95,7 @@ const CommandGroup = React.forwardRef<
 ))
 CommandGroup.displayName = CommandPrimitive.Group.displayName
 
-const commandItemClassName =
+export const COMMAND_ITEM_CLASSNAME =
   'relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-hidden transition-color duration-300 hover:bg-muted hover:text-accent-foreground data-disabled:pointer-events-none data-highlighted:bg-accent data-highlighted:text-accent-foreground data-disabled:opacity-50 [&_svg]:size-4'
 
 const CommandItem = React.forwardRef<
@@ -110,37 +105,11 @@ const CommandItem = React.forwardRef<
   <CommandPrimitive.Item
     ref={ref}
     data-slot="command-item"
-    className={cn(commandItemClassName, className)}
+    className={cn(COMMAND_ITEM_CLASSNAME, className)}
     {...props}
   />
 ))
 CommandItem.displayName = CommandPrimitive.Item.displayName
-
-const MotionCommandItem = React.forwardRef<
-  React.ComponentRef<typeof CommandPrimitive.Item>,
-  Omit<
-    React.ComponentPropsWithoutRef<typeof CommandPrimitive.Item>,
-    'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
-  > & { index?: number }
->(({ className, index = 0, children, ...props }, ref) => {
-  const options = React.useMemo(() => ({ transition: springBouncy, delay: index * 0.03 }), [index])
-  const content = useMotionPreset(scaleIn, options)
-  return (
-    <LazyMotion features={loadDomAnimation}>
-      <CommandPrimitive.Item asChild ref={ref} {...props}>
-        <m.li
-          className={cn(commandItemClassName, className)}
-          data-slot="command-item"
-          initial={content.initial}
-          animate={content.animate}
-          transition={content.transition}>
-          {children}
-        </m.li>
-      </CommandPrimitive.Item>
-    </LazyMotion>
-  )
-})
-MotionCommandItem.displayName = 'MotionCommandItem'
 
 const CommandSeparator = React.forwardRef<
   React.ComponentRef<typeof CommandPrimitive.Separator>,
@@ -200,7 +169,7 @@ function CommandDialog({
   return (
     <Dialog {...props}>
       <DialogContent
-        className={cn('h-125 max-w-full p-0 transition-all duration-200 lg:w-[700px]', contentClassName)}
+        className={cn('h-125 max-w-full p-0 transition-all duration-200 lg:w-175', contentClassName)}
         hideClose>
         <DialogTitle className="sr-only">Command palette</DialogTitle>
         <DialogDescription className="sr-only">Search for commands and navigation items</DialogDescription>
@@ -227,6 +196,5 @@ export {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-  MotionCommandItem,
   useCommandListContext,
 }

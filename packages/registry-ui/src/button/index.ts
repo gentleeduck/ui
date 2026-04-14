@@ -1,4 +1,4 @@
-export { AnimationIcon, Button, MotionButton } from './button'
-export type { ButtonBorder, ButtonSize, ButtonVariant, IButtonVariantOptions } from './button.constants'
+export { AnimationIcon, Button } from './button'
 export { buttonVariants } from './button.constants'
-export type { AnimationIconProps, IButtonProps } from './button.types'
+export type { IButtonAnimationIconProps, IButtonProps } from './button.types'
+export { MotionButton } from './motion-button'

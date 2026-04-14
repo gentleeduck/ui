@@ -1,6 +1,7 @@
-export * from './audio-record'
 export type {
+  IAudioVisualizerProps,
   ICalculateBarDataParams,
+  IDataPoint,
   IDrawHandlerParams,
   IdataPoint,
   IProcessBlobParams,

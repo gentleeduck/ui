@@ -5,10 +5,6 @@ import { type Direction, useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 import { Drawer as DrawerPrimitive } from 'vaul'
 
-type DrawerProps = React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Root> & {
-  dir?: Direction
-}
-
 function resolveDrawerDirection(
   direction: NonNullable<React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Root>['direction']>,
   dir: Direction,
@@ -19,7 +15,12 @@ function resolveDrawerDirection(
   return direction
 }
 
-function Drawer({ direction: drawerDirection = 'bottom', shouldScaleBackground = true, dir, ...props }: DrawerProps) {
+function Drawer({
+  direction: drawerDirection = 'bottom',
+  shouldScaleBackground = true,
+  dir,
+  ...props
+}: React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Root> & { dir?: Direction }) {
   const direction = useDirection(dir)
   const resolvedDirection = resolveDrawerDirection(drawerDirection, direction)
 
@@ -40,9 +41,9 @@ const DrawerTrigger: React.ForwardRefExoticComponent<
 > = React.forwardRef((props, ref) => <DrawerPrimitive.Trigger ref={ref} {...props} data-slot="drawer-trigger" />)
 DrawerTrigger.displayName = 'DrawerTrigger'
 
-const DrawerPortal: React.FC<React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Portal>> = (props) => (
-  <DrawerPrimitive.Portal {...props} data-slot="drawer-portal" />
-)
+function DrawerPortal(props: React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Portal>) {
+  return <DrawerPrimitive.Portal {...props} data-slot="drawer-portal" />
+}
 DrawerPortal.displayName = 'DrawerPortal'
 
 const DrawerClose: React.ForwardRefExoticComponent<
@@ -64,13 +65,11 @@ const DrawerOverlay: React.ForwardRefExoticComponent<
 ))
 DrawerOverlay.displayName = 'DrawerOverlay'
 
-type DrawerContentProps = React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> & {
-  dir?: Direction
-  overlayProps?: React.ComponentPropsWithoutRef<typeof DrawerOverlay>
-}
-
 const DrawerContent: React.ForwardRefExoticComponent<
-  DrawerContentProps & React.RefAttributes<React.ComponentRef<typeof DrawerPrimitive.Content>>
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> & {
+    dir?: Direction
+    overlayProps?: React.ComponentPropsWithoutRef<typeof DrawerOverlay>
+  } & React.RefAttributes<React.ComponentRef<typeof DrawerPrimitive.Content>>
 > = React.forwardRef(({ className, children, dir, overlayProps, ...props }, ref) => {
   const direction = useDirection(dir)
 

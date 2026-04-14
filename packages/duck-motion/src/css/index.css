@@ -1,6 +1,6 @@
 :root {
-  --duck-motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
-  --duck-motion-spring: linear(
+  --gentleduck-motion-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --gentleduck-motion-spring: linear(
     0,
     0.0018,
     0.0069 1.16%,
@@ -26,7 +26,7 @@
     0.9981 80.42%,
     0.9991 99.87%
   );
-  --duck-motion-dur: 150ms;
+  --gentleduck-motion-dur: 150ms;
 }
 
 @media (prefers-reduced-motion: reduce) {

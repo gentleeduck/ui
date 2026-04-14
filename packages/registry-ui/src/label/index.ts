@@ -1,2 +1,3 @@
 export type { ILabelProps } from './label'
-export { Label, MotionLabel } from './label'
+export { Label } from './label'
+export { MotionLabel } from './motion-label'

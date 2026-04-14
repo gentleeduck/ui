@@ -1,6 +1,5 @@
+export { MotionSheet, MotionSheetContent } from './motion-sheet'
 export {
-  MotionSheet,
-  MotionSheetContent,
   Sheet,
   SheetClose,
   SheetContent,

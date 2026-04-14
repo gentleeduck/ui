@@ -22,7 +22,7 @@ export interface IButtonProps
 /**
  * Props for components that support optional animated icons.
  */
-export type AnimationIconProps = {
+export interface IButtonAnimationIconProps {
   /** The content inside the icon wrapper */
   children: React.ReactNode
   /**

@@ -1,1 +1,2 @@
-export { AspectRatio, MotionAspectRatio } from './aspect-ratio'
+export { AspectRatio } from './aspect-ratio'
+export { MotionAspectRatio } from './motion-aspect-ratio'

@@ -1,5 +1,5 @@
+export { MotionNavigationMenu } from './motion-navigation-menu'
 export {
-  MotionNavigationMenu,
   NavigationMenu,
   NavigationMenuContent,
   NavigationMenuIndicator,

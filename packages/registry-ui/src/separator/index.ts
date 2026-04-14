@@ -1,1 +1,2 @@
-export { MotionSeparator, Separator } from './separator'
+export { MotionSeparator } from './motion-separator'
+export { Separator } from './separator'

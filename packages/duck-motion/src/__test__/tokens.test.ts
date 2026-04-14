@@ -92,11 +92,11 @@ describe('duckMotionCssVar', () => {
   })
 
   test('duration var name starts with --duck-motion-', () => {
-    expect(duckMotionCssVar.duration).toContain('--duck-motion-dur')
+    expect(duckMotionCssVar.duration).toContain('--gentleduck-motion-dur')
   })
 
   test('easing var name starts with --duck-motion-', () => {
-    expect(duckMotionCssVar.easing).toContain('--duck-motion-ease')
+    expect(duckMotionCssVar.easing).toContain('--gentleduck-motion-ease')
   })
 
   test('duration fallback includes ms unit', () => {
@@ -109,12 +109,12 @@ describe('duckMotionCssVar', () => {
     expect(fallback).toMatch(/^cubic-bezier\(/)
   })
 
-  test('duration is exactly var(--duck-motion-dur, 150ms)', () => {
-    expect(duckMotionCssVar.duration).toBe('var(--duck-motion-dur, 150ms)')
+  test('duration is exactly var(--gentleduck-motion-dur, 150ms)', () => {
+    expect(duckMotionCssVar.duration).toBe('var(--gentleduck-motion-dur, 150ms)')
   })
 
-  test('easing is exactly var(--duck-motion-ease, cubic-bezier(0.4, 0, 0.2, 1))', () => {
-    expect(duckMotionCssVar.easing).toBe('var(--duck-motion-ease, cubic-bezier(0.4, 0, 0.2, 1))')
+  test('easing is exactly var(--gentleduck-motion-ease, cubic-bezier(0.4, 0, 0.2, 1))', () => {
+    expect(duckMotionCssVar.easing).toBe('var(--gentleduck-motion-ease, cubic-bezier(0.4, 0, 0.2, 1))')
   })
 
   test('duration fallback matches duckDuration.fast', () => {

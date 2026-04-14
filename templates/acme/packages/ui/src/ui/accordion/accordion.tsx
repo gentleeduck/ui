@@ -159,15 +159,15 @@ const AccordionItem = React.forwardRef<
     value?: string
   }
 >(({ className, children, onClick, onKeyUp, value, dir, ...props }, ref) => {
-  const { onItemChange, value: _value = [], renderOnce } = React.useContext(AccordionContext) ?? {}
-  const isActive = _value.includes(value as string)
-  const _children = Array.from(children as never as React.ReactNode[])
+  const { onItemChange, value: activeValues = [], renderOnce } = React.useContext(AccordionContext) ?? {}
+  const isActive = activeValues.includes(value as string)
+  const childArray = Array.from(children as never as React.ReactNode[])
   const direction = useDirection(dir as Direction)
 
   return (
     <details
       className={cn(
-        'group details-content:h-0 details-content:transform-gpu overflow-hidden border-border border-b details-content:transition-all details-content:transition-discrete details-content:duration-[200ms,150ms] details-content:ease-(--duck-motion-ease) details-content:will-change-[height] open:details-content:h-auto',
+        'group details-content:h-0 details-content:transform-gpu overflow-hidden border-border border-b details-content:transition-all details-content:transition-discrete details-content:duration-[200ms,150ms] details-content:ease-(--gentleduck-motion-ease) details-content:will-change-[height] open:details-content:h-auto',
         className,
       )}
       id={value}
@@ -185,9 +185,9 @@ const AccordionItem = React.forwardRef<
       ref={ref}
       {...props}
       data-slot="accordion-item">
-      {_children[0]}
+      {childArray[0]}
       <Mount open={renderOnce ? isActive : true} renderOnce={renderOnce ?? false}>
-        {_children[1]}
+        {childArray[1]}
       </Mount>
     </details>
   )
@@ -230,7 +230,7 @@ const AccordionContent = React.forwardRef<HTMLDivElement, React.HTMLProps<HTMLDi
       <div
         className={cn(
           'overflow-hidden pt-0 pb-4 text-base',
-          'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+          'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
           className,
         )}
         data-slot="accordion-content"

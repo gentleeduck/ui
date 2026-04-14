@@ -29,7 +29,7 @@ import { motionTransition, useDuckReducedMotion } from '@gentleduck/motion'
 
 ```tsx
 const reduced = useDuckReducedMotion()
-const transition = motionTransition(reduced, { duration: 240, easing: 'var(--duck-motion-ease)' })
+const transition = motionTransition(reduced, { duration: 240, easing: 'var(--gentleduck-motion-ease)' })
 ```
 
 ## Motion Library Integration
@@ -122,9 +122,9 @@ Each returns `{ initial, animate, exit, transition }`. When `prefers-reduced-mot
 
 `@gentleduck/motion/css` provides motion tokens and `prefers-reduced-motion` defaults:
 
-- `--duck-motion-ease`  -  cubic-bezier easing curve
-- `--duck-motion-spring`  -  spring-like easing via `linear()` keyframe stops
-- `--duck-motion-dur`  -  default duration (150ms)
+- `--gentleduck-motion-ease`  -  cubic-bezier easing curve
+- `--gentleduck-motion-spring`  -  spring-like easing via `linear()` keyframe stops
+- `--gentleduck-motion-dur`  -  default duration (150ms)
 
 ### `react`
 

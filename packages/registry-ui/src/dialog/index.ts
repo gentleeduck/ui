@@ -9,8 +9,6 @@ export {
   DialogPortal,
   DialogTitle,
   DialogTrigger,
-  MotionDialog,
-  MotionDialogContent,
 } from './dialog'
 export {
   DialogCloseResponsive,
@@ -22,3 +20,7 @@ export {
   DialogTitleResponsive,
   DialogTriggerResponsive,
 } from './dialog-responsive'
+export {
+  MotionDialog,
+  MotionDialogContent,
+} from './motion-dialog'

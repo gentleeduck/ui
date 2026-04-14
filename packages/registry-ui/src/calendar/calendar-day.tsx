@@ -1,12 +1,10 @@
 'use client'
 
-import type { ICalendarDay as CalendarDayType, IDayProps } from '@gentleduck/calendar'
 import { cn } from '@gentleduck/libs/cn'
-import { tapScale } from '@gentleduck/motion/presets/content'
-import { m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from '../button'
-import { getCachedNumberFormat } from './calendar.utils'
+import { getCachedNumberFormat } from './calendar.libs'
+import type { ICalendarDayCellProps } from './calendar.types'
 
 const HEBREW_ONES = [
   '',
@@ -34,20 +32,6 @@ function toHebrewNumeral(n: number): string {
   return `${t}\u05F4${o}`
 }
 
-interface ICalendarDayCellProps {
-  day: CalendarDayType<Date>
-  dayProps: Omit<IDayProps, 'role' | 'aria-selected' | 'onMouseEnter'>
-  isFocused: boolean
-  isSelectedSingle: boolean
-  isFirstInRow: boolean
-  isLastInRow: boolean
-  locale?: string
-  onFocusDate: (date: Date) => void
-  renderDay?: (day: CalendarDayType<Date>, children: React.ReactNode) => React.ReactNode
-  /** When true, renders motion-powered button with tap feedback. Must be inside LazyMotion. */
-  useMotion?: boolean
-}
-
 function formatDayNumber(d: number, locale?: string): React.ReactNode {
   if (!locale) return d
   if (locale.startsWith('ar')) return getCachedNumberFormat(`${locale}-u-nu-arab`).format(d)
@@ -65,7 +49,6 @@ export const CalendarDayCell = React.memo(function CalendarDayCell({
   locale,
   onFocusDate,
   renderDay,
-  useMotion = false,
 }: ICalendarDayCellProps) {
   const isInRange = day.isRangeStart || day.isRangeEnd || day.isRangeMiddle
   const dayNum = formatDayNumber(day.date.getDate(), locale)
@@ -124,15 +107,9 @@ export const CalendarDayCell = React.memo(function CalendarDayCell({
         day.isOutside && !day.isHidden && day.isSelected && 'text-muted-foreground',
         day.isDisabled && !day.isHidden && 'pointer-events-none text-muted-foreground opacity-50',
       )}>
-      {useMotion && !day.isDisabled ? (
-        <m.button type="button" whileTap={tapScale} {...btnProps}>
-          {content}
-        </m.button>
-      ) : (
-        <button type="button" {...btnProps}>
-          {content}
-        </button>
-      )}
+      <button type="button" {...btnProps}>
+        {content}
+      </button>
     </div>
   )
 })

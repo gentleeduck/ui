@@ -1,7 +1,7 @@
 import React from 'react'
-import type { SidebarContextProps } from './sidebar.types'
+import type { ISidebarContextProps } from './sidebar.types'
 
-export const SidebarContext = React.createContext<SidebarContextProps | null>(null)
+export const SidebarContext = React.createContext<ISidebarContextProps | null>(null)
 
 export function useSidebar() {
   const context = React.useContext(SidebarContext)

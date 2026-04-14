@@ -284,7 +284,7 @@ function AnimatedHeightCollapse({ open, children }: { open: boolean; children: R
     <div
       aria-hidden={!open}
       className={cn(
-        'grid transition-[grid-template-rows] duration-300 ease-(--duck-motion-ease)',
+        'grid transition-[grid-template-rows] duration-300 ease-(--gentleduck-motion-ease)',
         open ? 'grid-rows-[1fr]' : 'grid-rows-[0fr]',
       )}
       inert={!open || undefined}>

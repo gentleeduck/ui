@@ -1,2 +1,3 @@
-export { Badge, MotionBadge } from './badge'
+export { Badge } from './badge'
 export { badgeVariants } from './badge.constants'
+export { MotionBadge } from './motion-badge'

@@ -1,1 +1,2 @@
-export { MotionProgress, Progress } from './progress'
+export { MotionProgress } from './motion-progress'
+export { Progress } from './progress'

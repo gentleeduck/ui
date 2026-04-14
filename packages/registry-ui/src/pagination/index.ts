@@ -3,6 +3,8 @@ export {
   MotionPaginationLink,
   MotionPaginationNext,
   MotionPaginationPrevious,
+} from './motion-pagination'
+export {
   Pagination,
   PaginationContent,
   PaginationEllipsis,
@@ -12,4 +14,4 @@ export {
   PaginationPrevious,
   PaginationWrapper,
 } from './pagination'
-export type { IDuckPaginationProps, PaginationLinkProps } from './pagination.types'
+export type { IDuckPaginationProps, IPaginationLinkProps, PaginationLinkProps } from './pagination.types'

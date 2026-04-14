@@ -1,4 +1,11 @@
-import type { ICalendarDay, ICalendarMonth, IDateAdapter, SelectionMode } from '@gentleduck/calendar'
+import type {
+  CalendarValue,
+  ICalendarDay,
+  ICalendarMonth,
+  IDateAdapter,
+  IDayProps,
+  SelectionMode,
+} from '@gentleduck/calendar'
 import type { Direction } from '@gentleduck/primitives/direction'
 import type { Button } from '../button'
 
@@ -19,6 +26,34 @@ export interface ICalendarHeaderContext {
   isNextDisabled: boolean
 }
 
+export interface ICalendarHeaderProps {
+  adapter?: IDateAdapter<Date>
+  month: Date
+  title: string
+  direction: 'ltr' | 'rtl'
+  locale?: string
+  buttonVariant: string
+  showDropdowns: boolean
+  yearRange: { from: number; to: number }
+  getNavProps: (dir: 'prev' | 'next') => { 'aria-label': string; disabled: boolean; onClick: () => void }
+  getHeaderProps: () => { id: string; 'aria-live': 'polite' }
+  onMonthSelect: (date: Date) => void
+}
+
+export interface ICalendarDayCellProps {
+  day: ICalendarDay<Date>
+  dayProps: Omit<IDayProps, 'role' | 'aria-selected' | 'onMouseEnter'>
+  isFocused: boolean
+  isSelectedSingle: boolean
+  isFirstInRow: boolean
+  isLastInRow: boolean
+  locale?: string
+  onFocusDate: (date: Date) => void
+  renderDay?: (day: ICalendarDay<Date>, children: React.ReactNode) => React.ReactNode
+}
+
+export type ICalendarSelectionValue = CalendarValue<Date, SelectionMode>
+
 export interface ICalendarProps {
   className?: string
   /**
@@ -31,11 +66,9 @@ export interface ICalendarProps {
   /** Selection mode. Default `'single'`. */
   mode?: SelectionMode
   /** Controlled selection value. Shape depends on `mode`. */
-  // biome-ignore lint/suspicious/noExplicitAny: CalendarValue union is narrowed by mode at runtime
-  selected?: any
+  selected?: ICalendarSelectionValue
   /** Called when the selection changes. Value shape depends on `mode`. */
-  // biome-ignore lint/suspicious/noExplicitAny: CalendarValue union is narrowed by mode at runtime
-  onSelect?: (value: any) => void
+  onSelect?: (value: ICalendarSelectionValue) => void
   /** Dates that cannot be selected. */
   disabled?: Date[] | ((date: Date) => boolean)
   /** Default month to display (uncontrolled). */

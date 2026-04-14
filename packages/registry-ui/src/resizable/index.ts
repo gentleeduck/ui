@@ -1,1 +1,2 @@
-export { MotionResizablePanelGroup, ResizableHandle, ResizablePanel, ResizablePanelGroup } from './resizable'
+export { MotionResizablePanelGroup } from './motion-resizable'
+export { ResizableHandle, ResizablePanel, ResizablePanelGroup } from './resizable'

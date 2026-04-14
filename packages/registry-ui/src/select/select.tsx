@@ -1,15 +1,9 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { useMotionPreset } from '@gentleduck/motion/motion-presets'
-import { tapScale } from '@gentleduck/motion/presets/content'
-import { scaleIn } from '@gentleduck/motion/presets/scale-in'
-import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import type { ISelectTriggerProps as PrimitiveSelectTriggerProps } from '@gentleduck/primitives/select'
 import * as SelectPrimitive from '@gentleduck/primitives/select'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
-import { motion } from 'motion/react'
 import * as React from 'react'
 
 const Select = SelectPrimitive.Root
@@ -79,7 +73,7 @@ const SelectContent = React.forwardRef<
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-(--gentleduck-select-content-available-height) min-w-32 origin-(--gentleduck-select-content-transform-origin) overflow-y-auto overflow-x-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=closed]:animate-out data-[state=open]:animate-in',
         position === 'popper' &&
           'data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1',
-        'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+        'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
         className,
       )}
       position={position}
@@ -135,100 +129,7 @@ const SelectSeparator = React.forwardRef<
 ))
 SelectSeparator.displayName = SelectPrimitive.Separator.displayName
 
-/* ------------------------------------------------------------------ */
-/*  MotionSelect + MotionSelectContent                                 */
-/* ------------------------------------------------------------------ */
-
-function MotionSelect({
-  children,
-  open,
-  defaultOpen,
-  onOpenChange,
-  ...rest
-}: React.ComponentPropsWithoutRef<typeof SelectPrimitive.Root>) {
-  const { rootProps, contextValue } = useMotionRoot({ open, defaultOpen, onOpenChange })
-  return (
-    <MotionRootContext.Provider value={contextValue}>
-      <SelectPrimitive.Root {...rootProps} {...rest}>
-        {children}
-      </SelectPrimitive.Root>
-    </MotionRootContext.Provider>
-  )
-}
-MotionSelect.displayName = 'MotionSelect'
-
-const MotionSelectContent = React.forwardRef<
-  React.ComponentRef<typeof SelectPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content>
->(({ className, children, position = 'popper', ...props }, ref) => {
-  const { isOpen } = useMotionContent()
-  const content = useMotionPreset(scaleIn, { transition: springBouncy })
-  const shouldRender = useMotionMount(isOpen)
-
-  if (!shouldRender) return null
-
-  return (
-    <SelectPrimitive.Portal>
-      <SelectPrimitive.Content
-        ref={ref}
-        position={position}
-        forceMount
-        asChild
-        disableOutsidePointerEvents={false}
-        lockScroll={false}
-        {...props}>
-        <motion.div
-          className={cn(
-            'relative z-50 max-h-(--gentleduck-select-content-available-height) min-w-32 origin-(--gentleduck-select-content-transform-origin) overflow-y-auto overflow-x-hidden rounded-md border bg-popover text-popover-foreground shadow-md',
-            position === 'popper' &&
-              'data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1',
-            className,
-          )}
-          initial={content.initial}
-          animate={isOpen ? content.animate : { ...content.exit, pointerEvents: 'none' }}
-          transition={content.transition}>
-          <SelectScrollUpButton />
-          <SelectPrimitive.Viewport
-            className={cn(
-              'p-1',
-              position === 'popper' &&
-                'h-(--gentleduck-select-trigger-height) w-full min-w-(--gentleduck-select-trigger-width)',
-            )}>
-            {children}
-          </SelectPrimitive.Viewport>
-          <SelectScrollDownButton />
-        </motion.div>
-      </SelectPrimitive.Content>
-    </SelectPrimitive.Portal>
-  )
-})
-MotionSelectContent.displayName = 'MotionSelectContent'
-
-const MotionSelectTrigger = React.forwardRef<React.ComponentRef<typeof SelectPrimitive.Trigger>, ISelectTriggerProps>(
-  ({ className, children, ...props }, ref) => (
-    <motion.div whileTap={tapScale}>
-      <SelectPrimitive.Trigger
-        ref={ref}
-        data-slot="select-trigger"
-        className={cn(
-          'flex h-9 min-w-32 select-none items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-3 py-2 text-sm shadow-sm ring-offset-background focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 data-placeholder:text-muted-foreground [&>span]:line-clamp-1',
-          className,
-        )}
-        {...props}>
-        {children}
-        <SelectPrimitive.Icon asChild>
-          <ChevronDown aria-hidden="true" className="size-4 opacity-50" />
-        </SelectPrimitive.Icon>
-      </SelectPrimitive.Trigger>
-    </motion.div>
-  ),
-)
-MotionSelectTrigger.displayName = 'MotionSelectTrigger'
-
 export {
-  MotionSelect,
-  MotionSelectContent,
-  MotionSelectTrigger,
   Select,
   SelectContent,
   SelectGroup,

@@ -18,7 +18,7 @@ export const AnimVariants = cva('', {
   },
   variants: {
     alive: {
-      default: 'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+      default: 'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
     },
     pseudo: {
       animate:
