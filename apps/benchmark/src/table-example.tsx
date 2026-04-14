@@ -15,7 +15,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { useAtomValue, useSetAtom } from '@gentleduck/state/react'
 import { Plus } from 'lucide-react'
 import React from 'react'
-import { duck_table } from './main'
+import { duckTable } from './main'
 import {
   DuckTable,
   DuckTablePagination,
@@ -64,8 +64,8 @@ export function TableDemo() {
 
 export function DuckTableAdd() {
   const [open, setOpen] = React.useState(false)
-  const columns = useAtomValue(duck_table.atoms.columns)
-  const setRows = useSetAtom(duck_table.atoms.mutatedRows)
+  const columns = useAtomValue(duckTable.atoms.columns)
+  const setRows = useSetAtom(duckTable.atoms.mutatedRows)
   const [state, setState] = React.useState<Record<string, string>>({
     ...Object.keys(columns).reduce((prev, key) => ({ ...prev, [key]: '' }), {}),
   })

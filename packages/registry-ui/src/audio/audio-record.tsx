@@ -19,7 +19,7 @@
 // // import { AttachmentType } from './swapy'
 // import { PopoverWrapper } from '../popover'
 // import { Slider } from '../slider'
-// import { format_time_handler } from './audio.libs'
+// import { formatTimeHandler } from './audio.libs'
 // import type {
 //   AttachmentType,
 //   DeleteRecordingHandlerParams,
@@ -33,9 +33,9 @@
 // import {
 //   AudioVisualizer,
 //   type dataPoint,
-//   new_audio,
+//   newAudio,
 //   type ProcessBlobParams,
-//   process_blob,
+//   processBlob,
 //   type ThemeColor,
 // } from './audio-visualizer'
 //
@@ -241,7 +241,7 @@
 //           '-translate-y-1/2 absolute top-1/2 right-4 flex items-center gap-2 transition duration-100',
 //           recording ? 'opacity-100' : 'pointer-events-none right-4 opacity-0',
 //         )}>
-//         <span className="font-mono">{format_time_handler(recordedDuration)}</span>
+//         <span className="font-mono">{formatTimeHandler(recordedDuration)}</span>
 //         <span className="h-2 w-2 animate-pulse rounded-full bg-primary font-mono" />
 //       </div>
 //       <div>
@@ -377,8 +377,8 @@
 //             <div className="mt-1 flex items-center gap-2">
 //               <span className={cn('flex items-center text-accent', size === 'sm' ? 'text-xs' : 'text-sm')}>
 //                 {isPlaying || timeLeft < duration
-//                   ? format_time_handler(timeLeft > 0 ? timeLeft : 0)
-//                   : format_time_handler(duration)}
+//                   ? formatTimeHandler(timeLeft > 0 ? timeLeft : 0)
+//                   : formatTimeHandler(duration)}
 //               </span>
 //               {
 //                 /* TODO: YOU SHOULD EDIT THE OBJ TO GIVE YOU VALUE OF RECIPIENT OPENED THE RECORD */
@@ -546,7 +546,7 @@
 //   React.useEffect(() => {
 //     if (audio) {
 //       const audioURL = URL.createObjectURL(audio)
-//       audioRef.current = new_audio(audioURL)
+//       audioRef.current = newAudio(audioURL)
 //
 //       // Handle end of the audio
 //       audioRef.current.onended = () => {
@@ -730,7 +730,7 @@
 //       width,
 //       height,
 //     }: Omit<ProcessBlobParams, 'setAnimationProgress' | 'setDuration' | 'setData'>) => {
-//       await process_blob({
+//       await processBlob({
 //         backgroundColor,
 //         barColor,
 //         barPlayedColor,
