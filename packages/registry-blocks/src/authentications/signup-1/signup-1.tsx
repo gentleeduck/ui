@@ -41,7 +41,7 @@ export default function Signup1({ className }: { className?: string }) {
         <div className="mb-2 grid items-center justify-between gap-4 xl:flex">
           <div className="flex items-center gap-3">
             <div className="grid size-9 shrink-0 place-content-center rounded-lg bg-[var(--color-primary)]">
-              <icons.user_filled className="size-4 fill-primary-foreground dark:fill-accent-foreground" />
+              <icons.userFilled className="size-4 fill-primary-foreground dark:fill-accent-foreground" />
             </div>
             <h3 className="font-semibold text-primary/90 text-xl">Personal Information</h3>
           </div>
