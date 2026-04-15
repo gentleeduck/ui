@@ -1,6 +1,12 @@
 'use client'
 import { isInputElement } from '../matcher/matcher'
-import type { ICommand, IKeyBindOptions, IRegistrationHandle, IRegistryEntry, RegistryClass } from './command.types'
+import type { Command } from './command.types'
+
+type ICommand = Command.ICommand
+type IKeyBindOptions = Command.IKeyBindOptions
+type IRegistrationHandle = Command.IRegistrationHandle
+type IRegistryEntry = Command.IRegistryEntry
+type RegistryClass = Command.RegistryClass
 
 /**
  * A registry for keyboard command sequences.
