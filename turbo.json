@@ -20,6 +20,11 @@
       "cache": true,
       "dependsOn": ["^build", "^test"]
     },
+    "benchmark": {
+      "cache": false,
+      "dependsOn": ["build", "^build"],
+      "outputs": ["public/benchmarks/**"]
+    },
     "format": {
       "outputLogs": "new-only"
     },
