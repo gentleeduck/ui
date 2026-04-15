@@ -67,7 +67,7 @@ function summarize(samplesMs: number[], durationMs: number): Stats {
   const sem = stddev / Math.sqrt(n)
   const rme = (sem * 1.96) / mean
 
-  const pick = (p: number) => sorted[Math.min(n - 1, Math.floor(n * p))]!
+  const pick = (p: number) => sorted[Math.min(n - 1, Math.floor(n * p))] ?? 0
   const toNs = (ms: number) => +(ms * 1e6).toFixed(1)
   const medianNs = toNs(pick(0.5))
 
@@ -76,8 +76,8 @@ function summarize(samplesMs: number[], durationMs: number): Stats {
     medianNs,
     p95Ns: toNs(pick(0.95)),
     p99Ns: toNs(pick(0.99)),
-    minNs: toNs(sorted[0]!),
-    maxNs: toNs(sorted[n - 1]!),
+    minNs: toNs(sorted[0] ?? 0),
+    maxNs: toNs(sorted[n - 1] ?? 0),
     stddevNs: toNs(stddev),
     rmeP: +(rme * 100).toFixed(2),
     samples: n,
@@ -109,7 +109,7 @@ function printTable(title: string, columns: Column[], rows: Record<string, unkno
   const headers = columns.map((c) => c.label)
   const data = rows.map((r) => columns.map((c) => (r[c.key] == null ? '-' : String(r[c.key]))))
 
-  const widths = columns.map((_, i) => Math.max(headers[i]!.length, ...data.map((r) => r[i]!.length)))
+  const widths = columns.map((_, i) => Math.max(headers[i]?.length ?? 0, ...data.map((r) => r[i]?.length ?? 0)))
 
   const pad = (s: string, w: number, align: 'left' | 'right' = 'left') =>
     align === 'right' ? s.padStart(w) : s.padEnd(w)
@@ -117,17 +117,19 @@ function printTable(title: string, columns: Column[], rows: Record<string, unkno
   const line = (ch: '─' | '═', left: string, mid: string, right: string) =>
     left + widths.map((w) => ch.repeat(w + 2)).join(mid) + right
 
-  const row = (cells: string[]) => '│ ' + cells.map((c, i) => pad(c, widths[i]!, columns[i]!.align)).join(' │ ') + ' │'
+  const row = (cells: string[]) => `│ ${cells.map((c, i) => pad(c, widths[i] ?? 0, columns[i]?.align)).join(' │ ')} │`
 
   console.log(`\n  ${title}`)
-  console.log('  ' + line('─', '┌', '┬', '┐'))
-  console.log('  ' + row(headers))
-  console.log('  ' + line('═', '╞', '╪', '╡'))
+  console.log(`  ${line('─', '┌', '┬', '┐')}`)
+  console.log(`  ${row(headers)}`)
+  console.log(`  ${line('═', '╞', '╪', '╡')}`)
   for (let i = 0; i < data.length; i++) {
-    console.log('  ' + row(data[i]!))
-    if (i < data.length - 1) console.log('  ' + line('─', '├', '┼', '┤'))
+    const rowData = data[i]
+    if (!rowData) continue
+    console.log(`  ${row(rowData)}`)
+    if (i < data.length - 1) console.log(`  ${line('─', '├', '┼', '┤')}`)
   }
-  console.log('  ' + line('─', '└', '┴', '┘'))
+  console.log(`  ${line('─', '└', '┴', '┘')}`)
 }
 
 type Libs = {
@@ -179,7 +181,7 @@ async function bundleSnippet(code: string, label: string): Promise<{ bytes: numb
     if (!result.success) {
       return { bytes: null, error: result.logs.map((l) => String(l)).join('; ') }
     }
-    const out = await result.outputs[0]!.text()
+    const out = await result.outputs[0]?.text()
     return { bytes: gzipSync(out).length }
   } catch (e) {
     return { bytes: null, error: String(e) }
