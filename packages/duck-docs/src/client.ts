@@ -1,7 +1,7 @@
 'use client'
 
 // components/copy-button
-export type { CopyButtonProps } from './components/copy-button'
+export type { ICopyButtonProps } from './components/copy-button'
 export { CopyButton } from './components/copy-button'
 
 // components/docs
