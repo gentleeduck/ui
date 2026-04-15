@@ -1,9 +1,6 @@
 import { parseKeyBind } from '../parser/parser'
-import type { IParsedKeyBind } from '../parser/parser.types'
+import type { Parser } from '../parser/parser.types'
 import type { Matcher } from './matcher.types'
-
-type IKeyBindHandlerConfig = Matcher.IKeyBindHandlerConfig
-type IMatchOptions = Matcher.IMatchOptions
 
 /** Tag names that are considered input elements for ignoreInputs */
 const _INPUT_TAGS = new Set(['INPUT', 'TEXTAREA', 'SELECT'])
@@ -46,7 +43,11 @@ export function isInputElement(el: Element | null): boolean {
  * @param options - Match options
  * @returns true if the event matches the key binding
  */
-export function matchesKeyboardEvent(parsed: IParsedKeyBind, event: KeyboardEvent, options?: IMatchOptions): boolean {
+export function matchesKeyboardEvent(
+  parsed: Parser.IParsedKeyBind,
+  event: KeyboardEvent,
+  options?: Matcher.IMatchOptions,
+): boolean {
   const ignoreCase = options?.ignoreCase ?? true
 
   // Check modifier flags
@@ -79,7 +80,7 @@ export function matchesKeyboardEvent(parsed: IParsedKeyBind, event: KeyboardEven
  * })
  * document.addEventListener('keydown', handler)
  */
-export function createKeyBindHandler(config: IKeyBindHandlerConfig): (event: KeyboardEvent) => void {
+export function createKeyBindHandler(config: Matcher.IKeyBindHandlerConfig): (event: KeyboardEvent) => void {
   const parsed = parseKeyBind(config.binding)
 
   return (event: KeyboardEvent) => {
@@ -105,7 +106,7 @@ export function createKeyBindHandler(config: IKeyBindHandlerConfig): (event: Key
  * @param configs - Array of key binding handler configurations
  * @returns An event handler function
  */
-export function createMultiKeyBindHandler(configs: IKeyBindHandlerConfig[]): (event: KeyboardEvent) => void {
+export function createMultiKeyBindHandler(configs: Matcher.IKeyBindHandlerConfig[]): (event: KeyboardEvent) => void {
   const entries = configs.map((config) => ({
     parsed: parseKeyBind(config.binding),
     config,

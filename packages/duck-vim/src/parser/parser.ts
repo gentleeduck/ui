@@ -2,9 +2,6 @@ import { resolveMod } from '../platform/platform'
 import type { Platform } from '../platform/platform.types'
 import type { Parser } from './parser.types'
 
-type IParsedKeyBind = Parser.IParsedKeyBind
-type IValidationResult = Parser.IValidationResult
-
 /**
  * Map of raw key aliases to their canonical names.
  * @internal
@@ -52,7 +49,7 @@ function normalizeKeyPart(part: string): string {
  * parseKeyBind('Mod+S', 'mac')
  * // { key: 's', ctrl: false, shift: false, alt: false, meta: true, modifiers: ['meta'] }
  */
-export function parseKeyBind(binding: string, platform?: Platform): IParsedKeyBind {
+export function parseKeyBind(binding: string, platform?: Platform.Kind): Parser.IParsedKeyBind {
   if (!binding?.trim()) {
     throw new Error('Key binding string cannot be empty')
   }
@@ -107,7 +104,7 @@ export function parseKeyBind(binding: string, platform?: Platform): IParsedKeyBi
  * @param platform - Optional platform override
  * @returns The canonical key binding string
  */
-export function normalizeKeyBind(binding: string, platform?: Platform): string {
+export function normalizeKeyBind(binding: string, platform?: Platform.Kind): string {
   const parsed = parseKeyBind(binding, platform)
   const parts: string[] = [...parsed.modifiers, parsed.key]
   return parts.join('+')
@@ -121,7 +118,7 @@ export function normalizeKeyBind(binding: string, platform?: Platform): string {
  * @param binding - A key binding string to validate
  * @returns The validation result
  */
-export function validateKeyBind(binding: string): IValidationResult {
+export function validateKeyBind(binding: string): Parser.IValidationResult {
   const errors: string[] = []
   const warnings: string[] = []
 

@@ -1,5 +1,5 @@
 'use client'
 export { KeyContext, KeyProvider, useKeyCommands } from './command'
-export type { IKeyContextValue } from './command.types'
+export type { ReactCommand } from './command.types'
 export { useKeyBind, useKeyRecorder, useKeySequence } from './hooks'
-export type { IKeyBindHookOptions, IKeyRecorderReturn, ISequenceHookOptions } from './hooks.types'
+export type { ReactHooks } from './hooks.types'

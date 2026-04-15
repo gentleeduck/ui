@@ -1,13 +1,13 @@
 import type { Platform } from './platform.types'
 
-let cachedPlatform: Platform | null = null
+let cachedPlatform: Platform.Kind | null = null
 
 /**
  * Detects the current operating system platform.
  * Caches the result after the first call.
  * Falls back to 'linux' when navigator is not available (SSR).
  */
-export function detectPlatform(): Platform {
+export function detectPlatform(): Platform.Kind {
   if (cachedPlatform) return cachedPlatform
 
   if (typeof navigator === 'undefined') {
@@ -32,7 +32,7 @@ export function detectPlatform(): Platform {
  * Resolves the cross-platform 'Mod' key to the correct modifier.
  * Returns 'meta' on Mac, 'ctrl' on Windows/Linux.
  */
-export function resolveMod(platform?: Platform): 'meta' | 'ctrl' {
+export function resolveMod(platform?: Platform.Kind): 'meta' | 'ctrl' {
   const p = platform ?? detectPlatform()
   return p === 'mac' ? 'meta' : 'ctrl'
 }
@@ -40,7 +40,7 @@ export function resolveMod(platform?: Platform): 'meta' | 'ctrl' {
 /**
  * Returns true if the platform is Mac.
  */
-export function isMac(platform?: Platform): boolean {
+export function isMac(platform?: Platform.Kind): boolean {
   const p = platform ?? detectPlatform()
   return p === 'mac'
 }
