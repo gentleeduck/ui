@@ -14,6 +14,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from '../button'
+import { callCalendarSelectHandler } from './calendar.libs'
 import type { ICalendarProps } from './calendar.types'
 import { MotionCalendarDayCell } from './motion-calendar-day'
 import { MotionCalendarHeader } from './motion-calendar-header'
@@ -66,7 +67,7 @@ const MotionCalendar = React.forwardRef<HTMLDivElement, ICalendarProps>(
       month: controlledMonth,
       defaultMonth,
       selected,
-      onSelect,
+      onSelect: onSelect ? (value) => callCalendarSelectHandler(mode, onSelect, value) : undefined,
       onMonthChange,
       showOutsideDays,
       fixedWeeks,
