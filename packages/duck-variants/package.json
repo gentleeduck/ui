@@ -68,10 +68,14 @@
   "scripts": {
     "benchmark": "bun run scripts/benchmark.ts",
     "build": "tsdown",
+    "check": "biome check .",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
+    "fix": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
-    "test:watch": "vitest",
-    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
+    "test:watch": "vitest"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
