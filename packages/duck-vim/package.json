@@ -90,9 +90,15 @@
   },
   "scripts": {
     "build": "tsdown",
+    "check": "biome check .",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "dev": "vitest",
+    "fix": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
     "test": "vitest run",
-    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
