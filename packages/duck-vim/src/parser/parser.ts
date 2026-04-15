@@ -1,6 +1,9 @@
 import { resolveMod } from '../platform/platform'
 import type { Platform } from '../platform/platform.types'
-import type { IParsedKeyBind, IValidationResult } from './parser.types'
+import type { Parser } from './parser.types'
+
+type IParsedKeyBind = Parser.IParsedKeyBind
+type IValidationResult = Parser.IValidationResult
 
 /**
  * Map of raw key aliases to their canonical names.
