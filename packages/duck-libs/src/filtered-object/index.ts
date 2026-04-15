@@ -5,6 +5,9 @@
  * @param obj  - The source object.
  * @returns A new object without the excluded keys.
  */
-export const filteredObject = <T extends Record<string, unknown>>(keys: string[], obj: T): Partial<T> => {
+export const filteredObject = <T extends Record<string, unknown>>(
+  keys: readonly string[],
+  obj: Readonly<T>,
+): Partial<T> => {
   return Object.fromEntries(Object.entries(obj).filter(([key]) => !keys.includes(key))) as Partial<T>
 }

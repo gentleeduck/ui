@@ -6,7 +6,7 @@
  * @param groupSizes - The size of each group.
  * @returns An array of sub-arrays.
  */
-export function groupDataByNumbers<T>(strings: T[], groupSizes: number[]): T[][] {
+export function groupDataByNumbers<T>(strings: readonly T[], groupSizes: readonly number[]): T[][] {
   const result: T[][] = []
   let index = 0
 
