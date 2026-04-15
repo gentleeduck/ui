@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="../../public/logo-dark.svg" alt="gentleduck/ui" width="80"/>
+  <img src="https://raw.githubusercontent.com/gentleeduck/duck-ui/master/public/logo-dark.svg" alt="gentleduck" width="80"/>
 </p>
 
 # @gentleduck/variants
@@ -53,6 +53,30 @@ type ButtonVariants = VariantProps<typeof button>
 - **Composable** -- pass a `cva()` result as the base of another `cva()` call
 - **Arrays and objects** -- nested class arrays and conditional objects supported
 - **Zero dependencies** -- no runtime deps, `"sideEffects": false`
+
+## Benchmarks
+
+This package ships a benchmark script that compares `@gentleduck/variants` against `class-variance-authority`, `tailwind-variants`, and `clsx` across three axes:
+
+- **Bundle size** (gzipped): `shipped` (raw file npm serves), `fullApi` (bundle `export *`, minified), `realImport` (bundle the main export with a side-effect sink, minified — what an app actually pays).
+- **Runtime** (ns/op): four scenarios (defaults, one variant, variant + size, with className merge), each in `warm` mode (same props reused — favors memoizing libraries) and `cold` mode (unique className per call — defeats memoization). Reports median, p95, p99, stddev, and relative margin of error.
+- **Features**: self-reported capability matrix.
+
+### Running
+
+```bash
+# from this package
+bun run benchmark
+
+# from the monorepo root
+bun run benchmark:variants
+```
+
+Output is written to `public/benchmarks/results.json` and mirrored to `apps/duck-ui-docs/public/data/benchmarks/variants.json`. Each JSON includes the host environment (CPU, node, bun, platform, git commit), wall-clock durations, and a `reproCommand` string for provenance.
+
+### How to read the numbers
+
+Memoization is a first-class feature of this library, so the `warm` mode reflects its best case. The `cold` mode is reported alongside to show the non-memoized cost honestly — that's a fairer number when comparing to libraries that don't memoize. Bundle sizes are static; runtime numbers depend on the machine and should be interpreted relative to the other libraries in the same run, not as absolute constants.
 
 ## Docs
 

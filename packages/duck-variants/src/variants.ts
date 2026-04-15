@@ -1,102 +1,110 @@
-import type { ClassValue, CvaProps, IVariantsOptions } from './variants.types'
+import type { Variants } from './variants.types'
 
 /**
- * Build a stable cache key by serializing props entries in sorted order.
+ * Mutable accumulator that collects CSS tokens with first-seen deduplication.
+ *
+ * `out` is the space-joined result string; `seen` tracks which tokens have
+ * already been added so duplicates (across base, variants, compounds, and
+ * user-supplied class/className) are silently skipped.
  *
  * @internal
- *
- * @template TVariants
- *   The mapping of variant names to their allowed string/string[] classes.
- *
- * @param {CvaProps<TVariants>} props
- *   The props object passed into the CVA function (variant selections + class/className).
- *
- * @returns {string}
- *   A deterministic string key used for memoization.
  */
-function getCacheKey<TVariants extends Record<string, Record<string, string | string[]>>>(
-  props: CvaProps<TVariants>,
-): string {
-  const entries = Object.entries(props) as [string, ClassValue][]
-
-  let key = ''
-  for (let i = 0; i < entries.length; i++) {
-    const entry = entries[i]
-    if (!entry) continue
-    const [k, v] = entry
-    if (Array.isArray(v)) {
-      key += `${k}:[${v.map(String).join(',')}]`
-    } else {
-      key += `${k}:${String(v)}`
-    }
-    if (i < entries.length - 1) key += '|'
-  }
-  return key
+type Accum = {
+  out: string
+  seen: Set<string>
+  /** Optional read-only filter of tokens already present in `out`. */
+  filter: ReadonlySet<string> | null
 }
 
 /**
- * Recursively flattens any supported `ClassValue` into individual CSS tokens.
+ * Appends a single token to an accumulator, deduping against previously
+ * added tokens and against any read-only filter set (used to skip tokens
+ * already present in a cached prelude without cloning its Set).
  *
  * @internal
- *
- * Supports:
- * - primitive strings/numbers/booleans (whitespace-split)
- * - nested arrays of `ClassValue`
- * - dictionaries `{ className: boolean }` for conditional classes
- *
- * @param {ClassValue | undefined} input
- *   The value to flatten into tokens.
- * @param {string[]} tokens
- *   The accumulator array receiving each CSS token.
  */
-function flattenClasses(input: ClassValue | undefined, tokens: string[]): void {
-  if (input === undefined || input === null) return
+function pushToken(acc: Accum, t: string): void {
+  if (t.length === 0) return
+  if (acc.seen.has(t)) return
+  if (acc.filter !== null && acc.filter.has(t)) return
+  acc.seen.add(t)
+  acc.out = acc.out.length === 0 ? t : acc.out + ' ' + t
+}
 
-  // primitive values
-  if (typeof input === 'string' || typeof input === 'number' || typeof input === 'boolean') {
-    const parts = String(input).split(/\s+/)
+/**
+ * Appends tokens from any {@link Variants.ClassValue} onto an accumulator.
+ *
+ * Supports strings (whitespace-split), numbers/bigints, nested arrays, and
+ * `{ className: boolean }` dictionaries. Boolean, null, and undefined inputs
+ * are ignored, which makes expressions like `isActive && "active"` safe in
+ * class arrays.
+ *
+ * Fast path: a string with no whitespace bypasses the regex split and goes
+ * straight to the accumulator. The vast majority of runtime className values
+ * are single tokens (e.g., `"k-42"`, `"custom"`), so the fast path dominates
+ * cold-call cost.
+ *
+ * @internal
+ */
+function appendClassValue(acc: Accum, input: Variants.ClassValue | undefined): void {
+  if (input == null || typeof input === 'boolean') return
+
+  if (typeof input === 'string') {
+    if (input.length === 0) return
+    if (!/\s/.test(input)) {
+      pushToken(acc, input)
+      return
+    }
+    const parts = input.split(/\s+/)
     for (let i = 0; i < parts.length; i++) {
       const part = parts[i]
-      if (part) tokens.push(part)
+      if (part) pushToken(acc, part)
     }
     return
   }
 
-  // arrays of ClassValue
+  if (typeof input === 'number' || typeof input === 'bigint') {
+    pushToken(acc, String(input))
+    return
+  }
+
   if (Array.isArray(input)) {
     for (let i = 0; i < input.length; i++) {
-      flattenClasses(input[i], tokens)
+      appendClassValue(acc, input[i])
     }
     return
   }
 
-  // object dictionary `{ className: true }`
-  for (const key in input) {
-    if (Object.hasOwn(input, key) && input[key]) {
-      tokens.push(key)
+  if (typeof input === 'object') {
+    const dict = input as Variants.ClassDictionary
+    for (const k in dict) {
+      if (Object.hasOwn(dict, k) && dict[k]) pushToken(acc, k)
     }
   }
 }
 
 /**
  * Creates a Class Variance Authority (CVA) function for composing class names
- * based on a base string, variants, defaultVariants, and compoundVariants.
+ * from a base, variants, defaults, and compound variants.
  *
- * Supports two call signatures:
- * - `cva(base: string, options: VariantsOptions<TVariants>)`
- * - `cva(options: VariantsOptions<TVariants> & { base: string })`
+ * Two call signatures are supported:
+ * - `cva(base, options)`
+ * - `cva({ base, ...options })`
  *
- * @template TVariants
- *   A record mapping variant keys to a record of allowed values and their classes.
+ * The variant-only prelude (base + variants + compounds, with no user
+ * `class`/`className`) is memoized per variant-prop combination. Dynamic
+ * `class`/`className` is appended on top without invalidating the cache, so
+ * cold-path calls (unique className each time) only pay for the final merge.
  *
- * @param {string | (IVariantsOptions<TVariants> & { base?: string })} baseOrOptions
- *   Either the base class string, or an options object including `base`.
- * @param {IVariantsOptions<TVariants>} [maybeOptions]
- *   The options object when using the two-arg signature.
+ * Null/undefined variant props override defaults: passing `{ size: undefined }`
+ * skips the `size` variant entirely instead of falling back to the default.
  *
- * @returns {(props?: CvaProps<TVariants>) => string}
- *   A function that, given variant props and optional `class`/`className`, returns
- *   the deduplicated, memoized className string.
+ * Output tokens are deduplicated on first-seen order across all sources.
+ *
+ * @template TVariants - Mapping of variant names to their class option maps.
+ * @param baseOrOptions - Either the base class string, or a full config including `base`.
+ * @param maybeOptions - The options object when using the two-arg signature.
+ * @returns A function that resolves variant props into a class string.
  *
  * @example
  * ```ts
@@ -107,99 +115,158 @@ function flattenClasses(input: ClassValue | undefined, tokens: string[]): void {
  *   },
  *   defaultVariants: { intent: 'primary', size: 'sm' },
  *   compoundVariants: [
- *     {
- *       intent: ['primary','danger'],
- *       size: 'lg',
- *       className: 'uppercase',
- *     },
+ *     { intent: ['primary', 'danger'], size: 'lg', className: 'uppercase' },
  *   ],
  * })
- *
- * // uses defaults + compound match
- * button()
- * // => 'btn px-4 py-2 bg-blue-500 text-white text-sm uppercase'
- *
- * // overrides size + adds custom classes
- * button({ size: 'lg', class: ['mt-4','shadow'] })
- * // => 'btn px-4 py-2 bg-blue-500 text-white text-lg uppercase mt-4 shadow'
  * ```
  */
-export function cva<TVariants extends Record<string, Record<string, string | string[]>>>(
-  baseOrOptions: string | (IVariantsOptions<TVariants> & { base?: string }),
-  maybeOptions?: IVariantsOptions<TVariants>,
-): (props?: CvaProps<TVariants>) => string {
-  // Normalize the two possible call signatures
-  const config = typeof baseOrOptions === 'string' ? { base: baseOrOptions, ...maybeOptions } : baseOrOptions
+export function cva<TVariants extends Variants.VariantDefinitions>(
+  baseOrOptions: string | Variants.Config<TVariants>,
+  maybeOptions?: Variants.Options<TVariants>,
+): (props?: Variants.Props<TVariants>) => string {
+  const config: Variants.Config<TVariants> =
+    typeof baseOrOptions === 'string' ? { base: baseOrOptions, ...maybeOptions } : baseOrOptions
 
-  const { base = '', variants, defaultVariants = {}, compoundVariants = [] } = config
+  const { base = '', variants, defaultVariants, compoundVariants = [] } = config
 
-  // Memoization cache keyed by serialized props
-  const cache = new Map<string, string>()
+  // Pre-resolve the base into a deduped string + its seen-set, so the prelude
+  // builder can start from this snapshot without re-walking the base each time.
+  const baseAcc: Accum = { out: '', seen: new Set<string>(), filter: null }
+  appendClassValue(baseAcc, base)
+  const baseString = baseAcc.out
+  const baseSeen = baseAcc.seen
 
-  return (props: CvaProps<TVariants> = {} as CvaProps<TVariants>): string => {
-    // 1) Memo lookup
-    const cacheKey = getCacheKey(props)
-    const memo = cache.get(cacheKey)
-    if (memo) return memo
+  const variantKeys: string[] = variants ? Object.keys(variants) : []
 
-    const tokens: string[] = []
-    const seen = new Set<string>()
+  // Pre-tokenize each variant option so the prelude builder can just iterate
+  // an array of tokens rather than re-flatten a ClassValue every time.
+  const variantTokens: Record<string, Record<string, string[]>> = {}
+  if (variants) {
+    for (let i = 0; i < variantKeys.length; i++) {
+      const k = variantKeys[i]!
+      const options = variants[k]!
+      const map: Record<string, string[]> = {}
+      for (const opt in options) {
+        const acc: Accum = { out: '', seen: new Set<string>(), filter: null }
+        appendClassValue(acc, options[opt])
+        map[opt] = acc.out.length === 0 ? [] : acc.out.split(' ')
+      }
+      variantTokens[k] = map
+    }
+  }
 
-    // 2) Base classes
-    flattenClasses(base, tokens)
+  type CompiledCompound = {
+    conditions: Array<{ key: string; set: Set<string> | null; value: string | null }>
+    tokens: string[]
+  }
 
-    // 3) Merge defaults + incoming props
-    const merged = { ...defaultVariants, ...props } as Record<keyof TVariants, ClassValue>
+  const compiledCompounds: CompiledCompound[] = compoundVariants.map((cv) => {
+    const conditions: CompiledCompound['conditions'] = []
+    for (const key in cv) {
+      if (key === 'class' || key === 'className') continue
+      const raw = (cv as Record<string, unknown>)[key]
+      if (Array.isArray(raw)) {
+        conditions.push({ key, set: new Set(raw.map(String)), value: null })
+      } else {
+        conditions.push({ key, set: null, value: String(raw) })
+      }
+    }
+    const acc: Accum = { out: '', seen: new Set<string>(), filter: null }
+    appendClassValue(acc, cv.class)
+    appendClassValue(acc, cv.className)
+    return { conditions, tokens: acc.out.length === 0 ? [] : acc.out.split(' ') }
+  })
 
-    // 4) Apply variant-specific classes
-    for (const variantName in variants) {
-      const v = merged[variantName]
-      if (v == null || v === 'unset') continue
-      const cls = variants[variantName]?.[String(v)]
-      flattenClasses(cls, tokens)
+  const defaults = (defaultVariants ?? {}) as Record<string, unknown>
+
+  type Prelude = { str: string; seen: Set<string> }
+  // Keyed by variant-prop state only. Dynamic class/className never enters the
+  // key, so a unique user className per call still hits the prelude cache.
+  const preludeCache = new Map<string, Prelude>()
+
+  return (props: Variants.Props<TVariants> = {} as Variants.Props<TVariants>): string => {
+    const rawProps = props as Record<string, unknown>
+    const dynamicClassName = rawProps.className
+    const dynamicClass = rawProps.class
+    const hasDynamic = dynamicClassName != null || dynamicClass != null
+
+    let cacheKey = ''
+    for (let i = 0; i < variantKeys.length; i++) {
+      const k = variantKeys[i]!
+      const explicit = k in rawProps
+      const raw = explicit ? rawProps[k] : defaults[k]
+      const skip = raw == null || raw === 'unset'
+      cacheKey += k + ':' + (skip ? '__' : String(raw)) + '|'
     }
 
-    // 5) Apply compoundVariants when all conditions match
-    for (let i = 0; i < compoundVariants.length; i++) {
-      const cv = compoundVariants[i as number]
-      if (!cv) continue
-      let match = true
+    let prelude = preludeCache.get(cacheKey)
+    if (prelude === undefined) {
+      const acc: Accum = { out: baseString, seen: new Set(baseSeen), filter: null }
 
-      for (const key in cv) {
-        if (key === 'class' || key === 'className') continue
+      for (let i = 0; i < variantKeys.length; i++) {
+        const k = variantKeys[i]!
+        const explicit = k in rawProps
+        const raw = explicit ? rawProps[k] : defaults[k]
+        if (raw == null || raw === 'unset') continue
+        const tokens = variantTokens[k]?.[String(raw)]
+        if (!tokens) continue
+        for (let j = 0; j < tokens.length; j++) pushToken(acc, tokens[j]!)
+      }
 
-        const cond = cv[key as keyof typeof cv]
-        const actual = merged[key as keyof typeof merged]
+      for (let i = 0; i < compiledCompounds.length; i++) {
+        const compound = compiledCompounds[i]!
+        const { conditions, tokens } = compound
 
-        // array- or single-value condition
-        if (Array.isArray(cond) && actual) {
-          if (!cond.includes(actual.toString())) {
+        let match = true
+        for (let j = 0; j < conditions.length; j++) {
+          const { key, set, value } = conditions[j]!
+          const explicit = key in rawProps
+          const actual = explicit ? rawProps[key] : defaults[key]
+          if (actual == null || actual === 'unset') {
             match = false
             break
           }
-        } else if (actual !== cond) {
-          match = false
-          break
+          if (set !== null) {
+            if (!set.has(String(actual))) {
+              match = false
+              break
+            }
+          } else if (String(actual) !== value) {
+            match = false
+            break
+          }
         }
+        if (!match) continue
+
+        for (let j = 0; j < tokens.length; j++) pushToken(acc, tokens[j]!)
       }
-      if (!match) continue
 
-      flattenClasses(cv.class, tokens)
-      flattenClasses(cv.className, tokens)
+      prelude = { str: acc.out, seen: acc.seen }
+      preludeCache.set(cacheKey, prelude)
     }
 
-    // 6) Finally append any `className` or `class` from props
-    flattenClasses(props.className, tokens)
-    flattenClasses(props.class, tokens)
+    if (!hasDynamic) return prelude.str
 
-    // 7) Deduplicate & join
-    for (let i = 0; i < tokens.length; i++) {
-      const token = tokens[i as number]
-      if (token) seen.add(token)
+    // Fast path: exactly one of class/className is a single-token string
+    // (the overwhelmingly common case in React components passing
+    // `className={someString}`). Skips Accum allocation and the Set for
+    // dynamic tokens.
+    const singleStr =
+      typeof dynamicClassName === 'string' && dynamicClass == null
+        ? dynamicClassName
+        : typeof dynamicClass === 'string' && dynamicClassName == null
+          ? dynamicClass
+          : null
+    if (singleStr !== null && singleStr.length > 0 && !/\s/.test(singleStr)) {
+      if (prelude.seen.has(singleStr)) return prelude.str
+      return prelude.str.length === 0 ? singleStr : prelude.str + ' ' + singleStr
     }
-    const result = Array.from(seen).join(' ')
 
-    cache.set(cacheKey, result)
-    return result
+    // General path: use prelude.seen as a read-only filter instead of cloning
+    // it. Only the dynamic tokens need to be tracked in `seen` for per-call dedup.
+    const acc: Accum = { out: prelude.str, seen: new Set<string>(), filter: prelude.seen }
+    if (dynamicClassName != null) appendClassValue(acc, dynamicClassName as Variants.ClassValue)
+    if (dynamicClass != null) appendClassValue(acc, dynamicClass as Variants.ClassValue)
+    return acc.out
   }
 }
