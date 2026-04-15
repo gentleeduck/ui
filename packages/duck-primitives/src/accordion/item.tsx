@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useId } from '../hooks/use-id'
 import { Primitive } from '../primitive-elements'
-import type { IAccordionProps } from './accordion'
+import type { IAccordion } from './accordion'
 import { createAccordionContext, useAccordionContext } from './accordion'
 
 const ITEM_NAME = 'AccordionItem'
@@ -24,7 +24,7 @@ export namespace IAccordionItemProps {
 const [AccordionItemProvider, useAccordionItemContext] = createAccordionContext<IAccordionItemProps.IContext>(ITEM_NAME)
 
 const AccordionItem = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IAccordionItemProps>(
-  (props: IAccordionProps.IScoped<IAccordionItemProps>, forwardedRef) => {
+  (props: IAccordion.IScoped<IAccordionItemProps>, forwardedRef) => {
     const { __scopeAccordion, value: valueProp, disabled = false, ...itemProps } = props
     const context = useAccordionContext(ITEM_NAME, __scopeAccordion)
     const generatedValue = useId()
