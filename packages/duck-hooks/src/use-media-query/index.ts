@@ -1,10 +1,15 @@
 import * as React from 'react'
 
-export function useMediaQuery(query: string) {
+/**
+ * Subscribe to a CSS media query and return whether it currently matches.
+ *
+ * The value updates reactively when the media query result changes.
+ */
+export function useMediaQuery(query: string): boolean {
   const [value, setValue] = React.useState(false)
 
   React.useEffect(() => {
-    function onChange(event: MediaQueryListEvent) {
+    function onChange(event: MediaQueryListEvent): void {
       setValue(event.matches)
     }
 

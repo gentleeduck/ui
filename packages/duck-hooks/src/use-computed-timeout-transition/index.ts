@@ -1,4 +1,15 @@
-export function useComputedTimeoutTransition(element: HTMLElement | null, callback: () => void, timeout: number = 300) {
+/**
+ * Schedule a callback after the element's CSS transition duration,
+ * falling back to `timeout` ms when the element is unavailable or
+ * has no explicit transition.
+ *
+ * Returns a cleanup function that cancels the pending timer.
+ */
+export function useComputedTimeoutTransition(
+  element: HTMLElement | null,
+  callback: () => void,
+  timeout: number = 300,
+): () => void {
   let duration = timeout
 
   if (!element) {
@@ -16,8 +27,10 @@ export function useComputedTimeoutTransition(element: HTMLElement | null, callba
         }
       }
     }
-  } catch (error) {
-    console.error('ComputedTimeout:', error)
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      console.error('ComputedTimeout:', err.message)
+    }
     duration = timeout
   }
 
