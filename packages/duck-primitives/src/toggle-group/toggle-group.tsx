@@ -15,9 +15,9 @@ const [createToggleGroupContext, createToggleGroupScope] = createContextScope(TO
 ])
 const useRovingFocusGroupScope = createRovingFocusGroupScope()
 
-type IToggleGroupProps = IToggleGroupProps.ISingle | IToggleGroupProps.IMultiple
+type IToggleGroupProps = IToggleGroup.ISingle | IToggleGroup.IMultiple
 
-export namespace IToggleGroupProps {
+export namespace IToggleGroup {
   export type IScoped<TProps> = TProps & { __scopeToggleGroup?: Scope }
 
   export interface IContext {
@@ -102,33 +102,25 @@ export namespace IToggleGroupProps {
   }
 }
 
-const [ToggleGroupProvider, useToggleGroupContext] =
-  createToggleGroupContext<IToggleGroupProps.IContext>(TOGGLE_GROUP_NAME)
+const [ToggleGroupProvider, useToggleGroupContext] = createToggleGroupContext<IToggleGroup.IContext>(TOGGLE_GROUP_NAME)
 
 const ToggleGroup = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IToggleGroupProps>(
-  (props: IToggleGroupProps.IScoped<IToggleGroupProps>, forwardedRef) => {
+  (props: IToggleGroup.IScoped<IToggleGroupProps>, forwardedRef) => {
     if (props.type === 'single') {
-      return (
-        <ToggleGroupSingle {...(props as IToggleGroupProps.IScoped<IToggleGroupProps.ISingle>)} ref={forwardedRef} />
-      )
+      return <ToggleGroupSingle {...(props as IToggleGroup.IScoped<IToggleGroup.ISingle>)} ref={forwardedRef} />
     }
     if (props.type === 'multiple') {
-      return (
-        <ToggleGroupMultiple
-          {...(props as IToggleGroupProps.IScoped<IToggleGroupProps.IMultiple>)}
-          ref={forwardedRef}
-        />
-      )
+      return <ToggleGroupMultiple {...(props as IToggleGroup.IScoped<IToggleGroup.IMultiple>)} ref={forwardedRef} />
     }
     // Fallback to single
-    return <ToggleGroupSingle {...(props as IToggleGroupProps.IScoped<IToggleGroupProps.ISingle>)} ref={forwardedRef} />
+    return <ToggleGroupSingle {...(props as IToggleGroup.IScoped<IToggleGroup.ISingle>)} ref={forwardedRef} />
   },
 )
 
 ToggleGroup.displayName = TOGGLE_GROUP_NAME
 
-const ToggleGroupSingle = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IToggleGroupProps.ISingle>(
-  (props: IToggleGroupProps.IScoped<IToggleGroupProps.ISingle>, forwardedRef) => {
+const ToggleGroupSingle = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IToggleGroup.ISingle>(
+  (props: IToggleGroup.IScoped<IToggleGroup.ISingle>, forwardedRef) => {
     const { value: valueProp, defaultValue, onValueChange, ...toggleGroupProps } = props
 
     const [value = '', setValue] = useControllableState({
@@ -152,8 +144,8 @@ const ToggleGroupSingle = React.forwardRef<React.ComponentRef<typeof Primitive.d
 
 ToggleGroupSingle.displayName = `${TOGGLE_GROUP_NAME}Single`
 
-const ToggleGroupMultiple = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IToggleGroupProps.IMultiple>(
-  (props: IToggleGroupProps.IScoped<IToggleGroupProps.IMultiple>, forwardedRef) => {
+const ToggleGroupMultiple = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IToggleGroup.IMultiple>(
+  (props: IToggleGroup.IScoped<IToggleGroup.IMultiple>, forwardedRef) => {
     const { value: valueProp, defaultValue, onValueChange, ...toggleGroupProps } = props
 
     const [value = [], setValue] = useControllableState({
@@ -187,8 +179,8 @@ const ToggleGroupMultiple = React.forwardRef<React.ComponentRef<typeof Primitive
 
 ToggleGroupMultiple.displayName = `${TOGGLE_GROUP_NAME}Multiple`
 
-const ToggleGroupImpl = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IToggleGroupProps.IImplPrivate>(
-  (props: IToggleGroupProps.IScoped<IToggleGroupProps.IImplPrivate>, forwardedRef) => {
+const ToggleGroupImpl = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IToggleGroup.IImplPrivate>(
+  (props: IToggleGroup.IScoped<IToggleGroup.IImplPrivate>, forwardedRef) => {
     const {
       __scopeToggleGroup,
       type,
