@@ -26,9 +26,9 @@ type Accum = {
 function pushToken(acc: Accum, t: string): void {
   if (t.length === 0) return
   if (acc.seen.has(t)) return
-  if (acc.filter !== null && acc.filter.has(t)) return
+  if (acc.filter?.has(t)) return
   acc.seen.add(t)
-  acc.out = acc.out.length === 0 ? t : acc.out + ' ' + t
+  acc.out = acc.out.length === 0 ? t : `${acc.out} ${t}`
 }
 
 /**
@@ -142,9 +142,9 @@ export function cva<TVariants extends Variants.VariantDefinitions>(
   // an array of tokens rather than re-flatten a ClassValue every time.
   const variantTokens: Record<string, Record<string, string[]>> = {}
   if (variants) {
-    for (let i = 0; i < variantKeys.length; i++) {
-      const k = variantKeys[i]!
-      const options = variants[k]!
+    for (const k of variantKeys) {
+      const options = variants[k]
+      if (!options) continue
       const map: Record<string, string[]> = {}
       for (const opt in options) {
         const acc: Accum = { out: '', seen: new Set<string>(), filter: null }
@@ -191,35 +191,31 @@ export function cva<TVariants extends Variants.VariantDefinitions>(
     const hasDynamic = dynamicClassName != null || dynamicClass != null
 
     let cacheKey = ''
-    for (let i = 0; i < variantKeys.length; i++) {
-      const k = variantKeys[i]!
+    for (const k of variantKeys) {
       const explicit = k in rawProps
       const raw = explicit ? rawProps[k] : defaults[k]
       const skip = raw == null || raw === 'unset'
-      cacheKey += k + ':' + (skip ? '__' : String(raw)) + '|'
+      cacheKey += `${k}:${skip ? '__' : String(raw)}|`
     }
 
     let prelude = preludeCache.get(cacheKey)
     if (prelude === undefined) {
       const acc: Accum = { out: baseString, seen: new Set(baseSeen), filter: null }
 
-      for (let i = 0; i < variantKeys.length; i++) {
-        const k = variantKeys[i]!
+      for (const k of variantKeys) {
         const explicit = k in rawProps
         const raw = explicit ? rawProps[k] : defaults[k]
         if (raw == null || raw === 'unset') continue
         const tokens = variantTokens[k]?.[String(raw)]
         if (!tokens) continue
-        for (let j = 0; j < tokens.length; j++) pushToken(acc, tokens[j]!)
+        for (const token of tokens) pushToken(acc, token)
       }
 
-      for (let i = 0; i < compiledCompounds.length; i++) {
-        const compound = compiledCompounds[i]!
+      for (const compound of compiledCompounds) {
         const { conditions, tokens } = compound
 
         let match = true
-        for (let j = 0; j < conditions.length; j++) {
-          const { key, set, value } = conditions[j]!
+        for (const { key, set, value } of conditions) {
           const explicit = key in rawProps
           const actual = explicit ? rawProps[key] : defaults[key]
           if (actual == null || actual === 'unset') {
@@ -238,7 +234,7 @@ export function cva<TVariants extends Variants.VariantDefinitions>(
         }
         if (!match) continue
 
-        for (let j = 0; j < tokens.length; j++) pushToken(acc, tokens[j]!)
+        for (const token of tokens) pushToken(acc, token)
       }
 
       prelude = { str: acc.out, seen: acc.seen }
@@ -259,7 +255,7 @@ export function cva<TVariants extends Variants.VariantDefinitions>(
           : null
     if (singleStr !== null && singleStr.length > 0 && !/\s/.test(singleStr)) {
       if (prelude.seen.has(singleStr)) return prelude.str
-      return prelude.str.length === 0 ? singleStr : prelude.str + ' ' + singleStr
+      return prelude.str.length === 0 ? singleStr : `${prelude.str} ${singleStr}`
     }
 
     // General path: use prelude.seen as a read-only filter instead of cloning
