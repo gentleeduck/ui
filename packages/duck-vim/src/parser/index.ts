@@ -1,3 +1,5 @@
+import type { Parser } from './parser.types'
+
 export {
   KEY_ALIASES,
   keyboardEventToDescriptor,
@@ -6,4 +8,7 @@ export {
   parseKeyBind,
   validateKeyBind,
 } from './parser'
-export type { IParsedKeyBind, IValidationResult } from './parser.types'
+export type { Parser } from './parser.types'
+
+export type IParsedKeyBind = Parser.IParsedKeyBind
+export type IValidationResult = Parser.IValidationResult
