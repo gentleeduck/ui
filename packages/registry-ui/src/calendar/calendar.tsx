@@ -6,6 +6,7 @@ import { useDirection } from '@gentleduck/primitives/direction'
 import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react'
 import * as React from 'react'
 import { buttonVariants } from '../button'
+import { callCalendarSelectHandler } from './calendar.libs'
 import type { ICalendarProps } from './calendar.types'
 import { CalendarDayCell } from './calendar-day'
 import { CalendarHeader } from './calendar-header'
@@ -55,7 +56,7 @@ const Calendar = React.forwardRef<HTMLDivElement, ICalendarProps>(
       month: controlledMonth,
       defaultMonth,
       selected,
-      onSelect,
+      onSelect: onSelect ? (value) => callCalendarSelectHandler(mode, onSelect, value) : undefined,
       onMonthChange,
       showOutsideDays,
       fixedWeeks,
