@@ -1,13 +1,13 @@
 import { matchesKeyboardEvent } from '../matcher/matcher'
 import { parseKeyBind } from '../parser/parser'
-import type { IParsedKeyBind } from '../parser/parser.types'
-import type { ISequenceHandle, ISequenceOptions, ISequenceRegistration, ISequenceState } from './sequence.types'
+import type { Parser } from '../parser/parser.types'
+import type { Sequence } from './sequence.types'
 
 interface IInternalEntry {
   id: number
-  parsedSteps: IParsedKeyBind[]
+  parsedSteps: Parser.IParsedKeyBind[]
   handler: () => void
-  options: Required<ISequenceOptions>
+  options: Required<Sequence.ISequenceOptions>
   currentStep: number
   timeoutId: ReturnType<typeof setTimeout> | null
 }
@@ -29,7 +29,7 @@ export class SequenceManager {
    * @param registration - The sequence registration
    * @returns A handle to unregister the sequence
    */
-  register(registration: ISequenceRegistration): ISequenceHandle {
+  register(registration: Sequence.ISequenceRegistration): Sequence.ISequenceHandle {
     const id = nextId++
     const parsedSteps = registration.steps.map((s) => parseKeyBind(s.binding))
 
@@ -134,7 +134,7 @@ export class SequenceManager {
    * Returns the aggregate matching state across all entries.
    * Reports progress of the most-advanced entry.
    */
-  getState(): ISequenceState {
+  getState(): Sequence.ISequenceState {
     let maxProgress = 0
     let maxTotal = 0
     let isMatching = false
@@ -185,8 +185,8 @@ export class SequenceManager {
 export function createSequenceMatcher(
   steps: string[],
   handler: () => void,
-  options?: ISequenceOptions,
-): { feed: (event: KeyboardEvent) => boolean; reset: () => void; getState: () => ISequenceState } {
+  options?: Sequence.ISequenceOptions,
+): { feed: (event: KeyboardEvent) => boolean; reset: () => void; getState: () => Sequence.ISequenceState } {
   const manager = new SequenceManager()
   manager.register({
     steps: steps.map((binding) => ({ binding })),

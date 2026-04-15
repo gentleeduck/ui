@@ -1,16 +1,16 @@
 'use client'
 
 import React from 'react'
-import { type ICommand, KeyHandler, Registry } from '../command'
-import type { IKeyBindOptions, IRegistrationHandle } from '../command/command.types'
+import { KeyHandler, Registry } from '../command'
+import type { Command } from '../command/command.types'
 import { SequenceManager } from '../sequence/sequence'
-import type { IKeyContextValue } from './command.types'
+import type { ReactCommand } from './command.types'
 
 /**
  * A React context that holds the key command registry and handler.
  * Consumers can register commands and interact with the keyboard system.
  */
-export const KeyContext = React.createContext<IKeyContextValue | null>(null)
+export const KeyContext = React.createContext<ReactCommand.IKeyContextValue | null>(null)
 
 /**
  * Props for the KeyProvider component.
@@ -18,7 +18,7 @@ export const KeyContext = React.createContext<IKeyContextValue | null>(null)
 interface IKeyProviderProps {
   debug?: boolean
   timeoutMs?: number
-  defaultOptions?: Partial<IKeyBindOptions>
+  defaultOptions?: Partial<Command.IKeyBindOptions>
   children: React.ReactNode
 }
 
@@ -43,7 +43,7 @@ export const KeyProvider: React.FC<IKeyProviderProps> = ({
   defaultOptions,
   children,
 }) => {
-  const value = React.useMemo<IKeyContextValue>(() => {
+  const value = React.useMemo<ReactCommand.IKeyContextValue>(() => {
     const registry = new Registry(debug)
     const handler = new KeyHandler(registry, timeoutMs, defaultOptions)
     const sequenceManager = new SequenceManager()
@@ -91,9 +91,9 @@ export const KeyProvider: React.FC<IKeyProviderProps> = ({
  *
  * > Note: Must be used within a `KeyProvider`.
  */
-export function useKeyCommands(commands: Record<string, ICommand>, options?: IKeyBindOptions): void {
+export function useKeyCommands(commands: Record<string, Command.ICommand>, options?: Command.IKeyBindOptions): void {
   const ctx = React.useContext(KeyContext)
-  const handlesRef = React.useRef<IRegistrationHandle[]>([])
+  const handlesRef = React.useRef<Command.IRegistrationHandle[]>([])
 
   React.useEffect(() => {
     if (!ctx) {

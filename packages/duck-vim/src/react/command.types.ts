@@ -1,33 +1,35 @@
 import type { KeyHandler, Registry } from '../command'
-import type { IKeyBindOptions } from '../command/command.types'
+import type { Command } from '../command/command.types'
 import type { SequenceManager } from '../sequence/sequence'
 
-/**
- * The shape of the value provided by `KeyContext`.
- */
-export interface IKeyContextValue {
+export namespace ReactCommand {
   /**
-   * The command registry instance, used to register key bindings.
+   * The shape of the value provided by `KeyContext`.
    */
-  registry: Registry
+  export interface IKeyContextValue {
+    /**
+     * The command registry instance, used to register key bindings.
+     */
+    registry: Registry
 
-  /**
-   * The key handler instance, responsible for listening to key events.
-   */
-  handler: KeyHandler
+    /**
+     * The key handler instance, responsible for listening to key events.
+     */
+    handler: KeyHandler
 
-  /**
-   * The sequence manager for multi-key sequences.
-   */
-  sequenceManager: SequenceManager
+    /**
+     * The sequence manager for multi-key sequences.
+     */
+    sequenceManager: SequenceManager
 
-  /**
-   * The timeout in ms for key sequences.
-   */
-  timeoutMs: number
+    /**
+     * The timeout in ms for key sequences.
+     */
+    timeoutMs: number
 
-  /**
-   * Default key binding options applied to all registrations unless overridden.
-   */
-  defaultOptions?: Partial<IKeyBindOptions>
+    /**
+     * Default key binding options applied to all registrations unless overridden.
+     */
+    defaultOptions?: Partial<Command.IKeyBindOptions>
+  }
 }
