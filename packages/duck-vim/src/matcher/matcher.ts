@@ -1,6 +1,9 @@
 import { parseKeyBind } from '../parser/parser'
 import type { IParsedKeyBind } from '../parser/parser.types'
-import type { IKeyBindHandlerConfig, IMatchOptions } from './matcher.types'
+import type { Matcher } from './matcher.types'
+
+type IKeyBindHandlerConfig = Matcher.IKeyBindHandlerConfig
+type IMatchOptions = Matcher.IMatchOptions
 
 /** Tag names that are considered input elements for ignoreInputs */
 const _INPUT_TAGS = new Set(['INPUT', 'TEXTAREA', 'SELECT'])
