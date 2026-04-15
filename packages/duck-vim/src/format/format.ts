@@ -1,7 +1,9 @@
 import { parseKeyBind } from '../parser/parser'
 import { detectPlatform } from '../platform/platform'
 import type { Platform } from '../platform/platform.types'
-import type { IFormatOptions } from './format.types'
+import type { Format } from './format.types'
+
+type IFormatOptions = Format.IFormatOptions
 
 /**
  * Platform-specific modifier display names (ASCII only).
