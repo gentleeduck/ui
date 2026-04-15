@@ -2,7 +2,7 @@
 
 import { type Event, trackEvent } from '@duck-docs/lib/events'
 import { cn } from '@gentleduck/libs/cn'
-import { Button } from '@gentleduck/registry-ui/button'
+import { Button, type IButtonProps } from '@gentleduck/registry-ui/button'
 import { CheckIcon, Copy } from 'lucide-react'
 import * as React from 'react'
 
@@ -13,12 +13,12 @@ export async function copyToClipboardWithMeta(value: string, event?: Event) {
   }
 }
 
-export type CopyButtonProps = import('@gentleduck/registry-ui/button').IButtonProps & {
+export type ICopyButtonProps = IButtonProps & {
   value: string
   event?: Event['name']
 }
 
-export function CopyButton({ value, className, variant = 'ghost', event, ...props }: CopyButtonProps) {
+export function CopyButton({ value, className, variant = 'ghost', event, ...props }: ICopyButtonProps) {
   const [hasCopied, setHasCopied] = React.useState(false)
 
   React.useEffect(() => {

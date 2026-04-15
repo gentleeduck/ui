@@ -1,6 +1,6 @@
 'use client'
 
-export type { CopyButtonProps } from './copy-button'
+export type { ICopyButtonProps } from './copy-button'
 export { CopyButton } from './copy-button'
 
 export { DocsCopyPage } from './docs/docs-copy-page'
