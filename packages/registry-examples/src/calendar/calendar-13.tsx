@@ -13,9 +13,7 @@ export default function Demo() {
         className="rounded-md border shadow-sm"
         mode="multi-range"
         selected={ranges}
-        onSelect={(value) => {
-          setRanges(value as DateRange<Date>[])
-        }}
+        onSelect={setRanges}
         showDropdowns={false}
       />
       <div className="space-y-1 px-1">

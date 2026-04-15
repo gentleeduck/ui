@@ -28,7 +28,7 @@ export default function Demo() {
             showDropdowns={false}
             mode="single"
             onSelect={(date) => {
-              setDate(date)
+              setDate(date ?? undefined)
               requestAnimationFrame(() => setOpen(false))
             }}
             selected={date}

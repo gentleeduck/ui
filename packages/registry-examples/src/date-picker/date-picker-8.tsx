@@ -27,7 +27,7 @@ export default function Demo() {
           <MotionCalendar
             mode="single"
             onSelect={(d) => {
-              setDate(d)
+              setDate(d ?? undefined)
               requestAnimationFrame(() => setOpen(false))
             }}
             selected={date}
