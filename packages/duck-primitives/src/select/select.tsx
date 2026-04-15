@@ -47,7 +47,7 @@ type SelectContextValue = {
   open: boolean
   required?: boolean
   onOpenChange(open: boolean): void
-  dir: SelectProps['dir']
+  dir: ISelectProps['dir']
   triggerPointerDownPosRef: React.RefObject<{ x: number; y: number } | null>
   disabled?: boolean
 }
@@ -123,13 +123,13 @@ interface ISelectSharedProps {
   form?: string
 }
 
-export type SelectProps = ISelectSharedProps & {
+export type ISelectProps = ISelectSharedProps & {
   value?: string
   defaultValue?: string
   onValueChange?(value: string): void
 }
 
-export const Select: React.FC<SelectProps> = (props: ScopedProps<SelectProps>) => {
+export const Select: React.FC<ISelectProps> = (props: ScopedProps<ISelectProps>) => {
   const {
     __scopeSelect,
     children,

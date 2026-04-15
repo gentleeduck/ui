@@ -1,20 +1,17 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
-import type { ScopedProps } from './accordion'
+import type { IAccordionProps } from './accordion'
 import { useAccordionContext } from './accordion'
 import { useAccordionItemContext } from './item'
 
 const CONTENT_NAME = 'AccordionContent'
 
-type AccordionContentElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-
-interface IAccordionContentProps extends PrimitiveDivProps {
+interface IAccordionContentProps extends React.ComponentPropsWithoutRef<typeof Primitive.div> {
   forceMount?: boolean
 }
 
-const AccordionContent = React.forwardRef<AccordionContentElement, IAccordionContentProps>(
-  (props: ScopedProps<IAccordionContentProps>, forwardedRef) => {
+const AccordionContent = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IAccordionContentProps>(
+  (props: IAccordionProps.IScoped<IAccordionContentProps>, forwardedRef) => {
     const { __scopeAccordion, forceMount = false, ...contentProps } = props
     const context = useAccordionContext(CONTENT_NAME, __scopeAccordion)
     const itemContext = useAccordionItemContext(CONTENT_NAME, __scopeAccordion)
