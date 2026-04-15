@@ -141,7 +141,11 @@ const classes = card({ tone: 'success', className: [{ 'animate-pulse': isLoading
 
 Real bundle size and runtime performance compared to class-variance-authority, tailwind-variants, and clsx:
 
-<ComponentPreview name="chart-benchmark-variants" description="Variants benchmark dashboard" />
+<ComponentPreview 
+  name="chart-benchmark-variants" 
+  description="Variants benchmark dashboard"
+  className="[&_.preview]:h-200 [&_.preview]:items-start"
+/>
 
 Run `bun run benchmark` in `packages/duck-variants` to regenerate. Data in `public/data/benchmarks/variants.json`.
 
