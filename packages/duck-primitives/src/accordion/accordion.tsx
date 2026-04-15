@@ -8,47 +8,53 @@ import { Primitive } from '../primitive-elements'
 
 const ACCORDION_NAME = 'Accordion'
 
-type ScopedProps<P> = P & { __scopeAccordion?: Scope }
-
 const [createAccordionContext, createAccordionScope] = createContextScope(ACCORDION_NAME)
 
-type AccordionContextValue = {
-  type: 'single' | 'multiple'
-  openItems: string[]
-  onItemOpenChange(value: string): void
-  collapsible: boolean
-  dir: Direction
+type IAccordionProps = IAccordionProps.ISingle | IAccordionProps.IMultiple
+
+export namespace IAccordionProps {
+  export type IScoped<TProps> = TProps & { __scopeAccordion?: Scope }
+
+  export interface IContext {
+    type: 'single' | 'multiple'
+    openItems: string[]
+    onItemOpenChange(value: string): void
+    collapsible: boolean
+    dir: Direction
+  }
+
+  export interface IImpl extends React.ComponentPropsWithoutRef<typeof Primitive.div> {
+    dir?: Direction
+  }
+
+  export interface ISingle extends IImpl {
+    type?: 'single'
+    value?: string
+    defaultValue?: string
+    onValueChange?(value: string): void
+    collapsible?: boolean
+  }
+
+  export interface IMultiple extends IImpl {
+    type: 'multiple'
+    value?: string[]
+    defaultValue?: string[]
+    onValueChange?(value: string[]): void
+    collapsible?: never
+  }
+
+  export interface IImplPrivate extends IImpl {
+    type: 'single' | 'multiple'
+    openItems: string[]
+    onItemOpenChange(value: string): void
+    collapsible: boolean
+  }
 }
 
-const [AccordionProvider, useAccordionContext] = createAccordionContext<AccordionContextValue>(ACCORDION_NAME)
+const [AccordionProvider, useAccordionContext] = createAccordionContext<IAccordionProps.IContext>(ACCORDION_NAME)
 
-type AccordionElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-
-interface IAccordionImplProps extends PrimitiveDivProps {
-  dir?: Direction
-}
-
-interface IAccordionSingleProps extends IAccordionImplProps {
-  type?: 'single'
-  value?: string
-  defaultValue?: string
-  onValueChange?(value: string): void
-  collapsible?: boolean
-}
-
-interface IAccordionMultipleProps extends IAccordionImplProps {
-  type: 'multiple'
-  value?: string[]
-  defaultValue?: string[]
-  onValueChange?(value: string[]): void
-  collapsible?: never
-}
-
-type IAccordionProps = IAccordionSingleProps | IAccordionMultipleProps
-
-const Accordion = React.forwardRef<AccordionElement, IAccordionProps>(
-  (props: ScopedProps<IAccordionProps>, forwardedRef) => {
+const Accordion = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IAccordionProps>(
+  (props: IAccordionProps.IScoped<IAccordionProps>, forwardedRef) => {
     if (props.type === 'multiple') {
       return <AccordionMultiple {...props} ref={forwardedRef} />
     }
@@ -59,8 +65,8 @@ const Accordion = React.forwardRef<AccordionElement, IAccordionProps>(
 
 Accordion.displayName = ACCORDION_NAME
 
-const AccordionSingle = React.forwardRef<AccordionElement, IAccordionSingleProps>(
-  (props: ScopedProps<IAccordionSingleProps>, forwardedRef) => {
+const AccordionSingle = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IAccordionProps.ISingle>(
+  (props: IAccordionProps.IScoped<IAccordionProps.ISingle>, forwardedRef) => {
     const { value: valueProp, defaultValue, onValueChange, collapsible = true, ...accordionProps } = props
 
     const [value = '', setValue] = useControllableState({
@@ -98,8 +104,8 @@ const AccordionSingle = React.forwardRef<AccordionElement, IAccordionSingleProps
 
 AccordionSingle.displayName = `${ACCORDION_NAME}Single`
 
-const AccordionMultiple = React.forwardRef<AccordionElement, IAccordionMultipleProps>(
-  (props: ScopedProps<IAccordionMultipleProps>, forwardedRef) => {
+const AccordionMultiple = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IAccordionProps.IMultiple>(
+  (props: IAccordionProps.IScoped<IAccordionProps.IMultiple>, forwardedRef) => {
     const { value: valueProp, defaultValue, onValueChange, ...accordionProps } = props
 
     const [value = [], setValue] = useControllableState({
@@ -137,15 +143,8 @@ const AccordionMultiple = React.forwardRef<AccordionElement, IAccordionMultipleP
 
 AccordionMultiple.displayName = `${ACCORDION_NAME}Multiple`
 
-interface IAccordionImplPrivateProps extends IAccordionImplProps {
-  type: 'single' | 'multiple'
-  openItems: string[]
-  onItemOpenChange(value: string): void
-  collapsible: boolean
-}
-
-const AccordionImpl = React.forwardRef<AccordionElement, IAccordionImplPrivateProps>(
-  (props: ScopedProps<IAccordionImplPrivateProps>, forwardedRef) => {
+const AccordionImpl = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IAccordionProps.IImplPrivate>(
+  (props: IAccordionProps.IScoped<IAccordionProps.IImplPrivate>, forwardedRef) => {
     const { __scopeAccordion, type, openItems, onItemOpenChange, collapsible, dir, ...accordionProps } = props
     const direction = useDirection(dir)
 
@@ -165,7 +164,7 @@ const AccordionImpl = React.forwardRef<AccordionElement, IAccordionImplPrivatePr
 
 AccordionImpl.displayName = `${ACCORDION_NAME}Impl`
 
-export type { IAccordionImplProps, IAccordionMultipleProps, IAccordionProps, IAccordionSingleProps, ScopedProps }
+export type { IAccordionProps }
 export {
   ACCORDION_NAME,
   Accordion,

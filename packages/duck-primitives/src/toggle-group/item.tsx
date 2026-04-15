@@ -2,7 +2,7 @@ import * as React from 'react'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { Primitive } from '../primitive-elements'
 import * as RovingFocusGroup from '../roving-focus'
-import type { ScopedProps } from './toggle-group'
+import type { IToggleGroupProps } from './toggle-group'
 import { useRovingFocusGroupScope, useToggleGroupContext } from './toggle-group'
 
 const ITEM_NAME = 'ToggleGroupItem'
@@ -18,7 +18,7 @@ interface IToggleGroupItemProps extends PrimitiveButtonProps {
 }
 
 const ToggleGroupItem = React.forwardRef<ToggleGroupItemElement, IToggleGroupItemProps>(
-  (props: ScopedProps<IToggleGroupItemProps>, forwardedRef) => {
+  (props: IToggleGroupProps.IScoped<IToggleGroupItemProps>, forwardedRef) => {
     const { __scopeToggleGroup, value, disabled: disabledProp, ...itemProps } = props
     const context = useToggleGroupContext(ITEM_NAME, __scopeToggleGroup)
     const rovingFocusGroupScope = useRovingFocusGroupScope(__scopeToggleGroup)

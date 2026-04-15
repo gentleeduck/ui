@@ -3,7 +3,7 @@
 import * as React from 'react'
 import { useComputedTimeoutTransition } from './mount.libs'
 
-export type MountMinimalProps = {
+export type IMountMinimalProps = {
   forceMount?: boolean
   open?: boolean
   children?: React.ReactNode
@@ -19,7 +19,7 @@ function MountMinimal({
   ref,
   skipWaiting = false,
   renderOnce = false,
-}: MountMinimalProps) {
+}: IMountMinimalProps) {
   const [hasForceMounted, setHasForceMounted] = React.useState(false)
   const [isVisible, setIsVisible] = React.useState(false)
   const [hasRenderedOnce, setHasRenderedOnce] = React.useState(false)

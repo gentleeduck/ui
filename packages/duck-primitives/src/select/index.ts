@@ -23,7 +23,7 @@ export {
   SelectScrollUpButton,
   SelectScrollUpButton as ScrollUpButton,
 } from './scroll-buttons'
-export type { SelectProps } from './select'
+export type { ISelectProps } from './select'
 export { createSelectScope, Select, Select as Root } from './select'
 export type { ISelectSeparatorProps } from './separator'
 export { SelectSeparator, SelectSeparator as Separator } from './separator'

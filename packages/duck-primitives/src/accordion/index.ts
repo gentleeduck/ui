@@ -1,4 +1,4 @@
-export type { IAccordionMultipleProps, IAccordionProps, IAccordionSingleProps } from './accordion'
+export type { IAccordionProps } from './accordion'
 /* Short aliases for namespace-style imports: import * as AccordionPrimitive from '...' */
 export { Accordion, Accordion as Root, createAccordionScope } from './accordion'
 export type { IAccordionContentProps } from './content'
