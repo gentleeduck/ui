@@ -1,101 +1,511 @@
 {
-  "bundleSize": [
-    {
-      "name": "@gentleduck/variants",
-      "sizeBytes": 665,
-      "sizeKB": 0.65
+  "environment": {
+    "node": "v24.3.0",
+    "bun": "1.3.11",
+    "platform": "linux",
+    "arch": "x64",
+    "cpu": "AMD Ryzen 9 9955HX 16-Core Processor",
+    "cpuCount": 32,
+    "totalMemoryMB": 31242,
+    "commit": "11e32afeacf495ef9de187d921f28fba9f7eeea5",
+    "branch": "refactor/conventions-monorepo"
+  },
+  "bundleSize": {
+    "methodology": {
+      "shipped": "gzip of the exact file resolved from node_modules (what npm ships)",
+      "fullApi": "bundle `export * from '<pkg>'`, minify with Bun, gzip (full surface-area cost)",
+      "realImport": "bundle importing only the main export with a side-effect sink, minify, gzip (typical per-import cost)"
     },
-    {
-      "name": "class-variance-authority",
-      "sizeBytes": 1800,
-      "sizeKB": 1.76
-    },
-    {
-      "name": "tailwind-variants",
-      "sizeBytes": 5400,
-      "sizeKB": 5.27
-    },
-    {
-      "name": "clsx",
-      "sizeBytes": 330,
-      "sizeKB": 0.32
-    }
-  ],
+    "results": [
+      {
+        "name": "@gentleduck/variants",
+        "shippedBytes": 1012,
+        "shippedKB": 0.99,
+        "fullApiBytes": 1076,
+        "fullApiKB": 1.05,
+        "realImportBytes": 1078,
+        "realImportKB": 1.05
+      },
+      {
+        "name": "class-variance-authority",
+        "shippedBytes": 1152,
+        "shippedKB": 1.13,
+        "fullApiBytes": 584,
+        "fullApiKB": 0.57,
+        "realImportBytes": 584,
+        "realImportKB": 0.57
+      },
+      {
+        "name": "tailwind-variants",
+        "shippedBytes": 594,
+        "shippedKB": 0.58,
+        "fullApiBytes": 10678,
+        "fullApiKB": 10.43,
+        "realImportBytes": 10652,
+        "realImportKB": 10.4
+      },
+      {
+        "name": "clsx",
+        "shippedBytes": 245,
+        "shippedKB": 0.24,
+        "fullApiBytes": 241,
+        "fullApiKB": 0.24,
+        "realImportBytes": 245,
+        "realImportKB": 0.24
+      }
+    ]
+  },
   "runtimePerformance": [
     {
-      "label": "cva() with defaults",
-      "ns": 83
+      "scenario": "defaults",
+      "label": "defaults only",
+      "warmNote": "same props object reused each call",
+      "coldNote": "unique className per call, defeats memoization; includes object alloc cost",
+      "results": [
+        {
+          "library": "@gentleduck/variants",
+          "warm": {
+            "meanNs": 137.4,
+            "medianNs": 126.8,
+            "p95Ns": 199.7,
+            "p99Ns": 355,
+            "minNs": 100.5,
+            "maxNs": 355,
+            "stddevNs": 42.6,
+            "rmeP": 8.6,
+            "samples": 50,
+            "opsPerSec": 7886435,
+            "durationMs": 14.64
+          },
+          "cold": {
+            "meanNs": 273.2,
+            "medianNs": 258.9,
+            "p95Ns": 383.8,
+            "p99Ns": 942.1,
+            "minNs": 208.3,
+            "maxNs": 942.1,
+            "stddevNs": 106.3,
+            "rmeP": 10.79,
+            "samples": 50,
+            "opsPerSec": 3862495,
+            "durationMs": 28.43
+          }
+        },
+        {
+          "library": "class-variance-authority",
+          "warm": {
+            "meanNs": 173.2,
+            "medianNs": 130.1,
+            "p95Ns": 302.5,
+            "p99Ns": 581.5,
+            "minNs": 100.4,
+            "maxNs": 581.5,
+            "stddevNs": 83.3,
+            "rmeP": 13.34,
+            "samples": 50,
+            "opsPerSec": 7686395,
+            "durationMs": 18.84
+          },
+          "cold": {
+            "meanNs": 247.2,
+            "medianNs": 230,
+            "p95Ns": 286.3,
+            "p99Ns": 659.4,
+            "minNs": 172,
+            "maxNs": 659.4,
+            "stddevNs": 75.3,
+            "rmeP": 8.44,
+            "samples": 50,
+            "opsPerSec": 4347826,
+            "durationMs": 26
+          }
+        },
+        {
+          "library": "tailwind-variants",
+          "warm": {
+            "meanNs": 638.9,
+            "medianNs": 548.8,
+            "p95Ns": 1013.4,
+            "p99Ns": 1547.1,
+            "minNs": 505.2,
+            "maxNs": 1547.1,
+            "stddevNs": 192.6,
+            "rmeP": 8.35,
+            "samples": 50,
+            "opsPerSec": 1822157,
+            "durationMs": 70.56
+          },
+          "cold": {
+            "meanNs": 6094.3,
+            "medianNs": 6044.2,
+            "p95Ns": 7041.2,
+            "p99Ns": 7297.5,
+            "minNs": 5372.7,
+            "maxNs": 7297.5,
+            "stddevNs": 445,
+            "rmeP": 2.02,
+            "samples": 50,
+            "opsPerSec": 165448,
+            "durationMs": 625.63
+          }
+        }
+      ]
     },
     {
-      "label": "cva() with variant",
-      "ns": 195
+      "scenario": "variant",
+      "label": "one variant",
+      "warmNote": "same props object reused each call",
+      "coldNote": "unique className per call, defeats memoization; includes object alloc cost",
+      "results": [
+        {
+          "library": "@gentleduck/variants",
+          "warm": {
+            "meanNs": 125.3,
+            "medianNs": 113.6,
+            "p95Ns": 197.5,
+            "p99Ns": 566.3,
+            "minNs": 83.1,
+            "maxNs": 566.3,
+            "stddevNs": 70.7,
+            "rmeP": 15.64,
+            "samples": 50,
+            "opsPerSec": 8802817,
+            "durationMs": 12.96
+          },
+          "cold": {
+            "meanNs": 221.9,
+            "medianNs": 201.3,
+            "p95Ns": 338.2,
+            "p99Ns": 518.9,
+            "minNs": 187.5,
+            "maxNs": 518.9,
+            "stddevNs": 59.2,
+            "rmeP": 7.39,
+            "samples": 50,
+            "opsPerSec": 4967710,
+            "durationMs": 22.93
+          }
+        },
+        {
+          "library": "class-variance-authority",
+          "warm": {
+            "meanNs": 203.7,
+            "medianNs": 186.7,
+            "p95Ns": 322,
+            "p99Ns": 797.3,
+            "minNs": 118.2,
+            "maxNs": 797.3,
+            "stddevNs": 100.9,
+            "rmeP": 13.72,
+            "samples": 50,
+            "opsPerSec": 5356186,
+            "durationMs": 21.12
+          },
+          "cold": {
+            "meanNs": 270.6,
+            "medianNs": 268,
+            "p95Ns": 410.5,
+            "p99Ns": 436.7,
+            "minNs": 185.8,
+            "maxNs": 436.7,
+            "stddevNs": 73.7,
+            "rmeP": 7.55,
+            "samples": 50,
+            "opsPerSec": 3731343,
+            "durationMs": 28.61
+          }
+        },
+        {
+          "library": "tailwind-variants",
+          "warm": {
+            "meanNs": 615.5,
+            "medianNs": 592.5,
+            "p95Ns": 902,
+            "p99Ns": 1045.6,
+            "minNs": 537.1,
+            "maxNs": 1045.6,
+            "stddevNs": 100.5,
+            "rmeP": 4.52,
+            "samples": 50,
+            "opsPerSec": 1687764,
+            "durationMs": 63.26
+          },
+          "cold": {
+            "meanNs": 6513.9,
+            "medianNs": 6491.5,
+            "p95Ns": 7112.7,
+            "p99Ns": 7339.5,
+            "minNs": 5815.7,
+            "maxNs": 7339.5,
+            "stddevNs": 344.6,
+            "rmeP": 1.47,
+            "samples": 50,
+            "opsPerSec": 154048,
+            "durationMs": 662.88
+          }
+        }
+      ]
     },
     {
-      "label": "cva() with variant + size",
-      "ns": 325
+      "scenario": "variant_size",
+      "label": "variant + size",
+      "warmNote": "same props object reused each call",
+      "coldNote": "unique className per call, defeats memoization; includes object alloc cost",
+      "results": [
+        {
+          "library": "@gentleduck/variants",
+          "warm": {
+            "meanNs": 135.7,
+            "medianNs": 118.1,
+            "p95Ns": 292.7,
+            "p99Ns": 359.1,
+            "minNs": 82.5,
+            "maxNs": 359.1,
+            "stddevNs": 65.9,
+            "rmeP": 13.45,
+            "samples": 50,
+            "opsPerSec": 8467401,
+            "durationMs": 13.94
+          },
+          "cold": {
+            "meanNs": 256.5,
+            "medianNs": 231.1,
+            "p95Ns": 379.1,
+            "p99Ns": 536.1,
+            "minNs": 170,
+            "maxNs": 536.1,
+            "stddevNs": 78.2,
+            "rmeP": 8.45,
+            "samples": 50,
+            "opsPerSec": 4327131,
+            "durationMs": 26.31
+          }
+        },
+        {
+          "library": "class-variance-authority",
+          "warm": {
+            "meanNs": 206.8,
+            "medianNs": 187.5,
+            "p95Ns": 309.2,
+            "p99Ns": 566.1,
+            "minNs": 125.4,
+            "maxNs": 566.1,
+            "stddevNs": 74.5,
+            "rmeP": 9.99,
+            "samples": 50,
+            "opsPerSec": 5333333,
+            "durationMs": 21.13
+          },
+          "cold": {
+            "meanNs": 314.4,
+            "medianNs": 309.7,
+            "p95Ns": 503.4,
+            "p99Ns": 674.6,
+            "minNs": 210.7,
+            "maxNs": 674.6,
+            "stddevNs": 86.2,
+            "rmeP": 7.6,
+            "samples": 50,
+            "opsPerSec": 3228931,
+            "durationMs": 32.17
+          }
+        },
+        {
+          "library": "tailwind-variants",
+          "warm": {
+            "meanNs": 650.2,
+            "medianNs": 623,
+            "p95Ns": 970,
+            "p99Ns": 1084.8,
+            "minNs": 584.2,
+            "maxNs": 1084.8,
+            "stddevNs": 103.1,
+            "rmeP": 4.39,
+            "samples": 50,
+            "opsPerSec": 1605136,
+            "durationMs": 66.85
+          },
+          "cold": {
+            "meanNs": 8122.8,
+            "medianNs": 8006.4,
+            "p95Ns": 9190.5,
+            "p99Ns": 11881.6,
+            "minNs": 6641.7,
+            "maxNs": 11881.6,
+            "stddevNs": 884,
+            "rmeP": 3.02,
+            "samples": 50,
+            "opsPerSec": 124900,
+            "durationMs": 828.26
+          }
+        }
+      ]
     },
     {
-      "label": "cva() with className merge",
-      "ns": 449
+      "scenario": "class_merge",
+      "label": "with className merge",
+      "warmNote": "same props object reused each call",
+      "coldNote": "unique className per call, defeats memoization; includes object alloc cost",
+      "results": [
+        {
+          "library": "@gentleduck/variants",
+          "warm": {
+            "meanNs": 260,
+            "medianNs": 260.3,
+            "p95Ns": 420.2,
+            "p99Ns": 1025.1,
+            "minNs": 135,
+            "maxNs": 1025.1,
+            "stddevNs": 142.9,
+            "rmeP": 15.23,
+            "samples": 50,
+            "opsPerSec": 3841721,
+            "durationMs": 26.88
+          },
+          "cold": {
+            "meanNs": 293.5,
+            "medianNs": 292.2,
+            "p95Ns": 412.5,
+            "p99Ns": 901.3,
+            "minNs": 180.6,
+            "maxNs": 901.3,
+            "stddevNs": 112.2,
+            "rmeP": 10.6,
+            "samples": 50,
+            "opsPerSec": 3422313,
+            "durationMs": 30.02
+          }
+        },
+        {
+          "library": "class-variance-authority",
+          "warm": {
+            "meanNs": 324.4,
+            "medianNs": 310.8,
+            "p95Ns": 531.9,
+            "p99Ns": 731,
+            "minNs": 160.6,
+            "maxNs": 731,
+            "stddevNs": 109.9,
+            "rmeP": 9.39,
+            "samples": 50,
+            "opsPerSec": 3217503,
+            "durationMs": 33
+          },
+          "cold": {
+            "meanNs": 342.7,
+            "medianNs": 340.6,
+            "p95Ns": 473.9,
+            "p99Ns": 518.8,
+            "minNs": 214,
+            "maxNs": 518.8,
+            "stddevNs": 76.3,
+            "rmeP": 6.17,
+            "samples": 50,
+            "opsPerSec": 2935995,
+            "durationMs": 35.23
+          }
+        },
+        {
+          "library": "tailwind-variants",
+          "warm": {
+            "meanNs": 621.3,
+            "medianNs": 595.4,
+            "p95Ns": 913.2,
+            "p99Ns": 1015,
+            "minNs": 578.1,
+            "maxNs": 1015,
+            "stddevNs": 87.5,
+            "rmeP": 3.9,
+            "samples": 50,
+            "opsPerSec": 1679543,
+            "durationMs": 63.65
+          },
+          "cold": {
+            "meanNs": 6099.8,
+            "medianNs": 6018.2,
+            "p95Ns": 7411.6,
+            "p99Ns": 7783,
+            "minNs": 5046.2,
+            "maxNs": 7783,
+            "stddevNs": 637.9,
+            "rmeP": 2.9,
+            "samples": 50,
+            "opsPerSec": 166163,
+            "durationMs": 624.09
+          }
+        }
+      ]
     }
   ],
-  "features": [
-    {
-      "feature": "TypeScript types",
-      "gentleduck": true,
-      "cva": true,
-      "tv": true,
-      "clsx": false
-    },
-    {
-      "feature": "Default variants",
-      "gentleduck": true,
-      "cva": true,
-      "tv": true,
-      "clsx": false
-    },
-    {
-      "feature": "Compound variants",
-      "gentleduck": true,
-      "cva": true,
-      "tv": true,
-      "clsx": false
-    },
-    {
-      "feature": "Responsive variants",
-      "gentleduck": false,
-      "cva": false,
-      "tv": true,
-      "clsx": false
-    },
-    {
-      "feature": "Slots",
-      "gentleduck": false,
-      "cva": false,
-      "tv": true,
-      "clsx": false
-    },
-    {
-      "feature": "Zero dependencies",
-      "gentleduck": true,
-      "cva": true,
-      "tv": false,
-      "clsx": true
-    },
-    {
-      "feature": "VariantProps extraction",
-      "gentleduck": true,
-      "cva": true,
-      "tv": true,
-      "clsx": false
-    },
-    {
-      "feature": "className merge",
-      "gentleduck": true,
-      "cva": true,
-      "tv": true,
-      "clsx": true
-    }
-  ],
-  "generatedAt": "2026-03-22T15:16:00.527Z"
+  "features": {
+    "selfReported": true,
+    "rows": [
+      {
+        "feature": "TypeScript types",
+        "gentleduck": true,
+        "cva": true,
+        "tv": true,
+        "clsx": false
+      },
+      {
+        "feature": "Default variants",
+        "gentleduck": true,
+        "cva": true,
+        "tv": true,
+        "clsx": false
+      },
+      {
+        "feature": "Compound variants",
+        "gentleduck": true,
+        "cva": true,
+        "tv": true,
+        "clsx": false
+      },
+      {
+        "feature": "Responsive variants",
+        "gentleduck": false,
+        "cva": false,
+        "tv": true,
+        "clsx": false
+      },
+      {
+        "feature": "Slots",
+        "gentleduck": false,
+        "cva": false,
+        "tv": true,
+        "clsx": false
+      },
+      {
+        "feature": "Zero dependencies",
+        "gentleduck": true,
+        "cva": true,
+        "tv": false,
+        "clsx": true
+      },
+      {
+        "feature": "VariantProps extraction",
+        "gentleduck": true,
+        "cva": true,
+        "tv": true,
+        "clsx": false
+      },
+      {
+        "feature": "className merge",
+        "gentleduck": true,
+        "cva": true,
+        "tv": true,
+        "clsx": true
+      },
+      {
+        "feature": "Memoized output",
+        "gentleduck": true,
+        "cva": false,
+        "tv": false,
+        "clsx": false
+      }
+    ]
+  },
+  "generatedAt": "2026-04-17T14:53:42.074Z",
+  "totalDurationMs": 3421.34,
+  "reproCommand": "cd packages/duck-variants && bun run benchmark # at 11e32af"
 }
