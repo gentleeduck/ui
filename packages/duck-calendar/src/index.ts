@@ -24,7 +24,7 @@ export {
 } from './grid'
 // Top-level config
 export type { ICalendarConfig, ICalendarLocaleConfig, ViewMode } from './index.types'
-export type { NavigationDirection, NavigationUnit } from './navigation'
+export type { Navigation } from './navigation'
 
 // Navigation
 export { canNavigate, goToMonth, goToNextMonth, goToPrevMonth, goToYear, navigate } from './navigation'

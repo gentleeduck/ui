@@ -22,7 +22,8 @@ export function clampTime(time: Time.ITimeValue, min?: Time.ITimeValue, max?: Ti
   let result = { ...time }
 
   // Normalize bounds to same precision as input for accurate comparison
-  const normalizeForCompare = (t: Time.ITimeValue): Time.ITimeValue => (hasSeconds ? t : { hour: t.hour, minute: t.minute })
+  const normalizeForCompare = (t: Time.ITimeValue): Time.ITimeValue =>
+    hasSeconds ? t : { hour: t.hour, minute: t.minute }
 
   if (min && toSeconds(normalizeForCompare(result)) < toSeconds(normalizeForCompare(min))) {
     result = { ...min }

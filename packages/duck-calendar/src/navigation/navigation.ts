@@ -1,17 +1,13 @@
 import type { Adapter } from '../adapter'
 import type { Selection } from '../selection'
-
-/** Direction to navigate: backward or forward. */
-export type NavigationDirection = 'prev' | 'next'
-/** Unit to navigate by: one month, one year, or ten years. */
-export type NavigationUnit = 'month' | 'year' | 'decade'
+import type { Navigation } from './navigation.types'
 
 /** Move the view date by one unit in the given direction. */
 export function navigate<TDate>(
   adapter: Adapter.IDateAdapter<TDate>,
   date: TDate,
-  direction: NavigationDirection,
-  unit: NavigationUnit,
+  direction: Navigation.Direction,
+  unit: Navigation.Unit,
 ): TDate {
   const sign = direction === 'next' ? 1 : -1
 
@@ -33,8 +29,8 @@ export function navigate<TDate>(
 export function canNavigate<TDate>(
   adapter: Adapter.IDateAdapter<TDate>,
   date: TDate,
-  direction: NavigationDirection,
-  unit: NavigationUnit,
+  direction: Navigation.Direction,
+  unit: Navigation.Unit,
   constraints: Pick<Selection.ISelectionConstraints<TDate>, 'fromDate' | 'toDate'> = {},
 ): boolean {
   const { fromDate, toDate } = constraints
