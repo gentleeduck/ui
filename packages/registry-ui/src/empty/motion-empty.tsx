@@ -4,7 +4,7 @@ import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import type { VariantProps } from '@gentleduck/variants'
+import type { Variants } from '@gentleduck/variants'
 import { LazyMotion, m } from 'motion/react'
 import React from 'react'
 import { Empty, EmptyContent, EmptyDescription, EmptyMedia, EmptyTitle } from './empty'
@@ -24,7 +24,7 @@ MotionEmpty.displayName = 'MotionEmpty'
 
 const MotionEmptyMedia = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<'div'> & VariantProps<typeof emptyMediaVariants>
+  React.ComponentProps<'div'> & Variants.VariantProps<typeof emptyMediaVariants>
 >((props, ref) => {
   const content = useMotionPreset(scaleIn, { transition: springBouncy, delay: 0.05 })
   return (

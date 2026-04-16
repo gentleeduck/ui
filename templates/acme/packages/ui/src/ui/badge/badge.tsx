@@ -1,12 +1,12 @@
 import { cn } from '@gentleduck/libs/cn'
 import { Slot } from '@gentleduck/primitives/slot'
-import type { VariantProps } from '@gentleduck/variants'
+import type { Variants } from '@gentleduck/variants'
 import * as React from 'react'
 import { badgeVariants } from './badge.constants'
 
 const Badge = React.forwardRef<
   HTMLDivElement,
-  Omit<React.HTMLProps<HTMLDivElement>, 'size'> & VariantProps<typeof badgeVariants> & { asChild?: boolean }
+  Omit<React.HTMLProps<HTMLDivElement>, 'size'> & Variants.VariantProps<typeof badgeVariants> & { asChild?: boolean }
 >(({ className, variant = 'default', size = 'default', border = 'default', asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot : 'span'
 

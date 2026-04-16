@@ -2,7 +2,7 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import * as SheetPrimitive from '@gentleduck/primitives/sheet'
-import type { VariantProps } from '@gentleduck/variants'
+import type { Variants } from '@gentleduck/variants'
 import { X } from 'lucide-react'
 import * as React from 'react'
 import { sheetVariants } from './sheet.constants'
@@ -37,7 +37,7 @@ SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
 interface ISheetContentProps
   extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
-    VariantProps<typeof sheetVariants> {}
+    Variants.VariantProps<typeof sheetVariants> {}
 
 const SheetContent = React.forwardRef<
   React.ComponentRef<typeof SheetPrimitive.Content>,

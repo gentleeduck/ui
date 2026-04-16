@@ -4,7 +4,7 @@ import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import type { VariantProps } from '@gentleduck/variants'
+import type { Variants } from '@gentleduck/variants'
 import { LazyMotion, m } from 'motion/react'
 import React from 'react'
 import { Field, FieldError, FieldGroup } from './field'
@@ -12,7 +12,7 @@ import type { fieldVariants } from './field.constants'
 
 const MotionField = React.forwardRef<
   HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'> & VariantProps<typeof fieldVariants> & { index?: number }
+  React.ComponentPropsWithoutRef<'div'> & Variants.VariantProps<typeof fieldVariants> & { index?: number }
 >(({ index = 0, ...props }, ref) => {
   const content = useMotionPreset(scaleIn, { transition: springBouncy, delay: index * 0.05 })
   return (

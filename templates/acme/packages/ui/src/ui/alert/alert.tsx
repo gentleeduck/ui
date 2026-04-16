@@ -1,12 +1,12 @@
 import { cn } from '@gentleduck/libs/cn'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
-import type { VariantProps } from '@gentleduck/variants'
+import type { Variants } from '@gentleduck/variants'
 import * as React from 'react'
 import { alertVariants } from './alert.constants'
 
 const Alert = React.forwardRef<
   HTMLDivElement,
-  React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>
+  React.HTMLAttributes<HTMLDivElement> & Variants.VariantProps<typeof alertVariants>
 >(({ className, variant, dir, ...props }, ref) => {
   const direction = useDirection(dir as Direction)
   return (

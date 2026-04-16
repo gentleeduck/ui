@@ -10,7 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@gentleduck/registry-ui/select'
-import { cva, type VariantProps } from '@gentleduck/variants'
+import type { Variants } from '@gentleduck/variants'
+import { cva } from '@gentleduck/variants'
 import React from 'react'
 
 export const buttonVariants = cva(
@@ -56,7 +57,7 @@ export const buttonVariants = cva(
   },
 )
 
-type ButtonVariantProps = VariantProps<typeof buttonVariants>
+type ButtonVariantProps = Variants.VariantProps<typeof buttonVariants>
 
 export default function Demo() {
   const [variant, setVariant] = React.useState<ButtonVariantProps['variant']>('default')
