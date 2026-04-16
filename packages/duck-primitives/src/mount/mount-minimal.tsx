@@ -2,15 +2,7 @@
 
 import * as React from 'react'
 import { useComputedTimeoutTransition } from './mount.libs'
-
-export type IMountMinimalProps = {
-  forceMount?: boolean
-  open?: boolean
-  children?: React.ReactNode
-  ref?: HTMLDialogElement | null
-  skipWaiting?: boolean
-  renderOnce?: boolean
-}
+import type { IMount } from './mount.types'
 
 function MountMinimal({
   forceMount = false,
@@ -19,7 +11,7 @@ function MountMinimal({
   ref,
   skipWaiting = false,
   renderOnce = false,
-}: IMountMinimalProps) {
+}: IMount.IMinimalProps) {
   const [hasForceMounted, setHasForceMounted] = React.useState(false)
   const [isVisible, setIsVisible] = React.useState(false)
   const [hasRenderedOnce, setHasRenderedOnce] = React.useState(false)
@@ -34,11 +26,10 @@ function MountMinimal({
 
     if (shouldRender) {
       setIsVisible(true)
-      setHasRenderedOnce(true) // remember we rendered at least once
+      setHasRenderedOnce(true)
       return
     }
 
-    // If renderOnce is enabled, never hide after first render
     if (renderOnce && hasRenderedOnce) return
 
     const element = ref
@@ -52,7 +43,7 @@ function MountMinimal({
         timeoutRef.current = null
       } else {
         timeoutRef.current =
-          // biome-ignore lint/correctness/useHookAtTopLevel: useComputedTimeoutTransition is not a React hook despite the naming  -  it's a utility that computes CSS transition duration
+          // biome-ignore lint/correctness/useHookAtTopLevel: useComputedTimeoutTransition is a utility that computes CSS transition duration, not a React hook despite the naming
           useComputedTimeoutTransition(element, () => {
             setIsVisible(false)
             timeoutRef.current = null
