@@ -1,12 +1,12 @@
 import type React from 'react'
-import type { IDateAdapter } from '../../adapter'
+import type { Adapter } from '../../adapter'
 import type { ICalendarDay } from '../../grid'
 import type { IDayProps, IGridProps, IHeaderProps, INavProps } from './use-calendar.types'
 
 export function buildDayProps<TDate>(
   day: ICalendarDay<TDate>,
   focusedDate: TDate,
-  adapter: IDateAdapter<TDate>,
+  adapter: Adapter.IDateAdapter<TDate>,
   selectDate: (date: TDate, options?: { shiftKey?: boolean }) => void,
   focusDate: (date: TDate) => void,
   onKeyDown: React.KeyboardEventHandler,

@@ -1,4 +1,4 @@
-import type { IDateAdapter } from '../adapter'
+import type { Adapter } from '../adapter'
 import type { ICalendarConfig } from '../index.types'
 import { getLocalizedMonthNames, getWeekNumber } from './grid.libs'
 import type { ICalendarDay, ICalendarMonth, ICalendarWeek, IDecadeEntry, IYearEntry } from './grid.types'
@@ -8,7 +8,7 @@ import type { ICalendarDay, ICalendarMonth, ICalendarWeek, IDecadeEntry, IYearEn
  * Returns weeks x 7 days. Selection flags default to `false`  -  use `applySelection()` to fill them.
  */
 export function buildCalendarMonth<TDate>(
-  adapter: IDateAdapter<TDate>,
+  adapter: Adapter.IDateAdapter<TDate>,
   viewDate: TDate,
   config: Pick<ICalendarConfig<TDate, 'single'>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>,
 ): ICalendarMonth<TDate> {
@@ -75,7 +75,7 @@ export function buildCalendarMonth<TDate>(
  * Used when `numberOfMonths > 1` for multi-month calendar displays.
  */
 export function buildMultiMonth<TDate>(
-  adapter: IDateAdapter<TDate>,
+  adapter: Adapter.IDateAdapter<TDate>,
   startMonth: TDate,
   count: number,
   config: Pick<ICalendarConfig<TDate, 'single'>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>,
@@ -94,7 +94,7 @@ export function buildMultiMonth<TDate>(
  * Queries the adapter for the actual month count to support calendar systems
  * with variable months (e.g. Hebrew leap years with 13 months).
  */
-export function buildCalendarYear<TDate>(adapter: IDateAdapter<TDate>, viewDate: TDate, locale?: string): IYearEntry[] {
+export function buildCalendarYear<TDate>(adapter: Adapter.IDateAdapter<TDate>, viewDate: TDate, locale?: string): IYearEntry[] {
   const today = adapter.today()
   const currentMonth = adapter.getMonth(today)
   const currentYear = adapter.getYear(today)
@@ -110,7 +110,7 @@ export function buildCalendarYear<TDate>(adapter: IDateAdapter<TDate>, viewDate:
 }
 
 /** Build 12 year entries for the decade picker (decade + 1 before/after for context). */
-export function buildDecadeView<TDate>(adapter: IDateAdapter<TDate>, viewDate: TDate): IDecadeEntry[] {
+export function buildDecadeView<TDate>(adapter: Adapter.IDateAdapter<TDate>, viewDate: TDate): IDecadeEntry[] {
   const today = adapter.today()
   const currentYear = adapter.getYear(today)
   const viewYear = adapter.getYear(viewDate)

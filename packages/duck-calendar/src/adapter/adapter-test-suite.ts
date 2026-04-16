@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest'
 
-import type { IDateAdapter } from './adapter.types'
+import type { Adapter } from './adapter.types'
 
 /**
  * Shared parameterized test suite for any DateAdapter implementation.
@@ -14,11 +14,11 @@ import type { IDateAdapter } from './adapter.types'
  */
 export function runAdapterTests<TDate>(
   name: string,
-  createAdapter: () => IDateAdapter<TDate>,
+  createAdapter: () => Adapter.IDateAdapter<TDate>,
   createDate: (year: number, month: number, day: number, hour?: number, minute?: number, second?: number) => TDate,
 ) {
   describe(name, () => {
-    let adapter: IDateAdapter<TDate>
+    let adapter: Adapter.IDateAdapter<TDate>
 
     beforeEach(() => {
       adapter = createAdapter()

@@ -1,5 +1,5 @@
 import { jalaaliMonthLength, toGregorian, toJalaali } from '../calendar-system'
-import type { IDateAdapter, WeekStartDay } from './adapter.types'
+import type { Adapter } from './adapter.types'
 import { createConversionCache, formatWithCalendar } from './adapter.utils'
 
 const persianCache = createConversionCache((date: Date) =>
@@ -15,7 +15,7 @@ const persianCache = createConversionCache((date: Date) =>
  * in Persian calendar space.  Universal operations (addDays, isBefore, isAfter,
  * getDayOfWeek, startOfWeek, time accessors) delegate directly to Gregorian.
  */
-export class PersianAdapter implements IDateAdapter<Date> {
+export class PersianAdapter implements Adapter.IDateAdapter<Date> {
   private readonly locale: string
 
   constructor(locale = 'fa-IR') {
@@ -99,7 +99,7 @@ export class PersianAdapter implements IDateAdapter<Date> {
   }
 
   /** Walks backward to the given weekStartDay (0=Sunday). */
-  startOfWeek(date: Date, weekStartDay: WeekStartDay): Date {
+  startOfWeek(date: Date, weekStartDay: Adapter.WeekStartDay): Date {
     const d = new Date(date.getFullYear(), date.getMonth(), date.getDate())
     const diff = (d.getDay() - weekStartDay + 7) % 7
     d.setDate(d.getDate() - diff)
@@ -135,8 +135,8 @@ export class PersianAdapter implements IDateAdapter<Date> {
     return new Date(gy, gm - 1, gd)
   }
 
-  getDayOfWeek(date: Date): WeekStartDay {
-    return date.getDay() as WeekStartDay
+  getDayOfWeek(date: Date): Adapter.WeekStartDay {
+    return date.getDay() as Adapter.WeekStartDay
   }
 
   toDate(date: Date): Date {

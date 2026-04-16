@@ -1,4 +1,4 @@
-import type { IDateAdapter } from '../adapter'
+import type { Adapter } from '../adapter'
 import type { DateRange, ISelectionConstraints } from './selection.types'
 
 /**
@@ -10,7 +10,7 @@ import type { DateRange, ISelectionConstraints } from './selection.types'
  * 3. After `constraints.toDate`
  */
 export function isDateDisabled<TDate>(
-  adapter: IDateAdapter<TDate>,
+  adapter: Adapter.IDateAdapter<TDate>,
   date: TDate,
   constraints: ISelectionConstraints<TDate>,
 ): boolean {
@@ -34,7 +34,7 @@ export function isDateDisabled<TDate>(
  * Returns `true` when `date` falls inside `range` (inclusive on both ends).
  * Returns `false` when `range.to` is null (range is still being selected).
  */
-export function isInRange<TDate>(adapter: IDateAdapter<TDate>, date: TDate, range: DateRange<TDate>): boolean {
+export function isInRange<TDate>(adapter: Adapter.IDateAdapter<TDate>, date: TDate, range: DateRange<TDate>): boolean {
   if (range.to === null) return false
 
   const { from, to } = range

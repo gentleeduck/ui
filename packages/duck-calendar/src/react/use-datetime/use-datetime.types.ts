@@ -1,11 +1,11 @@
-import type { IDateAdapter } from '../../adapter'
+import type { Adapter } from '../../adapter'
 import type { ICalendarLocaleConfig } from '../../index.types'
 import type { HourCycle } from '../../time'
 import type { IUseCalendarReturn } from '../use-calendar/use-calendar.types'
 import type { IUseTimePickerReturn } from '../use-time-picker/use-time-picker.types'
 
 export interface IUseDateTimeConfig<TDate> {
-  adapter: IDateAdapter<TDate>
+  adapter: Adapter.IDateAdapter<TDate>
   locale?: ICalendarLocaleConfig
   value?: TDate
   defaultValue?: TDate

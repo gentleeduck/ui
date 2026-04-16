@@ -1,4 +1,4 @@
-import type { IDateAdapter } from '../adapter'
+import type { Adapter } from '../adapter'
 import type { ICalendarDay, ICalendarWeek } from '../grid'
 import { isDateDisabled, isInRange } from './selection.libs'
 import type { CalendarValue, DateRange, ISelectionConstraints, SelectionMode } from './selection.types'
@@ -10,7 +10,7 @@ import type { CalendarValue, DateRange, ISelectionConstraints, SelectionMode } f
  * - **multi**: toggles the day in/out of the array
  */
 export function selectDay<TDate, M extends SelectionMode>(
-  adapter: IDateAdapter<TDate>,
+  adapter: Adapter.IDateAdapter<TDate>,
   mode: M,
   currentValue: CalendarValue<TDate, M>,
   clickedDay: TDate,
@@ -37,13 +37,13 @@ export function selectDay<TDate, M extends SelectionMode>(
   }
 }
 
-function selectSingle<TDate>(adapter: IDateAdapter<TDate>, current: TDate | null, clicked: TDate): TDate | null {
+function selectSingle<TDate>(adapter: Adapter.IDateAdapter<TDate>, current: TDate | null, clicked: TDate): TDate | null {
   if (current !== null && adapter.isSameDay(current, clicked)) return null
   return clicked
 }
 
 function selectRange<TDate>(
-  adapter: IDateAdapter<TDate>,
+  adapter: Adapter.IDateAdapter<TDate>,
   current: DateRange<TDate> | null,
   clicked: TDate,
 ): DateRange<TDate> | null {
@@ -67,7 +67,7 @@ function selectRange<TDate>(
   return { from: current.from, to: clicked }
 }
 
-function selectMulti<TDate>(adapter: IDateAdapter<TDate>, current: TDate[], clicked: TDate): TDate[] {
+function selectMulti<TDate>(adapter: Adapter.IDateAdapter<TDate>, current: TDate[], clicked: TDate): TDate[] {
   const exists = current.some((d) => adapter.isSameDay(d, clicked))
   if (exists) return current.filter((d) => !adapter.isSameDay(d, clicked))
   return [...current, clicked]
@@ -80,7 +80,7 @@ function selectMulti<TDate>(adapter: IDateAdapter<TDate>, current: TDate[], clic
  * range cancels it.
  */
 function selectMultiRange<TDate>(
-  adapter: IDateAdapter<TDate>,
+  adapter: Adapter.IDateAdapter<TDate>,
   current: DateRange<TDate>[],
   clicked: TDate,
   shiftKey?: boolean,
@@ -155,7 +155,7 @@ function selectMultiRange<TDate>(
  * Merge overlapping or adjacent ranges into single ranges.
  * Two ranges merge if they overlap or one ends the day before the other starts.
  */
-function mergeRanges<TDate>(adapter: IDateAdapter<TDate>, ranges: DateRange<TDate>[]): DateRange<TDate>[] {
+function mergeRanges<TDate>(adapter: Adapter.IDateAdapter<TDate>, ranges: DateRange<TDate>[]): DateRange<TDate>[] {
   const completed = ranges.filter((r) => r.to !== null) as { from: TDate; to: TDate }[]
   const inProgress = ranges.filter((r) => r.to === null)
 
@@ -198,7 +198,7 @@ function mergeRanges<TDate>(adapter: IDateAdapter<TDate>, ranges: DateRange<TDat
  */
 export function applySelection<TDate, M extends SelectionMode>(
   weeks: ICalendarWeek<TDate>[],
-  adapter: IDateAdapter<TDate>,
+  adapter: Adapter.IDateAdapter<TDate>,
   mode: M,
   selected: CalendarValue<TDate, M>,
   constraints: ISelectionConstraints<TDate> = {},
@@ -221,7 +221,7 @@ const UNSELECTED = Object.freeze({
 })
 
 function resolveSelectionFlags<TDate, M extends SelectionMode>(
-  adapter: IDateAdapter<TDate>,
+  adapter: Adapter.IDateAdapter<TDate>,
   mode: M,
   selected: CalendarValue<TDate, M>,
   date: TDate,

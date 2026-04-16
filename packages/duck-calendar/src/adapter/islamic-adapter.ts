@@ -1,5 +1,5 @@
 import { hijriMonthLength, toGregorian, toHijri } from '../calendar-system/hijri'
-import type { IDateAdapter, WeekStartDay } from './adapter.types'
+import type { Adapter } from './adapter.types'
 import { createConversionCache, formatWithCalendar } from './adapter.utils'
 
 const hijriCache = createConversionCache((date: Date) =>
@@ -20,7 +20,7 @@ const hijriCache = createConversionCache((date: Date) =>
  *   `Intl.DateTimeFormat` renders Islamic dates.
  * - Default locale: `'ar-SA'`.
  */
-export class IslamicAdapter implements IDateAdapter<Date> {
+export class IslamicAdapter implements Adapter.IDateAdapter<Date> {
   private readonly locale: string
 
   constructor(locale = 'ar-SA') {
@@ -99,7 +99,7 @@ export class IslamicAdapter implements IDateAdapter<Date> {
   }
 
   /** Walks backward to the given weekStartDay (0=Sunday). */
-  startOfWeek(date: Date, weekStartDay: WeekStartDay): Date {
+  startOfWeek(date: Date, weekStartDay: Adapter.WeekStartDay): Date {
     const d = new Date(date.getFullYear(), date.getMonth(), date.getDate())
     const diff = (d.getDay() - weekStartDay + 7) % 7
     d.setDate(d.getDate() - diff)
@@ -155,8 +155,8 @@ export class IslamicAdapter implements IDateAdapter<Date> {
     return this.hijri(date).hd
   }
 
-  getDayOfWeek(date: Date): WeekStartDay {
-    return date.getDay() as WeekStartDay
+  getDayOfWeek(date: Date): Adapter.WeekStartDay {
+    return date.getDay() as Adapter.WeekStartDay
   }
 
   toDate(date: Date): Date {

@@ -1,4 +1,4 @@
-import type { IDateAdapter, WeekStartDay } from '../../adapter'
+import type { Adapter } from '../../adapter'
 
 export interface IKeyboardConfig<TDate> {
   focusedDate: TDate
@@ -6,8 +6,8 @@ export interface IKeyboardConfig<TDate> {
   onSelect: (date: TDate, options?: { shiftKey?: boolean }) => void
   onDismiss?: () => void
   isDisabled: (date: TDate) => boolean
-  adapter: IDateAdapter<TDate>
-  weekStartDay?: WeekStartDay
+  adapter: Adapter.IDateAdapter<TDate>
+  weekStartDay?: Adapter.WeekStartDay
 }
 
 export interface IKeyboardReturn {
