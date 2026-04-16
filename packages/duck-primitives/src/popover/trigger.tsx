@@ -4,11 +4,10 @@ import { useComposedRefs } from '../libs/compose-ref'
 import { getState } from '../libs/get-state'
 import * as PopperPrimitive from '../popper'
 import { Primitive } from '../primitive-elements'
-import { type ScopedProps, usePopoverContext, usePopperScope } from './popover'
+import { usePopoverContext, usePopperScope } from './popover'
+import type { IPopover } from './popover.types'
 
 const TRIGGER_NAME = 'PopoverTrigger'
-
-export interface IPopoverTriggerProps extends React.ComponentPropsWithRef<typeof Primitive.button> {}
 
 /**
  * Button that toggles the popover open state.
@@ -16,7 +15,7 @@ export interface IPopoverTriggerProps extends React.ComponentPropsWithRef<typeof
  */
 export const PopoverTrigger = React.forwardRef<
   React.ComponentRef<typeof Primitive.button>,
-  ScopedProps<IPopoverTriggerProps>
+  IPopover.IScoped<IPopover.ITriggerProps>
 >((props, forwardedRef) => {
   const { __scopePopover, ...triggerProps } = props
   const context = usePopoverContext(TRIGGER_NAME, __scopePopover)
@@ -38,8 +37,6 @@ export const PopoverTrigger = React.forwardRef<
     />
   )
 
-  // If a custom anchor exists, render the trigger standalone.
-  // Otherwise wrap it in a PopperAnchor so popper knows where to position.
   return context.hasCustomAnchor ? (
     trigger
   ) : (

@@ -1,29 +1,19 @@
-import type * as React from 'react'
 import { Portal as PortalPrimitive } from '../portal'
 import { Presence } from '../presence/presence'
-import { createPopoverContext, type ScopedProps, usePopoverContext } from './popover'
+import { createPopoverContext, usePopoverContext } from './popover'
+import type { IPopover } from './popover.types'
 
 const PORTAL_NAME = 'PopoverPortal'
 
-type PortalContextValue = { forceMount?: true }
-
-export const [PortalProvider, usePortalContext] = createPopoverContext<PortalContextValue>(PORTAL_NAME, {
+export const [PortalProvider, usePortalContext] = createPopoverContext<IPopover.IPortalContext>(PORTAL_NAME, {
   forceMount: undefined,
 })
-
-export interface IPopoverPortalProps {
-  children?: React.ReactNode
-  /** The container element to portal into. Defaults to document.body. */
-  container?: React.ComponentPropsWithoutRef<typeof PortalPrimitive>['container']
-  /** Force mounting for animation control. */
-  forceMount?: true
-}
 
 /**
  * Portals popover content into a specified container (or document.body).
  * Wraps children in Presence so content only mounts when open or force-mounted.
  */
-export function PopoverPortal(props: ScopedProps<IPopoverPortalProps>) {
+export function PopoverPortal(props: IPopover.IScoped<IPopover.IPortalProps>) {
   const { __scopePopover, forceMount, children, container } = props
   const context = usePopoverContext(PORTAL_NAME, __scopePopover)
 
