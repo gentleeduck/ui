@@ -32,7 +32,7 @@ export type { Navigation } from './navigation'
 export { canNavigate, goToMonth, goToNextMonth, goToPrevMonth, goToYear, navigate } from './navigation'
 
 // React hooks (requires react peer dep)
-export type { Announcer, Keyboard, UseCalendar, UseDateTime, UseTimePicker } from './react'
+export type { UseAnnouncer, UseCalendar, UseDateTime, UseKeyboard, UseTimePicker } from './react'
 export { useAnnouncer, useCalendar, useDateTime, useKeyboard, useTimePicker } from './react'
 
 // Selection

@@ -1,6 +1,6 @@
 import type { Adapter } from '../../adapter'
 
-export namespace Keyboard {
+export namespace UseKeyboard {
   export interface IKeyboardConfig<TDate> {
     focusedDate: TDate
     onFocusChange: (date: TDate) => void

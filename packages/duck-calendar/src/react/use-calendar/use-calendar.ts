@@ -257,7 +257,7 @@ export function useCalendar<TDate, M extends Selection.SelectionMode = 'single'>
   )
 
   // -------------------------------------------------------------------------
-  // Keyboard
+  // UseKeyboard
   // -------------------------------------------------------------------------
   const keyboard = useKeyboard({
     focusedDate,
