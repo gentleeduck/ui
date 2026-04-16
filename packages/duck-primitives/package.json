@@ -72,11 +72,17 @@
   },
   "sideEffects": false,
   "scripts": {
-    "build": "tsdown",
     "benchmark": "bun run scripts/benchmark.ts",
-    "dev": "tsdown --watch",
+    "build": "tsdown",
+    "check": "biome check .",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
-    "test": "bun test"
+    "dev": "tsdown --watch",
+    "fix": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "test": "bun test",
+    "test:coverage": "bun test --coverage",
+    "test:watch": "bun test --watch"
   },
   "types": "./dist/index.d.ts",
   "type": "module",
