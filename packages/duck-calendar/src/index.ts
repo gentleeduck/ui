@@ -11,8 +11,9 @@ export {
   NativeAdapter,
   PersianAdapter,
 } from './adapter'
-export type { Grid } from './grid'
+
 // Grid
+export type { Grid } from './grid'
 export {
   buildCalendarMonth,
   buildCalendarYear,
@@ -22,33 +23,22 @@ export {
   getLocalizedWeekdays,
   getWeekNumber,
 } from './grid'
+
 // Top-level config
-export type { ICalendarConfig, ICalendarLocaleConfig, ViewMode } from './index.types'
-export type { Navigation } from './navigation'
+export type { Calendar } from './index.types'
 
 // Navigation
+export type { Navigation } from './navigation'
 export { canNavigate, goToMonth, goToNextMonth, goToPrevMonth, goToYear, navigate } from './navigation'
-export type {
-  IAnnouncerReturn,
-  IDayProps,
-  IGridProps,
-  IHeaderProps,
-  IKeyboardConfig,
-  IKeyboardReturn,
-  INavProps,
-  ITimeFieldProps,
-  IUseCalendarConfig,
-  IUseCalendarReturn,
-  IUseDateTimeConfig,
-  IUseDateTimeReturn,
-  IUseTimePickerConfig,
-  IUseTimePickerReturn,
-} from './react'
+
 // React hooks (requires react peer dep)
+export type { Announcer, Keyboard, UseCalendar, UseDateTime, UseTimePicker } from './react'
 export { useAnnouncer, useCalendar, useDateTime, useKeyboard, useTimePicker } from './react'
-export type { Selection } from './selection'
+
 // Selection
+export type { Selection } from './selection'
 export { applySelection, isDateDisabled, isInRange, selectDay } from './selection'
+
 // Time
 export type { Time } from './time'
 export {

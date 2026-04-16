@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
 import type { Grid } from '../../grid'
 import { buildCalendarMonth, buildMultiMonth, getLocalizedWeekdays } from '../../grid'
-import type { ViewMode } from '../../index.types'
+import type { Calendar } from '../../index.types'
 import { canNavigate, navigate } from '../../navigation'
 import type { Selection } from '../../selection'
 import { applySelection, isDateDisabled, selectDay } from '../../selection'
@@ -15,15 +15,15 @@ import {
 import { useKeyboard } from '../use-keyboard'
 import { useControllableState } from '../utils/use-controllable-state'
 import { buildDayProps, buildGridProps, buildHeaderProps, buildNavProps } from './use-calendar.libs'
-import type { IUseCalendarConfig, IUseCalendarReturn } from './use-calendar.types'
+import type { UseCalendar } from './use-calendar.types'
 
 // ---------------------------------------------------------------------------
 // useCalendar
 // ---------------------------------------------------------------------------
 
 export function useCalendar<TDate, M extends Selection.SelectionMode = 'single'>(
-  config: IUseCalendarConfig<TDate, M>,
-): IUseCalendarReturn<TDate, M> {
+  config: UseCalendar.IUseCalendarConfig<TDate, M>,
+): UseCalendar.IUseCalendarReturn<TDate, M> {
   const {
     adapter,
     mode,
@@ -90,7 +90,7 @@ export function useCalendar<TDate, M extends Selection.SelectionMode = 'single'>
     // Always default to today
     return adapter.today()
   })
-  const [viewMode, setViewMode] = useState<ViewMode>('days')
+  const [viewMode, setViewMode] = useState<Calendar.ViewMode>('days')
 
   // -------------------------------------------------------------------------
   // Constraints (memoised to keep a stable reference)

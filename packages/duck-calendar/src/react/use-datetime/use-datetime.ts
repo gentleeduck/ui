@@ -3,7 +3,7 @@ import type { Selection } from '../../selection'
 import type { Time } from '../../time'
 import { useCalendar } from '../use-calendar'
 import { useTimePicker } from '../use-time-picker'
-import type { IUseDateTimeConfig, IUseDateTimeReturn } from './use-datetime.types'
+import type { UseDateTime } from './use-datetime.types'
 
 const DEFAULT_TIME: Time.ITimeValue = Object.freeze({ hour: 0, minute: 0, second: 0 })
 
@@ -12,7 +12,7 @@ const DEFAULT_TIME: Time.ITimeValue = Object.freeze({ hour: 0, minute: 0, second
  * datetime picker hook. Selecting a date preserves the current time, and
  * changing the time preserves the current date.
  */
-export function useDateTime<TDate>(config: IUseDateTimeConfig<TDate>): IUseDateTimeReturn<TDate> {
+export function useDateTime<TDate>(config: UseDateTime.IUseDateTimeConfig<TDate>): UseDateTime.IUseDateTimeReturn<TDate> {
   const {
     adapter,
     locale,
