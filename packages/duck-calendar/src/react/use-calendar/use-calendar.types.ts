@@ -1,11 +1,11 @@
 import type { Grid } from '../../grid'
 import type { ICalendarConfig, ViewMode } from '../../index.types'
-import type { CalendarValue, SelectionMode } from '../../selection'
+import type { Selection } from '../../selection'
 import type { IAnnouncerReturn } from '../use-announcer'
 
-export interface IUseCalendarConfig<TDate, M extends SelectionMode = 'single'> extends ICalendarConfig<TDate, M> {
+export interface IUseCalendarConfig<TDate, M extends Selection.SelectionMode = 'single'> extends ICalendarConfig<TDate, M> {
   /** Initial selected value for uncontrolled usage. */
-  defaultSelected?: CalendarValue<TDate, M>
+  defaultSelected?: Selection.CalendarValue<TDate, M>
 }
 
 export interface IDayProps {
@@ -48,12 +48,12 @@ export interface IHeaderProps {
   'aria-live': 'polite'
 }
 
-export interface IUseCalendarReturn<TDate, M extends SelectionMode> {
+export interface IUseCalendarReturn<TDate, M extends Selection.SelectionMode> {
   state: {
     /** The currently visible month. */
     month: TDate
     /** The current selection value. Shape depends on mode. */
-    value: CalendarValue<TDate, M>
+    value: Selection.CalendarValue<TDate, M>
     /** The date that currently has keyboard focus. */
     focusedDate: TDate
     /** Whether we're showing the day grid, month picker, or year picker. */
