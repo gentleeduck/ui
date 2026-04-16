@@ -1,11 +1,6 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
-import {
-  buildCalendarMonth,
-  buildMultiMonth,
-  getLocalizedWeekdays,
-  type ICalendarDay,
-  type ICalendarMonth,
-} from '../../grid'
+import { buildCalendarMonth, buildMultiMonth, getLocalizedWeekdays } from '../../grid'
+import type { Grid } from '../../grid'
 import type { ViewMode } from '../../index.types'
 import { canNavigate, navigate } from '../../navigation'
 import type { CalendarValue, DateRange, ISelectionConstraints, SelectionMode } from '../../selection'
@@ -112,7 +107,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // -------------------------------------------------------------------------
   // Grid  -  rebuild when month, value, or constraints change
   // -------------------------------------------------------------------------
-  const months: ICalendarMonth<TDate>[] = useMemo(() => {
+  const months: Grid.ICalendarMonth<TDate>[] = useMemo(() => {
     const resolvedLocale =
       localeTag || localeDirection || weekStartDay
         ? { locale: localeTag, weekStartDay, direction: localeDirection }
@@ -274,7 +269,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // Prop getters
   // -------------------------------------------------------------------------
   const getDayProps = useCallback(
-    (day: ICalendarDay<TDate>) =>
+    (day: Grid.ICalendarDay<TDate>) =>
       buildDayProps(day, focusedDate, adapter, selectDate, setFocusedDate, keyboard.onKeyDown, localeTag),
     [focusedDate, adapter, selectDate, keyboard.onKeyDown, localeTag],
   )

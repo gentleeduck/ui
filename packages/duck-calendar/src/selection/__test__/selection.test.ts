@@ -3,7 +3,7 @@ import { NativeAdapter } from '../../adapter'
 import { buildCalendarMonth } from '../../grid'
 import { applySelection, selectDay } from '../selection'
 import { isDateDisabled, isInRange } from '../selection.libs'
-import type { DateRange } from '../selection.types'
+import type { DateRange } from '../selection'
 
 describe('selection', () => {
   let adapter: NativeAdapter

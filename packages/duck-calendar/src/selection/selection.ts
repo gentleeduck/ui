@@ -1,5 +1,5 @@
 import type { Adapter } from '../adapter'
-import type { ICalendarDay, ICalendarWeek } from '../grid'
+import type { Grid } from '../grid'
 import { isDateDisabled, isInRange } from './selection.libs'
 import type { CalendarValue, DateRange, ISelectionConstraints, SelectionMode } from './selection.types'
 
@@ -37,7 +37,11 @@ export function selectDay<TDate, M extends SelectionMode>(
   }
 }
 
-function selectSingle<TDate>(adapter: Adapter.IDateAdapter<TDate>, current: TDate | null, clicked: TDate): TDate | null {
+function selectSingle<TDate>(
+  adapter: Adapter.IDateAdapter<TDate>,
+  current: TDate | null,
+  clicked: TDate,
+): TDate | null {
   if (current !== null && adapter.isSameDay(current, clicked)) return null
   return clicked
 }
@@ -197,12 +201,12 @@ function mergeRanges<TDate>(adapter: Adapter.IDateAdapter<TDate>, ranges: DateRa
  * Returns a new array  -  never mutates the input.
  */
 export function applySelection<TDate, M extends SelectionMode>(
-  weeks: ICalendarWeek<TDate>[],
+  weeks: Grid.ICalendarWeek<TDate>[],
   adapter: Adapter.IDateAdapter<TDate>,
   mode: M,
   selected: CalendarValue<TDate, M>,
   constraints: ISelectionConstraints<TDate> = {},
-): ICalendarWeek<TDate>[] {
+): Grid.ICalendarWeek<TDate>[] {
   return weeks.map((week) => ({
     ...week,
     days: week.days.map((day) => ({
@@ -225,7 +229,7 @@ function resolveSelectionFlags<TDate, M extends SelectionMode>(
   mode: M,
   selected: CalendarValue<TDate, M>,
   date: TDate,
-): Pick<ICalendarDay<TDate>, 'isSelected' | 'isRangeStart' | 'isRangeEnd' | 'isRangeMiddle'> {
+): Pick<Grid.ICalendarDay<TDate>, 'isSelected' | 'isRangeStart' | 'isRangeEnd' | 'isRangeMiddle'> {
   switch (mode) {
     case 'single': {
       const value = selected as TDate | null

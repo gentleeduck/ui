@@ -1,4 +1,4 @@
-import type { ICalendarDay, ICalendarMonth, ICalendarWeek } from '../../grid'
+import type { Grid } from '../../grid'
 import type { ICalendarConfig, ViewMode } from '../../index.types'
 import type { CalendarValue, SelectionMode } from '../../selection'
 import type { IAnnouncerReturn } from '../use-announcer'
@@ -59,9 +59,9 @@ export interface IUseCalendarReturn<TDate, M extends SelectionMode> {
     /** Whether we're showing the day grid, month picker, or year picker. */
     viewMode: ViewMode
     /** Decorated weeks for the first (or only) month. */
-    weeks: ICalendarWeek<TDate>[]
+    weeks: Grid.ICalendarWeek<TDate>[]
     /** All month grids when numberOfMonths > 1. */
-    months: ICalendarMonth<TDate>[]
+    months: Grid.ICalendarMonth<TDate>[]
     /** Localised weekday header labels (7 items). */
     weekdays: string[]
     /** Whether forward navigation is possible (respects toDate). */
@@ -78,7 +78,7 @@ export interface IUseCalendarReturn<TDate, M extends SelectionMode> {
     focusDate: (date: TDate) => void
   }
   /** Spread onto each day cell element. */
-  getDayProps: (day: ICalendarDay<TDate>) => IDayProps
+  getDayProps: (day: Grid.ICalendarDay<TDate>) => IDayProps
   /** Spread onto the grid container element. */
   getGridProps: () => IGridProps
   /** Spread onto prev/next navigation buttons. */
