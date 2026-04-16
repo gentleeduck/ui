@@ -3,7 +3,8 @@ import * as DialogPrimitive from '../dialog'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import { createSlottable } from '../slot'
-import { createAlertDialogContext, type ScopedProps, useDialogScope } from './alert-dialog'
+import { createAlertDialogContext, useDialogScope } from './alert-dialog'
+import type { IAlertDialog } from './alert-dialog.types'
 
 const CONTENT_NAME = 'AlertDialogContent'
 const TITLE_NAME = 'AlertDialogTitle'
@@ -11,23 +12,16 @@ const DESCRIPTION_NAME = 'AlertDialogDescription'
 
 type AlertDialogCancelElement = React.ComponentRef<typeof DialogPrimitive.Close>
 
-type AlertDialogContentContextValue = {
-  cancelRef: React.RefObject<AlertDialogCancelElement | null>
-}
-
 export const [AlertDialogContentProvider, useAlertDialogContentContext] =
-  createAlertDialogContext<AlertDialogContentContextValue>(CONTENT_NAME)
+  createAlertDialogContext<IAlertDialog.IContentContextValue>(CONTENT_NAME)
 
 type AlertDialogContentElement = React.ComponentRef<typeof DialogPrimitive.Content>
-type DialogContentProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
-export interface IAlertDialogContentProps
-  extends Omit<DialogContentProps, 'onPointerDownOutside' | 'onInteractOutside'> {}
 
 const Slottable = createSlottable('AlertDialogContent')
 
 /** Alert dialog content area with forced modal behavior and accessibility defaults. */
-export const AlertDialogContent = React.forwardRef<AlertDialogContentElement, IAlertDialogContentProps>(
-  (props: ScopedProps<IAlertDialogContentProps>, forwardedRef) => {
+export const AlertDialogContent = React.forwardRef<AlertDialogContentElement, IAlertDialog.IContentProps>(
+  (props: IAlertDialog.IScoped<IAlertDialog.IContentProps>, forwardedRef) => {
     const { __scopeAlertDialog, children, ...contentProps } = props
     const dialogScope = useDialogScope(__scopeAlertDialog)
     const contentRef = React.useRef<AlertDialogContentElement>(null)
@@ -48,12 +42,6 @@ export const AlertDialogContent = React.forwardRef<AlertDialogContentElement, IA
             })}
             onPointerDownOutside={(event) => event.preventDefault()}
             onInteractOutside={(event) => event.preventDefault()}>
-            {/**
-             * We have to use Slottable here as we cannot wrap the AlertDialogContentProvider
-             * around everything, otherwise the DescriptionWarning would be rendered straight away.
-             * This is because we want the accessibility checks to run only once the content is actually
-             * open and that behaviour is already encapsulated in DialogContent.
-             */}
             <Slottable>{children}</Slottable>
             {process.env.NODE_ENV === 'development' && <DescriptionWarning contentRef={contentRef} />}
           </DialogPrimitive.Content>
