@@ -12,7 +12,9 @@ const DEFAULT_TIME: Time.ITimeValue = Object.freeze({ hour: 0, minute: 0, second
  * datetime picker hook. Selecting a date preserves the current time, and
  * changing the time preserves the current date.
  */
-export function useDateTime<TDate>(config: UseDateTime.IUseDateTimeConfig<TDate>): UseDateTime.IUseDateTimeReturn<TDate> {
+export function useDateTime<TDate>(
+  config: UseDateTime.IUseDateTimeConfig<TDate>,
+): UseDateTime.IUseDateTimeReturn<TDate> {
   const {
     adapter,
     locale,
