@@ -1,13 +1,10 @@
 import * as React from 'react'
-import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
-import type { useSize } from '../hooks/use-size'
 import { clamp } from '../libs/clamp'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import { createCollection } from '../libs/create-collection'
-import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'
 import {
@@ -18,12 +15,12 @@ import {
   linearScale,
   roundValue,
 } from './slider.libs'
+import type { ISlider } from './slider.types'
 
 const PAGE_KEYS = ['PageUp', 'PageDown']
 const ARROW_KEYS = ['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight']
 
-type SlideDirection = 'from-left' | 'from-right' | 'from-bottom' | 'from-top'
-const BACK_KEYS: Record<SlideDirection, string[]> = {
+const BACK_KEYS: Record<ISlider.SlideDirection, string[]> = {
   'from-left': ['Home', 'PageDown', 'ArrowDown', 'ArrowLeft'],
   'from-right': ['Home', 'PageDown', 'ArrowDown', 'ArrowRight'],
   'from-bottom': ['Home', 'PageDown', 'ArrowDown', 'ArrowLeft'],
@@ -32,50 +29,16 @@ const BACK_KEYS: Record<SlideDirection, string[]> = {
 
 const SLIDER_NAME = 'Slider'
 
-type SliderThumbElement = React.ComponentRef<typeof Primitive.span>
+const [Collection, useCollection, createCollectionScope] = createCollection<ISlider.IThumbElement>(SLIDER_NAME)
 
-const [Collection, useCollection, createCollectionScope] = createCollection<SliderThumbElement>(SLIDER_NAME)
-
-type ScopedProps<P> = P & { __scopeSlider?: Scope }
 const [createSliderContext, createSliderScope] = createContextScope(SLIDER_NAME, [createCollectionScope])
 
-type SliderContextValue = {
-  name: string | undefined
-  disabled: boolean | undefined
-  min: number
-  max: number
-  values: number[]
-  valueIndexToChangeRef: React.RefObject<number>
-  thumbs: Set<SliderThumbElement>
-  orientation: ISliderProps['orientation']
-  dir: IDirection.Kind
-  form: string | undefined
-}
-
-const [SliderProvider, useSliderContext] = createSliderContext<SliderContextValue>(SLIDER_NAME)
+const [SliderProvider, useSliderContext] = createSliderContext<ISlider.IContext>(SLIDER_NAME)
 
 type SliderElement = SliderHorizontalElement | SliderVerticalElement
-type PrimitiveSpanProps = React.ComponentPropsWithoutRef<typeof Primitive.span>
 
-interface ISliderProps
-  extends Omit<ISliderHorizontalProps | ISliderVerticalProps, keyof SliderOrientationPrivateProps | 'defaultValue'> {
-  name?: string
-  disabled?: boolean
-  orientation?: React.AriaAttributes['aria-orientation']
-  dir?: IDirection.Kind
-  min?: number
-  max?: number
-  step?: number
-  minStepsBetweenThumbs?: number
-  value?: number[]
-  defaultValue?: number[]
-  onValueChange?(value: number[]): void
-  onValueCommit?(value: number[]): void
-  inverted?: boolean
-  form?: string
-}
-
-const Slider = React.forwardRef<SliderElement, ISliderProps>((props: ScopedProps<ISliderProps>, forwardedRef) => {
+const Slider = React.forwardRef<SliderElement, ISlider.IProps>(
+  (props: ISlider.IScoped<ISlider.IProps>, forwardedRef) => {
   const {
     name,
     min = 0,
@@ -94,7 +57,7 @@ const Slider = React.forwardRef<SliderElement, ISliderProps>((props: ScopedProps
     ...sliderProps
   } = props
   const direction = useDirection(dir)
-  const thumbRefs = React.useRef<SliderContextValue['thumbs']>(new Set())
+  const thumbRefs = React.useRef<ISlider.IContext['thumbs']>(new Set())
   const valueIndexToChangeRef = React.useRef<number>(0)
   const isHorizontal = orientation === 'horizontal'
   const SliderOrientation = isHorizontal ? SliderHorizontal : SliderVertical
@@ -183,8 +146,8 @@ const Slider = React.forwardRef<SliderElement, ISliderProps>((props: ScopedProps
                 const isSkipKey = isPageKey || (event.shiftKey && ARROW_KEYS.includes(event.key))
                 const multiplier = isSkipKey ? 10 : 1
                 const atIndex = valueIndexToChangeRef.current
-                // biome-ignore lint/style/noNonNullAssertion: atIndex is derived from valueIndexToChangeRef which always points to a valid index
-                const value = values[atIndex]!
+                const value = values[atIndex]
+                if (value === undefined) return
                 const stepInDirection = step * multiplier * stepDirection
                 updateValues(value + stepInDirection, atIndex, { commit: true })
               }
@@ -198,42 +161,20 @@ const Slider = React.forwardRef<SliderElement, ISliderProps>((props: ScopedProps
 
 Slider.displayName = SLIDER_NAME
 
-type Side = 'top' | 'right' | 'bottom' | 'left'
-
-const [SliderOrientationProvider, useSliderOrientationContext] = createSliderContext<{
-  startEdge: Side
-  endEdge: Side
-  size: keyof NonNullable<ReturnType<typeof useSize>>
-  direction: number
-}>(SLIDER_NAME, {
-  startEdge: 'left',
-  endEdge: 'right',
-  size: 'width',
-  direction: 1,
-})
-
-type SliderOrientationPrivateProps = {
-  min: number
-  max: number
-  inverted: boolean
-  onSlideStart?(value: number): void
-  onSlideMove?(value: number): void
-  onSlideEnd?(): void
-  onHomeKeyDown(event: React.KeyboardEvent): void
-  onEndKeyDown(event: React.KeyboardEvent): void
-  onStepKeyDown(step: { event: React.KeyboardEvent; direction: number }): void
-}
-interface ISliderOrientationProps
-  extends Omit<ISliderImplProps, keyof SliderImplPrivateProps>,
-    SliderOrientationPrivateProps {}
+const [SliderOrientationProvider, useSliderOrientationContext] = createSliderContext<ISlider.IOrientationContext>(
+  SLIDER_NAME,
+  {
+    startEdge: 'left',
+    endEdge: 'right',
+    size: 'width',
+    direction: 1,
+  },
+)
 
 type SliderHorizontalElement = SliderImplElement
-interface ISliderHorizontalProps extends ISliderOrientationProps {
-  dir?: IDirection.Kind
-}
 
-const SliderHorizontal = React.forwardRef<SliderHorizontalElement, ISliderHorizontalProps>(
-  (props: ScopedProps<ISliderHorizontalProps>, forwardedRef) => {
+const SliderHorizontal = React.forwardRef<SliderHorizontalElement, ISlider.IHorizontalProps>(
+  (props: ISlider.IScoped<ISlider.IHorizontalProps>, forwardedRef) => {
     const { min, max, dir, inverted, onSlideStart, onSlideMove, onSlideEnd, onStepKeyDown, ...sliderProps } = props
     const [slider, setSlider] = React.useState<SliderImplElement | null>(null)
     const composedRefs = useComposedRefs(forwardedRef, (node) => setSlider(node))
@@ -295,10 +236,8 @@ const SliderHorizontal = React.forwardRef<SliderHorizontalElement, ISliderHorizo
 SliderHorizontal.displayName = 'SliderHorizontal'
 
 type SliderVerticalElement = SliderImplElement
-interface ISliderVerticalProps extends ISliderOrientationProps {}
-
-const SliderVertical = React.forwardRef<SliderVerticalElement, ISliderVerticalProps>(
-  (props: ScopedProps<ISliderVerticalProps>, forwardedRef) => {
+const SliderVertical = React.forwardRef<SliderVerticalElement, ISlider.IVerticalProps>(
+  (props: ISlider.IScoped<ISlider.IVerticalProps>, forwardedRef) => {
     const { min, max, inverted, onSlideStart, onSlideMove, onSlideEnd, onStepKeyDown, ...sliderProps } = props
     const sliderRef = React.useRef<SliderImplElement>(null)
     const ref = useComposedRefs(forwardedRef, sliderRef)
@@ -357,19 +296,9 @@ const SliderVertical = React.forwardRef<SliderVerticalElement, ISliderVerticalPr
 SliderVertical.displayName = 'SliderVertical'
 
 type SliderImplElement = React.ComponentRef<typeof Primitive.span>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-type SliderImplPrivateProps = {
-  onSlideStart(event: React.PointerEvent): void
-  onSlideMove(event: React.PointerEvent): void
-  onSlideEnd(event: React.PointerEvent): void
-  onHomeKeyDown(event: React.KeyboardEvent): void
-  onEndKeyDown(event: React.KeyboardEvent): void
-  onStepKeyDown(event: React.KeyboardEvent): void
-}
-interface ISliderImplProps extends PrimitiveDivProps, SliderImplPrivateProps {}
 
-const SliderImpl = React.forwardRef<SliderImplElement, ISliderImplProps>(
-  (props: ScopedProps<ISliderImplProps>, forwardedRef) => {
+const SliderImpl = React.forwardRef<SliderImplElement, ISlider.IImplProps>(
+  (props: ISlider.IScoped<ISlider.IImplProps>, forwardedRef) => {
     const {
       __scopeSlider,
       onSlideStart,
@@ -427,5 +356,4 @@ const SliderImpl = React.forwardRef<SliderImplElement, ISliderImplProps>(
 
 SliderImpl.displayName = 'SliderImpl'
 
-export type { ISliderProps, PrimitiveSpanProps, ScopedProps, SliderThumbElement }
 export { Collection, createSliderScope, Slider, useCollection, useSliderContext, useSliderOrientationContext }
