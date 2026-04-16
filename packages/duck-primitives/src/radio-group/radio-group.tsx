@@ -1,14 +1,13 @@
 import * as React from 'react'
-import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { composeEventHandlers } from '../libs/compose-event-handler'
-import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
 import { useTypeaheadListNavigation, useVimNavigation } from '../libs/list-navigation'
 import { Primitive } from '../primitive-elements'
 import * as RovingFocusGroup from '../roving-focus'
 import { createRovingFocusGroupScope } from '../roving-focus'
+import type { IRadioGroup } from './radio-group.types'
 
 const RADIO_GROUP_NAME = 'RadioGroup'
 const RADIO_GROUP_NAVIGATION_KEYS = [
@@ -22,78 +21,17 @@ const RADIO_GROUP_NAVIGATION_KEYS = [
   'PageDown',
 ] as const
 
-type RadioNavigationItem = {
-  node: HTMLElement
-  value: string
-  textValue: string
-}
-
-type ScopedProps<P> = P & { __scopeRadioGroup?: Scope }
 const [createRadioGroupContext, createRadioGroupScope] = createContextScope(RADIO_GROUP_NAME, [
   createRovingFocusGroupScope,
 ])
 const useRovingFocusGroupScope = createRovingFocusGroupScope()
 
-type RadioGroupContextValue = {
-  value: string
-  onValueChange(value: string): void
-  disabled: boolean
-  required: boolean
-  name?: string
-  dir: IDirection.Kind
-  isNavigationKeyPressedRef: React.RefObject<boolean>
-}
-
-const [RadioGroupProvider, useRadioGroupContext] = createRadioGroupContext<RadioGroupContextValue>(RADIO_GROUP_NAME)
+const [RadioGroupProvider, useRadioGroupContext] = createRadioGroupContext<IRadioGroup.IContext>(RADIO_GROUP_NAME)
 
 type RadioGroupElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-type RovingFocusGroupProps = React.ComponentPropsWithoutRef<typeof RovingFocusGroup.Root>
 
-interface IRadioGroupProps extends PrimitiveDivProps {
-  /**
-   * The controlled value of the checked radio item.
-   */
-  value?: string
-  /**
-   * The value of the radio item that should be checked when initially rendered.
-   */
-  defaultValue?: string
-  /**
-   * Event handler called when the value changes.
-   */
-  onValueChange?(value: string): void
-  /**
-   * Whether the group is disabled.
-   * @defaultValue false
-   */
-  disabled?: boolean
-  /**
-   * Whether the group is required in a form.
-   * @defaultValue false
-   */
-  required?: boolean
-  /**
-   * The name used when submitting an HTML form.
-   */
-  name?: string
-  /**
-   * The reading direction.
-   */
-  dir?: IDirection.Kind
-  /**
-   * The orientation of the group for arrow key navigation.
-   */
-  orientation?: RovingFocusGroupProps['orientation']
-  /**
-   * Whether keyboard navigation should loop.
-   * @defaultValue true
-   */
-  loop?: RovingFocusGroupProps['loop']
-}
-
-const RadioGroup = React.forwardRef<RadioGroupElement, IRadioGroupProps>(
-  (props: ScopedProps<IRadioGroupProps>, forwardedRef) => {
+const RadioGroup = React.forwardRef<RadioGroupElement, IRadioGroup.IProps>(
+  (props: IRadioGroup.IScoped<IRadioGroup.IProps>, forwardedRef) => {
     const {
       __scopeRadioGroup,
       value: valueProp,
@@ -120,7 +58,7 @@ const RadioGroup = React.forwardRef<RadioGroupElement, IRadioGroupProps>(
       caller: RADIO_GROUP_NAME,
     })
 
-    const getEnabledNavigationItems = React.useCallback((): RadioNavigationItem[] => {
+    const getEnabledNavigationItems = React.useCallback((): IRadioGroup.INavigationItem[] => {
       return getItems()
         .filter((item) => item.focusable)
         .map((item) => {
@@ -142,10 +80,10 @@ const RadioGroup = React.forwardRef<RadioGroupElement, IRadioGroupProps>(
             textValue,
           }
         })
-        .filter((item): item is RadioNavigationItem => item !== null)
+        .filter((item): item is IRadioGroup.INavigationItem => item !== null)
     }, [getItems])
 
-    const [, handleTypeaheadSearch, resetTypeaheadState] = useTypeaheadListNavigation<RadioNavigationItem>({
+    const [, handleTypeaheadSearch, resetTypeaheadState] = useTypeaheadListNavigation<IRadioGroup.INavigationItem>({
       getItems: getEnabledNavigationItems,
       getItemElement: (item) => item.node,
       getItemTextValue: (item) => item.textValue,
@@ -252,7 +190,6 @@ const RadioGroup = React.forwardRef<RadioGroupElement, IRadioGroupProps>(
 
 RadioGroup.displayName = RADIO_GROUP_NAME
 
-export type { IRadioGroupProps, ScopedProps }
 export {
   createRadioGroupScope,
   RADIO_GROUP_NAME,
