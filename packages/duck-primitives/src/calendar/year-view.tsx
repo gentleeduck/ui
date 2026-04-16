@@ -1,17 +1,15 @@
 import { buildDecadeView, goToYear } from '@gentleduck/calendar'
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
-import { type ScopedProps, useCalendarContext } from './calendar'
+import { useCalendarContext } from './calendar'
+import type { ICalendar } from './calendar.types'
 
 const YEAR_VIEW_NAME = 'CalendarYearView'
 
 type CalendarYearViewElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-export interface ICalendarYearViewProps extends PrimitiveDivProps {}
-
-export const CalendarYearView = React.forwardRef<CalendarYearViewElement, ICalendarYearViewProps>(
-  (props: ScopedProps<ICalendarYearViewProps>, forwardedRef) => {
+export const CalendarYearView = React.forwardRef<CalendarYearViewElement, ICalendar.IYearViewProps>(
+  (props: ICalendar.IScoped<ICalendar.IYearViewProps>, forwardedRef) => {
     const { __scopeCalendar, children, ...viewProps } = props
     const context = useCalendarContext(YEAR_VIEW_NAME, __scopeCalendar)
     const { adapter } = context
