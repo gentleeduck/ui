@@ -1,25 +1,20 @@
-/** MenuRadioGroup component - groups radio menu items for single selection. */
 import * as React from 'react'
-
 import { useCallbackRef } from '../hooks/use-callback-ref'
-import { type IMenuGroupProps, MenuGroup } from './group'
-import { createMenuContext, type ScopedProps } from './menu'
+import { MenuGroup } from './group'
+import { createMenuContext } from './menu'
+import type { IMenu } from './menu.types'
 
 const RADIO_GROUP_NAME = 'MenuRadioGroup'
 
 type MenuRadioGroupElement = React.ComponentRef<typeof MenuGroup>
-interface IMenuRadioGroupProps extends IMenuGroupProps {
-  value?: string
-  onValueChange?: (value: string) => void
-}
 
-const [RadioGroupProvider, useRadioGroupContext] = createMenuContext<IMenuRadioGroupProps>(RADIO_GROUP_NAME, {
+const [RadioGroupProvider, useRadioGroupContext] = createMenuContext<IMenu.IRadioGroupProps>(RADIO_GROUP_NAME, {
   value: undefined,
   onValueChange: () => {},
 })
 
-const MenuRadioGroup = React.forwardRef<MenuRadioGroupElement, IMenuRadioGroupProps>(
-  (props: ScopedProps<IMenuRadioGroupProps>, forwardedRef) => {
+const MenuRadioGroup = React.forwardRef<MenuRadioGroupElement, IMenu.IRadioGroupProps>(
+  (props: IMenu.IScoped<IMenu.IRadioGroupProps>, forwardedRef) => {
     const { value, onValueChange, ...groupProps } = props
     const handleValueChange = useCallbackRef(onValueChange)
     return (
@@ -32,5 +27,4 @@ const MenuRadioGroup = React.forwardRef<MenuRadioGroupElement, IMenuRadioGroupPr
 
 MenuRadioGroup.displayName = RADIO_GROUP_NAME
 
-export type { IMenuRadioGroupProps, MenuRadioGroupElement }
 export { MenuRadioGroup, RadioGroupProvider, useRadioGroupContext }

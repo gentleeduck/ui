@@ -1,30 +1,22 @@
-/** MenuCheckboxItem component - a menu item with a checkbox toggle. */
 import * as React from 'react'
-
 import { composeEventHandlers } from '../libs/compose-event-handler'
-import { type IMenuItemProps, MenuItem } from './item'
-import { createMenuContext, type ScopedProps } from './menu'
-import { type CheckedState, getCheckedState, isIndeterminate } from './menu.libs'
+import { MenuItem } from './item'
+import { createMenuContext } from './menu'
+import { getCheckedState, isIndeterminate } from './menu.libs'
+import type { IMenu } from './menu.types'
 
 const CHECKBOX_ITEM_NAME = 'MenuCheckboxItem'
 const ITEM_INDICATOR_NAME = 'MenuItemIndicator'
 
 type MenuCheckboxItemElement = React.ComponentRef<typeof MenuItem>
 
-interface IMenuCheckboxItemProps extends IMenuItemProps {
-  checked?: CheckedState
-  // `onCheckedChange` can never be called with `"indeterminate"` from the inside
-  onCheckedChange?: (checked: boolean) => void
-}
+const [ItemIndicatorProvider, useItemIndicatorContext] = createMenuContext<IMenu.ICheckboxContext>(
+  ITEM_INDICATOR_NAME,
+  { checked: false },
+)
 
-type CheckboxContextValue = { checked: CheckedState }
-
-const [ItemIndicatorProvider, useItemIndicatorContext] = createMenuContext<CheckboxContextValue>(ITEM_INDICATOR_NAME, {
-  checked: false,
-})
-
-const MenuCheckboxItem = React.forwardRef<MenuCheckboxItemElement, IMenuCheckboxItemProps>(
-  (props: ScopedProps<IMenuCheckboxItemProps>, forwardedRef) => {
+const MenuCheckboxItem = React.forwardRef<MenuCheckboxItemElement, IMenu.ICheckboxItemProps>(
+  (props: IMenu.IScoped<IMenu.ICheckboxItemProps>, forwardedRef) => {
     const { checked = false, onCheckedChange, ...checkboxItemProps } = props
     return (
       <ItemIndicatorProvider scope={props.__scopeMenu} checked={checked}>
@@ -47,5 +39,4 @@ const MenuCheckboxItem = React.forwardRef<MenuCheckboxItemElement, IMenuCheckbox
 
 MenuCheckboxItem.displayName = CHECKBOX_ITEM_NAME
 
-export type { IMenuCheckboxItemProps, MenuCheckboxItemElement }
 export { ItemIndicatorProvider, MenuCheckboxItem, useItemIndicatorContext }

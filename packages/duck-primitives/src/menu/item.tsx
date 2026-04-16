@@ -1,4 +1,3 @@
-/** MenuItem component - an interactive item within a menu. */
 import * as React from 'react'
 import { flushSync } from 'react-dom'
 import { composeEventHandlers } from '../libs/compose-event-handler'
@@ -6,26 +5,18 @@ import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
 import * as RovingFocusGroup from '../roving-focus'
 import { useMenuContentContext } from './content'
-import { Collection, type ScopedProps, useMenuRootContext, useRovingFocusGroupScope } from './menu'
+import { Collection, useMenuRootContext, useRovingFocusGroupScope } from './menu'
 import { SELECTION_KEYS, whenMouse } from './menu.libs'
+import type { IMenu } from './menu.types'
 
 const ITEM_NAME = 'MenuItem'
 const ITEM_SELECT = 'menu.itemSelect'
 
 type MenuItemImplElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-interface IMenuItemImplProps extends PrimitiveDivProps {
-  disabled?: boolean
-  textValue?: string
-}
-
 type MenuItemElement = MenuItemImplElement
-interface IMenuItemProps extends Omit<IMenuItemImplProps, 'onSelect'> {
-  onSelect?: (event: Event) => void
-}
 
-const MenuItem = React.forwardRef<MenuItemElement, IMenuItemProps>(
-  (props: ScopedProps<IMenuItemProps>, forwardedRef) => {
+const MenuItem = React.forwardRef<MenuItemElement, IMenu.IItemProps>(
+  (props: IMenu.IScoped<IMenu.IItemProps>, forwardedRef) => {
     const { disabled = false, onSelect, ...itemProps } = props
     const ref = React.useRef<HTMLDivElement>(null)
     const rootContext = useMenuRootContext(ITEM_NAME, props.__scopeMenu)
@@ -58,9 +49,6 @@ const MenuItem = React.forwardRef<MenuItemElement, IMenuItemProps>(
           isPointerDownRef.current = true
         }}
         onPointerUp={composeEventHandlers(props.onPointerUp, (event) => {
-          // Pointer down can move to a different menu item which should activate it on pointer up.
-          // We dispatch a click for selection to allow composition with click based triggers and to
-          // prevent Firefox from getting stuck in text selection mode when the menu closes.
           if (!isPointerDownRef.current) event.currentTarget?.click()
         })}
         onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
@@ -68,12 +56,6 @@ const MenuItem = React.forwardRef<MenuItemElement, IMenuItemProps>(
           if (disabled || (isTypingAhead && event.key === ' ')) return
           if (SELECTION_KEYS.includes(event.key)) {
             event.currentTarget.click()
-            /**
-             * We prevent default browser behaviour for selection keys as they should trigger
-             * a selection only:
-             * - prevents space from scrolling the page.
-             * - if keydown causes focus to move, prevents keydown from firing on the new target.
-             */
             event.preventDefault()
           }
         })}
@@ -84,8 +66,8 @@ const MenuItem = React.forwardRef<MenuItemElement, IMenuItemProps>(
 
 MenuItem.displayName = ITEM_NAME
 
-const MenuItemImpl = React.forwardRef<MenuItemImplElement, IMenuItemImplProps>(
-  (props: ScopedProps<IMenuItemImplProps>, forwardedRef) => {
+const MenuItemImpl = React.forwardRef<MenuItemImplElement, IMenu.IItemImplProps>(
+  (props: IMenu.IScoped<IMenu.IItemImplProps>, forwardedRef) => {
     const { __scopeMenu, disabled = false, textValue, ...itemProps } = props
     const rootContext = useMenuRootContext(ITEM_NAME, __scopeMenu)
     const contentContext = useMenuContentContext(ITEM_NAME, __scopeMenu)
@@ -94,7 +76,6 @@ const MenuItemImpl = React.forwardRef<MenuItemImplElement, IMenuItemImplProps>(
     const composedRefs = useComposedRefs(forwardedRef, ref)
     const [isFocused, setIsFocused] = React.useState(false)
 
-    // get the item's `.textContent` as default strategy for typeahead `textValue`
     const [textContent, setTextContent] = React.useState('')
     React.useEffect(() => {
       const menuItem = ref.current
@@ -115,17 +96,6 @@ const MenuItemImpl = React.forwardRef<MenuItemImplElement, IMenuItemImplProps>(
             dir={rootContext.dir}
             {...itemProps}
             ref={composedRefs}
-            /**
-             * We focus items on `pointerMove` to achieve the following:
-             *
-             * - Mouse over an item (it focuses)
-             * - Leave mouse where it is and use keyboard to focus a different item
-             * - Wiggle mouse without it leaving previously focused item
-             * - Previously focused item should re-focus
-             *
-             * If we used `mouseOver`/`mouseEnter` it would not re-focus when the mouse
-             * wiggles. This is to match native menu implementation.
-             */
             onPointerMove={composeEventHandlers(
               props.onPointerMove,
               whenMouse((event) => {
@@ -155,5 +125,4 @@ const MenuItemImpl = React.forwardRef<MenuItemImplElement, IMenuItemImplProps>(
 
 MenuItemImpl.displayName = 'MenuItemImpl'
 
-export type { IMenuItemImplProps, IMenuItemProps, MenuItemElement }
 export { MenuItem, MenuItemImpl }
