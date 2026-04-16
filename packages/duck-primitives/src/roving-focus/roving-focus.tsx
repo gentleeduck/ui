@@ -5,49 +5,33 @@ import { useControllableState } from '../hooks/use-controllable-state'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import { createCollection } from '../libs/create-collection'
-import { createContextScope, type Scope } from '../libs/create-context'
+import { createContextScope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'
-import type { IDirection, Orientation } from './roving-focus.libs'
 import { focusFirst } from './roving-focus.libs'
+import type { IRovingFocus } from './roving-focus.types'
 
 const ENTRY_FOCUS = 'rovingFocusGroup.onEntryFocus'
 const EVENT_OPTIONS = { bubbles: false, cancelable: true }
 
 const GROUP_NAME = 'RovingFocusGroup'
 
-type ItemData = { id: string; focusable: boolean; active: boolean }
-export const [Collection, useCollection, createCollectionScope] = createCollection<HTMLSpanElement, ItemData>(
+export const [Collection, useCollection, createCollectionScope] = createCollection<HTMLSpanElement, IRovingFocus.IItemData>(
   GROUP_NAME,
 )
 
-export type ScopedProps<P> = P & { __scopeRovingFocusGroup?: Scope }
 const [createRovingFocusGroupContext, createRovingFocusGroupScope] = createContextScope(GROUP_NAME, [
   createCollectionScope,
 ])
 
-interface IRovingFocusGroupOptions {
-  orientation?: Orientation
-  dir?: IDirection.Kind
-  loop?: boolean
-}
-
-type RovingContextValue = IRovingFocusGroupOptions & {
-  currentTabStopId: string | null
-  onItemFocus(tabStopId: string): void
-  onItemShiftTab(): void
-  onFocusableItemAdd(): void
-  onFocusableItemRemove(): void
-}
-
 export const [RovingFocusProvider, useRovingFocusContext] =
-  createRovingFocusGroupContext<RovingContextValue>(GROUP_NAME)
+  createRovingFocusGroupContext<IRovingFocus.IContext>(GROUP_NAME)
 
+type RovingFocusGroupImplElement = React.ComponentRef<typeof Primitive.div>
 type RovingFocusGroupElement = RovingFocusGroupImplElement
-export interface IRovingFocusGroupProps extends IRovingFocusGroupImplProps {}
 
 /** Container that manages roving tabindex focus within a group of items. */
-const RovingFocusGroup = React.forwardRef<RovingFocusGroupElement, IRovingFocusGroupProps>(
-  (props: ScopedProps<IRovingFocusGroupProps>, forwardedRef) => {
+const RovingFocusGroup = React.forwardRef<RovingFocusGroupElement, IRovingFocus.IGroupProps>(
+  (props: IRovingFocus.IScoped<IRovingFocus.IGroupProps>, forwardedRef) => {
     return (
       <Collection.Provider scope={props.__scopeRovingFocusGroup}>
         <Collection.Slot scope={props.__scopeRovingFocusGroup}>
@@ -60,18 +44,8 @@ const RovingFocusGroup = React.forwardRef<RovingFocusGroupElement, IRovingFocusG
 
 RovingFocusGroup.displayName = GROUP_NAME
 
-type RovingFocusGroupImplElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-interface IRovingFocusGroupImplProps extends Omit<PrimitiveDivProps, 'dir'>, IRovingFocusGroupOptions {
-  currentTabStopId?: string | null
-  defaultCurrentTabStopId?: string
-  onCurrentTabStopIdChange?: (tabStopId: string | null) => void
-  onEntryFocus?: (event: Event) => void
-  preventScrollOnEntryFocus?: boolean
-}
-
-const RovingFocusGroupImpl = React.forwardRef<RovingFocusGroupImplElement, IRovingFocusGroupImplProps>(
-  (props: ScopedProps<IRovingFocusGroupImplProps>, forwardedRef) => {
+const RovingFocusGroupImpl = React.forwardRef<RovingFocusGroupImplElement, IRovingFocus.IGroupImplProps>(
+  (props: IRovingFocus.IScoped<IRovingFocus.IGroupImplProps>, forwardedRef) => {
     const {
       __scopeRovingFocusGroup,
       orientation,
@@ -138,8 +112,11 @@ const RovingFocusGroupImpl = React.forwardRef<RovingFocusGroupImplElement, IRovi
                 const activeItem = items.find((item) => item.active)
                 const currentItem = items.find((item) => item.id === currentTabStopId)
                 const candidateItems = [activeItem, currentItem, ...items].filter(Boolean) as typeof items
-                // biome-ignore lint/style/noNonNullAssertion: focusable items always have mounted refs within the roving focus group
-                const candidateNodes = candidateItems.map((item) => item.ref.current!)
+                const candidateNodes: HTMLElement[] = []
+                for (const item of candidateItems) {
+                  const node = item.ref.current
+                  if (node) candidateNodes.push(node)
+                }
                 focusFirst(candidateNodes, preventScrollOnEntryFocus)
               }
             }

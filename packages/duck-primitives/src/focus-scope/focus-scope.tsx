@@ -10,6 +10,7 @@ import {
   getTabbableEdges,
   removeLinks,
 } from './focus-scope.libs'
+import type { IFocusScope } from './focus-scope.types'
 
 const AUTOFOCUS_ON_MOUNT = 'focusScope.autoFocusOnMount'
 const AUTOFOCUS_ON_UNMOUNT = 'focusScope.autoFocusOnUnmount'
@@ -18,20 +19,8 @@ const EVENT_OPTIONS = { bubbles: false, cancelable: true }
 const FOCUS_SCOPE_NAME = 'FocusScope'
 
 type FocusScopeElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-export interface IFocusScopeProps extends PrimitiveDivProps {
-  /** When true, Tab from last item wraps to first and Shift+Tab from first wraps to last. */
-  loop?: boolean
-  /** When true, focus cannot leave the scope via keyboard, pointer, or programmatic focus. */
-  trapped?: boolean
-  /** Called when auto-focusing on mount. Can be prevented. */
-  onMountAutoFocus?: (event: Event) => void
-  /** Called when auto-focusing on unmount. Can be prevented. */
-  onUnmountAutoFocus?: (event: Event) => void
-}
-
-const FocusScope = React.forwardRef<FocusScopeElement, IFocusScopeProps>((props, forwardedRef) => {
+const FocusScope = React.forwardRef<FocusScopeElement, IFocusScope.IProps>((props, forwardedRef) => {
   const {
     loop = false,
     trapped = false,

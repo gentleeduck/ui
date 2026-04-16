@@ -1,13 +1,10 @@
 import type * as React from 'react'
 import type { IDirection } from '../direction'
+import type { IRovingFocus } from './roving-focus.types'
 
 export { focusFirst, wrapArray } from '../libs/shared-utils'
-export type { IDirection }
 
-type Orientation = React.AriaAttributes['aria-orientation']
-type FocusIntent = 'first' | 'last' | 'prev' | 'next'
-
-const MAP_KEY_TO_FOCUS_INTENT: Record<string, FocusIntent> = {
+const MAP_KEY_TO_FOCUS_INTENT: Record<string, IRovingFocus.FocusIntent> = {
   ArrowLeft: 'prev',
   ArrowUp: 'prev',
   ArrowRight: 'next',
@@ -24,12 +21,11 @@ function getDirectionAwareKey(key: string, dir?: IDirection.Kind) {
 }
 
 /** Determines the focus intent from a keyboard event based on orientation and direction. */
-function getFocusIntent(event: React.KeyboardEvent, orientation?: Orientation, dir?: IDirection.Kind) {
+function getFocusIntent(event: React.KeyboardEvent, orientation?: IRovingFocus.Orientation, dir?: IDirection.Kind) {
   const key = getDirectionAwareKey(event.key, dir)
   if (orientation === 'vertical' && ['ArrowLeft', 'ArrowRight'].includes(key)) return undefined
   if (orientation === 'horizontal' && ['ArrowUp', 'ArrowDown'].includes(key)) return undefined
   return MAP_KEY_TO_FOCUS_INTENT[key]
 }
 
-export type { FocusIntent, Orientation }
 export { getFocusIntent }
