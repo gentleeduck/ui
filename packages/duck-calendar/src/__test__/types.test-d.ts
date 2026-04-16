@@ -18,7 +18,7 @@ import type { IUseDateTimeConfig, IUseDateTimeReturn } from '../react/use-dateti
 import type { ITimeFieldProps, IUseTimePickerReturn } from '../react/use-time-picker/use-time-picker.types'
 import type { Selection } from '../selection'
 import { applySelection, selectDay } from '../selection'
-import type { HourCycle, ITimePickerConfig, ITimeValue, TimeField } from '../time'
+import type { Time } from '../time'
 import { clampTime, incrementField, parseTimeInput } from '../time'
 
 // ---------------------------------------------------------------------------
@@ -46,7 +46,9 @@ describe('Selection.CalendarValue conditional type', () => {
     expectTypeOf<Selection.CalendarValue<CustomDate, 'single'>>().toEqualTypeOf<CustomDate | null>()
     expectTypeOf<Selection.CalendarValue<CustomDate, 'range'>>().toEqualTypeOf<Selection.DateRange<CustomDate> | null>()
     expectTypeOf<Selection.CalendarValue<CustomDate, 'multi'>>().toEqualTypeOf<CustomDate[]>()
-    expectTypeOf<Selection.CalendarValue<CustomDate, 'multi-range'>>().toEqualTypeOf<Selection.DateRange<CustomDate>[]>()
+    expectTypeOf<Selection.CalendarValue<CustomDate, 'multi-range'>>().toEqualTypeOf<
+      Selection.DateRange<CustomDate>[]
+    >()
   })
 
   it('resolves to never for invalid mode', () => {
@@ -259,31 +261,31 @@ describe('GridProps type', () => {
 // ---------------------------------------------------------------------------
 describe('TimeValue type', () => {
   it('has hour and minute required, second optional', () => {
-    expectTypeOf<ITimeValue['hour']>().toEqualTypeOf<number>()
-    expectTypeOf<ITimeValue['minute']>().toEqualTypeOf<number>()
-    expectTypeOf<ITimeValue['second']>().toEqualTypeOf<number | undefined>()
+    expectTypeOf<Time.ITimeValue['hour']>().toEqualTypeOf<number>()
+    expectTypeOf<Time.ITimeValue['minute']>().toEqualTypeOf<number>()
+    expectTypeOf<Time.ITimeValue['second']>().toEqualTypeOf<number | undefined>()
   })
 })
 
 // ---------------------------------------------------------------------------
-// TimeField type
+// Time.TimeField type
 // ---------------------------------------------------------------------------
-describe('TimeField type', () => {
+describe('Time.TimeField type', () => {
   it('is a union of field names', () => {
-    expectTypeOf<'hour'>().toMatchTypeOf<TimeField>()
-    expectTypeOf<'minute'>().toMatchTypeOf<TimeField>()
-    expectTypeOf<'second'>().toMatchTypeOf<TimeField>()
-    expectTypeOf<'ampm'>().toMatchTypeOf<TimeField>()
+    expectTypeOf<'hour'>().toMatchTypeOf<Time.TimeField>()
+    expectTypeOf<'minute'>().toMatchTypeOf<Time.TimeField>()
+    expectTypeOf<'second'>().toMatchTypeOf<Time.TimeField>()
+    expectTypeOf<'ampm'>().toMatchTypeOf<Time.TimeField>()
   })
 })
 
 // ---------------------------------------------------------------------------
-// HourCycle type
+// Time.HourCycle type
 // ---------------------------------------------------------------------------
-describe('HourCycle type', () => {
+describe('Time.HourCycle type', () => {
   it('is 12 or 24', () => {
-    expectTypeOf<'12'>().toMatchTypeOf<HourCycle>()
-    expectTypeOf<'24'>().toMatchTypeOf<HourCycle>()
+    expectTypeOf<'12'>().toMatchTypeOf<Time.HourCycle>()
+    expectTypeOf<'24'>().toMatchTypeOf<Time.HourCycle>()
   })
 })
 
@@ -323,7 +325,7 @@ describe('Pure function return types', () => {
 
   it('clampTime returns TimeValue', () => {
     const result = clampTime({ hour: 14, minute: 30 })
-    expectTypeOf(result).toEqualTypeOf<ITimeValue>()
+    expectTypeOf(result).toEqualTypeOf<Time.ITimeValue>()
   })
 
   it('parseTimeInput returns number | null', () => {
@@ -338,9 +340,9 @@ describe('Pure function return types', () => {
 describe('UseTimePickerReturn type', () => {
   it('state has correct shape', () => {
     type Return = IUseTimePickerReturn
-    expectTypeOf<Return['state']['value']>().toEqualTypeOf<ITimeValue>()
-    expectTypeOf<Return['state']['focusedField']>().toEqualTypeOf<TimeField>()
-    expectTypeOf<Return['state']['hourCycle']>().toEqualTypeOf<HourCycle>()
+    expectTypeOf<Return['state']['value']>().toEqualTypeOf<Time.ITimeValue>()
+    expectTypeOf<Return['state']['focusedField']>().toEqualTypeOf<Time.TimeField>()
+    expectTypeOf<Return['state']['hourCycle']>().toEqualTypeOf<Time.HourCycle>()
     expectTypeOf<Return['state']['displayHour']>().toEqualTypeOf<number>()
     expectTypeOf<Return['state']['displayAmPm']>().toEqualTypeOf<'AM' | 'PM'>()
   })
@@ -567,19 +569,19 @@ describe('UseCalendarReturn exhaustive type assertions', () => {
 describe('UseTimePickerReturn exhaustive type assertions', () => {
   it('actions.setValue accepts TimeValue', () => {
     type Return = IUseTimePickerReturn
-    expectTypeOf<Return['actions']['setValue']>().parameter(0).toEqualTypeOf<ITimeValue>()
+    expectTypeOf<Return['actions']['setValue']>().parameter(0).toEqualTypeOf<Time.ITimeValue>()
   })
 
-  it('actions.setField accepts TimeField and number', () => {
+  it('actions.setField accepts Time.TimeField and number', () => {
     type Return = IUseTimePickerReturn
-    expectTypeOf<Return['actions']['setField']>().parameter(0).toEqualTypeOf<TimeField>()
+    expectTypeOf<Return['actions']['setField']>().parameter(0).toEqualTypeOf<Time.TimeField>()
     expectTypeOf<Return['actions']['setField']>().parameter(1).toEqualTypeOf<number>()
   })
 
-  it('actions.increment and decrement accept TimeField', () => {
+  it('actions.increment and decrement accept Time.TimeField', () => {
     type Return = IUseTimePickerReturn
-    expectTypeOf<Return['actions']['increment']>().parameter(0).toEqualTypeOf<TimeField>()
-    expectTypeOf<Return['actions']['decrement']>().parameter(0).toEqualTypeOf<TimeField>()
+    expectTypeOf<Return['actions']['increment']>().parameter(0).toEqualTypeOf<Time.TimeField>()
+    expectTypeOf<Return['actions']['decrement']>().parameter(0).toEqualTypeOf<Time.TimeField>()
   })
 
   it('actions.toggleAmPm returns void', () => {
@@ -587,14 +589,14 @@ describe('UseTimePickerReturn exhaustive type assertions', () => {
     expectTypeOf<Return['actions']['toggleAmPm']>().returns.toEqualTypeOf<void>()
   })
 
-  it('actions.focusField accepts TimeField', () => {
+  it('actions.focusField accepts Time.TimeField', () => {
     type Return = IUseTimePickerReturn
-    expectTypeOf<Return['actions']['focusField']>().parameter(0).toEqualTypeOf<TimeField>()
+    expectTypeOf<Return['actions']['focusField']>().parameter(0).toEqualTypeOf<Time.TimeField>()
   })
 
-  it('getFieldProps accepts TimeField parameter', () => {
+  it('getFieldProps accepts Time.TimeField parameter', () => {
     type Return = IUseTimePickerReturn
-    expectTypeOf<Return['getFieldProps']>().parameter(0).toEqualTypeOf<TimeField>()
+    expectTypeOf<Return['getFieldProps']>().parameter(0).toEqualTypeOf<Time.TimeField>()
   })
 
   it('TimeFieldProps has correct ARIA spinbutton attributes', () => {
@@ -729,27 +731,27 @@ describe('UseCalendarConfig type', () => {
 // ---------------------------------------------------------------------------
 describe('TimePickerConfig type', () => {
   it('value and defaultValue are optional TimeValue', () => {
-    expectTypeOf<ITimePickerConfig['value']>().toEqualTypeOf<ITimeValue | undefined>()
-    expectTypeOf<ITimePickerConfig['defaultValue']>().toEqualTypeOf<ITimeValue | undefined>()
+    expectTypeOf<Time.ITimePickerConfig['value']>().toEqualTypeOf<Time.ITimeValue | undefined>()
+    expectTypeOf<Time.ITimePickerConfig['defaultValue']>().toEqualTypeOf<Time.ITimeValue | undefined>()
   })
 
   it('onChange receives TimeValue', () => {
-    type OnChange = NonNullable<ITimePickerConfig['onChange']>
-    expectTypeOf<OnChange>().parameter(0).toEqualTypeOf<ITimeValue>()
+    type OnChange = NonNullable<Time.ITimePickerConfig['onChange']>
+    expectTypeOf<OnChange>().parameter(0).toEqualTypeOf<Time.ITimeValue>()
   })
 
-  it('hourCycle is optional HourCycle', () => {
-    expectTypeOf<ITimePickerConfig['hourCycle']>().toEqualTypeOf<HourCycle | undefined>()
+  it('hourCycle is optional Time.HourCycle', () => {
+    expectTypeOf<Time.ITimePickerConfig['hourCycle']>().toEqualTypeOf<Time.HourCycle | undefined>()
   })
 
   it('minTime and maxTime are optional TimeValue', () => {
-    expectTypeOf<ITimePickerConfig['minTime']>().toEqualTypeOf<ITimeValue | undefined>()
-    expectTypeOf<ITimePickerConfig['maxTime']>().toEqualTypeOf<ITimeValue | undefined>()
+    expectTypeOf<Time.ITimePickerConfig['minTime']>().toEqualTypeOf<Time.ITimeValue | undefined>()
+    expectTypeOf<Time.ITimePickerConfig['maxTime']>().toEqualTypeOf<Time.ITimeValue | undefined>()
   })
 
   it('step options are optional numbers', () => {
-    expectTypeOf<ITimePickerConfig['minuteStep']>().toEqualTypeOf<number | undefined>()
-    expectTypeOf<ITimePickerConfig['secondStep']>().toEqualTypeOf<number | undefined>()
+    expectTypeOf<Time.ITimePickerConfig['minuteStep']>().toEqualTypeOf<number | undefined>()
+    expectTypeOf<Time.ITimePickerConfig['secondStep']>().toEqualTypeOf<number | undefined>()
   })
 })
 

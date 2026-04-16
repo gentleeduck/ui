@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { clampTime, incrementField, parseTimeInput } from '../../time/time'
 import { formatTimeField, getAmPm, to12Hour, to24Hour } from '../../time/time.libs'
-import type { ITimeValue, TimeField } from '../../time/time.types'
+import type { Time } from '../../time/time.types'
 import { useControllableState } from '../utils/use-controllable-state'
 import type { ITimeFieldProps, IUseTimePickerConfig, IUseTimePickerReturn } from './use-time-picker.types'
 
@@ -10,14 +10,14 @@ import type { ITimeFieldProps, IUseTimePickerConfig, IUseTimePickerReturn } from
 // ---------------------------------------------------------------------------
 
 // Pre-computed field orders for all 4 combinations (avoids filter() on every digit press)
-const FIELD_ORDERS: Record<string, TimeField[]> = {
+const FIELD_ORDERS: Record<string, Time.TimeField[]> = {
   '24_false': ['hour', 'minute'],
   '24_true': ['hour', 'minute', 'second'],
   '12_false': ['hour', 'minute', 'ampm'],
   '12_true': ['hour', 'minute', 'second', 'ampm'],
 }
 
-function nextField(current: TimeField, showSeconds: boolean, hourCycle: '12' | '24'): TimeField | null {
+function nextField(current: Time.TimeField, showSeconds: boolean, hourCycle: '12' | '24'): Time.TimeField | null {
   const available = FIELD_ORDERS[`${hourCycle}_${showSeconds}`]
   if (!available) return null
   const idx = available.indexOf(current)
@@ -29,7 +29,7 @@ function nextField(current: TimeField, showSeconds: boolean, hourCycle: '12' | '
 // ARIA helpers
 // ---------------------------------------------------------------------------
 
-const FIELD_LABELS: Record<TimeField, string> = {
+const FIELD_LABELS: Record<Time.TimeField, string> = {
   hour: 'Hour',
   minute: 'Minute',
   second: 'Second',
@@ -37,10 +37,10 @@ const FIELD_LABELS: Record<TimeField, string> = {
 }
 
 function getFieldRange(
-  field: TimeField,
+  field: Time.TimeField,
   hourCycle: '12' | '24',
-  minTime?: ITimeValue,
-  maxTime?: ITimeValue,
+  minTime?: Time.ITimeValue,
+  maxTime?: Time.ITimeValue,
 ): { min: number; max: number } {
   switch (field) {
     case 'hour': {
@@ -60,7 +60,7 @@ function getFieldRange(
   }
 }
 
-function getFieldNow(field: TimeField, value: ITimeValue, hourCycle: '12' | '24'): number {
+function getFieldNow(field: Time.TimeField, value: Time.ITimeValue, hourCycle: '12' | '24'): number {
   switch (field) {
     case 'hour':
       return hourCycle === '12' ? to12Hour(value.hour) : value.hour
@@ -73,7 +73,7 @@ function getFieldNow(field: TimeField, value: ITimeValue, hourCycle: '12' | '24'
   }
 }
 
-function getFieldText(field: TimeField, value: ITimeValue, hourCycle: '12' | '24'): string {
+function getFieldText(field: Time.TimeField, value: Time.ITimeValue, hourCycle: '12' | '24'): string {
   switch (field) {
     case 'hour':
       return formatTimeField(hourCycle === '12' ? to12Hour(value.hour) : value.hour)
@@ -103,11 +103,11 @@ export function useTimePicker(config: IUseTimePickerConfig = {}): IUseTimePicker
     secondStep,
   } = config
 
-  const initialValue: ITimeValue = defaultValue ?? { hour: 0, minute: 0 }
+  const initialValue: Time.ITimeValue = defaultValue ?? { hour: 0, minute: 0 }
 
-  const [value, setValueRaw] = useControllableState<ITimeValue>(controlledValue, initialValue, onChange)
+  const [value, setValueRaw] = useControllableState<Time.ITimeValue>(controlledValue, initialValue, onChange)
 
-  const [focusedField, setFocusedField] = useState<TimeField>('hour')
+  const [focusedField, setFocusedField] = useState<Time.TimeField>('hour')
 
   // Input buffering
   const inputBuffer = useRef<string>('')
@@ -129,14 +129,14 @@ export function useTimePicker(config: IUseTimePickerConfig = {}): IUseTimePicker
   // -------------------------------------------------------------------------
 
   const setValue = useCallback(
-    (next: ITimeValue) => {
+    (next: Time.ITimeValue) => {
       setValueRaw(next)
     },
     [setValueRaw],
   )
 
   const setField = useCallback(
-    (field: TimeField, fieldValue: number) => {
+    (field: Time.TimeField, fieldValue: number) => {
       const next = { ...value }
       switch (field) {
         case 'hour':
@@ -161,7 +161,7 @@ export function useTimePicker(config: IUseTimePickerConfig = {}): IUseTimePicker
   )
 
   const increment = useCallback(
-    (field: TimeField, delta = 1) => {
+    (field: Time.TimeField, delta = 1) => {
       const next = incrementField(value, field, delta, { hourCycle, minuteStep, secondStep, minTime, maxTime })
       setValueRaw(next)
     },
@@ -169,7 +169,7 @@ export function useTimePicker(config: IUseTimePickerConfig = {}): IUseTimePicker
   )
 
   const decrement = useCallback(
-    (field: TimeField, delta = 1) => {
+    (field: Time.TimeField, delta = 1) => {
       const next = incrementField(value, field, -delta, { hourCycle, minuteStep, secondStep, minTime, maxTime })
       setValueRaw(next)
     },
@@ -184,7 +184,7 @@ export function useTimePicker(config: IUseTimePickerConfig = {}): IUseTimePicker
     setValueRaw(next)
   }, [value, setValueRaw, minTime, maxTime])
 
-  const focusField = useCallback((field: TimeField) => {
+  const focusField = useCallback((field: Time.TimeField) => {
     setFocusedField(field)
   }, [])
 
@@ -193,7 +193,7 @@ export function useTimePicker(config: IUseTimePickerConfig = {}): IUseTimePicker
   // -------------------------------------------------------------------------
 
   const commitBuffer = useCallback(
-    (field: TimeField, buffer: string) => {
+    (field: Time.TimeField, buffer: string) => {
       const parsed = parseTimeInput(buffer, field, hourCycle)
       if (parsed !== null) {
         setField(field, parsed)
@@ -211,7 +211,7 @@ export function useTimePicker(config: IUseTimePickerConfig = {}): IUseTimePicker
   // -------------------------------------------------------------------------
 
   const getFieldProps = useCallback(
-    (field: TimeField): ITimeFieldProps => {
+    (field: Time.TimeField): ITimeFieldProps => {
       const range = getFieldRange(field, hourCycle, minTime, maxTime)
       const now = getFieldNow(field, value, hourCycle)
       const text = getFieldText(field, value, hourCycle)

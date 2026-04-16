@@ -1,6 +1,6 @@
-import type { HourCycle, ITimePickerConfig, ITimeValue, TimeField } from '../../time'
+import type { Time } from '../../time'
 
-export interface IUseTimePickerConfig extends ITimePickerConfig {}
+export interface IUseTimePickerConfig extends Time.ITimePickerConfig {}
 
 export interface ITimeFieldProps {
   role: 'spinbutton'
@@ -18,19 +18,19 @@ export interface ITimeFieldProps {
 
 export interface IUseTimePickerReturn {
   state: {
-    value: ITimeValue
-    focusedField: TimeField
-    hourCycle: HourCycle
+    value: Time.ITimeValue
+    focusedField: Time.TimeField
+    hourCycle: Time.HourCycle
     displayHour: number
     displayAmPm: 'AM' | 'PM'
   }
   actions: {
-    setValue: (value: ITimeValue) => void
-    setField: (field: TimeField, value: number) => void
-    increment: (field: TimeField, delta?: number) => void
-    decrement: (field: TimeField, delta?: number) => void
+    setValue: (value: Time.ITimeValue) => void
+    setField: (field: Time.TimeField, value: number) => void
+    increment: (field: Time.TimeField, delta?: number) => void
+    decrement: (field: Time.TimeField, delta?: number) => void
     toggleAmPm: () => void
-    focusField: (field: TimeField) => void
+    focusField: (field: Time.TimeField) => void
   }
-  getFieldProps: (field: TimeField) => ITimeFieldProps
+  getFieldProps: (field: Time.TimeField) => ITimeFieldProps
 }

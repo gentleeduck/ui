@@ -50,7 +50,7 @@ export type { Selection } from './selection'
 // Selection
 export { applySelection, isDateDisabled, isInRange, selectDay } from './selection'
 // Time
-export type { HourCycle, ITimePickerConfig, ITimeValue, TimeField } from './time'
+export type { Time } from './time'
 export {
   clampTime,
   formatTimeField,

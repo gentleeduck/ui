@@ -66,7 +66,11 @@ export function useCalendar<TDate, M extends Selection.SelectionMode = 'single'>
       ? ([] as unknown as Selection.CalendarValue<TDate, M>)
       : (null as Selection.CalendarValue<TDate, M>))
 
-  const [value, setValue] = useControllableState<Selection.CalendarValue<TDate, M>>(controlledSelected, initialValue, onSelect)
+  const [value, setValue] = useControllableState<Selection.CalendarValue<TDate, M>>(
+    controlledSelected,
+    initialValue,
+    onSelect,
+  )
 
   // -------------------------------------------------------------------------
   // Local state

@@ -20,7 +20,11 @@ export function selectDay<TDate, M extends Selection.SelectionMode>(
     case 'single':
       return selectSingle(adapter, currentValue as TDate | null, clickedDay) as Selection.CalendarValue<TDate, M>
     case 'range':
-      return selectRange(adapter, currentValue as Selection.DateRange<TDate> | null, clickedDay) as Selection.CalendarValue<TDate, M>
+      return selectRange(
+        adapter,
+        currentValue as Selection.DateRange<TDate> | null,
+        clickedDay,
+      ) as Selection.CalendarValue<TDate, M>
     case 'multi':
       return selectMulti(adapter, currentValue as TDate[], clickedDay) as Selection.CalendarValue<TDate, M>
     case 'multi-range':
@@ -159,7 +163,10 @@ function selectMultiRange<TDate>(
  * Merge overlapping or adjacent ranges into single ranges.
  * Two ranges merge if they overlap or one ends the day before the other starts.
  */
-function mergeRanges<TDate>(adapter: Adapter.IDateAdapter<TDate>, ranges: Selection.DateRange<TDate>[]): Selection.DateRange<TDate>[] {
+function mergeRanges<TDate>(
+  adapter: Adapter.IDateAdapter<TDate>,
+  ranges: Selection.DateRange<TDate>[],
+): Selection.DateRange<TDate>[] {
   const completed = ranges.filter((r) => r.to !== null) as { from: TDate; to: TDate }[]
   const inProgress = ranges.filter((r) => r.to === null)
 
