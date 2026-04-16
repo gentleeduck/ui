@@ -1,5 +1,6 @@
 import * as React from 'react'
 import { createSlot } from '../slot'
+import type { IPrimitive } from './primitive-elements.types'
 
 const NODES = [
   'a',
@@ -22,13 +23,7 @@ const NODES = [
 
 type Node = (typeof NODES)[number]
 
-export type PrimitivePropsWithRef<E extends React.ElementType> = React.ComponentPropsWithRef<E> & {
-  asChild?: boolean
-}
-
-type PrimitiveComponent<E extends React.ElementType> = React.ForwardRefExoticComponent<PrimitivePropsWithRef<E>>
-
-type Primitives = { [E in Node]: PrimitiveComponent<E> }
+type Primitives = { [E in Node]: IPrimitive.IComponent<E> }
 
 /** @internal */
 function markGentleduckInWindow(): void {
@@ -38,10 +33,10 @@ function markGentleduckInWindow(): void {
 }
 
 /** @internal */
-function createPrimitive<E extends Node>(node: E): PrimitiveComponent<E> {
+function createPrimitive<E extends Node>(node: E): IPrimitive.IComponent<E> {
   const Slot = createSlot(`Primitive.${node}`)
 
-  const PrimitiveNode = React.forwardRef<React.ComponentRef<E>, PrimitivePropsWithRef<E>>(
+  const PrimitiveNode = React.forwardRef<React.ComponentRef<E>, IPrimitive.IPropsWithRef<E>>(
     ({ asChild, ...primitiveProps }, forwardedRef) => {
       const Comp = (asChild ? Slot : node) as React.ElementType
 
@@ -53,7 +48,7 @@ function createPrimitive<E extends Node>(node: E): PrimitiveComponent<E> {
 
   PrimitiveNode.displayName = `Primitive.${node}`
 
-  return PrimitiveNode as unknown as PrimitiveComponent<E>
+  return PrimitiveNode as unknown as IPrimitive.IComponent<E>
 }
 
 const Primitive = {} as Primitives
