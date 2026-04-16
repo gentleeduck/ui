@@ -1,18 +1,17 @@
-import type * as React from 'react'
 import { Arrow } from '../arrow'
 import { useContentContext } from './content'
-import type { ScopedProps, Side } from './popper'
+import type { IPopper } from './popper.types'
 
 const ARROW_NAME = 'PopperArrow'
 
-const OPPOSITE_SIDE: Record<Side, Side> = {
+const OPPOSITE_SIDE: Record<IPopper.Side, IPopper.Side> = {
   top: 'bottom',
   right: 'left',
   bottom: 'top',
   left: 'right',
 }
 
-export function PopperArrow({ ref, ...props }: ScopedProps<React.ComponentPropsWithRef<typeof Arrow>>) {
+export function PopperArrow({ ref, ...props }: IPopper.IScoped<IPopper.IArrowProps>) {
   const { __scopePopper, ...arrowProps } = props
   const contentContext = useContentContext(ARROW_NAME, __scopePopper)
   const baseSide = OPPOSITE_SIDE[contentContext.placedSide]
@@ -20,7 +19,6 @@ export function PopperArrow({ ref, ...props }: ScopedProps<React.ComponentPropsW
   return (
     <span
       data-slot="popper-arrow"
-      // SVG measurement: wrapper is measured via ResizeObserver; SVG bbox is not what we want.
       ref={contentContext.onArrowChange}
       style={{
         position: 'absolute',

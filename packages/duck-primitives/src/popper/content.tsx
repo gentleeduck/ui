@@ -16,46 +16,14 @@ import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { useSize } from '../hooks/use-size'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
-import {
-  type Align,
-  type Boundary,
-  type CollisionPadding,
-  createPopperContext,
-  type ScopedProps,
-  type Side,
-  usePopperContext,
-} from './popper'
+import { createPopperContext, usePopperContext } from './popper'
+import type { IPopper } from './popper.types'
 
 const CONTENT_NAME = 'PopperContent'
 
-type PopperContentContextValue = {
-  placedSide: Side
-  onArrowChange(arrow: HTMLSpanElement | null): void
-  arrowX?: number
-  arrowY?: number
-  shouldHideArrow: boolean
-}
+export const [PopperContentProvider, useContentContext] = createPopperContext<IPopper.IContentContext>(CONTENT_NAME)
 
-export const [PopperContentProvider, useContentContext] = createPopperContext<PopperContentContextValue>(CONTENT_NAME)
-
-type PrimitiveDivProps = React.ComponentPropsWithRef<typeof Primitive.div>
-
-export interface IPopperContentProps extends PrimitiveDivProps {
-  side?: Side
-  sideOffset?: number
-  align?: Align
-  alignOffset?: number
-  arrowPadding?: number
-  avoidCollisions?: boolean
-  collisionBoundary?: Boundary | Boundary[]
-  collisionPadding?: CollisionPadding
-  sticky?: 'partial' | 'always'
-  hideWhenDetached?: boolean
-  updatePositionStrategy?: 'optimized' | 'always'
-  onPlaced?: () => void
-}
-
-export const PopperContent = ({ ref: forwardedRef, ...props }: ScopedProps<IPopperContentProps>) => {
+export const PopperContent = ({ ref: forwardedRef, ...props }: IPopper.IScoped<IPopper.IContentProps>) => {
   const {
     __scopePopper,
     side = 'bottom',
@@ -246,5 +214,5 @@ const transformOrigin = (options: { arrowWidth: number; arrowHeight: number }): 
 
 export function getSideAndAlignFromPlacement(placement: Placement) {
   const [side, align = 'center'] = placement.split('-')
-  return [side as Side, align as Align] as const
+  return [side as IPopper.Side, align as IPopper.Align] as const
 }
