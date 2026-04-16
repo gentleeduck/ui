@@ -2,39 +2,20 @@ import * as React from 'react'
 import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useComposedRefs } from '../libs/compose-ref'
-import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'
+import type { IInputOTP } from './input-otp.types'
 
 const INPUT_OTP_NAME = 'InputOTP'
 
 export const REGEXP_ONLY_DIGITS_AND_CHARS = /^.$/
 export const REGEXP_ONLY_DIGITS = /^[0-9]$/
 
-type ScopedProps<P> = P & { __scopeInputOTP?: Scope }
 const [createInputOTPContext, createInputOTPScope] = createContextScope(INPUT_OTP_NAME)
 
-type InputOTPContextValue = {
-  value?: string
-  inputsRef: React.RefObject<HTMLInputElement[]>
-  wrapperRef: React.RefObject<HTMLDivElement | null>
-  dir: IDirection.Kind
-  maxLength?: number
-}
-
-const [InputOTPProvider, useInputOTPContext] = createInputOTPContext<InputOTPContextValue>(INPUT_OTP_NAME)
+const [InputOTPProvider, useInputOTPContext] = createInputOTPContext<IInputOTP.IContext>(INPUT_OTP_NAME)
 
 type InputOTPElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-
-interface IInputOTPProps extends Omit<PrimitiveDivProps, 'onChange'> {
-  value?: string
-  onValueChange?: (value: string) => void
-  pattern?: RegExp
-  dir?: IDirection.Kind
-  maxLength?: number
-  name?: string
-}
 
 function useInputOTPBehavior({
   value,
@@ -72,8 +53,10 @@ function useInputOTPBehavior({
 
       let j = 0
       for (let k = startIndex; k < inputs.length && j < chars.length; k++) {
-        // biome-ignore lint/style/noNonNullAssertion: k and j are bounded by inputs.length and chars.length respectively
-        inputs[k]!.value = chars[j]!
+        const input = inputs[k]
+        const char = chars[j]
+        if (input === undefined || char === undefined) continue
+        input.value = char
         j++
       }
 
@@ -83,8 +66,8 @@ function useInputOTPBehavior({
     }
 
     for (let i = 0; i < inputs.length; i++) {
-      // biome-ignore lint/style/noNonNullAssertion: i is bounded by inputs.length in the for loop
-      const item = inputs[i]!
+      const item = inputs[i]
+      if (!item) continue
       item.value = valueChunks[i] ?? ''
       item.setAttribute('aria-label', `Digit ${i + 1}`)
 
@@ -142,8 +125,8 @@ function useInputOTPBehavior({
   }, [value, onValueChange, pattern, direction, maxLength, inputsRef, wrapperRef])
 }
 
-const InputOTP = React.forwardRef<InputOTPElement, IInputOTPProps>(
-  (props: ScopedProps<IInputOTPProps>, forwardedRef) => {
+const InputOTP = React.forwardRef<InputOTPElement, IInputOTP.IProps>(
+  (props: IInputOTP.IScoped<IInputOTP.IProps>, forwardedRef) => {
     const {
       __scopeInputOTP,
       value,
@@ -194,5 +177,4 @@ const InputOTP = React.forwardRef<InputOTPElement, IInputOTPProps>(
 
 InputOTP.displayName = INPUT_OTP_NAME
 
-export type { IInputOTPProps, InputOTPContextValue, ScopedProps }
 export { createInputOTPScope, INPUT_OTP_NAME, InputOTP, InputOTPProvider, useInputOTPContext }
