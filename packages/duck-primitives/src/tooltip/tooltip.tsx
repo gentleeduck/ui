@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { useId } from '../hooks/use-id'
@@ -24,7 +24,7 @@ type TooltipContextValue = {
   onOpen(): void
   onClose(): void
   disableHoverableContent: boolean
-  dir: Direction
+  dir: IDirection.Kind
 }
 
 export const [TooltipContextProvider, useTooltipContext] = createTooltipContext<TooltipContextValue>(TOOLTIP_NAME)
@@ -45,7 +45,7 @@ export interface ITooltipProps {
    * @defaultValue false
    */
   disableHoverableContent?: boolean
-  dir?: Direction
+  dir?: IDirection.Kind
 }
 
 export const Tooltip: React.FC<ITooltipProps> = (props: ScopedProps<ITooltipProps>) => {

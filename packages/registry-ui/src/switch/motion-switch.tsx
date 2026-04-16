@@ -3,7 +3,8 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
@@ -20,7 +21,7 @@ const MotionSwitch = React.forwardRef<
     onCheckedChange?: (checked: boolean) => void
   }
 >(({ className, onCheckedChange, onChange, checked, defaultChecked, dir, disabled, style, ...props }, ref) => {
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
   const isRtl = direction === 'rtl'
   const isControlled = checked !== undefined
   const [internalChecked, setInternalChecked] = React.useState<boolean>(defaultChecked ?? false)

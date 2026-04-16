@@ -1,7 +1,8 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import { ChevronRight, MoreHorizontal } from 'lucide-react'
 import * as React from 'react'
@@ -12,7 +13,7 @@ const Breadcrumb = React.forwardRef<
     separator?: React.ReactNode
   }
 >(({ dir, ...props }, ref) => {
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
   return <nav ref={ref} {...props} aria-label="breadcrumb" data-slot="breadcrumb" dir={direction} />
 })
 Breadcrumb.displayName = 'Breadcrumb'

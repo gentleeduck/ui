@@ -3,7 +3,8 @@
 import { cn } from '@gentleduck/libs/cn'
 import { checkersStylePattern } from '@gentleduck/motion/variants'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 
 const Switch = React.forwardRef<
@@ -14,7 +15,7 @@ const Switch = React.forwardRef<
     onCheckedChange?: (checked: boolean) => void
   }
 >(({ className, indicator, checkedIndicator, onChange, onCheckedChange, dir, style, ...props }, ref) => {
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
   const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
     checkedIndicator,
     indicator,

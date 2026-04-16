@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import type { useSize } from '../hooks/use-size'
@@ -48,7 +48,7 @@ type SliderContextValue = {
   valueIndexToChangeRef: React.RefObject<number>
   thumbs: Set<SliderThumbElement>
   orientation: ISliderProps['orientation']
-  dir: Direction
+  dir: IDirection.Kind
   form: string | undefined
 }
 
@@ -62,7 +62,7 @@ interface ISliderProps
   name?: string
   disabled?: boolean
   orientation?: React.AriaAttributes['aria-orientation']
-  dir?: Direction
+  dir?: IDirection.Kind
   min?: number
   max?: number
   step?: number
@@ -229,7 +229,7 @@ interface ISliderOrientationProps
 
 type SliderHorizontalElement = SliderImplElement
 interface ISliderHorizontalProps extends ISliderOrientationProps {
-  dir?: Direction
+  dir?: IDirection.Kind
 }
 
 const SliderHorizontal = React.forwardRef<SliderHorizontalElement, ISliderHorizontalProps>(

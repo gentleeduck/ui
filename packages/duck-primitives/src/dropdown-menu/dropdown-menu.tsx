@@ -1,6 +1,6 @@
 /** Root DropdownMenu component, scope factory, and shared context. */
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { useId } from '../hooks/use-id'
@@ -21,7 +21,7 @@ type DropdownMenuContextValue = {
   open: boolean
   onOpenChange(open: boolean): void
   onOpenToggle(): void
-  dir: Direction
+  dir: IDirection.Kind
   modal: boolean
 }
 
@@ -30,7 +30,7 @@ const [DropdownMenuProvider, useDropdownMenuContext] =
 
 interface IDropdownMenuProps {
   children?: React.ReactNode
-  dir?: Direction
+  dir?: IDirection.Kind
   open?: boolean
   defaultOpen?: boolean
   onOpenChange?(open: boolean): void
@@ -69,7 +69,7 @@ const DropdownMenu: React.FC<IDropdownMenuProps> = (props: ScopedProps<IDropdown
 
 DropdownMenu.displayName = DROPDOWN_MENU_NAME
 
-export type { Direction, DropdownMenuContextValue, IDropdownMenuProps, ScopedProps }
+export type { DropdownMenuContextValue, IDirection, IDropdownMenuProps, ScopedProps }
 export {
   createDropdownMenuScope,
   DROPDOWN_MENU_NAME,

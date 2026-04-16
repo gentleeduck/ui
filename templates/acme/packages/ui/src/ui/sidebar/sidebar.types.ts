@@ -1,7 +1,7 @@
-import type { Direction } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
 import type { Dispatch, SetStateAction } from 'react'
 
-export type SidebarDirection = Direction
+export type SidebarDirection = IDirection.Kind
 
 export type SidebarContextProps = {
   state: 'expanded' | 'collapsed'

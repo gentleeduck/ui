@@ -1,7 +1,8 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import React from 'react'
 import { Badge } from '../badge'
 import { Button } from '../button'
@@ -34,7 +35,7 @@ const Combobox = React.forwardRef<
     ref,
   ) => {
     const { dir, ...popoverProps } = popover ?? {}
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
     const MAX_SELECTION = 2
     const resolvedValue = value ?? defaultValue
 

@@ -7,7 +7,7 @@ import { useComposedRefs } from '../libs/compose-ref'
 import { createCollection } from '../libs/create-collection'
 import { createContextScope, type Scope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'
-import type { Direction, Orientation } from './roving-focus.libs'
+import type { IDirection, Orientation } from './roving-focus.libs'
 import { focusFirst } from './roving-focus.libs'
 
 const ENTRY_FOCUS = 'rovingFocusGroup.onEntryFocus'
@@ -27,7 +27,7 @@ const [createRovingFocusGroupContext, createRovingFocusGroupScope] = createConte
 
 interface IRovingFocusGroupOptions {
   orientation?: Orientation
-  dir?: Direction
+  dir?: IDirection.Kind
   loop?: boolean
 }
 

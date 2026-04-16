@@ -1,5 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import * as PaginationPrimitive from '@gentleduck/primitives/pagination'
 import {
   ChevronLeft,
@@ -125,7 +126,7 @@ const PaginationWrapper = (props: IDuckPaginationProps) => {
   const { className: maxRightClassName, ...maxRightProps } = props.maxRight ?? {}
   const { className: leftClassName, ...leftProps } = props.left ?? {}
   const { className: maxLeftClassName, ...maxLeftProps } = props.maxLeft ?? {}
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
   const StartIcon = direction === 'rtl' ? ChevronRightIcon : ChevronLeftIcon
   const EndIcon = direction === 'rtl' ? ChevronLeftIcon : ChevronRightIcon
   const StartDoubleIcon = direction === 'rtl' ? ChevronsRightIcon : ChevronsLeftIcon

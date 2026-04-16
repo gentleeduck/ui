@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
@@ -14,14 +14,14 @@ const [createAvatarContext, createAvatarScope] = createContextScope(AVATAR_NAME)
 type AvatarContextValue = {
   imageLoadingStatus: ImageLoadingStatus
   onImageLoadingStatusChange(status: ImageLoadingStatus): void
-  dir: Direction
+  dir: IDirection.Kind
 }
 
 const [AvatarProvider, useAvatarContext] = createAvatarContext<AvatarContextValue>(AVATAR_NAME)
 
 type AvatarElement = React.ComponentRef<typeof Primitive.span>
 interface IAvatarProps extends React.ComponentPropsWithoutRef<typeof Primitive.span> {
-  dir?: Direction
+  dir?: IDirection.Kind
 }
 
 const Avatar = React.forwardRef<AvatarElement, IAvatarProps>((props: ScopedProps<IAvatarProps>, forwardedRef) => {

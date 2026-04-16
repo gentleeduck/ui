@@ -8,7 +8,7 @@ import * as PopperPrimitive from '../popper'
 import { createPopperScope } from '../popper'
 import { createRovingFocusGroupScope } from '../roving-focus'
 
-import type { Direction } from './menu.libs'
+import type { IDirection } from './menu.libs'
 
 const MENU_NAME = 'Menu'
 
@@ -36,7 +36,7 @@ const [MenuProvider, useMenuContext] = createMenuContext<MenuContextValue>(MENU_
 type MenuRootContextValue = {
   onClose(): void
   isUsingKeyboardRef: React.RefObject<boolean>
-  dir: Direction
+  dir: IDirection.Kind
   modal: boolean
 }
 
@@ -46,7 +46,7 @@ interface IMenuProps {
   children?: React.ReactNode
   open?: boolean
   onOpenChange?(open: boolean): void
-  dir?: Direction
+  dir?: IDirection.Kind
   modal?: boolean
 }
 
@@ -106,7 +106,7 @@ type MenuContentElement = React.ComponentRef<typeof PopperPrimitive.Content>
 type MenuItemElement = React.ComponentRef<typeof import('../primitive-elements').Primitive.div>
 
 export type {
-  Direction,
+  IDirection,
   IMenuProps,
   ItemData,
   MenuContentElement,

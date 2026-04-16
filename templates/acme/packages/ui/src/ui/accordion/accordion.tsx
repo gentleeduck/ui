@@ -1,7 +1,8 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { Mount } from '@gentleduck/primitives/mount'
 import { ChevronDown } from 'lucide-react'
 import * as React from 'react'
@@ -49,7 +50,7 @@ const Accordion = React.forwardRef<HTMLDivElement, AccordionProps>(
     },
     ref,
   ) => {
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
     const wrapperRef = React.useRef<HTMLDivElement | null>(null)
     const itemsRef = React.useRef<HTMLDetailsElement[]>([])
 
@@ -162,7 +163,7 @@ const AccordionItem = React.forwardRef<
   const { onItemChange, value: activeValues = [], renderOnce } = React.useContext(AccordionContext) ?? {}
   const isActive = activeValues.includes(value as string)
   const childArray = Array.from(children as never as React.ReactNode[])
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
 
   return (
     <details
@@ -225,7 +226,7 @@ AccordionTrigger.displayName = 'AccordionTrigger'
 
 const AccordionContent = React.forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement> & { rerender?: boolean }>(
   ({ className, children, rerender = false, dir, ...props }, ref) => {
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
     return (
       <div
         className={cn(

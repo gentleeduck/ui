@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import type { Scope } from '../libs/create-context'
@@ -20,11 +20,11 @@ export namespace IAccordion {
     openItems: string[]
     onItemOpenChange(value: string): void
     collapsible: boolean
-    dir: Direction
+    dir: IDirection.Kind
   }
 
   export interface IImpl extends React.ComponentPropsWithoutRef<typeof Primitive.div> {
-    dir?: Direction
+    dir?: IDirection.Kind
   }
 
   export interface ISingle extends IImpl {

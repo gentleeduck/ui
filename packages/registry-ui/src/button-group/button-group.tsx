@@ -1,7 +1,8 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import type { Variants } from '@gentleduck/variants'
 import * as React from 'react'
@@ -12,7 +13,7 @@ const ButtonGroup = React.forwardRef<
   HTMLDivElement,
   React.ComponentPropsWithoutRef<'div'> & Variants.VariantProps<typeof buttonGroupVariants>
 >(({ className, orientation = 'horizontal', dir, ...props }, ref) => {
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
   return (
     // biome-ignore lint/a11y/useSemanticElements: group role is semantically correct for button groups
     <div

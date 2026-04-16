@@ -5,7 +5,6 @@ import type { PackageJson } from 'type-fest'
 import { IGNORED_DIRECTORIES } from '~/utils/get-project-info'
 import type { DuckUI } from '~/utils/preflight-configs/preflight-duckui'
 
-// biome-ignore lint/style/noNamespace: namespace groups workspace-related types per the project's TypeScript conventions doc
 export namespace Workspace {
   export interface Target {
     root: string

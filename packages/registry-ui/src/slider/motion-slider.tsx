@@ -59,7 +59,11 @@ const MotionSlider = React.forwardRef<
             />
           </SliderPrimitive.Track>
           {Array.from({ length: values.length }, (_, index) => (
-            <MotionSliderThumb key={index} data-orientation={orientation} />
+            <MotionSliderThumb
+              // biome-ignore lint/suspicious/noArrayIndexKey: thumb identity is positional
+              key={index}
+              data-orientation={orientation}
+            />
           ))}
         </SliderPrimitive.Root>
       </m.div>

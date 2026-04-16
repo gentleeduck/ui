@@ -1,6 +1,5 @@
 import type { Diff } from '~/utils/diff-format'
 
-// biome-ignore lint/style/noNamespace: namespace groups merge-related types per the project's TypeScript conventions doc
 export namespace Merge {
   export type HunkChoice = 'local' | 'registry' | 'both' | 'pending'
 

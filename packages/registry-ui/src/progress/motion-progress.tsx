@@ -2,7 +2,8 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
@@ -25,7 +26,7 @@ const MotionProgress = React.forwardRef<
   HTMLDivElement,
   Omit<React.HTMLProps<HTMLDivElement>, 'value' | 'ref'> & { value: number }
 >(({ className, value, dir, ...props }, ref) => {
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
   const safeValue = Math.max(0, Math.min(100, value ?? 0))
   const barAnimate = React.useMemo(() => ({ scaleX: safeValue / 100, opacity: 1 }), [safeValue])
   return (

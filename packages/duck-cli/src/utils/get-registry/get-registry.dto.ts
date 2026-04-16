@@ -112,7 +112,6 @@ export const registryEntrySchema = z.object({
 
 export const registrySchema = z.array(registryEntrySchema)
 
-// biome-ignore lint/style/noNamespace: namespace groups registry-related types per the project's TypeScript conventions doc
 export namespace Registry {
   export type HSL = `${number} ${number}% ${number}%`
   export type Radius = `${number}px` | `${number}rem`

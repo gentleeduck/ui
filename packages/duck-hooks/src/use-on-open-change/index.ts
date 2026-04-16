@@ -36,6 +36,7 @@ export function useOnOpenChange<T extends React.RefObject<HTMLElement | null>>(
           onOpenChange?.(true)
         }, 100)
       } else {
+        // biome-ignore lint/correctness/useHookAtTopLevel: utility is misnamed — it schedules a timeout, not a hook
         useComputedTimeoutTransition(ref.current, () => {
           document.body.classList.remove('scroll-locked')
         })
@@ -48,6 +49,7 @@ export function useOnOpenChange<T extends React.RefObject<HTMLElement | null>>(
 
   React.useEffect(() => {
     if (!ref.current) return
+    // biome-ignore lint/correctness/useHookAtTopLevel: utility is misnamed — it schedules a timeout, not a hook
     useComputedTimeoutTransition(ref.current, () => {
       document.body.classList.toggle('scroll-locked', open)
     })

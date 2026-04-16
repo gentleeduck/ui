@@ -1,5 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import { cva } from '@gentleduck/variants'
 import type { Variants } from '@gentleduck/variants'
@@ -9,7 +10,7 @@ import { itemVariants } from './item.constants'
 
 const ItemGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
   ({ className, dir, ...props }, ref) => {
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
     return (
       // biome-ignore lint/a11y/useSemanticElements: list role on div is intentional for composed item patterns
       <div

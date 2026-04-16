@@ -5,7 +5,8 @@ import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { Minus, Plus, RotateCcw } from 'lucide-react'
 import { LazyMotion, m } from 'motion/react'
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
@@ -323,7 +324,7 @@ const MotionPreviewPanel = React.forwardRef<
       () => ({ maxHeight, cursor: 'grab' as const, touchAction: 'none' as const }),
       [maxHeight],
     )
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
 
     return (
       <LazyMotion features={loadDomAnimation}>

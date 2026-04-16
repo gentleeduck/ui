@@ -117,9 +117,9 @@ export function useMotionPreset(
       : nameOrPreset
   const result = buildResult(preset, reduced, options)
 
-  // biome-ignore lint/correctness/useHookAtTopLevel: guarded for non-React environments (tests)
   if (typeof React.useMemo === 'function') {
     try {
+      // biome-ignore lint/correctness/useHookAtTopLevel: guarded for non-React environments (tests)
       return React.useMemo(
         () => buildResult(preset, reduced, options),
         [

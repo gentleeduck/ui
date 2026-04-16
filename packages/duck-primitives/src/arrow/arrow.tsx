@@ -1,12 +1,12 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
+import type { IArrow } from './arrow.types'
 
 const NAME = 'Arrow'
 
 type ArrowElement = React.ComponentRef<typeof Primitive.svg>
-type IArrowProps = React.ComponentPropsWithoutRef<typeof Primitive.svg>
 
-const Arrow = React.forwardRef<ArrowElement, IArrowProps>((props, forwardedRef) => {
+const Arrow = React.forwardRef<ArrowElement, IArrow.IProps>((props, forwardedRef) => {
   const { children, width = 10, height = 5, ...arrowProps } = props
   return (
     <Primitive.svg
@@ -24,5 +24,4 @@ const Arrow = React.forwardRef<ArrowElement, IArrowProps>((props, forwardedRef) 
 
 Arrow.displayName = NAME
 
-export type { IArrowProps }
 export { Arrow }
