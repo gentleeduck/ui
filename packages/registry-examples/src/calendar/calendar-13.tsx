@@ -1,11 +1,11 @@
 'use client'
 
-import type { DateRange } from '@gentleduck/calendar'
+import type { Selection } from '@gentleduck/calendar'
 import { Calendar } from '@gentleduck/registry-ui/calendar'
 import * as React from 'react'
 
 export default function Demo() {
-  const [ranges, setRanges] = React.useState<DateRange<Date>[]>([])
+  const [ranges, setRanges] = React.useState<Selection.DateRange<Date>[]>([])
 
   return (
     <div className="space-y-4">

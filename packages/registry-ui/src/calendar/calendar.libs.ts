@@ -1,4 +1,4 @@
-import type { SelectionMode } from '@gentleduck/calendar'
+import type { Selection } from '@gentleduck/calendar'
 import type { ICalendarProps, ICalendarSelectionValue } from './calendar.types'
 
 const MAX_CACHE_SIZE = 20
@@ -7,7 +7,7 @@ const MAX_CACHE_SIZE = 20
 const NUMBER_FORMAT_CACHE = new Map<string, Intl.NumberFormat>()
 
 export function callCalendarSelectHandler(
-  mode: SelectionMode,
+  mode: Selection.SelectionMode,
   onSelect: ICalendarProps['onSelect'],
   value: ICalendarSelectionValue,
 ) {

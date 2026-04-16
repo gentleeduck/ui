@@ -1,6 +1,6 @@
 'use client'
 
-import type { DateRange } from '@gentleduck/calendar'
+import type { Selection } from '@gentleduck/calendar'
 import { Calendar } from '@gentleduck/registry-ui/calendar'
 import * as React from 'react'
 
@@ -9,7 +9,7 @@ export default function Demo() {
   const initialFrom = new Date(today.getFullYear(), 0, 12)
   const initialTo = new Date(today.getFullYear(), 1, 11)
 
-  const [dateRange, setDateRange] = React.useState<DateRange<Date> | null>({
+  const [dateRange, setDateRange] = React.useState<Selection.DateRange<Date> | null>({
     from: initialFrom,
     to: initialTo,
   })
