@@ -1,60 +1,18 @@
 import * as React from 'react'
-import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
-import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'
+import type { IAccordion } from './accordion.types'
 
 const ACCORDION_NAME = 'Accordion'
 
 const [createAccordionContext, createAccordionScope] = createContextScope(ACCORDION_NAME)
 
-type IAccordionProps = IAccordion.ISingle | IAccordion.IMultiple
-
-export namespace IAccordion {
-  export type IScoped<TProps> = TProps & { __scopeAccordion?: Scope }
-
-  export interface IContext {
-    type: 'single' | 'multiple'
-    openItems: string[]
-    onItemOpenChange(value: string): void
-    collapsible: boolean
-    dir: IDirection.Kind
-  }
-
-  export interface IImpl extends React.ComponentPropsWithoutRef<typeof Primitive.div> {
-    dir?: IDirection.Kind
-  }
-
-  export interface ISingle extends IImpl {
-    type?: 'single'
-    value?: string
-    defaultValue?: string
-    onValueChange?(value: string): void
-    collapsible?: boolean
-  }
-
-  export interface IMultiple extends IImpl {
-    type: 'multiple'
-    value?: string[]
-    defaultValue?: string[]
-    onValueChange?(value: string[]): void
-    collapsible?: never
-  }
-
-  export interface IImplPrivate extends IImpl {
-    type: 'single' | 'multiple'
-    openItems: string[]
-    onItemOpenChange(value: string): void
-    collapsible: boolean
-  }
-}
-
 const [AccordionProvider, useAccordionContext] = createAccordionContext<IAccordion.IContext>(ACCORDION_NAME)
 
-const Accordion = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IAccordionProps>(
-  (props: IAccordion.IScoped<IAccordionProps>, forwardedRef) => {
+const Accordion = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IAccordion.IProps>(
+  (props: IAccordion.IScoped<IAccordion.IProps>, forwardedRef) => {
     if (props.type === 'multiple') {
       return <AccordionMultiple {...props} ref={forwardedRef} />
     }
@@ -164,7 +122,6 @@ const AccordionImpl = React.forwardRef<React.ComponentRef<typeof Primitive.div>,
 
 AccordionImpl.displayName = `${ACCORDION_NAME}Impl`
 
-export type { IAccordionProps }
 export {
   ACCORDION_NAME,
   Accordion,
