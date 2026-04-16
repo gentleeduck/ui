@@ -1,12 +1,11 @@
 import * as React from 'react'
-import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
-import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'
 import * as RovingFocusGroup from '../roving-focus'
 import { createRovingFocusGroupScope } from '../roving-focus'
+import type { IToggleGroup } from './toggle-group.types'
 
 const TOGGLE_GROUP_NAME = 'ToggleGroup'
 
@@ -15,97 +14,10 @@ const [createToggleGroupContext, createToggleGroupScope] = createContextScope(TO
 ])
 const useRovingFocusGroupScope = createRovingFocusGroupScope()
 
-type IToggleGroupProps = IToggleGroup.ISingle | IToggleGroup.IMultiple
-
-export namespace IToggleGroup {
-  export type IScoped<TProps> = TProps & { __scopeToggleGroup?: Scope }
-
-  export interface IContext {
-    type: 'single' | 'multiple'
-    value: string[]
-    onItemActivate(value: string): void
-    onItemDeactivate(value: string): void
-    rovingFocus: boolean
-    disabled: boolean
-    dir: IDirection.Kind
-  }
-
-  export interface IImpl extends React.ComponentPropsWithoutRef<typeof Primitive.div> {
-    type: 'single' | 'multiple'
-    /**
-     * Whether roving focus should be used for keyboard navigation.
-     * @defaultValue true
-     */
-    rovingFocus?: boolean
-    /**
-     * Whether the group is disabled.
-     * @defaultValue false
-     */
-    disabled?: boolean
-    /**
-     * The orientation of the group for arrow key navigation.
-     */
-    orientation?: React.ComponentPropsWithoutRef<typeof RovingFocusGroup.Root>['orientation']
-    /**
-     * The reading direction.
-     */
-    dir?: React.ComponentPropsWithoutRef<typeof RovingFocusGroup.Root>['dir']
-    /**
-     * Whether keyboard navigation should loop.
-     * @defaultValue true
-     */
-    loop?: React.ComponentPropsWithoutRef<typeof RovingFocusGroup.Root>['loop']
-  }
-
-  export interface ISingle extends IImpl {
-    /**
-     * Allow only one button to be pressed at a time.
-     */
-    type: 'single'
-    /**
-     * The controlled value of the pressed item.
-     */
-    value?: string
-    /**
-     * The value of the item that is pressed when initially rendered.
-     */
-    defaultValue?: string
-    /**
-     * Event handler called when the value changes.
-     */
-    onValueChange?(value: string): void
-  }
-
-  export interface IMultiple extends IImpl {
-    /**
-     * Allow multiple buttons to be pressed at the same time.
-     */
-    type: 'multiple'
-    /**
-     * The controlled value of the pressed items.
-     */
-    value?: string[]
-    /**
-     * The value of the items that are pressed when initially rendered.
-     */
-    defaultValue?: string[]
-    /**
-     * Event handler called when the value changes.
-     */
-    onValueChange?(value: string[]): void
-  }
-
-  export interface IImplPrivate extends IImpl {
-    value: string[]
-    onItemActivate(value: string): void
-    onItemDeactivate(value: string): void
-  }
-}
-
 const [ToggleGroupProvider, useToggleGroupContext] = createToggleGroupContext<IToggleGroup.IContext>(TOGGLE_GROUP_NAME)
 
-const ToggleGroup = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IToggleGroupProps>(
-  (props: IToggleGroup.IScoped<IToggleGroupProps>, forwardedRef) => {
+const ToggleGroup = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IToggleGroup.IProps>(
+  (props: IToggleGroup.IScoped<IToggleGroup.IProps>, forwardedRef) => {
     if (props.type === 'single') {
       return <ToggleGroupSingle {...(props as IToggleGroup.IScoped<IToggleGroup.ISingle>)} ref={forwardedRef} />
     }
@@ -234,7 +146,6 @@ const ToggleGroupImpl = React.forwardRef<React.ComponentRef<typeof Primitive.div
 
 ToggleGroupImpl.displayName = `${TOGGLE_GROUP_NAME}Impl`
 
-export type { IToggleGroupProps }
 export {
   createToggleGroupScope,
   TOGGLE_GROUP_NAME,
