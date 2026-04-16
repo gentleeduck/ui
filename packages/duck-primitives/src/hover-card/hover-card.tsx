@@ -1,44 +1,21 @@
 import * as React from 'react'
-import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
-import { createContextScope, type Scope } from '../libs/create-context'
+import { createContextScope } from '../libs/create-context'
 import * as PopperPrimitive from '../popper'
 import { createPopperScope } from '../popper'
+import type { IHoverCard } from './hover-card.types'
 
 const HOVERCARD_NAME = 'HoverCard'
-
-export type ScopedProps<P> = P & { __scopeHoverCard?: Scope }
 
 export const [createHoverCardContext, createHoverCardScope] = createContextScope(HOVERCARD_NAME, [createPopperScope])
 
 export const usePopperScope = createPopperScope()
 
-type HoverCardContextValue = {
-  open: boolean
-  onOpenChange(open: boolean): void
-  onOpen(): void
-  onClose(): void
-  onDismiss(): void
-  hasSelectionRef: React.RefObject<boolean>
-  isPointerDownOnContentRef: React.RefObject<boolean>
-  dir: IDirection.Kind
-}
-
-export const [HoverCardProvider, useHoverCardContext] = createHoverCardContext<HoverCardContextValue>(HOVERCARD_NAME)
-
-export interface IHoverCardProps {
-  children?: React.ReactNode
-  open?: boolean
-  defaultOpen?: boolean
-  onOpenChange?: (open: boolean) => void
-  openDelay?: number
-  closeDelay?: number
-  dir?: IDirection.Kind
-}
+export const [HoverCardProvider, useHoverCardContext] = createHoverCardContext<IHoverCard.IContext>(HOVERCARD_NAME)
 
 /** Root HoverCard component that manages open/close state and timing delays. */
-export const HoverCard: React.FC<IHoverCardProps> = (props: ScopedProps<IHoverCardProps>) => {
+export const HoverCard: React.FC<IHoverCard.IProps> = (props: IHoverCard.IScoped<IHoverCard.IProps>) => {
   const {
     __scopeHoverCard,
     children,
@@ -77,7 +54,6 @@ export const HoverCard: React.FC<IHoverCardProps> = (props: ScopedProps<IHoverCa
 
   const handleDismiss = React.useCallback(() => setOpen(false), [setOpen])
 
-  // cleanup any queued state updates on unmount
   React.useEffect(() => {
     return () => {
       clearTimeout(openTimerRef.current)
