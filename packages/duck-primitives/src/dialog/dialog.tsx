@@ -1,47 +1,21 @@
 import * as React from 'react'
-import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { useId } from '../hooks/use-id'
-import type { Scope } from '../libs/create-context'
 import { createContext, createContextScope } from '../libs/create-context'
+import type { IDialog } from './dialog.types'
 
 const DIALOG_NAME = 'Dialog'
 
-export type ScopedProps<P> = P & { __scopeDialog?: Scope }
 export const [createDialogContext, createDialogScope] = createContextScope(DIALOG_NAME)
 
-type DialogContentElement = HTMLDivElement
-
-export type DialogContextValue = {
-  triggerRef: React.RefObject<HTMLButtonElement | null>
-  contentRef: React.RefObject<DialogContentElement | null>
-  contentId: string
-  titleId: string
-  descriptionId: string
-  open: boolean
-  onOpenChange(open: boolean): void
-  onOpenToggle(): void
-  modal: boolean
-  dir: IDirection.Kind
-}
-
-export const [DialogProvider, useDialogContext] = createDialogContext<DialogContextValue>(DIALOG_NAME)
-
-export interface IDialogProps {
-  children?: React.ReactNode
-  open?: boolean
-  defaultOpen?: boolean
-  onOpenChange?(open: boolean): void
-  modal?: boolean
-  dir?: IDirection.Kind
-}
+export const [DialogProvider, useDialogContext] = createDialogContext<IDialog.IContext>(DIALOG_NAME)
 
 /** Manages open/closed state and provides context to all child components. */
-const Dialog: React.FC<IDialogProps> = (props: ScopedProps<IDialogProps>) => {
+const Dialog: React.FC<IDialog.IProps> = (props: IDialog.IScoped<IDialog.IProps>) => {
   const { __scopeDialog, children, open: openProp, defaultOpen, onOpenChange, dir, modal = true } = props
   const triggerRef = React.useRef<HTMLButtonElement>(null)
-  const contentRef = React.useRef<DialogContentElement>(null)
+  const contentRef = React.useRef<IDialog.DialogContentElement>(null)
   const direction = useDirection(dir)
   const [open, setOpen] = useControllableState({
     prop: openProp,
