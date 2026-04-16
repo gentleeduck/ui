@@ -1,42 +1,16 @@
 import * as React from 'react'
-import { createTooltipContext, type ScopedProps } from './tooltip.libs'
+import { createTooltipContext } from './tooltip.libs'
+import type { ITooltip } from './tooltip.types'
 
 const PROVIDER_NAME = 'TooltipProvider'
 const DEFAULT_DELAY_DURATION = 700
 
-type TooltipProviderContextValue = {
-  isOpenDelayedRef: React.RefObject<boolean>
-  delayDuration: number
-  onOpen(): void
-  onClose(): void
-  onPointerInTransitChange(inTransit: boolean): void
-  isPointerInTransitRef: React.RefObject<boolean>
-  disableHoverableContent: boolean
-}
-
 export const [TooltipProviderContextProvider, useTooltipProviderContext] =
-  createTooltipContext<TooltipProviderContextValue>(PROVIDER_NAME)
+  createTooltipContext<ITooltip.IProviderContext>(PROVIDER_NAME)
 
-export interface ITooltipProviderProps {
-  children: React.ReactNode
-  /**
-   * The duration from when the pointer enters the trigger until the tooltip gets opened.
-   * @defaultValue 700
-   */
-  delayDuration?: number
-  /**
-   * How much time a user has to enter another trigger without incurring a delay again.
-   * @defaultValue 300
-   */
-  skipDelayDuration?: number
-  /**
-   * When `true`, trying to hover the content will result in the tooltip closing as the pointer leaves the trigger.
-   * @defaultValue false
-   */
-  disableHoverableContent?: boolean
-}
-
-export const TooltipProvider: React.FC<ITooltipProviderProps> = (props: ScopedProps<ITooltipProviderProps>) => {
+export const TooltipProvider: React.FC<ITooltip.IProviderProps> = (
+  props: ITooltip.IScoped<ITooltip.IProviderProps>,
+) => {
   const {
     __scopeTooltip,
     delayDuration = DEFAULT_DELAY_DURATION,

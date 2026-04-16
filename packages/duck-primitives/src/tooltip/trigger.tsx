@@ -5,23 +5,15 @@ import * as PopperPrimitive from '../popper'
 import { Primitive } from '../primitive-elements'
 import { useTooltipProviderContext } from './provider'
 import { useTooltipContext } from './tooltip'
-import { type ScopedProps, usePopperScope } from './tooltip.libs'
+import { usePopperScope } from './tooltip.libs'
+import type { ITooltip } from './tooltip.types'
 
 const TRIGGER_NAME = 'TooltipTrigger'
 
 type TooltipTriggerElement = React.ComponentRef<typeof Primitive.button>
-type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
-export interface ITooltipTriggerProps extends PrimitiveButtonProps {
-  /**
-   * When `true`, clicking the trigger will not dismiss the tooltip.
-   * Useful when wrapping interactive elements like `Toggle` with `asChild`.
-   * @default false
-   */
-  disableCloseOnClick?: boolean
-}
 
-export const TooltipTrigger = React.forwardRef<TooltipTriggerElement, ITooltipTriggerProps>(
-  (props: ScopedProps<ITooltipTriggerProps>, forwardedRef) => {
+export const TooltipTrigger = React.forwardRef<TooltipTriggerElement, ITooltip.ITriggerProps>(
+  (props: ITooltip.IScoped<ITooltip.ITriggerProps>, forwardedRef) => {
     const { __scopeTooltip, disableCloseOnClick = false, ...triggerProps } = props
     const context = useTooltipContext(TRIGGER_NAME, __scopeTooltip)
     const providerContext = useTooltipProviderContext(TRIGGER_NAME, __scopeTooltip)
