@@ -45,9 +45,8 @@ export interface ICalendarDayCellProps {
   renderDay?: (day: Grid.ICalendarDay<Date>, children: React.ReactNode) => React.ReactNode
 }
 
-export type ICalendarSelectionValue<
-  TMode extends Selection.SelectionMode = Selection.SelectionMode,
-> = Selection.CalendarValue<Date, TMode>
+export type ICalendarSelectionValue<TMode extends Selection.SelectionMode = Selection.SelectionMode> =
+  Selection.CalendarValue<Date, TMode>
 
 export type ICalendarProps =
   | ICalendarProps.ISingle
