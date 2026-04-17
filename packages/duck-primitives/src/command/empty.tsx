@@ -1,16 +1,15 @@
 import * as React from 'react'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
-import { type ScopedProps, useCommandContext, useCommandListContext } from './command'
+import { useCommandContext, useCommandListContext } from './command'
+import type { ICommand } from './command.types'
 
 const EMPTY_NAME = 'CommandEmpty'
 
 type CommandEmptyElement = React.ComponentRef<typeof Primitive.div>
 
-export interface ICommandEmptyProps extends React.ComponentPropsWithRef<typeof Primitive.div> {}
-
-export const CommandEmpty = React.forwardRef<CommandEmptyElement, ICommandEmptyProps>(
-  (props: ScopedProps<ICommandEmptyProps>, forwardedRef) => {
+export const CommandEmpty = React.forwardRef<CommandEmptyElement, ICommand.IEmptyProps>(
+  (props: ICommand.IScoped<ICommand.IEmptyProps>, forwardedRef) => {
     const { __scopeCommand, ...emptyProps } = props
     const context = useCommandContext(EMPTY_NAME, __scopeCommand)
     const listContext = useCommandListContext(EMPTY_NAME, __scopeCommand)

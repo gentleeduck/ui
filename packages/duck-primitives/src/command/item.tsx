@@ -6,25 +6,17 @@ import { Primitive } from '../primitive-elements'
 import {
   Collection,
   CommandItemContextProvider,
-  type CommandItemContextValue,
-  type ScopedProps,
   useCommandContext,
   useCommandListContext,
 } from './command'
+import type { ICommand } from './command.types'
 
 const ITEM_NAME = 'CommandItem'
 
 type CommandItemElement = React.ComponentRef<typeof Primitive.li>
 
-export interface ICommandItemProps extends Omit<React.ComponentPropsWithRef<typeof Primitive.li>, 'onSelect'> {
-  value?: string
-  disabled?: boolean
-  textValue?: string
-  onSelect?: (value: string) => void
-}
-
-export const CommandItem = React.forwardRef<CommandItemElement, ICommandItemProps>(
-  (props: ScopedProps<ICommandItemProps>, forwardedRef) => {
+export const CommandItem = React.forwardRef<CommandItemElement, ICommand.IItemProps>(
+  (props: ICommand.IScoped<ICommand.IItemProps>, forwardedRef) => {
     const {
       __scopeCommand,
       value = '',
@@ -42,14 +34,12 @@ export const CommandItem = React.forwardRef<CommandItemElement, ICommandItemProp
     const itemRef = React.useRef<HTMLLIElement | null>(null)
     const pointerTypeRef = React.useRef<React.PointerEvent['pointerType']>('touch')
 
-    // Read text content from DOM via ref callback (like SelectItem's onItemTextChange)
     const composedRefs = useComposedRefs(forwardedRef, itemRef, (node: HTMLLIElement | null) => {
       if (node && !textValueProp) {
         setTextValue((prev) => prev || (node.textContent ?? '').trim())
       }
     })
 
-    // Derive highlight from context (selectedItem) instead of DOM focus
     const isHighlighted = context.selectedItem !== null && context.selectedItem === itemRef.current
 
     const handleSelect = () => {
@@ -58,7 +48,7 @@ export const CommandItem = React.forwardRef<CommandItemElement, ICommandItemProp
       }
     }
 
-    const itemContextValue = React.useMemo<CommandItemContextValue>(
+    const itemContextValue = React.useMemo<ICommand.IItemContext>(
       () => ({
         value,
         disabled,
@@ -113,7 +103,6 @@ export const CommandItem = React.forwardRef<CommandItemElement, ICommandItemProp
               }
             })}
             onKeyDown={composeEventHandlers(itemProps.onKeyDown, (event) => {
-              // Block space selection during typeahead (same as Select's item pattern)
               const isTypingAhead = context.typeaheadSearchRef?.current !== ''
               if (isTypingAhead && event.key === ' ') return
               if (event.key === 'Enter' || event.key === ' ') {
