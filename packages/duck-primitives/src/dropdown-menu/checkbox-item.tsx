@@ -1,17 +1,14 @@
-/** DropdownMenuCheckboxItem -- a menu item that toggles a checked state. */
 import * as React from 'react'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './dropdown-menu'
 import { useMenuScope } from './dropdown-menu'
+import type { IDropdownMenu } from './dropdown-menu.types'
 
 const CHECKBOX_ITEM_NAME = 'DropdownMenuCheckboxItem'
 
 type DropdownMenuCheckboxItemElement = React.ComponentRef<typeof MenuPrimitive.CheckboxItem>
-type MenuCheckboxItemProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.CheckboxItem>
-interface IDropdownMenuCheckboxItemProps extends MenuCheckboxItemProps {}
 
-const DropdownMenuCheckboxItem = React.forwardRef<DropdownMenuCheckboxItemElement, IDropdownMenuCheckboxItemProps>(
-  (props: ScopedProps<IDropdownMenuCheckboxItemProps>, forwardedRef) => {
+const DropdownMenuCheckboxItem = React.forwardRef<DropdownMenuCheckboxItemElement, IDropdownMenu.ICheckboxItemProps>(
+  (props: IDropdownMenu.IScoped<IDropdownMenu.ICheckboxItemProps>, forwardedRef) => {
     const { __scopeDropdownMenu, ...checkboxItemProps } = props
     const menuScope = useMenuScope(__scopeDropdownMenu)
     return <MenuPrimitive.CheckboxItem {...menuScope} {...checkboxItemProps} ref={forwardedRef} />
@@ -20,5 +17,4 @@ const DropdownMenuCheckboxItem = React.forwardRef<DropdownMenuCheckboxItemElemen
 
 DropdownMenuCheckboxItem.displayName = CHECKBOX_ITEM_NAME
 
-export type { IDropdownMenuCheckboxItemProps }
 export { DropdownMenuCheckboxItem }

@@ -1,17 +1,14 @@
-/** DropdownMenuSubContent -- positioned content area for a nested submenu. */
 import * as React from 'react'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './dropdown-menu'
 import { useMenuScope } from './dropdown-menu'
+import type { IDropdownMenu } from './dropdown-menu.types'
 
 const SUB_CONTENT_NAME = 'DropdownMenuSubContent'
 
 type DropdownMenuSubContentElement = React.ComponentRef<typeof MenuPrimitive.Content>
-type MenuSubContentProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.SubContent>
-interface IDropdownMenuSubContentProps extends MenuSubContentProps {}
 
-const DropdownMenuSubContent = React.forwardRef<DropdownMenuSubContentElement, IDropdownMenuSubContentProps>(
-  (props: ScopedProps<IDropdownMenuSubContentProps>, forwardedRef) => {
+const DropdownMenuSubContent = React.forwardRef<DropdownMenuSubContentElement, IDropdownMenu.ISubContentProps>(
+  (props: IDropdownMenu.IScoped<IDropdownMenu.ISubContentProps>, forwardedRef) => {
     const { __scopeDropdownMenu, ...subContentProps } = props
     const menuScope = useMenuScope(__scopeDropdownMenu)
 
@@ -22,7 +19,6 @@ const DropdownMenuSubContent = React.forwardRef<DropdownMenuSubContentElement, I
         ref={forwardedRef}
         style={{
           ...props.style,
-          // re-namespace exposed content custom properties
           ...{
             '--gentleduck-dropdown-menu-content-transform-origin': 'var(--gentleduck-popper-transform-origin)',
             '--gentleduck-dropdown-menu-content-available-width': 'var(--gentleduck-popper-available-width)',
@@ -38,5 +34,4 @@ const DropdownMenuSubContent = React.forwardRef<DropdownMenuSubContentElement, I
 
 DropdownMenuSubContent.displayName = SUB_CONTENT_NAME
 
-export type { IDropdownMenuSubContentProps }
 export { DropdownMenuSubContent }
