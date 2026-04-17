@@ -4,10 +4,10 @@ import { addCommandConfig } from './add.constants'
 import { addCommandAction } from './add.libs'
 
 const { name, description, options, arguments_ } = addCommandConfig
-const option1 = requireConfigValue(options['option1'], 'missing add command option1 config')
-const option2 = requireConfigValue(options['option2'], 'missing add command option2 config')
-const option3 = requireConfigValue(options['option3'], 'missing add command option3 config')
-const arg1 = requireConfigValue(arguments_['arg1'], 'missing add command arg1 config')
+const option1 = requireConfigValue(options.option1, 'missing add command option1 config')
+const option2 = requireConfigValue(options.option2, 'missing add command option2 config')
+const option3 = requireConfigValue(options.option3, 'missing add command option3 config')
+const arg1 = requireConfigValue(arguments_.arg1, 'missing add command arg1 config')
 
 export function addCommand(): Command {
   const addCommand = new Command(name)
