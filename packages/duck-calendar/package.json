@@ -76,11 +76,17 @@
     "headless"
   ],
   "scripts": {
+    "benchmark": "bun run scripts/benchmark.ts",
     "build": "tsdown",
+    "check": "biome check .",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
-    "test": "vitest run",
     "dev": "vitest",
-    "benchmark": "bun run scripts/benchmark.ts"
+    "fix": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
