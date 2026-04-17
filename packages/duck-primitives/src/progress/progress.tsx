@@ -1,8 +1,6 @@
 /** Root Progress component with scope, context, and validation. */
 import * as React from 'react'
-import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
-import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'
 import {
@@ -15,26 +13,18 @@ import {
   isValidMaxNumber,
   isValidValueNumber,
 } from './progress.libs'
+import type { IProgress } from './progress.types'
 
 const PROGRESS_NAME = 'Progress'
 
-type ScopedProps<P> = P & { __scopeProgress?: Scope }
 const [createProgressContext, createProgressScope] = createContextScope(PROGRESS_NAME)
 
-type ProgressContextValue = { value: number | null; max: number; dir: IDirection.Kind }
-const [ProgressProvider, useProgressContext] = createProgressContext<ProgressContextValue>(PROGRESS_NAME)
+const [ProgressProvider, useProgressContext] = createProgressContext<IProgress.IContext>(PROGRESS_NAME)
 
 type ProgressElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-interface IProgressProps extends PrimitiveDivProps {
-  value?: number | null | undefined
-  max?: number
-  getValueLabel?(value: number, max: number): string
-  dir?: IDirection.Kind
-}
 
-const Progress = React.forwardRef<ProgressElement, IProgressProps>(
-  (props: ScopedProps<IProgressProps>, forwardedRef) => {
+const Progress = React.forwardRef<ProgressElement, IProgress.IProps>(
+  (props: IProgress.IScoped<IProgress.IProps>, forwardedRef) => {
     const {
       __scopeProgress,
       value: valueProp = null,
@@ -81,5 +71,4 @@ const Progress = React.forwardRef<ProgressElement, IProgressProps>(
 
 Progress.displayName = PROGRESS_NAME
 
-export type { IProgressProps, ProgressContextValue, ScopedProps }
 export { createProgressScope, getProgressState, PROGRESS_NAME, Progress, ProgressProvider, useProgressContext }
