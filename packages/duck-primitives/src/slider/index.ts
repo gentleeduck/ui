@@ -1,5 +1,5 @@
 export { createSliderScope, Slider, Slider as Root } from './slider'
+export type { ISlider } from './slider.types'
 export { SliderRange, SliderRange as Range } from './slider-range'
 export { SliderThumb, SliderThumb as Thumb } from './slider-thumb'
 export { SliderTrack, SliderTrack as Track } from './slider-track'
-export type { ISlider } from './slider.types'

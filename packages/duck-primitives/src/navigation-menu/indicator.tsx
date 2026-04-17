@@ -6,6 +6,7 @@ import { useCollection, useNavigationMenuContext } from './navigation-menu'
 import type { INavigationMenu } from './navigation-menu.types'
 
 type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
+
 import { useResizeObserver } from './navigation-menu.libs'
 
 const INDICATOR_NAME = 'NavigationMenuIndicator'

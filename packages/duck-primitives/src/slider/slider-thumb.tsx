@@ -5,8 +5,8 @@ import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
 import { Collection, useCollection, useSliderContext, useSliderOrientationContext } from './slider'
 import { convertValueToPercentage, getLabel, getThumbInBoundsOffset } from './slider.libs'
-import { BubbleInput } from './slider-input'
 import type { ISlider } from './slider.types'
+import { BubbleInput } from './slider-input'
 
 const THUMB_NAME = 'SliderThumb'
 

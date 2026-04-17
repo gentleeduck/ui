@@ -39,125 +39,126 @@ type SliderElement = SliderHorizontalElement | SliderVerticalElement
 
 const Slider = React.forwardRef<SliderElement, ISlider.IProps>(
   (props: ISlider.IScoped<ISlider.IProps>, forwardedRef) => {
-  const {
-    name,
-    min = 0,
-    max = 100,
-    step = 1,
-    orientation = 'horizontal',
-    disabled = false,
-    minStepsBetweenThumbs = 0,
-    defaultValue = [min],
-    value,
-    onValueChange = () => {},
-    onValueCommit = () => {},
-    inverted = false,
-    dir,
-    form,
-    ...sliderProps
-  } = props
-  const direction = useDirection(dir)
-  const thumbRefs = React.useRef<ISlider.IContext['thumbs']>(new Set())
-  const valueIndexToChangeRef = React.useRef<number>(0)
-  const isHorizontal = orientation === 'horizontal'
-  const SliderOrientation = isHorizontal ? SliderHorizontal : SliderVertical
+    const {
+      name,
+      min = 0,
+      max = 100,
+      step = 1,
+      orientation = 'horizontal',
+      disabled = false,
+      minStepsBetweenThumbs = 0,
+      defaultValue = [min],
+      value,
+      onValueChange = () => {},
+      onValueCommit = () => {},
+      inverted = false,
+      dir,
+      form,
+      ...sliderProps
+    } = props
+    const direction = useDirection(dir)
+    const thumbRefs = React.useRef<ISlider.IContext['thumbs']>(new Set())
+    const valueIndexToChangeRef = React.useRef<number>(0)
+    const isHorizontal = orientation === 'horizontal'
+    const SliderOrientation = isHorizontal ? SliderHorizontal : SliderVertical
 
-  const [values = [], setValues] = useControllableState({
-    prop: value,
-    defaultProp: defaultValue,
-    onChange: (value) => {
-      const thumbs = Array.from(thumbRefs.current)
-      thumbs[valueIndexToChangeRef.current]?.focus()
-      onValueChange(value)
-    },
-    caller: SLIDER_NAME,
-  })
-  const valuesBeforeSlideStartRef = React.useRef(values)
-
-  function handleSlideStart(value: number) {
-    const closestIndex = getClosestValueIndex(values, value)
-    updateValues(value, closestIndex)
-  }
-
-  function handleSlideMove(value: number) {
-    updateValues(value, valueIndexToChangeRef.current)
-  }
-
-  function handleSlideEnd() {
-    const prevValue = valuesBeforeSlideStartRef.current[valueIndexToChangeRef.current]
-    const nextValue = values[valueIndexToChangeRef.current]
-    const hasChanged = nextValue !== prevValue
-    if (hasChanged) onValueCommit(values)
-  }
-
-  function updateValues(value: number, atIndex: number, { commit } = { commit: false }) {
-    const decimalCount = getDecimalCount(step)
-    const snapToStep = roundValue(Math.round((value - min) / step) * step + min, decimalCount)
-    const nextValue = clamp(snapToStep, [min, max])
-
-    setValues((prevValues = []) => {
-      const nextValues = getNextSortedValues(prevValues, nextValue, atIndex)
-      if (hasMinStepsBetweenValues(nextValues, minStepsBetweenThumbs * step)) {
-        valueIndexToChangeRef.current = nextValues.indexOf(nextValue)
-        const hasChanged = String(nextValues) !== String(prevValues)
-        if (hasChanged && commit) onValueCommit(nextValues)
-        return hasChanged ? nextValues : prevValues
-      } else {
-        return prevValues
-      }
+    const [values = [], setValues] = useControllableState({
+      prop: value,
+      defaultProp: defaultValue,
+      onChange: (value) => {
+        const thumbs = Array.from(thumbRefs.current)
+        thumbs[valueIndexToChangeRef.current]?.focus()
+        onValueChange(value)
+      },
+      caller: SLIDER_NAME,
     })
-  }
+    const valuesBeforeSlideStartRef = React.useRef(values)
 
-  return (
-    <SliderProvider
-      scope={props.__scopeSlider}
-      name={name}
-      disabled={disabled}
-      min={min}
-      max={max}
-      valueIndexToChangeRef={valueIndexToChangeRef}
-      thumbs={thumbRefs.current}
-      values={values}
-      orientation={orientation}
-      dir={direction}
-      form={form}>
-      <Collection.Provider scope={props.__scopeSlider}>
-        <Collection.Slot scope={props.__scopeSlider}>
-          <SliderOrientation
-            aria-disabled={disabled}
-            data-disabled={disabled ? '' : undefined}
-            {...sliderProps}
-            dir={direction}
-            ref={forwardedRef}
-            onPointerDown={composeEventHandlers(sliderProps.onPointerDown, () => {
-              if (!disabled) valuesBeforeSlideStartRef.current = values
-            })}
-            min={min}
-            max={max}
-            inverted={inverted}
-            onSlideStart={disabled ? undefined : handleSlideStart}
-            onSlideMove={disabled ? undefined : handleSlideMove}
-            onSlideEnd={disabled ? undefined : handleSlideEnd}
-            onHomeKeyDown={() => !disabled && updateValues(min, 0, { commit: true })}
-            onEndKeyDown={() => !disabled && updateValues(max, values.length - 1, { commit: true })}
-            onStepKeyDown={({ event, direction: stepDirection }) => {
-              if (!disabled) {
-                const isPageKey = PAGE_KEYS.includes(event.key)
-                const isSkipKey = isPageKey || (event.shiftKey && ARROW_KEYS.includes(event.key))
-                const multiplier = isSkipKey ? 10 : 1
-                const atIndex = valueIndexToChangeRef.current
-                const value = values[atIndex]
-                if (value === undefined) return
-                const stepInDirection = step * multiplier * stepDirection
-                updateValues(value + stepInDirection, atIndex, { commit: true })
-              }
-            }}
-          />
-        </Collection.Slot>
-      </Collection.Provider>
-    </SliderProvider>
-  )
-})
+    function handleSlideStart(value: number) {
+      const closestIndex = getClosestValueIndex(values, value)
+      updateValues(value, closestIndex)
+    }
+
+    function handleSlideMove(value: number) {
+      updateValues(value, valueIndexToChangeRef.current)
+    }
+
+    function handleSlideEnd() {
+      const prevValue = valuesBeforeSlideStartRef.current[valueIndexToChangeRef.current]
+      const nextValue = values[valueIndexToChangeRef.current]
+      const hasChanged = nextValue !== prevValue
+      if (hasChanged) onValueCommit(values)
+    }
+
+    function updateValues(value: number, atIndex: number, { commit } = { commit: false }) {
+      const decimalCount = getDecimalCount(step)
+      const snapToStep = roundValue(Math.round((value - min) / step) * step + min, decimalCount)
+      const nextValue = clamp(snapToStep, [min, max])
+
+      setValues((prevValues = []) => {
+        const nextValues = getNextSortedValues(prevValues, nextValue, atIndex)
+        if (hasMinStepsBetweenValues(nextValues, minStepsBetweenThumbs * step)) {
+          valueIndexToChangeRef.current = nextValues.indexOf(nextValue)
+          const hasChanged = String(nextValues) !== String(prevValues)
+          if (hasChanged && commit) onValueCommit(nextValues)
+          return hasChanged ? nextValues : prevValues
+        } else {
+          return prevValues
+        }
+      })
+    }
+
+    return (
+      <SliderProvider
+        scope={props.__scopeSlider}
+        name={name}
+        disabled={disabled}
+        min={min}
+        max={max}
+        valueIndexToChangeRef={valueIndexToChangeRef}
+        thumbs={thumbRefs.current}
+        values={values}
+        orientation={orientation}
+        dir={direction}
+        form={form}>
+        <Collection.Provider scope={props.__scopeSlider}>
+          <Collection.Slot scope={props.__scopeSlider}>
+            <SliderOrientation
+              aria-disabled={disabled}
+              data-disabled={disabled ? '' : undefined}
+              {...sliderProps}
+              dir={direction}
+              ref={forwardedRef}
+              onPointerDown={composeEventHandlers(sliderProps.onPointerDown, () => {
+                if (!disabled) valuesBeforeSlideStartRef.current = values
+              })}
+              min={min}
+              max={max}
+              inverted={inverted}
+              onSlideStart={disabled ? undefined : handleSlideStart}
+              onSlideMove={disabled ? undefined : handleSlideMove}
+              onSlideEnd={disabled ? undefined : handleSlideEnd}
+              onHomeKeyDown={() => !disabled && updateValues(min, 0, { commit: true })}
+              onEndKeyDown={() => !disabled && updateValues(max, values.length - 1, { commit: true })}
+              onStepKeyDown={({ event, direction: stepDirection }) => {
+                if (!disabled) {
+                  const isPageKey = PAGE_KEYS.includes(event.key)
+                  const isSkipKey = isPageKey || (event.shiftKey && ARROW_KEYS.includes(event.key))
+                  const multiplier = isSkipKey ? 10 : 1
+                  const atIndex = valueIndexToChangeRef.current
+                  const value = values[atIndex]
+                  if (value === undefined) return
+                  const stepInDirection = step * multiplier * stepDirection
+                  updateValues(value + stepInDirection, atIndex, { commit: true })
+                }
+              }}
+            />
+          </Collection.Slot>
+        </Collection.Provider>
+      </SliderProvider>
+    )
+  },
+)
 
 Slider.displayName = SLIDER_NAME
 

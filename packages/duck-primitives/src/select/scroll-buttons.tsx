@@ -3,12 +3,7 @@ import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
-import {
-  useCollection,
-  useSelectContentContext,
-  useSelectContext,
-  useSelectViewportContext,
-} from './select'
+import { useCollection, useSelectContentContext, useSelectContext, useSelectViewportContext } from './select'
 import type { ISelect } from './select.types'
 
 const SCROLL_UP_BUTTON_NAME = 'SelectScrollUpButton'
@@ -54,10 +49,8 @@ export const SelectScrollUpButton = React.forwardRef<SelectScrollButtonImplEleme
 SelectScrollUpButton.displayName = SCROLL_UP_BUTTON_NAME
 const SCROLL_DOWN_BUTTON_NAME = 'SelectScrollDownButton'
 
-export const SelectScrollDownButton = React.forwardRef<
-  SelectScrollButtonImplElement,
-  ISelect.IScrollDownButtonProps
->((props: ISelect.IScoped<ISelect.IScrollDownButtonProps>, forwardedRef) => {
+export const SelectScrollDownButton = React.forwardRef<SelectScrollButtonImplElement, ISelect.IScrollDownButtonProps>(
+  (props: ISelect.IScoped<ISelect.IScrollDownButtonProps>, forwardedRef) => {
     const contentContext = useSelectContentContext(SCROLL_DOWN_BUTTON_NAME, props.__scopeSelect)
     const viewportContext = useSelectViewportContext(SCROLL_DOWN_BUTTON_NAME, props.__scopeSelect)
     const [canScrollDown, setCanScrollDown] = React.useState(false)
@@ -92,7 +85,8 @@ export const SelectScrollDownButton = React.forwardRef<
         }}
       />
     ) : null
-})
+  },
+)
 
 SelectScrollDownButton.displayName = SCROLL_DOWN_BUTTON_NAME
 
