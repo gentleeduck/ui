@@ -1,26 +1,17 @@
 import * as React from 'react'
 import { Portal as PortalPrimitive } from '../portal'
 import { Presence } from '../presence'
-import { createDialogContext, type ScopedProps, useDialogContext } from './dialog'
+import { createDialogContext, useDialogContext } from './dialog'
+import type { IDialog } from './dialog.types'
 
 const PORTAL_NAME = 'DialogPortal'
 
-type PortalContextValue = { forceMount?: true }
-export const [PortalProvider, usePortalContext] = createDialogContext<PortalContextValue>(PORTAL_NAME, {
+export const [PortalProvider, usePortalContext] = createDialogContext<IDialog.IPortalContext>(PORTAL_NAME, {
   forceMount: undefined,
 })
 
-type PortalProps = React.ComponentPropsWithoutRef<typeof PortalPrimitive>
-export interface IDialogPortalProps {
-  children?: React.ReactNode
-  /** Container element to portal the content into. */
-  container?: PortalProps['container']
-  /** Force mounting for animation control. */
-  forceMount?: true
-}
-
 /** Portals dialog content into a specified container (or document.body). */
-const DialogPortal: React.FC<IDialogPortalProps> = (props: ScopedProps<IDialogPortalProps>) => {
+const DialogPortal: React.FC<IDialog.IPortalProps> = (props: IDialog.IScoped<IDialog.IPortalProps>) => {
   const { __scopeDialog, forceMount, children, container } = props
   const context = useDialogContext(PORTAL_NAME, __scopeDialog)
   return (
