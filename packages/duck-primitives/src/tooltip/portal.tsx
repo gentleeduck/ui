@@ -11,9 +11,7 @@ export const [PortalProvider, usePortalContext] = createTooltipContext<ITooltip.
   forceMount: undefined,
 })
 
-export const TooltipPortal: React.FC<ITooltip.IPortalProps> = (
-  props: ITooltip.IScoped<ITooltip.IPortalProps>,
-) => {
+export const TooltipPortal: React.FC<ITooltip.IPortalProps> = (props: ITooltip.IScoped<ITooltip.IPortalProps>) => {
   const { __scopeTooltip, forceMount, children, container } = props
   const context = useTooltipContext(PORTAL_NAME, __scopeTooltip)
   return (

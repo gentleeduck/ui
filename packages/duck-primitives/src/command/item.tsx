@@ -3,12 +3,7 @@ import { useId } from '../hooks/use-id'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
-import {
-  Collection,
-  CommandItemContextProvider,
-  useCommandContext,
-  useCommandListContext,
-} from './command'
+import { Collection, CommandItemContextProvider, useCommandContext, useCommandListContext } from './command'
 import type { ICommand } from './command.types'
 
 const ITEM_NAME = 'CommandItem'

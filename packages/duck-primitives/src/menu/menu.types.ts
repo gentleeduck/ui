@@ -121,9 +121,7 @@ export namespace IMenu {
     trapFocus?: FocusScopeProps['trapped']
   }
 
-  export interface IContentImplProps
-    extends IContentImplPrivateProps,
-      Omit<PopperContentProps, 'dir' | 'onPlaced'> {
+  export interface IContentImplProps extends IContentImplPrivateProps, Omit<PopperContentProps, 'dir' | 'onPlaced'> {
     onCloseAutoFocus?: FocusScopeProps['onUnmountAutoFocus']
     loop?: RovingFocusGroupProps['loop']
     onEntryFocus?: RovingFocusGroupProps['onEntryFocus']
@@ -133,8 +131,7 @@ export namespace IMenu {
     onInteractOutside?: DismissableLayerProps['onInteractOutside']
   }
 
-  export interface IRootContentTypeProps
-    extends Omit<IContentImplProps, keyof IContentImplPrivateProps> {
+  export interface IRootContentTypeProps extends Omit<IContentImplProps, keyof IContentImplPrivateProps> {
     trapFocus?: FocusScopeProps['trapped']
     disableOutsidePointerEvents?: DismissableLayerProps['disableOutsidePointerEvents']
     disableOutsideScroll?: boolean

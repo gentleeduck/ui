@@ -15,9 +15,10 @@ const EVENT_OPTIONS = { bubbles: false, cancelable: true }
 
 const GROUP_NAME = 'RovingFocusGroup'
 
-export const [Collection, useCollection, createCollectionScope] = createCollection<HTMLSpanElement, IRovingFocus.IItemData>(
-  GROUP_NAME,
-)
+export const [Collection, useCollection, createCollectionScope] = createCollection<
+  HTMLSpanElement,
+  IRovingFocus.IItemData
+>(GROUP_NAME)
 
 const [createRovingFocusGroupContext, createRovingFocusGroupScope] = createContextScope(GROUP_NAME, [
   createCollectionScope,

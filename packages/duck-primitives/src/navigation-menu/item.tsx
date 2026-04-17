@@ -2,8 +2,8 @@ import * as React from 'react'
 import { useId } from '../hooks/use-id'
 import { Primitive } from '../primitive-elements'
 import { NavigationMenuItemContextProvider } from './navigation-menu'
-import type { INavigationMenu } from './navigation-menu.types'
 import { focusFirst, getTabbableCandidates, removeFromTabOrder } from './navigation-menu.libs'
+import type { INavigationMenu } from './navigation-menu.types'
 
 const ITEM_NAME = 'NavigationMenuItem'
 

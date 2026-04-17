@@ -12,7 +12,13 @@ export const SelectSeparator = React.forwardRef<SelectSeparatorElement, ISelect.
     const { __scopeSelect, ...separatorProps } = props
     const context = useSelectContext(SEPARATOR_NAME, __scopeSelect)
     return (
-      <Primitive.div data-slot="select-separator" aria-hidden dir={context.dir} {...separatorProps} ref={forwardedRef} />
+      <Primitive.div
+        data-slot="select-separator"
+        aria-hidden
+        dir={context.dir}
+        {...separatorProps}
+        ref={forwardedRef}
+      />
     )
   },
 )

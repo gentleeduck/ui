@@ -11,8 +11,7 @@ const CONTEXT_MENU_NAME = 'ContextMenu'
 const [createContextMenuContext, createContextMenuScope] = createContextScope(CONTEXT_MENU_NAME, [createMenuScope])
 const useMenuScope = createMenuScope()
 
-const [ContextMenuProvider, useContextMenuContext] =
-  createContextMenuContext<IContextMenu.IContext>(CONTEXT_MENU_NAME)
+const [ContextMenuProvider, useContextMenuContext] = createContextMenuContext<IContextMenu.IContext>(CONTEXT_MENU_NAME)
 
 const ContextMenu: React.FC<IContextMenu.IProps> = (props: IContextMenu.IScoped<IContextMenu.IProps>) => {
   const { __scopeContextMenu, children, onOpenChange, dir, modal = true } = props
@@ -56,4 +55,11 @@ const ContextMenu: React.FC<IContextMenu.IProps> = (props: IContextMenu.IScoped<
 
 ContextMenu.displayName = CONTEXT_MENU_NAME
 
-export { CONTEXT_MENU_NAME, ContextMenu, ContextMenuProvider, createContextMenuScope, useContextMenuContext, useMenuScope }
+export {
+  CONTEXT_MENU_NAME,
+  ContextMenu,
+  ContextMenuProvider,
+  createContextMenuScope,
+  useContextMenuContext,
+  useMenuScope,
+}

@@ -1,8 +1,8 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
 import { Collection, useNavigationMenuContext } from './navigation-menu'
-import type { INavigationMenu } from './navigation-menu.types'
 import { FocusGroup } from './navigation-menu.libs'
+import type { INavigationMenu } from './navigation-menu.types'
 
 const LIST_NAME = 'NavigationMenuList'
 

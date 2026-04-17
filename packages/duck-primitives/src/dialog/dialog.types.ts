@@ -1,7 +1,7 @@
 import type * as React from 'react'
+import type { IDirection } from '../direction'
 import type { DismissableLayer } from '../dismissable-layer'
 import type { FocusScope } from '../focus-scope'
-import type { IDirection } from '../direction'
 import type { Scope } from '../libs/create-context'
 import type { Portal as PortalPrimitive } from '../portal'
 import type { Primitive } from '../primitive-elements'

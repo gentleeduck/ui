@@ -5,8 +5,8 @@ import { Presence } from '../presence'
 import { Primitive } from '../primitive-elements'
 import { NavigationMenuContentImpl } from './content'
 import { useNavigationMenuContext, useViewportContentContext } from './navigation-menu'
-import type { INavigationMenu } from './navigation-menu.types'
 import { getOpenState, useResizeObserver, whenMouse } from './navigation-menu.libs'
+import type { INavigationMenu } from './navigation-menu.types'
 
 const VIEWPORT_NAME = 'NavigationMenuViewport'
 const CONTENT_NAME = 'NavigationMenuContent'
@@ -23,15 +23,15 @@ const NavigationMenuViewport = React.forwardRef<
   INavigationMenu.NavigationMenuViewportElement,
   INavigationMenuViewportProps
 >((props: INavigationMenu.IScoped<INavigationMenuViewportProps>, forwardedRef) => {
-    const { forceMount, ...viewportProps } = props
-    const context = useNavigationMenuContext(VIEWPORT_NAME, props.__scopeNavigationMenu)
-    const open = Boolean(context.value)
+  const { forceMount, ...viewportProps } = props
+  const context = useNavigationMenuContext(VIEWPORT_NAME, props.__scopeNavigationMenu)
+  const open = Boolean(context.value)
 
-    return (
-      <Presence present={forceMount || open}>
-        <NavigationMenuViewportImpl {...viewportProps} ref={forwardedRef} />
-      </Presence>
-    )
+  return (
+    <Presence present={forceMount || open}>
+      <NavigationMenuViewportImpl {...viewportProps} ref={forwardedRef} />
+    </Presence>
+  )
 })
 
 NavigationMenuViewport.displayName = VIEWPORT_NAME

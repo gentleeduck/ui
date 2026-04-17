@@ -13,7 +13,13 @@ export const DialogTitle = React.forwardRef<DialogTitleElement, IDialog.ITitlePr
     const { __scopeDialog, ...titleProps } = props
     const context = useDialogContext(TITLE_NAME, __scopeDialog)
     return (
-      <Primitive.h2 data-slot="dialog-title" id={context.titleId} dir={context.dir} {...titleProps} ref={forwardedRef} />
+      <Primitive.h2
+        data-slot="dialog-title"
+        id={context.titleId}
+        dir={context.dir}
+        {...titleProps}
+        ref={forwardedRef}
+      />
     )
   },
 )

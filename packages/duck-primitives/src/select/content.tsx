@@ -350,10 +350,8 @@ const ITEM_ALIGNED_POSITION_NAME = 'SelectItemAlignedPosition'
 
 type SelectItemAlignedPositionElement = React.ComponentRef<typeof Primitive.div>
 
-const SelectItemAlignedPosition = React.forwardRef<
-  SelectItemAlignedPositionElement,
-  ISelect.IItemAlignedPositionProps
->((props: ISelect.IScoped<ISelect.IItemAlignedPositionProps>, forwardedRef) => {
+const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElement, ISelect.IItemAlignedPositionProps>(
+  (props: ISelect.IScoped<ISelect.IItemAlignedPositionProps>, forwardedRef) => {
     const { __scopeSelect, onPlaced, ...popperProps } = props
     const context = useSelectContext(CONTENT_NAME, __scopeSelect)
     const contentContext = useSelectContentContext(CONTENT_NAME, __scopeSelect)
