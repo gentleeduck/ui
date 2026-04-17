@@ -1,17 +1,14 @@
-/** MenubarSubContent renders the content panel of a nested submenu. */
 import * as React from 'react'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './menubar'
 import { useMenuScope } from './menubar'
+import type { IMenubar } from './menubar.types'
 
 const SUB_CONTENT_NAME = 'MenubarSubContent'
 
 type MenubarSubContentElement = React.ComponentRef<typeof MenuPrimitive.Content>
-type MenuSubContentProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.SubContent>
-interface IMenubarSubContentProps extends MenuSubContentProps {}
 
-const MenubarSubContent = React.forwardRef<MenubarSubContentElement, IMenubarSubContentProps>(
-  (props: ScopedProps<IMenubarSubContentProps>, forwardedRef) => {
+const MenubarSubContent = React.forwardRef<MenubarSubContentElement, IMenubar.ISubContentProps>(
+  (props: IMenubar.IScoped<IMenubar.ISubContentProps>, forwardedRef) => {
     const { __scopeMenubar, ...subContentProps } = props
     const menuScope = useMenuScope(__scopeMenubar)
 
@@ -23,7 +20,6 @@ const MenubarSubContent = React.forwardRef<MenubarSubContentElement, IMenubarSub
         ref={forwardedRef}
         style={{
           ...props.style,
-          // re-namespace exposed content custom properties
           ...{
             '--gentleduck-menubar-content-transform-origin': 'var(--gentleduck-popper-transform-origin)',
             '--gentleduck-menubar-content-available-width': 'var(--gentleduck-popper-available-width)',
@@ -39,5 +35,4 @@ const MenubarSubContent = React.forwardRef<MenubarSubContentElement, IMenubarSub
 
 MenubarSubContent.displayName = SUB_CONTENT_NAME
 
-export type { IMenubarSubContentProps }
 export { MenubarSubContent }
