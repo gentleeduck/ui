@@ -3,17 +3,15 @@
 import * as React from 'react'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { Primitive } from '../primitive-elements'
-import { type ScopedProps, usePopoverContext } from './popover'
-import type { IPopoverTriggerProps } from './trigger'
+import { usePopoverContext } from './popover'
+import type { IPopover } from './popover.types'
 
 const CLOSE_NAME = 'PopoverClose'
-
-export interface IPopoverCloseProps extends IPopoverTriggerProps {}
 
 /** Button that closes the popover when clicked. */
 export const PopoverClose = React.forwardRef<
   React.ComponentRef<typeof Primitive.button>,
-  ScopedProps<IPopoverCloseProps>
+  IPopover.IScoped<IPopover.ICloseProps>
 >((props, forwardedRef) => {
   const { __scopePopover, ...closeProps } = props
   const context = usePopoverContext(CLOSE_NAME, __scopePopover)
@@ -25,7 +23,6 @@ export const PopoverClose = React.forwardRef<
       dir={context.dir}
       {...closeProps}
       ref={forwardedRef}
-      // Compose the consumer onClick with the close handler so both fire in order
       onClick={composeEventHandlers(closeProps.onClick, () => context.onOpenChange(false))}
     />
   )
