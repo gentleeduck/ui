@@ -1,7 +1,7 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
+    "exactOptionalPropertyTypes": false,
     "isolatedModules": true,
     "jsx": "react-jsx",
     "lib": ["ES2022", "dom", "dom.iterable"],

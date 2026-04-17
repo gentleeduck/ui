@@ -2,7 +2,6 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@gentleduck/typescript-config/base.json",
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
     "composite": false,
     "declaration": true,
     "declarationMap": true,
@@ -23,7 +22,6 @@
     "preserveWatchOutput": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true,
     "types": [
       "node"
     ]
