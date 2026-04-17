@@ -1,2 +1,2 @@
 export { useKeyboard } from './use-keyboard'
-export type { Keyboard } from './use-keyboard.types'
+export type { UseKeyboard } from './use-keyboard.types'

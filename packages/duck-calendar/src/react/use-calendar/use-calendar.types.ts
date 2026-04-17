@@ -1,7 +1,7 @@
 import type { Grid } from '../../grid'
 import type { Calendar } from '../../index.types'
 import type { Selection } from '../../selection'
-import type { Announcer } from '../use-announcer/use-announcer.types'
+import type { UseAnnouncer } from '../use-announcer/use-announcer.types'
 
 export namespace UseCalendar {
   export interface IUseCalendarConfig<TDate, M extends Selection.SelectionMode = 'single'>
@@ -88,6 +88,6 @@ export namespace UseCalendar {
     /** Spread onto the month/year header element. */
     getHeaderProps: () => IHeaderProps
     /** Render announcer inside the calendar tree for screen reader announcements. */
-    announcer: Announcer.IAnnouncerReturn
+    announcer: UseAnnouncer.IAnnouncerReturn
   }
 }
