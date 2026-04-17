@@ -1,22 +1,9 @@
 'use client'
 
 import * as React from 'react'
+import type { IUseCopyToClipboard } from './use-copy-to-clipboard.types'
 
-/** Options for {@link useCopyToClipboard}. */
-export interface IUseCopyToClipboardOptions {
-  /** Time in ms before `isCopied` resets to `false`. Defaults to `2000`. */
-  timeout?: number
-  /** Called immediately after a successful copy. */
-  onCopy?: () => void
-}
-
-/** Return value of {@link useCopyToClipboard}. */
-export interface IUseCopyToClipboardReturn {
-  /** Copy `value` to the clipboard. No-op when value is empty or clipboard API is unavailable. */
-  copyToClipboard: (value: string) => void
-  /** `true` for `timeout` ms after a successful copy, then resets. */
-  isCopied: boolean
-}
+export type { IUseCopyToClipboard } from './use-copy-to-clipboard.types'
 
 /**
  * Copy text to the clipboard and track the copied state.
@@ -27,7 +14,7 @@ export interface IUseCopyToClipboardReturn {
 export function useCopyToClipboard({
   timeout = 2000,
   onCopy,
-}: IUseCopyToClipboardOptions = {}): IUseCopyToClipboardReturn {
+}: IUseCopyToClipboard.IOptions = {}): IUseCopyToClipboard.IReturn {
   const [isCopied, setIsCopied] = React.useState(false)
 
   const copyToClipboard = React.useCallback(

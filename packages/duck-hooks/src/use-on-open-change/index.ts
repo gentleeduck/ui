@@ -1,16 +1,8 @@
 import React from 'react'
-
 import { useComputedTimeoutTransition } from '../use-computed-timeout-transition'
+import type { IUseOnOpenChange } from './use-on-open-change.types'
 
-/** Return value of {@link useOnOpenChange}. */
-export interface IUseOnOpenChangeReturn<T extends React.RefObject<HTMLElement | null>> {
-  /** Callback to toggle or set the open state. */
-  onOpenChange: (state: boolean) => void
-  /** Whether the target is currently open. */
-  open: boolean
-  /** The forwarded ref. */
-  ref: T
-}
+export type { IUseOnOpenChange } from './use-on-open-change.types'
 
 /**
  * Manage open/close state with scroll-locking and CSS-transition-aware timing.
@@ -23,7 +15,7 @@ export function useOnOpenChange<T extends React.RefObject<HTMLElement | null>>(
   ref: T,
   openProp?: boolean,
   onOpenChange?: (state: boolean) => void,
-): IUseOnOpenChangeReturn<T> {
+): IUseOnOpenChange.IReturn<T> {
   const [open, setOpen] = React.useState<boolean>(openProp ?? false)
 
   const handleOpenChange = React.useCallback(

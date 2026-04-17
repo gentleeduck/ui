@@ -1,5 +1,5 @@
 import React from 'react'
-import type { IUseLazyLoadReturn } from './lazy-component.types'
+import type { ILazyComponent } from './lazy-component.types'
 
 /**
  * `useLazyLoad` is a custom React hook that enables lazy loading behavior for any component.
@@ -78,7 +78,7 @@ import type { IUseLazyLoadReturn } from './lazy-component.types'
  * @see [IntersectionObserver API Documentation](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver)
  * @see [React useRef](https://reactjs.org/docs/hooks-reference.html#useref)
  */
-export const useLazyLoad = (options?: IntersectionObserverInit): IUseLazyLoadReturn => {
+export const useLazyLoad = (options?: IntersectionObserverInit): ILazyComponent.IUseLazyLoadReturn => {
   const [isVisible, setIsVisible] = React.useState(false)
   const ComponentRef = React.useRef<HTMLDivElement>(null)
 
