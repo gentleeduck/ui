@@ -52,17 +52,17 @@ function getElementProps(element: HTMLElement) {
     }
 
     if (attribute === 'class') {
-      props.className = value
+      props['className'] = value
       continue
     }
 
     if (attribute === 'style') {
-      props.style = parseInlineStyle(value)
+      props['style'] = parseInlineStyle(value)
       continue
     }
 
     if (attribute === 'tabindex') {
-      props.tabIndex = Number(value)
+      props['tabIndex'] = Number(value)
       continue
     }
 
