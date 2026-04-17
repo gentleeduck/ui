@@ -1,5 +1,3 @@
-/** MenuContent component - the popover content area for menu items. */
-
 import { hideOthers } from 'aria-hidden'
 import * as React from 'react'
 import { RemoveScroll } from 'react-remove-scroll'
@@ -13,12 +11,9 @@ import * as PopperPrimitive from '../popper'
 import { Presence } from '../presence'
 import * as RovingFocusGroup from '../roving-focus'
 import { createSlot } from '../slot'
-
 import {
   Collection,
   createMenuContext,
-  type MenuContentElement,
-  type ScopedProps,
   useCollection,
   useMenuContext,
   useMenuRootContext,
@@ -35,11 +30,12 @@ import {
   type Side,
   whenMouse,
 } from './menu.libs'
+import type { IMenu } from './menu.types'
 import { usePortalContext } from './portal'
 
 const CONTENT_NAME = 'MenuContent'
 
-type MenuContentContextValue = {
+interface IMenuContentContext {
   onItemEnter(event: React.PointerEvent): void
   onItemLeave(event: React.PointerEvent): void
   onTriggerLeave(event: React.PointerEvent): void
@@ -47,35 +43,14 @@ type MenuContentContextValue = {
   pointerGraceTimerRef: React.RefObject<number>
   onPointerGraceIntentChange(intent: GraceIntent | null): void
 }
-const [MenuContentProvider, useMenuContentContext] = createMenuContext<MenuContentContextValue>(CONTENT_NAME)
+
+const [MenuContentProvider, useMenuContentContext] = createMenuContext<IMenuContentContext>(CONTENT_NAME)
 
 type MenuContentImplElement = React.ComponentRef<typeof PopperPrimitive.Content>
-
 type MenuRootContentTypeElement = MenuContentImplElement
-interface IMenuRootContentTypeProps extends Omit<IMenuContentImplProps, keyof MenuContentImplPrivateProps> {
-  /** Override whether focus is trapped. Defaults to `context.open`. */
-  trapFocus?: FocusScopeProps['trapped']
-  /** Override whether outside pointer events are disabled. Defaults to `context.open`. */
-  disableOutsidePointerEvents?: DismissableLayerProps['disableOutsidePointerEvents']
-  /** Override whether scroll is locked. Defaults to `true` for modal. */
-  disableOutsideScroll?: boolean
-}
 
-/**
- * We purposefully don't union MenuRootContent and MenuSubContent props here because
- * they have conflicting prop types. We agreed that we would allow MenuSubContent to
- * accept props that it would just ignore.
- */
-interface IMenuContentProps extends IMenuRootContentTypeProps {
-  /**
-   * Used to force mounting when more control is needed. Useful when
-   * controlling animation with React animation libraries.
-   */
-  forceMount?: true
-}
-
-const MenuContent = React.forwardRef<MenuContentElement, IMenuContentProps>(
-  (props: ScopedProps<IMenuContentProps>, forwardedRef) => {
+const MenuContent = React.forwardRef<IMenu.MenuContentElement, IMenu.IContentProps>(
+  (props: IMenu.IScoped<IMenu.IContentProps>, forwardedRef) => {
     const portalContext = usePortalContext(CONTENT_NAME, props.__scopeMenu)
     const { forceMount = portalContext.forceMount, ...contentProps } = props
     const context = useMenuContext(CONTENT_NAME, props.__scopeMenu)
@@ -99,8 +74,8 @@ const MenuContent = React.forwardRef<MenuContentElement, IMenuContentProps>(
 
 MenuContent.displayName = CONTENT_NAME
 
-const MenuRootContentModal = React.forwardRef<MenuRootContentTypeElement, IMenuRootContentTypeProps>(
-  (props: ScopedProps<IMenuRootContentTypeProps>, forwardedRef) => {
+const MenuRootContentModal = React.forwardRef<MenuRootContentTypeElement, IMenu.IRootContentTypeProps>(
+  (props: IMenu.IScoped<IMenu.IRootContentTypeProps>, forwardedRef) => {
     const {
       trapFocus: trapFocusProp,
       disableOutsidePointerEvents: disableOutsidePointerEventsProp,
@@ -123,8 +98,6 @@ const MenuRootContentModal = React.forwardRef<MenuRootContentTypeElement, IMenuR
         trapFocus={trapFocusProp ?? context.open}
         disableOutsidePointerEvents={disableOutsidePointerEventsProp ?? context.open}
         disableOutsideScroll={disableOutsideScrollProp ?? true}
-        // When focus is trapped, a `focusout` event may still happen.
-        // We make sure we don't trigger our `onDismiss` in such case.
         onFocusOutside={composeEventHandlers(props.onFocusOutside, (event) => event.preventDefault(), {
           checkForDefaultPrevented: false,
         })}
@@ -136,8 +109,8 @@ const MenuRootContentModal = React.forwardRef<MenuRootContentTypeElement, IMenuR
 
 MenuRootContentModal.displayName = 'MenuRootContentModal'
 
-const MenuRootContentNonModal = React.forwardRef<MenuRootContentTypeElement, IMenuRootContentTypeProps>(
-  (props: ScopedProps<IMenuRootContentTypeProps>, forwardedRef) => {
+const MenuRootContentNonModal = React.forwardRef<MenuRootContentTypeElement, IMenu.IRootContentTypeProps>(
+  (props: IMenu.IScoped<IMenu.IRootContentTypeProps>, forwardedRef) => {
     const context = useMenuContext(CONTENT_NAME, props.__scopeMenu)
     return (
       <MenuContentImpl
@@ -154,51 +127,10 @@ const MenuRootContentNonModal = React.forwardRef<MenuRootContentTypeElement, IMe
 
 MenuRootContentNonModal.displayName = 'MenuRootContentNonModal'
 
-type FocusScopeProps = React.ComponentPropsWithoutRef<typeof FocusScope>
-type DismissableLayerProps = React.ComponentPropsWithoutRef<typeof DismissableLayer>
-type RovingFocusGroupProps = React.ComponentPropsWithoutRef<typeof RovingFocusGroup.Root>
-type PopperContentProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.Content>
-type MenuContentImplPrivateProps = {
-  onOpenAutoFocus?: FocusScopeProps['onMountAutoFocus']
-  onDismiss?: DismissableLayerProps['onDismiss']
-  disableOutsidePointerEvents?: DismissableLayerProps['disableOutsidePointerEvents']
-
-  /**
-   * Whether scrolling outside the `MenuContent` should be prevented
-   * (default: `false`)
-   */
-  disableOutsideScroll?: boolean
-
-  /**
-   * Whether focus should be trapped within the `MenuContent`
-   * (default: false)
-   */
-  trapFocus?: FocusScopeProps['trapped']
-}
-interface IMenuContentImplProps extends MenuContentImplPrivateProps, Omit<PopperContentProps, 'dir' | 'onPlaced'> {
-  /**
-   * Event handler called when auto-focusing on close.
-   * Can be prevented.
-   */
-  onCloseAutoFocus?: FocusScopeProps['onUnmountAutoFocus']
-
-  /**
-   * Whether keyboard navigation should loop around
-   * @defaultValue false
-   */
-  loop?: RovingFocusGroupProps['loop']
-
-  onEntryFocus?: RovingFocusGroupProps['onEntryFocus']
-  onEscapeKeyDown?: DismissableLayerProps['onEscapeKeyDown']
-  onPointerDownOutside?: DismissableLayerProps['onPointerDownOutside']
-  onFocusOutside?: DismissableLayerProps['onFocusOutside']
-  onInteractOutside?: DismissableLayerProps['onInteractOutside']
-}
-
 const Slot = createSlot('MenuContent.ScrollLock')
 
-const MenuContentImpl = React.forwardRef<MenuContentImplElement, IMenuContentImplProps>(
-  (props: ScopedProps<IMenuContentImplProps>, forwardedRef) => {
+const MenuContentImpl = React.forwardRef<MenuContentImplElement, IMenu.IContentImplProps>(
+  (props: IMenu.IScoped<IMenu.IContentImplProps>, forwardedRef) => {
     const {
       __scopeMenu,
       loop = false,
@@ -241,10 +173,6 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, IMenuContentImp
       onMatch: (item) => {
         const node = item.ref.current as HTMLElement | null
         if (node) {
-          /**
-           * Imperative focus during keydown is risky so we prevent React's batching updates
-           * to avoid potential bugs. See: https://github.com/facebook/react/issues/20332
-           */
           setTimeout(() => node.focus())
         }
       },
@@ -257,8 +185,6 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, IMenuContentImp
       return () => resetTypeahead()
     }, [resetTypeahead])
 
-    // Make sure the whole tree has focus guards as our `MenuContent` may be
-    // the last element in the DOM (because of the `Portal`)
     useFocusGuards()
 
     const isPointerMovingToSubmenu = React.useCallback((event: React.PointerEvent) => {
@@ -299,8 +225,6 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, IMenuContentImp
             asChild
             trapped={trapFocus}
             onMountAutoFocus={composeEventHandlers(onOpenAutoFocus, (event) => {
-              // when opening, explicitly focus the content area only and leave
-              // `onEntryFocus` in  control of focusing first item
               event.preventDefault()
               contentRef.current?.focus({ preventScroll: true })
             })}
@@ -322,7 +246,6 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, IMenuContentImp
                 currentTabStopId={currentItemId}
                 onCurrentTabStopIdChange={setCurrentItemId}
                 onEntryFocus={composeEventHandlers(onEntryFocus, (event) => {
-                  // only focus first item when using keyboard
                   if (!rootContext.isUsingKeyboardRef.current) event.preventDefault()
                 })}
                 preventScrollOnEntryFocus>
@@ -337,35 +260,37 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, IMenuContentImp
                   ref={composedRefs}
                   style={{ outline: 'none', ...contentProps.style }}
                   onKeyDown={composeEventHandlers(contentProps.onKeyDown, (event) => {
-                    // submenu key events bubble through portals. We only care about keys in this menu.
                     const target = event.target as HTMLElement
                     const isKeyDownInside = target.closest('[role="menu"]') === event.currentTarget
                     const isModifierKey = event.ctrlKey || event.altKey || event.metaKey
                     const isCharacterKey = event.key.length === 1
                     if (isKeyDownInside) {
-                      // menus should not be navigated using tab key so we prevent it
                       if (event.key === 'Tab') event.preventDefault()
 
                       const enabledItems = getItems().filter((item) => !item.disabled)
-                      // biome-ignore lint/style/noNonNullAssertion: collection item refs are always mounted when the menu is open
-                      const nodes = enabledItems.map((item) => item.ref.current!)
+                      const nodes: HTMLElement[] = []
+                      for (const item of enabledItems) {
+                        const node = item.ref.current
+                        if (node) nodes.push(node)
+                      }
                       if (handleVimKey(event, nodes)) return
 
                       if (!isModifierKey && isCharacterKey) handleTypeaheadSearch(event.key)
                     }
-                    // focus first/last item based on key pressed
                     const content = contentRef.current
                     if (event.target !== content) return
                     if (!FIRST_LAST_KEYS.includes(event.key)) return
                     event.preventDefault()
                     const items = getItems().filter((item) => !item.disabled)
-                    // biome-ignore lint/style/noNonNullAssertion: collection item refs are always mounted when the menu is open
-                    const candidateNodes = items.map((item) => item.ref.current!)
+                    const candidateNodes: HTMLElement[] = []
+                    for (const item of items) {
+                      const node = item.ref.current
+                      if (node) candidateNodes.push(node)
+                    }
                     if (LAST_KEYS.includes(event.key)) candidateNodes.reverse()
                     focusFirst(candidateNodes)
                   })}
                   onBlur={composeEventHandlers(props.onBlur, (event) => {
-                    // clear search buffer when leaving the menu
                     const nextTarget = event.relatedTarget as Node | null
                     if (!event.currentTarget.contains(nextTarget)) resetTypeahead()
                   })}
@@ -375,8 +300,6 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, IMenuContentImp
                       const target = event.target as HTMLElement
                       const pointerXHasChanged = lastPointerXRef.current !== event.clientX
 
-                      // We don't use `event.movementX` for this check because Safari will
-                      // always return `0` on a pointer event.
                       if (event.currentTarget.contains(target) && pointerXHasChanged) {
                         const newDir = event.clientX > lastPointerXRef.current ? 'right' : 'left'
                         pointerDirRef.current = newDir
@@ -396,5 +319,4 @@ const MenuContentImpl = React.forwardRef<MenuContentImplElement, IMenuContentImp
 
 MenuContentImpl.displayName = 'MenuContentImpl'
 
-export type { IMenuContentImplProps, IMenuContentProps, MenuContentImplElement, MenuContentImplPrivateProps }
 export { MenuContent, MenuContentImpl, MenuContentProvider, useMenuContentContext }

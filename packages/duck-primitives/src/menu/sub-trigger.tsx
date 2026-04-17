@@ -1,22 +1,20 @@
-/** MenuSubTrigger component - triggers the opening of a submenu. */
 import * as React from 'react'
-
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { composeRefs } from '../libs/compose-ref'
 import { MenuAnchor } from './anchor'
 import { useMenuContentContext } from './content'
-import { type IMenuItemImplProps, MenuItemImpl } from './item'
-import { type ScopedProps, useMenuContext, useMenuRootContext } from './menu'
+import { MenuItemImpl } from './item'
+import { useMenuContext, useMenuRootContext } from './menu'
 import { getOpenState, type Side, SUB_OPEN_KEYS, whenMouse } from './menu.libs'
+import type { IMenu } from './menu.types'
 import { useMenuSubContext } from './sub'
 
 const SUB_TRIGGER_NAME = 'MenuSubTrigger'
 
 type MenuSubTriggerElement = React.ComponentRef<typeof MenuItemImpl>
-interface IMenuSubTriggerProps extends IMenuItemImplProps {}
 
-const MenuSubTrigger = React.forwardRef<MenuSubTriggerElement, IMenuSubTriggerProps>(
-  (props: ScopedProps<IMenuSubTriggerProps>, forwardedRef) => {
+const MenuSubTrigger = React.forwardRef<MenuSubTriggerElement, IMenu.ISubTriggerProps>(
+  (props: IMenu.IScoped<IMenu.ISubTriggerProps>, forwardedRef) => {
     const context = useMenuContext(SUB_TRIGGER_NAME, props.__scopeMenu)
     const rootContext = useMenuRootContext(SUB_TRIGGER_NAME, props.__scopeMenu)
     const subContext = useMenuSubContext(SUB_TRIGGER_NAME, props.__scopeMenu)
@@ -50,16 +48,9 @@ const MenuSubTrigger = React.forwardRef<MenuSubTriggerElement, IMenuSubTriggerPr
           data-state={getOpenState(context.open)}
           {...props}
           ref={composeRefs(forwardedRef, subContext.onTriggerChange)}
-          // This is redundant for mouse users but we cannot determine pointer type from
-          // click event and we cannot use pointerup event (see git history for reasons why)
           onClick={(event) => {
             props.onClick?.(event)
             if (props.disabled || event.defaultPrevented) return
-            /**
-             * We manually focus because iOS Safari doesn't always focus on click (e.g. buttons)
-             * and we rely heavily on `onFocusOutside` for submenus to close when switching
-             * between separate submenus.
-             */
             event.currentTarget.focus()
             if (!context.open) context.onOpenChange(true)
           }}
@@ -84,8 +75,6 @@ const MenuSubTrigger = React.forwardRef<MenuSubTriggerElement, IMenuSubTriggerPr
 
               const contentRect = context.content?.getBoundingClientRect()
               if (contentRect) {
-                // Side is read from the `data-side` attribute set by the Popper (Floating UI).
-                // It always reflects the actual computed placement of the submenu content.
                 const side = context.content?.dataset.side as Side
                 const rightSide = side === 'right'
                 const bleed = rightSide ? -5 : +5
@@ -94,8 +83,6 @@ const MenuSubTrigger = React.forwardRef<MenuSubTriggerElement, IMenuSubTriggerPr
 
                 contentContext.onPointerGraceIntentChange({
                   area: [
-                    // Apply a bleed on clientX to ensure that our exit point is
-                    // consistently within polygon bounds
                     { x: event.clientX + bleed, y: event.clientY },
                     { x: contentNearEdge, y: contentRect.top },
                     { x: contentFarEdge, y: contentRect.top },
@@ -114,7 +101,6 @@ const MenuSubTrigger = React.forwardRef<MenuSubTriggerElement, IMenuSubTriggerPr
                 contentContext.onTriggerLeave(event)
                 if (event.defaultPrevented) return
 
-                // There's 100ms where the user may leave an item before the submenu was opened.
                 contentContext.onPointerGraceIntentChange(null)
               }
             }),
@@ -124,10 +110,7 @@ const MenuSubTrigger = React.forwardRef<MenuSubTriggerElement, IMenuSubTriggerPr
             if (props.disabled || (isTypingAhead && event.key === ' ')) return
             if (SUB_OPEN_KEYS[rootContext.dir].includes(event.key)) {
               context.onOpenChange(true)
-              // The trigger may hold focus if opened via pointer interaction
-              // so we ensure content is given focus again when switching to keyboard.
               context.content?.focus()
-              // prevent window from scrolling
               event.preventDefault()
             }
           })}
@@ -139,5 +122,4 @@ const MenuSubTrigger = React.forwardRef<MenuSubTriggerElement, IMenuSubTriggerPr
 
 MenuSubTrigger.displayName = SUB_TRIGGER_NAME
 
-export type { IMenuSubTriggerProps, MenuSubTriggerElement }
 export { MenuSubTrigger }
