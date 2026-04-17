@@ -1,4 +1,4 @@
-import type { ICalendarDay as CalendarDayType } from '@gentleduck/calendar'
+import type { Grid } from '@gentleduck/calendar'
 import * as React from 'react'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { Primitive } from '../primitive-elements'
@@ -11,7 +11,7 @@ type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.butt
 
 export interface ICalendarDayProps extends PrimitiveButtonProps {
   /** The day data from the calendar grid. */
-  day: CalendarDayType<Date>
+  day: Grid.ICalendarDay<Date>
 }
 
 export const ICalendarDay = React.forwardRef<CalendarDayElement, ICalendarDayProps>(

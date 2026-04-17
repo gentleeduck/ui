@@ -1,4 +1,4 @@
-import type { IDateAdapter } from '@gentleduck/calendar'
+import type { Adapter } from '@gentleduck/calendar'
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
 import { type ScopedProps, useCalendarContext } from './calendar'
@@ -10,7 +10,7 @@ type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
 export interface ICalendarHeaderProps extends PrimitiveDivProps {
   /** Custom formatter for the month/year title. Defaults to "March 2026". */
-  formatMonth?: (month: Date, adapter: IDateAdapter<Date>) => string
+  formatMonth?: (month: Date, adapter: Adapter.IDateAdapter<Date>) => string
 }
 
 export const CalendarHeader = React.forwardRef<CalendarHeaderElement, ICalendarHeaderProps>(

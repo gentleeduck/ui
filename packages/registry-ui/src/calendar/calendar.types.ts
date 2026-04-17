@@ -1,11 +1,4 @@
-import type {
-  CalendarValue,
-  ICalendarDay,
-  ICalendarMonth,
-  IDateAdapter,
-  IDayProps,
-  SelectionMode,
-} from '@gentleduck/calendar'
+import type { Adapter, Grid, Selection, UseCalendar } from '@gentleduck/calendar'
 import type { Direction } from '@gentleduck/primitives/direction'
 import type { Button } from '../button'
 
@@ -27,7 +20,7 @@ export interface ICalendarHeaderContext {
 }
 
 export interface ICalendarHeaderProps {
-  adapter?: IDateAdapter<Date>
+  adapter?: Adapter.IDateAdapter<Date>
   month: Date
   title: string
   direction: 'ltr' | 'rtl'
@@ -41,18 +34,20 @@ export interface ICalendarHeaderProps {
 }
 
 export interface ICalendarDayCellProps {
-  day: ICalendarDay<Date>
-  dayProps: Omit<IDayProps, 'role' | 'aria-selected' | 'onMouseEnter'>
+  day: Grid.ICalendarDay<Date>
+  dayProps: Omit<UseCalendar.IDayProps, 'role' | 'aria-selected' | 'onMouseEnter'>
   isFocused: boolean
   isSelectedSingle: boolean
   isFirstInRow: boolean
   isLastInRow: boolean
   locale?: string
   onFocusDate: (date: Date) => void
-  renderDay?: (day: ICalendarDay<Date>, children: React.ReactNode) => React.ReactNode
+  renderDay?: (day: Grid.ICalendarDay<Date>, children: React.ReactNode) => React.ReactNode
 }
 
-export type ICalendarSelectionValue<TMode extends SelectionMode = SelectionMode> = CalendarValue<Date, TMode>
+export type ICalendarSelectionValue<
+  TMode extends Selection.SelectionMode = Selection.SelectionMode,
+> = Selection.CalendarValue<Date, TMode>
 
 export type ICalendarProps =
   | ICalendarProps.ISingle
@@ -67,7 +62,7 @@ export namespace ICalendarProps {
      * Date adapter for alternative calendar systems (Islamic, Persian, etc.).
      * Default uses `NativeAdapter` (Gregorian).
      */
-    adapter?: IDateAdapter<Date>
+    adapter?: Adapter.IDateAdapter<Date>
     /** Variant style for navigation buttons. Default `'ghost'`. */
     buttonVariant?: React.ComponentProps<typeof Button>['variant']
     /** Dates that cannot be selected. */
@@ -119,7 +114,7 @@ export namespace ICalendarProps {
      * )}
      * ```
      */
-    renderDay?: (day: ICalendarDay<Date>, children: React.ReactNode) => React.ReactNode
+    renderDay?: (day: Grid.ICalendarDay<Date>, children: React.ReactNode) => React.ReactNode
     /**
      * Custom render function for the navigation header.
      * Receives header context with month info and navigation controls.
@@ -165,7 +160,7 @@ export namespace ICalendarProps {
      * )}
      * ```
      */
-    renderFooter?: (months: ICalendarMonth<Date>[]) => React.ReactNode
+    renderFooter?: (months: Grid.ICalendarMonth<Date>[]) => React.ReactNode
   }
 
   export interface ISingle extends IBase {

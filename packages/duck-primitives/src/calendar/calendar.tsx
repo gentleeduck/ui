@@ -1,10 +1,4 @@
-import type {
-  ICalendarLocaleConfig,
-  IDateAdapter,
-  IUseCalendarConfig,
-  IUseCalendarReturn,
-  SelectionMode,
-} from '@gentleduck/calendar'
+import type { Adapter, Calendar as CalendarTypes, Selection, UseCalendar } from '@gentleduck/calendar'
 import { useCalendar } from '@gentleduck/calendar'
 import * as React from 'react'
 import type { Scope } from '../libs/create-context'
@@ -17,10 +11,10 @@ export type ScopedProps<P> = P & { __scopeCalendar?: Scope }
 
 export const [createCalendarContext, createCalendarScope] = createContextScope(CALENDAR_NAME)
 
-export type CalendarContextValue = IUseCalendarReturn<Date, SelectionMode> & {
-  adapter: IDateAdapter<Date>
-  mode: SelectionMode
-  locale?: ICalendarLocaleConfig
+export type CalendarContextValue = UseCalendar.IUseCalendarReturn<Date, Selection.SelectionMode> & {
+  adapter: Adapter.IDateAdapter<Date>
+  mode: Selection.SelectionMode
+  locale?: CalendarTypes.ICalendarLocaleConfig
 }
 
 export const [CalendarProvider, useCalendarContext] = createCalendarContext<CalendarContextValue>(CALENDAR_NAME)
@@ -33,7 +27,7 @@ type ConflictingProps = 'onSelect' | 'disabled' | 'children'
 
 export interface ICalendarRootProps
   extends Omit<PrimitiveDivProps, ConflictingProps>,
-    IUseCalendarConfig<Date, SelectionMode> {
+    UseCalendar.IUseCalendarConfig<Date, Selection.SelectionMode> {
   children?: React.ReactNode
 }
 
@@ -63,7 +57,7 @@ const Calendar = React.forwardRef<CalendarElement, ICalendarRootProps>(
       ...divProps
     } = props
 
-    const config: IUseCalendarConfig<Date, SelectionMode> = {
+    const config: UseCalendar.IUseCalendarConfig<Date, Selection.SelectionMode> = {
       adapter,
       mode,
       locale,
