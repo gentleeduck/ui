@@ -3,27 +3,20 @@ import { useId } from '../hooks/use-id'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
-import type { SelectItemContextValue } from './select'
 import {
   Collection,
-  type ScopedProps,
   SELECTION_KEYS,
   SelectItemContextProvider,
   useSelectContentContext,
   useSelectContext,
 } from './select'
+import type { ISelect } from './select.types'
 
 const ITEM_NAME = 'SelectItem'
 
 type SelectItemElement = React.ComponentRef<typeof Primitive.div>
 
-export interface ISelectItemProps extends React.ComponentPropsWithRef<typeof Primitive.div> {
-  value: string
-  disabled?: boolean
-  textValue?: string
-}
-
-export const SelectItem = React.forwardRef<SelectItemElement, ScopedProps<ISelectItemProps>>((props, forwardedRef) => {
+export const SelectItem = React.forwardRef<SelectItemElement, ISelect.IScoped<ISelect.IItemProps>>((props, forwardedRef) => {
   const { __scopeSelect, value, disabled = false, textValue: textValueProp, ...itemProps } = props
   const context = useSelectContext(ITEM_NAME, __scopeSelect)
   const contentContext = useSelectContentContext(ITEM_NAME, __scopeSelect)
@@ -49,7 +42,7 @@ export const SelectItem = React.forwardRef<SelectItemElement, ScopedProps<ISelec
     )
   }
 
-  const itemContextValue = React.useMemo<SelectItemContextValue>(
+  const itemContextValue = React.useMemo<ISelect.IItemContext>(
     () => ({
       value,
       disabled,

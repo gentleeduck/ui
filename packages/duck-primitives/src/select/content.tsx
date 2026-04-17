@@ -19,7 +19,6 @@ import { createSlot } from '../slot'
 import {
   CONTENT_MARGIN,
   Collection,
-  type ScopedProps,
   SelectContentProvider,
   SelectViewportProvider,
   useCollection,
@@ -28,17 +27,14 @@ import {
   useSelectContext,
 } from './select'
 import { useTypeaheadListNavigation } from './select.libs'
+import type { ISelect } from './select.types'
 
 const CONTENT_NAME = 'SelectContent'
 
 type SelectContentImplElement = HTMLDivElement
 
-export interface ISelectContentProps extends ISelectContentImplProps {
-  forceMount?: true
-}
-
-export const SelectContent = React.forwardRef<SelectContentImplElement, ISelectContentProps>(
-  (props: ScopedProps<ISelectContentProps>, forwardedRef) => {
+export const SelectContent = React.forwardRef<SelectContentImplElement, ISelect.IContentProps>(
+  (props: ISelect.IScoped<ISelect.IContentProps>, forwardedRef) => {
     const { forceMount, ...contentProps } = props
     const context = useSelectContext(CONTENT_NAME, props.__scopeSelect)
     const [fragment, setFragment] = React.useState<DocumentFragment>()
@@ -76,31 +72,10 @@ export const SelectContent = React.forwardRef<SelectContentImplElement, ISelectC
 SelectContent.displayName = CONTENT_NAME
 const CONTENT_IMPL_NAME = 'SelectContentImpl'
 
-type DismissableLayerProps = React.ComponentPropsWithoutRef<typeof DismissableLayer>
-type FocusScopeProps = React.ComponentPropsWithoutRef<typeof FocusScope>
-
-type SelectPopperPrivateProps = { onPlaced?: PopperContentProps['onPlaced'] }
-
-interface ISelectContentImplProps
-  extends Omit<ISelectPopperPositionProps, keyof SelectPopperPrivateProps>,
-    Omit<ISelectItemAlignedPositionProps, keyof SelectPopperPrivateProps> {
-  onCloseAutoFocus?: FocusScopeProps['onUnmountAutoFocus']
-  onEscapeKeyDown?: DismissableLayerProps['onEscapeKeyDown']
-  onPointerDownOutside?: DismissableLayerProps['onPointerDownOutside']
-  onFocusOutside?: DismissableLayerProps['onFocusOutside']
-  position?: 'item-aligned' | 'popper'
-  /** Override whether outside pointer events are disabled. Defaults to `context.open`. */
-  disableOutsidePointerEvents?: boolean
-  /** Override whether focus is trapped. Defaults to `context.open`. */
-  trapFocus?: boolean
-  /** Override whether scroll is locked. Defaults to `context.open`. */
-  lockScroll?: boolean
-}
-
 const Slot = createSlot('SelectContent.RemoveScroll')
 
-const SelectContentImpl = React.forwardRef<SelectContentImplElement, ISelectContentImplProps>(
-  (props: ScopedProps<ISelectContentImplProps>, forwardedRef) => {
+const SelectContentImpl = React.forwardRef<SelectContentImplElement, ISelect.IContentImplProps>(
+  (props: ISelect.IScoped<ISelect.IContentImplProps>, forwardedRef) => {
     const {
       __scopeSelect,
       position = 'item-aligned',
@@ -374,14 +349,11 @@ SelectContentImpl.displayName = CONTENT_IMPL_NAME
 const ITEM_ALIGNED_POSITION_NAME = 'SelectItemAlignedPosition'
 
 type SelectItemAlignedPositionElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-interface ISelectItemAlignedPositionProps extends PrimitiveDivProps {
-  onPlaced?: () => void
-}
-
-const SelectItemAlignedPosition = React.forwardRef<SelectItemAlignedPositionElement, ISelectItemAlignedPositionProps>(
-  (props: ScopedProps<ISelectItemAlignedPositionProps>, forwardedRef) => {
+const SelectItemAlignedPosition = React.forwardRef<
+  SelectItemAlignedPositionElement,
+  ISelect.IItemAlignedPositionProps
+>((props: ISelect.IScoped<ISelect.IItemAlignedPositionProps>, forwardedRef) => {
     const { __scopeSelect, onPlaced, ...popperProps } = props
     const context = useSelectContext(CONTENT_NAME, __scopeSelect)
     const contentContext = useSelectContentContext(CONTENT_NAME, __scopeSelect)
@@ -581,14 +553,9 @@ SelectItemAlignedPosition.displayName = ITEM_ALIGNED_POSITION_NAME
 const POPPER_POSITION_NAME = 'SelectPopperPosition'
 
 type SelectPopperPositionElement = React.ComponentRef<typeof PopperPrimitive.Content>
-type PopperContentProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.Content>
 
-interface ISelectPopperPositionProps extends PopperContentProps {
-  onPlaced?: () => void
-}
-
-const SelectPopperPosition = React.forwardRef<SelectPopperPositionElement, ISelectPopperPositionProps>(
-  (props: ScopedProps<ISelectPopperPositionProps>, forwardedRef) => {
+const SelectPopperPosition = React.forwardRef<SelectPopperPositionElement, ISelect.IPopperPositionProps>(
+  (props: ISelect.IScoped<ISelect.IPopperPositionProps>, forwardedRef) => {
     const { __scopeSelect, align = 'start', collisionPadding = CONTENT_MARGIN, ...popperProps } = props
     const popperScope = usePopperScope(__scopeSelect)
 
