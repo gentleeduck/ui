@@ -9,12 +9,12 @@
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
     "@types/mousetrap": "^1.6.15",
-    "@types/node": "^25.3.0",
-    "@types/react": "19.2.14",
-    "@types/react-dom": "19.2.3",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
     "esbuild": "^0.27.3",
     "tsdown": "catalog:",
-    "vite": "npm:rolldown-vite@^7.3.0",
+    "vite": "catalog:",
     "vitest": "catalog:"
   },
   "files": [
