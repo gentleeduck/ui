@@ -1,17 +1,13 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
-import type { IAccordion } from './accordion'
 import { useAccordionContext } from './accordion'
+import type { IAccordion } from './accordion.types'
 import { useAccordionItemContext } from './item'
 
 const CONTENT_NAME = 'AccordionContent'
 
-interface IAccordionContentProps extends React.ComponentPropsWithoutRef<typeof Primitive.div> {
-  forceMount?: boolean
-}
-
-const AccordionContent = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IAccordionContentProps>(
-  (props: IAccordion.IScoped<IAccordionContentProps>, forwardedRef) => {
+const AccordionContent = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IAccordion.IContentProps>(
+  (props: IAccordion.IScoped<IAccordion.IContentProps>, forwardedRef) => {
     const { __scopeAccordion, forceMount = false, ...contentProps } = props
     const context = useAccordionContext(CONTENT_NAME, __scopeAccordion)
     const itemContext = useAccordionItemContext(CONTENT_NAME, __scopeAccordion)
@@ -39,5 +35,4 @@ const AccordionContent = React.forwardRef<React.ComponentRef<typeof Primitive.di
 
 AccordionContent.displayName = CONTENT_NAME
 
-export type { IAccordionContentProps }
 export { AccordionContent }

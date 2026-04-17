@@ -1,16 +1,14 @@
 import * as React from 'react'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { Primitive } from '../primitive-elements'
-import type { IAccordion } from './accordion'
 import { useAccordionContext } from './accordion'
+import type { IAccordion } from './accordion.types'
 import { useAccordionItemContext } from './item'
 
 const TRIGGER_NAME = 'AccordionTrigger'
 
-interface IAccordionTriggerProps extends React.ComponentPropsWithoutRef<typeof Primitive.button> {}
-
-const AccordionTrigger = React.forwardRef<React.ComponentRef<typeof Primitive.button>, IAccordionTriggerProps>(
-  (props: IAccordion.IScoped<IAccordionTriggerProps>, forwardedRef) => {
+const AccordionTrigger = React.forwardRef<React.ComponentRef<typeof Primitive.button>, IAccordion.ITriggerProps>(
+  (props: IAccordion.IScoped<IAccordion.ITriggerProps>, forwardedRef) => {
     const { __scopeAccordion, disabled: disabledProp, ...triggerProps } = props
     const context = useAccordionContext(TRIGGER_NAME, __scopeAccordion)
     const itemContext = useAccordionItemContext(TRIGGER_NAME, __scopeAccordion)
@@ -42,5 +40,4 @@ const AccordionTrigger = React.forwardRef<React.ComponentRef<typeof Primitive.bu
 
 AccordionTrigger.displayName = TRIGGER_NAME
 
-export type { IAccordionTriggerProps }
 export { AccordionTrigger }

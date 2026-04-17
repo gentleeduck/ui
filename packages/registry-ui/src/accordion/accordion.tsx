@@ -7,7 +7,7 @@ import * as React from 'react'
 
 const AccordionRenderOnceContext = React.createContext(false)
 
-export type IAccordionProps = AccordionPrimitive.IAccordionProps & {
+export type IAccordionProps = AccordionPrimitive.IAccordion.IProps & {
   renderOnce?: boolean
 }
 

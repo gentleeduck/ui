@@ -1,30 +1,15 @@
 import * as React from 'react'
 import { useId } from '../hooks/use-id'
 import { Primitive } from '../primitive-elements'
-import type { IAccordion } from './accordion'
 import { createAccordionContext, useAccordionContext } from './accordion'
+import type { IAccordion } from './accordion.types'
 
 const ITEM_NAME = 'AccordionItem'
 
-interface IAccordionItemProps extends React.ComponentPropsWithoutRef<typeof Primitive.div> {
-  value?: string
-  disabled?: boolean
-}
+const [AccordionItemProvider, useAccordionItemContext] = createAccordionContext<IAccordion.IItemContext>(ITEM_NAME)
 
-export namespace IAccordionItemProps {
-  export interface IContext {
-    value: string
-    open: boolean
-    disabled: boolean
-    triggerId: string
-    contentId: string
-  }
-}
-
-const [AccordionItemProvider, useAccordionItemContext] = createAccordionContext<IAccordionItemProps.IContext>(ITEM_NAME)
-
-const AccordionItem = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IAccordionItemProps>(
-  (props: IAccordion.IScoped<IAccordionItemProps>, forwardedRef) => {
+const AccordionItem = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IAccordion.IItemProps>(
+  (props: IAccordion.IScoped<IAccordion.IItemProps>, forwardedRef) => {
     const { __scopeAccordion, value: valueProp, disabled = false, ...itemProps } = props
     const context = useAccordionContext(ITEM_NAME, __scopeAccordion)
     const generatedValue = useId()
@@ -57,5 +42,4 @@ const AccordionItem = React.forwardRef<React.ComponentRef<typeof Primitive.div>,
 
 AccordionItem.displayName = ITEM_NAME
 
-export type { IAccordionItemProps }
 export { AccordionItem, AccordionItemProvider, useAccordionItemContext }
