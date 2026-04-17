@@ -57,8 +57,15 @@
     "url": "git+https://github.com/gentleeduck/duck-ui.git"
   },
   "scripts": {
+    "build": "tsdown",
+    "check": "biome check .",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
-    "build": "tsdown"
+    "fix": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "test": "bun test",
+    "test:coverage": "bun test --coverage",
+    "test:watch": "bun test --watch"
   },
   "type": "module",
   "types": "./dist/index.d.ts",
