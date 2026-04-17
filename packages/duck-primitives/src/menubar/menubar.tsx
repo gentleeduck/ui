@@ -1,6 +1,6 @@
 /** Root Menubar component with collection, context, and scope setup. */
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { createCollection } from '../libs/create-collection'
@@ -31,7 +31,7 @@ const useRovingFocusGroupScope = createRovingFocusGroupScope()
 
 type MenubarContextValue = {
   value: string
-  dir: Direction
+  dir: IDirection.Kind
   loop: boolean
   onMenuOpen(value: string): void
   onMenuClose(): void
@@ -110,7 +110,7 @@ const Menubar = React.forwardRef<MenubarElement, IMenubarProps>((props: ScopedPr
 
 Menubar.displayName = MENUBAR_NAME
 
-export type { Direction, IMenubarProps, MenubarTriggerElement, ScopedProps }
+export type { IDirection, IMenubarProps, MenubarTriggerElement, ScopedProps }
 export {
   Collection,
   createMenubarContext,

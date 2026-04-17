@@ -1,13 +1,14 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 import { Drawer as DrawerPrimitive } from 'vaul'
 
 function resolveDrawerDirection(
   direction: NonNullable<React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Root>['direction']>,
-  dir: Direction,
+  dir: IDirection.Kind,
 ) {
   if (dir !== 'rtl') return direction
   if (direction === 'left') return 'right'
@@ -20,7 +21,7 @@ function Drawer({
   shouldScaleBackground = true,
   dir,
   ...props
-}: React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Root> & { dir?: Direction }) {
+}: React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Root> & { dir?: IDirection.Kind }) {
   const direction = useDirection(dir)
   const resolvedDirection = resolveDrawerDirection(drawerDirection, direction)
 
@@ -67,7 +68,7 @@ DrawerOverlay.displayName = 'DrawerOverlay'
 
 const DrawerContent: React.ForwardRefExoticComponent<
   React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Content> & {
-    dir?: Direction
+    dir?: IDirection.Kind
     overlayProps?: React.ComponentPropsWithoutRef<typeof DrawerOverlay>
   } & React.RefAttributes<React.ComponentRef<typeof DrawerPrimitive.Content>>
 > = React.forwardRef(({ className, children, dir, overlayProps, ...props }, ref) => {
@@ -118,7 +119,7 @@ const DrawerHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
 )
 DrawerHeader.displayName = 'DrawerHeader'
 
-const DrawerFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement> & { dir?: Direction }>(
+const DrawerFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement> & { dir?: IDirection.Kind }>(
   ({ className, dir, ...props }, ref) => {
     const direction = useDirection(dir)
     return (
@@ -135,7 +136,7 @@ const DrawerFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLD
 DrawerFooter.displayName = 'DrawerFooter'
 
 const DrawerTitle: React.ForwardRefExoticComponent<
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title> & { dir?: Direction } & React.RefAttributes<
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Title> & { dir?: IDirection.Kind } & React.RefAttributes<
       React.ComponentRef<typeof DrawerPrimitive.Title>
     >
 > = React.forwardRef(({ className, dir, ...props }, ref) => {
@@ -153,7 +154,7 @@ const DrawerTitle: React.ForwardRefExoticComponent<
 DrawerTitle.displayName = 'DrawerTitle'
 
 const DrawerDescription: React.ForwardRefExoticComponent<
-  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description> & { dir?: Direction } & React.RefAttributes<
+  React.ComponentPropsWithoutRef<typeof DrawerPrimitive.Description> & { dir?: IDirection.Kind } & React.RefAttributes<
       React.ComponentRef<typeof DrawerPrimitive.Description>
     >
 > = React.forwardRef(({ className, dir, ...props }, ref) => {

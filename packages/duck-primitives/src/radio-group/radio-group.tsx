@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { composeEventHandlers } from '../libs/compose-event-handler'
@@ -40,7 +40,7 @@ type RadioGroupContextValue = {
   disabled: boolean
   required: boolean
   name?: string
-  dir: Direction
+  dir: IDirection.Kind
   isNavigationKeyPressedRef: React.RefObject<boolean>
 }
 
@@ -80,7 +80,7 @@ interface IRadioGroupProps extends PrimitiveDivProps {
   /**
    * The reading direction.
    */
-  dir?: Direction
+  dir?: IDirection.Kind
   /**
    * The orientation of the group for arrow key navigation.
    */

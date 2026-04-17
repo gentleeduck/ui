@@ -335,6 +335,7 @@
 //   )
 // }
 
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 
-export const useUploadDirection = (dir?: 'ltr' | 'rtl') => useDirection(dir as Direction)
+export const useUploadDirection = (dir?: 'ltr' | 'rtl') => useDirection(dir as IDirection.Kind)

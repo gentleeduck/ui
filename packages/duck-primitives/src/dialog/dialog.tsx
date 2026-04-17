@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { useId } from '../hooks/use-id'
@@ -23,7 +23,7 @@ export type DialogContextValue = {
   onOpenChange(open: boolean): void
   onOpenToggle(): void
   modal: boolean
-  dir: Direction
+  dir: IDirection.Kind
 }
 
 export const [DialogProvider, useDialogContext] = createDialogContext<DialogContextValue>(DIALOG_NAME)
@@ -34,7 +34,7 @@ export interface IDialogProps {
   defaultOpen?: boolean
   onOpenChange?(open: boolean): void
   modal?: boolean
-  dir?: Direction
+  dir?: IDirection.Kind
 }
 
 /** Manages open/closed state and provides context to all child components. */

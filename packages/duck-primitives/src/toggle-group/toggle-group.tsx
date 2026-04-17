@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import type { Scope } from '../libs/create-context'
@@ -27,7 +27,7 @@ export namespace IToggleGroup {
     onItemDeactivate(value: string): void
     rovingFocus: boolean
     disabled: boolean
-    dir: Direction
+    dir: IDirection.Kind
   }
 
   export interface IImpl extends React.ComponentPropsWithoutRef<typeof Primitive.div> {

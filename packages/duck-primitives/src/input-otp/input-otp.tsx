@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useComposedRefs } from '../libs/compose-ref'
 import type { Scope } from '../libs/create-context'
@@ -18,7 +18,7 @@ type InputOTPContextValue = {
   value?: string
   inputsRef: React.RefObject<HTMLInputElement[]>
   wrapperRef: React.RefObject<HTMLDivElement | null>
-  dir: Direction
+  dir: IDirection.Kind
   maxLength?: number
 }
 
@@ -31,7 +31,7 @@ interface IInputOTPProps extends Omit<PrimitiveDivProps, 'onChange'> {
   value?: string
   onValueChange?: (value: string) => void
   pattern?: RegExp
-  dir?: Direction
+  dir?: IDirection.Kind
   maxLength?: number
   name?: string
 }
@@ -48,7 +48,7 @@ function useInputOTPBehavior({
   value?: string
   onValueChange?: (value: string) => void
   pattern: RegExp
-  direction: Direction
+  direction: IDirection.Kind
   inputsRef: React.RefObject<HTMLInputElement[]>
   wrapperRef: React.RefObject<HTMLDivElement | null>
   maxLength?: number

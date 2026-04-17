@@ -1,7 +1,8 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { Minus, Plus, RotateCcw } from 'lucide-react'
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Badge } from '../badge'
@@ -359,7 +360,7 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
       () => ({ maxHeight, cursor: 'grab' as const, touchAction: 'none' as const }),
       [maxHeight],
     )
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
 
     return (
       <div

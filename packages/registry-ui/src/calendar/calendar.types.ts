@@ -1,5 +1,5 @@
 import type { Adapter, Grid, Selection, UseCalendar } from '@gentleduck/calendar'
-import type { Direction } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
 import type { Button } from '../button'
 
 export interface ICalendarHeaderContext {
@@ -81,7 +81,7 @@ export namespace ICalendarProps {
     /** BCP 47 locale tag (e.g. `'ar-SA'`). */
     locale?: string
     /** Text direction. */
-    dir?: Direction
+    dir?: IDirection.Kind
     /** Earliest selectable date. */
     fromDate?: Date
     /** Latest selectable date. */

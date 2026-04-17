@@ -1,7 +1,7 @@
 'use client'
 
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useId } from '../hooks/use-id'
 import { composeEventHandlers } from '../libs/compose-event-handler'
@@ -28,7 +28,7 @@ export { createCommandScope }
 type CommandContextValue = {
   search: string
   onSearchChange: (search: string) => void
-  dir: Direction
+  dir: IDirection.Kind
   listId: string
   inputRef: React.RefObject<HTMLInputElement | null>
   typeaheadSearchRef: React.RefObject<string>
@@ -78,7 +78,7 @@ export const [CommandGroupContextProvider, useCommandGroupContext] =
 type CommandElement = React.ComponentRef<typeof Primitive.div>
 
 export interface ICommandProps extends React.ComponentPropsWithRef<typeof Primitive.div> {
-  dir?: Direction
+  dir?: IDirection.Kind
   shouldFilter?: boolean
 }
 

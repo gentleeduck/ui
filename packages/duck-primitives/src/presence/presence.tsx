@@ -1,13 +1,9 @@
 import * as React from 'react'
 import { useComposedRefs } from '../libs/compose-ref'
 import { getComponentRef, usePresence } from './presence.libs'
+import type { IPresence } from './presence.types'
 
-interface IPresenceProps {
-  children: React.ReactElement | ((props: { present: boolean }) => React.ReactElement)
-  present: boolean
-}
-
-const Presence: React.FC<IPresenceProps> = (props) => {
+const Presence: React.FC<IPresence.IProps> = (props) => {
   const { present, children } = props
   const presence = usePresence(present)
 
@@ -22,5 +18,4 @@ const Presence: React.FC<IPresenceProps> = (props) => {
 
 Presence.displayName = 'Presence'
 
-export type { IPresenceProps }
 export { Presence }

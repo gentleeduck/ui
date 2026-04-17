@@ -12,5 +12,5 @@ export {
   useCollection,
   useRovingFocusContext,
 } from './roving-focus'
-export type { Direction, FocusIntent, Orientation } from './roving-focus.libs'
+export type { FocusIntent, IDirection, Orientation } from './roving-focus.libs'
 export { focusFirst, getFocusIntent, wrapArray } from './roving-focus.libs'

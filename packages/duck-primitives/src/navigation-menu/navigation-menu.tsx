@@ -1,4 +1,5 @@
 import * as React from 'react'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import type { DismissableLayer } from '../dismissable-layer'
 import { useCallbackRef } from '../hooks/use-callback-ref'
@@ -13,7 +14,6 @@ import { Primitive } from '../primitive-elements'
 import type * as VisuallyHiddenPrimitive from '../visibility-hidden'
 
 type Orientation = 'vertical' | 'horizontal'
-type Direction = 'ltr' | 'rtl'
 
 const NAVIGATION_MENU_NAME = 'NavigationMenu'
 
@@ -76,7 +76,7 @@ type NavigationMenuContextValue = {
   value: string
   previousValue: string
   baseId: string
-  dir: Direction
+  dir: IDirection.Kind
   orientation: Orientation
   rootNavigationMenu: NavigationMenuElement | null
   indicatorTrack: HTMLDivElement | null
@@ -124,7 +124,7 @@ interface INavigationMenuProps
   value?: string
   defaultValue?: string
   onValueChange?: (value: string) => void
-  dir?: Direction
+  dir?: IDirection.Kind
   orientation?: Orientation
   delayDuration?: number
   skipDelayDuration?: number
@@ -308,7 +308,7 @@ interface INavigationMenuProviderPrivateProps {
   scope: Scope
   children: React.ReactNode
   orientation: Orientation
-  dir: Direction
+  dir: IDirection.Kind
   rootNavigationMenu: NavigationMenuElement | null
   value: string
   onTriggerEnter(itemValue: string): void
@@ -387,9 +387,9 @@ const NavigationMenuProvider: React.FC<INavigationMenuProviderProps> = (
 
 export type {
   ContentData,
-  Direction,
   FocusGroupItemElement,
   FocusProxyElement,
+  IDirection,
   INavigationMenuContentImplPrivateProps,
   INavigationMenuContentImplProps,
   INavigationMenuProps,

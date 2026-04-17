@@ -2,7 +2,8 @@
 
 import { useIsMobile } from '@gentleduck/hooks/use-is-mobile'
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import type { Variants } from '@gentleduck/variants'
 import { PanelLeftIcon } from 'lucide-react'
@@ -37,7 +38,7 @@ function SidebarProvider({
 }: SidebarProviderProps) {
   const isMobile = useIsMobile()
   const [openMobile, setOpenMobile] = React.useState(false)
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
@@ -131,7 +132,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, SidebarProps>(
     ref,
   ) => {
     const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
 
     if (collapsible === 'none') {
       return (
@@ -492,7 +493,7 @@ SidebarMenu.displayName = 'SidebarMenu'
 
 const SidebarMenuItem = React.forwardRef<HTMLLIElement, React.ComponentPropsWithoutRef<'li'>>(
   ({ className, dir, ...props }, ref) => {
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
     return (
       <li
         ref={ref}
@@ -521,7 +522,7 @@ const SidebarMenuButton = React.forwardRef<
   ) => {
     const Comp = asChild ? Slot : 'button'
     const { isMobile, state } = useSidebar()
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
     const fallbackTooltipSide = direction === 'rtl' ? 'left' : 'right'
 
     const button = (
@@ -642,7 +643,7 @@ SidebarMenuSkeleton.displayName = 'SidebarMenuSkeleton'
 
 const SidebarMenuSub = React.forwardRef<HTMLUListElement, React.ComponentPropsWithoutRef<'ul'>>(
   ({ className, dir, ...props }, ref) => {
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
 
     return (
       <ul
@@ -663,7 +664,7 @@ SidebarMenuSub.displayName = 'SidebarMenuSub'
 
 const SidebarMenuSubItem = React.forwardRef<HTMLLIElement, React.ComponentPropsWithoutRef<'li'>>(
   ({ className, dir, ...props }, ref) => {
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
     return (
       <li
         ref={ref}
@@ -687,7 +688,7 @@ const SidebarMenuSubButton = React.forwardRef<
   }
 >(({ asChild = false, size = 'md', isActive = false, className, dir, ...props }, ref) => {
   const Comp = asChild ? Slot : 'a'
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
 
   return (
     <Comp

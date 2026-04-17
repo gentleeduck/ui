@@ -1,7 +1,8 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { useTheme } from 'next-themes'
 import React from 'react'
 import { Toaster as Sonner, type ToasterProps } from 'sonner'
@@ -9,7 +10,7 @@ import { Toaster as Sonner, type ToasterProps } from 'sonner'
 const Toaster = React.forwardRef<React.ComponentRef<typeof Sonner>, ToasterProps>(
   ({ dir, className, ...props }, ref) => {
     const { theme = 'system' } = useTheme()
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
 
     return (
       <Sonner

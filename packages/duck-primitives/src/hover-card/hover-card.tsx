@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { createContextScope, type Scope } from '../libs/create-context'
@@ -22,7 +22,7 @@ type HoverCardContextValue = {
   onDismiss(): void
   hasSelectionRef: React.RefObject<boolean>
   isPointerDownOnContentRef: React.RefObject<boolean>
-  dir: Direction
+  dir: IDirection.Kind
 }
 
 export const [HoverCardProvider, useHoverCardContext] = createHoverCardContext<HoverCardContextValue>(HOVERCARD_NAME)
@@ -34,7 +34,7 @@ export interface IHoverCardProps {
   onOpenChange?: (open: boolean) => void
   openDelay?: number
   closeDelay?: number
-  dir?: Direction
+  dir?: IDirection.Kind
 }
 
 /** Root HoverCard component that manages open/close state and timing delays. */

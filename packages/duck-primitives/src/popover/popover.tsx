@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { useId } from '../hooks/use-id'
@@ -25,7 +25,7 @@ type PopoverContextValue = {
   onCustomAnchorAdd(): void
   onCustomAnchorRemove(): void
   modal: boolean
-  dir: Direction
+  dir: IDirection.Kind
 }
 
 export const [PopoverProvider, usePopoverContext] = createPopoverContext<PopoverContextValue>(POPOVER_NAME)
@@ -36,7 +36,7 @@ export interface IPopoverProps {
   defaultOpen?: boolean
   onOpenChange?: (open: boolean) => void
   modal?: boolean
-  dir?: Direction
+  dir?: IDirection.Kind
 }
 
 /**

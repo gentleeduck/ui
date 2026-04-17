@@ -1,6 +1,6 @@
 /** Root ContextMenu component, scope factory, and shared context. */
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useCallbackRef } from '../hooks/use-callback-ref'
 import { createContextScope, type Scope } from '../libs/create-context'
@@ -16,7 +16,7 @@ const useMenuScope = createMenuScope()
 type ContextMenuContextValue = {
   open: boolean
   onOpenChange(open: boolean): void
-  dir: Direction
+  dir: IDirection.Kind
   modal: boolean
 }
 
@@ -26,7 +26,7 @@ const [ContextMenuProvider, useContextMenuContext] =
 interface IContextMenuProps {
   children?: React.ReactNode
   onOpenChange?(open: boolean): void
-  dir?: Direction
+  dir?: IDirection.Kind
   modal?: boolean
 }
 
@@ -74,7 +74,7 @@ const ContextMenu: React.FC<IContextMenuProps> = (props: ScopedProps<IContextMen
 
 ContextMenu.displayName = CONTEXT_MENU_NAME
 
-export type { ContextMenuContextValue, Direction, IContextMenuProps, ScopedProps }
+export type { ContextMenuContextValue, IContextMenuProps, IDirection, ScopedProps }
 export {
   CONTEXT_MENU_NAME,
   ContextMenu,

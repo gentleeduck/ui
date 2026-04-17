@@ -1,6 +1,7 @@
 'use client'
 
 import * as React from 'react'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { useId } from '../hooks/use-id'
@@ -11,8 +12,6 @@ import { createContextScope, type Scope } from '../libs/create-context'
 import * as PopperPrimitive from '../popper'
 import { createPopperScope } from '../popper'
 import { VisuallyHidden } from '../visibility-hidden'
-
-type Direction = 'ltr' | 'rtl'
 
 export const OPEN_KEYS = [' ', 'Enter', 'ArrowUp', 'ArrowDown']
 export const SELECTION_KEYS = [' ', 'Enter']
@@ -115,7 +114,7 @@ interface ISelectSharedProps {
   open?: boolean
   defaultOpen?: boolean
   onOpenChange?(open: boolean): void
-  dir?: Direction
+  dir?: IDirection.Kind
   name?: string
   autoComplete?: string
   disabled?: boolean

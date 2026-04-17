@@ -1,5 +1,5 @@
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { composeEventHandlers } from '../libs/compose-event-handler'
@@ -15,7 +15,7 @@ const [createToggleContext, createToggleScope] = createContextScope(TOGGLE_NAME)
 type ToggleContextValue = {
   pressed: boolean
   disabled: boolean
-  dir: Direction
+  dir: IDirection.Kind
 }
 
 const [ToggleProvider, useToggleContext] = createToggleContext<ToggleContextValue>(TOGGLE_NAME)
@@ -39,7 +39,7 @@ interface IToggleProps extends PrimitiveButtonProps {
   /**
    * The reading direction.
    */
-  dir?: Direction
+  dir?: IDirection.Kind
 }
 
 const Toggle = React.forwardRef<ToggleElement, IToggleProps>((props: ScopedProps<IToggleProps>, forwardedRef) => {

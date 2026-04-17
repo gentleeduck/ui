@@ -1,13 +1,12 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
+import type { IVisuallyHidden } from './visibility-hidden.types'
 
 const NAME = 'VisuallyHidden'
 
 type VisuallyHiddenElement = React.ComponentRef<typeof Primitive.span>
-type PrimitiveSpanProps = React.ComponentPropsWithoutRef<typeof Primitive.span>
-interface IVisuallyHiddenProps extends PrimitiveSpanProps {}
 
-const VisuallyHidden = React.forwardRef<VisuallyHiddenElement, IVisuallyHiddenProps>((props, forwardedRef) => {
+const VisuallyHidden = React.forwardRef<VisuallyHiddenElement, IVisuallyHidden.IProps>((props, forwardedRef) => {
   return (
     <Primitive.span
       data-slot="visually-hidden"
@@ -34,5 +33,4 @@ VisuallyHidden.displayName = NAME
 
 const Root = VisuallyHidden
 
-export type { IVisuallyHiddenProps }
 export { Root, VisuallyHidden }

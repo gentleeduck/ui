@@ -5,7 +5,8 @@ import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { LazyMotion, m } from 'motion/react'
 import React from 'react'
 import * as ResizablePrimitive from 'react-resizable-panels'
@@ -14,9 +15,9 @@ const MOTION_RESIZABLE_PANEL_GROUP_OPTIONS = { transition: springBouncy } as con
 
 const MotionResizablePanelGroup = React.forwardRef<
   HTMLDivElement,
-  React.ComponentPropsWithoutRef<typeof ResizablePrimitive.Group> & { dir?: Direction }
+  React.ComponentPropsWithoutRef<typeof ResizablePrimitive.Group> & { dir?: IDirection.Kind }
 >(({ className, dir, ...props }, ref) => {
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
   const content = useMotionPreset(scaleIn, MOTION_RESIZABLE_PANEL_GROUP_OPTIONS)
   return (
     <LazyMotion features={loadDomAnimation}>

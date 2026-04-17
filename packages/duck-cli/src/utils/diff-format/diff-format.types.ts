@@ -1,4 +1,3 @@
-// biome-ignore lint/style/noNamespace: namespace groups diff-format types per the project's TypeScript conventions doc
 export namespace Diff {
   export type LineType = 'context' | 'add' | 'remove' | 'hunk-header' | 'file-header'
 

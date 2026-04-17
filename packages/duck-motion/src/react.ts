@@ -34,6 +34,7 @@ function getServerSnapshot() {
  */
 export function useDuckReducedMotion(): boolean {
   try {
+    // biome-ignore lint/correctness/useHookAtTopLevel: guarded for non-React environments
     return React.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
   } catch {
     return getSnapshot()

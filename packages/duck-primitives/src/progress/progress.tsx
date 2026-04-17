@@ -1,6 +1,6 @@
 /** Root Progress component with scope, context, and validation. */
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
@@ -21,7 +21,7 @@ const PROGRESS_NAME = 'Progress'
 type ScopedProps<P> = P & { __scopeProgress?: Scope }
 const [createProgressContext, createProgressScope] = createContextScope(PROGRESS_NAME)
 
-type ProgressContextValue = { value: number | null; max: number; dir: Direction }
+type ProgressContextValue = { value: number | null; max: number; dir: IDirection.Kind }
 const [ProgressProvider, useProgressContext] = createProgressContext<ProgressContextValue>(PROGRESS_NAME)
 
 type ProgressElement = React.ComponentRef<typeof Primitive.div>
@@ -30,7 +30,7 @@ interface IProgressProps extends PrimitiveDivProps {
   value?: number | null | undefined
   max?: number
   getValueLabel?(value: number, max: number): string
-  dir?: Direction
+  dir?: IDirection.Kind
 }
 
 const Progress = React.forwardRef<ProgressElement, IProgressProps>(

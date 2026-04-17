@@ -27,6 +27,7 @@ const MotionToggle = React.forwardRef<
         <m.button whileTap={tapScale} className={cn(toggleVariants({ className, size, variant }))} data-slot="toggle">
           {React.Children.map(children, (child, i) => (
             <m.span
+              // biome-ignore lint/suspicious/noArrayIndexKey: span wraps positional child by index
               key={i}
               initial={content.initial}
               animate={content.animate}
