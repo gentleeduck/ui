@@ -20,7 +20,7 @@ import {
   set,
   startOfDay,
 } from 'date-fns'
-import type { IDateAdapter, WeekStartDay } from './adapter.types'
+import type { Adapter } from './adapter.types'
 import { getCachedFormatter } from './formatter-cache'
 
 /**
@@ -32,7 +32,7 @@ import { getCachedFormatter } from './formatter-cache'
  *
  * Requires `date-fns` as a peer dependency.
  */
-export class DateFnsAdapter implements IDateAdapter<Date> {
+export class DateFnsAdapter implements Adapter.IDateAdapter<Date> {
   /** Returns today's date with time stripped to midnight. */
   today(): Date {
     return startOfDay(new Date())
@@ -72,7 +72,7 @@ export class DateFnsAdapter implements IDateAdapter<Date> {
   }
 
   /** Walks backward to the given weekStartDay (0=Sunday). */
-  startOfWeek(date: Date, weekStartDay: WeekStartDay): Date {
+  startOfWeek(date: Date, weekStartDay: Adapter.WeekStartDay): Date {
     return dfStartOfWeek(date, { weekStartsOn: weekStartDay })
   }
 
@@ -102,8 +102,8 @@ export class DateFnsAdapter implements IDateAdapter<Date> {
     return dfGetDate(date)
   }
 
-  getDayOfWeek(date: Date): WeekStartDay {
-    return dfGetDay(date) as WeekStartDay
+  getDayOfWeek(date: Date): Adapter.WeekStartDay {
+    return dfGetDay(date) as Adapter.WeekStartDay
   }
 
   toDate(date: Date): Date {

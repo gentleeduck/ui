@@ -1,4 +1,4 @@
-import type { IDateAdapter, WeekStartDay } from './adapter'
+import type { Adapter } from './adapter'
 import type { CalendarValue, SelectionMode } from './selection'
 
 /** Which view the calendar is showing. */
@@ -9,7 +9,7 @@ export interface ICalendarLocaleConfig {
   /** BCP 47 language tag, e.g. `'en-US'`, `'ar-SA'`, `'fa-IR'`. */
   locale?: string
   /** Which day starts the week. 0 = Sunday (default), 1 = Monday, etc. */
-  weekStartDay?: WeekStartDay
+  weekStartDay?: Adapter.WeekStartDay
   /** Text direction. */
   direction?: 'ltr' | 'rtl'
 }
@@ -20,7 +20,7 @@ export interface ICalendarLocaleConfig {
  */
 export interface ICalendarConfig<TDate, M extends SelectionMode = 'single'> {
   /** The date adapter to use (e.g. `new NativeAdapter()`). */
-  adapter: IDateAdapter<TDate>
+  adapter: Adapter.IDateAdapter<TDate>
   /** Selection mode: `'single'`, `'range'`, or `'multi'`. */
   mode: M
   /** Locale and direction settings. */

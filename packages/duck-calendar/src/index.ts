@@ -1,5 +1,5 @@
 // Adapter
-export type { IDateAdapter, WeekStartDay } from './adapter'
+export type { Adapter } from './adapter'
 export {
   clearFormatterCache,
   DateFnsAdapter,

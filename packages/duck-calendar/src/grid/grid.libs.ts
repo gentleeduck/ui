@@ -1,4 +1,4 @@
-import type { IDateAdapter } from '../adapter'
+import type { Adapter } from '../adapter'
 
 /**
  * Returns 7 localized weekday names starting from `weekStartDay`.
@@ -9,7 +9,7 @@ import type { IDateAdapter } from '../adapter'
  * @param format       - Intl weekday format. Defaults to `'short'`.
  */
 export function getLocalizedWeekdays<TDate>(
-  adapter: IDateAdapter<TDate>,
+  adapter: Adapter.IDateAdapter<TDate>,
   locale: string | undefined,
   weekStartDay: 0 | 1 | 2 | 3 | 4 | 5 | 6 = 0,
   format: 'long' | 'short' | 'narrow' = 'short',
@@ -37,7 +37,7 @@ export function getLocalizedWeekdays<TDate>(
  * @param format  - Intl month format. Defaults to `'long'`.
  */
 export function getLocalizedMonthNames<TDate>(
-  adapter: IDateAdapter<TDate>,
+  adapter: Adapter.IDateAdapter<TDate>,
   year: number,
   locale: string | undefined,
   format: 'long' | 'short' | 'narrow' = 'long',
@@ -58,7 +58,7 @@ export function getLocalizedMonthNames<TDate>(
  * @param adapter - Any DateAdapter instance.
  * @param date    - The date to compute the week number for.
  */
-export function getWeekNumber<TDate>(adapter: IDateAdapter<TDate>, date: TDate): number {
+export function getWeekNumber<TDate>(adapter: Adapter.IDateAdapter<TDate>, date: TDate): number {
   // ISO week: week containing Thursday; weeks start on Monday
   const native = adapter.toDate(date)
 

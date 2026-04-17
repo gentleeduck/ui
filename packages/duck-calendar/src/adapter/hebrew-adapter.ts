@@ -1,5 +1,5 @@
 import { hebrewMonthLength, hebrewMonthsInYear, hebrewToGregorian, toHebrew } from '../calendar-system/hebrew'
-import type { IDateAdapter, WeekStartDay } from './adapter.types'
+import type { Adapter } from './adapter.types'
 import { createConversionCache, formatWithCalendar } from './adapter.utils'
 
 const hebrewCache = createConversionCache((date: Date) =>
@@ -20,7 +20,7 @@ const hebrewCache = createConversionCache((date: Date) =>
  *   `Intl.DateTimeFormat` renders Hebrew dates.
  * - Default locale: `'he-IL'`.
  */
-export class HebrewAdapter implements IDateAdapter<Date> {
+export class HebrewAdapter implements Adapter.IDateAdapter<Date> {
   private readonly locale: string
 
   constructor(locale = 'he-IL') {
@@ -94,7 +94,7 @@ export class HebrewAdapter implements IDateAdapter<Date> {
     return this.fromHebrew(hy, hm, hebrewMonthLength(hy, hm))
   }
 
-  startOfWeek(date: Date, weekStartDay: WeekStartDay): Date {
+  startOfWeek(date: Date, weekStartDay: Adapter.WeekStartDay): Date {
     const d = new Date(date.getFullYear(), date.getMonth(), date.getDate())
     const diff = (d.getDay() - weekStartDay + 7) % 7
     d.setDate(d.getDate() - diff)
@@ -156,8 +156,8 @@ export class HebrewAdapter implements IDateAdapter<Date> {
     return this.hebrew(date).hd
   }
 
-  getDayOfWeek(date: Date): WeekStartDay {
-    return date.getDay() as WeekStartDay
+  getDayOfWeek(date: Date): Adapter.WeekStartDay {
+    return date.getDay() as Adapter.WeekStartDay
   }
 
   toDate(date: Date): Date {

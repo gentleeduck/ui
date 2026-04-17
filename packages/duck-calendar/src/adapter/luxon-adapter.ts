@@ -1,5 +1,5 @@
 import { DateTime } from 'luxon'
-import type { IDateAdapter, WeekStartDay } from './adapter.types'
+import type { Adapter } from './adapter.types'
 import { getCachedFormatter } from './formatter-cache'
 
 /**
@@ -7,7 +7,7 @@ import { getCachedFormatter } from './formatter-cache'
  * Converts between Luxon's 1-indexed months and the adapter's 0-indexed convention.
  * All methods return new DateTime instances  -  never mutates inputs.
  */
-export class LuxonAdapter implements IDateAdapter<DateTime> {
+export class LuxonAdapter implements Adapter.IDateAdapter<DateTime> {
   /** Returns today's date with time stripped to midnight. */
   today(): DateTime {
     return DateTime.now().startOf('day')
@@ -64,7 +64,7 @@ export class LuxonAdapter implements IDateAdapter<DateTime> {
    * Luxon weekday: 1=Monday ... 7=Sunday.
    * Adapter weekStartDay: 0=Sunday ... 6=Saturday.
    */
-  startOfWeek(date: DateTime, weekStartDay: WeekStartDay): DateTime {
+  startOfWeek(date: DateTime, weekStartDay: Adapter.WeekStartDay): DateTime {
     // Convert Luxon weekday (1=Mon,7=Sun) to adapter format (0=Sun,6=Sat)
     const currentDay = date.weekday % 7
     const diff = (currentDay - weekStartDay + 7) % 7
@@ -114,8 +114,8 @@ export class LuxonAdapter implements IDateAdapter<DateTime> {
    * Returns the day of the week (0=Sunday, 6=Saturday).
    * Luxon uses 1=Monday ... 7=Sunday, so `weekday % 7` converts correctly.
    */
-  getDayOfWeek(date: DateTime): WeekStartDay {
-    return (date.weekday % 7) as WeekStartDay
+  getDayOfWeek(date: DateTime): Adapter.WeekStartDay {
+    return (date.weekday % 7) as Adapter.WeekStartDay
   }
 
   /** Converts to a native JS Date. */
