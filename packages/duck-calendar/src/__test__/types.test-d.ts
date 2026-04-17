@@ -1,7 +1,7 @@
 import { describe, expectTypeOf, it } from 'vitest'
 import type { IDateAdapter, WeekStartDay } from '../adapter'
 import { NativeAdapter } from '../adapter'
-import type { ICalendarDay, ICalendarMonth, ICalendarWeek } from '../grid'
+import type { Grid } from '../grid'
 import { buildCalendarMonth, buildMultiMonth } from '../grid'
 import type { ICalendarConfig, ICalendarLocaleConfig, ViewMode } from '../index.types'
 import type { NavigationDirection, NavigationUnit } from '../navigation'
@@ -184,8 +184,8 @@ describe('UseCalendarReturn type', () => {
     expectTypeOf<Return['state']['month']>().toEqualTypeOf<Date>()
     expectTypeOf<Return['state']['focusedDate']>().toEqualTypeOf<Date>()
     expectTypeOf<Return['state']['viewMode']>().toEqualTypeOf<ViewMode>()
-    expectTypeOf<Return['state']['weeks']>().toEqualTypeOf<ICalendarWeek<Date>[]>()
-    expectTypeOf<Return['state']['months']>().toEqualTypeOf<ICalendarMonth<Date>[]>()
+    expectTypeOf<Return['state']['weeks']>().toEqualTypeOf<Grid.ICalendarWeek<Date>[]>()
+    expectTypeOf<Return['state']['months']>().toEqualTypeOf<Grid.ICalendarMonth<Date>[]>()
     expectTypeOf<Return['state']['weekdays']>().toEqualTypeOf<string[]>()
     expectTypeOf<Return['state']['canGoNext']>().toEqualTypeOf<boolean>()
     expectTypeOf<Return['state']['canGoPrevious']>().toEqualTypeOf<boolean>()
@@ -211,7 +211,7 @@ describe('UseCalendarReturn type', () => {
 
   it('getDayProps accepts CalendarDay<TDate>', () => {
     type Return = IUseCalendarReturn<Date, 'single'>
-    expectTypeOf<Return['getDayProps']>().parameter(0).toEqualTypeOf<ICalendarDay<Date>>()
+    expectTypeOf<Return['getDayProps']>().parameter(0).toEqualTypeOf<Grid.ICalendarDay<Date>>()
   })
 })
 
@@ -300,13 +300,13 @@ describe('Pure function return types', () => {
   it('buildCalendarMonth returns CalendarMonth<TDate>', () => {
     const adapter = new NativeAdapter()
     const result = buildCalendarMonth(adapter, new Date(), { showOutsideDays: true, fixedWeeks: false })
-    expectTypeOf(result).toEqualTypeOf<ICalendarMonth<Date>>()
+    expectTypeOf(result).toEqualTypeOf<Grid.ICalendarMonth<Date>>()
   })
 
   it('buildMultiMonth returns CalendarMonth<TDate>[]', () => {
     const adapter = new NativeAdapter()
     const result = buildMultiMonth(adapter, new Date(), 2, { showOutsideDays: true, fixedWeeks: false })
-    expectTypeOf(result).toEqualTypeOf<ICalendarMonth<Date>[]>()
+    expectTypeOf(result).toEqualTypeOf<Grid.ICalendarMonth<Date>[]>()
   })
 
   it('navigate returns TDate', () => {
@@ -381,27 +381,27 @@ describe('UseDateTimeReturn type', () => {
 // ---------------------------------------------------------------------------
 describe('CalendarDay type', () => {
   it('date is generic TDate', () => {
-    expectTypeOf<ICalendarDay<Date>['date']>().toEqualTypeOf<Date>()
+    expectTypeOf<Grid.ICalendarDay<Date>['date']>().toEqualTypeOf<Date>()
   })
 
   it('boolean flags are boolean', () => {
-    expectTypeOf<ICalendarDay<Date>['isToday']>().toEqualTypeOf<boolean>()
-    expectTypeOf<ICalendarDay<Date>['isSelected']>().toEqualTypeOf<boolean>()
-    expectTypeOf<ICalendarDay<Date>['isDisabled']>().toEqualTypeOf<boolean>()
-    expectTypeOf<ICalendarDay<Date>['isOutside']>().toEqualTypeOf<boolean>()
-    expectTypeOf<ICalendarDay<Date>['isWeekend']>().toEqualTypeOf<boolean>()
-    expectTypeOf<ICalendarDay<Date>['isRangeStart']>().toEqualTypeOf<boolean>()
-    expectTypeOf<ICalendarDay<Date>['isRangeEnd']>().toEqualTypeOf<boolean>()
-    expectTypeOf<ICalendarDay<Date>['isRangeMiddle']>().toEqualTypeOf<boolean>()
-    expectTypeOf<ICalendarDay<Date>['isHidden']>().toEqualTypeOf<boolean>()
+    expectTypeOf<Grid.ICalendarDay<Date>['isToday']>().toEqualTypeOf<boolean>()
+    expectTypeOf<Grid.ICalendarDay<Date>['isSelected']>().toEqualTypeOf<boolean>()
+    expectTypeOf<Grid.ICalendarDay<Date>['isDisabled']>().toEqualTypeOf<boolean>()
+    expectTypeOf<Grid.ICalendarDay<Date>['isOutside']>().toEqualTypeOf<boolean>()
+    expectTypeOf<Grid.ICalendarDay<Date>['isWeekend']>().toEqualTypeOf<boolean>()
+    expectTypeOf<Grid.ICalendarDay<Date>['isRangeStart']>().toEqualTypeOf<boolean>()
+    expectTypeOf<Grid.ICalendarDay<Date>['isRangeEnd']>().toEqualTypeOf<boolean>()
+    expectTypeOf<Grid.ICalendarDay<Date>['isRangeMiddle']>().toEqualTypeOf<boolean>()
+    expectTypeOf<Grid.ICalendarDay<Date>['isHidden']>().toEqualTypeOf<boolean>()
   })
 
   it('preserves generic TDate through CalendarWeek and CalendarMonth', () => {
     type CustomDate = { _brand: 'custom'; value: number }
-    expectTypeOf<ICalendarDay<CustomDate>['date']>().toEqualTypeOf<CustomDate>()
-    expectTypeOf<ICalendarWeek<CustomDate>['days']>().toEqualTypeOf<ICalendarDay<CustomDate>[]>()
-    expectTypeOf<ICalendarMonth<CustomDate>['month']>().toEqualTypeOf<CustomDate>()
-    expectTypeOf<ICalendarMonth<CustomDate>['weeks']>().toEqualTypeOf<ICalendarWeek<CustomDate>[]>()
+    expectTypeOf<Grid.ICalendarDay<CustomDate>['date']>().toEqualTypeOf<CustomDate>()
+    expectTypeOf<Grid.ICalendarWeek<CustomDate>['days']>().toEqualTypeOf<Grid.ICalendarDay<CustomDate>[]>()
+    expectTypeOf<Grid.ICalendarMonth<CustomDate>['month']>().toEqualTypeOf<CustomDate>()
+    expectTypeOf<Grid.ICalendarMonth<CustomDate>['weeks']>().toEqualTypeOf<Grid.ICalendarWeek<CustomDate>[]>()
   })
 })
 
@@ -555,9 +555,9 @@ describe('UseCalendarReturn exhaustive type assertions', () => {
     expectTypeOf<Return['state']['month']>().toEqualTypeOf<CustomDate>()
     expectTypeOf<Return['state']['focusedDate']>().toEqualTypeOf<CustomDate>()
     expectTypeOf<Return['state']['value']>().toEqualTypeOf<CustomDate | null>()
-    expectTypeOf<Return['state']['weeks']>().toEqualTypeOf<ICalendarWeek<CustomDate>[]>()
-    expectTypeOf<Return['state']['months']>().toEqualTypeOf<ICalendarMonth<CustomDate>[]>()
-    expectTypeOf<Return['getDayProps']>().parameter(0).toEqualTypeOf<ICalendarDay<CustomDate>>()
+    expectTypeOf<Return['state']['weeks']>().toEqualTypeOf<Grid.ICalendarWeek<CustomDate>[]>()
+    expectTypeOf<Return['state']['months']>().toEqualTypeOf<Grid.ICalendarMonth<CustomDate>[]>()
+    expectTypeOf<Return['getDayProps']>().parameter(0).toEqualTypeOf<Grid.ICalendarDay<CustomDate>>()
   })
 })
 

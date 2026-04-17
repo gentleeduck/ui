@@ -11,7 +11,7 @@ export {
   NativeAdapter,
   PersianAdapter,
 } from './adapter'
-export type { ICalendarDay, ICalendarMonth, ICalendarWeek, IDecadeEntry, IYearEntry } from './grid'
+export type { Grid } from './grid'
 // Grid
 export {
   buildCalendarMonth,

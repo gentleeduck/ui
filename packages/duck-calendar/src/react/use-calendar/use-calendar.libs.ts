@@ -1,10 +1,10 @@
 import type React from 'react'
 import type { Adapter } from '../../adapter'
-import type { ICalendarDay } from '../../grid'
+import type { Grid } from '../../grid'
 import type { IDayProps, IGridProps, IHeaderProps, INavProps } from './use-calendar.types'
 
 export function buildDayProps<TDate>(
-  day: ICalendarDay<TDate>,
+  day: Grid.ICalendarDay<TDate>,
   focusedDate: TDate,
   adapter: Adapter.IDateAdapter<TDate>,
   selectDate: (date: TDate, options?: { shiftKey?: boolean }) => void,
