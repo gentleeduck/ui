@@ -103,7 +103,7 @@ const CollapsibleTrigger = React.forwardRef<HTMLButtonElement, React.ComponentPr
         aria-expanded={open}
         data-open={open}
         data-slot="collapsible-trigger"
-        onClick={(e) => {
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
           onOpenChange?.(!open)
           onClick?.(e)
         }}

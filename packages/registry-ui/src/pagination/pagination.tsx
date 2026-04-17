@@ -77,8 +77,8 @@ const PaginationPrevious = React.forwardRef<
     className={cn('gap-1 ps-2.5', className)}
     data-slot="pagination-previous"
     ref={ref}
-    size="default"
-    {...props}>
+    {...props}
+    size="default">
     <ChevronLeft aria-hidden="true" className="h-4 w-4 rtl:rotate-180" />
     <span className="hidden sm:block">{text}</span>
   </PaginationLink>
@@ -94,8 +94,8 @@ const PaginationNext = React.forwardRef<
     className={cn('gap-1 pe-2.5', className)}
     data-slot="pagination-next"
     ref={ref}
-    size="default"
-    {...props}>
+    {...props}
+    size="default">
     <span className="hidden sm:block">{text}</span>
     <ChevronRight aria-hidden="true" className="h-4 w-4 rtl:rotate-180" />
   </PaginationLink>

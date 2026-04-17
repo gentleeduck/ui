@@ -4,9 +4,9 @@ import { Slot, Slottable } from '@gentleduck/primitives/slot'
 import { Loader } from 'lucide-react'
 import * as React from 'react'
 import { buttonVariants } from './button.constants'
-import type { IButtonAnimationIconProps, IButtonProps } from './button.types'
+import type { AnimationIconProps, ButtonProps } from './button.types'
 
-const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   (
     {
       children,
@@ -52,7 +52,7 @@ const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
 )
 Button.displayName = 'Button'
 
-function AnimationIcon({ children, animationIcon }: IButtonAnimationIconProps): React.JSX.Element {
+function AnimationIcon({ children, animationIcon }: AnimationIconProps): React.JSX.Element {
   return (
     <>
       {animationIcon?.icon && animationIcon.iconPlacement === 'left' && (

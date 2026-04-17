@@ -4,6 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { fadeIn } from '@gentleduck/motion/presets/fade-in'
+import type { DirectionalSide } from '@gentleduck/motion/presets/_utils'
 import { createSlideEdge } from '@gentleduck/motion/presets/slide-edge'
 import { tweenSlow } from '@gentleduck/motion/transitions/tweens'
 import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
@@ -40,7 +41,8 @@ const MotionSheetContent = React.forwardRef<
 >(({ side = 'right', className, children, closeText = 'Close', hideClose = false, ...props }, ref) => {
   const { isOpen } = useMotionContent()
   const overlay = useMotionPreset(fadeIn, OVERLAY_OPTIONS)
-  const slide = React.useMemo(() => createSlideEdge(side ?? 'right'), [side])
+  const resolvedSide = (Array.isArray(side) ? side[0] : side ?? 'right') as DirectionalSide
+  const slide = React.useMemo(() => createSlideEdge(resolvedSide), [resolvedSide])
   const shouldRender = useMotionMount(isOpen, 320)
 
   const positionClasses: Record<string, string> = {
@@ -65,7 +67,7 @@ const MotionSheetContent = React.forwardRef<
         </SheetPrimitive.Overlay>
         <SheetPrimitive.Content ref={ref} forceMount asChild {...props}>
           <m.div
-            className={cn('fixed z-50 gap-4 bg-background p-6 shadow-lg', positionClasses[side ?? 'right'], className)}
+            className={cn('fixed z-50 gap-4 bg-background p-6 shadow-lg', positionClasses[resolvedSide], className)}
             initial={slide.initial}
             animate={isOpen ? slide.animate : { ...slide.exit, pointerEvents: 'none' }}
             transition={tweenSlow}>

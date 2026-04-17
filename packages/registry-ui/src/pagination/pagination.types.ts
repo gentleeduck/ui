@@ -1,4 +1,4 @@
-import type { Button, IButtonProps } from '../button'
+import type { Button, ButtonProps } from '../button'
 import type { Pagination, PaginationContent, PaginationItem } from './pagination'
 
 export interface IDuckPaginationProps {
@@ -12,7 +12,7 @@ export interface IDuckPaginationProps {
 }
 
 export interface IPaginationLinkProps
-  extends Pick<IButtonProps, 'size'>,
+  extends Pick<ButtonProps, 'size'>,
     Omit<React.ComponentPropsWithoutRef<'a'>, 'size'> {
   isActive?: boolean
 }

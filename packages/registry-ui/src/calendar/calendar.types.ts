@@ -1,6 +1,6 @@
 import type { Adapter, Grid, Selection, UseCalendar } from '@gentleduck/calendar'
 import type { IDirection } from '@gentleduck/primitives/direction'
-import type { Button } from '../button'
+import type { Button, ButtonProps } from '../button'
 
 export interface ICalendarHeaderContext {
   /** The current displayed month Date. */
@@ -25,7 +25,7 @@ export interface ICalendarHeaderProps {
   title: string
   direction: 'ltr' | 'rtl'
   locale?: string
-  buttonVariant: string
+  buttonVariant: ButtonProps['variant']
   showDropdowns: boolean
   yearRange: { from: number; to: number }
   getNavProps: (dir: 'prev' | 'next') => { 'aria-label': string; disabled: boolean; onClick: () => void }

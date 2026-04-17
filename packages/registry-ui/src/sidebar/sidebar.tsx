@@ -235,7 +235,7 @@ const SidebarTrigger = React.forwardRef<
       dir={direction}
       icon={icon === undefined ? <PanelLeftIcon aria-hidden="true" className="rtl:-scale-x-100" /> : icon}
       className={cn(className)}
-      onClick={(event) => {
+      onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
         onClick?.(event)
         toggleSidebar()
       }}
