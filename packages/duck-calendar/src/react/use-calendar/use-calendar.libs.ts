@@ -1,7 +1,7 @@
 import type React from 'react'
 import type { Adapter } from '../../adapter'
 import type { Grid } from '../../grid'
-import type { IDayProps, IGridProps, IHeaderProps, INavProps } from './use-calendar.types'
+import type { UseCalendar } from './use-calendar.types'
 
 export function buildDayProps<TDate>(
   day: Grid.ICalendarDay<TDate>,
@@ -11,7 +11,7 @@ export function buildDayProps<TDate>(
   focusDate: (date: TDate) => void,
   onKeyDown: React.KeyboardEventHandler,
   locale?: string,
-): IDayProps {
+): UseCalendar.IDayProps {
   const isFocused = adapter.isSameDay(day.date, focusedDate)
 
   return {
@@ -38,7 +38,7 @@ export function buildDayProps<TDate>(
   }
 }
 
-export function buildGridProps(headerId: string): IGridProps {
+export function buildGridProps(headerId: string): UseCalendar.IGridProps {
   return {
     role: 'grid',
     'aria-labelledby': headerId,
@@ -54,7 +54,7 @@ export function buildNavProps(
   goToNext: () => void,
   prevLabel?: string,
   nextLabel?: string,
-): INavProps {
+): UseCalendar.INavProps {
   return {
     'aria-label': direction === 'prev' ? (prevLabel ?? 'Go to previous month') : (nextLabel ?? 'Go to next month'),
     disabled: direction === 'prev' ? !canGoPrevious : !canGoNext,
@@ -62,7 +62,7 @@ export function buildNavProps(
   }
 }
 
-export function buildHeaderProps(headerId: string): IHeaderProps {
+export function buildHeaderProps(headerId: string): UseCalendar.IHeaderProps {
   return {
     id: headerId,
     'aria-live': 'polite',

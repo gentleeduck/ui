@@ -1,15 +1,15 @@
 import * as React from 'react'
 import { useCallback } from 'react'
-import type { IKeyboardConfig, IKeyboardReturn } from './use-keyboard.types'
+import type { Keyboard } from './use-keyboard.types'
 
 /** Maximum number of days to skip when searching for the next non-disabled date. */
 const MAX_SKIP = 365
 
-type Action<TDate> = (focused: TDate, config: IKeyboardConfig<TDate>) => TDate | null // null means "no movement, just a side-effect"
+type Action<TDate> = (focused: TDate, config: Keyboard.IKeyboardConfig<TDate>) => TDate | null // null means "no movement, just a side-effect"
 
 function stepUntilEnabled<TDate>(
   start: TDate,
-  config: IKeyboardConfig<TDate>,
+  config: Keyboard.IKeyboardConfig<TDate>,
   step: (date: TDate) => TDate,
 ): TDate | null {
   let candidate = step(start)
@@ -58,7 +58,7 @@ function buildActionMap<TDate>(): Record<string, Action<TDate>> {
 // built once, outside the hook  -  no re-creation on render
 const ACTION_MAP: Record<string, Action<unknown>> = buildActionMap<unknown>()
 
-export function useKeyboard<TDate>(config: IKeyboardConfig<TDate>): IKeyboardReturn {
+export function useKeyboard<TDate>(config: Keyboard.IKeyboardConfig<TDate>): Keyboard.IKeyboardReturn {
   // Keep config in a ref to avoid recreating the callback on every prop change
   const configRef = React.useRef(config)
   configRef.current = config

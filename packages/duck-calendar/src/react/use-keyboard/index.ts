@@ -1,2 +1,2 @@
 export { useKeyboard } from './use-keyboard'
-export type { IKeyboardConfig, IKeyboardReturn } from './use-keyboard.types'
+export type { Keyboard } from './use-keyboard.types'

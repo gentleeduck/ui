@@ -1,5 +1,5 @@
 import type { Adapter } from '../adapter'
-import type { ICalendarConfig } from '../index.types'
+import type { Calendar } from '../index.types'
 import { getLocalizedMonthNames, getWeekNumber } from './grid.libs'
 import type { Grid } from './grid.types'
 
@@ -10,7 +10,7 @@ import type { Grid } from './grid.types'
 export function buildCalendarMonth<TDate>(
   adapter: Adapter.IDateAdapter<TDate>,
   viewDate: TDate,
-  config: Pick<ICalendarConfig<TDate, 'single'>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>,
+  config: Pick<Calendar.ICalendarConfig<TDate, 'single'>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>,
 ): Grid.ICalendarMonth<TDate> {
   const weekStartDay = config.locale?.weekStartDay ?? 0
   const showOutsideDays = config.showOutsideDays ?? true
@@ -78,7 +78,7 @@ export function buildMultiMonth<TDate>(
   adapter: Adapter.IDateAdapter<TDate>,
   startMonth: TDate,
   count: number,
-  config: Pick<ICalendarConfig<TDate, 'single'>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>,
+  config: Pick<Calendar.ICalendarConfig<TDate, 'single'>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>,
 ): Grid.ICalendarMonth<TDate>[] {
   const months: Grid.ICalendarMonth<TDate>[] = []
   for (let i = 0; i < count; i++) {

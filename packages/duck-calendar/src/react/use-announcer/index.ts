@@ -5,4 +5,4 @@ export {
   buildRangeSelectedMessage,
   useAnnouncer,
 } from './use-announcer'
-export type { IAnnouncerReturn } from './use-announcer.types'
+export type { Announcer } from './use-announcer.types'

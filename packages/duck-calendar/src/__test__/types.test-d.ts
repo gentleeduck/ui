@@ -3,19 +3,12 @@ import type { IDateAdapter, WeekStartDay } from '../adapter'
 import { NativeAdapter } from '../adapter'
 import type { Grid } from '../grid'
 import { buildCalendarMonth, buildMultiMonth } from '../grid'
-import type { ICalendarConfig, ICalendarLocaleConfig, ViewMode } from '../index.types'
+import type { Calendar } from '../index.types'
 import type { Navigation } from '../navigation'
 import { canNavigate, navigate } from '../navigation'
-import type {
-  IDayProps,
-  IGridProps,
-  IHeaderProps,
-  INavProps,
-  IUseCalendarConfig,
-  IUseCalendarReturn,
-} from '../react/use-calendar/use-calendar.types'
-import type { IUseDateTimeConfig, IUseDateTimeReturn } from '../react/use-datetime/use-datetime.types'
-import type { ITimeFieldProps, IUseTimePickerReturn } from '../react/use-time-picker/use-time-picker.types'
+import type { UseCalendar } from '../react/use-calendar/use-calendar.types'
+import type { UseDateTime } from '../react/use-datetime/use-datetime.types'
+import type { UseTimePicker } from '../react/use-time-picker/use-time-picker.types'
 import type { Selection } from '../selection'
 import { applySelection, selectDay } from '../selection'
 import type { Time } from '../time'
@@ -134,9 +127,9 @@ describe('DateAdapter generic flow', () => {
 // ---------------------------------------------------------------------------
 describe('CalendarConfig type', () => {
   it('selected type matches mode', () => {
-    type SingleConfig = ICalendarConfig<Date, 'single'>
-    type RangeConfig = ICalendarConfig<Date, 'range'>
-    type MultiConfig = ICalendarConfig<Date, 'multi'>
+    type SingleConfig = Calendar.ICalendarConfig<Date, 'single'>
+    type RangeConfig = Calendar.ICalendarConfig<Date, 'range'>
+    type MultiConfig = Calendar.ICalendarConfig<Date, 'multi'>
 
     expectTypeOf<SingleConfig['selected']>().toEqualTypeOf<Date | null | undefined>()
     expectTypeOf<RangeConfig['selected']>().toEqualTypeOf<Selection.DateRange<Date> | null | undefined>()
@@ -144,8 +137,8 @@ describe('CalendarConfig type', () => {
   })
 
   it('onSelect callback parameter matches mode', () => {
-    type SingleConfig = ICalendarConfig<Date, 'single'>
-    type RangeConfig = ICalendarConfig<Date, 'range'>
+    type SingleConfig = Calendar.ICalendarConfig<Date, 'single'>
+    type RangeConfig = Calendar.ICalendarConfig<Date, 'range'>
 
     // onSelect for single should accept (Date | null) => void
     type SingleOnSelect = NonNullable<SingleConfig['onSelect']>
@@ -156,12 +149,12 @@ describe('CalendarConfig type', () => {
   })
 
   it('disabled accepts array or predicate', () => {
-    type Config = ICalendarConfig<Date, 'single'>
+    type Config = Calendar.ICalendarConfig<Date, 'single'>
     expectTypeOf<Config['disabled']>().toEqualTypeOf<Date[] | ((date: Date) => boolean) | undefined>()
   })
 
   it('fromDate and toDate are optional TDate', () => {
-    type Config = ICalendarConfig<Date, 'single'>
+    type Config = Calendar.ICalendarConfig<Date, 'single'>
     expectTypeOf<Config['fromDate']>().toEqualTypeOf<Date | undefined>()
     expectTypeOf<Config['toDate']>().toEqualTypeOf<Date | undefined>()
   })
@@ -172,9 +165,9 @@ describe('CalendarConfig type', () => {
 // ---------------------------------------------------------------------------
 describe('UseCalendarReturn type', () => {
   it('state.value type matches mode', () => {
-    type SingleReturn = IUseCalendarReturn<Date, 'single'>
-    type RangeReturn = IUseCalendarReturn<Date, 'range'>
-    type MultiReturn = IUseCalendarReturn<Date, 'multi'>
+    type SingleReturn = UseCalendar.IUseCalendarReturn<Date, 'single'>
+    type RangeReturn = UseCalendar.IUseCalendarReturn<Date, 'range'>
+    type MultiReturn = UseCalendar.IUseCalendarReturn<Date, 'multi'>
 
     expectTypeOf<SingleReturn['state']['value']>().toEqualTypeOf<Date | null>()
     expectTypeOf<RangeReturn['state']['value']>().toEqualTypeOf<Selection.DateRange<Date> | null>()
@@ -182,10 +175,10 @@ describe('UseCalendarReturn type', () => {
   })
 
   it('state has correct shape', () => {
-    type Return = IUseCalendarReturn<Date, 'single'>
+    type Return = UseCalendar.IUseCalendarReturn<Date, 'single'>
     expectTypeOf<Return['state']['month']>().toEqualTypeOf<Date>()
     expectTypeOf<Return['state']['focusedDate']>().toEqualTypeOf<Date>()
-    expectTypeOf<Return['state']['viewMode']>().toEqualTypeOf<ViewMode>()
+    expectTypeOf<Return['state']['viewMode']>().toEqualTypeOf<Calendar.ViewMode>()
     expectTypeOf<Return['state']['weeks']>().toEqualTypeOf<Grid.ICalendarWeek<Date>[]>()
     expectTypeOf<Return['state']['months']>().toEqualTypeOf<Grid.ICalendarMonth<Date>[]>()
     expectTypeOf<Return['state']['weekdays']>().toEqualTypeOf<string[]>()
@@ -194,7 +187,7 @@ describe('UseCalendarReturn type', () => {
   })
 
   it('actions have correct signatures', () => {
-    type Return = IUseCalendarReturn<Date, 'single'>
+    type Return = UseCalendar.IUseCalendarReturn<Date, 'single'>
     expectTypeOf<Return['actions']['setMonth']>().toBeFunction()
     expectTypeOf<Return['actions']['setViewMode']>().toBeFunction()
     expectTypeOf<Return['actions']['goToNext']>().toBeFunction()
@@ -204,15 +197,15 @@ describe('UseCalendarReturn type', () => {
   })
 
   it('prop getters return correct types', () => {
-    type Return = IUseCalendarReturn<Date, 'single'>
-    expectTypeOf<Return['getDayProps']>().returns.toEqualTypeOf<IDayProps>()
-    expectTypeOf<Return['getGridProps']>().returns.toEqualTypeOf<IGridProps>()
-    expectTypeOf<Return['getNavProps']>().returns.toEqualTypeOf<INavProps>()
-    expectTypeOf<Return['getHeaderProps']>().returns.toEqualTypeOf<IHeaderProps>()
+    type Return = UseCalendar.IUseCalendarReturn<Date, 'single'>
+    expectTypeOf<Return['getDayProps']>().returns.toEqualTypeOf<UseCalendar.IDayProps>()
+    expectTypeOf<Return['getGridProps']>().returns.toEqualTypeOf<UseCalendar.IGridProps>()
+    expectTypeOf<Return['getNavProps']>().returns.toEqualTypeOf<UseCalendar.INavProps>()
+    expectTypeOf<Return['getHeaderProps']>().returns.toEqualTypeOf<UseCalendar.IHeaderProps>()
   })
 
   it('getDayProps accepts CalendarDay<TDate>', () => {
-    type Return = IUseCalendarReturn<Date, 'single'>
+    type Return = UseCalendar.IUseCalendarReturn<Date, 'single'>
     expectTypeOf<Return['getDayProps']>().parameter(0).toEqualTypeOf<Grid.ICalendarDay<Date>>()
   })
 })
@@ -222,26 +215,26 @@ describe('UseCalendarReturn type', () => {
 // ---------------------------------------------------------------------------
 describe('DayProps type', () => {
   it('has correct ARIA attributes', () => {
-    expectTypeOf<IDayProps['role']>().toEqualTypeOf<'gridcell'>()
-    expectTypeOf<IDayProps['aria-label']>().toEqualTypeOf<string>()
-    expectTypeOf<IDayProps['aria-selected']>().toEqualTypeOf<boolean>()
-    expectTypeOf<IDayProps['aria-disabled']>().toEqualTypeOf<boolean>()
-    expectTypeOf<IDayProps['aria-current']>().toEqualTypeOf<'date' | undefined>()
-    expectTypeOf<IDayProps['tabIndex']>().toEqualTypeOf<0 | -1>()
+    expectTypeOf<UseCalendar.IDayProps['role']>().toEqualTypeOf<'gridcell'>()
+    expectTypeOf<UseCalendar.IDayProps['aria-label']>().toEqualTypeOf<string>()
+    expectTypeOf<UseCalendar.IDayProps['aria-selected']>().toEqualTypeOf<boolean>()
+    expectTypeOf<UseCalendar.IDayProps['aria-disabled']>().toEqualTypeOf<boolean>()
+    expectTypeOf<UseCalendar.IDayProps['aria-current']>().toEqualTypeOf<'date' | undefined>()
+    expectTypeOf<UseCalendar.IDayProps['tabIndex']>().toEqualTypeOf<0 | -1>()
   })
 
   it('has data attributes with correct types', () => {
-    expectTypeOf<IDayProps['data-calendar-day']>().toEqualTypeOf<''>()
-    expectTypeOf<IDayProps['data-selected']>().toEqualTypeOf<'true' | undefined>()
-    expectTypeOf<IDayProps['data-disabled']>().toEqualTypeOf<'true' | undefined>()
-    expectTypeOf<IDayProps['data-today']>().toEqualTypeOf<'true' | undefined>()
-    expectTypeOf<IDayProps['data-focused']>().toEqualTypeOf<'true' | undefined>()
+    expectTypeOf<UseCalendar.IDayProps['data-calendar-day']>().toEqualTypeOf<''>()
+    expectTypeOf<UseCalendar.IDayProps['data-selected']>().toEqualTypeOf<'true' | undefined>()
+    expectTypeOf<UseCalendar.IDayProps['data-disabled']>().toEqualTypeOf<'true' | undefined>()
+    expectTypeOf<UseCalendar.IDayProps['data-today']>().toEqualTypeOf<'true' | undefined>()
+    expectTypeOf<UseCalendar.IDayProps['data-focused']>().toEqualTypeOf<'true' | undefined>()
   })
 
   it('has event handlers', () => {
-    expectTypeOf<IDayProps['onClick']>().toBeFunction()
-    expectTypeOf<IDayProps['onMouseEnter']>().toBeFunction()
-    expectTypeOf<IDayProps['onKeyDown']>().toBeFunction()
+    expectTypeOf<UseCalendar.IDayProps['onClick']>().toBeFunction()
+    expectTypeOf<UseCalendar.IDayProps['onMouseEnter']>().toBeFunction()
+    expectTypeOf<UseCalendar.IDayProps['onKeyDown']>().toBeFunction()
   })
 })
 
@@ -250,9 +243,9 @@ describe('DayProps type', () => {
 // ---------------------------------------------------------------------------
 describe('GridProps type', () => {
   it('has correct ARIA attributes', () => {
-    expectTypeOf<IGridProps['role']>().toEqualTypeOf<'grid'>()
-    expectTypeOf<IGridProps['aria-labelledby']>().toEqualTypeOf<string>()
-    expectTypeOf<IGridProps['aria-roledescription']>().toEqualTypeOf<string>()
+    expectTypeOf<UseCalendar.IGridProps['role']>().toEqualTypeOf<'grid'>()
+    expectTypeOf<UseCalendar.IGridProps['aria-labelledby']>().toEqualTypeOf<string>()
+    expectTypeOf<UseCalendar.IGridProps['aria-roledescription']>().toEqualTypeOf<string>()
   })
 })
 
@@ -339,7 +332,7 @@ describe('Pure function return types', () => {
 // ---------------------------------------------------------------------------
 describe('UseTimePickerReturn type', () => {
   it('state has correct shape', () => {
-    type Return = IUseTimePickerReturn
+    type Return = UseTimePicker.IUseTimePickerReturn
     expectTypeOf<Return['state']['value']>().toEqualTypeOf<Time.ITimeValue>()
     expectTypeOf<Return['state']['focusedField']>().toEqualTypeOf<Time.TimeField>()
     expectTypeOf<Return['state']['hourCycle']>().toEqualTypeOf<Time.HourCycle>()
@@ -348,12 +341,12 @@ describe('UseTimePickerReturn type', () => {
   })
 
   it('getFieldProps returns TimeFieldProps', () => {
-    type Return = IUseTimePickerReturn
-    expectTypeOf<Return['getFieldProps']>().returns.toEqualTypeOf<ITimeFieldProps>()
+    type Return = UseTimePicker.IUseTimePickerReturn
+    expectTypeOf<Return['getFieldProps']>().returns.toEqualTypeOf<UseTimePicker.ITimeFieldProps>()
   })
 
   it('TimeFieldProps has spinbutton role', () => {
-    expectTypeOf<ITimeFieldProps['role']>().toEqualTypeOf<'spinbutton'>()
+    expectTypeOf<UseTimePicker.ITimeFieldProps['role']>().toEqualTypeOf<'spinbutton'>()
   })
 })
 
@@ -362,18 +355,18 @@ describe('UseTimePickerReturn type', () => {
 // ---------------------------------------------------------------------------
 describe('UseDateTimeReturn type', () => {
   it('has calendar and timePicker sub-returns', () => {
-    type Return = IUseDateTimeReturn<Date>
-    expectTypeOf<Return['calendar']>().toMatchTypeOf<IUseCalendarReturn<Date, 'single'>>()
-    expectTypeOf<Return['timePicker']>().toMatchTypeOf<IUseTimePickerReturn>()
+    type Return = UseDateTime.IUseDateTimeReturn<Date>
+    expectTypeOf<Return['calendar']>().toMatchTypeOf<UseCalendar.IUseCalendarReturn<Date, 'single'>>()
+    expectTypeOf<Return['timePicker']>().toMatchTypeOf<UseTimePicker.IUseTimePickerReturn>()
   })
 
   it('state.value is TDate | null', () => {
-    type Return = IUseDateTimeReturn<Date>
+    type Return = UseDateTime.IUseDateTimeReturn<Date>
     expectTypeOf<Return['state']['value']>().toEqualTypeOf<Date | null>()
   })
 
   it('actions.setValue accepts TDate', () => {
-    type Return = IUseDateTimeReturn<Date>
+    type Return = UseDateTime.IUseDateTimeReturn<Date>
     expectTypeOf<Return['actions']['setValue']>().parameter(0).toEqualTypeOf<Date>()
   })
 })
@@ -412,28 +405,28 @@ describe('CalendarDay type', () => {
 // ---------------------------------------------------------------------------
 describe('Mode-narrowed callback types', () => {
   it('onSelect for single mode accepts Date | null', () => {
-    type SingleConfig = ICalendarConfig<Date, 'single'>
+    type SingleConfig = Calendar.ICalendarConfig<Date, 'single'>
     type OnSelect = NonNullable<SingleConfig['onSelect']>
     expectTypeOf<OnSelect>().parameter(0).toEqualTypeOf<Date | null>()
     expectTypeOf<OnSelect>().returns.toEqualTypeOf<void>()
   })
 
   it('onSelect for range mode accepts Selection.DateRange<Date> | null', () => {
-    type RangeConfig = ICalendarConfig<Date, 'range'>
+    type RangeConfig = Calendar.ICalendarConfig<Date, 'range'>
     type OnSelect = NonNullable<RangeConfig['onSelect']>
     expectTypeOf<OnSelect>().parameter(0).toEqualTypeOf<Selection.DateRange<Date> | null>()
     expectTypeOf<OnSelect>().returns.toEqualTypeOf<void>()
   })
 
   it('onSelect for multi mode accepts Date[]', () => {
-    type MultiConfig = ICalendarConfig<Date, 'multi'>
+    type MultiConfig = Calendar.ICalendarConfig<Date, 'multi'>
     type OnSelect = NonNullable<MultiConfig['onSelect']>
     expectTypeOf<OnSelect>().parameter(0).toEqualTypeOf<Date[]>()
     expectTypeOf<OnSelect>().returns.toEqualTypeOf<void>()
   })
 
   it('onSelect for multi-range mode accepts Selection.DateRange<Date>[]', () => {
-    type MultiRangeConfig = ICalendarConfig<Date, 'multi-range'>
+    type MultiRangeConfig = Calendar.ICalendarConfig<Date, 'multi-range'>
     type OnSelect = NonNullable<MultiRangeConfig['onSelect']>
     expectTypeOf<OnSelect>().parameter(0).toEqualTypeOf<Selection.DateRange<Date>[]>()
     expectTypeOf<OnSelect>().returns.toEqualTypeOf<void>()
@@ -455,7 +448,7 @@ describe('Mode-narrowed callback types', () => {
   })
 
   it('onMonthChange receives TDate', () => {
-    type Config = ICalendarConfig<Date, 'single'>
+    type Config = Calendar.ICalendarConfig<Date, 'single'>
     type OnMonthChange = NonNullable<Config['onMonthChange']>
     expectTypeOf<OnMonthChange>().parameter(0).toEqualTypeOf<Date>()
     expectTypeOf<OnMonthChange>().returns.toEqualTypeOf<void>()
@@ -511,49 +504,49 @@ describe('Adapter generic constraints', () => {
 // ---------------------------------------------------------------------------
 describe('UseCalendarReturn exhaustive type assertions', () => {
   it('actions.selectDate accepts TDate and optional options', () => {
-    type Return = IUseCalendarReturn<Date, 'single'>
+    type Return = UseCalendar.IUseCalendarReturn<Date, 'single'>
     expectTypeOf<Return['actions']['selectDate']>().parameter(0).toEqualTypeOf<Date>()
   })
 
   it('actions.setMonth accepts TDate', () => {
-    type Return = IUseCalendarReturn<Date, 'single'>
+    type Return = UseCalendar.IUseCalendarReturn<Date, 'single'>
     expectTypeOf<Return['actions']['setMonth']>().parameter(0).toEqualTypeOf<Date>()
   })
 
-  it('actions.setViewMode accepts ViewMode', () => {
-    type Return = IUseCalendarReturn<Date, 'single'>
-    expectTypeOf<Return['actions']['setViewMode']>().parameter(0).toEqualTypeOf<ViewMode>()
+  it('actions.setViewMode accepts Calendar.ViewMode', () => {
+    type Return = UseCalendar.IUseCalendarReturn<Date, 'single'>
+    expectTypeOf<Return['actions']['setViewMode']>().parameter(0).toEqualTypeOf<Calendar.ViewMode>()
   })
 
   it('actions.focusDate accepts TDate', () => {
-    type Return = IUseCalendarReturn<Date, 'single'>
+    type Return = UseCalendar.IUseCalendarReturn<Date, 'single'>
     expectTypeOf<Return['actions']['focusDate']>().parameter(0).toEqualTypeOf<Date>()
   })
 
   it('getNavProps accepts direction parameter', () => {
-    type Return = IUseCalendarReturn<Date, 'single'>
+    type Return = UseCalendar.IUseCalendarReturn<Date, 'single'>
     expectTypeOf<Return['getNavProps']>().parameter(0).toEqualTypeOf<'prev' | 'next'>()
   })
 
   it('getNavProps returns NavProps with correct shape', () => {
-    expectTypeOf<INavProps['aria-label']>().toEqualTypeOf<string>()
-    expectTypeOf<INavProps['disabled']>().toEqualTypeOf<boolean>()
-    expectTypeOf<INavProps['onClick']>().toBeFunction()
+    expectTypeOf<UseCalendar.INavProps['aria-label']>().toEqualTypeOf<string>()
+    expectTypeOf<UseCalendar.INavProps['disabled']>().toEqualTypeOf<boolean>()
+    expectTypeOf<UseCalendar.INavProps['onClick']>().toBeFunction()
   })
 
   it('getHeaderProps returns HeaderProps with correct shape', () => {
-    expectTypeOf<IHeaderProps['id']>().toEqualTypeOf<string>()
-    expectTypeOf<IHeaderProps['aria-live']>().toEqualTypeOf<'polite'>()
+    expectTypeOf<UseCalendar.IHeaderProps['id']>().toEqualTypeOf<string>()
+    expectTypeOf<UseCalendar.IHeaderProps['aria-live']>().toEqualTypeOf<'polite'>()
   })
 
   it('multi-range mode has correct state.value type', () => {
-    type Return = IUseCalendarReturn<Date, 'multi-range'>
+    type Return = UseCalendar.IUseCalendarReturn<Date, 'multi-range'>
     expectTypeOf<Return['state']['value']>().toEqualTypeOf<Selection.DateRange<Date>[]>()
   })
 
   it('return type preserves custom TDate through all fields', () => {
     type CustomDate = { _brand: 'dayjs' }
-    type Return = IUseCalendarReturn<CustomDate, 'single'>
+    type Return = UseCalendar.IUseCalendarReturn<CustomDate, 'single'>
     expectTypeOf<Return['state']['month']>().toEqualTypeOf<CustomDate>()
     expectTypeOf<Return['state']['focusedDate']>().toEqualTypeOf<CustomDate>()
     expectTypeOf<Return['state']['value']>().toEqualTypeOf<CustomDate | null>()
@@ -568,45 +561,45 @@ describe('UseCalendarReturn exhaustive type assertions', () => {
 // ---------------------------------------------------------------------------
 describe('UseTimePickerReturn exhaustive type assertions', () => {
   it('actions.setValue accepts TimeValue', () => {
-    type Return = IUseTimePickerReturn
+    type Return = UseTimePicker.IUseTimePickerReturn
     expectTypeOf<Return['actions']['setValue']>().parameter(0).toEqualTypeOf<Time.ITimeValue>()
   })
 
   it('actions.setField accepts Time.TimeField and number', () => {
-    type Return = IUseTimePickerReturn
+    type Return = UseTimePicker.IUseTimePickerReturn
     expectTypeOf<Return['actions']['setField']>().parameter(0).toEqualTypeOf<Time.TimeField>()
     expectTypeOf<Return['actions']['setField']>().parameter(1).toEqualTypeOf<number>()
   })
 
   it('actions.increment and decrement accept Time.TimeField', () => {
-    type Return = IUseTimePickerReturn
+    type Return = UseTimePicker.IUseTimePickerReturn
     expectTypeOf<Return['actions']['increment']>().parameter(0).toEqualTypeOf<Time.TimeField>()
     expectTypeOf<Return['actions']['decrement']>().parameter(0).toEqualTypeOf<Time.TimeField>()
   })
 
   it('actions.toggleAmPm returns void', () => {
-    type Return = IUseTimePickerReturn
+    type Return = UseTimePicker.IUseTimePickerReturn
     expectTypeOf<Return['actions']['toggleAmPm']>().returns.toEqualTypeOf<void>()
   })
 
   it('actions.focusField accepts Time.TimeField', () => {
-    type Return = IUseTimePickerReturn
+    type Return = UseTimePicker.IUseTimePickerReturn
     expectTypeOf<Return['actions']['focusField']>().parameter(0).toEqualTypeOf<Time.TimeField>()
   })
 
   it('getFieldProps accepts Time.TimeField parameter', () => {
-    type Return = IUseTimePickerReturn
+    type Return = UseTimePicker.IUseTimePickerReturn
     expectTypeOf<Return['getFieldProps']>().parameter(0).toEqualTypeOf<Time.TimeField>()
   })
 
   it('TimeFieldProps has correct ARIA spinbutton attributes', () => {
-    expectTypeOf<ITimeFieldProps['aria-label']>().toEqualTypeOf<string>()
-    expectTypeOf<ITimeFieldProps['aria-valuemin']>().toEqualTypeOf<number>()
-    expectTypeOf<ITimeFieldProps['aria-valuemax']>().toEqualTypeOf<number>()
-    expectTypeOf<ITimeFieldProps['aria-valuenow']>().toEqualTypeOf<number>()
-    expectTypeOf<ITimeFieldProps['aria-valuetext']>().toEqualTypeOf<string>()
-    expectTypeOf<ITimeFieldProps['tabIndex']>().toEqualTypeOf<0 | -1>()
-    expectTypeOf<ITimeFieldProps['data-focused']>().toEqualTypeOf<'true' | undefined>()
+    expectTypeOf<UseTimePicker.ITimeFieldProps['aria-label']>().toEqualTypeOf<string>()
+    expectTypeOf<UseTimePicker.ITimeFieldProps['aria-valuemin']>().toEqualTypeOf<number>()
+    expectTypeOf<UseTimePicker.ITimeFieldProps['aria-valuemax']>().toEqualTypeOf<number>()
+    expectTypeOf<UseTimePicker.ITimeFieldProps['aria-valuenow']>().toEqualTypeOf<number>()
+    expectTypeOf<UseTimePicker.ITimeFieldProps['aria-valuetext']>().toEqualTypeOf<string>()
+    expectTypeOf<UseTimePicker.ITimeFieldProps['tabIndex']>().toEqualTypeOf<0 | -1>()
+    expectTypeOf<UseTimePicker.ITimeFieldProps['data-focused']>().toEqualTypeOf<'true' | undefined>()
   })
 })
 
@@ -616,7 +609,7 @@ describe('UseTimePickerReturn exhaustive type assertions', () => {
 describe('Invalid mode type errors', () => {
   it('CalendarConfig rejects invalid mode', () => {
     // @ts-expect-error - 'weekly' is not a valid Selection.SelectionMode
-    type _InvalidConfig = ICalendarConfig<Date, 'weekly'>
+    type _InvalidConfig = Calendar.ICalendarConfig<Date, 'weekly'>
   })
 
   it('selectDay rejects invalid mode at the type level', () => {
@@ -632,7 +625,7 @@ describe('Invalid mode type errors', () => {
 
   it('UseCalendarReturn rejects invalid mode', () => {
     // @ts-expect-error - 'custom' is not a valid Selection.SelectionMode
-    type _InvalidReturn = IUseCalendarReturn<Date, 'custom'>
+    type _InvalidReturn = UseCalendar.IUseCalendarReturn<Date, 'custom'>
   })
 })
 
@@ -694,15 +687,15 @@ describe('SelectionConstraints type', () => {
 // ---------------------------------------------------------------------------
 describe('CalendarLocaleConfig type', () => {
   it('locale is optional string', () => {
-    expectTypeOf<ICalendarLocaleConfig['locale']>().toEqualTypeOf<string | undefined>()
+    expectTypeOf<Calendar.ICalendarLocaleConfig['locale']>().toEqualTypeOf<string | undefined>()
   })
 
   it('weekStartDay is optional WeekStartDay', () => {
-    expectTypeOf<ICalendarLocaleConfig['weekStartDay']>().toEqualTypeOf<WeekStartDay | undefined>()
+    expectTypeOf<Calendar.ICalendarLocaleConfig['weekStartDay']>().toEqualTypeOf<WeekStartDay | undefined>()
   })
 
   it('direction is optional ltr | rtl', () => {
-    expectTypeOf<ICalendarLocaleConfig['direction']>().toEqualTypeOf<'ltr' | 'rtl' | undefined>()
+    expectTypeOf<Calendar.ICalendarLocaleConfig['direction']>().toEqualTypeOf<'ltr' | 'rtl' | undefined>()
   })
 })
 
@@ -711,17 +704,17 @@ describe('CalendarLocaleConfig type', () => {
 // ---------------------------------------------------------------------------
 describe('UseCalendarConfig type', () => {
   it('extends CalendarConfig with defaultSelected', () => {
-    type Config = IUseCalendarConfig<Date, 'single'>
+    type Config = UseCalendar.IUseCalendarConfig<Date, 'single'>
     expectTypeOf<Config['defaultSelected']>().toEqualTypeOf<Date | null | undefined>()
   })
 
   it('inherits adapter field from CalendarConfig', () => {
-    type Config = IUseCalendarConfig<Date, 'range'>
+    type Config = UseCalendar.IUseCalendarConfig<Date, 'range'>
     expectTypeOf<Config['adapter']>().toEqualTypeOf<IDateAdapter<Date>>()
   })
 
   it('inherits mode field from CalendarConfig', () => {
-    type Config = IUseCalendarConfig<Date, 'multi'>
+    type Config = UseCalendar.IUseCalendarConfig<Date, 'multi'>
     expectTypeOf<Config['mode']>().toEqualTypeOf<'multi'>()
   })
 })
@@ -760,19 +753,19 @@ describe('TimePickerConfig type', () => {
 // ---------------------------------------------------------------------------
 describe('UseDateTimeConfig type', () => {
   it('adapter is DateAdapter<TDate>', () => {
-    type Config = IUseDateTimeConfig<Date>
+    type Config = UseDateTime.IUseDateTimeConfig<Date>
     expectTypeOf<Config['adapter']>().toEqualTypeOf<IDateAdapter<Date>>()
   })
 
   it('onChange receives TDate', () => {
-    type Config = IUseDateTimeConfig<Date>
+    type Config = UseDateTime.IUseDateTimeConfig<Date>
     type OnChange = NonNullable<Config['onChange']>
     expectTypeOf<OnChange>().parameter(0).toEqualTypeOf<Date>()
   })
 
   it('preserves custom TDate through all fields', () => {
     type CustomDate = { _brand: 'temporal' }
-    type Config = IUseDateTimeConfig<CustomDate>
+    type Config = UseDateTime.IUseDateTimeConfig<CustomDate>
     expectTypeOf<Config['adapter']>().toEqualTypeOf<IDateAdapter<CustomDate>>()
     expectTypeOf<Config['value']>().toEqualTypeOf<CustomDate | undefined>()
     expectTypeOf<Config['defaultValue']>().toEqualTypeOf<CustomDate | undefined>()

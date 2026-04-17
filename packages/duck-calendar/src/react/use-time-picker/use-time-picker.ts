@@ -3,7 +3,7 @@ import { clampTime, incrementField, parseTimeInput } from '../../time/time'
 import { formatTimeField, getAmPm, to12Hour, to24Hour } from '../../time/time.libs'
 import type { Time } from '../../time/time.types'
 import { useControllableState } from '../utils/use-controllable-state'
-import type { ITimeFieldProps, IUseTimePickerConfig, IUseTimePickerReturn } from './use-time-picker.types'
+import type { UseTimePicker } from './use-time-picker.types'
 
 // ---------------------------------------------------------------------------
 // Field ordering for tab-through
@@ -90,7 +90,7 @@ function getFieldText(field: Time.TimeField, value: Time.ITimeValue, hourCycle: 
 // useTimePicker
 // ---------------------------------------------------------------------------
 
-export function useTimePicker(config: IUseTimePickerConfig = {}): IUseTimePickerReturn {
+export function useTimePicker(config: UseTimePicker.IUseTimePickerConfig = {}): UseTimePicker.IUseTimePickerReturn {
   const {
     value: controlledValue,
     defaultValue,
@@ -211,7 +211,7 @@ export function useTimePicker(config: IUseTimePickerConfig = {}): IUseTimePicker
   // -------------------------------------------------------------------------
 
   const getFieldProps = useCallback(
-    (field: Time.TimeField): ITimeFieldProps => {
+    (field: Time.TimeField): UseTimePicker.ITimeFieldProps => {
       const range = getFieldRange(field, hourCycle, minTime, maxTime)
       const now = getFieldNow(field, value, hourCycle)
       const text = getFieldText(field, value, hourCycle)
