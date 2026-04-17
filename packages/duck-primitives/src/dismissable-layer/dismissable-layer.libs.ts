@@ -1,16 +1,14 @@
 import * as React from 'react'
 import { flushSync } from 'react-dom'
 import { useCallbackRef } from '../hooks/use-callback-ref'
+import type { IDismissableLayer } from './dismissable-layer.types'
 
 export const CONTEXT_UPDATE = 'dismissableLayer.update'
 export const POINTER_DOWN_OUTSIDE = 'dismissableLayer.pointerDownOutside'
 export const FOCUS_OUTSIDE = 'dismissableLayer.focusOutside'
 
-export type PointerDownOutsideEvent = CustomEvent<{ originalEvent: PointerEvent }>
-export type FocusOutsideEvent = CustomEvent<{ originalEvent: FocusEvent }>
-
 export function usePointerDownOutside(
-  onPointerDownOutside?: (event: PointerDownOutsideEvent) => void,
+  onPointerDownOutside?: (event: IDismissableLayer.PointerDownOutsideEvent) => void,
   ownerDocument: Document = globalThis?.document,
 ) {
   const handlePointerDownOutside = useCallbackRef(onPointerDownOutside) as EventListener
@@ -59,7 +57,7 @@ export function usePointerDownOutside(
 }
 
 export function useFocusOutside(
-  onFocusOutside?: (event: FocusOutsideEvent) => void,
+  onFocusOutside?: (event: IDismissableLayer.FocusOutsideEvent) => void,
   ownerDocument: Document = globalThis?.document,
 ) {
   const handleFocusOutside = useCallbackRef(onFocusOutside) as EventListener

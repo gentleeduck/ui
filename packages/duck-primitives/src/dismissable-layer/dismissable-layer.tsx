@@ -3,23 +3,14 @@ import { useEscapeKeydown } from '../hooks/use-escape-keydown'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
-import {
-  CONTEXT_UPDATE,
-  dispatchUpdate,
-  type FocusOutsideEvent,
-  type PointerDownOutsideEvent,
-  useFocusOutside,
-  usePointerDownOutside,
-} from './dismissable-layer.libs'
-
-export type { FocusOutsideEvent, PointerDownOutsideEvent } from './dismissable-layer.libs'
+import { CONTEXT_UPDATE, dispatchUpdate, useFocusOutside, usePointerDownOutside } from './dismissable-layer.libs'
+import type { IDismissableLayer } from './dismissable-layer.types'
 
 const DISMISSABLE_LAYER_NAME = 'DismissableLayer'
 
 let originalBodyPointerEvents: string
 
 type DismissableLayerElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
 export const DismissableLayerContext = React.createContext({
   layers: new Set<DismissableLayerElement>(),
@@ -27,22 +18,7 @@ export const DismissableLayerContext = React.createContext({
   branches: new Set<React.ComponentRef<typeof Primitive.div>>(),
 })
 
-export interface IDismissableLayerProps extends PrimitiveDivProps {
-  /** When true, disables pointer interactions on elements outside this layer. */
-  disableOutsidePointerEvents?: boolean
-  /** Called when the Escape key is pressed. Can be prevented. */
-  onEscapeKeyDown?: (event: KeyboardEvent) => void
-  /** Called when a pointerdown event occurs outside the layer. Can be prevented. */
-  onPointerDownOutside?: (event: PointerDownOutsideEvent) => void
-  /** Called when focus moves outside the layer. Can be prevented. */
-  onFocusOutside?: (event: FocusOutsideEvent) => void
-  /** Called on any interaction (pointer or focus) outside the layer. Can be prevented. */
-  onInteractOutside?: (event: PointerDownOutsideEvent | FocusOutsideEvent) => void
-  /** Called when the layer should be dismissed. */
-  onDismiss?: () => void
-}
-
-const DismissableLayer = React.forwardRef<DismissableLayerElement, IDismissableLayerProps>((props, forwardedRef) => {
+const DismissableLayer = React.forwardRef<DismissableLayerElement, IDismissableLayer.IProps>((props, forwardedRef) => {
   const {
     disableOutsidePointerEvents = false,
     onEscapeKeyDown,
