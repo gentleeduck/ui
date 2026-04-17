@@ -1,16 +1,15 @@
 import * as React from 'react'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
-import { Collection, CommandListProvider, type ScopedProps, useCollection, useCommandContext } from './command'
+import { Collection, CommandListProvider, useCollection, useCommandContext } from './command'
+import type { ICommand } from './command.types'
 
 const LIST_NAME = 'CommandList'
 
 type CommandListElement = React.ComponentRef<typeof Primitive.ul>
 
-export interface ICommandListProps extends React.ComponentPropsWithRef<typeof Primitive.ul> {}
-
-export const CommandList = React.forwardRef<CommandListElement, ICommandListProps>(
-  (props: ScopedProps<ICommandListProps>, forwardedRef) => {
+export const CommandList = React.forwardRef<CommandListElement, ICommand.IListProps>(
+  (props: ICommand.IScoped<ICommand.IListProps>, forwardedRef) => {
     const { __scopeCommand, ...listProps } = props
     const context = useCommandContext(LIST_NAME, __scopeCommand)
     const getItems = useCollection(__scopeCommand)
