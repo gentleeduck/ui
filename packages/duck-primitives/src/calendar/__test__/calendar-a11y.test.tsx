@@ -5,7 +5,7 @@ import axe from 'axe-core'
 import * as React from 'react'
 import type { ICalendarRootProps } from '../calendar'
 import { Calendar } from '../calendar'
-import { ICalendarDay } from '../day'
+import { CalendarDay } from '../day'
 import { CalendarGrid } from '../grid'
 import { CalendarHeader } from '../header'
 import { CalendarMonthView } from '../month-view'
@@ -41,7 +41,7 @@ function FullDaysCalendar(props: Partial<ICalendarRootProps> & { weeks?: ReturnT
         {weeks.map((week) => (
           <div key={week.weekNumber} role="row">
             {week.days.map((day) => (
-              <ICalendarDay key={day.date.toISOString()} day={day} />
+              <CalendarDay key={day.date.toISOString()} day={day} />
             ))}
           </div>
         ))}
