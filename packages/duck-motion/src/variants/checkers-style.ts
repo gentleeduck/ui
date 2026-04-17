@@ -1,5 +1,5 @@
-import { cva } from '@gentleduck/variants'
 import type { Variants } from '@gentleduck/variants'
+import { cva } from '@gentleduck/variants'
 
 /**
  * CVA variant for checkbox, radio, and switch input styling.
