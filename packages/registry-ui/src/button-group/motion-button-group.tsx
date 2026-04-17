@@ -6,7 +6,7 @@ import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
-import type { VariantProps } from '@gentleduck/variants'
+import type { Variants } from '@gentleduck/variants'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { buttonGroupVariants } from './button-group.constants'
@@ -14,7 +14,7 @@ import { buttonGroupVariants } from './button-group.constants'
 const MotionButtonGroup = React.forwardRef<
   HTMLDivElement,
   Omit<
-    React.ComponentPropsWithoutRef<'div'> & VariantProps<typeof buttonGroupVariants>,
+    React.ComponentPropsWithoutRef<'div'> & Variants.VariantProps<typeof buttonGroupVariants>,
     'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
   >
 >(({ className, orientation = 'horizontal', dir, ...props }, ref) => {

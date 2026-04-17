@@ -2,7 +2,7 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import * as HoverCardPrimitive from '@gentleduck/primitives/hover-card'
-import type { VariantProps } from '@gentleduck/variants'
+import type { Variants } from '@gentleduck/variants'
 import * as React from 'react'
 import { buttonVariants } from '../button'
 
@@ -29,7 +29,7 @@ HoverCard.displayName = 'HoverCard'
 
 const HoverCardTrigger = React.forwardRef<
   React.ComponentRef<typeof HoverCardPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Trigger> & VariantProps<typeof buttonVariants>
+  React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Trigger> & Variants.VariantProps<typeof buttonVariants>
 >(({ children, className, variant = 'outline', size = 'default', border = 'default', ...props }, ref) => {
   return (
     <HoverCardPrimitive.Trigger

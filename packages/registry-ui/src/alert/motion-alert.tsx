@@ -6,7 +6,7 @@ import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { scaleIn } from '@gentleduck/motion/presets/scale-in'
 import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
-import type { VariantProps } from '@gentleduck/variants'
+import type { Variants } from '@gentleduck/variants'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { alertVariants } from './alert.constants'
@@ -14,7 +14,7 @@ import { alertVariants } from './alert.constants'
 const MotionAlert = React.forwardRef<
   HTMLDivElement,
   Omit<
-    React.HTMLAttributes<HTMLDivElement> & VariantProps<typeof alertVariants>,
+    React.HTMLAttributes<HTMLDivElement> & Variants.VariantProps<typeof alertVariants>,
     'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
   >
 >(({ className, variant, dir, ...props }, ref) => {

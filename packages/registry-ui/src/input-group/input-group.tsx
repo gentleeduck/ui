@@ -2,7 +2,8 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import { type Direction, useDirection } from '@gentleduck/primitives/direction'
-import { cva, type VariantProps } from '@gentleduck/variants'
+import type { Variants } from '@gentleduck/variants'
+import { cva } from '@gentleduck/variants'
 import * as React from 'react'
 import { Button } from '../button'
 import { Input } from '../input'
@@ -64,7 +65,7 @@ const inputGroupAddonVariants = cva(
 
 const InputGroupAddon = React.forwardRef<
   HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'> & VariantProps<typeof inputGroupAddonVariants>
+  React.ComponentPropsWithoutRef<'div'> & Variants.VariantProps<typeof inputGroupAddonVariants>
 >(({ className, align = 'inline-start', ...props }, ref) => {
   return (
     // biome-ignore lint/a11y/useSemanticElements: group role is semantically correct for addon grouping
@@ -103,7 +104,7 @@ const inputGroupButtonVariants = cva('flex items-center gap-2 text-sm shadow-non
 
 const InputGroupButton = React.forwardRef<
   HTMLButtonElement,
-  Omit<React.ComponentPropsWithoutRef<typeof Button>, 'size'> & VariantProps<typeof inputGroupButtonVariants>
+  Omit<React.ComponentPropsWithoutRef<typeof Button>, 'size'> & Variants.VariantProps<typeof inputGroupButtonVariants>
 >(({ className, type = 'button', variant = 'ghost', size = 'xs', ...props }, ref) => {
   return (
     <Button
