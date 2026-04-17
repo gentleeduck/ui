@@ -3,7 +3,8 @@ import type { ICalendarConfig, ViewMode } from '../../index.types'
 import type { Selection } from '../../selection'
 import type { IAnnouncerReturn } from '../use-announcer'
 
-export interface IUseCalendarConfig<TDate, M extends Selection.SelectionMode = 'single'> extends ICalendarConfig<TDate, M> {
+export interface IUseCalendarConfig<TDate, M extends Selection.SelectionMode = 'single'>
+  extends ICalendarConfig<TDate, M> {
   /** Initial selected value for uncontrolled usage. */
   defaultSelected?: Selection.CalendarValue<TDate, M>
 }
