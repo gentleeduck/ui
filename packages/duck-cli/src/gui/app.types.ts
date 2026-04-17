@@ -6,10 +6,10 @@ import type { VimStdin } from './vim-stdin'
  * Controls which screen to show and what data to pre-populate.
  */
 export type GuiLaunchOptions = {
-  initialArgs?: string[]
-  screen?: 'diff' | 'merge'
-  mergeData?: Merge.ComponentState
-  onComplete?: (results: Merge.Result[]) => void
+  initialArgs?: string[] | undefined
+  screen?: 'diff' | 'merge' | undefined
+  mergeData?: Merge.ComponentState | undefined
+  onComplete?: ((results: Merge.Result[]) => void) | undefined
 }
 
 /**
@@ -19,8 +19,8 @@ export type GuiLaunchOptions = {
  */
 export type AppProps = {
   vimStdin: VimStdin
-  initialArgs?: string[]
-  screen?: 'diff' | 'merge'
-  mergeData?: Merge.ComponentState
-  onComplete?: (results: Merge.Result[]) => void
+  initialArgs?: string[] | undefined
+  screen?: 'diff' | 'merge' | undefined
+  mergeData?: Merge.ComponentState | undefined
+  onComplete?: ((results: Merge.Result[]) => void) | undefined
 }

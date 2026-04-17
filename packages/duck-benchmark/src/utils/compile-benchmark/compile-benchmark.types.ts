@@ -1,5 +1,5 @@
-import { Ora } from 'ora'
-import { FileInfo, FolderInfo } from '../list-files'
+import type { Ora } from 'ora'
+import type { FileInfo, FolderInfo } from '../list-files'
 
 export type CompileBenchmarkParams = {
   folders: FolderInfo[]

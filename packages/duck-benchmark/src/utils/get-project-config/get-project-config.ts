@@ -1,6 +1,7 @@
 import { logger } from '../text-styling'
 import { explorer } from './get-project-config.constants'
-import { RawConfigType, rawConfigSchema } from './get-project-config.dto'
+import type { RawConfigType } from './get-project-config.dto'
+import { rawConfigSchema } from './get-project-config.dto'
 
 export async function getProjectConfig(cwd: string) {
   try {

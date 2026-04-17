@@ -8,11 +8,11 @@ export namespace Calendar {
   /** Locale and direction settings for the calendar. */
   export interface ICalendarLocaleConfig {
     /** BCP 47 language tag, e.g. `'en-US'`, `'ar-SA'`, `'fa-IR'`. */
-    locale?: string
+    locale?: string | undefined
     /** Which day starts the week. 0 = Sunday (default), 1 = Monday, etc. */
-    weekStartDay?: Adapter.WeekStartDay
+    weekStartDay?: Adapter.WeekStartDay | undefined
     /** Text direction. */
-    direction?: 'ltr' | 'rtl'
+    direction?: 'ltr' | 'rtl' | undefined
   }
 
   /**
@@ -25,34 +25,34 @@ export namespace Calendar {
     /** Selection mode. */
     mode: M
     /** Locale and direction settings. */
-    locale?: ICalendarLocaleConfig
+    locale?: ICalendarLocaleConfig | undefined
 
     /** Controlled month. */
-    month?: TDate
+    month?: TDate | undefined
     /** Default month for uncontrolled usage. */
-    defaultMonth?: TDate
+    defaultMonth?: TDate | undefined
     /** Controlled selection value. Shape depends on `mode`. */
-    selected?: Selection.CalendarValue<TDate, M>
+    selected?: Selection.CalendarValue<TDate, M> | undefined
     /** Called when the selection changes. */
-    onSelect?: (value: Selection.CalendarValue<TDate, M>) => void
+    onSelect?: ((value: Selection.CalendarValue<TDate, M>) => void) | undefined
     /** Called when the displayed month changes. */
-    onMonthChange?: (month: TDate) => void
+    onMonthChange?: ((month: TDate) => void) | undefined
 
     /** How many months to show side by side. Default `1`. */
-    numberOfMonths?: number
+    numberOfMonths?: number | undefined
     /** Show days from previous/next month to fill the grid. Default `true`. */
-    showOutsideDays?: boolean
+    showOutsideDays?: boolean | undefined
     /** Always show 6 weeks so the grid height doesn't jump. Default `false`. */
-    fixedWeeks?: boolean
+    fixedWeeks?: boolean | undefined
 
     /** Dates that cannot be selected. Array or predicate function. */
-    disabled?: TDate[] | ((date: TDate) => boolean)
+    disabled?: TDate[] | ((date: TDate) => boolean) | undefined
     /** Earliest selectable date. */
-    fromDate?: TDate
+    fromDate?: TDate | undefined
     /** Latest selectable date. */
-    toDate?: TDate
+    toDate?: TDate | undefined
 
     /** Called when the user presses Escape. */
-    onDismiss?: () => void
+    onDismiss?: (() => void) | undefined
   }
 }

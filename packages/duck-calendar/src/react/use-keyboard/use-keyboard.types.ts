@@ -5,10 +5,10 @@ export namespace UseKeyboard {
     focusedDate: TDate
     onFocusChange: (date: TDate) => void
     onSelect: (date: TDate, options?: { shiftKey?: boolean }) => void
-    onDismiss?: () => void
+    onDismiss?: (() => void) | undefined
     isDisabled: (date: TDate) => boolean
     adapter: Adapter.IDateAdapter<TDate>
-    weekStartDay?: Adapter.WeekStartDay
+    weekStartDay?: Adapter.WeekStartDay | undefined
   }
 
   export interface IKeyboardReturn {

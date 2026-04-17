@@ -3,7 +3,8 @@ import { getProjectConfig } from '~/src/utils'
 import { compileBenchmark, renderBenchmark } from '~/src/utils/compile-benchmark'
 import { listFiles } from '~/src/utils/list-files'
 import { spinner as Spinner } from '~/src/utils/spinner'
-import { InitOptions, initOptionsSchema } from './init.dto'
+import type { InitOptions } from './init.dto'
+import { initOptionsSchema } from './init.dto'
 
 export async function initCommandAction(opt: InitOptions) {
   const spinner = Spinner('Initializing...')

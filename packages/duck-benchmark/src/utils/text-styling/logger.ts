@@ -1,6 +1,6 @@
 import kleur from 'kleur'
 import logSymbols from 'log-symbols'
-import { ILoggerParams, LoggerType } from './text-styling.types'
+import type { ILoggerParams, LoggerType } from './text-styling.types'
 
 const { error, warning, info, success } = logSymbols
 

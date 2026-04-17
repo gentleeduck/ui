@@ -65,7 +65,11 @@ export const DiffLineView = memo(function DiffLineView({ line, numWidth, singleN
               <Text
                 key={seg.key}
                 color={line.type === 'remove' ? 'white' : 'black'}
-                backgroundColor={line.type === 'add' ? 'green' : line.type === 'remove' ? 'red' : undefined}>
+                {...(line.type === 'add'
+                  ? { backgroundColor: 'green' as const }
+                  : line.type === 'remove'
+                    ? { backgroundColor: 'red' as const }
+                    : {})}>
                 {seg.text}
               </Text>
             )
@@ -96,7 +100,11 @@ export const DiffLineView = memo(function DiffLineView({ line, numWidth, singleN
             <Text
               key={seg.key}
               color={line.type === 'remove' ? 'white' : 'black'}
-              backgroundColor={line.type === 'add' ? 'green' : line.type === 'remove' ? 'red' : undefined}>
+              {...(line.type === 'add'
+                ? { backgroundColor: 'green' as const }
+                : line.type === 'remove'
+                  ? { backgroundColor: 'red' as const }
+                  : {})}>
               {seg.text}
             </Text>
           )

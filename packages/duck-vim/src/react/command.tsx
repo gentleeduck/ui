@@ -48,7 +48,13 @@ export const KeyProvider: React.FC<IKeyProviderProps> = ({
     const handler = new KeyHandler(registry, timeoutMs, defaultOptions)
     const sequenceManager = new SequenceManager()
 
-    return { registry, handler, sequenceManager, timeoutMs, defaultOptions }
+    return {
+      registry,
+      handler,
+      sequenceManager,
+      timeoutMs,
+      ...(defaultOptions !== undefined ? { defaultOptions } : {}),
+    }
   }, [debug, timeoutMs, defaultOptions])
 
   React.useEffect(() => {

@@ -1,4 +1,4 @@
-import { FileInfo } from '../list-files'
+import type { FileInfo } from '../list-files'
 
 export const VITE_CONFIG_CONTENT = ({ fileInfo }: { fileInfo: FileInfo }) => `
 import { defineConfig } from 'vite'

@@ -101,7 +101,7 @@ export const MergeHunkView = memo(function MergeHunkView({
                   <Text
                     key={seg.key}
                     color={seg.highlight ? 'white' : THEME.destructive}
-                    backgroundColor={seg.highlight ? 'red' : undefined}>
+                    {...(seg.highlight ? { backgroundColor: 'red' as const } : {})}>
                     {seg.text}
                   </Text>
                 ))}
@@ -145,7 +145,7 @@ export const MergeHunkView = memo(function MergeHunkView({
                   <Text
                     key={seg.key}
                     color={seg.highlight ? 'black' : THEME.success}
-                    backgroundColor={seg.highlight ? 'green' : undefined}>
+                    {...(seg.highlight ? { backgroundColor: 'green' as const } : {})}>
                     {seg.text}
                   </Text>
                 ))}

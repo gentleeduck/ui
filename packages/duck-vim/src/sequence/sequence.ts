@@ -191,7 +191,7 @@ export function createSequenceMatcher(
   manager.register({
     steps: steps.map((binding) => ({ binding })),
     handler,
-    options,
+    ...(options !== undefined ? { options } : {}),
   })
 
   return {

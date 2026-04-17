@@ -8,7 +8,7 @@ export function spinner(
 ) {
   return ora({
     color: 'yellow',
-    isSilent: options?.silent,
-    text,
+    ...(options?.silent !== undefined ? { isSilent: options.silent } : {}),
+    ...(text !== undefined ? { text } : {}),
   })
 }

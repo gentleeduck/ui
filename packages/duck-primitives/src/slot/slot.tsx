@@ -49,7 +49,7 @@ const Slot = createSlot('Slot')
       const childrenRef = getComponentRef(children)
       const props = mergeProps(slotProps, children.props as AnyProps)
       if (children.type !== React.Fragment) {
-        props.ref = forwardedRef ? composeRefs(forwardedRef, childrenRef) : childrenRef
+        props['ref'] = forwardedRef ? composeRefs(forwardedRef, childrenRef) : childrenRef
       }
       return React.cloneElement(children, props)
     }

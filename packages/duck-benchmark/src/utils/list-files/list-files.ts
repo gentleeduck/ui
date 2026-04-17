@@ -1,8 +1,8 @@
 import path from 'node:path'
 import fs from 'fs-extra'
 import { highlighter } from '../text-styling'
-import { FolderInfo } from './list-files.dto'
-import { IListFilesOptions } from './list-files.types'
+import type { FolderInfo } from './list-files.dto'
+import type { IListFilesOptions } from './list-files.types'
 
 export async function listFiles({
   cwds,

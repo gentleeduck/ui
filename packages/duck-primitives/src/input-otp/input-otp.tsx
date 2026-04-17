@@ -26,13 +26,13 @@ function useInputOTPBehavior({
   wrapperRef,
   maxLength,
 }: {
-  value?: string
-  onValueChange?: (value: string) => void
+  value?: string | undefined
+  onValueChange?: ((value: string) => void) | undefined
   pattern: RegExp
   direction: IDirection.Kind
   inputsRef: React.RefObject<HTMLInputElement[]>
   wrapperRef: React.RefObject<HTMLDivElement | null>
-  maxLength?: number
+  maxLength?: number | undefined
 }) {
   React.useEffect(() => {
     const wrapper = wrapperRef.current

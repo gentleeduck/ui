@@ -15,9 +15,9 @@ import { useMergeKeyboard } from '../hooks/use-merge-keyboard'
 import { useMergeWorkflow } from '../hooks/use-merge-workflow'
 
 type MergeScreenProps = {
-  mergeData?: Merge.ComponentState
+  mergeData?: Merge.ComponentState | undefined
   onBack: () => void
-  onComplete?: (results: Merge.Result[]) => void
+  onComplete?: ((results: Merge.Result[]) => void) | undefined
 }
 
 /**

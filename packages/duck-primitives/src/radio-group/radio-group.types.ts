@@ -18,7 +18,7 @@ export namespace IRadioGroup {
     onValueChange(value: string): void
     disabled: boolean
     required: boolean
-    name?: string
+    name?: string | undefined
     dir: IDirection.Kind
     isNavigationKeyPressedRef: React.RefObject<boolean>
   }

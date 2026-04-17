@@ -36,7 +36,7 @@ export namespace IMenu {
   }
 
   export interface IPortalContext {
-    forceMount?: true
+    forceMount?: true | undefined
   }
 
   export interface ISubContext {
@@ -77,9 +77,9 @@ export namespace IMenu {
   export interface ISeparatorProps extends PrimitiveDivProps {}
 
   export interface IPortalProps {
-    children?: React.ReactNode
-    container?: PortalProps['container']
-    forceMount?: true
+    children?: React.ReactNode | undefined
+    container?: PortalProps['container'] | undefined
+    forceMount?: true | undefined
   }
 
   export interface IItemImplProps extends PrimitiveDivProps {
@@ -105,8 +105,8 @@ export namespace IMenu {
   }
 
   export interface IRadioGroupProps extends IGroupProps {
-    value?: string
-    onValueChange?: (value: string) => void
+    value?: string | undefined
+    onValueChange?: ((value: string) => void) | undefined
   }
 
   export interface IRadioItemProps extends IItemProps {

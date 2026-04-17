@@ -4,9 +4,9 @@ import { diffCommandConfig } from './diff.constants'
 import { diffCommandAction } from './diff.libs'
 
 const { name, description, options, arguments_ } = diffCommandConfig
-const option1 = requireConfigValue(options.option1, 'missing diff command option1 config')
-const option2 = requireConfigValue(options.option2, 'missing diff command option2 config')
-const arg1 = requireConfigValue(arguments_.arg1, 'missing diff command arg1 config')
+const option1 = requireConfigValue(options['option1'], 'missing diff command option1 config')
+const option2 = requireConfigValue(options['option2'], 'missing diff command option2 config')
+const arg1 = requireConfigValue(arguments_['arg1'], 'missing diff command arg1 config')
 
 export function diffCommand(): Command {
   const cmd = new Command(name)
