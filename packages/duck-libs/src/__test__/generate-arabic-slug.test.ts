@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'vitest'
-import { generateArabicSlug } from '../index'
+import { generateArabicSlug } from '../generate-arabic-slug'
 
 describe('generateArabicSlug', () => {
   test('converts spaces to hyphens', () => {
