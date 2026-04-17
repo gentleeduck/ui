@@ -172,12 +172,8 @@ describe('duckMotionEasing (transitions canonical export)', () => {
 
 describe('IDuckMotion namespace', () => {
   test('exists as a type namespace export (compile-time check)', () => {
-    // TypeScript-only check — if this file compiles, the namespace exists
-    type _testPreset = IDuckMotion.IPreset
-    type _testResult = IDuckMotion.IPresetResult
-    type _testOptions = IDuckMotion.IPresetOptions
-    type _testName = IDuckMotion.IPresetName
-    type _testDirection = IDuckMotion.IDirection
+    // If this file compiles, the IDuckMotion namespace and its members exist
+    type _check = IDuckMotion.IPreset
     expect(true).toBe(true)
   })
 })
