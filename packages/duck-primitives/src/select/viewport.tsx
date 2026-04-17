@@ -5,22 +5,18 @@ import { Primitive } from '../primitive-elements'
 import {
   CONTENT_MARGIN,
   Collection,
-  type ScopedProps,
   useSelectContentContext,
   useSelectContext,
   useSelectViewportContext,
 } from './select'
+import type { ISelect } from './select.types'
 
 const VIEWPORT_NAME = 'SelectViewport'
 
 type SelectViewportElement = React.ComponentRef<typeof Primitive.div>
 
-export interface ISelectViewportProps extends React.ComponentPropsWithRef<typeof Primitive.div> {
-  nonce?: string
-}
-
-export const SelectViewport = React.forwardRef<SelectViewportElement, ISelectViewportProps>(
-  (props: ScopedProps<ISelectViewportProps>, forwardedRef) => {
+export const SelectViewport = React.forwardRef<SelectViewportElement, ISelect.IViewportProps>(
+  (props: ISelect.IScoped<ISelect.IViewportProps>, forwardedRef) => {
     const { __scopeSelect, nonce, ...viewportProps } = props
     const context = useSelectContext(VIEWPORT_NAME, __scopeSelect)
     const contentContext = useSelectContentContext(VIEWPORT_NAME, __scopeSelect)

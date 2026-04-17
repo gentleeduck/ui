@@ -1,17 +1,17 @@
 'use client'
 
 import * as React from 'react'
-import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { useId } from '../hooks/use-id'
 import { usePrevious } from '../hooks/use-previous'
 import { useComposedRefs } from '../libs/compose-ref'
 import { createCollection } from '../libs/create-collection'
-import { createContextScope, type Scope } from '../libs/create-context'
+import { createContextScope } from '../libs/create-context'
 import * as PopperPrimitive from '../popper'
 import { createPopperScope } from '../popper'
 import { VisuallyHidden } from '../visibility-hidden'
+import type { ISelect } from './select.types'
 
 export const OPEN_KEYS = [' ', 'Enter', 'ArrowUp', 'ArrowDown']
 export const SELECTION_KEYS = [' ', 'Enter']
@@ -19,12 +19,10 @@ export const CONTENT_MARGIN = 10
 
 const SELECT_NAME = 'Select'
 
-type ItemData = { value: string; disabled: boolean; textValue: string }
-export const [Collection, useCollection, createCollectionScope] = createCollection<HTMLDivElement, ItemData>(
+export const [Collection, useCollection, createCollectionScope] = createCollection<HTMLDivElement, ISelect.IItemData>(
   SELECT_NAME,
 )
 
-export type ScopedProps<P> = P & { __scopeSelect?: Scope }
 const [createSelectContext, createSelectScope] = createContextScope(SELECT_NAME, [
   createCollectionScope,
   createPopperScope,
@@ -33,102 +31,28 @@ export const usePopperScope = createPopperScope()
 
 export { createSelectScope }
 
-type SelectContextValue = {
-  trigger: HTMLButtonElement | null
-  onTriggerChange(node: HTMLButtonElement | null): void
-  valueNode: HTMLSpanElement | null
-  onValueNodeChange(node: HTMLSpanElement | null): void
-  valueNodeHasChildren: boolean
-  onValueNodeHasChildrenChange(hasChildren: boolean): void
-  contentId: string
-  value: string | undefined
-  onValueChange(value: string): void
-  open: boolean
-  required?: boolean
-  onOpenChange(open: boolean): void
-  dir: ISelectProps['dir']
-  triggerPointerDownPosRef: React.RefObject<{ x: number; y: number } | null>
-  disabled?: boolean
-}
+export const [SelectProvider, useSelectContext] = createSelectContext<ISelect.IContext>(SELECT_NAME)
 
-export const [SelectProvider, useSelectContext] = createSelectContext<SelectContextValue>(SELECT_NAME)
-
-type NativeOption = React.ReactElement<React.ComponentProps<'option'>>
-
-type SelectNativeOptionsContextValue = {
-  onNativeOptionAdd(option: NativeOption): void
-  onNativeOptionRemove(option: NativeOption): void
-}
 export const [SelectNativeOptionsProvider, useSelectNativeOptionsContext] =
-  createSelectContext<SelectNativeOptionsContextValue>(SELECT_NAME)
-
-export type SelectContentContextValue = {
-  content?: HTMLDivElement | null
-  viewport?: HTMLDivElement | null
-  onViewportChange?: (node: HTMLDivElement | null) => void
-  itemRefCallback?: (node: HTMLDivElement | null, value: string, disabled: boolean) => void
-  selectedItem?: HTMLDivElement | null
-  onItemLeave?: () => void
-  itemTextRefCallback?: (node: HTMLSpanElement | null, value: string, disabled: boolean) => void
-  focusSelectedItem?: () => void
-  selectedItemText?: HTMLSpanElement | null
-  position?: 'item-aligned' | 'popper'
-  isPositioned?: boolean
-  searchRef?: React.RefObject<string>
-  allowTextPortal?: boolean
-}
+  createSelectContext<ISelect.INativeOptionsContext>(SELECT_NAME)
 
 const CONTENT_NAME = 'SelectContent'
 export const [SelectContentProvider, useSelectContentContext] =
-  createSelectContext<SelectContentContextValue>(CONTENT_NAME)
+  createSelectContext<ISelect.IContentContext>(CONTENT_NAME)
 
-export type SelectViewportContextValue = {
-  contentWrapper?: HTMLDivElement | null
-  shouldExpandOnScrollRef?: React.RefObject<boolean>
-  onScrollButtonChange?: (node: HTMLDivElement | null) => void
-}
-
-export const [SelectViewportProvider, useSelectViewportContext] = createSelectContext<SelectViewportContextValue>(
+export const [SelectViewportProvider, useSelectViewportContext] = createSelectContext<ISelect.IViewportContext>(
   CONTENT_NAME,
   {},
 )
 
-export type SelectItemContextValue = {
-  value: string
-  disabled: boolean
-  textId: string
-  isSelected: boolean
-  onItemTextChange(node: HTMLSpanElement | null): void
-}
-
 const ITEM_NAME = 'SelectItem'
-export const [SelectItemContextProvider, useSelectItemContext] = createSelectContext<SelectItemContextValue>(ITEM_NAME)
+export const [SelectItemContextProvider, useSelectItemContext] = createSelectContext<ISelect.IItemContext>(ITEM_NAME)
 
-type SelectGroupContextValue = { id: string }
 const GROUP_NAME = 'SelectGroup'
 export const [SelectGroupContextProvider, useSelectGroupContext] =
-  createSelectContext<SelectGroupContextValue>(GROUP_NAME)
+  createSelectContext<ISelect.IGroupContext>(GROUP_NAME)
 
-interface ISelectSharedProps {
-  children?: React.ReactNode
-  open?: boolean
-  defaultOpen?: boolean
-  onOpenChange?(open: boolean): void
-  dir?: IDirection.Kind
-  name?: string
-  autoComplete?: string
-  disabled?: boolean
-  required?: boolean
-  form?: string
-}
-
-export type ISelectProps = ISelectSharedProps & {
-  value?: string
-  defaultValue?: string
-  onValueChange?(value: string): void
-}
-
-export const Select: React.FC<ISelectProps> = (props: ScopedProps<ISelectProps>) => {
+export const Select: React.FC<ISelect.IProps> = (props: ISelect.IScoped<ISelect.IProps>) => {
   const {
     __scopeSelect,
     children,
@@ -166,7 +90,7 @@ export const Select: React.FC<ISelectProps> = (props: ScopedProps<ISelectProps>)
 
   // We set this to true by default so that events bubble to forms without JS (SSR)
   const isFormControl = trigger ? form || !!trigger.closest('form') : true
-  const [nativeOptionsSet, setNativeOptionsSet] = React.useState(new Set<NativeOption>())
+  const [nativeOptionsSet, setNativeOptionsSet] = React.useState(new Set<ISelect.INativeOption>())
 
   // The native `select` only associates the correct default value if the corresponding
   // `option` is rendered as a child **at the same time** as itself.
@@ -246,8 +170,8 @@ const BubbleSelect = React.forwardRef<HTMLSelectElement, React.ComponentPropsWit
 
     // Bubble value change to parents (e.g form change event)
     React.useEffect(() => {
-      // biome-ignore lint/style/noNonNullAssertion: ref is always mounted when this effect runs (component renders the select element)
-      const select = ref.current!
+      const select = ref.current
+      if (!select) return
       const selectProto = window.HTMLSelectElement.prototype
       const descriptor = Object.getOwnPropertyDescriptor(selectProto, 'value') as PropertyDescriptor
       const setValue = descriptor.set
