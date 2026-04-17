@@ -1,18 +1,14 @@
-import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
 import type { IPoint } from '../libs/shared-utils'
 import { createPopperScope } from '../popper'
 
 const TOOLTIP_NAME = 'Tooltip'
 
-type ScopedProps<P = {}> = P & { __scopeTooltip?: Scope }
-
 const [createTooltipContext, createTooltipScope] = createContextScope(TOOLTIP_NAME, [createPopperScope])
 const usePopperScope = createPopperScope()
 
 const TOOLTIP_OPEN = 'tooltip.open'
 
-export type { ScopedProps }
 export { createTooltipContext, createTooltipScope, TOOLTIP_NAME, TOOLTIP_OPEN, usePopperScope }
 
 type Side = 'top' | 'right' | 'bottom' | 'left'

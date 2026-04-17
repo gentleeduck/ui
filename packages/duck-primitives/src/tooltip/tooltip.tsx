@@ -1,54 +1,19 @@
 import * as React from 'react'
-import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { useId } from '../hooks/use-id'
 import * as PopperPrimitive from '../popper'
 import { useTooltipProviderContext } from './provider'
-import { createTooltipContext, type ScopedProps, TOOLTIP_OPEN, usePopperScope } from './tooltip.libs'
+import { createTooltipContext, TOOLTIP_OPEN, usePopperScope } from './tooltip.libs'
+import type { ITooltip } from './tooltip.types'
 
-export { createTooltipScope, type ScopedProps, TOOLTIP_OPEN, usePopperScope } from './tooltip.libs'
+export { createTooltipScope, TOOLTIP_OPEN, usePopperScope } from './tooltip.libs'
 
 const TOOLTIP_NAME = 'Tooltip'
 
-type TooltipTriggerElement = React.ComponentRef<'button'>
+export const [TooltipContextProvider, useTooltipContext] = createTooltipContext<ITooltip.IContext>(TOOLTIP_NAME)
 
-type TooltipContextValue = {
-  contentId: string
-  open: boolean
-  stateAttribute: 'closed' | 'delayed-open' | 'instant-open'
-  trigger: TooltipTriggerElement | null
-  onTriggerChange(trigger: TooltipTriggerElement | null): void
-  onTriggerEnter(): void
-  onTriggerLeave(): void
-  onOpen(): void
-  onClose(): void
-  disableHoverableContent: boolean
-  dir: IDirection.Kind
-}
-
-export const [TooltipContextProvider, useTooltipContext] = createTooltipContext<TooltipContextValue>(TOOLTIP_NAME)
-
-export interface ITooltipProps {
-  children?: React.ReactNode
-  open?: boolean
-  defaultOpen?: boolean
-  onOpenChange?: (open: boolean) => void
-  /**
-   * The duration from when the pointer enters the trigger until the tooltip gets opened. This will
-   * override the prop with the same name passed to Provider.
-   * @defaultValue 700
-   */
-  delayDuration?: number
-  /**
-   * When `true`, trying to hover the content will result in the tooltip closing as the pointer leaves the trigger.
-   * @defaultValue false
-   */
-  disableHoverableContent?: boolean
-  dir?: IDirection.Kind
-}
-
-export const Tooltip: React.FC<ITooltipProps> = (props: ScopedProps<ITooltipProps>) => {
+export const Tooltip: React.FC<ITooltip.IProps> = (props: ITooltip.IScoped<ITooltip.IProps>) => {
   const {
     __scopeTooltip,
     children,
@@ -74,9 +39,6 @@ export const Tooltip: React.FC<ITooltipProps> = (props: ScopedProps<ITooltipProp
     onChange: (open) => {
       if (open) {
         providerContext.onOpen()
-
-        // as `onChange` is called within a lifecycle method we
-        // avoid dispatching via `dispatchDiscreteCustomEvent`.
         document.dispatchEvent(new CustomEvent(TOOLTIP_OPEN))
       } else {
         providerContext.onClose()
@@ -137,7 +99,6 @@ export const Tooltip: React.FC<ITooltipProps> = (props: ScopedProps<ITooltipProp
           if (disableHoverableContent) {
             handleClose()
           } else {
-            // Clear the timer in case the pointer leaves the trigger before the tooltip is opened.
             window.clearTimeout(openTimerRef.current)
             openTimerRef.current = 0
           }

@@ -2,32 +2,18 @@ import type * as React from 'react'
 import { Portal as PortalPrimitive } from '../portal'
 import { Presence } from '../presence'
 import { useTooltipContext } from './tooltip'
-import { createTooltipContext, type ScopedProps } from './tooltip.libs'
+import { createTooltipContext } from './tooltip.libs'
+import type { ITooltip } from './tooltip.types'
 
 const PORTAL_NAME = 'TooltipPortal'
 
-type PortalContextValue = { forceMount?: true }
-
-export const [PortalProvider, usePortalContext] = createTooltipContext<PortalContextValue>(PORTAL_NAME, {
+export const [PortalProvider, usePortalContext] = createTooltipContext<ITooltip.IPortalContext>(PORTAL_NAME, {
   forceMount: undefined,
 })
 
-type PortalProps = React.ComponentPropsWithoutRef<typeof PortalPrimitive>
-
-export interface ITooltipPortalProps {
-  children?: React.ReactNode
-  /**
-   * Specify a container element to portal the content into.
-   */
-  container?: PortalProps['container']
-  /**
-   * Used to force mounting when more control is needed. Useful when
-   * controlling animation with React animation libraries.
-   */
-  forceMount?: true
-}
-
-export const TooltipPortal: React.FC<ITooltipPortalProps> = (props: ScopedProps<ITooltipPortalProps>) => {
+export const TooltipPortal: React.FC<ITooltip.IPortalProps> = (
+  props: ITooltip.IScoped<ITooltip.IPortalProps>,
+) => {
   const { __scopeTooltip, forceMount, children, container } = props
   const context = useTooltipContext(PORTAL_NAME, __scopeTooltip)
   return (
