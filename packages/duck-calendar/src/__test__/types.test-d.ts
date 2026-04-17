@@ -4,7 +4,7 @@ import { NativeAdapter } from '../adapter'
 import type { Grid } from '../grid'
 import { buildCalendarMonth, buildMultiMonth } from '../grid'
 import type { ICalendarConfig, ICalendarLocaleConfig, ViewMode } from '../index.types'
-import type { NavigationDirection, NavigationUnit } from '../navigation'
+import type { Navigation } from '../navigation'
 import { canNavigate, navigate } from '../navigation'
 import type {
   IDayProps,
@@ -640,15 +640,15 @@ describe('Invalid mode type errors', () => {
 // Navigation types
 // ---------------------------------------------------------------------------
 describe('Navigation types', () => {
-  it('NavigationDirection is prev | next', () => {
-    expectTypeOf<'prev'>().toMatchTypeOf<NavigationDirection>()
-    expectTypeOf<'next'>().toMatchTypeOf<NavigationDirection>()
+  it('Navigation.Direction is prev | next', () => {
+    expectTypeOf<'prev'>().toMatchTypeOf<Navigation.Direction>()
+    expectTypeOf<'next'>().toMatchTypeOf<Navigation.Direction>()
   })
 
-  it('NavigationUnit is month | year | decade', () => {
-    expectTypeOf<'month'>().toMatchTypeOf<NavigationUnit>()
-    expectTypeOf<'year'>().toMatchTypeOf<NavigationUnit>()
-    expectTypeOf<'decade'>().toMatchTypeOf<NavigationUnit>()
+  it('Navigation.Unit is month | year | decade', () => {
+    expectTypeOf<'month'>().toMatchTypeOf<Navigation.Unit>()
+    expectTypeOf<'year'>().toMatchTypeOf<Navigation.Unit>()
+    expectTypeOf<'decade'>().toMatchTypeOf<Navigation.Unit>()
   })
 
   it('navigate returns TDate matching the adapter', () => {
