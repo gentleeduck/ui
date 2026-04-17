@@ -9,8 +9,11 @@ export {
   springStiff,
 } from './springs'
 export {
+  duckMotionCssVar,
   duckMotionDuration,
+  duckMotionDurationMs,
   duckMotionEasing,
+  duckMotionEasingCss,
   shakeKeyframes,
   tweenExit,
   tweenExpand,

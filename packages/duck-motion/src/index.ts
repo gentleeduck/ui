@@ -10,5 +10,5 @@ export {
 } from './react'
 export { createStagger, getStaggerDelay, staggerChildren } from './stagger'
 export { duckDuration, duckEasing, duckMotionCssVar } from './tokens'
-export { duckMotionDuration, duckMotionEasing } from './transitions'
+export { duckMotionDuration, duckMotionDurationMs, duckMotionEasing, duckMotionEasingCss } from './transitions'
 export { AnimVariants, checkersStylePattern } from './variants'
