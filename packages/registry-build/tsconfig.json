@@ -1,7 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "exactOptionalPropertyTypes": false,
     "outDir": "./dist",
     "paths": {}
   },
@@ -10,12 +9,11 @@
     "dist",
     "**/__fixtures__/**",
     "**/__test__/**",
-    "**/__test__/**",
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/*.tsbuildinfo",
     "tsconfig.tsbuildinfo"
   ],
-  "extends": "@gentleduck/typescript-config/internal-package.json",
+  "extends": "@gentleduck/typescript-config/internal-compat.json",
   "include": ["./"]
 }
