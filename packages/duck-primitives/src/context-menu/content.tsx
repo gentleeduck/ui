@@ -1,17 +1,14 @@
-/** ContextMenuContent -- positioned content area for the context menu. */
 import * as React from 'react'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './context-menu'
 import { useContextMenuContext, useMenuScope } from './context-menu'
+import type { IContextMenu } from './context-menu.types'
 
 const CONTENT_NAME = 'ContextMenuContent'
 
 type ContextMenuContentElement = React.ComponentRef<typeof MenuPrimitive.Content>
-type MenuContentProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Content>
-interface IContextMenuContentProps extends Omit<MenuContentProps, 'onEntryFocus' | 'side' | 'sideOffset' | 'align'> {}
 
-const ContextMenuContent = React.forwardRef<ContextMenuContentElement, IContextMenuContentProps>(
-  (props: ScopedProps<IContextMenuContentProps>, forwardedRef) => {
+const ContextMenuContent = React.forwardRef<ContextMenuContentElement, IContextMenu.IContentProps>(
+  (props: IContextMenu.IScoped<IContextMenu.IContentProps>, forwardedRef) => {
     const { __scopeContextMenu, ...contentProps } = props
     const context = useContextMenuContext(CONTENT_NAME, __scopeContextMenu)
     const menuScope = useMenuScope(__scopeContextMenu)
@@ -41,7 +38,6 @@ const ContextMenuContent = React.forwardRef<ContextMenuContentElement, IContextM
         }}
         style={{
           ...props.style,
-          // re-namespace exposed content custom properties
           ...{
             '--gentleduck-context-menu-content-transform-origin': 'var(--gentleduck-popper-transform-origin)',
             '--gentleduck-context-menu-content-available-width': 'var(--gentleduck-popper-available-width)',
@@ -57,5 +53,4 @@ const ContextMenuContent = React.forwardRef<ContextMenuContentElement, IContextM
 
 ContextMenuContent.displayName = CONTENT_NAME
 
-export type { IContextMenuContentProps }
 export { ContextMenuContent }

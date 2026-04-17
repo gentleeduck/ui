@@ -1,17 +1,14 @@
-/** ContextMenuSeparator -- visual divider between menu items. */
 import * as React from 'react'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './context-menu'
 import { useMenuScope } from './context-menu'
+import type { IContextMenu } from './context-menu.types'
 
 const SEPARATOR_NAME = 'ContextMenuSeparator'
 
 type ContextMenuSeparatorElement = React.ComponentRef<typeof MenuPrimitive.Separator>
-type MenuSeparatorProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Separator>
-interface IContextMenuSeparatorProps extends MenuSeparatorProps {}
 
-const ContextMenuSeparator = React.forwardRef<ContextMenuSeparatorElement, IContextMenuSeparatorProps>(
-  (props: ScopedProps<IContextMenuSeparatorProps>, forwardedRef) => {
+const ContextMenuSeparator = React.forwardRef<ContextMenuSeparatorElement, IContextMenu.ISeparatorProps>(
+  (props: IContextMenu.IScoped<IContextMenu.ISeparatorProps>, forwardedRef) => {
     const { __scopeContextMenu, ...separatorProps } = props
     const menuScope = useMenuScope(__scopeContextMenu)
     return <MenuPrimitive.Separator {...menuScope} {...separatorProps} ref={forwardedRef} />
@@ -20,5 +17,4 @@ const ContextMenuSeparator = React.forwardRef<ContextMenuSeparatorElement, ICont
 
 ContextMenuSeparator.displayName = SEPARATOR_NAME
 
-export type { IContextMenuSeparatorProps }
 export { ContextMenuSeparator }

@@ -1,17 +1,14 @@
-/** ContextMenuRadioGroup -- groups radio items for single-selection. */
 import * as React from 'react'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './context-menu'
 import { useMenuScope } from './context-menu'
+import type { IContextMenu } from './context-menu.types'
 
 const RADIO_GROUP_NAME = 'ContextMenuRadioGroup'
 
 type ContextMenuRadioGroupElement = React.ComponentRef<typeof MenuPrimitive.RadioGroup>
-type MenuRadioGroupProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.RadioGroup>
-interface IContextMenuRadioGroupProps extends MenuRadioGroupProps {}
 
-const ContextMenuRadioGroup = React.forwardRef<ContextMenuRadioGroupElement, IContextMenuRadioGroupProps>(
-  (props: ScopedProps<IContextMenuRadioGroupProps>, forwardedRef) => {
+const ContextMenuRadioGroup = React.forwardRef<ContextMenuRadioGroupElement, IContextMenu.IRadioGroupProps>(
+  (props: IContextMenu.IScoped<IContextMenu.IRadioGroupProps>, forwardedRef) => {
     const { __scopeContextMenu, ...radioGroupProps } = props
     const menuScope = useMenuScope(__scopeContextMenu)
     return <MenuPrimitive.RadioGroup {...menuScope} {...radioGroupProps} ref={forwardedRef} />
@@ -20,5 +17,4 @@ const ContextMenuRadioGroup = React.forwardRef<ContextMenuRadioGroupElement, ICo
 
 ContextMenuRadioGroup.displayName = RADIO_GROUP_NAME
 
-export type { IContextMenuRadioGroupProps }
 export { ContextMenuRadioGroup }
