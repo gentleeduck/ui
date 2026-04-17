@@ -1,5 +1,5 @@
 import type { Adapter } from './adapter'
-import type { CalendarValue, SelectionMode } from './selection'
+import type { Selection } from './selection'
 
 /** Which view the calendar is showing. */
 export type ViewMode = 'days' | 'months' | 'years'
@@ -18,7 +18,7 @@ export interface ICalendarLocaleConfig {
  * Full configuration for a calendar instance.
  * Generic over `TDate` (from the adapter) and `M` (selection mode).
  */
-export interface ICalendarConfig<TDate, M extends SelectionMode = 'single'> {
+export interface ICalendarConfig<TDate, M extends Selection.SelectionMode = 'single'> {
   /** The date adapter to use (e.g. `new NativeAdapter()`). */
   adapter: Adapter.IDateAdapter<TDate>
   /** Selection mode: `'single'`, `'range'`, or `'multi'`. */
@@ -31,9 +31,9 @@ export interface ICalendarConfig<TDate, M extends SelectionMode = 'single'> {
   /** Default month for uncontrolled usage. */
   defaultMonth?: TDate
   /** Controlled selection value. Shape depends on `mode`. */
-  selected?: CalendarValue<TDate, M>
+  selected?: Selection.CalendarValue<TDate, M>
   /** Called when the selection changes. */
-  onSelect?: (value: CalendarValue<TDate, M>) => void
+  onSelect?: (value: Selection.CalendarValue<TDate, M>) => void
   /** Called when the displayed month changes. */
   onMonthChange?: (month: TDate) => void
 

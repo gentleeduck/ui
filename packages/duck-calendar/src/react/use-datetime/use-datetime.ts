@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import type { CalendarValue } from '../../selection'
+import type { Selection } from '../../selection'
 import type { ITimeValue } from '../../time'
 import { useCalendar } from '../use-calendar'
 import { useTimePicker } from '../use-time-picker'
@@ -86,7 +86,7 @@ export function useDateTime<TDate>(config: IUseDateTimeConfig<TDate>): IUseDateT
   }, [currentValue])
 
   const handleCalendarSelect = useCallback(
-    (selected: CalendarValue<TDate, 'single'>) => {
+    (selected: Selection.CalendarValue<TDate, 'single'>) => {
       if (selected == null) return
       const date = selected as TDate
       const t = timeRef.current

@@ -1,5 +1,5 @@
 import type { Adapter } from '../adapter'
-import type { ISelectionConstraints } from '../selection'
+import type { Selection } from '../selection'
 
 /** Direction to navigate: backward or forward. */
 export type NavigationDirection = 'prev' | 'next'
@@ -35,7 +35,7 @@ export function canNavigate<TDate>(
   date: TDate,
   direction: NavigationDirection,
   unit: NavigationUnit,
-  constraints: Pick<ISelectionConstraints<TDate>, 'fromDate' | 'toDate'> = {},
+  constraints: Pick<Selection.ISelectionConstraints<TDate>, 'fromDate' | 'toDate'> = {},
 ): boolean {
   const { fromDate, toDate } = constraints
 

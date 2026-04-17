@@ -46,7 +46,7 @@ export type {
 } from './react'
 // React hooks (requires react peer dep)
 export { useAnnouncer, useCalendar, useDateTime, useKeyboard, useTimePicker } from './react'
-export type { CalendarValue, DateRange, ISelectionConstraints, SelectionMode } from './selection'
+export type { Selection } from './selection'
 // Selection
 export { applySelection, isDateDisabled, isInRange, selectDay } from './selection'
 // Time

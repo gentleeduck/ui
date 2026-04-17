@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 
 import { HebrewAdapter, IslamicAdapter, PersianAdapter } from '../../adapter'
 import { buildCalendarMonth, buildCalendarYear, buildMultiMonth } from '../../grid'
-import type { DateRange } from '../../selection'
+import type { Selection } from '../../selection'
 import { applySelection, selectDay } from '../../selection'
 import {
   hebrewMonthLength,
@@ -156,11 +156,11 @@ describe('Islamic adapter integration', () => {
     it('range selection works across Hijri dates', () => {
       const from = adapter.create(1447, 0, 5)
       const to = adapter.create(1447, 0, 20)
-      const step1 = selectDay(adapter, 'range', null, from) as DateRange<Date>
+      const step1 = selectDay(adapter, 'range', null, from) as Selection.DateRange<Date>
       expect(step1.from).toBeDefined()
       expect(step1.to).toBeNull()
 
-      const step2 = selectDay(adapter, 'range', step1, to) as DateRange<Date>
+      const step2 = selectDay(adapter, 'range', step1, to) as Selection.DateRange<Date>
       expect(adapter.isSameDay(step2.from, from)).toBe(true)
       expect(adapter.isSameDay(step2.to!, to)).toBe(true)
     })
@@ -187,7 +187,7 @@ describe('Islamic adapter integration', () => {
     it('applySelection marks range in the Hijri grid', () => {
       const from = adapter.create(1447, 0, 5)
       const to = adapter.create(1447, 0, 10)
-      const range: DateRange<Date> = { from, to }
+      const range: Selection.DateRange<Date> = { from, to }
       const grid = buildCalendarMonth(adapter, muharram1447, baseConfig)
       const applied = applySelection(grid.weeks, adapter, 'range', range)
       const rangeStart = applied.flatMap((w) => w.days).filter((d) => d.isRangeStart)
@@ -385,11 +385,11 @@ describe('Hebrew adapter integration', () => {
     it('range selection works across Hebrew dates', () => {
       const from = adapter.create(5786, 0, 5)
       const to = adapter.create(5786, 0, 20)
-      const step1 = selectDay(adapter, 'range', null, from) as DateRange<Date>
+      const step1 = selectDay(adapter, 'range', null, from) as Selection.DateRange<Date>
       expect(step1.from).toBeDefined()
       expect(step1.to).toBeNull()
 
-      const step2 = selectDay(adapter, 'range', step1, to) as DateRange<Date>
+      const step2 = selectDay(adapter, 'range', step1, to) as Selection.DateRange<Date>
       expect(adapter.isSameDay(step2.from, from)).toBe(true)
       expect(adapter.isSameDay(step2.to!, to)).toBe(true)
     })
@@ -416,7 +416,7 @@ describe('Hebrew adapter integration', () => {
     it('applySelection marks range in the Hebrew grid', () => {
       const from = adapter.create(5786, 0, 5)
       const to = adapter.create(5786, 0, 10)
-      const range: DateRange<Date> = { from, to }
+      const range: Selection.DateRange<Date> = { from, to }
       const grid = buildCalendarMonth(adapter, tishrei5786, baseConfig)
       const applied = applySelection(grid.weeks, adapter, 'range', range)
       const rangeStart = applied.flatMap((w) => w.days).filter((d) => d.isRangeStart)
@@ -638,11 +638,11 @@ describe('Persian adapter integration', () => {
     it('range selection works across Persian dates', () => {
       const from = adapter.create(1404, 0, 5)
       const to = adapter.create(1404, 0, 20)
-      const step1 = selectDay(adapter, 'range', null, from) as DateRange<Date>
+      const step1 = selectDay(adapter, 'range', null, from) as Selection.DateRange<Date>
       expect(step1.from).toBeDefined()
       expect(step1.to).toBeNull()
 
-      const step2 = selectDay(adapter, 'range', step1, to) as DateRange<Date>
+      const step2 = selectDay(adapter, 'range', step1, to) as Selection.DateRange<Date>
       expect(adapter.isSameDay(step2.from, from)).toBe(true)
       expect(adapter.isSameDay(step2.to!, to)).toBe(true)
     })
@@ -669,7 +669,7 @@ describe('Persian adapter integration', () => {
     it('applySelection marks range in the Persian grid', () => {
       const from = adapter.create(1404, 0, 5)
       const to = adapter.create(1404, 0, 10)
-      const range: DateRange<Date> = { from, to }
+      const range: Selection.DateRange<Date> = { from, to }
       const grid = buildCalendarMonth(adapter, farvardin1404, baseConfig)
       const applied = applySelection(grid.weeks, adapter, 'range', range)
       const rangeStart = applied.flatMap((w) => w.days).filter((d) => d.isRangeStart)

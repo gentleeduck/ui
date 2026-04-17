@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
-import { buildCalendarMonth, buildMultiMonth, getLocalizedWeekdays } from '../../grid'
 import type { Grid } from '../../grid'
+import { buildCalendarMonth, buildMultiMonth, getLocalizedWeekdays } from '../../grid'
 import type { ViewMode } from '../../index.types'
 import { canNavigate, navigate } from '../../navigation'
-import type { CalendarValue, DateRange, ISelectionConstraints, SelectionMode } from '../../selection'
+import type { Selection } from '../../selection'
 import { applySelection, isDateDisabled, selectDay } from '../../selection'
 import {
   buildDateDisabledMessage,
@@ -21,7 +21,7 @@ import type { IUseCalendarConfig, IUseCalendarReturn } from './use-calendar.type
 // useCalendar
 // ---------------------------------------------------------------------------
 
-export function useCalendar<TDate, M extends SelectionMode = 'single'>(
+export function useCalendar<TDate, M extends Selection.SelectionMode = 'single'>(
   config: IUseCalendarConfig<TDate, M>,
 ): IUseCalendarReturn<TDate, M> {
   const {
@@ -60,13 +60,13 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // -------------------------------------------------------------------------
   // Controlled / uncontrolled selection value
   // -------------------------------------------------------------------------
-  const initialValue: CalendarValue<TDate, M> =
-    (defaultSelected as CalendarValue<TDate, M>) ??
+  const initialValue: Selection.CalendarValue<TDate, M> =
+    (defaultSelected as Selection.CalendarValue<TDate, M>) ??
     (mode === 'multi' || mode === 'multi-range'
-      ? ([] as unknown as CalendarValue<TDate, M>)
-      : (null as CalendarValue<TDate, M>))
+      ? ([] as unknown as Selection.CalendarValue<TDate, M>)
+      : (null as Selection.CalendarValue<TDate, M>))
 
-  const [value, setValue] = useControllableState<CalendarValue<TDate, M>>(controlledSelected, initialValue, onSelect)
+  const [value, setValue] = useControllableState<Selection.CalendarValue<TDate, M>>(controlledSelected, initialValue, onSelect)
 
   // -------------------------------------------------------------------------
   // Local state
@@ -91,7 +91,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // -------------------------------------------------------------------------
   // Constraints (memoised to keep a stable reference)
   // -------------------------------------------------------------------------
-  const constraints: ISelectionConstraints<TDate> = useMemo(
+  const constraints: Selection.ISelectionConstraints<TDate> = useMemo(
     () => ({ disabled, fromDate, toDate }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [fromDate, toDate, disabled],
@@ -203,7 +203,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   }, [month, adapter, announce, localeTag])
 
   // Announce on value change
-  const prevValueRef = useRef<CalendarValue<TDate, M> | null>(null)
+  const prevValueRef = useRef<Selection.CalendarValue<TDate, M> | null>(null)
   useEffect(() => {
     if (prevValueRef.current === value) return
     prevValueRef.current = value
@@ -215,7 +215,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
     if (mode === 'single' && value !== null) {
       announce(buildDateSelectedMessage(fmt(value as TDate)))
     } else if (mode === 'range') {
-      const range = value as DateRange<TDate> | null
+      const range = value as Selection.DateRange<TDate> | null
       if (range?.to) {
         announce(buildRangeSelectedMessage(fmt(range.from), fmt(range.to)))
       }

@@ -16,54 +16,54 @@ import type {
 } from '../react/use-calendar/use-calendar.types'
 import type { IUseDateTimeConfig, IUseDateTimeReturn } from '../react/use-datetime/use-datetime.types'
 import type { ITimeFieldProps, IUseTimePickerReturn } from '../react/use-time-picker/use-time-picker.types'
-import type { CalendarValue, DateRange, ISelectionConstraints, SelectionMode } from '../selection'
+import type { Selection } from '../selection'
 import { applySelection, selectDay } from '../selection'
 import type { HourCycle, ITimePickerConfig, ITimeValue, TimeField } from '../time'
 import { clampTime, incrementField, parseTimeInput } from '../time'
 
 // ---------------------------------------------------------------------------
-// CalendarValue conditional type
+// Selection.CalendarValue conditional type
 // ---------------------------------------------------------------------------
-describe('CalendarValue conditional type', () => {
+describe('Selection.CalendarValue conditional type', () => {
   it('resolves to TDate | null for single mode', () => {
-    expectTypeOf<CalendarValue<Date, 'single'>>().toEqualTypeOf<Date | null>()
+    expectTypeOf<Selection.CalendarValue<Date, 'single'>>().toEqualTypeOf<Date | null>()
   })
 
-  it('resolves to DateRange<TDate> | null for range mode', () => {
-    expectTypeOf<CalendarValue<Date, 'range'>>().toEqualTypeOf<DateRange<Date> | null>()
+  it('resolves to Selection.DateRange<TDate> | null for range mode', () => {
+    expectTypeOf<Selection.CalendarValue<Date, 'range'>>().toEqualTypeOf<Selection.DateRange<Date> | null>()
   })
 
   it('resolves to TDate[] for multi mode', () => {
-    expectTypeOf<CalendarValue<Date, 'multi'>>().toEqualTypeOf<Date[]>()
+    expectTypeOf<Selection.CalendarValue<Date, 'multi'>>().toEqualTypeOf<Date[]>()
   })
 
-  it('resolves to DateRange<TDate>[] for multi-range mode', () => {
-    expectTypeOf<CalendarValue<Date, 'multi-range'>>().toEqualTypeOf<DateRange<Date>[]>()
+  it('resolves to Selection.DateRange<TDate>[] for multi-range mode', () => {
+    expectTypeOf<Selection.CalendarValue<Date, 'multi-range'>>().toEqualTypeOf<Selection.DateRange<Date>[]>()
   })
 
   it('works with custom TDate types', () => {
     type CustomDate = { _brand: 'custom'; value: number }
-    expectTypeOf<CalendarValue<CustomDate, 'single'>>().toEqualTypeOf<CustomDate | null>()
-    expectTypeOf<CalendarValue<CustomDate, 'range'>>().toEqualTypeOf<DateRange<CustomDate> | null>()
-    expectTypeOf<CalendarValue<CustomDate, 'multi'>>().toEqualTypeOf<CustomDate[]>()
-    expectTypeOf<CalendarValue<CustomDate, 'multi-range'>>().toEqualTypeOf<DateRange<CustomDate>[]>()
+    expectTypeOf<Selection.CalendarValue<CustomDate, 'single'>>().toEqualTypeOf<CustomDate | null>()
+    expectTypeOf<Selection.CalendarValue<CustomDate, 'range'>>().toEqualTypeOf<Selection.DateRange<CustomDate> | null>()
+    expectTypeOf<Selection.CalendarValue<CustomDate, 'multi'>>().toEqualTypeOf<CustomDate[]>()
+    expectTypeOf<Selection.CalendarValue<CustomDate, 'multi-range'>>().toEqualTypeOf<Selection.DateRange<CustomDate>[]>()
   })
 
   it('resolves to never for invalid mode', () => {
-    // @ts-expect-error - 'invalid' is not a valid SelectionMode
-    type _Invalid = CalendarValue<Date, 'invalid'>
+    // @ts-expect-error - 'invalid' is not a valid Selection.SelectionMode
+    type _Invalid = Selection.CalendarValue<Date, 'invalid'>
   })
 })
 
 // ---------------------------------------------------------------------------
-// DateRange type
+// Selection.DateRange type
 // ---------------------------------------------------------------------------
-describe('DateRange type', () => {
+describe('Selection.DateRange type', () => {
   it('has from (required) and to (nullable)', () => {
-    expectTypeOf<DateRange<Date>>().toHaveProperty('from')
-    expectTypeOf<DateRange<Date>>().toHaveProperty('to')
-    expectTypeOf<DateRange<Date>['from']>().toEqualTypeOf<Date>()
-    expectTypeOf<DateRange<Date>['to']>().toEqualTypeOf<Date | null>()
+    expectTypeOf<Selection.DateRange<Date>>().toHaveProperty('from')
+    expectTypeOf<Selection.DateRange<Date>>().toHaveProperty('to')
+    expectTypeOf<Selection.DateRange<Date>['from']>().toEqualTypeOf<Date>()
+    expectTypeOf<Selection.DateRange<Date>['to']>().toEqualTypeOf<Date | null>()
   })
 })
 
@@ -137,7 +137,7 @@ describe('CalendarConfig type', () => {
     type MultiConfig = ICalendarConfig<Date, 'multi'>
 
     expectTypeOf<SingleConfig['selected']>().toEqualTypeOf<Date | null | undefined>()
-    expectTypeOf<RangeConfig['selected']>().toEqualTypeOf<DateRange<Date> | null | undefined>()
+    expectTypeOf<RangeConfig['selected']>().toEqualTypeOf<Selection.DateRange<Date> | null | undefined>()
     expectTypeOf<MultiConfig['selected']>().toEqualTypeOf<Date[] | undefined>()
   })
 
@@ -150,7 +150,7 @@ describe('CalendarConfig type', () => {
     expectTypeOf<SingleOnSelect>().parameter(0).toEqualTypeOf<Date | null>()
 
     type RangeOnSelect = NonNullable<RangeConfig['onSelect']>
-    expectTypeOf<RangeOnSelect>().parameter(0).toEqualTypeOf<DateRange<Date> | null>()
+    expectTypeOf<RangeOnSelect>().parameter(0).toEqualTypeOf<Selection.DateRange<Date> | null>()
   })
 
   it('disabled accepts array or predicate', () => {
@@ -175,7 +175,7 @@ describe('UseCalendarReturn type', () => {
     type MultiReturn = IUseCalendarReturn<Date, 'multi'>
 
     expectTypeOf<SingleReturn['state']['value']>().toEqualTypeOf<Date | null>()
-    expectTypeOf<RangeReturn['state']['value']>().toEqualTypeOf<DateRange<Date> | null>()
+    expectTypeOf<RangeReturn['state']['value']>().toEqualTypeOf<Selection.DateRange<Date> | null>()
     expectTypeOf<MultiReturn['state']['value']>().toEqualTypeOf<Date[]>()
   })
 
@@ -291,7 +291,7 @@ describe('HourCycle type', () => {
 // Pure function return types
 // ---------------------------------------------------------------------------
 describe('Pure function return types', () => {
-  it('selectDay returns CalendarValue matching mode', () => {
+  it('selectDay returns Selection.CalendarValue matching mode', () => {
     const adapter = new NativeAdapter()
     const result = selectDay(adapter, 'single', null, new Date())
     expectTypeOf(result).toEqualTypeOf<Date | null>()
@@ -416,10 +416,10 @@ describe('Mode-narrowed callback types', () => {
     expectTypeOf<OnSelect>().returns.toEqualTypeOf<void>()
   })
 
-  it('onSelect for range mode accepts DateRange<Date> | null', () => {
+  it('onSelect for range mode accepts Selection.DateRange<Date> | null', () => {
     type RangeConfig = ICalendarConfig<Date, 'range'>
     type OnSelect = NonNullable<RangeConfig['onSelect']>
-    expectTypeOf<OnSelect>().parameter(0).toEqualTypeOf<DateRange<Date> | null>()
+    expectTypeOf<OnSelect>().parameter(0).toEqualTypeOf<Selection.DateRange<Date> | null>()
     expectTypeOf<OnSelect>().returns.toEqualTypeOf<void>()
   })
 
@@ -430,10 +430,10 @@ describe('Mode-narrowed callback types', () => {
     expectTypeOf<OnSelect>().returns.toEqualTypeOf<void>()
   })
 
-  it('onSelect for multi-range mode accepts DateRange<Date>[]', () => {
+  it('onSelect for multi-range mode accepts Selection.DateRange<Date>[]', () => {
     type MultiRangeConfig = ICalendarConfig<Date, 'multi-range'>
     type OnSelect = NonNullable<MultiRangeConfig['onSelect']>
-    expectTypeOf<OnSelect>().parameter(0).toEqualTypeOf<DateRange<Date>[]>()
+    expectTypeOf<OnSelect>().parameter(0).toEqualTypeOf<Selection.DateRange<Date>[]>()
     expectTypeOf<OnSelect>().returns.toEqualTypeOf<void>()
   })
 
@@ -443,13 +443,13 @@ describe('Mode-narrowed callback types', () => {
     expectTypeOf(singleResult).toEqualTypeOf<Date | null>()
 
     const rangeResult = selectDay(adapter, 'range', null, new Date())
-    expectTypeOf(rangeResult).toEqualTypeOf<DateRange<Date> | null>()
+    expectTypeOf(rangeResult).toEqualTypeOf<Selection.DateRange<Date> | null>()
 
     const multiResult = selectDay(adapter, 'multi', [], new Date())
     expectTypeOf(multiResult).toEqualTypeOf<Date[]>()
 
     const multiRangeResult = selectDay(adapter, 'multi-range', [], new Date())
-    expectTypeOf(multiRangeResult).toEqualTypeOf<DateRange<Date>[]>()
+    expectTypeOf(multiRangeResult).toEqualTypeOf<Selection.DateRange<Date>[]>()
   })
 
   it('onMonthChange receives TDate', () => {
@@ -546,7 +546,7 @@ describe('UseCalendarReturn exhaustive type assertions', () => {
 
   it('multi-range mode has correct state.value type', () => {
     type Return = IUseCalendarReturn<Date, 'multi-range'>
-    expectTypeOf<Return['state']['value']>().toEqualTypeOf<DateRange<Date>[]>()
+    expectTypeOf<Return['state']['value']>().toEqualTypeOf<Selection.DateRange<Date>[]>()
   })
 
   it('return type preserves custom TDate through all fields', () => {
@@ -613,23 +613,23 @@ describe('UseTimePickerReturn exhaustive type assertions', () => {
 // ---------------------------------------------------------------------------
 describe('Invalid mode type errors', () => {
   it('CalendarConfig rejects invalid mode', () => {
-    // @ts-expect-error - 'weekly' is not a valid SelectionMode
+    // @ts-expect-error - 'weekly' is not a valid Selection.SelectionMode
     type _InvalidConfig = ICalendarConfig<Date, 'weekly'>
   })
 
   it('selectDay rejects invalid mode at the type level', () => {
     const adapter = new NativeAdapter()
-    // @ts-expect-error - 'toggle' is not a valid SelectionMode
+    // @ts-expect-error - 'toggle' is not a valid Selection.SelectionMode
     selectDay(adapter, 'toggle', null, new Date())
   })
 
-  it('CalendarValue resolves to never for unsupported mode', () => {
-    // @ts-expect-error - 'week' is not a valid SelectionMode
-    type _WeekValue = CalendarValue<Date, 'week'>
+  it('Selection.CalendarValue resolves to never for unsupported mode', () => {
+    // @ts-expect-error - 'week' is not a valid Selection.SelectionMode
+    type _WeekValue = Selection.CalendarValue<Date, 'week'>
   })
 
   it('UseCalendarReturn rejects invalid mode', () => {
-    // @ts-expect-error - 'custom' is not a valid SelectionMode
+    // @ts-expect-error - 'custom' is not a valid Selection.SelectionMode
     type _InvalidReturn = IUseCalendarReturn<Date, 'custom'>
   })
 })
@@ -666,24 +666,24 @@ describe('Navigation types', () => {
 // ---------------------------------------------------------------------------
 describe('SelectionConstraints type', () => {
   it('all fields are optional', () => {
-    expectTypeOf<ISelectionConstraints<Date>>().toMatchTypeOf<{}>()
+    expectTypeOf<Selection.ISelectionConstraints<Date>>().toMatchTypeOf<{}>()
   })
 
   it('disabled accepts array or predicate', () => {
-    expectTypeOf<ISelectionConstraints<Date>['disabled']>().toEqualTypeOf<
+    expectTypeOf<Selection.ISelectionConstraints<Date>['disabled']>().toEqualTypeOf<
       Date[] | ((date: Date) => boolean) | undefined
     >()
   })
 
   it('fromDate and toDate are optional TDate', () => {
-    expectTypeOf<ISelectionConstraints<Date>['fromDate']>().toEqualTypeOf<Date | undefined>()
-    expectTypeOf<ISelectionConstraints<Date>['toDate']>().toEqualTypeOf<Date | undefined>()
+    expectTypeOf<Selection.ISelectionConstraints<Date>['fromDate']>().toEqualTypeOf<Date | undefined>()
+    expectTypeOf<Selection.ISelectionConstraints<Date>['toDate']>().toEqualTypeOf<Date | undefined>()
   })
 
   it('preserves generic TDate', () => {
     type CustomDate = { _brand: 'custom' }
-    expectTypeOf<ISelectionConstraints<CustomDate>['fromDate']>().toEqualTypeOf<CustomDate | undefined>()
-    expectTypeOf<ISelectionConstraints<CustomDate>['toDate']>().toEqualTypeOf<CustomDate | undefined>()
+    expectTypeOf<Selection.ISelectionConstraints<CustomDate>['fromDate']>().toEqualTypeOf<CustomDate | undefined>()
+    expectTypeOf<Selection.ISelectionConstraints<CustomDate>['toDate']>().toEqualTypeOf<CustomDate | undefined>()
   })
 })
 
