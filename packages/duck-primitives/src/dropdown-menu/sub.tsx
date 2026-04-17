@@ -1,20 +1,14 @@
-/** DropdownMenuSub -- manages open state for a nested submenu. */
 import type * as React from 'react'
 import { useControllableState } from '../hooks/use-controllable-state'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './dropdown-menu'
 import { useMenuScope } from './dropdown-menu'
+import type { IDropdownMenu } from './dropdown-menu.types'
 
 const SUB_NAME = 'DropdownMenuSub'
 
-interface IDropdownMenuSubProps {
-  children?: React.ReactNode
-  open?: boolean
-  defaultOpen?: boolean
-  onOpenChange?(open: boolean): void
-}
-
-const DropdownMenuSub: React.FC<IDropdownMenuSubProps> = (props: ScopedProps<IDropdownMenuSubProps>) => {
+const DropdownMenuSub: React.FC<IDropdownMenu.ISubProps> = (
+  props: IDropdownMenu.IScoped<IDropdownMenu.ISubProps>,
+) => {
   const { __scopeDropdownMenu, children, onOpenChange, open: openProp, defaultOpen } = props
   const menuScope = useMenuScope(__scopeDropdownMenu)
   const [open, setOpen] = useControllableState({
@@ -33,5 +27,4 @@ const DropdownMenuSub: React.FC<IDropdownMenuSubProps> = (props: ScopedProps<IDr
 
 DropdownMenuSub.displayName = SUB_NAME
 
-export type { IDropdownMenuSubProps }
 export { DropdownMenuSub }
