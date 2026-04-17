@@ -1,17 +1,14 @@
-/** ContextMenuLabel -- non-interactive label within a context menu. */
 import * as React from 'react'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './context-menu'
 import { useMenuScope } from './context-menu'
+import type { IContextMenu } from './context-menu.types'
 
 const LABEL_NAME = 'ContextMenuLabel'
 
 type ContextMenuLabelElement = React.ComponentRef<typeof MenuPrimitive.Label>
-type MenuLabelProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Label>
-interface IContextMenuLabelProps extends MenuLabelProps {}
 
-const ContextMenuLabel = React.forwardRef<ContextMenuLabelElement, IContextMenuLabelProps>(
-  (props: ScopedProps<IContextMenuLabelProps>, forwardedRef) => {
+const ContextMenuLabel = React.forwardRef<ContextMenuLabelElement, IContextMenu.ILabelProps>(
+  (props: IContextMenu.IScoped<IContextMenu.ILabelProps>, forwardedRef) => {
     const { __scopeContextMenu, ...labelProps } = props
     const menuScope = useMenuScope(__scopeContextMenu)
     return <MenuPrimitive.Label {...menuScope} {...labelProps} ref={forwardedRef} />
@@ -20,5 +17,4 @@ const ContextMenuLabel = React.forwardRef<ContextMenuLabelElement, IContextMenuL
 
 ContextMenuLabel.displayName = LABEL_NAME
 
-export type { IContextMenuLabelProps }
 export { ContextMenuLabel }
