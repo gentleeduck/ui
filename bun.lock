@@ -412,9 +412,11 @@
         "@types/react": "19.2.14",
         "@types/react-dom": "19.2.3",
         "clsx": "^2.1.1",
+        "jsdom": "^29.0.0",
         "tailwind-merge": "^3.4.0",
         "tsdown": "0.21.4",
         "typescript": "6.0.2",
+        "vitest": "catalog:",
         "zod": "4.3.6",
       },
       "peerDependencies": {
@@ -435,6 +437,7 @@
         "react-dom": "^19.2.4",
         "tsdown": "0.21.4",
         "tsup": "^8.5.1",
+        "vitest": "catalog:",
       },
       "peerDependencies": {
         "next": "^16.1.1",
@@ -453,6 +456,7 @@
         "@types/node": "^25.3.0",
         "tsdown": "0.21.4",
         "typescript": "6.0.2",
+        "vitest": "catalog:",
         "zod": "4.3.6",
       },
       "peerDependencies": {
