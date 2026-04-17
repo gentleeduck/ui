@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
-import type { ScopedProps } from './navigation-menu'
 import { Collection, useNavigationMenuContext } from './navigation-menu'
+import type { INavigationMenu } from './navigation-menu.types'
 import { FocusGroup } from './navigation-menu.libs'
 
 const LIST_NAME = 'NavigationMenuList'
@@ -11,7 +11,7 @@ type PrimitiveUnorderedListProps = React.ComponentPropsWithoutRef<typeof Primiti
 interface INavigationMenuListProps extends PrimitiveUnorderedListProps {}
 
 const NavigationMenuList = React.forwardRef<NavigationMenuListElement, INavigationMenuListProps>(
-  (props: ScopedProps<INavigationMenuListProps>, forwardedRef) => {
+  (props: INavigationMenu.IScoped<INavigationMenuListProps>, forwardedRef) => {
     const { __scopeNavigationMenu, ...listProps } = props
     const context = useNavigationMenuContext(LIST_NAME, __scopeNavigationMenu)
 

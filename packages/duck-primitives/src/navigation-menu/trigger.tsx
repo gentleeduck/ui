@@ -3,8 +3,8 @@ import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
 import * as VisuallyHiddenPrimitive from '../visibility-hidden'
-import type { NavigationMenuTriggerElement, ScopedProps } from './navigation-menu'
 import { Collection, useNavigationMenuContext, useNavigationMenuItemContext } from './navigation-menu'
+import type { INavigationMenu } from './navigation-menu.types'
 import { FocusGroupItem, getOpenState, makeContentId, makeTriggerId, whenMouse } from './navigation-menu.libs'
 
 const TRIGGER_NAME = 'NavigationMenuTrigger'
@@ -12,12 +12,14 @@ const TRIGGER_NAME = 'NavigationMenuTrigger'
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
 interface INavigationMenuTriggerProps extends PrimitiveButtonProps {}
 
-const NavigationMenuTrigger = React.forwardRef<NavigationMenuTriggerElement, INavigationMenuTriggerProps>(
-  (props: ScopedProps<INavigationMenuTriggerProps>, forwardedRef) => {
+const NavigationMenuTrigger = React.forwardRef<
+  INavigationMenu.NavigationMenuTriggerElement,
+  INavigationMenuTriggerProps
+>((props: INavigationMenu.IScoped<INavigationMenuTriggerProps>, forwardedRef) => {
     const { __scopeNavigationMenu, disabled, ...triggerProps } = props
     const context = useNavigationMenuContext(TRIGGER_NAME, props.__scopeNavigationMenu)
     const itemContext = useNavigationMenuItemContext(TRIGGER_NAME, props.__scopeNavigationMenu)
-    const ref = React.useRef<NavigationMenuTriggerElement>(null)
+    const ref = React.useRef<INavigationMenu.NavigationMenuTriggerElement>(null)
     const composedRefs = useComposedRefs(ref, itemContext.triggerRef, forwardedRef)
     const triggerId = makeTriggerId(context.baseId, itemContext.value)
     const contentId = makeContentId(context.baseId, itemContext.value)
@@ -107,8 +109,7 @@ const NavigationMenuTrigger = React.forwardRef<NavigationMenuTriggerElement, INa
         )}
       </>
     )
-  },
-)
+})
 
 NavigationMenuTrigger.displayName = TRIGGER_NAME
 

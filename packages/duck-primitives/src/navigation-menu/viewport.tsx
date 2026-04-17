@@ -4,18 +4,14 @@ import { composeRefs, useComposedRefs } from '../libs/compose-ref'
 import { Presence } from '../presence'
 import { Primitive } from '../primitive-elements'
 import { NavigationMenuContentImpl } from './content'
-import type {
-  NavigationMenuContentImplElement,
-  NavigationMenuViewportElement,
-  PrimitiveDivProps,
-  ScopedProps,
-} from './navigation-menu'
 import { useNavigationMenuContext, useViewportContentContext } from './navigation-menu'
+import type { INavigationMenu } from './navigation-menu.types'
 import { getOpenState, useResizeObserver, whenMouse } from './navigation-menu.libs'
 
 const VIEWPORT_NAME = 'NavigationMenuViewport'
 const CONTENT_NAME = 'NavigationMenuContent'
 
+type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 type NavigationMenuViewportImplElement = React.ComponentRef<typeof Primitive.div>
 interface INavigationMenuViewportImplProps extends PrimitiveDivProps {}
 
@@ -23,8 +19,10 @@ interface INavigationMenuViewportProps extends Omit<INavigationMenuViewportImplP
   forceMount?: true
 }
 
-const NavigationMenuViewport = React.forwardRef<NavigationMenuViewportElement, INavigationMenuViewportProps>(
-  (props: ScopedProps<INavigationMenuViewportProps>, forwardedRef) => {
+const NavigationMenuViewport = React.forwardRef<
+  INavigationMenu.NavigationMenuViewportElement,
+  INavigationMenuViewportProps
+>((props: INavigationMenu.IScoped<INavigationMenuViewportProps>, forwardedRef) => {
     const { forceMount, ...viewportProps } = props
     const context = useNavigationMenuContext(VIEWPORT_NAME, props.__scopeNavigationMenu)
     const open = Boolean(context.value)
@@ -34,8 +32,7 @@ const NavigationMenuViewport = React.forwardRef<NavigationMenuViewportElement, I
         <NavigationMenuViewportImpl {...viewportProps} ref={forwardedRef} />
       </Presence>
     )
-  },
-)
+})
 
 NavigationMenuViewport.displayName = VIEWPORT_NAME
 
@@ -44,13 +41,13 @@ NavigationMenuViewport.displayName = VIEWPORT_NAME
 const NavigationMenuViewportImpl = React.forwardRef<
   NavigationMenuViewportImplElement,
   INavigationMenuViewportImplProps
->((props: ScopedProps<INavigationMenuViewportImplProps>, forwardedRef) => {
+>((props: INavigationMenu.IScoped<INavigationMenuViewportImplProps>, forwardedRef) => {
   const { __scopeNavigationMenu, children, ...viewportImplProps } = props
   const context = useNavigationMenuContext(VIEWPORT_NAME, __scopeNavigationMenu)
   const composedRefs = useComposedRefs(forwardedRef, context.onViewportChange)
   const viewportContentContext = useViewportContentContext(CONTENT_NAME, props.__scopeNavigationMenu)
   const [size, setSize] = React.useState<{ width: number; height: number } | null>(null)
-  const [content, setContent] = React.useState<NavigationMenuContentImplElement | null>(null)
+  const [content, setContent] = React.useState<INavigationMenu.NavigationMenuContentImplElement | null>(null)
   const viewportWidth = size ? `${size?.width}px` : undefined
   const viewportHeight = size ? `${size?.height}px` : undefined
   const open = Boolean(context.value)

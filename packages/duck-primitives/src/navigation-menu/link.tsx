@@ -2,8 +2,8 @@ import * as React from 'react'
 import { flushSync } from 'react-dom'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { Primitive } from '../primitive-elements'
-import type { ScopedProps } from './navigation-menu'
 import { FocusGroupItem, LINK_SELECT, ROOT_CONTENT_DISMISS } from './navigation-menu.libs'
+import type { INavigationMenu } from './navigation-menu.types'
 
 const LINK_NAME = 'NavigationMenuLink'
 
@@ -15,7 +15,7 @@ interface INavigationMenuLinkProps extends Omit<PrimitiveLinkProps, 'onSelect'> 
 }
 
 const NavigationMenuLink = React.forwardRef<NavigationMenuLinkElement, INavigationMenuLinkProps>(
-  (props: ScopedProps<INavigationMenuLinkProps>, forwardedRef) => {
+  (props: INavigationMenu.IScoped<INavigationMenuLinkProps>, forwardedRef) => {
     const { __scopeNavigationMenu, active, onSelect, ...linkProps } = props
 
     return (
