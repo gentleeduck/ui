@@ -95,7 +95,7 @@ describe('individual preset exports (tree-shakeable)', () => {
   })
 
   test('popIn initial scale is less than animate scale', () => {
-    expect((popIn.initial.scale as number)).toBeLessThan((popIn.animate.scale as number))
+    expect(popIn.initial.scale as number).toBeLessThan(popIn.animate.scale as number)
   })
 
   test('popIn animate is fully visible', () => {

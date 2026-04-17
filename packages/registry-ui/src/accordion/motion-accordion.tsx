@@ -21,10 +21,7 @@ const MotionAccordionItem = React.forwardRef<
     index?: number
   }
 >(({ className, children, index = 0, ...props }, ref) => {
-  const presetOptions = React.useMemo(
-    () => ({ transition: springBouncy, delay: getStaggerDelay(index, 50) }),
-    [index],
-  )
+  const presetOptions = React.useMemo(() => ({ transition: springBouncy, delay: getStaggerDelay(index, 50) }), [index])
   const content = useMotionPreset(scaleIn, presetOptions)
 
   return (
