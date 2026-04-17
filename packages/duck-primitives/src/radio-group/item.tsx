@@ -5,38 +5,20 @@ import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'
 import * as RovingFocusGroup from '../roving-focus'
-import type { ScopedProps } from './radio-group'
 import { useRadioGroupContext, useRovingFocusGroupScope } from './radio-group'
+import type { IRadioGroup } from './radio-group.types'
 
 const ITEM_NAME = 'RadioGroupItem'
 
 const [createRadioGroupItemContext] = createContextScope(ITEM_NAME)
 
-type RadioGroupItemContextValue = {
-  checked: boolean
-  disabled: boolean
-}
-
 const [RadioGroupItemProvider, useRadioGroupItemContext] =
-  createRadioGroupItemContext<RadioGroupItemContextValue>(ITEM_NAME)
+  createRadioGroupItemContext<IRadioGroup.IItemContext>(ITEM_NAME)
 
 type RadioGroupItemElement = React.ComponentRef<typeof Primitive.button>
-type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
 
-interface IRadioGroupItemProps extends PrimitiveButtonProps {
-  /**
-   * The unique value for this radio item.
-   */
-  value: string
-  /**
-   * Optional text used for typeahead keyboard navigation.
-   * Falls back to `aria-label`, then `value` when omitted.
-   */
-  textValue?: string
-}
-
-const RadioGroupItem = React.forwardRef<RadioGroupItemElement, IRadioGroupItemProps>(
-  (props: ScopedProps<IRadioGroupItemProps>, forwardedRef) => {
+const RadioGroupItem = React.forwardRef<RadioGroupItemElement, IRadioGroup.IItemProps>(
+  (props: IRadioGroup.IScoped<IRadioGroup.IItemProps>, forwardedRef) => {
     const { __scopeRadioGroup, value, textValue, disabled: disabledProp, ...itemProps } = props
     const context = useRadioGroupContext(ITEM_NAME, __scopeRadioGroup)
     const rovingFocusGroupScope = useRovingFocusGroupScope(__scopeRadioGroup)
@@ -82,14 +64,7 @@ const RadioGroupItem = React.forwardRef<RadioGroupItemElement, IRadioGroupItemPr
 
 RadioGroupItem.displayName = ITEM_NAME
 
-interface IBubbleInputProps {
-  name: string
-  value: string
-  checked: boolean
-  disabled: boolean
-}
-
-function BubbleInput(props: IBubbleInputProps) {
+function BubbleInput(props: IRadioGroup.IBubbleInputProps) {
   const { name, value, checked, disabled } = props
   return (
     <input
@@ -116,5 +91,4 @@ function BubbleInput(props: IBubbleInputProps) {
   )
 }
 
-export type { IRadioGroupItemProps }
 export { RadioGroupItem, RadioGroupItemProvider, useRadioGroupItemContext }
