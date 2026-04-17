@@ -8,7 +8,7 @@ import type { Recorder } from '../recorder/recorder.types'
 import { SequenceManager } from '../sequence/sequence'
 import type { Sequence } from '../sequence/sequence.types'
 import { KeyContext } from './command'
-import type { ReactHooks } from './hooks.types'
+import type { Vim } from './vim.types'
 
 /**
  * React hook to bind a single key binding.
@@ -25,7 +25,7 @@ import type { ReactHooks } from './hooks.types'
  * useKeyBind('ctrl+k', () => setOpen(true), { preventDefault: true })
  * ```
  */
-export function useKeyBind(binding: string, handler: () => void, options?: ReactHooks.IKeyBindHookOptions): void {
+export function useKeyBind(binding: string, handler: () => void, options?: Vim.IKeyBindHookOptions): void {
   const ctx = React.useContext(KeyContext)
   const handlerRef = React.useRef(handler)
   handlerRef.current = handler
@@ -96,7 +96,7 @@ export function useKeyBind(binding: string, handler: () => void, options?: React
  * useKeySequence(['g', 'd'], () => navigate('/dashboard'))
  * ```
  */
-export function useKeySequence(steps: string[], handler: () => void, options?: ReactHooks.ISequenceHookOptions): void {
+export function useKeySequence(steps: string[], handler: () => void, options?: Vim.ISequenceHookOptions): void {
   const ctx = React.useContext(KeyContext)
   const handlerRef = React.useRef(handler)
   handlerRef.current = handler
@@ -149,7 +149,7 @@ export function useKeySequence(steps: string[], handler: () => void, options?: R
  * // state.recorded contains the last recorded combination
  * ```
  */
-export function useKeyRecorder(): ReactHooks.IKeyRecorderReturn {
+export function useKeyRecorder(): Vim.IKeyRecorderReturn {
   const [state, setState] = React.useState<Recorder.IKeyRecorderState>({
     activeKeys: [],
     recorded: null,

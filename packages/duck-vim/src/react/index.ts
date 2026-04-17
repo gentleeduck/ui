@@ -1,5 +1,4 @@
 'use client'
 export { KeyContext, KeyProvider, useKeyCommands } from './command'
-export type { ReactCommand } from './command.types'
 export { useKeyBind, useKeyRecorder, useKeySequence } from './hooks'
-export type { ReactHooks } from './hooks.types'
+export type { Vim } from './vim.types'

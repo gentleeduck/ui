@@ -4,13 +4,13 @@ import React from 'react'
 import { KeyHandler, Registry } from '../command'
 import type { Command } from '../command/command.types'
 import { SequenceManager } from '../sequence/sequence'
-import type { ReactCommand } from './command.types'
+import type { Vim } from './vim.types'
 
 /**
  * A React context that holds the key command registry and handler.
  * Consumers can register commands and interact with the keyboard system.
  */
-export const KeyContext = React.createContext<ReactCommand.IKeyContextValue | null>(null)
+export const KeyContext = React.createContext<Vim.IKeyContextValue | null>(null)
 
 /**
  * Props for the KeyProvider component.
@@ -43,7 +43,7 @@ export const KeyProvider: React.FC<IKeyProviderProps> = ({
   defaultOptions,
   children,
 }) => {
-  const value = React.useMemo<ReactCommand.IKeyContextValue>(() => {
+  const value = React.useMemo<Vim.IKeyContextValue>(() => {
     const registry = new Registry(debug)
     const handler = new KeyHandler(registry, timeoutMs, defaultOptions)
     const sequenceManager = new SequenceManager()
