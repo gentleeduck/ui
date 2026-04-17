@@ -2,8 +2,10 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { Presence } from '../presence'
 import { Primitive } from '../primitive-elements'
-import type { NavigationMenuTriggerElement, PrimitiveDivProps, ScopedProps } from './navigation-menu'
 import { useCollection, useNavigationMenuContext } from './navigation-menu'
+import type { INavigationMenu } from './navigation-menu.types'
+
+type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 import { useResizeObserver } from './navigation-menu.libs'
 
 const INDICATOR_NAME = 'NavigationMenuIndicator'
@@ -14,7 +16,7 @@ interface INavigationMenuIndicatorProps extends INavigationMenuIndicatorImplProp
 }
 
 const NavigationMenuIndicator = React.forwardRef<NavigationMenuIndicatorElement, INavigationMenuIndicatorProps>(
-  (props: ScopedProps<INavigationMenuIndicatorProps>, forwardedRef) => {
+  (props: INavigationMenu.IScoped<INavigationMenuIndicatorProps>, forwardedRef) => {
     const { forceMount, ...indicatorProps } = props
     const context = useNavigationMenuContext(INDICATOR_NAME, props.__scopeNavigationMenu)
     const isVisible = Boolean(context.value)
@@ -38,11 +40,11 @@ interface INavigationMenuIndicatorImplProps extends PrimitiveDivProps {}
 const NavigationMenuIndicatorImpl = React.forwardRef<
   NavigationMenuIndicatorImplElement,
   INavigationMenuIndicatorImplProps
->((props: ScopedProps<INavigationMenuIndicatorImplProps>, forwardedRef) => {
+>((props: INavigationMenu.IScoped<INavigationMenuIndicatorImplProps>, forwardedRef) => {
   const { __scopeNavigationMenu, ...indicatorProps } = props
   const context = useNavigationMenuContext(INDICATOR_NAME, __scopeNavigationMenu)
   const getItems = useCollection(__scopeNavigationMenu)
-  const [activeTrigger, setActiveTrigger] = React.useState<NavigationMenuTriggerElement | null>(null)
+  const [activeTrigger, setActiveTrigger] = React.useState<INavigationMenu.NavigationMenuTriggerElement | null>(null)
   const [position, setPosition] = React.useState<{ size: number; offset: number } | null>(null)
   const isHorizontal = context.orientation === 'horizontal'
   const isVisible = Boolean(context.value)

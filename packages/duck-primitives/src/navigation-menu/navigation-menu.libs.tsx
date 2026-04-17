@@ -3,8 +3,10 @@ import { useCallbackRef } from '../hooks/use-callback-ref'
 import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { Primitive } from '../primitive-elements'
-import type { FocusGroupItemElement, PrimitiveDivProps, ScopedProps } from './navigation-menu'
 import { FocusGroupCollection, useFocusGroupCollection, useNavigationMenuContext } from './navigation-menu'
+import type { INavigationMenu } from './navigation-menu.types'
+
+type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
 /* ----- Constants ----- */
 
@@ -115,7 +117,7 @@ type FocusGroupElement = React.ComponentRef<typeof Primitive.div>
 interface IFocusGroupProps extends PrimitiveDivProps {}
 
 const FocusGroup = React.forwardRef<FocusGroupElement, IFocusGroupProps>(
-  (props: ScopedProps<IFocusGroupProps>, forwardedRef) => {
+  (props: INavigationMenu.IScoped<IFocusGroupProps>, forwardedRef) => {
     const { __scopeNavigationMenu, ...groupProps } = props
     const context = useNavigationMenuContext(FOCUS_GROUP_NAME, __scopeNavigationMenu)
 
@@ -138,8 +140,8 @@ const FOCUS_GROUP_ITEM_NAME = 'FocusGroupItem'
 type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
 interface IFocusGroupItemProps extends PrimitiveButtonProps {}
 
-const FocusGroupItem = React.forwardRef<FocusGroupItemElement, IFocusGroupItemProps>(
-  (props: ScopedProps<IFocusGroupItemProps>, forwardedRef) => {
+const FocusGroupItem = React.forwardRef<INavigationMenu.FocusGroupItemElement, IFocusGroupItemProps>(
+  (props: INavigationMenu.IScoped<IFocusGroupItemProps>, forwardedRef) => {
     const { __scopeNavigationMenu, ...groupProps } = props
     const getItems = useFocusGroupCollection(__scopeNavigationMenu)
     const context = useNavigationMenuContext(FOCUS_GROUP_ITEM_NAME, __scopeNavigationMenu)
@@ -152,8 +154,11 @@ const FocusGroupItem = React.forwardRef<FocusGroupItemElement, IFocusGroupItemPr
           onKeyDown={composeEventHandlers(props.onKeyDown, (event) => {
             const isFocusNavigationKey = ['Home', 'End', ...ARROW_KEYS].includes(event.key)
             if (isFocusNavigationKey) {
-              // biome-ignore lint/style/noNonNullAssertion: collection items always have mounted refs when this keyboard handler fires
-              let candidateNodes = getItems().map((item) => item.ref.current!)
+              let candidateNodes: HTMLElement[] = []
+              for (const item of getItems()) {
+                const node = item.ref.current
+                if (node) candidateNodes.push(node)
+              }
               const prevItemKey = context.dir === 'rtl' ? 'ArrowRight' : 'ArrowLeft'
               const prevKeys = [prevItemKey, 'ArrowUp', 'End']
               if (prevKeys.includes(event.key)) candidateNodes.reverse()

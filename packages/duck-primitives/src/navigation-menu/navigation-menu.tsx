@@ -1,137 +1,44 @@
 import * as React from 'react'
-import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
-import type { DismissableLayer } from '../dismissable-layer'
 import { useCallbackRef } from '../hooks/use-callback-ref'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { useId } from '../hooks/use-id'
 import { usePrevious } from '../hooks/use-previous'
 import { useComposedRefs } from '../libs/compose-ref'
 import { createCollection } from '../libs/create-collection'
-import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'
-import type * as VisuallyHiddenPrimitive from '../visibility-hidden'
-
-type Orientation = 'vertical' | 'horizontal'
+import type { INavigationMenu } from './navigation-menu.types'
 
 const NAVIGATION_MENU_NAME = 'NavigationMenu'
 
-type NavigationMenuTriggerElement = React.ComponentRef<typeof Primitive.button>
-type FocusGroupItemElement = React.ComponentRef<typeof Primitive.button>
-
 const [Collection, useCollection, createCollectionScope] = createCollection<
-  NavigationMenuTriggerElement,
+  INavigationMenu.NavigationMenuTriggerElement,
   { value: string }
 >(NAVIGATION_MENU_NAME)
 
 const [FocusGroupCollection, useFocusGroupCollection, createFocusGroupCollectionScope] = createCollection<
-  FocusGroupItemElement,
+  INavigationMenu.FocusGroupItemElement,
   {}
 >(NAVIGATION_MENU_NAME)
 
-type ScopedProps<P> = P & { __scopeNavigationMenu?: Scope }
 const [createNavigationMenuContext, createNavigationMenuScope] = createContextScope(NAVIGATION_MENU_NAME, [
   createCollectionScope,
   createFocusGroupCollectionScope,
 ])
 
-/* ----- Shared element types ----- */
-
-type NavigationMenuElement = React.ComponentRef<typeof Primitive.nav>
-type NavigationMenuContentImplElement = React.ComponentRef<typeof DismissableLayer>
-type NavigationMenuViewportElement = React.ComponentRef<typeof Primitive.div>
-type FocusProxyElement = React.ComponentRef<typeof VisuallyHiddenPrimitive.Root>
-
-/* ----- Content-related types (shared by content.tsx and viewport.tsx) ----- */
-
-type DismissableLayerProps = React.ComponentPropsWithoutRef<typeof DismissableLayer>
-
-interface INavigationMenuContentImplPrivateProps {
-  value: string
-  triggerRef: React.RefObject<NavigationMenuTriggerElement | null>
-  focusProxyRef: React.RefObject<FocusProxyElement | null>
-  wasEscapeCloseRef: React.RefObject<boolean>
-  onContentFocusOutside(): void
-  onRootContentClose(): void
-}
-
-interface INavigationMenuContentImplProps
-  extends Omit<DismissableLayerProps, 'onDismiss' | 'disableOutsidePointerEvents'>,
-    INavigationMenuContentImplPrivateProps {}
-
-type ViewportContentMounterElement = NavigationMenuContentImplElement
-interface IViewportContentMounterProps extends INavigationMenuContentImplProps {
-  forceMount?: true
-}
-
-type ContentData = {
-  ref?: React.Ref<ViewportContentMounterElement>
-} & IViewportContentMounterProps
-
-/* ----- Contexts ----- */
-
-type NavigationMenuContextValue = {
-  isRootMenu: boolean
-  value: string
-  previousValue: string
-  baseId: string
-  dir: IDirection.Kind
-  orientation: Orientation
-  rootNavigationMenu: NavigationMenuElement | null
-  indicatorTrack: HTMLDivElement | null
-  onIndicatorTrackChange(indicatorTrack: HTMLDivElement | null): void
-  viewport: NavigationMenuViewportElement | null
-  onViewportChange(viewport: NavigationMenuViewportElement | null): void
-  onViewportContentChange(contentValue: string, contentData: ContentData): void
-  onViewportContentRemove(contentValue: string): void
-  onTriggerEnter(itemValue: string): void
-  onTriggerLeave(): void
-  onContentEnter(): void
-  onContentLeave(): void
-  onItemSelect(itemValue: string): void
-  onItemDismiss(): void
-}
-
 const [NavigationMenuProviderImpl, useNavigationMenuContext] =
-  createNavigationMenuContext<NavigationMenuContextValue>(NAVIGATION_MENU_NAME)
+  createNavigationMenuContext<INavigationMenu.IContext>(NAVIGATION_MENU_NAME)
 
 const [ViewportContentProvider, useViewportContentContext] = createNavigationMenuContext<{
-  items: Map<string, ContentData>
+  items: Map<string, INavigationMenu.IContentData>
 }>(NAVIGATION_MENU_NAME)
 
-type NavigationMenuItemContextValue = {
-  value: string
-  triggerRef: React.RefObject<NavigationMenuTriggerElement | null>
-  contentRef: React.RefObject<NavigationMenuContentImplElement | null>
-  focusProxyRef: React.RefObject<FocusProxyElement | null>
-  wasEscapeCloseRef: React.RefObject<boolean>
-  onEntryKeyDown(): void
-  onFocusProxyEnter(side: 'start' | 'end'): void
-  onRootContentClose(): void
-  onContentFocusOutside(): void
-}
-
 const [NavigationMenuItemContextProvider, useNavigationMenuItemContext] =
-  createNavigationMenuContext<NavigationMenuItemContextValue>('NavigationMenuItem')
+  createNavigationMenuContext<INavigationMenu.IItemContext>('NavigationMenuItem')
 
-/* ----- NavigationMenu ----- */
-
-type PrimitiveNavProps = React.ComponentPropsWithoutRef<typeof Primitive.nav>
-interface INavigationMenuProps
-  extends Omit<INavigationMenuProviderProps, keyof INavigationMenuProviderPrivateProps>,
-    PrimitiveNavProps {
-  value?: string
-  defaultValue?: string
-  onValueChange?: (value: string) => void
-  dir?: IDirection.Kind
-  orientation?: Orientation
-  delayDuration?: number
-  skipDelayDuration?: number
-}
-
-const NavigationMenu = React.forwardRef<NavigationMenuElement, INavigationMenuProps>(
-  (props: ScopedProps<INavigationMenuProps>, forwardedRef) => {
+const NavigationMenu = React.forwardRef<INavigationMenu.NavigationMenuElement, INavigationMenu.IProps>(
+  (props: INavigationMenu.IScoped<INavigationMenu.IProps>, forwardedRef) => {
     const {
       __scopeNavigationMenu,
       value: valueProp,
@@ -143,7 +50,7 @@ const NavigationMenu = React.forwardRef<NavigationMenuElement, INavigationMenuPr
       dir,
       ...NavigationMenuProps
     } = props
-    const [navigationMenu, setNavigationMenu] = React.useState<NavigationMenuElement | null>(null)
+    const [navigationMenu, setNavigationMenu] = React.useState<INavigationMenu.NavigationMenuElement | null>(null)
     const composedRef = useComposedRefs(forwardedRef, (node) => setNavigationMenu(node))
     const direction = useDirection(dir)
     const openTimerRef = React.useRef(0)
@@ -244,23 +151,12 @@ const NavigationMenu = React.forwardRef<NavigationMenuElement, INavigationMenuPr
 
 NavigationMenu.displayName = NAVIGATION_MENU_NAME
 
-/* ----- NavigationMenuSub ----- */
-
 const SUB_NAME = 'NavigationMenuSub'
 
 type NavigationMenuSubElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-interface INavigationMenuSubProps
-  extends Omit<INavigationMenuProviderProps, keyof INavigationMenuProviderPrivateProps>,
-    PrimitiveDivProps {
-  value?: string
-  defaultValue?: string
-  onValueChange?: (value: string) => void
-  orientation?: Orientation
-}
 
-const NavigationMenuSub = React.forwardRef<NavigationMenuSubElement, INavigationMenuSubProps>(
-  (props: ScopedProps<INavigationMenuSubProps>, forwardedRef) => {
+const NavigationMenuSub = React.forwardRef<NavigationMenuSubElement, INavigationMenu.ISubProps>(
+  (props: INavigationMenu.IScoped<INavigationMenu.ISubProps>, forwardedRef) => {
     const {
       __scopeNavigationMenu,
       value: valueProp,
@@ -301,28 +197,8 @@ const NavigationMenuSub = React.forwardRef<NavigationMenuSubElement, INavigation
 
 NavigationMenuSub.displayName = SUB_NAME
 
-/* ----- NavigationMenuProvider (internal) ----- */
-
-interface INavigationMenuProviderPrivateProps {
-  isRootMenu: boolean
-  scope: Scope
-  children: React.ReactNode
-  orientation: Orientation
-  dir: IDirection.Kind
-  rootNavigationMenu: NavigationMenuElement | null
-  value: string
-  onTriggerEnter(itemValue: string): void
-  onTriggerLeave?(): void
-  onContentEnter?(): void
-  onContentLeave?(): void
-  onItemSelect(itemValue: string): void
-  onItemDismiss(): void
-}
-
-interface INavigationMenuProviderProps extends INavigationMenuProviderPrivateProps {}
-
-const NavigationMenuProvider: React.FC<INavigationMenuProviderProps> = (
-  props: ScopedProps<INavigationMenuProviderProps>,
+const NavigationMenuProvider: React.FC<INavigationMenu.IProviderProps> = (
+  props: INavigationMenu.IScoped<INavigationMenu.IProviderProps>,
 ) => {
   const {
     scope,
@@ -339,8 +215,8 @@ const NavigationMenuProvider: React.FC<INavigationMenuProviderProps> = (
     onContentEnter,
     onContentLeave,
   } = props
-  const [viewport, setViewport] = React.useState<NavigationMenuViewportElement | null>(null)
-  const [viewportContent, setViewportContent] = React.useState<Map<string, ContentData>>(new Map())
+  const [viewport, setViewport] = React.useState<INavigationMenu.NavigationMenuViewportElement | null>(null)
+  const [viewportContent, setViewportContent] = React.useState<Map<string, INavigationMenu.IContentData>>(new Map())
   const [indicatorTrack, setIndicatorTrack] = React.useState<HTMLDivElement | null>(null)
 
   return (
@@ -385,26 +261,6 @@ const NavigationMenuProvider: React.FC<INavigationMenuProviderProps> = (
   )
 }
 
-export type {
-  ContentData,
-  FocusGroupItemElement,
-  FocusProxyElement,
-  IDirection,
-  INavigationMenuContentImplPrivateProps,
-  INavigationMenuContentImplProps,
-  INavigationMenuProps,
-  INavigationMenuSubProps,
-  IViewportContentMounterProps,
-  NavigationMenuContentImplElement,
-  NavigationMenuContextValue,
-  NavigationMenuItemContextValue,
-  NavigationMenuTriggerElement,
-  NavigationMenuViewportElement,
-  Orientation,
-  PrimitiveDivProps,
-  ScopedProps,
-  ViewportContentMounterElement,
-}
 export {
   Collection,
   createNavigationMenuContext,
