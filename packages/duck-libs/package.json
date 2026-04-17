@@ -55,8 +55,14 @@
   },
   "scripts": {
     "build": "tsdown",
+    "check": "biome check .",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
-    "test": "bun test"
+    "fix": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "test": "bun test",
+    "test:coverage": "bun test --coverage",
+    "test:watch": "bun test --watch"
   },
   "type": "module",
   "version": "0.1.16"
