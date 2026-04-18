@@ -37,10 +37,10 @@ function MyTimePicker() {
 
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `value` | `TimeValue` | - | Controlled time value |
-| `defaultValue` | `TimeValue` | `{ hour: 0, minute: 0 }` | Default time (uncontrolled) |
-| `onChange` | `(value: TimeValue) => void` | - | Called when time changes |
-| `hourCycle` | `HourCycle` | `'24'` | `'12'` or `'24'` hour display |
+| `value` | `Time.ITimeValue` | - | Controlled time value |
+| `defaultValue` | `Time.ITimeValue` | `{ hour: 0, minute: 0 }` | Default time (uncontrolled) |
+| `onChange` | `(value: Time.ITimeValue) => void` | - | Called when time changes |
+| `hourCycle` | `Time.IHourCycle` | `'24'` | `'12'` or `'24'` hour display |
 | `showSeconds` | `boolean` | `false` | Show the seconds field |
 | `minTime` | `TimeValue` | - | Minimum selectable time |
 | `maxTime` | `TimeValue` | - | Maximum selectable time |
@@ -55,9 +55,9 @@ function MyTimePicker() {
 
 | Property | Type | Description |
 | :--- | :--- | :--- |
-| `value` | `TimeValue` | Current time value `{ hour, minute, second? }` |
-| `focusedField` | `TimeField` | Currently focused field |
-| `hourCycle` | `HourCycle` | Active hour cycle |
+| `value` | `Time.ITimeValue` | Current time value `{ hour, minute, second? }` |
+| `focusedField` | `Time.ITimeField` | Currently focused field |
+| `hourCycle` | `Time.IHourCycle` | Active hour cycle |
 | `displayHour` | `number` | Hour adjusted for 12h display |
 | `displayAmPm` | `'AM' \| 'PM'` | Current AM/PM value |
 
@@ -65,7 +65,7 @@ function MyTimePicker() {
 
 | Method | Signature | Description |
 | :--- | :--- | :--- |
-| `setValue` | `(value: TimeValue) => void` | Set the full time value |
+| `setValue` | `(value: Time.ITimeValue) => void` | Set the full time value |
 | `setField` | `(field, value) => void` | Set a single field |
 | `increment` | `(field, delta?) => void` | Increment a field |
 | `decrement` | `(field, delta?) => void` | Decrement a field |
@@ -75,7 +75,7 @@ function MyTimePicker() {
 ### `getFieldProps`
 
 ```tsx
-getFieldProps(field: TimeField) => TimeFieldProps
+getFieldProps(field: Time.ITimeField) => TimeFieldProps
 ```
 
 Returns props to spread on each time field element:

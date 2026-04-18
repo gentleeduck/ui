@@ -1,6 +1,6 @@
 ---
 title: "Lesson 2: Adapter Pattern"
-description: "Understanding DateAdapter<TDate> and how to plug in any date library."
+description: "Understanding Adapter.IDateAdapter<TDate> and how to plug in any date library."
 ---
 
 <Callout icon={<Lightbulb />}>
@@ -11,10 +11,10 @@ description: "Understanding DateAdapter<TDate> and how to plug in any date libra
 
 ## What is a date adapter?
 
-A date adapter is an object that implements the `DateAdapter<TDate>` interface. It tells the calendar engine how to perform date operations without coupling to any specific date library.
+A date adapter is an object that implements the `Adapter.IDateAdapter<TDate>` interface. It tells the calendar engine how to perform date operations without coupling to any specific date library.
 
 ```tsx showLineNumbers
-import type { DateAdapter } from '@gentleduck/calendar'
+import type { Adapter } from '@gentleduck/calendar'
 
 // TDate is a generic - it can be Date, Dayjs, DateTime, etc.
 // The adapter tells the engine how to work with that type
@@ -56,10 +56,10 @@ const formatted = adapter.format(today, { month: 'long', year: 'numeric' })  // 
 Let's build a dayjs adapter step by step:
 
 ```tsx showLineNumbers
-import type { DateAdapter } from '@gentleduck/calendar'
+import type { Adapter } from '@gentleduck/calendar'
 import dayjs, { type Dayjs } from 'dayjs'
 
-const dayjsAdapter: DateAdapter<Dayjs> = {
+const dayjsAdapter: Adapter.IDateAdapter<Dayjs> = {
   // Creation
   today: () => dayjs().startOf('day'),
   create: (y, m, d) => dayjs().year(y).month(m).date(d).startOf('day'),
