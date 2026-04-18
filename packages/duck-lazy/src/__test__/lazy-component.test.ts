@@ -1,5 +1,5 @@
 import './setup-dom'
-import { beforeEach, describe, expect, mock, test } from 'bun:test'
+import { beforeEach, describe, expect, test } from 'vitest'
 
 // --- IntersectionObserver mock ---
 

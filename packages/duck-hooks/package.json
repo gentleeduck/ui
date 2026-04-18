@@ -13,9 +13,11 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "clsx": "^2.1.1",
+    "jsdom": "^29.0.0",
     "tailwind-merge": "^3.4.0",
     "tsdown": "0.21.4",
     "typescript": "6.0.2",
+    "vitest": "catalog:",
     "zod": "4.3.6"
   },
   "exports": {
@@ -63,9 +65,9 @@
     "fix": "biome check --write .",
     "format": "biome format --write .",
     "lint": "biome lint .",
-    "test": "bun test",
-    "test:coverage": "bun test --coverage",
-    "test:watch": "bun test --watch"
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest"
   },
   "type": "module",
   "types": "./dist/index.d.ts",

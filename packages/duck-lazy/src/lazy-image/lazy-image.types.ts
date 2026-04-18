@@ -6,8 +6,7 @@ export namespace ILazyImage {
     imageRef: React.RefObject<HTMLImageElement | null>
   }
 
-  export interface IProps
-    extends React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
+  export interface IProps extends React.DetailedHTMLProps<React.ImgHTMLAttributes<HTMLImageElement>, HTMLImageElement> {
     options?: IntersectionObserverInit
     placeholder?: string | undefined
     nextImage?: boolean

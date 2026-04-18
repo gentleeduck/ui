@@ -17,7 +17,8 @@
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "tsdown": "0.21.4",
-    "tsup": "^8.5.1"
+    "tsup": "^8.5.1",
+    "vitest": "catalog:"
   },
   "exports": {
     "./*": {
@@ -75,9 +76,9 @@
     "fix": "biome check --write .",
     "format": "biome format --write .",
     "lint": "biome lint .",
-    "test": "bun test",
-    "test:coverage": "bun test --coverage",
-    "test:watch": "bun test --watch"
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest"
   },
   "type": "module",
   "version": "1.2.15"

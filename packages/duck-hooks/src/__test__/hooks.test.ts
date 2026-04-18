@@ -1,11 +1,11 @@
-import { beforeEach, describe, expect, jest, mock, test } from 'bun:test'
+import { beforeEach, describe, expect, test, vi } from 'vitest'
 
 // ─── useDebounce / debounce ─────────────────────────────────────────────────
 import { debounce, useDebounce } from '../use-debounce'
 
 describe('debounce', () => {
   test('calls callback after specified delay', async () => {
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     const debounced = debounce(fn, 50)
 
     debounced()
@@ -16,7 +16,7 @@ describe('debounce', () => {
   })
 
   test('passes arguments to callback', async () => {
-    const fn = mock((_a: unknown, _b: unknown) => {})
+    const fn = vi.fn((_a: unknown, _b: unknown) => {})
     const debounced = debounce(fn, 30)
 
     debounced('hello', 42)
@@ -25,7 +25,7 @@ describe('debounce', () => {
   })
 
   test('resets timer on subsequent calls', async () => {
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     const debounced = debounce(fn, 50)
 
     debounced()
@@ -39,7 +39,7 @@ describe('debounce', () => {
   })
 
   test('only invokes the last call when called multiple times rapidly', async () => {
-    const fn = mock((_v: unknown) => {})
+    const fn = vi.fn((_v: unknown) => {})
     const debounced = debounce(fn, 50)
 
     debounced('a')
@@ -54,7 +54,7 @@ describe('debounce', () => {
 
 describe('useDebounce', () => {
   test('behaves the same as debounce (returns debounced function)', async () => {
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     const debounced = useDebounce(fn, 50)
 
     debounced()
@@ -130,7 +130,7 @@ import { useComputedTimeoutTransition } from '../use-computed-timeout-transition
 
 describe('useComputedTimeoutTransition', () => {
   test('calls callback after default timeout when element is null', async () => {
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     useComputedTimeoutTransition(null, fn)
 
     expect(fn).not.toHaveBeenCalled()
@@ -139,7 +139,7 @@ describe('useComputedTimeoutTransition', () => {
   })
 
   test('calls callback after custom timeout when element is null', async () => {
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     useComputedTimeoutTransition(null, fn, 50)
 
     await new Promise((r) => setTimeout(r, 80))
@@ -147,7 +147,7 @@ describe('useComputedTimeoutTransition', () => {
   })
 
   test('returns a cleanup function that cancels the timeout', async () => {
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     const cleanup = useComputedTimeoutTransition(null, fn, 50)
 
     cleanup!()
@@ -168,7 +168,7 @@ describe('useComputedTimeoutTransition', () => {
       transitionDuration: '0.05s',
     })) as any
 
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     useComputedTimeoutTransition(mockElement, fn)
 
     // Should use 50ms (0.05s * 1000), not 300ms default
@@ -189,7 +189,7 @@ describe('useComputedTimeoutTransition', () => {
       transitionDuration: '0s',
     })) as any
 
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     useComputedTimeoutTransition(mockElement, fn, 50)
 
     // Should use 50ms fallback since transitionDuration is '0s'
@@ -205,7 +205,7 @@ describe('useComputedTimeoutTransition', () => {
       style: { transitionDuration: '0.5s' },
     } as unknown as HTMLElement
 
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     useComputedTimeoutTransition(mockElement, fn, 50)
 
     await new Promise((r) => setTimeout(r, 80))
@@ -223,7 +223,7 @@ describe('useComputedTimeoutTransition', () => {
       throw new Error('test error')
     }) as any
 
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     // Should not throw, and should fall back to the provided timeout
     useComputedTimeoutTransition(mockElement, fn, 50)
 
@@ -256,7 +256,7 @@ describe('useStableId (logic)', () => {
 
 describe('debounce (edge cases)', () => {
   test('calls immediately when delay is 0', async () => {
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     const debounced = debounce(fn, 0)
 
     debounced()
@@ -265,7 +265,7 @@ describe('debounce (edge cases)', () => {
   })
 
   test('works when delay is undefined (uses default setTimeout behavior)', async () => {
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     const debounced = debounce(fn)
 
     debounced()
@@ -275,7 +275,7 @@ describe('debounce (edge cases)', () => {
 
   test('handles callback that takes no arguments', async () => {
     let called = false
-    const fn = mock(() => {
+    const fn = vi.fn(() => {
       called = true
     })
     const debounced = debounce(fn, 20)
@@ -287,8 +287,8 @@ describe('debounce (edge cases)', () => {
   })
 
   test('multiple independent debounced functions do not interfere', async () => {
-    const fn1 = mock(() => {})
-    const fn2 = mock(() => {})
+    const fn1 = vi.fn(() => {})
+    const fn2 = vi.fn(() => {})
     const debounced1 = debounce(fn1, 30)
     const debounced2 = debounce(fn2, 30)
 
@@ -301,7 +301,7 @@ describe('debounce (edge cases)', () => {
   })
 
   test('calling debounced function many times in a tight loop only fires once', async () => {
-    const fn = mock((_v: unknown) => {})
+    const fn = vi.fn((_v: unknown) => {})
     const debounced = debounce(fn, 30)
 
     for (let i = 0; i < 100; i++) {
@@ -314,7 +314,7 @@ describe('debounce (edge cases)', () => {
   })
 
   test('can be called again after the first debounce fires', async () => {
-    const fn = mock((_v: unknown) => {})
+    const fn = vi.fn((_v: unknown) => {})
     const debounced = debounce(fn, 20)
 
     debounced('first')
@@ -333,7 +333,7 @@ describe('debounce (edge cases)', () => {
 
 describe('useDebounce (edge cases)', () => {
   test('works when delay is 0', async () => {
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     const debounced = useDebounce(fn, 0)
 
     debounced()
@@ -342,7 +342,7 @@ describe('useDebounce (edge cases)', () => {
   })
 
   test('works when delay is undefined', async () => {
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     const debounced = useDebounce(fn)
 
     debounced()
@@ -351,7 +351,7 @@ describe('useDebounce (edge cases)', () => {
   })
 
   test('resets timer on rapid calls like debounce', async () => {
-    const fn = mock((_v: unknown) => {})
+    const fn = vi.fn((_v: unknown) => {})
     const debounced = useDebounce(fn, 40)
 
     debounced('a')
@@ -406,7 +406,7 @@ describe('composeRefs (edge cases)', () => {
   })
 
   test('callback ref returning a cleanup function does not break compose', () => {
-    const cleanupFn = mock(() => {})
+    const cleanupFn = vi.fn(() => {})
     const callbackRef = (_v: unknown) => cleanupFn
     const objRef = { current: null as unknown }
 
@@ -435,8 +435,8 @@ describe('composeRefs (edge cases)', () => {
 
 describe('useComputedTimeoutTransition (edge cases)', () => {
   test('multiple rapid calls each produce independent cleanups', async () => {
-    const fn1 = mock(() => {})
-    const fn2 = mock(() => {})
+    const fn1 = vi.fn(() => {})
+    const fn2 = vi.fn(() => {})
     const cleanup1 = useComputedTimeoutTransition(null, fn1, 30)
     const cleanup2 = useComputedTimeoutTransition(null, fn2, 30)
 
@@ -459,7 +459,7 @@ describe('useComputedTimeoutTransition (edge cases)', () => {
       transitionDuration: '50ms',
     })) as any
 
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     const cleanup = useComputedTimeoutTransition(mockElement, fn)
 
     // parseFloat('50ms') = 50, then 50 * 1000 = 50000ms
@@ -484,7 +484,7 @@ describe('useComputedTimeoutTransition (edge cases)', () => {
       transitionDuration: '',
     })) as any
 
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     useComputedTimeoutTransition(mockElement, fn, 30)
 
     await new Promise((r) => setTimeout(r, 60))
@@ -505,7 +505,7 @@ describe('useComputedTimeoutTransition (edge cases)', () => {
       transitionDuration: 'invalid',
     })) as any
 
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     useComputedTimeoutTransition(mockElement, fn, 30)
 
     await new Promise((r) => setTimeout(r, 60))
@@ -516,7 +516,7 @@ describe('useComputedTimeoutTransition (edge cases)', () => {
   })
 
   test('cleanup called multiple times does not throw', async () => {
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     const cleanup = useComputedTimeoutTransition(null, fn, 30)
 
     cleanup!()
@@ -533,7 +533,7 @@ describe('useComputedTimeoutTransition (edge cases)', () => {
       style: {},
     } as unknown as HTMLElement
 
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     useComputedTimeoutTransition(mockElement, fn, 30)
 
     await new Promise((r) => setTimeout(r, 60))
@@ -542,7 +542,7 @@ describe('useComputedTimeoutTransition (edge cases)', () => {
   })
 
   test('callback is only invoked once per call (not duplicated)', async () => {
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     useComputedTimeoutTransition(null, fn, 20)
 
     await new Promise((r) => setTimeout(r, 80))
@@ -560,7 +560,7 @@ describe('useComputedTimeoutTransition (edge cases)', () => {
       transitionDuration: '0.001s',
     })) as any
 
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     useComputedTimeoutTransition(mockElement, fn)
 
     // 0.001s = 1ms, should fire very quickly
@@ -710,7 +710,7 @@ describe('useCopyToClipboard (logic)', () => {
   })
 
   test('onCopy callback is invoked after successful copy', async () => {
-    const onCopy = mock(() => {})
+    const onCopy = vi.fn(() => {})
     const originalClipboard = navigator.clipboard
 
     Object.defineProperty(navigator, 'clipboard', {
@@ -816,8 +816,8 @@ describe('useMediaQuery (logic)', () => {
 
     const mockResult = {
       matches: true,
-      addEventListener: mock(() => {}),
-      removeEventListener: mock(() => {}),
+      addEventListener: vi.fn(() => {}),
+      removeEventListener: vi.fn(() => {}),
     }
     globalThis.matchMedia = ((_query: string) => mockResult) as any
 
@@ -953,7 +953,7 @@ describe('useOnOpenChange (logic)', () => {
 
   test('closing state removes scroll-locked via useComputedTimeoutTransition', async () => {
     // On close, the hook calls useComputedTimeoutTransition to delay removal
-    const fn = mock(() => {})
+    const fn = vi.fn(() => {})
     useComputedTimeoutTransition(null, fn, 30)
 
     await new Promise((r) => setTimeout(r, 60))
