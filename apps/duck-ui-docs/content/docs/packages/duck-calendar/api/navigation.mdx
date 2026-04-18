@@ -5,6 +5,7 @@ description: "Pure functions for navigating between months, years, and decades."
 
 ```tsx
 import { navigate, canNavigate, goToMonth, goToYear, goToNextMonth, goToPrevMonth } from '@gentleduck/calendar'
+import type { Navigation, Adapter } from '@gentleduck/calendar'
 ```
 
 ## Functions
@@ -14,15 +15,15 @@ import { navigate, canNavigate, goToMonth, goToYear, goToNextMonth, goToPrevMont
 Navigate to the next or previous month, year, or decade. Pure function.
 
 ```tsx
-navigate(adapter: DateAdapter<TDate>, date: TDate, direction: 'prev' | 'next', unit: 'month' | 'year' | 'decade') => TDate
+navigate(adapter: Adapter.IDateAdapter<TDate>, date: TDate, direction: Navigation.Direction, unit: Navigation.Unit) => TDate
 ```
 
 | Param | Type | Description |
 | :--- | :--- | :--- |
-| `adapter` | `DateAdapter<TDate>` | Date adapter |
+| `adapter` | `Adapter.IDateAdapter<TDate>` | Date adapter |
 | `date` | `TDate` | Current date |
-| `direction` | `'prev' \| 'next'` | Navigation direction |
-| `unit` | `'month' \| 'year' \| 'decade'` | Navigation unit |
+| `direction` | `Navigation.Direction` | Navigation direction |
+| `unit` | `Navigation.Unit` | Navigation unit |
 
 **Returns** the new date after navigation.
 
@@ -34,20 +35,20 @@ Check whether navigation in a given direction is allowed, respecting `fromDate` 
 
 ```tsx
 canNavigate(
-  adapter: DateAdapter<TDate>,
+  adapter: Adapter.IDateAdapter<TDate>,
   date: TDate,
-  direction: 'prev' | 'next',
-  unit: 'month' | 'year' | 'decade',
+  direction: Navigation.Direction,
+  unit: Navigation.Unit,
   constraints?: { fromDate?: TDate; toDate?: TDate }
 ) => boolean
 ```
 
 | Param | Type | Description |
 | :--- | :--- | :--- |
-| `adapter` | `DateAdapter<TDate>` | Date adapter |
+| `adapter` | `Adapter.IDateAdapter<TDate>` | Date adapter |
 | `date` | `TDate` | Current date |
-| `direction` | `'prev' \| 'next'` | Direction to check |
-| `unit` | `'month' \| 'year' \| 'decade'` | Navigation unit |
+| `direction` | `Navigation.Direction` | Direction to check |
+| `unit` | `Navigation.Unit` | Navigation unit |
 | `constraints` | `{ fromDate?: TDate; toDate?: TDate }` | Optional bounds. `fromDate` is the earliest navigable date, `toDate` is the latest. |
 
 **Returns** `true` if navigation is within bounds.
@@ -63,7 +64,7 @@ Navigate to a specific month within the current year. Used by the month picker v
 ```tsx
 import { goToMonth } from '@gentleduck/calendar'
 
-goToMonth(adapter: DateAdapter<TDate>, current: TDate, month: number) => TDate
+goToMonth(adapter: Adapter.IDateAdapter<TDate>, current: TDate, month: number) => TDate
 ```
 
 ### `goToYear`
@@ -71,7 +72,7 @@ goToMonth(adapter: DateAdapter<TDate>, current: TDate, month: number) => TDate
 Navigate to a specific year. Used by the year picker view.
 
 ```tsx
-goToYear(adapter: DateAdapter<TDate>, current: TDate, year: number) => TDate
+goToYear(adapter: Adapter.IDateAdapter<TDate>, current: TDate, year: number) => TDate
 ```
 
 ### `goToNextMonth`
@@ -79,7 +80,7 @@ goToYear(adapter: DateAdapter<TDate>, current: TDate, year: number) => TDate
 Shorthand for `navigate(adapter, date, 'next', 'month')`.
 
 ```tsx
-goToNextMonth(adapter: DateAdapter<TDate>, current: TDate) => TDate
+goToNextMonth(adapter: Adapter.IDateAdapter<TDate>, current: TDate) => TDate
 ```
 
 ### `goToPrevMonth`
@@ -87,5 +88,5 @@ goToNextMonth(adapter: DateAdapter<TDate>, current: TDate) => TDate
 Shorthand for `navigate(adapter, date, 'prev', 'month')`.
 
 ```tsx
-goToPrevMonth(adapter: DateAdapter<TDate>, current: TDate) => TDate
+goToPrevMonth(adapter: Adapter.IDateAdapter<TDate>, current: TDate) => TDate
 ```
