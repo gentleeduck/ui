@@ -42,8 +42,8 @@ const MotionCombobox = React.forwardRef<
     return (
       <MotionPopover {...popoverProps} dir={direction}>
         <PopoverTrigger asChild>
-          <MotionButton ref={ref} {...popoverTrigger} variant={popoverTrigger?.['variant'] ?? 'dashed'}>
-            {popoverTrigger?.['children']}
+          <MotionButton ref={ref} {...popoverTrigger} variant={popoverTrigger?.variant ?? 'dashed'}>
+            {popoverTrigger?.children}
             {showSelected &&
               (resolvedValue ? (
                 Array.isArray(resolvedValue) && resolvedValue.length ? (

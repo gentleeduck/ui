@@ -4,8 +4,8 @@ import { listCommandConfig } from './list.constants'
 import { listCommandAction } from './list.libs'
 
 const { name, description, options } = listCommandConfig
-const option1 = requireConfigValue(options['option1'], 'missing list command option1 config')
-const option2 = requireConfigValue(options['option2'], 'missing list command option2 config')
+const option1 = requireConfigValue(options.option1, 'missing list command option1 config')
+const option2 = requireConfigValue(options.option2, 'missing list command option2 config')
 
 export function listCommand(): Command {
   const cmd = new Command(name)

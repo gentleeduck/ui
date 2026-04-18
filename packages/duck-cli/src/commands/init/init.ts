@@ -4,9 +4,9 @@ import { initCommandConfig } from './init.constants'
 import { initCommandAction } from './init.libs'
 
 const { name, description, options, arguments_ } = initCommandConfig
-const option1 = requireConfigValue(options['option1'], 'missing init command option1 config')
-const option2 = requireConfigValue(options['option2'], 'missing init command option2 config')
-const arg1 = requireConfigValue(arguments_['arg1'], 'missing init command arg1 config')
+const option1 = requireConfigValue(options.option1, 'missing init command option1 config')
+const option2 = requireConfigValue(options.option2, 'missing init command option2 config')
+const arg1 = requireConfigValue(arguments_.arg1, 'missing init command arg1 config')
 
 export function initCommand(): Command {
   const initCommand = new Command(name)
