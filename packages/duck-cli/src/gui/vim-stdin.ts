@@ -47,7 +47,7 @@ export class VimStdin extends Transform {
     return this
   }
 
-  _transform(
+  override _transform(
     chunk: Buffer,
     _encoding: BufferEncoding,
     callback: (error: Error | null, data?: Buffer | string) => void,

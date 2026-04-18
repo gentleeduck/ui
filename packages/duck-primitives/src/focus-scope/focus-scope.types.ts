@@ -5,9 +5,9 @@ export namespace IFocusScope {
   type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
   export interface IProps extends PrimitiveDivProps {
-    loop?: boolean
-    trapped?: boolean
-    onMountAutoFocus?: (event: Event) => void
-    onUnmountAutoFocus?: (event: Event) => void
+    loop?: boolean | undefined
+    trapped?: boolean | undefined
+    onMountAutoFocus?: ((event: Event) => void) | undefined
+    onUnmountAutoFocus?: ((event: Event) => void) | undefined
   }
 }

@@ -38,9 +38,9 @@ export namespace ISlider {
     min: number
     max: number
     inverted: boolean
-    onSlideStart?(value: number): void
-    onSlideMove?(value: number): void
-    onSlideEnd?(): void
+    onSlideStart?: ((value: number) => void) | undefined
+    onSlideMove?: ((value: number) => void) | undefined
+    onSlideEnd?: (() => void) | undefined
     onHomeKeyDown(event: React.KeyboardEvent): void
     onEndKeyDown(event: React.KeyboardEvent): void
     onStepKeyDown(step: { event: React.KeyboardEvent; direction: number }): void
@@ -60,7 +60,8 @@ export namespace ISlider {
   export interface IOrientationProps extends Omit<IImplProps, keyof IImplPrivateProps>, IOrientationPrivateProps {}
 
   export interface IHorizontalProps extends IOrientationProps {
-    dir?: IDirection.Kind
+    dir?: IDirection.Kind | undefined
+    'data-disabled'?: string | undefined
   }
 
   export interface IVerticalProps extends IOrientationProps {}

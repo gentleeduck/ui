@@ -1,4 +1,4 @@
-import { InitCommandConfig } from './init.types'
+import type { InitCommandConfig } from './init.types'
 
 export const initCommandConfig: InitCommandConfig = {
   description: 'init the project',

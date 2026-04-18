@@ -10,7 +10,7 @@ import { Checkbox } from '../checkbox'
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from '../command'
 import { Popover, PopoverContent, PopoverTrigger } from '../popover'
 import { Separator } from '../separator'
-import { IComboboxItemProps, IComboboxItemType, IComboboxProps } from './combobox.types'
+import type { IComboboxItemProps, IComboboxItemType, IComboboxProps } from './combobox.types'
 
 const Combobox = React.forwardRef<
   HTMLButtonElement,
@@ -42,8 +42,8 @@ const Combobox = React.forwardRef<
     return (
       <Popover {...popoverProps} dir={direction}>
         <PopoverTrigger asChild>
-          <Button ref={ref} {...popoverTrigger} variant={popoverTrigger?.variant ?? 'dashed'}>
-            {popoverTrigger?.children}
+          <Button ref={ref} {...popoverTrigger} variant={popoverTrigger?.['variant'] ?? 'dashed'}>
+            {popoverTrigger?.['children']}
             {showSelected &&
               (resolvedValue ? (
                 resolvedValue instanceof Array && resolvedValue.length ? (

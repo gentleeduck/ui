@@ -20,8 +20,8 @@ export namespace IPopper {
   export interface IContentContext {
     placedSide: Side
     onArrowChange(arrow: HTMLSpanElement | null): void
-    arrowX?: number
-    arrowY?: number
+    arrowX?: number | undefined
+    arrowY?: number | undefined
     shouldHideArrow: boolean
   }
 
@@ -38,17 +38,17 @@ export namespace IPopper {
   export interface IArrowProps extends React.ComponentPropsWithRef<typeof Arrow> {}
 
   export interface IContentProps extends PrimitiveDivProps {
-    side?: Side
-    sideOffset?: number
-    align?: Align
-    alignOffset?: number
-    arrowPadding?: number
-    avoidCollisions?: boolean
-    collisionBoundary?: Boundary | Boundary[]
-    collisionPadding?: CollisionPadding
-    sticky?: 'partial' | 'always'
-    hideWhenDetached?: boolean
-    updatePositionStrategy?: 'optimized' | 'always'
-    onPlaced?: () => void
+    side?: Side | undefined
+    sideOffset?: number | undefined
+    align?: Align | undefined
+    alignOffset?: number | undefined
+    arrowPadding?: number | undefined
+    avoidCollisions?: boolean | undefined
+    collisionBoundary?: Boundary | Boundary[] | undefined
+    collisionPadding?: CollisionPadding | undefined
+    sticky?: 'partial' | 'always' | undefined
+    hideWhenDetached?: boolean | undefined
+    updatePositionStrategy?: 'optimized' | 'always' | undefined
+    onPlaced?: (() => void) | undefined
   }
 }

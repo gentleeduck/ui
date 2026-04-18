@@ -35,7 +35,7 @@ export namespace INavigationMenu {
       IContentImplPrivateProps {}
 
   export interface IViewportContentMounterProps extends IContentImplProps {
-    forceMount?: true
+    forceMount?: true | undefined
   }
 
   export type ViewportContentMounterElement = NavigationMenuContentImplElement

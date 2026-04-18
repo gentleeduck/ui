@@ -45,10 +45,10 @@ export namespace Selection {
    */
   export interface ISelectionConstraints<TDate> {
     /** Array of specific disabled dates, or a predicate returning true for disabled dates. */
-    disabled?: TDate[] | ((date: TDate) => boolean)
+    disabled?: TDate[] | ((date: TDate) => boolean) | undefined
     /** Minimum selectable date (inclusive). Days before this are disabled. */
-    fromDate?: TDate
+    fromDate?: TDate | undefined
     /** Maximum selectable date (inclusive). Days after this are disabled. */
-    toDate?: TDate
+    toDate?: TDate | undefined
   }
 }

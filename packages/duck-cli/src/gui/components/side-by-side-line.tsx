@@ -51,9 +51,11 @@ function renderSide(line: Diff.DisplayLine | null, numWidth: number, side: 'left
         <Text
           key={seg.key}
           color={seg.highlight ? (line.type === 'remove' ? 'white' : 'black') : baseColor}
-          backgroundColor={
-            seg.highlight ? (line.type === 'add' ? 'green' : line.type === 'remove' ? 'red' : undefined) : undefined
-          }>
+          {...(seg.highlight && line.type === 'add'
+            ? { backgroundColor: 'green' as const }
+            : seg.highlight && line.type === 'remove'
+              ? { backgroundColor: 'red' as const }
+              : {})}>
           {seg.text}
         </Text>
       ))}

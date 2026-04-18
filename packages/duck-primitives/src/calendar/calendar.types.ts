@@ -9,7 +9,7 @@ export namespace ICalendar {
   export type IContext = UseCalendar.IUseCalendarReturn<Date, Selection.SelectionMode> & {
     adapter: Adapter.IDateAdapter<Date>
     mode: Selection.SelectionMode
-    locale?: CalendarTypes.ICalendarLocaleConfig
+    locale?: CalendarTypes.ICalendarLocaleConfig | undefined
   }
 
   type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
@@ -46,7 +46,7 @@ export namespace ICalendar {
   }
 
   export interface IWeekdaysProps extends PrimitiveDivProps {
-    renderWeekday?: (weekday: string, index: number) => React.ReactNode
+    renderWeekday?: ((weekday: string, index: number) => React.ReactNode) | undefined
   }
 
   export interface IYearViewProps extends PrimitiveDivProps {}

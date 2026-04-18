@@ -1,5 +1,5 @@
 import { cosmiconfig } from 'cosmiconfig'
-import { RawConfigType } from './get-project-config.dto'
+import type { RawConfigType } from './get-project-config.dto'
 
 export const explorer = cosmiconfig('duck-benchmark', {
   searchPlaces: ['duck-benchmark.config.ts', 'duck-benchmark.config.js'],

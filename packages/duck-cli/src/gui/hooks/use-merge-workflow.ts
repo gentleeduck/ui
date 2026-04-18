@@ -78,9 +78,9 @@ export type MergeWorkflowState = {
  * and starts directly at 'resolving'.
  */
 export function useMergeWorkflow(options: {
-  mergeData?: Merge.ComponentState
+  mergeData?: Merge.ComponentState | undefined
   onBack: () => void
-  onComplete?: (results: Merge.Result[]) => void
+  onComplete?: ((results: Merge.Result[]) => void) | undefined
 }): MergeWorkflowState {
   const { mergeData, onBack, onComplete } = options
 

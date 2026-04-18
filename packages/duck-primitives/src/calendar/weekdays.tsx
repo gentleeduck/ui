@@ -31,7 +31,7 @@ function WeekdayCell({
 }: {
   day: string
   index: number
-  renderWeekday?: (weekday: string, index: number) => React.ReactNode
+  renderWeekday?: ((weekday: string, index: number) => React.ReactNode) | undefined
 }) {
   return (
     // biome-ignore lint/a11y/useSemanticElements: columnheader role on abbr is intentional per WAI-ARIA grid pattern

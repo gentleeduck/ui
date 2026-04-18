@@ -6,6 +6,6 @@ export namespace IPortal {
 
   export interface IProps extends PrimitiveDivProps {
     /** The container element to portal into. Defaults to document.body. */
-    container?: Element | DocumentFragment | null
+    container?: Element | DocumentFragment | null | undefined
   }
 }

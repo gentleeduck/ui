@@ -75,7 +75,7 @@ const MenuSubTrigger = React.forwardRef<MenuSubTriggerElement, IMenu.ISubTrigger
 
               const contentRect = context.content?.getBoundingClientRect()
               if (contentRect) {
-                const side = context.content?.dataset.side as Side
+                const side = context.content?.dataset['side'] as Side
                 const rightSide = side === 'right'
                 const bleed = rightSide ? -5 : +5
                 const contentNearEdge = contentRect[rightSide ? 'left' : 'right']

@@ -1,6 +1,6 @@
 import { highlighter } from '../text-styling'
 import { compileFile, renderFile } from './compile-benchmark.libs'
-import { CompileBenchmarkParams, RenderBenchmarkParams } from './compile-benchmark.types'
+import type { CompileBenchmarkParams, RenderBenchmarkParams } from './compile-benchmark.types'
 
 export async function compileBenchmark({
   folders,

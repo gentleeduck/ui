@@ -6,7 +6,7 @@ import fs from 'fs-extra'
 import React from 'react'
 import { renderToString } from 'react-dom/server'
 import { VITE_CONFIG_CONTENT } from './compile-benchmark.constants'
-import { CompileFileParams } from './compile-benchmark.types'
+import type { CompileFileParams } from './compile-benchmark.types'
 
 function isTsOrTsxFile(filename: string) {
   return /\.(ts|tsx)$/i.test(filename)

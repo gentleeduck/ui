@@ -29,11 +29,11 @@ export namespace ISelect {
     value: string | undefined
     onValueChange(value: string): void
     open: boolean
-    required?: boolean
+    required?: boolean | undefined
     onOpenChange(open: boolean): void
     dir: IDirection.Kind
     triggerPointerDownPosRef: React.RefObject<{ x: number; y: number } | null>
-    disabled?: boolean
+    disabled?: boolean | undefined
   }
 
   export interface INativeOptionsContext {
@@ -126,8 +126,8 @@ export namespace ISelect {
   }
 
   export interface IPortalProps {
-    children?: React.ReactNode
-    container?: PortalProps['container']
+    children?: React.ReactNode | undefined
+    container?: PortalProps['container'] | undefined
   }
 
   export interface IScrollUpButtonProps extends Omit<PrimitiveDivProps, 'onAutoScroll'> {}

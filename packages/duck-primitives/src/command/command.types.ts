@@ -27,7 +27,7 @@ export namespace ICommand {
   }
 
   export interface IListContext {
-    onItemLeave?: () => void
+    onItemLeave?: (() => void) | undefined
     listRef: React.RefObject<HTMLUListElement | null>
     emptyRef: React.RefObject<HTMLDivElement | null>
   }

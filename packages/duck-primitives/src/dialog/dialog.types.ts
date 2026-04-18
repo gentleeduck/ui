@@ -72,12 +72,12 @@ export namespace IDialog {
   type PortalProps = React.ComponentPropsWithoutRef<typeof PortalPrimitive>
 
   export interface IPortalProps {
-    children?: React.ReactNode
-    container?: PortalProps['container']
-    forceMount?: true
+    children?: React.ReactNode | undefined
+    container?: PortalProps['container'] | undefined
+    forceMount?: true | undefined
   }
 
   export interface IPortalContext {
-    forceMount?: true
+    forceMount?: true | undefined
   }
 }

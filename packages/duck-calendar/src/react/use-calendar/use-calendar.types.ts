@@ -7,7 +7,7 @@ export namespace UseCalendar {
   export interface IUseCalendarConfig<TDate, M extends Selection.SelectionMode = 'single'>
     extends Calendar.ICalendarConfig<TDate, M> {
     /** Initial selected value for uncontrolled usage. */
-    defaultSelected?: Selection.CalendarValue<TDate, M>
+    defaultSelected?: Selection.CalendarValue<TDate, M> | undefined
   }
 
   export interface IDayProps {

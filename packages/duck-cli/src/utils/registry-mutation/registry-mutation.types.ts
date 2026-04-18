@@ -6,7 +6,7 @@ export type DependenciesType = {
 
 export type InstallOptions = {
   cwd: string
-  workspace?: string
+  workspace?: string | undefined
   yes: boolean
   force: boolean
 }

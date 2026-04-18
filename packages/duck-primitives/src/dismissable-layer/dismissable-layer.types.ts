@@ -8,12 +8,12 @@ export namespace IDismissableLayer {
   type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
   export interface IProps extends PrimitiveDivProps {
-    disableOutsidePointerEvents?: boolean
-    onEscapeKeyDown?: (event: KeyboardEvent) => void
-    onPointerDownOutside?: (event: PointerDownOutsideEvent) => void
-    onFocusOutside?: (event: FocusOutsideEvent) => void
-    onInteractOutside?: (event: PointerDownOutsideEvent | FocusOutsideEvent) => void
-    onDismiss?: () => void
+    disableOutsidePointerEvents?: boolean | undefined
+    onEscapeKeyDown?: ((event: KeyboardEvent) => void) | undefined
+    onPointerDownOutside?: ((event: PointerDownOutsideEvent) => void) | undefined
+    onFocusOutside?: ((event: FocusOutsideEvent) => void) | undefined
+    onInteractOutside?: ((event: PointerDownOutsideEvent | FocusOutsideEvent) => void) | undefined
+    onDismiss?: (() => void) | undefined
   }
 
   export interface IBranchProps extends PrimitiveDivProps {}

@@ -18,22 +18,22 @@ export namespace Time {
   /** Configuration for the time picker. */
   export interface ITimePickerConfig {
     /** Controlled time value. */
-    value?: ITimeValue
+    value?: ITimeValue | undefined
     /** Default time value for uncontrolled usage. */
-    defaultValue?: ITimeValue
+    defaultValue?: ITimeValue | undefined
     /** Called when the time changes. */
-    onChange?: (value: ITimeValue) => void
+    onChange?: ((value: ITimeValue) => void) | undefined
     /** 12-hour or 24-hour display. Default `'24'`. */
-    hourCycle?: HourCycle
+    hourCycle?: HourCycle | undefined
     /** Whether to show the seconds field. Default `false`. */
-    showSeconds?: boolean
+    showSeconds?: boolean | undefined
     /** Minimum selectable time. */
-    minTime?: ITimeValue
+    minTime?: ITimeValue | undefined
     /** Maximum selectable time. */
-    maxTime?: ITimeValue
+    maxTime?: ITimeValue | undefined
     /** Step increment for minutes. Default `1`. */
-    minuteStep?: number
+    minuteStep?: number | undefined
     /** Step increment for seconds. Default `1`. */
-    secondStep?: number
+    secondStep?: number | undefined
   }
 }

@@ -7,11 +7,11 @@ export namespace IInputOTP {
   export type IScoped<TProps> = TProps & { __scopeInputOTP?: Scope }
 
   export interface IContext {
-    value?: string
+    value?: string | undefined
     inputsRef: React.RefObject<HTMLInputElement[]>
     wrapperRef: React.RefObject<HTMLDivElement | null>
     dir: IDirection.Kind
-    maxLength?: number
+    maxLength?: number | undefined
   }
 
   type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
