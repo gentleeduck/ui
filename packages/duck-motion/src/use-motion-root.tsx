@@ -1,4 +1,6 @@
+import type { Transition } from 'motion/react'
 import * as React from 'react'
+import { useMotionConfig } from './motion-provider'
 
 /**
  * Context for tracking open state across MotionRoot and MotionContent pairs.
@@ -120,6 +122,17 @@ export function useMotionContent() {
 }
 
 /**
+ * Derives exit duration in milliseconds from a Transition config.
+ * Checks `duration` and `visualDuration` (spring) fields.
+ */
+export function getTransitionDurationMs(t?: Transition): number {
+  if (!t) return 180
+  if ('duration' in t && typeof t.duration === 'number') return t.duration * 1000
+  if ('visualDuration' in t && typeof t.visualDuration === 'number') return t.visualDuration * 1000
+  return 180
+}
+
+/**
  * Hook that manually drives mount/unmount for motion content components that
  * live inside a primitive Portal + Slot boundary.
  *
@@ -153,7 +166,9 @@ export function useMotionContent() {
  * )
  * ```
  */
-export function useMotionMount(isOpen: boolean, exitDurationMs = 180): boolean {
+export function useMotionMount(isOpen: boolean, exitDurationMs?: number): boolean {
+  const { exitTransition } = useMotionConfig()
+  const resolvedDuration = exitDurationMs ?? getTransitionDurationMs(exitTransition)
   const [shouldRender, setShouldRender] = React.useState(isOpen)
 
   React.useEffect(() => {
@@ -171,9 +186,9 @@ export function useMotionMount(isOpen: boolean, exitDurationMs = 180): boolean {
       if (typeof document !== 'undefined' && document.body.style.pointerEvents === 'none') {
         document.body.style.pointerEvents = ''
       }
-    }, exitDurationMs)
+    }, resolvedDuration)
     return () => clearTimeout(t)
-  }, [isOpen, exitDurationMs])
+  }, [isOpen, resolvedDuration])
 
   return shouldRender
 }

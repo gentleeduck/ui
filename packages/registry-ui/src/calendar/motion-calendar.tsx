@@ -2,6 +2,7 @@
 
 import { NativeAdapter, useCalendar } from '@gentleduck/calendar'
 import { cn } from '@gentleduck/libs/cn'
+import { staggerChildren } from '@gentleduck/motion'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { tapScale } from '@gentleduck/motion/presets/content'
@@ -232,7 +233,7 @@ const MotionCalendar = React.forwardRef<HTMLDivElement, ICalendarProps>(
                             <m.div
                               variants={{
                                 hidden: {},
-                                visible: { transition: { delayChildren: 0.04, staggerChildren: 0.008 } },
+                                visible: { transition: staggerChildren(8, 40) },
                               }}
                               initial="hidden"
                               animate="visible">

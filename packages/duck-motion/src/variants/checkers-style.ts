@@ -1,4 +1,5 @@
 import { cva } from '@gentleduck/variants'
+import type { Variants } from '@gentleduck/variants'
 
 /**
  * CVA variant for checkbox, radio, and switch input styling.
@@ -55,3 +56,5 @@ export const checkersStylePattern = cva(
     },
   },
 )
+
+export type CheckersStylePatternProps = Variants.VariantProps<typeof checkersStylePattern>
