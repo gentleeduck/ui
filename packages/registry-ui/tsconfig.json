@@ -1,21 +1,12 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "exactOptionalPropertyTypes": false,
-    "isolatedModules": true,
-    "jsx": "react-jsx",
-    "lib": ["ES2022", "dom", "dom.iterable"],
-    "module": "preserve",
-    "moduleResolution": "bundler",
     "outDir": "./dist",
     "paths": {
       "~/*": ["./*"]
     },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
+    "plugins": [{ "name": "next" }],
+    "resolveJsonModule": true,
     "rootDir": "./"
   },
   "exclude": [
@@ -30,6 +21,6 @@
     "**/*.tsbuildinfo",
     "tsconfig.tsbuildinfo"
   ],
-  "extends": "@gentleduck/typescript-config/base.json",
+  "extends": "@gentleduck/typescript-config/motion.json",
   "include": ["./**/*.ts", "./**/*.tsx"]
 }

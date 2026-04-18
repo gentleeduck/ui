@@ -2,9 +2,7 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "allowImportingTsExtensions": true,
-    "allowJs": true,
     "erasableSyntaxOnly": true,
-    "esModuleInterop": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "lib": ["ES2021.String", "ES2022", "DOM"],
@@ -28,6 +26,6 @@
     "types": ["vite/client", "@types/react", "./src/index.d.ts", "node"],
     "useDefineForClassFields": true
   },
-  "extends": "@gentleduck/typescript-config/base.json",
+  "extends": "@gentleduck/typescript-config/motion.json",
   "include": ["src"]
 }

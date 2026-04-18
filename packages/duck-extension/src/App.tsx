@@ -143,8 +143,8 @@ function FontProvider({ children }: { children: React.ReactNode }) {
         chrome.storage.sync.get(
           ['gentleduck_domainFonts', 'gentleduck_disabledDomains'],
           (data: Record<string, unknown>) => {
-            const fonts = (data.gentleduck_domainFonts || {}) as Record<string, Font>
-            const disabled = (data.gentleduck_disabledDomains || []) as string[]
+            const fonts = (data['gentleduck_domainFonts'] || {}) as Record<string, Font>
+            const disabled = (data['gentleduck_disabledDomains'] || []) as string[]
 
             // Update cache
             storageCache = {

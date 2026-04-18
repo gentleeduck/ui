@@ -20,26 +20,26 @@ export default function DialogGuardedAsyncInternalExample() {
 
   return (
     <Dialog.Root open={open} onOpenChange={setOpen}>
-      <Dialog.Trigger className={styles.trigger}>Delete project</Dialog.Trigger>
+      <Dialog.Trigger className={styles['trigger']}>Delete project</Dialog.Trigger>
       <Dialog.Portal>
-        <Dialog.Overlay className={styles.overlay} />
+        <Dialog.Overlay className={styles['overlay']} />
         <Dialog.Content
-          className={styles.content}
+          className={styles['content']}
           onEscapeKeyDown={(event) => {
             if (busy) event.preventDefault()
           }}
           onInteractOutside={(event) => {
             if (busy) event.preventDefault()
           }}>
-          <Dialog.Title className={styles.title}>Delete project?</Dialog.Title>
-          <Dialog.Description className={styles.description}>This action cannot be undone.</Dialog.Description>
-          <div className={styles.actions}>
+          <Dialog.Title className={styles['title']}>Delete project?</Dialog.Title>
+          <Dialog.Description className={styles['description']}>This action cannot be undone.</Dialog.Description>
+          <div className={styles['actions']}>
             <Dialog.Close asChild>
-              <button className={styles.secondary} disabled={busy} type="button">
+              <button className={styles['secondary']} disabled={busy} type="button">
                 Cancel
               </button>
             </Dialog.Close>
-            <button className={styles.danger} disabled={busy} onClick={onConfirm} type="button">
+            <button className={styles['danger']} disabled={busy} onClick={onConfirm} type="button">
               {busy ? 'Deleting...' : 'Delete'}
             </button>
           </div>

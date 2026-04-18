@@ -3,8 +3,8 @@
 import { cn } from '@gentleduck/libs/cn'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
-import { fadeIn } from '@gentleduck/motion/presets/fade-in'
 import type { DirectionalSide } from '@gentleduck/motion/presets/_utils'
+import { fadeIn } from '@gentleduck/motion/presets/fade-in'
 import { createSlideEdge } from '@gentleduck/motion/presets/slide-edge'
 import { tweenSlow } from '@gentleduck/motion/transitions/tweens'
 import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
@@ -41,7 +41,7 @@ const MotionSheetContent = React.forwardRef<
 >(({ side = 'right', className, children, closeText = 'Close', hideClose = false, ...props }, ref) => {
   const { isOpen } = useMotionContent()
   const overlay = useMotionPreset(fadeIn, OVERLAY_OPTIONS)
-  const resolvedSide = (Array.isArray(side) ? side[0] : side ?? 'right') as DirectionalSide
+  const resolvedSide = (Array.isArray(side) ? side[0] : (side ?? 'right')) as DirectionalSide
   const slide = React.useMemo(() => createSlideEdge(resolvedSide), [resolvedSide])
   const shouldRender = useMotionMount(isOpen, 320)
 
