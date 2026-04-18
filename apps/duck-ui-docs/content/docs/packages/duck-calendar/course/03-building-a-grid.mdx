@@ -11,7 +11,7 @@ description: "Using buildCalendarMonth to generate and render a calendar month g
 
 ## The grid builder
 
-`buildCalendarMonth` is a pure function that takes an adapter, a date, and optional config, and returns a `CalendarMonth` object with weeks and day cells.
+`buildCalendarMonth` is a pure function that takes an adapter, a date, and optional config, and returns a `Grid.ICalendarMonth` object with weeks and day cells.
 
 ```tsx showLineNumbers
 import { NativeAdapter, buildCalendarMonth } from '@gentleduck/calendar'
@@ -24,8 +24,8 @@ const month = buildCalendarMonth(adapter, march2026, {
   fixedWeeks: false,
 })
 
-// month.weeks is an array of CalendarWeek objects
-// Each week has 7 CalendarDay objects
+// month.weeks is an array of Grid.ICalendarWeek objects
+// Each week has 7 Grid.ICalendarDay objects
 ```
 
 ---
@@ -33,7 +33,7 @@ const month = buildCalendarMonth(adapter, march2026, {
 ## What you get back
 
 ```tsx showLineNumbers
-// CalendarMonth<Date>
+// Grid.ICalendarMonth<Date>
 {
   month: Date,          // First day of the month
   weeks: [
