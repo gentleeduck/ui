@@ -5,13 +5,13 @@ description: "Understand the DateAdapter pattern and how to plug in any date lib
 
 ## The adapter pattern
 
-The `DateAdapter<TDate>` interface abstracts all date operations. The engine never calls `new Date()` or `date.getMonth()` directly - everything goes through the adapter.
+The `Adapter.IDateAdapter<TDate>` interface abstracts all date operations. The engine never calls `new Date()` or `date.getMonth()` directly - everything goes through the adapter.
 
 This means you can swap `Date` for dayjs, date-fns, Luxon, or a non-Gregorian calendar without changing any calendar logic.
 
 <MermaidDiagram chart={`
 graph LR
-  A["Calendar Engine"] --> B["DateAdapter&lt;TDate&gt;"]
+  A["Calendar Engine"] --> B["Adapter.IDateAdapter&lt;TDate&gt;"]
   B --> C["NativeAdapter (Date)"]
   B --> D["DateFnsAdapter"]
   B --> E["DayjsAdapter"]
@@ -55,15 +55,15 @@ The package includes 7 ready-to-use adapters. Adapters marked with a peer depend
 
 ## Writing a custom adapter
 
-Implement the `DateAdapter<TDate>` interface for your preferred date library.
+Implement the `Adapter.IDateAdapter<TDate>` interface for your preferred date library.
 
 ### dayjs example
 
 ```tsx showLineNumbers
-import type { DateAdapter } from '@gentleduck/calendar'
+import type { Adapter } from '@gentleduck/calendar'
 import dayjs, { type Dayjs } from 'dayjs'
 
-const dayjsAdapter: DateAdapter<Dayjs> = {
+const dayjsAdapter: Adapter.IDateAdapter<Dayjs> = {
   today: () => dayjs().startOf('day'),
   create: (y, m, d) => dayjs().year(y).month(m).date(d).startOf('day'),
   isValid: (d) => d.isValid(),
@@ -118,7 +118,7 @@ Every adapter must implement these methods:
 | `getYear` | `(d) => number` | Extract year |
 | `getMonth` | `(d) => number` | Extract month (0-indexed) |
 | `getDate` | `(d) => number` | Extract day of month |
-| `getDayOfWeek` | `(d) => WeekStartDay` | Day of week (0=Sun) |
+| `getDayOfWeek` | `(d) => Adapter.WeekStartDay` | Day of week (0=Sun) |
 | `toDate` | `(d) => Date` | Convert to native Date |
 | `fromDate` | `(d: Date) => TDate` | Convert from native Date |
 | `format` | `(d, opts, locale?) => string` | Format for display |
