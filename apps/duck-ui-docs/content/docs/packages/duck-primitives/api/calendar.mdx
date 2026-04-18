@@ -68,8 +68,8 @@ The root component. Wraps `useCalendar` and provides context to all children. Re
 
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `adapter` | `DateAdapter<Date>` | **required** | Date adapter instance |
-| `mode` | `SelectionMode` | **required** | `'single'`, `'range'`, `'multi'`, or `'multi-range'` |
+| `adapter` | `Adapter.IDateAdapter<Date>` | **required** | Date adapter instance |
+| `mode` | `Selection.SelectionMode` | **required** | `'single'`, `'range'`, `'multi'`, or `'multi-range'` |
 | `locale` | `CalendarLocaleConfig` | - | Locale, week start day, and direction |
 | `month` | `Date` | - | Controlled displayed month |
 | `defaultMonth` | `Date` | - | Default month (uncontrolled) |
@@ -100,7 +100,7 @@ Displays the current month and year. Renders a `div` with `aria-live="polite"`.
 
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `formatMonth` | `(month: Date, adapter: DateAdapter<Date>) => string` | - | Custom formatter for the title. Defaults to `"March 2026"` format |
+| `formatMonth` | `(month: Date, adapter: Adapter.IDateAdapter<Date>) => string` | - | Custom formatter for the title. Defaults to `"March 2026"` format |
 
 **Data attributes:**
 
@@ -195,7 +195,7 @@ A single day cell. Renders a `button` with full ARIA attributes and data attribu
 
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `day` | `CalendarDay<Date>` | **required** | Day data from the calendar grid |
+| `day` | `Grid.ICalendarDay<Date>` | **required** | Day data from the calendar grid |
 
 Automatically applies all day props from context: `aria-label`, `aria-selected`, `aria-disabled`, `aria-current`, `tabIndex`, `onClick`, `onKeyDown`, `onMouseEnter`, and all `data-*` styling attributes.
 
