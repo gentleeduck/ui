@@ -1,7 +1,6 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import type { ISelectTriggerProps as PrimitiveSelectTriggerProps } from '@gentleduck/primitives/select'
 import * as SelectPrimitive from '@gentleduck/primitives/select'
 import { Check, ChevronDown, ChevronUp } from 'lucide-react'
 import * as React from 'react'
@@ -15,7 +14,7 @@ SelectGroup.displayName = 'SelectGroup'
 const SelectValue = SelectPrimitive.Value
 SelectValue.displayName = 'SelectValue'
 
-export interface ISelectTriggerProps extends PrimitiveSelectTriggerProps {}
+export type ISelectTriggerProps = React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
 
 const SelectTrigger = React.forwardRef<React.ComponentRef<typeof SelectPrimitive.Trigger>, ISelectTriggerProps>(
   ({ className, children, ...props }, ref) => (
@@ -101,7 +100,7 @@ const SelectLabel = React.forwardRef<
 ))
 SelectLabel.displayName = SelectPrimitive.Label.displayName
 
-const SelectItem = React.forwardRef<HTMLDivElement, SelectPrimitive.ISelectItemProps>(
+const SelectItem = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof SelectPrimitive.Item>>(
   ({ className, children, ...props }, ref) => (
     <SelectPrimitive.Item
       ref={ref}

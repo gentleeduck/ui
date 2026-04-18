@@ -9,15 +9,16 @@ import * as HoverCardPrimitive from '@gentleduck/primitives/hover-card'
 import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
-export const HoverCardPlacementContext =
-  React.createContext<React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content>['side']>('top')
+export const HoverCardPlacementContext = React.createContext<
+  'top' | 'right' | 'bottom' | 'left' | undefined
+>('top')
 
 const MotionHoverCard = React.forwardRef<
   React.ComponentRef<typeof HoverCardPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Root> & {
     delayDuration?: number
     skipDelayDuration?: number
-    placement?: React.ComponentPropsWithoutRef<typeof HoverCardPrimitive.Content>['side']
+    placement?: 'top' | 'right' | 'bottom' | 'left'
   }
 >(({ closeDelay, openDelay, placement = 'top', delayDuration, skipDelayDuration, ...props }, _ref) => {
   void skipDelayDuration

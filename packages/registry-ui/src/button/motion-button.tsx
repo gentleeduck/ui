@@ -11,11 +11,11 @@ import { Loader } from 'lucide-react'
 import { AnimatePresence, LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { buttonVariants } from './button.constants'
-import type { IButtonProps } from './button.types'
+import type { ButtonProps } from './button.types'
 
 const MotionButton = React.forwardRef<
   HTMLButtonElement,
-  Omit<IButtonProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
+  Omit<ButtonProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
 >(
   (
     {
