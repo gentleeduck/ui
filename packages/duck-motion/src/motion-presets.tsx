@@ -2,6 +2,8 @@ import * as React from 'react'
 import { createDirectionalPreset } from './presets/directional'
 import { fadeIn } from './presets/fade-in'
 import { fadeOut } from './presets/fade-out'
+import { popIn } from './presets/pop-in'
+import { rotateIn } from './presets/rotate-in'
 import { scaleIn } from './presets/scale-in'
 import { slideDown } from './presets/slide-down'
 import { slideFromLeft } from './presets/slide-from-left'
@@ -9,6 +11,7 @@ import { slideFromRight } from './presets/slide-from-right'
 import { slideUp } from './presets/slide-up'
 import type {
   Direction,
+  IDuckMotion,
   IMotionPreset,
   IMotionPresetResult,
   MotionAnimationState,
@@ -21,6 +24,7 @@ import { TAP_SCALE_TRANSITION } from './transitions/tweens'
 
 export type {
   Direction,
+  IDuckMotion,
   IMotionPreset,
   IMotionPresetResult,
   MotionAnimationState,
@@ -36,15 +40,11 @@ const presetMap: Record<MotionPresetName, IMotionPreset> = {
   slideDown,
   slideFromLeft,
   slideFromRight,
+  rotateIn,
+  popIn,
 }
 
-export interface IUseMotionPresetOptions {
-  transition?: MotionTransitionConfig
-  enterTransition?: MotionTransitionConfig
-  exitTransition?: MotionTransitionConfig
-  delay?: number
-  direction?: Direction
-}
+export interface IUseMotionPresetOptions extends IDuckMotion.IPresetOptions {}
 
 /** Lazy-load a single preset by name. Only fetches the module you ask for. */
 export function loadPreset(name: MotionPresetName): Promise<IMotionPreset> {
@@ -56,6 +56,8 @@ export function loadPreset(name: MotionPresetName): Promise<IMotionPreset> {
     slideDown: () => import('./presets/slide-down').then((m) => m.slideDown),
     slideFromLeft: () => import('./presets/slide-from-left').then((m) => m.slideFromLeft),
     slideFromRight: () => import('./presets/slide-from-right').then((m) => m.slideFromRight),
+    rotateIn: () => import('./presets/rotate-in').then((m) => m.rotateIn),
+    popIn: () => import('./presets/pop-in').then((m) => m.popIn),
   }
   return loaders[name]()
 }
