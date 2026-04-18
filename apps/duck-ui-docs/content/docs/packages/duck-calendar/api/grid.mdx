@@ -22,14 +22,14 @@ import {
 Build a single month grid with weeks and day cells.
 
 ```tsx
-buildCalendarMonth(adapter: DateAdapter<TDate>, viewDate: TDate, config: Pick<CalendarConfig<TDate, any>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>) => CalendarMonth<TDate>
+buildCalendarMonth(adapter: Adapter.IDateAdapter<TDate>, viewDate: TDate, config: Pick<Calendar.ICalendarConfig<TDate, any>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>) => Grid.ICalendarMonth<TDate>
 ```
 
 | Param | Type | Description |
 | :--- | :--- | :--- |
-| `adapter` | `DateAdapter<TDate>` | Date adapter |
+| `adapter` | `Adapter.IDateAdapter<TDate>` | Date adapter |
 | `viewDate` | `TDate` | Any date in the target month |
-| `config` | `Pick<CalendarConfig<TDate, any>, 'showOutsideDays' \| 'fixedWeeks' \| 'locale'>` | Grid options |
+| `config` | `Pick<Calendar.ICalendarConfig<TDate, any>, 'showOutsideDays' \| 'fixedWeeks' \| 'locale'>` | Grid options |
 
 **Config properties:**
 
@@ -37,23 +37,23 @@ buildCalendarMonth(adapter: DateAdapter<TDate>, viewDate: TDate, config: Pick<Ca
 | :--- | :--- | :--- | :--- |
 | `showOutsideDays` | `boolean` | `true` | When false, outside days are marked as hidden and disabled |
 | `fixedWeeks` | `boolean` | `false` | Always produce 6 weeks |
-| `locale` | `CalendarLocaleConfig` | - | Locale config containing `weekStartDay`, `locale`, `direction`, etc. |
+| `locale` | `Calendar.ICalendarLocaleConfig` | - | Locale config containing `weekStartDay`, `locale`, `direction`, etc. |
 
-**Returns** a `CalendarMonth<TDate>`:
+**Returns** a `Grid.ICalendarMonth<TDate>`:
 
 | Property | Type | Description |
 | :--- | :--- | :--- |
 | `month` | `TDate` | The first day of the month |
-| `weeks` | `CalendarWeek<TDate>[]` | Array of week objects |
+| `weeks` | `Grid.ICalendarWeek<TDate>[]` | Array of week objects |
 
-Each `CalendarWeek<TDate>` has:
+Each `Grid.ICalendarWeek<TDate>` has:
 
 | Property | Type | Description |
 | :--- | :--- | :--- |
 | `weekNumber` | `number` | ISO week number |
-| `days` | `CalendarDay<TDate>[]` | 7 day cells |
+| `days` | `Grid.ICalendarDay<TDate>[]` | 7 day cells |
 
-Each `CalendarDay<TDate>` has:
+Each `Grid.ICalendarDay<TDate>` has:
 
 | Property | Type | Description |
 | :--- | :--- | :--- |
@@ -75,15 +75,15 @@ Each `CalendarDay<TDate>` has:
 Build multiple consecutive month grids.
 
 ```tsx
-buildMultiMonth(adapter: DateAdapter<TDate>, startMonth: TDate, count: number, config: Pick<CalendarConfig<TDate, any>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>) => CalendarMonth<TDate>[]
+buildMultiMonth(adapter: Adapter.IDateAdapter<TDate>, startMonth: TDate, count: number, config: Pick<Calendar.ICalendarConfig<TDate, any>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>) => Grid.ICalendarMonth<TDate>[]
 ```
 
 | Param | Type | Description |
 | :--- | :--- | :--- |
-| `adapter` | `DateAdapter<TDate>` | Date adapter |
+| `adapter` | `Adapter.IDateAdapter<TDate>` | Date adapter |
 | `startMonth` | `TDate` | Any date in the first month |
 | `count` | `number` | Number of months |
-| `config` | `Pick<CalendarConfig<TDate, any>, 'showOutsideDays' \| 'fixedWeeks' \| 'locale'>` | Grid options |
+| `config` | `Pick<Calendar.ICalendarConfig<TDate, any>, 'showOutsideDays' \| 'fixedWeeks' \| 'locale'>` | Grid options |
 
 ---
 
@@ -92,16 +92,16 @@ buildMultiMonth(adapter: DateAdapter<TDate>, startMonth: TDate, count: number, c
 Build month entries for year navigation. Queries the adapter for the actual month count to support calendars with variable months (e.g. Hebrew leap years with 13 months).
 
 ```tsx
-buildCalendarYear(adapter: DateAdapter<TDate>, viewDate: TDate, locale?: string) => YearEntry[]
+buildCalendarYear(adapter: Adapter.IDateAdapter<TDate>, viewDate: TDate, locale?: string) => Grid.IYearEntry[]
 ```
 
 | Param | Type | Description |
 | :--- | :--- | :--- |
-| `adapter` | `DateAdapter<TDate>` | Date adapter |
+| `adapter` | `Adapter.IDateAdapter<TDate>` | Date adapter |
 | `viewDate` | `TDate` | Any date in the target year |
 | `locale` | `string` | BCP 47 locale for month names |
 
-Each `YearEntry` has:
+Each `Grid.IYearEntry` has:
 
 | Property | Type | Description |
 | :--- | :--- | :--- |
@@ -116,10 +116,10 @@ Each `YearEntry` has:
 Build a decade year picker.
 
 ```tsx
-buildDecadeView(adapter: DateAdapter<TDate>, viewDate: TDate) => DecadeEntry[]
+buildDecadeView(adapter: Adapter.IDateAdapter<TDate>, viewDate: TDate) => Grid.IDecadeEntry[]
 ```
 
-Each `DecadeEntry` has:
+Each `Grid.IDecadeEntry` has:
 
 | Property | Type | Description |
 | :--- | :--- | :--- |
@@ -135,12 +135,12 @@ Each `DecadeEntry` has:
 Returns 7 localized weekday names starting from the given week start day.
 
 ```tsx
-getLocalizedWeekdays(adapter: DateAdapter<TDate>, locale?: string, weekStartDay?: WeekStartDay, format?: 'long' | 'short' | 'narrow') => string[]
+getLocalizedWeekdays(adapter: Adapter.IDateAdapter<TDate>, locale?: string, weekStartDay?: WeekStartDay, format?: 'long' | 'short' | 'narrow') => string[]
 ```
 
 | Param | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `adapter` | `DateAdapter<TDate>` | - | Date adapter |
+| `adapter` | `Adapter.IDateAdapter<TDate>` | - | Date adapter |
 | `locale` | `string` | runtime default | BCP 47 locale tag |
 | `weekStartDay` | `WeekStartDay` | `0` | Day the week starts on (0 = Sunday) |
 | `format` | `'long' \| 'short' \| 'narrow'` | `'short'` | Intl weekday format |
@@ -157,12 +157,12 @@ const weekdays = getLocalizedWeekdays(adapter, 'en-US', 1) // Monday-first
 Returns localized month names for a given year. Queries the adapter for the actual month count to support calendar systems with variable months (e.g. Hebrew leap years with 13 months).
 
 ```tsx
-getLocalizedMonthNames(adapter: DateAdapter<TDate>, year: number, locale?: string, format?: 'long' | 'short' | 'narrow') => string[]
+getLocalizedMonthNames(adapter: Adapter.IDateAdapter<TDate>, year: number, locale?: string, format?: 'long' | 'short' | 'narrow') => string[]
 ```
 
 | Param | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `adapter` | `DateAdapter<TDate>` | - | Date adapter |
+| `adapter` | `Adapter.IDateAdapter<TDate>` | - | Date adapter |
 | `year` | `number` | - | Year to query month count for |
 | `locale` | `string` | runtime default | BCP 47 locale tag |
 | `format` | `'long' \| 'short' \| 'narrow'` | `'long'` | Intl month format |
@@ -179,12 +179,12 @@ const months = getLocalizedMonthNames(adapter, 2026, 'ar-SA')
 Computes the ISO 8601 week number for a given date. Week 1 is the week containing the first Thursday of the year.
 
 ```tsx
-getWeekNumber(adapter: DateAdapter<TDate>, date: TDate) => number
+getWeekNumber(adapter: Adapter.IDateAdapter<TDate>, date: TDate) => number
 ```
 
 | Param | Type | Description |
 | :--- | :--- | :--- |
-| `adapter` | `DateAdapter<TDate>` | Date adapter |
+| `adapter` | `Adapter.IDateAdapter<TDate>` | Date adapter |
 | `date` | `TDate` | The date to compute the week number for |
 
 ```tsx
