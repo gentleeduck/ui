@@ -1,7 +1,7 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { createStagger } from '@gentleduck/motion'
+import { getStaggerDelay } from '@gentleduck/motion'
 import { loadDomAnimation } from '@gentleduck/motion/motion-features'
 import { useMotionPreset } from '@gentleduck/motion/motion-presets'
 import { heightAuto } from '@gentleduck/motion/presets/height-auto'
@@ -17,9 +17,14 @@ import { Accordion, AccordionRenderOnceContext } from './accordion'
 
 const MotionAccordionItem = React.forwardRef<
   HTMLDivElement,
-  Omit<React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>, 'asChild'> & { index?: number }
+  Omit<React.ComponentPropsWithoutRef<typeof AccordionPrimitive.Item>, 'asChild'> & {
+    index?: number
+  }
 >(({ className, children, index = 0, ...props }, ref) => {
-  const presetOptions = React.useMemo(() => ({ transition: springBouncy, delay: index * 0.05 }), [index])
+  const presetOptions = React.useMemo(
+    () => ({ transition: springBouncy, delay: getStaggerDelay(index, 50) }),
+    [index],
+  )
   const content = useMotionPreset(scaleIn, presetOptions)
 
   return (
