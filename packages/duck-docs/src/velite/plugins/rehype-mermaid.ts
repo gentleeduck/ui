@@ -79,7 +79,7 @@ function makeJsxStringAttr(name: string, value: string) {
 /** Find the system Chromium / Chrome binary. */
 function findChromium(): string {
   // 1) Honor explicit env var
-  const envPath = process.env['PUPPETEER_EXECUTABLE_PATH'] || process.env['CHROME_BIN'] || process.env['CHROMIUM_BIN']
+  const envPath = process.env.PUPPETEER_EXECUTABLE_PATH || process.env.CHROME_BIN || process.env.CHROMIUM_BIN
   if (envPath && existsSync(envPath)) return envPath
 
   // 2) Try PATH lookups

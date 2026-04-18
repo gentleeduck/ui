@@ -10,22 +10,22 @@ export default function DropdownMenuSelectionInternalExample() {
 
   return (
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger className={styles['trigger']}>View mode</DropdownMenu.Trigger>
+      <DropdownMenu.Trigger className={styles.trigger}>View mode</DropdownMenu.Trigger>
       <DropdownMenu.Portal>
-        <DropdownMenu.Content className={styles['content']} sideOffset={8}>
-          <DropdownMenu.Label className={styles['menuLabel']}>Display</DropdownMenu.Label>
+        <DropdownMenu.Content className={styles.content} sideOffset={8}>
+          <DropdownMenu.Label className={styles.menuLabel}>Display</DropdownMenu.Label>
           <DropdownMenu.RadioGroup onValueChange={(v) => setView(v as 'grid' | 'list')} value={view}>
-            <DropdownMenu.RadioItem className={styles['item']} value="grid">
+            <DropdownMenu.RadioItem className={styles.item} value="grid">
               Grid
             </DropdownMenu.RadioItem>
-            <DropdownMenu.RadioItem className={styles['item']} value="list">
+            <DropdownMenu.RadioItem className={styles.item} value="list">
               List
             </DropdownMenu.RadioItem>
           </DropdownMenu.RadioGroup>
-          <DropdownMenu.Separator className={styles['separator']} />
+          <DropdownMenu.Separator className={styles.separator} />
           <DropdownMenu.CheckboxItem
             checked={showDeleted}
-            className={styles['item']}
+            className={styles.item}
             onCheckedChange={(checked) => setShowDeleted(checked === true)}>
             Show deleted
           </DropdownMenu.CheckboxItem>
