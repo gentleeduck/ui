@@ -21,8 +21,8 @@ function MyDateTimePicker() {
     hourCycle: '12',
   })
 
-  // calendar - full UseCalendarReturn (state, actions, prop getters)
-  // timePicker - full UseTimePickerReturn (state, actions, getFieldProps)
+  // calendar - full UseCalendar.IUseCalendarReturn (state, actions, prop getters)
+  // timePicker - full UseTimePicker.IUseTimePickerReturn (state, actions, getFieldProps)
   // state.value - combined Date with both date and time
 }
 ```
@@ -31,14 +31,16 @@ function MyDateTimePicker() {
 
 ## Config
 
+`UseDateTime.IConfig<TDate>`
+
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `adapter` | `DateAdapter<TDate>` | **required** | Date adapter instance |
-| `locale` | `CalendarLocaleConfig` | - | Locale and direction settings |
+| `adapter` | `Adapter.IDateAdapter<TDate>` | **required** | Date adapter instance |
+| `locale` | `Calendar.ICalendarLocaleConfig` | - | Locale and direction settings |
 | `value` | `TDate` | - | Controlled datetime value |
 | `defaultValue` | `TDate` | - | Default datetime (uncontrolled) |
 | `onChange` | `(value: TDate) => void` | - | Called when date or time changes |
-| `hourCycle` | `HourCycle` | `'24'` | `'12'` or `'24'` hour display |
+| `hourCycle` | `Time.IHourCycle` | `'24'` | `'12'` or `'24'` hour display |
 | `showSeconds` | `boolean` | `false` | Show the seconds field |
 | `month` | `TDate` | - | Controlled displayed month |
 | `defaultMonth` | `TDate` | - | Default month (uncontrolled) |
@@ -52,13 +54,15 @@ function MyDateTimePicker() {
 
 ## Return value
 
+`UseDateTime.IReturn<TDate>`
+
 ### `calendar`
 
-A full `UseCalendarReturn<TDate, 'single'>`. See [useCalendar](/docs/packages/duck-calendar/api/use-calendar) for details.
+A full `UseCalendar.IUseCalendarReturn<TDate, 'single'>`. See [useCalendar](/docs/packages/duck-calendar/api/use-calendar) for details.
 
 ### `timePicker`
 
-A full `UseTimePickerReturn`. See [useTimePicker](/docs/packages/duck-calendar/api/use-time-picker) for details.
+A full `UseTimePicker.IUseTimePickerReturn`. See [useTimePicker](/docs/packages/duck-calendar/api/use-time-picker) for details.
 
 ### `state`
 
