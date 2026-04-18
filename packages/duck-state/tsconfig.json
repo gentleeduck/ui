@@ -3,26 +3,21 @@
   "extends": "@gentleduck/typescript-config/base.json",
   "compilerOptions": {
     "allowImportingTsExtensions": true,
-    "ignoreDeprecations": "6.0",
     "declaration": true,
     "esModuleInterop": true,
-    "exactOptionalPropertyTypes": true,
     "isolatedDeclarations": false,
     "jsx": "react-jsx",
     "lib": ["ES2022", "dom", "dom.iterable"],
     "module": "esnext",
     "moduleResolution": "bundler",
     "noEmit": true,
-    "noUncheckedIndexedAccess": true,
     "outDir": "./dist",
     "paths": {
       "~/*": ["./src/*"]
     },
     "rootDir": "./",
-    "skipLibCheck": true /* FIXME remove this once vite fixes it */,
-    "strict": true,
-    "target": "esnext",
-    "verbatimModuleSyntax": true
+    "skipLibCheck": true,
+    "target": "esnext"
   },
   "exclude": ["node_modules", "dist", "src/__test__/**", "src/examples/**", "**/*.tsbuildinfo", "tsconfig.tsbuildinfo"],
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]

@@ -19,8 +19,6 @@
     "resolveJsonModule": true,
     "moduleDetection": "force",
     "disableSourceOfProjectReferenceRedirect": true,
-    "strict": true,
-    "noUncheckedIndexedAccess": true,
     "checkJs": true,
     "noEmit": true,
     "composite": false,

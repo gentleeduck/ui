@@ -3,7 +3,6 @@
   "extends": "@gentleduck/typescript-config/base.json",
   "compilerOptions": {
     "allowImportingTsExtensions": true,
-    "ignoreDeprecations": "6.0",
     "jsx": "react-jsx",
     "lib": ["ES2022", "dom", "dom.iterable"],
     "module": "preserve",
