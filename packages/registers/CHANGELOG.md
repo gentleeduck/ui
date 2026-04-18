@@ -1,5 +1,11 @@
 # @gentleduck/registers
 
+## 0.3.5
+
+### Patch Changes
+
+- 0f4f2e2: Registered typography as a new component in the UI registry. Wired typography-examples registry dependency.
+
 ## 0.3.4
 
 ### Patch Changes
