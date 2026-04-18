@@ -126,7 +126,7 @@ export function CommandMenu() {
   const [initialAiQuery, setInitialAiQuery] = React.useState('')
 
   // Build-time check  -  no runtime API call
-  const aiAvailable = process.env.NEXT_PUBLIC_AI_CHAT_ENABLED === 'true'
+  const aiAvailable = process.env['NEXT_PUBLIC_AI_CHAT_ENABLED'] === 'true'
 
   // Reset AI mode when dialog closes
   React.useEffect(() => {

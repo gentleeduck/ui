@@ -133,7 +133,7 @@ export function createDocsVeliteConfig({
       rehypePlugins: buildDefaultRehypePlugins({ rehypePlugins, rehypePluginsBefore }),
       remarkPlugins: buildDefaultRemarkPlugins({ remarkPlugins, remarkPluginsBefore }),
     },
-  }) as ReturnType<typeof defineConfig>
+  }) as unknown as ReturnType<typeof defineConfig>
 }
 
 export const docsVeliteConfig = createDocsVeliteConfig()
