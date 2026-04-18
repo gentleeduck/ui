@@ -79,8 +79,8 @@ const fn = cva(baseOrOptions, maybeOptions?)
 fn(props?) // returns string
 ```
 
-**Important types:** `VariantProps<typeof fn>`, `CvaProps<TVariants>`,
-`ClassValue`.
+**Important types:** `Variants.VariantProps<typeof fn>`, `Variants.Props<TVariants>`,
+`Variants.ClassValue`.
 
 For complete signatures and the TypeScript definitions, see the Types
 Reference section at the bottom.
@@ -92,7 +92,7 @@ Reference section at the bottom.
 ### 1) Button component (production-ready)
 
 ```tsx
-import { cva, type VariantProps } from '@gentleduck/variants'
+import { cva, type Variants } from '@gentleduck/variants'
 import { cn } from '@/lib/utils'
 
 const buttonVariants = cva('inline-flex items-center justify-center rounded', {
@@ -106,7 +106,7 @@ const buttonVariants = cva('inline-flex items-center justify-center rounded', {
   defaultVariants: { variant: 'default', size: 'md' }
 })
 
-type ButtonProps = VariantProps<typeof buttonVariants> & React.ButtonHTMLAttributes<HTMLButtonElement>
+type ButtonProps = Variants.VariantProps<typeof buttonVariants> & React.ButtonHTMLAttributes<HTMLButtonElement>
 
 export function Button({ className, variant, size, ...props }: ButtonProps) {
   return <button className={cn(buttonVariants({ variant, size }), className)} {...props} />
@@ -229,24 +229,24 @@ A: Pass the literal string `'unset'` for that variant: e.g.
 
 ## Types reference
 
-### 1. Variant Params
+All types are exported under the `Variants` namespace from `@gentleduck/variants`.
 
-This defines the mapping of **variant names** (like `size`, `intent`, etc.) to their **possible values**.
-It accepts either a single key or an array of keys for each variant.
+### 1. Variant Params (`Variants.VariantParams`)
+
+Maps each variant key to a selected value or array of values.
+Accepts either a single key or a `ReadonlyArray` of keys for each variant, or `null` to clear a default.
 
 
-```tsx title="variants.ts"
-export type VariantParams<
-  TVariants extends Record<string, Record<string, string | string[]>>
-> = {
-  [K in keyof TVariants]?: keyof TVariants[K] | Array<keyof TVariants[K]>
+```tsx title="variants.types.ts"
+export type VariantParams<TVariants extends VariantDefinitions> = {
+  readonly [K in keyof TVariants]?: keyof TVariants[K] | ReadonlyArray<keyof TVariants[K]> | null
 }
 ```
 
 
-### 2. CVA Configuration
+### 2. CVA Options (`Variants.Options`)
 
-Defines how to configure a **CVA function**, including:
+Options for creating a CVA function, without the `base` classes.
 
 | Field | Description |
 | --- | --- |
@@ -255,74 +255,86 @@ Defines how to configure a **CVA function**, including:
 | `compoundVariants` | Conditional styles that apply when multiple variants match. |
 
 
-```tsx title="variants.ts"
-export interface VariantsOptions<
-  TVariants extends Record<string, Record<string, string | string[]>>
-> {
-  variants: TVariants
-  defaultVariants?: VariantParams<TVariants>
-  compoundVariants?: Array<
+```tsx title="variants.types.ts"
+export type Options<TVariants extends VariantDefinitions> = {
+  readonly variants?: TVariants
+  readonly defaultVariants?: VariantParams<TVariants>
+  readonly compoundVariants?: ReadonlyArray<
     VariantParams<TVariants> & {
-      class?: ClassValue
-      className?: ClassValue
+      readonly class?: ClassValue
+      readonly className?: ClassValue
     }
   >
 }
 ```
 
 
-### 3. CVA Props
+### 3. CVA Config (`Variants.Config`)
+
+Full configuration accepted by `cva()`: `Options` plus optional `base` classes.
+
+
+```tsx title="variants.types.ts"
+export type Config<TVariants extends VariantDefinitions> = Options<TVariants> & {
+  readonly base?: ClassValue
+}
+```
+
+
+### 4. CVA Props (`Variants.Props`)
 
 Props that a **CVA-generated function** accepts.
 Includes both **variant selections** and optional `class`/`className` overrides.
 
 
-```tsx title="variants.ts"
-export type CvaProps<
-  TVariants extends Record<string, Record<string, string | string[]>>
-> = VariantParams<TVariants> & {
-  className?: ClassValue
-  class?: ClassValue
+```tsx title="variants.types.ts"
+export type Props<TVariants extends VariantDefinitions> = VariantParams<TVariants> & {
+  readonly className?: ClassValue
+  readonly class?: ClassValue
 }
 ```
 
 
-### 4. Variant Props
+### 5. Variant Props (`Variants.VariantProps`)
 
 Utility type to **extract only the variant-related props** from a CVA function, omitting `class` and `className`.
 
 
-```tsx title="variants.ts"
-type RemoveArray<T> = T extends unknown[] ? never : T
-
+```tsx title="variants.types.ts"
 export type VariantProps<T> = T extends (props?: infer P) => string
-  ? {
-      [K in keyof P as K extends 'class' | 'className' ? never : K]: RemoveArray<P[K]>
-    }
+  ? Omit<NonNullable<P>, 'class' | 'className'>
   : never
 ```
 
 
-### 5. Class Utility Types
+### 6. Infer (`Variants.Infer`)
+
+Infers the `variants` field from an `Options` object. Useful when you want to extract the variant map from a config constant.
+
+
+```tsx title="variants.types.ts"
+export type Infer<T extends Options<VariantDefinitions>> = T['variants']
+```
+
+
+### 7. Class Utility Types
 
 Helper types that define the **shape of class names**:
 
 | Type | Purpose |
 | --- | --- |
-| `ClassDictionary` | Conditional `{ 'class': boolean }`. |
-| `ClassArray` | Nested arrays of class values. |
-| `ClassValue` | Union of everything accepted as a class. |
+| `Variants.ClassDictionary` | Conditional `{ 'class': boolean \| null \| undefined }`. Readonly. |
+| `Variants.ClassArray` | Readonly nested arrays of class values. |
+| `Variants.ClassValue` | Union of everything accepted as a class. |
+| `Variants.ClassPrimitive` | Primitive scalar values (string, number, bigint, boolean, null, undefined). |
 
 
-```tsx title="variants.ts"
-export type ClassDictionary = Record<string, boolean | undefined>
+```tsx title="variants.types.ts"
+export type ClassPrimitive = string | number | bigint | boolean | null | undefined
 
-export type ClassArray = ClassValue[]
+export type ClassDictionary = Readonly<Record<string, boolean | null | undefined>>
 
-export type ClassValue =
-  | string
-  | number
-  | boolean
-  | ClassDictionary
-  | ClassArray
+export type ClassArray = ReadonlyArray<ClassValue>
+
+export type ClassValue = ClassPrimitive | ClassDictionary | ClassArray
 ```
