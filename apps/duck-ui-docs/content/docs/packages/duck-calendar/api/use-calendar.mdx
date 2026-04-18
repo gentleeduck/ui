@@ -62,7 +62,7 @@ const { state, actions, getDayProps, getGridProps, getNavProps, getHeaderProps, 
 | `value` | `Selection.CalendarValue<TDate, M>` | Current selection. Shape depends on mode |
 | `focusedDate` | `TDate` | Date with keyboard focus |
 | `viewMode` | `Calendar.ViewMode` | `'days'`, `'months'`, or `'years'` |
-| `weeks` | `CalendarWeek<TDate>[]` | Decorated weeks for the first month |
+| `weeks` | `Grid.ICalendarWeek<TDate>[]` | Decorated weeks for the first month |
 | `months` | `Grid.ICalendarMonth<TDate>[]` | All month grids (for multi-month) |
 | `weekdays` | `string[]` | Localized weekday labels (7 items) |
 | `canGoNext` | `boolean` | Forward navigation available (respects `toDate`) |
