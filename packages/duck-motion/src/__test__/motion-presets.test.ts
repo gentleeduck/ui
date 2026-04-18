@@ -4,6 +4,8 @@ import { useDirectionalPreset, useMotionPreset } from '../motion-presets'
 import { createDirectionalPreset } from '../presets/directional'
 import { fadeIn } from '../presets/fade-in'
 import { fadeOut } from '../presets/fade-out'
+import { popIn } from '../presets/pop-in'
+import { rotateIn } from '../presets/rotate-in'
 import { scaleIn } from '../presets/scale-in'
 import { slideDown } from '../presets/slide-down'
 import { slideFromLeft } from '../presets/slide-from-left'
@@ -18,6 +20,8 @@ const ALL_PRESETS: MotionPresetName[] = [
   'slideDown',
   'slideFromLeft',
   'slideFromRight',
+  'rotateIn',
+  'popIn',
 ]
 
 describe('individual preset exports (tree-shakeable)', () => {
