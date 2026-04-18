@@ -186,8 +186,8 @@ export function cva<TVariants extends Variants.VariantDefinitions>(
 
   return (props: Variants.Props<TVariants> = {} as Variants.Props<TVariants>): string => {
     const rawProps = props as Record<string, unknown>
-    const dynamicClassName = rawProps.className
-    const dynamicClass = rawProps.class
+    const dynamicClassName = rawProps['className']
+    const dynamicClass = rawProps['class']
     const hasDynamic = dynamicClassName != null || dynamicClass != null
 
     let cacheKey = ''
