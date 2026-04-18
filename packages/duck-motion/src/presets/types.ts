@@ -1,29 +1,40 @@
 import type { TargetAndTransition, Transition } from 'motion/react'
 
-export type MotionAnimationState = TargetAndTransition
-
-export type MotionTransitionConfig = Transition
-
-export interface MotionPreset {
-  initial: MotionAnimationState
-  animate: MotionAnimationState
-  exit: MotionAnimationState
+export namespace IDuckMotion {
+  export type IAnimationState = TargetAndTransition
+  export type ITransitionConfig = Transition
+  export interface IPreset {
+    initial: IAnimationState
+    animate: IAnimationState
+    exit: IAnimationState
+  }
+  export interface IPresetResult extends IPreset {
+    transition: ITransitionConfig
+  }
+  export interface IPresetOptions {
+    transition?: ITransitionConfig
+    enterTransition?: ITransitionConfig
+    exitTransition?: ITransitionConfig
+    delay?: number
+    direction?: IDirection
+  }
+  export type IPresetName =
+    | 'fadeIn'
+    | 'fadeOut'
+    | 'scaleIn'
+    | 'slideUp'
+    | 'slideDown'
+    | 'slideFromLeft'
+    | 'slideFromRight'
+    | 'rotateIn'
+    | 'popIn'
+  export type IDirection = 'top' | 'bottom' | 'left' | 'right'
 }
 
-export interface MotionPresetResult {
-  initial: MotionAnimationState
-  animate: MotionAnimationState
-  exit: MotionAnimationState
-  transition: MotionTransitionConfig
-}
-
-export type Direction = 'top' | 'bottom' | 'left' | 'right'
-
-export type MotionPresetName =
-  | 'fadeIn'
-  | 'fadeOut'
-  | 'scaleIn'
-  | 'slideUp'
-  | 'slideDown'
-  | 'slideFromLeft'
-  | 'slideFromRight'
+// Backward-compat aliases — do NOT remove these
+export type MotionAnimationState = IDuckMotion.IAnimationState
+export type MotionTransitionConfig = IDuckMotion.ITransitionConfig
+export type IMotionPreset = IDuckMotion.IPreset
+export type IMotionPresetResult = IDuckMotion.IPresetResult
+export type Direction = IDuckMotion.IDirection
+export type MotionPresetName = IDuckMotion.IPresetName

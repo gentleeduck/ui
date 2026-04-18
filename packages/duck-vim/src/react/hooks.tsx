@@ -2,13 +2,13 @@
 
 import React from 'react'
 import { KeyHandler, Registry } from '../command/command'
-import type { KeyBindOptions, RegistrationHandle } from '../command/command.types'
+import type { Command } from '../command/command.types'
 import { KeyRecorder } from '../recorder/recorder'
-import type { KeyRecorderState } from '../recorder/recorder.types'
+import type { Recorder } from '../recorder/recorder.types'
 import { SequenceManager } from '../sequence/sequence'
-import type { SequenceHandle } from '../sequence/sequence.types'
+import type { Sequence } from '../sequence/sequence.types'
 import { KeyContext } from './command'
-import type { KeyBindHookOptions, KeyRecorderReturn, SequenceHookOptions } from './hooks.types'
+import type { Vim } from './vim.types'
 
 /**
  * React hook to bind a single key binding.
@@ -25,7 +25,7 @@ import type { KeyBindHookOptions, KeyRecorderReturn, SequenceHookOptions } from 
  * useKeyBind('ctrl+k', () => setOpen(true), { preventDefault: true })
  * ```
  */
-export function useKeyBind(binding: string, handler: () => void, options?: KeyBindHookOptions): void {
+export function useKeyBind(binding: string, handler: () => void, options?: Vim.IKeyBindHookOptions): void {
   const ctx = React.useContext(KeyContext)
   const handlerRef = React.useRef(handler)
   handlerRef.current = handler
@@ -37,10 +37,10 @@ export function useKeyBind(binding: string, handler: () => void, options?: KeyBi
 
     // If we have a context registry, use it
     if (ctx) {
-      const handle: RegistrationHandle = ctx.registry.register(
+      const handle: Command.IRegistrationHandle = ctx.registry.register(
         binding,
         { name: binding, execute },
-        bindOpts as KeyBindOptions,
+        bindOpts as Command.IKeyBindOptions,
       )
 
       // If a targetRef is provided, create a scoped handler for that element
@@ -60,7 +60,7 @@ export function useKeyBind(binding: string, handler: () => void, options?: KeyBi
 
     // Without context, create a standalone registry + handler
     const registry = new Registry(false)
-    const keyHandler = new KeyHandler(registry, 600, bindOpts as Partial<KeyBindOptions>)
+    const keyHandler = new KeyHandler(registry, 600, bindOpts as Partial<Command.IKeyBindOptions>)
     registry.register(binding, { name: binding, execute })
 
     const target = targetRef?.current ?? document
@@ -96,7 +96,7 @@ export function useKeyBind(binding: string, handler: () => void, options?: KeyBi
  * useKeySequence(['g', 'd'], () => navigate('/dashboard'))
  * ```
  */
-export function useKeySequence(steps: string[], handler: () => void, options?: SequenceHookOptions): void {
+export function useKeySequence(steps: string[], handler: () => void, options?: Vim.ISequenceHookOptions): void {
   const ctx = React.useContext(KeyContext)
   const handlerRef = React.useRef(handler)
   handlerRef.current = handler
@@ -106,7 +106,7 @@ export function useKeySequence(steps: string[], handler: () => void, options?: S
     const execute = () => handlerRef.current()
 
     if (ctx?.sequenceManager) {
-      const handle: SequenceHandle = ctx.sequenceManager.register({
+      const handle: Sequence.ISequenceHandle = ctx.sequenceManager.register({
         steps: steps.map((s) => ({ binding: s })),
         handler: execute,
         options: seqOpts,
@@ -149,8 +149,8 @@ export function useKeySequence(steps: string[], handler: () => void, options?: S
  * // state.recorded contains the last recorded combination
  * ```
  */
-export function useKeyRecorder(): KeyRecorderReturn {
-  const [state, setState] = React.useState<KeyRecorderState>({
+export function useKeyRecorder(): Vim.IKeyRecorderReturn {
+  const [state, setState] = React.useState<Recorder.IKeyRecorderState>({
     activeKeys: [],
     recorded: null,
     isRecording: false,
@@ -161,13 +161,13 @@ export function useKeyRecorder(): KeyRecorderReturn {
   if (!recorderRef.current) {
     recorderRef.current = new KeyRecorder({
       onRecord: (recorded: string) => {
-        setState((prev) => ({ ...prev, recorded }))
+        setState((prev: Recorder.IKeyRecorderState) => ({ ...prev, recorded }))
       },
       onStart: () => {
-        setState((prev) => ({ ...prev, isRecording: true }))
+        setState((prev: Recorder.IKeyRecorderState) => ({ ...prev, isRecording: true }))
       },
       onStop: () => {
-        setState((prev) => ({ ...prev, isRecording: false }))
+        setState((prev: Recorder.IKeyRecorderState) => ({ ...prev, isRecording: false }))
       },
     })
   }

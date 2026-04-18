@@ -1,9 +1,9 @@
 import { Box, render, useApp } from 'ink'
 import { createContext, useCallback, useMemo } from 'react'
-import type { ComponentMergeState, MergeResult } from '~/utils/merge'
+import type { Merge } from '~/utils/merge'
 import { THEME } from './app.constants'
 import type { AppProps, GuiLaunchOptions } from './app.types'
-import type { TerminalSize } from './hooks/use-terminal-size'
+import type { ITerminalSize } from './hooks/use-terminal-size'
 import { useTerminalSize } from './hooks/use-terminal-size'
 import { DiffScreen } from './screens/diff-screen'
 import { MergeScreen } from './screens/merge-screen'
@@ -15,7 +15,7 @@ export const VimContext = createContext<{ setEnabled: (v: boolean) => void }>({
   setEnabled: () => {},
 })
 
-export const TerminalSizeContext = createContext<TerminalSize>({
+export const TerminalSizeContext = createContext<ITerminalSize>({
   columns: 80,
   rows: 24,
 })
@@ -40,7 +40,7 @@ function App({ vimStdin, initialArgs, screen, mergeData, onComplete }: AppProps)
   }, [exit])
 
   const handleMergeComplete = useCallback(
-    (results: MergeResult[]) => {
+    (results: Merge.Result[]) => {
       if (onComplete) {
         onComplete(results)
       }
@@ -48,7 +48,7 @@ function App({ vimStdin, initialArgs, screen, mergeData, onComplete }: AppProps)
     [onComplete],
   )
 
-  const active_screen = screen ?? 'diff'
+  const activeScreen = screen ?? 'diff'
 
   return (
     <TerminalSizeContext.Provider value={size}>
@@ -63,7 +63,7 @@ function App({ vimStdin, initialArgs, screen, mergeData, onComplete }: AppProps)
             paddingY={1}
             flexDirection="column"
             overflow="hidden">
-            {active_screen === 'merge' ? (
+            {activeScreen === 'merge' ? (
               <MergeScreen mergeData={mergeData} onBack={handleBack} onComplete={handleMergeComplete} />
             ) : (
               <DiffScreen onBack={handleBack} />
@@ -75,16 +75,16 @@ function App({ vimStdin, initialArgs, screen, mergeData, onComplete }: AppProps)
   )
 }
 
-function enter_alt_screen() {
+function enterAltScreen() {
   process.stdout.write('\x1b[?1049h')
 }
 
-function leave_alt_screen() {
+function leaveAltScreen() {
   process.stdout.write('\x1b[?1049l')
 }
 
-export function launch_gui(options?: GuiLaunchOptions) {
-  enter_alt_screen()
+export function launchGui(options?: GuiLaunchOptions) {
+  enterAltScreen()
   const vimStdin = new VimStdin()
   process.stdin.pipe(vimStdin)
   const instance = render(
@@ -99,21 +99,21 @@ export function launch_gui(options?: GuiLaunchOptions) {
   )
   instance.waitUntilExit().then(() => {
     instance.clear()
-    leave_alt_screen()
+    leaveAltScreen()
     process.exit(0)
   })
 }
 
 /**
  * Launch merge GUI and wait for it to complete.
- * Returns MergeResult[] if the user confirmed, or null if aborted.
+ * Returns Merge.Result[] if the user confirmed, or null if aborted.
  * Used by CLI commands (add/update) to integrate merge into headless flows.
  */
-export function launch_merge_gui_and_wait(mergeData: ComponentMergeState): Promise<MergeResult[] | null> {
+export function launchMergeGuiAndWait(mergeData: Merge.ComponentState): Promise<Merge.Result[] | null> {
   return new Promise((resolve) => {
     let resolved = false
 
-    enter_alt_screen()
+    enterAltScreen()
     const vimStdin = new VimStdin()
     process.stdin.pipe(vimStdin)
 
@@ -132,7 +132,7 @@ export function launch_merge_gui_and_wait(mergeData: ComponentMergeState): Promi
 
     instance.waitUntilExit().then(() => {
       instance.clear()
-      leave_alt_screen()
+      leaveAltScreen()
       vimStdin.unpipe()
       if (!resolved) {
         resolve(null)

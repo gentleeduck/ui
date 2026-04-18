@@ -3,17 +3,15 @@ import { useSize } from '../hooks/use-size'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
-import type { PrimitiveSpanProps, ScopedProps, SliderThumbElement } from './slider'
 import { Collection, useCollection, useSliderContext, useSliderOrientationContext } from './slider'
 import { convertValueToPercentage, getLabel, getThumbInBoundsOffset } from './slider.libs'
+import type { ISlider } from './slider.types'
 import { BubbleInput } from './slider-input'
 
 const THUMB_NAME = 'SliderThumb'
 
-interface SliderThumbProps extends Omit<SliderThumbImplProps, 'index'> {}
-
-const SliderThumb = React.forwardRef<SliderThumbElement, SliderThumbProps>(
-  (props: ScopedProps<SliderThumbProps>, forwardedRef) => {
+const SliderThumb = React.forwardRef<ISlider.IThumbElement, ISlider.IThumbProps>(
+  (props: ISlider.IScoped<ISlider.IThumbProps>, forwardedRef) => {
     const getItems = useCollection(props.__scopeSlider)
     const [thumb, setThumb] = React.useState<SliderThumbImplElement | null>(null)
     const composedRefs = useComposedRefs(forwardedRef, (node) => setThumb(node))
@@ -26,13 +24,9 @@ const SliderThumb = React.forwardRef<SliderThumbElement, SliderThumbProps>(
 )
 
 type SliderThumbImplElement = React.ComponentRef<typeof Primitive.span>
-interface SliderThumbImplProps extends PrimitiveSpanProps {
-  index: number
-  name?: string
-}
 
-const SliderThumbImpl = React.forwardRef<SliderThumbImplElement, SliderThumbImplProps>(
-  (props: ScopedProps<SliderThumbImplProps>, forwardedRef) => {
+const SliderThumbImpl = React.forwardRef<SliderThumbImplElement, ISlider.IThumbImplProps>(
+  (props: ISlider.IScoped<ISlider.IThumbImplProps>, forwardedRef) => {
     const { __scopeSlider, index, name, ...thumbProps } = props
     const context = useSliderContext(THUMB_NAME, __scopeSlider)
     const orientation = useSliderOrientationContext(THUMB_NAME, __scopeSlider)
@@ -104,5 +98,4 @@ SliderThumbImpl.displayName = 'SliderThumbImpl'
 
 SliderThumb.displayName = THUMB_NAME
 
-export type { SliderThumbProps }
 export { SliderThumb }

@@ -1,10 +1,10 @@
 import { describe, expect, test } from 'bun:test'
 import { registry } from '../../index'
-import { block_schema, REGISTRY_ITEM_TYPES, registry_item_file_schema, registry_schema } from '../registry-schema'
+import { blockSchema, REGISTRY_ITEM_TYPES, registryItemFileSchema, registrySchema } from '../registry-schema'
 
 describe('registers', () => {
   test('registry schema parses the aggregate registry export', () => {
-    const parsed = registry_schema.parse(registry)
+    const parsed = registrySchema.parse(registry)
 
     expect(parsed.uis.length).toBeGreaterThan(20)
     expect(parsed.examples.length).toBeGreaterThan(20)
@@ -28,7 +28,7 @@ describe('registers', () => {
   })
 
   test('registry item files reject unknown types', () => {
-    const parsed = registry_item_file_schema.safeParse({
+    const parsed = registryItemFileSchema.safeParse({
       path: 'button.tsx',
       type: 'registry:unknown',
     })
@@ -37,7 +37,7 @@ describe('registers', () => {
   })
 
   test('block schema requires registry:block entries with highlighted output', () => {
-    const valid = block_schema.safeParse({
+    const valid = blockSchema.safeParse({
       code: 'export function Demo() {}',
       component: { name: 'Demo' },
       container: { className: 'h-10', height: '40px' },
@@ -50,7 +50,7 @@ describe('registers', () => {
     })
     expect(valid.success).toBe(true)
 
-    const invalid = block_schema.safeParse({
+    const invalid = blockSchema.safeParse({
       code: 'export function Demo() {}',
       component: { name: 'Demo' },
       description: 'Demo block',

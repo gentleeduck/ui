@@ -1,18 +1,17 @@
 import * as React from 'react'
 import * as DialogPrimitive from '../dialog'
 import { useComposedRefs } from '../libs/compose-ref'
-import { type ScopedProps, useDialogScope } from './alert-dialog'
+import { useDialogScope } from './alert-dialog'
+import type { IAlertDialog } from './alert-dialog.types'
 import { useAlertDialogContentContext } from './content'
 
 const CANCEL_NAME = 'AlertDialogCancel'
 
 type AlertDialogCancelElement = React.ComponentRef<typeof DialogPrimitive.Close>
-type DialogCloseProps = React.ComponentPropsWithoutRef<typeof DialogPrimitive.Close>
-export interface AlertDialogCancelProps extends DialogCloseProps {}
 
 /** Button that cancels the alert dialog action and closes it. Receives initial focus. */
-export const AlertDialogCancel = React.forwardRef<AlertDialogCancelElement, AlertDialogCancelProps>(
-  (props: ScopedProps<AlertDialogCancelProps>, forwardedRef) => {
+export const AlertDialogCancel = React.forwardRef<AlertDialogCancelElement, IAlertDialog.ICancelProps>(
+  (props: IAlertDialog.IScoped<IAlertDialog.ICancelProps>, forwardedRef) => {
     const { __scopeAlertDialog, ...cancelProps } = props
     const { cancelRef } = useAlertDialogContentContext(CANCEL_NAME, __scopeAlertDialog)
     const dialogScope = useDialogScope(__scopeAlertDialog)

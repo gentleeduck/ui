@@ -1,95 +1,38 @@
 import * as React from 'react'
-import type { Direction } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
-import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'
 import * as RovingFocusGroup from '../roving-focus'
 import { createRovingFocusGroupScope } from '../roving-focus'
+import type { IToggleGroup } from './toggle-group.types'
 
 const TOGGLE_GROUP_NAME = 'ToggleGroup'
 
-type ScopedProps<P> = P & { __scopeToggleGroup?: Scope }
 const [createToggleGroupContext, createToggleGroupScope] = createContextScope(TOGGLE_GROUP_NAME, [
   createRovingFocusGroupScope,
 ])
 const useRovingFocusGroupScope = createRovingFocusGroupScope()
 
-type ToggleGroupContextValue = {
-  type: 'single' | 'multiple'
-  value: string[]
-  onItemActivate(value: string): void
-  onItemDeactivate(value: string): void
-  rovingFocus: boolean
-  disabled: boolean
-  dir: Direction
-}
+const [ToggleGroupProvider, useToggleGroupContext] = createToggleGroupContext<IToggleGroup.IContext>(TOGGLE_GROUP_NAME)
 
-const [ToggleGroupProvider, useToggleGroupContext] =
-  createToggleGroupContext<ToggleGroupContextValue>(TOGGLE_GROUP_NAME)
-
-type ToggleGroupElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-type RovingFocusGroupProps = React.ComponentPropsWithoutRef<typeof RovingFocusGroup.Root>
-
-type ToggleGroupSingleProps = ToggleGroupImplProps & {
-  /**
-   * Allow only one button to be pressed at a time.
-   */
-  type: 'single'
-  /**
-   * The controlled value of the pressed item.
-   */
-  value?: string
-  /**
-   * The value of the item that is pressed when initially rendered.
-   */
-  defaultValue?: string
-  /**
-   * Event handler called when the value changes.
-   */
-  onValueChange?(value: string): void
-}
-
-type ToggleGroupMultipleProps = ToggleGroupImplProps & {
-  /**
-   * Allow multiple buttons to be pressed at the same time.
-   */
-  type: 'multiple'
-  /**
-   * The controlled value of the pressed items.
-   */
-  value?: string[]
-  /**
-   * The value of the items that are pressed when initially rendered.
-   */
-  defaultValue?: string[]
-  /**
-   * Event handler called when the value changes.
-   */
-  onValueChange?(value: string[]): void
-}
-
-type ToggleGroupProps = ToggleGroupSingleProps | ToggleGroupMultipleProps
-
-const ToggleGroup = React.forwardRef<ToggleGroupElement, ToggleGroupProps>(
-  (props: ScopedProps<ToggleGroupProps>, forwardedRef) => {
+const ToggleGroup = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IToggleGroup.IProps>(
+  (props: IToggleGroup.IScoped<IToggleGroup.IProps>, forwardedRef) => {
     if (props.type === 'single') {
-      return <ToggleGroupSingle {...(props as ScopedProps<ToggleGroupSingleProps>)} ref={forwardedRef} />
+      return <ToggleGroupSingle {...(props as IToggleGroup.IScoped<IToggleGroup.ISingle>)} ref={forwardedRef} />
     }
     if (props.type === 'multiple') {
-      return <ToggleGroupMultiple {...(props as ScopedProps<ToggleGroupMultipleProps>)} ref={forwardedRef} />
+      return <ToggleGroupMultiple {...(props as IToggleGroup.IScoped<IToggleGroup.IMultiple>)} ref={forwardedRef} />
     }
     // Fallback to single
-    return <ToggleGroupSingle {...(props as ScopedProps<ToggleGroupSingleProps>)} ref={forwardedRef} />
+    return <ToggleGroupSingle {...(props as IToggleGroup.IScoped<IToggleGroup.ISingle>)} ref={forwardedRef} />
   },
 )
 
 ToggleGroup.displayName = TOGGLE_GROUP_NAME
 
-const ToggleGroupSingle = React.forwardRef<ToggleGroupElement, ToggleGroupSingleProps>(
-  (props: ScopedProps<ToggleGroupSingleProps>, forwardedRef) => {
+const ToggleGroupSingle = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IToggleGroup.ISingle>(
+  (props: IToggleGroup.IScoped<IToggleGroup.ISingle>, forwardedRef) => {
     const { value: valueProp, defaultValue, onValueChange, ...toggleGroupProps } = props
 
     const [value = '', setValue] = useControllableState({
@@ -113,8 +56,8 @@ const ToggleGroupSingle = React.forwardRef<ToggleGroupElement, ToggleGroupSingle
 
 ToggleGroupSingle.displayName = `${TOGGLE_GROUP_NAME}Single`
 
-const ToggleGroupMultiple = React.forwardRef<ToggleGroupElement, ToggleGroupMultipleProps>(
-  (props: ScopedProps<ToggleGroupMultipleProps>, forwardedRef) => {
+const ToggleGroupMultiple = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IToggleGroup.IMultiple>(
+  (props: IToggleGroup.IScoped<IToggleGroup.IMultiple>, forwardedRef) => {
     const { value: valueProp, defaultValue, onValueChange, ...toggleGroupProps } = props
 
     const [value = [], setValue] = useControllableState({
@@ -148,43 +91,8 @@ const ToggleGroupMultiple = React.forwardRef<ToggleGroupElement, ToggleGroupMult
 
 ToggleGroupMultiple.displayName = `${TOGGLE_GROUP_NAME}Multiple`
 
-type ToggleGroupImplElement = React.ComponentRef<typeof Primitive.div>
-
-interface ToggleGroupImplProps extends PrimitiveDivProps {
-  type: 'single' | 'multiple'
-  /**
-   * Whether roving focus should be used for keyboard navigation.
-   * @defaultValue true
-   */
-  rovingFocus?: boolean
-  /**
-   * Whether the group is disabled.
-   * @defaultValue false
-   */
-  disabled?: boolean
-  /**
-   * The orientation of the group for arrow key navigation.
-   */
-  orientation?: RovingFocusGroupProps['orientation']
-  /**
-   * The reading direction.
-   */
-  dir?: RovingFocusGroupProps['dir']
-  /**
-   * Whether keyboard navigation should loop.
-   * @defaultValue true
-   */
-  loop?: RovingFocusGroupProps['loop']
-}
-
-interface ToggleGroupImplPrivateProps extends ToggleGroupImplProps {
-  value: string[]
-  onItemActivate(value: string): void
-  onItemDeactivate(value: string): void
-}
-
-const ToggleGroupImpl = React.forwardRef<ToggleGroupImplElement, ToggleGroupImplPrivateProps>(
-  (props: ScopedProps<ToggleGroupImplPrivateProps>, forwardedRef) => {
+const ToggleGroupImpl = React.forwardRef<React.ComponentRef<typeof Primitive.div>, IToggleGroup.IImplPrivate>(
+  (props: IToggleGroup.IScoped<IToggleGroup.IImplPrivate>, forwardedRef) => {
     const {
       __scopeToggleGroup,
       type,
@@ -238,7 +146,6 @@ const ToggleGroupImpl = React.forwardRef<ToggleGroupImplElement, ToggleGroupImpl
 
 ToggleGroupImpl.displayName = `${TOGGLE_GROUP_NAME}Impl`
 
-export type { ScopedProps, ToggleGroupImplProps, ToggleGroupMultipleProps, ToggleGroupProps, ToggleGroupSingleProps }
 export {
   createToggleGroupScope,
   TOGGLE_GROUP_NAME,

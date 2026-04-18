@@ -2,7 +2,7 @@
 
 import { type Event, trackEvent } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
-import { Button, type ButtonProps } from '@gentleduck/registry-ui/button'
+import { Button, type IButtonProps } from '@gentleduck/registry-ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'
 import { CheckIcon, Copy } from 'lucide-react'
 import * as React from 'react'
@@ -17,7 +17,7 @@ export function BlockCopyButton({
   event: Event['name']
   name: string
   code: string
-} & ButtonProps) {
+} & IButtonProps) {
   const [hasCopied, setHasCopied] = React.useState(false)
 
   React.useEffect(() => {

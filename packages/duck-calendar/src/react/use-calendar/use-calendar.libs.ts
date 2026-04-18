@@ -1,17 +1,17 @@
 import type React from 'react'
-import type { DateAdapter } from '../../adapter'
-import type { CalendarDay } from '../../grid'
-import type { DayProps, GridProps, HeaderProps, NavProps } from './use-calendar.types'
+import type { Adapter } from '../../adapter'
+import type { Grid } from '../../grid'
+import type { UseCalendar } from './use-calendar.types'
 
 export function buildDayProps<TDate>(
-  day: CalendarDay<TDate>,
+  day: Grid.ICalendarDay<TDate>,
   focusedDate: TDate,
-  adapter: DateAdapter<TDate>,
+  adapter: Adapter.IDateAdapter<TDate>,
   selectDate: (date: TDate, options?: { shiftKey?: boolean }) => void,
   focusDate: (date: TDate) => void,
   onKeyDown: React.KeyboardEventHandler,
   locale?: string,
-): DayProps {
+): UseCalendar.IDayProps {
   const isFocused = adapter.isSameDay(day.date, focusedDate)
 
   return {
@@ -38,7 +38,7 @@ export function buildDayProps<TDate>(
   }
 }
 
-export function buildGridProps(headerId: string): GridProps {
+export function buildGridProps(headerId: string): UseCalendar.IGridProps {
   return {
     role: 'grid',
     'aria-labelledby': headerId,
@@ -54,7 +54,7 @@ export function buildNavProps(
   goToNext: () => void,
   prevLabel?: string,
   nextLabel?: string,
-): NavProps {
+): UseCalendar.INavProps {
   return {
     'aria-label': direction === 'prev' ? (prevLabel ?? 'Go to previous month') : (nextLabel ?? 'Go to next month'),
     disabled: direction === 'prev' ? !canGoPrevious : !canGoNext,
@@ -62,7 +62,7 @@ export function buildNavProps(
   }
 }
 
-export function buildHeaderProps(headerId: string): HeaderProps {
+export function buildHeaderProps(headerId: string): UseCalendar.IHeaderProps {
   return {
     id: headerId,
     'aria-live': 'polite',

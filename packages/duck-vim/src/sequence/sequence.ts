@@ -1,13 +1,13 @@
 import { matchesKeyboardEvent } from '../matcher/matcher'
 import { parseKeyBind } from '../parser/parser'
-import type { ParsedKeyBind } from '../parser/parser.types'
-import type { SequenceHandle, SequenceOptions, SequenceRegistration, SequenceState } from './sequence.types'
+import type { Parser } from '../parser/parser.types'
+import type { Sequence } from './sequence.types'
 
-interface InternalEntry {
+interface IInternalEntry {
   id: number
-  parsedSteps: ParsedKeyBind[]
+  parsedSteps: Parser.IParsedKeyBind[]
   handler: () => void
-  options: Required<SequenceOptions>
+  options: Required<Sequence.ISequenceOptions>
   currentStep: number
   timeoutId: ReturnType<typeof setTimeout> | null
 }
@@ -21,7 +21,7 @@ let nextId = 0
  * Feed keyboard events via handleKeyEvent() and sequences are matched automatically.
  */
 export class SequenceManager {
-  private entries: InternalEntry[] = []
+  private entries: IInternalEntry[] = []
 
   /**
    * Registers a new key sequence.
@@ -29,11 +29,11 @@ export class SequenceManager {
    * @param registration - The sequence registration
    * @returns A handle to unregister the sequence
    */
-  register(registration: SequenceRegistration): SequenceHandle {
+  register(registration: Sequence.ISequenceRegistration): Sequence.ISequenceHandle {
     const id = nextId++
     const parsedSteps = registration.steps.map((s) => parseKeyBind(s.binding))
 
-    const entry: InternalEntry = {
+    const entry: IInternalEntry = {
       id,
       parsedSteps,
       handler: registration.handler,
@@ -134,7 +134,7 @@ export class SequenceManager {
    * Returns the aggregate matching state across all entries.
    * Reports progress of the most-advanced entry.
    */
-  getState(): SequenceState {
+  getState(): Sequence.ISequenceState {
     let maxProgress = 0
     let maxTotal = 0
     let isMatching = false
@@ -166,7 +166,7 @@ export class SequenceManager {
     this.entries = []
   }
 
-  private clearEntryTimeout(entry: InternalEntry): void {
+  private clearEntryTimeout(entry: IInternalEntry): void {
     if (entry.timeoutId !== null) {
       clearTimeout(entry.timeoutId)
       entry.timeoutId = null
@@ -185,13 +185,13 @@ export class SequenceManager {
 export function createSequenceMatcher(
   steps: string[],
   handler: () => void,
-  options?: SequenceOptions,
-): { feed: (event: KeyboardEvent) => boolean; reset: () => void; getState: () => SequenceState } {
+  options?: Sequence.ISequenceOptions,
+): { feed: (event: KeyboardEvent) => boolean; reset: () => void; getState: () => Sequence.ISequenceState } {
   const manager = new SequenceManager()
   manager.register({
     steps: steps.map((binding) => ({ binding })),
     handler,
-    options,
+    ...(options !== undefined ? { options } : {}),
   })
 
   return {

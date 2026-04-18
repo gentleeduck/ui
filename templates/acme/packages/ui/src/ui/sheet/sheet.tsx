@@ -2,7 +2,7 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import * as SheetPrimitive from '@gentleduck/primitives/sheet'
-import type { VariantProps } from '@gentleduck/variants'
+import type { Variants } from '@gentleduck/variants'
 import { X } from 'lucide-react'
 import * as React from 'react'
 import { sheetVariants } from './sheet.constants'
@@ -26,7 +26,7 @@ const SheetOverlay = React.forwardRef<
   <SheetPrimitive.Overlay
     className={cn(
       'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 fixed inset-0 z-50 bg-black/80 data-[state=closed]:animate-out data-[state=open]:animate-in',
-      'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+      'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
       className,
     )}
     {...props}
@@ -35,13 +35,13 @@ const SheetOverlay = React.forwardRef<
 ))
 SheetOverlay.displayName = SheetPrimitive.Overlay.displayName
 
-interface SheetContentProps
+interface ISheetContentProps
   extends React.ComponentPropsWithoutRef<typeof SheetPrimitive.Content>,
-    VariantProps<typeof sheetVariants> {}
+    Variants.VariantProps<typeof sheetVariants> {}
 
 const SheetContent = React.forwardRef<
   React.ComponentRef<typeof SheetPrimitive.Content>,
-  SheetContentProps & { closeText?: string }
+  ISheetContentProps & { closeText?: string }
 >(({ side = 'right', className, children, closeText = 'Close', ...props }, ref) => (
   <SheetPortal>
     <SheetOverlay />

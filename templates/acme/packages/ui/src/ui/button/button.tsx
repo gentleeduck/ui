@@ -3,12 +3,12 @@ import { Slot, Slottable } from '@gentleduck/primitives/slot'
 import { Loader } from 'lucide-react'
 import * as React from 'react'
 import { buttonVariants } from './button.constants'
-import type { AnimationIconProps, ButtonProps } from './button.types'
+import type { AnimationIconProps, IButtonProps } from './button.types'
 
 /**
  * Renders a customizable button component, supporting various styles and behaviors.
  */
-const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
+const Button = React.forwardRef<HTMLButtonElement, IButtonProps>(
   (
     {
       children,

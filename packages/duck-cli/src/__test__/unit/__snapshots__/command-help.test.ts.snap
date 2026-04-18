@@ -61,9 +61,12 @@ Options:
   --css <path>               CSS file path (default: ./src/styles.css)
   --css-variables            use CSS variables (default: true)
   --no-css-variables         do not use CSS variables
-  --monorepo                 project is a monorepo
-  --no-monorepo              project is not a monorepo
-  -w, --workspace <path>     workspace path (relative to monorepo root)
+  --no-monorepo              force single-project mode even when monorepo
+                             signals are detected
+  -w, --workspace <path>     workspace where components are installed (implies
+                             monorepo)
+  --css-workspace <path>     workspace that owns the CSS file (defaults to
+                             --workspace; implies monorepo)
   --prefix <prefix>          Tailwind prefix
   -a, --all                  install all available components (default: false)
   -t, --template <name>      scaffold a project from a template (e.g., acme)

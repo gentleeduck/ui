@@ -1,2 +1,3 @@
-export type { AvatarGroupProps } from './avatar'
-export { Avatar, AvatarFallback, AvatarGroup, AvatarImage, MotionAvatar, MotionAvatarGroup } from './avatar'
+export type { IAvatarGroupProps } from './avatar'
+export { Avatar, AvatarFallback, AvatarGroup, AvatarImage } from './avatar'
+export { MotionAvatar, MotionAvatarGroup } from './motion-avatar'

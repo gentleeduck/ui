@@ -1,8 +1,9 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
-import type { VariantProps } from '@gentleduck/variants'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
+import type { Variants } from '@gentleduck/variants'
 import React, { useMemo } from 'react'
 import { Label } from '../label'
 import { Separator } from '../separator'
@@ -10,7 +11,7 @@ import { fieldVariants } from './field.constants'
 
 const FieldSet = React.forwardRef<HTMLFieldSetElement, React.ComponentPropsWithoutRef<'fieldset'>>(
   ({ className, dir, ...props }, ref) => {
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
     return (
       <fieldset
         ref={ref}
@@ -63,7 +64,7 @@ FieldGroup.displayName = 'FieldGroup'
 
 const Field = React.forwardRef<
   HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'> & VariantProps<typeof fieldVariants>
+  React.ComponentPropsWithoutRef<'div'> & Variants.VariantProps<typeof fieldVariants>
 >(({ className, orientation = 'vertical', ...props }, ref) => {
   return (
     // biome-ignore lint/a11y/useSemanticElements: field group role is semantically correct for form field grouping

@@ -1,2 +1,2 @@
-export type { FocusScopeProps } from './focus-scope'
 export { FocusScope } from './focus-scope'
+export type { IFocusScope } from './focus-scope.types'

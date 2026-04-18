@@ -1,16 +1,14 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
-import { type ScopedProps, useCalendarContext } from './calendar'
+import { useCalendarContext } from './calendar'
+import type { ICalendar } from './calendar.types'
 
 const GRID_NAME = 'CalendarGrid'
 
 type CalendarGridElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-export interface CalendarGridProps extends PrimitiveDivProps {}
-
-export const CalendarGrid = React.forwardRef<CalendarGridElement, CalendarGridProps>(
-  (props: ScopedProps<CalendarGridProps>, forwardedRef) => {
+export const CalendarGrid = React.forwardRef<CalendarGridElement, ICalendar.IGridProps>(
+  (props: ICalendar.IScoped<ICalendar.IGridProps>, forwardedRef) => {
     const { __scopeCalendar, children, ...gridProps } = props
     const context = useCalendarContext(GRID_NAME, __scopeCalendar)
     const gridDomProps = context.getGridProps()

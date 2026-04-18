@@ -1,6 +1,6 @@
 'use client'
 
-import type { TocEntry } from '@duck-docs/context'
+import type { ITocEntry } from '@duck-docs/context'
 import { useMounted } from '@duck-docs/hooks/use-mounted'
 import { cn } from '@gentleduck/libs/cn'
 import { BookOpenText } from 'lucide-react'
@@ -8,11 +8,11 @@ import * as React from 'react'
 
 // -- Types -------------------------------------------------------------------
 
-interface TocProps {
-  toc: TocEntry[]
+interface ITocProps {
+  toc: ITocEntry[]
 }
 
-interface FlatTocItem {
+interface IFlatTocItem {
   url: string
   title: string
   depth: number
@@ -20,8 +20,8 @@ interface FlatTocItem {
 
 // -- Helpers -----------------------------------------------------------------
 
-function flattenToc(toc: TocEntry[], depth = 1): FlatTocItem[] {
-  const result: FlatTocItem[] = []
+function flattenToc(toc: ITocEntry[], depth = 1): IFlatTocItem[] {
+  const result: IFlatTocItem[] = []
   for (const entry of toc) {
     result.push({ url: entry.url, title: entry.title, depth })
     if (entry.items && depth < 2) {
@@ -170,7 +170,7 @@ function useTocThumb(containerRef: React.RefObject<HTMLDivElement | null>, activ
   return pos
 }
 
-function useTocSvg(containerRef: React.RefObject<HTMLDivElement | null>, items: FlatTocItem[]) {
+function useTocSvg(containerRef: React.RefObject<HTMLDivElement | null>, items: IFlatTocItem[]) {
   const [svg, setSvg] = React.useState<{ path: string; width: number; height: number } | null>(null)
 
   React.useEffect(() => {
@@ -228,7 +228,7 @@ function useTocSvg(containerRef: React.RefObject<HTMLDivElement | null>, items: 
 
 // -- Skeleton ----------------------------------------------------------------
 
-function TocSkeleton({ toc }: TocProps) {
+function TocSkeleton({ toc }: ITocProps) {
   const skeletonItems = React.useMemo(() => {
     const items: { key: string; level: number; width: string }[] = []
     for (const entry of toc) {
@@ -270,7 +270,7 @@ function TocTree({
   activeItem,
   onItemClick,
 }: {
-  items: FlatTocItem[]
+  items: IFlatTocItem[]
   activeItem: string
   onItemClick?: (id: string) => void
 }) {
@@ -300,7 +300,7 @@ function TocTree({
   }, [activeItem])
 
   const handleClick = React.useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>, item: FlatTocItem) => {
+    (e: React.MouseEvent<HTMLAnchorElement>, item: IFlatTocItem) => {
       const id = item.url.split('#')[1]
       if (!id) return
 
@@ -394,7 +394,7 @@ function TocTree({
 
 // -- Main component ----------------------------------------------------------
 
-export function DashboardTableOfContents({ toc }: TocProps) {
+export function DashboardTableOfContents({ toc }: ITocProps) {
   const flatItems = React.useMemo(() => flattenToc(toc), [toc])
   const itemIds = React.useMemo(() => flatItems.map((item) => item.url.split('#')[1]).filter(Boolean), [flatItems])
   const [activeHeading, setActiveHeading] = useActiveItem(itemIds)

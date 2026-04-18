@@ -1,26 +1,26 @@
 import * as React from 'react'
 import { useId } from '../hooks/use-id'
 import { Primitive } from '../primitive-elements'
-import type { NavigationMenuContentImplElement, ScopedProps } from './navigation-menu'
 import { NavigationMenuItemContextProvider } from './navigation-menu'
 import { focusFirst, getTabbableCandidates, removeFromTabOrder } from './navigation-menu.libs'
+import type { INavigationMenu } from './navigation-menu.types'
 
 const ITEM_NAME = 'NavigationMenuItem'
 
 type NavigationMenuItemElement = React.ComponentRef<typeof Primitive.li>
 type PrimitiveListItemProps = React.ComponentPropsWithoutRef<typeof Primitive.li>
-interface NavigationMenuItemProps extends PrimitiveListItemProps {
+interface INavigationMenuItemProps extends PrimitiveListItemProps {
   value?: string
 }
 
-const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, NavigationMenuItemProps>(
-  (props: ScopedProps<NavigationMenuItemProps>, forwardedRef) => {
+const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, INavigationMenuItemProps>(
+  (props: INavigationMenu.IScoped<INavigationMenuItemProps>, forwardedRef) => {
     const { __scopeNavigationMenu, value: valueProp, ...itemProps } = props
     const autoValue = useId()
     // We need to provide an initial deterministic value as `useId` will return
     // empty string on the first render and we don't want to match our internal "closed" value.
     const value = valueProp || autoValue || 'LEGACY_REACT_AUTO_VALUE'
-    const contentRef = React.useRef<NavigationMenuContentImplElement>(null)
+    const contentRef = React.useRef<INavigationMenu.NavigationMenuContentImplElement>(null)
     const triggerRef = React.useRef<HTMLButtonElement>(null)
     const focusProxyRef = React.useRef<HTMLSpanElement>(null)
     const restoreContentTabOrderRef = React.useRef(() => {})
@@ -61,5 +61,5 @@ const NavigationMenuItem = React.forwardRef<NavigationMenuItemElement, Navigatio
 
 NavigationMenuItem.displayName = ITEM_NAME
 
-export type { NavigationMenuItemProps }
+export type { INavigationMenuItemProps }
 export { NavigationMenuItem }

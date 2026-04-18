@@ -1,40 +1,21 @@
 import * as React from 'react'
-import type { Direction } from '../direction'
+import type { IDirection } from '../direction'
 import { useDirection } from '../direction'
 import { useComposedRefs } from '../libs/compose-ref'
-import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'
+import type { IInputOTP } from './input-otp.types'
 
 const INPUT_OTP_NAME = 'InputOTP'
 
 export const REGEXP_ONLY_DIGITS_AND_CHARS = /^.$/
 export const REGEXP_ONLY_DIGITS = /^[0-9]$/
 
-type ScopedProps<P> = P & { __scopeInputOTP?: Scope }
 const [createInputOTPContext, createInputOTPScope] = createContextScope(INPUT_OTP_NAME)
 
-type InputOTPContextValue = {
-  value?: string
-  inputsRef: React.RefObject<HTMLInputElement[]>
-  wrapperRef: React.RefObject<HTMLDivElement | null>
-  dir: Direction
-  maxLength?: number
-}
-
-const [InputOTPProvider, useInputOTPContext] = createInputOTPContext<InputOTPContextValue>(INPUT_OTP_NAME)
+const [InputOTPProvider, useInputOTPContext] = createInputOTPContext<IInputOTP.IContext>(INPUT_OTP_NAME)
 
 type InputOTPElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-
-interface InputOTPProps extends Omit<PrimitiveDivProps, 'onChange'> {
-  value?: string
-  onValueChange?: (value: string) => void
-  pattern?: RegExp
-  dir?: Direction
-  maxLength?: number
-  name?: string
-}
 
 function useInputOTPBehavior({
   value,
@@ -45,13 +26,13 @@ function useInputOTPBehavior({
   wrapperRef,
   maxLength,
 }: {
-  value?: string
-  onValueChange?: (value: string) => void
+  value?: string | undefined
+  onValueChange?: ((value: string) => void) | undefined
   pattern: RegExp
-  direction: Direction
+  direction: IDirection.Kind
   inputsRef: React.RefObject<HTMLInputElement[]>
   wrapperRef: React.RefObject<HTMLDivElement | null>
-  maxLength?: number
+  maxLength?: number | undefined
 }) {
   React.useEffect(() => {
     const wrapper = wrapperRef.current
@@ -72,8 +53,10 @@ function useInputOTPBehavior({
 
       let j = 0
       for (let k = startIndex; k < inputs.length && j < chars.length; k++) {
-        // biome-ignore lint/style/noNonNullAssertion: k and j are bounded by inputs.length and chars.length respectively
-        inputs[k]!.value = chars[j]!
+        const input = inputs[k]
+        const char = chars[j]
+        if (input === undefined || char === undefined) continue
+        input.value = char
         j++
       }
 
@@ -83,8 +66,8 @@ function useInputOTPBehavior({
     }
 
     for (let i = 0; i < inputs.length; i++) {
-      // biome-ignore lint/style/noNonNullAssertion: i is bounded by inputs.length in the for loop
-      const item = inputs[i]!
+      const item = inputs[i]
+      if (!item) continue
       item.value = valueChunks[i] ?? ''
       item.setAttribute('aria-label', `Digit ${i + 1}`)
 
@@ -142,55 +125,56 @@ function useInputOTPBehavior({
   }, [value, onValueChange, pattern, direction, maxLength, inputsRef, wrapperRef])
 }
 
-const InputOTP = React.forwardRef<InputOTPElement, InputOTPProps>((props: ScopedProps<InputOTPProps>, forwardedRef) => {
-  const {
-    __scopeInputOTP,
-    value,
-    onValueChange,
-    pattern = REGEXP_ONLY_DIGITS_AND_CHARS,
-    dir,
-    maxLength,
-    children,
-    'aria-label': ariaLabel = 'otp-one-time-password',
-    ...inputOTPProps
-  } = props
-  const direction = useDirection(dir)
-  const inputsRef = React.useRef<HTMLInputElement[]>([])
-  const wrapperRef = React.useRef<HTMLDivElement>(null)
-  const composedRef = useComposedRefs(forwardedRef, wrapperRef)
+const InputOTP = React.forwardRef<InputOTPElement, IInputOTP.IProps>(
+  (props: IInputOTP.IScoped<IInputOTP.IProps>, forwardedRef) => {
+    const {
+      __scopeInputOTP,
+      value,
+      onValueChange,
+      pattern = REGEXP_ONLY_DIGITS_AND_CHARS,
+      dir,
+      maxLength,
+      children,
+      'aria-label': ariaLabel = 'otp-one-time-password',
+      ...inputOTPProps
+    } = props
+    const direction = useDirection(dir)
+    const inputsRef = React.useRef<HTMLInputElement[]>([])
+    const wrapperRef = React.useRef<HTMLDivElement>(null)
+    const composedRef = useComposedRefs(forwardedRef, wrapperRef)
 
-  useInputOTPBehavior({
-    value,
-    onValueChange,
-    pattern,
-    direction,
-    inputsRef,
-    wrapperRef,
-    maxLength,
-  })
+    useInputOTPBehavior({
+      value,
+      onValueChange,
+      pattern,
+      direction,
+      inputsRef,
+      wrapperRef,
+      maxLength,
+    })
 
-  return (
-    <InputOTPProvider
-      scope={__scopeInputOTP}
-      value={value}
-      inputsRef={inputsRef}
-      wrapperRef={wrapperRef}
-      dir={direction}
-      maxLength={maxLength}>
-      <Primitive.div
-        {...inputOTPProps}
-        ref={composedRef}
-        role="region"
+    return (
+      <InputOTPProvider
+        scope={__scopeInputOTP}
+        value={value}
+        inputsRef={inputsRef}
+        wrapperRef={wrapperRef}
         dir={direction}
-        aria-label={ariaLabel}
-        data-slot="input-otp">
-        {children}
-      </Primitive.div>
-    </InputOTPProvider>
-  )
-})
+        maxLength={maxLength}>
+        <Primitive.div
+          {...inputOTPProps}
+          ref={composedRef}
+          role="region"
+          dir={direction}
+          aria-label={ariaLabel}
+          data-slot="input-otp">
+          {children}
+        </Primitive.div>
+      </InputOTPProvider>
+    )
+  },
+)
 
 InputOTP.displayName = INPUT_OTP_NAME
 
-export type { InputOTPContextValue, InputOTPProps, ScopedProps }
 export { createInputOTPScope, INPUT_OTP_NAME, InputOTP, InputOTPProvider, useInputOTPContext }

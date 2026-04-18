@@ -1,10 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
-import { loadDomAnimation } from '@gentleduck/motion/motion-features'
-import { useMotionPreset } from '@gentleduck/motion/motion-presets'
-import { tapScale } from '@gentleduck/motion/presets/content'
-import { scaleIn } from '@gentleduck/motion/presets/scale-in'
-import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import * as PaginationPrimitive from '@gentleduck/primitives/pagination'
 import {
   ChevronLeft,
@@ -15,10 +11,9 @@ import {
   ChevronsRightIcon,
   MoreHorizontal,
 } from 'lucide-react'
-import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Button, buttonVariants } from '../button'
-import type { DuckPaginationProps, PaginationLinkProps } from './pagination.types'
+import type { IDuckPaginationProps, IPaginationLinkProps } from './pagination.types'
 
 const Pagination = React.forwardRef<
   React.ComponentRef<typeof PaginationPrimitive.Root>,
@@ -54,7 +49,7 @@ const PaginationItem = React.forwardRef<
 ))
 PaginationItem.displayName = 'PaginationItem'
 
-const PaginationLink = React.forwardRef<HTMLAnchorElement, PaginationLinkProps>(
+const PaginationLink = React.forwardRef<HTMLAnchorElement, IPaginationLinkProps>(
   ({ className, isActive, size = 'icon', ...props }, ref) => (
     <a
       aria-current={isActive ? 'page' : undefined}
@@ -82,8 +77,8 @@ const PaginationPrevious = React.forwardRef<
     className={cn('gap-1 ps-2.5', className)}
     data-slot="pagination-previous"
     ref={ref}
-    size="default"
-    {...props}>
+    {...props}
+    size="default">
     <ChevronLeft aria-hidden="true" className="h-4 w-4 rtl:rotate-180" />
     <span className="hidden sm:block">{text}</span>
   </PaginationLink>
@@ -99,8 +94,8 @@ const PaginationNext = React.forwardRef<
     className={cn('gap-1 pe-2.5', className)}
     data-slot="pagination-next"
     ref={ref}
-    size="default"
-    {...props}>
+    {...props}
+    size="default">
     <span className="hidden sm:block">{text}</span>
     <ChevronRight aria-hidden="true" className="h-4 w-4 rtl:rotate-180" />
   </PaginationLink>
@@ -123,7 +118,7 @@ const PaginationEllipsis = React.forwardRef<
 ))
 PaginationEllipsis.displayName = 'PaginationEllipsis'
 
-const PaginationWrapper = (props: DuckPaginationProps) => {
+const PaginationWrapper = (props: IDuckPaginationProps) => {
   const { className: wrapperClassName, dir, ...wrapperProps } = props.wrapper ?? {}
   const { className: contentClassName, ...contentProps } = props.content ?? {}
   const { className: itemClassName, ...itemProps } = props.item ?? {}
@@ -131,7 +126,7 @@ const PaginationWrapper = (props: DuckPaginationProps) => {
   const { className: maxRightClassName, icon: maxRightIcon, ...maxRightProps } = props.maxRight ?? {}
   const { className: leftClassName, icon: leftIcon, ...leftProps } = props.left ?? {}
   const { className: maxLeftClassName, icon: maxLeftIcon, ...maxLeftProps } = props.maxLeft ?? {}
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
   const StartIcon = direction === 'rtl' ? ChevronRightIcon : ChevronLeftIcon
   const EndIcon = direction === 'rtl' ? ChevronLeftIcon : ChevronRightIcon
   const StartDoubleIcon = direction === 'rtl' ? ChevronsRightIcon : ChevronsLeftIcon
@@ -185,100 +180,7 @@ const PaginationWrapper = (props: DuckPaginationProps) => {
   )
 }
 
-const MotionPagination = React.forwardRef<
-  React.ComponentRef<typeof PaginationPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof PaginationPrimitive.Root>
->(({ className, ...props }, ref) => {
-  const content = useMotionPreset(scaleIn, { transition: springBouncy })
-  return (
-    <LazyMotion features={loadDomAnimation}>
-      <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
-        <PaginationPrimitive.Root
-          className={cn('mx-auto flex w-full justify-center', className)}
-          data-slot="pagination"
-          ref={ref}
-          {...props}
-        />
-      </m.div>
-    </LazyMotion>
-  )
-})
-MotionPagination.displayName = 'MotionPagination'
-
-const MotionPaginationLink = React.forwardRef<
-  HTMLAnchorElement,
-  Omit<PaginationLinkProps, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'> & { index?: number }
->(({ className, isActive, size = 'icon', index = 0, ...props }, ref) => {
-  const options = React.useMemo(() => ({ transition: springBouncy, delay: index * 0.05 }), [index])
-  const content = useMotionPreset(scaleIn, options)
-  return (
-    <LazyMotion features={loadDomAnimation}>
-      <m.a
-        aria-current={isActive ? 'page' : undefined}
-        className={cn(
-          buttonVariants({
-            size,
-            variant: isActive ? 'outline' : 'ghost',
-          }),
-          className,
-        )}
-        data-slot="pagination-link"
-        ref={ref}
-        initial={content.initial}
-        animate={content.animate}
-        transition={content.transition}
-        whileTap={tapScale}
-        {...(props as Omit<
-          React.ComponentPropsWithoutRef<'a'>,
-          'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'
-        >)}
-      />
-    </LazyMotion>
-  )
-})
-MotionPaginationLink.displayName = 'MotionPaginationLink'
-
-const MotionPaginationPrevious = React.forwardRef<
-  HTMLAnchorElement,
-  React.ComponentPropsWithoutRef<typeof PaginationLink> & { text?: string; index?: number }
->(({ className, text = 'Previous', index = 0, ...props }, ref) => (
-  <MotionPaginationLink
-    aria-label="Go to previous page"
-    className={cn('gap-1 ps-2.5', className)}
-    data-slot="pagination-previous"
-    ref={ref}
-    size="default"
-    index={index}
-    {...props}>
-    <ChevronLeft aria-hidden="true" className="h-4 w-4 rtl:rotate-180" />
-    <span className="hidden sm:block">{text}</span>
-  </MotionPaginationLink>
-))
-MotionPaginationPrevious.displayName = 'MotionPaginationPrevious'
-
-const MotionPaginationNext = React.forwardRef<
-  HTMLAnchorElement,
-  React.ComponentPropsWithoutRef<typeof PaginationLink> & { text?: string; index?: number }
->(({ className, text = 'Next', index = 0, ...props }, ref) => (
-  <MotionPaginationLink
-    aria-label="Go to next page"
-    className={cn('gap-1 pe-2.5', className)}
-    data-slot="pagination-next"
-    ref={ref}
-    size="default"
-    index={index}
-    {...props}>
-    <span className="hidden sm:block">{text}</span>
-    <ChevronRight aria-hidden="true" className="h-4 w-4 rtl:rotate-180" />
-  </MotionPaginationLink>
-))
-MotionPaginationNext.displayName = 'MotionPaginationNext'
-
 export {
-  MotionPagination,
-  MotionPaginationLink,
-  MotionPaginationNext,
-  MotionPaginationPrevious,
   Pagination,
   PaginationContent,
   PaginationEllipsis,

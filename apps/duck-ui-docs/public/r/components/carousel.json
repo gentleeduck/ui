@@ -19,7 +19,7 @@
       "type": "registry:ui"
     },
     {
-      "content": "export { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './carousel'\r\nexport type { CarouselApi, CarouselContextProps, CarouselOptions, CarouselPlugin, CarouselProps, UseCarouselParameters } from './carousel.types'\r\n",
+      "content": "export { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from './carousel'\nexport type {\n  CarouselApi,\n  CarouselContextProps,\n  CarouselOptions,\n  CarouselPlugin,\n  CarouselProps,\n  UseCarouselParameters,\n} from './carousel.types'\n",
       "path": "carousel/index.ts",
       "target": "components/ui/index.ts",
       "type": "registry:ui"

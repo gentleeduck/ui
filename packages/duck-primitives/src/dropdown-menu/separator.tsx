@@ -1,17 +1,14 @@
-/** DropdownMenuSeparator -- visual divider between menu items. */
 import * as React from 'react'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './dropdown-menu'
 import { useMenuScope } from './dropdown-menu'
+import type { IDropdownMenu } from './dropdown-menu.types'
 
 const SEPARATOR_NAME = 'DropdownMenuSeparator'
 
 type DropdownMenuSeparatorElement = React.ComponentRef<typeof MenuPrimitive.Separator>
-type MenuSeparatorProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Separator>
-interface DropdownMenuSeparatorProps extends MenuSeparatorProps {}
 
-const DropdownMenuSeparator = React.forwardRef<DropdownMenuSeparatorElement, DropdownMenuSeparatorProps>(
-  (props: ScopedProps<DropdownMenuSeparatorProps>, forwardedRef) => {
+const DropdownMenuSeparator = React.forwardRef<DropdownMenuSeparatorElement, IDropdownMenu.ISeparatorProps>(
+  (props: IDropdownMenu.IScoped<IDropdownMenu.ISeparatorProps>, forwardedRef) => {
     const { __scopeDropdownMenu, ...separatorProps } = props
     const menuScope = useMenuScope(__scopeDropdownMenu)
     return <MenuPrimitive.Separator {...menuScope} {...separatorProps} ref={forwardedRef} />
@@ -20,5 +17,4 @@ const DropdownMenuSeparator = React.forwardRef<DropdownMenuSeparatorElement, Dro
 
 DropdownMenuSeparator.displayName = SEPARATOR_NAME
 
-export type { DropdownMenuSeparatorProps }
 export { DropdownMenuSeparator }

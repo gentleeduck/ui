@@ -7,9 +7,9 @@ import { Button } from '../button'
 import { Dialog, DialogContent, DialogTrigger } from '../dialog'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../tooltip'
 import { PreviewPanel } from './preview-panel'
-import type { PreviewPanelDialogProps, PreviewPanelState } from './preview-panel.types'
+import type { IPreviewPanelDialogProps, IPreviewPanelState } from './preview-panel.types'
 
-const PreviewPanelDialog = React.forwardRef<HTMLDivElement, PreviewPanelDialogProps & { fullscreenText?: string }>(
+const PreviewPanelDialog = React.forwardRef<HTMLDivElement, IPreviewPanelDialogProps & { fullscreenText?: string }>(
   (
     {
       children,
@@ -26,7 +26,7 @@ const PreviewPanelDialog = React.forwardRef<HTMLDivElement, PreviewPanelDialogPr
     },
     ref,
   ) => {
-    const [sharedState, setSharedState] = useState<PreviewPanelState | undefined>(undefined)
+    const [sharedState, setSharedState] = useState<IPreviewPanelState | undefined>(undefined)
 
     // Ref tracks whether a state update is already scheduled this frame.
     // Prevents multiple setState calls per animation frame when both
@@ -34,7 +34,7 @@ const PreviewPanelDialog = React.forwardRef<HTMLDivElement, PreviewPanelDialogPr
     const pendingRef = useRef(false)
 
     const handleStateChange = useCallback(
-      (state: PreviewPanelState) => {
+      (state: IPreviewPanelState) => {
         if (!syncPanels) return
         if (pendingRef.current) return
         pendingRef.current = true

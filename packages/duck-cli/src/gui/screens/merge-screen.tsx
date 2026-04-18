@@ -1,11 +1,11 @@
 import { Select, Spinner, StatusMessage } from '@inkjs/ui'
 import { Box, Text } from 'ink'
 import { memo } from 'react'
-import type { ComponentMergeState, MergeResult } from '~/utils/merge'
+import type { Merge } from '~/utils/merge'
 import { THEME } from '../app.constants'
 import { Banner } from '../components/banner'
 import { DiffLineView } from '../components/diff-line'
-import { get_diff_line_key } from '../components/diff-line.libs'
+import { getDiffLineKey } from '../components/diff-line.libs'
 import { FileTabs } from '../components/file-tabs'
 import { MergeHunkView } from '../components/merge-hunk-view'
 import { MergeSummary } from '../components/merge-summary'
@@ -15,9 +15,9 @@ import { useMergeKeyboard } from '../hooks/use-merge-keyboard'
 import { useMergeWorkflow } from '../hooks/use-merge-workflow'
 
 type MergeScreenProps = {
-  mergeData?: ComponentMergeState
+  mergeData?: Merge.ComponentState | undefined
   onBack: () => void
-  onComplete?: (results: MergeResult[]) => void
+  onComplete?: ((results: Merge.Result[]) => void) | undefined
 }
 
 /**
@@ -44,10 +44,10 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
     mergeState,
     activeFileIndex,
     activeHunkIndex,
-    active_file,
-    active_hunks,
-    total_hunks,
-    all_resolved,
+    activeFile,
+    activeHunks,
+    totalHunks,
+    allResolved,
     scrollOffset,
     summaryVisibleRows,
     writeResults,
@@ -105,31 +105,31 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
 
   // -- Resolving hunks --
   if (step === 'resolving' && mergeState) {
-    const file_names = mergeState.files.map((f) => {
-      if (f.status === 'added') return `${f.file_path} [NEW]`
+    const fileNames = mergeState.files.map((f) => {
+      if (f.status === 'added') return `${f.filePath} [NEW]`
       if (f.status === 'deleted') {
-        const tag = f.file_choice === 'pending' ? '???' : f.file_choice === 'keep' ? 'KEEP' : 'REMOVE'
-        return `${f.file_path} [${tag}]`
+        const tag = f.fileChoice === 'pending' ? '???' : f.fileChoice === 'keep' ? 'KEEP' : 'REMOVE'
+        return `${f.filePath} [${tag}]`
       }
-      const resolved_count = f.hunks.filter((h) => h.choice !== 'pending').length
-      return `${f.file_path} [${resolved_count}/${f.hunks.length}]`
+      const resolvedCount = f.hunks.filter((h) => h.choice !== 'pending').length
+      return `${f.filePath} [${resolvedCount}/${f.hunks.length}]`
     })
 
-    const pending_count = mergeState.files.reduce((acc, f) => {
-      if (f.status === 'deleted') return acc + (f.file_choice === 'pending' ? 1 : 0)
+    const pendingCount = mergeState.files.reduce((acc, f) => {
+      if (f.status === 'deleted') return acc + (f.fileChoice === 'pending' ? 1 : 0)
       return acc + f.hunks.filter((h) => h.choice === 'pending').length
     }, 0)
 
-    const status_items = [
-      { key: '1', label: active_file?.status === 'deleted' ? 'keep' : 'local' },
-      { key: '2', label: active_file?.status === 'deleted' ? 'remove' : 'registry' },
+    const statusItems = [
+      { key: '1', label: activeFile?.status === 'deleted' ? 'keep' : 'local' },
+      { key: '2', label: activeFile?.status === 'deleted' ? 'remove' : 'registry' },
     ]
 
-    if (active_file?.status !== 'deleted') {
-      status_items.push({ key: '3', label: 'both' })
+    if (activeFile?.status !== 'deleted') {
+      statusItems.push({ key: '3', label: 'both' })
     }
 
-    status_items.push(
+    statusItems.push(
       { key: 'n/j', label: 'next hunk' },
       { key: 'p/k', label: 'prev hunk' },
       { key: 'N', label: 'prev unresolved' },
@@ -137,41 +137,41 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
       { key: 'h/l', label: 'switch file' },
     )
 
-    if (all_resolved) {
-      status_items.push({ key: 'enter', label: 'confirm' })
+    if (allResolved) {
+      statusItems.push({ key: 'enter', label: 'confirm' })
     }
 
-    status_items.push({ key: 'esc', label: 'abort' })
+    statusItems.push({ key: 'esc', label: 'abort' })
 
     return (
       <Box flexDirection="column">
         <Banner compact />
-        <StepIndicator current={2} total={3} label={`Merge: ${mergeState.name} (${pending_count} unresolved)`} />
+        <StepIndicator current={2} total={3} label={`Merge: ${mergeState.name} (${pendingCount} unresolved)`} />
 
-        <FileTabs files={file_names} active_index={activeFileIndex} />
+        <FileTabs files={fileNames} activeIndex={activeFileIndex} />
 
         <Box marginTop={1} flexDirection="column">
-          {active_file?.status === 'added' && (
+          {activeFile?.status === 'added' && (
             <Box flexDirection="column">
               <Text color={THEME.success} bold>
                 New file from registry (auto-accepted)
               </Text>
-              <Text color={THEME.mutedForeground}>{active_file.file_path}</Text>
+              <Text color={THEME.mutedForeground}>{activeFile.filePath}</Text>
             </Box>
           )}
 
-          {active_file?.status === 'deleted' && (
+          {activeFile?.status === 'deleted' && (
             <Box flexDirection="column">
               <Text color={THEME.warning} bold>
                 File exists locally but not in registry
               </Text>
-              <Text color={THEME.mutedForeground}>{active_file.file_path}</Text>
+              <Text color={THEME.mutedForeground}>{activeFile.filePath}</Text>
               <Box marginTop={1}>
                 <Text>
                   Choice:{' '}
-                  {active_file.file_choice === 'pending' ? (
+                  {activeFile.fileChoice === 'pending' ? (
                     <Text color={THEME.mutedForeground}>[???] Press 1 to keep, 2 to remove</Text>
-                  ) : active_file.file_choice === 'keep' ? (
+                  ) : activeFile.fileChoice === 'keep' ? (
                     <Text color={THEME.success}>[KEEP]</Text>
                   ) : (
                     <Text color={THEME.destructive}>[REMOVE]</Text>
@@ -181,28 +181,28 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
             </Box>
           )}
 
-          {active_file?.status === 'modified' && active_hunks.length > 0 && (
+          {activeFile?.status === 'modified' && activeHunks.length > 0 && (
             <Box flexDirection="column">
-              {active_hunks.map((hunk, i) => (
+              {activeHunks.map((hunk, i) => (
                 <Box key={hunk.index} marginBottom={1}>
                   <MergeHunkView
                     hunk={hunk}
-                    is_active={i === activeHunkIndex}
-                    num_width={4}
-                    hunk_number={i + 1}
-                    total_hunks={total_hunks}
+                    isActive={i === activeHunkIndex}
+                    numWidth={4}
+                    hunkNumber={i + 1}
+                    totalHunks={totalHunks}
                   />
                 </Box>
               ))}
             </Box>
           )}
 
-          {active_file?.status === 'modified' && active_hunks.length === 0 && (
+          {activeFile?.status === 'modified' && activeHunks.length === 0 && (
             <Text color={THEME.mutedForeground}>No changes in this file.</Text>
           )}
         </Box>
 
-        {all_resolved && (
+        {allResolved && (
           <Box marginTop={1}>
             <Text color={THEME.success} bold>
               All conflicts resolved! Press enter to review and confirm.
@@ -210,16 +210,16 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
           </Box>
         )}
 
-        <StatusLine items={status_items} />
+        <StatusLine items={statusItems} />
       </Box>
     )
   }
 
   // -- Summary / review --
   if (step === 'summary' && mergeState) {
-    const preview_file = mergeState.files.find((f) => f.status === 'modified')
-    const preview_lines = highlightedPreview
-    const visible_preview = preview_lines.slice(scrollOffset, scrollOffset + summaryVisibleRows)
+    const previewFile = mergeState.files.find((f) => f.status === 'modified')
+    const previewLines = highlightedPreview
+    const visiblePreview = previewLines.slice(scrollOffset, scrollOffset + summaryVisibleRows)
 
     return (
       <Box flexDirection="column">
@@ -227,21 +227,21 @@ export const MergeScreen = memo(function MergeScreen({ mergeData, onBack, onComp
         <StepIndicator current={3} total={3} label="Review merge" />
 
         <Box marginTop={1}>
-          <MergeSummary merge_state={mergeState} />
+          <MergeSummary mergeState={mergeState} />
         </Box>
 
-        {preview_lines.length > 0 && (
+        {previewLines.length > 0 && (
           <Box marginTop={1} flexDirection="column">
             <Text bold color={THEME.foreground}>
-              Preview ({preview_file?.file_path}):
+              Preview ({previewFile?.filePath}):
             </Text>
-            {visible_preview.map((line) => (
-              <DiffLineView key={get_diff_line_key(line)} line={line} num_width={4} single_num />
+            {visiblePreview.map((line) => (
+              <DiffLineView key={getDiffLineKey(line)} line={line} numWidth={4} singleNum />
             ))}
-            {preview_lines.length > summaryVisibleRows && (
+            {previewLines.length > summaryVisibleRows && (
               <Text color={THEME.mutedForeground}>
-                Line {scrollOffset + 1}-{Math.min(scrollOffset + summaryVisibleRows, preview_lines.length)} of{' '}
-                {preview_lines.length}
+                Line {scrollOffset + 1}-{Math.min(scrollOffset + summaryVisibleRows, previewLines.length)} of{' '}
+                {previewLines.length}
               </Text>
             )}
           </Box>

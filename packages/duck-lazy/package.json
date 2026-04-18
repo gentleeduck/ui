@@ -11,13 +11,14 @@
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
-    "@types/node": "^25.3.0",
-    "@types/react": "19.2.14",
-    "jsdom": "^29.0.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "tsdown": "0.21.4",
-    "tsup": "^8.5.1"
+    "@types/node": "catalog:",
+    "@types/react": "catalog:react19",
+    "jsdom": "catalog:",
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
+    "tsdown": "catalog:",
+    "tsup": "^8.5.1",
+    "vitest": "catalog:"
   },
   "exports": {
     "./*": {
@@ -69,9 +70,15 @@
     "directory": "packages/duck-lazy"
   },
   "scripts": {
-    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "build": "tsdown",
-    "test": "bun test"
+    "check": "biome check .",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
+    "fix": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest"
   },
   "type": "module",
   "version": "1.2.15"

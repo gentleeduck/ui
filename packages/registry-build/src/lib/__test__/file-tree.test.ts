@@ -1,5 +1,5 @@
 import { describe, expect, test } from 'bun:test'
-import type { RegistryFileTreeNode } from '../file-tree'
+import type { IRegistryFileTreeNode } from '../file-tree'
 import { createRegistryFileTree } from '../file-tree'
 
 describe('createRegistryFileTree', () => {

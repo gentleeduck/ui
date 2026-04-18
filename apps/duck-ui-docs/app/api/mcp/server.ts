@@ -13,11 +13,11 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js'
 import { z } from 'zod'
 import {
-  type CachedDoc,
   getCandidateDocs,
   getDoc,
   getDocsForCategory,
   getDocsIndex,
+  type ICachedDoc,
   sortChangelogDocs,
   truncate,
 } from './docs-index'
@@ -202,7 +202,7 @@ export function createMcpServer(): McpServer {
       const queryTerms = expandSearchTerms(query)
       const stemmedTerms = queryTerms.map((t) => stem(t))
 
-      const scoreDocs = (docs: CachedDoc[]) => {
+      const scoreDocs = (docs: ICachedDoc[]) => {
         const results: { slug: string; title: string; score: number; snippet: string }[] = []
         for (const doc of docs) {
           const score = scoreKeywordQuery({
@@ -467,7 +467,7 @@ export function createMcpServer(): McpServer {
       const index = await getDocsIndex()
       const terms = expandSearchTerms(need)
 
-      const scoreComponents = (components: CachedDoc[]) =>
+      const scoreComponents = (components: ICachedDoc[]) =>
         components
           .map((doc) => ({
             slug: doc.slug,

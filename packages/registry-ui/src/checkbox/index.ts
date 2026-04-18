@@ -2,14 +2,14 @@ export {
   Checkbox,
   CheckboxGroup,
   CheckboxWithLabel,
-  MotionCheckbox,
-  MotionCheckboxGroup,
-  MotionCheckboxWithLabel,
 } from './checkbox'
 export type {
   CheckboxGroupProps,
   CheckboxGroupSubtasks,
-  CheckboxProps,
-  CheckboxWithLabelProps,
   CheckedState,
+  ICheckboxGroupProps,
+  ICheckboxGroupSubtask,
+  ICheckboxProps,
+  ICheckboxWithLabelProps,
 } from './checkbox.types'
+export { MotionCheckbox, MotionCheckboxGroup, MotionCheckboxWithLabel } from './motion-checkbox'

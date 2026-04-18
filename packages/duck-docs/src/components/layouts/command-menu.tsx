@@ -1,8 +1,8 @@
 'use client'
 
 import { useDocsConfig, useDocsEntries } from '@duck-docs/context'
-import type { DocsEntry, TocEntry } from '@duck-docs/context/context.types'
-import type { SidebarNavItem } from '@duck-docs/types/nav'
+import type { IDocsEntry, ITocEntry } from '@duck-docs/context/context.types'
+import type { ISidebarNavItem } from '@duck-docs/types/nav'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui/button'
 import {
@@ -56,7 +56,7 @@ const ITEM_HEIGHT = 36
 
 // -- Helpers -----------------------------------------------------------------
 
-function flattenSidebarItems(items: SidebarNavItem[], parentTitle = ''): FlattenedSidebarItem[] {
+function flattenSidebarItems(items: ISidebarNavItem[], parentTitle = ''): FlattenedSidebarItem[] {
   const flattened: FlattenedSidebarItem[] = []
 
   for (const item of items) {
@@ -77,7 +77,7 @@ function flattenSidebarItems(items: SidebarNavItem[], parentTitle = ''): Flatten
   return flattened
 }
 
-function flattenTocTitles(entries?: TocEntry[]): string {
+function flattenTocTitles(entries?: ITocEntry[]): string {
   if (!entries || entries.length === 0) return ''
   const titles: string[] = []
   for (const entry of entries) {
@@ -89,7 +89,7 @@ function flattenTocTitles(entries?: TocEntry[]): string {
   return titles.join(' ')
 }
 
-function findTocHeadings(docs: DocsEntry[] | undefined, href: string): string {
+function findTocHeadings(docs: IDocsEntry[] | undefined, href: string): string {
   if (!docs || !href) return ''
   const doc = docs.find((d) => d.permalink === href || d.slug === href)
   return doc?.toc ? flattenTocTitles(doc.toc) : ''

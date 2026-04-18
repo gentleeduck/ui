@@ -1,46 +1,22 @@
-/** MenuSub component - a nested submenu container. */
 import * as React from 'react'
 import { useCallbackRef } from '../hooks/use-callback-ref'
 import { useId } from '../hooks/use-id'
 import * as PopperPrimitive from '../popper'
-
-import {
-  createMenuContext,
-  type MenuContentElement,
-  MenuProvider,
-  type ScopedProps,
-  useMenuContext,
-  usePopperScope,
-} from './menu'
+import { createMenuContext, MenuProvider, useMenuContext, usePopperScope } from './menu'
+import type { IMenu } from './menu.types'
 
 const SUB_NAME = 'MenuSub'
 
-type MenuSubTriggerElement = React.ComponentRef<typeof import('../primitive-elements').Primitive.div>
+const [MenuSubProvider, useMenuSubContext] = createMenuContext<IMenu.ISubContext>(SUB_NAME)
 
-type MenuSubContextValue = {
-  contentId: string
-  triggerId: string
-  trigger: MenuSubTriggerElement | null
-  onTriggerChange(trigger: MenuSubTriggerElement | null): void
-}
-
-const [MenuSubProvider, useMenuSubContext] = createMenuContext<MenuSubContextValue>(SUB_NAME)
-
-interface MenuSubProps {
-  children?: React.ReactNode
-  open?: boolean
-  onOpenChange?(open: boolean): void
-}
-
-const MenuSub: React.FC<MenuSubProps> = (props: ScopedProps<MenuSubProps>) => {
+const MenuSub: React.FC<IMenu.ISubProps> = (props: IMenu.IScoped<IMenu.ISubProps>) => {
   const { __scopeMenu, children, open = false, onOpenChange } = props
   const parentMenuContext = useMenuContext(SUB_NAME, __scopeMenu)
   const popperScope = usePopperScope(__scopeMenu)
-  const [trigger, setTrigger] = React.useState<MenuSubTriggerElement | null>(null)
-  const [content, setContent] = React.useState<MenuContentElement | null>(null)
+  const [trigger, setTrigger] = React.useState<IMenu.MenuSubTriggerElement | null>(null)
+  const [content, setContent] = React.useState<IMenu.MenuContentElement | null>(null)
   const handleOpenChange = useCallbackRef(onOpenChange)
 
-  // Prevent the parent menu from reopening with open submenus.
   React.useEffect(() => {
     if (parentMenuContext.open === false) handleOpenChange(false)
     return () => handleOpenChange(false)
@@ -69,5 +45,4 @@ const MenuSub: React.FC<MenuSubProps> = (props: ScopedProps<MenuSubProps>) => {
 
 MenuSub.displayName = SUB_NAME
 
-export type { MenuSubContextValue, MenuSubProps, MenuSubTriggerElement }
 export { MenuSub, MenuSubProvider, useMenuSubContext }

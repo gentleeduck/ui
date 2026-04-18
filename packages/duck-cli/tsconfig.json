@@ -1,27 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@gentleduck/typescript-config/base.json",
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
-    "composite": false,
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "inlineSources": false,
     "isolatedModules": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "paths": {
       "~/*": ["./src/*"]
     },
-    "preserveWatchOutput": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "jsx": "react-jsx",
     "target": "esnext"
   },
   "display": "Default",
@@ -33,5 +20,6 @@
     "**/*.tsbuildinfo",
     "tsconfig.tsbuildinfo"
   ],
+  "extends": "@gentleduck/typescript-config/react.json",
   "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

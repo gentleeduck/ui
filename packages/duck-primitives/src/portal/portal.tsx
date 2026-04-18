@@ -2,17 +2,13 @@ import * as React from 'react'
 import ReactDOM from 'react-dom'
 import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { Primitive } from '../primitive-elements'
+import type { IPortal } from './portal.types'
 
 const PORTAL_NAME = 'Portal'
 
 type PortalElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-interface PortalProps extends PrimitiveDivProps {
-  /** The container element to portal into. Defaults to document.body. */
-  container?: Element | DocumentFragment | null
-}
 
-const Portal = React.forwardRef<PortalElement, PortalProps>((props, forwardedRef) => {
+const Portal = React.forwardRef<PortalElement, IPortal.IProps>((props, forwardedRef) => {
   const { container: containerProp, ...portalProps } = props
   const [mounted, setMounted] = React.useState(false)
   useLayoutEffect(() => setMounted(true), [])
@@ -24,5 +20,4 @@ const Portal = React.forwardRef<PortalElement, PortalProps>((props, forwardedRef
 
 Portal.displayName = PORTAL_NAME
 
-export type { PortalProps }
 export { Portal }

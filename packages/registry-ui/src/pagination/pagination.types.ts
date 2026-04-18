@@ -1,7 +1,7 @@
 import type { Button, ButtonProps } from '../button'
 import type { Pagination, PaginationContent, PaginationItem } from './pagination'
 
-export interface DuckPaginationProps {
+export interface IDuckPaginationProps {
   wrapper?: React.ComponentPropsWithoutRef<typeof Pagination>
   content?: React.ComponentPropsWithoutRef<typeof PaginationContent>
   item?: React.ComponentPropsWithoutRef<typeof PaginationItem>
@@ -11,7 +11,10 @@ export interface DuckPaginationProps {
   maxLeft?: React.ComponentPropsWithoutRef<typeof Button>
 }
 
-export type PaginationLinkProps = {
+export interface IPaginationLinkProps
+  extends Pick<ButtonProps, 'size'>,
+    Omit<React.ComponentPropsWithoutRef<'a'>, 'size'> {
   isActive?: boolean
-} & Pick<ButtonProps, 'size'> &
-  Omit<React.ComponentPropsWithoutRef<'a'>, 'size'>
+}
+
+export type PaginationLinkProps = IPaginationLinkProps

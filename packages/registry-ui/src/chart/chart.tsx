@@ -1,23 +1,24 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 import * as RechartsPrimitive from 'recharts'
 import { getPayloadConfigFromPayload } from './chart.libs'
 import type {
-  ChartContainerProps,
-  ChartContextProps,
-  ChartLegendContentProps,
-  ChartStyleProps,
-  ChartTooltipContentProps,
+  IChartContainerProps,
+  IChartContextProps,
+  IChartLegendContentProps,
+  IChartStyleProps,
+  IChartTooltipContentProps,
 } from './chart.types'
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 export const THEMES = { dark: '.dark', light: '' } as const
 const DEFAULT_CHART_INITIAL_DIMENSION = { width: 640, height: 360 } as const
 
-const ChartContext = React.createContext<ChartContextProps | null>(null)
+const ChartContext = React.createContext<IChartContextProps | null>(null)
 
 function useChart() {
   const context = React.useContext(ChartContext)
@@ -29,10 +30,10 @@ function useChart() {
   return context
 }
 
-function ChartContainer({ id, className, children, config, ref, dir, ...props }: ChartContainerProps) {
+function ChartContainer({ id, className, children, config, ref, dir, ...props }: IChartContainerProps) {
   const uniqueId = React.useId()
   const chartId = `chart-${id || uniqueId.replace(/:/g, '')}`
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
 
   return (
     <ChartContext.Provider value={{ config }}>
@@ -56,7 +57,7 @@ function ChartContainer({ id, className, children, config, ref, dir, ...props }:
 }
 ChartContainer.displayName = 'ChartContainer'
 
-function ChartStyle({ id, config }: ChartStyleProps) {
+function ChartStyle({ id, config }: IChartStyleProps) {
   const colorConfig = Object.entries(config).filter(([_, config]) => config.theme || config.color)
 
   if (!colorConfig.length) {
@@ -104,7 +105,7 @@ function ChartTooltipContent({
   color,
   nameKey,
   labelKey,
-}: ChartTooltipContentProps) {
+}: IChartTooltipContentProps) {
   const { config } = useChart()
 
   const tooltipLabel = React.useMemo(() => {
@@ -226,7 +227,7 @@ function ChartLegendContent({
   verticalAlign = 'bottom',
   ref,
   nameKey,
-}: ChartLegendContentProps) {
+}: IChartLegendContentProps) {
   const { config } = useChart()
 
   if (!payload?.length) {

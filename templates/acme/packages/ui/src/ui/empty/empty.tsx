@@ -1,11 +1,12 @@
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
-import type { VariantProps } from '@gentleduck/variants'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
+import type { Variants } from '@gentleduck/variants'
 import React from 'react'
 import { emptyMediaVariants } from './empty.constants'
 
 const Empty = React.forwardRef<HTMLDivElement, React.ComponentProps<'div'>>(({ className, dir, ...props }, ref) => {
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
   return (
     <div
       ref={ref}
@@ -35,7 +36,7 @@ EmptyHeader.displayName = 'EmptyHeader'
 
 const EmptyMedia = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<'div'> & VariantProps<typeof emptyMediaVariants>
+  React.ComponentProps<'div'> & Variants.VariantProps<typeof emptyMediaVariants>
 >(({ className, variant = 'default', ...props }, ref) => {
   return (
     <div

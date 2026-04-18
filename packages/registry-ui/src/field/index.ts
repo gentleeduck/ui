@@ -9,8 +9,6 @@ export {
   FieldSeparator,
   FieldSet,
   FieldTitle,
-  MotionField,
-  MotionFieldError,
-  MotionFieldGroup,
 } from './field'
 export { fieldVariants } from './field.constants'
+export { MotionField, MotionFieldError, MotionFieldGroup } from './motion-field'

@@ -1,7 +1,7 @@
 import { describe, expect, test } from 'bun:test'
 import { mergeRegistryBuildConfigs } from '../..'
 import { mergeUniqueStrings } from '../merge/merge.lib'
-import type { RegistryBuildConfig } from '../types'
+import type { IRegistryBuildConfig } from '../types'
 
 describe('mergeUniqueStrings', () => {
   test('merges and deduplicates two string arrays', () => {
@@ -23,8 +23,8 @@ describe('mergeUniqueStrings', () => {
 
 describe('mergeRegistryBuildConfigs', () => {
   test('merging two empty configs returns empty-ish result', () => {
-    const base: RegistryBuildConfig = {}
-    const next: RegistryBuildConfig = {}
+    const base: IRegistryBuildConfig = {}
+    const next: IRegistryBuildConfig = {}
     const result = mergeRegistryBuildConfigs(base, next)
 
     expect(result.extends).toBeUndefined()

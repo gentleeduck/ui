@@ -1,7 +1,4 @@
-export type { RovingFocusGroupItemProps } from './item'
 export { RovingFocusGroupItem, RovingFocusGroupItem as Item } from './item'
-export type { RovingFocusGroupProps, ScopedProps } from './roving-focus'
-/* Short aliases for namespace-style imports: import * as RovingFocusGroup from '...' */
 export {
   Collection,
   createCollectionScope,
@@ -12,5 +9,5 @@ export {
   useCollection,
   useRovingFocusContext,
 } from './roving-focus'
-export type { Direction, FocusIntent, Orientation } from './roving-focus.libs'
 export { focusFirst, getFocusIntent, wrapArray } from './roving-focus.libs'
+export type { IRovingFocus } from './roving-focus.types'

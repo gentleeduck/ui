@@ -1,17 +1,14 @@
-/** ContextMenuArrow -- optional arrow pointing to the trigger. */
 import * as React from 'react'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './context-menu'
 import { useMenuScope } from './context-menu'
+import type { IContextMenu } from './context-menu.types'
 
 const ARROW_NAME = 'ContextMenuArrow'
 
 type ContextMenuArrowElement = React.ComponentRef<typeof MenuPrimitive.Arrow>
-type MenuArrowProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Arrow>
-interface ContextMenuArrowProps extends MenuArrowProps {}
 
-const ContextMenuArrow = React.forwardRef<ContextMenuArrowElement, ContextMenuArrowProps>(
-  (props: ScopedProps<ContextMenuArrowProps>, forwardedRef) => {
+const ContextMenuArrow = React.forwardRef<ContextMenuArrowElement, IContextMenu.IArrowProps>(
+  (props: IContextMenu.IScoped<IContextMenu.IArrowProps>, forwardedRef) => {
     const { __scopeContextMenu, ...arrowProps } = props
     const menuScope = useMenuScope(__scopeContextMenu)
     return <MenuPrimitive.Arrow {...menuScope} {...arrowProps} ref={forwardedRef} />
@@ -20,5 +17,4 @@ const ContextMenuArrow = React.forwardRef<ContextMenuArrowElement, ContextMenuAr
 
 ContextMenuArrow.displayName = ARROW_NAME
 
-export type { ContextMenuArrowProps }
 export { ContextMenuArrow }

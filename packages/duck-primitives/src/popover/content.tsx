@@ -12,52 +12,26 @@ import { getState } from '../libs/get-state'
 import * as PopperPrimitive from '../popper'
 import { Presence } from '../presence/presence'
 import { createSlot } from '../slot'
-import { type ScopedProps, usePopoverContext, usePopperScope } from './popover'
+import { usePopoverContext, usePopperScope } from './popover'
+import type { IPopover } from './popover.types'
 import { usePortalContext } from './portal'
 
 const CONTENT_NAME = 'PopoverContent'
 
 type PopoverContentElement = React.ComponentRef<typeof PopperPrimitive.PopperContent>
-type PopperContentProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.PopperContent>
-type FocusScopeProps = React.ComponentPropsWithoutRef<typeof FocusScope>
 type DismissableLayerProps = React.ComponentPropsWithoutRef<typeof DismissableLayer>
 
 type PointerDownOutsideEvent = Parameters<NonNullable<DismissableLayerProps['onPointerDownOutside']>>[0]
 type FocusOutsideEvent = Parameters<NonNullable<DismissableLayerProps['onFocusOutside']>>[0]
 type InteractOutsideEvent = Parameters<NonNullable<DismissableLayerProps['onInteractOutside']>>[0]
 
-// -------------------------------------------------------------------------------------------------
-// PopoverContent
-// -------------------------------------------------------------------------------------------------
-
-type PopoverContentImplProps = Omit<PopperContentProps, 'onPlaced'> &
-  Omit<DismissableLayerProps, 'onDismiss'> & {
-    trapFocus?: FocusScopeProps['trapped']
-    onOpenAutoFocus?: FocusScopeProps['onMountAutoFocus']
-    onCloseAutoFocus?: FocusScopeProps['onUnmountAutoFocus']
-  }
-
-type PopoverContentTypeProps = Omit<PopoverContentImplProps, 'trapFocus' | 'disableOutsidePointerEvents'> & {
-  /** Override whether focus is trapped. Defaults to `context.open`. */
-  trapFocus?: FocusScopeProps['trapped']
-  /** Override whether outside pointer events are disabled. Defaults to `context.open`. */
-  disableOutsidePointerEvents?: DismissableLayerProps['disableOutsidePointerEvents']
-  /** Override whether scroll is locked. Defaults to `context.open`. */
-  lockScroll?: boolean
-}
-
-export interface PopoverContentProps extends PopoverContentTypeProps {
-  /** Force mounting for animation control. */
-  forceMount?: true
-}
-
 /**
  * Popover content area. Delegates to a modal or non-modal variant based on
  * the root Popover's modal prop. Handles focus trapping, outside interactions,
  * scroll locking (modal), and accessible dismissal.
  */
-export const PopoverContent = React.forwardRef<PopoverContentElement, PopoverContentProps>(
-  (props: ScopedProps<PopoverContentProps>, forwardedRef) => {
+export const PopoverContent = React.forwardRef<PopoverContentElement, IPopover.IContentProps>(
+  (props: IPopover.IScoped<IPopover.IContentProps>, forwardedRef) => {
     const portalContext = usePortalContext(CONTENT_NAME, props.__scopePopover)
     const { forceMount = portalContext.forceMount, ...contentProps } = props
     const context = usePopoverContext(CONTENT_NAME, props.__scopePopover)
@@ -80,8 +54,8 @@ PopoverContent.displayName = CONTENT_NAME
 
 const Slot = createSlot('PopoverContent.RemoveScroll')
 
-const PopoverContentModal = React.forwardRef<PopoverContentElement, PopoverContentTypeProps>(
-  (props: ScopedProps<PopoverContentTypeProps>, forwardedRef) => {
+const PopoverContentModal = React.forwardRef<PopoverContentElement, IPopover.IContentTypeProps>(
+  (props: IPopover.IScoped<IPopover.IContentTypeProps>, forwardedRef) => {
     const {
       trapFocus: trapFocusProp,
       disableOutsidePointerEvents: disableOutsidePointerEventsProp,
@@ -149,8 +123,8 @@ const PopoverContentModal = React.forwardRef<PopoverContentElement, PopoverConte
 
 PopoverContentModal.displayName = `${CONTENT_NAME}Modal`
 
-const PopoverContentNonModal = React.forwardRef<PopoverContentElement, PopoverContentTypeProps>(
-  (props: ScopedProps<PopoverContentTypeProps>, forwardedRef) => {
+const PopoverContentNonModal = React.forwardRef<PopoverContentElement, IPopover.IContentTypeProps>(
+  (props: IPopover.IScoped<IPopover.IContentTypeProps>, forwardedRef) => {
     const context = usePopoverContext(CONTENT_NAME, props.__scopePopover)
 
     const hasInteractedOutsideRef = React.useRef(false)
@@ -206,8 +180,8 @@ PopoverContentNonModal.displayName = `${CONTENT_NAME}NonModal`
 
 // -------------------------------------------------------------------------------------------------
 
-const PopoverContentImpl = React.forwardRef<PopoverContentElement, PopoverContentImplProps>(
-  (props: ScopedProps<PopoverContentImplProps>, forwardedRef) => {
+const PopoverContentImpl = React.forwardRef<PopoverContentElement, IPopover.IContentImplProps>(
+  (props: IPopover.IScoped<IPopover.IContentImplProps>, forwardedRef) => {
     const {
       __scopePopover,
       trapFocus,

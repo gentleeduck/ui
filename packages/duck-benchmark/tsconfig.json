@@ -1,14 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@gentleduck/typescript-config/base.json",
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
-    "composite": false,
-    "declaration": true,
-    "declarationMap": true,
-    "esModuleInterop": true,
-    "forceConsistentCasingInFileNames": true,
-    "inlineSources": false,
     "isolatedModules": true,
     "jsx": "preserve",
     "module": "esnext",
@@ -16,17 +8,10 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "paths": {
-      "~/*": [
-        "./*"
-      ]
+      "~/*": ["./*"]
     },
-    "preserveWatchOutput": true,
     "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "strict": true,
-    "types": [
-      "node"
-    ]
+    "types": ["node"]
   },
   "display": "Default",
   "exclude": [
@@ -34,7 +19,6 @@
     "**/*.tsbuildinfo",
     "tsconfig.tsbuildinfo"
   ],
-  "include": [
-    "src/**/*"
-  ]
+  "extends": "@gentleduck/typescript-config/base.json",
+  "include": ["src/**/*"]
 }

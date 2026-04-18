@@ -20,7 +20,7 @@ import {
 import type { CalendarView, FilterMode } from '../calendar-data'
 import { formatViewHeading, formatViewSubheading } from '../calendar-utils'
 
-interface CalendarToolbarProps {
+interface ICalendarToolbarProps {
   viewedDate: Date
   calendarView: CalendarView
   filterMode: FilterMode
@@ -57,7 +57,7 @@ export function CalendarToolbar({
   onFilterChange,
   onSearchOpen,
   onAddEvent,
-}: CalendarToolbarProps) {
+}: ICalendarToolbarProps) {
   const today = new Date()
   const todayMonth = today.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()
   const todayDay = today.getDate()

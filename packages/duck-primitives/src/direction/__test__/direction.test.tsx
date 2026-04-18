@@ -8,7 +8,7 @@ function DirectionDisplay({ localDir }: { localDir?: 'ltr' | 'rtl' }) {
   return <span data-testid="dir">{dir}</span>
 }
 
-describe('Direction', () => {
+describe('IDirection.Kind', () => {
   it('defaults to ltr when no provider or local dir', () => {
     const { container } = render(<DirectionDisplay />)
     expect(container.querySelector('[data-testid="dir"]')?.textContent).toBe('ltr')

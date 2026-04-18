@@ -1,17 +1,14 @@
-/** MenubarGroup groups related menu items together. */
 import * as React from 'react'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './menubar'
 import { useMenuScope } from './menubar'
+import type { IMenubar } from './menubar.types'
 
 const GROUP_NAME = 'MenubarGroup'
 
 type MenubarGroupElement = React.ComponentRef<typeof MenuPrimitive.Group>
-type MenuGroupProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Group>
-interface MenubarGroupProps extends MenuGroupProps {}
 
-const MenubarGroup = React.forwardRef<MenubarGroupElement, MenubarGroupProps>(
-  (props: ScopedProps<MenubarGroupProps>, forwardedRef) => {
+const MenubarGroup = React.forwardRef<MenubarGroupElement, IMenubar.IGroupProps>(
+  (props: IMenubar.IScoped<IMenubar.IGroupProps>, forwardedRef) => {
     const { __scopeMenubar, ...groupProps } = props
     const menuScope = useMenuScope(__scopeMenubar)
     return <MenuPrimitive.Group {...menuScope} {...groupProps} ref={forwardedRef} />
@@ -20,5 +17,4 @@ const MenubarGroup = React.forwardRef<MenubarGroupElement, MenubarGroupProps>(
 
 MenubarGroup.displayName = GROUP_NAME
 
-export type { MenubarGroupProps }
 export { MenubarGroup }

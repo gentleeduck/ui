@@ -1,6 +1,5 @@
+export { MotionPopover, MotionPopoverContent } from './motion-popover'
 export {
-  MotionPopover,
-  MotionPopoverContent,
   Popover,
   PopoverAnchor,
   PopoverClose,

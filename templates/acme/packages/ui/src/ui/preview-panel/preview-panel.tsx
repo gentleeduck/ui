@@ -1,7 +1,8 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { Minus, Plus, RotateCcw } from 'lucide-react'
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Badge } from '../badge'
@@ -9,7 +10,7 @@ import { Button } from '../button'
 import { ButtonGroup } from '../button-group'
 import { Separator } from '../separator'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../tooltip'
-import type { PreviewPanelProps } from './preview-panel.types'
+import type { IPreviewPanelProps } from './preview-panel.types'
 
 const ZOOM_STEP_BUTTON = 0.25
 const ZOOM_STEP_WHEEL = 0.1
@@ -89,7 +90,7 @@ const ZoomControls = memo(function ZoomControls({
 // All transforms bypass React via direct DOM writes for zero re-renders
 // during continuous interactions (drag, wheel, pinch).
 
-const PreviewPanel = React.forwardRef<HTMLDivElement, PreviewPanelProps>(
+const PreviewPanel = React.forwardRef<HTMLDivElement, IPreviewPanelProps>(
   (
     {
       maxHeight,
@@ -359,7 +360,7 @@ const PreviewPanel = React.forwardRef<HTMLDivElement, PreviewPanelProps>(
       () => ({ maxHeight, cursor: 'grab' as const, touchAction: 'none' as const }),
       [maxHeight],
     )
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
 
     return (
       <div

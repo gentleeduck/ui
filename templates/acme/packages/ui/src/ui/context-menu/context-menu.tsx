@@ -51,7 +51,7 @@ const ContextMenuSubContent = React.forwardRef<
     ref={ref}
     className={cn(
       'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-32 origin-(--gentleduck-context-menu-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg data-[state=closed]:animate-out data-[state=open]:animate-in',
-      'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+      'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
       className,
     )}
     {...props}
@@ -68,7 +68,7 @@ const ContextMenuContent = React.forwardRef<
       ref={ref}
       className={cn(
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 max-h-(--gentleduck-context-menu-content-available-height) min-w-32 origin-(--gentleduck-context-menu-content-transform-origin) overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=closed]:animate-out data-[state=open]:animate-in',
-        'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+        'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
         className,
       )}
       {...props}

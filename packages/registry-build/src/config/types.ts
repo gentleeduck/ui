@@ -1,14 +1,14 @@
-import type { RegistryBuildExtension } from '../extensions/extension'
+import type { IRegistryBuildExtension } from '../extensions/extension'
 import type {
-  RegistryBuildColorsConfig,
-  RegistryBuildComponentIndex,
-  RegistryBuildContentRewrite,
-  RegistryBuildCssTemplates,
+  IRegistryBuildColorsConfig,
+  IRegistryBuildComponentIndex,
+  IRegistryBuildContentRewrite,
+  IRegistryBuildCssTemplates,
+  IRegistryBuildThemeEntry,
+  IRegistryBuildThemesConfig,
   RegistryBuildFramework,
-  RegistryBuildThemeEntry,
-  RegistryBuildThemesConfig,
 } from '../extensions/ui/ui.config.types'
-import type { RegistryEntry, RegistryItemType, RegistryItemTypeMap } from '../extensions/ui/ui.registry.types'
+import type { IRegistryEntry, RegistryItemType, RegistryItemTypeMap } from '../extensions/ui/ui.registry.types'
 
 // ---------------------------------------------------------------------------
 // Input types (user-facing configuration surface)
@@ -21,7 +21,7 @@ import type { RegistryEntry, RegistryItemType, RegistryItemTypeMap } from '../ex
  * it as a registry item type, a repository name, a package channel, or any
  * other domain-specific namespace.
  */
-export interface RegistryBuildSource {
+export interface IRegistryBuildSource {
   glob?: string
   ignore?: string[]
   indexStrategy?: 'item' | 'file'
@@ -31,17 +31,17 @@ export interface RegistryBuildSource {
 }
 
 /** Generic collection definition used by the collection-first API. */
-export interface RegistryBuildCollection {
+export interface IRegistryBuildCollection {
   data?: unknown | string
   metadata?: Record<string, unknown>
-  sources?: Record<string, RegistryBuildSource>
+  sources?: Record<string, IRegistryBuildSource>
 }
 
 /**
  * Minimal core output config. Domain-specific output paths belong to the
  * extension that emits them.
  */
-export interface RegistryBuildOutput {
+export interface IRegistryBuildOutput {
   colorsDir?: string
   componentIndexDir?: string
   componentIndexFile?: string
@@ -53,48 +53,48 @@ export interface RegistryBuildOutput {
 }
 
 /** UI-specific import rewriting and package aliasing. */
-export interface RegistryBuildImportMappings<TType extends RegistryItemType = RegistryItemType> {
-  contentRewrites?: RegistryBuildContentRewrite[]
+export interface IRegistryBuildImportMappings<TType extends RegistryItemType = RegistryItemType> {
+  contentRewrites?: IRegistryBuildContentRewrite[]
   packageMappings?: RegistryItemTypeMap<string, TType>
 }
 
 /** Performance tuning knobs shared by the cache and runner. */
-export interface RegistryBuildPerformanceConfig {
+export interface IRegistryBuildPerformanceConfig {
   cacheDir?: string
   incremental?: boolean
   parallelism?: number
 }
 
 /** Human-facing branding used in CLI output. */
-export interface RegistryBuildBranding {
+export interface IRegistryBuildBranding {
   font?: string
   name?: string
 }
 
 /** Declared schema config for registry item types. */
-export interface RegistryBuildSchemaConfig<TType extends RegistryItemType = RegistryItemType> {
+export interface IRegistryBuildSchemaConfig<TType extends RegistryItemType = RegistryItemType> {
   itemTypes?: TType[]
 }
 
 /** Public configuration surface for the generic builder core. */
-export interface RegistryBuildConfig {
-  branding?: RegistryBuildBranding
-  collections?: Record<string, RegistryBuildCollection>
-  colors?: RegistryBuildColorsConfig
-  componentIndex?: RegistryBuildComponentIndex
-  cssTemplates?: RegistryBuildCssTemplates
-  extensions?: RegistryBuildExtension[]
+export interface IRegistryBuildConfig {
+  branding?: IRegistryBuildBranding
+  collections?: Record<string, IRegistryBuildCollection>
+  colors?: IRegistryBuildColorsConfig
+  componentIndex?: IRegistryBuildComponentIndex
+  cssTemplates?: IRegistryBuildCssTemplates
+  extensions?: IRegistryBuildExtension[]
   extends?: string | string[]
-  importMappings?: RegistryBuildImportMappings
-  output?: RegistryBuildOutput
-  performance?: RegistryBuildPerformanceConfig
-  registries?: Record<string, RegistryEntry[]>
+  importMappings?: IRegistryBuildImportMappings
+  output?: IRegistryBuildOutput
+  performance?: IRegistryBuildPerformanceConfig
+  registries?: Record<string, IRegistryEntry[]>
   registrySource?: 'inline' | string
-  schema?: RegistryBuildSchemaConfig
-  sources?: RegistryItemTypeMap<RegistryBuildSource>
+  schema?: IRegistryBuildSchemaConfig
+  sources?: RegistryItemTypeMap<IRegistryBuildSource>
   stripVariables?: string[]
   targetPaths?: RegistryItemTypeMap<string>
-  themes?: RegistryBuildThemesConfig
+  themes?: IRegistryBuildThemesConfig
 }
 
 // ---------------------------------------------------------------------------
@@ -102,7 +102,7 @@ export interface RegistryBuildConfig {
 // ---------------------------------------------------------------------------
 
 /** Source config after defaults and path resolution have been applied. */
-export interface ResolvedRegistryBuildSource extends RegistryBuildSource {
+export interface IResolvedRegistryBuildSource extends IRegistryBuildSource {
   glob: string
   ignore: string[]
   indexStrategy: 'item' | 'file'
@@ -110,14 +110,14 @@ export interface ResolvedRegistryBuildSource extends RegistryBuildSource {
 }
 
 /** Collection config after loader materialization. */
-export interface ResolvedRegistryBuildCollection {
+export interface IResolvedRegistryBuildCollection {
   data?: unknown
   metadata: Record<string, unknown>
-  sources: Record<string, ResolvedRegistryBuildSource>
+  sources: Record<string, IResolvedRegistryBuildSource>
 }
 
 /** Output config after loader defaults have been applied. */
-export interface ResolvedRegistryBuildOutput extends RegistryBuildOutput {
+export interface IResolvedRegistryBuildOutput extends IRegistryBuildOutput {
   colorsDir: string
   componentIndexDir: string
   componentIndexFile: string
@@ -129,15 +129,15 @@ export interface ResolvedRegistryBuildOutput extends RegistryBuildOutput {
 }
 
 /** Import mappings after defaults have been applied. */
-export interface ResolvedRegistryBuildImportMappings<TType extends RegistryItemType = RegistryItemType>
-  extends RegistryBuildImportMappings<TType> {
-  contentRewrites: RegistryBuildContentRewrite[]
+export interface IResolvedRegistryBuildImportMappings<TType extends RegistryItemType = RegistryItemType>
+  extends IRegistryBuildImportMappings<TType> {
+  contentRewrites: IRegistryBuildContentRewrite[]
   packageMappings: RegistryItemTypeMap<string, TType>
 }
 
 /** Component index config after defaults have been applied. */
-export interface ResolvedRegistryBuildComponentIndex<TType extends RegistryItemType = RegistryItemType>
-  extends RegistryBuildComponentIndex<TType> {
+export interface IResolvedRegistryBuildComponentIndex<TType extends RegistryItemType = RegistryItemType>
+  extends IRegistryBuildComponentIndex<TType> {
   excludeTypes: TType[]
   framework: RegistryBuildFramework
   header: string
@@ -145,42 +145,42 @@ export interface ResolvedRegistryBuildComponentIndex<TType extends RegistryItemT
 }
 
 /** CSS template config after defaults have been applied. */
-export interface ResolvedRegistryBuildCssTemplates extends RegistryBuildCssTemplates {
+export interface IResolvedRegistryBuildCssTemplates extends IRegistryBuildCssTemplates {
   baseLayerRules: string
   baseStyles: string
 }
 
 /** Performance config after defaults have been applied. */
-export interface ResolvedRegistryBuildPerformanceConfig extends RegistryBuildPerformanceConfig {
+export interface IResolvedRegistryBuildPerformanceConfig extends IRegistryBuildPerformanceConfig {
   cacheDir: string
   incremental: boolean
   parallelism: number
 }
 
 /** Branding config after defaults have been applied. */
-export interface ResolvedRegistryBuildBranding extends RegistryBuildBranding {
+export interface IResolvedRegistryBuildBranding extends IRegistryBuildBranding {
   font: string
   name: string
 }
 
 /** Schema config after defaults and compatibility inference. */
-export interface ResolvedRegistryBuildSchemaConfig<TType extends RegistryItemType = RegistryItemType>
-  extends RegistryBuildSchemaConfig<TType> {
+export interface IResolvedRegistryBuildSchemaConfig<TType extends RegistryItemType = RegistryItemType>
+  extends IRegistryBuildSchemaConfig<TType> {
   itemTypes: TType[]
 }
 
 /** Theme config after defaults have been applied. */
-export interface ResolvedRegistryBuildThemesConfig extends RegistryBuildThemesConfig {
+export interface IResolvedRegistryBuildThemesConfig extends IRegistryBuildThemesConfig {
   cssVarKeys: string[]
-  data?: Record<string, RegistryBuildThemeEntry>
+  data?: Record<string, IRegistryBuildThemeEntry>
   defaultRadius: string
   names: string[]
 }
 
 /** Fully resolved config consumed by the runtime pipeline. */
-export interface ResolvedRegistryBuildConfig
+export interface IResolvedRegistryBuildConfig
   extends Omit<
-    RegistryBuildConfig,
+    IRegistryBuildConfig,
     | 'collections'
     | 'colors'
     | 'componentIndex'
@@ -193,21 +193,21 @@ export interface ResolvedRegistryBuildConfig
     | 'sources'
     | 'themes'
   > {
-  collections: Record<string, ResolvedRegistryBuildCollection>
+  collections: Record<string, IResolvedRegistryBuildCollection>
   colors?: {
     data?: Record<string, unknown>
   }
-  componentIndex: ResolvedRegistryBuildComponentIndex
-  cssTemplates: ResolvedRegistryBuildCssTemplates
-  extensions: RegistryBuildExtension[]
-  importMappings: ResolvedRegistryBuildImportMappings
-  output: ResolvedRegistryBuildOutput
-  performance: ResolvedRegistryBuildPerformanceConfig
-  registries: Record<string, RegistryEntry[]>
+  componentIndex: IResolvedRegistryBuildComponentIndex
+  cssTemplates: IResolvedRegistryBuildCssTemplates
+  extensions: IRegistryBuildExtension[]
+  importMappings: IResolvedRegistryBuildImportMappings
+  output: IResolvedRegistryBuildOutput
+  performance: IResolvedRegistryBuildPerformanceConfig
+  registries: Record<string, IRegistryEntry[]>
   registrySource: 'inline' | string
-  schema: ResolvedRegistryBuildSchemaConfig
-  sources: RegistryItemTypeMap<ResolvedRegistryBuildSource>
+  schema: IResolvedRegistryBuildSchemaConfig
+  sources: RegistryItemTypeMap<IResolvedRegistryBuildSource>
   stripVariables: string[]
   targetPaths: RegistryItemTypeMap<string>
-  themes?: ResolvedRegistryBuildThemesConfig
+  themes?: IResolvedRegistryBuildThemesConfig
 }

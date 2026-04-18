@@ -1,20 +1,14 @@
 import * as React from 'react'
-
-type Direction = 'ltr' | 'rtl'
+import type { IDirection } from './direction.types'
 
 const DIRECTION_DICTIONARY = {
   ltr: 'ltr',
   rtl: 'rtl',
 } as const
 
-const DirectionContext = React.createContext<Direction | undefined>(undefined)
+const DirectionContext = React.createContext<IDirection.Kind | undefined>(undefined)
 
-interface DirectionProviderProps {
-  children?: React.ReactNode
-  dir: Direction
-}
-
-const DirectionProvider: React.FC<DirectionProviderProps> = (props) => {
+const DirectionProvider: React.FC<IDirection.IProviderProps> = (props) => {
   const { dir, children } = props
   return (
     <DirectionContext.Provider value={dir}>
@@ -29,12 +23,11 @@ const DirectionProvider: React.FC<DirectionProviderProps> = (props) => {
   )
 }
 
-function useDirection(localDir?: Direction): Direction {
+function useDirection(localDir?: IDirection.Kind): IDirection.Kind {
   const globalDir = React.useContext(DirectionContext)
   return localDir || globalDir || 'ltr'
 }
 
 const Provider = DirectionProvider
 
-export type { Direction, DirectionProviderProps }
 export { DIRECTION_DICTIONARY, DirectionContext, DirectionProvider, Provider, useDirection }

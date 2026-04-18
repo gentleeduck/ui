@@ -1,15 +1,16 @@
 import { logger } from '../text-styling'
 import { explorer } from './get-project-config.constants'
-import { RawConfigType, raw_config_schema } from './get-project-config.dto'
+import type { RawConfigType } from './get-project-config.dto'
+import { rawConfigSchema } from './get-project-config.dto'
 
-export async function get_project_config(cwd: string) {
+export async function getProjectConfig(cwd: string) {
   try {
     const rawConfig = await explorer.search(cwd)
     if (!rawConfig) {
       return null
     }
 
-    return raw_config_schema.parse(rawConfig.config)
+    return rawConfigSchema.parse(rawConfig.config)
   } catch (error) {
     logger.error({
       args: [`Invalid configuration found in ${cwd}/duck-benchmark.config.ts`],

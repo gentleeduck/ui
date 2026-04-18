@@ -71,7 +71,7 @@ const SelectContent = React.forwardRef<
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 relative z-50 max-h-(--gentleduck-select-content-available-height) min-w-32 origin-(--gentleduck-select-content-transform-origin) overflow-y-auto overflow-x-hidden rounded-md border bg-popover text-popover-foreground shadow-md data-[state=closed]:animate-out data-[state=open]:animate-in',
         position === 'popper' &&
           'data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=bottom]:translate-y-1 data-[side=top]:-translate-y-1',
-        'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+        'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
         className,
       )}
       position={position}
@@ -99,7 +99,7 @@ const SelectLabel = React.forwardRef<
 ))
 SelectLabel.displayName = SelectPrimitive.Label.displayName
 
-const SelectItem = React.forwardRef<HTMLDivElement, SelectPrimitive.SelectItemProps>(
+const SelectItem = React.forwardRef<HTMLDivElement, SelectPrimitive.ISelectItemProps>(
   ({ className, children, ...props }, ref) => (
     <SelectPrimitive.Item
       ref={ref}

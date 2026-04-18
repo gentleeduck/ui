@@ -5,5 +5,7 @@ export type {
   CarouselOptions,
   CarouselPlugin,
   CarouselProps,
+  ICarouselContextProps,
+  ICarouselProps,
   UseCarouselParameters,
 } from './carousel.types'

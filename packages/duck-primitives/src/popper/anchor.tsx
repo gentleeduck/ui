@@ -1,18 +1,12 @@
 import * as React from 'react'
 import { useComposedRefs } from '../libs/compose-ref'
-import type { Measurable } from '../libs/observe-element-rect'
 import { Primitive } from '../primitive-elements'
-import { type ScopedProps, usePopperContext } from './popper'
+import { usePopperContext } from './popper'
+import type { IPopper } from './popper.types'
 
 const ANCHOR_NAME = 'PopperAnchor'
 
-type PrimitiveDivProps = React.ComponentPropsWithRef<typeof Primitive.div>
-
-export interface PopperAnchorProps extends PrimitiveDivProps {
-  virtualRef?: React.RefObject<Measurable>
-}
-
-export const PopperAnchor = ({ ref: forwardedRef, ...props }: ScopedProps<PopperAnchorProps>) => {
+export const PopperAnchor = ({ ref: forwardedRef, ...props }: IPopper.IScoped<IPopper.IAnchorProps>) => {
   const { __scopePopper, virtualRef, ...anchorProps } = props
   const context = usePopperContext(ANCHOR_NAME, __scopePopper)
 

@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Checkbox } from '@gentleduck/registry-ui/checkbox'\r\nimport { Gem, Minus } from 'lucide-react'\r\n\r\nexport default function Demo() {\r\n  return <Checkbox checkedIndicator={<Gem className=\"h-3 w-3\" />} indicator={<Minus className=\"h-3 w-3\" />} />\r\n}\r\n",
+      "content": "import { Checkbox } from '@gentleduck/registry-ui/checkbox'\nimport { Gem, Minus } from 'lucide-react'\n\nexport default function Demo() {\n  return <Checkbox checkedIndicator={<Gem className=\"h-3 w-3\" />} indicator={<Minus className=\"h-3 w-3\" />} />\n}\n",
       "path": "checkbox/checkbox-7.tsx",
       "target": "components/checkbox-7.tsx",
       "type": "registry:example"

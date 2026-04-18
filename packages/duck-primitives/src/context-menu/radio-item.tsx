@@ -1,17 +1,14 @@
-/** ContextMenuRadioItem -- a selectable radio item within a radio group. */
 import * as React from 'react'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './context-menu'
 import { useMenuScope } from './context-menu'
+import type { IContextMenu } from './context-menu.types'
 
 const RADIO_ITEM_NAME = 'ContextMenuRadioItem'
 
 type ContextMenuRadioItemElement = React.ComponentRef<typeof MenuPrimitive.RadioItem>
-type MenuRadioItemProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.RadioItem>
-interface ContextMenuRadioItemProps extends MenuRadioItemProps {}
 
-const ContextMenuRadioItem = React.forwardRef<ContextMenuRadioItemElement, ContextMenuRadioItemProps>(
-  (props: ScopedProps<ContextMenuRadioItemProps>, forwardedRef) => {
+const ContextMenuRadioItem = React.forwardRef<ContextMenuRadioItemElement, IContextMenu.IRadioItemProps>(
+  (props: IContextMenu.IScoped<IContextMenu.IRadioItemProps>, forwardedRef) => {
     const { __scopeContextMenu, ...radioItemProps } = props
     const menuScope = useMenuScope(__scopeContextMenu)
     return <MenuPrimitive.RadioItem {...menuScope} {...radioItemProps} ref={forwardedRef} />
@@ -20,5 +17,4 @@ const ContextMenuRadioItem = React.forwardRef<ContextMenuRadioItemElement, Conte
 
 ContextMenuRadioItem.displayName = RADIO_ITEM_NAME
 
-export type { ContextMenuRadioItemProps }
 export { ContextMenuRadioItem }

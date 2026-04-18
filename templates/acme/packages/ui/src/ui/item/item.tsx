@@ -1,14 +1,16 @@
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
-import { cva, type VariantProps } from '@gentleduck/variants'
+import { cva } from '@gentleduck/variants'
+import type { Variants } from '@gentleduck/variants'
 import * as React from 'react'
 import { Separator } from '../separator'
 import { itemVariants } from './item.constants'
 
 const ItemGroup = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>(
   ({ className, dir, ...props }, ref) => {
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
     return (
       // biome-ignore lint/a11y/useSemanticElements: list role on div is intentional for composed item patterns
       <div
@@ -42,7 +44,7 @@ ItemSeparator.displayName = 'ItemSeparator'
 
 const Item = React.forwardRef<
   HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'> & VariantProps<typeof itemVariants> & { asChild?: boolean }
+  React.ComponentPropsWithoutRef<'div'> & Variants.VariantProps<typeof itemVariants> & { asChild?: boolean }
 >(({ className, variant = 'default', size = 'default', asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot : 'div'
   return (
@@ -77,7 +79,7 @@ const itemMediaVariants = cva(
 
 const ItemMedia = React.forwardRef<
   HTMLDivElement,
-  React.ComponentPropsWithoutRef<'div'> & VariantProps<typeof itemMediaVariants>
+  React.ComponentPropsWithoutRef<'div'> & Variants.VariantProps<typeof itemMediaVariants>
 >(({ className, variant = 'default', ...props }, ref) => {
   return (
     <div

@@ -1,10 +1,10 @@
 import { cn } from '@gentleduck/libs/cn'
 
-interface CodeProps extends React.HTMLAttributes<HTMLElement> {
+interface ICodeProps extends React.HTMLAttributes<HTMLElement> {
   __rawString__?: boolean
 }
 
-export function CodeBlock({ className, __rawString__, ...props }: CodeProps) {
+export function CodeBlock({ className, __rawString__, ...props }: ICodeProps) {
   if (__rawString__) {
     return (
       <code

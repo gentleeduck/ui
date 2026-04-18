@@ -1,18 +1,15 @@
-/** DropdownMenuContent -- positioned content area for the dropdown menu. */
 import * as React from 'react'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './dropdown-menu'
 import { useDropdownMenuContext, useMenuScope } from './dropdown-menu'
+import type { IDropdownMenu } from './dropdown-menu.types'
 
 const CONTENT_NAME = 'DropdownMenuContent'
 
 type DropdownMenuContentElement = React.ComponentRef<typeof MenuPrimitive.Content>
-type MenuContentProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Content>
-interface DropdownMenuContentProps extends Omit<MenuContentProps, 'onEntryFocus'> {}
 
-const DropdownMenuContent = React.forwardRef<DropdownMenuContentElement, DropdownMenuContentProps>(
-  (props: ScopedProps<DropdownMenuContentProps>, forwardedRef) => {
+const DropdownMenuContent = React.forwardRef<DropdownMenuContentElement, IDropdownMenu.IContentProps>(
+  (props: IDropdownMenu.IScoped<IDropdownMenu.IContentProps>, forwardedRef) => {
     const { __scopeDropdownMenu, ...contentProps } = props
     const context = useDropdownMenuContext(CONTENT_NAME, __scopeDropdownMenu)
     const menuScope = useMenuScope(__scopeDropdownMenu)
@@ -28,7 +25,6 @@ const DropdownMenuContent = React.forwardRef<DropdownMenuContentElement, Dropdow
         onCloseAutoFocus={composeEventHandlers(props.onCloseAutoFocus, (event) => {
           if (!hasInteractedOutsideRef.current) context.triggerRef.current?.focus()
           hasInteractedOutsideRef.current = false
-          // Always prevent auto focus because we either focus manually or want user agent focus
           event.preventDefault()
         })}
         onInteractOutside={composeEventHandlers(props.onInteractOutside, (event) => {
@@ -39,7 +35,6 @@ const DropdownMenuContent = React.forwardRef<DropdownMenuContentElement, Dropdow
         })}
         style={{
           ...props.style,
-          // re-namespace exposed content custom properties
           ...{
             '--gentleduck-dropdown-menu-content-transform-origin': 'var(--gentleduck-popper-transform-origin)',
             '--gentleduck-dropdown-menu-content-available-width': 'var(--gentleduck-popper-available-width)',
@@ -55,5 +50,4 @@ const DropdownMenuContent = React.forwardRef<DropdownMenuContentElement, Dropdow
 
 DropdownMenuContent.displayName = CONTENT_NAME
 
-export type { DropdownMenuContentProps }
 export { DropdownMenuContent }

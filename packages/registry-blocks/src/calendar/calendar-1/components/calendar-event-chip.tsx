@@ -4,12 +4,12 @@ import { cn } from '@gentleduck/libs/cn'
 import { StarIcon } from 'lucide-react'
 import { CATEGORY_COLORS, type CalendarEvent } from '../calendar-data'
 
-interface CalendarEventChipProps {
+interface ICalendarEventChipProps {
   event: CalendarEvent
   onSelect: (event: CalendarEvent) => void
 }
 
-export function CalendarEventChip({ event, onSelect }: CalendarEventChipProps) {
+export function CalendarEventChip({ event, onSelect }: ICalendarEventChipProps) {
   const colors = CATEGORY_COLORS[event.category]
   return (
     <button

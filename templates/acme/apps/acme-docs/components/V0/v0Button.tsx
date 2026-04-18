@@ -2,7 +2,7 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import type { Block } from '@gentleduck/registers'
-import { Button, type ButtonProps } from '@gentleduck/registry-ui/button'
+import { Button, type IButtonProps } from '@gentleduck/registry-ui/button'
 import type * as React from 'react'
 import { useFormStatus } from 'react-dom'
 import { toast } from 'sonner'
@@ -16,7 +16,7 @@ export function V0Button({
   ...props
 }: {
   block: Pick<Block, 'description' | 'name'>
-} & ButtonProps) {
+} & IButtonProps) {
   return (
     <form
       action={async () => {

@@ -6,4 +6,4 @@ export {
   parseKeyBind,
   validateKeyBind,
 } from './parser'
-export type { ParsedKeyBind, ValidationResult } from './parser.types'
+export type { Parser } from './parser.types'

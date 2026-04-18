@@ -1,23 +1,43 @@
 import type * as RechartsPrimitive from 'recharts'
 import type { THEMES } from './chart'
-export type ChartConfig = {
-  [k in string]: {
-    label?: React.ReactNode
-    icon?: React.ComponentType
-  } & ({ color?: string; theme?: never } | { color?: never; theme: Record<keyof typeof THEMES, string> })
+
+export interface IChartConfig {
+  [key: string]:
+    | {
+        label?: React.ReactNode
+        icon?: React.ComponentType
+        color?: string
+        theme?: never
+      }
+    | {
+        label?: React.ReactNode
+        icon?: React.ComponentType
+        color?: never
+        theme: Record<keyof typeof THEMES, string>
+      }
 }
 
-export type ChartContextProps = {
-  config: ChartConfig
+export type ChartConfig = IChartConfig
+
+export interface IChartContextProps {
+  config: IChartConfig
 }
 
-export type ChartContainerProps = React.HTMLProps<HTMLDivElement> & {
-  config: ChartConfig
+export type ChartContextProps = IChartContextProps
+
+export interface IChartContainerProps extends React.HTMLProps<HTMLDivElement> {
+  config: IChartConfig
   children: React.ComponentProps<typeof RechartsPrimitive.ResponsiveContainer>['children']
 }
-export type ChartStyleProps = { id: string; config: ChartConfig }
+export type ChartContainerProps = IChartContainerProps
 
-export type ChartTooltipContentProps = Partial<
+export interface IChartStyleProps {
+  id: string
+  config: IChartConfig
+}
+export type ChartStyleProps = IChartStyleProps
+
+export type IChartTooltipContentProps = Partial<
   Omit<RechartsPrimitive.TooltipProps<string | number, string | number>, 'content'>
 > &
   React.HTMLProps<HTMLDivElement> & {
@@ -29,10 +49,12 @@ export type ChartTooltipContentProps = Partial<
     payload?: RechartsPrimitive.TooltipPayloadEntry<string | number, string | number>[]
     active?: boolean
   }
+export type ChartTooltipContentProps = IChartTooltipContentProps
 
-export type ChartLegendContentProps = React.HTMLProps<HTMLDivElement> & {
+export interface IChartLegendContentProps extends React.HTMLProps<HTMLDivElement> {
   payload?: RechartsPrimitive.LegendPayload[]
   verticalAlign?: 'top' | 'middle' | 'bottom'
   hideIcon?: boolean
   nameKey?: string
 }
+export type ChartLegendContentProps = IChartLegendContentProps

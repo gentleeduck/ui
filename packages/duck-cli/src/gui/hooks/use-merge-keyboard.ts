@@ -33,16 +33,16 @@ export function useMergeKeyboard(workflow: MergeWorkflowState, onBack: () => voi
   const {
     step,
     mergeState,
-    active_file,
-    active_hunk,
-    active_hunks,
+    activeFile,
+    activeHunk,
+    activeHunks,
     activeFileIndex,
     activeHunkIndex,
-    all_resolved,
-    update_hunk_choice,
-    update_file_choice,
-    find_next_unresolved,
-    find_prev_unresolved,
+    allResolved,
+    updateHunkChoice,
+    updateFileChoice,
+    findNextUnresolved,
+    findPrevUnresolved,
     setActiveFileIndex,
     setActiveHunkIndex,
     setScrollOffset,
@@ -77,36 +77,36 @@ export function useMergeKeyboard(workflow: MergeWorkflowState, onBack: () => voi
       }
 
       // Choice input for deleted files
-      if (active_file?.status === 'deleted') {
+      if (activeFile?.status === 'deleted') {
         if (input === '1') {
-          update_file_choice('keep')
+          updateFileChoice('keep')
           return
         }
         if (input === '2') {
-          update_file_choice('remove')
+          updateFileChoice('remove')
           return
         }
       }
 
       // Choice input for modified files
-      if (active_file?.status === 'modified' && active_hunk) {
+      if (activeFile?.status === 'modified' && activeHunk) {
         if (input === '1') {
-          update_hunk_choice('local')
+          updateHunkChoice('local')
           return
         }
         if (input === '2') {
-          update_hunk_choice('registry')
+          updateHunkChoice('registry')
           return
         }
         if (input === '3') {
-          update_hunk_choice('both')
+          updateHunkChoice('both')
           return
         }
       }
 
       // Next hunk (n / j / down)
       if (input === 'n' || input === 'j' || key.downArrow) {
-        if (active_hunks.length > 0 && activeHunkIndex < active_hunks.length - 1) {
+        if (activeHunks.length > 0 && activeHunkIndex < activeHunks.length - 1) {
           setActiveHunkIndex((prev: number) => prev + 1)
         } else if (mergeState && activeFileIndex < mergeState.files.length - 1) {
           // Jump to first hunk of next file
@@ -123,10 +123,10 @@ export function useMergeKeyboard(workflow: MergeWorkflowState, onBack: () => voi
           setActiveHunkIndex((prev: number) => prev - 1)
         } else if (activeFileIndex > 0) {
           // Jump to last hunk of previous file
-          const prev_file = mergeState?.files[activeFileIndex - 1]
-          const last_idx = prev_file?.hunks.length ? prev_file.hunks.length - 1 : 0
+          const prevFile = mergeState?.files[activeFileIndex - 1]
+          const lastIdx = prevFile?.hunks.length ? prevFile.hunks.length - 1 : 0
           setActiveFileIndex((prev: number) => prev - 1)
-          setActiveHunkIndex(last_idx)
+          setActiveHunkIndex(lastIdx)
           setScrollOffset(0)
         }
         return
@@ -134,7 +134,7 @@ export function useMergeKeyboard(workflow: MergeWorkflowState, onBack: () => voi
 
       // Jump to previous unresolved (N)
       if (input === 'N') {
-        const prev = find_prev_unresolved()
+        const prev = findPrevUnresolved()
         if (prev) {
           setActiveFileIndex(prev.fileIdx)
           setActiveHunkIndex(prev.hunkIdx)
@@ -145,7 +145,7 @@ export function useMergeKeyboard(workflow: MergeWorkflowState, onBack: () => voi
 
       // Jump to next unresolved (P)
       if (input === 'P') {
-        const next = find_next_unresolved()
+        const next = findNextUnresolved()
         if (next) {
           setActiveFileIndex(next.fileIdx)
           setActiveHunkIndex(next.hunkIdx)
@@ -155,7 +155,7 @@ export function useMergeKeyboard(workflow: MergeWorkflowState, onBack: () => voi
       }
 
       // Proceed to summary when all hunks resolved
-      if (key.return && all_resolved) {
+      if (key.return && allResolved) {
         setScrollOffset(0)
         setStep('summary')
         return

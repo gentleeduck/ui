@@ -1,19 +1,16 @@
-/** MenubarContent with CSS variable mapping, keyboard navigation, and data attributes. */
 import * as React from 'react'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import * as MenuPrimitive from '../menu'
 import { useMenubarMenuContext } from './menu'
-import type { ScopedProps } from './menubar'
 import { useCollection, useMenubarContext, useMenuScope, wrapArray } from './menubar'
+import type { IMenubar } from './menubar.types'
 
 const CONTENT_NAME = 'MenubarContent'
 
 type MenubarContentElement = React.ComponentRef<typeof MenuPrimitive.Content>
-type MenuContentProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Content>
-interface MenubarContentProps extends Omit<MenuContentProps, 'onEntryFocus'> {}
 
-const MenubarContent = React.forwardRef<MenubarContentElement, MenubarContentProps>(
-  (props: ScopedProps<MenubarContentProps>, forwardedRef) => {
+const MenubarContent = React.forwardRef<MenubarContentElement, IMenubar.IContentProps>(
+  (props: IMenubar.IScoped<IMenubar.IContentProps>, forwardedRef) => {
     const { __scopeMenubar, align = 'start', ...contentProps } = props
     const menuScope = useMenuScope(__scopeMenubar)
     const context = useMenubarContext(CONTENT_NAME, __scopeMenubar)
@@ -37,7 +34,6 @@ const MenubarContent = React.forwardRef<MenubarContentElement, MenubarContentPro
           }
 
           hasInteractedOutsideRef.current = false
-          // Always prevent auto focus because we either focus manually or want user agent focus
           event.preventDefault()
         })}
         onFocusOutside={composeEventHandlers(props.onFocusOutside, (event) => {
@@ -54,8 +50,6 @@ const MenubarContent = React.forwardRef<MenubarContentElement, MenubarContentPro
         onKeyDown={composeEventHandlers(
           props.onKeyDown,
           (event) => {
-            // Shift+I = jump to first menu, Shift+A = jump to last menu (vim-style)
-            // In RTL these swap: Shift+I = last, Shift+A = first
             if (event.key === 'I' || event.key === 'A') {
               const items = getItems().filter((item) => !item.disabled)
               const values = items.map((item) => item.value)
@@ -73,14 +67,11 @@ const MenubarContent = React.forwardRef<MenubarContentElement, MenubarContentPro
               const targetIsSubTrigger =
                 target.closest('[data-slot="menubar-subtrigger"]') !== null ||
                 target.closest('[data-gentleduck-menubar-subtrigger]') !== null
-              // Submenu key events bubble through portals. Use role-based detection
-              // so this still works if data-slot is customized by consumers.
               const isKeyDownInsideSubMenu = target.closest('[role="menu"]') !== event.currentTarget
 
               const isPrevKey = event.key === 'ArrowLeft' || event.key === 'h'
               const isNextKey = event.key === 'ArrowRight' || event.key === 'l'
 
-              // Prevent navigation when we're opening a submenu
               if (isNextKey && targetIsSubTrigger && !isKeyDownInsideSubMenu) return
 
               const items = getItems().filter((item) => !item.disabled)
@@ -104,7 +95,6 @@ const MenubarContent = React.forwardRef<MenubarContentElement, MenubarContentPro
         )}
         style={{
           ...props.style,
-          // re-namespace exposed content custom properties
           ...{
             '--gentleduck-menubar-content-transform-origin': 'var(--gentleduck-popper-transform-origin)',
             '--gentleduck-menubar-content-available-width': 'var(--gentleduck-popper-available-width)',
@@ -120,5 +110,4 @@ const MenubarContent = React.forwardRef<MenubarContentElement, MenubarContentPro
 
 MenubarContent.displayName = CONTENT_NAME
 
-export type { MenubarContentProps }
 export { MenubarContent }

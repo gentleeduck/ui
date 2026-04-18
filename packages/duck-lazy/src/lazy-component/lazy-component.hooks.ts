@@ -1,5 +1,5 @@
 import React from 'react'
-import type { UseLazyLoadReturn } from './lazy-component.types'
+import type { ILazyComponent } from './lazy-component.types'
 
 /**
  * `useLazyLoad` is a custom React hook that enables lazy loading behavior for any component.
@@ -11,7 +11,7 @@ import type { UseLazyLoadReturn } from './lazy-component.types'
  * The configuration can include `root`, `rootMargin`, and `threshold` properties.
  * See the [IntersectionObserver documentation](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver) for more details.
  *
- * @returns {UseLazyLoadReturn} Returns an object containing:
+ * @returns {IUseLazyLoadReturn} Returns an object containing:
  *   - `isVisible` (boolean): Indicates whether the element is currently in the viewport and visible to the user.
  *   - `ComponentRef` (React.RefObject<HTMLDivElement | null>): A ref that should be attached to the element you want to observe for lazy loading.
  *
@@ -78,7 +78,7 @@ import type { UseLazyLoadReturn } from './lazy-component.types'
  * @see [IntersectionObserver API Documentation](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver)
  * @see [React useRef](https://reactjs.org/docs/hooks-reference.html#useref)
  */
-export const useLazyLoad = (options?: IntersectionObserverInit): UseLazyLoadReturn => {
+export const useLazyLoad = (options?: IntersectionObserverInit): ILazyComponent.IUseLazyLoadReturn => {
   const [isVisible, setIsVisible] = React.useState(false)
   const ComponentRef = React.useRef<HTMLDivElement>(null)
 

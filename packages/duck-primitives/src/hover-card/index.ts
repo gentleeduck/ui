@@ -1,11 +1,6 @@
-export type { HoverCardArrowProps } from './arrow'
 export { HoverCardArrow, HoverCardArrow as Arrow } from './arrow'
-export type { HoverCardContentProps } from './content'
 export { HoverCardContent, HoverCardContent as Content } from './content'
-export type { HoverCardProps } from './hover-card'
-// Short aliases
 export { createHoverCardScope, HoverCard, HoverCard as Root } from './hover-card'
-export type { HoverCardPortalProps } from './portal'
+export type { IHoverCard } from './hover-card.types'
 export { HoverCardPortal, HoverCardPortal as Portal } from './portal'
-export type { HoverCardTriggerProps } from './trigger'
 export { HoverCardTrigger, HoverCardTrigger as Trigger } from './trigger'

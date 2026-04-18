@@ -2,15 +2,12 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "allowImportingTsExtensions": true,
-    "allowJs": true,
     "erasableSyntaxOnly": true,
-    "esModuleInterop": true,
     "isolatedModules": true,
     "jsx": "preserve",
     "lib": ["ES2021.String", "ES2022", "DOM"],
     "module": "ESNext",
     "moduleDetection": "force",
-    /* Bundler mode */
     "moduleResolution": "bundler",
     "noEmit": true,
     "noErrorTruncation": true,
@@ -23,15 +20,12 @@
     },
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    /* Linting */
-    "strict": true,
     "strictPropertyInitialization": false,
     "target": "esnext",
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
     "types": ["vite/client", "@types/react", "./src/index.d.ts", "node"],
-    "useDefineForClassFields": true,
-    "verbatimModuleSyntax": true
+    "useDefineForClassFields": true
   },
-  "extends": "@gentleduck/typescript-config/base.json",
+  "extends": "@gentleduck/typescript-config/motion.json",
   "include": ["src"]
 }

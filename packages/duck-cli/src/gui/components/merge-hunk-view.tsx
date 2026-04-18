@@ -1,15 +1,15 @@
 import { Box, Text } from 'ink'
 import { memo } from 'react'
-import type { MergeHunk } from '~/utils/merge'
+import type { Merge } from '~/utils/merge'
 import { THEME } from '../app.constants'
-import { get_renderable_diff_segments } from './diff-line.libs'
+import { getRenderableDiffSegments } from './diff-line.libs'
 
 type MergeHunkViewProps = {
-  hunk: MergeHunk
-  is_active: boolean
-  num_width: number
-  hunk_number: number
-  total_hunks: number
+  hunk: Merge.Hunk
+  isActive: boolean
+  numWidth: number
+  hunkNumber: number
+  totalHunks: number
 }
 
 const CHOICE_LABELS: Record<string, string> = {
@@ -33,42 +33,42 @@ const CHOICE_COLORS: Record<string, string> = {
  */
 export const MergeHunkView = memo(function MergeHunkView({
   hunk,
-  is_active,
-  num_width,
-  hunk_number,
-  total_hunks,
+  isActive,
+  numWidth,
+  hunkNumber,
+  totalHunks,
 }: MergeHunkViewProps) {
-  const choice_label = CHOICE_LABELS[hunk.choice] ?? '???'
-  const choice_color = CHOICE_COLORS[hunk.choice] ?? THEME.mutedForeground
-  const gutter = ''.padStart(num_width)
+  const choiceLabel = CHOICE_LABELS[hunk.choice] ?? '???'
+  const choiceColor = CHOICE_COLORS[hunk.choice] ?? THEME.mutedForeground
+  const gutter = ''.padStart(numWidth)
 
-  const is_local_dimmed = hunk.choice === 'registry'
-  const is_registry_dimmed = hunk.choice === 'local'
+  const isLocalDimmed = hunk.choice === 'registry'
+  const isRegistryDimmed = hunk.choice === 'local'
 
-  const local_lines = hunk.display_lines.filter((dl) => dl.type === 'remove')
-  const registry_lines = hunk.display_lines.filter((dl) => dl.type === 'add')
+  const localLines = hunk.displayLines.filter((dl) => dl.type === 'remove')
+  const registryLines = hunk.displayLines.filter((dl) => dl.type === 'add')
 
   return (
     <Box flexDirection="column">
       {/* Hunk header */}
       <Box>
-        <Text color={is_active ? THEME.ring : THEME.mutedForeground} bold={is_active}>
-          {is_active ? '>>' : '  '} Hunk {hunk_number}/{total_hunks} [
-          <Text color={choice_color} bold>
-            {choice_label}
+        <Text color={isActive ? THEME.ring : THEME.mutedForeground} bold={isActive}>
+          {isActive ? '>>' : '  '} Hunk {hunkNumber}/{totalHunks} [
+          <Text color={choiceColor} bold>
+            {choiceLabel}
           </Text>
           ]
         </Text>
       </Box>
 
       {/* Context before */}
-      {hunk.context_before.map((ctx, i) => {
-        const line_num = hunk.old_start - hunk.context_before.length + i
+      {hunk.contextBefore.map((ctx, i) => {
+        const lineNum = hunk.oldStart - hunk.contextBefore.length + i
         return (
-          <Box key={`ctx-before-${line_num}-${ctx}`}>
+          <Box key={`ctx-before-${lineNum}-${ctx}`}>
             <Text color={THEME.mutedForeground}>
               {'  '}
-              {String(line_num).padStart(num_width)} {'|'}
+              {String(lineNum).padStart(numWidth)} {'|'}
               {'  '}
               {ctx}
             </Text>
@@ -85,23 +85,23 @@ export const MergeHunkView = memo(function MergeHunkView({
       </Box>
 
       {/* Local (removed) lines */}
-      {local_lines.length > 0 ? (
-        local_lines.map((dl) => {
-          const line_num = dl.old_line_num !== null ? String(dl.old_line_num).padStart(num_width) : gutter
-          const renderable_segments = get_renderable_diff_segments(dl.segments)
+      {localLines.length > 0 ? (
+        localLines.map((dl) => {
+          const lineNum = dl.oldLineNum !== null ? String(dl.oldLineNum).padStart(numWidth) : gutter
+          const renderableSegments = getRenderableDiffSegments(dl.segments)
           return (
-            <Box key={`local-${dl.old_line_num ?? 'null'}-${dl.raw_text}`}>
-              <Text dimColor={is_local_dimmed}>
+            <Box key={`local-${dl.oldLineNum ?? 'null'}-${dl.rawText}`}>
+              <Text dimColor={isLocalDimmed}>
                 <Text color={THEME.mutedForeground}>
                   {'  '}
-                  {line_num} {'|'}
+                  {lineNum} {'|'}
                 </Text>
                 <Text color={THEME.destructive}> - </Text>
-                {renderable_segments.map((seg) => (
+                {renderableSegments.map((seg) => (
                   <Text
                     key={seg.key}
                     color={seg.highlight ? 'white' : THEME.destructive}
-                    backgroundColor={seg.highlight ? 'red' : undefined}>
+                    {...(seg.highlight ? { backgroundColor: 'red' as const } : {})}>
                     {seg.text}
                   </Text>
                 ))}
@@ -129,23 +129,23 @@ export const MergeHunkView = memo(function MergeHunkView({
       </Box>
 
       {/* Registry (added) lines */}
-      {registry_lines.length > 0 ? (
-        registry_lines.map((dl) => {
-          const line_num = dl.new_line_num !== null ? String(dl.new_line_num).padStart(num_width) : gutter
-          const renderable_segments = get_renderable_diff_segments(dl.segments)
+      {registryLines.length > 0 ? (
+        registryLines.map((dl) => {
+          const lineNum = dl.newLineNum !== null ? String(dl.newLineNum).padStart(numWidth) : gutter
+          const renderableSegments = getRenderableDiffSegments(dl.segments)
           return (
-            <Box key={`registry-${dl.new_line_num ?? 'null'}-${dl.raw_text}`}>
-              <Text dimColor={is_registry_dimmed}>
+            <Box key={`registry-${dl.newLineNum ?? 'null'}-${dl.rawText}`}>
+              <Text dimColor={isRegistryDimmed}>
                 <Text color={THEME.mutedForeground}>
                   {'  '}
-                  {line_num} {'|'}
+                  {lineNum} {'|'}
                 </Text>
                 <Text color={THEME.success}> + </Text>
-                {renderable_segments.map((seg) => (
+                {renderableSegments.map((seg) => (
                   <Text
                     key={seg.key}
                     color={seg.highlight ? 'black' : THEME.success}
-                    backgroundColor={seg.highlight ? 'green' : undefined}>
+                    {...(seg.highlight ? { backgroundColor: 'green' as const } : {})}>
                     {seg.text}
                   </Text>
                 ))}
@@ -173,13 +173,13 @@ export const MergeHunkView = memo(function MergeHunkView({
       </Box>
 
       {/* Context after */}
-      {hunk.context_after.map((ctx, i) => {
-        const line_num = hunk.old_start + hunk.old_lines + i
+      {hunk.contextAfter.map((ctx, i) => {
+        const lineNum = hunk.oldStart + hunk.oldLines + i
         return (
-          <Box key={`ctx-after-${line_num}-${ctx}`}>
+          <Box key={`ctx-after-${lineNum}-${ctx}`}>
             <Text color={THEME.mutedForeground}>
               {'  '}
-              {String(line_num).padStart(num_width)} {'|'}
+              {String(lineNum).padStart(numWidth)} {'|'}
               {'  '}
               {ctx}
             </Text>

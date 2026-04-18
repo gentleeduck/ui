@@ -1,12 +1,12 @@
-import type { MainNavItem, SidebarNavItem } from '@duck-docs/types/nav'
+import type { IMainNavItem, ISidebarNavItem } from '@duck-docs/types/nav'
 
-export interface DocsConfig {
-  chartsNav?: SidebarNavItem[]
-  mainNav: MainNavItem[]
-  sidebarNav: SidebarNavItem[]
+export interface IDocsConfig {
+  chartsNav?: ISidebarNavItem[]
+  mainNav: IMainNavItem[]
+  sidebarNav: ISidebarNavItem[]
 }
 
-export interface DocsSiteConfig {
+export interface IDocsSiteConfig {
   author?: {
     name: string
     url?: string
@@ -35,26 +35,26 @@ export interface DocsSiteConfig {
   url?: string
 }
 
-export interface DocsEntry {
+export interface IDocsEntry {
   component?: boolean
   content?: string
   permalink?: string
   slug: string
   title: string
-  toc?: TocEntry[]
+  toc?: ITocEntry[]
 }
 
-export interface TocEntry {
-  items?: TocEntry[]
+export interface ITocEntry {
+  items?: ITocEntry[]
   title: string
   url: string
 }
 
-export interface DocsContextValue {
-  docs?: DocsEntry[]
-  docsConfig: DocsConfig
+export interface IDocsContextValue {
+  docs?: IDocsEntry[]
+  docsConfig: IDocsConfig
   registryIndex?: RegistryIndex
-  siteConfig: DocsSiteConfig
+  siteConfig: IDocsSiteConfig
 }
 
 export type RegistryIndex = Record<string, { component?: React.ComponentType } & Record<string, unknown>>

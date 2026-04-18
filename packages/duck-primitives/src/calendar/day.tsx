@@ -1,21 +1,15 @@
-import type { CalendarDay as CalendarDayType } from '@gentleduck/calendar'
 import * as React from 'react'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { Primitive } from '../primitive-elements'
-import { type ScopedProps, useCalendarContext } from './calendar'
+import { useCalendarContext } from './calendar'
+import type { ICalendar } from './calendar.types'
 
 const DAY_NAME = 'CalendarDay'
 
 type CalendarDayElement = React.ComponentRef<typeof Primitive.button>
-type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
 
-export interface CalendarDayProps extends PrimitiveButtonProps {
-  /** The day data from the calendar grid. */
-  day: CalendarDayType<Date>
-}
-
-export const CalendarDay = React.forwardRef<CalendarDayElement, CalendarDayProps>(
-  (props: ScopedProps<CalendarDayProps>, forwardedRef) => {
+export const CalendarDay = React.forwardRef<CalendarDayElement, ICalendar.IDayProps>(
+  (props: ICalendar.IScoped<ICalendar.IDayProps>, forwardedRef) => {
     const { __scopeCalendar, day, children, ...buttonProps } = props
     const context = useCalendarContext(DAY_NAME, __scopeCalendar)
     const dayDomProps = context.getDayProps(day)

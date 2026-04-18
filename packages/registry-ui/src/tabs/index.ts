@@ -1,10 +1,6 @@
-export type { TabsContextProps, TabsListProps, TabsProps, TabsTriggerProps } from './tabs'
+export { MotionTabs, MotionTabsContent, MotionTabsContents, MotionTabsList, MotionTabsTrigger } from './motion-tabs'
+export type { ITabsContextProps, ITabsListProps, ITabsProps, ITabsTriggerProps } from './tabs'
 export {
-  MotionTabs,
-  MotionTabsContent,
-  MotionTabsContents,
-  MotionTabsList,
-  MotionTabsTrigger,
   Tabs,
   TabsContent,
   TabsList,

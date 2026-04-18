@@ -1,17 +1,17 @@
-import type { DateAdapter } from '../adapter'
-import type { CalendarConfig } from '../index.types'
+import type { Adapter } from '../adapter'
+import type { Calendar } from '../index.types'
 import { getLocalizedMonthNames, getWeekNumber } from './grid.libs'
-import type { CalendarDay, CalendarMonth, CalendarWeek, DecadeEntry, YearEntry } from './grid.types'
+import type { Grid } from './grid.types'
 
 /**
  * Build a 2D grid of day cells for a given month.
  * Returns weeks x 7 days. Selection flags default to `false`  -  use `applySelection()` to fill them.
  */
 export function buildCalendarMonth<TDate>(
-  adapter: DateAdapter<TDate>,
+  adapter: Adapter.IDateAdapter<TDate>,
   viewDate: TDate,
-  config: Pick<CalendarConfig<TDate, 'single'>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>,
-): CalendarMonth<TDate> {
+  config: Pick<Calendar.ICalendarConfig<TDate, 'single'>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>,
+): Grid.ICalendarMonth<TDate> {
   const weekStartDay = config.locale?.weekStartDay ?? 0
   const showOutsideDays = config.showOutsideDays ?? true
   const today = adapter.today()
@@ -22,7 +22,7 @@ export function buildCalendarMonth<TDate>(
   // first cell in the grid  -  may be in the previous month
   let cursor = adapter.startOfWeek(firstOfMonth, weekStartDay)
 
-  const weeks: CalendarWeek<TDate>[] = []
+  const weeks: Grid.ICalendarWeek<TDate>[] = []
   const targetMonth = adapter.getMonth(viewDate)
   const targetYear = adapter.getYear(viewDate)
 
@@ -33,7 +33,7 @@ export function buildCalendarMonth<TDate>(
   }
 
   while (!shouldStop(cursor, weeks.length)) {
-    const days: CalendarDay<TDate>[] = []
+    const days: Grid.ICalendarDay<TDate>[] = []
 
     for (let i = 0; i < 7; i++) {
       const isOutside = adapter.getMonth(cursor) !== targetMonth || adapter.getYear(cursor) !== targetYear
@@ -75,12 +75,12 @@ export function buildCalendarMonth<TDate>(
  * Used when `numberOfMonths > 1` for multi-month calendar displays.
  */
 export function buildMultiMonth<TDate>(
-  adapter: DateAdapter<TDate>,
+  adapter: Adapter.IDateAdapter<TDate>,
   startMonth: TDate,
   count: number,
-  config: Pick<CalendarConfig<TDate, 'single'>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>,
-): CalendarMonth<TDate>[] {
-  const months: CalendarMonth<TDate>[] = []
+  config: Pick<Calendar.ICalendarConfig<TDate, 'single'>, 'showOutsideDays' | 'fixedWeeks' | 'locale'>,
+): Grid.ICalendarMonth<TDate>[] {
+  const months: Grid.ICalendarMonth<TDate>[] = []
   for (let i = 0; i < count; i++) {
     const monthDate = i === 0 ? startMonth : adapter.addMonths(startMonth, i)
     months.push(buildCalendarMonth(adapter, monthDate, config))
@@ -94,7 +94,11 @@ export function buildMultiMonth<TDate>(
  * Queries the adapter for the actual month count to support calendar systems
  * with variable months (e.g. Hebrew leap years with 13 months).
  */
-export function buildCalendarYear<TDate>(adapter: DateAdapter<TDate>, viewDate: TDate, locale?: string): YearEntry[] {
+export function buildCalendarYear<TDate>(
+  adapter: Adapter.IDateAdapter<TDate>,
+  viewDate: TDate,
+  locale?: string,
+): Grid.IYearEntry[] {
   const today = adapter.today()
   const currentMonth = adapter.getMonth(today)
   const currentYear = adapter.getYear(today)
@@ -110,7 +114,7 @@ export function buildCalendarYear<TDate>(adapter: DateAdapter<TDate>, viewDate: 
 }
 
 /** Build 12 year entries for the decade picker (decade + 1 before/after for context). */
-export function buildDecadeView<TDate>(adapter: DateAdapter<TDate>, viewDate: TDate): DecadeEntry[] {
+export function buildDecadeView<TDate>(adapter: Adapter.IDateAdapter<TDate>, viewDate: TDate): Grid.IDecadeEntry[] {
   const today = adapter.today()
   const currentYear = adapter.getYear(today)
   const viewYear = adapter.getYear(viewDate)

@@ -1,23 +1,17 @@
 'use client'
 
 import * as React from 'react'
-import type { Direction } from '../direction'
 import { useDirection } from '../direction'
 import { useId } from '../hooks/use-id'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { createCollection } from '../libs/create-collection'
-import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
 import { Primitive } from '../primitive-elements'
+import type { ICommand } from './command.types'
 
 const COMMAND_NAME = 'Command'
 
-export type { Scope }
-export type ScopedProps<P> = P & { __scopeCommand?: Scope }
-
-type CommandItemData = { value: string; disabled: boolean; textValue: string }
-
-export const [Collection, useCollection, createCollectionScope] = createCollection<HTMLLIElement, CommandItemData>(
+export const [Collection, useCollection, createCollectionScope] = createCollection<HTMLLIElement, ICommand.IItemData>(
   COMMAND_NAME,
 )
 
@@ -25,65 +19,31 @@ const [createCommandContext, createCommandScope] = createContextScope(COMMAND_NA
 
 export { createCommandScope }
 
-type CommandContextValue = {
-  search: string
-  onSearchChange: (search: string) => void
-  dir: Direction
-  listId: string
-  inputRef: React.RefObject<HTMLInputElement | null>
-  typeaheadSearchRef: React.RefObject<string>
-  selectedItem: HTMLLIElement | null
-  setSelectedItem: (item: HTMLLIElement | null) => void
-  selectedValue: string | null
-  selectedText: string | null
-  shouldFilter: boolean
-}
-
-export const [CommandProvider, useCommandContext] = createCommandContext<CommandContextValue>(COMMAND_NAME)
-
-export type CommandListContextValue = {
-  onItemLeave?: () => void
-  listRef: React.RefObject<HTMLUListElement | null>
-  emptyRef: React.RefObject<HTMLDivElement | null>
-}
+export const [CommandProvider, useCommandContext] = createCommandContext<ICommand.IContext>(COMMAND_NAME)
 
 const LIST_CONTEXT_NAME = 'CommandList'
-const defaultListContext: CommandListContextValue = {
+const defaultListContext: ICommand.IListContext = {
   onItemLeave: undefined,
   listRef: { current: null },
   emptyRef: { current: null },
 }
-export const [CommandListProvider, useCommandListContext] = createCommandContext<CommandListContextValue>(
+export const [CommandListProvider, useCommandListContext] = createCommandContext<ICommand.IListContext>(
   LIST_CONTEXT_NAME,
   defaultListContext,
 )
 
-export type CommandItemContextValue = {
-  value: string
-  disabled: boolean
-  textId: string
-  onItemTextChange(node: HTMLElement | null): void
-}
-
 const ITEM_CONTEXT_NAME = 'CommandItem'
 export const [CommandItemContextProvider, useCommandItemContext] =
-  createCommandContext<CommandItemContextValue>(ITEM_CONTEXT_NAME)
-
-type CommandGroupContextValue = { id: string }
+  createCommandContext<ICommand.IItemContext>(ITEM_CONTEXT_NAME)
 
 const GROUP_CONTEXT_NAME = 'CommandGroup'
 export const [CommandGroupContextProvider, useCommandGroupContext] =
-  createCommandContext<CommandGroupContextValue>(GROUP_CONTEXT_NAME)
+  createCommandContext<ICommand.IGroupContext>(GROUP_CONTEXT_NAME)
 
 type CommandElement = React.ComponentRef<typeof Primitive.div>
 
-export interface CommandProps extends React.ComponentPropsWithRef<typeof Primitive.div> {
-  dir?: Direction
-  shouldFilter?: boolean
-}
-
-export const Command = React.forwardRef<CommandElement, CommandProps>(
-  (props: ScopedProps<CommandProps>, forwardedRef) => {
+export const Command = React.forwardRef<CommandElement, ICommand.IProps>(
+  (props: ICommand.IScoped<ICommand.IProps>, forwardedRef) => {
     const { __scopeCommand, dir: dirProp, shouldFilter = true, children, ...commandProps } = props
 
     const direction = useDirection(dirProp)
@@ -121,85 +81,88 @@ export const Command = React.forwardRef<CommandElement, CommandProps>(
 
 Command.displayName = COMMAND_NAME
 
-const CommandInner = React.forwardRef<CommandElement, ScopedProps<React.ComponentPropsWithRef<typeof Primitive.div>>>(
-  (props, forwardedRef) => {
-    const { __scopeCommand, children, ...commandProps } = props
-    const context = useCommandContext(COMMAND_NAME, __scopeCommand)
-    const getItems = useCollection(__scopeCommand)
+const CommandInner = React.forwardRef<
+  CommandElement,
+  ICommand.IScoped<React.ComponentPropsWithRef<typeof Primitive.div>>
+>((props, forwardedRef) => {
+  const { __scopeCommand, children, ...commandProps } = props
+  const context = useCommandContext(COMMAND_NAME, __scopeCommand)
+  const getItems = useCollection(__scopeCommand)
 
-    return (
-      <Primitive.div
-        data-slot="command"
-        dir={context.dir}
-        {...commandProps}
-        ref={forwardedRef}
-        onKeyDown={composeEventHandlers((commandProps as React.HTMLAttributes<HTMLDivElement>).onKeyDown, (event) => {
-          if (event.key === 'Tab') {
-            event.preventDefault()
-            return
+  return (
+    <Primitive.div
+      data-slot="command"
+      dir={context.dir}
+      {...commandProps}
+      ref={forwardedRef}
+      onKeyDown={composeEventHandlers((commandProps as React.HTMLAttributes<HTMLDivElement>).onKeyDown, (event) => {
+        if (event.key === 'Tab') {
+          event.preventDefault()
+          return
+        }
+
+        const enabledItems = getItems().filter((item) => !item.disabled && !item.ref.current?.hidden)
+        const nodes: HTMLLIElement[] = []
+        for (const item of enabledItems) {
+          const node = item.ref.current
+          if (node) nodes.push(node)
+        }
+
+        if (event.key === 'ArrowDown') {
+          event.preventDefault()
+          if (nodes.length === 0) return
+          const currentIndex = context.selectedItem ? nodes.indexOf(context.selectedItem) : -1
+          const nextIndex = currentIndex === -1 ? 0 : Math.min(currentIndex + 1, nodes.length - 1)
+          const next = nodes[nextIndex]
+          if (next) {
+            context.setSelectedItem(next)
+            next.scrollIntoView({ block: 'nearest' })
           }
+          return
+        }
 
-          const enabledItems = getItems().filter((item) => !item.disabled && !item.ref.current?.hidden)
-          // biome-ignore lint/style/noNonNullAssertion: collection item refs are always mounted when the command is rendered
-          const nodes = enabledItems.map((item) => item.ref.current!).filter(Boolean)
-
-          if (event.key === 'ArrowDown') {
-            event.preventDefault()
-            if (nodes.length === 0) return
-            const currentIndex = context.selectedItem ? nodes.indexOf(context.selectedItem) : -1
-            const nextIndex = currentIndex === -1 ? 0 : Math.min(currentIndex + 1, nodes.length - 1)
-            const next = nodes[nextIndex]
-            if (next) {
-              context.setSelectedItem(next)
-              next.scrollIntoView({ block: 'nearest' })
-            }
-            return
+        if (event.key === 'ArrowUp') {
+          event.preventDefault()
+          if (nodes.length === 0) return
+          const currentIndex = context.selectedItem ? nodes.indexOf(context.selectedItem) : nodes.length
+          const prevIndex = Math.max(currentIndex - 1, 0)
+          const prev = nodes[prevIndex]
+          if (prev) {
+            context.setSelectedItem(prev)
+            prev.scrollIntoView({ block: 'nearest' })
           }
+          return
+        }
 
-          if (event.key === 'ArrowUp') {
-            event.preventDefault()
-            if (nodes.length === 0) return
-            const currentIndex = context.selectedItem ? nodes.indexOf(context.selectedItem) : nodes.length
-            const prevIndex = Math.max(currentIndex - 1, 0)
-            const prev = nodes[prevIndex]
-            if (prev) {
-              context.setSelectedItem(prev)
-              prev.scrollIntoView({ block: 'nearest' })
-            }
-            return
+        if (event.key === 'Home') {
+          event.preventDefault()
+          const first = nodes[0]
+          if (first) {
+            context.setSelectedItem(first)
+            first.scrollIntoView({ block: 'nearest' })
           }
+          return
+        }
 
-          if (event.key === 'Home') {
-            event.preventDefault()
-            if (nodes.length > 0) {
-              // biome-ignore lint/style/noNonNullAssertion: guarded by nodes.length > 0 check above
-              context.setSelectedItem(nodes[0]!)
-              nodes[0]?.scrollIntoView({ block: 'nearest' })
-            }
-            return
+        if (event.key === 'End') {
+          event.preventDefault()
+          const last = nodes[nodes.length - 1]
+          if (last) {
+            context.setSelectedItem(last)
+            last.scrollIntoView({ block: 'nearest' })
           }
+          return
+        }
 
-          if (event.key === 'End') {
-            event.preventDefault()
-            if (nodes.length > 0) {
-              // biome-ignore lint/style/noNonNullAssertion: guarded by nodes.length > 0 check above
-              const last = nodes[nodes.length - 1]!
-              context.setSelectedItem(last)
-              last.scrollIntoView({ block: 'nearest' })
-            }
-            return
-          }
-
-          if (event.key === 'Enter' && context.selectedItem) {
-            event.preventDefault()
-            context.selectedItem.click()
-            return
-          }
-        })}>
-        {children}
-      </Primitive.div>
-    )
-  },
-)
+        if (event.key === 'Enter' && context.selectedItem) {
+          event.preventDefault()
+          context.selectedItem.click()
+          return
+        }
+      })}>
+      {children}
+    </Primitive.div>
+  )
+})
 
 CommandInner.displayName = 'CommandInner'

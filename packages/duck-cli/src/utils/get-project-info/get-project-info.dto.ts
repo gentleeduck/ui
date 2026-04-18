@@ -194,7 +194,7 @@ const TsNodeOptions = z
   .optional()
 
 // Main tsconfig schema
-export const ts_config_schema = z
+export const tsConfigSchema = z
   .looseObject({
     buildOptions: BuildOptions,
     compileOnSave: BooleanOrNull,
@@ -209,4 +209,4 @@ export const ts_config_schema = z
     watchOptions: WatchOptions,
   })
   .partial()
-export type TsConfig = z.infer<typeof ts_config_schema>
+export type TsConfig = z.infer<typeof tsConfigSchema>

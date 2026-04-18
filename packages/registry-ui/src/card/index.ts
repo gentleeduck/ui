@@ -6,8 +6,6 @@ export {
   CardFooter,
   CardHeader,
   CardTitle,
-  MotionCard,
-  MotionCardContent,
-  MotionCardFooter,
-  MotionCardHeader,
 } from './card'
+
+export { MotionCard, MotionCardContent, MotionCardFooter, MotionCardHeader } from './motion-card'

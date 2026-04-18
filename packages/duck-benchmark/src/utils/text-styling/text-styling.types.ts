@@ -1,12 +1,12 @@
-export interface LoggerParams {
-  with_icon?: boolean
+export interface ILoggerParams {
+  withIcon?: boolean
   args: unknown[]
 }
 
 export type LoggerType = {
-  error: ({ with_icon, args }: LoggerParams) => any
-  warn: ({ with_icon, args }: LoggerParams) => any
-  info: ({ with_icon, args }: LoggerParams) => any
-  success: ({ with_icon, args }: LoggerParams) => any
+  error: ({ withIcon, args }: ILoggerParams) => any
+  warn: ({ withIcon, args }: ILoggerParams) => any
+  info: ({ withIcon, args }: ILoggerParams) => any
+  success: ({ withIcon, args }: ILoggerParams) => any
   break: () => any
 }

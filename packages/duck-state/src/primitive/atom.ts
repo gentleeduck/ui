@@ -1,7 +1,7 @@
 /* ======================================================== Atom Types ======================================================== */
-export type Getter = <Value>(atom: Atom<Value>) => Value
+export type Getter = <Value>(atom: IAtom<Value>) => Value
 export type Setter = <Value, Args extends unknown[], Result>(
-  atom: WritableAtom<Value, Args, Result>,
+  atom: IWritableAtom<Value, Args, Result>,
   ...args: Args
 ) => Result
 /** @internal */
@@ -11,25 +11,25 @@ type Write<Args extends unknown[], Result> = (get: Getter, set: Setter, ...args:
 /** @internal */
 type SetAtom<Args extends unknown[], Result> = <P extends Args>(...args: P) => Result
 export type SetStateAction<Value> = Value | ((prevState: Value) => Value)
-export type PrimitiveAtom<Value> = WritableAtom<Value, [SetStateAction<Value>], void>
+export type PrimitiveAtom<Value> = IWritableAtom<Value, [SetStateAction<Value>], void>
 
-export interface Atom<Value> {
+export interface IAtom<Value> {
   toString: () => Symbol
   read: Read<Value>
-  unstable_is?(a: Atom<unknown>): boolean
+  unstable_is?(a: IAtom<unknown>): boolean
   debugLabel?: string
   debugPrivate?: boolean
   unstable_onInit?: (store: unknown) => void
 }
 
-export interface WritableAtom<Value, Args extends unknown[], Result> extends Atom<Value> {
+export interface IWritableAtom<Value, Args extends unknown[], Result> extends IAtom<Value> {
   read: Read<Value, SetAtom<Args, Result>>
   write: Write<Args, Result>
   onMount?: () => () => void
 }
 
 /** @internal */
-interface WithInitValue<Value> {
+interface IWithInitValue<Value> {
   initValue: Value
 }
 
@@ -42,18 +42,18 @@ let keyCount = 0
 export function atom<Value, Args extends unknown[], Result>(
   read: Read<Value, SetAtom<Args, Result>>,
   write: Write<Args, Result>,
-): WritableAtom<Value, Args, Result>
+): IWritableAtom<Value, Args, Result>
 // write-only derived atom
 export function atom<Value, Args extends unknown[], Result>(
   init: Value,
   write: Write<Args, Result>,
-): WritableAtom<Value, Args, Result> & WithInitValue<Value>
+): IWritableAtom<Value, Args, Result> & IWithInitValue<Value>
 // read-only derived atom
 export function atom<TValue>(read: Read<TValue>): PrimitiveAtom<TValue>
 // primitive atom without initial value
-export function atom<TValue>(): PrimitiveAtom<TValue | undefined> & WithInitValue<TValue | undefined>
+export function atom<TValue>(): PrimitiveAtom<TValue | undefined> & IWithInitValue<TValue | undefined>
 // primitive atom
-export function atom<TValue>(init: TValue): PrimitiveAtom<TValue> & WithInitValue<TValue>
+export function atom<TValue>(init: TValue): PrimitiveAtom<TValue> & IWithInitValue<TValue>
 /* ======================================================== Atom Implementation ======================================================== */
 export function atom<TValue, Args extends unknown[], Result>(
   read?: TValue | Read<TValue, SetAtom<Args, Result>>,
@@ -67,13 +67,13 @@ export function atom<TValue, Args extends unknown[], Result>(
     toString(): Symbol {
       return isDevelopment && this.debugLabel ? Symbol(key + ': ' + this.debugLabel) : Symbol(key)
     },
-  } as WritableAtom<TValue, Args, Result> & WithInitValue<TValue>
+  } as IWritableAtom<TValue, Args, Result> & IWithInitValue<TValue>
 
   if (typeof read === 'function') {
     config.read = read as Read<TValue, SetAtom<Args, Result>>
   } else {
     config.initValue = read as TValue
-    config.read = function <Value>(this: Atom<Value>, get: Getter) {
+    config.read = function <Value>(this: IAtom<Value>, get: Getter) {
       return get(this)
     }
 
@@ -97,7 +97,7 @@ export function atom<TValue, Args extends unknown[], Result>(
  * 2. Dependency Graph (Tracked in Store):
  *    - Each atom should optionally track which atoms it depends on.
  *    - Needed to notify derived atoms when base atoms update.
- *    - Can be done by storing a WeakMap<Atom, Set<Atom>> or similar in the store.
+ *    - Can be done by storing a WeakMap<IAtom, Set<Atom>> or similar in the store.
  *
  * 3. Lifecycle Hooks:
  *    - `onMount` for atoms should be invoked when the first subscriber subscribes.

@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Badge } from '@gentleduck/registry-ui/badge'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <Badge aria-label=\"Badge\" variant={'outline'}>\r\n      Badge\r\n    </Badge>\r\n  )\r\n}\r\n",
+      "content": "import { Badge } from '@gentleduck/registry-ui/badge'\n\nexport default function Demo() {\n  return (\n    <Badge aria-label=\"Badge\" variant={'outline'}>\n      Badge\n    </Badge>\n  )\n}\n",
       "path": "badge/badge-7.tsx",
       "target": "components/badge-7.tsx",
       "type": "registry:example"

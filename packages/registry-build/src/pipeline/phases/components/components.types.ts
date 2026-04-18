@@ -1,7 +1,7 @@
 /**
  * Cached component signature persisted between builds.
  */
-export interface RegistryBuildComponentsCacheEntry {
+export interface IRegistryBuildComponentsCacheEntry {
   outputFile: string
   signature: string
   staticSignature: string
@@ -10,7 +10,7 @@ export interface RegistryBuildComponentsCacheEntry {
 /**
  * Cache state for the components phase.
  */
-export interface RegistryBuildComponentsCacheState {
-  entries: Record<string, RegistryBuildComponentsCacheEntry>
+export interface IRegistryBuildComponentsCacheState {
+  entries: Record<string, IRegistryBuildComponentsCacheEntry>
   outputFiles: string[]
 }

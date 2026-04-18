@@ -76,11 +76,17 @@
     "headless"
   ],
   "scripts": {
+    "benchmark": "bun run scripts/benchmark.ts",
     "build": "tsdown",
+    "check": "biome check .",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
-    "test": "vitest run",
     "dev": "vitest",
-    "benchmark": "bun run scripts/benchmark.ts"
+    "fix": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest"
   },
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
@@ -88,17 +94,17 @@
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/luxon": "^3.6.2",
-    "@types/node": "^25.3.0",
-    "@types/react": "19.2.14",
-    "@types/react-dom": "19.2.3",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
     "dayjs": "^1.11.13",
-    "jsdom": "^29.0.0",
+    "jsdom": "catalog:",
     "luxon": "^3.6.1",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
-    "tsdown": "0.21.4",
-    "typescript": "6.0.2",
-    "vitest": "^4.0.18"
+    "react": "catalog:react19",
+    "react-dom": "catalog:react19",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "date-fns": ">=3.0.0",

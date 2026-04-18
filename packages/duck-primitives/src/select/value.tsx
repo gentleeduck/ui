@@ -2,19 +2,16 @@ import * as React from 'react'
 import { useLayoutEffect } from '../hooks/use-layout-effect'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
-import { type ScopedProps, useSelectContext } from './select'
+import { useSelectContext } from './select'
 import { shouldShowPlaceholder } from './select.libs'
+import type { ISelect } from './select.types'
 
 const VALUE_NAME = 'SelectValue'
 
 type SelectValueElement = React.ComponentRef<typeof Primitive.span>
 
-export interface SelectValueProps extends Omit<React.ComponentPropsWithRef<typeof Primitive.span>, 'placeholder'> {
-  placeholder?: React.ReactNode
-}
-
-export const SelectValue = React.forwardRef<SelectValueElement, SelectValueProps>(
-  (props: ScopedProps<SelectValueProps>, forwardedRef) => {
+export const SelectValue = React.forwardRef<SelectValueElement, ISelect.IValueProps>(
+  (props: ISelect.IScoped<ISelect.IValueProps>, forwardedRef) => {
     // We ignore `className` and `style` as this part shouldn't be styled.
     const { __scopeSelect, className, style, children, placeholder = '', ...valueProps } = props
     const context = useSelectContext(VALUE_NAME, __scopeSelect)

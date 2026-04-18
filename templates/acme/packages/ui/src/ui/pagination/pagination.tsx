@@ -1,5 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import * as PaginationPrimitive from '@gentleduck/primitives/pagination'
 import {
   ChevronLeft,
@@ -12,7 +13,7 @@ import {
 } from 'lucide-react'
 import * as React from 'react'
 import { Button, buttonVariants } from '../button'
-import type { DuckPaginationProps, PaginationLinkProps } from './pagination.types'
+import type { IDuckPaginationProps, PaginationLinkProps } from './pagination.types'
 
 const Pagination = React.forwardRef<
   React.ComponentRef<typeof PaginationPrimitive.Root>,
@@ -117,7 +118,7 @@ const PaginationEllipsis = React.forwardRef<
 ))
 PaginationEllipsis.displayName = 'PaginationEllipsis'
 
-const PaginationWrapper = (props: DuckPaginationProps) => {
+const PaginationWrapper = (props: IDuckPaginationProps) => {
   const { className: wrapperClassName, dir, ...wrapperProps } = props.wrapper ?? {}
   const { className: contentClassName, ...contentProps } = props.content ?? {}
   const { className: itemClassName, ...itemProps } = props.item ?? {}
@@ -125,7 +126,7 @@ const PaginationWrapper = (props: DuckPaginationProps) => {
   const { className: maxRightClassName, ...maxRightProps } = props.maxRight ?? {}
   const { className: leftClassName, ...leftProps } = props.left ?? {}
   const { className: maxLeftClassName, ...maxLeftProps } = props.maxLeft ?? {}
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
   const StartIcon = direction === 'rtl' ? ChevronRightIcon : ChevronLeftIcon
   const EndIcon = direction === 'rtl' ? ChevronLeftIcon : ChevronRightIcon
   const StartDoubleIcon = direction === 'rtl' ? ChevronsRightIcon : ChevronsLeftIcon

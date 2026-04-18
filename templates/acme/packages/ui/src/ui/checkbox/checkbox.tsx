@@ -3,12 +3,13 @@
 import { cn } from '@gentleduck/libs/cn'
 import { checkersStylePattern } from '@gentleduck/motion/variants'
 import { useSvgIndicator } from '@gentleduck/primitives/checkers'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 import { Label } from '../label'
-import type { CheckboxGroupProps, CheckboxProps, CheckboxWithLabelProps, CheckedState } from './checkbox.types'
+import type { CheckboxGroupProps, ICheckboxProps, ICheckboxWithLabelProps, CheckedState } from './checkbox.types'
 
-const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
+const Checkbox = React.forwardRef<HTMLInputElement, ICheckboxProps>(
   (
     {
       className,
@@ -23,7 +24,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
     },
     ref,
   ) => {
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
     const { indicatorReady, checkedIndicatorReady, inputStyle, SvgIndicator } = useSvgIndicator({
       checkedIndicator,
       indicator,
@@ -72,7 +73,7 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
                       : 'default',
               type: 'checkbox',
             }),
-            'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+            'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
             '[&:before,&:after]:transition-gpu [&:before,&:after]:duration-[inherit] [&:before,&:after]:ease-[inherit] [&:before,&:after]:will-change-[inherit]',
             (indicatorReady && checkedIndicatorReady) || indicatorReady
               ? ''
@@ -101,16 +102,16 @@ const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
 )
 Checkbox.displayName = 'Checkbox'
 
-const CheckboxWithLabel = React.forwardRef<HTMLDivElement, Omit<CheckboxWithLabelProps, 'ref'>>(
-  ({ id, _checkbox, _label, className, ...props }, ref) => {
-    const { className: labelClassName, ...labelProps } = _label
+const CheckboxWithLabel = React.forwardRef<HTMLDivElement, Omit<ICheckboxWithLabelProps, 'ref'>>(
+  ({ id, checkbox, label, className, ...props }, ref) => {
+    const { className: labelClassName, ...labelProps } = label
     return (
       <div
         className={cn('flex items-center justify-start gap-2', className)}
         ref={ref}
         {...props}
         data-slot="checkbox-with-label">
-        <Checkbox id={id} {..._checkbox} />
+        <Checkbox id={id} {...checkbox} />
         <Label className={cn('cursor-pointer', labelClassName)} htmlFor={id} {...labelProps} />
       </div>
     )
@@ -119,18 +120,18 @@ const CheckboxWithLabel = React.forwardRef<HTMLDivElement, Omit<CheckboxWithLabe
 CheckboxWithLabel.displayName = 'CheckboxWithLabel'
 
 const CheckboxGroup = React.forwardRef<HTMLDivElement, Omit<CheckboxGroupProps, 'ref'>>(
-  ({ subtasks, subtasks_default_values, ...props }, ref) => {
-    const { _checkbox, _label } = subtasks_default_values || {}
+  ({ subtasks, defaults, ...props }, ref) => {
+    const { checkbox, label } = defaults || {}
     return (
       <div className={cn('mb-3 flex flex-col gap-2')} {...props} data-slot="checkbox-group" ref={ref}>
         {subtasks.map(({ id, title, checked }) => (
           <CheckboxWithLabel
-            _checkbox={{
-              ..._checkbox,
+            checkbox={{
+              ...checkbox,
               checked,
               className: 'w-4 h-4 rounded-full border-muted-foreground/80',
             }}
-            _label={{ ..._label, children: title }}
+            label={{ ...label, children: title }}
             data-slot="checkbox-with-label"
             id={id}
             key={id}

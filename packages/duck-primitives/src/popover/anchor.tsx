@@ -1,10 +1,9 @@
 import * as React from 'react'
 import * as PopperPrimitive from '../popper'
-import { type ScopedProps, usePopoverContext, usePopperScope } from './popover'
+import { usePopoverContext, usePopperScope } from './popover'
+import type { IPopover } from './popover.types'
 
 const ANCHOR_NAME = 'PopoverAnchor'
-
-export interface PopoverAnchorProps extends React.ComponentPropsWithRef<typeof PopperPrimitive.PopperAnchor> {}
 
 /**
  * Registers a custom anchor element with the popover context.
@@ -12,14 +11,13 @@ export interface PopoverAnchorProps extends React.ComponentPropsWithRef<typeof P
  */
 export const PopoverAnchor = React.forwardRef<
   React.ComponentRef<typeof PopperPrimitive.PopperAnchor>,
-  ScopedProps<PopoverAnchorProps>
+  IPopover.IScoped<IPopover.IAnchorProps>
 >((props, forwardedRef) => {
   const { __scopePopover, ...anchorProps } = props
   const context = usePopoverContext(ANCHOR_NAME, __scopePopover)
   const popperScope = usePopperScope(__scopePopover)
   const { onCustomAnchorAdd, onCustomAnchorRemove } = context
 
-  // Notify the popover context that a custom anchor is present
   React.useEffect(() => {
     onCustomAnchorAdd()
     return () => onCustomAnchorRemove()

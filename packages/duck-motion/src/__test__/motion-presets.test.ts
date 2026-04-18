@@ -4,6 +4,8 @@ import { useDirectionalPreset, useMotionPreset } from '../motion-presets'
 import { createDirectionalPreset } from '../presets/directional'
 import { fadeIn } from '../presets/fade-in'
 import { fadeOut } from '../presets/fade-out'
+import { popIn } from '../presets/pop-in'
+import { rotateIn } from '../presets/rotate-in'
 import { scaleIn } from '../presets/scale-in'
 import { slideDown } from '../presets/slide-down'
 import { slideFromLeft } from '../presets/slide-from-left'
@@ -18,6 +20,8 @@ const ALL_PRESETS: MotionPresetName[] = [
   'slideDown',
   'slideFromLeft',
   'slideFromRight',
+  'rotateIn',
+  'popIn',
 ]
 
 describe('individual preset exports (tree-shakeable)', () => {
@@ -64,6 +68,39 @@ describe('individual preset exports (tree-shakeable)', () => {
   test('slide presets have blur', () => {
     expect(slideUp.initial.filter).toBe('blur(4px)')
     expect(slideUp.exit.filter).toBe('blur(4px)')
+  })
+
+  test('rotateIn initial has non-zero rotation', () => {
+    expect(rotateIn.initial.rotate).not.toBe(0)
+    expect(rotateIn.initial.rotate).not.toBeUndefined()
+  })
+
+  test('rotateIn exit has non-zero rotation (asymmetric)', () => {
+    expect(rotateIn.exit.rotate).not.toBe(0)
+    expect(rotateIn.exit.rotate).not.toBe(rotateIn.initial.rotate)
+  })
+
+  test('rotateIn initial has blur filter', () => {
+    expect(rotateIn.initial.filter).toMatch(/blur\(\d+px\)/)
+    expect(rotateIn.initial.filter).not.toBe('blur(0px)')
+  })
+
+  test('rotateIn animate is fully revealed (opacity 1, rotate 0)', () => {
+    expect(rotateIn.animate.opacity).toBe(1)
+    expect(rotateIn.animate.rotate).toBe(0)
+  })
+
+  test('popIn exit scale is 0', () => {
+    expect(popIn.exit.scale).toBe(0)
+  })
+
+  test('popIn initial scale is less than animate scale', () => {
+    expect(popIn.initial.scale as number).toBeLessThan(popIn.animate.scale as number)
+  })
+
+  test('popIn animate is fully visible', () => {
+    expect(popIn.animate.opacity).toBe(1)
+    expect(popIn.animate.scale).toBe(1)
   })
 })
 

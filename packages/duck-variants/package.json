@@ -11,11 +11,14 @@
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cva": "1.0.0-beta.4",
-    "tsdown": "0.21.4",
-    "typescript": "6.0.2",
-    "vitest": "^4.0.18"
+    "tailwind-variants": "^3.2.2",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "exports": {
     ".": {
@@ -65,8 +68,14 @@
   "scripts": {
     "benchmark": "bun run scripts/benchmark.ts",
     "build": "tsdown",
+    "check": "biome check .",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
+    "fix": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
     "test": "vitest run",
-    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest"
   },
   "type": "module",
   "types": "./dist/index.d.ts",

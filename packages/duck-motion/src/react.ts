@@ -34,20 +34,21 @@ function getServerSnapshot() {
  */
 export function useDuckReducedMotion(): boolean {
   try {
+    // biome-ignore lint/correctness/useHookAtTopLevel: guarded for non-React environments
     return React.useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot)
   } catch {
     return getSnapshot()
   }
 }
 
-export interface ReducedMotionFallback {
+export interface IReducedMotionFallback {
   duration: 0
 }
 
 export function motionTransition<T extends Record<string, unknown>>(
   reduced: boolean,
   normal: T,
-): T | ReducedMotionFallback {
+): T | IReducedMotionFallback {
   if (reduced) return { duration: 0 }
   return normal
 }

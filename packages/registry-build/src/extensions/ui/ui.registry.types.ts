@@ -1,4 +1,4 @@
-import type { RegistryFileTreeNode } from '../../lib/file-tree'
+import type { IRegistryFileTreeNode } from '../../lib/file-tree'
 
 /**
  * Core registry item types owned by the UI compatibility module.
@@ -15,7 +15,7 @@ export type RegistryItemTypeMap<TValue, TType extends RegistryItemType = Registr
 /**
  * A source file that belongs to a UI registry entry.
  */
-export interface RegistryItemFile<TType extends RegistryItemType = RegistryItemType> {
+export interface IRegistryItemFile<TType extends RegistryItemType = RegistryItemType> {
   content?: string
   path: string
   target?: string
@@ -25,17 +25,17 @@ export interface RegistryItemFile<TType extends RegistryItemType = RegistryItemT
 /**
  * Tailwind config fragment attached to an entry.
  */
-export interface RegistryItemTailwindConfig {
+export interface IRegistryItemTailwindConfig {
   content?: string[]
   plugins?: string[]
   theme?: Record<string, unknown>
 }
 
-export interface RegistryItemTailwind {
-  config: RegistryItemTailwindConfig
+export interface IRegistryItemTailwind {
+  config: IRegistryItemTailwindConfig
 }
 
-export interface RegistryItemCssVars {
+export interface IRegistryItemCssVars {
   dark?: Record<string, string>
   light?: Record<string, string>
 }
@@ -43,23 +43,24 @@ export interface RegistryItemCssVars {
 /**
  * UI registry entry shape used by the built-in UI extensions.
  */
-export interface RegistryEntry<TType extends RegistryItemType = RegistryItemType> {
+export interface IRegistryEntry<TType extends RegistryItemType = RegistryItemType> {
   categories?: string[]
-  cssVars?: RegistryItemCssVars
+  cssVars?: IRegistryItemCssVars
   dependencies?: string[]
   description?: string
   devDependencies?: string[]
-  files?: RegistryItemFile<TType>[]
+  files?: IRegistryItemFile<TType>[]
   name: string
   registryDependencies?: string[]
   root_folder: string
   source?: string
-  tailwind?: RegistryItemTailwind
+  tailwind?: IRegistryItemTailwind
   type: TType
   [key: string]: unknown
 }
 
-export interface IndexedRegistryEntry<TType extends RegistryItemType = RegistryItemType> extends RegistryEntry<TType> {
+export interface IIndexedRegistryEntry<TType extends RegistryItemType = RegistryItemType>
+  extends IRegistryEntry<TType> {
   source?: string
-  tree?: RegistryFileTreeNode[]
+  tree?: IRegistryFileTreeNode[]
 }

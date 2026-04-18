@@ -1,5 +1,6 @@
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import React from 'react'
 import { Badge } from '../badge'
 import { Button } from '../button'
@@ -55,9 +56,9 @@ export const Combobox = React.forwardRef<
     ref,
   ) => {
     const { dir, ...popoverProps } = popover ?? {}
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
     const MAX_SELECTION = 2
-    const _value = value ?? defaultValue
+    const resolvedValue = value ?? defaultValue
 
     return (
       <Popover {...popoverProps} dir={direction}>
@@ -65,17 +66,17 @@ export const Combobox = React.forwardRef<
           <Button ref={ref} {...popoverTrigger} variant={popoverTrigger?.variant ?? 'dashed'}>
             {popoverTrigger?.children}
             {showSelected &&
-              (_value ? (
-                _value instanceof Array && _value.length ? (
+              (resolvedValue ? (
+                resolvedValue instanceof Array && resolvedValue.length ? (
                   <>
                     <Separator orientation="vertical" />
                     <div className="flex gap-1">
-                      {_value.length > MAX_SELECTION ? (
+                      {resolvedValue.length > MAX_SELECTION ? (
                         <Badge className="px-2 py-0.75 rounded-sm font-normal" variant={'secondary'}>
-                          +{_value.length} Selected
+                          +{resolvedValue.length} Selected
                         </Badge>
                       ) : (
-                        _value.map((item) => (
+                        resolvedValue.map((item) => (
                           <Badge className="px-2 py-0.5 rounded-[3px] capitalize" key={item} variant={'secondary'}>
                             {item}
                           </Badge>
@@ -84,7 +85,7 @@ export const Combobox = React.forwardRef<
                     </div>
                   </>
                 ) : (
-                  _value
+                  resolvedValue
                 )
               ) : (
                 commandTriggerPlaceholder

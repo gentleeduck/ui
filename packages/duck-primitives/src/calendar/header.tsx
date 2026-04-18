@@ -1,20 +1,14 @@
-import type { DateAdapter } from '@gentleduck/calendar'
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
-import { type ScopedProps, useCalendarContext } from './calendar'
+import { useCalendarContext } from './calendar'
+import type { ICalendar } from './calendar.types'
 
 const HEADER_NAME = 'CalendarHeader'
 
 type CalendarHeaderElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-export interface CalendarHeaderProps extends PrimitiveDivProps {
-  /** Custom formatter for the month/year title. Defaults to "March 2026". */
-  formatMonth?: (month: Date, adapter: DateAdapter<Date>) => string
-}
-
-export const CalendarHeader = React.forwardRef<CalendarHeaderElement, CalendarHeaderProps>(
-  (props: ScopedProps<CalendarHeaderProps>, forwardedRef) => {
+export const CalendarHeader = React.forwardRef<CalendarHeaderElement, ICalendar.IHeaderProps>(
+  (props: ICalendar.IScoped<ICalendar.IHeaderProps>, forwardedRef) => {
     const { __scopeCalendar, formatMonth, children, ...headerProps } = props
     const context = useCalendarContext(HEADER_NAME, __scopeCalendar)
     const { adapter, locale } = context

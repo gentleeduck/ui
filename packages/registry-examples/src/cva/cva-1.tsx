@@ -10,7 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@gentleduck/registry-ui/select'
-import { cva, type VariantProps } from '@gentleduck/variants'
+import type { Variants } from '@gentleduck/variants'
+import { cva } from '@gentleduck/variants'
 import React from 'react'
 
 export const buttonVariants = cva(
@@ -43,7 +44,7 @@ export const buttonVariants = cva(
           'border border-input border-dashed bg-background text-accent-foreground shadow-xs hover:bg-accent/50 hover:text-accent-foreground',
         default: 'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90',
         destructive: 'bg-destructive/90 text-destructive-foreground shadow-xs hover:bg-destructive/70',
-        expand_icon: 'group relative bg-primary text-primary-foreground hover:bg-primary/90',
+        expandIcon: 'group relative bg-primary text-primary-foreground hover:bg-primary/90',
         ghost: 'text-accent-foreground hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         nothing: '',
@@ -56,7 +57,7 @@ export const buttonVariants = cva(
   },
 )
 
-type ButtonVariantProps = VariantProps<typeof buttonVariants>
+type ButtonVariantProps = Variants.VariantProps<typeof buttonVariants>
 
 export default function Demo() {
   const [variant, setVariant] = React.useState<ButtonVariantProps['variant']>('default')

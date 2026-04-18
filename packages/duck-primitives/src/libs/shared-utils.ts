@@ -1,10 +1,10 @@
 /** @internal Shared utility functions and types used across multiple primitives. */
 
-export interface Point {
+export interface IPoint {
   x: number
   y: number
 }
-export type Polygon = Point[]
+export type Polygon = IPoint[]
 
 /**
  * Wraps an array around itself at a given start index.
@@ -32,7 +32,7 @@ export function focusFirst(candidates: HTMLElement[], preventScroll = false) {
  * Determines if a point is inside of a polygon.
  * Based on https://github.com/substack/point-in-polygon
  */
-export function isPointInPolygon(point: Point, polygon: Polygon) {
+export function isPointInPolygon(point: IPoint, polygon: Polygon) {
   const { x, y } = point
   let inside = false
   for (let i = 0, j = polygon.length - 1; i < polygon.length; j = i++) {

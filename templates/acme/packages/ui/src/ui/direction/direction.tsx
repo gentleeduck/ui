@@ -2,12 +2,12 @@
 
 import {
   DIRECTION_DICTIONARY,
-  type Direction,
+  type IDirection.Kind,
   DirectionContext,
   DirectionProvider,
-  type DirectionProviderProps,
+  type IDirection.IProviderProps,
   Provider,
   useDirection,
 } from '@gentleduck/primitives/direction'
-export type { Direction, DirectionProviderProps }
+export type { IDirection.Kind, IDirection.IProviderProps }
 export { useDirection, Provider, DirectionProvider, DirectionContext, DIRECTION_DICTIONARY }

@@ -5,12 +5,29 @@ import type { PackageJson } from 'type-fest'
 import { IGNORED_DIRECTORIES } from '~/utils/get-project-info'
 import type { DuckUI } from '~/utils/preflight-configs/preflight-duckui'
 
-export type WorkspaceTarget = {
-  root: string
-  project: string
+export namespace Workspace {
+  export interface Target {
+    root: string
+    project: string
+  }
+
+  export type MonorepoKind = 'package-json-workspaces' | 'pnpm' | 'turbo' | 'nx' | 'lerna' | 'rush'
 }
 
-export function find_upward_dir_with_file(startCwd: string, fileName: string): string | null {
+const MONOREPO_KIND_LABELS: Record<Workspace.MonorepoKind, string> = {
+  lerna: 'lerna.json',
+  nx: 'nx.json',
+  'package-json-workspaces': 'package.json workspaces',
+  pnpm: 'pnpm-workspace.yaml',
+  rush: 'rush.json',
+  turbo: 'turbo.json',
+}
+
+export function formatMonorepoKind(kind: Workspace.MonorepoKind): string {
+  return MONOREPO_KIND_LABELS[kind]
+}
+
+export function findUpwardDirWithFile(startCwd: string, fileName: string): string | null {
   let current = path.resolve(startCwd)
 
   while (true) {
@@ -26,20 +43,20 @@ export function find_upward_dir_with_file(startCwd: string, fileName: string): s
   }
 }
 
-export function find_duckui_root_cwd(cwd: string): string | null {
-  return find_upward_dir_with_file(cwd, 'duck-ui.config.json')
+export function findDuckuiRootCwd(cwd: string): string | null {
+  return findUpwardDirWithFile(cwd, 'duck-ui.config.json')
 }
 
-function is_within_dir(target: string, parent: string): boolean {
+function isWithinDir(target: string, parent: string): boolean {
   const relative = path.relative(parent, target)
   return relative === '' || (!relative.startsWith('..') && !path.isAbsolute(relative))
 }
 
-function find_nearest_package_dir_within(startCwd: string, boundaryDir: string): string | null {
+function findNearestPackageDirWithin(startCwd: string, boundaryDir: string): string | null {
   let current = path.resolve(startCwd)
   const boundary = path.resolve(boundaryDir)
 
-  if (!is_within_dir(current, boundary)) {
+  if (!isWithinDir(current, boundary)) {
     return null
   }
 
@@ -53,14 +70,14 @@ function find_nearest_package_dir_within(startCwd: string, boundaryDir: string):
     }
 
     const parent = path.dirname(current)
-    if (!is_within_dir(parent, boundary)) {
+    if (!isWithinDir(parent, boundary)) {
       return null
     }
     current = parent
   }
 }
 
-function get_workspace_patterns(pkg: PackageJson): string[] {
+function getWorkspacePatterns(pkg: PackageJson): string[] {
   const workspaces = pkg.workspaces
   if (Array.isArray(workspaces)) return workspaces
   if (workspaces && typeof workspaces === 'object' && Array.isArray(workspaces.packages)) {
@@ -69,17 +86,76 @@ function get_workspace_patterns(pkg: PackageJson): string[] {
   return []
 }
 
-export async function find_workspace_projects(cwd: string): Promise<string[]> {
-  const package_json_path = path.join(cwd, 'package.json')
-  if (!(await fs.pathExists(package_json_path))) {
-    return []
+// Minimal parser for the `packages:` list in pnpm-workspace.yaml. We avoid a
+// YAML dependency because the field has a stable, simple shape in practice.
+export function readPnpmWorkspacePackages(cwd: string): string[] {
+  const yamlPath = path.join(cwd, 'pnpm-workspace.yaml')
+  if (!fs.existsSync(yamlPath)) return []
+
+  const content = fs.readFileSync(yamlPath, 'utf-8')
+  const lines = content.split(/\r?\n/)
+  const patterns: string[] = []
+  let inPackages = false
+
+  for (const raw of lines) {
+    const line = raw.replace(/#.*$/, '').replace(/\s+$/, '')
+    if (!line.trim()) continue
+
+    if (/^packages\s*:\s*$/.test(line)) {
+      inPackages = true
+      continue
+    }
+
+    if (inPackages) {
+      const item = line.match(/^\s*-\s*['"]?(.+?)['"]?\s*$/)
+      if (item?.[1]) {
+        patterns.push(item[1])
+        continue
+      }
+      // A non-list, non-indented line means we've left the packages block.
+      if (/^\S/.test(line)) {
+        inPackages = false
+      }
+    }
   }
 
-  const package_json = (await fs.readJson(package_json_path)) as PackageJson
-  const patterns = get_workspace_patterns(package_json)
+  return patterns
+}
+
+export function detectMonorepoKind(cwd: string): Workspace.MonorepoKind | null {
+  const pkgPath = path.join(cwd, 'package.json')
+  if (fs.existsSync(pkgPath)) {
+    try {
+      const pkg = fs.readJsonSync(pkgPath) as PackageJson
+      if (getWorkspacePatterns(pkg).length > 0) return 'package-json-workspaces'
+    } catch {
+      // ignore malformed package.json
+    }
+  }
+  if (fs.existsSync(path.join(cwd, 'pnpm-workspace.yaml'))) return 'pnpm'
+  if (fs.existsSync(path.join(cwd, 'turbo.json'))) return 'turbo'
+  if (fs.existsSync(path.join(cwd, 'nx.json'))) return 'nx'
+  if (fs.existsSync(path.join(cwd, 'lerna.json'))) return 'lerna'
+  if (fs.existsSync(path.join(cwd, 'rush.json'))) return 'rush'
+  return null
+}
+
+export async function findWorkspaceProjects(cwd: string): Promise<string[]> {
+  let patterns: string[] = []
+
+  const packageJsonPath = path.join(cwd, 'package.json')
+  if (await fs.pathExists(packageJsonPath)) {
+    const packageJson = (await fs.readJson(packageJsonPath)) as PackageJson
+    patterns = getWorkspacePatterns(packageJson)
+  }
+
+  if (!patterns.length) {
+    patterns = readPnpmWorkspacePackages(cwd)
+  }
+
   if (!patterns.length) return []
 
-  const package_files = fg.sync(
+  const packageFiles = fg.sync(
     patterns.map((pattern) => `${pattern}/package.json`),
     {
       cwd,
@@ -88,35 +164,35 @@ export async function find_workspace_projects(cwd: string): Promise<string[]> {
     },
   )
 
-  return Array.from(new Set(package_files.map((file) => path.dirname(file)))).sort()
+  return Array.from(new Set(packageFiles.map((file) => path.dirname(file)))).sort()
 }
 
-export function pick_default_workspace(cwd: string, projects: string[]): string | null {
+export function pickDefaultWorkspace(cwd: string, projects: string[]): string | null {
   if (!projects.length) return null
 
-  const with_tsconfig = projects.find((project) => fs.existsSync(path.join(cwd, project, 'tsconfig.json')))
-  return with_tsconfig ?? projects[0] ?? null
+  const withTsconfig = projects.find((project) => fs.existsSync(path.join(cwd, project, 'tsconfig.json')))
+  return withTsconfig ?? projects[0] ?? null
 }
 
-export function resolve_project_cwd(cwd: string, duck_config: DuckUI, workspaceOverride?: string): string {
-  const config_root = find_duckui_root_cwd(cwd) ?? path.resolve(cwd)
-  const workspace_root = path.resolve(config_root, duck_config.workspace.root)
+export function resolveProjectCwd(cwd: string, duckConfig: DuckUI, workspaceOverride?: string): string {
+  const configRoot = findDuckuiRootCwd(cwd) ?? path.resolve(cwd)
+  const workspaceRoot = path.resolve(configRoot, duckConfig.workspace.root)
 
   if (workspaceOverride) {
     return path.isAbsolute(workspaceOverride)
       ? path.normalize(workspaceOverride)
-      : path.resolve(workspace_root, workspaceOverride)
+      : path.resolve(workspaceRoot, workspaceOverride)
   }
 
-  const inferred_workspace = find_nearest_package_dir_within(cwd, workspace_root)
-  if (inferred_workspace && inferred_workspace !== workspace_root) {
-    return inferred_workspace
+  const inferredWorkspace = findNearestPackageDirWithin(cwd, workspaceRoot)
+  if (inferredWorkspace && inferredWorkspace !== workspaceRoot) {
+    return inferredWorkspace
   }
 
-  return path.resolve(workspace_root, duck_config.workspace.project)
+  return path.resolve(workspaceRoot, duckConfig.workspace.project)
 }
 
-export function validate_workspace_target(projectCwd: string, requireTsConfig: boolean): string | null {
+export function validateWorkspaceTarget(projectCwd: string, requireTsConfig: boolean): string | null {
   if (!fs.existsSync(projectCwd)) {
     return `Workspace path does not exist: ${projectCwd}`
   }

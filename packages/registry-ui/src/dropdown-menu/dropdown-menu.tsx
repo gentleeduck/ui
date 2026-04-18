@@ -1,35 +1,21 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { loadDomAnimation } from '@gentleduck/motion/motion-features'
-import { useMotionPreset } from '@gentleduck/motion/motion-presets'
-import { scaleIn } from '@gentleduck/motion/presets/scale-in'
-import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import { MotionRootContext, useMotionContent, useMotionMount, useMotionRoot } from '@gentleduck/motion/use-motion-root'
 import * as DropdownMenuPrimitive from '@gentleduck/primitives/dropdown-menu'
 import { Check, ChevronRight, Circle } from 'lucide-react'
-import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 
-const CONTENT_OPTIONS = { transition: springBouncy } as const
-
 const DropdownMenu = DropdownMenuPrimitive.Root
-DropdownMenu.displayName = 'DropdownMenu'
 
 const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger
-DropdownMenuTrigger.displayName = 'DropdownMenuTrigger'
 
 const DropdownMenuGroup = DropdownMenuPrimitive.Group
-DropdownMenuGroup.displayName = 'DropdownMenuGroup'
 
 const DropdownMenuPortal = DropdownMenuPrimitive.Portal
-DropdownMenuPortal.displayName = 'DropdownMenuPortal'
 
 const DropdownMenuSub = DropdownMenuPrimitive.Sub
-DropdownMenuSub.displayName = 'DropdownMenuSub'
 
 const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup
-DropdownMenuRadioGroup.displayName = 'DropdownMenuRadioGroup'
 
 const DropdownMenuSubTrigger = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.SubTrigger>,
@@ -59,7 +45,7 @@ const DropdownMenuSubContent = React.forwardRef<
     ref={ref}
     className={cn(
       'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 min-w-32 origin-(--gentleduck-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg data-[state=closed]:animate-out data-[state=open]:animate-in',
-      'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+      'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
       className,
     )}
     {...props}
@@ -77,7 +63,7 @@ const DropdownMenuContent = React.forwardRef<
       sideOffset={sideOffset}
       className={cn(
         'data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[side=bottom]:slide-in-from-top-2 data-[side=left]:slide-in-from-right-2 data-[side=right]:slide-in-from-left-2 data-[side=top]:slide-in-from-bottom-2 z-50 max-h-(--gentleduck-dropdown-menu-content-available-height) min-w-32 origin-(--gentleduck-dropdown-menu-content-transform-origin) overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md data-[state=closed]:animate-out data-[state=open]:animate-in',
-        'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+        'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
         className,
       )}
       {...props}
@@ -178,104 +164,6 @@ const DropdownMenuShortcut = React.forwardRef<HTMLSpanElement, React.HTMLAttribu
 )
 DropdownMenuShortcut.displayName = 'DropdownMenuShortcut'
 
-function MotionDropdownMenu({
-  children,
-  open,
-  defaultOpen,
-  onOpenChange,
-  ...rest
-}: React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Root>) {
-  const { rootProps, contextValue } = useMotionRoot({ open, defaultOpen, onOpenChange })
-  return (
-    <MotionRootContext.Provider value={contextValue}>
-      <DropdownMenuPrimitive.Root {...rootProps} {...rest}>
-        {children}
-      </DropdownMenuPrimitive.Root>
-    </MotionRootContext.Provider>
-  )
-}
-MotionDropdownMenu.displayName = 'MotionDropdownMenu'
-
-const MotionDropdownMenuContent = React.forwardRef<
-  React.ComponentRef<typeof DropdownMenuPrimitive.Content>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
->(({ className, sideOffset = 4, children, ...props }, ref) => {
-  const { isOpen } = useMotionContent()
-  const content = useMotionPreset(scaleIn, CONTENT_OPTIONS)
-  const shouldRender = useMotionMount(isOpen)
-
-  if (!shouldRender) return null
-
-  return (
-    <LazyMotion features={loadDomAnimation}>
-      <DropdownMenuPrimitive.Portal forceMount>
-        <DropdownMenuPrimitive.Content ref={ref} sideOffset={sideOffset} forceMount asChild {...props}>
-          <m.div
-            className={cn(
-              'z-50 max-h-(--gentleduck-dropdown-menu-content-available-height) min-w-32 origin-(--gentleduck-dropdown-menu-content-transform-origin) overflow-y-auto overflow-x-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-md',
-              className,
-            )}
-            initial={content.initial}
-            animate={isOpen ? content.animate : { ...content.exit, pointerEvents: 'none' }}
-            transition={content.transition}>
-            {children}
-          </m.div>
-        </DropdownMenuPrimitive.Content>
-      </DropdownMenuPrimitive.Portal>
-    </LazyMotion>
-  )
-})
-MotionDropdownMenuContent.displayName = 'MotionDropdownMenuContent'
-
-function MotionDropdownMenuSub({
-  children,
-  open,
-  defaultOpen,
-  onOpenChange,
-  ...rest
-}: React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Sub>) {
-  const { rootProps, contextValue } = useMotionRoot({ open, defaultOpen, onOpenChange })
-  return (
-    <MotionRootContext.Provider value={contextValue}>
-      <DropdownMenuPrimitive.Sub {...rootProps} {...rest}>
-        {children}
-      </DropdownMenuPrimitive.Sub>
-    </MotionRootContext.Provider>
-  )
-}
-MotionDropdownMenuSub.displayName = 'MotionDropdownMenuSub'
-
-const MotionDropdownMenuSubContent = React.forwardRef<
-  React.ComponentRef<typeof DropdownMenuPrimitive.SubContent>,
-  React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>
->(({ className, children, ...props }, ref) => {
-  const { isOpen } = useMotionContent()
-  const content = useMotionPreset(scaleIn, CONTENT_OPTIONS)
-  const shouldRender = useMotionMount(isOpen)
-
-  if (!shouldRender) return null
-
-  return (
-    <LazyMotion features={loadDomAnimation}>
-      <DropdownMenuPrimitive.Portal forceMount>
-        <DropdownMenuPrimitive.SubContent ref={ref} forceMount asChild {...props}>
-          <m.div
-            className={cn(
-              'z-50 min-w-32 origin-(--gentleduck-dropdown-menu-content-transform-origin) overflow-hidden rounded-md border bg-popover p-1 text-popover-foreground shadow-lg',
-              className,
-            )}
-            initial={content.initial}
-            animate={isOpen ? content.animate : { ...content.exit, pointerEvents: 'none' }}
-            transition={content.transition}>
-            {children}
-          </m.div>
-        </DropdownMenuPrimitive.SubContent>
-      </DropdownMenuPrimitive.Portal>
-    </LazyMotion>
-  )
-})
-MotionDropdownMenuSubContent.displayName = 'MotionDropdownMenuSubContent'
-
 export {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -292,8 +180,4 @@ export {
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
-  MotionDropdownMenu,
-  MotionDropdownMenuContent,
-  MotionDropdownMenuSub,
-  MotionDropdownMenuSubContent,
 }

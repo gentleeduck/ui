@@ -3,11 +3,11 @@
 import { mdxComponents } from './mdx-components-registry'
 import { useMDXComponent } from './mdx-runtime'
 
-interface MdxProps {
+interface IMdxProps {
   code: string
 }
 
-export function Mdx({ code }: MdxProps) {
+export function Mdx({ code }: IMdxProps) {
   const Component = useMDXComponent(code)
 
   return (

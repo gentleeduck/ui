@@ -1,12 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "esModuleInterop": true,
-    "isolatedModules": true,
-    "jsx": "preserve",
-    "lib": ["ES2022", "dom", "dom.iterable"],
-    "module": "esnext",
-    "moduleResolution": "bundler",
     "noErrorTruncation": true,
     "paths": {
       "@gentleduck/registry-build": ["../../packages/registry-build/src/index.ts"],
@@ -15,11 +9,6 @@
       "@gentleduck/registry-internals/*": ["../../packages/registry-internals/src/*"],
       "~/velite": ["./.velite/*"]
     },
-    "plugins": [
-      {
-        "name": "next"
-      }
-    ],
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strictPropertyInitialization": false,
@@ -27,6 +16,6 @@
     "useDefineForClassFields": true
   },
   "exclude": ["node_modules", "dist", "**/__test__/**", "**/*.test.ts"],
-  "extends": "@gentleduck/typescript-config/base.json",
+  "extends": "@gentleduck/typescript-config/nextjs.json",
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".velite"]
 }

@@ -1,6 +1,6 @@
 import type { RegistryEntry } from '../registry-schema'
 
-export const registry_internal: RegistryEntry[] = [
+export const registryInternal: RegistryEntry[] = [
   {
     files: [],
     name: 'internal-primitives-examples',

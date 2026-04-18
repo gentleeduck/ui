@@ -1,5 +1,5 @@
 import { createElement, useCallback, useEffect, useRef, useState } from 'react'
-import type { AnnouncerReturn } from './use-announcer.types'
+import type { UseAnnouncer } from './use-announcer.types'
 
 const DEBOUNCE_MS = 150
 
@@ -32,7 +32,7 @@ function LiveRegion({ messageRef }: { messageRef: React.RefObject<string> }) {
   )
 }
 
-export function useAnnouncer(): AnnouncerReturn {
+export function useAnnouncer(): UseAnnouncer.IAnnouncerReturn {
   const [, forceRender] = useState(0)
   const messageRef = useRef('')
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)

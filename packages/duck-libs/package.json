@@ -12,10 +12,11 @@
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
-    "@types/node": "^25.3.0",
-    "tsdown": "0.21.4",
-    "typescript": "6.0.2",
-    "zod": "4.3.6"
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:",
+    "zod": "catalog:"
   },
   "exports": {
     "./*": {
@@ -55,8 +56,14 @@
   },
   "scripts": {
     "build": "tsdown",
+    "check": "biome check .",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
-    "test": "bun test"
+    "fix": "biome check --write .",
+    "format": "biome format --write .",
+    "lint": "biome lint .",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:watch": "vitest"
   },
   "type": "module",
   "version": "0.1.16"

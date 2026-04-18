@@ -1,73 +1,73 @@
 import path from 'node:path'
 import kleur from 'kleur'
 import prompts from 'prompts'
-import { diff_components, resolve_write_type_path, scan_installed_components } from '~/services/component.service'
-import { resolve_install_path } from '~/services/install.service'
-import { print_banner } from '~/utils/banner'
-import { build_display_lines, format_line_number, get_max_line_number } from '~/utils/diff-format'
-import { get_duckui_config, get_ts_config } from '~/utils/get-project-info'
+import { diffComponents, resolveWriteTypePath, scanInstalledComponents } from '~/services/component.service'
+import { resolveInstallPath } from '~/services/install.service'
+import { printBanner } from '~/utils/banner'
+import { buildDisplayLines, formatLineNumber, getMaxLineNumber } from '~/utils/diff-format'
+import { getDuckuiConfig, getTsConfig } from '~/utils/get-project-info'
 import { spinner as Spinner } from '~/utils/spinner'
 import { highlighter } from '~/utils/text-styling'
-import { is_verbose } from '~/utils/verbose'
-import { resolve_project_cwd, validate_workspace_target } from '~/utils/workspace'
-import { type DiffOptions, diff_arguments_schema, diff_options_schema } from './diff.dto'
+import { isVerbose } from '~/utils/verbose'
+import { resolveProjectCwd, validateWorkspaceTarget } from '~/utils/workspace'
+import { type DiffOptions, diffArgumentsSchema, diffOptionsSchema } from './diff.dto'
 
-export async function diff_command_action(args: string[], opt: DiffOptions) {
-  const options = diff_options_schema.parse(opt)
-  const component_names = diff_arguments_schema.parse(args)
+export async function diffCommandAction(args: string[], opt: DiffOptions) {
+  const options = diffOptionsSchema.parse(opt)
+  const componentNames = diffArgumentsSchema.parse(args)
 
   if (options.gui) {
-    const { launch_gui } = await import('~/gui')
-    launch_gui({ initialArgs: component_names })
+    const { launchGui } = await import('~/gui')
+    launchGui({ initialArgs: componentNames })
     return
   }
 
-  print_banner()
+  printBanner()
   const spinner = Spinner('initializing...').start()
   try {
     const cwd = path.resolve(options.cwd)
 
     // In monorepo mode, config lives in the workspace directory
-    const config_cwd = options.workspace ? path.resolve(cwd, options.workspace) : cwd
-    const duckui_config = await get_duckui_config(config_cwd, spinner)
-    const project_cwd = resolve_project_cwd(config_cwd, duckui_config)
-    const workspace_error = validate_workspace_target(project_cwd, true)
-    if (workspace_error) {
-      spinner.fail(workspace_error)
+    const configCwd = options.workspace ? path.resolve(cwd, options.workspace) : cwd
+    const duckuiConfig = await getDuckuiConfig(configCwd, spinner)
+    const projectCwd = resolveProjectCwd(configCwd, duckuiConfig)
+    const workspaceError = validateWorkspaceTarget(projectCwd, true)
+    if (workspaceError) {
+      spinner.fail(workspaceError)
       process.exit(1)
     }
-    spinner.info(`Using workspace: ${project_cwd}`)
-    const ts_config = await get_ts_config(project_cwd, spinner)
+    spinner.info(`Using workspace: ${projectCwd}`)
+    const tsConfig = await getTsConfig(projectCwd, spinner)
 
-    const path_result = resolve_install_path(duckui_config, ts_config)
-    if (!path_result.ok) {
-      spinner.fail(path_result.error)
+    const pathResult = resolveInstallPath(duckuiConfig, tsConfig)
+    if (!pathResult.ok) {
+      spinner.fail(pathResult.error)
       process.exit(1)
     }
 
-    const write_type_path = resolve_write_type_path(duckui_config, path.resolve(project_cwd, path_result.data))
+    const writeTypePath = resolveWriteTypePath(duckuiConfig, path.resolve(projectCwd, pathResult.data))
 
     spinner.text = 'Scanning installed components...'
-    const scan_result = await scan_installed_components(write_type_path)
-    if (!scan_result.ok) {
-      spinner.fail(scan_result.error)
+    const scanResult = await scanInstalledComponents(writeTypePath)
+    if (!scanResult.ok) {
+      spinner.fail(scanResult.error)
       process.exit(1)
     }
 
-    if (scan_result.data.length === 0) {
+    if (scanResult.data.length === 0) {
       spinner.fail('No installed components found.')
       process.exit(1)
     }
 
-    let selected = scan_result.data
+    let selected = scanResult.data
 
-    if (component_names.length === 0) {
+    if (componentNames.length === 0) {
       spinner.stop()
       const { picked } = await prompts({
         type: 'autocompleteMultiselect',
         name: 'picked',
         message: 'Select components to diff',
-        choices: scan_result.data.map((c) => ({ title: c.name, value: c.name })),
+        choices: scanResult.data.map((c) => ({ title: c.name, value: c.name })),
       })
       spinner.start()
 
@@ -76,58 +76,58 @@ export async function diff_command_action(args: string[], opt: DiffOptions) {
         process.exit(0)
       }
 
-      selected = scan_result.data.filter((c) => picked.includes(c.name))
+      selected = scanResult.data.filter((c) => picked.includes(c.name))
     } else {
-      selected = scan_result.data.filter((c) => component_names.some((n) => n.toLowerCase() === c.name.toLowerCase()))
+      selected = scanResult.data.filter((c) => componentNames.some((n) => n.toLowerCase() === c.name.toLowerCase()))
 
       if (selected.length === 0) {
         spinner.fail(
-          `None of the specified components are installed: ${component_names.map((n) => highlighter.info(n)).join(', ')}`,
+          `None of the specified components are installed: ${componentNames.map((n) => highlighter.info(n)).join(', ')}`,
         )
         process.exit(1)
       }
     }
 
     spinner.text = 'Comparing with registry...'
-    const diff_result = await diff_components(selected, (msg) => {
+    const diffResult = await diffComponents(selected, (msg) => {
       spinner.text = msg
     })
 
-    if (!diff_result.ok) {
-      spinner.fail(diff_result.error)
+    if (!diffResult.ok) {
+      spinner.fail(diffResult.error)
       process.exit(1)
     }
 
     spinner.stop()
 
-    let has_diffs = false
-    for (const comp_diff of diff_result.data) {
-      if (comp_diff.is_identical) {
-        console.log(`\n${highlighter.info(comp_diff.name)}: ${kleur.green('identical')}`)
+    let hasDiffs = false
+    for (const compDiff of diffResult.data) {
+      if (compDiff.isIdentical) {
+        console.log(`\n${highlighter.info(compDiff.name)}: ${kleur.green('identical')}`)
         continue
       }
 
-      has_diffs = true
-      console.log(`\n${highlighter.info(comp_diff.name)}: ${kleur.yellow('modified')}`)
+      hasDiffs = true
+      console.log(`\n${highlighter.info(compDiff.name)}: ${kleur.yellow('modified')}`)
 
-      for (const file_diff of comp_diff.diffs) {
-        const lines = build_display_lines(file_diff.file_path, file_diff.local_content, file_diff.registry_content)
-        const max_num = get_max_line_number(lines)
-        const num_width = Math.max(String(max_num).length, 3)
+      for (const fileDiff of compDiff.diffs) {
+        const lines = buildDisplayLines(fileDiff.filePath, fileDiff.localContent, fileDiff.registryContent)
+        const maxNum = getMaxLineNumber(lines)
+        const numWidth = Math.max(String(maxNum).length, 3)
 
         for (const line of lines) {
           if (line.type === 'file-header') {
-            console.log(kleur.bold(line.raw_text))
+            console.log(kleur.bold(line.rawText))
             continue
           }
 
           if (line.type === 'hunk-header') {
-            console.log(kleur.cyan(line.raw_text))
+            console.log(kleur.cyan(line.rawText))
             continue
           }
 
-          const old_num = format_line_number(line.old_line_num, num_width)
-          const new_num = format_line_number(line.new_line_num, num_width)
+          const oldNum = formatLineNumber(line.oldLineNum, numWidth)
+          const newNum = formatLineNumber(line.newLineNum, numWidth)
           const prefix = line.type === 'add' ? '+' : line.type === 'remove' ? '-' : ' '
 
           // Build line content with word-level highlighting
@@ -152,20 +152,20 @@ export async function diff_command_action(args: string[], opt: DiffOptions) {
             }
           }
 
-          const line_nums = kleur.gray(`${old_num} ${new_num}`)
-          const prefix_colored =
+          const lineNums = kleur.gray(`${oldNum} ${newNum}`)
+          const prefixColored =
             line.type === 'add' ? kleur.green(prefix) : line.type === 'remove' ? kleur.red(prefix) : kleur.gray(prefix)
 
-          console.log(`${line_nums} ${prefix_colored} ${content}`)
+          console.log(`${lineNums} ${prefixColored} ${content}`)
         }
         console.log()
       }
     }
 
-    process.exit(has_diffs ? 1 : 0)
+    process.exit(hasDiffs ? 1 : 0)
   } catch (error) {
     spinner.fail(`Something went wrong: ${error instanceof Error ? error.message : String(error)}`)
-    if (is_verbose() && error instanceof Error) {
+    if (isVerbose() && error instanceof Error) {
       console.error(error.stack)
     }
     process.exit(1)

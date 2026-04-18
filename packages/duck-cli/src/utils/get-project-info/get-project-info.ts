@@ -4,14 +4,14 @@ import fs from 'fs-extra'
 import type { Ora } from 'ora'
 import type { PackageJson } from 'type-fest'
 import { ZodError } from 'zod'
-import { duck_ui_schema } from '../preflight-configs/preflight-duckui'
+import { duckUiSchema } from '../preflight-configs/preflight-duckui'
 import { highlighter, logger } from '../text-styling'
-import { find_duckui_root_cwd } from '../workspace'
+import { findDuckuiRootCwd } from '../workspace'
 import { IGNORED_DIRECTORIES } from './get-project-info.constants'
-import { ts_config_schema } from './get-project-info.dto'
+import { tsConfigSchema } from './get-project-info.dto'
 
 // Get package.json
-export function get_package_json(): PackageJson | null {
+export function getPackageJson(): PackageJson | null {
   const files = fg.sync(['package.json'], {
     cwd: process.cwd(),
     deep: 1,
@@ -23,35 +23,35 @@ export function get_package_json(): PackageJson | null {
     return process.exit(1)
   }
 
-  const package_json_path = path.join(process.cwd(), 'package.json')
+  const packageJsonPath = path.join(process.cwd(), 'package.json')
 
-  const package_json: PackageJson = JSON.parse(fs.readFileSync(package_json_path, 'utf8'))
+  const packageJson: PackageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf8'))
 
-  return package_json
+  return packageJson
 }
 
-export async function get_duckui_config(cwd: string, spinner: Ora) {
+export async function getDuckuiConfig(cwd: string, spinner: Ora) {
   try {
     spinner.text = `Getting ${highlighter.info('duckui')} configs...`
 
-    const config_root = find_duckui_root_cwd(cwd)
-    if (!config_root) {
+    const configRoot = findDuckuiRootCwd(cwd)
+    if (!configRoot) {
       spinner.fail(
         `No ${highlighter.info('duckui')} configs found \nPlease run ${highlighter.info('@gentleduck/cli init')} to create one\nNotice you gonna add your package manager executer\ncommand at the beginning or the CLI command!\nLike ${highlighter.info('bunx @gentleduck/cli init')}\nIf you need any info run the help command,\nHaving issues?   ${highlighter.info('https://github.com/gentleeduck/duck-ui/issues')}.`,
       )
       process.exit(1)
     }
 
-    const duckui_config_raw = await fs.readFile(path.join(config_root, 'duck-ui.config.json'), 'utf8')
+    const duckuiConfigRaw = await fs.readFile(path.join(configRoot, 'duck-ui.config.json'), 'utf8')
 
-    const duckui_config = JSON.parse(duckui_config_raw) // Ensure JSON parsing
-    const duckui_parsed_config = duck_ui_schema.safeParse(duckui_config)
-    if (duckui_parsed_config.error) {
-      const is_legacy_config = duckui_parsed_config.error.issues.some(
+    const duckuiConfig = JSON.parse(duckuiConfigRaw) // Ensure JSON parsing
+    const duckuiParsedConfig = duckUiSchema.safeParse(duckuiConfig)
+    if (duckuiParsedConfig.error) {
+      const isLegacyConfig = duckuiParsedConfig.error.issues.some(
         (issue) => issue.path[0] === 'workspace' && issue.code === 'invalid_type',
       )
 
-      if (is_legacy_config) {
+      if (isLegacyConfig) {
         spinner.fail(
           `Legacy ${highlighter.info('duck-ui.config.json')} detected (missing ${highlighter.info(
             'workspace',
@@ -61,12 +61,12 @@ export async function get_duckui_config(cwd: string, spinner: Ora) {
       }
 
       spinner.stop()
-      console.dir(duckui_parsed_config.error, { depth: null })
+      console.dir(duckuiParsedConfig.error, { depth: null })
       spinner.fail(`${highlighter.info('duckui')} invalid configs found`)
       process.exit(1)
     }
 
-    return duckui_parsed_config.data
+    return duckuiParsedConfig.data
   } catch (error) {
     if (error instanceof ZodError) {
       spinner.fail(`Failed to get ${highlighter.info('duckui')} configs: ${error.message}`)
@@ -78,7 +78,7 @@ export async function get_duckui_config(cwd: string, spinner: Ora) {
   }
 }
 
-export async function get_ts_config(cwd: string, spinner: Ora) {
+export async function getTsConfig(cwd: string, spinner: Ora) {
   try {
     spinner.text = `Getting ${highlighter.info('ts')} configs...`
 
@@ -93,12 +93,12 @@ export async function get_ts_config(cwd: string, spinner: Ora) {
       process.exit(1)
     }
 
-    const ts_config_raw = await fs.readFile(path.join(cwd, 'tsconfig.json'), 'utf8')
+    const tsConfigRaw = await fs.readFile(path.join(cwd, 'tsconfig.json'), 'utf8')
 
     // Then unwrap the optional/nullable layers to access the inner object
-    const ts_config = ts_config_schema.parse(JSON.parse(ts_config_raw))
+    const tsConfig = tsConfigSchema.parse(JSON.parse(tsConfigRaw))
 
-    return ts_config
+    return tsConfig
   } catch (error) {
     spinner.fail(`Failed to get ${highlighter.info('ts')} configs: ${error}`)
     process.exit(1)

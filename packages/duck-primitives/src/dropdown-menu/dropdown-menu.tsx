@@ -1,43 +1,21 @@
-/** Root DropdownMenu component, scope factory, and shared context. */
 import * as React from 'react'
-import type { Direction } from '../direction'
 import { useDirection } from '../direction'
 import { useControllableState } from '../hooks/use-controllable-state'
 import { useId } from '../hooks/use-id'
-import { createContextScope, type Scope } from '../libs/create-context'
+import { createContextScope } from '../libs/create-context'
 import * as MenuPrimitive from '../menu'
 import { createMenuScope } from '../menu'
+import type { IDropdownMenu } from './dropdown-menu.types'
 
 const DROPDOWN_MENU_NAME = 'DropdownMenu'
 
-type ScopedProps<P> = P & { __scopeDropdownMenu?: Scope }
 const [createDropdownMenuContext, createDropdownMenuScope] = createContextScope(DROPDOWN_MENU_NAME, [createMenuScope])
 const useMenuScope = createMenuScope()
 
-type DropdownMenuContextValue = {
-  triggerId: string
-  triggerRef: React.RefObject<HTMLButtonElement | null>
-  contentId: string
-  open: boolean
-  onOpenChange(open: boolean): void
-  onOpenToggle(): void
-  dir: Direction
-  modal: boolean
-}
-
 const [DropdownMenuProvider, useDropdownMenuContext] =
-  createDropdownMenuContext<DropdownMenuContextValue>(DROPDOWN_MENU_NAME)
+  createDropdownMenuContext<IDropdownMenu.IContext>(DROPDOWN_MENU_NAME)
 
-interface DropdownMenuProps {
-  children?: React.ReactNode
-  dir?: Direction
-  open?: boolean
-  defaultOpen?: boolean
-  onOpenChange?(open: boolean): void
-  modal?: boolean
-}
-
-const DropdownMenu: React.FC<DropdownMenuProps> = (props: ScopedProps<DropdownMenuProps>) => {
+const DropdownMenu: React.FC<IDropdownMenu.IProps> = (props: IDropdownMenu.IScoped<IDropdownMenu.IProps>) => {
   const { __scopeDropdownMenu, children, dir, open: openProp, defaultOpen, onOpenChange, modal = true } = props
   const direction = useDirection(dir)
   const menuScope = useMenuScope(__scopeDropdownMenu)
@@ -69,7 +47,6 @@ const DropdownMenu: React.FC<DropdownMenuProps> = (props: ScopedProps<DropdownMe
 
 DropdownMenu.displayName = DROPDOWN_MENU_NAME
 
-export type { Direction, DropdownMenuContextValue, DropdownMenuProps, ScopedProps }
 export {
   createDropdownMenuScope,
   DROPDOWN_MENU_NAME,

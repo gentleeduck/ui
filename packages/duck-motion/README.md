@@ -27,7 +27,7 @@ function Fade() {
 - **Easing presets** -- `duckEasing.standard`, `duckEasing.spring`
 - **Duration tokens** -- `duckDuration.fast` (150ms), `.normal` (200ms), `.slow` (300ms)
 - **Spring transitions** -- `duckSpringDefault`, `duckSpringSnappy`, `duckSpringGentle`
-- **CSS custom properties** -- `--duck-motion-dur`, `--duck-motion-ease` via `@gentleduck/motion/css`
+- **CSS custom properties** -- `--gentleduck-motion-dur`, `--gentlegentleduck-motion-ease` via `@gentleduck/motion/css`
 - **Reduced motion** -- `useDuckReducedMotion()`, `motionTransition()`, `onDuckReducedMotionChange()`
 - **Animation presets** -- tree-shakeable presets like `fadeIn`, `scaleIn`, `slideUp` with blur and asymmetric exits
 - **Directional presets** -- `createDirectionalPreset('bottom')` for menu/popover animations

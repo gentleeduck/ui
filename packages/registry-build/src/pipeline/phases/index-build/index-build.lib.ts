@@ -1,16 +1,20 @@
 import path from 'node:path'
 import fg from 'fast-glob'
-import type { RegistryBuildSource } from '../../../config/types'
-import type { IndexedRegistryEntry, RegistryEntry, RegistryItemFile } from '../../../extensions/ui/ui.registry.types'
+import type { IRegistryBuildSource } from '../../../config/types'
+import type { IIndexedRegistryEntry, IRegistryEntry, IRegistryItemFile } from '../../../extensions/ui/ui.registry.types'
 import { createRegistryFileTree } from '../../../lib/file-tree'
 import { hashValue } from '../../../lib/hash'
 import { joinPosix, normalizeSlashes } from '../../../lib/path'
-import type { RegistryBuildContext } from '../../types'
+import type { IRegistryBuildContext } from '../../types'
 
 /**
  * Derive the source reference stored in generated index entries.
  */
-export function getSourceReference(source: RegistryBuildSource, context: RegistryBuildContext, entry: RegistryEntry) {
+export function getSourceReference(
+  source: IRegistryBuildSource,
+  context: IRegistryBuildContext,
+  entry: IRegistryEntry,
+) {
   const baseReference = source.referencePath ?? normalizeSlashes(path.relative(context.configDir, source.path))
   return joinPosix(baseReference, entry.root_folder)
 }
@@ -20,9 +24,9 @@ export function getSourceReference(source: RegistryBuildSource, context: Registr
  * file lists.
  */
 export async function discoverRegistryFiles(
-  source: RegistryBuildSource,
-  entry: RegistryEntry,
-): Promise<RegistryItemFile[]> {
+  source: IRegistryBuildSource,
+  entry: IRegistryEntry,
+): Promise<IRegistryItemFile[]> {
   const discoveryRoot = path.join(source.path, entry.root_folder)
   const files = (
     await fg(source.glob ?? '**/*.{ts,tsx}', {
@@ -54,7 +58,7 @@ export async function discoverRegistryFiles(
 /**
  * Expand file-strategy sources into one indexed entry per discovered file.
  */
-export function createIndexedEntries(entry: IndexedRegistryEntry, source?: RegistryBuildSource) {
+export function createIndexedEntries(entry: IIndexedRegistryEntry, source?: IRegistryBuildSource) {
   if (source?.indexStrategy !== 'file' || !entry.files?.length) {
     return [entry]
   }
@@ -70,7 +74,7 @@ export function createIndexedEntries(entry: IndexedRegistryEntry, source?: Regis
  * Resolve the concrete file list for a registry entry, normalizing slashes on
  * the way out so downstream emitters stay platform-agnostic.
  */
-export async function resolveRegistryFiles(context: RegistryBuildContext, entry: RegistryEntry) {
+export async function resolveRegistryFiles(context: IRegistryBuildContext, entry: IRegistryEntry) {
   const source = context.config.sources[entry.type]
   const files = entry.files?.length ? entry.files : source ? await discoverRegistryFiles(source, entry) : []
 
@@ -88,7 +92,7 @@ export async function resolveRegistryFiles(context: RegistryBuildContext, entry:
  * Hash only the static parts of an index entry so change detection can short
  * circuit before any expensive work.
  */
-export function createIndexEntryStaticSignature(entry: RegistryEntry, source?: RegistryBuildSource) {
+export function createIndexEntryStaticSignature(entry: IRegistryEntry, source?: IRegistryBuildSource) {
   return hashValue({
     entry: {
       ...entry,
@@ -113,9 +117,9 @@ export function createIndexEntryStaticSignature(entry: RegistryEntry, source?: R
  * Hash the final file list and source strategy for an index entry.
  */
 export function createIndexEntrySignature(
-  entry: RegistryEntry,
-  source: RegistryBuildSource | undefined,
-  files: RegistryItemFile[],
+  entry: IRegistryEntry,
+  source: IRegistryBuildSource | undefined,
+  files: IRegistryItemFile[],
 ) {
   return hashValue({
     files: files.map((file) => ({
@@ -133,12 +137,12 @@ export function createIndexEntrySignature(
  * component and adapter phases.
  */
 export function materializeIndexedEntries(
-  context: RegistryBuildContext,
-  entry: RegistryEntry,
-  source: RegistryBuildSource | undefined,
-  files: RegistryItemFile[],
+  context: IRegistryBuildContext,
+  entry: IRegistryEntry,
+  source: IRegistryBuildSource | undefined,
+  files: IRegistryItemFile[],
 ) {
-  const indexedEntry: IndexedRegistryEntry = {
+  const indexedEntry: IIndexedRegistryEntry = {
     ...entry,
     files,
     source: source ? getSourceReference(source, context, entry) : entry.source,

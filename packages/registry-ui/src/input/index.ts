@@ -1,1 +1,2 @@
-export { Input, MotionInput } from './input'
+export { Input } from './input'
+export { MotionInput } from './motion-input'

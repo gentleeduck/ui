@@ -2,20 +2,20 @@ import * as React from 'react'
 import { flushSync } from 'react-dom'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { Primitive } from '../primitive-elements'
-import type { ScopedProps } from './navigation-menu'
 import { FocusGroupItem, LINK_SELECT, ROOT_CONTENT_DISMISS } from './navigation-menu.libs'
+import type { INavigationMenu } from './navigation-menu.types'
 
 const LINK_NAME = 'NavigationMenuLink'
 
 type NavigationMenuLinkElement = React.ComponentRef<typeof Primitive.a>
 type PrimitiveLinkProps = React.ComponentPropsWithoutRef<typeof Primitive.a>
-interface NavigationMenuLinkProps extends Omit<PrimitiveLinkProps, 'onSelect'> {
+interface INavigationMenuLinkProps extends Omit<PrimitiveLinkProps, 'onSelect'> {
   active?: boolean
   onSelect?: (event: Event) => void
 }
 
-const NavigationMenuLink = React.forwardRef<NavigationMenuLinkElement, NavigationMenuLinkProps>(
-  (props: ScopedProps<NavigationMenuLinkProps>, forwardedRef) => {
+const NavigationMenuLink = React.forwardRef<NavigationMenuLinkElement, INavigationMenuLinkProps>(
+  (props: INavigationMenu.IScoped<INavigationMenuLinkProps>, forwardedRef) => {
     const { __scopeNavigationMenu, active, onSelect, ...linkProps } = props
 
     return (
@@ -56,5 +56,5 @@ const NavigationMenuLink = React.forwardRef<NavigationMenuLinkElement, Navigatio
 
 NavigationMenuLink.displayName = LINK_NAME
 
-export type { NavigationMenuLinkProps }
+export type { INavigationMenuLinkProps }
 export { NavigationMenuLink }

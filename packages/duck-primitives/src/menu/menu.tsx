@@ -3,19 +3,18 @@ import * as React from 'react'
 import { useDirection } from '../direction'
 import { useCallbackRef } from '../hooks/use-callback-ref'
 import { createCollection } from '../libs/create-collection'
-import { createContextScope, type Scope } from '../libs/create-context'
+import { createContextScope } from '../libs/create-context'
 import * as PopperPrimitive from '../popper'
 import { createPopperScope } from '../popper'
 import { createRovingFocusGroupScope } from '../roving-focus'
-
-import type { Direction } from './menu.libs'
+import type { IMenu } from './menu.types'
 
 const MENU_NAME = 'Menu'
 
-type ItemData = { disabled: boolean; textValue: string }
-const [Collection, useCollection, createCollectionScope] = createCollection<MenuItemElement, ItemData>(MENU_NAME)
+const [Collection, useCollection, createCollectionScope] = createCollection<IMenu.MenuItemElement, IMenu.IItemData>(
+  MENU_NAME,
+)
 
-type ScopedProps<P> = P & { __scopeMenu?: Scope }
 const [createMenuContext, createMenuScope] = createContextScope(MENU_NAME, [
   createCollectionScope,
   createPopperScope,
@@ -24,43 +23,19 @@ const [createMenuContext, createMenuScope] = createContextScope(MENU_NAME, [
 const usePopperScope = createPopperScope()
 const useRovingFocusGroupScope = createRovingFocusGroupScope()
 
-type MenuContextValue = {
-  open: boolean
-  onOpenChange(open: boolean): void
-  content: MenuContentElement | null
-  onContentChange(content: MenuContentElement | null): void
-}
+const [MenuProvider, useMenuContext] = createMenuContext<IMenu.IContext>(MENU_NAME)
 
-const [MenuProvider, useMenuContext] = createMenuContext<MenuContextValue>(MENU_NAME)
+const [MenuRootProvider, useMenuRootContext] = createMenuContext<IMenu.IRootContext>(MENU_NAME)
 
-type MenuRootContextValue = {
-  onClose(): void
-  isUsingKeyboardRef: React.RefObject<boolean>
-  dir: Direction
-  modal: boolean
-}
-
-const [MenuRootProvider, useMenuRootContext] = createMenuContext<MenuRootContextValue>(MENU_NAME)
-
-interface MenuProps {
-  children?: React.ReactNode
-  open?: boolean
-  onOpenChange?(open: boolean): void
-  dir?: Direction
-  modal?: boolean
-}
-
-const Menu: React.FC<MenuProps> = (props: ScopedProps<MenuProps>) => {
+const Menu: React.FC<IMenu.IProps> = (props: IMenu.IScoped<IMenu.IProps>) => {
   const { __scopeMenu, open = false, children, dir, onOpenChange, modal = true } = props
   const popperScope = usePopperScope(__scopeMenu)
-  const [content, setContent] = React.useState<MenuContentElement | null>(null)
+  const [content, setContent] = React.useState<IMenu.MenuContentElement | null>(null)
   const isUsingKeyboardRef = React.useRef(false)
   const handleOpenChange = useCallbackRef(onOpenChange)
   const direction = useDirection(dir)
 
   React.useEffect(() => {
-    // Capture phase ensures we set the boolean before any side effects execute
-    // in response to the key or pointer event as they might depend on this value.
     const handleKeyDown = () => {
       isUsingKeyboardRef.current = true
       document.addEventListener('pointerdown', handlePointer, { capture: true, once: true })
@@ -98,23 +73,6 @@ const Menu: React.FC<MenuProps> = (props: ScopedProps<MenuProps>) => {
 
 Menu.displayName = MENU_NAME
 
-// NOTE: MenuContentElement and MenuItemElement are used in context types above.
-// They are defined as opaque references to the underlying DOM element types that
-// the content and item components will produce. We re-declare them here so the
-// root module can reference them without circular imports.
-type MenuContentElement = React.ComponentRef<typeof PopperPrimitive.Content>
-type MenuItemElement = React.ComponentRef<typeof import('../primitive-elements').Primitive.div>
-
-export type {
-  Direction,
-  ItemData,
-  MenuContentElement,
-  MenuContextValue,
-  MenuItemElement,
-  MenuProps,
-  MenuRootContextValue,
-  ScopedProps,
-}
 export {
   Collection,
   createMenuContext,

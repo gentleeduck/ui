@@ -1,1 +1,2 @@
-export { MotionSlider, Slider } from './slider'
+export { MotionSlider } from './motion-slider'
+export { Slider } from './slider'

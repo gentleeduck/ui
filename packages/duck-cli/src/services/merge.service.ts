@@ -1,12 +1,6 @@
 import path from 'node:path'
 import fs from 'fs-extra'
-import {
-  apply_merge_choices,
-  build_merge_hunks,
-  type ComponentMergeState,
-  type FileMergeState,
-  type MergeResult,
-} from '~/utils/merge'
+import { applyMergeChoices, buildMergeHunks, type Merge } from '~/utils/merge'
 import type { ComponentDiff } from './component.service'
 import type { ProgressCallback, ServiceResult } from './service.types'
 
@@ -14,58 +8,58 @@ import type { ProgressCallback, ServiceResult } from './service.types'
  * Build the initial merge state from a ComponentDiff.
  *
  * File status handling:
- * - Added files: auto-resolved (is_resolved=true), will write registry content.
+ * - Added files: auto-resolved (isResolved=true), will write registry content.
  * - Deleted files: pending user decision (keep local or remove).
  * - Modified files: builds merge hunks via structuredPatch, marks resolved
  *   only if there are no change hunks (files are identical).
  */
-export function build_component_merge_state(
-  component_diff: ComponentDiff,
-  write_type_path: string,
+export function buildComponentMergeState(
+  componentDiff: ComponentDiff,
+  writeTypePath: string,
   root_folder: string,
-): ComponentMergeState {
-  const files: FileMergeState[] = component_diff.diffs.map((fd) => {
+): Merge.ComponentState {
+  const files: Merge.FileState[] = componentDiff.diffs.map((fd) => {
     if (fd.status === 'added') {
       return {
-        file_path: fd.file_path,
+        filePath: fd.filePath,
         status: 'added' as const,
-        local_content: '',
-        registry_content: fd.registry_content,
+        localContent: '',
+        registryContent: fd.registryContent,
         hunks: [],
-        file_choice: 'keep' as const,
-        is_resolved: true,
+        fileChoice: 'keep' as const,
+        isResolved: true,
       }
     }
 
     if (fd.status === 'deleted') {
       return {
-        file_path: fd.file_path,
+        filePath: fd.filePath,
         status: 'deleted' as const,
-        local_content: fd.local_content,
-        registry_content: '',
+        localContent: fd.localContent,
+        registryContent: '',
         hunks: [],
-        file_choice: 'pending' as const,
-        is_resolved: false,
+        fileChoice: 'pending' as const,
+        isResolved: false,
       }
     }
 
     // Modified
-    const hunks = build_merge_hunks(fd.file_path, fd.local_content, fd.registry_content)
+    const hunks = buildMergeHunks(fd.filePath, fd.localContent, fd.registryContent)
     return {
-      file_path: fd.file_path,
+      filePath: fd.filePath,
       status: 'modified' as const,
-      local_content: fd.local_content,
-      registry_content: fd.registry_content,
+      localContent: fd.localContent,
+      registryContent: fd.registryContent,
       hunks,
-      file_choice: 'keep' as const,
-      is_resolved: hunks.length === 0,
+      fileChoice: 'keep' as const,
+      isResolved: hunks.length === 0,
     }
   })
 
   return {
-    name: component_diff.name,
+    name: componentDiff.name,
     files,
-    write_type_path,
+    writeTypePath,
     root_folder,
   }
 }
@@ -73,9 +67,9 @@ export function build_component_merge_state(
 /**
  * Check if all files in a merge state are fully resolved.
  */
-export function is_merge_resolved(merge_state: ComponentMergeState): boolean {
-  return merge_state.files.every((f) => {
-    if (f.status === 'deleted') return f.file_choice !== 'pending'
+export function isMergeResolved(mergeState: Merge.ComponentState): boolean {
+  return mergeState.files.every((f) => {
+    if (f.status === 'deleted') return f.fileChoice !== 'pending'
     if (f.status === 'added') return true
     return f.hunks.every((h) => h.choice !== 'pending')
   })
@@ -85,47 +79,47 @@ export function is_merge_resolved(merge_state: ComponentMergeState): boolean {
  * Write resolved merge decisions to disk.
  *
  * - Added files: writes registry content to new file.
- * - Deleted files: removes if file_choice='remove', else skips.
- * - Modified files: applies hunk choices via apply_merge_choices
+ * - Deleted files: removes if fileChoice='remove', else skips.
+ * - Modified files: applies hunk choices via applyMergeChoices
  *   to produce the merged content, then writes to disk.
  */
-export async function write_merge_results(
-  merge_state: ComponentMergeState,
+export async function writeMergeResults(
+  mergeState: Merge.ComponentState,
   onProgress?: ProgressCallback,
-): Promise<ServiceResult<MergeResult[]>> {
+): Promise<ServiceResult<Merge.Result[]>> {
   try {
-    const results: MergeResult[] = []
-    const base_path = path.join(merge_state.write_type_path, merge_state.root_folder)
+    const results: Merge.Result[] = []
+    const basePath = path.join(mergeState.writeTypePath, mergeState.root_folder)
 
-    for (const file of merge_state.files) {
-      const file_path = path.join(base_path, file.file_path)
+    for (const file of mergeState.files) {
+      const filePath = path.join(basePath, file.filePath)
 
       if (file.status === 'added') {
-        onProgress?.(`Writing new file: ${file.file_path}`)
-        await fs.ensureDir(path.dirname(file_path))
-        await fs.writeFile(file_path, file.registry_content, 'utf8')
-        results.push({ file_path: file.file_path, merged_content: file.registry_content, action: 'write' })
+        onProgress?.(`Writing new file: ${file.filePath}`)
+        await fs.ensureDir(path.dirname(filePath))
+        await fs.writeFile(filePath, file.registryContent, 'utf8')
+        results.push({ filePath: file.filePath, mergedContent: file.registryContent, action: 'write' })
         continue
       }
 
       if (file.status === 'deleted') {
-        if (file.file_choice === 'remove') {
-          onProgress?.(`Removing: ${file.file_path}`)
-          if (fs.existsSync(file_path)) {
-            await fs.remove(file_path)
+        if (file.fileChoice === 'remove') {
+          onProgress?.(`Removing: ${file.filePath}`)
+          if (fs.existsSync(filePath)) {
+            await fs.remove(filePath)
           }
-          results.push({ file_path: file.file_path, merged_content: '', action: 'delete' })
+          results.push({ filePath: file.filePath, mergedContent: '', action: 'delete' })
         } else {
-          results.push({ file_path: file.file_path, merged_content: file.local_content, action: 'skip' })
+          results.push({ filePath: file.filePath, mergedContent: file.localContent, action: 'skip' })
         }
         continue
       }
 
       // Modified -- apply hunk choices
-      onProgress?.(`Writing merged: ${file.file_path}`)
-      const merged = apply_merge_choices(file.local_content, file.hunks)
-      await fs.writeFile(file_path, merged, 'utf8')
-      results.push({ file_path: file.file_path, merged_content: merged, action: 'write' })
+      onProgress?.(`Writing merged: ${file.filePath}`)
+      const merged = applyMergeChoices(file.localContent, file.hunks)
+      await fs.writeFile(filePath, merged, 'utf8')
+      results.push({ filePath: file.filePath, mergedContent: merged, action: 'write' })
     }
 
     return { ok: true, data: results }

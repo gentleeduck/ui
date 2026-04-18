@@ -1,7 +1,7 @@
 import type { Project } from 'ts-morph'
-import type { LoadedRegistryBuildConfig, LoadRegistryBuildConfigOptions } from '../config/loader/loader.types'
-import type { ResolvedRegistryBuildConfig } from '../config/types'
-import type { RegistryBuildCacheStore } from './cache/cache'
+import type { ILoadedRegistryBuildConfig, ILoadRegistryBuildConfigOptions } from '../config/loader/loader.types'
+import type { IResolvedRegistryBuildConfig } from '../config/types'
+import type { IRegistryBuildCacheStore } from './cache/cache'
 
 /**
  * Pipeline-owned runtime types live beside the pipeline implementation so the
@@ -11,7 +11,7 @@ import type { RegistryBuildCacheStore } from './cache/cache'
 /**
  * Normalized output paths used by the core pipeline and UI extensions.
  */
-export interface RegistryBuildOutputPaths {
+export interface IRegistryBuildOutputPaths {
   baseDir: string
   cacheDir: string
   cacheFile: string
@@ -25,49 +25,49 @@ export interface RegistryBuildOutputPaths {
   themesDir: string
 }
 
-export interface RegistryBuildPathRegistry {
+export interface IRegistryBuildPathRegistry {
   baseDir: string
   named: Record<string, string>
 }
 
-export interface RegistryBuildOutputRecord {
+export interface IRegistryBuildOutputRecord {
   metadata?: Record<string, unknown>
   name: string
   paths: string[]
 }
 
-export interface RegistryBuildArtifacts {
+export interface IRegistryBuildArtifacts {
   [key: string]: unknown
 }
 
 /**
  * Runtime state shared by core phases and extensions.
  */
-export interface RegistryBuildContext extends Omit<LoadedRegistryBuildConfig, 'config'> {
-  artifacts: RegistryBuildArtifacts
-  cache: RegistryBuildCacheStore
+export interface IRegistryBuildContext extends Omit<ILoadedRegistryBuildConfig, 'config'> {
+  artifacts: IRegistryBuildArtifacts
+  cache: IRegistryBuildCacheStore
   changedOnly: boolean
   changedPaths: string[]
-  config: ResolvedRegistryBuildConfig
+  config: IResolvedRegistryBuildConfig
   cwd: string
   getArtifact: <TValue = unknown>(name: string) => TValue | undefined
-  getOutput: (name: string) => RegistryBuildOutputRecord | undefined
+  getOutput: (name: string) => IRegistryBuildOutputRecord | undefined
   getPath: (name: string) => string
-  listOutputs: () => RegistryBuildOutputRecord[]
-  outputPaths: RegistryBuildOutputPaths
-  outputs: RegistryBuildOutputRecord[]
-  paths: RegistryBuildPathRegistry
+  listOutputs: () => IRegistryBuildOutputRecord[]
+  outputPaths: IRegistryBuildOutputPaths
+  outputs: IRegistryBuildOutputRecord[]
+  paths: IRegistryBuildPathRegistry
   project: Project
   registerOutput: (
     name: string,
     paths: string | string[],
     metadata?: Record<string, unknown>,
-  ) => RegistryBuildOutputRecord
+  ) => IRegistryBuildOutputRecord
   setArtifact: <TValue>(name: string, value: TValue) => TValue
   silent: boolean
 }
 
-export interface RegistryBuildPhaseResult {
+export interface IRegistryBuildPhaseResult {
   details?: string
   itemCount?: number
   name: string
@@ -75,17 +75,17 @@ export interface RegistryBuildPhaseResult {
   skipped?: boolean
 }
 
-export interface BuildOptions extends LoadRegistryBuildConfigOptions {
+export interface IBuildOptions extends ILoadRegistryBuildConfigOptions {
   changedOnly?: boolean
   changedPaths?: string[]
   silent?: boolean
 }
 
-export interface BuildResult {
-  artifacts: RegistryBuildArtifacts
+export interface IBuildResult {
+  artifacts: IRegistryBuildArtifacts
   configPath: string
-  outputPaths: RegistryBuildOutputPaths
-  outputs: RegistryBuildOutputRecord[]
-  paths: RegistryBuildPathRegistry
-  phaseResults: RegistryBuildPhaseResult[]
+  outputPaths: IRegistryBuildOutputPaths
+  outputs: IRegistryBuildOutputRecord[]
+  paths: IRegistryBuildPathRegistry
+  phaseResults: IRegistryBuildPhaseResult[]
 }

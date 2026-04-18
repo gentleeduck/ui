@@ -1,10 +1,11 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import * as React from 'react'
 import { Textarea } from '../textarea'
-import type { JsonEditorViewProps } from './json-editor.types'
+import type { IJsonEditorViewProps } from './json-editor.types'
 
 const LOCALE_NUMBERING_SYSTEMS: Record<string, string> = {
   ar: 'arab',
@@ -41,8 +42,8 @@ export function JsonEditorView({
   dir,
   lang,
   onKeyDown,
-}: JsonEditorViewProps) {
-  const direction = useDirection(dir as Direction)
+}: IJsonEditorViewProps) {
+  const direction = useDirection(dir as IDirection.Kind)
   const lineCount = React.useMemo(() => {
     const count = value ? value.split(/\r\n|\r|\n/).length : 1
     return Math.max(1, count)

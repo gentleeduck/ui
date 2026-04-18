@@ -2,24 +2,22 @@ import path from 'node:path'
 import { useCallback, useContext, useEffect, useState } from 'react'
 import {
   type ComponentDiff,
-  diff_component,
+  diffComponent,
   type InstalledComponent,
-  resolve_write_type_path,
-  scan_installed_components,
+  resolveWriteTypePath,
+  scanInstalledComponents,
 } from '~/services/component.service'
-import { resolve_install_path } from '~/services/install.service'
-import { read_duckui_config, read_ts_config } from '~/services/preflight.service'
+import { resolveInstallPath } from '~/services/install.service'
+import { readDuckuiConfig, readTsConfig } from '~/services/preflight.service'
 import {
-  build_display_lines,
-  build_side_by_side_pairs,
-  type DiffDisplayLine,
-  get_hunk_offsets,
-  get_max_line_number,
-  type SideBySidePair,
+  buildDisplayLines,
+  buildSideBySidePairs,
+  type Diff,
+  getHunkOffsets,
+  getMaxLineNumber,
 } from '~/utils/diff-format'
-import { resolve_project_cwd } from '~/utils/workspace'
+import { resolveProjectCwd } from '~/utils/workspace'
 import { InitialArgsContext, TerminalSizeContext } from '../app'
-import type { ViewMode } from '../screens/diff-screen.types'
 import type { AsyncTaskState } from './use-async-task'
 import { useAsyncTask } from './use-async-task'
 
@@ -40,14 +38,14 @@ export type DiffWorkflowState = {
   installed: InstalledComponent[]
 
   diffResult: ComponentDiff | null
-  displayLinesPerFile: DiffDisplayLine[][]
-  sideBySidePairsPerFile: SideBySidePair[][]
+  displayLinesPerFile: Diff.DisplayLine[][]
+  sideBySidePairsPerFile: Diff.SideBySidePair[][]
   hunkOffsetsPerFile: number[][]
   numWidth: number
 
   scrollOffset: number
   activeFileIndex: number
-  viewMode: ViewMode
+  viewMode: Diff.ViewMode
   columns: number
 
   visibleRows: number
@@ -58,7 +56,7 @@ export type DiffWorkflowState = {
   setStep: (step: Step) => void
   setScrollOffset: (v: number | ((prev: number) => number)) => void
   setActiveFileIndex: (v: number | ((prev: number) => number)) => void
-  setViewMode: (v: ViewMode | ((prev: ViewMode) => ViewMode)) => void
+  setViewMode: (v: Diff.ViewMode | ((prev: Diff.ViewMode) => Diff.ViewMode)) => void
 }
 
 /**
@@ -79,10 +77,10 @@ export function useDiffWorkflow(_options: { onBack: () => void }): DiffWorkflowS
   const initialArgs = useContext(InitialArgsContext)
   const visibleRows = Math.max(3, rows - RESULTS_CHROME)
 
-  const [viewMode, setViewMode] = useState<ViewMode>('unified')
+  const [viewMode, setViewMode] = useState<Diff.ViewMode>('unified')
   const [activeFileIndex, setActiveFileIndex] = useState(0)
-  const [displayLinesPerFile, setDisplayLinesPerFile] = useState<DiffDisplayLine[][]>([])
-  const [sideBySidePairsPerFile, setSideBySidePairsPerFile] = useState<SideBySidePair[][]>([])
+  const [displayLinesPerFile, setDisplayLinesPerFile] = useState<Diff.DisplayLine[][]>([])
+  const [sideBySidePairsPerFile, setSideBySidePairsPerFile] = useState<Diff.SideBySidePair[][]>([])
   const [hunkOffsetsPerFile, setHunkOffsetsPerFile] = useState<number[][]>([])
   const [numWidth, setNumWidth] = useState(3)
   const [autoSelected, setAutoSelected] = useState(false)
@@ -92,30 +90,30 @@ export function useDiffWorkflow(_options: { onBack: () => void }): DiffWorkflowS
     const load = async () => {
       const cwd = process.cwd()
 
-      const configResult = await read_duckui_config(cwd)
+      const configResult = await readDuckuiConfig(cwd)
       if (!configResult.ok) {
         setErrorMessage(configResult.error)
         setStep('error')
         return
       }
 
-      const project_cwd = resolve_project_cwd(cwd, configResult.data)
-      const tsResult = await read_ts_config(project_cwd)
+      const projectCwd = resolveProjectCwd(cwd, configResult.data)
+      const tsResult = await readTsConfig(projectCwd)
       if (!tsResult.ok) {
         setErrorMessage(tsResult.error)
         setStep('error')
         return
       }
 
-      const pathResult = resolve_install_path(configResult.data, tsResult.data)
+      const pathResult = resolveInstallPath(configResult.data, tsResult.data)
       if (!pathResult.ok) {
         setErrorMessage(pathResult.error)
         setStep('error')
         return
       }
 
-      const write_type_path = resolve_write_type_path(configResult.data, path.resolve(project_cwd, pathResult.data))
-      const scanResult = await scan_installed_components(write_type_path)
+      const writeTypePath = resolveWriteTypePath(configResult.data, path.resolve(projectCwd, pathResult.data))
+      const scanResult = await scanInstalledComponents(writeTypePath)
       if (!scanResult.ok) {
         setErrorMessage(scanResult.error)
         setStep('error')
@@ -150,57 +148,57 @@ export function useDiffWorkflow(_options: { onBack: () => void }): DiffWorkflowS
       const result = await diffTask.run(async (onProgress) => {
         onProgress(`Fetching registry version of ${name}...`)
 
-        if (!comp.registry_entry) {
-          const { get_registry_item } = await import('~/utils/get-registry')
-          const entry = await get_registry_item(name)
+        if (!comp.registryEntry) {
+          const { getRegistryItem } = await import('~/utils/get-registry')
+          const entry = await getRegistryItem(name)
           if (!entry) {
             return { ok: false as const, error: `Component "${name}" not found in registry.` }
           }
-          comp.registry_entry = entry
+          comp.registryEntry = entry
         }
 
         onProgress('Comparing files...')
-        return diff_component(comp, comp.registry_entry)
+        return diffComponent(comp, comp.registryEntry)
       })
 
       if (result.ok) {
         setDiffResult(result.data)
 
-        if (result.data.is_identical) {
+        if (result.data.isIdentical) {
           // Show a simple "identical" message as a file-header line
-          const identical_line: DiffDisplayLine = {
+          const identicalLine: Diff.DisplayLine = {
             type: 'file-header',
-            old_line_num: null,
-            new_line_num: null,
+            oldLineNum: null,
+            newLineNum: null,
             segments: [{ text: `${name}: identical to registry`, highlight: false }],
-            raw_text: `${name}: identical to registry`,
+            rawText: `${name}: identical to registry`,
           }
-          const identical_lines: DiffDisplayLine[] = [identical_line]
-          setDisplayLinesPerFile([identical_lines])
-          setSideBySidePairsPerFile([[{ left: identical_line, right: identical_line }]])
+          const identicalLines: Diff.DisplayLine[] = [identicalLine]
+          setDisplayLinesPerFile([identicalLines])
+          setSideBySidePairsPerFile([[{ left: identicalLine, right: identicalLine }]])
           setHunkOffsetsPerFile([[]])
           setNumWidth(3)
         } else {
           // Build display lines, side-by-side pairs, and hunk offsets per file
-          const all_display_lines: DiffDisplayLine[][] = []
-          const all_sbs_pairs: SideBySidePair[][] = []
-          const all_hunk_offsets: number[][] = []
-          let max_num = 0
+          const allDisplayLines: Diff.DisplayLine[][] = []
+          const allSbsPairs: Diff.SideBySidePair[][] = []
+          const allHunkOffsets: number[][] = []
+          let maxNum = 0
 
           for (const fd of result.data.diffs) {
-            const lines = build_display_lines(fd.file_path, fd.local_content, fd.registry_content)
-            const file_max = get_max_line_number(lines)
-            if (file_max > max_num) max_num = file_max
+            const lines = buildDisplayLines(fd.filePath, fd.localContent, fd.registryContent)
+            const fileMax = getMaxLineNumber(lines)
+            if (fileMax > maxNum) maxNum = fileMax
 
-            all_display_lines.push(lines)
-            all_sbs_pairs.push(build_side_by_side_pairs(lines))
-            all_hunk_offsets.push(get_hunk_offsets(lines))
+            allDisplayLines.push(lines)
+            allSbsPairs.push(buildSideBySidePairs(lines))
+            allHunkOffsets.push(getHunkOffsets(lines))
           }
 
-          setDisplayLinesPerFile(all_display_lines)
-          setSideBySidePairsPerFile(all_sbs_pairs)
-          setHunkOffsetsPerFile(all_hunk_offsets)
-          setNumWidth(Math.max(String(max_num).length, 3))
+          setDisplayLinesPerFile(allDisplayLines)
+          setSideBySidePairsPerFile(allSbsPairs)
+          setHunkOffsetsPerFile(allHunkOffsets)
+          setNumWidth(Math.max(String(maxNum).length, 3))
         }
 
         setActiveFileIndex(0)

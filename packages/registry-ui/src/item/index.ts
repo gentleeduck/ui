@@ -9,7 +9,7 @@ export {
   ItemMedia,
   ItemSeparator,
   ItemTitle,
-  MotionItem,
-  MotionItemGroup,
 } from './item'
 export { itemVariants } from './item.constants'
+
+export { MotionItem, MotionItemGroup } from './motion-item'

@@ -1,14 +1,9 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react'
-import {
-  buildCalendarMonth,
-  buildMultiMonth,
-  type CalendarDay,
-  type CalendarMonth,
-  getLocalizedWeekdays,
-} from '../../grid'
-import type { ViewMode } from '../../index.types'
+import type { Grid } from '../../grid'
+import { buildCalendarMonth, buildMultiMonth, getLocalizedWeekdays } from '../../grid'
+import type { Calendar } from '../../index.types'
 import { canNavigate, navigate } from '../../navigation'
-import type { CalendarValue, DateRange, SelectionConstraints, SelectionMode } from '../../selection'
+import type { Selection } from '../../selection'
 import { applySelection, isDateDisabled, selectDay } from '../../selection'
 import {
   buildDateDisabledMessage,
@@ -20,15 +15,15 @@ import {
 import { useKeyboard } from '../use-keyboard'
 import { useControllableState } from '../utils/use-controllable-state'
 import { buildDayProps, buildGridProps, buildHeaderProps, buildNavProps } from './use-calendar.libs'
-import type { UseCalendarConfig, UseCalendarReturn } from './use-calendar.types'
+import type { UseCalendar } from './use-calendar.types'
 
 // ---------------------------------------------------------------------------
 // useCalendar
 // ---------------------------------------------------------------------------
 
-export function useCalendar<TDate, M extends SelectionMode = 'single'>(
-  config: UseCalendarConfig<TDate, M>,
-): UseCalendarReturn<TDate, M> {
+export function useCalendar<TDate, M extends Selection.SelectionMode = 'single'>(
+  config: UseCalendar.IUseCalendarConfig<TDate, M>,
+): UseCalendar.IUseCalendarReturn<TDate, M> {
   const {
     adapter,
     mode,
@@ -65,13 +60,17 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // -------------------------------------------------------------------------
   // Controlled / uncontrolled selection value
   // -------------------------------------------------------------------------
-  const initialValue: CalendarValue<TDate, M> =
-    (defaultSelected as CalendarValue<TDate, M>) ??
+  const initialValue: Selection.CalendarValue<TDate, M> =
+    (defaultSelected as Selection.CalendarValue<TDate, M>) ??
     (mode === 'multi' || mode === 'multi-range'
-      ? ([] as unknown as CalendarValue<TDate, M>)
-      : (null as CalendarValue<TDate, M>))
+      ? ([] as unknown as Selection.CalendarValue<TDate, M>)
+      : (null as Selection.CalendarValue<TDate, M>))
 
-  const [value, setValue] = useControllableState<CalendarValue<TDate, M>>(controlledSelected, initialValue, onSelect)
+  const [value, setValue] = useControllableState<Selection.CalendarValue<TDate, M>>(
+    controlledSelected,
+    initialValue,
+    onSelect,
+  )
 
   // -------------------------------------------------------------------------
   // Local state
@@ -91,12 +90,12 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
     // Always default to today
     return adapter.today()
   })
-  const [viewMode, setViewMode] = useState<ViewMode>('days')
+  const [viewMode, setViewMode] = useState<Calendar.ViewMode>('days')
 
   // -------------------------------------------------------------------------
   // Constraints (memoised to keep a stable reference)
   // -------------------------------------------------------------------------
-  const constraints: SelectionConstraints<TDate> = useMemo(
+  const constraints: Selection.ISelectionConstraints<TDate> = useMemo(
     () => ({ disabled, fromDate, toDate }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [fromDate, toDate, disabled],
@@ -112,7 +111,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // -------------------------------------------------------------------------
   // Grid  -  rebuild when month, value, or constraints change
   // -------------------------------------------------------------------------
-  const months: CalendarMonth<TDate>[] = useMemo(() => {
+  const months: Grid.ICalendarMonth<TDate>[] = useMemo(() => {
     const resolvedLocale =
       localeTag || localeDirection || weekStartDay
         ? { locale: localeTag, weekStartDay, direction: localeDirection }
@@ -208,7 +207,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   }, [month, adapter, announce, localeTag])
 
   // Announce on value change
-  const prevValueRef = useRef<CalendarValue<TDate, M> | null>(null)
+  const prevValueRef = useRef<Selection.CalendarValue<TDate, M> | null>(null)
   useEffect(() => {
     if (prevValueRef.current === value) return
     prevValueRef.current = value
@@ -220,7 +219,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
     if (mode === 'single' && value !== null) {
       announce(buildDateSelectedMessage(fmt(value as TDate)))
     } else if (mode === 'range') {
-      const range = value as DateRange<TDate> | null
+      const range = value as Selection.DateRange<TDate> | null
       if (range?.to) {
         announce(buildRangeSelectedMessage(fmt(range.from), fmt(range.to)))
       }
@@ -258,7 +257,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   )
 
   // -------------------------------------------------------------------------
-  // Keyboard
+  // UseKeyboard
   // -------------------------------------------------------------------------
   const keyboard = useKeyboard({
     focusedDate,
@@ -274,7 +273,7 @@ export function useCalendar<TDate, M extends SelectionMode = 'single'>(
   // Prop getters
   // -------------------------------------------------------------------------
   const getDayProps = useCallback(
-    (day: CalendarDay<TDate>) =>
+    (day: Grid.ICalendarDay<TDate>) =>
       buildDayProps(day, focusedDate, adapter, selectDate, setFocusedDate, keyboard.onKeyDown, localeTag),
     [focusedDate, adapter, selectDate, keyboard.onKeyDown, localeTag],
   )

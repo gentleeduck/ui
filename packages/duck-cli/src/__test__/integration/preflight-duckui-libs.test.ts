@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import type { ThemeResponse } from '~/utils/get-registry/get-registry.dto'
 import { createMockSpinner } from '../helpers/mock-spinner'
 
-describe('init_duckui_config', () => {
+describe('initDuckuiConfig', () => {
   let tmpDir: string
 
   beforeEach(() => {
@@ -17,20 +17,20 @@ describe('init_duckui_config', () => {
   })
 
   it('writes duck-ui.config.json to the specified directory', async () => {
-    const { init_duckui_config } = await import('~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs')
+    const { initDuckuiConfig } = await import('~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs')
     const spinner = createMockSpinner()
 
-    await init_duckui_config(
+    await initDuckuiConfig(
       tmpDir,
       spinner,
       {
-        project_type: 'NEXT_JS',
+        projectType: 'NEXT_JS',
         monorepo: false,
         css: './src/styles.css',
         prefix: '',
         alias: '~',
-        base_color: 'zinc',
-        css_variables: true,
+        baseColor: 'zinc',
+        cssVariables: true,
       },
       { root: '.', project: '.' },
     )
@@ -46,20 +46,20 @@ describe('init_duckui_config', () => {
   })
 
   it('sets rsc=false for non-NEXT_JS projects', async () => {
-    const { init_duckui_config } = await import('~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs')
+    const { initDuckuiConfig } = await import('~/utils/preflight-configs/preflight-duckui/preflight-duckui.libs')
     const spinner = createMockSpinner()
 
-    await init_duckui_config(
+    await initDuckuiConfig(
       tmpDir,
       spinner,
       {
-        project_type: 'VITE',
+        projectType: 'VITE',
         monorepo: false,
         css: './src/styles.css',
         prefix: 'dk',
         alias: '@',
-        base_color: 'slate',
-        css_variables: true,
+        baseColor: 'slate',
+        cssVariables: true,
       },
       { root: '.', project: '.' },
     )

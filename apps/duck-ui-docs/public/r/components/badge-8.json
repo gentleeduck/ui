@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Badge } from '@gentleduck/registry-ui/badge'\r\nimport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'\r\nimport { Info } from 'lucide-react'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <TooltipProvider>\r\n      <Tooltip>\r\n        <TooltipTrigger>\r\n          <Badge aria-label=\"Badge\" className=\"rounded-full\" size=\"icon\" variant=\"outline\">\r\n            <Info aria-hidden=\"true\" />\r\n          </Badge>\r\n        </TooltipTrigger>\r\n        <TooltipContent>Info Badge</TooltipContent>\r\n      </Tooltip>\r\n    </TooltipProvider>\r\n  )\r\n}\r\n",
+      "content": "import { Badge } from '@gentleduck/registry-ui/badge'\nimport { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'\nimport { Info } from 'lucide-react'\n\nexport default function Demo() {\n  return (\n    <TooltipProvider>\n      <Tooltip>\n        <TooltipTrigger>\n          <Badge aria-label=\"Badge\" className=\"rounded-full\" size=\"icon\" variant=\"outline\">\n            <Info aria-hidden=\"true\" />\n          </Badge>\n        </TooltipTrigger>\n        <TooltipContent>Info Badge</TooltipContent>\n      </Tooltip>\n    </TooltipProvider>\n  )\n}\n",
       "path": "badge/badge-8.tsx",
       "target": "components/badge-8.tsx",
       "type": "registry:example"

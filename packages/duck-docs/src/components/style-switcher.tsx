@@ -11,9 +11,9 @@ import type * as React from 'react'
  * standard trigger props such as `className` and `disabled`, and this avoids
  * brittle declaration inference across package boundaries.
  */
-export interface StyleSwitcherProps extends React.ComponentPropsWithoutRef<'button'> {}
+export interface IStyleSwitcherProps extends React.ComponentPropsWithoutRef<'button'> {}
 
-export function StyleSwitcher({ className, ...props }: StyleSwitcherProps) {
+export function StyleSwitcher({ className, ...props }: IStyleSwitcherProps) {
   const [config, setConfig] = useConfig()
 
   return (

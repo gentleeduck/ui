@@ -1,4 +1,4 @@
-export const registry_colors = {
+export const registryColors = {
   amber: [
     {
       hex: '#fffbeb',

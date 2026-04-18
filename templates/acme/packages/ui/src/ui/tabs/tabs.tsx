@@ -1,7 +1,8 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
 import * as React from 'react'
 
@@ -13,23 +14,23 @@ export function useTabs() {
   return context
 }
 
-export interface TabsContextProps {
+export interface ITabsContextProps {
   activeItem: string
   setActiveItem: React.Dispatch<React.SetStateAction<string>>
   tabsId: string
 }
 
-const TabsContext = React.createContext<TabsContextProps | null>(null)
+const TabsContext = React.createContext<ITabsContextProps | null>(null)
 
-export interface TabsProps extends Omit<React.HTMLProps<HTMLDivElement>, 'defaultValue' | 'ref'> {
+export interface ITabsProps extends Omit<React.HTMLProps<HTMLDivElement>, 'defaultValue' | 'ref'> {
   value?: string
   defaultValue?: string
   onValueChange?: (value: string) => void
 }
 
-const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
+const Tabs = React.forwardRef<HTMLDivElement, ITabsProps>(
   ({ value, defaultValue, onValueChange, dir, ...props }, ref) => {
-    const direction = useDirection(dir as Direction)
+    const direction = useDirection(dir as IDirection.Kind)
     const [activeItem, setActiveItem] = React.useState<string>(defaultValue ?? value ?? '')
     const tabsId = React.useId()
 
@@ -46,9 +47,9 @@ const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(
 )
 Tabs.displayName = 'Tabs'
 
-export interface TabsListProps extends Omit<React.HTMLProps<HTMLDivElement>, 'ref' | 'role'> {}
+export interface ITabsListProps extends Omit<React.HTMLProps<HTMLDivElement>, 'ref' | 'role'> {}
 
-const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(({ className, ...props }, ref) => (
+const TabsList = React.forwardRef<HTMLDivElement, ITabsListProps>(({ className, ...props }, ref) => (
   <div
     className={cn(
       'inline-flex w-fit items-center justify-center gap-2 rounded-md bg-muted p-1 text-muted-foreground',
@@ -62,12 +63,12 @@ const TabsList = React.forwardRef<HTMLDivElement, TabsListProps>(({ className, .
 ))
 TabsList.displayName = 'TabsList'
 
-export interface TabsTriggerProps extends Omit<React.HTMLProps<HTMLButtonElement>, 'ref' | 'value'> {
+export interface ITabsTriggerProps extends Omit<React.HTMLProps<HTMLButtonElement>, 'ref' | 'value'> {
   value: string
   defaultChecked?: boolean
 }
 
-const TabsTrigger = React.forwardRef<HTMLButtonElement, TabsTriggerProps>(
+const TabsTrigger = React.forwardRef<HTMLButtonElement, ITabsTriggerProps>(
   ({ className, children, defaultChecked, onClick, value, disabled, ...props }, ref) => {
     const { setActiveItem, activeItem, tabsId } = useTabs()
     const isActive = value === activeItem

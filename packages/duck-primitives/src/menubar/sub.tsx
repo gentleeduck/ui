@@ -1,20 +1,12 @@
-/** MenubarSub manages open state for a nested submenu. */
 import type * as React from 'react'
 import { useControllableState } from '../hooks/use-controllable-state'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './menubar'
 import { useMenuScope } from './menubar'
+import type { IMenubar } from './menubar.types'
 
 const SUB_NAME = 'MenubarSub'
 
-interface MenubarSubProps {
-  children?: React.ReactNode
-  open?: boolean
-  defaultOpen?: boolean
-  onOpenChange?(open: boolean): void
-}
-
-const MenubarSub: React.FC<MenubarSubProps> = (props: ScopedProps<MenubarSubProps>) => {
+const MenubarSub: React.FC<IMenubar.ISubProps> = (props: IMenubar.IScoped<IMenubar.ISubProps>) => {
   const { __scopeMenubar, children, open: openProp, onOpenChange, defaultOpen } = props
   const menuScope = useMenuScope(__scopeMenubar)
   const [open, setOpen] = useControllableState({
@@ -33,5 +25,4 @@ const MenubarSub: React.FC<MenubarSubProps> = (props: ScopedProps<MenubarSubProp
 
 MenubarSub.displayName = SUB_NAME
 
-export type { MenubarSubProps }
 export { MenubarSub }

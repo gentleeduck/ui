@@ -1,4 +1,4 @@
-import type { JsonParseResult } from './json-editor.types'
+import type { IJsonParseResult } from './json-editor.types'
 
 export function safeStringify(value: unknown): string {
   try {
@@ -10,7 +10,7 @@ export function safeStringify(value: unknown): string {
   }
 }
 
-export function tryParseJson(text: string): JsonParseResult {
+export function tryParseJson(text: string): IJsonParseResult {
   const raw = text.trim()
   if (!raw) return { ok: true, value: null }
 

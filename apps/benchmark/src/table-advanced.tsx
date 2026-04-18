@@ -50,7 +50,7 @@ import {
 } from 'lucide-react'
 import React from 'react'
 import { cn } from './lib/utils'
-import { duck_table } from './main'
+import { duckTable } from './main'
 import { DuckTableSortable } from './table-advanced.chunks'
 
 export function DuckTable({ children, ...props }: React.HTMLAttributes<HTMLDivElement> & {}) {
@@ -62,7 +62,7 @@ export function DuckTable({ children, ...props }: React.HTMLAttributes<HTMLDivEl
 }
 
 export function DuckTableRowPerPage({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  const [pageSize, setPageSize] = useAtom(duck_table.atoms.pageSize)
+  const [pageSize, setPageSize] = useAtom(duckTable.atoms.pageSize)
 
   const options = [5, 10, 20, 50, 100]
 
@@ -92,8 +92,8 @@ export function DuckTableRowPerPage({ className, ...props }: React.HTMLAttribute
 }
 
 export function DuckTableSelectedRows({ className, ...props }: React.HTMLAttributes<HTMLDivElement>) {
-  const selectedCount = useAtomValue(duck_table.atoms.selectedRows)
-  const totalCount = useAtomValue(duck_table.atoms.rows)
+  const selectedCount = useAtomValue(duckTable.atoms.selectedRows)
+  const totalCount = useAtomValue(duckTable.atoms.rows)
 
   return (
     <div className={cn('flex items-center gap-2', className)} duck-table-selected-rows="" {...props}>
@@ -105,8 +105,8 @@ export function DuckTableSelectedRows({ className, ...props }: React.HTMLAttribu
 }
 
 export function DuckTablePagination({}: {}) {
-  const [page, setPage] = useAtom(duck_table.atoms.currentPage)
-  const totalPages = useAtomValue(duck_table.atoms.totalPages)
+  const [page, setPage] = useAtom(duckTable.atoms.currentPage)
+  const totalPages = useAtomValue(duckTable.atoms.totalPages)
 
   const isFirst = page <= 1
   const isLast = page >= totalPages
@@ -183,15 +183,15 @@ export function DuckTableShape() {
 }
 
 export function DuckTableHeader() {
-  const headers = useAtomValue(duck_table.atoms.columns)
+  const headers = useAtomValue(duckTable.atoms.columns)
 
   const visibleHeaders = Object.values(headers).filter((header) => header.visible)
   const colCount = visibleHeaders.length
   const cellWidth = `${100 / colCount}%`
 
   function HeahderCheckboxSelect() {
-    const mutatedRows = useAtomValue(duck_table.atoms.mutatedRows)
-    const [selectedRows, setSelectedRows] = useAtom(duck_table.atoms.selectedRows)
+    const mutatedRows = useAtomValue(duckTable.atoms.mutatedRows)
+    const [selectedRows, setSelectedRows] = useAtom(duckTable.atoms.selectedRows)
 
     return (
       <Checkbox
@@ -250,15 +250,15 @@ export function DuckTableHeader() {
 }
 
 export function DuckTableBody() {
-  const rows = useAtomValue(duck_table.atoms.currentPageRows)
-  const columns = useAtomValue(duck_table.atoms.columns)
+  const rows = useAtomValue(duckTable.atoms.currentPageRows)
+  const columns = useAtomValue(duckTable.atoms.columns)
 
   const visibleKeys = Object.entries(columns)
     .filter(([_, config]) => config.visible)
     .map(([key]) => key)
 
   function RowCheckboxSelect({ id }: { id: (typeof rows)[number]['id'] }) {
-    const [selectedRows, setSelectedRows] = useAtom(duck_table.atoms.selectedRows)
+    const [selectedRows, setSelectedRows] = useAtom(duckTable.atoms.selectedRows)
 
     return (
       <Checkbox
@@ -321,7 +321,7 @@ export function DuckTableBody() {
 }
 
 export function DuckTableRowActions({ id }: { id: string }) {
-  // const [rows, setRows] = useAtom(duck_table.atoms.rows)
+  // const [rows, setRows] = useAtom(duckTable.atoms.rows)
 
   return (
     <>
@@ -372,7 +372,7 @@ export function DuckTableActionsDelete() {
 }
 
 export function DuckTableBodyNotFound() {
-  const visibleColumns = useAtomValue(duck_table.atoms.visibleColumns)
+  const visibleColumns = useAtomValue(duckTable.atoms.visibleColumns)
   return (
     <TableRow>
       <TableCell className="text-center" colSpan={visibleColumns.length + 1}>
@@ -383,7 +383,7 @@ export function DuckTableBodyNotFound() {
 }
 
 export function DuckTableBodyCaption() {
-  const visibleColumns = useAtomValue(duck_table.atoms.visibleColumns)
+  const visibleColumns = useAtomValue(duckTable.atoms.visibleColumns)
   return (
     <TableFooter>
       <TableRow>

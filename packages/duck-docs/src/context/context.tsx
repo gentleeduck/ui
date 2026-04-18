@@ -1,9 +1,9 @@
 'use client'
 
 import * as React from 'react'
-import type { DocsConfig, DocsContextValue, DocsEntry, DocsSiteConfig, RegistryIndex } from './context.types'
+import type { IDocsConfig, IDocsContextValue, IDocsEntry, IDocsSiteConfig, RegistryIndex } from './context.types'
 
-const DocsContext = React.createContext<DocsContextValue | null>(null)
+const DocsContext = React.createContext<IDocsContextValue | null>(null)
 
 export function DocsProvider({
   children,
@@ -13,10 +13,10 @@ export function DocsProvider({
   siteConfig,
 }: {
   children: React.ReactNode
-  docs?: DocsEntry[]
-  docsConfig: DocsConfig
+  docs?: IDocsEntry[]
+  docsConfig: IDocsConfig
   registryIndex?: RegistryIndex
-  siteConfig: DocsSiteConfig
+  siteConfig: IDocsSiteConfig
 }) {
   const value = React.useMemo(
     () => ({

@@ -15,5 +15,5 @@ export {
   MenubarSubContent,
   MenubarSubTrigger,
   MenubarTrigger,
-  MotionMenubarContent,
 } from './menubar'
+export { MotionMenubarContent } from './motion-menubar'

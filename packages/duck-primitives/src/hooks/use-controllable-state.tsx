@@ -9,11 +9,11 @@ const useInsertionEffect: typeof useLayoutEffect =
 type ChangeHandler<T> = (state: T) => void
 type SetStateFn<T> = React.Dispatch<React.SetStateAction<T>>
 
-interface UseControllableStateParams<T> {
+interface IUseControllableStateParams<T> {
   prop?: T | undefined
   defaultProp: T
-  onChange?: ChangeHandler<T>
-  caller?: string
+  onChange?: ChangeHandler<T> | undefined
+  caller?: string | undefined
 }
 
 /**
@@ -26,7 +26,7 @@ export function useControllableState<T>({
   defaultProp,
   onChange = () => {},
   caller,
-}: UseControllableStateParams<T>): [T, SetStateFn<T>] {
+}: IUseControllableStateParams<T>): [T, SetStateFn<T>] {
   const [uncontrolledProp, setUncontrolledProp, onChangeRef] = useUncontrolledState({
     defaultProp,
     onChange,
@@ -76,7 +76,7 @@ export function useControllableState<T>({
 function useUncontrolledState<T>({
   defaultProp,
   onChange,
-}: Omit<UseControllableStateParams<T>, 'prop'>): [
+}: Omit<IUseControllableStateParams<T>, 'prop'>): [
   Value: T,
   setValue: React.Dispatch<React.SetStateAction<T>>,
   OnChangeRef: React.RefObject<ChangeHandler<T> | undefined>,

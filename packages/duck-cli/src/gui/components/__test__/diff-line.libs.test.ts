@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import { get_renderable_diff_segments } from '../diff-line.libs'
+import { getRenderableDiffSegments } from '../diff-line.libs'
 
-describe('get_renderable_diff_segments', () => {
+describe('getRenderableDiffSegments', () => {
   it('assigns stable unique keys to duplicate segments', () => {
-    const segments = get_renderable_diff_segments([
+    const segments = getRenderableDiffSegments([
       { text: 'duck', highlight: false },
       { text: 'duck', highlight: false },
       { text: 'duck', highlight: true, color: 'green' },
@@ -19,7 +19,7 @@ describe('get_renderable_diff_segments', () => {
   })
 
   it('preserves the original segment data', () => {
-    const [segment] = get_renderable_diff_segments([{ text: 'ui', highlight: true, color: 'red' }])
+    const [segment] = getRenderableDiffSegments([{ text: 'ui', highlight: true, color: 'red' }])
 
     expect(segment).toMatchObject({
       color: 'red',

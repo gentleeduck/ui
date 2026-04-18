@@ -1,12 +1,13 @@
 import type React from 'react'
 
-export type PreviewPanelState = {
+export interface IPreviewPanelState {
   zoom: number
   x: number
   y: number
 }
+export type PreviewPanelState = IPreviewPanelState
 
-export interface PreviewPanelProps extends React.HTMLProps<HTMLDivElement> {
+export interface IPreviewPanelProps extends React.HTMLProps<HTMLDivElement> {
   /** Maximum height of the panel container. */
   maxHeight?: string
   /** Minimum zoom level. Default 0.25. */
@@ -20,12 +21,12 @@ export interface PreviewPanelProps extends React.HTMLProps<HTMLDivElement> {
   /** Raw HTML string to render inside the panel. Takes priority over children. */
   html?: string
   /** Called whenever zoom or position changes. Use to sync with another panel. */
-  onStateChange?: (state: PreviewPanelState) => void
+  onStateChange?: (state: IPreviewPanelState) => void
   /** External state to apply. When set, the panel syncs to this state. */
-  syncState?: PreviewPanelState
+  syncState?: IPreviewPanelState
 }
 
-export interface PreviewPanelDialogProps {
+export interface IPreviewPanelDialogProps {
   /** Content to render in both the inline panel and the dialog panel. */
   children?: React.ReactNode
   /** Raw HTML string to render. Takes priority over children. */

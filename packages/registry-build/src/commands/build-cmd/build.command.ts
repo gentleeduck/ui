@@ -2,12 +2,12 @@ import { Command } from 'commander'
 import { build } from '../../pipeline'
 import { applyBuildOptions, toBuildOptions } from './build.options'
 import { formatError, formatPhaseSummary, toSerializableResult } from './build.output'
-import type { RegistryBuildCommandOptions } from './build.types'
+import type { IRegistryBuildCommandOptions } from './build.types'
 
 /**
  * Execute the build command and normalize CLI-facing success and error output.
  */
-export async function runBuildCommand(options: RegistryBuildCommandOptions) {
+export async function runBuildCommand(options: IRegistryBuildCommandOptions) {
   try {
     const result = await build(toBuildOptions(options))
 
@@ -33,7 +33,7 @@ export async function runBuildCommand(options: RegistryBuildCommandOptions) {
  */
 export function buildCommand() {
   return applyBuildOptions(new Command('build').description('Build the configured registry output')).action(
-    async (options: RegistryBuildCommandOptions) => {
+    async (options: IRegistryBuildCommandOptions) => {
       await runBuildCommand(options)
     },
   )

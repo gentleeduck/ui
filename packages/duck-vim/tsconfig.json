@@ -1,20 +1,15 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
-  "extends": "@gentleduck/typescript-config/base.json",
   "compilerOptions": {
     "allowImportingTsExtensions": true,
-    "ignoreDeprecations": "6.0",
-    "jsx": "react-jsx",
-    "lib": ["ES2022", "dom", "dom.iterable"],
     "module": "esnext",
-    "moduleResolution": "bundler",
-    "target": "ES2022",
     "noEmit": true,
     "outDir": "./dist",
     "paths": {
       "~/*": ["./src/*"]
     },
-    "rootDir": "./"
+    "rootDir": "./",
+    "target": "ES2022"
   },
   "exclude": [
     "node_modules",
@@ -25,5 +20,6 @@
     "**/*.tsbuildinfo",
     "tsconfig.tsbuildinfo"
   ],
+  "extends": "@gentleduck/typescript-config/react.json",
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }

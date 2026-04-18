@@ -1,2 +1,2 @@
 export { useDateTime } from './use-datetime'
-export type { UseDateTimeConfig, UseDateTimeReturn } from './use-datetime.types'
+export type { UseDateTime } from './use-datetime.types'

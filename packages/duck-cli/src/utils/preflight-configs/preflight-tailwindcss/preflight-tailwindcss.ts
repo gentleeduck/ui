@@ -2,24 +2,24 @@ import type { Ora } from 'ora'
 import prompts from 'prompts'
 import type { InitOptions } from '~/commands/init'
 import { highlighter } from '../../text-styling'
-import { tailwindcss_prompts } from './preflight-tailwindcss.constants'
-import { preflight_tailwindcss_options_schema } from './preflight-tailwindcss.dto'
-import { checkTailwindCssInstalled, install_tailwindcss } from './preflight-tailwindcss.lib'
+import { tailwindcssPrompts } from './preflight-tailwindcss.constants'
+import { preflightTailwindcssOptionsSchema } from './preflight-tailwindcss.dto'
+import { checkTailwindCssInstalled, installTailwindcss } from './preflight-tailwindcss.lib'
 
-export async function preflight_tailwindcss(_options: InitOptions, spinner: Ora): Promise<void> {
+export async function preflightTailwindcss(_options: InitOptions, spinner: Ora): Promise<void> {
   try {
     spinner.text = `Preflighting required ${highlighter.info('TailwindCss')} configs...`
-    const is_tailwind_installed = await checkTailwindCssInstalled(_options.cwd, spinner)
-    if (is_tailwind_installed) {
+    const isTailwindInstalled = await checkTailwindCssInstalled(_options.cwd, spinner)
+    if (isTailwindInstalled) {
       spinner.text = `${highlighter.info('TailwindCss')} is already installed...`
       return
     }
 
     if (!_options.yes) {
       spinner.stop()
-      const options = await prompts(tailwindcss_prompts)
+      const options = await prompts(tailwindcssPrompts)
       spinner.start()
-      const { tailwind } = preflight_tailwindcss_options_schema.parse(options)
+      const { tailwind } = preflightTailwindcssOptionsSchema.parse(options)
 
       if (!tailwind) {
         spinner.text = `${highlighter.info('TailwindCss')} is not installed...`
@@ -29,14 +29,14 @@ export async function preflight_tailwindcss(_options: InitOptions, spinner: Ora)
 
     if (_options.yes) {
       // Non-interactive mode: use flag values or defaults
-      await install_tailwindcss(
+      await installTailwindcss(
         _options.cwd,
         spinner,
         _options.projectType || 'VITE',
         _options.css || './src/styles.css',
       )
     } else {
-      await install_tailwindcss(_options.cwd, spinner)
+      await installTailwindcss(_options.cwd, spinner)
     }
   } catch (error) {
     spinner.fail(

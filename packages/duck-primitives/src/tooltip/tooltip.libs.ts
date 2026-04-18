@@ -1,23 +1,19 @@
-import type { Scope } from '../libs/create-context'
 import { createContextScope } from '../libs/create-context'
-import type { Point } from '../libs/shared-utils'
+import type { IPoint } from '../libs/shared-utils'
 import { createPopperScope } from '../popper'
 
 const TOOLTIP_NAME = 'Tooltip'
-
-type ScopedProps<P = {}> = P & { __scopeTooltip?: Scope }
 
 const [createTooltipContext, createTooltipScope] = createContextScope(TOOLTIP_NAME, [createPopperScope])
 const usePopperScope = createPopperScope()
 
 const TOOLTIP_OPEN = 'tooltip.open'
 
-export type { ScopedProps }
 export { createTooltipContext, createTooltipScope, TOOLTIP_NAME, TOOLTIP_OPEN, usePopperScope }
 
 type Side = 'top' | 'right' | 'bottom' | 'left'
 
-function getExitSideFromRect(point: Point, rect: DOMRect): Side {
+function getExitSideFromRect(point: IPoint, rect: DOMRect): Side {
   const top = Math.abs(rect.top - point.y)
   const bottom = Math.abs(rect.bottom - point.y)
   const right = Math.abs(rect.right - point.x)
@@ -37,8 +33,8 @@ function getExitSideFromRect(point: Point, rect: DOMRect): Side {
   }
 }
 
-function getPaddedExitPoints(exitPoint: Point, exitSide: Side, padding = 5) {
-  const paddedExitPoints: Point[] = []
+function getPaddedExitPoints(exitPoint: IPoint, exitSide: Side, padding = 5) {
+  const paddedExitPoints: IPoint[] = []
   switch (exitSide) {
     case 'top':
       paddedExitPoints.push(
@@ -80,9 +76,9 @@ function getPointsFromRect(rect: DOMRect) {
 
 // Returns a new array of points representing the convex hull of the given set of points.
 // https://www.nayuki.io/page/convex-hull-algorithm
-function getHull<P extends Point>(points: Readonly<Array<P>>): Array<P> {
+function getHull<P extends IPoint>(points: Readonly<Array<P>>): Array<P> {
   const newPoints: Array<P> = points.slice()
-  newPoints.sort((a: Point, b: Point) => {
+  newPoints.sort((a: IPoint, b: IPoint) => {
     if (a.x < b.x) return -1
     else if (a.x > b.x) return +1
     else if (a.y < b.y) return -1
@@ -93,7 +89,7 @@ function getHull<P extends Point>(points: Readonly<Array<P>>): Array<P> {
 }
 
 // Returns the convex hull, assuming that each points[i] <= points[i + 1]. Runs in O(n) time.
-function getHullPresorted<P extends Point>(points: Readonly<Array<P>>): Array<P> {
+function getHullPresorted<P extends IPoint>(points: Readonly<Array<P>>): Array<P> {
   if (points.length <= 1) return points.slice()
 
   const upperHull: Array<P> = []
@@ -140,6 +136,6 @@ function getHullPresorted<P extends Point>(points: Readonly<Array<P>>): Array<P>
   }
 }
 
-export type { Point, Polygon } from '../libs/shared-utils'
+export type { IPoint, Polygon } from '../libs/shared-utils'
 export { isPointInPolygon } from '../libs/shared-utils'
 export { getExitSideFromRect, getHull, getPaddedExitPoints, getPointsFromRect }

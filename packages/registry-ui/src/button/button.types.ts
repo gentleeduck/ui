@@ -1,4 +1,4 @@
-import type { VariantProps } from '@gentleduck/variants'
+import type { Variants } from '@gentleduck/variants'
 import type { buttonVariants } from './button.constants'
 
 /**
@@ -6,7 +6,7 @@ import type { buttonVariants } from './button.constants'
  */
 export interface ButtonProps
   extends Omit<React.HTMLProps<HTMLButtonElement>, 'size'>,
-    VariantProps<typeof buttonVariants> {
+    Variants.VariantProps<typeof buttonVariants> {
   /** Render as child component using Slot (e.g., for custom wrappers) */
   asChild?: boolean
   /** Controls collapsed state for buttons like sidebar toggles */

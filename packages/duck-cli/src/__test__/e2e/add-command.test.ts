@@ -24,16 +24,16 @@ vi.mock('execa', () => ({
   execa: vi.fn().mockResolvedValue({ failed: false, stdout: '', stderr: '' }),
 }))
 
-// Mock get_package_manager
+// Mock getPackageManager
 vi.mock('~/utils/get-package-manager', () => ({
-  get_package_manager: vi.fn().mockResolvedValue('npm'),
+  getPackageManager: vi.fn().mockResolvedValue('npm'),
 }))
 
 // Mock prompts
 const mockPrompts = vi.fn()
 vi.mock('prompts', () => ({ default: mockPrompts }))
 
-describe('add_command_action', () => {
+describe('addCommandAction', () => {
   let tmpDir: string
   const originalCwd = process.cwd
   let exitCodes: number[]
@@ -91,9 +91,9 @@ describe('add_command_action', () => {
   })
 
   it('adds a component with --yes --force flags', async () => {
-    const { add_command_action } = await import('~/commands/add/add.libs')
+    const { addCommandAction } = await import('~/commands/add/add.libs')
 
-    await expect(add_command_action(['button'], { cwd: tmpDir, yes: true, force: true, all: false })).rejects.toThrow(
+    await expect(addCommandAction(['button'], { cwd: tmpDir, yes: true, force: true, all: false })).rejects.toThrow(
       /process\.exit/,
     )
 
@@ -106,13 +106,13 @@ describe('add_command_action', () => {
   })
 
   it('handles nonexistent component gracefully', async () => {
-    const { add_command_action } = await import('~/commands/add/add.libs')
+    const { addCommandAction } = await import('~/commands/add/add.libs')
 
     await expect(
-      add_command_action(['nonexistent'], { cwd: tmpDir, yes: true, force: true, all: false }),
+      addCommandAction(['nonexistent'], { cwd: tmpDir, yes: true, force: true, all: false }),
     ).rejects.toThrow(/process\.exit/)
 
-    // resolve_components calls process.exit(0) when no components found
+    // resolveComponents calls process.exit(0) when no components found
     expect(exitCodes[0]).toBe(0)
   })
 
@@ -139,9 +139,9 @@ describe('add_command_action', () => {
       }),
     )
 
-    const { add_command_action } = await import('~/commands/add/add.libs')
+    const { addCommandAction } = await import('~/commands/add/add.libs')
 
-    await expect(add_command_action(['card'], { cwd: tmpDir, yes: true, force: true, all: false })).rejects.toThrow(
+    await expect(addCommandAction(['card'], { cwd: tmpDir, yes: true, force: true, all: false })).rejects.toThrow(
       /process\.exit/,
     )
 
@@ -179,10 +179,10 @@ describe('add_command_action', () => {
       }),
     )
 
-    const { add_command_action } = await import('~/commands/add/add.libs')
+    const { addCommandAction } = await import('~/commands/add/add.libs')
     const { execa } = await import('execa')
 
-    await expect(add_command_action(['button'], { cwd: tmpDir, yes: true, force: true, all: false })).rejects.toThrow(
+    await expect(addCommandAction(['button'], { cwd: tmpDir, yes: true, force: true, all: false })).rejects.toThrow(
       /process\.exit/,
     )
 
@@ -225,10 +225,10 @@ describe('add_command_action', () => {
       }),
     )
 
-    const { add_command_action } = await import('~/commands/add/add.libs')
+    const { addCommandAction } = await import('~/commands/add/add.libs')
 
     await expect(
-      add_command_action(['button'], { cwd: tmpDir, workspace: 'apps/web', yes: true, force: true, all: false }),
+      addCommandAction(['button'], { cwd: tmpDir, workspace: 'apps/web', yes: true, force: true, all: false }),
     ).rejects.toThrow(/process\.exit/)
 
     expect(exitCodes[0]).toBe(0)
@@ -251,10 +251,10 @@ describe('add_command_action', () => {
       }),
     )
 
-    const { add_command_action } = await import('~/commands/add/add.libs')
+    const { addCommandAction } = await import('~/commands/add/add.libs')
 
     await expect(
-      add_command_action(['button'], { cwd: tmpDir, workspace: 'apps/missing', yes: true, force: true, all: false }),
+      addCommandAction(['button'], { cwd: tmpDir, workspace: 'apps/missing', yes: true, force: true, all: false }),
     ).rejects.toThrow(/process\.exit/)
 
     expect(exitCodes[0]).toBe(1)
@@ -290,10 +290,10 @@ describe('add_command_action', () => {
 
     process.cwd = () => path.join(tmpDir, 'apps', 'web', 'src', 'pages')
 
-    const { add_command_action } = await import('~/commands/add/add.libs')
+    const { addCommandAction } = await import('~/commands/add/add.libs')
 
     await expect(
-      add_command_action(['button'], { cwd: process.cwd(), yes: true, force: true, all: false }),
+      addCommandAction(['button'], { cwd: process.cwd(), yes: true, force: true, all: false }),
     ).rejects.toThrow(/process\.exit/)
 
     expect(exitCodes[0]).toBe(0)

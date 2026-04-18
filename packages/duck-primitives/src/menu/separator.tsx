@@ -1,17 +1,14 @@
-/** MenuSeparator component - a visual separator between menu items. */
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
-
-import { type ScopedProps, useMenuRootContext } from './menu'
+import { useMenuRootContext } from './menu'
+import type { IMenu } from './menu.types'
 
 const SEPARATOR_NAME = 'MenuSeparator'
 
 type MenuSeparatorElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-interface MenuSeparatorProps extends PrimitiveDivProps {}
 
-const MenuSeparator = React.forwardRef<MenuSeparatorElement, MenuSeparatorProps>(
-  (props: ScopedProps<MenuSeparatorProps>, forwardedRef) => {
+const MenuSeparator = React.forwardRef<MenuSeparatorElement, IMenu.ISeparatorProps>(
+  (props: IMenu.IScoped<IMenu.ISeparatorProps>, forwardedRef) => {
     const { __scopeMenu, ...separatorProps } = props
     const rootContext = useMenuRootContext(SEPARATOR_NAME, __scopeMenu)
     return (
@@ -29,5 +26,4 @@ const MenuSeparator = React.forwardRef<MenuSeparatorElement, MenuSeparatorProps>
 
 MenuSeparator.displayName = SEPARATOR_NAME
 
-export type { MenuSeparatorElement, MenuSeparatorProps }
 export { MenuSeparator }

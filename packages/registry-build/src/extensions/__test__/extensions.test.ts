@@ -3,7 +3,7 @@ import { uiRegistryPreset } from '../../config/presets/ui-registry.preset'
 import { bannerExtension } from '../banner'
 import { colorsExtension } from '../colors'
 import { componentIndexExtension } from '../component-index'
-import type { RegistryBuildExtension, RegistryBuildExtensionStage } from '../extension'
+import type { IRegistryBuildExtension, RegistryBuildExtensionStage } from '../extension'
 import { componentsExtension, indexBuildExtension } from '../ui/ui.extensions'
 import { validateExtension } from '../validate'
 
@@ -13,7 +13,7 @@ import { validateExtension } from '../validate'
 
 /** Assert the structural contract every extension must satisfy. */
 function assertExtensionShape(
-  ext: RegistryBuildExtension,
+  ext: IRegistryBuildExtension,
   expectedName: string,
   expectedStage: RegistryBuildExtensionStage,
 ) {
@@ -30,7 +30,7 @@ function assertExtensionShape(
 
 describe('extension type contract', () => {
   test('every extension has name, stage, and run', () => {
-    const extensions: RegistryBuildExtension[] = [
+    const extensions: IRegistryBuildExtension[] = [
       bannerExtension(),
       validateExtension(),
       indexBuildExtension(),

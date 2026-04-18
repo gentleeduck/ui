@@ -1,7 +1,8 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
 import * as React from 'react'
 import { Button } from '../button'
@@ -31,7 +32,7 @@ const Collapsible = React.forwardRef<
     defaultOpen?: boolean
   }
 >(({ children, className, open: openProp, onOpenChange, defaultOpen, dir, ...props }, ref) => {
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
@@ -125,7 +126,7 @@ const CollapsibleContent = React.forwardRef<
       aria-hidden={!open}
       className={cn(
         'h-0 overflow-hidden transition-all data-[open=true]:h-auto',
-        'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+        'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
         className,
       )}
       data-open={open}

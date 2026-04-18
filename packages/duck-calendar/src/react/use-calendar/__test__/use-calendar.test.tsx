@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react'
 import { NativeAdapter } from '../../../adapter'
-import type { DateRange } from '../../../selection'
+import type { Selection } from '../../../selection'
 import { useCalendar } from '../use-calendar'
 
 const march2026 = new Date(2026, 2, 1)
@@ -127,7 +127,7 @@ describe('useCalendar', () => {
         result.current.actions.selectDate(day.date)
       })
 
-      const range = result.current.state.value as DateRange<Date>
+      const range = result.current.state.value as Selection.DateRange<Date>
       expect(range).not.toBeNull()
       expect(adapter.isSameDay(range.from, day.date)).toBe(true)
       expect(range.to).toBeNull()
@@ -146,7 +146,7 @@ describe('useCalendar', () => {
         result.current.actions.selectDate(lastDay.date)
       })
 
-      const range = result.current.state.value as DateRange<Date>
+      const range = result.current.state.value as Selection.DateRange<Date>
       expect(range).not.toBeNull()
       expect(adapter.isSameDay(range.from, firstDay.date)).toBe(true)
       expect(range.to).not.toBeNull()
@@ -688,7 +688,7 @@ describe('useCalendar', () => {
         result.current.actions.selectDate(earlierDay.date)
       })
 
-      const range = result.current.state.value as DateRange<Date>
+      const range = result.current.state.value as Selection.DateRange<Date>
       expect(range).not.toBeNull()
       expect(adapter.isBefore(range.from, range.to!) || adapter.isSameDay(range.from, range.to!)).toBe(true)
     })
@@ -713,7 +713,7 @@ describe('useCalendar', () => {
         result.current.actions.selectDate(day3.date)
       })
 
-      const range = result.current.state.value as DateRange<Date>
+      const range = result.current.state.value as Selection.DateRange<Date>
       expect(range).not.toBeNull()
       expect(adapter.isSameDay(range.from, day3.date)).toBe(true)
       expect(range.to).toBeNull()

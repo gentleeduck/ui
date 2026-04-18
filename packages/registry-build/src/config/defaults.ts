@@ -2,14 +2,14 @@ import { availableParallelism } from 'node:os'
 import type { RegistryBuildFramework } from '../extensions/ui/ui.config.types'
 import type { RegistryItemType, RegistryItemTypeMap } from '../extensions/ui/ui.registry.types'
 import type {
-  RegistryBuildCollection,
-  RegistryBuildConfig,
-  RegistryBuildSource,
-  ResolvedRegistryBuildBranding,
-  ResolvedRegistryBuildComponentIndex,
-  ResolvedRegistryBuildCssTemplates,
-  ResolvedRegistryBuildOutput,
-  ResolvedRegistryBuildPerformanceConfig,
+  IRegistryBuildCollection,
+  IRegistryBuildConfig,
+  IRegistryBuildSource,
+  IResolvedRegistryBuildBranding,
+  IResolvedRegistryBuildComponentIndex,
+  IResolvedRegistryBuildCssTemplates,
+  IResolvedRegistryBuildOutput,
+  IResolvedRegistryBuildPerformanceConfig,
 } from './types'
 
 // ---------------------------------------------------------------------------
@@ -30,7 +30,13 @@ export const DEFAULT_CONFIG_FILENAMES = [
 /** Source defaults shared by legacy registries and generic collections. */
 export const DEFAULT_SOURCE_GLOB = '**/*.{ts,tsx}'
 export const DEFAULT_SOURCE_INDEX_STRATEGY = 'item' as const
-export const DEFAULT_SOURCE_IGNORE = ['**/__test__/**', '**/*.test.*', '**/*.spec.*'] as const
+export const DEFAULT_SOURCE_IGNORE = [
+  '**/__test__/**',
+  '**/__tests__/**',
+  '**/__snapshots__/**',
+  '**/*.test.*',
+  '**/*.spec.*',
+] as const
 
 // ---------------------------------------------------------------------------
 // UI extension defaults (used by built-in UI extensions)
@@ -53,7 +59,7 @@ export const DEFAULT_THEME_NAMES = [] as const
 export const DEFAULT_THEME_RADIUS = '0.5rem'
 
 /** Output subdirectory defaults for the built-in UI emitters. */
-export const DEFAULT_OUTPUT: Omit<ResolvedRegistryBuildOutput, 'dir'> = {
+export const DEFAULT_OUTPUT: Omit<IResolvedRegistryBuildOutput, 'dir'> = {
   colorsDir: 'colors',
   componentIndexDir: '__ui_registry__',
   componentIndexFile: 'index.tsx',
@@ -64,7 +70,7 @@ export const DEFAULT_OUTPUT: Omit<ResolvedRegistryBuildOutput, 'dir'> = {
 }
 
 /** Component index defaults. */
-export const DEFAULT_COMPONENT_INDEX: Omit<ResolvedRegistryBuildComponentIndex, 'generator'> = {
+export const DEFAULT_COMPONENT_INDEX: Omit<IResolvedRegistryBuildComponentIndex, 'generator'> = {
   excludeTypes: [...DEFAULT_COMPONENT_INDEX_EXCLUDE_TYPES],
   framework: DEFAULT_COMPONENT_INDEX_FRAMEWORK,
   header: DEFAULT_COMPONENT_INDEX_HEADER,
@@ -72,20 +78,20 @@ export const DEFAULT_COMPONENT_INDEX: Omit<ResolvedRegistryBuildComponentIndex, 
 }
 
 /** Runtime behavior defaults. */
-export const DEFAULT_PERFORMANCE: ResolvedRegistryBuildPerformanceConfig = {
+export const DEFAULT_PERFORMANCE: IResolvedRegistryBuildPerformanceConfig = {
   cacheDir: '.registry-build',
   incremental: true,
   parallelism: Math.max(1, Math.min(availableParallelism(), 8)),
 }
 
 /** Human-facing CLI defaults. */
-export const DEFAULT_BRANDING: ResolvedRegistryBuildBranding = {
+export const DEFAULT_BRANDING: IResolvedRegistryBuildBranding = {
   font: 'ANSI Shadow',
   name: '@gentleduck/registry-build',
 }
 
 /** Theme CSS defaults. */
-export const DEFAULT_CSS_TEMPLATES: ResolvedRegistryBuildCssTemplates = {
+export const DEFAULT_CSS_TEMPLATES: IResolvedRegistryBuildCssTemplates = {
   baseLayerRules: `@layer base {
   * {
     @apply border-border;
@@ -107,18 +113,25 @@ export const DEFAULT_SCHEMA_ITEM_TYPES = [] as const
 // Default application helpers
 // ---------------------------------------------------------------------------
 
-/** Apply source defaults (glob, ignore, indexStrategy) to a single source entry. */
-function withSourceDefaults(source: RegistryBuildSource): RegistryBuildSource {
+/**
+ * Apply source defaults (glob, ignore, indexStrategy) to a single source entry.
+ *
+ * `ignore` is always merged with `DEFAULT_SOURCE_IGNORE` so users never
+ * accidentally opt out of the test/snapshot exclusions by supplying their own
+ * array. Duplicates are removed via `Set`.
+ */
+function withSourceDefaults(source: IRegistryBuildSource): IRegistryBuildSource {
+  const userIgnore = source.ignore ?? []
   return {
     ...source,
     glob: source.glob ?? DEFAULT_SOURCE_GLOB,
-    ignore: source.ignore ?? [...DEFAULT_SOURCE_IGNORE],
+    ignore: [...new Set([...DEFAULT_SOURCE_IGNORE, ...userIgnore])],
     indexStrategy: source.indexStrategy ?? DEFAULT_SOURCE_INDEX_STRATEGY,
   }
 }
 
 /** Apply source defaults to every source in a collection. */
-function withCollectionDefaults(collection: RegistryBuildCollection): RegistryBuildCollection {
+function withCollectionDefaults(collection: IRegistryBuildCollection): IRegistryBuildCollection {
   return {
     ...collection,
     metadata: collection.metadata ?? {},
@@ -134,9 +147,9 @@ function withCollectionDefaults(collection: RegistryBuildCollection): RegistryBu
  * This is the single source of truth for all default values. Resolution and
  * the loader trust these values to be fully populated after this function runs.
  */
-export function withRegistryBuildDefaults(config: RegistryBuildConfig): RegistryBuildConfig {
-  const collectionEntries = Object.entries(config.collections ?? {}) as Array<[string, RegistryBuildCollection]>
-  const sourceEntries = Object.entries(config.sources ?? {}) as Array<[RegistryItemType, RegistryBuildSource]>
+export function withRegistryBuildDefaults(config: IRegistryBuildConfig): IRegistryBuildConfig {
+  const collectionEntries = Object.entries(config.collections ?? {}) as Array<[string, IRegistryBuildCollection]>
+  const sourceEntries = Object.entries(config.sources ?? {}) as Array<[RegistryItemType, IRegistryBuildSource]>
 
   return {
     ...config,
@@ -178,7 +191,7 @@ export function withRegistryBuildDefaults(config: RegistryBuildConfig): Registry
     },
     sources: Object.fromEntries(
       sourceEntries.map(([type, source]) => [type, withSourceDefaults(source)]),
-    ) as RegistryItemTypeMap<RegistryBuildSource>,
+    ) as RegistryItemTypeMap<IRegistryBuildSource>,
     stripVariables: config.stripVariables ?? [...DEFAULT_STRIP_VARIABLES],
     targetPaths: config.targetPaths ?? {},
     themes: config.themes

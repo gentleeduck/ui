@@ -6,11 +6,11 @@ import {
   DEFAULT_SOURCE_IGNORE,
   withRegistryBuildDefaults,
 } from '../..'
-import type { RegistryBuildConfig } from '../types'
+import type { IRegistryBuildConfig } from '../types'
 
 describe('withRegistryBuildDefaults', () => {
   test('applies DEFAULT_SOURCE_GLOB to sources missing glob', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       sources: {
         'registry:ui': { path: './src/ui' },
       },
@@ -21,7 +21,7 @@ describe('withRegistryBuildDefaults', () => {
   })
 
   test('applies DEFAULT_SOURCE_IGNORE to sources missing ignore', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       sources: {
         'registry:ui': { path: './src/ui' },
       },
@@ -47,7 +47,7 @@ describe('withRegistryBuildDefaults', () => {
   })
 
   test('preserves user-provided values and does not override them with defaults', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       branding: { name: 'my-tool' },
       performance: { cacheDir: '.my-cache', incremental: false, parallelism: 2 },
       sources: {
@@ -61,11 +61,13 @@ describe('withRegistryBuildDefaults', () => {
     expect(result.performance!.incremental).toBe(false)
     expect(result.performance!.parallelism).toBe(2)
     expect(result.sources!['registry:ui']!.glob).toBe('**/*.vue')
-    expect(result.sources!['registry:ui']!.ignore).toEqual(['**/dist/**'])
+    // User-provided ignore is merged with DEFAULT_SOURCE_IGNORE so the
+    // built-in test/snapshot exclusions are never accidentally dropped.
+    expect(result.sources!['registry:ui']!.ignore).toEqual([...DEFAULT_SOURCE_IGNORE, '**/dist/**'])
   })
 
   test('applies collection source defaults', () => {
-    const config: RegistryBuildConfig = {
+    const config: IRegistryBuildConfig = {
       collections: {
         packages: {
           sources: {

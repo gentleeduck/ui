@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-export const preflight_typescript_options_schema = z.object({
+export const preflightTypescriptOptionsSchema = z.object({
   typescript: z
     .boolean({
       message: 'You have to pick one option',

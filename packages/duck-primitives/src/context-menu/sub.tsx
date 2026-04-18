@@ -1,20 +1,12 @@
-/** ContextMenuSub -- manages open state for a nested submenu. */
 import type * as React from 'react'
 import { useControllableState } from '../hooks/use-controllable-state'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './context-menu'
 import { useMenuScope } from './context-menu'
+import type { IContextMenu } from './context-menu.types'
 
 const SUB_NAME = 'ContextMenuSub'
 
-interface ContextMenuSubProps {
-  children?: React.ReactNode
-  open?: boolean
-  defaultOpen?: boolean
-  onOpenChange?(open: boolean): void
-}
-
-const ContextMenuSub: React.FC<ContextMenuSubProps> = (props: ScopedProps<ContextMenuSubProps>) => {
+const ContextMenuSub: React.FC<IContextMenu.ISubProps> = (props: IContextMenu.IScoped<IContextMenu.ISubProps>) => {
   const { __scopeContextMenu, children, onOpenChange, open: openProp, defaultOpen } = props
   const menuScope = useMenuScope(__scopeContextMenu)
   const [open, setOpen] = useControllableState({
@@ -33,5 +25,4 @@ const ContextMenuSub: React.FC<ContextMenuSubProps> = (props: ScopedProps<Contex
 
 ContextMenuSub.displayName = SUB_NAME
 
-export type { ContextMenuSubProps }
 export { ContextMenuSub }

@@ -1,17 +1,14 @@
-/** DropdownMenuLabel -- a non-interactive label for a group of items. */
 import * as React from 'react'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './dropdown-menu'
 import { useMenuScope } from './dropdown-menu'
+import type { IDropdownMenu } from './dropdown-menu.types'
 
 const LABEL_NAME = 'DropdownMenuLabel'
 
 type DropdownMenuLabelElement = React.ComponentRef<typeof MenuPrimitive.Label>
-type MenuLabelProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Label>
-interface DropdownMenuLabelProps extends MenuLabelProps {}
 
-const DropdownMenuLabel = React.forwardRef<DropdownMenuLabelElement, DropdownMenuLabelProps>(
-  (props: ScopedProps<DropdownMenuLabelProps>, forwardedRef) => {
+const DropdownMenuLabel = React.forwardRef<DropdownMenuLabelElement, IDropdownMenu.ILabelProps>(
+  (props: IDropdownMenu.IScoped<IDropdownMenu.ILabelProps>, forwardedRef) => {
     const { __scopeDropdownMenu, ...labelProps } = props
     const menuScope = useMenuScope(__scopeDropdownMenu)
     return <MenuPrimitive.Label {...menuScope} {...labelProps} ref={forwardedRef} />
@@ -20,5 +17,4 @@ const DropdownMenuLabel = React.forwardRef<DropdownMenuLabelElement, DropdownMen
 
 DropdownMenuLabel.displayName = LABEL_NAME
 
-export type { DropdownMenuLabelProps }
 export { DropdownMenuLabel }

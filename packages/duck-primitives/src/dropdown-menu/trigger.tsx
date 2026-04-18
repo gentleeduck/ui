@@ -1,22 +1,17 @@
-/** DropdownMenuTrigger -- button that toggles the dropdown menu. */
 import * as React from 'react'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { composeRefs } from '../libs/compose-ref'
 import * as MenuPrimitive from '../menu'
 import { Primitive } from '../primitive-elements'
-import type { ScopedProps } from './dropdown-menu'
 import { useDropdownMenuContext, useMenuScope } from './dropdown-menu'
+import type { IDropdownMenu } from './dropdown-menu.types'
 
 const TRIGGER_NAME = 'DropdownMenuTrigger'
 
 type DropdownMenuTriggerElement = React.ComponentRef<typeof Primitive.button>
-type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
-interface DropdownMenuTriggerProps extends PrimitiveButtonProps {
-  disabled?: boolean
-}
 
-const DropdownMenuTrigger = React.forwardRef<DropdownMenuTriggerElement, DropdownMenuTriggerProps>(
-  (props: ScopedProps<DropdownMenuTriggerProps>, forwardedRef) => {
+const DropdownMenuTrigger = React.forwardRef<DropdownMenuTriggerElement, IDropdownMenu.ITriggerProps>(
+  (props: IDropdownMenu.IScoped<IDropdownMenu.ITriggerProps>, forwardedRef) => {
     const { __scopeDropdownMenu, disabled = false, ...triggerProps } = props
     const context = useDropdownMenuContext(TRIGGER_NAME, __scopeDropdownMenu)
     const menuScope = useMenuScope(__scopeDropdownMenu)
@@ -36,12 +31,8 @@ const DropdownMenuTrigger = React.forwardRef<DropdownMenuTriggerElement, Dropdow
           {...triggerProps}
           ref={composeRefs(forwardedRef, context.triggerRef)}
           onPointerDown={composeEventHandlers(props.onPointerDown, (event) => {
-            // only call handler if it's the left button (mousedown gets triggered by all mouse buttons)
-            // but not when the control key is pressed (avoiding MacOS right click)
             if (!disabled && event.button === 0 && event.ctrlKey === false) {
               context.onOpenToggle()
-              // prevent trigger focusing when opening
-              // this allows the content to be given focus without competition
               if (!context.open) event.preventDefault()
             }
           })}
@@ -49,8 +40,6 @@ const DropdownMenuTrigger = React.forwardRef<DropdownMenuTriggerElement, Dropdow
             if (disabled) return
             if (['Enter', ' '].includes(event.key)) context.onOpenToggle()
             if (event.key === 'ArrowDown') context.onOpenChange(true)
-            // prevent keydown from scrolling window / first focused item to execute
-            // that keydown (inadvertently closing the menu)
             if (['Enter', ' ', 'ArrowDown'].includes(event.key)) event.preventDefault()
           })}
         />
@@ -61,5 +50,4 @@ const DropdownMenuTrigger = React.forwardRef<DropdownMenuTriggerElement, Dropdow
 
 DropdownMenuTrigger.displayName = TRIGGER_NAME
 
-export type { DropdownMenuTriggerProps }
 export { DropdownMenuTrigger }

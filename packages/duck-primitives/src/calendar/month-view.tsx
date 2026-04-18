@@ -1,17 +1,15 @@
 import { buildCalendarYear, goToMonth } from '@gentleduck/calendar'
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
-import { type ScopedProps, useCalendarContext } from './calendar'
+import { useCalendarContext } from './calendar'
+import type { ICalendar } from './calendar.types'
 
 const MONTH_VIEW_NAME = 'CalendarMonthView'
 
 type CalendarMonthViewElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
 
-export interface CalendarMonthViewProps extends PrimitiveDivProps {}
-
-export const CalendarMonthView = React.forwardRef<CalendarMonthViewElement, CalendarMonthViewProps>(
-  (props: ScopedProps<CalendarMonthViewProps>, forwardedRef) => {
+export const CalendarMonthView = React.forwardRef<CalendarMonthViewElement, ICalendar.IMonthViewProps>(
+  (props: ICalendar.IScoped<ICalendar.IMonthViewProps>, forwardedRef) => {
     const { __scopeCalendar, children, ...viewProps } = props
     const context = useCalendarContext(MONTH_VIEW_NAME, __scopeCalendar)
     const { adapter, locale } = context

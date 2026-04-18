@@ -2,6 +2,8 @@ import * as React from 'react'
 import { createDirectionalPreset } from './presets/directional'
 import { fadeIn } from './presets/fade-in'
 import { fadeOut } from './presets/fade-out'
+import { popIn } from './presets/pop-in'
+import { rotateIn } from './presets/rotate-in'
 import { scaleIn } from './presets/scale-in'
 import { slideDown } from './presets/slide-down'
 import { slideFromLeft } from './presets/slide-from-left'
@@ -9,10 +11,11 @@ import { slideFromRight } from './presets/slide-from-right'
 import { slideUp } from './presets/slide-up'
 import type {
   Direction,
+  IDuckMotion,
+  IMotionPreset,
+  IMotionPresetResult,
   MotionAnimationState,
-  MotionPreset,
   MotionPresetName,
-  MotionPresetResult,
   MotionTransitionConfig,
 } from './presets/types'
 import { useDuckReducedMotion } from './react'
@@ -21,14 +24,15 @@ import { TAP_SCALE_TRANSITION } from './transitions/tweens'
 
 export type {
   Direction,
+  IDuckMotion,
+  IMotionPreset,
+  IMotionPresetResult,
   MotionAnimationState,
-  MotionPreset,
   MotionPresetName,
-  MotionPresetResult,
   MotionTransitionConfig,
 }
 
-const presetMap: Record<MotionPresetName, MotionPreset> = {
+const presetMap: Record<MotionPresetName, IMotionPreset> = {
   fadeIn,
   fadeOut,
   scaleIn,
@@ -36,19 +40,15 @@ const presetMap: Record<MotionPresetName, MotionPreset> = {
   slideDown,
   slideFromLeft,
   slideFromRight,
+  rotateIn,
+  popIn,
 }
 
-export interface UseMotionPresetOptions {
-  transition?: MotionTransitionConfig
-  enterTransition?: MotionTransitionConfig
-  exitTransition?: MotionTransitionConfig
-  delay?: number
-  direction?: Direction
-}
+export interface IUseMotionPresetOptions extends IDuckMotion.IPresetOptions {}
 
 /** Lazy-load a single preset by name. Only fetches the module you ask for. */
-export function loadPreset(name: MotionPresetName): Promise<MotionPreset> {
-  const loaders: Record<MotionPresetName, () => Promise<MotionPreset>> = {
+export function loadPreset(name: MotionPresetName): Promise<IMotionPreset> {
+  const loaders: Record<MotionPresetName, () => Promise<IMotionPreset>> = {
     fadeIn: () => import('./presets/fade-in').then((m) => m.fadeIn),
     fadeOut: () => import('./presets/fade-out').then((m) => m.fadeOut),
     scaleIn: () => import('./presets/scale-in').then((m) => m.scaleIn),
@@ -56,6 +56,8 @@ export function loadPreset(name: MotionPresetName): Promise<MotionPreset> {
     slideDown: () => import('./presets/slide-down').then((m) => m.slideDown),
     slideFromLeft: () => import('./presets/slide-from-left').then((m) => m.slideFromLeft),
     slideFromRight: () => import('./presets/slide-from-right').then((m) => m.slideFromRight),
+    rotateIn: () => import('./presets/rotate-in').then((m) => m.rotateIn),
+    popIn: () => import('./presets/pop-in').then((m) => m.popIn),
   }
   return loaders[name]()
 }
@@ -66,13 +68,13 @@ export function loadDirectionalPreset(
   enterOffset?: number,
   exitOffset?: number,
   blur?: number,
-): Promise<MotionPreset> {
+): Promise<IMotionPreset> {
   return import('./presets/directional').then((m) =>
     m.createDirectionalPreset(direction, enterOffset, exitOffset, blur),
   )
 }
 
-function buildResult(preset: MotionPreset, reduced: boolean, options?: UseMotionPresetOptions): MotionPresetResult {
+function buildResult(preset: IMotionPreset, reduced: boolean, options?: IUseMotionPresetOptions): IMotionPresetResult {
   const baseTransition: MotionTransitionConfig = options?.transition ?? { ...springDefault }
   const enterTransition: MotionTransitionConfig = reduced
     ? { duration: 0 }
@@ -94,8 +96,8 @@ function buildResult(preset: MotionPreset, reduced: boolean, options?: UseMotion
 /** Async resolver — lazy-loads the preset module then returns the animation config. */
 export async function resolveMotionPreset(
   name: MotionPresetName,
-  options?: UseMotionPresetOptions,
-): Promise<MotionPresetResult> {
+  options?: IUseMotionPresetOptions,
+): Promise<IMotionPresetResult> {
   const preset = options?.direction ? await loadDirectionalPreset(options.direction) : await loadPreset(name)
   return buildResult(preset, false, options)
 }
@@ -106,9 +108,9 @@ export async function resolveMotionPreset(
  * presets are never imported.
  */
 export function useMotionPreset(
-  nameOrPreset: MotionPresetName | MotionPreset,
-  options?: UseMotionPresetOptions,
-): MotionPresetResult {
+  nameOrPreset: MotionPresetName | IMotionPreset,
+  options?: IUseMotionPresetOptions,
+): IMotionPresetResult {
   const reduced = useDuckReducedMotion()
   const preset = options?.direction
     ? createDirectionalPreset(options.direction)
@@ -117,9 +119,9 @@ export function useMotionPreset(
       : nameOrPreset
   const result = buildResult(preset, reduced, options)
 
-  // biome-ignore lint/correctness/useHookAtTopLevel: guarded for non-React environments (tests)
   if (typeof React.useMemo === 'function') {
     try {
+      // biome-ignore lint/correctness/useHookAtTopLevel: guarded for non-React environments (tests)
       return React.useMemo(
         () => buildResult(preset, reduced, options),
         [
@@ -144,7 +146,7 @@ export function useMotionPreset(
 /** Convenience hook for direction-aware menu/popover animations. */
 export function useDirectionalPreset(
   direction: Direction,
-  options?: Omit<UseMotionPresetOptions, 'direction'>,
-): MotionPresetResult {
+  options?: Omit<IUseMotionPresetOptions, 'direction'>,
+): IMotionPresetResult {
   return useMotionPreset('scaleIn', { ...options, direction })
 }

@@ -7,10 +7,10 @@ export {
   useSiteConfig,
 } from './context'
 export type {
-  DocsConfig,
-  DocsContextValue,
-  DocsEntry,
-  DocsSiteConfig,
+  IDocsConfig,
+  IDocsContextValue,
+  IDocsEntry,
+  IDocsSiteConfig,
+  ITocEntry,
   RegistryIndex,
-  TocEntry,
 } from './context.types'

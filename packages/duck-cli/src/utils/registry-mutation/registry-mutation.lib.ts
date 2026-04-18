@@ -3,33 +3,33 @@ import { execa } from 'execa'
 import fs from 'fs-extra'
 import type { Ora } from 'ora'
 import prompts from 'prompts'
-import { launch_merge_gui_and_wait } from '~/gui'
-import { diff_component } from '~/services/component.service'
-import { build_component_merge_state } from '~/services/merge.service'
-import { get_package_manager } from '../get-package-manager'
-import { get_ts_config } from '../get-project-info'
-import { get_registry_item, type Registry } from '../get-registry'
+import { launchMergeGuiAndWait } from '~/gui'
+import { diffComponent } from '~/services/component.service'
+import { buildComponentMergeState } from '~/services/merge.service'
+import { getPackageManager } from '../get-package-manager'
+import { getTsConfig } from '../get-project-info'
+import { getRegistryItem, type Registry } from '../get-registry'
 import type { DuckUI } from '../preflight-configs/preflight-duckui'
 import { highlighter } from '../text-styling'
-import { resolve_project_cwd, validate_workspace_target } from '../workspace'
+import { resolveProjectCwd, validateWorkspaceTarget } from '../workspace'
 import type { DependenciesType, InstallOptions } from './registry-mutation.types'
 
-export async function get_installation_config(
-  duck_config: DuckUI,
+export async function getInstallationConfig(
+  duckConfig: DuckUI,
   spinner: Ora,
   options: InstallOptions,
 ): Promise<string> {
   try {
-    const alias = duck_config.aliases.ui.split('/').shift()
-    const project_cwd = resolve_project_cwd(options.cwd, duck_config, options.workspace)
-    const workspace_error = validate_workspace_target(project_cwd, true)
-    if (workspace_error) {
-      spinner.fail(workspace_error)
+    const alias = duckConfig.aliases.ui.split('/').shift()
+    const projectCwd = resolveProjectCwd(options.cwd, duckConfig, options.workspace)
+    const workspaceError = validateWorkspaceTarget(projectCwd, true)
+    if (workspaceError) {
+      spinner.fail(workspaceError)
       process.exit(1)
     }
-    const ts_config = await get_ts_config(project_cwd, spinner)
+    const tsConfig = await getTsConfig(projectCwd, spinner)
 
-    if (!ts_config.compilerOptions?.paths || !alias) {
+    if (!tsConfig.compilerOptions?.paths || !alias) {
       spinner.fail(
         `No ${highlighter.info(
           'TypeScript',
@@ -40,27 +40,27 @@ export async function get_installation_config(
       process.exit(1)
     }
 
-    const write_path_key = Object.keys(ts_config.compilerOptions.paths).find((path) => path.includes(alias))
+    const writePathKey = Object.keys(tsConfig.compilerOptions.paths).find((path) => path.includes(alias))
 
-    const path_values = write_path_key ? ts_config.compilerOptions.paths[write_path_key] : undefined
-    const write_path = path_values?.[0]?.split('/').slice(0, -1).join('/')
+    const pathValues = writePathKey ? tsConfig.compilerOptions.paths[writePathKey] : undefined
+    const writePath = pathValues?.[0]?.split('/').slice(0, -1).join('/')
 
-    if (!write_path) {
+    if (!writePath) {
       spinner.fail(`Alias "${alias}" not found in tsconfig paths.
 Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info('tsconfig.json')} aliases match.`)
       process.exit(1)
     }
 
-    // Resolve the write_path to an absolute path using the target cwd
-    const resolved_write_path = path.resolve(project_cwd, write_path)
+    // Resolve the writePath to an absolute path using the target cwd
+    const resolvedWritePath = path.resolve(projectCwd, writePath)
 
     if (!options.yes) {
       spinner.stop()
       const { yes } = await prompts({
         initial: options.yes,
         message: `Do you want to install ${highlighter.info('components')}? at ${highlighter.warn(
-          write_path,
-        )} (workspace: ${highlighter.info(project_cwd)})`,
+          writePath,
+        )} (workspace: ${highlighter.info(projectCwd)})`,
         name: 'yes',
         type: 'confirm',
       })
@@ -80,7 +80,7 @@ Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info
       }
     }
 
-    return resolved_write_path
+    return resolvedWritePath
   } catch (error) {
     spinner.fail(`Oops: ${highlighter.error(error instanceof Error ? error.message : String(error))}`)
 
@@ -88,45 +88,45 @@ Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info
   }
 }
 
-export async function process_components(
-  duck_config: DuckUI,
-  components: Registry,
-  write_path: string,
+export async function processComponents(
+  duckConfig: DuckUI,
+  components: Registry.Collection,
+  writePath: string,
   spinner: Ora,
   options: InstallOptions,
 ) {
   try {
     const dependencies = {
       dependencies: [],
-      dev_dependencies: [],
-      registry_dependencies: [],
+      devDependencies: [],
+      registryDependencies: [],
     } as DependenciesType
 
-    const skip_prompts = options.force || options.yes
+    const skipPrompts = options.force || options.yes
 
     for (const [idx, component] of components.entries()) {
-      await install_component(
-        duck_config,
+      await installComponent(
+        duckConfig,
         dependencies,
         idx,
         component,
         false,
         components,
-        write_path,
+        writePath,
         spinner,
-        skip_prompts,
+        skipPrompts,
       )
     }
 
     const topLevelNames = new Set(components.map((c) => c.name.toLowerCase()))
-    await install_registry_dependencies(dependencies, spinner, write_path, skip_prompts, duck_config, topLevelNames)
-    const project_cwd = resolve_project_cwd(options.cwd, duck_config, options.workspace)
-    const workspace_error = validate_workspace_target(project_cwd, false)
-    if (workspace_error) {
-      spinner.fail(workspace_error)
+    await installRegistryDependencies(dependencies, spinner, writePath, skipPrompts, duckConfig, topLevelNames)
+    const projectCwd = resolveProjectCwd(options.cwd, duckConfig, options.workspace)
+    const workspaceError = validateWorkspaceTarget(projectCwd, false)
+    if (workspaceError) {
+      spinner.fail(workspaceError)
       process.exit(1)
     }
-    await process_component_dependencies(dependencies, spinner, project_cwd)
+    await processComponentDependencies(dependencies, spinner, projectCwd)
   } catch (error) {
     spinner.fail(
       `Failed to install components, ${highlighter.error(error instanceof Error ? error.message : String(error))}`,
@@ -135,42 +135,42 @@ export async function process_components(
   }
 }
 
-async function install_component(
-  duck_config: DuckUI,
+async function installComponent(
+  duckConfig: DuckUI,
   dependencies: DependenciesType,
   idx: number,
-  component: Registry[number],
+  component: Registry.Entry,
   registry: boolean,
-  components: Registry,
-  write_path: string,
+  components: Registry.Collection,
+  writePath: string,
   spinner: Ora,
   force: boolean,
 ) {
   dependencies.dependencies.push(...(component.dependencies ?? []))
-  dependencies.dev_dependencies.push(...(component.devDependencies ?? []))
-  dependencies.registry_dependencies.push(...(component.registryDependencies ?? []))
+  dependencies.devDependencies.push(...(component.devDependencies ?? []))
+  dependencies.registryDependencies.push(...(component.registryDependencies ?? []))
 
   spinner.text = `Installing ${registry ? 'necessary ' : ''}component: ${highlighter.info(`${component.name}`)}`
 
-  const component_type = component.type.split(':').pop() as string
-  const duckui_write_path = duck_config.aliases.ui.split('/').slice(1).join('/')
-  const write_type_path = path.resolve(`${write_path}/${duckui_write_path}`)
+  const componentType = component.type.split(':').pop() as string
+  const duckuiWritePath = duckConfig.aliases.ui.split('/').slice(1).join('/')
+  const writeTypePath = path.resolve(`${writePath}/${duckuiWritePath}`)
 
-  if (!fs.existsSync(write_type_path)) {
-    spinner.text = `Creating directory: ${component_type}`
-    await fs.mkdir(write_type_path, { recursive: true })
-    spinner.succeed(`Created directory: ${component_type}`)
+  if (!fs.existsSync(writeTypePath)) {
+    spinner.text = `Creating directory: ${componentType}`
+    await fs.mkdir(writeTypePath, { recursive: true })
+    spinner.succeed(`Created directory: ${componentType}`)
   }
 
-  const write_component_path = `${write_type_path}/${component.root_folder}`
+  const writeComponentPath = `${writeTypePath}/${component.root_folder}`
 
-  if (!fs.existsSync(write_component_path)) {
+  if (!fs.existsSync(writeComponentPath)) {
     spinner.text = `Creating directory: ${component.root_folder}`
-    await fs.mkdir(write_component_path, { recursive: true })
+    await fs.mkdir(writeComponentPath, { recursive: true })
     spinner.succeed(`Created directory: ${component.root_folder}`)
   }
 
-  await process_component_files(component, write_type_path, `${write_path}/${duckui_write_path}`, spinner, force)
+  await processComponentFiles(component, writeTypePath, `${writePath}/${duckuiWritePath}`, spinner, force)
 
   spinner.succeed(
     `Installed ${registry ? 'necessary ' : ''}component${
@@ -179,16 +179,16 @@ async function install_component(
   )
 }
 
-export async function install_registry_dependencies(
+export async function installRegistryDependencies(
   dependencies: DependenciesType,
   spinner: Ora,
-  write_path: string,
+  writePath: string,
   force: boolean,
-  duck_config: DuckUI,
+  duckConfig: DuckUI,
   exclude?: Set<string>,
 ) {
   const visited = new Set<string>(exclude) // avoid infinite loops and double-installs
-  const allComponents: Registry = []
+  const allComponents: Registry.Collection = []
 
   async function fetchAndProcess(deps: Set<string>) {
     if (deps.size === 0) return
@@ -199,10 +199,10 @@ export async function install_registry_dependencies(
           spinner.text = `Fetching registry necessary dependency ${highlighter.info(
             `[${idx + 1}/${deps.size}]`,
           )} ${highlighter.warn(item)}`
-          return await get_registry_item(item)
+          return await getRegistryItem(item)
         }),
       )
-    ).filter((item): item is Registry[number] => item !== null)
+    ).filter((item): item is Registry.Entry => item !== null)
 
     spinner.succeed(`Fetched ${components.length} necessary component${components.length > 1 ? 's' : ''} from registry`)
 
@@ -229,7 +229,7 @@ export async function install_registry_dependencies(
 
   // Kick off recursion with initial registry deps, filtering out already-visited names
   const initialDeps = new Set<string>()
-  for (const d of dependencies.registry_dependencies.map((dep) => dep.toLowerCase())) {
+  for (const d of dependencies.registryDependencies.map((dep) => dep.toLowerCase())) {
     if (!visited.has(d)) {
       visited.add(d)
       initialDeps.add(d)
@@ -239,34 +239,24 @@ export async function install_registry_dependencies(
 
   // Install all collected components
   for (const [index, component] of allComponents.entries()) {
-    await install_component(
-      duck_config,
-      dependencies,
-      index,
-      component,
-      true,
-      allComponents,
-      write_path,
-      spinner,
-      force,
-    )
+    await installComponent(duckConfig, dependencies, index, component, true, allComponents, writePath, spinner, force)
   }
 }
 
-export async function process_component_files(
-  component: Registry[0],
-  write_path: string,
-  from_root_write_path: string,
+export async function processComponentFiles(
+  component: Registry.Entry,
+  writePath: string,
+  fromRootWritePath: string,
   spinner: Ora,
   force: boolean,
 ) {
   if (!component.files?.length) {
-    spinner.warn(`No files found for component: ${from_root_write_path}`)
+    spinner.warn(`No files found for component: ${fromRootWritePath}`)
     return
   }
 
   if (!force) {
-    if (fs.readdirSync(`${write_path}/${component.root_folder}`).length > 0) {
+    if (fs.readdirSync(`${writePath}/${component.root_folder}`).length > 0) {
       spinner.stop()
       const { action } = await prompts({
         message: `${highlighter.info(component.name)} already exists. What do you want to do?`,
@@ -282,7 +272,7 @@ export async function process_component_files(
 
       if (action === 'skip' || !action) {
         spinner.warn(
-          `Components already exists: ${highlighter.info(`${from_root_write_path}${component.root_folder}`)} (skipping)`,
+          `Components already exists: ${highlighter.info(`${fromRootWritePath}${component.root_folder}`)} (skipping)`,
         )
         return
       }
@@ -291,33 +281,33 @@ export async function process_component_files(
         spinner.text = `Preparing merge for ${highlighter.info(component.name)}...`
 
         // Build the diff between local and registry
-        const local_path = `${write_path}/${component.root_folder}`
-        const installed_comp = {
+        const localPath = `${writePath}/${component.root_folder}`
+        const installedComp = {
           name: component.name,
           root_folder: component.root_folder,
-          local_path,
-          registry_entry: component,
+          localPath,
+          registryEntry: component,
         }
-        const diff_result = await diff_component(installed_comp, component)
+        const diffResult = await diffComponent(installedComp, component)
 
-        if (!diff_result.ok) {
-          spinner.fail(`Failed to compute diff: ${diff_result.error}`)
+        if (!diffResult.ok) {
+          spinner.fail(`Failed to compute diff: ${diffResult.error}`)
           return
         }
 
-        if (diff_result.data.is_identical) {
+        if (diffResult.data.isIdentical) {
           spinner.info(`${highlighter.info(component.name)} is identical to registry. Skipping.`)
           return
         }
 
         // Build merge state and launch interactive merge
-        const merge_state = build_component_merge_state(diff_result.data, write_path, component.root_folder)
+        const mergeState = buildComponentMergeState(diffResult.data, writePath, component.root_folder)
         spinner.stop()
 
-        const merge_results = await launch_merge_gui_and_wait(merge_state)
+        const mergeResults = await launchMergeGuiAndWait(mergeState)
         spinner.start()
 
-        if (!merge_results) {
+        if (!mergeResults) {
           spinner.warn(`Merge aborted for ${highlighter.info(component.name)}.`)
           return
         }
@@ -336,10 +326,10 @@ export async function process_component_files(
         continue
       }
       spinner.text = `Writing file: ${file.target}`
-      const target_path = path.resolve(`${write_path}`, file.path as string)
-      await fs.ensureDir(path.dirname(target_path))
-      await fs.writeFile(target_path, file.content, 'utf8')
-      spinner.succeed(`Successfully wrote: ${from_root_write_path}/${file.path}`)
+      const targetPath = path.resolve(`${writePath}`, file.path as string)
+      await fs.ensureDir(path.dirname(targetPath))
+      await fs.writeFile(targetPath, file.content, 'utf8')
+      spinner.succeed(`Successfully wrote: ${fromRootWritePath}/${file.path}`)
     } catch (error) {
       spinner.fail(`Failed to write file: ${file.target}`)
       throw error
@@ -347,8 +337,8 @@ export async function process_component_files(
   }
 }
 
-export async function process_component_dependencies(
-  { dependencies, dev_dependencies }: DependenciesType,
+export async function processComponentDependencies(
+  { dependencies, devDependencies }: DependenciesType,
   spinner: Ora,
   cwd: string,
 ) {
@@ -356,7 +346,7 @@ export async function process_component_dependencies(
     spinner.start(`Installing dependencies`)
 
     // Deduplicate all collected dependencies
-    const allDependencies = [...new Set([...dependencies, ...dev_dependencies])]
+    const allDependencies = [...new Set([...dependencies, ...devDependencies])]
 
     if (allDependencies.length === 0) {
       spinner.warn(`No dependencies found`)
@@ -365,7 +355,7 @@ export async function process_component_dependencies(
 
     spinner.text = `Installing ${highlighter.info(String(allDependencies.length))} dependencies...`
 
-    const packageManager = await get_package_manager(cwd)
+    const packageManager = await getPackageManager(cwd)
     const result = await execa(packageManager, [packageManager !== 'npm' ? 'add' : 'install', ...allDependencies], {
       cwd,
       reject: false,

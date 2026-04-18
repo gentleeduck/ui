@@ -90,7 +90,7 @@ Complex components compose sub-parts. The parent provides state via React contex
 - Color tokens only: `bg-background`, `text-foreground`, `bg-primary`, `text-muted-foreground`
 - Dark mode: automatic via CSS custom properties, no class toggling
 - State styling: `data-[state=open]:`, `data-[state=closed]:`, `data-[disabled]:`
-- Motion: `ease-(--duck-motion-ease)`, `duration-[200ms,150ms]`, `transition-discrete`
+- Motion: `ease-(--gentleduck-motion-ease)`, `duration-[200ms,150ms]`, `transition-discrete`
 - Animation: `data-[state=open]:animate-in`, `data-[state=closed]:animate-out`, `fade-in-0`, `zoom-in-95`
 - Extend a variant component externally: `buttonVariants({ variant: 'outline' })`
 

@@ -4,21 +4,162 @@ import fs from 'fs-extra'
 import type { Ora } from 'ora'
 import prompts from 'prompts'
 import type { InitOptions } from '~/commands/init'
-import { get_registry_base_color } from '~/utils/get-registry'
+import { getRegistryBaseColor } from '~/utils/get-registry'
 import { IGNORED_DIRECTORIES } from '../../get-project-info'
 import { highlighter } from '../../text-styling'
-import { find_workspace_projects, pick_default_workspace, type WorkspaceTarget } from '../../workspace'
-import { duckui_config_prompts, duckui_prompts } from './preflight-duckui.constants'
-import { duckui_prompts_schema, preflight_duckui_options_schema } from './preflight-duckui.dto'
-import { generateThemeCSS, init_duckui_config } from './preflight-duckui.libs'
+import {
+  detectMonorepoKind,
+  findWorkspaceProjects,
+  formatMonorepoKind,
+  pickDefaultWorkspace,
+  validateWorkspaceTarget,
+  type Workspace,
+} from '../../workspace'
+import { duckuiPrompts, duckuiRestPrompts, makeDuckuiMonorepoPrompt } from './preflight-duckui.constants'
+import { type DuckUI, duckuiPromptsSchema, preflightDuckuiOptionsSchema } from './preflight-duckui.dto'
+import { generateThemeCSS, initDuckuiConfig } from './preflight-duckui.libs'
 
-export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
+// When the config lives inside the workspace, both root and project are '.' relative
+// to the config location.
+const WORKSPACE_LOCAL_TARGET: Workspace.Target = { project: '.', root: '.' }
+
+const SAME_AS_COMPONENTS = '__same__'
+
+export async function preflightDuckuiResolveWorkspace(options: InitOptions, spinner: Ora): Promise<DuckUI.Resolution> {
+  const cwd = path.resolve(options.cwd)
+
+  const flagMonorepo = typeof options.monorepo === 'boolean' ? options.monorepo : null
+  const flagWorkspace = options.workspace ?? null
+  const flagCssWorkspace = options.cssWorkspace ?? null
+  if (flagWorkspace && flagMonorepo === false) {
+    spinner.warn(`${highlighter.warn('--workspace')} ignored because ${highlighter.warn('--no-monorepo')} was set.`)
+  }
+  if (flagCssWorkspace && flagMonorepo === false) {
+    spinner.warn(`${highlighter.warn('--css-workspace')} ignored because ${highlighter.warn('--no-monorepo')} was set.`)
+  }
+
+  const detectedKind = detectMonorepoKind(cwd)
+
+  let monorepo: boolean
+  if (flagMonorepo === false) {
+    monorepo = false
+  } else if (flagMonorepo === true || flagWorkspace || flagCssWorkspace) {
+    monorepo = true
+  } else if (options.yes) {
+    // Non-interactive runs default to whatever auto-detection found, so a -y in a
+    // turbo/pnpm/etc. repo doesn't silently fall back to single-project mode.
+    monorepo = detectedKind !== null
+  } else {
+    spinner.stop()
+    const answer = await prompts(makeDuckuiMonorepoPrompt(detectedKind ? formatMonorepoKind(detectedKind) : null))
+    spinner.start()
+    if (typeof answer.monorepo !== 'boolean') {
+      spinner.text = `${highlighter.info('init')} aborted...`
+      process.exit(0)
+    }
+    monorepo = answer.monorepo
+  }
+
+  if (!monorepo) {
+    return { cssWorkspaceCwd: cwd, monorepo: false, workspaceCwd: cwd }
+  }
+
+  // Workspace projects are needed both for the component pick and the CSS pick.
+  // Cache the lookup so we don't glob twice.
+  let workspaceProjectsCache: string[] | null = null
+  const getWorkspaceProjects = async () => {
+    if (workspaceProjectsCache === null) {
+      workspaceProjectsCache = await findWorkspaceProjects(cwd)
+    }
+    return workspaceProjectsCache
+  }
+
+  let selected: string
+  if (flagWorkspace) {
+    selected = flagWorkspace
+  } else {
+    const workspaceProjects = await getWorkspaceProjects()
+    if (workspaceProjects.length === 0) {
+      spinner.warn(
+        `Monorepo mode is on but no workspaces were detected. Falling back to ${highlighter.info('current directory')}.`,
+      )
+      selected = '.'
+    } else if (workspaceProjects.length === 1) {
+      selected = workspaceProjects[0] ?? '.'
+      spinner.info(`Using only detected workspace: ${highlighter.info(selected)}`)
+    } else if (options.yes) {
+      selected = pickDefaultWorkspace(cwd, workspaceProjects) ?? workspaceProjects[0] ?? '.'
+    } else {
+      const defaultPick = pickDefaultWorkspace(cwd, workspaceProjects) ?? workspaceProjects[0] ?? null
+      spinner.stop()
+      const answer = await prompts({
+        choices: workspaceProjects.map((project) => ({ title: project, value: project })),
+        initial: defaultPick ? Math.max(0, workspaceProjects.indexOf(defaultPick)) : 0,
+        message: `Select the ${highlighter.info('workspace')} where components should be installed`,
+        name: 'workspaceProject',
+        type: 'select',
+      })
+      spinner.start()
+      selected = (answer.workspaceProject as string | undefined) ?? defaultPick ?? '.'
+    }
+  }
+
+  const workspaceCwd = path.resolve(cwd, selected)
+  const workspaceError = validateWorkspaceTarget(workspaceCwd, false)
+  if (workspaceError) {
+    spinner.fail(`Invalid workspace ${highlighter.warn(selected)}: ${workspaceError}`)
+    process.exit(1)
+  }
+
+  let cssSelected: string = selected
+  if (flagCssWorkspace) {
+    cssSelected = flagCssWorkspace
+  } else if (!options.yes) {
+    const workspaceProjects = await getWorkspaceProjects()
+    const otherWorkspaces = workspaceProjects.filter((project) => path.resolve(cwd, project) !== workspaceCwd)
+    if (otherWorkspaces.length > 0) {
+      spinner.stop()
+      const pick = await prompts({
+        choices: [
+          { title: `Same as components workspace (${selected})`, value: SAME_AS_COMPONENTS },
+          ...otherWorkspaces.map((project) => ({ title: project, value: project })),
+        ],
+        initial: 0,
+        message: `Where should the ${highlighter.info('CSS file')} live?`,
+        name: 'cssWorkspace',
+        type: 'select',
+      })
+      spinner.start()
+      const picked = pick.cssWorkspace as string | undefined
+      if (picked && picked !== SAME_AS_COMPONENTS) {
+        cssSelected = picked
+      }
+    }
+  }
+
+  const cssWorkspaceCwd = path.resolve(cwd, cssSelected)
+  if (cssWorkspaceCwd !== workspaceCwd) {
+    const cssError = validateWorkspaceTarget(cssWorkspaceCwd, false)
+    if (cssError) {
+      spinner.fail(`Invalid CSS workspace ${highlighter.warn(cssSelected)}: ${cssError}`)
+      process.exit(1)
+    }
+  }
+
+  return { cssWorkspaceCwd, monorepo: true, workspaceCwd }
+}
+
+export async function preflightDuckui(
+  options: InitOptions,
+  resolution: DuckUI.Resolution,
+  spinner: Ora,
+): Promise<void> {
   try {
     spinner.text = `Checking for ${highlighter.info('duck-ui')} config...`
-    const config_cwd =
-      _options.monorepo && _options.workspace ? path.resolve(_options.cwd, _options.workspace) : _options.cwd
+    const configCwd = resolution.workspaceCwd
+
     const files = fg.sync(['duck-ui.config.json'], {
-      cwd: config_cwd,
+      cwd: configCwd,
       deep: 1,
       ignore: IGNORED_DIRECTORIES,
     })
@@ -28,10 +169,10 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
       return
     }
 
-    if (!_options.yes) {
+    if (!options.yes) {
       spinner.stop()
-      const options = await prompts(duckui_prompts)
-      const { duckui } = preflight_duckui_options_schema.parse(options)
+      const options = await prompts(duckuiPrompts)
+      const { duckui } = preflightDuckuiOptionsSchema.parse(options)
       spinner.start()
 
       if (!duckui) {
@@ -40,51 +181,49 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
       }
     }
 
-    let parse_config_options: ReturnType<typeof duckui_prompts_schema.parse>
+    let parseConfigOptions: ReturnType<typeof duckuiPromptsSchema.parse>
 
-    if (_options.yes) {
-      // Use flag values or sensible defaults for non-interactive mode
-      parse_config_options = duckui_prompts_schema.parse({
-        project_type: _options.projectType || 'VITE',
-        base_color: _options.baseColor || 'zinc',
-        alias: _options.alias || '~',
-        monorepo: _options.monorepo ?? false,
-        css: _options.css || './src/styles.css',
-        css_variables: _options.cssVariables ?? true,
-        prefix: _options.prefix || '',
+    if (options.yes) {
+      parseConfigOptions = duckuiPromptsSchema.parse({
+        alias: options.alias || '~',
+        baseColor: options.baseColor || 'zinc',
+        css: options.css || './src/styles.css',
+        cssVariables: options.cssVariables ?? true,
+        monorepo: resolution.monorepo,
+        prefix: options.prefix || '',
+        projectType: options.projectType || 'VITE',
       })
     } else {
       spinner.text = `Initializing ${highlighter.info('duck-ui')} config...`
       spinner.stop()
-      const config_options = await prompts(duckui_config_prompts)
+      const configOptions = await prompts(duckuiRestPrompts)
+      spinner.start()
 
-      if (!Object.keys(config_options).length) {
+      if (Object.keys(configOptions).length < duckuiRestPrompts.length) {
         spinner.text = `The required ${highlighter.info('duck-ui')} config not found...`
         process.exit(0)
       }
-      parse_config_options = duckui_prompts_schema.parse(config_options)
-      spinner.start()
+      parseConfigOptions = duckuiPromptsSchema.parse({
+        ...configOptions,
+        monorepo: resolution.monorepo,
+      })
     }
 
-    const theme_response = await get_registry_base_color(parse_config_options.base_color)
-    if (!theme_response?.light || !theme_response?.dark) {
+    const themeResponse = await getRegistryBaseColor(parseConfigOptions.baseColor)
+    if (!themeResponse?.light || !themeResponse?.dark) {
       spinner.fail('Failed to fetch theme from registry.')
       process.exit(1)
     }
-    const css = generateThemeCSS(parse_config_options.base_color, theme_response)
+    const css = generateThemeCSS(parseConfigOptions.baseColor, themeResponse)
 
-    const css_cwd =
-      parse_config_options.monorepo && _options.workspace
-        ? path.resolve(_options.cwd, _options.workspace)
-        : _options.cwd
-    const css_file_path = path.join(css_cwd, parse_config_options.css)
-    const exists = fs.existsSync(css_file_path)
+    const cssFilePath = path.join(resolution.cssWorkspaceCwd, parseConfigOptions.css)
+    const exists = fs.existsSync(cssFilePath)
 
     if (exists) {
-      const old_content = await fs.readFile(css_file_path, 'utf-8')
-      if (old_content.length > 50) {
-        let overwrite = _options.yes
-        if (!_options.yes) {
+      const oldContent = await fs.readFile(cssFilePath, 'utf-8')
+      if (oldContent.length > 50) {
+        let overwrite = options.yes
+        if (!options.yes) {
           spinner.stop()
           ;({ overwrite } = await prompts({
             message: `The ${highlighter.info('tailwindCss')} settings already exists, do you want to overwrite it?`,
@@ -96,7 +235,7 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
 
         if (overwrite) {
           // Extract only @import and @custom-variant preamble lines from the top of the file
-          const lines = old_content.split('\n')
+          const lines = oldContent.split('\n')
           const preamble: string[] = []
           for (const line of lines) {
             const trimmed = line.trim()
@@ -109,66 +248,23 @@ export async function preflight_duckui(_options: InitOptions, spinner: Ora) {
               break
             }
           }
-          const tailwind_imports = preamble.join('\n')
-          fs.writeFileSync(css_file_path, tailwind_imports ? `${tailwind_imports}\n\n${css}` : css)
+          const tailwindImports = preamble.join('\n')
+          fs.writeFileSync(cssFilePath, tailwindImports ? `${tailwindImports}\n\n${css}` : css)
         }
       } else {
         // Small file, safe to append theme
-        const old_content_trimmed = old_content.trim()
-        fs.writeFileSync(css_file_path, old_content_trimmed ? `${old_content_trimmed}\n\n${css}` : css)
+        const oldContentTrimmed = oldContent.trim()
+        fs.writeFileSync(cssFilePath, oldContentTrimmed ? `${oldContentTrimmed}\n\n${css}` : css)
       }
     } else {
       // Create the CSS file with the theme
-      fs.mkdirSync(path.dirname(css_file_path), { recursive: true })
-      fs.writeFileSync(css_file_path, css)
+      fs.mkdirSync(path.dirname(cssFilePath), { recursive: true })
+      fs.writeFileSync(cssFilePath, css)
     }
 
-    let workspace_target: WorkspaceTarget = { root: '.', project: '.' }
-    if (parse_config_options.monorepo) {
-      const workspace_projects = await find_workspace_projects(_options.cwd)
-      let selected_project = _options.workspace ?? pick_default_workspace(_options.cwd, workspace_projects)
-
-      if (!_options.yes && workspace_projects.length > 1) {
-        spinner.stop()
-        const workspace_prompt = await prompts({
-          choices: workspace_projects.map((project) => ({ title: project, value: project })),
-          initial: selected_project ? workspace_projects.indexOf(selected_project) : 0,
-          message: `Select the ${highlighter.info('workspace')} where components should be installed`,
-          name: 'workspace_project',
-          type: 'select',
-        })
-        spinner.start()
-
-        selected_project = workspace_prompt.workspace_project ?? selected_project
-      }
-
-      if (!selected_project) {
-        spinner.warn(
-          `Monorepo mode is enabled but no workspaces were detected. Falling back to ${highlighter.info(
-            'current directory',
-          )}.`,
-        )
-        selected_project = '.'
-      }
-
-      const selected_workspace_cwd = path.resolve(_options.cwd, selected_project)
-      if (!fs.existsSync(path.join(selected_workspace_cwd, 'package.json'))) {
-        spinner.fail(
-          `Invalid workspace: ${highlighter.warn(
-            selected_project,
-          )}. Expected a package.json at ${highlighter.info(selected_workspace_cwd)}.`,
-        )
-        process.exit(1)
-      }
-
-      workspace_target = { root: '.', project: selected_project }
-    }
-
-    // When config lives in the workspace directory, project is '.' relative to config location
-    const effective_workspace_target: WorkspaceTarget =
-      parse_config_options.monorepo && _options.workspace ? { root: '.', project: '.' } : workspace_target
-
-    await init_duckui_config(config_cwd, spinner, parse_config_options, effective_workspace_target)
+    const cssWorkspaceRelative =
+      resolution.cssWorkspaceCwd === configCwd ? undefined : path.relative(configCwd, resolution.cssWorkspaceCwd)
+    await initDuckuiConfig(configCwd, spinner, parseConfigOptions, WORKSPACE_LOCAL_TARGET, cssWorkspaceRelative)
   } catch (error) {
     spinner.fail(
       `Failed to preflight required ${highlighter.error('duck-ui')} configs...\n ${highlighter.error(error instanceof Error ? error.message : String(error))}`,

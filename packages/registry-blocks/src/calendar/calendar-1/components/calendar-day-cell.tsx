@@ -8,7 +8,7 @@ import { CalendarEventChip } from './calendar-event-chip'
 import { CalendarEventDetail } from './calendar-event-detail'
 import { CalendarOverflow } from './calendar-overflow'
 
-interface CalendarDayCellProps {
+interface ICalendarDayCellProps {
   date: Date
   viewedMonth: Date
   events: CalendarEvent[]
@@ -47,7 +47,7 @@ export function CalendarDayCell({
   onDayClick,
   onEditEvent,
   onDeleteEvent,
-}: CalendarDayCellProps) {
+}: ICalendarDayCellProps) {
   const inMonth = isSameMonth(date, viewedMonth)
   const today = isToday(date)
   const wkend = isWeekend(date)

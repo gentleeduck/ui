@@ -2,17 +2,16 @@ import * as React from 'react'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import { Primitive } from '../primitive-elements'
-import { getState, type ScopedProps, useDialogContext } from './dialog'
+import { getState, useDialogContext } from './dialog'
+import type { IDialog } from './dialog.types'
 
 const TRIGGER_NAME = 'DialogTrigger'
 
 type DialogTriggerElement = React.ComponentRef<typeof Primitive.button>
-type PrimitiveButtonProps = React.ComponentPropsWithoutRef<typeof Primitive.button>
-export interface DialogTriggerProps extends PrimitiveButtonProps {}
 
 /** Button that toggles the dialog open state. */
-export const DialogTrigger = React.forwardRef<DialogTriggerElement, DialogTriggerProps>(
-  (props: ScopedProps<DialogTriggerProps>, forwardedRef) => {
+export const DialogTrigger = React.forwardRef<DialogTriggerElement, IDialog.ITriggerProps>(
+  (props: IDialog.IScoped<IDialog.ITriggerProps>, forwardedRef) => {
     const { __scopeDialog, ...triggerProps } = props
     const context = useDialogContext(TRIGGER_NAME, __scopeDialog)
     const composedTriggerRef = useComposedRefs(forwardedRef, context.triggerRef)

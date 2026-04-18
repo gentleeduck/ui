@@ -1,4 +1,4 @@
-import { describe, expect, test } from 'bun:test'
+import { describe, expect, test } from 'vitest'
 import { groupDataByNumbers } from '../group-data-by-numbers'
 
 describe('groupDataByNumbers', () => {

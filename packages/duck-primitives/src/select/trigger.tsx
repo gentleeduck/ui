@@ -3,17 +3,16 @@ import { composeEventHandlers } from '../libs/compose-event-handler'
 import { useComposedRefs } from '../libs/compose-ref'
 import * as PopperPrimitive from '../popper'
 import { Primitive } from '../primitive-elements'
-import { OPEN_KEYS, type ScopedProps, useCollection, usePopperScope, useSelectContext } from './select'
+import { OPEN_KEYS, useCollection, usePopperScope, useSelectContext } from './select'
 import { shouldShowPlaceholder, useTypeaheadListNavigation } from './select.libs'
+import type { ISelect } from './select.types'
 
 const TRIGGER_NAME = 'SelectTrigger'
 
 type SelectTriggerElement = React.ComponentRef<typeof Primitive.button>
 
-export interface SelectTriggerProps extends React.ComponentPropsWithRef<typeof Primitive.button> {}
-
-export const SelectTrigger = React.forwardRef<SelectTriggerElement, SelectTriggerProps>(
-  (props: ScopedProps<SelectTriggerProps>, forwardedRef) => {
+export const SelectTrigger = React.forwardRef<SelectTriggerElement, ISelect.ITriggerProps>(
+  (props: ISelect.IScoped<ISelect.ITriggerProps>, forwardedRef) => {
     const { __scopeSelect, disabled = false, ...triggerProps } = props
     const popperScope = usePopperScope(__scopeSelect)
     const context = useSelectContext(TRIGGER_NAME, __scopeSelect)

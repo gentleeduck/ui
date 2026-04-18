@@ -1,12 +1,12 @@
-import type { HourCycle, TimeField, TimePickerConfig, TimeValue } from './time.types'
+import type { Time } from './time.types'
 
 /** Convert a TimeValue to total seconds for comparison. */
-function toSeconds(t: TimeValue): number {
+function toSeconds(t: Time.ITimeValue): number {
   return t.hour * 3600 + t.minute * 60 + (t.second ?? 0)
 }
 
 /** Check if a time value has valid ranges. */
-export function isValidTime(time: TimeValue): boolean {
+export function isValidTime(time: Time.ITimeValue): boolean {
   if (time.hour < 0 || time.hour > 23) return false
   if (time.minute < 0 || time.minute > 59) return false
   if (time.second !== undefined && (time.second < 0 || time.second > 59)) return false
@@ -14,7 +14,7 @@ export function isValidTime(time: TimeValue): boolean {
 }
 
 /** Clamp a time value within min/max bounds. */
-export function clampTime(time: TimeValue, min?: TimeValue, max?: TimeValue): TimeValue {
+export function clampTime(time: Time.ITimeValue, min?: Time.ITimeValue, max?: Time.ITimeValue): Time.ITimeValue {
   // When min > max, the constraints are contradictory - return time unchanged
   if (min && max && toSeconds(min) > toSeconds(max)) return { ...time }
 
@@ -22,7 +22,8 @@ export function clampTime(time: TimeValue, min?: TimeValue, max?: TimeValue): Ti
   let result = { ...time }
 
   // Normalize bounds to same precision as input for accurate comparison
-  const normalizeForCompare = (t: TimeValue): TimeValue => (hasSeconds ? t : { hour: t.hour, minute: t.minute })
+  const normalizeForCompare = (t: Time.ITimeValue): Time.ITimeValue =>
+    hasSeconds ? t : { hour: t.hour, minute: t.minute }
 
   if (min && toSeconds(normalizeForCompare(result)) < toSeconds(normalizeForCompare(min))) {
     result = { ...min }
@@ -40,11 +41,11 @@ export function clampTime(time: TimeValue, min?: TimeValue, max?: TimeValue): Ti
 
 /** Increment or decrement a specific field, wrapping at boundaries. */
 export function incrementField(
-  time: TimeValue,
-  field: TimeField,
+  time: Time.ITimeValue,
+  field: Time.TimeField,
   delta: number,
-  config: Pick<TimePickerConfig, 'hourCycle' | 'minuteStep' | 'secondStep' | 'minTime' | 'maxTime'> = {},
-): TimeValue {
+  config: Pick<Time.ITimePickerConfig, 'hourCycle' | 'minuteStep' | 'secondStep' | 'minTime' | 'maxTime'> = {},
+): Time.ITimeValue {
   const step = field === 'minute' ? (config.minuteStep ?? 1) : field === 'second' ? (config.secondStep ?? 1) : 1
   const actualDelta = delta * step
   const result = { ...time }
@@ -73,7 +74,7 @@ export function incrementField(
 }
 
 /** Parse a digit string typed by the user into a valid field value. Returns null if invalid. */
-export function parseTimeInput(input: string, field: TimeField, hourCycle: HourCycle): number | null {
+export function parseTimeInput(input: string, field: Time.TimeField, hourCycle: Time.HourCycle): number | null {
   const num = Number.parseInt(input, 10)
   if (Number.isNaN(num)) return null
 

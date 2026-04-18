@@ -1,19 +1,14 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { loadDomAnimation } from '@gentleduck/motion/motion-features'
-import { useMotionPreset } from '@gentleduck/motion/motion-presets'
-import { scaleIn } from '@gentleduck/motion/presets/scale-in'
-import { springBouncy } from '@gentleduck/motion/transitions/springs'
 import { Slot } from '@gentleduck/primitives/slot'
-import type { VariantProps } from '@gentleduck/variants'
-import { LazyMotion, m } from 'motion/react'
+import type { Variants } from '@gentleduck/variants'
 import * as React from 'react'
 import { badgeVariants } from './badge.constants'
 
 const Badge = React.forwardRef<
   HTMLDivElement,
-  Omit<React.HTMLProps<HTMLDivElement>, 'size'> & VariantProps<typeof badgeVariants> & { asChild?: boolean }
+  Omit<React.HTMLProps<HTMLDivElement>, 'size'> & Variants.VariantProps<typeof badgeVariants> & { asChild?: boolean }
 >(({ className, variant = 'default', size = 'default', border = 'default', asChild = false, ...props }, ref) => {
   const Comp = asChild ? Slot : 'span'
 
@@ -23,22 +18,4 @@ const Badge = React.forwardRef<
 })
 Badge.displayName = 'Badge'
 
-const MOTION_BADGE_OPTIONS = { transition: springBouncy } as const
-
-const MotionBadge = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof Badge>>((props, ref) => {
-  const content = useMotionPreset(scaleIn, MOTION_BADGE_OPTIONS)
-  return (
-    <LazyMotion features={loadDomAnimation}>
-      <m.div
-        initial={content.initial}
-        animate={content.animate}
-        transition={content.transition}
-        className="inline-flex">
-        <Badge ref={ref} {...props} />
-      </m.div>
-    </LazyMotion>
-  )
-})
-MotionBadge.displayName = 'MotionBadge'
-
-export { Badge, MotionBadge }
+export { Badge }

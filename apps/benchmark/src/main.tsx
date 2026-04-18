@@ -126,7 +126,7 @@ const headers: DuckTableOptions<Headers>['columns'] = {
 
 type Headers = ['invoice', 'status', 'method', 'amount']
 
-const table_data: DuckTableOptions<Headers> = {
+const tableData: DuckTableOptions<Headers> = {
   columns: headers,
   pageSize: 5,
   query: '',
@@ -135,7 +135,7 @@ const table_data: DuckTableOptions<Headers> = {
   sortConfig: [],
 }
 
-export const duck_table = createDuckTable<Headers>(table_data)
+export const duckTable = createDuckTable<Headers>(tableData)
 
 export function MyTable() {
   return (

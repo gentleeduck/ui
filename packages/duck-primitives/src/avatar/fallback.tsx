@@ -1,17 +1,14 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
-import type { ScopedProps } from './avatar'
 import { useAvatarContext } from './avatar'
+import type { IAvatar } from './avatar.types'
 
 const FALLBACK_NAME = 'AvatarFallback'
 
 type AvatarFallbackElement = React.ComponentRef<typeof Primitive.span>
-interface AvatarFallbackProps extends React.ComponentPropsWithoutRef<typeof Primitive.span> {
-  delayMs?: number
-}
 
-const AvatarFallback = React.forwardRef<AvatarFallbackElement, AvatarFallbackProps>(
-  (props: ScopedProps<AvatarFallbackProps>, forwardedRef) => {
+const AvatarFallback = React.forwardRef<AvatarFallbackElement, IAvatar.IFallbackProps>(
+  (props: IAvatar.IScoped<IAvatar.IFallbackProps>, forwardedRef) => {
     const { __scopeAvatar, delayMs, ...fallbackProps } = props
     const context = useAvatarContext(FALLBACK_NAME, __scopeAvatar)
     const [canRender, setCanRender] = React.useState(delayMs === undefined)
@@ -31,5 +28,4 @@ const AvatarFallback = React.forwardRef<AvatarFallbackElement, AvatarFallbackPro
 
 AvatarFallback.displayName = FALLBACK_NAME
 
-export type { AvatarFallbackProps }
 export { AvatarFallback }

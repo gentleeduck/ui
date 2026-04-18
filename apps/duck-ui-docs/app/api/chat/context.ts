@@ -4,7 +4,7 @@ import { extractSummary, parseFrontmatter, stripMdxSyntax } from '../mcp/text'
 import { computeIdf, computeTf, computeTfidfVector, cosineSimilarity } from '../mcp/tfidf'
 import { expandSearchTerms, tokenize } from '../mcp/tokenize'
 
-interface DocEntry {
+interface IDocEntry {
   slug: string
   title: string
   description: string
@@ -14,30 +14,30 @@ interface DocEntry {
   tf: Map<string, number>
 }
 
-export interface ChatSource {
+export interface IChatSource {
   slug: string
   title: string
   href: string
 }
 
-interface ChatContext {
+interface IChatContext {
   contextText: string
-  sources: ChatSource[]
+  sources: IChatSource[]
 }
 
 const CONTENT_DIR = resolve(join(process.cwd(), 'content', 'docs'))
 const BASE_URL = 'https://ui.gentleduck.org'
 const MAX_CONTEXT_CHARS = 8000
 
-let cachedDocs: DocEntry[] | null = null
+let cachedDocs: IDocEntry[] | null = null
 let cachedIdf: Map<string, number> | null = null
 let cacheTime = 0
 const CACHE_TTL = 120_000
 
-async function loadDocs(): Promise<DocEntry[]> {
+async function loadDocs(): Promise<IDocEntry[]> {
   if (cachedDocs && Date.now() - cacheTime < CACHE_TTL) return cachedDocs
 
-  const docs: DocEntry[] = []
+  const docs: IDocEntry[] = []
 
   async function walk(dir: string, prefix: string) {
     const entries = await readdir(dir, { withFileTypes: true }).catch(() => [])
@@ -70,7 +70,7 @@ async function loadDocs(): Promise<DocEntry[]> {
   return docs
 }
 
-function semanticSearch(query: string, docs: DocEntry[], idf: Map<string, number>, limit: number): DocEntry[] {
+function semanticSearch(query: string, docs: IDocEntry[], idf: Map<string, number>, limit: number): IDocEntry[] {
   const expandedTerms = expandSearchTerms(query)
   const allTerms = [...new Set([...tokenize(query), ...expandedTerms])]
   const queryTf = computeTf(allTerms)
@@ -166,7 +166,7 @@ const ALIASES: Record<string, string> = {
   'date-picker': 'calendar',
 }
 
-export function extractComponentNames(query: string, docs: DocEntry[]): string[] {
+export function extractComponentNames(query: string, docs: IDocEntry[]): string[] {
   const componentSlugs = docs.filter((d) => d.category === 'components').map((d) => d.slug.split('/').pop() ?? '')
   const words = query
     .toLowerCase()
@@ -191,13 +191,13 @@ export function extractComponentNames(query: string, docs: DocEntry[]): string[]
   return [...new Set(matched)]
 }
 
-export async function buildChatContext(userMessage: string): Promise<ChatContext> {
+export async function buildChatContext(userMessage: string): Promise<IChatContext> {
   const docs = await loadDocs()
   if (!cachedIdf) {
     return { contextText: '', sources: [] }
   }
   const idf = cachedIdf
-  const sources: ChatSource[] = []
+  const sources: IChatSource[] = []
   const contextParts: string[] = []
   let usedChars = 0
 
@@ -231,7 +231,7 @@ export async function buildChatContext(userMessage: string): Promise<ChatContext
   }
 }
 
-export async function buildChatContextFromSlug(userMessage: string, slug: string): Promise<ChatContext> {
+export async function buildChatContextFromSlug(userMessage: string, slug: string): Promise<IChatContext> {
   const docs = await loadDocs()
   const doc = docs.find((d) => d.slug === slug)
   if (!doc) {

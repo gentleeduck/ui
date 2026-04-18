@@ -1,34 +1,41 @@
 'use client'
 
 import * as React from 'react'
+import type { IUseCopyToClipboard } from './use-copy-to-clipboard.types'
 
-export interface UseCopyToClipboardOptions {
-  timeout?: number
-  onCopy?: () => void
-}
+export type { IUseCopyToClipboard } from './use-copy-to-clipboard.types'
 
-export function useCopyToClipboard({ timeout = 2000, onCopy }: UseCopyToClipboardOptions = {}) {
+/**
+ * Copy text to the clipboard and track the copied state.
+ *
+ * Returns an object with `copyToClipboard` and a transient `isCopied` flag
+ * that auto-resets after the configured timeout.
+ */
+export function useCopyToClipboard({
+  timeout = 2000,
+  onCopy,
+}: IUseCopyToClipboard.IOptions = {}): IUseCopyToClipboard.IReturn {
   const [isCopied, setIsCopied] = React.useState(false)
 
-  const copyToClipboard = (value: string) => {
-    if (typeof window === 'undefined' || !navigator.clipboard.writeText) {
-      return
-    }
-
-    if (!value) return
-
-    navigator.clipboard.writeText(value).then(() => {
-      setIsCopied(true)
-
-      if (onCopy) {
-        onCopy()
+  const copyToClipboard = React.useCallback(
+    (value: string): void => {
+      if (typeof window === 'undefined' || !navigator.clipboard.writeText) {
+        return
       }
 
-      setTimeout(() => {
-        setIsCopied(false)
-      }, timeout)
-    }, console.error)
-  }
+      if (!value) return
+
+      navigator.clipboard.writeText(value).then(() => {
+        setIsCopied(true)
+        onCopy?.()
+
+        setTimeout(() => {
+          setIsCopied(false)
+        }, timeout)
+      }, console.error)
+    },
+    [timeout, onCopy],
+  )
 
   return { copyToClipboard, isCopied }
 }

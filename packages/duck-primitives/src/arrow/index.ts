@@ -1,2 +1,2 @@
-export type { ArrowProps } from './arrow'
 export { Arrow } from './arrow'
+export type { IArrow } from './arrow.types'

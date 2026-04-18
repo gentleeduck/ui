@@ -4,12 +4,12 @@ import { atomWithStorage } from 'jotai/utils'
 import { useMounted } from './use-mounted'
 
 /** @internal */
-interface Config {
+interface IConfig {
   format: ColorFormat
   lastCopied: string
 }
 
-const colorsAtom = atomWithStorage<Config>('colors', {
+const colorsAtom = atomWithStorage<IConfig>('colors', {
   format: 'hsl',
   lastCopied: '',
 })

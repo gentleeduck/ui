@@ -1,26 +1,26 @@
 import { Box, Text } from 'ink'
 import { memo } from 'react'
+import type { Diff } from '~/utils/diff-format'
 import { THEME } from '../app.constants'
-import type { DiffDisplayLine, SideBySidePair } from '../screens/diff-screen.types'
-import { get_conflict_marker_color } from './conflict-markers'
-import { get_renderable_diff_segments } from './diff-line.libs'
+import { getConflictMarkerColor } from './conflict-markers'
+import { getRenderableDiffSegments } from './diff-line.libs'
 
 type SideBySideLineProps = {
-  pair: SideBySidePair
-  num_width: number
-  half_width: number
+  pair: Diff.SideBySidePair
+  numWidth: number
+  halfWidth: number
 }
 
-function render_side(line: DiffDisplayLine | null, num_width: number, side: 'left' | 'right') {
+function renderSide(line: Diff.DisplayLine | null, numWidth: number, side: 'left' | 'right') {
   if (!line) {
     return null
   }
 
-  const marker_color = get_conflict_marker_color(line.raw_text)
-  if (marker_color) {
+  const markerColor = getConflictMarkerColor(line.rawText)
+  if (markerColor) {
     return (
-      <Text bold color={marker_color}>
-        {line.raw_text}
+      <Text bold color={markerColor}>
+        {line.rawText}
       </Text>
     )
   }
@@ -28,32 +28,34 @@ function render_side(line: DiffDisplayLine | null, num_width: number, side: 'lef
   if (line.type === 'file-header') {
     return (
       <Text bold color={THEME.foreground}>
-        {line.raw_text}
+        {line.rawText}
       </Text>
     )
   }
 
   if (line.type === 'hunk-header') {
-    return <Text color={THEME.ring}>{line.raw_text}</Text>
+    return <Text color={THEME.ring}>{line.rawText}</Text>
   }
 
-  const line_num = side === 'left' ? line.old_line_num : line.new_line_num
-  const num_str = line_num !== null ? String(line_num).padStart(num_width) : ' '.repeat(num_width)
+  const lineNum = side === 'left' ? line.oldLineNum : line.newLineNum
+  const numStr = lineNum !== null ? String(lineNum).padStart(numWidth) : ' '.repeat(numWidth)
 
-  const base_color =
+  const baseColor =
     line.type === 'add' ? THEME.success : line.type === 'remove' ? THEME.destructive : THEME.mutedForeground
-  const renderable_segments = get_renderable_diff_segments(line.segments)
+  const renderableSegments = getRenderableDiffSegments(line.segments)
 
   return (
     <>
-      <Text color={THEME.mutedForeground}>{num_str} </Text>
-      {renderable_segments.map((seg) => (
+      <Text color={THEME.mutedForeground}>{numStr} </Text>
+      {renderableSegments.map((seg) => (
         <Text
           key={seg.key}
-          color={seg.highlight ? (line.type === 'remove' ? 'white' : 'black') : base_color}
-          backgroundColor={
-            seg.highlight ? (line.type === 'add' ? 'green' : line.type === 'remove' ? 'red' : undefined) : undefined
-          }>
+          color={seg.highlight ? (line.type === 'remove' ? 'white' : 'black') : baseColor}
+          {...(seg.highlight && line.type === 'add'
+            ? { backgroundColor: 'green' as const }
+            : seg.highlight && line.type === 'remove'
+              ? { backgroundColor: 'red' as const }
+              : {})}>
           {seg.text}
         </Text>
       ))}
@@ -62,12 +64,12 @@ function render_side(line: DiffDisplayLine | null, num_width: number, side: 'lef
 }
 
 /** Renders a side-by-side diff pair with line number gutter on each side. */
-export const SideBySideLine = memo(function SideBySideLine({ pair, num_width, half_width }: SideBySideLineProps) {
+export const SideBySideLine = memo(function SideBySideLine({ pair, numWidth, halfWidth }: SideBySideLineProps) {
   return (
     <Box>
-      <Box width={half_width}>{render_side(pair.left, num_width, 'left')}</Box>
+      <Box width={halfWidth}>{renderSide(pair.left, numWidth, 'left')}</Box>
       <Text color={THEME.border}> | </Text>
-      <Box width={half_width}>{render_side(pair.right, num_width, 'right')}</Box>
+      <Box width={halfWidth}>{renderSide(pair.right, numWidth, 'right')}</Box>
     </Box>
   )
 })

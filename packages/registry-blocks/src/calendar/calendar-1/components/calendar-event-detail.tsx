@@ -18,7 +18,7 @@ import * as React from 'react'
 import { CATEGORY_COLORS, CATEGORY_LABELS, type CalendarEvent } from '../calendar-data'
 import { formatFullDate } from '../calendar-utils'
 
-interface CalendarEventDetailProps {
+interface ICalendarEventDetailProps {
   event: CalendarEvent
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -34,7 +34,7 @@ export function CalendarEventDetail({
   onEdit,
   onDelete,
   children,
-}: CalendarEventDetailProps) {
+}: ICalendarEventDetailProps) {
   const [confirmDelete, setConfirmDelete] = React.useState(false)
   React.useEffect(() => {
     if (!open) setConfirmDelete(false)

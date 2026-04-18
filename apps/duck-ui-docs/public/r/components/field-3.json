@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from '@gentleduck/registry-ui/field'\r\nimport { Textarea } from '@gentleduck/registry-ui/textarea'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <div className=\"w-full max-w-md\">\r\n      <FieldSet>\r\n        <FieldGroup>\r\n          <Field>\r\n            <FieldLabel htmlFor=\"feedback\">Feedback</FieldLabel>\r\n            <Textarea id=\"feedback\" placeholder=\"Your feedback helps us improve...\" rows={4} />\r\n            <FieldDescription>Share your thoughts about our service.</FieldDescription>\r\n          </Field>\r\n        </FieldGroup>\r\n      </FieldSet>\r\n    </div>\r\n  )\r\n}\r\n",
+      "content": "import { Field, FieldDescription, FieldGroup, FieldLabel, FieldSet } from '@gentleduck/registry-ui/field'\nimport { Textarea } from '@gentleduck/registry-ui/textarea'\n\nexport default function Demo() {\n  return (\n    <div className=\"w-full max-w-md\">\n      <FieldSet>\n        <FieldGroup>\n          <Field>\n            <FieldLabel htmlFor=\"feedback\">Feedback</FieldLabel>\n            <Textarea id=\"feedback\" placeholder=\"Your feedback helps us improve...\" rows={4} />\n            <FieldDescription>Share your thoughts about our service.</FieldDescription>\n          </Field>\n        </FieldGroup>\n      </FieldSet>\n    </div>\n  )\n}\n",
       "path": "field/field-3.tsx",
       "target": "components/field-3.tsx",
       "type": "registry:example"

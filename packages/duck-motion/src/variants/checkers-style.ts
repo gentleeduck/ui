@@ -1,3 +1,4 @@
+import type { Variants } from '@gentleduck/variants'
 import { cva } from '@gentleduck/variants'
 
 /**
@@ -55,3 +56,5 @@ export const checkersStylePattern = cva(
     },
   },
 )
+
+export type CheckersStylePatternProps = Variants.VariantProps<typeof checkersStylePattern>

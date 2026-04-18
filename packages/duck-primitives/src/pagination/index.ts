@@ -1,6 +1,4 @@
-export type { PaginationContentProps } from './content'
 export { PaginationContent, PaginationContent as Content } from './content'
-export type { PaginationItemProps } from './item'
 export { PaginationItem, PaginationItem as Item } from './item'
-export type { PaginationProps } from './pagination'
 export { createPaginationScope, Pagination, Pagination as Root } from './pagination'
+export type { IPagination } from './pagination.types'

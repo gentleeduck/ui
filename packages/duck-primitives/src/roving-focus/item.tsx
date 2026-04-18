@@ -1,23 +1,17 @@
-/** RovingFocusGroupItem - an item within a roving focus group. */
 import * as React from 'react'
 import { useId } from '../hooks/use-id'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { Primitive } from '../primitive-elements'
-import { Collection, type ScopedProps, useCollection, useRovingFocusContext } from './roving-focus'
+import { Collection, useCollection, useRovingFocusContext } from './roving-focus'
 import { focusFirst, getFocusIntent, wrapArray } from './roving-focus.libs'
+import type { IRovingFocus } from './roving-focus.types'
 
 const ITEM_NAME = 'RovingFocusGroupItem'
 
 type RovingFocusItemElement = React.ComponentRef<typeof Primitive.span>
-type PrimitiveSpanProps = React.ComponentPropsWithoutRef<typeof Primitive.span>
-interface RovingFocusGroupItemProps extends PrimitiveSpanProps {
-  tabStopId?: string
-  focusable?: boolean
-  active?: boolean
-}
 
-const RovingFocusGroupItem = React.forwardRef<RovingFocusItemElement, RovingFocusGroupItemProps>(
-  (props: ScopedProps<RovingFocusGroupItemProps>, forwardedRef) => {
+const RovingFocusGroupItem = React.forwardRef<RovingFocusItemElement, IRovingFocus.IItemProps>(
+  (props: IRovingFocus.IScoped<IRovingFocus.IItemProps>, forwardedRef) => {
     const { __scopeRovingFocusGroup, focusable = true, active = false, tabStopId, ...itemProps } = props
     const autoId = useId()
     const id = tabStopId || autoId
@@ -43,12 +37,7 @@ const RovingFocusGroupItem = React.forwardRef<RovingFocusItemElement, RovingFocu
           {...itemProps}
           ref={forwardedRef}
           onMouseDown={composeEventHandlers(props.onMouseDown, (event) => {
-            // We prevent focusing non-focusable items on mousedown.
-            // Even though the item has tabIndex={-1}, that only means take it
-            // out of the tab order.
             if (!focusable) event.preventDefault()
-            // Safari does not focus a button when clicked so we run our logic
-            // on mousedown also
             else context.onItemFocus(id)
           })}
           onFocus={composeEventHandlers(props.onFocus, () => context.onItemFocus(id))}
@@ -66,8 +55,11 @@ const RovingFocusGroupItem = React.forwardRef<RovingFocusItemElement, RovingFocu
               event.preventDefault()
 
               const items = getItems().filter((item) => item.focusable)
-              // biome-ignore lint/style/noNonNullAssertion: focusable items always have mounted refs within the roving focus group
-              let candidateNodes = items.map((item) => item.ref.current!)
+              let candidateNodes: HTMLElement[] = []
+              for (const item of items) {
+                const node = item.ref.current
+                if (node) candidateNodes.push(node)
+              }
 
               if (focusIntent === 'last') {
                 candidateNodes.reverse()
@@ -79,7 +71,6 @@ const RovingFocusGroupItem = React.forwardRef<RovingFocusItemElement, RovingFocu
                   : candidateNodes.slice(currentIndex + 1)
               }
 
-              // setTimeout here because changing focus inside keydown would be stopped
               setTimeout(() => focusFirst(candidateNodes))
             }
           })}
@@ -91,5 +82,4 @@ const RovingFocusGroupItem = React.forwardRef<RovingFocusItemElement, RovingFocu
 
 RovingFocusGroupItem.displayName = ITEM_NAME
 
-export type { RovingFocusGroupItemProps }
 export { RovingFocusGroupItem }

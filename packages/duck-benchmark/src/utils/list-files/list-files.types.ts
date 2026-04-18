@@ -1,6 +1,6 @@
-import { Ora } from 'ora'
+import type { Ora } from 'ora'
 
-export interface ListFilesOptions {
+export interface IListFilesOptions {
   cwds: string[]
   depth?: number
   filter?: string[]

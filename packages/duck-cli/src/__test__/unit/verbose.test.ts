@@ -1,23 +1,23 @@
 import { afterEach, describe, expect, it } from 'vitest'
-import { is_verbose, set_verbose } from '~/utils/verbose'
+import { isVerbose, setVerbose } from '~/utils/verbose'
 
 describe('verbose', () => {
   afterEach(() => {
-    set_verbose(false)
+    setVerbose(false)
   })
 
   it('defaults to false', () => {
-    expect(is_verbose()).toBe(false)
+    expect(isVerbose()).toBe(false)
   })
 
   it('can be set to true', () => {
-    set_verbose(true)
-    expect(is_verbose()).toBe(true)
+    setVerbose(true)
+    expect(isVerbose()).toBe(true)
   })
 
   it('can be set back to false', () => {
-    set_verbose(true)
-    set_verbose(false)
-    expect(is_verbose()).toBe(false)
+    setVerbose(true)
+    setVerbose(false)
+    expect(isVerbose()).toBe(false)
   })
 })

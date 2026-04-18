@@ -1,15 +1,14 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
-import type { PrimitiveSpanProps, ScopedProps } from './slider'
 import { useSliderContext } from './slider'
+import type { ISlider } from './slider.types'
 
 const TRACK_NAME = 'SliderTrack'
 
 type SliderTrackElement = React.ComponentRef<typeof Primitive.span>
-interface SliderTrackProps extends PrimitiveSpanProps {}
 
-const SliderTrack = React.forwardRef<SliderTrackElement, SliderTrackProps>(
-  (props: ScopedProps<SliderTrackProps>, forwardedRef) => {
+const SliderTrack = React.forwardRef<SliderTrackElement, ISlider.ITrackProps>(
+  (props: ISlider.IScoped<ISlider.ITrackProps>, forwardedRef) => {
     const { __scopeSlider, ...trackProps } = props
     const context = useSliderContext(TRACK_NAME, __scopeSlider)
     return (
@@ -27,5 +26,4 @@ const SliderTrack = React.forwardRef<SliderTrackElement, SliderTrackProps>(
 
 SliderTrack.displayName = TRACK_NAME
 
-export type { SliderTrackProps }
 export { SliderTrack }

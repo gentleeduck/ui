@@ -3,7 +3,7 @@ import { NativeAdapter } from '../../../adapter'
 import { useDateTime } from '../use-datetime'
 
 const adapter = new NativeAdapter()
-const march15_1430 = new Date(2026, 2, 15, 14, 30, 0)
+const march15At1430 = new Date(2026, 2, 15, 14, 30, 0)
 
 describe('useDateTime', () => {
   // ---------------------------------------------------------------------------
@@ -14,7 +14,7 @@ describe('useDateTime', () => {
       const { result } = renderHook(() =>
         useDateTime({
           adapter,
-          defaultValue: march15_1430,
+          defaultValue: march15At1430,
         }),
       )
 
@@ -43,7 +43,7 @@ describe('useDateTime', () => {
       const { result } = renderHook(() =>
         useDateTime({
           adapter,
-          defaultValue: march15_1430,
+          defaultValue: march15At1430,
           defaultMonth: new Date(2026, 2, 1),
         }),
       )
@@ -69,7 +69,7 @@ describe('useDateTime', () => {
       const { result } = renderHook(() =>
         useDateTime({
           adapter,
-          defaultValue: march15_1430,
+          defaultValue: march15At1430,
         }),
       )
 
@@ -98,7 +98,7 @@ describe('useDateTime', () => {
             adapter,
             value,
           }),
-        { initialProps: { value: march15_1430 } },
+        { initialProps: { value: march15At1430 } },
       )
 
       expect(result.current.state.value!.getHours()).toBe(14)
@@ -121,7 +121,7 @@ describe('useDateTime', () => {
       const { result } = renderHook(() =>
         useDateTime({
           adapter,
-          defaultValue: march15_1430,
+          defaultValue: march15At1430,
           defaultMonth: new Date(2026, 2, 1),
           onChange,
         }),
@@ -144,7 +144,7 @@ describe('useDateTime', () => {
       const { result } = renderHook(() =>
         useDateTime({
           adapter,
-          defaultValue: march15_1430,
+          defaultValue: march15At1430,
           onChange,
         }),
       )
@@ -169,7 +169,7 @@ describe('useDateTime', () => {
       const { result } = renderHook(() =>
         useDateTime({
           adapter,
-          defaultValue: march15_1430,
+          defaultValue: march15At1430,
           defaultMonth: new Date(2026, 2, 1),
         }),
       )
@@ -186,7 +186,7 @@ describe('useDateTime', () => {
       const { result } = renderHook(() =>
         useDateTime({
           adapter,
-          defaultValue: march15_1430,
+          defaultValue: march15At1430,
         }),
       )
 
@@ -228,7 +228,7 @@ describe('useDateTime', () => {
       const { result } = renderHook(() =>
         useDateTime({
           adapter,
-          defaultValue: march15_1430,
+          defaultValue: march15At1430,
           defaultMonth: new Date(2026, 2, 1),
         }),
       )
@@ -258,7 +258,7 @@ describe('useDateTime', () => {
       const { result } = renderHook(() =>
         useDateTime({
           adapter,
-          defaultValue: march15_1430,
+          defaultValue: march15At1430,
           defaultMonth: new Date(2026, 2, 1),
         }),
       )
@@ -289,7 +289,7 @@ describe('useDateTime', () => {
       const { result } = renderHook(() =>
         useDateTime({
           adapter,
-          defaultValue: march15_1430,
+          defaultValue: march15At1430,
           defaultMonth: new Date(2026, 2, 1),
         }),
       )
@@ -313,7 +313,7 @@ describe('useDateTime', () => {
       const { result } = renderHook(() =>
         useDateTime({
           adapter,
-          defaultValue: march15_1430,
+          defaultValue: march15At1430,
         }),
       )
 
@@ -339,7 +339,7 @@ describe('useDateTime', () => {
       const { result } = renderHook(() =>
         useDateTime({
           adapter,
-          defaultValue: march15_1430,
+          defaultValue: march15At1430,
         }),
       )
 
@@ -354,7 +354,7 @@ describe('useDateTime', () => {
             adapter,
             value,
           }),
-        { initialProps: { value: march15_1430 } },
+        { initialProps: { value: march15At1430 } },
       )
 
       expect(result.current.timePicker.state.value.hour).toBe(14)
@@ -376,7 +376,7 @@ describe('useDateTime', () => {
       const { result } = renderHook(() =>
         useDateTime({
           adapter,
-          defaultValue: march15_1430,
+          defaultValue: march15At1430,
           onChange,
         }),
       )
@@ -400,7 +400,7 @@ describe('useDateTime', () => {
       renderHook(() =>
         useDateTime({
           adapter,
-          defaultValue: march15_1430,
+          defaultValue: march15At1430,
           onChange,
         }),
       )
@@ -417,7 +417,7 @@ describe('useDateTime', () => {
       const { result } = renderHook(() =>
         useDateTime({
           adapter,
-          defaultValue: march15_1430,
+          defaultValue: march15At1430,
           hourCycle: '12',
         }),
       )

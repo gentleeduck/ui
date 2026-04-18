@@ -2,17 +2,16 @@ import * as React from 'react'
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import * as PopperPrimitive from '../popper'
 import { Primitive } from '../primitive-elements'
-import { type ScopedProps, useHoverCardContext, usePopperScope } from './hover-card'
+import { useHoverCardContext, usePopperScope } from './hover-card'
+import type { IHoverCard } from './hover-card.types'
 
 const TRIGGER_NAME = 'HoverCardTrigger'
 
 type HoverCardTriggerElement = React.ComponentRef<typeof Primitive.a>
-type PrimitiveLinkProps = React.ComponentPropsWithoutRef<typeof Primitive.a>
-export interface HoverCardTriggerProps extends PrimitiveLinkProps {}
 
 /** Anchor element that opens the hover card on pointer enter and focus. */
-export const HoverCardTrigger = React.forwardRef<HoverCardTriggerElement, HoverCardTriggerProps>(
-  (props: ScopedProps<HoverCardTriggerProps>, forwardedRef) => {
+export const HoverCardTrigger = React.forwardRef<HoverCardTriggerElement, IHoverCard.ITriggerProps>(
+  (props: IHoverCard.IScoped<IHoverCard.ITriggerProps>, forwardedRef) => {
     const { __scopeHoverCard, ...triggerProps } = props
     const context = useHoverCardContext(TRIGGER_NAME, __scopeHoverCard)
     const popperScope = usePopperScope(__scopeHoverCard)
@@ -28,7 +27,6 @@ export const HoverCardTrigger = React.forwardRef<HoverCardTriggerElement, HoverC
           onPointerLeave={composeEventHandlers(props.onPointerLeave, excludeTouch(context.onClose))}
           onFocus={composeEventHandlers(props.onFocus, context.onOpen)}
           onBlur={composeEventHandlers(props.onBlur, context.onClose)}
-          // prevent focus event on touch devices
           onTouchStart={composeEventHandlers(props.onTouchStart, (event) => event.preventDefault())}
         />
       </PopperPrimitive.Anchor>

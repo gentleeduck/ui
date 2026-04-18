@@ -161,8 +161,8 @@ Requires the `motion` package. Use `MotionCheckboxWithLabel` instead of `Checkbo
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `id` | `string` | (required) | HTML `id` attribute to link checkbox and label |
-| `_checkbox` | `React.ComponentPropsWithoutRef<typeof Checkbox>` | (required) | Props passed to the internal `Checkbox` component |
-| `_label` | `React.ComponentPropsWithoutRef<typeof Label>` | (required) | Props passed to the internal `Label` component |
+| `checkbox` | `React.ComponentPropsWithoutRef<typeof Checkbox>` | (required) | Props passed to the internal `Checkbox` component |
+| `label` | `React.ComponentPropsWithoutRef<typeof Label>` | (required) | Props passed to the internal `Label` component |
 | `className` | `string` | - | Additional CSS classes applied to the wrapping div |
 | `ref` | `React.Ref<HTMLDivElement>` | - | Ref forwarded to the wrapping div |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
@@ -172,7 +172,7 @@ Requires the `motion` package. Use `MotionCheckboxWithLabel` instead of `Checkbo
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `subtasks` | `CheckboxGroupSubtasks[]` | (required) | Array of subtasks to render as individual checkboxes with labels |
-| `subtasks_default_values` | `CheckboxWithLabelProps` | - | Default props applied to each checkbox and label in the group |
+| `defaults` | `CheckboxWithLabelProps` | - | Default props applied to each checkbox and label in the group |
 | `className` | `string` | - | Additional CSS classes applied to the wrapping div |
 | `ref` | `React.Ref<HTMLDivElement>` | - | Ref forwarded to the wrapping div |
 | `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |

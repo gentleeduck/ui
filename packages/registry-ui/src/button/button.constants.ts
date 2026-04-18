@@ -1,30 +1,6 @@
 import { cva } from '@gentleduck/variants'
 
-type ButtonClassValue = string | number | boolean | Record<string, boolean | undefined> | ButtonClassValue[]
-
-export type ButtonBorder = 'default' | 'destructive' | 'primary' | 'secondary' | 'warning'
-export type ButtonSize = 'default' | 'icon' | 'icon-lg' | 'icon-sm' | 'lg' | 'sm'
-export type ButtonVariant =
-  | 'dashed'
-  | 'default'
-  | 'destructive'
-  | 'expand_icon'
-  | 'ghost'
-  | 'link'
-  | 'nothing'
-  | 'outline'
-  | 'secondary'
-  | 'warning'
-
-export interface ButtonVariantOptions {
-  border?: ButtonBorder | ButtonBorder[]
-  class?: ButtonClassValue
-  className?: ButtonClassValue
-  size?: ButtonSize | ButtonSize[]
-  variant?: ButtonVariant | ButtonVariant[]
-}
-
-export const buttonVariants: (props?: ButtonVariantOptions) => string = cva(
+export const buttonVariants = cva(
   "relative inline-flex shrink-0 cursor-pointer select-none items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium text-sm outline-none transition-all focus-visible:border-ring focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
 
   {
@@ -54,7 +30,7 @@ export const buttonVariants: (props?: ButtonVariantOptions) => string = cva(
           'border border-input border-dashed bg-background text-accent-foreground shadow-xs hover:bg-accent/50 hover:text-accent-foreground',
         default: 'bg-primary text-primary-foreground shadow-sm hover:bg-primary/90',
         destructive: 'bg-destructive/90 text-destructive-foreground shadow-xs hover:bg-destructive/70',
-        expand_icon: 'group relative bg-primary text-primary-foreground hover:bg-primary/90',
+        expandIcon: 'group relative bg-primary text-primary-foreground hover:bg-primary/90',
         ghost: 'text-accent-foreground hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
         nothing: '',

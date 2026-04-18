@@ -1,10 +1,10 @@
 import fs from 'node:fs'
 import path from 'node:path'
-import { registry_entry_schema } from '@gentleduck/registers'
+import { registryEntrySchema } from '@gentleduck/registers'
 import { cache } from 'react'
 import { z } from 'zod'
 
-const registryEntriesSchema = z.array(registry_entry_schema)
+const registryEntriesSchema = z.array(registryEntrySchema)
 
 export const getRegistryIndex = cache(() => {
   const filePath = path.join(process.cwd(), 'public/r/index.json')

@@ -1,18 +1,18 @@
 import type { Dayjs } from 'dayjs'
 import dayjs from 'dayjs'
-import type { DateAdapter, WeekStartDay } from './adapter.types'
+import type { Adapter } from './adapter.types'
 import { getCachedFormatter } from './formatter-cache'
 
 /**
  * Dayjs date adapter for `@gentleduck/calendar`.
  *
- * Wraps the `dayjs` library behind the {@link DateAdapter} interface so the
+ * Wraps the `dayjs` library behind the {@link Adapter.IDateAdapter} interface so the
  * calendar engine can work with `Dayjs` instances instead of native `Date`.
  * All methods are pure  -  inputs are never mutated.
  *
  * Requires `dayjs` as a peer dependency.
  */
-export class DayjsAdapter implements DateAdapter<Dayjs> {
+export class DayjsAdapter implements Adapter.IDateAdapter<Dayjs> {
   /** Returns today's date with the time component stripped to midnight. */
   today(): Dayjs {
     return dayjs().startOf('day')
@@ -59,7 +59,7 @@ export class DayjsAdapter implements DateAdapter<Dayjs> {
   }
 
   /** Walks backward from `date` until reaching the target weekday. */
-  startOfWeek(date: Dayjs, weekStartDay: WeekStartDay): Dayjs {
+  startOfWeek(date: Dayjs, weekStartDay: Adapter.WeekStartDay): Dayjs {
     const diff = (date.day() - weekStartDay + 7) % 7
     return date.subtract(diff, 'day').startOf('day')
   }
@@ -95,8 +95,8 @@ export class DayjsAdapter implements DateAdapter<Dayjs> {
   }
 
   /** Extracts the day of the week (0 = Sunday, 6 = Saturday). */
-  getDayOfWeek(date: Dayjs): WeekStartDay {
-    return date.day() as WeekStartDay
+  getDayOfWeek(date: Dayjs): Adapter.WeekStartDay {
+    return date.day() as Adapter.WeekStartDay
   }
 
   /** Converts a Dayjs instance to a native JS `Date`. */

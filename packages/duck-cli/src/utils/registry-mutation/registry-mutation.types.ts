@@ -1,12 +1,12 @@
 export type DependenciesType = {
   dependencies: string[]
-  dev_dependencies: string[]
-  registry_dependencies: string[]
+  devDependencies: string[]
+  registryDependencies: string[]
 }
 
 export type InstallOptions = {
   cwd: string
-  workspace?: string
+  workspace?: string | undefined
   yes: boolean
   force: boolean
 }

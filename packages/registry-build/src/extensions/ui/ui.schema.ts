@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import type { RegistryBuildThemeEntry } from './ui.config.types'
-import type { RegistryEntry, RegistryItemType } from './ui.registry.types'
+import type { IRegistryBuildThemeEntry } from './ui.config.types'
+import type { IRegistryEntry, RegistryItemType } from './ui.registry.types'
 
 const nonEmptyStringSchema = z.string().trim().min(1)
 
@@ -26,7 +26,7 @@ export const registryItemCssVarsSchema = z.object({
   light: z.record(z.string(), z.string()).optional(),
 })
 
-export const registryEntrySchema: z.ZodType<RegistryEntry> = z
+export const registryEntrySchema: z.ZodType<IRegistryEntry> = z
   .object({
     categories: z.array(nonEmptyStringSchema).optional(),
     cssVars: registryItemCssVarsSchema.optional(),
@@ -45,7 +45,7 @@ export const registryEntrySchema: z.ZodType<RegistryEntry> = z
 
 export const registryEntryListSchema = z.array(registryEntrySchema)
 
-export const themeEntrySchema: z.ZodType<RegistryBuildThemeEntry> = z.object({
+export const themeEntrySchema: z.ZodType<IRegistryBuildThemeEntry> = z.object({
   dark: z.record(z.string(), z.string()),
   label: nonEmptyStringSchema,
   light: z.record(z.string(), z.string()),

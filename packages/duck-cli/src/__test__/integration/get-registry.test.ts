@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { createMockRegistryEntry } from '../helpers/fixtures'
 import { createMockFetch } from '../helpers/mock-fetch'
 
-describe('get_registry_index', () => {
+describe('getRegistryIndex', () => {
   beforeEach(() => {
     vi.resetModules()
     vi.stubGlobal('fetch', createMockFetch())
@@ -14,18 +14,18 @@ describe('get_registry_index', () => {
   })
 
   it('fetches and parses the registry index', async () => {
-    const { get_registry_index } = await import('~/utils/get-registry')
-    const result = await get_registry_index()
-    expect(result).toBeDefined()
+    const { getRegistryIndex } = await import('~/utils/get-registry')
+    const result = await getRegistryIndex()
+    if (!result) throw new Error('expected getRegistryIndex to return a populated array')
     expect(Array.isArray(result)).toBe(true)
-    expect(result!.length).toBe(3)
-    expect(result![0].name).toBe('button')
+    expect(result.length).toBe(3)
+    expect(result[0].name).toBe('button')
   })
 
   it('returns null on network error', async () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('Network error')))
-    const { get_registry_index } = await import('~/utils/get-registry')
-    const result = await get_registry_index()
+    const { getRegistryIndex } = await import('~/utils/get-registry')
+    const result = await getRegistryIndex()
     expect(result).toBeNull()
   })
 
@@ -39,13 +39,13 @@ describe('get_registry_index', () => {
         text: () => Promise.resolve('not an array'),
       }),
     )
-    const { get_registry_index } = await import('~/utils/get-registry')
-    const result = await get_registry_index()
+    const { getRegistryIndex } = await import('~/utils/get-registry')
+    const result = await getRegistryIndex()
     expect(result).toBeNull()
   })
 })
 
-describe('get_registry_item', () => {
+describe('getRegistryItem', () => {
   beforeEach(() => {
     vi.resetModules()
     vi.stubGlobal('fetch', createMockFetch())
@@ -57,16 +57,16 @@ describe('get_registry_item', () => {
   })
 
   it('fetches a component by name', async () => {
-    const { get_registry_item } = await import('~/utils/get-registry')
-    const result = await get_registry_item('button')
-    expect(result).toBeDefined()
-    expect(result!.name).toBe('button')
-    expect(result!.type).toBe('registry:ui')
+    const { getRegistryItem } = await import('~/utils/get-registry')
+    const result = await getRegistryItem('button')
+    if (!result) throw new Error('expected getRegistryItem to return an entry')
+    expect(result.name).toBe('button')
+    expect(result.type).toBe('registry:ui')
   })
 
   it('returns null for nonexistent component', async () => {
-    const { get_registry_item } = await import('~/utils/get-registry')
-    const result = await get_registry_item('nonexistent')
+    const { getRegistryItem } = await import('~/utils/get-registry')
+    const result = await getRegistryItem('nonexistent')
     expect(result).toBeNull()
   })
 
@@ -80,14 +80,14 @@ describe('get_registry_item', () => {
         text: () => Promise.resolve(JSON.stringify(createMockRegistryEntry({ name: 'remote-button' }))),
       }),
     )
-    const { get_registry_item } = await import('~/utils/get-registry')
-    const result = await get_registry_item('https://example.com/components/button.json')
-    expect(result).toBeDefined()
-    expect(result!.name).toBe('remote-button')
+    const { getRegistryItem } = await import('~/utils/get-registry')
+    const result = await getRegistryItem('https://example.com/components/button.json')
+    if (!result) throw new Error('expected getRegistryItem to return an entry')
+    expect(result.name).toBe('remote-button')
   })
 })
 
-describe('get_registry_base_color', () => {
+describe('getRegistryBaseColor', () => {
   beforeEach(() => {
     vi.resetModules()
     vi.stubGlobal('fetch', createMockFetch())
@@ -99,8 +99,8 @@ describe('get_registry_base_color', () => {
   })
 
   it('fetches theme data', async () => {
-    const { get_registry_base_color } = await import('~/utils/get-registry')
-    const result = await get_registry_base_color('zinc')
+    const { getRegistryBaseColor } = await import('~/utils/get-registry')
+    const result = await getRegistryBaseColor('zinc')
     expect(result).toBeDefined()
     expect(result).toHaveProperty('name', 'zinc')
     expect(result).toHaveProperty('light')
@@ -108,9 +108,9 @@ describe('get_registry_base_color', () => {
   })
 
   it('returns null for nonexistent theme', async () => {
-    const { get_registry_base_color } = await import('~/utils/get-registry')
-    const result = await get_registry_base_color('nonexistent-theme')
-    // fetch_registry_url catches the 404 and returns [],
+    const { getRegistryBaseColor } = await import('~/utils/get-registry')
+    const result = await getRegistryBaseColor('nonexistent-theme')
+    // fetchRegistryUrl catches the 404 and returns [],
     // so destructured result is undefined, which is returned directly
     expect(result).toBeUndefined()
   })

@@ -1,22 +1,17 @@
-/** MenuRadioItem component - a radio-selectable menu item within a radio group. */
 import * as React from 'react'
-
 import { composeEventHandlers } from '../libs/compose-event-handler'
 import { ItemIndicatorProvider } from './checkbox-item'
-import { MenuItem, type MenuItemProps } from './item'
-import type { ScopedProps } from './menu'
+import { MenuItem } from './item'
 import { getCheckedState } from './menu.libs'
+import type { IMenu } from './menu.types'
 import { useRadioGroupContext } from './radio-group'
 
 const RADIO_ITEM_NAME = 'MenuRadioItem'
 
 type MenuRadioItemElement = React.ComponentRef<typeof MenuItem>
-interface MenuRadioItemProps extends MenuItemProps {
-  value: string
-}
 
-const MenuRadioItem = React.forwardRef<MenuRadioItemElement, MenuRadioItemProps>(
-  (props: ScopedProps<MenuRadioItemProps>, forwardedRef) => {
+const MenuRadioItem = React.forwardRef<MenuRadioItemElement, IMenu.IRadioItemProps>(
+  (props: IMenu.IScoped<IMenu.IRadioItemProps>, forwardedRef) => {
     const { value, ...radioItemProps } = props
     const context = useRadioGroupContext(RADIO_ITEM_NAME, props.__scopeMenu)
     const checked = value === context.value
@@ -39,5 +34,4 @@ const MenuRadioItem = React.forwardRef<MenuRadioItemElement, MenuRadioItemProps>
 
 MenuRadioItem.displayName = RADIO_ITEM_NAME
 
-export type { MenuRadioItemElement, MenuRadioItemProps }
 export { MenuRadioItem }

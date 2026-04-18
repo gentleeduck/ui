@@ -1,4 +1,4 @@
-import type { ComponentMergeState, MergeResult } from '~/utils/merge'
+import type { Merge } from '~/utils/merge'
 import type { VimStdin } from './vim-stdin'
 
 /**
@@ -6,10 +6,10 @@ import type { VimStdin } from './vim-stdin'
  * Controls which screen to show and what data to pre-populate.
  */
 export type GuiLaunchOptions = {
-  initialArgs?: string[]
-  screen?: 'diff' | 'merge'
-  mergeData?: ComponentMergeState
-  onComplete?: (results: MergeResult[]) => void
+  initialArgs?: string[] | undefined
+  screen?: 'diff' | 'merge' | undefined
+  mergeData?: Merge.ComponentState | undefined
+  onComplete?: ((results: Merge.Result[]) => void) | undefined
 }
 
 /**
@@ -19,8 +19,8 @@ export type GuiLaunchOptions = {
  */
 export type AppProps = {
   vimStdin: VimStdin
-  initialArgs?: string[]
-  screen?: 'diff' | 'merge'
-  mergeData?: ComponentMergeState
-  onComplete?: (results: MergeResult[]) => void
+  initialArgs?: string[] | undefined
+  screen?: 'diff' | 'merge' | undefined
+  mergeData?: Merge.ComponentState | undefined
+  onComplete?: ((results: Merge.Result[]) => void) | undefined
 }

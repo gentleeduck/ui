@@ -1,21 +1,21 @@
 import path from 'node:path'
-import type { RegistryItemFile, RegistryItemType } from '../extensions/ui/ui.registry.types'
+import type { IRegistryItemFile, RegistryItemType } from '../extensions/ui/ui.registry.types'
 import { normalizeSlashes } from '../lib/path'
-import type { RegistryBuildContext } from './types'
+import type { IRegistryBuildContext } from './types'
 
-interface RegistryBuildEntryLike {
-  files?: Array<Pick<RegistryItemFile, 'path'>>
+interface IRegistryBuildEntryLike {
+  files?: Array<Pick<IRegistryItemFile, 'path'>>
   name: string
   root_folder: string
   type: RegistryItemType
 }
 
 /** Build a deterministic cache key for a registry entry based on its type, folder, and name. */
-export function createRegistryEntryCacheKey(entry: RegistryBuildEntryLike) {
+export function createRegistryEntryCacheKey(entry: IRegistryBuildEntryLike) {
   return `${entry.type}:${normalizeSlashes(entry.root_folder)}:${entry.name}`
 }
 
-function getRegistryEntryPaths(context: RegistryBuildContext, entry: RegistryBuildEntryLike) {
+function getRegistryEntryPaths(context: IRegistryBuildContext, entry: IRegistryBuildEntryLike) {
   const source = context.config.sources[entry.type]
 
   if (!source) {
@@ -33,7 +33,7 @@ function getRegistryEntryPaths(context: RegistryBuildContext, entry: RegistryBui
  * Changed-only mode still falls back to rebuilding when the entry cannot be
  * mapped back to one or more source paths.
  */
-export function isRegistryEntryAffectedByChangedPaths(context: RegistryBuildContext, entry: RegistryBuildEntryLike) {
+export function isRegistryEntryAffectedByChangedPaths(context: IRegistryBuildContext, entry: IRegistryBuildEntryLike) {
   if (!context.changedOnly || context.changedPaths.length === 0) {
     return true
   }

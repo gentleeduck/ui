@@ -1,9 +1,9 @@
 import path from 'node:path'
 import { Project } from 'ts-morph'
-import type { LoadedRegistryBuildConfig } from '../../config/loader/loader.types'
+import type { ILoadedRegistryBuildConfig } from '../../config/loader/loader.types'
 import { normalizeSlashes } from '../../lib/path'
 import { createRegistryBuildCache } from '../cache'
-import type { BuildOptions, RegistryBuildContext, RegistryBuildOutputRecord } from '../types'
+import type { IBuildOptions, IRegistryBuildContext, IRegistryBuildOutputRecord } from '../types'
 import { createOutputPaths, createPathRegistry } from './context.paths'
 
 /**
@@ -11,16 +11,16 @@ import { createOutputPaths, createPathRegistry } from './context.paths'
  * and artifact/output registries used by all pipeline phases and extensions.
  */
 export async function createRegistryBuildContext(
-  loaded: LoadedRegistryBuildConfig,
-  options: Pick<BuildOptions, 'changedOnly' | 'changedPaths' | 'cwd' | 'silent'> = {},
-): Promise<RegistryBuildContext> {
+  loaded: ILoadedRegistryBuildConfig,
+  options: Pick<IBuildOptions, 'changedOnly' | 'changedPaths' | 'cwd' | 'silent'> = {},
+): Promise<IRegistryBuildContext> {
   const config = loaded.config
   const outputPaths = createOutputPaths(config)
   const paths = createPathRegistry(outputPaths)
-  const artifacts: RegistryBuildContext['artifacts'] = {
+  const artifacts: IRegistryBuildContext['artifacts'] = {
     collections: config.collections,
   }
-  const outputs: RegistryBuildOutputRecord[] = []
+  const outputs: IRegistryBuildOutputRecord[] = []
   const cwd = options.cwd ? path.resolve(options.cwd) : process.cwd()
   const changedPaths = (options.changedPaths ?? []).map((targetPath) => normalizeSlashes(path.resolve(cwd, targetPath)))
   const cache = await createRegistryBuildCache({
@@ -54,7 +54,7 @@ export async function createRegistryBuildContext(
       compilerOptions: {},
     }),
     registerOutput: (name, outputPaths, metadata) => {
-      const record: RegistryBuildOutputRecord = {
+      const record: IRegistryBuildOutputRecord = {
         metadata,
         name,
         paths: Array.isArray(outputPaths) ? [...outputPaths] : [outputPaths],

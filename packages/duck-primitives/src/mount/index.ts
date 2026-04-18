@@ -1,4 +1,3 @@
-export type { MountProps } from './mount'
 export { Mount } from './mount'
-export type { MountMinimalProps } from './mount-minimal'
+export type { IMount } from './mount.types'
 export { MountMinimal } from './mount-minimal'

@@ -8,7 +8,7 @@ export {
   CommandList,
   CommandSeparator,
   CommandShortcut,
-  MotionCommandItem,
   useCommandListContext,
 } from './command'
-export type { CommandBadgeProps } from './command.types'
+export type { ICommandBadgeProps } from './command.types'
+export { MotionCommandItem } from './motion-command'

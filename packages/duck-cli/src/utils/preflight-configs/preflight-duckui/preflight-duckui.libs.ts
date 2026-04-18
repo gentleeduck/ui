@@ -1,23 +1,28 @@
 import path from 'node:path'
 import fs from 'fs-extra'
 import type { Ora } from 'ora'
-import type { ThemeResponse } from '~/utils/get-registry/get-registry.dto'
+import type { Registry } from '~/utils/get-registry/get-registry.dto'
 import { highlighter } from '~/utils/text-styling'
-import type { WorkspaceTarget } from '~/utils/workspace'
-import { base_layer_styles } from '../preflight-tailwindcss/preflight-tailwindcss.constants'
-import type { DuckuiPrompts } from './preflight-duckui.dto'
+import type { Workspace } from '~/utils/workspace'
+import { BASE_LAYER_STYLES } from '../preflight-tailwindcss/preflight-tailwindcss.constants'
+import type { DuckUI } from './preflight-duckui.dto'
 
-export async function init_duckui_config(
+export async function initDuckuiConfig(
   cwd: string,
   spinner: Ora,
-  duck_config: DuckuiPrompts,
-  workspace: WorkspaceTarget = { root: '.', project: '.' },
+  duckConfig: DuckUI.Prompts,
+  workspace: Workspace.Target = { root: '.', project: '.' },
+  cssWorkspace?: string,
 ) {
   try {
     spinner.text = `Initializing ${highlighter.info('duck-ui')} config...`
 
     spinner.text = `Writing ${highlighter.info('duck-ui')} config...`
-    await fs.writeFile(path.join(cwd, 'duck-ui.config.json'), default_duckui_config(duck_config, workspace), 'utf-8')
+    await fs.writeFile(
+      path.join(cwd, 'duck-ui.config.json'),
+      defaultDuckuiConfig(duckConfig, workspace, cssWorkspace),
+      'utf-8',
+    )
 
     spinner.succeed(`${highlighter.info('duck-ui')} config initialized...`)
   } catch (error) {
@@ -28,7 +33,7 @@ export async function init_duckui_config(
   }
 }
 
-export function generateThemeCSS(name: string, entry: ThemeResponse) {
+export function generateThemeCSS(name: string, entry: Registry.ThemeResponse) {
   const radius = entry.radius || '0.5rem'
 
   const lightVars = Object.entries(entry.light)
@@ -70,24 +75,26 @@ ${tailwindVars}
   --radius-xl: calc(var(--radius) + 4px);
 }
 
-${base_layer_styles}
+${BASE_LAYER_STYLES}
 `.trim()
 }
 
-export const default_duckui_config = (
-  { project_type, monorepo, css, prefix, alias, base_color, css_variables }: DuckuiPrompts,
-  workspace: WorkspaceTarget = { root: '.', project: '.' },
+export const defaultDuckuiConfig = (
+  { projectType, monorepo, css, prefix, alias, baseColor, cssVariables }: DuckUI.Prompts,
+  workspace: Workspace.Target = { root: '.', project: '.' },
+  cssWorkspace?: string,
 ) => {
   return JSON.stringify(
     {
       schema: 'https://ui.gentleduck.org/schema.json',
-      rsc: ['NEXT_JS'].includes(project_type),
+      rsc: ['NEXT_JS'].includes(projectType),
       monorepo,
       workspace,
       tailwind: {
-        baseColor: base_color,
+        baseColor: baseColor,
         css,
-        cssVariables: css_variables,
+        ...(cssWorkspace && cssWorkspace !== '.' ? { cssWorkspace: cssWorkspace } : {}),
+        cssVariables: cssVariables,
         prefix: prefix || '',
       },
       aliases: {

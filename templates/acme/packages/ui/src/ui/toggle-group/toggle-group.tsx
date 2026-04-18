@@ -2,20 +2,20 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import * as ToggleGroupPrimitive from '@gentleduck/primitives/toggle-group'
-import type { VariantProps } from '@gentleduck/variants'
+import type { Variants } from '@gentleduck/variants'
 import * as React from 'react'
 import { toggleVariants } from '../toggle/toggle.constants'
 
-interface ToggleGroupContextProps extends VariantProps<typeof toggleVariants> {}
+interface IToggleGroupContextProps extends Variants.VariantProps<typeof toggleVariants> {}
 
-const ToggleGroupContext = React.createContext<ToggleGroupContextProps>({
+const ToggleGroupContext = React.createContext<IToggleGroupContextProps>({
   size: 'default',
   variant: 'default',
 })
 
 type ToggleGroupElement = React.ComponentRef<typeof ToggleGroupPrimitive.Root>
 type ToggleGroupProps = React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Root> &
-  VariantProps<typeof toggleVariants>
+  Variants.VariantProps<typeof toggleVariants>
 
 const ToggleGroup: React.ForwardRefExoticComponent<ToggleGroupProps & React.RefAttributes<ToggleGroupElement>> =
   React.forwardRef<ToggleGroupElement, ToggleGroupProps>(
@@ -42,7 +42,7 @@ ToggleGroup.displayName = 'ToggleGroup'
 
 type ToggleGroupItemElement = React.ComponentRef<typeof ToggleGroupPrimitive.Item>
 type ToggleGroupItemProps = React.ComponentPropsWithoutRef<typeof ToggleGroupPrimitive.Item> &
-  VariantProps<typeof toggleVariants>
+  Variants.VariantProps<typeof toggleVariants>
 const ToggleGroupItem: React.ForwardRefExoticComponent<
   ToggleGroupItemProps & React.RefAttributes<ToggleGroupItemElement>
 > = React.forwardRef<ToggleGroupItemElement, ToggleGroupItemProps>(

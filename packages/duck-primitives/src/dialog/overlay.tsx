@@ -3,27 +3,18 @@ import { RemoveScroll } from 'react-remove-scroll'
 import { Presence } from '../presence'
 import { Primitive } from '../primitive-elements'
 import { createSlot } from '../slot'
-import { getState, type ScopedProps, useDialogContext } from './dialog'
+import { getState, useDialogContext } from './dialog'
+import type { IDialog } from './dialog.types'
 import { usePortalContext } from './portal'
 
 const OVERLAY_NAME = 'DialogOverlay'
 
 type DialogOverlayImplElement = React.ComponentRef<typeof Primitive.div>
-type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
-interface DialogOverlayImplProps extends PrimitiveDivProps {
-  /** Override whether scroll is locked. Defaults to `context.open`. */
-  lockScroll?: boolean
-}
-
 type DialogOverlayElement = DialogOverlayImplElement
-export interface DialogOverlayProps extends DialogOverlayImplProps {
-  /** Force mounting for animation control. */
-  forceMount?: true
-}
 
 /** Renders an overlay behind the dialog content. Only renders in modal mode. */
-export const DialogOverlay = React.forwardRef<DialogOverlayElement, DialogOverlayProps>(
-  (props: ScopedProps<DialogOverlayProps>, forwardedRef) => {
+export const DialogOverlay = React.forwardRef<DialogOverlayElement, IDialog.IOverlayProps>(
+  (props: IDialog.IScoped<IDialog.IOverlayProps>, forwardedRef) => {
     const portalContext = usePortalContext(OVERLAY_NAME, props.__scopeDialog)
     const { forceMount = portalContext.forceMount, ...overlayProps } = props
     const context = useDialogContext(OVERLAY_NAME, props.__scopeDialog)
@@ -39,8 +30,8 @@ DialogOverlay.displayName = OVERLAY_NAME
 
 const Slot = createSlot('DialogOverlay.RemoveScroll')
 
-const DialogOverlayImpl = React.forwardRef<DialogOverlayImplElement, DialogOverlayImplProps>(
-  (props: ScopedProps<DialogOverlayImplProps>, forwardedRef) => {
+const DialogOverlayImpl = React.forwardRef<DialogOverlayImplElement, IDialog.IOverlayImplProps>(
+  (props: IDialog.IScoped<IDialog.IOverlayImplProps>, forwardedRef) => {
     const { __scopeDialog, lockScroll: lockScrollProp, ...overlayProps } = props
     const context = useDialogContext(OVERLAY_NAME, __scopeDialog)
     return (

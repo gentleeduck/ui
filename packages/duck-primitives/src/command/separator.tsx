@@ -1,15 +1,14 @@
 import * as React from 'react'
 import { Primitive } from '../primitive-elements'
-import { type ScopedProps, useCommandContext } from './command'
+import { useCommandContext } from './command'
+import type { ICommand } from './command.types'
 
 const SEPARATOR_NAME = 'CommandSeparator'
 
 type CommandSeparatorElement = React.ComponentRef<typeof Primitive.div>
 
-export interface CommandSeparatorProps extends React.ComponentPropsWithRef<typeof Primitive.div> {}
-
-export const CommandSeparator = React.forwardRef<CommandSeparatorElement, CommandSeparatorProps>(
-  (props: ScopedProps<CommandSeparatorProps>, forwardedRef) => {
+export const CommandSeparator = React.forwardRef<CommandSeparatorElement, ICommand.ISeparatorProps>(
+  (props: ICommand.IScoped<ICommand.ISeparatorProps>, forwardedRef) => {
     const { __scopeCommand, ...separatorProps } = props
     const context = useCommandContext(SEPARATOR_NAME, __scopeCommand)
 

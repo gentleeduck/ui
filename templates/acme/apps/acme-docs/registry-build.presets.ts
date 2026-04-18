@@ -57,11 +57,11 @@ export const MONOREPO_THEME_NAMES = [
   'teal',
 ] as const
 
-export interface MonorepoSourcesPresetOptions {
+export interface IMonorepoSourcesPresetOptions {
   packagesDir: string
 }
 
-export function createMonorepoSourcesPreset(options: MonorepoSourcesPresetOptions) {
+export function createMonorepoSourcesPreset(options: IMonorepoSourcesPresetOptions) {
   const packagesDir = path.resolve(options.packagesDir)
 
   return defineConfig({

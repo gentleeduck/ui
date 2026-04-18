@@ -7,9 +7,9 @@ import { Button } from '../button'
 import { Dialog, DialogContent, DialogTrigger } from '../dialog'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../tooltip'
 import { PreviewPanel } from './preview-panel'
-import type { PreviewPanelDialogProps, PreviewPanelState } from './preview-panel.types'
+import type { IPreviewPanelDialogProps, PreviewPanelState } from './preview-panel.types'
 
-const PreviewPanelDialog = React.forwardRef<HTMLDivElement, PreviewPanelDialogProps & { fullscreenText?: string }>(
+const PreviewPanelDialog = React.forwardRef<HTMLDivElement, IPreviewPanelDialogProps & { fullscreenText?: string }>(
   (
     {
       children,

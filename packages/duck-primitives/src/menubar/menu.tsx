@@ -1,38 +1,21 @@
-/** MenubarMenu component with its context provider. */
 import * as React from 'react'
 import { useId } from '../hooks/use-id'
 import { useLayoutEffect } from '../hooks/use-layout-effect'
 import * as MenuPrimitive from '../menu'
-import type { MenubarTriggerElement, ScopedProps } from './menubar'
 import { createMenubarContext, useMenubarContext, useMenuScope } from './menubar'
+import type { IMenubar } from './menubar.types'
 
 const MENU_NAME = 'MenubarMenu'
 
-type MenubarMenuContextValue = {
-  value: string
-  triggerId: string
-  triggerRef: React.RefObject<MenubarTriggerElement | null>
-  contentId: string
-  wasKeyboardTriggerOpenRef: React.RefObject<boolean>
-}
+const [MenubarMenuProvider, useMenubarMenuContext] = createMenubarContext<IMenubar.IMenuContext>(MENU_NAME)
 
-const [MenubarMenuProvider, useMenubarMenuContext] = createMenubarContext<MenubarMenuContextValue>(MENU_NAME)
-
-interface MenubarMenuProps {
-  children?: React.ReactNode
-  value?: string
-  onOpenChange?: (open: boolean) => void
-}
-
-const MenubarMenu = (props: ScopedProps<MenubarMenuProps>) => {
+const MenubarMenu = (props: IMenubar.IScoped<IMenubar.IMenuProps>) => {
   const { __scopeMenubar, value: valueProp, onOpenChange: onOpenChangeProp, ...menuProps } = props
   const autoValue = useId()
-  // We need to provide an initial deterministic value as `useId` will return
-  // empty string on the first render and we don't want to match our internal "closed" value.
   const value = valueProp || autoValue || 'LEGACY_REACT_AUTO_VALUE'
   const context = useMenubarContext(MENU_NAME, __scopeMenubar)
   const menuScope = useMenuScope(__scopeMenubar)
-  const triggerRef = React.useRef<MenubarTriggerElement>(null)
+  const triggerRef = React.useRef<IMenubar.TriggerElement>(null)
   const wasKeyboardTriggerOpenRef = React.useRef(false)
   const open = context.value === value
 
@@ -56,8 +39,6 @@ const MenubarMenu = (props: ScopedProps<MenubarMenuProps>) => {
         {...menuScope}
         open={open}
         onOpenChange={(open) => {
-          // Menu only calls `onOpenChange` when dismissing so we
-          // want to close our MenuBar based on the same events.
           if (!open) context.onMenuClose()
         }}
         modal={false}
@@ -70,5 +51,4 @@ const MenubarMenu = (props: ScopedProps<MenubarMenuProps>) => {
 
 MenubarMenu.displayName = MENU_NAME
 
-export type { MenubarMenuContextValue, MenubarMenuProps }
 export { MenubarMenu, MenubarMenuProvider, useMenubarMenuContext }

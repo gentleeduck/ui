@@ -1,36 +1,38 @@
-import type { HourCycle, TimeField, TimePickerConfig, TimeValue } from '../../time'
+import type { Time } from '../../time'
 
-export interface UseTimePickerConfig extends TimePickerConfig {}
+export namespace UseTimePicker {
+  export interface IUseTimePickerConfig extends Time.ITimePickerConfig {}
 
-export interface TimeFieldProps {
-  role: 'spinbutton'
-  'aria-label': string
-  'aria-valuemin': number
-  'aria-valuemax': number
-  'aria-valuenow': number
-  'aria-valuetext': string
-  tabIndex: 0 | -1
-  'data-slot': string
-  'data-focused': 'true' | undefined
-  onKeyDown: React.KeyboardEventHandler
-  onFocus: () => void
-}
-
-export interface UseTimePickerReturn {
-  state: {
-    value: TimeValue
-    focusedField: TimeField
-    hourCycle: HourCycle
-    displayHour: number
-    displayAmPm: 'AM' | 'PM'
+  export interface ITimeFieldProps {
+    role: 'spinbutton'
+    'aria-label': string
+    'aria-valuemin': number
+    'aria-valuemax': number
+    'aria-valuenow': number
+    'aria-valuetext': string
+    tabIndex: 0 | -1
+    'data-slot': string
+    'data-focused': 'true' | undefined
+    onKeyDown: React.KeyboardEventHandler
+    onFocus: () => void
   }
-  actions: {
-    setValue: (value: TimeValue) => void
-    setField: (field: TimeField, value: number) => void
-    increment: (field: TimeField, delta?: number) => void
-    decrement: (field: TimeField, delta?: number) => void
-    toggleAmPm: () => void
-    focusField: (field: TimeField) => void
+
+  export interface IUseTimePickerReturn {
+    state: {
+      value: Time.ITimeValue
+      focusedField: Time.TimeField
+      hourCycle: Time.HourCycle
+      displayHour: number
+      displayAmPm: 'AM' | 'PM'
+    }
+    actions: {
+      setValue: (value: Time.ITimeValue) => void
+      setField: (field: Time.TimeField, value: number) => void
+      increment: (field: Time.TimeField, delta?: number) => void
+      decrement: (field: Time.TimeField, delta?: number) => void
+      toggleAmPm: () => void
+      focusField: (field: Time.TimeField) => void
+    }
+    getFieldProps: (field: Time.TimeField) => ITimeFieldProps
   }
-  getFieldProps: (field: TimeField) => TimeFieldProps
 }

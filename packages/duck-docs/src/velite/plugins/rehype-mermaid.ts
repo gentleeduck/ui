@@ -3,7 +3,7 @@ import { existsSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import type { UnistNode, UnistTree } from '@duck-docs/types'
+import type { IUnistNode, IUnistTree } from '@duck-docs/types'
 import type { Nodes } from 'hast'
 import { toString as hastToString } from 'hast-util-to-string'
 import { visit } from 'unist-util-visit'
@@ -12,7 +12,7 @@ import { visit } from 'unist-util-visit'
 // Helpers
 // ---------------------------------------------------------------------------
 
-function isMermaidCode(node: UnistNode): boolean {
+function isMermaidCode(node: IUnistNode): boolean {
   const codeChild = node.children?.[0]
   if (!codeChild || codeChild.type !== 'element' || codeChild.tagName !== 'code') return false
   const dataLang = codeChild.properties?.['data-language']
@@ -20,20 +20,20 @@ function isMermaidCode(node: UnistNode): boolean {
   return dataLang === 'mermaid' || (Array.isArray(classes) && classes.includes('language-mermaid'))
 }
 
-interface MdxJsxAttribute {
+interface IMdxJsxAttribute {
   type: string
   name: string
   value: string | { type: string; value: string } | null | undefined
 }
 
-interface MdxJsxFlowElement extends UnistNode {
+interface IMdxJsxFlowElement extends IUnistNode {
   type: 'mdxJsxFlowElement'
   name?: string
-  attributes?: MdxJsxAttribute[]
+  attributes?: IMdxJsxAttribute[]
 }
 
 /** Safely extract a string value from an mdxJsxAttribute. */
-function extractAttrValue(attr: MdxJsxAttribute | undefined): string | null {
+function extractAttrValue(attr: IMdxJsxAttribute | undefined): string | null {
   if (!attr?.value) return null
   if (typeof attr.value === 'string') return attr.value
   if (attr.value?.type === 'mdxJsxAttributeValueExpression') {
@@ -188,17 +188,17 @@ async function renderSvgBatch(
 // ---------------------------------------------------------------------------
 
 export function rehypeMermaid() {
-  return async (tree: UnistTree) => {
+  return async (tree: IUnistTree) => {
     // Two kinds of entries: code-fence <pre> blocks and <MermaidDiagram> JSX elements
-    type CodeFenceEntry = { kind: 'fence'; node: UnistNode; pre: UnistNode; source: string }
-    type JsxEntry = { kind: 'jsx'; node: UnistNode; source: string }
+    type CodeFenceEntry = { kind: 'fence'; node: IUnistNode; pre: IUnistNode; source: string }
+    type JsxEntry = { kind: 'jsx'; node: IUnistNode; source: string }
     type Entry = CodeFenceEntry | JsxEntry
 
     const entries: Entry[] = []
 
-    visit(tree, (node: UnistNode) => {
+    visit(tree, (node: IUnistNode) => {
       // 1. <MermaidDiagram chart={`...`} /> JSX elements
-      const mdxNode = node as MdxJsxFlowElement
+      const mdxNode = node as IMdxJsxFlowElement
       if (mdxNode.type === 'mdxJsxFlowElement' && mdxNode.name === 'MermaidDiagram') {
         const attrs = mdxNode.attributes || []
         const chartAttr = attrs.find((a) => a.type === 'mdxJsxAttribute' && a.name === 'chart')
@@ -216,8 +216,8 @@ export function rehypeMermaid() {
         node.properties &&
         'data-rehype-pretty-code-fragment' in node.properties
       ) {
-        const pres = (node.children || []).filter((c: UnistNode) => c.type === 'element' && c.tagName === 'pre')
-        const mPre = pres.find((c: UnistNode) => isMermaidCode(c))
+        const pres = (node.children || []).filter((c: IUnistNode) => c.type === 'element' && c.tagName === 'pre')
+        const mPre = pres.find((c: IUnistNode) => isMermaidCode(c))
         if (!mPre) return
         const src = (mPre.properties?.__rawString__ as string) || hastToString(mPre as Nodes)
         if (src) entries.push({ kind: 'fence', node, pre: mPre, source: src.trim() })
@@ -263,7 +263,7 @@ export function rehypeMermaid() {
       }
 
       if (entry.kind === 'jsx') {
-        const jsxNode = entry.node as MdxJsxFlowElement
+        const jsxNode = entry.node as IMdxJsxFlowElement
         const attrs = jsxNode.attributes || []
         if (lightSvg) attrs.push(makeJsxStringAttr('lightSvg', lightSvg))
         if (darkSvg) attrs.push(makeJsxStringAttr('darkSvg', darkSvg))

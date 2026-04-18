@@ -13,7 +13,7 @@ import * as React from 'react'
 import { CATEGORY_COLORS, CATEGORY_LABELS, type CalendarEvent, type EventCategory } from '../calendar-data'
 import { formatDateString, parseTimeToMinutes } from '../calendar-utils'
 
-interface CalendarEventDialogProps {
+interface ICalendarEventDialogProps {
   open: boolean
   onOpenChange: (open: boolean) => void
   onSave: (event: CalendarEvent) => void
@@ -31,7 +31,7 @@ export function CalendarEventDialog({
   onSave,
   editingEvent,
   defaultDate,
-}: CalendarEventDialogProps) {
+}: ICalendarEventDialogProps) {
   const [title, setTitle] = React.useState('')
   const [date, setDate] = React.useState('')
   const [time24, setTime24] = React.useState('09:00')

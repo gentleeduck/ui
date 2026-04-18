@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Skeleton } from '@gentleduck/registry-ui/skeleton'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <div className=\"flex items-center space-x-4\">\r\n      <Skeleton className=\"h-12 w-12 rounded-full\" />\r\n      <div className=\"space-y-2\">\r\n        <Skeleton className=\"h-4 w-[250px]\" />\r\n        <Skeleton className=\"h-4 w-[200px]\" />\r\n      </div>\r\n    </div>\r\n  )\r\n}\r\n",
+      "content": "import { Skeleton } from '@gentleduck/registry-ui/skeleton'\n\nexport default function Demo() {\n  return (\n    <div className=\"flex items-center space-x-4\">\n      <Skeleton className=\"h-12 w-12 rounded-full\" />\n      <div className=\"space-y-2\">\n        <Skeleton className=\"h-4 w-[250px]\" />\n        <Skeleton className=\"h-4 w-[200px]\" />\n      </div>\n    </div>\n  )\n}\n",
       "path": "skeleton/skeleton-1.tsx",
       "target": "components/skeleton-1.tsx",
       "type": "registry:example"

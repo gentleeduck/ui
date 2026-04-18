@@ -2,19 +2,22 @@ import * as React from 'react'
 import * as ReactDOM from 'react-dom'
 import { Presence } from '../presence'
 import { Primitive } from '../primitive-elements'
-import type { NavigationMenuTriggerElement, PrimitiveDivProps, ScopedProps } from './navigation-menu'
 import { useCollection, useNavigationMenuContext } from './navigation-menu'
+import type { INavigationMenu } from './navigation-menu.types'
+
+type PrimitiveDivProps = React.ComponentPropsWithoutRef<typeof Primitive.div>
+
 import { useResizeObserver } from './navigation-menu.libs'
 
 const INDICATOR_NAME = 'NavigationMenuIndicator'
 
 type NavigationMenuIndicatorElement = NavigationMenuIndicatorImplElement
-interface NavigationMenuIndicatorProps extends NavigationMenuIndicatorImplProps {
+interface INavigationMenuIndicatorProps extends INavigationMenuIndicatorImplProps {
   forceMount?: true
 }
 
-const NavigationMenuIndicator = React.forwardRef<NavigationMenuIndicatorElement, NavigationMenuIndicatorProps>(
-  (props: ScopedProps<NavigationMenuIndicatorProps>, forwardedRef) => {
+const NavigationMenuIndicator = React.forwardRef<NavigationMenuIndicatorElement, INavigationMenuIndicatorProps>(
+  (props: INavigationMenu.IScoped<INavigationMenuIndicatorProps>, forwardedRef) => {
     const { forceMount, ...indicatorProps } = props
     const context = useNavigationMenuContext(INDICATOR_NAME, props.__scopeNavigationMenu)
     const isVisible = Boolean(context.value)
@@ -33,16 +36,16 @@ const NavigationMenuIndicator = React.forwardRef<NavigationMenuIndicatorElement,
 NavigationMenuIndicator.displayName = INDICATOR_NAME
 
 type NavigationMenuIndicatorImplElement = React.ComponentRef<typeof Primitive.div>
-interface NavigationMenuIndicatorImplProps extends PrimitiveDivProps {}
+interface INavigationMenuIndicatorImplProps extends PrimitiveDivProps {}
 
 const NavigationMenuIndicatorImpl = React.forwardRef<
   NavigationMenuIndicatorImplElement,
-  NavigationMenuIndicatorImplProps
->((props: ScopedProps<NavigationMenuIndicatorImplProps>, forwardedRef) => {
+  INavigationMenuIndicatorImplProps
+>((props: INavigationMenu.IScoped<INavigationMenuIndicatorImplProps>, forwardedRef) => {
   const { __scopeNavigationMenu, ...indicatorProps } = props
   const context = useNavigationMenuContext(INDICATOR_NAME, __scopeNavigationMenu)
   const getItems = useCollection(__scopeNavigationMenu)
-  const [activeTrigger, setActiveTrigger] = React.useState<NavigationMenuTriggerElement | null>(null)
+  const [activeTrigger, setActiveTrigger] = React.useState<INavigationMenu.NavigationMenuTriggerElement | null>(null)
   const [position, setPosition] = React.useState<{ size: number; offset: number } | null>(null)
   const isHorizontal = context.orientation === 'horizontal'
   const isVisible = Boolean(context.value)
@@ -98,5 +101,5 @@ const NavigationMenuIndicatorImpl = React.forwardRef<
 
 NavigationMenuIndicatorImpl.displayName = 'NavigationMenuIndicatorImpl'
 
-export type { NavigationMenuIndicatorProps }
+export type { INavigationMenuIndicatorProps }
 export { NavigationMenuIndicator }

@@ -1,20 +1,28 @@
-export type DiffLineType = 'context' | 'add' | 'remove' | 'hunk-header' | 'file-header'
+export namespace Diff {
+  export type LineType = 'context' | 'add' | 'remove' | 'hunk-header' | 'file-header'
 
-export type DiffSegment = {
-  text: string
-  highlight: boolean
-  color?: string
-}
+  export interface Segment {
+    text: string
+    highlight: boolean
+    color?: string
+  }
 
-export type DiffDisplayLine = {
-  type: DiffLineType
-  old_line_num: number | null
-  new_line_num: number | null
-  segments: DiffSegment[]
-  raw_text: string
-}
+  export interface DisplayLine {
+    type: LineType
+    oldLineNum: number | null
+    newLineNum: number | null
+    segments: Segment[]
+    rawText: string
+  }
 
-export type SideBySidePair = {
-  left: DiffDisplayLine | null
-  right: DiffDisplayLine | null
+  export interface SideBySidePair {
+    left: DisplayLine | null
+    right: DisplayLine | null
+  }
+
+  export type ViewMode = 'unified' | 'side-by-side'
+
+  export interface RenderableSegment extends Segment {
+    key: string
+  }
 }

@@ -1,4 +1,4 @@
-export const error_messages: { [key: number]: string } = {
+export const ERROR_MESSAGES: { [key: number]: string } = {
   400: 'Bad request',
   401: 'Unauthorized',
   403: 'Forbidden',

@@ -1,7 +1,7 @@
 {
   "files": [
     {
-      "content": "import { Badge } from '@gentleduck/registry-ui/badge'\r\n\r\nexport default function Demo() {\r\n  return (\r\n    <div dir=\"rtl\">\r\n      <Badge aria-label=\"Badge\" size={'default'} variant={'default'}>\r\n        شارة\r\n      </Badge>\r\n    </div>\r\n  )\r\n}\r\n",
+      "content": "import { Badge } from '@gentleduck/registry-ui/badge'\n\nexport default function Demo() {\n  return (\n    <div dir=\"rtl\">\n      <Badge aria-label=\"Badge\" size={'default'} variant={'default'}>\n        شارة\n      </Badge>\n    </div>\n  )\n}\n",
       "path": "badge/badge-9.tsx",
       "target": "components/badge-9.tsx",
       "type": "registry:example"

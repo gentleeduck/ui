@@ -3,11 +3,14 @@ import os from 'node:os'
 import path from 'node:path'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
 import {
-  find_duckui_root_cwd,
-  find_workspace_projects,
-  pick_default_workspace,
-  resolve_project_cwd,
-  validate_workspace_target,
+  detectMonorepoKind,
+  findDuckuiRootCwd,
+  findWorkspaceProjects,
+  formatMonorepoKind,
+  pickDefaultWorkspace,
+  readPnpmWorkspacePackages,
+  resolveProjectCwd,
+  validateWorkspaceTarget,
 } from '~/utils/workspace'
 
 describe('workspace utils', () => {
@@ -35,7 +38,7 @@ describe('workspace utils', () => {
     fs.writeFileSync(path.join(tmpDir, 'apps/web/package.json'), JSON.stringify({ name: 'web' }))
     fs.writeFileSync(path.join(tmpDir, 'packages/ui/package.json'), JSON.stringify({ name: 'ui' }))
 
-    const projects = await find_workspace_projects(tmpDir)
+    const projects = await findWorkspaceProjects(tmpDir)
     expect(projects).toContain('apps/web')
     expect(projects).toContain('packages/ui')
   })
@@ -45,12 +48,12 @@ describe('workspace utils', () => {
     fs.mkdirSync(path.join(tmpDir, 'packages/ui'), { recursive: true })
     fs.writeFileSync(path.join(tmpDir, 'apps/web/tsconfig.json'), JSON.stringify({ compilerOptions: {} }))
 
-    const selected = pick_default_workspace(tmpDir, ['packages/ui', 'apps/web'])
+    const selected = pickDefaultWorkspace(tmpDir, ['packages/ui', 'apps/web'])
     expect(selected).toBe('apps/web')
   })
 
   it('resolves project cwd for monorepo configs', () => {
-    const project_cwd = resolve_project_cwd(tmpDir, {
+    const projectCwd = resolveProjectCwd(tmpDir, {
       aliases: {
         hooks: '~/hooks',
         layouts: '~/layouts',
@@ -73,14 +76,14 @@ describe('workspace utils', () => {
       },
     })
 
-    expect(project_cwd).toBe(path.resolve(tmpDir, 'apps/web'))
+    expect(projectCwd).toBe(path.resolve(tmpDir, 'apps/web'))
   })
 
   it('finds duck-ui root from nested directories', () => {
     fs.mkdirSync(path.join(tmpDir, 'apps/web/src'), { recursive: true })
     fs.writeFileSync(path.join(tmpDir, 'duck-ui.config.json'), '{}')
 
-    const root = find_duckui_root_cwd(path.join(tmpDir, 'apps/web/src'))
+    const root = findDuckuiRootCwd(path.join(tmpDir, 'apps/web/src'))
     expect(root).toBe(tmpDir)
   })
 
@@ -88,7 +91,7 @@ describe('workspace utils', () => {
     fs.mkdirSync(path.join(tmpDir, 'apps/web/src'), { recursive: true })
     fs.writeFileSync(path.join(tmpDir, 'duck-ui.config.json'), '{}')
 
-    const project_cwd = resolve_project_cwd(
+    const projectCwd = resolveProjectCwd(
       path.join(tmpDir, 'apps/web/src'),
       {
         aliases: {
@@ -115,7 +118,7 @@ describe('workspace utils', () => {
       'packages/cli-app',
     )
 
-    expect(project_cwd).toBe(path.resolve(tmpDir, 'packages/cli-app'))
+    expect(projectCwd).toBe(path.resolve(tmpDir, 'packages/cli-app'))
   })
 
   it('validates workspace target package and tsconfig', () => {
@@ -123,10 +126,10 @@ describe('workspace utils', () => {
     fs.mkdirSync(ws, { recursive: true })
     fs.writeFileSync(path.join(ws, 'package.json'), JSON.stringify({ name: 'web' }))
 
-    expect(validate_workspace_target(ws, true)).toContain('tsconfig.json')
+    expect(validateWorkspaceTarget(ws, true)).toContain('tsconfig.json')
 
     fs.writeFileSync(path.join(ws, 'tsconfig.json'), JSON.stringify({ compilerOptions: {} }))
-    expect(validate_workspace_target(ws, true)).toBeNull()
+    expect(validateWorkspaceTarget(ws, true)).toBeNull()
   })
 
   it('infers workspace from current nested directory when no override is provided', () => {
@@ -134,7 +137,7 @@ describe('workspace utils', () => {
     fs.writeFileSync(path.join(tmpDir, 'duck-ui.config.json'), '{}')
     fs.writeFileSync(path.join(tmpDir, 'apps/web/package.json'), JSON.stringify({ name: 'web' }))
 
-    const project_cwd = resolve_project_cwd(path.join(tmpDir, 'apps/web/src/routes'), {
+    const projectCwd = resolveProjectCwd(path.join(tmpDir, 'apps/web/src/routes'), {
       aliases: {
         hooks: '~/hooks',
         layouts: '~/layouts',
@@ -157,6 +160,151 @@ describe('workspace utils', () => {
       },
     })
 
-    expect(project_cwd).toBe(path.resolve(tmpDir, 'apps/web'))
+    expect(projectCwd).toBe(path.resolve(tmpDir, 'apps/web'))
+  })
+})
+
+describe('detectMonorepoKind', () => {
+  let tmpDir: string
+
+  beforeEach(() => {
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'duck-cli-detect-'))
+  })
+
+  afterEach(() => {
+    fs.rmSync(tmpDir, { recursive: true, force: true })
+  })
+
+  it('returns null for a plain project', () => {
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'plain' }))
+    expect(detectMonorepoKind(tmpDir)).toBeNull()
+  })
+
+  it('detects package.json workspaces', () => {
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }))
+    expect(detectMonorepoKind(tmpDir)).toBe('package-json-workspaces')
+  })
+
+  it('detects pnpm-workspace.yaml', () => {
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'repo' }))
+    fs.writeFileSync(path.join(tmpDir, 'pnpm-workspace.yaml'), 'packages:\n  - "apps/*"\n')
+    expect(detectMonorepoKind(tmpDir)).toBe('pnpm')
+  })
+
+  it('detects turbo.json', () => {
+    fs.writeFileSync(path.join(tmpDir, 'turbo.json'), '{}')
+    expect(detectMonorepoKind(tmpDir)).toBe('turbo')
+  })
+
+  it('detects nx.json', () => {
+    fs.writeFileSync(path.join(tmpDir, 'nx.json'), '{}')
+    expect(detectMonorepoKind(tmpDir)).toBe('nx')
+  })
+
+  it('detects lerna.json', () => {
+    fs.writeFileSync(path.join(tmpDir, 'lerna.json'), '{}')
+    expect(detectMonorepoKind(tmpDir)).toBe('lerna')
+  })
+
+  it('detects rush.json', () => {
+    fs.writeFileSync(path.join(tmpDir, 'rush.json'), '{}')
+    expect(detectMonorepoKind(tmpDir)).toBe('rush')
+  })
+
+  it('prefers package.json workspaces over orchestrator configs when both are present', () => {
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'repo', workspaces: ['apps/*'] }))
+    fs.writeFileSync(path.join(tmpDir, 'turbo.json'), '{}')
+    expect(detectMonorepoKind(tmpDir)).toBe('package-json-workspaces')
+  })
+
+  it('formatMonorepoKind produces a human label', () => {
+    expect(formatMonorepoKind('pnpm')).toBe('pnpm-workspace.yaml')
+    expect(formatMonorepoKind('turbo')).toBe('turbo.json')
+    expect(formatMonorepoKind('package-json-workspaces')).toBe('package.json workspaces')
+  })
+})
+
+describe('readPnpmWorkspacePackages', () => {
+  let tmpDir: string
+
+  beforeEach(() => {
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'duck-cli-pnpm-'))
+  })
+
+  afterEach(() => {
+    fs.rmSync(tmpDir, { recursive: true, force: true })
+  })
+
+  it('parses a simple packages list', () => {
+    fs.writeFileSync(
+      path.join(tmpDir, 'pnpm-workspace.yaml'),
+      ['packages:', '  - "apps/*"', '  - "packages/*"', ''].join('\n'),
+    )
+    expect(readPnpmWorkspacePackages(tmpDir)).toEqual(['apps/*', 'packages/*'])
+  })
+
+  it('handles single quotes and unquoted entries', () => {
+    fs.writeFileSync(
+      path.join(tmpDir, 'pnpm-workspace.yaml'),
+      ['packages:', "  - 'apps/*'", '  - tooling/*', ''].join('\n'),
+    )
+    expect(readPnpmWorkspacePackages(tmpDir)).toEqual(['apps/*', 'tooling/*'])
+  })
+
+  it('strips comments and ignores other top-level keys', () => {
+    fs.writeFileSync(
+      path.join(tmpDir, 'pnpm-workspace.yaml'),
+      [
+        '# pnpm config',
+        'packages:',
+        '  - "apps/*" # frontends',
+        '  - "packages/*"',
+        'shared-workspace-lockfile: true',
+        '',
+      ].join('\n'),
+    )
+    expect(readPnpmWorkspacePackages(tmpDir)).toEqual(['apps/*', 'packages/*'])
+  })
+
+  it('returns empty array when file is missing', () => {
+    expect(readPnpmWorkspacePackages(tmpDir)).toEqual([])
+  })
+})
+
+describe('findWorkspaceProjects pnpm fallback', () => {
+  let tmpDir: string
+
+  beforeEach(() => {
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), 'duck-cli-pnpm-fallback-'))
+  })
+
+  afterEach(() => {
+    fs.rmSync(tmpDir, { recursive: true, force: true })
+  })
+
+  it('falls back to pnpm-workspace.yaml when package.json has no workspaces', async () => {
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'repo' }))
+    fs.writeFileSync(path.join(tmpDir, 'pnpm-workspace.yaml'), 'packages:\n  - "apps/*"\n')
+    fs.mkdirSync(path.join(tmpDir, 'apps/web'), { recursive: true })
+    fs.mkdirSync(path.join(tmpDir, 'apps/api'), { recursive: true })
+    fs.writeFileSync(path.join(tmpDir, 'apps/web/package.json'), JSON.stringify({ name: 'web' }))
+    fs.writeFileSync(path.join(tmpDir, 'apps/api/package.json'), JSON.stringify({ name: 'api' }))
+
+    const projects = await findWorkspaceProjects(tmpDir)
+    expect(projects).toContain('apps/web')
+    expect(projects).toContain('apps/api')
+  })
+
+  it('still prefers package.json workspaces when both sources exist', async () => {
+    fs.writeFileSync(path.join(tmpDir, 'package.json'), JSON.stringify({ name: 'repo', workspaces: ['packages/*'] }))
+    fs.writeFileSync(path.join(tmpDir, 'pnpm-workspace.yaml'), 'packages:\n  - "apps/*"\n')
+    fs.mkdirSync(path.join(tmpDir, 'apps/web'), { recursive: true })
+    fs.mkdirSync(path.join(tmpDir, 'packages/ui'), { recursive: true })
+    fs.writeFileSync(path.join(tmpDir, 'apps/web/package.json'), JSON.stringify({ name: 'web' }))
+    fs.writeFileSync(path.join(tmpDir, 'packages/ui/package.json'), JSON.stringify({ name: 'ui' }))
+
+    const projects = await findWorkspaceProjects(tmpDir)
+    expect(projects).toContain('packages/ui')
+    expect(projects).not.toContain('apps/web')
   })
 })

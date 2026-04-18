@@ -1,12 +1,12 @@
-import type { UnistNode } from '@duck-docs/types'
+import type { IUnistNode } from '@duck-docs/types'
 
 /** @internal */
-export function readNodeProperties<T extends object>(node: UnistNode): T {
+export function readNodeProperties<T extends object>(node: IUnistNode): T {
   return (node.properties ?? {}) as T
 }
 
 /** @internal */
-export function assignNodeProperties<T extends object>(node: UnistNode, nextProperties: T) {
+export function assignNodeProperties<T extends object>(node: IUnistNode, nextProperties: T) {
   node.properties = {
     ...(node.properties ?? {}),
     ...nextProperties,

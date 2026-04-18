@@ -1,4 +1,4 @@
-import type { DateAdapter, WeekStartDay } from './adapter.types'
+import type { Adapter } from './adapter.types'
 import { getCachedFormatter } from './formatter-cache'
 
 /**
@@ -6,7 +6,7 @@ import { getCachedFormatter } from './formatter-cache'
  * Zero external dependencies. Handles month-overflow clamping (Jan 31 + 1 month = Feb 28).
  * All methods return new Date instances  -  never mutates inputs.
  */
-export class NativeAdapter implements DateAdapter<Date> {
+export class NativeAdapter implements Adapter.IDateAdapter<Date> {
   /** Returns today's date with time stripped to midnight. */
   today(): Date {
     const d = new Date()
@@ -48,7 +48,7 @@ export class NativeAdapter implements DateAdapter<Date> {
   }
 
   /** Walks backward to the given weekStartDay (0=Sunday). */
-  startOfWeek(date: Date, weekStartDay: WeekStartDay): Date {
+  startOfWeek(date: Date, weekStartDay: Adapter.WeekStartDay): Date {
     const d = new Date(date.getFullYear(), date.getMonth(), date.getDate())
     const diff = (d.getDay() - weekStartDay + 7) % 7
     d.setDate(d.getDate() - diff)
@@ -95,8 +95,8 @@ export class NativeAdapter implements DateAdapter<Date> {
     return date.getDate()
   }
 
-  getDayOfWeek(date: Date): WeekStartDay {
-    return date.getDay() as WeekStartDay
+  getDayOfWeek(date: Date): Adapter.WeekStartDay {
+    return date.getDay() as Adapter.WeekStartDay
   }
 
   toDate(date: Date): Date {

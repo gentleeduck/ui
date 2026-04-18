@@ -1,17 +1,14 @@
-/** ContextMenuItem -- an interactive item within the context menu. */
 import * as React from 'react'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './context-menu'
 import { useMenuScope } from './context-menu'
+import type { IContextMenu } from './context-menu.types'
 
 const ITEM_NAME = 'ContextMenuItem'
 
 type ContextMenuItemElement = React.ComponentRef<typeof MenuPrimitive.Item>
-type MenuItemProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Item>
-interface ContextMenuItemProps extends MenuItemProps {}
 
-const ContextMenuItem = React.forwardRef<ContextMenuItemElement, ContextMenuItemProps>(
-  (props: ScopedProps<ContextMenuItemProps>, forwardedRef) => {
+const ContextMenuItem = React.forwardRef<ContextMenuItemElement, IContextMenu.IItemProps>(
+  (props: IContextMenu.IScoped<IContextMenu.IItemProps>, forwardedRef) => {
     const { __scopeContextMenu, ...itemProps } = props
     const menuScope = useMenuScope(__scopeContextMenu)
     return <MenuPrimitive.Item {...menuScope} {...itemProps} ref={forwardedRef} />
@@ -20,5 +17,4 @@ const ContextMenuItem = React.forwardRef<ContextMenuItemElement, ContextMenuItem
 
 ContextMenuItem.displayName = ITEM_NAME
 
-export type { ContextMenuItemProps }
 export { ContextMenuItem }

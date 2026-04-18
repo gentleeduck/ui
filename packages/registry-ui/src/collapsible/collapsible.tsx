@@ -1,12 +1,9 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { loadDomAnimation } from '@gentleduck/motion/motion-features'
-import { heightAuto } from '@gentleduck/motion/presets/height-auto'
-import { tweenExpand } from '@gentleduck/motion/transitions/tweens'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { MountMinimal } from '@gentleduck/primitives/mount'
-import { LazyMotion, m } from 'motion/react'
 import * as React from 'react'
 import { Button } from '../button'
 
@@ -35,7 +32,7 @@ const Collapsible = React.forwardRef<
     defaultOpen?: boolean
   }
 >(({ children, className, open: openProp, onOpenChange, defaultOpen, dir, ...props }, ref) => {
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
   const wrapperRef = React.useRef<HTMLDivElement>(null)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
   const contentRef = React.useRef<HTMLDivElement>(null)
@@ -106,7 +103,7 @@ const CollapsibleTrigger = React.forwardRef<HTMLButtonElement, React.ComponentPr
         aria-expanded={open}
         data-open={open}
         data-slot="collapsible-trigger"
-        onClick={(e) => {
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
           onOpenChange?.(!open)
           onClick?.(e)
         }}
@@ -138,7 +135,7 @@ const CollapsibleContent = React.forwardRef<
       aria-hidden={!open}
       className={cn(
         'h-0 overflow-hidden transition-all data-[open=true]:h-auto',
-        'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+        'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
         className,
       )}
       data-open={open}
@@ -162,34 +159,4 @@ const CollapsibleContent = React.forwardRef<
 })
 CollapsibleContent.displayName = 'CollapsibleContent'
 
-/* ------------------------------------------------------------------ */
-/*  MotionCollapsibleContent                                           */
-/* ------------------------------------------------------------------ */
-
-const MotionCollapsibleContent = React.forwardRef<
-  HTMLDivElement,
-  Omit<React.HTMLAttributes<HTMLDivElement>, 'onDrag' | 'onDragStart' | 'onDragEnd' | 'onAnimationStart'>
->(({ children, className, ...props }, ref) => {
-  const { open, contentId } = useCollapsible()
-
-  return (
-    <LazyMotion features={loadDomAnimation}>
-      <m.section
-        animate={open ? heightAuto.open : heightAuto.closed}
-        initial={false}
-        transition={tweenExpand}
-        style={{ overflow: 'hidden' }}
-        aria-hidden={!open}
-        inert={!open || undefined}
-        data-slot="collapsible-content"
-        id={contentId}
-        ref={ref}
-        {...props}>
-        <div className={cn(className)}>{children}</div>
-      </m.section>
-    </LazyMotion>
-  )
-})
-MotionCollapsibleContent.displayName = 'MotionCollapsibleContent'
-
-export { Collapsible, CollapsibleContent, CollapsibleTrigger, MotionCollapsibleContent }
+export { Collapsible, CollapsibleContent, CollapsibleTrigger }

@@ -1,10 +1,10 @@
 export type {
-  DocsConfig,
-  DocsContextValue,
-  DocsEntry,
-  DocsSiteConfig,
+  IDocsConfig,
+  IDocsContextValue,
+  IDocsEntry,
+  IDocsSiteConfig,
+  ITocEntry,
   RegistryIndex,
-  TocEntry,
 } from './context/context.types'
 
 // lib/charts
@@ -27,6 +27,6 @@ export { THEMES } from './lib/themes'
 export { absoluteUrl, filteredObject, formatDate, groupArrays, groupDataByNumbers } from './lib/utils'
 
 // types
-export type { MdxCodeNodeProperties, MdxNodeData, NpmCommands } from './types/mdx-runtime'
-export type { MainNavItem, NavItem, NavItemWithChildren, SidebarNavItem } from './types/nav'
-export type { UnistNode, UnistTree } from './types/unist'
+export type { IMdxCodeNodeProperties, IMdxNodeData, INpmCommands } from './types/mdx-runtime'
+export type { IMainNavItem, INavItem, INavItemWithChildren, ISidebarNavItem } from './types/nav'
+export type { IUnistNode, IUnistTree } from './types/unist'

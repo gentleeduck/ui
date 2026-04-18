@@ -1,7 +1,7 @@
 import { CopyButton } from '@duck-docs/components/copy-button'
 import { cn } from '@gentleduck/libs/cn'
 import { ShellCommand } from './shell-command'
-import type { CodeBlockProps } from './types'
+import type { ICodeBlockProps } from './types'
 
 export function PreBlock({
   className,
@@ -14,7 +14,7 @@ export function PreBlock({
   __event__,
   children,
   ...props
-}: CodeBlockProps) {
+}: ICodeBlockProps) {
   const theme = props['data-theme']
 
   return (

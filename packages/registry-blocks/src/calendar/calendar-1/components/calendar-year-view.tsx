@@ -4,7 +4,7 @@ import { cn } from '@gentleduck/libs/cn'
 import type { CalendarEvent } from '../calendar-data'
 import { getEventsForDay, getWeeksForMonth, isSameMonth, isToday } from '../calendar-utils'
 
-interface CalendarYearViewProps {
+interface ICalendarYearViewProps {
   viewedDate: Date
   events: CalendarEvent[]
   onMonthClick: (month: number) => void
@@ -26,7 +26,7 @@ const MONTH_NAMES = [
 ]
 const WEEKDAY_LETTERS = ['M', 'T', 'W', 'T', 'F', 'S', 'S']
 
-export function CalendarYearView({ viewedDate, events, onMonthClick }: CalendarYearViewProps) {
+export function CalendarYearView({ viewedDate, events, onMonthClick }: ICalendarYearViewProps) {
   const year = viewedDate.getFullYear()
 
   return (

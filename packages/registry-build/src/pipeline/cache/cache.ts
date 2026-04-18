@@ -5,20 +5,20 @@ import { normalizeSlashes } from '../../lib/path'
 
 const REGISTRY_BUILD_CACHE_VERSION = 1
 
-interface RegistryBuildFileHashRecord {
+interface IRegistryBuildFileHashRecord {
   hash: string
   mtimeMs: number
   size: number
 }
 
-interface RegistryBuildCacheManifest {
-  fileHashes: Record<string, RegistryBuildFileHashRecord>
+interface IRegistryBuildCacheManifest {
+  fileHashes: Record<string, IRegistryBuildFileHashRecord>
   phases: Record<string, unknown>
   version: number
 }
 
 /** Persistent cache store for file hashes and phase data across registry builds. */
-export interface RegistryBuildCacheStore {
+export interface IRegistryBuildCacheStore {
   enabled: boolean
   filePath: string
   getFileHash: (filePath: string) => Promise<string>
@@ -27,7 +27,7 @@ export interface RegistryBuildCacheStore {
   setPhaseData: <TValue>(phase: string, value: TValue) => TValue
 }
 
-function createEmptyManifest(): RegistryBuildCacheManifest {
+function createEmptyManifest(): IRegistryBuildCacheManifest {
   return {
     fileHashes: {},
     phases: {},
@@ -43,10 +43,12 @@ function normalizeCacheKey(filePath: string) {
 export async function createRegistryBuildCache(options: {
   enabled: boolean
   filePath: string
-}): Promise<RegistryBuildCacheStore> {
+}): Promise<IRegistryBuildCacheStore> {
   const manifest =
     options.enabled && (await pathExists(options.filePath))
-      ? await fs.readFile(options.filePath, 'utf8').then((content) => JSON.parse(content) as RegistryBuildCacheManifest)
+      ? await fs
+          .readFile(options.filePath, 'utf8')
+          .then((content) => JSON.parse(content) as IRegistryBuildCacheManifest)
       : createEmptyManifest()
   const cacheManifest = manifest.version === REGISTRY_BUILD_CACHE_VERSION ? manifest : createEmptyManifest()
   let dirty = cacheManifest.version !== manifest.version

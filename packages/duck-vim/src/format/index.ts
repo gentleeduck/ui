@@ -1,2 +1,2 @@
 export { formatForDisplay, formatWithLabels, LABEL_MAP, SYMBOL_MAP } from './format'
-export type { FormatOptions } from './format.types'
+export type { Format } from './format.types'

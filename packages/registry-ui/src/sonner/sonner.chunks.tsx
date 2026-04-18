@@ -5,7 +5,7 @@ import { toast } from 'sonner'
 import { Button } from '../button'
 import { Progress } from '../progress'
 import { formatTime } from './sonner.libs'
-import type { UploadSonnerProps } from './sonner.types'
+import type { IUploadSonnerProps } from './sonner.types'
 
 const SonnerUpload = ({
   progress,
@@ -13,7 +13,7 @@ const SonnerUpload = ({
   remainingTime,
   onCancel,
   onComplete,
-}: UploadSonnerProps): React.JSX.Element => {
+}: IUploadSonnerProps): React.JSX.Element => {
   return (
     <div className="flex w-full gap-3" data-slot="content">
       <CircleCheck
@@ -55,7 +55,7 @@ const SonnerUpload = ({
           {progress === 100 && (
             <Button
               border="default"
-              onClick={(_) => onComplete?.(_, (id: string) => toast.dismiss(id))}
+              onClick={(_: React.MouseEvent<HTMLButtonElement>) => onComplete?.(_, (id: string) => toast.dismiss(id))}
               size="sm"
               variant="default">
               Complete
@@ -65,7 +65,7 @@ const SonnerUpload = ({
           {progress < 100 && (
             <Button
               border="default"
-              onClick={(_) => onCancel?.(_, (id: string) => toast.dismiss(id))}
+              onClick={(_: React.MouseEvent<HTMLButtonElement>) => onCancel?.(_, (id: string) => toast.dismiss(id))}
               size="sm"
               variant="default">
               Cancel

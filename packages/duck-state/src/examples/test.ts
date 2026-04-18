@@ -2,7 +2,7 @@ import { atom } from './atom'
 
 /* ======================================================== Atom Test API ======================================================== */
 const countAtom = atom(0)
-// inferred as: PrimitiveAtom<number> & WithInitValue<number>
+// inferred as: PrimitiveAtom<number> & IWithInitValue<number>
 const doubleCountAtom = atom((get) => get(countAtom) * 2)
 // inferred as: PrimitiveAtom<number>
 const addAtom = atom(
@@ -11,13 +11,13 @@ const addAtom = atom(
     set(countAtom, (prev) => prev + amount)
   },
 )
-// inferred as: WritableAtom<number, [number], void>
+// inferred as: IWritableAtom<number, [number], void>
 const logAtom = atom(0, (_get, _set, msg: string) => {
   console.log('Log:', msg)
 })
-// inferred as: WritableAtom<number, [string], void> & WithInitValue<number>
+// inferred as: IWritableAtom<number, [string], void> & IWithInitValue<number>
 const optionalValueAtom = atom<string>()
-// inferred as: PrimitiveAtom<string | undefined> & WithInitValue<string | undefined>
+// inferred as: PrimitiveAtom<string | undefined> & IWithInitValue<string | undefined>
 const todosAtom = atom<string[]>([])
 
 const addTodoAtom = atom(
@@ -27,7 +27,7 @@ const addTodoAtom = atom(
     set(todosAtom, [...current, newTodo])
   },
 )
-// inferred as: WritableAtom<string[], [string], void>
+// inferred as: IWritableAtom<string[], [string], void>
 const multiplyAtom = atom(
   (get) => get(countAtom),
   (get, set, factor: number, repeat: number) => {
@@ -38,4 +38,4 @@ const multiplyAtom = atom(
     set(countAtom, value)
   },
 )
-// inferred as: WritableAtom<number, [number, number], void>
+// inferred as: IWritableAtom<number, [number, number], void>

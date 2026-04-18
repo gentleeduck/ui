@@ -1,5 +1,5 @@
 // Adapter
-export type { DateAdapter, WeekStartDay } from './adapter'
+export type { Adapter } from './adapter'
 export {
   clearFormatterCache,
   DateFnsAdapter,
@@ -11,8 +11,9 @@ export {
   NativeAdapter,
   PersianAdapter,
 } from './adapter'
-export type { CalendarDay, CalendarMonth, CalendarWeek, DecadeEntry, YearEntry } from './grid'
+
 // Grid
+export type { Grid } from './grid'
 export {
   buildCalendarMonth,
   buildCalendarYear,
@@ -22,35 +23,24 @@ export {
   getLocalizedWeekdays,
   getWeekNumber,
 } from './grid'
+
 // Top-level config
-export type { CalendarConfig, CalendarLocaleConfig, ViewMode } from './index.types'
-export type { NavigationDirection, NavigationUnit } from './navigation'
+export type { Calendar } from './index.types'
 
 // Navigation
+export type { Navigation } from './navigation'
 export { canNavigate, goToMonth, goToNextMonth, goToPrevMonth, goToYear, navigate } from './navigation'
-export type {
-  AnnouncerReturn,
-  DayProps,
-  GridProps,
-  HeaderProps,
-  KeyboardConfig,
-  KeyboardReturn,
-  NavProps,
-  TimeFieldProps,
-  UseCalendarConfig,
-  UseCalendarReturn,
-  UseDateTimeConfig,
-  UseDateTimeReturn,
-  UseTimePickerConfig,
-  UseTimePickerReturn,
-} from './react'
+
 // React hooks (requires react peer dep)
+export type { UseAnnouncer, UseCalendar, UseDateTime, UseKeyboard, UseTimePicker } from './react'
 export { useAnnouncer, useCalendar, useDateTime, useKeyboard, useTimePicker } from './react'
-export type { CalendarValue, DateRange, SelectionConstraints, SelectionMode } from './selection'
+
 // Selection
+export type { Selection } from './selection'
 export { applySelection, isDateDisabled, isInRange, selectDay } from './selection'
+
 // Time
-export type { HourCycle, TimeField, TimePickerConfig, TimeValue } from './time'
+export type { Time } from './time'
 export {
   clampTime,
   formatTimeField,

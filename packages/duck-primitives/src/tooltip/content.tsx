@@ -16,10 +16,10 @@ import {
   getPaddedExitPoints,
   getPointsFromRect,
   isPointInPolygon,
-  type ScopedProps,
   TOOLTIP_OPEN,
   usePopperScope,
 } from './tooltip.libs'
+import type { ITooltip } from './tooltip.types'
 
 const CONTENT_NAME = 'TooltipContent'
 const TOOLTIP_NAME = 'Tooltip'
@@ -30,39 +30,10 @@ export const [VisuallyHiddenContentContextProvider, useVisuallyHiddenContentCont
 )
 
 type TooltipContentImplElement = React.ComponentRef<typeof PopperPrimitive.PopperContent>
-type DismissableLayerProps = React.ComponentPropsWithoutRef<typeof DismissableLayer>
-type PopperContentProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.PopperContent>
-
-interface TooltipContentImplProps extends Omit<PopperContentProps, 'onPlaced'> {
-  /**
-   * A more descriptive label for accessibility purpose
-   */
-  'aria-label'?: string
-
-  /**
-   * Event handler called when the escape key is down.
-   * Can be prevented.
-   */
-  onEscapeKeyDown?: DismissableLayerProps['onEscapeKeyDown']
-  /**
-   * Event handler called when the a `pointerdown` event happens outside of the `Tooltip`.
-   * Can be prevented.
-   */
-  onPointerDownOutside?: DismissableLayerProps['onPointerDownOutside']
-}
-
 type TooltipContentElement = TooltipContentImplElement
 
-export interface TooltipContentProps extends TooltipContentImplProps {
-  /**
-   * Used to force mounting when more control is needed. Useful when
-   * controlling animation with React animation libraries.
-   */
-  forceMount?: true
-}
-
-export const TooltipContent = React.forwardRef<TooltipContentElement, TooltipContentProps>(
-  (props: ScopedProps<TooltipContentProps>, forwardedRef) => {
+export const TooltipContent = React.forwardRef<TooltipContentElement, ITooltip.IContentProps>(
+  (props: ITooltip.IScoped<ITooltip.IContentProps>, forwardedRef) => {
     const portalContext = usePortalContext(CONTENT_NAME, props.__scopeTooltip)
     const { forceMount = portalContext.forceMount, side = 'top', ...contentProps } = props
     const context = useTooltipContext(CONTENT_NAME, props.__scopeTooltip)
@@ -82,10 +53,9 @@ export const TooltipContent = React.forwardRef<TooltipContentElement, TooltipCon
 TooltipContent.displayName = CONTENT_NAME
 
 type TooltipContentHoverableElement = TooltipContentImplElement
-interface TooltipContentHoverableProps extends TooltipContentImplProps {}
 
-const TooltipContentHoverable = React.forwardRef<TooltipContentHoverableElement, TooltipContentHoverableProps>(
-  (props: ScopedProps<TooltipContentHoverableProps>, forwardedRef) => {
+const TooltipContentHoverable = React.forwardRef<TooltipContentHoverableElement, ITooltip.IContentHoverableProps>(
+  (props: ITooltip.IScoped<ITooltip.IContentHoverableProps>, forwardedRef) => {
     const context = useTooltipContext(CONTENT_NAME, props.__scopeTooltip)
     const providerContext = useTooltipProviderContext(CONTENT_NAME, props.__scopeTooltip)
     const ref = React.useRef<TooltipContentHoverableElement>(null)
@@ -162,8 +132,8 @@ TooltipContentHoverable.displayName = `${CONTENT_NAME}Hoverable`
 
 const Slottable = createSlottable('TooltipContent')
 
-const TooltipContentImpl = React.forwardRef<TooltipContentImplElement, TooltipContentImplProps>(
-  (props: ScopedProps<TooltipContentImplProps>, forwardedRef) => {
+const TooltipContentImpl = React.forwardRef<TooltipContentImplElement, ITooltip.IContentImplProps>(
+  (props: ITooltip.IScoped<ITooltip.IContentImplProps>, forwardedRef) => {
     const {
       __scopeTooltip,
       children,

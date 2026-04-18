@@ -1,17 +1,14 @@
-/** MenuArrow component - an optional arrow pointing from the menu to its anchor. */
 import * as React from 'react'
 import * as PopperPrimitive from '../popper'
-
-import { type ScopedProps, usePopperScope } from './menu'
+import { usePopperScope } from './menu'
+import type { IMenu } from './menu.types'
 
 const ARROW_NAME = 'MenuArrow'
 
 type MenuArrowElement = React.ComponentRef<typeof PopperPrimitive.PopperArrow>
-type PopperArrowProps = React.ComponentPropsWithoutRef<typeof PopperPrimitive.PopperArrow>
-interface MenuArrowProps extends PopperArrowProps {}
 
-const MenuArrow = React.forwardRef<MenuArrowElement, MenuArrowProps>(
-  (props: ScopedProps<MenuArrowProps>, forwardedRef) => {
+const MenuArrow = React.forwardRef<MenuArrowElement, IMenu.IArrowProps>(
+  (props: IMenu.IScoped<IMenu.IArrowProps>, forwardedRef) => {
     const { __scopeMenu, ...arrowProps } = props
     const popperScope = usePopperScope(__scopeMenu)
     return <PopperPrimitive.PopperArrow {...popperScope} {...arrowProps} ref={forwardedRef} />
@@ -20,5 +17,4 @@ const MenuArrow = React.forwardRef<MenuArrowElement, MenuArrowProps>(
 
 MenuArrow.displayName = ARROW_NAME
 
-export type { MenuArrowElement, MenuArrowProps }
 export { MenuArrow }

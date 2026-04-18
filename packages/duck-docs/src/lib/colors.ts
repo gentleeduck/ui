@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { registry_colors } from './registry-colors-data'
+import { registryColors } from './registry-colors-data'
 
 const colorSchema = z.object({
   className: z.string(),
@@ -36,7 +36,7 @@ export type ColorFormat = keyof ReturnType<typeof getColorFormat>
 
 export function getColors() {
   const tailwindColors = colorPaletteSchema.array().parse(
-    Object.entries(registry_colors)
+    Object.entries(registryColors)
       .map(([name, color]) => {
         if (!Array.isArray(color)) {
           return null

@@ -1,0 +1,5 @@
+export { Accordion, Accordion as Root, createAccordionScope } from './accordion'
+export type { IAccordion } from './accordion.types'
+export { AccordionContent, AccordionContent as Content } from './content'
+export { AccordionItem, AccordionItem as Item, useAccordionItemContext } from './item'
+export { AccordionTrigger, AccordionTrigger as Trigger } from './trigger'

@@ -5,7 +5,7 @@ import { DEFAULT_CONFIG_FILENAMES } from '../defaults'
 import { resolveRegistryBuildConfig } from '../resolution'
 import { loadRegistryBuildConfigInput } from './loader.input'
 import { resolveFrom } from './loader.path'
-import type { LoadedRegistryBuildConfig, LoadRegistryBuildConfigOptions } from './loader.types'
+import type { ILoadedRegistryBuildConfig, ILoadRegistryBuildConfigOptions } from './loader.types'
 
 export { resolveRegistryBuildConfig } from '../resolution'
 
@@ -32,8 +32,8 @@ export async function findRegistryBuildConfig(cwd = process.cwd()) {
 }
 
 export async function loadRegistryBuildConfig(
-  options: LoadRegistryBuildConfigOptions = {},
-): Promise<LoadedRegistryBuildConfig> {
+  options: ILoadRegistryBuildConfigOptions = {},
+): Promise<ILoadedRegistryBuildConfig> {
   const cwd = options.cwd ? path.resolve(options.cwd) : process.cwd()
   const configPath = options.configFile ? resolveFrom(cwd, options.configFile) : await findRegistryBuildConfig(cwd)
 

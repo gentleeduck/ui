@@ -3,7 +3,7 @@ import { createMcpServer } from './server'
 
 const SESSION_TTL_MS = 30 * 60_000
 
-export interface McpSessionConnection {
+export interface IMcpSessionConnection {
   sessionId: string
   server: ReturnType<typeof createMcpServer>
   transport: WebStandardStreamableHTTPServerTransport
@@ -11,16 +11,16 @@ export interface McpSessionConnection {
   lastSeenAt: number
 }
 
-const sessions = new Map<string, McpSessionConnection>()
+const sessions = new Map<string, IMcpSessionConnection>()
 
-function touchSession(connection: McpSessionConnection): McpSessionConnection {
+function touchSession(connection: IMcpSessionConnection): IMcpSessionConnection {
   connection.lastSeenAt = Date.now()
   return connection
 }
 
-export async function createSessionConnection(): Promise<McpSessionConnection> {
+export async function createSessionConnection(): Promise<IMcpSessionConnection> {
   const sessionId = crypto.randomUUID()
-  let connection!: McpSessionConnection
+  let connection!: IMcpSessionConnection
 
   const transport = new WebStandardStreamableHTTPServerTransport({
     sessionIdGenerator: () => sessionId,
@@ -45,12 +45,12 @@ export async function createSessionConnection(): Promise<McpSessionConnection> {
   return connection
 }
 
-export function getSessionConnection(sessionId: string): McpSessionConnection | null {
+export function getSessionConnection(sessionId: string): IMcpSessionConnection | null {
   const connection = sessions.get(sessionId)
   return connection ? touchSession(connection) : null
 }
 
-export async function disposeSessionConnection(connection: McpSessionConnection): Promise<void> {
+export async function disposeSessionConnection(connection: IMcpSessionConnection): Promise<void> {
   sessions.delete(connection.sessionId)
   await Promise.allSettled([connection.server.close()])
 }

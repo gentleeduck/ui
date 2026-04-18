@@ -70,8 +70,8 @@ export default function Demo() {
               month={month}
               onMonthChange={setMonth}
               onSelect={(date) => {
-                setDate(date)
-                setValue(formatDate(date))
+                setDate(date ?? undefined)
+                setValue(formatDate(date ?? undefined))
                 requestAnimationFrame(() => setOpen(false))
               }}
               selected={date}

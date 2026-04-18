@@ -1,6 +1,6 @@
 import { type AGENTS, detect } from '@antfu/ni'
 
-export async function get_package_manager(
+export async function getPackageManager(
   cwd: string,
 ): Promise<Exclude<(typeof AGENTS)[number], 'yarn@berry' | 'pnpm@6'>> {
   const packageManager = await detect({

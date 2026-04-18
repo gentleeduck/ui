@@ -1,13 +1,9 @@
 'use client'
 
 import { cn } from '@gentleduck/libs/cn'
-import { loadDomAnimation } from '@gentleduck/motion/motion-features'
-import { useMotionPreset } from '@gentleduck/motion/motion-presets'
-import { scaleIn } from '@gentleduck/motion/presets/scale-in'
-import { springBouncy } from '@gentleduck/motion/transitions/springs'
-import { type Direction, useDirection } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
+import { useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
-import { LazyMotion, m } from 'motion/react'
 import React from 'react'
 
 const AspectRatio = React.forwardRef<
@@ -16,7 +12,7 @@ const AspectRatio = React.forwardRef<
     ratio: string
   }
 >(({ style, className, ratio, dir, ...props }, ref) => {
-  const direction = useDirection(dir as Direction)
+  const direction = useDirection(dir as IDirection.Kind)
   return (
     <Slot
       className={cn('relative h-auto w-full overflow-hidden', className)}
@@ -33,21 +29,4 @@ const AspectRatio = React.forwardRef<
 })
 AspectRatio.displayName = 'AspectRatio'
 
-const MOTION_ASPECT_RATIO_OPTIONS = { transition: springBouncy } as const
-
-const MotionAspectRatio = React.forwardRef<
-  React.ComponentRef<typeof AspectRatio>,
-  React.ComponentPropsWithoutRef<typeof AspectRatio>
->((props, ref) => {
-  const content = useMotionPreset(scaleIn, MOTION_ASPECT_RATIO_OPTIONS)
-  return (
-    <LazyMotion features={loadDomAnimation}>
-      <m.div initial={content.initial} animate={content.animate} transition={content.transition}>
-        <AspectRatio ref={ref} {...props} />
-      </m.div>
-    </LazyMotion>
-  )
-})
-MotionAspectRatio.displayName = 'MotionAspectRatio'
-
-export { AspectRatio, MotionAspectRatio }
+export { AspectRatio }

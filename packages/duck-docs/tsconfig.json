@@ -1,18 +1,16 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "ignoreDeprecations": "6.0",
+    "noEmit": true,
     "outDir": "./dist",
     "paths": {
       "@duck-docs/*": ["./src/*"],
       "@gentleduck/registry-ui/*": ["../registry-ui/src/*"]
     },
-    "jsx": "react-jsx",
     "rootDir": "../..",
-    "noEmit": true,
     "types": ["node"]
   },
   "exclude": ["node_modules", "dist", "src/**/__test__/**", "**/*.tsbuildinfo", "tsconfig.tsbuildinfo"],
-  "extends": "@gentleduck/typescript-config/internal-package.json",
+  "extends": "@gentleduck/typescript-config/motion.json",
   "include": ["./src/**/*.ts", "./src/**/*.tsx"]
 }

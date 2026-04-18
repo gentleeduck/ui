@@ -1,18 +1,15 @@
 import * as React from 'react'
 import { useId } from '../hooks/use-id'
 import { Primitive } from '../primitive-elements'
-import { CommandGroupContextProvider, type ScopedProps, useCommandContext } from './command'
+import { CommandGroupContextProvider, useCommandContext } from './command'
+import type { ICommand } from './command.types'
 
 const GROUP_NAME = 'CommandGroup'
 
 type CommandGroupElement = React.ComponentRef<typeof Primitive.div>
 
-export interface CommandGroupProps extends React.ComponentPropsWithRef<typeof Primitive.div> {
-  heading?: React.ReactNode
-}
-
-export const CommandGroup = React.forwardRef<CommandGroupElement, CommandGroupProps>(
-  (props: ScopedProps<CommandGroupProps>, forwardedRef) => {
+export const CommandGroup = React.forwardRef<CommandGroupElement, ICommand.IGroupProps>(
+  (props: ICommand.IScoped<ICommand.IGroupProps>, forwardedRef) => {
     const { __scopeCommand, heading, children, ...groupProps } = props
     const context = useCommandContext(GROUP_NAME, __scopeCommand)
     const headingId = useId()

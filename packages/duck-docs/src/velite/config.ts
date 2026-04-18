@@ -1,4 +1,4 @@
-import type { UnistNode } from '@duck-docs/types'
+import type { IUnistNode } from '@duck-docs/types'
 import { getHighlighter } from '@shikijs/compat'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 // @ts-expect-error -- rehype-pretty-code has no published type declarations
@@ -11,7 +11,7 @@ import { defineConfig, s, type ZodMeta } from 'velite'
 import { rehypeMermaid, rehypeMetadataPlugin, rehypeNpmCommand, rehypePreBlockSource, rehypeTitle } from './plugins'
 import { cleanTocItems } from './utils'
 
-export interface DocsVeliteConfigOptions {
+export interface IDocsVeliteConfigOptions {
   docsPattern?: string
   rehypePlugins?: Pluggable[]
   rehypePluginsBefore?: Pluggable[]
@@ -22,18 +22,18 @@ export interface DocsVeliteConfigOptions {
 function buildDefaultRehypePlugins({
   rehypePlugins = [],
   rehypePluginsBefore = [],
-}: Pick<DocsVeliteConfigOptions, 'rehypePlugins' | 'rehypePluginsBefore'>): Pluggable[] {
+}: Pick<IDocsVeliteConfigOptions, 'rehypePlugins' | 'rehypePluginsBefore'>): Pluggable[] {
   const prettyCodePlugin = [
     rehypePrettyCode,
     {
       getHighlighter,
-      onVisitHighlightedLine(node: UnistNode) {
+      onVisitHighlightedLine(node: IUnistNode) {
         ;(node.properties?.className as string[]).push('line--highlighted')
       },
-      onVisitHighlightedWord(node: UnistNode) {
+      onVisitHighlightedWord(node: IUnistNode) {
         if (node.properties) node.properties.className = ['word--highlighted']
       },
-      onVisitLine(node: UnistNode) {
+      onVisitLine(node: IUnistNode) {
         if (node.children?.length === 0) {
           node.children = [{ type: 'text', value: ' ' }]
         }
@@ -71,7 +71,7 @@ function buildDefaultRehypePlugins({
 function buildDefaultRemarkPlugins({
   remarkPlugins = [],
   remarkPluginsBefore = [],
-}: Pick<DocsVeliteConfigOptions, 'remarkPlugins' | 'remarkPluginsBefore'>): Pluggable[] {
+}: Pick<IDocsVeliteConfigOptions, 'remarkPlugins' | 'remarkPluginsBefore'>): Pluggable[] {
   return [...remarkPluginsBefore, remarkGfm, codeImport, ...remarkPlugins]
 }
 
@@ -81,7 +81,7 @@ export function createDocsVeliteConfig({
   rehypePluginsBefore = [],
   remarkPlugins = [],
   remarkPluginsBefore = [],
-}: DocsVeliteConfigOptions = {}) {
+}: IDocsVeliteConfigOptions = {}) {
   return defineConfig({
     collections: {
       docs: {
@@ -133,7 +133,7 @@ export function createDocsVeliteConfig({
       rehypePlugins: buildDefaultRehypePlugins({ rehypePlugins, rehypePluginsBefore }),
       remarkPlugins: buildDefaultRemarkPlugins({ remarkPlugins, remarkPluginsBefore }),
     },
-  }) as ReturnType<typeof defineConfig>
+  }) as unknown as ReturnType<typeof defineConfig>
 }
 
 export const docsVeliteConfig = createDocsVeliteConfig()

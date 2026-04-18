@@ -14,8 +14,11 @@ export {
   ContextMenuSubContent,
   ContextMenuSubTrigger,
   ContextMenuTrigger,
+} from './context-menu'
+
+export {
   MotionContextMenu,
   MotionContextMenuContent,
   MotionContextMenuSub,
   MotionContextMenuSubContent,
-} from './context-menu'
+} from './motion-context-menu'

@@ -1,62 +1,56 @@
 import { z } from 'zod'
 
-export type HSL = `${number} ${number}% ${number}%`
-export type Radius = `${number}px` | `${number}rem`
-
 // HSL color schema
-export const hsl_schema = z.string() as z.ZodType<HSL>
-export const radiusSchema = z.string() as z.ZodType<Radius>
+export const hslSchema = z.string() as z.ZodType<Registry.HSL>
+export const radiusSchema = z.string() as z.ZodType<Registry.Radius>
 
 // CSS variables schema
-export const css_vars_schema = z.object({
-  accent: hsl_schema,
-  'accent-foreground': hsl_schema,
-  background: hsl_schema,
-  border: hsl_schema,
-  card: hsl_schema,
-  'card-foreground': hsl_schema,
-  'chart-1': hsl_schema,
-  'chart-2': hsl_schema,
-  'chart-3': hsl_schema,
-  'chart-4': hsl_schema,
-  'chart-5': hsl_schema,
-  destructive: hsl_schema,
-  'destructive-foreground': hsl_schema,
-  foreground: hsl_schema,
-  input: hsl_schema,
-  muted: hsl_schema,
-  'muted-foreground': hsl_schema,
-  popover: hsl_schema,
-  'popover-foreground': hsl_schema,
-  primary: hsl_schema,
-  'primary-foreground': hsl_schema,
+export const cssVarsSchema = z.object({
+  accent: hslSchema,
+  'accent-foreground': hslSchema,
+  background: hslSchema,
+  border: hslSchema,
+  card: hslSchema,
+  'card-foreground': hslSchema,
+  'chart-1': hslSchema,
+  'chart-2': hslSchema,
+  'chart-3': hslSchema,
+  'chart-4': hslSchema,
+  'chart-5': hslSchema,
+  destructive: hslSchema,
+  'destructive-foreground': hslSchema,
+  foreground: hslSchema,
+  input: hslSchema,
+  muted: hslSchema,
+  'muted-foreground': hslSchema,
+  popover: hslSchema,
+  'popover-foreground': hslSchema,
+  primary: hslSchema,
+  'primary-foreground': hslSchema,
   radius: radiusSchema,
-  ring: hsl_schema,
-  secondary: hsl_schema,
-  'secondary-foreground': hsl_schema,
+  ring: hslSchema,
+  secondary: hslSchema,
+  'secondary-foreground': hslSchema,
 })
-export type CSSVars = z.infer<typeof css_vars_schema>
 
-export const registrycolor_scheme = z.object({
+export const registryColorScheme = z.object({
   activeColor: z.object({
-    dark: hsl_schema,
-    light: hsl_schema,
+    dark: hslSchema,
+    light: hslSchema,
   }),
   cssVars: z.object({
-    dark: css_vars_schema,
-    light: css_vars_schema,
+    dark: cssVarsSchema,
+    light: cssVarsSchema,
   }),
   label: z.string(),
   name: z.string(),
 })
-export type ColorScheme = z.infer<typeof registrycolor_scheme>
 
-export const registry_color_base_schema = z.array(registrycolor_scheme).min(1, {
+export const registryColorBaseSchema = z.array(registryColorScheme).min(1, {
   message: 'At least one color scheme is required',
 })
-export type ColorBase = z.infer<typeof registry_color_base_schema>
 
-export const registry_item_type_schema = z.enum([
+export const registryItemTypeSchema = z.enum([
   'registry:ui',
   'registry:lib',
   'registry:hook',
@@ -66,16 +60,14 @@ export const registry_item_type_schema = z.enum([
   'registry:page',
 ])
 
-export const registry_item_file_schema = z.object({
+export const registryItemFileSchema = z.object({
   content: z.string().optional(),
   path: z.string(),
   target: z.string().optional(),
-  type: registry_item_type_schema,
+  type: registryItemTypeSchema,
 })
 
-export type RegistryItemFile = z.infer<typeof registry_item_file_schema>
-
-export const registry_item_tailwind_schema = z.object({
+export const registryItemTailwindSchema = z.object({
   config: z.object({
     content: z.array(z.string()).optional(),
     plugins: z.array(z.string()).optional(),
@@ -83,12 +75,12 @@ export const registry_item_tailwind_schema = z.object({
   }),
 })
 
-export const registry_item_css_vars_schema = z.object({
+export const registryItemCssVarsSchema = z.object({
   dark: z.record(z.string(), z.string()).optional(),
   light: z.record(z.string(), z.string()).optional(),
 })
 
-export const block_chunk_schema = z.object({
+export const blockChunkSchema = z.object({
   code: z.string().optional(),
   component: z.any(),
   container: z
@@ -101,33 +93,46 @@ export const block_chunk_schema = z.object({
   name: z.string(),
 })
 
-export const registry_entry_schema = z.object({
+export const registryEntrySchema = z.object({
   categories: z.array(z.string()).optional(),
-  chunks: z.array(block_chunk_schema).optional(),
-  cssVars: registry_item_css_vars_schema.optional(),
+  chunks: z.array(blockChunkSchema).optional(),
+  cssVars: registryItemCssVarsSchema.optional(),
   dependencies: z.array(z.string()).optional(),
   description: z.string().optional(),
   devDependencies: z.array(z.string()).optional(),
   docs: z.string().optional(),
-  files: z.array(registry_item_file_schema).optional(),
+  files: z.array(registryItemFileSchema).optional(),
   name: z.string(),
   registryDependencies: z.array(z.string()).optional(),
   root_folder: z.string(),
   source: z.string().optional(),
-  tailwind: registry_item_tailwind_schema.optional(),
-  type: registry_item_type_schema,
+  tailwind: registryItemTailwindSchema.optional(),
+  type: registryItemTypeSchema,
 })
 
-export type RegistryEntry = z.infer<typeof registry_entry_schema>
+export const registrySchema = z.array(registryEntrySchema)
 
-export const registry_schema = z.array(registry_entry_schema)
+export namespace Registry {
+  export type HSL = `${number} ${number}% ${number}%`
+  export type Radius = `${number}px` | `${number}rem`
 
-export type Registry = z.infer<typeof registry_schema>
+  export interface CssVars extends z.infer<typeof cssVarsSchema> {}
 
-export type ThemeResponse = {
-  name: string
-  label?: string
-  light: Record<string, string>
-  dark: Record<string, string>
-  radius?: string
+  export interface ColorScheme extends z.infer<typeof registryColorScheme> {}
+
+  export type ColorBase = z.infer<typeof registryColorBaseSchema>
+
+  export interface ItemFile extends z.infer<typeof registryItemFileSchema> {}
+
+  export interface Entry extends z.infer<typeof registryEntrySchema> {}
+
+  export type Collection = Entry[]
+
+  export interface ThemeResponse {
+    name: string
+    label?: string
+    light: Record<string, string>
+    dark: Record<string, string>
+    radius?: string
+  }
 }

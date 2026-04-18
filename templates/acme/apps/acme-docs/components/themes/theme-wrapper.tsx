@@ -3,11 +3,11 @@
 import { useConfig } from '@gentleduck/docs/client'
 import { cn } from '@gentleduck/libs/cn'
 
-interface ThemeWrapperProps extends React.ComponentProps<'div'> {
+interface IThemeWrapperProps extends React.ComponentProps<'div'> {
   defaultTheme?: string
 }
 
-export function ThemeWrapper({ defaultTheme, children, className }: ThemeWrapperProps) {
+export function ThemeWrapper({ defaultTheme, children, className }: IThemeWrapperProps) {
   const [config] = useConfig()
 
   return (

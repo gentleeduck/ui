@@ -1,24 +1,24 @@
 'use client'
 
 import React from 'react'
-import { type Command, KeyHandler, Registry } from '../command'
-import type { KeyBindOptions, RegistrationHandle } from '../command/command.types'
+import { KeyHandler, Registry } from '../command'
+import type { Command } from '../command/command.types'
 import { SequenceManager } from '../sequence/sequence'
-import type { KeyContextValue } from './command.types'
+import type { Vim } from './vim.types'
 
 /**
  * A React context that holds the key command registry and handler.
  * Consumers can register commands and interact with the keyboard system.
  */
-export const KeyContext = React.createContext<KeyContextValue | null>(null)
+export const KeyContext = React.createContext<Vim.IKeyContextValue | null>(null)
 
 /**
  * Props for the KeyProvider component.
  */
-interface KeyProviderProps {
+interface IKeyProviderProps {
   debug?: boolean
   timeoutMs?: number
-  defaultOptions?: Partial<KeyBindOptions>
+  defaultOptions?: Partial<Command.IKeyBindOptions>
   children: React.ReactNode
 }
 
@@ -37,18 +37,24 @@ interface KeyProviderProps {
  * </KeyProvider>
  * ```
  */
-export const KeyProvider: React.FC<KeyProviderProps> = ({
+export const KeyProvider: React.FC<IKeyProviderProps> = ({
   debug = false,
   timeoutMs = 600,
   defaultOptions,
   children,
 }) => {
-  const value = React.useMemo<KeyContextValue>(() => {
+  const value = React.useMemo<Vim.IKeyContextValue>(() => {
     const registry = new Registry(debug)
     const handler = new KeyHandler(registry, timeoutMs, defaultOptions)
     const sequenceManager = new SequenceManager()
 
-    return { registry, handler, sequenceManager, timeoutMs, defaultOptions }
+    return {
+      registry,
+      handler,
+      sequenceManager,
+      timeoutMs,
+      ...(defaultOptions !== undefined ? { defaultOptions } : {}),
+    }
   }, [debug, timeoutMs, defaultOptions])
 
   React.useEffect(() => {
@@ -91,9 +97,9 @@ export const KeyProvider: React.FC<KeyProviderProps> = ({
  *
  * > Note: Must be used within a `KeyProvider`.
  */
-export function useKeyCommands(commands: Record<string, Command>, options?: KeyBindOptions): void {
+export function useKeyCommands(commands: Record<string, Command.ICommand>, options?: Command.IKeyBindOptions): void {
   const ctx = React.useContext(KeyContext)
-  const handlesRef = React.useRef<RegistrationHandle[]>([])
+  const handlesRef = React.useRef<Command.IRegistrationHandle[]>([])
 
   React.useEffect(() => {
     if (!ctx) {

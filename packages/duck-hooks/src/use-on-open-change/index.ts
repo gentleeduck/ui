@@ -1,11 +1,21 @@
 import React from 'react'
 import { useComputedTimeoutTransition } from '../use-computed-timeout-transition'
+import type { IUseOnOpenChange } from './use-on-open-change.types'
 
-export function useOnOpenChange<const T extends React.RefObject<HTMLElement | null>>(
+export type { IUseOnOpenChange } from './use-on-open-change.types'
+
+/**
+ * Manage open/close state with scroll-locking and CSS-transition-aware timing.
+ *
+ * Synchronises an optional controlled `openProp` with internal state,
+ * locks `document.body` scroll while open, and waits for the element's
+ * CSS transition to finish before unlocking.
+ */
+export function useOnOpenChange<T extends React.RefObject<HTMLElement | null>>(
   ref: T,
   openProp?: boolean,
   onOpenChange?: (state: boolean) => void,
-) {
+): IUseOnOpenChange.IReturn<T> {
   const [open, setOpen] = React.useState<boolean>(openProp ?? false)
 
   const handleOpenChange = React.useCallback(
@@ -18,7 +28,7 @@ export function useOnOpenChange<const T extends React.RefObject<HTMLElement | nu
           onOpenChange?.(true)
         }, 100)
       } else {
-        // biome-ignore lint/correctness/useHookAtTopLevel: useComputedTimeoutTransition is a utility function, not a React hook
+        // biome-ignore lint/correctness/useHookAtTopLevel: utility is misnamed — it schedules a timeout, not a hook
         useComputedTimeoutTransition(ref.current, () => {
           document.body.classList.remove('scroll-locked')
         })
@@ -31,7 +41,7 @@ export function useOnOpenChange<const T extends React.RefObject<HTMLElement | nu
 
   React.useEffect(() => {
     if (!ref.current) return
-    // biome-ignore lint/correctness/useHookAtTopLevel: useComputedTimeoutTransition is a utility function, not a React hook
+    // biome-ignore lint/correctness/useHookAtTopLevel: utility is misnamed — it schedules a timeout, not a hook
     useComputedTimeoutTransition(ref.current, () => {
       document.body.classList.toggle('scroll-locked', open)
     })

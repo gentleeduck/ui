@@ -1,36 +1,35 @@
 import { logger } from '../text-styling'
-import { registry_entry_schema, registry_schema, type ThemeResponse } from './get-registry.dto'
+import { type Registry, registryEntrySchema, registrySchema } from './get-registry.dto'
+import { fetchRegistryUrl, isUrl } from './get-registry.lib'
 
-import { fetch_registry_url, is_url } from './get-registry.lib'
-
-export async function get_registry_index() {
+export async function getRegistryIndex() {
   try {
-    const [result] = await fetch_registry_url(['index.json'])
+    const [result] = await fetchRegistryUrl(['index.json'])
 
-    return registry_schema.parse(result)
+    return registrySchema.parse(result)
   } catch (error) {
     logger.error({ args: [`Failed to fetch from registry.`, error] })
     return null
   }
 }
 
-export async function get_registry_item(name: string) {
+export async function getRegistryItem(name: string) {
   try {
     const lower = name.toLowerCase()
-    const [result] = await fetch_registry_url([is_url(lower) ? lower : `/components/${lower}.json`])
+    const [result] = await fetchRegistryUrl([isUrl(lower) ? lower : `/components/${lower}.json`])
 
-    return registry_entry_schema.parse(result)
+    return registryEntrySchema.parse(result)
   } catch (error) {
     logger.error({ args: [`Failed to fetch from registry.`, error] })
     return null
   }
 }
 
-export async function get_registry_base_color(theme: string): Promise<ThemeResponse | null> {
+export async function getRegistryBaseColor(theme: string): Promise<Registry.ThemeResponse | null> {
   try {
-    const [result] = await fetch_registry_url([`themes/${theme}.json`])
+    const [result] = await fetchRegistryUrl([`themes/${theme}.json`])
 
-    return result as ThemeResponse
+    return result as Registry.ThemeResponse
   } catch (error) {
     logger.error({ args: [`Failed to fetch from registry.`, error] })
     return null

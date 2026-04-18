@@ -1,5 +1,13 @@
 import { describe, expect, test } from 'bun:test'
+import type { IDuckMotion } from '../presets/types'
 import { duckDuration, duckEasing, duckMotionCssVar } from '../tokens'
+import {
+  duckMotionDuration,
+  duckMotionDurationMs,
+  duckMotionEasing,
+  duckMotionEasingCss,
+  duckMotionCssVar as transitionsCssVar,
+} from '../transitions/tweens'
 
 describe('duckEasing', () => {
   test('standard is a valid cubic-bezier value', () => {
@@ -92,11 +100,11 @@ describe('duckMotionCssVar', () => {
   })
 
   test('duration var name starts with --duck-motion-', () => {
-    expect(duckMotionCssVar.duration).toContain('--duck-motion-dur')
+    expect(duckMotionCssVar.duration).toContain('--gentleduck-motion-dur')
   })
 
   test('easing var name starts with --duck-motion-', () => {
-    expect(duckMotionCssVar.easing).toContain('--duck-motion-ease')
+    expect(duckMotionCssVar.easing).toContain('--gentleduck-motion-ease')
   })
 
   test('duration fallback includes ms unit', () => {
@@ -109,12 +117,12 @@ describe('duckMotionCssVar', () => {
     expect(fallback).toMatch(/^cubic-bezier\(/)
   })
 
-  test('duration is exactly var(--duck-motion-dur, 150ms)', () => {
-    expect(duckMotionCssVar.duration).toBe('var(--duck-motion-dur, 150ms)')
+  test('duration is exactly var(--gentleduck-motion-dur, 150ms)', () => {
+    expect(duckMotionCssVar.duration).toBe('var(--gentleduck-motion-dur, 150ms)')
   })
 
-  test('easing is exactly var(--duck-motion-ease, cubic-bezier(0.4, 0, 0.2, 1))', () => {
-    expect(duckMotionCssVar.easing).toBe('var(--duck-motion-ease, cubic-bezier(0.4, 0, 0.2, 1))')
+  test('easing is exactly var(--gentleduck-motion-ease, cubic-bezier(0.4, 0, 0.2, 1))', () => {
+    expect(duckMotionCssVar.easing).toBe('var(--gentleduck-motion-ease, cubic-bezier(0.4, 0, 0.2, 1))')
   })
 
   test('duration fallback matches duckDuration.fast', () => {
@@ -129,5 +137,75 @@ describe('duckMotionCssVar', () => {
 
   test('has exactly two CSS variable entries', () => {
     expect(Object.keys(duckMotionCssVar)).toEqual(['duration', 'easing'])
+  })
+})
+
+describe('duckMotionDuration (transitions canonical export)', () => {
+  test('is the canonical duration token in seconds', () => {
+    expect(duckMotionDuration.fast).toBeCloseTo(0.15)
+    expect(duckMotionDuration.normal).toBeCloseTo(0.2)
+    expect(duckMotionDuration.slow).toBeCloseTo(0.3)
+    expect(duckMotionDuration.instant).toBe(0)
+  })
+
+  test('derives from duckDuration (ms / 1000)', () => {
+    expect(duckMotionDuration.fast).toBe(duckDuration.fast / 1000)
+    expect(duckMotionDuration.normal).toBe(duckDuration.normal / 1000)
+    expect(duckMotionDuration.slow).toBe(duckDuration.slow / 1000)
+  })
+
+  test('has all four keys', () => {
+    expect(Object.keys(duckMotionDuration)).toEqual(['instant', 'fast', 'normal', 'slow'])
+  })
+})
+
+describe('duckMotionEasing (transitions canonical export)', () => {
+  test('has standard and spring keys', () => {
+    expect(Object.keys(duckMotionEasing)).toEqual(['standard', 'spring'])
+  })
+
+  test('standard is a 4-element array', () => {
+    expect(duckMotionEasing.standard).toHaveLength(4)
+    expect(duckMotionEasing.standard).toEqual([0.4, 0, 0.2, 1])
+  })
+
+  test('spring is a 4-element array with overshoot y-values', () => {
+    expect(duckMotionEasing.spring).toHaveLength(4)
+    const y2 = duckMotionEasing.spring[3]
+    expect(y2).toBeGreaterThan(1)
+  })
+})
+
+describe('IDuckMotion namespace', () => {
+  test('exists as a type namespace export (compile-time check)', () => {
+    // If this file compiles, the IDuckMotion namespace and its members exist
+    type _check = IDuckMotion.IPreset
+    expect(true).toBe(true)
+  })
+})
+
+describe('duckMotionDurationMs (ms source of truth)', () => {
+  test('fast is 150', () => expect(duckMotionDurationMs.fast).toBe(150))
+  test('normal is 200', () => expect(duckMotionDurationMs.normal).toBe(200))
+  test('slow is 300', () => expect(duckMotionDurationMs.slow).toBe(300))
+  test('instant is 0', () => expect(duckMotionDurationMs.instant).toBe(0))
+  test('matches tokens re-exports', () => {
+    expect(duckMotionDurationMs.fast).toBe(duckDuration.fast)
+    expect(duckMotionDurationMs.normal).toBe(duckDuration.normal)
+  })
+  test('cssVar duration fallback derives from fast', () => {
+    expect(transitionsCssVar.duration).toBe(`var(--gentleduck-motion-dur, ${duckMotionDurationMs.fast}ms)`)
+  })
+})
+
+describe('duckMotionEasingCss (CSS string form)', () => {
+  test('standard is cubic-bezier string', () => {
+    expect(duckMotionEasingCss.standard).toBe('cubic-bezier(0.4, 0, 0.2, 1)')
+  })
+  test('spring is cubic-bezier string with overshoot', () => {
+    expect(duckMotionEasingCss.spring).toBe('cubic-bezier(1, 0.23995, 0, 1.65)')
+  })
+  test('matches tokens re-exports', () => {
+    expect(duckMotionEasingCss.standard).toBe(duckEasing.standard)
   })
 })

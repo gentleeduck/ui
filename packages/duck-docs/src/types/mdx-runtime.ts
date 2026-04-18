@@ -1,11 +1,11 @@
-export interface NpmCommands {
+export interface INpmCommands {
   __npmCommand__?: string
   __yarnCommand__?: string
   __pnpmCommand__?: string
   __bunCommand__?: string
 }
 
-export interface MdxCodeNodeProperties extends NpmCommands {
+export interface IMdxCodeNodeProperties extends INpmCommands {
   __className__?: string
   __event__?: string
   __isMermaid__?: boolean
@@ -16,6 +16,6 @@ export interface MdxCodeNodeProperties extends NpmCommands {
   __title__?: string
 }
 
-export interface MdxNodeData {
+export interface IMdxNodeData {
   meta?: string
 }

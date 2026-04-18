@@ -1,3 +1,4 @@
+import type { Variants } from '@gentleduck/variants'
 import { cva } from '@gentleduck/variants'
 
 /**
@@ -18,7 +19,7 @@ export const AnimVariants = cva('', {
   },
   variants: {
     alive: {
-      default: 'transition-all transition-discrete duration-[200ms,150ms] ease-(--duck-motion-ease)',
+      default: 'transition-all transition-discrete duration-[200ms,150ms] ease-(--gentleduck-motion-ease)',
     },
     pseudo: {
       animate:
@@ -27,3 +28,5 @@ export const AnimVariants = cva('', {
     },
   },
 })
+
+export type AnimVariantsProps = Variants.VariantProps<typeof AnimVariants>

@@ -1,13 +1,13 @@
-import type { RegistryEntry } from '../../extensions/ui/ui.registry.types'
-import type { RegistryBuildConfig } from '../types'
+import type { IRegistryEntry } from '../../extensions/ui/ui.registry.types'
+import type { IRegistryBuildConfig } from '../types'
 import { mergeCollections, mergeRecordOrString, mergeSources, mergeUniqueStrings } from './merge.lib'
 
 function mergeRegistries(
-  baseRegistries?: Record<string, RegistryEntry[]>,
-  nextRegistries?: Record<string, RegistryEntry[]>,
+  baseRegistries?: Record<string, IRegistryEntry[]>,
+  nextRegistries?: Record<string, IRegistryEntry[]>,
 ) {
   const keys = new Set([...Object.keys(baseRegistries ?? {}), ...Object.keys(nextRegistries ?? {})])
-  const result: Record<string, RegistryEntry[]> = {}
+  const result: Record<string, IRegistryEntry[]> = {}
 
   for (const key of keys) {
     result[key] = [...(baseRegistries?.[key] ?? []), ...(nextRegistries?.[key] ?? [])]
@@ -20,9 +20,9 @@ function mergeRegistries(
  * Merge two config objects with collection-aware and UI-aware semantics.
  */
 export function mergeRegistryBuildConfigs(
-  baseConfig: RegistryBuildConfig,
-  nextConfig: RegistryBuildConfig,
-): RegistryBuildConfig {
+  baseConfig: IRegistryBuildConfig,
+  nextConfig: IRegistryBuildConfig,
+): IRegistryBuildConfig {
   return {
     ...baseConfig,
     ...nextConfig,

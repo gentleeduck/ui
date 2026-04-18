@@ -1,11 +1,11 @@
 import { CopyButton } from '@duck-docs/components/copy-button'
-import type { NpmCommands } from '@duck-docs/types/unist'
+import type { INpmCommands } from '@duck-docs/types/unist'
 import { cn } from '@gentleduck/libs/cn'
 import { Separator } from '@gentleduck/registry-ui/separator'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui/tabs'
 import { Terminal } from 'lucide-react'
 
-export function ShellCommand({ __npmCommand__, __yarnCommand__, __pnpmCommand__, __bunCommand__ }: NpmCommands) {
+export function ShellCommand({ __npmCommand__, __yarnCommand__, __pnpmCommand__, __bunCommand__ }: INpmCommands) {
   const commands = {
     __bunCommand__,
     __npmCommand__,

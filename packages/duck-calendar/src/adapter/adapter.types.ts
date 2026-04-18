@@ -1,183 +1,185 @@
-/** The first day of the week. */
-export type WeekStartDay = 0 | 1 | 2 | 3 | 4 | 5 | 6 // 0=Sunday
-
-/**
- * The core abstraction over any date library.
- *
- * Implement this interface to plug in a date backend  -  native `Date`, dayjs,
- * date-fns, Luxon, or Temporal. Every method must be pure and must not mutate
- * its arguments.
- *
- * @typeParam TDate - The opaque date type used by the underlying library.
- *   - Native:   `Date`
- *   - dayjs:    `Dayjs`
- *   - Temporal: `Temporal.PlainDate`
- */
-export interface DateAdapter<TDate> {
-  /**
-   * Returns today's date with the time component stripped (midnight local).
-   * Equivalent to `startOfDay(new Date())`.
-   */
-  today(): TDate
+export namespace Adapter {
+  /** The first day of the week. */
+  export type WeekStartDay = 0 | 1 | 2 | 3 | 4 | 5 | 6 // 0=Sunday
 
   /**
-   * Constructs a date from its calendar parts.
+   * The core abstraction over any date library.
    *
-   * @param year  - Full four-digit year (e.g. 2026).
-   * @param month - **0-indexed** month (0 = January, 11 = December).
-   * @param day   - Day of the month (1-31).
-   * @returns A valid date, or an invalid sentinel if the parts are out of range.
-   */
-  create(year: number, month: number, day: number): TDate
-
-  /**
-   * Returns `true` when the date represents a real calendar day.
-   * Use this to guard against invalid dates returned by `create()`.
-   */
-  isValid(date: TDate): boolean
-
-  /**
-   * Returns `true` when `a` and `b` fall on the same year, month, and day.
-   * Time components are ignored.
-   */
-  isSameDay(a: TDate, b: TDate): boolean
-
-  /**
-   * Returns `true` when `a` and `b` share the same year and month.
-   * Day is ignored.
-   */
-  isSameMonth(a: TDate, b: TDate): boolean
-
-  /**
-   * Returns `true` when `a` is strictly before `b` (i.e. `a < b`).
-   * Equal dates return `false`.
-   */
-  isBefore(a: TDate, b: TDate): boolean
-
-  /**
-   * Returns `true` when `a` is strictly after `b` (i.e. `a > b`).
-   * Equal dates return `false`.
-   */
-  isAfter(a: TDate, b: TDate): boolean
-
-  /**
-   * Returns the first day of the month that contains `date`.
-   * @example adapter.startOfMonth(May 15) -> May 1
-   */
-  startOfMonth(date: TDate): TDate
-
-  /**
-   * Returns the last day of the month that contains `date`.
-   * @example adapter.endOfMonth(May 15) -> May 31
-   */
-  endOfMonth(date: TDate): TDate
-
-  /**
-   * Walks backward from `date` until reaching the target weekday.
-   * If `date` is already on that weekday, returns `date` unchanged.
+   * Implement this interface to plug in a date backend  -  native `Date`, dayjs,
+   * date-fns, Luxon, or Temporal. Every method must be pure and must not mutate
+   * its arguments.
    *
-   * @param date         - The reference date.
-   * @param weekStartDay - The desired start-of-week day (0 = Sunday, 1 = Monday, ...).
+   * @typeParam TDate - The opaque date type used by the underlying library.
+   *   - Native:   `Date`
+   *   - dayjs:    `Dayjs`
+   *   - Temporal: `Temporal.PlainDate`
    */
-  startOfWeek(date: TDate, weekStartDay: WeekStartDay): TDate
+  export interface IDateAdapter<TDate> {
+    /**
+     * Returns today's date with the time component stripped (midnight local).
+     * Equivalent to `startOfDay(new Date())`.
+     */
+    today(): TDate
 
-  /**
-   * Adds (or subtracts when negative) a number of days to `date`.
-   *
-   * @param date  - The base date. Not mutated.
-   * @param count - Days to add. Use a negative number to go backward.
-   */
-  addDays(date: TDate, count: number): TDate
+    /**
+     * Constructs a date from its calendar parts.
+     *
+     * @param year  - Full four-digit year (e.g. 2026).
+     * @param month - **0-indexed** month (0 = January, 11 = December).
+     * @param day   - Day of the month (1-31).
+     * @returns A valid date, or an invalid sentinel if the parts are out of range.
+     */
+    create(year: number, month: number, day: number): TDate
 
-  /**
-   * Adds (or subtracts when negative) a number of months to `date`.
-   * Overflow is clamped to the last valid day of the resulting month.
-   *
-   * @example adapter.addMonths(Jan 31, 1) -> Feb 28 (or 29 in a leap year)
-   *
-   * @param date  - The base date. Not mutated.
-   * @param count - Months to add. Use a negative number to go backward.
-   */
-  addMonths(date: TDate, count: number): TDate
+    /**
+     * Returns `true` when the date represents a real calendar day.
+     * Use this to guard against invalid dates returned by `create()`.
+     */
+    isValid(date: TDate): boolean
 
-  /**
-   * Adds (or subtracts when negative) a number of years to `date`.
-   * Feb 29 in a leap year is clamped to Feb 28 in non-leap target years.
-   *
-   * @param date  - The base date. Not mutated.
-   * @param count - Years to add. Use a negative number to go backward.
-   */
-  addYears(date: TDate, count: number): TDate
+    /**
+     * Returns `true` when `a` and `b` fall on the same year, month, and day.
+     * Time components are ignored.
+     */
+    isSameDay(a: TDate, b: TDate): boolean
 
-  /**
-   * Extracts the full four-digit year.
-   * @example adapter.getYear(2026-03-17) -> 2026
-   */
-  getYear(date: TDate): number
+    /**
+     * Returns `true` when `a` and `b` share the same year and month.
+     * Day is ignored.
+     */
+    isSameMonth(a: TDate, b: TDate): boolean
 
-  /**
-   * Extracts the **0-indexed** month (0 = January, 11 = December).
-   * @example adapter.getMonth(2026-03-17) -> 2
-   */
-  getMonth(date: TDate): number
+    /**
+     * Returns `true` when `a` is strictly before `b` (i.e. `a < b`).
+     * Equal dates return `false`.
+     */
+    isBefore(a: TDate, b: TDate): boolean
 
-  /**
-   * Returns the number of months in the year that contains `date`.
-   * Defaults to 12 for Gregorian-based adapters. Hebrew leap years return 13.
-   */
-  getMonthsInYear?(date: TDate): number
+    /**
+     * Returns `true` when `a` is strictly after `b` (i.e. `a > b`).
+     * Equal dates return `false`.
+     */
+    isAfter(a: TDate, b: TDate): boolean
 
-  /**
-   * Extracts the day of the month (1-31).
-   * @example adapter.getDate(2026-03-17) -> 17
-   */
-  getDate(date: TDate): number
+    /**
+     * Returns the first day of the month that contains `date`.
+     * @example adapter.startOfMonth(May 15) -> May 1
+     */
+    startOfMonth(date: TDate): TDate
 
-  /**
-   * Extracts the day of the week (0 = Sunday, 6 = Saturday).
-   * @example adapter.getDayOfWeek(2026-03-17) -> 2  // Tuesday
-   */
-  getDayOfWeek(date: TDate): 0 | 1 | 2 | 3 | 4 | 5 | 6
+    /**
+     * Returns the last day of the month that contains `date`.
+     * @example adapter.endOfMonth(May 15) -> May 31
+     */
+    endOfMonth(date: TDate): TDate
 
-  /**
-   * Converts the adapter's date type to a native JS `Date`.
-   * Used for interop with third-party APIs that expect a `Date`.
-   */
-  toDate(date: TDate): Date
+    /**
+     * Walks backward from `date` until reaching the target weekday.
+     * If `date` is already on that weekday, returns `date` unchanged.
+     *
+     * @param date         - The reference date.
+     * @param weekStartDay - The desired start-of-week day (0 = Sunday, 1 = Monday, ...).
+     */
+    startOfWeek(date: TDate, weekStartDay: WeekStartDay): TDate
 
-  /**
-   * Constructs an adapter date from a native JS `Date`.
-   * Time components are stripped  -  only the calendar date is kept.
-   */
-  fromDate(date: Date): TDate
+    /**
+     * Adds (or subtracts when negative) a number of days to `date`.
+     *
+     * @param date  - The base date. Not mutated.
+     * @param count - Days to add. Use a negative number to go backward.
+     */
+    addDays(date: TDate, count: number): TDate
 
-  /**
-   * Formats a date into a human-readable string using the browser-native
-   * `Intl.DateTimeFormat` API.
-   *
-   * @param date    - The date to format.
-   * @param options - `Intl.DateTimeFormatOptions` (e.g. `{ month: 'long', year: 'numeric' }`).
-   * @param locale  - Optional BCP 47 locale tag (e.g. `'fr-FR'`).
-   *   Falls back to the runtime's default locale when omitted.
-   */
-  format(date: TDate, options: Intl.DateTimeFormatOptions, locale?: string): string
+    /**
+     * Adds (or subtracts when negative) a number of months to `date`.
+     * Overflow is clamped to the last valid day of the resulting month.
+     *
+     * @example adapter.addMonths(Jan 31, 1) -> Feb 28 (or 29 in a leap year)
+     *
+     * @param date  - The base date. Not mutated.
+     * @param count - Months to add. Use a negative number to go backward.
+     */
+    addMonths(date: TDate, count: number): TDate
 
-  // -------------------------------------------------------------------------
-  // Time accessors (for datetime picker support)
-  // -------------------------------------------------------------------------
+    /**
+     * Adds (or subtracts when negative) a number of years to `date`.
+     * Feb 29 in a leap year is clamped to Feb 28 in non-leap target years.
+     *
+     * @param date  - The base date. Not mutated.
+     * @param count - Years to add. Use a negative number to go backward.
+     */
+    addYears(date: TDate, count: number): TDate
 
-  /** Extracts the hour (0-23). */
-  getHours(date: TDate): number
+    /**
+     * Extracts the full four-digit year.
+     * @example adapter.getYear(2026-03-17) -> 2026
+     */
+    getYear(date: TDate): number
 
-  /** Extracts the minute (0-59). */
-  getMinutes(date: TDate): number
+    /**
+     * Extracts the **0-indexed** month (0 = January, 11 = December).
+     * @example adapter.getMonth(2026-03-17) -> 2
+     */
+    getMonth(date: TDate): number
 
-  /** Extracts the second (0-59). */
-  getSeconds(date: TDate): number
+    /**
+     * Returns the number of months in the year that contains `date`.
+     * Defaults to 12 for Gregorian-based adapters. Hebrew leap years return 13.
+     */
+    getMonthsInYear?(date: TDate): number
 
-  /**
-   * Returns a new date with the time set to the given hour, minute, and optional second.
-   * The date (year/month/day) is preserved from the input.
-   */
-  setTime(date: TDate, hour: number, minute: number, second?: number): TDate
+    /**
+     * Extracts the day of the month (1-31).
+     * @example adapter.getDate(2026-03-17) -> 17
+     */
+    getDate(date: TDate): number
+
+    /**
+     * Extracts the day of the week (0 = Sunday, 6 = Saturday).
+     * @example adapter.getDayOfWeek(2026-03-17) -> 2  // Tuesday
+     */
+    getDayOfWeek(date: TDate): 0 | 1 | 2 | 3 | 4 | 5 | 6
+
+    /**
+     * Converts the adapter's date type to a native JS `Date`.
+     * Used for interop with third-party APIs that expect a `Date`.
+     */
+    toDate(date: TDate): Date
+
+    /**
+     * Constructs an adapter date from a native JS `Date`.
+     * Time components are stripped  -  only the calendar date is kept.
+     */
+    fromDate(date: Date): TDate
+
+    /**
+     * Formats a date into a human-readable string using the browser-native
+     * `Intl.DateTimeFormat` API.
+     *
+     * @param date    - The date to format.
+     * @param options - `Intl.DateTimeFormatOptions` (e.g. `{ month: 'long', year: 'numeric' }`).
+     * @param locale  - Optional BCP 47 locale tag (e.g. `'fr-FR'`).
+     *   Falls back to the runtime's default locale when omitted.
+     */
+    format(date: TDate, options: Intl.DateTimeFormatOptions, locale?: string): string
+
+    // -------------------------------------------------------------------------
+    // Time accessors (for datetime picker support)
+    // -------------------------------------------------------------------------
+
+    /** Extracts the hour (0-23). */
+    getHours(date: TDate): number
+
+    /** Extracts the minute (0-59). */
+    getMinutes(date: TDate): number
+
+    /** Extracts the second (0-59). */
+    getSeconds(date: TDate): number
+
+    /**
+     * Returns a new date with the time set to the given hour, minute, and optional second.
+     * The date (year/month/day) is preserved from the input.
+     */
+    setTime(date: TDate, hour: number, minute: number, second?: number): TDate
+  }
 }

@@ -1,17 +1,17 @@
 import { describe, expect, test } from 'bun:test'
 import { createRegistryEntryCacheKey, isRegistryEntryAffectedByChangedPaths } from '../change-detection'
-import type { RegistryBuildContext } from '../types'
+import type { IRegistryBuildContext } from '../types'
 
 function createMockContext(
   overrides: { changedOnly?: boolean; changedPaths?: string[]; sources?: Record<string, { path: string }> } = {},
-): RegistryBuildContext {
+): IRegistryBuildContext {
   return {
     changedOnly: overrides.changedOnly ?? false,
     changedPaths: overrides.changedPaths ?? [],
     config: {
-      sources: (overrides.sources ?? {}) as RegistryBuildContext['config']['sources'],
+      sources: (overrides.sources ?? {}) as IRegistryBuildContext['config']['sources'],
     },
-  } as unknown as RegistryBuildContext
+  } as unknown as IRegistryBuildContext
 }
 
 describe('createRegistryEntryCacheKey', () => {

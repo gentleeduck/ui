@@ -1,16 +1,10 @@
-export const duckEasing = {
-  standard: 'cubic-bezier(0.4, 0, 0.2, 1)',
-  spring: 'cubic-bezier(1, 0.23995, 0, 1.65)',
-} as const
-
-export const duckDuration = {
-  instant: 0,
-  fast: 150,
-  normal: 200,
-  slow: 300,
-} as const
-
-export const duckMotionCssVar = {
-  duration: 'var(--duck-motion-dur, 150ms)',
-  easing: 'var(--duck-motion-ease, cubic-bezier(0.4, 0, 0.2, 1))',
-} as const
+/**
+ * Backward-compat re-exports. Prefer importing directly from '@gentleduck/motion/transitions'.
+ * - duckEasing  → duckMotionEasingCss  (CSS string form)
+ * - duckDuration → duckMotionDurationMs (millisecond integers)
+ */
+export {
+  duckMotionCssVar,
+  duckMotionDurationMs as duckDuration,
+  duckMotionEasingCss as duckEasing,
+} from './transitions/tweens'

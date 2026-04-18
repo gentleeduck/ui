@@ -5,7 +5,7 @@
  * @param arr     - The array to partition.
  * @returns An array of sub-arrays.
  */
-export function groupArrays<T>(numbers: number[], arr: T[]): T[][] {
+export function groupArrays<T>(numbers: readonly number[], arr: readonly T[]): T[][] {
   const result: T[][] = []
   let index = 0
 

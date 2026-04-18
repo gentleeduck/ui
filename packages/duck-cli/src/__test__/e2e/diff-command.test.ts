@@ -22,16 +22,16 @@ vi.mock('execa', () => ({
   execa: vi.fn().mockResolvedValue({ failed: false, stdout: '', stderr: '' }),
 }))
 
-// Mock get_package_manager
+// Mock getPackageManager
 vi.mock('~/utils/get-package-manager', () => ({
-  get_package_manager: vi.fn().mockResolvedValue('npm'),
+  getPackageManager: vi.fn().mockResolvedValue('npm'),
 }))
 
 // Mock prompts
 const mockPrompts = vi.fn()
 vi.mock('prompts', () => ({ default: mockPrompts }))
 
-describe('diff_command_action', () => {
+describe('diffCommandAction', () => {
   let tmpDir: string
   const originalCwd = process.cwd
   let exitCodes: number[]
@@ -90,9 +90,9 @@ describe('diff_command_action', () => {
     fs.mkdirSync(path.join(tmpDir, 'src', 'ui', 'button'), { recursive: true })
     fs.writeFileSync(path.join(tmpDir, 'src', 'ui', 'button', 'button.tsx'), 'export function Button() { return null }')
 
-    const { diff_command_action } = await import('~/commands/diff/diff.libs')
+    const { diffCommandAction } = await import('~/commands/diff/diff.libs')
 
-    await expect(diff_command_action(['button'], { cwd: tmpDir, gui: false })).rejects.toThrow(/process\.exit/)
+    await expect(diffCommandAction(['button'], { cwd: tmpDir, gui: false })).rejects.toThrow(/process\.exit/)
 
     // Exit code 0 means identical
     expect(exitCodes[0]).toBe(0)
@@ -106,26 +106,26 @@ describe('diff_command_action', () => {
       'export function Button() { return <div>modified</div> }',
     )
 
-    const { diff_command_action } = await import('~/commands/diff/diff.libs')
+    const { diffCommandAction } = await import('~/commands/diff/diff.libs')
 
-    await expect(diff_command_action(['button'], { cwd: tmpDir, gui: false })).rejects.toThrow(/process\.exit/)
+    await expect(diffCommandAction(['button'], { cwd: tmpDir, gui: false })).rejects.toThrow(/process\.exit/)
 
     // Exit code 1 means diffs found
     expect(exitCodes[0]).toBe(1)
   })
 
   it('fails when specified component is not installed', async () => {
-    const { diff_command_action } = await import('~/commands/diff/diff.libs')
+    const { diffCommandAction } = await import('~/commands/diff/diff.libs')
 
-    await expect(diff_command_action(['nonexistent'], { cwd: tmpDir, gui: false })).rejects.toThrow(/process\.exit/)
+    await expect(diffCommandAction(['nonexistent'], { cwd: tmpDir, gui: false })).rejects.toThrow(/process\.exit/)
 
     expect(exitCodes[0]).toBe(1)
   })
 
   it('exits 1 when no components are installed', async () => {
-    const { diff_command_action } = await import('~/commands/diff/diff.libs')
+    const { diffCommandAction } = await import('~/commands/diff/diff.libs')
 
-    await expect(diff_command_action([], { cwd: tmpDir, gui: false })).rejects.toThrow(/process\.exit/)
+    await expect(diffCommandAction([], { cwd: tmpDir, gui: false })).rejects.toThrow(/process\.exit/)
 
     expect(exitCodes[0]).toBe(1)
   })
@@ -139,9 +139,9 @@ describe('diff_command_action', () => {
       'export function CustomVariant() {}',
     )
 
-    const { diff_command_action } = await import('~/commands/diff/diff.libs')
+    const { diffCommandAction } = await import('~/commands/diff/diff.libs')
 
-    await expect(diff_command_action(['button'], { cwd: tmpDir, gui: false })).rejects.toThrow(/process\.exit/)
+    await expect(diffCommandAction(['button'], { cwd: tmpDir, gui: false })).rejects.toThrow(/process\.exit/)
 
     // Extra local file means not identical
     expect(exitCodes[0]).toBe(1)
@@ -151,9 +151,9 @@ describe('diff_command_action', () => {
     // Create component directory but without the expected file
     fs.mkdirSync(path.join(tmpDir, 'src', 'ui', 'button'), { recursive: true })
 
-    const { diff_command_action } = await import('~/commands/diff/diff.libs')
+    const { diffCommandAction } = await import('~/commands/diff/diff.libs')
 
-    await expect(diff_command_action(['button'], { cwd: tmpDir, gui: false })).rejects.toThrow(/process\.exit/)
+    await expect(diffCommandAction(['button'], { cwd: tmpDir, gui: false })).rejects.toThrow(/process\.exit/)
 
     // Missing file means not identical
     expect(exitCodes[0]).toBe(1)
@@ -171,9 +171,9 @@ describe('diff_command_action', () => {
       'export function Input() { return <div>custom</div> }',
     )
 
-    const { diff_command_action } = await import('~/commands/diff/diff.libs')
+    const { diffCommandAction } = await import('~/commands/diff/diff.libs')
 
-    await expect(diff_command_action(['button', 'input'], { cwd: tmpDir, gui: false })).rejects.toThrow(/process\.exit/)
+    await expect(diffCommandAction(['button', 'input'], { cwd: tmpDir, gui: false })).rejects.toThrow(/process\.exit/)
 
     // Any diff means exit code 1
     expect(exitCodes[0]).toBe(1)
@@ -211,9 +211,9 @@ describe('diff_command_action', () => {
       'export function Button() { return null }',
     )
 
-    const { diff_command_action } = await import('~/commands/diff/diff.libs')
+    const { diffCommandAction } = await import('~/commands/diff/diff.libs')
 
-    await expect(diff_command_action(['button'], { cwd: tmpDir, workspace: 'apps/web', gui: false })).rejects.toThrow(
+    await expect(diffCommandAction(['button'], { cwd: tmpDir, workspace: 'apps/web', gui: false })).rejects.toThrow(
       /process\.exit/,
     )
 
@@ -237,11 +237,11 @@ describe('diff_command_action', () => {
       }),
     )
 
-    const { diff_command_action } = await import('~/commands/diff/diff.libs')
+    const { diffCommandAction } = await import('~/commands/diff/diff.libs')
 
-    await expect(
-      diff_command_action(['button'], { cwd: tmpDir, workspace: 'apps/missing', gui: false }),
-    ).rejects.toThrow(/process\.exit/)
+    await expect(diffCommandAction(['button'], { cwd: tmpDir, workspace: 'apps/missing', gui: false })).rejects.toThrow(
+      /process\.exit/,
+    )
 
     expect(exitCodes[0]).toBe(1)
   })

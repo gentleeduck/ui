@@ -1,15 +1,11 @@
-/** MenubarPortal renders menu content into a React portal. */
 import type * as React from 'react'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './menubar'
 import { useMenuScope } from './menubar'
+import type { IMenubar } from './menubar.types'
 
 const PORTAL_NAME = 'MenubarPortal'
 
-type MenuPortalProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Portal>
-interface MenubarPortalProps extends MenuPortalProps {}
-
-const MenubarPortal: React.FC<MenubarPortalProps> = (props: ScopedProps<MenubarPortalProps>) => {
+const MenubarPortal: React.FC<IMenubar.IPortalProps> = (props: IMenubar.IScoped<IMenubar.IPortalProps>) => {
   const { __scopeMenubar, ...portalProps } = props
   const menuScope = useMenuScope(__scopeMenubar)
   return <MenuPrimitive.Portal {...menuScope} {...portalProps} />
@@ -17,5 +13,4 @@ const MenubarPortal: React.FC<MenubarPortalProps> = (props: ScopedProps<MenubarP
 
 MenubarPortal.displayName = PORTAL_NAME
 
-export type { MenubarPortalProps }
 export { MenubarPortal }

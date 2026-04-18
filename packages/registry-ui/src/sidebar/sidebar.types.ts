@@ -1,9 +1,9 @@
-import type { Direction } from '@gentleduck/primitives/direction'
+import type { IDirection } from '@gentleduck/primitives/direction'
 import type { Dispatch, SetStateAction } from 'react'
 
-export type SidebarDirection = Direction
+export type SidebarDirection = IDirection.Kind
 
-export type SidebarContextProps = {
+export interface ISidebarContextProps {
   state: 'expanded' | 'collapsed'
   open: boolean
   setOpen: Dispatch<SetStateAction<boolean>>
@@ -13,16 +13,20 @@ export type SidebarContextProps = {
   toggleSidebar: () => void
   dir: SidebarDirection
 }
-export type SidebarProviderProps = React.ComponentProps<'div'> & {
+export type SidebarContextProps = ISidebarContextProps
+
+export interface ISidebarProviderProps extends React.ComponentProps<'div'> {
   defaultOpen?: boolean
   open?: boolean
   onOpenChange?: (open: boolean) => void
 }
+export type SidebarProviderProps = ISidebarProviderProps
 
-export type SidebarProps = React.ComponentProps<'div'> & {
+export interface ISidebarProps extends React.ComponentProps<'div'> {
   side?: 'left' | 'right'
   variant?: 'sidebar' | 'floating' | 'inset'
   collapsible?: 'offcanvas' | 'icon' | 'none'
   mobileTitle?: string
   mobileDescription?: string
 }
+export type SidebarProps = ISidebarProps

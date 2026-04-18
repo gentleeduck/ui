@@ -1,31 +1,32 @@
 import path from 'node:path'
-import { get_project_config } from '~/src/utils'
-import { compile_benchmark, render_benchmark } from '~/src/utils/compile-benchmark'
-import { list_files } from '~/src/utils/list-files'
+import { getProjectConfig } from '~/src/utils'
+import { compileBenchmark, renderBenchmark } from '~/src/utils/compile-benchmark'
+import { listFiles } from '~/src/utils/list-files'
 import { spinner as Spinner } from '~/src/utils/spinner'
-import { InitOptions, init_options_schema } from './init.dto'
+import type { InitOptions } from './init.dto'
+import { initOptionsSchema } from './init.dto'
 
-export async function init_command_action(opt: InitOptions) {
+export async function initCommandAction(opt: InitOptions) {
   const spinner = Spinner('Initializing...')
-  const options = init_options_schema.parse(opt)
+  const options = initOptionsSchema.parse(opt)
   const cwd = path.resolve(options.cwd)
 
   //NOTE: we added this prefix to the path hence we have this in the test project.
-  const config = await get_project_config(cwd + '/test/')
+  const config = await getProjectConfig(cwd + '/test/')
   if (!config) return
 
-  const entries_json = await list_files({
+  const entriesJson = await listFiles({
     cwds: [config.src],
     filter: ['button', 'vite-env.d.ts', 'main.tsx'],
     spinner,
   })
-  await compile_benchmark({ cwd, folders: entries_json, spinner })
-  await render_benchmark({ cwd, folders: entries_json, spinner })
+  await compileBenchmark({ cwd, folders: entriesJson, spinner })
+  await renderBenchmark({ cwd, folders: entriesJson, spinner })
 
   //TODO: make sure to compile each file in these folders.
   //TODO: get compile result and statics regarding each file in the folder.
   // logger.info({ args: ['Done.!'] })
 
   // spinner.succeed('Done!')
-  console.dir(entries_json, { depth: 11 })
+  console.dir(entriesJson, { depth: 11 })
 }

@@ -1,9 +1,9 @@
 import { runBannerPhase } from '../../pipeline/phases'
-import type { RegistryBuildExtension } from '../extension'
-import type { RegistryBuildBannerExtensionOptions } from './banner.types'
+import type { IRegistryBuildExtension } from '../extension'
+import type { IRegistryBuildBannerExtensionOptions } from './banner.types'
 
 /** Extension that prints a CLI banner before the build starts. */
-export function bannerExtension(options: RegistryBuildBannerExtensionOptions = {}): RegistryBuildExtension {
+export function bannerExtension(options: IRegistryBuildBannerExtensionOptions = {}): IRegistryBuildExtension {
   return {
     name: 'banner',
     run: (api) => runBannerPhase(api.context, options),

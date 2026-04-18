@@ -1,17 +1,14 @@
-/** ContextMenuGroup -- groups related menu items together. */
 import * as React from 'react'
 import * as MenuPrimitive from '../menu'
-import type { ScopedProps } from './context-menu'
 import { useMenuScope } from './context-menu'
+import type { IContextMenu } from './context-menu.types'
 
 const GROUP_NAME = 'ContextMenuGroup'
 
 type ContextMenuGroupElement = React.ComponentRef<typeof MenuPrimitive.Group>
-type MenuGroupProps = React.ComponentPropsWithoutRef<typeof MenuPrimitive.Group>
-interface ContextMenuGroupProps extends MenuGroupProps {}
 
-const ContextMenuGroup = React.forwardRef<ContextMenuGroupElement, ContextMenuGroupProps>(
-  (props: ScopedProps<ContextMenuGroupProps>, forwardedRef) => {
+const ContextMenuGroup = React.forwardRef<ContextMenuGroupElement, IContextMenu.IGroupProps>(
+  (props: IContextMenu.IScoped<IContextMenu.IGroupProps>, forwardedRef) => {
     const { __scopeContextMenu, ...groupProps } = props
     const menuScope = useMenuScope(__scopeContextMenu)
     return <MenuPrimitive.Group {...menuScope} {...groupProps} ref={forwardedRef} />
@@ -20,5 +17,4 @@ const ContextMenuGroup = React.forwardRef<ContextMenuGroupElement, ContextMenuGr
 
 ContextMenuGroup.displayName = GROUP_NAME
 
-export type { ContextMenuGroupProps }
 export { ContextMenuGroup }

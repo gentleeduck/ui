@@ -4,25 +4,25 @@ import fg from 'fast-glob'
 import fs from 'fs-extra'
 import type { Ora } from 'ora'
 import prompts from 'prompts'
-import { get_package_manager } from '../../get-package-manager'
+import { getPackageManager } from '../../get-package-manager'
 import { IGNORED_DIRECTORIES } from '../../get-project-info'
 import { highlighter } from '../../text-styling'
-import { duckui_prompts_schema, type PROJECT_TYPE } from '../preflight-duckui'
+import { duckuiPromptsSchema, type PROJECT_TYPE } from '../preflight-duckui'
 
 type ProjectType = (typeof PROJECT_TYPE)[number]
 
 import {
-  post_css_nextjs,
-  tailwindcss_boilerplate,
-  tailwindcss_install_prompts,
-  tailwindcss_vite,
+  POST_CSS_NEXTJS,
+  TAILWINDCSS_BOILERPLATE,
+  TAILWINDCSS_VITE,
+  tailwindcssInstallPrompts,
 } from './preflight-tailwindcss.constants'
 
 export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
   try {
     spinner.text = `${highlighter.info('Checking for TailwindCss...')}`
 
-    const styles_files = await fg.async('**.css', {
+    const stylesFiles = await fg.async('**.css', {
       cwd,
       deep: 3,
       globstar: true,
@@ -30,7 +30,7 @@ export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
       objectMode: true,
     })
 
-    for (const file of styles_files) {
+    for (const file of stylesFiles) {
       const content = await fs.readFile(path.join(cwd, file.path), 'utf-8')
       if (content.includes('@import "tailwindcss"')) {
         spinner.text = `${highlighter.info('TailwindCss is already installed...')}`
@@ -47,7 +47,7 @@ export async function checkTailwindCssInstalled(cwd: string, spinner: Ora) {
   }
 }
 
-export async function install_tailwindcss(
+export async function installTailwindcss(
   cwd: string,
   spinner: Ora,
   presetProjectType?: ProjectType,
@@ -55,33 +55,33 @@ export async function install_tailwindcss(
 ) {
   spinner.text = `${highlighter.info('Installing TailwindCSS...')}`
 
-  let project_type: ProjectType | undefined = presetProjectType
+  let projectType: ProjectType | undefined = presetProjectType
   let css: string | undefined = presetCss
 
-  if (!project_type || !css) {
+  if (!projectType || !css) {
     spinner.stop()
-    const options = await prompts(tailwindcss_install_prompts)
-    const parsed = duckui_prompts_schema.pick({ css: true, project_type: true }).parse(options)
-    project_type = project_type || parsed.project_type
+    const options = await prompts(tailwindcssInstallPrompts)
+    const parsed = duckuiPromptsSchema.pick({ css: true, projectType: true }).parse(options)
+    projectType = projectType || parsed.projectType
     css = css || parsed.css
     spinner.start()
   }
 
-  if (!project_type || !css) {
+  if (!projectType || !css) {
     spinner.fail(`${highlighter.error('No project type selected...')}`)
     return
   }
 
-  const packageManager = await get_package_manager(cwd)
-  const { failed: installation_step_1 } = await execa(
+  const packageManager = await getPackageManager(cwd)
+  const { failed: installationStep1 } = await execa(
     packageManager,
-    [packageManager === 'npm' ? 'install' : 'add', ...tailwindcss_dependencies(project_type, css, cwd)],
+    [packageManager === 'npm' ? 'install' : 'add', ...tailwindcssDependencies(projectType, css, cwd)],
     {
       cwd,
     },
   )
 
-  if (installation_step_1) {
+  if (installationStep1) {
     spinner.fail('Failed to install TailwindCSS dependencies')
     return
   }
@@ -89,34 +89,34 @@ export async function install_tailwindcss(
   spinner.text = `${highlighter.info('TailwindCSS is installed...')}`
 }
 
-export const tailwindcss_dependencies = (project_type: ProjectType, css_path: string, cwd: string) => {
+export const tailwindcssDependencies = (projectType: ProjectType, cssPath: string, cwd: string) => {
   try {
     let cssFile: string
 
-    // Check if css_path ends with .css (file path) or not (directory)
-    if (css_path.endsWith('.css')) {
-      cssFile = path.join(cwd, css_path)
+    // Check if cssPath ends with .css (file path) or not (directory)
+    if (cssPath.endsWith('.css')) {
+      cssFile = path.join(cwd, cssPath)
       fs.mkdirSync(path.dirname(cssFile), { recursive: true })
     } else {
-      const cssDir = path.join(cwd, css_path)
+      const cssDir = path.join(cwd, cssPath)
       fs.mkdirSync(cssDir, { recursive: true })
       cssFile = path.join(cssDir, 'styles.css')
     }
 
-    switch (project_type) {
+    switch (projectType) {
       case 'NEXT_JS':
-        write_postcss_config(cwd)
-        write_css_file(cssFile)
+        writePostcssConfig(cwd)
+        writeCssFile(cssFile)
         return ['tailwindcss', 'postcss', '@tailwindcss/postcss', 'tw-animate-css']
 
       case 'VITE':
       case 'TANSTACK_START':
-        write_vite_config(cwd)
-        write_css_file(cssFile)
+        writeViteConfig(cwd)
+        writeCssFile(cssFile)
         return ['tailwindcss', '@tailwindcss/vite', 'tw-animate-css']
 
       default:
-        write_css_file(cssFile)
+        writeCssFile(cssFile)
         return ['tailwindcss', 'tw-animate-css']
     }
   } catch (error) {
@@ -131,17 +131,17 @@ export const tailwindcss_dependencies = (project_type: ProjectType, css_path: st
  * - If the file exists with other content, prepend the Tailwind imports.
  * - If the file does not exist, create it with the boilerplate.
  */
-function write_css_file(cssFile: string) {
+function writeCssFile(cssFile: string) {
   if (fs.existsSync(cssFile)) {
     const existing = fs.readFileSync(cssFile, 'utf-8')
     if (existing.includes('@import "tailwindcss"')) {
       return
     }
     // Prepend the Tailwind boilerplate before existing content
-    fs.writeFileSync(cssFile, `${tailwindcss_boilerplate}\n${existing}`)
+    fs.writeFileSync(cssFile, `${TAILWINDCSS_BOILERPLATE}\n${existing}`)
     return
   }
-  fs.writeFileSync(cssFile, tailwindcss_boilerplate)
+  fs.writeFileSync(cssFile, TAILWINDCSS_BOILERPLATE)
 }
 
 /**
@@ -150,23 +150,23 @@ function write_css_file(cssFile: string) {
  * - If it already exists without it, inject the plugin.
  * - If it does not exist, create it.
  */
-function write_postcss_config(cwd: string) {
-  const config_path = find_config_file(cwd, ['postcss.config.mjs', 'postcss.config.js', 'postcss.config.cjs'])
+function writePostcssConfig(cwd: string) {
+  const configPath = findConfigFile(cwd, ['postcss.config.mjs', 'postcss.config.js', 'postcss.config.cjs'])
 
-  if (config_path) {
-    const existing = fs.readFileSync(config_path, 'utf-8')
+  if (configPath) {
+    const existing = fs.readFileSync(configPath, 'utf-8')
     if (existing.includes('@tailwindcss/postcss')) {
       return
     }
     // Existing postcss config without tailwind - inject the plugin
-    const injected = inject_postcss_plugin(existing)
+    const injected = injectPostcssPlugin(existing)
     if (injected) {
-      fs.writeFileSync(config_path, injected)
+      fs.writeFileSync(configPath, injected)
       return
     }
   }
   // No config found, create fresh
-  fs.writeFileSync(path.join(cwd, 'postcss.config.mjs'), post_css_nextjs)
+  fs.writeFileSync(path.join(cwd, 'postcss.config.mjs'), POST_CSS_NEXTJS)
 }
 
 /**
@@ -175,29 +175,29 @@ function write_postcss_config(cwd: string) {
  * - If it already exists without it, inject the import + plugin.
  * - If it does not exist, create it.
  */
-function write_vite_config(cwd: string) {
-  const config_path = find_config_file(cwd, ['vite.config.ts', 'vite.config.js', 'vite.config.mts', 'vite.config.mjs'])
+function writeViteConfig(cwd: string) {
+  const configPath = findConfigFile(cwd, ['vite.config.ts', 'vite.config.js', 'vite.config.mts', 'vite.config.mjs'])
 
-  if (config_path) {
-    const existing = fs.readFileSync(config_path, 'utf-8')
+  if (configPath) {
+    const existing = fs.readFileSync(configPath, 'utf-8')
     if (existing.includes('@tailwindcss/vite') || existing.includes('tailwindcss')) {
       return
     }
     // Existing vite config without tailwind - inject the plugin
-    const injected = inject_vite_tailwind_plugin(existing)
+    const injected = injectViteTailwindPlugin(existing)
     if (injected) {
-      fs.writeFileSync(config_path, injected)
+      fs.writeFileSync(configPath, injected)
       return
     }
   }
   // No config found, create fresh
-  fs.writeFileSync(path.join(cwd, 'vite.config.ts'), tailwindcss_vite)
+  fs.writeFileSync(path.join(cwd, 'vite.config.ts'), TAILWINDCSS_VITE)
 }
 
 /**
  * Find the first config file that exists from a list of candidates.
  */
-function find_config_file(cwd: string, candidates: string[]): string | null {
+function findConfigFile(cwd: string, candidates: string[]): string | null {
   for (const name of candidates) {
     const full = path.join(cwd, name)
     if (fs.existsSync(full)) {
@@ -211,15 +211,15 @@ function find_config_file(cwd: string, candidates: string[]): string | null {
  * Inject `@tailwindcss/postcss` into an existing PostCSS config.
  * Looks for a `plugins` object and adds the entry.
  */
-function inject_postcss_plugin(content: string): string | null {
+function injectPostcssPlugin(content: string): string | null {
   // Find the plugins object and add our plugin
-  const plugins_match = content.match(/plugins\s*:\s*\{/)
-  if (!plugins_match || plugins_match.index === undefined) {
+  const pluginsMatch = content.match(/plugins\s*:\s*\{/)
+  if (!pluginsMatch || pluginsMatch.index === undefined) {
     return null
   }
-  const insert_pos = plugins_match.index + plugins_match[0].length
-  const before = content.slice(0, insert_pos)
-  const after = content.slice(insert_pos)
+  const insertPos = pluginsMatch.index + pluginsMatch[0].length
+  const before = content.slice(0, insertPos)
+  const after = content.slice(insertPos)
   return `${before}\n    "@tailwindcss/postcss": {},${after}`
 }
 
@@ -227,33 +227,33 @@ function inject_postcss_plugin(content: string): string | null {
  * Inject the Tailwind CSS Vite plugin into an existing vite config.
  * Adds the import at the top and the plugin in the plugins array.
  */
-function inject_vite_tailwind_plugin(content: string): string | null {
+function injectViteTailwindPlugin(content: string): string | null {
   // Add import at top (after last import statement)
-  const import_lines = content.split('\n')
-  let last_import_index = -1
-  for (const [index, line] of import_lines.entries()) {
+  const importLines = content.split('\n')
+  let lastImportIndex = -1
+  for (const [index, line] of importLines.entries()) {
     if (line.trimStart().startsWith('import ')) {
-      last_import_index = index
+      lastImportIndex = index
     }
   }
 
-  const import_statement = "import tailwindcss from '@tailwindcss/vite'"
-  if (last_import_index >= 0) {
-    import_lines.splice(last_import_index + 1, 0, import_statement)
+  const importStatement = "import tailwindcss from '@tailwindcss/vite'"
+  if (lastImportIndex >= 0) {
+    importLines.splice(lastImportIndex + 1, 0, importStatement)
   } else {
-    import_lines.unshift(import_statement)
+    importLines.unshift(importStatement)
   }
 
-  let updated = import_lines.join('\n')
+  let updated = importLines.join('\n')
 
   // Add plugin to plugins array
-  const plugins_match = updated.match(/plugins\s*:\s*\[/)
-  if (!plugins_match || plugins_match.index === undefined) {
+  const pluginsMatch = updated.match(/plugins\s*:\s*\[/)
+  if (!pluginsMatch || pluginsMatch.index === undefined) {
     return null
   }
-  const insert_pos = plugins_match.index + plugins_match[0].length
-  const before = updated.slice(0, insert_pos)
-  const after = updated.slice(insert_pos)
+  const insertPos = pluginsMatch.index + pluginsMatch[0].length
+  const before = updated.slice(0, insertPos)
+  const after = updated.slice(insertPos)
   updated = `${before}\n      tailwindcss(),${after}`
 
   return updated

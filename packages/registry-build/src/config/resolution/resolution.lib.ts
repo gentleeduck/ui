@@ -1,19 +1,19 @@
-import type { RegistryBuildThemeEntry } from '../../extensions/ui/ui.config.types'
+import type { IRegistryBuildThemeEntry } from '../../extensions/ui/ui.config.types'
 import type { RegistryItemType, RegistryItemTypeMap } from '../../extensions/ui/ui.registry.types'
 import { DEFAULT_SOURCE_GLOB, DEFAULT_SOURCE_IGNORE, DEFAULT_SOURCE_INDEX_STRATEGY } from '../defaults'
 import { resolveFrom } from '../loader/loader.path'
 import type {
-  RegistryBuildCollection,
-  RegistryBuildConfig,
-  RegistryBuildSource,
-  ResolvedRegistryBuildCollection,
-  ResolvedRegistryBuildSource,
+  IRegistryBuildCollection,
+  IRegistryBuildConfig,
+  IRegistryBuildSource,
+  IResolvedRegistryBuildCollection,
+  IResolvedRegistryBuildSource,
 } from '../types'
 
 /**
  * Infer declared item types from every config section that can mention them.
  */
-export function deriveDeclaredItemTypes(config: RegistryBuildConfig): RegistryItemType[] {
+export function deriveDeclaredItemTypes(config: IRegistryBuildConfig): RegistryItemType[] {
   return [
     ...new Set<RegistryItemType>([
       ...((config.schema?.itemTypes ?? []) as RegistryItemType[]),
@@ -29,7 +29,7 @@ export function deriveDeclaredItemTypes(config: RegistryBuildConfig): RegistryIt
  * Materialize compatibility collections from the legacy top-level `registries`
  * field so newer collection-aware tooling can still inspect them.
  */
-export function deriveLegacyCollections(config: RegistryBuildConfig): Record<string, RegistryBuildCollection> {
+export function deriveLegacyCollections(config: IRegistryBuildConfig): Record<string, IRegistryBuildCollection> {
   return Object.fromEntries(
     Object.entries(config.registries ?? {}).map(([name, entries]) => {
       const itemTypes = [...new Set(entries.map((entry) => entry.type))].sort((left, right) =>
@@ -52,7 +52,7 @@ export function deriveLegacyCollections(config: RegistryBuildConfig): Record<str
             itemTypes,
           },
           sources,
-        } satisfies RegistryBuildCollection,
+        } satisfies IRegistryBuildCollection,
       ] as const
     }),
   )
@@ -61,7 +61,7 @@ export function deriveLegacyCollections(config: RegistryBuildConfig): Record<str
 /**
  * Derive CSS variable keys from theme payloads when the user did not pin them.
  */
-export function deriveThemeCssVarKeys(themes: Record<string, RegistryBuildThemeEntry>) {
+export function deriveThemeCssVarKeys(themes: Record<string, IRegistryBuildThemeEntry>) {
   return [
     ...new Set(
       Object.values(themes).flatMap((entry) => [...Object.keys(entry.light ?? {}), ...Object.keys(entry.dark ?? {})]),
@@ -72,7 +72,7 @@ export function deriveThemeCssVarKeys(themes: Record<string, RegistryBuildThemeE
 /**
  * Apply source defaults and path resolution for collection-owned sources.
  */
-export function resolveCollectionSources(configDir: string, collections: Record<string, RegistryBuildCollection>) {
+export function resolveCollectionSources(configDir: string, collections: Record<string, IRegistryBuildCollection>) {
   return Object.fromEntries(
     Object.entries(collections).map(([name, collection]) => [
       name,
@@ -86,7 +86,7 @@ export function resolveCollectionSources(configDir: string, collections: Record<
             {
               ...source,
               glob: source.glob ?? DEFAULT_SOURCE_GLOB,
-              ignore: source.ignore ?? [...DEFAULT_SOURCE_IGNORE],
+              ignore: [...new Set([...DEFAULT_SOURCE_IGNORE, ...(source.ignore ?? [])])],
               indexStrategy: source.indexStrategy ?? DEFAULT_SOURCE_INDEX_STRATEGY,
               path: resolveFrom(configDir, source.path),
             },
@@ -94,14 +94,14 @@ export function resolveCollectionSources(configDir: string, collections: Record<
         ),
       },
     ]),
-  ) as Record<string, ResolvedRegistryBuildCollection>
+  ) as Record<string, IResolvedRegistryBuildCollection>
 }
 
 /**
  * Apply source defaults and path resolution for the legacy top-level sources.
  */
-export function resolveSources(configDir: string, sources: RegistryItemTypeMap<RegistryBuildSource>) {
-  const sourceEntries = Object.entries(sources).filter((entry): entry is [string, RegistryBuildSource] => {
+export function resolveSources(configDir: string, sources: RegistryItemTypeMap<IRegistryBuildSource>) {
+  const sourceEntries = Object.entries(sources).filter((entry): entry is [string, IRegistryBuildSource] => {
     return typeof entry[1] === 'object' && entry[1] !== null
   })
 
@@ -111,10 +111,10 @@ export function resolveSources(configDir: string, sources: RegistryItemTypeMap<R
       {
         ...source,
         glob: source.glob ?? DEFAULT_SOURCE_GLOB,
-        ignore: source.ignore ?? [...DEFAULT_SOURCE_IGNORE],
+        ignore: [...new Set([...DEFAULT_SOURCE_IGNORE, ...(source.ignore ?? [])])],
         indexStrategy: source.indexStrategy ?? DEFAULT_SOURCE_INDEX_STRATEGY,
         path: resolveFrom(configDir, source.path),
       },
     ]),
-  ) as RegistryItemTypeMap<ResolvedRegistryBuildSource>
+  ) as RegistryItemTypeMap<IResolvedRegistryBuildSource>
 }

@@ -4,11 +4,11 @@ import { THEME } from '../app.constants'
 
 type FileTabsProps = {
   files: string[]
-  active_index: number
+  activeIndex: number
 }
 
 /** Horizontal file tab bar with the active file shown bold and underlined. */
-export const FileTabs = memo(function FileTabs({ files, active_index }: FileTabsProps) {
+export const FileTabs = memo(function FileTabs({ files, activeIndex }: FileTabsProps) {
   if (files.length <= 1) return null
 
   return (
@@ -17,9 +17,9 @@ export const FileTabs = memo(function FileTabs({ files, active_index }: FileTabs
       {files.map((file, i) => (
         <Text
           key={file}
-          bold={i === active_index}
-          color={i === active_index ? THEME.foreground : THEME.mutedForeground}
-          underline={i === active_index}>
+          bold={i === activeIndex}
+          color={i === activeIndex ? THEME.foreground : THEME.mutedForeground}
+          underline={i === activeIndex}>
           {file}
         </Text>
       ))}

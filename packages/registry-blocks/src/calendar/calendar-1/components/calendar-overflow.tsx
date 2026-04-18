@@ -6,7 +6,7 @@ import type { CalendarEvent } from '../calendar-data'
 import { CalendarEventChip } from './calendar-event-chip'
 import { CalendarEventDetail } from './calendar-event-detail'
 
-interface CalendarOverflowProps {
+interface ICalendarOverflowProps {
   events: CalendarEvent[]
   hiddenCount: number
   open: boolean
@@ -46,7 +46,7 @@ export function CalendarOverflow({
   onOpenChange,
   onEditEvent,
   onDeleteEvent,
-}: CalendarOverflowProps) {
+}: ICalendarOverflowProps) {
   return (
     <Popover open={open} onOpenChange={onOpenChange}>
       <PopoverTrigger asChild>
