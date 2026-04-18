@@ -25,7 +25,9 @@ const totalCostConfig = {
   css: { label: 'CSS (KB)', color: 'var(--chart-2)' },
 } satisfies ChartConfig
 
-const totalCost = (data as Record<string, unknown>)['totalCost'] as { name: string; js: number; css: number }[] | undefined
+const totalCost = (data as Record<string, unknown>)['totalCost'] as
+  | { name: string; js: number; css: number }[]
+  | undefined
 
 export default function CalendarBenchmarkVs() {
   const [tab, setTab] = React.useState<Tab>('Bundle Size')

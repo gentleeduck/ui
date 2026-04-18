@@ -43,10 +43,15 @@ MotionAccordionItem.displayName = 'MotionAccordionItem'
 
 const MotionAccordion = React.forwardRef<HTMLDivElement, IAccordionProps>(({ children, ...props }, ref) => {
   let index = 0
+  const total = React.Children.toArray(children).filter(
+    (child) => React.isValidElement(child) && child.type === MotionAccordionItem,
+  ).length
+
   const injectIndex = (child: React.ReactNode): React.ReactNode => {
     if (React.isValidElement(child) && child.type === MotionAccordionItem) {
-      return React.cloneElement(child as React.ReactElement<{ index?: number }>, {
+      return React.cloneElement(child as React.ReactElement<{ index?: number; total?: number }>, {
         index: index++,
+        total,
       })
     }
 

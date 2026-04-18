@@ -1,18 +1,37 @@
 import type { MotionTransitionConfig } from '../presets/types'
-import { duckDuration } from '../tokens'
 
-/** Duck duration values converted to seconds. */
-export const duckMotionDuration = {
+/** Duck duration values in milliseconds (integers). Single source of truth for timing tokens. */
+export const duckMotionDurationMs = {
   instant: 0,
-  fast: duckDuration.fast / 1000,
-  normal: duckDuration.normal / 1000,
-  slow: duckDuration.slow / 1000,
+  fast: 150,
+  normal: 200,
+  slow: 300,
 } as const
 
-/** Duck easing values as cubic-bezier arrays. */
+/** Duck duration values in seconds (for motion libraries). Derived from duckMotionDurationMs. */
+export const duckMotionDuration = {
+  instant: 0,
+  fast: duckMotionDurationMs.fast / 1000,
+  normal: duckMotionDurationMs.normal / 1000,
+  slow: duckMotionDurationMs.slow / 1000,
+} as const
+
+/** Duck easing values as cubic-bezier arrays (for motion libraries). */
 export const duckMotionEasing = {
   standard: [0.4, 0, 0.2, 1] as const,
   spring: [1, 0.23995, 0, 1.65] as const,
+} as const
+
+/** Duck easing values as CSS cubic-bezier strings (for CSS transitions). */
+export const duckMotionEasingCss = {
+  standard: 'cubic-bezier(0.4, 0, 0.2, 1)',
+  spring: 'cubic-bezier(1, 0.23995, 0, 1.65)',
+} as const
+
+/** CSS custom properties for motion, with fallbacks matching the token defaults. */
+export const duckMotionCssVar = {
+  duration: `var(--gentleduck-motion-dur, ${duckMotionDurationMs.fast}ms)`,
+  easing: `var(--gentleduck-motion-ease, ${duckMotionEasingCss.standard})`,
 } as const
 
 /** Standard cubic-bezier ease for tween transitions. Shared across fast/normal/slow tweens. */
