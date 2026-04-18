@@ -1,3 +1,4 @@
+import type { Variants } from '@gentleduck/variants'
 import { cva } from '@gentleduck/variants'
 
 /**
@@ -27,3 +28,5 @@ export const AnimVariants = cva('', {
     },
   },
 })
+
+export type AnimVariantsProps = Variants.VariantProps<typeof AnimVariants>
