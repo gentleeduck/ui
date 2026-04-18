@@ -45,18 +45,18 @@ These types are exported from `@gentleduck/calendar` and used across the API:
 
 | Type | Description |
 | :--- | :--- |
-| `DateAdapter<TDate>` | Interface for pluggable date backends |
-| `CalendarConfig<TDate, M>` | Full calendar configuration |
-| `CalendarLocaleConfig` | Locale settings (locale tag, week start day, direction, numbering system, calendar) |
-| `CalendarValue<TDate, M>` | Conditional type resolving per selection mode |
-| `CalendarDay<TDate>` | Day cell with selection/state flags |
-| `CalendarWeek<TDate>` | Week with weekNumber + 7 days |
-| `CalendarMonth<TDate>` | Month grid with weeks |
-| `SelectionMode` | `'single' \| 'range' \| 'multi'` |
-| `SelectionConstraints` | Disabled dates and date bounds |
-| `DateRange<TDate>` | `{ from: TDate, to: TDate \| null }` |
-| `NavigationDirection` | `'prev' \| 'next'` |
-| `NavigationUnit` | `'month' \| 'year' \| 'decade'` |
+| `Adapter.IDateAdapter<TDate>` | Interface for pluggable date backends |
+| `Calendar.ICalendarConfig<TDate, M>` | Full calendar configuration |
+| `Calendar.ICalendarLocaleConfig` | Locale settings (locale tag, week start day, direction, numbering system, calendar) |
+| `Selection.CalendarValue<TDate, M>` | Conditional type resolving per selection mode |
+| `Grid.ICalendarDay<TDate>` | Day cell with selection/state flags |
+| `Grid.ICalendarWeek<TDate>` | Week with weekNumber + 7 days |
+| `Grid.ICalendarMonth<TDate>` | Month grid with weeks |
+| `Selection.SelectionMode` | `'single' \| 'range' \| 'multi'` |
+| `Selection.ISelectionConstraints<TDate>` | Disabled dates and date bounds |
+| `Selection.DateRange<TDate>` | `{ from: TDate, to: TDate \| null }` |
+| `Navigation.Direction` | `'prev' \| 'next'` |
+| `Navigation.Unit` | `'month' \| 'year' \| 'decade'` |
 | `DayProps` | Props returned by `getDayProps` |
 | `GridProps` | Props returned by `getGridProps` |
 | `NavProps` | Props returned by `getNavProps` |
@@ -65,17 +65,17 @@ These types are exported from `@gentleduck/calendar` and used across the API:
 | `KeyboardConfig` | Configuration for the keyboard navigation hook |
 | `KeyboardReturn` | Return type of `useKeyboard` |
 | `TimeFieldProps` | Props returned by `getFieldProps` |
-| `TimeValue` | `{ hour, minute, second? }` |
-| `TimeField` | `'hour' \| 'minute' \| 'second' \| 'ampm'` |
-| `HourCycle` | `'12' \| '24'` |
-| `TimePickerConfig` | Configuration for the time picker |
+| `Time.ITimeValue` | `{ hour, minute, second? }` |
+| `Time.ITimeField` | `'hour' \| 'minute' \| 'second' \| 'ampm'` |
+| `Time.IHourCycle` | `'12' \| '24'` |
+| `Time.ITimePickerConfig` | Configuration for the time picker |
 | `UseCalendarConfig` | Configuration accepted by `useCalendar` |
 | `UseCalendarReturn` | Return type of `useCalendar` |
 | `UseTimePickerConfig` | Configuration accepted by `useTimePicker` |
 | `UseTimePickerReturn` | Return type of `useTimePicker` |
 | `UseDateTimeConfig` | Configuration accepted by `useDateTime` |
 | `UseDateTimeReturn` | Return type of `useDateTime` |
-| `ViewMode` | `'days' \| 'months' \| 'years'` |
-| `WeekStartDay` | Numeric day used as the first day of the week |
-| `DecadeEntry` | Entry in the decade view grid |
-| `YearEntry` | Entry in the year view grid |
+| `Calendar.ViewMode` | `'days' \| 'months' \| 'years'` |
+| `Adapter.WeekStartDay` | Numeric day used as the first day of the week |
+| `Grid.IDecadeEntry` | Entry in the decade view grid |
+| `Grid.IYearEntry` | Entry in the year view grid |

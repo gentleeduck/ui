@@ -21,17 +21,17 @@ const { state, actions, getDayProps, getGridProps, getNavProps, getHeaderProps, 
 
 ## Config
 
-`useCalendar` accepts a `UseCalendarConfig<TDate, M>` object:
+`useCalendar` accepts a `UseCalendar.IConfig<TDate, M>` object:
 
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `adapter` | `DateAdapter<TDate>` | **required** | Date adapter instance |
-| `mode` | `SelectionMode` | **required** | `'single'`, `'range'`, `'multi'`, or `'multi-range'` |
-| `locale` | `CalendarLocaleConfig` | - | Locale, week start day, and direction |
+| `adapter` | `Adapter.IDateAdapter<TDate>` | **required** | Date adapter instance |
+| `mode` | `Selection.SelectionMode` | **required** | `'single'`, `'range'`, `'multi'`, or `'multi-range'` |
+| `locale` | `Calendar.ICalendarLocaleConfig` | - | Locale, week start day, and direction |
 | `month` | `TDate` | - | Controlled displayed month |
 | `defaultMonth` | `TDate` | `adapter.today()` | Default month (uncontrolled) |
-| `selected` | `CalendarValue<TDate, M>` | - | Controlled selection value |
-| `defaultSelected` | `CalendarValue<TDate, M>` | - | Default selection (uncontrolled) |
+| `selected` | `Selection.CalendarValue<TDate, M>` | - | Controlled selection value |
+| `defaultSelected` | `Selection.CalendarValue<TDate, M>` | - | Default selection (uncontrolled) |
 | `onSelect` | `(value) => void` | - | Called when selection changes |
 | `onMonthChange` | `(month) => void` | - | Called when displayed month changes |
 | `onDismiss` | `() => void` | - | Called on <Kbd>Escape</Kbd> |
@@ -42,7 +42,7 @@ const { state, actions, getDayProps, getGridProps, getNavProps, getHeaderProps, 
 | `fromDate` | `TDate` | - | Earliest selectable date |
 | `toDate` | `TDate` | - | Latest selectable date |
 
-#### `CalendarLocaleConfig`
+#### `Calendar.ICalendarLocaleConfig`
 
 | Property | Type | Description |
 | :--- | :--- | :--- |
@@ -59,11 +59,11 @@ const { state, actions, getDayProps, getGridProps, getNavProps, getHeaderProps, 
 | Property | Type | Description |
 | :--- | :--- | :--- |
 | `month` | `TDate` | Currently visible month |
-| `value` | `CalendarValue<TDate, M>` | Current selection. Shape depends on mode |
+| `value` | `Selection.CalendarValue<TDate, M>` | Current selection. Shape depends on mode |
 | `focusedDate` | `TDate` | Date with keyboard focus |
-| `viewMode` | `ViewMode` | `'days'`, `'months'`, or `'years'` |
+| `viewMode` | `Calendar.ViewMode` | `'days'`, `'months'`, or `'years'` |
 | `weeks` | `CalendarWeek<TDate>[]` | Decorated weeks for the first month |
-| `months` | `CalendarMonth<TDate>[]` | All month grids (for multi-month) |
+| `months` | `Grid.ICalendarMonth<TDate>[]` | All month grids (for multi-month) |
 | `weekdays` | `string[]` | Localized weekday labels (7 items) |
 | `canGoNext` | `boolean` | Forward navigation available (respects `toDate`) |
 | `canGoPrevious` | `boolean` | Backward navigation available (respects `fromDate`) |
@@ -73,7 +73,7 @@ const { state, actions, getDayProps, getGridProps, getNavProps, getHeaderProps, 
 | Method | Signature | Description |
 | :--- | :--- | :--- |
 | `setMonth` | `(month: TDate) => void` | Set displayed month |
-| `setViewMode` | `(mode: ViewMode) => void` | Switch between day/month/year view |
+| `setViewMode` | `(mode: Calendar.ViewMode) => void` | Switch between day/month/year view |
 | `goToNext` | `() => void` | Navigate to next month |
 | `goToPrevious` | `() => void` | Navigate to previous month |
 | `selectDate` | `(date: TDate) => void` | Select a date |
@@ -83,7 +83,7 @@ const { state, actions, getDayProps, getGridProps, getNavProps, getHeaderProps, 
 
 | Getter | Signature | Description |
 | :--- | :--- | :--- |
-| `getDayProps` | `(day: CalendarDay<TDate>) => DayProps` | Spread onto each day cell |
+| `getDayProps` | `(day: Grid.ICalendarDay<TDate>) => DayProps` | Spread onto each day cell |
 | `getGridProps` | `() => GridProps` | Spread onto the grid container |
 | `getNavProps` | `(direction: 'prev' \| 'next') => NavProps` | Spread onto nav buttons |
 | `getHeaderProps` | `() => HeaderProps` | Spread onto the month header |
@@ -128,6 +128,6 @@ const { state } = useCalendar({
   numberOfMonths: 2,
 })
 
-// state.months - array of CalendarMonth objects
+// state.months - array of Grid.ICalendarMonth objects
 // state.weeks - first month's weeks (backward compat)
 ```

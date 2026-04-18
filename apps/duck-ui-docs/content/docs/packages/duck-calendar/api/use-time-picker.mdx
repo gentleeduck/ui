@@ -5,6 +5,7 @@ description: "Time picker hook with spinbutton fields, keyboard input, and AM/PM
 
 ```tsx
 import { useTimePicker } from '@gentleduck/calendar'
+import type { Time, UseTimePicker } from '@gentleduck/calendar'
 ```
 
 ## Usage
@@ -35,15 +36,17 @@ function MyTimePicker() {
 
 ## Config
 
+`useTimePicker` accepts `UseTimePicker.IUseTimePickerConfig` (extends `Time.ITimePickerConfig`).
+
 | Prop | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `value` | `Time.ITimeValue` | - | Controlled time value |
 | `defaultValue` | `Time.ITimeValue` | `{ hour: 0, minute: 0 }` | Default time (uncontrolled) |
 | `onChange` | `(value: Time.ITimeValue) => void` | - | Called when time changes |
-| `hourCycle` | `Time.IHourCycle` | `'24'` | `'12'` or `'24'` hour display |
+| `hourCycle` | `Time.HourCycle` | `'24'` | `'12'` or `'24'` hour display |
 | `showSeconds` | `boolean` | `false` | Show the seconds field |
-| `minTime` | `TimeValue` | - | Minimum selectable time |
-| `maxTime` | `TimeValue` | - | Maximum selectable time |
+| `minTime` | `Time.ITimeValue` | - | Minimum selectable time |
+| `maxTime` | `Time.ITimeValue` | - | Maximum selectable time |
 | `minuteStep` | `number` | `1` | Step increment for minutes |
 | `secondStep` | `number` | `1` | Step increment for seconds |
 
@@ -51,13 +54,15 @@ function MyTimePicker() {
 
 ## Return value
 
+`useTimePicker` returns `UseTimePicker.IUseTimePickerReturn`.
+
 ### `state`
 
 | Property | Type | Description |
 | :--- | :--- | :--- |
 | `value` | `Time.ITimeValue` | Current time value `{ hour, minute, second? }` |
-| `focusedField` | `Time.ITimeField` | Currently focused field |
-| `hourCycle` | `Time.IHourCycle` | Active hour cycle |
+| `focusedField` | `Time.TimeField` | Currently focused field |
+| `hourCycle` | `Time.HourCycle` | Active hour cycle |
 | `displayHour` | `number` | Hour adjusted for 12h display |
 | `displayAmPm` | `'AM' \| 'PM'` | Current AM/PM value |
 
@@ -66,16 +71,16 @@ function MyTimePicker() {
 | Method | Signature | Description |
 | :--- | :--- | :--- |
 | `setValue` | `(value: Time.ITimeValue) => void` | Set the full time value |
-| `setField` | `(field, value) => void` | Set a single field |
-| `increment` | `(field, delta?) => void` | Increment a field |
-| `decrement` | `(field, delta?) => void` | Decrement a field |
+| `setField` | `(field: Time.TimeField, value: number) => void` | Set a single field |
+| `increment` | `(field: Time.TimeField, delta?: number) => void` | Increment a field |
+| `decrement` | `(field: Time.TimeField, delta?: number) => void` | Decrement a field |
 | `toggleAmPm` | `() => void` | Toggle between AM and PM |
-| `focusField` | `(field) => void` | Move focus to a field |
+| `focusField` | `(field: Time.TimeField) => void` | Move focus to a field |
 
 ### `getFieldProps`
 
 ```tsx
-getFieldProps(field: Time.ITimeField) => TimeFieldProps
+getFieldProps(field: Time.TimeField) => UseTimePicker.ITimeFieldProps
 ```
 
 Returns props to spread on each time field element:

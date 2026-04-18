@@ -323,7 +323,7 @@ Requires the `motion` package. Use `MotionCalendar` instead of `Calendar`. All p
 
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
-| `adapter` | `DateAdapter<Date>` | `NativeAdapter` | Date adapter for alternative calendar systems (Islamic, Persian, Hebrew) |
+| `adapter` | `Adapter.IDateAdapter<Date>` | `NativeAdapter` | Date adapter for alternative calendar systems (Islamic, Persian, Hebrew) |
 | `mode` | `'single' \| 'range' \| 'multi' \| 'multi-range'` | `'single'` | Selection mode |
 | `selected` | `Date \| DateRange<Date> \| Date[] \| null` | - | Controlled selection value |
 | `onSelect` | `(value) => void` | - | Called when the selection changes |
@@ -343,10 +343,10 @@ Requires the `motion` package. Use `MotionCalendar` instead of `Calendar`. All p
 | `buttonVariant` | `string` | `'ghost'` | Variant style for navigation buttons |
 | `onDismiss` | `() => void` | - | Called when the user presses Escape |
 | `className` | `string` | - | Additional CSS classes for the root container |
-| `renderDay` | `(day: CalendarDay<Date>, children: ReactNode) => ReactNode` | - | Custom render function for day cell content |
+| `renderDay` | `(day: Grid.ICalendarDay<Date>, children: ReactNode) => ReactNode` | - | Custom render function for day cell content |
 | `renderHeader` | `(context: CalendarHeaderContext) => ReactNode` | - | Custom render function for the navigation header |
 | `renderWeekday` | `(day: string, index: number) => ReactNode` | - | Custom render function for weekday column labels |
-| `renderFooter` | `(months: CalendarMonth<Date>[]) => ReactNode` | - | Render content below the calendar grid |
+| `renderFooter` | `(months: Grid.ICalendarMonth<Date>[]) => ReactNode` | - | Render content below the calendar grid |
 
 ### Render Props
 
@@ -354,7 +354,7 @@ The Calendar component exposes render props that let you customize every visual 
 
 #### renderDay
 
-Customize the content inside each day cell. Receives the `CalendarDay` object and the default children (the date number).
+Customize the content inside each day cell. Receives the `Grid.ICalendarDay` object and the default children (the date number).
 
 ```tsx showLineNumbers
 <Calendar
