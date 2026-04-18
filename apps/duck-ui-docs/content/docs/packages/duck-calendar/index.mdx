@@ -11,7 +11,7 @@ description: "Headless, framework-agnostic calendar engine with date adapter pat
 
 <MermaidDiagram chart={`
 graph TD
-  A["Core (Pure Functions)"] --> B["DateAdapter&lt;TDate&gt;"]
+  A["Core (Pure Functions)"] --> B["Adapter.IDateAdapter&lt;TDate&gt;"]
   A --> C["Grid Builder"]
   A --> D["Selection Logic"]
   A --> E["Navigation"]
@@ -44,7 +44,7 @@ We built this to replace `react-day-picker`. The numbers speak for themselves:
 
 <Step>**Core** - Pure functions for grid building, selection logic, and navigation. No React, no state, no side effects.</Step>
 
-<Step>**Adapter** - A `DateAdapter<TDate>` interface that abstracts date operations. Ships with a zero-dependency `NativeAdapter` for `Date`. Plug in dayjs, date-fns, or Temporal when needed.</Step>
+<Step>**Adapter** - A `Adapter.IDateAdapter<TDate>` interface that abstracts date operations. Ships with a zero-dependency `NativeAdapter` for `Date`. Plug in dayjs, date-fns, or Temporal when needed.</Step>
 
 <Step>**React hooks** - `useCalendar`, `useTimePicker`, `useDateTime` manage state and produce prop getters you spread onto your elements.</Step>
 
