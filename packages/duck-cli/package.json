@@ -41,11 +41,11 @@
     "@types/figlet": "^1.7.0",
     "@types/fs-extra": "^11.0.4",
     "@types/prompts": "^2.4.9",
-    "@types/react": "19.2.14",
+    "@types/react": "catalog:react19",
     "rimraf": "^6.0.1",
-    "tsdown": "0.21.4",
+    "tsdown": "catalog:",
     "type-fest": "^5.0.1",
-    "typescript": "6.0.2",
+    "typescript": "catalog:",
     "vitest": "catalog:"
   },
   "directories": {
