@@ -26,6 +26,7 @@ export { slideUp } from './slide-up'
 export { createTooltipPreset } from './tooltip'
 export type {
   Direction,
+  IDuckMotion,
   IMotionPreset,
   IMotionPresetResult,
   MotionAnimationState,

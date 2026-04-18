@@ -76,10 +76,8 @@ export function MotionProvider({
   const resolvedExitTransition: Transition | undefined = prefersReduced ? REDUCED_TRANSITION : exitTransition
 
   const contextValue = React.useMemo<IMotionConfigContextValue>(
-    () => ({ exitTransition: resolvedExitTransition }),
-    // biome-ignore lint/correctness/useExhaustiveDependencies: serialized for stable reference
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [JSON.stringify(resolvedExitTransition)],
+    () => (resolvedExitTransition !== undefined ? { exitTransition: resolvedExitTransition } : {}),
+    [resolvedExitTransition],
   )
 
   return (

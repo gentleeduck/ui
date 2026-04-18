@@ -1,5 +1,7 @@
 import { describe, expect, test } from 'bun:test'
+import type { IDuckMotion } from '../presets/types'
 import { duckDuration, duckEasing, duckMotionCssVar } from '../tokens'
+import { duckMotionDuration, duckMotionEasing } from '../transitions/tweens'
 
 describe('duckEasing', () => {
   test('standard is a valid cubic-bezier value', () => {
@@ -129,5 +131,53 @@ describe('duckMotionCssVar', () => {
 
   test('has exactly two CSS variable entries', () => {
     expect(Object.keys(duckMotionCssVar)).toEqual(['duration', 'easing'])
+  })
+})
+
+describe('duckMotionDuration (transitions canonical export)', () => {
+  test('is the canonical duration token in seconds', () => {
+    expect(duckMotionDuration.fast).toBeCloseTo(0.15)
+    expect(duckMotionDuration.normal).toBeCloseTo(0.2)
+    expect(duckMotionDuration.slow).toBeCloseTo(0.3)
+    expect(duckMotionDuration.instant).toBe(0)
+  })
+
+  test('derives from duckDuration (ms / 1000)', () => {
+    expect(duckMotionDuration.fast).toBe(duckDuration.fast / 1000)
+    expect(duckMotionDuration.normal).toBe(duckDuration.normal / 1000)
+    expect(duckMotionDuration.slow).toBe(duckDuration.slow / 1000)
+  })
+
+  test('has all four keys', () => {
+    expect(Object.keys(duckMotionDuration)).toEqual(['instant', 'fast', 'normal', 'slow'])
+  })
+})
+
+describe('duckMotionEasing (transitions canonical export)', () => {
+  test('has standard and spring keys', () => {
+    expect(Object.keys(duckMotionEasing)).toEqual(['standard', 'spring'])
+  })
+
+  test('standard is a 4-element array', () => {
+    expect(duckMotionEasing.standard).toHaveLength(4)
+    expect(duckMotionEasing.standard).toEqual([0.4, 0, 0.2, 1])
+  })
+
+  test('spring is a 4-element array with overshoot y-values', () => {
+    expect(duckMotionEasing.spring).toHaveLength(4)
+    const y2 = duckMotionEasing.spring[3]
+    expect(y2).toBeGreaterThan(1)
+  })
+})
+
+describe('IDuckMotion namespace', () => {
+  test('exists as a type namespace export (compile-time check)', () => {
+    // TypeScript-only check — if this file compiles, the namespace exists
+    type _testPreset = IDuckMotion.IPreset
+    type _testResult = IDuckMotion.IPresetResult
+    type _testOptions = IDuckMotion.IPresetOptions
+    type _testName = IDuckMotion.IPresetName
+    type _testDirection = IDuckMotion.IDirection
+    expect(true).toBe(true)
   })
 })
