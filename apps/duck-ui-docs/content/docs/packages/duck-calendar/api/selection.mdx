@@ -4,6 +4,7 @@ description: "Pure functions for computing and applying selection state to calen
 ---
 
 ```tsx
+import type { Selection, Adapter, Grid } from '@gentleduck/calendar'
 import { selectDay, applySelection } from '@gentleduck/calendar'
 ```
 
@@ -14,14 +15,14 @@ import { selectDay, applySelection } from '@gentleduck/calendar'
 Compute the new selection value when a user clicks a day. Pure function - does not mutate state.
 
 ```tsx
-selectDay(adapter: DateAdapter<TDate>, mode: SelectionMode, current: CalendarValue<TDate, M>, date: TDate, options?: { shiftKey?: boolean }) => CalendarValue<TDate, M>
+selectDay(adapter: Adapter.IDateAdapter<TDate>, mode: Selection.SelectionMode, current: Selection.CalendarValue<TDate, M>, date: TDate, options?: { shiftKey?: boolean }) => Selection.CalendarValue<TDate, M>
 ```
 
 | Param | Type | Description |
 | :--- | :--- | :--- |
-| `adapter` | `DateAdapter<TDate>` | Date adapter |
-| `mode` | `SelectionMode` | `'single'`, `'range'`, `'multi'`, or `'multi-range'` |
-| `current` | `CalendarValue<TDate, M>` | Current selection value |
+| `adapter` | `Adapter.IDateAdapter<TDate>` | Date adapter |
+| `mode` | `Selection.SelectionMode` | `'single'`, `'range'`, `'multi'`, or `'multi-range'` |
+| `current` | `Selection.CalendarValue<TDate, M>` | Current selection value |
 | `date` | `TDate` | The clicked date |
 | `options` | `{ shiftKey?: boolean }` | Optional. When `shiftKey` is true in `multi-range` mode, extends the last range |
 
@@ -30,9 +31,9 @@ selectDay(adapter: DateAdapter<TDate>, mode: SelectionMode, current: CalendarVal
 | Mode | Type | Description |
 | :--- | :--- | :--- |
 | `'single'` | `TDate \| null` | The selected date, or `null` |
-| `'range'` | `DateRange<TDate> \| null` | `{ from, to }` range object |
+| `'range'` | `Selection.DateRange<TDate> \| null` | `{ from, to }` range object |
 | `'multi'` | `TDate[]` | Array of selected dates |
-| `'multi-range'` | `DateRange<TDate>[]` | Array of range objects |
+| `'multi-range'` | `Selection.DateRange<TDate>[]` | Array of range objects |
 
 ---
 
@@ -43,22 +44,22 @@ Decorate an array of weeks with selection flags (`isSelected`, `isRangeStart`, `
 ```tsx
 applySelection(
   weeks: CalendarWeek<TDate>[],
-  adapter: DateAdapter<TDate>,
-  mode: SelectionMode,
-  selected: CalendarValue<TDate, M>,
-  constraints?: SelectionConstraints<TDate> // default: {}
+  adapter: Adapter.IDateAdapter<TDate>,
+  mode: Selection.SelectionMode,
+  selected: Selection.CalendarValue<TDate, M>,
+  constraints?: Selection.ISelectionConstraints<TDate> // default: {}
 ) => CalendarWeek<TDate>[]
 ```
 
 | Param | Type | Description |
 | :--- | :--- | :--- |
 | `weeks` | `CalendarWeek<TDate>[]` | Raw weeks from `buildCalendarMonth` |
-| `adapter` | `DateAdapter<TDate>` | Date adapter |
-| `mode` | `SelectionMode` | Selection mode |
-| `selected` | `CalendarValue<TDate, M>` | Current selection |
-| `constraints` | `SelectionConstraints<TDate>` | Optional. Disabled dates, fromDate, toDate. Defaults to `{}` |
+| `adapter` | `Adapter.IDateAdapter<TDate>` | Date adapter |
+| `mode` | `Selection.SelectionMode` | Selection mode |
+| `selected` | `Selection.CalendarValue<TDate, M>` | Current selection |
+| `constraints` | `Selection.ISelectionConstraints<TDate>` | Optional. Disabled dates, fromDate, toDate. Defaults to `{}` |
 
-**SelectionConstraints:**
+**Selection.ISelectionConstraints:**
 
 | Property | Type | Description |
 | :--- | :--- | :--- |
@@ -70,29 +71,29 @@ applySelection(
 
 ## Types
 
-### `SelectionMode`
+### `Selection.SelectionMode`
 
 ```tsx
-type SelectionMode = 'single' | 'range' | 'multi' | 'multi-range'
+type Selection.SelectionMode = 'single' | 'range' | 'multi' | 'multi-range'
 ```
 
-### `CalendarValue<TDate, M>`
+### `Selection.CalendarValue<TDate, M>`
 
 Conditional type that resolves based on the selection mode:
 
 ```tsx showLineNumbers
-type CalendarValue<TDate, M extends SelectionMode> =
+type Selection.CalendarValue<TDate, M extends Selection.SelectionMode> =
   M extends 'single' ? TDate | null :
-  M extends 'range' ? DateRange<TDate> | null :
+  M extends 'range' ? Selection.DateRange<TDate> | null :
   M extends 'multi' ? TDate[] :
-  M extends 'multi-range' ? DateRange<TDate>[] :
+  M extends 'multi-range' ? Selection.DateRange<TDate>[] :
   never
 ```
 
-### `DateRange<TDate>`
+### `Selection.DateRange<TDate>`
 
 ```tsx showLineNumbers
-type DateRange<TDate> = {
+type Selection.DateRange<TDate> = {
   from: TDate
   to: TDate | null
 }
