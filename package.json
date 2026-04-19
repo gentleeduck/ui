@@ -4,7 +4,7 @@
     "node": ">=22.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.9",
+    "@biomejs/biome": "2.4.12",
     "@changesets/cli": "^2.30.0",
     "@gentleduck/vim": "workspace:*",
     "@testing-library/jest-dom": "^6.9.1",

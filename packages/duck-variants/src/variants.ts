@@ -164,7 +164,7 @@ export function cva<TVariants extends Variants.VariantDefinitions>(
     const conditions: CompiledCompound['conditions'] = []
     for (const key in cv) {
       if (key === 'class' || key === 'className') continue
-      const raw = (cv as Record<string, unknown>)[key]
+      const raw = cv[key]
       if (Array.isArray(raw)) {
         conditions.push({ key, set: new Set(raw.map(String)), value: null })
       } else {
@@ -185,9 +185,9 @@ export function cva<TVariants extends Variants.VariantDefinitions>(
   const preludeCache = new Map<string, Prelude>()
 
   return (props: Variants.Props<TVariants> = {} as Variants.Props<TVariants>): string => {
-    const rawProps = props as Record<string, unknown>
-    const dynamicClassName = rawProps['className']
-    const dynamicClass = rawProps['class']
+    const rawProps = props
+    const dynamicClassName = rawProps.className
+    const dynamicClass = rawProps.class
     const hasDynamic = dynamicClassName != null || dynamicClass != null
 
     let cacheKey = ''
