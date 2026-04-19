@@ -8,7 +8,12 @@ export default function PopoverSideAwareInternalExample() {
     <Popover.Root>
       <Popover.Trigger className={styles['trigger']}>Open filters</Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content align="start" className={styles['content']} collisionPadding={10} side="bottom" sideOffset={10}>
+        <Popover.Content
+          align="start"
+          className={styles['content']}
+          collisionPadding={10}
+          side="bottom"
+          sideOffset={10}>
           <h4 className={styles['title']}>Quick filters</h4>
           <p className={styles['description']}>Uses side, align, offset, and collision padding.</p>
           <div className={styles['chips']}>
