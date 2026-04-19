@@ -46,7 +46,7 @@ const RadioGroup = React.forwardRef<RadioGroupElement, IRadioGroup.IProps>(
       ...groupProps
     } = props
     const rovingFocusGroupScope = useRovingFocusGroupScope(__scopeRadioGroup)
-    const getItems = RovingFocusGroup.useCollection(rovingFocusGroupScope.__scopeRovingFocusGroup)
+    const getItems = RovingFocusGroup.useCollection(rovingFocusGroupScope['__scopeRovingFocusGroup'])
     const direction = useDirection(dir)
     const isNavigationKeyPressedRef = React.useRef(false)
     const navigationResetTimerRef = React.useRef<number | null>(null)

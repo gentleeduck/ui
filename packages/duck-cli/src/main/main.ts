@@ -19,7 +19,7 @@ export async function init() {
   duckUi.option('--verbose', 'show detailed error output for debugging', false)
   duckUi.hook('preAction', (thisCommand) => {
     const opts = thisCommand.opts()
-    if (opts.verbose) {
+    if (opts['verbose']) {
       setVerbose(true)
     }
   })

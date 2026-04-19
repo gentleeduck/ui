@@ -204,7 +204,7 @@ const ShikiCodeBlock = React.memo(function ShikiCodeBlock({ code, language }: { 
             transformers: [
               {
                 pre(node) {
-                  node.properties.class =
+                  node.properties['class'] =
                     'no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 !bg-transparent text-[13px] leading-relaxed'
                 },
               },

@@ -49,8 +49,8 @@ export function archRepositoryExtension(options: ArchRepositoryExtensionOptions)
       const packages = toPackageArray(collection.data).slice().sort(byName)
       const outputRoot = path.join(api.paths.baseDir, options.outputDir ?? 'arch')
       const repoDir = path.join(outputRoot, 'repos')
-      const repoOrder = Array.isArray(collection.metadata.repoOrder)
-        ? (collection.metadata.repoOrder as string[])
+      const repoOrder = Array.isArray(collection.metadata['repoOrder'])
+        ? (collection.metadata['repoOrder'] as string[])
         : [...new Set(packages.map((pkg) => pkg.repo))].sort((left, right) => left.localeCompare(right))
       const search = packages.map((pkg) => ({
         arch: pkg.arch,

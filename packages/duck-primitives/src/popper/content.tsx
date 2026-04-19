@@ -133,8 +133,8 @@ export const PopperContent = ({ ref: forwardedRef, ...props }: IPopper.IScoped<I
           minWidth: 'max-content',
           zIndex: contentZIndex,
           '--gentleduck-popper-transform-origin': [
-            middlewareData.transformOrigin?.x,
-            middlewareData.transformOrigin?.y,
+            middlewareData['transformOrigin']?.x,
+            middlewareData['transformOrigin']?.y,
           ].join(' '),
           ...(middlewareData.hide?.referenceHidden && {
             visibility: 'hidden',

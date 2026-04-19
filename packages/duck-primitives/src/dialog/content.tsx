@@ -150,7 +150,7 @@ const DialogContentImpl = React.forwardRef<DialogContentImplElement, IDialog.ICo
             onDismiss={() => context.onOpenChange(false)}
           />
         </FocusScope>
-        {process.env.NODE_ENV !== 'production' && (
+        {process.env['NODE_ENV'] !== 'production' && (
           <>
             <TitleWarning titleId={context.titleId} />
             <DescriptionWarning contentRef={contentRef} descriptionId={context.descriptionId} />

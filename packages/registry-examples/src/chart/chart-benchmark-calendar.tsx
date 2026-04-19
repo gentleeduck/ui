@@ -31,7 +31,7 @@ const adapterConfig = {
   format: { label: 'format (μs)', color: 'var(--chart-3)' },
 } satisfies ChartConfig
 
-const modules = (data as Record<string, unknown>).moduleSizes as { name: string; sizeKB: number }[] | undefined
+const modules = (data as Record<string, unknown>)['moduleSizes'] as { name: string; sizeKB: number }[] | undefined
 const pieData = modules
   ? modules.map((m, i) => ({ name: m.name, size: m.sizeKB, fill: COLORS[i % COLORS.length] }))
   : []

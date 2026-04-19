@@ -6,7 +6,7 @@ import data from '../../../../apps/duck-ui-docs/public/data/benchmarks/calendar.
 const tabs = ['vs react-day-picker', 'vs react-aria', 'vs react-datepicker', 'vs react-calendar'] as const
 type Tab = (typeof tabs)[number]
 
-const comparisons = (data as Record<string, unknown>).libraryComparisons as
+const comparisons = (data as Record<string, unknown>)['libraryComparisons'] as
   | {
       name: string
       comparison: { metric: string; gentleduck: string; competitor: string; winner: string }[]

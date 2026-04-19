@@ -15,7 +15,7 @@ export async function loadValueFile(filePath: string): Promise<unknown> {
     const moduleUrl = `${pathToFileURL(filePath).href}?t=${Date.now()}`
     const module = (await import(moduleUrl)) as Record<string, unknown>
 
-    return module.default ?? module
+    return module['default'] ?? module
   } catch (nativeError) {
     if (canUseJiti) {
       try {
