@@ -1,0 +1,109 @@
+---
+title: "Lesson 5: Menus, Dropdowns, and Selection"
+description: "Build robust menu systems: context menus, dropdown actions, checkbox/radio items, submenus, and keyboard routing."
+---
+
+<Callout icon={<Lightbulb />}>
+
+**Lesson 5 of 10**: Menus are high-density interaction surfaces. Small semantic mistakes create large usability issues.
+
+</Callout>
+
+## Menu family overview
+
+Use the right primitive for the right trigger model:
+
+- `ContextMenu`: right-click or long-press entry.
+- `DropdownMenu`: button-triggered action menu.
+- `Menubar`: persistent horizontal app/menu bar.
+- `Menu`: base behavior for custom compositions.
+
+---
+
+## Action menu baseline
+
+```tsx
+import * as DropdownMenu from '@gentleduck/primitives/dropdown-menu'
+
+export function RowActions() {
+  return (
+    <DropdownMenu.Root>
+      <DropdownMenu.Trigger className="rounded border px-2 py-1 text-sm">Actions</DropdownMenu.Trigger>
+      <DropdownMenu.Portal>
+        <DropdownMenu.Content className="min-w-44 rounded-md border bg-white p-1 shadow-lg">
+          <DropdownMenu.Item className="rounded px-2 py-1.5 text-sm data-[highlighted]:bg-gray-100">Edit</DropdownMenu.Item>
+          <DropdownMenu.Item className="rounded px-2 py-1.5 text-sm data-[highlighted]:bg-gray-100">Duplicate</DropdownMenu.Item>
+          <DropdownMenu.Separator className="my-1 h-px bg-gray-200" />
+          <DropdownMenu.Item className="rounded px-2 py-1.5 text-sm text-red-600 data-[highlighted]:bg-red-50">Delete</DropdownMenu.Item>
+        </DropdownMenu.Content>
+      </DropdownMenu.Portal>
+    </DropdownMenu.Root>
+  )
+}
+```
+
+---
+
+## Selection semantics
+
+- `Item`: execute action.
+- `CheckboxItem`: independent toggles.
+- `RadioGroup` + `RadioItem`: mutually exclusive options.
+
+These semantics are not visual only; they affect role and announcement behavior.
+
+---
+
+## Keeping menu open on select
+
+Default behavior closes menu after activation. To keep it open for batch actions:
+
+```tsx
+<DropdownMenu.Item
+  onSelect={(event) => {
+    event.preventDefault()
+    toggleSomething()
+  }}
+>
+  Toggle without close
+</DropdownMenu.Item>
+```
+
+Use sparingly; persistent menus can confuse users if overused.
+
+---
+
+## Submenus and navigation
+
+Submenus increase cognitive load. Keep depth shallow and labels explicit.
+
+Checklist:
+
+1. Parent item has clear category meaning.
+2. Submenu items are short and action-oriented.
+3. Keyboard path is predictable (arrows and escape).
+4. Hover intent timing is not too aggressive.
+
+---
+
+## Styling contract
+
+Use menu state attributes instead of brittle selectors:
+
+- `data-highlighted` for active row.
+- `data-disabled` for non-interactive entries.
+- `data-state` for checkbox/radio indicators.
+
+---
+
+## Lab
+
+1. Build a dropdown with action + checkbox + radio sections.
+2. Add one submenu and validate keyboard behavior end-to-end.
+3. Add a context menu variant that shares the same item components.
+
+<Callout icon={<MapIcon />}>
+
+Next: [Lesson 6 - Animation with Presence](/docs/packages/duck-primitives/course/06-animation)
+
+</Callout>

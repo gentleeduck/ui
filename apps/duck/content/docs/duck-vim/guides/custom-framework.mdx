@@ -1,0 +1,204 @@
+---
+title: "Integrating with Other Frameworks"
+description: "Use duck-vim's framework-agnostic core with Vue, Svelte, Angular, or any other framework."
+---
+
+<Callout icon={<Zap />}>
+
+duck-vim's core is pure DOM. The React bindings are just a thin wrapper around `Registry`, `KeyHandler`, and `SequenceManager`. You can build the same wrapper for **any framework**.
+
+</Callout>
+
+## The pattern
+
+<Steps>
+
+<Step>Create a Registry and KeyHandler during initialization</Step>
+
+<Step>Call handler.attach() when the component/app mounts</Step>
+
+<Step>Call handler.detach() when it unmounts</Step>
+
+<Step>Register bindings via registry.register() and store the handle for cleanup</Step>
+
+</Steps>
+
+<MermaidDiagram chart={`flowchart TD
+    A["Initialize app or module"]
+    B["Create Registry + KeyHandler"]
+    C["onMount: handler.attach(document)"]
+    D["Register bindings via registry.register"]
+    E["Store registration handles"]
+    F["onUnmount: unregister handles"]
+    G["onUnmount: handler.detach"]
+
+    A --> B --> C --> D --> E --> F --> G
+`} />
+
+---
+
+## Vue 3 (Composition API)
+
+```ts title="composables/useKeyBind.ts"
+import { onMounted, onUnmounted } from 'vue'
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
+import type { Command, KeyBindOptions } from '@gentleduck/vim/command'
+
+const registry = new Registry()
+const handler = new KeyHandler(registry, 600)
+let attached = false
+
+export function useKeyBind(binding: string, execute: () => void, options?: KeyBindOptions) {
+  let handle: ReturnType<typeof registry.register> | null = null
+
+  onMounted(() => {
+    if (!attached) {
+      handler.attach(document)
+      attached = true
+    }
+
+    handle = registry.register(binding, { name: binding, execute }, options)
+  })
+
+  onUnmounted(() => {
+    handle?.unregister()
+  })
+}
+```
+
+**Usage in a component:**
+
+```vue
+<script setup>
+import { useKeyBind } from './composables/useKeyBind'
+
+useKeyBind('ctrl+k', () => {
+  console.log('Palette opened!')
+}, { preventDefault: true })
+</script>
+```
+
+---
+
+## Svelte
+
+```ts title="actions/keybind.ts"
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
+
+const registry = new Registry()
+const handler = new KeyHandler(registry, 600)
+handler.attach(document)
+
+export function keybind(node: HTMLElement, params: { binding: string; handler: () => void }) {
+  const handle = registry.register(params.binding, {
+    name: params.binding,
+    execute: params.handler,
+  })
+
+  return {
+    destroy() {
+      handle.unregister()
+    },
+  }
+}
+```
+
+**Usage:**
+
+```svelte
+<script>
+  import { keybind } from './actions/keybind'
+</script>
+
+<div use:keybind={{ binding: 'ctrl+k', handler: () => console.log('palette') }}>
+  App content
+</div>
+```
+
+---
+
+## Angular
+
+```ts title="keybind.service.ts"
+import { Injectable, OnDestroy } from '@angular/core'
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
+import type { Command, KeyBindOptions, RegistrationHandle } from '@gentleduck/vim/command'
+
+@Injectable({ providedIn: 'root' })
+export class KeyBindService implements OnDestroy {
+  private registry = new Registry()
+  private handler = new KeyHandler(this.registry, 600)
+
+  constructor() {
+    this.handler.attach(document)
+  }
+
+  register(binding: string, command: Command, options?: KeyBindOptions): RegistrationHandle {
+    return this.registry.register(binding, command, options)
+  }
+
+  ngOnDestroy() {
+    this.handler.detach(document)
+    this.registry.clear()
+  }
+}
+```
+
+**Usage in a component:**
+
+```ts
+@Component({ ... })
+export class AppComponent implements OnInit, OnDestroy {
+  private handle?: RegistrationHandle
+
+  constructor(private keybind: KeyBindService) {}
+
+  ngOnInit() {
+    this.handle = this.keybind.register('ctrl+k', {
+      name: 'Open Palette',
+      execute: () => this.openPalette(),
+    }, { preventDefault: true })
+  }
+
+  ngOnDestroy() {
+    this.handle?.unregister()
+  }
+}
+```
+
+---
+
+## Vanilla (module pattern)
+
+```ts
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
+
+const registry = new Registry()
+const handler = new KeyHandler(registry, 600)
+
+export function init() {
+  handler.attach(document)
+}
+
+export function registerShortcut(binding: string, name: string, execute: () => void) {
+  return registry.register(binding, { name, execute })
+}
+
+export function destroy() {
+  handler.detach(document)
+  registry.clear()
+}
+```
+
+---
+
+## Key principles for any integration
+
+<Callout icon={<Lightbulb />} className="[&_ol]:my-0">
+
+1. **One registry per scope.** Usually one global registry is enough, but you can create separate ones for isolated areas.
+2. **Always clean up.** Unregister bindings when components unmount to avoid memory leaks and ghost handlers.
+3. **Use `ignoreInputs: true`** for non-modifier bindings (single characters) to avoid interfering with text input.
+4. **Forward the SequenceManager** if you need multi-step sequences beyond what the Registry+KeyHandler handles.
+
+</Callout>

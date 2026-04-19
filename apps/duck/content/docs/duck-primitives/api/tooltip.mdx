@@ -1,0 +1,157 @@
+---
+title: "Tooltip"
+description: "A hover/focus hint with delay, skip-delay, and grace area support."
+---
+
+```tsx
+import * as Tooltip from '@gentleduck/primitives/tooltip'
+```
+
+## Anatomy
+
+```tsx
+<Tooltip.Provider>
+  <Tooltip.Root>
+    <Tooltip.Trigger />
+    <Tooltip.Portal>
+      <Tooltip.Content>
+        <Tooltip.Arrow />
+      </Tooltip.Content>
+    </Tooltip.Portal>
+  </Tooltip.Root>
+</Tooltip.Provider>
+```
+
+---
+
+## Example
+
+```tsx
+import * as Tooltip from '@gentleduck/primitives/tooltip'
+
+function App() {
+  return (
+    <Tooltip.Provider delayDuration={400}>
+      <Tooltip.Root>
+        <Tooltip.Trigger className="px-3 py-1 border rounded">
+          Hover me
+        </Tooltip.Trigger>
+        <Tooltip.Portal>
+          <Tooltip.Content
+            className="bg-gray-900 text-white text-sm px-3 py-1.5 rounded shadow"
+            sideOffset={5}
+          >
+            This is a tooltip
+            <Tooltip.Arrow className="fill-gray-900" />
+          </Tooltip.Content>
+        </Tooltip.Portal>
+      </Tooltip.Root>
+    </Tooltip.Provider>
+  )
+}
+```
+
+---
+
+## API
+
+### `Tooltip.Provider`
+
+Wraps your app (or section) to coordinate tooltip delays. When a user moves from one tooltip trigger to another quickly, the second tooltip opens instantly (skip delay).
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `delayDuration` | `number` | `700` | Delay in ms before tooltip opens |
+| `skipDelayDuration` | `number` | `300` | Time in ms before delay resets after closing |
+| `disableHoverableContent` | `boolean` | `false` | Close immediately when pointer leaves trigger (can't hover content) |
+
+### `Tooltip.Root`
+
+Manages state for a single tooltip instance.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `open` | `boolean` | - | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Initial open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Called on state change |
+| `delayDuration` | `number` | - | Override Provider's delay for this tooltip |
+| `disableHoverableContent` | `boolean` | - | Override Provider's setting |
+
+### `Tooltip.Trigger`
+
+The element that activates the tooltip on hover/focus.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `disableCloseOnClick` | `boolean` | `false` | When `true`, clicking the trigger does not dismiss the tooltip. Use when wrapping interactive elements like `Toggle` with `asChild`. |
+
+When `disableCloseOnClick` is enabled:
+- The tooltip's `data-slot` and `data-state` are not set on the trigger, so the child element's own attributes pass through unchanged
+- The tooltip's `onClick` handler is not attached, so the child's `onClick` works without interference
+- `onPointerDown` skips tooltip close
+- A `data-tooltip-state` attribute is set instead for tooltip-specific styling if needed
+- Hover and blur behavior remain unchanged
+
+```tsx
+import * as Tooltip from '@gentleduck/primitives/tooltip'
+import { Toggle } from '@gentleduck/primitives/toggle'
+
+<Tooltip.Root>
+  <Tooltip.Trigger asChild disableCloseOnClick>
+    <Toggle>Bold</Toggle>
+  </Tooltip.Trigger>
+  <Tooltip.Portal>
+    <Tooltip.Content>Toggle bold formatting</Tooltip.Content>
+  </Tooltip.Portal>
+</Tooltip.Root>
+```
+
+### `Tooltip.Portal`
+
+Portals content to `document.body`.
+
+### `Tooltip.Content`
+
+The floating tooltip content. Positioned by the Popper engine.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `aria-label` | `string` | - | Accessible label when content is purely visual |
+| `side` | `'top' \| 'right' \| 'bottom' \| 'left'` | `'top'` | Preferred side |
+| `sideOffset` | `number` | `0` | Distance from anchor in pixels |
+| `align` | `'start' \| 'center' \| 'end'` | `'center'` | Alignment along the side |
+| `alignOffset` | `number` | `0` | Alignment offset in pixels |
+| `forceMount` | `true` | - | Keep mounted always |
+| `onEscapeKeyDown` | `(event) => void` | - | Called on <Kbd>Escape</Kbd> press |
+| `onPointerDownOutside` | `(event) => void` | - | Called on outside click |
+
+### `Tooltip.Arrow`
+
+Optional visual arrow pointing toward the trigger.
+
+---
+
+## Data attributes
+
+<Callout icon={<Lightbulb />}>
+
+Content exposes `data-state` with values: `closed`, `delayed-open`, `instant-open`. Use this for different enter animations based on whether the tooltip was delayed or instant.
+
+</Callout>
+
+---
+
+## Grace area
+
+When the user moves their pointer from the trigger toward the content, a grace area (triangle) keeps the tooltip open during the transition. This prevents the tooltip from closing when the user moves diagonally to interact with the content.
+
+Set `disableHoverableContent={true}` to disable this behavior.
+
+---
+
+## Keyboard interactions
+
+| Key | Action |
+| --- | --- |
+| <Kbd>Tab</Kbd> | Focus trigger, opens tooltip |
+| <Kbd>Escape</Kbd> | Close tooltip |

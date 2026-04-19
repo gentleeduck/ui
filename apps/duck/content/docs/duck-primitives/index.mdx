@@ -1,0 +1,177 @@
+---
+title: "gentleduck/primitives"
+description: "Unstyled, accessible React primitives for building serious component libraries and product-grade interaction systems."
+---
+
+<Callout icon={<Zap />}>
+
+**gentleduck/primitives** gives you production behavior without visual opinions. You own design tokens and styling; primitives own accessibility, focus, dismissal, and interaction semantics.
+
+</Callout>
+
+## What this package is
+
+gentleduck/primitives is a set of low-level React building blocks for teams that need:
+
+- Correct keyboard and screen reader behavior.
+- Flexible composition (`asChild`, slotting, scoped contexts).
+- Controlled and uncontrolled state strategies.
+- Animation-aware mount/unmount semantics.
+- A clear path from raw primitive to polished design-system component.
+
+This package is not a CSS framework. It is an interaction and accessibility layer.
+
+---
+
+## When to use primitives
+
+Use primitives when you are building:
+
+- A reusable design system across many apps.
+- Product surfaces with complex overlays (dialogs, popovers, menus).
+- UI with strict accessibility requirements.
+- Highly customized visuals where pre-styled libraries get in the way.
+
+Do not use primitives if you only need quick, fixed styling with minimal customization. In that case, use pre-styled components instead.
+
+---
+
+## Capability model
+
+| Layer | Responsibility | Typical primitives |
+| --- | --- | --- |
+| Foundation | Rendering abstraction and composition | [Primitive Elements](/docs/packages/duck-primitives/api/primitive-elements), [Slot](/docs/packages/duck-primitives/api/slot), [Direction](/docs/packages/duck-primitives/api/direction) |
+| Interaction infra | Focus, dismissal, mounting, positioning | [Focus Scope](/docs/packages/duck-primitives/api/focus-scope), [Dismissable Layer](/docs/packages/duck-primitives/api/dismissable-layer), [Presence](/docs/packages/duck-primitives/api/presence), [Portal](/docs/packages/duck-primitives/api/portal), [Popper](/docs/packages/duck-primitives/api/popper) |
+| Product patterns | Overlays, menus, inputs, selection | [Dialog](/docs/packages/duck-primitives/api/dialog), [Popover](/docs/packages/duck-primitives/api/popover), [Menu](/docs/packages/duck-primitives/api/menu), [Select](/docs/packages/duck-primitives/api/select), [Slider](/docs/packages/duck-primitives/api/slider) |
+
+This layering is the core reason primitives scale well in large codebases.
+
+---
+
+## How teams usually adopt
+
+1. Start with one high-value wrapper (`Dialog`, `Popover`, `Menu`).
+2. Standardize wrapper rules: `forwardRef`, `className` merge, sensible defaults, no hidden primitive props.
+3. Add design tokens and motion classes via `data-state`.
+4. Document wrapper contracts in your design-system package.
+5. Expand to additional primitives after keyboard + screen reader tests pass.
+
+<Callout icon={<Lightbulb />}>
+
+Avoid copying examples ad hoc into apps. Build wrappers once, then consume wrappers everywhere.
+
+</Callout>
+
+---
+
+## Bundle size
+
+gentleduck primitives are 50-92% smaller than their Radix equivalents because shared internals (Slot, Presence, Popper, focus-scope) are deduplicated across all primitives. Real numbers: Alert Dialog 1.6 KB vs 18.6 KB, Popover 2.4 KB vs 19.6 KB, Dialog 3.1 KB vs 10.6 KB. Install 5 Radix primitives and you pay ~25 KB in duplicated internals. With gentleduck, shared internals load once.
+
+<ComponentPreview name="chart-benchmark-primitives" description="Module breakdown and totals" />
+
+See the full [benchmark results](/docs/packages/duck-primitives/benchmarks) for per-component comparisons and methodology.
+
+---
+
+## Architecture snapshot
+
+<MermaidDiagram chart={`graph TD
+    PE[Primitive Elements + Slot] --> IF[Interaction Foundation]
+    IF --> FS[Focus Scope]
+    IF --> DL[Dismissable Layer]
+    IF --> PR[Presence]
+    IF --> PO[Portal]
+    IF --> PP[Popper]
+    FS --> D[Dialog]
+    DL --> D
+    PR --> D
+    PO --> D
+    PP --> P[Popover]
+    PP --> T[Tooltip]
+    PP --> M[Menu Family]
+    M --> CM[Context Menu]
+    M --> DM[Dropdown Menu]
+    M --> MB[Menubar]
+    M --> NM[Navigation Menu]
+`} />
+
+Higher-level components are built by composition, not inheritance. You can always drop one level lower when you need custom behavior.
+
+---
+
+## Production checklist
+
+Before shipping primitive-based wrappers:
+
+- Verify title/description semantics for dialogs.
+- Verify keyboard loops and escape behavior.
+- Verify focus restoration after close.
+- Verify click-outside handling for nested overlays.
+- Verify reduced-motion behavior.
+- Verify RTL behavior if your app supports Arabic/Hebrew/Persian.
+
+---
+
+## Internal examples
+
+These are production-style primitive patterns from the internal registry.
+
+### 1) Guarded async dialog
+
+<ComponentPreview
+  className="[&_.preview]:p-6"
+  description="Controlled dialog that blocks escape/outside dismiss while async work is in progress."
+  name="dialog-guarded-async"
+/>
+
+### 2) Side-aware popover
+
+<ComponentPreview
+  className="[&_.preview]:p-6"
+  description="Popover with side/align/offset/collision settings for resilient floating behavior."
+  name="popover-side-aware"
+/>
+
+### 3) Dropdown menu selection semantics
+
+<ComponentPreview
+  className="[&_.preview]:p-6"
+  description="Dropdown menu using radio group + checkbox item semantics for keyboard-first selection."
+  name="dropdown-menu-selection"
+/>
+
+### 4) Tooltip delay behavior
+
+<ComponentPreview
+  className="[&_.preview]:p-6"
+  description="Tooltip provider delay settings to avoid noisy hover behavior across repeated targets."
+  name="tooltip-delay-provider"
+/>
+
+### 5) Controlled select
+
+<ComponentPreview
+  className="[&_.preview]:p-6"
+  description="Controlled Select value management with explicit onValueChange handling."
+  name="select-controlled"
+/>
+
+### 6) Alert dialog confirmation
+
+<ComponentPreview
+  className="[&_.preview]:p-6"
+  description="Destructive confirmation flow using Alert Dialog semantics and guarded actions."
+  name="alert-dialog-confirm"
+/>
+
+---
+
+## Learn next
+
+<Callout icon={<MapIcon />} className="[&_ul]:my-0">
+- [Getting Started](/docs/packages/duck-primitives/getting-started)  -  Set up a production-ready baseline.
+- [Core Concepts](/docs/packages/duck-primitives/concepts)  -  Understand internals and composition patterns.
+- [API Reference](/docs/packages/duck-primitives/api)  -  Detailed props/events for every primitive.
+- [Course](/docs/packages/duck-primitives/course)  -  Structured path from fundamentals to system-level patterns.
+</Callout>

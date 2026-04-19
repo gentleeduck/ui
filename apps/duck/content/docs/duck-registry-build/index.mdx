@@ -1,0 +1,206 @@
+---
+title: "gentleduck/registry-build"
+description: "Generic index-building core with explicit extensions, type-safe config, and incremental rebuilds."
+---
+
+<Callout icon={<Zap />}>
+
+**gentleduck/registry-build** is a generic build core for index-like outputs. It can still power UI registries, but it can also drive package catalogs, Arch-style repository indexes, search manifests, and custom generated artifacts through explicit extensions.
+
+</Callout>
+
+## What this package is
+
+gentleduck/registry-build is a consumer-owned build system for indexable content.
+
+Use it when you need to:
+
+- declare one or more named collections of data or source trees
+- attach structured metadata to those collections
+- emit stable machine-readable indexes or repository artifacts
+- generate derived outputs such as manifests, search indexes, component indexes, or theme files
+- keep the build reproducible and consumer-owned instead of hardcoding repo paths
+
+The package is intentionally split into a small core and explicit extensions. That keeps the base runner reusable while still supporting docs-site style builds through the compatibility layer.
+
+---
+
+## Why it exists
+
+The old approach to registry generation usually looks like this:
+
+- arrays of entries hardcoded in source
+- output paths hidden behind environment variables
+- framework-specific logic baked into the build
+- one repo layout assumed forever
+
+registry-build replaces that with:
+
+- a typed `registry-build.config.ts`
+- a generic `collections` model for non-UI consumers
+- path-aware config composition with `extends`
+- explicit extension hooks for optional outputs
+- CLI-driven execution
+- incremental caching for repeated local builds
+
+---
+
+## Architecture at a glance
+
+<MermaidDiagram chart={`flowchart TD
+    A[registry-build.config.ts] --> B[Config Loader]
+    B --> C[Schema Validation + Defaults]
+    C --> D[Resolve Collections]
+    D --> E[Compatibility Normalization during resolution]
+    E --> F[Build Runner]
+    F --> G[beforeBuild Extensions]
+    F --> H[afterBuild Extensions]
+    G --> I[Banner / Validate]
+    H --> J[Index Build / Components]
+    H --> K[Component Index / Colors]
+    H --> L[Custom Extensions]
+    J --> M[Generated Outputs]
+    K --> M
+    L --> M
+    F --> N[.registry-build Cache]
+`} />
+
+---
+
+## Capability map
+
+| Layer | Responsibility | Why it matters |
+| --- | --- | --- |
+| Config loader | Discover config, resolve `extends`, normalize paths | Consumers own the build contract |
+| Collections model | Materialize named datasets and source declarations | Non-UI consumers get a generic starting point |
+| Compatibility layer | Translate legacy UI config into generic collection artifacts | Existing docs-style builds keep working while the core evolves |
+| Built-in extensions | Index build, components, colors, component index, validation, banner | All processing is extension-driven, nothing runs by default |
+| Custom extensions | Add repository indexes, manifests, search indexes, or any domain-specific output | Composable and explicit |
+| CLI | Run builds from app/package roots | Works like a normal tool, not a repo-only script |
+| Performance layer | File-hash cache, write skipping, changed-only mode, bounded concurrency | Fast warm builds and less filesystem churn |
+
+---
+
+## Quick links
+
+<Callout icon={<MapIcon />} className="[&_ul]:my-0">
+
+- [Getting Started](/docs/packages/duck-registry-build/getting-started) - Install the package and ship your first build
+- [Architecture](/docs/packages/duck-registry-build/architecture) - Build lifecycle, context, artifacts, and extension stages
+- [Configuration](/docs/packages/duck-registry-build/configuration) - Full config reference with collapsible sections
+- [Extensions](/docs/packages/duck-registry-build/extensions) - Built-in extensions and custom extension API
+- [CLI](/docs/packages/duck-registry-build/cli) - Commands, flags, JSON output, and scripting patterns
+- [Performance](/docs/packages/duck-registry-build/performance) - Cache behavior, changed-only mode, and warm builds
+- [Recipes](/docs/packages/duck-registry-build/recipes) - Concrete patterns for docs sites, manifests, and custom outputs
+- [Course](/docs/packages/duck-registry-build/course) - Guided walkthrough for building an Arch-style package index
+- [Testing and CI](/docs/packages/duck-registry-build/testing-ci) - Golden tests, pack smoke tests, and release checks
+- [Troubleshooting](/docs/packages/duck-registry-build/troubleshooting) - Common failure modes and debugging paths
+
+</Callout>
+
+---
+
+## Installation
+
+<Tabs defaultValue="npm">
+<TabsList>
+  <TabsTrigger value="npm">npm</TabsTrigger>
+  <TabsTrigger value="pnpm">pnpm</TabsTrigger>
+  <TabsTrigger value="bun">bun</TabsTrigger>
+</TabsList>
+<TabsContent value="npm">
+
+```bash
+npm install @gentleduck/registry-build
+```
+
+</TabsContent>
+<TabsContent value="pnpm">
+
+```bash
+pnpm add @gentleduck/registry-build
+```
+
+</TabsContent>
+<TabsContent value="bun">
+
+```bash
+bun add @gentleduck/registry-build
+```
+
+</TabsContent>
+</Tabs>
+
+---
+
+## Core model
+
+<Accordion type="multiple" className="w-full">
+  <AccordionItem value="consumer-owned-config">
+    <AccordionTrigger>Consumer-owned config</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+The config file lives beside the app or package that owns the outputs. That means source paths, registry entries, output directories, extensions, and performance settings are all declared by the consumer, not buried inside the shared package.
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="core-vs-extensions">
+    <AccordionTrigger>Core phases vs extensions</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+The core runner is entirely extension-driven. Index building, component generation, validation, component-index generation, colors/themes, and banners are all extensions that consumers attach explicitly. If you do not attach them, they do not run.
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="typed-registry-namespaces">
+    <AccordionTrigger>Typed registry namespaces</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+If you are building a UI registry, item types are validated as ``registry:${string}``. That same namespace carries through `sources`, `targetPaths`, package mappings, schema item types, and inline registry entries. Non-UI consumers can start from `collections` and avoid those compatibility fields entirely.
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="generic-collections">
+    <AccordionTrigger>Collections-first model</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+For new non-UI builds, start with `collections`. A collection can hold file-backed data, source declarations, and arbitrary metadata that your extension reads later. That is the preferred mental model for package indexes, repository catalogs, and search manifests.
+
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="incremental-builds">
+    <AccordionTrigger>Incremental rebuild behavior</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+
+The builder stores cache data under `<output.dir>/.registry-build/`. On warm runs it reuses file hashes, skips unchanged writes, removes stale generated files, and can narrow work further with `--changed-only` plus explicit changed paths.
+
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+---
+
+## Typical use cases
+
+- Build a docs-site registry from component source folders.
+- Emit an installable JSON index for a CLI.
+- Generate an Arch-like repository database and search manifest.
+- Create a generated component import map for a framework.
+- Generate theme and token payloads from static data files.
+- Produce custom artifacts through extension hooks after the base registry is materialized.
+
+---
+
+## Production checklist
+
+- keep the config beside the output-owning app or package
+- start new non-UI builds from `collections` instead of UI compatibility fields
+- declare every UI registry item type explicitly through the same ``registry:${string}`` namespace
+- use extensions only for optional or logic-bearing outputs
+- verify two consecutive warm builds produce zero rewritten files when nothing changed
+- keep `.registry-build/` ignored by Git
+- add typecheck, docs-content build, and at least one real consumer smoke test to CI

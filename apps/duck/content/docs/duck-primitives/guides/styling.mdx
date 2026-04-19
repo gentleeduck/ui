@@ -1,0 +1,121 @@
+---
+title: "Styling gentleduck/primitives"
+description: "How to style unstyled primitives with CSS, Tailwind, CSS modules, or CSS-in-JS."
+---
+
+<Callout icon={<Zap />}>
+
+gentleduck/primitives ship with **zero CSS**. Every component renders semantic HTML with data attributes that describe its state. You provide all visual styles.
+
+</Callout>
+
+## The approach
+
+gentleduck/primitives ship with zero CSS. Every component renders semantic HTML with data attributes that describe its state. You provide all visual styles using whatever method you prefer.
+
+---
+
+## Styling options
+
+<Tabs defaultValue="tailwind">
+<TabsList>
+  <TabsTrigger value="tailwind">Tailwind CSS</TabsTrigger>
+  <TabsTrigger value="css">CSS</TabsTrigger>
+  <TabsTrigger value="modules">CSS Modules</TabsTrigger>
+  <TabsTrigger value="cssinjs">CSS-in-JS</TabsTrigger>
+</TabsList>
+<TabsContent value="tailwind">
+
+The simplest approach. Apply utility classes directly:
+
+```tsx
+<Dialog.Overlay className="fixed inset-0 bg-black/50 backdrop-blur-sm" />
+<Dialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white rounded-xl shadow-2xl p-6 w-full max-w-lg">
+```
+
+For state-based styling, use Tailwind's `data-*` variant:
+
+```tsx
+<Dialog.Overlay className="data-[state=open]:animate-fadeIn data-[state=closed]:animate-fadeOut" />
+```
+
+</TabsContent>
+<TabsContent value="css">
+
+Target `data-state` and other data attributes in plain CSS:
+
+```css
+.dialog-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.dialog-overlay[data-state="open"] {
+  animation: fadeIn 200ms ease;
+}
+
+.dialog-overlay[data-state="closed"] {
+  animation: fadeOut 200ms ease;
+}
+
+.menu-item[data-highlighted] {
+  background: #f3f4f6;
+}
+
+.menu-item[data-disabled] {
+  opacity: 0.5;
+  pointer-events: none;
+}
+```
+
+</TabsContent>
+<TabsContent value="modules">
+
+```tsx
+import styles from './Dialog.module.css'
+
+<Dialog.Overlay className={styles.overlay} />
+<Dialog.Content className={styles.content} />
+```
+
+</TabsContent>
+<TabsContent value="cssinjs">
+
+Works with any CSS-in-JS library. Use `asChild` to apply styled components:
+
+```tsx
+const StyledOverlay = styled.div`
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+`
+
+<Dialog.Overlay asChild>
+  <StyledOverlay />
+</Dialog.Overlay>
+```
+
+</TabsContent>
+</Tabs>
+
+---
+
+## Data attributes reference
+
+<Callout icon={<Lightbulb />}>
+
+Primitives expose their state via `data-*` attributes on rendered elements. Use these for CSS-only styling based on state  -  no JavaScript needed.
+
+</Callout>
+
+| Attribute | Values | Used by |
+| --- | --- | --- |
+| `data-state` | `open`, `closed` | Dialog, Popover, Tooltip, HoverCard |
+| `data-state` | `checked`, `unchecked`, `indeterminate` | Menu CheckboxItem, RadioItem |
+| `data-state` | `complete`, `loading`, `indeterminate` | Progress |
+| `data-state` | `delayed-open`, `instant-open`, `closed` | Tooltip |
+| `data-disabled` | (present/absent) | Items, triggers |
+| `data-highlighted` | (present/absent) | Menu items |
+| `data-side` | `top`, `right`, `bottom`, `left` | Popper content |
+| `data-align` | `start`, `center`, `end` | Popper content |

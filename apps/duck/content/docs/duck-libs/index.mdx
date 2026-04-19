@@ -1,0 +1,62 @@
+---
+title: gentleduck/libs
+description: "A collection of tiny, framework-agnostic utility functions. Each utility lives in its own folder and can be imported individually or all together."
+---
+
+<Callout icon={<Zap />}>
+
+A collection of tiny, framework-agnostic utility functions. Each utility lives in its own folder and can be imported individually or all together.
+
+</Callout>
+
+## Philosophy
+
+Every UI library needs utility functions, but they shouldn't be a dependency decision. gentleduck/libs provides the small, typed helpers (cn for class merging, formatters, assertion functions) that every component uses internally. They're extracted into a shared package so you can use them too, without pulling in lodash for three functions.
+
+---
+
+## Installation
+
+```bash
+npm install @gentleduck/libs
+```
+
+<MermaidDiagram chart={`graph TD
+    A[gentleduck/libs] --> B[Class Utils]
+    A --> C[Object Utils]
+    A --> D[Array Utils]
+    A --> E[Date Utils]
+    A --> F[String Utils]
+    B --> G[cn]
+    C --> H[filtered-object]
+    D --> I[group-array]
+    D --> J[group-data-by-numbers]
+    E --> K[parse-date]
+    E --> L[getTodayDate]
+    F --> M[generateArabicSlug]
+`} />
+
+## Available Utilities
+
+* `cn` - Utility for conditional className merging.
+* `filtered-object` - Create a new object by excluding specified keys.
+* `group-array` - Split an array into sub-arrays by numeric group sizes.
+* `group-data-by-numbers` - Group array elements into sub-arrays by specified chunk sizes.
+* `parse-date` - Parse strings or values into valid Date objects.
+* `generateArabicSlug` - Convert text to URL slugs preserving Arabic characters.
+* `getTodayDate` - Return today's date as a YYYY-MM-DD string.
+* `index.ts` - Barrel file that re-exports utilities.
+
+## Usage
+
+```tsx
+import { cn } from '@gentleduck/libs'
+
+function MyComponent({ active }: { active: boolean }) {
+  return (
+    <div className={cn('rounded-md border p-4', active && 'bg-primary text-primary-foreground')}>
+      Hello
+    </div>
+  )
+}
+```

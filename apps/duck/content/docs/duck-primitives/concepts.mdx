@@ -1,0 +1,189 @@
+---
+title: "Core Concepts"
+description: "Advanced mental model for duck-primitives: composition, state ownership, focus safety, dismissal orchestration, and animation lifecycle."
+---
+
+<Callout icon={<Lightbulb />}>
+
+If primitives feel "magic", this page removes the magic. These patterns are the contract your design-system wrappers should preserve.
+
+</Callout>
+
+## 1) Composition via `asChild`
+
+`asChild` replaces the primitive's default DOM node with your child element, while preserving primitive behavior and semantics.
+
+```tsx
+<Dialog.Trigger asChild>
+  <a href="#">Open</a>
+</Dialog.Trigger>
+```
+
+Merge behavior model:
+
+- Event handlers are composed.
+- `ref` is composed.
+- `className` and `style` are merged.
+- ARIA/data attributes are forwarded.
+
+Rules:
+
+- Provide exactly one child.
+- Child components must forward refs.
+- Do not swallow incoming props in your custom components.
+
+---
+
+## 2) State ownership: controlled vs uncontrolled
+
+Every stateful primitive supports both patterns:
+
+- Uncontrolled for local behavior (`defaultOpen`, `defaultValue`).
+- Controlled for business workflows (`open` + `onOpenChange`, `value` + `onValueChange`).
+
+Use controlled mode when close/open decisions depend on async work, validation, permissions, or routing.
+
+```tsx
+<Dialog.Root
+  open={open}
+  onOpenChange={(next) => {
+    if (canDismiss(next)) setOpen(next)
+  }}
+>
+```
+
+Anti-pattern: mixing controlled and uncontrolled over component lifetime.
+
+---
+
+## 3) Focus safety with `Focus Scope`
+
+Modal surfaces depend on reliable focus behavior:
+
+- Initial focus on open.
+- Tab loop containment.
+- Focus restoration on close.
+
+Dialog-like primitives implement this internally. If you intercept focus events (`onOpenAutoFocus`, `onCloseAutoFocus`), preserve accessibility intent.
+
+```tsx
+<Dialog.Content
+  onOpenAutoFocus={(event) => {
+    event.preventDefault()
+    primaryInputRef.current?.focus()
+  }}
+/>
+```
+
+---
+
+## 4) Dismiss orchestration with `Dismissable Layer`
+
+Dismiss behavior is event-driven, not hardcoded. Key hooks:
+
+- `onPointerDownOutside`
+- `onFocusOutside`
+- `onInteractOutside`
+- `onEscapeKeyDown`
+- `onDismiss`
+
+You can cancel dismissal with `event.preventDefault()`.
+
+Use this for guarded flows (unsaved changes, in-progress request, multi-step confirmation).
+
+---
+
+## 5) Mount lifecycle with `Presence`
+
+`Presence` is how primitives support CSS exit animations without race conditions.
+
+State model:
+
+1. `mounted`
+2. `unmountSuspended` (exit animation in progress)
+3. `unmounted`
+
+Practical implication: style enter/exit through `data-state` and CSS keyframes. Use `forceMount` when an external animation library controls DOM presence.
+
+---
+
+## 6) Positioning contract with `Popper`
+
+Floating primitives expose a stable placement API:
+
+- `side`, `align`
+- `sideOffset`, `alignOffset`
+- `avoidCollisions`, `collisionPadding`, `collisionBoundary`
+
+Treat this as layout API, not styling API. Keep visual concerns in classes/tokens.
+
+---
+
+## 7) Context scoping and nested primitives
+
+Primitives use scoped contexts so nested instances remain independent.
+
+```tsx
+<Dialog.Root>
+  <Dialog.Content>
+    <Dialog.Root>
+      <Dialog.Content>Nested dialog</Dialog.Content>
+    </Dialog.Root>
+  </Dialog.Content>
+</Dialog.Root>
+```
+
+When wrapper components fail in nested cases, the root issue is usually prop swallowing or broken ref forwarding, not primitive context.
+
+---
+
+## 8) Data attributes are your styling API
+
+Use data attributes for visual states and ARIA attributes for assistive semantics.
+
+- `data-state="open" | "closed"`
+- `data-disabled`
+- `data-highlighted`
+- `data-side`, `data-align` (floating content)
+
+```css
+[data-state='open'] {
+  animation: fadeIn 160ms ease;
+}
+
+[data-state='closed'] {
+  animation: fadeOut 120ms ease;
+}
+```
+
+---
+
+## 9) Wrapper design rules for design systems
+
+1. Re-export Root directly where possible.
+2. Wrap visual parts with `forwardRef`.
+3. Preserve primitive props (`...props`) and `className` extensibility.
+4. Set sensible defaults (`sideOffset`, animation classes, padding).
+5. Keep accessibility defaults non-optional (title requirements, labels).
+
+---
+
+## 10) Debugging checklist
+
+If behavior feels wrong, check this order:
+
+1. Is `asChild` child a single ref-forwarding element?
+2. Are you preventing dismissal/focus events unintentionally?
+3. Did you move interactive nodes outside the expected layer/content?
+4. Is controlled state updating synchronously?
+5. Are exit animations defined for closed state when using Presence?
+
+---
+
+## Next
+
+<Callout icon={<MapIcon />} className="[&_ul]:my-0">
+- [Course](/docs/packages/duck-primitives/course)  -  Structured progression with labs.
+- [Guides](/docs/packages/duck-primitives/guides)  -  Focused topics: styling, animation, composition, accessibility.
+- [API Reference](/docs/packages/duck-primitives/api)  -  Per-primitive props and events.
+</Callout>

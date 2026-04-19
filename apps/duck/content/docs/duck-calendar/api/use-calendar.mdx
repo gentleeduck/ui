@@ -1,0 +1,133 @@
+---
+title: "useCalendar"
+description: "The main calendar hook providing state, actions, and prop getters for building date pickers."
+---
+
+```tsx
+import { useCalendar } from '@gentleduck/calendar'
+```
+
+## Usage
+
+```tsx showLineNumbers
+const { state, actions, getDayProps, getGridProps, getNavProps, getHeaderProps, announcer } =
+  useCalendar({
+    adapter,
+    mode: 'single',
+  })
+```
+
+---
+
+## Config
+
+`useCalendar` accepts a `UseCalendar.IConfig<TDate, M>` object:
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `adapter` | `Adapter.IDateAdapter<TDate>` | **required** | Date adapter instance |
+| `mode` | `Selection.SelectionMode` | **required** | `'single'`, `'range'`, `'multi'`, or `'multi-range'` |
+| `locale` | `Calendar.ICalendarLocaleConfig` | - | Locale, week start day, and direction |
+| `month` | `TDate` | - | Controlled displayed month |
+| `defaultMonth` | `TDate` | `adapter.today()` | Default month (uncontrolled) |
+| `selected` | `Selection.CalendarValue<TDate, M>` | - | Controlled selection value |
+| `defaultSelected` | `Selection.CalendarValue<TDate, M>` | - | Default selection (uncontrolled) |
+| `onSelect` | `(value) => void` | - | Called when selection changes |
+| `onMonthChange` | `(month) => void` | - | Called when displayed month changes |
+| `onDismiss` | `() => void` | - | Called on <Kbd>Escape</Kbd> |
+| `numberOfMonths` | `number` | `1` | Number of months to display side by side |
+| `showOutsideDays` | `boolean` | `true` | Show days from adjacent months |
+| `fixedWeeks` | `boolean` | `false` | Always show 6 weeks |
+| `disabled` | `TDate[] \| (date) => boolean` | - | Dates that cannot be selected |
+| `fromDate` | `TDate` | - | Earliest selectable date |
+| `toDate` | `TDate` | - | Latest selectable date |
+
+#### `Calendar.ICalendarLocaleConfig`
+
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `locale` | `string` | BCP 47 locale tag (e.g. 'en-US', 'ar-SA', 'fa-IR') |
+| `weekStartDay` | `0 \| 1 \| 2 \| 3 \| 4 \| 5 \| 6` | Day the week starts on (0 = Sunday) |
+| `direction` | `'ltr' \| 'rtl'` | Text direction |
+
+---
+
+## Return value
+
+### `state`
+
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `month` | `TDate` | Currently visible month |
+| `value` | `Selection.CalendarValue<TDate, M>` | Current selection. Shape depends on mode |
+| `focusedDate` | `TDate` | Date with keyboard focus |
+| `viewMode` | `Calendar.ViewMode` | `'days'`, `'months'`, or `'years'` |
+| `weeks` | `Grid.ICalendarWeek<TDate>[]` | Decorated weeks for the first month |
+| `months` | `Grid.ICalendarMonth<TDate>[]` | All month grids (for multi-month) |
+| `weekdays` | `string[]` | Localized weekday labels (7 items) |
+| `canGoNext` | `boolean` | Forward navigation available (respects `toDate`) |
+| `canGoPrevious` | `boolean` | Backward navigation available (respects `fromDate`) |
+
+### `actions`
+
+| Method | Signature | Description |
+| :--- | :--- | :--- |
+| `setMonth` | `(month: TDate) => void` | Set displayed month |
+| `setViewMode` | `(mode: Calendar.ViewMode) => void` | Switch between day/month/year view |
+| `goToNext` | `() => void` | Navigate to next month |
+| `goToPrevious` | `() => void` | Navigate to previous month |
+| `selectDate` | `(date: TDate) => void` | Select a date |
+| `focusDate` | `(date: TDate) => void` | Move keyboard focus to a date |
+
+### Prop getters
+
+| Getter | Signature | Description |
+| :--- | :--- | :--- |
+| `getDayProps` | `(day: Grid.ICalendarDay<TDate>) => DayProps` | Spread onto each day cell |
+| `getGridProps` | `() => GridProps` | Spread onto the grid container |
+| `getNavProps` | `(direction: 'prev' \| 'next') => NavProps` | Spread onto nav buttons |
+| `getHeaderProps` | `() => HeaderProps` | Spread onto the month header |
+
+### `announcer`
+
+An `AnnouncerReturn` object with an `AnnouncerPortal` component. Render it inside the calendar tree for screen reader announcements.
+
+---
+
+## Selection modes
+
+### Single
+
+```tsx showLineNumbers
+const { state } = useCalendar({ adapter, mode: 'single' })
+// state.value: Date | null
+```
+
+### Range
+
+```tsx showLineNumbers
+const { state } = useCalendar({ adapter, mode: 'range' })
+// state.value: { from: Date, to: Date | null } | null
+```
+
+### Multi
+
+```tsx showLineNumbers
+const { state } = useCalendar({ adapter, mode: 'multi' })
+// state.value: Date[]
+```
+
+---
+
+## Multi-month
+
+```tsx showLineNumbers
+const { state } = useCalendar({
+  adapter,
+  mode: 'range',
+  numberOfMonths: 2,
+})
+
+// state.months - array of Grid.ICalendarMonth objects
+// state.weeks - first month's weeks (backward compat)
+```

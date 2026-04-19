@@ -1,0 +1,163 @@
+---
+title: "Format"
+description: "Format key binding strings for display with platform-aware modifier labels."
+---
+
+<Callout icon={<Zap />}>
+
+Format key binding strings for display with platform-aware modifier labels. Converts internal binding strings like `mod+shift+s` into user-facing text like <Kbd>Cmd+Shift+S</Kbd> on macOS or <Kbd>Ctrl+Shift+S</Kbd> on Windows/Linux.
+
+</Callout>
+
+```ts
+import { formatForDisplay, formatWithLabels, SYMBOL_MAP, LABEL_MAP } from '@gentleduck/vim/format'
+import type { FormatOptions } from '@gentleduck/vim/format'
+```
+
+## Types
+
+### `FormatOptions`
+
+```ts
+interface FormatOptions {
+  platform?: Platform  // Override auto-detection
+  separator?: string   // Separator between parts. Default: '+'
+}
+```
+
+---
+
+## Functions
+
+### `formatForDisplay(binding, options?)`
+
+Formats a binding for UI display using platform-specific modifier names. Uses ASCII labels (no Unicode symbols).
+
+```ts
+function formatForDisplay(binding: string, options?: FormatOptions): string
+```
+
+**Examples by platform:**
+
+| Binding | Mac | Windows | Linux |
+| --- | --- | --- | --- |
+| `Mod+S` | `Cmd+S` | `Ctrl+S` | `Ctrl+S` |
+| `Mod+Shift+Z` | `Cmd+Shift+Z` | `Ctrl+Shift+Z` | `Ctrl+Shift+Z` |
+| `alt+k` | `Opt+K` | `Alt+K` | `Alt+K` |
+| `meta+enter` | `Cmd+Enter` | `Win+Enter` | `Super+Enter` |
+
+```ts
+formatForDisplay('Mod+S', { platform: 'mac' })     // 'Cmd+S'
+formatForDisplay('Mod+S', { platform: 'windows' })  // 'Ctrl+S'
+formatForDisplay('Mod+S', { platform: 'linux' })    // 'Ctrl+S'
+
+// Custom separator
+formatForDisplay('ctrl+shift+k', { separator: ' ' }) // 'Ctrl Shift K'
+```
+
+<Callout icon={<Lightbulb />}>
+
+Single-character keys are uppercased. Multi-character keys are capitalized (first letter uppercase).
+
+</Callout>
+
+---
+
+### `formatWithLabels(binding, options?)`
+
+Similar to `formatForDisplay` but uses a wider separator (`' + '` by default) and maps special keys to human-readable names.
+
+```ts
+function formatWithLabels(binding: string, options?: FormatOptions): string
+```
+
+**Examples:**
+
+```ts
+formatWithLabels('Mod+Shift+S', { platform: 'linux' })
+// 'Ctrl + Shift + S'
+
+formatWithLabels('ctrl+backspace')
+// 'Ctrl + Backspace'
+
+formatWithLabels('alt+arrowup')
+// 'Alt + Up'
+```
+
+<Callout icon={<Lightbulb />}>
+
+Use this for verbose display contexts like help dialogs or tooltips where wider spacing improves readability.
+
+</Callout>
+
+---
+
+## Constants
+
+### `SYMBOL_MAP`
+
+Platform-specific display names for modifiers.
+
+```ts
+const SYMBOL_MAP: Record<Platform, Record<string, string>> = {
+  mac: { meta: 'Cmd', ctrl: 'Ctrl', alt: 'Opt', shift: 'Shift' },
+  windows: { meta: 'Win', ctrl: 'Ctrl', alt: 'Alt', shift: 'Shift' },
+  linux: { meta: 'Super', ctrl: 'Ctrl', alt: 'Alt', shift: 'Shift' },
+}
+```
+
+### `LABEL_MAP`
+
+Human-readable names for special keys.
+
+```ts
+const LABEL_MAP: Record<string, string> = {
+  space: 'Space',
+  esc: 'Escape',
+  enter: 'Enter',
+  tab: 'Tab',
+  backspace: 'Backspace',
+  delete: 'Delete',
+  arrowup: 'Up',
+  arrowdown: 'Down',
+  arrowleft: 'Left',
+  arrowright: 'Right',
+  pageup: 'PageUp',
+  pagedown: 'PageDown',
+  home: 'Home',
+  end: 'End',
+  insert: 'Insert',
+}
+```
+
+---
+
+## Rendering in React
+
+A common pattern is to render formatted shortcuts inside a `<kbd>` element:
+
+```tsx
+import { formatForDisplay } from '@gentleduck/vim/format'
+
+function Shortcut({ binding }: { binding: string }) {
+  const parts = formatForDisplay(binding).split('+')
+
+  return (
+    <span className="flex items-center gap-1">
+      {parts.map((part, i) => (
+        <kbd key={i} className="px-1.5 py-0.5 text-xs bg-gray-100 rounded border">
+          {part}
+        </kbd>
+      ))}
+    </span>
+  )
+}
+
+// Usage: <Shortcut binding="Mod+Shift+K" />
+```
+
+<Callout icon={<MapIcon />}>
+
+For a ready-made keyboard shortcut display component, see the `<Kbd>` component available in the gentleduck/ui component library.
+
+</Callout>

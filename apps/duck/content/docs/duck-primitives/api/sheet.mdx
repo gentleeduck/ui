@@ -1,0 +1,92 @@
+---
+title: "Sheet"
+description: "Dialog-compatible aliases for sheet-style naming."
+---
+
+```tsx
+import * as Sheet from '@gentleduck/primitives/sheet'
+```
+
+## Anatomy
+
+```tsx
+<Sheet.Root>
+  <Sheet.Trigger />
+  <Sheet.Portal>
+    <Sheet.Overlay />
+    <Sheet.Content>
+      <Sheet.Title />
+      <Sheet.Description />
+      <Sheet.Close />
+    </Sheet.Content>
+  </Sheet.Portal>
+</Sheet.Root>
+```
+
+---
+
+## Example
+
+```tsx
+import * as Sheet from '@gentleduck/primitives/sheet'
+
+function SettingsSheet() {
+  return (
+    <Sheet.Root>
+      <Sheet.Trigger className="px-3 py-2 rounded border">Open settings</Sheet.Trigger>
+      <Sheet.Portal>
+        <Sheet.Overlay className="fixed inset-0 bg-black/50" />
+        <Sheet.Content className="fixed right-0 top-0 h-full w-[400px] bg-white p-6 shadow-xl">
+          <Sheet.Title className="text-lg font-semibold">Settings</Sheet.Title>
+          <Sheet.Description className="mt-2 text-sm text-gray-500">
+            Configure your account and interface preferences.
+          </Sheet.Description>
+          <Sheet.Close className="mt-6 px-3 py-2 rounded border">Close</Sheet.Close>
+        </Sheet.Content>
+      </Sheet.Portal>
+    </Sheet.Root>
+  )
+}
+```
+
+---
+
+## API notes
+
+`@gentleduck/primitives/sheet` is an alias layer over `@gentleduck/primitives/dialog`.
+
+- behavior, accessibility, and focus management are the same as Dialog
+- `Sheet.*` and `Dialog.*` map to the same underlying primitives
+
+## API Mapping
+
+| Sheet export | Backed by |
+| --- | --- |
+| `Sheet` / `Root` | `Dialog` |
+| `Trigger` | `DialogTrigger` |
+| `Portal` | `DialogPortal` |
+| `Overlay` | `DialogOverlay` |
+| `Content` | `DialogContent` |
+| `Title` | `DialogTitle` |
+| `Description` | `DialogDescription` |
+| `Close` | `DialogClose` |
+
+Additional exports:
+
+- `createSheetScope` (alias of `createDialogScope`)
+- type aliases such as `SheetContentProps`, `SheetTriggerProps`, etc.
+
+---
+
+## Keyboard interactions
+
+Same behavior as Dialog:
+
+| Key | Action |
+| --- | --- |
+| <Kbd>Space</Kbd> / <Kbd>Enter</Kbd> | Opens sheet (on Trigger) |
+| <Kbd>Tab</Kbd> | Cycles focus inside sheet content |
+| <Kbd>Shift+Tab</Kbd> | Reverse focus cycle |
+| <Kbd>Escape</Kbd> | Closes sheet |
+
+For full prop-level details, see [Dialog API](/docs/packages/duck-primitives/api/dialog).

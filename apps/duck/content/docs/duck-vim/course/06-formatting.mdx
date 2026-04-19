@@ -1,0 +1,200 @@
+---
+title: "Lesson 6: Display Formatting"
+description: "Render keyboard shortcuts in your UI with platform-aware labels and symbols."
+---
+
+<Callout icon={<Lightbulb />}>
+Lesson 6 of 8  -  Render keyboard shortcuts in your UI with platform-aware labels and symbols.
+</Callout>
+
+## The problem
+
+You register `'Mod+Shift+S'` as a binding. But what do you show the user?
+
+- On Mac: <Kbd>Cmd+Shift+S</Kbd>
+- On Windows: <Kbd>Ctrl+Shift+S</Kbd>
+- On Linux: <Kbd>Ctrl+Shift+S</Kbd>
+
+And modifiers have different names across platforms: <Kbd>Alt</Kbd> on Windows is <Kbd>Opt</Kbd> on Mac, <Kbd>Meta</Kbd> on Linux is <Kbd>Super</Kbd>.
+
+<Callout icon={<Zap />}>
+duck-vim's `format` module handles all of this automatically.
+</Callout>
+
+---
+
+## `formatForDisplay`
+
+The primary function. Takes a binding string and returns a display string for the current (or specified) platform:
+
+```ts
+import { formatForDisplay } from '@gentleduck/vim/format'
+
+formatForDisplay('Mod+S')                          // 'Cmd+S' on Mac, 'Ctrl+S' on Windows
+formatForDisplay('Mod+S', { platform: 'mac' })     // 'Cmd+S' always
+formatForDisplay('Mod+S', { platform: 'windows' }) // 'Ctrl+S' always
+formatForDisplay('alt+k', { platform: 'mac' })     // 'Opt+K'
+formatForDisplay('meta+enter', { platform: 'linux' }) // 'Super+Enter'
+```
+
+<Callout icon={<Lightbulb />} className="[&_ul]:my-0">
+Rules:
+
+- Single-character keys are uppercased: `s` becomes `S`.
+- Multi-character keys are capitalized: `enter` becomes `Enter`.
+- Modifiers use platform-specific names.
+</Callout>
+
+---
+
+## `formatWithLabels`
+
+A more verbose format with wider spacing, useful for tooltips and help screens:
+
+```ts
+import { formatWithLabels } from '@gentleduck/vim/format'
+
+formatWithLabels('Mod+Shift+S', { platform: 'mac' })
+// 'Cmd + Shift + S'
+
+formatWithLabels('ctrl+backspace')
+// 'Ctrl + Backspace'
+```
+
+The default separator is `' + '` (with spaces), compared to `'+'` (no spaces) in `formatForDisplay`.
+
+---
+
+## Custom separator
+
+Both functions accept a `separator` option:
+
+```ts
+formatForDisplay('ctrl+shift+k', { separator: ' ' })
+// 'Ctrl Shift K'
+
+formatForDisplay('ctrl+shift+k', { separator: ' -> ' })
+// 'Ctrl -> Shift -> K'
+```
+
+---
+
+## Rendering in React
+
+<Tabs defaultValue="simple">
+  <TabsList>
+    <TabsTrigger value="simple">Simple inline</TabsTrigger>
+    <TabsTrigger value="split">Split keys</TabsTrigger>
+    <TabsTrigger value="menu">In a menu</TabsTrigger>
+  </TabsList>
+  <TabsContent value="simple">
+    ### Simple inline display
+
+    ```tsx
+    function ShortcutBadge({ binding }: { binding: string }) {
+      return (
+        <kbd className="text-xs bg-gray-100 px-1.5 py-0.5 rounded border border-gray-200">
+          {formatForDisplay(binding)}
+        </kbd>
+      )
+    }
+    ```
+  </TabsContent>
+  <TabsContent value="split">
+    ### Split into individual `<kbd>` elements
+
+    For a more polished look, split each part into its own `<kbd>`:
+
+    ```tsx
+    function ShortcutKeys({ binding }: { binding: string }) {
+      const parts = formatForDisplay(binding).split('+')
+
+      return (
+        <span className="inline-flex items-center gap-0.5">
+          {parts.map((part, i) => (
+            <kbd
+              key={i}
+              className="min-w-[24px] text-center text-xs bg-gray-50 px-1.5 py-0.5 rounded border border-gray-200 font-mono"
+            >
+              {part}
+            </kbd>
+          ))}
+        </span>
+      )
+    }
+
+    // Usage:
+    // <ShortcutKeys binding="Mod+Shift+K" />
+    // Renders: [Cmd] [Shift] [K]  (on Mac)
+    ```
+  </TabsContent>
+  <TabsContent value="menu">
+    ### In a menu or tooltip
+
+    ```tsx
+    function MenuItem({ label, binding }: { label: string; binding: string }) {
+      return (
+        <div className="flex items-center justify-between px-3 py-2">
+          <span>{label}</span>
+          <ShortcutKeys binding={binding} />
+        </div>
+      )
+    }
+
+    <MenuItem label="Save" binding="Mod+S" />
+    <MenuItem label="Undo" binding="Mod+Z" />
+    <MenuItem label="Find" binding="Mod+F" />
+    ```
+  </TabsContent>
+</Tabs>
+
+---
+
+## Formatting sequences
+
+For multi-key sequences like `g+d`, the format functions work on individual steps. Format each step separately:
+
+```tsx
+function SequenceDisplay({ steps }: { steps: string[] }) {
+  return (
+    <span className="inline-flex items-center gap-1">
+      {steps.map((step, i) => (
+        <span key={i} className="inline-flex items-center gap-1">
+          {i > 0 && <span className="text-gray-400 text-xs">then</span>}
+          <ShortcutKeys binding={step} />
+        </span>
+      ))}
+    </span>
+  )
+}
+
+// Usage:
+// <SequenceDisplay steps={['g', 'd']} />
+// Renders: [G] then [D]
+//
+// <SequenceDisplay steps={['ctrl+k', 'ctrl+c']} />
+// Renders: [Ctrl][K] then [Ctrl][C]
+```
+
+---
+
+## Platform-specific display reference
+
+| Modifier | Mac | Windows | Linux |
+| --- | --- | --- | --- |
+| `meta` | <Kbd>Cmd</Kbd> | <Kbd>Win</Kbd> | <Kbd>Super</Kbd> |
+| `ctrl` | <Kbd>Ctrl</Kbd> | <Kbd>Ctrl</Kbd> | <Kbd>Ctrl</Kbd> |
+| `alt` | <Kbd>Opt</Kbd> | <Kbd>Alt</Kbd> | <Kbd>Alt</Kbd> |
+| `shift` | <Kbd>Shift</Kbd> | <Kbd>Shift</Kbd> | <Kbd>Shift</Kbd> |
+
+---
+
+## Exercises
+
+1. Create a component that shows a shortcut hint at the bottom of a page.
+2. Format `'Mod+Shift+Z'` for all three platforms and compare the output.
+3. Build a help overlay that lists all registered commands with formatted shortcuts.
+
+<Callout icon={<MapIcon />}>
+**Next:** [Lesson 7  -  Key Recorder and Settings](/docs/packages/duck-vim/course/07-recorder)
+</Callout>

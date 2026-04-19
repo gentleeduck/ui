@@ -1,0 +1,121 @@
+---
+title: "Lesson 8: Building a Design System"
+description: "Turn primitives into a stable design-system API with wrappers, defaults, testing strategy, and release discipline."
+---
+
+<Callout icon={<Lightbulb />}>
+
+**Lesson 8 of 10**: This lesson turns everything into a maintainable system that can scale across teams.
+
+</Callout>
+
+## System architecture
+
+Recommended layers:
+
+1. `@your-org/primitives-wrappers`: behavior-preserving wrappers.
+2. `@your-org/tokens`: color, spacing, radius, typography, motion tokens.
+3. `@your-org/components`: composed business-facing UI components.
+
+Keep interaction correctness close to wrappers, not app-level copies.
+
+---
+
+## Wrapper rules
+
+For every wrapper component:
+
+- use `forwardRef`,
+- merge `className` safely,
+- pass through primitive props,
+- provide sensible defaults,
+- preserve accessibility semantics.
+
+If wrapper API hides critical primitive events, you lose escape hatches.
+
+---
+
+## Example wrapper shape
+
+```tsx
+import * as DialogPrimitive from '@gentleduck/primitives/dialog'
+
+export const Dialog = DialogPrimitive.Root
+export const DialogTrigger = DialogPrimitive.Trigger
+
+export const DialogContent = React.forwardRef<
+  React.ComponentRef<typeof DialogPrimitive.Content>,
+  React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
+>(({ className, ...props }, ref) => (
+  <DialogPrimitive.Portal>
+    <DialogPrimitive.Overlay className="fixed inset-0 bg-black/45" />
+    <DialogPrimitive.Content ref={ref} className={className} {...props} />
+  </DialogPrimitive.Portal>
+))
+DialogContent.displayName = 'DialogContent'
+```
+
+---
+
+## API design principles
+
+1. Prefer stable, small public surface.
+2. Put visual defaults in wrappers, not app screens.
+3. Keep naming consistent across components.
+4. Avoid creating wrapper props that duplicate primitive behavior poorly.
+
+---
+
+## Testing strategy
+
+Per wrapper:
+
+- interaction tests (open/close, keyboard, outside click),
+- accessibility assertions (role/name/state),
+- visual state tests (`data-state`, disabled, highlighted),
+- regression tests for nested overlays.
+
+Run at least one end-to-end keyboard workflow in CI.
+
+---
+
+## Versioning and rollout
+
+Treat wrapper changes as product API changes:
+
+- semver discipline,
+- migration notes,
+- deprecation windows,
+- changelog entries with behavior impact.
+
+If menu keyboard behavior changes, that is not a minor cosmetic patch.
+
+---
+
+## Capstone
+
+Build and document these wrappers:
+
+1. `Dialog` with guarded async close.
+2. `Popover` with directional motion.
+3. `DropdownMenu` with checkbox/radio sections.
+4. `Tooltip` with provider defaults.
+
+Then create a short design-system note explaining:
+
+- chosen defaults,
+- accessibility guarantees,
+- known limitations,
+- test coverage boundaries.
+
+---
+
+## Final note
+
+The value of primitives is consistency under pressure. When deadlines are tight, your wrappers should keep behavior predictable, accessible, and easy to debug.
+
+<Callout icon={<MapIcon />}>
+
+Next: [Lesson 9 - Testing and Quality Gates](/docs/packages/duck-primitives/course/09-testing-quality)
+
+</Callout>

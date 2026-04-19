@@ -1,0 +1,59 @@
+---
+title: "Lesson 1: Introduction"
+description: "Why we built our own calendar engine and what problems it solves."
+---
+
+<Callout icon={<Lightbulb />}>
+
+**Lesson 1 of 8**: Why another calendar library exists and what you will build by the end of this course.
+
+</Callout>
+
+## Why build a calendar engine?
+
+Every React calendar library we evaluated had at least one of these problems:
+
+- **Too large** - `react-datepicker` ships 32 KB gzipped with 3 runtime dependencies
+- **Coupled to a date library** - `react-day-picker` requires `date-fns` (adds ~15 KB)
+- **Not tree-shakeable** - monolithic components that bundle everything even if you only need a date picker
+- **Ships CSS** - forces you to import and override stylesheets
+
+We wanted something that was:
+
+- Under 10 KB gzipped with zero dependencies
+- Pluggable for any date library via an adapter
+- Fully headless - no opinions on rendering
+- Accessible by default - WAI-ARIA grid pattern baked in
+
+---
+
+## The architecture
+
+`@gentleduck/calendar` is built in four layers:
+
+| Layer | What it does | React required? |
+| :--- | :--- | :--- |
+| **Core** | Pure functions: grid building, selection, navigation | No |
+| **Adapter** | Abstracts date operations via `Adapter.IDateAdapter<TDate>` | No |
+| **React hooks** | State management + prop getters | Yes |
+| **Compound components** | Declarative API via `@gentleduck/primitives` | Yes |
+
+Each layer imports only from the layer below. You can use the core functions without React, the hooks without compound components, or the full stack.
+
+---
+
+## What you will build
+
+By the end of this course, you will have:
+
+- A working calendar with single, range, and multi-select
+- A time picker with 12/24 hour support
+- Full keyboard navigation and screen reader announcements
+- Custom styling via data attributes and Tailwind
+- A custom date adapter (dayjs example)
+
+<Callout icon={<MapIcon />}>
+
+Next: [Lesson 2 - Adapter Pattern](/docs/packages/duck-calendar/course/02-adapter-pattern)
+
+</Callout>

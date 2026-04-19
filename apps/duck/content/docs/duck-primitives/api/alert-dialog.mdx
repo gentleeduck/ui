@@ -1,0 +1,131 @@
+---
+title: "Alert Dialog"
+description: "A modal confirmation dialog that requires the user to acknowledge or dismiss before continuing."
+---
+
+```tsx
+import * as AlertDialog from '@gentleduck/primitives/alert-dialog'
+```
+
+## Anatomy
+
+```tsx
+<AlertDialog.Root>
+  <AlertDialog.Trigger />
+  <AlertDialog.Portal>
+    <AlertDialog.Overlay />
+    <AlertDialog.Content>
+      <AlertDialog.Title />
+      <AlertDialog.Description />
+      <AlertDialog.Cancel />
+      <AlertDialog.Action />
+    </AlertDialog.Content>
+  </AlertDialog.Portal>
+</AlertDialog.Root>
+```
+
+---
+
+## How it differs from Dialog
+
+<Callout icon={<Lightbulb />}>
+
+Alert Dialog wraps Dialog with `modal` forced to `true`. It replaces `Dialog.Close` with two explicit actions: **Cancel** (dismiss without action) and **Action** (confirm and proceed).
+
+</Callout>
+
+The key difference: Alert Dialog requires explicit user choice. Clicking the overlay does **NOT** dismiss it (unlike Dialog). The user must press Cancel or Action.
+
+---
+
+## Example
+
+```tsx
+import * as AlertDialog from '@gentleduck/primitives/alert-dialog'
+
+function DeleteButton() {
+  return (
+    <AlertDialog.Root>
+      <AlertDialog.Trigger className="px-4 py-2 bg-red-500 text-white rounded">
+        Delete
+      </AlertDialog.Trigger>
+
+      <AlertDialog.Portal>
+        <AlertDialog.Overlay className="fixed inset-0 bg-black/50" />
+        <AlertDialog.Content className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white p-6 rounded-lg max-w-md">
+          <AlertDialog.Title>Delete this item?</AlertDialog.Title>
+          <AlertDialog.Description>This cannot be undone.</AlertDialog.Description>
+          <div className="flex gap-2 justify-end mt-4">
+            <AlertDialog.Cancel className="px-4 py-2 border rounded">
+              Cancel
+            </AlertDialog.Cancel>
+            <AlertDialog.Action
+              className="px-4 py-2 bg-red-500 text-white rounded"
+              onClick={() => deleteItem()}
+            >
+              Delete
+            </AlertDialog.Action>
+          </div>
+        </AlertDialog.Content>
+      </AlertDialog.Portal>
+    </AlertDialog.Root>
+  )
+}
+```
+
+---
+
+## API
+
+### `AlertDialog.Root`
+
+Same as `Dialog.Root` but `modal` is always `true`.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `open` | `boolean` | - | Controlled open state |
+| `defaultOpen` | `boolean` | `false` | Initial open state |
+| `onOpenChange` | `(open: boolean) => void` | - | Called when open state changes |
+| `dir` | `'ltr' \| 'rtl'` | - | Reading direction for keyboard navigation |
+
+### `AlertDialog.Trigger`
+
+Same as `Dialog.Trigger`.
+
+### `AlertDialog.Portal`
+
+Same as `Dialog.Portal`.
+
+### `AlertDialog.Overlay`
+
+Same as `Dialog.Overlay`.
+
+### `AlertDialog.Content`
+
+Same as `Dialog.Content`, but pointer-down-outside does not dismiss.
+
+### `AlertDialog.Title`
+
+Same as `Dialog.Title`.
+
+### `AlertDialog.Description`
+
+Same as `Dialog.Description`.
+
+### `AlertDialog.Cancel`
+
+Closes the dialog without taking action. Focus returns to the trigger.
+
+### `AlertDialog.Action`
+
+Closes the dialog and confirms the action. Attach your `onClick` to execute the destructive operation.
+
+---
+
+## Accessibility
+
+<Callout icon={<Target />} className="[&_ul]:my-0">
+- Uses `role="alertdialog"` which tells screen readers this requires attention.
+- Focus is trapped and clicking outside does **not** dismiss.
+- `Cancel` should always be present to provide an escape path.
+</Callout>

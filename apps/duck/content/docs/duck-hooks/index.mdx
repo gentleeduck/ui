@@ -1,0 +1,65 @@
+---
+title: gentleduck/hooks
+description: "A collection of reusable React hooks for the @gentleduck ecosystem."
+---
+
+<Callout icon={<Zap />}>
+
+This package provides a collection of reusable React hooks for the **@gentleduck** ecosystem.
+
+</Callout>
+
+## Philosophy
+
+Hooks are the glue between React's render cycle and the real world  -  browser APIs, external state, user interactions. Rather than scattering custom hooks across components, gentleduck/hooks centralizes them as tested, typed utilities. Each hook solves one problem (media queries, local storage, intersection observer) and composes with others.
+
+---
+
+## Installation
+
+```bash
+npm install @gentleduck/hooks
+```
+
+<MermaidDiagram chart={`graph TD
+    A[gentleduck/hooks] --> B[Ref Hooks]
+    A --> C[Timing Hooks]
+    A --> D[Layout Hooks]
+    A --> E[State Hooks]
+    B --> F[use-composed-refs]
+    C --> G[use-computed-timeout-transition]
+    C --> H[use-debounce]
+    D --> I[use-is-mobile]
+    D --> J[use-media-query]
+    E --> K[use-on-open-change]
+    E --> L[use-stable-id]
+    E --> M[use-copy-to-clipboard]
+`} />
+
+## Available Hooks
+
+- `use-composed-refs`  -  Merge multiple refs into a single ref. Also exports a `composeRefs` utility function.
+- `use-computed-timeout-transition`  -  Compute an element's CSS transition duration and run a callback after it completes.
+- `use-copy-to-clipboard`  -  Copy text to the clipboard with a configurable reset timeout.
+- `use-debounce`  -  Debounce a callback function. Also exports a standalone `debounce` utility function.
+- `use-is-mobile`  -  Detect if the viewport is below 768px.
+- `use-media-query`  -  Subscribe to a CSS media query and get a boolean match result.
+- `use-on-open-change`  -  Manage open/close state with scroll locking and CSS transition awareness.
+- `use-stable-id`  -  Generate a stable, incrementing ID with an optional prefix.
+
+## Usage
+
+To use a hook, import it from the corresponding directory:
+
+```tsx
+import { useDebounce } from '@gentleduck/hooks/use-debounce';
+
+function MyComponent() {
+  const [value, setValue] = useState('');
+  const debouncedSearch = useDebounce((query: string) => {
+    console.log('Searching for:', query);
+  }, 500);
+
+  return <input onChange={(e) => debouncedSearch(e.target.value)} />;
+}
+```

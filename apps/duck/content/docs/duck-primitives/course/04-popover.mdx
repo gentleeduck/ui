@@ -1,0 +1,112 @@
+---
+title: "Lesson 4: Popover and Positioning"
+description: "Use Popper-driven placement correctly: side/align strategy, collisions, anchors, and side-aware motion."
+---
+
+<Callout icon={<Lightbulb />}>
+
+**Lesson 4 of 10**: Floating UI quality depends on placement strategy, not just CSS.
+
+</Callout>
+
+## Baseline popover
+
+```tsx
+import * as Popover from '@gentleduck/primitives/popover'
+
+export function FilterPopover() {
+  return (
+    <Popover.Root>
+      <Popover.Trigger className="rounded border px-3 py-2 text-sm">Filters</Popover.Trigger>
+      <Popover.Portal>
+        <Popover.Content sideOffset={8} className="w-72 rounded-lg border bg-white p-4 shadow-lg">
+          <h3 className="font-medium">Filters</h3>
+          <p className="mt-1 text-sm text-gray-600">Adjust visible results.</p>
+          <Popover.Arrow className="fill-white" />
+        </Popover.Content>
+      </Popover.Portal>
+    </Popover.Root>
+  )
+}
+```
+
+---
+
+## Placement API
+
+Core props on `Content`:
+
+- `side`: top/right/bottom/left.
+- `align`: start/center/end.
+- `sideOffset`: distance from anchor.
+- `alignOffset`: fine alignment shift.
+
+Treat these as geometry controls. Keep spacing, color, borders in CSS/tokens.
+
+---
+
+## Collision strategy
+
+Popper can flip and shift content to keep it visible.
+
+```tsx
+<Popover.Content
+  side="bottom"
+  align="start"
+  avoidCollisions
+  collisionPadding={8}
+/>
+```
+
+Use `collisionPadding` to preserve comfortable edge spacing.
+
+---
+
+## Anchor modeling
+
+By default, content anchors to `Trigger`. Use `Anchor` when trigger and visual anchor differ.
+
+```tsx
+<Popover.Anchor asChild>
+  <div className="inline-flex items-center gap-2">...</div>
+</Popover.Anchor>
+```
+
+This is useful for composite inputs and toolbar groups.
+
+---
+
+## Side-aware animation
+
+Use `data-side` and `data-state` for directional motion:
+
+```css
+[data-state='open'][data-side='top'] { animation: slideDownIn 150ms ease; }
+[data-state='open'][data-side='bottom'] { animation: slideUpIn 150ms ease; }
+```
+
+This prevents motion that feels disconnected from placement.
+
+---
+
+## Popover vs Tooltip vs Dialog
+
+- `Popover`: interactive floating content.
+- `Tooltip`: non-interactive hint text.
+- `Dialog`: high-priority task or interruption.
+
+Wrong primitive choice usually leads to accessibility issues.
+
+---
+
+## Lab
+
+1. Build an anchored filter popover.
+2. Test all `side` + `align` combinations near viewport edges.
+3. Add side-aware enter/exit motion and verify reduced-motion fallback.
+
+<Callout icon={<MapIcon />}>
+
+Next: [Lesson 5 - Menus, Dropdowns, and Selection](/docs/packages/duck-primitives/course/05-menus)
+
+</Callout>

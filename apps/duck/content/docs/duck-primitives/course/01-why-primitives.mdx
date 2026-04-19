@@ -1,0 +1,118 @@
+---
+title: "Lesson 1: Why Primitives"
+description: "Understand the real engineering cost of interaction components and why headless primitives are a strategic foundation."
+---
+
+<Callout icon={<Lightbulb />}>
+
+**Lesson 1 of 10**: This lesson frames primitives as an engineering strategy, not a UI trend.
+
+</Callout>
+
+## The actual problem
+
+Teams usually underestimate overlay and selection components because demos look simple. In production, each component requires:
+
+- Keyboard interaction contracts.
+- Screen reader semantics.
+- Focus containment and restoration.
+- Layering and stacking rules.
+- Dismiss behavior under nested surfaces.
+- Motion that does not break unmount timing.
+
+Building this from scratch once is expensive. Maintaining it across product growth is far more expensive.
+
+---
+
+## Complexity profile: Dialog as an example
+
+A production dialog is not "render a box in the center". It includes:
+
+1. Trigger semantics (`aria-haspopup`, `aria-expanded`, `aria-controls`).
+2. Content semantics (`role="dialog"`, labelled and described connections).
+3. Focus trap and tab loop.
+4. Focus restore after close.
+5. Body scroll lock.
+6. Escape and outside interaction handling.
+7. Hidden background semantics for assistive tech.
+8. Exit animation support before unmount.
+
+If any one of these fails, users notice quickly.
+
+---
+
+## Why headless primitives exist
+
+Headless primitives separate concerns cleanly:
+
+- Primitive layer: behavior, accessibility, interaction lifecycle.
+- Design-system layer: visual language, motion style, spacing/tokens.
+- App layer: business flows and feature logic.
+
+This separation lets teams move faster without breaking interaction correctness.
+
+---
+
+## Build-vs-wrap decision
+
+Use primitives when:
+
+- You need consistent interaction behavior across many teams.
+- You need custom UI style with no framework lock-in.
+- You care about long-term maintainability and accessibility quality.
+
+Use pre-styled components when:
+
+- You need speed for a small app with low customization needs.
+- Interaction edge cases are minimal and design constraints are fixed.
+
+---
+
+## The hidden risk of ad hoc components
+
+Without primitives, teams often copy-paste component code and drift begins:
+
+- Slightly different keyboard behavior per surface.
+- Inconsistent ARIA labeling patterns.
+- Close behavior differences across dialogs/popovers.
+- Animation races that cause focus loss.
+
+Drift multiplies QA effort and makes regressions harder to diagnose.
+
+---
+
+## What gentleduck/primitives gives you
+
+- Accessibility patterns implemented once and reused.
+- Compound APIs that support composition without hacks.
+- Controlled and uncontrolled state support.
+- Data attributes for styling state transitions.
+- Infra primitives (`Presence`, `Dismissable Layer`, `Focus Scope`, `Popper`) you can use directly.
+
+---
+
+## Mental model for this course
+
+Treat primitives like low-level platform APIs:
+
+- You do not redesign their behavioral contract.
+- You do wrap them with your design-system conventions.
+- You do test wrapper behavior in realistic workflows.
+
+---
+
+## Lab
+
+Build a simple comparison in your playground:
+
+1. One dialog built with raw `div` logic.
+2. One dialog built with `Dialog` primitive.
+3. Test both with keyboard and screen reader.
+
+Write down which edge cases broke in the raw version. That list is your adoption justification.
+
+<Callout icon={<MapIcon />}>
+
+Next: [Lesson 2 - Your First Dialog](/docs/packages/duck-primitives/course/02-first-dialog)
+
+</Callout>
