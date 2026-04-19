@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
 import { DocsSidebarNav } from '@gentleduck/docs/client'
-import { getPackageDocsConfig } from '~/config/docs'
+import type { Metadata } from 'next'
+import { DuckVariantsConfig } from '~/config/packages/duck-variants'
 
 export const metadata: Metadata = {
   title: {
@@ -8,11 +8,7 @@ export const metadata: Metadata = {
     template: `%s - Gentleduck Variants | gentleduck/ui`,
   },
   description: 'CVA-compatible variant system for React components — type-safe class variance authority.',
-  keywords: [
-    'cva React variants',
-    'class variance authority',
-    'type-safe component variants Tailwind',
-  ],
+  keywords: ['cva React variants', 'class variance authority', 'type-safe component variants Tailwind'],
   openGraph: {
     title: 'Gentleduck Variants | gentleduck/ui',
     description: 'CVA-compatible variant system for React components — type-safe class variance authority.',
@@ -26,7 +22,7 @@ export const metadata: Metadata = {
 }
 
 export default function DuckVariantsLayout({ children }: { children: React.ReactNode }) {
-  const config = getPackageDocsConfig('duck-variants')
+  const config = DuckVariantsConfig
 
   return (
     <>
@@ -52,7 +48,7 @@ export default function DuckVariantsLayout({ children }: { children: React.React
             aria-label="Sidebar navigation"
             className="hidden shrink-0 border-grid border-r md:sticky md:top-16 md:block md:h-[calc(100vh-4rem)]">
             <div className="h-full overflow-y-auto overflow-x-hidden py-8">
-              <DocsSidebarNav config={config ?? undefined} />
+              <DocsSidebarNav config={config} />
             </div>
           </aside>
           {children}

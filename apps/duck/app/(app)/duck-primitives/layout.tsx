@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
 import { DocsSidebarNav } from '@gentleduck/docs/client'
-import { getPackageDocsConfig } from '~/config/docs'
+import type { Metadata } from 'next'
+import { DuckPrimitivesConfig } from '~/config/packages/duck-primitives'
 
 export const metadata: Metadata = {
   title: {
@@ -8,12 +8,7 @@ export const metadata: Metadata = {
     template: `%s - Gentleduck Primitives | gentleduck/ui`,
   },
   description: 'Headless, accessible React primitives — the a11y-first foundation for all gentleduck/ui components.',
-  keywords: [
-    'headless UI React',
-    'accessible React primitives',
-    'Radix alternative',
-    'headless components TypeScript',
-  ],
+  keywords: ['headless UI React', 'accessible React primitives', 'Radix alternative', 'headless components TypeScript'],
   openGraph: {
     title: 'Gentleduck Primitives | gentleduck/ui',
     description: 'Headless, accessible React primitives — the a11y-first foundation for all gentleduck/ui components.',
@@ -27,7 +22,7 @@ export const metadata: Metadata = {
 }
 
 export default function DuckPrimitivesLayout({ children }: { children: React.ReactNode }) {
-  const config = getPackageDocsConfig('duck-primitives')
+  const config = DuckPrimitivesConfig
 
   return (
     <>
@@ -38,7 +33,8 @@ export default function DuckPrimitivesLayout({ children }: { children: React.Rea
             '@context': 'https://schema.org',
             '@type': 'SoftwareSourceCode',
             name: '@gentleduck/primitives',
-            description: 'Headless, accessible React primitives — the a11y-first foundation for all gentleduck/ui components.',
+            description:
+              'Headless, accessible React primitives — the a11y-first foundation for all gentleduck/ui components.',
             programmingLanguage: 'TypeScript',
             url: 'https://ui.gentleduck.org/duck-primitives',
             codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-primitives',
@@ -53,7 +49,7 @@ export default function DuckPrimitivesLayout({ children }: { children: React.Rea
             aria-label="Sidebar navigation"
             className="hidden shrink-0 border-grid border-r md:sticky md:top-16 md:block md:h-[calc(100vh-4rem)]">
             <div className="h-full overflow-y-auto overflow-x-hidden py-8">
-              <DocsSidebarNav config={config ?? undefined} />
+              <DocsSidebarNav config={config} />
             </div>
           </aside>
           {children}

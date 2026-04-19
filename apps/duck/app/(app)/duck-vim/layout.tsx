@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
 import { DocsSidebarNav } from '@gentleduck/docs/client'
-import { getPackageDocsConfig } from '~/config/docs'
+import type { Metadata } from 'next'
+import { DuckVimConfig } from '~/config/packages/duck-vim'
 
 export const metadata: Metadata = {
   title: {
@@ -8,12 +8,7 @@ export const metadata: Metadata = {
     template: `%s - Gentleduck Vim | gentleduck/ui`,
   },
   description: 'Keyboard command engine for React — vim-style keybindings, sequences, recorder, and formatting.',
-  keywords: [
-    'vim keybindings React',
-    'keyboard shortcuts TypeScript',
-    'keyboard command engine',
-    'vim-style React',
-  ],
+  keywords: ['vim keybindings React', 'keyboard shortcuts TypeScript', 'keyboard command engine', 'vim-style React'],
   openGraph: {
     title: 'Gentleduck Vim | gentleduck/ui',
     description: 'Keyboard command engine for React — vim-style keybindings, sequences, recorder, and formatting.',
@@ -27,7 +22,7 @@ export const metadata: Metadata = {
 }
 
 export default function DuckVimLayout({ children }: { children: React.ReactNode }) {
-  const config = getPackageDocsConfig('duck-vim')
+  const config = DuckVimConfig
 
   return (
     <>
@@ -38,7 +33,8 @@ export default function DuckVimLayout({ children }: { children: React.ReactNode 
             '@context': 'https://schema.org',
             '@type': 'SoftwareSourceCode',
             name: '@gentleduck/vim',
-            description: 'Keyboard command engine for React — vim-style keybindings, sequences, recorder, and formatting.',
+            description:
+              'Keyboard command engine for React — vim-style keybindings, sequences, recorder, and formatting.',
             programmingLanguage: 'TypeScript',
             url: 'https://ui.gentleduck.org/duck-vim',
             codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-vim',
@@ -53,7 +49,7 @@ export default function DuckVimLayout({ children }: { children: React.ReactNode 
             aria-label="Sidebar navigation"
             className="hidden shrink-0 border-grid border-r md:sticky md:top-16 md:block md:h-[calc(100vh-4rem)]">
             <div className="h-full overflow-y-auto overflow-x-hidden py-8">
-              <DocsSidebarNav config={config ?? undefined} />
+              <DocsSidebarNav config={config} />
             </div>
           </aside>
           {children}

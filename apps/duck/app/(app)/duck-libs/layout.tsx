@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
 import { DocsSidebarNav } from '@gentleduck/docs/client'
-import { getPackageDocsConfig } from '~/config/docs'
+import type { Metadata } from 'next'
+import { DuckLibsConfig } from '~/config/packages/duck-libs'
 
 export const metadata: Metadata = {
   title: {
@@ -8,12 +8,7 @@ export const metadata: Metadata = {
     template: `%s - Gentleduck Libs | gentleduck/ui`,
   },
   description: 'Core utilities used across gentleduck/ui — cn(), clsx wrapper, and shared helpers.',
-  keywords: [
-    'cn utility React',
-    'clsx TypeScript',
-    'class merge utility',
-    'tailwind-merge wrapper',
-  ],
+  keywords: ['cn utility React', 'clsx TypeScript', 'class merge utility', 'tailwind-merge wrapper'],
   openGraph: {
     title: 'Gentleduck Libs | gentleduck/ui',
     description: 'Core utilities used across gentleduck/ui — cn(), clsx wrapper, and shared helpers.',
@@ -27,7 +22,7 @@ export const metadata: Metadata = {
 }
 
 export default function DuckLibsLayout({ children }: { children: React.ReactNode }) {
-  const config = getPackageDocsConfig('duck-libs')
+  const config = DuckLibsConfig
 
   return (
     <>
@@ -53,7 +48,7 @@ export default function DuckLibsLayout({ children }: { children: React.ReactNode
             aria-label="Sidebar navigation"
             className="hidden shrink-0 border-grid border-r md:sticky md:top-16 md:block md:h-[calc(100vh-4rem)]">
             <div className="h-full overflow-y-auto overflow-x-hidden py-8">
-              <DocsSidebarNav config={config ?? undefined} />
+              <DocsSidebarNav config={config} />
             </div>
           </aside>
           {children}

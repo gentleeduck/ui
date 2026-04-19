@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
 import { DocsSidebarNav } from '@gentleduck/docs/client'
-import { getPackageDocsConfig } from '~/config/docs'
+import type { Metadata } from 'next'
+import { DuckCliConfig } from '~/config/packages/duck-cli'
 
 export const metadata: Metadata = {
   title: {
@@ -8,11 +8,7 @@ export const metadata: Metadata = {
     template: `%s - Gentleduck CLI | gentleduck/ui`,
   },
   description: 'CLI for scaffolding gentleduck/ui components into your project with one command.',
-  keywords: [
-    'React component CLI scaffold',
-    'gentleduck CLI',
-    'add UI components command line',
-  ],
+  keywords: ['React component CLI scaffold', 'gentleduck CLI', 'add UI components command line'],
   openGraph: {
     title: 'Gentleduck CLI | gentleduck/ui',
     description: 'CLI for scaffolding gentleduck/ui components into your project with one command.',
@@ -26,7 +22,7 @@ export const metadata: Metadata = {
 }
 
 export default function DuckCliLayout({ children }: { children: React.ReactNode }) {
-  const config = getPackageDocsConfig('duck-cli')
+  const config = DuckCliConfig
 
   return (
     <>
@@ -52,7 +48,7 @@ export default function DuckCliLayout({ children }: { children: React.ReactNode 
             aria-label="Sidebar navigation"
             className="hidden shrink-0 border-grid border-r md:sticky md:top-16 md:block md:h-[calc(100vh-4rem)]">
             <div className="h-full overflow-y-auto overflow-x-hidden py-8">
-              <DocsSidebarNav config={config ?? undefined} />
+              <DocsSidebarNav config={config} />
             </div>
           </aside>
           {children}

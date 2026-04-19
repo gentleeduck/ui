@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
 import { DocsSidebarNav } from '@gentleduck/docs/client'
-import { getPackageDocsConfig } from '~/config/docs'
+import type { Metadata } from 'next'
+import { DuckShortcutConfig } from '~/config/packages/duck-shortcut'
 
 export const metadata: Metadata = {
   title: {
@@ -8,10 +8,7 @@ export const metadata: Metadata = {
     template: `%s - Gentleduck Shortcut | gentleduck/ui`,
   },
   description: 'Deprecated React keyboard shortcut hook — superseded by duck-vim.',
-  keywords: [
-    'React keyboard shortcut deprecated',
-    'duck-vim replacement',
-  ],
+  keywords: ['React keyboard shortcut deprecated', 'duck-vim replacement'],
   openGraph: {
     title: 'Gentleduck Shortcut | gentleduck/ui',
     description: 'Deprecated React keyboard shortcut hook — superseded by duck-vim.',
@@ -25,7 +22,7 @@ export const metadata: Metadata = {
 }
 
 export default function DuckShortcutLayout({ children }: { children: React.ReactNode }) {
-  const config = getPackageDocsConfig('duck-shortcut')
+  const config = DuckShortcutConfig
 
   return (
     <>
@@ -51,7 +48,7 @@ export default function DuckShortcutLayout({ children }: { children: React.React
             aria-label="Sidebar navigation"
             className="hidden shrink-0 border-grid border-r md:sticky md:top-16 md:block md:h-[calc(100vh-4rem)]">
             <div className="h-full overflow-y-auto overflow-x-hidden py-8">
-              <DocsSidebarNav config={config ?? undefined} />
+              <DocsSidebarNav config={config} />
             </div>
           </aside>
           {children}

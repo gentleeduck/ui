@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
 import { DocsSidebarNav } from '@gentleduck/docs/client'
-import { getPackageDocsConfig } from '~/config/docs'
+import type { Metadata } from 'next'
+import { DuckMotionConfig } from '~/config/packages/duck-motion'
 
 export const metadata: Metadata = {
   title: {
@@ -8,12 +8,7 @@ export const metadata: Metadata = {
     template: `%s - Gentleduck Motion | gentleduck/ui`,
   },
   description: 'Animation tokens and reduced-motion primitives for accessible, performant React animations.',
-  keywords: [
-    'React animation library',
-    'motion tokens',
-    'reduced motion React',
-    'accessible animations',
-  ],
+  keywords: ['React animation library', 'motion tokens', 'reduced motion React', 'accessible animations'],
   openGraph: {
     title: 'Gentleduck Motion | gentleduck/ui',
     description: 'Animation tokens and reduced-motion primitives for accessible, performant React animations.',
@@ -27,7 +22,7 @@ export const metadata: Metadata = {
 }
 
 export default function DuckMotionLayout({ children }: { children: React.ReactNode }) {
-  const config = getPackageDocsConfig('duck-motion')
+  const config = DuckMotionConfig
 
   return (
     <>
@@ -53,7 +48,7 @@ export default function DuckMotionLayout({ children }: { children: React.ReactNo
             aria-label="Sidebar navigation"
             className="hidden shrink-0 border-grid border-r md:sticky md:top-16 md:block md:h-[calc(100vh-4rem)]">
             <div className="h-full overflow-y-auto overflow-x-hidden py-8">
-              <DocsSidebarNav config={config ?? undefined} />
+              <DocsSidebarNav config={config} />
             </div>
           </aside>
           {children}

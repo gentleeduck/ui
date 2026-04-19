@@ -1,6 +1,6 @@
-import type { Metadata } from 'next'
 import { DocsSidebarNav } from '@gentleduck/docs/client'
-import { getPackageDocsConfig } from '~/config/docs'
+import type { Metadata } from 'next'
+import { DuckStateConfig } from '~/config/packages/duck-state'
 
 export const metadata: Metadata = {
   title: {
@@ -8,11 +8,7 @@ export const metadata: Metadata = {
     template: `%s - Gentleduck State | gentleduck/ui`,
   },
   description: 'Atom-based state management for React — lightweight, TypeScript-first, no boilerplate.',
-  keywords: [
-    'React state management atom',
-    'lightweight state TypeScript',
-    'React atom state',
-  ],
+  keywords: ['React state management atom', 'lightweight state TypeScript', 'React atom state'],
   openGraph: {
     title: 'Gentleduck State | gentleduck/ui',
     description: 'Atom-based state management for React — lightweight, TypeScript-first, no boilerplate.',
@@ -26,7 +22,7 @@ export const metadata: Metadata = {
 }
 
 export default function DuckStateLayout({ children }: { children: React.ReactNode }) {
-  const config = getPackageDocsConfig('duck-state')
+  const config = DuckStateConfig
 
   return (
     <>
@@ -52,7 +48,7 @@ export default function DuckStateLayout({ children }: { children: React.ReactNod
             aria-label="Sidebar navigation"
             className="hidden shrink-0 border-grid border-r md:sticky md:top-16 md:block md:h-[calc(100vh-4rem)]">
             <div className="h-full overflow-y-auto overflow-x-hidden py-8">
-              <DocsSidebarNav config={config ?? undefined} />
+              <DocsSidebarNav config={config} />
             </div>
           </aside>
           {children}
