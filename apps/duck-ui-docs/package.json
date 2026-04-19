@@ -80,7 +80,7 @@
     "dev": "next dev",
     "dev:docs": "velite dev",
     "format:reg": "bunx biome format --write ./__ui_registry__/index.tsx",
-    "lint": "next lint",
+    "lint": "biome check .",
     "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck",
     "postbuild": "next-sitemap",
     "start": "next start --port 3008",
