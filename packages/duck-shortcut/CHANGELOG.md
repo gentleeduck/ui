@@ -1,5 +1,11 @@
 # @gentleduck/shortcut
 
+## 0.1.0
+
+### Minor Changes
+
+- 7d6fb7b: Motion: export IDuckMotion namespace, add token presets, stagger utility, and exit-transition context. Shortcut and registry-ui gain motion library integration with dialog animations and MotionBadge preset.
+
 ## 0.0.6
 
 ### Patch Changes

@@ -86,7 +86,7 @@
   },
   "types": "./dist/index.d.ts",
   "type": "module",
-  "version": "0.2.9",
+  "version": "0.2.10",
   "dependencies": {
     "@floating-ui/react-dom": "^2.1.7",
     "@gentleduck/calendar": "workspace:*",

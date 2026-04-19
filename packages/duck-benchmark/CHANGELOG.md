@@ -1,5 +1,11 @@
 # @gentleduck/benchmark
 
+## 0.0.7
+
+### Patch Changes
+
+- 7d6fb7b: Align tsconfig shared configs, fix TS strict mode errors (exactOptionalPropertyTypes, verbatimModuleSyntax), align package.json deps to catalog refs, apply biome lint fixes.
+
 ## 0.0.6
 
 ### Patch Changes

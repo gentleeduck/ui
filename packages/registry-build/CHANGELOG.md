@@ -1,5 +1,11 @@
 # @gentleduck/registry-build
 
+## 0.2.2
+
+### Patch Changes
+
+- 7d6fb7b: Align tsconfig shared configs, fix TS strict mode errors (exactOptionalPropertyTypes, verbatimModuleSyntax), align package.json deps to catalog refs, apply biome lint fixes.
+
 ## 0.2.1
 
 ### Patch Changes
@@ -12,7 +18,7 @@
 
 - 34f38e5: Refactor `@gentleduck/registry-build` into a fully extension-driven build system.
 
-  - All processing (index build, components, validation, colors/themes, component index, banners) is now performed by explicit extensions  -  the core runner has no built-in phases.
+  - All processing (index build, components, validation, colors/themes, component index, banners) is now performed by explicit extensions - the core runner has no built-in phases.
   - Added `indexBuildExtension()` and `componentsExtension()` as standalone extensions (also bundled by `uiRegistryPreset()`).
   - Moved monorepo-specific presets out of the package to consumer-local config files.
   - Added generic `collections` config surface for non-UI consumers.
@@ -67,7 +73,7 @@
 - Added adapter tests covering nextjs/vite/custom resolution and generated import patterns.
 - Existing golden tests and runner integration tests continue to pass.
 
-## 0.1.0  -  2026-03-10
+## 0.1.0 - 2026-03-10
 
 ### Features
 
