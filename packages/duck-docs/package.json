@@ -4,7 +4,7 @@
     "node": ">=22.0.0"
   },
   "dependencies": {
-    "@shikijs/compat": "1.12.1",
+    "@shikijs/compat": "2.5.0",
     "@tanstack/react-virtual": "^3.13.19",
     "@types/unist": "^3.0.3",
     "aria-hidden": "^1.2.6",
