@@ -4,6 +4,12 @@ import type { Scope } from '../libs/create-context'
 import type { IMeasurable } from '../libs/observe-element-rect'
 import type { Primitive } from '../primitive-elements'
 
+declare module '@floating-ui/react-dom' {
+  interface MiddlewareData {
+    transformOrigin?: { x: string; y: string }
+  }
+}
+
 export namespace IPopper {
   export type IScoped<TProps> = TProps & { __scopePopper?: Scope }
 

@@ -49,7 +49,7 @@ const Slot = createSlot('Slot')
       const childrenRef = getComponentRef(children)
       const props = mergeProps(slotProps, children.props as AnyProps)
       if (children.type !== React.Fragment) {
-        props['ref'] = forwardedRef ? composeRefs(forwardedRef, childrenRef) : childrenRef
+        props.ref = forwardedRef ? composeRefs(forwardedRef, childrenRef) : childrenRef
       }
       return React.cloneElement(children, props)
     }
@@ -75,7 +75,7 @@ const SLOTTABLE_IDENTIFIER = Symbol('gentleduck.slottable')
 const Slottable = createSlottable('Slottable')
 
 /** @internal */
-type AnyProps = Record<string, unknown>
+type AnyProps = { ref?: React.Ref<unknown> | undefined; [key: string]: unknown }
 
 /** @internal */
 function isSlottable(child: React.ReactNode): child is React.ReactElement<ISlot.ISlottableProps, typeof Slottable> {

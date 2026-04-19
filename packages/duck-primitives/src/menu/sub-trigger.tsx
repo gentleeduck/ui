@@ -5,7 +5,7 @@ import { MenuAnchor } from './anchor'
 import { useMenuContentContext } from './content'
 import { MenuItemImpl } from './item'
 import { useMenuContext, useMenuRootContext } from './menu'
-import { getOpenState, type Side, SUB_OPEN_KEYS, whenMouse } from './menu.libs'
+import { getOpenState, isSide, SUB_OPEN_KEYS, whenMouse } from './menu.libs'
 import type { IMenu } from './menu.types'
 import { useMenuSubContext } from './sub'
 
@@ -74,8 +74,10 @@ const MenuSubTrigger = React.forwardRef<MenuSubTriggerElement, IMenu.ISubTrigger
               clearOpenTimer()
 
               const contentRect = context.content?.getBoundingClientRect()
-              if (contentRect) {
-                const side = context.content?.dataset['side'] as Side
+              if (contentRect && context.content) {
+                const sideAttr = context.content.getAttribute('data-side')
+                const side = isSide(sideAttr) ? sideAttr : 'right'
+
                 const rightSide = side === 'right'
                 const bleed = rightSide ? -5 : +5
                 const contentNearEdge = contentRect[rightSide ? 'left' : 'right']

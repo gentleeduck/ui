@@ -43,7 +43,7 @@ export const AlertDialogContent = React.forwardRef<AlertDialogContentElement, IA
             onPointerDownOutside={(event) => event.preventDefault()}
             onInteractOutside={(event) => event.preventDefault()}>
             <Slottable>{children}</Slottable>
-            {process.env['NODE_ENV'] === 'development' && <DescriptionWarning contentRef={contentRef} />}
+            {process.env.NODE_ENV === 'development' && <DescriptionWarning contentRef={contentRef} />}
           </DialogPrimitive.Content>
         </AlertDialogContentProvider>
       </DialogPrimitive.WarningProvider>

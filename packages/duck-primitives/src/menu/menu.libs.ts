@@ -45,3 +45,7 @@ export function isPointerInGraceArea(event: React.PointerEvent, area?: Polygon) 
 export function whenMouse<E>(handler: React.PointerEventHandler<E>): React.PointerEventHandler<E> {
   return (event) => (event.pointerType === 'mouse' ? handler(event) : undefined)
 }
+
+export function isSide(value: string | null): value is Side {
+  return value === 'left' || value === 'right'
+}
