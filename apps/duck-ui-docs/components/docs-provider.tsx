@@ -14,7 +14,7 @@ type DocsProviderProps = {
 
 export function DocsAppProvider({ children, docs, docsConfig, siteConfig }: DocsProviderProps) {
   return (
-    <DocsProvider docs={docs} docsConfig={docsConfig} registryIndex={Index} siteConfig={siteConfig}>
+    <DocsProvider {...(docs && { docs })} docsConfig={docsConfig} registryIndex={Index} siteConfig={siteConfig}>
       {children}
     </DocsProvider>
   )

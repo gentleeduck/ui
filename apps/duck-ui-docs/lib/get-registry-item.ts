@@ -202,7 +202,7 @@ export type FileTree = {
   children?: FileTree[]
 }
 
-export function createFileTreeForRegistryItemFiles(files: Array<{ path: string; target?: string }>) {
+export function createFileTreeForRegistryItemFiles(files: Array<{ path: string; target?: string | undefined }>) {
   const root: FileTree[] = []
 
   for (const file of files) {

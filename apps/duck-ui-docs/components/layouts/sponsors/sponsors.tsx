@@ -65,7 +65,7 @@ export function SponsorsSection() {
         <div className="mt-10 text-center">
           <Link
             className="group/support inline-flex items-center gap-2 rounded-lg border border-border/50 px-5 py-2.5 text-muted-foreground text-sm transition-colors hover:border-red-500/70 hover:text-foreground"
-            href={process.env.NEXT_PUBLIC_SPONSOR_URL ?? 'https://opencollective.com/gentelduck'}
+            href={process.env['NEXT_PUBLIC_SPONSOR_URL'] ?? 'https://opencollective.com/gentelduck'}
             rel="noreferrer"
             target="_blank">
             <Heart

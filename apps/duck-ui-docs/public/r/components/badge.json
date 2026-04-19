@@ -12,15 +12,21 @@
       "type": "registry:ui"
     },
     {
-      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport { loadDomAnimation } from '@gentleduck/motion/motion-features'\nimport { useMotionPreset } from '@gentleduck/motion/motion-presets'\nimport { scaleIn } from '@gentleduck/motion/presets/scale-in'\nimport { springBouncy } from '@gentleduck/motion/transitions/springs'\nimport { Slot } from '@gentleduck/primitives/slot'\nimport type { VariantProps } from '@gentleduck/variants'\nimport { LazyMotion, m } from 'motion/react'\nimport * as React from 'react'\nimport { badgeVariants } from './badge.constants'\n\nconst Badge = React.forwardRef<\n  HTMLDivElement,\n  Omit<React.HTMLProps<HTMLDivElement>, 'size'> & VariantProps<typeof badgeVariants> & { asChild?: boolean }\n>(({ className, variant = 'default', size = 'default', border = 'default', asChild = false, ...props }, ref) => {\n  const Comp = asChild ? Slot : 'span'\n\n  return (\n    <Comp ref={ref} className={cn(badgeVariants({ border, size, variant }), className)} data-slot=\"badge\" {...props} />\n  )\n})\nBadge.displayName = 'Badge'\n\nconst MOTION_BADGE_OPTIONS = { transition: springBouncy } as const\n\nconst MotionBadge = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof Badge>>((props, ref) => {\n  const content = useMotionPreset(scaleIn, MOTION_BADGE_OPTIONS)\n  return (\n    <LazyMotion features={loadDomAnimation}>\n      <m.div\n        initial={content.initial}\n        animate={content.animate}\n        transition={content.transition}\n        className=\"inline-flex\">\n        <Badge ref={ref} {...props} />\n      </m.div>\n    </LazyMotion>\n  )\n})\nMotionBadge.displayName = 'MotionBadge'\n\nexport { Badge, MotionBadge }\n",
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport { Slot } from '@gentleduck/primitives/slot'\nimport type { Variants } from '@gentleduck/variants'\nimport * as React from 'react'\nimport { badgeVariants } from './badge.constants'\n\nconst Badge = React.forwardRef<\n  HTMLDivElement,\n  Omit<React.HTMLProps<HTMLDivElement>, 'size'> & Variants.VariantProps<typeof badgeVariants> & { asChild?: boolean }\n>(({ className, variant = 'default', size = 'default', border = 'default', asChild = false, ...props }, ref) => {\n  const Comp = asChild ? Slot : 'span'\n\n  return (\n    <Comp ref={ref} className={cn(badgeVariants({ border, size, variant }), className)} data-slot=\"badge\" {...props} />\n  )\n})\nBadge.displayName = 'Badge'\n\nexport { Badge }\n",
       "path": "badge/badge.tsx",
       "target": "components/ui/badge.tsx",
       "type": "registry:ui"
     },
     {
-      "content": "export { Badge, MotionBadge } from './badge'\nexport { badgeVariants } from './badge.constants'\n",
+      "content": "export { Badge } from './badge'\nexport { badgeVariants } from './badge.constants'\nexport { MotionBadge } from './motion-badge'\n",
       "path": "badge/index.ts",
       "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    },
+    {
+      "content": "import { loadDomAnimation } from '@gentleduck/motion/motion-features'\nimport { useMotionPreset } from '@gentleduck/motion/motion-presets'\nimport { popIn } from '@gentleduck/motion/presets/pop-in'\nimport { springBouncy } from '@gentleduck/motion/transitions/springs'\nimport { LazyMotion, m } from 'motion/react'\nimport * as React from 'react'\nimport { Badge } from './badge'\n\nconst MotionBadge = React.forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<typeof Badge>>((props, ref) => {\n  const content = useMotionPreset(popIn, { transition: springBouncy })\n  return (\n    <LazyMotion features={loadDomAnimation}>\n      <m.div\n        initial={content.initial}\n        animate={content.animate}\n        transition={content.transition}\n        className=\"inline-flex\">\n        <Badge ref={ref} {...props} />\n      </m.div>\n    </LazyMotion>\n  )\n})\nMotionBadge.displayName = 'MotionBadge'\n\nexport { MotionBadge }\n",
+      "path": "badge/motion-badge.tsx",
+      "target": "components/ui/motion-badge.tsx",
       "type": "registry:ui"
     }
   ],

@@ -1,6 +1,9 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
+    "exactOptionalPropertyTypes": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noUncheckedIndexedAccess": false,
     "noErrorTruncation": true,
     "paths": {
       "@gentleduck/registry-build": ["../../packages/registry-build/src/index.ts"],
@@ -12,7 +15,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strictPropertyInitialization": false,
-    "types": ["@types/react", "node"],
+    "types": ["@types/react", "node", "./types/index.d.ts"],
     "useDefineForClassFields": true
   },
   "exclude": ["node_modules", "dist", "**/__test__/**", "**/*.test.ts"],

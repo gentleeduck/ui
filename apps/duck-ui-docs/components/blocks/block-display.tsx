@@ -29,7 +29,7 @@ const getCachedRegistryItem = React.cache(async (name: string) => {
   return await getRegistryItem(name)
 })
 
-const getCachedFileTree = React.cache(async (files: Array<{ path: string; target?: string }>) => {
+const getCachedFileTree = React.cache(async (files: z.infer<typeof registryItemFileSchema>[]) => {
   if (!files) {
     return null
   }

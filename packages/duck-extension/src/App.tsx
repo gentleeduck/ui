@@ -140,23 +140,22 @@ function FontProvider({ children }: { children: React.ReactNode }) {
         setCurrentDomain(domain)
 
         // Load domain fonts and disabled domains
-        chrome.storage.sync.get(
-          ['gentleduck_domainFonts', 'gentleduck_disabledDomains'],
-          (data: Record<string, unknown>) => {
-            const fonts = (data.gentleduck_domainFonts || {}) as Record<string, Font>
-            const disabled = (data.gentleduck_disabledDomains || []) as string[]
+        chrome.storage.sync.get(['gentleduck_domainFonts', 'gentleduck_disabledDomains'], (data) => {
+          // @ts-ignore
+          const fonts = (data.gentleduck_domainFonts || {}) as Record<string, Font>
+          // @ts-ignore
+          const disabled = (data.gentleduck_disabledDomains || []) as string[]
 
-            // Update cache
-            storageCache = {
-              domainFonts: fonts,
-              disabledDomains: disabled,
-              timestamp: Date.now(),
-            }
+          // Update cache
+          storageCache = {
+            domainFonts: fonts,
+            disabledDomains: disabled,
+            timestamp: Date.now(),
+          }
 
-            setDomainFonts(fonts)
-            setDisabledDomains(disabled)
-          },
-        )
+          setDomainFonts(fonts)
+          setDisabledDomains(disabled)
+        })
       })
     } else {
       // Fallback to localStorage for development
@@ -497,7 +496,7 @@ const DomainFontsList = React.memo(function DomainFontsList() {
   }
 
   return (
-    <div className="max-h-[186px] space-y-2 overflow-y-auto">
+    <div className="max-h-46.5 space-y-2 overflow-y-auto">
       {domains.map((domain) => {
         const font = domainFonts[domain]
         const isDisabled = disabledDomains.includes(domain)

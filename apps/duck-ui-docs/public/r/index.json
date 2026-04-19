@@ -33289,6 +33289,10 @@
       {
         "path": "accordion/index.ts",
         "type": "registry:ui"
+      },
+      {
+        "path": "accordion/motion-accordion.tsx",
+        "type": "registry:ui"
       }
     ],
     "name": "accordion",
@@ -33304,6 +33308,11 @@
       {
         "name": "index.ts",
         "path": "accordion/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-accordion.tsx",
+        "path": "accordion/motion-accordion.tsx",
         "type": "file"
       }
     ]
@@ -33325,6 +33334,10 @@
       },
       {
         "path": "alert/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "alert/motion-alert.tsx",
         "type": "registry:ui"
       }
     ],
@@ -33347,6 +33360,11 @@
         "name": "index.ts",
         "path": "alert/index.ts",
         "type": "file"
+      },
+      {
+        "name": "motion-alert.tsx",
+        "path": "alert/motion-alert.tsx",
+        "type": "file"
       }
     ]
   },
@@ -33362,6 +33380,10 @@
       },
       {
         "path": "alert-dialog/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "alert-dialog/motion-alert-dialog.tsx",
         "type": "registry:ui"
       }
     ],
@@ -33382,6 +33404,11 @@
         "name": "index.ts",
         "path": "alert-dialog/index.ts",
         "type": "file"
+      },
+      {
+        "name": "motion-alert-dialog.tsx",
+        "path": "alert-dialog/motion-alert-dialog.tsx",
+        "type": "file"
       }
     ]
   },
@@ -33397,6 +33424,10 @@
       },
       {
         "path": "aspect-ratio/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "aspect-ratio/motion-aspect-ratio.tsx",
         "type": "registry:ui"
       }
     ],
@@ -33414,6 +33445,11 @@
         "name": "index.ts",
         "path": "aspect-ratio/index.ts",
         "type": "file"
+      },
+      {
+        "name": "motion-aspect-ratio.tsx",
+        "path": "aspect-ratio/motion-aspect-ratio.tsx",
+        "type": "file"
       }
     ]
   },
@@ -33430,6 +33466,10 @@
       {
         "path": "avatar/index.ts",
         "type": "registry:ui"
+      },
+      {
+        "path": "avatar/motion-avatar.tsx",
+        "type": "registry:ui"
       }
     ],
     "name": "avatar",
@@ -33445,6 +33485,11 @@
       {
         "name": "index.ts",
         "path": "avatar/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-avatar.tsx",
+        "path": "avatar/motion-avatar.tsx",
         "type": "file"
       }
     ]
@@ -33467,6 +33512,10 @@
       {
         "path": "badge/index.ts",
         "type": "registry:ui"
+      },
+      {
+        "path": "badge/motion-badge.tsx",
+        "type": "registry:ui"
       }
     ],
     "name": "badge",
@@ -33488,6 +33537,11 @@
         "name": "index.ts",
         "path": "badge/index.ts",
         "type": "file"
+      },
+      {
+        "name": "motion-badge.tsx",
+        "path": "badge/motion-badge.tsx",
+        "type": "file"
       }
     ]
   },
@@ -33505,6 +33559,10 @@
       {
         "path": "breadcrumb/index.ts",
         "type": "registry:ui"
+      },
+      {
+        "path": "breadcrumb/motion-breadcrumb.tsx",
+        "type": "registry:ui"
       }
     ],
     "name": "breadcrumb",
@@ -33520,6 +33578,11 @@
       {
         "name": "index.ts",
         "path": "breadcrumb/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-breadcrumb.tsx",
+        "path": "breadcrumb/motion-breadcrumb.tsx",
         "type": "file"
       }
     ]
@@ -33546,6 +33609,10 @@
       },
       {
         "path": "button/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "button/motion-button.tsx",
         "type": "registry:ui"
       }
     ],
@@ -33573,6 +33640,11 @@
         "name": "index.ts",
         "path": "button/index.ts",
         "type": "file"
+      },
+      {
+        "name": "motion-button.tsx",
+        "path": "button/motion-button.tsx",
+        "type": "file"
       }
     ]
   },
@@ -33593,6 +33665,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "calendar/calendar.libs.ts",
+        "type": "registry:ui"
+      },
+      {
         "path": "calendar/calendar.tsx",
         "type": "registry:ui"
       },
@@ -33601,11 +33677,19 @@
         "type": "registry:ui"
       },
       {
-        "path": "calendar/calendar.utils.ts",
+        "path": "calendar/index.ts",
         "type": "registry:ui"
       },
       {
-        "path": "calendar/index.ts",
+        "path": "calendar/motion-calendar-day.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "calendar/motion-calendar-header.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "calendar/motion-calendar.tsx",
         "type": "registry:ui"
       }
     ],
@@ -33628,6 +33712,11 @@
         "type": "file"
       },
       {
+        "name": "calendar.libs.ts",
+        "path": "calendar/calendar.libs.ts",
+        "type": "file"
+      },
+      {
         "name": "calendar.tsx",
         "path": "calendar/calendar.tsx",
         "type": "file"
@@ -33638,13 +33727,23 @@
         "type": "file"
       },
       {
-        "name": "calendar.utils.ts",
-        "path": "calendar/calendar.utils.ts",
+        "name": "index.ts",
+        "path": "calendar/index.ts",
         "type": "file"
       },
       {
-        "name": "index.ts",
-        "path": "calendar/index.ts",
+        "name": "motion-calendar-day.tsx",
+        "path": "calendar/motion-calendar-day.tsx",
+        "type": "file"
+      },
+      {
+        "name": "motion-calendar-header.tsx",
+        "path": "calendar/motion-calendar-header.tsx",
+        "type": "file"
+      },
+      {
+        "name": "motion-calendar.tsx",
+        "path": "calendar/motion-calendar.tsx",
         "type": "file"
       }
     ]
@@ -33662,6 +33761,10 @@
       {
         "path": "card/index.ts",
         "type": "registry:ui"
+      },
+      {
+        "path": "card/motion-card.tsx",
+        "type": "registry:ui"
       }
     ],
     "name": "card",
@@ -33677,6 +33780,11 @@
       {
         "name": "index.ts",
         "path": "card/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-card.tsx",
+        "path": "card/motion-card.tsx",
         "type": "file"
       }
     ]
@@ -33796,6 +33904,10 @@
       {
         "path": "checkbox/index.ts",
         "type": "registry:ui"
+      },
+      {
+        "path": "checkbox/motion-checkbox.tsx",
+        "type": "registry:ui"
       }
     ],
     "name": "checkbox",
@@ -33820,6 +33932,11 @@
         "name": "index.ts",
         "path": "checkbox/index.ts",
         "type": "file"
+      },
+      {
+        "name": "motion-checkbox.tsx",
+        "path": "checkbox/motion-checkbox.tsx",
+        "type": "file"
       }
     ]
   },
@@ -33835,6 +33952,10 @@
       },
       {
         "path": "collapsible/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "collapsible/motion-collapsible.tsx",
         "type": "registry:ui"
       }
     ],
@@ -33854,6 +33975,11 @@
       {
         "name": "index.ts",
         "path": "collapsible/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-collapsible.tsx",
+        "path": "collapsible/motion-collapsible.tsx",
         "type": "file"
       }
     ]
@@ -33876,6 +34002,10 @@
       },
       {
         "path": "command/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "command/motion-command.tsx",
         "type": "registry:ui"
       }
     ],
@@ -33902,6 +34032,11 @@
         "name": "index.ts",
         "path": "command/index.ts",
         "type": "file"
+      },
+      {
+        "name": "motion-command.tsx",
+        "path": "command/motion-command.tsx",
+        "type": "file"
       }
     ]
   },
@@ -33916,7 +34051,15 @@
         "type": "registry:ui"
       },
       {
+        "path": "combobox/combobox.types.ts",
+        "type": "registry:ui"
+      },
+      {
         "path": "combobox/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "combobox/motion-combobox.tsx",
         "type": "registry:ui"
       }
     ],
@@ -33939,8 +34082,18 @@
         "type": "file"
       },
       {
+        "name": "combobox.types.ts",
+        "path": "combobox/combobox.types.ts",
+        "type": "file"
+      },
+      {
         "name": "index.ts",
         "path": "combobox/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-combobox.tsx",
+        "path": "combobox/motion-combobox.tsx",
         "type": "file"
       }
     ]
@@ -33959,6 +34112,10 @@
       {
         "path": "context-menu/index.ts",
         "type": "registry:ui"
+      },
+      {
+        "path": "context-menu/motion-context-menu.tsx",
+        "type": "registry:ui"
       }
     ],
     "name": "context-menu",
@@ -33975,6 +34132,11 @@
       {
         "name": "index.ts",
         "path": "context-menu/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-context-menu.tsx",
+        "path": "context-menu/motion-context-menu.tsx",
         "type": "file"
       }
     ]
@@ -33997,6 +34159,10 @@
       },
       {
         "path": "dialog/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "dialog/motion-dialog.tsx",
         "type": "registry:ui"
       }
     ],
@@ -34021,6 +34187,11 @@
       {
         "name": "index.ts",
         "path": "dialog/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-dialog.tsx",
+        "path": "dialog/motion-dialog.tsx",
         "type": "file"
       }
     ]
@@ -34103,6 +34274,10 @@
       {
         "path": "dropdown-menu/index.ts",
         "type": "registry:ui"
+      },
+      {
+        "path": "dropdown-menu/motion-dropdown-menu.tsx",
+        "type": "registry:ui"
       }
     ],
     "name": "dropdown-menu",
@@ -34120,6 +34295,11 @@
         "name": "index.ts",
         "path": "dropdown-menu/index.ts",
         "type": "file"
+      },
+      {
+        "name": "motion-dropdown-menu.tsx",
+        "path": "dropdown-menu/motion-dropdown-menu.tsx",
+        "type": "file"
       }
     ]
   },
@@ -34136,6 +34316,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "navigation-menu/motion-navigation-menu.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "navigation-menu/navigation-menu.tsx",
         "type": "registry:ui"
       }
@@ -34149,6 +34333,11 @@
       {
         "name": "index.ts",
         "path": "navigation-menu/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-navigation-menu.tsx",
+        "path": "navigation-menu/motion-navigation-menu.tsx",
         "type": "file"
       },
       {
@@ -34172,6 +34361,10 @@
       {
         "path": "hover-card/index.ts",
         "type": "registry:ui"
+      },
+      {
+        "path": "hover-card/motion-hover-card.tsx",
+        "type": "registry:ui"
       }
     ],
     "name": "hover-card",
@@ -34191,6 +34384,11 @@
         "name": "index.ts",
         "path": "hover-card/index.ts",
         "type": "file"
+      },
+      {
+        "name": "motion-hover-card.tsx",
+        "path": "hover-card/motion-hover-card.tsx",
+        "type": "file"
       }
     ]
   },
@@ -34207,6 +34405,10 @@
       {
         "path": "input/input.tsx",
         "type": "registry:ui"
+      },
+      {
+        "path": "input/motion-input.tsx",
+        "type": "registry:ui"
       }
     ],
     "name": "input",
@@ -34222,6 +34424,11 @@
       {
         "name": "input.tsx",
         "path": "input/input.tsx",
+        "type": "file"
+      },
+      {
+        "name": "motion-input.tsx",
+        "path": "input/motion-input.tsx",
         "type": "file"
       }
     ]
@@ -34240,6 +34447,10 @@
       {
         "path": "input-otp/input-otp.tsx",
         "type": "registry:ui"
+      },
+      {
+        "path": "input-otp/motion-input-otp.tsx",
+        "type": "registry:ui"
       }
     ],
     "name": "input-otp",
@@ -34255,6 +34466,11 @@
       {
         "name": "input-otp.tsx",
         "path": "input-otp/input-otp.tsx",
+        "type": "file"
+      },
+      {
+        "name": "motion-input-otp.tsx",
+        "path": "input-otp/motion-input-otp.tsx",
         "type": "file"
       }
     ]
@@ -34272,6 +34488,10 @@
       {
         "path": "label/label.tsx",
         "type": "registry:ui"
+      },
+      {
+        "path": "label/motion-label.tsx",
+        "type": "registry:ui"
       }
     ],
     "name": "label",
@@ -34287,6 +34507,11 @@
       {
         "name": "label.tsx",
         "path": "label/label.tsx",
+        "type": "file"
+      },
+      {
+        "name": "motion-label.tsx",
+        "path": "label/motion-label.tsx",
         "type": "file"
       }
     ]
@@ -34306,6 +34531,10 @@
       {
         "path": "menubar/menubar.tsx",
         "type": "registry:ui"
+      },
+      {
+        "path": "menubar/motion-menubar.tsx",
+        "type": "registry:ui"
       }
     ],
     "name": "menubar",
@@ -34323,6 +34552,11 @@
         "name": "menubar.tsx",
         "path": "menubar/menubar.tsx",
         "type": "file"
+      },
+      {
+        "name": "motion-menubar.tsx",
+        "path": "menubar/motion-menubar.tsx",
+        "type": "file"
       }
     ]
   },
@@ -34335,6 +34569,10 @@
     "files": [
       {
         "path": "pagination/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "pagination/motion-pagination.tsx",
         "type": "registry:ui"
       },
       {
@@ -34360,6 +34598,11 @@
         "type": "file"
       },
       {
+        "name": "motion-pagination.tsx",
+        "path": "pagination/motion-pagination.tsx",
+        "type": "file"
+      },
+      {
         "name": "pagination.tsx",
         "path": "pagination/pagination.tsx",
         "type": "file"
@@ -34382,6 +34625,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "popover/motion-popover.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "popover/popover.tsx",
         "type": "registry:ui"
       }
@@ -34394,6 +34641,11 @@
       {
         "name": "index.ts",
         "path": "popover/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-popover.tsx",
+        "path": "popover/motion-popover.tsx",
         "type": "file"
       },
       {
@@ -34414,6 +34666,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "progress/motion-progress.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "progress/progress.tsx",
         "type": "registry:ui"
       }
@@ -34426,6 +34682,11 @@
       {
         "name": "index.ts",
         "path": "progress/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-progress.tsx",
+        "path": "progress/motion-progress.tsx",
         "type": "file"
       },
       {
@@ -34446,6 +34707,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "radio-group/motion-radio-group.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "radio-group/radio-group.tsx",
         "type": "registry:ui"
       }
@@ -34461,6 +34726,11 @@
       {
         "name": "index.ts",
         "path": "radio-group/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-radio-group.tsx",
+        "path": "radio-group/motion-radio-group.tsx",
         "type": "file"
       },
       {
@@ -34483,6 +34753,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "resizable/motion-resizable.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "resizable/resizable.tsx",
         "type": "registry:ui"
       }
@@ -34495,6 +34769,11 @@
       {
         "name": "index.ts",
         "path": "resizable/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-resizable.tsx",
+        "path": "resizable/motion-resizable.tsx",
         "type": "file"
       },
       {
@@ -34515,6 +34794,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "scroll-area/motion-scroll-area.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "scroll-area/scroll-area.tsx",
         "type": "registry:ui"
       }
@@ -34527,6 +34810,11 @@
       {
         "name": "index.ts",
         "path": "scroll-area/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-scroll-area.tsx",
+        "path": "scroll-area/motion-scroll-area.tsx",
         "type": "file"
       },
       {
@@ -34548,6 +34836,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "select/motion-select.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "select/select.tsx",
         "type": "registry:ui"
       }
@@ -34561,6 +34853,11 @@
       {
         "name": "index.ts",
         "path": "select/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-select.tsx",
+        "path": "select/motion-select.tsx",
         "type": "file"
       },
       {
@@ -34581,6 +34878,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "separator/motion-separator.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "separator/separator.tsx",
         "type": "registry:ui"
       }
@@ -34593,6 +34894,11 @@
       {
         "name": "index.ts",
         "path": "separator/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-separator.tsx",
+        "path": "separator/motion-separator.tsx",
         "type": "file"
       },
       {
@@ -34615,6 +34921,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "sheet/motion-sheet.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "sheet/sheet.constants.tsx",
         "type": "registry:ui"
       },
@@ -34631,6 +34941,11 @@
       {
         "name": "index.ts",
         "path": "sheet/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-sheet.tsx",
+        "path": "sheet/motion-sheet.tsx",
         "type": "file"
       },
       {
@@ -34656,6 +34971,10 @@
     "files": [
       {
         "path": "sidebar/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "sidebar/motion-sidebar.tsx",
         "type": "registry:ui"
       },
       {
@@ -34694,6 +35013,11 @@
         "type": "file"
       },
       {
+        "name": "motion-sidebar.tsx",
+        "path": "sidebar/motion-sidebar.tsx",
+        "type": "file"
+      },
+      {
         "name": "sidebar.constants.ts",
         "path": "sidebar/sidebar.constants.ts",
         "type": "file"
@@ -34726,6 +35050,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "skeleton/motion-skeleton.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "skeleton/skeleton.tsx",
         "type": "registry:ui"
       }
@@ -34738,6 +35066,11 @@
       {
         "name": "index.ts",
         "path": "skeleton/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-skeleton.tsx",
+        "path": "skeleton/motion-skeleton.tsx",
         "type": "file"
       },
       {
@@ -34758,6 +35091,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "slider/motion-slider.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "slider/slider.tsx",
         "type": "registry:ui"
       }
@@ -34770,6 +35107,11 @@
       {
         "name": "index.ts",
         "path": "slider/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-slider.tsx",
+        "path": "slider/motion-slider.tsx",
         "type": "file"
       },
       {
@@ -34857,6 +35199,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "switch/motion-switch.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "switch/switch.tsx",
         "type": "registry:ui"
       }
@@ -34869,6 +35215,11 @@
       {
         "name": "index.ts",
         "path": "switch/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-switch.tsx",
+        "path": "switch/motion-switch.tsx",
         "type": "file"
       },
       {
@@ -34889,6 +35240,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "table/motion-table.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "table/table.tsx",
         "type": "registry:ui"
       }
@@ -34901,6 +35256,11 @@
       {
         "name": "index.ts",
         "path": "table/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-table.tsx",
+        "path": "table/motion-table.tsx",
         "type": "file"
       },
       {
@@ -34921,6 +35281,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "tabs/motion-tabs.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "tabs/tabs.tsx",
         "type": "registry:ui"
       }
@@ -34934,6 +35298,11 @@
       {
         "name": "index.ts",
         "path": "tabs/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-tabs.tsx",
+        "path": "tabs/motion-tabs.tsx",
         "type": "file"
       },
       {
@@ -34954,6 +35323,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "textarea/motion-textarea.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "textarea/textarea.tsx",
         "type": "registry:ui"
       }
@@ -34966,6 +35339,11 @@
       {
         "name": "index.ts",
         "path": "textarea/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-textarea.tsx",
+        "path": "textarea/motion-textarea.tsx",
         "type": "file"
       },
       {
@@ -34987,6 +35365,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "toggle/motion-toggle.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "toggle/toggle.constants.ts",
         "type": "registry:ui"
       },
@@ -35004,6 +35386,11 @@
       {
         "name": "index.ts",
         "path": "toggle/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-toggle.tsx",
+        "path": "toggle/motion-toggle.tsx",
         "type": "file"
       },
       {
@@ -35030,6 +35417,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "toggle-group/motion-toggle-group.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "toggle-group/toggle-group.tsx",
         "type": "registry:ui"
       }
@@ -35045,6 +35436,11 @@
       {
         "name": "index.ts",
         "path": "toggle-group/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-toggle-group.tsx",
+        "path": "toggle-group/motion-toggle-group.tsx",
         "type": "file"
       },
       {
@@ -35065,6 +35461,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "tooltip/motion-tooltip.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "tooltip/tooltip.tsx",
         "type": "registry:ui"
       }
@@ -35077,6 +35477,11 @@
       {
         "name": "index.ts",
         "path": "tooltip/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-tooltip.tsx",
+        "path": "tooltip/motion-tooltip.tsx",
         "type": "file"
       },
       {
@@ -35097,6 +35502,10 @@
         "type": "registry:ui"
       },
       {
+        "path": "typography/motion-typography.tsx",
+        "type": "registry:ui"
+      },
+      {
         "path": "typography/typography.tsx",
         "type": "registry:ui"
       }
@@ -35109,6 +35518,11 @@
       {
         "name": "index.ts",
         "path": "typography/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-typography.tsx",
+        "path": "typography/motion-typography.tsx",
         "type": "file"
       },
       {
@@ -35136,6 +35550,10 @@
       {
         "path": "button-group/index.ts",
         "type": "registry:ui"
+      },
+      {
+        "path": "button-group/motion-button-group.tsx",
+        "type": "registry:ui"
       }
     ],
     "name": "button-group",
@@ -35161,6 +35579,11 @@
         "name": "index.ts",
         "path": "button-group/index.ts",
         "type": "file"
+      },
+      {
+        "name": "motion-button-group.tsx",
+        "path": "button-group/motion-button-group.tsx",
+        "type": "file"
       }
     ]
   },
@@ -35177,6 +35600,10 @@
       {
         "path": "kbd/kbd.tsx",
         "type": "registry:ui"
+      },
+      {
+        "path": "kbd/motion-kbd.tsx",
+        "type": "registry:ui"
       }
     ],
     "name": "kbd",
@@ -35192,6 +35619,11 @@
       {
         "name": "kbd.tsx",
         "path": "kbd/kbd.tsx",
+        "type": "file"
+      },
+      {
+        "name": "motion-kbd.tsx",
+        "path": "kbd/motion-kbd.tsx",
         "type": "file"
       }
     ]
@@ -35213,6 +35645,10 @@
       },
       {
         "path": "empty/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "empty/motion-empty.tsx",
         "type": "registry:ui"
       }
     ],
@@ -35235,6 +35671,11 @@
         "name": "index.ts",
         "path": "empty/index.ts",
         "type": "file"
+      },
+      {
+        "name": "motion-empty.tsx",
+        "path": "empty/motion-empty.tsx",
+        "type": "file"
       }
     ]
   },
@@ -35255,6 +35696,10 @@
       },
       {
         "path": "field/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "field/motion-field.tsx",
         "type": "registry:ui"
       }
     ],
@@ -35281,6 +35726,11 @@
         "name": "index.ts",
         "path": "field/index.ts",
         "type": "file"
+      },
+      {
+        "name": "motion-field.tsx",
+        "path": "field/motion-field.tsx",
+        "type": "file"
       }
     ]
   },
@@ -35301,6 +35751,10 @@
       },
       {
         "path": "item/item.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "item/motion-item.tsx",
         "type": "registry:ui"
       }
     ],
@@ -35326,6 +35780,11 @@
         "name": "item.tsx",
         "path": "item/item.tsx",
         "type": "file"
+      },
+      {
+        "name": "motion-item.tsx",
+        "path": "item/motion-item.tsx",
+        "type": "file"
       }
     ]
   },
@@ -35342,6 +35801,10 @@
       },
       {
         "path": "input-group/input-group.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "input-group/motion-input-group.tsx",
         "type": "registry:ui"
       }
     ],
@@ -35363,6 +35826,11 @@
       {
         "name": "input-group.tsx",
         "path": "input-group/input-group.tsx",
+        "type": "file"
+      },
+      {
+        "name": "motion-input-group.tsx",
+        "path": "input-group/motion-input-group.tsx",
         "type": "file"
       }
     ]
@@ -35402,6 +35870,10 @@
       },
       {
         "path": "json-editor/json-text-area.tsx",
+        "type": "registry:ui"
+      },
+      {
+        "path": "json-editor/motion-json-editor.tsx",
         "type": "registry:ui"
       }
     ],
@@ -35451,6 +35923,11 @@
         "name": "json-text-area.tsx",
         "path": "json-editor/json-text-area.tsx",
         "type": "file"
+      },
+      {
+        "name": "motion-json-editor.tsx",
+        "path": "json-editor/motion-json-editor.tsx",
+        "type": "file"
       }
     ]
   },
@@ -35463,6 +35940,10 @@
     "files": [
       {
         "path": "preview-panel/index.ts",
+        "type": "registry:ui"
+      },
+      {
+        "path": "preview-panel/motion-preview-panel.tsx",
         "type": "registry:ui"
       },
       {
@@ -35494,6 +35975,11 @@
       {
         "name": "index.ts",
         "path": "preview-panel/index.ts",
+        "type": "file"
+      },
+      {
+        "name": "motion-preview-panel.tsx",
+        "path": "preview-panel/motion-preview-panel.tsx",
         "type": "file"
       },
       {
