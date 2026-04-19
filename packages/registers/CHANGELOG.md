@@ -1,5 +1,11 @@
 # @gentleduck/registers
 
+## 0.4.0
+
+### Minor Changes
+
+- 7d6fb7b: Registry constant exports renamed to camelCase convention.
+
 ## 0.3.5
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @gentleduck/docs
 
+## 1.0.0
+
+### Minor Changes
+
+- 7d6fb7b: Update internal dependencies: hooks, libs, vim, registry-ui bumped to new minor versions.
+
+### Patch Changes
+
+- Updated dependencies [7d6fb7b]
+  - @gentleduck/hooks@0.2.0
+  - @gentleduck/libs@0.2.0
+  - @gentleduck/vim@0.2.0
+
 ## 0.3.3
 
 ### Patch Changes

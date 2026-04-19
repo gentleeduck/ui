@@ -1,5 +1,11 @@
 # @gentleduck/cli
 
+## 1.3.1
+
+### Patch Changes
+
+- 7d6fb7b: Align tsconfig shared configs, fix TS strict mode errors (exactOptionalPropertyTypes, verbatimModuleSyntax), align package.json deps to catalog refs, apply biome lint fixes.
+
 ## 1.3.0
 
 ### Minor Changes

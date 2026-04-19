@@ -1,5 +1,11 @@
 # @gentleduck/vim
 
+## 0.2.0
+
+### Minor Changes
+
+- 7d6fb7b: Namespace refactors: calendar react namespaces renamed to match hook names, hooks/lazy types moved into namespaces, libs utils extracted into own modules, vim react types collapsed into single Vim namespace.
+
 ## 0.1.18
 
 ### Patch Changes

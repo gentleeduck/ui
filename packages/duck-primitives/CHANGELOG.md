@@ -1,5 +1,13 @@
 # @gentleduck/primitives
 
+## 0.2.10
+
+### Patch Changes
+
+- 7d6fb7b: Align tsconfig shared configs, fix TS strict mode errors (exactOptionalPropertyTypes, verbatimModuleSyntax), align package.json deps to catalog refs, apply biome lint fixes.
+- Updated dependencies [7d6fb7b]
+  - @gentleduck/calendar@0.3.0
+
 ## 0.2.9
 
 ### Patch Changes
