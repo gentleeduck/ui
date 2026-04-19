@@ -127,6 +127,7 @@
         "useSemanticElements": "warn"
       },
       "complexity": {
+        "useLiteralKeys": "off",
         "noBannedTypes": "off",
         "noImportantStyles": "warn",
         "noThisInStatic": "warn"
