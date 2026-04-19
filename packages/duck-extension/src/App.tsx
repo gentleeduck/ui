@@ -141,9 +141,9 @@ function FontProvider({ children }: { children: React.ReactNode }) {
 
         // Load domain fonts and disabled domains
         chrome.storage.sync.get(['gentleduck_domainFonts', 'gentleduck_disabledDomains'], (data) => {
-          // @ts-ignore
+          // @ts-expect-error
           const fonts = (data.gentleduck_domainFonts || {}) as Record<string, Font>
-          // @ts-ignore
+          // @ts-expect-error
           const disabled = (data.gentleduck_disabledDomains || []) as string[]
 
           // Update cache
