@@ -28,6 +28,7 @@ export default function DuckHooksLayout({ children }: { children: React.ReactNod
     <>
       <script
         type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
@@ -51,7 +52,7 @@ export default function DuckHooksLayout({ children }: { children: React.ReactNod
               <DocsSidebarNav config={config} />
             </div>
           </aside>
-          {/* {children} */}
+          {children}
         </div>
       </div>
     </>

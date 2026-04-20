@@ -1,26 +1,14 @@
-import type { IDocsConfig, ISidebarNavItem } from '@gentleduck/docs'
-
-export const DuckShortcutNavItem: ISidebarNavItem = {
-  href: '/duck-shortcut',
-  title: 'Gentleduck Shortcut (Deprecated)',
-  collapsible: false,
-  items: [
-    {
-      href: '/duck-shortcut',
-      title: 'Overview',
-      items: [],
-    },
-  ],
-}
+import type { IDocsConfig } from '@gentleduck/docs'
 
 export const DuckShortcutConfig: IDocsConfig = {
   mainNav: [],
   chartsNav: [],
   sidebarNav: [
     {
-      collapsible: false,
+      href: '/duck-shortcut',
       title: 'Gentleduck Shortcut (Deprecated)',
-      items: DuckShortcutNavItem.items ?? [],
+      collapsible: false,
+      items: [{ href: '/duck-shortcut', title: 'Overview', items: [] }],
     },
   ],
 }

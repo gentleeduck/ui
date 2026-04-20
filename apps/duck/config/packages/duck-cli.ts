@@ -1,26 +1,15 @@
-import type { IDocsConfig, ISidebarNavItem } from '@gentleduck/docs'
-
-export const DuckCliNavItem: ISidebarNavItem = {
-  href: '/duck-cli',
-  title: 'Gentleduck CLI',
-  collapsible: false,
-  items: [
-    {
-      href: '/duck-cli',
-      title: 'Overview',
-      items: [],
-    },
-  ],
-}
+import type { IDocsConfig } from '@gentleduck/docs'
 
 export const DuckCliConfig: IDocsConfig = {
   mainNav: [],
   chartsNav: [],
   sidebarNav: [
     {
-      collapsible: false,
+      href: '/duck-cli',
       title: 'Gentleduck CLI',
-      items: DuckCliNavItem.items ?? [],
+      label: 'new',
+      collapsible: false,
+      items: [{ href: '/duck-cli', title: 'Overview', items: [] }],
     },
   ],
 }

@@ -28,6 +28,7 @@ export default function DuckPrimitivesLayout({ children }: { children: React.Rea
     <>
       <script
         type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             '@context': 'https://schema.org',
