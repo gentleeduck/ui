@@ -9,7 +9,7 @@ import {
   ChartTooltipContent,
 } from '@gentleduck/registry-ui/chart'
 import { Bar, BarChart, CartesianGrid, XAxis, YAxis } from 'recharts'
-import data from '../../../../apps/duck-ui-docs/public/data/benchmarks/primitives.json'
+import data from '../../../../apps/duck/public/data/benchmarks/primitives.json'
 
 const config = {
   gentleduck: { label: 'gentleduck (KB)', color: 'var(--chart-1)' },

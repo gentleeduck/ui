@@ -16,7 +16,7 @@
     "typescript": "6.0.2",
     "vercel": "^50.28.0"
   },
-  "name": "duck-ui",
+  "name": "gentleduck",
   "description": "gentleduck/ui monorepo for UI components, tools, and related packages.",
   "author": "gentleduck contributors",
   "license": "MIT",
