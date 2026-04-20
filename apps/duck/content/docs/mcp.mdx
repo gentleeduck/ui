@@ -1,0 +1,417 @@
+---
+title: MCP Server
+description: Connect AI tools like Claude, Cursor, and Windsurf directly to duck-ui documentation using the Model Context Protocol.
+---
+
+## What is MCP?
+
+**Model Context Protocol (MCP)** is an open standard created by [Anthropic](https://anthropic.com) that lets AI assistants connect to external data sources and tools through a unified interface. Think of it as a USB-C port for AI  -  one standard protocol that connects any AI client to any data source.
+
+Instead of copy-pasting documentation into your AI chat, MCP lets your AI tool **directly search, browse, and read** the docs it needs, when it needs them. No context window wasted on docs you don't need, no stale information from training data.
+
+<MermaidDiagram chart={`graph LR
+  Client["AI Client\n(Claude, Cursor, Windsurf)"]
+  MCP["MCP Protocol\n(JSON-RPC over HTTP)"]
+  Server["duck-ui MCP Server\n(ui.gentleduck.org/api/mcp)"]
+  Docs["Documentation\n(100+ pages)"]
+
+  Client -->|"tool calls"| MCP
+  MCP -->|"requests"| Server
+  Server -->|"reads"| Docs
+  Docs -->|"clean markdown"| Server
+  Server -->|"responses"| MCP
+  MCP -->|"results"| Client
+
+  classDef client fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef protocol fill:#f59e0b,stroke:#d97706,color:#fff
+  classDef server fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef docs fill:#f472b6,stroke:#ec4899,color:#fff
+
+  class Client client
+  class MCP protocol
+  class Server server
+  class Docs docs
+`} />
+
+## Why MCP for duck-ui?
+
+- **Always up-to-date**  -  reads live documentation, not stale training data
+- **Token-efficient**  -  tools like `get_component_api` return only what you need (just the props table, not the entire page). Responses over 4000 chars are automatically truncated with guidance on how to get specific sections
+- **Fuzzy search**  -  typo-tolerant search finds what you mean even when you misspell it ("buton" -> "button")
+- **Searchable**  -  ranked full-text search across all 100+ documentation pages
+- **Structured**  -  filter by category (components, installation, packages) to narrow results fast
+- **Smart suggestions**  -  `suggest_components` helps you find the right component by describing what you need
+- **CORS-enabled**  -  browser-based MCP clients can connect directly
+- **Zero setup**  -  our MCP server is publicly available, just add the URL to your client config
+
+## Setup
+
+### Claude Desktop
+
+Add this to your `claude_desktop_config.json`:
+
+```json
+{
+  "mcpServers": {
+    "duck-ui": {
+      "url": "https://ui.gentleduck.org/api/mcp"
+    }
+  }
+}
+```
+
+Config file location:
+- **macOS**: `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows**: `%APPDATA%\Claude\claude_desktop_config.json`
+- **Linux**: `~/.config/Claude/claude_desktop_config.json`
+
+### Claude Code (CLI)
+
+```bash
+claude mcp add duck-ui --transport http https://ui.gentleduck.org/api/mcp
+```
+
+### Cursor
+
+Open **Settings -> MCP Servers -> Add Server**:
+
+```json
+{
+  "duck-ui": {
+    "url": "https://ui.gentleduck.org/api/mcp"
+  }
+}
+```
+
+### Windsurf
+
+Add to your MCP configuration:
+
+```json
+{
+  "mcpServers": {
+    "duck-ui": {
+      "serverUrl": "https://ui.gentleduck.org/api/mcp"
+    }
+  }
+}
+```
+
+### Any MCP Client
+
+The duck-ui MCP server uses **Streamable HTTP** transport (the modern MCP standard). Any client that supports MCP over HTTP can connect to:
+
+```
+https://ui.gentleduck.org/api/mcp
+```
+
+For local development:
+
+```
+http://localhost:3000/api/mcp
+```
+
+Health probe:
+
+```
+https://ui.gentleduck.org/api/mcp/health
+```
+
+The health endpoint reports tool count, indexed docs/categories, cache age/TTL, and active session stats.
+
+## Available Tools
+
+The MCP server exposes **9 tools**, each designed to minimize token usage while giving you complete access to the documentation.
+
+### list_docs
+
+Browse the documentation catalog with pagination. Returns a compact list of all pages with their slugs, titles, and descriptions.
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `category` | `"components" \| "installation" \| "packages" \| "changelog" \| "dark-theme" \| "general" \| "all"` | `"all"` | Filter by documentation category |
+| `page` | `number` | `1` | Page number (1-based). Each page returns up to 20 items |
+
+**Example prompt:**
+> "List all component docs from duck-ui"
+
+The AI will call `list_docs({ category: "components" })` and get back a compact list  -  one line per component instead of dumping entire pages.
+
+### search_docs
+
+Full-text search with **typo tolerance** across all documentation. Results are **ranked by relevance**  -  title matches score highest, then slug, then description, then body content. Handles misspellings like "buton" -> "button".
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `query` | `string` | (required) | Search keyword or phrase |
+| `category` | `"components" \| "installation" \| "packages" \| "changelog" \| "dark-theme" \| "general" \| "all"` | `"all"` | Narrow search to a category |
+| `limit` | `number` (1-20) | `10` | Max results to return |
+
+**Example prompt:**
+> "Search duck-ui docs for how to use loading states"
+
+### read_doc
+
+Read a specific documentation page. The server **strips all MDX/JSX syntax** and returns clean markdown, so no tokens are wasted on `<ComponentPreview>` tags or import statements. Responses over 4000 characters are automatically truncated with a notice.
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `slug` | `string` | (required) | Page slug, e.g. `"components/button"` |
+| `mode` | `"full" \| "summary"` | `"full"` | `"summary"` returns only headings + first paragraph (saves tokens) |
+| `section` | `string` | (optional) | Extract a single section by heading, e.g. `"API Reference"` |
+
+**Example prompts:**
+> "Read the button component docs from duck-ui"
+
+> "Show me just the API Reference section of the dialog component"
+
+> "Give me a summary of the installation docs for Next.js"
+
+The `section` parameter is powerful  -  instead of reading a 300-line page, you can pull out just "Installation" or "API Reference" or "Usage" and save hundreds of tokens.
+
+### get_component_api
+
+A shortcut that extracts **only the props/API table** from a component page. This is the most token-efficient way to look up component props. If the component name is misspelled, it suggests similar names.
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `component` | `string` | (required) | Component name, e.g. `"button"`, `"dialog"` |
+
+**Example prompt:**
+> "What props does the duck-ui select component accept?"
+
+The AI calls `get_component_api({ component: "select" })` and gets back just the props table  -  not the entire page with examples, philosophy sections, and mermaid diagrams.
+
+### get_examples
+
+Get only the code examples from a documentation page. Returns all fenced code blocks without the surrounding prose  -  saves tokens when you just need to see usage patterns.
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `slug` | `string` | (required) | Doc page slug, e.g. `"components/button"` |
+
+**Example prompt:**
+> "Show me code examples for the duck-ui dialog component"
+
+The AI calls `get_examples({ slug: "components/dialog" })` and gets back just the code blocks  -  imports, JSX usage, and configuration snippets without any of the explanatory text around them.
+
+### get_changelog
+
+Get changelog entries with optional version or component filtering. Useful for checking what changed in a specific release or for a specific component.
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `version` | `string` | (optional) | Version to filter by, e.g. `"2.3"`, `"1.0.0"` |
+| `component` | `string` | (optional) | Component name to filter by, e.g. `"button"`, `"dialog"` |
+| `limit` | `number` (1-20) | `5` | Max changelog entries to return |
+
+**Example prompt:**
+> "What changed in duck-ui version 2.3?"
+
+**Example prompt:**
+> "What changed recently for the duck-ui dialog component?"
+
+### get_installation
+
+A shortcut to get the installation/setup guide for a specific framework. No need to remember the slug format  -  just pass the framework name.
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `framework` | `string` | (required) | Framework name, e.g. `"next"`, `"vite"`, `"remix"`, `"astro"` |
+
+**Example prompt:**
+> "How do I install duck-ui in my Next.js project?"
+
+The AI calls `get_installation({ framework: "next" })` and gets back the full setup guide with fuzzy matching  -  so `"nextjs"` or `"next.js"` will also work.
+
+### suggest_components
+
+Describe what you need and get ranked component suggestions. Uses fuzzy matching across titles, descriptions, and content to find the best match.
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `need` | `string` | (required) | Describe what you need, e.g. `"date picker"`, `"modal dialog"`, `"data table"` |
+| `limit` | `number` (1-10) | `5` | Max suggestions to return |
+
+**Example prompt:**
+> "I need a component for selecting dates in duck-ui"
+
+The AI calls `suggest_components({ need: "date picker" })` and gets back a ranked list of the most relevant components with their descriptions.
+
+### semantic_search
+
+Natural language search powered by **TF-IDF vectors and cosine similarity**. Unlike keyword search, this understands meaning  -  "popup overlay" finds the dialog component, "form input validation" finds react-hook-form, even without exact keyword matches.
+
+**Parameters:**
+
+| Parameter | Type | Default | Description |
+| --- | --- | --- | --- |
+| `query` | `string` | (required) | Natural language query, e.g. `"how to create a popup dialog"` |
+| `category` | `"components" \| "installation" \| "packages" \| "changelog" \| "dark-theme" \| "general" \| "all"` | `"all"` | Narrow search to a category |
+| `limit` | `number` (1-20) | `5` | Max results to return |
+| `threshold` | `number` (0-1) | `0.05` | Minimum similarity score. Lower = more results |
+
+**Example prompts:**
+> "How do I handle form validation in duck-ui?"
+
+> "I need something for overlays and popups"
+
+> "Customizing component colors and themes"
+
+The AI calls `semantic_search({ query: "form validation" })` and gets back docs ranked by semantic similarity with match percentages, even if they don't contain the exact phrase "form validation".
+
+## Tips for Getting the Most Out of It
+
+### 1. Start narrow, expand as needed
+
+Don't ask the AI to "read all the docs." Instead:
+
+1. Use `list_docs` with a category to browse what's available
+2. Use `search_docs` to find the specific page you need
+3. Use `read_doc` with `mode="summary"` first
+4. Only use `mode="full"` or `section` when you need the details
+
+This workflow uses ~80% fewer tokens than reading full pages blindly.
+
+### 2. Use `section` for targeted reads
+
+If you need the API reference for a component, use:
+```
+read_doc({ slug: "components/button", section: "API Reference" })
+```
+
+Instead of reading the entire button page (300+ lines), you'll get just the props table (~30 lines).
+
+### 3. Use `get_component_api` for quick prop lookups
+
+When you just need to know what props a component accepts:
+```
+get_component_api({ component: "dialog" })
+```
+
+This is a shortcut that directly extracts the API/props section  -  no need to remember the slug format or specify sections manually.
+
+### 4. Filter searches by category
+
+If you know you're looking for a component, narrow it down:
+```
+search_docs({ query: "loading", category: "components" })
+```
+
+This avoids returning changelog entries and installation guides when you just want the component that handles loading states.
+
+### 5. Use shortcuts for common tasks
+
+Instead of manually searching and reading, use the dedicated shortcut tools:
+
+- **Need component props?** -> `get_component_api({ component: "button" })`
+- **Setting up a project?** -> `get_installation({ framework: "next" })`
+- **What changed recently?** -> `get_changelog({ version: "2.3" })`
+- **Not sure which component?** -> `suggest_components({ need: "date picker" })`
+
+### 6. Combine with your workflow
+
+The MCP server is most powerful when combined with your actual development workflow:
+
+- **Building a form?** -> `suggest_components({ need: "form" })` -> `get_component_api({ component: "react-hook-form" })`
+- **Setting up a new project?** -> `get_installation({ framework: "next" })`
+- **Need component props?** -> `get_component_api({ component: "button" })`
+- **Debugging dark mode?** -> `list_docs({ category: "dark-theme" })` -> `read_doc({ slug: "dark-theme/next" })`
+- **Checking a release?** -> `get_changelog({ version: "2.0" })`
+
+## How It Works (Technical)
+
+The duck-ui MCP server is built with:
+
+- **[`@modelcontextprotocol/sdk`](https://github.com/modelcontextprotocol/typescript-sdk)**  -  the official MCP TypeScript SDK
+- **Next.js Route Handler**  -  exposed at `/api/mcp` using the Streamable HTTP transport
+- **Session-scoped transport reuse**  -  each initialized `Mcp-Session-Id` reuses the same connected server/transport pair until delete or TTL expiry
+- **In-memory cache**  -  docs index is built once and cached for 60 seconds, so subsequent requests skip filesystem I/O entirely
+- **Rate limiting**  -  60 requests per minute per IP to prevent abuse
+- **CORS**  -  browser-safe MCP headers are allowed/exposed, including `Mcp-Session-Id`
+- **Response truncation**  -  responses over 4000 chars are automatically truncated with guidance to use section/summary mode
+- **Fuzzy matching**  -  Levenshtein distance-based typo tolerance in search and component lookups
+- **Semantic search**  -  TF-IDF vectors with bigram support + cosine similarity for natural language queries
+- **`/llms.txt`**  -  standard machine-readable index at `/llms.txt` for automatic discovery
+
+The server reads MDX files from the docs content directory, parses frontmatter for metadata, strips JSX/MDX syntax, and caches the result. This means:
+
+1. **Fast responses**  -  first request builds the cache (~70ms), subsequent requests serve from memory (~10ms)
+2. **MDX components are stripped**  -  `<ComponentPreview>`, `<MermaidDiagram>`, `<Tabs>`, etc. are removed so the AI gets just the useful content
+3. **Token-efficient**  -  clean markdown without JSX noise uses significantly fewer tokens than raw MDX
+4. **Protected**  -  rate limiting prevents runaway costs from abusive clients
+
+### Architecture
+
+<MermaidDiagram chart={`graph TD
+  Request["MCP Client Request\n(JSON-RPC over HTTP)"]
+  Route["Next.js Route Handler\n/api/mcp"]
+  Transport["WebStandard Streamable\nHTTP Transport"]
+  Server["McpServer\n(SDK)"]
+  Tools["Tool Handlers"]
+  FS["File System\n(content/docs/*.mdx)"]
+  Parse["Frontmatter Parser\n+ MDX Stripper"]
+  Response["Clean Markdown\nResponse"]
+
+  Request --> Route
+  Route --> Transport
+  Transport --> Server
+  Server --> Tools
+  Tools --> FS
+  FS --> Parse
+  Parse --> Response
+  Response --> Transport
+
+  classDef infra fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef logic fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef data fill:#f472b6,stroke:#ec4899,color:#fff
+
+  class Request,Route,Transport infra
+  class Server,Tools,Parse logic
+  class FS,Response data
+`} />
+
+## FAQ
+
+### Does this cost anything?
+
+No. The MCP server is free and publicly available. The only cost is the tokens used by your AI client to process the responses  -  which is why the server is designed to minimize token usage.
+
+### Can I use this with any AI tool?
+
+Any tool that supports MCP (Model Context Protocol) can connect. This includes Claude Desktop, Claude Code, Cursor, Windsurf, Zed, and any custom client built with the MCP SDK.
+
+### What if the docs are outdated?
+
+They can't be  -  the MCP server reads the docs at request time from the live source files. When we update the docs, your next MCP request gets the updated content automatically.
+
+### Can I run the MCP server locally?
+
+Yes. Clone the repo, run the docs dev server, and point your MCP client to `http://localhost:3000/api/mcp`.
+
+```bash
+git clone https://github.com/gentleeduck/duck-ui.git
+cd duck-ui
+bun install
+bun run --filter duck-ui-docs dev
+```
+
+### What is Streamable HTTP?
+
+Streamable HTTP is the modern MCP transport protocol. It replaces the older SSE (Server-Sent Events) transport with a simpler, more reliable HTTP-based approach. It uses standard `POST` requests with JSON-RPC payloads  -  the same kind of request any HTTP client can make.

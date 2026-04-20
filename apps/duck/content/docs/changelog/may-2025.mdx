@@ -1,0 +1,104 @@
+---
+title: May 2025
+description: Dialog/drawer/sheet system rewrite, duck-variants with 7x performance, duck-motion package, website launch, and build tooling migration.
+---
+
+## Dialog System <Badge>feat</Badge>
+
+Major rewrite of the dialog, drawer, sheet, and alert-dialog system:
+
+### Dialog
+
+<ComponentPreview
+  name="dialog-1"
+  description="A dialog for editing profile details."
+/>
+
+- Migrated all overlay components to shared Dialog primitives
+- Implemented draggable functionality in DrawerContent with snap points
+- Built `useDrawerDrag` hook with debounce for smooth touch handling
+- Added scroll lock functionality during dialog open/close transitions
+- Replaced `useShouldRender` with `ShouldRender` component
+- Streamlined dialog close event handling
+
+---
+
+## Sheet and Drawer <Badge>feat</Badge>
+
+### Drawer
+
+<ComponentPreview
+  name="drawer-1"
+  description="A drawer with an adjustable daily activity goal and a bar chart visualization."
+/>
+
+### Sheet
+
+<ComponentPreview
+  name="sheet-1"
+  description="Sheet"
+/>
+
+- Introduced Sheet component with customizable content and animations
+- Updated `AnimSheetVariants` for improved positioning and animation
+- Drawer with drag-to-dismiss, snap points, and scale background effect
+
+---
+
+## duck-motion Package <Badge>feat</Badge>
+
+Built `@gentleduck/motion` for shared animation primitives:
+
+- Created `AnimDialogVariants` and `AnimSheetVariants` for dialog and sheet animations
+- Added `AnimDrawerVariants` for enhanced drawer animations
+- Implemented accelerated variants for smoother transitions
+- Separated easing functions for reuse
+- Reduced default animation duration from 200ms to 150ms
+
+---
+
+## duck-variants <Badge>feat</Badge>
+
+`@gentleduck/variants` achieved **7x performance improvement** over alternatives in our benchmarks.
+
+Completed the type-safe variant system:
+
+- Enhanced test cases and benchmarking tests
+- Added `boundVariants` feature for pre-bound variant functions
+- Added `extractProps` type utility
+- Migrated build from tsup to tsdown
+
+See the full [variants docs](/docs/packages/duck-variants).
+
+---
+
+## Alert Dialog <Badge>feat</Badge>
+
+### Alert Dialog
+
+<ComponentPreview
+  name="alert-dialog-1"
+  description="Alert dialog"
+/>
+
+- Updated alert-dialog to use shared Dialog primitives
+- Improved component structure for semantic HTML (heading instead of paragraph for title)
+
+---
+
+## Website Launch <Badge>feat</Badge>
+
+- Launched website with home page, header navigation, and blog routes
+- Integrated content collections with Velite
+- Added Brotli compression and image optimization
+- Added Blog navigation item
+
+---
+
+## Build Tooling <Badge variant="outline">chore</Badge>
+
+- Migrated packages from tsup to **tsdown** for build
+- Added **biome** linting across all packages
+- Added **Husky** to the dev cycle for pre-commit hooks
+- Set up unified catalog dependencies
+- Added Vite integration with `rolldown-vite`

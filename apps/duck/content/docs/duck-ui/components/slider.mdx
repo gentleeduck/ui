@@ -1,0 +1,192 @@
+---
+title: slider
+description: An input where the user selects a value from within a given range.
+component: true
+---
+
+<ComponentPreview name="slider-1" description="A slider component." />
+
+## Philosophy
+
+Sliders let users select values within a range through direct manipulation. We build on Radix's accessible foundation (keyboard arrows, ARIA attributes, RTL support) and add the visual track/range/thumb styling. The Root/Track/Range/Thumb decomposition lets you restyle any part without rebuilding the interaction logic.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Slider[Slider]
+  Slider --> primitives["@gentleduck/primitives\n/slider"]:::internal
+  Slider --> libs["@gentleduck/libs"]:::internal
+
+  primitives --> |"provides"| DragInteraction["Drag Interaction"]
+  primitives --> |"provides"| KeyboardNav["Arrow Key Steps"]
+  primitives --> |"provides"| A11y["ARIA slider\nAttributes"]
+  primitives --> |"provides"| RTL["RTL Support"]
+  Slider --> |"adds"| TrackStyle["Styled Track\n& Range"]
+  Slider --> |"adds"| ThumbStyle["Styled Thumb"]
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+`} />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add slider
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/libs @gentleduck/primitives
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource path="packages/registry-ui/src/slider" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Slider } from "@/components/ui/slider"
+```
+
+```tsx
+<Slider defaultValue={[33]} max={100} step={1} />
+```
+
+## Examples
+
+### Range
+
+<ComponentPreview name="slider-2" description="A range slider component." />
+
+### Horizontal
+
+<ComponentPreview name="slider-3" description="A horizontal slider component." />
+
+### Vertical
+
+<ComponentPreview name="slider-4" description="A vertical slider component." />
+
+## Component Composition
+
+<MermaidDiagram chart={`graph TD
+    A[Slider.Root] --> B[Slider.Track]
+    B --> C[Slider.Range]
+    A --> D[Slider.Thumb]
+`} />
+
+## RTL Support
+
+Set `dir="rtl"` on `Slider` for a local override, or set `DirectionProvider` once at app/root level for global direction.
+
+<ComponentPreview
+  name="slider-5"
+  description="A slider with RTL support."
+/>
+
+## Motion
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Alpha: Motion Compositions"
+  tone="warning">
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/duck-ui/issues).
+</Callout>
+
+Use `MotionSlider` for a smooth entrance animation powered by [motion](https://motion.dev). The slider fades in with scale and blur on mount using `springBouncy`.
+
+<ComponentPreview
+  name="slider-6"
+  description="Slider with motion-powered entrance animation."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionSlider` instead of `Slider`. Same props. The regular `Slider` is perfectly fine - this is an optional enhancement.
+</Callout>
+
+## API Reference
+
+### Slider
+
+A unified slider component that supports both single-thumb and multi-thumb (range) usage. Pass a single-element `defaultValue` array for a single thumb, or a multi-element array for a range slider. Internally composes `SliderPrimitive.Root`, `SliderPrimitive.Track`, `SliderPrimitive.Range`, and dynamically renders `SliderPrimitive.Thumb` elements based on the values array.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | - | Additional CSS class names |
+| `defaultValue` | `number[]` | - | Uncontrolled initial values. When omitted (and `value` is also omitted), two thumbs are rendered at `[min, max]`. |
+| `value` | `number[]` | - | Controlled values array |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider orientation |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`) and inherited by slider parts. |
+| `min` | `number` | `0` | Minimum allowed value |
+| `max` | `number` | `100` | Maximum allowed value |
+| `...props` | `React.ComponentProps<typeof SliderPrimitive.Root>` | - | All other props from `SliderPrimitive.Root` |
+
+### MotionSlider
+
+`scaleIn` entrance with `springBouncy` transition on mount. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `SliderProps` | - | All props from `Slider` are supported |
+
+### Primitive Sub-components
+
+The following primitives are used internally by `Slider`:
+
+#### SliderPrimitive.Root
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | - | Name for form submission |
+| `disabled` | `boolean` | `false` | Disables the slider |
+| `min` | `number` | `0` | Minimum allowed value |
+| `max` | `number` | `100` | Maximum allowed value |
+| `step` | `number` | `1` | Increment step for values |
+| `value` | `number[]` | - | Controlled values array |
+| `defaultValue` | `number[]` | `[min]` | Uncontrolled initial values |
+| `onValueChange` | `(value: number[]) => void` | - | Callback fired on every value change |
+| `onValueCommit` | `(value: number[]) => void` | - | Callback fired when interaction ends (pointer up or key commit) |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Slider orientation |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction for horizontal sliders. Uses the same `useDirection` resolution order. |
+| `inverted` | `boolean` | `false` | Inverts the slider direction |
+| `minStepsBetweenThumbs` | `number` | `0` | Minimum number of steps between thumbs |
+| `form` | `string` | - | Associates with a form element by ID |
+
+#### SliderPrimitive.Track
+
+Renders a `<span>`. Accepts all standard span props.
+
+#### SliderPrimitive.Range
+
+Renders a `<span>`. Accepts all standard span props.
+
+#### SliderPrimitive.Thumb
+
+Renders a `<span>`. The thumb index is auto-detected from render order.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `name` | `string` | - | Optional name override for this thumb's hidden input |

@@ -1,0 +1,452 @@
+---
+title: calendar
+description: A date field component that allows users to enter and edit date.
+component: true
+links:
+  doc: /docs/packages/duck-calendar
+---
+
+<ComponentPreview
+  name="calendar-1"
+  title="Calendar"
+  description="A calendar showing the current date with month/year dropdowns."
+/>
+
+## Philosophy
+
+Calendars are complex accessibility challenges disguised as simple grids. We own the entire calendar stack  -  from the headless engine ([`@gentleduck/calendar`](/docs/packages/duck-calendar)) to the compound primitives (`@gentleduck/primitives/calendar`) to this styled component. The adapter pattern lets you swap date libraries, the hook layer handles state management, and this component applies Tailwind styling via `data-*` attribute selectors.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  Calendar[Calendar]
+  Calendar --> hook["useCalendar"]:::internal
+  Calendar --> libs["@gentleduck/libs"]:::internal
+  Calendar --> lucide["lucide-react"]:::external
+  Calendar --> select["Select"]:::component
+
+  hook --> adapter["DateAdapter"]:::internal
+  hook --> grid["buildCalendarMonth"]:::internal
+  hook --> selection["selectDay / applySelection"]:::internal
+  hook --> keyboard["useKeyboard"]:::internal
+  hook --> announcer["useAnnouncer"]:::internal
+
+  classDef external fill:#818cf8,stroke:#6366f1,color:#fff
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add calendar
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/calendar @gentleduck/libs
+```
+
+<Step>Add the `Button` and `Select` components to your project.</Step>
+
+The `Calendar` uses the [`Button`](/docs/components/button) variant styles and the [`Select`](/docs/components/select) component for month/year dropdowns.
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource path="packages/registry-ui/src/calendar" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx showLineNumbers
+import { Calendar } from "@/components/ui/calendar"
+```
+
+```tsx showLineNumbers
+const [date, setDate] = React.useState<Date | undefined>(new Date())
+
+return (
+  <Calendar
+    mode="single"
+    selected={date}
+    onSelect={setDate}
+    className="rounded-lg border"
+  />
+)
+```
+
+See the [@gentleduck/calendar package docs](/docs/packages/duck-calendar) for more information on the headless engine, date adapters, and advanced features.
+
+## Examples
+
+### Date Picker (Popover)
+
+<ComponentPreview
+  name="calendar-5"
+  title="Date Picker"
+  description="Date picker in a popover with year dropdown."
+/>
+
+### Date Picker (Input)
+
+<ComponentPreview
+  name="calendar-6"
+  title="Date and Time Picker"
+  description="Date and time picker in popovers."
+/>
+
+### Date Input (Natural Language)
+
+<ComponentPreview
+  name="calendar-7"
+  title="Schedule Date Input"
+  description="Schedule date input with natural language parsing."
+/>
+
+### Form Integration
+
+<ComponentPreview
+  name="calendar-8"
+  title="Form Integration"
+  description="Date picker with React Hook Form and Zod validation."
+/>
+
+### Multi-Month Range Picker
+
+<ComponentPreview
+  name="calendar-2"
+  title="Multi-Month Range Picker"
+  description="Two months side-by-side with range selection."
+/>
+
+### Range Calendar
+
+<ComponentPreview
+  name="calendar-3"
+  title="Range Calendar"
+  description="Select a date range with start and end dates."
+/>
+
+### Date Constraints
+
+<ComponentPreview
+  name="calendar-4"
+  title="Date Constraints"
+  description="Calendar with min/max date boundaries (today to 3 months ahead)."
+/>
+
+### Multi-Select
+
+<ComponentPreview
+  name="calendar-10"
+  title="Multi-Select Calendar"
+  description="Select multiple individual dates."
+/>
+
+### Event Calendar
+
+<ComponentPreview
+  name="calendar-11"
+  title="Event Calendar"
+  description="Calendar with event dots via renderDay and a detail sidebar."
+/>
+
+### Custom Cell Size
+
+<ComponentPreview
+  name="calendar-14"
+  title="Custom Cell Size"
+  description="Calendar with larger cells using the --gentleduck-calendar-cell CSS variable."
+/>
+
+### Click to View Events (Popover)
+
+<ComponentPreview
+  name="calendar-15"
+  title="Click to View Events"
+  description="Click a day cell to open a popover with event details. Uses renderDay for event dots and inline Popover."
+/>
+
+### Booked Dates (Strikethrough)
+
+<ComponentPreview
+  name="calendar-16"
+  title="Booked Dates"
+  description="Booked dates shown with strikethrough via renderDay, legend via renderFooter. Only available dates are selectable."
+/>
+
+### Booking Calendar
+
+<ComponentPreview
+  name="calendar-12"
+  title="Booking Calendar"
+  description="Booking calendar with disabled dates."
+/>
+
+### Multi-Range Selection
+
+<ComponentPreview
+  name="calendar-13"
+  title="Multi-Range Calendar"
+  description="Select multiple separate date ranges."
+/>
+
+### Multi-Range with Shift+Click
+
+<ComponentPreview
+  name="calendar-24"
+  title="Multi-Range Selection"
+  description="Click to start a range, click again to complete. Shift+click to exclude days. Supports multiple disjoint ranges."
+/>
+
+### Presets
+
+<ComponentPreview
+  name="calendar-17"
+  title="Calendar with Presets"
+  description="Quick date selection with preset buttons (Today, Tomorrow, In 3 days, etc.)."
+/>
+
+### Persian (Jalali) Calendar
+
+<ComponentPreview
+  name="calendar-18"
+  title="Persian Calendar"
+  description="Solar Hijri / Jalali calendar with Persian numerals and RTL layout."
+/>
+
+### Islamic (Hijri) Calendar
+
+<ComponentPreview
+  name="calendar-19"
+  title="Islamic Calendar"
+  description="Hijri calendar with Arabic numerals and RTL layout."
+/>
+
+### Hebrew Calendar
+
+<ComponentPreview
+  name="calendar-20"
+  title="Hebrew Calendar"
+  description="Hebrew calendar with Hebrew numerals, RTL layout, and year/month dropdowns."
+/>
+
+### Hebrew Calendar (English)
+
+<ComponentPreview
+  name="calendar-21"
+  title="Hebrew Calendar (English)"
+  description="Hebrew calendar system with English month names and LTR layout."
+/>
+
+### Islamic Calendar (English)
+
+<ComponentPreview
+  name="calendar-22"
+  title="Islamic Calendar (English)"
+  description="Hijri calendar system with English month names and LTR layout."
+/>
+
+### Persian Calendar (English)
+
+<ComponentPreview
+  name="calendar-23"
+  title="Persian Calendar (English)"
+  description="Jalali calendar system with English month names and LTR layout."
+/>
+
+## Notes
+
+### Blocks
+
+We have built a collection of 30+ calendar blocks that you can use to build your own calendar components.
+
+See all calendar blocks in the [Blocks Library](/blocks/calendar) page.
+
+### Migrated from react-day-picker
+
+<Callout icon={<TriangleAlert />} tone="warning" title="Migrated from react-day-picker">
+We have replaced `react-day-picker` with our own headless calendar engine  -  [`@gentleduck/calendar`](/docs/packages/duck-calendar). The result is **75% smaller bundle** (~5 KB vs ~20 KB gzipped), zero external dependencies, full keyboard navigation, and complete ARIA compliance. See the [performance benchmarks](/docs/packages/duck-calendar#performance) for detailed comparisons.
+</Callout>
+
+### Date Picker
+
+You can use the `<Calendar>` component to build a date picker. See the [Date Picker](/docs/components/date-picker) page for more information.
+
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="calendar-9"
+  description="A calendar with RTL support."
+/>
+
+## Motion
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Alpha: Motion Compositions"
+  tone="warning">
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/duck-ui/issues).
+</Callout>
+
+Use `MotionCalendar` for smooth month navigation transitions and staggered day cell entry powered by [motion](https://motion.dev). The grid slides directionally when navigating months, and day cells fade in with a stagger effect.
+
+<ComponentPreview
+  name="calendar-25"
+  description="A calendar with motion-powered month transitions and staggered day entry."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionCalendar` instead of `Calendar`. All props stay the same.
+</Callout>
+
+## API Reference
+
+### Calendar
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `adapter` | `Adapter.IDateAdapter<Date>` | `NativeAdapter` | Date adapter for alternative calendar systems (Islamic, Persian, Hebrew) |
+| `mode` | `'single' \| 'range' \| 'multi' \| 'multi-range'` | `'single'` | Selection mode |
+| `selected` | `Date \| DateRange<Date> \| Date[] \| null` | - | Controlled selection value |
+| `onSelect` | `(value) => void` | - | Called when the selection changes |
+| `disabled` | `Date[] \| ((date: Date) => boolean)` | - | Dates that cannot be selected |
+| `defaultMonth` | `Date` | - | Default month to display (uncontrolled) |
+| `month` | `Date` | - | Controlled displayed month |
+| `onMonthChange` | `(month: Date) => void` | - | Called when the displayed month changes |
+| `showOutsideDays` | `boolean` | `true` | Show days from adjacent months |
+| `fixedWeeks` | `boolean` | `false` | Always show 6 weeks |
+| `numberOfMonths` | `number` | `1` | How many months to show side by side |
+| `showDropdowns` | `boolean` | `true` | Show month/year dropdown selectors |
+| `yearRange` | `{ from: number; to: number }` | `{ from: now-100, to: now+10 }` | Range of years in the year dropdown |
+| `locale` | `string` | - | BCP 47 locale tag (e.g. `'ar-SA'`, `'ja-JP'`) |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override |
+| `fromDate` | `Date` | - | Earliest selectable date |
+| `toDate` | `Date` | - | Latest selectable date |
+| `buttonVariant` | `string` | `'ghost'` | Variant style for navigation buttons |
+| `onDismiss` | `() => void` | - | Called when the user presses Escape |
+| `className` | `string` | - | Additional CSS classes for the root container |
+| `renderDay` | `(day: Grid.ICalendarDay<Date>, children: ReactNode) => ReactNode` | - | Custom render function for day cell content |
+| `renderHeader` | `(context: CalendarHeaderContext) => ReactNode` | - | Custom render function for the navigation header |
+| `renderWeekday` | `(day: string, index: number) => ReactNode` | - | Custom render function for weekday column labels |
+| `renderFooter` | `(months: Grid.ICalendarMonth<Date>[]) => ReactNode` | - | Render content below the calendar grid |
+
+### Render Props
+
+The Calendar component exposes render props that let you customize every visual part without forking the component.
+
+#### renderDay
+
+Customize the content inside each day cell. Receives the `Grid.ICalendarDay` object and the default children (the date number).
+
+```tsx showLineNumbers
+<Calendar
+  renderDay={(day, children) => (
+    <>
+      {children}
+      {hasEvents(day.date) && (
+        <span className="size-1 rounded-full bg-primary" />
+      )}
+    </>
+  )}
+/>
+```
+
+The `day` object exposes: `date`, `isToday`, `isSelected`, `isDisabled`, `isOutside`, `isHidden`, `isWeekend`, `isRangeStart`, `isRangeEnd`, `isRangeMiddle`.
+
+#### renderHeader
+
+Replace the entire navigation header. Receives a context object with navigation controls.
+
+```tsx showLineNumbers
+<Calendar
+  renderHeader={({ month, title, direction, goToPrevMonth, goToNextMonth, isPrevDisabled, isNextDisabled }) => (
+    <div className="flex items-center justify-between px-2">
+      <button onClick={goToPrevMonth} disabled={isPrevDisabled}><-</button>
+      <span className="font-semibold">{title}</span>
+      <button onClick={goToNextMonth} disabled={isNextDisabled}>-></button>
+    </div>
+  )}
+/>
+```
+
+#### renderWeekday
+
+Customize individual weekday column headers. Receives the abbreviation and column index.
+
+```tsx showLineNumbers
+<Calendar
+  renderWeekday={(day, index) => (
+    <span className={index === 0 || index === 6 ? "text-red-400" : ""}>
+      {day}
+    </span>
+  )}
+/>
+```
+
+#### renderFooter
+
+Add content below the calendar grid. Receives the current months array for context.
+
+```tsx showLineNumbers
+<Calendar
+  renderFooter={() => (
+    <div className="mt-2 text-xs text-muted-foreground">
+      Pick a date to continue
+    </div>
+  )}
+/>
+```
+
+### Data Attributes
+
+The calendar uses `data-*` attributes on day cells for styling. Target these in your CSS:
+
+| Attribute | When Present |
+| --- | --- |
+| `data-selected="true"` | Day is selected |
+| `data-selected-single="true"` | Day is selected (single mode, not part of range) |
+| `data-today="true"` | Day is today |
+| `data-focused="true"` | Day has keyboard focus |
+| `data-range-start="true"` | Day is the start of a range |
+| `data-range-end="true"` | Day is the end of a range |
+| `data-range-middle="true"` | Day is between range start and end |
+| `data-day` | Formatted date string for the day (always present) |
+
+### MotionCalendar
+
+Adds directional slide transitions on month navigation (with blur) and staggered day cell entry animation. Uses `LazyMotion` for a lightweight bundle (~5KB). Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `CalendarProps` | - | All props from `Calendar` are supported |
+
+### CSS Variables
+
+| Variable | Default | Description |
+| --- | --- | --- |
+| `--gentleduck-calendar-cell` | `--spacing(8)` (32px) | Size of day cells and nav buttons |

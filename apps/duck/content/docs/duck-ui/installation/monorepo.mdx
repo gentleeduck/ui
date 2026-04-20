@@ -1,0 +1,140 @@
+---
+title: monorepo
+description: Set up duck-ui in a monorepo with shared UI packages.
+---
+
+## Overview
+
+duck-ui supports monorepo setups where UI components live in a shared package consumed by multiple apps. The CLI handles workspace detection, config placement, and component installation paths automatically.
+
+## Typical workspace structure
+
+```
+my-monorepo/
+├── apps/
+│   ├── web/           # Next.js app
+│   └── docs/          # Docs site
+├── packages/
+│   └── ui/            # Shared UI package
+│       ├── src/
+│       │   ├── components/
+│       │   │   └── ui/
+│       │   ├── hooks/
+│       │   ├── libs/
+│       │   └── styles.css
+│       ├── duck-ui.config.json
+│       ├── package.json
+│       └── tsconfig.json
+├── package.json
+├── pnpm-workspace.yaml
+└── turbo.json
+```
+
+## Initialize with the CLI
+
+Run the init command from the monorepo root, specifying the workspace where components should be installed:
+
+```bash
+npx @gentleduck/cli init --monorepo --workspace packages/ui
+```
+
+Or use the interactive prompts (without `--yes`):
+
+```bash
+npx @gentleduck/cli init
+```
+
+The CLI will detect your workspaces and prompt you to select the target package.
+
+## Config format
+
+The CLI generates a `duck-ui.config.json` in the workspace directory:
+
+```json title="packages/ui/duck-ui.config.json" showLineNumbers
+{
+  "schema": "https://ui.gentleduck.org/schema.json",
+  "rsc": false,
+  "monorepo": true,
+  "workspace": {
+    "root": ".",
+    "project": "."
+  },
+  "tailwind": {
+    "baseColor": "zinc",
+    "css": "./src/styles.css",
+    "cssVariables": true,
+    "prefix": ""
+  },
+  "aliases": {
+    "ui": "~/ui",
+    "libs": "~/libs",
+    "hooks": "~/hooks",
+    "pages": "~/pages",
+    "layouts": "~/layouts"
+  }
+}
+```
+
+## Adding components
+
+Add components to the shared UI package by specifying the workspace:
+
+```bash
+npx @gentleduck/cli add button --workspace packages/ui
+npx @gentleduck/cli add dialog card --workspace packages/ui
+```
+
+Components are installed relative to the workspace's configured aliases.
+
+## CSS setup
+
+The styles file lives in the shared UI package (e.g. `packages/ui/src/styles.css`). The CLI generates the full CSS including theme variables, `@theme inline`, base layer styles, utilities, and reduced-motion preferences.
+
+Apps import the styles from the shared package:
+
+```ts title="apps/web/src/main.tsx"
+import '@my-org/ui/styles.css'
+```
+
+Or in Next.js:
+
+```ts title="apps/web/src/app/layout.tsx"
+import '@my-org/ui/styles.css'
+```
+
+Make sure the shared package exports the CSS file in its `package.json`:
+
+```json title="packages/ui/package.json"
+{
+  "exports": {
+    "./styles.css": "./src/styles.css",
+    "./*": "./src/components/ui/*"
+  }
+}
+```
+
+## Shared UI package pattern
+
+The shared package typically re-exports all components:
+
+```ts title="packages/ui/src/index.ts"
+export * from './components/ui/button'
+export * from './components/ui/dialog'
+export * from './components/ui/card'
+```
+
+Apps consume components from the package:
+
+```tsx title="apps/web/src/app/page.tsx"
+import { Button } from '@my-org/ui'
+```
+
+## Working example
+
+The [acme template](https://github.com/gentleeduck/duck-ui/tree/master/templates/acme) is a complete working monorepo example with a shared UI package, multiple apps, and Turborepo configuration. Scaffold it directly with:
+
+```bash
+npx @gentleduck/cli init --template acme --cwd my-project
+```
+
+Or clone the repo and reference it manually as a starting point for your own monorepo setup.

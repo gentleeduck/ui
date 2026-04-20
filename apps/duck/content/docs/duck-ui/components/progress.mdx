@@ -1,0 +1,111 @@
+---
+title: progress
+description: Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
+component: true
+---
+
+<ComponentPreview
+  name="progress-1"
+  description="A progress bar component."
+/>
+
+## Philosophy
+
+Progress bars answer the most anxious user question: "Is this working?" A determinate progress indicator builds trust by showing measurable advancement. We keep the API to a single `value` prop because progress is inherently one-dimensional  -  the component's visual treatment handles the rest.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add progress
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/libs
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource path="packages/registry-ui/src/progress" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Progress } from "@/components/ui/progress"
+```
+
+```tsx
+<Progress value={33} />
+```
+
+## RTL Support
+
+Set `dir="rtl"` on `Progress` for a local override, or set `DirectionProvider` once at app/root level for global direction.
+
+<ComponentPreview
+  name="progress-2"
+  description="A progress bar with RTL support."
+/>
+
+## Motion
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Alpha: Motion Compositions"
+  tone="warning">
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/duck-ui/issues).
+</Callout>
+
+Use `MotionProgress` for smooth value animations powered by [motion](https://motion.dev). The progress bar animates with a bouncy spring transition when the value changes.
+
+<ComponentPreview
+  name="progress-3"
+  description="Progress bar with motion-powered spring animation."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionProgress` instead of `Progress`. Same props. The regular `Progress` is perfectly fine - this is an optional enhancement.
+</Callout>
+
+## API Reference
+
+### Progress
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `number` | (required) | Progress value from `0` to `100` representing the completion percentage |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | `--` | Additional CSS classes for the progress bar container |
+| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'value'>` | - | Additional props to spread to the content div |
+
+### MotionProgress
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `number` | (required) | Progress value from `0` to `100`. Value changes animate with a `springBouncy` spring transition. |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved by primitives `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | - | Additional CSS classes for the progress bar container |
+| `...props` | `Omit<React.HTMLProps<HTMLDivElement>, 'value'>` | - | Additional props to spread to the content div |

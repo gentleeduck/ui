@@ -1,0 +1,72 @@
+---
+title: January 2026
+description: duck-gen enhancements, duck-docs package for Next.js, CI/CD with CodeQL, and component updates.
+---
+
+## duck-gen Enhancements <Badge>feat</Badge>
+
+Major improvements to the duck-gen code generation tool:
+
+- Switched duck-gen config from TypeScript to JSON with `outputSource` field
+- Added support for **multiple output paths** in code generation
+- Added i18next integration example with uppercase messages
+- Enhanced output source documentation and type definitions
+- Fixed output file extensions and improved type generation logic
+- Restructured configuration handling and API route processing
+
+---
+
+## duck-docs Package <Badge>feat</Badge>
+
+Published `@gentleduck/docs` as an external package for Next.js integration.
+
+- Install with `bun add @gentleduck/docs`
+- Configure velite with `createDocsVeliteConfig` from `@gentleduck/docs/velite`
+- Import and use the docs components in your Next.js app
+- Fixed client package resolution for Next.js compatibility
+- Updated dependency declarations for external consumption
+- Added `registry-ui` as a dependency
+
+---
+
+## Component Updates <Badge variant="outline">fix</Badge>
+
+- Fixed context menu type imports
+- Refactored dropdown menu and select for improved functionality and accessibility
+
+### Context Menu
+
+<ComponentPreview
+  name="context-menu-1"
+  description="Context menu"
+/>
+
+### Input OTP
+
+<ComponentPreview
+  name="input-otp-1"
+  description="Input OTP"
+/>
+
+### Tooltip
+
+<ComponentPreview
+  name="tooltip-1"
+  description="Tooltip"
+/>
+
+### Combobox
+
+<ComponentPreview
+  name="combobox-1"
+  description="Combobox"
+/>
+
+---
+
+## CI/CD and Tooling <Badge variant="outline">chore</Badge>
+
+- Added CodeQL workflow for automated security scanning on every push and PR
+- Set up `check-types` command that runs `tsc --noEmit` across every package and app
+- Standardized `package.json` fields (repository, bugs, homepage, license) across all packages
+- Multiple version package releases via changesets

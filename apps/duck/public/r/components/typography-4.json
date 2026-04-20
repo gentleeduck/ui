@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { TypographyH3 } from '@gentleduck/registry-ui/typography'\n\nexport default function Demo() {\n  return <TypographyH3>The Joke Tax</TypographyH3>\n}\n",
+      "path": "typography/typography-4.tsx",
+      "target": "components/typography-4.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "typography-4",
+  "registryDependencies": [
+    "typography"
+  ],
+  "root_folder": "typography",
+  "source": "/registry-examples/src/typography",
+  "type": "registry:example"
+}

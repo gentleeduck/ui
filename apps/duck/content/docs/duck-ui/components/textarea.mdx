@@ -1,0 +1,153 @@
+---
+title: textarea
+description: Displays a form textarea or a component that looks like a textarea.
+component: true
+---
+
+<ComponentPreview
+  name="textarea-1"
+  description="A textarea"
+/>
+
+## Philosophy
+
+When a single line isn't enough, Textarea steps in. It's the same design philosophy as Input  -  a thin wrapper around the native element with consistent styling. We don't add auto-resize or character counting because those are features you compose on top, not defaults everyone pays for.
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add textarea
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/libs
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource path="packages/registry-ui/src/textarea" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx
+import { Textarea } from '@/components/ui/textarea'
+```
+
+```tsx
+<Textarea />
+```
+
+## Examples
+
+### Default
+
+<ComponentPreview
+  name="textarea-2"
+  description="A textarea"
+/>
+
+### Disabled
+
+<ComponentPreview
+  name="textarea-3"
+  description="A disabled textarea"
+/>
+
+### With Label
+
+<ComponentPreview
+  name="textarea-4"
+  description="A textarea with a label"
+/>
+
+### With Text
+
+<ComponentPreview
+  name="textarea-5"
+  description="A textarea with text"
+/>
+
+### With Button
+
+<ComponentPreview
+  name="textarea-6"
+  description="A textarea with a button"
+/>
+
+### Form
+
+<ComponentPreview name="textarea-7" description="A textarea integrated with React Hook Form for bio input with validation." />
+
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="textarea-8"
+  description="A textarea with RTL support."
+/>
+
+## Motion
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Alpha: Motion Compositions"
+  tone="warning">
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/duck-ui/issues).
+</Callout>
+
+Use `MotionTextarea` for a smooth entrance animation powered by [motion](https://motion.dev). The textarea fades in with scale and blur on mount using `springBouncy`.
+
+<ComponentPreview
+  name="textarea-9"
+  description="Textarea with motion-powered entrance animation."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionTextarea` instead of `Textarea`. Same props. The regular `Textarea` is perfectly fine - this is an optional enhancement.
+</Callout>
+
+## API Reference
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | - | Additional CSS class names |
+| `...props` | `React.HTMLProps<HTMLTextAreaElement>` | - | Additional props to spread to the textarea element |
+
+### MotionTextarea
+
+`scaleIn` entrance with `springBouncy` transition on mount. Requires the `motion` package.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `...props` | `TextareaProps` | - | All props from `Textarea` are supported |
+
+## See also
+
+- [Input](/docs/components/input)  -  Single-line text input
+- [Label](/docs/components/label)  -  Accessible label for form controls

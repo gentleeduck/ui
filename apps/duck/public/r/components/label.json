@@ -1,0 +1,30 @@
+{
+  "dependencies": [
+    "@gentleduck/libs",
+    "@gentleduck/primitives"
+  ],
+  "files": [
+    {
+      "content": "export type { ILabelProps } from './label'\nexport { Label } from './label'\nexport { MotionLabel } from './motion-label'\n",
+      "path": "label/index.ts",
+      "target": "components/ui/index.ts",
+      "type": "registry:ui"
+    },
+    {
+      "content": "'use client'\n\nimport { cn } from '@gentleduck/libs/cn'\nimport type { IDirection } from '@gentleduck/primitives/direction'\nimport { useDirection } from '@gentleduck/primitives/direction'\nimport * as React from 'react'\n\nexport interface ILabelProps extends React.LabelHTMLAttributes<HTMLLabelElement> {}\n\nconst Label = React.forwardRef<HTMLLabelElement, ILabelProps>(({ className, htmlFor, dir, ...props }, ref) => {\n  const direction = useDirection(dir as IDirection.Kind)\n\n  return (\n    // biome-ignore lint/a11y/noLabelWithoutControl: label is composed with form controls externally via htmlFor\n    <label\n      className={cn(\n        'text-balance font-medium text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70',\n        className,\n      )}\n      data-slot=\"label\"\n      dir={direction}\n      htmlFor={htmlFor}\n      ref={ref}\n      {...props}\n    />\n  )\n})\nLabel.displayName = 'Label'\n\nexport { Label }\n",
+      "path": "label/label.tsx",
+      "target": "components/ui/label.tsx",
+      "type": "registry:ui"
+    },
+    {
+      "content": "'use client'\n\nimport { loadDomAnimation } from '@gentleduck/motion/motion-features'\nimport { useMotionPreset } from '@gentleduck/motion/motion-presets'\nimport { scaleIn } from '@gentleduck/motion/presets/scale-in'\nimport { springBouncy } from '@gentleduck/motion/transitions/springs'\nimport { LazyMotion, m } from 'motion/react'\nimport * as React from 'react'\nimport type { ILabelProps } from './label'\nimport { Label } from './label'\n\nconst MotionLabel = React.forwardRef<HTMLLabelElement, ILabelProps & { index?: number }>(\n  ({ index = 0, ...props }, ref) => {\n    const options = React.useMemo(() => ({ transition: springBouncy, delay: index * 0.05 }), [index])\n    const content = useMotionPreset(scaleIn, options)\n    return (\n      <LazyMotion features={loadDomAnimation}>\n        <m.div initial={content.initial} animate={content.animate} transition={content.transition}>\n          <Label ref={ref} {...props} />\n        </m.div>\n      </LazyMotion>\n    )\n  },\n)\nMotionLabel.displayName = 'MotionLabel'\n\nexport { MotionLabel }\n",
+      "path": "label/motion-label.tsx",
+      "target": "components/ui/motion-label.tsx",
+      "type": "registry:ui"
+    }
+  ],
+  "name": "label",
+  "root_folder": "label",
+  "source": "/registry-ui/src/label",
+  "type": "registry:ui"
+}

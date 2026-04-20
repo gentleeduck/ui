@@ -1,0 +1,320 @@
+---
+title: input-group
+description: Group inputs, in layouts, more easily.
+component: true
+---
+
+
+
+<ComponentPreview
+  name="input-group-1"
+  className="[&_.preview]:p-4"
+  description="A collection of input groups with icons, text, textarea, and buttons."
+/>
+
+## Philosophy
+
+Complex input patterns  -  search bars, URL fields, currency inputs  -  need structure beyond a bare `<input>`. InputGroup composes Input with addons, icons, and buttons in a unified container. Rather than building a mega-input with dozens of props, we give you building blocks that snap together. Composition over configuration.
+
+## How It's Built
+
+<MermaidDiagram chart={`graph TD
+  InputGroup[InputGroup]
+  InputGroup --> variants["@gentleduck/variants"]:::internal
+  InputGroup --> libs["@gentleduck/libs"]:::internal
+  InputGroup --> Button["Button"]:::component
+  InputGroup --> Input["Input"]:::component
+  InputGroup --> Textarea["Textarea"]:::component
+  variants --> |"provides"| LayoutVariants["Layout Variants\n(direction, size)"]
+  InputGroup --> |"manages"| ConnectedInputs["Connected Borders\n& Focus States"]
+  classDef internal fill:#2dd4bf,stroke:#14b8a6,color:#fff
+  classDef component fill:#fb923c,stroke:#f97316,color:#fff
+`} />
+
+## Installation
+
+<Tabs defaultValue="cli">
+
+<TabsList>
+  <TabsTrigger value="cli">CLI</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx @gentleduck/cli add input-group
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps>
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @gentleduck/libs @gentleduck/variants 
+```
+The `input-group` component depends on the [`button`](/docs/components/button), [`input`](/docs/components/input), and [`textarea`](/docs/components/textarea) components.
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource path="packages/registry-ui/src/input-group" />
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</Tabs>
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+  InputGroupTextarea,
+} from "@/components/ui/input-group"
+```
+
+```tsx showLineNumbers
+<InputGroup>
+  <InputGroupInput placeholder="Search..." />
+  <InputGroupAddon>
+    <SearchIcon />
+  </InputGroupAddon>
+  <InputGroupAddon align="inline-end">
+    <InputGroupButton>Search</InputGroupButton>
+  </InputGroupAddon>
+</InputGroup>
+```
+
+## Examples
+
+### Icon
+
+<ComponentPreview
+  name="input-group-2"
+  className="[&_.preview]:p-4"
+  description="Input groups with leading and trailing icon addons."
+/>
+
+### Text
+
+Display additional text information alongside inputs.
+
+<ComponentPreview
+  name="input-group-3"
+  className="[&_.preview]:p-4"
+  description="Input groups with static text addons like units and prefixes."
+/>
+
+### Button
+
+Add buttons to perform actions within the input group.
+
+<ComponentPreview
+  name="input-group-4"
+  className="[&_.preview]:p-4"
+  description="Input groups with inline action buttons like copy, bookmark, and apply."
+/>
+
+### Tooltip
+
+Add tooltips to provide additional context or help.
+
+<ComponentPreview
+  name="input-group-5"
+  className="[&_.preview]:p-4"
+  description="Input groups with tooltip buttons for contextual help."
+/>
+
+### Textarea
+
+Input groups also work with textarea components. Use `block-start` or `block-end` for alignment.
+
+<ComponentPreview
+  name="input-group-6"
+  className="[&_.preview]:p-4"
+  description="An input group with a textarea and a toolbar footer for actions."
+/>
+
+### Spinner
+
+Show loading indicators while processing input.
+
+Use `Button loading` inside `InputGroupButton` for the built-in animated `<Loader />` spinner behavior.
+
+<ComponentPreview
+  name="input-group-7"
+  className="[&_.preview]:p-4"
+  description="Input groups with spinner loading indicators in disabled state."
+/>
+
+### Label
+
+Add labels within input groups to improve accessibility.
+
+<ComponentPreview
+  name="input-group-8"
+  className="[&_.preview]:p-4"
+  description="Input groups with labels for accessibility."
+/>
+
+### Dropdown
+
+Pair input groups with dropdown menus for complex interactions.
+
+<ComponentPreview
+  name="input-group-9"
+  className="[&_.preview]:p-4"
+  description="Input groups with dropdown menu buttons for additional actions."
+/>
+
+### Button Group
+
+Wrap input groups with button groups to create prefixes and suffixes.
+
+<ComponentPreview
+  name="input-group-10"
+  className="[&_.preview]:p-4"
+/>
+
+### Custom Input
+
+Add the `data-slot="input-group-control"` attribute to your custom input for automatic behavior and focus state handling.
+
+No style is applied to the custom input. Apply your own styles using the `className` prop.
+
+<ComponentPreview
+  name="input-group-11"
+  className="!mb-4 [&_.preview]:p-4"
+/>
+
+```tsx showLineNumbers
+import { InputGroup, InputGroupAddon } from "@/components/ui/input-group"
+import TextareaAutosize from "react-textarea-autosize"
+
+export function InputGroupCustom() {
+  return (
+    <InputGroup>
+      <TextareaAutosize
+        data-slot="input-group-control"
+        className="dark:bg-input/30 flex field-sizing-content min-h-16 w-full resize-none rounded-md bg-transparent px-3 py-2 text-base transition-[color,box-shadow] outline-none"
+        placeholder="Autoresize textarea..."
+      />
+      <InputGroupAddon align="block-end">how</InputGroupAddon>
+    </InputGroup>
+  )
+}
+```
+
+## RTL Support
+
+Direction is resolved through the shared primitives direction module. Use a local `dir="rtl"` override when the component exposes it, or set `DirectionProvider` at app/root level for global RTL/LTR behavior.
+
+<ComponentPreview
+  name="input-group-12"
+  description="An input group with RTL support."
+/>
+
+## Motion
+
+<Callout
+  icon={<TriangleAlert />}
+  title="Alpha: Motion Compositions"
+  tone="warning">
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/duck-ui/issues).
+</Callout>
+
+Use `MotionInputGroup` for a fade+blur entrance animation powered by [motion](https://motion.dev). Pass `index` for stagger delay when using multiple groups.
+
+<ComponentPreview
+  name="input-group-13"
+  description="Input groups with motion-powered staggered entrance."
+/>
+
+<Callout icon={<Zap />}>
+Requires the `motion` package. Use `MotionInputGroup` instead of `InputGroup`. All other sub-components stay the same.
+</Callout>
+
+## API Reference
+
+### InputGroup
+
+The root container that wraps inputs and addons into a unified group with shared border and focus states.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | `--` | Additional CSS classes to apply |
+| `children` | `React.ReactNode` | `--` | InputGroup sub-components to render inside the group |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### InputGroupAddon
+
+Displays icons, text, buttons, or other content alongside inputs.
+
+<Callout icon={<Lightbulb />} title="Focus Navigation">
+  For proper focus navigation, the `InputGroupAddon` component should be placed
+  after the input. Set the `align` prop to position the addon.
+</Callout>
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `align` | `'inline-start' \| 'inline-end' \| 'block-start' \| 'block-end'` | `'inline-start'` | Position of the addon relative to the input. Use `inline-start`/`inline-end` with `InputGroupInput` and `block-start`/`block-end` with `InputGroupTextarea`. |
+| `className` | `string` | `--` | Additional CSS classes to apply |
+| `children` | `React.ReactNode` | `--` | Icons, text, buttons, or other content |
+| `...props` | `React.HTMLProps<HTMLDivElement>` | - | Additional props to spread to the content div |
+
+### InputGroupButton
+
+A button styled for use within input groups. Renders a `Button` with compact sizing defaults.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `size` | `'xs' \| 'icon-xs' \| 'sm' \| 'icon-sm'` | `'xs'` | Size of the button |
+| `variant` | `'default' \| 'destructive' \| 'outline' \| 'secondary' \| 'ghost' \| 'link' \| 'dashed' \| 'warning' \| 'nothing' \| 'expandIcon'` | `'ghost'` | Visual variant of the button |
+| `type` | `string` | `'button'` | The HTML button type attribute |
+| `className` | `string` | `--` | Additional CSS classes to apply |
+| `...props` | `Omit<React.ComponentPropsWithoutRef<typeof Button>, 'size'>` | - | Additional props inherited from `Button` (excluding `size`). |
+
+### InputGroupText
+
+A styled span for displaying static text within input groups.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `className` | `string` | `--` | Additional CSS classes to apply |
+| `children` | `React.ReactNode` | `--` | Text or icon content to display |
+| `...props` | `React.HTMLProps<HTMLSpanElement>` | - | Additional props to spread to the span element |
+
+### InputGroupInput
+
+Replacement for `<Input />` when building input groups. Has input group styles pre-applied and uses the unified `data-slot="input-group-control"` for focus state handling.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | `--` | Additional CSS classes to apply |
+| `...props` | `React.HTMLProps<HTMLInputElement>` | - | Additional props to spread to the input element |
+
+### InputGroupTextarea
+
+Replacement for `<Textarea />` when building input groups. Has textarea group styles pre-applied and uses the unified `data-slot="input-group-control"` for focus state handling.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction override. Resolved via `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `className` | `string` | `--` | Additional CSS classes to apply |
+| `...props` | `React.HTMLProps<HTMLTextAreaElement>` | - | Additional props to spread to the textarea element |
+
+### MotionInputGroup
+
+Same props as `InputGroup` plus an optional `index` prop for stagger delay (50ms per index). Adds fade+blur entrance animation. Requires the `motion` package.

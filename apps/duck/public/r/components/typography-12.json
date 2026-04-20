@@ -1,0 +1,17 @@
+{
+  "files": [
+    {
+      "content": "import { TypographyLarge } from '@gentleduck/registry-ui/typography'\n\nexport default function Demo() {\n  return <TypographyLarge>Are you absolutely sure?</TypographyLarge>\n}\n",
+      "path": "typography/typography-12.tsx",
+      "target": "components/typography-12.tsx",
+      "type": "registry:example"
+    }
+  ],
+  "name": "typography-12",
+  "registryDependencies": [
+    "typography"
+  ],
+  "root_folder": "typography",
+  "source": "/registry-examples/src/typography",
+  "type": "registry:example"
+}

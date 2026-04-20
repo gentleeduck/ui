@@ -1,0 +1,232 @@
+---
+title: "2024"
+description: Project foundation - monorepo migration, table system, upload/audio/comments, registry, emoji system, kanban, and initial components.
+---
+
+## November 2024
+
+### Documentation <Badge variant="outline">docs</Badge>
+
+Added accordion, toggle, and toggle-group docs with examples.
+
+#### Accordion
+
+<ComponentPreview
+  name="accordion-1"
+  className="[&_.preview>[data-orientation=vertical]]:sm:max-w-[70%]"
+  description="An accordion with three items"
+/>
+
+#### Toggle
+
+<ComponentPreview
+  name="toggle-1"
+  description="Toggle"
+/>
+
+#### Toggle Group
+
+<ComponentPreview
+  name="toggle-group-1"
+  description="Toggle group"
+/>
+
+#### Textarea
+
+<ComponentPreview
+  name="textarea-1"
+  description="Textarea"
+/>
+
+#### Sonner
+
+<ComponentPreview
+  name="sonner-1"
+  description="Sonner toast"
+/>
+
+### Component Refactors <Badge variant="outline">refactor</Badge>
+
+- Refactored button component with updated documentation
+- Working on table refactor for improved typing and reactivity
+- Improved component source preview for multi-file display
+
+#### Button
+
+<ComponentPreview
+  name="button-1"
+  description="Button"
+/>
+
+### Registry System <Badge>feat</Badge>
+
+Built the component registry build system:
+
+- Built a script to generate the registry JSON and `__ui_registry__` index with spinner and text feedback
+- Registry can now read example source files and serve them for code preview in docs
+- Added type-safe validation for registry entries to catch missing dependencies early
+
+---
+
+## October 2024
+
+### Monorepo Migration <Badge>feat</Badge>
+
+Migrated entire project to **Turborepo** monorepo structure.
+
+- **Apps**: duck-ui-docs, benchmark
+- **Packages**: registry-ui, registry-examples, duck-cli, duck-motion, duck-variants, duck-hooks, duck-libs, duck-lazy
+- Created new contributing guide
+- Set up CLI application in TypeScript
+- Made website and CLI app build with basic functionality
+
+### Upload and Media System <Badge>feat</Badge>
+
+Built a complete upload and media system:
+
+- Upload attachment system with file type detection
+- Image preview component with responsive dialog
+- Lazy loading for file downloads
+- Fixed file upload submit button conflict with image preview dropdown
+
+### Audio System <Badge>feat</Badge>
+
+Built a full audio player with recording capabilities:
+
+- Audio visualization with theme-aware rendering (light/dark mode)
+- Download button and volume controller
+- Play state, speed control, and mouse click tracking for seeking
+- Fixed performance issues with long audio recordings
+- Audio animation with loading indicator
+- Integrated audio with comments system
+
+### Comment System <Badge>feat</Badge>
+
+- Refactored comment components to be dynamic and customizable
+- Added forward ref support for external control
+- Made attachment tree with upload support
+
+---
+
+## September 2024
+
+### Comment System <Badge>feat</Badge>
+
+Built the comment engine from scratch:
+
+- Reply functionality with nested threads
+- Popover tools with emoji insertion
+- Dropdown menu for comments with love reaction functionality
+- Refactored state management from Redux to **React Context**
+- Dynamic content rendering from MDX editor
+
+### Emoji System <Badge>feat</Badge>
+
+Built a custom emoji extension for the MDX editor:
+
+Type `:` followed by a keyword and close with `:` to insert emojis. The extension handles autocomplete, tooltip previews, and deletion of the entire emoji token.
+
+- Type `:code:` to insert emojis with tooltip previews as React components
+- Added auto-complete for emoji search
+- Fixed mention system to work alongside emoji
+- Handles spaces before and after emoji tokens
+
+### Voice Recording <Badge>feat</Badge>
+
+- Added audio visualizer and recorder
+- Working on voice message integration with comments
+
+### Kanban Board <Badge>feat</Badge>
+
+- Built basic kanban board with drag-and-drop
+- Started work on advanced customizable kanban with abstraction layer
+
+### Code Block <Badge>feat</Badge>
+
+- Added new popover menu component
+- Fixed code block rendering in docs
+
+---
+
+## August 2024
+
+### Table System <Badge>feat</Badge>
+
+Built a type-safe table from scratch with full auto-completion:
+
+- Auto-completion for column configuration via TypeScript inference
+- Sorting, filtering, and search with debouncing
+- Nested dropdown-menu functionality
+- New context menu functionality
+- Unified icon structure across the library
+- Added table documentation
+
+### Initial Components <Badge>feat</Badge>
+
+First batch of components shipped:
+
+#### Combobox
+
+<ComponentPreview
+  name="combobox-1"
+  description="Combobox"
+/>
+
+#### Command
+
+<ComponentPreview
+  name="command-1"
+  align="start"
+  className="[&_.preview>div]:max-w-[450px]"
+  description="A command menu"
+  showSettings={false}
+/>
+
+#### Tooltip
+
+<ComponentPreview
+  name="tooltip-1"
+  description="Tooltip"
+/>
+
+#### Dialog
+
+<ComponentPreview
+  name="dialog-1"
+  description="A dialog for editing profile details."
+/>
+
+#### Drawer
+
+<ComponentPreview
+  name="drawer-1"
+  description="A drawer with an adjustable daily activity goal."
+/>
+
+#### Alert Dialog
+
+<ComponentPreview
+  name="alert-dialog-1"
+  description="Alert dialog"
+/>
+
+- **Responsive Dialog**  -  Dialog that adapts to screen size
+- Built initial navigation and header components
+
+### Dropdown Menu <Badge variant="outline">refactor</Badge>
+
+<ComponentPreview
+  name="dropdown-menu-1"
+  description="Dropdown menu"
+/>
+
+- Refactored with smart multi-action `onClick` handling
+- Organized code structure for better maintainability
+
+---
+
+## Earlier 2024
+
+### Project Init <Badge>feat</Badge>
+
+Initial repository setup and foundational commits in January-February 2024. Basic project structure established.
