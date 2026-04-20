@@ -1,3 +1,4 @@
+import { cn } from '@gentleduck/libs/cn'
 import * as React from 'react'
 import { composeRefs } from '../libs/compose-ref'
 import type { ISlot } from './slot.types'
@@ -109,7 +110,7 @@ function mergeProps(slotProps: AnyProps, childProps: AnyProps) {
     } else if (propName === 'style') {
       overrideProps[propName] = { ...(slotPropValue as object), ...(childPropValue as object) }
     } else if (propName === 'className') {
-      overrideProps[propName] = [slotPropValue, childPropValue].filter(Boolean).join(' ')
+      overrideProps[propName] = cn(slotPropValue as string, childPropValue as string)
     }
   }
 
