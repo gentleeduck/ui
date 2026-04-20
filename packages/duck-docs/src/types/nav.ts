@@ -1,6 +1,7 @@
 export interface INavItem {
   title: string
   href?: string
+  description?: string
   disabled?: boolean
   external?: boolean
   icon?: string
@@ -14,6 +15,6 @@ export interface INavItemWithChildren extends INavItem {
   items?: INavItemWithChildren[]
 }
 
-export interface IMainNavItem extends INavItem {}
+export interface IMainNavItem extends INavItemWithChildren {}
 
 export interface ISidebarNavItem extends INavItemWithChildren {}

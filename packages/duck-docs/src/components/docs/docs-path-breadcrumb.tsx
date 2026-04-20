@@ -39,14 +39,14 @@ function toTitleCase(segment: string) {
     .join(' ')
 }
 
-export function DocsPathBreadcrumb({ segments }: { segments: string[] }) {
+export function DocsPathBreadcrumb({ segments, basePath = '/docs' }: { segments: string[]; basePath?: string }) {
   const [open, setOpen] = React.useState(false)
   const isDesktop = useMediaQuery('(min-width: 768px)')
 
   if (!segments.length) return null
 
   const items = segments.map((segment, index) => ({
-    href: `/docs/${segments.slice(0, index + 1).join('/')}`,
+    href: `${basePath}/${segments.slice(0, index + 1).join('/')}`,
     isLast: index === segments.length - 1,
     label: toTitleCase(segment),
   }))
