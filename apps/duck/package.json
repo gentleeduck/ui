@@ -21,6 +21,7 @@
     "@google/generative-ai": "^0.24.0",
     "@modelcontextprotocol/sdk": "^1.27.1",
     "@rive-app/react-canvas": "^4.28.1",
+    "@splinetool/react-spline": "^4.1.0",
     "@tanstack/react-table": "^8.21.3",
     "@tanstack/react-virtual": "^3.13.24",
     "@types/three": "^0.184.0",

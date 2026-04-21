@@ -9,6 +9,7 @@
     "@gentleduck/vim": "workspace:*",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
+    "@types/three": "^0.184.0",
     "husky": "^9.1.7",
     "motion": "^12.26.2",
     "sherif": "1.11.0",
@@ -104,5 +105,10 @@
         "@types/react-dom": "19.2.3"
       }
     }
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.6.0",
+    "three": "^0.184.0"
   }
 }
