@@ -9,11 +9,21 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
         href="#main-content">
         Skip to main content
       </a>
-      <SiteHeader />
-      <main className="flex w-full flex-1 flex-col" id="main-content">
-        {children}
-      </main>
-      <SiteFooter />
+
+      <div className="relative min-h-screen w-full">
+        {/* Violet Abyss */}
+        {/* <div */}
+        {/*   className="absolute inset-0 z-0" */}
+        {/*   style={{ */}
+        {/*     background: 'radial-gradient(125% 125% at 50% 90%, rgb(0, 0, 0) 40%, rgb(49 40 92) 100%)', */}
+        {/*   }} */}
+        {/* /> */}
+        <SiteHeader />
+        <main className="relative z-1 flex w-full flex-1 flex-col" id="main-content">
+          {children}
+        </main>
+        <SiteFooter />
+      </div>
     </div>
   )
 }

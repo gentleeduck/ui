@@ -27,7 +27,7 @@ export function EcosystemCanvas() {
     const ctx = canvas.getContext('2d')!
 
     const logo = new Image()
-    logo.src = '/icons/dark.png'
+    logo.src = '/icons/icon-dark.png'
     logo.onload = () => {} // triggers repaint on next frame naturally
     const dpr = window.devicePixelRatio || 1
 

@@ -152,6 +152,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       className={`${InterSans.variable} ${InriaSerif.variable} ${JetBrainsMonoNerd.variable}`}
       dir="ltr"
       lang="en"
+      style={{ overflowY: 'scroll', scrollbarGutter: 'stable' }}
       suppressHydrationWarning>
       <head>
         <script
