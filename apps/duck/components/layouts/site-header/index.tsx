@@ -11,8 +11,7 @@ import {
 } from '@gentleduck/registry-ui/dropdown-menu'
 import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
-import { Search, Type, X } from 'lucide-react'
-import Image from 'next/image'
+import { Search, Type } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { siteConfig } from '~/config/site'
@@ -111,48 +110,48 @@ function applyFontPreset(preset: FontPreset) {
 export function SiteHeader() {
   return (
     <HeaderRoot>
-      <div className="relative h-10 w-full">
-        <Image
-          src="/banner-light.png"
-          alt="logo"
-          width={2000}
-          height={1028}
-          className="block h-10 w-full object-cover object-center dark:hidden"
-        />
-        <Image
-          src="/banner-dark.png"
-          alt="logo"
-          width={2000}
-          height={1028}
-          className="hidden h-10 w-full object-cover object-center dark:block"
-        />
-        <div className="container absolute inset-0 mx-auto flex w-full items-center justify-between gap-2 px-4">
-          <div className="pointer-events-none flex items-center gap-2 pl-1">
-            {/* Light mode logo */}
-            <img
-              src="/icons/grouped-logo-dark.svg"
-              alt="Gentleduck logo"
-              width={512}
-              height={512}
-              className="h-5 w-5 shrink-0 object-contain drop-shadow-md/70 sm:block dark:hidden"
-            />
-
-            {/* Dark mode logo */}
-            <img
-              src="/icons/grouped-logo-light.svg"
-              alt="Gentleduck logo"
-              width={512}
-              height={512}
-              className="hidden h-5 w-5 shrink-0 object-contain drop-shadow-md/70 dark:block dark:sm:block"
-            />
-            <span className="overflow-hidden text-ellipsis whitespace-nowrap font-mono font-semibold text-shadow-md/20 text-xs uppercase leading-snug tracking-wide dark:text-shadow-md/50">
-              Announcing Gentleduck Iam and the Gentleduck Calendar and Gentleduck Upload
-            </span>
-          </div>
-          <X className="size-4" />
-        </div>
-      </div>
-      <HeaderContainer className="border-b">
+      {/* <div className="relative h-10 w-full"> */}
+      {/*   <Image */}
+      {/*     src="/banner-light.png" */}
+      {/*     alt="logo" */}
+      {/*     width={2000} */}
+      {/*     height={1028} */}
+      {/*     className="block h-10 w-full object-cover object-center dark:hidden" */}
+      {/*   /> */}
+      {/*   <Image */}
+      {/*     src="/banner-dark2.png" */}
+      {/*     alt="logo" */}
+      {/*     width={2000} */}
+      {/*     height={1028} */}
+      {/*     className="hidden h-10 w-full object-cover object-center dark:block" */}
+      {/*   /> */}
+      {/*   <div className="container absolute inset-0 mx-auto flex w-full items-center justify-between gap-2 px-4"> */}
+      {/*     <div className="pointer-events-none flex items-center gap-2 pl-1"> */}
+      {/*       <img */}
+      {/*         src="/icons/grouped-dark.svg" */}
+      {/*         alt="Gentleduck logo" */}
+      {/*         width={512} */}
+      {/*         height={512} */}
+      {/*         className="h-5 w-5 shrink-0 object-contain drop-shadow-md/70 sm:block dark:hidden" */}
+      {/*       /> */}
+      {/*  */}
+      {/*       <img */}
+      {/*         src="/icons/grouped-light.svg" */}
+      {/*         alt="Gentleduck logo" */}
+      {/*         width={512} */}
+      {/*         height={512} */}
+      {/*         className="hidden h-5 w-5 shrink-0 object-contain drop-shadow-md/70 dark:block dark:sm:block" */}
+      {/*       /> */}
+      {/*       <span className="overflow-hidden text-ellipsis whitespace-nowrap font-mono font-semibold text-shadow-md/20 text-xs uppercase leading-snug tracking-wide dark:text-shadow-md/50"> */}
+      {/*         Announcing Gentleduck Iam and the Gentleduck Calendar and Gentleduck Upload */}
+      {/*       </span> */}
+      {/*     </div> */}
+      {/*     <div className="pr-2"> */}
+      {/*       <X className="size-4" /> */}
+      {/*     </div> */}
+      {/*   </div> */}
+      {/* </div> */}
+      <HeaderContainer>
         <MainNav />
         <React.Suspense fallback={null}>
           <MobileNav />

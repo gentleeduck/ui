@@ -61,16 +61,15 @@ function NavItem({ item, pathname }: { item: NavItemType; pathname: string }) {
   if (!item.items?.length) {
     return (
       <NavigationMenuItem>
-        <Link href={item.href ?? '#'} passHref>
-          <NavigationMenuLink
-            className={cn(
-              navigationMenuTriggerStyle(),
-              'bg-transparent text-sm',
-              pathname === item.href ? 'text-foreground' : 'text-foreground/70',
-            )}>
-            {item.title}
-          </NavigationMenuLink>
-        </Link>
+        <NavigationMenuLink
+          asChild
+          className={cn(
+            navigationMenuTriggerStyle(),
+            'bg-transparent text-sm',
+            pathname === item.href ? 'text-foreground' : 'text-foreground/70',
+          )}>
+          <Link href={item.href ?? '#'}>{item.title}</Link>
+        </NavigationMenuLink>
       </NavigationMenuItem>
     )
   }
