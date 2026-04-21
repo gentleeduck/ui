@@ -1,6 +1,18 @@
 @import "./base.css";
 @import "tw-animate-css";
 
+/* html overflow-y:scroll keeps scrollbar always — cancel react-remove-scroll-bar's incorrect compensation.
+   Higher specificity (html body vs body) beats the dynamically injected <style> tag */
+html body[data-scroll-locked] {
+  margin-right: 0 !important;
+  padding-right: 0 !important;
+  overflow: hidden !important;
+}
+
+.shiki {
+  background-color: transparent !important;
+}
+
 @custom-variant dark (&:is(.dark *));
 
 @theme {
