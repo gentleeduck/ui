@@ -1,6 +1,8 @@
-import { PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/docs/client'
-import { absoluteUrl } from '@gentleduck/docs/lib'
+import { Button } from '@gentleduck/registry-ui/button'
 import type { Metadata } from 'next'
+import Link from 'next/link'
+import { PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/layouts/page-header'
+import { absoluteUrl } from '~/lib'
 
 const title = 'Agent Skills'
 const description =
@@ -27,6 +29,16 @@ export default function SkillsLayout({ children }: { children: React.ReactNode }
       <PageHeader>
         <PageHeaderHeading>{title}</PageHeaderHeading>
         <PageHeaderDescription>{description}</PageHeaderDescription>
+        <div className="flex gap-3">
+          <Button asChild>
+            <Link href="https://github.com/gentleeduck/duck-ui/tree/master/skills" target="_blank" rel="noreferrer">
+              Browse on GitHub
+            </Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link href="/docs/skills">Get Started</Link>
+          </Button>
+        </div>
       </PageHeader>
       <div className="container-wrapper">
         <div className="container py-8">{children}</div>

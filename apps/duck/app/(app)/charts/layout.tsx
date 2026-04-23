@@ -1,13 +1,13 @@
-import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/docs/client'
-import { absoluteUrl } from '@gentleduck/docs/lib'
 import { Button } from '@gentleduck/registry-ui/button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
 import { ChartsNav } from '~/components/charts'
 import { ActiveThemeProvider } from '~/components/colors'
+import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/layouts/page-header'
 import { ThemesStyle } from '~/components/themes'
 import { ThemesSwitcher } from '~/components/themes/themes-selector'
+import { absoluteUrl } from '~/lib'
 
 const title = 'Charts, Rebuilt From the Ground Up'
 const description =

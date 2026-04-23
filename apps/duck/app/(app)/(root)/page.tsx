@@ -2,7 +2,6 @@ import { Button } from '@gentleduck/registry-ui/button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
-import { CtaSection } from '~/components/layouts/cta-section'
 import { FeaturesSection } from '~/components/layouts/features-section'
 import { OpenSourceSection } from '~/components/layouts/open-source-section'
 import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/layouts/page-header'
@@ -50,10 +49,9 @@ export default function Page() {
           </Button>
         </PageActions>
       </PageHeader>
-      {/* <DxSection /> */}
       <FeaturesSection />
       <OpenSourceSection />
-      <CtaSection />
+      {/* <CtaSection /> */}
     </div>
   )
 }

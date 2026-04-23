@@ -1,8 +1,8 @@
-import { absoluteUrl } from '@gentleduck/docs/lib'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 import React from 'react'
 import { RegistryPreview } from '~/components/registry-preview'
+import { absoluteUrl } from '~/lib'
 import { getRegistryItem } from '~/lib/get-registry-item'
 import { getRegistryIndex } from '~/lib/registry-index.server'
 

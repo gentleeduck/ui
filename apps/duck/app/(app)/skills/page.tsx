@@ -1,155 +1,158 @@
 import { Badge } from '@gentleduck/registry-ui/badge'
-import { Button } from '@gentleduck/registry-ui/button'
-import { Card, CardDescription, CardTitle } from '@gentleduck/registry-ui/card'
-import {
-  Bot,
-  BrainCircuit,
-  ExternalLink,
-  FileCode2,
-  Keyboard,
-  LayoutTemplate,
-  Puzzle,
-  RefreshCw,
-  Sparkles,
-} from 'lucide-react'
-import Link from 'next/link'
+import { Blocks, Calendar, Keyboard, LayoutTemplate, Terminal } from 'lucide-react'
+import { codeToHtml } from 'shiki'
+import { CopyButton } from '~/components/copy-button'
+import { OpenSourceSection } from '~/components/layouts/open-source-section'
 
 export const dynamic = 'force-static'
 export const revalidate = false
 
 const skills = [
   {
-    icon: <Sparkles className="h-6 w-6" />,
-    title: 'simplify',
-    description:
-      'Reviews and cleans up code changes — removes dead code, redundant abstractions, and unnecessary complexity.',
-    bg: 'bg-yellow-500/10',
-    color: 'text-yellow-500',
-    badge: 'stable',
+    icon: LayoutTemplate,
+    title: 'duck-ui',
+    pkg: '@gentleduck/registry-ui',
+    description: 'Styled Tailwind components, variant system, compound patterns, and coding style conventions.',
+    bg: 'bg-cyan-500/10',
+    color: 'text-cyan-500',
+    soon: false,
   },
   {
-    icon: <LayoutTemplate className="h-6 w-6" />,
-    title: 'batch',
-    description: 'Orchestrates large parallelizable changes — spawns isolated worker agents per module and merges PRs.',
-    bg: 'bg-blue-500/10',
-    color: 'text-blue-500',
-    badge: 'stable',
+    icon: Blocks,
+    title: 'duck-primitives',
+    pkg: '@gentleduck/primitives',
+    description: 'Headless a11y-first primitives, scoped context, Slot/asChild pattern, and Presence.',
+    bg: 'bg-violet-500/10',
+    color: 'text-violet-500',
+    soon: false,
   },
   {
-    icon: <Keyboard className="h-6 w-6" />,
-    title: 'caveman',
-    description: 'Strips filler from AI responses — terse, technical, no pleasantries. Multiple intensity levels.',
-    bg: 'bg-orange-500/10',
-    color: 'text-orange-500',
-    badge: 'stable',
-  },
-  {
-    icon: <RefreshCw className="h-6 w-6" />,
-    title: 'loop',
-    description: 'Runs autonomous iteration loops — the agent self-paces, wakes up, checks progress, and continues.',
-    bg: 'bg-purple-500/10',
-    color: 'text-purple-500',
-    badge: 'stable',
-  },
-  {
-    icon: <BrainCircuit className="h-6 w-6" />,
-    title: 'plan',
-    description:
-      'Enters plan mode to architect implementations — decomposes work into units before writing a single line.',
-    bg: 'bg-emerald-500/10',
-    color: 'text-emerald-500',
-    badge: 'stable',
-  },
-  {
-    icon: <FileCode2 className="h-6 w-6" />,
-    title: 'duck-add',
-    description:
-      'Adds gentleduck components to your project — wires imports, sets up config, generates usage examples.',
-    bg: 'bg-sky-500/10',
-    color: 'text-sky-500',
-    badge: 'coming soon',
-  },
-  {
-    icon: <Puzzle className="h-6 w-6" />,
-    title: 'duck-migrate',
-    description: 'Migrates from shadcn/ui or Radix to gentleduck primitives — automated codemods with diff review.',
+    icon: Blocks,
+    title: 'duck-variants',
+    pkg: '@gentleduck/variants',
+    description: 'cva() variant function, Variants.VariantProps, Variants namespace, and full type inference.',
     bg: 'bg-pink-500/10',
     color: 'text-pink-500',
-    badge: 'coming soon',
+    soon: false,
   },
   {
-    icon: <Bot className="h-6 w-6" />,
-    title: 'duck-review',
-    description:
-      'Reviews component implementations against gentleduck conventions — accessibility, variants, displayName.',
-    bg: 'bg-red-500/10',
-    color: 'text-red-500',
-    badge: 'coming soon',
+    icon: Terminal,
+    title: 'duck-cli',
+    pkg: '@gentleduck/cli',
+    description: 'CLI commands, template scaffolding, and the command authoring pattern.',
+    bg: 'bg-emerald-500/10',
+    color: 'text-emerald-500',
+    soon: false,
+  },
+  {
+    icon: Keyboard,
+    title: 'duck-vim',
+    pkg: '@gentleduck/vim',
+    description: 'Keyboard engine, hotkey parsing, chord sequences, and React hooks.',
+    bg: 'bg-orange-500/10',
+    color: 'text-orange-500',
+    soon: false,
+  },
+  {
+    icon: Calendar,
+    title: 'duck-calendar',
+    pkg: '@gentleduck/calendar',
+    description: 'Headless calendar engine, date adapters, selection modes, and locale support.',
+    bg: 'bg-blue-500/10',
+    color: 'text-blue-500',
+    soon: true,
   },
 ]
 
-export default function SkillsPage() {
-  return (
-    <div className="relative">
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-20 right-1/4 h-64 w-64 rounded-full bg-purple-500/8 blur-[100px]"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-20 left-1/4 h-64 w-64 rounded-full bg-emerald-500/8 blur-[100px]"
-      />
+const INSTALL_CODE = `# Install all skills
+npx skills add gentelduck/ui
 
-      <div className="relative mx-auto max-w-4xl">
-        <div className="mb-12 flex flex-col items-center gap-4 text-center">
-          <Badge variant="secondary" className="gap-1.5 px-3 py-1 text-xs">
-            <Bot className="h-3 w-3" />
-            Agent Skills
-          </Badge>
-          <p className="max-w-lg text-muted-foreground">
-            Drop-in skills for Claude Code, Cursor, and other AI coding assistants. Each skill is a focused capability —
-            install it once, use it everywhere.
-          </p>
-          <div className="flex gap-3">
-            <Button asChild size="sm">
-              <Link href="https://github.com/gentleeduck/duck-ui/tree/master/skills" target="_blank" rel="noreferrer">
-                <ExternalLink className="h-4 w-4" />
-                Browse on GitHub
-              </Link>
-            </Button>
+# Install a single skill
+npx skills add gentelduck/ui --skill duck-primitives`
+
+export default async function SkillsPage() {
+  const highlightedCode = await codeToHtml(INSTALL_CODE, {
+    lang: 'bash',
+    themes: {
+      dark: 'catppuccin-macchiato',
+      light: 'catppuccin-mocha',
+    },
+    transformers: [
+      {
+        pre(node) {
+          node.properties.class =
+            'no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 outline-none !bg-transparent text-sm font-mono'
+        },
+      },
+    ],
+  })
+
+  return (
+    <div className="relative space-y-20">
+      {/* Skills section */}
+      <div>
+        <div className="mb-10 text-center">
+          <div className="mb-3 flex items-center justify-center gap-2">
+            <Badge variant="secondary" className="text-xs">
+              {skills.length} skills
+            </Badge>
           </div>
+          <h2 className="mb-3 font-semibold text-2xl leading-tight tracking-tight sm:text-3xl">
+            Teach your AI every package in duck&#8209;ui
+          </h2>
+          <p className="mx-auto max-w-lg text-base text-muted-foreground leading-relaxed">
+            Each skill is scoped to a single package — the agent only loads the context it needs. Skills follow the open{' '}
+            <a
+              href="https://agentskills.io/specification"
+              target="_blank"
+              rel="noreferrer"
+              className="underline underline-offset-4 hover:text-foreground">
+              Agent Skills specification
+            </a>{' '}
+            and work with Claude Code, Cursor, Cline, and 30+ other agents.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {skills.map((s) => (
-            <Card
-              key={s.title}
-              className="group relative overflow-hidden rounded-xl border border-border/60 bg-background/60 p-5 shadow-sm transition-all duration-300 hover:border-border hover:shadow-md">
-              {s.badge === 'coming soon' && (
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {skills.map(({ icon: Icon, title, pkg, description, bg, color, soon }) => (
+            <div
+              key={title}
+              className="relative flex items-start gap-3 rounded-xl border border-border/50 bg-card p-4 transition-colors hover:border-border">
+              {soon && (
                 <span className="absolute top-3 right-3 rounded-full border border-border/60 bg-muted px-2 py-0.5 font-mono text-[10px] text-muted-foreground">
                   soon
                 </span>
               )}
-              <div className={`mb-3 flex h-12 w-12 items-center justify-center rounded-lg ${s.bg} ${s.color}`}>
-                {s.icon}
+              <div className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${bg} ${color}`}>
+                <Icon className="h-4 w-4" />
               </div>
-              <CardTitle className="mb-1 font-mono font-semibold text-base">/{s.title}</CardTitle>
-              <CardDescription>{s.description}</CardDescription>
-            </Card>
+              <div className="min-w-0 pr-8">
+                <p className="mb-0.5 font-mono text-[10px] text-muted-foreground">{pkg}</p>
+                <h3 className="mb-1 font-mono font-semibold text-sm">{title}</h3>
+                <p className="text-muted-foreground text-xs leading-relaxed">{description}</p>
+              </div>
+            </div>
           ))}
         </div>
+      </div>
 
-        <div className="mt-12 rounded-xl border border-border/60 bg-muted/30 p-6">
-          <p className="mb-3 font-mono text-muted-foreground text-sm">Install a skill</p>
-          <pre className="overflow-x-auto rounded-lg bg-background p-4 font-mono text-sm">
-            <code>{`# In Claude Code
-/install-skill https://github.com/gentleeduck/duck-ui/tree/master/skills/simplify
-
-# Or add to your project's skills/ directory
-# and reference in .claude/settings.json`}</code>
-          </pre>
+      {/* Install */}
+      <div>
+        <div className="mb-8 flex flex-col items-center gap-1 text-center">
+          <h2 className="font-semibold text-xl leading-tight tracking-tight">Install</h2>
+          <p className="text-muted-foreground text-sm">One command. Works with Claude Code, Cursor, and Copilot.</p>
+        </div>
+        <div className="relative mx-auto max-w-2xl">
+          <CopyButton value={INSTALL_CODE} variant="ghost" className="absolute top-3 right-3" />
+          <div
+            className="overflow-hidden rounded-lg border border-border/50 bg-muted/30 [&_pre]:bg-transparent!"
+            // biome-ignore lint/security/noDangerouslySetInnerHtml: shiki output
+            dangerouslySetInnerHTML={{ __html: highlightedCode }}
+          />
         </div>
       </div>
+
+      <OpenSourceSection className="!px-0" />
     </div>
   )
 }

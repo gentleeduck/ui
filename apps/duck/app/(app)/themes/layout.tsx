@@ -1,11 +1,10 @@
-import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '@gentleduck/docs/client'
-import { absoluteUrl } from '@gentleduck/docs/lib'
 import { Button } from '@gentleduck/registry-ui/button'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { Announcement } from '~/components/announcement'
-
+import { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/layouts/page-header'
 import { ThemeCustomizer, ThemeWrapper } from '~/components/themes'
+import { absoluteUrl } from '~/lib'
 
 const title = 'Make It Yours With Themes'
 const description =

@@ -1,6 +1,5 @@
 'use client'
 
-import { CopyButton } from '@gentleduck/docs/client'
 import { Badge } from '@gentleduck/registry-ui/badge'
 import { Button } from '@gentleduck/registry-ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@gentleduck/registry-ui/card'
@@ -13,6 +12,7 @@ import { converter, formatHex, parse } from 'culori'
 import { Eye, Moon, Palette, Pipette, Plus, Settings, Sun, Trash2 } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { useCallback, useEffect, useState } from 'react'
+import { CopyButton } from '~/components/copy-button'
 
 const CardsDemo = dynamic(() => import('~/components/cards').then((m) => ({ default: m.CardsDemo })), { ssr: false })
 

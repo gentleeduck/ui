@@ -1,8 +1,8 @@
-import { absoluteUrl } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next/types'
 import { ChartDisplay } from '~/components/charts'
+import { absoluteUrl } from '~/lib'
 import { charts } from '../charts'
 
 export const revalidate = false
