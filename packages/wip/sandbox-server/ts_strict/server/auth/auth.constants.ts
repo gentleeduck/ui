@@ -1,0 +1,10 @@
+export const AuthMessages = [
+  // SUCCESS
+  'AUTH_SIGNIN_SUCCESS',
+  'AUTH_SIGNOUT_SUCCESS',
+  'AUTH_SIGNUP_SUCCESS',
+  // ERROR
+  'AUTH_SIGNIN_ERROR',
+  //ZOD
+  'ZOD_EXPECTED_STRING',
+] as const

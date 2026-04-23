@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "bun": ">=1.3.5"
+  },
+  "name": "duck-skitch",
+  "author": "GentleDuck (https://www.gentleduck.org)",
+  "license": "MIT",
+  "homepage": "https://github.com/gentleeduck/duck-gen/tree/master/packages/duck-skitch#readme",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-gen/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/duck-gen.git",
+    "directory": "packages/duck-skitch"
+  },
+  "private": true,
+  "version": "0.0.0"
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "author": "gentleduck contributors",
+  "description": "[DEPRECATED: use @gentleduck/vim instead] A lightweight React component for easily binding and handling keyboard shortcuts in your React applications.",
+  "devDependencies": {
+    "@gentleduck/tsdown-config": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
+    "@types/mousetrap": "^1.6.15",
+    "@types/node": "catalog:",
+    "@types/react": "catalog:react19",
+    "@types/react-dom": "catalog:react19",
+    "esbuild": "^0.27.3",
+    "tsdown": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:"
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-shortcut#readme",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-ui/issues"
+  },
+  "keywords": [
+    "gentleduck",
+    "react",
+    "react-component",
+    "keyboard-shortcuts",
+    "hotkeys",
+    "react-hotkeys",
+    "mousetrap",
+    "keyboard-event",
+    "key-binding",
+    "keyboard-navigation",
+    "accessibility",
+    "react-keyboard-shortcuts",
+    "keyboard-commands",
+    "keyboard-handler",
+    "shortcuts",
+    "ctrl-key",
+    "meta-key",
+    "alt-key",
+    "key-events",
+    "web-accessibility"
+  ],
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "name": "@gentleduck/shortcut",
+  "peerDependencies": {
+    "mousetrap": "^1.6.5",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  },
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/duck-ui.git",
+    "directory": "packages/duck-shortcut"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "vite",
+    "test": "vitest run --passWithNoTests",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
+  },
+  "type": "module",
+  "types": "dist/index.d.ts",
+  "version": "0.1.0"
+}

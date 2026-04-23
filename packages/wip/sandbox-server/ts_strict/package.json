@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "bun": ">=1.3.5"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0",
+    "helmet": "^7.1.0",
+    "morgan": "^1.10.0",
+    "zod": "4.2.1"
+  },
+  "description": "Auto-generated Express server with advanced route registration",
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.3",
+    "@types/morgan": "^1.9.9",
+    "@types/node": "22.19.3",
+    "tsx": "^4.21.0",
+    "typescript": "5.9.3"
+  },
+  "main": "server/index.ts",
+  "name": "advanced-express-server",
+  "scripts": {
+    "build": "tsc",
+    "dev": "bun --watch server/index.ts",
+    "generate-types": "bun script/advanced-route-scanner.ts",
+    "scan-routes": "bun script/advanced-route-scanner.ts",
+    "start": "bun dist/server/index.js",
+    "test": "echo \"No tests specified\" && exit 0"
+  },
+  "version": "1.0.0"
+}
