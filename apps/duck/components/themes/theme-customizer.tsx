@@ -1,6 +1,5 @@
 'use client'
 
-import { CopyButton, useConfig } from '@gentleduck/docs/client'
 import { cn } from '@gentleduck/libs/cn'
 import type { ThemeName } from '@gentleduck/registers'
 import { THEME_NAMES, themeRegistry } from '@gentleduck/registers'
@@ -27,6 +26,8 @@ import { Skeleton } from '@gentleduck/registry-ui/skeleton'
 import { CheckIcon, MoonIcon, RotateCcwIcon, SunIcon } from 'lucide-react'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
+import { useConfig } from '~/hooks/use-config'
+import { CopyButton } from '../copy-button'
 
 export function ThemeCustomizer() {
   return (
@@ -49,9 +50,7 @@ export function ThemeCustomizer() {
           <PopoverTrigger asChild>
             <Button size="sm">Customize</Button>
           </PopoverTrigger>
-          <PopoverContent
-            side="right"
-            className="z-40 w-auto max-w-[375px] rounded-[12px] bg-white p-6 dark:bg-zinc-950">
+          <PopoverContent side="right" className="z-40 w-auto max-w-93.75 rounded-xl bg-white p-6 dark:bg-zinc-950">
             <Customizer />
           </PopoverContent>
         </Popover>
@@ -78,7 +77,7 @@ export function Customizer() {
           <div className="text-muted-foreground text-xs">Pick a style and color for your components.</div>
         </div>
         <Button
-          className="ml-auto rounded-[0.5rem]"
+          className="ml-auto rounded-lg"
           onClick={() => {
             setConfig({
               ...config,
@@ -120,9 +119,9 @@ export function Customizer() {
                   variant={'outline'}>
                   <span
                     className={cn(
-                      'mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[var(--theme-primary)]',
+                      'mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)',
                     )}>
-                    {isActive && <CheckIcon aria-hidden="true" className="!size-3 text-white" />}
+                    {isActive && <CheckIcon aria-hidden="true" className="size-3! text-white" />}
                   </span>
                   {entry.label}
                 </Button>
@@ -212,7 +211,7 @@ export function CopyCodeButton({ className, ...props }: React.ComponentProps<typ
             Copy code
           </Button>
         </DialogTrigger>
-        <DialogContent className="w-[300px] outline-none md:w-[500px] lg:w-[600px]">
+        <DialogContent className="w-75 outline-none md:w-125 lg:w-150">
           <DialogHeader>
             <DialogTitle>Theme</DialogTitle>
             <DialogDescription>Copy and paste the following code into your CSS file.</DialogDescription>
@@ -244,7 +243,7 @@ function CustomizerCode() {
     <div className="relative">
       <CopyButton className="absolute top-4 right-4" value={getThemeCode(activeTheme, config.radius)} />
       <div data-rehype-pretty-code-fragment="">
-        <pre className="relative max-h-[450px] overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900">
+        <pre className="relative max-h-112.5 overflow-x-auto rounded-lg border bg-zinc-950 py-4 dark:bg-zinc-900">
           <code className="relative flex flex-col rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
             <span className="line text-white">&nbsp;:root &#123;</span>
             <span className="line text-white">&nbsp;&nbsp;&nbsp;--radius: {config.radius}rem;</span>

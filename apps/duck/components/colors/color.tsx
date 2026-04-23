@@ -1,11 +1,11 @@
 'use client'
 
-import { useColors } from '@gentleduck/docs/client'
-import type { Color as DocsColor } from '@gentleduck/docs/lib'
-import { trackEvent } from '@gentleduck/docs/lib'
 import { useCopyToClipboard } from '@gentleduck/hooks/use-copy-to-clipboard'
 import { Check, Clipboard } from 'lucide-react'
 import { toast } from 'sonner'
+import { useColors } from '~/hooks/use-colors'
+import type { Color as DocsColor } from '~/lib'
+import { trackEvent } from '~/lib'
 
 export function Color({ color }: { color: DocsColor }) {
   const { format, setLastCopied, lastCopied } = useColors()

@@ -7,15 +7,11 @@ import * as React from 'react'
 import Markdown from 'react-markdown'
 import { type IChatMessage, type IChatSource, useAIChat } from '~/hooks/use-ai-chat'
 
-// ── Lazy shiki singleton ───────────────────────────────────────────────────────
-
 let shikiPromise: Promise<typeof import('shiki') | null> | null = null
 function getShiki() {
   if (!shikiPromise) shikiPromise = import('shiki').catch(() => null)
   return shikiPromise
 }
-
-// ── Panel ──────────────────────────────────────────────────────────────────────
 
 interface IAIChatPanelProps {
   initialQuery?: string
@@ -47,8 +43,6 @@ export function AIChatPanel({
     }
   }, [initialQuery, send])
 
-  // Scroll only when message count or last message content changes
-  const _lastMsgLen = messages[messages.length - 1]?.content.length ?? 0
   React.useEffect(() => {
     const el = scrollRef.current
     if (el) el.scrollTop = el.scrollHeight
@@ -116,7 +110,7 @@ export function AIChatPanel({
             <div className="flex size-10 items-center justify-center rounded-full bg-muted">
               <Sparkles aria-hidden="true" className="size-5 text-muted-foreground" />
             </div>
-            <p className="max-w-[240px] text-muted-foreground text-sm leading-relaxed">{emptyMessage}</p>
+            <p className="max-w-60 text-muted-foreground text-sm leading-relaxed">{emptyMessage}</p>
           </div>
         )}
 
@@ -246,7 +240,7 @@ const ShikiCodeBlock = React.memo(function ShikiCodeBlock({ code, language }: { 
       </div>
       {html ? (
         // biome-ignore lint/security/noDangerouslySetInnerHtml: pre-sanitized HTML from syntax highlighter
-        <div className="[&_pre]:!m-0" dangerouslySetInnerHTML={{ __html: html }} />
+        <div className="[&_pre]:m-0!" dangerouslySetInnerHTML={{ __html: html }} />
       ) : (
         <pre className="overflow-x-auto px-4 py-3.5 font-mono text-[13px] leading-relaxed">
           <code>{code}</code>
@@ -280,7 +274,7 @@ const markdownComponents = {
     </h4>
   ),
   p: ({ children, ...props }: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p className="leading-7 [&:not(:first-child)]:mt-3" {...props}>
+    <p className="not-first:mt-3 leading-7" {...props}>
       {children}
     </p>
   ),
@@ -349,13 +343,13 @@ const markdownComponents = {
   ),
   th: ({ children, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
     <th
-      className="border px-4 py-2 text-left font-semibold [&[align=center]]:text-center [&[align=right]]:text-right"
+      className="border px-4 py-2 text-left font-semibold [[align=center]]:text-center [[align=right]]:text-right"
       {...props}>
       {children}
     </th>
   ),
   td: ({ children, ...props }: React.HTMLAttributes<HTMLTableCellElement>) => (
-    <td className="border px-4 py-2 text-left [&[align=center]]:text-center [&[align=right]]:text-right" {...props}>
+    <td className="border px-4 py-2 text-left [[align=center]]:text-center [[align=right]]:text-right" {...props}>
       {children}
     </td>
   ),

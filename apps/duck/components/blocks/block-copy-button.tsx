@@ -1,11 +1,11 @@
 'use client'
 
-import { type Event, trackEvent } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
 import { Button, type ButtonProps } from '@gentleduck/registry-ui/button'
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'
 import { CheckIcon, Copy } from 'lucide-react'
 import * as React from 'react'
+import { type Event, trackEvent } from '~/lib'
 
 export function BlockCopyButton({
   event,

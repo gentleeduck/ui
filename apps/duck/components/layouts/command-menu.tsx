@@ -12,21 +12,34 @@ import {
   CommandShortcut,
   useCommandListContext,
 } from '@gentleduck/registry-ui/command'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@gentleduck/registry-ui/select'
 import { Separator } from '@gentleduck/registry-ui/separator'
 import { useKeyCommands } from '@gentleduck/vim/react'
 import { useVirtualizer } from '@tanstack/react-virtual'
 import { Circle, Command, CornerDownLeft, FileIcon, Moon, Search, Sparkles, Sun } from 'lucide-react'
 import lunr from 'lunr'
-import { useRouter } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
-import { docsConfig, docsEntries } from '~/config/docs'
+import {
+  DuckCalendarConfig,
+  DuckCliConfig,
+  DuckHooksConfig,
+  DuckLazyConfig,
+  DuckLibsConfig,
+  DuckMotionConfig,
+  DuckPrimitivesConfig,
+  DuckRegistryBuildConfig,
+  DuckShortcutConfig,
+  DuckStateConfig,
+  DuckUiConfig,
+  DuckVariantsConfig,
+  DuckVimConfig,
+  docsEntries,
+} from '~/config/docs'
 import type { ISidebarNavItem } from '~/types/nav'
-import { AIChatPanel } from './ai-chat-panel'
 
-// const AIChatPanel = React.lazy(() =>
-//   import('@duck-docs/components/layouts/ai-chat-panel').then((m) => ({ default: m.AIChatPanel })),
-// )
+const AIChatPanel = React.lazy(() => import('./ai-chat-panel').then((m) => ({ default: m.AIChatPanel })))
 
 // -- Types -------------------------------------------------------------------
 
@@ -54,6 +67,24 @@ type SearchableItem = {
 
 const HEADING_HEIGHT = 32
 const ITEM_HEIGHT = 36
+
+const PACKAGE_CONFIGS: Record<string, ISidebarNavItem[]> = {
+  'duck-calendar': DuckCalendarConfig.sidebarNav,
+  'duck-cli': DuckCliConfig.sidebarNav,
+  'duck-hooks': DuckHooksConfig.sidebarNav,
+  'duck-lazy': DuckLazyConfig.sidebarNav,
+  'duck-libs': DuckLibsConfig.sidebarNav,
+  'duck-motion': DuckMotionConfig.sidebarNav,
+  'duck-primitives': DuckPrimitivesConfig.sidebarNav,
+  'duck-registry-build': DuckRegistryBuildConfig.sidebarNav,
+  'duck-shortcut': DuckShortcutConfig.sidebarNav,
+  'duck-state': DuckStateConfig.sidebarNav,
+  'duck-ui': DuckUiConfig.sidebarNav,
+  'duck-variants': DuckVariantsConfig.sidebarNav,
+  'duck-vim': DuckVimConfig.sidebarNav,
+}
+
+const ALL_SIDEBAR_NAV: ISidebarNavItem[] = Object.values(PACKAGE_CONFIGS).flat()
 
 // -- Helpers -----------------------------------------------------------------
 
@@ -118,27 +149,44 @@ function buildSearchIndex(items: SearchableItem[]): lunr.Index {
 
 export function CommandMenu() {
   const router = useRouter()
+  const pathname = usePathname()
   const [open, setOpen] = React.useState(false)
   const { setTheme } = useTheme()
-  // const docsEntries = useDocsEntries()
   const [selectedLabel, setSelectedLabel] = React.useState('')
   const [aiMode, setAiMode] = React.useState(true)
   const [initialAiQuery, setInitialAiQuery] = React.useState('')
+  const [activeFilter, setActiveFilter] = React.useState<string | null>(null)
+
+  const packagePrefix = React.useMemo(() => {
+    const segment = pathname?.split('/')?.[1] ?? ''
+    return segment in PACKAGE_CONFIGS ? segment : null
+  }, [pathname])
+
+  const activeSidebarNav = React.useMemo(
+    () => (packagePrefix ? (PACKAGE_CONFIGS[packagePrefix] ?? ALL_SIDEBAR_NAV) : ALL_SIDEBAR_NAV),
+    [packagePrefix],
+  )
+
+  const activeEntries = React.useMemo(
+    () => (packagePrefix ? docsEntries.filter((e) => e.permalink.startsWith(`/${packagePrefix}`)) : docsEntries),
+    [packagePrefix],
+  )
 
   // Build-time check  -  no runtime API call
   const aiAvailable = process.env['NEXT_PUBLIC_AI_CHAT_ENABLED'] === 'true'
 
-  // Reset AI mode when dialog closes
+  // Reset AI mode + filter when dialog closes
   React.useEffect(() => {
     if (!open) {
       setAiMode(false)
       setInitialAiQuery('')
+      setActiveFilter(null)
     }
   }, [open])
 
   const items = React.useMemo(
     () => [
-      ...docsConfig.sidebarNav.map((group) => ({
+      ...activeSidebarNav.map((group) => ({
         items: flattenSidebarItems(group.items ?? []).map((navItem) => ({
           action: () => router.push(navItem.href),
           href: navItem.href,
@@ -171,8 +219,11 @@ export function CommandMenu() {
         title: 'Theme',
       },
     ],
-    [router, setTheme],
+    [router, setTheme, activeSidebarNav],
   )
+
+  // Package pills — only on the homepage (whole-docs view)
+  const filterGroups = React.useMemo(() => (packagePrefix ? [] : Object.keys(PACKAGE_CONFIGS)), [packagePrefix])
 
   const flatRows = React.useMemo<VirtualRow[]>(() => {
     const rows: VirtualRow[] = []
@@ -199,7 +250,7 @@ export function CommandMenu() {
           leafTitle,
           name: item.name,
           segments: segments.join(' '),
-          tocHeadings: findTocHeadings(docsEntries, item.href),
+          tocHeadings: findTocHeadings(activeEntries, item.href),
         })
       }
     }
@@ -255,18 +306,22 @@ export function CommandMenu() {
           </React.Suspense>
         ) : (
           <>
-            <CommandInput autoFocus placeholder="Search...">
+            <CommandInput autoFocus placeholder={packagePrefix ? `Search ${packagePrefix}...` : 'Search docs...'}>
+              {filterGroups.length > 0 && (
+                <PackageSelect activeFilter={activeFilter} groups={filterGroups} onFilterChange={setActiveFilter} />
+              )}
               {aiAvailable && (
                 <button
                   type="button"
                   onClick={() => setAiMode(true)}
-                  className="flex size-7 shrink-0 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+                  className="flex size-7 shrink-0 items-center justify-center rounded-md border border-input text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
                   title="Ask AI">
                   <Sparkles aria-hidden="true" className="size-4" />
                 </button>
               )}
             </CommandInput>
             <VirtualCommandList
+              activeFilter={activeFilter}
               aiAvailable={aiAvailable}
               flatRows={flatRows}
               onAskAI={(query) => {
@@ -277,7 +332,7 @@ export function CommandMenu() {
               onSelectedLabelChange={setSelectedLabel}
               searchIndex={searchIndex}
             />
-            <CommandFooter selectedLabel={selectedLabel} />
+            <CommandFooter selectedLabel={selectedLabel} sidebarNav={activeSidebarNav} />
           </>
         )}
       </CommandDialog>
@@ -285,9 +340,38 @@ export function CommandMenu() {
   )
 }
 
+// -- PackageSelect -----------------------------------------------------------
+
+function PackageSelect({
+  activeFilter,
+  groups,
+  onFilterChange,
+}: {
+  activeFilter: string | null
+  groups: string[]
+  onFilterChange: (filter: string | null) => void
+}) {
+  return (
+    <Select value={activeFilter ?? 'all'} onValueChange={(v) => onFilterChange(v === 'all' ? null : v)}>
+      <SelectTrigger className="h-7 w-36 min-w-0 gap-1 px-2 py-0 text-xs shadow-none focus:ring-0">
+        <SelectValue placeholder="All" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem value="all">All</SelectItem>
+        {groups.map((pkg) => (
+          <SelectItem key={pkg} value={pkg}>
+            {pkg}
+          </SelectItem>
+        ))}
+      </SelectContent>
+    </Select>
+  )
+}
+
 // -- VirtualCommandList ------------------------------------------------------
 
 function VirtualCommandList({
+  activeFilter,
   aiAvailable,
   flatRows,
   onAskAI,
@@ -295,6 +379,7 @@ function VirtualCommandList({
   onSelectedLabelChange,
   searchIndex,
 }: {
+  activeFilter: string | null
   aiAvailable: boolean
   flatRows: VirtualRow[]
   onAskAI: (query: string) => void
@@ -306,8 +391,36 @@ function VirtualCommandList({
   const scrollRef = React.useRef<HTMLDivElement>(null)
   const [selectedIndex, setSelectedIndex] = React.useState(0)
 
+  // Pre-filter by active package filter before search
+  const groupFilteredRows = React.useMemo<VirtualRow[]>(() => {
+    if (!activeFilter) return flatRows
+    const prefix = `/${activeFilter}`
+    const result: VirtualRow[] = []
+    let pendingHeading: (VirtualRow & { type: 'heading' }) | null = null
+    for (const row of flatRows) {
+      if (row.type === 'heading') {
+        pendingHeading = row
+      } else if (row.type === 'item') {
+        const belongs = row.href === prefix || row.href.startsWith(`${prefix}/`)
+        if (belongs) {
+          if (pendingHeading) {
+            result.push(pendingHeading)
+            pendingHeading = null
+          }
+          result.push(row)
+        }
+      }
+    }
+    return result
+  }, [flatRows, activeFilter])
+
+  // Reset selection when filter changes
+  React.useEffect(() => {
+    setSelectedIndex(0)
+  }, [activeFilter])
+
   const filteredRows = React.useMemo<VirtualRow[]>(() => {
-    if (!search) return flatRows
+    if (!search) return groupFilteredRows
 
     // Build score map from lunr results for doc items
     let scoreMap: Map<string, number>
@@ -331,7 +444,7 @@ function VirtualCommandList({
       // lunr threw on invalid syntax -- fall back to substring
       const q = search.toLowerCase()
       scoreMap = new Map(
-        flatRows
+        groupFilteredRows
           .filter((r): r is ItemRow => r.type === 'item' && r.name.toLowerCase().includes(q))
           .map((r) => [r.name, 1]),
       )
@@ -353,7 +466,7 @@ function VirtualCommandList({
       pendingItems = []
     }
 
-    for (const row of flatRows) {
+    for (const row of groupFilteredRows) {
       if (row.type === 'heading') {
         flushGroup()
         currentHeading = row
@@ -369,7 +482,7 @@ function VirtualCommandList({
     flushGroup()
 
     return filtered
-  }, [flatRows, search, searchIndex])
+  }, [groupFilteredRows, search, searchIndex])
 
   // Extract only item rows for index-based navigation
   const itemRows = React.useMemo<ItemRow[]>(
@@ -540,8 +653,8 @@ function VirtualCommandList({
 
 // -- CommandFooter -----------------------------------------------------------
 
-function CommandFooter({ selectedLabel }: { selectedLabel: string }) {
-  const sidebarItems = docsConfig.sidebarNav.flatMap((group) => flattenSidebarItems(group.items ?? []))
+function CommandFooter({ selectedLabel, sidebarNav }: { selectedLabel: string; sidebarNav: ISidebarNavItem[] }) {
+  const sidebarItems = sidebarNav.flatMap((group) => flattenSidebarItems(group.items ?? []))
   const selectedNavItem = sidebarItems.find((item) => item.title === selectedLabel)
   useKeyCommands(
     {

@@ -74,10 +74,8 @@ export async function getRegistryItem(name: string) {
 }
 
 async function getFileContent(file: { path: string; type: string }) {
-  const raw = await fs.readFile(
-    process.cwd().replace('apps/duck-ui-docs', getSourceDir(file.type)) + file.path,
-    'utf-8',
-  )
+  const cwd = process.cwd().replaceAll('\\', '/')
+  const raw = await fs.readFile(cwd.replace(/apps\/duck(-ui-docs)?/, getSourceDir(file.type)) + file.path, 'utf-8')
 
   const project = new Project({
     compilerOptions: {},
@@ -104,7 +102,8 @@ async function getFileContent(file: { path: string; type: string }) {
 }
 
 async function getFileMeta(filePath: string, fileType: string) {
-  const raw = await fs.readFile(process.cwd().replace('apps/duck-ui-docs', getSourceDir(fileType)) + filePath, 'utf-8')
+  const cwd = process.cwd().replaceAll('\\', '/')
+  const raw = await fs.readFile(cwd.replace(/apps\/duck(-ui-docs)?/, getSourceDir(fileType)) + filePath, 'utf-8')
 
   const project = new Project({
     compilerOptions: {},

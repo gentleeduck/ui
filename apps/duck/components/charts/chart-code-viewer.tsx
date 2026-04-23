@@ -1,6 +1,5 @@
 /* biome-ignore-all lint/security/noDangerouslySetInnerHtml: Highlighted chart HTML is generated upstream and rendered read-only here. */
 'use client'
-import { useThemesConfig } from '@gentleduck/docs/client'
 import { useMediaQuery } from '@gentleduck/hooks/use-media-query'
 import { cn } from '@gentleduck/libs/cn'
 import type { Block } from '@gentleduck/registers'
@@ -9,6 +8,7 @@ import { Drawer, DrawerContent, DrawerHeader, DrawerTitle, DrawerTrigger } from 
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@gentleduck/registry-ui/sheet'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@gentleduck/registry-ui/tabs'
 import { type ComponentProps, useMemo, useState } from 'react'
+import { useThemesConfig } from '~/hooks/use-themes-config'
 import { BlockCopyButton } from '../blocks/block-copy-button'
 
 export function ChartCodeViewer({ chart, className, children }: { chart: Block } & ComponentProps<'div'>) {

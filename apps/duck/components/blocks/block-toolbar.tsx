@@ -1,7 +1,5 @@
 'use client'
 
-import { useLiftMode } from '@gentleduck/docs/client'
-import { trackEvent } from '@gentleduck/docs/lib'
 import { cn } from '@gentleduck/libs/cn'
 import type { Block } from '@gentleduck/registers'
 import { Badge } from '@gentleduck/registry-ui/badge'
@@ -15,6 +13,8 @@ import { CircleHelp, Monitor, Smartphone, Tablet } from 'lucide-react'
 import type * as React from 'react'
 import type { PanelImperativeHandle } from 'react-resizable-panels'
 import { StyleSwitcher } from '~/components/themes'
+import { useLiftMode } from '~/hooks/use-lift-mode'
+import { trackEvent } from '~/lib'
 import { BlockCopyButton } from './block-copy-button'
 
 export function BlockToolbar({

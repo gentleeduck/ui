@@ -1,10 +1,10 @@
 'use client'
 
-import { useLiftMode } from '@gentleduck/docs/client'
 import { motionTransition, useDuckReducedMotion } from '@gentleduck/motion'
 import type { Block } from '@gentleduck/registers'
 import { AnimatePresence, motion } from 'motion/react'
 import type * as React from 'react'
+import { useLiftMode } from '~/hooks/use-lift-mode'
 
 export function BlockWrapper({ block, children }: React.PropsWithChildren<{ block: Block }>) {
   const { isLiftMode } = useLiftMode(block.name)

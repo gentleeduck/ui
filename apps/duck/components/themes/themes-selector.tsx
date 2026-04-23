@@ -1,7 +1,5 @@
 'use client'
 
-import { useThemesConfig } from '@gentleduck/docs/client'
-import { THEMES, type Theme } from '@gentleduck/docs/lib'
 import { useMediaQuery } from '@gentleduck/hooks/use-media-query'
 import { cn } from '@gentleduck/libs/cn'
 import { Skeleton } from '@gentleduck/registry-ui/skeleton'
@@ -9,6 +7,8 @@ import { ToggleGroup, ToggleGroupItem } from '@gentleduck/registry-ui/toggle-gro
 import { Tooltip, TooltipContent, TooltipTrigger } from '@gentleduck/registry-ui/tooltip'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
+import { useThemesConfig } from '~/hooks/use-themes-config'
+import { THEMES, type Theme } from '~/lib/themes'
 
 export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentProps<'div'> & { themes?: Theme[] }) {
   const { theme: mode } = useTheme()
@@ -72,7 +72,7 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
               }>
               <ToggleGroupItem
                 className={cn(
-                  'group flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border-2 border-transparent p-0 hover:bg-transparent focus-visible:bg-transparent aria-checked:border-[var(--color-1)]',
+                  'group flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border-2 border-transparent p-0 hover:bg-transparent focus-visible:bg-transparent aria-checked:border-(--color-1)',
                   mounted && isDarkTheme && mode !== 'dark' ? 'invert-[1]' : '',
                 )}
                 value={theme.name}>
@@ -82,10 +82,10 @@ export function ThemesSwitcher({ themes = THEMES, className }: React.ComponentPr
                       'grid h-12 w-12 -translate-x-1/4 -translate-y-1/4 grid-cols-2 overflow-hidden rounded-md transition-all ease-in-out group-hover:rotate-45',
                       isActive ? 'rotate-45 group-hover:rotate-0' : 'rotate-0',
                     )}>
-                    <span className="flex h-6 w-6 bg-[var(--color-1)]" />
-                    <span className="flex h-6 w-6 bg-[var(--color-2)]" />
-                    <span className="flex h-6 w-6 bg-[var(--color-3)]" />
-                    <span className="flex h-6 w-6 bg-[var(--color-4)]" />
+                    <span className="flex h-6 w-6 bg-(--color-1)" />
+                    <span className="flex h-6 w-6 bg-(--color-2)" />
+                    <span className="flex h-6 w-6 bg-(--color-3)" />
+                    <span className="flex h-6 w-6 bg-(--color-4)" />
                     <span className="sr-only">{theme.name}</span>
                   </div>
                 </div>

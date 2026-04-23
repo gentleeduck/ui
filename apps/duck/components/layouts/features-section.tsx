@@ -18,9 +18,9 @@ function VimIllustration() {
   return (
     <div className="relative h-full w-full overflow-hidden">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute top-0 -left-8 h-48 w-48 rounded-full bg-white/[0.04] blur-3xl" />
-        <div className="absolute right-0 bottom-0 h-40 w-40 rounded-full bg-white/[0.04] blur-3xl" />
-        <div className="absolute top-1/2 left-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/[0.06] blur-2xl" />
+        <div className="absolute top-0 -left-8 h-48 w-48 rounded-full bg-white/4 blur-3xl" />
+        <div className="absolute right-0 bottom-0 h-40 w-40 rounded-full bg-white/4 blur-3xl" />
+        <div className="absolute top-1/2 left-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/6 blur-2xl" />
       </div>
       {VIM_KEYS.map((key) => (
         <div
@@ -48,13 +48,13 @@ function VariantsIllustration() {
     <div className="flex h-full flex-col">
       {/* preview */}
       <div className="flex flex-1 items-center justify-center bg-muted/10">
-        <div className="flex h-9 items-center rounded-md bg-primary px-6 text-sm font-medium text-primary-foreground shadow-md">
+        <div className="flex h-9 items-center rounded-md bg-primary px-6 font-medium text-primary-foreground text-sm shadow-md">
           Button
         </div>
       </div>
 
       {/* controls panel */}
-      <div className="border-t border-border/40 bg-muted/20 px-4 py-3">
+      <div className="border-border/40 border-t bg-muted/20 px-4 py-3">
         <div className="mb-2 flex items-center justify-between">
           <span className="font-mono text-[9px] text-muted-foreground/50 uppercase tracking-widest">Controls</span>
           <span className="font-mono text-[9px] text-muted-foreground/30">variant</span>
@@ -70,10 +70,7 @@ function VariantsIllustration() {
                 )}
               />
               <span
-                className={cn(
-                  'font-mono text-[9.5px]',
-                  i === 0 ? 'text-foreground/80' : 'text-muted-foreground/45',
-                )}>
+                className={cn('font-mono text-[9.5px]', i === 0 ? 'text-foreground/80' : 'text-muted-foreground/45')}>
                 {v.name}
               </span>
             </div>
@@ -109,11 +106,7 @@ function UploadIllustration() {
               <span className="flex-1 truncate font-medium text-[11px] text-foreground/80">{f.name}</span>
               <span className="text-[10px] text-muted-foreground tabular-nums">{f.size}</span>
               {f.done && (
-                <svg
-                  className="h-3 w-3 text-foreground/60"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24">
+                <svg className="h-3 w-3 text-foreground/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                 </svg>
               )}
@@ -161,17 +154,10 @@ function PrimitivesIllustration() {
             return (
               <div
                 key={item.name}
-                className={cn(
-                  'flex items-center gap-2 rounded-md px-2 py-1.5',
-                  isSelected ? 'bg-muted/70' : '',
-                )}>
+                className={cn('flex items-center gap-2 rounded-md px-2 py-1.5', isSelected ? 'bg-muted/70' : '')}>
                 <span className="flex h-3 w-3 items-center justify-center">
                   {isSelected && (
-                    <svg
-                      className="h-3 w-3 text-foreground/70"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24">
+                    <svg className="h-3 w-3 text-foreground/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M5 13l4 4L19 7" />
                     </svg>
                   )}
@@ -210,12 +196,12 @@ function CalendarIllustration() {
             className="rounded-md border shadow-sm"
             mode="multi-range"
             selected={ranges}
-            onSelect={setRanges}
+            onSelect={(v) => v && setRanges(v as typeof INITIAL_RANGES)}
             defaultMonth={new Date(2026, 3, 1)}
           />
         </div>
       </div>
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-card to-transparent" />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-linear-to-t from-card to-transparent" />
     </div>
   )
 }
@@ -253,9 +239,7 @@ const FILE_TREE: TreeNode[] = [
 function TreeRow({ node, depth }: { node: TreeNode; depth: number }) {
   return (
     <>
-      <div
-        className="flex items-center gap-1.5 rounded px-1.5 py-[3px]"
-        style={{ paddingLeft: `${8 + depth * 14}px` }}>
+      <div className="flex items-center gap-1.5 rounded px-1.5 py-0.75" style={{ paddingLeft: `${8 + depth * 14}px` }}>
         {node.type === 'folder' ? (
           <FolderOpen className="h-3.5 w-3.5 shrink-0 text-muted-foreground/50" />
         ) : (
@@ -351,7 +335,7 @@ const CARDS = [
 export function FeaturesSection({ className }: { className?: string }) {
   return (
     <section className={cn('container-wrapper', className)}>
-      <div className="container border-x">
+      <div className="container">
         <div className="py-16 md:py-24">
           <div className="mb-10 text-center">
             <h2 className="mb-3 font-semibold text-2xl leading-tight tracking-tight sm:text-3xl">

@@ -2,7 +2,6 @@
 'use client'
 
 import { getIconForLanguageExtension } from '@gentleduck/docs/client'
-import { trackEvent } from '@gentleduck/docs/lib'
 import { useCopyToClipboard } from '@gentleduck/hooks/use-copy-to-clipboard'
 import { cn } from '@gentleduck/libs/cn'
 import type { registryEntrySchema, registryItemFileSchema } from '@gentleduck/registers'
@@ -41,6 +40,7 @@ import Link from 'next/link'
 import * as React from 'react'
 import type { PanelImperativeHandle } from 'react-resizable-panels'
 import type { z } from 'zod'
+import { trackEvent } from '~/lib'
 import type { createFileTreeForRegistryItemFiles, FileTree } from '~/lib/get-registry-item'
 
 type BlockViewerContext = {

@@ -1,4 +1,4 @@
-import { absoluteUrl } from '@gentleduck/docs/lib'
+import { absoluteUrl } from '~/lib'
 
 export const siteConfig = {
   author: {
