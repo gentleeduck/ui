@@ -25,28 +25,36 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ) => {
-    const Component = (asChild ? Slot : 'button') as React.ElementType
+    const buttonClass = cn(
+      buttonVariants({
+        border,
+        className,
+        size: isCollapsed ? 'icon' : size,
+        variant,
+      }),
+    )
+
+    if (asChild) {
+      return (
+        <Slot data-slot="button" {...props} className={buttonClass} ref={ref}>
+          {children}
+        </Slot>
+      )
+    }
 
     return (
-      <Component
+      <button
         data-slot="button"
         {...props}
         aria-busy={loading ? true : undefined}
-        className={cn(
-          buttonVariants({
-            border,
-            className,
-            size: isCollapsed ? 'icon' : size,
-            variant,
-          }),
-        )}
+        className={buttonClass}
         disabled={Boolean(loading) || disabled}
         ref={ref}
         type={type}>
         {loading ? <Loader aria-hidden="true" className="animate-spin" /> : icon}
         <Slottable>{!isCollapsed && children}</Slottable>
         {!isCollapsed && secondIcon && secondIcon}
-      </Component>
+      </button>
     )
   },
 )

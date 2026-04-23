@@ -1,9 +1,5 @@
 'use client'
 
-// components/copy-button
-export type { ICopyButtonProps } from './components/copy-button'
-export { CopyButton } from './components/copy-button'
-
 // components/docs
 export { DocsCopyPage } from './components/docs/docs-copy-page'
 export { DocsPagerBottom, DocsPagerTop, flatten, getPagerForDoc } from './components/docs/docs-pager'
@@ -11,19 +7,8 @@ export { DocsPathBreadcrumb } from './components/docs/docs-path-breadcrumb'
 export type { IDocsSidebarNavProps } from './components/docs/docs-sidebar'
 export { DocsSidebarNav, DocsSidebarNavItem, DocsSidebarNavItems } from './components/docs/docs-sidebar'
 export { DashboardTableOfContents } from './components/docs/docs-toc'
-
 // components/icons
-export { getIconForLanguageExtension, Icons } from './components/icons'
-
-// components/layouts
-export { CommandMenu } from './components/layouts/command-menu'
-export { HeaderBrand, HeaderContainer, HeaderRoot, HeaderSection } from './components/layouts/header-shell'
-export { FooterButtons, SiteFooter } from './components/layouts/site-footer'
-export { FontStyleButton, SiteHeader } from './components/layouts/site-header'
-export { TailwindIndicator } from './components/layouts/tailwind-indicator'
-
-// components/main-nav
-export { MainNav } from './components/main-nav'
+export { getIconForLanguageExtension } from './components/icons'
 
 // components/mdx
 export { Mdx } from './components/mdx/mdx'
@@ -60,20 +45,10 @@ export {
   P,
 } from './components/mdx/mdx-components/typepography'
 
-// components/mobile-nav
-export { MobileNav } from './components/mobile-nav'
-
-// components/mode-toggle
-export { ModeSwitcher } from './components/mode-toggle'
-
-// components/page-header
-export { PageActions, PageHeader, PageHeaderDescription, PageHeaderHeading } from './components/page-header'
-
 // components/providers
 export { ThemeProvider } from './components/providers'
 
 // components/style-switcher
-export { StyleSwitcher } from './components/style-switcher'
 export {
   DocsProvider,
   useDocsConfig,
@@ -91,11 +66,3 @@ export type {
   ITocEntry,
   RegistryIndex,
 } from './context/context.types'
-
-// hooks
-export { useColors } from './hooks/use-colors'
-export { useConfig } from './hooks/use-config'
-export { useLiftMode } from './hooks/use-lift-mode'
-export { useMetaColor } from './hooks/use-meta-colors'
-export { useMounted } from './hooks/use-mounted'
-export { useThemesConfig } from './hooks/use-themes-config'

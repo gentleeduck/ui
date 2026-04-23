@@ -1,7 +1,7 @@
 'use client'
 
 import type { ITocEntry } from '@duck-docs/context'
-import { useMounted } from '@duck-docs/hooks/use-mounted'
+import { useMounted } from '@duck-docs/hooks/use-mount'
 import { cn } from '@gentleduck/libs/cn'
 import { BookOpenText } from 'lucide-react'
 import * as React from 'react'

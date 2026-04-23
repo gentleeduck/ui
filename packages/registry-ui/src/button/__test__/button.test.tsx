@@ -60,6 +60,21 @@ describe('registry-ui button', () => {
     expect(html).not.toContain('data-icon="right"')
   })
 
+  test('Button asChild merges button styles onto child element without type/disabled', () => {
+    const html = renderToStaticMarkup(
+      <Button asChild variant="outline">
+        <a href="/docs">Go to docs</a>
+      </Button>,
+    )
+
+    expect(html).toContain('href="/docs"')
+    expect(html).toContain('Go to docs')
+    expect(html).toContain('border-input')
+    expect(html).not.toContain('type="button"')
+    expect(html).not.toContain('disabled=""')
+    expect(html).not.toContain('aria-busy')
+  })
+
   test('AnimationIcon renders left and right placements around children', () => {
     const leftHtml = renderToStaticMarkup(
       <AnimationIcon animationIcon={{ icon: <span data-icon="left">L</span>, iconPlacement: 'left' }}>

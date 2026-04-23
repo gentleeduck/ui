@@ -1,10 +1,13 @@
+import type * as React from 'react'
+
 export interface INavItem {
   title: string
   href?: string
   description?: string
   disabled?: boolean
   external?: boolean
-  icon?: string
+  icon?: React.ElementType
+  color?: string
   label?: string
   accordion?: boolean
   defaultOpen?: boolean

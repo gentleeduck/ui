@@ -127,9 +127,7 @@
       "types": "./dist/*/index.d.ts",
       "default": "./dist/*/index.js"
     },
-    "./styles/base.css": "./dist/styles/base.css",
-    "./styles/docs.css": "./dist/styles/docs.css",
-    "./styles/mdx.css": "./dist/styles/mdx.css",
+    "./styles/mdx.css": "./src/styles/mdx.css",
     "./velite": {
       "browser": "./dist/velite/browser.js",
       "default": "./dist/velite/index.js",
@@ -168,7 +166,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "node -e \"fs.copyFileSync('../registers/registry-colors/registry-colors.ts','./src/lib/registry-colors-data.ts')\" && tsdown && bun run scripts/copy-styles.ts",
+    "build": "tsdown",
     "check-types:test": "tsc -p tsconfig.test.json --noEmit --pretty false --skipLibCheck",
     "test": "bun test ./tests",
     "dev": "tsdown --watch",

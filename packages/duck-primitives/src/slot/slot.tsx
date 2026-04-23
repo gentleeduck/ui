@@ -3,10 +3,35 @@ import * as React from 'react'
 import { composeRefs } from '../libs/compose-ref'
 import type { ISlot } from './slot.types'
 
+// Matches Radix 1.2.4 — unwraps lazy RSC references before any isValidElement check
+const REACT_LAZY_TYPE = Symbol.for('react.lazy')
+// biome-ignore lint/suspicious/noExplicitAny: accessing React.use without bundler treeshaking it
+const reactUse = (React as any)[' use '.trim()] as (<T>(p: Promise<T>) => T) | undefined
+
+function isPromiseLike(v: unknown): v is PromiseLike<unknown> {
+  return typeof v === 'object' && v !== null && 'then' in (v as object)
+}
+
+function isLazyRef(v: unknown): v is { $$typeof: symbol; _payload: PromiseLike<unknown> } {
+  return (
+    v != null &&
+    typeof v === 'object' &&
+    '$$typeof' in (v as object) &&
+    (v as { $$typeof: unknown }).$$typeof === REACT_LAZY_TYPE &&
+    '_payload' in (v as object) &&
+    isPromiseLike((v as { _payload: unknown })._payload)
+  )
+}
+
 /* @__NO_SIDE_EFFECTS__ */ export function createSlot(ownerName: string) {
   const SlotClone = createSlotClone(ownerName)
   const Slot = React.forwardRef<HTMLElement, ISlot.IProps>((props, forwardedRef) => {
-    const { children, ...slotProps } = props
+    let { children, ...slotProps } = props
+
+    if (isLazyRef(children) && typeof reactUse === 'function') {
+      children = reactUse(children._payload as Promise<React.ReactNode>)
+    }
+
     const childrenArray = React.Children.toArray(children)
     const slottable = childrenArray.find(isSlottable)
 
@@ -44,7 +69,11 @@ const Slot = createSlot('Slot')
 
 /* @__NO_SIDE_EFFECTS__ */ function createSlotClone(ownerName: string) {
   const SlotClone = React.forwardRef<HTMLElement, ISlot.ICloneProps>((props, forwardedRef) => {
-    const { children, ...slotProps } = props
+    let { children, ...slotProps } = props
+
+    if (isLazyRef(children) && typeof reactUse === 'function') {
+      children = reactUse(children._payload as Promise<React.ReactNode>)
+    }
 
     if (React.isValidElement(children)) {
       const childrenRef = getComponentRef(children)
