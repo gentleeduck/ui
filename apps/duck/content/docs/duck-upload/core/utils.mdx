@@ -1,0 +1,36 @@
+---
+title: Utilities
+description: Shared helpers for async operations, guards, fingerprinting, and event emission.
+---
+
+Shared helpers used across core and strategies. Keeping them centralized reduces duplication and ensures consistent behavior.
+
+## Contents
+
+| Module | Export | Description |
+| --- | --- | --- |
+| `async.ts` | `sleep(ms)` | Promise-based delay |
+| `guards.ts` | `isRecord` | Runtime type guard for plain objects |
+| `id.ts` | `generateId()` | Generate unique local IDs |
+| `constants.ts` | Various | Default limits and timeouts |
+| `fingerprint.ts` | `computeFingerprint`, `compareFingerprint` | Compute and compare file fingerprints for deduplication |
+| `emitter/` | `createEmitter` | Typed event emitter implementation |
+
+## Usage
+
+Use these helpers instead of rolling custom versions inside strategies or UI code:
+
+```ts
+import { sleep, generateId, isRecord } from '@gentleduck/upload/core'
+
+// Delay execution
+await sleep(1000)
+
+// Generate a unique ID
+const id = generateId()
+
+// Type-safe object check
+if (isRecord(value)) {
+  // value is Record<string, unknown>
+}
+```

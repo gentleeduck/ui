@@ -1,0 +1,725 @@
+---
+title: core concepts
+description: How duck-iam combines RBAC and ABAC into a single evaluation pipeline, covering subjects, resources, policies, rules, conditions, and combining algorithms.
+---
+
+## How duck-iam Works
+
+duck-iam is a hybrid access control engine. Roles (RBAC) and policies (ABAC) feed into
+the same evaluation pipeline.
+
+Roles are converted into ABAC policies internally. Every check runs through one
+evaluator, regardless of whether the permission came from a role or a hand-written
+policy.
+
+### RBAC vs ABAC vs duck-iam
+
+<MermaidDiagram chart={`flowchart LR
+    subgraph RBAC["Pure RBAC"]
+        direction TB
+        R1["User"] --> R2["Role"]
+        R2 --> R3["Permission"]
+        R3 --> R4["Allow / Deny"]
+    end
+
+    subgraph ABAC["Pure ABAC"]
+        direction TB
+        A1["Request Context"] --> A2["Policy Rules"]
+        A2 --> A3["Conditions"]
+        A3 --> A4["Allow / Deny"]
+    end
+
+    subgraph DUCK["@gentleduck/iam (Hybrid)"]
+        direction TB
+        D1["User + Context"] --> D2["Roles converted to Policy"]
+        D2 --> D3["All Policies Evaluated"]
+        D3 --> D4["Conditions Checked"]
+        D4 --> D5["AND-Combined Decision"]
+    end
+
+    RBAC ~~~ ABAC ~~~ DUCK`} />
+
+## The Evaluation Flow
+
+When you call `engine.can()` or `engine.authorize()`:
+
+<MermaidDiagram chart={`flowchart TD
+    A["engine.can(subjectId, action, resource, env?, scope?)"] --> B["1. Resolve Subject"]
+    B --> B2["Load roles from adapter"]
+    B2 --> B3["Walk inheritance chains"]
+    B3 --> B4["Load scoped roles if scope provided"]
+    B4 --> B5["Load subject attributes"]
+    B5 --> C["2. Convert Roles to ABAC Policy"]
+    C --> C2["rolesToPolicy() -- each permission becomes a Rule"]
+    C2 --> C3["Generated policy uses allow-overrides algorithm"]
+    C3 --> D["3. Collect All Policies"]
+    D --> D2["Prepend __rbac__ policy"]
+    D2 --> D3["Append user-defined ABAC policies from adapter"]
+    D3 --> E["4. Evaluate Each Policy"]
+    E --> E2{"For each policy:"}
+    E2 --> E3["Check policy targets -- skip if no match"]
+    E3 --> E4["Match rules against action + resource"]
+    E4 --> E5["Evaluate conditions on matching rules"]
+    E5 --> E6["Apply combining algorithm"]
+    E6 --> E7["Per-policy result: allow or deny"]
+    E7 --> F["5. AND-Combine Across Policies"]
+    F --> F2{"Any policy denied?"}
+    F2 -- "Yes" --> G1["DENIED"]
+    F2 -- "No, all allowed" --> G2["ALLOWED"]
+    G1 --> H["6. Return Decision"]
+    G2 --> H
+    H --> H2["Decision: allowed, effect, rule, policy, reason, duration"]`} />
+
+### Step by step
+
+1. **Resolve the subject.** The engine loads the user's assigned roles from the adapter,
+   walks inheritance chains to compute effective roles, and merges any scoped roles that
+   match the request scope.
+
+2. **Convert roles to policy.** `rolesToPolicy()` turns every role permission into an
+   ABAC rule with conditions that check `subject.roles contains <roleId>`. The generated
+   policy uses the `allow-overrides` combining algorithm.
+
+3. **Collect all policies.** The RBAC-generated policy is prepended to whatever ABAC
+   policies you have stored in the adapter.
+
+4. **Evaluate each policy independently.** Each policy has its own combining algorithm
+   (`deny-overrides`, `allow-overrides`, `first-match`, or `highest-priority`) that
+   determines how its rules combine into a single effect.
+
+5. **AND-combine across policies.** The engine walks policy results in order. If any
+   policy returns `deny`, evaluation stops and the request is denied. All policies must
+   allow for the request to be allowed. A restrictive policy cannot be overridden by a
+   permissive one.
+
+6. **Return the decision.** The `Decision` object includes the boolean `allowed` flag,
+   the winning `effect`, which `rule` and `policy` made the decision, a human-readable
+   `reason`, and timing information.
+
+### Dev vs Production Mode
+
+The `mode` option controls the evaluation path:
+
+- **`"development"` (default)**: full `Decision` objects with timing, matched rule/policy
+  references, and human-readable reasons. Use for debugging and `explain()` traces.
+- **`"production"`**: uses `evaluateFast()`, which skips `Decision` construction and
+  timing. Rules are indexed via `WeakMap`/`Map` so action + resource lookups are O(1)
+  instead of linear scans. Use in deployed services.
+
+## Key Concepts
+
+<MermaidDiagram chart={`flowchart LR
+    subgraph Request["AccessRequest"]
+        direction TB
+        SUB["Subject"]
+        ACT["Action"]
+        RES["Resource"]
+        SCP["Scope (optional)"]
+        ENV["Environment (optional)"]
+    end
+
+    subgraph Subject_Detail["Subject"]
+        direction TB
+        S1["id: 'user-1'"]
+        S2["roles: ['editor', 'viewer']"]
+        S3["scopedRoles: [{role: 'admin', scope: 'org-1'}]"]
+        S4["attributes: {department: 'eng', level: 5}"]
+    end
+
+    subgraph Resource_Detail["Resource"]
+        direction TB
+        R1["type: 'post'"]
+        R2["id: 'post-42'"]
+        R3["attributes: {ownerId: 'user-1', status: 'draft'}"]
+    end
+
+    subgraph Env_Detail["Environment"]
+        direction TB
+        E1["ip: '192.168.1.1'"]
+        E2["userAgent: 'Mozilla/5.0'"]
+        E3["timestamp: 1708300000"]
+        E4["custom fields..."]
+    end
+
+    SUB --> Subject_Detail
+    RES --> Resource_Detail
+    ENV --> Env_Detail`} />
+
+### Subject
+
+The entity making the request, typically a user or service account.
+
+```typescript
+interface Subject {
+  id: string
+  roles: readonly string[]
+  scopedRoles?: readonly ScopedRole[]
+  attributes: Record<string, AttributeValue>
+}
+```
+
+A subject carries its identity (`id`), assigned roles, and arbitrary attributes
+(department, plan tier, clearance level, or anything else your domain needs).
+
+### Resource
+
+The thing being accessed: a post, a document, a settings page.
+
+```typescript
+interface Resource {
+  type: string      // e.g. "post", "comment", "dashboard.settings"
+  id?: string       // optional instance ID
+  attributes: Record<string, AttributeValue>
+}
+```
+
+Resource types support hierarchical matching with dots. A rule targeting `"dashboard"`
+will also match `"dashboard.users"` and `"dashboard.users.settings"`.
+
+### Action
+
+A string describing the operation: `"read"`, `"create"`, `"update"`,
+`"delete"`, or any custom action your app defines. Actions support wildcard matching --
+`"*"` matches everything, and `"posts:*"` matches `"posts:read"`, `"posts:write"`, etc.
+
+### Scope
+
+An optional namespace for multi-tenant isolation. When a request carries
+`scope: "org-1"`, only roles and rules matching that scope apply. Use any string:
+org IDs, workspace slugs, project keys.
+
+<MermaidDiagram chart={`flowchart LR
+    USER["User: alice\nBase: viewer"] --> REQ1["scope: org-1"]
+    USER --> REQ2["scope: org-2"]
+    USER --> REQ3["no scope"]
+
+    REQ1 --> EFF1["viewer + admin"]
+    REQ2 --> EFF2["viewer + editor"]
+    REQ3 --> EFF3["viewer only"]`} />
+
+### AccessRequest
+
+The full context for an authorization check:
+
+```typescript
+interface AccessRequest {
+  subject: Subject
+  action: string
+  resource: Resource
+  scope?: string
+  environment?: Environment
+}
+```
+
+The `environment` field carries request-time context: IP address, user agent,
+timestamp, or any custom key-value pairs your conditions need.
+
+```typescript
+interface Environment {
+  ip?: string
+  userAgent?: string
+  timestamp?: number
+  [key: string]: AttributeValue | undefined  // custom fields
+}
+```
+
+### Policy
+
+A named collection of rules with a combining algorithm:
+
+<MermaidDiagram chart={`flowchart TD
+    subgraph Policy_Struct["Policy Structure"]
+        direction TB
+        P["Policy"] --> PID["id: 'content-safety'"]
+        P --> PN["name: 'Content Safety'"]
+        P --> PA["algorithm: deny-overrides"]
+        P --> PT["targets: {actions?, resources?, roles?}"]
+        P --> PR["rules: [Rule, Rule, ...]"]
+    end
+
+    subgraph Rule_Struct["Rule Structure"]
+        direction TB
+        R["Rule"] --> RID["id: 'owner-only'"]
+        R --> RE["effect: allow or deny"]
+        R --> RP["priority: 10"]
+        R --> RA["actions: ['update', 'delete']"]
+        R --> RR["resources: ['post']"]
+        R --> RC["conditions: ConditionGroup"]
+    end
+
+    PR --> Rule_Struct`} />
+
+```typescript
+interface Policy {
+  id: string
+  name: string
+  description?: string
+  version?: number
+  algorithm: CombiningAlgorithm
+  rules: readonly Rule[]
+  targets?: {
+    actions?: readonly string[]
+    resources?: readonly string[]
+    roles?: readonly string[]
+  }
+}
+```
+
+Policies can have targets that scope them to specific actions, resources, or roles.
+If a request does not match a policy's targets, that policy's rules are skipped.
+
+### Rule
+
+A single authorization statement inside a policy:
+
+```typescript
+interface Rule {
+  id: string
+  effect: 'allow' | 'deny'
+  description?: string
+  priority: number
+  actions: readonly string[]
+  resources: readonly string[]
+  conditions: ConditionGroup
+}
+```
+
+A rule fires when the action matches, the resource matches, and all conditions pass.
+Its effect (`allow` or `deny`) is applied.
+
+### How a Rule is Matched
+
+Three checks must pass before a rule's effect applies:
+
+<MermaidDiagram chart={`flowchart LR
+    START["Incoming Rule"] --> ACT{"1. Action\nMatch?"}
+    ACT -- "Yes" --> RES{"2. Resource\nMatch?"}
+    ACT -- "No" --> SKIP["SKIPPED"]
+    RES -- "Yes" --> COND{"3. Conditions\nMet?"}
+    RES -- "No" --> SKIP
+    COND -- "Yes" --> FIRE["MATCHED\napply effect"]
+    COND -- "No" --> SKIP`} />
+
+### Condition and ConditionGroup
+
+A single condition checks one field against one value:
+
+```typescript
+interface Condition {
+  field: string       // e.g. "subject.attributes.department"
+  operator: Operator  // e.g. "eq", "in", "contains"
+  value?: AttributeValue
+}
+```
+
+Conditions are grouped using logical operators:
+
+```typescript
+type ConditionGroup =
+  | { all: Array<Condition | ConditionGroup> }   // AND
+  | { any: Array<Condition | ConditionGroup> }   // OR
+  | { none: Array<Condition | ConditionGroup> }  // NOT (none must be true)
+```
+
+<MermaidDiagram chart={`flowchart LR
+    subgraph Tree["Condition Tree Example"]
+        direction TB
+        ROOT["all (AND)"]
+        ROOT --> C1["subject.roles contains 'editor'"]
+        ROOT --> OR_GROUP["any (OR)"]
+        ROOT --> NOT_GROUP["none (NOT)"]
+        OR_GROUP --> C2["ownerId eq subject.id"]
+        OR_GROUP --> C3["roles contains 'admin'"]
+        NOT_GROUP --> C4["status eq 'banned'"]
+    end
+
+    subgraph Logic["Evaluation Logic"]
+        direction TB
+        L1["all: every child must be true"]
+        L2["any: at least one child must be true"]
+        L3["none: every child must be false"]
+    end`} />
+
+Groups can be nested up to 10 levels. Exceeding the limit evaluates to `false`
+(fail closed).
+
+### Field Resolution
+
+Condition `field` values are dot-notation paths resolved against the `AccessRequest`.
+
+<MermaidDiagram chart={`flowchart LR
+    subgraph Subject_Paths["Subject Fields"]
+        S1["subject.id"]
+        S2["subject.roles"]
+        S3["subject.attributes.*"]
+    end
+
+    subgraph Resource_Paths["Resource Fields"]
+        R1["resource.type"]
+        R2["resource.id"]
+        R3["resource.attributes.*"]
+    end
+
+    subgraph Other_Paths["Other Fields"]
+        E1["environment.ip / userAgent / timestamp / *"]
+        A1["action"]
+        SC["scope"]
+    end
+
+    subgraph How["Resolution: 'subject.attributes.department'"]
+        direction LR
+        SPLIT["Split by dot"] --> WALK["Walk object tree"] --> VAL["Result: 'engineering'"]
+    end`} />
+
+The engine supports these top-level paths:
+
+- `subject.id`, `subject.roles`, `subject.attributes.<key>`
+- `resource.type`, `resource.id`, `resource.attributes.<key>`
+- `environment.<key>`
+- `action` (the action string directly)
+- `scope` (the scope string directly)
+
+Fields that do not exist resolve to `null`. The resolver blocks access to `__proto__`,
+`constructor`, and `prototype` to prevent prototype pollution.
+
+### Dynamic References ($-variables)
+
+When a condition value starts with `$`, it is resolved at evaluation time rather than
+compared as a literal. Use this to compare two fields from the same request.
+
+<MermaidDiagram chart={`flowchart LR
+    subgraph Static["Static Value Comparison"]
+        direction LR
+        SV1["field: dept"] --> SR1["Resolve: 'engineering'"]
+        SV3["value: 'engineering'"] --> SR2["Literal: 'engineering'"]
+        SR1 --> SC1["eq: true"]
+        SR2 --> SC1
+    end
+
+    subgraph Dynamic["Dynamic $ Reference Comparison"]
+        direction LR
+        DV1["field: ownerId"] --> DR1["Resolve: 'user-2'"]
+        DV3["value: '$subject.id'"] --> DR2["Strip $, resolve: 'user-1'"]
+        DR1 --> DC1["eq: false (not owner)"]
+        DR2 --> DC1
+    end`} />
+
+```typescript
+// Does resource.attributes.ownerId equal the subject's ID?
+{ field: 'resource.attributes.ownerId', operator: 'eq', value: '$subject.id' }
+```
+
+The `$` prefix is stripped and the remainder is resolved using the same field paths.
+Common uses: ownership checks (`$subject.id`), department matching
+(`$subject.attributes.department`), scope validation (`$scope`).
+
+### Decision
+
+The output of an authorization check:
+
+```typescript
+interface Decision {
+  allowed: boolean    // the boolean you need
+  effect: 'allow' | 'deny'
+  rule?: Rule         // which rule decided
+  policy?: string     // which policy it came from
+  reason: string      // human-readable explanation
+  duration: number    // evaluation time in ms
+  timestamp: number   // when the check happened
+}
+```
+
+## Combining Algorithms
+
+Each policy uses a combining algorithm to resolve conflicts when multiple rules match.
+
+<MermaidDiagram chart={`flowchart LR
+    subgraph DO["deny-overrides (default, safest)"]
+        direction LR
+        DO1["Collect matching rules"] --> DO2{"Any DENY?"}
+        DO2 -- "Yes" --> DO3["DENY"]
+        DO2 -- "No" --> DO4{"Any ALLOW?"}
+        DO4 -- "Yes" --> DO5["ALLOW"]
+        DO4 -- "No" --> DO6["defaultEffect"]
+    end
+
+    subgraph AO["allow-overrides (used by RBAC)"]
+        direction LR
+        AO1["Collect matching rules"] --> AO2{"Any ALLOW?"}
+        AO2 -- "Yes" --> AO3["ALLOW"]
+        AO2 -- "No" --> AO4{"Any DENY?"}
+        AO4 -- "Yes" --> AO5["DENY"]
+        AO4 -- "No" --> AO6["defaultEffect"]
+    end
+
+    subgraph FM["first-match (order matters)"]
+        direction LR
+        FM1["Walk rules in order"] --> FM2["First match wins"]
+        FM2 --> FM3["that rule's effect"]
+    end
+
+    subgraph HP["highest-priority (priority number wins)"]
+        direction LR
+        HP1["Collect matching rules"] --> HP2["Sort by priority"]
+        HP2 --> HP3["Highest wins"]
+    end`} />
+
+### deny-overrides (default)
+
+Any `deny` wins over any `allow`. The safest default.
+
+```typescript
+const strictPolicy = policy('strict')
+  .algorithm('deny-overrides')
+  .rule('allow-read', r => r.allow().on('read').of('post'))
+  .rule('block-drafts', r => r
+    .deny()
+    .on('read')
+    .of('post')
+    .when(w => w.resourceAttr('status', 'eq', 'draft'))
+  )
+  .build()
+
+// If both rules match, deny wins -- you cannot read draft posts.
+```
+
+### allow-overrides
+
+Any `allow` wins over any `deny`. Use for permissive policies where a single allow rule
+is sufficient.
+
+```typescript
+const permissivePolicy = policy('permissive')
+  .algorithm('allow-overrides')
+  .rule('deny-default', r => r.deny().on('*').of('*'))
+  .rule('admin-override', r => r
+    .allow()
+    .on('*')
+    .of('*')
+    .when(w => w.role('admin'))
+  )
+  .build()
+
+// Admin role triggers the allow rule, which overrides the deny.
+```
+
+This is the algorithm used by the auto-generated RBAC policy.
+
+### first-match
+
+The first matching rule determines the result. Rule order matters.
+
+```typescript
+const orderedPolicy = policy('ordered')
+  .algorithm('first-match')
+  .rule('block-ip', r => r
+    .deny()
+    .on('*')
+    .of('*')
+    .when(w => w.env('ip', 'eq', '10.0.0.99'))
+  )
+  .rule('allow-all', r => r.allow().on('*').of('*'))
+  .build()
+
+// The deny rule is checked first. If the IP matches, deny.
+// Otherwise, the allow-all rule fires.
+```
+
+### highest-priority
+
+The matching rule with the highest `priority` value wins. Ties go to the first
+encountered.
+
+```typescript
+const priorityPolicy = policy('priority-based')
+  .algorithm('highest-priority')
+  .rule('general-allow', r => r
+    .allow()
+    .on('read')
+    .of('post')
+    .priority(10)
+  )
+  .rule('emergency-deny', r => r
+    .deny()
+    .on('*')
+    .of('*')
+    .priority(100)
+    .when(w => w.env('maintenanceMode', 'eq', true))
+  )
+  .build()
+
+// During maintenance, the priority-100 deny rule beats the priority-10 allow.
+```
+
+## Cross-Policy AND-Combination
+
+The combining algorithm resolves conflicts within a single policy. Across policies,
+duck-iam uses strict AND-combination: every policy must allow for the final result to
+be `allow`.
+
+<MermaidDiagram chart={`flowchart LR
+    subgraph Weekday["Weekday Request"]
+        direction LR
+        REQ["editor update post"] --> P1["__rbac__\nALLOW"]
+        REQ --> P2["business-hours\nALLOW"]
+        REQ --> P3["content-safety\nALLOW"]
+        P1 --> AND{"AND"}
+        P2 --> AND
+        P3 --> AND
+        AND --> RESULT["ALLOWED"]
+    end
+
+    subgraph Weekend["Weekend Request"]
+        direction LR
+        REQ2["editor update post"] --> P4["__rbac__\nALLOW"]
+        REQ2 --> P5["business-hours\nDENY"]
+        P4 --> AND2{"AND"}
+        P5 --> AND2
+        AND2 --> RESULT2["DENIED"]
+    end`} />
+
+```typescript
+// Policy A: RBAC-generated, allows editors to update posts
+// Policy B: Custom, denies updates on weekends
+
+// On a weekday: Policy A allows, Policy B allows -> ALLOWED
+// On a weekend: Policy A allows, Policy B denies  -> DENIED
+```
+
+Layer policies for defense in depth:
+
+<MermaidDiagram chart={`flowchart LR
+    subgraph Layers["Defense-in-Depth Layers"]
+        direction TB
+        L1["Layer 1: RBAC Policy -- WHO can do what"]
+        L2["Layer 2: Time Policy -- WHEN they can do it"]
+        L3["Layer 3: Geo Policy -- WHERE they can do it from"]
+        L4["Layer 4: Content Policy -- WHAT they can do it to"]
+
+        L1 --> COMBINE["AND-Combine: ALL must allow"]
+        L2 --> COMBINE
+        L3 --> COMBINE
+        L4 --> COMBINE
+    end`} />
+
+- The RBAC policy handles "who can do what"
+- A time-based policy handles "when they can do it"
+- A geo-fencing policy handles "where they can do it from"
+
+Each policy is evaluated independently. A deny from any one of them is final.
+
+## The Default Effect
+
+When no rules match within a policy, the engine falls back to `defaultEffect`. This
+defaults to `"deny"` (fail closed):
+
+```typescript
+const engine = new Engine({
+  adapter: myAdapter,
+  defaultEffect: 'deny',  // this is the default
+})
+```
+
+Fail-closed means an unmatched request is denied rather than accidentally allowed.
+
+## Debugging with explain()
+
+`explain()` returns a full evaluation trace without triggering side-effect hooks:
+
+```typescript
+const trace = await engine.explain(
+  'user-1',
+  'update',
+  { type: 'post', id: 'post-42', attributes: { ownerId: 'user-1' } },
+)
+
+console.log(trace.summary)
+// ALLOWED: "user-1" -> update on post
+//   Roles: [editor]
+//   __rbac__ [allow-overrides]: Allowed by rule "rbac.editor.update.post.2" (1/8 rules matched)
+//   Result: Allowed by rule "rbac.editor.update.post.2"
+```
+
+The trace includes per-policy breakdowns, per-rule match details, and per-condition
+actual vs. expected values.
+
+---
+
+## Core Concepts FAQ
+
+<Accordion type="multiple" collapsible className="w-full">
+  <AccordionItem value="action-scope-shorthands">
+    <AccordionTrigger>Can conditions reference action and scope directly?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Yes. Field resolution supports <code className="rounded bg-muted px-2 py-1">action</code> and
+      <code className="rounded bg-muted px-2 py-1">scope</code> as first-class shorthands in addition to
+      <code className="rounded bg-muted px-2 py-1">subject</code>, <code className="rounded bg-muted px-2 py-1">resource</code>, and
+      <code className="rounded bg-muted px-2 py-1">environment</code> paths.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="role-as-policy">
+    <AccordionTrigger>Are roles just shorthand for policies?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Conceptually, yes. duck-iam converts resolved role permissions into a synthetic RBAC policy so that
+      roles and ABAC rules go through the same evaluator. You still model them differently because roles are
+      easier for common grants and policies are better for contextual logic.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="default-effect-target-miss">
+    <AccordionTrigger>What happens when no rules or targets match?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The evaluator falls back to the configured default effect, which is usually
+      <code className="rounded bg-muted px-2 py-1">deny</code>. duck-iam treats "policy does not apply" and
+      "no rule matched" as fail-closed outcomes unless you explicitly choose a different default.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="scoped-roles-require-scope">
+    <AccordionTrigger>Why do scoped role assignments do nothing unless I pass a scope?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Scoped roles are merged into the subject only for evaluations that include a matching request scope.
+      Without a scope value, only global roles participate in authorization.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="rbac-policy-in-explain">
+    <AccordionTrigger>Why do I see a __rbac__ policy in explain() output even though I never created one?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Because duck-iam materializes your resolved role permissions into a synthetic RBAC policy before evaluation.
+      That policy is how roles enter the same rule engine as your hand-written ABAC policies, so seeing
+      <code className="rounded bg-muted px-2 py-1">__rbac__</code> in traces is expected.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="scope-vs-environment">
+    <AccordionTrigger>When should tenant or org information live in scope instead of environment or resource attributes?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Put it in <code className="rounded bg-muted px-2 py-1">scope</code> when it should activate scoped role assignments
+      and scope-aware permissions. Keep it in <code className="rounded bg-muted px-2 py-1">environment</code> or
+      <code className="rounded bg-muted px-2 py-1">resource.attributes</code> when it is only extra context for conditions
+      and should not change how subject roles are resolved.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="hierarchical-match-direction">
+    <AccordionTrigger>How exactly does hierarchical resource matching work?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      It is one-way and prefix-based. A rule targeting <code className="rounded bg-muted px-2 py-1">dashboard</code> matches
+      requests for <code className="rounded bg-muted px-2 py-1">dashboard</code> and
+      <code className="rounded bg-muted px-2 py-1">dashboard.users</code>, but a rule targeting
+      <code className="rounded bg-muted px-2 py-1">dashboard.users</code> does not match a request for the broader
+      <code className="rounded bg-muted px-2 py-1">dashboard</code> resource.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="policy-not-apply-vs-no-rule">
+    <AccordionTrigger>What is the practical difference between "policy did not apply" and "no rule matched"?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Both end up flowing into the evaluator's default-effect behavior, but they happen at different layers. A target
+      miss means the whole policy was skipped before rule evaluation. "No rule matched" means the policy applied, but none
+      of its rules produced an allow or deny outcome.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>

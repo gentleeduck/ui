@@ -1,0 +1,170 @@
+---
+title: building accessible uis with duck primitives
+description: How @gentleduck/primitives handles focus trapping, keyboard navigation, ARIA attributes, and screen reader support so you can focus on design.
+---
+
+## Accessibility Is Not Optional
+
+Keyboard navigation, screen reader support, focus management, and ARIA attributes are not extras — they are requirements. But implementing them correctly is tedious, error-prone, and easy to get wrong.
+
+`@gentleduck/primitives` handles the hard parts so you can focus on design and business logic.
+
+---
+
+## What Primitives Handle For You
+
+<MermaidDiagram chart={`flowchart TD
+    subgraph Primitives["@gentleduck/primitives"]
+        A["Focus Trapping"]
+        B["Keyboard Navigation"]
+        C["ARIA Attributes"]
+        D["Click Outside Dismissal"]
+        E["Screen Reader Announcements"]
+        F["Roving Focus Groups"]
+    end
+    subgraph YourCode["Your Code"]
+        G["Design & Styling"]
+        H["Business Logic"]
+        I["Layout & Composition"]
+    end
+    Primitives --> J["Accessible Component"]
+    YourCode --> J
+    style Primitives fill:#e8e8ff,stroke:#333
+    style YourCode fill:#e8ffe8,stroke:#333`} />
+
+### Focus Management
+
+When a dialog opens, focus must move into it. When it closes, focus must return to the trigger. Tab must cycle within the dialog and not escape to the page behind it.
+
+Primitives handle all of this automatically:
+
+- **Focus trapping** — Tab and Shift+Tab cycle within modal surfaces
+- **Focus restoration** — Focus returns to the trigger element on close
+- **Initial focus** — Configurable initial focus target
+- **Focus scope** — Nested focus contexts for complex UIs
+
+### Keyboard Navigation
+
+Every primitive supports full keyboard interaction:
+
+| Primitive | Keyboard Support |
+| --- | --- |
+| **Dialog** | Escape to close, Tab to cycle focus |
+| **Dropdown Menu** | Arrow keys to navigate, Enter to select, Escape to close |
+| **Select** | Arrow keys to browse, Enter to select, type-ahead search |
+| **Slider** | Arrow keys for value, Home/End for range |
+| **Tabs** | Arrow keys to switch, focus follows selection |
+| **Navigation Menu** | Arrow keys between items, Enter to activate |
+
+### ARIA Attributes
+
+Primitives set the correct ARIA roles, states, and properties automatically:
+
+```tsx
+// You write this:
+<Dialog.Root open={open} onOpenChange={setOpen}>
+  <Dialog.Trigger>Open</Dialog.Trigger>
+  <Dialog.Content>
+    <Dialog.Title>Settings</Dialog.Title>
+    <Dialog.Description>Update your preferences.</Dialog.Description>
+  </Dialog.Content>
+</Dialog.Root>
+
+// Primitives render this:
+<button aria-haspopup="dialog" aria-expanded="true">Open</button>
+<div role="dialog" aria-modal="true" aria-labelledby="..." aria-describedby="...">
+  <h2 id="...">Settings</h2>
+  <p id="...">Update your preferences.</p>
+</div>
+```
+
+---
+
+## The Primitives Catalog
+
+| Primitive | Accessibility Features |
+| --- | --- |
+| **Dialog** | Focus trap, Escape close, aria-modal, aria-labelledby |
+| **Alert Dialog** | Same as Dialog + requires explicit action (no click-outside dismiss) |
+| **Drawer** | Focus trap, drag-to-dismiss, aria-modal |
+| **Sheet** | Focus trap, Escape close, edge-slide animation |
+| **Popover** | Focus management, click-outside dismiss, aria-expanded |
+| **Tooltip** | Hover + focus trigger, aria-describedby, delay management |
+| **Hover Card** | Hover intent, dismiss on pointer leave |
+| **Dropdown Menu** | Roving focus, type-ahead, nested submenus, role="menu" |
+| **Context Menu** | Right-click trigger, same keyboard nav as Dropdown |
+| **Menubar** | Horizontal menu bar, arrow key navigation between menus |
+| **Select** | Listbox pattern, type-ahead, aria-selected |
+| **Slider** | aria-valuemin/max/now, keyboard step control |
+| **Navigation Menu** | Arrow navigation, flyout management |
+| **Progress** | role="progressbar", aria-valuenow |
+| **Input OTP** | Individual digit inputs with auto-advance |
+
+---
+
+## Unstyled by Design
+
+Primitives ship with **zero CSS**. They provide behavior, not appearance. This means:
+
+- No fighting with pre-built styles
+- No CSS specificity battles
+- Full control over your design system
+- Works with Tailwind, CSS modules, vanilla CSS, or any styling approach
+
+Pair with `@gentleduck/variants` for type-safe styling and `@gentleduck/motion` for animations.
+
+---
+
+## Building a Custom Component
+
+Here is the pattern for building an accessible dialog from primitives:
+
+```tsx
+import * as Dialog from '@gentleduck/primitives/dialog'
+import { cva } from '@gentleduck/variants'
+import { cn } from '@gentleduck/libs'
+
+const overlayStyles = cva('fixed inset-0 bg-black/50 animate-in fade-in')
+const contentStyles = cva('fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg bg-background p-6 shadow-lg animate-in fade-in zoom-in-95')
+
+export function MyDialog({ children, trigger, title, description }) {
+  return (
+    <Dialog.Root>
+      <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className={cn(overlayStyles())} />
+        <Dialog.Content className={cn(contentStyles())}>
+          <Dialog.Title>{title}</Dialog.Title>
+          <Dialog.Description>{description}</Dialog.Description>
+          {children}
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  )
+}
+```
+
+Focus trapping, Escape handling, ARIA attributes, and click-outside dismissal all work automatically.
+
+---
+
+## Getting Started
+
+```bash
+bun add @gentleduck/primitives
+```
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6">
+  <LinkedCard href="https://ui.gentleduck.org/docs/packages/duck-primitives" target="_blank" rel="noopener noreferrer">
+    <div className="flex flex-col p-4">
+      <h4 className="font-semibold">Primitives Docs</h4>
+      <p className="mt-2 text-muted-foreground text-sm">Getting started, core concepts, guides, and full API reference for every primitive.</p>
+    </div>
+  </LinkedCard>
+  <LinkedCard href="/docs/news/component-library">
+    <div className="flex flex-col p-4">
+      <h4 className="font-semibold">Component Library</h4>
+      <p className="mt-2 text-muted-foreground text-sm">See the 59+ production components built on top of these primitives.</p>
+    </div>
+  </LinkedCard>
+</div>

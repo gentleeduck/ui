@@ -1,0 +1,180 @@
+---
+title: Guides
+description: Step-by-step guides for common upload scenarios.
+---
+
+## Quick Start Guide
+
+This guide walks through setting up a basic file upload from scratch.
+
+### Step 1: Set Up the Store
+
+```ts
+import { createUploadStore } from '@gentleduck/upload/core'
+import { createStrategyRegistry, PostStrategy } from '@gentleduck/upload/strategies'
+
+// Register the POST strategy for simple uploads
+const strategies = createStrategyRegistry()
+strategies.set(PostStrategy())
+
+// Define your backend adapter
+const api = {
+  createIntent: async ({ file, purpose }) => {
+    const res = await fetch('/api/uploads/intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fileName: file.name, size: file.size, purpose }),
+    })
+    return res.json()
+  },
+  complete: async ({ fileId }) => {
+    const res = await fetch(`/api/uploads/${fileId}/complete`, { method: 'POST' })
+    return res.json()
+  },
+}
+
+const store = createUploadStore({ api, strategies })
+```
+
+### Step 2: Add Files
+
+```ts
+// From a file input or drag-and-drop
+store.dispatch({
+  type: 'addFiles',
+  files: selectedFiles,
+  purpose: 'document',
+})
+```
+
+### Step 3: Start Uploads
+
+If `autoStart` is not configured, start uploads manually:
+
+```ts
+store.dispatch({ type: 'start', localId: 'some-local-id' })
+```
+
+### Step 4: Listen for Completion
+
+```ts
+store.on('upload.completed', ({ localId, result }) => {
+  console.log(`Upload ${localId} completed:`, result)
+})
+```
+
+---
+
+## React Quick Start
+
+### Wrap Your App
+
+```tsx
+import { UploadProvider } from '@gentleduck/upload/react'
+
+function App() {
+  return (
+    <UploadProvider store={store}>
+      <UploadPage />
+    </UploadProvider>
+  )
+}
+```
+
+### Build an Upload Component
+
+```tsx
+import { useUploader } from '@gentleduck/upload/react'
+import React from 'react'
+
+function UploadPage() {
+  const { items, dispatch, on } = useUploader()
+
+  React.useEffect(() => {
+    return on('upload.completed', ({ localId, result }) => {
+      console.log('Done:', localId, result)
+    })
+  }, [on])
+
+  const handleFiles = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files ?? [])
+    dispatch({ type: 'addFiles', files, purpose: 'avatar' })
+  }
+
+  return (
+    <div>
+      <input type="file" multiple onChange={handleFiles} />
+      <ul>
+        {items.map((item) => (
+          <li key={item.localId}>
+            {item.file?.name} — {item.phase}
+            {item.phase === 'uploading' && ` (${Math.round(item.progress ?? 0)}%)`}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+```
+
+---
+
+## Large File Uploads with Multipart
+
+For files that need resumability, use the multipart strategy:
+
+```ts
+import { createStrategyRegistry, PostStrategy, multipartStrategy } from '@gentleduck/upload/strategies'
+
+const strategies = createStrategyRegistry()
+strategies.set(PostStrategy())
+strategies.set(multipartStrategy())
+```
+
+Your backend's `createIntent` should return a multipart intent for large files:
+
+```ts
+const api = {
+  createIntent: async ({ file, purpose }) => {
+    const strategy = file.size > 10 * 1024 * 1024 ? 'multipart' : 'post'
+    // Call your backend which returns the correct intent shape
+    const res = await fetch('/api/uploads/intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fileName: file.name, size: file.size, purpose, strategy }),
+    })
+    return res.json()
+  },
+  complete: async ({ fileId }) => {
+    const res = await fetch(`/api/uploads/${fileId}/complete`, { method: 'POST' })
+    return res.json()
+  },
+}
+```
+
+The engine automatically selects the correct strategy based on the `strategy` field in the returned intent.
+
+---
+
+## Enabling Persistence
+
+To allow uploads to resume after a page refresh:
+
+```ts
+import { LocalStorageAdapter } from '@gentleduck/upload/core'
+
+const store = createUploadStore({
+  api,
+  strategies,
+  persistence: {
+    key: 'uploads',
+    version: 1,
+    adapter: LocalStorageAdapter,
+    isPurpose: (value) => value === 'avatar' || value === 'document',
+    isIntent: (value) =>
+      typeof value === 'object' && value !== null && 'strategy' in value && 'fileId' in value,
+  },
+})
+```
+
+Restored items come back in a `paused` state without a `file` reference. Use the `rebind` command to attach the file before resuming.

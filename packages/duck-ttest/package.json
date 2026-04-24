@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "bun": ">=1.3.5"
+  },
+  "author": "wildduck",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-gen/issues"
+  },
+  "description": "Compile-time type testing utilities for TypeScript",
+  "devDependencies": {
+    "@gentleduck/tsdown-config": "workspace:*",
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
+  },
+  "exports": {
+    "./*": {
+      "types": "./dist/*/index.d.ts",
+      "default": "./dist/*/index.js"
+    }
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+    "SECURITY.md",
+    "article-about-this.md",
+    "tsconfig.json",
+    "!**/__tests__",
+    "!**/*.test.*",
+    "!**/*.spec.*"
+  ],
+  "homepage": "https://github.com/gentleeduck/duck-gen/tree/master/packages/duck-ttest#readme",
+  "keywords": [
+    "type",
+    "testing",
+    "typescript",
+    "compile-time",
+    "types"
+  ],
+  "license": "MIT",
+  "name": "@gentleduck/ttest",
+  "packageManager": "bun@1.3.5",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "directory": "packages/duck-ttest",
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/duck-gen.git"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "test": "tsc --noEmit",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
+  },
+  "type": "module",
+  "version": "0.4.4"
+}

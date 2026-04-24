@@ -1,0 +1,544 @@
+---
+title: "chapter 6: persistence & offline"
+description: Resume uploads after page refresh with IndexedDB persistence.
+---
+
+## Goal
+
+A user drags 20 photos into PhotoDuck, walks away, and the browser tab crashes. When they
+reopen the page, the uploads should still be there -- paused, with progress intact, ready
+to resume. You will configure **persistence** so uploads survive page refreshes and browser
+crashes.
+
+<MermaidDiagram chart={`flowchart LR
+    subgraph Before["Before Crash"]
+        U1["photo-1: uploading 60%"]
+        U2["photo-2: uploading 30%"]
+        U3["photo-3: queued"]
+    end
+
+    subgraph Persistence["IndexedDB"]
+        DB["snapshot: intent + cursor + progress"]
+    end
+
+    subgraph After["After Refresh"]
+        R1["photo-1: paused 60%"]
+        R2["photo-2: paused 30%"]
+        R3["photo-3: paused"]
+    end
+
+    Before --> |debounced save| Persistence --> |restore on load| After`} />
+
+## Choose a Persistence Adapter
+
+<Steps>
+  <Step>
+    **Pick the right adapter for your use case**
+
+    The upload engine ships three persistence adapters:
+
+    ```typescript title="src/lib/upload-client.ts"
+    import { IndexedDBAdapter } from '@gentleduck/upload/persistence/indexeddb'
+    import { LocalStorageAdapter } from '@gentleduck/upload/persistence/local'
+    import { MemoryAdapter } from '@gentleduck/upload/persistence/memory'
+    ```
+
+    | Adapter | Storage Limit | Async | Best For |
+    | --- | --- | --- | --- |
+    | `IndexedDBAdapter` | ~hundreds of MB | Yes | Production apps, large files |
+    | `LocalStorageAdapter` | ~5 MB | No | Simple apps, few uploads |
+    | `MemoryAdapter` | RAM only | No | Testing, SSR |
+
+    All adapters implement the same `PersistenceAdapter` interface:
+
+    ```typescript
+    interface PersistenceAdapter {
+      load(key: string): unknown | null | Promise<unknown | null>
+      save(key: string, snapshot: unknown): void | Promise<void>
+      clear(key: string): void | Promise<void>
+    }
+    ```
+
+    `IndexedDBAdapter` is the recommended choice for production. It handles large snapshots
+    without hitting storage quotas and works asynchronously so it does not block the main
+    thread.
+  </Step>
+
+  <Step>
+    **Configure persistence in the store**
+
+    ```typescript title="src/lib/upload-client.ts"
+    import { createUploadStore } from '@gentleduck/upload'
+    import { IndexedDBAdapter } from '@gentleduck/upload/persistence/indexeddb'
+
+    type Purpose = 'photo' | 'avatar'
+
+    const store = createUploadStore<MyIntentMap, MyCursorMap, Purpose, MyUploadResult>({
+      api: photoDuckApi,
+      strategies: photoDuckStrategies,
+      config: {
+        maxAttempts: 5,
+        retryPolicy: ({ attempt }) => ({
+          retryable: true,
+          delayMs: Math.min(1000 * Math.pow(2, attempt - 1), 30_000),
+        }),
+      },
+      persistence: {
+        key: 'photoduck-uploads',
+        version: 1,
+        adapter: IndexedDBAdapter,
+        debounceMs: 200,
+
+        // Type guards for safe deserialization
+        isPurpose: (value): value is Purpose =>
+          value === 'photo' || value === 'avatar',
+        isIntent: (value): value is MyIntentMap[keyof MyIntentMap] =>
+          typeof value === 'object' && value !== null && 'strategy' in value && 'fileId' in value,
+      },
+    })
+    ```
+
+    The persistence options:
+
+    | Option | Required | Default | Description |
+    | --- | --- | --- | --- |
+    | `key` | Yes | -- | Storage key (e.g. localStorage key or IndexedDB record key) |
+    | `version` | Yes | -- | Schema version for safe migrations |
+    | `adapter` | Yes | -- | The persistence adapter to use |
+    | `debounceMs` | No | 200 | Debounce delay between state changes and persistence writes |
+    | `isPurpose` | No | -- | Type guard for purpose strings during deserialization |
+    | `isIntent` | No | -- | Type guard for intent objects during deserialization |
+    | `serialize` | No | built-in | Custom snapshot serializer |
+    | `deserialize` | No | built-in | Custom snapshot deserializer |
+  </Step>
+
+  <Step>
+    **Understand what gets restored on page load**
+
+    When the store initializes with a persistence adapter, it loads the saved snapshot and
+    hydrates state. The built-in deserializer restores items into the `paused` phase:
+
+    ```typescript
+    // What the deserializer produces for each persisted item:
+    {
+      phase: 'paused',
+      localId: 'abc-123',
+      purpose: 'photo',
+      fingerprint: {
+        name: 'sunset.jpg',
+        size: 5_242_880,
+        type: 'image/jpeg',
+        lastModified: 1710000000000,
+        checksum: undefined,
+      },
+      intent: { strategy: 'multipart', fileId: 'file-456', uploadId: 'upl-789', partSize: 5_242_880 },
+      cursor: { strategy: 'multipart', parts: [{ partNumber: 1, etag: '"abc"' }] },
+      progress: { uploadedBytes: 5_242_880, totalBytes: 10_485_760, pct: 50 },
+      pausedAt: 1710000000000,
+      createdAt: 1709999000000,
+      file: undefined,   // <-- File objects cannot be serialized
+    }
+    ```
+
+    The key insight: `file` is always `undefined` after restore. Browser `File` objects are
+    not serializable. The user must re-select the file before resuming.
+  </Step>
+
+  <Step>
+    **Rebind file references after restore**
+
+    ```tsx title="src/components/RebindPrompt.tsx"
+    import { useUploader } from '@gentleduck/upload/react'
+    import type { UploadItem } from '@gentleduck/upload'
+
+    function RebindPrompt({ item }: { item: UploadItem }) {
+      const { store } = useUploader()
+
+      // Only show for paused items without a file
+      if (item.phase !== 'paused' || item.file) return null
+
+      return (
+        <div className="border rounded p-3 bg-yellow-50">
+          <p>
+            <strong>{item.fingerprint.name}</strong> was {Math.round(item.progress.pct)}%
+            uploaded before the page refreshed.
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Re-select the file to continue uploading.
+          </p>
+          <input
+            type="file"
+            onChange={(e) => {
+              const file = e.target.files?.[0]
+              if (file) {
+                store.dispatch({ type: 'rebind', localId: item.localId, file })
+              }
+            }}
+          />
+        </div>
+      )
+    }
+    ```
+
+    The `rebind` command validates the file by computing its fingerprint and comparing it
+    to the stored `item.fingerprint`. The match checks `name`, `size`, `type`, and
+    `lastModified`. If the fingerprint does not match (wrong file selected), the rebind
+    is silently rejected.
+
+    After a successful rebind, `item.file` is set and you can dispatch `resume`:
+
+    ```typescript
+    // Listen for successful rebinds
+    store.on('file.added', ({ localId }) => {
+      // Auto-resume after rebind if desired
+      const item = store.getSnapshot().items.get(localId)
+      if (item?.phase === 'paused' && item.file) {
+        store.dispatch({ type: 'resume', localId })
+      }
+    })
+    ```
+  </Step>
+
+  <Step>
+    **Handle stale uploads and cleanup**
+
+    Not all persisted uploads should be restored. Set up cleanup for stale items:
+
+    ```typescript title="src/lib/upload-client.ts"
+    const store = createUploadStore({
+      api: photoDuckApi,
+      strategies: photoDuckStrategies,
+      config: {
+        maxAttempts: 5,
+        maxItems: 100,
+        completedItemTTL: 60_000, // auto-remove completed items after 60s
+      },
+      persistence: {
+        key: 'photoduck-uploads',
+        version: 1,
+        adapter: IndexedDBAdapter,
+      },
+    })
+    ```
+
+    The built-in serializer only persists items that have an intent and are in a
+    non-terminal phase. Items in `completed`, `canceled`, or `error` phases are excluded
+    from the snapshot. This means:
+
+    - Completed uploads disappear after refresh (they are done)
+    - Canceled uploads disappear after refresh (the user dismissed them)
+    - Failed non-retryable uploads disappear after refresh
+
+    For manual cleanup, you can clear the persistence entirely:
+
+    ```typescript
+    // Clear all persisted uploads
+    IndexedDBAdapter.clear('photoduck-uploads')
+    ```
+  </Step>
+</Steps>
+
+## What Gets Persisted (and What Does Not)
+
+The serializer walks each item in state and produces a `PersistedSnapshot`:
+
+```typescript
+type PersistedSnapshot = {
+  version: number           // schema version for migrations
+  createdAt: number         // timestamp of the snapshot
+  items: Record<string, PersistedUploadItem>
+}
+
+type PersistedUploadItem = {
+  id: string                // localId
+  purpose: string           // 'photo', 'avatar', etc.
+  status: string            // phase at time of save
+  file: {                   // fingerprint data (NOT the File object)
+    name: string
+    size: number
+    type: string
+    lastModified: number
+    checksum?: string
+  }
+  intent: unknown           // backend intent (strategy, fileId, URLs, etc.)
+  cursor?: unknown          // strategy-specific resume checkpoint
+  progress?: {              // last-known progress
+    uploadedBytes: number
+    totalBytes: number
+    pct: number
+  }
+}
+```
+
+**Persisted** (survives refresh):
+- `localId`, `purpose`, `phase`
+- File fingerprint (`name`, `size`, `type`, `lastModified`, `checksum`)
+- Backend intent (strategy, fileId, upload URLs, part info)
+- Cursor (byte offset, completed parts, ETags)
+- Progress (uploaded bytes, total bytes, percentage)
+
+**Not persisted** (lost on refresh):
+- `File` object (browser security restriction)
+- In-flight network state (`AbortController`, active requests)
+- Timestamps (`startedAt`, `pausedAt`) -- `pausedAt` is set to `Date.now()` on restore
+
+### Why File Objects Cannot Be Serialized
+
+Browser `File` objects are backed by OS file handles. They cannot be converted to JSON and
+stored in IndexedDB or localStorage. When you serialize a `File`, you get `{}`. The upload
+engine stores the file's fingerprint (name, size, type, lastModified) so it can verify
+that the correct file is rebound after restore.
+
+Some approaches to reduce the friction of rebinding:
+
+1. **Drag-drop zone with instructions**: Show a clear message asking the user to re-select files
+2. **File System Access API** (Chrome only): Use `showOpenFilePicker()` to get a handle that
+   persists across page loads. This is not widely supported.
+3. **Auto-match by name**: If the user drops multiple files, match them by fingerprint automatically
+
+### The Deserialization Process
+
+When the store loads a persisted snapshot, the default deserializer:
+
+1. Validates the snapshot structure (version, createdAt, items)
+2. For each item, checks that `purpose` passes the `isPurpose` guard
+3. Checks that `intent` passes the `isIntent` guard
+4. Verifies the intent's `strategy` exists in the registered strategies
+5. Validates the cursor has a matching `strategy` field
+6. Restores the item in `paused` phase with `file: undefined`
+
+If any check fails for an item, that item is silently skipped. This is safe because
+persisted data may be from an older app version with different strategies or purposes.
+
+### Debounced Writes
+
+The `debounceMs` option (default: 200ms) controls how often the snapshot is written to
+persistence. During a burst of progress events (which fire many times per second), the
+engine batches them and writes once after the debounce window. This prevents excessive
+I/O without losing meaningful state.
+
+## Checkpoint
+
+Full persistence setup for PhotoDuck:
+
+```typescript title="src/lib/upload-client.ts"
+import { createUploadStore } from '@gentleduck/upload'
+import { IndexedDBAdapter } from '@gentleduck/upload/persistence/indexeddb'
+import type { IntentMap, CursorMap, UploadResultBase } from '@gentleduck/upload'
+
+// -- Types from your backend --
+
+type PostIntent = {
+  strategy: 'post'
+  fileId: string
+  url: string
+  fields: Record<string, string>
+}
+
+type MultipartIntent = {
+  strategy: 'multipart'
+  fileId: string
+  uploadId: string
+  partSize: number
+}
+
+type MyIntentMap = {
+  post: PostIntent
+  multipart: MultipartIntent
+}
+
+type MyCursorMap = {
+  post: never
+  multipart: {
+    strategy: 'multipart'
+    parts: Array<{ partNumber: number; etag: string }>
+  }
+}
+
+type Purpose = 'photo' | 'avatar'
+
+type PhotoResult = UploadResultBase & {
+  url: string
+  width: number
+  height: number
+}
+
+// -- Store with persistence --
+
+export const uploadStore = createUploadStore<MyIntentMap, MyCursorMap, Purpose, PhotoResult>({
+  api: photoDuckApi,
+  strategies: photoDuckStrategies,
+  config: {
+    maxConcurrentUploads: 3,
+    maxAttempts: 5,
+    maxItems: 100,
+    completedItemTTL: 30_000,
+    retryPolicy: ({ attempt, error }) => {
+      if (error.code === 'auth' || error.code === 'validation_failed') {
+        return { retryable: false }
+      }
+      return {
+        retryable: true,
+        delayMs: Math.min(1000 * Math.pow(2, attempt - 1), 30_000),
+      }
+    },
+  },
+  persistence: {
+    key: 'photoduck-uploads',
+    version: 1,
+    adapter: IndexedDBAdapter,
+    debounceMs: 200,
+    isPurpose: (v): v is Purpose => v === 'photo' || v === 'avatar',
+    isIntent: (v): v is MyIntentMap[keyof MyIntentMap] => {
+      if (typeof v !== 'object' || v === null) return false
+      const obj = v as Record<string, unknown>
+      return typeof obj.strategy === 'string' && typeof obj.fileId === 'string'
+    },
+  },
+})
+```
+
+```tsx title="src/components/RestoredUploads.tsx"
+import { useUploader } from '@gentleduck/upload/react'
+
+function RestoredUploads() {
+  const { store } = useUploader()
+  const snapshot = store.getSnapshot()
+  const items = Array.from(snapshot.items.values())
+
+  const needsRebind = items.filter(
+    (item) => item.phase === 'paused' && !item.file
+  )
+  const canResume = items.filter(
+    (item) => item.phase === 'paused' && item.file
+  )
+
+  return (
+    <div>
+      {needsRebind.length > 0 && (
+        <div className="bg-yellow-50 border border-yellow-200 rounded p-4 mb-4">
+          <h3>{needsRebind.length} upload(s) need file re-selection</h3>
+          <p className="text-sm text-muted-foreground">
+            These uploads were in progress before the page refreshed.
+            Re-select the original files to continue.
+          </p>
+          <input
+            type="file"
+            multiple
+            onChange={(e) => {
+              const files = Array.from(e.target.files ?? [])
+              for (const file of files) {
+                // Try to rebind each file to a matching paused item
+                for (const item of needsRebind) {
+                  if (!item.file) {
+                    store.dispatch({ type: 'rebind', localId: item.localId, file })
+                  }
+                }
+              }
+            }}
+          />
+        </div>
+      )}
+
+      {canResume.length > 0 && (
+        <div className="mb-4">
+          <button onClick={() => store.dispatch({ type: 'startAll' })}>
+            Resume All ({canResume.length})
+          </button>
+        </div>
+      )}
+
+      <ul>
+        {items.map((item) => (
+          <li key={item.localId} className="flex items-center gap-2 py-1">
+            <span>{item.fingerprint.name}</span>
+            <span className="text-sm text-muted-foreground">{item.phase}</span>
+            {'progress' in item && item.progress && (
+              <span className="text-sm">{Math.round(item.progress.pct)}%</span>
+            )}
+            {item.phase === 'paused' && !item.file && (
+              <span className="text-xs text-yellow-600">needs file</span>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+```
+
+---
+
+## Chapter 6 FAQ
+
+<Accordion type="multiple" collapsible className="w-full">
+  <AccordionItem value="c6-when-persisted">
+    <AccordionTrigger>When is the snapshot written to persistence?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      After every state change, debounced by `debounceMs` (default 200ms). The engine
+      subscribes to internal state changes and schedules a debounced write. During rapid
+      progress updates, only the last state within the debounce window is written. The
+      snapshot is also written immediately on the `beforeunload` event (if possible) to
+      capture the latest state before the page closes.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="c6-version-mismatch">
+    <AccordionTrigger>What happens if the schema version changes?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The default deserializer checks the `version` field in the snapshot. If you change
+      your persistence version, provide a custom `deserialize` function that handles
+      migration from old versions. If the version does not match and no custom deserializer
+      handles it, the snapshot is discarded and the store starts fresh. Bump the version
+      when your intent or cursor shape changes.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="c6-localstorage-limit">
+    <AccordionTrigger>Can I use LocalStorageAdapter for production?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      You can, but be aware of the ~5 MB limit. Each persisted item includes the full
+      intent (which may contain URLs and fields) and cursor data. For a small app with a
+      handful of uploads, localStorage works fine. For apps with many concurrent uploads
+      or large intent payloads, use IndexedDBAdapter to avoid hitting the quota.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="c6-rebind-wrong-file">
+    <AccordionTrigger>What if the user selects the wrong file for rebind?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The `rebind` command computes the fingerprint of the provided file and compares it
+      to the stored `item.fingerprint`. It checks `name`, `size`, `type`, and
+      `lastModified`. If any field does not match, the rebind is silently ignored. The
+      item stays in `paused` with `file: undefined`. Your UI should inform the user that
+      the file did not match and ask them to try again.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="c6-expired-urls">
+    <AccordionTrigger>What about expired presigned URLs after a long pause?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Presigned URLs from your backend (in the intent) typically expire after 1-24 hours.
+      If a user resumes a day later, the upload will fail with an HTTP 403 error. Your
+      `retryPolicy` should mark this as retryable. On retry, the engine can re-create the
+      intent if needed. Alternatively, your backend can issue long-lived URLs or your API's
+      `createIntent` can refresh them. The cursor (byte offset, completed parts) remains
+      valid even if URLs change.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="c6-ssr">
+    <AccordionTrigger>How do I handle persistence in SSR / server components?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      IndexedDB and localStorage are browser-only APIs. Both adapters check for
+      `typeof indexedDB === 'undefined'` / `typeof localStorage === 'undefined'` and
+      return `null` on the server. Use the `MemoryAdapter` for SSR or testing where
+      persistence is not needed. The store works fine without persistence -- it just starts
+      empty on every page load.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+---
+
+Next: [Chapter 7: Validation & Plugins](/docs/course/chapter-7)

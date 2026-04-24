@@ -1,0 +1,99 @@
+:root {
+  font-family: "Space Grotesk", system-ui, sans-serif;
+  color: #141414;
+  background: #f6f2ea;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.app {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 48px 24px 64px;
+}
+
+header h1 {
+  margin: 0 0 8px;
+  font-size: 2.4rem;
+}
+
+header p {
+  margin: 0 0 32px;
+  color: #4f4f4f;
+}
+
+.panel {
+  background: #ffffff;
+  border: 1px solid #e0d7c8;
+  border-radius: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: 0 12px 24px rgba(36, 24, 8, 0.08);
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+input,
+select {
+  border: 1px solid #d9cdb9;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 1rem;
+}
+
+button {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: white;
+  background: #141414;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.result pre {
+  background: #f3efe8;
+  padding: 12px;
+  border-radius: 12px;
+  overflow-x: auto;
+}
+
+.hint {
+  color: #6f6f6f;
+}
+
+.success {
+  color: #0f7a3a;
+  font-weight: 600;
+}
+
+.error {
+  color: #c0392b;
+  font-weight: 600;
+}

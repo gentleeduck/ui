@@ -1,0 +1,158 @@
+---
+title: type-safe apis with duck gen
+description: How Duck Gen eliminates the gap between your server routes and client code. A deep dive into the compiler extension workflow.
+---
+
+## The Type Gap
+
+Every full-stack TypeScript team eventually hits the same problem: **the server and client speak different type languages**.
+
+You define a DTO on the server. You write a matching type on the client. Someone renames a field. The client keeps compiling. The bug ships to production.
+
+Duck Gen exists to close this gap permanently.
+
+---
+
+## The Workflow
+
+<MermaidDiagram chart={`flowchart TD
+    A["Write your NestJS controllers"] --> B["Run bunx @gentleduck/gen"]
+    B --> C["Duck Gen scans source files"]
+    C --> D["Extracts routes, DTOs, response types"]
+    D --> E["Emits api-routes.d.ts"]
+    E --> F["Import types in your client"]
+    F --> G["Duck Query provides typed HTTP methods"]
+    style B fill:#fff8e8,stroke:#333
+    style E fill:#e8ffe8,stroke:#333
+    style G fill:#e8e8ff,stroke:#333`} />
+
+### Step 1: Write your server code normally
+
+```ts
+// src/auth/auth.controller.ts
+@Controller('auth')
+export class AuthController {
+  @Post('signin')
+  signin(@Body() body: SigninDto): Promise<AuthSession> {
+    return this.authService.signin(body)
+  }
+
+  @Post('signup')
+  signup(@Body() body: SignupDto): Promise<AuthSession> {
+    return this.authService.signup(body)
+  }
+}
+```
+
+### Step 2: Generate types
+
+```bash
+bunx @gentleduck/gen
+```
+
+Duck Gen reads your source files with [ts-morph](https://ts-morph.com/), finds every `@Controller` class, and extracts:
+
+- HTTP method decorators (`@Get`, `@Post`, `@Put`, `@Delete`, `@Patch`)
+- Route paths (controller prefix + method path)
+- Parameter decorators (`@Body`, `@Query`, `@Param`, `@Headers`)
+- Return types
+
+### Step 3: Use typed routes on the client
+
+```ts
+import { createDuckQuery } from '@gentleduck/query'
+import type { ApiRoutes } from './generated/api-routes'
+
+const client = createDuckQuery<ApiRoutes>({
+  baseURL: 'https://api.example.com',
+})
+
+// Fully typed — body shape, response type, route path
+const session = await client.post('/api/auth/signin', {
+  body: { email: 'user@example.com', password: 'secret' },
+})
+// session.data is AuthSession
+```
+
+---
+
+## What Gets Generated
+
+The output is a single `.d.ts` file with a complete route map:
+
+```ts
+// generated/api-routes.d.ts — do not edit
+export interface ApiRoutes {
+  '/api/auth/signin': {
+    POST: { body: SigninDto; res: AuthSession }
+  }
+  '/api/auth/signup': {
+    POST: { body: SignupDto; res: AuthSession }
+  }
+  '/api/users/:id': {
+    GET: { params: { id: string }; res: UserProfile }
+    PATCH: { params: { id: string }; body: UpdateUserDto; res: UserProfile }
+  }
+}
+```
+
+This is a **pure type file** — no runtime code, no bundle impact. It disappears completely at compile time.
+
+---
+
+## Configuration
+
+```json
+{
+  "framework": "nestjs",
+  "srcDir": "./src",
+  "outputDir": "./generated",
+  "apiPrefix": "/api",
+  "include": ["**/*.controller.ts"],
+  "exclude": ["**/*.spec.ts"]
+}
+```
+
+Save this as `duck-gen.json` in your project root. Duck Gen reads it automatically.
+
+---
+
+## Why Not tRPC / GraphQL Codegen?
+
+| | Duck Gen | tRPC | GraphQL Codegen |
+| --- | --- | --- | --- |
+| **Server framework** | NestJS (REST) | Custom router | GraphQL servers |
+| **Client coupling** | None — types only | Tight coupling | Schema-first |
+| **Runtime cost** | Zero (.d.ts only) | Minimal | Varies |
+| **Migration effort** | Drop-in — no server changes | Full rewrite | Schema migration |
+| **Existing REST APIs** | Works immediately | Not applicable | Not applicable |
+
+Duck Gen is designed for teams that already have REST APIs and want type safety without rewriting their server.
+
+<Callout title="Zero server changes">
+  Duck Gen reads your existing NestJS controllers. You do not need to add decorators, change your architecture, or adopt a new router. Your server code stays exactly the same.
+</Callout>
+
+---
+
+## Getting Started
+
+```bash
+bun add -d @gentleduck/gen    # Dev dependency — runs at build time
+bun add @gentleduck/query     # Runtime — typed HTTP client
+```
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6">
+  <LinkedCard href="https://gen.gentleduck.org/docs/duck-gen" target="_blank" rel="noopener noreferrer">
+    <div className="flex flex-col p-4">
+      <h4 className="font-semibold">Duck Gen Docs</h4>
+      <p className="mt-2 text-muted-foreground text-sm">Full configuration reference, advanced usage, and message registry types.</p>
+    </div>
+  </LinkedCard>
+  <LinkedCard href="https://gen.gentleduck.org/docs/duck-query" target="_blank" rel="noopener noreferrer">
+    <div className="flex flex-col p-4">
+      <h4 className="font-semibold">Duck Query Docs</h4>
+      <p className="mt-2 text-muted-foreground text-sm">Client setup, interceptors, error handling, and custom route maps.</p>
+    </div>
+  </LinkedCard>
+</div>

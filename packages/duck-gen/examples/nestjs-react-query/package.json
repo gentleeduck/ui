@@ -1,0 +1,17 @@
+{
+  "name": "duck-gen-example",
+  "private": true,
+  "version": "0.0.0",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "gen": "duck-gen",
+    "build": "bun run --filter @gentleduck/duck-gen-example-server build && bun run --filter @gentleduck/duck-gen-example-client build",
+    "dev": "bun run --filter @gentleduck/duck-gen-example-server dev"
+  },
+  "devDependencies": {
+    "@gentleduck/gen": "^0.2.7"
+  }
+}

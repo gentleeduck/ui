@@ -1,0 +1,37 @@
+---
+title: Strategies Overview
+description: Pluggable upload strategies for different backends and protocols.
+---
+
+Strategies implement the upload protocol and are registered with the core engine. The engine selects the correct strategy based on the `strategy` field in the intent returned by your backend.
+
+## Responsibilities
+
+Each strategy is responsible for:
+
+- Translating an intent into network calls
+- Reporting progress and persisting cursor updates
+- Honoring abort signals for pause and cancel
+
+## Available Strategies
+
+| Strategy | Use Case | Resumable |
+| --- | --- | --- |
+| [POST](/docs/strategies/post) | Simple presigned form uploads | No |
+| [Multipart](/docs/strategies/multipart) | Large file uploads with concurrent parts | Yes |
+
+## Registry
+
+Use the registry helper to install strategies before creating the store:
+
+```ts
+import { createStrategyRegistry, PostStrategy, multipartStrategy } from '@gentleduck/upload/strategies'
+
+const registry = createStrategyRegistry()
+registry.set(PostStrategy())
+registry.set(multipartStrategy())
+```
+
+The registry enforces typed strategy keys via the intent map, ensuring type safety between your backend's intent response and the strategy implementation.
+
+See [Strategy Registry](/docs/strategies/registry) for more details.

@@ -1,0 +1,54 @@
+// ------------------------------------------------------------
+// duck-iam Prisma schema
+// Add these models to your existing schema.prisma
+// ------------------------------------------------------------
+
+model AccessPolicy {
+  id          String   @id
+  name        String
+  description String?
+  version     Int      @default(1)
+  algorithm   String   @default("deny-overrides")
+  rules       Json
+  targets     Json?
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("access_policies")
+}
+
+model AccessRole {
+  id          String             @id
+  name        String
+  description String?
+  permissions Json
+  inherits    String[]           @default([])
+  scope       String?
+  metadata    Json?
+  createdAt   DateTime           @default(now()) @map("created_at")
+  updatedAt   DateTime           @updatedAt @map("updated_at")
+  assignments AccessAssignment[]
+
+  @@map("access_roles")
+}
+
+model AccessAssignment {
+  id        String   @id @default(cuid())
+  subjectId String   @map("subject_id")
+  roleId    String   @map("role_id")
+  scope     String?
+  role      AccessRole @relation(fields: [roleId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@unique([subjectId, roleId, scope])
+  @@index([subjectId])
+  @@map("access_assignments")
+}
+
+model AccessSubjectAttr {
+  subjectId String   @id @map("subject_id")
+  data      Json
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("access_subject_attrs")
+}

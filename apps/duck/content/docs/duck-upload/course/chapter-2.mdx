@@ -1,0 +1,563 @@
+---
+title: "chapter 2: strategies & backends"
+description: "Configure upload strategies and connect to a real backend API."
+---
+
+## Goal
+
+By the end of this chapter you will understand how upload strategies work, connect the POST
+strategy to a real presigned URL backend, and see how the strategy registry makes the engine
+pluggable.
+
+<MermaidDiagram chart={`flowchart LR
+    A["createIntent()"] -->|"returns PostIntent"| B["Strategy Registry"]
+    B -->|"looks up 'post'"| C["PostStrategy"]
+    C -->|"POST form to S3"| D["S3 / MinIO"]`} />
+
+## Step by Step
+
+<Steps>
+  <Step>
+    **Understand what a strategy does**
+
+    A strategy is a function that knows how to transfer bytes from the browser to storage.
+    The engine does not know anything about HTTP, S3, or presigned URLs -- that is the
+    strategy's job.
+
+    Every strategy implements the `UploadStrategy` interface:
+
+    ```typescript
+    interface UploadStrategy<M, C, P, R, K> {
+      id: K                                     // strategy name (e.g., 'post', 'multipart')
+      resumable: boolean                        // can this strategy resume after pause?
+      start(ctx: StrategyCtx<M, C, P, R, K>): Promise<void>  // do the upload
+    }
+    ```
+
+    The `start` method receives a context (`StrategyCtx`) with everything it needs:
+
+    | Field | Type | Description |
+    | --- | --- | --- |
+    | `ctx.file` | `File` | The file to upload |
+    | `ctx.intent` | `M[K]` | Intent data from your backend (URLs, fields, etc.) |
+    | `ctx.signal` | `AbortSignal` | For cancellation and pause |
+    | `ctx.transport` | `UploadTransport` | Network layer (XHR) for making requests |
+    | `ctx.api` | `UploadApi` | Your backend API adapter |
+    | `ctx.reportProgress` | `(p) => void` | Report upload progress to the engine |
+    | `ctx.readCursor` | `() => C[K]` | Read resume state (for resumable strategies) |
+    | `ctx.persistCursor` | `(cursor) => void` | Save resume state |
+
+    When the engine is ready to upload a file, it looks up the strategy by the `strategy` field
+    in the intent, and calls `start()`.
+  </Step>
+
+  <Step>
+    **Register the POST strategy**
+
+    You already did this in Chapter 1. Let us look at it more carefully:
+
+    ```typescript title="src/upload.ts"
+    import { createStrategyRegistry, PostStrategy } from '@gentleduck/upload'
+
+    const strategies = createStrategyRegistry<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>()
+    strategies.set(PostStrategy<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>())
+    ```
+
+    `createStrategyRegistry()` creates a typed registry. The registry is a simple map from
+    strategy ID to strategy implementation:
+
+    ```typescript
+    // Internally:
+    interface StrategyRegistry<M, C, P, R> {
+      get<K extends keyof M & string>(id: K): UploadStrategy<M, C, P, R, K> | undefined
+      has(id: string): id is keyof M & string
+      set<K extends keyof M & string>(strategy: UploadStrategy<M, C, P, R, K>): void
+    }
+    ```
+
+    When the engine receives an intent with `strategy: 'post'`, it calls `strategies.get('post')`
+    to find the implementation. If no strategy is registered for that ID, the upload fails with
+    a `strategy_missing` error.
+  </Step>
+
+  <Step>
+    **Implement UploadApi for a real backend**
+
+    In Chapter 1 we used a mock API. Now let us connect to a real backend that serves presigned
+    POST URLs. Your backend needs two endpoints:
+
+    ```typescript title="src/upload.ts"
+    const api: UploadApi<PhotoIntentMap, PhotoPurpose, PhotoResult> = {
+      async createIntent({ purpose, contentType, size, filename }) {
+        const res = await fetch('/api/uploads/create-intent', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ purpose, contentType, size, filename }),
+        })
+
+        if (!res.ok) throw new Error(`Failed to create intent: ${res.status}`)
+
+        // Your backend returns a PostIntent shape:
+        // { strategy: 'post', fileId: '...', url: '...', fields: { ... } }
+        return res.json()
+      },
+
+      async complete({ fileId }) {
+        const res = await fetch('/api/uploads/complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ fileId }),
+        })
+
+        if (!res.ok) throw new Error(`Failed to complete upload: ${res.status}`)
+
+        // Your backend returns: { fileId: '...', key: '...', url: '...' }
+        return res.json()
+      },
+    }
+    ```
+
+    Your backend's `create-intent` endpoint should:
+    1. Generate a unique `fileId`
+    2. Create a presigned POST to S3/MinIO
+    3. Return a `PostIntent` object with the presigned URL and form fields
+
+    Example backend response:
+
+    ```json
+    {
+      "strategy": "post",
+      "fileId": "abc-123",
+      "url": "https://my-bucket.s3.us-east-1.amazonaws.com",
+      "fields": {
+        "key": "uploads/abc-123/photo.jpg",
+        "bucket": "my-bucket",
+        "X-Amz-Algorithm": "AWS4-HMAC-SHA256",
+        "X-Amz-Credential": "...",
+        "X-Amz-Date": "...",
+        "Policy": "...",
+        "X-Amz-Signature": "..."
+      },
+      "expiresAt": "2026-03-11T12:00:00Z"
+    }
+    ```
+  </Step>
+
+  <Step>
+    **Configure the client**
+
+    Pass the real API and strategy to the client:
+
+    ```typescript title="src/upload.ts"
+    import {
+      createUploadClient,
+      createStrategyRegistry,
+      PostStrategy,
+      createXHRTransport,
+    } from '@gentleduck/upload'
+
+    const strategies = createStrategyRegistry<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>()
+    strategies.set(PostStrategy<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>())
+
+    export const uploadClient = createUploadClient<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>({
+      api,
+      strategies,
+      transport: createXHRTransport(),
+      config: {
+        maxConcurrentUploads: 3,
+        autoStart: ['photo'],
+      },
+    })
+    ```
+
+    With `autoStart: ['photo']`, files with purpose `'photo'` will start uploading automatically
+    after the intent is created -- no need to call `dispatch({ type: 'startAll' })`.
+  </Step>
+
+  <Step>
+    **Upload a file**
+
+    ```typescript title="src/main.ts"
+    import { uploadClient } from './upload'
+
+    // With autoStart enabled, just adding files is enough
+    const input = document.querySelector<HTMLInputElement>('#file-input')!
+
+    input.addEventListener('change', () => {
+      const files = Array.from(input.files ?? [])
+      if (files.length > 0) {
+        uploadClient.dispatch({ type: 'addFiles', files, purpose: 'photo' })
+      }
+    })
+
+    // Track progress
+    uploadClient.on('upload.progress', ({ localId, pct }) => {
+      console.log(`${localId}: ${pct.toFixed(1)}%`)
+    })
+
+    uploadClient.on('upload.completed', ({ localId, result }) => {
+      console.log(`${localId}: done!`, result.url)
+    })
+    ```
+
+    The flow is:
+    1. User selects files
+    2. `addFiles` dispatched -- engine creates items, validates, calls `createIntent()`
+    3. Backend returns `PostIntent` with presigned URL and fields
+    4. `autoStart` triggers `start` -- engine looks up `PostStrategy` in the registry
+    5. `PostStrategy.start()` builds a `FormData` with the presigned fields and the file
+    6. XHR transport POSTs the form to S3, reporting progress along the way
+    7. On success, engine calls `api.complete()` to finalize
+  </Step>
+</Steps>
+
+## How the POST Strategy Works Internally
+
+The built-in `PostStrategy` is straightforward. Here is what happens inside `start()`:
+
+```typescript
+// Simplified from source
+async start(ctx) {
+  const intent = ctx.intent  // PostIntent { url, fields, fileId }
+
+  await ctx.transport.postForm({
+    url: intent.url,
+    file: ctx.file,
+    fields: intent.fields,
+    filename: ctx.file.name,
+    signal: ctx.signal,
+    onProgress(uploadedBytes, totalBytes) {
+      ctx.reportProgress({ uploadedBytes, totalBytes })
+    },
+  })
+}
+```
+
+The transport's `postForm` method:
+1. Creates a `FormData` object
+2. Appends all presigned fields (key, policy, signature, etc.)
+3. Appends the file as the last field (required by S3)
+4. Sends the form via XHR POST to the presigned URL
+5. Reports progress via `xhr.upload.onprogress`
+
+The POST strategy sets `resumable: false` because a presigned POST is a single atomic request.
+If it fails midway, you must start over. For resumable uploads, see Chapter 4 (multipart).
+
+## The PostIntent Type
+
+The `PostIntent` type defines what your backend must return for the POST strategy:
+
+```typescript
+type PostIntent = {
+  strategy: 'post'              // discriminant -- must be 'post'
+  fileId: string                // backend file identifier
+  url: string                   // presigned POST URL (form action)
+  fields: Record<string, string>  // form fields (presigned policy, signature, etc.)
+  expiresAt?: string            // optional expiration timestamp
+}
+```
+
+The `strategy` field is the discriminant that the engine uses to look up the correct strategy
+in the registry. It must match the strategy's `id` exactly.
+
+## The Transport Layer
+
+The `UploadTransport` interface abstracts network operations:
+
+```typescript
+interface UploadTransport {
+  put(args: {
+    url: string
+    body: Blob
+    headers?: Record<string, string>
+    signal: AbortSignal
+    onProgress?: (uploaded: number, total: number) => void
+  }): Promise<{ etag?: string; headers?: Record<string, string> }>
+
+  postForm(args: {
+    url: string
+    fields: Record<string, string>
+    file: File | Blob
+    filename?: string
+    signal: AbortSignal
+    onProgress?: (uploadedBytes: number, totalBytes: number) => void
+  }): Promise<{ etag?: string; headers?: Record<string, string> }>
+
+  patch(args: {
+    url: string
+    body: Blob | ArrayBuffer
+    headers?: Record<string, string>
+    signal: AbortSignal
+    onProgress?: (uploaded: number, total: number) => void
+  }): Promise<{ headers?: Record<string, string> }>
+}
+```
+
+`createXHRTransport()` returns the browser-native implementation. The transport is injected
+into strategies via the context, so strategies never create their own HTTP requests. This makes
+strategies testable -- you can provide a mock transport in tests.
+
+## Writing a Custom Strategy
+
+You can write your own strategy for any upload protocol. Here is a minimal example:
+
+```typescript
+import type { UploadStrategy } from '@gentleduck/upload'
+
+type MyIntent = {
+  strategy: 'my-custom'
+  fileId: string
+  uploadUrl: string
+  token: string
+}
+
+type MyCursor = {
+  bytesUploaded: number
+}
+
+function myCustomStrategy(): UploadStrategy<
+  { 'my-custom': MyIntent },
+  { 'my-custom': MyCursor },
+  string,
+  UploadResultBase,
+  'my-custom'
+> {
+  return {
+    id: 'my-custom',
+    resumable: true,
+
+    async start(ctx) {
+      const cursor = ctx.readCursor()
+      const offset = cursor?.bytesUploaded ?? 0
+
+      const blob = ctx.file.slice(offset)
+
+      await ctx.transport.put({
+        url: ctx.intent.uploadUrl,
+        body: blob,
+        headers: { Authorization: `Bearer ${ctx.intent.token}` },
+        signal: ctx.signal,
+        onProgress(uploaded, total) {
+          ctx.reportProgress({
+            uploadedBytes: offset + uploaded,
+            totalBytes: ctx.file.size,
+          })
+        },
+      })
+
+      ctx.persistCursor({ bytesUploaded: ctx.file.size })
+    },
+  }
+}
+```
+
+Register it alongside the built-in strategies:
+
+```typescript
+strategies.set(myCustomStrategy())
+```
+
+## Checkpoint
+
+Your project should look like this:
+
+```
+photoduck/
+  src/
+    upload.ts    -- types + real api + client with POST strategy
+    main.ts      -- file input + event listeners
+  package.json
+  tsconfig.json
+```
+
+<Accordion type="single" collapsible className="w-full">
+  <AccordionItem value="c2-full-upload-ts">
+    <AccordionTrigger>Full `src/upload.ts`</AccordionTrigger>
+    <AccordionContent>
+
+```typescript
+import {
+  createUploadClient,
+  createStrategyRegistry,
+  PostStrategy,
+  createXHRTransport,
+} from '@gentleduck/upload'
+import type { UploadApi, UploadResultBase } from '@gentleduck/upload'
+import { PostIntent, PostCursor } from '@gentleduck/upload'
+
+// --- Types ---
+
+type PhotoIntentMap = {
+  post: PostIntent
+}
+
+type PhotoCursorMap = {
+  post: PostCursor
+}
+
+type PhotoPurpose = 'photo'
+
+type PhotoResult = UploadResultBase & {
+  url: string
+}
+
+// --- Backend API ---
+
+const api: UploadApi<PhotoIntentMap, PhotoPurpose, PhotoResult> = {
+  async createIntent({ purpose, contentType, size, filename }) {
+    const res = await fetch('/api/uploads/create-intent', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ purpose, contentType, size, filename }),
+    })
+
+    if (!res.ok) throw new Error(`Failed to create intent: ${res.status}`)
+    return res.json()
+  },
+
+  async complete({ fileId }) {
+    const res = await fetch('/api/uploads/complete', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ fileId }),
+    })
+
+    if (!res.ok) throw new Error(`Failed to complete upload: ${res.status}`)
+    return res.json()
+  },
+}
+
+// --- Upload Client ---
+
+const strategies = createStrategyRegistry<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>()
+strategies.set(PostStrategy<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>())
+
+export const uploadClient = createUploadClient<PhotoIntentMap, PhotoCursorMap, PhotoPurpose, PhotoResult>({
+  api,
+  strategies,
+  transport: createXHRTransport(),
+  config: {
+    maxConcurrentUploads: 3,
+    autoStart: ['photo'],
+  },
+})
+```
+
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+<Accordion type="single" collapsible className="w-full">
+  <AccordionItem value="c2-full-main-ts">
+    <AccordionTrigger>Full `src/main.ts`</AccordionTrigger>
+    <AccordionContent>
+
+```typescript
+import { uploadClient } from './upload'
+
+const input = document.querySelector<HTMLInputElement>('#file-input')!
+
+input.addEventListener('change', () => {
+  const files = Array.from(input.files ?? [])
+  if (files.length > 0) {
+    uploadClient.dispatch({ type: 'addFiles', files, purpose: 'photo' })
+  }
+})
+
+uploadClient.on('file.added', ({ localId, purpose }) => {
+  console.log(`Added: ${localId} (${purpose})`)
+})
+
+uploadClient.on('intent.created', ({ localId, intent }) => {
+  console.log(`Intent: ${localId}`, intent)
+})
+
+uploadClient.on('upload.progress', ({ localId, pct }) => {
+  console.log(`Progress: ${localId} ${pct.toFixed(1)}%`)
+})
+
+uploadClient.on('upload.completed', ({ localId, result }) => {
+  console.log(`Done: ${localId}`, result)
+})
+
+uploadClient.on('upload.error', ({ localId, error, retryable }) => {
+  console.log(`Error: ${localId}`, error.message, retryable ? '(retryable)' : '(final)')
+})
+```
+
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+---
+
+## Chapter 2 FAQ
+
+<Accordion type="multiple" collapsible className="w-full">
+  <AccordionItem value="c2-why-strategies">
+    <AccordionTrigger>Why are strategies pluggable instead of built into the engine?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Different storage backends require different upload protocols. S3 presigned POST is one
+      approach, but you might use S3 multipart, tus protocol, Azure Blob Storage, or a custom
+      upload endpoint. By making strategies pluggable, the engine stays protocol-agnostic. You
+      only ship the code for the strategies you use, keeping bundle size small. And you can write
+      custom strategies for proprietary protocols without forking the engine.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="c2-multiple-strategies">
+    <AccordionTrigger>Can I register multiple strategies at the same time?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Yes. Register as many as you need. The engine selects the right one based on the `strategy`
+      field in the intent that your backend returns. Your backend decides which strategy to use
+      per file -- for example, small files use `post` and large files use `multipart`. Add both
+      to the registry and your intent map, and it works automatically.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="c2-strategy-missing">
+    <AccordionTrigger>What happens if the backend returns a strategy that is not registered?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The upload fails with a `strategy_missing` error. The error includes the strategy name
+      that was requested, so you can see exactly what went wrong. Make sure every strategy your
+      backend might return is registered in the client.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="c2-transport-testing">
+    <AccordionTrigger>How do I test uploads without a real backend?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Create a mock transport that implements `UploadTransport`. For example, a transport that
+      simulates progress with timeouts and resolves successfully. Pass it as the `transport`
+      option instead of `createXHRTransport()`. You can also mock the `UploadApi` to return
+      fake intents. Both the transport and API are constructor injected, so no monkey-patching
+      is needed.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="c2-presigned-post-vs-put">
+    <AccordionTrigger>What is the difference between presigned POST and presigned PUT?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Presigned POST uses `multipart/form-data` and includes policy fields (conditions on file
+      size, content type, etc.). It is the standard way to upload to S3 from a browser. Presigned
+      PUT uses a simple PUT request with the file as the body -- it is simpler but does not
+      support policy conditions. The built-in `PostStrategy` uses presigned POST. For presigned
+      PUT, you would use the multipart strategy with a single part or write a custom strategy.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="c2-expires-at">
+    <AccordionTrigger>What happens if the presigned URL expires?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The S3 request fails with a 403 or similar error. The engine catches this and moves the
+      item to the `error` phase. The `PostIntent` has an optional `expiresAt` field that your
+      backend can set. You can use this in your UI to warn users or automatically retry with
+      a fresh intent. On retry, the engine calls `createIntent()` again to get a new presigned
+      URL.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+---
+
+Next: [Chapter 3: React Integration](/docs/course/chapter-3)

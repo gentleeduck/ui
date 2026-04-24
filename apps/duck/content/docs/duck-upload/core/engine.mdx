@@ -1,0 +1,55 @@
+---
+title: Engine
+description: State machine, scheduling, and retry model for uploads.
+---
+
+The engine manages the upload state machine, scheduling, and side effects. All state changes go through the reducer, and all public events emit from a single transition layer.
+
+## State Machine
+
+```mermaid
+stateDiagram-v2
+  [*] --> validating
+  validating --> creating_intent: validation.ok
+  validating --> error: validation.failed
+  creating_intent --> ready: intent.ok
+  creating_intent --> error: intent.failed
+  ready --> queued: start
+  queued --> uploading: upload.begin
+  uploading --> completing: upload.ok
+  uploading --> paused: paused
+  uploading --> error: upload.failed
+  completing --> completed: complete.ok
+  completing --> error: complete.failed
+  paused --> queued: resume
+  error --> creating_intent: retry (intent)
+  error --> ready: retry (upload)
+  error --> completing: retry (complete)
+  completed --> [*]
+  canceled --> [*]
+```
+
+## Scheduling
+
+The scheduler continuously makes progress:
+
+- **Intent creation** for items in the `creating_intent` phase
+- **Upload slots** for `queued` items, respecting the configured concurrency limit
+- **Finalization** for items in the `completing` phase
+
+## Event Emission
+
+Public events are emitted by `store.runtime.ts` after transitions, not inside handlers. This prevents duplicates and ensures consistent semantics.
+
+| Internal Event | Public Event |
+| --- | --- |
+| `validation.ok` | `validation.ok` + `intent.creating` |
+| `upload.begin` | `upload.started` |
+| `upload.ok` | `upload.completing` |
+| `complete.ok` | `upload.completed` |
+
+`file.rejected` is emitted during `addFiles` because rejected files never enter state.
+
+## Retry Model
+
+`retryDecision` centralizes retry policy. Handlers only request a decision; they never hardcode retry logic. The default configuration allows up to 3 attempts with exponential backoff.

@@ -1,0 +1,246 @@
+---
+title: installation
+description: Step-by-step guide to install Duck Gen and Duck Query, configure your project, and generate your first types.
+---
+
+## Prerequisites
+
+Before installing, make sure you have:
+
+- **Bun 1.3.5** or newer. Check with `bun --version`.
+- A **TypeScript** project with a valid `tsconfig.json`.
+- **NestJS** if you want to use the API routes generator (the currently tested adapter).
+- A package manager: **Bun** (recommended), npm, or yarn.
+
+## Install Duck Gen
+
+Duck Gen is a dev dependency: it only runs at build time and emits `.d.ts` files.
+
+<Steps>
+
+<Step>Install the package</Step>
+
+```bash
+bun add -d @gentleduck/gen
+```
+
+<Step>Create the config file</Step>
+
+Create a `duck-gen.json` file in your **project root** (next to `package.json`):
+
+```json title="duck-gen.json"
+{
+  "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json",
+  "framework": "nestjs",
+  "extensions": {
+    "shared": {
+      "includeNodeModules": false,
+      "outputSource": "./generated",
+      "sourceGlobs": ["src/**/*.ts", "src/**/*.tsx"],
+      "tsconfigPath": "./tsconfig.json"
+    },
+    "apiRoutes": {
+      "enabled": true,
+      "globalPrefix": "/api",
+      "normalizeAnyToUnknown": true,
+      "outputSource": "./generated"
+    },
+    "messages": {
+      "enabled": true,
+      "outputSource": "./generated"
+    }
+  }
+}
+```
+
+The `$schema` field enables autocomplete in VS Code and other editors.
+
+**Important:** Set `globalPrefix` to match the prefix in your NestJS `main.ts`:
+
+```ts title="main.ts"
+app.setGlobalPrefix('api') // use "/api" in duck-gen.json
+```
+
+<Step>Add a script (recommended)</Step>
+
+```json title="package.json"
+{
+  "scripts": {
+    "generate": "duck-gen"
+  }
+}
+```
+
+<Step>Run the generator</Step>
+
+```bash
+bun run generate
+# or: bunx duck-gen
+```
+
+You should see:
+
+```text
+> Config loaded
+> Processing done
+```
+
+<Step>Verify the output</Step>
+
+Check that generated files were created:
+
+```bash
+ls node_modules/@gentleduck/gen/generated/nestjs/
+```
+
+You should see:
+
+```text
+duck-gen-api-routes.d.ts
+duck-gen-messages.d.ts
+index.d.ts
+```
+
+If you set `outputSource: "./generated"`, also check your project root:
+
+```bash
+ls ./generated/
+```
+
+<Step>Import the types</Step>
+
+```ts
+import type { ApiRoutes, RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
+```
+
+</Steps>
+
+## Install Duck Query
+
+Duck Query is the type-safe HTTP client that works with Duck Gen types.
+
+<Steps>
+
+<Step>Install the package</Step>
+
+```bash
+bun add @gentleduck/query
+```
+
+Duck Query is a **runtime dependency** (not dev-only) since it runs in your client code.
+
+**Axios** is a peer dependency. If you don't already have it:
+
+```bash
+bun add axios
+```
+
+<Step>Create a client</Step>
+
+```ts title="src/api/client.ts"
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
+
+export const api = createDuckQueryClient<ApiRoutes>({
+  baseURL: 'http://localhost:3000',
+  withCredentials: true,
+})
+```
+
+<Step>Make type-safe requests</Step>
+
+```ts
+const { data } = await api.post('/api/auth/signin', {
+  body: { username: 'duck', password: '123456' },
+})
+// data is fully typed based on your controller's return type
+```
+
+</Steps>
+
+## Monorepo setup
+
+If your server and client live in different packages (monorepo), you have two options:
+
+### Option 1: Shared output directory
+
+Write generated types to a shared location using `outputSource`:
+
+```json title="apps/server/duck-gen.json"
+{
+  "$schema": "../../node_modules/@gentleduck/gen/duck-gen.schema.json",
+  "framework": "nestjs",
+  "extensions": {
+    "shared": {
+      "includeNodeModules": false,
+      "outputSource": "../../packages/shared-types/generated",
+      "sourceGlobs": ["src/**/*.ts"],
+      "tsconfigPath": "./tsconfig.json"
+    },
+    "apiRoutes": {
+      "enabled": true,
+      "globalPrefix": "/api",
+      "normalizeAnyToUnknown": true
+    },
+    "messages": {
+      "enabled": true
+    }
+  }
+}
+```
+
+Then in your client:
+
+```ts
+import type { ApiRoutes } from '../../packages/shared-types/generated/duck-gen-api-routes'
+```
+
+### Option 2: Import from the package
+
+Install `@gentleduck/gen` as a dev dependency in your client package and import from the
+package entrypoint. The generated types live inside `node_modules/@gentleduck/gen/generated/`.
+
+```ts
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
+```
+
+This works if the server and client share the same `node_modules` (hoisted workspace).
+
+## Adding to CI/CD
+
+Duck Gen is safe to run in CI. Add it to your build pipeline:
+
+```yaml title=".github/workflows/build.yml"
+- name: Generate types
+  run: bunx duck-gen
+
+- name: Build
+  run: bun run build
+```
+
+Or add it as a prebuild script:
+
+```json title="package.json"
+{
+  "scripts": {
+    "prebuild": "duck-gen",
+    "build": "nest build"
+  }
+}
+```
+
+## Troubleshooting installation
+
+| Problem | Solution |
+| --- | --- |
+| `duck-gen: command not found` | Make sure `@gentleduck/gen` is installed. Run `bunx duck-gen` instead of `duck-gen`. |
+| Config file not found | `duck-gen.json` must be in the current working directory. Run the command from your project root. |
+| No output generated | Check that `apiRoutes.enabled` or `messages.enabled` is `true` in your config. |
+| Import errors | Make sure your `tsconfig.json` allows importing `.d.ts` files from `node_modules`. |
+| Bun version error | Duck Gen requires Bun 1.3.5+. Check with `bun --version`. |
+
+## Next steps
+
+- [Duck Gen overview](/docs/duck-gen): learn what Duck Gen does and how it works.
+- [Configuration](/docs/duck-gen/configuration): customize every option.
+- [Duck Query](/docs/duck-query): set up the type-safe HTTP client.

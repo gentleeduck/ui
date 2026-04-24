@@ -1,0 +1,163 @@
+---
+title: "Chapter 2: Project Setup"
+description: Create a NestJS project, install Duck Gen, and configure it for type generation.
+---
+
+## What you need
+
+Before starting, make sure you have:
+
+- **Bun 1.3.5** or newer. Check with `bun --version`.
+- **Node.js 18+** (NestJS requires it).
+- A code editor with TypeScript support (VS Code recommended).
+
+## Create a NestJS project
+
+If you already have a NestJS project, skip to the next section. Otherwise, scaffold one
+with the NestJS CLI:
+
+```bash
+# Install the NestJS CLI globally
+bun add -g @nestjs/cli
+
+# Create a new project
+nest new duck-gen-course --package-manager bun
+
+# Enter the project directory
+cd duck-gen-course
+```
+
+Verify the project runs:
+
+```bash
+bun run start:dev
+```
+
+You should see NestJS listening on `http://localhost:3000`.
+
+## Install Duck Gen
+
+Duck Gen is a dev dependency. It only runs at build time and emits `.d.ts` files.
+
+```bash
+bun add -d @gentleduck/gen
+```
+
+## Create the config file
+
+Duck Gen needs a `duck-gen.json` file in your project root. This tells it where to find
+your source code and what to generate.
+
+```json title="duck-gen.json"
+{
+  "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json",
+  "framework": "nestjs",
+  "extensions": {
+    "shared": {
+      "includeNodeModules": false,
+      "outputSource": "./generated",
+      "sourceGlobs": ["src/**/*.ts"],
+      "tsconfigPath": "./tsconfig.json"
+    },
+    "apiRoutes": {
+      "enabled": true,
+      "globalPrefix": "/api",
+      "normalizeAnyToUnknown": true,
+      "outputSource": "./generated"
+    },
+    "messages": {
+      "enabled": true,
+      "outputSource": "./generated"
+    }
+  }
+}
+```
+
+**What each field does:**
+
+| Field | Purpose |
+| --- | --- |
+| `$schema` | Enables autocomplete and validation in your editor. |
+| `framework` | The framework adapter to use. Currently `nestjs`. |
+| `shared.outputSource` | Where to write generated files in your project. |
+| `shared.sourceGlobs` | Which files Duck Gen should scan. |
+| `shared.tsconfigPath` | Path to your `tsconfig.json` for type resolution. |
+| `apiRoutes.enabled` | Enable route type generation. |
+| `apiRoutes.globalPrefix` | The global URL prefix for all routes. |
+| `apiRoutes.normalizeAnyToUnknown` | Convert untyped `any` returns to `unknown` for safety. |
+| `messages.enabled` | Enable message registry generation. |
+
+<Callout icon={<Lightbulb/>} title="Global prefix">
+  The `globalPrefix` should match what you set in your NestJS `main.ts` with
+  `app.setGlobalPrefix('/api')`. If you do not use a prefix, set it to `""`.
+</Callout>
+
+## Set the global prefix in NestJS
+
+Open `src/main.ts` and add the global prefix:
+
+```ts title="src/main.ts"
+import { NestFactory } from '@nestjs/core'
+import { AppModule } from './app.module'
+
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule)
+  app.setGlobalPrefix('api') // matches duck-gen.json globalPrefix
+  await app.listen(3000)
+}
+bootstrap()
+```
+
+## Add a generate script
+
+Add a script to your `package.json` so you can run Duck Gen easily:
+
+```json title="package.json (scripts section)"
+{
+  "scripts": {
+    "generate": "duck-gen",
+    "generate:watch": "duck-gen --watch"
+  }
+}
+```
+
+## Test the setup
+
+Run Duck Gen to make sure everything is wired up:
+
+```bash
+bun run generate
+```
+
+You should see:
+
+```text
+Config loaded
+Processing done
+```
+
+If you get an error about a missing config file, make sure `duck-gen.json` is in the
+directory where you run the command.
+
+Duck Gen will create a `./generated` folder in your project. Right now it may be empty
+or contain minimal types because the default NestJS scaffold has a simple `AppController`
+without parameter decorators.
+
+## Project structure so far
+
+```text
+duck-gen-course/
+  src/
+    app.controller.ts
+    app.module.ts
+    app.service.ts
+    main.ts
+  generated/           # Duck Gen output goes here
+  duck-gen.json        # Duck Gen config
+  tsconfig.json
+  package.json
+```
+
+## Next
+
+[Chapter 3: Your First Controller](/docs/course/first-controller)

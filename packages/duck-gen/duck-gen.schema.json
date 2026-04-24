@@ -1,0 +1,186 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.com/schemas/duck-gen.schema.json",
+  "title": "Duck Gen Config",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional schema reference for editor validation."
+    },
+    "framework": {
+      "type": "string",
+      "enum": ["nestjs"],
+      "description": "Server framework used by the generator."
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "shared": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "includeNodeModules": {
+              "type": "boolean",
+              "default": false,
+              "description": "Shared default: scan files inside node_modules."
+            },
+            "outputSource": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "description": "Output directories for generated files. When provided, default package outputs are disabled."
+            },
+            "sourceGlobs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Shared default: glob patterns for files to scan (resolved relative to duck-gen.json)."
+            },
+            "tsconfigPath": {
+              "type": "string",
+              "description": "Shared default: path to the tsconfig.json used by ts-morph (resolved relative to duck-gen.json)."
+            }
+          }
+        },
+        "apiRoutes": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true,
+              "description": "Enable API routes generation."
+            },
+            "globalPrefix": {
+              "type": "string",
+              "default": "/api",
+              "description": "Global prefix applied to all API routes."
+            },
+            "includeNodeModules": {
+              "type": "boolean",
+              "default": false,
+              "description": "Scan files inside node_modules (overrides extensions.shared)."
+            },
+            "normalizeAnyToUnknown": {
+              "type": "boolean",
+              "default": true,
+              "description": "Normalize any to unknown in generated route types."
+            },
+            "outputSource": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "description": "Output file path(s) or directories for generated API routes (.d.ts only). When provided, default package outputs are disabled."
+            },
+            "outputPath": {
+              "type": "string",
+              "deprecated": true,
+              "description": "Output file path for generated API routes."
+            },
+            "sourceGlobs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Glob patterns for files to scan (overrides extensions.shared; resolved relative to duck-gen.json)."
+            },
+            "tsconfigPath": {
+              "type": "string",
+              "description": "Path to the tsconfig.json used by ts-morph (overrides extensions.shared; resolved relative to duck-gen.json)."
+            }
+          }
+        },
+        "messages": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true,
+              "description": "Enable @duckgen messages generation."
+            },
+            "outputSource": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "description": "Output file path(s) or directories for generated message types (.d.ts only). When provided, default package outputs are disabled."
+            },
+            "outputPath": {
+              "type": "string",
+              "deprecated": true,
+              "description": "Output file path for generated message types."
+            },
+            "includeNodeModules": {
+              "type": "boolean",
+              "default": false,
+              "description": "Scan files inside node_modules (overrides extensions.shared)."
+            },
+            "sourceGlobs": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Glob patterns for files to scan (overrides extensions.shared; resolved relative to duck-gen.json)."
+            },
+            "tsconfigPath": {
+              "type": "string",
+              "description": "Path to the tsconfig.json used by ts-morph (overrides extensions.shared; resolved relative to duck-gen.json)."
+            }
+          }
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json",
+      "framework": "nestjs",
+      "extensions": {
+        "shared": {
+          "includeNodeModules": false,
+          "outputSource": "./generated",
+          "sourceGlobs": ["src/**/*.ts", "src/**/*.tsx"],
+          "tsconfigPath": "./tsconfig.json"
+        },
+        "apiRoutes": {
+          "enabled": true,
+          "globalPrefix": "/api",
+          "normalizeAnyToUnknown": true,
+          "outputSource": ["./generated", "./src/generated"]
+        },
+        "messages": {
+          "enabled": true,
+          "outputSource": "./generated"
+        }
+      }
+    }
+  ]
+}

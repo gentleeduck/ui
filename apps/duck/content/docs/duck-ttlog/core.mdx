@@ -1,0 +1,89 @@
+---
+title: Core Engine
+description: "The ttlog crate — Trace orchestrator, writer/listener threads, ring buffer, and listener API."
+---
+
+
+The `ttlog` crate is the core engine. It handles the lifecycle of a log event: creation, processing by listeners, and storage in the snapshot buffer.
+
+## Core Concepts
+
+### The `Trace` Struct
+
+The `Trace` struct is the orchestrator. One `Trace` instance is created at startup and stored in a `thread_local!` static, making it accessible to the logging macros.
+
+Responsibilities:
+- Spawns and manages the writer thread and listener thread.
+- Holds the channels that decouple application threads from the logging backend.
+- Exposes the API for configuration: adding listeners, setting the log level.
+
+### Initialization: `Trace::init()`
+
+You initialize the entire system by calling `Trace::init()`.
+
+```rust
+pub fn init(
+    capacity: usize,
+    channel_capacity: usize,
+    service_name: &str,
+    storage_path: Option<&str>,
+) -> Self
+```
+
+- `capacity`: The number of `LogEvent`s to keep in the in-memory ring buffer for snapshots. A larger capacity means more history is available in a crash dump, but it consumes more memory.
+- `channel_capacity`: The size of the bounded channel used for control messages (like "create a snapshot now").
+- `service_name`: An identifier for your application, which gets embedded in snapshot files.
+- `storage_path`: The directory where snapshot files will be saved. Defaults to `./tmp/`.
+
+### `LogEvent`
+
+The internal representation of a single log record. Uses integer IDs instead of strings to keep the struct small.
+
+```rust
+pub struct LogEvent {
+  pub packed_meta: u64, // Timestamp, level, and thread ID packed into a u64
+  pub target_id: u16,
+  pub message_id: Option<num::NonZeroU16>,
+  pub kv_id: Option<num::NonZeroU16>,
+  pub file_id: u16,
+  pub position: (u32, u32), // (line, column)
+}
+```
+All the `_id` fields are integer handles that refer to strings managed by the `StringInterner`.
+
+### Listeners
+
+Listeners process log events as they happen. They run on a dedicated listener thread. Use a listener to send output to the console, a file, or a network destination.
+
+The `LogListener` trait is simple:
+```rust
+pub trait LogListener: Send + Sync + 'static {
+  fn handle(&self, event: &LogEvent, interner: &StringInterner);
+  // ... other optional methods
+}
+```
+TTLog provides two built-in listeners:
+- **`StdoutListener`**: Formats and prints logs to standard output.
+- **`FileListener`**: Writes logs to a specified file.
+
+Write your own listener to send logs to a network service, a database, or any other destination.
+
+### Snapshots
+
+TTLog keeps a lock-free, in-memory ring buffer of the last `N` log events (`N` is the `capacity` passed to `init`). Listeners do not consume it; the buffer exists for crash diagnostics.
+
+A snapshot dumps the buffer plus application metadata. Snapshots fire on:
+1. **Panics**: A global panic hook writes a snapshot before the process exits.
+2. **Signals**: `SIGINT`, `SIGTERM`, `SIGQUIT`, and `SIGSEGV` trigger a snapshot.
+3. **Periodic trigger**: The writer thread creates a snapshot every 60 seconds if new events have been logged.
+4. **Manual request**: `trace.request_snapshot("my-reason")`.
+
+Snapshot files are serialized with `serde_cbor` and compressed with `lz4`.
+
+### String Interning
+
+TTLog uses a `StringInterner` to avoid allocating and cloning duplicate strings (file paths, module names, repeated log messages).
+
+On the first call to `info!("Starting up")` in `src/main.rs`, the interner stores `"Starting up"`, `"my_app::main"`, and `"src/main.rs"` in a global, thread-safe hash map and assigns each a unique integer ID.
+
+On subsequent calls the macro uses the cached ID, which is an integer lookup. A `thread_local!` cache avoids lock contention in the common case.

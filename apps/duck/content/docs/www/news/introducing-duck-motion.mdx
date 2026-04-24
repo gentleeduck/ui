@@ -1,0 +1,105 @@
+---
+title: introducing duck motion
+description: Enter/exit animations, mount/unmount transitions, and staggered sequences — built to pair with duck-variants and duck-primitives.
+---
+
+## Why Another Animation Library?
+
+Most animation libraries are general-purpose. They handle springs, keyframes, and timeline orchestration — powerful, but often more than you need when all you want is a smooth enter/exit transition on a dialog or dropdown.
+
+`@gentleduck/motion` is purpose-built for **UI component animations**. It handles the hard part — coordinating mount/unmount with CSS or JS transitions — while staying small and composable.
+
+---
+
+## What It Solves
+
+The classic problem: you want a dialog to fade in when it opens and fade out when it closes. But React unmounts the component immediately when you set `open={false}`, so the exit animation never plays.
+
+```tsx
+// The problem: component unmounts before animation finishes
+{open && <Dialog>...</Dialog>}
+```
+
+`@gentleduck/motion` solves this with a `Presence` primitive that delays unmounting until the exit animation completes.
+
+---
+
+## How It Works
+
+<MermaidDiagram chart={`flowchart LR
+    A["open=true"] --> B["Mount component"]
+    B --> C["Play enter animation"]
+    D["open=false"] --> E["Play exit animation"]
+    E --> F["Wait for animation end"]
+    F --> G["Unmount component"]
+    style C fill:#e8ffe8,stroke:#333
+    style E fill:#ffe8e8,stroke:#333`} />
+
+Motion primitives coordinate three phases:
+
+1. **Mount** — Component enters the DOM, enter animation triggers
+2. **Present** — Component is visible and interactive
+3. **Exit** — Exit animation plays, component unmounts after completion
+
+---
+
+## Used Across the Ecosystem
+
+Every animated component in `@gentleduck/ui` uses motion primitives:
+
+| Component | Animation |
+| --- | --- |
+| **Dialog** | Fade + scale on open/close |
+| **Sheet** | Slide from edge with backdrop fade |
+| **Drawer** | Slide up with drag-to-dismiss |
+| **Dropdown Menu** | Scale + fade from trigger |
+| **Tooltip** | Fade with slight offset |
+| **Popover** | Scale from anchor point |
+| **Collapsible** | Height animation |
+| **Accordion** | Height animation per section |
+
+---
+
+## Pairing with Variants
+
+Motion works naturally with `@gentleduck/variants` for conditional animation classes:
+
+```tsx
+import { cva } from '@gentleduck/variants'
+
+const overlay = cva('fixed inset-0 bg-black/50', {
+  variants: {
+    state: {
+      open: 'animate-in fade-in',
+      closed: 'animate-out fade-out',
+    },
+  },
+})
+```
+
+The variant system handles which classes to apply. Motion handles when to unmount.
+
+---
+
+## Getting Started
+
+```bash
+bun add @gentleduck/motion
+```
+
+Motion is a peer dependency of `@gentleduck/primitives` and is automatically included when you install components via the CLI. If you are building custom components on top of primitives, install it directly.
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6">
+  <LinkedCard href="https://ui.gentleduck.org/docs/packages/duck-motion" target="_blank" rel="noopener noreferrer">
+    <div className="flex flex-col p-4">
+      <h4 className="font-semibold">Motion Docs</h4>
+      <p className="mt-2 text-muted-foreground text-sm">API reference, animation patterns, and integration guides.</p>
+    </div>
+  </LinkedCard>
+  <LinkedCard href="/docs/news/ecosystem-overview">
+    <div className="flex flex-col p-4">
+      <h4 className="font-semibold">Ecosystem Overview</h4>
+      <p className="mt-2 text-muted-foreground text-sm">See where motion fits in the full architecture diagram.</p>
+    </div>
+  </LinkedCard>
+</div>

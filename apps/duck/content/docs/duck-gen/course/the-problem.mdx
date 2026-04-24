@@ -1,0 +1,113 @@
+---
+title: "Chapter 1: The Problem"
+description: Why manually syncing types between server and client breaks down, and how code generation solves it.
+---
+
+## The type safety gap
+
+Modern web applications are split into two halves: a server that handles business logic
+and a client that presents the user interface. These two halves communicate over HTTP,
+exchanging JSON data through API routes.
+
+TypeScript gives you type safety within each half. Your server code is typed. Your client
+code is typed. But the boundary between them is not. The HTTP layer is a gap where types
+disappear.
+
+## What goes wrong
+
+Consider a simple login endpoint on your NestJS server:
+
+```ts title="server/auth.controller.ts"
+@Controller('auth')
+export class AuthController {
+  @Post('login')
+  login(@Body() body: LoginDto): Promise<AuthSession> {
+    // ... validate credentials, return session
+  }
+}
+```
+
+On the client, you need matching types to call this endpoint safely:
+
+```ts title="client/api.ts"
+// You write these by hand
+type LoginRequest = { email: string; password: string }
+type LoginResponse = { token: string; expiresAt: string }
+
+const response = await axios.post<LoginResponse>('/api/auth/login', loginData)
+```
+
+This works until someone changes `LoginDto` on the server. Maybe they add a `rememberMe`
+field. Maybe they rename `expiresAt` to `expiresIn`. The client types are now wrong, but
+TypeScript cannot tell you because the types are disconnected.
+
+**Common failure modes:**
+
+- A DTO field is renamed on the server. The client sends the old field name. The request
+  silently fails validation.
+- A new required field is added. The client does not send it. The server returns a 400
+  error that only shows up in production.
+- A response shape changes. The client reads a property that no longer exists and crashes.
+- An endpoint is removed. The client still calls it and gets a 404.
+
+## The manual sync tax
+
+Teams try to solve this in several ways:
+
+| Approach | Problem |
+| --- | --- |
+| Copy-paste types from server to client | Types drift the moment someone forgets to copy. |
+| Shared type packages | You still write types by hand. They can diverge from actual runtime behavior. |
+| OpenAPI / Swagger generation | Requires decorators on every endpoint. Types are derived from metadata, not actual code. |
+| GraphQL | Solves the contract problem but requires a completely different architecture. |
+
+Each approach either adds manual work or requires you to change how you build your server.
+
+## The Duck Gen approach
+
+Duck Gen takes a different path. Instead of requiring you to write contract types or add
+metadata decorators, it reads your actual server code and extracts the types that already
+exist.
+
+```text
+Your server code (controllers, DTOs, decorators)
+       |
+       v
+  Duck Gen scans with ts-morph
+       |
+       v
+  Generated .d.ts files (route maps, message registries)
+       |
+       v
+  Your client imports the types directly
+```
+
+The key insight: your server code already contains all the type information. The
+controller decorators tell you the HTTP method and path. The parameter decorators tell
+you the request shape. The return type tells you the response shape. Duck Gen just
+extracts what is already there.
+
+<Callout icon={<Target/>} title="No runtime overhead">
+  Duck Gen produces `.d.ts` files only. These are pure type declarations that TypeScript
+  erases at compile time. There is zero runtime cost, no extra bundle size, and no
+  performance impact.
+</Callout>
+
+## What you will build in this course
+
+Over the next seven chapters, you will:
+
+1. Set up a NestJS project with Duck Gen installed.
+2. Create controllers with typed DTOs and decorators.
+3. Run Duck Gen to generate route types automatically.
+4. Import those types in a client and get full autocomplete.
+5. Add i18n message keys with type safety.
+6. Set up Duck Query for a fully typed HTTP client.
+7. Learn production patterns for error handling and CI/CD.
+
+By the end, you will have a working project where every API change on the server is
+instantly reflected in your client types.
+
+## Next
+
+[Chapter 2: Project Setup](/docs/course/project-setup)

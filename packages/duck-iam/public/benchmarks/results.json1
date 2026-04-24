@@ -1,0 +1,519 @@
+{
+  "corePerformance": [
+    {
+      "label": "evaluatePolicy (simple rule)",
+      "us": 0.68
+    },
+    {
+      "label": "evaluatePolicy (conditions)",
+      "us": 1.33
+    },
+    {
+      "label": "evaluatePolicy (target match)",
+      "us": 0.47
+    },
+    {
+      "label": "evaluatePolicy (target skip)",
+      "us": 0.24
+    },
+    {
+      "label": "evaluate (2 policies)",
+      "us": 0.65
+    },
+    {
+      "label": "evaluate (deny path)",
+      "us": 0.58
+    }
+  ],
+  "enginePerformance": [
+    {
+      "label": "engine.can() (cached)",
+      "us": 4.86
+    },
+    {
+      "label": "engine.check() (cached)",
+      "us": 4.6
+    },
+    {
+      "label": "engine.permissions() (20 checks)",
+      "us": 20.06
+    },
+    {
+      "label": "engine.explain()",
+      "us": 9.6
+    }
+  ],
+  "moduleSizes": [
+    {
+      "name": "Core (full)",
+      "entry": "index.js",
+      "sizeBytes": 22467,
+      "sizeKB": 21.9
+    },
+    {
+      "name": "Core only",
+      "entry": "core/index.js",
+      "sizeBytes": 372,
+      "sizeKB": 0.4
+    },
+    {
+      "name": "Adapter: Memory",
+      "entry": "adapters/memory/index.js",
+      "sizeBytes": 1162,
+      "sizeKB": 1.1
+    },
+    {
+      "name": "Adapter: Prisma",
+      "entry": "adapters/prisma/index.js",
+      "sizeBytes": 1424,
+      "sizeKB": 1.4
+    },
+    {
+      "name": "Adapter: Drizzle",
+      "entry": "adapters/drizzle/index.js",
+      "sizeBytes": 1696,
+      "sizeKB": 1.7
+    },
+    {
+      "name": "Adapter: HTTP",
+      "entry": "adapters/http/index.js",
+      "sizeBytes": 1231,
+      "sizeKB": 1.2
+    },
+    {
+      "name": "Server: Express",
+      "entry": "server/express/index.js",
+      "sizeBytes": 1099,
+      "sizeKB": 1.1
+    },
+    {
+      "name": "Server: Next.js",
+      "entry": "server/next/index.js",
+      "sizeBytes": 1050,
+      "sizeKB": 1
+    },
+    {
+      "name": "Server: Hono",
+      "entry": "server/hono/index.js",
+      "sizeBytes": 873,
+      "sizeKB": 0.9
+    },
+    {
+      "name": "Server: NestJS",
+      "entry": "server/nest/index.js",
+      "sizeBytes": 1322,
+      "sizeKB": 1.3
+    },
+    {
+      "name": "Server: Generic",
+      "entry": "server/generic/index.js",
+      "sizeBytes": 780,
+      "sizeKB": 0.8
+    },
+    {
+      "name": "Client: React",
+      "entry": "client/react/index.js",
+      "sizeBytes": 1077,
+      "sizeKB": 1.1
+    },
+    {
+      "name": "Client: Vue",
+      "entry": "client/vue/index.js",
+      "sizeBytes": 1074,
+      "sizeKB": 1
+    },
+    {
+      "name": "Client: Vanilla",
+      "entry": "client/vanilla/index.js",
+      "sizeBytes": 1449,
+      "sizeKB": 1.4
+    }
+  ],
+  "bundleComparison": [
+    {
+      "name": "@gentleduck/iam",
+      "sizeKB": 21.9,
+      "deps": 0,
+      "treeshakeable": true,
+      "note": "Measured from dist"
+    },
+    {
+      "name": "@casl/ability",
+      "sizeKB": 6,
+      "deps": 0,
+      "treeshakeable": true,
+      "note": "bundlephobia 2026-03-30"
+    },
+    {
+      "name": "accesscontrol",
+      "sizeKB": 8.2,
+      "deps": 1,
+      "treeshakeable": false,
+      "note": "bundlephobia 2026-03-30"
+    },
+    {
+      "name": "casbin (node-casbin)",
+      "sizeKB": 30,
+      "deps": 5,
+      "treeshakeable": false,
+      "note": "bundlephobia 2026-03-30"
+    }
+  ],
+  "features": [
+    {
+      "feature": "RBAC",
+      "gentleduck": true,
+      "casl": true,
+      "casbin": true,
+      "accesscontrol": true
+    },
+    {
+      "feature": "ABAC (conditions)",
+      "gentleduck": true,
+      "casl": true,
+      "casbin": true,
+      "accesscontrol": false
+    },
+    {
+      "feature": "Policy-based engine",
+      "gentleduck": true,
+      "casl": false,
+      "casbin": true,
+      "accesscontrol": false
+    },
+    {
+      "feature": "Deny-overrides",
+      "gentleduck": true,
+      "casl": false,
+      "casbin": true,
+      "accesscontrol": false
+    },
+    {
+      "feature": "Multiple algorithms",
+      "gentleduck": "4",
+      "casl": "1",
+      "casbin": "custom",
+      "accesscontrol": "1"
+    },
+    {
+      "feature": "Scoped roles (multi-tenant)",
+      "gentleduck": true,
+      "casl": false,
+      "casbin": false,
+      "accesscontrol": false
+    },
+    {
+      "feature": "Explain / debug trace",
+      "gentleduck": true,
+      "casl": false,
+      "casbin": false,
+      "accesscontrol": false
+    },
+    {
+      "feature": "Lifecycle hooks",
+      "gentleduck": true,
+      "casl": false,
+      "casbin": false,
+      "accesscontrol": false
+    },
+    {
+      "feature": "LRU caching built-in",
+      "gentleduck": true,
+      "casl": false,
+      "casbin": false,
+      "accesscontrol": false
+    },
+    {
+      "feature": "Database adapters",
+      "gentleduck": "4",
+      "casl": "3",
+      "casbin": "20+",
+      "accesscontrol": "0"
+    },
+    {
+      "feature": "Server middleware",
+      "gentleduck": "5",
+      "casl": "0",
+      "casbin": "2",
+      "accesscontrol": "0"
+    },
+    {
+      "feature": "React integration",
+      "gentleduck": true,
+      "casl": true,
+      "casbin": false,
+      "accesscontrol": false
+    },
+    {
+      "feature": "Vue integration",
+      "gentleduck": true,
+      "casl": true,
+      "casbin": false,
+      "accesscontrol": false
+    },
+    {
+      "feature": "Type-safe config",
+      "gentleduck": true,
+      "casl": true,
+      "casbin": false,
+      "accesscontrol": true
+    },
+    {
+      "feature": "Zero runtime deps",
+      "gentleduck": true,
+      "casl": true,
+      "casbin": false,
+      "accesscontrol": false
+    },
+    {
+      "feature": "Framework-agnostic",
+      "gentleduck": true,
+      "casl": true,
+      "casbin": true,
+      "accesscontrol": true
+    },
+    {
+      "feature": "Batch permissions",
+      "gentleduck": true,
+      "casl": false,
+      "casbin": false,
+      "accesscontrol": false
+    },
+    {
+      "feature": "Resource hierarchy",
+      "gentleduck": true,
+      "casl": false,
+      "casbin": true,
+      "accesscontrol": true
+    },
+    {
+      "feature": "Wildcard patterns",
+      "gentleduck": true,
+      "casl": true,
+      "casbin": true,
+      "accesscontrol": true
+    }
+  ],
+  "libraryComparisons": [
+    {
+      "name": "@casl/ability",
+      "comparison": [
+        {
+          "metric": "Bundle size",
+          "gentleduck": "21.9 KB",
+          "competitor": "6.0 KB",
+          "winner": "competitor"
+        },
+        {
+          "metric": "Runtime deps",
+          "gentleduck": "0",
+          "competitor": "0",
+          "winner": "tie"
+        },
+        {
+          "metric": "Authorization model",
+          "gentleduck": "Policy engine (ABAC+RBAC)",
+          "competitor": "Ability-based (ABAC)",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Scoped roles",
+          "gentleduck": "Built-in",
+          "competitor": "Manual",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Explain / debug",
+          "gentleduck": "Full trace",
+          "competitor": "None",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Server middleware",
+          "gentleduck": "5 frameworks",
+          "competitor": "None built-in",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Database adapters",
+          "gentleduck": "4 (Memory, Prisma, Drizzle, HTTP)",
+          "competitor": "3 (Prisma, Mongoose, TypeORM)",
+          "winner": "tie"
+        },
+        {
+          "metric": "React hooks",
+          "gentleduck": "useCan, usePermissions",
+          "competitor": "Can component",
+          "winner": "tie"
+        },
+        {
+          "metric": "Maturity",
+          "gentleduck": "New",
+          "competitor": "Established (2017)",
+          "winner": "competitor"
+        },
+        {
+          "metric": "Weekly downloads",
+          "gentleduck": "Growing",
+          "competitor": "~900K/week",
+          "winner": "competitor"
+        },
+        {
+          "metric": "TypeScript",
+          "gentleduck": "Full",
+          "competitor": "Full",
+          "winner": "tie"
+        }
+      ]
+    },
+    {
+      "name": "casbin (node-casbin)",
+      "comparison": [
+        {
+          "metric": "Bundle size",
+          "gentleduck": "21.9 KB",
+          "competitor": "30 KB",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Runtime deps",
+          "gentleduck": "0",
+          "competitor": "5",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Authorization model",
+          "gentleduck": "Policy engine (TypeScript)",
+          "competitor": "Model file (PERM DSL)",
+          "winner": "tie"
+        },
+        {
+          "metric": "Database adapters",
+          "gentleduck": "4",
+          "competitor": "20+",
+          "winner": "competitor"
+        },
+        {
+          "metric": "Language support",
+          "gentleduck": "JS/TS only",
+          "competitor": "15+ languages",
+          "winner": "competitor"
+        },
+        {
+          "metric": "Type safety",
+          "gentleduck": "Full generics",
+          "competitor": "String-based",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Explain / debug",
+          "gentleduck": "Full trace",
+          "competitor": "None",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Scoped roles",
+          "gentleduck": "Built-in",
+          "competitor": "Via domains",
+          "winner": "tie"
+        },
+        {
+          "metric": "Server middleware",
+          "gentleduck": "5 frameworks",
+          "competitor": "Express, Koa",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Client libraries",
+          "gentleduck": "React, Vue, Vanilla",
+          "competitor": "None",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Maturity",
+          "gentleduck": "New",
+          "competitor": "Battle-tested (2018)",
+          "winner": "competitor"
+        },
+        {
+          "metric": "Ecosystem",
+          "gentleduck": "Focused",
+          "competitor": "Multi-language, admin UI",
+          "winner": "competitor"
+        }
+      ]
+    },
+    {
+      "name": "accesscontrol",
+      "comparison": [
+        {
+          "metric": "Bundle size",
+          "gentleduck": "21.9 KB",
+          "competitor": "8.2 KB",
+          "winner": "competitor"
+        },
+        {
+          "metric": "Authorization model",
+          "gentleduck": "ABAC + RBAC + policies",
+          "competitor": "RBAC only",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Conditions (ABAC)",
+          "gentleduck": "18 operators",
+          "competitor": "None",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Scoped roles",
+          "gentleduck": "Built-in",
+          "competitor": "None",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Explain / debug",
+          "gentleduck": "Full trace",
+          "competitor": "None",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Database adapters",
+          "gentleduck": "4",
+          "competitor": "0 (in-memory only)",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "Server middleware",
+          "gentleduck": "5 frameworks",
+          "competitor": "None",
+          "winner": "gentleduck"
+        },
+        {
+          "metric": "API style",
+          "gentleduck": "Engine + policies",
+          "competitor": "Fluent grants",
+          "winner": "tie"
+        },
+        {
+          "metric": "Maturity",
+          "gentleduck": "New",
+          "competitor": "Established (2016)",
+          "winner": "competitor"
+        },
+        {
+          "metric": "Simplicity",
+          "gentleduck": "Policy-based",
+          "competitor": "Very simple API",
+          "winner": "competitor"
+        },
+        {
+          "metric": "Maintenance",
+          "gentleduck": "Active",
+          "competitor": "Unmaintained since 2020",
+          "winner": "gentleduck"
+        }
+      ]
+    }
+  ],
+  "generatedAt": "2026-03-30T16:15:31.523Z"
+}

@@ -1,0 +1,35 @@
+---
+title: Core Overview
+description: The framework-agnostic upload engine core.
+---
+
+The core module contains the upload engine, contracts, persistence layer, and utilities. It is framework-agnostic and can be used without React.
+
+## Exports
+
+From `@gentleduck/upload/core`:
+
+- `createUploadStore`, `createUploadClient`
+- `UploadApi`, `UploadTransport`, `StrategyRegistry`
+- `UploadCommand`, `UploadEventMap`, `UploadOutcome`
+- `LocalStorageAdapter`, `IndexedDBAdapter`, `MemoryAdapter`
+- Shared utilities (`isRecord`, `sleep`, `generateId`, etc.)
+
+## Submodules
+
+| Module | Description |
+| --- | --- |
+| **client/** | Configuration, plugins/hooks, and `createUploadClient` |
+| **engine/** | Reducer, scheduler, handlers, events |
+| **contracts/** | API and transport interfaces |
+| **persistence/** | Snapshot serialize/deserialize and storage adapters |
+| **utils/** | Shared helpers |
+
+## Design Principles
+
+- **Immutable state snapshots** for predictable UI updates
+- **Single event emission layer** for consistent public events
+- **Typed results end-to-end** from backend to UI
+- **Strategy-driven uploads** to keep the engine protocol-agnostic
+
+See [Engine](/docs/core/engine) for the state machine and scheduler details.

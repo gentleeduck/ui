@@ -1,0 +1,44 @@
+---
+title: Strategy Registry
+description: Register and resolve upload strategies by name.
+---
+
+The registry owns the set of available strategies and keeps the core engine decoupled from protocol implementations.
+
+## Why It Exists
+
+- Core should not import strategy implementations directly
+- Strategies can be swapped or extended without changing engine logic
+- The registry enforces typed strategy keys via the intent map
+
+## Usage
+
+```ts
+import { createStrategyRegistry, PostStrategy, multipartStrategy } from '@gentleduck/upload/strategies'
+
+const registry = createStrategyRegistry()
+registry.set(PostStrategy())
+registry.set(multipartStrategy())
+```
+
+## How It Works
+
+When the engine receives an intent from your backend, it reads the `strategy` field and looks up the corresponding implementation in the registry. If no strategy is found for the given key, the upload transitions to an error state.
+
+## Custom Strategies
+
+You can create and register your own strategies:
+
+```ts
+const customStrategy = {
+  name: 'custom',
+  start: async (ctx) => {
+    // Your custom upload logic here
+    // Use ctx.file, ctx.intent, ctx.transport, ctx.onProgress, ctx.signal
+  },
+}
+
+registry.set(customStrategy)
+```
+
+Your backend's `createIntent` would then return `{ strategy: 'custom', ... }` to use this strategy.

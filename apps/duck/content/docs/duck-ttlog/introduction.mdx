@@ -1,0 +1,62 @@
+---
+title: Introduction
+description: "High-performance, low-allocation logging framework for Rust with lock-free ring buffer and crash-safe snapshots."
+---
+TTLog is a low-allocation logging framework for Rust. This is the reference documentation.
+
+## Overview
+
+TTLog targets high-throughput applications where logging overhead matters. It uses lock-free data structures, compile-time macros, and a listener thread that runs off the hot path.
+
+### Core Features
+
+- **Compile-time macros**: `info!`, `debug!`, and the rest are procedural macros that do most of their work at compile time.
+- **String interning**: Log messages, file paths, module paths, and keys are interned; each unique string is stored once.
+- **Lock-free ring buffer**: Log calls write to an in-memory ring buffer and do not block.
+- **Decoupled listeners**: Listeners for stdout or file output run on a separate thread and consume events without blocking the caller.
+- **Snapshots**: A ring buffer of recent events can be written to disk as a compressed snapshot.
+- **Crash and signal handling**: On panic or `SIGINT`/`SIGTERM`, TTLog captures a snapshot of recent logs for post-mortem debugging.
+
+## Crate Structure
+
+The TTLog ecosystem is split into two main crates:
+
+1.  [**`ttlog`**](/duck-ttlog/core): The core logging library. It contains the `Trace` engine, listeners, snapshot functionality, and all the runtime components.
+2.  [**`ttlog-macros`**](/duck-ttlog/macros): A procedural macro crate that provides the user-facing logging macros (`info!`, `warn!`, etc.).
+
+## Getting Started
+
+A minimal example:
+
+```rust
+use ttlog::trace::{Trace, GLOBAL_LOGGER};
+use ttlog_macros::info;
+use ttlog::stdout_listener::StdoutListener;
+use std::sync::Arc;
+
+fn main() {
+    // 1. Initialize the TTLog trace engine
+    let mut trace = Trace::init(
+        10_000, // In-memory snapshot buffer capacity
+        128,    // Bounded channel capacity for control messages
+        "my-app", // Service name for snapshots
+        Some("./tmp/"), // Path to store snapshots
+    );
+
+    // 2. Add a listener to process logs in real-time
+    // The StdoutListener prints formatted logs to the console.
+    trace.add_listener(Arc::new(StdoutListener::new()));
+
+    // 3. Start logging!
+    info!("Application started successfully");
+    let user_id = 12345;
+    let status = "active";
+    info!(user_id = user_id, status = status, "User logged in");
+
+    // 4. Manually shut down the logger (optional, happens on drop)
+    // This ensures all buffered events are processed.
+    trace.shutdown();
+}
+```
+
+The example initializes the engine, adds a stdout listener, and logs two messages. The second includes structured key-value data.

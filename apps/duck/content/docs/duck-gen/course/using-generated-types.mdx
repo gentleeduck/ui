@@ -1,0 +1,173 @@
+---
+title: "Chapter 5: Using Generated Types"
+description: Import generated types in your client code and get full type safety for API calls.
+---
+
+## Importing generated types
+
+After running `duck-gen`, you can import the generated types in any TypeScript file:
+
+```ts
+import type { ApiRoutes, RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
+```
+
+Or from your local output directory:
+
+```ts
+import type { DuckgenApiRoutes } from './generated/duck-gen-api-routes'
+```
+
+The package import (`@gentleduck/gen/nestjs`) is recommended because it works consistently
+across monorepo setups.
+
+## Typing API calls with Axios
+
+The most immediate use case is typing your HTTP calls. Here is how you would call the
+Users API from the previous chapters using plain Axios:
+
+```ts title="client/api/users.ts"
+import type { RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
+import axios from 'axios'
+
+const api = axios.create({ baseURL: 'http://localhost:3000' })
+
+// List users
+async function listUsers(query: RouteReq<'/api/users', 'GET'>['query']) {
+  const { data } = await api.get<RouteRes<'/api/users', 'GET'>>('/api/users', {
+    params: query,
+  })
+  return data
+  // data.data is UserDto[]
+  // data.message is UserMessage
+  // data.success is boolean
+}
+
+// Create user
+async function createUser(body: RouteReq<'/api/users', 'POST'>['body']) {
+  const { data } = await api.post<RouteRes<'/api/users', 'POST'>>('/api/users', body)
+  return data
+}
+
+// Get user by ID
+async function getUser(id: string) {
+  const { data } = await api.get<RouteRes<'/api/users/:id', 'GET'>>(`/api/users/${id}`)
+  return data
+}
+```
+
+<Callout icon={<Lightbulb/>} title="Notice what changed">
+  Instead of writing request and response types by hand, you extract them from the
+  generated route map. If a DTO changes on the server, you re-run `duck-gen` and
+  TypeScript immediately flags any mismatches in your client code.
+</Callout>
+
+## Building a typed API layer
+
+For larger projects, you might want a centralized API layer. Here is a pattern that
+scales well:
+
+```ts title="client/api/index.ts"
+import type { RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
+import axios from 'axios'
+
+const api = axios.create({
+  baseURL: process.env.API_URL || 'http://localhost:3000',
+})
+
+// Generic typed request helper
+async function typedGet<P extends string>(
+  path: P,
+  query?: RouteReq<P, 'GET'>['query'],
+): Promise<RouteRes<P, 'GET'>> {
+  const { data } = await api.get(path, { params: query })
+  return data
+}
+
+async function typedPost<P extends string>(
+  path: P,
+  body: RouteReq<P, 'POST'>['body'],
+): Promise<RouteRes<P, 'POST'>> {
+  const { data } = await api.post(path, body)
+  return data
+}
+
+// Usage
+const users = await typedGet('/api/users', { page: 1, limit: 10 })
+const newUser = await typedPost('/api/users', {
+  name: 'Alice',
+  email: 'alice@example.com',
+  password: 'secure123',
+})
+```
+
+This pattern is exactly what Duck Query automates for you (covered in Chapter 7).
+
+## Type safety in action
+
+Here are examples of errors TypeScript will catch for you:
+
+```ts
+import type { RouteReq } from '@gentleduck/gen/nestjs'
+
+// Error: Property 'username' does not exist. Did you mean 'name'?
+const body: RouteReq<'/api/users', 'POST'>['body'] = {
+  username: 'Alice',  // wrong field name
+  email: 'alice@example.com',
+  password: '123',
+}
+
+// Error: '/api/users' does not have a DELETE method
+type DeleteUsers = RouteRes<'/api/users', 'DELETE'>
+
+// Error: '/api/nonexistent' is not a valid path
+type Bad = RouteRes<'/api/nonexistent', 'GET'>
+```
+
+## Using types in React components
+
+If you are building a React frontend, the generated types integrate naturally:
+
+```tsx title="client/components/UserForm.tsx"
+import type { RouteReq } from '@gentleduck/gen/nestjs'
+import { useState } from 'react'
+
+type CreateUserData = RouteReq<'/api/users', 'POST'>['body']
+
+export function UserForm({ onSubmit }: { onSubmit: (data: CreateUserData) => void }) {
+  const [form, setForm] = useState<CreateUserData>({
+    name: '',
+    email: '',
+    password: '',
+  })
+
+  return (
+    <form onSubmit={(e) => { e.preventDefault(); onSubmit(form) }}>
+      <input
+        value={form.name}
+        onChange={(e) => setForm({ ...form, name: e.target.value })}
+        placeholder="Name"
+      />
+      <input
+        value={form.email}
+        onChange={(e) => setForm({ ...form, email: e.target.value })}
+        placeholder="Email"
+      />
+      <input
+        type="password"
+        value={form.password}
+        onChange={(e) => setForm({ ...form, password: e.target.value })}
+        placeholder="Password"
+      />
+      <button type="submit">Create User</button>
+    </form>
+  )
+}
+```
+
+If `CreateUserDto` on the server gains a new required field like `role`, re-running
+`duck-gen` will cause a TypeScript error in the `useState` initializer because the
+initial object is missing the `role` property.
+
+## Next
+
+[Chapter 6: Message Keys](/docs/course/message-keys)

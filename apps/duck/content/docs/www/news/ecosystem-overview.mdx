@@ -1,0 +1,187 @@
+---
+title: the gentleduck ecosystem
+description: How primitives, variants, hooks, motion, and libs compose into a unified developer tooling stack.
+---
+
+## The Stack
+
+GentleDuck is not a single library. It is an ecosystem of focused packages that solve specific problems independently but follow shared conventions that make them stronger together.
+
+<MermaidDiagram chart={`flowchart TD
+    subgraph Core["Core Layer"]
+        Libs["@gentleduck/libs\ncn, Slot, Portal, utilities"]
+        Variants["@gentleduck/variants\nType-safe class generation"]
+        Hooks["@gentleduck/hooks\nReact hooks collection"]
+    end
+    subgraph Behavior["Behavior Layer"]
+        Primitives["@gentleduck/primitives\nHeadless UI primitives"]
+        Motion["@gentleduck/motion\nAnimation utilities"]
+        Vim["@gentleduck/vim\nKeyboard navigation"]
+    end
+    subgraph UI["UI Layer"]
+        Registry["@gentleduck/registry-ui-duckui\n59+ production components"]
+    end
+    subgraph Tooling["Tooling Layer"]
+        CLI["@gentleduck/cli\nComponent scaffolding"]
+        Gen["@gentleduck/gen\nAPI type generation"]
+        Query["@gentleduck/query\nType-safe HTTP client"]
+    end
+    subgraph Testing["Testing Layer"]
+        Ttest["@gentleduck/ttest\nVisual testing"]
+        Lazy["@gentleduck/lazy\nPerformance utilities"]
+    end
+    Libs --> Primitives
+    Libs --> Variants
+    Hooks --> Primitives
+    Variants --> Registry
+    Primitives --> Registry
+    Motion --> Registry
+    Hooks --> Registry
+    CLI -->|"installs"| Registry
+    Gen --> Query
+    style Core fill:#e8e8ff,stroke:#333
+    style Behavior fill:#ffe8e8,stroke:#333
+    style UI fill:#e8ffe8,stroke:#333
+    style Tooling fill:#fff8e8,stroke:#333
+    style Testing fill:#f0e8ff,stroke:#333`} />
+
+---
+
+## Core Layer
+
+### @gentleduck/libs
+
+The foundation. A collection of tiny, framework-agnostic utilities shared across the entire ecosystem.
+
+- **`cn`** -- Conditional class name merging. The same pattern as `clsx` + `tailwind-merge` but as a single import.
+- **`Slot`** -- Polymorphic component composition. Render a component as any element type with proper ref forwarding.
+- **`Portal`** -- Mount components outside the DOM tree. Used by dialogs, tooltips, and popovers.
+- **`filtered-object`**, **`group-array`**, **`parse-date`** -- Small helpers that avoid pulling in heavy utility libraries.
+
+Every GentleDuck package imports from `@gentleduck/libs` for shared logic. Zero external dependencies.
+
+### @gentleduck/variants
+
+A type-safe class name generator for component styling. Think of it as a faster, smaller alternative to [class-variance-authority](https://cva.style/).
+
+```ts
+import { cva } from '@gentleduck/variants'
+
+const button = cva('inline-flex items-center rounded font-medium', {
+  variants: {
+    size: {
+      sm: 'h-8 px-3 text-xs',
+      md: 'h-9 px-4 text-sm',
+      lg: 'h-10 px-6 text-base',
+    },
+    variant: {
+      primary: 'bg-primary text-primary-foreground',
+      secondary: 'bg-secondary text-secondary-foreground',
+      ghost: 'hover:bg-accent hover:text-accent-foreground',
+    },
+  },
+  defaultVariants: { size: 'md', variant: 'primary' },
+})
+
+button({ size: 'lg', variant: 'ghost' })
+// => "inline-flex items-center rounded font-medium h-10 px-6 text-base hover:bg-accent hover:text-accent-foreground"
+```
+
+Currently benchmarked at **~7x faster** than CVA with full TypeScript inference.
+
+### @gentleduck/hooks
+
+Purpose-built React hooks for real-world problems:
+
+| Hook | Purpose |
+| --- | --- |
+| `use-debounce` | Debounce values for search inputs |
+| `use-composed-refs` | Merge multiple refs into one |
+| `use-media-query` | Responsive queries in code |
+| `use-is-mobile` | Mobile detection |
+| `use-copy-to-clipboard` | Clipboard API |
+| `use-stable-id` | SSR-safe ID generation |
+| `use-on-open-change` | Modal state management |
+
+Each hook is independently importable. No monolithic import required.
+
+---
+
+## Behavior Layer
+
+### @gentleduck/primitives
+
+Unstyled, accessibility-first component primitives. These handle the hard parts -- focus trapping, keyboard navigation, ARIA attributes, click-outside dismissal -- so you bring only your design.
+
+Includes primitives for:
+- **Dialog, Drawer, Sheet** -- Modal and dismissible surfaces
+- **Popover, Tooltip** -- Positioned floating elements (built on Floating UI)
+- **Slider** -- Range input with full keyboard support
+- **Navigation Menu** -- Accessible menu navigation patterns
+
+Every component in the `registry-ui-duckui` package is built on these primitives. If you want to build your own design system, start here.
+
+### @gentleduck/motion
+
+Animation and transition utilities designed to pair with duck-variants. Handles enter/exit animations, mount/unmount transitions, and staggered sequences.
+
+Motion primitives are used by Dialog, Sheet, Drawer, Tooltip, Popover, and Dropdown Menu for their open/close animations.
+
+### @gentleduck/vim
+
+Keyboard navigation engine inspired by vim's modal editing. Powers the command palette, menu navigation, and keyboard-driven interfaces across duck-www.
+
+---
+
+## How They Compose
+
+The power of the ecosystem is in composition. Here is how a single component -- `Button` -- uses the stack:
+
+<MermaidDiagram chart={`flowchart LR
+    A["@gentleduck/libs\ncn() for class merging"] --> D["Button Component"]
+    B["@gentleduck/variants\ncva() for variant styles"] --> D
+    C["@gentleduck/primitives\nSlot for polymorphism"] --> D
+    D --> E["Exported from\nregistry-ui-duckui"]
+    E --> F["Installed via\n@gentleduck/cli"]
+    style D fill:#e8ffe8,stroke:#333
+    style F fill:#fff8e8,stroke:#333`} />
+
+A more complex component like `Command` composes multiple layers:
+
+<MermaidDiagram chart={`flowchart TD
+    Libs["@gentleduck/libs"] --> Command
+    Variants["@gentleduck/variants"] --> Command
+    Primitives["@gentleduck/primitives\nDialog, Popover"] --> Command
+    Hooks["@gentleduck/hooks\nuse-debounce, use-composed-refs"] --> Command
+    Motion["@gentleduck/motion\nEnter/exit animations"] --> Command
+    Vim["@gentleduck/vim\nKeyboard navigation"] --> Command
+    Command["Command Component"]
+    style Command fill:#e8ffe8,stroke:#333`} />
+
+Each layer is independently useful, but the composition patterns are where the ecosystem creates the most value.
+
+---
+
+## Adopting Incrementally
+
+You do not need to adopt everything. Each package is published independently on npm:
+
+```bash
+# Just need class name generation?
+bun add @gentleduck/variants
+
+# Just need hooks?
+bun add @gentleduck/hooks
+
+# Want headless primitives?
+bun add @gentleduck/primitives
+
+# Want the full component library?
+bunx @gentleduck/cli init button dialog input
+```
+
+Start with what solves your biggest pain point. Expand as your needs grow.
+
+<Callout title="Shared conventions, independent packages">
+  Every package follows the same patterns: TypeScript-first, tree-shakeable, zero or minimal dependencies, independently versioned. You control what you adopt.
+</Callout>

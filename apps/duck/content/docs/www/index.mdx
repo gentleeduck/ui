@@ -1,0 +1,133 @@
+---
+title: GentleDuck
+description: Production-grade developer tooling. UI components, compiler extensions, CLI automation, and systems utilities — all designed to work together.
+---
+
+GentleDuck is an open source organization building production-grade developer tooling. We reduce friction across the entire development lifecycle — from UI and interaction design to documentation, automation, testing, and systems performance.
+
+---
+
+## Explore the Ecosystem
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-6">
+  <LinkedCard href="https://ui.gentleduck.org" className="group overflow-hidden border border-border/60 bg-card/60 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:p-0">
+    <Image
+      src="/og/ui-home-67.png"
+      alt="Duck UI"
+      width="1000"
+      height="500"
+      className="h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015]"
+    />
+    <div className="flex flex-col p-4">
+      <h4 className="font-semibold">@gentleduck/ui</h4>
+      <p className="mt-1 text-muted-foreground text-sm">59+ production-ready components with copy-source philosophy. Own your code, not your dependencies.</p>
+    </div>
+  </LinkedCard>
+  <LinkedCard href="https://gen.gentleduck.org" className="group overflow-hidden border border-border/60 bg-card/60 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:p-0">
+    <Image
+      src="/og/gen-home-67.png"
+      alt="Duck Gen"
+      width="1000"
+      height="500"
+      className="h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015]"
+    />
+    <div className="flex flex-col p-4">
+      <h4 className="font-semibold">@gentleduck/gen</h4>
+      <p className="mt-1 text-muted-foreground text-sm">Compiler extension for type-safe API routes. Scan your server, emit .d.ts, get typed requests.</p>
+    </div>
+  </LinkedCard>
+  <LinkedCard href="/docs/news/ecosystem-overview" className="group overflow-hidden border border-border/60 bg-card/60 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:p-0">
+    <Image
+      src="/og/ui-blocks-67.png"
+      alt="Ecosystem"
+      width="1000"
+      height="500"
+      className="h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015]"
+    />
+    <div className="flex flex-col p-4">
+      <h4 className="font-semibold">Ecosystem Architecture</h4>
+      <p className="mt-1 text-muted-foreground text-sm">See how primitives, variants, hooks, motion, and libs compose into a unified stack.</p>
+    </div>
+  </LinkedCard>
+</div>
+
+---
+
+## Packages at a Glance
+
+### Core Layer
+
+| Package | Description | |
+| --- | --- | --- |
+| **@gentleduck/libs** | `cn`, `Slot`, `Portal`, and shared utilities — zero external dependencies | [Docs](https://ui.gentleduck.org/docs/packages/duck-libs) |
+| **@gentleduck/variants** | Type-safe class generation, ~7x faster than CVA | [Docs](https://ui.gentleduck.org/docs/packages/duck-variants) |
+| **@gentleduck/hooks** | Purpose-built React hooks for real-world UI workflows | [Docs](https://ui.gentleduck.org/docs/packages/duck-hooks) |
+
+### Behavior Layer
+
+| Package | Description | |
+| --- | --- | --- |
+| **@gentleduck/primitives** | Headless, accessibility-first UI primitives | [Docs](https://ui.gentleduck.org/docs/packages/duck-primitives) |
+| **@gentleduck/motion** | Enter/exit animations and mount/unmount transitions | [Docs](https://ui.gentleduck.org/docs/packages/duck-motion) |
+| **@gentleduck/vim** | Framework-agnostic vim-style keyboard navigation | [Docs](https://ui.gentleduck.org/docs/packages/duck-vim) |
+
+### UI Layer
+
+| Package | Description | |
+| --- | --- | --- |
+| **@gentleduck/ui** | 59+ production components — forms, navigation, overlays, data display | [Docs](https://ui.gentleduck.org) |
+| **@gentleduck/cli** | CLI for installing and scaffolding UI components | [Docs](https://ui.gentleduck.org/docs/packages/duck-cli) |
+
+### Tooling Layer
+
+| Package | Description | |
+| --- | --- | --- |
+| **@gentleduck/gen** | Compiler extension — scans NestJS controllers, emits typed route maps | [Docs](https://gen.gentleduck.org) |
+| **@gentleduck/query** | Type-safe HTTP client powered by generated route types | [Docs](https://gen.gentleduck.org/docs/duck-query) |
+
+### Testing & Performance
+
+| Package | Description | |
+| --- | --- | --- |
+| **@gentleduck/ttest** | Zero-runtime TypeScript type testing | [npm](https://www.npmjs.com/package/@gentleduck/ttest) |
+| **@gentleduck/lazy** | Lazy-loading and performance utilities | [Docs](https://ui.gentleduck.org/docs/packages/duck-lazy) |
+| **@gentleduck/template** | Rust-powered project scaffolding | [GitHub](https://github.com/gentleeduck/duck-template) |
+
+---
+
+## Why GentleDuck
+
+Modern teams ship fast, but tooling often fragments as systems grow. GentleDuck creates tools that work well together, share conventions, and stay reliable in real production environments.
+
+- **Clarity over complexity** — Simple, predictable APIs backed by clear documentation and strong conventions.
+- **Consistency at scale** — Shared UI foundations, registries, templates, and tooling that keep teams aligned.
+- **Performance you can trust** — Production-ready tooling designed for real workloads.
+- **Composable tools** — Each library stands on its own, but follows shared patterns that make the ecosystem stronger when used together.
+
+---
+
+## Quick Start
+
+```bash
+# Install the UI component library
+bunx @gentleduck/cli init button dialog input select
+
+# Use individual packages
+bun add @gentleduck/variants    # Type-safe class generation
+bun add @gentleduck/primitives  # Headless UI primitives
+bun add @gentleduck/hooks       # React hooks
+
+# Type-safe API tooling
+bun add -d @gentleduck/gen      # Compiler extension (dev)
+bun add @gentleduck/query       # HTTP client (runtime)
+```
+
+<Callout title="Incremental adoption">
+  Every package is published independently on npm. Start with what solves your biggest pain point, then expand as your needs grow. No lock-in, no all-or-nothing.
+</Callout>
+
+---
+
+## Stay Updated
+
+Check out [What's New](/docs/news) for the latest releases, or follow the project on [GitHub](https://github.com/gentleeduck) and [X / Twitter](https://x.com/wild_ducka).

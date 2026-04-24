@@ -1,0 +1,212 @@
+---
+title: "Chapter 8: Real World Patterns"
+description: Production patterns for error handling, interceptors, CI/CD integration, and team workflows.
+---
+
+## Error handling
+
+Duck Query returns Axios responses, so you can catch errors the same way you would with
+plain Axios:
+
+```ts
+import { AxiosError } from 'axios'
+import { api } from './client'
+
+async function createUser(body: { name: string; email: string; password: string }) {
+  try {
+    const result = await api.post('/api/users', { body })
+    return { success: true, data: result }
+  } catch (error) {
+    if (error instanceof AxiosError) {
+      // error.response?.data contains the server error response
+      // error.response?.status contains the HTTP status code
+      return { success: false, error: error.response?.data }
+    }
+    throw error
+  }
+}
+```
+
+### Typed error responses
+
+If your server uses consistent error shapes, you can type them:
+
+```ts title="client/api/errors.ts"
+interface ApiError {
+  message: string
+  statusCode: number
+  errors?: Record<string, string[]>
+}
+
+function isApiError(data: unknown): data is ApiError {
+  return typeof data === 'object' && data !== null && 'statusCode' in data
+}
+```
+
+## Request interceptors
+
+Duck Query exposes the underlying Axios instance, so you can add interceptors for
+authentication, logging, or retry logic:
+
+```ts title="client/api/client.ts"
+import { createDuckQuery } from '@gentleduck/duck-query'
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
+
+export const api = createDuckQuery<ApiRoutes>({
+  baseURL: 'http://localhost:3000',
+})
+
+// Add auth token to every request
+api.axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('auth_token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
+
+// Handle 401 responses globally
+api.axios.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 401) {
+      localStorage.removeItem('auth_token')
+      window.location.href = '/login'
+    }
+    return Promise.reject(error)
+  },
+)
+```
+
+## CI/CD integration
+
+Duck Gen should run as part of your build pipeline to ensure types are always up to date.
+
+### GitHub Actions example
+
+```yaml title=".github/workflows/type-check.yml"
+name: Type Check
+on: [push, pull_request]
+
+jobs:
+  type-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+
+      - name: Install dependencies
+        run: bun install
+
+      - name: Generate types
+        run: bun run generate
+
+      - name: Type check
+        run: bun run tsc --noEmit
+```
+
+This pipeline:
+
+1. Installs dependencies (including `@gentleduck/gen`).
+2. Runs `duck-gen` to generate fresh types from the current server code.
+3. Runs TypeScript's type checker. If any client code uses outdated types, the pipeline fails.
+
+### Pre-commit hook
+
+You can also run Duck Gen before every commit to keep types in sync:
+
+```json title="package.json"
+{
+  "scripts": {
+    "precommit": "bun run generate && git add generated/"
+  }
+}
+```
+
+## Team workflow
+
+Here is a recommended workflow for teams using Duck Gen:
+
+1. **Server developer** changes a DTO or adds a new route.
+2. **Server developer** runs `bun run generate` locally.
+3. **Server developer** commits both the source changes and the regenerated types.
+4. **Client developer** pulls the latest changes. TypeScript immediately shows any
+   breaking type changes in their client code.
+5. **CI pipeline** runs `duck-gen` + `tsc` to verify everything is in sync.
+
+<Callout icon={<Lightbulb/>} title="Commit generated files or not?">
+  Both approaches work. If you commit generated files, client developers see type changes
+  immediately on pull. If you do not commit them, each developer and CI must run `duck-gen`
+  after installing dependencies. Most teams prefer committing the generated files for
+  faster feedback.
+</Callout>
+
+## Monorepo setup
+
+In a monorepo where the server and client are separate packages, Duck Gen works across
+package boundaries:
+
+```text
+packages/
+  server/
+    src/
+    duck-gen.json
+    package.json
+  client/
+    src/
+    package.json
+  generated/        # shared output directory
+    duck-gen-api-routes.d.ts
+    duck-gen-messages.d.ts
+```
+
+Set `outputSource` in `duck-gen.json` to point to a shared directory:
+
+```json
+{
+  "extensions": {
+    "shared": {
+      "outputSource": "../generated"
+    }
+  }
+}
+```
+
+The client package can then import from the shared directory or from `@gentleduck/gen/nestjs`.
+
+## Watch mode
+
+During active development, use watch mode to regenerate types whenever your server code
+changes:
+
+```bash
+bun run generate:watch
+```
+
+This is especially useful when a server developer and a client developer are working on
+the same feature simultaneously.
+
+## What you have learned
+
+Over these eight chapters, you have:
+
+1. Understood why the type safety gap between server and client exists.
+2. Set up a NestJS project with Duck Gen configured.
+3. Built controllers with typed DTOs and decorators.
+4. Generated route types and explored the output files.
+5. Imported and used generated types for type-safe API calls.
+6. Added i18n message registries with `@duckgen` tags.
+7. Set up Duck Query for a fully typed HTTP client.
+8. Learned production patterns for error handling, CI/CD, and team workflows.
+
+## Where to go next
+
+| Resource | What it covers |
+| --- | --- |
+| [Configuration reference](/docs/duck-gen/configuration) | Every `duck-gen.json` option explained in detail. |
+| [API Routes reference](/docs/duck-gen/api-routes) | Advanced scanning rules, edge cases, and all supported decorators. |
+| [Messages reference](/docs/duck-gen/messages) | Advanced message patterns, multiple groups, and troubleshooting. |
+| [Generated Types reference](/docs/duck-gen/generated-types) | Every exported type with full documentation. |
+| [Duck Query reference](/docs/duck-query) | Complete Duck Query API reference. |
+| [Advanced patterns](/docs/duck-query/advanced) | Custom Axios instances, SSR, retry logic, and more. |
+| [Templates](/docs/templates) | Complete working example with auth flow. |

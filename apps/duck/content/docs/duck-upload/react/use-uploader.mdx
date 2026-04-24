@@ -1,0 +1,55 @@
+---
+title: useUploader
+description: React hook for accessing upload state and dispatching commands.
+---
+
+`useUploader()` subscribes to the store and returns a structured view of upload items along with dispatch and event helpers.
+
+## Return Shape
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `items` | `UploadItem[]` | Array of all upload items |
+| `byPhase` | `Record<Phase, UploadItem[]>` | Items grouped by their current phase |
+| `dispatch` | `(command: UploadCommand) => void` | Send commands to the store |
+| `on` / `off` | Event helpers | Subscribe to and unsubscribe from upload events |
+| `uploading` | `UploadItem[]` | Convenience: items currently uploading |
+| `paused` | `UploadItem[]` | Convenience: paused items |
+| `completed` | `UploadItem[]` | Convenience: completed items |
+| `failed` | `UploadItem[]` | Convenience: failed items |
+| `ready` | `UploadItem[]` | Convenience: items ready to start |
+
+## Example
+
+```tsx
+const { items, dispatch, on } = useUploader()
+
+React.useEffect(() => {
+  return on('upload.completed', ({ localId, result }) => {
+    console.log(localId, result)
+  })
+}, [on])
+```
+
+## Dispatching Commands
+
+```tsx
+// Add files
+dispatch({ type: 'addFiles', files: selectedFiles, purpose: 'avatar' })
+
+// Start a specific upload
+dispatch({ type: 'start', localId: item.localId })
+
+// Pause an upload
+dispatch({ type: 'pause', localId: item.localId })
+
+// Resume a paused upload
+dispatch({ type: 'resume', localId: item.localId })
+
+// Cancel an upload
+dispatch({ type: 'cancel', localId: item.localId })
+```
+
+## Tip
+
+If you need direct access to the store (e.g., `getSnapshot` or `waitFor`), use `useUploaderActions()` instead.

@@ -1,0 +1,41 @@
+---
+title: UploadProvider
+description: React context provider for sharing the upload store across components.
+---
+
+`UploadProvider` exposes the upload store via React context, making it available to all descendant components.
+
+## Why It Exists
+
+- Keeps components clean by avoiding prop drilling
+- Centralizes store access across the component tree
+- Enforces a consistent store instance per React tree
+
+## Usage
+
+```tsx
+import { UploadProvider } from '@gentleduck/upload/react'
+
+export function App() {
+  return (
+    <UploadProvider store={store}>
+      <Routes />
+    </UploadProvider>
+  )
+}
+```
+
+The provider uses runtime guards to ensure the store instance is valid.
+
+## Props
+
+| Prop | Type | Description |
+| --- | --- | --- |
+| `store` | `UploadStore` | The upload store instance created by `createUploadStore` or `createUploadClient` |
+| `children` | `ReactNode` | Child components that can access the store via hooks |
+
+## Notes
+
+- Only one `UploadProvider` is needed per React tree.
+- The store instance should be created outside of the component render cycle to avoid re-creation on every render.
+- All `useUploader` and `useUploaderActions` hooks must be used within a descendant of `UploadProvider`.

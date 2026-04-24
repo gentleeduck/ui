@@ -1,0 +1,676 @@
+---
+title: client libraries
+description: Client-side access control for React, Vue, and vanilla JavaScript with server-driven permission hydration.
+---
+
+## Overview
+
+duck-iam provides client libraries for checking permissions in the browser. The recommended
+pattern is server-driven: generate a `PermissionMap` on the server, send it to the client,
+and use it for all UI decisions.
+
+<MermaidDiagram chart={`flowchart LR
+    subgraph Server["Server Side"]
+        direction TB
+        AUTH["Authenticate user"]
+        AUTH --> PERMS["engine.permissions(userId, checks)"]
+        PERMS --> MAP["PermissionMap:\n'create:post': true\n'delete:post': false\n'manage:team': false"]
+    end
+
+    MAP --> SEND["Send to client\n(props / API / SSR)"]
+
+    subgraph Client["Client Side"]
+        direction TB
+        HYDRATE["Hydrate Provider / Plugin / Client"]
+        HYDRATE --> CAN["can('create', 'post') -- true"]
+        HYDRATE --> CANNOT["cannot('manage', 'team') -- true"]
+        HYDRATE --> COMP["Can / Cannot components"]
+    end
+
+    SEND --> HYDRATE`} />
+
+Every client library supports the same core operations:
+
+- `can(action, resource, resourceId?, scope?)`: returns `true` if the permission is granted
+- `cannot(action, resource, resourceId?, scope?)`: returns `true` if the permission is denied
+
+Client-side checks are synchronous lookups against the pre-computed permission map. No network requests happen during these checks.
+
+### The PermissionMap
+
+A `PermissionMap` is a flat object where keys encode the permission and values are booleans.
+Keys follow one of four formats depending on which fields are present:
+
+```typescript
+{
+  // Format: "action:resource"
+  "create:post": true,
+  "delete:post": true,
+  "manage:team": false,
+
+  // Format: "action:resource:resourceId"
+  "delete:post:abc123": false,
+
+  // Format: "scope:action:resource"
+  "org-1:manage:billing": true,
+
+  // Format: "scope:action:resource:resourceId"
+  "org-1:update:post:post-42": true,
+}
+```
+
+Generate it on the server using `engine.permissions()` or the `getPermissions` helper from `@gentleduck/iam/server/next`. When a key is not found in the map, all client libraries return `false` (deny by default).
+
+### Permission keys and buildPermissionKey
+
+All client integrations use the same internal key builder:
+
+```typescript
+import { buildPermissionKey } from '@gentleduck/iam'
+
+buildPermissionKey('delete', 'post')
+// "delete:post"
+
+buildPermissionKey('update', 'post', 'post-42', 'org-1')
+// "org-1:update:post:post-42"
+```
+
+You rarely need to call `buildPermissionKey()` directly. The React, Vue, and vanilla clients call it internally. It is useful when generating or inspecting `PermissionMap` objects in tests, server endpoints, or custom client helpers.
+
+---
+
+## React
+
+```
+import { createAccessControl, createPermissionChecker } from '@gentleduck/iam/client/react'
+```
+
+### Setup
+
+Create the access control system once at app initialization. Pass your React import to avoid a hard dependency.
+
+```typescript
+// lib/access.tsx
+import React from 'react'
+import { createAccessControl } from '@gentleduck/iam/client/react'
+
+export const {
+  AccessProvider,
+  useAccess,
+  usePermissions,
+  Can,
+  Cannot,
+} = createAccessControl(React)
+```
+
+### AccessProvider
+
+Wrap your app (or a subtree) with the provider. Pass the permission map generated on the server.
+
+```tsx
+// app/layout.tsx (Next.js example)
+import { AccessProvider } from '@/lib/access'
+import { getPermissions } from '@gentleduck/iam/server/next'
+
+export default async function RootLayout({ children }) {
+  const session = await auth()
+  const permissions = session?.user
+    ? await getPermissions(engine, session.user.id, [
+        { action: 'create', resource: 'post' },
+        { action: 'delete', resource: 'post' },
+        { action: 'manage', resource: 'team' },
+        { action: 'read', resource: 'analytics' },
+      ])
+    : {}
+
+  return (
+    <AccessProvider permissions={permissions}>
+      {children}
+    </AccessProvider>
+  )
+}
+```
+
+### useAccess hook
+
+Read permissions from context in any component.
+
+```tsx
+import { useAccess } from '@/lib/access'
+
+function PostActions({ postId }: { postId: string }) {
+  const { can, cannot } = useAccess()
+
+  return (
+    <div>
+      {can('update', 'post') && <button>Edit</button>}
+      {can('delete', 'post') && <button>Delete</button>}
+      {cannot('manage', 'team') && <span>Contact an admin to manage teams</span>}
+    </div>
+  )
+}
+```
+
+The hook returns:
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `permissions` | `PermissionMap` | The raw permission map |
+| `can` | `(action, resource, resourceId?, scope?) -> boolean` | Check if a permission is granted |
+| `cannot` | `(action, resource, resourceId?, scope?) -> boolean` | Check if a permission is denied |
+
+### Can and Cannot components
+
+Declarative permission gates for JSX.
+
+```tsx
+import { Can, Cannot } from '@/lib/access'
+
+function Dashboard() {
+  return (
+    <div>
+      <Can action="read" resource="analytics">
+        <AnalyticsPanel />
+      </Can>
+
+      <Can action="manage" resource="team" fallback={<UpgradePrompt />}>
+        <TeamSettings />
+      </Can>
+
+      <Cannot action="create" resource="post">
+        <p>You do not have permission to create posts.</p>
+      </Cannot>
+    </div>
+  )
+}
+```
+
+`Can` props:
+
+| Prop | Type | Required | Description |
+| --- | --- | --- | --- |
+| `action` | `string` | yes | The action to check |
+| `resource` | `string` | yes | The resource type to check |
+| `resourceId` | `string` | no | Specific resource instance |
+| `scope` | `string` | no | Scope for the check |
+| `children` | `ReactNode` | yes | Rendered when allowed |
+| `fallback` | `ReactNode` | no | Rendered when denied (defaults to null) |
+
+`Cannot` has the same props except `fallback`. It renders `children` when the permission is denied.
+
+### usePermissions hook
+
+Fetch permissions from a server endpoint on the client side. Useful for SPAs without server-side rendering.
+
+```tsx
+import { usePermissions } from '@/lib/access'
+
+function App() {
+  const { can, loading, error } = usePermissions(
+    () => fetch('/api/me/permissions').then(r => r.json()),
+    [] // dependency array, like useEffect
+  )
+
+  if (loading) return <Spinner />
+  if (error) return <ErrorMessage error={error} />
+
+  return (
+    <div>
+      {can('create', 'post') && <NewPostButton />}
+    </div>
+  )
+}
+```
+
+The hook returns:
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `permissions` | `PermissionMap` | The fetched permission map |
+| `can` | `(action, resource, resourceId?, scope?) -> boolean` | Permission checker |
+| `loading` | `boolean` | True while the fetch is in progress |
+| `error` | `Error or null` | Error from the fetch, if any |
+
+The hook handles race conditions internally: if the component unmounts or the dependency
+array changes before the fetch completes, stale results are discarded.
+
+### Standalone checker
+
+For code outside React components (utilities, event handlers, tests), use `createPermissionChecker`. It takes a `PermissionMap` and returns a checker object with `can`, `cannot`, and the raw `permissions`.
+
+```typescript
+import { createPermissionChecker } from '@gentleduck/iam/client/react'
+
+const checker = createPermissionChecker(permissionMap)
+checker.can('delete', 'post')         // boolean
+checker.cannot('manage', 'team')      // boolean
+checker.permissions                    // the original PermissionMap
+```
+
+---
+
+## Vue
+
+```
+import { createVueAccess, ACCESS_INJECTION_KEY } from '@gentleduck/iam/client/vue'
+```
+
+### Setup
+
+Create the Vue access control system by passing Vue's reactive utilities. This avoids a hard Vue version dependency.
+
+```typescript
+// lib/access.ts
+import { ref, computed, inject, provide, defineComponent, h } from 'vue'
+import { createVueAccess } from '@gentleduck/iam/client/vue'
+
+export const {
+  useAccess,
+  provideAccess,
+  createAccessPlugin,
+  Can,
+  Cannot,
+} = createVueAccess({ ref, computed, inject, provide, defineComponent, h })
+```
+
+### Plugin installation
+
+Install the plugin in your Vue app to make permissions available to all components.
+
+```typescript
+// main.ts
+import { createApp } from 'vue'
+import { createAccessPlugin } from '@/lib/access'
+import App from './App.vue'
+
+const app = createApp(App)
+
+// permissions is a PermissionMap from your server
+app.use(createAccessPlugin(permissions))
+
+app.mount('#app')
+```
+
+The plugin also registers `$can` and `$cannot` as global properties for direct template use:
+
+```html
+<button v-if="$can('delete', 'post')">Delete</button>
+```
+
+### Composable
+
+Use `useAccess` in any component within the provider tree.
+
+```vue
+<script setup lang="ts">
+import { useAccess } from '@/lib/access'
+
+const { can, cannot, permissions, update } = useAccess()
+</script>
+
+<template>
+  <div>
+    <button v-if="can('update', 'post')">Edit</button>
+    <button v-if="can('delete', 'post')">Delete</button>
+    <p v-if="cannot('manage', 'team')">Contact an admin to manage teams.</p>
+  </div>
+</template>
+```
+
+The composable returns:
+
+| Property | Type | Description |
+| --- | --- | --- |
+| `permissions` | `Ref<PermissionMap>` | Reactive permission map |
+| `can` | `(action, resource, resourceId?, scope?) -> boolean` | Check if allowed |
+| `cannot` | `(action, resource, resourceId?, scope?) -> boolean` | Check if denied |
+| `update` | `(newPerms) -> void` | Replace the permission map (triggers reactivity) |
+
+### Can and Cannot components
+
+Declarative permission gates using slots.
+
+```vue
+<template>
+  <Can action="delete" resource="post">
+    <button>Delete Post</button>
+  </Can>
+
+  <Can action="read" resource="analytics">
+    <template #default>
+      <AnalyticsPanel />
+    </template>
+    <template #fallback>
+      <p>Upgrade to Pro to access analytics.</p>
+    </template>
+  </Can>
+
+  <Cannot action="create" resource="post">
+    <p>You do not have permission to create posts.</p>
+  </Cannot>
+</template>
+```
+
+`Can` renders the default slot when allowed, or the `fallback` slot when denied. `Cannot` renders its default slot when denied.
+
+### Manual provide/inject
+
+If you prefer not to use the plugin, call `provideAccess` in a parent component. Useful in
+SSR setups where you hydrate permissions per-request instead of at app startup.
+
+```vue
+<script setup lang="ts">
+import { provideAccess } from '@/lib/access'
+
+// permissions is a PermissionMap from your server
+const state = provideAccess(permissions)
+// state has the same shape as useAccess(): { permissions, can, cannot, update }
+</script>
+```
+
+Child components can then call `useAccess()` as usual.
+
+### createAccessState (low-level)
+
+For full control without provide/inject, use `createAccessState` directly. It returns a reactive state object without registering it in the injection system.
+
+```typescript
+import { createAccessState } from '@/lib/access'
+
+const state = createAccessState(permissionsFromServer)
+state.can('delete', 'post')      // boolean
+state.permissions.value            // reactive Ref<PermissionMap>
+state.update(newPermissions)       // replaces and triggers reactivity
+```
+
+This is returned from `createVueAccess()` alongside the other exports.
+
+---
+
+## Vanilla (framework-agnostic)
+
+```
+import { AccessClient } from '@gentleduck/iam/client/vanilla'
+```
+
+### Basic usage
+
+Create an `AccessClient` from a permission map.
+
+```typescript
+import { AccessClient } from '@gentleduck/iam/client/vanilla'
+
+const access = new AccessClient(permissionsFromServer)
+
+access.can('delete', 'post')                     // true
+access.cannot('manage', 'billing')                // true
+access.can('manage', 'user', undefined, 'admin')  // scoped check
+```
+
+### Fetch from server
+
+`fromServer` sends a GET request, parses the JSON response as a `PermissionMap`, and returns a new `AccessClient`. It throws if the response is not OK (non-2xx status).
+
+```typescript
+const access = await AccessClient.fromServer('/api/me/permissions', {
+  headers: { Authorization: 'Bearer ' + token },
+})
+
+access.can('delete', 'post') // boolean
+```
+
+The second argument is a standard `RequestInit`. A `Content-Type: application/json` header is added automatically.
+
+### Allowed actions
+
+`allowedActions` scans the permission map and returns a deduplicated array of action strings where the value is `true`. `hasAnyOn` short-circuits and returns as soon as it finds any allowed permission.
+
+```typescript
+access.allowedActions('post')  // ['read', 'create', 'update']
+access.hasAnyOn('billing')     // false
+access.hasAnyOn('post')        // true
+```
+
+Both methods handle all four key formats. For a 3-part key like `"org-1:read:post"`, the
+method correctly identifies `"post"` as the resource and `"read"` as the action.
+
+These helpers suit UI summarization: navigation menus, toolbar groups, or coarse "does
+this user have anything on posts?" checks. They scan the existing `PermissionMap` and do
+not replace server-side permission evaluation.
+
+### Reactive updates
+
+Subscribe to permission changes to trigger re-renders in any framework.
+
+```typescript
+const unsubscribe = access.subscribe((newPermissions) => {
+  // Re-render your UI with the new permissions
+  rerender()
+})
+
+// Update permissions (e.g. after role change)
+access.update(newPermissionsFromServer)
+
+// Merge new permissions into existing ones
+access.merge({ 'manage:team': true })
+
+// Clean up
+unsubscribe()
+```
+
+### Integration with other frameworks
+
+The vanilla client works as a foundation for any framework.
+
+**Svelte:**
+
+```typescript
+// stores/access.ts
+import { writable, derived } from 'svelte/store'
+import { AccessClient } from '@gentleduck/iam/client/vanilla'
+
+const client = new AccessClient(initialPermissions)
+const permissions = writable(client.permissions)
+
+client.subscribe((perms) => permissions.set(perms))
+
+export const can = (action: string, resource: string) =>
+  derived(permissions, () => client.can(action, resource))
+```
+
+**Solid:**
+
+```typescript
+import { createSignal } from 'solid-js'
+import { AccessClient } from '@gentleduck/iam/client/vanilla'
+
+const client = new AccessClient(initialPermissions)
+const [permissions, setPermissions] = createSignal(client.permissions)
+
+client.subscribe(setPermissions)
+
+export const can = (action: string, resource: string) =>
+  () => client.can(action, resource)
+```
+
+### AccessClient API reference
+
+| Method / Property | Type | Description |
+| --- | --- | --- |
+| `constructor(perms?)` | `new (PermissionMap?) -> AccessClient` | Create from a permission map |
+| `AccessClient.fromServer(url, init?)` | `static async -> AccessClient` | Fetch permissions from an endpoint |
+| `can(action, resource, resourceId?, scope?)` | `-> boolean` | Check if allowed |
+| `cannot(action, resource, resourceId?, scope?)` | `-> boolean` | Check if denied |
+| `allowedActions(resource)` | `-> string[]` | List all allowed actions for a resource |
+| `hasAnyOn(resource)` | `-> boolean` | Check if any permission exists on a resource |
+| `permissions` | `Readonly<PermissionMap>` | Current permission map (read-only) |
+| `update(perms)` | `-> void` | Replace permissions and notify listeners |
+| `merge(perms)` | `-> void` | Merge new permissions into existing and notify |
+| `subscribe(fn)` | `-> () -> void` | Listen for changes, returns unsubscribe function |
+
+---
+
+## Server-driven pattern
+
+Recommended architecture:
+
+<MermaidDiagram chart={`sequenceDiagram
+    participant S as Server
+    participant C as Client
+
+    S->>S: 1. Authenticate user
+    S->>S: 2. engine.permissions(userId, checks)
+    S->>C: 3. Return PermissionMap
+    C->>C: 4. Hydrate AccessProvider / plugin / AccessClient
+    C->>C: 5. can("delete", "post") -- instant boolean lookup
+    C->>C: 6. <Can action="manage" resource="team"> -- render gate`} />
+
+- **Security**: Permission logic runs on the server where policies and roles are stored. The client only sees the final boolean results.
+- **Performance**: Client-side checks are instant object lookups. No async operations, no network requests, no engine evaluation.
+- **Consistency**: The server is the single source of truth. The client reflects exactly what the server decided.
+- **Simplicity**: The client libraries are thin wrappers around a flat object.
+
+### Refreshing permissions
+
+When a user's role changes (promoted, joined an org, feature flag flips), fetch a new permission map from the server and update the client.
+
+**React:**
+
+```tsx
+// Re-render the server component (Next.js router.refresh())
+// or use usePermissions with a refetch trigger
+```
+
+**Vue:**
+
+```typescript
+const { update } = useAccess()
+const newPerms = await fetch('/api/me/permissions').then(r => r.json())
+update(newPerms)
+```
+
+**Vanilla:**
+
+```typescript
+const newPerms = await fetch('/api/me/permissions').then(r => r.json())
+access.update(newPerms) // subscribers are notified automatically
+```
+
+---
+
+## Client Integration FAQ
+
+<Accordion type="multiple" collapsible className="w-full">
+  <AccordionItem value="clients-not-engine">
+    <AccordionTrigger>Do the React, Vue, and vanilla clients evaluate roles and policies themselves?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Not by default. The client integrations are built around a <code className="rounded bg-muted px-2 py-1">PermissionMap</code>
+      and fast boolean lookups. The engine still belongs on the server unless you intentionally embed it in a trusted client runtime.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="why-server-permission-map">
+    <AccordionTrigger>Why should I generate a permission map on the server instead of checking in every component?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Server-generated permission maps keep policies and role data on the server, avoid repeated evaluation in the UI,
+      produce deterministic hydration, and reduce the client-side integration to cheap object lookups.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="react-control-vs-checker">
+    <AccordionTrigger>When should I use createAccessControl() versus createPermissionChecker() in React?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Use <code className="rounded bg-muted px-2 py-1">createAccessControl()</code> when you want provider-based access,
+      hooks, and declarative <code className="rounded bg-muted px-2 py-1">Can</code>/<code className="rounded bg-muted px-2 py-1">Cannot</code> gates.
+      Use <code className="rounded bg-muted px-2 py-1">createPermissionChecker()</code> for isolated checks without React context.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="react-usepermissions-limits">
+    <AccordionTrigger>What does React usePermissions() do, and what does it not do?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      It asynchronously loads a permission map and exposes <code className="rounded bg-muted px-2 py-1">loading</code> and
+      <code className="rounded bg-muted px-2 py-1">error</code> state. It does not run the engine for you, and it does not abort
+      in-flight requests; it only ignores late results after unmount.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="vue-useaccess-throws">
+    <AccordionTrigger>Why does Vue useAccess() throw instead of returning an empty state?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The Vue integration assumes permission state must be provided explicitly. Throwing early catches missing
+      provider or plugin setup immediately instead of silently rendering a locked-down UI.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="vue-plugin-installs">
+    <AccordionTrigger>What does the Vue plugin install globally?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      It provides the reactive access state through dependency injection and also exposes
+      <code className="rounded bg-muted px-2 py-1">$can</code> and <code className="rounded bg-muted px-2 py-1">$cannot</code>
+      on <code className="rounded bg-muted px-2 py-1">app.config.globalProperties</code>.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="vanilla-client-when">
+    <AccordionTrigger>When should I use the vanilla AccessClient?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Use it in non-React or non-Vue frontends, Web Components, small islands, or anywhere you want a subscribable
+      permission store with <code className="rounded bg-muted px-2 py-1">update()</code>,
+      <code className="rounded bg-muted px-2 py-1">merge()</code>, <code className="rounded bg-muted px-2 py-1">allowedActions()</code>,
+      and <code className="rounded bg-muted px-2 py-1">hasAnyOn()</code>.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="attribute-sensitive-client-limit">
+    <AccordionTrigger>Can a client-side PermissionMap answer live attribute-sensitive questions?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Not in the general case. A permission map is a flattened result for a known set of checks. If the answer depends on
+      fresh resource attributes or server-side context, the evaluation still belongs on the server or in a trusted engine runtime.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="resourceid-and-scope">
+    <AccordionTrigger>When should I include resourceId or scope in a client-side check?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Include them whenever the server generated a resource-specific or scope-specific permission. If your map contains
+      keys like <code className="rounded bg-muted px-2 py-1">org-1:update:post:post-42</code>, the client must call
+      <code className="rounded bg-muted px-2 py-1">can('update', 'post', 'post-42', 'org-1')</code> to hit the same key.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="missing-key-deny">
+    <AccordionTrigger>What happens when the permission map is stale or missing a key?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The clients fail closed and return <code className="rounded bg-muted px-2 py-1">false</code>. That is the right
+      default for rendering gates, but it also means you should refresh the permission map after role, scope, or feature
+      changes that affect the visible UI.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="allowedactions-granularity">
+    <AccordionTrigger>Are allowedActions() and hasAnyOn() safe for record-level decisions?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Not by themselves. They summarize the keys already present in the map for a resource type, which is useful for
+      broad UI decisions. Record ownership, fresh attributes, and server-only context still belong in server evaluation.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="manual-key-building">
+    <AccordionTrigger>Should I build PermissionMap keys manually?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Prefer <code className="rounded bg-muted px-2 py-1">buildPermissionKey()</code> if you need to compose keys
+      outside the shipped clients. It keeps your custom code aligned with the exact key order used by
+      <code className="rounded bg-muted px-2 py-1">engine.permissions()</code>, the Next helper, and the vanilla client.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="missing-scope-or-id">
+    <AccordionTrigger>What happens if I forget the scope or resourceId when the map only contains a scoped or instance key?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The lookup misses and returns <code className="rounded bg-muted px-2 py-1">false</code>. The client does not try to
+      "best guess" a broader permission from a narrower key, so the shape of your
+      <code className="rounded bg-muted px-2 py-1">can(...)</code> call needs to match the shape of the key the server generated.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>

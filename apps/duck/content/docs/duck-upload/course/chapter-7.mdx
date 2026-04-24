@@ -1,0 +1,616 @@
+---
+title: "chapter 7: validation & plugins"
+description: Validate files before upload and extend behavior with plugins.
+---
+
+## Goal
+
+PhotoDuck should reject invalid files before wasting bandwidth. A 200 MB video should not
+even start uploading when the limit is 10 MB. A `.exe` file has no place in a photo gallery.
+You will configure **validation rules** per purpose and build **plugins** that extend the
+upload engine without forking it.
+
+<MermaidDiagram chart={`flowchart LR
+    subgraph Input["User drops files"]
+        F1["sunset.jpg 5MB"]
+        F2["malware.exe 1MB"]
+        F3["video.mp4 200MB"]
+    end
+
+    subgraph Validation["Validation Phase"]
+        V["Check rules:<br/>maxSizeBytes, allowedTypes,<br/>maxFiles, allowedExtensions"]
+    end
+
+    subgraph Output["Results"]
+        OK["sunset.jpg -> creating_intent"]
+        R1["malware.exe -> error (type_not_allowed)"]
+        R2["video.mp4 -> error (file_too_large)"]
+    end
+
+    Input --> Validation
+    Validation --> OK
+    Validation --> R1
+    Validation --> R2`} />
+
+## Configure Validation Rules
+
+<Steps>
+  <Step>
+    **Define per-purpose validation rules**
+
+    Validation rules are configured in the store's `config.validation` object, keyed by
+    purpose. Each purpose can have its own limits:
+
+    ```typescript title="src/lib/upload-client.ts"
+    import { createUploadStore } from '@gentleduck/upload'
+
+    type Purpose = 'photo' | 'avatar' | 'document'
+
+    const store = createUploadStore<MyIntentMap, MyCursorMap, Purpose, MyUploadResult>({
+      api: photoDuckApi,
+      strategies: photoDuckStrategies,
+      config: {
+        validation: {
+          photo: {
+            maxFiles: 20,
+            maxSizeBytes: 10 * 1024 * 1024,      // 10 MB
+            allowedTypes: ['image/*'],             // any image MIME type
+            allowedExtensions: ['jpg', 'jpeg', 'png', 'webp', 'heic'],
+          },
+          avatar: {
+            maxFiles: 1,
+            maxSizeBytes: 2 * 1024 * 1024,        // 2 MB
+            allowedTypes: ['image/jpeg', 'image/png', 'image/webp'],
+          },
+          document: {
+            maxFiles: 10,
+            maxSizeBytes: 50 * 1024 * 1024,       // 50 MB
+            allowedTypes: ['application/pdf'],
+            allowedExtensions: ['pdf'],
+          },
+        },
+      },
+    })
+    ```
+
+    The full `UploadValidationRules` type:
+
+    ```typescript
+    type UploadValidationRules = {
+      maxFiles?: number           // max items for this purpose
+      maxSizeBytes?: number       // max file size in bytes
+      minSizeBytes?: number       // min file size (rejects empty files)
+      allowedTypes?: string[]     // MIME types (supports wildcards like 'image/*')
+      allowedExtensions?: string[] // file extensions (without dot)
+    }
+    ```
+
+    When both `allowedTypes` and `allowedExtensions` are specified, a file passes if it
+    matches **either** rule (OR logic). When only one is specified, it must match.
+  </Step>
+
+  <Step>
+    **Show validation errors in the UI**
+
+    When a file fails validation, the item transitions to the `error` phase with
+    `error.code === 'validation_failed'` and `retryable: false`. The rejection reason is
+    embedded in the error:
+
+    ```tsx title="src/components/ValidationErrors.tsx"
+    import { useUploader } from '@gentleduck/upload/react'
+    import type { UploadItem, RejectReason } from '@gentleduck/upload'
+
+    function formatRejection(reason: RejectReason): string {
+      switch (reason.code) {
+        case 'empty_file':
+          return 'File is empty.'
+        case 'file_too_large':
+          return `File is too large (${formatBytes(reason.size)}). Maximum is ${formatBytes(reason.maxBytes)}.`
+        case 'type_not_allowed':
+          return `File type not allowed. Accepted: ${reason.allowed.join(', ')}.`
+        case 'too_many_files':
+          return `Too many files. Maximum is ${reason.max}.`
+      }
+    }
+
+    function formatBytes(bytes: number): string {
+      if (bytes < 1024) return `${bytes} B`
+      if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`
+      return `${(bytes / (1024 * 1024)).toFixed(1)} MB`
+    }
+
+    function ValidationErrors() {
+      const { store } = useUploader()
+      const snapshot = store.getSnapshot()
+      const items = Array.from(snapshot.items.values())
+
+      const errors = items.filter(
+        (item) => item.phase === 'error' && item.error.code === 'validation_failed'
+      )
+
+      if (errors.length === 0) return null
+
+      return (
+        <div className="bg-red-50 border border-red-200 rounded p-4">
+          <h3 className="text-red-700">{errors.length} file(s) rejected</h3>
+          <ul>
+            {errors.map((item) => (
+              <li key={item.localId} className="flex items-center justify-between py-1">
+                <span>{item.fingerprint.name}</span>
+                <span className="text-sm text-red-600">
+                  {item.error.code === 'validation_failed' &&
+                    formatRejection(item.error.reason)}
+                </span>
+                <button
+                  className="text-xs"
+                  onClick={() => store.dispatch({ type: 'remove', localId: item.localId })}
+                >
+                  Dismiss
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+    ```
+
+    You can also listen for rejections via the event emitter:
+
+    ```typescript
+    store.on('file.rejected', ({ file, reason }) => {
+      console.warn(`Rejected ${file.name}:`, reason)
+    })
+
+    store.on('validation.failed', ({ localId, reason }) => {
+      console.warn(`Validation failed for ${localId}:`, reason)
+    })
+    ```
+  </Step>
+
+  <Step>
+    **Add custom validation with validateFile**
+
+    For validation logic beyond what the built-in rules support, use the `validateFile`
+    callback on the store options. It runs after the built-in rules:
+
+    ```typescript title="src/lib/upload-client.ts"
+    const store = createUploadStore({
+      api: photoDuckApi,
+      strategies: photoDuckStrategies,
+      config: {
+        validation: {
+          photo: {
+            maxSizeBytes: 10 * 1024 * 1024,
+            allowedTypes: ['image/*'],
+          },
+        },
+      },
+      // Custom validation: reject duplicate filenames
+      validateFile: (file, purpose) => {
+        const snapshot = store.getSnapshot()
+        const existing = Array.from(snapshot.items.values())
+        const duplicate = existing.some(
+          (item) => item.fingerprint.name === file.name && item.purpose === purpose
+        )
+        if (duplicate) {
+          return { code: 'type_not_allowed', allowed: [], got: `duplicate: ${file.name}` }
+        }
+        return null  // null means valid
+      },
+    })
+    ```
+
+    Return a `RejectReason` to reject the file, or `null` to accept it. The `RejectReason`
+    type is a union of built-in codes:
+
+    ```typescript
+    type RejectReason =
+      | { code: 'empty_file' }
+      | { code: 'file_too_large'; maxBytes: number; size: number }
+      | { code: 'type_not_allowed'; allowed: string[]; got: string }
+      | { code: 'too_many_files'; max: number }
+    ```
+  </Step>
+
+  <Step>
+    **Create a custom plugin**
+
+    Plugins let you extend the upload engine's behavior without modifying its internals.
+    A plugin has a `name` and a `setup` function that receives the store context:
+
+    ```typescript title="src/plugins/image-metadata.ts"
+    import type { UploadPlugin } from '@gentleduck/upload'
+
+    /**
+     * Plugin that logs image dimensions when uploads complete.
+     */
+    export function createImageMetadataPlugin<M, C, P extends string, R>(): UploadPlugin<M, C, P, R> {
+      return {
+        name: 'image-metadata',
+
+        setup({ on, dispatch, getSnapshot }) {
+          // Listen for completed uploads
+          on('upload.completed', ({ localId, result }) => {
+            console.log(`Upload ${localId} completed:`, result)
+          })
+
+          // Listen for errors and track metrics
+          on('upload.error', ({ localId, error, retryable }) => {
+            console.error(`Upload ${localId} failed:`, error.code, error.message)
+            // Send to your analytics service
+            trackMetric('upload_error', {
+              code: error.code,
+              retryable,
+            })
+          })
+        },
+      }
+    }
+    ```
+
+    The `setup` function receives three methods from the store:
+
+    | Method | Description |
+    | --- | --- |
+    | `on(event, callback)` | Subscribe to store events |
+    | `dispatch(command)` | Dispatch commands to the store |
+    | `getSnapshot()` | Read the current state |
+
+    Plugins can observe events **and** dispatch commands, making them powerful for
+    orchestration patterns.
+  </Step>
+
+  <Step>
+    **Use lifecycle hooks and chain plugins**
+
+    Register plugins in the store options. They run in order during `setup`:
+
+    ```typescript title="src/lib/upload-client.ts"
+    import { createUploadStore } from '@gentleduck/upload'
+    import { createImageMetadataPlugin } from '../plugins/image-metadata'
+    import { createAnalyticsPlugin } from '../plugins/analytics'
+    import { createAutoStartPlugin } from '../plugins/auto-start'
+
+    const store = createUploadStore({
+      api: photoDuckApi,
+      strategies: photoDuckStrategies,
+      plugins: [
+        createImageMetadataPlugin(),
+        createAnalyticsPlugin({ endpoint: '/api/metrics' }),
+        createAutoStartPlugin(),
+      ],
+
+      // Hooks are a lighter alternative for simple observation
+      hooks: {
+        onInternalEvent: (event, state) => {
+          // Called after every internal event is processed
+          // Useful for devtools, logging, debugging
+          if (event.type === 'upload.failed') {
+            console.debug('[upload-engine]', event.type, event.localId, event.error)
+          }
+        },
+      },
+    })
+    ```
+
+    The difference between plugins and hooks:
+
+    | Feature | Plugins | Hooks |
+    | --- | --- | --- |
+    | Subscribe to events | Yes (`on`) | Yes (`onInternalEvent`) |
+    | Dispatch commands | Yes (`dispatch`) | No |
+    | Read state | Yes (`getSnapshot`) | Yes (receives `state`) |
+    | Multiple | Array of plugins | Single hook object |
+    | Use case | Extend behavior | Observe / debug |
+
+    Here is a practical plugin that auto-retries on rate-limit errors with the server's
+    suggested delay:
+
+    ```typescript title="src/plugins/rate-limit-retry.ts"
+    import type { UploadPlugin } from '@gentleduck/upload'
+
+    export function createRateLimitRetryPlugin<M, C, P extends string, R>(): UploadPlugin<M, C, P, R> {
+      return {
+        name: 'rate-limit-retry',
+
+        setup({ on, dispatch }) {
+          on('upload.error', ({ localId, error, retryable }) => {
+            if (error.code === 'rate_limit' && retryable) {
+              const delay = 'retryAfterMs' in error
+                ? (error.retryAfterMs as number)
+                : 5000
+
+              setTimeout(() => {
+                dispatch({ type: 'retry', localId })
+              }, delay)
+            }
+          })
+        },
+      }
+    }
+    ```
+  </Step>
+</Steps>
+
+## How the Validation Phase Works
+
+When you dispatch `addFiles`, the engine does not start uploading immediately. Each file
+goes through a validation pipeline:
+
+<MermaidDiagram chart={`flowchart TD
+    ADD["dispatch({ type: 'addFiles', files, purpose })"]
+    FP["Compute fingerprint<br/>(name, size, type, lastModified)"]
+    DEDUPE{"findByChecksum?<br/>(if checksum + API supports it)"}
+    DEDUPEOK["phase: completed<br/>completedBy: 'dedupe'"]
+    VALIDATE["Validate against rules:<br/>maxSizeBytes, allowedTypes,<br/>maxFiles, allowedExtensions"]
+    CUSTOM["Run validateFile callback<br/>(if provided)"]
+    OK["phase: creating_intent"]
+    FAIL["phase: error<br/>code: validation_failed<br/>retryable: false"]
+
+    ADD --> FP --> DEDUPE
+    DEDUPE -- "match found" --> DEDUPEOK
+    DEDUPE -- "no match / not configured" --> VALIDATE
+    VALIDATE -- "passes" --> CUSTOM
+    VALIDATE -- "fails" --> FAIL
+    CUSTOM -- "returns null" --> OK
+    CUSTOM -- "returns reason" --> FAIL`} />
+
+1. **Files added**: Each file gets a `localId` and enters `validating` phase
+2. **Fingerprint computed**: `name`, `size`, `type`, `lastModified` are extracted (synchronous)
+3. **Deduplication check**: If your API implements `findByChecksum()` and the file has a
+   checksum, the engine checks for an existing upload. If found, the item jumps straight
+   to `completed` with `completedBy: 'dedupe'`
+4. **Built-in validation**: `maxSizeBytes`, `minSizeBytes`, `allowedTypes`, `allowedExtensions`,
+   `maxFiles` are checked against the purpose's rules
+5. **Custom validation**: Your `validateFile` callback runs if provided
+6. **Result**: Valid files move to `creating_intent`. Invalid files move to `error` with
+   `retryable: false`
+
+The `maxFiles` check counts existing items for the same purpose. If you have 18 photos and
+the limit is 20, adding 5 files will accept 2 and reject 3 with `{ code: 'too_many_files', max: 20 }`.
+
+### MIME Type Matching
+
+The `allowedTypes` array supports both exact matches and wildcard prefixes:
+
+| Pattern | Matches | Does Not Match |
+| --- | --- | --- |
+| `'image/jpeg'` | `image/jpeg` | `image/png`, `image/webp` |
+| `'image/*'` | `image/jpeg`, `image/png`, `image/webp` | `video/mp4`, `application/pdf` |
+| `'application/pdf'` | `application/pdf` | `application/json` |
+
+The wildcard `image/*` strips the `/*` and checks if the file's MIME type starts with
+`image/`. This is a prefix match, not a glob.
+
+## Checkpoint
+
+Full validation and plugin setup for PhotoDuck:
+
+```typescript title="src/lib/upload-client.ts"
+import { createUploadStore } from '@gentleduck/upload'
+import { IndexedDBAdapter } from '@gentleduck/upload/persistence/indexeddb'
+
+type Purpose = 'photo' | 'avatar' | 'document'
+
+// Analytics plugin
+const analyticsPlugin = {
+  name: 'analytics',
+  setup({ on }) {
+    on('upload.completed', ({ localId, result, completedBy }) => {
+      fetch('/api/metrics', {
+        method: 'POST',
+        body: JSON.stringify({
+          event: 'upload_completed',
+          fileId: result.fileId,
+          completedBy,
+        }),
+      })
+    })
+
+    on('upload.error', ({ localId, error }) => {
+      fetch('/api/metrics', {
+        method: 'POST',
+        body: JSON.stringify({
+          event: 'upload_error',
+          code: error.code,
+          message: error.message,
+        }),
+      })
+    })
+  },
+}
+
+// Auto-cleanup plugin: remove completed items after 10 seconds
+const autoCleanupPlugin = {
+  name: 'auto-cleanup',
+  setup({ on, dispatch }) {
+    on('upload.completed', ({ localId }) => {
+      setTimeout(() => {
+        dispatch({ type: 'remove', localId })
+      }, 10_000)
+    })
+  },
+}
+
+export const uploadStore = createUploadStore({
+  api: photoDuckApi,
+  strategies: photoDuckStrategies,
+  config: {
+    maxConcurrentUploads: 3,
+    maxAttempts: 5,
+    validation: {
+      photo: {
+        maxFiles: 50,
+        maxSizeBytes: 10 * 1024 * 1024,
+        allowedTypes: ['image/*'],
+        allowedExtensions: ['jpg', 'jpeg', 'png', 'webp', 'heic', 'gif'],
+      },
+      avatar: {
+        maxFiles: 1,
+        maxSizeBytes: 2 * 1024 * 1024,
+        allowedTypes: ['image/jpeg', 'image/png', 'image/webp'],
+      },
+      document: {
+        maxFiles: 10,
+        maxSizeBytes: 50 * 1024 * 1024,
+        allowedTypes: ['application/pdf'],
+        allowedExtensions: ['pdf'],
+      },
+    },
+    retryPolicy: ({ attempt, error }) => {
+      if (error.code === 'auth' || error.code === 'validation_failed') {
+        return { retryable: false }
+      }
+      return { retryable: true, delayMs: Math.min(1000 * 2 ** (attempt - 1), 30_000) }
+    },
+  },
+  plugins: [analyticsPlugin, autoCleanupPlugin],
+  persistence: {
+    key: 'photoduck-uploads',
+    version: 1,
+    adapter: IndexedDBAdapter,
+  },
+  validateFile: (file, purpose) => {
+    // Reject files with suspicious double extensions
+    const parts = file.name.split('.')
+    if (parts.length > 2) {
+      const lastExt = parts[parts.length - 1]?.toLowerCase()
+      if (['exe', 'bat', 'sh', 'cmd', 'msi'].includes(lastExt ?? '')) {
+        return { code: 'type_not_allowed', allowed: [], got: file.name }
+      }
+    }
+    return null
+  },
+})
+```
+
+```tsx title="src/components/PhotoUploader.tsx"
+import { useUploader } from '@gentleduck/upload/react'
+import type { RejectReason } from '@gentleduck/upload'
+
+function PhotoUploader() {
+  const { store } = useUploader()
+  const snapshot = store.getSnapshot()
+  const items = Array.from(snapshot.items.values())
+
+  const rejected = items.filter(
+    (i) => i.phase === 'error' && i.error.code === 'validation_failed'
+  )
+
+  return (
+    <div>
+      <input
+        type="file"
+        multiple
+        accept="image/*"
+        onChange={(e) => {
+          const files = Array.from(e.target.files ?? [])
+          if (files.length > 0) {
+            store.dispatch({ type: 'addFiles', files, purpose: 'photo' })
+          }
+        }}
+      />
+
+      {rejected.length > 0 && (
+        <div className="mt-2 p-3 bg-red-50 rounded">
+          {rejected.map((item) => (
+            <div key={item.localId} className="flex justify-between text-sm">
+              <span>{item.fingerprint.name}</span>
+              <span className="text-red-600">
+                {item.error.code === 'validation_failed' && item.error.reason.code}
+              </span>
+              <button onClick={() => store.dispatch({ type: 'remove', localId: item.localId })}>
+                Dismiss
+              </button>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {items
+        .filter((i) => i.phase !== 'error')
+        .map((item) => (
+          <div key={item.localId} className="py-1">
+            {item.fingerprint.name} -- {item.phase}
+            {'progress' in item && item.progress && (
+              <span> ({Math.round(item.progress.pct)}%)</span>
+            )}
+          </div>
+        ))}
+    </div>
+  )
+}
+```
+
+---
+
+## Chapter 7 FAQ
+
+<Accordion type="multiple" collapsible className="w-full">
+  <AccordionItem value="c7-when-validated">
+    <AccordionTrigger>When exactly does validation run?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Validation runs immediately when you dispatch `addFiles`. Each file enters the
+      `validating` phase and is synchronously checked against the built-in rules for its
+      purpose. The `validateFile` callback runs after the built-in rules. Files that fail
+      validation transition to the `error` phase with `retryable: false` before any network
+      request is made.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="c7-no-rules">
+    <AccordionTrigger>What happens if I do not define validation rules for a purpose?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      If no rules exist for a purpose in `config.validation`, all built-in checks are
+      skipped for that purpose. The `validateFile` callback still runs if provided. This
+      means every file is accepted unless your custom validator rejects it. To enforce
+      rules, always define at least `maxSizeBytes` for each purpose.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="c7-types-vs-extensions">
+    <AccordionTrigger>Should I use allowedTypes or allowedExtensions?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Use both for defense in depth. MIME types are checked against `file.type` (which
+      the browser sets based on the file's content header). Extensions are checked against
+      the filename. Both can be spoofed. When both are specified, a file passes if it
+      matches **either** (OR logic). For maximum security, validate on the server as well.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="c7-plugin-order">
+    <AccordionTrigger>Does plugin order matter?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Plugins are set up in array order. Each plugin's `setup` function runs sequentially,
+      but event listeners are called in registration order. If plugin A and plugin B both
+      listen to `upload.completed`, A's listener fires first. If plugin B dispatches a
+      command that triggers an event plugin A listens to, A will see it. In practice, order
+      rarely matters because plugins should be independent.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="c7-plugin-vs-hook">
+    <AccordionTrigger>When should I use a plugin vs a hook?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      Use **hooks** for passive observation: logging, debugging, devtools, analytics that
+      only reads state. Use **plugins** when you need to react to events by dispatching
+      commands: auto-retry, auto-cleanup, notification triggers, or workflow orchestration.
+      Plugins get `dispatch` access; hooks do not.
+    </AccordionContent>
+  </AccordionItem>
+
+  <AccordionItem value="c7-maxfiles-counting">
+    <AccordionTrigger>How does maxFiles count existing items?</AccordionTrigger>
+    <AccordionContent className="text-muted-foreground">
+      The `maxFiles` check counts all existing items in state that match the same purpose,
+      regardless of their phase. If you have 18 photos (including completed, errored, and
+      active ones) and the limit is 20, adding 5 files will accept 2 and reject 3. Use the
+      `remove` command to clear completed or canceled items and free up slots.
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+---
+
+Next: [Chapter 8: Production Patterns](/docs/course/chapter-8)

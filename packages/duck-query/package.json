@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json.schemastore.org/package.json",
+  "engines": {
+    "bun": ">=1.3.5"
+  },
+  "author": "gentleduck",
+  "bugs": {
+    "url": "https://github.com/gentleeduck/duck-gen/issues"
+  },
+  "description": "Type-safe Axios client that pairs with Duck Gen or custom route maps.",
+  "name": "@gentleduck/query",
+  "version": "0.1.6",
+  "private": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "tsconfig.json"
+  ],
+  "homepage": "https://github.com/gentleeduck/duck-gen/tree/master/packages/duck-query#readme",
+  "keywords": [
+    "gentleduck",
+    "duck-query",
+    "axios",
+    "api",
+    "client",
+    "typescript",
+    "typed"
+  ],
+  "license": "MIT",
+  "packageManager": "bun@1.3.5",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gentleeduck/duck-gen.git",
+    "directory": "packages/duck-query"
+  },
+  "peerDependencies": {
+    "axios": "^1.12.2"
+  },
+  "devDependencies": {
+    "@gentleduck/tsdown-config": "workspace:*",
+    "@gentleduck/typescript-config": "workspace:*",
+    "@types/node": "catalog:",
+    "tsdown": "catalog:",
+    "typescript": "catalog:"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "dev": "bun ./src/index.ts",
+    "check-types": "tsc -p tsconfig.json --noEmit --pretty false --skipLibCheck"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

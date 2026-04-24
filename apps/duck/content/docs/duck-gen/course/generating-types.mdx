@@ -1,0 +1,196 @@
+---
+title: "Chapter 4: Generating Types"
+description: Run Duck Gen for the first time and understand the generated output files.
+---
+
+## Run the generator
+
+With your controller from the previous chapter in place, run Duck Gen:
+
+```bash
+bun run generate
+```
+
+You should see:
+
+```text
+Config loaded
+Processing done
+```
+
+## Explore the output
+
+Duck Gen creates two main output files. Let us look at each one.
+
+### Route types
+
+Open `generated/duck-gen-api-routes.d.ts`. You will see something like this:
+
+```ts title="generated/duck-gen-api-routes.d.ts"
+export interface DuckgenApiRoutes {
+  '/api/users': {
+    GET: {
+      body: never
+      query: {
+        page?: number
+        limit?: number
+      }
+      params: never
+      headers: never
+      response: {
+        data: {
+          id: string
+          name: string
+          email: string
+          createdAt: string
+        }[]
+        message: 'USER_CREATED' | 'USER_UPDATED' | 'USER_DELETED' | 'USER_FOUND' | 'USERS_LISTED'
+        success: boolean
+      }
+    }
+    POST: {
+      body: {
+        name: string
+        email: string
+        password: string
+      }
+      query: never
+      params: never
+      headers: never
+      response: {
+        data: {
+          id: string
+          name: string
+          email: string
+          createdAt: string
+        }
+        message: 'USER_CREATED' | 'USER_UPDATED' | 'USER_DELETED' | 'USER_FOUND' | 'USERS_LISTED'
+        success: boolean
+      }
+    }
+  }
+  '/api/users/:id': {
+    GET: {
+      body: never
+      query: never
+      params: {
+        id: string
+      }
+      headers: never
+      response: {
+        data: {
+          id: string
+          name: string
+          email: string
+          createdAt: string
+        }
+        message: 'USER_CREATED' | 'USER_UPDATED' | 'USER_DELETED' | 'USER_FOUND' | 'USERS_LISTED'
+        success: boolean
+      }
+    }
+    // PUT and DELETE entries follow the same pattern...
+  }
+}
+```
+
+**Key observations:**
+
+- Every route path is a key in the `DuckgenApiRoutes` interface.
+- Each path contains its supported HTTP methods.
+- Each method has fully resolved `body`, `query`, `params`, `headers`, and `response` types.
+- Unused fields are typed as `never`, meaning TypeScript will prevent you from sending data that the route does not accept.
+- Generics like `ApiResponse<UserDto, UserMessage>` are fully expanded.
+
+### Message types
+
+Open `generated/duck-gen-messages.d.ts`. If you have not added `@duckgen` tags yet (we
+will do that in Chapter 6), this file will be minimal or contain empty registries.
+
+### Barrel exports
+
+Duck Gen also creates `index.d.ts` barrel files that re-export everything:
+
+```ts title="generated/index.d.ts"
+export * from './duck-gen-api-routes'
+export * from './duck-gen-messages'
+```
+
+## The package output
+
+In addition to your `./generated` folder, Duck Gen writes the same files inside
+`node_modules/@gentleduck/gen/generated/nestjs/`. This is the primary import path:
+
+```ts
+import type { ApiRoutes, RouteReq, RouteRes } from '@gentleduck/gen/nestjs'
+```
+
+## Understanding utility types
+
+Duck Gen ships several utility types that make working with the route map easier.
+You do not need to read the raw `DuckgenApiRoutes` interface directly.
+
+### `ApiRoutes`
+
+The full route map type. Useful when you need to iterate over all routes or build
+generic utilities:
+
+```ts
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
+
+// ApiRoutes is the DuckgenApiRoutes interface
+type AllPaths = keyof ApiRoutes // '/api/users' | '/api/users/:id'
+```
+
+### `RouteReq<Path, Method?>`
+
+Extracts the request shape for a specific route and method. Returns only the non-`never`
+fields:
+
+```ts
+import type { RouteReq } from '@gentleduck/gen/nestjs'
+
+type CreateUserReq = RouteReq<'/api/users', 'POST'>
+// { body: { name: string; email: string; password: string } }
+
+type ListUsersReq = RouteReq<'/api/users', 'GET'>
+// { query: { page?: number; limit?: number } }
+
+type GetUserReq = RouteReq<'/api/users/:id', 'GET'>
+// { params: { id: string } }
+```
+
+### `RouteRes<Path, Method?>`
+
+Extracts the response type:
+
+```ts
+import type { RouteRes } from '@gentleduck/gen/nestjs'
+
+type CreateUserRes = RouteRes<'/api/users', 'POST'>
+// { data: UserDto; message: UserMessage; success: boolean }
+```
+
+<Callout icon={<Target/>} title="Type errors are the goal">
+  If you rename a DTO field on the server and re-run `duck-gen`, any client code that
+  uses the old field name will show a TypeScript error. This is exactly what you want.
+  The type system catches the mismatch before your users do.
+</Callout>
+
+## Regeneration workflow
+
+Every time you change your server code, run `duck-gen` again:
+
+```bash
+# One-time generation
+bun run generate
+
+# Or watch mode for continuous updates during development
+bun run generate:watch
+```
+
+The generated files are deterministic. Running Duck Gen twice with the same source code
+produces identical output. This makes it safe to run in CI/CD pipelines.
+
+## Next
+
+[Chapter 5: Using Generated Types](/docs/course/using-generated-types)

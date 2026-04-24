@@ -1,0 +1,71 @@
+---
+title: Persistence
+description: Resume uploads after page refresh with IndexedDB, localStorage, or memory adapters.
+---
+
+Persistence stores resumable upload state (intent + cursor) so users can refresh the page and resume uploads later.
+
+## What Gets Stored
+
+Only uploads that are resumable and have an intent are persisted. Terminal states (completed, canceled) are excluded.
+
+```mermaid
+flowchart LR
+  A[Upload State] -->|serialize| B[Snapshot]
+  B -->|save| C[(Storage)]
+  C -->|load| B
+  B -->|deserialize| A
+```
+
+## Enabling Persistence
+
+```ts
+import { LocalStorageAdapter } from '@gentleduck/upload/core'
+
+const store = createUploadStore({
+  api,
+  strategies,
+  persistence: {
+    key: 'uploads',
+    version: 1,
+    adapter: LocalStorageAdapter,
+    isPurpose: (value): value is Purpose => value === 'avatar' || value === 'doc',
+    isIntent: (value): value is Intents[keyof Intents] => {
+      return typeof value === 'object' && value !== null && 'strategy' in value && 'fileId' in value
+    },
+  },
+})
+```
+
+## Available Adapters
+
+| Adapter | Storage | Best For |
+| --- | --- | --- |
+| `LocalStorageAdapter` | `localStorage` | Simple apps with small state |
+| `IndexedDBAdapter` | IndexedDB | Larger state or structured data |
+| `MemoryAdapter` | In-memory | Testing and SSR |
+
+## Why the Validators Exist
+
+Persistence reads untyped data from storage. The default deserializer only restores items when:
+
+- `isPurpose` validates the stored purpose
+- `isIntent` validates the stored intent
+- The cursor is valid and the strategy exists in the registry
+
+This keeps the core fully type-safe while still allowing persistence across page loads.
+
+## Restore Behavior
+
+- Items are restored in the `paused` state
+- `file` is `undefined` until rebind
+- Progress and cursor are restored when possible
+
+## Rebinding Files
+
+Files cannot be serialized to storage. Paused items are restored without a `file` reference. Use the `rebind` command to attach the file again before resuming:
+
+```ts
+store.dispatch({ type: 'rebind', localId: 'item-id', file: selectedFile })
+store.dispatch({ type: 'resume', localId: 'item-id' })
+```

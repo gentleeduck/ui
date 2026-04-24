@@ -1,0 +1,414 @@
+---
+title: end-to-end guide
+description: Complete walkthrough. Build a NestJS backend, generate types with Duck Gen, and consume them with Duck Query on the client.
+---
+
+## What you will build
+
+This guide walks you through the full Duck Gen + Duck Query workflow from scratch:
+
+1. A NestJS backend with a `users` module (CRUD routes + messages).
+2. Generated types using Duck Gen.
+3. A type-safe client using Duck Query.
+4. Type-safe i18n translations using generated message types.
+
+By the end, your client code will have **zero manually written types** for API calls,
+everything comes from the server source code.
+
+## Step 1: Set up the backend
+
+Start with a NestJS project that has a `users` module.
+
+### DTO (Data Transfer Object)
+
+```ts title="src/modules/users/users.dto.ts"
+import { z } from 'zod'
+
+export const createUserSchema = z.object({
+  name: z.string().min(2).max(50),
+  email: z.string().email(),
+  role: z.enum(['admin', 'user']).default('user'),
+})
+
+export type CreateUserDto = z.infer<typeof createUserSchema>
+
+export const updateUserSchema = createUserSchema.partial()
+export type UpdateUserDto = z.infer<typeof updateUserSchema>
+
+export type UserDto = {
+  id: string
+  name: string
+  email: string
+  role: 'admin' | 'user'
+  createdAt: string
+}
+
+export type PaginationDto = {
+  page?: number
+  limit?: number
+  sort?: 'name' | 'email' | 'createdAt'
+}
+```
+
+### Message constants
+
+```ts title="src/modules/users/users.constants.ts"
+/**
+ * @duckgen messages users
+ */
+export const UserMessages = [
+  'USER_CREATED',
+  'USER_UPDATED',
+  'USER_DELETED',
+  'USER_NOT_FOUND',
+  'USER_EMAIL_TAKEN',
+  'USER_LIST_SUCCESS',
+] as const
+```
+
+Notice the `@duckgen messages users` JSDoc tag. This tells Duck Gen to scan this constant
+and register it under the `users` group.
+
+### Response type
+
+```ts title="src/common/types/api.types.ts"
+export type ApiResponse<T, M extends string> =
+  | { state: 'success'; message: M; data: T }
+  | { state: 'error'; message: M; data: null }
+```
+
+### Controller
+
+```ts title="src/modules/users/users.controller.ts"
+import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common'
+import { ZodValidationPipe } from '@nestjs/zod'
+import { createUserSchema, updateUserSchema } from './users.dto'
+import type { CreateUserDto, UpdateUserDto, UserDto, PaginationDto } from './users.dto'
+import type { ApiResponse } from '~/common/types/api.types'
+import type { UserMessages } from './users.constants'
+import { UsersService } from './users.service'
+
+type UserMessage = (typeof UserMessages)[number]
+
+@Controller('users')
+export class UsersController {
+  constructor(private readonly service: UsersService) {}
+
+  @Get()
+  async findAll(
+    @Query() query: PaginationDto,
+  ): Promise<ApiResponse<UserDto[], UserMessage>> {
+    const users = await this.service.findAll(query)
+    return { state: 'success', message: 'USER_LIST_SUCCESS', data: users }
+  }
+
+  @Get(':id')
+  async findOne(
+    @Param('id') id: string,
+  ): Promise<ApiResponse<UserDto, UserMessage>> {
+    const user = await this.service.findOne(id)
+    if (!user) {
+      return { state: 'error', message: 'USER_NOT_FOUND', data: null }
+    }
+    return { state: 'success', message: 'USER_LIST_SUCCESS', data: user }
+  }
+
+  @Post()
+  async create(
+    @Body(new ZodValidationPipe(createUserSchema)) body: CreateUserDto,
+  ): Promise<ApiResponse<UserDto, UserMessage>> {
+    const user = await this.service.create(body)
+    return { state: 'success', message: 'USER_CREATED', data: user }
+  }
+
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body(new ZodValidationPipe(updateUserSchema)) body: UpdateUserDto,
+  ): Promise<ApiResponse<UserDto, UserMessage>> {
+    const user = await this.service.update(id, body)
+    return { state: 'success', message: 'USER_UPDATED', data: user }
+  }
+
+  @Delete(':id')
+  async remove(
+    @Param('id') id: string,
+  ): Promise<ApiResponse<null, UserMessage>> {
+    await this.service.remove(id)
+    return { state: 'success', message: 'USER_DELETED', data: null }
+  }
+}
+```
+
+## Step 2: Configure Duck Gen
+
+```json title="duck-gen.json"
+{
+  "$schema": "node_modules/@gentleduck/gen/duck-gen.schema.json",
+  "framework": "nestjs",
+  "extensions": {
+    "shared": {
+      "includeNodeModules": false,
+      "outputSource": "./generated",
+      "sourceGlobs": ["src/**/*.ts"],
+      "tsconfigPath": "./tsconfig.json"
+    },
+    "apiRoutes": {
+      "enabled": true,
+      "globalPrefix": "/api",
+      "normalizeAnyToUnknown": true,
+      "outputSource": "./generated"
+    },
+    "messages": {
+      "enabled": true,
+      "outputSource": "./generated"
+    }
+  }
+}
+```
+
+Make sure your NestJS `main.ts` sets the same prefix:
+
+```ts title="src/main.ts"
+const app = await NestFactory.create(AppModule)
+app.setGlobalPrefix('api')
+await app.listen(3000)
+```
+
+## Step 3: Generate types
+
+```bash
+bunx duck-gen
+```
+
+Output:
+
+```text
+> Config loaded
+> Processing done
+```
+
+Duck Gen now generates types that know about:
+- `GET /api/users`: returns `ApiResponse<UserDto[], UserMessage>`, accepts `PaginationDto` query.
+- `GET /api/users/:id`: returns `ApiResponse<UserDto, UserMessage>`, accepts `id` param.
+- `POST /api/users`: returns `ApiResponse<UserDto, UserMessage>`, accepts `CreateUserDto` body.
+- `PUT /api/users/:id`: returns `ApiResponse<UserDto, UserMessage>`, accepts `UpdateUserDto` body + `id` param.
+- `DELETE /api/users/:id`: returns `ApiResponse<null, UserMessage>`, accepts `id` param.
+- Message group `users` with keys: `USER_CREATED`, `USER_UPDATED`, etc.
+
+## Step 4: Create the Duck Query client
+
+```ts title="client/api.ts"
+import { createDuckQueryClient } from '@gentleduck/query'
+import type { ApiRoutes } from '@gentleduck/gen/nestjs'
+
+export const api = createDuckQueryClient<ApiRoutes>({
+  baseURL: 'http://localhost:3000',
+  withCredentials: true,
+})
+
+// Add auth token interceptor
+api.axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token')
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
+  return config
+})
+```
+
+## Step 5: Make type-safe API calls
+
+```ts title="client/users.ts"
+import { api } from './api'
+
+// List users with pagination
+export async function getUsers(page = 1, limit = 20) {
+  const { data } = await api.get('/api/users', {
+    query: { page, limit, sort: 'name' },
+  })
+  // data: ApiResponse<UserDto[], UserMessage>
+
+  if (data.state === 'success') {
+    return data.data // UserDto[]
+  }
+  throw new Error(data.message)
+}
+
+// Get single user
+export async function getUser(id: string) {
+  const { data } = await api.get('/api/users/:id', {
+    params: { id },
+  })
+  // data: ApiResponse<UserDto, UserMessage>
+
+  if (data.state === 'success') {
+    return data.data // UserDto
+  }
+  return null
+}
+
+// Create user
+export async function createUser(name: string, email: string) {
+  const { data } = await api.post('/api/users', {
+    body: { name, email, role: 'user' },
+    //       ^^^^  ^^^^^  ^^^^
+    //       TypeScript checks these match CreateUserDto
+  })
+  return data
+}
+
+// Update user
+export async function updateUser(id: string, updates: { name?: string; email?: string }) {
+  const { data } = await api.put('/api/users/:id', {
+    params: { id },
+    body: updates,
+  })
+  return data
+}
+
+// Delete user
+export async function deleteUser(id: string) {
+  const { data } = await api.del('/api/users/:id', {
+    params: { id },
+  })
+  return data
+}
+```
+
+Every call above is fully type-checked:
+- Paths are validated against generated routes.
+- Body types match your DTOs.
+- Response types match your controller return types.
+- If you misspell a path or pass the wrong body shape, TypeScript catches it immediately.
+
+## Step 6: Add type-safe i18n
+
+Use the generated message types to build translations:
+
+```ts title="client/i18n.ts"
+import type { DuckgenScopedI18nByGroup, DuckGenI18nMessages } from '@gentleduck/gen/nestjs'
+
+type Lang = 'en' | 'ar'
+type I18n = DuckgenScopedI18nByGroup<Lang, DuckGenI18nMessages>
+
+export const i18n: I18n = {
+  en: {
+    server: {
+      UserMessages: {
+        USER_CREATED: 'User created successfully',
+        USER_UPDATED: 'User updated successfully',
+        USER_DELETED: 'User deleted successfully',
+        USER_NOT_FOUND: 'User not found',
+        USER_EMAIL_TAKEN: 'Email is already in use',
+        USER_LIST_SUCCESS: 'Users loaded',
+      },
+    },
+  },
+  ar: {
+    server: {
+      UserMessages: {
+        USER_CREATED: 'تم إنشاء المستخدم بنجاح',
+        USER_UPDATED: 'تم تحديث المستخدم بنجاح',
+        USER_DELETED: 'تم حذف المستخدم بنجاح',
+        USER_NOT_FOUND: 'المستخدم غير موجود',
+        USER_EMAIL_TAKEN: 'البريد الإلكتروني مستخدم بالفعل',
+        USER_LIST_SUCCESS: 'تم تحميل المستخدمين',
+      },
+    },
+  },
+}
+```
+
+If you add a new message key on the server and regenerate, TypeScript will **immediately
+flag** every i18n file that is missing the new key.
+
+## Step 7: Use i18n in your UI
+
+```ts title="client/toast.ts"
+import { toast } from 'sonner'
+import { i18n } from './i18n'
+import type { DuckgenMessageKey } from '@gentleduck/gen/nestjs'
+
+type Lang = 'en' | 'ar'
+
+export function showMessage(lang: Lang, key: DuckgenMessageKey<'users'>) {
+  const text = i18n[lang].server.UserMessages[key]
+  toast.info(text)
+}
+
+export function showError(lang: Lang, key: DuckgenMessageKey<'users'>) {
+  const text = i18n[lang].server.UserMessages[key]
+  toast.error(text)
+}
+```
+
+```ts title="client/users.ts (with i18n)"
+import { api } from './api'
+import { showMessage, showError } from './toast'
+
+export async function createUserWithFeedback(
+  lang: 'en' | 'ar',
+  name: string,
+  email: string,
+) {
+  try {
+    const { data } = await api.post('/api/users', {
+      body: { name, email, role: 'user' },
+    })
+
+    if (data.state === 'success') {
+      showMessage(lang, data.message) // 'USER_CREATED', type-safe
+      return data.data
+    } else {
+      showError(lang, data.message) // 'USER_EMAIL_TAKEN', type-safe
+      return null
+    }
+  } catch {
+    showError(lang, 'USER_NOT_FOUND')
+    return null
+  }
+}
+```
+
+## Summary
+
+Here is the complete flow:
+
+<MermaidDiagram chart={`flowchart TD
+    subgraph Backend["1. Define Backend"]
+        A["NestJS Controllers\\nTyped DTOs with Zod"]
+        B["Message Constants\\n@duckgen JSDoc tags"]
+    end
+    subgraph Generate["2. Generate Types"]
+        C["bunx duck-gen"]
+        D["duck-gen-api-routes.d.ts\\nApiRoutes, RouteReq, RouteRes"]
+        E["duck-gen-messages.d.ts\\nDuckgenMessageKey, DuckgenI18n"]
+    end
+    subgraph Client["3. Build Client"]
+        F["createDuckQueryClient\\nwith ApiRoutes generic"]
+        G["Type-safe HTTP calls\\npaths, bodies, responses"]
+    end
+    subgraph I18n["4. Add i18n"]
+        H["DuckgenScopedI18nByGroup"]
+        I["Type-safe translations\\nen, ar, ..."]
+    end
+    subgraph Loop["5. Iterate"]
+        J["Server changes"]
+        K["Re-run duck-gen"]
+        L["TypeScript catches\\nmismatches instantly"]
+    end
+    A & B --> C --> D & E
+    D --> F --> G
+    E --> H --> I
+    J --> K --> L --> A`} />
+
+No manual type writing. No drift between server and client. Full type safety from
+database to UI.
+
+## Next steps
+
+- [Templates](/docs/templates): another complete example with auth flow.
+- [Duck Gen overview](/docs/duck-gen): deep dive into Duck Gen features.
+- [Duck Query overview](/docs/duck-query): deep dive into the HTTP client.
+- [Configuration](/docs/duck-gen/configuration): customize Duck Gen behavior.

@@ -1,0 +1,45 @@
+---
+title: Design Decisions
+description: Architecture decisions and design rationale behind @gentleduck/upload.
+---
+
+This page documents the key architecture decisions and design rationale behind the upload engine.
+
+## Typed Results End-to-End
+
+The engine carries a typed completion result all the way through:
+
+- `UploadApi.complete` returns a typed result
+- Internal events include that result
+- `upload.completed` emits the typed result
+- Store items keep the result in the `completed` phase
+
+This removes `unknown` from the completion path and lets UIs use results without type casts.
+
+## Dedupe Without Fake Intents
+
+When `findByChecksum` returns a match, the engine completes the item via a dedicated internal event (`dedupe.ok`). No synthetic intent is created. This keeps state honest and avoids accidental strategy assumptions.
+
+## Defaults At Construction
+
+`createUploadStore` resolves config defaults and provides a default transport (`createXHRTransport`) when none is supplied. You can supply only the config fields you care about, and the runtime is always fully specified.
+
+## Core Does Not Depend On React
+
+The reducer and runtime are independent of React. React adapters live in `src/react` and only consume the store interface. This prevents import cycles and keeps the core usable in non-React environments such as Node.js, Vue, or vanilla JavaScript.
+
+## Immutable State Updates
+
+All state mutations go through the reducer. Direct map mutations were removed to fix `useSyncExternalStore` snapshot identity issues. State changes are driven by internal events:
+
+- Files are added via `files.added`
+- Fingerprint updates via `fingerprint.updated`
+- Cleanup returns a new state instead of mutating
+
+## Single Event Emission Layer
+
+All state-derived public events are emitted from one place inside the store runtime, not inside individual handlers. This prevents duplicate events and ensures consistent semantics across the entire lifecycle.
+
+## Strategy Decoupling
+
+Core defines strategy interfaces in `core/contracts/strategy.types.ts`. The strategies package only implements the registry helper and actual protocol logic. Core never imports strategy implementations directly.

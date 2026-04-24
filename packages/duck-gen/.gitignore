@@ -1,0 +1,6 @@
+.vercel
+generated
+generated.root-owned
+node_modules
+.changeset
+.claude

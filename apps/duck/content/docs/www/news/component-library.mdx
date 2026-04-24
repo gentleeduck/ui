@@ -1,0 +1,190 @@
+---
+title: the duck ui component library
+description: 59+ production-ready components with a copy-source philosophy. Own your code, not your dependencies.
+---
+
+## 59+ Components, Zero Lock-In
+
+Duck UI is a component library built on top of the GentleDuck ecosystem. It ships over 59 production-ready components covering forms, navigation, data display, overlays, and layout.
+
+But unlike most component libraries, duck-www does not install as a dependency. Instead, the CLI **copies source code directly into your project**. You own every line. You can read it, modify it, delete parts you do not need, and never worry about a breaking upstream update.
+
+<MermaidDiagram chart={`flowchart LR
+    subgraph Registry["Component Registry"]
+        A["59+ Components"]
+        B["Source code + styles"]
+    end
+    subgraph CLI["@gentleduck/cli"]
+        C["bunx @gentleduck/cli add"]
+    end
+    subgraph Project["Your Project"]
+        D["components/ui/button.tsx"]
+        E["components/ui/dialog.tsx"]
+        F["You own every file"]
+    end
+    A --> C
+    B --> C
+    C -->|"copies source"| D
+    C -->|"copies source"| E
+    D --> F
+    E --> F
+    style Registry fill:#e8e8ff,stroke:#333
+    style Project fill:#e8ffe8,stroke:#333`} />
+
+---
+
+## The Component Catalog
+
+### Form Components
+
+| Component | Description |
+| --- | --- |
+| **Button** | Customizable action trigger with 6 variants and 5 sizes |
+| **Button Group** | Grouped buttons with shared separators |
+| **Input** | Text input with label, description, and error states |
+| **Input Group** | Compound input with prefix/suffix addons |
+| **Input OTP** | One-time password input with configurable length |
+| **Textarea** | Multi-line text input |
+| **Checkbox** | Binary toggle with indeterminate state |
+| **Radio Group** | Single-selection from a set |
+| **Select** | Dropdown selection with search and groups |
+| **Combobox** | Searchable select with keyboard navigation |
+| **Switch** | Toggle switch with motion |
+| **Slider** | Range input with min/max/step |
+| **Calendar** | Date picker grid |
+| **Date Picker** | Calendar with popover |
+| **Label** | Accessible form label |
+| **Field** | Form field wrapper with label + description + error |
+| **React Hook Form** | Pre-wired form primitives for react-hook-form |
+| **JSON Editor** | Structured JSON editing with validation |
+
+### Navigation
+
+| Component | Description |
+| --- | --- |
+| **Command** | Command palette with fuzzy search |
+| **Navigation Menu** | Multi-level navigation with flyout panels |
+| **Breadcrumb** | Path navigation with separator customization |
+| **Menubar** | Application menu bar |
+| **Tabs** | Tabbed content navigation |
+| **Pagination** | Page navigation controls |
+
+### Data Display
+
+| Component | Description |
+| --- | --- |
+| **Table** | Data table with sorting, filtering, and selection |
+| **Data Table** | Full-featured data grid with column controls |
+| **Card** | Content container with header, body, and footer |
+| **Badge** | Status labels and counters |
+| **Avatar** | User avatars with fallback initials |
+| **Kbd** | Keyboard shortcut display |
+| **Typography** | Heading and prose components |
+| **Skeleton** | Loading placeholder |
+| **Empty** | Empty state illustration |
+| **Chart** | Data visualization (Recharts v3) |
+
+### Overlays
+
+| Component | Description |
+| --- | --- |
+| **Dialog** | Modal dialog with focus trapping |
+| **Alert Dialog** | Confirmation dialog with required action |
+| **Sheet** | Slide-in panel from any edge |
+| **Drawer** | Bottom sheet with drag-to-dismiss |
+| **Dropdown Menu** | Context-aware dropdown with keyboard navigation |
+| **Context Menu** | Right-click context menu |
+| **Popover** | Positioned floating panel |
+| **Tooltip** | Hover/focus information overlay |
+| **Hover Card** | Rich content on hover |
+
+### Layout
+
+| Component | Description |
+| --- | --- |
+| **Accordion** | Collapsible content sections |
+| **Collapsible** | Single collapsible region |
+| **Aspect Ratio** | Fixed aspect ratio container |
+| **Resizable** | Resizable panels with drag handles |
+| **Scroll Area** | Custom scrollbar with cross-browser styling |
+| **Separator** | Visual divider |
+| **Carousel** | Swipeable content carousel |
+| **Preview Panel** | Content preview with multiple layout modes |
+
+### Feedback
+
+| Component | Description |
+| --- | --- |
+| **Alert** | Status messages with icon and description |
+| **Sonner** | Toast notifications |
+| **Progress** | Progress bar with animation |
+| **Toggle** | Pressed/unpressed state button |
+| **Toggle Group** | Multi-toggle selection |
+
+---
+
+## The CLI Workflow
+
+Adding components is one command:
+
+```bash
+# Initialize a new project with components
+bunx @gentleduck/cli init button dialog input select
+
+# Add more components later
+bunx @gentleduck/cli add command combobox data-table
+```
+
+The CLI:
+1. Resolves dependencies between components (e.g., `combobox` needs `popover` + `command`)
+2. Copies source files into your project
+3. Installs npm dependencies (`@gentleduck/primitives`, `@gentleduck/variants`, etc.)
+4. Configures Tailwind CSS if needed
+
+### Why Copy Source?
+
+Most component libraries are black boxes. You install a package, use the API, and hope the defaults work for your design. When they do not, you fight the abstraction with CSS overrides, wrapper components, or abandoned forks.
+
+Duck UI takes a different approach:
+
+- **Full control** -- Every component is a file you own. Change the border radius, swap an icon, add a prop, remove a feature.
+- **No version lock** -- You are not coupled to upstream releases. Your code, your pace.
+- **Learn by reading** -- The source is right there in your project. See exactly how a dialog manages focus or how a combobox handles keyboard events.
+- **Tree-shaking by default** -- You only have the components you use. No unused code in your bundle.
+
+<Callout title="Component-as-code">
+  When you run `@gentleduck/cli add button`, you get the full `button.tsx` source in your project. It is not a dependency -- it is your code now.
+</Callout>
+
+---
+
+## Built on the Ecosystem
+
+Every component is built using the same GentleDuck packages you can adopt independently:
+
+- **@gentleduck/primitives** -- Headless behavior (focus, keyboard, ARIA)
+- **@gentleduck/variants** -- Type-safe styling with `cva()`
+- **@gentleduck/hooks** -- React hooks for component logic
+- **@gentleduck/motion** -- Enter/exit animations
+- **@gentleduck/libs** -- Utilities (`cn`, `Slot`, `Portal`)
+
+The components are the reference implementation of these packages working together. Reading the source teaches you how to build your own components using the same patterns.
+
+---
+
+## Getting Started
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6">
+  <LinkedCard href="https://ui.gentleduck.org/docs" target="_blank" rel="noopener noreferrer">
+    <div className="flex flex-col p-4">
+      <h4 className="font-semibold">Duck UI Docs</h4>
+      <p className="mt-2 text-muted-foreground text-sm">Installation, theming, component guides, and API reference for all 59+ components.</p>
+    </div>
+  </LinkedCard>
+  <LinkedCard href="https://ui.gentleduck.org/docs/components/button" target="_blank" rel="noopener noreferrer">
+    <div className="flex flex-col p-4">
+      <h4 className="font-semibold">Start with Button</h4>
+      <p className="mt-2 text-muted-foreground text-sm">The simplest component to see the pattern. From there, explore Dialog, Command, and Data Table.</p>
+    </div>
+  </LinkedCard>
+</div>

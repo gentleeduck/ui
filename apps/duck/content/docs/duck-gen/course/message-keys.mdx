@@ -1,0 +1,192 @@
+---
+title: "Chapter 6: Message Keys"
+description: Add typed i18n message registries using @duckgen JSDoc tags.
+---
+
+## What are message keys?
+
+Most APIs return status messages alongside data. For example, a login endpoint might
+return `"LOGIN_SUCCESS"` or `"INVALID_CREDENTIALS"`. These message keys are often used
+for i18n (internationalization), where the client maps keys to localized strings.
+
+Without Duck Gen, these keys are plain strings. A typo in either the server or the client
+goes unnoticed until runtime. Duck Gen solves this by generating typed message registries.
+
+## How it works
+
+Duck Gen scans for exported variables that have a `@duckgen` JSDoc tag. The tag tells
+Duck Gen the group name for those messages.
+
+### Step 1: Define message constants
+
+Create a messages file in your Users module:
+
+```ts title="src/users/users.messages.ts"
+/**
+ * @duckgen messages users
+ */
+export const UserMessages = {
+  USER_CREATED: 'User created successfully',
+  USER_UPDATED: 'User updated successfully',
+  USER_DELETED: 'User deleted successfully',
+  USER_FOUND: 'User found',
+  USERS_LISTED: 'Users listed',
+  USER_NOT_FOUND: 'User not found',
+  USER_EMAIL_TAKEN: 'Email is already in use',
+} as const
+```
+
+**Key parts:**
+
+- The `@duckgen messages users` JSDoc tag tells Duck Gen to scan this constant and group it under `users`.
+- The `as const` assertion is required so TypeScript treats the keys as literal types, not just `string`.
+- The object keys (`USER_CREATED`, `USER_UPDATED`, etc.) become the typed message keys.
+- The values (`'User created successfully'`, etc.) can be anything. Duck Gen only reads the keys.
+
+### Step 2: Use messages in your controller
+
+Update the Users controller to use these message constants:
+
+```ts title="src/users/users.controller.ts"
+import { Body, Controller, Delete, Get, Param, Post, Put, Query } from '@nestjs/common'
+import { ApiResponse } from '../common/api-response'
+import { CreateUserDto } from './dto/create-user.dto'
+import { PaginationDto } from './dto/pagination.dto'
+import { UpdateUserDto } from './dto/update-user.dto'
+import { UserDto } from './dto/user.dto'
+import { UserMessages } from './users.messages'
+
+type UserMessage = keyof typeof UserMessages
+
+@Controller('users')
+export class UsersController {
+  @Get()
+  findAll(@Query() query: PaginationDto): Promise<ApiResponse<UserDto[], UserMessage>> {
+    return {
+      data: [],
+      message: 'USERS_LISTED',
+      success: true,
+    } as any
+  }
+
+  @Post()
+  create(@Body() body: CreateUserDto): Promise<ApiResponse<UserDto, UserMessage>> {
+    return {
+      data: {} as UserDto,
+      message: 'USER_CREATED',
+      success: true,
+    } as any
+  }
+
+  // ... other methods
+}
+```
+
+### Step 3: Regenerate types
+
+```bash
+bun run generate
+```
+
+### Step 4: Check the output
+
+Open `generated/duck-gen-messages.d.ts`. You will see types like:
+
+```ts title="generated/duck-gen-messages.d.ts"
+export interface DuckgenMessagesByGroup {
+  users: {
+    USER_CREATED: 'User created successfully'
+    USER_UPDATED: 'User updated successfully'
+    USER_DELETED: 'User deleted successfully'
+    USER_FOUND: 'User found'
+    USERS_LISTED: 'Users listed'
+    USER_NOT_FOUND: 'User not found'
+    USER_EMAIL_TAKEN: 'Email is already in use'
+  }
+}
+
+export type DuckgenMessageKeys = keyof DuckgenMessagesByGroup[keyof DuckgenMessagesByGroup]
+```
+
+## Using message types on the client
+
+Now you can build a type-safe i18n system:
+
+```ts title="client/i18n/messages.ts"
+import type { DuckgenMessagesByGroup } from '@gentleduck/gen/nestjs'
+
+// Define translations for each language
+const translations: Record<string, Record<string, string>> = {
+  en: {
+    USER_CREATED: 'User created successfully',
+    USER_NOT_FOUND: 'User not found',
+    USER_EMAIL_TAKEN: 'This email is already taken',
+    // ...
+  },
+  ar: {
+    USER_CREATED: 'User created in Arabic',
+    USER_NOT_FOUND: 'User not found in Arabic',
+    USER_EMAIL_TAKEN: 'Email taken in Arabic',
+    // ...
+  },
+}
+
+// Type-safe message lookup
+type UserMessageKey = keyof DuckgenMessagesByGroup['users']
+
+function getMessage(lang: string, key: UserMessageKey): string {
+  return translations[lang]?.[key] || key
+}
+
+// Usage
+getMessage('en', 'USER_CREATED')      // works
+getMessage('en', 'INVALID_KEY')        // TypeScript error
+```
+
+<Callout icon={<Target/>} title="Catch missing translations at compile time">
+  If you add a new message key on the server and re-run Duck Gen, TypeScript can warn
+  you about any translation files that are missing the new key. This eliminates the
+  "missing translation" bugs that normally only show up in production.
+</Callout>
+
+## Multiple message groups
+
+You can have multiple message groups across different modules:
+
+```ts title="src/auth/auth.messages.ts"
+/**
+ * @duckgen messages auth
+ */
+export const AuthMessages = {
+  LOGIN_SUCCESS: 'Logged in successfully',
+  LOGIN_FAILED: 'Invalid credentials',
+  TOKEN_EXPIRED: 'Session expired',
+  LOGOUT_SUCCESS: 'Logged out successfully',
+} as const
+```
+
+Each group appears as a separate key in `DuckgenMessagesByGroup`:
+
+```ts
+type Groups = keyof DuckgenMessagesByGroup // 'users' | 'auth'
+```
+
+## Tag format
+
+The `@duckgen` tag follows this format:
+
+```
+@duckgen messages <group-name>
+```
+
+- `messages` is the scan type (currently the only supported type for messages).
+- `<group-name>` is the key under which these messages are grouped.
+
+**Rules:**
+- Each group name must be unique across your entire project.
+- The tagged variable must be exported.
+- Use `as const` so TypeScript preserves literal key types.
+
+## Next
+
+[Chapter 7: Duck Query Client](/docs/course/duck-query-client)

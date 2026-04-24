@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "exactOptionalPropertyTypes": false,
+    "noPropertyAccessFromIndexSignature": false,
+    "noImplicitOverride": false,
+    "verbatimModuleSyntax": false
+  },
+  "exclude": ["node_modules", "dist", "examples.ts"],
+  "extends": "@gentleduck/typescript-config/internal-package.json",
+  "include": ["src/**/*"]
+}
