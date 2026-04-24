@@ -630,6 +630,16 @@ const _ChartBenchmarkCalendarVs = dynamic(
 const _ChartBenchmarkCalendar = dynamic(() => import('@gentleduck/registry-examples/chart/chart-benchmark-calendar'), {
   ssr: false,
 })
+const _ChartBenchmarkIamCompare = dynamic(
+  () => import('@gentleduck/registry-examples/chart/chart-benchmark-iam-compare'),
+  { ssr: false },
+)
+const _ChartBenchmarkIamVs = dynamic(() => import('@gentleduck/registry-examples/chart/chart-benchmark-iam-vs'), {
+  ssr: false,
+})
+const _ChartBenchmarkIam = dynamic(() => import('@gentleduck/registry-examples/chart/chart-benchmark-iam'), {
+  ssr: false,
+})
 const _ChartBenchmarkPrimitivesAll = dynamic(
   () => import('@gentleduck/registry-examples/chart/chart-benchmark-primitives-all'),
   { ssr: false },
@@ -645,6 +655,7 @@ const _ChartBenchmarkPrimitives = dynamic(
 const _ChartBenchmarkVariants = dynamic(() => import('@gentleduck/registry-examples/chart/chart-benchmark-variants'), {
   ssr: false,
 })
+const _ChartTabs = dynamic(() => import('@gentleduck/registry-examples/chart/chart-tabs'), { ssr: false })
 const _NavigationMenu1 = dynamic(() => import('@gentleduck/registry-examples/navigation-menu/navigation-menu-1'), {
   ssr: false,
 })
@@ -7611,6 +7622,54 @@ export const Index: Record<string, any> = {
     categories: [],
     root_folder: 'chart',
   },
+  'chart-benchmark-iam-compare': {
+    name: 'chart-benchmark-iam-compare',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['chart'],
+    files: [
+      {
+        path: 'chart/chart-benchmark-iam-compare.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _ChartBenchmarkIamCompare,
+    source: '/registry-examples/src/chart',
+    categories: [],
+    root_folder: 'chart',
+  },
+  'chart-benchmark-iam-vs': {
+    name: 'chart-benchmark-iam-vs',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['chart'],
+    files: [
+      {
+        path: 'chart/chart-benchmark-iam-vs.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _ChartBenchmarkIamVs,
+    source: '/registry-examples/src/chart',
+    categories: [],
+    root_folder: 'chart',
+  },
+  'chart-benchmark-iam': {
+    name: 'chart-benchmark-iam',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['chart'],
+    files: [
+      {
+        path: 'chart/chart-benchmark-iam.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _ChartBenchmarkIam,
+    source: '/registry-examples/src/chart',
+    categories: [],
+    root_folder: 'chart',
+  },
   'chart-benchmark-primitives-all': {
     name: 'chart-benchmark-primitives-all',
     description: '',
@@ -7671,6 +7730,22 @@ export const Index: Record<string, any> = {
       },
     ],
     component: _ChartBenchmarkVariants,
+    source: '/registry-examples/src/chart',
+    categories: [],
+    root_folder: 'chart',
+  },
+  'chart-tabs': {
+    name: 'chart-tabs',
+    description: '',
+    type: 'registry:example',
+    registryDependencies: ['chart'],
+    files: [
+      {
+        path: 'chart/chart-tabs.tsx',
+        type: 'registry:example',
+      },
+    ],
+    component: _ChartTabs,
     source: '/registry-examples/src/chart',
     categories: [],
     root_folder: 'chart',

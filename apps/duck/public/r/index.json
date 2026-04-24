@@ -22947,6 +22947,21 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-primitives-all.tsx",
         "path": "chart/chart-benchmark-primitives-all.tsx",
         "type": "file"
@@ -22964,6 +22979,11 @@
       {
         "name": "chart-benchmark-variants.tsx",
         "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
         "type": "file"
       }
     ]
@@ -23039,6 +23059,21 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-primitives-all.tsx",
         "path": "chart/chart-benchmark-primitives-all.tsx",
         "type": "file"
@@ -23056,6 +23091,11 @@
       {
         "name": "chart-benchmark-variants.tsx",
         "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
         "type": "file"
       }
     ]
@@ -23131,6 +23171,21 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-primitives-all.tsx",
         "path": "chart/chart-benchmark-primitives-all.tsx",
         "type": "file"
@@ -23148,6 +23203,11 @@
       {
         "name": "chart-benchmark-variants.tsx",
         "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
         "type": "file"
       }
     ]
@@ -23223,6 +23283,21 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-primitives-all.tsx",
         "path": "chart/chart-benchmark-primitives-all.tsx",
         "type": "file"
@@ -23240,6 +23315,11 @@
       {
         "name": "chart-benchmark-variants.tsx",
         "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
         "type": "file"
       }
     ]
@@ -23315,6 +23395,21 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-primitives-all.tsx",
         "path": "chart/chart-benchmark-primitives-all.tsx",
         "type": "file"
@@ -23332,6 +23427,11 @@
       {
         "name": "chart-benchmark-variants.tsx",
         "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
         "type": "file"
       }
     ]
@@ -23407,6 +23507,21 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-primitives-all.tsx",
         "path": "chart/chart-benchmark-primitives-all.tsx",
         "type": "file"
@@ -23424,6 +23539,11 @@
       {
         "name": "chart-benchmark-variants.tsx",
         "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
         "type": "file"
       }
     ]
@@ -23499,6 +23619,21 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-primitives-all.tsx",
         "path": "chart/chart-benchmark-primitives-all.tsx",
         "type": "file"
@@ -23516,6 +23651,11 @@
       {
         "name": "chart-benchmark-variants.tsx",
         "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
         "type": "file"
       }
     ]
@@ -23591,6 +23731,21 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-primitives-all.tsx",
         "path": "chart/chart-benchmark-primitives-all.tsx",
         "type": "file"
@@ -23608,6 +23763,11 @@
       {
         "name": "chart-benchmark-variants.tsx",
         "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
         "type": "file"
       }
     ]
@@ -23683,6 +23843,21 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-primitives-all.tsx",
         "path": "chart/chart-benchmark-primitives-all.tsx",
         "type": "file"
@@ -23700,6 +23875,11 @@
       {
         "name": "chart-benchmark-variants.tsx",
         "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
         "type": "file"
       }
     ]
@@ -23775,6 +23955,21 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-primitives-all.tsx",
         "path": "chart/chart-benchmark-primitives-all.tsx",
         "type": "file"
@@ -23792,6 +23987,11 @@
       {
         "name": "chart-benchmark-variants.tsx",
         "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
         "type": "file"
       }
     ]
@@ -23867,6 +24067,21 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-primitives-all.tsx",
         "path": "chart/chart-benchmark-primitives-all.tsx",
         "type": "file"
@@ -23884,6 +24099,347 @@
       {
         "name": "chart-benchmark-variants.tsx",
         "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "chart-benchmark-iam-compare",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "type": "registry:example",
+    "source": "/registry-examples/src/chart",
+    "tree": [
+      {
+        "name": "chart-1.tsx",
+        "path": "chart/chart-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-2.tsx",
+        "path": "chart/chart-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-3.tsx",
+        "path": "chart/chart-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-4.tsx",
+        "path": "chart/chart-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-5.tsx",
+        "path": "chart/chart-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-6.tsx",
+        "path": "chart/chart-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-7.tsx",
+        "path": "chart/chart-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "chart-benchmark-iam-vs",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "type": "registry:example",
+    "source": "/registry-examples/src/chart",
+    "tree": [
+      {
+        "name": "chart-1.tsx",
+        "path": "chart/chart-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-2.tsx",
+        "path": "chart/chart-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-3.tsx",
+        "path": "chart/chart-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-4.tsx",
+        "path": "chart/chart-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-5.tsx",
+        "path": "chart/chart-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-6.tsx",
+        "path": "chart/chart-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-7.tsx",
+        "path": "chart/chart-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "chart-benchmark-iam",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "type": "registry:example",
+    "source": "/registry-examples/src/chart",
+    "tree": [
+      {
+        "name": "chart-1.tsx",
+        "path": "chart/chart-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-2.tsx",
+        "path": "chart/chart-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-3.tsx",
+        "path": "chart/chart-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-4.tsx",
+        "path": "chart/chart-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-5.tsx",
+        "path": "chart/chart-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-6.tsx",
+        "path": "chart/chart-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-7.tsx",
+        "path": "chart/chart-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
         "type": "file"
       }
     ]
@@ -23959,6 +24515,21 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-primitives-all.tsx",
         "path": "chart/chart-benchmark-primitives-all.tsx",
         "type": "file"
@@ -23976,6 +24547,11 @@
       {
         "name": "chart-benchmark-variants.tsx",
         "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
         "type": "file"
       }
     ]
@@ -24051,6 +24627,21 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-primitives-all.tsx",
         "path": "chart/chart-benchmark-primitives-all.tsx",
         "type": "file"
@@ -24068,6 +24659,11 @@
       {
         "name": "chart-benchmark-variants.tsx",
         "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
         "type": "file"
       }
     ]
@@ -24143,6 +24739,21 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-primitives-all.tsx",
         "path": "chart/chart-benchmark-primitives-all.tsx",
         "type": "file"
@@ -24160,6 +24771,11 @@
       {
         "name": "chart-benchmark-variants.tsx",
         "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
         "type": "file"
       }
     ]
@@ -24235,6 +24851,21 @@
         "type": "file"
       },
       {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
         "name": "chart-benchmark-primitives-all.tsx",
         "path": "chart/chart-benchmark-primitives-all.tsx",
         "type": "file"
@@ -24252,6 +24883,123 @@
       {
         "name": "chart-benchmark-variants.tsx",
         "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
+        "type": "file"
+      }
+    ]
+  },
+  {
+    "files": [
+      {
+        "path": "chart/chart-tabs.tsx",
+        "type": "registry:example"
+      }
+    ],
+    "name": "chart-tabs",
+    "registryDependencies": [
+      "chart"
+    ],
+    "root_folder": "chart",
+    "type": "registry:example",
+    "source": "/registry-examples/src/chart",
+    "tree": [
+      {
+        "name": "chart-1.tsx",
+        "path": "chart/chart-1.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-2.tsx",
+        "path": "chart/chart-2.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-3.tsx",
+        "path": "chart/chart-3.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-4.tsx",
+        "path": "chart/chart-4.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-5.tsx",
+        "path": "chart/chart-5.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-6.tsx",
+        "path": "chart/chart-6.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-7.tsx",
+        "path": "chart/chart-7.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-8.tsx",
+        "path": "chart/chart-8.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-compare.tsx",
+        "path": "chart/chart-benchmark-calendar-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar-vs.tsx",
+        "path": "chart/chart-benchmark-calendar-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-calendar.tsx",
+        "path": "chart/chart-benchmark-calendar.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-compare.tsx",
+        "path": "chart/chart-benchmark-iam-compare.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam-vs.tsx",
+        "path": "chart/chart-benchmark-iam-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-iam.tsx",
+        "path": "chart/chart-benchmark-iam.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-all.tsx",
+        "path": "chart/chart-benchmark-primitives-all.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives-vs.tsx",
+        "path": "chart/chart-benchmark-primitives-vs.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-primitives.tsx",
+        "path": "chart/chart-benchmark-primitives.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-benchmark-variants.tsx",
+        "path": "chart/chart-benchmark-variants.tsx",
+        "type": "file"
+      },
+      {
+        "name": "chart-tabs.tsx",
+        "path": "chart/chart-tabs.tsx",
         "type": "file"
       }
     ]

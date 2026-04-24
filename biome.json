@@ -105,6 +105,8 @@
       "!apps/benchmark/**",
       "!packages/___/**",
       "!packages/_oldstuff_refactor/**",
+      "!packages/wip/**",
+      "!packages/deprecated/**",
       "!packages/duck-state/**",
       "!packages/duck-benchmark/**",
       "!packages/registry-build-duckui/**",
