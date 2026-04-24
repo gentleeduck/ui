@@ -5,10 +5,10 @@ export const DuckUiConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-ui',
+      href: '/duck-ui/introduction',
       title: '',
       items: [
-        { href: '/duck-ui', title: 'Introduction', items: [] },
+        { href: '/duck-ui/introduction', title: 'Introduction', items: [] },
         { href: '/duck-ui/theming', title: 'Theming', items: [] },
         { href: '/duck-ui/javascript', title: 'JavaScript', items: [] },
         { href: '/duck-ui/faqs', title: 'FAQs', items: [] },

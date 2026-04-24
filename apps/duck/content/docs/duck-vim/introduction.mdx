@@ -1,0 +1,151 @@
+---
+title: "duck-vim"
+description: "Tiny, framework-agnostic keyboard command engine with optional React bindings."
+---
+
+<Callout icon={<Zap />}>
+
+**duck-vim** is a keyboard shortcut engine for the browser. Registry-based commands, multi-key sequences, cross-platform <Kbd>Mod</Kbd> key, key recording, and display formatting. Under 5 KB gzipped.
+
+</Callout>
+
+## What is duck-vim?
+
+duck-vim is a keyboard shortcut engine for the browser. Shortcuts are declared in a registry rather than hardcoded in event handlers. That makes them discoverable through command palettes, customizable per user, and composable into multi-key sequences like <Kbd>g</Kbd> then <Kbd>d</Kbd>.
+
+The core is plain DOM with zero dependencies. React bindings sit on top as an optional layer.
+
+---
+
+## Why duck-vim?
+
+Most keyboard shortcut libraries cover <Kbd>Ctrl+K</Kbd> to a function and stop. duck-vim also handles:
+
+- **Multi-key sequences** like Vim's <Kbd>g</Kbd>+<Kbd>d</Kbd> (press <Kbd>g</Kbd>, then <Kbd>d</Kbd> within a timeout).
+- **Prefix awareness** so the UI can show a "waiting for next key..." state.
+- **Cross-platform Mod key** that resolves to <Kbd>Cmd</Kbd> on Mac and <Kbd>Ctrl</Kbd> elsewhere.
+- **Scoped bindings** attached to specific DOM elements, not just `document`.
+- **A key recorder** for settings UIs where users define their own shortcuts.
+- **Display formatting** that renders `Mod+Shift+S` as <Kbd>Cmd+Shift+S</Kbd> on Mac and <Kbd>Ctrl+Shift+S</Kbd> on Windows.
+
+<Callout icon={<Lightbulb />}>
+
+All of the above fit under 5 KB gzipped.
+
+</Callout>
+
+---
+
+## Architecture
+
+duck-vim is organized into independent modules:
+
+| Module | Purpose | Framework dependency |
+| --- | --- | --- |
+| `platform` | OS detection, Mod key resolution | None |
+| `parser` | Parse and validate key binding strings | None |
+| `matcher` | Match keyboard events against parsed bindings | None |
+| `command` | Registry + KeyHandler for managing shortcuts | None |
+| `sequence` | Multi-step sequence manager | None |
+| `recorder` | Record key combinations for settings UIs | None |
+| `format` | Format bindings for display (<Kbd>Cmd+S</Kbd>, <Kbd>Ctrl+S</Kbd>) | None |
+| `react` | Provider, hooks, and context for React apps | React |
+
+<Callout icon={<Target />}>
+
+Every module except `react` is pure DOM. You can use any subset.
+
+</Callout>
+
+<MermaidDiagram chart={`flowchart TD
+    P[platform] --> PA[parser]
+    PA --> MA[matcher]
+    MA --> CMD[command]
+    MA --> SEQ[sequence]
+    PA --> FMT[format]
+    P --> FMT
+    CMD --> R[react]
+    SEQ --> R
+    PA --> REC[recorder]
+`} />
+
+---
+
+## Quick links
+
+<Callout icon={<MapIcon />}>
+
+- [Getting Started](/docs/packages/duck-vim/getting-started) - Install and run your first shortcut.
+- [Core Concepts](/docs/packages/duck-vim/concepts) - Key descriptors, sequences, prefixes, the Mod key.
+- [API Reference](/docs/packages/duck-vim/api) - Full API for every module.
+- [Guides](/docs/packages/duck-vim/guides) - Recipes for common patterns.
+- [Course](/docs/packages/duck-vim/course) - Tutorial from zero to advanced.
+
+</Callout>
+
+---
+
+## Installation
+
+<Tabs defaultValue="npm">
+<TabsList>
+  <TabsTrigger value="npm">npm</TabsTrigger>
+  <TabsTrigger value="pnpm">pnpm</TabsTrigger>
+  <TabsTrigger value="yarn">yarn</TabsTrigger>
+</TabsList>
+<TabsContent value="npm">
+
+```bash
+npm install @gentleduck/vim
+```
+
+</TabsContent>
+<TabsContent value="pnpm">
+
+```bash
+pnpm add @gentleduck/vim
+```
+
+</TabsContent>
+<TabsContent value="yarn">
+
+```bash
+yarn add @gentleduck/vim
+```
+
+</TabsContent>
+</Tabs>
+
+```ts
+// Core (framework-agnostic)
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
+import { parseKeyBind } from '@gentleduck/vim/parser'
+import { formatForDisplay } from '@gentleduck/vim/format'
+
+// React bindings
+import { KeyProvider, useKeyBind, useKeySequence } from '@gentleduck/vim/react'
+```
+
+---
+
+## Minimal example
+
+```ts
+import { Registry, KeyHandler } from '@gentleduck/vim/command'
+
+const registry = new Registry()
+const handler = new KeyHandler(registry)
+
+registry.register('ctrl+k', {
+  name: 'Open Palette',
+  execute: () => document.getElementById('palette')?.focus(),
+})
+
+handler.attach(document)
+```
+
+<Callout icon={<Zap />}>
+
+Press <Kbd>Ctrl+K</Kbd> and the command fires. No React, no framework, no config files.
+
+</Callout>

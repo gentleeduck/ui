@@ -5,11 +5,11 @@ export const DuckCliConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-cli',
+      href: '/duck-cli/introduction',
       title: 'Gentleduck CLI',
       label: 'new',
       collapsible: false,
-      items: [{ href: '/duck-cli', title: 'Overview', items: [] }],
+      items: [{ href: '/duck-cli/introduction', title: 'Introduction', items: [] }],
     },
   ],
 }

@@ -5,10 +5,10 @@ export const DuckStateConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-state',
+      href: '/duck-state/introduction',
       title: 'Gentleduck State',
       collapsible: false,
-      items: [{ href: '/duck-state', title: 'Overview', items: [] }],
+      items: [{ href: '/duck-state/introduction', title: 'Introduction', items: [] }],
     },
   ],
 }

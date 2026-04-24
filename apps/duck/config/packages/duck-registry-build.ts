@@ -5,11 +5,11 @@ export const DuckRegistryBuildConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-registry-build',
+      href: '/duck-registry-build/introduction',
       collapsible: false,
       title: 'Gentleduck Registry Build',
       items: [
-        { href: '/duck-registry-build', title: 'Overview', items: [] },
+        { href: '/duck-registry-build/introduction', title: 'Introduction', items: [] },
         { href: '/duck-registry-build/getting-started', title: 'Getting Started', items: [] },
         { href: '/duck-registry-build/architecture', title: 'Architecture', items: [] },
         { href: '/duck-registry-build/recipes', title: 'Recipes', items: [] },

@@ -5,10 +5,10 @@ export const DuckHooksConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-hooks',
+      href: '/duck-hooks/introduction',
       title: 'Gentleduck Hooks',
       collapsible: false,
-      items: [{ href: '/duck-hooks', title: 'Overview', items: [] }],
+      items: [{ href: '/duck-hooks/introduction', title: 'Introduction', items: [] }],
     },
   ],
 }

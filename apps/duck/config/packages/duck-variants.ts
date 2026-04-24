@@ -5,10 +5,10 @@ export const DuckVariantsConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-variants',
+      href: '/duck-variants/introduction',
       title: 'Gentleduck Variants',
       collapsible: false,
-      items: [{ href: '/duck-variants', title: 'Overview', items: [] }],
+      items: [{ href: '/duck-variants/introduction', title: 'Introduction', items: [] }],
     },
   ],
 }

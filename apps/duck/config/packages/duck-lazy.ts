@@ -5,10 +5,10 @@ export const DuckLazyConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-lazy',
+      href: '/duck-lazy/introduction',
       title: 'Gentleduck Lazy',
       collapsible: false,
-      items: [{ href: '/duck-lazy', title: 'Overview', items: [] }],
+      items: [{ href: '/duck-lazy/introduction', title: 'Introduction', items: [] }],
     },
   ],
 }

@@ -5,11 +5,11 @@ export const DuckVimConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-vim',
+      href: '/duck-vim/introduction',
       collapsible: false,
       title: 'Gentleduck Vim',
       items: [
-        { href: '/duck-vim', title: 'Overview', items: [] },
+        { href: '/duck-vim/introduction', title: 'Introduction', items: [] },
         { href: '/duck-vim/getting-started', title: 'Getting Started', items: [] },
         { href: '/duck-vim/concepts', title: 'Concepts', items: [] },
       ],

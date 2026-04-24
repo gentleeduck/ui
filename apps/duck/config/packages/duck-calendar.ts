@@ -5,11 +5,11 @@ export const DuckCalendarConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-calendar',
+      href: '/duck-calendar/introduction',
       collapsible: false,
       title: 'Gentleduck Calendar',
       items: [
-        { href: '/duck-calendar', title: 'Overview', items: [] },
+        { href: '/duck-calendar/introduction', title: 'Introduction', items: [] },
         { href: '/duck-calendar/getting-started', title: 'Getting Started', items: [] },
         { href: '/duck-calendar/benchmarks', title: 'Benchmarks', label: 'new', items: [] },
       ],

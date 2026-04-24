@@ -5,10 +5,10 @@ export const DuckShortcutConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-shortcut',
+      href: '/duck-shortcut/introduction',
       title: 'Gentleduck Shortcut (Deprecated)',
       collapsible: false,
-      items: [{ href: '/duck-shortcut', title: 'Overview', items: [] }],
+      items: [{ href: '/duck-shortcut/introduction', title: 'Introduction', items: [] }],
     },
   ],
 }

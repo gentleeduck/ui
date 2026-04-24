@@ -5,11 +5,11 @@ export const DuckPrimitivesConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-primitives',
+      href: '/duck-primitives/introduction',
       collapsible: false,
       title: 'Gentleduck Primitives',
       items: [
-        { href: '/duck-primitives', title: 'Overview', items: [] },
+        { href: '/duck-primitives/introduction', title: 'Introduction', items: [] },
         { href: '/duck-primitives/getting-started', title: 'Getting Started', items: [] },
         { href: '/duck-primitives/concepts', title: 'Core Concepts', items: [] },
         { href: '/duck-primitives/benchmarks', title: 'Benchmarks', label: 'new', items: [] },

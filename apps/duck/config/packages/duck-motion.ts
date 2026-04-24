@@ -5,10 +5,10 @@ export const DuckMotionConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-motion',
+      href: '/duck-motion/introduction',
       title: 'Gentleduck Motion',
       collapsible: false,
-      items: [{ href: '/duck-motion', title: 'Overview', items: [] }],
+      items: [{ href: '/duck-motion/introduction', title: 'Introduction', items: [] }],
     },
   ],
 }

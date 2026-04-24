@@ -5,10 +5,10 @@ export const DuckLibsConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-libs',
+      href: '/duck-libs/introduction',
       title: 'Gentleduck Libs',
       collapsible: false,
-      items: [{ href: '/duck-libs', title: 'Overview', items: [] }],
+      items: [{ href: '/duck-libs/introduction', title: 'Introduction', items: [] }],
     },
   ],
 }
