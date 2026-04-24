@@ -90,7 +90,7 @@ Per-component gzipped size (verified via bundlephobia API, 15 components with da
 
 <Callout icon={<Lightbulb />}>
 
-**Radio Group** is one case where Radix is smaller (1.0 KB vs 1.9 KB). We show honest numbers - not every primitive is smaller.
+**Radio Group** is one case where Radix is smaller (1.0 KB vs 1.9 KB). Not every primitive is smaller.
 
 </Callout>
 
@@ -136,7 +136,7 @@ Every primitive from both libraries, side by side. 0 KB means the library does n
 
 ## Size vs features: why some primitives are larger
 
-A smaller bundle is not always the better primitive. gentleduck intentionally ships **more behavior per component** than minimal alternatives:
+A smaller bundle is not always better. gentleduck ships more behavior per component than minimal alternatives:
 
 | Built-in capability | What it saves you | Size cost |
 |---|---|---|
@@ -147,13 +147,13 @@ A smaller bundle is not always the better primitive. gentleduck intentionally sh
 | **Dismissable layer** | No manual `Escape` key + click-outside + nested layer handling | ~0.3 KB |
 | **Popper (positioning)** | No separate Floating UI dependency or manual positioning | ~1.2 KB |
 
-When a gentleduck primitive is **larger** than a competitor (like Radio Group at 1.9 KB vs Radix at 1.0 KB), it's because the competitor either:
+When a gentleduck primitive is larger than a competitor (Radio Group at 1.9 KB vs Radix at 1.0 KB), the competitor either:
 
-1. **Delegates to separate packages**  -  Radix splits focus, dismissal, and collection into internal packages. Each looks small, but install 5 primitives and you pay the overhead 5 times.
-2. **Omits the behavior entirely**  -  Base UI and Headless UI skip compound components, roving focus, and presence animations. You write that code yourself.
-3. **Uses external state machines**  -  Ark UI offloads to xstate/zag.js, which adds ~15 KB of runtime not counted in the component size.
+1. **Delegates to separate packages**. Radix splits focus, dismissal, and collection into internal packages. Each looks small, but install 5 primitives and you pay the overhead 5 times.
+2. **Omits the behavior**. Base UI and Headless UI skip compound components, roving focus, and presence animations. You write that code.
+3. **Uses external state machines**. Ark UI offloads to xstate/zag.js, which adds ~15 KB of runtime not counted in the component size.
 
-The honest comparison is **total application cost**: primitive size + the code you write to fill the gaps. gentleduck trades a few hundred bytes of primitive size for thousands of lines you never need to write.
+The fair comparison is total application cost: primitive size plus the code you write to fill the gaps.
 
 ---
 
