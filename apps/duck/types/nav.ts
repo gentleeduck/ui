@@ -1,4 +1,5 @@
 import type * as React from 'react'
+import type { PackageLifecycleStatus } from '~/config/package-status'
 
 export interface INavItem {
   title: string
@@ -9,6 +10,7 @@ export interface INavItem {
   icon?: React.ElementType
   color?: string
   label?: string
+  status?: PackageLifecycleStatus
   accordion?: boolean
   defaultOpen?: boolean
   collapsible?: boolean

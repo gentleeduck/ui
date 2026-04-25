@@ -132,6 +132,7 @@ export const navItems = [
         description: 'Enter/exit animations and mount/unmount transitions.',
         icon: Sparkles,
         color: '#a855f7',
+        status: 'wip',
       },
       {
         title: '@gentleduck/lazy',
@@ -146,6 +147,7 @@ export const navItems = [
         description: 'Atom-based state management for React.',
         icon: Database,
         color: '#6366f1',
+        status: 'experimental',
       },
       {
         title: '@gentleduck/shortcut',
@@ -153,6 +155,7 @@ export const navItems = [
         description: 'Keyboard shortcut hooks for power-user interfaces.',
         icon: Command,
         color: '#f43f5e',
+        status: 'deprecated',
       },
       {
         title: '@gentleduck/ttlog',
@@ -167,6 +170,7 @@ export const navItems = [
         description: 'File upload engine with multipart, chunked, and presigned URL support.',
         icon: Upload,
         color: '#3b82f6',
+        status: 'wip',
       },
       {
         title: '@gentleduck/iam',
@@ -174,6 +178,7 @@ export const navItems = [
         description: 'Identity and access management — roles, permissions, and policy enforcement.',
         icon: KeyRound,
         color: '#eab308',
+        status: 'wip',
       },
       {
         title: '@gentleduck/template',

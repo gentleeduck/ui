@@ -14,6 +14,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import * as React from 'react'
 import { navItems } from '~/config/docs'
+import type { PackageLifecycleStatus } from '~/config/package-status'
 import type { IMainNavItem } from '~/types/nav'
 import { HeaderBrand } from '../header-shell'
 
@@ -33,8 +34,8 @@ function NavIcon({ icon: Icon, color }: { icon?: React.ElementType; color?: stri
 
 const ListItem = React.forwardRef<
   React.ComponentRef<'a'>,
-  React.ComponentPropsWithoutRef<'a'> & { icon?: React.ElementType; color?: string }
->(({ className, title, children, icon, color, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<'a'> & { icon?: React.ElementType; color?: string; status?: PackageLifecycleStatus }
+>(({ className, title, children, icon, color, status, ...props }, ref) => (
   <li>
     <NavigationMenuLink asChild>
       <a
@@ -46,8 +47,12 @@ const ListItem = React.forwardRef<
         {...props}>
         <NavIcon icon={icon} color={color} />
         <div className="min-w-0">
-          <div className="font-medium text-xs leading-none">{title}</div>
-          <p className="mt-0.5 line-clamp-1 text-[11px] text-muted-foreground leading-snug">{children}</p>
+          <div className="flex flex-wrap items-center gap-1.5">
+            <div className="font-medium text-xs leading-none">
+              {title} {status && <>({status.toUpperCase()}) </>}
+            </div>
+          </div>
+          <p className="mt-1 line-clamp-1 text-[11px] text-muted-foreground leading-snug">{children}</p>
         </div>
       </a>
     </NavigationMenuLink>
@@ -83,11 +88,17 @@ function NavItem({ item, pathname }: { item: NavItemType; pathname: string }) {
           style={{
             gridTemplateRows: 'repeat(6, auto)',
             gridAutoFlow: 'column',
-            gridAutoColumns: '230px',
+            gridAutoColumns: '300px',
             width: 'max-content',
           }}>
           {item.items.map((sub) => (
-            <ListItem key={sub.title} href={sub.href} title={sub.title} icon={sub.icon} color={sub.color}>
+            <ListItem
+              key={sub.title}
+              href={sub.href}
+              title={sub.title}
+              icon={sub.icon}
+              color={sub.color}
+              status={sub.status}>
               {sub.description}
             </ListItem>
           ))}
