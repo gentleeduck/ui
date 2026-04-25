@@ -4,11 +4,12 @@ description: "Procedural macros for ttlog — info!, debug!, warn!, error! with 
 ---
 
 
-The `ttlog-macros` crate provides the user-facing logging API. The procedural macros move as much work as possible to compile time.
+The `ttlog-macros` crate provides the user-facing logging API. The procedural macros
+push as much work as possible to compile time.
 
 ## Available Macros
 
-The crate provides a macro for each standard log level:
+One macro per standard log level:
 
 - `trace!`
 - `debug!`
@@ -31,7 +32,8 @@ info!("User successfully authenticated.");
 
 ### 2. Message with Structured Data (Key-Value Pairs)
 
-Add context with `key = value` syntax. The message string is the last string literal in the argument list.
+Add context with `key = value`. The message is the last string literal in the
+argument list.
 
 ```rust
 use ttlog_macros::warn;
@@ -67,14 +69,21 @@ trace!(); // Log that we've entered the section
 
 ## How It Works
 
-The macros do more than rewrite syntax. They push work to compile time.
+The macros push work from runtime to compile time.
 
-1. **Static string interning**: The macros parse log arguments at compile time. The message string and key names are known, so the macro generates code that interns them once per application lifetime using `std::sync::OnceLock`. Subsequent calls to the same log statement are integer lookups.
+1. **Static string interning**: arguments parse at compile time. The message and key
+   names are known, so the macro emits code that interns them once per application
+   lifetime via `std::sync::OnceLock`. Later calls to the same site are integer
+   lookups.
 
-2. **Static metadata**: File path, module path, and line number are captured at compile time via `file!()`, `module_path!()`, and `line!()`. No runtime gathering.
+2. **Static metadata**: file path, module path, and line number come from `file!()`,
+   `module_path!()`, and `line!()` — no runtime gathering.
 
-3. **Value serialization**: Key-value pairs serialize to a compact binary format. Primitive integer types (`i64`, `u64`) and floating-point types (`f32`, `f64`) are converted to strings directly, not through `serde`.
+3. **Value serialization**: key-value pairs serialize to a compact binary format.
+   Primitive integers (`i64`, `u64`) and floats (`f32`, `f64`) convert to strings
+   directly, not through `serde`.
 
-4. **Direct logger call**: The expanded code calls into the `ttlog` crate's `GLOBAL_LOGGER` without intermediate abstraction.
+4. **Direct logger call**: expanded code calls into the `ttlog` crate's
+   `GLOBAL_LOGGER` with no intermediate abstraction.
 
-A call to `info!` expands to a block of code tailored to the arguments you passed.
+Each `info!` call expands to code tailored to the arguments passed.
