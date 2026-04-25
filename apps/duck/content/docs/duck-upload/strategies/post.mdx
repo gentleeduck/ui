@@ -3,7 +3,8 @@ title: POST Strategy
 description: Simple presigned form uploads for small and medium files.
 ---
 
-The POST strategy handles presigned form uploads (S3 POST policy style). It is best for small to medium files where resumability is not required.
+The POST strategy handles presigned form uploads (S3 POST policy style). Best for
+small to medium files when resumability isn't required.
 
 ## Intent Shape
 
@@ -21,16 +22,16 @@ type PostIntent = {
 
 ## Behavior
 
-- Uploads the file via `transport.postForm` using the presigned URL and form fields
-- Reports progress through the transport callback
-- Not resumable -- if the upload fails, it starts over from the beginning
-- Simple and efficient for files under your size threshold
+- Uploads the file via `transport.postForm` using the presigned URL and form fields.
+- Reports progress through the transport callback.
+- Not resumable — failure restarts from the beginning.
+- Simple and efficient for files under your size threshold.
 
 ## When to Use
 
 Use the POST strategy when:
 
-- Files are small to medium in size
-- Resumability is not a requirement
-- Your backend supports S3-style presigned POST policies
-- You want the simplest possible upload flow
+- Files are small to medium.
+- Resumability isn't required.
+- The backend supports S3-style presigned POST policies.
+- You want the simplest possible upload flow.

@@ -3,11 +3,12 @@ title: React Overview
 description: React bindings for the upload engine.
 ---
 
-The React layer is intentionally thin. It only provides context and subscription helpers, keeping all upload logic in the core engine.
+The React layer is thin on purpose — context and subscription helpers only. Upload
+logic stays in the core engine.
 
 ## Provider
 
-Wrap your app with `UploadProvider` to make the store available to all components:
+Wrap the app with `UploadProvider` so components can reach the store:
 
 ```tsx
 import { UploadProvider } from '@gentleduck/upload/react'
@@ -26,9 +27,9 @@ import { UploadProvider } from '@gentleduck/upload/react'
 
 ## Typical Flow
 
-1. Use `useUploader` to render upload lists and progress
-2. Use `dispatch({ type: 'addFiles' })` to add files from user input
-3. Subscribe to `upload.completed` for results
+1. Render upload lists and progress with `useUploader`.
+2. Add files with `dispatch({ type: 'addFiles' })`.
+3. Subscribe to `upload.completed` for results.
 
 ```tsx
 const { items, dispatch, on } = useUploader()
@@ -40,4 +41,5 @@ React.useEffect(() => {
 }, [on])
 ```
 
-See [UploadProvider](/docs/react/upload-provider) and [useUploader](/docs/react/use-uploader) for detailed API documentation.
+See [UploadProvider](/docs/react/upload-provider) and
+[useUploader](/docs/react/use-uploader) for the API.

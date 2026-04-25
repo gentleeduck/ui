@@ -3,7 +3,7 @@ title: Core Overview
 description: The framework-agnostic upload engine core.
 ---
 
-The core module contains the upload engine, contracts, persistence layer, and utilities. It is framework-agnostic and can be used without React.
+The core module holds the upload engine, contracts, persistence layer, and utilities. Framework-agnostic — works without React.
 
 ## Exports
 
@@ -27,9 +27,9 @@ From `@gentleduck/upload/core`:
 
 ## Design Principles
 
-- **Immutable state snapshots** for predictable UI updates
-- **Single event emission layer** for consistent public events
-- **Typed results end-to-end** from backend to UI
-- **Strategy-driven uploads** to keep the engine protocol-agnostic
+- **Immutable state snapshots** for predictable UI updates.
+- **Single event emission layer** for consistent public events.
+- **Typed results end-to-end** from backend to UI.
+- **Strategy-driven uploads** to keep the engine protocol-agnostic.
 
-See [Engine](/docs/core/engine) for the state machine and scheduler details.
+See [Engine](/docs/core/engine) for state machine and scheduler details.

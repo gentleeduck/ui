@@ -3,7 +3,8 @@ title: Engine
 description: State machine, scheduling, and retry model for uploads.
 ---
 
-The engine manages the upload state machine, scheduling, and side effects. All state changes go through the reducer, and all public events emit from a single transition layer.
+The engine runs the upload state machine, scheduler, and side effects. State
+changes go through the reducer; public events emit from one transition layer.
 
 ## State Machine
 
@@ -31,15 +32,16 @@ stateDiagram-v2
 
 ## Scheduling
 
-The scheduler continuously makes progress:
+The scheduler keeps making progress:
 
-- **Intent creation** for items in the `creating_intent` phase
-- **Upload slots** for `queued` items, respecting the configured concurrency limit
-- **Finalization** for items in the `completing` phase
+- **Intent creation** for items in `creating_intent`.
+- **Upload slots** for `queued` items, up to the configured concurrency limit.
+- **Finalization** for items in `completing`.
 
 ## Event Emission
 
-Public events are emitted by `store.runtime.ts` after transitions, not inside handlers. This prevents duplicates and ensures consistent semantics.
+Public events emit from `store.runtime.ts` after transitions, not inside handlers.
+That prevents duplicates and keeps semantics consistent.
 
 | Internal Event | Public Event |
 | --- | --- |
@@ -48,8 +50,9 @@ Public events are emitted by `store.runtime.ts` after transitions, not inside ha
 | `upload.ok` | `upload.completing` |
 | `complete.ok` | `upload.completed` |
 
-`file.rejected` is emitted during `addFiles` because rejected files never enter state.
+`file.rejected` emits during `addFiles` because rejected files never enter state.
 
 ## Retry Model
 
-`retryDecision` centralizes retry policy. Handlers only request a decision; they never hardcode retry logic. The default configuration allows up to 3 attempts with exponential backoff.
+`retryDecision` centralizes retry policy. Handlers ask for a decision; they don't
+hardcode retry logic. The default allows up to 3 attempts with exponential backoff.

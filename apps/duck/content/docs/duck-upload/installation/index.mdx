@@ -5,7 +5,7 @@ description: Get started with @gentleduck/upload in your project.
 
 ## Install the Package
 
-Choose your preferred package manager:
+Pick a package manager:
 
 ```package-install
 @gentleduck/upload
@@ -29,7 +29,7 @@ pnpm add @gentleduck/upload
 
 ### 1. Create a Strategy Registry
 
-Register the upload strategies your app needs:
+Register the strategies the app needs:
 
 ```ts
 import { createStrategyRegistry, PostStrategy, multipartStrategy } from '@gentleduck/upload/strategies'
@@ -41,7 +41,7 @@ strategies.set(multipartStrategy())
 
 ### 2. Implement the Upload API
 
-Your backend adapter must implement the `UploadApi` interface:
+The backend adapter implements `UploadApi`:
 
 ```ts
 import type { UploadApi } from '@gentleduck/upload/core'
@@ -80,7 +80,7 @@ const store = createUploadStore({
 
 ### 4. Connect to React (Optional)
 
-If you are using React, wrap your app with the `UploadProvider`:
+For React, wrap the app in `UploadProvider`:
 
 ```tsx
 import { UploadProvider } from '@gentleduck/upload/react'
@@ -94,7 +94,7 @@ function App() {
 }
 ```
 
-Then use the `useUploader` hook in your components:
+Use `useUploader` inside components:
 
 ```tsx
 import { useUploader } from '@gentleduck/upload/react'
@@ -120,7 +120,7 @@ function UploadList() {
 
 ## Import Paths
 
-The package exposes three entry points:
+The package has three entry points:
 
 | Import | Description |
 | --- | --- |

@@ -5,9 +5,9 @@ description: Upload client configuration, plugins, hooks, and the createUploadCl
 
 ## Overview
 
-The client layer is the public entry point for creating an upload store. It normalizes
-configuration, wires plugins, sets up the transport, and returns a stable `UploadStore`
-interface.
+The client layer is the public entry point for creating an upload store. It
+normalizes config, wires plugins, sets up the transport, and returns a stable
+`UploadStore`.
 
 ## Creating a Client
 
@@ -32,12 +32,12 @@ const client = createUploadClient({
 })
 ```
 
-`createUploadClient` is a thin alias around `createUploadStore`. Both return the same
+`createUploadClient` is a thin alias for `createUploadStore`. Both return the same
 `UploadStore` interface.
 
 ## Configuration
 
-All config fields are optional. Defaults are applied by `resolveUploadConfig()` at
+All config fields are optional. `resolveUploadConfig()` applies defaults at
 construction time:
 
 | Option | Type | Default | Description |
@@ -53,7 +53,7 @@ construction time:
 
 ### Validation Rules
 
-Validation rules are keyed by purpose and checked during the `addFiles` command:
+Validation rules are keyed by purpose and run during the `addFiles` command:
 
 ```typescript title="src/lib/upload-config.ts"
 const config = {
@@ -73,13 +73,13 @@ const config = {
 }
 ```
 
-Files that fail validation are rejected with a `RejectReason` and emitted as `file.rejected`
-events. They never enter the state machine.
+Files that fail validation are rejected with a `RejectReason` and emitted as
+`file.rejected` events. They never enter the state machine.
 
 ### Retry Policy
 
-The default behavior retries up to `maxAttempts` with exponential backoff. You can override
-this with a custom `retryPolicy` function:
+Default behavior retries up to `maxAttempts` with exponential backoff. Override with a
+custom `retryPolicy`:
 
 ```typescript title="src/lib/retry-policy.ts"
 const config = {
@@ -103,7 +103,7 @@ The `RetryDecision` type is either `{ retryable: false }` or `{ retryable: true;
 
 ## Store Options
 
-The full `StoreOptions` interface includes everything needed to construct the store runtime:
+The `StoreOptions` interface holds everything needed to build the store runtime:
 
 | Option | Required | Description |
 | --- | --- | --- |
@@ -121,9 +121,9 @@ The full `StoreOptions` interface includes everything needed to construct the st
 
 ## Plugins
 
-Plugins extend the store's behavior without forking the engine. Each plugin receives a
-minimal proxy with `on`, `dispatch`, and `getSnapshot` -- enough to observe events and
-drive behavior, but not enough to break internal state.
+Plugins extend the store's behavior without forking the engine. Each plugin gets a
+minimal proxy with `on`, `dispatch`, and `getSnapshot` — enough to observe events and
+drive behavior, not enough to break internal state.
 
 ```typescript title="src/lib/plugins/analytics.ts"
 import type { UploadPlugin } from "@gentleduck/upload"
@@ -157,15 +157,15 @@ const client = createUploadClient({
 
 ### Plugin Guidelines
 
-- Plugins should be read-only -- do not mutate state directly.
-- Use `dispatch` only for well-defined side effects (e.g., auto-retry).
+- Plugins should be read-only — don't mutate state directly.
+- Use `dispatch` only for well-defined side effects (e.g. auto-retry).
 - Plugin `setup` errors are caught and logged in development mode.
-- Plugin names are used for debugging -- keep them descriptive.
+- Plugin names are for debugging — keep them descriptive.
 
 ## Hooks
 
-Hooks provide a lower-level observation point than plugins. The `onInternalEvent` hook fires
-after internal events are processed, giving you full fidelity into the engine's behavior:
+Hooks are a lower-level observation point than plugins. `onInternalEvent` fires after
+each internal event, giving full fidelity into engine behavior:
 
 ```typescript title="src/lib/devtools.ts"
 const client = createUploadClient({
@@ -181,8 +181,8 @@ const client = createUploadClient({
 
 ## Custom Fingerprinting
 
-By default, the engine fingerprints files using name, size, type, and lastModified. You can
-provide a custom function that includes a checksum:
+The engine fingerprints files using name, size, type, and lastModified by default.
+Provide a custom function for stronger identity (e.g. a checksum):
 
 ```typescript title="src/lib/upload-client.ts"
 const client = createUploadClient({
@@ -202,9 +202,9 @@ The fingerprint function must be synchronous to keep `addFiles` fast.
 
 ## Next Steps
 
-- [Engine](/docs/core/engine) -- state machine, scheduling, and retry details.
-- [Contracts](/docs/core/contracts) -- the UploadApi, transport, and strategy interfaces.
-- [Persistence](/docs/core/persistence) -- configure state persistence.
+- [Engine](/docs/core/engine) — state machine, scheduling, and retry details.
+- [Contracts](/docs/core/contracts) — the UploadApi, transport, and strategy interfaces.
+- [Persistence](/docs/core/persistence) — configure state persistence.
 
 ---
 

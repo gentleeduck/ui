@@ -3,7 +3,8 @@ title: Multipart Strategy
 description: S3/MinIO-style chunked uploads with concurrent parts and automatic retry.
 ---
 
-Multipart uploads are resumable and ideal for large files. Parts are signed per request by your backend, enabling S3/MinIO-style chunked uploads.
+Multipart uploads are resumable and suit large files. The backend signs each part on
+demand, enabling S3/MinIO-style chunked uploads.
 
 ## Intent Shape
 
@@ -26,7 +27,7 @@ type MultipartIntent = {
 
 ## Cursor Shape
 
-The multipart strategy tracks progress using a cursor that is persisted after each part:
+The strategy tracks progress with a cursor persisted after each part:
 
 ```ts
 type MultipartCursor = {
@@ -41,16 +42,16 @@ type MultipartCursor = {
 
 ## Behavior
 
-- Each part is uploaded individually using signed URLs from your backend
-- Cursor updates are persisted after each completed part, enabling resumability
-- The `completed` flag prevents double completion on resume
-- The strategy handles basic part retries internally
-- Abort signals are checked between parts for pause and cancel support
+- Each part uploads individually using signed URLs from the backend.
+- The cursor persists after each part, so uploads resume.
+- The `completed` flag prevents double completion on resume.
+- The strategy handles basic per-part retries internally.
+- Abort signals check between parts for pause and cancel.
 
 ## When to Use
 
-Use multipart for files where:
+Use multipart when:
 
-- The file size exceeds your POST strategy limits
-- Resumability is important (large files, unreliable connections)
-- You want concurrent part uploads for better throughput
+- File size exceeds the POST strategy limit.
+- Resumability matters (large files, unreliable connections).
+- Concurrent part uploads improve throughput.
