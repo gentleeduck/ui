@@ -5,12 +5,11 @@ description: All types exported by Duck Query. Use them to build custom route ma
 
 ## Overview
 
-Duck Query exports several types that power its type-safe client. You can also use
-these types independently to:
+Duck Query exports the types that power its client. Use them on their own to:
 
 - Build custom route maps without Duck Gen.
-- Extract type information from existing route maps.
-- Build your own utilities on top of the type system.
+- Extract type information from an existing route map.
+- Build utilities on top of the type system.
 
 ```ts
 import type {
@@ -34,7 +33,7 @@ import type {
 
 ### DuckRouteMeta
 
-The shape of a single route's metadata. Every route in a route map must conform to this:
+Shape of a single route's metadata. Every route must conform to this:
 
 ```ts
 type DuckRouteMeta = {
@@ -47,7 +46,7 @@ type DuckRouteMeta = {
 }
 ```
 
-Use `never` for fields that don't apply to a route:
+Use `never` for fields that don't apply:
 
 ```ts
 type PingRoute = {
@@ -62,13 +61,13 @@ type PingRoute = {
 
 ### DuckApiRoutes
 
-A type alias for a route map, a `Record` mapping path strings to `DuckRouteMeta`:
+Route map alias — a `Record` of path strings to `DuckRouteMeta`:
 
 ```ts
 type DuckApiRoutes = Record<string, DuckRouteMeta>
 ```
 
-Use it as a constraint when building generic functions:
+Use it as a generic constraint:
 
 ```ts
 function createLogger<R extends DuckApiRoutes>(client: DuckQueryClient<R>) {
@@ -78,7 +77,7 @@ function createLogger<R extends DuckApiRoutes>(client: DuckQueryClient<R>) {
 
 ### DuckQueryClient
 
-The return type of `createDuckQueryClient`. Contains all client methods:
+Return type of `createDuckQueryClient` — all client methods:
 
 ```ts
 type DuckQueryClient<Routes> = {
@@ -95,11 +94,11 @@ type DuckQueryClient<Routes> = {
 
 ## Route extractors
 
-These types extract specific pieces of information from a route map.
+These types pull specific information out of a route map.
 
 ### RoutePath
 
-Extracts all path strings from a route map as a union:
+All path strings from a route map, as a union:
 
 ```ts
 type RoutePath<Routes> = keyof Routes & string
@@ -118,7 +117,7 @@ type Paths = RoutePath<MyRoutes>
 
 ### RouteOf
 
-Gets the full metadata for a specific path:
+Full metadata for a given path:
 
 ```ts
 type RouteOf<Routes, P extends RoutePath<Routes>> = Routes[P]
@@ -131,7 +130,7 @@ type UserRoute = RouteOf<MyRoutes, '/users/:id'>
 
 ### RouteMethod
 
-Extracts the HTTP method for a path:
+HTTP method for a path:
 
 ```ts
 type RouteMethod<Routes, P extends RoutePath<Routes>> = RouteOf<Routes, P>['method']
@@ -144,7 +143,7 @@ type Method = RouteMethod<MyRoutes, '/auth/signin'>
 
 ### RouteRes
 
-Extracts the response type for a path:
+Response type for a path:
 
 ```ts
 type RouteRes<Routes, P extends RoutePath<Routes>> = RouteOf<Routes, P>['res']
@@ -157,7 +156,7 @@ type UserResponse = RouteRes<MyRoutes, '/users/:id'>
 
 ### RouteReq
 
-Extracts the request shape for a path, with `never` fields removed:
+Request shape for a path, with `never` fields stripped:
 
 ```ts
 type RouteReq<Routes, P extends RoutePath<Routes>> = CleanupNever<
@@ -165,8 +164,8 @@ type RouteReq<Routes, P extends RoutePath<Routes>> = CleanupNever<
 >
 ```
 
-The internal `CleanupNever` utility removes fields whose value is `never`, so you only
-see the fields that actually apply:
+The internal `CleanupNever` utility drops fields typed as `never`, so only the applied
+fields remain:
 
 ```ts
 type UserReq = RouteReq<MyRoutes, '/users/:id'>
@@ -176,7 +175,7 @@ type UserReq = RouteReq<MyRoutes, '/users/:id'>
 
 ### RouteMethods
 
-A union of all HTTP methods used across all routes:
+Union of every HTTP method used across the route map:
 
 ```ts
 type RouteMethods<Routes> = RouteOf<Routes, RoutePath<Routes>>['method']
@@ -189,7 +188,7 @@ type AllMethods = RouteMethods<MyRoutes>
 
 ### PathsByMethod
 
-Filters paths to only those supporting a given HTTP method:
+Paths that support a given HTTP method:
 
 ```ts
 type PathsByMethod<Routes, M extends string> = {
@@ -205,17 +204,17 @@ type PostPaths = PathsByMethod<MyRoutes, 'POST'>
 // => '/auth/signin'
 ```
 
-This is what makes `client.get()` and `client.post()` only accept paths that support
-the corresponding method.
+This is why `client.get()` and `client.post()` only accept paths that support the
+method.
 
 ## Method-specific extractors
 
-These types combine path and method filtering for precise type extraction.
+These combine path and method filtering for exact type extraction.
 
 ### RouteOfMethod
 
-Gets route metadata for a path **filtered by method**. Useful when a path supports
-multiple methods:
+Route metadata for a path **filtered by method** — handy when a path supports multiple
+methods:
 
 ```ts
 type RouteOfMethod<Routes, P, M extends string> = Extract<RouteOf<Routes, P>, { method: M }>
@@ -241,7 +240,7 @@ type UpdateUser = RouteOfMethod<MyRoutes, '/users/:id', 'PUT'>
 
 ### RouteResMethod
 
-Response type for a path and method combination:
+Response type for a (path, method) pair:
 
 ```ts
 type RouteResMethod<Routes, P, M extends string> = RouteOfMethod<Routes, P, M>['res']
@@ -249,7 +248,7 @@ type RouteResMethod<Routes, P, M extends string> = RouteOfMethod<Routes, P, M>['
 
 ### RouteReqMethod
 
-Request shape for a path and method combination:
+Request shape for a (path, method) pair:
 
 ```ts
 type RouteReqMethod<Routes, P, M extends string> = CleanupNever<
@@ -259,7 +258,7 @@ type RouteReqMethod<Routes, P, M extends string> = CleanupNever<
 
 ## Building a custom route map
 
-Here is a complete example of defining a route map without Duck Gen:
+A complete route map without Duck Gen:
 
 ```ts
 import { createDuckQueryClient } from '@gentleduck/query'

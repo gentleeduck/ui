@@ -31,12 +31,12 @@ description: Advanced Duck Query patterns. Covers interceptors, error handling, 
     G -->|"2xx"| H --> J
     G -->|"4xx/5xx"| I --> K`} />
 
-Since Duck Query is built on Axios, you have full access to request and response
-interceptors through `client.axios`.
+Duck Query is built on Axios, so request and response interceptors are available
+through `client.axios`.
 
 ### Auth token interceptor
 
-Automatically attach an auth token to every request:
+Attach an auth token to every request:
 
 ```ts
 import { createDuckQueryClient } from '@gentleduck/query'
@@ -57,7 +57,7 @@ client.axios.interceptors.request.use((config) => {
 
 ### Token refresh interceptor
 
-Automatically refresh expired tokens and retry the request:
+Refresh expired tokens and retry the request:
 
 ```ts
 client.axios.interceptors.response.use(
@@ -82,7 +82,7 @@ client.axios.interceptors.response.use(
 
 ### Logging interceptor
 
-Log all requests and responses for debugging:
+Log requests and responses for debugging:
 
 ```ts
 client.axios.interceptors.request.use((config) => {
@@ -137,7 +137,7 @@ if (result.ok) {
 
 ### Typed error responses
 
-If your server always returns errors in a consistent shape, you can type them:
+If the server uses a consistent error shape, type it:
 
 ```ts
 type ApiError = {
@@ -164,9 +164,8 @@ async function safePost<P extends PathsByMethod<ApiRoutes, 'POST'>>(
 
 ## Using a custom Axios instance
 
-You can pass an existing Axios instance instead of a config object. This is useful when
-you need to share the same Axios setup across multiple clients or when your Axios instance
-has special configuration.
+Pass an existing Axios instance instead of a config object. Useful for sharing one
+instance across clients or for setups that need special configuration.
 
 ```ts
 import axios from 'axios'
@@ -199,8 +198,8 @@ const { data } = await client.get('/api/users')
 
 ## Using without Duck Gen
 
-Duck Query works with any route map that follows the `DuckRouteMeta` shape. You don't
-need Duck Gen at all.
+Duck Query takes any route map that follows the `DuckRouteMeta` shape. Duck Gen is not
+required.
 
 ### Defining routes manually
 
@@ -238,8 +237,7 @@ const { data } = await client.get('/ping')
 
 ### Sharing route types between server and client
 
-If your server and client are in the same monorepo, you can define route types in a
-shared package:
+In a monorepo, put route types in a shared package:
 
 ```ts title="packages/shared/routes.ts"
 export type Routes = {
@@ -325,7 +323,7 @@ function UserProfile({ userId }: { userId: string }) {
 
 ## Multiple clients
 
-You can create multiple clients for different APIs or environments:
+Create separate clients per API or environment:
 
 ```ts
 import { createDuckQueryClient } from '@gentleduck/query'
@@ -355,16 +353,13 @@ export const external = createDuckQueryClient<ExternalRoutes>({
 
 ## Behavior details
 
-A few things to keep in mind:
-
-- **GET and DELETE ignore body**: even if the request object has a `body` field, it is
-  not sent for GET, DELETE, HEAD, and OPTIONS requests.
-- **`request` defaults to GET**: if you don't pass `config.method`, it defaults to `'GET'`.
-- **Path type checking**: `client.post()` only accepts paths that support POST. Trying
-  to POST to a GET-only route is a compile-time error.
-- **Param encoding**: path parameter values are automatically URL-encoded with
-  `encodeURIComponent`.
-- **Slash normalization**: double slashes in built URLs are normalized.
+- **GET and DELETE drop the body**: a `body` field on the request is ignored for GET,
+  DELETE, HEAD, and OPTIONS.
+- **`request` defaults to GET**: no `config.method` means `'GET'`.
+- **Path type checking**: `client.post()` only accepts POST-capable paths. Posting to a
+  GET-only route is a compile-time error.
+- **Param encoding**: path params run through `encodeURIComponent`.
+- **Slash normalization**: double slashes in built URLs collapse to one.
 
 ## Next steps
 

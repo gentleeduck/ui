@@ -5,9 +5,9 @@ description: Detailed reference for every Duck Query client method. Covers get, 
 
 ## Overview
 
-When you create a client with `createDuckQueryClient<Routes>()`, you get an object with
-eight members. Each method is generic over your route map, so TypeScript enforces valid
-paths, request shapes, and response types at compile time.
+`createDuckQueryClient<Routes>()` returns an object with eight members. Every method is
+generic over the route map, so TypeScript checks paths, request shapes, and response
+types at compile time.
 
 ```ts
 import { createDuckQueryClient } from '@gentleduck/query'
@@ -20,7 +20,7 @@ const client = createDuckQueryClient<ApiRoutes>({
 
 ## createDuckQueryClient
 
-The factory function that creates a typed client.
+Factory that builds a typed client.
 
 ```ts
 function createDuckQueryClient<Routes>(
@@ -32,7 +32,7 @@ function createDuckQueryClient<Routes>(
 
 | Parameter | Type | Description |
 | --- | --- | --- |
-| `options` | `AxiosInstance` or `AxiosRequestConfig` or `undefined` | Pass an existing Axios instance, or a config object to create a new one. |
+| `options` | `AxiosInstance` or `AxiosRequestConfig` or `undefined` | An existing Axios instance, or a config object for a new one. |
 
 **Examples:**
 
@@ -60,7 +60,7 @@ const client = createDuckQueryClient<ApiRoutes>()
 
 ## get
 
-Sends a **GET** request. The body is never sent, even if the request object has one.
+Sends a **GET** request. The body is dropped, even if `req` has one.
 
 ```ts
 client.get<P extends PathsByMethod<Routes, 'GET'>>(
@@ -70,8 +70,7 @@ client.get<P extends PathsByMethod<Routes, 'GET'>>(
 ): Promise<AxiosResponse<RouteResMethod<Routes, P, 'GET'>>>
 ```
 
-**TypeScript constraint:** The path must be a route that supports the GET method. You
-cannot `client.get('/api/auth/signin')` if that route only allows POST.
+**TypeScript constraint:** the path must be a GET-compatible route. `client.get('/api/auth/signin')` is a type error if the route only accepts POST.
 
 **Examples:**
 
@@ -115,7 +114,7 @@ client.post<P extends PathsByMethod<Routes, 'POST'>>(
 ): Promise<AxiosResponse<RouteResMethod<Routes, P, 'POST'>>>
 ```
 
-**Note:** The `req` parameter is **required** for POST (not optional like GET).
+**Note:** `req` is **required** for POST (unlike GET).
 
 **Examples:**
 
@@ -149,7 +148,7 @@ const { data } = await client.post('/api/files/upload', {
 
 ## put
 
-Sends a **PUT** request with a JSON body. Typically used for full resource updates.
+Sends a **PUT** request with a JSON body — use for full resource updates.
 
 ```ts
 client.put<P extends PathsByMethod<Routes, 'PUT'>>(
@@ -173,7 +172,7 @@ const { data: updated } = await client.put('/api/users/:id', {
 
 ## patch
 
-Sends a **PATCH** request with a JSON body. Typically used for partial updates.
+Sends a **PATCH** request with a JSON body — use for partial updates.
 
 ```ts
 client.patch<P extends PathsByMethod<Routes, 'PATCH'>>(
@@ -196,7 +195,7 @@ const { data: updated } = await client.patch('/api/users/:id', {
 
 ## del
 
-Sends a **DELETE** request. The body is not sent.
+Sends a **DELETE** request. The body is dropped.
 
 ```ts
 client.del<P extends PathsByMethod<Routes, 'DELETE'>>(
@@ -206,8 +205,7 @@ client.del<P extends PathsByMethod<Routes, 'DELETE'>>(
 ): Promise<AxiosResponse<RouteResMethod<Routes, P, 'DELETE'>>>
 ```
 
-**Note:** The method is called `del` (not `delete`) because `delete` is a reserved word
-in JavaScript.
+**Note:** named `del` because `delete` is a reserved word in JavaScript.
 
 **Examples:**
 
@@ -226,8 +224,7 @@ await client.del('/api/users/:id', {
 
 ## request
 
-A generic method that uses `config.method` to determine the HTTP method.
-Defaults to **GET** if no method is specified.
+Generic method that reads `config.method` for the HTTP verb. Defaults to **GET**.
 
 ```ts
 client.request<P extends RoutePath<Routes>>(
@@ -251,13 +248,13 @@ const { data } = await client.request(
 )
 ```
 
-Use `request` when you want to determine the method dynamically. For static calls,
-prefer the named methods (`get`, `post`, etc.) for better type safety.
+Use `request` when the method is dynamic. For static calls, prefer `get`, `post`, and
+friends for tighter types.
 
 ## byMethod
 
-Explicitly specify the HTTP method as the first argument. This gives you the strongest
-type checking: the path is constrained to routes that support the given method.
+Pass the HTTP method as the first argument — this gives the strongest type checking.
+The path is constrained to routes supporting that method.
 
 ```ts
 client.byMethod<M extends RouteMethods<Routes>, P extends PathsByMethod<Routes, M>>(
@@ -280,7 +277,7 @@ const { data } = await client.byMethod('GET', '/api/users/:id', {
 })
 ```
 
-Use `byMethod` when you have the method as a variable:
+Use `byMethod` when the method is a variable:
 
 ```ts
 async function call(method: 'GET' | 'POST', path: string) {
@@ -290,8 +287,7 @@ async function call(method: 'GET' | 'POST', path: string) {
 
 ## axios
 
-The underlying Axios instance. Use it to configure interceptors, defaults, or make
-untyped requests when needed.
+The underlying Axios instance. Use it for interceptors, defaults, or untyped requests.
 
 ```ts
 // Add a request interceptor
@@ -320,8 +316,7 @@ client.axios.defaults.timeout = 10000
 
 ## Config merging behavior
 
-When both the `req` object and the `config` parameter provide the same field, the `req`
-object takes precedence:
+When `req` and `config` both set the same field, `req` wins:
 
 | Field | Comes from | Fallback |
 | --- | --- | --- |
