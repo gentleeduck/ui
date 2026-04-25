@@ -3,17 +3,17 @@ title: templates
 description: Full Duck Gen + Duck Query + NestJS example with DTOs, constants, and a controller.
 ---
 
-This is a complete, minimal example showing Duck Gen with NestJS and Duck Query. It links the backend contract to a
-type-safe client, includes a DTO file, a constants file for messages, and a controller file, plus the minimum wiring to
-make it realistic.
+A minimal end-to-end example: Duck Gen, NestJS, and Duck Query together. It shows the
+backend contract flowing into a type-safe client, with a DTO file, a messages constants
+file, a controller, and enough wiring to feel real.
 
-## Client to server flow
+## Client-to-server flow
 
 1. Define messages and DTOs in the backend.
-2. Annotate message tags for Duck Gen scanning.
-3. Run Duck Gen to generate `ApiRoutes` and i18n message types.
-4. Use Duck Query on the client to call routes with full type safety.
-5. Use generated i18n types to keep server messages and client translations in sync.
+2. Tag messages with `@duckgen` for scanning.
+3. Run Duck Gen to produce `ApiRoutes` and i18n types.
+4. Call routes with Duck Query on the client.
+5. Keep server messages and client translations in sync through the generated i18n types.
 
 ## File layout
 
@@ -69,9 +69,9 @@ make it realistic.
 
 ## Link the client to the backend
 
-Duck Gen reads your NestJS controllers + DTOs (via `duck-gen.json`) and generates `ApiRoutes`. Duck Query then uses
-`ApiRoutes` to make calls like `/api/auth/signin` fully type-safe. Keep the controller paths and `globalPrefix` aligned
-with the client routes so the contract stays accurate.
+Duck Gen reads NestJS controllers and DTOs (via `duck-gen.json`) and emits `ApiRoutes`.
+Duck Query uses `ApiRoutes` to type calls like `/api/auth/signin`. Keep controller paths
+and `globalPrefix` aligned with client routes so the contract stays correct.
 
 ## Server-side (NestJS)
 
@@ -270,7 +270,7 @@ export class AuthModule {}
 
 ## Client-side (Duck Query)
 
-You can see the full query docs [here](/docs/duck-query).
+Full query docs: [/docs/duck-query](/docs/duck-query).
 
 ```ts title="client/auth.query.ts"
 import { toast } from 'sonner'
@@ -339,4 +339,4 @@ const i18n: I18n = {
 bunx duck-gen
 ```
 
-This will generate `ApiRoutes`, `DuckGenI18nMessages`, and the scoped i18n types used above.
+That emits `ApiRoutes`, `DuckGenI18nMessages`, and the scoped i18n types above.

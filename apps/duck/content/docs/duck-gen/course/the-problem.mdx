@@ -5,9 +5,7 @@ description: Why manually syncing types between server and client breaks down, a
 
 ## The type safety gap
 
-Modern web applications are split into two halves: a server that handles business logic
-and a client that presents the user interface. These two halves communicate over HTTP,
-exchanging JSON data through API routes.
+Web applications split into two halves: a server that handles business logic and a client that renders the UI. They communicate over HTTP, exchanging JSON through API routes.
 
 TypeScript gives you type safety within each half. Your server code is typed. Your client
 code is typed. But the boundary between them is not. The HTTP layer is a gap where types

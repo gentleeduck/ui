@@ -5,9 +5,8 @@ description: Complete reference for every type exported by Duck Gen, with usage 
 
 ## Overview
 
-When you run `duck-gen`, it generates `.d.ts` files that export types describing your
-API routes and message registries. This page documents **every exported type** with
-examples showing how to use each one.
+`duck-gen` emits `.d.ts` files that export types for API routes and message registries.
+This page lists **every exported type** with a usage example.
 
 <MermaidDiagram chart={`flowchart TD
     subgraph RouteTypes["duck-gen-api-routes.d.ts"]
@@ -69,12 +68,12 @@ import type {
 
 ## API route types
 
-These types are generated from your NestJS controllers.
+Generated from NestJS controllers.
 
 ### ApiRoutes
 
-The main route map. Each key is a route path, and the value is an object describing the
-method, request shape, and response type.
+The main route map. Each key is a route path; the value describes method, request shape,
+and response type.
 
 ```ts
 // The generated interface looks like:
@@ -98,7 +97,7 @@ interface ApiRoutes {
 }
 ```
 
-Use `ApiRoutes` as a generic parameter when creating a Duck Query client:
+Pass `ApiRoutes` as the generic when creating a Duck Query client:
 
 ```ts
 import { createDuckQueryClient } from '@gentleduck/query'
@@ -117,7 +116,7 @@ A union of all route path strings.
 type RoutePath = '/api/auth/signin' | '/api/users/:id' | '/api/users'
 ```
 
-Use it to constrain a variable or parameter to valid route paths:
+Use it to restrict a variable or parameter to valid route paths:
 
 ```ts
 function logRoute(path: RoutePath) {
@@ -130,8 +129,8 @@ logRoute('/api/unknown')     // error: type error
 
 ### RouteReq
 
-The request shape for a given route path. Returns an object with `body`, `query`, `params`,
-and `headers` fields, but only the fields that are **not `never`** for that route.
+The request shape for a route. An object with `body`, `query`, `params`, and `headers`,
+filtered to the fields that are **not `never`** for that route.
 
 ```ts
 type SigninReq = RouteReq<'/api/auth/signin'>
@@ -144,7 +143,7 @@ type SearchReq = RouteReq<'/api/users'>
 // => { query: PaginationDto }
 ```
 
-This is the type you use most often when building forms or request objects:
+The type you'll reach for most often when building request payloads:
 
 ```ts
 function buildSigninPayload(): RouteReq<'/api/auth/signin'> {
@@ -169,7 +168,7 @@ type UserRes = RouteRes<'/api/users/:id'>
 // => UserDto
 ```
 
-Use it to type your response handlers:
+Use it to type response handlers:
 
 ```ts
 function handleSignin(response: RouteRes<'/api/auth/signin'>) {
@@ -200,7 +199,7 @@ type AllMethods = RouteMethods
 
 ### PathsByMethod
 
-Filters route paths by a specific HTTP method. Returns only paths that use the given method.
+Filters route paths by HTTP method — returns only paths using that method.
 
 ```ts
 type GetPaths = PathsByMethod<'GET'>
@@ -210,7 +209,7 @@ type PostPaths = PathsByMethod<'POST'>
 // => '/api/auth/signin' | '/api/users'
 ```
 
-This is useful for building method-specific utilities:
+Useful for method-specific helpers:
 
 ```ts
 async function fetchAll<P extends PathsByMethod<'GET'>>(
@@ -241,7 +240,7 @@ type AuthHeaders = GetHeaders<'/api/me'>
 
 ### GetRes
 
-An alias for `RouteRes`. Use whichever reads better:
+Alias for `RouteRes`. Pick whichever name reads better:
 
 ```ts
 type SigninResponse = GetRes<'/api/auth/signin'>
@@ -250,7 +249,7 @@ type SigninResponse = GetRes<'/api/auth/signin'>
 
 ### GetReq
 
-An alias for `RouteReq`:
+Alias for `RouteReq`:
 
 ```ts
 type SigninRequest = GetReq<'/api/auth/signin'>
@@ -277,11 +276,11 @@ type Client = DuckClient
 
 ## Message types
 
-These types are generated from `@duckgen` tagged constants.
+Generated from `@duckgen` tagged constants.
 
 ### DuckgenMessageSources
 
-Maps group keys to their source types. This is the raw registry:
+Maps group keys to their source types — the raw registry:
 
 ```ts
 type DuckgenMessageSources = {
@@ -298,7 +297,7 @@ A union of all group keys:
 type DuckgenMessageGroup = 'auth' | 'payments'
 ```
 
-Use it to build group-aware functions:
+Use it for group-aware functions:
 
 ```ts
 function getTranslations(group: DuckgenMessageGroup, lang: string) {
@@ -320,7 +319,7 @@ type AuthKeys = DuckgenMessageKey<'auth'>
 // => 'AUTH_SIGNIN_SUCCESS' | 'AUTH_SIGNIN_FAILED' | ...
 ```
 
-Use it for type-safe error handling:
+Type-safe error handling:
 
 ```ts
 function showError(key: DuckgenMessageKey<'auth'>, lang: 'en' | 'ar') {
@@ -334,8 +333,8 @@ showError('UNKNOWN_KEY', 'en')          // error: type error
 
 ### DuckgenMessageDictionary
 
-A record mapping message keys to string values for a group. This is the shape of a
-single translation file:
+A record mapping message keys to string values for a group — the shape of one
+translation file:
 
 ```ts
 type AuthDict = DuckgenMessageDictionary<'auth'>
@@ -347,7 +346,7 @@ type AuthDict = DuckgenMessageDictionary<'auth'>
 //   }
 ```
 
-Use it to type your translation objects:
+Use it to type translation objects:
 
 ```ts
 const authEn: DuckgenMessageDictionary<'auth'> = {
@@ -358,7 +357,7 @@ const authEn: DuckgenMessageDictionary<'auth'> = {
 }
 ```
 
-TypeScript will error if you miss a key or add an unknown key.
+A missing key or an unknown key triggers a TypeScript error.
 
 ### DuckgenMessageDictionaryByGroup
 
@@ -374,7 +373,7 @@ type AllDicts = DuckgenMessageDictionaryByGroup
 
 ### DuckGenI18nMessages
 
-An alias of `DuckgenMessageDictionaryByGroup`. Use whichever name reads better:
+Alias for `DuckgenMessageDictionaryByGroup`. Pick whichever name reads better:
 
 ```ts
 type Messages = DuckGenI18nMessages
@@ -383,7 +382,8 @@ type Messages = DuckGenI18nMessages
 
 ### DuckgenI18n
 
-Maps language codes to message dictionaries. Accepts language union and optional group:
+Maps language codes to message dictionaries. Takes a language union and an optional
+group:
 
 ```ts
 type AuthI18n = DuckgenI18n<'en' | 'ar', 'auth'>
@@ -407,8 +407,8 @@ type FullI18n = DuckgenI18nByGroup<'en' | 'ar'>
 
 ### DuckgenScopedI18nByGroup
 
-The most commonly used i18n type. Wraps all groups under a `server` scope, making it
-easy to separate server-generated messages from client-only translations:
+The most common i18n type. Wraps all groups under a `server` scope, separating
+server-generated messages from client-only translations:
 
 ```ts
 type ScopedI18n = DuckgenScopedI18nByGroup<'en' | 'ar', DuckGenI18nMessages>

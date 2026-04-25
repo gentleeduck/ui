@@ -5,10 +5,10 @@ description: Learn how Duck Gen scans @duckgen tags and generates strongly-typed
 
 ## Overview
 
-The messages extension scans your source files for exported constants tagged with `@duckgen`
-JSDoc comments. It reads the keys from those constants and generates TypeScript types that
-describe your message registry, giving you compile-time safety for i18n dictionaries,
-error codes, and any other string-keyed data you define on the server.
+The messages extension scans source files for exported constants tagged with a `@duckgen`
+JSDoc comment. It reads the keys from those constants and emits TypeScript types that
+describe the message registry — compile-time safety for i18n dictionaries, error codes,
+or any string-keyed data declared on the server.
 
 <MermaidDiagram chart={`flowchart TD
     subgraph Server["Server Source Files"]
@@ -37,10 +37,10 @@ error codes, and any other string-keyed data you define on the server.
 
 ## What it scans
 
-Duck Gen looks for **exported** `const` declarations that:
+Duck Gen picks up **exported** `const` declarations that:
 
-1. Have a JSDoc comment containing a `@duckgen` tag.
-2. Are either an **array** or an **object** marked with `as const`.
+1. Have a JSDoc comment with a `@duckgen` tag.
+2. Are an **array** or **object** with `as const`.
 
 ```ts
 // Array source — values become message keys
@@ -64,11 +64,11 @@ export const PaymentMessages = {
 } as const
 ```
 
-Both formats produce the same result: a set of typed message keys grouped under a group name.
+Both formats produce the same result: typed message keys grouped under a name.
 
 ## Tag format
 
-The `@duckgen` JSDoc tag supports several formats. All of these are valid:
+Valid forms of the `@duckgen` JSDoc tag:
 
 | Tag | Group key |
 | --- | --- |
@@ -79,9 +79,8 @@ The `@duckgen` JSDoc tag supports several formats. All of these are valid:
 | `@duckgen messages auth` | Uses `auth` as the group key |
 | `@duckgen message auth` | Uses `auth` as the group key |
 
-**When to use a custom group key:** Use a custom group key when you want a short, clean
-name for your i18n scope. Without one, the const variable name is used, which may be
-longer than you want.
+**When to pass a custom group key:** Pass a custom key for a short scope name. Without
+one, the const variable name is used, which is often longer.
 
 ```ts
 // Group key = "auth" (explicit)
@@ -95,16 +94,15 @@ export const AuthMessages = [ ... ] as const
 
 ## Group key rules
 
-- Each group key must be **unique** across your entire project.
-- If two constants share the same group key, the **duplicate is skipped** with a warning.
-- If two constants share the same **variable name**, the duplicate is warned and skipped.
+- Each group key must be **unique** project-wide.
+- Two constants with the same group key — the duplicate is **skipped** with a warning.
+- Two constants with the same **variable name** — the duplicate is skipped with a warning.
 - Group keys are case-sensitive: `auth` and `Auth` are different groups.
 
 ## The `as const` requirement
 
-You **must** use `as const` on your arrays and objects. Without it, TypeScript widens the
-types to `string[]` or `Record<string, string>`, and Duck Gen cannot extract the literal
-message keys.
+`as const` is required on the array or object. Without it, TypeScript widens the types to
+`string[]` or `Record<string, string>` and Duck Gen can't read the literal keys.
 
 ```ts
 // Without as const — keys become just `string`
@@ -118,7 +116,7 @@ export const Messages = ['MSG_ONE', 'MSG_TWO'] as const
 
 ### Array source
 
-Use arrays when your message keys are simple string identifiers:
+Use arrays when the keys are plain identifiers:
 
 ```ts
 /** @duckgen messages auth */
@@ -131,11 +129,11 @@ export const AuthMessages = [
 ```
 
 The array values become the message keys. The generated type maps each key to a `string`
-value (the translation text).
+(the translation text).
 
 ### Object source
 
-Use objects when you want to associate message keys with status codes or other metadata:
+Use objects to attach status codes or other metadata to each key:
 
 ```ts
 /** @duckgen messages auth */
@@ -147,12 +145,12 @@ export const AuthMessages = {
 } as const
 ```
 
-The object **keys** become the message keys. The values can be anything. Duck Gen only
-uses the keys.
+The object **keys** become the message keys. Values can be anything — Duck Gen only uses
+the keys.
 
 ### Mixing shared constants
 
-You can spread shared constants into your arrays:
+Spread shared constants into an array:
 
 ```ts title="src/common/constants.ts"
 export const ZodMessages = {
@@ -173,13 +171,11 @@ export const AuthMessages = [
 ] as const
 ```
 
-This way, your auth i18n dictionary includes both auth-specific and shared validation
-messages.
+The auth i18n dictionary now covers both auth-specific and shared validation messages.
 
 ## Generated types
 
-The messages extension generates a `.d.ts` file with several types. Here is what each one
-does and how to use it:
+The messages extension writes a `.d.ts` file with these types:
 
 ### DuckgenMessageSources
 
@@ -202,7 +198,7 @@ type DuckgenMessageGroup = 'auth' | 'payments'
 
 ### DuckgenMessageKey
 
-Extract message keys for a specific group or all groups:
+Message keys for a group, or across all groups:
 
 ```ts
 // Keys for a specific group
@@ -216,7 +212,7 @@ type AllKeys = DuckgenMessageKey
 
 ### DuckgenMessageDictionary
 
-A record mapping message keys to string translations for a group:
+A record mapping a group's message keys to string translations:
 
 ```ts
 type AuthDictionary = DuckgenMessageDictionary<'auth'>
@@ -234,7 +230,7 @@ type AllDicts = DuckgenMessageDictionaryByGroup
 
 ### DuckGenI18nMessages
 
-An alias of `DuckgenMessageDictionaryByGroup`. Use whichever name reads better in your code.
+Alias for `DuckgenMessageDictionaryByGroup`. Pick whichever name reads better.
 
 ### DuckgenI18n
 
@@ -256,8 +252,8 @@ type FullI18n = DuckgenI18nByGroup<'en' | 'ar'>
 
 ### DuckgenScopedI18nByGroup
 
-Wraps all groups under a `server` scope. Useful when you have both server-generated and
-client-only messages:
+Wraps all groups under a `server` scope. Use this when the app mixes server-generated
+and client-only messages:
 
 ```ts
 type ScopedI18n = DuckgenScopedI18nByGroup<'en' | 'ar', DuckGenI18nMessages>
@@ -266,7 +262,7 @@ type ScopedI18n = DuckgenScopedI18nByGroup<'en' | 'ar', DuckGenI18nMessages>
 
 ## Real-world i18n example
 
-Here is a complete example of using generated message types to build a type-safe i18n system:
+A type-safe i18n system built on generated message types:
 
 ### Step 1: Define messages on the server
 
@@ -286,7 +282,7 @@ export const AuthMessages = [
 bunx duck-gen
 ```
 
-### Step 3: Build your i18n object on the client
+### Step 3: Build the i18n object on the client
 
 ```ts title="client/i18n.ts"
 import type { DuckgenScopedI18nByGroup, DuckGenI18nMessages } from '@gentleduck/gen/nestjs'
@@ -318,12 +314,12 @@ export const i18n: I18n = {
 }
 ```
 
-TypeScript will error if you:
+TypeScript errors when you:
 - Misspell a message key.
-- Forget to add a translation for a key.
-- Add a key that doesn't exist in the server constants.
+- Miss a translation for a key.
+- Add a key that isn't in the server constants.
 
-### Step 4: Use in your UI
+### Step 4: Use in the UI
 
 ```ts title="client/auth.ts"
 import { i18n } from './i18n'
@@ -336,7 +332,7 @@ function showSigninError(lang: 'en' | 'ar', messageKey: string) {
 
 ## Multiple message groups
 
-You can have as many message groups as you need. Each module can define its own:
+Define as many groups as you need. Each module gets its own:
 
 ```ts title="src/modules/auth/auth.constants.ts"
 /** @duckgen messages auth */
@@ -353,18 +349,17 @@ export const UserMessages = ['USER_CREATED', 'USER_NOT_FOUND', 'USER_UPDATED'] a
 export const PaymentMessages = ['PAYMENT_SUCCESS', 'PAYMENT_DECLINED'] as const
 ```
 
-All three groups appear in the generated types, and you can access them independently or
-together.
+All three groups land in the generated types, accessible individually or together.
 
 ## Troubleshooting
 
 | Problem | Solution |
 | --- | --- |
-| Keys are just `string` | Add `as const` to your array or object. |
-| Group not appearing | Make sure the constant is **exported** and has a `@duckgen` JSDoc tag. |
-| Duplicate group warning | Two constants use the same group key. Rename one. |
-| Duplicate const name | Two files export a constant with the same name. Rename one. |
-| Spread values missing | Duck Gen reads the literal values. If you spread a dynamic expression, those values may not be captured. Use `as const` on the source too. |
+| Keys are just `string` | Add `as const` to the array or object. |
+| Group missing | The constant must be **exported** and have a `@duckgen` JSDoc tag. |
+| Duplicate group warning | Two constants share the same group key — rename one. |
+| Duplicate const name | Two files export the same name — rename one. |
+| Spread values missing | Duck Gen reads literal values only. Spreading a dynamic expression may lose them. Put `as const` on the source too. |
 
 ## Next steps
 

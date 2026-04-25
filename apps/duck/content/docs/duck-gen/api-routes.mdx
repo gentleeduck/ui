@@ -5,18 +5,16 @@ description: Learn how Duck Gen scans NestJS controllers and generates fully typ
 
 ## Overview
 
-The API routes extension scans your NestJS controllers and generates a TypeScript type map
-where each key is a route path and each value describes the HTTP method, request shape, and
-response type. This gives your client code compile-time knowledge of every route your server
-exposes.
+The API routes extension scans NestJS controllers and produces a TypeScript type map.
+Each key is a route path. Each value lists the HTTP method, request shape, and response
+type. Clients get compile-time knowledge of every route on the server.
 
-Duck Gen is designed for multiple frameworks. This guide documents the **NestJS adapter**, the
-first adapter shipped and currently tested.
+Duck Gen targets multiple frameworks. This page documents the **NestJS adapter**, which is
+the first adapter shipped.
 
 <Callout icon={<Target/>} title="What this means for you">
-  After running `duck-gen`, your client code knows every route path, what data to send, and
-  what data comes back, all enforced by TypeScript. Misspell a route? Type error. Send the
-  wrong body shape? Type error. Forget a required param? Type error.
+  After `duck-gen` runs, the client knows every route path, what to send, and what comes
+  back. Misspelled route, wrong body shape, or missing param all fail at compile time.
 </Callout>
 
 ## What it scans
@@ -40,8 +38,8 @@ export class UsersController {
 }
 ```
 
-From this, Duck Gen generates a route entry for `/api/users/:id` (assuming `globalPrefix: "/api"`)
-with the GET method, `params: { id: string }`, `query: FindUserQuery`, and response type `UserDto`.
+With `globalPrefix: "/api"`, this becomes a GET route at `/api/users/:id` with
+`params: { id: string }`, `query: FindUserQuery`, and response type `UserDto`.
 
 ## Supported decorators
 
@@ -88,14 +86,14 @@ Each decorator accepts an optional string path:
 | `@Headers('x-token')` | `headers['x-token']` | no (optional field) | `{ 'x-token'?: Type }` |
 
 <Callout icon={<Lightbulb/>} title="Full DTO vs named property">
-  When you use `@Body()` (no argument), the **entire parameter type** becomes the body type.
-  When you use `@Body('email')`, Duck Gen creates `{ email?: Type }`, an object with that
-  single optional field. The same logic applies to `@Query` and `@Headers`.
+  `@Body()` with no argument uses the **whole parameter type** as the body. `@Body('email')`
+  produces `{ email?: Type }` — an object with that one optional field. `@Query` and
+  `@Headers` follow the same rule.
 </Callout>
 
 ## Path construction rules
 
-Duck Gen builds the final route path by joining three segments:
+The final route path joins three segments:
 
 <MermaidDiagram chart={`flowchart TD
     subgraph Source["Source Code"]
@@ -138,14 +136,13 @@ For example:
 
 ## Request shape rules
 
-Each route's request type is an object with up to four fields: `body`, `query`, `params`,
-and `headers`. Fields that don't apply to a route are set to `never` and cleaned up
-by Duck Query's `CleanupNever` utility.
+Each route's request type has up to four fields: `body`, `query`, `params`, and `headers`.
+Fields that don't apply are set to `never` and stripped by Duck Query's `CleanupNever`
+utility.
 
 ### @Body: request body
 
-**Full body**: when `@Body()` is used without a property key, the parameter type becomes
-the entire `body` type:
+**Full body**: `@Body()` with no property key makes the parameter type the entire `body`:
 
 ```ts
 @Post('signin')
@@ -153,8 +150,7 @@ signin(@Body() body: SigninDto): Promise<AuthSession> { ... }
 // => body: SigninDto
 ```
 
-**Named property**: when `@Body('field')` is used, Duck Gen creates an object with that
-field as optional:
+**Named property**: `@Body('field')` creates an object with that field as optional:
 
 ```ts
 @Post('update')
@@ -203,8 +199,7 @@ me(@Headers('authorization') auth: string): Promise<UserDto> { ... }
 
 ### Multiple decorators of the same kind
 
-When a method has multiple decorators of the same kind, Duck Gen merges them using
-**intersection types**:
+Multiple decorators of the same kind merge into an **intersection type**:
 
 ```ts
 @Post(':id/transfer')
@@ -221,8 +216,7 @@ transfer(
 
 ## Response types
 
-Duck Gen uses the method's **return type** as the response type. If your method returns
-`Promise<T>`, the response type is `T`:
+The method's **return type** is the response type. `Promise<T>` unwraps to `T`:
 
 ```ts
 @Get(':id')
@@ -233,14 +227,14 @@ findOne(@Param('id') id: string): Promise<UserDto> {
 ```
 
 <Callout icon={<TriangleAlert/>} title="Always annotate return types">
-  Always add explicit return type annotations to your controller methods. If the return type
-  is inferred as `any`, Duck Gen will print a warning and convert it to `unknown` (when
-  `normalizeAnyToUnknown` is enabled). Explicit types give you the best results.
+  Add explicit return type annotations on controller methods. If the return type is inferred
+  as `any`, Duck Gen prints a warning and converts it to `unknown` (with
+  `normalizeAnyToUnknown` enabled). Explicit types produce the best output.
 </Callout>
 
 ## Complete example
 
-Here is a full controller with multiple routes, and what Duck Gen generates from it:
+A controller with several routes and the types generated from it:
 
 ### The controller
 
@@ -283,7 +277,7 @@ export class UsersController {
 
 ### The generated types
 
-With `globalPrefix: "/api"`, Duck Gen produces:
+With `globalPrefix: "/api"`:
 
 ```ts title="Generated: duck-gen-api-routes.d.ts (simplified)"
 import type { PaginationDto } from '../../src/modules/users/users.dto'
@@ -381,32 +375,31 @@ export class UsersController { ... }
 ```
 
 <Callout icon={<Lightbulb/>} title="Why string literals only?">
-  Duck Gen runs at build time and doesn't execute your code. It reads the AST (abstract syntax
-  tree) to find decorator arguments. Variables and expressions would require runtime evaluation,
-  which isn't possible during static analysis. Use string literals in your decorators for
-  reliable type generation.
+  Duck Gen runs at build time, not runtime. It reads the AST to find decorator arguments.
+  Variables and expressions need runtime evaluation, which static analysis can't do. Keep
+  decorator paths as string literals.
 </Callout>
 
 ### Methods without HTTP decorators are ignored
 
-Only methods with recognized HTTP decorators (`@Get`, `@Post`, etc.) are included.
-Private methods, lifecycle hooks, and helper methods are not scanned.
+Only methods with `@Get`, `@Post`, and the other HTTP decorators are scanned. Private
+methods, lifecycle hooks, and helpers are skipped.
 
 ### Complex return types
 
-Duck Gen handles complex return types including:
+Duck Gen resolves:
 - Generic types like `Promise<T>`
 - Union types like `UserDto | null`
 - Drizzle ORM's `InferReturning` and similar utility types
 - Intersection types
 - Array types
 
-The type expander recursively resolves these into their concrete shapes.
+The type expander walks these recursively into concrete shapes.
 
 ### Multiple controllers for the same module
 
-Duck Gen scans all controllers in your project. If you have an admin controller and a
-public controller for the same resource, both sets of routes appear in the generated map:
+All controllers in the project are scanned. An admin controller and a public controller
+for the same resource produce two sets of routes:
 
 ```ts
 @Controller('users')
