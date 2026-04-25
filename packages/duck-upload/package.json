@@ -22,7 +22,7 @@
     "build": "tsdown",
     "dev": "tsdown --watch",
     "check-types": "tsc --noEmit",
-    "test": "vitest --passWithNoTests",
+    "test": "vitest run --passWithNoTests",
     "lint": "biome lint .",
     "format": "biome format --write ."
   },
