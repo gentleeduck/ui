@@ -5,7 +5,8 @@ description: Connect duck-iam to your storage layer with adapters for in-memory,
 
 ## Overview
 
-Adapters are the storage layer for duck-iam. They implement the `Adapter` interface, which combines three stores:
+Adapters are duck-iam's storage layer. They implement the `Adapter` interface, which
+combines three stores:
 
 <MermaidDiagram chart={`flowchart TD
     subgraph Adapter_Interface["Adapter Interface"]
@@ -42,11 +43,12 @@ Adapters are the storage layer for duck-iam. They implement the `Adapter` interf
 
     Adapter_Interface --> Implementations`} />
 
-- **PolicyStore**: CRUD for access policies (rules, conditions, combining algorithms)
-- **RoleStore**: CRUD for roles (permissions, inheritance, scopes)
-- **SubjectStore**: role assignments, scoped roles, and subject attributes
+- **PolicyStore**: CRUD for access policies (rules, conditions, combining algorithms).
+- **RoleStore**: CRUD for roles (permissions, inheritance, scopes).
+- **SubjectStore**: role assignments, scoped roles, and subject attributes.
 
-Every adapter is fully typed with your application's action, resource, role, and scope types.
+Every adapter is fully typed against the app's action, resource, role, and scope
+types.
 
 ```typescript
 import { Engine } from '@gentleduck/iam'
@@ -66,7 +68,8 @@ const engine = new Engine({
 import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
 ```
 
-Stores everything in `Map` instances. Designed for development, testing, and prototyping. Data does not survive process restarts.
+Stores everything in `Map` instances. For development, testing, and prototyping.
+Data doesn't survive process restarts.
 
 ### Basic usage
 

@@ -3,21 +3,21 @@ title: "Benchmarks"
 description: "Real performance measurements and honest comparisons: @gentleduck/iam benchmarked against every major JS authorization library."
 ---
 
-Benchmarked against **7 libraries**: @casl/ability, casbin, accesscontrol, role-acl, @rbac/rbac, and easy-rbac. All numbers from `vitest bench` with identical authorization scenarios. Sizes verified via bundlephobia on 2026-03-30.
+Benchmarked against **7 libraries**: @casl/ability, casbin, accesscontrol, role-acl, @rbac/rbac, and easy-rbac. Numbers from `vitest bench` on identical authorization scenarios. Sizes verified via bundlephobia on 2026-03-30.
 
-Run `bun run bench` in `packages/duck-iam` to reproduce every number on this page.
+Run `bun run bench` in `packages/duck-iam` to reproduce the numbers here.
 
 ---
 
 ## The honest verdict
 
-**CASL is faster than us.** On simple RBAC checks, CASL is ~2x faster in production mode because it pre-compiles rules into a hash-map index at build time. We can't fully match that because duck-iam supports dynamic policies that change at runtime.
+**CASL is faster than us.** On simple RBAC checks, CASL is ~2x faster in production mode — it pre-compiles rules into a hash-map index at build time. duck-iam can't match that while keeping runtime-updatable policies.
 
-**We are faster than everyone else.** In production mode, duck-iam is faster than easy-rbac, @rbac/rbac, accesscontrol, casbin, and role-acl.
+**We are faster than everyone else.** In production mode, duck-iam beats easy-rbac, @rbac/rbac, accesscontrol, casbin, and role-acl.
 
-**We ship more features than anyone.** Scoped roles, explain/debug traces, lifecycle hooks, batch permissions, 18 condition operators, 5 server middlewares, 3 client libraries. No competitor bundles all of these together.
+**We ship more features.** Scoped roles, explain/debug traces, lifecycle hooks, batch permissions, 18 condition operators, 5 server middlewares, 3 client libraries. No competitor bundles all of them.
 
-**We are larger than CASL.** ~21 KB vs ~6 KB. That's because we include a full policy engine, RBAC-to-ABAC converter, explain tracer, builder, config validator, and LRU cache. CASL doesn't ship any of that.
+**We are larger than CASL.** ~21 KB vs ~6 KB. duck-iam includes a full policy engine, RBAC-to-ABAC converter, explain tracer, builder, config validator, and LRU cache. CASL ships none of that.
 
 ---
 
@@ -38,7 +38,7 @@ Run `bun run bench` in `packages/duck-iam` to reproduce every number on this pag
 
 <ComponentPreview name="chart-benchmark-iam-vs" description="Performance comparison" className="[&_[data-value='preview']>div:last-child]:h-120" />
 
-All numbers are **ops/sec** (higher = faster). Each library solves the **same** authorization problem. CASL condition checks use `subject()` to actually evaluate conditions (not bare strings that skip them). duck-iam has two modes: `[DEV]` returns rich Decision objects with timing and reasons, `[PROD]` returns plain booleans with zero overhead.
+All numbers are **ops/sec** (higher is faster). Each library solves the **same** authorization problem. CASL condition checks use `subject()` so conditions actually run (bare string checks skip them). duck-iam has two modes: `[DEV]` returns rich Decision objects with timing and reasons, `[PROD]` returns plain booleans with zero overhead.
 
 ### Simple RBAC: "can viewer read post?"
 
@@ -57,7 +57,7 @@ All numbers are **ops/sec** (higher = faster). Each library solves the **same** 
 
 ### ABAC condition check: "can owner update own draft?"
 
-Only libraries with real ABAC condition support. CASL uses `subject()` to actually check conditions.
+Only libraries with real ABAC condition support. CASL uses `subject()` so conditions run.
 
 | # | Library | ops/sec | vs CASL |
 |---|---|---|---|
@@ -65,7 +65,7 @@ Only libraries with real ABAC condition support. CASL uses `subject()` to actual
 | 2 | @gentleduck/iam `evaluateFast()` [PROD] | 1,177,000 | 3.3x slower |
 | 3 | @gentleduck/iam `evaluate()` [DEV] | 648,000 | 6x slower |
 
-Others excluded because they don't support attribute-based conditions.
+Others excluded — no attribute-based condition support.
 
 ### Role + condition: "can admin delete post?"
 
@@ -117,15 +117,15 @@ Others excluded because they don't support attribute-based conditions.
 
 ---
 
-## Why CASL is faster, and why it matters less than you think
+## Why CASL is faster, and why it rarely matters
 
 ### The architectural difference
 
-CASL and duck-iam solve authorization differently at the engine level:
+CASL and duck-iam solve authorization at different engine levels:
 
-**CASL: pre-compiled lookup table.** When you call `build()`, CASL iterates all rules once and builds an internal index keyed by `[action, subjectType]`. Every subsequent `can()` call does a single hash-map lookup: O(1), ~0.012 us. The rules are frozen after `build()` and cannot change at runtime.
+**CASL: pre-compiled lookup table.** `build()` iterates every rule once and produces an index keyed by `[action, subjectType]`. Every `can()` call is a single hash-map lookup — O(1), ~0.012 us. Rules are frozen after `build()` and can't change at runtime.
 
-**duck-iam: dynamic policy engine.** Policies can be loaded from databases, updated at runtime via adapters, and invalidated via the LRU cache. Each evaluation does: WeakMap index lookup -> Map.get by `action:resource` -> condition evaluation -> combining algorithm. Even with our rule index optimization, each check costs ~0.12 us, about 2x more than a single hash lookup.
+**duck-iam: dynamic policy engine.** Policies load from databases, update at runtime through adapters, and invalidate via the LRU cache. Each evaluation does: WeakMap index lookup, Map.get by `action:resource`, condition evaluation, combining algorithm. Even with rule indexing, each check costs ~0.12 us — about 2x a single hash lookup.
 
 ### Where the ~2x gap comes from (profiled)
 
@@ -143,23 +143,23 @@ Profiled operations in the production fast path:
 | **Total** | **~0.120 us** | |
 | **CASL total** | **~0.060 us** | Single hash lookup + return |
 
-The gap is not one big bottleneck. It's the sum of many small costs that a policy engine fundamentally requires. CASL avoids all of them by freezing rules at build time.
+The gap is not one big bottleneck. It's the sum of small costs a policy engine requires. CASL sidesteps them by freezing rules at build time.
 
 ### What we optimized (and what we can't)
 
-Every optimization that preserves the dynamic policy model is already applied:
+Every optimization that keeps the dynamic policy model is applied:
 
-1. **Rule indexing**: pre-built `Map<action:resource, Rule[]>` per policy, cached via WeakMap. Eliminates the linear scan over all rules.
-2. **Unconditional rule flag**: rules with empty conditions skip `evalConditionGroup()` entirely.
-3. **Inlined combiners**: `deny-overrides` and `allow-overrides` are inlined directly into the evaluation loop, avoiding array allocation and function calls.
-4. **Path cache**: condition field paths like `subject.attributes.role` are split once and cached forever.
-5. **Production mode**: no `performance.now()`, no `Date.now()`, no Decision object allocation, no reason strings.
+1. **Rule indexing**: pre-built `Map<action:resource, Rule[]>` per policy, cached via WeakMap. Removes the linear scan over all rules.
+2. **Unconditional rule flag**: rules with empty conditions skip `evalConditionGroup()`.
+3. **Inlined combiners**: `deny-overrides` and `allow-overrides` inline into the evaluation loop — no array allocation, no function calls.
+4. **Path cache**: condition field paths like `subject.attributes.role` split once and cache forever.
+5. **Production mode**: no `performance.now()`, no `Date.now()`, no Decision allocation, no reason strings.
 
-To close the remaining ~2x gap, we would need to abandon dynamic policies and pre-compile everything at init time like CASL does. That would break adapters, runtime policy updates, and the LRU cache, the features that make duck-iam a policy engine instead of a lookup table.
+Closing the last ~2x gap means dropping dynamic policies and pre-compiling at init like CASL. That breaks adapters, runtime policy updates, and the LRU cache — the features that make duck-iam a policy engine instead of a lookup table.
 
 ### Why it doesn't matter in practice
 
-Authorization is never your bottleneck. Here's a typical API request:
+Authorization isn't the bottleneck. A typical API request:
 
 | Step | Time |
 |---|---|
@@ -169,13 +169,13 @@ Authorization is never your bottleneck. Here's a typical API request:
 | **duck-iam check (prod)** | **0.12 us** |
 | **CASL check** | **0.06 us** |
 
-The gap is 60 nanoseconds. At 100 checks per request that's 6 us, or 0.00012% of a typical 50 ms request.
+The gap is 60 nanoseconds. At 100 checks per request, that's 6 us — 0.00012% of a 50 ms request.
 
 ---
 
 ## Dev vs Prod Mode
 
-duck-iam has two execution modes that change both **runtime behavior** and **return types**:
+duck-iam has two execution modes. They change **runtime behavior** and **return types**:
 
 ```ts
 // Development (default) -- rich Decision with timing, reasons, rule refs
@@ -198,7 +198,7 @@ const allowed = await prodEngine.check('user-1', 'read', post)
 
 ### Does production mode reduce bundle size?
 
-**The `mode` flag alone does not reduce bundle size.** It's a runtime check. However, **your import pattern does**. The package is tree-shakeable, so bundlers eliminate code you don't import:
+**The `mode` flag alone does not reduce bundle size.** It's a runtime check. Import patterns do — the package is tree-shakeable, so bundlers drop unused code:
 
 ```ts
 // Smallest production bundle -- import only the fast evaluator
@@ -210,9 +210,9 @@ const allowed = evaluateFast(policies, request) // boolean
 import { Engine } from '@gentleduck/iam'
 ```
 
-`evaluateFast` + `evaluatePolicyFast` give the smallest bundle when you manage policies yourself. The Engine, explain system, builder, and config validator are only included if you import them.
+`evaluateFast` + `evaluatePolicyFast` give the smallest bundle when you manage policies yourself. The Engine, explain system, builder, and config validator only ship if imported.
 
-`engine.explain()` is only available in development mode.
+`engine.explain()` is development-only.
 
 ---
 
@@ -256,9 +256,9 @@ Times vary by machine. Run `bun run benchmark` for your hardware.
 | **@gentleduck/iam** (full) | ~21 KB | 0 | Yes |
 | casbin (node-casbin) | ~30 KB | 5 | No |
 
-**We are not the smallest.** At ~21 KB, duck-iam is 3.5x larger than CASL. That's because the full package includes: evaluation engine, RBAC-to-ABAC converter, conditions engine (18 operators), explain/debug tracer, type-safe builder, config validator, and LRU cache. CASL ships none of that.
+**We are not the smallest.** At ~21 KB, duck-iam is 3.5x larger than CASL. The full package bundles: evaluation engine, RBAC-to-ABAC converter, conditions engine (18 operators), explain/debug tracer, type-safe builder, config validator, and LRU cache. CASL ships none of that.
 
-**The package is tree-shakeable.** Import only `evaluateFast` and skip the engine/explain/builder for a much smaller bundle. Individual adapters and server middleware add ~0.8-1.7 KB each.
+**The package is tree-shakeable.** Import only `evaluateFast` and skip the engine, explain, and builder for a much smaller bundle. Each adapter and server middleware adds ~0.8-1.7 KB.
 
 ### Module Sizes
 
@@ -311,17 +311,17 @@ Times vary by machine. Run `bun run benchmark` for your hardware.
 
 ### @gentleduck/iam wins on
 
-- **Feature density**: the only library with scoped roles + explain/debug + lifecycle hooks + batch permissions + 18 condition operators + dev/prod mode combined
-- **Faster than casbin/role-acl/accesscontrol**: 3-50x faster in production mode
-- **Server integration**: 5 framework middlewares (Express, Next.js, Hono, NestJS, Generic)
-- **Client libraries**: React, Vue, and Vanilla JS with hooks and reactive state
+- **Feature density**: only library with scoped roles + explain/debug + lifecycle hooks + batch permissions + 18 condition operators + dev/prod mode in one package
+- **Faster than casbin, role-acl, accesscontrol**: 3-50x faster in production mode
+- **Server integration**: 5 framework middlewares (Express, Next.js, Hono, NestJS, generic)
+- **Client libraries**: React, Vue, and vanilla JS with hooks and reactive state
 - **Type safety**: full generic type parameters for actions, resources, roles, and scopes
-- **Explain API**: the only library that tells you _exactly_ why a permission was granted or denied
+- **Explain API**: the only library that tells you exactly why a permission was granted or denied
 - **Dev/Prod mode**: rich debug objects in development, fast booleans in production
 
 ### @casl/ability wins on
 
-- **Raw speed**: 2x faster than duck-iam in production mode thanks to pre-compiled ability index
+- **Raw speed**: 2x faster than duck-iam in production mode from the pre-compiled ability index
 - **Bundle size**: ~6 KB, 3.5x smaller
 - **Maturity**: production since 2017
 - **Ecosystem**: ~900K downloads/week, extensive docs and community
@@ -329,9 +329,9 @@ Times vary by machine. Run `bun run benchmark` for your hardware.
 
 ### easy-rbac wins on
 
-- **Fastest deny path**: 2x faster than CASL for deny checks
-- **Tiny bundle**: ~2 KB, smallest of all
-- **Zero config**: dead-simple hierarchical RBAC
+- **Fastest deny path**: 2x faster than CASL on deny checks
+- **Tiny bundle**: ~2 KB, the smallest
+- **Zero config**: hierarchical RBAC, nothing to set up
 
 ### casbin wins on
 
@@ -343,13 +343,13 @@ Times vary by machine. Run `bun run benchmark` for your hardware.
 
 - **Fast simple checks**: 2.5M ops/sec for basic RBAC
 - **Built-in middleware**: Express, NestJS, Fastify
-- **Runtime role updates**: add/modify roles without restart
+- **Runtime role updates**: add or change roles without restart
 
 ---
 
 ## Smallest possible bundle
 
-`createAccessConfig()` is convenient: it sets up your entire authorization system in one call. But it pulls in the full config system, validator, and builder. If you only need policy evaluation and want the smallest possible bundle, skip the config layer and import the building blocks directly.
+`createAccessConfig()` sets up the whole authorization system in one call, but it pulls in the full config system, validator, and builder. If all you need is policy evaluation, skip the config layer and import the building blocks directly.
 
 Build a typed policy and evaluate it without `createAccessConfig`:
 
@@ -378,23 +378,23 @@ const request: AccessRequest<Action, Resource> = {
 const allowed = evaluatePolicyFast(policy, request) // boolean
 ```
 
-The package is fully tree-shakeable. Everything you don't import gets eliminated by your bundler: Engine, explain, builder, config, validate, adapters, all of it. Looking at the module sizes table above, `evaluateFast` alone is tiny compared to the full 21.9 KB core entry. You pay only for what you use.
+The package is fully tree-shakeable. Anything you don't import drops out: Engine, explain, builder, config, validate, adapters. From the module sizes above, `evaluateFast` alone is tiny next to the 21.9 KB core entry — pay only for what you use.
 
-Other low-level building blocks you can import directly: `PolicyBuilder`, `RuleBuilder`, `evaluateFast`, `evaluatePolicy`, and the condition operators. Mix and match to get exactly the surface area you need.
+Other low-level pieces to import directly: `PolicyBuilder`, `RuleBuilder`, `evaluateFast`, `evaluatePolicy`, and the condition operators. Mix and match for the exact surface area you need.
 
 ---
 
 ## Methodology
 
 - **@gentleduck/iam**: bundle sizes from `dist/` via `gzip -c | wc -c`. Performance via `vitest bench` with N=3 inner loops. Production mode uses `evaluateFast()` with rule indexing (WeakMap-cached per policy, Map lookup by `action:resource`).
-- **@casl/ability**: condition benchmarks use `subject()` for real condition evaluation. Bare string checks (`can('read', 'Post')`) skip conditions and would give misleading results. We don't do that.
+- **@casl/ability**: condition benchmarks use `subject()` for real condition evaluation. Bare string checks (`can('read', 'Post')`) skip conditions and would give misleading numbers — we don't do that.
 - **casbin**: real RBAC model (`newModel()` + `StringAdapter`) with role inheritance via grouping rules.
 - **accesscontrol, @rbac/rbac, easy-rbac**: excluded from ABAC benchmarks (no condition support).
 - Competitor sizes from [bundlephobia.com](https://bundlephobia.com), verified 2026-03-30.
-- All sizes are **minified + gzipped**.
+- Sizes are **minified + gzipped**.
 - All benchmarks run on the same machine in the same vitest session.
 
-To reproduce:
+Reproduce:
 
 ```bash
 cd packages/duck-iam

@@ -5,8 +5,8 @@ description: Build ABAC policies and rules with conditions, operators, the When 
 
 ## When to Use Policies
 
-Roles handle the common case: "editors can update posts." Some requirements go beyond
-what roles can express:
+Roles cover the common case: "editors can update posts." Some requirements need more
+than roles can express:
 
 <MermaidDiagram chart={`flowchart TD
     subgraph RBAC_Only["RBAC Can Handle"]
@@ -30,19 +30,19 @@ what roles can express:
     Need_ABAC -.- COMPLEX["Attribute-based conditions required"]`} />
 
 - **Time-based restrictions**: deny writes on weekends or outside business hours.
-- **IP/geo-fencing**: only allow access from trusted networks.
-- **Cross-attribute checks**: allow updates only when the subject's department matches
-  the resource's department.
+- **IP/geo-fencing**: allow access only from trusted networks.
+- **Cross-attribute checks**: allow updates only when subject and resource share a
+  department.
 - **Dynamic deny rules**: block specific users or flag suspicious behavior without
   changing role assignments.
-- **Maintenance mode**: deny all writes globally when a feature flag is set.
+- **Maintenance mode**: deny all writes globally when a feature flag is on.
 
-ABAC policies go through the same evaluation pipeline as roles. The engine
-AND-combines them: a deny from any policy is final.
+ABAC policies share the role evaluation pipeline. The engine AND-combines policies —
+a deny from any policy is final.
 
 ## Building Policies
 
-Use the `policy()` builder to create policies:
+Build policies with `policy()`:
 
 ```typescript
 import { policy } from '@gentleduck/iam'
@@ -76,12 +76,12 @@ const weekendDeny = policy('deny-weekends')
 
 ## Building Rules
 
-Rules are the individual statements inside a policy. Each rule has an effect (allow or
-deny), a set of actions and resources it applies to, a priority, and conditions.
+Rules are the statements inside a policy. Each rule has an effect (allow or deny), the
+actions and resources it covers, a priority, and conditions.
 
 ### Inline rules
 
-The most common approach is defining rules inline within a policy:
+Define rules inline within a policy:
 
 ```typescript
 const myPolicy = policy('content-policy')
@@ -167,18 +167,18 @@ r.on('*').of('post')
 r.on('read').of('*')
 ```
 
-Resources also support hierarchical matching. A rule targeting `"dashboard"` will match
-requests for `"dashboard.users"` and `"dashboard.users.settings"`. This hierarchical behavior
-applies to rule resources. Policy targets are narrower and use direct resource matching.
+Resources also support hierarchical matching. A rule targeting `"dashboard"` matches
+requests for `"dashboard.users"` and `"dashboard.users.settings"`. Hierarchical matching
+applies to rule resources only. Policy targets use direct matching.
 
 ## Conditions: The When Builder
 
-The `When` builder defines conditions for rules (and for `grantWhen()` on roles). All
-conditions added to a `When` builder are combined with AND by default.
+The `When` builder defines conditions for rules (and for `grantWhen()` on roles).
+Conditions added to a `When` builder combine with AND.
 
 ### Raw condition check
 
-The most general method is `check(field, operator, value)`:
+`check(field, operator, value)` is the general form:
 
 ```typescript
 .when(w => w
@@ -261,19 +261,18 @@ The most general method is `check(field, operator, value)`:
 
 ### Operator edge cases
 
-- **Numeric operators** (`gt`, `gte`, `lt`, `lte`): both the field value and the condition
-  value must be numbers. If either is not a number, the condition returns `false`.
-- **String operators** (`starts_with`, `ends_with`, `matches`): both must be strings.
-  Non-string values return `false`.
-- **`in` with arrays**: if the field is an array (like `subject.roles`), the operator checks
-  whether any element in the field array exists in the value array (overlap check). If the
-  field is a scalar, it checks whether the scalar is a member of the value array.
-- **`contains` with strings vs arrays**: if the field is an array, uses `Array.includes()`.
-  If the field is a string, uses `String.includes()`. Other types return `false`.
-- **`subset_of` / `superset_of`**: both field and value must be arrays. Non-array values
+- **Numeric operators** (`gt`, `gte`, `lt`, `lte`): field and value must both be numbers.
+  Anything else returns `false`.
+- **String operators** (`starts_with`, `ends_with`, `matches`): field and value must both
+  be strings. Anything else returns `false`.
+- **`in` with arrays**: when the field is an array (e.g. `subject.roles`), checks for
+  any overlap with the value array. When the field is a scalar, checks membership.
+- **`contains` with strings vs arrays**: arrays use `Array.includes()`; strings use
+  `String.includes()`. Other types return `false`.
+- **`subset_of` / `superset_of`**: field and value must both be arrays. Non-arrays
   return `false`.
-- **Missing fields**: if a field path resolves to `null` or `undefined`, comparison operators
-  (`eq`, `gt`, etc.) compare against `null`. Use `exists` / `not_exists` to check presence.
+- **Missing fields**: a path that resolves to `null` or `undefined` compares against
+  `null` for `eq`, `gt`, etc. Use `exists` / `not_exists` to test presence.
 
 ## Field Resolution
 
@@ -302,16 +301,16 @@ pollution.
 
 ## $-Variable References
 
-Dollar-prefixed values are resolved at evaluation time instead of being treated as
-literals. Use this to compare two fields from the same request.
+Dollar-prefixed values resolve at evaluation time instead of being literals. Use them
+to compare two fields on the same request.
 
 ```typescript
 // This checks: resource.attributes.ownerId === request.subject.id
 .when(w => w.check('resource.attributes.ownerId', 'eq', '$subject.id'))
 ```
 
-The `$subject.id` string is not compared literally. At eval time, the engine strips the
-`$` prefix and resolves `subject.id` from the request, then compares the result.
+`$subject.id` isn't compared literally. At eval time the engine strips `$`, resolves
+`subject.id` from the request, then compares.
 
 <Callout type="info">
   **DollarPaths autocomplete:** When you use `createAccessConfig()` with a typed context,
@@ -323,7 +322,7 @@ The `$subject.id` string is not compared literally. At eval time, the engine str
   is `string`, autocomplete still shows `$`-prefixed suggestions.
 </Callout>
 
-The `isOwner()` shortcut uses this internally:
+The `isOwner()` shortcut uses this:
 
 ```typescript
 // These are equivalent:
@@ -331,8 +330,8 @@ The `isOwner()` shortcut uses this internally:
 .when(w => w.check('resource.attributes.ownerId', 'eq', '$subject.id'))
 ```
 
-You can use `$`-references anywhere a value is accepted: in `.check()`,
-`.attr()`, `.resourceAttr()`, and `.env()`:
+`$`-references work anywhere a value is accepted — `.check()`, `.attr()`,
+`.resourceAttr()`, and `.env()`:
 
 ```typescript
 // Compare resource owner to current user
@@ -360,8 +359,8 @@ You can use `$`-references anywhere a value is accepted: in `.check()`,
 
 ## Nesting Conditions (and/or/not)
 
-By default, the `When` builder combines all conditions with AND. Use `and()`, `or()`,
-and `not()` to create nested groups.
+The `When` builder defaults to AND. Use `and()`, `or()`, and `not()` for nested
+groups.
 
 <MermaidDiagram chart={`flowchart LR
     subgraph AND_Group["all (AND) -- every child must pass"]
@@ -481,12 +480,11 @@ Evaluation tree:
     AND_PART2 --> AND_RESULT
     AND_RESULT --> OR_PASS2["any: PASS"]`} />
 
-Nesting is limited to 10 levels deep. If exceeded, the condition evaluates to `false`
-(fail closed).
+Nesting caps at 10 levels. Past that the condition evaluates to `false` (fail closed).
 
 ### Empty condition groups
 
-If a condition group has an empty array, the result follows standard logic conventions:
+Empty arrays follow standard logic:
 
 - `{ all: [] }`: `true` (vacuous truth: all zero conditions are satisfied).
 - `{ any: [] }`: `false` (no conditions to satisfy).
@@ -494,7 +492,7 @@ If a condition group has an empty array, the result follows standard logic conve
 
 ### whenAny for top-level OR
 
-Use `whenAny()` when the top-level logic is OR instead of AND:
+`whenAny()` makes the top level OR instead of AND:
 
 ```typescript
 const rule = defineRule('flexible-access')
@@ -513,8 +511,8 @@ const rule = defineRule('flexible-access')
 
 ## Policy Targets
 
-Targets let you scope an entire policy to specific actions, resources, or roles. If a
-request does not match the targets, the policy's rules are not evaluated.
+Targets scope a whole policy to specific actions, resources, or roles. A request that
+doesn't match the targets skips the policy's rules.
 
 <MermaidDiagram chart={`flowchart LR
     subgraph Skip_Example["Request: read post"]
@@ -557,12 +555,11 @@ const adminPolicy = policy('admin-only')
 | `resources` | Only evaluate this policy if the request resource matches one of these. |
 | `roles` | Only evaluate this policy if the subject has one of these roles. |
 
-All fields are optional. If a field is not set, it matches everything. All set fields
-must match (AND logic).
+Every field is optional — unset fields match everything. Set fields combine with AND.
 
-`targets.resources` uses direct resource matching, not the hierarchical dot-aware matcher used
-by rule resources. A target of `"dashboard"` will not match `"dashboard.users"` unless you also
-list `"dashboard.users"` or use a wildcard at the rule layer instead.
+`targets.resources` uses direct matching, not the hierarchical matcher used by rule
+resources. A target of `"dashboard"` doesn't match `"dashboard.users"` unless you also
+list `"dashboard.users"` or use a wildcard at the rule layer.
 
 ```typescript
 const writePolicy = policy('write-restrictions')
@@ -589,9 +586,9 @@ const writePolicy = policy('write-restrictions')
 // Read operations and other resource types are not affected.
 ```
 
-When a policy is skipped due to target mismatch, the engine uses `defaultEffect` for
-that policy's contribution. To make a policy conditional without a penalty, use targets
-to limit when the policy participates, and ensure at least one other policy allows.
+When a policy is skipped on target mismatch, the engine uses `defaultEffect` for that
+policy. To make a policy conditional without penalty, scope its targets and ensure
+another policy allows the request.
 
 ## Combining Algorithms: Detailed Reference
 
@@ -608,7 +605,7 @@ to limit when the policy participates, and ensure at least one other policy allo
 
 ### deny-overrides
 
-The default and most conservative algorithm. Any deny wins over any allow.
+The default and most conservative algorithm. Any deny beats any allow.
 
 ```typescript
 const p = policy('strict')
@@ -629,12 +626,12 @@ Evaluation logic:
 3. Else if any has `effect: "allow"`, the policy result is **allow**.
 4. Else fall back to `defaultEffect`.
 
-Use this for restriction policies where a single deny rule must block access regardless
-of how many allow rules match.
+Use this for restriction policies — a single deny blocks access regardless of how many
+allow rules match.
 
 ### allow-overrides
 
-The inverse: any allow wins over any deny. Used by the auto-generated RBAC policy.
+The inverse: any allow beats any deny. Used by the auto-generated RBAC policy.
 
 ```typescript
 const p = policy('permissive')
@@ -659,7 +656,7 @@ Use this for deny-by-default policies where specific allow rules grant access.
 
 ### first-match
 
-The first matching rule determines the result. Order matters.
+The first matching rule wins. Order matters.
 
 ```typescript
 const p = policy('firewall')
@@ -690,7 +687,7 @@ Use this for firewall-style ordered rule lists.
 
 ### highest-priority
 
-The matching rule with the highest `priority` number wins.
+The matching rule with the highest `priority` wins.
 
 ```typescript
 const p = policy('priority')
@@ -725,8 +722,7 @@ Evaluation logic:
 4. If tied, the first encountered among tied rules wins.
 5. If none match, fall back to `defaultEffect`.
 
-Use this when rules have clear importance tiers and rule ordering in the definition
-should not matter.
+Use this when rules have clear priority tiers and definition order shouldn't matter.
 
 ## Complete Example: Layered Access Control
 
@@ -836,9 +832,9 @@ The evaluation flow for this request:
 3. **content-safety** (`deny-overrides`): user is not banned (`status` is not `'banned'`), and the `owner-delete-only` rule targets `delete` but the request is `update`, so no deny rules match, no allow rules to fire -> falls through to `defaultEffect`.
 4. **Cross-policy AND**: RBAC allows, business-hours allows, content-safety uses default -> all must allow -> **ALLOWED**.
 
-When a policy has only deny rules and none match, it falls through to `defaultEffect`
-(typically `"deny"`). To avoid an accidental deny, add an explicit allow rule (as in
-the business-hours policy above) or use `first-match` / `allow-overrides` with a
+A policy with only deny rules where none match falls through to `defaultEffect`
+(usually `"deny"`). To avoid an accidental deny, add an explicit allow rule (as in
+the business-hours policy above) or use `first-match` or `allow-overrides` with a
 catch-all allow as the last rule.
 
 ---

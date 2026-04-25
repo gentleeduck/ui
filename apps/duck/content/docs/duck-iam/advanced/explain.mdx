@@ -5,7 +5,7 @@ description: Use engine.explain() to trace every policy, rule, and condition eva
 
 ## Overview
 
-When a permission check returns an unexpected result, duck-iam provides two categories of debugging tools:
+When a permission check returns the wrong answer, duck-iam ships two debugging tools:
 
 <MermaidDiagram chart={`flowchart LR
     subgraph Result["ExplainResult"]
@@ -41,18 +41,18 @@ When a permission check returns an unexpected result, duck-iam provides two cate
 
     Result --> Policies --> Rules --> Conditions`} />
 
-- **engine.explain()**: Returns a full evaluation trace showing every policy, every rule,
-  every condition, and exactly which ones matched or failed.
-- **validatePolicy() / validateRoles()**: Runtime validation for untrusted or dynamic
+- **engine.explain()**: a full evaluation trace — every policy, every rule, every
+  condition, with exact match/fail results.
+- **validatePolicy() / validateRoles()**: runtime validation for untrusted or dynamic
   configuration data.
 
 ## engine.explain()
 
-> **Development mode only.** `explain()` is only available when the engine is created with `mode: 'development'` (the default). In production mode, calling `explain()` throws an error. If you need explain in production, create a separate development-mode engine for debug endpoints.
+> **Development mode only.** `explain()` works only when the engine is created with `mode: 'development'` (the default). In production mode it throws. For production debug endpoints, create a separate development-mode engine.
 
-`explain()` runs the same evaluation as `check()` but traces every step without short-circuiting. Even if the first policy denies access, the engine still evaluates all remaining policies so you see the complete picture.
+`explain()` runs the same evaluation as `check()` but traces every step without short-circuiting. Even when the first policy denies, the engine evaluates the rest so the trace is complete.
 
-`explain()` is a diagnostic tool. It applies the `beforeEvaluate` hook so the traced request matches the real evaluation input, but does **not** trigger `afterEvaluate`, `onDeny`, or `onError`. If `beforeEvaluate` throws, the explain call rejects because that hook still runs on the main explain path.
+`explain()` is diagnostic. It runs the `beforeEvaluate` hook so the traced request matches real evaluation input. It does **not** trigger `afterEvaluate`, `onDeny`, or `onError`. If `beforeEvaluate` throws, the explain call rejects.
 
 ```typescript
 const result = await engine.explain('user-1', 'delete', {
@@ -86,7 +86,8 @@ interface ExplainResult {
 
 ### ExplainSubjectInfo
 
-The `explainEvaluation()` function accepts an `ExplainSubjectInfo` object that separates base roles from scoped roles. If you are building custom explain tooling, this is the shape you need to provide:
+`explainEvaluation()` takes an `ExplainSubjectInfo` that separates base roles from
+scoped roles. Custom explain tooling needs this shape:
 
 ```typescript
 interface ExplainSubjectInfo {

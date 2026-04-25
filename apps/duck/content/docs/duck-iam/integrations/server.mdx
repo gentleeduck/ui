@@ -5,7 +5,9 @@ description: Protect your API routes with duck-iam server integrations for Expre
 
 ## Overview
 
-duck-iam ships server integrations for Express, NestJS, Hono, and Next.js. Each integration follows the same pattern: extract the user identity, map the HTTP method to an action, infer the resource from the route, and call `engine.can()`.
+duck-iam ships server integrations for Express, NestJS, Hono, and Next.js. Each one
+follows the same pattern: extract the user identity, map the HTTP method to an
+action, infer the resource from the route, and call `engine.can()`.
 
 <MermaidDiagram chart={`flowchart LR
     REQ["HTTP Request\nDELETE /posts/42"] --> MW["Middleware / Guard"]
@@ -26,11 +28,13 @@ duck-iam ships server integrations for Express, NestJS, Hono, and Next.js. Each 
     CHECK -- "Yes" --> NEXT["next() -- proceed to handler"]
     CHECK -- "No" --> DENY["403 Forbidden"]`} />
 
-Every integration is a thin adapter over `engine.can()`. There is no runtime framework dependency. duck-iam defines its own minimal type interfaces so you never pull in extra packages.
+Every integration is a thin adapter over `engine.can()`. No runtime framework
+dependency — duck-iam defines its own minimal type interfaces, so no extra packages
+sneak in.
 
 ### HTTP method mapping
 
-All server integrations share a default method-to-action map:
+The default method-to-action map shared by every integration:
 
 ```typescript
 const METHOD_ACTION_MAP = {
@@ -44,7 +48,7 @@ const METHOD_ACTION_MAP = {
 }
 ```
 
-Override this per-route or globally through the `getAction` option.
+Override per-route or globally with the `getAction` option.
 
 ## Generic helpers
 
@@ -57,15 +61,17 @@ import {
 } from '@gentleduck/iam/server/generic'
 ```
 
-Use the generic helpers when the built-in framework wrappers are too opinionated, or when you want the same access-control logic across several runtimes.
+Use the generic helpers when the framework wrappers are too opinionated, or when you
+want the same access-control logic across multiple runtimes.
 
-- `generatePermissionMap(engine, subjectId, checks, environment?)` is a small wrapper around
+- `generatePermissionMap(engine, subjectId, checks, environment?)` wraps
   `engine.permissions()` for server-to-client hydration.
 - `createSubjectCan(engine, subjectId, environment?)` returns a subject-bound
-  `can(action, resource, resourceId?, scope?)` function convenient in handlers, jobs, and service objects.
-- `extractEnvironment(req)` builds the default `{ ip, userAgent, timestamp }` environment
-  object from common request shapes.
-- `METHOD_ACTION_MAP` is the same CRUD-oriented map the built-in integrations use by default.
+  `can(action, resource, resourceId?, scope?)` for handlers, jobs, and service
+  objects.
+- `extractEnvironment(req)` builds the default `{ ip, userAgent, timestamp }` from
+  common request shapes.
+- `METHOD_ACTION_MAP` is the same CRUD map every built-in integration uses.
 
 ```typescript
 const can = createSubjectCan(engine, userId, extractEnvironment(req))

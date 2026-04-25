@@ -5,8 +5,7 @@ description: Install duck-iam, define your first role, create an engine, and run
 
 ## Goal
 
-By the end of this chapter you will have a working authorization check. Alice
-will be able to read blog posts but not delete them.
+By the end of this chapter, Alice can read blog posts but not delete them.
 
 <MermaidDiagram chart={`flowchart LR
     A["Alice<br/>(viewer role)"] --> E["Engine"]
@@ -23,7 +22,7 @@ will be able to read blog posts but not delete them.
     npm install @gentleduck/iam
     ```
 
-    duck-iam has zero runtime dependencies. Works with npm, yarn, pnpm, and bun.
+    Zero runtime dependencies. Works with npm, yarn, pnpm, and bun.
   </Step>
 
   <Step>
@@ -42,14 +41,14 @@ will be able to read blog posts but not delete them.
     ```
 
     `defineRole()` returns a builder. Chain `.grant(action, resource)` to add permissions.
-    `.build()` produces a plain `Role` object: serializable, no methods, no hidden state.
+    `.build()` returns a plain `Role` object — serializable, no methods, no hidden state.
   </Step>
 
   <Step>
     **Create an adapter and engine**
 
-    The engine needs an **adapter** to load data (roles, policies, user assignments). `MemoryAdapter`
-    stores everything in memory:
+    The engine needs an **adapter** to load data (roles, policies, assignments).
+    `MemoryAdapter` stores everything in memory:
 
     ```typescript title="src/access.ts"
     import { defineRole, Engine } from '@gentleduck/iam'
@@ -70,7 +69,7 @@ will be able to read blog posts but not delete them.
     export const engine = new Engine({ adapter }) // defaults to mode: 'development'
     ```
 
-    `assignments` maps subject IDs to role IDs. A subject can have multiple roles:
+    `assignments` maps subject IDs to role IDs. A subject can have several roles:
     `'alice': ['viewer', 'commenter']`.
   </Step>
 
@@ -115,8 +114,8 @@ will be able to read blog posts but not delete them.
 
 | Method | Returns | Use when |
 | --- | --- | --- |
-| `engine.can()` | `boolean` (always) | You only need yes/no |
-| `engine.check()` | `Decision` in dev, `boolean` in prod | You need the full decision with reason, timing, etc. |
+| `engine.can()` | `boolean` (always) | Yes/no is enough |
+| `engine.check()` | `Decision` in dev, `boolean` in prod | You need reason, timing, deciding rule |
 
 ```typescript
 // Simple boolean -- most common
@@ -135,7 +134,7 @@ engine.can(subjectId, action, resource, environment?, scope?)
 engine.check(subjectId, action, resource, environment?, scope?)
 ```
 
-`environment` and `scope` are optional, covered in later chapters.
+`environment` and `scope` are optional and covered later.
 
 ## What Just Happened
 
@@ -162,21 +161,20 @@ engine.check(subjectId, action, resource, environment?, scope?)
 
 When you call `engine.can('alice', 'read', { type: 'post', attributes: {} })`:
 
-1. **resolveSubject**: loads Alice's roles from the adapter. She has `['viewer']`.
-   Also resolves inheritance (Chapter 2) and loads her attributes.
-2. **rolesToPolicy**: converts her roles into a synthetic policy called `__rbac__`
-   with `allow-overrides` combining algorithm. Each permission becomes a rule.
-3. **evaluate**: evaluates all policies (the `__rbac__` policy plus any custom
-   policies from Chapter 3). Checks whether action `read` and resource type `post`
-   match any rule.
+1. **resolveSubject**: loads Alice's roles from the adapter — `['viewer']`. Also
+   resolves inheritance (Chapter 2) and loads her attributes.
+2. **rolesToPolicy**: converts her roles into a synthetic policy `__rbac__` with the
+   `allow-overrides` algorithm. Each permission becomes a rule.
+3. **evaluate**: runs all policies (`__rbac__` plus custom policies from Chapter 3),
+   checking whether `read` on `post` matches any rule.
 4. **Decision**: the `read:post` rule matches. Effect: allow.
 
 For `delete`, no rule matches, so the engine returns the default effect: deny.
 
 ### The __rbac__ Synthetic Policy
 
-Role definitions are not evaluated directly. The engine converts them into a standard
-ABAC policy:
+Role definitions don't run directly. The engine converts them into a standard ABAC
+policy:
 
 ```typescript
 // Your role:
@@ -199,7 +197,7 @@ defineRole('viewer').grant('read', 'post').build()
 }
 ```
 
-RBAC and ABAC share the same evaluation pipeline. Roles are shorthand for policies.
+RBAC and ABAC share one evaluation pipeline. Roles are shorthand for policies.
 
 ## The Decision Object
 
@@ -229,7 +227,7 @@ console.log(decision.timestamp)  // 1708300000000
 ```
 
 Use `decision.duration` for performance monitoring, `decision.reason` for debugging,
-and `decision.policy` / `decision.rule` to trace which rule made the decision.
+and `decision.policy` / `decision.rule` to trace the deciding rule.
 
 ## The Resource Object
 
@@ -260,11 +258,11 @@ interface Resource {
 }
 ```
 
-`type` is what the engine matches against role permissions. `id` identifies a specific
-instance. `attributes` are used by policy conditions (Chapter 3) -- pass `{}` for now.
+`type` matches against role permissions. `id` identifies a specific instance.
+`attributes` feed policy conditions (Chapter 3) — pass `{}` for now.
 
-Resource types support **hierarchical matching** with dots: a permission on `dashboard`
-also covers `dashboard.users` and `dashboard.settings`. Covered in Chapter 5.
+Resource types support **hierarchical matching** with dots: a permission on
+`dashboard` also covers `dashboard.users` and `dashboard.settings`. See Chapter 5.
 
 ## Engine Configuration
 
@@ -281,14 +279,14 @@ const engine = new Engine({
 
 | Parameter | Default | Description |
 | --- | --- | --- |
-| `adapter` | required | Data source for roles, policies, assignments |
-| `mode` | `'development'` | `'development'` or `'production'`. Controls verbosity and debug behavior. |
-| `defaultEffect` | `'deny'` | What to return when no rule matches. Always use `'deny'` for security. |
-| `cacheTTL` | `60` | Cache lifetime in seconds. Set to `0` for tests. |
-| `maxCacheSize` | `1000` | Max subjects to cache in memory. Uses LRU eviction. |
-| `hooks` | `{}` | Lifecycle hooks for enrichment, logging, and error handling (Chapter 4). |
+| `adapter` | required | Data source for roles, policies, assignments. |
+| `mode` | `'development'` | `'development'` or `'production'` — controls verbosity and debug behavior. |
+| `defaultEffect` | `'deny'` | What to return when no rule matches. Stay with `'deny'` for security. |
+| `cacheTTL` | `60` | Cache lifetime in seconds. Set `0` in tests. |
+| `maxCacheSize` | `1000` | Max subjects cached in memory. LRU eviction. |
+| `hooks` | `{}` | Lifecycle hooks for enrichment, logging, error handling (Chapter 4). |
 
-The defaults are fine for now.
+Defaults are fine for now.
 
 ## Checkpoint
 

@@ -5,10 +5,9 @@ description: Define roles with the builder API, set up inheritance chains, scope
 
 ## Defining Roles
 
-Roles are the RBAC side of duck-iam. Define them with the `defineRole()` builder,
-granting permissions as action/resource pairs. At evaluation time, roles are converted
-into ABAC policies automatically, so they flow through the same engine as hand-written
-policies.
+Roles are the RBAC side of duck-iam. Build them with `defineRole()`, granting
+permissions as action/resource pairs. At evaluation time, roles convert to ABAC
+policies and run through the same engine as hand-written ones.
 
 ```typescript
 import { defineRole } from '@gentleduck/iam'
@@ -21,7 +20,7 @@ const viewer = defineRole('viewer')
   .build()
 ```
 
-`defineRole()` returns a `RoleBuilder`. Call `.build()` to produce a plain `Role` object.
+`defineRole()` returns a `RoleBuilder`. `.build()` produces the plain `Role` object.
 
 ### Role object structure
 
@@ -50,8 +49,8 @@ interface Permission {
 
 ## Role Inheritance
 
-Roles can inherit from other roles. When role B inherits from role A, it gets all
-of A's permissions plus its own. Inheritance chains can be arbitrarily deep.
+Roles can inherit. When role B inherits from role A, B gets all of A's permissions
+plus its own. Chains can be arbitrarily deep.
 
 <MermaidDiagram chart={`flowchart BT
     subgraph Hierarchy["Role Inheritance Chain"]
@@ -97,8 +96,8 @@ const admin = defineRole('admin')
   .build()
 ```
 
-This creates the chain: `viewer -> editor -> admin`. An admin gets everything an
-editor can do (which includes everything a viewer can do), plus unrestricted access.
+Chain: `viewer -> editor -> admin`. An admin gets everything an editor can do
+(including everything a viewer can do), plus unrestricted access.
 
 ### How inheritance is resolved
 
@@ -113,21 +112,20 @@ editor can do (which includes everything a viewer can do), plus unrestricted acc
     CHECK -- "Yes (cycle)" --> SKIP["Skip"]
     CHECK2 -- "Yes (cycle)" --> SKIP`} />
 
-The engine calls `resolveEffectiveRoles()` when loading a subject. Given a user
-assigned the `editor` role, the function walks the inheritance tree and returns
-`['editor', 'viewer']`, the full set of effective roles.
+The engine calls `resolveEffectiveRoles()` when loading a subject. For a user with
+`editor`, the function walks the inheritance tree and returns `['editor', 'viewer']` —
+the effective role set.
 
-When `rolesToPolicy()` converts roles into an ABAC policy, it internally flattens
-the inheritance chain. The editor role's generated rules include both its own
-permissions and the viewer's permissions, each with a condition checking
-`subject.roles contains "editor"`.
+`rolesToPolicy()` flattens the inheritance chain when generating the ABAC policy. The
+editor role's rules include its own and viewer's permissions, each gated by a
+`subject.roles contains "editor"` condition.
 
-Cycles are handled safely. If role A inherits from role B which inherits from role A,
-the visited set prevents infinite recursion.
+Cycles are safe. If role A inherits from B which inherits from A, the visited set
+breaks the recursion.
 
 ### Multiple inheritance
 
-A role can inherit from multiple parents:
+A role can inherit from several parents:
 
 <MermaidDiagram chart={`flowchart BT
     VIEWER["viewer\nread:post, read:comment"]
@@ -146,13 +144,12 @@ const moderator = defineRole('moderator')
   .build()
 ```
 
-This collects permissions from both `viewer` and `commenter`, then adds the
-moderator's own permissions.
+This pulls permissions from `viewer` and `commenter`, then adds the moderator's own.
 
 ## Scoped Roles (Multi-Tenancy)
 
-Scopes let you restrict roles to specific tenants, organizations, or workspaces.
-There are two mechanisms: role-level scopes and permission-level scopes.
+Scopes restrict roles to specific tenants, organizations, or workspaces. Two
+mechanisms: role-level scopes and permission-level scopes.
 
 <MermaidDiagram chart={`flowchart TD
     subgraph Mechanisms["Two Scoping Mechanisms"]
@@ -180,7 +177,7 @@ There are two mechanisms: role-level scopes and permission-level scopes.
 
 ### Role-level scope
 
-Setting a scope on a role means all its permissions only apply within that scope:
+A scope on a role limits all its permissions to that scope:
 
 ```typescript
 const orgEditor = defineRole('org-editor')
@@ -191,13 +188,12 @@ const orgEditor = defineRole('org-editor')
   .build()
 ```
 
-When this role is converted to policy rules, each rule gets an additional condition:
-`scope eq "org-1"`. The permission only fires when the request's scope matches.
+When converted to policy rules, each rule gets an extra `scope eq "org-1"` condition.
+The permission only fires when the request scope matches.
 
 ### Permission-level scope
 
-Scope individual permissions within a role by passing an optional third argument to
-`grant()`:
+Scope individual permissions by passing an optional third argument to `grant()`:
 
 ```typescript
 const hybridRole = defineRole('hybrid')
@@ -208,13 +204,12 @@ const hybridRole = defineRole('hybrid')
   .build()
 ```
 
-The `read` permission works everywhere; `update` only in `org-1`, `create` only in
-`org-2`. The `grantScoped(scope, action, resource)` method is also available with
-scope as the first argument.
+`read` works everywhere; `update` only in `org-1`; `create` only in `org-2`.
+`grantScoped(scope, action, resource)` does the same thing with scope first.
 
 ### Scoped role assignments
 
-A user can have the `editor` role globally and the `admin` role only in `org-1`:
+A user can have `editor` globally and `admin` only in `org-1`:
 
 ```typescript
 // In the adapter / admin API:
@@ -232,13 +227,13 @@ const allowed = await engine.can(
 // user-1 has admin in org-1, so delete is allowed
 ```
 
-When the request has a scope, the engine enriches the subject by merging in any
-scoped role assignments matching that scope. The `admin` role is only added to
-`subject.roles` for requests with `scope: "org-1"`.
+When a request carries a scope, the engine merges matching scoped role assignments
+into the subject. The `admin` role only joins `subject.roles` for requests with
+`scope: "org-1"`.
 
 ## Conditional Permissions with grantWhen
 
-Use `grantWhen()` to attach conditions to individual permissions:
+`grantWhen()` attaches conditions to a permission:
 
 ```typescript
 const author = defineRole('author')
@@ -250,10 +245,9 @@ const author = defineRole('author')
   .build()
 ```
 
-Authors can create and read any post, but can only update or delete posts they own.
-The `isOwner()` shortcut generates a condition checking
-`resource.attributes.ownerId eq $subject.id`. The `$subject.id` is a variable
-reference resolved at evaluation time.
+Authors can create and read any post, but only update or delete posts they own.
+`isOwner()` produces `resource.attributes.ownerId eq $subject.id`. `$subject.id` is a
+variable reference resolved at evaluation time.
 
 <Callout type="info">
   **Per-resource narrowing:** When using `createAccessConfig()` with a typed `context`
@@ -264,7 +258,7 @@ reference resolved at evaluation time.
 
 ### Complex conditional permissions
 
-The `grantWhen()` callback receives a `When` builder:
+The `grantWhen()` callback gets a `When` builder:
 
 ```typescript
 const teamLead = defineRole('team-lead')
@@ -277,8 +271,8 @@ const teamLead = defineRole('team-lead')
   .build()
 ```
 
-This grants `approve` on expenses only when the subject is in the engineering
-department AND the expense amount is at most 10,000.
+This grants `approve` on expenses only when the subject is in engineering AND the
+amount is at most 10,000.
 
 ## Shorthand Methods
 
@@ -300,8 +294,8 @@ const postAdmin = defineRole('post-admin')
 
 ### grantCRUD(resource)
 
-Grants `create`, `read`, `update`, and `delete` on a resource. Does not include
-custom actions like `publish` or `archive`.
+Grants `create`, `read`, `update`, and `delete` on a resource. Skips custom actions
+like `publish` or `archive`.
 
 ```typescript
 const contentManager = defineRole('content-manager')
@@ -353,8 +347,8 @@ const orgViewer = defineRole('org-viewer')
 
 ### meta(metadata)
 
-Attaches arbitrary metadata to a role. Not used during evaluation; for application
-code (admin dashboards, audit logs, UI labels).
+Attaches arbitrary metadata to a role. Ignored during evaluation — for application
+code like admin dashboards, audit logs, and UI labels.
 
 ```typescript
 const role = defineRole('beta-tester')
@@ -370,20 +364,20 @@ console.log(role.metadata)
 
 ## Edge Cases
 
-- **Empty permissions**: a role with no permissions and no inheritance is valid but will
-  not grant any access. `validateRoles()` flags this as a warning.
-- **Deep inheritance chains**: inheritance is resolved by walking the tree recursively.
-  The engine uses a visited set to prevent infinite loops on cycles. Performance is linear
-  in the number of roles. Even chains 10 levels deep resolve in microseconds.
-- **Removing inherited permissions**: not supported. If `editor` inherits `viewer`, there is
-  no way to remove viewer's `read` permission from the editor. Instead, use ABAC policies
-  to deny specific access at a finer grain.
-- **Wildcard scope**: a permission with `scope: '*'` matches all scopes, including requests
-  without a scope. Use this for global permissions that should apply everywhere.
+- **Empty permissions**: a role with no permissions and no inheritance is valid but
+  grants nothing. `validateRoles()` flags it as a warning.
+- **Deep inheritance chains**: resolved by walking the tree recursively, with a visited
+  set to break cycles. Performance is linear in the role count — 10-level chains
+  resolve in microseconds.
+- **Removing inherited permissions**: not supported. If `editor` inherits `viewer`,
+  viewer's `read` can't be stripped from the editor. Use an ABAC deny rule for
+  finer-grain control.
+- **Wildcard scope**: `scope: '*'` matches every scope, including requests without one.
+  Use it for global permissions.
 
 ## How Roles Become Policies (rolesToPolicy)
 
-`rolesToPolicy()` converts role definitions into a single ABAC policy.
+`rolesToPolicy()` turns role definitions into one ABAC policy.
 
 <MermaidDiagram chart={`flowchart LR
     subgraph Input["Role Definitions"]
@@ -409,15 +403,15 @@ console.log(role.metadata)
 
 For each role, the function:
 
-1. Flattens the inheritance chain to collect all permissions (own + inherited).
-2. For each permission, creates a Rule with:
+1. Flattens the inheritance chain into all permissions (own and inherited).
+2. Creates a Rule per permission with:
    - `effect: "allow"`
    - `actions` and `resources` from the permission
-   - A condition `subject.roles contains "<roleId>"`
-   - An additional `scope eq "<scope>"` condition if the permission or role has a scope
-   - Any user-defined conditions from `grantWhen()`
+   - `subject.roles contains "<roleId>"` as a condition
+   - `scope eq "<scope>"` when the permission or role is scoped
+   - Any conditions from `grantWhen()`
    - `priority: 10` (default)
-3. Wraps all rules in a policy with `id: "__rbac__"` and `algorithm: "allow-overrides"`.
+3. Wraps the rules in a policy with `id: "__rbac__"` and `algorithm: "allow-overrides"`.
 
 The viewer role after conversion:
 
@@ -457,14 +451,14 @@ const viewer = defineRole('viewer')
 }
 ```
 
-The `allow-overrides` algorithm means: if any role grants the permission, the subject
-is allowed. A user with multiple roles gets the union of all their permissions.
+`allow-overrides` means any role granting the permission is enough — a user with
+multiple roles gets the union of their permissions.
 
 ## Type-Safe Roles with createAccessConfig
 
-Use `createAccessConfig()` to get typed builder functions. When you declare `roles`,
-the role ID parameter in `defineRole()` and the `.role()` / `.roles()` methods in
-conditions are constrained to your declared values.
+`createAccessConfig()` returns typed builders. With `roles` declared, the role ID
+parameter on `defineRole()` and the `.role()` / `.roles()` methods on conditions are
+constrained to those values.
 
 ```typescript
 import { createAccessConfig } from '@gentleduck/iam'
@@ -496,10 +490,9 @@ const ownerPolicy = access.policy('owner-only')
   .build()
 ```
 
-The `access.defineRole()`, `access.policy()`, `access.defineRule()`, and `access.when()`
-functions all return builders constrained to your declared actions, resources, scopes,
-and roles. The type flows through the entire chain, from `grantWhen()` callbacks to
-`whenAny()` conditions.
+`access.defineRole()`, `access.policy()`, `access.defineRule()`, and `access.when()`
+return builders constrained to the declared actions, resources, scopes, and roles. The
+types flow through the chain, from `grantWhen()` callbacks to `whenAny()` conditions.
 
 ## Validating Roles
 

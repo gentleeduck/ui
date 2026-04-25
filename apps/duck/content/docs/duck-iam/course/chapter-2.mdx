@@ -5,9 +5,9 @@ description: Build a role hierarchy with inheritance, assign multiple roles, use
 
 ## Goal
 
-BlogDuck needs more than viewers. Create an **editor** who can create and update
-posts, and an **admin** who can do everything. Use inheritance so each role builds
-on the one below it.
+BlogDuck needs more than viewers. Add an **editor** who can create and update posts,
+and an **admin** who can do everything. Use inheritance so each role builds on the
+one below it.
 
 <MermaidDiagram chart={`flowchart BT
     V["viewer<br/>read post, read comment"] --> E["editor<br/>+ create post, update post<br/>+ create comment, update comment"]
@@ -31,8 +31,8 @@ on the one below it.
       .build()
     ```
 
-    Because editor inherits viewer, an editor automatically gets `read:post` and
-    `read:comment` without listing them again.
+    Because editor inherits viewer, the editor gets `read:post` and `read:comment`
+    without listing them again.
   </Step>
 
   <Step>
@@ -50,7 +50,8 @@ on the one below it.
       .build()
     ```
 
-    Admin gets viewer + editor + admin permissions, three levels of inheritance.
+    Admin gets viewer + editor + admin permissions across three inheritance
+    levels.
   </Step>
 
   <Step>
@@ -125,16 +126,16 @@ on the one below it.
 
     Resolve ~~~ Safety`} />
 
-The engine calls `resolveEffectiveRoles()`, which walks the inheritance chain recursively.
-It maintains a visited set to prevent infinite loops from circular inheritance
-(A inherits B, B inherits A). Circular inheritance is skipped, not an error.
+The engine calls `resolveEffectiveRoles()`, walking the inheritance chain recursively
+with a visited set to break circular inheritance (A inherits B, B inherits A). Cycles
+are skipped, not raised as errors.
 
-The resolved roles for Charlie: `['admin', 'editor', 'viewer']`. All three roles' permissions
-are included in the `__rbac__` policy evaluation.
+Charlie's resolved roles: `['admin', 'editor', 'viewer']`. All three roles'
+permissions land in the `__rbac__` policy.
 
 ## Multiple Inheritance
 
-A role can inherit from multiple parents:
+A role can inherit from several parents:
 
 ```typescript
 const commenter = defineRole('commenter')
@@ -148,9 +149,9 @@ const moderator = defineRole('moderator')
   .build()
 ```
 
-The moderator gets `read:post` + `read:comment` (from viewer) + `create:comment` +
-`update:comment` (from commenter) + `delete:comment` (its own). Duplicate permissions
-are deduplicated automatically.
+The moderator gets `read:post` and `read:comment` from viewer, `create:comment` and
+`update:comment` from commenter, plus its own `delete:comment`. Duplicates are
+deduplicated automatically.
 
 ## The Complete RoleBuilder API
 
@@ -242,10 +243,9 @@ interface Permission {
 }
 ```
 
-A simple `.grant('read', 'post')` creates `{ action: 'read', resource: 'post' }`. The
-`scope` field is added by passing an optional third argument to `.grant()` (e.g.
-`.grant('read', 'post', 'org-1')`) or by using `.grantScoped()`. The `conditions`
-field is added by `.grantWhen()`.
+`.grant('read', 'post')` produces `{ action: 'read', resource: 'post' }`. Add `scope`
+with an optional third argument to `.grant()` (e.g. `.grant('read', 'post', 'org-1')`)
+or with `.grantScoped()`. Add `conditions` with `.grantWhen()`.
 
 ## The Role Object
 
@@ -263,7 +263,7 @@ interface Role {
 }
 ```
 
-This object is serializable -- store it in a database, send it over HTTP, or log it.
+It's serializable — store it in a database, send it over HTTP, or log it.
 
 ## Wildcards
 

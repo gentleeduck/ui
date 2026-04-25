@@ -5,12 +5,11 @@ description: How duck-iam combines RBAC and ABAC into a single evaluation pipeli
 
 ## How duck-iam Works
 
-duck-iam is a hybrid access control engine. Roles (RBAC) and policies (ABAC) feed into
-the same evaluation pipeline.
+duck-iam is a hybrid access control engine. Roles (RBAC) and policies (ABAC) feed the
+same evaluation pipeline.
 
-Roles are converted into ABAC policies internally. Every check runs through one
-evaluator, regardless of whether the permission came from a role or a hand-written
-policy.
+Roles convert to ABAC policies internally. Every check runs through one evaluator —
+no separate path for roles vs. hand-written policies.
 
 ### RBAC vs ABAC vs duck-iam
 
@@ -72,39 +71,38 @@ When you call `engine.can()` or `engine.authorize()`:
 
 ### Step by step
 
-1. **Resolve the subject.** The engine loads the user's assigned roles from the adapter,
-   walks inheritance chains to compute effective roles, and merges any scoped roles that
-   match the request scope.
+1. **Resolve the subject.** Load the user's assigned roles from the adapter, walk
+   inheritance chains for the effective set, then merge any scoped roles that match the
+   request scope.
 
 2. **Convert roles to policy.** `rolesToPolicy()` turns every role permission into an
-   ABAC rule with conditions that check `subject.roles contains <roleId>`. The generated
-   policy uses the `allow-overrides` combining algorithm.
+   ABAC rule with a `subject.roles contains <roleId>` condition. The generated policy
+   uses the `allow-overrides` algorithm.
 
-3. **Collect all policies.** The RBAC-generated policy is prepended to whatever ABAC
-   policies you have stored in the adapter.
+3. **Collect all policies.** Prepend the RBAC-generated policy to the ABAC policies
+   from the adapter.
 
-4. **Evaluate each policy independently.** Each policy has its own combining algorithm
-   (`deny-overrides`, `allow-overrides`, `first-match`, or `highest-priority`) that
-   determines how its rules combine into a single effect.
+4. **Evaluate each policy independently.** Each policy uses its own combining algorithm
+   (`deny-overrides`, `allow-overrides`, `first-match`, or `highest-priority`) to fold
+   its rules into one effect.
 
-5. **AND-combine across policies.** The engine walks policy results in order. If any
-   policy returns `deny`, evaluation stops and the request is denied. All policies must
-   allow for the request to be allowed. A restrictive policy cannot be overridden by a
-   permissive one.
+5. **AND-combine across policies.** Walk policy results in order. Any `deny` stops
+   evaluation and denies the request. All policies must allow. A restrictive policy
+   cannot be overridden by a permissive one.
 
-6. **Return the decision.** The `Decision` object includes the boolean `allowed` flag,
-   the winning `effect`, which `rule` and `policy` made the decision, a human-readable
-   `reason`, and timing information.
+6. **Return the decision.** The `Decision` object holds the boolean `allowed` flag, the
+   winning `effect`, the deciding `rule` and `policy`, a human-readable `reason`, and
+   timing.
 
 ### Dev vs Production Mode
 
-The `mode` option controls the evaluation path:
+The `mode` option chooses the evaluation path:
 
-- **`"development"` (default)**: full `Decision` objects with timing, matched rule/policy
-  references, and human-readable reasons. Use for debugging and `explain()` traces.
-- **`"production"`**: uses `evaluateFast()`, which skips `Decision` construction and
-  timing. Rules are indexed via `WeakMap`/`Map` so action + resource lookups are O(1)
-  instead of linear scans. Use in deployed services.
+- **`"development"` (default)**: full `Decision` objects with timing, matched
+  rule/policy references, and reason strings. Use for debugging and `explain()` traces.
+- **`"production"`**: runs `evaluateFast()` — skips `Decision` construction and timing.
+  Rules are indexed via `WeakMap`/`Map`, so action + resource lookups are O(1) instead
+  of linear. Use in deployed services.
 
 ## Key Concepts
 
@@ -147,7 +145,7 @@ The `mode` option controls the evaluation path:
 
 ### Subject
 
-The entity making the request, typically a user or service account.
+The entity making the request — usually a user or service account.
 
 ```typescript
 interface Subject {
@@ -158,12 +156,12 @@ interface Subject {
 }
 ```
 
-A subject carries its identity (`id`), assigned roles, and arbitrary attributes
-(department, plan tier, clearance level, or anything else your domain needs).
+A subject carries an `id`, assigned roles, and arbitrary attributes — department, plan
+tier, clearance level, or whatever the domain requires.
 
 ### Resource
 
-The thing being accessed: a post, a document, a settings page.
+The thing being accessed — a post, document, settings page.
 
 ```typescript
 interface Resource {
@@ -173,20 +171,20 @@ interface Resource {
 }
 ```
 
-Resource types support hierarchical matching with dots. A rule targeting `"dashboard"`
-will also match `"dashboard.users"` and `"dashboard.users.settings"`.
+Resource types use dot-separated hierarchical matching. A rule targeting `"dashboard"`
+also matches `"dashboard.users"` and `"dashboard.users.settings"`.
 
 ### Action
 
-A string describing the operation: `"read"`, `"create"`, `"update"`,
-`"delete"`, or any custom action your app defines. Actions support wildcard matching --
-`"*"` matches everything, and `"posts:*"` matches `"posts:read"`, `"posts:write"`, etc.
+A string describing the operation: `"read"`, `"create"`, `"update"`, `"delete"`, or any
+custom action. Actions support wildcards — `"*"` matches everything; `"posts:*"`
+matches `"posts:read"`, `"posts:write"`, etc.
 
 ### Scope
 
-An optional namespace for multi-tenant isolation. When a request carries
-`scope: "org-1"`, only roles and rules matching that scope apply. Use any string:
-org IDs, workspace slugs, project keys.
+An optional namespace for multi-tenant isolation. With `scope: "org-1"`, only roles
+and rules matching that scope apply. Any string works — org IDs, workspace slugs,
+project keys.
 
 <MermaidDiagram chart={`flowchart LR
     USER["User: alice\nBase: viewer"] --> REQ1["scope: org-1"]
@@ -212,7 +210,7 @@ interface AccessRequest {
 ```
 
 The `environment` field carries request-time context: IP address, user agent,
-timestamp, or any custom key-value pairs your conditions need.
+timestamp, or any custom key-value pairs needed by conditions.
 
 ```typescript
 interface Environment {
@@ -265,8 +263,8 @@ interface Policy {
 }
 ```
 
-Policies can have targets that scope them to specific actions, resources, or roles.
-If a request does not match a policy's targets, that policy's rules are skipped.
+Policy targets scope a policy to specific actions, resources, or roles. A request that
+doesn't match the targets skips the policy's rules.
 
 ### Rule
 
@@ -285,7 +283,7 @@ interface Rule {
 ```
 
 A rule fires when the action matches, the resource matches, and all conditions pass.
-Its effect (`allow` or `deny`) is applied.
+Its effect (`allow` or `deny`) applies.
 
 ### How a Rule is Matched
 
@@ -340,8 +338,7 @@ type ConditionGroup =
         L3["none: every child must be false"]
     end`} />
 
-Groups can be nested up to 10 levels. Exceeding the limit evaluates to `false`
-(fail closed).
+Groups nest up to 10 levels. Past that, evaluation returns `false` (fail closed).
 
 ### Field Resolution
 
@@ -371,21 +368,21 @@ Condition `field` values are dot-notation paths resolved against the `AccessRequ
         SPLIT["Split by dot"] --> WALK["Walk object tree"] --> VAL["Result: 'engineering'"]
     end`} />
 
-The engine supports these top-level paths:
+Top-level paths the engine resolves:
 
 - `subject.id`, `subject.roles`, `subject.attributes.<key>`
 - `resource.type`, `resource.id`, `resource.attributes.<key>`
 - `environment.<key>`
-- `action` (the action string directly)
-- `scope` (the scope string directly)
+- `action` (the action string)
+- `scope` (the scope string)
 
-Fields that do not exist resolve to `null`. The resolver blocks access to `__proto__`,
-`constructor`, and `prototype` to prevent prototype pollution.
+Missing fields resolve to `null`. The resolver blocks `__proto__`, `constructor`, and
+`prototype` to stop prototype pollution.
 
 ### Dynamic References ($-variables)
 
-When a condition value starts with `$`, it is resolved at evaluation time rather than
-compared as a literal. Use this to compare two fields from the same request.
+A condition value that starts with `$` is resolved at evaluation time, not compared
+as a literal. Use this to compare two fields from the same request.
 
 <MermaidDiagram chart={`flowchart LR
     subgraph Static["Static Value Comparison"]
@@ -409,7 +406,7 @@ compared as a literal. Use this to compare two fields from the same request.
 { field: 'resource.attributes.ownerId', operator: 'eq', value: '$subject.id' }
 ```
 
-The `$` prefix is stripped and the remainder is resolved using the same field paths.
+The `$` prefix is stripped and the remainder resolves with the same field paths.
 Common uses: ownership checks (`$subject.id`), department matching
 (`$subject.attributes.department`), scope validation (`$scope`).
 
@@ -431,7 +428,7 @@ interface Decision {
 
 ## Combining Algorithms
 
-Each policy uses a combining algorithm to resolve conflicts when multiple rules match.
+Each policy uses a combining algorithm to resolve conflicts when several rules match.
 
 <MermaidDiagram chart={`flowchart LR
     subgraph DO["deny-overrides (default, safest)"]
@@ -466,7 +463,7 @@ Each policy uses a combining algorithm to resolve conflicts when multiple rules 
 
 ### deny-overrides (default)
 
-Any `deny` wins over any `allow`. The safest default.
+Any `deny` beats any `allow`. The safest default.
 
 ```typescript
 const strictPolicy = policy('strict')
@@ -485,8 +482,8 @@ const strictPolicy = policy('strict')
 
 ### allow-overrides
 
-Any `allow` wins over any `deny`. Use for permissive policies where a single allow rule
-is sufficient.
+Any `allow` beats any `deny`. Use for permissive policies where one allow rule is
+enough.
 
 ```typescript
 const permissivePolicy = policy('permissive')
@@ -503,11 +500,11 @@ const permissivePolicy = policy('permissive')
 // Admin role triggers the allow rule, which overrides the deny.
 ```
 
-This is the algorithm used by the auto-generated RBAC policy.
+This is the algorithm the auto-generated RBAC policy uses.
 
 ### first-match
 
-The first matching rule determines the result. Rule order matters.
+The first matching rule wins. Rule order matters.
 
 ```typescript
 const orderedPolicy = policy('ordered')
@@ -527,8 +524,8 @@ const orderedPolicy = policy('ordered')
 
 ### highest-priority
 
-The matching rule with the highest `priority` value wins. Ties go to the first
-encountered.
+The matching rule with the highest `priority` wins. Ties go to whichever was seen
+first.
 
 ```typescript
 const priorityPolicy = policy('priority-based')
@@ -553,9 +550,8 @@ const priorityPolicy = policy('priority-based')
 
 ## Cross-Policy AND-Combination
 
-The combining algorithm resolves conflicts within a single policy. Across policies,
-duck-iam uses strict AND-combination: every policy must allow for the final result to
-be `allow`.
+A combining algorithm resolves conflicts within one policy. Across policies, duck-iam
+uses strict AND — every policy must allow for the final result to be `allow`.
 
 <MermaidDiagram chart={`flowchart LR
     subgraph Weekday["Weekday Request"]
@@ -602,16 +598,16 @@ Layer policies for defense in depth:
         L4 --> COMBINE
     end`} />
 
-- The RBAC policy handles "who can do what"
-- A time-based policy handles "when they can do it"
-- A geo-fencing policy handles "where they can do it from"
+- The RBAC policy handles "who can do what".
+- A time-based policy handles "when they can do it".
+- A geo-fencing policy handles "where they can do it from".
 
-Each policy is evaluated independently. A deny from any one of them is final.
+Each policy evaluates independently. A deny from any one is final.
 
 ## The Default Effect
 
-When no rules match within a policy, the engine falls back to `defaultEffect`. This
-defaults to `"deny"` (fail closed):
+When no rules match inside a policy, the engine falls back to `defaultEffect` —
+`"deny"` by default (fail closed):
 
 ```typescript
 const engine = new Engine({
@@ -620,11 +616,11 @@ const engine = new Engine({
 })
 ```
 
-Fail-closed means an unmatched request is denied rather than accidentally allowed.
+Fail-closed means an unmatched request denies instead of accidentally allowing.
 
 ## Debugging with explain()
 
-`explain()` returns a full evaluation trace without triggering side-effect hooks:
+`explain()` returns a full evaluation trace without firing side-effect hooks:
 
 ```typescript
 const trace = await engine.explain(
@@ -640,7 +636,7 @@ console.log(trace.summary)
 //   Result: Allowed by rule "rbac.editor.update.post.2"
 ```
 
-The trace includes per-policy breakdowns, per-rule match details, and per-condition
+The trace covers per-policy breakdowns, per-rule match details, and per-condition
 actual vs. expected values.
 
 ---

@@ -5,9 +5,9 @@ description: Client-side access control for React, Vue, and vanilla JavaScript w
 
 ## Overview
 
-duck-iam provides client libraries for checking permissions in the browser. The recommended
-pattern is server-driven: generate a `PermissionMap` on the server, send it to the client,
-and use it for all UI decisions.
+duck-iam ships client libraries for browser permission checks. The recommended
+pattern is server-driven: generate a `PermissionMap` on the server, send it to the
+client, and use it for UI decisions.
 
 <MermaidDiagram chart={`flowchart LR
     subgraph Server["Server Side"]
@@ -31,15 +31,18 @@ and use it for all UI decisions.
 
 Every client library supports the same core operations:
 
-- `can(action, resource, resourceId?, scope?)`: returns `true` if the permission is granted
-- `cannot(action, resource, resourceId?, scope?)`: returns `true` if the permission is denied
+- `can(action, resource, resourceId?, scope?)`: returns `true` when the permission is
+  granted.
+- `cannot(action, resource, resourceId?, scope?)`: returns `true` when the permission
+  is denied.
 
-Client-side checks are synchronous lookups against the pre-computed permission map. No network requests happen during these checks.
+Client checks are synchronous lookups against the pre-computed map. No network
+requests during checks.
 
 ### The PermissionMap
 
-A `PermissionMap` is a flat object where keys encode the permission and values are booleans.
-Keys follow one of four formats depending on which fields are present:
+A `PermissionMap` is a flat object — keys encode the permission, values are booleans.
+Keys take one of four shapes depending on which fields are present:
 
 ```typescript
 {
@@ -59,11 +62,12 @@ Keys follow one of four formats depending on which fields are present:
 }
 ```
 
-Generate it on the server using `engine.permissions()` or the `getPermissions` helper from `@gentleduck/iam/server/next`. When a key is not found in the map, all client libraries return `false` (deny by default).
+Generate it on the server with `engine.permissions()` or the `getPermissions` helper
+from `@gentleduck/iam/server/next`. Missing keys return `false` (deny by default).
 
 ### Permission keys and buildPermissionKey
 
-All client integrations use the same internal key builder:
+The same key builder powers every client integration:
 
 ```typescript
 import { buildPermissionKey } from '@gentleduck/iam'
@@ -75,7 +79,9 @@ buildPermissionKey('update', 'post', 'post-42', 'org-1')
 // "org-1:update:post:post-42"
 ```
 
-You rarely need to call `buildPermissionKey()` directly. The React, Vue, and vanilla clients call it internally. It is useful when generating or inspecting `PermissionMap` objects in tests, server endpoints, or custom client helpers.
+You rarely call `buildPermissionKey()` directly — the React, Vue, and vanilla
+clients call it internally. Reach for it when generating or inspecting
+`PermissionMap` objects in tests, server endpoints, or custom helpers.
 
 ---
 
