@@ -1,10 +1,10 @@
 'use client'
 
+import { type Event, trackEvent } from '@duck-docs/lib/events'
 import { cn } from '@gentleduck/libs/cn'
 import { Button, type ButtonProps } from '@gentleduck/registry-ui/button'
 import { CheckIcon, Copy } from 'lucide-react'
 import * as React from 'react'
-import { type Event, trackEvent } from '@duck-docs/lib/events'
 
 export async function copyToClipboardWithMeta(value: string, event?: Event) {
   navigator.clipboard.writeText(value)
