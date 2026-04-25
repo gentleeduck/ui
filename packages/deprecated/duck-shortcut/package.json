@@ -12,7 +12,7 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
-    "esbuild": "^0.27.3",
+    "esbuild": "^0.28.0",
     "tsdown": "catalog:",
     "vite": "catalog:",
     "vitest": "catalog:"
