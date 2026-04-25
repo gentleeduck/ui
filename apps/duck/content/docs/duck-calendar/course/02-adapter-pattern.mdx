@@ -5,13 +5,13 @@ description: "Understanding Adapter.IDateAdapter<TDate> and how to plug in any d
 
 <Callout icon={<Lightbulb />}>
 
-**Lesson 2 of 8**: You will learn how the adapter pattern decouples the calendar engine from any specific date library.
+**Lesson 2 of 8**: how the adapter pattern keeps the calendar engine independent of any date library.
 
 </Callout>
 
 ## What is a date adapter?
 
-A date adapter is an object that implements the `Adapter.IDateAdapter<TDate>` interface. It tells the calendar engine how to perform date operations without coupling to any specific date library.
+A date adapter is an object that implements `Adapter.IDateAdapter<TDate>`. It tells the engine how to do date math without coupling to a specific library.
 
 ```tsx showLineNumbers
 import type { Adapter } from '@gentleduck/calendar'
@@ -24,19 +24,19 @@ import type { Adapter } from '@gentleduck/calendar'
 
 ## Why adapters?
 
-Without an adapter, the calendar engine would have to call `new Date()`, `date.getMonth()`, etc. directly. This couples the engine to the native `Date` object and makes it impossible to use with dayjs, date-fns, or the upcoming Temporal API.
+Without one, the engine would call `new Date()`, `date.getMonth()`, and friends directly. That ties it to the native `Date` and rules out dayjs, date-fns, or the upcoming Temporal API.
 
-With an adapter:
+With one:
 
-- The engine is **date-library agnostic** - swap adapters without changing any rendering code
-- You can write **isomorphic helpers** that work with any `TDate`
-- The adapter is the **single source of truth** for date operations
+- The engine is **date-library agnostic** — swap adapters without touching rendering code.
+- You can write **isomorphic helpers** that work with any `TDate`.
+- The adapter is the **single source of truth** for date operations.
 
 ---
 
 ## Using the built-in NativeAdapter
 
-The `NativeAdapter` ships with the package and uses `Date` + `Intl.DateTimeFormat`. Zero additional dependencies.
+`NativeAdapter` ships with the package and uses `Date` + `Intl.DateTimeFormat`. Zero extra dependencies.
 
 ```tsx showLineNumbers
 import { NativeAdapter } from '@gentleduck/calendar'
@@ -53,7 +53,7 @@ const formatted = adapter.format(today, { month: 'long', year: 'numeric' })  // 
 
 ## Building a custom adapter
 
-Let's build a dayjs adapter step by step:
+A dayjs adapter, step by step:
 
 ```tsx showLineNumbers
 import type { Adapter } from '@gentleduck/calendar'
@@ -108,7 +108,7 @@ const dayjsAdapter: Adapter.IDateAdapter<Dayjs> = {
 
 <Callout icon={<TriangleAlert />} tone="warning">
 
-All adapter methods must be **immutable**. Never mutate the input date - always return a new instance.
+Adapter methods must be **immutable**. Never mutate the input date — always return a new instance.
 
 </Callout>
 
@@ -116,10 +116,10 @@ All adapter methods must be **immutable**. Never mutate the input date - always 
 
 ## Key takeaways
 
-- The adapter is a plain object - no classes, no inheritance
-- Every date operation goes through the adapter
-- The `NativeAdapter` is good enough for most projects
-- Custom adapters are ~30 lines of code
+- The adapter is a plain object — no classes, no inheritance.
+- Every date operation runs through the adapter.
+- `NativeAdapter` is enough for most projects.
+- Custom adapters are ~30 lines.
 
 <Callout icon={<MapIcon />}>
 

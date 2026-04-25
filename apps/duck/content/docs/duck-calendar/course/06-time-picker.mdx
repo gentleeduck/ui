@@ -5,13 +5,13 @@ description: "Using useTimePicker and useDateTime for time input."
 
 <Callout icon={<Lightbulb />}>
 
-**Lesson 6 of 8**: You will build a time picker with spinbutton fields and combine it with the calendar for a full datetime picker.
+**Lesson 6 of 8**: build a time picker with spinbutton fields, then combine it with the calendar for a full datetime picker.
 
 </Callout>
 
 ## The useTimePicker hook
 
-`useTimePicker` manages time input with spinbutton fields, keyboard increment/decrement, and AM/PM support.
+`useTimePicker` handles time input — spinbutton fields, keyboard increment/decrement, and AM/PM.
 
 ```tsx showLineNumbers
 import { useTimePicker } from '@gentleduck/calendar'
@@ -39,18 +39,18 @@ function MyTimePicker() {
 
 ## How it works
 
-Each field is a `spinbutton` - users can:
+Each field is a `spinbutton`. Users can:
 
-- **Type** a number to set the value directly
-- Press <Kbd>ArrowUp</Kbd> / <Kbd>ArrowDown</Kbd> to increment/decrement
-- Press <Kbd>Tab</Kbd> to move between fields
-- On the AM/PM field: press <Kbd>A</Kbd> for AM, <Kbd>P</Kbd> for PM
+- **Type** a number to set the value.
+- Press <Kbd>ArrowUp</Kbd> / <Kbd>ArrowDown</Kbd> to increment/decrement.
+- Press <Kbd>Tab</Kbd> to move between fields.
+- On the AM/PM field: <Kbd>A</Kbd> for AM, <Kbd>P</Kbd> for PM.
 
-The `getFieldProps` prop getter applies:
+`getFieldProps` applies:
 
-- `role="spinbutton"` with `aria-valuemin`, `aria-valuemax`, `aria-valuenow`
-- Keyboard handlers for increment, decrement, and digit entry
-- Focus management via `tabIndex`
+- `role="spinbutton"` with `aria-valuemin`, `aria-valuemax`, `aria-valuenow`.
+- Keyboard handlers for increment, decrement, and digit entry.
+- Focus management via `tabIndex`.
 
 ---
 
@@ -100,13 +100,13 @@ function MyDateTimePicker() {
 }
 ```
 
-The `state.value` is a single `Date` that combines the selected calendar date with the current time. When the user changes the date, the time is preserved. When the user changes the time, the date is preserved.
+`state.value` is a single `Date` that joins the selected calendar date with the current time. Date changes keep the time; time changes keep the date.
 
 ---
 
 ## Constraints
 
-You can set minimum and maximum times:
+Set minimum and maximum times:
 
 ```tsx showLineNumbers
 useTimePicker({

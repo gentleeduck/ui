@@ -5,13 +5,13 @@ description: "Using buildCalendarMonth to generate and render a calendar month g
 
 <Callout icon={<Lightbulb />}>
 
-**Lesson 3 of 8**: You will use `buildCalendarMonth` to generate a month grid and render it as a table.
+**Lesson 3 of 8**: use `buildCalendarMonth` to generate a month grid and render it as a table.
 
 </Callout>
 
 ## The grid builder
 
-`buildCalendarMonth` is a pure function that takes an adapter, a date, and optional config, and returns a `Grid.ICalendarMonth` object with weeks and day cells.
+`buildCalendarMonth` is a pure function. Pass an adapter, a date, and optional config; get back a `Grid.ICalendarMonth` with weeks and day cells.
 
 ```tsx showLineNumbers
 import { NativeAdapter, buildCalendarMonth } from '@gentleduck/calendar'
@@ -64,7 +64,7 @@ const month = buildCalendarMonth(adapter, march2026, {
 
 ## Rendering the grid
 
-Here is a minimal React component that renders the grid:
+A minimal React component that renders the grid:
 
 ```tsx showLineNumbers
 import { NativeAdapter, buildCalendarMonth } from '@gentleduck/calendar'
@@ -110,7 +110,7 @@ function StaticCalendar({ date }: { date: Date }) {
 
 ## Multi-month grids
 
-Use `buildMultiMonth` to generate multiple consecutive months:
+`buildMultiMonth` generates several consecutive months:
 
 ```tsx showLineNumbers
 import { buildMultiMonth } from '@gentleduck/calendar'
@@ -130,11 +130,11 @@ const months = buildMultiMonth(adapter, new Date(), 3, {
 
 | Option | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
-| `showOutsideDays` | `boolean` | `true` | When false, outside days are marked as hidden and disabled |
-| `fixedWeeks` | `boolean` | `false` | Always produce 6 weeks |
+| `showOutsideDays` | `boolean` | `true` | When false, outside days are hidden and disabled |
+| `fixedWeeks` | `boolean` | `false` | Always produces 6 weeks |
 | `locale` | `CalendarLocaleConfig` | `{}` | Locale settings (see below) |
 
-`locale.weekStartDay` sets which day starts the week (0 = Sunday, 1 = Monday, etc.). Pass it inside the `locale` object:
+`locale.weekStartDay` sets the first day of the week (0 = Sunday, 1 = Monday). Pass it inside `locale`:
 
 ```tsx
 buildCalendarMonth(adapter, date, {
@@ -144,7 +144,7 @@ buildCalendarMonth(adapter, date, {
 
 <Callout icon={<Lightbulb />}>
 
-`buildCalendarMonth` is a pure function. It does not manage state. In the next lesson, we will use `useCalendar` to add interactivity.
+`buildCalendarMonth` is pure — no state. The next lesson uses `useCalendar` to add interactivity.
 
 </Callout>
 

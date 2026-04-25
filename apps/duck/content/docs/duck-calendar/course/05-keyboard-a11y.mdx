@@ -5,13 +5,13 @@ description: "Keyboard navigation, ARIA roles, and screen reader support."
 
 <Callout icon={<Target />}>
 
-**Lesson 5 of 8**: You will learn how the calendar handles keyboard input and ARIA semantics so your date picker is accessible by default.
+**Lesson 5 of 8**: how the calendar handles keyboard input and ARIA semantics, so the date picker is accessible by default.
 
 </Callout>
 
 ## Built-in keyboard navigation
 
-The `getDayProps` prop getter attaches an `onKeyDown` handler that supports the full WAI-ARIA grid keyboard pattern:
+`getDayProps` attaches an `onKeyDown` handler that implements the full WAI-ARIA grid keyboard pattern:
 
 | Key | Action |
 | :--- | :--- |
@@ -23,7 +23,7 @@ The `getDayProps` prop getter attaches an `onKeyDown` handler that supports the 
 | <Kbd>Enter</Kbd> / <Kbd>Space</Kbd> | Select focused date |
 | <Kbd>Escape</Kbd> | Dismiss (calls `onDismiss`) |
 
-You get all of this for free by spreading `getDayProps(day)` onto your day elements.
+Spread `getDayProps(day)` on each day element and you get all of this.
 
 ---
 
@@ -31,12 +31,12 @@ You get all of this for free by spreading `getDayProps(day)` onto your day eleme
 
 The calendar uses roving `tabIndex`:
 
-- Only the focused date has `tabIndex=0`
-- All other days have `tabIndex=-1`
-- <Kbd>Tab</Kbd> enters the grid on the focused date, then exits
-- Arrow keys move focus within the grid
+- The focused date has `tabIndex=0`.
+- Other days have `tabIndex=-1`.
+- <Kbd>Tab</Kbd> enters the grid on the focused date, then leaves.
+- Arrow keys move focus inside the grid.
 
-When focus crosses a month boundary (e.g. pressing <Kbd>ArrowRight</Kbd> on the last day), the displayed month auto-advances.
+Focus crossing a month boundary (e.g. <Kbd>ArrowRight</Kbd> on the last day) auto-advances the displayed month.
 
 ---
 
@@ -74,14 +74,14 @@ The prop getters apply all required ARIA attributes:
 
 ## Screen reader announcements
 
-The `useAnnouncer` hook (used internally) creates a visually hidden `aria-live="polite"` region. It announces:
+The internal `useAnnouncer` hook adds a visually hidden `aria-live="polite"` region. It announces:
 
 - **Month changes**: "March 2026"
 - **Selection changes**: "Selected Saturday, March 14, 2026"
 
-When using compound components, the announcer is rendered automatically inside `Calendar.Root`.
+Compound components render the announcer inside `Calendar.Root` automatically.
 
-When using hooks directly, render the announcer portal:
+When using hooks directly, render the portal yourself:
 
 ```tsx showLineNumbers
 const { announcer, ...rest } = useCalendar({ adapter, mode: 'single' })
@@ -98,15 +98,15 @@ return (
 
 ## Testing accessibility
 
-Test keyboard navigation with <Kbd>Tab</Kbd> and arrow keys. Verify screen reader output with VoiceOver (macOS) or NVDA (Windows).
+Test keyboard navigation with <Kbd>Tab</Kbd> and arrow keys. Check screen reader output with VoiceOver (macOS) or NVDA (Windows).
 
-Key things to check:
+Things to verify:
 
-- Grid announces as "calendar" when focused
-- Each day announces its full date
-- Selected days announce "selected"
-- Month changes are announced
-- Disabled days announce as disabled
+- The grid announces as "calendar" when focused.
+- Each day announces its full date.
+- Selected days announce "selected".
+- Month changes are announced.
+- Disabled days announce as disabled.
 
 <Callout icon={<MapIcon />}>
 

@@ -5,20 +5,20 @@ description: "Using data attributes to style the calendar with Tailwind or plain
 
 <Callout icon={<Lightbulb />}>
 
-**Lesson 7 of 8**: You will learn how to style every part of the calendar using data attributes - no CSS imports, no specificity wars.
+**Lesson 7 of 8**: style every part of the calendar with data attributes — no CSS imports, no specificity wars.
 
 </Callout>
 
 ## The headless approach
 
-`@gentleduck/calendar` ships zero CSS. Instead, it outputs `data-*` attributes on every element that you use as styling hooks.
+`@gentleduck/calendar` ships zero CSS. It outputs `data-*` attributes on every element so you can hook styles in.
 
-This means:
+That means:
 
-- No CSS imports to manage
-- No specificity wars
-- Full control over every pixel
-- Works with any CSS approach (Tailwind, CSS modules, styled-components, plain CSS)
+- No CSS imports to manage.
+- No specificity wars.
+- Full control over every pixel.
+- Works with any CSS approach (Tailwind, CSS modules, styled-components, plain CSS).
 
 ---
 
@@ -122,7 +122,7 @@ function StyledCalendar() {
 
 ## Slot attributes (compound components)
 
-When using `@gentleduck/primitives/calendar`, each component adds a `data-slot` attribute. This lets you style components by their semantic role:
+`@gentleduck/primitives/calendar` adds a `data-slot` attribute to each component, so you can style by semantic role:
 
 ```css showLineNumbers
 [data-slot="calendar"] { /* root */ }

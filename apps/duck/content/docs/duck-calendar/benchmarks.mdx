@@ -11,7 +11,7 @@ description: "Real bundle size and performance measurements for @gentleduck/cale
 
 ## Per-Library Comparisons
 
-Feature-by-feature tables comparing @gentleduck/calendar to each competitor:
+Feature-by-feature tables against each competitor:
 
 <ComponentPreview name="chart-benchmark-calendar-compare" description="Per-library comparison tables" className="[&_[data-value='preview']>div:last-child]:h-175" />
 
@@ -27,12 +27,12 @@ Module sizes, core engine performance, and adapter benchmarks:
 
 ## Methodology
 
-- **gentleduck**: sizes measured from `packages/duck-calendar/dist/` via `gzip -c | wc -c`
-- **Competitors**: bundle sizes from published npm data and bundlephobia.com
+- **gentleduck**: sizes from `packages/duck-calendar/dist/` via `gzip -c | wc -c`
+- **Competitors**: bundle sizes from npm and bundlephobia.com
 - **Performance**: average of 2,000 iterations per operation
-- All sizes are **minified + gzipped**
+- Sizes are **minified + gzipped**
 
-To regenerate:
+Regenerate:
 
 ```bash
 cd packages/duck-calendar

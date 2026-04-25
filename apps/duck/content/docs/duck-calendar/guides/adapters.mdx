@@ -33,7 +33,7 @@ import { NativeAdapter } from '@gentleduck/calendar'
 const adapter = new NativeAdapter()
 ```
 
-The `NativeAdapter` covers all adapter methods using only the native `Date` object and `Intl.DateTimeFormat` for locale-aware formatting. No polyfills needed for modern browsers.
+The `NativeAdapter` implements every adapter method with `Date` plus `Intl.DateTimeFormat` for locale-aware formatting. No polyfills required.
 
 ---
 
