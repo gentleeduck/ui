@@ -5,13 +5,14 @@ description: "Advanced mental model for duck-primitives: composition, state owne
 
 <Callout icon={<Lightbulb />}>
 
-These patterns are the contract your design-system wrappers should preserve.
+These patterns are the contract design-system wrappers should preserve.
 
 </Callout>
 
 ## 1) Composition via `asChild`
 
-`asChild` replaces the primitive's default DOM node with your child element, while preserving primitive behavior and semantics.
+`asChild` replaces the primitive's default DOM node with the child element, keeping
+the primitive's behavior and semantics.
 
 ```tsx
 <Dialog.Trigger asChild>
@@ -41,7 +42,7 @@ Every stateful primitive supports both patterns:
 - Uncontrolled for local behavior (`defaultOpen`, `defaultValue`).
 - Controlled for business workflows (`open` + `onOpenChange`, `value` + `onValueChange`).
 
-Use controlled mode when close/open decisions depend on async work, validation, permissions, or routing.
+Use controlled mode when open/close depends on async work, validation, permissions, or routing.
 
 ```tsx
 <Dialog.Root
@@ -58,13 +59,14 @@ Anti-pattern: mixing controlled and uncontrolled over component lifetime.
 
 ## 3) Focus safety with `Focus Scope`
 
-Modal surfaces depend on reliable focus behavior:
+Modal surfaces need reliable focus behavior:
 
 - Initial focus on open.
 - Tab loop containment.
 - Focus restoration on close.
 
-Dialog-like primitives implement this internally. If you intercept focus events (`onOpenAutoFocus`, `onCloseAutoFocus`), preserve accessibility intent.
+Dialog-like primitives handle this internally. If you intercept focus events
+(`onOpenAutoFocus`, `onCloseAutoFocus`), keep the accessibility intent.
 
 ```tsx
 <Dialog.Content
@@ -87,9 +89,10 @@ Dismiss behavior is event-driven, not hardcoded. Key hooks:
 - `onEscapeKeyDown`
 - `onDismiss`
 
-You can cancel dismissal with `event.preventDefault()`.
+Cancel dismissal with `event.preventDefault()`.
 
-Use this for guarded flows (unsaved changes, in-progress request, multi-step confirmation).
+Use this for guarded flows — unsaved changes, in-flight requests, multi-step
+confirmation.
 
 ---
 
@@ -103,7 +106,8 @@ State model:
 2. `unmountSuspended` (exit animation in progress)
 3. `unmounted`
 
-Practical implication: style enter/exit through `data-state` and CSS keyframes. Use `forceMount` when an external animation library controls DOM presence.
+In practice: style enter/exit through `data-state` and CSS keyframes. Use
+`forceMount` when an external animation library controls DOM presence.
 
 ---
 
@@ -115,7 +119,7 @@ Floating primitives expose a stable placement API:
 - `sideOffset`, `alignOffset`
 - `avoidCollisions`, `collisionPadding`, `collisionBoundary`
 
-Treat this as layout API, not styling API. Keep visual concerns in classes/tokens.
+This is a layout API, not a styling API. Keep visual concerns in classes/tokens.
 
 ---
 
@@ -133,7 +137,8 @@ Primitives use scoped contexts so nested instances remain independent.
 </Dialog.Root>
 ```
 
-When wrapper components fail in nested cases, the root issue is usually prop swallowing or broken ref forwarding, not primitive context.
+When wrapper components fail in nested cases, the root cause is usually prop
+swallowing or broken ref forwarding — not primitive context.
 
 ---
 
@@ -170,7 +175,7 @@ Use data attributes for visual states and ARIA attributes for assistive semantic
 
 ## 10) Debugging checklist
 
-If behavior feels wrong, check this order:
+When behavior looks wrong, check in order:
 
 1. Is `asChild` child a single ref-forwarding element?
 2. Are you preventing dismissal/focus events unintentionally?

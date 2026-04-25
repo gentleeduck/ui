@@ -3,7 +3,9 @@ title: "Benchmarks"
 description: "Full comparison of @gentleduck/primitives against Radix UI, Base UI, Ark UI, and Headless UI - bundle size, component count, features, and architecture."
 ---
 
-All gentleduck sizes are measured from the built `dist/` output via `gzip -c | wc -c`. Radix sizes are verified via the [bundlephobia.com](https://bundlephobia.com) API on 2026-03-22. Only verified data is included.
+gentleduck sizes come from the built `dist/` output via `gzip -c | wc -c`. Radix
+sizes are verified via the [bundlephobia.com](https://bundlephobia.com) API on
+2026-03-22. Only verified data is included.
 
 Run `bun run benchmark` in `packages/duck-primitives` to regenerate.
 
@@ -90,7 +92,8 @@ Per-component gzipped size (verified via bundlephobia API, 15 components with da
 
 <Callout icon={<Lightbulb />}>
 
-**Radio Group** is one case where Radix is smaller (1.0 KB vs 1.9 KB). Not every primitive is smaller.
+**Radio Group** is one case where Radix is smaller (1.0 KB vs 1.9 KB). Not every
+gentleduck primitive wins on size.
 
 </Callout>
 
@@ -98,7 +101,8 @@ Per-component gzipped size (verified via bundlephobia API, 15 components with da
 
 ## All Components
 
-Every primitive from both libraries, side by side. 0 KB means the library does not ship that component.
+Every primitive from both libraries side by side. 0 KB means the library doesn't
+ship that component.
 
 <ComponentPreview name="chart-benchmark-primitives-all" description="All 29 components compared" className="[&_[data-value='preview']>div:last-child]:h-330" />
 
@@ -136,7 +140,8 @@ Every primitive from both libraries, side by side. 0 KB means the library does n
 
 ## Size vs features: why some primitives are larger
 
-A smaller bundle is not always better. gentleduck ships more behavior per component than minimal alternatives:
+Smaller isn't always better. gentleduck ships more behavior per component than the
+minimal alternatives:
 
 | Built-in capability | What it saves you | Size cost |
 |---|---|---|
@@ -147,13 +152,19 @@ A smaller bundle is not always better. gentleduck ships more behavior per compon
 | **Dismissable layer** | No manual `Escape` key + click-outside + nested layer handling | ~0.3 KB |
 | **Popper (positioning)** | No separate Floating UI dependency or manual positioning | ~1.2 KB |
 
-When a gentleduck primitive is larger than a competitor (Radio Group at 1.9 KB vs Radix at 1.0 KB), the competitor either:
+When a gentleduck primitive is larger than a competitor (Radio Group at 1.9 KB vs
+Radix at 1.0 KB), the competitor either:
 
-1. **Delegates to separate packages**. Radix splits focus, dismissal, and collection into internal packages. Each looks small, but install 5 primitives and you pay the overhead 5 times.
-2. **Omits the behavior**. Base UI and Headless UI skip compound components, roving focus, and presence animations. You write that code.
-3. **Uses external state machines**. Ark UI offloads to xstate/zag.js, which adds ~15 KB of runtime not counted in the component size.
+1. **Delegates to separate packages**. Radix splits focus, dismissal, and collection
+   into internal packages. Each looks small, but install 5 primitives and you pay
+   the overhead 5 times.
+2. **Skips the behavior**. Base UI and Headless UI omit compound components, roving
+   focus, and presence animations. You write that code.
+3. **Uses external state machines**. Ark UI offloads to xstate/zag.js — ~15 KB of
+   runtime not counted in the component size.
 
-The fair comparison is total application cost: primitive size plus the code you write to fill the gaps.
+The fair comparison is total application cost: primitive size plus the code you
+write to fill the gaps.
 
 ---
 
@@ -161,41 +172,42 @@ The fair comparison is total application cost: primitive size plus the code you 
 
 ### gentleduck wins on
 
-- **Bundle size** - 50-92% smaller than Radix for most components due to shared internals
-- **Component count** - 35+ primitives including Calendar, Command, Sheet, Input OTP that others don't ship
-- **Single package** - no dependency management across 28+ separate packages
-- **Calendar** - only headless library with a multi-calendar-system primitive
-- **Source ownership** - primitives live in your monorepo, not in node_modules
+- **Bundle size** — 50-92% smaller than Radix for most components from shared internals.
+- **Component count** — 35+ primitives including Calendar, Command, Sheet, Input OTP that others don't ship.
+- **Single package** — no dependency management across 28+ separate packages.
+- **Calendar** — only headless library with a multi-calendar-system primitive.
+- **Source ownership** — primitives live in your monorepo, not in `node_modules`.
 
 ### Radix wins on
 
-- **Maturity** - battle-tested in production at thousands of companies, years of trust at scale
-- **Ecosystem** - shadcn/ui, Vercel, and many design systems are built on Radix
-- **Radio Group size** - 1.0 KB vs 1.9 KB (one case where Radix is lighter)
-- **Tabs** - gentleduck doesn't ship a Tabs primitive yet
+- **Maturity** — battle-tested at thousands of companies for years.
+- **Ecosystem** — shadcn/ui, Vercel, and many design systems run on Radix.
+- **Radio Group size** — 1.0 KB vs 1.9 KB (one case where Radix is lighter).
+- **Tabs** — gentleduck doesn't ship a Tabs primitive yet.
 
 ### Base UI wins on
 
-- **Per-component size** - some components are slightly smaller because they skip compound-component overhead
-- **No compound pattern overhead** - simpler render-prop API can be lighter for basic use cases
-- **Google backing** - part of the MUI ecosystem
+- **Per-component size** — some components skip compound-component overhead, so they're slightly smaller.
+- **No compound pattern overhead** — render-prop API is lighter for basic cases.
+- **Google backing** — part of the MUI ecosystem.
 
 ### Ark UI wins on
 
-- **State machines** - xstate/zag.js gives deterministic state transitions, useful for complex interactions
-- **Color Picker** - ships a color picker primitive others don't have
-- **Combobox** - dedicated combobox primitive (gentleduck uses Command instead)
+- **State machines** — xstate/zag.js for deterministic transitions in complex interactions.
+- **Color Picker** — ships a color picker primitive others lack.
+- **Combobox** — a dedicated combobox primitive (gentleduck uses Command).
 
 ### Headless UI wins on
 
-- **Smallest total size** - ~35 KB for all components, but only 10 components
-- **Tailwind integration** - class-based API designed specifically for Tailwind CSS
+- **Smallest total size** — ~35 KB for the whole library, with only 10 components.
+- **Tailwind integration** — class-based API designed for Tailwind CSS.
 
 ---
 
 ## Why gentleduck is smaller than Radix
 
-Radix ships each primitive as a **separate npm package**. Each package bundles its own copy of shared internals:
+Radix ships each primitive as a **separate npm package**, each bundling its own copy
+of the shared internals:
 
 | Radix internal package | Size | Duplicated per primitive |
 |---|---|---|
@@ -208,19 +220,21 @@ Radix ships each primitive as a **separate npm package**. Each package bundles i
 | `@radix-ui/react-focus-scope` | ~1.5 KB | Yes |
 | **Total overhead per primitive** | **~5 KB** | |
 
-Install 5 Radix primitives and you pay ~25 KB in duplicated internals. With gentleduck, shared internals are loaded once (~5 KB) and every additional primitive adds only its own code.
+Install 5 Radix primitives — ~25 KB of duplicated internals. With gentleduck, the
+shared internals load once (~5 KB) and each additional primitive only adds its own
+code.
 
 ---
 
 ## Methodology
 
-- **gentleduck**: sizes measured from `packages/duck-primitives/dist/` by concatenating all `.js` files per primitive directory and running `gzip -c | wc -c`
+- **gentleduck**: sizes from `packages/duck-primitives/dist/` — concatenate all `.js` files per primitive directory, then `gzip -c | wc -c`.
 - **Radix UI**: sizes from the [bundlephobia.com API](https://bundlephobia.com), queried per-package on 2026-03-22. Only verified responses included.
-- **Base UI / Ark UI / Headless UI**: component counts and feature data from official documentation. Bundle sizes excluded where bundlephobia data was unavailable.
-- All sizes are **minified + gzipped**
-- Built with tsdown (`minify: true`, `treeshake: true`, `format: 'esm'`)
+- **Base UI / Ark UI / Headless UI**: component counts and feature data from the official docs. Bundle sizes excluded where bundlephobia data was unavailable.
+- Sizes are **minified + gzipped**.
+- Built with tsdown (`minify: true`, `treeshake: true`, `format: 'esm'`).
 
-To regenerate:
+Regenerate:
 
 ```bash
 cd packages/duck-primitives

@@ -5,7 +5,8 @@ description: "Set up gentleduck/primitives with production defaults: accessibili
 
 <Callout icon={<Zap />}>
 
-Install primitives, wire global direction, build a controlled dialog, validate behavior with a QA checklist.
+Install primitives, wire global direction, build a controlled dialog, run a QA
+checklist.
 
 </Callout>
 
@@ -24,7 +25,7 @@ Requirements:
 
 ## Set document direction once
 
-If your product may support RTL later, set direction now.
+If the product might support RTL later, set direction now.
 
 ```tsx
 import { DirectionProvider } from '@gentleduck/primitives/direction'
@@ -108,10 +109,10 @@ export function DeleteProjectDialog() {
 }
 ```
 
-What this gives you immediately:
+You get:
 
-- Focus trapping and restoration.
-- Escape + outside interaction dismissal control.
+- Focus trap and restoration.
+- Dismissal control on Escape and outside interactions.
 - Correct dialog ARIA semantics.
 - State-driven animation hooks via `data-state`.
 
@@ -134,7 +135,7 @@ import * as Tooltip from '@gentleduck/primitives/tooltip'
 - Use uncontrolled (`defaultOpen`) for simple local UI.
 - Use controlled (`open` + `onOpenChange`) for workflows, async actions, analytics, or URL-driven state.
 
-If you need business rules around close behavior, controlled mode should be your default.
+If you need business rules around close behavior, default to controlled.
 
 ---
 
