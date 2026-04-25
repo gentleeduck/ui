@@ -1,0 +1,3 @@
+[build]
+command = "turbo run build --filter @gentleduck/ui-docs"
+publish = "apps/duck/.next"
