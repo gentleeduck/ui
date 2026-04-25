@@ -1,24 +1,22 @@
-import { readFile } from 'node:fs/promises'
-import { join } from 'node:path'
+import { docs } from '../../../.velite'
 
-const CONTENT_DIR = join(process.cwd(), 'content', 'docs')
+export const dynamic = 'force-static'
+export const dynamicParams = false
 
-async function readMdxFile(slug: string[]): Promise<string | null> {
+function findDoc(slug: string[]): string | null {
   const path = slug.join('/')
-  const candidates = [join(CONTENT_DIR, `${path}.mdx`), join(CONTENT_DIR, path, 'index.mdx')]
+  const candidates = [path, `${path}/index`]
+  const doc = docs.find((d) => candidates.includes(d.permalink))
+  return doc?.content ?? null
+}
 
-  for (const filePath of candidates) {
-    try {
-      return await readFile(filePath, 'utf-8')
-    } catch {}
-  }
-
-  return null
+export async function generateStaticParams() {
+  return docs.map((doc) => ({ slug: doc.permalink.replace(/\/index$/, '').split('/') }))
 }
 
 export async function GET(_request: Request, context: { params: Promise<{ slug: string[] }> }) {
   const { slug } = await context.params
-  const content = await readMdxFile(slug)
+  const content = findDoc(slug)
 
   if (!content) {
     return new Response('Not found', { status: 404 })
