@@ -5,7 +5,9 @@ description: "Learn the explicit extension model, built-in extensions, and the c
 
 <Callout icon={<Zap />}>
 
-registry-build does not attach default plugins automatically. If you want validation, component-index generation, colors/themes, an Arch-style repository emitter, or any other derived output, you add that extension explicitly in config.
+registry-build doesn't attach default plugins. For validation, component-index
+generation, colors/themes, an Arch-style repository emitter, or any other derived
+output, add the extension explicitly in config.
 
 </Callout>
 
@@ -24,13 +26,15 @@ They receive a typed API with access to:
 - path helpers
 - custom artifact storage
 
-This keeps optional behavior composable without making the core runner guess which outputs every consumer wants.
+Optional behavior stays composable — the core runner doesn't guess which outputs
+each consumer wants.
 
 ---
 
 ## Built-in extensions
 
-The built-in extensions are mostly UI/docs-oriented helpers. They are useful, but they are not the definition of the core package.
+The built-in extensions are mostly UI/docs helpers. Useful, but not the definition
+of the core package.
 
 | Extension | Stage | Purpose |
 | --- | --- | --- |
@@ -71,7 +75,8 @@ export default defineConfig({
 
 ## Collections-first custom extensions
 
-For new non-UI builds, the most important pattern is reading named collections from the build context.
+For new non-UI builds, the key pattern is reading named collections from the build
+context.
 
 ```ts
 {
@@ -88,11 +93,11 @@ For new non-UI builds, the most important pattern is reading named collections f
 }
 ```
 
-That keeps your extension generic:
+The extension stays generic:
 
-- config declares data and paths
-- the extension reads collections and metadata
-- the extension emits files and artifacts intentionally
+- Config declares data and paths.
+- The extension reads collections and metadata.
+- The extension emits files and artifacts on purpose.
 
 ---
 

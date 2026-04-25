@@ -5,13 +5,15 @@ description: "Understand the cache, write-skipping, changed-only mode, and bound
 
 <Callout icon={<Zap />}>
 
-registry-build is optimized for repeated local runs. Warm builds should avoid touching unchanged files, avoid re-reading unchanged source content unnecessarily, and report real rewritten file counts in the summary table.
+registry-build is optimized for repeated local runs. Warm builds avoid touching
+unchanged files, skip re-reading unchanged source content, and report real rewritten
+file counts in the summary table.
 
 </Callout>
 
 ## What is optimized
 
-The current performance model focuses on five things:
+The performance model focuses on five things:
 
 1. file-hash caching
 2. skip writing identical files
@@ -23,7 +25,7 @@ The current performance model focuses on five things:
 
 ## Cache location
 
-By default the builder writes cache state to:
+By default, the builder writes cache state to:
 
 ```text
 <output.dir>/.registry-build/build-cache.json
@@ -37,7 +39,7 @@ performance: {
 }
 ```
 
-The cache directory is local build state and should stay ignored by Git.
+The cache directory is local build state — keep it ignored by Git.
 
 ---
 
@@ -53,33 +55,37 @@ The cache directory is local build state and should stay ignored by Git.
 
 On warm runs the builder:
 
-- reuses cached file hashes when mtime and size are unchanged
-- reuses cached index entries when signatures match
-- reuses cached component payload decisions when signatures match
-- skips component-index and colors writes when generated output is unchanged
-- removes stale generated files when previous outputs disappear from the current build
+- Reuses cached file hashes when mtime and size are unchanged.
+- Reuses cached index entries when signatures match.
+- Reuses cached component payload decisions when signatures match.
+- Skips component-index and colors writes when generated output is unchanged.
+- Removes stale generated files when previous outputs disappear from the current
+  build.
 
 ---
 
 ## `--changed-only`
 
-Use this flag when you know you are doing a local iterative rebuild and want the builder to lean on the cache aggressively:
+Use this for local iterative rebuilds when you want the builder to lean on the
+cache aggressively:
 
 ```bash
 registry-build build --changed-only
 ```
 
-Pair it with explicit changed paths when you know which files moved:
+Pair it with explicit changed paths if you know which files moved:
 
 ```bash
 registry-build build --changed-only --changed ../../packages/registry-ui/src/button/button.tsx
 ```
 
-That lets the builder narrow component rebuild work to affected registry items instead of checking every generated payload equally.
+The builder then narrows component rebuild work to affected registry items instead
+of checking every generated payload.
 
 <Callout icon={<Lightbulb />}>
 
-`--changed-only` is most useful in editor-driven or watcher-driven local workflows. CI should usually run a full build.
+`--changed-only` works best in editor-driven or watcher-driven local workflows. CI
+should usually run a full build.
 
 </Callout>
 
@@ -87,7 +93,8 @@ That lets the builder narrow component rebuild work to affected registry items i
 
 ## Parallelism
 
-The builder uses bounded concurrency for discovery and generation work. The default is `Math.max(1, Math.min(cpuCount, 8))`  -  CPU-aware and capped at 8.
+The builder uses bounded concurrency for discovery and generation. Default:
+`Math.max(1, Math.min(cpuCount, 8))` — CPU-aware, capped at 8.
 
 Override it with:
 
@@ -97,15 +104,16 @@ performance: {
 }
 ```
 
-Use a lower number if your workspace lives on slower storage or if the generated outputs compete with another heavy process.
+Lower it if the workspace lives on slower storage or if generated outputs compete
+with another heavy process.
 
 ---
 
 ## When files are rewritten
 
-The builder rewrites files only when their generated content changes.
+The builder rewrites files only when generated content changes.
 
-That applies to:
+This applies to:
 
 - `index.json`
 - per-item component JSON files
@@ -113,7 +121,8 @@ That applies to:
 - colors/theme JSON files
 - generated `themes.css`
 
-On a true no-op warm build the summary table should usually show `Files` as `-` for every phase.
+On a true no-op warm build, the summary table usually shows `Files` as `-` for
+every phase.
 
 ---
 
@@ -125,7 +134,8 @@ performance: {
 }
 ```
 
-Do that only when you need to debug cache behavior or compare with a fully uncached build. The normal default should stay on.
+Only do this to debug cache behavior or compare against a fully uncached build.
+Otherwise leave it on.
 
 ---
 
@@ -136,7 +146,9 @@ Do that only when you need to debug cache behavior or compare with a fully uncac
     <AccordionTrigger>Warm builds still rewrite files</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-Check whether generated content is actually stable. Dynamic timestamps, non-deterministic ordering, or unstable custom generators will force rewrites even when source files did not change.
+Check whether generated content is stable. Dynamic timestamps, non-deterministic
+ordering, or unstable custom generators force rewrites even when source files
+didn't change.
 
     </AccordionContent>
   </AccordionItem>
@@ -145,7 +157,9 @@ Check whether generated content is actually stable. Dynamic timestamps, non-dete
     <AccordionTrigger>changed-only still rebuilds more than expected</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-Make sure the changed paths you provide map closely to the real source files that belong to a registry item. File-indexed sources can narrow work more precisely than folder-level item indexing.
+Make sure the changed paths map closely to the real source files in a registry
+item. File-indexed sources narrow work more precisely than folder-level item
+indexing.
 
     </AccordionContent>
   </AccordionItem>
@@ -154,7 +168,8 @@ Make sure the changed paths you provide map closely to the real source files tha
     <AccordionTrigger>Where did .registry-build come from?</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-That is the local incremental cache directory under `output.dir`. It is expected, safe to delete, and should be ignored by Git.
+That's the local incremental cache directory under `output.dir`. Expected, safe to
+delete, and should be ignored by Git.
 
     </AccordionContent>
   </AccordionItem>

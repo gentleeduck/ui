@@ -5,7 +5,8 @@ description: "Run registry-build from config roots, CI, or local package scripts
 
 <Callout icon={<Zap />}>
 
-The CLI is the normal runtime entrypoint. Consumers should call `registry-build build` from the package or app that owns the config and the generated outputs.
+The CLI is the normal runtime entrypoint. Run `registry-build build` from the
+package or app that owns the config and generated outputs.
 
 </Callout>
 
@@ -15,7 +16,8 @@ The CLI is the normal runtime entrypoint. Consumers should call `registry-build 
 registry-build build
 ```
 
-The CLI discovers `registry-build.config.*` starting from the current working directory unless you provide `--config` or `--cwd`.
+The CLI discovers `registry-build.config.*` starting from the current working
+directory unless `--config` or `--cwd` is set.
 
 ---
 
@@ -85,15 +87,16 @@ Split raw build and formatting:
 }
 ```
 
-That pattern keeps `build:reg` as the default one-command workflow while still leaving `build:reg:cli` available for direct flag usage.
+`build:reg` is the default one-command workflow; `build:reg:cli` stays available
+for direct flag usage.
 
 ---
 
 ## Exit behavior
 
-- validation or load errors fail the command with a non-zero exit code
-- `--verbose` includes the full stack for debugging
-- `--json` is useful for CI, custom dashboards, or local tooling wrappers
+- Validation or load errors fail the command with a non-zero exit code.
+- `--verbose` includes the full stack for debugging.
+- `--json` is useful for CI, custom dashboards, or local tooling wrappers.
 
 ---
 

@@ -5,7 +5,9 @@ description: "Full registry-build config reference with a generic-first shape, c
 
 <Callout icon={<Search />}>
 
-This page is the full config reference. The important framing is: for new non-UI consumers, start with `collections`. The older UI-shaped fields still work, but they are now a compatibility surface rather than the preferred starting point.
+The full config reference. For new non-UI consumers, start with `collections`. The
+older UI-shaped fields still work, but they're a compatibility surface — not the
+recommended starting point.
 
 </Callout>
 
@@ -28,7 +30,9 @@ export default defineConfig({
 
 <Callout icon={<Target />}>
 
-If you are building a UI/docs registry, you can still use `sources`, `registries`, `targetPaths`, `importMappings`, `componentIndex`, `colors`, `themes`, and related fields. They remain supported through the compatibility layer.
+For a UI/docs registry, `sources`, `registries`, `targetPaths`, `importMappings`,
+`componentIndex`, `colors`, `themes`, and the related fields still work through the
+compatibility layer.
 
 </Callout>
 
@@ -69,7 +73,9 @@ collections: {
 }
 ```
 
-Use `collections` when you are building a package index or repository catalog, when you want extensions to read arbitrary data without pretending it is a UI component registry, and when you want a small generic config with minimal domain assumptions.
+Use `collections` when you're building a package index or repo catalog, when
+extensions need arbitrary data without pretending it's a UI component registry, and
+when you want a small generic config with minimal domain assumptions.
 
     </AccordionContent>
   </AccordionItem>

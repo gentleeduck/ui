@@ -5,13 +5,14 @@ description: "Common registry-build failure modes and the fastest way to debug e
 
 <Callout icon={<TriangleAlert />}>
 
-Most failures fall into one of four buckets: config discovery, path resolution, source discovery, or output/caching expectations.
+Most failures fall into one of four buckets: config discovery, path resolution,
+source discovery, or output/caching expectations.
 
 </Callout>
 
 ## Fast triage
 
-When a build fails, check in this order:
+Build failed? Check in this order:
 
 1. Was the right config discovered?
 2. Are all config-relative paths declared from the config file's point of view?
@@ -34,7 +35,8 @@ Run the CLI from the consumer root or pass `--config` / `--cwd` explicitly.
 registry-build build --config ./apps/docs/registry-build.config.ts
 ```
 
-If the package is installed in a workspace app, prefer running the script from that app instead of from the repo root.
+If the package is installed in a workspace app, run the script from that app rather
+than the repo root.
 
     </AccordionContent>
   </AccordionItem>
@@ -43,7 +45,8 @@ If the package is installed in a workspace app, prefer running the script from t
     <AccordionTrigger>Source path does not exist</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-This almost always means the path was written as if it were relative to the current working directory instead of relative to the config file that declared it.
+Almost always means the path was written relative to the current working directory
+instead of the config file that declared it.
 
 Fix the path in config, not in the caller shell.
 
@@ -65,9 +68,11 @@ Also verify whether the source should be `indexStrategy: 'item'` or `indexStrate
     <AccordionTrigger>Unknown registry item type</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-The same registry item type namespace must be declared consistently across `schema.itemTypes`, `sources`, `targetPaths`, `packageMappings`, and each `RegistryEntry.type`.
+The registry item type namespace must be declared consistently across
+`schema.itemTypes`, `sources`, `targetPaths`, `packageMappings`, and each
+`RegistryEntry.type`.
 
-Everything must still satisfy ``registry:${string}``.
+Everything must satisfy ``registry:${string}``.
 
     </AccordionContent>
   </AccordionItem>
@@ -76,7 +81,9 @@ Everything must still satisfy ``registry:${string}``.
     <AccordionTrigger>TS config file does not load outside Bun</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-Use JSON configs if you need the most portable runtime path. TS config loading depends on the runtime's ability to import TS or the provided loader fallback. If you need maximum portability across environments, keep the config declarative and move custom logic into plain JS/JSON-safe shapes where possible.
+Use JSON configs for the most portable runtime path. TS config loading depends on
+the runtime's ability to import TS or the loader fallback. For maximum portability,
+keep the config declarative and move custom logic into plain JS/JSON-safe shapes.
 
     </AccordionContent>
   </AccordionItem>
@@ -85,7 +92,9 @@ Use JSON configs if you need the most portable runtime path. TS config loading d
     <AccordionTrigger>Warm builds still rewrite files</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-This usually means the generated content is changing, not the cache. Check for unstable ordering, custom generators with non-deterministic output, timestamps or environment-specific strings, and changes in rewritten imports or stripped variables.
+Usually the generated content is changing, not the cache. Check for unstable
+ordering, custom generators with non-deterministic output, timestamps or
+environment-specific strings, and changes in rewritten imports or stripped variables.
 
     </AccordionContent>
   </AccordionItem>
@@ -94,7 +103,9 @@ This usually means the generated content is changing, not the cache. Check for u
     <AccordionTrigger>changed-only still does more work than expected</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-Make the changed paths more specific. File-indexed sources can narrow rebuild work more accurately than folder-indexed sources. Passing a whole source root will still mark many entries as affected.
+Make the changed paths more specific. File-indexed sources narrow rebuild work
+better than folder-indexed sources. Passing a whole source root still marks many
+entries as affected.
 
     </AccordionContent>
   </AccordionItem>
@@ -103,7 +114,9 @@ Make the changed paths more specific. File-indexed sources can narrow rebuild wo
     <AccordionTrigger>Generated component-index imports point at the wrong package path</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-Check `importMappings.packageMappings` first. If the generated import path still is not what you need, provide a custom generator through `componentIndex` or `componentIndexExtension()`.
+Check `importMappings.packageMappings` first. If the generated import path still
+isn't what you need, provide a custom generator through `componentIndex` or
+`componentIndexExtension()`.
 
     </AccordionContent>
   </AccordionItem>
@@ -119,7 +132,8 @@ registry-build build --json --silent
 registry-build build --config ./registry-build.config.ts
 ```
 
-If you need to compare cache behavior, temporarily disable incremental mode in config and rerun once.
+To compare cache behavior, temporarily disable incremental mode in config and run
+once.
 
 ---
 
@@ -127,6 +141,7 @@ If you need to compare cache behavior, temporarily disable incremental mode in c
 
 <Callout icon={<Lightbulb />}>
 
-Do not debug this package by editing generated output first. Debug the inputs: config, source files, mappings, and extensions. The generated outputs should be treated as a consequence, not as the source of truth.
+Don't debug by editing generated output. Debug the inputs: config, source files,
+mappings, and extensions. Generated outputs are a consequence, not a source of truth.
 
 </Callout>

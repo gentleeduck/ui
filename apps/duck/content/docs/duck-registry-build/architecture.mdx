@@ -5,7 +5,10 @@ description: "Understand the registry-build lifecycle, build context, cache mode
 
 <Callout icon={<Target />}>
 
-The design goal is simple: static inputs live in config, the core runner produces deterministic base artifacts, and extensions add opt-in behavior after that base state exists. New non-UI consumers should think in named collections first; legacy UI fields are normalized into that model for compatibility.
+The design is simple: static inputs live in config, the core runner produces
+deterministic base artifacts, and extensions add opt-in behavior after that base
+state exists. New non-UI consumers should think in named collections first — legacy
+UI fields normalize into that model for compatibility.
 
 </Callout>
 
@@ -26,7 +29,8 @@ The design goal is simple: static inputs live in config, the core runner produce
 
 ## Build context
 
-The runtime context is the shared contract between the config loader, the core phases, and every extension.
+The runtime context is the shared contract between the config loader, the core
+phases, and every extension.
 
 It carries:
 
@@ -41,7 +45,8 @@ It carries:
 - cache access
 - changed-only flags and resolved changed paths
 
-That keeps the pipeline explicit. Phases and extensions do not need to rediscover global state on their own.
+The pipeline stays explicit — phases and extensions don't rediscover global state on
+their own.
 
 ---
 
@@ -52,7 +57,10 @@ That keeps the pipeline explicit. Phases and extensions do not need to rediscove
     <AccordionTrigger>Collections model</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-Collections are the domain-neutral input surface. A collection can hold file-backed data, named source trees, and arbitrary metadata. Extensions can read those collections without caring whether the consumer is building UI artifacts, package repositories, or search indexes.
+Collections are the domain-neutral input surface. A collection can hold file-backed
+data, named source trees, and arbitrary metadata. Extensions read collections
+without caring whether the consumer is building UI artifacts, package repositories,
+or search indexes.
 
     </AccordionContent>
   </AccordionItem>
@@ -61,7 +69,9 @@ Collections are the domain-neutral input surface. A collection can hold file-bac
     <AccordionTrigger>Legacy compatibility layer</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-Older UI-centric fields such as `sources` and `registries` are still supported. During config resolution they are translated into generic collection artifacts so extensions and future pipeline work can target one shared model instead of two unrelated APIs.
+Older UI-centric fields like `sources` and `registries` still work. Config
+resolution translates them into generic collection artifacts so extensions and future
+pipeline work target one shared model instead of two APIs.
 
     </AccordionContent>
   </AccordionItem>
@@ -70,7 +80,10 @@ Older UI-centric fields such as `sources` and `registries` are still supported. 
     <AccordionTrigger>Config loader</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-The loader finds `registry-build.config.*`, resolves `extends`, normalizes config-relative paths immediately, materializes external file-backed data, applies defaults, derives compatibility collections, and validates the final config with Zod.
+The loader finds `registry-build.config.*`, resolves `extends`, normalizes
+config-relative paths up front, materializes external file-backed data, applies
+defaults, derives compatibility collections, and validates the final config with
+Zod.
 
     </AccordionContent>
   </AccordionItem>
@@ -79,9 +92,14 @@ The loader finds `registry-build.config.*`, resolves `extends`, normalizes confi
     <AccordionTrigger>Extension-driven phases</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-The core runner has no built-in phases. All processing  -  index building, component generation, validation, colors/themes, component indexes, banners  -  is performed by extensions registered in the `extensions` array.
+The core runner has no built-in phases. All processing — index building, component
+generation, validation, colors/themes, component indexes, banners — runs in
+extensions registered in the `extensions` array.
 
-For UI registries, `indexBuildExtension()` materializes registry entries into `index.json` and `componentsExtension()` transforms each indexed item into its generated JSON payload. Both run as `afterBuild` extensions and are included automatically by `uiRegistryPreset()`.
+For UI registries, `indexBuildExtension()` materializes registry entries into
+`index.json` and `componentsExtension()` turns each indexed item into its generated
+JSON payload. Both run as `afterBuild` extensions and ship with
+`uiRegistryPreset()`.
 
     </AccordionContent>
   </AccordionItem>
@@ -90,7 +108,8 @@ For UI registries, `indexBuildExtension()` materializes registry entries into `i
     <AccordionTrigger>Extension boundary</AccordionTrigger>
     <AccordionContent className="text-muted-foreground">
 
-The core runner only provides the build context, cache management, and extension execution loop. All domain-specific outputs belong in extensions, not in the runner itself.
+The core runner provides the build context, cache management, and extension
+execution loop. Domain-specific outputs belong in extensions, not in the runner.
 
     </AccordionContent>
   </AccordionItem>
@@ -115,7 +134,8 @@ Typical examples:
 - output: `dist/arch/repos/core.db.json`
 - output: `public/r/themes.css`
 
-This split is what lets extensions stay data-first. They can read artifacts and register outputs without pretending they are part of the core phase graph.
+This split keeps extensions data-first. They read artifacts and register outputs
+without pretending to be part of the core phase graph.
 
 ---
 
@@ -126,7 +146,8 @@ The cache stores:
 - file hashes
 - phase-specific manifest data
 
-The cache is local, incremental state. It is not source of truth and should always be safe to delete.
+The cache is local, incremental state. Not the source of truth — always safe to
+delete.
 
 ### What the cache is for
 
