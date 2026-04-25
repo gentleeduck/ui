@@ -5,10 +5,8 @@ export const DuckTemplateConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-template',
-      title: 'Duck Template',
-      label: 'new',
-      collapsible: false,
+      href: '/duck-template/introduction',
+      title: '',
       items: [{ href: '/duck-template/introduction', title: 'Introduction', items: [] }],
     },
   ],

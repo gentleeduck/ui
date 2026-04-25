@@ -6,8 +6,7 @@ export const DuckLibsConfig: IDocsConfig = {
   sidebarNav: [
     {
       href: '/duck-libs/introduction',
-      title: 'Gentleduck Libs',
-      collapsible: false,
+      title: '',
       items: [{ href: '/duck-libs/introduction', title: 'Introduction', items: [] }],
     },
   ],

@@ -5,10 +5,8 @@ export const DuckTtestConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-ttest',
-      title: 'Duck TType',
-      label: 'new',
-      collapsible: false,
+      href: '/duck-ttest/introduction',
+      title: '',
       items: [{ href: '/duck-ttest/introduction', title: 'Introduction', items: [] }],
     },
   ],

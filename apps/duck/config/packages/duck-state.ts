@@ -6,8 +6,7 @@ export const DuckStateConfig: IDocsConfig = {
   sidebarNav: [
     {
       href: '/duck-state/introduction',
-      title: 'Gentleduck State',
-      collapsible: false,
+      title: '',
       items: [{ href: '/duck-state/introduction', title: 'Introduction', items: [] }],
     },
   ],

@@ -6,8 +6,7 @@ export const DuckLazyConfig: IDocsConfig = {
   sidebarNav: [
     {
       href: '/duck-lazy/introduction',
-      title: 'Gentleduck Lazy',
-      collapsible: false,
+      title: '',
       items: [{ href: '/duck-lazy/introduction', title: 'Introduction', items: [] }],
     },
   ],

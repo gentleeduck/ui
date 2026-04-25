@@ -5,16 +5,20 @@ export const DuckQueryConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-query',
-      title: 'Duck Query',
-      label: 'new',
-      collapsible: false,
+      href: '/duck-query/introduction',
+      title: '',
+      items: [{ href: '/duck-query/introduction', title: 'Introduction', items: [] }],
+    },
+    {
+      title: 'Reference',
       items: [
-        { href: '/duck-query/introduction', title: 'Introduction', items: [] },
         { href: '/duck-query/client-methods', title: 'Client Methods', items: [] },
-        { href: '/duck-query/advanced', title: 'Advanced', items: [] },
         { href: '/duck-query/types', title: 'Types', items: [] },
       ],
+    },
+    {
+      title: 'Advanced',
+      items: [{ href: '/duck-query/advanced', title: 'Advanced Patterns', items: [] }],
     },
   ],
 }

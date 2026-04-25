@@ -6,8 +6,7 @@ export const DuckShortcutConfig: IDocsConfig = {
   sidebarNav: [
     {
       href: '/duck-shortcut/introduction',
-      title: 'Gentleduck Shortcut (Deprecated)',
-      collapsible: false,
+      title: '',
       items: [{ href: '/duck-shortcut/introduction', title: 'Introduction', items: [] }],
     },
   ],

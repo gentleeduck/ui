@@ -6,8 +6,7 @@ export const DuckMotionConfig: IDocsConfig = {
   sidebarNav: [
     {
       href: '/duck-motion/introduction',
-      title: 'Gentleduck Motion',
-      collapsible: false,
+      title: '',
       items: [{ href: '/duck-motion/introduction', title: 'Introduction', items: [] }],
     },
   ],

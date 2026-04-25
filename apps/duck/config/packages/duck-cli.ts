@@ -6,9 +6,7 @@ export const DuckCliConfig: IDocsConfig = {
   sidebarNav: [
     {
       href: '/duck-cli/introduction',
-      title: 'Gentleduck CLI',
-      label: 'new',
-      collapsible: false,
+      title: '',
       items: [{ href: '/duck-cli/introduction', title: 'Introduction', items: [] }],
     },
   ],

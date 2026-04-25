@@ -5,12 +5,13 @@ export const DuckTtlogConfig: IDocsConfig = {
   chartsNav: [],
   sidebarNav: [
     {
-      href: '/duck-ttlog',
-      title: 'Duck TTLog',
-      label: 'new',
-      collapsible: false,
+      href: '/duck-ttlog/introduction',
+      title: '',
+      items: [{ href: '/duck-ttlog/introduction', title: 'Introduction', items: [] }],
+    },
+    {
+      title: 'Reference',
       items: [
-        { href: '/duck-ttlog/introduction', title: 'Introduction', items: [] },
         { href: '/duck-ttlog/core', title: 'Core Engine', items: [] },
         { href: '/duck-ttlog/macros', title: 'Macros', items: [] },
       ],

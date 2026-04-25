@@ -6,8 +6,7 @@ export const DuckVariantsConfig: IDocsConfig = {
   sidebarNav: [
     {
       href: '/duck-variants/introduction',
-      title: 'Gentleduck Variants',
-      collapsible: false,
+      title: '',
       items: [{ href: '/duck-variants/introduction', title: 'Introduction', items: [] }],
     },
   ],
