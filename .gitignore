@@ -103,7 +103,7 @@ node_modules/
 # tasks/ 
 **/.claude/settings.local.json
 **/.claude/worktrees
+.codex
 
 # rust 
 **/target
-
