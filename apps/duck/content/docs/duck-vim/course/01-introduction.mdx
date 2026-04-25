@@ -9,13 +9,13 @@ Lesson 1 of 8  -  Why keyboard shortcuts matter and how duck-vim approaches the 
 
 ## Why keyboard shortcuts?
 
-Keyboard shortcuts aren't just for power users. They serve three audiences:
+Keyboard shortcuts aren't only for power users. They serve three audiences:
 
-**Power users** want to stay on the keyboard. Every time they reach for the mouse, they lose flow. Apps like VS Code, Figma, and Notion thrive because they offer comprehensive keyboard interfaces.
+**Power users** want to stay on the keyboard. Reaching for the mouse breaks flow. VS Code, Figma, and Notion ship deep keyboard interfaces for this reason.
 
-**Accessibility** requires keyboard navigation. Users who can't use a mouse depend on keyboard shortcuts. WCAG 2.1 guideline 2.1 requires all functionality to be operable through a keyboard.
+**Accessibility** depends on keyboard navigation. Users who can't use a mouse rely on shortcuts. WCAG 2.1 guideline 2.1 requires all functionality to be operable through a keyboard.
 
-**Efficiency** is measurable. Studies consistently show that keyboard shortcuts reduce task completion time by 30-50% for repetitive operations.
+**Efficiency** is measurable. Studies show keyboard shortcuts cut task completion time by 30-50% for repetitive operations.
 
 ---
 
@@ -62,7 +62,7 @@ registry.register('ctrl+k', {
 ```
 
 <Callout icon={<Zap />} className="[&_ul]:my-0">
-The registry is the single source of truth for all shortcuts. This unlocks:
+The registry is the single source of truth for all shortcuts. From it you get:
 
 - **Discoverability:** Query `registry.getAllCommands()` to build a command palette.
 - **Customization:** Unregister and re-register with a different key.
@@ -98,7 +98,7 @@ The core modules have zero framework dependencies. React bindings are a separate
 ## What we'll build in this course
 
 <Callout icon={<Zap />}>
-By the end of this course, you'll be able to:
+By the end of the course you can:
 </Callout>
 
 1. Register and manage keyboard shortcuts in any JavaScript application.
@@ -108,8 +108,6 @@ By the end of this course, you'll be able to:
 5. Build a key recorder for shortcut customization UIs.
 6. Build a command palette powered by the registry.
 7. Handle edge cases: scoped bindings, conflict detection, input elements.
-
-Let's start.
 
 <Callout icon={<MapIcon />}>
 **Next:** [Lesson 2  -  Your First Shortcut](/docs/packages/duck-vim/course/02-first-shortcut)
