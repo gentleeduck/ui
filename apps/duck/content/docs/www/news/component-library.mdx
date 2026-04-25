@@ -5,9 +5,14 @@ description: 59+ production-ready components with a copy-source philosophy. Own 
 
 ## 59+ Components, Zero Lock-In
 
-Duck UI is a component library built on top of the GentleDuck ecosystem. It ships over 59 production-ready components covering forms, navigation, data display, overlays, and layout.
+Duck UI is a component library on top of the GentleDuck ecosystem. Over 59
+production-ready components covering forms, navigation, data display, overlays, and
+layout.
 
-But unlike most component libraries, duck-www does not install as a dependency. Instead, the CLI **copies source code directly into your project**. You own every line. You can read it, modify it, delete parts you do not need, and never worry about a breaking upstream update.
+Unlike most component libraries, Duck UI doesn't install as a dependency. The CLI
+**copies source code directly into your project**. You own every line — read it,
+modify it, delete parts you don't need, and never worry about a breaking upstream
+update.
 
 <MermaidDiagram chart={`flowchart LR
     subgraph Registry["Component Registry"]
@@ -125,7 +130,7 @@ But unlike most component libraries, duck-www does not install as a dependency. 
 
 ## The CLI Workflow
 
-Adding components is one command:
+Adding components is a single command:
 
 ```bash
 # Initialize a new project with components
@@ -136,39 +141,46 @@ bunx @gentleduck/cli add command combobox data-table
 ```
 
 The CLI:
-1. Resolves dependencies between components (e.g., `combobox` needs `popover` + `command`)
-2. Copies source files into your project
-3. Installs npm dependencies (`@gentleduck/primitives`, `@gentleduck/variants`, etc.)
-4. Configures Tailwind CSS if needed
+1. Resolves dependencies between components (e.g. `combobox` needs `popover` + `command`).
+2. Copies source files into the project.
+3. Installs npm dependencies (`@gentleduck/primitives`, `@gentleduck/variants`, etc.).
+4. Configures Tailwind CSS when needed.
 
 ### Why Copy Source?
 
-Most component libraries are black boxes. You install a package, use the API, and hope the defaults work for your design. When they do not, you fight the abstraction with CSS overrides, wrapper components, or abandoned forks.
+Most component libraries are black boxes. You install a package, use the API, and
+hope the defaults match your design. When they don't, you fight the abstraction with
+CSS overrides, wrapper components, or abandoned forks.
 
 Duck UI takes a different approach:
 
-- **Full control** -- Every component is a file you own. Change the border radius, swap an icon, add a prop, remove a feature.
-- **No version lock** -- You are not coupled to upstream releases. Your code, your pace.
-- **Learn by reading** -- The source is right there in your project. See exactly how a dialog manages focus or how a combobox handles keyboard events.
-- **Tree-shaking by default** -- You only have the components you use. No unused code in your bundle.
+- **Full control** — every component is a file you own. Change the border radius,
+  swap an icon, add a prop, remove a feature.
+- **No version lock** — your code, your pace. No coupling to upstream releases.
+- **Learn by reading** — the source is right there. See exactly how a dialog
+  manages focus or how a combobox handles keyboard events.
+- **Tree-shaking by default** — only the components you use ship. No dead code in
+  the bundle.
 
 <Callout title="Component-as-code">
-  When you run `@gentleduck/cli add button`, you get the full `button.tsx` source in your project. It is not a dependency -- it is your code now.
+  Run `@gentleduck/cli add button` and you get the full `button.tsx` source in your
+  project. It's not a dependency — it's your code.
 </Callout>
 
 ---
 
 ## Built on the Ecosystem
 
-Every component is built using the same GentleDuck packages you can adopt independently:
+Every component uses the same GentleDuck packages you can adopt on their own:
 
-- **@gentleduck/primitives** -- Headless behavior (focus, keyboard, ARIA)
-- **@gentleduck/variants** -- Type-safe styling with `cva()`
-- **@gentleduck/hooks** -- React hooks for component logic
-- **@gentleduck/motion** -- Enter/exit animations
-- **@gentleduck/libs** -- Utilities (`cn`, `Slot`, `Portal`)
+- **@gentleduck/primitives** — headless behavior (focus, keyboard, ARIA).
+- **@gentleduck/variants** — type-safe styling with `cva()`.
+- **@gentleduck/hooks** — React hooks for component logic.
+- **@gentleduck/motion** — enter/exit animations.
+- **@gentleduck/libs** — utilities (`cn`, `Slot`, `Portal`).
 
-The components are the reference implementation of these packages working together. Reading the source teaches you how to build your own components using the same patterns.
+The components are the reference implementation of these packages working together.
+Read the source to learn the patterns and apply them to custom components.
 
 ---
 
@@ -184,7 +196,7 @@ The components are the reference implementation of these packages working togeth
   <LinkedCard href="https://ui.gentleduck.org/docs/components/button" target="_blank" rel="noopener noreferrer">
     <div className="flex flex-col p-4">
       <h4 className="font-semibold">Start with Button</h4>
-      <p className="mt-2 text-muted-foreground text-sm">The simplest component to see the pattern. From there, explore Dialog, Command, and Data Table.</p>
+      <p className="mt-2 text-muted-foreground text-sm">The simplest component to see the pattern. Then explore Dialog, Command, and Data Table.</p>
     </div>
   </LinkedCard>
 </div>

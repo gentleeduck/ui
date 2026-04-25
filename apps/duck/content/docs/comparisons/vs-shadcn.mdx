@@ -301,7 +301,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 Button.displayName = 'Button'
 ```
 
-The gentleduck Button ships more out of the box: a `loading` state with spinner, `icon` prop, `border` variant dimension, `dashed` and `warning` variants, and `Slottable` for proper `asChild` content projection. The `cva` API is the same but `@gentleduck/variants` adds memoization - repeated calls with the same props return a cached result. The `data-slot` attribute enables parent-scoped styling without fragile descendant selectors.
+The gentleduck Button ships with more: a `loading` state with spinner, `icon` prop, `border` variant dimension, `dashed` and `warning` variants, and `Slottable` for proper `asChild` content projection. The `cva` API is the same but `@gentleduck/variants` adds memoization - repeated calls with the same props return a cached result. The `data-slot` attribute enables parent-scoped styling without fragile descendant selectors.
 
 ---
 
@@ -345,10 +345,10 @@ Same API. No code changes needed beyond the import path.
 
 ## Why teams switch
 
-You get a smaller bundle immediately. The calendar drops from ~20 KB to ~5 KB. Each primitive is 50-92% lighter than its Radix equivalent. The variant system adds memoization. These improvements land the moment you swap a component - no refactoring required.
+A smaller bundle, immediately. The calendar drops from ~20 KB to ~5 KB. Each primitive is 50-92% lighter than its Radix equivalent. The variant system adds memoization. These land the moment you swap a component, with no refactoring.
 
-You own the full stack. With shadcn, you own the styled layer but depend on Radix for behavior. With gentleduck, you own primitives, calendar, keyboard engine, motion tokens, and state management. When something breaks, you fix it in your repo instead of filing an issue and waiting.
+The full stack is yours. With shadcn, you own the styled layer but depend on Radix for behavior. With gentleduck, you own primitives, calendar, keyboard engine, motion tokens, and state management. When something breaks, you fix it in your repo instead of filing an issue and waiting.
 
-You get more out of the box. A keyboard command system, animation tokens with automatic reduced-motion support, an atom-based state manager, and a CLI that can update, remove, and list components - not just add them.
+You get more in the box. A keyboard command system, animation tokens with automatic reduced-motion support, an atom-based state manager, and a CLI that can update, remove, and list components - not just add them.
 
 You keep the shadcn ecosystem. Templates, blocks, and third-party integrations built for shadcn work with gentleduck because the component structure is the same. Switching does not mean starting over.

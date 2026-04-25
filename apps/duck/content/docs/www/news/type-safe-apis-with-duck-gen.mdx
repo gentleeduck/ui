@@ -5,11 +5,11 @@ description: How Duck Gen eliminates the gap between your server routes and clie
 
 ## The Type Gap
 
-Every full-stack TypeScript team eventually hits the same problem: **the server and client speak different type languages**.
+Server and client end up speaking different type languages.
 
-You define a DTO on the server. You write a matching type on the client. Someone renames a field. The client keeps compiling. The bug ships to production.
+You define a DTO on the server, write a matching type on the client, and someone renames a field. The client keeps compiling. The bug ships.
 
-Duck Gen exists to close this gap permanently.
+Duck Gen closes the gap.
 
 ---
 
@@ -50,7 +50,7 @@ export class AuthController {
 bunx @gentleduck/gen
 ```
 
-Duck Gen reads your source files with [ts-morph](https://ts-morph.com/), finds every `@Controller` class, and extracts:
+Duck Gen parses your sources with [ts-morph](https://ts-morph.com/), finds every `@Controller`, and extracts:
 
 - HTTP method decorators (`@Get`, `@Post`, `@Put`, `@Delete`, `@Patch`)
 - Route paths (controller prefix + method path)
@@ -96,7 +96,7 @@ export interface ApiRoutes {
 }
 ```
 
-This is a **pure type file** — no runtime code, no bundle impact. It disappears completely at compile time.
+A pure type file — no runtime code, no bundle impact. It disappears at compile time.
 
 ---
 
@@ -127,10 +127,10 @@ Save this as `duck-gen.json` in your project root. Duck Gen reads it automatical
 | **Migration effort** | Drop-in — no server changes | Full rewrite | Schema migration |
 | **Existing REST APIs** | Works immediately | Not applicable | Not applicable |
 
-Duck Gen is designed for teams that already have REST APIs and want type safety without rewriting their server.
+Duck Gen is for teams with existing REST APIs that want type safety without a server rewrite.
 
 <Callout title="Zero server changes">
-  Duck Gen reads your existing NestJS controllers. You do not need to add decorators, change your architecture, or adopt a new router. Your server code stays exactly the same.
+  Duck Gen reads your existing NestJS controllers. No new decorators, no architectural changes, no new router. The server code stays the same.
 </Callout>
 
 ---

@@ -5,9 +5,9 @@ description: How @gentleduck/primitives handles focus trapping, keyboard navigat
 
 ## Accessibility Is Not Optional
 
-Keyboard navigation, screen reader support, focus management, and ARIA attributes are not extras — they are requirements. But implementing them correctly is tedious, error-prone, and easy to get wrong.
+Keyboard navigation, screen reader support, focus management, and ARIA are requirements, not extras. Implementing them by hand is tedious and easy to get wrong.
 
-`@gentleduck/primitives` handles the hard parts so you can focus on design and business logic.
+`@gentleduck/primitives` handles the hard parts. You handle design and business logic.
 
 ---
 
@@ -34,14 +34,15 @@ Keyboard navigation, screen reader support, focus management, and ARIA attribute
 
 ### Focus Management
 
-When a dialog opens, focus must move into it. When it closes, focus must return to the trigger. Tab must cycle within the dialog and not escape to the page behind it.
+When a dialog opens, focus must move into it. When it closes, focus must return to
+the trigger. Tab must cycle within the dialog and not escape to the page behind it.
 
-Primitives handle all of this automatically:
+Primitives handle all of this:
 
-- **Focus trapping** — Tab and Shift+Tab cycle within modal surfaces
-- **Focus restoration** — Focus returns to the trigger element on close
-- **Initial focus** — Configurable initial focus target
-- **Focus scope** — Nested focus contexts for complex UIs
+- **Focus trapping** — Tab and Shift+Tab cycle inside modal surfaces.
+- **Focus restoration** — focus returns to the trigger on close.
+- **Initial focus** — configurable initial target.
+- **Focus scope** — nested focus contexts for complex UIs.
 
 ### Keyboard Navigation
 
@@ -104,12 +105,12 @@ Primitives set the correct ARIA roles, states, and properties automatically:
 
 ## Unstyled by Design
 
-Primitives ship with **zero CSS**. They provide behavior, not appearance. This means:
+Primitives ship with zero CSS. They provide behavior, not appearance:
 
-- No fighting with pre-built styles
-- No CSS specificity battles
-- Full control over your design system
-- Works with Tailwind, CSS modules, vanilla CSS, or any styling approach
+- Nothing to override.
+- No specificity battles.
+- The design system is yours.
+- Works with Tailwind, CSS modules, vanilla CSS, or anything else.
 
 Pair with `@gentleduck/variants` for type-safe styling and `@gentleduck/motion` for animations.
 
@@ -117,7 +118,7 @@ Pair with `@gentleduck/variants` for type-safe styling and `@gentleduck/motion` 
 
 ## Building a Custom Component
 
-Here is the pattern for building an accessible dialog from primitives:
+The pattern for an accessible dialog built from primitives:
 
 ```tsx
 import * as Dialog from '@gentleduck/primitives/dialog'
@@ -144,7 +145,7 @@ export function MyDialog({ children, trigger, title, description }) {
 }
 ```
 
-Focus trapping, Escape handling, ARIA attributes, and click-outside dismissal all work automatically.
+Focus trapping, Escape handling, ARIA attributes, and click-outside dismissal are all handled.
 
 ---
 
@@ -158,7 +159,7 @@ bun add @gentleduck/primitives
   <LinkedCard href="https://ui.gentleduck.org/docs/packages/duck-primitives" target="_blank" rel="noopener noreferrer">
     <div className="flex flex-col p-4">
       <h4 className="font-semibold">Primitives Docs</h4>
-      <p className="mt-2 text-muted-foreground text-sm">Getting started, core concepts, guides, and full API reference for every primitive.</p>
+      <p className="mt-2 text-muted-foreground text-sm">Getting started, core concepts, guides, and the full API reference for every primitive.</p>
     </div>
   </LinkedCard>
   <LinkedCard href="/docs/news/component-library">

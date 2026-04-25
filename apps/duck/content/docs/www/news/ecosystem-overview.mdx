@@ -5,7 +5,7 @@ description: How primitives, variants, hooks, motion, and libs compose into a un
 
 ## The Stack
 
-GentleDuck is not a single library. It is an ecosystem of focused packages that solve specific problems independently but follow shared conventions that make them stronger together.
+GentleDuck is not a single library. It is a set of focused packages that solve specific problems independently and share the same conventions.
 
 <MermaidDiagram chart={`flowchart TD
     subgraph Core["Core Layer"]
@@ -51,18 +51,18 @@ GentleDuck is not a single library. It is an ecosystem of focused packages that 
 
 ### @gentleduck/libs
 
-The foundation. A collection of tiny, framework-agnostic utilities shared across the entire ecosystem.
+Framework-agnostic utilities shared across the ecosystem.
 
-- **`cn`** -- Conditional class name merging. The same pattern as `clsx` + `tailwind-merge` but as a single import.
-- **`Slot`** -- Polymorphic component composition. Render a component as any element type with proper ref forwarding.
+- **`cn`** -- Class name merging. `clsx` + `tailwind-merge` as a single import.
+- **`Slot`** -- Polymorphic composition with ref forwarding.
 - **`Portal`** -- Mount components outside the DOM tree. Used by dialogs, tooltips, and popovers.
-- **`filtered-object`**, **`group-array`**, **`parse-date`** -- Small helpers that avoid pulling in heavy utility libraries.
+- **`filtered-object`**, **`group-array`**, **`parse-date`** -- Small helpers that replace heavier utility libraries.
 
-Every GentleDuck package imports from `@gentleduck/libs` for shared logic. Zero external dependencies.
+Every GentleDuck package imports from `@gentleduck/libs`. Zero external dependencies.
 
 ### @gentleduck/variants
 
-A type-safe class name generator for component styling. Think of it as a faster, smaller alternative to [class-variance-authority](https://cva.style/).
+A type-safe class name generator. A faster, smaller alternative to [class-variance-authority](https://cva.style/).
 
 ```ts
 import { cva } from '@gentleduck/variants'
@@ -87,11 +87,11 @@ button({ size: 'lg', variant: 'ghost' })
 // => "inline-flex items-center rounded font-medium h-10 px-6 text-base hover:bg-accent hover:text-accent-foreground"
 ```
 
-Currently benchmarked at **~7x faster** than CVA with full TypeScript inference.
+Benchmarks at ~7x faster than CVA with full TypeScript inference.
 
 ### @gentleduck/hooks
 
-Purpose-built React hooks for real-world problems:
+React hooks for common UI problems:
 
 | Hook | Purpose |
 | --- | --- |
@@ -103,7 +103,7 @@ Purpose-built React hooks for real-world problems:
 | `use-stable-id` | SSR-safe ID generation |
 | `use-on-open-change` | Modal state management |
 
-Each hook is independently importable. No monolithic import required.
+Each hook imports independently.
 
 ---
 
@@ -111,31 +111,31 @@ Each hook is independently importable. No monolithic import required.
 
 ### @gentleduck/primitives
 
-Unstyled, accessibility-first component primitives. These handle the hard parts -- focus trapping, keyboard navigation, ARIA attributes, click-outside dismissal -- so you bring only your design.
+Unstyled, accessibility-first primitives. They handle focus trapping, keyboard navigation, ARIA attributes, and click-outside dismissal. You bring the design.
 
-Includes primitives for:
+Includes:
 - **Dialog, Drawer, Sheet** -- Modal and dismissible surfaces
 - **Popover, Tooltip** -- Positioned floating elements (built on Floating UI)
-- **Slider** -- Range input with full keyboard support
+- **Slider** -- Range input with keyboard support
 - **Navigation Menu** -- Accessible menu navigation patterns
 
-Every component in the `registry-ui-duckui` package is built on these primitives. If you want to build your own design system, start here.
+Every component in `registry-ui-duckui` builds on these primitives. Start here if you want your own design system.
 
 ### @gentleduck/motion
 
-Animation and transition utilities designed to pair with duck-variants. Handles enter/exit animations, mount/unmount transitions, and staggered sequences.
+Animation and transition utilities that pair with duck-variants. Covers enter/exit animations, mount/unmount transitions, and staggered sequences.
 
-Motion primitives are used by Dialog, Sheet, Drawer, Tooltip, Popover, and Dropdown Menu for their open/close animations.
+Used by Dialog, Sheet, Drawer, Tooltip, Popover, and Dropdown Menu for open/close animations.
 
 ### @gentleduck/vim
 
-Keyboard navigation engine inspired by vim's modal editing. Powers the command palette, menu navigation, and keyboard-driven interfaces across duck-www.
+Keyboard navigation engine modeled on vim's modal editing. Powers the command palette, menu navigation, and keyboard-driven interfaces across duck-www.
 
 ---
 
 ## How They Compose
 
-The power of the ecosystem is in composition. Here is how a single component -- `Button` -- uses the stack:
+Here is how `Button` uses the stack:
 
 <MermaidDiagram chart={`flowchart LR
     A["@gentleduck/libs\ncn() for class merging"] --> D["Button Component"]
@@ -146,7 +146,7 @@ The power of the ecosystem is in composition. Here is how a single component -- 
     style D fill:#e8ffe8,stroke:#333
     style F fill:#fff8e8,stroke:#333`} />
 
-A more complex component like `Command` composes multiple layers:
+A larger component like `Command` composes more layers:
 
 <MermaidDiagram chart={`flowchart TD
     Libs["@gentleduck/libs"] --> Command
@@ -158,13 +158,13 @@ A more complex component like `Command` composes multiple layers:
     Command["Command Component"]
     style Command fill:#e8ffe8,stroke:#333`} />
 
-Each layer is independently useful, but the composition patterns are where the ecosystem creates the most value.
+Each layer is useful on its own. The composition patterns are where it pays off.
 
 ---
 
 ## Adopting Incrementally
 
-You do not need to adopt everything. Each package is published independently on npm:
+Each package is published independently on npm. Pick what you need:
 
 ```bash
 # Just need class name generation?
@@ -180,8 +180,8 @@ bun add @gentleduck/primitives
 bunx @gentleduck/cli init button dialog input
 ```
 
-Start with what solves your biggest pain point. Expand as your needs grow.
+Start with what fixes your biggest problem. Add the rest as you need it.
 
 <Callout title="Shared conventions, independent packages">
-  Every package follows the same patterns: TypeScript-first, tree-shakeable, zero or minimal dependencies, independently versioned. You control what you adopt.
+  Every package is TypeScript-first, tree-shakeable, has zero or minimal dependencies, and versions independently. You control what you adopt.
 </Callout>

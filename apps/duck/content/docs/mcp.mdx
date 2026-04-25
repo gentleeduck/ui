@@ -173,7 +173,7 @@ Read a specific documentation page. The server **strips all MDX/JSX syntax** and
 
 > "Give me a summary of the installation docs for Next.js"
 
-The `section` parameter is powerful  -  instead of reading a 300-line page, you can pull out just "Installation" or "API Reference" or "Usage" and save hundreds of tokens.
+The `section` parameter pulls a single heading out of a long page. Instead of reading 300 lines, you fetch just "Installation", "API Reference", or "Usage" and save hundreds of tokens.
 
 ### get_component_api
 
@@ -327,7 +327,7 @@ Instead of manually searching and reading, use the dedicated shortcut tools:
 
 ### 6. Combine with your workflow
 
-The MCP server is most powerful when combined with your actual development workflow:
+The MCP server pays off when wired into your actual development workflow:
 
 - **Building a form?** -> `suggest_components({ need: "form" })` -> `get_component_api({ component: "react-hook-form" })`
 - **Setting up a new project?** -> `get_installation({ framework: "next" })`

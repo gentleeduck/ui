@@ -11,23 +11,26 @@ description: Recharts v3 migration, documentation overhaul, new components, layo
   className="w-full rounded-lg border shadow-sm"
 />
 
-February 2026 was the largest single update to the GentleDuck ecosystem. This post covers everything that shipped.
+February 2026 was the largest single update to the GentleDuck ecosystem. Everything
+that shipped:
 
 ---
 
 ## Recharts v3 Migration
 
-Upgraded all charts from **Recharts v2.15.1** to **Recharts v3.7.0** across 6 packages. This is a major upgrade that brings server-side rendering, better accessibility, and smaller bundles.
+All charts moved from **Recharts v2.15.1** to **Recharts v3.7.0** across 6
+packages. The major upgrade brings server-side rendering, better accessibility, and
+smaller bundles.
 
 ### What changed
 
 | Change | Details |
 | --- | --- |
 | **Recharts v3.7.0** | Upgraded across all 6 packages that depend on recharts. |
-| **Accessibility by default** | Removed explicit `accessibilityLayer` prop from 47 chart files. In v3, accessibility is enabled by default. |
+| **Accessibility by default** | `accessibilityLayer` removed from 47 chart files — v3 enables it by default. |
 | **`activeIndex` migrated** | Replaced the removed `activeIndex` prop on `Bar`/`Pie` with Tooltip `defaultIndex` in 3 components. |
-| **Type imports updated** | Consolidated `PieSectorDataItem` from deep import path to the main `recharts` export. |
-| **SSR via `next/dynamic`** | Registry build system now generates `next/dynamic({ ssr: true })` instead of `React.lazy()`. Components are server-rendered while still code-split on the client. |
+| **Type imports updated** | `PieSectorDataItem` moved from a deep path to the main `recharts` export. |
+| **SSR via `next/dynamic`** | The registry build now emits `next/dynamic({ ssr: true })` instead of `React.lazy()`. Components render on the server and still code-split on the client. |
 | **No loading spinners** | Removed the `React.Suspense` loading fallback from `ComponentPreview`. |
 
 ### Before and after
