@@ -1,11 +1,19 @@
 import { Badge } from '@gentleduck/registry-ui/badge'
+import { Button } from '@gentleduck/registry-ui/button'
 import { Atom, Feather, GitMerge, Globe, Layers, Zap } from 'lucide-react'
+import Link from 'next/link'
 import { codeToHtml } from 'shiki'
 import { CopyButton } from '~/components/copy-button'
 import { OpenSourceSection } from '~/components/layouts/open-source-section'
+import { PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/layouts/page-header'
+import { PackageStatusBadge } from '~/components/package-status-badge'
 
 export const dynamic = 'force-static'
 export const revalidate = false
+
+const title = 'Duck State'
+const description =
+  'Atom-based state management for React — Jotai-inspired primitives, auto dependency tracking, derived atoms, and a standalone store.'
 
 const features = [
   {
@@ -80,57 +88,96 @@ export default async function DuckStatePage() {
   })
 
   return (
-    <div className="relative space-y-20">
-      <div>
-        <div className="mb-10 text-center">
-          <div className="mb-3 flex items-center justify-center gap-2">
-            <Badge variant="secondary" className="text-xs">
-              Atom-based
-            </Badge>
-          </div>
-          <h2 className="mb-3 font-semibold text-2xl leading-tight tracking-tight sm:text-3xl">
-            Small atoms, predictable state
-          </h2>
-          <p className="mx-auto max-w-lg text-base text-muted-foreground leading-relaxed">
-            Duck State is a Jotai-inspired state primitive. Atoms hold values, derived atoms compute, and the store
-            subscribes — no boilerplate in between.
-          </p>
+    <div className="container py-8">
+      <script
+        type="application/ld+json"
+        // biome-ignore lint/security/noDangerouslySetInnerHtml: JSON-LD structured data
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'SoftwareSourceCode',
+            name: '@gentleduck/state',
+            description,
+            programmingLanguage: 'TypeScript',
+            url: 'https://ui.gentleduck.org/duck-state',
+            codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/wip/duck-state',
+            license: 'https://opensource.org/licenses/MIT',
+            author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },
+          }),
+        }}
+      />
+      <PageHeader>
+        <PackageStatusBadge status="experimental" />
+        <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4">
+          <PageHeaderHeading className="max-w-none">{title}</PageHeaderHeading>
         </div>
-        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-          {features.map(({ icon: Icon, title, description, bg, color }) => (
-            <div
-              key={title}
-              className="flex items-start gap-3 rounded-xl border border-border/50 bg-card p-4 transition-colors hover:border-border">
-              <div className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${bg} ${color}`}>
-                <Icon className="h-4 w-4" />
-              </div>
-              <div className="min-w-0">
-                <h3 className="mb-1 font-mono font-semibold text-sm">{title}</h3>
-                <p className="text-muted-foreground text-xs leading-relaxed">{description}</p>
-              </div>
+        <PageHeaderDescription>{description}</PageHeaderDescription>
+        <div className="flex gap-3">
+          <Button asChild>
+            <Link href="/duck-state/introduction">Get Started</Link>
+          </Button>
+          <Button asChild variant="outline">
+            <Link
+              href="https://github.com/gentleeduck/duck-ui/tree/master/packages/wip/duck-state"
+              rel="noreferrer"
+              target="_blank">
+              View Source
+            </Link>
+          </Button>
+        </div>
+      </PageHeader>
+      <div className="relative space-y-20">
+        <div>
+          <div className="mb-10 text-center">
+            <div className="mb-3 flex items-center justify-center gap-2">
+              <Badge variant="secondary" className="text-xs">
+                Atom-based
+              </Badge>
             </div>
-          ))}
+            <h2 className="mb-3 font-semibold text-2xl leading-tight tracking-tight sm:text-3xl">
+              Small atoms, predictable state
+            </h2>
+            <p className="mx-auto max-w-lg text-base text-muted-foreground leading-relaxed">
+              Duck State is a Jotai-inspired state primitive. Atoms hold values, derived atoms compute, and the store
+              subscribes — no boilerplate in between.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {features.map(({ icon: Icon, title, description, bg, color }) => (
+              <div
+                key={title}
+                className="flex items-start gap-3 rounded-xl border border-border/50 bg-card p-4 transition-colors hover:border-border">
+                <div className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg ${bg} ${color}`}>
+                  <Icon className="h-4 w-4" />
+                </div>
+                <div className="min-w-0">
+                  <h3 className="mb-1 font-mono font-semibold text-sm">{title}</h3>
+                  <p className="text-muted-foreground text-xs leading-relaxed">{description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
 
-      <div>
-        <div className="mb-8 flex flex-col items-center gap-1 text-center">
-          <h2 className="font-semibold text-xl leading-tight tracking-tight">Quick setup</h2>
-          <p className="text-muted-foreground text-sm">
-            One install. Use the standalone store or the React bindings — both ship from the same package.
-          </p>
+        <div>
+          <div className="mb-8 flex flex-col items-center gap-1 text-center">
+            <h2 className="font-semibold text-xl leading-tight tracking-tight">Quick setup</h2>
+            <p className="text-muted-foreground text-sm">
+              One install. Use the standalone store or the React bindings — both ship from the same package.
+            </p>
+          </div>
+          <div className="relative mx-auto max-w-2xl">
+            <CopyButton value={INSTALL_CODE} variant="ghost" className="absolute top-3 right-3" />
+            <div
+              className="overflow-hidden rounded-lg border border-border/50 bg-muted/30 [&_pre]:bg-transparent!"
+              // biome-ignore lint/security/noDangerouslySetInnerHtml: shiki output
+              dangerouslySetInnerHTML={{ __html: highlightedCode }}
+            />
+          </div>
         </div>
-        <div className="relative mx-auto max-w-2xl">
-          <CopyButton value={INSTALL_CODE} variant="ghost" className="absolute top-3 right-3" />
-          <div
-            className="overflow-hidden rounded-lg border border-border/50 bg-muted/30 [&_pre]:bg-transparent!"
-            // biome-ignore lint/security/noDangerouslySetInnerHtml: shiki output
-            dangerouslySetInnerHTML={{ __html: highlightedCode }}
-          />
-        </div>
-      </div>
 
-      <OpenSourceSection className="!px-0" />
+        <OpenSourceSection className="!px-0" />
+      </div>
     </div>
   )
 }
