@@ -10,7 +10,7 @@ import { AppClientProviders } from '~/components/app-client-providers'
 import { DocsAppProvider } from '~/components/docs-provider'
 import { TailwindIndicator } from '~/components/layouts/tailwind-indicator'
 import { ThemeWrapper } from '~/components/themes'
-import { docsConfig, docsEntries } from '~/config/docs'
+import { docsConfig } from '~/config/docs'
 import { METADATA } from '~/config/metadata'
 import { siteConfig } from '~/config/site'
 
@@ -284,7 +284,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider attribute="class" defaultTheme="system" disableTransitionOnChange enableColorScheme enableSystem>
           <AppClientProviders>
             <DirectionProvider dir="ltr">
-              <DocsAppProvider docs={docsEntries} docsConfig={docsConfig} siteConfig={siteConfig}>
+              <DocsAppProvider docsConfig={docsConfig} siteConfig={siteConfig}>
                 <ThemeWrapper>
                   <div className="relative flex min-h-svh flex-col bg-background">{children}</div>
 

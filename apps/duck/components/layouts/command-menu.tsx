@@ -21,22 +21,7 @@ import lunr from 'lunr'
 import { usePathname, useRouter } from 'next/navigation'
 import { useTheme } from 'next-themes'
 import * as React from 'react'
-import {
-  DuckCalendarConfig,
-  DuckCliConfig,
-  DuckHooksConfig,
-  DuckLazyConfig,
-  DuckLibsConfig,
-  DuckMotionConfig,
-  DuckPrimitivesConfig,
-  DuckRegistryBuildConfig,
-  DuckShortcutConfig,
-  DuckStateConfig,
-  DuckUiConfig,
-  DuckVariantsConfig,
-  DuckVimConfig,
-  docsEntries,
-} from '~/config/docs'
+import { docsEntries, packageSidebarNavs } from '~/config/docs'
 import type { ISidebarNavItem } from '~/types/nav'
 
 const AIChatPanel = React.lazy(() => import('./ai-chat-panel').then((m) => ({ default: m.AIChatPanel })))
@@ -68,21 +53,7 @@ type SearchableItem = {
 const HEADING_HEIGHT = 32
 const ITEM_HEIGHT = 36
 
-const PACKAGE_CONFIGS: Record<string, ISidebarNavItem[]> = {
-  'duck-calendar': DuckCalendarConfig.sidebarNav,
-  'duck-cli': DuckCliConfig.sidebarNav,
-  'duck-hooks': DuckHooksConfig.sidebarNav,
-  'duck-lazy': DuckLazyConfig.sidebarNav,
-  'duck-libs': DuckLibsConfig.sidebarNav,
-  'duck-motion': DuckMotionConfig.sidebarNav,
-  'duck-primitives': DuckPrimitivesConfig.sidebarNav,
-  'duck-registry-build': DuckRegistryBuildConfig.sidebarNav,
-  'duck-shortcut': DuckShortcutConfig.sidebarNav,
-  'duck-state': DuckStateConfig.sidebarNav,
-  'duck-ui': DuckUiConfig.sidebarNav,
-  'duck-variants': DuckVariantsConfig.sidebarNav,
-  'duck-vim': DuckVimConfig.sidebarNav,
-}
+const PACKAGE_CONFIGS: Record<string, ISidebarNavItem[]> = packageSidebarNavs
 
 const ALL_SIDEBAR_NAV: ISidebarNavItem[] = Object.values(PACKAGE_CONFIGS).flat()
 

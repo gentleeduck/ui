@@ -17,35 +17,93 @@ import {
   Terminal,
   Upload,
 } from 'lucide-react'
-import { docs } from '~/.velite'
+import {
+  docs,
+  duckCalendar,
+  duckCli,
+  duckGen,
+  duckHooks,
+  duckIam,
+  duckLazy,
+  duckLibs,
+  duckMotion,
+  duckPrimitives,
+  duckQuery,
+  duckRegistryBuild,
+  duckShortcut,
+  duckState,
+  duckTemplate,
+  duckTtest,
+  duckTtlog,
+  duckUi,
+  duckUpload,
+  duckVariants,
+  duckVim,
+} from '~/.velite'
+import { packageSidebar } from '~/lib/sidebar'
+import type { ISidebarNavItem } from '~/types/nav'
 
-// import { DuckCalendarConfig } from './packages/duck-calendar'
-// import { DuckCliConfig } from './packages/duck-cli'
-// import { DuckHooksConfig } from './packages/duck-hooks'
-// import { DuckLazyConfig } from './packages/duck-lazy'
-// import { DuckLibsConfig } from './packages/duck-libs'
-// import { DuckMotionConfig } from './packages/duck-motion'
-// import { DuckPrimitivesConfig } from './packages/duck-primitives'
-// import { DuckRegistryBuildConfig } from './packages/duck-registry-build'
-// import { DuckShortcutConfig } from './packages/duck-shortcut'
-// import { DuckStateConfig } from './packages/duck-state'
-// import { DuckUiConfig } from './packages/duck-ui'
-// import { DuckVariantsConfig } from './packages/duck-variants'
-// import { DuckVimConfig } from './packages/duck-vim'
+const PRIMITIVES_ORDER = [
+  'Getting Started',
+  'Concepts',
+  'Course',
+  'Guides',
+  'Layout',
+  'Disclosure',
+  'Forms',
+  'Selection',
+  'Overlay',
+  'Feedback',
+  'Data Display',
+  'Navigation',
+  'Toggle',
+  'Typography',
+  'Media',
+  'API',
+  'Benchmarks',
+  'Misc',
+]
 
-export * from './packages/duck-calendar'
-export * from './packages/duck-cli'
-export * from './packages/duck-hooks'
-export * from './packages/duck-lazy'
-export * from './packages/duck-libs'
-export * from './packages/duck-motion'
-export * from './packages/duck-primitives'
-export * from './packages/duck-registry-build'
-export * from './packages/duck-shortcut'
-export * from './packages/duck-state'
-export * from './packages/duck-ui'
-export * from './packages/duck-variants'
-export * from './packages/duck-vim'
+const UI_ORDER = [
+  'Getting Started',
+  'Installation',
+  'Layout',
+  'Disclosure',
+  'Forms',
+  'Selection',
+  'Overlay',
+  'Feedback',
+  'Data Display',
+  'Navigation',
+  'Toggle',
+  'Typography',
+  'Media',
+  'Integrations',
+  'Misc',
+]
+
+export const packageSidebarNavs: Record<string, ISidebarNavItem[]> = {
+  'duck-calendar': packageSidebar(duckCalendar, 'duck-calendar').sidebarNav,
+  'duck-cli': packageSidebar(duckCli, 'duck-cli').sidebarNav,
+  'duck-gen': packageSidebar(duckGen, 'duck-gen').sidebarNav,
+  'duck-hooks': packageSidebar(duckHooks, 'duck-hooks').sidebarNav,
+  'duck-iam': packageSidebar(duckIam, 'duck-iam').sidebarNav,
+  'duck-lazy': packageSidebar(duckLazy, 'duck-lazy').sidebarNav,
+  'duck-libs': packageSidebar(duckLibs, 'duck-libs').sidebarNav,
+  'duck-motion': packageSidebar(duckMotion, 'duck-motion').sidebarNav,
+  'duck-primitives': packageSidebar(duckPrimitives, 'duck-primitives', PRIMITIVES_ORDER).sidebarNav,
+  'duck-query': packageSidebar(duckQuery, 'duck-query').sidebarNav,
+  'duck-registry-build': packageSidebar(duckRegistryBuild, 'duck-registry-build').sidebarNav,
+  'duck-shortcut': packageSidebar(duckShortcut, 'duck-shortcut').sidebarNav,
+  'duck-state': packageSidebar(duckState, 'duck-state').sidebarNav,
+  'duck-template': packageSidebar(duckTemplate, 'duck-template').sidebarNav,
+  'duck-ttest': packageSidebar(duckTtest, 'duck-ttest').sidebarNav,
+  'duck-ttlog': packageSidebar(duckTtlog, 'duck-ttlog').sidebarNav,
+  'duck-ui': packageSidebar(duckUi, 'duck-ui', UI_ORDER).sidebarNav,
+  'duck-upload': packageSidebar(duckUpload, 'duck-upload').sidebarNav,
+  'duck-variants': packageSidebar(duckVariants, 'duck-variants').sidebarNav,
+  'duck-vim': packageSidebar(duckVim, 'duck-vim').sidebarNav,
+}
 
 export const docsConfig: IDocsConfig = {
   chartsNav: [],

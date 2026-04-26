@@ -47,10 +47,7 @@ export function buildSidebar(docs: SidebarDoc[], options: BuildSidebarOptions): 
   const introSection = grouped.get('Getting Started') ?? []
   const introDoc = introSection.find((d) => d.permalink === introSlug)
   if (introDoc) {
-    grouped.set(
-      'Getting Started',
-      [introDoc, ...introSection.filter((d) => d.permalink !== introSlug)],
-    )
+    grouped.set('Getting Started', [introDoc, ...introSection.filter((d) => d.permalink !== introSlug)])
   }
 
   const sortedKeys = Array.from(grouped.keys()).sort((a, b) => {
