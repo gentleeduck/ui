@@ -15,8 +15,14 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ['192.168.1.36'],
   experimental: {
     externalDir: true,
+    // Cap parallel page-data workers. The docs site holds ~93 MB of
+    // pre-tokenized MDX in memory per worker, so 31 default forks blow past
+    // the 8 GB Netlify build sandbox and SIGKILL.
+    cpus: 4,
+    workerThreads: false,
     // swcPlugins: [['@lingui/swc-plugin', {}]],
   },
+  productionBrowserSourceMaps: false,
   images: {
     remotePatterns: [
       {

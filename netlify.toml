@@ -1,3 +1,7 @@
 [build]
 command = "turbo run build --filter @gentleduck/ui-docs"
 publish = "apps/duck/.next"
+
+[build.environment]
+# Cap V8 heap below Netlify's 8 GB build sandbox so GC fires before SIGKILL.
+NODE_OPTIONS = "--max-old-space-size=6144"
