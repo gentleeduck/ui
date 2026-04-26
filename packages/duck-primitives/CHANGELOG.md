@@ -1,5 +1,13 @@
 # @gentleduck/primitives
 
+## 0.2.11
+
+### Patch Changes
+
+- df57671: fix(slot): use cn() with twMerge in mergeProps for className resolution
+
+  Raw string join caused conflicting Tailwind utilities (e.g. `inline-flex` vs `flex`, `gap-1` vs `gap-2`) to both appear in the final className, producing non-deterministic CSS and hydration mismatches when Slot clones client components like Next.js Link.
+
 ## 0.2.10
 
 ### Patch Changes
