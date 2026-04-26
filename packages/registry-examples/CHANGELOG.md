@@ -1,5 +1,12 @@
 # @gentleduck/registry-examples
 
+## 0.2.8
+
+### Patch Changes
+
+- Updated dependencies [df57671]
+  - @gentleduck/primitives@0.2.11
+
 ## 0.2.7
 
 ### Patch Changes
