@@ -80,7 +80,10 @@ function buildDefaultRehypePlugins({
           node.children = [{ type: 'text', value: ' ' }]
         }
       },
-      theme: 'catppuccin-mocha',
+      theme: {
+        dark: 'catppuccin-mocha',
+        light: 'github-light',
+      },
     },
   ] as Pluggable
 

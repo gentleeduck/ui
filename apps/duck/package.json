@@ -80,8 +80,8 @@
     "access": "restricted"
   },
   "scripts": {
-    "build": "MODE=\"production\" next build",
-    "build:prod": "next build",
+    "build": "MODE=\"production\" next build --webpack",
+    "build:prod": "next build --webpack",
     "build:docs": "velite",
     "build:reg": "bun run build:reg:cli && bun run format:reg",
     "build:reg:cli": "registry-build build",
