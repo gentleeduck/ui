@@ -13,11 +13,53 @@ import { cleanTocItems } from './utils'
 
 export interface IDocsVeliteConfigOptions {
   docsPattern?: string
+  packages?: string[]
   rehypePlugins?: Pluggable[]
   rehypePluginsBefore?: Pluggable[]
   remarkPlugins?: Pluggable[]
   remarkPluginsBefore?: Pluggable[]
 }
+
+const docSchema = () =>
+  s
+    .object({
+      body: s.mdx(),
+      component: s.boolean().default(false),
+      content: s.markdown(),
+      description: s.string(),
+      excerpt: s.excerpt(),
+      links: s.object({ api: s.string().optional(), doc: s.string().optional() }).optional(),
+      metadata: s.metadata(),
+      order: s.number().optional(),
+      section: s.string().optional(),
+      title: s.string().max(99),
+      toc: s.toc(),
+    })
+    .transform((data, { path, meta }) => {
+      const _meta = meta as ZodMeta & { path: string }
+      const slugTail = _meta.path
+        .split('docs/')
+        .pop()
+        ?.replace(/\.mdx$/, '')
+        .replace(/^\/+/, '')
+      return {
+        ...data,
+        contentType: _meta.path.split('.').pop(),
+        flattenedPath: _meta.path
+          .split('/')
+          .slice(-2, -1)
+          .join('/')
+          .replace(/\.mdx$/, ''),
+        permalink: _meta.path.replace(/^.*docs\//, '').replace(/\.mdx$/, ''),
+        slug: slugTail ? `docs/${slugTail}` : 'docs',
+        sourceFileDir: _meta.path.split('/').slice(-3, -1).join('/'),
+        sourceFileName: _meta.path.split('/').pop(),
+        sourceFilePath: path,
+        toc: cleanTocItems(data.toc),
+      }
+    })
+
+const collectionKey = (pkg: string) => pkg.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
 
 function buildDefaultRehypePlugins({
   rehypePlugins = [],
@@ -77,58 +119,32 @@ function buildDefaultRemarkPlugins({
 
 export function createDocsVeliteConfig({
   docsPattern = 'docs/**/*.mdx',
+  packages = [],
   rehypePlugins = [],
   rehypePluginsBefore = [],
   remarkPlugins = [],
   remarkPluginsBefore = [],
 }: IDocsVeliteConfigOptions = {}) {
-  return defineConfig({
-    collections: {
-      docs: {
-        name: 'Docs',
-        pattern: docsPattern,
-        schema: s
-          .object({
-            body: s.mdx(),
-            component: s.boolean().default(false),
-            content: s.markdown(),
-            description: s.string(),
-            excerpt: s.excerpt(),
-            links: s.object({ api: s.string().optional(), doc: s.string().optional() }).optional(),
-            metadata: s.metadata(),
-            title: s.string().max(99),
-            toc: s.toc(),
-          })
-          .transform((data, { path, meta }) => {
-            const _meta = meta as ZodMeta & { path: string }
-            return {
-              ...data,
-              contentType: _meta.path.split('.').pop(),
-              flattenedPath: _meta.path
-                .split('/')
-                .slice(-2, -1)
-                .join('/')
-                .replace(/\.mdx$/, ''),
-              permalink: _meta.path.replace(/^.*docs\//, '').replace(/\.mdx$/, ''),
-              slug: _meta.path
-                .split('docs/')
-                .pop()
-                ?.replace(/\.mdx$/, '')
-                .replace(/^\/+/, '')
-                ? `docs/${_meta.path
-                    .split('docs/')
-                    .pop()
-                    ?.replace(/\.mdx$/, '')
-                    .replace(/^\/+/, '')}`
-                : 'docs',
-              sourceFileDir: _meta.path.split('/').slice(-3, -1).join('/'),
-              sourceFileName: _meta.path.split('/').pop(),
-              sourceFilePath: path,
-              toc: cleanTocItems(data.toc),
-            }
-          }),
-      },
+  const collections: Record<string, { name: string; pattern: string; schema: ReturnType<typeof docSchema> }> = {
+    docs: {
+      name: 'Docs',
+      pattern: docsPattern,
+      schema: docSchema(),
     },
+  }
+
+  for (const pkg of packages) {
+    const key = collectionKey(pkg)
+    const typeName = key.charAt(0).toUpperCase() + key.slice(1)
+    collections[key] = {
+      name: typeName,
+      pattern: `docs/${pkg}/**/*.mdx`,
+      schema: docSchema(),
+    }
+  }
+
+  return defineConfig({
+    collections,
     mdx: {
       rehypePlugins: buildDefaultRehypePlugins({ rehypePlugins, rehypePluginsBefore }),
       remarkPlugins: buildDefaultRemarkPlugins({ remarkPlugins, remarkPluginsBefore }),
