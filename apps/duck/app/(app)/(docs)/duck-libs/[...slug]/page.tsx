@@ -16,28 +16,26 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { SLUG_METADATA } from '~/config/metadata'
-import { DuckLibsConfig } from '~/config/packages/duck-libs'
 import { absoluteUrl } from '~/lib'
-import { docs } from '../../../../../.velite'
-
+import { packageSidebar } from '~/lib/sidebar'
+import { duckLibs } from '../../../../../.velite'
 export const dynamic = 'force-static'
 export const dynamicParams = false
 export const revalidate = false
 
 const PKG_PREFIX = 'duck-libs'
+const sidebar = packageSidebar(duckLibs, PKG_PREFIX)
 
 function getDocFromSlug(slug: string[]) {
   const permalink = `${PKG_PREFIX}/${slug.join('/')}`
-  return docs.find((doc) => [permalink, `${permalink}/index`].includes(doc.permalink)) ?? null
+  return duckLibs.find((doc) => [permalink, `${permalink}/index`].includes(doc.permalink)) ?? null
 }
 
 export async function generateStaticParams() {
-  return docs
-    .filter((doc) => doc.permalink.startsWith(`${PKG_PREFIX}/`))
-    .map((doc) => {
-      const rest = doc.permalink.slice(PKG_PREFIX.length + 1).replace(/\/index$/, '')
-      return { slug: rest.split('/') }
-    })
+  return duckLibs.map((doc) => {
+    const rest = doc.permalink.slice(PKG_PREFIX.length + 1).replace(/\/index$/, '')
+    return { slug: rest.split('/') }
+  })
 }
 
 export async function generateMetadata(props: { params: Promise<{ slug: string[] }> }): Promise<Metadata> {
@@ -73,7 +71,7 @@ const PackagePage = async ({ params }: { params: Promise<{ slug: string[] }> }) 
         aria-label="Documentation sidebar"
         className="hidden shrink-0 border-grid border-r md:sticky md:top-16 md:block md:h-[calc(100vh-4rem)]">
         <nav aria-label="Duck Libs sections" className="h-full overflow-y-auto overflow-x-hidden py-8">
-          <DocsSidebarNav config={DuckLibsConfig} />
+          <DocsSidebarNav config={sidebar} />
         </nav>
       </aside>
       <main className="relative py-6 pr-4 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]" id="top">

@@ -18,29 +18,27 @@ import { notFound } from 'next/navigation'
 import { PackageStatusBadge } from '~/components/package-status-badge'
 import { SLUG_METADATA } from '~/config/metadata'
 import { getPackageLifecycleStatusFromHref } from '~/config/package-status'
-import { DuckStateConfig } from '~/config/packages/duck-state'
 import { absoluteUrl } from '~/lib'
-import { docs } from '../../../../../.velite'
-
+import { packageSidebar } from '~/lib/sidebar'
+import { duckState } from '../../../../../.velite'
 export const dynamic = 'force-static'
 export const dynamicParams = false
 export const revalidate = false
 
 const PKG_PREFIX = 'duck-state'
+const sidebar = packageSidebar(duckState, PKG_PREFIX)
 const packageStatus = getPackageLifecycleStatusFromHref(`/${PKG_PREFIX}`)
 
 function getDocFromSlug(slug: string[]) {
   const permalink = `${PKG_PREFIX}/${slug.join('/')}`
-  return docs.find((doc) => [permalink, `${permalink}/index`].includes(doc.permalink)) ?? null
+  return duckState.find((doc) => [permalink, `${permalink}/index`].includes(doc.permalink)) ?? null
 }
 
 export async function generateStaticParams() {
-  return docs
-    .filter((doc) => doc.permalink.startsWith(`${PKG_PREFIX}/`))
-    .map((doc) => {
-      const rest = doc.permalink.slice(PKG_PREFIX.length + 1).replace(/\/index$/, '')
-      return { slug: rest.split('/') }
-    })
+  return duckState.map((doc) => {
+    const rest = doc.permalink.slice(PKG_PREFIX.length + 1).replace(/\/index$/, '')
+    return { slug: rest.split('/') }
+  })
 }
 
 export async function generateMetadata(props: { params: Promise<{ slug: string[] }> }): Promise<Metadata> {
@@ -76,7 +74,7 @@ const PackagePage = async ({ params }: { params: Promise<{ slug: string[] }> }) 
         aria-label="Documentation sidebar"
         className="hidden shrink-0 border-grid border-r md:sticky md:top-16 md:block md:h-[calc(100vh-4rem)]">
         <nav aria-label="Duck State sections" className="h-full overflow-y-auto overflow-x-hidden py-8">
-          <DocsSidebarNav config={DuckStateConfig} />
+          <DocsSidebarNav config={sidebar} />
         </nav>
       </aside>
       <main className="relative py-6 pr-4 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]" id="top">

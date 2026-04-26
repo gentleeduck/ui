@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import { DuckCalendarConfig } from '~/config/packages/duck-calendar'
 
 export const metadata: Metadata = {
   title: {
@@ -31,8 +30,6 @@ export const metadata: Metadata = {
 }
 
 export default function DuckCalendarLayout({ children }: { children: React.ReactNode }) {
-  const _config = DuckCalendarConfig
-
   return (
     <>
       <script
