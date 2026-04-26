@@ -1,8 +1,9 @@
 ---
 title: "Date Adapters"
 description: "Understand the DateAdapter pattern and how to plug in any date library."
+section: Guides
+order: 10
 ---
-
 ## The adapter pattern
 
 The `Adapter.IDateAdapter<TDate>` interface abstracts all date operations. The engine never calls `new Date()` or `date.getMonth()` directly - everything goes through the adapter.
