@@ -24,7 +24,6 @@ export function packageSidebar(docs: SidebarDoc[], pkg: string, custom: string[]
       pkg,
       sectionOrder: custom.length ? custom : SECTION_ORDER_DEFAULT,
       introSlug: `${pkg}/introduction`,
-      collapsibleThreshold: 6,
     }),
   }
 }

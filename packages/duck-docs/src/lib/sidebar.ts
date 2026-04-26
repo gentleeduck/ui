@@ -11,7 +11,6 @@ export interface BuildSidebarOptions {
   pkg: string
   sectionOrder?: string[]
   introSlug?: string
-  collapsibleThreshold?: number
 }
 
 const titlecase = (segment: string) =>
@@ -33,7 +32,7 @@ const slugTitle = (permalink: string) => {
 }
 
 export function buildSidebar(docs: SidebarDoc[], options: BuildSidebarOptions): ISidebarNavItem[] {
-  const { pkg, sectionOrder = [], introSlug = `${pkg}/introduction`, collapsibleThreshold = 6 } = options
+  const { pkg, sectionOrder = [], introSlug = `${pkg}/introduction` } = options
 
   const grouped = new Map<string, SidebarDoc[]>()
   for (const doc of docs) {
@@ -82,7 +81,6 @@ export function buildSidebar(docs: SidebarDoc[], options: BuildSidebarOptions): 
     return {
       title: isFirst ? '' : key,
       ...(isFirst ? { href: `/${introSlug}` } : {}),
-      ...(items.length > collapsibleThreshold ? { collapsible: true } : {}),
       items,
     }
   })
