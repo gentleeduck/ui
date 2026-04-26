@@ -151,6 +151,10 @@ export const METADATA: Metadata = {
     images: [
       {
         url: `/og?title=${encodeURIComponent(siteConfig.name)}&description=${encodeURIComponent(siteConfig.title)}`,
+        width: 1400,
+        height: 628,
+        alt: siteConfig.name,
+        type: 'image/png',
       },
     ],
     locale: 'en_US',
@@ -170,6 +174,9 @@ export const METADATA: Metadata = {
     images: [
       {
         url: `/og?title=${encodeURIComponent(siteConfig.name)}&description=${encodeURIComponent(siteConfig.title)}`,
+        width: 1400,
+        height: 628,
+        alt: siteConfig.name,
       },
     ],
     title: siteConfig.name,
@@ -187,7 +194,7 @@ export const SLUG_METADATA = (doc: { title: string; description: string; slug: s
     openGraph: {
       ...METADATA.openGraph,
       description: doc.description,
-      images: [{ url: ogUrl }],
+      images: [{ url: ogUrl, width: 1400, height: 628, alt: doc.title, type: 'image/png' }],
       title: doc.title,
       type: 'article',
       url: absoluteUrl(doc.slug),
@@ -196,7 +203,7 @@ export const SLUG_METADATA = (doc: { title: string; description: string; slug: s
     twitter: {
       ...METADATA.twitter,
       description: doc.description,
-      images: [{ url: ogUrl }],
+      images: [{ url: ogUrl, width: 1400, height: 628, alt: doc.title }],
       title: doc.title,
     },
   }

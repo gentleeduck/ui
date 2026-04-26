@@ -1,0 +1,78 @@
+---
+title: Installation
+description: Pick the gentleduck package you want to install and follow the per-framework setup guide.
+section: Getting Started
+order: 2
+---
+
+## Pick what you need
+
+`gentleduck` is a set of independent packages. Most teams start with one of the two entry points below, then add tools as they need them.
+
+### Start here
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2">
+  <LinkedCard href="/duck-ui/installation">
+    <p className="font-semibold">Duck UI</p>
+    <p className="mt-1 text-sm text-muted-foreground">Tailwind-styled components, copy-pasted into your app via the CLI. The fastest path to a full UI.</p>
+  </LinkedCard>
+  <LinkedCard href="/duck-primitives/installation">
+    <p className="font-semibold">Duck Primitives</p>
+    <p className="mt-1 text-sm text-muted-foreground">Headless, accessible behavior. Bring your own styles. 50–92% smaller than Radix.</p>
+  </LinkedCard>
+</div>
+
+### Add tools as you grow
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2">
+  <LinkedCard href="/duck-cli/installation">
+    <p className="font-semibold">Duck CLI</p>
+    <p className="mt-1 text-sm text-muted-foreground">Scaffold, add, update, diff, and remove components.</p>
+  </LinkedCard>
+  <LinkedCard href="/duck-calendar/getting-started">
+    <p className="font-semibold">Duck Calendar</p>
+    <p className="mt-1 text-sm text-muted-foreground">5 KB headless calendar engine with seven date adapters.</p>
+  </LinkedCard>
+  <LinkedCard href="/duck-vim/getting-started">
+    <p className="font-semibold">Duck Vim</p>
+    <p className="mt-1 text-sm text-muted-foreground">Keyboard command and chord engine with React hooks.</p>
+  </LinkedCard>
+  <LinkedCard href="/duck-motion">
+    <p className="font-semibold">Duck Motion</p>
+    <p className="mt-1 text-sm text-muted-foreground">Animation tokens that respect `prefers-reduced-motion`.</p>
+  </LinkedCard>
+</div>
+
+## Quick start
+
+The shortest path is the CLI. From an existing React project:
+
+```bash
+bunx @gentleduck/cli init
+bunx @gentleduck/cli add button dialog
+```
+
+`init` writes a `duck-ui.json` config, sets up Tailwind tokens, and prepares the import alias. `add` copies the component source — you own it.
+
+If you only want primitives, install the package directly:
+
+```bash
+bun add @gentleduck/primitives
+```
+
+## Per-framework guides
+
+Pick the framework you ship with for the full setup walkthrough, including Tailwind config, dark mode, and import aliases:
+
+- [Next.js](/duck-ui/installation/next)
+- [Vite](/duck-ui/installation/vite)
+- [Astro](/duck-ui/installation/astro)
+- [Remix / React Router](/duck-ui/installation/react-router)
+- [TanStack Start](/duck-ui/installation/tanstack)
+- [Laravel Inertia](/duck-ui/installation/laravel)
+- [Manual setup](/duck-ui/installation/manual)
+- [Monorepo setup](/duck-ui/installation/monorepo)
+
+<Callout>
+New to the project? Read the [Introduction](/docs/introduction) first to see how the packages fit together before installing them piecemeal.
+</Callout>
