@@ -9,6 +9,8 @@
       "readingTime": 1,
       "wordCount": 62
     },
+    "order": 10,
+    "section": "Benchmarks",
     "title": "Benchmarks",
     "toc": [
       {
@@ -50,6 +52,8 @@
       "readingTime": 1,
       "wordCount": 295
     },
+    "order": 1,
+    "section": "Getting Started",
     "title": "Getting Started",
     "toc": [
       {
@@ -86,6 +90,8 @@
       "readingTime": 1,
       "wordCount": 391
     },
+    "order": 0,
+    "section": "Getting Started",
     "title": "duck-calendar",
     "toc": [
       {
@@ -132,6 +138,8 @@
       "readingTime": 2,
       "wordCount": 654
     },
+    "order": 10,
+    "section": "API",
     "title": "Grid",
     "toc": [
       {
@@ -200,6 +208,8 @@
       "readingTime": 1,
       "wordCount": 393
     },
+    "order": 0,
+    "section": "API",
     "title": "API Reference",
     "toc": [
       {
@@ -236,6 +246,8 @@
       "readingTime": 1,
       "wordCount": 257
     },
+    "order": 10,
+    "section": "API",
     "title": "Navigation",
     "toc": [
       {
@@ -299,6 +311,8 @@
       "readingTime": 1,
       "wordCount": 322
     },
+    "order": 10,
+    "section": "API",
     "title": "Selection",
     "toc": [
       {
@@ -357,6 +371,8 @@
       "readingTime": 2,
       "wordCount": 423
     },
+    "order": 10,
+    "section": "API",
     "title": "useCalendar",
     "toc": [
       {
@@ -440,6 +456,8 @@
       "readingTime": 1,
       "wordCount": 195
     },
+    "order": 10,
+    "section": "API",
     "title": "useDateTime",
     "toc": [
       {
@@ -497,6 +515,8 @@
       "readingTime": 1,
       "wordCount": 303
     },
+    "order": 10,
+    "section": "API",
     "title": "useTimePicker",
     "toc": [
       {
@@ -549,6 +569,8 @@
       "readingTime": 1,
       "wordCount": 227
     },
+    "order": 1,
+    "section": "Course",
     "title": "Lesson 1: Introduction",
     "toc": [
       {
@@ -585,6 +607,8 @@
       "readingTime": 2,
       "wordCount": 444
     },
+    "order": 2,
+    "section": "Course",
     "title": "Lesson 2: Adapter Pattern",
     "toc": [
       {
@@ -631,6 +655,8 @@
       "readingTime": 1,
       "wordCount": 346
     },
+    "order": 3,
+    "section": "Course",
     "title": "Lesson 3: Building a Grid",
     "toc": [
       {
@@ -677,6 +703,8 @@
       "readingTime": 1,
       "wordCount": 283
     },
+    "order": 4,
+    "section": "Course",
     "title": "Lesson 4: Selection Modes",
     "toc": [
       {
@@ -728,6 +756,8 @@
       "readingTime": 1,
       "wordCount": 311
     },
+    "order": 5,
+    "section": "Course",
     "title": "Lesson 5: Keyboard and Accessibility",
     "toc": [
       {
@@ -774,6 +804,8 @@
       "readingTime": 1,
       "wordCount": 279
     },
+    "order": 6,
+    "section": "Course",
     "title": "Lesson 6: Time Picker",
     "toc": [
       {
@@ -820,6 +852,8 @@
       "readingTime": 2,
       "wordCount": 432
     },
+    "order": 7,
+    "section": "Course",
     "title": "Lesson 7: Styling",
     "toc": [
       {
@@ -866,6 +900,8 @@
       "readingTime": 1,
       "wordCount": 331
     },
+    "order": 8,
+    "section": "Course",
     "title": "Lesson 8: Performance",
     "toc": [
       {
@@ -928,6 +964,8 @@
       "readingTime": 1,
       "wordCount": 103
     },
+    "order": 0,
+    "section": "Course",
     "title": "Course",
     "toc": [
       {
@@ -954,6 +992,8 @@
       "readingTime": 1,
       "wordCount": 333
     },
+    "order": 10,
+    "section": "Guides",
     "title": "Accessibility",
     "toc": [
       {
@@ -995,6 +1035,8 @@
       "readingTime": 2,
       "wordCount": 627
     },
+    "order": 10,
+    "section": "Guides",
     "title": "Date Adapters",
     "toc": [
       {
@@ -1047,6 +1089,8 @@
       "readingTime": 1,
       "wordCount": 45
     },
+    "order": 0,
+    "section": "Guides",
     "title": "Guides",
     "toc": [
       {
@@ -1073,6 +1117,8 @@
       "readingTime": 1,
       "wordCount": 341
     },
+    "order": 10,
+    "section": "Guides",
     "title": "Styling",
     "toc": [
       {

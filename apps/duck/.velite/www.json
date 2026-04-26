@@ -9,6 +9,8 @@
       "readingTime": 5,
       "wordCount": 1376
     },
+    "order": 10,
+    "section": "Getting Started",
     "title": "faqs",
     "toc": [],
     "contentType": "mdx",
@@ -29,6 +31,8 @@
       "readingTime": 1,
       "wordCount": 389
     },
+    "order": 10,
+    "section": "Getting Started",
     "title": "GentleDuck",
     "toc": [
       {
@@ -101,6 +105,8 @@
       "readingTime": 2,
       "wordCount": 568
     },
+    "order": 10,
+    "section": "Getting Started",
     "title": "whoiam",
     "toc": [
       {
@@ -178,6 +184,8 @@
       "readingTime": 2,
       "wordCount": 656
     },
+    "order": 10,
+    "section": "News",
     "title": "building accessible uis with duck primitives",
     "toc": [
       {
@@ -245,6 +253,8 @@
       "readingTime": 3,
       "wordCount": 812
     },
+    "order": 10,
+    "section": "News",
     "title": "the duck ui component library",
     "toc": [
       {
@@ -328,6 +338,8 @@
       "readingTime": 3,
       "wordCount": 713
     },
+    "order": 10,
+    "section": "News",
     "title": "duck gen and duck query",
     "toc": [
       {
@@ -407,6 +419,8 @@
       "readingTime": 3,
       "wordCount": 758
     },
+    "order": 10,
+    "section": "News",
     "title": "the gentleduck ecosystem",
     "toc": [
       {
@@ -485,6 +499,8 @@
       "readingTime": 3,
       "wordCount": 793
     },
+    "order": 10,
+    "section": "News",
     "title": "february 2026 updates",
     "toc": [
       {
@@ -579,6 +595,8 @@
       "readingTime": 1,
       "wordCount": 172
     },
+    "order": 0,
+    "section": "News",
     "title": "news",
     "toc": [
       {
@@ -610,6 +628,8 @@
       "readingTime": 1,
       "wordCount": 337
     },
+    "order": 10,
+    "section": "News",
     "title": "introducing duck motion",
     "toc": [
       {
@@ -661,6 +681,8 @@
       "readingTime": 2,
       "wordCount": 496
     },
+    "order": 10,
+    "section": "News",
     "title": "type-safe apis with duck gen",
     "toc": [
       {

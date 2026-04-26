@@ -9,6 +9,8 @@
       "readingTime": 4,
       "wordCount": 1164
     },
+    "order": 10,
+    "section": "Benchmarks",
     "title": "Benchmarks",
     "toc": [
       {
@@ -118,6 +120,8 @@
       "readingTime": 2,
       "wordCount": 514
     },
+    "order": 2,
+    "section": "Getting Started",
     "title": "Core Concepts",
     "toc": [
       {
@@ -194,6 +198,8 @@
       "readingTime": 2,
       "wordCount": 467
     },
+    "order": 1,
+    "section": "Getting Started",
     "title": "Getting Started",
     "toc": [
       {
@@ -250,6 +256,8 @@
       "readingTime": 2,
       "wordCount": 496
     },
+    "order": 0,
+    "section": "Getting Started",
     "title": "gentleduck/primitives",
     "toc": [
       {
@@ -347,6 +355,8 @@
       "readingTime": 2,
       "wordCount": 428
     },
+    "order": 10,
+    "section": "Disclosure",
     "title": "Accordion",
     "toc": [
       {
@@ -420,6 +430,8 @@
       "readingTime": 1,
       "wordCount": 351
     },
+    "order": 10,
+    "section": "Overlay",
     "title": "Alert Dialog",
     "toc": [
       {
@@ -512,6 +524,8 @@
       "readingTime": 1,
       "wordCount": 140
     },
+    "order": 10,
+    "section": "Misc",
     "title": "Arrow",
     "toc": [
       {
@@ -565,6 +579,8 @@
       "readingTime": 1,
       "wordCount": 178
     },
+    "order": 10,
+    "section": "Data Display",
     "title": "Avatar",
     "toc": [
       {
@@ -617,6 +633,8 @@
       "readingTime": 3,
       "wordCount": 893
     },
+    "order": 10,
+    "section": "Data Display",
     "title": "Calendar",
     "toc": [
       {
@@ -709,6 +727,8 @@
       "readingTime": 1,
       "wordCount": 188
     },
+    "order": 10,
+    "section": "Misc",
     "title": "Checkers",
     "toc": [
       {
@@ -761,6 +781,8 @@
       "readingTime": 1,
       "wordCount": 374
     },
+    "order": 10,
+    "section": "Selection",
     "title": "Command",
     "toc": [
       {
@@ -844,6 +866,8 @@
       "readingTime": 2,
       "wordCount": 496
     },
+    "order": 10,
+    "section": "Navigation",
     "title": "Context Menu",
     "toc": [
       {
@@ -931,6 +955,8 @@
       "readingTime": 3,
       "wordCount": 736
     },
+    "order": 10,
+    "section": "Overlay",
     "title": "Dialog",
     "toc": [
       {
@@ -1023,6 +1049,8 @@
       "readingTime": 1,
       "wordCount": 128
     },
+    "order": 10,
+    "section": "Misc",
     "title": "Direction",
     "toc": [
       {
@@ -1070,6 +1098,8 @@
       "readingTime": 1,
       "wordCount": 115
     },
+    "order": 10,
+    "section": "Misc",
     "title": "Dismissable Layer",
     "toc": [
       {
@@ -1101,6 +1131,8 @@
       "readingTime": 3,
       "wordCount": 870
     },
+    "order": 10,
+    "section": "Navigation",
     "title": "Dropdown Menu",
     "toc": [
       {
@@ -1208,6 +1240,8 @@
       "readingTime": 1,
       "wordCount": 107
     },
+    "order": 10,
+    "section": "Misc",
     "title": "Focus Scope",
     "toc": [
       {
@@ -1239,6 +1273,8 @@
       "readingTime": 1,
       "wordCount": 293
     },
+    "order": 10,
+    "section": "Overlay",
     "title": "Hover Card",
     "toc": [
       {
@@ -1301,6 +1337,8 @@
       "readingTime": 1,
       "wordCount": 336
     },
+    "order": 0,
+    "section": "API",
     "title": "API Reference",
     "toc": [
       {
@@ -1332,6 +1370,8 @@
       "readingTime": 1,
       "wordCount": 187
     },
+    "order": 10,
+    "section": "Forms",
     "title": "Input OTP",
     "toc": [
       {
@@ -1394,6 +1434,8 @@
       "readingTime": 1,
       "wordCount": 161
     },
+    "order": 10,
+    "section": "Navigation",
     "title": "Menu",
     "toc": [
       {
@@ -1431,6 +1473,8 @@
       "readingTime": 2,
       "wordCount": 550
     },
+    "order": 10,
+    "section": "Navigation",
     "title": "Menubar",
     "toc": [
       {
@@ -1488,6 +1532,8 @@
       "readingTime": 1,
       "wordCount": 156
     },
+    "order": 10,
+    "section": "Misc",
     "title": "Mount",
     "toc": [
       {
@@ -1519,6 +1565,8 @@
       "readingTime": 1,
       "wordCount": 321
     },
+    "order": 10,
+    "section": "Navigation",
     "title": "Navigation Menu",
     "toc": [
       {
@@ -1601,6 +1649,8 @@
       "readingTime": 1,
       "wordCount": 157
     },
+    "order": 10,
+    "section": "Navigation",
     "title": "Pagination",
     "toc": [
       {
@@ -1653,6 +1703,8 @@
       "readingTime": 2,
       "wordCount": 405
     },
+    "order": 10,
+    "section": "Overlay",
     "title": "Popover",
     "toc": [
       {
@@ -1730,6 +1782,8 @@
       "readingTime": 1,
       "wordCount": 245
     },
+    "order": 10,
+    "section": "Misc",
     "title": "Popper",
     "toc": [
       {
@@ -1787,6 +1841,8 @@
       "readingTime": 1,
       "wordCount": 62
     },
+    "order": 10,
+    "section": "Misc",
     "title": "Portal",
     "toc": [
       {
@@ -1818,6 +1874,8 @@
       "readingTime": 1,
       "wordCount": 113
     },
+    "order": 10,
+    "section": "Misc",
     "title": "Presence",
     "toc": [
       {
@@ -1859,6 +1917,8 @@
       "readingTime": 1,
       "wordCount": 159
     },
+    "order": 10,
+    "section": "Misc",
     "title": "Primitive Elements",
     "toc": [
       {
@@ -1900,6 +1960,8 @@
       "readingTime": 1,
       "wordCount": 189
     },
+    "order": 10,
+    "section": "Feedback",
     "title": "Progress",
     "toc": [
       {
@@ -1952,6 +2014,8 @@
       "readingTime": 1,
       "wordCount": 364
     },
+    "order": 10,
+    "section": "Forms",
     "title": "Radio Group",
     "toc": [
       {
@@ -2009,6 +2073,8 @@
       "readingTime": 1,
       "wordCount": 174
     },
+    "order": 10,
+    "section": "Misc",
     "title": "Roving Focus",
     "toc": [
       {
@@ -2045,6 +2111,8 @@
       "readingTime": 4,
       "wordCount": 960
     },
+    "order": 10,
+    "section": "Selection",
     "title": "Select",
     "toc": [
       {
@@ -2162,6 +2230,8 @@
       "readingTime": 1,
       "wordCount": 225
     },
+    "order": 10,
+    "section": "Overlay",
     "title": "Sheet",
     "toc": [
       {
@@ -2208,6 +2278,8 @@
       "readingTime": 2,
       "wordCount": 515
     },
+    "order": 10,
+    "section": "Forms",
     "title": "Slider",
     "toc": [
       {
@@ -2276,6 +2348,8 @@
       "readingTime": 1,
       "wordCount": 173
     },
+    "order": 10,
+    "section": "Misc",
     "title": "Slot",
     "toc": [
       {
@@ -2317,6 +2391,8 @@
       "readingTime": 2,
       "wordCount": 421
     },
+    "order": 10,
+    "section": "Toggle",
     "title": "Toggle Group",
     "toc": [
       {
@@ -2396,6 +2472,8 @@
       "readingTime": 1,
       "wordCount": 112
     },
+    "order": 10,
+    "section": "Toggle",
     "title": "Toggle",
     "toc": [
       {
@@ -2438,6 +2516,8 @@
       "readingTime": 2,
       "wordCount": 515
     },
+    "order": 10,
+    "section": "Overlay",
     "title": "Tooltip",
     "toc": [
       {
@@ -2520,6 +2600,8 @@
       "readingTime": 1,
       "wordCount": 141
     },
+    "order": 10,
+    "section": "Misc",
     "title": "Visibility Hidden",
     "toc": [
       {
@@ -2573,6 +2655,8 @@
       "readingTime": 1,
       "wordCount": 362
     },
+    "order": 10,
+    "section": "Guides",
     "title": "Accessibility",
     "toc": [
       {
@@ -2646,6 +2730,8 @@
       "readingTime": 1,
       "wordCount": 380
     },
+    "order": 10,
+    "section": "Guides",
     "title": "Animation",
     "toc": [
       {
@@ -2697,6 +2783,8 @@
       "readingTime": 1,
       "wordCount": 365
     },
+    "order": 10,
+    "section": "Guides",
     "title": "Composition with asChild",
     "toc": [
       {
@@ -2759,6 +2847,8 @@
       "readingTime": 1,
       "wordCount": 59
     },
+    "order": 0,
+    "section": "Guides",
     "title": "Guides",
     "toc": [],
     "contentType": "mdx",
@@ -2779,6 +2869,8 @@
       "readingTime": 1,
       "wordCount": 308
     },
+    "order": 10,
+    "section": "Guides",
     "title": "Styling gentleduck/primitives",
     "toc": [
       {
@@ -2815,6 +2907,8 @@
       "readingTime": 2,
       "wordCount": 428
     },
+    "order": 1,
+    "section": "Course",
     "title": "Lesson 1: Why Primitives",
     "toc": [
       {
@@ -2876,6 +2970,8 @@
       "readingTime": 1,
       "wordCount": 381
     },
+    "order": 2,
+    "section": "Course",
     "title": "Lesson 2: Your First Dialog",
     "toc": [
       {
@@ -2927,6 +3023,8 @@
       "readingTime": 1,
       "wordCount": 249
     },
+    "order": 3,
+    "section": "Course",
     "title": "Lesson 3: The asChild Pattern",
     "toc": [
       {
@@ -2978,6 +3076,8 @@
       "readingTime": 1,
       "wordCount": 285
     },
+    "order": 4,
+    "section": "Course",
     "title": "Lesson 4: Popover and Positioning",
     "toc": [
       {
@@ -3034,6 +3134,8 @@
       "readingTime": 1,
       "wordCount": 327
     },
+    "order": 5,
+    "section": "Course",
     "title": "Lesson 5: Menus, Dropdowns, and Selection",
     "toc": [
       {
@@ -3090,6 +3192,8 @@
       "readingTime": 1,
       "wordCount": 231
     },
+    "order": 6,
+    "section": "Course",
     "title": "Lesson 6: Animation with Presence",
     "toc": [
       {
@@ -3146,6 +3250,8 @@
       "readingTime": 1,
       "wordCount": 264
     },
+    "order": 7,
+    "section": "Course",
     "title": "Lesson 7: Accessibility Deep Dive",
     "toc": [
       {
@@ -3202,6 +3308,8 @@
       "readingTime": 1,
       "wordCount": 322
     },
+    "order": 8,
+    "section": "Course",
     "title": "Lesson 8: Building a Design System",
     "toc": [
       {
@@ -3263,6 +3371,8 @@
       "readingTime": 1,
       "wordCount": 340
     },
+    "order": 9,
+    "section": "Course",
     "title": "Lesson 9: Testing and Quality Gates",
     "toc": [
       {
@@ -3324,6 +3434,8 @@
       "readingTime": 1,
       "wordCount": 320
     },
+    "order": 10,
+    "section": "Course",
     "title": "Lesson 10: Operations, Migration, and Internal Registry",
     "toc": [
       {
@@ -3380,6 +3492,8 @@
       "readingTime": 2,
       "wordCount": 420
     },
+    "order": 0,
+    "section": "Course",
     "title": "gentleduck/primitives Course",
     "toc": [
       {

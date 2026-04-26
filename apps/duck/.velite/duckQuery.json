@@ -9,6 +9,8 @@
       "readingTime": 4,
       "wordCount": 1018
     },
+    "order": 0,
+    "section": "Advanced",
     "title": "advanced",
     "toc": [
       {
@@ -108,6 +110,8 @@
       "readingTime": 3,
       "wordCount": 887
     },
+    "order": 10,
+    "section": "Getting Started",
     "title": "client methods",
     "toc": [
       {
@@ -189,6 +193,8 @@
       "readingTime": 3,
       "wordCount": 684
     },
+    "order": 0,
+    "section": "Getting Started",
     "title": "duck query",
     "toc": [
       {
@@ -267,6 +273,8 @@
       "readingTime": 3,
       "wordCount": 807
     },
+    "order": 10,
+    "section": "Getting Started",
     "title": "types",
     "toc": [
       {

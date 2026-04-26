@@ -9,6 +9,8 @@
       "readingTime": 2,
       "wordCount": 591
     },
+    "order": 10,
+    "section": "Getting Started",
     "title": "Architecture",
     "toc": [
       {
@@ -76,6 +78,8 @@
       "readingTime": 1,
       "wordCount": 315
     },
+    "order": 10,
+    "section": "Getting Started",
     "title": "CLI",
     "toc": [
       {
@@ -153,6 +157,8 @@
       "readingTime": 4,
       "wordCount": 1087
     },
+    "order": 10,
+    "section": "Getting Started",
     "title": "Configuration",
     "toc": [
       {
@@ -194,6 +200,8 @@
       "readingTime": 3,
       "wordCount": 850
     },
+    "order": 10,
+    "section": "Getting Started",
     "title": "Arch Package Index",
     "toc": [
       {
@@ -265,6 +273,8 @@
       "readingTime": 1,
       "wordCount": 336
     },
+    "order": 0,
+    "section": "Course",
     "title": "Course",
     "toc": [
       {
@@ -321,6 +331,8 @@
       "readingTime": 2,
       "wordCount": 650
     },
+    "order": 10,
+    "section": "Getting Started",
     "title": "Extensions",
     "toc": [
       {
@@ -392,6 +404,8 @@
       "readingTime": 2,
       "wordCount": 420
     },
+    "order": 1,
+    "section": "Getting Started",
     "title": "Getting Started",
     "toc": [
       {
@@ -443,6 +457,8 @@
       "readingTime": 3,
       "wordCount": 827
     },
+    "order": 0,
+    "section": "Getting Started",
     "title": "gentleduck/registry-build",
     "toc": [
       {
@@ -509,6 +525,8 @@
       "readingTime": 1,
       "wordCount": 52
     },
+    "order": 10,
+    "section": "Getting Started",
     "title": "Operations",
     "toc": [
       {
@@ -540,6 +558,8 @@
       "readingTime": 2,
       "wordCount": 489
     },
+    "order": 10,
+    "section": "Getting Started",
     "title": "Performance",
     "toc": [
       {
@@ -601,6 +621,8 @@
       "readingTime": 2,
       "wordCount": 588
     },
+    "order": 10,
+    "section": "Getting Started",
     "title": "Recipes",
     "toc": [
       {
@@ -662,6 +684,8 @@
       "readingTime": 1,
       "wordCount": 71
     },
+    "order": 10,
+    "section": "Getting Started",
     "title": "Reference",
     "toc": [
       {
@@ -693,6 +717,8 @@
       "readingTime": 1,
       "wordCount": 391
     },
+    "order": 10,
+    "section": "Getting Started",
     "title": "Testing and CI",
     "toc": [
       {
@@ -744,6 +770,8 @@
       "readingTime": 2,
       "wordCount": 444
     },
+    "order": 10,
+    "section": "Getting Started",
     "title": "Troubleshooting",
     "toc": [
       {

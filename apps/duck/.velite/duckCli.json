@@ -9,6 +9,8 @@
       "readingTime": 3,
       "wordCount": 900
     },
+    "order": 0,
+    "section": "Getting Started",
     "title": "gentleduck/cli",
     "toc": [
       {

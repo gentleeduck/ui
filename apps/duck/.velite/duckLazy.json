@@ -9,6 +9,8 @@
       "readingTime": 2,
       "wordCount": 500
     },
+    "order": 0,
+    "section": "Getting Started",
     "title": "gentleduck/lazy",
     "toc": [
       {
