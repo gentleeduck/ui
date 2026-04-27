@@ -1,134 +1,71 @@
 ---
-title: GentleDuck
-description: Production-grade developer tooling. UI components, compiler extensions, CLI automation, and systems utilities built to work together.
+title: gentleduck
+description: An open-source ecosystem of small, composable packages for building production React apps — UI, primitives, calendar, keyboard, CLI, codegen, identity, uploads, and more.
 section: Getting Started
-order: 10
----
-GentleDuck is an open source organization building production-grade developer tooling. UI and interaction design, documentation, automation, testing, and systems performance. One set of conventions, one stack.
-
+order: 0
 ---
 
-## Explore the Ecosystem
+## What gentleduck is
 
-<div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 sm:gap-6">
-  <LinkedCard href="https://ui.gentleduck.org" className="group overflow-hidden border border-border/60 bg-card/60 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:p-0">
-    <Image
-      src="/og/ui-home-67.png"
-      alt="Duck UI"
-      width="1000"
-      height="500"
-      className="h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015]"
-    />
-    <div className="flex flex-col p-4">
-      <h4 className="font-semibold">@gentleduck/ui</h4>
-      <p className="mt-1 text-muted-foreground text-sm">59+ production-ready components with a copy-source workflow. Own your code, not your dependencies.</p>
-    </div>
+`gentleduck` is an open-source organization that ships a connected set of TypeScript packages for building production React applications. Every package is independently versioned and useful on its own — but they were designed together, so adopting more of them keeps adding leverage instead of complexity.
+
+The ecosystem covers what real products actually need: a styled UI layer, the headless primitives underneath it, a calendar engine that handles non-Gregorian dates, a keyboard command engine, a CLI that goes beyond `add`, and a server-side surface for identity, uploads, queries, and code generation.
+
+<div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+  <LinkedCard href="/duck-ui">
+    <p className="font-semibold">Duck UI</p>
+    <p className="mt-1 text-sm text-muted-foreground">Tailwind-styled React components copy-pasted into your app via the CLI.</p>
   </LinkedCard>
-  <LinkedCard href="https://gen.gentleduck.org" className="group overflow-hidden border border-border/60 bg-card/60 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:p-0">
-    <Image
-      src="/og/gen-home-67.png"
-      alt="Duck Gen"
-      width="1000"
-      height="500"
-      className="h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015]"
-    />
-    <div className="flex flex-col p-4">
-      <h4 className="font-semibold">@gentleduck/gen</h4>
-      <p className="mt-1 text-muted-foreground text-sm">Compiler extension for type-safe API routes. Scan your server, emit .d.ts, get typed requests.</p>
-    </div>
+  <LinkedCard href="/duck-primitives">
+    <p className="font-semibold">Duck Primitives</p>
+    <p className="mt-1 text-sm text-muted-foreground">Headless, accessible primitives. 50–92% smaller than Radix, same API shape.</p>
   </LinkedCard>
-  <LinkedCard href="/www/news/ecosystem-overview" className="group overflow-hidden border border-border/60 bg-card/60 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-lg sm:p-0">
-    <Image
-      src="/og/ui-blocks-67.png"
-      alt="Ecosystem"
-      width="1000"
-      height="500"
-      className="h-auto w-full object-cover transition duration-300 group-hover:scale-[1.015]"
-    />
-    <div className="flex flex-col p-4">
-      <h4 className="font-semibold">Ecosystem Architecture</h4>
-      <p className="mt-1 text-muted-foreground text-sm">See how primitives, variants, hooks, motion, and libs compose into a unified stack.</p>
-    </div>
+  <LinkedCard href="/duck-calendar">
+    <p className="font-semibold">Duck Calendar</p>
+    <p className="mt-1 text-sm text-muted-foreground">Headless calendar engine with seven date adapters: Gregorian, Islamic, Persian, Hebrew, Buddhist, Indian, Japanese.</p>
+  </LinkedCard>
+  <LinkedCard href="/duck-vim">
+    <p className="font-semibold">Duck Vim</p>
+    <p className="mt-1 text-sm text-muted-foreground">Keyboard command and chord engine with React hooks.</p>
+  </LinkedCard>
+  <LinkedCard href="/duck-cli">
+    <p className="font-semibold">Duck CLI</p>
+    <p className="mt-1 text-sm text-muted-foreground">init, add, update, diff, list, remove. Project detection and template scaffolding.</p>
+  </LinkedCard>
+  <LinkedCard href="/duck-iam">
+    <p className="font-semibold">Duck IAM</p>
+    <p className="mt-1 text-sm text-muted-foreground">Identity and access primitives — sessions, RBAC, audit.</p>
+  </LinkedCard>
+  <LinkedCard href="/duck-upload">
+    <p className="font-semibold">Duck Upload</p>
+    <p className="mt-1 text-sm text-muted-foreground">Resumable upload pipeline with chunking and progress.</p>
+  </LinkedCard>
+  <LinkedCard href="/duck-query">
+    <p className="font-semibold">Duck Query</p>
+    <p className="mt-1 text-sm text-muted-foreground">Typed query helpers for the data layer.</p>
+  </LinkedCard>
+  <LinkedCard href="/duck-gen">
+    <p className="font-semibold">Duck Gen</p>
+    <p className="mt-1 text-sm text-muted-foreground">Code generation for controllers, routes, and schemas.</p>
   </LinkedCard>
 </div>
 
----
+## What you can build with it
 
-## Packages at a Glance
+- **A new product UI** — start with [duck-ui](/duck-ui) for styled components and the [CLI](/duck-cli) to scaffold them into your codebase.
+- **An accessible component library** — drop down to [duck-primitives](/duck-primitives) and bring your own design system on top.
+- **A globally aware date picker** — [duck-calendar](/duck-calendar) supports Islamic, Persian, Hebrew, Buddhist, Indian, and Japanese calendars alongside Gregorian.
+- **A keyboard-first interface** — [duck-vim](/duck-vim) gives you chord matching, key sequences, and a recorder with React hooks.
+- **A custom registry** — [duck-registry-build](/duck-registry-build) lets you publish your own component registry that the CLI can install from.
+- **A full-stack feature** — pair [duck-iam](/duck-iam) for auth, [duck-upload](/duck-upload) for ingest, [duck-query](/duck-query) for typed data access, and [duck-gen](/duck-gen) for the codegen glue.
 
-### Core Layer
+## Read first
 
-| Package | Description | |
-| --- | --- | --- |
-| **@gentleduck/libs** | `cn`, `Slot`, `Portal`, and shared utilities — zero external dependencies | [Docs](https://ui.gentleduck.org/www/packages/duck-libs) |
-| **@gentleduck/variants** | Type-safe class generation, ~7x faster than CVA | [Docs](https://ui.gentleduck.org/www/packages/duck-variants) |
-| **@gentleduck/hooks** | React hooks for common UI workflows | [Docs](https://ui.gentleduck.org/www/packages/duck-hooks) |
+- [Introduction](/www/introduction) — the story of why gentleduck exists and how the layers fit together.
+- [Installation](/www/installation) — pick a package, pick a framework, get running.
+- [Packages](/www/packages) — the full catalog of what each `@gentleduck/*` package does.
+- [FAQs](/www/faqs) — short answers to the questions we hear most often.
 
-### Behavior Layer
+## Open source
 
-| Package | Description | |
-| --- | --- | --- |
-| **@gentleduck/primitives** | Headless, accessibility-first UI primitives | [Docs](https://ui.gentleduck.org/www/packages/duck-primitives) |
-| **@gentleduck/motion** | Enter/exit animations and mount/unmount transitions | [Docs](https://ui.gentleduck.org/www/packages/duck-motion) |
-| **@gentleduck/vim** | Framework-agnostic vim-style keyboard navigation | [Docs](https://ui.gentleduck.org/www/packages/duck-vim) |
-
-### UI Layer
-
-| Package | Description | |
-| --- | --- | --- |
-| **@gentleduck/ui** | 59+ production components — forms, navigation, overlays, data display | [Docs](https://ui.gentleduck.org) |
-| **@gentleduck/cli** | CLI for installing and scaffolding UI components | [Docs](https://ui.gentleduck.org/www/packages/duck-cli) |
-
-### Tooling Layer
-
-| Package | Description | |
-| --- | --- | --- |
-| **@gentleduck/gen** | Compiler extension — scans NestJS controllers, emits typed route maps | [Docs](https://gen.gentleduck.org) |
-| **@gentleduck/query** | Type-safe HTTP client powered by generated route types | [Docs](https://gen.gentleduck.org/www/duck-query) |
-
-### Testing & Performance
-
-| Package | Description | |
-| --- | --- | --- |
-| **@gentleduck/ttest** | Zero-runtime TypeScript type testing | [npm](https://www.npmjs.com/package/@gentleduck/ttest) |
-| **@gentleduck/lazy** | Lazy-loading and performance utilities | [Docs](https://ui.gentleduck.org/www/packages/duck-lazy) |
-| **@gentleduck/template** | Rust-powered project scaffolding | [GitHub](https://github.com/gentleeduck/duck-template) |
-
----
-
-## Why GentleDuck
-
-Tooling fragments as systems grow. GentleDuck ships libraries that share conventions, compose cleanly, and hold up in production.
-
-- **Clarity over complexity.** Predictable APIs, clear docs, strong conventions.
-- **Consistency at scale.** Shared UI foundations, registries, templates, and tooling.
-- **Real-workload performance.** Benchmarked, not aspirational.
-- **Composable.** Each library stands alone. Shared patterns compound when stacked.
-
----
-
-## Quick Start
-
-```bash
-# Install the UI component library
-bunx @gentleduck/cli init button dialog input select
-
-# Use individual packages
-bun add @gentleduck/variants    # Type-safe class generation
-bun add @gentleduck/primitives  # Headless UI primitives
-bun add @gentleduck/hooks       # React hooks
-
-# Type-safe API tooling
-bun add -d @gentleduck/gen      # Compiler extension (dev)
-bun add @gentleduck/query       # HTTP client (runtime)
-```
-
-<Callout title="Incremental adoption">
-  Every package is published independently on npm. Start with what solves your biggest pain point, then expand as your needs grow. No lock-in, no all-or-nothing.
-</Callout>
-
----
-
-## Stay Updated
-
-Check out [What's New](/www/news) for the latest releases, or follow the project on [GitHub](https://github.com/gentleeduck) and [X / Twitter](https://x.com/wild_ducka).
+`gentleduck` is MIT-licensed. Source lives on GitHub at [github.com/gentleeduck/duck-ui](https://github.com/gentleeduck/duck-ui). Issues, pull requests, and discussions are open. The project is maintained by a small team — sponsorship and contributions both directly extend the time available to keep the ecosystem moving.
