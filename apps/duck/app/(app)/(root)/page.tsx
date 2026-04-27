@@ -42,10 +42,10 @@ export default function Page() {
         <PageHeaderDescription>{description}</PageHeaderDescription>
         <PageActions className="mx-auto w-full justify-center">
           <Button asChild>
-            <Link href="/docs/installation">Get Started</Link>
+            <Link href="/www/installation">Get Started</Link>
           </Button>
           <Button asChild variant="ghost">
-            <Link href="/docs/packages">Explore Packages</Link>
+            <Link href="/www/packages">Explore Packages</Link>
           </Button>
         </PageActions>
       </PageHeader>

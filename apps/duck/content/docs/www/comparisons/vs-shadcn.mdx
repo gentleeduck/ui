@@ -49,7 +49,7 @@ shadcn/ui imports Radix UI from node_modules. You own the styled layer, but the 
 
 gentleduck/ui uses `@gentleduck/primitives` - 35 headless components with the same compound-component API as Radix, but 50-92% smaller because shared internals (Slot, Presence, Popper, focus scope) are deduplicated across all primitives instead of bundled per-package. You own the source. Modify focus trapping, dismiss behavior, or animation hooks directly.
 
-See the [full primitives comparison](/docs/comparisons/vs-radix).
+See the [full primitives comparison](/www/comparisons/vs-radix).
 
 ### Calendar
 
@@ -57,7 +57,7 @@ shadcn/ui wraps react-day-picker, which pulls in date-fns. That is ~20 KB gzippe
 
 gentleduck/ui uses `@gentleduck/calendar` - ~5 KB gzipped with zero required dependencies. The adapter pattern lets you use native Date, date-fns, dayjs, or luxon without changing your components. Non-Gregorian calendars (Islamic, Persian, Hebrew) work through pluggable adapters. No other copy-paste component library ships this.
 
-See the [full calendar comparison](/docs/comparisons/vs-react-day-picker).
+See the [full calendar comparison](/www/comparisons/vs-react-day-picker).
 
 ### Keyboard engine
 

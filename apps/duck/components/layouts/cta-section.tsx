@@ -41,12 +41,12 @@ export function CtaSection({ className }: { className?: string }) {
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3">
                 <Link
-                  href="/docs/installation"
+                  href="/www/installation"
                   className="inline-flex items-center rounded-md bg-white px-5 py-2.5 font-semibold text-black text-sm transition-opacity hover:opacity-90">
                   Get Started
                 </Link>
                 <Link
-                  href="/docs/packages"
+                  href="/www/packages"
                   className="inline-flex items-center rounded-md border-white/20 px-5 py-2.5 font-medium text-sm text-white/80 transition-colors hover:border-white/40 hover:text-white">
                   Browse Packages
                 </Link>

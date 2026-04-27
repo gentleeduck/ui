@@ -1,35 +1,34 @@
 ---
 title: whoiam
 description: Get to know more about the person behind @gentleduck.
-section: Getting Started
-order: 10
 ---
+
 ## About Me
 
 <a href="https://github.com/wildduck2" target="_blank" rel="noreferrer">
-  <Image src="https://github.com/wildduck2.png" alt="wildduck2" width="300" height="300"
+  <img src="https://github.com/wildduck2.png" alt="wildduck2" width="300" height="300"
     className="rounded-xl object-cover mt-4 border border-border"/>
 </a>
 
-I'm a **Senior Software Engineer** working on scalable, high-performance systems across the full stack. Currently at AIv, I'm building conversational operating systems where natural language is the interface for real-world actions. I work in **TypeScript**, **Rust**, **Elixir**, and **Node.js**.
+I'm a **Senior Software Engineer** building scalable, high-performance systems across the full stack. Currently at AIv, I'm engineering conversational operating systems where natural language serves as the interface for real-world actions. I work with **TypeScript**, **Rust**, **Elixir**, **Node.js**, and modern web technologies.
 
-My work spans **zero-dependency libraries**, **Rust-powered tooling**, **AI-driven architectures**, and **distributed systems**. I build developer tools that cut complexity and ship faster.
+My expertise spans **zero-dependency libraries**, **Rust-powered tooling**, **AI-driven architectures**, and **distributed systems**. I build developer tools that cut complexity and ship fast.
 
 ---
 
 ## Featured Projects
 
-### [@gentleduck/ui](https://github.com/gentleeduck/duck-www)
+### [@gentleduck/ui](https://github.com/gentleeduck/duck-ui)
 **React + TypeScript Component Library**
 
-A dependency-free, themeable design system built from scratch. Every primitive is written in-house. duck-www delivers:
-- **2× improvement** in bundle size and runtime vs common alternatives
-- Compact, accessible components
-- Composable primitives with full documentation
-- Production-ready UI with enforced consistency across products
+A full-stack component ecosystem built from scratch - own primitives, own calendar engine, own keyboard system. No Radix dependency, no react-day-picker, no external UI frameworks. gentleduck/ui delivers:
+- **57 styled components** backed by **35 headless primitives** that are 50-92% smaller than Radix
+- **Calendar engine** at ~5 KB with 4 calendar systems (Gregorian, Islamic, Persian, Hebrew) vs react-day-picker's ~20 KB
+- **Interactive CLI** with hunk-by-hunk merge TUI for updating components without losing local changes
+- Production-ready, accessible UI with WAI-ARIA compliance and keyboard navigation
 
 **Tech Stack:** React, TypeScript, TailwindCSS  
-**Impact:** Faster onboarding, enterprise-grade UI systems
+**Impact:** Used in production across multiple products
 
 ---
 
@@ -54,7 +53,7 @@ A project scaffolding tool driven by structured JSON configs:
 - Variant support with remote/local config sources
 - Dynamic flag injection and modular commands
 - Reproducible, environment-aware project layouts
-- Cuts setup time from minutes to seconds
+- Cuts project setup time from hours to minutes
 
 **Tech Stack:** Rust  
 **Purpose:** Standardize bootstrapping across teams
@@ -67,11 +66,11 @@ A project scaffolding tool driven by structured JSON configs:
 A compile-time type-level testing framework for TypeScript:
 - Validates assignability, equality, and inference without emitted JS
 - Clear, IDE-friendly failure messages
-- Type-only utilities (SQL and JSON inference/parsers)
-- Aimed at framework authors and type-heavy codebases
+- Includes advanced type-only utilities (SQL & JSON inference/parsers)
+- Perfect for framework authors and type-heavy codebases
 
 **Tech Stack:** TypeScript  
-**Highlight:** Closes the feedback loop between complex types and application logic
+**Highlight:** Catch type-level bugs at compile time, not in production
 
 ---
 
@@ -92,7 +91,7 @@ A TypeScript-first utility for declarative class-name composition:
 ### [@gentleduck/vim](https://www.npmjs.com/package/@gentleduck/vim)
 **Framework-Agnostic Vim-Style Navigation**
 
-Turn any browser app into a modal, keyboard-first experience:
+Transform any browser app into a modal, keyboard-first experience:
 - Declarative keymaps with leader-key and chord support
 - Modal editing (normal/insert/visual) with rich motion primitives
 - Framework adapters for React/Angular/Svelte/vanilla
@@ -129,14 +128,14 @@ A TypeScript library for building and manipulating MIME messages:
 
 ## Philosophy
 
-Build tools that **cut complexity** without losing capability. A zero-dependency component library, a crash-proof logging system, an AI-powered operating system. The goal is software that respects both developers and users.
+I build tools that **reduce complexity** without sacrificing capability. Whether it's a zero-dependency component library, a crash-proof logging system, or an AI-powered operating system — the goal is always software that gets out of your way and lets you ship.
 
 My work focuses on:
 - **Performance:** Every millisecond matters in production
-- **Developer Experience:** Good tools make good products possible
+- **Developer Experience:** Great tools make great products possible
 - **Type Safety:** Catching errors at compile time, not runtime
 - **Open Source:** Sharing knowledge and building in public
 
 ---
 
-*"Between the kernel and eBPF" — Building the future of developer tools and distributed systems.*
+*"Between the kernel and eBPF"  -  Building the future of developer tools and distributed systems.*
