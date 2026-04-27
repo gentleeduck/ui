@@ -31,6 +31,8 @@ const slugTitle = (permalink: string) => {
   return last === 'index' ? 'Overview' : titlecase(last)
 }
 
+const hrefFor = (permalink: string) => `/${permalink.replace(/\/index$/, '')}`
+
 export function buildSidebar(docs: SidebarDoc[], options: BuildSidebarOptions): ISidebarNavItem[] {
   const { pkg, sectionOrder = [], introSlug = `${pkg}/introduction` } = options
 
@@ -72,7 +74,7 @@ export function buildSidebar(docs: SidebarDoc[], options: BuildSidebarOptions): 
         return a.title.localeCompare(b.title)
       })
       .map<ISidebarNavItem>((doc) => ({
-        href: `/${doc.permalink}`,
+        href: hrefFor(doc.permalink),
         title: doc.permalink === introSlug ? 'Introduction' : doc.title || slugTitle(doc.permalink),
         items: [],
       }))
@@ -80,7 +82,7 @@ export function buildSidebar(docs: SidebarDoc[], options: BuildSidebarOptions): 
     const isFirst = idx === 0
     return {
       title: isFirst ? '' : key,
-      ...(isFirst ? { href: `/${introSlug}` } : {}),
+      ...(isFirst ? { href: hrefFor(introSlug) } : {}),
       items,
     }
   })
