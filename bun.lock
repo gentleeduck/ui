@@ -521,7 +521,7 @@
     },
     "packages/duck-primitives": {
       "name": "@gentleduck/primitives",
-      "version": "0.2.10",
+      "version": "0.2.11",
       "dependencies": {
         "@floating-ui/react-dom": "^2.1.7",
         "@gentleduck/calendar": "workspace:*",
@@ -689,7 +689,7 @@
     },
     "packages/registry-examples": {
       "name": "@gentleduck/registry-examples",
-      "version": "0.2.7",
+      "version": "0.2.8",
       "dependencies": {
         "@gentleduck/calendar": "workspace:*",
         "@gentleduck/primitives": "workspace:*",
@@ -727,7 +727,7 @@
     },
     "packages/registry-internals": {
       "name": "@gentleduck/registry-internals",
-      "version": "0.2.10",
+      "version": "0.2.11",
       "dependencies": {
         "@gentleduck/primitives": "workspace:*",
         "@hookform/resolvers": "^5.2.2",
@@ -764,7 +764,7 @@
     },
     "packages/registry-ui": {
       "name": "@gentleduck/registry-ui",
-      "version": "0.4.0",
+      "version": "0.4.1",
       "dependencies": {
         "@gentleduck/calendar": "workspace:*",
         "@gentleduck/hooks": "workspace:*",

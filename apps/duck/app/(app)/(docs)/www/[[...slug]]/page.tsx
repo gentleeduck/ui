@@ -1,3 +1,4 @@
+import { buildSidebar, type IDocsConfig } from '@gentleduck/docs'
 import {
   DashboardTableOfContents,
   DocsCopyPage,
@@ -7,7 +8,6 @@ import {
   DocsSidebarNav,
   Mdx,
 } from '@gentleduck/docs/client'
-import { buildSidebar, type IDocsConfig } from '@gentleduck/docs'
 import { cn } from '@gentleduck/libs/cn'
 import { Button } from '@gentleduck/registry-ui/button'
 import { Separator } from '@gentleduck/registry-ui/separator'
