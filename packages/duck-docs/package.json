@@ -56,9 +56,9 @@
   },
   "peerDependencies": {
     "@excalidraw/excalidraw": "^0.18.0",
-    "@gentleduck/hooks": "workspace:*",
-    "@gentleduck/libs": "workspace:*",
-    "@gentleduck/vim": "workspace:*",
+    "@gentleduck/hooks": "^0.2.0",
+    "@gentleduck/libs": "^0.2.0",
+    "@gentleduck/vim": "^0.2.0",
     "jotai": "^2.14.0",
     "lucide-react": "1.6.0",
     "next": "^16.1.1",
