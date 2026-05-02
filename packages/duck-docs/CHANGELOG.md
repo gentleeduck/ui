@@ -1,5 +1,11 @@
 # @gentleduck/docs
 
+## 1.0.1
+
+### Patch Changes
+
+- b4706d3: Replace `workspace:*` deps in published `dependencies` and `peerDependencies` with explicit semver. Previous publishes leaked `workspace:*` to the npm tarball, breaking `bun install` for downstream consumers (`error: Workspace dependency "@gentleduck/calendar" not found`).
+
 ## 1.0.0
 
 ### Minor Changes
