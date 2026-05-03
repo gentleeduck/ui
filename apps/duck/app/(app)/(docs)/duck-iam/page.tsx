@@ -79,7 +79,7 @@ export default async function DuckIamPage() {
     lang: 'typescript',
     themes: {
       dark: 'catppuccin-macchiato',
-      light: 'github-light',
+      light: 'light-plus',
     },
     transformers: [
       {

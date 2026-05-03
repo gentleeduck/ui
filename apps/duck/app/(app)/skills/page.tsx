@@ -75,7 +75,7 @@ export default async function SkillsPage() {
     lang: 'bash',
     themes: {
       dark: 'catppuccin-macchiato',
-      light: 'github-light',
+      light: 'light-plus',
     },
     transformers: [
       {

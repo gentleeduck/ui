@@ -80,7 +80,7 @@ export default async function DuckTtlogPage() {
     lang: 'rust',
     themes: {
       dark: 'catppuccin-macchiato',
-      light: 'github-light',
+      light: 'light-plus',
     },
     transformers: [
       {

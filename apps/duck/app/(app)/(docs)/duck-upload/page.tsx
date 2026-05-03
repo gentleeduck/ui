@@ -81,7 +81,7 @@ export default async function DuckUploadPage() {
     lang: 'typescript',
     themes: {
       dark: 'catppuccin-macchiato',
-      light: 'github-light',
+      light: 'light-plus',
     },
     transformers: [
       {

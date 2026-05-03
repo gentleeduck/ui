@@ -120,8 +120,11 @@ function SidebarItem({
       <div className="mb-2 flex flex-col">
         <div className="flex h-9 w-full items-center justify-between pr-2 text-start font-semibold text-sm">
           {item.href ? (
-            <Link className="flex-1 hover:text-foreground" href={item.href}>
-              {item.title}
+            <Link
+              aria-label={item.title || 'Section overview'}
+              className="flex-1 hover:text-foreground"
+              href={item.href}>
+              {item.title || <span className="sr-only">Section overview</span>}
             </Link>
           ) : (
             <span className="flex-1">{item.title}</span>

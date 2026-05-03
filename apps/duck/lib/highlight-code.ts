@@ -7,7 +7,7 @@ export async function highlightCode(code: string) {
     lang: 'tsx',
     themes: {
       dark: 'catppuccin-macchiato',
-      light: 'github-light',
+      light: 'light-plus',
     },
     transformers: [
       {

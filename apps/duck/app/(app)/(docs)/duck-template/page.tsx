@@ -77,7 +77,7 @@ export default async function DuckTemplatePage() {
     lang: 'bash',
     themes: {
       dark: 'catppuccin-macchiato',
-      light: 'github-light',
+      light: 'light-plus',
     },
     transformers: [
       {
