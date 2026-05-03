@@ -232,6 +232,7 @@ export function CommandMenu() {
   return (
     <>
       <Button
+        aria-label="Search documentation"
         className={cn(
           'relative size-8 bg-muted/50 p-0 text-muted-foreground text-sm shadow-none md:w-40 md:px-3 lg:w-64 ltr:md:pr-2 rtl:md:pl-2 md:[&>div]:w-full md:[&>div]:justify-between',
         )}

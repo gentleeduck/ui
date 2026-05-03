@@ -69,8 +69,7 @@ function VariantsIllustration() {
                   i === 0 ? 'ring-2 ring-primary/30 ring-offset-1 ring-offset-muted/20' : '',
                 )}
               />
-              <span
-                className={cn('font-mono text-[9.5px]', i === 0 ? 'text-foreground' : 'text-muted-foreground')}>
+              <span className={cn('font-mono text-[9.5px]', i === 0 ? 'text-foreground' : 'text-muted-foreground')}>
                 {v.name}
               </span>
             </div>
@@ -163,10 +162,7 @@ function PrimitivesIllustration() {
                   )}
                 </span>
                 <span
-                  className={cn(
-                    'flex-1 text-[11px]',
-                    isSelected ? 'font-medium text-foreground' : 'text-foreground',
-                  )}>
+                  className={cn('flex-1 text-[11px]', isSelected ? 'font-medium text-foreground' : 'text-foreground')}>
                   {item.name}
                 </span>
                 <span className="rounded bg-muted/60 px-1.5 py-0.5 font-mono text-[8.5px] text-muted-foreground">
@@ -244,10 +240,17 @@ function TreeRow({ node, depth }: { node: TreeNode; depth: number }) {
           <FolderOpen className="h-3.5 w-3.5 shrink-0 text-muted-foreground" />
         ) : (
           <FileCode2
-            className={cn('h-3.5 w-3.5 shrink-0', node.isNew ? 'text-emerald-700 dark:text-emerald-400' : 'text-muted-foreground')}
+            className={cn(
+              'h-3.5 w-3.5 shrink-0',
+              node.isNew ? 'text-emerald-700 dark:text-emerald-400' : 'text-muted-foreground',
+            )}
           />
         )}
-        <span className={cn('font-mono text-[10.5px]', node.isNew ? 'text-emerald-700 dark:text-emerald-300' : 'text-muted-foreground')}>
+        <span
+          className={cn(
+            'font-mono text-[10.5px]',
+            node.isNew ? 'text-emerald-700 dark:text-emerald-300' : 'text-muted-foreground',
+          )}>
           {node.name}
         </span>
         {node.isNew && (
