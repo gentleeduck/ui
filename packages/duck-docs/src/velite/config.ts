@@ -80,7 +80,15 @@ function buildDefaultRehypePlugins({
           node.children = [{ type: 'text', value: ' ' }]
         }
       },
-      theme: 'github-light',
+      // Dual-theme output: rehype-pretty-code emits CSS custom properties
+      // for both themes per token. The inline `color` defaults to the
+      // dark palette; the CSS in apps/duck/app/globals.css swaps to the
+      // light vars when `html` is not `.dark`.
+      theme: {
+        dark: 'catppuccin-mocha',
+        light: 'github-light',
+      },
+      defaultTheme: 'dark',
     },
   ] as Pluggable
 
