@@ -14,84 +14,10 @@ import { docsConfig } from '~/config/docs'
 import { METADATA } from '~/config/metadata'
 import { siteConfig } from '~/config/site'
 
-const InterSans = localFont({
-  src: [
-    {
-      path: '../public/fonts/inter/inter-latin-ext-400-normal.woff2',
-      style: 'normal',
-      weight: '400',
-    },
-    {
-      path: '../public/fonts/inter/inter-latin-ext-500-normal.woff2',
-      style: 'normal',
-      weight: '500',
-    },
-    {
-      path: '../public/fonts/inter/inter-latin-ext-700-normal.woff2',
-      style: 'normal',
-      weight: '700',
-    },
-    {
-      path: '../public/fonts/inter/inter-latin-ext-400-italic.woff2',
-      style: 'italic',
-      weight: '400',
-    },
-    {
-      path: '../public/fonts/inter/inter-latin-ext-500-italic.woff2',
-      style: 'italic',
-      weight: '500',
-    },
-    {
-      path: '../public/fonts/inter/inter-latin-ext-700-italic.woff2',
-      style: 'italic',
-      weight: '700',
-    },
-  ],
-  variable: '--font-sans-font',
-  display: 'swap',
-  preload: false,
-  fallback: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-})
-
-const InriaSerif = localFont({
-  src: [
-    {
-      path: '../public/fonts/inria-serif/InriaSerif-Regular.ttf',
-      style: 'normal',
-      weight: '400',
-    },
-    {
-      path: '../public/fonts/inria-serif/InriaSerif-Light.ttf',
-      style: 'normal',
-      weight: '300',
-    },
-    {
-      path: '../public/fonts/inria-serif/InriaSerif-Bold.ttf',
-      style: 'normal',
-      weight: '700',
-    },
-    {
-      path: '../public/fonts/inria-serif/InriaSerif-Italic.ttf',
-      style: 'italic',
-      weight: '400',
-    },
-    {
-      path: '../public/fonts/inria-serif/InriaSerif-LightItalic.ttf',
-      style: 'italic',
-      weight: '300',
-    },
-    {
-      path: '../public/fonts/inria-serif/InriaSerif-BoldItalic.ttf',
-      style: 'italic',
-      weight: '700',
-    },
-  ],
-  variable: '--font-serif-font',
-  display: 'swap',
-  preload: false,
-  fallback: ['Inria Serif', 'Georgia', 'Times New Roman', 'serif'],
-})
-
+// Inter and Inria Serif used to load eagerly via next/font/local. Both
+// are now lazy-registered on-demand by ~/lib/dynamic-fonts when the
+// user picks a sans- or serif- preset in the FontStyle menu. Initial
+// page only ships JetBrains Mono Nerd.
 const JetBrainsMonoNerd = localFont({
   src: [
     {
@@ -150,7 +76,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html
-      className={`${InterSans.variable} ${InriaSerif.variable} ${JetBrainsMonoNerd.variable}`}
+      className={JetBrainsMonoNerd.variable}
       dir="ltr"
       lang="en"
       style={{ overflowY: 'scroll', scrollbarGutter: 'stable' }}

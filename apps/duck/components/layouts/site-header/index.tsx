@@ -12,9 +12,10 @@ import {
 import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import { Search, Type } from 'lucide-react'
-import Link from 'next/link'
 import dynamic from 'next/dynamic'
+import Link from 'next/link'
 import React from 'react'
+import { loadDynamicFont } from '~/lib/dynamic-fonts'
 import { siteConfig } from '~/config/site'
 import { HeaderContainer, HeaderRoot } from '../header-shell'
 import { ModeSwitcher } from '../mode-toggle'
@@ -71,10 +72,18 @@ function isFontPreset(value: unknown): value is FontPreset {
 }
 
 function applyFontPreset(preset: FontPreset) {
+  // Lazy-register the @font-face rules for the picked family. Mono is
+  // already loaded via next/font in the root layout.
+  if (preset.startsWith('sans')) {
+    loadDynamicFont('sans')
+  } else if (preset.startsWith('serif')) {
+    loadDynamicFont('serif')
+  }
+
   const family = preset.startsWith('sans')
-    ? 'var(--font-sans-font, "Inter"), ui-sans-serif, system-ui, sans-serif'
+    ? '"Inter", ui-sans-serif, system-ui, sans-serif'
     : preset.startsWith('serif')
-      ? 'var(--font-serif-font, "Inria Serif"), Georgia, "Times New Roman", serif'
+      ? '"Inria Serif", Georgia, "Times New Roman", serif'
       : 'var(--font-mono-font, "JetBrains Mono Nerd Font Mono"), "JetBrains Mono Nerd Font", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace'
   const familyVar = preset.startsWith('sans')
     ? '--font-sans-font'
