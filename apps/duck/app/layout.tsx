@@ -82,21 +82,104 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       style={{ overflowY: 'scroll', scrollbarGutter: 'stable' }}
       suppressHydrationWarning>
       <head>
+        {/* Single @graph entity bundle so Google can read Organization,
+            WebSite (with SearchAction → sitelinks search box),
+            SoftwareApplication, and SiteNavigationElement in one parse.
+            Sitelinks themselves are still earned, not declared, but
+            this gives Google the structure it needs to surface them. */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
               '@context': 'https://schema.org',
-              '@type': 'SoftwareApplication',
-              name: 'gentleduck/ui',
-              description: 'Headless primitives, styled components, a CLI, and pre-built blocks for React.',
-              applicationCategory: 'DeveloperApplication',
-              operatingSystem: 'Any',
-              offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-              url: 'https://ui.gentleduck.org',
-              author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },
-              license: 'https://opensource.org/licenses/MIT',
-              programmingLanguage: ['TypeScript', 'React'],
+              '@graph': [
+                {
+                  '@type': 'Organization',
+                  '@id': 'https://ui.gentleduck.org/#organization',
+                  name: 'gentleduck',
+                  alternateName: ['gentleduck/ui', 'gentleduck.org'],
+                  url: 'https://ui.gentleduck.org',
+                  logo: {
+                    '@type': 'ImageObject',
+                    url: 'https://ui.gentleduck.org/og/root.png',
+                    width: 1400,
+                    height: 628,
+                  },
+                  sameAs: [
+                    'https://github.com/gentleeduck/duck-ui',
+                    'https://x.com/wild_ducka',
+                    'https://opencollective.com/gentelduck',
+                  ],
+                  founder: {
+                    '@type': 'Person',
+                    name: 'Ahmed Ayob',
+                    url: 'https://github.com/wildduck2',
+                  },
+                },
+                {
+                  '@type': 'WebSite',
+                  '@id': 'https://ui.gentleduck.org/#website',
+                  url: 'https://ui.gentleduck.org',
+                  name: 'gentleduck',
+                  description:
+                    'The gentleduck ecosystem — UI components, headless primitives, a CLI, calendar engine, file uploads, structured logging, identity & access management, and project templates.',
+                  publisher: { '@id': 'https://ui.gentleduck.org/#organization' },
+                  inLanguage: 'en',
+                  potentialAction: {
+                    '@type': 'SearchAction',
+                    target: {
+                      '@type': 'EntryPoint',
+                      urlTemplate: 'https://ui.gentleduck.org/search?q={search_term_string}',
+                    },
+                    'query-input': 'required name=search_term_string',
+                  },
+                },
+                {
+                  '@type': 'SoftwareApplication',
+                  '@id': 'https://ui.gentleduck.org/#app',
+                  name: 'gentleduck/ui',
+                  description: 'Headless primitives, styled components, a CLI, and pre-built blocks for React.',
+                  applicationCategory: 'DeveloperApplication',
+                  operatingSystem: 'Any',
+                  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+                  url: 'https://ui.gentleduck.org',
+                  author: { '@id': 'https://ui.gentleduck.org/#organization' },
+                  license: 'https://opensource.org/licenses/MIT',
+                  programmingLanguage: ['TypeScript', 'React'],
+                },
+                {
+                  '@type': 'SiteNavigationElement',
+                  '@id': 'https://ui.gentleduck.org/#nav',
+                  name: [
+                    'Introduction',
+                    'Installation',
+                    'Packages',
+                    'Duck UI',
+                    'Duck Primitives',
+                    'Duck CLI',
+                    'Duck Calendar',
+                    'Duck Vim',
+                    'Skills',
+                    'MCP',
+                    'Changelog',
+                    'FAQs',
+                  ],
+                  url: [
+                    'https://ui.gentleduck.org/www/introduction',
+                    'https://ui.gentleduck.org/www/installation',
+                    'https://ui.gentleduck.org/www/packages',
+                    'https://ui.gentleduck.org/duck-ui',
+                    'https://ui.gentleduck.org/duck-primitives',
+                    'https://ui.gentleduck.org/duck-cli',
+                    'https://ui.gentleduck.org/duck-calendar',
+                    'https://ui.gentleduck.org/duck-vim',
+                    'https://ui.gentleduck.org/skills',
+                    'https://ui.gentleduck.org/mcp',
+                    'https://ui.gentleduck.org/www/changelog',
+                    'https://ui.gentleduck.org/www/faqs',
+                  ],
+                },
+              ],
             }),
           }}
         />
