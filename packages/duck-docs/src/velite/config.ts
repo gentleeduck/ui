@@ -26,6 +26,10 @@ const docSchema = () =>
       body: s.mdx(),
       component: s.boolean().default(false),
       content: s.markdown(),
+      // Raw mdx source. Served as text/markdown by /llm/[...slug] so
+      // "View as Markdown" returns the original document instead of
+      // the compiled HTML stored in `content`.
+      raw: s.raw(),
       description: s.string(),
       excerpt: s.excerpt(),
       links: s.object({ api: s.string().optional(), doc: s.string().optional() }).optional(),

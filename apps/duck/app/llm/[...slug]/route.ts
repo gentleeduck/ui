@@ -54,8 +54,12 @@ const allDocs = [
 function findDoc(slug: string[]): string | null {
   const path = slug.join('/')
   const candidates = [path, `${path}/index`]
-  const doc = allDocs.find((d) => candidates.includes(d.permalink))
-  return doc?.content ?? null
+  const doc = allDocs.find((d) => candidates.includes(d.permalink)) as
+    | { raw?: string; content?: string }
+    | undefined
+  // `raw` is the original mdx source. Fall back to `content` (compiled
+  // markdown HTML) if a collection predates the raw field.
+  return doc?.raw ?? doc?.content ?? null
 }
 
 export async function generateStaticParams() {
