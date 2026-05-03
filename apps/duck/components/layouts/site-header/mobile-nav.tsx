@@ -38,7 +38,7 @@ export function MobileNav() {
           <DrawerTitle>Site navigation</DrawerTitle>
         </DrawerHeader>
         <ScrollArea>
-          <nav aria-label="Site" className="hide-scroll my-4 h-[calc(100vh-8rem)] pb-10 pl-6 pr-4">
+          <nav aria-label="Site" className="hide-scroll my-4 h-[calc(100vh-8rem)] pr-4 pb-10 pl-6">
             <ul className="flex flex-col gap-6">
               {(navItems as NavItemType[]).map((item) => (
                 <MobileNavSection key={item.href ?? item.title} item={item} onClose={() => setOpen(false)} />
@@ -68,10 +68,7 @@ function MobileNavSection({ item, onClose }: { item: NavItemType; onClose: () =>
   return (
     <li>
       <div className="mb-2 flex items-center justify-between">
-        <MobileLink
-          className="font-semibold text-base text-foreground"
-          href={item.href ?? '#'}
-          onOpenChange={onClose}>
+        <MobileLink className="font-semibold text-base text-foreground" href={item.href ?? '#'} onOpenChange={onClose}>
           {item.title}
         </MobileLink>
       </div>
