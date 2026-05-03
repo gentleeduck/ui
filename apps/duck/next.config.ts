@@ -95,6 +95,30 @@ const nextConfig: NextConfig = {
     // Trade-off: per-page HTML grows by the size of the route's CSS;
     // acceptable for a docs site that already pre-renders every page.
     inlineCss: true,
+    // Rewrite barrel imports for these packages so Next ships only the
+    // referenced symbols. Cuts the "unused JavaScript" Lighthouse hit
+    // on the shared chunks (lucide alone is ~30 KB unused per route).
+    optimizePackageImports: [
+      'lucide-react',
+      'jotai',
+      'jotai/utils',
+      'motion',
+      'motion/react',
+      '@tanstack/react-table',
+      '@tanstack/react-virtual',
+      'recharts',
+      'date-fns',
+      'culori',
+      'next-themes',
+      'sonner',
+      'react-resizable-panels',
+      'react-markdown',
+      '@gentleduck/registry-ui',
+      '@gentleduck/registry-blocks',
+      '@gentleduck/registry-examples',
+      '@gentleduck/primitives',
+      '@gentleduck/hooks',
+    ],
     // swcPlugins: [['@lingui/swc-plugin', {}]],
   },
   productionBrowserSourceMaps: false,
