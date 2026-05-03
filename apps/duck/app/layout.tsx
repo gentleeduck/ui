@@ -18,6 +18,11 @@ import { siteConfig } from '~/config/site'
 // are now lazy-registered on-demand by ~/lib/dynamic-fonts when the
 // user picks a sans- or serif- preset in the FontStyle menu. Initial
 // page only ships JetBrains Mono Nerd.
+// Trimmed to three weights — Regular, Bold, Italic — to keep the
+// initial font payload manageable. The TTFs are ~2.4 MB each (full
+// Nerd Font glyph set), so each dropped weight saves ~1.3 MB on the
+// wire post-subsetting. 500 / 500-italic / 700-italic referenced an
+// emphasis story we don't actually use at the chrome layer.
 const JetBrainsMonoNerd = localFont({
   src: [
     {
@@ -31,24 +36,9 @@ const JetBrainsMonoNerd = localFont({
       weight: '700',
     },
     {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Medium.ttf',
-      style: 'normal',
-      weight: '500',
-    },
-    {
       path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Italic.ttf',
       style: 'italic',
       weight: '400',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-MediumItalic.ttf',
-      style: 'italic',
-      weight: '500',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-BoldItalic.ttf',
-      style: 'italic',
-      weight: '700',
     },
   ],
   variable: '--font-mono-font',

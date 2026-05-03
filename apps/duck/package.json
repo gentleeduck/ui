@@ -91,5 +91,13 @@
     "start": "next start --port 3008",
     "preview": "next build && next start"
   },
+  "browserslist": [
+    "Chrome >= 110",
+    "Edge >= 110",
+    "Firefox >= 110",
+    "Safari >= 16",
+    "iOS >= 16",
+    "ChromeAndroid >= 110"
+  ],
   "version": "3.0.21"
 }
