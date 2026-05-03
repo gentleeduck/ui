@@ -90,9 +90,11 @@ const nextConfig: NextConfig = {
     // the 8 GB Netlify build sandbox and SIGKILL.
     cpus: 4,
     workerThreads: false,
-    // Inline critical CSS in the HTML and async-load the rest. Cuts
-    // unused-CSS bytes on first paint.
-    optimizeCss: true,
+    // Inline ALL CSS directly into the HTML. Removes the
+    // render-blocking <link rel="stylesheet"> tags Lighthouse flags.
+    // Trade-off: per-page HTML grows by the size of the route's CSS;
+    // acceptable for a docs site that already pre-renders every page.
+    inlineCss: true,
     // swcPlugins: [['@lingui/swc-plugin', {}]],
   },
   productionBrowserSourceMaps: false,
