@@ -26,17 +26,17 @@ import { siteConfig } from '~/config/site'
 const JetBrainsMonoNerd = localFont({
   src: [
     {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Regular.ttf',
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Regular.woff2',
       style: 'normal',
       weight: '400',
     },
     {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Bold.ttf',
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Bold.woff2',
       style: 'normal',
       weight: '700',
     },
     {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Italic.ttf',
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Italic.woff2',
       style: 'italic',
       weight: '400',
     },
@@ -243,30 +243,23 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     family = 'var(--font-mono-font, "JetBrains Mono Nerd Font Mono"), "JetBrains Mono Nerd Font", "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace';
                   }
                   var style = preset.indexOf('-italic') > -1 ? 'italic' : 'normal';
-                  var warmUpFont = function () {
-                    if (!document.fonts || !document.fonts.load) return;
-                    try {
-                      var computed = getComputedStyle(document.documentElement);
-                      var familyToken = computed.getPropertyValue(familyVar).trim();
-                      if (!familyToken) return;
-                      var stylePrefix = style === 'italic' ? 'italic ' : '';
-                      document.fonts.load(stylePrefix + '400 1em ' + familyToken).catch(function(){});
-                      document.fonts.load(stylePrefix + '500 1em ' + familyToken).catch(function(){});
-                      document.fonts.load(stylePrefix + '700 1em ' + familyToken).catch(function(){});
-                    } catch (e) {}
-                  };
                   var applyPresetStyles = function () {
+                    // Single write batch — never read computed styles
+                    // back, otherwise the browser forces a synchronous
+                    // reflow before the next paint (Lighthouse "Forced
+                    // reflow" hit).
+                    var rootStyle = document.documentElement.style;
                     document.documentElement.setAttribute('data-font-preset', preset);
-                    document.documentElement.style.setProperty('--duck-font-family', family);
-                    document.documentElement.style.setProperty('--font-sans', family);
-                    document.documentElement.style.setProperty('--font-mono', family);
-                    document.documentElement.style.setProperty('font-family', family, 'important');
-                    document.documentElement.style.setProperty('font-style', style, 'important');
+                    rootStyle.setProperty('--duck-font-family', family);
+                    rootStyle.setProperty('--font-sans', family);
+                    rootStyle.setProperty('--font-mono', family);
+                    rootStyle.setProperty('font-family', family, 'important');
+                    rootStyle.setProperty('font-style', style, 'important');
                     if (document.body) {
-                      document.body.style.setProperty('font-family', family, 'important');
-                      document.body.style.setProperty('font-style', style, 'important');
+                      var bodyStyle = document.body.style;
+                      bodyStyle.setProperty('font-family', family, 'important');
+                      bodyStyle.setProperty('font-style', style, 'important');
                     }
-                    warmUpFont();
                   };
                   applyPresetStyles();
                   if (!document.body) {

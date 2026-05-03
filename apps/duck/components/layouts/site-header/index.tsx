@@ -92,36 +92,24 @@ function applyFontPreset(preset: FontPreset) {
       : '--font-mono-font'
   const style = preset.endsWith('italic') ? 'italic' : 'normal'
 
+  // Single write batch. Never read getComputedStyle here — that would
+  // force a synchronous reflow before the next paint.
+  const rootStyle = document.documentElement.style
   document.documentElement.setAttribute('data-font-preset', preset)
-  const warmUpFont = () => {
-    if (!document.fonts?.load) {
-      return
-    }
-    try {
-      const familyToken = getComputedStyle(document.documentElement).getPropertyValue(familyVar).trim()
-      if (!familyToken) {
-        return
-      }
-      const stylePrefix = style === 'italic' ? 'italic ' : ''
-      void document.fonts.load(`${stylePrefix}400 1em ${familyToken}`)
-      void document.fonts.load(`${stylePrefix}500 1em ${familyToken}`)
-      void document.fonts.load(`${stylePrefix}700 1em ${familyToken}`)
-    } catch {
-      // Ignore font prewarm failures and let normal rendering fallback.
-    }
-  }
-
-  document.documentElement.style.setProperty('--duck-font-family', family)
-  document.documentElement.style.setProperty('--font-sans', family)
-  document.documentElement.style.setProperty('--font-mono', family)
-  document.documentElement.style.setProperty('font-family', family, 'important')
-  document.documentElement.style.setProperty('font-style', style, 'important')
-  document.documentElement.style.setProperty('--duck-font-style', style)
+  rootStyle.setProperty('--duck-font-family', family)
+  rootStyle.setProperty('--font-sans', family)
+  rootStyle.setProperty('--font-mono', family)
+  rootStyle.setProperty('font-family', family, 'important')
+  rootStyle.setProperty('font-style', style, 'important')
+  rootStyle.setProperty('--duck-font-style', style)
   if (document.body) {
-    document.body.style.setProperty('font-family', family, 'important')
-    document.body.style.setProperty('font-style', style, 'important')
+    const bodyStyle = document.body.style
+    bodyStyle.setProperty('font-family', family, 'important')
+    bodyStyle.setProperty('font-style', style, 'important')
   }
-  warmUpFont()
+  // unused: family var is now resolved up front, so no need to peek
+  // computed styles for warm-up.
+  void familyVar
 }
 
 export function SiteHeader() {

@@ -77,8 +77,8 @@
     "access": "restricted"
   },
   "scripts": {
-    "build": "MODE=\"production\" next build --webpack",
-    "build:prod": "next build --webpack",
+    "build": "MODE=\"production\" next build",
+    "build:prod": "next build",
     "build:docs": "velite && node scripts/build-search-index.mjs",
     "build:reg": "bun run build:reg:cli && bun run format:reg",
     "build:reg:cli": "registry-build build",
