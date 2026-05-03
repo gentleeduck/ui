@@ -8,8 +8,17 @@ import { PanelsTopLeft } from 'lucide-react'
 import Link, { type LinkProps } from 'next/link'
 import { usePathname } from 'next/navigation'
 import * as React from 'react'
-import { docsConfig } from '~/config/docs'
-import type { ISidebarNavItem } from '~/types/nav'
+import { navItems } from '~/config/docs'
+import type { PackageLifecycleStatus } from '~/config/package-status'
+import type { IMainNavItem } from '~/types/nav'
+
+type NavItemType = IMainNavItem & {
+  icon?: React.ElementType
+  color?: string
+  description?: string
+  status?: PackageLifecycleStatus
+  items?: NavItemType[]
+}
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
@@ -29,73 +38,86 @@ export function MobileNav() {
           <DrawerTitle>Site navigation</DrawerTitle>
         </DrawerHeader>
         <ScrollArea>
-          <div className="hide-scroll my-4 h-[calc(100vh-8rem)] pb-10 pl-6">
-            <div className="flex flex-col space-y-3">
-              {docsConfig.mainNav?.map(
-                (item) =>
-                  item.href && (
-                    <MobileLink href={item.href} key={item.href} onOpenChange={setOpen}>
-                      {item.title}
-                    </MobileLink>
-                  ),
-              )}
-            </div>
-            <div className="flex flex-col space-y-2">
-              {docsConfig.sidebarNav.map((item) => (
-                <div className="flex flex-col space-y-3 pt-6" key={item.title}>
-                  <h4 className="font-medium">{item.title}</h4>
-                  <MobileSidebarNavItems items={item.items ?? []} onOpenChange={setOpen} />
-                </div>
+          <nav aria-label="Site" className="hide-scroll my-4 h-[calc(100vh-8rem)] pb-10 pl-6 pr-4">
+            <ul className="flex flex-col gap-6">
+              {(navItems as NavItemType[]).map((item) => (
+                <MobileNavSection key={item.href ?? item.title} item={item} onClose={() => setOpen(false)} />
               ))}
-            </div>
-          </div>
+            </ul>
+          </nav>
         </ScrollArea>
       </DrawerContent>
     </Drawer>
   )
 }
 
-function MobileSidebarNavItems({
-  items,
-  onOpenChange,
-  depth = 0,
-}: {
-  items: ISidebarNavItem[]
-  onOpenChange: (open: boolean) => void
-  depth?: number
-}) {
-  if (!items.length) {
-    return null
+function MobileNavSection({ item, onClose }: { item: NavItemType; onClose: () => void }) {
+  if (!item.items?.length) {
+    return (
+      <li>
+        <MobileLink
+          className="block py-1 font-semibold text-base text-foreground"
+          href={item.href ?? '#'}
+          onOpenChange={onClose}>
+          {item.title}
+        </MobileLink>
+      </li>
+    )
   }
 
   return (
-    <div className={cn('flex flex-col space-y-2', depth > 0 && 'ml-4 border-l pl-3')}>
-      {items.map((item, index) => {
-        const key = item.href ?? `${depth}-${index}-${item.title}`
-        const hasChildren = Boolean(item.items?.length)
-
-        return (
-          <div className="flex flex-col space-y-2" key={key}>
-            {!item.disabled &&
-              (item.href ? (
-                <MobileLink className="text-muted-foreground" href={item.href} onOpenChange={onOpenChange}>
-                  {item.title}
-                  {item.label && (
-                    <span className="ml-2 rounded-md bg-primary px-1.5 py-0.5 text-accent text-xs leading-none no-underline group-hover:no-underline">
-                      {item.label}
+    <li>
+      <div className="mb-2 flex items-center justify-between">
+        <MobileLink
+          className="font-semibold text-base text-foreground"
+          href={item.href ?? '#'}
+          onOpenChange={onClose}>
+          {item.title}
+        </MobileLink>
+      </div>
+      <ul className="flex flex-col gap-1">
+        {item.items.map((sub) => (
+          <li key={sub.href ?? sub.title}>
+            <MobileLink
+              className="flex items-start gap-3 rounded-md px-2 py-2 text-sm transition-colors hover:bg-accent"
+              href={sub.href ?? '#'}
+              onOpenChange={onClose}>
+              <NavIcon icon={sub.icon} color={sub.color} />
+              <span className="min-w-0 flex-1">
+                <span className="flex flex-wrap items-center gap-1.5">
+                  <span className="font-medium text-foreground text-sm leading-tight">{sub.title}</span>
+                  {sub.status && (
+                    <span className="rounded-full border border-border bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground uppercase tracking-wide">
+                      {sub.status}
                     </span>
                   )}
-                </MobileLink>
-              ) : (
-                <p className="text-muted-foreground text-sm">{item.title}</p>
-              ))}
-            {hasChildren && (
-              <MobileSidebarNavItems depth={depth + 1} items={item.items ?? []} onOpenChange={onOpenChange} />
-            )}
-          </div>
-        )
-      })}
-    </div>
+                </span>
+                {sub.description && (
+                  <span className="mt-0.5 line-clamp-2 block text-muted-foreground text-xs leading-snug">
+                    {sub.description}
+                  </span>
+                )}
+              </span>
+            </MobileLink>
+          </li>
+        ))}
+      </ul>
+    </li>
+  )
+}
+
+function NavIcon({ icon: Icon, color }: { icon?: React.ElementType; color?: string }) {
+  if (!Icon) return null
+  return (
+    <span
+      aria-hidden="true"
+      className="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md"
+      style={{
+        background: color ? `${color}1f` : 'rgba(255,255,255,0.06)',
+        border: `1px solid ${color ? `${color}40` : 'rgba(255,255,255,0.1)'}`,
+      }}>
+      <Icon className="h-3.5 w-3.5" style={{ color: color ?? '#fff' }} />
+    </span>
   )
 }
 
