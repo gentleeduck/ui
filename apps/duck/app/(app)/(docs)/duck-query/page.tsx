@@ -80,7 +80,7 @@ export default async function DuckQueryPage() {
     lang: 'typescript',
     themes: {
       dark: 'catppuccin-macchiato',
-      light: 'catppuccin-mocha',
+      light: 'github-light',
     },
     transformers: [
       {

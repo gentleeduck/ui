@@ -72,7 +72,7 @@ export default async function DuckVimPage() {
     lang: 'bash',
     themes: {
       dark: 'catppuccin-macchiato',
-      light: 'catppuccin-mocha',
+      light: 'github-light',
     },
     transformers: [
       {

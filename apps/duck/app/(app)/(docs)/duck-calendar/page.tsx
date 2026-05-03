@@ -76,7 +76,7 @@ export default async function DuckCalendarPage() {
     lang: 'bash',
     themes: {
       dark: 'catppuccin-macchiato',
-      light: 'catppuccin-mocha',
+      light: 'github-light',
     },
     transformers: [
       {

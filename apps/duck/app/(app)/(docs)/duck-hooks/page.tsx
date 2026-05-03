@@ -72,7 +72,7 @@ export default async function DuckHooksPage() {
     lang: 'bash',
     themes: {
       dark: 'catppuccin-macchiato',
-      light: 'catppuccin-mocha',
+      light: 'github-light',
     },
     transformers: [
       {

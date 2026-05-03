@@ -99,7 +99,7 @@ export default async function McpPage() {
     lang: 'bash',
     themes: {
       dark: 'catppuccin-macchiato',
-      light: 'catppuccin-mocha',
+      light: 'github-light',
     },
     transformers: [
       {

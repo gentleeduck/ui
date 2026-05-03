@@ -73,7 +73,7 @@ export default async function DuckVariantsPage() {
     lang: 'bash',
     themes: {
       dark: 'catppuccin-macchiato',
-      light: 'catppuccin-mocha',
+      light: 'github-light',
     },
     transformers: [
       {
