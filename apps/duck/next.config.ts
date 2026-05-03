@@ -6,9 +6,37 @@ const currentDir = path.dirname(fileURLToPath(import.meta.url))
 const monorepoRoot = path.join(currentDir, '../..')
 
 const nextConfig: NextConfig = {
-  output: 'standalone',
   devIndicators: false,
   outputFileTracingRoot: monorepoRoot,
+  // Trim what the @netlify/plugin-nextjs serverless function ships so it
+  // stays under the 250 MB Lambda limit. Anything not actually imported by
+  // the runtime route handlers gets excluded from file tracing.
+  outputFileTracingExcludes: {
+    '*': [
+      '**/node_modules/@swc/core-linux-x64-gnu/**',
+      '**/node_modules/@swc/core-linux-x64-musl/**',
+      '**/node_modules/@esbuild/**',
+      '**/node_modules/esbuild/**',
+      '**/node_modules/typescript/**',
+      '**/node_modules/webpack/**',
+      '**/node_modules/terser/**',
+      '**/node_modules/@biomejs/**',
+      '**/node_modules/sherif/**',
+      '**/node_modules/turbo/**',
+      '**/node_modules/velite/**',
+      '**/node_modules/shiki/**',
+      '**/node_modules/@shikijs/**',
+      '**/node_modules/rehype-*/**',
+      '**/node_modules/remark-*/**',
+      '**/node_modules/puppeteer/**',
+      '**/.next/cache/**',
+      '**/packages/_oldstuff_refactor/**',
+      '**/packages/wip/**',
+      '**/packages/deprecated/**',
+      '**/apps/benchmark/**',
+      '**/apps/duck-extension/**',
+    ],
+  },
   turbopack: {
     root: monorepoRoot,
   },
