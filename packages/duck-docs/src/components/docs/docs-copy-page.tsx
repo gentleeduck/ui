@@ -188,7 +188,7 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
           <DropdownMenuTrigger asChild className="hidden sm:flex">
             {trigger}
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="animate-none! rounded-lg shadow-none">
+          <DropdownMenuContent align="end" className="animate-none! not-italic rounded-lg shadow-none [&_*]:not-italic">
             {Object.entries(menuItems).map(([key, value]) => (
               <DropdownMenuItem asChild key={key}>
                 {value(key === 'markdown' ? pathname : resolvedUrl, siteName)}
@@ -207,7 +207,7 @@ export function DocsCopyPage({ page, url }: { page: string; url: string }) {
         </PopoverTrigger>
         <PopoverContent
           align="start"
-          className="!origin-center w-52 rounded-lg bg-background/70 p-1 shadow-none backdrop-blur-sm dark:bg-background/60">
+          className="!origin-center w-52 not-italic rounded-lg bg-background/70 p-1 shadow-none backdrop-blur-sm [&_*]:not-italic dark:bg-background/60">
           {Object.entries(menuItems).map(([key, value]) => (
             <Button
               asChild

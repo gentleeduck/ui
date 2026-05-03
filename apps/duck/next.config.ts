@@ -184,8 +184,11 @@ const nextConfig: NextConfig = {
   },
   rewrites: async () => {
     return [
+      // Any *.md URL (e.g. /duck-ui/components/calendar.md) serves the
+      // pre-rendered markdown source via the /llm/[...slug] route. Used
+      // by the "View as Markdown" item in the Copy Page dropdown.
       {
-        source: '/docs/:path*.md',
+        source: '/:path*.md',
         destination: '/llm/:path*',
       },
     ]

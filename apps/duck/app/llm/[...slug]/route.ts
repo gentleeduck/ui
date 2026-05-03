@@ -1,17 +1,65 @@
-import { docs } from '../../../.velite'
+import {
+  docs,
+  duckCalendar,
+  duckCli,
+  duckGen,
+  duckHooks,
+  duckIam,
+  duckLazy,
+  duckLibs,
+  duckMotion,
+  duckPrimitives,
+  duckQuery,
+  duckRegistryBuild,
+  duckShortcut,
+  duckState,
+  duckTemplate,
+  duckTtest,
+  duckTtlog,
+  duckUi,
+  duckUpload,
+  duckVariants,
+  duckVim,
+  www,
+} from '../../../.velite'
 
 export const dynamic = 'force-static'
 export const dynamicParams = false
 
+const allDocs = [
+  ...docs,
+  ...duckCalendar,
+  ...duckCli,
+  ...duckGen,
+  ...duckHooks,
+  ...duckIam,
+  ...duckLazy,
+  ...duckLibs,
+  ...duckMotion,
+  ...duckPrimitives,
+  ...duckQuery,
+  ...duckRegistryBuild,
+  ...duckShortcut,
+  ...duckState,
+  ...duckTemplate,
+  ...duckTtest,
+  ...duckTtlog,
+  ...duckUi,
+  ...duckUpload,
+  ...duckVariants,
+  ...duckVim,
+  ...www,
+]
+
 function findDoc(slug: string[]): string | null {
   const path = slug.join('/')
   const candidates = [path, `${path}/index`]
-  const doc = docs.find((d) => candidates.includes(d.permalink))
+  const doc = allDocs.find((d) => candidates.includes(d.permalink))
   return doc?.content ?? null
 }
 
 export async function generateStaticParams() {
-  return docs.map((doc) => ({ slug: doc.permalink.replace(/\/index$/, '').split('/') }))
+  return allDocs.map((doc) => ({ slug: doc.permalink.replace(/\/index$/, '').split('/') }))
 }
 
 export async function GET(_request: Request, context: { params: Promise<{ slug: string[] }> }) {
