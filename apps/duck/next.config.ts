@@ -13,23 +13,61 @@ const nextConfig: NextConfig = {
   // the runtime route handlers gets excluded from file tracing.
   outputFileTracingExcludes: {
     '*': [
+      // Build-time toolchains never run at request time.
       '**/node_modules/@swc/core-linux-x64-gnu/**',
       '**/node_modules/@swc/core-linux-x64-musl/**',
+      '**/node_modules/@swc/core-darwin-*/**',
+      '**/node_modules/@swc/core-win32-*/**',
       '**/node_modules/@esbuild/**',
       '**/node_modules/esbuild/**',
       '**/node_modules/typescript/**',
       '**/node_modules/webpack/**',
+      '**/node_modules/webpack-*/**',
       '**/node_modules/terser/**',
       '**/node_modules/@biomejs/**',
       '**/node_modules/sherif/**',
       '**/node_modules/turbo/**',
+      '**/node_modules/turbo-*/**',
       '**/node_modules/velite/**',
       '**/node_modules/shiki/**',
       '**/node_modules/@shikijs/**',
       '**/node_modules/rehype-*/**',
       '**/node_modules/remark-*/**',
+      '**/node_modules/unified/**',
+      '**/node_modules/mdast-util-*/**',
+      '**/node_modules/hast-util-*/**',
+      '**/node_modules/@mdx-js/**',
       '**/node_modules/puppeteer/**',
+      '**/node_modules/puppeteer-*/**',
+      '**/node_modules/@puppeteer/**',
+      '**/node_modules/sharp/**',
+      '**/node_modules/canvas/**',
+      // 3D/animation libs that no app/component code imports.
+      '**/node_modules/three/**',
+      '**/node_modules/@splinetool/**',
+      '**/node_modules/@rive-app/**',
+      '**/node_modules/@google/generative-ai/**',
+      // Heavy client-only libraries that should never end up in the
+      // server bundle. They are still served as static assets to the
+      // browser via the per-page chunks.
+      '**/node_modules/recharts/**',
+      '**/node_modules/three-stdlib/**',
+      '**/node_modules/lucide-react/dist/cjs/**',
+      // Source registries that are transpiled into the build output.
+      '**/packages/registry-blocks/**',
+      '**/packages/registry-examples/**',
+      '**/packages/registry-internals/**',
+      '**/packages/registry-ui/**',
+      // Test files that occasionally land in the trace.
+      '**/__test__/**',
+      '**/*.test.ts',
+      '**/*.test.tsx',
+      // Build caches and workspace dirs that aren't shipped.
       '**/.next/cache/**',
+      // The velite collections are already inlined into webpack chunks
+      // (`with { type: 'json' }`); the raw JSON is a duplicate.
+      '**/.velite/*.json',
+      '**/.velite/index.js.map',
       '**/packages/_oldstuff_refactor/**',
       '**/packages/wip/**',
       '**/packages/deprecated/**',
@@ -37,6 +75,10 @@ const nextConfig: NextConfig = {
       '**/apps/duck-extension/**',
     ],
   },
+  // Keep these packages external in the server bundle so they load from
+  // node_modules at request time instead of being inlined into the Lambda
+  // by Webpack.
+  serverExternalPackages: ['@modelcontextprotocol/sdk', 'lunr', 'puppeteer'],
   turbopack: {
     root: monorepoRoot,
   },
