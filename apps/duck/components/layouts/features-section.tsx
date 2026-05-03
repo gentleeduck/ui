@@ -56,8 +56,8 @@ function VariantsIllustration() {
       {/* controls panel */}
       <div className="border-border/40 border-t bg-muted/20 px-4 py-3">
         <div className="mb-2 flex items-center justify-between">
-          <span className="font-mono text-[9px] text-muted-foreground/50 uppercase tracking-widest">Controls</span>
-          <span className="font-mono text-[9px] text-muted-foreground/30">variant</span>
+          <span className="font-mono text-[9px] text-muted-foreground/80 uppercase tracking-widest">Controls</span>
+          <span className="font-mono text-[9px] text-muted-foreground/70">variant</span>
         </div>
         <div className="grid grid-cols-3 gap-x-3 gap-y-1.5">
           {VARIANT_CONTROLS.map((v, i) => (
@@ -70,7 +70,7 @@ function VariantsIllustration() {
                 )}
               />
               <span
-                className={cn('font-mono text-[9.5px]', i === 0 ? 'text-foreground/80' : 'text-muted-foreground/45')}>
+                className={cn('font-mono text-[9.5px]', i === 0 ? 'text-foreground/90' : 'text-muted-foreground/75')}>
                 {v.name}
               </span>
             </div>
@@ -103,7 +103,7 @@ function UploadIllustration() {
               <span className="rounded bg-muted/60 px-1.5 py-0.5 font-mono font-semibold text-[9px] text-muted-foreground uppercase">
                 {f.ext}
               </span>
-              <span className="flex-1 truncate font-medium text-[11px] text-foreground/80">{f.name}</span>
+              <span className="flex-1 truncate font-medium text-[11px] text-foreground/90">{f.name}</span>
               <span className="text-[10px] text-muted-foreground tabular-nums">{f.size}</span>
               {f.done && (
                 <svg className="h-3 w-3 text-foreground/60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -139,14 +139,14 @@ function PrimitivesIllustration() {
           <div className="h-3.5 w-3.5 rounded-sm border border-border/50 bg-muted/50" />
           <span className="font-medium text-[11px] text-foreground/70">{PRIMITIVE_ITEMS[0].name}</span>
         </div>
-        <svg className="h-3.5 w-3.5 text-muted-foreground/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="h-3.5 w-3.5 text-muted-foreground/80" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </div>
 
       <div className="w-full overflow-hidden rounded-lg border border-border/60 bg-card shadow-xl">
         <div className="px-3 pt-2 pb-1">
-          <span className="font-mono text-[9px] text-muted-foreground/40 uppercase tracking-widest">Primitives</span>
+          <span className="font-mono text-[9px] text-muted-foreground/70 uppercase tracking-widest">Primitives</span>
         </div>
         <div className="px-1.5 pb-1.5">
           {PRIMITIVE_ITEMS.map((item, i) => {
@@ -165,11 +165,11 @@ function PrimitivesIllustration() {
                 <span
                   className={cn(
                     'flex-1 text-[11px]',
-                    isSelected ? 'font-medium text-foreground/90' : 'text-foreground/50',
+                    isSelected ? 'font-medium text-foreground/90' : 'text-foreground/75',
                   )}>
                   {item.name}
                 </span>
-                <span className="rounded bg-muted/60 px-1.5 py-0.5 font-mono text-[8.5px] text-muted-foreground/50">
+                <span className="rounded bg-muted/60 px-1.5 py-0.5 font-mono text-[8.5px] text-muted-foreground/80">
                   {item.badge}
                 </span>
               </div>
@@ -241,13 +241,13 @@ function TreeRow({ node, depth }: { node: TreeNode; depth: number }) {
     <>
       <div className="flex items-center gap-1.5 rounded px-1.5 py-0.75" style={{ paddingLeft: `${8 + depth * 14}px` }}>
         {node.type === 'folder' ? (
-          <FolderOpen className="h-3.5 w-3.5 shrink-0 text-muted-foreground/50" />
+          <FolderOpen className="h-3.5 w-3.5 shrink-0 text-muted-foreground/80" />
         ) : (
           <FileCode2
-            className={cn('h-3.5 w-3.5 shrink-0', node.isNew ? 'text-emerald-500' : 'text-muted-foreground/35')}
+            className={cn('h-3.5 w-3.5 shrink-0', node.isNew ? 'text-emerald-500' : 'text-muted-foreground/70')}
           />
         )}
-        <span className={cn('font-mono text-[10.5px]', node.isNew ? 'text-emerald-400' : 'text-muted-foreground/60')}>
+        <span className={cn('font-mono text-[10.5px]', node.isNew ? 'text-emerald-300' : 'text-muted-foreground/85')}>
           {node.name}
         </span>
         {node.isNew && (
@@ -268,7 +268,7 @@ function CliIllustration() {
     <div className="flex h-full flex-col justify-center gap-3 px-5 py-4">
       <div className="flex items-center gap-2 rounded-lg border border-border/40 bg-muted/20 px-3 py-2">
         <span className="rounded bg-primary/15 px-1.5 py-0.5 font-mono text-[9px] text-primary">bunx</span>
-        <span className="font-mono text-[10px] text-muted-foreground/60">@gentleduck/cli add</span>
+        <span className="font-mono text-[10px] text-muted-foreground/85">@gentleduck/cli add</span>
         <span className="font-mono text-[10px] text-foreground/70">button dialog sheet</span>
       </div>
 
@@ -281,7 +281,7 @@ function CliIllustration() {
       <div className="flex items-center gap-1.5 font-mono text-[10px]">
         <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
         <span className="text-emerald-500">3 components added</span>
-        <span className="ml-auto text-muted-foreground/40">381ms</span>
+        <span className="ml-auto text-muted-foreground/70">381ms</span>
       </div>
     </div>
   )
