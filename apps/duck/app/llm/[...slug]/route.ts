@@ -98,7 +98,8 @@ function extractAttr(tag: string, name: string): string | null {
   return m?.[1] ?? null
 }
 
-const PREVIEW_TAG = /<(ComponentPreview|ComponentSource)\b([^>]*?)\/>|<(ComponentPreview|ComponentSource)\b([^>]*?)>([\s\S]*?)<\/\3>/g
+const PREVIEW_TAG =
+  /<(ComponentPreview|ComponentSource)\b([^>]*?)\/>|<(ComponentPreview|ComponentSource)\b([^>]*?)>([\s\S]*?)<\/\3>/g
 
 function inlineComponentSources(body: string): string {
   return body.replace(PREVIEW_TAG, (_match, _selfTag, selfAttrs, _pairTag, pairAttrs) => {
@@ -111,7 +112,19 @@ function inlineComponentSources(body: string): string {
 }
 
 function stripRemainingJsx(body: string): string {
-  const unwrap = ['Tabs', 'TabsList', 'TabsTrigger', 'TabsContent', 'Steps', 'Step', 'Callout', 'Accordion', 'AccordionItem', 'AccordionTrigger', 'AccordionContent']
+  const unwrap = [
+    'Tabs',
+    'TabsList',
+    'TabsTrigger',
+    'TabsContent',
+    'Steps',
+    'Step',
+    'Callout',
+    'Accordion',
+    'AccordionItem',
+    'AccordionTrigger',
+    'AccordionContent',
+  ]
   const remove = ['MermaidDiagram', 'LinkedCard']
 
   let out = body.replace(/^import\s+.*$/gm, '')
@@ -161,9 +174,7 @@ const allDocs = [
 function findDoc(slug: string[]): string | null {
   const path = slug.join('/')
   const candidates = [path, `${path}/index`]
-  const doc = allDocs.find((d) => candidates.includes(d.permalink)) as
-    | { raw?: string; content?: string }
-    | undefined
+  const doc = allDocs.find((d) => candidates.includes(d.permalink)) as { raw?: string; content?: string } | undefined
   const source = doc?.raw ?? doc?.content
   return source ? transform(source) : null
 }
