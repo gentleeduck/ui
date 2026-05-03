@@ -52,6 +52,7 @@
     "@types/node": "catalog:",
     "@types/react": "catalog:react19",
     "@types/react-dom": "catalog:react19",
+    "critters": "^0.0.25",
     "puppeteer": "^24.40.0",
     "tailwindcss": "^4.2.0",
     "ts-morph": "^27.0.2",

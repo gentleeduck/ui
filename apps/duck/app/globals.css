@@ -10,7 +10,6 @@
 @source "../node_modules/@gentleduck/registry-examples/src/";
 @source "../node_modules/@gentleduck/docs/src/";
 @source "../node_modules/@gentleduck/lazy/src/";
-@source "../../../packages/wip/_oldstuff_refactor/ui/";
 @source "../node_modules/@gentleduck/motion/src/";
 
 /* html overflow-y:scroll keeps scrollbar always — cancel react-remove-scroll-bar's incorrect compensation.

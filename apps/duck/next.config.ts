@@ -90,6 +90,9 @@ const nextConfig: NextConfig = {
     // the 8 GB Netlify build sandbox and SIGKILL.
     cpus: 4,
     workerThreads: false,
+    // Inline critical CSS in the HTML and async-load the rest. Cuts
+    // unused-CSS bytes on first paint.
+    optimizeCss: true,
     // swcPlugins: [['@lingui/swc-plugin', {}]],
   },
   productionBrowserSourceMaps: false,
