@@ -1,0 +1,138 @@
+}>
+
+registry-build is optimized for repeated local runs. Warm builds avoid touching
+unchanged files, skip re-reading unchanged source content, and report real rewritten
+file counts in the summary table.
+
+## What is optimized
+
+The performance model focuses on five things:
+
+1. file-hash caching
+2. skip writing identical files
+3. incremental index and component rebuilds
+4. bounded concurrent work
+5. changed-only local rebuild mode
+
+---
+
+## Cache location
+
+By default, the builder writes cache state to:
+
+```text
+
+On warm runs the builder:
+
+- Reuses cached file hashes when mtime and size are unchanged.
+- Reuses cached index entries when signatures match.
+- Reuses cached component payload decisions when signatures match.
+- Skips component-index and colors writes when generated output is unchanged.
+- Removes stale generated files when previous outputs disappear from the current
+  build.
+
+---
+
+## `--changed-only`
+
+Use this for local iterative rebuilds when you want the builder to lean on the
+cache aggressively:
+
+```bash
+registry-build build --changed-only
+```
+
+Pair it with explicit changed paths if you know which files moved:
+
+```bash
+registry-build build --changed-only --changed ../../packages/registry-ui/src/button/button.tsx
+```
+
+The builder then narrows component rebuild work to affected registry items instead
+of checking every generated payload.
+
+}>
+
+`--changed-only` works best in editor-driven or watcher-driven local workflows. CI
+should usually run a full build.
+
+---
+
+## Parallelism
+
+The builder uses bounded concurrency for discovery and generation. Default:
+`Math.max(1, Math.min(cpuCount, 8))` — CPU-aware, capped at 8.
+
+Override it with:
+
+```ts
+performance: {
+  parallelism: 6,
+}
+```
+
+Lower it if the workspace lives on slower storage or if generated outputs compete
+with another heavy process.
+
+---
+
+## When files are rewritten
+
+The builder rewrites files only when generated content changes.
+
+This applies to:
+
+- `index.json`
+- per-item component JSON files
+- generated component index files
+- colors/theme JSON files
+- generated `themes.css`
+
+On a true no-op warm build, the summary table usually shows `Files` as `-` for
+every phase.
+
+---
+
+## Turning incremental mode off
+
+```ts
+performance: {
+  incremental: false,
+}
+```
+
+Only do this to debug cache behavior or compare against a fully uncached build.
+Otherwise leave it on.
+
+---
+
+## Troubleshooting
+
+  
+    Warm builds still rewrite files
+    
+
+Check whether generated content is stable. Dynamic timestamps, non-deterministic
+ordering, or unstable custom generators force rewrites even when source files
+didn't change.
+
+    
+  
+
+  
+    changed-only still rebuilds more than expected
+    
+
+Make sure the changed paths map closely to the real source files in a registry
+item. File-indexed sources narrow work more precisely than folder-level item
+indexing.
+
+    
+  
+
+  
+    Where did .registry-build come from?
+    
+
+That's the local incremental cache directory under `output.dir`. Expected, safe to
+delete, and should be ignored by Git.

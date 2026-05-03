@@ -1,0 +1,166 @@
+}>
+
+The design is simple: static inputs live in config, the core runner produces
+deterministic base artifacts, and extensions add opt-in behavior after that base
+state exists. New non-UI consumers should think in named collections first — legacy
+UI fields normalize into that model for compatibility.
+
+## Lifecycle
+
+## Build context
+
+The runtime context is the shared contract between the config loader, the core
+phases, and every extension.
+
+It carries:
+
+- resolved config
+- resolved collections
+- config path and config directory
+- output paths
+- path registry helpers
+- collected build artifacts
+- output registration records
+- a per-build `ts-morph` project
+- cache access
+- changed-only flags and resolved changed paths
+
+The pipeline stays explicit — phases and extensions don't rediscover global state on
+their own.
+
+---
+
+## Core responsibilities
+
+  
+    Collections model
+    
+
+Collections are the domain-neutral input surface. A collection can hold file-backed
+data, named source trees, and arbitrary metadata. Extensions read collections
+without caring whether the consumer is building UI artifacts, package repositories,
+or search indexes.
+
+    
+  
+
+  
+    Legacy compatibility layer
+    
+
+Older UI-centric fields like `sources` and `registries` still work. Config
+resolution translates them into generic collection artifacts so extensions and future
+pipeline work target one shared model instead of two APIs.
+
+    
+  
+
+  
+    Config loader
+    
+
+The loader finds `registry-build.config.*`, resolves `extends`, normalizes
+config-relative paths up front, materializes external file-backed data, applies
+defaults, derives compatibility collections, and validates the final config with
+Zod.
+
+    
+  
+
+  
+    Extension-driven phases
+    
+
+The core runner has no built-in phases. All processing — index building, component
+generation, validation, colors/themes, component indexes, banners — runs in
+extensions registered in the `extensions` array.
+
+For UI registries, `indexBuildExtension()` materializes registry entries into
+`index.json` and `componentsExtension()` turns each indexed item into its generated
+JSON payload. Both run as `afterBuild` extensions and ship with
+`uiRegistryPreset()`.
+
+    
+  
+
+  
+    Extension boundary
+    
+
+The core runner provides the build context, cache management, and extension
+execution loop. Domain-specific outputs belong in extensions, not in the runner.
+
+    
+  
+
+## Artifact model
+
+The runner exposes two related concepts:
+
+| Concept | Meaning |
+| --- | --- |
+| `artifacts` | In-memory values shared between phases and extensions |
+| `outputs` | Files or file groups registered as generated outputs |
+
+Typical examples:
+
+- artifact: `collections`
+- artifact: `index`
+- output: `public/r/index.json`
+- output: `public/r/components/*.json`
+- output: `__ui_registry__/index.tsx`
+- output: `dist/arch/repos/core.db.json`
+- output: `public/r/themes.css`
+
+This split keeps extensions data-first. They read artifacts and register outputs
+without pretending to be part of the core phase graph.
+
+---
+
+## Cache model
+
+The cache stores:
+
+- file hashes
+- phase-specific manifest data
+
+The cache is local, incremental state. Not the source of truth — always safe to
+delete.
+
+### What the cache is for
+
+- skip rehashing unchanged files
+- skip rematerializing unchanged registry items
+- skip rewriting identical generated outputs
+- support `--changed-only` local rebuilds
+
+### What the cache is not for
+
+- long-term artifact storage
+- cross-machine shared caching
+- replacing deterministic generation
+
+---
+
+## Design rules
+
+} className="[&_ul]:my-0">
+
+- Keep config declarative and extensions imperative.
+- Keep the core generic and small.
+- Make `collections` the first stop for new non-UI consumers.
+- Resolve paths relative to the file that declared them.
+- Prefer stable artifacts over framework-specific shortcuts in the core.
+- Treat generated output ordering as part of correctness.
+
+---
+
+## Related pages
+
+} className="[&_ul]:my-0">
+
+- [Configuration](/docs/packages/duck-registry-build/configuration)
+- [Course](/docs/packages/duck-registry-build/course)
+- [Extensions](/docs/packages/duck-registry-build/extensions)
+- [Performance](/docs/packages/duck-registry-build/performance)
+- [Troubleshooting](/docs/packages/duck-registry-build/troubleshooting)

@@ -1,0 +1,763 @@
+## Overview
+
+duck-iam provides two ways to define permissions:
+
+- **Untyped builders**: `defineRole()`, `policy()`, `defineRule()`, `when()` imported
+  directly from `@gentleduck/iam`. These accept any string for actions, resources, and scopes.
+  Quick and flexible, but no compile-time validation.
+
+- **Typed config**: `createAccessConfig()` locks down your actions, resources, scopes,
+  and roles at the type level using `const` assertions. Every builder method is constrained
+  to your declared schema. Misspell an action, reference a resource that does not exist,
+  or pass an invalid role ID, and TypeScript catches it before your code runs.
+
+For production applications, use the typed config. It prevents an entire class of bugs where
+a permission check silently fails because of a typo in an action or resource name.
+
+## createAccessConfig()
+
+The `createAccessConfig()` factory accepts your permission schema and returns an
+`AccessConfig` object with typed builder methods.
+
+```typescript
+
+const access = createAccessConfig({
+  actions: ['create', 'read', 'update', 'delete', 'manage'] as const,
+  resources: ['post', 'comment', 'user', 'dashboard'] as const,
+  scopes: ['org-1', 'org-2'] as const,
+  roles: ['viewer', 'editor', 'admin', 'super-admin'] as const,
+})
+```
+
+`as const` is required. Without it, TypeScript widens the arrays to `string[]` and you lose
+all type checking.
+
+### Input shape
+
+```typescript
+interface AccessConfigInput<TActions, TResources, TScopes, TRoles, TContext> {
+  actions: TActions      // readonly string[] with const assertion
+  resources: TResources  // readonly string[] with const assertion
+  scopes?: TScopes       // optional, readonly string[] with const assertion
+  roles?: TRoles         // optional, readonly string[] with const assertion
+  context?: TContext     // optional, phantom field for typed dot-path intellisense
+}
+```
+
+If you omit `scopes` or `roles`, the config still works. Those parameters will accept
+`string` without constraint. When `roles` is provided, `defineRole()`, `when().role()`,
+and all builders that reference roles are constrained to the declared role IDs.
+
+### Typed context for dot-path intellisense
+
+By default, the `When` condition builder accepts any string for `.attr()`, `.resourceAttr()`,
+`.env()`, and `.check()` field paths. To get autocompletion and type-checked values,
+pass a `context` phantom field with your application's context type:
+
+```typescript
+
+// Define your application's context shape
+interface AppContext extends DefaultContext {
+  subject: {
+    id: string
+    roles: string[]
+    attributes: {
+      status: 'active' | 'banned' | 'suspended'
+      department: string
+    }
+  }
+  resource: {
+    type: 'post' | 'comment' | 'user'
+    id?: string
+    attributes: {
+      ownerId: string
+      status: 'draft' | 'published' | 'archived'
+    }
+  }
+  environment: {
+    hour: number
+    dayOfWeek: number
+    maintenanceMode: boolean
+  }
+  scope: string
+}
+
+const access = createAccessConfig({
+  actions: ['create', 'read', 'update', 'delete'] as const,
+  resources: ['post', 'comment', 'user'] as const,
+  roles: ['viewer', 'editor', 'admin'] as const,
+  context: {} as unknown as AppContext,
+})
+```
+
+Every `When` builder created through `access` gets full intellisense:
+
+```typescript
+access.policy('banned-users')
+  .rule('block-banned', r => r
+    .deny()
+    .on('*').of('*')
+    .when(w => w
+      .attr('status', 'eq', 'banned')
+      // 'status' autocompletes from subject.attributes
+      // 'banned' constrained to 'active' | 'banned' | 'suspended'
+    )
+  )
+  .build()
+
+access.policy('maintenance')
+  .rule('deny-writes', r => r
+    .deny()
+    .on('create', 'update', 'delete').of('*')
+    .when(w => w
+      .env('maintenanceMode', 'eq', true)
+      // 'maintenanceMode' autocompletes from environment
+      // value constrained to boolean
+    )
+  )
+  .build()
+```
+
+The `context` field is a phantom type; its runtime value is never used. The `{} as unknown as AppContext`
+cast is safe because the value is discarded; only the type information flows through to the builders.
+
+If you omit `context`, everything still works but `.attr()`, `.env()`, etc. accept any string
+for field names and any `AttributeValue` for values.
+
+### Per-resource attribute narrowing
+
+When you declare a `resourceAttributes` map in your context, `.resourceAttr()` narrows
+its available keys based on the resource specified in `.of()`:
+
+```typescript
+interface AppContext extends DefaultContext {
+  // ... subject, resource, environment, scope ...
+  resourceAttributes: {
+    post: { ownerId: string; status: 'draft' | 'published' | 'archived'; title: string }
+    comment: { ownerId: string; body: string }
+    user: { email: string; status: 'active' | 'banned' }
+    dashboard: { name: string }
+  }
+}
+
+const access = createAccessConfig({
+  actions: ['create', 'read', 'update', 'delete'] as const,
+  resources: ['post', 'comment', 'user', 'dashboard'] as const,
+  context: {} as unknown as AppContext,
+})
+```
+
+`.resourceAttr()` shows only the keys for the resource specified in `.of()`:
+
+```typescript
+// .of('post') -> resourceAttr shows: 'ownerId' | 'status' | 'title'
+access.policy('post-title')
+  .rule('deny-empty', r => r
+    .deny()
+    .on('create', 'update')
+    .of('post')
+    .when(w => w.not(n => n.resourceAttr('title', 'exists')))
+    //                                     ^ only post keys here
+  )
+  .build()
+
+// .of('comment') -> resourceAttr shows: 'ownerId' | 'body'
+access.policy('comment-body')
+  .rule('deny-empty', r => r
+    .deny()
+    .on('create')
+    .of('comment')
+    .when(w => w.not(n => n.resourceAttr('body', 'exists')))
+    //                                    ^ only comment keys here
+  )
+  .build()
+
+// .of('*') -> resourceAttr shows union of ALL keys:
+// 'ownerId' | 'status' | 'title' | 'body' | 'email' | 'name'
+access.policy('global-owner')
+  .rule('deny-non-owner', r => r
+    .deny()
+    .on('delete')
+    .of('*')
+    .when(w => w
+      .not(n => n.resourceAttr('ownerId', 'eq', '$subject.id'))
+      //                        ^ available because ownerId exists on post + comment
+      //                        '$subject.id' gets full autocomplete via DollarPaths
+    )
+  )
+  .build()
+```
+
+The same narrowing works in `grantWhen` on roles:
+
+```typescript
+access.defineRole('member')
+  .grantWhen('update', 'post', w => w
+    .isOwner()
+    .resourceAttr('status', 'eq', 'draft')
+    // 'status' narrows to 'draft' | 'published' | 'archived' (post attrs)
+  )
+  .build()
+```
+
+Without `resourceAttributes`, `.resourceAttr()` falls back to `resource.attributes` which
+uses the general attribute type from your context.
+
+### How the type system works
+
+The typed context system uses several TypeScript utility types that work together:
+
+| Type | Purpose |
+|---|---|
+| `DotPaths<T>` | Generates all valid dot-separated paths through `T` (e.g. `'subject.attributes.status'`). Arrays are treated as leaf paths and functions are skipped. Bails to `never` for string-indexed types to avoid polluting the union with `string`. |
+| `FlexibleDotPaths<T>` | Smart wrapper: returns `DotPaths<T> \| (string & {})` when `T` has open-ended attribute bags (like `DefaultContext`), giving autocomplete for known structural paths while accepting arbitrary strings. For fully typed contexts, returns strict `DotPaths<T>` only. |
+| `PathValue<T, P>` | Resolves the value type at path `P` within `T` |
+| `FieldValue<T, P>` | Like `PathValue` but wraps the result in `ConditionValue` to add `$`-reference support |
+| `ConditionValue<T, V>` | Adapts a value type for condition builders. Non-string values pass through unchanged; string values add `DollarPaths<T>` for `$`-reference autocomplete. Prevents type widening so `env('hour', 'lt', '')` correctly errors when `hour` is `number`. |
+| `FlexibleDollarPaths<T>` | `DollarPaths<T> \| (string & {})`, added directly to method value signatures so the IDE shows `$`-prefixed autocomplete suggestions (e.g. `$subject.id`) alongside a flexible string input. |
+| `SubjectAttrs<T>` | Extracts `T['subject']['attributes']` |
+| `ResourceAttrs<T>` | Extracts `T['resource']['attributes']` |
+| `EnvAttrs<T>` | Extracts `T['environment']` |
+| `ResourceAttrMap<T>` | Extracts `T['resourceAttributes']` (per-resource attribute map) |
+| `ResolvedResourceAttrs<T, R>` | Resolves resource attrs for resource `R`: specific type for known resources, merged union for `'*'` |
+| `AttrValue<A, K>` | Resolves the value type for key `K` in attribute bag `A`. Strips `undefined` from optional properties so that `yearsExperience?: number` correctly resolves to `number`, not `AttributeValue`. |
+| `DollarPaths<T>` | Generates `$`-prefixed versions of all dot-paths. Used for autocomplete on dynamic cross-references like `'$subject.id'`. |
+
+The `context` phantom field on `createAccessConfig` captures your context type (`TContext`).
+This type parameter flows through `AccessConfig` into every builder:
+
+```
+createAccessConfig({ context: {} as AppContext })
+  -> AccessConfig<..., TContext=AppContext>
+    -> PolicyBuilder<..., TContext>
+      -> RuleBuilder<..., TContext>
+        -> .of('post') returns RuleBuilder<..., TActiveResource='post'>
+          -> When<..., TContext, TActiveResource='post'>
+            -> .resourceAttr() uses ResolvedResourceAttrs<AppContext, 'post'>
+              -> returns AppContext['resourceAttributes']['post']
+              -> { ownerId: string; status: 'draft' | 'published' | 'archived'; title: string }
+```
+
+When `.of('*')` is used, `ResolvedResourceAttrs` merges all resource attribute types using
+`MergedResourceAttrs`, which collects every key from every resource and unions their value types.
+
+### DollarPaths: typed $-variable autocomplete
+
+When you provide a typed `context`, value positions in condition builders accept `$`-prefixed
+references with full autocomplete. This is powered by the `DollarPaths` utility type:
+
+```typescript
+type DollarPaths<TContext> = `$${DotPaths<TContext>}`
+// e.g. '$subject.id' | '$subject.roles' | '$subject.attributes.status' | '$resource.id' | ...
+```
+
+`DollarPaths<TContext>` maps every dot-path in your context into a `$`-prefixed template
+literal. These `$`-references are available on the value parameter of `.check()`, `.eq()`,
+`.neq()`, `.attr()`, `.resourceAttr()`, and `.env()`, anywhere you can compare against
+a dynamic value from the request context.
+
+```typescript
+access.policy('owner-only')
+  .rule('deny-non-owner', r => r
+    .deny()
+    .on('update', 'delete')
+    .of('post')
+    .when(w => w
+      // Full autocomplete: '$subject.id', '$subject.roles', '$subject.attributes.status', ...
+      .resourceAttr('ownerId', 'neq', '$subject.id')
+      // Cross-attribute comparison
+      .attr('status', 'eq', '$resource.attributes.status')
+    )
+  )
+  .build()
+```
+
+No `as string` cast is needed. The value parameter accepts both literal values (e.g. `'draft'`)
+and `$`-references (e.g. `'$subject.id'`) in a single union type.
+
+Value parameters use `ConditionValue` internally plus `FlexibleDollarPaths` at the method
+signature level. Non-string types (like `number` for `env('hour', ...)`) pass through
+unchanged, so passing a string where a number is expected is a compile error. The
+`FlexibleDollarPaths<TContext>` union is added directly to each method signature, not
+nested inside computed types, so the IDE can see and suggest the `$`-prefixed literals.
+Optional properties (e.g. `yearsExperience?: number`) are handled correctly by stripping
+`undefined` before type resolution.
+
+### Why value autocomplete can still be broad
+
+Field-path autocomplete and value autocomplete are distinct.
+
+- If a field resolves to a narrow literal union such as `'draft' | 'published'`, the value
+  side stays narrow and still offers `$subject.*` / `$resource.*` / `$environment.*`
+  references.
+- If a field resolves to broad `string`, `number`, `boolean`, or a generic `AttributeValue`,
+  TypeScript can only offer broad scalar input plus the `$` references.
+- Open-ended attribute bags such as `Record<string, unknown>` or the default `AnyAttributes`
+  are the usual reason value suggestions feel looser than expected.
+
+For the tightest autocomplete, make the parts of your context that matter most explicit:
+
+```typescript
+interface AppContext extends DefaultContext {
+  subject: {
+    id: string
+    roles: string[]
+    attributes: {
+      status: 'active' | 'banned'
+      tier: 'free' | 'pro'
+    }
+  }
+}
+```
+
+This gives better value narrowing in `.check()`, `.eq()`, `.neq()`, `.attr()`,
+`.resourceAttr()`, and `.env()` without changing runtime behavior.
+
+## AccessConfig Methods
+
+The returned `AccessConfig` object exposes these typed methods:
+
+### access.defineRole()
+
+Creates a typed role builder. Actions, resources, and the role ID are constrained to your
+schema. When `roles` is declared in the config, only those role IDs are accepted.
+
+```typescript
+const viewer = access.defineRole('viewer')    // ok -- 'viewer' is in roles
+  .grant('read', 'post')       // ok
+  .grant('read', 'comment')    // ok
+  // .grant('read', 'invoice') // ERROR: 'invoice' is not in resources
+  // access.defineRole('intern') // ERROR: 'intern' is not in roles
+  .build()
+
+const editor = access.defineRole('editor')
+  .inherits('viewer')
+  .grant('create', 'post')
+  .grant('update', 'post')
+  .grant('create', 'comment')
+  .grant('update', 'comment')
+  .build()
+
+const admin = access.defineRole('admin')
+  .inherits('editor')
+  .grant('delete', 'post')
+  .grant('delete', 'comment')
+  .grant('manage', 'user')
+  .grant('manage', 'dashboard')
+  .build()
+```
+
+### access.policy()
+
+Creates a typed policy builder. Rules within the policy are constrained to your schema.
+The builder uses the same API as the standalone `policy()` function.
+
+```typescript
+const ownerPolicy = access.policy('owner-only')
+  .name('Owner Only')
+  .algorithm('deny-overrides')
+  .rule('owner-update', r => r
+    .allow()
+    .on('update')
+    .of('post')
+    .priority(10)
+    .when(w => w.isOwner())
+  )
+  .rule('deny-non-owner-delete', r => r
+    .deny()
+    .on('delete')
+    .of('post')
+    .priority(20)
+    .when(w => w.check('resource.attributes.ownerId', 'neq', '$subject.id'))
+  )
+  .build()
+```
+
+### access.defineRule()
+
+Creates a standalone typed rule builder, useful when composing rules across policies.
+Uses the same builder API as inline rules.
+
+```typescript
+const ownerRule = access.defineRule('owner-check')
+  .allow()
+  .on('update', 'delete')
+  .of('post')
+  .priority(10)
+  .when(w => w.isOwner())
+  .build()
+
+// Add to a policy with .addRule():
+const p = access.policy('my-policy')
+  .name('My Policy')
+  .algorithm('deny-overrides')
+  .addRule(ownerRule)
+  .build()
+```
+
+### access.when()
+
+Creates a typed condition builder for reusable condition groups. Use `buildAll()`,
+`buildAny()`, or `buildNone()` to produce a `ConditionGroup`. When `roles` is declared
+in the config, `.role()` and `.roles()` are constrained to the declared role IDs.
+
+```typescript
+const isOwner = access.when()
+  .isOwner()
+  .buildAll()
+// { all: [{ field: 'resource.attributes.ownerId', operator: 'eq', value: '$subject.id' }] }
+
+const isAdmin = access.when()
+  .role('admin')              // type-checked against declared roles
+  .buildAll()
+// { all: [{ field: 'subject.roles', operator: 'contains', value: 'admin' }] }
+
+const isAdminOrOwner = access.when()
+  .role('admin')              // ok -- 'admin' is in roles
+  // .role('superuser')       // ERROR: 'superuser' is not in roles
+  .isOwner()
+  .buildAny()
+// { any: [...] } -- either condition is sufficient
+```
+
+### access.createEngine()
+
+Creates a typed engine instance. Permission checks on this engine are constrained to your
+schema. An optional `mode` parameter sets the engine's operating mode, which flows through
+the generic for full type safety.
+
+```typescript
+
+const adapter = new MemoryAdapter({
+  roles: [viewer, editor, admin],
+  assignments: {
+    'user-1': ['editor'],
+    'user-2': ['viewer'],
+  },
+  policies: [ownerPolicy],
+})
+
+const engine = access.createEngine({ adapter })
+// mode defaults to 'development'
+
+// Or explicitly set mode for production:
+const prodEngine = access.createEngine({ adapter, mode: 'production' })
+// Engine<TAction, TResource, TRole, TScope, 'production'>
+```
+
+The `mode` parameter accepts `'development' | 'production'` and defaults to `'development'`.
+The mode type flows through the generic signature:
+
+```typescript
+createEngine<'production'>({ adapter, mode: 'production' })
+// => Engine<..., 'production'>
+```
+
+Typed permission checks work the same regardless of mode:
+
+```typescript
+await engine.can('user-1', 'read', { type: 'post', attributes: {} })
+// ok
+
+// await engine.can('user-1', 'approve', { type: 'post', attributes: {} })
+// ERROR: 'approve' is not assignable to 'create' | 'read' | 'update' | 'delete' | 'manage'
+
+// await engine.can('user-1', 'read', { type: 'invoice', attributes: {} })
+// ERROR: 'invoice' is not assignable to 'post' | 'comment' | 'user' | 'dashboard'
+```
+
+### access.checks()
+
+A pure typing utility that returns the input array as-is but constrains the types at
+compile time. Use this with `engine.permissions()` to batch-check multiple permissions
+with full type safety.
+
+```typescript
+const uiChecks = access.checks([
+  { action: 'create', resource: 'post' },
+  { action: 'update', resource: 'post', resourceId: 'post-1' },
+  { action: 'delete', resource: 'post', resourceId: 'post-1' },
+  { action: 'manage', resource: 'dashboard' },
+  // { action: 'approve', resource: 'post' }
+  // ERROR: 'approve' is not assignable to type...
+])
+
+const perms = await engine.permissions('user-1', uiChecks)
+// { 'create:post': true, 'update:post:post-1': true, ... }
+```
+
+### access.validateRoles()
+
+Runtime validation for role definitions. Same as the standalone `validateRoles()` but
+available on the config object for convenience.
+
+```typescript
+const result = access.validateRoles([viewer, editor, admin])
+
+if (!result.valid) {
+  throw new Error(result.issues.map((i) => i.message).join(', '))
+}
+```
+
+### access.validatePolicy()
+
+Runtime validation for untrusted policy objects. Same as the standalone `validatePolicy()`.
+
+```typescript
+const policyFromAPI = await fetch('/api/policies/123').then((r) => r.json())
+
+const result = access.validatePolicy(policyFromAPI)
+
+if (!result.valid) {
+  console.error('Invalid policy:', result.issues)
+}
+```
+
+## How const Assertions Work
+
+TypeScript's `as const` assertion is required for type safety. Without it, arrays are widened:
+
+```typescript
+// Without as const -- types are string[]
+const actions = ['create', 'read', 'update']
+// typeof actions = string[]
+
+// With as const -- types are literal tuples
+const actions = ['create', 'read', 'update'] as const
+// typeof actions = readonly ['create', 'read', 'update']
+```
+
+When you pass `as const` arrays to `createAccessConfig()`, the factory uses conditional types
+to extract the union of literal values:
+
+```typescript
+type TAction = (typeof actions)[number]
+// = 'create' | 'read' | 'update'
+
+type TRole = (typeof roles)[number]
+// = 'viewer' | 'editor' | 'admin'
+```
+
+These union types flow through all builders, constraining every parameter: actions,
+resources, scopes, and roles.
+
+## Full Example: Defining Your App's Permission Schema
+
+A complete example showing how to define and use a typed permission schema for a
+multi-tenant blog application:
+
+```typescript
+
+// 1. Define the permission schema
+const access = createAccessConfig({
+  actions: ['create', 'read', 'update', 'delete', 'publish', 'manage'] as const,
+  resources: ['post', 'comment', 'user', 'analytics', 'settings'] as const,
+  scopes: ['org-acme', 'org-globex'] as const,
+  roles: ['viewer', 'author', 'editor', 'admin'] as const,
+})
+
+// 2. Define roles using typed builders
+const viewer = access.defineRole('viewer')
+  .grant('read', 'post')
+  .grant('read', 'comment')
+  .build()
+
+const author = access.defineRole('author')
+  .inherits('viewer')
+  .grant('create', 'post')
+  .grant('update', 'post')
+  .grant('create', 'comment')
+  .build()
+
+const editor = access.defineRole('editor')
+  .inherits('author')
+  .grant('publish', 'post')
+  .grant('update', 'comment')
+  .grant('delete', 'comment')
+  .build()
+
+const admin = access.defineRole('admin')
+  .inherits('editor')
+  .grant('delete', 'post')
+  .grant('manage', 'user')
+  .grant('manage', 'analytics')
+  .grant('manage', 'settings')
+  .build()
+
+// 3. Validate roles at startup
+const roleCheck = access.validateRoles([viewer, author, editor, admin])
+if (!roleCheck.valid) {
+  throw new Error('Invalid roles: ' + roleCheck.issues.map((i) => i.message).join(', '))
+}
+
+// 4. Define policies for fine-grained rules
+const ownerPolicy = access.policy('owner-restrictions')
+  .name('Owner Restrictions')
+  .algorithm('deny-overrides')
+  .rule('authors-own-posts-only', r => r
+    .deny()
+    .on('update', 'delete')
+    .of('post')
+    .priority(100)
+    .when(w => w
+      .check('resource.attributes.ownerId', 'neq', '$subject.id')
+      .not(w => w.role('admin'))
+    )
+  )
+  .build()
+
+// 5. Create the engine
+const adapter = new MemoryAdapter({
+  roles: [viewer, author, editor, admin],
+  assignments: {
+    'alice': ['admin'],
+    'bob': ['editor'],
+    'charlie': ['author'],
+  },
+  policies: [ownerPolicy],
+})
+
+const engine = access.createEngine({ adapter, cacheTTL: 120, mode: 'production' })
+
+// 6. Define typed permission checks for UI
+const dashboardChecks = access.checks([
+  { action: 'read', resource: 'analytics' },
+  { action: 'manage', resource: 'analytics' },
+  { action: 'manage', resource: 'settings' },
+  { action: 'manage', resource: 'user' },
+])
+
+// 7. Use in your application
+async function getDashboardPermissions(userId: string) {
+  return engine.permissions(userId, dashboardChecks)
+}
+
+// alice: { 'read:analytics': true, 'manage:analytics': true, ... }
+// bob:   { 'read:analytics': false, 'manage:analytics': false, ... }
+```
+
+## Typed vs Untyped: Comparison
+
+### Untyped (direct imports)
+
+```typescript
+
+const viewer = defineRole('viewer')
+  .grant('raed', 'post')   // typo: "raed" instead of "read" -- NO error
+  .build()
+
+const engine = new Engine({ adapter })
+await engine.can('user-1', 'raed', { type: 'post', attributes: {} })
+// No TypeScript error, but silently fails at runtime because no role grants "raed"
+```
+
+### Typed (createAccessConfig)
+
+```typescript
+
+const access = createAccessConfig({
+  actions: ['create', 'read', 'update', 'delete'] as const,
+  resources: ['post', 'comment'] as const,
+})
+
+const viewer = access.defineRole('viewer')
+  .grant('raed', 'post')   // ERROR: '"raed"' is not assignable to '"create" | "read" | ...'
+  .build()
+```
+
+The typed version catches the typo immediately. For any application with more than a handful
+of permissions, this prevents real bugs.
+
+## When to Use Each Approach
+
+| Scenario | Recommendation |
+| --- | --- |
+| Production application | Use `createAccessConfig()` for type safety that prevents bugs |
+| Quick prototype or spike | Untyped imports are faster to set up |
+| Dynamic permissions from DB | Use untyped for the dynamic parts, validate with `validatePolicy()` |
+| Library or framework code | Use generic type parameters for maximum flexibility |
+| Testing | Either works; typed catches config mistakes, untyped is less verbose |
+
+---
+
+## Configuration FAQ
+
+  
+    Why does createAccessConfig() ask for a fake context value?
+    
+      The <code className="rounded bg-muted px-2 py-1">context</code> field is a phantom value used only for type
+      inference. duck-iam never reads it at runtime. Its job is to give TypeScript enough information to infer
+      valid dot-paths and the value types behind those paths.
+    
+  
+
+  
+    Why do my dot-path types suddenly widen to plain string?
+    
+      This happens when your context uses open-ended index signatures such as
+      <code className="rounded bg-muted px-2 py-1">Record&lt;string, unknown&gt;</code> or the default
+      <code className="rounded bg-muted px-2 py-1">AnyAttributes</code>. <code className="rounded bg-muted px-2 py-1">DotPaths</code> bails
+      to <code className="rounded bg-muted px-2 py-1">never</code> for these branches to avoid polluting the
+      union. The builder methods use <code className="rounded bg-muted px-2 py-1">FlexibleDotPaths</code> which
+      detects open-ended attribute bags and adds <code className="rounded bg-muted px-2 py-1">(string &amp; {'{}'})</code> so
+      you still get autocomplete for the known structural paths (like{' '}
+      <code className="rounded bg-muted px-2 py-1">subject.id</code>,{' '}
+      <code className="rounded bg-muted px-2 py-1">resource.type</code>) while accepting arbitrary strings for
+      untyped attribute sub-paths. For fully typed contexts, no fallback is added and invalid
+      paths are compile errors.
+    
+  
+
+  
+    What does access.checks() actually buy me?
+    
+      It preserves a strongly typed tuple for batched permission checks. The runtime value is unchanged, but
+      TypeScript can now validate every action, resource, and scope in the batch before you pass it to
+      <code className="rounded bg-muted px-2 py-1">engine.permissions()</code>.
+    
+  
+
+  
+    How should I keep adapters and engines fully typed in a real app?
+    
+      Define one <code className="rounded bg-muted px-2 py-1">createAccessConfig()</code> schema for your application,
+      derive the action, resource, role, and scope unions from it, and thread those same types through your roles,
+      policies, adapter, and engine setup. That gives you one source of truth instead of repeating string unions.
+    
+  
+
+  
+    What should live in code first, and what should live in the database later?
+    
+      Stable role and policy definitions usually start in code because they are easy to review and version. Once you
+      need runtime administration, tenant-specific configuration, or operational workflows, move those definitions into
+      persistent storage and keep code responsible for seeding and validation.
+    
+  
+
+  
+    Why do my field names autocomplete, but my condition values still look broad?
+    
+      Value typing comes from the resolved field type. If your context says a field is just
+      <code className="rounded bg-muted px-2 py-1">string</code> or an open-ended attribute bag, duck-iam cannot invent a
+      narrower literal union. Tighten the context type for that field if you want richer value suggestions.
+    
+  
+
+  
+    Which builder methods accept typed $-references on the value side?
+    
+      The typed `$...` references are available in the condition methods that compare against a right-hand value:
+      <code className="rounded bg-muted px-2 py-1">check()</code>, <code className="rounded bg-muted px-2 py-1">eq()</code>,
+      <code className="rounded bg-muted px-2 py-1">neq()</code>, <code className="rounded bg-muted px-2 py-1">attr()</code>,
+      <code className="rounded bg-muted px-2 py-1">resourceAttr()</code>, and <code className="rounded bg-muted px-2 py-1">env()</code>.
+    
+  
+
+  
+    When should I define resourceAttributes instead of only resource.attributes?
+    
+      Use <code className="rounded bg-muted px-2 py-1">resourceAttributes</code> when different resource types need
+      different attribute keys and you want <code className="rounded bg-muted px-2 py-1">resourceAttr()</code> to narrow
+      based on the resource named in <code className="rounded bg-muted px-2 py-1">.of(...)</code>. Keep only
+      <code className="rounded bg-muted px-2 py-1">resource.attributes</code> when one shared attribute bag is enough.

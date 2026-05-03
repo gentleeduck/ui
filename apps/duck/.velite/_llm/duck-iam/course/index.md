@@ -1,0 +1,90 @@
+## What You Will Build
+
+**BlogDuck**, a multi-tenant blog platform with full authorization. Start with a single
+permission check and finish with typed configs, scoped roles, ABAC policies, database
+storage, server middleware, and client-side permission rendering.
+
+Permission Check"]
+    end
+
+    subgraph CH2["Chapter 2"]
+        direction TB
+        C2["Role Hierarchies& Inheritance"]
+    end
+
+    subgraph CH3["Chapter 3"]
+        direction TB
+        C3["Policies, Rules& Conditions"]
+    end
+
+    subgraph CH4["Chapter 4"]
+        direction TB
+        C4["The EngineIn Depth"]
+    end
+
+    subgraph CH5["Chapter 5"]
+        direction TB
+        C5["Multi-TenantScoping"]
+    end
+
+    subgraph CH6["Chapter 6"]
+        direction TB
+        C6["ServerIntegration"]
+    end
+
+    subgraph CH7["Chapter 7"]
+        direction TB
+        C7["ClientLibraries"]
+    end
+
+    subgraph CH8["Chapter 8"]
+        direction TB
+        C8["ProductionReadiness"]
+    end
+
+    CH1 --> CH2 --> CH3 --> CH4 --> CH5 --> CH6 --> CH7 --> CH8`} />
+
+## Who Is This For
+
+- New to duck-iam and want a structured path
+- Evaluating duck-iam for your team
+- Learn best by building something real
+
+## Prerequisites
+
+- TypeScript basics (types, interfaces, async/await)
+- Node.js v18+ or Bun
+- A code editor
+
+## Setup
+
+Each chapter builds on the previous one and ends with a checkpoint (complete code so far) and FAQ.
+
+  
+    Create a new project directory and initialize it:
+
+    ```sh
+    mkdir blogduck && cd blogduck
+    npm init -y
+    npm install @gentleduck/iam typescript tsx
+    npx tsc --init
+    mkdir src
+    ```
+
+  
+  
+    Start with [Chapter 1: Your First Permission Check](/docs/course/chapter-1).
+  
+
+## Course Map
+
+| Chapter | Topic | What You Learn |
+| --- | --- | --- |
+| [1](/docs/course/chapter-1) | Your First Permission Check | Roles, Engine, MemoryAdapter, `engine.can()` |
+| [2](/docs/course/chapter-2) | Role Hierarchies | Inheritance, multiple roles, wildcards, validation |
+| [3](/docs/course/chapter-3) | Policies, Rules, and Conditions | ABAC, combining algorithms, condition operators, `$` variables |
+| [4](/docs/course/chapter-4) | The Engine In Depth | Hooks, caching, batch permissions, explain, Admin API |
+| [5](/docs/course/chapter-5) | Multi-Tenant Scoping | Scoped roles, tenant isolation, hierarchical resources |
+| [6](/docs/course/chapter-6) | Server Integration | Express, NestJS, Next.js, Hono middleware, permissions endpoint |
+| [7](/docs/course/chapter-7) | Client Libraries | React, Vue, vanilla JS, permission-based UI rendering |
+| [8](/docs/course/chapter-8) | Production Readiness | Type-safe config, validation, database adapters, testing, monitoring |

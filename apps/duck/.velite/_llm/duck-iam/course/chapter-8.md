@@ -1,0 +1,1388 @@
+## Goal
+
+BlogDuck is feature-complete. Before shipping, you need type safety across the stack,
+a real database adapter, startup validation, and a testing strategy. This chapter ties
+everything together into a production-grade authorization system.
+
+## Type-Safe Configuration
+
+`createAccessConfig` is the foundation of a production setup. It locks down your actions,
+resources, and scopes so the entire stack is type-checked at compile time.
+
+  
+    **Define your configuration**
+
+    ```typescript title="src/access.ts"
+    import { createAccessConfig } from '@gentleduck/iam'
+
+    export const access = createAccessConfig({
+      actions: ['create', 'read', 'update', 'delete', 'manage'] as const,
+      resources: ['post', 'comment', 'user', 'dashboard'] as const,
+      scopes: ['acme', 'globex'] as const,
+      roles: ['viewer', 'editor', 'admin'] as const,
+    })
+    ```
+
+    The `as const` assertion is critical. It tells TypeScript to preserve the literal
+    string types. Without it, the types widen to `string` and you lose compile-time checking.
+    When `roles` is provided, `defineRole()` and `.role()` / `.roles()` in conditions only
+    accept the declared role IDs.
+  
+
+  
+    **Use typed builders**
+
+    ```typescript title="src/access.ts"
+    // All builders are now type-checked
+    export const viewer = access.defineRole('viewer')
+      .grant('read', 'post')
+      .grant('read', 'comment')
+      .build()
+
+    export const editor = access.defineRole('editor')
+      .inherits('viewer')
+      .grant('create', 'post')
+      .grant('update', 'post')
+      .grant('create', 'comment')
+      .grant('update', 'comment')
+      .build()
+
+    export const admin = access.defineRole('admin')
+      .inherits('editor')
+      .grant('delete', 'post')
+      .grant('delete', 'comment')
+      .grant('manage', 'user')
+      .grant('manage', 'dashboard')
+      .build()
+
+    // Compile error: 'execute' is not a valid action
+    // access.defineRole('bad').grant('execute', 'post')
+
+    // Compile error: 'order' is not a valid resource
+    // access.defineRole('bad').grant('read', 'order')
+    ```
+
+    Every `.grant()`, `.on()`, `.of()`, and `.scope()` call is type-checked against
+    your config's actions, resources, and scopes.
+  
+
+  
+    **Define typed policies**
+
+    ```typescript title="src/access.ts"
+    export const ownerPolicy = access.policy('owner-restrictions')
+      .name('Owner Restrictions')
+      .algorithm('deny-overrides')
+      .rule('deny-non-owner-update', r => r
+        .deny()
+        .on('update', 'delete')  // type-checked
+        .of('post')              // type-checked
+        .priority(100)
+        .when(w => w
+          .check('resource.attributes.ownerId', 'neq', '$subject.id')
+          .not(n => n.role('admin'))
+        )
+      )
+      .build()
+    ```
+  
+
+  
+    **Define typed permission checks**
+
+    ```typescript title="src/access.ts"
+    export const appChecks = access.checks([
+      { action: 'create', resource: 'post' },
+      { action: 'update', resource: 'post' },
+      { action: 'delete', resource: 'post' },
+      { action: 'manage', resource: 'dashboard' },
+      { action: 'manage', resource: 'user' },
+    ] as const)
+
+    // Compile error: 'publish' is not a valid action
+    // access.checks([{ action: 'publish', resource: 'post' }])
+    ```
+
+    `checks()` returns the same array. It is a zero-cost type assertion at runtime.
+    Use this array with `engine.permissions()` to generate client permission maps.
+  
+
+  
+    **Create the engine**
+
+    ```typescript title="src/access.ts"
+    export const engine = access.createEngine({
+      adapter,
+      cacheTTL: 60,
+      maxCacheSize: 1000,
+      hooks: {
+        afterEvaluate: async (request, decision) => {
+          console.log(`[audit] ${request.subject.id} ${decision.effect} ${request.action}:${request.resource.type}`)
+        },
+        onError: async (error) => {
+          console.error('[auth-error]', error)
+        },
+      },
+    })
+    ```
+  
+
+### The AccessConfigInput Interface
+
+```typescript
+interface AccessConfigInput<
+  TActions extends readonly string[],
+  TResources extends readonly string[],
+  TScopes extends readonly string[] = readonly string[],
+  TRoles extends readonly string[] = readonly string[],
+> {
+  readonly actions: TActions
+  readonly resources: TResources
+  readonly scopes?: TScopes     // optional -- defaults to string (unconstrained)
+  readonly roles?: TRoles       // optional -- defaults to string (unconstrained)
+}
+```
+
+Scopes and roles are optional. If you don't need multi-tenancy, omit `scopes` entirely.
+If you don't need typed role IDs, omit `roles`:
+
+```typescript
+const access = createAccessConfig({
+  actions: ['read', 'write', 'delete'] as const,
+  resources: ['post', 'comment'] as const,
+  // no scopes -- single-tenant app
+})
+```
+
+### The AccessConfig Output Object
+
+`createAccessConfig()` returns an object with typed factory methods:
+
+| Method | Returns | Purpose |
+| --- | --- | --- |
+| `defineRole(id)` | `RoleBuilder
+
+```typescript
+const [assignedRoles, attributes, allRoles] = await Promise.all([
+  this.adapter.getSubjectRoles(subjectId),
+  this.adapter.getSubjectAttributes(subjectId),
+  this.loadRoles(),   // cached separately
+])
+
+const roles = resolveEffectiveRoles(assignedRoles, allRoles)
+
+const scopedRoles = this.adapter.getSubjectScopedRoles
+  ? await this.adapter.getSubjectScopedRoles(subjectId)
+  : undefined
+
+const subject: Subject = { id: subjectId, roles, scopedRoles, attributes }
+```
+
+`resolveEffectiveRoles()` expands the inheritance chain. If Alice has role `editor`, and
+editor inherits `viewer`, the effective roles are `['editor', 'viewer']`. Cycles are handled
+via a visited set. If role A inherits B and B inherits A, the walk stops at the cycle.
+
+## Database Adapters
+
+duck-iam provides four adapters for persistent storage.
+
+### MemoryAdapter
+
+For prototyping, testing, and simple apps:
+
+```typescript
+
+const adapter = new MemoryAdapter({
+  policies: [ownerPolicy],
+  roles: [viewer, editor, admin],
+  assignments: {
+    'alice': ['viewer'],
+    'bob': ['editor'],
+    'charlie': ['admin'],
+  },
+  attributes: {
+    'alice': { department: 'engineering' },
+  },
+})
+```
+
+#### MemoryAdapterInit Interface
+
+```typescript
+interface MemoryAdapterInit
+
+Required Prisma models:
+
+```prisma title="prisma/schema.prisma"
+model accessPolicy {
+  id          String  @id
+  name        String
+  description String?
+  version     Int     @default(1)
+  algorithm   String
+  rules       Json
+  targets     Json?
+}
+
+model accessRole {
+  id          String  @id
+  name        String
+  description String?
+  permissions Json
+  inherits    Json    @default("[]")
+  scope       String?
+  metadata    Json?
+}
+
+model accessAssignment {
+  subjectId String
+  roleId    String
+  scope     String?
+
+  @@id([subjectId, roleId, scope])
+}
+
+model accessSubjectAttr {
+  subjectId String @id
+  data      Json
+}
+```
+
+#### Prisma Column Mapping
+
+The adapter maps between duck-iam types and database columns:
+
+| duck-iam Field | Prisma Column | Type | Notes |
+| --- | --- | --- | --- |
+| `policy.id` | `accessPolicy.id` | `String @id` | Primary key |
+| `policy.name` | `accessPolicy.name` | `String` | Display name |
+| `policy.description` | `accessPolicy.description` | `String?` | `null` in DB, `undefined` in duck-iam |
+| `policy.version` | `accessPolicy.version` | `Int` | Defaults to 1 |
+| `policy.algorithm` | `accessPolicy.algorithm` | `String` | One of 4 combining algorithms |
+| `policy.rules` | `accessPolicy.rules` | `Json` | Stored as JSON, parsed on read |
+| `policy.targets` | `accessPolicy.targets` | `Json?` | Optional targeting object |
+| `role.permissions` | `accessRole.permissions` | `Json` | Array of Permission objects |
+| `role.inherits` | `accessRole.inherits` | `Json` | Array of role IDs, defaults to `[]` |
+| `role.scope` | `accessRole.scope` | `String?` | Role-level scope constraint |
+| `role.metadata` | `accessRole.metadata` | `Json?` | Custom metadata |
+| `assignment.scope` | `accessAssignment.scope` | `String?` | `null` = base role, non-null = scoped |
+| `attrs.data` | `accessSubjectAttr.data` | `Json` | Merged on write, full object on read |
+
+The PrismaAdapter uses `upsert` for save operations (create or update). For `revokeRole`,
+it uses `deleteMany` with a compound filter on `(subjectId, roleId, scope)`.
+
+### DrizzleAdapter
+
+```typescript title="src/access.ts"
+
+const adapter = new DrizzleAdapter({
+  db,
+  tables: {
+    policies: tables.accessPolicies,
+    roles: tables.accessRoles,
+    assignments: tables.accessAssignments,
+    attrs: tables.accessSubjectAttrs,
+  },
+  ops: { eq, and },
+})
+```
+
+#### DrizzleConfig Interface
+
+```typescript
+interface DrizzleConfig {
+  db: {
+    select: () => { from: (table: unknown) => DrizzleQuery }
+    insert: (table: unknown) => { values: (data: RecordKey: 'all' -> Role[]"]
+        RBC["rbacPolicyCache (size: 1)Key: 'rbac' -> Policy"]
+        SC["subjectCache (size: maxCacheSize)Key: subjectId -> Subject"]
+    end
+
+    subgraph Config["EngineConfig"]
+        TTL["cacheTTL: 60 (seconds)"]
+        MAX["maxCacheSize: 1000"]
+    end
+
+    Config --> Caches`} />
+
+| Cache | Max Size | Key | Stores | Invalidated By |
+| --- | --- | --- | --- | --- |
+| `policyCache` | 1 | `'all'` | All ABAC policies | `invalidatePolicies()`, `invalidate()` |
+| `roleCache` | 1 | `'all'` | All role definitions | `invalidateRoles()`, `invalidate()` |
+| `rbacPolicyCache` | 1 | `'rbac'` | Generated `__rbac__` policy | `invalidateRoles()`, `invalidate()` |
+| `subjectCache` | `maxCacheSize` | Subject ID | Resolved Subject | `invalidateSubject(id)`, `invalidateRoles()`, `invalidate()` |
+
+### LRU Cache Implementation
+
+The cache is a custom LRU (Least Recently Used) implementation backed by a `Map`:
+
+```typescript
+class LRUCache<V> {
+  private map = new Map<string, { value: V; expiresAt: number }>()
+  private maxSize: number
+  private ttl: number
+
+  constructor(maxSize: number, ttlMs: number) { ... }
+  get(key: string): V | undefined { ... }
+  set(key: string, value: V): void { ... }
+  delete(key: string): boolean { ... }
+  clear(): void { ... }
+  get size(): number { ... }
+}
+```
+
+**Eviction strategy:**
+
+1. **TTL expiry**: When `get()` finds an entry past `expiresAt`, it deletes and returns
+   `undefined`. Stale entries are lazily cleaned on access.
+2. **LRU eviction**: When `set()` would exceed `maxSize`, the oldest entry (first in Map
+   iteration order) is evicted. On `get()`, the accessed entry is moved to the end (most
+   recently used) by delete + re-insert.
+
+**TTL calculation:**
+
+```typescript
+const ttl = (config.cacheTTL ?? 60) * 1000  // config is in seconds, stored in ms
+```
+
+Set `cacheTTL: 0` in tests to disable caching (entries expire immediately).
+
+### Cache Invalidation Rules
+
+The admin API auto-invalidates the correct caches after each mutation:
+
+| Admin Method | Cache Invalidated | Why |
+| --- | --- | --- |
+| `savePolicy()` | `policyCache` | Policy list changed |
+| `deletePolicy()` | `policyCache` | Policy list changed |
+| `saveRole()` | `roleCache`, `rbacPolicyCache`, `subjectCache` | Role definition changed, affects RBAC policy and all resolved subjects |
+| `deleteRole()` | `roleCache`, `rbacPolicyCache`, `subjectCache` | Same as above |
+| `assignRole()` | `subjectCache[subjectId]` | Only this user's roles changed |
+| `revokeRole()` | `subjectCache[subjectId]` | Only this user's roles changed |
+| `setAttributes()` | `subjectCache[subjectId]` | Only this user's attributes changed |
+| `getAttributes()` | (none) | Read-only operation |
+
+Role mutations (`saveRole`, `deleteRole`) clear ALL subject caches because resolved subjects
+contain expanded role information. If a role's inheritance chain changes, every cached subject
+who has that role is now stale.
+
+### Manual Cache Control
+
+```typescript
+// Clear everything (nuclear option)
+engine.invalidate()
+
+// Clear only one user's cache (after external change)
+engine.invalidateSubject('alice')
+
+// Clear policy cache (after external DB update)
+engine.invalidatePolicies()
+
+// Clear role caches + all subjects (after external role change)
+engine.invalidateRoles()
+```
+
+## Startup Validation
+
+Always validate your configuration at application startup:
+
+```typescript title="src/access.ts"
+// Validate roles
+const roleCheck = access.validateRoles([viewer, editor, admin])
+if (!roleCheck.valid) {
+  throw new Error(
+    'Role config error: ' +
+    roleCheck.issues.map(i => `[${i.type}] ${i.message}`).join(', ')
+  )
+}
+
+// Validate policies
+const policyCheck = access.validatePolicy(ownerPolicy)
+if (!policyCheck.valid) {
+  throw new Error(
+    'Policy config error: ' +
+    policyCheck.issues.map(i => `[${i.type}] ${i.message}`).join(', ')
+  )
+}
+```
+
+### ValidationResult and ValidationIssue
+
+```typescript
+interface ValidationResult {
+  readonly valid: boolean                   // true if no errors (warnings are OK)
+  readonly issues: readonly ValidationIssue[]
+}
+
+interface ValidationIssue {
+  readonly type: 'error' | 'warning'
+  readonly code: string                    // machine-readable code
+  readonly message: string                 // human-readable description
+  readonly roleId?: string                 // which role (for role validation)
+  readonly path?: string                   // JSON path (for policy validation)
+}
+```
+
+`valid` is `true` when there are no `error`-level issues. Warnings do not block validity.
+
+### Role Validation Checks
+
+`validateRoles()` detects common configuration mistakes:
+
+| Check | Severity | Code | Example |
+| --- | --- | --- | --- |
+| Duplicate role IDs | error | `DUPLICATE_ROLE_ID` | Two roles both called `'editor'` |
+| Dangling inherits | error | `DANGLING_INHERIT` | `editor` inherits `'reviewer'` which does not exist |
+| Circular inheritance | warning | `CIRCULAR_INHERIT` | `a` inherits `b`, `b` inherits `a` |
+| Empty roles | warning | `EMPTY_ROLE` | Role with no permissions and no inheritance |
+
+Circular inheritance is a warning (not error) because the engine handles it at runtime
+with a visited set. However, it likely indicates a configuration mistake.
+
+### Policy Validation Checks
+
+`validatePolicy()` deeply validates untrusted policy objects (from database, API, admin
+dashboard). Use it before feeding dynamic policies to the engine:
+
+| Check | Severity | Code | What It Validates |
+| --- | --- | --- | --- |
+| Not an object | error | `INVALID_TYPE` | Policy must be a non-null, non-array object |
+| Missing id | error | `MISSING_FIELD` | `id` must be a non-empty string |
+| Missing name | error | `MISSING_FIELD` | `name` must be a non-empty string |
+| Invalid algorithm | error | `INVALID_ALGORITHM` | Must be one of: `deny-overrides`, `allow-overrides`, `first-match`, `highest-priority` |
+| Invalid version | error | `INVALID_TYPE` | `version` must be a number if provided |
+| Missing rules | error | `MISSING_FIELD` | `rules` must be an array |
+| Invalid rule shape | error | `INVALID_RULE` | Each rule must be an object |
+| Missing rule id | error | `MISSING_FIELD` | Rule `id` must be a non-empty string |
+| Invalid effect | error | `INVALID_EFFECT` | Must be `'allow'` or `'deny'` |
+| Invalid priority | error | `INVALID_TYPE` | `priority` must be a number |
+| Missing actions | error | `MISSING_FIELD` | `actions` must be a non-empty array |
+| Missing resources | error | `MISSING_FIELD` | `resources` must be a non-empty array |
+| Invalid operator | error | `INVALID_OPERATOR` | Must be one of the 17 valid operators |
+| Invalid condition | error | `INVALID_CONDITION` | Must have `field`+`operator` or `all`/`any`/`none` |
+| Invalid targets | error | `INVALID_TYPE` | `targets.actions`, `targets.resources`, `targets.roles` must be arrays |
+| Duplicate rule IDs | warning | `DUPLICATE_RULE_ID` | Two rules with same ID in one policy |
+
+#### Valid Operators
+
+The 17 operators accepted by policy validation:
+
+`eq`, `neq`, `gt`, `gte`, `lt`, `lte`, `in`, `nin`, `contains`, `not_contains`,
+`starts_with`, `ends_with`, `matches`, `exists`, `not_exists`, `subset_of`, `superset_of`
+
+## Security Hardening
+
+duck-iam includes several built-in protections:
+
+### Fail Closed
+
+If any error occurs during evaluation, the engine returns deny:
+
+```typescript
+// If beforeEvaluate throws, or the adapter fails, result is deny
+const result = await engine.can('user', 'read', { type: 'post', attributes: {} })
+// result === false (on error)
+```
+
+The `authorize()` method catches all errors and returns a deny Decision:
+
+```typescript
+// Inside engine.authorize():
+catch (error) {
+  if (this.hooks.onError) {
+    await this.hooks.onError(error as Error, req)
+  }
+  return {
+    allowed: false,
+    effect: 'deny',
+    reason: `Evaluation error: ${error.message}`,
+    duration: 0,
+    timestamp: Date.now(),
+  }
+}
+```
+
+The same fail-closed pattern applies to `permissions()`: each check that throws returns
+`false` for that key.
+
+### Prototype Pollution Prevention
+
+The field resolver (`resolve()`) blocks access to dangerous properties:
+
+```typescript
+const ALLOWED_ROOTS = new Set(['subject', 'resource', 'environment'])
+const BLOCKED_SEGMENTS = new Set(['__proto__', 'constructor', 'prototype'])
+```
+
+Any path that starts with an unrecognized root returns `null`. Any path segment matching
+a blocked name returns `null`:
+
+```typescript
+// These paths are blocked and return null:
+// __proto__.constructor     -- blocked root
+// subject.__proto__.pollute -- blocked segment
+// constructor.prototype     -- blocked root AND segment
+// resource.attributes.constructor -- blocked segment
+```
+
+Additionally, only three top-level roots are allowed: `subject`, `resource`, and
+`environment`. Paths like `process.env.SECRET` or `global.something` return `null`.
+
+The special shortcuts `action` and `scope` are handled before the path split:
+
+```typescript
+if (path === 'action') return request.action
+if (path === 'scope') return request.scope ?? null
+```
+
+### Regex DoS Prevention
+
+Condition values using the `matches` operator are limited:
+
+- **Maximum regex length**: 512 characters. Patterns longer than this return `false`.
+- **Regex compilation cache**: Up to 256 compiled patterns are cached in a `Map`. When
+  the cache is full, the oldest entry is evicted (FIFO).
+- **Invalid patterns**: If `new RegExp(pattern)` throws, the cache stores nothing and
+  `matches` returns `false` (fail closed).
+
+```typescript
+const MAX_REGEX_LENGTH = 512
+const REGEX_CACHE_MAX = 256
+
+function getCachedRegex(pattern: string): RegExp | null {
+  const cached = regexCache.get(pattern)
+  if (cached) return cached
+  try {
+    const re = new RegExp(pattern)
+    if (regexCache.size >= REGEX_CACHE_MAX) {
+      const first = regexCache.keys().next().value
+      if (first !== undefined) regexCache.delete(first)
+    }
+    regexCache.set(pattern, re)
+    return re
+  } catch {
+    return null   // invalid regex -> fail closed
+  }
+}
+```
+
+### Condition Depth Limit
+
+Nested condition groups are limited to 10 levels deep. Deeper nesting returns `false`
+(fail closed), preventing stack overflow from deeply nested or recursive conditions.
+
+```typescript
+const MAX_CONDITION_DEPTH = 10
+
+function evalConditionGroup(req, group, depth = 0): boolean {
+  if (depth >= MAX_CONDITION_DEPTH) {
+    return false  // Deny when nesting is too deep
+  }
+  // ...evaluate children with depth + 1
+}
+```
+
+The same limit applies to `explain()` traces (`MAX_TRACE_DEPTH = 10`).
+
+### Operator Type Safety
+
+Each operator validates its operand types before comparing:
+
+| Operator | Required Types | On Type Mismatch |
+| --- | --- | --- |
+| `gt`, `gte`, `lt`, `lte` | Both `number` | Returns `false` |
+| `starts_with`, `ends_with` | Both `string` | Returns `false` |
+| `matches` | Both `string` | Returns `false` |
+| `contains` | Array or string field | Returns `false` |
+| `subset_of`, `superset_of` | Both `Array` | Returns `false` |
+| `in`, `nin` | Value must be Array | Returns `false`/`true` |
+| `exists` | (any) | Checks `!= null && != undefined` |
+| `not_exists` | (any) | Checks `== null \|\| == undefined` |
+
+Type mismatches never throw. They return `false` (fail closed for allow rules) or
+`true` where appropriate (fail closed for deny rules depends on the operator).
+
+### Dynamic Variable Resolution
+
+Condition values starting with `$` are resolved against the request at evaluation time:
+
+```typescript
+function resolveValue(req: AccessRequest, value: AttributeValue): AttributeValue {
+  if (typeof value === 'string' && value.startsWith('$')) {
+    return resolve(req, value.slice(1))  // strip '$' and resolve
+  }
+  return value
+}
+```
+
+The `$` prefix triggers resolution through the same secure `resolve()` function, so
+`$subject.id` becomes the subject's ID and `$resource.attributes.ownerId` becomes the
+resource's ownerId attribute. The same security protections (allowed roots, blocked
+segments) apply.
+
+### Safe Defaults
+
+- **Deny by default**: No permission granted unless explicitly allowed
+  (`defaultEffect: 'deny'`)
+- **Missing attributes**: Unresolved fields return `null`, causing comparisons to fail
+  safely
+- **Unknown subjects**: Have no roles and empty attributes (deny by default)
+- **Cache TTL**: Prevents indefinite stale data (default 60 seconds)
+- **Cross-policy AND**: A deny from ANY policy blocks the request (defense in depth)
+
+## Choosing Development vs Production Mode
+
+The Engine constructor accepts a `mode` option that controls the trade-off between
+debugging capability and raw throughput.
+
+### Mode Comparison
+
+| | `mode: 'development'` (default) | `mode: 'production'` |
+| --- | --- | --- |
+| `engine.can()` return type | `boolean` | `boolean` |
+| `engine.check()` return type | Rich `Decision` object | `boolean` |
+| `engine.explain()` | Full trace with per-rule breakdown | Throws `Error` |
+| Hooks (`afterEvaluate`, `onDeny`, `onError`) | Fired | Skipped |
+| Timing (`decision.duration`) | Measured | Not measured |
+| Throughput | Baseline | ~2x faster |
+
+### When to Use Each Mode
+
+Use **development mode** during local development, staging, and anywhere you need
+to debug authorization decisions. The rich `Decision` objects, `explain()` traces,
+and hooks give you full visibility into why a request was allowed or denied.
+
+Use **production mode** on high-traffic production servers where throughput matters
+and you have already validated your policies. It skips Decision object construction,
+timing measurement, and all hooks, returning plain booleans for maximum speed.
+
+```typescript title="src/access.ts"
+export const engine = access.createEngine({
+  adapter,
+  mode: 'production',   // ~2x faster, no Decision objects
+  cacheTTL: 60,
+  maxCacheSize: 1000,
+})
+```
+
+### Production Mode Restrictions
+
+In production mode, `engine.explain()` throws an error:
+
+```typescript
+// This throws in production mode
+const trace = await engine.explain('alice', 'read', {
+  type: 'post', attributes: {},
+})
+// Error: explain() is unavailable in production mode
+```
+
+Hooks are also skipped entirely. If you rely on `afterEvaluate` for audit logging or
+`onDeny` for security monitoring, keep development mode or move that logic outside the
+engine (e.g., log in your middleware after calling `engine.can()`).
+
+### evaluateFast() for Maximum Throughput
+
+When you do not need the Engine class at all (no caching, no hooks, no subject
+resolution), use `evaluateFast()` as a pure function. It takes policies and a fully
+resolved request, and returns a boolean directly:
+
+```typescript
+
+const allowed = evaluateFast(
+  [ownerPolicy, rbacPolicy],
+  {
+    subject: { id: 'bob', roles: ['editor'], attributes: {} },
+    action: 'update',
+    resource: { type: 'post', id: 'post-1', attributes: { ownerId: 'bob' } },
+  }
+)
+// allowed: boolean
+```
+
+`evaluateFast()` is the fastest option because it bypasses the entire Engine lifecycle:
+no adapter calls, no caching, no hooks, no Decision construction. Use it in hot paths
+like serverless functions or edge middleware where you have already resolved the subject
+and loaded the policies yourself.
+
+### Performance Summary
+
+| Method | Relative Speed | Returns | Needs Engine |
+| --- | --- | --- | --- |
+| `engine.can()` (development) | 1x | `boolean` | Yes |
+| `engine.can()` (production) | ~2x | `boolean` | Yes |
+| `evaluateFast()` | Fastest | `boolean` | No |
+
+## Testing Strategies
+
+  
+    **Unit test roles and policies**
+
+    ```typescript title="__tests__/access.test.ts"
+    import { describe, it, expect } from 'vitest'
+    import { Engine } from '@gentleduck/iam'
+    import { MemoryAdapter } from '@gentleduck/iam/adapters/memory'
+    import { viewer, editor, admin, ownerPolicy } from '../src/access'
+
+    function createTestEngine() {
+      const adapter = new MemoryAdapter({
+        roles: [viewer, editor, admin],
+        assignments: {
+          'alice': ['viewer'],
+          'bob': ['editor'],
+          'charlie': ['admin'],
+        },
+        policies: [ownerPolicy],
+      })
+      return new Engine({ adapter, cacheTTL: 0 })
+    }
+
+    describe('RBAC', () => {
+      const engine = createTestEngine()
+
+      it('viewer can read posts', async () => {
+        const result = await engine.can('alice', 'read', {
+          type: 'post', attributes: {},
+        })
+        expect(result).toBe(true)
+      })
+
+      it('viewer cannot create posts', async () => {
+        const result = await engine.can('alice', 'create', {
+          type: 'post', attributes: {},
+        })
+        expect(result).toBe(false)
+      })
+
+      it('editor inherits viewer permissions', async () => {
+        const result = await engine.can('bob', 'read', {
+          type: 'post', attributes: {},
+        })
+        expect(result).toBe(true)
+      })
+
+      it('admin can manage users', async () => {
+        const result = await engine.can('charlie', 'manage', {
+          type: 'user', attributes: {},
+        })
+        expect(result).toBe(true)
+      })
+    })
+
+    describe('ABAC - owner policy', () => {
+      const engine = createTestEngine()
+
+      it('editor can update own post', async () => {
+        const result = await engine.can('bob', 'update', {
+          type: 'post', id: 'post-1',
+          attributes: { ownerId: 'bob' },
+        })
+        expect(result).toBe(true)
+      })
+
+      it('editor cannot update other post', async () => {
+        const result = await engine.can('bob', 'update', {
+          type: 'post', id: 'post-2',
+          attributes: { ownerId: 'alice' },
+        })
+        expect(result).toBe(false)
+      })
+
+      it('admin can update any post', async () => {
+        const result = await engine.can('charlie', 'update', {
+          type: 'post', id: 'post-2',
+          attributes: { ownerId: 'alice' },
+        })
+        expect(result).toBe(true)
+      })
+    })
+    ```
+
+    Set `cacheTTL: 0` in tests to disable caching and ensure fresh evaluations.
+    Note that `engine.can()` returns `boolean`, not `Decision`.
+  
+
+  
+    **Test with check() for Decision details**
+
+    When you need to inspect the Decision object (effect, rule, reason, etc.), use
+    `engine.check()` instead of `engine.can()`:
+
+    ```typescript
+    it('returns deny decision with reason', async () => {
+      const engine = createTestEngine()
+      const decision = await engine.check('bob', 'update', {
+        type: 'post', id: 'post-2',
+        attributes: { ownerId: 'alice' },
+      })
+
+      expect(decision.allowed).toBe(false)
+      expect(decision.effect).toBe('deny')
+      expect(decision.policy).toBe('owner-restrictions')
+      expect(decision.reason).toContain('deny-non-owner-update')
+      expect(decision.duration).toBeGreaterThanOrEqual(0)
+      expect(decision.timestamp).toBeGreaterThan(0)
+    })
+    ```
+  
+
+  
+    **Test scoped permissions**
+
+    ```typescript
+    describe('multi-tenant', () => {
+      it('scoped roles apply per tenant', async () => {
+        const adapter = new MemoryAdapter({
+          roles: [viewer, admin],
+          assignments: { 'alice': ['viewer'] },
+        })
+        // Add scoped assignments programmatically
+        await adapter.assignRole('alice', 'admin', 'acme')
+
+        const engine = new Engine({ adapter, cacheTTL: 0 })
+
+        // With scope: admin in acme
+        const acme = await engine.can('alice', 'manage',
+          { type: 'user', attributes: {} },
+          undefined, 'acme')
+        expect(acme).toBe(true)
+
+        // Without scope: just viewer
+        const noScope = await engine.can('alice', 'manage',
+          { type: 'user', attributes: {} })
+        expect(noScope).toBe(false)
+
+        // Different scope: just viewer
+        const globex = await engine.can('alice', 'manage',
+          { type: 'user', attributes: {} },
+          undefined, 'globex')
+        expect(globex).toBe(false)
+      })
+    })
+    ```
+  
+
+  
+    **Test batch permissions**
+
+    ```typescript
+    it('generates permission map for client', async () => {
+      const engine = createTestEngine()
+
+      const map = await engine.permissions('bob', [
+        { action: 'create', resource: 'post' },
+        { action: 'read', resource: 'post' },
+        { action: 'delete', resource: 'post' },
+        { action: 'manage', resource: 'user' },
+      ])
+
+      expect(map).toEqual({
+        'create:post': true,   // editor can create
+        'read:post': true,     // editor inherits viewer's read
+        'delete:post': false,  // editor cannot delete
+        'manage:user': false,  // editor cannot manage users
+      })
+    })
+    ```
+  
+
+  
+    **Test with explain for debugging**
+
+    ```typescript
+    it('explains why permission is denied', async () => {
+      const engine = createTestEngine()
+      const result = await engine.explain('bob', 'update', {
+        type: 'post', id: 'post-2',
+        attributes: { ownerId: 'alice' },
+      })
+
+      expect(result.decision.allowed).toBe(false)
+      expect(result.summary).toContain('deny-non-owner-update')
+
+      // Inspect the trace
+      expect(result.subject.id).toBe('bob')
+      expect(result.subject.roles).toContain('editor')
+      expect(result.request.action).toBe('update')
+      expect(result.request.resourceType).toBe('post')
+
+      // Find the denying policy trace
+      const policyTrace = result.policies.find(
+        p => p.policyId === 'owner-restrictions'
+      )
+      expect(policyTrace?.result).toBe('deny')
+      expect(policyTrace?.decidingRuleId).toBe('deny-non-owner-update')
+    })
+    ```
+  
+
+  
+    **Test validation at startup**
+
+    ```typescript
+    describe('validation', () => {
+      it('detects dangling inherits', () => {
+        const broken = access.defineRole('broken')
+          .inherits('nonexistent')
+          .build()
+
+        const result = access.validateRoles([viewer, broken])
+        expect(result.valid).toBe(false)
+        expect(result.issues).toContainEqual(
+          expect.objectContaining({
+            code: 'DANGLING_INHERIT',
+            roleId: 'broken',
+          })
+        )
+      })
+
+      it('detects circular inheritance', () => {
+        const a = access.defineRole('a').inherits('b').grant('read', 'post').build()
+        const b = access.defineRole('b').inherits('a').grant('read', 'post').build()
+
+        const result = access.validateRoles([a, b])
+        expect(result.valid).toBe(true) // warnings don't block validity
+        expect(result.issues).toContainEqual(
+          expect.objectContaining({ code: 'CIRCULAR_INHERIT' })
+        )
+      })
+
+      it('validates untrusted policy JSON', () => {
+        const bad = { id: '', algorithm: 'invalid' }
+        const result = access.validatePolicy(bad)
+
+        expect(result.valid).toBe(false)
+        expect(result.issues.map(i => i.code)).toContain('MISSING_FIELD')
+        expect(result.issues.map(i => i.code)).toContain('INVALID_ALGORITHM')
+      })
+    })
+    ```
+  
+
+  
+    **Test hooks**
+
+    ```typescript
+    describe('hooks', () => {
+      it('calls afterEvaluate on every check', async () => {
+        const logs: string[] = []
+        const adapter = new MemoryAdapter({
+          roles: [viewer],
+          assignments: { 'alice': ['viewer'] },
+        })
+        const engine = new Engine({
+          adapter,
+          cacheTTL: 0,
+          hooks: {
+            afterEvaluate: async (req, decision) => {
+              logs.push(`${req.subject.id}:${req.action}:${decision.effect}`)
+            },
+          },
+        })
+
+        await engine.can('alice', 'read', { type: 'post', attributes: {} })
+        expect(logs).toEqual(['alice:read:allow'])
+      })
+
+      it('calls onDeny only when denied', async () => {
+        const denied: string[] = []
+        const adapter = new MemoryAdapter({
+          roles: [viewer],
+          assignments: { 'alice': ['viewer'] },
+        })
+        const engine = new Engine({
+          adapter,
+          cacheTTL: 0,
+          hooks: {
+            onDeny: async (req) => {
+              denied.push(`${req.action}:${req.resource.type}`)
+            },
+          },
+        })
+
+        await engine.can('alice', 'read', { type: 'post', attributes: {} })
+        expect(denied).toHaveLength(0)  // allowed, no onDeny
+
+        await engine.can('alice', 'delete', { type: 'post', attributes: {} })
+        expect(denied).toEqual(['delete:post'])  // denied, onDeny called
+      })
+
+      it('calls onError when adapter fails', async () => {
+        const errors: Error[] = []
+        const adapter = new MemoryAdapter()
+        // Simulate adapter failure
+        adapter.getSubjectRoles = async () => { throw new Error('DB down') }
+
+        const engine = new Engine({
+          adapter,
+          cacheTTL: 0,
+          hooks: { onError: async (err) => { errors.push(err) } },
+        })
+
+        const result = await engine.can('alice', 'read', {
+          type: 'post', attributes: {},
+        })
+        expect(result).toBe(false)  // fail closed
+        expect(errors[0]?.message).toBe('DB down')
+      })
+    })
+    ```
+  
+
+  
+    **Test admin API operations**
+
+    ```typescript
+    describe('admin', () => {
+      it('assigns and revokes roles', async () => {
+        const adapter = new MemoryAdapter({
+          roles: [viewer, editor],
+          assignments: { 'alice': ['viewer'] },
+        })
+        const engine = new Engine({ adapter, cacheTTL: 0 })
+
+        // Initially viewer only
+        let result = await engine.can('alice', 'create', {
+          type: 'post', attributes: {},
+        })
+        expect(result).toBe(false)
+
+        // Promote to editor
+        await engine.admin.assignRole('alice', 'editor')
+
+        result = await engine.can('alice', 'create', {
+          type: 'post', attributes: {},
+        })
+        expect(result).toBe(true)  // cache was invalidated
+
+        // Revoke editor
+        await engine.admin.revokeRole('alice', 'editor')
+
+        result = await engine.can('alice', 'create', {
+          type: 'post', attributes: {},
+        })
+        expect(result).toBe(false)  // back to viewer
+      })
+
+      it('saves and retrieves policies', async () => {
+        const adapter = new MemoryAdapter()
+        const engine = new Engine({ adapter, cacheTTL: 0 })
+
+        await engine.admin.savePolicy(ownerPolicy)
+        const retrieved = await engine.admin.getPolicy('owner-restrictions')
+        expect(retrieved?.id).toBe('owner-restrictions')
+
+        const all = await engine.admin.listPolicies()
+        expect(all).toHaveLength(1)
+
+        await engine.admin.deletePolicy('owner-restrictions')
+        const afterDelete = await engine.admin.listPolicies()
+        expect(afterDelete).toHaveLength(0)
+      })
+    })
+    ```
+  
+
+  
+    **Test server middleware (Express example)**
+
+    ```typescript
+    import express from 'express'
+    import request from 'supertest'
+    import { accessMiddleware, guard } from '@gentleduck/iam/server/express'
+
+    describe('Express middleware', () => {
+      function createApp() {
+        const app = express()
+        app.use((req, _res, next) => {
+          // Simulate auth middleware
+          ;(req as any).userId = 'alice'
+          next()
+        })
+        app.use(accessMiddleware({
+          engine,
+          getUserId: (req) => (req as any).userId,
+        }))
+
+        app.get('/api/posts', guard('read', 'post'), (_req, res) => {
+          res.json({ posts: [] })
+        })
+        app.delete('/api/posts/:id', guard('delete', 'post'), (_req, res) => {
+          res.json({ deleted: true })
+        })
+
+        return app
+      }
+
+      it('allows authorized requests', async () => {
+        const app = createApp()
+        const res = await request(app).get('/api/posts')
+        expect(res.status).toBe(200)
+      })
+
+      it('blocks unauthorized requests', async () => {
+        const app = createApp()
+        const res = await request(app).delete('/api/posts/1')
+        expect(res.status).toBe(403)
+      })
+    })
+    ```
+  
+
+### Testing Best Practices
+
+| Practice | Why |
+| --- | --- |
+| Use `cacheTTL: 0` in tests | Ensures every check hits the adapter fresh |
+| Use `MemoryAdapter` for unit tests | No database setup needed |
+| Use `engine.can()` for simple pass/fail | Returns `boolean`, cleaner assertions |
+| Use `engine.check()` when inspecting decisions | Returns full `Decision` object |
+| Use `engine.explain()` for debugging failures | Shows exactly which rule/condition failed |
+| Test both allowed and denied cases | Ensures deny rules are working correctly |
+| Test inheritance chains | Verify child roles get parent permissions |
+| Test scoped roles separately | Verify scope isolation |
+| Test hooks with mock callbacks | Verify audit/error logging works |
+| Test admin operations with `can()` after mutation | Verify cache invalidation |
+
+## Production Checklist
+
+Before shipping BlogDuck:
+
+- [ ] Set `mode: 'production'` on high-traffic production servers
+- [ ] Use `createAccessConfig` with `as const` for type safety
+- [ ] Replace `MemoryAdapter` with `PrismaAdapter` or `DrizzleAdapter`
+- [ ] Call `validateRoles()` and `validatePolicy()` at startup
+- [ ] Set appropriate `cacheTTL` (default 60s is good for most apps)
+- [ ] Set `maxCacheSize` based on your concurrent user count
+- [ ] Add `afterEvaluate` hook for audit logging
+- [ ] Add `onDeny` hook for security monitoring
+- [ ] Add `onError` hook for error monitoring
+- [ ] Protect admin API endpoints with authorization
+- [ ] Validate dynamic policies with `validatePolicy()` before saving
+- [ ] Write tests for every role, policy, and scoped permission
+- [ ] Test both allowed and denied cases
+- [ ] Server enforces permissions on every request (Chapter 6)
+- [ ] Client uses permission maps for UI only (Chapter 7)
+- [ ] Never trust client-side permission checks for security
+
+## Complete Production Setup
+
+  
+    Full production `src/access.ts`
+    
+
+```typescript
+
+// 1. Type-safe config
+export const access = createAccessConfig({
+  actions: ['create', 'read', 'update', 'delete', 'manage'] as const,
+  resources: ['post', 'comment', 'user', 'dashboard'] as const,
+  scopes: ['acme', 'globex'] as const,
+})
+
+// 2. Roles
+export const viewer = access.defineRole('viewer')
+  .grant('read', 'post')
+  .grant('read', 'comment')
+  .build()
+
+export const editor = access.defineRole('editor')
+  .inherits('viewer')
+  .grant('create', 'post').grant('update', 'post')
+  .grant('create', 'comment').grant('update', 'comment')
+  .build()
+
+export const admin = access.defineRole('admin')
+  .inherits('editor')
+  .grant('delete', 'post').grant('delete', 'comment')
+  .grant('manage', 'user').grant('manage', 'dashboard')
+  .build()
+
+// 3. Policies
+export const ownerPolicy = access.policy('owner-restrictions')
+  .name('Owner Restrictions')
+  .algorithm('deny-overrides')
+  .rule('deny-non-owner-update', r => r
+    .deny().on('update', 'delete').of('post').priority(100)
+    .when(w => w
+      .check('resource.attributes.ownerId', 'neq', '$subject.id')
+      .not(n => n.role('admin'))
+    )
+  )
+  .build()
+
+// 4. Validation
+const roleCheck = access.validateRoles([viewer, editor, admin])
+if (!roleCheck.valid) throw new Error(roleCheck.issues.map(i => i.message).join(', '))
+
+const policyCheck = access.validatePolicy(ownerPolicy)
+if (!policyCheck.valid) throw new Error(policyCheck.issues.map(i => i.message).join(', '))
+
+// 5. Database adapter
+const prisma = new PrismaClient()
+const adapter = new PrismaAdapter(prisma)
+
+// 6. Engine with hooks
+export const engine = access.createEngine({
+  adapter,
+  cacheTTL: 60,
+  maxCacheSize: 1000,
+  hooks: {
+    afterEvaluate: async (request, decision) => {
+      console.log(`[audit] ${request.subject.id} ${decision.effect} ${request.action}:${request.resource.type}`)
+    },
+    onDeny: async (request, decision) => {
+      console.log(`[denied] ${request.subject.id} -> ${request.action}:${request.resource.type}: ${decision.reason}`)
+    },
+    onError: async (error) => {
+      console.error('[auth-error]', error)
+    },
+  },
+})
+
+// 7. Typed permission checks for client
+export const appChecks = access.checks([
+  { action: 'create', resource: 'post' },
+  { action: 'read', resource: 'post' },
+  { action: 'update', resource: 'post' },
+  { action: 'delete', resource: 'post' },
+  { action: 'manage', resource: 'dashboard' },
+  { action: 'manage', resource: 'user' },
+] as const)
+```
+
+    
+  
+
+---
+
+## Chapter 8 FAQ
+
+  
+    What happens if I forget `as const`?
+    
+      Without `as const`, TypeScript widens the array types to `string[]`. The config will
+      still work at runtime, but you lose compile-time checking. Any string will be accepted
+      as an action or resource. Always use `as const` with `createAccessConfig` to get the
+      full type safety benefits.
+    
+  
+
+  
+    Which database adapter should I use?
+    
+      Use `PrismaAdapter` if you already use Prisma. Use `DrizzleAdapter` if you already use
+      Drizzle. Use `HttpAdapter` in microservice architectures where a central service manages
+      authorization. Use `MemoryAdapter` for prototyping, testing, and simple apps that do not
+      need persistence. You can also implement your own adapter by implementing the `Adapter`
+      interface which extends `PolicyStore`, `RoleStore`, and `SubjectStore`.
+    
+  
+
+  
+    How should I size the subject cache?
+    
+      Set `maxCacheSize` to roughly your peak concurrent user count. The default of
+      1000 works for most applications. If you have 10,000 concurrent users, set it to 10,000.
+      Each cached entry is small (role list + scoped roles + attributes), so memory usage is
+      minimal. The cache uses LRU eviction, so inactive users are dropped first. The policy and
+      role caches always have max size 1 (single entry each).
+    
+  
+
+  
+    Can I write a custom adapter?
+    
+      Yes. Implement the `Adapter` interface which extends `PolicyStore`, `RoleStore`, and
+      `SubjectStore`. That is 14 methods total (4 for PolicyStore, 4 for RoleStore, 6 for
+      SubjectStore). `getSubjectScopedRoles` is optional. See the `MemoryAdapter` source code
+      as a reference implementation. It is the simplest adapter and shows all required methods.
+      Make sure `getSubjectRoles()` returns only base (unscoped) roles, `savePolicy/saveRole()`
+      upserts, and `setSubjectAttributes()` merges rather than replaces.
+    
+  
+
+  
+    How do I migrate from MemoryAdapter to a database?
+    
+      Replace the adapter in your engine configuration. The engine API does not change. All
+      your roles, policies, and permission checks work exactly the same. Create the database
+      tables (using the Prisma schema or Drizzle schema above), seed them with your existing
+      role and policy definitions, then swap the adapter. Your application code stays the same.
+    
+  
+
+  
+    When should I use validatePolicy() vs validateRoles()?
+    
+      Use `validateRoles()` at startup to check your static role definitions for configuration
+      mistakes (dangling inherits, circular inheritance, empty roles). Use `validatePolicy()`
+      whenever you load a policy from an untrusted source -- a database, an API, an admin
+      dashboard, or a JSON file. It deeply validates the entire structure: required fields,
+      valid algorithm, rule shapes, condition operators, and group structure. Always call
+      `validatePolicy()` before `engine.admin.savePolicy()` with external data.
+    
+  
+
+  
+    Do I need to manually invalidate caches?
+    
+      Not if you use the `engine.admin` API -- it automatically invalidates the correct caches
+      after each mutation. Manual invalidation is needed when you modify the database directly
+      (bypassing the admin API), or in multi-instance deployments where another server changed
+      the data. In those cases, use `engine.invalidate()` to clear everything, or the more
+      targeted methods: `invalidateSubject(id)`, `invalidatePolicies()`, `invalidateRoles()`.
+    
+  
+
+  
+    What does "fail closed" mean?
+    
+      Fail closed means that when an error or unexpected condition occurs, the system denies
+      access rather than allowing it. In duck-iam: adapter failures return deny, condition depth
+      limit returns deny, invalid regex returns deny, prototype pollution paths return null (which
+      fails comparisons), and unknown subjects have no roles (deny by default). This is the opposite
+      of "fail open" where errors would grant access -- fail open is dangerous for authorization.
+    
+  
+
+  
+    What are InferAction, InferResource, and InferScope?
+    
+      These are utility types that extract the literal string union from your config object.
+      `InferAction&lt;typeof config&gt;` gives you `'create' | 'read' | 'update' | 'delete'`.
+      Use them when you need to type function parameters, API handlers, or custom adapter
+      generics against your specific config without importing the config object itself.
+    
+  
+
+  
+    How do I authenticate the HttpAdapter?
+    
+      Pass a `headers` function that returns the auth headers. The function can be async,
+      so you can fetch fresh tokens dynamically: `headers: async () => ({ Authorization:
+      'Bearer ' + await getServiceToken() })`. The function is called on every request, so
+      token rotation works automatically. On the server side, protect the admin router endpoints
+      with your own auth middleware before mounting them.
+    
+  
+
+  
+    Should I use production mode or development mode?
+    
+      Use `mode: 'development'` (the default) during local development, staging, and anywhere
+      you need `explain()` or hooks for debugging and audit logging. Use `mode: 'production'`
+      on high-traffic production servers where you need maximum throughput and have already
+      validated your policies. Production mode is roughly 2x faster because it skips Decision
+      object construction, timing, and all hooks. If you need audit logging in production,
+      move it to your middleware layer instead of relying on engine hooks.
+    
+  
+
+---
+
+You have completed the duck-iam course. BlogDuck now has a full authorization system
+with roles, policies, scoped multi-tenancy, server middleware, client libraries, and
+production-grade type safety.
+
+Go back to the [Course Overview](/docs/course) or explore the [full documentation](/docs).

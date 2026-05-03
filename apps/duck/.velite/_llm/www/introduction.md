@@ -1,0 +1,48 @@
+## A short story
+
+In 2024 a small group of React engineers got tired of the same trade-off. The popular option was to ship a Radix-based component library: accessible, well-tested, but heavy. Every primitive package shipped its own copy of the same internal helpers, and bundle reports kept growing. The other option was to roll components from scratch: smaller, but suddenly we were the people responsible for keyboard traps, screen reader announcements, focus restoration, and ten years of accessibility nuance.
+
+We wanted both. A stack where the primitives were as accessible as Radix, but where shared internals loaded once instead of being duplicated per package. Where the calendar wasn't a 20 KB monolith. Where the CLI didn't only know how to add components — it knew how to update, diff, and remove them. Where the keyboard layer was first-class instead of a userland afterthought.
+
+That stack became `gentleduck`.
+
+## What gentleduck is
+
+`gentleduck` is an organization of small, single-purpose packages that compose into a full React product surface. Every package is independently versioned, independently published, and independently useful — but they were designed to fit together.
+
+The pieces split along three layers:
+
+**Primitives** are the unstyled, accessibility-first behavior layer. **Styled components** are the Tailwind layer most apps consume. **Tools** (CLI, registry build, calendar engine, vim, motion) are the supporting systems that let the first two layers stay small and predictable.
+
+### Primitives — `@gentleduck/primitives`
+
+Headless, accessible, ARIA-correct building blocks: Dialog, Popover, Menu, Combobox, Tabs, Accordion, Tooltip, and the rest. The same compound API and `asChild` ergonomics you know from Radix, but 50–92% smaller per component because shared focus, dismissal, and presence logic loads once. If you only need behavior, you only ship behavior.
+
+### Components — `@gentleduck/registry-ui`
+
+Tailwind-styled components built on top of the primitives. Copy-pasted into your app via the CLI — you own the source. Looks and feels like shadcn/ui because the philosophy is the same: don't lock the design behind a wall of npm. The difference is what's underneath.
+
+### Tools
+
+- `@gentleduck/cli` — scaffold, add, update, diff, and remove components. Not just `add`.
+- `@gentleduck/calendar` — a 5 KB headless calendar engine with seven date adapters (Gregorian, Islamic, Persian, Hebrew, Buddhist, Indian, Japanese).
+- `@gentleduck/vim` — a keyboard command and chord engine with React hooks.
+- `@gentleduck/motion` — animation tokens that respect `prefers-reduced-motion`.
+- `@gentleduck/variants` — a typed `cva()` variant system.
+- `@gentleduck/registry-build` — the registry compiler that ships your own component registry.
+
+You can adopt any one of these without adopting the rest.
+
+## Who this is for
+
+- **Teams migrating off Radix** who want the same compound API at a fraction of the bundle size.
+- **shadcn/ui users** who want a richer ecosystem (calendar, CLI updates, vim, registries) without leaving the copy-paste model.
+- **Library authors** who need accessible primitives but ship to the smallest possible footprint.
+- **Apps with global reach** that need non-Gregorian calendars, RTL-correct date pickers, or a keyboard layer that isn't bolted on.
+
+## What's next
+
+- [Installation](/www/installation) — pick a framework and bring gentleduck into your app.
+- [Packages](/www/packages) — what each package does and how it fits with the rest.
+- [Comparisons](/www/comparisons) — bundle sizes, feature matrices, and migration guides versus Radix, shadcn, and react-day-picker.
+- [FAQs](/www/faqs) — short answers to the questions we hear most often.

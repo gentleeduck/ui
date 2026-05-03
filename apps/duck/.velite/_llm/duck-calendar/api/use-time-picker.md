@@ -1,0 +1,90 @@
+```tsx
+
+```
+
+## Usage
+
+```tsx showLineNumbers
+
+function MyTimePicker() {
+  const { state, actions, getFieldProps } = useTimePicker({
+    hourCycle: '12',
+    showSeconds: true,
+  })
+
+  return (
+    
+      
+      
+      <button {...getFieldProps('ampm')}>{state.displayAmPm}</button>
+
+  )
+}
+```
+
+---
+
+## Config
+
+`useTimePicker` accepts `UseTimePicker.IUseTimePickerConfig` (extends `Time.ITimePickerConfig`).
+
+| Prop | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `value` | `Time.ITimeValue` | - | Controlled time value |
+| `defaultValue` | `Time.ITimeValue` | `{ hour: 0, minute: 0 }` | Default time (uncontrolled) |
+| `onChange` | `(value: Time.ITimeValue) => void` | - | Called when time changes |
+| `hourCycle` | `Time.HourCycle` | `'24'` | `'12'` or `'24'` hour display |
+| `showSeconds` | `boolean` | `false` | Show the seconds field |
+| `minTime` | `Time.ITimeValue` | - | Minimum selectable time |
+| `maxTime` | `Time.ITimeValue` | - | Maximum selectable time |
+| `minuteStep` | `number` | `1` | Step increment for minutes |
+| `secondStep` | `number` | `1` | Step increment for seconds |
+
+---
+
+## Return value
+
+`useTimePicker` returns `UseTimePicker.IUseTimePickerReturn`.
+
+### `state`
+
+| Property | Type | Description |
+| :--- | :--- | :--- |
+| `value` | `Time.ITimeValue` | Current time value `{ hour, minute, second? }` |
+| `focusedField` | `Time.TimeField` | Currently focused field |
+| `hourCycle` | `Time.HourCycle` | Active hour cycle |
+| `displayHour` | `number` | Hour adjusted for 12h display |
+| `displayAmPm` | `'AM' \| 'PM'` | Current AM/PM value |
+
+### `actions`
+
+| Method | Signature | Description |
+| :--- | :--- | :--- |
+| `setValue` | `(value: Time.ITimeValue) => void` | Set the full time value |
+| `setField` | `(field: Time.TimeField, value: number) => void` | Set a single field |
+| `increment` | `(field: Time.TimeField, delta?: number) => void` | Increment a field |
+| `decrement` | `(field: Time.TimeField, delta?: number) => void` | Decrement a field |
+| `toggleAmPm` | `() => void` | Toggle between AM and PM |
+| `focusField` | `(field: Time.TimeField) => void` | Move focus to a field |
+
+### `getFieldProps`
+
+```tsx
+getFieldProps(field: Time.TimeField) => UseTimePicker.ITimeFieldProps
+```
+
+Returns props to spread on each time field element:
+
+| Prop | Type | Description |
+| :--- | :--- | :--- |
+| `role` | `'spinbutton'` | ARIA spinbutton role |
+| `aria-label` | `string` | Field label |
+| `aria-valuemin` | `number` | Minimum value |
+| `aria-valuemax` | `number` | Maximum value |
+| `aria-valuenow` | `number` | Current value |
+| `aria-valuetext` | `string` | Display value |
+| `tabIndex` | `0 \| -1` | Focus management |
+| `data-slot` | `string` | Slot identifier |
+| `data-focused` | `'true' \| undefined` | Whether field is focused |
+| `onKeyDown` | `KeyboardEventHandler` | Keyboard input handler |
+| `onFocus` | `() => void` | Focus handler |
