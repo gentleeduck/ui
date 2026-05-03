@@ -1,6 +1,6 @@
 # MCP Architecture
 
-This folder contains the duck-ui MCP server implementation for `ui.gentleduck.org/api/mcp`.
+This folder contains the duck-ui MCP server implementation for `gentleduck.org/api/mcp`.
 
 ## Files
 

@@ -63,7 +63,7 @@ describe('workspace utils', () => {
       },
       monorepo: true,
       rsc: false,
-      schema: 'https://ui.gentleduck.org/schema.json',
+      schema: 'https://gentleduck.org/schema.json',
       tailwind: {
         baseColor: 'zinc',
         css: './src/styles.css',
@@ -103,7 +103,7 @@ describe('workspace utils', () => {
         },
         monorepo: true,
         rsc: false,
-        schema: 'https://ui.gentleduck.org/schema.json',
+        schema: 'https://gentleduck.org/schema.json',
         tailwind: {
           baseColor: 'zinc',
           css: './src/styles.css',
@@ -147,7 +147,7 @@ describe('workspace utils', () => {
       },
       monorepo: true,
       rsc: false,
-      schema: 'https://ui.gentleduck.org/schema.json',
+      schema: 'https://gentleduck.org/schema.json',
       tailwind: {
         baseColor: 'zinc',
         css: './src/styles.css',

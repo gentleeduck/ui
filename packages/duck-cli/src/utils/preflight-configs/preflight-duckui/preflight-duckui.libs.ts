@@ -86,7 +86,7 @@ export const defaultDuckuiConfig = (
 ) => {
   return JSON.stringify(
     {
-      schema: 'https://ui.gentleduck.org/schema.json',
+      schema: 'https://gentleduck.org/schema.json',
       rsc: ['NEXT_JS'].includes(projectType),
       monorepo,
       workspace,

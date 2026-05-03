@@ -93,7 +93,7 @@ export function createMcpServer(): McpServer {
     {
       capabilities: { tools: {} },
       instructions: [
-        'MCP server for @gentleduck/ui documentation (ui.gentleduck.org).',
+        'MCP server for @gentleduck/ui documentation (gentleduck.org).',
         'Tools: list_docs -> browse catalog, search_docs -> keyword search (fuzzy), semantic_search -> natural language search (TF-IDF), read_doc -> full page, get_component_api -> props only, get_examples -> code only, get_changelog -> version history, get_installation -> setup guide, suggest_components -> find the right component.',
         'Tip: use semantic_search for conceptual queries ("how to handle forms"), search_docs for specific keywords. Use list_docs to browse, then read_doc for details.',
         'Categories: components, installation, packages, changelog, dark-theme, general.',

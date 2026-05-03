@@ -83,13 +83,13 @@ const tools = [
 ]
 
 const SETUP_CODE = `# Claude Code (CLI)
-claude mcp add duck-ui --transport http https://ui.gentleduck.org/api/mcp
+claude mcp add duck-ui --transport http https://gentleduck.org/api/mcp
 
 # Claude Desktop / Cursor / Windsurf (mcp.json)
 {
   "mcpServers": {
     "duck-ui": {
-      "url": "https://ui.gentleduck.org/api/mcp"
+      "url": "https://gentleduck.org/api/mcp"
     }
   }
 }`

@@ -99,7 +99,7 @@ export default async function DuckStatePage() {
             name: '@gentleduck/state',
             description,
             programmingLanguage: 'TypeScript',
-            url: 'https://ui.gentleduck.org/duck-state',
+            url: 'https://gentleduck.org/duck-state',
             codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/wip/duck-state',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },

@@ -8,8 +8,7 @@ export function formatDate(input: string | number): string {
 }
 
 export function absoluteUrl(path: string) {
-  const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || ''
-  if (!baseUrl) return path
+  const baseUrl = process.env['NEXT_PUBLIC_APP_URL'] || 'https://gentleduck.org'
 
   const normalizedBase = baseUrl.replace(/\/+$/, '')
   const normalizedPath = path.startsWith('/') ? path : `/${path}`

@@ -100,7 +100,7 @@ export default async function DuckLibsPage() {
             name: '@gentleduck/libs',
             description,
             programmingLanguage: 'TypeScript',
-            url: 'https://ui.gentleduck.org/duck-libs',
+            url: 'https://gentleduck.org/duck-libs',
             codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-libs',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },

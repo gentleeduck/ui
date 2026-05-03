@@ -26,7 +26,7 @@ interface IChatContext {
 }
 
 const CONTENT_DIR = resolve(join(process.cwd(), 'content', 'docs'))
-const BASE_URL = 'https://ui.gentleduck.org'
+const BASE_URL = 'https://gentleduck.org'
 const MAX_CONTEXT_CHARS = 8000
 
 let cachedDocs: IDocEntry[] | null = null

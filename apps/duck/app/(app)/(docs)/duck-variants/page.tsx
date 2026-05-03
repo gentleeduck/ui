@@ -97,7 +97,7 @@ export default async function DuckVariantsPage() {
             name: '@gentleduck/variants',
             description,
             programmingLanguage: 'TypeScript',
-            url: 'https://ui.gentleduck.org/duck-variants',
+            url: 'https://gentleduck.org/duck-variants',
             codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-variants',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },

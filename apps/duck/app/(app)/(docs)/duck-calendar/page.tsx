@@ -100,7 +100,7 @@ export default async function DuckCalendarPage() {
             name: '@gentleduck/calendar',
             description,
             programmingLanguage: 'TypeScript',
-            url: 'https://ui.gentleduck.org/duck-calendar',
+            url: 'https://gentleduck.org/duck-calendar',
             codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-calendar',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },

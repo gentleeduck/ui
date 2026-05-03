@@ -99,7 +99,7 @@ export default async function DuckLazyPage() {
             name: '@gentleduck/lazy',
             description,
             programmingLanguage: 'TypeScript',
-            url: 'https://ui.gentleduck.org/duck-lazy',
+            url: 'https://gentleduck.org/duck-lazy',
             codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-lazy',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },

@@ -36,7 +36,7 @@ export default function McpLayout({ children }: { children: React.ReactNode }) {
             <Link href="/docs/mcp">Get Started</Link>
           </Button>
           <Button asChild variant="outline">
-            <Link href="https://ui.gentleduck.org/api/mcp" target="_blank" rel="noreferrer">
+            <Link href="https://gentleduck.org/api/mcp" target="_blank" rel="noreferrer">
               View Server
             </Link>
           </Button>

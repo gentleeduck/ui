@@ -96,7 +96,7 @@ export default async function DuckHooksPage() {
             name: '@gentleduck/hooks',
             description,
             programmingLanguage: 'TypeScript',
-            url: 'https://ui.gentleduck.org/duck-hooks',
+            url: 'https://gentleduck.org/duck-hooks',
             codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-hooks',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },

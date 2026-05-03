@@ -143,8 +143,7 @@ function SidebarItem({
   // Pull the active border out by the parent border width so it sits ON
   // TOP of the parent border instead of next to it. Depth-1 parent uses
   // border-l-2; deeper parents use border-l (1px).
-  const activeOverlay =
-    depth === 1 ? '-ml-0.5 border-primary border-l-2' : '-ml-px border-primary border-l'
+  const activeOverlay = depth === 1 ? '-ml-0.5 border-primary border-l-2' : '-ml-px border-primary border-l'
 
   return (
     <li className={cn(isActive && activeOverlay)}>

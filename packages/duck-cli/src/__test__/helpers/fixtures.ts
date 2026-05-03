@@ -32,7 +32,7 @@ export function createMockRegistryEntry(overrides: Partial<RegistryEntry> = {}):
 
 export function createMockDuckUIConfig(overrides: Partial<DuckUI> = {}): DuckUI {
   return {
-    schema: 'https://ui.gentleduck.org/schema.json',
+    schema: 'https://gentleduck.org/schema.json',
     rsc: true,
     monorepo: false,
     workspace: {

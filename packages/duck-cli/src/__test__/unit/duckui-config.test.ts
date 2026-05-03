@@ -61,7 +61,7 @@ describe('defaultDuckuiConfig', () => {
 
   it('includes schema URL', () => {
     const result = JSON.parse(defaultDuckuiConfig(baseInput))
-    expect(result.schema).toBe('https://ui.gentleduck.org/schema.json')
+    expect(result.schema).toBe('https://gentleduck.org/schema.json')
   })
 
   it('includes workspace target when provided', () => {

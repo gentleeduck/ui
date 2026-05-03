@@ -2,7 +2,7 @@
 
 import { usePathname } from 'next/navigation'
 
-const ORIGIN = 'https://ui.gentleduck.org'
+const ORIGIN = 'https://gentleduck.org'
 
 const titlecase = (segment: string) =>
   segment

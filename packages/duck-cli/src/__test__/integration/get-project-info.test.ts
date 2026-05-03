@@ -61,7 +61,7 @@ describe('getDuckuiConfig', () => {
       fs.writeFileSync(
         path.join(tmpDir, 'duck-ui.config.json'),
         JSON.stringify({
-          schema: 'https://ui.gentleduck.org/schema.json',
+          schema: 'https://gentleduck.org/schema.json',
           monorepo: true,
           workspace: { root: '.', project: 'apps/web' },
           rsc: false,
@@ -107,7 +107,7 @@ describe('getDuckuiConfig', () => {
       fs.writeFileSync(
         path.join(tmpDir, 'duck-ui.config.json'),
         JSON.stringify({
-          schema: 'https://ui.gentleduck.org/schema.json',
+          schema: 'https://gentleduck.org/schema.json',
           monorepo: false,
           rsc: true,
           tailwind: { baseColor: 'zinc', css: './src/styles.css', cssVariables: true, prefix: '' },

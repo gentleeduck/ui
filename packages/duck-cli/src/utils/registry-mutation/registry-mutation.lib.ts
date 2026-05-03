@@ -74,7 +74,7 @@ Make sure your ${highlighter.info('duck-ui.config.json')} and ${highlighter.info
           )}`,
         )
         spinner.info(
-          `If you do not know how to write a professional issue,\n     you can find more info here: https://ui.gentleduck.org/docs/cli`,
+          `If you do not know how to write a professional issue,\n     you can find more info here: https://gentleduck.org/docs/cli`,
         )
         process.exit(0)
       }

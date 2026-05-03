@@ -55,7 +55,7 @@ describe('updateCommandAction', () => {
     fs.writeFileSync(
       path.join(tmpDir, 'duck-ui.config.json'),
       JSON.stringify({
-        schema: 'https://ui.gentleduck.org/schema.json',
+        schema: 'https://gentleduck.org/schema.json',
         rsc: false,
         monorepo: false,
         workspace: {
@@ -210,7 +210,7 @@ describe('updateCommandAction', () => {
     fs.writeFileSync(
       path.join(tmpDir, 'duck-ui.config.json'),
       JSON.stringify({
-        schema: 'https://ui.gentleduck.org/schema.json',
+        schema: 'https://gentleduck.org/schema.json',
         rsc: false,
         monorepo: true,
         workspace: {
@@ -253,7 +253,7 @@ describe('updateCommandAction', () => {
     fs.writeFileSync(
       path.join(tmpDir, 'duck-ui.config.json'),
       JSON.stringify({
-        schema: 'https://ui.gentleduck.org/schema.json',
+        schema: 'https://gentleduck.org/schema.json',
         rsc: false,
         monorepo: true,
         workspace: {

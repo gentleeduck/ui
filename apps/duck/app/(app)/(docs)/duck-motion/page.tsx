@@ -98,7 +98,7 @@ export default async function DuckMotionPage() {
             name: '@gentleduck/motion',
             description,
             programmingLanguage: 'TypeScript',
-            url: 'https://ui.gentleduck.org/duck-motion',
+            url: 'https://gentleduck.org/duck-motion',
             codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-motion',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },

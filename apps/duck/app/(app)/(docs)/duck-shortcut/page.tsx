@@ -97,7 +97,7 @@ export default async function DuckShortcutPage() {
             name: '@gentleduck/shortcut',
             description,
             programmingLanguage: 'TypeScript',
-            url: 'https://ui.gentleduck.org/duck-shortcut',
+            url: 'https://gentleduck.org/duck-shortcut',
             codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/deprecated/duck-shortcut',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },

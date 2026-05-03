@@ -2,7 +2,7 @@ import { readdir, readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
 const CONTENT_DIR = join(process.cwd(), 'content', 'docs')
-const BASE_URL = 'https://ui.gentleduck.org'
+const BASE_URL = 'https://gentleduck.org'
 
 async function getAllDocPaths(dir: string = CONTENT_DIR, prefix: string = ''): Promise<string[]> {
   try {

@@ -98,7 +98,7 @@ export default async function DuckCliPage() {
             name: '@gentleduck/cli',
             description,
             programmingLanguage: 'TypeScript',
-            url: 'https://ui.gentleduck.org/duck-cli',
+            url: 'https://gentleduck.org/duck-cli',
             codeRepository: 'https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-cli',
             license: 'https://opensource.org/licenses/MIT',
             author: { '@type': 'Person', name: 'Ahmed Ayob', url: 'https://github.com/wildduck2' },

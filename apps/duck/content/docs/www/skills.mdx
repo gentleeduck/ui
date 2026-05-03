@@ -74,7 +74,7 @@ Skills tell the agent how to use a package. The [MCP server](/www/mcp) tells the
 The docs site exposes an MCP server at:
 
 ```
-https://ui.gentleduck.org/api/mcp
+https://gentleduck.org/api/mcp
 ```
 
 Available MCP tools include `list_docs`, `read_doc`, `search_docs`, `get_component_api`, `get_examples`, `get_changelog`, `get_installation`, `suggest_components`, and `semantic_search`. See the [MCP Server doc](/www/mcp) for parameters and examples.
@@ -86,7 +86,7 @@ To wire the MCP server into your agent, drop this into the project's `.mcp.json`
   "mcpServers": {
     "gentleduck-docs": {
       "type": "url",
-      "url": "https://ui.gentleduck.org/api/mcp"
+      "url": "https://gentleduck.org/api/mcp"
     }
   }
 }

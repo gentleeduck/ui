@@ -5,7 +5,7 @@ describe('isUrl', () => {
   it('returns true for valid http URLs', () => {
     expect(isUrl('https://example.com')).toBe(true)
     expect(isUrl('http://localhost:3000')).toBe(true)
-    expect(isUrl('https://ui.gentleduck.org/r/components/button.json')).toBe(true)
+    expect(isUrl('https://gentleduck.org/r/components/button.json')).toBe(true)
   })
 
   it('returns false for non-URL strings', () => {

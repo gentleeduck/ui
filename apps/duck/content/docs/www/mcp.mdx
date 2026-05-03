@@ -45,7 +45,7 @@ The agent doesn't have to know about a specific package up front — it can disc
   "mcpServers": {
     "gentleduck-docs": {
       "type": "url",
-      "url": "https://ui.gentleduck.org/api/mcp"
+      "url": "https://gentleduck.org/api/mcp"
     }
   }
 }
@@ -60,7 +60,7 @@ Config file location:
 ### Claude Code (CLI)
 
 ```bash
-claude mcp add gentleduck-docs --transport http https://ui.gentleduck.org/api/mcp
+claude mcp add gentleduck-docs --transport http https://gentleduck.org/api/mcp
 ```
 
 ### Cursor
@@ -70,7 +70,7 @@ Open **Settings → MCP Servers → Add Server**:
 ```json
 {
   "gentleduck-docs": {
-    "url": "https://ui.gentleduck.org/api/mcp"
+    "url": "https://gentleduck.org/api/mcp"
   }
 }
 ```
@@ -81,7 +81,7 @@ Open **Settings → MCP Servers → Add Server**:
 {
   "mcpServers": {
     "gentleduck-docs": {
-      "serverUrl": "https://ui.gentleduck.org/api/mcp"
+      "serverUrl": "https://gentleduck.org/api/mcp"
     }
   }
 }
@@ -92,7 +92,7 @@ Open **Settings → MCP Servers → Add Server**:
 The server uses **Streamable HTTP** transport (the modern MCP standard). Any client that speaks MCP over HTTP can connect to:
 
 ```
-https://ui.gentleduck.org/api/mcp
+https://gentleduck.org/api/mcp
 ```
 
 For local development:
@@ -104,7 +104,7 @@ http://localhost:3000/api/mcp
 Health probe (tool count, indexed docs/categories, cache age, active sessions):
 
 ```
-https://ui.gentleduck.org/api/mcp/health
+https://gentleduck.org/api/mcp/health
 ```
 
 ## Available tools

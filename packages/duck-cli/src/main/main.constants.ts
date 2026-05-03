@@ -4,4 +4,4 @@ export const config = {
   version: '1.0.11',
 }
 
-export const REGISTRY_URL = process.env['COMPONENTS_REGISTRY_URL'] ?? 'https://ui.gentleduck.org/r'
+export const REGISTRY_URL = process.env['COMPONENTS_REGISTRY_URL'] ?? 'https://gentleduck.org/r'
