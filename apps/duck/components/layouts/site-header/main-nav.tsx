@@ -13,7 +13,7 @@ import {
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import * as React from 'react'
-import { navItems } from '~/config/docs'
+import { navItems } from '~/config/nav-items'
 import type { PackageLifecycleStatus } from '~/config/package-status'
 import type { IMainNavItem } from '~/types/nav'
 import { HeaderBrand } from '../header-shell'

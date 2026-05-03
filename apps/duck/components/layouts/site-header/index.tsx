@@ -13,13 +13,21 @@ import { useAtom } from 'jotai'
 import { atomWithStorage } from 'jotai/utils'
 import { Search, Type } from 'lucide-react'
 import Link from 'next/link'
+import dynamic from 'next/dynamic'
 import React from 'react'
 import { siteConfig } from '~/config/site'
-import { CommandMenu } from '../command-menu'
 import { HeaderContainer, HeaderRoot } from '../header-shell'
 import { ModeSwitcher } from '../mode-toggle'
 import { MainNav } from './main-nav'
 import { MobileNav } from './mobile-nav'
+
+// CommandMenu indirectly pulls every velite collection (docsEntries +
+// packageSidebarNavs in ~/config/docs). Loading it eagerly inflates the
+// shared (app)/layout chunk to ~57 MB. Defer the load so the docs
+// payload only hits the wire when the user opens the menu.
+const CommandMenu = dynamic(() => import('../command-menu').then((m) => ({ default: m.CommandMenu })), {
+  ssr: false,
+})
 
 function Github(props: React.SVGProps<SVGSVGElement>) {
   return (
