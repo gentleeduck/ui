@@ -67,7 +67,7 @@
     "README.md",
     "LICENSE",
     "tsconfig.json",
-    "src/index.css"
+    "src/css/index.css"
   ],
   "homepage": "https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-motion#readme",
   "keywords": [
