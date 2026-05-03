@@ -1,5 +1,11 @@
 # @gentleduck/motion
 
+## 0.3.2
+
+### Patch Changes
+
+- 553e2ea: Fix `files` field to include `src/css/index.css` instead of stale `src/index.css`. The `./css` export pointed to a path that wasn't shipped in the tarball, breaking `import '@gentleduck/motion/css'` in consumer apps.
+
 ## 0.3.1
 
 ### Patch Changes
