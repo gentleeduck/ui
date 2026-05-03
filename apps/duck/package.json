@@ -78,8 +78,8 @@
   },
   "scripts": {
     "build": "MODE=\"production\" next build",
-    "build:prod": "next build --webpack",
-    "build:docs": "velite && node scripts/build-search-index.mjs",
+    "build:prod": "next build",
+    "build:docs": "velite && node scripts/build-search-index.mjs && node scripts/build-llm-pages.mjs",
     "build:reg": "bun run build:reg:cli && bun run format:reg",
     "build:reg:cli": "registry-build build",
     "dev": "next dev",

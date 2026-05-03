@@ -1,0 +1,394 @@
+## What You Will Build
+
+## Step 1: Define Your Access Config
+
+Declare the actions, resources, and scopes your application uses. This creates a typed factory that constrains all subsequent builders:
+
+```typescript title="src/lib/access.ts"
+
+export const access = createAccessConfig({
+  actions: ["create", "read", "update", "delete", "manage"],
+  resources: ["post", "comment", "user", "team", "billing"],
+  scopes: ["org"],
+} as const);
+```
+
+The `as const` assertion tells TypeScript to infer literal types rather than `string[]`. After this, calling `access.defineRole("x").grant("craete", "post")` produces a compile error because `"craete"` is not in the actions list.
+
+## Step 2: Define Roles with Inheritance
+
+```typescript title="src/lib/roles.ts"
+
+export const viewer = access
+  .defineRole("viewer")
+  .desc("Read-only access to content")
+  .grantRead("post", "comment")
+  .build();
+
+export const editor = access
+  .defineRole("editor")
+  .desc("Can create and edit content")
+  .inherits("viewer")
+  .grant("create", "post")
+  .grant("update", "post")
+  .grant("create", "comment")
+  .grant("update", "comment")
+  .build();
+
+export const moderator = access
+  .defineRole("moderator")
+  .desc("Can delete content and manage comments")
+  .inherits("editor")
+  .grant("delete", "post")
+  .grant("delete", "comment")
+  .build();
+
+export const admin = access
+  .defineRole("admin")
+  .desc("Full access to everything")
+  .inherits("moderator")
+  .grantCRUD("user")
+  .grant("manage", "team")
+  .grant("manage", "billing")
+  .build();
+
+export const allRoles = [viewer, editor, moderator, admin];
+```
+
+`admin` inherits from `moderator` -> `editor` -> `viewer`. Each role automatically has all permissions from its ancestors plus its own direct grants.
+
+## Step 3: Create the Engine
+
+```typescript title="src/lib/engine.ts"
+
+const adapter = new MemoryAdapter({
+  roles: allRoles,
+  assignments: {
+    "user-alice": ["admin"],
+    "user-bob": ["editor"],
+    "user-carol": ["viewer"],
+  },
+});
+
+export const engine = access.createEngine({ adapter });
+```
+
+```typescript
+// Alice is an admin -- she can do everything
+await engine.can("user-alice", "manage", { type: "billing", attributes: {} });
+// -> true
+
+// Bob is an editor -- he can create posts but not delete them
+await engine.can("user-bob", "create", { type: "post", attributes: {} });
+// -> true
+
+await engine.can("user-bob", "delete", { type: "post", attributes: {} });
+// -> false
+
+// Carol is a viewer -- she can only read
+await engine.can("user-carol", "read", { type: "post", attributes: {} });
+// -> true
+
+await engine.can("user-carol", "create", { type: "post", attributes: {} });
+// -> false
+```
+
+## Step 4: Add an ABAC Policy
+
+A policy that denies access outside of business hours:
+
+```typescript title="src/lib/policies.ts"
+
+export const businessHoursPolicy = access
+  .policy("business-hours")
+  .name("Business Hours Only")
+  .desc("Deny write operations outside 9 AM - 6 PM UTC")
+  .algorithm("first-match")
+  .rule("deny-after-hours", (r) =>
+    r
+      .deny()
+      .on("create", "update", "delete")
+      .of("*")
+      .when((w) =>
+        w.or((o) =>
+          o.lt("environment.hour", 9).gte("environment.hour", 18)
+        )
+      )
+      .desc("Block writes outside business hours")
+  )
+  .rule("allow-in-hours", (r) =>
+    r.allow().on("*").of("*").desc("Allow everything else")
+  )
+  .build();
+```
+
+```typescript
+await engine.admin.savePolicy(businessHoursPolicy);
+```
+
+The `first-match` algorithm evaluates rules in order: the deny rule fires for writes outside 9--18 UTC, and the catch-all allow rule handles everything else.
+
+## Step 5: Owner-Only Conditions
+
+Use `$subject.id` to compare the requesting user against the resource owner:
+
+```typescript title="src/lib/roles.ts"
+export const author = access
+  .defineRole("author")
+  .desc("Can update and delete own posts only")
+  .inherits("viewer")
+  .grant("create", "post")
+  .grantWhen("update", "post", (w) => w.isOwner())
+  .grantWhen("delete", "post", (w) => w.isOwner())
+  .build();
+```
+
+Pass resource attributes when checking:
+
+```typescript
+// Bob owns this post
+await engine.can("user-bob", "update", {
+  type: "post",
+  id: "post-123",
+  attributes: { ownerId: "user-bob" },
+});
+// -> true
+
+// Carol does not own this post
+await engine.can("user-carol", "update", {
+  type: "post",
+  id: "post-123",
+  attributes: { ownerId: "user-bob" },
+});
+// -> false
+```
+
+`isOwner()` generates a condition that checks `resource.attributes.ownerId eq $subject.id`. At evaluation time, `$subject.id` resolves to the actual subject ID from the request.
+
+## Step 6: Multi-Tenant Scoped Roles
+
+```typescript title="src/lib/scoped-engine.ts"
+
+const adapter = new MemoryAdapter({
+  roles: allRoles,
+});
+
+const engine = access.createEngine({ adapter });
+
+// Alice is admin in org-1 but viewer in org-2
+await engine.admin.assignRole("user-alice", "admin", "org-1");
+await engine.admin.assignRole("user-alice", "viewer", "org-2");
+
+// Bob is editor in both orgs
+await engine.admin.assignRole("user-bob", "editor", "org-1");
+await engine.admin.assignRole("user-bob", "editor", "org-2");
+```
+
+Pass the scope to constrain evaluation:
+
+```typescript
+// Alice in org-1 -- admin
+await engine.can(
+  "user-alice", "manage", { type: "team", attributes: {} },
+  undefined, "org-1"
+);
+// -> true
+
+// Alice in org-2 -- viewer only
+await engine.can(
+  "user-alice", "manage", { type: "team", attributes: {} },
+  undefined, "org-2"
+);
+// -> false
+
+// Bob in org-2 -- editor
+await engine.can(
+  "user-bob", "create", { type: "post", attributes: {} },
+  undefined, "org-2"
+);
+// -> true
+```
+
+The engine matches the request scope against scoped role assignments. Only roles assigned to the matching scope (plus global roles) are considered.
+
+## Step 7: Server Middleware
+
+### Express
+
+```typescript title="src/server.ts"
+
+const app = express();
+
+// Option A: Global middleware -- checks every request
+app.use(
+  accessMiddleware(engine, {
+    getUserId: (req) => req.user?.id ?? null,
+  })
+);
+
+// Option B: Per-route guards -- more explicit
+app.get("/posts", guard(engine, "read", "post"), (req, res) => {
+  res.json({ posts: [] });
+});
+
+app.delete("/posts/:id", guard(engine, "delete", "post"), (req, res) => {
+  res.json({ deleted: true });
+});
+
+app.listen(3000);
+```
+
+### Hono
+
+```typescript title="src/worker.ts"
+
+const app = new Hono();
+
+// Global middleware
+app.use("*", accessMiddleware(engine, {
+  getUserId: (c) => c.get("userId") as string,
+}));
+
+// Per-route guard
+app.delete("/posts/:id", guard(engine, "delete", "post"), (c) => {
+  return c.json({ deleted: true });
+});
+
+export default app;
+```
+
+### NestJS
+
+```typescript title="src/posts/posts.controller.ts"
+
+const AccessGuard = nestAccessGuard(engine, {
+  getUserId: (req) => req.user?.sub ?? null,
+});
+
+@Controller("posts")
+@UseGuards(AccessGuard)
+export class PostsController {
+  @Get()
+  @Authorize({ action: "read", resource: "post" })
+  async findAll() {
+    return [];
+  }
+
+  @Delete(":id")
+  @Authorize({ action: "delete", resource: "post" })
+  async remove(@Param("id") id: string) {
+    return { deleted: id };
+  }
+}
+```
+
+### Next.js
+
+```typescript title="src/app/api/posts/[id]/route.ts"
+
+export const DELETE = withAccess(
+  engine,
+  "delete",
+  "post",
+  async (req, ctx) => {
+    const params = await ctx.params;
+    return Response.json({ deleted: params.id });
+  },
+  {
+    getUserId: async (req) => {
+      const session = await getSession();
+      return session?.userId ?? null;
+    },
+  }
+);
+```
+
+For Server Components, use `checkAccess()` and `getPermissions()`:
+
+```typescript title="src/app/layout.tsx"
+
+export default async function Layout({ children }) {
+  const session = await getSession();
+
+  const permissions = await getPermissions(engine, session.userId, [
+    { action: "create", resource: "post" },
+    { action: "delete", resource: "post" },
+    { action: "manage", resource: "team" },
+  ]);
+
+  return (
+
+      {children}
+
+  );
+}
+```
+
+## Step 8: React Client Provider
+
+```typescript title="src/lib/access-client.tsx"
+"use client";
+
+export const {
+  AccessProvider,
+  useAccess,
+  Can,
+  Cannot,
+} = createAccessControl(React);
+```
+
+```tsx title="src/components/post-actions.tsx"
+"use client";
+
+export function PostActions({ postId }: { postId: string }) {
+  const { can } = useAccess();
+
+  return (
+
+      {/* Imperative check */}
+      {can("update", "post") && (
+        <button>Edit Post</button>
+      )}
+
+      {/* Declarative check */}
+
+        <button>Delete Post</button>
+
+      {/* Show message when user lacks permission */}
+
+        <p>You do not have permission to manage this team.</p>
+
+  );
+}
+```
+
+`AccessProvider` receives the `PermissionMap` generated on the server (from Step 7). Client permission checks are synchronous lookups with no network requests.
+
+## Debugging with explain()
+
+When a permission check produces unexpected results, use `engine.explain()` for a full trace:
+
+```typescript
+const trace = await engine.explain(
+  "user-bob",
+  "delete",
+  { type: "post", id: "post-123", attributes: { ownerId: "user-alice" } }
+);
+
+console.log(trace.decision);
+// -> { allowed: false, effect: "deny", reason: "..." }
+
+console.log(trace.policies);
+// -> Array of PolicyTrace, each containing:
+//    - policy id and name
+//    - which rules matched
+//    - which conditions passed or failed
+//    - actual vs expected values for each condition
+```
+
+## Next Steps
+
+- [Core Concepts](/docs/core): deep dive into policies, rules, conditions, and combining algorithms.
+- [Integrations](/docs/integrations): detailed API reference for every server and client integration.
+- [Advanced](/docs/advanced): evaluation hooks, custom adapters, caching configuration, and validation.
+- [FAQs](/docs/faqs): common questions and troubleshooting tips.

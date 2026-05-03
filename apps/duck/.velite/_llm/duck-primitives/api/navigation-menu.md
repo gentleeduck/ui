@@ -1,0 +1,88 @@
+```tsx
+
+```
+
+## Usage
+
+```tsx
+
+```
+
+## API
+
+### `NavigationMenu.Root`
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | - | Controlled open item value |
+| `defaultValue` | `string` | `''` | Initial open item value |
+| `onValueChange` | `(value: string) => void` | - | Called when open value changes |
+| `dir` | `'ltr' \| 'rtl'` | - | Text direction. Resolved with `useDirection` (`dir` prop -> `DirectionProvider` -> `'ltr'`). |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Menu orientation |
+| `delayDuration` | `number` | `200` | Delay before opening item on pointer move |
+| `skipDelayDuration` | `number` | `300` | Time window to skip reopen delay |
+| `...props` | `React.ComponentPropsWithoutRef<'nav'>` | - | Additional props for root nav |
+
+### `NavigationMenu.Sub`
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | - | Controlled sub-menu value |
+| `defaultValue` | `string` | `''` | Initial sub-menu value |
+| `onValueChange` | `(value: string) => void` | - | Called when sub-menu value changes |
+| `orientation` | `'horizontal' \| 'vertical'` | `'horizontal'` | Sub-menu orientation |
+
+### `NavigationMenu.List`
+
+List wrapper for menu items and indicator tracking.
+
+### `NavigationMenu.Item`
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `value` | `string` | auto-generated | Stable item key used by trigger/content pairing |
+
+### `NavigationMenu.Trigger`
+
+Interactive trigger button for an item. Sets `aria-expanded`, `aria-controls`, and `data-state` automatically.
+
+### `NavigationMenu.Content`
+
+Content panel for an item. Supports pointer/focus outside handlers from dismissable layer props.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `forceMount` | `true` | - | Keep mounted for animation control |
+
+### `NavigationMenu.Link`
+
+Composable link slot used inside content.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `active` | `boolean` | `false` | Marks link as current page (`aria-current="page"`) |
+| `onSelect` | `(event: Event) => void` | - | Called on link selection before root dismiss |
+
+### `NavigationMenu.Indicator`
+
+Positions an active-item indicator relative to the current trigger.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `forceMount` | `true` | - | Keep mounted for animation control |
+
+### `NavigationMenu.Viewport`
+
+Shared animated viewport that hosts active content.
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `forceMount` | `true` | - | Keep viewport mounted for animation control |
+
+### Scope
+
+```tsx
+
+```
+
+`createNavigationMenuScope` is exported for advanced composition and nested-scoped integration.

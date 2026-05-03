@@ -1,0 +1,37 @@
+## Variants Benchmarking <Badge>feat</Badge>
+
+Ran comprehensive benchmarks comparing `@gentleduck/variants` against alternatives:
+
+- Added comprehensive performance tests for CVA and DuckCva
+- Demonstrated **7x speed improvement** with benchmarking data
+- Added caching variant implementation for comparison
+- Published benchmark results in README with images
+
+---
+
+## Dialog System <Badge variant="outline">fix</Badge>
+
+- Enhanced dialog context with new hooks and types
+- Fixed dialog animation duration and scale for smoother transitions
+- Moved dialog animations from CSS to Tailwind for consistency
+- Fixed dialog open state toggle logic
+- Ensured `DialogContent` renders only once (prevents double-mount)
+
+---
+
+## aria-feather Init <Badge>feat</Badge>
+
+Initialized the **aria-feather** primitives package  -  the precursor to `@gentleduck/primitives`:
+
+- Set up package structure and build configuration
+- Fixed benchmark build integration
+- This package evolved into the full primitives system shipped in 2026
+
+aria-feather was later renamed and expanded into `@gentleduck/primitives` with 20+ headless components. See the [primitives docs](/www/packages/duck-primitives).
+
+---
+
+## Form Components <Badge>feat</Badge>
+
+- Completed form, table, and alert components
+- Done with form components including multi-step validation with Zod

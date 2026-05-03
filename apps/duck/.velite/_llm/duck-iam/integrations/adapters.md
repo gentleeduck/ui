@@ -1,0 +1,669 @@
+## Overview
+
+Adapters are duck-iam's storage layer. They implement the `Adapter` interface, which
+combines three stores:
+
+- **PolicyStore**: CRUD for access policies (rules, conditions, combining algorithms).
+- **RoleStore**: CRUD for roles (permissions, inheritance, scopes).
+- **SubjectStore**: role assignments, scoped roles, and subject attributes.
+
+Every adapter is fully typed against the app's action, resource, role, and scope
+types.
+
+```typescript
+
+const engine = new Engine({
+  adapter: yourAdapter,
+  defaultEffect: 'deny',
+  cacheTTL: 60,
+})
+```
+
+---
+
+## Memory adapter
+
+```
+
+```
+
+Stores everything in `Map` instances. For development, testing, and prototyping.
+Data doesn't survive process restarts.
+
+### Basic usage
+
+```typescript
+
+const adapter = new MemoryAdapter({
+  roles: [
+    {
+      id: 'admin',
+      name: 'Administrator',
+      permissions: [
+        { action: '*', resource: '*' },
+      ],
+    },
+    {
+      id: 'editor',
+      name: 'Editor',
+      permissions: [
+        { action: 'read', resource: '*' },
+        { action: 'create', resource: 'post' },
+        { action: 'update', resource: 'post' },
+        { action: 'delete', resource: 'post' },
+      ],
+    },
+    {
+      id: 'viewer',
+      name: 'Viewer',
+      permissions: [
+        { action: 'read', resource: '*' },
+      ],
+    },
+  ],
+
+  policies: [
+    {
+      id: 'default',
+      name: 'Default Policy',
+      algorithm: 'deny-overrides',
+      rules: [
+        {
+          id: 'deny-banned',
+          effect: 'deny',
+          priority: 100,
+          actions: ['*'],
+          resources: ['*'],
+          conditions: {
+            all: [{ field: 'subject.attributes.status', operator: 'eq', value: 'banned' }],
+          },
+        },
+        {
+          id: 'allow-all',
+          effect: 'allow',
+          priority: 1,
+          actions: ['*'],
+          resources: ['*'],
+          conditions: { all: [] },
+        },
+      ],
+    },
+  ],
+
+  assignments: {
+    'user-1': ['admin'],
+    'user-2': ['editor'],
+    'user-3': ['viewer'],
+  },
+})
+```
+
+### With subject attributes
+
+Pass initial attributes for ABAC-style conditions.
+
+```typescript
+const adapter = new MemoryAdapter({
+  roles: [...],
+  assignments: { 'user-1': ['editor'] },
+  attributes: {
+    'user-1': {
+      department: 'engineering',
+      level: 3,
+      verified: true,
+    },
+  },
+})
+```
+
+### Constructor options
+
+| Option | Type | Description |
+| --- | --- | --- |
+| `roles` | `Role[]` | Initial role definitions |
+| `policies` | `Policy[]` | Initial policy definitions |
+| `assignments` | `Record<string, string[]>` | Map of subject ID to role IDs |
+| `attributes` | `Record<string, Attributes>` | Map of subject ID to attribute objects |
+
+### Behavior details
+
+- **Duplicate assignments**: `assignRole` checks for existing entries and silently skips
+  duplicates. Calling `assignRole('user-1', 'editor')` twice has no effect the second time.
+- **Attribute merging**: `setSubjectAttributes` shallow-merges new attributes into existing
+  ones. To remove an attribute, set it to `null`.
+- **Scoped vs unscoped roles**: stored in the same array. `getSubjectRoles` filters for
+  entries without a scope; `getSubjectScopedRoles` filters for entries with a scope.
+
+### When to use
+
+- **Unit tests**: seed known roles and assignments, assert engine behavior
+- **Development**: get started without a database
+- **Prototyping**: explore the policy model before committing to a schema
+- **CI pipelines**: run integration tests without external dependencies
+
+---
+
+## Prisma adapter
+
+```
+
+```
+
+Stores policies, roles, assignments, and subject attributes in your database through Prisma Client. It expects four models in your Prisma schema.
+
+### Required schema
+
+Add these models to your `schema.prisma` file:
+
+```prisma
+model AccessPolicy {
+  id          String  @id
+  name        String
+  description String?
+  version     Int     @default(1)
+  algorithm   String
+  rules       Json
+  targets     Json?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("access_policies")
+}
+
+model AccessRole {
+  id          String  @id
+  name        String
+  description String?
+  permissions Json
+  inherits    String[]
+  scope       String?
+  metadata    Json?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("access_roles")
+}
+
+model AccessAssignment {
+  id        String  @id @default(cuid())
+  subjectId String
+  roleId    String
+  scope     String?
+
+  createdAt DateTime @default(now())
+
+  @@unique([subjectId, roleId, scope])
+  @@index([subjectId])
+  @@map("access_assignments")
+}
+
+model AccessSubjectAttr {
+  subjectId String @id
+  data      Json
+
+  updatedAt DateTime @updatedAt
+
+  @@map("access_subject_attrs")
+}
+```
+
+Run `prisma migrate dev` after adding these models.
+
+### Usage
+
+```typescript
+
+const prisma = new PrismaClient()
+const adapter = new PrismaAdapter(prisma)
+
+const engine = new Engine({ adapter })
+```
+
+The adapter uses `upsert` for save operations, so calling `savePolicy` or `saveRole` with an existing ID updates the record rather than throwing a conflict error.
+
+### How it maps
+
+| Adapter method | Prisma operation |
+| --- | --- |
+| `listPolicies()` | `accessPolicy.findMany()` |
+| `getPolicy(id)` | `accessPolicy.findUnique({ where: { id } })` |
+| `savePolicy(p)` | `accessPolicy.upsert(...)` |
+| `deletePolicy(id)` | `accessPolicy.delete({ where: { id } })` |
+| `listRoles()` | `accessRole.findMany()` |
+| `getRole(id)` | `accessRole.findUnique({ where: { id } })` |
+| `saveRole(r)` | `accessRole.upsert(...)` |
+| `deleteRole(id)` | `accessRole.delete({ where: { id } })` |
+| `getSubjectRoles(id)` | `accessAssignment.findMany({ where: { subjectId } })` |
+| `getSubjectScopedRoles(id)` | Same query, filtered for non-null scope |
+| `assignRole(id, role, scope?)` | `accessAssignment.create(...)` |
+| `revokeRole(id, role, scope?)` | `accessAssignment.deleteMany(...)` |
+| `getSubjectAttributes(id)` | `accessSubjectAttr.findUnique(...)` |
+| `setSubjectAttributes(id, attrs)` | `accessSubjectAttr.upsert(...)` (merges with existing) |
+
+---
+
+## Drizzle adapter
+
+```
+
+```
+
+Works with any Drizzle ORM database driver (PostgreSQL, MySQL, SQLite). You provide your table definitions and Drizzle's operator functions.
+
+### Table definitions
+
+Define your tables using Drizzle's schema builder. Column names should match the expected row shapes.
+
+```typescript
+// db/schema/access.ts
+
+export const accessPolicies = pgTable('access_policies', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  description: text('description'),
+  version: integer('version').notNull().default(1),
+  algorithm: text('algorithm').notNull(),
+  rules: json('rules').notNull(),
+  targets: json('targets'),
+})
+
+export const accessRoles = pgTable('access_roles', {
+  id: text('id').primaryKey(),
+  name: text('name').notNull(),
+  description: text('description'),
+  permissions: json('permissions').notNull(),
+  inherits: json('inherits'),
+  scope: text('scope'),
+  metadata: json('metadata'),
+})
+
+export const accessAssignments = pgTable('access_assignments', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+  subjectId: text('subject_id').notNull(),
+  roleId: text('role_id').notNull(),
+  scope: text('scope'),
+}, (t) => ({
+  unique: uniqueIndex('uniq_assignment').on(t.subjectId, t.roleId, t.scope),
+}))
+
+export const accessSubjectAttrs = pgTable('access_subject_attrs', {
+  subjectId: text('subject_id').primaryKey(),
+  data: json('data').notNull(),
+})
+```
+
+### Usage
+
+```typescript
+
+const db = drizzle(pool)
+
+const adapter = new DrizzleAdapter({
+  db,
+  tables: {
+    policies: tables.accessPolicies,
+    roles: tables.accessRoles,
+    assignments: tables.accessAssignments,
+    attrs: tables.accessSubjectAttrs,
+  },
+  ops: { eq, and },
+})
+
+const engine = new Engine({ adapter })
+```
+
+### Constructor config
+
+| Option | Type | Description |
+| --- | --- | --- |
+| `db` | Drizzle database instance | Your Drizzle `db` object with `select`, `insert`, `delete` |
+| `tables.policies` | Drizzle table | Policy table reference |
+| `tables.roles` | Drizzle table | Role table reference |
+| `tables.assignments` | Drizzle table | Assignment table reference |
+| `tables.attrs` | Drizzle table | Subject attributes table reference |
+| `ops.eq` | `(col, val) -> condition` | Drizzle `eq` operator |
+| `ops.and` | `(...conditions) -> condition` | Drizzle `and` operator |
+
+### JSON handling
+
+The Drizzle adapter handles JSON serialization automatically. If your database driver returns JSON columns as strings (common with SQLite), the adapter parses them. If the driver returns parsed objects (common with PostgreSQL `json`/`jsonb` columns), the adapter uses them directly.
+
+---
+
+## HTTP adapter
+
+```
+
+```
+
+Delegates all storage operations to a remote API. Use it when:
+
+- Your access engine runs on a dedicated service
+- You want to share policies across multiple applications
+- Your client-side code needs to evaluate permissions against a server
+
+### Usage
+
+```typescript
+
+const adapter = new HttpAdapter({
+  baseUrl: 'https://api.example.com/access',
+  headers: {
+    Authorization: 'Bearer ' + serviceToken,
+  },
+})
+
+const engine = new Engine({ adapter })
+```
+
+### Dynamic headers
+
+Pass a function to compute headers per-request. Useful for rotating tokens or per-request context.
+
+```typescript
+const adapter = new HttpAdapter({
+  baseUrl: 'https://api.example.com/access',
+  headers: async () => ({
+    Authorization: 'Bearer ' + await getServiceToken(),
+    'X-Request-Id': crypto.randomUUID(),
+  }),
+})
+```
+
+### Custom fetch
+
+Provide your own fetch implementation for environments without a global `fetch`, or to add middleware like logging or retries.
+
+```typescript
+
+const adapter = new HttpAdapter({
+  baseUrl: 'https://api.example.com/access',
+  fetch: async (url, init) => {
+    console.log('Access API request:', url)
+    const res = await globalThis.fetch(url, init)
+    console.log('Access API response:', res.status)
+    return res
+  },
+})
+```
+
+### API endpoints
+
+The HTTP adapter expects these REST endpoints on your server:
+
+| Method | Path | Description |
+| --- | --- | --- |
+| GET | /policies | List all policies |
+| GET | /policies/:id | Get a single policy |
+| PUT | /policies | Create or update a policy |
+| DELETE | /policies/:id | Delete a policy |
+| GET | /roles | List all roles |
+| GET | /roles/:id | Get a single role |
+| PUT | /roles | Create or update a role |
+| DELETE | /roles/:id | Delete a role |
+| GET | /subjects/:id/roles | Get a subject's roles |
+| GET | /subjects/:id/scoped-roles | Get a subject's scoped roles |
+| POST | /subjects/:id/roles | Assign a role (body: `{ roleId, scope? }`) |
+| DELETE | /subjects/:id/roles/:roleId | Revoke a role (query: `?scope=...`) |
+| GET | /subjects/:id/attributes | Get subject attributes |
+| PATCH | /subjects/:id/attributes | Update subject attributes (body: attribute object) |
+
+The built-in Express `adminRouter` covers part of this admin surface, but it does **not**
+implement the full HTTP adapter contract. If you want to use `HttpAdapter`, either implement
+the complete endpoint set manually or extend the admin router with the missing item lookups,
+scoped-role reads, and subject-attribute endpoints.
+
+### Error handling
+
+The HTTP adapter throws an `Error` with the message `"@gentleduck/iam HTTP {status}: {responseText}"`
+for any non-2xx response. It does not retry failed requests. Add retry logic in your custom
+`fetch` function if needed.
+
+A `Content-Type: application/json` header is sent on every request. If `headers` is a
+function, it is awaited before each request.
+
+### Constructor config
+
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `baseUrl` | `string` | -- | Base URL for the access API (trailing slash stripped) |
+| `headers` | `Record or () -> Record or Promise` | `{}` | Static or dynamic headers |
+| `fetch` | `typeof fetch` | `globalThis.fetch` | Custom fetch implementation |
+
+---
+
+## Custom adapters
+
+Implement the `Adapter` interface to connect duck-iam to any storage backend.
+
+### The Adapter interface
+
+```typescript
+
+interface Adapter<TAction, TResource, TRole, TScope> {
+  // PolicyStore
+  listPolicies(): Promise<Policy<TAction, TResource, TRole>[]>
+  getPolicy(id: string): Promise<Policy<TAction, TResource, TRole> | null>
+  savePolicy(policy: Policy<TAction, TResource, TRole>): Promise<void>
+  deletePolicy(id: string): Promise<void>
+
+  // RoleStore
+  listRoles(): Promise<Role<TAction, TResource, TRole, TScope>[]>
+  getRole(id: string): Promise<Role<TAction, TResource, TRole, TScope> | null>
+  saveRole(role: Role<TAction, TResource, TRole, TScope>): Promise<void>
+  deleteRole(id: string): Promise<void>
+
+  // SubjectStore
+  getSubjectRoles(subjectId: string): Promise<TRole[]>
+  getSubjectScopedRoles?(subjectId: string): Promise<ScopedRole<TRole, TScope>[]>
+  assignRole(subjectId: string, roleId: TRole, scope?: TScope): Promise<void>
+  revokeRole(subjectId: string, roleId: TRole, scope?: TScope): Promise<void>
+  getSubjectAttributes(subjectId: string): Promise<Attributes>
+  setSubjectAttributes(subjectId: string, attrs: Attributes): Promise<void>
+}
+```
+
+`getSubjectScopedRoles` is optional. If your application does not use scoped roles, omit it.
+When absent, the engine treats scoped assignments as empty and continues with global role
+evaluation only.
+
+### Example: Redis adapter
+
+```typescript
+
+export class RedisAdapter implements Adapter {
+  constructor(private redis: Redis, private prefix = 'iam:') {}
+
+  private key(type: string, id?: string) {
+    return id ? `${this.prefix}${type}:${id}` : `${this.prefix}${type}`
+  }
+
+  async listPolicies(): Promise<Policy[]> {
+    const keys = await this.redis.keys(this.key('policy', '*'))
+    const results = await Promise.all(keys.map(k => this.redis.get(k)))
+    return results.filter(Boolean).map(r => JSON.parse(r!))
+  }
+
+  async getPolicy(id: string): Promise<Policy | null> {
+    const raw = await this.redis.get(this.key('policy', id))
+    return raw ? JSON.parse(raw) : null
+  }
+
+  async savePolicy(p: Policy): Promise<void> {
+    await this.redis.set(this.key('policy', p.id), JSON.stringify(p))
+  }
+
+  async deletePolicy(id: string): Promise<void> {
+    await this.redis.del(this.key('policy', id))
+  }
+
+  // ... implement remaining methods for roles and subjects
+}
+```
+
+### Testing custom adapters
+
+Use `MemoryAdapter` as a reference implementation. Your adapter should behave identically for the same inputs.
+
+1. Seed your adapter with known roles, policies, and assignments
+2. Create an engine with your adapter
+3. Assert that `engine.can()` returns the expected results
+4. Test edge cases: missing subjects, empty roles, scoped vs unscoped assignments
+
+```typescript
+
+const adapter = new YourAdapter(/* config */)
+
+// Seed
+await adapter.saveRole({
+  id: 'editor',
+  name: 'Editor',
+  permissions: [
+    { action: 'read', resource: '*' },
+    { action: 'update', resource: 'post' },
+  ],
+})
+await adapter.assignRole('user-1', 'editor')
+
+// Test
+const engine = new Engine({ adapter })
+const canUpdate = await engine.can('user-1', 'update', { type: 'post', attributes: {} })
+const canDelete = await engine.can('user-1', 'delete', { type: 'post', attributes: {} })
+
+assert(canUpdate === true)
+assert(canDelete === false)
+```
+
+---
+
+## Choosing an adapter
+
+| Adapter | Use case | Persistence | Dependencies |
+| --- | --- | --- | --- |
+| **Memory** | Dev, testing, prototyping | None (in-process) | None |
+| **Prisma** | Production apps using Prisma | Database (any Prisma-supported) | `@prisma/client` |
+| **Drizzle** | Production apps using Drizzle | Database (PG, MySQL, SQLite) | `drizzle-orm` |
+| **HTTP** | Microservices, client-server split | Remote API | None (uses `fetch`) |
+| **Custom** | Any other storage backend | Your choice | Your choice |
+
+All adapters are interchangeable. Start with the memory adapter during development and switch to Prisma or Drizzle in production without changing any engine or middleware code.
+
+---
+
+## Adapter FAQ
+
+  
+    What does an adapter actually do in duck-iam?
+    
+      An adapter is the persistence layer. It loads and stores policies, roles, role assignments, scoped assignments,
+      and subject attributes. The engine owns evaluation, policy combination, explain traces, and decision logic.
+    
+  
+
+  
+    Does MemoryAdapter persist anything?
+    
+      No. It stores everything in process memory. Restarting the process resets policies, roles, assignments, and
+      attributes, which is why it is best for tests, demos, and local development.
+    
+  
+
+  
+    Can I seed scoped assignments in MemoryAdapter constructor input?
+    
+      Not directly. Constructor assignment seeding is unscoped. For scoped assignments, create the adapter first and then
+      call <code className="rounded bg-muted px-2 py-1">assignRole(subjectId, roleId, scope)</code>.
+    
+  
+
+  
+    Can I use my existing database instead of a dedicated auth database?
+    
+      Yes. duck-iam only needs four storage areas for policies, roles, assignments, and subject attributes. Those can live
+      alongside the rest of your application schema.
+    
+  
+
+  
+    How do PrismaAdapter and DrizzleAdapter differ in practice?
+    
+      Prisma expects named models and lets Prisma handle JSON columns natively. Drizzle expects you to wire the tables and
+      query operators explicitly, and the adapter serializes or parses JSON fields for you.
+    
+  
+
+  
+    Do adapters merge subject attributes or replace them?
+    
+      The built-in adapters merge incoming attributes into the current subject attribute map. This lets you patch a few
+      attributes without rewriting the entire stored object.
+    
+  
+
+  
+    How are duplicate role assignments handled?
+    
+      Memory ignores duplicates in memory, Drizzle uses conflict-safe inserts, and Prisma is intended to rely on the sample
+      uniqueness constraint in the schema. The intended model is idempotent assignment rather than accumulating duplicates.
+    
+  
+
+  
+    Does HttpAdapter move policy evaluation to the server?
+    
+      No. HttpAdapter fetches authorization data over HTTP, but the consuming engine still evaluates permissions locally.
+      Use it when you want shared storage behind a service boundary, not when you want to outsource evaluation entirely.
+    
+  
+
+  
+    Can HttpAdapter attach auth headers dynamically?
+    
+      Yes. The <code className="rounded bg-muted px-2 py-1">headers</code> option can be a static object or an async
+      function, which makes it suitable for short-lived bearer tokens and per-request auth state.
+    
+  
+
+  
+    Can I start with MemoryAdapter and move to Prisma, Drizzle, or HTTP later?
+    
+      Yes. That is one of the intended adoption paths. The engine and builder APIs stay the same; the main migration work
+      is moving your persisted roles, policies, assignments, and subject attributes into the new adapter's storage shape.
+    
+  
+
+  
+    What should a scoped-role capable adapter guarantee?
+    
+      It should keep global role assignments and scoped assignments conceptually separate. Global assignments belong in
+      <code className="rounded bg-muted px-2 py-1">getSubjectRoles()</code>. Scope-bound assignments belong in
+      <code className="rounded bg-muted px-2 py-1">getSubjectScopedRoles()</code> so the engine can merge them only for
+      matching request scopes.
+    
+  
+
+  
+    What exactly should getSubjectRoles() return when a subject has both global and scoped assignments?
+    
+      It should return the subject's global role IDs only. Scoped assignments should be surfaced through
+      <code className="rounded bg-muted px-2 py-1">getSubjectScopedRoles()</code> so the engine can merge them only when
+      the request scope matches.
+    
+  
+
+  
+    Can I implement only unscoped roles first and add multi-tenant support later?
+    
+      Yes. A custom adapter can omit <code className="rounded bg-muted px-2 py-1">getSubjectScopedRoles()</code> and still
+      support the core engine. Add that method and scoped assignment storage once your application needs
+      tenant-aware role resolution.
+    
+  
+
+  
+    Does the Express admin router fully satisfy HttpAdapter?
+    
+      No. It is a useful management surface, but the HTTP adapter expects additional read endpoints and subject surfaces
+      beyond the stock router. Treat the router as a starting point, not a drop-in backend for the full adapter contract.
