@@ -1,0 +1,123 @@
+}>
+
+These patterns are the contract design-system wrappers should preserve.
+
+## 1) Composition via `asChild`
+
+`asChild` replaces the primitive's default DOM node with the child element, keeping
+the primitive's behavior and semantics.
+
+```tsx
+
+```
+
+---
+
+## 4) Dismiss orchestration with `Dismissable Layer`
+
+Dismiss behavior is event-driven, not hardcoded. Key hooks:
+
+- `onPointerDownOutside`
+- `onFocusOutside`
+- `onInteractOutside`
+- `onEscapeKeyDown`
+- `onDismiss`
+
+Cancel dismissal with `event.preventDefault()`.
+
+Use this for guarded flows — unsaved changes, in-flight requests, multi-step
+confirmation.
+
+---
+
+## 5) Mount lifecycle with `Presence`
+
+`Presence` is how primitives support CSS exit animations without race conditions.
+
+State model:
+
+1. `mounted`
+2. `unmountSuspended` (exit animation in progress)
+3. `unmounted`
+
+In practice: style enter/exit through `data-state` and CSS keyframes. Use
+`forceMount` when an external animation library controls DOM presence.
+
+---
+
+## 6) Positioning contract with `Popper`
+
+Floating primitives expose a stable placement API:
+
+- `side`, `align`
+- `sideOffset`, `alignOffset`
+- `avoidCollisions`, `collisionPadding`, `collisionBoundary`
+
+This is a layout API, not a styling API. Keep visual concerns in classes/tokens.
+
+---
+
+## 7) Context scoping and nested primitives
+
+Primitives use scoped contexts so nested instances remain independent.
+
+```tsx
+
+      <Dialog.Content>Nested dialog</Dialog.Content>
+
+```
+
+When wrapper components fail in nested cases, the root cause is usually prop
+swallowing or broken ref forwarding — not primitive context.
+
+---
+
+## 8) Data attributes are your styling API
+
+Use data attributes for visual states and ARIA attributes for assistive semantics.
+
+- `data-state="open" | "closed"`
+- `data-disabled`
+- `data-highlighted`
+- `data-side`, `data-align` (floating content)
+
+```css
+[data-state='open'] {
+  animation: fadeIn 160ms ease;
+}
+
+[data-state='closed'] {
+  animation: fadeOut 120ms ease;
+}
+```
+
+---
+
+## 9) Wrapper design rules for design systems
+
+1. Re-export Root directly where possible.
+2. Wrap visual parts with `forwardRef`.
+3. Preserve primitive props (`...props`) and `className` extensibility.
+4. Set sensible defaults (`sideOffset`, animation classes, padding).
+5. Keep accessibility defaults non-optional (title requirements, labels).
+
+---
+
+## 10) Debugging checklist
+
+When behavior looks wrong, check in order:
+
+1. Is `asChild` child a single ref-forwarding element?
+2. Are you preventing dismissal/focus events unintentionally?
+3. Did you move interactive nodes outside the expected layer/content?
+4. Is controlled state updating synchronously?
+5. Are exit animations defined for closed state when using Presence?
+
+---
+
+## Next
+
+} className="[&_ul]:my-0">
+- [Course](/docs/packages/duck-primitives/course)  -  Structured progression with labs.
+- [Guides](/docs/packages/duck-primitives/guides)  -  Focused topics: styling, animation, composition, accessibility.
+- [API Reference](/docs/packages/duck-primitives/api)  -  Per-primitive props and events.

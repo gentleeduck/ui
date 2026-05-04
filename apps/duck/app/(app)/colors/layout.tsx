@@ -51,7 +51,7 @@ export default function ColorsLayout({ children }: { children: React.ReactNode }
             <a href="#colors">Browse Colors</a>
           </Button>
           <Button asChild size="sm" variant="ghost">
-            <Link href="/docs/theming">Documentation</Link>
+            <Link href="/duck-ui/theming">Documentation</Link>
           </Button>
         </PageActions>
       </PageHeader>

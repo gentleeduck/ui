@@ -403,7 +403,7 @@ function MessageBubble({
             {message.sources.map((source) => (
               <Link
                 key={source.slug}
-                href={`/docs/${source.slug}`}
+                href={source.href}
                 className="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-muted-foreground text-xs transition-colors hover:text-foreground hover:underline">
                 <FileText aria-hidden="true" className="size-3" />
                 {source.title}

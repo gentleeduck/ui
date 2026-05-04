@@ -203,26 +203,26 @@ export async function buildChatContext(userMessage: string): Promise<IChatContex
 
   const componentNames = extractComponentNames(userMessage, docs)
   for (const name of componentNames) {
-    const doc = docs.find((d) => d.slug === `components/${name}`)
+    const doc = docs.find((d) => d.slug === `duck-ui/components/${name}`)
     if (!doc) continue
     // Give full body for exact component matches (truncated to 3000 chars), not just summary
     const body = doc.cleanBody.length > 3000 ? doc.cleanBody.slice(0, 3000) : doc.cleanBody
-    const chunk = `COMPONENT: ${doc.title}\nPage: ${BASE_URL}/docs/${doc.slug}\n\n${body}`
+    const chunk = `COMPONENT: ${doc.title}\nPage: ${BASE_URL}/${doc.slug}\n\n${body}`
     if (usedChars + chunk.length > MAX_CONTEXT_CHARS) break
     contextParts.push(chunk)
     usedChars += chunk.length
-    sources.push({ slug: doc.slug, title: doc.title, href: `${BASE_URL}/docs/${doc.slug}` })
+    sources.push({ slug: doc.slug, title: doc.title, href: `${BASE_URL}/${doc.slug}` })
   }
 
   const searchResults = semanticSearch(userMessage, docs, idf, 3)
   for (const doc of searchResults) {
     if (sources.some((s) => s.slug === doc.slug)) continue
     const summary = extractSummary(doc.cleanBody)
-    const chunk = `DOC: ${doc.title}\nPage: ${BASE_URL}/docs/${doc.slug}\n\n${summary}`
+    const chunk = `DOC: ${doc.title}\nPage: ${BASE_URL}/${doc.slug}\n\n${summary}`
     if (usedChars + chunk.length > MAX_CONTEXT_CHARS) break
     contextParts.push(chunk)
     usedChars += chunk.length
-    sources.push({ slug: doc.slug, title: doc.title, href: `${BASE_URL}/docs/${doc.slug}` })
+    sources.push({ slug: doc.slug, title: doc.title, href: `${BASE_URL}/${doc.slug}` })
   }
 
   return {
@@ -239,8 +239,8 @@ export async function buildChatContextFromSlug(userMessage: string, slug: string
   }
 
   const body = doc.cleanBody.length > 6000 ? doc.cleanBody.slice(0, 6000) : doc.cleanBody
-  const contextText = `COMPONENT: ${doc.title}\nPage: ${BASE_URL}/docs/${doc.slug}\n\n${body}`
-  const sources = [{ slug: doc.slug, title: doc.title, href: `${BASE_URL}/docs/${doc.slug}` }]
+  const contextText = `COMPONENT: ${doc.title}\nPage: ${BASE_URL}/${doc.slug}\n\n${body}`
+  const sources = [{ slug: doc.slug, title: doc.title, href: `${BASE_URL}/${doc.slug}` }]
 
   return { contextText, sources }
 }

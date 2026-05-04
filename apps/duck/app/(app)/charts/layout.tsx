@@ -55,7 +55,7 @@ export default function ChartsLayout({ children }: { children: React.ReactNode }
               <a href="#charts">Browse Charts</a>
             </Button>
             <Button asChild size="sm" variant="ghost">
-              <Link href="/docs/components/chart">Documentation</Link>
+              <Link href="/duck-ui/components/chart">Documentation</Link>
             </Button>
           </PageActions>
         </PageHeader>

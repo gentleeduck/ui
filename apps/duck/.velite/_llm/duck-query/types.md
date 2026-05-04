@@ -1,0 +1,321 @@
+## Overview
+
+Duck Query exports the types that power its client. Use them on their own to:
+
+- Build custom route maps without Duck Gen.
+- Extract type information from an existing route map.
+- Build utilities on top of the type system.
+
+```ts
+
+  DuckRouteMeta,
+  DuckApiRoutes,
+  DuckQueryClient,
+  RoutePath,
+  RouteOf,
+  RouteMethod,
+  RouteRes,
+  RouteReq,
+  RouteMethods,
+  RouteOfMethod,
+  RouteResMethod,
+  RouteReqMethod,
+  PathsByMethod,
+} from '@gentleduck/query'
+```
+
+## Core types
+
+### DuckRouteMeta
+
+Shape of a single route's metadata. Every route must conform to this:
+
+```ts
+type DuckRouteMeta = {
+  body: unknown
+  query: unknown
+  params: unknown
+  headers: unknown
+  res: unknown
+  method: string
+}
+```
+
+Use `never` for fields that don't apply:
+
+```ts
+type PingRoute = {
+  body: never      // no body for GET
+  query: never     // no query params
+  params: never    // no path params
+  headers: never   // no special headers
+  res: { ok: true }
+  method: 'GET'
+}
+```
+
+### DuckApiRoutes
+
+Route map alias — a `Record` of path strings to `DuckRouteMeta`:
+
+```ts
+type DuckApiRoutes = Record<string, DuckRouteMeta>
+```
+
+Use it as a generic constraint:
+
+```ts
+function createLogger<R extends DuckApiRoutes>(client: DuckQueryClient<R>) {
+  // ...
+}
+```
+
+### DuckQueryClient
+
+Return type of `createDuckQueryClient` — all client methods:
+
+```ts
+type DuckQueryClient<Routes> = {
+  axios: AxiosInstance
+  request: (path, req?, config?) => Promise<AxiosResponse>
+  byMethod: (method, path, req?, config?) => Promise<AxiosResponse>
+  get: (path, req?, config?) => Promise<AxiosResponse>
+  post: (path, req, config?) => Promise<AxiosResponse>
+  put: (path, req, config?) => Promise<AxiosResponse>
+  patch: (path, req, config?) => Promise<AxiosResponse>
+  del: (path, req?, config?) => Promise<AxiosResponse>
+}
+```
+
+## Route extractors
+
+These types pull specific information out of a route map.
+
+### RoutePath
+
+All path strings from a route map, as a union:
+
+```ts
+type RoutePath<Routes> = keyof Routes & string
+```
+
+```ts
+type MyRoutes = {
+  '/users': { ... }
+  '/users/:id': { ... }
+  '/auth/signin': { ... }
+}
+
+type Paths = RoutePath<MyRoutes>
+// => '/users' | '/users/:id' | '/auth/signin'
+```
+
+### RouteOf
+
+Full metadata for a given path:
+
+```ts
+type RouteOf<Routes, P extends RoutePath<Routes>> = Routes[P]
+```
+
+```ts
+type UserRoute = RouteOf<MyRoutes, '/users/:id'>
+// => { body: never; query: never; params: { id: string }; ... }
+```
+
+### RouteMethod
+
+HTTP method for a path:
+
+```ts
+type RouteMethod<Routes, P extends RoutePath<Routes>> = RouteOf<Routes, P>['method']
+```
+
+```ts
+type Method = RouteMethod<MyRoutes, '/auth/signin'>
+// => 'POST'
+```
+
+### RouteRes
+
+Response type for a path:
+
+```ts
+type RouteRes<Routes, P extends RoutePath<Routes>> = RouteOf<Routes, P>['res']
+```
+
+```ts
+type UserResponse = RouteRes<MyRoutes, '/users/:id'>
+// => { id: string; name: string }
+```
+
+### RouteReq
+
+Request shape for a path, with `never` fields stripped:
+
+```ts
+type RouteReq<Routes, P extends RoutePath<Routes>> = CleanupNever<
+  Pick<RouteOf<Routes, P>, 'body' | 'query' | 'params' | 'headers'>
+>
+```
+
+The internal `CleanupNever` utility drops fields typed as `never`, so only the applied
+fields remain:
+
+```ts
+type UserReq = RouteReq<MyRoutes, '/users/:id'>
+// => { params: { id: string } }
+// (body, query, headers are never, so they are removed)
+```
+
+### RouteMethods
+
+Union of every HTTP method used across the route map:
+
+```ts
+type RouteMethods<Routes> = RouteOf<Routes, RoutePath<Routes>>['method']
+```
+
+```ts
+type AllMethods = RouteMethods<MyRoutes>
+// => 'GET' | 'POST'
+```
+
+### PathsByMethod
+
+Paths that support a given HTTP method:
+
+```ts
+type PathsByMethod<Routes, M extends string> = {
+  [P in RoutePath<Routes>]: M extends RouteMethod<Routes, P> ? P : never
+}[RoutePath<Routes>]
+```
+
+```ts
+type GetPaths = PathsByMethod<MyRoutes, 'GET'>
+// => '/users' | '/users/:id'
+
+type PostPaths = PathsByMethod<MyRoutes, 'POST'>
+// => '/auth/signin'
+```
+
+This is why `client.get()` and `client.post()` only accept paths that support the
+method.
+
+## Method-specific extractors
+
+These combine path and method filtering for exact type extraction.
+
+### RouteOfMethod
+
+Route metadata for a path **filtered by method** — handy when a path supports multiple
+methods:
+
+```ts
+type RouteOfMethod<Routes, P, M extends string> = Extract<RouteOf<Routes, P>, { method: M }>
+```
+
+```ts
+type MyRoutes = {
+  '/users/:id': {
+    body: never; query: never; params: { id: string }; headers: never;
+    res: UserDto; method: 'GET'
+  } | {
+    body: UpdateUserDto; query: never; params: { id: string }; headers: never;
+    res: UserDto; method: 'PUT'
+  }
+}
+
+type GetUser = RouteOfMethod<MyRoutes, '/users/:id', 'GET'>
+// => { body: never; ...; res: UserDto; method: 'GET' }
+
+type UpdateUser = RouteOfMethod<MyRoutes, '/users/:id', 'PUT'>
+// => { body: UpdateUserDto; ...; res: UserDto; method: 'PUT' }
+```
+
+### RouteResMethod
+
+Response type for a (path, method) pair:
+
+```ts
+type RouteResMethod<Routes, P, M extends string> = RouteOfMethod<Routes, P, M>['res']
+```
+
+### RouteReqMethod
+
+Request shape for a (path, method) pair:
+
+```ts
+type RouteReqMethod<Routes, P, M extends string> = CleanupNever<
+  Pick<RouteOfMethod<Routes, P, M>, 'body' | 'query' | 'params' | 'headers'>
+>
+```
+
+## Building a custom route map
+
+A complete route map without Duck Gen:
+
+```ts
+
+// Define your route map
+type Routes = {
+  '/health': {
+    method: 'GET'
+    params: never
+    query: never
+    headers: never
+    body: never
+    res: { status: 'ok'; uptime: number }
+  }
+  '/auth/login': {
+    method: 'POST'
+    params: never
+    query: never
+    headers: never
+    body: { email: string; password: string }
+    res: { token: string; expiresAt: string }
+  }
+  '/users/:id': {
+    method: 'GET'
+    params: { id: string }
+    query: { include?: 'profile' | 'settings' }
+    headers: { authorization: string }
+    body: never
+    res: { id: string; name: string; email: string }
+  }
+  '/users/:id': {
+    method: 'PUT'
+    params: { id: string }
+    query: never
+    headers: { authorization: string }
+    body: { name?: string; email?: string }
+    res: { id: string; name: string; email: string }
+  }
+}
+
+// Create the client
+const client = createDuckQueryClient<Routes>({
+  baseURL: 'http://localhost:3000',
+})
+
+// All calls are type-safe
+const { data: health } = await client.get('/health')
+// health: { status: 'ok'; uptime: number }
+
+const { data: session } = await client.post('/auth/login', {
+  body: { email: 'duck@example.com', password: '123456' },
+})
+// session: { token: string; expiresAt: string }
+
+const { data: user } = await client.get('/users/:id', {
+  params: { id: 'u_123' },
+  query: { include: 'profile' },
+  headers: { authorization: `Bearer ${session.token}` },
+})
+// user: { id: string; name: string; email: string }
+```
+
+## Next steps
+
+- [Client Methods](/docs/duck-query/client-methods): detailed method documentation.
+- [Advanced](/docs/duck-query/advanced): interceptors, patterns, and error handling.

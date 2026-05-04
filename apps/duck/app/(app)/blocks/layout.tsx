@@ -51,7 +51,7 @@ export default function BlocksLayout({ children }: { children: React.ReactNode }
             <a href="#blocks">Browse Blocks</a>
           </Button>
           <Button asChild size="sm" variant="ghost">
-            <Link href="/docs/blocks">Add a block</Link>
+            <Link href="/blocks">Add a block</Link>
           </Button>
         </PageActions>
       </PageHeader>

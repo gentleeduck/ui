@@ -1,0 +1,33 @@
+Strategies implement the upload protocol and register with the engine. The engine
+picks one based on the `strategy` field on the intent returned by the backend.
+
+## Responsibilities
+
+Each strategy:
+
+- Turns an intent into network calls.
+- Reports progress and persists cursor updates.
+- Honors abort signals for pause and cancel.
+
+## Available Strategies
+
+| Strategy | Use Case | Resumable |
+| --- | --- | --- |
+| [POST](/docs/strategies/post) | Simple presigned form uploads | No |
+| [Multipart](/docs/strategies/multipart) | Large file uploads with concurrent parts | Yes |
+
+## Registry
+
+Install strategies via the registry helper before creating the store:
+
+```ts
+
+const registry = createStrategyRegistry()
+registry.set(PostStrategy())
+registry.set(multipartStrategy())
+```
+
+The registry enforces typed strategy keys through the intent map, keeping the
+backend intent response and the strategy implementation in sync.
+
+See [Strategy Registry](/docs/strategies/registry) for more.

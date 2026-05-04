@@ -36,7 +36,7 @@ export default function SkillsLayout({ children }: { children: React.ReactNode }
             </Link>
           </Button>
           <Button asChild variant="outline">
-            <Link href="/docs/skills">Get Started</Link>
+            <Link href="/www/skills">Get Started</Link>
           </Button>
         </div>
       </PageHeader>

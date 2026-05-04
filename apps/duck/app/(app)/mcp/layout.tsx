@@ -33,7 +33,7 @@ export default function McpLayout({ children }: { children: React.ReactNode }) {
 
         <div className="flex gap-3">
           <Button asChild>
-            <Link href="/docs/mcp">Get Started</Link>
+            <Link href="/www/mcp">Get Started</Link>
           </Button>
           <Button asChild variant="outline">
             <Link href="https://gentleduck.org/api/mcp" target="_blank" rel="noreferrer">

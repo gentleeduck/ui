@@ -158,32 +158,72 @@ const nextConfig: NextConfig = {
   redirects: async () => {
     return [
       {
-        destination: '/docs/components',
+        destination: '/duck-ui/components',
         permanent: true,
         source: '/components',
       },
       {
-        destination: '/docs/components/:path*',
+        destination: '/duck-ui/components/:path*',
         permanent: true,
         source: '/docs/primitives/:path*',
       },
       {
-        destination: '/docs/components/react-hook-form',
-        permanent: false,
-        source: '/docs/forms',
+        destination: '/duck-ui/components/:path*',
+        permanent: true,
+        source: '/docs/components/:path*',
       },
       {
-        destination: '/docs/components/react-hook-form',
-        permanent: false,
-        source: '/docs/forms/react-hook-form',
+        destination: '/duck-ui/components',
+        permanent: true,
+        source: '/docs/components',
       },
       {
-        destination: '/docs/components/sidebar',
+        destination: '/duck-ui/installation/:path*',
+        permanent: true,
+        source: '/docs/installation/:path*',
+      },
+      {
+        destination: '/duck-ui/installation',
+        permanent: true,
+        source: '/docs/installation',
+      },
+      {
+        destination: '/duck-ui/theming',
+        permanent: true,
+        source: '/docs/theming',
+      },
+      {
+        destination: '/duck-ui/javascript',
+        permanent: true,
+        source: '/docs/javascript',
+      },
+      {
+        destination: '/www/:path*',
+        permanent: true,
+        source: '/docs/:path*',
+      },
+      {
+        destination: '/www',
+        permanent: true,
+        source: '/docs',
+      },
+      {
+        destination: '/duck-ui/components/react-hook-form',
+        permanent: false,
+        source: '/forms',
+      },
+      {
+        destination: '/duck-ui/components/react-hook-form',
+        permanent: false,
+        source: '/forms/react-hook-form',
+      },
+      {
+        destination: '/duck-ui/components/sidebar',
         permanent: true,
         source: '/sidebar',
       },
       {
-        destination: '/docs/javascript',
+        destination: '/duck-ui/javascript',
         permanent: true,
         source: '/react-19',
       },
@@ -198,9 +238,9 @@ const nextConfig: NextConfig = {
         source: '/view/styles/:style/:name',
       },
       {
-        destination: '/docs/:path*.md',
+        destination: '/:path*.md',
         permanent: true,
-        source: '/docs/:path*.mdx',
+        source: '/:path*.mdx',
       },
     ]
   },
