@@ -80,18 +80,18 @@ You can follow along by creating a new project:
 
   
   
-    You are ready. Start with [Chapter 1: Your First Upload](/docs/course/chapter-1).
+    You are ready. Start with [Chapter 1: Your First Upload](/duck-upload/course/chapter-1).
   
 
 ## Course Map
 
 | Chapter | Topic | What You Learn |
 | --- | --- | --- |
-| [1](/docs/course/chapter-1) | Your First Upload | `createUploadClient`, `UploadApi`, `dispatch`, phases, progress events |
-| [2](/docs/course/chapter-2) | Strategies & Backends | `PostStrategy`, `createStrategyRegistry`, presigned URLs, strategy architecture |
-| [3](/docs/course/chapter-3) | React Integration | `UploadProvider`, `useUploader`, dropzone UI, progress bars |
-| [4](/docs/course/chapter-4) | Multipart Uploads | `multipartStrategy`, chunked uploads, `signPart`, `completeMultipart`, concurrency |
-| [5](/docs/course/chapter-5) | Validation & Rejection | `UploadValidationRules`, file type/size limits, custom validators, rejection events |
-| [6](/docs/course/chapter-6) | Persistence & Resume | `PersistenceAdapter`, cursors, `rebind`, resumable uploads across sessions |
-| [7](/docs/course/chapter-7) | Plugins & Hooks | `UploadPlugin`, `UploadHooks`, debugging, metrics, custom extensions |
-| [8](/docs/course/chapter-8) | Production Readiness | Retry policies, error normalization, concurrency tuning, fingerprinting, testing |
+| [1](/duck-upload/course/chapter-1) | Your First Upload | `createUploadClient`, `UploadApi`, `dispatch`, phases, progress events |
+| [2](/duck-upload/course/chapter-2) | Strategies & Backends | `PostStrategy`, `createStrategyRegistry`, presigned URLs, strategy architecture |
+| [3](/duck-upload/course/chapter-3) | React Integration | `UploadProvider`, `useUploader`, dropzone UI, progress bars |
+| [4](/duck-upload/course/chapter-4) | Multipart Uploads | `multipartStrategy`, chunked uploads, `signPart`, `completeMultipart`, concurrency |
+| [5](/duck-upload/course/chapter-5) | Validation & Rejection | `UploadValidationRules`, file type/size limits, custom validators, rejection events |
+| [6](/duck-upload/course/chapter-6) | Persistence & Resume | `PersistenceAdapter`, cursors, `rebind`, resumable uploads across sessions |
+| [7](/duck-upload/course/chapter-7) | Plugins & Hooks | `UploadPlugin`, `UploadHooks`, debugging, metrics, custom extensions |
+| [8](/duck-upload/course/chapter-8) | Production Readiness | Retry policies, error normalization, concurrency tuning, fingerprinting, testing |

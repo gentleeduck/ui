@@ -165,12 +165,12 @@ bun run generate
 
 | Guide | What you will learn |
 | --- | --- |
-| [Configuration](/docs/duck-gen/configuration) | Every config option explained with examples. |
-| [API Routes](/docs/duck-gen/api-routes) | How route scanning works, supported decorators, request shape rules, and examples. |
-| [Messages](/docs/duck-gen/messages) | How message scanning works, tag formats, i18n type generation. |
-| [Generated Types](/docs/duck-gen/generated-types) | Deep dive into every exported type with usage examples. |
-| [Duck Query](/docs/duck-query) | Use generated types with a type-safe HTTP client. |
-| [Templates](/docs/templates) | Complete NestJS + Duck Query example project. |
+| [Configuration](/duck-gen/configuration) | Every config option explained with examples. |
+| [API Routes](/duck-gen/api-routes) | How route scanning works, supported decorators, request shape rules, and examples. |
+| [Messages](/duck-gen/messages) | How message scanning works, tag formats, i18n type generation. |
+| [Generated Types](/duck-gen/generated-types) | Deep dive into every exported type with usage examples. |
+| [Duck Query](/duck-query) | Use generated types with a type-safe HTTP client. |
+| [Templates](/duck-gen/templates) | Complete NestJS + Duck Query example project. |
 
 ## Troubleshooting
 

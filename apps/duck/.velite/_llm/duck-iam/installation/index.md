@@ -158,9 +158,9 @@ duck-iam uses subpath exports:
 
 ## Next Steps
 
-- [Quick Start](/docs/guides): end-to-end walkthrough with roles, policies, server middleware, and client hooks.
-- [Core Concepts](/docs/core): deep dive into the RBAC + ABAC evaluation model.
-- [Integrations](/docs/integrations): set up Express, Hono, NestJS, or Next.js middleware.
+- [Quick Start](/duck-iam/guides): end-to-end walkthrough with roles, policies, server middleware, and client hooks.
+- [Core Concepts](/duck-iam/core): deep dive into the RBAC + ABAC evaluation model.
+- [Integrations](/duck-iam/integrations/adapters): set up Express, Hono, NestJS, or Next.js middleware.
 
 ---
 

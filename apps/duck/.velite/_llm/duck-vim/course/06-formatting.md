@@ -68,4 +68,4 @@ function SequenceDisplay({ steps }: { steps: string[] }) {
 3. Build a help overlay that lists all registered commands with formatted shortcuts.
 
 }>
-**Next:** [Lesson 7  -  Key Recorder and Settings](/docs/packages/duck-vim/course/07-recorder)
+**Next:** [Lesson 7  -  Key Recorder and Settings](/duck-vim/course/07-recorder)

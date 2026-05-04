@@ -94,7 +94,7 @@ Real numbers from bundlephobia.com (Radix) and built dist measurement (gentleduc
 
 **Note:** Radio Group is one case where Radix is actually smaller (1.0 KB vs 1.9 KB). We include honest numbers - not every primitive is smaller.
 
-See the full [primitives benchmark](/www/packages/duck-primitives/benchmarks) for the comparison table across all libraries.
+See the full [primitives benchmark](/duck-primitives/benchmarks) for the comparison table across all libraries.
 
 ---
 

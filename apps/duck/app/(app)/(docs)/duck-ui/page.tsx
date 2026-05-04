@@ -9,7 +9,16 @@ import { CopyButton } from '~/components/copy-button'
 import { OpenSourceSection } from '~/components/layouts/open-source-section'
 import { PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/layouts/page-header'
 
-const SECTION_ORDER = ['Forms', 'Selection', 'Navigation', 'Disclosure', 'Overlay', 'Data Display', 'Feedback', 'Layout']
+const SECTION_ORDER = [
+  'Forms',
+  'Selection',
+  'Navigation',
+  'Disclosure',
+  'Overlay',
+  'Data Display',
+  'Feedback',
+  'Layout',
+]
 
 interface ICatalogItem {
   slug: string

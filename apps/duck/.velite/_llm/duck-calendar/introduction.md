@@ -6,7 +6,7 @@
 
 Built to replace `react-day-picker`. The measurements:
 
-~5 KB gzipped. Zero dependencies. 4 calendar systems. 7 date adapters. Full keyboard navigation and WAI-ARIA grid pattern. Islamic, Persian, and Hebrew support at this size. See the [full benchmarks](/docs/packages/duck-calendar/benchmarks) and the [comparison with react-day-picker](/docs/comparisons/vs-react-day-picker).
+~5 KB gzipped. Zero dependencies. 4 calendar systems. 7 date adapters. Full keyboard navigation and WAI-ARIA grid pattern. Islamic, Persian, and Hebrew support at this size. See the [full benchmarks](/duck-calendar/benchmarks) and the [comparison with react-day-picker](/www/comparisons/vs-react-day-picker).
 
 ## The four layers
 
@@ -54,7 +54,7 @@ Existing React calendar libraries bundle CSS, mandate a specific date library, o
 
 } className="[&_ul]:my-0">
 
-- [Getting Started](/docs/packages/duck-calendar/getting-started) - Install and build a calendar.
-- [Guides](/docs/packages/duck-calendar/guides) - Adapters, styling, accessibility.
-- [API Reference](/docs/packages/duck-calendar/api) - Prop and return type reference.
-- [Course](/docs/packages/duck-calendar/course) - Lessons from zero to production.
+- [Getting Started](/duck-calendar/getting-started) - Install and build a calendar.
+- [Guides](/duck-calendar/guides) - Adapters, styling, accessibility.
+- [API Reference](/duck-calendar/api) - Prop and return type reference.
+- [Course](/duck-calendar/course) - Lessons from zero to production.

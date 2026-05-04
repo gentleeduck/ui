@@ -318,7 +318,7 @@ export const external = createDuckQueryClient<ExternalRoutes>({
 
 ## Next steps
 
-- [Duck Query overview](/docs/duck-query): getting started guide.
-- [Client Methods](/docs/duck-query/client-methods): detailed method reference.
-- [Types](/docs/duck-query/types): all exported types.
-- [Templates](/docs/templates): complete working example.
+- [Duck Query overview](/duck-query): getting started guide.
+- [Client Methods](/duck-query/client-methods): detailed method reference.
+- [Types](/duck-query/types): all exported types.
+- [Templates](/duck-query/advanced): complete working example.

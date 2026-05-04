@@ -1385,4 +1385,4 @@ You have completed the duck-iam course. BlogDuck now has a full authorization sy
 with roles, policies, scoped multi-tenancy, server middleware, client libraries, and
 production-grade type safety.
 
-Go back to the [Course Overview](/docs/course) or explore the [full documentation](/docs).
+Go back to the [Course Overview](/duck-iam/course) or explore the [full documentation](/www/introduction).

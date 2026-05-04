@@ -223,4 +223,4 @@ registry.register('y+y', yankLine)
 3. Build a sequence state indicator that shows when a sequence is in progress.
 
 }>
-**Next:** [Lesson 6  -  Display Formatting](/docs/packages/duck-vim/course/06-formatting)
+**Next:** [Lesson 6  -  Display Formatting](/duck-vim/course/06-formatting)

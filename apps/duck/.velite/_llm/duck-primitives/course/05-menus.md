@@ -88,4 +88,4 @@ Use menu state attributes instead of brittle selectors:
 
 }>
 
-Next: [Lesson 6 - Animation with Presence](/docs/packages/duck-primitives/course/06-animation)
+Next: [Lesson 6 - Animation with Presence](/duck-primitives/course/06-animation)

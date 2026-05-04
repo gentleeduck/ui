@@ -29,4 +29,4 @@ Things to verify:
 
 }>
 
-Next: [Lesson 6 - Time Picker](/docs/packages/duck-calendar/course/06-time-picker)
+Next: [Lesson 6 - Time Picker](/duck-calendar/course/06-time-picker)

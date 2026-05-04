@@ -28,14 +28,14 @@ Developers who:
 
 | Chapter | Title | What you will learn |
 | --- | --- | --- |
-| 1 | [The Problem](/docs/course/the-problem) | Why manual type syncing breaks and how Duck Gen fixes it. |
-| 2 | [Project Setup](/docs/course/project-setup) | Create a NestJS project and install Duck Gen. |
-| 3 | [Your First Controller](/docs/course/first-controller) | Build a simple controller and understand decorators. |
-| 4 | [Generating Types](/docs/course/generating-types) | Run Duck Gen for the first time and explore the output. |
-| 5 | [Using Generated Types](/docs/course/using-generated-types) | Import and use RouteReq, RouteRes, and ApiRoutes on the client. |
-| 6 | [Message Keys](/docs/course/message-keys) | Add typed i18n message registries with @duckgen tags. |
-| 7 | [Duck Query Client](/docs/course/duck-query-client) | Set up Duck Query for type-safe HTTP requests. |
-| 8 | [Real World Patterns](/docs/course/real-world-patterns) | Error handling, interceptors, CI/CD, and production tips. |
+| 1 | [The Problem](/duck-gen/course/the-problem) | Why manual type syncing breaks and how Duck Gen fixes it. |
+| 2 | [Project Setup](/duck-gen/course/project-setup) | Create a NestJS project and install Duck Gen. |
+| 3 | [Your First Controller](/duck-gen/course/first-controller) | Build a simple controller and understand decorators. |
+| 4 | [Generating Types](/duck-gen/course/generating-types) | Run Duck Gen for the first time and explore the output. |
+| 5 | [Using Generated Types](/duck-gen/course/using-generated-types) | Import and use RouteReq, RouteRes, and ApiRoutes on the client. |
+| 6 | [Message Keys](/duck-gen/course/message-keys) | Add typed i18n message registries with @duckgen tags. |
+| 7 | [Duck Query Client](/duck-gen/course/duck-query-client) | Set up Duck Query for type-safe HTTP requests. |
+| 8 | [Real World Patterns](/duck-gen/course/real-world-patterns) | Error handling, interceptors, CI/CD, and production tips. |
 
 ## How long does it take?
 
@@ -43,4 +43,4 @@ Each chapter takes 10-15 minutes. Read it in one sitting or spread across sessio
 
 } title="Already familiar with the basics?">
   If you already know what Duck Gen does and just want the reference docs, skip to the
-  [Duck Gen overview](/docs/duck-gen) or [Configuration](/docs/duck-gen/configuration).
+  [Duck Gen overview](/duck-gen) or [Configuration](/duck-gen/configuration).

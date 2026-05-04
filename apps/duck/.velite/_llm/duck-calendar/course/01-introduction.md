@@ -47,4 +47,4 @@ By the end of this course, you'll have:
 
 }>
 
-Next: [Lesson 2 - Adapter Pattern](/docs/packages/duck-calendar/course/02-adapter-pattern)
+Next: [Lesson 2 - Adapter Pattern](/duck-calendar/course/02-adapter-pattern)

@@ -25,7 +25,7 @@ npm install embla-carousel-react @gentleduck/libs
 
 Add the `Button` component to your project.
 
-The `Carousel` component uses the [`Button`](/docs/components/button) component. Make sure you have it installed in your project.
+The `Carousel` component uses the [`Button`](/duck-ui/components/button) component. Make sure you have it installed in your project.
 
 Copy and paste the following code into your project.
 

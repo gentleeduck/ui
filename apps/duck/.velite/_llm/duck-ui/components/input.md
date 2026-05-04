@@ -53,5 +53,5 @@ Same props as `Input` plus an optional `index` prop for stagger delay (50ms per 
 
 ## See also
 
-- [Textarea](/docs/components/textarea)  -  Multi-line text input
-- [Label](/docs/components/label)  -  Accessible label for form controls
+- [Textarea](/duck-ui/components/textarea)  -  Multi-line text input
+- [Label](/duck-ui/components/label)  -  Accessible label for form controls

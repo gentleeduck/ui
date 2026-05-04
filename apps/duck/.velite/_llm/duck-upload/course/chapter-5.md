@@ -196,4 +196,4 @@ function UploadRow({ item }: { item: UploadItem }) {
 
 ---
 
-Next: [Chapter 6: Persistence & Offline](/docs/course/chapter-6)
+Next: [Chapter 6: Persistence & Offline](/duck-upload/course/chapter-6)

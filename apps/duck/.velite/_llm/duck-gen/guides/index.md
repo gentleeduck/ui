@@ -31,7 +31,7 @@ database to UI.
 
 ## Next steps
 
-- [Templates](/docs/templates): another complete example with auth flow.
-- [Duck Gen overview](/docs/duck-gen): deep dive into Duck Gen features.
-- [Duck Query overview](/docs/duck-query): deep dive into the HTTP client.
-- [Configuration](/docs/duck-gen/configuration): customize Duck Gen behavior.
+- [Templates](/duck-gen/templates): another complete example with auth flow.
+- [Duck Gen overview](/duck-gen): deep dive into Duck Gen features.
+- [Duck Query overview](/duck-query): deep dive into the HTTP client.
+- [Configuration](/duck-gen/configuration): customize Duck Gen behavior.

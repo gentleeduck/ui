@@ -87,6 +87,6 @@ If you need business rules around close behavior, default to controlled.
 ## Next pages
 
 } className="[&_ul]:my-0">
-- [Core Concepts](/docs/packages/duck-primitives/concepts) - `asChild`, Presence, Dismissable Layer, context scoping.
-- [Course](/docs/packages/duck-primitives/course) - Lessons with labs and production patterns.
-- [API Reference](/docs/packages/duck-primitives/api) - Full prop and event reference.
+- [Core Concepts](/duck-primitives/concepts) - `asChild`, Presence, Dismissable Layer, context scoping.
+- [Course](/duck-primitives/course) - Lessons with labs and production patterns.
+- [API Reference](/duck-primitives/api) - Full prop and event reference.

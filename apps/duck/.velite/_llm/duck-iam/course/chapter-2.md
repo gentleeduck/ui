@@ -474,4 +474,4 @@ export const engine = new Engine({ adapter }) // mode defaults to 'development'
 
 ---
 
-Next: [Chapter 3: Policies, Rules, and Conditions](/docs/course/chapter-3)
+Next: [Chapter 3: Policies, Rules, and Conditions](/duck-iam/course/chapter-3)

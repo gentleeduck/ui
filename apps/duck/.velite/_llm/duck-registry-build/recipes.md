@@ -98,7 +98,7 @@ This is the direction for non-UI consumers: collections plus extensions, not emp
 
 See the in-repo example in `packages/registry-build/examples/arch-package-index`.
 
-If you want the full guided build, continue to [Course](/docs/packages/duck-registry-build/course) and [Arch Package Index](/docs/packages/duck-registry-build/course-arch-package-index).
+If you want the full guided build, continue to [Course](/duck-registry-build/course) and [Arch Package Index](/duck-registry-build/course-arch-package-index).
 
 ---
 

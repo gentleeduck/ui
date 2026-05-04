@@ -110,4 +110,4 @@ Adapter methods must be **immutable**. Never mutate the input date — always re
 
 }>
 
-Next: [Lesson 3 - Building a Grid](/docs/packages/duck-calendar/course/03-building-a-grid)
+Next: [Lesson 3 - Building a Grid](/duck-calendar/course/03-building-a-grid)

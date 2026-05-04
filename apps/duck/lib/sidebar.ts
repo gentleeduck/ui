@@ -14,6 +14,7 @@ const SECTION_ORDER_DEFAULT = [
   'Benchmarks',
   'News',
   'Misc',
+  'Changelog',
 ]
 
 export function packageSidebar(docs: SidebarDoc[], pkg: string, custom: string[] = []): IDocsConfig {

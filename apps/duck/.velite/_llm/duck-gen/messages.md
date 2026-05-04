@@ -330,6 +330,6 @@ All three groups land in the generated types, accessible individually or togethe
 
 ## Next steps
 
-- [Generated types reference](/docs/duck-gen/generated-types): full type API for messages.
-- [Templates](/docs/templates): complete example with messages, controllers, and Duck Query.
-- [Duck Query](/docs/duck-query): pair your types with a type-safe HTTP client.
+- [Generated types reference](/duck-gen/generated-types): full type API for messages.
+- [Templates](/duck-gen/templates): complete example with messages, controllers, and Duck Query.
+- [Duck Query](/duck-query): pair your types with a type-safe HTTP client.

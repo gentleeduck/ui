@@ -41,7 +41,7 @@ npm install @gentleduck/primitives @gentleduck/libs @gentleduck/vim lucide-react
 
 Add the `Dialog` and `ScrollArea` components to your project.
 
-The `Command` component uses the [`Dialog`](/docs/components/dialog) and [`ScrollArea`](/docs/components/scroll-area) components. Make sure you have them installed in your project.
+The `Command` component uses the [`Dialog`](/duck-ui/components/dialog) and [`ScrollArea`](/duck-ui/components/scroll-area) components. Make sure you have them installed in your project.
 
 Copy and paste the following code into your project.
 

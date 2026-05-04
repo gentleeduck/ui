@@ -9,14 +9,14 @@ Build keyboard-driven interfaces with duck-vim. Each lesson introduces one conce
 
 | # | Title | What you'll learn |
 | --- | --- | --- |
-| 1 | [Introduction](/docs/packages/duck-vim/course/01-introduction) | Why keyboard shortcuts matter, how duck-vim works at a high level |
-| 2 | [Your First Shortcut](/docs/packages/duck-vim/course/02-first-shortcut) | Registry, KeyHandler, and registering your first binding |
-| 3 | [Understanding Key Binding Strings](/docs/packages/duck-vim/course/03-key-bindings) | Parsing, aliases, the Mod key, and validation |
-| 4 | [React Integration](/docs/packages/duck-vim/course/04-react) | KeyProvider, useKeyBind, and useKeyCommands |
-| 5 | [Multi-Key Sequences](/docs/packages/duck-vim/course/05-sequences) | Vim-style sequences like `g+d`, timeout, and prefix matching |
-| 6 | [Display Formatting](/docs/packages/duck-vim/course/06-formatting) | Rendering shortcuts in your UI with platform-aware labels |
-| 7 | [Key Recorder and Settings](/docs/packages/duck-vim/course/07-recorder) | Building a shortcut customization UI |
-| 8 | [Advanced Patterns](/docs/packages/duck-vim/course/08-advanced) | Scoped bindings, command palettes, conflict detection, and testing |
+| 1 | [Introduction](/duck-vim/course/01-introduction) | Why keyboard shortcuts matter, how duck-vim works at a high level |
+| 2 | [Your First Shortcut](/duck-vim/course/02-first-shortcut) | Registry, KeyHandler, and registering your first binding |
+| 3 | [Understanding Key Binding Strings](/duck-vim/course/03-key-bindings) | Parsing, aliases, the Mod key, and validation |
+| 4 | [React Integration](/duck-vim/course/04-react) | KeyProvider, useKeyBind, and useKeyCommands |
+| 5 | [Multi-Key Sequences](/duck-vim/course/05-sequences) | Vim-style sequences like `g+d`, timeout, and prefix matching |
+| 6 | [Display Formatting](/duck-vim/course/06-formatting) | Rendering shortcuts in your UI with platform-aware labels |
+| 7 | [Key Recorder and Settings](/duck-vim/course/07-recorder) | Building a shortcut customization UI |
+| 8 | [Advanced Patterns](/duck-vim/course/08-advanced) | Scoped bindings, command palettes, conflict detection, and testing |
 
 ---
 

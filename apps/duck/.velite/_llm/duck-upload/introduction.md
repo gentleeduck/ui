@@ -77,4 +77,4 @@ for (const outcome of outcomes) {
 - **Utilities**: shared helpers and guards.
 - **Design**: architecture decisions and rationale.
 
-Start with [Core Overview](/docs/core), then [Engine](/docs/core/engine), then [React Overview](/docs/react).
+Start with [Core Overview](/duck-upload/core), then [Engine](/duck-upload/core/engine), then [React Overview](/duck-upload/react).

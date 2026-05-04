@@ -85,4 +85,4 @@ This catches wrapper-level mistakes quickly.
 
 }>
 
-Next: [Lesson 8 - Building a Design System](/docs/packages/duck-primitives/course/08-design-system)
+Next: [Lesson 8 - Building a Design System](/duck-primitives/course/08-design-system)

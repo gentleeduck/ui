@@ -183,7 +183,7 @@ function update() {
 
 }>
 
-`KeyStateTracker` is useful for real-time key state (e.g., game loops or drag interactions), not for shortcut binding. For shortcuts, use `KeyRecorder` or the [Command](/docs/packages/duck-vim/api/command) module.
+`KeyStateTracker` is useful for real-time key state (e.g., game loops or drag interactions), not for shortcut binding. For shortcuts, use `KeyRecorder` or the [Command](/duck-vim/api/command) module.
 
 ---
 
@@ -191,4 +191,4 @@ function update() {
 
 }>
 
-See the [React API](/docs/packages/duck-vim/api/react) for the `useKeyRecorder` hook that wraps `KeyRecorder` with React state management.
+See the [React API](/duck-vim/api/react) for the `useKeyRecorder` hook that wraps `KeyRecorder` with React state management.

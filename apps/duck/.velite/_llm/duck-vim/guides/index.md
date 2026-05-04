@@ -4,7 +4,7 @@ Practical recipes for implementing production keyboard UX patterns with **@gentl
 
 | Guide | What you will build |
 | --- | --- |
-| [Command Palette](/docs/packages/duck-vim/guides/command-palette) | A searchable action launcher powered by the registry |
-| [Scoped Bindings](/docs/packages/duck-vim/guides/scoped-bindings) | Restrict shortcuts to focused regions and contexts |
-| [Shortcut Settings](/docs/packages/duck-vim/guides/shortcut-settings) | Capture and persist user-customized key bindings |
-| [Custom Framework](/docs/packages/duck-vim/guides/custom-framework) | Integrate the core API with Vue, Svelte, Angular, or vanilla JS |
+| [Command Palette](/duck-vim/guides/command-palette) | A searchable action launcher powered by the registry |
+| [Scoped Bindings](/duck-vim/guides/scoped-bindings) | Restrict shortcuts to focused regions and contexts |
+| [Shortcut Settings](/duck-vim/guides/shortcut-settings) | Capture and persist user-customized key bindings |
+| [Custom Framework](/duck-vim/guides/custom-framework) | Integrate the core API with Vue, Svelte, Angular, or vanilla JS |

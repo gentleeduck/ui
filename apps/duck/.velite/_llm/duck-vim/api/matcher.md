@@ -165,4 +165,4 @@ document.addEventListener('keydown', handler)
 
 }>
 
-These standalone handlers do not support multi-key sequences. For sequences, use the [Registry/KeyHandler](/docs/packages/duck-vim/api/command) system or [SequenceManager](/docs/packages/duck-vim/api/sequence).
+These standalone handlers do not support multi-key sequences. For sequences, use the [Registry/KeyHandler](/duck-vim/api/command) system or [SequenceManager](/duck-vim/api/sequence).

@@ -105,4 +105,4 @@ Use non-modal only for utility surfaces that should not trap focus or hide page 
 
 }>
 
-Next: [Lesson 3 - The asChild Pattern](/docs/packages/duck-primitives/course/03-as-child)
+Next: [Lesson 3 - The asChild Pattern](/duck-primitives/course/03-as-child)

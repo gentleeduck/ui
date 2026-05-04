@@ -17,7 +17,7 @@ Install the following dependencies:
 npm install @gentleduck/libs @gentleduck/variants
 ```
 
-The `field` component depends on the [`label`](/docs/components/label) and [`separator`](/docs/components/separator) components.
+The `field` component depends on the [`label`](/duck-ui/components/label) and [`separator`](/duck-ui/components/separator) components.
 
 Copy and paste the following code into your project.
 

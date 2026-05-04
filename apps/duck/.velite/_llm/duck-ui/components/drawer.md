@@ -156,5 +156,5 @@ Wrapper around `DrawerPrimitive.Close`. Closes the drawer when clicked.
 
 ## See also
 
-- [Dialog](/docs/components/dialog)  -  Centered modal overlay
-- [Sheet](/docs/components/sheet)  -  Side panel overlay
+- [Dialog](/duck-ui/components/dialog)  -  Centered modal overlay
+- [Sheet](/duck-ui/components/sheet)  -  Side panel overlay

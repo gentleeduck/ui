@@ -104,7 +104,7 @@ for (const cl of await findChangelogs(PKG_DIR)) {
   const frontmatter = `---
 title: Changelog
 description: Release history for @gentleduck/${name}. Newest releases at the top.
-section: Reference
+section: Changelog
 order: 999
 ---
 
@@ -119,7 +119,7 @@ written.sort((a, b) => a.slug.localeCompare(b.slug))
 const indexBody = `---
 title: Changelogs
 description: Per-package release notes. Each package keeps its own version history. Newest releases sit at the top.
-section: Reference
+section: Changelog
 order: 999
 ---
 

@@ -41,4 +41,4 @@ initial object is missing the `role` property.
 
 ## Next
 
-[Chapter 6: Message Keys](/docs/course/message-keys)
+[Chapter 6: Message Keys](/duck-gen/course/message-keys)

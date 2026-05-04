@@ -286,4 +286,4 @@ function PhotoUploader() {
 
 ---
 
-Next: [Chapter 8: Production Patterns](/docs/course/chapter-8)
+Next: [Chapter 8: Production Patterns](/duck-upload/course/chapter-8)

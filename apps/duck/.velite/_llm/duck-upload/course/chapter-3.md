@@ -204,4 +204,4 @@ function UploadItemRow({
 
 ---
 
-Next: [Chapter 4: Multipart Uploads](/docs/course/chapter-4)
+Next: [Chapter 4: Multipart Uploads](/duck-upload/course/chapter-4)

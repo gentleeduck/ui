@@ -21,7 +21,7 @@ npm install @gentleduck/libs @gentleduck/primitives
 
 Add the `Button` component to your project.
 
-The `Pagination` component uses the [`Button`](/docs/components/button) component. Make sure you have it installed in your project.
+The `Pagination` component uses the [`Button`](/duck-ui/components/button) component. Make sure you have it installed in your project.
 
 Copy and paste the following code into your project.
 

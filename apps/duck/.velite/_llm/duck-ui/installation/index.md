@@ -7,7 +7,7 @@ Select your framework and follow the instructions to install dependencies and st
 This project and its components are written in TypeScript. TypeScript is recommended.
 
 JavaScript projects are supported. Use the same components without types.
-See the [CLI page](/docs/packages/duck-cli) for setup and component add commands.
+See the [CLI page](/duck-cli) for setup and component add commands.
 
 For import aliases, use `jsconfig.json`:
 

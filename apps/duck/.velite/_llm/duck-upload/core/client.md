@@ -195,9 +195,9 @@ The fingerprint function must be synchronous to keep `addFiles` fast.
 
 ## Next Steps
 
-- [Engine](/docs/core/engine) — state machine, scheduling, and retry details.
-- [Contracts](/docs/core/contracts) — the UploadApi, transport, and strategy interfaces.
-- [Persistence](/docs/core/persistence) — configure state persistence.
+- [Engine](/duck-upload/core/engine) — state machine, scheduling, and retry details.
+- [Contracts](/duck-upload/core/contracts) — the UploadApi, transport, and strategy interfaces.
+- [Persistence](/duck-upload/core/persistence) — configure state persistence.
 
 ---
 

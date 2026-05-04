@@ -110,4 +110,4 @@ If this is in place, your primitives adoption is production-grade.
 
 }>
 
-Back to: [Course overview](/docs/packages/duck-primitives/course)
+Back to: [Course overview](/duck-primitives/course)

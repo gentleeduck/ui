@@ -8,11 +8,11 @@
 
 }>
 
-- [Getting Started](/docs/packages/duck-vim/getting-started) - Install and run your first shortcut.
-- [Core Concepts](/docs/packages/duck-vim/concepts) - Key descriptors, sequences, prefixes, the Mod key.
-- [API Reference](/docs/packages/duck-vim/api) - Full API for every module.
-- [Guides](/docs/packages/duck-vim/guides) - Recipes for common patterns.
-- [Course](/docs/packages/duck-vim/course) - Tutorial from zero to advanced.
+- [Getting Started](/duck-vim/getting-started) - Install and run your first shortcut.
+- [Core Concepts](/duck-vim/concepts) - Key descriptors, sequences, prefixes, the Mod key.
+- [API Reference](/duck-vim/api) - Full API for every module.
+- [Guides](/duck-vim/guides) - Recipes for common patterns.
+- [Course](/duck-vim/course) - Tutorial from zero to advanced.
 
 ---
 

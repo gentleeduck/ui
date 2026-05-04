@@ -102,4 +102,4 @@ instantly reflected in your client types.
 
 ## Next
 
-[Chapter 2: Project Setup](/docs/course/project-setup)
+[Chapter 2: Project Setup](/duck-gen/course/project-setup)

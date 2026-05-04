@@ -134,4 +134,4 @@ function StandaloneComponent() {
 3. Try removing the `KeyProvider` and confirm that `useKeyBind` still works standalone.
 
 }>
-**Next:** [Lesson 5  -  Multi-Key Sequences](/docs/packages/duck-vim/course/05-sequences)
+**Next:** [Lesson 5  -  Multi-Key Sequences](/duck-vim/course/05-sequences)

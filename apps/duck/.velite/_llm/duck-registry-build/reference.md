@@ -4,14 +4,14 @@ This section groups the static contract and runtime surface of registry-build: g
 
 ## In this section
 
-- [Configuration](/docs/packages/duck-registry-build/configuration)
-- [Extensions](/docs/packages/duck-registry-build/extensions)
-- [CLI](/docs/packages/duck-registry-build/cli)
-- [Course](/docs/packages/duck-registry-build/course)
+- [Configuration](/duck-registry-build/configuration)
+- [Extensions](/duck-registry-build/extensions)
+- [CLI](/duck-registry-build/cli)
+- [Course](/duck-registry-build/course)
 
 ## Suggested reading order
 
-1. Start with [Configuration](/docs/packages/duck-registry-build/configuration) to understand the collections-first model.
-2. Continue to [Extensions](/docs/packages/duck-registry-build/extensions) for the optional behavior model.
-3. If you want a concrete non-UI example, read [Course](/docs/packages/duck-registry-build/course).
-4. Finish with [CLI](/docs/packages/duck-registry-build/cli) to wire the build into scripts and CI.
+1. Start with [Configuration](/duck-registry-build/configuration) to understand the collections-first model.
+2. Continue to [Extensions](/duck-registry-build/extensions) for the optional behavior model.
+3. If you want a concrete non-UI example, read [Course](/duck-registry-build/course).
+4. Finish with [CLI](/duck-registry-build/cli) to wire the build into scripts and CI.

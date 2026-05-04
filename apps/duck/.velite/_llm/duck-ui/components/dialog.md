@@ -207,6 +207,6 @@ The following responsive components automatically render a `Dialog` on desktop (
 
 ## See also
 
-- [Sheet](/docs/components/sheet)  -  Side panel overlay, extends Dialog
-- [Drawer](/docs/components/drawer)  -  Bottom drawer overlay, great for mobile
-- [Alert Dialog](/docs/components/alert-dialog)  -  Confirmation dialog that requires user action
+- [Sheet](/duck-ui/components/sheet)  -  Side panel overlay, extends Dialog
+- [Drawer](/duck-ui/components/drawer)  -  Bottom drawer overlay, great for mobile
+- [Alert Dialog](/duck-ui/components/alert-dialog)  -  Confirmation dialog that requires user action

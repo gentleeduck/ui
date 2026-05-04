@@ -103,4 +103,4 @@ The value of primitives is consistency under pressure. When deadlines are tight,
 
 }>
 
-Next: [Lesson 9 - Testing and Quality Gates](/docs/packages/duck-primitives/course/09-testing-quality)
+Next: [Lesson 9 - Testing and Quality Gates](/duck-primitives/course/09-testing-quality)

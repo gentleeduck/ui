@@ -434,7 +434,7 @@ const i18n: I18n = {
 
 ## Next steps
 
-- [API Routes guide](/docs/duck-gen/api-routes): how routes are scanned and generated.
-- [Messages guide](/docs/duck-gen/messages): how message tags work.
-- [Duck Query](/docs/duck-query): use these types with a type-safe HTTP client.
-- [Templates](/docs/templates): complete working example.
+- [API Routes guide](/duck-gen/api-routes): how routes are scanned and generated.
+- [Messages guide](/duck-gen/messages): how message tags work.
+- [Duck Query](/duck-query): use these types with a type-safe HTTP client.
+- [Templates](/duck-gen/templates): complete working example.

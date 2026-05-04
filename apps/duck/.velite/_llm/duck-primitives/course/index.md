@@ -33,16 +33,16 @@ If you only copy snippets, you will miss the behavioral contracts that matter in
 
 | # | Lesson | Core topic | Production lens |
 | --- | --- | --- | --- |
-| 1 | [Why Primitives](/docs/packages/duck-primitives/course/01-why-primitives) | Behavioral abstraction | What complexity you should never rebuild manually |
-| 2 | [Your First Dialog](/docs/packages/duck-primitives/course/02-first-dialog) | Compound anatomy | State ownership and guarded dismiss flows |
-| 3 | [The asChild Pattern](/docs/packages/duck-primitives/course/03-as-child) | Composition model | Ref safety and prop merging contracts |
-| 4 | [Popover and Positioning](/docs/packages/duck-primitives/course/04-popover) | Popper placement | Collision strategy and anchor modeling |
-| 5 | [Menus, Dropdowns, and Selection](/docs/packages/duck-primitives/course/05-menus) | Complex selection UIs | Keyboard routing, item semantics, and submenus |
-| 6 | [Animation with Presence](/docs/packages/duck-primitives/course/06-animation) | Mount lifecycle | Exit timing, forceMount, and reduced-motion policy |
-| 7 | [Accessibility Deep Dive](/docs/packages/duck-primitives/course/07-accessibility) | ARIA + focus rules | Practical audits and failure modes |
-| 8 | [Building a Design System](/docs/packages/duck-primitives/course/08-design-system) | Wrapper architecture | API consistency, defaults, and scaling patterns |
-| 9 | [Testing and Quality Gates](/docs/packages/duck-primitives/course/09-testing-quality) | Reliability engineering | Interaction tests, a11y assertions, CI gates |
-| 10 | [Operations, Migration, and Internal Registry](/docs/packages/duck-primitives/course/10-operations-migration) | Long-term operations | Rollout safety, governance, migration, registry |
+| 1 | [Why Primitives](/duck-primitives/course/01-why-primitives) | Behavioral abstraction | What complexity you should never rebuild manually |
+| 2 | [Your First Dialog](/duck-primitives/course/02-first-dialog) | Compound anatomy | State ownership and guarded dismiss flows |
+| 3 | [The asChild Pattern](/duck-primitives/course/03-as-child) | Composition model | Ref safety and prop merging contracts |
+| 4 | [Popover and Positioning](/duck-primitives/course/04-popover) | Popper placement | Collision strategy and anchor modeling |
+| 5 | [Menus, Dropdowns, and Selection](/duck-primitives/course/05-menus) | Complex selection UIs | Keyboard routing, item semantics, and submenus |
+| 6 | [Animation with Presence](/duck-primitives/course/06-animation) | Mount lifecycle | Exit timing, forceMount, and reduced-motion policy |
+| 7 | [Accessibility Deep Dive](/duck-primitives/course/07-accessibility) | ARIA + focus rules | Practical audits and failure modes |
+| 8 | [Building a Design System](/duck-primitives/course/08-design-system) | Wrapper architecture | API consistency, defaults, and scaling patterns |
+| 9 | [Testing and Quality Gates](/duck-primitives/course/09-testing-quality) | Reliability engineering | Interaction tests, a11y assertions, CI gates |
+| 10 | [Operations, Migration, and Internal Registry](/duck-primitives/course/10-operations-migration) | Long-term operations | Rollout safety, governance, migration, registry |
 
 ---
 
@@ -81,6 +81,6 @@ Then write a short engineering note explaining:
 
 Use API docs as the canonical prop/event source:
 
-- [All APIs](/docs/packages/duck-primitives/api)
-- [Core Concepts](/docs/packages/duck-primitives/concepts)
-- [Guides](/docs/packages/duck-primitives/guides)
+- [All APIs](/duck-primitives/api)
+- [Core Concepts](/duck-primitives/concepts)
+- [Guides](/duck-primitives/guides)

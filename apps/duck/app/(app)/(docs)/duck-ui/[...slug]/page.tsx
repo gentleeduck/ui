@@ -40,6 +40,7 @@ const sidebar = packageSidebar(duckUi, PKG_PREFIX, [
   'Media',
   'Integrations',
   'Misc',
+  'Changelog',
 ])
 
 function getDocFromSlug(slug: string[]) {

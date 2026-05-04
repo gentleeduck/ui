@@ -152,4 +152,4 @@ duck-gen-course/
 
 ## Next
 
-[Chapter 3: Your First Controller](/docs/course/first-controller)
+[Chapter 3: Your First Controller](/duck-gen/course/first-controller)

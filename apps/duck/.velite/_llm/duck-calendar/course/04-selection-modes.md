@@ -122,4 +122,4 @@ useCalendar({
 
 }>
 
-Next: [Lesson 5 - Keyboard and Accessibility](/docs/packages/duck-calendar/course/05-keyboard-a11y)
+Next: [Lesson 5 - Keyboard and Accessibility](/duck-calendar/course/05-keyboard-a11y)

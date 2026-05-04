@@ -105,7 +105,7 @@ An Arch-like package repository extension usually does four things:
 
 That is exactly the pattern used in the in-repo example under `packages/registry-build/examples/arch-package-index`.
 
-Read the full walkthrough in [Course](/docs/packages/duck-registry-build/course) and [Arch Package Index](/docs/packages/duck-registry-build/course-arch-package-index).
+Read the full walkthrough in [Course](/duck-registry-build/course) and [Arch Package Index](/duck-registry-build/course-arch-package-index).
 
 ---
 
@@ -215,6 +215,6 @@ Use an extension when you need to execute logic:
 
 } className="[&_ul]:my-0">
 
-- [Configuration](/docs/packages/duck-registry-build/configuration)
-- [CLI](/docs/packages/duck-registry-build/cli)
-- [Performance](/docs/packages/duck-registry-build/performance)
+- [Configuration](/duck-registry-build/configuration)
+- [CLI](/duck-registry-build/cli)
+- [Performance](/duck-registry-build/performance)

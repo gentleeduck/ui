@@ -113,7 +113,7 @@ Wraps `RadioGroupItem` with a staggered `scaleIn` entrance animation and a bounc
 
 ## See also
 
-- [Checkbox](/docs/components/checkbox)  -  Multi-selection toggle control
-- [Switch](/docs/components/switch)  -  Toggle between on and off states
-- [Select](/docs/components/select)  -  Dropdown selection from a list
-- [Radio Group Primitive API](/docs/packages/duck-primitives/api/radio-group)  -  Headless primitive reference (`Root`, `Item`, `Indicator`)
+- [Checkbox](/duck-ui/components/checkbox)  -  Multi-selection toggle control
+- [Switch](/duck-ui/components/switch)  -  Toggle between on and off states
+- [Select](/duck-ui/components/select)  -  Dropdown selection from a list
+- [Radio Group Primitive API](/duck-primitives/api/radio-group)  -  Headless primitive reference (`Root`, `Item`, `Indicator`)

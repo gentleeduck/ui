@@ -87,4 +87,4 @@ If exit motion is not visible:
 
 }>
 
-Next: [Lesson 7 - Accessibility Deep Dive](/docs/packages/duck-primitives/course/07-accessibility)
+Next: [Lesson 7 - Accessibility Deep Dive](/duck-primitives/course/07-accessibility)

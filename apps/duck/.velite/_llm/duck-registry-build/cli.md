@@ -113,6 +113,6 @@ Config-relative paths are normalized as soon as the config is loaded. That preve
 
 } className="[&_ul]:my-0">
 
-- [Getting Started](/docs/packages/duck-registry-build/getting-started)
-- [Configuration](/docs/packages/duck-registry-build/configuration)
-- [Performance](/docs/packages/duck-registry-build/performance)
+- [Getting Started](/duck-registry-build/getting-started)
+- [Configuration](/duck-registry-build/configuration)
+- [Performance](/duck-registry-build/performance)

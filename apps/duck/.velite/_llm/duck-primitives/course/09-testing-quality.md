@@ -108,4 +108,4 @@ This gives teams a trusted, reusable catalog instead of ad hoc snippets.
 
 }>
 
-Next: [Lesson 10 - Operations, Migration, and Internal Registry](/docs/packages/duck-primitives/course/10-operations-migration)
+Next: [Lesson 10 - Operations, Migration, and Internal Registry](/duck-primitives/course/10-operations-migration)

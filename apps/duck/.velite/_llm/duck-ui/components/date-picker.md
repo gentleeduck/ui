@@ -8,7 +8,7 @@ Date picking is a composition problem, not a component problem. A date picker is
 
 The Date Picker is built using a composition of the `` and the `` components.
 
-See installation instructions for the [Popover](/docs/components/popover#installation) and the [Calendar](/docs/components/calendar#installation) components.
+See installation instructions for the [Popover](/duck-ui/components/popover#installation) and the [Calendar](/duck-ui/components/calendar#installation) components.
 
 ## Usage
 
@@ -28,7 +28,7 @@ export function DatePickerDemo() {
 }
 ```
 
-See the [@gentleduck/calendar](/docs/packages/duck-calendar) documentation for more information on the headless calendar engine.
+See the [@gentleduck/calendar](/duck-calendar) documentation for more information on the headless calendar engine.
 
 ## Examples
 

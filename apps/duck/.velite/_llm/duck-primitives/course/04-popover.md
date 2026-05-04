@@ -85,4 +85,4 @@ Wrong primitive choice usually leads to accessibility issues.
 
 }>
 
-Next: [Lesson 5 - Menus, Dropdowns, and Selection](/docs/packages/duck-primitives/course/05-menus)
+Next: [Lesson 5 - Menus, Dropdowns, and Selection](/duck-primitives/course/05-menus)

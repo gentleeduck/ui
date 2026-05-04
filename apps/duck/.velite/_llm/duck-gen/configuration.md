@@ -461,6 +461,6 @@ Then, in the client package:
 
 ## Next steps
 
-- [API Routes guide](/docs/duck-gen/api-routes): how route scanning works.
-- [Messages guide](/docs/duck-gen/messages): how message scanning works.
-- [Generated types](/docs/duck-gen/generated-types): every exported type explained.
+- [API Routes guide](/duck-gen/api-routes): how route scanning works.
+- [Messages guide](/duck-gen/messages): how message scanning works.
+- [Generated types](/duck-gen/generated-types): every exported type explained.

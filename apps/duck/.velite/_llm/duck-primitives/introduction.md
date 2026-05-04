@@ -33,9 +33,9 @@ For quick, fixed styling with minimal customization, use pre-styled components i
 
 | Layer | Responsibility | Typical primitives |
 | --- | --- | --- |
-| Foundation | Rendering abstraction and composition | [Primitive Elements](/docs/packages/duck-primitives/api/primitive-elements), [Slot](/docs/packages/duck-primitives/api/slot), [Direction](/docs/packages/duck-primitives/api/direction) |
-| Interaction infra | Focus, dismissal, mounting, positioning | [Focus Scope](/docs/packages/duck-primitives/api/focus-scope), [Dismissable Layer](/docs/packages/duck-primitives/api/dismissable-layer), [Presence](/docs/packages/duck-primitives/api/presence), [Portal](/docs/packages/duck-primitives/api/portal), [Popper](/docs/packages/duck-primitives/api/popper) |
-| Product patterns | Overlays, menus, inputs, selection | [Dialog](/docs/packages/duck-primitives/api/dialog), [Popover](/docs/packages/duck-primitives/api/popover), [Menu](/docs/packages/duck-primitives/api/menu), [Select](/docs/packages/duck-primitives/api/select), [Slider](/docs/packages/duck-primitives/api/slider) |
+| Foundation | Rendering abstraction and composition | [Primitive Elements](/duck-primitives/api/primitive-elements), [Slot](/duck-primitives/api/slot), [Direction](/duck-primitives/api/direction) |
+| Interaction infra | Focus, dismissal, mounting, positioning | [Focus Scope](/duck-primitives/api/focus-scope), [Dismissable Layer](/duck-primitives/api/dismissable-layer), [Presence](/duck-primitives/api/presence), [Portal](/duck-primitives/api/portal), [Popper](/duck-primitives/api/popper) |
+| Product patterns | Overlays, menus, inputs, selection | [Dialog](/duck-primitives/api/dialog), [Popover](/duck-primitives/api/popover), [Menu](/duck-primitives/api/menu), [Select](/duck-primitives/api/select), [Slider](/duck-primitives/api/slider) |
 
 This layering is why primitives scale in large codebases.
 
@@ -59,7 +59,7 @@ Build wrappers once; consume wrappers everywhere. Avoid copying examples ad hoc 
 
 gentleduck primitives are 50-92% smaller than the Radix equivalents. Shared internals (Slot, Presence, Popper, focus-scope) are deduplicated across all primitives. Measured sizes: Alert Dialog 1.6 KB vs 18.6 KB, Popover 2.4 KB vs 19.6 KB, Dialog 3.1 KB vs 10.6 KB. Installing 5 Radix primitives costs about 25 KB in duplicated internals; with gentleduck the shared internals load once.
 
-See [benchmark results](/docs/packages/duck-primitives/benchmarks) for per-component numbers and methodology.
+See [benchmark results](/duck-primitives/benchmarks) for per-component numbers and methodology.
 
 ---
 
@@ -103,7 +103,7 @@ Production patterns from the internal registry.
 ## Learn next
 
 } className="[&_ul]:my-0">
-- [Getting Started](/docs/packages/duck-primitives/getting-started) - Set up a baseline.
-- [Core Concepts](/docs/packages/duck-primitives/concepts) - Internals and composition patterns.
-- [API Reference](/docs/packages/duck-primitives/api) - Props and events for every primitive.
-- [Course](/docs/packages/duck-primitives/course) - From fundamentals to system-level patterns.
+- [Getting Started](/duck-primitives/getting-started) - Set up a baseline.
+- [Core Concepts](/duck-primitives/concepts) - Internals and composition patterns.
+- [API Reference](/duck-primitives/api) - Props and events for every primitive.
+- [Course](/duck-primitives/course) - From fundamentals to system-level patterns.

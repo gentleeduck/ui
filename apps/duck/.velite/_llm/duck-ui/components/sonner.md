@@ -38,7 +38,7 @@ npm install sonner next-themes @gentleduck/libs lucide-react
 
 Add the `Button` and `Progress` component to your project.
 
-The `Sonner` component uses the [`Button`](/docs/components/button) and [`Progress`](/docs/components/progress) components. Make sure you have them installed in your project.
+The `Sonner` component uses the [`Button`](/duck-ui/components/button) and [`Progress`](/duck-ui/components/progress) components. Make sure you have them installed in your project.
 
 Copy and paste the following code into your project.
 

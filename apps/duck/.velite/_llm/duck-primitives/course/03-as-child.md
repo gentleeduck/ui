@@ -33,4 +33,4 @@ This aligns your custom components with library conventions.
 
 }>
 
-Next: [Lesson 4 - Popover and Positioning](/docs/packages/duck-primitives/course/04-popover)
+Next: [Lesson 4 - Popover and Positioning](/duck-primitives/course/04-popover)

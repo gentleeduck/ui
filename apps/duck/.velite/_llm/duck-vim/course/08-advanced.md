@@ -36,7 +36,7 @@ Not every shortcut should be global. Some should only work when a specific eleme
 }
 ```
 
-See the [Command Palette guide](/docs/packages/duck-vim/guides/command-palette) for a more complete implementation.
+See the [Command Palette guide](/duck-vim/guides/command-palette) for a more complete implementation.
 
 ---
 

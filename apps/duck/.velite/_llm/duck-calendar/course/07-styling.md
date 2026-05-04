@@ -112,4 +112,4 @@ function StyledCalendar() {
 
 }>
 
-Next: [Lesson 8 - Performance](/docs/packages/duck-calendar/course/08-performance)
+Next: [Lesson 8 - Performance](/duck-calendar/course/08-performance)

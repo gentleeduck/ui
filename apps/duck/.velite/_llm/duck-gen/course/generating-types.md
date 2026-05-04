@@ -184,4 +184,4 @@ produces identical output. This makes it safe to run in CI/CD pipelines.
 
 ## Next
 
-[Chapter 5: Using Generated Types](/docs/course/using-generated-types)
+[Chapter 5: Using Generated Types](/duck-gen/course/using-generated-types)

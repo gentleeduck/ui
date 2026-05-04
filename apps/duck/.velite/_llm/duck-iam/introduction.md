@@ -27,7 +27,7 @@ are converted into policies internally, so one condition engine handles everythi
 - **Four combining algorithms**: `deny-overrides`, `allow-overrides`, `first-match`, `highest-priority`.
 - **Multi-tenant scoping**: A user can be `admin` in org-1 and `viewer` in org-2.
 - **Caching**: LRU caches for policies, roles, and resolved subjects with configurable TTL.
-- **Dev/Prod mode**: Diagnostics and validation in development, fast boolean evaluation in production. [See benchmarks](/docs/benchmarks).
+- **Dev/Prod mode**: Diagnostics and validation in development, fast boolean evaluation in production. [See benchmarks](/duck-iam/benchmarks).
 - **Debug tooling**: `engine.explain()` returns the full evaluation trace: which rules matched, which conditions passed or failed, and why.
 
 ## Key Features
@@ -43,7 +43,7 @@ are converted into policies internally, so one condition engine handles everythi
 | Client libraries | React provider + hooks, Vue plugin + composables, framework-agnostic vanilla client. |
 | Pluggable adapters | Memory (built-in), Prisma, Drizzle, HTTP -- or write your own by implementing the `Adapter` interface. |
 | Evaluation hooks | `beforeEvaluate`, `afterEvaluate`, `onDeny`, `onError` -- intercept and observe every decision. |
-| Dev/Prod mode | Rich diagnostics in development, fast booleans in production. [Benchmarks](/docs/benchmarks). |
+| Dev/Prod mode | Rich diagnostics in development, fast booleans in production. [Benchmarks](/duck-iam/benchmarks). |
 | Explain / debug | `engine.explain()` produces a detailed trace of every policy, rule, and condition evaluated. |
 | Validation | `validateRoles()` and `validatePolicy()` catch config mistakes like dangling inherits and cycles. |
 
@@ -127,13 +127,13 @@ await engine.can("user-1", "delete", { type: "post", attributes: {} });
 
 | Section | What it covers |
 | --- | --- |
-| [Installation](/docs/installation) | Install duck-iam, set up an adapter, and run your first permission check. |
-| [Quick Start](/docs/guides) | End-to-end guide: define roles, create policies, add middleware, use client hooks. |
-| [Core Concepts](/docs/core) | Deep dive into roles, policies, rules, conditions, and combining algorithms. |
-| [Integrations](/docs/integrations) | Server middleware (Express, Hono, NestJS, Next.js) and client libraries (React, Vue, Vanilla). |
-| [Advanced](/docs/advanced) | Multi-tenant scoping, evaluation hooks, custom adapters, caching strategies. |
-| [Benchmarks](/docs/benchmarks) | Performance numbers against 7 popular libraries, dev vs prod mode overhead. |
-| [FAQs](/docs/faqs) | Common questions and answers. |
+| [Installation](/duck-ui/installation) | Install duck-iam, set up an adapter, and run your first permission check. |
+| [Quick Start](/duck-iam/guides) | End-to-end guide: define roles, create policies, add middleware, use client hooks. |
+| [Core Concepts](/duck-iam/core) | Deep dive into roles, policies, rules, conditions, and combining algorithms. |
+| [Integrations](/duck-iam/integrations/adapters) | Server middleware (Express, Hono, NestJS, Next.js) and client libraries (React, Vue, Vanilla). |
+| [Advanced](/duck-iam/advanced/config) | Multi-tenant scoping, evaluation hooks, custom adapters, caching strategies. |
+| [Benchmarks](/duck-iam/benchmarks) | Performance numbers against 7 popular libraries, dev vs prod mode overhead. |
+| [FAQs](/www/faqs) | Common questions and answers. |
 
 ## Contributing
 

@@ -676,4 +676,4 @@ export const ownerPolicy = policy('owner-restrictions')
 
 ---
 
-Next: [Chapter 4: The Engine In Depth](/docs/course/chapter-4)
+Next: [Chapter 4: The Engine In Depth](/duck-iam/course/chapter-4)

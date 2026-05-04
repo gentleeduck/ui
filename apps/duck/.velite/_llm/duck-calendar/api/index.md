@@ -6,9 +6,9 @@ Full prop tables, return types, and type definitions for every export in `@gentl
 
 | Export | Description |
 | :--- | :--- |
-| [useCalendar](/docs/packages/duck-calendar/api/use-calendar) | Main calendar hook - state, actions, and prop getters |
-| [useTimePicker](/docs/packages/duck-calendar/api/use-time-picker) | Time picker hook - spinbutton fields and keyboard input |
-| [useDateTime](/docs/packages/duck-calendar/api/use-datetime) | Combined date + time hook |
+| [useCalendar](/duck-calendar/api/use-calendar) | Main calendar hook - state, actions, and prop getters |
+| [useTimePicker](/duck-calendar/api/use-time-picker) | Time picker hook - spinbutton fields and keyboard input |
+| [useDateTime](/duck-calendar/api/use-datetime) | Combined date + time hook |
 | `useAnnouncer` | Screen reader announcement hook |
 | `useKeyboard` | Keyboard navigation hook |
 
@@ -16,9 +16,9 @@ Full prop tables, return types, and type definitions for every export in `@gentl
 
 | Export | Description |
 | :--- | :--- |
-| [Grid](/docs/packages/duck-calendar/api/grid) | Grid builder functions - `buildCalendarMonth`, `buildMultiMonth`, etc. |
-| [Selection](/docs/packages/duck-calendar/api/selection) | Selection logic - `selectDay`, `applySelection` |
-| [Navigation](/docs/packages/duck-calendar/api/navigation) | Navigation functions - `navigate`, `canNavigate` |
+| [Grid](/duck-calendar/api/grid) | Grid builder functions - `buildCalendarMonth`, `buildMultiMonth`, etc. |
+| [Selection](/duck-calendar/api/selection) | Selection logic - `selectDay`, `applySelection` |
+| [Navigation](/duck-calendar/api/navigation) | Navigation functions - `navigate`, `canNavigate` |
 | `isDateDisabled` | Check if a date is disabled by the current constraints |
 | `isInRange` | Check if a date falls within a range |
 | `clampTime` | Clamp a time value to min/max bounds |

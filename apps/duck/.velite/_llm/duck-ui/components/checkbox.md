@@ -19,7 +19,7 @@ Install the following dependencies:
 npm install @gentleduck/primitives @gentleduck/motion @gentleduck/libs
 ```
 
-Make sure you have the [`Label`](/docs/components/label) component installed in your project.
+Make sure you have the [`Label`](/duck-ui/components/label) component installed in your project.
 
 Copy and paste the following code into your project.
 
@@ -145,5 +145,5 @@ Same as `CheckboxGroup` but renders each item as `MotionCheckboxWithLabel` with 
 
 ## See also
 
-- [Radio Group](/docs/components/radio-group)  -  Single selection from a set of options
-- [Switch](/docs/components/switch)  -  Toggle between on and off states
+- [Radio Group](/duck-ui/components/radio-group)  -  Single selection from a set of options
+- [Switch](/duck-ui/components/switch)  -  Toggle between on and off states

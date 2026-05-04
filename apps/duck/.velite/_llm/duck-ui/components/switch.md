@@ -87,5 +87,5 @@ Renders its own motion-controlled track and thumb. The thumb slides with a bounc
 
 ## See also
 
-- [Checkbox](/docs/components/checkbox)  -  Multi-selection toggle control
-- [Radio Group](/docs/components/radio-group)  -  Single selection from a set of options
+- [Checkbox](/duck-ui/components/checkbox)  -  Multi-selection toggle control
+- [Radio Group](/duck-ui/components/radio-group)  -  Single selection from a set of options

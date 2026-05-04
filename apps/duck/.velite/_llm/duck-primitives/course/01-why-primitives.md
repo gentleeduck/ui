@@ -106,4 +106,4 @@ Write down which edge cases broke in the raw version. That list is your adoption
 
 }>
 
-Next: [Lesson 2 - Your First Dialog](/docs/packages/duck-primitives/course/02-first-dialog)
+Next: [Lesson 2 - Your First Dialog](/duck-primitives/course/02-first-dialog)

@@ -31,7 +31,7 @@ The `~` alias is a preference. You can use other aliases if you want.
 
 Configure styles
 
-Add the following to your styles/globals.css file. You can learn more about using CSS variables for theming in the [theming section](/docs/theming).
+Add the following to your styles/globals.css file. You can learn more about using CSS variables for theming in the [theming section](/duck-ui/theming).
 
 ```css showLineNumbers title="src/styles/globals.css"
 @import "tailwindcss";

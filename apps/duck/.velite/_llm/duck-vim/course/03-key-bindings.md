@@ -182,4 +182,4 @@ Returns `null` for pure modifier key presses (pressing just <Kbd>Shift</Kbd>, <K
 3. Write code that listens for keydown events and logs the descriptor for each.
 
 }>
-**Next:** [Lesson 4  -  React Integration](/docs/packages/duck-vim/course/04-react)
+**Next:** [Lesson 4  -  React Integration](/duck-vim/course/04-react)

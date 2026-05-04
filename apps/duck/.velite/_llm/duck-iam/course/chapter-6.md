@@ -514,4 +514,4 @@ The client calls this endpoint and passes the result to `AccessProvider` (Chapte
 
 ---
 
-Next: [Chapter 7: Client Libraries](/docs/course/chapter-7)
+Next: [Chapter 7: Client Libraries](/duck-iam/course/chapter-7)

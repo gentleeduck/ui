@@ -1,41 +1,61 @@
-## February 2026
+## 0.2.7
 
-### Documentation Restructure
+### Patch Changes
 
-The duck-gen documentation was completely restructured for clarity and discoverability.
+- 0a77c38: new features
 
-#### New Section Layout
+## 0.2.5
 
-The docs are now organized into clear sections:
+### Patch Changes
 
-| Section | What it covers |
-| --- | --- |
-| **Duck Gen** | Core generator: overview, configuration, API routes, messages, generated types |
-| **Duck Query** | Type-safe HTTP client: overview, client methods, types, advanced usage |
-| **Guides** | End-to-end walkthrough from setup to production |
-| **Templates** | Starter projects with Duck Gen pre-configured |
+- 4f93768: fixing bugs and making sure gen support new format
 
-#### Duck Query Documentation
+## 0.2.3
 
-Added a complete **Duck Query** section covering the type-safe HTTP client that consumes Duck Gen's generated types:
+### Patch Changes
 
-- **Overview**: What Duck Query is and how it connects to Duck Gen output
-- **Client Methods**: Every method (`get`, `post`, `put`, `patch`, `delete`) with typed request/response examples
-- **Types**: Deep dive into `RouteReq`, `RouteRes`, `ApiRoutes`, and utility types
-- **Advanced**: Custom interceptors, error handling, retry logic, and SSR patterns
+- 7c62d44: done
+- 7c62d44: fixed bug
 
-#### Mermaid Diagrams
+## 0.2.2
 
-Added architecture flowcharts showing how Duck Gen processes source code:
+### Patch Changes
 
-- **Main flow diagram**: From `duck-gen.json` config through ts-morph scanning to `.d.ts` output
-- **Route extraction pipeline**: How controller decorators are parsed into typed route maps
-- **Message extraction pipeline**: How `@duckgen` JSDoc tags become typed message registries
+- 533602f: fixed gen and query
 
-#### Callout Enhancements
+## 0.2.1
 
-All callout blocks now include contextual icons for better visual scanning throughout the documentation.
+### Patch Changes
 
-#### API Reference Tables
+- b3f2485: new feature
 
-Every configuration option, type, and method is now documented in formal tables with types, defaults, and descriptions.
+## 0.2.0
+
+### Minor Changes
+
+- 60df460: done
+
+## 0.1.8
+
+### Patch Changes
+
+- ad08c4b: update
+
+## 0.1.7
+
+### Patch Changes
+
+- a06fd92: new feature source
+
+## 0.1.6
+
+### Patch Changes
+
+- a3cf693: fix the type gen and bugs
+
+## 0.1.5
+
+### Patch Changes
+
+- updated the functionality and removed the boilerplate
+- batman

@@ -224,9 +224,9 @@ Add the components to your chart.
 
 Done. You've built your first chart! What's next?
 
-- [Themes and Colors](/docs/components/chart#theming)
-- [Tooltip](/docs/components/chart#tooltip)
-- [Legend](/docs/components/chart#legend)
+- [Themes and Colors](/duck-ui/components/chart#theming)
+- [Tooltip](/duck-ui/components/chart#tooltip)
+- [Legend](/duck-ui/components/chart#legend)
 
 ## Chart Config
 

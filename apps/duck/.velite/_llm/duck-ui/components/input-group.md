@@ -16,7 +16,7 @@ Install the following dependencies:
 ```bash
 npm install @gentleduck/libs @gentleduck/variants 
 ```
-The `input-group` component depends on the [`button`](/docs/components/button), [`input`](/docs/components/input), and [`textarea`](/docs/components/textarea) components.
+The `input-group` component depends on the [`button`](/duck-ui/components/button), [`input`](/duck-ui/components/input), and [`textarea`](/duck-ui/components/textarea) components.
 
 Copy and paste the following code into your project.
 

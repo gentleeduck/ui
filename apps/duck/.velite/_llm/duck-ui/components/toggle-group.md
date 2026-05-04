@@ -19,7 +19,7 @@ Install the following dependencies:
 npm install @gentleduck/primitives @gentleduck/variants @gentleduck/libs
 ```
 
-Add the [`Toggle`](/docs/components/toggle) component to your project 
+Add the [`Toggle`](/duck-ui/components/toggle) component to your project 
 
 Copy and paste the following code into your project.
 

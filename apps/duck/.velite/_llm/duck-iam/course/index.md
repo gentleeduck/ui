@@ -73,18 +73,18 @@ Each chapter builds on the previous one and ends with a checkpoint (complete cod
 
   
   
-    Start with [Chapter 1: Your First Permission Check](/docs/course/chapter-1).
+    Start with [Chapter 1: Your First Permission Check](/duck-iam/course/chapter-1).
   
 
 ## Course Map
 
 | Chapter | Topic | What You Learn |
 | --- | --- | --- |
-| [1](/docs/course/chapter-1) | Your First Permission Check | Roles, Engine, MemoryAdapter, `engine.can()` |
-| [2](/docs/course/chapter-2) | Role Hierarchies | Inheritance, multiple roles, wildcards, validation |
-| [3](/docs/course/chapter-3) | Policies, Rules, and Conditions | ABAC, combining algorithms, condition operators, `$` variables |
-| [4](/docs/course/chapter-4) | The Engine In Depth | Hooks, caching, batch permissions, explain, Admin API |
-| [5](/docs/course/chapter-5) | Multi-Tenant Scoping | Scoped roles, tenant isolation, hierarchical resources |
-| [6](/docs/course/chapter-6) | Server Integration | Express, NestJS, Next.js, Hono middleware, permissions endpoint |
-| [7](/docs/course/chapter-7) | Client Libraries | React, Vue, vanilla JS, permission-based UI rendering |
-| [8](/docs/course/chapter-8) | Production Readiness | Type-safe config, validation, database adapters, testing, monitoring |
+| [1](/duck-iam/course/chapter-1) | Your First Permission Check | Roles, Engine, MemoryAdapter, `engine.can()` |
+| [2](/duck-iam/course/chapter-2) | Role Hierarchies | Inheritance, multiple roles, wildcards, validation |
+| [3](/duck-iam/course/chapter-3) | Policies, Rules, and Conditions | ABAC, combining algorithms, condition operators, `$` variables |
+| [4](/duck-iam/course/chapter-4) | The Engine In Depth | Hooks, caching, batch permissions, explain, Admin API |
+| [5](/duck-iam/course/chapter-5) | Multi-Tenant Scoping | Scoped roles, tenant isolation, hierarchical resources |
+| [6](/duck-iam/course/chapter-6) | Server Integration | Express, NestJS, Next.js, Hono middleware, permissions endpoint |
+| [7](/duck-iam/course/chapter-7) | Client Libraries | React, Vue, vanilla JS, permission-based UI rendering |
+| [8](/duck-iam/course/chapter-8) | Production Readiness | Type-safe config, validation, database adapters, testing, monitoring |

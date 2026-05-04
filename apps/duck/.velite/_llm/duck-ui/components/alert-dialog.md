@@ -17,7 +17,7 @@ Install the following dependencies:
 npm install @gentleduck/primitives @gentleduck/libs
 ```
 
-Make sure you have the [`Button`](/docs/components/button) component installed in your project.
+Make sure you have the [`Button`](/duck-ui/components/button) component installed in your project.
 
 Copy and paste the following code into your project.
 

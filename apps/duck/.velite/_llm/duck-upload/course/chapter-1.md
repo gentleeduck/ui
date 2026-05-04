@@ -397,4 +397,4 @@ uploadClient.dispatch({ type: 'startAll' })
 
 ---
 
-Next: [Chapter 2: Strategies & Backends](/docs/course/chapter-2)
+Next: [Chapter 2: Strategies & Backends](/duck-upload/course/chapter-2)

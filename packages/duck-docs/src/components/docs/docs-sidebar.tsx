@@ -62,7 +62,10 @@ function SidebarItem({
   const isCurrent = Boolean(pathname && item.href && isPathCurrent(pathname, item.href))
   const isActiveBranch = hasActivePath(item, pathname)
   const isActive = isCurrent || (hasChildren && isActiveBranch)
-  const [isOpen, setIsOpen] = React.useState(() => Boolean(item.defaultOpen))
+  const [isOpen, setIsOpen] = React.useState(() => Boolean(item.defaultOpen) || isActiveBranch)
+  React.useEffect(() => {
+    if (isActiveBranch) setIsOpen(true)
+  }, [isActiveBranch])
   const linkRef = React.useRef<HTMLAnchorElement>(null)
 
   React.useEffect(() => {

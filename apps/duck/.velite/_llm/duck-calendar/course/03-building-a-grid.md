@@ -128,4 +128,4 @@ buildCalendarMonth(adapter, date, {
 
 }>
 
-Next: [Lesson 4 - Selection Modes](/docs/packages/duck-calendar/course/04-selection-modes)
+Next: [Lesson 4 - Selection Modes](/duck-calendar/course/04-selection-modes)

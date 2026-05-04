@@ -205,7 +205,7 @@ Conditions added to a `When` builder combine with AND.
   **Typed dot-paths:** By default, `.attr()`, `.resourceAttr()`, `.env()`, and `.check()`
   accept any string. Pass a `context` phantom field to `createAccessConfig()` to get full
   autocompletion and type-checked values. See the
-  [type-safe config](/docs/advanced/config#typed-context-for-dot-path-intellisense) docs.
+  [type-safe config](/duck-iam/advanced/config#typed-context-for-dot-path-intellisense) docs.
 
 ## All Condition Operators
 

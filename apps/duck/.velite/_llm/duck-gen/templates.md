@@ -244,7 +244,7 @@ export class AuthModule {}
 
 ## Client-side (Duck Query)
 
-Full query docs: [/docs/duck-query](/docs/duck-query).
+Full query docs: [/duck-query](/duck-query).
 
 ```ts title="client/auth.query.ts"
 

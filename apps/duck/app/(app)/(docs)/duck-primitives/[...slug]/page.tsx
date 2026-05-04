@@ -43,6 +43,7 @@ const sidebar = packageSidebar(duckPrimitives, PKG_PREFIX, [
   'API',
   'Benchmarks',
   'Misc',
+  'Changelog',
 ])
 
 function getDocFromSlug(slug: string[]) {

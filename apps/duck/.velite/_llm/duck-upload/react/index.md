@@ -32,5 +32,5 @@ React.useEffect(() => {
 }, [on])
 ```
 
-See [UploadProvider](/docs/react/upload-provider) and
-[useUploader](/docs/react/use-uploader) for the API.
+See [UploadProvider](/duck-upload/react/upload-provider) and
+[useUploader](/duck-upload/react/use-uploader) for the API.

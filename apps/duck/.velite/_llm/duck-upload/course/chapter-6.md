@@ -199,4 +199,4 @@ type PersistedSnapshot = {
 
 ---
 
-Next: [Chapter 7: Validation & Plugins](/docs/course/chapter-7)
+Next: [Chapter 7: Validation & Plugins](/duck-upload/course/chapter-7)

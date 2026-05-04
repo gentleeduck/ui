@@ -100,4 +100,4 @@ By the end of the course you can:
 7. Handle edge cases: scoped bindings, conflict detection, input elements.
 
 }>
-**Next:** [Lesson 2  -  Your First Shortcut](/docs/packages/duck-vim/course/02-first-shortcut)
+**Next:** [Lesson 2  -  Your First Shortcut](/duck-vim/course/02-first-shortcut)

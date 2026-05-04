@@ -13,8 +13,8 @@ Each strategy:
 
 | Strategy | Use Case | Resumable |
 | --- | --- | --- |
-| [POST](/docs/strategies/post) | Simple presigned form uploads | No |
-| [Multipart](/docs/strategies/multipart) | Large file uploads with concurrent parts | Yes |
+| [POST](/duck-upload/strategies/post) | Simple presigned form uploads | No |
+| [Multipart](/duck-upload/strategies/multipart) | Large file uploads with concurrent parts | Yes |
 
 ## Registry
 
@@ -30,4 +30,4 @@ registry.set(multipartStrategy())
 The registry enforces typed strategy keys through the intent map, keeping the
 backend intent response and the strategy implementation in sync.
 
-See [Strategy Registry](/docs/strategies/registry) for more.
+See [Strategy Registry](/duck-upload/strategies/registry) for more.

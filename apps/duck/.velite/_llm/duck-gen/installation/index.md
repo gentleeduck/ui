@@ -226,6 +226,6 @@ Or add it as a prebuild script:
 
 ## Next steps
 
-- [Duck Gen overview](/docs/duck-gen): learn what Duck Gen does and how it works.
-- [Configuration](/docs/duck-gen/configuration): customize every option.
-- [Duck Query](/docs/duck-query): set up the type-safe HTTP client.
+- [Duck Gen overview](/duck-gen): learn what Duck Gen does and how it works.
+- [Configuration](/duck-gen/configuration): customize every option.
+- [Duck Query](/duck-query): set up the type-safe HTTP client.

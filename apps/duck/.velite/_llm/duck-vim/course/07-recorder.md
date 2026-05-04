@@ -141,4 +141,4 @@ function gameLoop() {
 3. Add an "Export" button that outputs the current bindings as JSON.
 
 }>
-**Next:** [Lesson 8  -  Advanced Patterns](/docs/packages/duck-vim/course/08-advanced)
+**Next:** [Lesson 8  -  Advanced Patterns](/duck-vim/course/08-advanced)

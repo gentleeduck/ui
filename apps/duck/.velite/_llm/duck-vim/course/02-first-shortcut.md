@@ -173,4 +173,4 @@ for (const [binding, cmd] of registry.getAllCommands()) {
 - Use debug mode during development.
 
 }>
-**Next:** [Lesson 3  -  Understanding Key Binding Strings](/docs/packages/duck-vim/course/03-key-bindings)
+**Next:** [Lesson 3  -  Understanding Key Binding Strings](/duck-vim/course/03-key-bindings)

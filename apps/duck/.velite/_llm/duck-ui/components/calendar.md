@@ -1,6 +1,6 @@
 ## Philosophy
 
-Calendars are complex accessibility challenges disguised as simple grids. We own the entire calendar stack  -  from the headless engine ([`@gentleduck/calendar`](/docs/packages/duck-calendar)) to the compound primitives (`@gentleduck/primitives/calendar`) to this styled component. The adapter pattern lets you swap date libraries, the hook layer handles state management, and this component applies Tailwind styling via `data-*` attribute selectors.
+Calendars are complex accessibility challenges disguised as simple grids. We own the entire calendar stack  -  from the headless engine ([`@gentleduck/calendar`](/duck-calendar)) to the compound primitives (`@gentleduck/primitives/calendar`) to this styled component. The adapter pattern lets you swap date libraries, the hook layer handles state management, and this component applies Tailwind styling via `data-*` attribute selectors.
 
 ## How It's Built
 
@@ -21,7 +21,7 @@ npm install @gentleduck/calendar @gentleduck/libs
 
 Add the `Button` and `Select` components to your project.
 
-The `Calendar` uses the [`Button`](/docs/components/button) variant styles and the [`Select`](/docs/components/select) component for month/year dropdowns.
+The `Calendar` uses the [`Button`](/duck-ui/components/button) variant styles and the [`Select`](/duck-ui/components/select) component for month/year dropdowns.
 
 Copy and paste the following code into your project.
 
@@ -38,7 +38,7 @@ const [date, setDate] = React.useState
 )
 ```
 
-See the [@gentleduck/calendar package docs](/docs/packages/duck-calendar) for more information on the headless engine, date adapters, and advanced features.
+See the [@gentleduck/calendar package docs](/duck-calendar) for more information on the headless engine, date adapters, and advanced features.
 
 ## Examples
 
@@ -97,7 +97,7 @@ See all calendar blocks in the [Blocks Library](/blocks/calendar) page.
 ### Migrated from react-day-picker
 
 } tone="warning" title="Migrated from react-day-picker">
-We have replaced `react-day-picker` with our own headless calendar engine  -  [`@gentleduck/calendar`](/docs/packages/duck-calendar). The result is **75% smaller bundle** (~5 KB vs ~20 KB gzipped), zero external dependencies, full keyboard navigation, and complete ARIA compliance. See the [performance benchmarks](/docs/packages/duck-calendar#performance) for detailed comparisons.
+We have replaced `react-day-picker` with our own headless calendar engine  -  [`@gentleduck/calendar`](/duck-calendar). The result is **75% smaller bundle** (~5 KB vs ~20 KB gzipped), zero external dependencies, full keyboard navigation, and complete ARIA compliance. See the [performance benchmarks](/duck-calendar#performance) for detailed comparisons.
 
 ### Date Picker
 

@@ -83,6 +83,8 @@ export function buildSidebar(docs: SidebarDoc[], options: BuildSidebarOptions): 
     return {
       title: isFirst ? '' : key,
       ...(isFirst ? { href: hrefFor(introSlug) } : {}),
+      collapsible: !isFirst,
+      defaultOpen: isFirst,
       items,
     }
   })

@@ -108,4 +108,4 @@ useTimePicker({
 
 }>
 
-Next: [Lesson 7 - Styling](/docs/packages/duck-calendar/course/07-styling)
+Next: [Lesson 7 - Styling](/duck-calendar/course/07-styling)

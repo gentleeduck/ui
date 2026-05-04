@@ -19,7 +19,7 @@ Install the following dependencies:
 npm install @gentleduck/libs @gentleduck/primitives react-hook-form sonner lucide-react
 ```
 
-The `json-editor` component depends on the [`alert-dialog`](/docs/components/alert-dialog), [`button`](/docs/components/button), [`field`](/docs/components/field), [`popover`](/docs/components/popover), and [`sheet`](/docs/components/sheet) components.
+The `json-editor` component depends on the [`alert-dialog`](/duck-ui/components/alert-dialog), [`button`](/duck-ui/components/button), [`field`](/duck-ui/components/field), [`popover`](/duck-ui/components/popover), and [`sheet`](/duck-ui/components/sheet) components.
 
 Copy and paste the following code into your project.
 
@@ -139,6 +139,6 @@ Same props as `JsonTextareaField`. Adds spring scaleIn+blur entrance animation v
 
 ## See also
 
-- [React Hook Form](/docs/components/react-hook-form)  -  Form context components used by `JsonTextareaField`
-- [Textarea](/docs/components/textarea)  -  Basic plain-text multiline input
-- [Field](/docs/components/field)  -  Layout primitive for label + description + error composition
+- [React Hook Form](/duck-ui/components/react-hook-form)  -  Form context components used by `JsonTextareaField`
+- [Textarea](/duck-ui/components/textarea)  -  Basic plain-text multiline input
+- [Field](/duck-ui/components/field)  -  Layout primitive for label + description + error composition

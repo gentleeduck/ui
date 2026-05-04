@@ -146,4 +146,4 @@ route types. No manual type annotations needed.
 
 ## Next
 
-[Chapter 8: Real World Patterns](/docs/course/real-world-patterns)
+[Chapter 8: Real World Patterns](/duck-gen/course/real-world-patterns)

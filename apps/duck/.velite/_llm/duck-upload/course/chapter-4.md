@@ -374,4 +374,4 @@ export const uploadClient = createUploadClient<PhotoIntentMap, PhotoCursorMap, P
 
 ---
 
-Next: [Chapter 5: Validation & Rejection](/docs/course/chapter-5)
+Next: [Chapter 5: Validation & Rejection](/duck-upload/course/chapter-5)

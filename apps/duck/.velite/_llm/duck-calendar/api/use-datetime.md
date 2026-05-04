@@ -52,11 +52,11 @@ function MyDateTimePicker() {
 
 ### `calendar`
 
-A full `UseCalendar.IUseCalendarReturn<TDate, 'single'>`. See [useCalendar](/docs/packages/duck-calendar/api/use-calendar) for details.
+A full `UseCalendar.IUseCalendarReturn<TDate, 'single'>`. See [useCalendar](/duck-calendar/api/use-calendar) for details.
 
 ### `timePicker`
 
-A full `UseTimePicker.IUseTimePickerReturn`. See [useTimePicker](/docs/packages/duck-calendar/api/use-time-picker) for details.
+A full `UseTimePicker.IUseTimePickerReturn`. See [useTimePicker](/duck-calendar/api/use-time-picker) for details.
 
 ### `state`
 
