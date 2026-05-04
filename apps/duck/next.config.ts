@@ -203,9 +203,14 @@ const nextConfig: NextConfig = {
         source: '/docs/:path*',
       },
       {
-        destination: '/www',
+        destination: '/www/introduction',
         permanent: true,
         source: '/docs',
+      },
+      {
+        destination: '/www/introduction',
+        permanent: true,
+        source: '/www',
       },
       {
         destination: '/duck-ui/components/react-hook-form',
