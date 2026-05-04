@@ -1,3 +1,5 @@
+import { readdir, readFile } from 'node:fs/promises'
+import { join } from 'node:path'
 import { Badge } from '@gentleduck/registry-ui/badge'
 import { Button } from '@gentleduck/registry-ui/button'
 import { Accessibility, Blocks, Component, Paintbrush, Palette, Sparkles } from 'lucide-react'
@@ -6,6 +8,54 @@ import { codeToHtml } from 'shiki'
 import { CopyButton } from '~/components/copy-button'
 import { OpenSourceSection } from '~/components/layouts/open-source-section'
 import { PageHeader, PageHeaderDescription, PageHeaderHeading } from '~/components/layouts/page-header'
+
+const SECTION_ORDER = ['Forms', 'Selection', 'Navigation', 'Disclosure', 'Overlay', 'Data Display', 'Feedback', 'Layout']
+
+interface ICatalogItem {
+  slug: string
+  title: string
+  description: string
+  section: string
+  order: number
+}
+
+function readFrontmatterField(block: string, key: string): string | null {
+  const m = block.match(new RegExp(`^${key}:\\s*(.+?)\\s*$`, 'm'))
+  if (!m) return null
+  return m[1].replace(/^['"]|['"]$/g, '')
+}
+
+async function loadCatalog(): Promise<[string, ICatalogItem[]][]> {
+  const dir = join(process.cwd(), 'content/docs/duck-ui/components')
+  const files = await readdir(dir)
+  const items: ICatalogItem[] = []
+  for (const f of files) {
+    if (!f.endsWith('.mdx')) continue
+    const raw = await readFile(join(dir, f), 'utf8')
+    const fmEnd = raw.indexOf('---', 3)
+    if (fmEnd < 0) continue
+    const block = raw.slice(3, fmEnd)
+    const title = readFrontmatterField(block, 'title') ?? f.replace(/\.mdx$/, '')
+    const description = readFrontmatterField(block, 'description') ?? ''
+    const section = readFrontmatterField(block, 'section') ?? 'Other'
+    const orderStr = readFrontmatterField(block, 'order')
+    const order = orderStr ? Number(orderStr) : 1000
+    items.push({ slug: f.replace(/\.mdx$/, ''), title, description, section, order })
+  }
+  const groups = new Map<string, ICatalogItem[]>()
+  for (const it of items) {
+    if (!groups.has(it.section)) groups.set(it.section, [])
+    groups.get(it.section)!.push(it)
+  }
+  for (const list of groups.values()) {
+    list.sort((a, b) => a.order - b.order || a.title.localeCompare(b.title))
+  }
+  return [...groups.entries()].sort((a, b) => {
+    const ai = SECTION_ORDER.indexOf(a[0])
+    const bi = SECTION_ORDER.indexOf(b[0])
+    return (ai === -1 ? 999 : ai) - (bi === -1 ? 999 : bi)
+  })
+}
 
 export const dynamic = 'force-static'
 export const revalidate = false
@@ -71,6 +121,8 @@ npx @gentleduck/cli init
 npx @gentleduck/cli add button`
 
 export default async function DuckUiPage() {
+  const catalog = await loadCatalog()
+  const totalComponents = catalog.reduce((n, [, list]) => n + list.length, 0)
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'bash',
     themes: {
@@ -170,6 +222,43 @@ export default async function DuckUiPage() {
               dangerouslySetInnerHTML={{ __html: highlightedCode }}
             />
           </figure>
+        </section>
+
+        <section aria-labelledby="duck-ui-catalog">
+          <header className="mb-8 flex flex-col items-center gap-1 text-center">
+            <h2 id="duck-ui-catalog" className="font-semibold text-xl leading-tight tracking-tight">
+              Component catalog
+            </h2>
+            <p className="text-muted-foreground text-sm">
+              {totalComponents} components grouped by category. Click any to jump straight to the docs.
+            </p>
+          </header>
+          <div className="flex flex-col gap-10">
+            {catalog.map(([section, list]) => (
+              <div key={section}>
+                <h3 className="mb-3 font-mono font-semibold text-muted-foreground text-xs uppercase tracking-wider">
+                  {section}
+                  <span className="ml-2 font-normal text-muted-foreground/60">{list.length}</span>
+                </h3>
+                <ul className="grid list-none gap-2 sm:grid-cols-2 lg:grid-cols-3">
+                  {list.map((item) => (
+                    <li key={item.slug}>
+                      <Link
+                        href={`/duck-ui/components/${item.slug}`}
+                        className="block rounded-lg border border-border/50 bg-card p-3 transition-colors hover:border-border hover:bg-accent">
+                        <span className="block font-mono font-semibold text-sm">{item.title}</span>
+                        {item.description && (
+                          <span className="mt-1 line-clamp-2 block text-muted-foreground text-xs leading-relaxed">
+                            {item.description}
+                          </span>
+                        )}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
         </section>
 
         <OpenSourceSection className="px-0!" />
