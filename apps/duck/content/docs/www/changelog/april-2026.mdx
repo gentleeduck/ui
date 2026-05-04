@@ -42,7 +42,7 @@ Badges differentiate `stable`, `beta`, `experimental`, and `deprecated` packages
 ## Documentation Pipeline <Badge variant="outline">refactor</Badge>
 
 - Split velite from one global `docs` collection into per-package collections (`duckUi`, `duckPrimitives`, `duckCalendar`, …). Each route loads only its own collection.
-- Added a `buildSidebar` helper in [`@gentleduck/docs`](/duck-docs) so per-package routes get grouped sidebars without a hand-written config.
+- Added a `buildSidebar` helper in [`@gentleduck/docs`](/www/packages) so per-package routes get grouped sidebars without a hand-written config.
 - Migrated every slug page to its package-scoped collection. Dropped the now-redundant top-level config and packages exports.
 - Frontmatter on every package MDX now declares `section` and `order` for the grouped sidebar.
 
