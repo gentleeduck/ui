@@ -1,0 +1,62 @@
+---
+title: Benchmarks
+description: "Five recorded phases tracking dmc's path from baseline to the plugin-gate optimization. ~9.5x velite at the kitchen-sink workload."
+section: Performance
+order: 10
+---
+
+Five recorded bench runs from the dmc optimization work, in
+chronological order. Source under
+[`duck-benchmarks/`](https://github.com/gentleeduck/duck-mc/tree/master/duck-benchmarks)
+in the repo.
+
+## Headline (1000 files, median ms)
+
+| variant | phase 1 | phase 5 | speedup |
+| --- | ---: | ---: | ---: |
+| sidecar+kitchen-sink | 2652 | 145 | **18x** |
+| sidecar+gfm | 405 | 46 | **8.8x** |
+| sidecar+pretty-code | 807 | 45 | **18x** |
+
+## Speedups vs velite at 1000 files (phase 5)
+
+| compared | velite ms | dmc ms | speedup |
+| --- | ---: | ---: | ---: |
+| native vs velite+gfm | 5934.00 | 44.73 | **132x** |
+| native vs velite+kitchen-sink | 1381.46 | 44.73 | **30.9x** |
+| sidecar+kitchen-sink vs velite+kitchen-sink | 1381.46 | 144.77 | **9.5x** |
+| sidecar+gfm vs velite+gfm | 5934.00 | 46.01 | **129x** |
+
+## Phases
+
+| phase | what changed |
+| --- | --- |
+| 1 baseline | initial pipeline; sidecar runs every JS plugin |
+| 2 single-walk | NodeSink + Walker + Accumulator; one DFS pass |
+| 3 native-syntect | syntect bundled; pretty-code in Rust |
+| 4 confirm-run | repeat run for noise band check |
+| 5 plugin-gate | sidecar strips native-owned remark/rehype plugins |
+
+Each phase folder under
+[`duck-benchmarks/phase-N-*/`](https://github.com/gentleeduck/duck-mc/tree/master/duck-benchmarks)
+ships `bench.json` + scale/table/throughput SVGs + a per-phase README.
+
+## Reproduce
+
+```sh
+git clone https://github.com/gentleeduck/duck-mc
+cd duck-mc
+cargo run --release -p dmc-core --features pretty-code --example bench
+```
+
+Output: `dmc-core/tmp/bench.json` plus three plot SVGs.
+
+## Honest caveats
+
+- Each median = 200 samples (per-file) or 10 samples (size sweep);
+  small movement between phases 3 and 4 sits inside the stddev band.
+- Velite invocations shell out to the velite CLI; per-call cost
+  includes Node startup. The 1000-file column is the most honest
+  comparison.
+- Fixture set is `examples/nextjs/content/`. Phase numbers track
+  *that* hardware at *that* commit; not re-runnable identically.

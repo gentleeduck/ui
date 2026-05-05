@@ -1,0 +1,87 @@
+---
+title: Introduction
+description: "Native Rust MDX compiler with a velite-shaped TypeScript API. Lex, parse, transform, emit; in-process syntax highlighting, math, and mermaid."
+section: Getting Started
+order: 0
+---
+
+`@gentleduck/md` (dmc) is a Rust MDX compiler. Drop-in for velite,
+~9.5x faster on the realistic kitchen-sink workload, ~30x on plain
+markdown.
+
+## Highlights
+
+- **Native pipeline**: lex, parse, transform, codegen all in Rust; no
+  Node hop on the hot path.
+- **Velite-shaped API**: `defineConfig`, `defineCollection`, `defineSchema`,
+  `s.*`. Existing velite configs migrate with one import swap.
+- **Native features**: syntect highlighting, KaTeX/MathML math, emoji,
+  mermaid, code imports, npm-command tabs, autolink headings.
+- **Plugin gate**: when your config lists native-owned remark/rehype
+  plugins (`remark-gfm`, `rehype-pretty-code`, `rehype-katex`, ...),
+  dmc strips them from the sidecar so the JS chain has zero work.
+- **Persistent cache**: per-file + math; warm rebuilds in milliseconds.
+
+## Workspace
+
+Eight Rust crates plus the napi binding:
+
+| crate | role |
+| --- | --- |
+| `dmc-lexer` | MDX/JSX/GFM tokenizer |
+| `dmc-parser` | typed AST parser |
+| `dmc-highlight` | bundled syntect grammars + themes |
+| `dmc-transform` | transformer pipeline |
+| `dmc-codegen` | HTML + MDX body emitters |
+| `dmc-schema` | velite-style schema builders |
+| `dmc-diagnostic` | shared diagnostic codes |
+| `dmc-core` | engine, CLI, watch, collections |
+| `@gentleduck/md` | npm-side wrapper |
+
+## Install
+
+```sh
+pnpm add @gentleduck/md
+```
+
+Optional sidecar for foreign remark/rehype plugins:
+
+```sh
+pnpm add @gentleduck/md-sidecar
+```
+
+## Quick start
+
+```ts
+// dmc.config.ts
+import { defineConfig, s } from "@gentleduck/md";
+
+export default defineConfig({
+  output: { data: ".gentleduck", html: true },
+  collections: {
+    posts: {
+      name: "Post",
+      pattern: "content/posts/**/*.mdx",
+      schema: (s) => s.object({
+        title: s.string(),
+        date: s.isodate(),
+        slug: s.path(),
+      }),
+    },
+  },
+});
+```
+
+```sh
+dmc build
+```
+
+## Links
+
+- Repo: [github.com/gentleeduck/duck-mc](https://github.com/gentleeduck/duck-mc)
+- Per-crate docs: [`dmc-docs/`](https://github.com/gentleeduck/duck-mc/tree/master/dmc-docs)
+- Benchmarks: see the [Benchmarks](./benchmarks) page or the
+  [`duck-benchmarks/`](https://github.com/gentleeduck/duck-mc/tree/master/duck-benchmarks)
+  folder for the full phase log.
+- Migration from velite:
+  [docs/migrating-from-velite.md](https://github.com/gentleeduck/duck-mc/blob/master/docs/migrating-from-velite.md)
