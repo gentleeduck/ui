@@ -30,7 +30,6 @@
         "@gentleduck/registry-examples": "workspace:*",
         "@gentleduck/registry-ui": "workspace:*",
         "@gentleduck/state": "workspace:*",
-        "@gentleduck/tailwind-config": "workspace:*",
         "@gentleduck/typescript-config": "workspace:*",
         "@gentleduck/variants": "workspace:*",
         "@gentleduck/vim": "workspace:*",
@@ -954,10 +953,6 @@
       "name": "@gentleduck/github",
       "version": "0.1.0",
     },
-    "tooling/tailwind": {
-      "name": "@gentleduck/tailwind-config",
-      "version": "0.1.0",
-    },
     "tooling/tsdown": {
       "name": "@gentleduck/tsdown-config",
       "version": "0.0.1",
@@ -1404,8 +1399,6 @@
     "@gentleduck/shortcut": ["@gentleduck/shortcut@workspace:packages/deprecated/duck-shortcut"],
 
     "@gentleduck/state": ["@gentleduck/state@workspace:packages/wip/duck-state"],
-
-    "@gentleduck/tailwind-config": ["@gentleduck/tailwind-config@workspace:tooling/tailwind"],
 
     "@gentleduck/tsdown-config": ["@gentleduck/tsdown-config@workspace:tooling/tsdown"],
 
