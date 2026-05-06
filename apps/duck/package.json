@@ -26,7 +26,7 @@
     "culori": "^4.0.2",
     "date-fns": "^4.1.0",
     "jotai": "^2.19.1",
-    "lucide-react": "1.6.0",
+    "lucide-react": "1.14.0",
     "lunr": "^2.3.9",
     "motion": "^12.26.2",
     "next": "^16.1.1",
