@@ -18,7 +18,8 @@
     "typescript": "catalog:",
     "zod": "catalog:"
   },
-  "description": "Type-safe API and message generator for TypeScript projects (NestJS-tested).",
+  "description": "[DEPRECATED] Use nestia (https://nestia.io) and typia (https://typia.io) instead. Type-safe API and message generator for TypeScript projects (NestJS-tested).",
+  "deprecated": "@gentleduck/gen is no longer maintained. Migrate to nestia (https://nestia.io) for typed routes/SDK and typia (https://typia.io) for runtime validators — both ship as proper TS transformer plugins with active maintenance.",
   "devDependencies": {
     "@gentleduck/tsdown-config": "workspace:*",
     "@gentleduck/typescript-config": "workspace:*",
