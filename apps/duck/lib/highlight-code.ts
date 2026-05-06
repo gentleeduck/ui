@@ -6,8 +6,8 @@ export async function highlightCode(code: string) {
   const html = await codeToHtml(code, {
     lang: 'tsx',
     themes: {
-      dark: 'catppuccin-macchiato',
-      light: 'light-plus',
+      dark: 'catppuccin-mocha',
+      light: 'github-light',
     },
     transformers: [
       {

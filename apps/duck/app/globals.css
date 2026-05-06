@@ -20,16 +20,8 @@ html body[data-scroll-locked] {
   overflow: hidden !important;
 }
 
-.shiki {
-  background-color: transparent !important;
-}
-
-/* Shiki dual-theme: swap to light colors when not in dark mode */
-html:not(.dark) .shiki span {
-  color: var(--shiki-light) !important;
-  font-style: var(--shiki-light-font-style) !important;
-  font-weight: var(--shiki-light-font-weight) !important;
-  text-decoration: var(--shiki-light-text-decoration) !important;
+html span:is(.dark *) {
+  color: var(--shiki-dark) !important;
 }
 
 @custom-variant dark (&:is(.dark *));
@@ -150,6 +142,7 @@ html:not(.dark) .shiki span {
       "rlig" 1,
       "calt" 1;
     font-synthesis-weight: none;
+    font-synthesis-style: none;
     text-rendering: optimizeLegibility;
   }
 

@@ -77,8 +77,8 @@ export default async function DuckTtestPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'typescript',
     themes: {
-      dark: 'catppuccin-macchiato',
-      light: 'light-plus',
+      dark: 'catppuccin-mocha',
+      light: 'github-light',
     },
     transformers: [
       {

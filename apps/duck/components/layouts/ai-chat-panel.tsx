@@ -194,7 +194,7 @@ const ShikiCodeBlock = React.memo(function ShikiCodeBlock({ code, language }: { 
           const isDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
           return shiki.codeToHtml(code, {
             lang: language || 'text',
-            theme: isDark ? 'catppuccin-macchiato' : 'github-light',
+            theme: isDark ? 'catppuccin-mocha' : 'github-light',
             transformers: [
               {
                 pre(node) {

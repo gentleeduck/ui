@@ -98,14 +98,15 @@ export default async function McpPage() {
   const highlightedCode = await codeToHtml(SETUP_CODE, {
     lang: 'bash',
     themes: {
-      dark: 'catppuccin-macchiato',
-      light: 'light-plus',
+      dark: 'catppuccin-mocha',
+      light: 'github-light',
     },
+    defaultColor: 'light',
     transformers: [
       {
         pre(node) {
           node.properties.class =
-            'no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 outline-none !bg-transparent text-sm font-mono'
+            'no-scrollbar min-w-0 overflow-x-auto px-4 py-3.5 outline-none !bg-transparent text-sm font-mono [&>*]font-bold'
         },
       },
     ],
