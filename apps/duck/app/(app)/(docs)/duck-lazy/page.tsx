@@ -74,8 +74,8 @@ export default async function DuckLazyPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'bash',
     themes: {
-      dark: 'catppuccin-macchiato',
-      light: 'light-plus',
+      dark: 'catppuccin-mocha',
+      light: 'github-light',
     },
     transformers: [
       {

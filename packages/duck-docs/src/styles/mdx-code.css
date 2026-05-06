@@ -107,14 +107,6 @@
   }
 
   /* biome-ignore lint/style/noDescendingSpecificity: intentional light/dark theming via @variant */
-  [data-line] span {
-    color: var(--shiki-light);
-
-    @variant dark {
-      /* biome-ignore lint/suspicious/noDuplicateProperties: dark theme override for shiki syntax highlighting */
-      color: var(--shiki-dark);
-    }
-  }
 
   [data-highlighted-line],
   [data-highlighted-chars] {

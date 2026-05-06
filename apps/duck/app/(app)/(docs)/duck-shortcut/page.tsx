@@ -72,8 +72,8 @@ export default async function DuckShortcutPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'bash',
     themes: {
-      dark: 'catppuccin-macchiato',
-      light: 'light-plus',
+      dark: 'catppuccin-mocha',
+      light: 'github-light',
     },
     transformers: [
       {

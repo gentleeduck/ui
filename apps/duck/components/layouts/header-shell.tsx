@@ -22,7 +22,7 @@ type HeaderBrandProps = {
 type HeaderSectionProps = React.HTMLAttributes<HTMLDivElement>
 
 export function HeaderRoot({ className, ...props }: HeaderRootProps) {
-  return <header className={cn('sticky top-0 z-47 w-full bg-background/80 backdrop-blur-md', className)} {...props} />
+  return <header className={cn('fixed top-0 z-47 w-full bg-background/80 backdrop-blur-md', className)} {...props} />
 }
 
 export function HeaderContainer({ className, children, ...props }: HeaderContainerProps) {

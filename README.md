@@ -56,7 +56,6 @@ A Bun-based monorepo for the gentleduck/ui component system, docs, and related t
 | --- | --- | --- | --- |
 | `tooling/biome` | `@gentleduck/biome-config` | Shared Biome config | Internal |
 | `tooling/github` | `@gentleduck/github` | GitHub/project automation support | Internal |
-| `tooling/tailwind` | `@gentleduck/tailwind-config` | Shared Tailwind config | Internal |
 | `tooling/tsdown` | `@gentleduck/tsdown-config` | Shared `tsdown` config | Internal |
 | `tooling/typescript` | `@gentleduck/typescript-config` | Shared TypeScript config | Internal |
 | `tooling/vitest` | `@gentleduck/vitest-config` | Shared Vitest config | Internal |

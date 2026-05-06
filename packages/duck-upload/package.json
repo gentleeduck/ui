@@ -1,23 +1,36 @@
 {
   "$schema": "https://json.schemastore.org/package.json",
   "name": "@gentleduck/upload",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "publishConfig": {
     "access": "public"
   },
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./core": "./src/core/index.ts",
-    "./react": "./src/react/index.ts",
-    "./strategies": "./src/strategies/index.ts"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./core": {
+      "types": "./dist/core/index.d.ts",
+      "default": "./dist/core/index.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "default": "./dist/react/index.js"
+    },
+    "./strategies": {
+      "types": "./dist/strategies/index.d.ts",
+      "default": "./dist/strategies/index.js"
+    }
   },
   "files": [
     "dist",
     "src"
   ],
-  "types": "./dist/index.d.ts",
+  "main": "./dist/index.js",
   "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "build": "tsdown",
     "dev": "tsdown --watch",

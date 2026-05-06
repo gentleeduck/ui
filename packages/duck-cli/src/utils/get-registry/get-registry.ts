@@ -5,6 +5,9 @@ import { fetchRegistryUrl, isUrl } from './get-registry.lib'
 export async function getRegistryIndex() {
   try {
     const [result] = await fetchRegistryUrl(['index.json'])
+    if (!result) {
+      return null
+    }
 
     return registrySchema.parse(result)
   } catch (error) {
@@ -17,6 +20,9 @@ export async function getRegistryItem(name: string) {
   try {
     const lower = name.toLowerCase()
     const [result] = await fetchRegistryUrl([isUrl(lower) ? lower : `/components/${lower}.json`])
+    if (!result) {
+      return null
+    }
 
     return registryEntrySchema.parse(result)
   } catch (error) {
@@ -28,6 +34,9 @@ export async function getRegistryItem(name: string) {
 export async function getRegistryBaseColor(theme: string): Promise<Registry.ThemeResponse | null> {
   try {
     const [result] = await fetchRegistryUrl([`themes/${theme}.json`])
+    if (!result) {
+      return null
+    }
 
     return result as Registry.ThemeResponse
   } catch (error) {

@@ -40,32 +40,42 @@ export const fontSans = localFont({
 export const fontMono = localFont({
   src: [
     {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Regular.ttf',
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Regular.woff2',
       style: 'normal',
       weight: '400',
     },
     {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Bold.ttf',
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Medium.woff2',
+      style: 'normal',
+      weight: '500',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Medium.woff2',
+      style: 'normal',
+      weight: '600',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Bold.woff2',
       style: 'normal',
       weight: '700',
     },
     {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Medium.ttf',
-      style: 'normal',
-      weight: '500',
-    },
-    {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Italic.ttf',
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Italic.woff2',
       style: 'italic',
       weight: '400',
     },
     {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-MediumItalic.ttf',
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-MediumItalic.woff2',
       style: 'italic',
       weight: '500',
     },
     {
-      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-BoldItalic.ttf',
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-MediumItalic.woff2',
+      style: 'italic',
+      weight: '600',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-BoldItalic.woff2',
       style: 'italic',
       weight: '700',
     },

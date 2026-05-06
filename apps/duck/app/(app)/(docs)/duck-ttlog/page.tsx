@@ -79,8 +79,8 @@ export default async function DuckTtlogPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'rust',
     themes: {
-      dark: 'catppuccin-macchiato',
-      light: 'light-plus',
+      dark: 'catppuccin-mocha',
+      light: 'github-light',
     },
     transformers: [
       {

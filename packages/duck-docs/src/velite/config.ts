@@ -90,7 +90,7 @@ function buildDefaultRehypePlugins({
       // light vars when `html` is not `.dark`.
       theme: {
         dark: 'catppuccin-mocha',
-        light: 'light-plus',
+        light: 'github-light',
       },
       defaultTheme: 'dark',
     },

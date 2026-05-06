@@ -46,11 +46,6 @@ function Twitter(props: React.SVGProps<SVGSVGElement>) {
   )
 }
 
-// const CommandMenu = React.lazy(() =>
-//   import('').then((m) => ({ default: m.CommandMenu })),
-// )
-// const MobileNav = React.lazy(() => import('@duck-docs/components/mobile-nav').then((m) => ({ default: m.MobileNav })))
-
 type FontPreset = 'mono-italic' | 'mono-normal' | 'sans-normal' | 'sans-italic' | 'serif-normal' | 'serif-italic'
 const FONT_PRESET_STORAGE_KEY = 'fontPresetV6'
 
