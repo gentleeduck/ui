@@ -110,8 +110,6 @@ describe('getRegistryBaseColor', () => {
   it('returns null for nonexistent theme', async () => {
     const { getRegistryBaseColor } = await import('~/utils/get-registry')
     const result = await getRegistryBaseColor('nonexistent-theme')
-    // fetchRegistryUrl catches the 404 and returns [],
-    // so destructured result is undefined, which is returned directly
-    expect(result).toBeUndefined()
+    expect(result).toBeNull()
   })
 })

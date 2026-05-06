@@ -29,7 +29,7 @@ describe('getRegistryUrl', () => {
 
   it('prepends REGISTRY_URL for component paths', () => {
     const result = getRegistryUrl('/components/button.json')
-    expect(result).toContain('/components/button.json')
+    expect(result).toBe('https://gentleduck.org/r/components/button.json')
   })
 
   it('appends /json suffix for v0 registry URLs with /chat/b/ path', () => {

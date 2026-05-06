@@ -2,6 +2,8 @@ import { REGISTRY_URL } from '~/main'
 import { highlighter, logger } from '../text-styling'
 import { ERROR_MESSAGES } from './get-registry.constants'
 
+const REGISTRY_REQUEST_TIMEOUT_MS = 30_000
+
 export function isUrl(path: string) {
   try {
     new URL(path)
@@ -23,7 +25,33 @@ export function getRegistryUrl(path: string) {
     return url.toString()
   }
 
-  return `${REGISTRY_URL}/${path}`
+  return `${REGISTRY_URL.replace(/\/+$/, '')}/${path.replace(/^\/+/, '')}`
+}
+
+async function fetchRegistryJson(url: string) {
+  const controller = new AbortController()
+  const timeoutId = setTimeout(() => controller.abort(), REGISTRY_REQUEST_TIMEOUT_MS)
+
+  try {
+    const response = await fetch(url, {
+      headers: { Accept: 'application/json' },
+      signal: controller.signal,
+    })
+
+    if (!response.ok) {
+      checkStatus(response.status, response.statusText, url, await response.text())
+    }
+
+    return await response.json()
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error(`Request timed out after ${REGISTRY_REQUEST_TIMEOUT_MS}ms`)
+    }
+
+    throw error
+  } finally {
+    clearTimeout(timeoutId)
+  }
 }
 
 export async function fetchRegistryUrl(paths: string[]) {
@@ -31,13 +59,7 @@ export async function fetchRegistryUrl(paths: string[]) {
     const results = await Promise.all(
       paths.map(async (path) => {
         const url = getRegistryUrl(path)
-        const response = await fetch(url, { signal: AbortSignal.timeout(30_000) })
-
-        if (!response.ok) {
-          checkStatus(response.status, response.statusText, url, await response.text())
-        }
-
-        return await response.json()
+        return await fetchRegistryJson(url)
       }),
     )
 
