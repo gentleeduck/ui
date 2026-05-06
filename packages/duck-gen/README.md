@@ -1,5 +1,23 @@
 # @gentleduck/gen
 
+> [!WARNING]
+> **`@gentleduck/gen` is deprecated and no longer maintained.** Use the
+> NestJS-native toolchain instead — they cover the same surface (typed routes,
+> typed bodies, runtime validation, SDK generation) and ship with a real
+> compiler transformer, full tooling, and an active community.
+>
+> - **[nestia](https://nestia.io/)** — typed `@TypedRoute` / `@TypedBody` /
+>   `@TypedQuery` / `@TypedParam` decorators, automatic SDK generation, Swagger
+>   support
+> - **[typia](https://typia.io/)** — runtime validators, serializers, JSON
+>   schema generation, all from TypeScript types via a TS transformer plugin
+>
+> Migration is straightforward: replace `@Body(typiaBody<X>())` with
+> `@TypedBody()`, `@Get()` with `@TypedRoute.Get()`, etc. See the [nestia
+> migration guide](https://nestia.io/docs/sdk/) for details.
+
+---
+
 Duck Gen scans your TypeScript server code and generates type-safe route maps and
 message registries. It is currently tested with NestJS.
 

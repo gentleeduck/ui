@@ -4,6 +4,22 @@ description: Type-safe API route and message key generator for TypeScript. Scans
 section: Getting Started
 order: 0
 ---
+
+<Callout type="warning">
+**`@gentleduck/gen` is deprecated and no longer maintained.** Use the
+NestJS-native toolchain instead — it covers the same surface (typed routes,
+typed bodies, runtime validation, SDK generation) with a real compiler
+transformer, full tooling, and an active community.
+
+- **[nestia](https://nestia.io/)** — typed `@TypedRoute` / `@TypedBody` /
+  `@TypedQuery` / `@TypedParam` decorators, automatic SDK generation, Swagger
+- **[typia](https://typia.io/)** — runtime validators, serializers, JSON
+  schema generation from TypeScript types via a TS transformer plugin
+
+Migration: replace `@Body(typiaBody<X>())` with `@TypedBody()`, `@Get()` with
+`@TypedRoute.Get()`. See the [nestia migration guide](https://nestia.io/docs/sdk/).
+</Callout>
+
 ## What is Duck Gen?
 
 Duck Gen is a **compiler extension** that reads your server source code and generates TypeScript
