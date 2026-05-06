@@ -65,7 +65,7 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          publish: bunx changeset publish
+          publish: bun run scripts/clean-publish.ts && bunx changeset publish && git checkout -- 'packages/*/package.json' 'apps/*/package.json' 'tooling/*/package.json'
           version: bun run version-packages
           title: "chore: version packages"
           commit: "chore: version packages"
