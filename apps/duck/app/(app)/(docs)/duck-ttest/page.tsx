@@ -76,10 +76,11 @@ type _test = AssertTrue<Equal<Uppercase<'gentle'>, 'GENTLE'>, 'uppercase works'>
 export default async function DuckTtestPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'typescript',
-    themes: {
+       themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },
+    defaultColor: 'dark',
     transformers: [
       {
         pre(node) {

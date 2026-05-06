@@ -72,10 +72,11 @@ import { motionTransition, useDuckReducedMotion } from '@gentleduck/motion'`
 export default async function DuckMotionPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'bash',
-    themes: {
+       themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },
+    defaultColor: 'dark',
     transformers: [
       {
         pre(node) {

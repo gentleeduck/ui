@@ -78,10 +78,11 @@ info!("hello from ttlog");`
 export default async function DuckTtlogPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'rust',
-    themes: {
+       themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },
+    defaultColor: 'dark',
     transformers: [
       {
         pre(node) {

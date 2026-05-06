@@ -75,10 +75,11 @@ duck-template create --variant api --name my-api`
 export default async function DuckTemplatePage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'bash',
-    themes: {
+       themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },
+    defaultColor: 'dark',
     transformers: [
       {
         pre(node) {

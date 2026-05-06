@@ -73,10 +73,11 @@ npx skills add gentelduck/ui --skill duck-primitives`
 export default async function SkillsPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'bash',
-    themes: {
+       themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },
+    defaultColor: 'dark',
     transformers: [
       {
         pre(node) {

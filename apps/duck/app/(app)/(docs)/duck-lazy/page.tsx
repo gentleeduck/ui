@@ -73,10 +73,11 @@ import { DuckLazyComponent } from '@gentleduck/lazy/lazy-component'`
 export default async function DuckLazyPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'bash',
-    themes: {
+       themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },
+    defaultColor: 'dark',
     transformers: [
       {
         pre(node) {

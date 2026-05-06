@@ -73,10 +73,11 @@ import { atom, createStore } from '@gentleduck/state'`
 export default async function DuckStatePage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'bash',
-    themes: {
+       themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },
+    defaultColor: 'dark',
     transformers: [
       {
         pre(node) {
