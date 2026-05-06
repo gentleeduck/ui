@@ -1,5 +1,15 @@
 # @gentleduck/docs
 
+## 1.0.3
+
+### Patch Changes
+
+- 918b34c: Strip `workspace:*` and `catalog:` protocol tokens from `devDependencies`/`dependencies`/`peerDependencies` of every public package before `changeset publish`. Previously published artifacts leaked these tokens into npm metadata, which broke strict resolvers (bun, deno) for downstream consumers. Adds `scripts/clean-publish.ts` and wires it into the root `release` script with a `git checkout` restore step so source remains workspace-friendly.
+- Updated dependencies [918b34c]
+  - @gentleduck/hooks@0.2.1
+  - @gentleduck/libs@0.2.1
+  - @gentleduck/vim@0.2.1
+
 ## 1.0.2
 
 ### Patch Changes
