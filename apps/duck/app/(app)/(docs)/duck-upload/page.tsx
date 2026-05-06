@@ -79,7 +79,7 @@ const { upload, progress, pause, resume } = useUpload({
 export default async function DuckUploadPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'typescript',
-       themes: {
+    themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },

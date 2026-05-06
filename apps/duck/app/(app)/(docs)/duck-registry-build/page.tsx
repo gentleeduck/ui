@@ -74,7 +74,7 @@ bunx registry-build build`
 export default async function DuckRegistryBuildPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'bash',
-       themes: {
+    themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },

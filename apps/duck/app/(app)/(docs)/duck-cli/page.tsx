@@ -72,7 +72,7 @@ npx @gentleduck/cli add button`
 export default async function DuckCliPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'bash',
-       themes: {
+    themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },

@@ -74,7 +74,7 @@ import { cn } from '@gentleduck/libs/cn'`
 export default async function DuckLibsPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'bash',
-       themes: {
+    themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },

@@ -77,7 +77,7 @@ export const iam = createEngine({
 export default async function DuckIamPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'typescript',
-       themes: {
+    themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },

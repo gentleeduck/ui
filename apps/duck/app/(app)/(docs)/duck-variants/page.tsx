@@ -71,7 +71,7 @@ import { cva, type VariantProps } from '@gentleduck/variants'`
 export default async function DuckVariantsPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'bash',
-       themes: {
+    themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },

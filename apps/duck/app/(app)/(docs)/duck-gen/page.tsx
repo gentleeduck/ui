@@ -74,7 +74,7 @@ bunx duck-gen`
 export default async function DuckGenPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'bash',
-       themes: {
+    themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },

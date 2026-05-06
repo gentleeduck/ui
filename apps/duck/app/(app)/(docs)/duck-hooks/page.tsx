@@ -70,7 +70,7 @@ import { useDebounce } from '@gentleduck/hooks/use-debounce'`
 export default async function DuckHooksPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'bash',
-       themes: {
+    themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },

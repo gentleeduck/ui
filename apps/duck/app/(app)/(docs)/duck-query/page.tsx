@@ -78,7 +78,7 @@ export const api = createDuckQueryClient<Routes>({ baseURL: '/api' })`
 export default async function DuckQueryPage() {
   const highlightedCode = await codeToHtml(INSTALL_CODE, {
     lang: 'typescript',
-       themes: {
+    themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },

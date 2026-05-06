@@ -97,7 +97,7 @@ claude mcp add duck-ui --transport http https://gentleduck.org/api/mcp
 export default async function McpPage() {
   const highlightedCode = await codeToHtml(SETUP_CODE, {
     lang: 'bash',
-       themes: {
+    themes: {
       dark: 'catppuccin-mocha',
       light: 'github-light',
     },
