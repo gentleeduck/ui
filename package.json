@@ -50,7 +50,7 @@
     "changeset": "changeset",
     "version-packages": "changeset version",
     "ci": "bun run check && bun run lint:ws && bun run check-types && bun run test && bun run build",
-    "release": "bun run ci && changeset publish",
+    "release": "bun run ci && bun run scripts/clean-publish.ts && changeset publish && git checkout -- 'packages/*/package.json' 'apps/*/package.json' 'tooling/*/package.json'",
     "clean": "rimraf --glob \"**/dist\" \"**/.turbo\" \"**/.cache\" \"**/.next\" \"**/.velite\" \"**/coverage\" \"**/*.tsbuildinfo\"",
     "clean:all": "rimraf --glob \"**/dist\" \"**/.turbo\" \"**/.cache\" \"**/.next\" \"**/.velite\" \"**/coverage\" \"**/*.tsbuildinfo\" \"**/node_modules\"",
     "clean:git": "git clean -xdf -e .claude -e .vscode",
