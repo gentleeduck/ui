@@ -6,6 +6,7 @@ import type { IDirection } from '@gentleduck/primitives/direction'
 import { useDirection } from '@gentleduck/primitives/direction'
 import { Slot } from '@gentleduck/primitives/slot'
 import type { Variants } from '@gentleduck/variants'
+import { useKeyBind } from '@gentleduck/vim/react'
 import { PanelLeftIcon } from 'lucide-react'
 import * as React from 'react'
 import { Button } from '../button'
@@ -65,17 +66,7 @@ function SidebarProvider({
   }, [isMobile, setOpen])
 
   // Adds a keyboard shortcut to toggle the sidebar.
-  React.useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === SIDEBAR_KEYBOARD_SHORTCUT && (event.metaKey || event.ctrlKey)) {
-        event.preventDefault()
-        toggleSidebar()
-      }
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [toggleSidebar])
+  useKeyBind(`mod+${SIDEBAR_KEYBOARD_SHORTCUT}`, toggleSidebar, { preventDefault: true })
 
   // We add a state so that we can do data-state="expanded" or "collapsed".
   // This makes it easier to style the sidebar with Tailwind classes.

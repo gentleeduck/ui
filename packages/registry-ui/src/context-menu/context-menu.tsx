@@ -2,8 +2,15 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import * as ContextMenuPrimitive from '@gentleduck/primitives/context-menu'
+import { formatForDisplay } from '@gentleduck/vim/format'
+import { useKeyBind } from '@gentleduck/vim/react'
 import { Check, ChevronRight, Circle } from 'lucide-react'
 import * as React from 'react'
+
+function ShortcutBinder({ keys, handler }: { keys: string; handler: () => void }) {
+  useKeyBind(keys, handler, { preventDefault: true })
+  return null
+}
 
 const ContextMenu = ContextMenuPrimitive.Root
 
@@ -154,9 +161,23 @@ const ContextMenuSeparator = React.forwardRef<
 ))
 ContextMenuSeparator.displayName = ContextMenuPrimitive.Separator.displayName
 
-const ContextMenuShortcut = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanElement>>(
-  ({ className, ...props }, ref) => (
-    <span ref={ref} className={cn('ms-auto text-muted-foreground text-xs tracking-widest', className)} {...props} />
+interface IContextMenuShortcutProps extends React.HTMLAttributes<HTMLSpanElement> {
+  keys?: string
+  onKeysPressed?: () => void
+}
+
+const ContextMenuShortcut = React.forwardRef<HTMLSpanElement, IContextMenuShortcutProps>(
+  ({ className, keys, onKeysPressed, children, ...props }, ref) => (
+    <>
+      <span
+        ref={ref}
+        data-slot="context-menu-shortcut"
+        className={cn('ms-auto text-muted-foreground text-xs tracking-widest', className)}
+        {...props}>
+        {children ?? (keys ? formatForDisplay(keys) : null)}
+      </span>
+      {keys && onKeysPressed ? <ShortcutBinder keys={keys} handler={onKeysPressed} /> : null}
+    </>
   ),
 )
 ContextMenuShortcut.displayName = 'ContextMenuShortcut'

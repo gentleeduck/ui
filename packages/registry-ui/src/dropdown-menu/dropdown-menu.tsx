@@ -2,8 +2,15 @@
 
 import { cn } from '@gentleduck/libs/cn'
 import * as DropdownMenuPrimitive from '@gentleduck/primitives/dropdown-menu'
+import { formatForDisplay } from '@gentleduck/vim/format'
+import { useKeyBind } from '@gentleduck/vim/react'
 import { Check, ChevronRight, Circle } from 'lucide-react'
 import * as React from 'react'
+
+function ShortcutBinder({ keys, handler }: { keys: string; handler: () => void }) {
+  useKeyBind(keys, handler, { preventDefault: true })
+  return null
+}
 
 const DropdownMenu = DropdownMenuPrimitive.Root
 
@@ -157,9 +164,23 @@ const DropdownMenuSeparator = React.forwardRef<
 ))
 DropdownMenuSeparator.displayName = DropdownMenuPrimitive.Separator.displayName
 
-const DropdownMenuShortcut = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanElement>>(
-  ({ className, ...props }, ref) => (
-    <span ref={ref} className={cn('ms-auto text-xs tracking-widest opacity-60', className)} {...props} />
+interface IDropdownMenuShortcutProps extends React.HTMLAttributes<HTMLSpanElement> {
+  keys?: string
+  onKeysPressed?: () => void
+}
+
+const DropdownMenuShortcut = React.forwardRef<HTMLSpanElement, IDropdownMenuShortcutProps>(
+  ({ className, keys, onKeysPressed, children, ...props }, ref) => (
+    <>
+      <span
+        ref={ref}
+        data-slot="dropdown-menu-shortcut"
+        className={cn('ms-auto text-xs tracking-widest opacity-60', className)}
+        {...props}>
+        {children ?? (keys ? formatForDisplay(keys) : null)}
+      </span>
+      {keys && onKeysPressed ? <ShortcutBinder keys={keys} handler={onKeysPressed} /> : null}
+    </>
   ),
 )
 DropdownMenuShortcut.displayName = 'DropdownMenuShortcut'

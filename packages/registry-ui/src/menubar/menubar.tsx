@@ -3,8 +3,15 @@
 import { cn } from '@gentleduck/libs/cn'
 import { AnimVariants } from '@gentleduck/motion/variants'
 import * as MenubarPrimitive from '@gentleduck/primitives/menubar'
+import { formatForDisplay } from '@gentleduck/vim/format'
+import { useKeyBind } from '@gentleduck/vim/react'
 import { Check, ChevronRight, Circle } from 'lucide-react'
 import * as React from 'react'
+
+function ShortcutBinder({ keys, handler }: { keys: string; handler: () => void }) {
+  useKeyBind(keys, handler, { preventDefault: true })
+  return null
+}
 
 const MenubarMenu: typeof MenubarPrimitive.Menu = MenubarPrimitive.Menu
 MenubarMenu.displayName = 'MenubarMenu'
@@ -193,9 +200,23 @@ const MenubarSeparator = React.forwardRef<
 ))
 MenubarSeparator.displayName = MenubarPrimitive.Separator.displayName
 
-const MenubarShortcut = React.forwardRef<HTMLSpanElement, React.HTMLAttributes<HTMLSpanElement>>(
-  ({ className, ...props }, ref) => (
-    <span ref={ref} className={cn('ms-auto text-muted-foreground text-xs tracking-widest', className)} {...props} />
+interface IMenubarShortcutProps extends React.HTMLAttributes<HTMLSpanElement> {
+  keys?: string
+  onKeysPressed?: () => void
+}
+
+const MenubarShortcut = React.forwardRef<HTMLSpanElement, IMenubarShortcutProps>(
+  ({ className, keys, onKeysPressed, children, ...props }, ref) => (
+    <>
+      <span
+        ref={ref}
+        data-slot="menubar-shortcut"
+        className={cn('ms-auto text-muted-foreground text-xs tracking-widest', className)}
+        {...props}>
+        {children ?? (keys ? formatForDisplay(keys) : null)}
+      </span>
+      {keys && onKeysPressed ? <ShortcutBinder keys={keys} handler={onKeysPressed} /> : null}
+    </>
   ),
 )
 MenubarShortcut.displayName = 'MenubarShortcut'
