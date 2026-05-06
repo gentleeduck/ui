@@ -17,18 +17,24 @@ import { siteConfig } from '~/config/site'
 // Inter and Inria Serif used to load eagerly via next/font/local. Both
 // are now lazy-registered on-demand by ~/lib/dynamic-fonts when the
 // user picks a sans- or serif- preset in the FontStyle menu. Initial
-// page only ships JetBrains Mono Nerd.
-// Trimmed to three weights — Regular, Bold, Italic — to keep the
-// initial font payload manageable. The TTFs are ~2.4 MB each (full
-// Nerd Font glyph set), so each dropped weight saves ~1.3 MB on the
-// wire post-subsetting. 500 / 500-italic / 700-italic referenced an
-// emphasis story we don't actually use at the chrome layer.
+// page still ships JetBrains Mono Nerd, but now includes the medium and
+// italic emphasis faces the chrome actually asks for.
 const JetBrainsMonoNerd = localFont({
   src: [
     {
       path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Regular.woff2',
       style: 'normal',
       weight: '400',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Medium.woff2',
+      style: 'normal',
+      weight: '500',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Medium.woff2',
+      style: 'normal',
+      weight: '600',
     },
     {
       path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Bold.woff2',
@@ -39,6 +45,21 @@ const JetBrainsMonoNerd = localFont({
       path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-Italic.woff2',
       style: 'italic',
       weight: '400',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-MediumItalic.woff2',
+      style: 'italic',
+      weight: '500',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-MediumItalic.woff2',
+      style: 'italic',
+      weight: '600',
+    },
+    {
+      path: '../public/fonts/jetbrains-mono-nerd/JetBrainsMonoNerdFontMono-BoldItalic.woff2',
+      style: 'italic',
+      weight: '700',
     },
   ],
   variable: '--font-mono-font',
