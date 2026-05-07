@@ -83,7 +83,7 @@ const PackagePage = async ({ params }: { params: Promise<{ slug: string[] }> }) 
               </div>
               <div className="flex shrink-0 items-center gap-1.5">
                 <DocsCopyPage page={doc.content} url={absoluteUrl(doc.slug)} />
-                <DocsPagerTop doc={doc} />
+                <DocsPagerTop config={sidebar} doc={doc} />
               </div>
             </div>
             <div className="space-y-2">
@@ -123,7 +123,7 @@ const PackagePage = async ({ params }: { params: Promise<{ slug: string[] }> }) 
             <Mdx code={doc.body} />
           </section>
           <footer>
-            <DocsPagerBottom doc={doc} />
+            <DocsPagerBottom config={sidebar} doc={doc} />
             <div aria-hidden="true" id="bottom" />
           </footer>
         </article>

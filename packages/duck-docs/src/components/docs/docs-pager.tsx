@@ -12,13 +12,15 @@ interface IDocsPagerProps {
     slug?: string
     title: string
   }
+  /** Override the global docsConfig with a package-specific sidebar (used by per-package slug pages). */
+  config?: IDocsConfig
 }
 
-export function DocsPagerBottom({ doc }: IDocsPagerProps) {
-  const docsConfig = useDocsConfig()
-  const pager = getPagerForDoc(doc, docsConfig)
+export function DocsPagerBottom({ doc, config }: IDocsPagerProps) {
+  const fallbackConfig = useDocsConfig()
+  const pager = getPagerForDoc(doc, config ?? fallbackConfig)
 
-  if (!pager) {
+  if (!pager?.prev?.href && !pager?.next?.href) {
     return null
   }
 
@@ -55,11 +57,11 @@ export function DocsPagerBottom({ doc }: IDocsPagerProps) {
     </div>
   )
 }
-export function DocsPagerTop({ doc }: IDocsPagerProps) {
-  const docsConfig = useDocsConfig()
-  const pager = getPagerForDoc(doc, docsConfig)
+export function DocsPagerTop({ doc, config }: IDocsPagerProps) {
+  const fallbackConfig = useDocsConfig()
+  const pager = getPagerForDoc(doc, config ?? fallbackConfig)
 
-  if (!pager) {
+  if (!pager?.prev?.href && !pager?.next?.href) {
     return null
   }
 
