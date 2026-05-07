@@ -1,7 +1,7 @@
 // THIS FILE IS AUTO-GENERATED. DO NOT EDIT.
 
-import { auth_signin, auth_signup, auth_signout } from './server/auth/auth.controller'
 import { AuthMessages } from './server/auth/auth.constants'
+import { auth_signin, auth_signout, auth_signup } from './server/auth/auth.controller'
 
 export interface ApiRoutes {
   '/api/auth/signin': {

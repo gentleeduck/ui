@@ -43,7 +43,7 @@ export function validateFile<P extends string>(file: File, purpose: P, config: U
           })
 
     const extMatches =
-      !!fileExt && extensions.length > 0 ? extensions.some((ext) => ext.toLowerCase() === fileExt) : false
+      fileExt && extensions.length > 0 ? extensions.some((ext) => ext.toLowerCase() === fileExt) : false
 
     // Determine if file passes type/extension check
     const hasTypeRules = allowed.length > 0
