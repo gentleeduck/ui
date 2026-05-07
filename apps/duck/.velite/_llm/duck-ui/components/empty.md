@@ -47,7 +47,7 @@ Direction is resolved through the shared primitives direction module. Use a loca
 }
   title="Alpha: Motion Compositions"
   tone="warning">
-Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/duck-ui/issues).
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
 
 Use `MotionEmpty`, `MotionEmptyMedia`, `MotionEmptyTitle`, `MotionEmptyDescription`, and `MotionEmptyContent` for staggered entrance animations powered by [motion](https://motion.dev). The media scales in while text elements fade up with increasing delays.
 

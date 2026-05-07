@@ -2,7 +2,7 @@
 
 Duck UI is a component library built on [gentleduck primitives](/duck-primitives). The primitives are headless and accessible; Duck UI adds Tailwind styles and sensible defaults.
 
-Part of the [gentleduck/ui](https://github.com/gentleeduck/duck-ui) ecosystem, alongside
+Part of the [gentleduck/ui](https://github.com/gentleeduck/gentleduck) ecosystem, alongside
 `duck-vim`, `duck-calendar`, `duck-primitives`, and the rest of the toolchain.
 
 ## Why Duck UI

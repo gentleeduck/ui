@@ -1,8 +1,7 @@
 ---
 title: gentleduck/cli
-description: "CLI for initializing projects, adding components, and managing updates with an interactive merge TUI."
+description: "CLI for initializing projects, adding components, managing themes, and updating with an interactive merge TUI."
 section: Getting Started
-order: 0
 ---
 <MermaidDiagram chart={`flowchart TD
     A[npx @gentleduck/cli] --> B[init]
@@ -11,17 +10,19 @@ order: 0
     A --> E[remove]
     A --> F[diff]
     A --> L[list]
+    A --> T[theme]
     B --> G[duck-ui.config.json]
     C --> H[Install Components]
     D --> I[Interactive Merge TUI]
     E --> J[Clean Removal]
     F --> K[Syntax-Highlighted Diff]
     L --> M[Registry Browser]
+    T --> N[Theme Tokens]
 `} />
 
 ## What this CLI does
 
-Most component CLIs only add components. gentleduck/cli also updates them with an interactive merge, removes them cleanly, and diffs them against the registry with syntax highlighting.
+Most component CLIs only add components. gentleduck/cli also updates them with an interactive merge, removes them cleanly, diffs them against the registry with syntax highlighting, and manages theme tokens.
 
 The **update** command matters most. When you update a component you have modified locally, the CLI opens an interactive merge screen in your terminal. Each change appears as a hunk and you choose per-hunk what to keep:
 
@@ -43,6 +44,7 @@ No git merge markers. No manual conflict resolution. No diff tool required.
 | `update` with merge | Interactive hunk-by-hunk merge TUI | Not available |
 | `remove` | Clean uninstall with dep cleanup | Not available |
 | `list` | Filter by type, JSON output | Not available |
+| `theme` | List, inspect, install themes from registry | Not available |
 | Template scaffolding | `--template` flag for full project scaffold | Not available |
 | Monorepo support | `--monorepo` flag, workspace-aware config | Not available |
 
@@ -51,6 +53,8 @@ No git merge markers. No manual conflict resolution. No diff tool required.
 ## Install
 
 ```bash
+bun add -D @gentleduck/cli
+# or
 npm install -D @gentleduck/cli
 ```
 
@@ -58,198 +62,17 @@ npm install -D @gentleduck/cli
 
 ## Commands
 
-### init
+| Command | What it does |
+| --- | --- |
+| [`init`](/duck-cli/commands/init) | Initialize project config, optionally install components |
+| [`add`](/duck-cli/commands/add) | Install components from the registry |
+| [`update`](/duck-cli/commands/update) | Update installed components with the interactive merge TUI |
+| [`remove`](/duck-cli/commands/remove) | Remove components and clean up unused dependencies |
+| [`diff`](/duck-cli/commands/diff) | Show diffs between local copies and registry versions |
+| [`list`](/duck-cli/commands/list) | List available components from the registry |
+| [`theme`](/duck-cli/commands/theme) | Manage theme tokens (list, info, add) |
 
-Initialize project config and optionally install components.
-
-```bash
-npx @gentleduck/cli init [components...]
-```
-
-Options:
-
-| Flag | Description |
-|---|---|
-| `-y, --yes` | Skip prompts, use defaults |
-| `-c, --cwd <cwd>` | Working directory |
-| `-p, --project-type <type>` | Project type (next, vite, remix, manual) |
-| `-b, --base-color <color>` | Base color for theme |
-| `--alias <alias>` | Import alias for components |
-| `--css <path>` | Path to global CSS file |
-| `--css-variables` / `--no-css-variables` | Enable/disable CSS variables |
-| `--monorepo` / `--no-monorepo` | Monorepo mode |
-| `-w, --workspace <path>` | Target workspace in monorepo |
-| `--template <name>` | Scaffold from a project template |
-| `--prefix <prefix>` | Component prefix |
-| `-a, --all` | Install all components |
-
-```bash
-# Standard init
-npx @gentleduck/cli init
-
-# Init with template scaffold
-npx @gentleduck/cli init --template acme
-
-# Init monorepo with workspace target
-npx @gentleduck/cli init --monorepo --workspace apps/web
-
-# Init and install all components
-npx @gentleduck/cli init --all -y
-```
-
-### add
-
-Install components from the registry. Components are copied as source files into your project.
-
-```bash
-npx @gentleduck/cli add [components...]
-```
-
-Options:
-
-| Flag | Description |
-|---|---|
-| `-y, --yes` | Skip confirmation prompts |
-| `-f, --force` | Overwrite existing files |
-| `-c, --cwd <cwd>` | Working directory |
-| `-w, --workspace <path>` | Target workspace |
-| `-a, --all` | Install all components |
-
-```bash
-# Add specific components
-npx @gentleduck/cli add button dialog calendar
-
-# Add all components
-npx @gentleduck/cli add --all
-
-# Add to a specific workspace
-npx @gentleduck/cli add sidebar --workspace apps/dashboard
-```
-
-### update
-
-Update installed components to the latest registry versions. If you have made local modifications, the CLI detects them and launches the interactive merge TUI.
-
-```bash
-npx @gentleduck/cli update [components...]
-```
-
-Options:
-
-| Flag | Description |
-|---|---|
-| `-a, --all` | Update all installed components |
-| `-y, --yes` | Skip confirmation prompts |
-| `-c, --cwd <cwd>` | Working directory |
-| `-w, --workspace <path>` | Target workspace |
-
-The merge TUI shows each changed file with hunks. For each hunk you choose:
-- **Keep local (1)** - your version stays
-- **Take registry (2)** - the updated version replaces yours
-- **Keep both (3)** - both versions are included
-
-After resolving all hunks, you see a preview of the merged result and confirm before writing to disk.
-
-```bash
-# Update a specific component
-npx @gentleduck/cli update button
-
-# Update all components
-npx @gentleduck/cli update --all
-```
-
-### remove
-
-Remove installed components and clean up unused dependencies.
-
-```bash
-npx @gentleduck/cli remove [components...]
-```
-
-Options:
-
-| Flag | Description |
-|---|---|
-| `-y, --yes` | Skip confirmation |
-| `-c, --cwd <cwd>` | Working directory |
-| `-w, --workspace <path>` | Target workspace |
-
-```bash
-npx @gentleduck/cli remove carousel resizable
-```
-
-### diff
-
-Show differences between your local component copies and the latest registry versions. Opens a syntax-highlighted side-by-side TUI by default.
-
-```bash
-npx @gentleduck/cli diff [components...]
-```
-
-Options:
-
-| Flag | Description |
-|---|---|
-| `-c, --cwd <cwd>` | Working directory |
-| `-g, --gui` | Force TUI mode |
-| `-w, --workspace <path>` | Target workspace |
-
-```bash
-# Diff a specific component
-npx @gentleduck/cli diff button
-
-# Diff all installed components
-npx @gentleduck/cli diff
-```
-
-### list
-
-List available components from the registry with their install status.
-
-```bash
-npx @gentleduck/cli list
-```
-
-Options:
-
-| Flag | Description |
-|---|---|
-| `-t, --type <type>` | Filter by type (ui, hook, lib, block) |
-| `-j, --json` | Output as JSON |
-
-```bash
-# List all available components
-npx @gentleduck/cli list
-
-# List only blocks
-npx @gentleduck/cli list --type block
-
-# Machine-readable output
-npx @gentleduck/cli list --json
-```
-
----
-
-## Monorepo usage
-
-When `duck-ui.config.json` has `"monorepo": true`, the CLI resolves the install target from:
-
-1. The `workspace` field in `duck-ui.config.json`
-2. The `--workspace` flag (overrides config)
-3. Auto-detection from the nearest parent `package.json`
-
-The CLI validates that the target workspace has `package.json` and `tsconfig.json` before installing.
-
-```bash
-# Init monorepo
-npx @gentleduck/cli init --monorepo --workspace apps/web
-
-# Add component to specific workspace
-npx @gentleduck/cli add button --workspace apps/dashboard
-
-# Update all in workspace
-npx @gentleduck/cli update --all --workspace packages/ui
-```
+Each command has its own page with full options and examples.
 
 ---
 
@@ -267,4 +90,4 @@ npx @gentleduck/cli add button
 npx @gentleduck/cli diff button
 ```
 
-After switching, you get `update`, `remove`, and `list`, which shadcn does not provide. `update` with interactive merge lets teams pull upstream changes into customized components without losing local edits.
+After switching, you get `update`, `remove`, `list`, and `theme`, which shadcn does not provide. `update` with interactive merge lets teams pull upstream changes into customized components without losing local edits.

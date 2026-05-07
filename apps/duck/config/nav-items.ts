@@ -131,7 +131,6 @@ export const navItems = [
         description: 'Identity and access management — roles, permissions, and policy enforcement.',
         icon: KeyRound,
         color: '#eab308',
-        status: 'wip',
       },
       {
         title: '@gentleduck/template',

@@ -1,5 +1,5 @@
 Any question that might be related to this project you can find here.
-Or you can ask it on our [GitHub repository](https://github.com/gentleeduck/duck-ui).
+Or you can ask it on our [GitHub repository](https://github.com/gentleeduck/gentleduck).
 
   
     
@@ -85,7 +85,7 @@ Or you can ask it on our [GitHub repository](https://github.com/gentleeduck/duck
     
     
       Head to our GitHub repository at{' '}
-      <a href="https://github.com/gentleeduck/duck-ui" className="text-primary hover:underline">github.com/gentleeduck/duck-ui
+      <a href="https://github.com/gentleeduck/gentleduck" className="text-primary hover:underline">github.com/gentleeduck/gentleduck
       </a>. Report bugs, request features, submit pull requests, or improve documentation. We review 
       contributions quickly and actually respond. Good ideas get implemented, bad ideas get thoughtful 
       explanations. No corporate bureaucracy.

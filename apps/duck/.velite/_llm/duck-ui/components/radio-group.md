@@ -58,7 +58,7 @@ Set `dir="rtl"` on `RadioGroup` for a local override, or set `DirectionProvider`
 }
   title="Alpha: Motion Compositions"
   tone="warning">
-Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/duck-ui/issues).
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
 
 Use `MotionRadioGroup` and `MotionRadioGroupItem` for staggered entrance animations powered by [motion](https://motion.dev). Each item fades in with scale and blur, staggered by 50ms.
 

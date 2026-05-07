@@ -2,58 +2,58 @@
   "corePerformance": [
     {
       "label": "evaluatePolicy (simple rule)",
-      "us": 1.05
+      "us": 0.69
     },
     {
       "label": "evaluatePolicy (conditions)",
-      "us": 1.04
+      "us": 0.85
     },
     {
       "label": "evaluatePolicy (target match)",
-      "us": 0.61
+      "us": 0.45
     },
     {
       "label": "evaluatePolicy (target skip)",
-      "us": 0.26
+      "us": 0.2
     },
     {
       "label": "evaluate (2 policies)",
-      "us": 1.33
+      "us": 0.92
     },
     {
       "label": "evaluate (deny path)",
-      "us": 0.54
+      "us": 0.52
     }
   ],
   "enginePerformance": [
     {
       "label": "engine.can() (cached)",
-      "us": 4.49
+      "us": 4.43
     },
     {
       "label": "engine.check() (cached)",
-      "us": 3.3
+      "us": 3.83
     },
     {
       "label": "engine.permissions() (20 checks)",
-      "us": 20.88
+      "us": 19.51
     },
     {
       "label": "engine.explain()",
-      "us": 5.99
+      "us": 5.94
     }
   ],
   "moduleSizes": [
     {
       "name": "Core (full)",
       "entry": "index.js",
-      "sizeBytes": 24618,
+      "sizeBytes": 24617,
       "sizeKB": 24
     },
     {
       "name": "Core only",
       "entry": "core/index.js",
-      "sizeBytes": 401,
+      "sizeBytes": 397,
       "sizeKB": 0.4
     },
     {
@@ -79,6 +79,12 @@
       "entry": "adapters/http/index.js",
       "sizeBytes": 1231,
       "sizeKB": 1.2
+    },
+    {
+      "name": "Adapter: Redis",
+      "entry": "adapters/redis/index.js",
+      "sizeBytes": 1484,
+      "sizeKB": 1.4
     },
     {
       "name": "Server: Express",
@@ -225,7 +231,7 @@
     },
     {
       "feature": "Database adapters",
-      "gentleduck": "4",
+      "gentleduck": "5",
       "casl": "3",
       "casbin": "20+",
       "accesscontrol": "0"
@@ -336,7 +342,7 @@
         },
         {
           "metric": "Database adapters",
-          "gentleduck": "4 (Memory, Prisma, Drizzle, HTTP)",
+          "gentleduck": "5 (Memory, Prisma, Drizzle, Redis, HTTP)",
           "competitor": "3 (Prisma, Mongoose, TypeORM)",
           "winner": "tie"
         },
@@ -389,7 +395,7 @@
         },
         {
           "metric": "Database adapters",
-          "gentleduck": "4",
+          "gentleduck": "5",
           "competitor": "20+",
           "winner": "competitor"
         },
@@ -478,7 +484,7 @@
         },
         {
           "metric": "Database adapters",
-          "gentleduck": "4",
+          "gentleduck": "5",
           "competitor": "0 (in-memory only)",
           "winner": "gentleduck"
         },
@@ -515,5 +521,5 @@
       ]
     }
   ],
-  "generatedAt": "2026-05-07T06:38:25.333Z"
+  "generatedAt": "2026-05-07T10:19:47.343Z"
 }

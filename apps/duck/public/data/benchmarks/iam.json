@@ -2,15 +2,15 @@
   "corePerformance": [
     {
       "label": "evaluatePolicy (simple rule)",
-      "us": 0.65
+      "us": 0.69
     },
     {
       "label": "evaluatePolicy (conditions)",
-      "us": 0.87
+      "us": 0.85
     },
     {
       "label": "evaluatePolicy (target match)",
-      "us": 0.51
+      "us": 0.45
     },
     {
       "label": "evaluatePolicy (target skip)",
@@ -18,42 +18,42 @@
     },
     {
       "label": "evaluate (2 policies)",
-      "us": 0.8
+      "us": 0.92
     },
     {
       "label": "evaluate (deny path)",
-      "us": 0.51
+      "us": 0.52
     }
   ],
   "enginePerformance": [
     {
       "label": "engine.can() (cached)",
-      "us": 4.52
+      "us": 4.43
     },
     {
       "label": "engine.check() (cached)",
-      "us": 3.44
+      "us": 3.83
     },
     {
       "label": "engine.permissions() (20 checks)",
-      "us": 17.39
+      "us": 19.51
     },
     {
       "label": "engine.explain()",
-      "us": 5.39
+      "us": 5.94
     }
   ],
   "moduleSizes": [
     {
       "name": "Core (full)",
       "entry": "index.js",
-      "sizeBytes": 23869,
-      "sizeKB": 23.3
+      "sizeBytes": 24617,
+      "sizeKB": 24
     },
     {
       "name": "Core only",
       "entry": "core/index.js",
-      "sizeBytes": 399,
+      "sizeBytes": 397,
       "sizeKB": 0.4
     },
     {
@@ -79,6 +79,12 @@
       "entry": "adapters/http/index.js",
       "sizeBytes": 1231,
       "sizeKB": 1.2
+    },
+    {
+      "name": "Adapter: Redis",
+      "entry": "adapters/redis/index.js",
+      "sizeBytes": 1484,
+      "sizeKB": 1.4
     },
     {
       "name": "Server: Express",
@@ -132,7 +138,7 @@
   "bundleComparison": [
     {
       "name": "@gentleduck/iam (full)",
-      "sizeKB": 23.3,
+      "sizeKB": 24,
       "deps": 0,
       "treeshakeable": true,
       "note": "Full package (engine + evaluate + explain + builder + conditions + rbac + config + validate)"
@@ -225,7 +231,7 @@
     },
     {
       "feature": "Database adapters",
-      "gentleduck": "4",
+      "gentleduck": "5",
       "casl": "3",
       "casbin": "20+",
       "accesscontrol": "0"
@@ -300,7 +306,7 @@
       "comparison": [
         {
           "metric": "Bundle size",
-          "gentleduck": "23.3 KB",
+          "gentleduck": "24 KB",
           "competitor": "6.0 KB",
           "winner": "competitor"
         },
@@ -336,7 +342,7 @@
         },
         {
           "metric": "Database adapters",
-          "gentleduck": "4 (Memory, Prisma, Drizzle, HTTP)",
+          "gentleduck": "5 (Memory, Prisma, Drizzle, Redis, HTTP)",
           "competitor": "3 (Prisma, Mongoose, TypeORM)",
           "winner": "tie"
         },
@@ -371,7 +377,7 @@
       "comparison": [
         {
           "metric": "Bundle size",
-          "gentleduck": "23.3 KB",
+          "gentleduck": "24 KB",
           "competitor": "30 KB",
           "winner": "gentleduck"
         },
@@ -389,7 +395,7 @@
         },
         {
           "metric": "Database adapters",
-          "gentleduck": "4",
+          "gentleduck": "5",
           "competitor": "20+",
           "winner": "competitor"
         },
@@ -448,7 +454,7 @@
       "comparison": [
         {
           "metric": "Bundle size",
-          "gentleduck": "23.3 KB",
+          "gentleduck": "24 KB",
           "competitor": "8.2 KB",
           "winner": "competitor"
         },
@@ -478,7 +484,7 @@
         },
         {
           "metric": "Database adapters",
-          "gentleduck": "4",
+          "gentleduck": "5",
           "competitor": "0 (in-memory only)",
           "winner": "gentleduck"
         },
@@ -515,5 +521,5 @@
       ]
     }
   ],
-  "generatedAt": "2026-04-01T15:37:25.280Z"
+  "generatedAt": "2026-05-07T10:19:47.343Z"
 }

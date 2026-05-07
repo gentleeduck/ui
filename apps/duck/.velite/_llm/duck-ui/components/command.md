@@ -4,7 +4,7 @@ Command palettes are the power user's best friend  -  they surface every action 
 
 ## About
 
-This component is built on top of the [@gentleduck/primitives](https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-primitives) command primitive, following the same Radix-style context/collection pattern used by Select and other primitives. The registry-layer components are thin styling wrappers around the primitives.
+This component is built on top of the [@gentleduck/primitives](https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-primitives) command primitive, following the same Radix-style context/collection pattern used by Select and other primitives. The registry-layer components are thin styling wrappers around the primitives.
 
 Direction (`dir`) is resolved once at the root `Command` primitive via `useDirection` and stored in context. Every child primitive  -  `CommandInput`, `CommandList`, `CommandItem`, `CommandGroup`, `CommandEmpty`, and `CommandSeparator`  -  reads `dir` from context and applies it to its DOM element automatically. Use local `dir` on `Command` when needed, or set `DirectionProvider` at app/root level for global direction.
 
@@ -113,7 +113,7 @@ Returned by `useCommandContext()`. Provides root command state.
 }
   title="Alpha: Motion Compositions"
   tone="warning">
-Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/duck-ui/issues).
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
 
 Use `MotionCommandItem` for staggered entrance animations powered by [motion](https://motion.dev). Each item fades in with scale and blur, staggered by 30ms via the `index` prop.
 

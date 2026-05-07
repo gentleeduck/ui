@@ -61,7 +61,7 @@ Set `dir="rtl"` on `JsonEditor` for a local override, or set `DirectionProvider`
 }
   title="Alpha: Motion Compositions"
   tone="warning">
-Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/duck-ui/issues).
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
 
 Use `MotionJsonTextareaField` for a spring-powered entrance animation with blur powered by [motion](https://motion.dev).
 

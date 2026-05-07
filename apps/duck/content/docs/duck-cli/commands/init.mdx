@@ -1,0 +1,75 @@
+---
+title: init
+description: Initialize project config and optionally install components. Supports templates and monorepo setup.
+section: Commands
+---
+## Usage
+
+```bash
+npx @gentleduck/cli init [components...]
+```
+
+Creates `duck-ui.config.json` in the current directory and (optionally) seeds initial components.
+
+---
+
+## Options
+
+| Flag | Description |
+| --- | --- |
+| `-y, --yes` | Skip prompts, use defaults |
+| `-c, --cwd <cwd>` | Working directory |
+| `-p, --project-type <type>` | Project type (`next`, `vite`, `remix`, `manual`) |
+| `-b, --base-color <color>` | Base color for theme |
+| `--alias <alias>` | Import alias for components (e.g. `@/components`) |
+| `--css <path>` | Path to global CSS file |
+| `--css-variables` / `--no-css-variables` | Enable/disable CSS variables |
+| `--monorepo` / `--no-monorepo` | Monorepo mode |
+| `-w, --workspace <path>` | Target workspace in monorepo |
+| `--template <name>` | Scaffold from a project template |
+| `--prefix <prefix>` | Component prefix |
+| `-a, --all` | Install all components |
+
+---
+
+## Examples
+
+```bash
+# Standard init — interactive prompts
+npx @gentleduck/cli init
+
+# Init with template scaffold
+npx @gentleduck/cli init --template acme
+
+# Init monorepo with workspace target
+npx @gentleduck/cli init --monorepo --workspace apps/web
+
+# Init and install all components in one shot
+npx @gentleduck/cli init --all -y
+```
+
+---
+
+## What it writes
+
+A new `duck-ui.config.json` at the project root (or `--cwd`):
+
+```jsonc
+{
+  "projectType": "next",
+  "tsx": true,
+  "tailwind": { "css": "app/globals.css", "config": "tailwind.config.ts" },
+  "aliases": { "components": "@/components", "lib": "@/lib", "hooks": "@/hooks", "utils": "@/lib/utils" },
+  "monorepo": false
+}
+```
+
+Plus theme CSS variables (when `--css-variables` is on) appended to your globals.css.
+
+---
+
+## Notes
+
+- **TypeScript only** — `tsx: true` is the default; `tsx: false` is not supported.
+- **Tailwind required** — components ship with Tailwind classes. Vanilla CSS is not currently a supported output mode.
+- **Path aliases** — derived from your `tsconfig.json` `paths` if present.

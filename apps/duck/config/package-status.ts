@@ -6,7 +6,6 @@ type PackageLifecycleMeta = {
 }
 
 export const PACKAGE_LIFECYCLE_STATUS = {
-  'duck-iam': 'wip',
   'duck-motion': 'wip',
   'duck-shortcut': 'deprecated',
   'duck-state': 'experimental',

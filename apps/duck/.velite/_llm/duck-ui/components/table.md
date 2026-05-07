@@ -37,7 +37,7 @@ Update the import paths to match your project setup.
 
 ```tsx showLineNumbers
 ` component to build more complex data tables. Combine it with
-[@gentleduck/table](https://github.com/gentleeduck/duck-ui/tree/master/packages/duck-table) to create tables with sorting, filtering and pagination.
+[@gentleduck/table](https://github.com/gentleeduck/gentleduck/tree/master/packages/duck-table) to create tables with sorting, filtering and pagination.
 
 See the [Data Table](/duck-ui/components/data-table) documentation for more information.
 
@@ -54,7 +54,7 @@ Direction is resolved through the shared primitives direction module. Use a loca
 }
   title="Alpha: Motion Compositions"
   tone="warning">
-Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/duck-ui/issues).
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
 
 Use `MotionTable` and `MotionTableRow` for staggered entrance animations powered by [motion](https://motion.dev). The table fades in with scale and blur, and each row staggers by 50ms via the `index` prop.
 

@@ -16,7 +16,7 @@ import { evaluate, evaluatePolicy } from '../src/core/evaluate'
 import type { AccessRequest, Policy } from '../src/core/types'
 
 const OUT_DIR = join(import.meta.dirname, '..', 'public', 'benchmarks')
-const DOCS_DIR = join(import.meta.dirname, '..', '..', '..', 'apps', 'duck-iam-docs', 'public', 'data', 'benchmarks')
+const DOCS_DIR = join(import.meta.dirname, '..', '..', '..', 'apps', 'duck', 'public', 'data', 'benchmarks')
 mkdirSync(OUT_DIR, { recursive: true })
 mkdirSync(DOCS_DIR, { recursive: true })
 
@@ -325,6 +325,11 @@ const moduleSizes = [
     sizeBytes: measureExportSize('adapters/http/index.js'),
   },
   {
+    name: 'Adapter: Redis',
+    entry: 'adapters/redis/index.js',
+    sizeBytes: measureExportSize('adapters/redis/index.js'),
+  },
+  {
     name: 'Server: Express',
     entry: 'server/express/index.js',
     sizeBytes: measureExportSize('server/express/index.js'),
@@ -417,7 +422,7 @@ const features = [
   { feature: 'Explain / debug trace', gentleduck: true, casl: false, casbin: false, accesscontrol: false },
   { feature: 'Lifecycle hooks', gentleduck: true, casl: false, casbin: false, accesscontrol: false },
   { feature: 'LRU caching built-in', gentleduck: true, casl: false, casbin: false, accesscontrol: false },
-  { feature: 'Database adapters', gentleduck: '4', casl: '3', casbin: '20+', accesscontrol: '0' },
+  { feature: 'Database adapters', gentleduck: '5', casl: '3', casbin: '20+', accesscontrol: '0' },
   { feature: 'Server middleware', gentleduck: '5', casl: '0', casbin: '2', accesscontrol: '0' },
   { feature: 'React integration', gentleduck: true, casl: true, casbin: false, accesscontrol: false },
   { feature: 'Vue integration', gentleduck: true, casl: true, casbin: false, accesscontrol: false },
@@ -454,7 +459,7 @@ const vsCasl = {
     { metric: 'Server middleware', gentleduck: '5 frameworks', competitor: 'None built-in', winner: 'gentleduck' },
     {
       metric: 'Database adapters',
-      gentleduck: '4 (Memory, Prisma, Drizzle, HTTP)',
+      gentleduck: '5 (Memory, Prisma, Drizzle, Redis, HTTP)',
       competitor: '3 (Prisma, Mongoose, TypeORM)',
       winner: 'tie',
     },
@@ -481,7 +486,7 @@ const vsCasbin = {
       competitor: 'Model file (PERM DSL)',
       winner: 'tie',
     },
-    { metric: 'Database adapters', gentleduck: '4', competitor: '20+', winner: 'competitor' },
+    { metric: 'Database adapters', gentleduck: '5', competitor: '20+', winner: 'competitor' },
     { metric: 'Language support', gentleduck: 'JS/TS only', competitor: '15+ languages', winner: 'competitor' },
     { metric: 'Type safety', gentleduck: 'Full generics', competitor: 'String-based', winner: 'gentleduck' },
     { metric: 'Explain / debug', gentleduck: 'Full trace', competitor: 'None', winner: 'gentleduck' },
@@ -511,7 +516,7 @@ const vsAccesscontrol = {
     { metric: 'Conditions (ABAC)', gentleduck: '18 operators', competitor: 'None', winner: 'gentleduck' },
     { metric: 'Scoped roles', gentleduck: 'Built-in', competitor: 'None', winner: 'gentleduck' },
     { metric: 'Explain / debug', gentleduck: 'Full trace', competitor: 'None', winner: 'gentleduck' },
-    { metric: 'Database adapters', gentleduck: '4', competitor: '0 (in-memory only)', winner: 'gentleduck' },
+    { metric: 'Database adapters', gentleduck: '5', competitor: '0 (in-memory only)', winner: 'gentleduck' },
     { metric: 'Server middleware', gentleduck: '5 frameworks', competitor: 'None', winner: 'gentleduck' },
     { metric: 'API style', gentleduck: 'Engine + policies', competitor: 'Fluent grants', winner: 'tie' },
     { metric: 'Maturity', gentleduck: 'New', competitor: 'Established (2016)', winner: 'competitor' },

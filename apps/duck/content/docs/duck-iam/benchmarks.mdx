@@ -2,7 +2,6 @@
 title: "Benchmarks"
 description: "Real performance measurements and honest comparisons: @gentleduck/iam benchmarked against every major JS authorization library."
 section: Benchmarks
-order: 10
 ---
 Benchmarked against **7 libraries**: @casl/ability, casbin, accesscontrol, role-acl, @rbac/rbac, and easy-rbac. Numbers from `vitest bench` on identical authorization scenarios. Sizes verified via bundlephobia on 2026-03-30.
 
@@ -270,6 +269,7 @@ Times vary by machine. Run `bun run benchmark` for your hardware.
 | Adapter: Prisma | 1.4 KB |
 | Adapter: Drizzle | 1.7 KB |
 | Adapter: HTTP | 1.2 KB |
+| Adapter: Redis | 1.4 KB |
 | Server: Express | 1.1 KB |
 | Server: Next.js | 1.0 KB |
 | Server: Hono | 0.9 KB |
@@ -296,7 +296,7 @@ Times vary by machine. Run `bun run benchmark` for your hardware.
 | **Lifecycle hooks** | Yes | No | No | No | No | No | No |
 | **LRU caching** | Built-in | No | No | No | No | No | No |
 | **Rule indexing** | Yes | Yes | No | No | No | No | No |
-| **DB adapters** | 4 | 3 | 20+ | 0 | 0 | 3 | 0 |
+| **DB adapters** | 5 | 3 | 20+ | 0 | 0 | 3 | 0 |
 | **Server middleware** | 5 | 0 | 2 | 0 | 0 | 3 | 0 |
 | **React integration** | Yes | Yes | No | No | No | No | No |
 | **Vue integration** | Yes | Yes | No | No | No | No | No |

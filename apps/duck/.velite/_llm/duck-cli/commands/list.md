@@ -1,0 +1,76 @@
+## Usage
+
+```bash
+npx @gentleduck/cli list
+```
+
+Prints every component the registry exposes with its type and short description.
+
+---
+
+## Options
+
+| Flag | Description |
+| --- | --- |
+| `-t, --type <type>` | Filter by type — `ui`, `hook`, `lib`, `block`, `example`, `internal`, `page` |
+| `-j, --json` | Output as JSON for scripting |
+
+---
+
+## Examples
+
+```bash
+# List everything
+npx @gentleduck/cli list
+
+# Only UI components
+npx @gentleduck/cli list --type ui
+
+# Only blocks (composed page sections)
+npx @gentleduck/cli list --type block
+
+# Machine-readable output
+npx @gentleduck/cli list --json
+```
+
+---
+
+## Output format
+
+### Human (default)
+
+```
+Available components (62):
+
+  button [ui] - Button component with size and variant props
+  dialog [ui] - Modal dialog with overlay and focus trap
+  use-debounce [hook] - Debounce a value over time
+  ...
+```
+
+### JSON (`--json`)
+
+```json
+[
+  {
+    "name": "button",
+    "type": "registry:ui",
+    "description": "Button component with size and variant props",
+    "dependencies": ["@gentleduck/variants", "@gentleduck/libs"],
+    "registryDependencies": []
+  },
+  ...
+]
+```
+
+---
+
+## Pair with add
+
+```bash
+# Pick from filtered list
+npx @gentleduck/cli list --type ui
+
+# Install matched ones
+npx @gentleduck/cli add button dialog
+```

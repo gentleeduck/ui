@@ -46,7 +46,7 @@ Direction is resolved through the shared primitives direction module. Use a loca
 }
   title="Alpha: Motion Compositions"
   tone="warning">
-Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/duck-ui/issues).
+Motion components work standalone, but some compositions may behave unexpectedly — this is still under active development. If you find a broken composition, please [file an issue](https://github.com/gentleeduck/gentleduck/issues).
 
 Use `MotionCard`, `MotionCardHeader`, `MotionCardContent`, and `MotionCardFooter` for staggered fade-up entrance animations powered by [motion](https://motion.dev).
 
