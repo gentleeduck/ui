@@ -79,7 +79,7 @@
   "scripts": {
     "build": "MODE=\"production\" next build",
     "build:prod": "next build",
-    "build:docs": "node scripts/build-changelogs.mjs && velite && node scripts/build-search-index.mjs && node scripts/build-llm-pages.mjs",
+    "build:docs": "node scripts/build-changelogs.mjs && velite && bun scripts/build-search-index.mjs && node scripts/build-llm-pages.mjs",
     "build:reg": "bun run build:reg:cli && bun run format:reg",
     "build:reg:cli": "registry-build build",
     "dev": "next dev",

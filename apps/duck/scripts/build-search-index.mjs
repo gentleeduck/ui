@@ -24,120 +24,6 @@ import { fileURLToPath } from 'node:url'
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const VELITE_DIR = path.resolve(__dirname, '../.velite')
 
-const PRIMITIVES_ORDER = [
-  'Getting Started',
-  'Concepts',
-  'Course',
-  'Guides',
-  'Layout',
-  'Disclosure',
-  'Forms',
-  'Selection',
-  'Overlay',
-  'Feedback',
-  'Data Display',
-  'Navigation',
-  'Toggle',
-  'Typography',
-  'Media',
-  'API',
-  'Benchmarks',
-  'Misc',
-]
-
-const UI_ORDER = [
-  'Getting Started',
-  'Installation',
-  'Layout',
-  'Disclosure',
-  'Forms',
-  'Selection',
-  'Overlay',
-  'Feedback',
-  'Data Display',
-  'Navigation',
-  'Toggle',
-  'Typography',
-  'Media',
-  'Integrations',
-  'Misc',
-]
-
-const titlecase = (segment) =>
-  segment
-    .split('-')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ')
-
-const inferSection = (permalink, pkg) => {
-  const tail = permalink.replace(new RegExp(`^${pkg}/?`), '')
-  const parts = tail.split('/')
-  if (parts.length <= 1) return 'Getting Started'
-  return titlecase(parts[0] ?? 'Misc')
-}
-
-const slugTitle = (permalink) => {
-  const last = permalink.split('/').pop() ?? permalink
-  return last === 'index' ? 'Overview' : titlecase(last)
-}
-
-const hrefFor = (permalink) => `/${permalink.replace(/\/index$/, '')}`
-
-function buildSidebar(docs, options) {
-  const { pkg, sectionOrder = [], introSlug = `${pkg}/introduction` } = options
-
-  const grouped = new Map()
-  for (const doc of docs) {
-    if (!doc.permalink.startsWith(`${pkg}/`) && doc.permalink !== pkg) continue
-    const section = doc.section ?? inferSection(doc.permalink, pkg)
-    const list = grouped.get(section) ?? []
-    list.push(doc)
-    grouped.set(section, list)
-  }
-
-  const introSection = grouped.get('Getting Started') ?? []
-  const introDoc = introSection.find((d) => d.permalink === introSlug)
-  if (introDoc) {
-    grouped.set('Getting Started', [introDoc, ...introSection.filter((d) => d.permalink !== introSlug)])
-  }
-
-  const sortedKeys = Array.from(grouped.keys()).sort((a, b) => {
-    const ai = sectionOrder.indexOf(a)
-    const bi = sectionOrder.indexOf(b)
-    if (ai !== -1 && bi !== -1) return ai - bi
-    if (ai !== -1) return -1
-    if (bi !== -1) return 1
-    return a.localeCompare(b)
-  })
-
-  return sortedKeys.map((key, idx) => {
-    const items = (grouped.get(key) ?? [])
-      .slice()
-      .sort((a, b) => {
-        if (a.permalink === introSlug) return -1
-        if (b.permalink === introSlug) return 1
-        const ao = a.order ?? Number.POSITIVE_INFINITY
-        const bo = b.order ?? Number.POSITIVE_INFINITY
-        if (ao !== bo) return ao - bo
-        if (a.permalink.endsWith('/index')) return -1
-        if (b.permalink.endsWith('/index')) return 1
-        return a.title.localeCompare(b.title)
-      })
-      .map((doc) => ({
-        href: hrefFor(doc.permalink),
-        title: doc.permalink === introSlug ? 'Introduction' : doc.title || slugTitle(doc.permalink),
-        items: [],
-      }))
-
-    const isFirst = idx === 0
-    return {
-      title: isFirst ? '' : key,
-      ...(isFirst ? { href: hrefFor(introSlug) } : {}),
-      items,
-    }
-  })
-}
-
 const slimDoc = (doc) => ({
   component: doc.component,
   permalink: doc.permalink,
@@ -239,28 +125,13 @@ async function main() {
     }
   })
 
-  const packageSidebarNavs = {
-    'duck-calendar': buildSidebar(duckCalendar, { pkg: 'duck-calendar' }),
-    'duck-cli': buildSidebar(duckCli, { pkg: 'duck-cli' }),
-    'duck-gen': buildSidebar(duckGen, { pkg: 'duck-gen' }),
-    'duck-hooks': buildSidebar(duckHooks, { pkg: 'duck-hooks' }),
-    'duck-iam': buildSidebar(duckIam, { pkg: 'duck-iam' }),
-    'duck-lazy': buildSidebar(duckLazy, { pkg: 'duck-lazy' }),
-    'duck-libs': buildSidebar(duckLibs, { pkg: 'duck-libs' }),
-    'duck-motion': buildSidebar(duckMotion, { pkg: 'duck-motion' }),
-    'duck-primitives': buildSidebar(duckPrimitives, { pkg: 'duck-primitives', sectionOrder: PRIMITIVES_ORDER }),
-    'duck-query': buildSidebar(duckQuery, { pkg: 'duck-query' }),
-    'duck-registry-build': buildSidebar(duckRegistryBuild, { pkg: 'duck-registry-build' }),
-    'duck-shortcut': buildSidebar(duckShortcut, { pkg: 'duck-shortcut' }),
-    'duck-state': buildSidebar(duckState, { pkg: 'duck-state' }),
-    'duck-template': buildSidebar(duckTemplate, { pkg: 'duck-template' }),
-    'duck-ttest': buildSidebar(duckTtest, { pkg: 'duck-ttest' }),
-    'duck-ttlog': buildSidebar(duckTtlog, { pkg: 'duck-ttlog' }),
-    'duck-ui': buildSidebar(duckUi, { pkg: 'duck-ui', sectionOrder: UI_ORDER }),
-    'duck-upload': buildSidebar(duckUpload, { pkg: 'duck-upload' }),
-    'duck-variants': buildSidebar(duckVariants, { pkg: 'duck-variants' }),
-    'duck-vim': buildSidebar(duckVim, { pkg: 'duck-vim' }),
-  }
+  // Hand-curated sidebars live in apps/duck/config/sidebars/<pkg>.constants.ts.
+  // Each file exports a typed IDocsConfig — we reduce them down to the sidebarNav
+  // shape the command palette expects.
+  const { packageSidebars } = await import(path.resolve(__dirname, '../config/sidebars/index.ts'))
+  const packageSidebarNavs = Object.fromEntries(
+    Object.entries(packageSidebars).map(([pkg, config]) => [pkg, config.sidebarNav]),
+  )
 
   const out = { docsEntries, packageSidebarNavs }
   const target = path.join(VELITE_DIR, '_search-index.json')

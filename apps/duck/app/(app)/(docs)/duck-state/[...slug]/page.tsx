@@ -18,15 +18,15 @@ import { notFound } from 'next/navigation'
 import { PackageStatusBadge } from '~/components/package-status-badge'
 import { SLUG_METADATA } from '~/config/metadata'
 import { getPackageLifecycleStatusFromHref } from '~/config/package-status'
+import { duckStateSidebar } from '~/config/sidebars'
 import { absoluteUrl } from '~/lib'
-import { packageSidebar } from '~/lib/sidebar'
 import { duckState } from '../../../../../.velite'
 export const dynamic = 'force-static'
 export const dynamicParams = false
 export const revalidate = false
 
 const PKG_PREFIX = 'duck-state'
-const sidebar = packageSidebar(duckState, PKG_PREFIX)
+const sidebar = duckStateSidebar
 const packageStatus = getPackageLifecycleStatusFromHref(`/${PKG_PREFIX}`)
 
 function getDocFromSlug(slug: string[]) {

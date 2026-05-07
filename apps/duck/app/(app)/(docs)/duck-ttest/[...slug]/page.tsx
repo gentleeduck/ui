@@ -16,15 +16,15 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { SLUG_METADATA } from '~/config/metadata'
+import { duckTtestSidebar } from '~/config/sidebars'
 import { absoluteUrl } from '~/lib'
-import { packageSidebar } from '~/lib/sidebar'
 import { duckTtest } from '../../../../../.velite'
 export const dynamic = 'force-static'
 export const dynamicParams = false
 export const revalidate = false
 
 const PKG_PREFIX = 'duck-ttest'
-const sidebar = packageSidebar(duckTtest, PKG_PREFIX)
+const sidebar = duckTtestSidebar
 
 function getDocFromSlug(slug: string[]) {
   const permalink = `${PKG_PREFIX}/${slug.join('/')}`

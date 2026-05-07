@@ -1,4 +1,3 @@
-import { buildSidebar, type IDocsConfig } from '@gentleduck/docs'
 import {
   DashboardTableOfContents,
   DocsCopyPage,
@@ -15,6 +14,7 @@ import { ArrowDownIcon, ArrowUpIcon, SquareArrowOutUpRight } from 'lucide-react'
 import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { SLUG_METADATA } from '~/config/metadata'
+import { wwwSidebar } from '~/config/sidebars'
 import { absoluteUrl } from '~/lib'
 import { www } from '../../../../../.velite'
 
@@ -24,15 +24,7 @@ export const revalidate = false
 
 const PKG_PREFIX = 'www'
 
-const sidebar: IDocsConfig = {
-  mainNav: [],
-  chartsNav: [],
-  sidebarNav: buildSidebar(www, {
-    pkg: PKG_PREFIX,
-    introSlug: `${PKG_PREFIX}/index`,
-    sectionOrder: ['Getting Started', 'News', 'Misc'],
-  }),
-}
+const sidebar = wwwSidebar
 
 function getDocFromSlug(slug?: string[]) {
   const path = slug && slug.length > 0 ? slug.join('/') : 'index'

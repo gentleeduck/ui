@@ -16,35 +16,15 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { SLUG_METADATA } from '~/config/metadata'
+import { duckPrimitivesSidebar } from '~/config/sidebars'
 import { absoluteUrl } from '~/lib'
-import { packageSidebar } from '~/lib/sidebar'
 import { duckPrimitives } from '../../../../../.velite'
 export const dynamic = 'force-static'
 export const dynamicParams = false
 export const revalidate = false
 
 const PKG_PREFIX = 'duck-primitives'
-const sidebar = packageSidebar(duckPrimitives, PKG_PREFIX, [
-  'Getting Started',
-  'Concepts',
-  'Course',
-  'Guides',
-  'Layout',
-  'Disclosure',
-  'Forms',
-  'Selection',
-  'Overlay',
-  'Feedback',
-  'Data Display',
-  'Navigation',
-  'Toggle',
-  'Typography',
-  'Media',
-  'API',
-  'Benchmarks',
-  'Misc',
-  'Changelog',
-])
+const sidebar = duckPrimitivesSidebar
 
 function getDocFromSlug(slug: string[]) {
   const permalink = `${PKG_PREFIX}/${slug.join('/')}`
