@@ -70,12 +70,12 @@ const PackagePage = async ({ params }: { params: Promise<{ slug: string[] }> }) 
       <aside
         aria-label="Documentation sidebar"
         className="hidden shrink-0 border-grid border-r md:sticky md:top-16 md:block md:h-[calc(100vh-4rem)]">
-        <nav aria-label="Duck Libs sections" className="h-full overflow-y-auto overflow-x-hidden py-8">
+        <nav aria-label="Duck Libs sections" className="h-full overflow-y-auto overflow-x-hidden pt-10 pb-8">
           <DocsSidebarNav config={sidebar} />
         </nav>
       </aside>
       <main className="relative py-6 pr-4 lg:gap-10 lg:py-8 xl:grid xl:grid-cols-[1fr_300px]" id="top">
-        <article className="relative mx-auto w-full min-w-0 max-w-2xl">
+        <article className="relative mx-auto mt-20 w-full min-w-0 max-w-2xl">
           <header className="space-y-4">
             <div className="flex h-8 items-center gap-4">
               <div className="min-w-0 flex-1">

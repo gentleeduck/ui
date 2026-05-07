@@ -13,7 +13,7 @@ export default function DocsLayout({ children }: IDocsLayoutProps) {
         <aside
           aria-label="Sidebar navigation"
           className="hidden shrink-0 border-grid border-r md:sticky md:top-16 md:block md:h-[calc(100vh-4rem)]">
-          <div className="h-full overflow-y-auto overflow-x-hidden py-8">
+          <div className="h-full overflow-y-auto overflow-x-hidden pb-8 pt-10">
             <DocsSidebarNav />
           </div>
         </aside>
